@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.OrderTwentyOneReduction
 import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
+import MazurTorsion.NumberTheory.XZeroTwentyOneTransfer
 
 /-!
 # Excluding the exceptional hauptmodul values at order twenty-one
@@ -61,5 +62,28 @@ theorem no_orderTwentyOne_exceptional_t₃
   · exact no_seven_family_j_fourth d
       (hscale (-1159088625) 2097152
         (by linear_combination (268435456 / 81 : ℚ) * hlink))
+
+/-- No elliptic curve over `ℚ` has a rational point of exact order
+twenty-one. -/
+theorem no_rational_point_of_order_twentyOne
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (h21 : addOrderOf P = 21) : False := by
+  obtain ⟨t₃, t₇, ht₃0, ht₇0, hpair, h3link, -⟩ :=
+    exists_hauptmodulPair_of_order_twentyOne E P h21
+  have hcases :=
+    MazurTorsion.XZeroTwentyOne.hauptmodulPair_t₃_cases
+      ht₃0 ht₇0 hpair
+  apply no_orderTwentyOne_exceptional_t₃ E P h21 h3link
+  tauto
+
+/-- Interface form of the order-21 exclusion on the base-changed model. -/
+theorem rationalPoint_addOrderOf_ne_twentyOne
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : (E⁄ℚ).Point) :
+    addOrderOf Q ≠ 21 := by
+  haveI : (E⁄ℚ).IsElliptic :=
+    inferInstanceAs (E.map (algebraMap ℚ ℚ)).IsElliptic
+  intro hQ
+  exact no_rational_point_of_order_twentyOne (E⁄ℚ) Q hQ
 
 end MazurTorsion.Kubert

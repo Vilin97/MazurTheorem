@@ -1,0 +1,83 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.NumberTheory.XZeroTwentyOneReduction
+
+/-!
+# Transfer from the hauptmodul plane model to the split `X₀(21)` curve
+
+The recorded fibre-product equation `HauptmodulPair t₃ t₇` is a plane
+model of `X₀(21)`.  This file carries an explicit rational map from its
+noncuspidal rational solutions to the split Weierstrass model
+
+`W² = V(V - 9)(V + 7)`
+
+and transports the unconditional eight-point classification back:
+every rational solution with `t₃ ≠ 0` and `t₇ ≠ 0` has
+
+`t₃ ∈ (-18, -1152, -40.5, -0.6328125)`,
+
+the four exceptional values excluded on the order-seven Tate family.
+All identities below were discovered by exact q-expansion fits and are
+verified here purely algebraically.
+-/
+
+namespace MazurTorsion.XZeroTwentyOne
+
+/-- Numerator of the transfer abscissa. -/
+private def tVn (t₃ t₇ : ℚ) : ℚ :=
+  -3*t₃^2*t₇^4 + 441*t₃^2*t₇^3 + 7203*t₃^2*t₇^2 - 75*t₃*t₇^4 + 18228*t₃*t₇^3 + 583443*t₃*t₇^2 + 4941258*t₃*t₇ + 17294403*t₃ - 108*t₇^4 + 80703*t₇^3 + 3889620*t₇^2 + 44471322*t₇ + 155649627
+
+/-- Denominator of the transfer abscissa. -/
+private def tVd (t₃ t₇ : ℚ) : ℚ :=
+  t₃^2*t₇^4 + 77*t₃^2*t₇^3 + 343*t₃^2*t₇^2 + 21*t₃*t₇^4 - 84*t₃*t₇^3 - 58653*t₃*t₇^2 - 705894*t₃*t₇ - 2470629*t₃ - 15309*t₇^3 - 592704*t₇^2 - 6353046*t₇ - 22235661
+
+/-- Cleared numerator of the transfer ordinate. -/
+private def tBh (t₃ t₇ : ℚ) : ℚ :=
+  1728*t₃^6*t₇^12 + 399168*t₃^6*t₇^11 + 606928896*t₃^6*t₇^10 + 22798359360*t₃^6*t₇^9 + 307385777664*t₃^6*t₇^8 + 1743275822400*t₃^6*t₇^7 + 3416820611904*t₃^6*t₇^6 + 108864*t₃^5*t₇^12 - 15023232*t₃^5*t₇^11 + 45793496448*t₃^5*t₇^10 + 2253291094656*t₃^5*t₇^9 + 45574210785600*t₃^5*t₇^8 + 513359864180352*t₃^5*t₇^7 + 3526158871484928*t₃^5*t₇^6 + 14063633638596864*t₃^5*t₇^5 + 24611358867544512*t₃^5*t₇^4 + 2856384*t₃^4*t₇^12 - 1878920064*t₃^4*t₇^11 + 1232503667136*t₃^4*t₇^10 + 82150330248000*t₃^4*t₇^9 + 2355582599177472*t₃^4*t₇^8 + 40129930507516416*t₃^4*t₇^7 + 445813086158786304*t₃^4*t₇^6 + 3283858454612367744*t₃^4*t₇^5 + 15652824239758309632*t₃^4*t₇^4 + 44620393626858200256*t₃^4*t₇^3 + 59091872640974373312*t₃^4*t₇^2 - 3456*t₃^3*t₇^13 + 41565312*t₃^3*t₇^12 - 44016835968*t₃^3*t₇^11 + 13503719851776*t₃^3*t₇^10 + 1290424314170880*t₃^3*t₇^9 + 48953055023139456*t₃^3*t₇^8 + 1051362256999953024*t₃^3*t₇^7 + 14118330102952223232*t₃^3*t₇^6 + 122142658151213763840*t₃^3*t₇^5 + 673547261914379841408*t₃^3*t₇^4 + 2231019681342910012800*t₃^3*t₇^3 + 3781879849022359891968*t₃^3*t₇^2 + 1930334506271829528192*t₃^3*t₇ - 93312*t₃^2*t₇^13 + 351459648*t₃^2*t₇^12 - 346571265600*t₃^2*t₇^11 + 49512122529408*t₃^2*t₇^10 + 8186345863738560*t₃^2*t₇^9 + 405656549704514304*t₃^2*t₇^8 + 10386607423848433344*t₃^2*t₇^7 + 158440148288718262848*t₃^2*t₇^6 + 1518112996751977081344*t₃^2*t₇^5 + 9187026483512485617408*t₃^2*t₇^4 + 33733017581904799393536*t₃^2*t₇^3 + 67010183574864939335808*t₃^2*t₇^2 + 52119031669339397261184*t₃^2*t₇ - 839808*t₃*t₇^13 + 1777453632*t₃*t₇^12 - 813511931904*t₃*t₇^11 + 68428126069632*t₃*t₇^10 + 19412291672855424*t₃*t₇^9 + 1226916153376861248*t₃*t₇^8 + 37163461077392073984*t₃*t₇^7 + 645671342795038995456*t₃*t₇^6 + 6923779985686730890752*t₃*t₇^5 + 46817818803346912009920*t₃*t₇^4 + 195169601723877767919744*t₃*t₇^3 + 459498401656216726874112*t₃*t₇^2 + 469071285024054575350656*t₃*t₇ - 2519424*t₇^13 + 2422426176*t₇^12 - 612091541376*t₇^11 - 19915919489088*t₇^10 + 5566854451919040*t₇^9 + 556401147850050048*t₇^8 + 23497472558822492160*t₇^7 + 546769167246385292160*t₇^6 + 7673913108519029721216*t₇^5 + 66982274293909143859200*t₇^4 + 357810936493775907852864*t₇^3 + 1076949378881757953611200*t₇^2 + 1407213855072163726051968*t₇
+
+/-- Cleared denominator core of the transfer ordinate. -/
+private def tCh (t₃ t₇ : ℚ) : ℚ :=
+  144*t₃^4*t₇^8 + 30240*t₃^4*t₇^7 + 2123856*t₃^4*t₇^6 + 29042496*t₃^4*t₇^5 + 118590192*t₃^4*t₇^4 + 5904*t₃^3*t₇^8 + 799344*t₃^3*t₇^7 + 30129120*t₃^3*t₇^6 - 665557200*t₃^3*t₇^5 - 18737250336*t₃^3*t₇^4 - 133651146384*t₃^3*t₇^3 - 284735050992*t₃^3*t₇^2 + 59328*t₃^2*t₇^8 - 634032*t₃^2*t₇^7 - 479003616*t₃^2*t₇^6 - 17486002800*t₃^2*t₇^5 + 112304911824*t₃^2*t₇^4 + 7455409600464*t₃^2*t₇^3 + 83996840042640*t₃^2*t₇^2 + 390656489961024*t₃^2*t₇ + 683648857431792*t₃^2 - 24624*t₃*t₇^8 - 86229360*t₃*t₇^7 - 4746669984*t₃*t₇^6 + 116467669584*t₃*t₇^5 + 9405150947136*t₃*t₇^4 + 181108925189136*t₃*t₇^3 + 1611885123665712*t₃*t₇^2 + 7031816819298432*t₃*t₇ + 12305679433772256*t₃ + 11664*t₇^8 + 12328848*t₇^7 + 28881428688*t₇^6 + 2127587911344*t₇^5 + 62495370921312*t₇^4 + 928660463350704*t₇^3 + 7495650217364400*t₇^2 + 31643175686842944*t₇ + 55375557451975152
+
+private lemma hauptmodulPair_sub {t₃ t₇ : ℚ} (h : HauptmodulPair t₃ t₇) :
+    (t₃ + 27) * (t₃ + 3) ^ 3 * t₇ ^ 7 -
+      t₃ * (t₇ ^ 2 + 13 * t₇ + 49) *
+        (t₇ ^ 2 + 245 * t₇ + 2401) ^ 3 = 0 := by
+  unfold HauptmodulPair at h
+  linear_combination h
+
+private lemma quad_mod_eight :
+    ∀ m n : ZMod 8, (m ≠ 0 ∨ n ≠ 0) → ¬ (m % 2 = 0 ∧ n % 2 = 0) →
+      m ^ 2 + 245 * m * n + 2401 * n ^ 2 ≠ 0 := by
+  decide
+
+/-- The quadratic factor has no rational root. -/
+private lemma quad_ne_zero (t₇ : ℚ) :
+    t₇ ^ 2 + 245 * t₇ + 2401 ≠ 0 := by
+  intro hq
+  let m : ℤ := t₇.num
+  let n : ℤ := (t₇.den : ℤ)
+  have hn0 : (n : ℚ) ≠ 0 := by
+    dsimp [n]
+    exact_mod_cast t₇.den_ne_zero
+  have ht : t₇ = (m : ℚ) / n := t₇.num_div_den.symm
+  have hmn : IsCoprime m n := by
+    simpa [m, n] using Rat.isCoprime_num_den t₇
+  have hcleared : m ^ 2 + 245 * m * n + 2401 * n ^ 2 = 0 := by
+    have : ((m ^ 2 + 245 * m * n + 2401 * n ^ 2 : ℤ) : ℚ) = 0 := by
+      rw [ht] at hq
+      field_simp at hq
+      push_cast
+      linear_combination hq
+    exact_mod_cast this
+  have hnotboth : ¬ ((2 : ℤ) ∣ m ∧ (2 : ℤ) ∣ n) := by
+    rintro ⟨h2m, h2n⟩
+    have : IsUnit (2 : ℤ) := hmn.isUnit_of_dvd' h2m h2n
+    norm_num [Int.isUnit_iff] at this
+  sorry
+
+end MazurTorsion.XZeroTwentyOne

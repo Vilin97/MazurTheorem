@@ -9,16 +9,17 @@ import MazurTorsion.Arithmetic.OrderTwentyTwentyFour
 import MazurTorsion.Kubert.OrderFourteen
 import MazurTorsion.Kubert.OrderFifteen
 import MazurTorsion.Kubert.OrderSixteenReduction
+import MazurTorsion.Kubert.OrderTwentyOne
 
 /-!
-# Rational point orders after five composite-order exclusions
+# Rational point orders after six composite-order exclusions
 
 The elementary divisor reduction in `PointOrderReduction` asks callers to
 exclude every large prime order and all eleven minimal composite Kubert
-orders.  Orders fourteen, fifteen, sixteen, twenty, and twenty-four are
-now unconditional.  This module packages those results into the reduction
-interface, leaving callbacks only for large prime orders and the six
-remaining members of `kubertForbiddenOrders`.
+orders.  Orders fourteen, fifteen, sixteen, twenty, twenty-one, and
+twenty-four are now unconditional.  This module packages those results
+into the reduction interface, leaving callbacks only for large prime
+orders and the five remaining members of `kubertForbiddenOrders`.
 
 The callbacks are stated on `RationalTorsion E`, which is the weakest useful
 interface: every point occurring in an exact finite-order obstruction already
@@ -31,10 +32,10 @@ namespace MazurTorsion
 
 variable (E : WeierstrassCurve ℚ) [E.IsElliptic]
 
-/-- The composite point orders still left after the five unconditional
+/-- The composite point orders still left after the six unconditional
 small-level exclusions integrated in this module. -/
 def remainingKubertForbiddenOrders : Finset ℕ :=
-  {18, 21, 25, 27, 35, 49}
+  {18, 25, 27, 35, 49}
 
 omit [E.IsElliptic] in
 /-- Inclusion of rational torsion into the rational point group preserves
@@ -174,9 +175,9 @@ theorem rationalTorsion_orders_mem_cyclicOrders_of_obstructions_except_fourteen_
       E x hprime hkubert
 
 /-- A rational torsion point has Mazur-allowed order once large prime
-orders and the six genuinely remaining composite orders are excluded.
-The already proved orders `14`, `15`, `16`, `20`, and `24` are absent
-from this callback. -/
+orders and the five genuinely remaining composite orders are excluded.
+The already proved orders `14`, `15`, `16`, `20`, `21`, and `24` are
+absent from this callback. -/
 theorem rationalTorsion_addOrderOf_mem_cyclicOrders_of_remaining_obstructions
     (x : RationalTorsion E)
     (hprime :
@@ -196,6 +197,12 @@ theorem rationalTorsion_addOrderOf_mem_cyclicOrders_of_remaining_obstructions
     apply Kubert.rationalPoint_addOrderOf_ne_twenty E
       (y : (E⁄ℚ).Point)
     rw [addOrderOf_coe_rationalTorsion E y, hy]
+  by_cases hd21 : d = 21
+  · subst d
+    intro hy
+    apply Kubert.rationalPoint_addOrderOf_ne_twentyOne E
+      (y : (E⁄ℚ).Point)
+    rw [addOrderOf_coe_rationalTorsion E y, hy]
   by_cases hd24 : d = 24
   · subst d
     intro hy
@@ -204,7 +211,7 @@ theorem rationalTorsion_addOrderOf_mem_cyclicOrders_of_remaining_obstructions
     rw [addOrderOf_coe_rationalTorsion E y, hy]
   apply hkubert d
   simpa [remainingKubertForbiddenOrders, kubertForbiddenOrders,
-    hd14, hd15, hd16, hd20, hd24] using hd
+    hd14, hd15, hd16, hd20, hd21, hd24] using hd
 
 /-- Pointwise order classification for rational torsion with only the six
 remaining composite callbacks and the large-prime callback exposed. -/
