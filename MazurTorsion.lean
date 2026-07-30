@@ -39,6 +39,9 @@ import MazurTorsion.Kubert.OrderSixteenReduction
 import MazurTorsion.Kubert.OrderThirteenModel
 import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.TateNormalForm
+import MazurTorsion.Kubert.ThreeNormalForm
+import MazurTorsion.Kubert.OrderSevenParametrization
+import MazurTorsion.Kubert.OrderTwentyOneReduction
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction

@@ -76,7 +76,8 @@ lemma three_nsmul_origin_eq_zero
       ring
   rw [hdouble, neg_add_cancel]
 
-/-- Tate normalization retaining the discriminant-scaling parameter. -/
+/-- Tate normalization retaining the discriminant and `c₄` scaling
+parameters. -/
 theorem exists_tateNormalCurve_scaled
     (W : WeierstrassCurve ℚ) [W.IsElliptic]
     (P : W.toAffine.Point) (hP2 : P + P ≠ 0) (hP3 : P + P + P ≠ 0) :
@@ -84,7 +85,8 @@ theorem exists_tateNormalCurve_scaled
       (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
       (e : W.toAffine.Point ≃+ (tateNormalCurve b c).toAffine.Point),
       e P = WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
-        u ^ 12 * W.Δ = (tateNormalCurve b c).Δ := by
+        u ^ 12 * W.Δ = (tateNormalCurve b c).Δ ∧
+        u ^ 4 * W.c₄ = (tateNormalCurve b c).c₄ := by
   obtain ⟨X, Y, hns, hPxy⟩ :
       ∃ (X Y : ℚ) (h : W.toAffine.Nonsingular X Y),
         P = WeierstrassCurve.Affine.Point.some X Y h := by
@@ -190,7 +192,7 @@ theorem exists_tateNormalCurve_scaled
     hcurve ▸ h00₂,
     (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm.trans
       ((WeierstrassCurve.Affine.Point.equivVariableChange (C₁ • W) C₂).symm.trans
-        (WeierstrassCurve.Affine.Point.equivOfEq hcurve)), ?_, ?_⟩
+        (WeierstrassCurve.Affine.Point.equivOfEq hcurve)), ?_, ?_, ?_⟩
   · have hfirst :
         (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm P =
           WeierstrassCurve.Affine.Point.some 0 0 h00₁ := by
@@ -206,6 +208,12 @@ theorem exists_tateNormalCurve_scaled
     simp only [AddEquiv.trans_apply, hfirst, ← hsecond,
       AddEquiv.symm_apply_apply, WeierstrassCurve.Affine.Point.equivOfEq_some]
   · rw [hdisc, hcurve]
+  · have hc₄ :
+        ((scale : ℚ))⁻¹ ^ 4 * W.c₄ = (C₂ • (C₁ • W)).c₄ := by
+      rw [WeierstrassCurve.variableChange_c₄,
+        WeierstrassCurve.variableChange_c₄, hC₁, hC₂]
+      simp
+    rw [hc₄, hcurve]
 
 /-- The marked point `P = (0,0)` doubles to `(b,bc)` on Tate normal form. -/
 theorem two_mul_origin_coordinates
