@@ -102,7 +102,8 @@ theorem exists_threeNormalCurve
       (e : W.toAffine.Point ≃+ (threeNormalCurve a₁ a₃).toAffine.Point),
       e P = WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
         W.Δ = (threeNormalCurve a₁ a₃).Δ ∧
-        W.c₄ = (threeNormalCurve a₁ a₃).c₄ := by
+        W.c₄ = (threeNormalCurve a₁ a₃).c₄ ∧
+        W.c₆ = (threeNormalCurve a₁ a₃).c₆ := by
   have hP2 : P + P ≠ 0 := by
     intro h2
     apply hP0
@@ -184,7 +185,7 @@ theorem exists_threeNormalCurve
   refine ⟨(C₁ • W).a₁, (C₁ • W).a₃, hC₁a₃ne,
     hcurve ▸ h00₁,
     (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm.trans
-      (WeierstrassCurve.Affine.Point.equivOfEq hcurve), ?_, ?_, ?_⟩
+      (WeierstrassCurve.Affine.Point.equivOfEq hcurve), ?_, ?_, ?_, ?_⟩
   · have hfirst :
         (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm P =
           WeierstrassCurve.Affine.Point.some 0 0 h00₁ := by
@@ -196,6 +197,11 @@ theorem exists_threeNormalCurve
   · rw [hΔ, hcurve]
     rfl
   · rw [hc₄, hcurve]
+    rfl
+  · have hc₆W : W.c₆ = (C₁ • W).c₆ := by
+      rw [WeierstrassCurve.variableChange_c₆, hC₁]
+      simp
+    rw [hc₆W, hcurve]
     rfl
 
 /-- The cleared `j`-identity for the order-three hauptmodul value on the

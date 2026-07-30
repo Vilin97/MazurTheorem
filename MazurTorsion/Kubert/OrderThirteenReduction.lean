@@ -419,7 +419,7 @@ theorem exists_tateOrderThirteen_certificate
         exact h)
     rw [hQ] at hdvd
     norm_num at hdvd
-  obtain ⟨b, c, u, hu, hb, h00, e, heQ, hdisc, -⟩ :=
+  obtain ⟨b, c, u, hu, hb, h00, e, heQ, hdisc, -, -⟩ :=
     exists_tateNormalCurve_scaled (E⁄ℚ) Q hQ2 hQ3
   have hmarked :
       addOrderOf

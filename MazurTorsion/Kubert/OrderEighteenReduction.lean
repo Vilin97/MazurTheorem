@@ -98,7 +98,7 @@ theorem exists_tateOrderEighteen_certificate
         exact h)
     rw [hRorder] at hdvd
     norm_num at hdvd
-  obtain ⟨b, c, u, hu, hb, h00, e, heR, hdisc, -⟩ :=
+  obtain ⟨b, c, u, hu, hb, h00, e, heR, hdisc, -, -⟩ :=
     exists_tateNormalCurve_scaled (E⁄ℚ) R hR2 hR3
   have hmarked :
       addOrderOf

@@ -72,7 +72,7 @@ theorem orderTwentyOne_tate_package
     intro h
     exact hnot 9 (by norm_num) (by rw [show (9 : ℕ) • P =
       (3 : ℕ) • P + (3 : ℕ) • P + (3 : ℕ) • P by abel]; exact h)
-  obtain ⟨b, c, u, hu, hb, h00, e, heQ, hdisc, hc₄⟩ :=
+  obtain ⟨b, c, u, hu, hb, h00, e, heQ, hdisc, hc₄, -⟩ :=
     exists_tateNormalCurve_scaled E ((3 : ℕ) • P) hQ2 hQ3
   have horigin0 :
       (WeierstrassCurve.Affine.Point.some 0 0 h00 :
@@ -159,7 +159,7 @@ theorem exists_hauptmodulPair_of_order_twentyOne
     rw [show (7 : ℕ) • P + (7 : ℕ) • P + (7 : ℕ) • P =
       (21 : ℕ) • P by abel, ← h21]
     exact addOrderOf_nsmul_eq_zero P
-  obtain ⟨a₁, a₃, ha₃, h00₃, e₃, -, hΔ₃, hc₄₃⟩ :=
+  obtain ⟨a₁, a₃, ha₃, h00₃, e₃, -, hΔ₃, hc₄₃, -⟩ :=
     exists_threeNormalCurve E ((7 : ℕ) • P) h70 h73
   set t₃ : ℚ := (a₁ ^ 3 - 27 * a₃) / a₃ with ht₃def
   have hΔ₃fam : (threeNormalCurve a₁ a₃).Δ =

@@ -86,7 +86,8 @@ theorem exists_tateNormalCurve_scaled
       (e : W.toAffine.Point ≃+ (tateNormalCurve b c).toAffine.Point),
       e P = WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
         u ^ 12 * W.Δ = (tateNormalCurve b c).Δ ∧
-        u ^ 4 * W.c₄ = (tateNormalCurve b c).c₄ := by
+        u ^ 4 * W.c₄ = (tateNormalCurve b c).c₄ ∧
+        u ^ 6 * W.c₆ = (tateNormalCurve b c).c₆ := by
   obtain ⟨X, Y, hns, hPxy⟩ :
       ∃ (X Y : ℚ) (h : W.toAffine.Nonsingular X Y),
         P = WeierstrassCurve.Affine.Point.some X Y h := by
@@ -192,7 +193,7 @@ theorem exists_tateNormalCurve_scaled
     hcurve ▸ h00₂,
     (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm.trans
       ((WeierstrassCurve.Affine.Point.equivVariableChange (C₁ • W) C₂).symm.trans
-        (WeierstrassCurve.Affine.Point.equivOfEq hcurve)), ?_, ?_, ?_⟩
+        (WeierstrassCurve.Affine.Point.equivOfEq hcurve)), ?_, ?_, ?_, ?_⟩
   · have hfirst :
         (WeierstrassCurve.Affine.Point.equivVariableChange W C₁).symm P =
           WeierstrassCurve.Affine.Point.some 0 0 h00₁ := by
@@ -214,6 +215,12 @@ theorem exists_tateNormalCurve_scaled
         WeierstrassCurve.variableChange_c₄, hC₁, hC₂]
       simp
     rw [hc₄, hcurve]
+  · have hc₆ :
+        ((scale : ℚ))⁻¹ ^ 6 * W.c₆ = (C₂ • (C₁ • W)).c₆ := by
+      rw [WeierstrassCurve.variableChange_c₆,
+        WeierstrassCurve.variableChange_c₆, hC₁, hC₂]
+      simp
+    rw [hc₆, hcurve]
 
 /-- The marked point `P = (0,0)` doubles to `(b,bc)` on Tate normal form. -/
 theorem two_mul_origin_coordinates
