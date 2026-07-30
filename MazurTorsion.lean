@@ -46,6 +46,7 @@ import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
 import MazurTorsion.Kubert.OrderTwentyOne
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
+import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
 import MazurTorsion.NumberTheory.ExceptionalQuarticDescent
 import MazurTorsion.NumberTheory.QuarticDifferenceDescent
