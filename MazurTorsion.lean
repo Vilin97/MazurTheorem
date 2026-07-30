@@ -46,6 +46,7 @@ import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
 import MazurTorsion.Kubert.OrderTwentyOne
 import MazurTorsion.Kubert.OrderTwentySevenReduction
 import MazurTorsion.Kubert.OrderTwentySevenLegs
+import MazurTorsion.Kubert.OrderTwentySevenEndpoint
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.FermatCubicClassification
@@ -64,6 +65,7 @@ import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineDescent
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.NumberTheory.XZeroFortyNineTransfer
+import MazurTorsion.NumberTheory.XZeroTwentySevenClassification
 import MazurTorsion.NumberTheory.XZeroTwentyOneDescent
 import MazurTorsion.NumberTheory.XZeroTwentyOneRankZero
 import MazurTorsion.NumberTheory.XZeroTwentyOneTransfer
