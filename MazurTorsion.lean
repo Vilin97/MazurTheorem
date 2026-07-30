@@ -43,6 +43,7 @@ import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderTwentyOneReduction
 import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
+import MazurTorsion.Kubert.OrderTwentyOne
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
