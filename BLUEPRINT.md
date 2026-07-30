@@ -1361,17 +1361,78 @@ They are named `PrincipalQuarticClassified` and
 `(m,n,c)=(3,1,0)` and `(1,1,4)` show that neither leaf can be dismissed by
 a simple local obstruction; genuine infinite descent is required.
 
-Assuming exactly these two leaves, Lean proves that
+Both leaves are now theorems.
+`NumberTheory/XZeroTwentyOneRankZero.lean` performs the complete
+two-isogeny descent on the split model: on the two-isogenous curve
+`Y² = X(X² + 4X + 256)` every nonzero rational abscissa is a square
+(negative classes die by positivity and the class `2` by a two-adic
+descent), so a square abscissa on the split model reverses to a half
+point.  The four surviving squareclasses `1, -3, -7, 21` produce four
+explicit doubling cosets with representatives `0`, `(0,0)`, `(-3,12)`,
+`(21,84)`; full rational two-torsion and the finitely generated index
+formula force rank zero.  `NumberTheory/XZeroTwentyOneReduction.lean`
+counts eight points modulo the good prime five, so the eight visible
+points exhaust the group and
 
 \[
 V\in\{0,9,-7,-3,21\}
 \]
 
-and enumerates the seven affine solutions of (X21), hence eight rational
-points after adding infinity.  Thus the order-21 branch now has two
-separate honest boundaries: the two explicit quartic descents, and the
-modular/Tate bridge sending an exact order-21 point to a noncuspidal point
-of this concrete curve.
+holds unconditionally, as do the affine classifications on both models.
+
+The modular bridge is also compiled up to its final transfer.
+`Kubert/ThreeNormalForm.lean` normalizes an exact order-three point to
+`y² + a₁xy + a₃y = x³` by a translation-shear with `u = 1` and proves the
+cleared hauptmodul identity for `t₃ = (a₁³-27a₃)/a₃`.
+`Kubert/OrderSevenParametrization.lean` proves that exact order seven on
+Tate normal form means `b² - bc - c³ = 0`, parametrized by
+`b = d³-d², c = d²-d`, with the cleared identity for
+`t₇ = 49d(d-1)/(d³-8d²+5d+1)`.  `Kubert/OrderTwentyOneReduction.lean`
+combines both through the `c₄`/`Δ`-scales of the normalizations: an exact
+order-21 point produces rational `t₃ ≠ 0` and `t₇ ≠ 0` satisfying the
+recorded `HauptmodulPair` fibre-product equation together with cleared
+`j`-links to the ambient curve.  `Kubert/OrderTwentyOneExceptionalJ.lean`
+excludes all four exceptional `j`-invariants of the noncuspidal
+`X₀(21)`-points on the order-seven family by a single mod-five binary-form
+certificate, since each numerator is divisible by `5³` while each
+denominator is a power of two.
+
+The one remaining order-21 leaf is the transfer identifying the rational
+solutions of the `HauptmodulPair` plane curve with the eight known points
+of the split model: an explicit birational map
+`(t₃,t₇) ↦ (V,W)` with kernel-checked cofactor identities.  Its
+q-expansion derivation is in progress; once the four noncuspidal pairs are
+pinned to the four exceptional `j`-values, the compiled certificates close
+exact order twenty-one.
+
+### 6.5 Order-forty-nine boundary
+
+`NumberTheory/XZeroFortyNineDescent.lean` and
+`NumberTheory/XZeroFortyNineReduction.lean` completely determine the
+rational points of the shifted `X₀(49)`-model
+
+\[
+y^2 = x(x^2 + 21x + 112).
+\]
+
+The curve-side squareclasses `2` and `14` die modulo eight, the dual-side
+classes `-1` and `7` die by a two-step seven-adic descent on
+`Y² = X(X² - 42X - 7)`, and the two doubling cosets `0`, `(0,0)` give
+rank zero by the index formula.  No rational point of order four exists
+because `112` is not a rational square, reduction at the good prime three
+bounds the cardinality by four, and an order-three point would force
+cardinality six; hence
+
+\[
+X_0(49)^{\mathrm{model}}(\mathbb{Q}) = \{0, (0,0)\},
+\]
+
+the two rational cusps.  The remaining order-49 work is the modular
+tower bridge: the Vélu quotient of the order-seven Tate family by its
+marked kernel is compiled symbolically
+(`Δ' = d(d-1)K⁷` with the Fricke identity `j(E'_d) = j₇(49/t₇)`
+verified), and the branch analysis from an exact order-49 point to a
+noncuspidal point of the model remains.
 
 ## 7. Prime-level Mazur layer
 
@@ -1682,7 +1743,7 @@ shape should remain this small.
 | M3 | Generic forbidden-embedding finite-group classification | done, including global numerical theorem | low |
 | M4 | Full rational `5`- and `7`-torsion obstructions | done, including both universal discriminant identities | low |
 | M5 | Exceptional products / `X₀(20),X₀(24)` certificates | done: both `C₂×C₁₀` and `C₂×C₁₂` are excluded unconditionally | low |
-| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, and 24 excluded unconditionally, leaving only six composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; the `X₀(21)` arithmetic is reduced to two explicit quartic descents plus its modular bridge | high |
+| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, and 24 excluded unconditionally, leaving only six composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; the `X₀(21)` arithmetic is now fully unconditional (both quartic leaves proved by two-isogeny descent and reduction at five), exact order 21 compiles to a noncuspidal `HauptmodulPair` with `j`-links, the four exceptional `j`-invariants are excluded on the order-seven family, and only the plane-to-Weierstrass transfer remains; the `X₀(49)` model's rational points are completely determined (two cusps), leaving the order-49 tower bridge | high |
 | M7 | Mazur prime-level Eisenstein/Néron/cyclotomic argument | planned | extremely high |
 | M8 | Arithmetic assembly and exact `Solution/Mazur.lean` | one-input numerical assembly done; blocked only on the remaining point-order work in M6--M7 | low once dependencies exist |
 
