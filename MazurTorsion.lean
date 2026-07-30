@@ -46,6 +46,7 @@ import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
 import MazurTorsion.Kubert.OrderTwentyOne
 import MazurTorsion.Kubert.OrderTwentySevenReduction
 import MazurTorsion.Kubert.OrderTwentySevenLegs
+import MazurTorsion.Kubert.OrderTwentySevenTrisection
 import MazurTorsion.Kubert.OrderTwentySevenEndpoint
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
