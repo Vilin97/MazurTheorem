@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.NumberTheory.XZeroTwentyOneReduction
+import MazurTorsion.NumberTheory.SevenAdicCertificates
 
 /-!
 # Transfer from the hauptmodul plane model to the split `X₀(21)` curve
@@ -87,97 +88,6 @@ private lemma hauptmodulPair_sub {t₃ t₇ : ℚ} (h : HauptmodulPair t₃ t₇
   unfold HauptmodulPair at h
   linear_combination h
 
-private abbrev toTwo : ZMod 8 →+* ZMod 2 :=
-  ZMod.castHom (by norm_num : 2 ∣ 8) (ZMod 2)
-
-private lemma quad_mod_eight :
-    ∀ m n : ZMod 8, (toTwo m ≠ 0 ∨ toTwo n ≠ 0) →
-      m ^ 2 + 245 * m * n + 2401 * n ^ 2 ≠ 0 := by
-  decide
-
-private lemma intCast_toTwo_ne_zero
-    {m : ℤ} (hm : ¬ (2 : ℤ) ∣ m) :
-    toTwo (m : ZMod 8) ≠ 0 := by
-  intro h
-  apply hm
-  have h2 : ((m : ZMod 2) : ZMod 2) = 0 := by
-    simpa [toTwo] using h
-  rwa [ZMod.intCast_zmod_eq_zero_iff_dvd] at h2
-
-/-- The quadratic factor `t₇² + 245t₇ + 2401` has no rational root. -/
-private lemma quad_ne_zero (t₇ : ℚ) :
-    t₇ ^ 2 + 245 * t₇ + 2401 ≠ 0 := by
-  intro hq
-  let m : ℤ := t₇.num
-  let n : ℤ := (t₇.den : ℤ)
-  have hn0 : (n : ℚ) ≠ 0 := by
-    dsimp [n]
-    exact_mod_cast t₇.den_ne_zero
-  have ht : t₇ = (m : ℚ) / n := t₇.num_div_den.symm
-  have hmn : IsCoprime m n := by
-    simpa [m, n] using Rat.isCoprime_num_den t₇
-  have hclearedQ :
-      ((m ^ 2 + 245 * m * n + 2401 * n ^ 2 : ℤ) : ℚ) = 0 := by
-    rw [ht] at hq
-    field_simp at hq
-    push_cast
-    linear_combination hq
-  have hcleared : m ^ 2 + 245 * m * n + 2401 * n ^ 2 = 0 := by
-    exact_mod_cast hclearedQ
-  have hodd : ¬ (2 : ℤ) ∣ m ∨ ¬ (2 : ℤ) ∣ n := by
-    by_contra hcon
-    push Not at hcon
-    have : IsUnit (2 : ℤ) := hmn.isUnit_of_dvd' hcon.1 hcon.2
-    norm_num [Int.isUnit_iff] at this
-  apply quad_mod_eight (m : ZMod 8) (n : ZMod 8)
-    (hodd.imp intCast_toTwo_ne_zero intCast_toTwo_ne_zero)
-  have := congrArg (fun z : ℤ ↦ (z : ZMod 8)) hcleared
-  push_cast at this
-  linear_combination this
-
-private lemma quartic_mod_five :
-    ∀ m n : ZMod 5, (m ≠ 0 ∨ n ≠ 0) →
-      m ^ 4 - 490 * m ^ 3 * n - 21609 * m ^ 2 * n ^ 2 -
-        235298 * m * n ^ 3 - 823543 * n ^ 4 ≠ 0 := by
-  decide
-
-/-- The quartic factor has no rational root. -/
-private lemma quartic_ne_zero (t₇ : ℚ) :
-    t₇ ^ 4 - 490 * t₇ ^ 3 - 21609 * t₇ ^ 2 -
-      235298 * t₇ - 823543 ≠ 0 := by
-  intro hq
-  let m : ℤ := t₇.num
-  let n : ℤ := (t₇.den : ℤ)
-  have hn0 : (n : ℚ) ≠ 0 := by
-    dsimp [n]
-    exact_mod_cast t₇.den_ne_zero
-  have ht : t₇ = (m : ℚ) / n := t₇.num_div_den.symm
-  have hmn : IsCoprime m n := by
-    simpa [m, n] using Rat.isCoprime_num_den t₇
-  have hclearedQ :
-      ((m ^ 4 - 490 * m ^ 3 * n - 21609 * m ^ 2 * n ^ 2 -
-        235298 * m * n ^ 3 - 823543 * n ^ 4 : ℤ) : ℚ) = 0 := by
-    rw [ht] at hq
-    field_simp at hq
-    push_cast
-    linear_combination hq
-  have hcleared : m ^ 4 - 490 * m ^ 3 * n - 21609 * m ^ 2 * n ^ 2 -
-      235298 * m * n ^ 3 - 823543 * n ^ 4 = 0 := by
-    exact_mod_cast hclearedQ
-  have hnotboth : ((m : ZMod 5) ≠ 0 ∨ (n : ZMod 5) ≠ 0) := by
-    by_contra hcon
-    push Not at hcon
-    have h5m : (5 : ℤ) ∣ m :=
-      (ZMod.intCast_zmod_eq_zero_iff_dvd m 5).mp hcon.1
-    have h5n : (5 : ℤ) ∣ n :=
-      (ZMod.intCast_zmod_eq_zero_iff_dvd n 5).mp hcon.2
-    have : IsUnit (5 : ℤ) := hmn.isUnit_of_dvd' h5m h5n
-    norm_num [Int.isUnit_iff] at this
-  apply quartic_mod_five (m : ZMod 5) (n : ZMod 5) hnotboth
-  have := congrArg (fun z : ℤ ↦ (z : ZMod 5)) hcleared
-  push_cast at this
-  linear_combination this
-
 /-- The transfer denominator does not vanish at a noncuspidal rational
 solution of the fibre-product equation. -/
 private lemma tVd_ne_zero {t₃ t₇ : ℚ} (h7 : t₇ ≠ 0)
@@ -236,8 +146,8 @@ private lemma tVd_ne_zero {t₃ t₇ : ℚ} (h7 : t₇ ≠ 0)
     rcases mul_eq_zero.mp h with h | h
     · norm_num at h
     · exact h7 (pow_eq_zero_iff (by norm_num) |>.mp h)
-  have h2 := pow_ne_zero 4 (quad_ne_zero t₇)
-  have h3 := pow_ne_zero 4 (quartic_ne_zero t₇)
+  have h2 := pow_ne_zero 4 (MazurTorsion.levelSevenQuadratic_ne_zero t₇)
+  have h3 := pow_ne_zero 4 (MazurTorsion.levelSevenQuartic_ne_zero t₇)
   exact mul_ne_zero (mul_ne_zero h1 h2) h3 hR
 
 /-- The ordinate denominator core is positive once `tVd ≠ 0`. -/
@@ -598,8 +508,8 @@ theorem hauptmodulPair_t₃_cases {t₃ t₇ : ℚ}
         rcases mul_eq_zero.mp h with h | h
         · norm_num at h
         · exact h7 (pow_eq_zero_iff (by norm_num) |>.mp h)
-      have h2 := pow_ne_zero 4 (quad_ne_zero t₇)
-      have h3 := pow_ne_zero 4 (quartic_ne_zero t₇)
+      have h2 := pow_ne_zero 4 (MazurTorsion.levelSevenQuadratic_ne_zero t₇)
+      have h3 := pow_ne_zero 4 (MazurTorsion.levelSevenQuartic_ne_zero t₇)
       have hfac :
           ((186624 : ℚ) * t₇ ^ 6 * (t₇ + 8)) *
             ((t₇ ^ 2 + 245 * t₇ + 2401) ^ 4 *
