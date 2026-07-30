@@ -53,6 +53,8 @@ import MazurTorsion.NumberTheory.XOneElevenReduction
 import MazurTorsion.NumberTheory.XOneThirteenDescent
 import MazurTorsion.NumberTheory.XOneThirteenFiniteField
 import MazurTorsion.NumberTheory.XZeroTwentyOneDescent
+import MazurTorsion.NumberTheory.XZeroTwentyOneRankZero
+import MazurTorsion.NumberTheory.XZeroTwentyOneReduction
 import MazurTorsion.NumberTheory.XOneFifteenDescent
 import MazurTorsion.NumberTheory.XOneFifteenReduction
 import MazurTorsion.NumberTheory.XOneFourteenDescent
