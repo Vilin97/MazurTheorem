@@ -1,0 +1,18 @@
+name = "mazur-torsion"
+version = "0.1.0"
+keywords = ["math", "elliptic-curves", "number-theory"]
+defaultTargets = ["MazurTorsion"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.32.0-rc1"
+
+[[lean_lib]]
+name = "MazurTorsion"
