@@ -4,14 +4,14 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesC
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 
 /-!
 # Third-leg denominator nonvanishing certificate
 
 The Bezout identity makes the common denominator nonzero under the noncuspidality
-hypotheses. This module starts an intentionally linear import chain so Lake elaborates
-only one large polynomial certificate at a time.
+hypotheses. The certificate imports only its polynomial chunks, keeping unrelated
+third-leg stages out of the elaboration environment.
 -/
 
 namespace MazurTorsion.Kubert

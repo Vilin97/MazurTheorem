@@ -36,6 +36,7 @@ namespace MazurTorsion.XOneThirteenFiniteField
 
 open Polynomial
 
+/-- The three-element residue field used for the order-thirteen point count. -/
 abbrev F3 := ZMod 3
 
 /-- The order-thirteen hyperelliptic sextic reduced modulo `3`. -/

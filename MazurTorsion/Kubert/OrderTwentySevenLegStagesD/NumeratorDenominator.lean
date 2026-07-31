@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.Bezout
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 
 /-!
 # Third-leg numerator-denominator product

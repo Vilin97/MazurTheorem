@@ -34,8 +34,11 @@ open WeierstrassCurve
 /-- A checked normalization of a rational two-torsion point. -/
 structure Data (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (T : E.toAffine.Point) where
+  /-- The admissible change of variables carrying the curve to the normalized model. -/
   change : WeierstrassCurve.VariableChange ℚ
+  /-- The linear coefficient of the normalized two-isogeny source model. -/
   a : ℚ
+  /-- The quadratic coefficient of the normalized two-isogeny source model. -/
   b : ℚ
   originNonsingular :
     (change • E).toAffine.Nonsingular 0 0

@@ -137,13 +137,35 @@ jobs:
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
 
+      - name: Build the certificate stages serially
+        run: |
+          set -euo pipefail
+          scripts/build-order-twenty-seven-stages.sh \
+            2>&1 | tee certificate-stages-build.log
+          if grep -nE '(^|: )warning:' certificate-stages-build.log; then
+            echo "::error::The staged certificate build emitted warnings."
+            exit 1
+          fi
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/Bezout.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/BigIdentity.olean
+
       - name: Upload the generated certificate
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: order-twenty-seven-leg-chunks
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
           if-no-files-found: error
           retention-days: 1
 
@@ -180,6 +202,12 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.olean
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/Bezout.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/BigIdentity.olean
 
       - name: Build every checked Lean library
         run: |

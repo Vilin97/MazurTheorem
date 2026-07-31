@@ -93,6 +93,7 @@ instance : curveModSeven.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
   decide
 
+/-- The canonical identification of the integer residue field at seven with `ZMod 7`. -/
 noncomputable def residueSevenAlgEquiv :
     (ℤ ⧸ (intPrime 7).asIdeal) ≃ₐ[ℤ] ZMod 7 :=
   AlgEquiv.ofRingEquiv
@@ -502,6 +503,7 @@ private lemma nonsingular_four_neg_four_reduction :
   apply curve.toAffine.equation_iff_nonsingular.mp
   norm_num [WeierstrassCurve.Affine.equation_iff, curve]
 
+/-- The four rational points used in the explicit cardinality lower bound. -/
 def fourVisiblePoints : Fin 4 → curve.toAffine.Point
   | 0 => 0
   | 1 => T

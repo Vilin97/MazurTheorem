@@ -85,6 +85,7 @@ instance : curveModFive.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
   decide
 
+/-- The canonical identification of the integer residue field at five with `ZMod 5`. -/
 noncomputable def residueFiveAlgEquiv :
     (ℤ ⧸ (intPrime 5).asIdeal) ≃ₐ[ℤ] ZMod 5 :=
   AlgEquiv.ofRingEquiv

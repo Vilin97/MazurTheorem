@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.32.0-rc1",
     "mathlib_commit": "360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56",
-    "integrated_lean_lines": 84142,
+    "integrated_lean_lines": 86118,
     "integrated_lean_modules": 132,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -205,14 +205,14 @@
         "module": "Challenge.XOneThirteenNoncusp",
         "file": "Challenge/XOneThirteenNoncusp.lean",
         "declaration": "MazurTheorem.Challenge.xOneThirteen_no_noncuspidal_point",
-        "destination_module": "MazurTorsion.Kubert.OrderThirteenModel",
-        "destination_declaration": "MazurTorsion.Kubert.xOneThirteen_no_noncuspidal_point",
+        "destination_module": "MazurTorsion.NumberTheory.XOneThirteenDescent",
+        "destination_declaration": "MazurTorsion.XOneThirteenDescent.no_noncuspidal_point",
         "signature": "theorem xOneThirteen_no_noncuspidal_point\n    (x y : ℚ) (hx0 : x ≠ 0) (hxnegOne : x ≠ -1)\n    (hcurve : y ^ 2 =\n      MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x) :\n    False := sorry",
-        "imports": ["MazurTorsion.Kubert.OrderThirteenModel"],
+        "imports": ["MazurTorsion.NumberTheory.XOneThirteenDescent"],
         "informal": "The explicit X_1(13) sextic has no rational affine point away from the cusp abscissas 0 and -1.",
         "recommended_route": "Use the prepared Pell certificate and a genus-two Jacobian or descent argument, or supply another kernel-checked rational-point classification.",
         "consumer_declarations": [
-          "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirteen_of_noNoncuspidalPoint"
+          "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
         "estimated_lines": {"min": 3000, "max": 12000},
         "skills": ["genus-two curves", "Jacobians", "descent"]
@@ -250,7 +250,7 @@
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
         "recommended_route": "Finish the classical Eisenstein π=3+ω descent using the primitive descent data already proved, or give another kernel-checked rational-point classification.",
         "consumer_declarations": [
-          "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_eighteen_of_noNoncuspidalPoint"
+          "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
         "estimated_lines": {"min": 2000, "max": 5000},
         "skills": ["genus-two curves", "descent", "Eisenstein integers"]
@@ -364,7 +364,6 @@
         "informal": "An elliptic curve over Q has no rational point of exact order 49.",
         "recommended_route": "Expose the private level-seven correspondence polynomial as a public API, prove the order-49 tower produces a noncuspidal correspondence point, and apply XZeroFortyNine.no_noncuspidal_correspondence_point.",
         "consumer_declarations": [
-          "MazurTorsion.XZeroFortyNine.no_noncuspidal_correspondence_point",
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
         "estimated_lines": {"min": 1000, "max": 3000},

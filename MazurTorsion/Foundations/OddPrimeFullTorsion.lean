@@ -335,7 +335,7 @@ private theorem divisionPolynomial_splits_of_full_torsion
 Mathlib currently defines the division polynomials but does not yet connect their evaluation to
 scalar multiplication of affine points. -/
 def HasDivisionPolynomialRootCriterion
-    (W : WeierstrassCurve ℚ) [W.IsElliptic] (n : ℕ) : Prop :=
+    (W : WeierstrassCurve ℚ) (n : ℕ) : Prop :=
   ∀ {x y : ℚ} (hP : W.toAffine.Nonsingular x y),
     n • WeierstrassCurve.Affine.Point.some x y hP = 0 →
       Polynomial.eval x (W.preΨ' n) = 0

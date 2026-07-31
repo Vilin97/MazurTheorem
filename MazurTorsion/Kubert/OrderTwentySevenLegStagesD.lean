@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.Bezout
 import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.BigIdentity
 
 /-!
@@ -13,6 +14,6 @@ The Fricke-twisted correspondence certificate: the third leg satisfies the
 cleared X₀(9) relation against the second leg, and its denominator is
 invertible by the Bezout certificate.
 
-The certificate modules form an intentionally linear import chain so Lake elaborates
-only one large polynomial certificate at a time.
+The certificate modules have minimal imports so each large polynomial certificate is
+elaborated without retaining unrelated declarations.
 -/

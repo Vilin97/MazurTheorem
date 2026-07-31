@@ -92,6 +92,7 @@ instance : curveModThree.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
   decide
 
+/-- The canonical identification of the integer residue field at three with `ZMod 3`. -/
 noncomputable def residueThreeAlgEquiv :
     (ℤ ⧸ (intPrime 3).asIdeal) ≃ₐ[ℤ] ZMod 3 :=
   AlgEquiv.ofRingEquiv

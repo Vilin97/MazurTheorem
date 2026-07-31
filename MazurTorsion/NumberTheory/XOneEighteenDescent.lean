@@ -523,6 +523,7 @@ theorem piDivides_second_parameter_iff (m n : ℤ) :
 def firstParameterForm (m n : ℤ) : ℤ :=
   m ^ 2 + 3 * n ^ 2
 
+/-- The norm form associated to the Eisenstein prime above seven. -/
 def piParameterForm (m n : ℤ) : ℤ :=
   7 * m ^ 2 + 6 * m * n + 3 * n ^ 2
 

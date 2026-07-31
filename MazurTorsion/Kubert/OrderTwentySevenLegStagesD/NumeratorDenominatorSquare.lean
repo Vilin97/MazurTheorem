@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.NumeratorDenominator
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 
 /-!
 # Third-leg numerator times the denominator square

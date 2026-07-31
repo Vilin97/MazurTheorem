@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderThirteenModel
+import MazurTorsion.NumberTheory.XOneThirteenDescent
 
 /-!
 # Challenge: rational points on the order-thirteen curve

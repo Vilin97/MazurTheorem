@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightZero
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 
 /-!
 # Third-leg coefficient power identities

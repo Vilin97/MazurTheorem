@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.DenominatorPowers
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 
 /-!
 # High-degree weighted third-leg identities

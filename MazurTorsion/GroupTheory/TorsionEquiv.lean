@@ -52,10 +52,9 @@ theorem torsionAddEquiv_symm (e : G ≃+ H) :
     (torsionAddEquiv e).symm = torsionAddEquiv e.symm :=
   rfl
 
-@[simp]
 theorem addOrderOf_torsionAddEquiv (e : G ≃+ H)
     (x : AddCommGroup.torsion G) :
     addOrderOf (torsionAddEquiv e x) = addOrderOf x := by
-  exact (torsionAddEquiv e).addOrderOf_eq x
+  simp only [*, @AddEquiv.addOrderOf_eq]
 
 end MazurTorsion
