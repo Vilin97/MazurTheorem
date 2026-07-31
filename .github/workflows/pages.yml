@@ -34,8 +34,76 @@ env:
   LEAN_NUM_THREADS: "1"
 
 jobs:
+  heavy-certificate:
+    name: Prebuild the generated order-27 certificate
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Restore the generated certificate cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+          key: >-
+            OrderTwentySevenLegChunks-${{ runner.os }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'MazurTorsion/EllipticCurve/VariableChange.lean',
+            'MazurTorsion/Foundations/NaiveHeightDescent.lean',
+            'MazurTorsion/Kubert/OrderEighteenModel.lean',
+            'MazurTorsion/Kubert/OrderEighteenReduction.lean',
+            'MazurTorsion/Kubert/OrderNineReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean'
+            ) }}
+
+      - name: Install Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        run: lake exe cache get
+
+      - name: Build the generated certificate
+        run: |
+          set -euo pipefail
+          lake build MazurTorsion.Kubert.OrderTwentySevenLegChunks \
+            2>&1 | tee heavy-certificate-build.log
+          if grep -nE '(^|: )warning:' heavy-certificate-build.log; then
+            echo "::error::The generated certificate build emitted warnings."
+            exit 1
+          fi
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
+
+      - name: Upload the generated certificate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: order-twenty-seven-leg-chunks
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+          if-no-files-found: error
+          retention-days: 1
+
   documentation:
     name: Build API documentation
+    needs: heavy-certificate
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -64,6 +132,19 @@ jobs:
           if [ ! -d .lake/packages/mathlib ]; then
             lake exe cache get
           fi
+
+      - name: Download the generated certificate
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: order-twenty-seven-leg-chunks
+          path: .lake/build
+
+      - name: Verify the generated certificate artifact
+        run: |
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
 
       - name: Build doc-gen4 site
         run: |
