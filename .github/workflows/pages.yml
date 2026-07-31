@@ -1,0 +1,211 @@
+name: Deploy documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "MazurTorsion.lean"
+      - "MazurTorsion/**"
+      - "EllipticCurves.lean"
+      - "EllipticCurves/**"
+      - "Challenge.lean"
+      - "Challenge/**"
+      - "blueprint/**"
+      - "coordination/**"
+      - "scripts/quality.py"
+      - "scripts/exposition/**"
+      - "site/public/og.png"
+      - "docbuild/**"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  LEAN_NUM_THREADS: "1"
+
+jobs:
+  documentation:
+    name: Build API documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Restore documentation cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        with:
+          path: |
+            .lake/build
+            docbuild/.lake/build
+          key: Docs-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'docbuild/lean-toolchain', 'docbuild/lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            Docs-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'docbuild/lean-toolchain', 'docbuild/lake-manifest.json') }}-
+
+      - name: Install Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        run: |
+          if [ ! -d .lake/packages/mathlib ]; then
+            lake exe cache get
+          fi
+
+      - name: Build doc-gen4 site
+        run: |
+          set -euo pipefail
+          cd docbuild
+          lake build MazurTheoremDocs:docs
+          test -s .lake/build/doc/index.html
+          test -s .lake/build/doc/MazurTorsion.html
+          test -s .lake/build/doc/EllipticCurves.html
+          test -s .lake/build/doc/Challenge.html
+          printf '%s\n' "$GITHUB_SHA" > .lake/build/doc/SOURCE_SHA
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: documentation-site
+          path: docbuild/.lake/build/doc
+          if-no-files-found: error
+          retention-days: 3
+
+  static:
+    name: Build blueprint and exposition
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.13"
+
+      - name: Install blueprint system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes graphviz libgraphviz-dev pkg-config
+
+      - name: Install pinned LeanBlueprint
+        run: python -m pip install --disable-pip-version-check leanblueprint==0.0.20
+
+      - name: Validate canonical programme data
+        run: python scripts/quality.py
+
+      - name: Build blueprint
+        run: leanblueprint web
+
+      - name: Assemble static site
+        env:
+          ROADMAP_SITE_URL: ${{ vars.ROADMAP_SITE_URL || 'https://github.com/Vilin97/MazurTheorem' }}
+        run: |
+          set -euo pipefail
+          python scripts/exposition/generate.py \
+            --repo-root . \
+            --out pages-static \
+            --commit "$GITHUB_SHA" \
+            --roadmap-url "$ROADMAP_SITE_URL"
+          test -s blueprint/web/index.html
+          test -s site/public/og.png
+          mkdir -p pages-static/blueprint
+          cp -R blueprint/web/. pages-static/blueprint/
+          cp site/public/og.png pages-static/og.png
+
+      - name: Upload static site
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: static-site
+          path: pages-static
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    name: Deploy GitHub Pages
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - documentation
+      - static
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download static site
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: static-site
+          path: site
+
+      - name: Download documentation
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: documentation-site
+          path: site/docs
+
+      - name: Validate assembled Pages tree
+        run: |
+          set -euo pipefail
+          test -s site/index.html
+          test -s site/blueprint/index.html
+          test -s site/docs/index.html
+          test -s site/exposition/index.html
+          test -s site/og.png
+          test "$(cat site/docs/SOURCE_SHA)" = "$GITHUB_SHA"
+          jq -e --arg commit "$GITHUB_SHA" '
+            .commit == $commit
+            and .totals.modules > 0
+            and .totals.declarations > 0
+            and .totals.forbidden_holes == 0
+          ' site/exposition/data/index.json > /dev/null
+          mkdir -p site/deployments
+          printf '%s\n' "$GITHUB_SHA" > "site/deployments/${GITHUB_SHA}.txt"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: site
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+
+      - name: Verify the live deployment
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          base_url="${PAGE_URL%/}"
+          marker_url="${base_url}/deployments/${GITHUB_SHA}.txt"
+          printf '%s\n' "$GITHUB_SHA" > expected-marker.txt
+          curl --fail --silent --show-error --location \
+            --retry 12 --retry-delay 10 --retry-all-errors \
+            "$marker_url" --output live-marker.txt
+          cmp expected-marker.txt live-marker.txt
+          for route in / /blueprint/ /docs/ /exposition/; do
+            curl --fail --silent --show-error --location \
+              --retry 5 --retry-delay 5 --retry-all-errors \
+              "${base_url}${route}" --output /dev/null
+          done

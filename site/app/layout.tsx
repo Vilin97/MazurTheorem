@@ -1,0 +1,118 @@
+import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
+import "./globals.css";
+
+const FALLBACK_SITE_ORIGIN = "https://vilin97.github.io/MazurTheorem/";
+const DESCRIPTION =
+  "An open, weighted roadmap for the exact Lean Pool cardinality consequence of Mazur’s torsion theorem.";
+const SOCIAL_DESCRIPTION =
+  "One verified dependency at a time: roadmap, exact Lean challenges, and evidence-weighted progress.";
+
+function normalizedOrigin(origin: string) {
+  return origin.endsWith("/") ? origin : `${origin}/`;
+}
+
+function parseOrigin(origin: string) {
+  try {
+    const parsed = new URL(origin);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return undefined;
+    }
+    return normalizedOrigin(parsed.origin);
+  } catch {
+    return undefined;
+  }
+}
+
+async function requestedOrigin() {
+  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL;
+  if (configuredOrigin) {
+    return parseOrigin(configuredOrigin) ?? FALLBACK_SITE_ORIGIN;
+  }
+
+  const requestHeaders = await headers();
+  const forwardedHost = requestHeaders
+    .get("x-forwarded-host")
+    ?.split(",", 1)[0]
+    ?.trim();
+  const host = forwardedHost ?? requestHeaders.get("host");
+  if (!host) {
+    return FALLBACK_SITE_ORIGIN;
+  }
+
+  const forwardedProtocol = requestHeaders
+    .get("x-forwarded-proto")
+    ?.split(",", 1)[0]
+    ?.trim();
+  const protocol =
+    forwardedProtocol === "http" || forwardedProtocol === "https"
+      ? forwardedProtocol
+      : host.startsWith("localhost")
+        ? "http"
+        : "https";
+  return parseOrigin(`${protocol}://${host}`) ?? FALLBACK_SITE_ORIGIN;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const origin = await requestedOrigin();
+  const image = new URL("og.png", origin).toString();
+
+  return {
+    metadataBase: new URL(origin),
+    alternates: { canonical: origin },
+    title: {
+      default: "Mazur Theorem · Formalization Programme",
+      template: "%s · Mazur Theorem",
+    },
+    description: DESCRIPTION,
+    keywords: [
+      "Mazur theorem",
+      "Lean 4",
+      "formal mathematics",
+      "elliptic curves",
+      "crowdsourcing",
+    ],
+    authors: [{ name: "Mazur Theorem contributors" }],
+    openGraph: {
+      title: "Mazur Theorem · Formalization Programme",
+      description: SOCIAL_DESCRIPTION,
+      type: "website",
+      siteName: "Mazur Theorem",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: "Mazur Theorem formalization programme — 5% integrated",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Mazur Theorem · Formalization Programme",
+      description: SOCIAL_DESCRIPTION,
+      images: [image],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f2ecdf",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}

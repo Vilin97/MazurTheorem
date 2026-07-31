@@ -10,8 +10,6 @@ module
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
 
-@[expose] public section
-
 /-!
 # The topology of `ℤ_p` is the maximal-ideal-adic one
 
@@ -22,6 +20,8 @@ instance, so that `ℤ_p` satisfies the standing hypotheses of the `p`-adic kit
 (`Chabauty.Series.PSeries`).
 -/
 
+
+@[expose] public section
 
 open IsLocalRing
 

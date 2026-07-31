@@ -2,7 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
@@ -10,24 +9,24 @@ public import EllipticCurves.WeierstrassFormalGroup.Filtration
 import all EllipticCurves.WeierstrassFormalGroup.Filtration
 import all EllipticCurves.WeierstrassFormalGroup.Foundations
 
-@[expose] public section
-
 /-!
 # The point-level reduction map over the completion
 
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+
 For a good integral model `W₀` of `W` over `𝒪_v` (good reduction: `[W₀.IsElliptic]`), the
-reduction map `E(K_v) → Ẽ(k_v)` sends a point with integral coordinates to their residues and a
+reduction map `E(K_v) → E_red(k_v)` sends a point with integral coordinates to their residues and a
 point of the kernel of reduction (a pole at `x`) to the point at infinity.
 
 This file is the completion-level *engine* behind reduction at a prime of a Dedekind domain `R`
-with fraction field `K`: the user-facing API `red`/`redHom : E(K) →+ Ẽ(R ⧸ v.asIdeal)` lives in
+with fraction field `K`: the user-facing API `red`/`redHom : E(K) →+ E_red(R ⧸ v.asIdeal)` lives in
 `EllipticCurves.ReductionAtPrime`, which identifies it with the maps built here along the base
 change `E(K) → E(K_v)`.
 
 ## Main definitions and statements
 
 * `WeierstrassCurve.Affine.adicRed`, `WeierstrassCurve.Affine.adicRedHom`: the reduction
-  map/homomorphism `E(K_v) →+ Ẽ(k_v)`.
+  map/homomorphism `E(K_v) →+ E_red(k_v)`.
 * `WeierstrassCurve.Affine.adicRed_eq_zero_iff`: the kernel of `adicRed` is the filtration step
   `E₁(K_v)`.
 * `WeierstrassCurve.Affine.sub_mem_filtration_of_red_eq`: the congruence criterion — two points
@@ -37,6 +36,8 @@ change `E(K) → E(K_v)`.
   the additive order of a torsion point, under the standard ramification condition on the
   residue characteristic.
 -/
+
+@[expose] public section
 
 open IsLocalRing
 
@@ -52,7 +53,7 @@ variable {R : Type*} [CommRing R] [IsDedekindDomain R]
 
 local notation:max "res" x:max => IsLocalRing.residue (v.adicCompletionIntegers K) x
 
-/-- The reduction `Ẽ` of the integral model `W₀` modulo the maximal ideal, a Weierstrass curve
+/-- The reduction `E_red` of the integral model `W₀` modulo the maximal ideal, a Weierstrass curve
 over the residue field `k_v`; under good reduction (`[W₀.IsElliptic]`, assumed for all results
 below about `adicRed`) it is again elliptic. -/
 noncomputable abbrev adicRedCurve (W₀ : WeierstrassCurve (v.adicCompletionIntegers K)) :
@@ -409,7 +410,7 @@ end
 variable [W₀.IsElliptic]
 
 include hW in
-/-- The reduced coordinates of an integral point are nonsingular on the smooth curve `Ẽ`. -/
+/-- The reduced coordinates of an integral point are nonsingular on the smooth curve `E_red`. -/
 lemma adicRed_nonsingular {x y : v.adicCompletion K} (h : W.Equation x y)
     (hx : Valued.v x ≤ 1) (hy : Valued.v y ≤ 1) :
     (adicRedCurve W₀).Nonsingular (IsLocalRing.residue _ ⟨x, hx⟩)
@@ -705,7 +706,7 @@ lemma adicRed_add (P Q : W.Point) : adicRed hW (P + Q) = adicRed hW P + adicRed 
     · exact adicRed_add_of_not_mem hW hP hQ
 
 include hW in
-/-- The reduction homomorphism `E(K_v) →+ Ẽ(k_v)` over the completion.  For the reduction
+/-- The reduction homomorphism `E(K_v) →+ E_red(k_v)` over the completion.  For the reduction
 homomorphism over the global field, see `redHom` in `EllipticCurves.ReductionAtPrime`. -/
 noncomputable def adicRedHom : W.Point →+ (adicRedCurve W₀).Point :=
   AddMonoidHom.mk' (adicRed hW) (adicRed_add hW)

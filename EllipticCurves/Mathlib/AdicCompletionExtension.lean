@@ -2,18 +2,17 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
 public import Mathlib
 public import EllipticCurves.Mathlib.Basic
 
-@[expose] public section
-
 /-!
 # Local structure of an adic completion
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 Let `A` be a Dedekind domain with fraction field `K`, and let `v` be a height-one prime of
 `A`. This file provides
@@ -27,6 +26,8 @@ Let `A` be a Dedekind domain with fraction field `K`, and let `v` be a height-on
   (`isAdic_maximalIdeal_adicCompletionIntegers`, via `mem_maximalIdeal_pow_iff`), `𝒪_v` is
   complete, hence `𝔪`-adically complete, hence a Henselian local ring.
 -/
+
+@[expose] public section
 
 open Polynomial IsDedekindDomain WithZero
 

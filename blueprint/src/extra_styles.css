@@ -1,0 +1,17 @@
+:root {
+  --mazur-accent: #8a4fff;
+}
+
+div.theorem_thmcontent,
+div.proposition_thmcontent,
+div.lemma_thmcontent,
+div.corollary_thmcontent,
+div.definition_thmcontent {
+  border-left: 0.15rem solid var(--mazur-accent);
+  padding-left: 1rem;
+}
+
+div.proof_content {
+  border-left: 0.08rem solid #777;
+  padding-left: 1rem;
+}

@@ -9,9 +9,6 @@ module
 
 public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw.Basic
 
-@[expose] public section
-
-
 /-!
 # Points of a formal group law in the maximal ideal
 
@@ -28,6 +25,8 @@ Blueprint node: `def:fgl`.
 -/
 
 
+@[expose] public section
+
 open MvPowerSeries IsLocalRing Filter Topology
 open scoped MvPowerSeries.WithPiTopology
 
@@ -39,8 +38,11 @@ variable {O : Type*} [CommRing O] {ι : Type*} (Φ : FormalGroupLaw O ι)
 variable [IsLocalRing O]
 
 /-- The `𝔪`-points of a formal group law: tuples with entries in the maximal ideal.
-The group law is evaluation of `F`. -/
-def Points (_Φ : FormalGroupLaw O ι) := ι → maximalIdeal O
+The group law is evaluation of `F`. The carrier family is applied explicitly to `Φ` because
+the law is a phantom parameter selecting that addition, while its coefficients do not change the
+underlying tuple type. -/
+def Points (Φ : FormalGroupLaw O ι) :=
+  (fun _formalGroupLaw : FormalGroupLaw O ι ↦ ι → maximalIdeal O) Φ
 
 instance : Zero Φ.Points := ⟨fun _ ↦ 0⟩
 

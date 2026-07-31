@@ -2,17 +2,16 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
 public import Mathlib
 
-@[expose] public section
-
 /-!
 # Points of Weierstrass curves over finite fields: decidability and finiteness
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 This file provides `Decidable` instances for the predicates `WeierstrassCurve.Affine.Equation`
 and `WeierstrassCurve.Affine.Nonsingular` (over any commutative ring with decidable equality),
@@ -32,20 +31,24 @@ induced by an isomorphism of base fields (the equiv version of
 identifications such as `ℤ ⧸ (p) ≃+* ZMod p`.
 -/
 
+@[expose] public section
+
 namespace WeierstrassCurve.Affine
 
 variable {R : Type*} [CommRing R] {W' : Affine R}
 
-instance [DecidableEq R] (x y : R) : Decidable (W'.Equation x y) :=
+instance instDecidableEquationOfDecidableEq [DecidableEq R] (x y : R) :
+    Decidable (W'.Equation x y) :=
   decidable_of_iff _ (W'.equation_iff x y).symm
 
-instance [DecidableEq R] (x y : R) : Decidable (W'.Nonsingular x y) :=
+instance instDecidableNonsingularOfDecidableEq [DecidableEq R] (x y : R) :
+    Decidable (W'.Nonsingular x y) :=
   decidable_of_iff _ (W'.nonsingular_iff x y).symm
 
-instance [Finite R] : Finite W'.Point :=
+instance instFinitePoint [Finite R] : Finite W'.Point :=
   .of_equiv (Option {xy : R × R // W'.Nonsingular xy.1 xy.2}) (nonsingularPointEquiv W').symm
 
-instance [Fintype R] [DecidableEq R] : Fintype W'.Point :=
+instance instFintypePointOfDecidableEq [Fintype R] [DecidableEq R] : Fintype W'.Point :=
   .ofEquiv (Option {xy : R × R // W'.Nonsingular xy.1 xy.2}) (nonsingularPointEquiv W').symm
 
 section PointMap

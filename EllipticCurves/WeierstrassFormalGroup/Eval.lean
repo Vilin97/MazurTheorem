@@ -2,16 +2,15 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
 public import EllipticCurves.WeierstrassFormalGroup.GroupLaw
 
-@[expose] public section
-
 /-!
 # Evaluation of the formal group series of a Weierstrass curve
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 For a Weierstrass curve `W` over a complete adic local ring `O` (the standing setting of the
 vendored `p`-adic kit), the fixed-point series `w` and the chord data evaluate at parameters
@@ -21,6 +20,8 @@ factorization `w(t) = t³·v(t)` with `v(t) ≡ 1 mod 𝔪`, the uniqueness of s
 fixed-point equation in `𝔪`, the evaluated chord data (`W.slopeEval`, `W.interceptEval`,
 `W.thirdRootEval`, `W.addEval`), and the formal inverse `W.negPoint` on the `𝔪`-points.
 -/
+
+@[expose] public section
 
 open ChabautyColeman IsLocalRing MvPowerSeries
 open scoped MvPowerSeries.WithPiTopology

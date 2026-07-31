@@ -1,0 +1,39 @@
+name: Claim lease maintenance
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  claims:
+    name: Release inactive claims
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maintain 14-day claim leases
+        uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          only-issue-labels: claim
+          days-before-issue-stale: 7
+          days-before-issue-close: 7
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+          stale-issue-label: "claim: inactive"
+          close-issue-label: "claim: released"
+          stale-issue-message: >-
+            This claim has had no update for seven days. Please post a short
+            progress note, blocker, or handoff within the next seven days.
+            Any comment renews the lease and keeps the work reserved.
+          close-issue-message: >-
+            This claim is being released after fourteen days without an update,
+            so another contributor may pick it up. The issue can be reopened and
+            reclaimed at any time with a fresh scope and progress plan.
+          close-issue-reason: not_planned
+          remove-issue-stale-when-updated: true
+          labels-to-remove-when-unstale: "claim: inactive,claim: released"
+          operations-per-run: 100

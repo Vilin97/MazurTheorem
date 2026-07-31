@@ -2,8 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
@@ -13,6 +11,9 @@ public import EllipticCurves.Mathlib.AdicFormalGroupLog
 
 /-!
 # The Weierstrass fixed-point series and the chord data
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 For a Weierstrass curve `W` over a commutative ring `O`, this file builds the fixed-point
 series `w(t) ∈ O⟦t⟧` (solution of `w = t³ + a₁tw + a₂t²w + a₃w² + a₄tw² + a₆w³`) and the
@@ -748,7 +749,7 @@ theorem subst_unitR_thirdRootSeries :
     rw [h1, h2]
     ring
   rw [hexp]
-  -- compare with `ι = -X·u⁻¹` after multiplying by the units `u` and `D̃`
+  -- compare with `ι = -X·u⁻¹` after multiplying by the units `u` and `D`
   set d : PowerSeries O := MvPowerSeries.invOfUnit (1 + PowerSeries.C W.a₂ * L +
     PowerSeries.C W.a₄ * L ^ 2 + PowerSeries.C W.a₆ * L ^ 3) 1 with hd
   have hUnit2 : (1 + PowerSeries.C W.a₂ * L + PowerSeries.C W.a₄ * L ^ 2 +

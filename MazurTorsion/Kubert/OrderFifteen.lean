@@ -7,8 +7,6 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderFifteenModel
 import MazurTorsion.NumberTheory.XOneFifteenReduction
 
-open scoped WeierstrassCurve.Affine
-
 /-!
 # Excluding rational points of order fifteen
 
@@ -22,6 +20,8 @@ descent, reduction modulo seven, and order-eight obstruction show that every
 affine rational point on this curve has one of exactly those two abscissae.
 This contradiction closes the order-fifteen branch.
 -/
+
+open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert
 

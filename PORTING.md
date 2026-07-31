@@ -1,4 +1,4 @@
-# LeanPool exact-pin reduction port
+# Exact-pin elliptic-curve reduction port
 
 ## Provenance and license
 
@@ -9,7 +9,7 @@ immutable commit
 
 That work is licensed under Apache License 2.0. The unmodified upstream `LICENSE` is retained at
 the package root and must accompany any distribution of the port. The historical
-`EllipticCurves.VariableChange` module is a compatibility import of LeanPool's pre-existing port
+`EllipticCurves.VariableChange` module is a compatibility import of the pre-existing port
 of the same pinned upstream file, avoiding duplicate declarations in the shared namespace. No
 source from another elliptic-curve repository is included in this port. The exceptional-cubic
 harness `EllipticCurves/Examples/ExceptionalCubicReduction.lean` is a new, separable integration
@@ -23,11 +23,13 @@ The compatibility target is exactly:
 
 ## Source-to-destination manifest
 
-For integration into the LeanPool package, upstream modules retain their module names and go
-under `mazur-torsion/EllipticCurves/`. “Modified” means changed only for the exact-pin port as
-described in the next section.
+In this standalone repository, upstream modules retain their module names and
+live under `EllipticCurves/`. “Modified” means changed only for the exact-pin
+port as described in the next section. Older paths in the manifest retain the
+historical `mazur-torsion/` prefix to document where the original port lived;
+remove that prefix to obtain the current repository path.
 
-| Upstream source at the pinned commit | LeanPool destination | State |
+| Upstream source at the pinned commit | Historical port destination | State |
 |---|---|---|
 | `EllipticCurves/IntegralModel.lean` | `mazur-torsion/EllipticCurves/IntegralModel.lean` | modified |
 | `EllipticCurves/Mathlib/AdicCompletionExtension.lean` | `mazur-torsion/EllipticCurves/Mathlib/AdicCompletionExtension.lean` | modified |
@@ -121,7 +123,7 @@ For aggregate integration, the package has a local `lean_lib` named `EllipticCur
 `["EllipticCurves.+"]`; the existing `MazurTorsion` library imports these modules without
 introducing a second mathlib version.
 
-The selected production cone is 31 Lean files and 14,040 lines. The largest measured resident set
+The selected production cone is 31 Lean files and 14,066 lines. The largest measured resident set
 during a clean standalone compatibility build was 3,423,780,864 bytes. The combined
 `MazurTorsion.Arithmetic.ExceptionalProducts` build used at most 5,596,397,568 bytes, well below
 the 50 GB limit.

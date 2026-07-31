@@ -6,7 +6,10 @@ Authors: Vasily Ilin
 
 import Mathlib.Data.ZMod.Basic
 import Mathlib.RingTheory.Coprime.Lemmas
-import Mathlib.Tactic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Push
 
 /-!
 # Seven-adic certificates for the level-seven CM loci

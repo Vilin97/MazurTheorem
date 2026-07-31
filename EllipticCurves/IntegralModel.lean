@@ -2,16 +2,15 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
 public import Mathlib
 
-@[expose] public section
-
 /-!
 # Integral models of Weierstrass curves over a local field
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 Let `K` be the fraction field of a Dedekind domain, `v` a height-one prime, and `K_v` the
 completion. `WeierstrassCurve.Affine.exists_variableChange_map_eq` shows that every Weierstrass
@@ -23,6 +22,8 @@ This feeds the structure theorem
 `E(K_v)` has a finite-index subgroup isomorphic to `(𝒪_v, +)`), which lives in
 `EllipticCurves.WeierstrassFormalGroup`.
 -/
+
+@[expose] public section
 
 open IsDedekindDomain
 

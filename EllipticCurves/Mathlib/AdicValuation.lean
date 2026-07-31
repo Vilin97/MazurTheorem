@@ -2,16 +2,15 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
 public import Mathlib
 
-@[expose] public section
-
 /-!
 # The residue map on `v`-integral elements of the fraction field
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 Let `R` be a Dedekind domain with fraction field `K` and let `v` be a height-one prime of `R`.
 An element of `K` of `v`-adic valuation at most `1` is congruent to an element of `R` modulo
@@ -26,6 +25,8 @@ It also provides the `R`-algebra structure on `(v.valuation K).integer` and the 
 instance on `R ⧸ v.asIdeal` (the ideal is maximal).
 -/
 
+@[expose] public section
+
 namespace IsDedekindDomain.HeightOneSpectrum
 
 variable {R : Type*} [CommRing R] [IsDedekindDomain R] {K : Type*} [Field K] [Algebra R K]
@@ -37,9 +38,10 @@ since maximality of a general ideal is not inferable.  Here the ideal is `v.asId
 height-one prime `v` of a Dedekind domain, whose maximality is an instance
 (`HeightOneSpectrum.isMaximal`), so the `Field` instance is keyed on `v` and safe to make global;
 be prepared to demote it to a local instance if upstream review prefers that. -/
-noncomputable instance : Field (R ⧸ v.asIdeal) := Ideal.Quotient.field _
+noncomputable instance instFieldQuotientHeightOneIdeal : Field (R ⧸ v.asIdeal) :=
+  Ideal.Quotient.field _
 
-noncomputable instance : Algebra R (v.valuation K).integer :=
+noncomputable instance instAlgebraIntegerValuationSubring : Algebra R (v.valuation K).integer :=
   ((algebraMap R K).codRestrict (v.valuation K).integer fun r ↦ v.valuation_le_one r).toAlgebra
 
 instance : IsScalarTower R (v.valuation K).integer K :=

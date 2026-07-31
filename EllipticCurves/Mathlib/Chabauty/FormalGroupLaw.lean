@@ -12,8 +12,6 @@ public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw.Invariance
 public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw.Points
 public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw.Log
 
-@[expose] public section
-
 /-!
 # Formal group laws and their points in the maximal ideal
 
@@ -36,5 +34,7 @@ The development is split across the files re-exported here:
 
 Blueprint nodes: `def:fgl`, `def:fgl-diff`, `def:fgl-log`.
 -/
+
+@[expose] public section
 
 end

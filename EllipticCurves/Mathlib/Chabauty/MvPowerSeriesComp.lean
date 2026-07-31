@@ -16,8 +16,6 @@ public import Mathlib.Tactic.Abel
 public import Mathlib.Tactic.LinearCombination
 public import Mathlib.Tactic.Ring
 
-@[expose] public section
-
 /-!
 # Compositional inverses of multivariate formal substitutions
 
@@ -29,6 +27,8 @@ resulting uniqueness of compositional inverses; the construction of the inverse 
 with identity linear part is developed separately.
 -/
 
+
+@[expose] public section
 
 namespace MvPowerSeries
 

@@ -13,8 +13,6 @@ public import Mathlib.RingTheory.MvPowerSeries.Substitution
 
 public import Mathlib.RingTheory.MvPowerSeries.PiTopology
 
-@[expose] public section
-
 /-!
 # Formal partial derivatives of multivariate power series
 
@@ -31,6 +29,8 @@ product topologies over a topological ring of coefficients — each coefficient 
 `subst a f` is a fixed finite linear combination of coefficients of `f`.
 -/
 
+
+@[expose] public section
 
 open Filter Topology
 open scoped MvPowerSeries.WithPiTopology

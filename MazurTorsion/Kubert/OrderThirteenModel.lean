@@ -124,4 +124,18 @@ theorem exists_orderThirteen_hyperelliptic_certificate
     orderThirteenHyperellipticX_ne_neg_one r s hrs hfactor
   exact ⟨x, y, hcurve, hxzero, hxnegone⟩
 
+/-- A route-neutral exclusion of noncuspidal rational points on the
+hyperelliptic model rules out exact rational order thirteen. -/
+theorem rationalPoint_addOrderOf_ne_thirteen_of_noNoncuspidalPoint
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : (E⁄ℚ).Point)
+    (hNoNoncuspidal :
+      ∀ x y : ℚ, x ≠ 0 → x ≠ -1 →
+        y ^ 2 = orderThirteenHyperellipticPolynomial x → False) :
+    addOrderOf Q ≠ 13 := by
+  intro hQ
+  obtain ⟨x, y, hcurve, hxzero, hxnegone⟩ :=
+    exists_orderThirteen_hyperelliptic_certificate E Q hQ
+  exact hNoNoncuspidal x y hxzero hxnegone hcurve
+
 end MazurTorsion.Kubert

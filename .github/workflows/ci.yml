@@ -1,0 +1,177 @@
+name: Core CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEAN_NUM_THREADS: "1"
+
+jobs:
+  source-policy:
+    name: Source policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+
+      - name: Reject proof holes and policy backdoors
+        run: |
+          python3 - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, "scripts/exposition")
+          from generate import source_files, strip_comments_and_strings
+
+          checks = (
+              (re.compile(r"\b(?:sorry|admit|native_decide)\b"), "proof hole"),
+              (
+                  re.compile(
+                      r"^\s*(?:axiom|constant|unsafe|partial)\b",
+                      re.MULTILINE,
+                  ),
+                  "disallowed declaration",
+              ),
+              (
+                  re.compile(r"^\s*set_option\b", re.MULTILINE),
+                  "local option override",
+              ),
+              (re.compile(r"@\[\s*nolint\b"), "linter suppression"),
+          )
+          failures = []
+          root = Path.cwd()
+          for path in source_files(root):
+              masked = strip_comments_and_strings(path.read_text(encoding="utf-8"))
+              for pattern, reason in checks:
+                  for match in pattern.finditer(masked):
+                      line = masked.count("\n", 0, match.start()) + 1
+                      failures.append(f"{path}:{line}: {reason}: {match.group(0).strip()}")
+          if failures:
+              print("\n".join(failures))
+              raise SystemExit("checked Lean sources violate the repository policy")
+          PY
+
+      - name: Check exposition generator syntax
+        run: python3 -m py_compile scripts/exposition/generate.py
+
+      - name: Validate roadmap, challenges, and source boundaries
+        run: python3 scripts/quality.py
+
+      - name: Protect immutable challenge contracts
+        if: github.event_name == 'pull_request'
+        run: >-
+          python3 scripts/check_challenge_immutability.py
+          --base "${{ github.event.pull_request.base.sha }}"
+
+  build:
+    name: Build and lint Lean
+    needs: source-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Install Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        run: lake exe cache get
+
+      - name: Build every checked Lean library
+        run: |
+          set -euo pipefail
+          lake build MazurTorsion EllipticCurves 2>&1 | tee lean-build.log
+          if grep -nE '(^|: )warning:' lean-build.log; then
+            echo "::error::The checked Lean build emitted warnings."
+            exit 1
+          fi
+
+      - name: Build registered challenges with exact expected notices
+        run: |
+          set -euo pipefail
+          lake build Challenge 2>&1 | tee challenge-build.log
+          expected=$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          program = json.loads(Path("coordination/program.json").read_text())
+          print(sum(
+              1
+              for node in program["nodes"]
+              if isinstance(node.get("challenge"), dict)
+              and node["challenge"].get("claimable") is True
+              and node["challenge"]["file"].startswith("Challenge/")
+          ))
+          PY
+          )
+          actual=$(grep -c "declaration uses .*sorry" challenge-build.log || true)
+          if [ "$actual" -ne "$expected" ]; then
+            echo "::error::Expected $expected sorry notices, found $actual."
+            exit 1
+          fi
+          if grep -E '(^|: )warning:' challenge-build.log \
+              | grep -v "declaration uses .*sorry"; then
+            echo "::error::Challenge build emitted an unexpected warning."
+            exit 1
+          fi
+
+      - name: Audit kernel axiom dependencies
+        run: lake exe axioms
+
+      - name: Audit open and completed challenge contracts
+        run: |
+          set -euo pipefail
+          mapfile -t targets < <(python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          program = json.loads(Path("coordination/program.json").read_text())
+          for node in program["nodes"]:
+              challenge = node.get("challenge")
+              if not isinstance(challenge, dict):
+                  continue
+              if not challenge["file"].startswith("Challenge/"):
+                  continue
+              if challenge.get("claimable") is True:
+                  print(f"open:{challenge['declaration']}")
+                  continue
+              destination = challenge["destination_declaration"]
+              print(f"closed:{challenge['declaration']}:{destination}")
+              for consumer in challenge["consumer_declarations"]:
+                  print(f"uses:{consumer}:{destination}")
+          PY
+          )
+          lake exe contractAxioms "${targets[@]}"
+
+      - name: Run Mathlib linters
+        run: |
+          lake exe runLinter MazurTorsion
+          lake exe runLinter EllipticCurves
+          lake exe runLinter Challenge
+
+      - name: Run Mathlib style checks
+        run: |
+          lake exe lint-style MazurTorsion
+          lake exe lint-style EllipticCurves
+          lake exe lint-style Challenge

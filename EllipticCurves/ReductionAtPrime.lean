@@ -2,8 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
@@ -11,17 +9,18 @@ public import EllipticCurves.Mathlib.AdicValuation
 public import EllipticCurves.Mathlib.EllipticCurvePoint
 public import EllipticCurves.WeierstrassFormalGroup.Reduction
 
-@[expose] public section
-
 /-!
 # Reduction of points modulo a prime of the base ring
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 Let `E` be an elliptic curve over the fraction field `K` of a Dedekind domain `R`, let `v` be a
 maximal ideal (height-one prime) of `R`, and let `W₀` be an integral model of `E` over `R`
 (`hE : W₀.map (algebraMap R K) = E`) whose reduction modulo `v` is again elliptic — *good
 reduction* at `v`, the instance hypothesis `[(redCurve v W₀).IsElliptic]`.  This file defines the
 reduced curve `redCurve v W₀` over the residue field `R ⧸ v.asIdeal` and the reduction
-homomorphism `redHom v hE : E(K) →+ Ẽ(R ⧸ v.asIdeal)` — a point with `v`-integral coordinates
+homomorphism `redHom v hE : E(K) →+ E_red(R ⧸ v.asIdeal)` — a point with `v`-integral coordinates
 maps to their residues (via `residueHom v`), a point with a pole at `v` maps to `0` — with **no
 completions in the definitions or statements**.
 
@@ -32,10 +31,10 @@ torsion, and preservation of the order of torsion points are transported back al
 
 ## Main definitions and statements
 
-* `WeierstrassCurve.Affine.redCurve`: the reduction `Ẽ` of `W₀` modulo `v`, a Weierstrass curve
+* `WeierstrassCurve.Affine.redCurve`: the reduction `E_red` of `W₀` modulo `v`, a Weierstrass curve
   over `R ⧸ v.asIdeal`.
 * `WeierstrassCurve.Affine.red`, `WeierstrassCurve.Affine.redHom`: the reduction map
-  `E(K) →+ Ẽ(R ⧸ v.asIdeal)`.
+  `E(K) →+ E_red(R ⧸ v.asIdeal)`.
 * `WeierstrassCurve.Affine.nsmul_eq_zero_of_red_nsmul_eq_zero`: if the reduction of a torsion
   point is `m`-torsion, so is the point itself — under the standard ramification condition on
   the residue characteristic `p`, namely `(p : R) ∈ v.asIdeal` and `(p : R) ∉ v.asIdeal ^ (p - 1)`
@@ -46,6 +45,8 @@ torsion, and preservation of the order of torsion points are transported back al
   point divides the number of points of the reduction.
 -/
 
+@[expose] public section
+
 open Function IsDedekindDomain IsDedekindDomain.HeightOneSpectrum IsLocalRing WithZero
 
 namespace WeierstrassCurve.Affine
@@ -54,7 +55,7 @@ variable {R : Type*} [CommRing R] [IsDedekindDomain R] {K : Type*} [Field K] [Al
   [IsFractionRing R K] (v : HeightOneSpectrum R) {E : Affine K} {W₀ : WeierstrassCurve R}
   (hE : W₀.map (algebraMap R K) = E)
 
-/-- The reduction `Ẽ` of the integral model `W₀` modulo the prime `v`, a Weierstrass curve over
+/-- The reduction `E_red` of the integral model `W₀` modulo the prime `v`, a Weierstrass curve over
 the residue field `R ⧸ v.asIdeal`: the base change of `W₀` along
 `algebraMap R (R ⧸ v.asIdeal) = Ideal.Quotient.mk v.asIdeal`.  *Good reduction* of `W₀` at `v`
 is the instance hypothesis `[(redCurve v W₀).IsElliptic]`. -/
@@ -65,7 +66,7 @@ noncomputable abbrev redCurve (W₀ : WeierstrassCurve R) : Affine (R ⧸ v.asId
 
 The definition of `red` needs three facts about a point of `E(K)` with `v`-integral
 `x`-coordinate: its `y`-coordinate is `v`-integral, the residues of its coordinates satisfy the
-reduced Weierstrass equation, and (under good reduction) they are a nonsingular point of `Ẽ`.
+reduced Weierstrass equation, and (under good reduction) they are a nonsingular point of `E_red`.
 The first is transported from the completion (`integral_of_not_mem`); the others are proved
 directly from `residueHom`. -/
 
@@ -164,7 +165,7 @@ section
 variable [(redCurve v W₀).IsElliptic]
 
 include hE in
-/-- The reduction map `E(K) → Ẽ(R ⧸ v.asIdeal)` at the prime `v`, for an integral model `W₀`
+/-- The reduction map `E(K) → E_red(R ⧸ v.asIdeal)` at the prime `v`, for an integral model `W₀`
 of `E` over `R` with good reduction at `v`: a point with `v`-integral coordinates reduces
 coordinatewise (via `residueHom v`), and a point with a pole at `v` (the kernel of reduction)
 maps to the point at infinity. -/
@@ -210,11 +211,14 @@ section Transport
 
 /- `𝒪_v ⧸ 𝔪_v` as an algebra over `R` (via `𝒪_v`) and over `R ⧸ v.asIdeal` (via the residue
 field isomorphism), used only in this section. -/
-noncomputable local instance : Algebra R (ResidueField (v.adicCompletionIntegers K)) :=
+/-- The `R`-algebra structure on the residue field of the completed valuation ring. -/
+noncomputable local instance instAlgebraResidueFieldAdicCompletionIntegers :
+    Algebra R (ResidueField (v.adicCompletionIntegers K)) :=
   ((IsLocalRing.residue (v.adicCompletionIntegers K)).comp
     (algebraMap R (v.adicCompletionIntegers K))).toAlgebra
 
-noncomputable local instance :
+/-- The algebra structure induced by the residue-field equivalence from `R ⧸ v.asIdeal`. -/
+noncomputable local instance instAlgebraResidueFieldOverIdealQuotient :
     Algebra (R ⧸ v.asIdeal) (ResidueField (v.adicCompletionIntegers K)) :=
   (v.residueFieldEquivAdicCompletionIntegers (K := K)).toRingHom.toAlgebra
 
@@ -385,7 +389,7 @@ lemma red_add (P Q : E.Point) : red v hE (P + Q) = red v hE P + red v hE Q := by
     map_add, adicRed_add]
 
 include hE in
-/-- **The reduction homomorphism** `E(K) →+ Ẽ(R ⧸ v.asIdeal)` at a prime `v` of good
+/-- **The reduction homomorphism** `E(K) →+ E_red(R ⧸ v.asIdeal)` at a prime `v` of good
 reduction. -/
 noncomputable def redHom : E.Point →+ (redCurve v W₀).Point :=
   AddMonoidHom.mk' (red v hE) (red_add v hE)
@@ -448,7 +452,7 @@ include hE in
 /-- The order of a torsion point of `E(K)` divides the number of points of the reduction at a
 good prime `v` (hypotheses on the residue characteristic as in
 `eq_zero_of_isOfFinAddOrder_of_red_eq_zero`).  This is nontrivial only when the residue field
-is finite, which makes `Ẽ(R ⧸ v.asIdeal)` a finite group. -/
+is finite, which makes `E_red(R ⧸ v.asIdeal)` a finite group. -/
 lemma addOrderOf_dvd_natCard_red {p : ℕ} (hp : p.Prime) (hpmem : (p : R) ∈ v.asIdeal)
     (hpram : (p : R) ∉ v.asIdeal ^ (p - 1)) {P : E.Point} (hP : IsOfFinAddOrder P) :
     addOrderOf P ∣ Nat.card (redCurve v W₀).Point := by

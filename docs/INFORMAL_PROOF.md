@@ -1,4 +1,4 @@
-# Informal proof of the LeanPool Mazur challenge
+# Informal proof of the Mazur torsion bound
 
 ## 1. Statement and the `Set.ncard` subtlety
 

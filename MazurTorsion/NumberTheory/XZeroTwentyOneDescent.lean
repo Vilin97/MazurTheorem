@@ -5,10 +5,23 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.AlgebraicGeometry.EllipticCurve.Weierstrass
+import Mathlib.Algebra.EuclideanDomain.Int
+import Mathlib.Data.Nat.Prime.Int
 import Mathlib.Data.Rat.Lemmas
 import Mathlib.Data.ZMod.Basic
 import Mathlib.RingTheory.Coprime.Lemmas
-import Mathlib.Tactic
+import Mathlib.RingTheory.Int.Basic
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.UniqueFactorizationDomain.Multiplicity
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.Push
+import Mathlib.Tactic.Ring
 
 /-!
 # The elementary two-descent boundary for `X₀(21)`

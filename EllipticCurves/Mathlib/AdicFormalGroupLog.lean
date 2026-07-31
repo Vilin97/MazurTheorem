@@ -2,17 +2,16 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
 public import EllipticCurves.Mathlib.Chabauty.LogIso
 public import EllipticCurves.Mathlib.AdicCompletionExtension
 
-@[expose] public section
-
 /-!
 # The scaled formal logarithm of a formal group law
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 This file generalizes the `p`-scaling machinery of the vendored kit file
 `EllipticCurves.Mathlib.Chabauty.LogIso` from the natural number `p` to an arbitrary ring
@@ -29,6 +28,8 @@ with linear coefficient `1`, so it has an integral compositional inverse
 (`ChabautyColeman.invSubst`), and evaluation at points of the maximal ideal produces a
 group isomorphism onto `(𝔪, +)`.
 -/
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing
 

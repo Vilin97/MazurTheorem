@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: General questions and design discussion
+    url: https://github.com/Vilin97/MazurTheorem/discussions
+    about: Use Discussions when there is not yet a concrete, claimable work item.

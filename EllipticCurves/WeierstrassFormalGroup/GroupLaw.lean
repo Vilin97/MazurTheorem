@@ -2,8 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
@@ -13,6 +11,9 @@ import all EllipticCurves.WeierstrassFormalGroup.Chord
 
 /-!
 # The formal group law of a Weierstrass curve
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 Over the fraction field of a domain, the addition series realizes the group law of the curve
 `(t, w(t))` (the `Domain` and `Assembly` sections); the universal curve over

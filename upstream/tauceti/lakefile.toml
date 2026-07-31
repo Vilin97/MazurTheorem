@@ -1,0 +1,16 @@
+name = "mazur-tauceti-challenges"
+defaultTargets = ["MazurTauCetiChallenge"]
+
+[[require]]
+name = "TauCeti"
+git = "https://github.com/TauCetiProject/TauCeti"
+rev = "a3913fd9111b851af857f720b4ce6721e6634183"
+
+[[lean_lib]]
+name = "MazurTauCetiChallenge"
+globs = ["MazurTauCetiChallenge", "MazurTauCetiChallenge.+"]
+leanOptions = { weak.linter.mathlibStandardSet = true }
+
+[[lean_exe]]
+name = "contractAxioms"
+root = "scripts.ContractAxioms"

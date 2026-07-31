@@ -83,7 +83,7 @@ private lemma cm_quadratic_pos (s : ℚ) : 0 < s ^ 2 + 13 * s + 49 := by
 /-- The transfer denominator is nonzero at noncuspidal rational
 solutions: the Bezout certificate forces the univariate eliminant to
 vanish, and its factors have no rational roots. -/
-private lemma mGB_ne_zero {s B : ℚ} (hs : s ≠ 0) (hB : B ≠ 0)
+private lemma mGB_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
     (hG : mG s B = 0) : mGB s B ≠ 0 := by
   intro h0
   have hE : (7 : ℚ) ^ 24 *
@@ -299,7 +299,7 @@ private lemma transfer_on_curve {s B : ℚ}
 
 /-- The transfer abscissa is nonzero at noncuspidal rational
 solutions. -/
-private lemma mNX_ne_zero {s B : ℚ} (hs : s ≠ 0) (hB : B ≠ 0)
+private lemma mNX_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
     (hG : mG s B = 0) : mNX s B ≠ 0 := by
   intro h0
   have hE : (4 : ℚ) * 7 ^ 26 *

@@ -10,8 +10,6 @@ module
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
 public import Mathlib.Topology.Algebra.TopologicallyNilpotent
 
-@[expose] public section
-
 /-!
 # Additions to the `IsAdic` API
 
@@ -20,6 +18,8 @@ of `I` are topologically nilpotent. These are the `IsAdic` counterparts of
 `Ideal.isLinearTopology` and `WithIdeal.isTopologicallyNilpotent_of_mem`.
 -/
 
+
+@[expose] public section
 
 variable {R : Type*} [CommRing R] [TopologicalSpace R] {I : Ideal R}
 

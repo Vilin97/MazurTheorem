@@ -1,0 +1,63 @@
+name: Propose a formalization challenge
+description: Propose a precise theorem or definition that can be solved independently.
+title: "[Challenge] "
+labels:
+  - challenge
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A challenge must be mathematically faithful, useful to a named downstream step, and precise enough for independent review.
+  - type: textarea
+    id: informal
+    attributes:
+      label: Informal statement
+      description: State the exact mathematical claim, including all hypotheses.
+    validations:
+      required: true
+  - type: textarea
+    id: lean
+    attributes:
+      label: Proposed Lean statement
+      description: Provide compilable Mathlib-vocabulary Lean when possible.
+      render: lean
+    validations:
+      required: true
+  - type: textarea
+    id: consumer
+    attributes:
+      label: Downstream consumer
+      description: Identify the roadmap node or theorem that will use this result.
+    validations:
+      required: true
+  - type: textarea
+    id: foundations
+    attributes:
+      label: Existing foundations
+      description: Link relevant Mathlib, Lean Pool, Tau Ceti, FLT, or other repository declarations.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Mathematical source
+      description: Give a stable citation and theorem/page number when this is a known result.
+    validations:
+      required: true
+  - type: input
+    id: estimate
+    attributes:
+      label: Estimated Lean size
+      description: A rough range is enough.
+      placeholder: "50–150 lines"
+  - type: checkboxes
+    id: review
+    attributes:
+      label: Statement review
+      options:
+        - label: I checked that the Lean statement matches the informal statement.
+          required: true
+        - label: I checked that the statement is neither vacuous nor gameable.
+          required: true
+        - label: I identified a concrete downstream use.
+          required: true

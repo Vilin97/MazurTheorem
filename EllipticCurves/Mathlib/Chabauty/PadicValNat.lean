@@ -12,8 +12,6 @@ public import Mathlib.Order.Filter.AtTopBot.Tendsto
 
 public import Mathlib.Data.Nat.Log
 
-@[expose] public section
-
 /-!
 # The gap `n - v_p(n)` grows
 
@@ -22,6 +20,8 @@ The `p`-adic valuation (and, more crudely, `Nat.log p`) grows slower than the id
 logarithm on `(pO)^n`.
 -/
 
+
+@[expose] public section
 
 open Filter
 

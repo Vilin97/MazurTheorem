@@ -13,8 +13,6 @@ public import Mathlib.Data.Nat.Prime.Basic
 
 public import Mathlib.RingTheory.Coprime.Lemmas
 
-@[expose] public section
-
 /-!
 # Units in a local ring of prescribed residue characteristic
 
@@ -22,6 +20,8 @@ In a local ring `O` whose maximal ideal contains a prime `p` (equivalently, of r
 characteristic `p`), every integer prime to `p` is a unit.
 -/
 
+
+@[expose] public section
 
 open IsLocalRing
 

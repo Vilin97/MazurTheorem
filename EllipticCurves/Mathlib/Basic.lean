@@ -2,17 +2,16 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
 public import Mathlib
 
-@[expose] public section
-
 /-!
 # Material for Mathlib
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 This file collects the general-purpose results developed for `EllipticCurves.WeakMordellWeil`
 that have nothing to do with elliptic curves and look like candidates for Mathlib.
@@ -67,6 +66,8 @@ that have nothing to do with elliptic curves and look like candidates for Mathli
   `Polynomial.Factors.coe_eq`, `AdjoinRoot.isIntegralElem_root_of_map`,
   `AdjoinRoot.finrank_eq_natDegree`, and the `IsPrincipalIdealRing (𝓞 ℚ)` instance.
 -/
+
+@[expose] public section
 
 section Group
 
@@ -250,7 +251,6 @@ lemma map_comp {γ : Type*} [CommMonoid γ] (ψ : β →* γ) (φ : α →* β) 
   ext
   simp
 
-@[simp]
 lemma map_unit (φ : α →* β) (n : ℕ) (ha : IsUnit a) :
     map φ n (ha.unit : Units.modPow α n) = ((ha.map φ).unit : Units.modPow β n) := by
   rw [map, ← mk'_apply, map_mk']
@@ -1408,7 +1408,6 @@ noncomputable def modPowEquivPiFactors (hf : f ≠ 0) (hsq : Squarefree f) (n : 
     Units.modPow.piEquiv (fun p : f.Factors ↦ AdjoinRoot (p : K[X])) n
 
 /-- On the class of a unit, `modPowEquivPiFactors` is componentwise projection to the factors. -/
-@[simp]
 lemma modPowEquivPiFactors_unit (hf : f ≠ 0) (hsq : Squarefree f) (n : ℕ) {a : AdjoinRoot f}
     (ha : IsUnit a) (p : f.Factors) :
     modPowEquivPiFactors hf hsq n (ha.unit : Units.modPow (AdjoinRoot f) n) p =

@@ -2,18 +2,17 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
-Exact-pin changes are documented in PORTING.md.
 -/
 module
 
 public import EllipticCurves.WeierstrassFormalGroup.Eval
 import all EllipticCurves.WeierstrassFormalGroup.Eval
 
-@[expose] public section
-
 /-!
 # Valuation estimates for the integral model of a Weierstrass curve
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
+Exact-pin changes are documented in `PORTING.md`.
 
 This file specializes the formal-group evaluation layer to `O = 𝒪_v` (the valuation ring of an
 adic completion) and collects the technical estimates on which the geometric results rest: the
@@ -22,6 +21,8 @@ parameter-level vanishing of torsion in the kernel of reduction (`points_eq_zero
 the scaled formal logarithm), and the compactness and finite-quotient facts used downstream for
 the finite-index statements.
 -/
+
+@[expose] public section
 
 open ChabautyColeman IsLocalRing MvPowerSeries
 open scoped MvPowerSeries.WithPiTopology
