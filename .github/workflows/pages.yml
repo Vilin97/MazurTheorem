@@ -48,7 +48,7 @@ jobs:
 
       - name: Restore the final certificate cache
         id: final-certificate-cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Zero.*
@@ -131,7 +131,7 @@ jobs:
 
       - name: Restore the certificate prerequisite cache
         id: certificate-prerequisite-cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
@@ -292,7 +292,7 @@ jobs:
           fi
 
       - name: Restore the generated certificate cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
@@ -318,7 +318,7 @@ jobs:
           fail-on-cache-miss: true
 
       - name: Restore the certificate prerequisite cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
@@ -360,7 +360,7 @@ jobs:
           fail-on-cache-miss: true
 
       - name: Restore the final certificate cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Zero.*
