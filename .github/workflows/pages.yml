@@ -206,6 +206,7 @@ jobs:
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 1
 
@@ -290,6 +291,7 @@ jobs:
         with:
           name: documentation-site
           path: docbuild/.lake/build/doc
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 3
 
