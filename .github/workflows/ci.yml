@@ -83,7 +83,7 @@ jobs:
     name: Prebuild the generated order-27 certificate
     needs: source-policy
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 240
     concurrency:
       group: order-27-cache-${{ github.ref }}
       cancel-in-progress: false

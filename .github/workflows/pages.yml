@@ -38,7 +38,7 @@ jobs:
   heavy-certificate:
     name: Prebuild the generated order-27 certificate
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 240
     concurrency:
       group: order-27-cache-${{ github.ref }}
       cancel-in-progress: false

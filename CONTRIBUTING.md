@@ -20,7 +20,7 @@ Do not begin a large interface behind an unreviewed API. For a
 
 ## Development setup
 
-Install [elan](https://leanprover-community.github.io/install/) and
+Install [elan](https://lean-lang.org/install/) and
 [uv](https://docs.astral.sh/uv/) or Python 3.13+.
 
 ```sh

@@ -75,8 +75,8 @@ There are three distinct questions:
 1. **Can a task be stated with today's APIs?** At launch, exact compiled
    contracts expose 11.3% of the weighted work: 3.9% ordinary claimable and
    7.4% research-open.
-2. **Can it be parallelized after an interface is reviewed?** Roughly another
-   30–35% can become bounded work packages.
+2. **Can it be parallelized after an interface is reviewed?** Roughly 35–45%
+   in total—including the 11.3% above—can become bounded work packages.
 3. **Can it be done by independent contributors without continuous
    coordination?** Not for the core prime-level proof. Approximately 45–55%
    remains tightly coupled research and integration.
