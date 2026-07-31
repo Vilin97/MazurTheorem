@@ -38,8 +38,7 @@ theorem no_rational_point_of_order_twentySeven
       addOrderOf_zero
     rw [h1] at horder27
     exact absurd horder27 (by norm_num)
-  | some hQ =>
-    rename_i ξ η
+  | @some ξ η hQ =>
     rw [hEP] at horder27 h3Q
     have hT := trisectionPoly_eq_zero_of_three_nsmul f ξ η hQ h00 horder27 h3Q
     obtain ⟨s₃, hG2⟩ := thirdLeg_exists f ξ hf0 hf1 hK hT

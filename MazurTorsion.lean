@@ -48,6 +48,13 @@ import MazurTorsion.Kubert.OrderTwentySevenReduction
 import MazurTorsion.Kubert.OrderTwentySevenLegs
 import MazurTorsion.Kubert.OrderTwentySevenTrisection
 import MazurTorsion.Kubert.OrderTwentySevenEndpoint
+import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesA
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesB
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesC
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesD
+import MazurTorsion.Kubert.OrderTwentySevenThirdLeg
+import MazurTorsion.Kubert.OrderTwentySeven
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.FermatCubicClassification
