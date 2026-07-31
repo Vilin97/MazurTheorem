@@ -8,7 +8,43 @@ set -euo pipefail
 export LEAN_NUM_THREADS=1
 
 readonly certificate_modules=(
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps0To7
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps8To15
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps16To23
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps24To31
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps32To40
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCube
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorSquare
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorCube
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps0To6
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To13
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwo
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TOneSteps0To4
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TOneSteps5To9
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TOne
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps0To1
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps2To4
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoX
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps0To2
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps3To5
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneX
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WZeroXSteps
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WZeroX
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands0To5
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands6To11
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands12To17
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands18To23
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Zero
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumOne
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumTwo
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumThree
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumFour
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNum
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.KernelCubic
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.DenominatorNonzero
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB
   MazurTorsion.Kubert.OrderTwentySevenLegStagesC
   MazurTorsion.Kubert.OrderTwentySevenLegStagesD.Bezout

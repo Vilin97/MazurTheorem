@@ -196,7 +196,7 @@ export function ProgrammeDashboard({
   const integratedModules =
     typeof programme.baseline.integrated_lean_modules === "number"
       ? programme.baseline.integrated_lean_modules
-      : 132;
+      : 168;
 
   return (
     <div className="site-shell">

@@ -168,7 +168,9 @@ jobs:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/**
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
@@ -176,7 +178,9 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
@@ -228,6 +232,12 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.olean
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/NumeratorCube.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Zero.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/KernelCubic.olean
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.olean
           test -s \
