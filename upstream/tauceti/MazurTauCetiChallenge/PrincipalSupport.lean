@@ -29,7 +29,7 @@ nonzero order at only finitely many codimension-one points. -/
 theorem finite_support_orderAt
     (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
     (g : Additive X.functionFieldˣ) :
-    (Function.support fun x : CodimensionOnePoint X =>
+    (Function.support fun x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X =>
       TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt x g).Finite := sorry
 
 /-- The order system unlocked by `finite_support_orderAt`. This definition is
@@ -37,7 +37,8 @@ an acceptance consumer for the challenge theorem. -/
 noncomputable def orderSystem
     (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X] :
     TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem
-      (CodimensionOnePoint X) (Additive X.functionFieldˣ) where
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)
+      (Additive X.functionFieldˣ) where
   ord := TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt
   finite_support := finite_support_orderAt X
 

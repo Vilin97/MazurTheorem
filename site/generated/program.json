@@ -426,7 +426,7 @@
         "declaration": "MazurTauCetiChallenge.finite_support_orderAt",
         "destination_module": "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order",
         "destination_declaration": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.finite_support_orderAt",
-        "signature": "theorem finite_support_orderAt\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (g : Additive X.functionFieldˣ) :\n    (Function.support fun x : CodimensionOnePoint X =>\n      TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt x g).Finite := sorry",
+        "signature": "theorem finite_support_orderAt\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (g : Additive X.functionFieldˣ) :\n    (Function.support fun x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X =>\n      TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt x g).Finite := sorry",
         "imports": [
           "TauCeti.AlgebraicGeometry.WeilDivisor.Principal.Basic",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
