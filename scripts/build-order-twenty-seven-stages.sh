@@ -7,7 +7,7 @@ set -euo pipefail
 # standard CI runners, and start a fresh Lake process for every module.
 export LEAN_NUM_THREADS=1
 
-readonly certificate_modules=(
+readonly stage_a_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps0To7
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps8To15
@@ -18,6 +18,9 @@ readonly certificate_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorSquare
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorCube
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA
+)
+
+readonly stage_b_prerequisite_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps0To6
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To13
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwo
@@ -37,6 +40,9 @@ readonly certificate_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands12To17
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands18To23
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+)
+
+readonly final_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Zero
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumOne
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumTwo
@@ -62,7 +68,31 @@ readonly certificate_modules=(
   MazurTorsion.Kubert.OrderTwentySeven
 )
 
-for certificate_module in "${certificate_modules[@]}"; do
-  echo "Building ${certificate_module}"
-  lake build "${certificate_module}"
-done
+build_modules() {
+  local certificate_module
+  for certificate_module in "$@"; do
+    echo "Building ${certificate_module}"
+    lake build "${certificate_module}"
+  done
+}
+
+case "${1:-all}" in
+  stage-a)
+    build_modules "${stage_a_modules[@]}"
+    ;;
+  stage-b-prerequisites)
+    build_modules "${stage_b_prerequisite_modules[@]}"
+    ;;
+  final)
+    build_modules "${final_modules[@]}"
+    ;;
+  all)
+    build_modules "${stage_a_modules[@]}"
+    build_modules "${stage_b_prerequisite_modules[@]}"
+    build_modules "${final_modules[@]}"
+    ;;
+  *)
+    echo "usage: $0 [stage-a|stage-b-prerequisites|final|all]" >&2
+    exit 2
+    ;;
+esac

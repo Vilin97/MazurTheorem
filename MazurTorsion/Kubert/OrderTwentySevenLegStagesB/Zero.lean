@@ -672,7 +672,7 @@ lemma tl_zero (f ξ : ℚ) :
           tlNCbP39c18 f ξ) + (tlNCbP40c17 f ξ + tlWTwoXP2c22 f ξ)) + ((tlWTwoXP4c5 f ξ +
           tlWOneXP5c19 f ξ) + (tlWZeroXP2c19 f ξ + tlWZeroXP3c14 f ξ))) + ((tlNCbP40c18 f ξ +
           tlWTwoXP4c6 f ξ) + (tlWOneXP5c20 f ξ + tlWZeroXP3c15 f ξ)) := by
-    ac_rfl
+    abel
   rw [h, tl_band0 f ξ, tl_band1 f ξ, tl_band2 f ξ, tl_band3 f ξ, tl_band4 f ξ, tl_band5 f
       ξ, tl_band6 f ξ, tl_band7 f ξ, tl_band8 f ξ, tl_band9 f ξ, tl_band10 f ξ,
       tl_band11 f ξ, tl_band12 f ξ, tl_band13 f ξ, tl_band14 f ξ, tl_band15 f ξ,

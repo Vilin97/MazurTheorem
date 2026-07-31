@@ -137,13 +137,78 @@ jobs:
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
 
-      - name: Build the certificate stages serially
+      - name: Restore the certificate prerequisite cache
+        id: certificate-prerequisite-cache
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+          key: >-
+            OrderTwentySevenPrerequisites-v1-${{ runner.os }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesA.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**/*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.lean'
+            ) }}
+
+      - name: Build the certificate prerequisites serially
         run: |
           set -euo pipefail
-          scripts/build-order-twenty-seven-stages.sh \
-            2>&1 | tee certificate-stages-build.log
-          if grep -nE '(^|: )warning:' certificate-stages-build.log; then
-            echo "::error::The staged certificate build emitted warnings."
+          scripts/build-order-twenty-seven-stages.sh stage-a \
+            2>&1 | tee certificate-stage-a-build.log
+          scripts/build-order-twenty-seven-stages.sh stage-b-prerequisites \
+            2>&1 | tee certificate-stage-b-prerequisites-build.log
+          if grep -nE '(^|: )warning:' \
+              certificate-stage-a-build.log \
+              certificate-stage-b-prerequisites-build.log; then
+            echo "::error::The certificate prerequisite build emitted warnings."
+            exit 1
+          fi
+
+      - name: Save the certificate prerequisite cache
+        if: steps.certificate-prerequisite-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+          key: ${{ steps.certificate-prerequisite-cache.outputs.cache-primary-key }}
+
+      - name: Build the final certificate stages serially
+        run: |
+          set -euo pipefail
+          scripts/build-order-twenty-seven-stages.sh final \
+            2>&1 | tee certificate-final-build.log
+          if grep -nE '(^|: )warning:' certificate-final-build.log; then
+            echo "::error::The final certificate build emitted warnings."
             exit 1
           fi
           test -s \
