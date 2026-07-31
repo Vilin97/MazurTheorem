@@ -152,6 +152,14 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/Bezout.olean
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/BigIdentity.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.olean
 
       - name: Upload the generated certificate
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -159,13 +167,21 @@ jobs:
           name: order-twenty-seven-leg-chunks
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
           if-no-files-found: error
           retention-days: 1
 
@@ -208,6 +224,14 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/Bezout.olean
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/BigIdentity.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.olean
+          test -s \
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.olean
 
       - name: Build every checked Lean library
         run: |
