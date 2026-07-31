@@ -215,6 +215,8 @@ jobs:
             'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.lean'
             ) }}
+          restore-keys: |
+            OrderTwentySevenPrerequisites-v1-${{ runner.os }}-
 
       - name: Build the certificate prerequisites serially
         run: |
