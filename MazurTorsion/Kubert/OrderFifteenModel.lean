@@ -7,8 +7,6 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderFifteenReduction
 import MazurTorsion.NumberTheory.XOneFifteenDescent
 
-open scoped WeierstrassCurve.Affine
-
 /-!
 # The order-fifteen Tate curve and `X₁(15)`
 
@@ -38,6 +36,8 @@ Every denominator is proved nonzero from the raw equation and the honest
 Tate conditions.  The same calculation shows that the resulting
 Weierstrass abscissa is neither `0` nor `4`.
 -/
+
+open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert
 

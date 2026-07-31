@@ -1,0 +1,49 @@
+name: Register a research approach
+description: Share a nonexclusive route toward a research-open contract and coordinate reusable interfaces.
+title: "[Research] "
+labels:
+  - challenge
+  - "status: research-open"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Research intentions do not reserve a challenge. Parallel approaches are welcome; this form makes overlap productive and exposes reusable intermediate results.
+  - type: input
+    id: work_package
+    attributes:
+      label: Research work package
+      description: Name the roadmap node and link its contract.
+      placeholder: "Example: MT-X13-NONCUSP"
+    validations:
+      required: true
+  - type: textarea
+    id: route
+    attributes:
+      label: Proposed route
+      description: Describe the mathematical strategy, sources, and assumptions you intend to test.
+    validations:
+      required: true
+  - type: textarea
+    id: interfaces
+    attributes:
+      label: Interfaces and reusable foundations
+      description: Identify proposed Lean declarations and Mathlib, Lean Pool, Tau Ceti, FLT, or other foundations you expect to reuse.
+    validations:
+      required: true
+  - type: textarea
+    id: milestone
+    attributes:
+      label: First falsifiable milestone
+      description: Give a small result, computation, or interface test that will show whether the route is viable.
+    validations:
+      required: true
+  - type: checkboxes
+    id: coordination
+    attributes:
+      label: Coordination agreement
+      options:
+        - label: I understand this is nonexclusive and other contributors may pursue the same contract.
+          required: true
+        - label: I will share negative results and interface discoveries that could save others work.
+          required: true

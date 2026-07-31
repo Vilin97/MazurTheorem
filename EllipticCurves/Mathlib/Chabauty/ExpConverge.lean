@@ -12,8 +12,6 @@ public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw
 public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 
-@[expose] public section
-
 /-!
 # Convergence of the formal exponential
 
@@ -38,6 +36,8 @@ closes the estimate. Scaling by `p^{deg d}` and using `deg d - Dexp(deg d) â†’ â
 Blueprint node: `lem:exp-converge`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries Finset Filter
 

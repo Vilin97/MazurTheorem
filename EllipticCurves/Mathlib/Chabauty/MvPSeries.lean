@@ -14,8 +14,6 @@ public import EllipticCurves.Mathlib.Chabauty.PSeries
 
 public import Mathlib.Topology.Algebra.InfiniteSum.Nonarchimedean
 
-@[expose] public section
-
 /-!
 # The p-adic kit: multivariate evaluation
 
@@ -49,6 +47,8 @@ because the terms tend to `0` for a bounded point family; this is
 Blueprint nodes: `def:mv-eval`, `def:mv-evalT`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing Filter Topology
 open scoped MvPowerSeries.WithPiTopology

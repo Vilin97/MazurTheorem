@@ -2,7 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
@@ -11,6 +10,8 @@ import all EllipticCurves.WeierstrassFormalGroup.Chord
 
 /-!
 # The chord computes the group law, and the third intersection point lies on the chord
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 Working over a field (`FieldChord`), the chord/tangent construction on `(t, w(t))` computes the
 addition of points; then, over a general coefficient ring, the third intersection point of the

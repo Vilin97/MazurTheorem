@@ -14,8 +14,6 @@ public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 public import EllipticCurves.Mathlib.Chabauty.PadicValNat
 public import EllipticCurves.Mathlib.Chabauty.LocalRing
 
-@[expose] public section
-
 /-!
 # The formal logarithm of a formal group law
 
@@ -39,6 +37,8 @@ invariant differential; `ChabautyColeman.FormalGroupLaw.exp` is its compositiona
 Blueprint nodes: `def:fgl-log`, `lem:fgl-log`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing Filter Topology
 open scoped MvPowerSeries.WithPiTopology

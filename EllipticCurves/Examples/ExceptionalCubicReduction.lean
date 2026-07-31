@@ -1,4 +1,10 @@
 /-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+/-
 This exact-pin integration harness uses reduction infrastructure and transport patterns derived
 from Michael Stoll's EllipticCurves repository at commit
 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f, released under Apache 2.0; see LICENSE.
@@ -7,8 +13,6 @@ The harness itself is new for the LeanPool exceptional-cubic endpoint.
 module
 
 public import EllipticCurves.ReductionAtPrime
-
-@[expose] public section
 
 /-!
 # Reduction of the exceptional cubic modulo five
@@ -23,6 +27,8 @@ injective on rational torsion, and the reduced curve has exactly eight points.  
 once finiteness of the rational point group is supplied by the independent descent argument,
 the rational point group has cardinality at most eight.
 -/
+
+@[expose] public section
 
 open WeierstrassCurve
 
@@ -83,6 +89,8 @@ instance : curveModFive.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
   decide
 
+/-- The canonical identification of the residue field at `5` with `ZMod 5`, as a
+`ℤ`-algebra equivalence. -/
 noncomputable def residueFiveAlgEquiv :
     (ℤ ⧸ (intPrime 5).asIdeal) ≃ₐ[ℤ] ZMod 5 :=
   AlgEquiv.ofRingEquiv (f := Int.quotientSpanNatEquivZMod 5) fun x ↦ by

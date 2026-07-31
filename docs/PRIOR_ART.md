@@ -257,27 +257,32 @@ certificates but do not imply the rational-point classification.
 The current
 [`TauCetiProject/TauCeti`](https://github.com/TauCetiProject/TauCeti)
 repository was refreshed at commit
-[`6987c24c92f9fd3f4fa2facd21a30bd76ae771f3`](https://github.com/TauCetiProject/TauCeti/commit/6987c24c92f9fd3f4fa2facd21a30bd76ae771f3).
+[`a3913fd9111b851af857f720b4ce6721e6634183`](https://github.com/TauCetiProject/TauCeti/commit/a3913fd9111b851af857f720b4ce6721e6634183).
 It is Apache-2.0 and
 contains general algebraic-geometry work,
-including an abelian-variety shell and morphism groups. It is pursuing a
-Jacobian roadmap and is worth monitoring.
+including abelian varieties and their products, a broad Weil-divisor API,
+abstract divisor class groups and `Pic⁰`, and point-level Abel-Jacobi
+classes. It is pursuing a Jacobian roadmap and is the most promising shared
+upstream for that part of Mazur's dependency cone.
 
 At the inspected snapshot it did not contain:
 
 * elliptic-curve torsion or Weil pairings;
 * modular curves or their integral models;
-* the Jacobian construction needed for `J₀(N)`;
+* the functorial Picard scheme or Jacobian variety needed for `J₀(N)`;
 * Hecke/Eisenstein infrastructure;
 * a theorem that closes any current Mazur dependency.
 
-The newest relevant addition is the endomorphism ring of an abelian
-variety. Its source explicitly notes that multiplication-isogeny dimension
-and torsion theory are still future layers, so it does not yet shorten the
-prime-level Mazur argument.
+Two small missing interfaces are exposed as exact, separately pinned
+challenges in this repository: finite support of scheme-theoretic `orderAt`,
+consumed by Tau Ceti's principal-divisor `OrderSystem`, and additivity of
+abelian-variety dimension under products. Larger roadmap nodes build from
+Tau Ceti's existing divisor-class and Abel-Jacobi scaffolding but receive no
+integrated credit until a checked adapter and Mazur consumer compile.
 
-Its present value is architectural and prospective rather than an immediate
-import.
+Its present value is therefore both concrete and prospective: it supplies
+usable lower layers, but it does not yet discharge a finite-order obstruction
+or the prime-level argument.
 
 ## 7. Michael Stoll's elliptic-curves project
 

@@ -201,7 +201,7 @@ instance : fiveIsogenousCurve.IsElliptic := by
 
 /-- The abscissa in the normalized Vélu map away from its four
 nonzero kernel points. -/
-def veluFiveX (x _y : ℚ) : ℚ :=
+def veluFiveX (x : ℚ) : ℚ :=
   x + 1 / x ^ 2 + (2 * x - 1) / (x - 1) ^ 2
 
 /-- The ordinate in the normalized Vélu map away from its four
@@ -225,14 +225,14 @@ theorem veluFive_equation
     (hcurve : y ^ 2 + y = x ^ 3 - x ^ 2)
     (hx0 : x ≠ 0) (hx1 : x ≠ 1) :
     fiveIsogenousCurve.toAffine.Equation
-      (veluFiveX x y) (veluFiveY x y) := by
+      (veluFiveX x) (veluFiveY x y) := by
   rw [WeierstrassCurve.Affine.equation_iff]
   norm_num [fiveIsogenousCurve]
   apply sub_eq_zero.mp
   have hfactor :
       veluFiveY x y ^ 2 + veluFiveY x y -
-          (veluFiveX x y ^ 3 - veluFiveX x y ^ 2 -
-            10 * veluFiveX x y - 20) =
+          (veluFiveX x ^ 3 - veluFiveX x ^ 2 -
+            10 * veluFiveX x - 20) =
         -((x ^ 3 - 4 * x ^ 2 + 4 * x - 2) ^ 2 *
             (x ^ 3 - x ^ 2 - y ^ 2 - y) *
           (x ^ 3 + x ^ 2 + x - 1) ^ 2) /
@@ -246,8 +246,8 @@ theorem veluFive_equation
   calc
     _ =
         veluFiveY x y ^ 2 + veluFiveY x y -
-          (veluFiveX x y ^ 3 - veluFiveX x y ^ 2 -
-            10 * veluFiveX x y - 20) := by
+          (veluFiveX x ^ 3 - veluFiveX x ^ 2 -
+            10 * veluFiveX x - 20) := by
       ring
     _ =
         -((x ^ 3 - 4 * x ^ 2 + 4 * x - 2) ^ 2 *
@@ -263,7 +263,7 @@ def veluFivePoint
     (hP : curve.toAffine.Nonsingular x y)
     (hx0 : x ≠ 0) (hx1 : x ≠ 1) :
     fiveIsogenousCurve.toAffine.Point :=
-  .some (veluFiveX x y) (veluFiveY x y)
+  .some (veluFiveX x) (veluFiveY x y)
     (fiveIsogenousCurve.toAffine.equation_iff_nonsingular.mp
       (veluFive_equation
         (by

@@ -1,165 +1,129 @@
-# Mazur's torsion bound
+# Mazur Theorem
 
-This Lean 4 package targets LeanPool's `Challenge.Mazur.torsion_ncard_le`:
-the torsion subgroup of the rational points of an elliptic curve over `ℚ`
-has at most sixteen elements.
+**A public, dependency-driven Lean 4 formalization of Mazur's torsion theorem.**
 
-The package is pinned to Lean `v4.32.0-rc1` and the matching Mathlib release
-used by the LeanPool challenge. Development is kept buildable and
-placeholder-free: incomplete mathematical layers are tracked in
-`BLUEPRINT.md`, not introduced as axioms or admitted Lean declarations.
+[![Lean CI](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml/badge.svg)](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml)
+[![Coordination site](https://img.shields.io/badge/roadmap-live-0d6b57)](https://mazur-theorem-formalization.vilin402100.chatgpt.site/)
+[![License](https://img.shields.io/github/license/Vilin97/MazurTheorem)](LICENSE)
 
-Current machine-checked results include:
+Mazur's theorem classifies the possible rational torsion subgroups of an
+elliptic curve over `ℚ`. This repository targets the exact Lean statement
 
-* the exact finite/infinite `Set.ncard` reduction;
-* the cardinality consequence of Mazur's fifteen-group classification;
-* a presentation-independent forbidden-embedding API and a complete
-  finite-abelian theorem proving `Nat.card G ≤ 16` from allowed element
-  orders and seven forbidden subgroups, without a rank-two hypothesis;
-* an exact bridge from the point-order theorem alone to the LeanPool
-  cardinality target, with all seven forbidden subgroup embeddings
-  discharged internally;
-* `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
-* non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
-  relevant rational point groups;
-* every nonzero-order rational root of unity is `1` or `-1`, and hence a
-  primitive rational root of unity has order at most two;
-* the scalar-multiplication-to-division-polynomial root criteria at `5` and
-  `7`, proved from the affine group law and low-level `Φ`/`ΨSq`
-  identities;
-* the complete split-polynomial/square-discriminant reduction for excluding
-  full rational `5`- and `7`-torsion from their fixed discriminant
-  identities;
-* unconditional universal fifth- and seventh-division discriminant
-  identities, and hence unconditional non-embedding of full rational
-  `5`- and `7`-torsion;
-* compact sparse-resultant certificates for both identities, reducing the
-  degree-24 seventh-level case to one cubic resultant and
-  elliptic-divisibility syzygies;
-* the complete direct reduction of `C₂ × C₁₀` to
-  `e² = X⁴ - 11X²Y² - Y⁴`, including Tate normalization, square
-  discriminant, denominator clearing, coprimality, and sign cases;
-* a fully checked elementary infinite descent for that quartic, and hence
-  unconditional non-embedding of `C₂ × C₁₀` in rational points and
-  rational torsion;
-* the complete direct reduction of `C₂ × C₁₂` to
-  `w² = (t² - 1)(9t² - 1)` and then to the explicit cubic
-  `Y² = (X - 10)(X - 6)(X + 6)`, with all degenerate cases excluded;
-* an explicit two-descent on that cubic: four doubling cosets, finite
-  generation from naïve height, exact rational two-torsion cardinality
-  four, Mordell--Weil rank zero, and finiteness of its rational point group;
-* an exact-pin port of good-reduction infrastructure, an injective
-  reduction map at `5`, and a checked count of eight reduced points,
-  closing the exceptional cubic and hence unconditionally excluding
-  `C₂ × C₁₂`;
-* the finitely generated abelian-group identity
-  `[G : nG] = n ^ rank(G) * #G[n]`, narrowly ported from Michael Stoll's
-  Apache-2.0 project and checked at the challenge pin;
-* a reusable Tate normal form with a scaling equivalence, checked formulas
-  through explicit `5P`, and a checked addition recurrence used for `6P`;
-* an exact order-fifteen certificate reducing a marked point of order
-  fifteen to a concrete Tate-normal-form polynomial and discriminant
-  identity;
-* a complete specialized two-isogeny descent on the standard
-  `X₁(15)` Weierstrass model, including every local squareclass
-  obstruction, two doubling cosets, finite generation, rank zero, and
-  finiteness;
-* the shared exact order-nine Tate polynomial certificate needed by the
-  order-eighteen and order-twenty-seven branches;
-* the complete exact-order-eleven reduction to the non-cuspidal locus of
-  `X₁(11): v²+v=u³-u²`, together with its five visible rational points
-  and sharp good-reduction count at `3`;
-* an explicit equation-checked degree-five Vélu candidate from `X₁(11)`
-  to `y²+y=x³-x²-10x-20`, an exact enumeration of rational five-torsion,
-  a five-fold naïve-height descent, and a proved
-  `FiveCosetBound → rank zero → finiteness → cusp classification` chain;
-  the named `FiveCosetBound` proposition is the remaining honest
-  five-isogeny Selmer computation;
-* the exact order-thirteen reduction to a non-cusp point on its standard
-  genus-two sextic, its order-six symmetry and conic quotient, the complete
-  primitive split-`19` norm data, and an independently derived
-  degree-`(19,16)` polynomial Pell certificate for the difference of the
-  two infinity branches;
-* the order-eighteen reduction from its simultaneous order-nine and
-  two-division equations through a rational parameterization to the
-  explicit genus-two `X₁(18)` sextic, with every denominator retained;
-* an exact order-fourteen certificate, with checked formulas through `7P`,
-  every recurrence denominator proved nonzero, and an explicit
-  Tate-parameter equation for the genus-one `X₁(14)` boundary;
-* a complete specialized two-isogeny descent on
-  `X₁(14): V²=U(U²-11U+32)`: two doubling cosets, finite generation,
-  exact rational two-torsion, rank zero, finiteness, and six distinct
-  visible rational points;
-* the explicit inverse Tate-to-`X₁(14)` map, injective good reduction at
-  `3`, an exact count of six reduced points, and hence the unconditional
-  exclusion of rational points of order fourteen;
-* the nondegenerate quartic-difference theorem
-  `x⁴ - y⁴ ≠ z²` for nonzero integers, proved by primitive-Pythagorean
-  infinite descent;
-* an unconditional exclusion of rational points of exact order sixteen,
-  reducing a normalized duplication chain to the `X₁(16)` sextic and
-  closing its two parity branches with the quartic-difference theorem and
-  Fermat's exponent-four theorem;
-* a reusable normalization of any rational point of order two to
-  `y²=x(x²+ax+b)`, explicit two-isogeny and dual point functions with both
-  composites equal to doubling, and powers-of-two compatibility;
-* unconditional exclusions of exact rational orders twenty and
-  twenty-four: fixed-multiple image calculations construct forbidden
-  `C₂×C₁₀` and `C₂×C₁₂` subgroups on the isogenous curves, without
-  assuming that the raw point functions preserve arbitrary addition;
-* the explicit `X₀(21)` curve `y²+xy=x³-4x-1`, its split
-  full-two-torsion model, complete denominator squareclass reduction,
-  mod-`16` local obstructions, and a conditional eight-point
-  classification whose only arithmetic inputs are two named primitive
-  quartic descents;
-* an exact divisor-closure reduction of the point-order theorem to prime
-  orders at least eleven and the eleven minimal composite orders
-  `14,15,16,18,20,21,24,25,27,35,49`;
-* an incremental rational point-order interface which applies the
-  unconditional order-`14`, `15`, `16`, `20`, and `24` theorems
-  internally, leaving callbacks only for the large-prime layer and the six
-  composite orders `18,21,25,27,35,49`;
-* an exact conditional cardinality endpoint whose only input is the
-  point-order theorem;
-* the explicit point-group additive equivalence induced by a Weierstrass
-  variable change, ported from Michael Stoll's Apache-2.0 project;
-* torsion-subgroup transport along additive equivalences, the cyclic
-  extension lemma needed for the `20`/`24` isogeny kernels, and rational
-  Northcott finiteness for logarithmic height.
+```lean
+theorem torsion_ncard_le (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    (AddCommGroup.torsion (E⁄ℚ).Point :
+      Set (E⁄ℚ).Point).ncard ≤ 16
+```
 
-The deep point-order theorem remains incomplete.  Its exact dependency
-frontier is documented rather than hidden.
+The project began as the `mazur-torsion` branch of
+[Vilin97/Clawristotle](https://github.com/Vilin97/Clawristotle). Its proof
+history was preserved when it moved here; [`ORIGIN.md`](ORIGIN.md) records the
+exact source commit, subtree hash, and split.
 
-Project documentation:
+## Where the project stands
 
-* [`INFORMAL_PROOF.md`](INFORMAL_PROOF.md) gives the detailed mathematical
-  proof and Mazur's prime-level argument;
-* [`PRIOR_ART.md`](PRIOR_ART.md) records the pinned repository and
-  declaration audit;
-* [`BLUEPRINT.md`](BLUEPRINT.md) gives the declaration-level module plan,
-  milestones, risks, and verification policy.
+The strict weighted estimate is **5% integrated**. Approximately **12% is
+ecosystem-ready** when compatible work already available in Mathlib, Lean
+Pool, Tau Ceti, FLT, and related repositories is counted as reusable rather
+than as completed here. Those are deliberately different numbers:
+publishing a statement, finding prior art, or drafting an interface earns no
+theorem-completion credit.
 
-For a memory-conservative build:
+The integrated development contains 168 checked Lean files and 88,339
+lines. It closes the group-theoretic cardinality endpoint and many
+finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
+`27`. The current finite frontier is:
+
+- the final five-isogeny/Selmer bound for order `11`;
+- the genus-two closures for orders `13` and `18`;
+- exclusions for `25`, `35`, and a bridge for `49`;
+- the uniform prime-order theorem, whose main path requires substantial
+  modular-curve, Jacobian, Néron-model, and finite-flat group-scheme
+  infrastructure.
+
+The percentage and task graph come from
+[`coordination/program.json`](coordination/program.json), not prose or line
+counts. See the [live roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/), the
+[progress methodology](docs/PROGRESS_METHOD.md), and the
+[implementation inventory](docs/IMPLEMENTATION_STATUS.md).
+
+## Can this be crowdsourced?
+
+Yes—but not as one flat list of unrelated bounties.
+
+At launch, **11.3% of the total weighted work** is exposed through exact,
+compiled contracts: **3.9%** as ordinary claimable tasks and **7.4%** as
+research-open problems where parallel approaches are welcome. With reviewed
+interfaces and upstream coordination, roughly **35–45%** can be parallelized
+into bounded work packages. The remaining **45–55%** is high-dependency
+research and integration work that needs small, stable teams rather than
+drive-by proof submissions.
+
+That is more optimistic than “most of it cannot be crowdsourced,” but only
+under a disciplined meaning of crowdsourcing: exact compiler-checked
+contracts, dependency ownership, short claims, upstream-first development,
+and maintainers responsible for integration. The roadmap marks which tasks
+are claimable now and which are still research or interface design.
+
+## Start contributing
+
+1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and
+   [`docs/CLAIMING.md`](docs/CLAIMING.md).
+2. Choose an ordinary **open** card or a nonexclusive **research-open** card
+   on the
+   [roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/#challenges).
+3. Use the card's pre-filled form. Ordinary claims last 14 days and need a
+   weekly heartbeat; research intentions do not reserve the problem.
+4. Prove the exact declaration, compile its named consumer, and open a PR
+   using the supplied checklist.
+
+Research-level tasks may have more than one active team. Interface work is
+reviewed before proof volume is accumulated behind it.
+
+## Build
+
+The package is pinned to Lean `v4.32.0-rc1` and the matching Mathlib release.
+It needs about 8 GB of local cache. Fetch Mathlib's compiled cache first:
 
 ```sh
+lake exe cache get
 LEAN_NUM_THREADS=1 lake build MazurTorsion
 ```
 
-`TwoTorsion.lean`, `ThreeTorsion.lean`, and `FullFourTorsion.lean` were
-written by Victor Aguiar for the Apache-2.0 LeanPool foundation branch at
-commit `60bec16`; their copyright, license, and authorship headers are
-retained. They were verified unchanged against this package's older exact
-challenge pin before being ported to the local namespace. The generic
-two-torsion file additionally exposes `[DecidableEq F]` as a public
-parameter instead of baking a private classical decider into theorem types;
-this preserves instance coherence at the rational specialization without
-changing the proofs.
+For a contribution, build the smallest affected module:
 
-`EllipticCurve/VariableChange.lean`,
-`Foundations/NaiveHeightDescent.lean`, and
-`GroupTheory/IndexNSmulFG.lean` are narrow ports from Michael Stoll's
-Apache-2.0
-[`EllipticCurves`](https://github.com/MichaelStollBayreuth/EllipticCurves)
-repository at commit `3f8c39c`; its copyright, license, and authorship
-headers are retained. The files compile unchanged in substance at the exact
-LeanPool pin with narrower imports.
+```sh
+LEAN_NUM_THREADS=1 lake build MazurTorsion.Path.To.Module
+python3 scripts/quality.py
+```
+
+Full cold builds, documentation, and exposition extraction run in GitHub
+Actions so contributors do not need a large workstation.
+
+## Project map
+
+- [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
+- [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction
+  infrastructure;
+- [`Challenge/`](Challenge/) — immutable open theorem contracts;
+- [`coordination/program.json`](coordination/program.json) — canonical
+  weighted DAG and claim metadata;
+- [`blueprint/src/blueprint.tex`](blueprint/src/blueprint.tex) — mathematical
+  blueprint;
+- [`upstream/tauceti/`](upstream/tauceti/) — separately pinned Tau Ceti
+  interface challenges;
+- [`docs/`](docs/) — methodology, prior-art audit, and technical narrative;
+- [`archive/drafts/`](archive/drafts/) — explicitly unverified historical
+  scratch files, excluded from all proof and progress claims.
+
+## Verification policy
+
+Merged proof code must be placeholder-free, warning-free, and free of custom
+axioms, `unsafe`, and `partial`. The only permitted foundational axioms in
+audited declarations are `propext`, `Quot.sound`, and `Classical.choice`.
+Open statements are allowed only in registered `Challenge/` files, with
+exactly one whole-body `:= sorry`.
+
+The Apache-2.0 license and third-party attribution are in
+[`LICENSE`](LICENSE), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md),
+[`PORTING.md`](PORTING.md), and [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md).

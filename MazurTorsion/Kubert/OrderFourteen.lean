@@ -7,8 +7,6 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderFourteenModel
 import MazurTorsion.NumberTheory.XOneFourteenReduction
 
-open scoped WeierstrassCurve.Affine
-
 /-!
 # Excluding rational points of order fourteen
 
@@ -22,6 +20,8 @@ and reduction modulo three show that every affine rational point on this
 curve has one of precisely those three abscissae.  This contradiction closes
 the order-fourteen branch.
 -/
+
+open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert
 

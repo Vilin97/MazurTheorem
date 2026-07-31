@@ -11,8 +11,6 @@ public import EllipticCurves.Mathlib.Chabauty.FormalGroupLaw.Basic
 
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 
-@[expose] public section
-
 /-!
 # Invariance: closedness of the invariant differential
 
@@ -31,6 +29,8 @@ invariant differential. The proof runs through the substitution identities
 Blueprint node: `lem:fgl-invariance`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing Filter Topology
 open scoped MvPowerSeries.WithPiTopology

@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
 import MazurTorsion.Arithmetic.LowTorsionObstructions
 import MazurTorsion.Arithmetic.CardinalityReduction
 import MazurTorsion.Arithmetic.ExceptionalProducts
@@ -38,6 +44,8 @@ import MazurTorsion.Kubert.OrderFifteenReduction
 import MazurTorsion.Kubert.OrderSixteenReduction
 import MazurTorsion.Kubert.OrderThirteenModel
 import MazurTorsion.Kubert.OrderThirteenReduction
+import MazurTorsion.Kubert.OrderTwentyFive
+import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.Kubert.OrderSevenParametrization

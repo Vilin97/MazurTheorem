@@ -30,6 +30,7 @@ namespace MazurTorsion.Kubert
 /-- The order-nine Tate parameter values. -/
 @[simp] def nineB (f : ℚ) : ℚ := f ^ 2 * (f - 1) * (f ^ 2 - f + 1)
 
+/-- The `c`-parameter of the order-nine Tate normal form. -/
 @[simp] def nineC (f : ℚ) : ℚ := f ^ 2 * (f - 1)
 
 /-- The discriminant of the parametrized order-nine family. -/

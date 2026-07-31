@@ -1,0 +1,129 @@
+name: Tau Ceti Contracts
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEAN_NUM_THREADS: "1"
+
+jobs:
+  contracts:
+    name: Build Tau Ceti contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Verify exact pins and challenge registration
+        run: |
+          python3 scripts/quality.py
+          python3 - <<'PY'
+          import json
+          import tomllib
+          from pathlib import Path
+
+          root = Path("upstream/tauceti")
+          configuration = tomllib.loads((root / "lakefile.toml").read_text())
+          manifest = json.loads((root / "lake-manifest.json").read_text())
+          packages = {package["name"]: package for package in manifest["packages"]}
+          assert (root / "lean-toolchain").read_text().strip() == \
+              "leanprover/lean4:v4.33.0-rc1"
+          requirement = next(
+              item for item in configuration["require"] if item["name"] == "TauCeti"
+          )
+          assert requirement["rev"] == "a3913fd9111b851af857f720b4ce6721e6634183"
+          assert packages["TauCeti"]["rev"] == requirement["rev"]
+          assert packages["mathlib"]["rev"] == \
+              "79d0395a1825a6264ad5d269e35e60537518955e"
+          print("Tau Ceti, Mathlib, and Lean pins are exact.")
+          PY
+
+      - name: Install Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          lake-package-directory: upstream/tauceti
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        working-directory: upstream/tauceti
+        run: lake exe cache get
+
+      - name: Build contracts with exact expected notices
+        working-directory: upstream/tauceti
+        run: |
+          set -euo pipefail
+          lake build MazurTauCetiChallenge 2>&1 | tee challenge-build.log
+          expected=$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          program = json.loads(Path("../../coordination/program.json").read_text())
+          print(sum(
+              1
+              for node in program["nodes"]
+              if isinstance(node.get("challenge"), dict)
+              and node["challenge"].get("claimable") is True
+              and node["challenge"]["file"].startswith("upstream/tauceti/")
+          ))
+          PY
+          )
+          actual=$(grep -c "declaration uses .*sorry" challenge-build.log || true)
+          if [ "$actual" -ne "$expected" ]; then
+            echo "::error::Expected $expected sorry notices, found $actual."
+            exit 1
+          fi
+          if grep -E '(^|: )warning:' challenge-build.log \
+              | grep -v "declaration uses .*sorry"; then
+            echo "::error::Tau Ceti contract build emitted an unexpected warning."
+              exit 1
+          fi
+
+      - name: Audit open and completed contract axioms
+        working-directory: upstream/tauceti
+        run: |
+          set -euo pipefail
+          mapfile -t targets < <(python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          program = json.loads(Path("../../coordination/program.json").read_text())
+          for node in program["nodes"]:
+              challenge = node.get("challenge")
+              if not isinstance(challenge, dict):
+                  continue
+              if not challenge["file"].startswith("upstream/tauceti/"):
+                  continue
+              if challenge.get("claimable") is True:
+                  print(f"open:{challenge['declaration']}")
+                  continue
+              destination = challenge["destination_declaration"]
+              print(f"closed:{challenge['declaration']}:{destination}")
+              for consumer in challenge["consumer_declarations"]:
+                  print(f"uses:{consumer}:{destination}")
+          PY
+          )
+          lake exe contractAxioms "${targets[@]}"
+
+      - name: Run Mathlib linters
+        working-directory: upstream/tauceti
+        run: lake exe runLinter MazurTauCetiChallenge
+
+      - name: Run Mathlib style checks
+        working-directory: upstream/tauceti
+        run: lake exe lint-style MazurTauCetiChallenge

@@ -1,0 +1,87 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorSquare
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TOne
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneX
+import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+
+/-!
+# The third kernel numerator term
+
+The third independently elaborated numerator term.
+-/
+
+namespace MazurTorsion.Kubert
+
+lemma tl_mnum₃ {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 f ξ) = 0) :
+    -(3 * f * (f - 1) * (3 * f ^ 9 - f ^ 8 - 26 * f ^ 7 + 94 * f ^ 6 - 168 * f ^ 5 + 187 * f ^ 4 -
+      145 * f ^ 3 + 76 * f ^ 2 - 26 * f + 3)) * ((tlN0 f ξ + tlN1 f ξ) + (tlN2 f ξ + tlN3 f ξ)) *
+      (tlD0 f ξ + tlD1 f ξ) ^ 2 =
+      ((((((tlWOneXP0c0 f ξ + tlWOneXP0c1 f ξ) + (tlWOneXP0c2 f ξ + tlWOneXP0c3 f ξ)) +
+        ((tlWOneXP0c4 f ξ + tlWOneXP0c5 f ξ) + (tlWOneXP0c6 f ξ + tlWOneXP0c7 f ξ))) +
+        (((tlWOneXP0c8 f ξ + tlWOneXP0c9 f ξ) + (tlWOneXP0c10 f ξ + tlWOneXP0c11 f ξ)) +
+        ((tlWOneXP0c12 f ξ + tlWOneXP0c13 f ξ) + (tlWOneXP0c14 f ξ + tlWOneXP1c0 f ξ)))) +
+        ((((tlWOneXP1c1 f ξ + tlWOneXP1c2 f ξ) + (tlWOneXP1c3 f ξ + tlWOneXP1c4 f ξ)) +
+        ((tlWOneXP1c5 f ξ + tlWOneXP1c6 f ξ) + (tlWOneXP1c7 f ξ + tlWOneXP1c8 f ξ))) +
+        (((tlWOneXP1c9 f ξ + tlWOneXP1c10 f ξ) + (tlWOneXP1c11 f ξ + tlWOneXP1c12 f ξ)) +
+        ((tlWOneXP1c13 f ξ + tlWOneXP1c14 f ξ) + (tlWOneXP1c15 f ξ + tlWOneXP1c16 f ξ))))) +
+        (((((tlWOneXP2c0 f ξ + tlWOneXP2c1 f ξ) + (tlWOneXP2c2 f ξ + tlWOneXP2c3 f ξ)) +
+        ((tlWOneXP2c4 f ξ + tlWOneXP2c5 f ξ) + (tlWOneXP2c6 f ξ + tlWOneXP2c7 f ξ))) +
+        (((tlWOneXP2c8 f ξ + tlWOneXP2c9 f ξ) + (tlWOneXP2c10 f ξ + tlWOneXP2c11 f ξ)) +
+        ((tlWOneXP2c12 f ξ + tlWOneXP2c13 f ξ) + (tlWOneXP2c14 f ξ + tlWOneXP2c15 f ξ)))) +
+        ((((tlWOneXP2c16 f ξ + tlWOneXP2c17 f ξ) + (tlWOneXP2c18 f ξ + tlWOneXP3c0 f ξ)) +
+        ((tlWOneXP3c1 f ξ + tlWOneXP3c2 f ξ) + (tlWOneXP3c3 f ξ + tlWOneXP3c4 f ξ))) +
+        (((tlWOneXP3c5 f ξ + tlWOneXP3c6 f ξ) + (tlWOneXP3c7 f ξ + tlWOneXP3c8 f ξ)) +
+        ((tlWOneXP3c9 f ξ + tlWOneXP3c10 f ξ) + (tlWOneXP3c11 f ξ + tlWOneXP3c12 f ξ)))))) +
+        ((((((tlWOneXP3c13 f ξ + tlWOneXP3c14 f ξ) + (tlWOneXP3c15 f ξ + tlWOneXP3c16 f ξ)) +
+        ((tlWOneXP3c17 f ξ + tlWOneXP3c18 f ξ) + (tlWOneXP3c19 f ξ + tlWOneXP4c0 f))) +
+        (((tlWOneXP4c1 f ξ + tlWOneXP4c2 f ξ) + (tlWOneXP4c3 f ξ + tlWOneXP4c4 f ξ)) +
+        ((tlWOneXP4c5 f ξ + tlWOneXP4c6 f ξ) + (tlWOneXP4c7 f ξ + tlWOneXP4c8 f ξ)))) +
+        ((((tlWOneXP4c9 f ξ + tlWOneXP4c10 f ξ) + (tlWOneXP4c11 f ξ + tlWOneXP4c12 f ξ)) +
+        ((tlWOneXP4c13 f ξ + tlWOneXP4c14 f ξ) + (tlWOneXP4c15 f ξ + tlWOneXP4c16 f ξ))) +
+        (((tlWOneXP4c17 f ξ + tlWOneXP4c18 f ξ) + (tlWOneXP4c19 f ξ + tlWOneXP4c20 f ξ)) +
+        ((tlWOneXP5c0 f ξ + tlWOneXP5c1 f ξ) + (tlWOneXP5c2 f ξ + tlWOneXP5c3 f ξ))))) +
+        (((((tlWOneXP5c4 f ξ + tlWOneXP5c5 f ξ) + (tlWOneXP5c6 f ξ + tlWOneXP5c7 f ξ)) +
+        ((tlWOneXP5c8 f ξ + tlWOneXP5c9 f ξ) + (tlWOneXP5c10 f ξ + tlWOneXP5c11 f ξ))) +
+        (((tlWOneXP5c12 f ξ + tlWOneXP5c13 f ξ) + (tlWOneXP5c14 f ξ + tlWOneXP5c15 f ξ)) +
+        ((tlWOneXP5c16 f ξ + tlWOneXP5c17 f ξ) + (tlWOneXP5c18 f ξ + tlWOneXP5c19 f ξ)))) +
+        tlWOneXP5c20 f ξ)) := by
+  linear_combination
+    -(3 * f * (f - 1) * (3 * f ^ 9 - f ^ 8 - 26 * f ^ 7 + 94 * f ^ 6 - 168 * f ^ 5 + 187 * f ^ 4 -
+      145 * f ^ 3 + 76 * f ^ 2 - 26 * f + 3)) * (((tlN0 f ξ + tlN1 f ξ) + (tlN2 f ξ + tlN3 f ξ)))
+      * tlDSq_val hT + -(3 * f * (f - 1) * (3 * f ^ 9 - f ^ 8 - 26 * f ^ 7 + 94 * f ^ 6 - 168 * f
+      ^ 5 + 187 * f ^ 4 - 145 * f ^ 3 + 76 * f ^ 2 - 26 * f + 3)) * tlTOne_val hT -
+      (((((((tlTOneP0c0 f ξ + tlTOneP0c1 f ξ) + (tlTOneP0c2 f ξ + tlTOneP0c3 f ξ)) + ((tlTOneP0c4
+      f ξ + tlTOneP0c5 f ξ) + (tlTOneP0c6 f ξ + tlTOneP0c7 f ξ))) + (((tlTOneP0c8 f ξ + tlTOneP1c0
+      f ξ) + (tlTOneP1c1 f ξ + tlTOneP1c2 f ξ)) + ((tlTOneP1c3 f ξ + tlTOneP1c4 f ξ) + (tlTOneP1c5
+      f ξ + tlTOneP1c6 f ξ)))) + ((((tlTOneP1c7 f ξ + tlTOneP1c8 f ξ) + (tlTOneP1c9 f ξ +
+      tlTOneP2c0 f ξ)) + ((tlTOneP2c1 f ξ + tlTOneP2c2 f ξ) + (tlTOneP2c3 f ξ + tlTOneP2c4 f ξ)))
+      + (((tlTOneP2c5 f ξ + tlTOneP2c6 f ξ) + (tlTOneP2c7 f ξ + tlTOneP2c8 f ξ)) + ((tlTOneP2c9 f
+      ξ + tlTOneP2c10 f ξ) + (tlTOneP2c11 f ξ + tlTOneP3c0 f ξ))))) + (((((tlTOneP3c1 f ξ +
+      tlTOneP3c2 f ξ) + (tlTOneP3c3 f ξ + tlTOneP3c4 f ξ)) + ((tlTOneP3c5 f ξ + tlTOneP3c6 f ξ) +
+      (tlTOneP3c7 f ξ + tlTOneP3c8 f ξ))) + (((tlTOneP3c9 f ξ + tlTOneP3c10 f ξ) + (tlTOneP3c11 f
+      ξ + tlTOneP3c12 f ξ)) + ((tlTOneP4c0 f ξ + tlTOneP4c1 f ξ) + (tlTOneP4c2 f ξ + tlTOneP4c3 f
+      ξ)))) + ((((tlTOneP4c4 f ξ + tlTOneP4c5 f ξ) + (tlTOneP4c6 f ξ + tlTOneP4c7 f ξ)) +
+      ((tlTOneP4c8 f ξ + tlTOneP4c9 f ξ) + (tlTOneP4c10 f ξ + tlTOneP4c11 f ξ))) + (((tlTOneP4c12
+      f ξ + tlTOneP5c0 f ξ) + (tlTOneP5c1 f ξ + tlTOneP5c2 f ξ)) + ((tlTOneP5c3 f ξ + tlTOneP5c4 f
+      ξ) + (tlTOneP5c5 f ξ + tlTOneP5c6 f ξ)))))) + ((((((tlTOneP5c7 f ξ + tlTOneP5c8 f ξ) +
+      (tlTOneP5c9 f ξ + tlTOneP5c10 f ξ)) + ((tlTOneP5c11 f ξ + tlTOneP5c12 f ξ) + (tlTOneP6c0 f ξ
+      + tlTOneP6c1 f ξ))) + (((tlTOneP6c2 f ξ + tlTOneP6c3 f ξ) + (tlTOneP6c4 f ξ + tlTOneP6c5 f
+      ξ)) + ((tlTOneP6c6 f ξ + tlTOneP6c7 f ξ) + (tlTOneP6c8 f ξ + tlTOneP6c9 f ξ)))) +
+      ((((tlTOneP6c10 f ξ + tlTOneP6c11 f ξ) + (tlTOneP6c12 f ξ + tlTOneP7c0 f ξ)) + ((tlTOneP7c1
+      f ξ + tlTOneP7c2 f ξ) + (tlTOneP7c3 f ξ + tlTOneP7c4 f ξ))) + (((tlTOneP7c5 f ξ + tlTOneP7c6
+      f ξ) + (tlTOneP7c7 f ξ + tlTOneP7c8 f ξ)) + ((tlTOneP7c9 f ξ + tlTOneP7c10 f ξ) +
+      (tlTOneP7c11 f ξ + tlTOneP7c12 f ξ))))) + (((((tlTOneP8c0 f ξ + tlTOneP8c1 f ξ) +
+      (tlTOneP8c2 f ξ + tlTOneP8c3 f ξ)) + ((tlTOneP8c4 f ξ + tlTOneP8c5 f ξ) + (tlTOneP8c6 f ξ +
+      tlTOneP8c7 f ξ))) + (((tlTOneP8c8 f ξ + tlTOneP8c9 f ξ) + (tlTOneP8c10 f ξ + tlTOneP8c11 f
+      ξ)) + ((tlTOneP8c12 f ξ + tlTOneP9c0 f ξ) + (tlTOneP9c1 f ξ + tlTOneP9c2 f ξ)))) +
+      ((((tlTOneP9c3 f ξ + tlTOneP9c4 f ξ) + (tlTOneP9c5 f ξ + tlTOneP9c6 f ξ)) + ((tlTOneP9c7 f ξ
+      + tlTOneP9c8 f ξ) + (tlTOneP9c9 f ξ + tlTOneP9c10 f ξ))) + (tlTOneP9c11 f ξ + tlTOneP9c12 f
+      ξ))))) * tl_brM1 f + tlWOneX_val hT
+
+
+end MazurTorsion.Kubert

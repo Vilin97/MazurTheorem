@@ -176,6 +176,7 @@ lemma finite_preimage_xRep0 (x : F) :
     | .some x' y h => simp_all [Point.xRep_some]
   exact (finite_preimage_xRep x).union (Set.finite_singleton 0) |>.subset hsubset
 
+/-- Symmetric degree-two projective coordinates associated to two affine points. -/
 noncomputable def Point.sym2x (P Q : W.toAffine.Point) : Fin 3 → F :=
   ![P.xRep 0 * Q.xRep 0,
     P.xRep 0 * Q.xRep 1 + P.xRep 1 * Q.xRep 0,
@@ -322,6 +323,7 @@ open Height
 
 variable [AdmissibleAbsValues F]
 
+/-- The logarithmic projective height of an affine point's `x`-coordinates. -/
 noncomputable def Point.naiveHeight (P : W.toAffine.Point) : ℝ :=
   logHeight P.xRep
 

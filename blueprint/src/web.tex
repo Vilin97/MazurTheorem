@@ -1,0 +1,21 @@
+% Web entry point for LeanBlueprint. The mathematical content lives in
+% blueprint.tex so it can be reviewed independently of this build wrapper.
+\documentclass{report}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage[showmore,dep_graph,project=../..]{blueprint}
+
+\input{macros}
+
+\home{https://vilin97.github.io/MazurTheorem/}
+\github{https://github.com/Vilin97/MazurTheorem}
+\dochome{https://vilin97.github.io/MazurTheorem/docs}
+
+\title{A Blueprint for Mazur's Torsion Theorem}
+\author{Mazur Theorem contributors}
+
+\begin{document}
+\maketitle
+\input{blueprint}
+\end{document}

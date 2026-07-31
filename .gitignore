@@ -1,1 +1,12 @@
 /.lake
+/upstream/tauceti/.lake
+/docbuild/.lake
+/blueprint/build
+/blueprint/print
+/blueprint/web
+/blueprint/lean_decls
+/blueprint/src/*.paux
+/build
+__pycache__/
+*.pyc
+.DS_Store

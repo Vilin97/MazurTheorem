@@ -1,0 +1,17 @@
+name = "docbuild"
+reservoir = false
+version = "0.1.0"
+packagesDir = "../.lake/packages"
+
+[[lean_lib]]
+name = "MazurTheoremDocs"
+
+[[require]]
+name = "mazur-torsion"
+path = "../"
+
+[[require]]
+scope = "leanprover"
+name = "doc-gen4"
+git = "https://github.com/leanprover/doc-gen4"
+rev = "5f906957bf710c7e7be21f2bd8340ae019cfd36a"

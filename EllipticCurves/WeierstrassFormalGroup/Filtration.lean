@@ -2,7 +2,6 @@
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael Stoll
-Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 -/
 module
 
@@ -11,10 +10,10 @@ public import EllipticCurves.IntegralModel
 public import EllipticCurves.VariableChange
 import all EllipticCurves.WeierstrassFormalGroup.Foundations
 
-@[expose] public section
-
 /-!
 # The formal point, the filtration, and the structure of `E(K_v)`
+
+Source: MichaelStollBayreuth/EllipticCurves at commit 3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f.
 
 Building on the valuation estimates, this file constructs the point `(t/w(t), -1/w(t))` of
 `E(K_v)` attached to an `𝔪`-point of the formal group (`formalPoint`), proves the parametrization
@@ -23,6 +22,8 @@ of order at least `2(n+1)`.  It then proves torsion-freeness of the kernel of re
 under the standard ramification condition, that every filtration step has finite index, and the
 structure theorem: `E(K_v)` has a finite-index subgroup isomorphic to `(𝒪_v, +)`.
 -/
+
+@[expose] public section
 
 open ChabautyColeman IsLocalRing MvPowerSeries
 open scoped MvPowerSeries.WithPiTopology
@@ -465,7 +466,6 @@ def filtration (hW : W₀.map (algebraMap (v.adicCompletionIntegers K)
 variable {hW : W₀.map (algebraMap (v.adicCompletionIntegers K) (v.adicCompletion K)) = W}
   {n : ℕ}
 
-@[simp]
 lemma zero_mem_filtration : (0 : W.Point) ∈ filtration hW n := trivial
 
 @[simp]

@@ -180,6 +180,7 @@ theorem invariant_conic_equation
 
 /-! ## Reduction modulo five -/
 
+/-- The five-element residue field used for the order-eighteen point count. -/
 abbrev F5 := ZMod 5
 
 /-- The order-eighteen sextic reduced modulo `5`, in reduced-coefficient

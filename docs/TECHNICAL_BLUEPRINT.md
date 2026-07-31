@@ -1,4 +1,4 @@
-# Blueprint: Mazur's rational torsion bound
+# Original technical blueprint: Mazur's rational torsion bound
 
 ## 1. Exact goal and design decision
 
@@ -9,7 +9,8 @@ For a Weierstrass curve `E` over `ℚ` with `[E.IsElliptic]`, prove
   Set (E⁄ℚ).Point).ncard ≤ 16
 ```
 
-This is the immutable statement in LeanPool's `Challenge/Mazur.lean`.
+This is the immutable statement in Lean Pool's `Challenge/Mazur.lean`, now
+mirrored by the standalone challenge contracts in this repository.
 The project uses Lean `v4.32.0-rc1` and mathlib commit
 `360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`, matching the challenge.
 
@@ -32,8 +33,8 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 24,328 project-specific lines of Lean under
-`MazurTorsion/`, plus the attributed 14,040-line exact-pin reduction cone
+The latest integrated package has 69,767 project-specific lines of Lean under
+`MazurTorsion/`, plus the attributed 14,066-line exact-pin reduction cone
 under `EllipticCurves/`, and builds without warnings or unproved
 declarations.
 

@@ -1,0 +1,63 @@
+name: Claim a work package
+description: Claim one bounded item from the roadmap before starting formalization work.
+title: "[Claim] "
+labels:
+  - claim
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Claims avoid duplicated effort. Pick a small deliverable with explicit dependencies and a verifiable finish line.
+  - type: input
+    id: work_package
+    attributes:
+      label: Work package
+      description: Link the roadmap node, challenge, or existing issue.
+      placeholder: "Example: Rational cusps on X₁(13), roadmap node ..."
+    validations:
+      required: true
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Exact deliverable
+      description: Name the Lean modules and declarations you expect to add or complete.
+      placeholder: |
+        Module:
+        Declarations:
+        Tests or downstream consumer:
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and prior art
+      description: Link Mathlib, Lean Pool, Tau Ceti, FLT, papers, or prerequisite issues you will use.
+    validations:
+      required: true
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Dependency readiness
+      options:
+        - All dependencies are already available
+        - One or more dependencies are being developed in parallel
+        - I need help identifying dependencies
+    validations:
+      required: true
+  - type: input
+    id: timeframe
+    attributes:
+      label: Expected first update
+      description: Give a realistic date or time window; stale claims can be released.
+      placeholder: "YYYY-MM-DD or within seven days"
+    validations:
+      required: true
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Claim agreement
+      options:
+        - label: I will post progress or release this claim if I cannot continue.
+          required: true
+        - label: I will not weaken statements or adjust roadmap weights to make progress appear larger.
+          required: true

@@ -1,0 +1,120 @@
+name: Quality and Site Preview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**"
+      - "blueprint/**"
+      - "coordination/**"
+      - "scripts/exposition/**"
+      - ".github/workflows/quality-site.yml"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  site:
+    name: Browser app
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: site
+    env:
+      NODE_OPTIONS: "--max-old-space-size=3072"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "22.13.0"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test production rendering
+        run: npm test
+
+  static-preview:
+    name: Blueprint and exposition
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.13"
+
+      - name: Install blueprint system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes graphviz libgraphviz-dev pkg-config
+
+      - name: Install pinned LeanBlueprint
+        run: python -m pip install --disable-pip-version-check leanblueprint==0.0.20
+
+      - name: Validate canonical programme data
+        run: python scripts/quality.py
+
+      - name: Build blueprint
+        run: leanblueprint web
+
+      - name: Generate exposition
+        env:
+          ROADMAP_SITE_URL: ${{ vars.ROADMAP_SITE_URL || 'https://github.com/Vilin97/MazurTheorem' }}
+        run: |
+          python scripts/exposition/generate.py \
+            --repo-root . \
+            --out static-preview \
+            --commit "$GITHUB_SHA" \
+            --roadmap-url "$ROADMAP_SITE_URL"
+          test -s blueprint/web/index.html
+          test -s site/public/og.png
+          mkdir -p static-preview/blueprint
+          cp -R blueprint/web/. static-preview/blueprint/
+          cp site/public/og.png static-preview/og.png
+
+      - name: Validate preview
+        run: |
+          set -euo pipefail
+          test -s static-preview/index.html
+          test -s static-preview/blueprint/index.html
+          test -s static-preview/exposition/index.html
+          test -s static-preview/og.png
+          jq -e --arg commit "$GITHUB_SHA" '
+            .commit == $commit
+            and .totals.modules > 0
+            and .totals.declarations > 0
+            and .totals.forbidden_holes == 0
+          ' static-preview/exposition/data/index.json > /dev/null
+
+      - name: Upload preview
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: static-preview
+          path: static-preview
+          if-no-files-found: error
+          retention-days: 7

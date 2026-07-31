@@ -1,0 +1,43 @@
+name: Report a roadmap or infrastructure gap
+description: Report a missing dependency, broken link, build problem, or inaccurate status.
+title: "[Gap] "
+labels:
+  - "status: blocked"
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of gap
+      options:
+        - Missing mathematical dependency
+        - Incorrect dependency edge or status
+        - Lean build or CI failure
+        - Blueprint, documentation, or site problem
+        - Contribution-process problem
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What you observed
+      description: Include links, exact declarations, commands, or screenshots as appropriate.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen instead
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reproduction or mathematical evidence
+      description: Give the smallest reproducer or the source supporting a roadmap correction.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and claims for this gap.
+          required: true

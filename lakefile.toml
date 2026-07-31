@@ -19,4 +19,15 @@ name = "MazurTorsion"
 
 [[lean_lib]]
 name = "EllipticCurves"
-globs = ["EllipticCurves.+"]
+globs = ["EllipticCurves", "EllipticCurves.+"]
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_exe]]
+name = "axioms"
+root = "scripts.Axioms"
+
+[[lean_exe]]
+name = "contractAxioms"
+root = "scripts.ContractAxioms"

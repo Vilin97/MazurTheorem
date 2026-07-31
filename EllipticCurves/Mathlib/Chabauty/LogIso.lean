@@ -9,8 +9,6 @@ module
 
 public import EllipticCurves.Mathlib.Chabauty.ExpConverge
 
-@[expose] public section
-
 /-!
 # The logarithm isomorphism
 
@@ -32,6 +30,8 @@ with `evalT_subst`: injectivity descends `Exp ∘ Λ = id` (`exp_comp_log`, thro
 Blueprint node: `thm:log-iso`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing Filter Topology ChabautyColeman.MvPSeries
 

@@ -322,4 +322,22 @@ theorem exists_orderEighteen_genusTwo_certificate
       hcparam, hbparam, rfl, hnine, htwo, haux, hden, hX0, hX1,
       hmodel, hdisc⟩
 
+/-- A route-neutral exclusion of noncuspidal rational points on the
+hyperelliptic model rules out exact rational order eighteen. -/
+theorem rationalPoint_addOrderOf_ne_eighteen_of_noNoncuspidalPoint
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : (E⁄ℚ).Point)
+    (hNoNoncuspidal :
+      ∀ x y : ℚ, x ≠ 0 → x ≠ 1 →
+        y ^ 2 = orderEighteenHyperellipticPolynomial x → False) :
+    addOrderOf Q ≠ 18 := by
+  intro hQ
+  obtain ⟨_b, _c, _u, _r, d, s, _hu, _hb, _hc, _hbc, _hr,
+    _hd, _hd0, _hd1, _hcparam, _hbparam, _hs, _hnine, _htwo,
+    _haux, _hden, hX0, hX1, hcurve, _hdisc⟩ :=
+    exists_orderEighteen_genusTwo_certificate E Q hQ
+  exact hNoNoncuspidal
+    (orderEighteenModelX d s) (orderEighteenModelY d s)
+    hX0 hX1 hcurve
+
 end MazurTorsion.Kubert

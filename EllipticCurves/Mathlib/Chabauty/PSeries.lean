@@ -19,8 +19,6 @@ public import Mathlib.RingTheory.PowerSeries.WeierstrassPreparation
 public import Mathlib.Topology.Algebra.InfiniteSum.Nonarchimedean
 public import EllipticCurves.Mathlib.Chabauty.PadicInt
 
-@[expose] public section
-
 /-!
 # The p-adic kit: evaluation of power series
 
@@ -55,6 +53,8 @@ topology, so Mathlib's Weierstrass preparation
 Blueprint nodes: `def:eval`, `lem:eval-hom`, `thm:wprep`.
 -/
 
+
+@[expose] public section
 
 open PowerSeries IsLocalRing Filter Topology
 open scoped PowerSeries.WithPiTopology

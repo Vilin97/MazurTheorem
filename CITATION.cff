@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite the repository and its contributors."
+title: "Mazur Theorem: a collaborative Lean 4 formalization"
+type: software
+authors:
+  - family-names: Ilin
+    given-names: Vasily
+    alias: Vilin97
+repository-code: "https://github.com/Vilin97/MazurTheorem"
+url: "https://mazur-theorem-formalization.vilin402100.chatgpt.site/"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-07-31
+keywords:
+  - Lean 4
+  - elliptic curves
+  - Mazur's torsion theorem
+  - formalized mathematics

@@ -13,9 +13,6 @@ public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.Data.Finsupp.Weight
 public import EllipticCurves.Mathlib.Chabauty.MvPowerSeriesComp
 
-@[expose] public section
-
-
 /-!
 # Formal group laws: structure, differential matrix, base change
 
@@ -38,6 +35,8 @@ origin, and base change along a ring homomorphism.
 Blueprint nodes: `def:fgl`, `def:fgl-diff`.
 -/
 
+
+@[expose] public section
 
 open MvPowerSeries IsLocalRing Filter Topology
 open scoped MvPowerSeries.WithPiTopology
