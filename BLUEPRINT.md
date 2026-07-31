@@ -1434,6 +1434,34 @@ marked kernel is compiled symbolically
 verified), and the branch analysis from an exact order-49 point to a
 noncuspidal point of the model remains.
 
+### 6.6 Order-twenty-seven exclusion
+
+The order-twenty-seven branch is complete and unconditional.
+`Kubert/OrderTwentySevenReduction.lean` normalizes an exact order-27
+point onto the rationally parametrized `X₁(9)` Tate family
+`b = f²(f-1)(f²-f+1)`, `c = f²(f-1)` with its triple at the marked
+origin.  `Kubert/OrderTwentySevenTrisection.lean` certifies that the
+abscissa of such a point is a root of the monic degree-nine trisection
+polynomial of the family.  `Kubert/OrderTwentySevenLegs.lean` provides
+the first two hauptmodul legs and their Fricke-twisted `X₀(9)` relation
+`orderNineG9F`, and the staged modules
+`OrderTwentySevenLegChunks/StagesA-D/ThirdLeg` push the trisection
+abscissa through both three-isogenies: the third-story kernel abscissa
+satisfies a monic cubic over the family (certified against the
+trisection polynomial by chunked modular reductions), and the resulting
+third leg completes the chain
+`orderNineG9F(s₁,s₂) = orderNineG9F(s₂,s₃) = 0`.
+`NumberTheory/XZeroTwentySevenClassification.lean` classifies that
+chained correspondence: an explicit rational map lands on the minimal
+`X₀(27)` model `y² + y = x³ - 7`, whose affine points `(3, 4)` and `(3, -5)`
+come from the Fermat cubic, so the only rational chains are the cusp
+`(0,0,0)` and the CM point `(-243,-27,-3)`.
+`Kubert/OrderTwentySevenEndpoint.lean` rules both out for the family
+legs (the cusp by nonvanishing of the leg numerator, the CM value by a
+monic degree-nine integral polynomial with no root modulo two), and
+`Kubert/OrderTwentySeven.lean` assembles
+`no_rational_point_of_order_twentySeven`.
+
 ## 7. Prime-level Mazur layer
 
 This is the dominant, multi-year-risk dependency. Pinned mathlib does not
@@ -1743,7 +1771,7 @@ shape should remain this small.
 | M3 | Generic forbidden-embedding finite-group classification | done, including global numerical theorem | low |
 | M4 | Full rational `5`- and `7`-torsion obstructions | done, including both universal discriminant identities | low |
 | M5 | Exceptional products / `X₀(20),X₀(24)` certificates | done: both `C₂×C₁₀` and `C₂×C₁₂` are excluded unconditionally | low |
-| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, and 24 excluded unconditionally, leaving only six composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; the `X₀(21)` arithmetic is now fully unconditional (both quartic leaves proved by two-isogeny descent and reduction at five), exact order 21 compiles to a noncuspidal `HauptmodulPair` with `j`-links, the four exceptional `j`-invariants are excluded on the order-seven family, and only the plane-to-Weierstrass transfer remains; the `X₀(49)` model's rational points are completely determined (two cusps), leaving the order-49 tower bridge | high |
+| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, 21, 24, and 27 excluded unconditionally, leaving only four composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; orders 21 and 27 are closed end-to-end (plane-model transfers, trisection tower, Fermat-cubic classification); the `X₀(49)` model's rational points are completely determined (two cusps), leaving the order-49 tower bridge | high |
 | M7 | Mazur prime-level Eisenstein/Néron/cyclotomic argument | planned | extremely high |
 | M8 | Arithmetic assembly and exact `Solution/Mazur.lean` | one-input numerical assembly done; blocked only on the remaining point-order work in M6--M7 | low once dependencies exist |
 
