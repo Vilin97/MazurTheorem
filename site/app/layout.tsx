@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 
-const FALLBACK_SITE_ORIGIN = "https://vilin97.github.io/MazurTheorem/";
+const FALLBACK_SITE_ORIGIN =
+  "https://mazur-theorem-formalization.vilin402100.chatgpt.site/";
 const DESCRIPTION =
   "An open, weighted roadmap for the exact Lean Pool cardinality consequence of Mazur’s torsion theorem.";
 const SOCIAL_DESCRIPTION =

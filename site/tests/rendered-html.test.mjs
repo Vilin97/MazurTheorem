@@ -61,7 +61,7 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /How progress is scored/);
   assert.match(
     html,
-    /https:\/\/vilin97\.github\.io\/MazurTheorem\/og\.png/,
+    /https:\/\/mazur-theorem-formalization\.vilin402100\.chatgpt\.site\/og\.png/,
   );
   assert.doesNotMatch(html, /codex-preview/);
   assert.doesNotMatch(html, /Your site is taking shape/);

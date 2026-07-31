@@ -3,7 +3,7 @@
 **A public, dependency-driven Lean 4 formalization of Mazur's torsion theorem.**
 
 [![Lean CI](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml/badge.svg)](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml)
-[![Coordination site](https://img.shields.io/badge/roadmap-live-0d6b57)](https://vilin97.github.io/MazurTheorem/)
+[![Coordination site](https://img.shields.io/badge/roadmap-live-0d6b57)](https://mazur-theorem-formalization.vilin402100.chatgpt.site/)
 [![License](https://img.shields.io/github/license/Vilin97/MazurTheorem)](LICENSE)
 
 Mazur's theorem classifies the possible rational torsion subgroups of an
@@ -43,7 +43,7 @@ finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 
 The percentage and task graph come from
 [`coordination/program.json`](coordination/program.json), not prose or line
-counts. See the [live roadmap](https://vilin97.github.io/MazurTheorem/), the
+counts. See the [live roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/), the
 [progress methodology](docs/PROGRESS_METHOD.md), and the
 [implementation inventory](docs/IMPLEMENTATION_STATUS.md).
 
@@ -71,7 +71,7 @@ are claimable now and which are still research or interface design.
    [`docs/CLAIMING.md`](docs/CLAIMING.md).
 2. Choose an ordinary **open** card or a nonexclusive **research-open** card
    on the
-   [roadmap](https://vilin97.github.io/MazurTheorem/#challenges).
+   [roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/#challenges).
 3. Use the card's pre-filled form. Ordinary claims last 14 days and need a
    weekly heartbeat; research intentions do not reserve the problem.
 4. Prove the exact declaration, compile its named consumer, and open a PR
