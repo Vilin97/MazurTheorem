@@ -1218,7 +1218,7 @@ private lemma tl_row0 (f ξ : ℚ) :
           (((tlNCbP4c1 f ξ + tlNCbP4c2 f ξ) + (tlNCbP4c3 f ξ + tlNCbP4c4 f ξ)) +
             ((tlNCbP4c5 f ξ + tlNCbP4c6 f ξ) + (tlNCbP4c7 f ξ + tlNCbP4c8 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell0 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell0]
+  simp [Fin.sum_univ_succ, tlRowCell0]
   abel
 
 private lemma tl_row1 (f ξ : ℚ) :
@@ -1244,7 +1244,7 @@ private lemma tl_row1 (f ξ : ℚ) :
             ((tlNCbP7c16 f ξ + tlNCbP7c17 f ξ) +
               (tlNCbP7c18 f ξ + tlNCbP8c0 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell1 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell1]
+  simp [Fin.sum_univ_succ, tlRowCell1]
   abel
 
 private lemma tl_row2 (f ξ : ℚ) :
@@ -1276,7 +1276,7 @@ private lemma tl_row2 (f ξ : ℚ) :
             ((tlNCbP12c8 f ξ + tlNCbP12c9 f ξ) +
               (tlNCbP12c10 f ξ + tlNCbP12c11 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell2 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell2]
+  simp [Fin.sum_univ_succ, tlRowCell2]
   abel
 
 private lemma tl_row3 (f ξ : ℚ) :
@@ -1310,7 +1310,7 @@ private lemma tl_row3 (f ξ : ℚ) :
             ((tlNCbP16c1 f ξ + tlNCbP16c2 f ξ) +
               (tlNCbP16c3 f ξ + tlNCbP16c4 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell3 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell3]
+  simp [Fin.sum_univ_succ, tlRowCell3]
   abel
 
 private lemma tl_row4 (f ξ : ℚ) :
@@ -1345,7 +1345,7 @@ private lemma tl_row4 (f ξ : ℚ) :
             ((tlNCbP20c3 f ξ + tlNCbP20c4 f ξ) +
               (tlNCbP20c5 f ξ + tlNCbP20c6 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell4 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell4]
+  simp [Fin.sum_univ_succ, tlRowCell4]
   abel
 
 private lemma tl_row5 (f ξ : ℚ) :
@@ -1380,7 +1380,7 @@ private lemma tl_row5 (f ξ : ℚ) :
             ((tlNCbP24c5 f ξ + tlNCbP24c6 f ξ) +
               (tlNCbP24c7 f ξ + tlNCbP24c8 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell5 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell5]
+  simp [Fin.sum_univ_succ, tlRowCell5]
   abel
 
 private lemma tl_row6 (f ξ : ℚ) :
@@ -1415,7 +1415,7 @@ private lemma tl_row6 (f ξ : ℚ) :
             ((tlNCbP27c13 f ξ + tlNCbP27c14 f ξ) +
               (tlNCbP27c15 f ξ + tlNCbP27c16 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell6 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell6]
+  simp [Fin.sum_univ_succ, tlRowCell6]
   abel
 
 private lemma tl_row7 (f ξ : ℚ) :
@@ -1449,7 +1449,7 @@ private lemma tl_row7 (f ξ : ℚ) :
             ((tlNCbP32c1 f ξ + tlNCbP32c2 f ξ) +
               (tlNCbP32c3 f ξ + tlNCbP32c4 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell7 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell7]
+  simp [Fin.sum_univ_succ, tlRowCell7]
   abel
 
 private lemma tl_row8 (f ξ : ℚ) :
@@ -1483,7 +1483,7 @@ private lemma tl_row8 (f ξ : ℚ) :
             ((tlNCbP35c14 f ξ + tlNCbP35c15 f ξ) +
               (tlNCbP35c16 f ξ + tlNCbP35c17 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell8 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell8]
+  simp [Fin.sum_univ_succ, tlRowCell8]
   abel
 
 private lemma tl_row9 (f ξ : ℚ) :
@@ -1518,7 +1518,7 @@ private lemma tl_row9 (f ξ : ℚ) :
             ((tlNCbP39c3 f ξ + tlNCbP39c4 f ξ) +
               (tlNCbP39c5 f ξ + tlNCbP39c6 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell9 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell9]
+  simp [Fin.sum_univ_succ, tlRowCell9]
   abel
 
 private lemma tl_row10 (f ξ : ℚ) :
@@ -1535,7 +1535,7 @@ private lemma tl_row10 (f ξ : ℚ) :
            (tlNCbP40c14 f ξ + tlNCbP40c15 f ξ)) +
           ((tlNCbP40c16 f ξ + tlNCbP40c17 f ξ) + tlNCbP40c18 f ξ)))) =
       ∑ band : Fin 24, tlRowCell10 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell10]
+  simp [Fin.sum_univ_succ, tlRowCell10]
   abel
 
 private lemma tl_row11 (f ξ : ℚ) :
@@ -1572,7 +1572,7 @@ private lemma tl_row11 (f ξ : ℚ) :
             ((tlWTwoXP2c17 f ξ + tlWTwoXP2c18 f ξ) +
               (tlWTwoXP2c19 f ξ + tlWTwoXP2c20 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell11 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell11]
+  simp [Fin.sum_univ_succ, tlRowCell11]
   abel
 
 private lemma tl_row12 (f ξ : ℚ) :
@@ -1592,7 +1592,7 @@ private lemma tl_row12 (f ξ : ℚ) :
            (tlWTwoXP4c2 f ξ + tlWTwoXP4c3 f ξ)) +
           ((tlWTwoXP4c4 f ξ + tlWTwoXP4c5 f ξ) + tlWTwoXP4c6 f ξ)))) =
       ∑ band : Fin 24, tlRowCell12 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell12]
+  simp [Fin.sum_univ_succ, tlRowCell12]
   abel
 
 private lemma tl_row13 (f ξ : ℚ) :
@@ -1629,7 +1629,7 @@ private lemma tl_row13 (f ξ : ℚ) :
             ((tlWOneXP3c9 f ξ + tlWOneXP3c10 f ξ) +
               (tlWOneXP3c11 f ξ + tlWOneXP3c12 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell13 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell13]
+  simp [Fin.sum_univ_succ, tlRowCell13]
   abel
 
 private lemma tl_row14 (f ξ : ℚ) :
@@ -1659,7 +1659,7 @@ private lemma tl_row14 (f ξ : ℚ) :
              (tlWOneXP5c18 f ξ + tlWOneXP5c19 f ξ)))) +
         tlWOneXP5c20 f ξ)) =
       ∑ band : Fin 24, tlRowCell14 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell14]
+  simp [Fin.sum_univ_succ, tlRowCell14]
   abel
 
 private lemma tl_row15 (f ξ : ℚ) :
@@ -1696,7 +1696,7 @@ private lemma tl_row15 (f ξ : ℚ) :
             ((tlWZeroXP3c4 f ξ + tlWZeroXP3c5 f ξ) +
               (tlWZeroXP3c6 f ξ + tlWZeroXP3c7 f ξ)))))) =
       ∑ band : Fin 24, tlRowCell15 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell15]
+  simp [Fin.sum_univ_succ, tlRowCell15]
   abel
 
 private lemma tl_row16 (f ξ : ℚ) :
@@ -1705,7 +1705,7 @@ private lemma tl_row16 (f ξ : ℚ) :
       ((tlWZeroXP3c12 f ξ + tlWZeroXP3c13 f ξ) +
         (tlWZeroXP3c14 f ξ + tlWZeroXP3c15 f ξ))) =
       ∑ band : Fin 24, tlRowCell16 f ξ band := by
-  simp only [Fin.sum_univ_succ, tlRowCell16]
+  simp [Fin.sum_univ_succ, tlRowCell16]
   abel
 
 private def tlColumn (f ξ : ℚ) (band : Fin 24) : ℚ :=
@@ -1749,7 +1749,7 @@ private lemma tl_row_major (f ξ : ℚ) :
 
 private lemma tl_col0 (f ξ : ℚ) :
     tlColumn f ξ 0 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1759,7 +1759,7 @@ private lemma tl_col0 (f ξ : ℚ) :
 
 private lemma tl_col1 (f ξ : ℚ) :
     tlColumn f ξ 1 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1769,7 +1769,7 @@ private lemma tl_col1 (f ξ : ℚ) :
 
 private lemma tl_col2 (f ξ : ℚ) :
     tlColumn f ξ 2 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1779,7 +1779,7 @@ private lemma tl_col2 (f ξ : ℚ) :
 
 private lemma tl_col3 (f ξ : ℚ) :
     tlColumn f ξ 3 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1789,7 +1789,7 @@ private lemma tl_col3 (f ξ : ℚ) :
 
 private lemma tl_col4 (f ξ : ℚ) :
     tlColumn f ξ 4 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1799,7 +1799,7 @@ private lemma tl_col4 (f ξ : ℚ) :
 
 private lemma tl_col5 (f ξ : ℚ) :
     tlColumn f ξ 5 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1809,7 +1809,7 @@ private lemma tl_col5 (f ξ : ℚ) :
 
 private lemma tl_col6 (f ξ : ℚ) :
     tlColumn f ξ 6 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1819,7 +1819,7 @@ private lemma tl_col6 (f ξ : ℚ) :
 
 private lemma tl_col7 (f ξ : ℚ) :
     tlColumn f ξ 7 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1829,7 +1829,7 @@ private lemma tl_col7 (f ξ : ℚ) :
 
 private lemma tl_col8 (f ξ : ℚ) :
     tlColumn f ξ 8 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1839,7 +1839,7 @@ private lemma tl_col8 (f ξ : ℚ) :
 
 private lemma tl_col9 (f ξ : ℚ) :
     tlColumn f ξ 9 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1849,7 +1849,7 @@ private lemma tl_col9 (f ξ : ℚ) :
 
 private lemma tl_col10 (f ξ : ℚ) :
     tlColumn f ξ 10 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1859,7 +1859,7 @@ private lemma tl_col10 (f ξ : ℚ) :
 
 private lemma tl_col11 (f ξ : ℚ) :
     tlColumn f ξ 11 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1869,7 +1869,7 @@ private lemma tl_col11 (f ξ : ℚ) :
 
 private lemma tl_col12 (f ξ : ℚ) :
     tlColumn f ξ 12 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1879,7 +1879,7 @@ private lemma tl_col12 (f ξ : ℚ) :
 
 private lemma tl_col13 (f ξ : ℚ) :
     tlColumn f ξ 13 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1889,7 +1889,7 @@ private lemma tl_col13 (f ξ : ℚ) :
 
 private lemma tl_col14 (f ξ : ℚ) :
     tlColumn f ξ 14 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1899,7 +1899,7 @@ private lemma tl_col14 (f ξ : ℚ) :
 
 private lemma tl_col15 (f ξ : ℚ) :
     tlColumn f ξ 15 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1909,7 +1909,7 @@ private lemma tl_col15 (f ξ : ℚ) :
 
 private lemma tl_col16 (f ξ : ℚ) :
     tlColumn f ξ 16 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1919,7 +1919,7 @@ private lemma tl_col16 (f ξ : ℚ) :
 
 private lemma tl_col17 (f ξ : ℚ) :
     tlColumn f ξ 17 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1929,7 +1929,7 @@ private lemma tl_col17 (f ξ : ℚ) :
 
 private lemma tl_col18 (f ξ : ℚ) :
     tlColumn f ξ 18 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1939,7 +1939,7 @@ private lemma tl_col18 (f ξ : ℚ) :
 
 private lemma tl_col19 (f ξ : ℚ) :
     tlColumn f ξ 19 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1949,7 +1949,7 @@ private lemma tl_col19 (f ξ : ℚ) :
 
 private lemma tl_col20 (f ξ : ℚ) :
     tlColumn f ξ 20 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1959,7 +1959,7 @@ private lemma tl_col20 (f ξ : ℚ) :
 
 private lemma tl_col21 (f ξ : ℚ) :
     tlColumn f ξ 21 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1969,7 +1969,7 @@ private lemma tl_col21 (f ξ : ℚ) :
 
 private lemma tl_col22 (f ξ : ℚ) :
     tlColumn f ξ 22 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
@@ -1979,7 +1979,7 @@ private lemma tl_col22 (f ξ : ℚ) :
 
 private lemma tl_col23 (f ξ : ℚ) :
     tlColumn f ξ 23 = 0 := by
-  simpa only [tlColumn,
+  simpa [tlColumn,
       tlRowCell0, tlRowCell1, tlRowCell2, tlRowCell3,
       tlRowCell4, tlRowCell5, tlRowCell6, tlRowCell7,
       tlRowCell8, tlRowCell9, tlRowCell10, tlRowCell11,
