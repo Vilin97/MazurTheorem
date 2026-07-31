@@ -407,7 +407,7 @@ theorem eisensteinNorm_mul (z w : ℤ × ℤ) :
   ring
 
 /-- Complex conjugation in coordinates `a+bω`, using
-`ω̄=ω²=-1-ω`. -/
+`conj(ω)=ω²=-1-ω`. -/
 def eisensteinConj (z : ℤ × ℤ) : ℤ × ℤ :=
   (z.1 - z.2, -z.2)
 
@@ -435,13 +435,13 @@ theorem eisensteinNorm_pi :
     eisensteinNorm eisensteinPi = 7 := by
   norm_num [eisensteinNorm, eisensteinPi]
 
-/-- The conjugate prime is `π̄=2-ω`. -/
+/-- The conjugate prime is `conj(π)=2-ω`. -/
 theorem eisensteinConj_pi :
     eisensteinConj eisensteinPi = (2, -1) := by
   norm_num [eisensteinConj, eisensteinPi]
 
 /-- The coordinate factorization of the rational prime `7` as
-`ππ̄`. -/
+`π·conj(π)`. -/
 theorem seven_eq_pi_mul_conj :
     eisensteinMul eisensteinPi (eisensteinConj eisensteinPi) =
       (7, 0) := by

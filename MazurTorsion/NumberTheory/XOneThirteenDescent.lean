@@ -587,12 +587,12 @@ theorem sixthRootNorm_pi :
     sixthRootNorm sixthRootPi = 19 := by
   norm_num [sixthRootNorm, sixthRootPi]
 
-/-- The conjugate prime is `π̄=5-2ρ`. -/
+/-- The conjugate prime is `conj(π)=5-2ρ`. -/
 theorem sixthRootConj_pi :
     sixthRootConj sixthRootPi = (5, -2) := by
   norm_num [sixthRootConj, sixthRootPi]
 
-/-- Coordinate factorization `19=ππ̄`. -/
+/-- Coordinate factorization `19=π·conj(π)`. -/
 theorem nineteen_eq_pi_mul_conj :
     sixthRootMul sixthRootPi (sixthRootConj sixthRootPi) =
       (19, 0) := by
@@ -628,7 +628,7 @@ def SixthRootPiConjDivides (z : ℤ × ℤ) : Prop :=
   ∃ w : ℤ × ℤ,
     sixthRootMul (sixthRootConj sixthRootPi) w = z
 
-/-- Multiplication by `π̄` cuts out the conjugate index-`19` lattice
+/-- Multiplication by `conj(π)` cuts out the conjugate index-`19` lattice
 `3a-2b ≡ 0 mod 19`. -/
 theorem sixthRootPiConjDivides_iff (a b : ℤ) :
     SixthRootPiConjDivides (a, b) ↔
@@ -659,7 +659,7 @@ theorem nineteen_dvd_sixthRootNorm_of_piDivides
   rw [sixthRootNorm_mul, sixthRootNorm_pi]
   exact ⟨sixthRootNorm w, by ring⟩
 
-/-- The same norm consequence for `π̄`. -/
+/-- The same norm consequence for `conj(π)`. -/
 theorem nineteen_dvd_sixthRootNorm_of_piConjDivides
     (z : ℤ × ℤ) (hz : SixthRootPiConjDivides z) :
     (19 : ℤ) ∣ sixthRootNorm z := by
