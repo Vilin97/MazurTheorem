@@ -21,6 +21,7 @@ import MazurTorsion.Foundations.DivisionPolynomialDiscriminantSeven
 import MazurTorsion.Foundations.FullFourTorsion
 import MazurTorsion.Foundations.NaiveHeightDescent
 import MazurTorsion.Foundations.OddPrimeFullTorsion
+import MazurTorsion.Foundations.Polynomial.BoundedResultant
 import MazurTorsion.Foundations.ThreeTorsion
 import MazurTorsion.Foundations.TwoTorsion
 import MazurTorsion.GroupTheory.ClassificationCardinality
@@ -54,6 +55,9 @@ import MazurTorsion.Kubert.OrderSevenHauptmodul
 import MazurTorsion.Kubert.OrderSevenHauptmodulClearing
 import MazurTorsion.Kubert.OrderSevenIsogeny
 import MazurTorsion.Kubert.OrderSevenBacktrackingSelection
+import MazurTorsion.Kubert.OrderSevenBacktrackingFactorCertificate
+import MazurTorsion.Kubert.OrderSevenBacktrackingObstruction
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenDualKernelPullback
 import MazurTorsion.Kubert.OrderSevenIsogenyDoubling
 import MazurTorsion.Kubert.OrderTwentyOneReduction
