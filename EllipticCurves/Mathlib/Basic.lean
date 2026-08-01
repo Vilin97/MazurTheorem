@@ -496,7 +496,7 @@ lemma IsDedekindDomain.HeightOneSpectrum.valuationOfNeZeroMod_mk_eq_one_iff
     (v : HeightOneSpectrum R) (n : ℕ) (u : Kˣ) :
     v.valuationOfNeZeroMod n (QuotientGroup.mk u) = 1 ↔
       (n : ℤ) ∣ Multiplicative.toAdd (v.valuationOfNeZero u) := by
-  rw [valuationOfNeZeroMod, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe,
+  erw [valuationOfNeZeroMod, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe,
     MonoidHom.coe_coe, EmbeddingLike.map_eq_one_iff]
   refine (QuotientGroup.eq_one_iff _).trans ?_
   rw [Multiplicative.mem_toSubgroup, AddSubgroup.mem_zmultiples_iff]
@@ -680,7 +680,7 @@ theorem exists_valuationOfNeZero_map_eq (φ : L →+* N) (ψ : B →+* C)
   have ht2 : IsScalarTower B C N := .of_algebraMap_eq fun x ↦ (RingHom.congr_fun hcomp x).symm
   have htf : Module.IsTorsionFree B C := Module.isTorsionFree_iff_algebraMap_injective.mpr hψ
   have hlie : w.asIdeal.LiesOver (comapOfNeBot ψ w hne).asIdeal := ⟨rfl⟩
-  refine ⟨(comapOfNeBot ψ w hne).asIdeal.ramificationIdx w.asIdeal, fun u ↦ ?_⟩
+  refine ⟨(comapOfNeBot ψ w hne).asIdeal.ramificationIdx' w.asIdeal, fun u ↦ ?_⟩
   rw [valuationOfNeZero_eq_iff, WithZero.coe_pow, valuationOfNeZero_eq, Units.coe_map,
     MonoidHom.coe_coe]
   exact (valuation_liesOver N (comapOfNeBot ψ w hne) w (u : L)).symm
@@ -1559,8 +1559,10 @@ theorem NumberField.exists_eq_discr_mul_sq (pb : PowerBasis ℚ K)
   let b := (integralBasis K).reindex ((integralBasis K).indexEquiv pb.basis)
   have hP (i j : Fin pb.dim) : IsIntegral ℤ (b.toMatrix pb.basis i j) := by
     have hint : IsIntegral ℤ (pb.basis j) := by rw [pb.coe_basis]; exact hpb.pow _
-    rw [Basis.toMatrix_apply, show pb.basis j = algebraMap (𝓞 K) K ⟨_, hint⟩ from rfl,
-      Basis.repr_reindex_apply, integralBasis_repr_apply]
+    rw [Basis.toMatrix_apply, Basis.repr_reindex_apply]
+    let x : 𝓞 K := ⟨pb.basis j, (mem_integralClosure_iff ℤ K).2 hint⟩
+    have hx : algebraMap (𝓞 K) K x = pb.basis j := rfl
+    rw [← hx, integralBasis_repr_apply]
     exact isIntegral_algebraMap
   obtain ⟨q, hq⟩ := IsIntegrallyClosed.isIntegral_iff.mp (IsIntegral.det hP)
   rw [eq_intCast (algebraMap ℤ ℚ)] at hq

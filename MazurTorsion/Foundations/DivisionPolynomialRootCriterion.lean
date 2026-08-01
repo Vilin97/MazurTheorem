@@ -501,7 +501,7 @@ private lemma seven_cross_identity
 
 /-- The forward fifth-division-polynomial root criterion over `ℚ`. -/
 theorem hasDivisionPolynomialRootCriterion_five
-    (W : WeierstrassCurve ℚ) [W.IsElliptic] :
+    (W : WeierstrassCurve ℚ) :
     OddPrimeFullTorsion.HasDivisionPolynomialRootCriterion W 5 := by
   intro x y hP hfive
   let P := WeierstrassCurve.Affine.Point.some x y hP
@@ -571,7 +571,7 @@ theorem hasDivisionPolynomialRootCriterion_five
 
 /-- The forward seventh-division-polynomial root criterion over `ℚ`. -/
 theorem hasDivisionPolynomialRootCriterion_seven
-    (W : WeierstrassCurve ℚ) [W.IsElliptic] :
+    (W : WeierstrassCurve ℚ) :
     OddPrimeFullTorsion.HasDivisionPolynomialRootCriterion W 7 := by
   intro x y hP hseven
   let P := WeierstrassCurve.Affine.Point.some x y hP

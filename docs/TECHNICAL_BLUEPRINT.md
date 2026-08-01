@@ -11,8 +11,8 @@ For a Weierstrass curve `E` over `ℚ` with `[E.IsElliptic]`, prove
 
 This is the immutable statement in Lean Pool's `Challenge/Mazur.lean`, now
 mirrored by the standalone challenge contracts in this repository.
-The project uses Lean `v4.32.0-rc1` and mathlib commit
-`360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`, matching the challenge.
+The project uses Lean `v4.33.0-rc1` and mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`, matching the challenge.
 
 The first architectural decision is to use the semantics of `Set.ncard`
 honestly. If the torsion set is infinite, its `ncard` is zero. The deep
@@ -33,10 +33,11 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 69,767 project-specific lines of Lean under
-`MazurTorsion/`, plus the attributed 14,066-line exact-pin reduction cone
-under `EllipticCurves/`, and builds without warnings or unproved
-declarations.
+The latest integrated package has 74,199 project-specific lines of Lean under
+`MazurTorsion/`, plus the attributed 14,142-line exact-pin reduction cone
+under `EllipticCurves/` and 129 lines in the two root aggregators. The 88,470
+checked lines build without unproved declarations; the separate challenge
+library contains only its registered open contracts.
 
 ### 2.1 Cardinality bridge
 
@@ -546,7 +547,7 @@ step without assuming any of the geometric exclusions.
 It defines
 
 ```lean
-remainingKubertForbiddenOrders = {18, 21, 25, 27, 35, 49}
+remainingKubertForbiddenOrders = {18, 25, 35, 49}
 ```
 
 and its strongest current public theorem
@@ -556,11 +557,12 @@ rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions
 ```
 
 uses the unconditional level-fourteen, level-fifteen, level-sixteen,
-level-twenty, and level-twenty-four obstructions internally.  Consequently,
-the current callback boundary consists of prime orders at least eleven and
-only the displayed six composite orders; a downstream caller cannot
-accidentally reintroduce any completed case as an assumption.  The earlier
-incremental interfaces remain available for compatibility.
+level-twenty, level-twenty-one, level-twenty-four, and level-twenty-seven
+obstructions internally. Consequently, the current callback boundary consists
+of prime orders at least eleven and only the displayed four composite orders;
+a downstream caller cannot accidentally reintroduce any completed case as an
+assumption. The earlier incremental interfaces remain available for
+compatibility.
 
 `Kubert/TateNormalForm.lean` and
 `Kubert/TateNormalFormMultiples.lean` are also compiled. They construct the
@@ -860,8 +862,8 @@ therefore `0` or `4`, contradicting the model image.  The compiled
 `Kubert/OrderFifteen.lean` unconditionally excludes exact rational order
 fifteen.
 
-The remaining low-level work must turn the six still-open composite order
-cases `18,21,25,27,35,49` into explicit rational-point
+The remaining low-level work must turn the four still-open composite order
+cases `18,25,35,49` into explicit rational-point
 classifications; cyclic orders divisible by five or seven are not
 consequences of the already-proved *full* `C₅²` and `C₇²` obstructions.
 
@@ -872,8 +874,8 @@ Kubert/TateNormalForm
         │ [compiled through explicit 5P and recurrent 6P]
         ▼
 Kubert/LowLevels
-  no orders 14,15,16,20,24 [compiled]
-  callbacks 18,21,25,27,35,49
+  no orders 14,15,16,20,21,24,27 [compiled]
+  callbacks 18,25,35,49
         │
         ├───────────────► MazurTate/OrderThirteen
         │
@@ -1381,7 +1383,7 @@ V\in\{0,9,-7,-3,21\}
 
 holds unconditionally, as do the affine classifications on both models.
 
-The modular bridge is also compiled up to its final transfer.
+The modular bridge and its final transfer are compiled.
 `Kubert/ThreeNormalForm.lean` normalizes an exact order-three point to
 `y² + a₁xy + a₃y = x³` by a translation-shear with `u = 1` and proves the
 cleared hauptmodul identity for `t₃ = (a₁³-27a₃)/a₃`.
@@ -1398,13 +1400,13 @@ excludes all four exceptional `j`-invariants of the noncuspidal
 certificate, since each numerator is divisible by `5³` while each
 denominator is a power of two.
 
-The one remaining order-21 leaf is the transfer identifying the rational
-solutions of the `HauptmodulPair` plane curve with the eight known points
-of the split model: an explicit birational map
-`(t₃,t₇) ↦ (V,W)` with kernel-checked cofactor identities.  Its
-q-expansion derivation is in progress; once the four noncuspidal pairs are
-pinned to the four exceptional `j`-values, the compiled certificates close
-exact order twenty-one.
+`NumberTheory/XZeroTwentyOneTransfer.lean` completes the transfer from every
+noncuspidal rational `HauptmodulPair` solution to the split model through an
+explicit birational map `(t₃,t₇) ↦ (V,W)`. Kernel-checked cofactor identities
+show that `t₃` is one of the four exceptional noncuspidal values. Combining
+that result with the mod-five exceptional-`j` certificates in
+`Kubert/OrderTwentyOne.lean` gives the unconditional theorem
+`rationalPoint_addOrderOf_ne_twentyOne`.
 
 ### 6.5 Order-forty-nine boundary
 
@@ -1799,28 +1801,30 @@ Verification commands:
 LEAN_NUM_THREADS=1 lake build MazurTorsion
 rg -n '\b(sorry|admit|axiom|unsafe|partial)\b|set_option|native_decide' \
   MazurTorsion MazurTorsion.lean --glob '*.lean'
-git diff --check -- mazur-torsion
+git diff --check
 ```
 
-Builds are serialized. `/usr/bin/time -l` is used on full checks. The largest
-observed maximum resident set so far is approximately 3.68 GB, safely below
-the 50 GB limit. A broken build is the highest-priority issue and must be
-repaired before any new theorem work.
+Builds are serialized. The generated order-27 proof has its own staged,
+cacheable prebuild because it is the dominant time and memory consumer; CI
+keys that cache to the exact toolchain, manifest, and source cone. A broken
+build is the highest-priority issue and must be repaired before any new
+theorem work.
 
-No source file should exceed LeanPool's 10,000-line limit. Long proofs should
-be decomposed into named lemmas, normally keeping individual theorem bodies
-below 200 lines.
+Hand-written source should respect Lean Pool's 10,000-line limit. Generated
+certificate files are the documented exception and are decomposed into staged
+modules; ordinary theorem bodies should normally remain below 200 lines.
 
 ## 13. Checkpoint discipline
 
-The workspace contains unrelated McKay changes. Every checkpoint must stage
-only the Mazur subtree:
+Every checkpoint must stage only the intended release files and review the
+result before committing:
 
 ```sh
-git add -- mazur-torsion
+git status --short
+git add -- <intended paths>
 git diff --cached --check
 git diff --cached --stat
-git commit -m "checkpoint: advance Mazur torsion formalization"
+git commit -m "checkpoint: advance Mazur theorem formalization"
 git push origin codex/mazur-torsion
 ```
 

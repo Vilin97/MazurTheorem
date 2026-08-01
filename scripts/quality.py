@@ -36,6 +36,10 @@ AUDITED_SOURCE_FILES = (
     REPOSITORY_ROOT / "EllipticCurves.lean",
 )
 ARCHIVED_DRAFT_ROOT = REPOSITORY_ROOT / "archive" / "drafts"
+BLUEPRINT_CHAPTER_ROOT = REPOSITORY_ROOT / "blueprint" / "MazurBlueprint" / "Chapters"
+BLUEPRINT_TOP_LEVEL = (
+    REPOSITORY_ROOT / "blueprint" / "MazurBlueprint" / "Blueprint.lean"
+)
 
 IDENTIFIER_PATTERN = re.compile(r"^MT-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 IMPORT_PATTERN = re.compile(
@@ -88,7 +92,24 @@ ALLOWED_READINESS = {"compiled", "integrated", "nouns_missing", "statement_only"
 ALLOWED_KINDS = {"infrastructure", "integration", "milestone", "proof", "upstream"}
 ALLOWED_RISKS = {"extreme", "high", "low", "medium"}
 ALLOWED_BACKENDS = {"mathlib", "mazur", "mixed", "tauceti"}
+ALLOWED_DELIVERABLE_KINDS = {
+    "audit",
+    "definition",
+    "integration",
+    "structure",
+    "theorem",
+}
+ALLOWED_DELIVERABLE_STATES = {"contract", "integrated", "proposed"}
 COMMIT_PATTERN = re.compile(r"^[0-9a-f]{40}$")
+BLUEPRINT_BLOCK_PATTERN = re.compile(
+    r'^:::(?P<kind>definition|lemma|proposition|theorem|group)\s+'
+    r'"(?P<label>[^"]+)"(?P<metadata>[^\n]*)\n'
+    r'(?P<body>.*?)'
+    r'^:::[ \t]*$',
+    re.MULTILINE | re.DOTALL,
+)
+BLUEPRINT_PARENT_PATTERN = re.compile(r'\(parent\s*:=\s*"([^"]+)"\)')
+BLUEPRINT_USES_PATTERN = re.compile(r'\(uses\s*:=\s*"([^"]*)"\)')
 
 
 class Validator:
@@ -364,7 +385,7 @@ def validate_program_shape(
     validator: Validator, program: dict[str, Any]
 ) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
     """Validate node fields, weights, progress, and dependency topology."""
-    validator.require(program.get("schema_version") == 1, "schema_version must be 1")
+    validator.require(program.get("schema_version") == 2, "schema_version must be 2")
     stages = program.get("stages")
     nodes = program.get("nodes")
     validator.require(isinstance(stages, list), "stages must be a list")
@@ -391,6 +412,45 @@ def validate_program_shape(
             and stage["weight_points"] > 0,
             f"{stage_id}: weight_points must be a positive integer",
         )
+        deliverables = stage.get("deliverables")
+        validator.require(
+            isinstance(deliverables, list) and bool(deliverables),
+            f"{stage_id}: deliverables must be a nonempty list",
+        )
+        deliverable_names: set[str] = set()
+        if isinstance(deliverables, list):
+            for index, deliverable in enumerate(deliverables, start=1):
+                prefix = f"{stage_id}: deliverable {index}"
+                validator.require(
+                    isinstance(deliverable, dict),
+                    f"{prefix} must be an object",
+                )
+                if not isinstance(deliverable, dict):
+                    continue
+                name = deliverable.get("name")
+                validator.require(
+                    isinstance(name, str) and bool(name.strip()),
+                    f"{prefix} needs a nonempty name",
+                )
+                if isinstance(name, str):
+                    validator.require(
+                        name not in deliverable_names,
+                        f"{stage_id}: duplicate deliverable name {name!r}",
+                    )
+                    deliverable_names.add(name)
+                validator.require(
+                    deliverable.get("kind") in ALLOWED_DELIVERABLE_KINDS,
+                    f"{prefix} has invalid kind {deliverable.get('kind')!r}",
+                )
+                validator.require(
+                    deliverable.get("state") in ALLOWED_DELIVERABLE_STATES,
+                    f"{prefix} has invalid state {deliverable.get('state')!r}",
+                )
+                description = deliverable.get("description")
+                validator.require(
+                    isinstance(description, str) and len(description.strip()) >= 24,
+                    f"{prefix} needs a concrete description",
+                )
 
     node_by_id: dict[str, dict[str, Any]] = {}
     stage_totals: defaultdict[str, int] = defaultdict(int)
@@ -624,6 +684,94 @@ def validate_program_shape(
     return stage_by_id, node_by_id
 
 
+def validate_blueprint_topology(
+    validator: Validator,
+    stage_by_id: dict[str, dict[str, Any]],
+    node_by_id: dict[str, dict[str, Any]],
+) -> None:
+    """Keep the Verso labels, groups, and mathematical edges equal to the DAG."""
+    chapter_files = sorted(BLUEPRINT_CHAPTER_ROOT.glob("*.lean"))
+    validator.require(
+        len(chapter_files) == len(stage_by_id),
+        "the Verso blueprint must have exactly one chapter per programme stage",
+    )
+    entries: dict[str, tuple[str | None, set[str], str]] = {}
+    groups: set[str] = set()
+    for path in chapter_files:
+        source = path.read_text(encoding="utf-8")
+        for match in BLUEPRINT_BLOCK_PATTERN.finditer(source):
+            kind = match.group("kind")
+            label = match.group("label")
+            metadata = match.group("metadata")
+            if kind == "group":
+                validator.require(label not in groups, f"duplicate Blueprint group {label}")
+                groups.add(label)
+                continue
+            validator.require(label not in entries, f"duplicate Blueprint node {label}")
+            parent_match = BLUEPRINT_PARENT_PATTERN.search(metadata)
+            uses_match = BLUEPRINT_USES_PATTERN.search(metadata)
+            dependencies = {
+                dependency.strip()
+                for dependency in (uses_match.group(1).split(",") if uses_match else [])
+                if dependency.strip()
+            }
+            entries[label] = (
+                parent_match.group(1) if parent_match else None,
+                dependencies,
+                match.group("body"),
+            )
+
+    validator.require(
+        groups == set(stage_by_id),
+        "Verso Blueprint groups must exactly match the six programme stages",
+    )
+    validator.require(
+        set(entries) == set(node_by_id),
+        "Verso Blueprint labels must exactly match the 48 programme node ids",
+    )
+    for node_id, node in node_by_id.items():
+        if node_id not in entries:
+            continue
+        parent, dependencies, body = entries[node_id]
+        validator.require(
+            parent == node.get("stage"),
+            f"{node_id}: Blueprint parent {parent!r} differs from its programme stage",
+        )
+        expected_dependencies = set(node.get("depends_on", []))
+        validator.require(
+            dependencies == expected_dependencies,
+            f"{node_id}: Blueprint uses differ from programme dependencies "
+            f"(expected {sorted(expected_dependencies)}, actual {sorted(dependencies)})",
+        )
+        artifacts = node.get("artifacts")
+        if not isinstance(artifacts, list):
+            continue
+        for artifact in artifacts:
+            if not isinstance(artifact, dict) or not isinstance(
+                artifact.get("name"), str
+            ):
+                continue
+            artifact_name = artifact["name"]
+            validator.require(
+                f"`{artifact_name}`" in body,
+                f"{node_id}: Blueprint block omits canonical artifact "
+                f"{artifact_name}",
+            )
+
+    if not BLUEPRINT_TOP_LEVEL.is_file():
+        validator.errors.append("missing Verso Blueprint top-level module")
+        return
+    top_level = BLUEPRINT_TOP_LEVEL.read_text(encoding="utf-8")
+    validator.require(
+        "{blueprint_graph" in top_level,
+        "Verso Blueprint top level must render the interactive dependency graph",
+    )
+    validator.require(
+        "{blueprint_summary}" in top_level,
+        "Verso Blueprint top level must render the progress summary",
+    )
+
+
 def validate_dependencies(
     validator: Validator, node_by_id: dict[str, dict[str, Any]]
 ) -> None:
@@ -758,6 +906,84 @@ def local_declaration_sources() -> dict[str, Path]:
         for declaration in declarations_in_source(code):
             declarations[declaration] = path
     return declarations
+
+
+def validate_node_artifacts(
+    validator: Validator, node_by_id: dict[str, dict[str, Any]]
+) -> None:
+    """Require a concrete artifact list or an exact registered challenge."""
+    local_sources: dict[str, Path] | None = None
+    for node_id, node in node_by_id.items():
+        artifacts = node.get("artifacts")
+        challenge = node.get("challenge")
+        has_artifacts = isinstance(artifacts, list) and bool(artifacts)
+        validator.require(
+            has_artifacts or isinstance(challenge, dict),
+            f"{node_id}: needs nonempty artifacts or an exact challenge contract",
+        )
+        if artifacts is None:
+            continue
+        validator.require(
+            has_artifacts,
+            f"{node_id}: artifacts must be a nonempty list when present",
+        )
+        if not isinstance(artifacts, list):
+            continue
+
+        artifact_names: set[str] = set()
+        for index, artifact in enumerate(artifacts, start=1):
+            prefix = f"{node_id}: artifact {index}"
+            validator.require(isinstance(artifact, dict), f"{prefix} must be an object")
+            if not isinstance(artifact, dict):
+                continue
+            name = artifact.get("name")
+            valid_name = isinstance(name, str) and bool(
+                QUALIFIED_NAME_PATTERN.fullmatch(name)
+            )
+            validator.require(
+                valid_name,
+                f"{prefix} name must be a qualified Lean-style identifier",
+            )
+            if isinstance(name, str):
+                validator.require(
+                    name not in artifact_names,
+                    f"{node_id}: duplicate artifact name {name!r}",
+                )
+                artifact_names.add(name)
+            validator.require(
+                artifact.get("kind") in ALLOWED_DELIVERABLE_KINDS,
+                f"{prefix} has invalid kind {artifact.get('kind')!r}",
+            )
+            state = artifact.get("state")
+            validator.require(
+                state in ALLOWED_DELIVERABLE_STATES,
+                f"{prefix} has invalid state {state!r}",
+            )
+            description = artifact.get("description")
+            validator.require(
+                isinstance(description, str) and len(description.strip()) >= 24,
+                f"{prefix} needs a concrete description",
+            )
+            module = artifact.get("module")
+            if module is not None:
+                validator.require(
+                    isinstance(module, str)
+                    and bool(QUALIFIED_NAME_PATTERN.fullmatch(module)),
+                    f"{prefix} module must be a qualified Lean module name",
+                )
+            if state == "integrated" and isinstance(name, str):
+                if local_sources is None:
+                    local_sources = local_declaration_sources()
+                validator.require(
+                    name in local_sources,
+                    f"{prefix} claims missing integrated declaration {name}",
+                )
+                completion = node.get("completion")
+                validator.require(
+                    isinstance(completion, dict)
+                    and completion.get("integrated") is True,
+                    f"{prefix} may be integrated only on an integrated node",
+                )
 
 
 def validate_challenge_metadata(
@@ -1184,7 +1410,9 @@ def main() -> None:
     validator = Validator()
     program = read_program(validator)
     validate_pins(validator, program)
-    _, node_by_id = validate_program_shape(validator, program)
+    stage_by_id, node_by_id = validate_program_shape(validator, program)
+    validate_node_artifacts(validator, node_by_id)
+    validate_blueprint_topology(validator, stage_by_id, node_by_id)
     challenge_count = validate_challenges(validator, node_by_id)
     validate_aggregator_coverage(validator, node_by_id)
     source_count, line_count = validate_integrated_sources(validator)

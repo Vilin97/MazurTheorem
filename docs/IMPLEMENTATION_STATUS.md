@@ -4,7 +4,7 @@ This Lean 4 package targets Lean Pool's `Challenge.Mazur.torsion_ncard_le`:
 the torsion subgroup of the rational points of an elliptic curve over `ℚ`
 has at most sixteen elements.
 
-The package is pinned to Lean `v4.32.0-rc1` and the matching Mathlib release
+The package is pinned to Lean `v4.33.0-rc1` and the matching Mathlib release
 used by the LeanPool challenge. Development is kept buildable and
 placeholder-free: incomplete mathematical layers are tracked in the
 [technical blueprint](TECHNICAL_BLUEPRINT.md) and
@@ -111,16 +111,16 @@ Current machine-checked results include:
   assuming that the raw point functions preserve arbitrary addition;
 * the explicit `X₀(21)` curve `y²+xy=x³-4x-1`, its split
   full-two-torsion model, complete denominator squareclass reduction,
-  mod-`16` local obstructions, and a conditional eight-point
-  classification whose only arithmetic inputs are two named primitive
-  quartic descents;
+  mod-`16` local obstructions, unconditional eight-point classification,
+  checked Hauptmodul transfer, exceptional-`j` certificates, and the resulting
+  exclusion of exact rational order twenty-one;
 * an exact divisor-closure reduction of the point-order theorem to prime
   orders at least eleven and the eleven minimal composite orders
   `14,15,16,18,20,21,24,25,27,35,49`;
 * an incremental rational point-order interface which applies the
-  unconditional order-`14`, `15`, `16`, `20`, and `24` theorems
-  internally, leaving callbacks only for the large-prime layer and the six
-  composite orders `18,21,25,27,35,49`;
+  unconditional order-`14`, `15`, `16`, `20`, `21`, `24`, and `27` theorems
+  internally, leaving callbacks only for the large-prime layer and the four
+  composite orders `18,25,35,49`;
 * an exact conditional cardinality endpoint whose only input is the
   point-order theorem;
 * the explicit point-group additive equivalence induced by a Weierstrass

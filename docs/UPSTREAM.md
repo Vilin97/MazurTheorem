@@ -5,10 +5,10 @@ uses them as upstreams, not as untracked code mines.
 
 ## Core pin
 
-The checked `MazurTorsion` package remains on Lean `v4.32.0-rc1` and Mathlib
-commit `360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`, matching the original Lean
-Pool challenge. A pin migration is its own weighted roadmap node and its own
-pull request.
+The checked `MazurTorsion` package uses Lean `v4.33.0-rc1` and Mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`, matching the current Lean Pool
+challenge and the Tau Ceti contract workspace. Future pin migrations remain
+their own weighted roadmap node and pull request.
 
 ## Mathlib
 
@@ -26,9 +26,10 @@ the target statement without importing its open challenge.
 
 Tau Ceti is the preferred upstream for large algebraic-geometry interfaces
 such as divisors, Picard functors, abelian varieties, and the Jacobian
-roadmap. Current Tau Ceti uses a different Lean/Mathlib pin, so its work lives
-in [`upstream/tauceti/`](../upstream/tauceti/) as a separate Lake package.
-Cross-pin integration is blocked until the explicit migration node lands.
+roadmap. It now shares this repository's exact Lean/Mathlib pin, while its work
+still lives in [`upstream/tauceti/`](../upstream/tauceti/) as a separately
+resolved Lake package. Direct integration remains blocked until the explicit
+migration node connects those dependency graphs and adds consumer tests.
 
 ## FLT repositories
 
@@ -52,8 +53,9 @@ That is the right coordination pattern for a theorem whose prerequisites are
 larger than its final statement. This repository adopts the dependency-first
 blueprint, visible verification status, and source-project separation. It adds
 an exact weighted ledger and compiler-checked claim contracts because Mazur's
-current frontier spans two incompatible dependency pins. The visual roadmap
-is coordination evidence, not proof evidence.
+current frontier spans separately resolved dependency graphs and several
+unbuilt interfaces. The visual roadmap is coordination evidence, not proof
+evidence.
 
 ## Dependency updates
 

@@ -1180,13 +1180,31 @@ private theorem exceptional_auxiliary_translate_double
     rw [G, WeierstrassCurve.Affine.Point.neg_some]
     simp only [WeierstrassCurve.Affine.Point.some.injEq]
     norm_num [WeierstrassCurve.Affine.negY, curve]
+  let hsum : curve.toAffine.Nonsingular
+      (curve.toAffine.addX U 4 (curve.toAffine.slope U 4 V (-4)))
+      (curve.toAffine.addY U 4 V (curve.toAffine.slope U 4 V (-4))) :=
+    WeierstrassCurve.Affine.nonsingular_add hP nonsingular_four_neg_four
+      (fun h ↦ hUfour h.1)
+  have point_some_eq_of_coordinates {x₁ y₁ x₂ y₂ : ℚ}
+      (h₁ : curve.toAffine.Nonsingular x₁ y₁)
+      (h₂ : curve.toAffine.Nonsingular x₂ y₂)
+      (hx : x₁ = x₂) (hy : y₁ = y₂) :
+      WeierstrassCurve.Affine.Point.some x₁ y₁ h₁ =
+        WeierstrassCurve.Affine.Point.some x₂ y₂ h₂ := by
+    subst x₂
+    subst y₂
+    rfl
   have hsub :
       WeierstrassCurve.Affine.Point.some U V hP - G = R := by
-    rw [sub_eq_add_neg, hnegG]
-    rw [WeierstrassCurve.Affine.Point.add_of_X_ne hUfour]
-    dsimp [R]
-    simp only [WeierstrassCurve.Affine.Point.some.injEq]
-    exact ⟨haddX, haddY⟩
+    calc
+      WeierstrassCurve.Affine.Point.some U V hP - G =
+          WeierstrassCurve.Affine.Point.some
+            (curve.toAffine.addX U 4 (curve.toAffine.slope U 4 V (-4)))
+            (curve.toAffine.addY U 4 V (curve.toAffine.slope U 4 V (-4))) hsum := by
+        rw [sub_eq_add_neg, hnegG]
+        exact WeierstrassCurve.Affine.Point.add_of_X_ne hUfour
+      _ = R := by
+        exact point_some_eq_of_coordinates hsum hR haddX haddY
   have hsum0 : t + s ≠ 0 := by
     intro hsum
     have htneg : t = -s := by linarith

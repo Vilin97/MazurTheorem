@@ -28,6 +28,16 @@ export type Challenge = {
   skills: string[];
 };
 
+export type ProgrammeArtifact = {
+  kind: "audit" | "definition" | "integration" | "structure" | "theorem";
+  name: string;
+  state: "contract" | "integrated" | "proposed";
+  description: string;
+  module?: string;
+  declaration?: string;
+  signature?: string;
+};
+
 export type ProgrammeNode = {
   id: string;
   title: string;
@@ -42,6 +52,7 @@ export type ProgrammeNode = {
   depends_on: string[];
   unlocks: string[];
   completion: Completion;
+  artifacts?: ProgrammeArtifact[];
   challenge?: Challenge;
 };
 
@@ -50,6 +61,7 @@ export type ProgrammeStage = {
   title: string;
   weight_points: number;
   summary: string;
+  deliverables?: ProgrammeArtifact[];
 };
 
 export type Programme = {

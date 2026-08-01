@@ -15,10 +15,10 @@ It is still marked open and estimates roughly 50,000 lines.
 
 The challenge pin is:
 
-* Lean `v4.32.0-rc1`;
-* mathlib tag `v4.32.0-rc1`;
+* Lean `v4.33.0-rc1`;
+* mathlib tag `v4.33.0-rc1`;
 * resolved mathlib commit
-  `360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`.
+  `79d0395a1825a6264ad5d269e35e60537518955e`.
 
 No `Solution/Mazur.lean` exists on upstream `main`, and a repository-wide
 search found no second proof of the exact declaration.  The

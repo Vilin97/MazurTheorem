@@ -1707,13 +1707,12 @@ coordinates the seven affine points are
 (-1,2),(-1,-1),(5,8),(5,-13).
 \]
 
-The independent modular reconnaissance also records the denominator-free
-equation obtained by equating the classical `X₀(3)` and `X₀(7)`
-Hauptmodul formulas, plus four visible pairs and their `j`-values.  It does
-not yet prove that an exact order-twenty-one point maps to a noncuspidal
-point of (X21-a).  Thus the two honest remaining parts of this branch are
-the infinite descents (X21-g) and a checked modular/Tate birational bridge;
-neither is hidden as an assumption.
+The compiled modular bridge equates the classical `X₀(3)` and `X₀(7)`
+Hauptmodul formulas without denominators. An explicit birational transfer to
+the split curve proves that every noncuspidal rational pair has one of the
+four visible `t₃`-values, and the recorded `j`-links feed those values into
+the mod-five exceptional-family certificates. Together with the compiled
+descent, this closes exact rational order twenty-one unconditionally.
 
 Order sixteen is now excluded completely.  Suppose `R` has exact order
 sixteen and put

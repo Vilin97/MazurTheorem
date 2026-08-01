@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 168 checked Lean files and 88,339
+The integrated development contains 172 checked Lean files and 88,470
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`. The current finite frontier is:
@@ -82,7 +82,7 @@ reviewed before proof volume is accumulated behind it.
 
 ## Build
 
-The package is pinned to Lean `v4.32.0-rc1` and the matching Mathlib release.
+The package is pinned to Lean `v4.33.0-rc1` and the matching Mathlib release.
 It needs about 8 GB of local cache. Fetch Mathlib's compiled cache first:
 
 ```sh
@@ -100,6 +100,19 @@ python3 scripts/quality.py
 Full cold builds, documentation, and exposition extraction run in GitHub
 Actions so contributors do not need a large workstation.
 
+The mathematical dependency graph is built with the official
+[`leanprover/verso-blueprint`](https://github.com/leanprover/verso-blueprint)
+package:
+
+```sh
+cd blueprint
+LEAN_NUM_THREADS=1 lake exe vbp build
+LEAN_NUM_THREADS=1 lake exe vbp check
+```
+
+The interactive output is written to `blueprint/_out/site/html-multi` and
+published at the stable `/blueprint/` route on GitHub Pages.
+
 ## Project map
 
 - [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
@@ -108,8 +121,8 @@ Actions so contributors do not need a large workstation.
 - [`Challenge/`](Challenge/) — immutable open theorem contracts;
 - [`coordination/program.json`](coordination/program.json) — canonical
   weighted DAG and claim metadata;
-- [`blueprint/src/blueprint.tex`](blueprint/src/blueprint.tex) — mathematical
-  blueprint;
+- [`blueprint/MazurBlueprint/Blueprint.lean`](blueprint/MazurBlueprint/Blueprint.lean)
+  — six-stage Verso blueprint, dependency graph, and progress summary;
 - [`upstream/tauceti/`](upstream/tauceti/) — separately pinned Tau Ceti
   interface challenges;
 - [`docs/`](docs/) — methodology, prior-art audit, and technical narrative;

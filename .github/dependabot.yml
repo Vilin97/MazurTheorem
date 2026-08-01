@@ -3,15 +3,32 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 2
 
   - package-ecosystem: npm
     directory: /site
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
-      site-dependencies:
+      site-minor-and-patch:
         patterns:
           - "*"
-    open-pull-requests-limit: 5
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: vinext
+        update-types:
+          - "version-update:semver-minor"
+      - dependency-name: "@vitejs/plugin-rsc"
+        update-types:
+          - "version-update:semver-minor"
+    open-pull-requests-limit: 2
