@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderSevenIsogeny
+import MazurTorsion.Kubert.OrderSevenIsogenyPolynomialData
 import Mathlib.Tactic.ComputeDegree
 
 /-!
@@ -27,22 +27,13 @@ noncomputable def sourceDoubleXPolynomial (d : ℚ) : ℚ[X] :=
   X ^ 4 - C (orderSevenFamily d).b₄ * X ^ 2 -
     C (2 * (orderSevenFamily d).b₆) * X - C (orderSevenFamily d).b₈
 
-noncomputable def kernelPolynomial (d : ℚ) : ℚ[X] :=
-  X * (X - C (orderSevenB d)) * (X - C (orderSevenC d))
+/-- Compatibility alias for the shared source kernel polynomial. -/
+noncomputable abbrev kernelPolynomial :=
+  OrderSevenIsogenyPolynomialData.kernelPolynomial
 
-noncomputable def veluXPolynomial (d : ℚ) : ℚ[X] :=
-  X ^ 7 - C (2 * d * (d - 1) * (d + 1)) * X ^ 6 +
-    C (d * (d - 1) *
-      (d ^ 5 + 2 * d ^ 4 - 3 * d ^ 3 + 5 * d ^ 2 - 7 * d + 1)) *
-        X ^ 5 -
-    C (d ^ 3 * (d - 1) ^ 2 *
-      (6 * d ^ 4 - 9 * d ^ 3 + 12 * d ^ 2 - 13 * d - 1)) * X ^ 4 +
-    C (d ^ 4 * (d - 1) ^ 3 *
-      (d ^ 5 + d ^ 4 + 4 * d ^ 3 - 8 * d ^ 2 - 7 * d - 1)) * X ^ 3 -
-    C (d ^ 6 * (d - 1) ^ 4 * (d + 1) *
-      (3 * d ^ 2 - 5 * d - 3)) * X ^ 2 +
-    C (d ^ 8 * (d - 1) ^ 5 * (d ^ 2 - 3 * d - 3)) * X +
-    C (d ^ 10 * (d - 1) ^ 6)
+/-- Compatibility alias for the shared cleared Vélu abscissa polynomial. -/
+noncomputable abbrev veluXPolynomial :=
+  OrderSevenIsogenyPolynomialData.veluXPolynomial
 
 noncomputable def veluXHomogeneousPolynomial
     (d : ℚ) (u v : ℚ[X]) : ℚ[X] :=
@@ -79,6 +70,8 @@ lemma right_degree (d : ℚ) :
     (doubleXHomogeneousPolynomial (orderSevenQuotient d)
       (veluXPolynomial d) (kernelPolynomial d ^ 2)).natDegree ≤ 28 := by
   unfold doubleXHomogeneousPolynomial veluXPolynomial kernelPolynomial
+    OrderSevenIsogenyPolynomialData.veluXPolynomial
+    OrderSevenIsogenyPolynomialData.kernelPolynomial
   compute_degree
 
 def EvalCertificate (d n : ℚ) : Prop :=

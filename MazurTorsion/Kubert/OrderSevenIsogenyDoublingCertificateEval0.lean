@@ -15,6 +15,7 @@ local macro "solve_orderSeven_doubling_eval" : tactic =>
       (simp [EvalCertificate, veluXHomogeneousPolynomial,
         sourceDoubleXPolynomial, sourceCompletedCubicPolynomial,
         doubleXHomogeneousPolynomial, veluXPolynomial, kernelPolynomial,
+        orderSevenVeluXNumerator, orderSevenKernelPolynomial,
         orderSevenFamily, orderSevenQuotient, orderSevenB, orderSevenC,
         tateNormalCurve, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
         WeierstrassCurve.b₆, WeierstrassCurve.b₈] <;>

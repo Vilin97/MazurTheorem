@@ -52,6 +52,7 @@ import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.Kubert.OrderSevenHauptmodul
 import MazurTorsion.Kubert.OrderSevenIsogeny
+import MazurTorsion.Kubert.OrderSevenDualKernelPullback
 import MazurTorsion.Kubert.OrderSevenIsogenyDoubling
 import MazurTorsion.Kubert.OrderTwentyOneReduction
 import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
