@@ -87,8 +87,12 @@ level-seven correspondence, a contradiction.
 *Status:* `open`; *scope:* exact compiled challenge contract. The
 destination is
 `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`, bridged by
-`MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. Existing
-transfer and rank-zero APIs live under `MazurTorsion.NumberTheory`.
+`MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. The public APIs
+`orderSevenG7F`, `exists_orderSevenHauptmodul_of_exactOrder`,
+`orderSevenQuotient`, and `orderSevenPointMap` now compile. The missing step is
+additivity (or compatibility with multiplication by seven) followed by the
+nonbacktracking tower branch; the rank-zero endpoint already lives under
+`MazurTorsion.NumberTheory`.
 :::
 
 :::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")

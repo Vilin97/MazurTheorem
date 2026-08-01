@@ -33,9 +33,9 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 74,199 project-specific lines of Lean under
+The latest integrated package has 75,033 project-specific lines of Lean under
 `MazurTorsion/`, plus the attributed 14,142-line exact-pin reduction cone
-under `EllipticCurves/` and 129 lines in the two root aggregators. The 88,470
+under `EllipticCurves/` and 132 lines in the two root aggregators. The 89,307
 checked lines build without unproved declarations; the separate challenge
 library contains only its registered open contracts.
 
@@ -1430,12 +1430,16 @@ cardinality six; hence
 X_0(49)^{\mathrm{model}}(\mathbb{Q}) = \{0, (0,0)\},
 \]
 
-the two rational cusps.  The remaining order-49 work is the modular
-tower bridge: the Vélu quotient of the order-seven Tate family by its
-marked kernel is compiled symbolically
-(`Δ' = d(d-1)K⁷` with the Fricke identity `j(E'_d) = j₇(49/t₇)`
-verified), and the branch analysis from an exact order-49 point to a
-noncuspidal point of the model remains.
+the two rational cusps.  The remaining order-49 work is the modular tower
+bridge.  `Kubert/OrderSevenCorrespondence.lean` exposes the exact symmetric
+level-seven correspondence, `Kubert/OrderSevenHauptmodul.lean` normalizes an
+exact order-seven point, and `Kubert/OrderSevenIsogeny.lean` compiles the
+Vélu quotient and its explicit point function.  The quotient discriminant
+`Δ' = d(d-1)K⁷`, the Fricke identity `j(E'_d) = j₇(49/t₇)`, the curve equation,
+and the kernel fibers are checked.  What remains is to prove that the point
+function respects addition (or multiplication by seven) and then carry an
+exact order-49 point through the nonbacktracking branch to a noncuspidal point
+of the classified model.
 
 ### 6.6 Order-twenty-seven exclusion
 
@@ -1774,7 +1778,7 @@ shape should remain this small.
 | M3 | Generic forbidden-embedding finite-group classification | done, including global numerical theorem | low |
 | M4 | Full rational `5`- and `7`-torsion obstructions | done, including both universal discriminant identities | low |
 | M5 | Exceptional products / `X₀(20),X₀(24)` certificates | done: both `C₂×C₁₀` and `C₂×C₁₂` are excluded unconditionally | low |
-| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, 21, 24, and 27 excluded unconditionally, leaving only four composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; orders 21 and 27 are closed end-to-end (plane-model transfers, trisection tower, Fermat-cubic classification); the `X₀(49)` model's rational points are completely determined (two cusps), leaving the order-49 tower bridge | high |
+| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, 21, 24, and 27 excluded unconditionally, leaving only four composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition; level 13 has the symmetry quotient, split-19 descent data, and Pell divisor precursor; order 18 reaches its local Eisenstein descent boundary; orders 21 and 27 are closed end-to-end (plane-model transfers, trisection tower, Fermat-cubic classification); the `X₀(49)` model's rational points are completely determined (two cusps), and the public level-seven correspondence, Hauptmodul, quotient model, and explicit Vélu point function are checked, leaving additivity and the nonbacktracking order-49 tower branch | high |
 | M7 | Mazur prime-level Eisenstein/Néron/cyclotomic argument | planned | extremely high |
 | M8 | Arithmetic assembly and exact `Solution/Mazur.lean` | one-input numerical assembly done; blocked only on the remaining point-order work in M6--M7 | low once dependencies exist |
 

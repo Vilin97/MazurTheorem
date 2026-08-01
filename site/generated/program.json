@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 88470,
-    "integrated_lean_modules": 172,
+    "integrated_lean_lines": 89307,
+    "integrated_lean_modules": 175,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -641,7 +641,7 @@
         "signature": "theorem no_rational_point_of_order_fortyNine\n    (E : WeierstrassCurve ℚ) [E.IsElliptic]\n    (P : (E⁄ℚ).Point) :\n    addOrderOf P ≠ 49 := sorry",
         "imports": ["MazurTorsion.NumberTheory.XZeroFortyNineTransfer"],
         "informal": "An elliptic curve over Q has no rational point of exact order 49.",
-        "recommended_route": "Expose the private level-seven correspondence polynomial as a public API, prove the order-49 tower produces a noncuspidal correspondence point, and apply XZeroFortyNine.no_noncuspidal_correspondence_point.",
+        "recommended_route": "Use the compiled orderSevenG7F, exists_orderSevenHauptmodul_of_exactOrder, orderSevenQuotient, and orderSevenPointMap APIs; prove that the explicit Vélu point function respects addition or multiplication by seven; then carry an exact order-49 point through the nonbacktracking branch and apply XZeroFortyNine.no_noncuspidal_correspondence_point.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],

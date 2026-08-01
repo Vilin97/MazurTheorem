@@ -16,6 +16,11 @@ opposite points in Vélu's formula gives a compact rational map with three
 double poles.  This file records that formula, verifies that it lands on the
 explicit quotient model, and treats all kernel poles as points at infinity.
 
+The source family and quotient coefficients follow Jones, Pappalardi, and
+Stevenhagen, *Locally imprimitive points on elliptic curves*, Section 7.2,
+<https://doi.org/10.1017/S0305004125101795>.  The point-map identities below
+are checked directly by the Lean kernel.
+
 The map is deliberately kept as an underlying point function.  Compatibility
 with addition, or just with multiplication by seven, is a separate theorem
 needed by the order-`49` tower.
@@ -305,7 +310,7 @@ theorem orderSevenVelu_equation
 def OrderSevenKernelX (d x : ℚ) : Prop :=
   x = 0 ∨ x = orderSevenB d ∨ x = orderSevenC d
 
-instance orderSevenKernelX_decidable (d x : ℚ) :
+instance orderSevenKernelXDecidable (d x : ℚ) :
     Decidable (OrderSevenKernelX d x) := by
   unfold OrderSevenKernelX
   infer_instance

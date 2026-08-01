@@ -37,8 +37,8 @@ audit and local changes are recorded in `docs/PRIOR_ART.md`.
 
 ## AI-assisted development
 
-Parts of the proof development were produced in a Claude Code session and
-reviewed, compiled, and committed by Vasily Ilin. Files that record `Claude`
-in their authorship header retain that credit. AI generation is provenance,
-not verification: every completion claim is based on compiled Lean and the
-repository's axiom/source gates.
+Parts of the proof development were produced in Claude Code and Codex agent
+sessions, then reviewed, compiled, and committed under Vasily Ilin's
+direction. Files that record `Claude` in their authorship header retain that
+credit. AI generation is provenance, not verification: every completion
+claim is based on compiled Lean and the repository's axiom/source gates.
