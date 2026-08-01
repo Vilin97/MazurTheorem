@@ -165,6 +165,12 @@ def orderSevenVeluY (d x y : ℚ) : ℚ :=
       (1 - orderSevenC d) * orderSevenVeluX d x +
       orderSevenB d) / 2
 
+/-- The residual level-seven Hauptmodul obtained by applying explicit Tate
+normalization to the Vélu image of an affine source point. -/
+def orderSevenResidualHauptmodul (d x y : ℚ) : ℚ :=
+  orderSevenHauptmodulAt (orderSevenQuotient d)
+    (orderSevenVeluX d x) (orderSevenVeluY d x y)
+
 /-- The kernel polynomial whose roots are the three affine pole
 abscissae. -/
 def orderSevenKernelPolynomial (d x : ℚ) : ℚ :=
@@ -300,6 +306,29 @@ theorem orderSevenVelu_equation
     ring
   rw [hy, mul_pow, hsource]
   exact orderSevenVelu_completedSquare hx0 hxb hxc
+
+private theorem orderSeven_tateNextX
+    {d x y : ℚ} (hx : x ≠ 0)
+    (hcurve : (orderSevenFamily d).toAffine.Equation x y) :
+    tateNextX (orderSevenB d) (orderSevenC d) x y =
+      orderSevenB d * y / x ^ 2 := by
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  simp only [orderSevenFamily, tateNormalCurve] at hcurve
+  simp only [tateNextX]
+  field_simp [hx]
+  linear_combination hcurve
+
+private theorem orderSeven_tateNextY
+    {d x y : ℚ} (hx : x ≠ 0)
+    (hcurve : (orderSevenFamily d).toAffine.Equation x y) :
+    tateNextY (orderSevenB d) (orderSevenC d) x y =
+      orderSevenB d ^ 2 * (x ^ 2 - y) / x ^ 3 := by
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  simp only [orderSevenFamily, tateNormalCurve] at hcurve
+  simp only [tateNextY, tateNextX]
+  field_simp [hx]
+  linear_combination
+    (-orderSevenB d + orderSevenC d * x - x - y) * hcurve
 
 /-- The three affine pole abscissae of the order-seven Vélu map. -/
 def OrderSevenKernelX (d x : ℚ) : Prop :=
@@ -615,6 +644,50 @@ theorem exists_orderSevenHauptmodul_of_order_fortyNine_image
       (addOrderOf_orderSevenPointMap_of_order_fortyNine
         hQ hkernel hmap)
 
+/-- For an affine order-`49` point, the residual Hauptmodul is the explicit
+Tate-normalization expression evaluated at its Vélu image. -/
+theorem orderSevenResidualHauptmodul_spec_of_order_fortyNine
+    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (hQ : addOrderOf
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (orderSevenFamily d).toAffine.Point) = 49)
+    (hkernel : orderSevenPointMap d
+      ((7 : ℕ) • WeierstrassCurve.Affine.Point.some x y hP) = 0)
+    (hmap : orderSevenPointMap d
+      ((7 : ℕ) • WeierstrassCurve.Affine.Point.some x y hP) =
+        (7 : ℕ) • orderSevenPointMap d
+          (WeierstrassCurve.Affine.Point.some x y hP)) :
+    orderSevenResidualHauptmodul d x y ≠ 0 ∧
+      orderSevenJNumerator (orderSevenResidualHauptmodul d x y) *
+          (orderSevenQuotient d).Δ =
+        (orderSevenQuotient d).c₄ ^ 3 *
+          orderSevenResidualHauptmodul d x y ^ 7 := by
+  have hx : ¬OrderSevenKernelX d x := by
+    intro hx
+    have hkilled := seven_nsmul_of_kernelX hP hx
+    have hdvd : (49 : ℕ) ∣ 7 := by
+      rw [← hQ]
+      exact addOrderOf_dvd_of_nsmul_eq_zero hkilled
+    norm_num at hdvd
+  have hx0 : x ≠ 0 := fun h ↦ hx (Or.inl h)
+  have hxb : x ≠ orderSevenB d :=
+    fun h ↦ hx (Or.inr (Or.inl h))
+  have hxc : x ≠ orderSevenC d :=
+    fun h ↦ hx (Or.inr (Or.inr h))
+  have horderImage :=
+    addOrderOf_orderSevenPointMap_of_order_fortyNine hQ hkernel hmap
+  have horderVelu :
+      addOrderOf (orderSevenVeluPoint hP hx0 hxb hxc) = 7 := by
+    rw [← orderSevenPointMap_some_of_not_kernelX hP hx]
+    exact horderImage
+  have hspec := orderSevenHauptmodulAt_spec
+    (orderSevenQuotient d)
+    ((orderSevenQuotient d).toAffine.equation_iff_nonsingular.mp
+      (orderSevenVelu_equation hP.1 hx0 hxb hxc))
+    (by simpa only [orderSevenVeluPoint] using horderVelu)
+  simpa only [orderSevenResidualHauptmodul] using hspec
+
 /-- A second nonbacktracking level-seven Hauptmodul for the quotient gives
 a point on the level-`49` correspondence.  This packages the cancellation
 of the nonzero quotient discriminant; constructing `B` and proving that it
@@ -643,5 +716,28 @@ theorem orderSevenG7F_eq_zero_of_quotient_hauptmodul
     _ = (orderSevenQuotient d).Δ *
           (orderSevenJNumerator B *
             orderSevenFrickeParameter d ^ 7) := by ring
+
+/-- The explicit residual Hauptmodul attached to an affine order-`49`
+point lies on the level-`49` correspondence whenever it is not the
+Fricke/backtracking parameter. -/
+theorem orderSevenG7F_residual_eq_zero_of_order_fortyNine
+    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (hQ : addOrderOf
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (orderSevenFamily d).toAffine.Point) = 49)
+    (hkernel : orderSevenPointMap d
+      ((7 : ℕ) • WeierstrassCurve.Affine.Point.some x y hP) = 0)
+    (hmap : orderSevenPointMap d
+      ((7 : ℕ) • WeierstrassCurve.Affine.Point.some x y hP) =
+        (7 : ℕ) • orderSevenPointMap d
+          (WeierstrassCurve.Affine.Point.some x y hP))
+    (hoff : orderSevenFrickeParameter d ≠
+      orderSevenResidualHauptmodul d x y) :
+    orderSevenG7F (orderSevenFrickeParameter d)
+        (orderSevenResidualHauptmodul d x y) = 0 := by
+  apply orderSevenG7F_eq_zero_of_quotient_hauptmodul hoff
+  exact (orderSevenResidualHauptmodul_spec_of_order_fortyNine
+    hP hQ hkernel hmap).2
 
 end MazurTorsion.Kubert
