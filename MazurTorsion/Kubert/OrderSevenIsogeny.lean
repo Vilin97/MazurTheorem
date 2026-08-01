@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Kubert.OrderSevenHauptmodul
+import MazurTorsion.EllipticCurve.VeluPair
 import Mathlib.Tactic.FieldSimp
 
 /-!
@@ -165,6 +166,19 @@ def orderSevenVeluY (d x y : ℚ) : ℚ :=
       (1 - orderSevenC d) * orderSevenVeluX d x +
       orderSevenB d) / 2
 
+/-- The completed ordinate of the Vélu image is the source completed
+ordinate multiplied by the explicit differential factor. -/
+theorem orderSevenVelu_completedY (d x y : ℚ) :
+    2 * orderSevenVeluY d x y +
+        (orderSevenQuotient d).a₁ * orderSevenVeluX d x +
+        (orderSevenQuotient d).a₃ =
+      orderSevenVeluDifferential d x *
+        (2 * y + (orderSevenFamily d).a₁ * x +
+          (orderSevenFamily d).a₃) := by
+  simp only [orderSevenVeluY, orderSevenQuotient,
+    orderSevenFamily, tateNormalCurve]
+  ring
+
 /-- The residual level-seven Hauptmodul obtained by applying explicit Tate
 normalization to the Vélu image of an affine source point. -/
 def orderSevenResidualHauptmodul (d x y : ℚ) : ℚ :=
@@ -176,7 +190,9 @@ abscissae. -/
 def orderSevenKernelPolynomial (d x : ℚ) : ℚ :=
   x * (x - orderSevenB d) * (x - orderSevenC d)
 
-private def veluSevenXNumerator (d x : ℚ) : ℚ :=
+/-- The cleared numerator of `orderSevenVeluX`; its denominator is the
+square of `orderSevenKernelPolynomial`. -/
+def orderSevenVeluXNumerator (d x : ℚ) : ℚ :=
   x ^ 7 - 2 * d * (d - 1) * (d + 1) * x ^ 6 +
     d * (d - 1) *
       (d ^ 5 + 2 * d ^ 4 - 3 * d ^ 3 + 5 * d ^ 2 - 7 * d + 1) *
@@ -190,7 +206,9 @@ private def veluSevenXNumerator (d x : ℚ) : ℚ :=
     d ^ 8 * (d - 1) ^ 5 * (d ^ 2 - 3 * d - 3) * x +
     d ^ 10 * (d - 1) ^ 6
 
-private def veluSevenDifferentialNumerator (d x : ℚ) : ℚ :=
+/-- The cleared numerator of `orderSevenVeluDifferential`; its denominator
+is the cube of `orderSevenKernelPolynomial`. -/
+def orderSevenVeluDifferentialNumerator (d x : ℚ) : ℚ :=
   x ^ 9 - 3 * d * (d - 1) * (d + 1) * x ^ 8 -
     d * (d - 1) *
       (d ^ 5 - 2 * d ^ 4 - 12 * d ^ 3 + 14 * d ^ 2 - 3 * d + 1) *
@@ -211,37 +229,104 @@ private def veluSevenDifferentialNumerator (d x : ℚ) : ℚ :=
     d ^ 11 * (d - 1) ^ 7 * (d ^ 2 - 7 * d - 7) * x -
     2 * d ^ 13 * (d - 1) ^ 8
 
-private theorem orderSevenVeluX_eq_div
+/-- Away from the kernel abscissae, the explicit Vélu abscissa is the
+cleared numerator divided by the square of the kernel polynomial. -/
+theorem orderSevenVeluX_eq_div
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
     orderSevenVeluX d x =
-      veluSevenXNumerator d x /
+      orderSevenVeluXNumerator d x /
         orderSevenKernelPolynomial d x ^ 2 := by
-  simp only [orderSevenVeluX, veluSevenXNumerator,
+  simp only [orderSevenVeluX, orderSevenVeluXNumerator,
     orderSevenKernelPolynomial, veluSevenT0, veluSevenU0,
     veluSevenTB, veluSevenUB, veluSevenTC, veluSevenUC]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
   ring
 
-private theorem orderSevenVeluDifferential_eq_div
+/-- Away from the kernel abscissae, the explicit Vélu differential is the
+cleared numerator divided by the cube of the kernel polynomial. -/
+theorem orderSevenVeluDifferential_eq_div
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
     orderSevenVeluDifferential d x =
-      veluSevenDifferentialNumerator d x /
+      orderSevenVeluDifferentialNumerator d x /
         orderSevenKernelPolynomial d x ^ 3 := by
   simp only [orderSevenVeluDifferential,
-    veluSevenDifferentialNumerator, orderSevenKernelPolynomial,
+    orderSevenVeluDifferentialNumerator, orderSevenKernelPolynomial,
     veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
     veluSevenTC, veluSevenUC]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
   ring
 
+private theorem orderSevenVeluX_eq_pairCorrections
+    {d x : ℚ} (hx0 : x ≠ 0)
+    (hxb : x ≠ orderSevenB d)
+    (hxc : x ≠ orderSevenC d) :
+    orderSevenVeluX d x = x +
+      Velu.pairXCorrection (orderSevenFamily d) x 0 0 +
+      Velu.pairXCorrection (orderSevenFamily d) x
+        (orderSevenB d) (orderSevenB d * orderSevenC d) +
+      Velu.pairXCorrection (orderSevenFamily d) x
+        (orderSevenC d) (orderSevenB d - orderSevenC d) := by
+  simp only [orderSevenVeluX, Velu.pairXCorrection,
+    veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
+    veluSevenTC, veluSevenUC, orderSevenFamily, tateNormalCurve,
+    WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
+  simp only [orderSevenB, orderSevenC]
+  ring
+
+private theorem orderSevenVeluDifferential_eq_pairCorrections
+    {d x : ℚ} (hx0 : x ≠ 0)
+    (hxb : x ≠ orderSevenB d)
+    (hxc : x ≠ orderSevenC d) :
+    orderSevenVeluDifferential d x = 1 +
+      Velu.pairDifferentialCorrection (orderSevenFamily d) x 0 0 +
+      Velu.pairDifferentialCorrection (orderSevenFamily d) x
+        (orderSevenB d) (orderSevenB d * orderSevenC d) +
+      Velu.pairDifferentialCorrection (orderSevenFamily d) x
+        (orderSevenC d) (orderSevenB d - orderSevenC d) := by
+  simp only [orderSevenVeluDifferential,
+    Velu.pairDifferentialCorrection,
+    veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
+    veluSevenTC, veluSevenUC, orderSevenFamily, tateNormalCurve,
+    WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
+  simp only [orderSevenB, orderSevenC]
+  ring
+
+private def sevenOrbitCorrection
+    {A : Type*} [AddCommGroup A] (f : A → ℚ) (P T : A) : ℚ :=
+  f P + f (P + T) + f (P + (2 : ℕ) • T) +
+      f (P + (3 : ℕ) • T) + f (P + (4 : ℕ) • T) +
+      f (P + (5 : ℕ) • T) + f (P + (6 : ℕ) • T) -
+    (f T + f ((2 : ℕ) • T) + f ((3 : ℕ) • T) +
+      f ((4 : ℕ) • T) + f ((5 : ℕ) • T) + f ((6 : ℕ) • T))
+
+private theorem sevenOrbitCorrection_add
+    {A : Type*} [AddCommGroup A] (f : A → ℚ) (P T : A)
+    (hT : (7 : ℕ) • T = 0) :
+    sevenOrbitCorrection f (P + T) T =
+      sevenOrbitCorrection f P T := by
+  have hshift (n : ℕ) :
+      P + T + n • T = P + (n + 1) • T := by
+    rw [add_nsmul]
+    simp
+    abel
+  have hshiftOne : P + T + T = P + (2 : ℕ) • T := by
+    simp only [two_nsmul]
+    abel
+  simp only [sevenOrbitCorrection]
+  rw [hshiftOne, hshift 2, hshift 3, hshift 4, hshift 5,
+    hshift 6, hT, add_zero]
+  ring
+
 /-- The completed-square cubic identity behind the explicit Vélu map. -/
-private theorem orderSevenVelu_completedSquare
+theorem orderSevenVelu_completedSquare
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
@@ -260,7 +345,8 @@ private theorem orderSevenVelu_completedSquare
       (mul_ne_zero hx0 (sub_ne_zero.mpr hxb))
       (sub_ne_zero.mpr hxc)
   field_simp [hkernel]
-  simp only [veluSevenDifferentialNumerator, veluSevenXNumerator,
+  simp only [orderSevenVeluDifferentialNumerator,
+    orderSevenVeluXNumerator,
     orderSevenKernelPolynomial,
     orderSevenFamily,
     tateNormalCurve, orderSevenQuotient, orderSevenB, orderSevenC,
@@ -301,9 +387,7 @@ theorem orderSevenVelu_equation
         orderSevenVeluDifferential d x *
           (2 * y + (orderSevenFamily d).a₁ * x +
             (orderSevenFamily d).a₃) := by
-    simp only [orderSevenVeluY, orderSevenQuotient,
-      orderSevenFamily, tateNormalCurve]
-    ring
+    exact orderSevenVelu_completedY d x y
   rw [hy, mul_pow, hsource]
   exact orderSevenVelu_completedSquare hx0 hxb hxc
 
@@ -461,6 +545,112 @@ theorem addOrderOf_orderSevenOrigin
   apply addOrderOf_eq_prime (seven_nsmul_orderSevenOrigin d)
   exact WeierstrassCurve.Affine.Point.some_ne_zero _
 
+private theorem orderSevenVelu_orbitFormulas
+    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (hx0 : x ≠ 0) (hxb : x ≠ orderSevenB d)
+    (hxc : x ≠ orderSevenC d) :
+    orderSevenVeluX d x =
+        sevenOrbitCorrection
+          (Velu.pointXOrZero (orderSevenFamily d))
+          (WeierstrassCurve.Affine.Point.some x y hP)
+          (orderSevenOrigin d) ∧
+      orderSevenVeluDifferential d x *
+          (2 * y + (orderSevenFamily d).a₁ * x +
+            (orderSevenFamily d).a₃) =
+        sevenOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderSevenFamily d))
+          (WeierstrassCurve.Affine.Point.some x y hP)
+          (orderSevenOrigin d) := by
+  let P : (orderSevenFamily d).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x y hP
+  let T : (orderSevenFamily d).toAffine.Point := orderSevenOrigin d
+  have hT7 : (7 : ℕ) • T = 0 := by
+    simpa only [T] using seven_nsmul_orderSevenOrigin d
+  have hb : orderSevenB d ≠ 0 := orderSevenB_ne_zero d
+  have h00 := orderSevenOrigin_nonsingular d
+  have hT0 : T = WeierstrassCurve.Affine.Point.some 0 0 h00 := by
+    dsimp only [T, orderSevenOrigin]
+  obtain ⟨h₂, hT2raw⟩ :=
+    two_nsmul_origin_coordinates
+      (orderSevenB d) (orderSevenC d) hb h00
+  obtain ⟨h₃, hT3raw⟩ :=
+    three_nsmul_origin_coordinates
+      (orderSevenB d) (orderSevenC d) hb h00
+  let h₂' : (orderSevenFamily d).toAffine.Nonsingular
+      (orderSevenB d) (orderSevenB d * orderSevenC d) := by
+    simpa only [orderSevenFamily] using h₂
+  let h₃' : (orderSevenFamily d).toAffine.Nonsingular
+      (orderSevenC d) (orderSevenB d - orderSevenC d) := by
+    simpa only [orderSevenFamily] using h₃
+  have hT2 : (2 : ℕ) • T =
+      WeierstrassCurve.Affine.Point.some
+        (orderSevenB d) (orderSevenB d * orderSevenC d) h₂' := by
+    rw [hT0]
+    exact hT2raw.trans (WeierstrassCurve.Affine.Point.some_eq_some
+      (orderSevenFamily d) rfl rfl)
+  have hT3 : (3 : ℕ) • T =
+      WeierstrassCurve.Affine.Point.some
+        (orderSevenC d) (orderSevenB d - orderSevenC d) h₃' := by
+    rw [hT0]
+    exact hT3raw.trans (WeierstrassCurve.Affine.Point.some_eq_some
+      (orderSevenFamily d) rfl rfl)
+  have hT6 : (6 : ℕ) • T = -T := by
+    calc
+      (6 : ℕ) • T = (7 : ℕ) • T - T := by abel
+      _ = -T := by rw [hT7]; simp
+  have hT5 : (5 : ℕ) • T = -((2 : ℕ) • T) := by
+    calc
+      (5 : ℕ) • T = (7 : ℕ) • T - (2 : ℕ) • T := by abel
+      _ = -((2 : ℕ) • T) := by rw [hT7]; simp
+  have hT4 : (4 : ℕ) • T = -((3 : ℕ) • T) := by
+    calc
+      (4 : ℕ) • T = (7 : ℕ) • T - (3 : ℕ) • T := by abel
+      _ = -((3 : ℕ) • T) := by rw [hT7]; simp
+  have hpair0 := Velu.pointXOrZero_add_pair
+    (orderSevenFamily d) hP h00 hx0
+  have hpairB := Velu.pointXOrZero_add_pair
+    (orderSevenFamily d) hP h₂' hxb
+  have hpairC := Velu.pointXOrZero_add_pair
+    (orderSevenFamily d) hP h₃' hxc
+  have hpairZ0 := Velu.pointCompletedYOrZero_add_pair
+    (orderSevenFamily d) hP h00 hx0
+  have hpairZB := Velu.pointCompletedYOrZero_add_pair
+    (orderSevenFamily d) hP h₂' hxb
+  have hpairZC := Velu.pointCompletedYOrZero_add_pair
+    (orderSevenFamily d) hP h₃' hxc
+  constructor
+  · rw [orderSevenVeluX_eq_pairCorrections hx0 hxb hxc]
+    change x +
+        Velu.pairXCorrection (orderSevenFamily d) x 0 0 +
+        Velu.pairXCorrection (orderSevenFamily d) x
+          (orderSevenB d) (orderSevenB d * orderSevenC d) +
+        Velu.pairXCorrection (orderSevenFamily d) x
+          (orderSevenC d) (orderSevenB d - orderSevenC d) =
+      sevenOrbitCorrection (Velu.pointXOrZero (orderSevenFamily d)) P T
+    simp only [sevenOrbitCorrection]
+    rw [hT2, hT3, hT4, hT5, hT6, hT2, hT3]
+    rw [hT0]
+    simp only [P, Velu.pointXOrZero_some, Velu.pointXOrZero_neg]
+    linear_combination -hpair0 - hpairB - hpairC
+  · rw [orderSevenVeluDifferential_eq_pairCorrections hx0 hxb hxc]
+    change (1 +
+        Velu.pairDifferentialCorrection (orderSevenFamily d) x 0 0 +
+        Velu.pairDifferentialCorrection (orderSevenFamily d) x
+          (orderSevenB d) (orderSevenB d * orderSevenC d) +
+        Velu.pairDifferentialCorrection (orderSevenFamily d) x
+          (orderSevenC d) (orderSevenB d - orderSevenC d)) *
+          (2 * y + (orderSevenFamily d).a₁ * x +
+            (orderSevenFamily d).a₃) =
+      sevenOrbitCorrection
+        (Velu.pointCompletedYOrZero (orderSevenFamily d)) P T
+    simp only [sevenOrbitCorrection]
+    rw [hT2, hT3, hT4, hT5, hT6, hT2, hT3]
+    rw [hT0]
+    simp only [P, Velu.pointCompletedYOrZero_some,
+      Velu.pointCompletedYOrZero_neg]
+    linear_combination -hpairZ0 - hpairZB - hpairZC
+
 /-- The denominator-safe affine value of the explicit Vélu map. -/
 noncomputable def orderSevenVeluPoint
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
@@ -471,6 +661,83 @@ noncomputable def orderSevenVeluPoint
   .some (orderSevenVeluX d x) (orderSevenVeluY d x y)
     ((orderSevenQuotient d).toAffine.equation_iff_nonsingular.mp
       (orderSevenVelu_equation hP.1 hx0 hxb hxc))
+
+/-- Away from the kernel poles, the explicit Vélu point is invariant under
+translation by the marked order-seven point. -/
+theorem orderSevenVeluPoint_add_origin
+    {d x y x' y' : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (hP' : (orderSevenFamily d).toAffine.Nonsingular x' y')
+    (hadd :
+      (WeierstrassCurve.Affine.Point.some x y hP :
+          (orderSevenFamily d).toAffine.Point) + orderSevenOrigin d =
+        WeierstrassCurve.Affine.Point.some x' y' hP')
+    (hx0 : x ≠ 0) (hxb : x ≠ orderSevenB d)
+    (hxc : x ≠ orderSevenC d)
+    (hx0' : x' ≠ 0) (hxb' : x' ≠ orderSevenB d)
+    (hxc' : x' ≠ orderSevenC d) :
+    orderSevenVeluPoint hP' hx0' hxb' hxc' =
+      orderSevenVeluPoint hP hx0 hxb hxc := by
+  let P : (orderSevenFamily d).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x y hP
+  let P' : (orderSevenFamily d).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x' y' hP'
+  let T : (orderSevenFamily d).toAffine.Point := orderSevenOrigin d
+  have hadd' : P + T = P' := by
+    simpa only [P, P', T] using hadd
+  have hT7 : (7 : ℕ) • T = 0 := by
+    simpa only [T] using seven_nsmul_orderSevenOrigin d
+  have hform := orderSevenVelu_orbitFormulas hP hx0 hxb hxc
+  have hform' := orderSevenVelu_orbitFormulas hP' hx0' hxb' hxc'
+  have hx : orderSevenVeluX d x' = orderSevenVeluX d x := by
+    calc
+      orderSevenVeluX d x' =
+          sevenOrbitCorrection
+            (Velu.pointXOrZero (orderSevenFamily d)) P' T := by
+        simpa only [P', T] using hform'.1
+      _ = sevenOrbitCorrection
+          (Velu.pointXOrZero (orderSevenFamily d)) P T := by
+        rw [← hadd']
+        exact sevenOrbitCorrection_add _ P T hT7
+      _ = orderSevenVeluX d x := by
+        simpa only [P, T] using hform.1.symm
+  have hcompleted :
+      2 * orderSevenVeluY d x' y' +
+          (orderSevenQuotient d).a₁ * orderSevenVeluX d x' +
+          (orderSevenQuotient d).a₃ =
+        2 * orderSevenVeluY d x y +
+          (orderSevenQuotient d).a₁ * orderSevenVeluX d x +
+          (orderSevenQuotient d).a₃ := by
+    calc
+      2 * orderSevenVeluY d x' y' +
+            (orderSevenQuotient d).a₁ * orderSevenVeluX d x' +
+            (orderSevenQuotient d).a₃ =
+          orderSevenVeluDifferential d x' *
+            (2 * y' + (orderSevenFamily d).a₁ * x' +
+              (orderSevenFamily d).a₃) :=
+        orderSevenVelu_completedY d x' y'
+      _ = sevenOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderSevenFamily d)) P' T := by
+        simpa only [P', T] using hform'.2
+      _ = sevenOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderSevenFamily d)) P T := by
+        rw [← hadd']
+        exact sevenOrbitCorrection_add _ P T hT7
+      _ = orderSevenVeluDifferential d x *
+          (2 * y + (orderSevenFamily d).a₁ * x +
+            (orderSevenFamily d).a₃) := by
+        simpa only [P, T] using hform.2.symm
+      _ = 2 * orderSevenVeluY d x y +
+          (orderSevenQuotient d).a₁ * orderSevenVeluX d x +
+          (orderSevenQuotient d).a₃ :=
+        (orderSevenVelu_completedY d x y).symm
+  have hy : orderSevenVeluY d x' y' = orderSevenVeluY d x y := by
+    linear_combination
+      (1 / 2 : ℚ) * hcompleted -
+        ((orderSevenQuotient d).a₁ / 2) * hx
+  simp only [orderSevenVeluPoint]
+  exact WeierstrassCurve.Affine.Point.some_eq_some
+    (orderSevenQuotient d) hx hy
 
 /-- The total explicit Vélu point function.  The point at infinity and
 the six affine kernel points are sent to infinity. -/
@@ -589,6 +856,263 @@ private theorem seven_nsmul_of_kernelX
       exact hmultiple 3
     · rw [h, ← hthree]
       exact hnegative (hmultiple 3)
+
+/-- On an affine point of exact order `49`, the total explicit point map is
+invariant under translation by the marked order-seven point. -/
+private theorem orderSevenPointMap_add_origin_of_order_fortyNine_affine
+    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (horder : addOrderOf
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (orderSevenFamily d).toAffine.Point) = 49) :
+    orderSevenPointMap d
+        ((WeierstrassCurve.Affine.Point.some x y hP :
+          (orderSevenFamily d).toAffine.Point) + orderSevenOrigin d) =
+      orderSevenPointMap d
+        (WeierstrassCurve.Affine.Point.some x y hP) := by
+  let P : (orderSevenFamily d).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x y hP
+  let T : (orderSevenFamily d).toAffine.Point := orderSevenOrigin d
+  have h7P : (7 : ℕ) • P ≠ 0 := by
+    intro hzero
+    have hdvd : (49 : ℕ) ∣ 7 := by
+      rw [← horder]
+      exact addOrderOf_dvd_of_nsmul_eq_zero hzero
+    norm_num at hdvd
+  have hT7 : (7 : ℕ) • T = 0 := by
+    simpa only [T] using seven_nsmul_orderSevenOrigin d
+  have hsumne : P + T ≠ 0 := by
+    intro hzero
+    have hseven : (7 : ℕ) • (P + T) = 0 := by
+      rw [hzero]
+      simp
+    rw [nsmul_add, hT7, add_zero] at hseven
+    exact h7P hseven
+  obtain ⟨x', y', hP', hadd⟩ :
+      ∃ (x' y' : ℚ)
+        (hP' : (orderSevenFamily d).toAffine.Nonsingular x' y'),
+          P + T = WeierstrassCurve.Affine.Point.some x' y' hP' := by
+    cases hsum : P + T with
+    | zero => exact (hsumne hsum).elim
+    | some x' y' hP' => exact ⟨x', y', hP', rfl⟩
+  have hx : ¬OrderSevenKernelX d x := by
+    intro hkernel
+    exact h7P (seven_nsmul_of_kernelX hP hkernel)
+  have h7P' :
+      (7 : ℕ) •
+        (WeierstrassCurve.Affine.Point.some x' y' hP' :
+          (orderSevenFamily d).toAffine.Point) ≠ 0 := by
+    intro hzero
+    rw [← hadd, nsmul_add, hT7, add_zero] at hzero
+    exact h7P hzero
+  have hx' : ¬OrderSevenKernelX d x' := by
+    intro hkernel
+    exact h7P' (seven_nsmul_of_kernelX hP' hkernel)
+  change orderSevenPointMap d (P + T) = orderSevenPointMap d P
+  rw [hadd, orderSevenPointMap_some_of_not_kernelX hP' hx',
+    show P = WeierstrassCurve.Affine.Point.some x y hP by rfl,
+    orderSevenPointMap_some_of_not_kernelX hP hx]
+  exact orderSevenVeluPoint_add_origin hP hP'
+    (by simpa only [P, T] using hadd)
+    (fun h ↦ hx (Or.inl h))
+    (fun h ↦ hx (Or.inr (Or.inl h)))
+    (fun h ↦ hx (Or.inr (Or.inr h)))
+    (fun h ↦ hx' (Or.inl h))
+    (fun h ↦ hx' (Or.inr (Or.inl h)))
+    (fun h ↦ hx' (Or.inr (Or.inr h)))
+
+private theorem addOrderOf_add_nsmul_orderSevenOrigin
+    {d : ℚ} [(orderSevenFamily d).IsElliptic]
+    {Q : (orderSevenFamily d).toAffine.Point}
+    (hQ : addOrderOf Q = 49) (n : ℕ) :
+    addOrderOf (Q + n • orderSevenOrigin d) = 49 := by
+  let T : (orderSevenFamily d).toAffine.Point := orderSevenOrigin d
+  have h7Q : (7 : ℕ) • Q ≠ 0 := by
+    intro hzero
+    have hdvd : (49 : ℕ) ∣ 7 := by
+      rw [← hQ]
+      exact addOrderOf_dvd_of_nsmul_eq_zero hzero
+    norm_num at hdvd
+  have h49Q : (49 : ℕ) • Q = 0 := by
+    rw [← hQ]
+    exact addOrderOf_nsmul_eq_zero Q
+  have h7T : (7 : ℕ) • T = 0 := by
+    simpa only [T] using seven_nsmul_orderSevenOrigin d
+  have h49T : (49 : ℕ) • T = 0 := by
+    rw [show (49 : ℕ) = 7 * 7 by norm_num, mul_nsmul, h7T]
+    simp
+  have h7nT : (7 : ℕ) • (n • T) = 0 := by
+    calc
+      (7 : ℕ) • (n • T) = n • ((7 : ℕ) • T) := by
+        simp only [← mul_nsmul, Nat.mul_comm]
+      _ = 0 := by rw [h7T]; simp
+  have h49nT : (49 : ℕ) • (n • T) = 0 := by
+    calc
+      (49 : ℕ) • (n • T) = n • ((49 : ℕ) • T) := by
+        simp only [← mul_nsmul, Nat.mul_comm]
+      _ = 0 := by rw [h49T]; simp
+  have h7 : (7 : ℕ) • (Q + n • T) ≠ 0 := by
+    intro hzero
+    rw [nsmul_add, h7nT, add_zero] at hzero
+    exact h7Q hzero
+  have h49 : (49 : ℕ) • (Q + n • T) = 0 := by
+    rw [nsmul_add, h49Q, h49nT, add_zero]
+  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have hresult := addOrderOf_eq_prime_pow
+    (x := Q + n • T) (p := 7) (n := 1)
+    (by norm_num only [pow_one]; exact h7)
+    (by
+      norm_num only [Nat.reduceAdd, pow_succ, pow_one, Nat.reduceMul]
+      exact h49)
+  norm_num at hresult
+  simpa only [T] using hresult
+
+/-- Translation invariance at exact order `49`, stated for an arbitrary
+source point. -/
+theorem orderSevenPointMap_add_origin_of_order_fortyNine
+    {d : ℚ} [(orderSevenFamily d).IsElliptic]
+    {Q : (orderSevenFamily d).toAffine.Point}
+    (hQ : addOrderOf Q = 49) :
+    orderSevenPointMap d (Q + orderSevenOrigin d) =
+      orderSevenPointMap d Q := by
+  cases Q with
+  | zero =>
+      have hfalse : (1 : ℕ) = 49 := by
+        rw [← hQ]
+        exact (addOrderOf_zero
+          (G := (orderSevenFamily d).toAffine.Point)).symm
+      norm_num at hfalse
+  | some x y hP =>
+      exact orderSevenPointMap_add_origin_of_order_fortyNine_affine
+        hP hQ
+
+/-- Repeated translation by the marked kernel point does not change the
+explicit image of an exact-order-`49` point. -/
+theorem orderSevenPointMap_add_nsmul_origin_of_order_fortyNine
+    {d : ℚ} [(orderSevenFamily d).IsElliptic]
+    {Q : (orderSevenFamily d).toAffine.Point}
+    (hQ : addOrderOf Q = 49) (n : ℕ) :
+    orderSevenPointMap d (Q + n • orderSevenOrigin d) =
+      orderSevenPointMap d Q := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      have horder := addOrderOf_add_nsmul_orderSevenOrigin hQ n
+      calc
+        orderSevenPointMap d (Q + (n + 1) • orderSevenOrigin d) =
+            orderSevenPointMap d
+              ((Q + n • orderSevenOrigin d) + orderSevenOrigin d) := by
+          congr 1
+          rw [add_nsmul]
+          simp
+          abel
+        _ = orderSevenPointMap d (Q + n • orderSevenOrigin d) :=
+          orderSevenPointMap_add_origin_of_order_fortyNine horder
+        _ = orderSevenPointMap d Q := ih
+
+/-- Every point in the zero fiber is one of the seven multiples of the
+marked kernel generator. -/
+theorem exists_eq_nsmul_orderSevenOrigin_of_pointMap_eq_zero
+    {d : ℚ} [(orderSevenFamily d).IsElliptic]
+    {R : (orderSevenFamily d).toAffine.Point}
+    (hR : orderSevenPointMap d R = 0) :
+    ∃ n : ℕ, n < 7 ∧ R = n • orderSevenOrigin d := by
+  cases R with
+  | zero => exact ⟨0, by norm_num, by rfl⟩
+  | some x y hP =>
+      let T : (orderSevenFamily d).toAffine.Point := orderSevenOrigin d
+      have h00 := orderSevenOrigin_nonsingular d
+      have hT0 : T =
+          WeierstrassCurve.Affine.Point.some 0 0 h00 := by
+        dsimp only [T, orderSevenOrigin]
+      have hb : orderSevenB d ≠ 0 := orderSevenB_ne_zero d
+      obtain ⟨h₂, htwoRaw⟩ :=
+        two_nsmul_origin_coordinates
+          (orderSevenB d) (orderSevenC d) hb h00
+      obtain ⟨h₃, hthreeRaw⟩ :=
+        three_nsmul_origin_coordinates
+          (orderSevenB d) (orderSevenC d) hb h00
+      have hT2 : (2 : ℕ) • T =
+          WeierstrassCurve.Affine.Point.some
+            (orderSevenB d) (orderSevenB d * orderSevenC d) h₂ := by
+        rw [hT0]
+        exact htwoRaw
+      have hT3 : (3 : ℕ) • T =
+          WeierstrassCurve.Affine.Point.some
+            (orderSevenC d) (orderSevenB d - orderSevenC d) h₃ := by
+        rw [hT0]
+        exact hthreeRaw
+      have hT7 : (7 : ℕ) • T = 0 := by
+        simpa only [T] using seven_nsmul_orderSevenOrigin d
+      have hT6 : (6 : ℕ) • T = -T := by
+        calc
+          (6 : ℕ) • T = (7 : ℕ) • T - T := by abel
+          _ = -T := by rw [hT7]; simp
+      have hT5 : (5 : ℕ) • T = -((2 : ℕ) • T) := by
+        calc
+          (5 : ℕ) • T = (7 : ℕ) • T - (2 : ℕ) • T := by abel
+          _ = -((2 : ℕ) • T) := by rw [hT7]; simp
+      have hT4 : (4 : ℕ) • T = -((3 : ℕ) • T) := by
+        calc
+          (4 : ℕ) • T = (7 : ℕ) • T - (3 : ℕ) • T := by abel
+          _ = -((3 : ℕ) • T) := by rw [hT7]; simp
+      have hx : OrderSevenKernelX d x :=
+        (orderSevenPointMap_some_eq_zero_iff hP).mp hR
+      rcases hx with hx0 | hxb | hxc
+      · have hxiff :
+            (WeierstrassCurve.Affine.Point.some x y hP =
+                WeierstrassCurve.Affine.Point.some 0 0 h00 ∨
+              WeierstrassCurve.Affine.Point.some x y hP =
+                -WeierstrassCurve.Affine.Point.some 0 0 h00) :=
+          (WeierstrassCurve.Affine.Point.X_eq_iff
+            (W := (orderSevenFamily d).toAffine)).mp hx0
+        rcases hxiff with h | h
+        · refine ⟨1, by norm_num, ?_⟩
+          simpa only [T, one_nsmul] using h.trans hT0.symm
+        · refine ⟨6, by norm_num, ?_⟩
+          change WeierstrassCurve.Affine.Point.some x y hP =
+            (6 : ℕ) • T
+          calc
+            WeierstrassCurve.Affine.Point.some x y hP =
+                -WeierstrassCurve.Affine.Point.some 0 0 h00 := h
+            _ = -T := congrArg Neg.neg hT0.symm
+            _ = (6 : ℕ) • T := hT6.symm
+      · have hxiff :
+            (WeierstrassCurve.Affine.Point.some x y hP =
+                WeierstrassCurve.Affine.Point.some
+                  (orderSevenB d) (orderSevenB d * orderSevenC d) h₂ ∨
+              WeierstrassCurve.Affine.Point.some x y hP =
+                -WeierstrassCurve.Affine.Point.some
+                  (orderSevenB d) (orderSevenB d * orderSevenC d) h₂) :=
+          (WeierstrassCurve.Affine.Point.X_eq_iff
+            (W := (orderSevenFamily d).toAffine)).mp hxb
+        rcases hxiff with h | h
+        · exact ⟨2, by norm_num, by
+            change WeierstrassCurve.Affine.Point.some x y hP =
+              (2 : ℕ) • T
+            exact h.trans hT2.symm⟩
+        · exact ⟨5, by norm_num, by
+            change WeierstrassCurve.Affine.Point.some x y hP =
+              (5 : ℕ) • T
+            exact h.trans ((congrArg Neg.neg hT2.symm).trans hT5.symm)⟩
+      · have hxiff :
+            (WeierstrassCurve.Affine.Point.some x y hP =
+                WeierstrassCurve.Affine.Point.some
+                  (orderSevenC d) (orderSevenB d - orderSevenC d) h₃ ∨
+              WeierstrassCurve.Affine.Point.some x y hP =
+                -WeierstrassCurve.Affine.Point.some
+                  (orderSevenC d) (orderSevenB d - orderSevenC d) h₃) :=
+          (WeierstrassCurve.Affine.Point.X_eq_iff
+            (W := (orderSevenFamily d).toAffine)).mp hxc
+        rcases hxiff with h | h
+        · exact ⟨3, by norm_num, by
+            change WeierstrassCurve.Affine.Point.some x y hP =
+              (3 : ℕ) • T
+            exact h.trans hT3.symm⟩
+        · exact ⟨4, by norm_num, by
+            change WeierstrassCurve.Affine.Point.some x y hP =
+              (4 : ℕ) • T
+            exact h.trans ((congrArg Neg.neg hT3.symm).trans hT4.symm)⟩
 
 /-- Every point in the zero fiber of the explicit Vélu function is killed
 by seven. -/
