@@ -1854,4 +1854,34 @@ theorem generic_resultant_eq_resultantFactorData
               exceptional6 := by ring
     _ = resultantFactorData := exceptional_product_eq_resultantFactorData
 
+/-- Specializing the checked generic identity gives the first bounded
+resultant without requiring the selection cofactor to preserve its degree. -/
+theorem selection_divisionCofactor0_resultant_eq_resultantFactorData_eval
+    (hrec0 : recurrence0) (hrec1 : recurrence1)
+    (hrec2 : recurrence2) (hrec3 : recurrence3)
+    (hrec4 : recurrence4) (hrec5 : recurrence5)
+    (hrec6 : recurrence6) (d : ℚ) :
+    resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 =
+      resultantFactorData.eval d := by
+  change _ = (evalRingHom d) resultantFactorData
+  have hgeneric := congrArg (evalRingHom d)
+    (generic_resultant_eq_resultantFactorData
+      hrec0 hrec1 hrec2 hrec3 hrec4 hrec5 hrec6)
+  simpa only [selectionCofactor, divisionCofactor0,
+    resultant_map_map] using hgeneric
+
+/-- The first bounded resultant is nonzero at every nonsingular Kubert
+parameter once the seven primitive pseudo-remainder recurrences are known. -/
+theorem selection_divisionCofactor0_resultant_ne_zero
+    (hrec0 : recurrence0) (hrec1 : recurrence1)
+    (hrec2 : recurrence2) (hrec3 : recurrence3)
+    (hrec4 : recurrence4) (hrec5 : recurrence5)
+    (hrec6 : recurrence6)
+    (d : ℚ) (hd0 : d ≠ 0) (hd1 : d ≠ 1)
+    (hcubic : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0) :
+    resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 ≠ 0 := by
+  rw [selection_divisionCofactor0_resultant_eq_resultantFactorData_eval
+    hrec0 hrec1 hrec2 hrec3 hrec4 hrec5 hrec6 d]
+  exact resultantFactorData_eval_ne_zero d hd0 hd1 hcubic
+
 end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
