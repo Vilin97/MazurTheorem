@@ -398,23 +398,6 @@ private theorem two_nsmul_ne_zero_of_order_fortyNine
     exact addOrderOf_dvd_of_nsmul_eq_zero hzero
   norm_num at hdvd
 
-private theorem not_orderSevenKernelX_of_order_fortyNine
-    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
-    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
-    (horder : addOrderOf
-      (WeierstrassCurve.Affine.Point.some x y hP :
-        (orderSevenFamily d).toAffine.Point) = 49) :
-    ¬OrderSevenKernelX d x := by
-  intro hx
-  have hzero : orderSevenPointMap d
-      (WeierstrassCurve.Affine.Point.some x y hP) = 0 :=
-    (orderSevenPointMap_some_eq_zero_iff hP).2 hx
-  have hkilled := orderSevenPointMap_kernel_killed_by_seven hzero
-  have hdvd : (49 : ℕ) ∣ 7 := by
-    rw [← horder]
-    exact addOrderOf_dvd_of_nsmul_eq_zero hkilled
-  norm_num at hdvd
-
 private def OrderSevenDoublingCoordinates (d x y : ℚ) : Prop :=
   let W := (orderSevenFamily d).toAffine
   let Wq := (orderSevenQuotient d).toAffine

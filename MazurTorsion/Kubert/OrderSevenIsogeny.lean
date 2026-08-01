@@ -1127,6 +1127,25 @@ theorem orderSevenPointMap_kernel_killed_by_seven
       exact seven_nsmul_of_kernelX h
         ((orderSevenPointMap_some_eq_zero_iff h).mp hP)
 
+/-- An affine point of exact order `49` cannot lie in the marked
+order-seven kernel. -/
+theorem not_orderSevenKernelX_of_order_fortyNine
+    {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
+    (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
+    (horder : addOrderOf
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (orderSevenFamily d).toAffine.Point) = 49) :
+    ¬OrderSevenKernelX d x := by
+  intro hx
+  have hzero : orderSevenPointMap d
+      (WeierstrassCurve.Affine.Point.some x y hP) = 0 :=
+    (orderSevenPointMap_some_eq_zero_iff hP).2 hx
+  have hkilled := orderSevenPointMap_kernel_killed_by_seven hzero
+  have hdvd : (49 : ℕ) ∣ 7 := by
+    rw [← horder]
+    exact addOrderOf_dvd_of_nsmul_eq_zero hkilled
+  norm_num at hdvd
+
 /-- The exact-order consequence needed at the first stage of the order-`49`
 tower.  Full additivity of the explicit point function is unnecessary here:
 it suffices to know compatibility with the single multiple `7 • Q`. -/
