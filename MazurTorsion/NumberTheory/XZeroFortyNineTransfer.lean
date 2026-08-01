@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
+import MazurTorsion.Kubert.OrderSevenCorrespondence
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -24,18 +25,7 @@ cusp image `(0,0)`.
 
 namespace MazurTorsion.XZeroFortyNine
 
-/-- The level-seven modular correspondence polynomial. -/
-private def mG (s B : ℚ) : ℚ :=
-  -678223072849 * B ^ 6 - 678223072849 * s * B ^ 5 - 387556041628 * s * B ^ 6
-  - 678223072849 * s ^ 2 * B ^ 4 - 387556041628 * s ^ 2 * B ^ 5 - 90957030178 * s ^ 2 * B ^ 6
-  - 678223072849 * s ^ 3 * B ^ 3 - 387556041628 * s ^ 3 * B ^ 4 - 90957030178 * s ^ 3 * B ^ 5
-  - 10976181104 * s ^ 3 * B ^ 6 - 678223072849 * s ^ 4 * B ^ 2 - 387556041628 * s ^ 4 * B ^ 3
-  - 90957030178 * s ^ 4 * B ^ 4 - 10976181104 * s ^ 4 * B ^ 5 - 695893835 * s ^ 4 * B ^ 6
-  - 678223072849 * s ^ 5 * B - 387556041628 * s ^ 5 * B ^ 2 - 90957030178 * s ^ 5 * B ^ 3
-  - 10976181104 * s ^ 5 * B ^ 4 - 695893835 * s ^ 5 * B ^ 5 - 20706224 * s ^ 5 * B ^ 6
-  - 678223072849 * s ^ 6 - 387556041628 * s ^ 6 * B - 90957030178 * s ^ 6 * B ^ 2
-  - 10976181104 * s ^ 6 * B ^ 3 - 695893835 * s ^ 6 * B ^ 4 - 20706224 * s ^ 6 * B ^ 5
-  - 196882 * s ^ 6 * B ^ 6 + s ^ 7 * B ^ 7
+open Kubert (orderSevenG7F)
 
 /-- Its partial derivative in the second variable. -/
 private def mGB (s B : ℚ) : ℚ :=
@@ -84,16 +74,16 @@ private lemma cm_quadratic_pos (s : ℚ) : 0 < s ^ 2 + 13 * s + 49 := by
 solutions: the Bezout certificate forces the univariate eliminant to
 vanish, and its factors have no rational roots. -/
 private lemma mGB_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
-    (hG : mG s B = 0) : mGB s B ≠ 0 := by
+    (hG : orderSevenG7F s B = 0) : mGB s B ≠ 0 := by
   intro h0
   have hE : (7 : ℚ) ^ 24 *
       (s ^ 7 * (s ^ 2 + 13 * s + 49) *
         (s ^ 2 + 245 * s + 2401) ^ 3 *
         (s ^ 4 - 490 * s ^ 3 - 21609 * s ^ 2 -
           235298 * s - 823543) ^ 2) = 0 := by
-    have hG' : mG s B = 0 := hG
+    have hG' : orderSevenG7F s B = 0 := hG
     have hGB' : mGB s B = 0 := h0
-    unfold mG at hG'
+    unfold orderSevenG7F at hG'
     unfold mGB at hGB'
     linear_combination
       (111372695526105445814718982027242 * B - 54549891686255728562311338135792 * B ^ 2
@@ -224,7 +214,7 @@ private lemma mGB_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
 
 /-- The transferred point lies on the `X₀(49)` model. -/
 private lemma transfer_on_curve {s B : ℚ}
-    (hGB : mGB s B ≠ 0) (hG : mG s B = 0) :
+    (hGB : mGB s B ≠ 0) (hG : orderSevenG7F s B = 0) :
     (mNY s B / mGB s B) ^ 2 =
       (mNX s B / mGB s B) *
         ((mNX s B / mGB s B) ^ 2 +
@@ -232,8 +222,8 @@ private lemma transfer_on_curve {s B : ℚ}
   have key : mNY s B ^ 2 * mGB s B - mNX s B ^ 3 -
       21 * mNX s B ^ 2 * mGB s B -
       112 * mNX s B * mGB s B ^ 2 = 0 := by
-    have hG' : mG s B = 0 := hG
-    unfold mG at hG'
+    have hG' : orderSevenG7F s B = 0 := hG
+    unfold orderSevenG7F at hG'
     unfold mNY mNX mGB
     linear_combination
       (18752731121855958729102223168 * B ^ 9 + 57700711144172180704929917440 * s * B ^ 8
@@ -300,16 +290,16 @@ private lemma transfer_on_curve {s B : ℚ}
 /-- The transfer abscissa is nonzero at noncuspidal rational
 solutions. -/
 private lemma mNX_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
-    (hG : mG s B = 0) : mNX s B ≠ 0 := by
+    (hG : orderSevenG7F s B = 0) : mNX s B ≠ 0 := by
   intro h0
   have hE : (4 : ℚ) * 7 ^ 26 *
       (s ^ 10 * (s ^ 2 + 13 * s + 49) *
         (s ^ 2 + 245 * s + 2401) ^ 4 *
         (s ^ 4 - 490 * s ^ 3 - 21609 * s ^ 2 -
           235298 * s - 823543) ^ 2) = 0 := by
-    have hG' : mG s B = 0 := hG
+    have hG' : orderSevenG7F s B = 0 := hG
     have hNX' : mNX s B = 0 := h0
-    unfold mG at hG'
+    unfold orderSevenG7F at hG'
     unfold mNX at hNX'
     linear_combination
       (8735257503967186396437249011015329372 * B ^ 4
@@ -514,7 +504,8 @@ private lemma mNX_ne_zero {s B : ℚ} (hs : s ≠ 0) (_hB : B ≠ 0)
 away from the singular cusp image: `G(s,B) = 0` with `s·B ≠ 0` is
 impossible over `ℚ`. -/
 theorem no_noncuspidal_correspondence_point
-    {s B : ℚ} (hs : s ≠ 0) (hB : B ≠ 0) (hG : mG s B = 0) :
+    {s B : ℚ} (hs : s ≠ 0) (hB : B ≠ 0)
+    (hG : orderSevenG7F s B = 0) :
     False := by
   have hGB := mGB_ne_zero hs hB hG
   have hOn := transfer_on_curve hGB hG
