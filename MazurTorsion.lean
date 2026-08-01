@@ -50,6 +50,8 @@ import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence
+import MazurTorsion.Kubert.OrderSevenHauptmodul
+import MazurTorsion.Kubert.OrderSevenIsogeny
 import MazurTorsion.Kubert.OrderTwentyOneReduction
 import MazurTorsion.Kubert.OrderTwentyOneExceptionalJ
 import MazurTorsion.Kubert.OrderTwentyOne
