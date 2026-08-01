@@ -840,11 +840,11 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                     </span>
                   </button>
 
-                  {selected && (
-                    <div
-                      className="stage-details"
-                      id={`stage-details-${stage.id}`}
-                    >
+                  <div
+                    className="stage-details"
+                    id={`stage-details-${stage.id}`}
+                    hidden={!selected}
+                  >
                       <section
                         className="stage-deliverables"
                         aria-labelledby={`stage-contract-${stage.id}`}
@@ -931,8 +931,7 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                           ))}
                         </div>
                       </section>
-                    </div>
-                  )}
+                  </div>
                 </div>
               );
             })}

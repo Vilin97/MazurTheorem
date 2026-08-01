@@ -41,6 +41,8 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, />12(?:<!-- -->)?%<\/strong>/);
   assert.match(html, /The weighted roadmap/);
   assert.equal((html.match(/class="stage-card"/g) ?? []).length, 6);
+  assert.equal((html.match(/aria-controls="stage-details-/g) ?? []).length, 6);
+  assert.equal((html.match(/id="stage-details-/g) ?? []).length, 6);
   assert.match(html, /aria-expanded="true"/);
   assert.match(html, /What this stage must define and prove/);
   assert.match(html, /All (?:<!-- -->)?1(?:<!-- -->)? dependency nodes?/);
