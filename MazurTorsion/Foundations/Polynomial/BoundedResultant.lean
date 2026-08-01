@@ -80,6 +80,25 @@ theorem isCoprime_of_bounded_resultant_ne_zero
   apply hraw
   exact resultant_eq_zero_iff.mpr ⟨Or.inr hmonic.ne_zero, hnot⟩
 
+/-- Coprime polynomials have nonzero bounded resultant when the right
+polynomial is monic and the degree padding is explicit.  The left polynomial
+may lose degree after specialization. -/
+theorem bounded_resultant_ne_zero_of_isCoprime
+    {K : Type*} [Field K] {f g : K[X]} {m n : ℕ}
+    (hf : f.natDegree ≤ m) (hg : g.natDegree = n)
+    (hmonic : g.Monic) (hcop : IsCoprime f g) :
+    resultant f g m n ≠ 0 := by
+  have hraw : resultant f g ≠ 0 :=
+    Polynomial.resultant_ne_zero f g hcop
+  have hcoeff : g.coeff n = 1 := by
+    rw [← hg]
+    exact hmonic.coeff_natDegree
+  have hm : m = f.natDegree + (m - f.natDegree) := by omega
+  rw [hm, resultant_add_left_deg _ _ _ _ _ le_rfl, hcoeff]
+  simp only [one_pow, mul_one]
+  rw [← hg]
+  exact mul_ne_zero (by simp) hraw
+
 /-- A nonzero bounded resultant against a monic polynomial rules out a
 common root after specialization. -/
 theorem eval_ne_zero_or_eval_ne_zero_of_bounded_resultant_ne_zero
