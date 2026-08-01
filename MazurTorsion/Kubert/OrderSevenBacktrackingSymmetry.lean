@@ -33,6 +33,34 @@ def orderThreeParameter (d : ℚ) : ℚ :=
 def orderThreeAffine (d : ℚ) : ℚ[X] :=
   C ((d - 1)⁻¹ ^ 4) * X - C (d * (d - 1)⁻¹ ^ 3)
 
+/-- The order-three transform stays away from zero when the original
+parameter stays away from one. -/
+theorem orderThreeParameter_ne_zero (d : ℚ) (hd : d ≠ 1) :
+    orderThreeParameter d ≠ 0 := by
+  unfold orderThreeParameter
+  exact inv_ne_zero (sub_ne_zero.mpr (Ne.symm hd))
+
+/-- The order-three transform stays away from one when the original
+parameter stays away from zero. -/
+theorem orderThreeParameter_ne_one (d : ℚ) (hd : d ≠ 0) :
+    orderThreeParameter d ≠ 1 := by
+  unfold orderThreeParameter
+  rw [inv_ne_one]
+  intro h
+  apply hd
+  linarith
+
+/-- The cubic singular factor is preserved up to a nonzero cube by the
+order-three parameter symmetry. -/
+theorem discriminantFactor_orderThreeParameter (d : ℚ) (hd : d ≠ 1) :
+    orderThreeParameter d ^ 3 -
+        8 * orderThreeParameter d ^ 2 +
+        5 * orderThreeParameter d + 1 =
+      (d - 1)⁻¹ ^ 3 * (d ^ 3 - 8 * d ^ 2 + 5 * d + 1) := by
+  simp only [orderThreeParameter]
+  field_simp [sub_ne_zero.mpr hd]
+  ring
+
 /-- The order-three parameter symmetry sends the first division cofactor to the second. -/
 theorem divisionCofactor0_orderThreeParameter_comp (d : ℚ) (hd : d ≠ 1) :
     (divisionCofactor0 (orderThreeParameter d)).comp (orderThreeAffine d) =
@@ -396,6 +424,40 @@ theorem selectionCofactor_orderThreeParameter_comp (d : ℚ) (hd : d ≠ 1) :
       rw [selectionPolynomial_factorization,
         show 147 = 12 + 135 by norm_num, pow_add, map_mul]
       ring
+
+/-- Coprimality with the first division cofactor at the transformed
+parameter transports to coprimality with the second cofactor. -/
+theorem isCoprime_selection_divisionCofactor1_of_orderThreeParameter
+    (d : ℚ) (hd : d ≠ 1)
+    (hcop : IsCoprime
+      (selectionCofactor (orderThreeParameter d))
+      (divisionCofactor0 (orderThreeParameter d))) :
+    IsCoprime (selectionCofactor d) (divisionCofactor1 d) := by
+  have hmap := hcop.map (Polynomial.compRingHom (orderThreeAffine d))
+  change IsCoprime
+    ((selectionCofactor (orderThreeParameter d)).comp (orderThreeAffine d))
+    ((divisionCofactor0 (orderThreeParameter d)).comp
+      (orderThreeAffine d)) at hmap
+  rw [selectionCofactor_orderThreeParameter_comp d hd,
+    divisionCofactor0_orderThreeParameter_comp d hd] at hmap
+  exact hmap.of_mul_left_right.symm.of_mul_left_right.symm
+
+/-- Coprimality with the second division cofactor at the transformed
+parameter transports to coprimality with the third cofactor. -/
+theorem isCoprime_selection_divisionCofactor2_of_orderThreeParameter
+    (d : ℚ) (hd : d ≠ 1)
+    (hcop : IsCoprime
+      (selectionCofactor (orderThreeParameter d))
+      (divisionCofactor1 (orderThreeParameter d))) :
+    IsCoprime (selectionCofactor d) (divisionCofactor2 d) := by
+  have hmap := hcop.map (Polynomial.compRingHom (orderThreeAffine d))
+  change IsCoprime
+    ((selectionCofactor (orderThreeParameter d)).comp (orderThreeAffine d))
+    ((divisionCofactor1 (orderThreeParameter d)).comp
+      (orderThreeAffine d)) at hmap
+  rw [selectionCofactor_orderThreeParameter_comp d hd,
+    divisionCofactor1_orderThreeParameter_comp d hd] at hmap
+  exact hmap.of_mul_left_right.symm.of_mul_left_right.symm
 
 end
 
