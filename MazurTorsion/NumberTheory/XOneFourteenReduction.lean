@@ -97,7 +97,11 @@ noncomputable def residueThreeAlgEquiv :
     (ℤ ⧸ (intPrime 3).asIdeal) ≃ₐ[ℤ] ZMod 3 :=
   AlgEquiv.ofRingEquiv
     (f := Int.quotientSpanNatEquivZMod 3) fun x ↦ by
-      simp only [algebraMap_int_eq, eq_intCast, map_intCast]
+      change (Int.quotientSpanNatEquivZMod 3 :
+        (ℤ ⧸ Ideal.span {((3 : ℕ) : ℤ)}) →+* ZMod 3)
+          (Ideal.Quotient.mk (Ideal.span {((3 : ℕ) : ℤ)}) x) = Int.castRingHom (ZMod 3) x
+      simpa only [RingHom.comp_apply] using DFunLike.congr_fun
+        (Int.quotientSpanNatEquivZMod_comp_Quotient_mk 3) x
 
 lemma baseChange_modThree :
     ((integralCurve.toAffine ⁄ (ZMod 3)) :

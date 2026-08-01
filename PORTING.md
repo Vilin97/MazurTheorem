@@ -17,9 +17,9 @@ test.
 
 The compatibility target is exactly:
 
-- Lean `4.32.0-rc1`;
-- mathlib tag `v4.32.0-rc1`, resolved by the manifest to
-  `360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`.
+- Lean `4.33.0-rc1`;
+- mathlib tag `v4.33.0-rc1`, resolved by the manifest to
+  `79d0395a1825a6264ad5d269e35e60537518955e`.
 
 ## Source-to-destination manifest
 
@@ -75,20 +75,23 @@ its model with `MazurTorsion.ExceptionalCubic.curve.toAffine` and supplies
   completion-extension tail, which belongs to the Selmer cone rather than reduction.
 - `IntegralModel.lean:94–106`: used `change` for five intended goal conversions, as required by
   the exact-pin standard style linter.
-- `Mathlib/Basic.lean:552–683`: changed the pre-pin
-  `ramificationIdx'` name to `ramificationIdx`; replaced five linter-option wrappers with
-  explicit `omit` binders; used `change` for two intended goal conversions.
+- `Mathlib/Basic.lean`: selected the current `ramificationIdx'` API, made the
+  valuation-quotient rewrite transparent with `erw`, and transported integral-basis
+  coordinates through an explicit ring-of-integers element; the earlier `omit`-binder and
+  goal-conversion cleanups remain in place.
 - `Mathlib/Chabauty/FormalGroupLaw/Invariance.lean:65–86`: supplied the missing
   zero-family substitution identity from coefficient extensionality.
 - `Mathlib/Chabauty/LogIso.lean:72–523`: replaced linter-option wrappers with explicit
   `omit` binders; weakened two proof-only `Fintype` assumptions to `Finite` and constructed
-  `Fintype.ofFinite` locally; made proof-local decidable equality classical.
-- `Mathlib/Chabauty/MvPSeries.lean:239`: used the exact-pin namespace of
-  `Finset.sigmaAntidiagonalEquivProd`.
+  `Fintype.ofFinite` locally; made proof-local decidable equality classical; removed a simp
+  lemma that became redundant at 4.33.
+- `Mathlib/Chabauty/MvPSeries.lean:239`: used the 4.33 namespace
+  `Finset.HasAntidiagonal.sigmaAntidiagonalEquivProd`.
 - `Mathlib/Chabauty/MvPowerSeriesPDeriv.lean:114–140`: proved the coefficient formula for
   multivariate polynomial partial derivatives, absent at this pin.
-- `Mathlib/EllipticCurvePoint.lean:51–100`: moved the narrow curve-equality and field
-  base-change point-map API out of the unrelated Selmer module.
+- `Mathlib/EllipticCurvePoint.lean:51–108`: moved the narrow curve-equality and field
+  base-change point-map API out of the unrelated Selmer module and exposed an explicit
+  nonsingularity transport to the canonical base-changed affine curve.
 - `ReductionAtPrime.lean:10–11,246–297,395–458`: replaced the transitive Selmer import with the
   narrow point helper; split one expensive residue-compatibility proof into three lemmas so it
   elaborates within default heartbeat limits; removed two proof-only residue-field
@@ -98,14 +101,26 @@ its model with `MazurTorsion.ExceptionalCubic.curve.toAffine` and supplies
   port and exports the required `Point.equivVariableChange` API.
 - `WeierstrassFormalGroup/Chord.lean:590–638`: supplied the missing zero-family substitution
   lemma.
-- `WeierstrassFormalGroup/Foundations.lean:770–784`: made quotient-map arguments and subtype
-  coercions explicit, avoiding a default typeclass-search timeout.
+- `WeierstrassFormalGroup/Foundations.lean`: made quotient-map arguments and subtype
+  coercions explicit, avoiding a default typeclass-search timeout; named a proof-local formal
+  point so 4.33 can see the parameter equality without relying on reducibility.
 - `WeierstrassFormalGroup/GroupLaw.lean:53–54,412–742`: removed the recursion-depth wrapper;
   the proof builds at default limits after using the compatibility substitution lemma.
-- `WeierstrassFormalGroup/Filtration.lean:143,270–307`: used `change` for an intended goal
-  conversion and made a proof-only field `DecidableEq` classical.
-- `WeierstrassFormalGroup/Reduction.lean:181–260,339–359,638,682–694`: applied the exact-pin
-  notation whitespace and removed two proof-only residue-field `DecidableEq` assumptions.
+- `WeierstrassFormalGroup/Filtration.lean`: used `change` for an intended goal conversion,
+  made a proof-only field `DecidableEq` classical, and named a formal point plus its parameter
+  equality for the stricter 4.33 elaborator.
+- `WeierstrassFormalGroup/Reduction.lean`: applied the exact-pin notation whitespace, removed
+  two proof-only residue-field `DecidableEq` assumptions, and now transports valuation bounds
+  explicitly through `mem_adicCompletionIntegers` where 4.33 no longer unfolds the subtype
+  membership automatically.
+- `Examples/ExceptionalCubicReduction.lean`: rewrote the integer-quotient algebra equivalence
+  proof using `Int.quotientSpanNatEquivZMod_comp_Quotient_mk`, the supported 4.33 API.
+
+The 4.33 migration also touched downstream project files outside the 31-file reduction cone:
+`Foundations/NaiveHeightDescent.lean` now reuses Mathlib's upstream `Point.sym2x` API and supplies
+the new `Filter.TendstoCofinite` instance expected by `Northcott.comp_of_finite_fibers`; the five
+`XOne*Reduction`/`XZero*Reduction` modules with integer-quotient maps use the same supported
+`Int.quotientSpanNatEquivZMod_comp_Quotient_mk` proof as the harness.
 
 No proof-strengthening option is used.
 
@@ -120,13 +135,12 @@ lake build
 ```
 
 For aggregate integration, the package has a local `lean_lib` named `EllipticCurves` with globs
-`["EllipticCurves.+"]`; the existing `MazurTorsion` library imports these modules without
+`["EllipticCurves", "EllipticCurves.+"]`; the existing `MazurTorsion` library imports these modules without
 introducing a second mathlib version.
 
-The selected production cone is 31 Lean files and 14,066 lines. The largest measured resident set
-during a clean standalone compatibility build was 3,423,780,864 bytes. The combined
-`MazurTorsion.Arithmetic.ExceptionalProducts` build used at most 5,596,397,568 bytes, well below
-the 50 GB limit.
+The selected production cone is 31 Lean files and 14,142 lines. On the current pin,
+`MazurTorsion.Arithmetic.CardinalityReduction` builds successfully across 8,713 jobs and the
+standalone challenge library builds successfully across 8,725 jobs.
 
 A source scan of the 31 files has no proof placeholders, no option-setting command, no
 native evaluator invocation, and no custom logical declaration. `#print axioms` reports exactly

@@ -89,7 +89,7 @@ omit W in
 /-- The value at points of `𝔪^k` of a series whose constant coefficient lies in `𝔪^k`
 lies in `𝔪^k`. -/
 theorem _root_.ChabautyColeman.MvPSeries.eval_mem_maximalIdeal_pow
-    {σ : Type*} [Finite σ] {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {k : ℕ}
+    {σ : Type*} {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {k : ℕ}
     (hmem : ∀ i, z₀ i ∈ maximalIdeal O ^ k) (h : MvPowerSeries σ O)
     (hcc : MvPowerSeries.constantCoeff h ∈ maximalIdeal O ^ k) :
     MvPSeries.eval z₀ h ∈ maximalIdeal O ^ k := by
@@ -112,7 +112,7 @@ omit W in
 /-- The value at points of `𝔪^j` of a series whose coefficients vanish below total degree
 `c` lies in `𝔪^(c·j)`. -/
 theorem _root_.ChabautyColeman.MvPSeries.eval_mem_maximalIdeal_pow_mul
-    {σ : Type*} [Finite σ] {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {j c : ℕ}
+    {σ : Type*} {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {j c : ℕ}
     (hmem : ∀ i, z₀ i ∈ maximalIdeal O ^ j) (h : MvPowerSeries σ O)
     (hcoeff : ∀ d : σ →₀ ℕ, d.degree < c → MvPowerSeries.coeff d h = 0) :
     MvPSeries.eval z₀ h ∈ maximalIdeal O ^ (c * j) := by
@@ -146,7 +146,7 @@ omit W in
 /-- The value at points of `𝔪^j` of a series whose coefficients lie in `𝔪^a` and vanish
 below total degree `c` lies in `𝔪^(a + c·j)`. -/
 theorem _root_.ChabautyColeman.MvPSeries.eval_mem_maximalIdeal_pow_add_mul
-    {σ : Type*} [Finite σ] {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {j a c : ℕ}
+    {σ : Type*} {z₀ : σ → O} (hz₀ : MvPowerSeries.HasEval z₀) {j a c : ℕ}
     (hmem : ∀ i, z₀ i ∈ maximalIdeal O ^ j) (h : MvPowerSeries σ O)
     (hcoeff : ∀ d : σ →₀ ℕ, MvPowerSeries.coeff d h ∈ maximalIdeal O ^ a)
     (hlow : ∀ d : σ →₀ ℕ, d.degree < c → MvPowerSeries.coeff d h = 0) :

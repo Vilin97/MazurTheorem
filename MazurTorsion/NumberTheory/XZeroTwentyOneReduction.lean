@@ -90,7 +90,11 @@ noncomputable def residueFiveAlgEquiv :
     (ℤ ⧸ (intPrime 5).asIdeal) ≃ₐ[ℤ] ZMod 5 :=
   AlgEquiv.ofRingEquiv
     (f := Int.quotientSpanNatEquivZMod 5) fun x ↦ by
-      simp only [algebraMap_int_eq, eq_intCast, map_intCast]
+      change (Int.quotientSpanNatEquivZMod 5 :
+        (ℤ ⧸ Ideal.span {((5 : ℕ) : ℤ)}) →+* ZMod 5)
+          (Ideal.Quotient.mk (Ideal.span {((5 : ℕ) : ℤ)}) x) = Int.castRingHom (ZMod 5) x
+      simpa only [RingHom.comp_apply] using DFunLike.congr_fun
+        (Int.quotientSpanNatEquivZMod_comp_Quotient_mk 5) x
 
 lemma baseChange_modFive :
     ((integralCurve.toAffine ⁄ (ZMod 5)) :

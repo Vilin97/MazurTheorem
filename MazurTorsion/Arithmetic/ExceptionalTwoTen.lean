@@ -335,7 +335,7 @@ lemma exists_two_torsion_coordinates
 /-- Full rational two-torsion forces the Weierstrass discriminant to be
 a rational square. -/
 theorem exists_discriminant_square_of_full_two_torsion
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     (f : (ZMod 2 × ZMod 2) →+ (E⁄ℚ).Point)
     (hf : Function.Injective f) :
     ∃ d : ℚ, E.Δ = d ^ 2 := by

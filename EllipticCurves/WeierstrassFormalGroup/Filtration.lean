@@ -134,9 +134,12 @@ theorem exists_formalPoint_eq_some {x y : v.adicCompletion K} (h : W.Nonsingular
     exact hfixK
   have huniq : W₀.wEval t = r :=
     W₀.eq_of_wPoly_fixed htm (W₀.wEval_mem htm) hrm (W₀.wEval_eq htm) hfixO
-  refine ⟨fun _ ↦ ⟨t, htm⟩, ?_⟩
-  rw [formalPoint_of_param_ne_zero hW ht0]
+  let z : W₀.formalGroupLaw.Points := fun _ ↦ ⟨t, htm⟩
+  have hz : (z () : v.adicCompletionIntegers K) = t := rfl
+  refine ⟨z, ?_⟩
+  rw [formalPoint_of_param_ne_zero hW (hz.symm ▸ ht0)]
   simp only [Point.some.injEq]
+  rw [hz]
   have hrcoe : ((W₀.wEval t : v.adicCompletionIntegers K) : v.adicCompletion K) = -1 / y := by
     rw [huniq]
   constructor

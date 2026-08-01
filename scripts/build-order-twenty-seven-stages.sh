@@ -13,6 +13,8 @@ readonly stage_a_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps8To15
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps16To23
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps24To31
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps32To35
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps36To40
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps32To40
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCube
   MazurTorsion.Kubert.OrderTwentySevenLegStagesA.DenominatorSquare
@@ -22,6 +24,8 @@ readonly stage_a_modules=(
 
 readonly stage_b_prerequisite_modules=(
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps0To6
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To9
+  MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps10To13
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To13
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwo
   MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TOneSteps0To4

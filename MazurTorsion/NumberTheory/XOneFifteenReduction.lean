@@ -98,7 +98,11 @@ noncomputable def residueSevenAlgEquiv :
     (ℤ ⧸ (intPrime 7).asIdeal) ≃ₐ[ℤ] ZMod 7 :=
   AlgEquiv.ofRingEquiv
     (f := Int.quotientSpanNatEquivZMod 7) fun x ↦ by
-      simp only [algebraMap_int_eq, eq_intCast, map_intCast]
+      change (Int.quotientSpanNatEquivZMod 7 :
+        (ℤ ⧸ Ideal.span {((7 : ℕ) : ℤ)}) →+* ZMod 7)
+          (Ideal.Quotient.mk (Ideal.span {((7 : ℕ) : ℤ)}) x) = Int.castRingHom (ZMod 7) x
+      simpa only [RingHom.comp_apply] using DFunLike.congr_fun
+        (Int.quotientSpanNatEquivZMod_comp_Quotient_mk 7) x
 
 lemma baseChange_modSeven :
     ((integralCurve.toAffine ⁄ (ZMod 7)) :

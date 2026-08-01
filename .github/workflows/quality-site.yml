@@ -34,10 +34,10 @@ jobs:
       NODE_OPTIONS: "--max-old-space-size=3072"
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Set up Node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: "22.13.0"
           cache: npm
@@ -58,29 +58,31 @@ jobs:
   static-preview:
     name: Blueprint and exposition
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.13"
 
-      - name: Install blueprint system packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes graphviz libgraphviz-dev pkg-config
-
-      - name: Install pinned LeanBlueprint
-        run: python -m pip install --disable-pip-version-check leanblueprint==0.0.20
+      - name: Install Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
 
       - name: Validate canonical programme data
         run: python scripts/quality.py
 
-      - name: Build blueprint
-        run: leanblueprint web
+      - name: Build and check the official Verso blueprint
+        working-directory: blueprint
+        run: |
+          LEAN_NUM_THREADS=1 lake exe vbp build
+          LEAN_NUM_THREADS=1 lake exe vbp check
 
       - name: Generate exposition
         env:
@@ -91,10 +93,10 @@ jobs:
             --out static-preview \
             --commit "$GITHUB_SHA" \
             --roadmap-url "$ROADMAP_SITE_URL"
-          test -s blueprint/web/index.html
+          test -s blueprint/_out/site/html-multi/index.html
           test -s site/public/og.png
           mkdir -p static-preview/blueprint
-          cp -R blueprint/web/. static-preview/blueprint/
+          cp -R blueprint/_out/site/html-multi/. static-preview/blueprint/
           cp site/public/og.png static-preview/og.png
 
       - name: Validate preview

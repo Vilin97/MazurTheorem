@@ -7,8 +7,8 @@
 - Source commit: `3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f`
 - License: Apache License 2.0; see `LICENSE`
 
-The retained modules have been modified for Lean `4.32.0-rc1` and mathlib
-`360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`. The modifications and exact
+The retained modules have been modified for Lean `4.33.0-rc1` and mathlib
+`79d0395a1825a6264ad5d269e35e60537518955e`. The modifications and exact
 production-file manifest are recorded in `PORTING.md`.
 
 ## Variable-change implementation
@@ -37,8 +37,8 @@ audit and local changes are recorded in `docs/PRIOR_ART.md`.
 
 ## AI-assisted development
 
-Parts of the proof development were produced in a Claude Code session and
-reviewed, compiled, and committed by Vasily Ilin. Files that record `Claude`
-in their authorship header retain that credit. AI generation is provenance,
-not verification: every completion claim is based on compiled Lean and the
-repository's axiom/source gates.
+Parts of the proof development were produced in Claude Code and Codex agent
+sessions, then reviewed, compiled, and committed under Vasily Ilin's
+direction. Files that record `Claude` in their authorship header retain that
+credit. AI generation is provenance, not verification: every completion
+claim is based on compiled Lean and the repository's axiom/source gates.

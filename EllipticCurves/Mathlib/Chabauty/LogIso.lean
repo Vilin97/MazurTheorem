@@ -191,7 +191,7 @@ theorem log_injective (hp : p.Prime) (hp2 : p ≠ 2)
   choose c hc using fun i d ↦ hdvd i d
   set Hh : ι → MvPowerSeries ι O := fun i ↦ (c i : MvPowerSeries ι O) with hHhdef
   have hHh : ∀ i, (p : O) • Hh i = HL i := fun i ↦ by
-    ext d; rw [hHhdef]; simp only [MvPowerSeries.coeff_smul]; exact (hc i d).symm
+    ext d; rw [hHhdef]; exact (hc i d).symm
   have hHL0 : ∀ i, constantCoeff (HL i) = 0 := fun i ↦ hf (by
     rw [map_zero, ← coeff_zero_eq_constantCoeff_apply, hHL_scale i 0, map_zero Finsupp.degree,
       pow_zero, one_mul, coeff_zero_eq_constantCoeff_apply, (Φ.map f).constantCoeff_log])

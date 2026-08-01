@@ -236,7 +236,7 @@ theorem evalT_mul (z : σ → O) {g₁ g₂ : MvPowerSeries σ O}
   classical
   have hprod := (hasSum_evalT z hh₁).mul_of_nonarchimedean (hasSum_evalT z hh₂)
   have hsig := (Equiv.hasSum_iff
-    (Finset.sigmaAntidiagonalEquivProd (A := σ →₀ ℕ))).mpr hprod
+    (Finset.HasAntidiagonal.sigmaAntidiagonalEquivProd (A := σ →₀ ℕ))).mpr hprod
   have hg : HasSum (fun n : σ →₀ ℕ ↦ ∑ kl ∈ Finset.antidiagonal n,
       (coeff kl.1 g₁ * kl.1.prod fun s e ↦ z s ^ e)
         * (coeff kl.2 g₂ * kl.2.prod fun s e ↦ z s ^ e)) (evalT z g₁ * evalT z g₂) := by

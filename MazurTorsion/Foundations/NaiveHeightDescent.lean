@@ -176,47 +176,6 @@ lemma finite_preimage_xRep0 (x : F) :
     | .some x' y h => simp_all [Point.xRep_some]
   exact (finite_preimage_xRep x).union (Set.finite_singleton 0) |>.subset hsubset
 
-/-- Symmetric degree-two projective coordinates associated to two affine points. -/
-noncomputable def Point.sym2x (P Q : W.toAffine.Point) : Fin 3 → F :=
-  ![P.xRep 0 * Q.xRep 0,
-    P.xRep 0 * Q.xRep 1 + P.xRep 1 * Q.xRep 0,
-    P.xRep 1 * Q.xRep 1]
-
-@[simp] lemma Point.sym2x_zero_zero :
-    Point.sym2x (W := W) 0 0 = ![1, 0, 0] := by
-  ext i
-  fin_cases i <;> simp [Point.sym2x]
-
-@[simp] lemma Point.sym2x_some_zero
-    {x y : F} (h : W.toAffine.Nonsingular x y) :
-    (Point.some x y h).sym2x 0 = ![x, 1, 0] := by
-  ext i
-  fin_cases i <;> simp [Point.sym2x]
-
-@[simp] lemma Point.sym2x_zero_some
-    {x y : F} (h : W.toAffine.Nonsingular x y) :
-    Point.sym2x 0 (Point.some x y h) = ![x, 1, 0] := by
-  ext i
-  fin_cases i <;> simp [Point.sym2x]
-
-@[simp] lemma Point.sym2x_some_some
-    {x y x' y' : F} (h : W.toAffine.Nonsingular x y)
-    (h' : W.toAffine.Nonsingular x' y') :
-    (Point.some x y h).sym2x (Point.some x' y' h') =
-      ![x * x', x + x', 1] := by
-  ext i
-  fin_cases i <;> simp [Point.sym2x]
-
-@[simp] lemma Point.sym2x_neg_right
-    (P Q : W.toAffine.Point) :
-    P.sym2x (-Q) = P.sym2x Q := by
-  simp [Point.sym2x]
-
-lemma Point.sym2x_comm (P Q : W.toAffine.Point) :
-    P.sym2x Q = Q.sym2x P := by
-  ext i
-  fin_cases i <;> simp [Point.sym2x] <;> ring
-
 lemma Point.sym2x_eq (P Q : W.toAffine.Point) :
     P.sym2x Q =
       ![P.xRep 0 * Q.xRep 0,
@@ -385,12 +344,13 @@ instance [Northcott (logHeight₁ (K := F))] :
   eta_expand
   simp only [Point.naiveHeight_eq_logHeight₁]
   rw [← Function.comp_def]
+  letI : Filter.TendstoCofinite (fun P : W.toAffine.Point ↦ P.xRep 0) :=
+    (Filter.tendstoCofinite_iff_finite_preimage_singleton _).2 fun x ↦ by
+      simpa only [Set.preimage, Set.mem_singleton_iff] using
+        (finite_preimage_xRep0 (W := W) x)
   exact Northcott.comp_of_finite_fibers
     (h := fun P : W.toAffine.Point ↦ P.xRep 0)
     (h' := logHeight₁)
-    (fun x ↦ by
-      simpa only [Set.preimage, Set.mem_singleton_iff] using
-        (finite_preimage_xRep0 (W := W) x))
 
 variable [Northcott (logHeight₁ (K := F))]
 variable [DecidableEq F]

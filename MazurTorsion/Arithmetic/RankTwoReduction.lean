@@ -39,7 +39,6 @@ theorem hasMazurClassification_of_groupShape
 /-- Under a finite rank-two presentation, the already-compiled `2`, `3`, and `4` obstructions
 leave exactly four arithmetic subgroup exclusions to obtain Mazur's classification. -/
 theorem hasMazurClassification_of_rankTwo
-    (hfinite : (AddCommGroup.torsion (E⁄ℚ).Point : Set (E⁄ℚ).Point).Finite)
     (horders : ∀ x : RationalTorsion E, addOrderOf x ∈ cyclicOrders)
     (h55 : ForbidsEmbedding (ZMod 5 × ZMod 5) (RationalTorsion E))
     (h77 : ForbidsEmbedding (ZMod 7 × ZMod 7) (RationalTorsion E))
@@ -48,7 +47,6 @@ theorem hasMazurClassification_of_rankTwo
     {m n : ℕ} (hmn : m ∣ n)
     (e : RationalTorsion E ≃+ (ZMod m × ZMod n)) :
     HasMazurClassification E := by
-  letI : Fintype (RationalTorsion E) := hfinite.fintype
   let havoid : AvoidsMazurForbiddenSubgroups (RationalTorsion E) :=
     { c2Cube := rationalTorsion_forbids_zmod_two_cube E
       c3Square := rationalTorsion_forbids_zmod_three_square E
@@ -77,7 +75,7 @@ theorem hasMazurClassificationIfFinite_of_rankTwo_inputs
     HasMazurClassificationIfFinite E := by
   intro hfinite
   obtain ⟨m, n, hmn, ⟨e⟩⟩ := hrank hfinite
-  exact hasMazurClassification_of_rankTwo E hfinite horders h55 h77 h210 h212 hmn e
+  exact hasMazurClassification_of_rankTwo E horders h55 h77 h210 h212 hmn e
 
 /-- Exact LeanPool cardinality target, reduced to the six remaining rank-two arithmetic inputs. -/
 theorem torsion_ncard_le_of_rankTwo_inputs

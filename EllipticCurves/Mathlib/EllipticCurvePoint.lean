@@ -89,10 +89,18 @@ noncomputable def pointMap : W.Point →+ (W⁄L).toAffine.Point :=
 lemma pointMap_zero : W.pointMap L 0 = 0 := by
   simp [pointMap, Point.congr_zero]
 
+omit [DecidableEq K] [DecidableEq L] in
+/-- Base change preserves nonsingularity, with the target expressed using the canonical
+base-changed affine curve. -/
+lemma pointMap_nonsingular {x y : K} (h : W.Nonsingular x y) :
+    (W⁄L).toAffine.Nonsingular (algebraMap K L x) (algebraMap K L y) := by
+  change (W.map (algebraMap K L)).Nonsingular (algebraMap K L x) (algebraMap K L y)
+  exact (W.map_nonsingular (algebraMap K L).injective x y).mpr h
+
 lemma pointMap_some {x y : K} (h : W.Nonsingular x y) :
     W.pointMap L (Point.some x y h) =
       Point.some (W' := (W⁄L).toAffine) (algebraMap K L x) (algebraMap K L y)
-        ((W.map_nonsingular (algebraMap K L).injective x y).mpr h) := by
+        (W.pointMap_nonsingular L h) := by
   rw [pointMap, AddMonoidHom.comp_apply, AddEquiv.coe_toAddMonoidHom, Point.congr_some,
     Point.map_some]
   rfl

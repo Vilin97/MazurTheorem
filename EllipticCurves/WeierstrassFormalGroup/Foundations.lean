@@ -512,8 +512,10 @@ private lemma exists_aux_point [CharZero K] {z : W₀.formalGroupLaw.Points}
       u ≠ z ∧ u ≠ W₀.negPoint z ∧ W₀.negPoint u ≠ z ∧ W₀.negPoint u ≠ W₀.negPoint z ∧
       (u () : v.adicCompletionIntegers K) ≠ W₀.iotaEval (u ()) := by
   obtain ⟨s, hsm, hs0, hst, hsιt, hsιs⟩ := exists_aux_param (z ()).2 h0
-  refine ⟨fun _ ↦ ⟨s, hsm⟩, hs0, ne_of_coe_ne hst, ne_of_coe_ne ?_, ne_of_coe_ne ?_,
-    ne_of_coe_ne ?_, hsιs⟩
+  let u : W₀.formalGroupLaw.Points := fun _ ↦ ⟨s, hsm⟩
+  have hu : (u () : v.adicCompletionIntegers K) = s := rfl
+  refine ⟨u, hu.symm ▸ hs0, ne_of_coe_ne (hu.symm ▸ hst), ne_of_coe_ne ?_,
+    ne_of_coe_ne ?_, ne_of_coe_ne ?_, hu.symm ▸ hsιs⟩
   · rw [W₀.negPoint_apply_coe]
     exact hsιt
   · rw [W₀.negPoint_apply_coe]

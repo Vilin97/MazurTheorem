@@ -253,7 +253,7 @@ Mazur's allowed point orders, and the seven standard obstruction groups do not e
 conclusion is precisely Mazur's cyclic/bicyclic list.
 -/
 theorem hasMazurGroupShape_of_rankTwo
-    {G : Type*} [AddCommGroup G] [Finite G]
+    {G : Type*} [AddCommGroup G]
     (horders : ∀ x : G, addOrderOf x ∈ cyclicOrders)
     (havoid : AvoidsMazurForbiddenSubgroups G)
     {m n : ℕ} (hmn : m ∣ n) (e : G ≃+ (ZMod m × ZMod n)) :
@@ -311,7 +311,7 @@ theorem hasMazurGroupShape_of_rankTwo
 /-- The rank-two finite-abelian reduction immediately gives the numerical bound needed by the
 LeanPool challenge. -/
 theorem card_le_sixteen_of_rankTwo
-    {G : Type*} [AddCommGroup G] [Finite G]
+    {G : Type*} [AddCommGroup G]
     (horders : ∀ x : G, addOrderOf x ∈ cyclicOrders)
     (havoid : AvoidsMazurForbiddenSubgroups G)
     {m n : ℕ} (hmn : m ∣ n) (e : G ≃+ (ZMod m × ZMod n)) :
