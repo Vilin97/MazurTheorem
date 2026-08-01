@@ -65,13 +65,13 @@ theorem cofactor_eval_obstruction_of_bounded_resultants
     exact mul_ne_zero (mul_ne_zero h0 h1) h2
   · exact Or.inl hselection
 
-/-- The seven generic pseudo-remainder recurrences discharge all three
-bounded-resultant hypotheses in the stable cofactor obstruction. -/
+/-- The checked first and final pseudo-remainder recurrences and the five
+remaining recurrence hypotheses discharge all three bounded-resultant
+hypotheses in the stable cofactor obstruction. -/
 theorem cofactor_eval_obstruction_of_resultant_recurrences
-    (hrec0 : recurrence0) (hrec1 : recurrence1)
-    (hrec2 : recurrence2) (hrec3 : recurrence3)
+    (hrec1 : recurrence1) (hrec2 : recurrence2)
+    (hrec3 : recurrence3)
     (hrec4 : recurrence4) (hrec5 : recurrence5)
-    (hrec6 : recurrence6)
     (d : ℚ) (hd0 : d ≠ 0) (hd1 : d ≠ 1)
     (hcubic : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0)
     (z : ℚ) :
@@ -79,7 +79,7 @@ theorem cofactor_eval_obstruction_of_resultant_recurrences
       (divisionCofactor0 d * divisionCofactor1 d *
         divisionCofactor2 d).eval z ≠ 0 := by
   obtain ⟨hres0, hres1, hres2⟩ := bounded_resultants_ne_zero
-    hrec0 hrec1 hrec2 hrec3 hrec4 hrec5 hrec6
+    hrec1 hrec2 hrec3 hrec4 hrec5
     d hd0 hd1 hcubic
   exact cofactor_eval_obstruction_of_bounded_resultants
     d hres0 hres1 hres2 z
