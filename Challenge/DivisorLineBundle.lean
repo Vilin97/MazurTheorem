@@ -30,23 +30,34 @@ tilde bundles. Meanwhile,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates cross-chart
 ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
-the restriction/base-change identification. The latter is now proved on nonempty principal
-opens, with a checked consumer combining it with extension equality into an isomorphism of the
-actual chosen restrictions. For two distinct chart rings, extension equality is now proved for
-the principal divisors defined by the same rational function, and a checked consumer gives the
-actual restriction isomorphism once the two base-change identifications are supplied. Canonical
+the restriction/base-change identification. The latter is now proved for every open-immersion
+map presented by a classical submonoid localization. For two distinct chart rings, extension
+equality is now proved for
+the principal divisors defined by the same rational function. For arbitrary divisors it is
+proved when the common Dedekind overlap is a localization of both chart rings and coefficients
+agree after height-one-prime contraction. Affine tilde base change and module localization now
+prove the restriction comparison under simultaneous open-immersion and classical-localization
+hypotheses, so checked consumers give the actual arbitrary-divisor and principal-divisor
+restriction isomorphisms from those data alone. On an arbitrary affine overlap, the sheaf-level
+base-change identification is still proved equivalent to a linear equivalence on affine global
+sections.
+Canonical
 Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes discharging those comparison inputs, the map-specific smooth-curve
+What remains here includes the arbitrary-affine-open tensor/span comparison, the affine Picard
+comparison inputs, the map-specific smooth-curve
 ring conditions, global curve divisor gluing, and global
 divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
 Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
 plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` is a map-parameterized
-predicate packaging those two consequences. Its checked consumer assumes the predicate on the
-concrete affine `appLE` map and constructs the required order compatibility; no universal
-smooth-over-arbitrary-base implication is asserted. The local divisor-to-Picard
+predicate packaging those two consequences. Over a field, locally standard-smooth relative
+dimension one is now proved to imply dimension at most one, and
+`AffineChart.SmoothRelativeCurveNormality` is proved equivalent to the two-part condition.
+Its checked consumer assumes only normality on the concrete affine `appLE` map and constructs
+the required order compatibility; no universal smooth-over-arbitrary-base implication is
+asserted. The local divisor-to-Picard
 map has exactly the principal divisors as kernel, descends injectively to chart divisor classes,
 and identifies them with its scheme-Picard range. `AffineTilde.TildeReflectsInvertibility` is a
 checked conditional interface, not a solved
@@ -92,12 +103,12 @@ adding surjectivity gives the full divisor-class/Picard equivalence without a gl
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
-arbitrary-divisor cross-chart overlap-extension equality,
-arbitrary-overlap restriction/base-change identification, coherent overlap system,
+the overlap-localization/ambient contracted-coefficient compatibility,
+the arbitrary-affine-open tensor/span comparison, coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
-asserted. The remaining cross-chart localization predicates are precise
+asserted. The remaining geometric localization and base-change predicates are precise
 compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
 separately registered open theorems. Those existence results remain open, so the contract earns
 no Mazur completion credit.

@@ -21,8 +21,13 @@ pairwise isomorphisms between these specific local line bundles, diagonal normal
 the triple-overlap cocycle. On a single chart, equality of the ambient divisor coefficients on a
 principal open now constructs the actual pairwise restriction isomorphism; cross-chart
 comparison and coherence remain for arbitrary divisors. For principal divisors, the two chart
-ideals defined by the same rational function are now proved equal after extension to a compatible
-common affine overlap; arbitrary-overlap restriction/base change and coherence remain. Given
+ideals defined by the same rational function are proved equal after extension to a compatible
+common affine overlap. For arbitrary divisors on a common Dedekind localization of both charts,
+contracted coefficient equality now proves both the extension equality and the actual chosen
+restriction isomorphism: affine tilde base change supplies the restriction comparison for every
+open-immersion map presented as a classical submonoid localization. Constructing suitable
+localization presentations for the geometric overlaps, ambient-point compatibility, and
+coherence remain. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary

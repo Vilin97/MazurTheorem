@@ -80,13 +80,19 @@ chosen restricted tilde bundles. For two charts mapping to a common affine overl
 extended inverse ideals, while
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change comparison for each chosen chart bundle. That comparison is now
-proved on nonempty principal opens, and a checked consumer combines it with extension equality
-into an isomorphism of the actual chosen restrictions. Across two distinct chart rings, the
+proved for every open-immersion map presented by a classical submonoid localization. Across two
+distinct chart rings, the
 extension equality is now proved for principal divisors defined by the same rational function,
-with a checked actual-restriction consumer. For two divisors on the same chart,
+and for arbitrary divisors when the common Dedekind overlap is a localization of both rings and
+coefficients agree after height-one-prime contraction. Both routes have checked
+actual-restriction consumers. On arbitrary affine overlaps, the remaining sheaf-level comparison
+is equivalent to a linear equivalence on affine global sections. For two
+divisors on the same chart,
 coefficient agreement now gives the actual principal-open restriction isomorphism directly.
-Proving cross-chart extension equality for arbitrary divisors, the arbitrary-overlap comparison,
-and cocycle coherence remains missing. The API also
+Constructing the overlap localization structures, proving ambient compatibility of contracted
+coefficients, handling affine open immersions not presented as classical localizations, and
+cocycle coherence remain missing.
+The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
@@ -98,9 +104,11 @@ order homomorphisms from the Dedekind-domain instance, constructing
 `AffineChart.DedekindOrderCompatibility` automatically. The remaining coordinate-ring boundary
 is exactly dimension at most one plus integral closedness.
 `AffineChart.SmoothRelativeCurveRingConditions` packages these consequences as a conditional
-mapwise predicate. Its checked consumer assumes that predicate on the concrete affine `appLE`
-map and constructs the required Dedekind order compatibility; no universal implication over an
-arbitrary base is asserted. Whole principal divisors are related by reindexing and the induced
+mapwise predicate. Over a field, the dimension-at-most-one consequence is now proved from local
+standard smoothness and relative dimension one, so `AffineChart.SmoothRelativeCurveNormality`
+is the exact remaining part. Its checked consumer assumes normality on the concrete affine
+`appLE` map and constructs the required Dedekind order compatibility; no universal implication
+over an arbitrary base is asserted. Whole principal divisors are related by reindexing and the induced
 local divisor-to-scheme-Picard map has exactly those principal divisors as kernel. It therefore
 descends injectively to chart divisor classes and identifies them with its scheme-Picard range.
 Pullback
@@ -146,15 +154,15 @@ separate gluing input. Constructing compatible rational data from the explicit l
 cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the divisor cocycle system, arbitrary-divisor cross-chart overlap-extension equality,
-arbitrary-overlap restriction/base-change identification, coherent overlap system,
+of the divisor cocycle system, the overlap-localization/ambient contracted-coefficient
+compatibility, the arbitrary-affine-open tensor/span comparison, coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
-`AffineTilde.TildeReflectsInvertibility`, the map-specific smooth-curve ring conditions,
-and the remaining cross-chart localization predicates are precise compiled conditional
+`AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality condition,
+and the remaining geometric overlap predicates are precise compiled conditional
 boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
 Challenge declarations. Their discharge remains part of that Challenge. The weighted product
 formula remains the separately registered A2 prerequisite in the roadmap; the affine and local
@@ -291,9 +299,24 @@ inhabited or that A3 is solved.
   Package mapwise, behind the local standard-smooth premise, the required dimension-at-most-one
   and integral-closedness consequences without asserting them uniformly over arbitrary bases.
 * `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field`
+  Prove that a locally standard-smooth relative-dimension-one domain over a field has dimension
+  at most one.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveNormality`
+  Isolate integral closedness as the exact remaining field-base chart-ring condition.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.smoothRelativeCurveRingConditions_iff_normality_of_field`
+  Identify the two-part smooth curve ring boundary with the normality-only boundary over a
+  field-domain chart.
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions`
   Consume the map-specific smooth-curve ring conditions to construct the Dedekind order
   compatibility required by the chart divisor API.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveNormality`
+  Construct the chart order compatibility from the normality-only input for a smooth relative
+  curve over a field.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor`
   Transport the whole affine principal divisor to the ambient chart points.
@@ -502,17 +525,54 @@ inhabited or that A3 is solved.
   Prove the cross-chart extension equality for principal divisors defined by the same rational
   function on two distinct Dedekind chart rings.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.underHeightOne`
+  Contract a height-one prime through a localization whose denominators are non-zero-divisors.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.LocalizationCoefficientEq`
+  State equality of chart-divisor coefficients after contracting every height-one prime of a
+  common localization ring.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_of_localization_coeff_eq`
+  Prove arbitrary-divisor cross-chart extension equality from two localization structures and
+  contracted coefficient equality.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal`
   Isolate identification of a chosen chart line-bundle restriction with tilde of its inverse
   divisor ideal extended to the common overlap.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionGlobalSectionsEquivExtendedInverseIdeal`
+  Reduce arbitrary-overlap restriction/base change to a linear equivalence between affine
+  global sections and the extended inverse ideal.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_iff_globalSectionsEquiv`
+  Prove that the sheaf-level and affine-global-sections overlap comparisons are equivalent.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isLocalization`
+  Discharge the sheaf-level restriction comparison when the spectrum map is an open immersion
+  and the overlap ring is a classical submonoid localization of the chart ring.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isLocalization`
+  Derive the corresponding affine-global-sections comparison from the localization theorem.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso`
   Combine extension equality and both restriction identifications into an isomorphism of the
   actual chosen chart line-bundle restrictions.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfGlobalSectionsEquiv`
+  Construct the actual cross-chart restriction isomorphism from the two module-level
+  global-sections comparisons and extended-ideal equality.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipal`
   Construct the actual cross-chart principal-divisor restriction isomorphism once both
   restriction/base-change identifications are supplied.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsLocalization`
+  Construct the principal-divisor restriction isomorphism directly from two localization
+  presentations and compatible common-fraction-field maps.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfLocalizationCoeffEq`
+  Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization
+  coefficient compatibility; the localization theorem supplies both restriction comparisons.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_away`
   Prove the restriction/base-change identification on every nonempty principal open with a

@@ -7,6 +7,9 @@ Authors: Vasily Ilin
 import MazurTorsion.Upstream.DivisorLineBundle
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.GroupTheory.ArchimedeanDensely
+import Mathlib.RingTheory.KrullDimension.Field
+import Mathlib.RingTheory.KrullDimension.Polynomial
+import Mathlib.RingTheory.Unramified.LocalStructure
 import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
 
@@ -27,9 +30,10 @@ The unconditional Picard target is the coordinate spectrum `Spec Γ(X, U)`. The 
 strong monoidality of pullback as an upstream-compatible sufficient datum for transport to
 `Pic(U)` and consumes that datum to preserve the principal kernel, class descent, and range
 equivalence. Constructing the datum and overlap-compatible gluing to `X` remain separate
-obligations. For smooth curves, supplying the current library's missing route from smoothness
-and relative dimension one to the two commutative-algebra conditions is isolated mapwise below;
-that input directly constructs the required Dedekind order compatibility.
+obligations. For smooth curves over a field, locally standard-smooth relative dimension one is
+now proved to force dimension at most one. Thus only normality remains as a mapwise
+commutative-algebra boundary, and that input directly constructs the required Dedekind order
+compatibility.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineChart
@@ -503,6 +507,128 @@ def SmoothRelativeCurveRingConditions
   RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →
     Ring.DimensionLEOne A ∧ IsIntegrallyClosed A
 
+/-- A standard-smooth relative curve chart over a field has dimension at most one. The proof
+uses an étale presentation over the one-variable polynomial ring and quasi-finite contraction
+of prime chains. -/
+theorem dimensionLEOne_of_standardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A] [Algebra K A]
+    [Algebra.IsStandardSmoothOfRelativeDimension 1 K A] :
+    Ring.DimensionLEOne A := by
+  obtain ⟨g, hg⟩ :=
+    Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial 1 K A
+  letI : Algebra (MvPolynomial (Fin 1) K) A := g.toRingHom.toAlgebra
+  haveI : Algebra.Etale (MvPolynomial (Fin 1) K) A := by
+    rw [← RingHom.etale_algebraMap]
+    exact hg
+  haveI : Algebra.QuasiFinite (MvPolynomial (Fin 1) K) A := inferInstance
+  have hstrict : StrictMono
+      (PrimeSpectrum.comap (algebraMap (MvPolynomial (Fin 1) K) A)) := by
+    intro P Q hPQ
+    have hle : P.asIdeal.under (MvPolynomial (Fin 1) K) ≤
+        Q.asIdeal.under (MvPolynomial (Fin 1) K) :=
+      Ideal.comap_mono hPQ.le
+    refine lt_of_le_of_ne hle ?_
+    intro heq
+    have hPQeq : P.asIdeal = Q.asIdeal :=
+      Algebra.QuasiFinite.eq_of_le_of_under_eq
+        (R := MvPolynomial (Fin 1) K) P.asIdeal Q.asIdeal hPQ.le
+          (congrArg PrimeSpectrum.asIdeal heq)
+    exact hPQ.ne (PrimeSpectrum.ext hPQeq)
+  have hkrull : Ring.KrullDimLE 1 A := by
+    rw [Ring.krullDimLE_iff]
+    calc
+      ringKrullDim A ≤ ringKrullDim (MvPolynomial (Fin 1) K) :=
+        Order.krullDim_le_of_strictMono _ hstrict
+      _ = 1 := by
+        rw [MvPolynomial.ringKrullDim_of_isNoetherianRing,
+          ringKrullDim_eq_zero_of_field]
+        simp
+      _ ≤ 1 := le_rfl
+  letI : Ring.KrullDimLE 1 A := hkrull
+  exact
+    { maximalOfPrime := fun hne hp => hp.isMaximal_of_ne_bot hne }
+
+private theorem dimensionLEOne_of_ringHom_standardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) (hf : f.IsStandardSmoothOfRelativeDimension 1) :
+    Ring.DimensionLEOne A := by
+  letI : Algebra K A := f.toAlgebra
+  letI : Algebra.IsStandardSmoothOfRelativeDimension 1 K A := hf.toAlgebra
+  exact dimensionLEOne_of_standardSmoothRelDimOne_over_field K A
+
+/-- A locally standard-smooth relative curve chart over a field has dimension at most one.
+The local standard charts cover the unit ideal, so every maximal-prime height can be computed
+after localizing at one chart element outside that prime. -/
+theorem dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A)
+    (hf : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1) f) :
+    Ring.DimensionLEOne A := by
+  obtain ⟨s, hs, hstd⟩ := hf
+  have hkrull : Ring.KrullDimLE 1 A := by
+    rw [Ring.krullDimLE_iff, ringKrullDim_le_iff_isMaximal_height_le]
+    intro P hP
+    letI : P.IsPrime := hP.isPrime
+    have hnot : ¬ s ⊆ (P : Set A) := by
+      intro hsub
+      apply hP.ne_top
+      rw [eq_top_iff, ← hs]
+      exact Ideal.span_le.mpr hsub
+    obtain ⟨t, hts, htP⟩ := Set.not_subset.mp hnot
+    have ht0 : t ≠ 0 := by
+      intro ht
+      apply htP
+      rw [ht]
+      exact P.zero_mem
+    letI : IsDomain (Localization.Away t) := Localization.Away.isDomain ht0
+    letI : Ring.DimensionLEOne (Localization.Away t) :=
+      dimensionLEOne_of_ringHom_standardSmoothRelDimOne_over_field K
+        (Localization.Away t) ((algebraMap A (Localization.Away t)).comp f) (hstd t hts)
+    have hdisj : Disjoint (Submonoid.powers t : Set A) (P : Set A) :=
+      (Ideal.disjoint_powers_iff_notMem_of_isPrime t).mpr htP
+    letI : (P.map (algebraMap A (Localization.Away t))).IsPrime :=
+      IsLocalization.isPrime_of_isPrime_disjoint
+        (Submonoid.powers t) (Localization.Away t) P inferInstance hdisj
+    rw [← IsLocalization.height_map_of_disjoint
+      (S := Localization.Away t) (Submonoid.powers t) P hdisj]
+    exact (Ideal.height_le_ringKrullDim_of_isPrime).trans
+      (Ring.krullDimLE_iff.mp
+        (inferInstance : Ring.KrullDimLE 1 (Localization.Away t)))
+  letI : Ring.KrullDimLE 1 A := hkrull
+  exact
+    { maximalOfPrime := fun hne hp => hp.isMaximal_of_ne_bot hne }
+
+/-- The exact remaining field-base boundary after the dimension theorem: a locally
+standard-smooth relative curve domain is integrally closed. -/
+def SmoothRelativeCurveNormality
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) : Prop :=
+  RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →
+    IsIntegrallyClosed A
+
+/-- Over a field, the normality-only boundary and the checked dimension theorem supply the
+existing two-part smooth-relative-curve ring conditions. -/
+theorem smoothRelativeCurveRingConditions_of_field_of_normality
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) (hnormal : SmoothRelativeCurveNormality K A f) :
+    SmoothRelativeCurveRingConditions K A f := by
+  intro hlocal
+  exact ⟨dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field K A f hlocal,
+    hnormal hlocal⟩
+
+/-- Over a field-domain chart, the two-part smooth-relative-curve boundary is exactly the
+normality boundary because relative dimension one already forces dimension at most one. -/
+theorem smoothRelativeCurveRingConditions_iff_normality_of_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) :
+    SmoothRelativeCurveRingConditions K A f ↔
+      SmoothRelativeCurveNormality K A f := by
+  constructor
+  · intro h hlocal
+    exact (h hlocal).2
+  · exact smoothRelativeCurveRingConditions_of_field_of_normality K A f
+
 /-- The map-specific smooth-relative-curve ring conditions directly provide the Dedekind order
 compatibility required to construct the chart divisor line bundle. -/
 theorem dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions
@@ -522,6 +648,24 @@ theorem dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions
     (affineOpen_isDedekindDomain_iff X U hU).2 (h hlocal)
   letI : IsDedekindDomain Γ(X, U) := hDedekind
   exact dedekindOrderCompatibilityOfIsDedekindDomain X U hU
+
+/-- For a smooth relative curve over a field, the remaining normality-only input directly
+constructs the Dedekind order compatibility on every nonempty affine chart. -/
+theorem dedekindOrderCompatibilityOfSmoothRelativeCurveNormality
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 f]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (hnormal : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1)
+      (f.appLE ⊤ U le_top).hom → IsIntegrallyClosed Γ(X, U)) :
+    DedekindOrderCompatibility X U hU := by
+  letI : Field Γ(Spec (.of K), ⊤) :=
+    ((Scheme.ΓSpecIso (.of K)).commRingCatIsoToRingEquiv.toMulEquiv.isField
+      (Field.toIsField K)).toField
+  apply dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions K X f U hU
+  exact smoothRelativeCurveRingConditions_of_field_of_normality
+    Γ(Spec (.of K), ⊤) Γ(X, U) (f.appLE ⊤ U le_top).hom hnormal
 
 /-- A sufficient datum for transporting AINTLIB Picard groups along the affine-chart
 isomorphism: strong monoidality of sheaf-module pullback for the AINTLIB tensor structures. -/
