@@ -22,10 +22,17 @@ affine-chart normalization. On affine schemes, the localized tensor maps have no
 into an objectwise tilde tensor-product isomorphism. This gives a canonical injective
 module-Picard to scheme-Picard map. For affine Dedekind domains, the divisor map has exactly the
 principal divisors as kernel, divisor classes are equivalent to its range, and the chosen tilde
-line bundles are tensor-additive. Canonical Picard surjectivity is now proved equivalent to the
-reverse tensor-unit/local-rank-one comparison, while the forward affine gap is isolated as the
-checked localization predicate `AffineTilde.TildeReflectsInvertibility`. What remains here
-includes discharging those comparison inputs, proving the checked
+line bundles are tensor-additive. The chosen Picard representative is now identified with the
+explicit inverse fractional ideal attached to the divisor. Equality after localization gives a
+checked isomorphism of the chosen restricted tilde bundles, while
+`AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates cross-chart
+ideal-extension equality and
+`AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
+the restriction/base-change identification. A checked consumer combines both inputs into an
+isomorphism of the actual chosen chart restrictions. Canonical Picard surjectivity is proved
+equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
+isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
+What remains here includes discharging those comparison inputs, proving the checked
 `AffineChart.DedekindOrderCompatibility` on curve charts, global curve divisor gluing, and
 global divisor-class/Picard surjectivity. The chart API already identifies height-one primes
 with ambient codimension-one points and consumes the compatibility to reindex whole principal
@@ -41,19 +48,30 @@ transports the divisor and class maps to `Pic(U)` while preserving the exact pri
 and range equivalence. The pinned upstream AINTLIB source proves general pullback monoidality,
 but that cone is not in the current checked import graph and cannot be copied here under this
 task's no-`set_option` constraint. For gluing, the separately importable companion modules
-`CurveLineBundleDescent` and `CurveDivisorDescent` now construct the actual affine `O(D)` on a
+`AffineDivisorLocalization`, `CurveLineBundleDescent`, `CurveLineBundleLocality`,
+`CurveDivisorDescent`, and `CurveDivisorPicardDescent` construct the actual affine `O(D)` on a
 canonical coordinate cover and prove that every principal divisor gives a trivial line bundle
 on each chart. `CurveDivisorDescent.DivisorCocycle` is the exact missing pairwise-overlap,
 normalization, and triple-cocycle input for those specified bundles. Given such a cocycle,
-checked code converts it to Mathlib descent data and, under
-object-specific `LineBundleDescent.EffectiveInvertible`, constructs a global line bundle whose
-restriction is the chosen affine `O(D)`. Cover-wide invertible effectivity, ordinary module
-effectivity, and locality of invertibility are exposed separately as progressively stronger
-sufficient inputs. A coherently trivial chosen principal cocycle descends to the trivial global
-bundle under essential injectivity on objects, itself implied by fully faithful module descent.
-No divisor-indexed additive cocycle system, overlap isomorphism, effectivity, locality,
-coherent-principal-triviality, or object-separation input is asserted. Those existence results
-remain open, so the contract earns no Mazur completion credit.
+checked code converts it to Mathlib descent data and, under object-specific
+`LineBundleDescent.EffectiveInvertible`, constructs a global line bundle whose restriction is
+the chosen affine `O(D)`. Locality of Tau Ceti invertibility is now proved for arbitrary scheme
+open covers, so ordinary module effectivity alone upgrades locally invertible descent data to
+effective global line bundles.
+A prestack instance for the scheme-module pseudofunctor now has a checked consumer producing
+fully faithful descent and hence object separation, but no such instance is currently available.
+For a divisor-indexed cocycle family, objectwise effectivity, tensor-additivity of the descended
+bundles, and `TensorInverseComparison X` construct an actual divisor-to-Picard homomorphism.
+Coherent triviality of the principal cocycles then descends this map to divisor classes under
+object separation. Exact principal kernel gives an equivalence with the actual Picard range,
+and adding surjectivity constructs the complete dictionary and full divisor-class/Picard
+equivalence. No inhabitant of the required divisor cocycle system, overlap-extension equality,
+restriction/base-change identification, overlap isomorphism, module-effectivity,
+tensor-inverse comparison, coherent-principal-triviality, prestack/object-separation,
+exact-kernel, or surjectivity input is asserted. The localization predicates are precise
+compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
+separately registered open theorems. Those existence results remain open, so the contract earns
+no Mazur completion credit.
 The Challenge's published import list remains unchanged; solvers use these checked route
 modules explicitly.
 -/

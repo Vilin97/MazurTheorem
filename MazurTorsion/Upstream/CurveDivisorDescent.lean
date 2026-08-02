@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveAffineChart
-import MazurTorsion.Upstream.CurveLineBundleDescent
+import MazurTorsion.Upstream.CurveLineBundleLocality
 
 /-!
 # Chartwise divisor line bundles and their descent boundary
@@ -17,12 +17,13 @@ trivial local line bundle.
 
 For a covering family of affine opens, `DivisorCocycle` is the exact remaining overlap input:
 pairwise isomorphisms between these specific local line bundles, diagonal normalization, and
-the triple-overlap cocycle. Given object-specific effective invertible descent, the checked consumer
-`globalLineBundle` constructs a global line bundle and identifies every chart restriction with
-the affine `O(D)`. Coherent triviality of a principal cocycle, together with essential
-injectivity on objects for module descent, makes that global line bundle trivial; fully faithful
-descent is a checked sufficient source of this exact input. No overlap isomorphism, effectivity
-theorem, or object-separation theorem is asserted here.
+the triple-overlap cocycle. Given object-specific effective invertible descent, the checked
+consumer `globalLineBundle` constructs a global line bundle and identifies every chart
+restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
+module effectivity to this input. Coherent triviality of a principal cocycle, together with
+essential injectivity on objects for module descent, makes that global line bundle trivial;
+fully faithful descent is a checked sufficient source of this exact input. No overlap
+isomorphism, module-effectivity theorem, or object-separation theorem is asserted here.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -238,6 +239,20 @@ noncomputable def globalLineBundleOfEffectiveDescentFor
       (coordinateCover U hcover hU)) : InvertibleSheaf X :=
   globalLineBundle X U hnonempty hcover hU h D C
     (heffective (invertibleDescentData X U hnonempty hcover hU h D C))
+
+/-- Ordinary module effectivity on the coordinate cover is enough to globalize a divisor
+cocycle: locality of invertibility is now proved for every scheme open cover. -/
+noncomputable def globalLineBundleOfModuleEffectivity
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (C : DivisorCocycle X U hnonempty hcover hU h D)
+    (heffective : LineBundleDescent.ModuleEffectiveDescentFor
+      (coordinateCover U hcover hU)) : InvertibleSheaf X :=
+  globalLineBundleOfEffectiveDescentFor X U hnonempty hcover hU h D C
+    (LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity heffective)
 
 /-- The constructed global line bundle restricts to the actual affine divisor line bundle on
 every chart. -/

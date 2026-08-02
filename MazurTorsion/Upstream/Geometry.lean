@@ -6,9 +6,12 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.CartierDual
 import MazurTorsion.Upstream.AINTLIB.Picard.Pic
+import MazurTorsion.Upstream.AffineDivisorLocalization
 import MazurTorsion.Upstream.CurveAffineChart
 import MazurTorsion.Upstream.CurveDivisorDescent
+import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveLineBundleDescent
+import MazurTorsion.Upstream.CurveLineBundleLocality
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 

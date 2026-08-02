@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.AlgebraicGeometry.Pullbacks
+import Mathlib.AlgebraicGeometry.Sites.BigZariski
 import Mathlib.CategoryTheory.Sites.Descent.DescentDataPrime
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 
@@ -13,18 +14,20 @@ import TauCeti.AlgebraicGeometry.LineBundle.Basic
 
 Mathlib provides the pseudofunctor of sheaves of modules and the category of coherent descent
 data for a family of scheme morphisms. The current dependency graph does not yet prove that
-these descent data are effective for a Zariski cover, nor that an effective object assembled
-from invertible local objects is globally invertible.
+these descent data are effective for a Zariski cover. The companion module
+`CurveLineBundleLocality` proves that an effective global module assembled from invertible local
+objects is globally invertible.
 
 This file packages a coherent module descent datum whose local objects are actual Tau Ceti
-invertible sheaves. It also separates the two remaining existence inputs: `EffectiveModule`
+invertible sheaves. It also separates the two logical existence inputs: `EffectiveModule`
 asks only for a global module representing the datum, while `InvertibilityIsLocal` asks that
 invertibility on this open cover detect global invertibility. Checked code combines those inputs
 into `EffectiveInvertible`, whose consumers recover the chosen global line bundle, the descent
-isomorphism, and every chart restriction isomorphism. It also packages specified overlap
+isomorphism, and every chart restriction isomorphism; the companion locality theorem discharges
+the second input on every scheme open cover. It also packages specified overlap
 isomorphisms, normalization, and the triple cocycle as Mathlib descent data. The file does not
-construct divisor-specific overlap isomorphisms, prove their effectivity, prove the locality
-predicate, or assert that the module pseudofunctor is a stack.
+construct divisor-specific overlap isomorphisms, prove their effectivity, or assert that the
+module pseudofunctor is a stack.
 -/
 
 open CategoryTheory Bicategory CategoryTheory.Limits
@@ -347,6 +350,17 @@ abbrev ModuleDescentFullyFaithfulFor
     {X : Scheme.{u}} (cov : X.OpenCover) : Type _ :=
   (modulesPseudofunctor.toDescentData cov.f).FullyFaithful
 
+/-- A prestack theorem for the scheme-module pseudofunctor supplies fully faithful descent on
+every Zariski open cover. Mathlib provides the generic implication and proves that an open cover
+belongs to the Zariski topology; the required `IsPrestack` instance itself is not currently in
+the dependency graph. -/
+noncomputable def moduleDescentFullyFaithfulForOfIsPrestack
+    {X : Scheme.{u}} (cov : X.OpenCover)
+    [modulesPseudofunctor.{u}.IsPrestack Scheme.zariskiTopology.{u}] :
+    ModuleDescentFullyFaithfulFor cov :=
+  modulesPseudofunctor.fullyFaithfulToDescentData
+    cov.f cov.mem_grothendieckTopology
+
 /-- The exact object-separation input needed to lift an isomorphism of coherent restrictions:
 isomorphic descent data come from isomorphic global module sheaves. -/
 def ModuleDescentEssentiallyInjectiveFor
@@ -365,9 +379,18 @@ theorem moduleDescentEssentiallyInjectiveFor_of_fullyFaithful
     ModuleDescentEssentiallyInjectiveFor cov :=
   fun _ _ e ↦ ⟨hfaithful.preimageIso e.some⟩
 
+/-- A prestack theorem for scheme modules implies the exact object-separation property used for
+principal divisor line bundles. This is the checked consumer of the missing prestack input. -/
+theorem moduleDescentEssentiallyInjectiveFor_of_isPrestack
+    {X : Scheme.{u}} (cov : X.OpenCover)
+    [hprestack : modulesPseudofunctor.{u}.IsPrestack Scheme.zariskiTopology.{u}] :
+    ModuleDescentEssentiallyInjectiveFor cov :=
+  moduleDescentEssentiallyInjectiveFor_of_fullyFaithful
+    (@moduleDescentFullyFaithfulForOfIsPrestack X cov hprestack)
+
 /-- The exact open-cover localization input for line bundles: a global module whose pullback to
-every cover member is invertible is itself invertible. The current dependency graph does not
-provide this theorem for Tau Ceti's `IsInvertible` predicate. -/
+every cover member is invertible is itself invertible. The companion module
+`CurveLineBundleLocality` proves this predicate for every scheme open cover. -/
 def InvertibilityIsLocal {X : Scheme.{u}} (cov : X.OpenCover) : Prop :=
   ∀ M : X.Modules,
     (∀ i : cov.I₀,

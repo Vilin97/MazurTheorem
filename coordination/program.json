@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1424188,
-    "integrated_lean_modules": 648,
+    "integrated_lean_lines": 1425260,
+    "integrated_lean_modules": 651,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -1253,6 +1253,104 @@
           "state": "contract",
           "description": "Descend coherent principal triviality to a global trivialization under essential injectivity on objects for module descent.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.classEquivPicardRange",
+          "state": "contract",
+          "description": "Identify divisor classes with the actual range of any divisor-to-Picard map having exactly the principal kernel, without assuming Picard surjectivity.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentFullyFaithfulForOfIsPrestack",
+          "state": "contract",
+          "description": "Consume a scheme-module prestack instance to obtain fully faithful descent on a specified Zariski open cover.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.divisorToPic",
+          "state": "contract",
+          "description": "Construct an additive Weil-divisor to scheme-Picard homomorphism from objectwise effective, tensor-additive divisor cocycles and the forward tensor-inverse comparison.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classToPic",
+          "state": "contract",
+          "description": "Descend the Picard homomorphism built using the forward tensor-inverse comparison to divisor classes from coherent principal triviality and object separation.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.dictionary",
+          "state": "contract",
+          "description": "Upgrade effective tensor-additive cocycles and the forward tensor-inverse comparison to the complete divisor-line-bundle dictionary under exact kernel and surjectivity.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classEquivalence",
+          "state": "contract",
+          "description": "Extract the full additive equivalence between divisor classes and the scheme Picard group from the exact cocycle-built dictionary, which uses the forward tensor-inverse comparison.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal",
+          "state": "contract",
+          "description": "Identify the chosen affine Picard representative with the explicit inverse fractional ideal attached to the divisor.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq",
+          "state": "contract",
+          "description": "Require compatible maps into a common function field and equality of the two inverse divisor ideals after extension to a common affine-overlap ring.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal",
+          "state": "contract",
+          "description": "Isolate identification of a chosen chart line-bundle restriction with tilde of its inverse divisor ideal extended to the common overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso",
+          "state": "contract",
+          "description": "Combine extension equality and both restriction identifications into an isomorphism of the actual chosen chart line-bundle restrictions.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfInverseIdealEq",
+          "state": "contract",
+          "description": "Consume localized inverse-ideal equality to identify restrictions of the chosen affine divisor line bundles.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibilityIsLocal",
+          "state": "contract",
+          "description": "Prove that Tau Ceti invertibility is local on every scheme open cover by refining chartwise trivialization atlases.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleLocality"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity",
+          "state": "contract",
+          "description": "Upgrade ordinary module effectivity to effective descent for locally invertible data using the proved locality theorem.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleLocality"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleOfModuleEffectivity",
+          "state": "contract",
+          "description": "Construct a global divisor line bundle from a coherent cocycle and ordinary module effectivity on the coordinate cover.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -1283,7 +1381,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart and descent modules. Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts and construct `PicardIso.PullbackMonoidalData` (or port the exact pinned upstream pullback-monoidal cone without source-level options). The checked API then transports the exact chart kernel, class descent, and range equivalence to `Pic(U)`. For a canonical affine coordinate cover, construct a divisor-indexed additive system of `CurveDivisorDescent.DivisorCocycle` values by proving localization compatibility for the specified Picard-representative affine line bundles. Prove object-specific `LineBundleDescent.EffectiveInvertible` for those cocycles; cover-wide invertible effectivity, or module effectivity plus locality of invertibility, are stronger sufficient inputs. Global principal triviality additionally needs coherent triviality for the chosen principal cocycles and `ModuleDescentEssentiallyInjectiveFor`, which follows from fully faithful module descent. Separately discharge tilde reflection for the forward Picard comparison; canonical Picard surjectivity is equivalent to the reverse comparison. The weighted product formula remains the independently registered A2 Challenge.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts and construct `PicardIso.PullbackMonoidalData` (or port the exact pinned upstream pullback-monoidal cone without source-level options). The checked API then transports the exact chart kernel, class descent, and range equivalence to `Pic(U)`. On a compatible common affine overlap, prove both `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` and `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` for each chart; their checked consumer gives an isomorphism of the actual chosen chart restrictions. Normalize these isomorphisms and prove the triple cocycle to inhabit `CurveDivisorDescent.DivisorCocycleSystem`, then prove ordinary module effectivity, `DescendedTensorAdditive`, and `TensorInverseComparison X`; locality of invertibility is already discharged. These inputs construct `DivisorCocycleSystem.divisorToPic`. Coherent triviality for the principal cocycles and `ModuleDescentEssentiallyInjectiveFor` descend it to divisor classes; a scheme-module prestack instance is a checked sufficient source of object separation. Exact principal kernel gives the range equivalence, while surjectivity upgrades the construction to the full dictionary and divisor-class/Picard equivalence. Separately discharge tilde reflection for the affine forward Picard comparison; canonical Picard surjectivity is equivalent to the reverse comparison. The localization predicates are compiled conditional contracts subsumed by the unchanged registered A3 Challenge, while the weighted product formula remains the independently registered A2 Challenge.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

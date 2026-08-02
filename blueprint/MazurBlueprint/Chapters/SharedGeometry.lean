@@ -71,7 +71,17 @@ isomorphism, proving that tilde sends invertible modules to tensor units and ind
 injective module-Picard/scheme-Picard homomorphism. Consequently, the affine Dedekind divisor map
 has exactly the principal divisors as kernel, descends to divisor classes, and gives an
 unconditional equivalence from those classes to its scheme-Picard range; the actual tilde line
-bundles are tensor-additive. It also characterizes existence of the full affine scheme-level
+bundles are tensor-additive. The chosen Picard representative is moreover linearly equivalent
+to the explicit inverse fractional ideal attached to the divisor. On a principal open, equality
+of these localized inverse ideals now yields a checked isomorphism of the chosen restricted
+tilde bundles. For two charts mapping to a common affine overlap,
+`AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
+extended inverse ideals, while
+`AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
+the restriction/base-change comparison for each chosen chart bundle. A checked consumer combines
+both inputs into an isomorphism of the actual chosen restrictions; proving those inputs and their
+cocycle coherence remains missing. The API also characterizes
+existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
 isolated as reflection of invertibility through tilde, and a checked consumer turns that precise
@@ -92,26 +102,38 @@ structure and its inverse is identified with pullback along the inverse scheme i
 pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
 uses source-level options forbidden in this task. The descent API now packages specified
 pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
-descent data. It separates object effectivity, cover-wide module effectivity, locality of
-invertibility, essential injectivity on objects, and fully faithful module descent instead of
-asserting a stack theorem. On a
+descent data. It separates object effectivity, cover-wide module effectivity, essential
+injectivity on objects, and fully faithful module descent instead of asserting a stack theorem.
+The companion locality module refines chartwise rank-one trivialization atlases and proves that
+Tau Ceti invertibility is local on every scheme open cover. Consequently ordinary module
+effectivity alone globalizes locally invertible descent data. A checked bridge consumes a
+scheme-module prestack instance to produce fully faithful descent and hence the exact
+object-separation property, while the current dependency graph supplies no such instance. On a
 canonical coordinate cover, the curve-divisor API restricts a global divisor, constructs the
 actual affine `O(D)` line bundle on every chart, preserves addition, and proves local triviality
-for principal divisors. `CurveDivisorDescent.DivisorCocycle` is the exact remaining overlap
-input for these specified line bundles. Object-specific effective invertible descent then
-constructs a global
-line bundle with a checked isomorphism from each restriction to the corresponding `O(D)`.
-Coherent triviality of a chosen principal cocycle and essential injectivity on objects
-conditionally imply global principal triviality; fully faithful descent is a checked sufficient
-source of that exact input. No divisor-indexed additive cocycle system, overlap isomorphism,
-effectivity, locality, coherent-principal-triviality, or object-separation theorem is claimed.
-Thus global proper-curve gluing and Picard surjectivity remain open.
+for principal divisors.
+`CurveDivisorDescent.DivisorCocycle` is the exact remaining overlap input for these specified
+line bundles. Object-specific effective invertible descent then constructs a global line bundle
+with a checked isomorphism from each restriction to the corresponding `O(D)`. The companion
+`CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Objectwise
+effectivity, tensor-additivity of the descended bundles, and `TensorInverseComparison X`
+construct an actual additive divisor-to-Picard map; the zero law follows from the `0 + 0` tensor
+isomorphism by cancellation, so no extra unit or associativity coherence is assumed. Coherent
+triviality of the principal cocycles and object separation descend the construction to divisor
+classes. Exact principal kernel identifies those classes with the actual Picard range, and
+surjectivity upgrades the construction to the complete dictionary and full
+divisor-class/Picard equivalence. No inhabitant of the divisor cocycle system,
+overlap-extension equality, restriction/base-change identification, overlap isomorphism,
+module-effectivity, tensor-inverse comparison, coherent-principal-triviality,
+prestack/object-separation, exact-kernel, or surjectivity input is claimed. Thus global
+proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
 conditional interfaces rather than solved existence results or separately registered Challenge
-declarations; their discharge remains part of the unchanged global A3 Challenge. The weighted
-product formula remains independently isolated by the registered A2 Challenge. Artifact state
-`contract` records a compiled conditional API and does not assert that these predicates are
-inhabited or that A3 is solved.
+declarations. The two localization predicates are likewise precise compiled conditional
+contracts subsumed by the unchanged registered A3 Challenge. Their discharge remains part of
+that Challenge. The weighted product formula remains independently isolated by the registered A2
+Challenge. Artifact state `contract` records a compiled conditional API and does not assert that
+these predicates are inhabited or that A3 is solved.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -305,6 +327,61 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundle_principal_iso_trivial`
   Descend coherent principal triviality to a global trivialization under essential injectivity
   on objects for module descent.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.classEquivPicardRange`
+  Identify divisor classes with the actual range of any divisor-to-Picard homomorphism having
+  exactly the principal kernel, without assuming Picard surjectivity.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentFullyFaithfulForOfIsPrestack`
+  Consume a scheme-module prestack instance to obtain fully faithful descent on a specified
+  Zariski open cover.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.divisorToPic`
+  Construct an additive divisor-to-Picard homomorphism from objectwise effective,
+  tensor-additive divisor cocycles and the forward tensor-inverse comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classToPic`
+  Descend the Picard homomorphism built using the forward tensor-inverse comparison to divisor
+  classes using coherent principal triviality and object separation.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.dictionary`
+  Upgrade effective tensor-additive cocycles and the forward tensor-inverse comparison to the
+  full divisor-line-bundle dictionary under exact kernel and surjectivity.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classEquivalence`
+  Extract the full additive divisor-class/Picard equivalence from the exact cocycle-built
+  dictionary, which uses the forward tensor-inverse comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal`
+  Identify the chosen affine Picard representative with the explicit inverse fractional ideal
+  attached to the divisor.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq`
+  Require compatible maps into a common function field and equality of the two inverse divisor
+  ideals after extension to a common affine-overlap ring.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal`
+  Isolate identification of a chosen chart line-bundle restriction with tilde of its inverse
+  divisor ideal extended to the common overlap.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso`
+  Combine extension equality and both restriction identifications into an isomorphism of the
+  actual chosen chart line-bundle restrictions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfInverseIdealEq`
+  Consume equality of localized inverse ideals to identify the restrictions of the chosen
+  affine divisor line bundles.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibilityIsLocal`
+  Prove that Tau Ceti invertibility is local on every scheme open cover.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity`
+  Upgrade ordinary module effectivity to effective descent for locally invertible data using
+  the proved locality theorem.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleOfModuleEffectivity`
+  Construct a global divisor line bundle directly from a coherent cocycle and ordinary module
+  effectivity on the coordinate cover.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

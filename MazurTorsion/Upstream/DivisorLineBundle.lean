@@ -1332,6 +1332,37 @@ lemma classToPic_injective
   rw [← hker]
   exact hzero
 
+/-- With exact principal kernel, divisor classes are additively equivalent to the range of
+their Picard realization. This is the strongest codomain statement available from exactness
+without assuming that every scheme Picard class comes from a divisor. -/
+noncomputable def classEquivPicardRange
+    (S : WeilDivisor.OrderSystem Y G)
+    (toPic : WeilDivisor Y →+ PicardGroup X)
+    (hker : HasPrincipalKernel S toPic) :
+    S.ClassGroup ≃+
+      (classToPic S toPic
+        (principalTrivial_of_principalKernel S toPic hker)).range :=
+  AddEquiv.ofBijective
+    (classToPic S toPic
+      (principalTrivial_of_principalKernel S toPic hker)).rangeRestrict
+    ⟨fun _ _ hxy ↦ classToPic_injective S toPic
+        (principalTrivial_of_principalKernel S toPic hker) hker
+        (congrArg Subtype.val hxy), by
+      rintro ⟨_, ⟨c, rfl⟩⟩
+      exact ⟨c, rfl⟩⟩
+
+/-- The range equivalence has the descended divisor-class map as its underlying Picard value.
+-/
+@[simp]
+lemma classEquivPicardRange_apply_val
+    (S : WeilDivisor.OrderSystem Y G)
+    (toPic : WeilDivisor Y →+ PicardGroup X)
+    (hker : HasPrincipalKernel S toPic) (c : S.ClassGroup) :
+    (classEquivPicardRange S toPic hker c).1 =
+      classToPic S toPic
+        (principalTrivial_of_principalKernel S toPic hker) c :=
+  rfl
+
 lemma classToPic_surjective
     (S : WeilDivisor.OrderSystem Y G)
     (toPic : WeilDivisor Y →+ PicardGroup X)

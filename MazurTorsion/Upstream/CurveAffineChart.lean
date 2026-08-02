@@ -478,10 +478,9 @@ canonical affine realization. -/
 noncomputable def classEquivSchemePicRange :
     (h.ambientOrderSystem X U hU).ClassGroup ≃+
       (h.classToSchemePic X U hU).range :=
-  AddEquiv.ofBijective (h.classToSchemePic X U hU).rangeRestrict
-    ⟨fun _ _ hxy ↦ h.classToSchemePic_injective X U hU (congrArg Subtype.val hxy), by
-      rintro ⟨_, ⟨c, rfl⟩⟩
-      exact ⟨c, rfl⟩⟩
+  DivisorPicard.classEquivPicardRange
+    (h.ambientOrderSystem X U hU) (h.divisorToSchemePic X U hU)
+      (h.divisorToSchemePic_kernel X U hU)
 
 /-- The range equivalence has the descended chart class as its underlying Picard value. -/
 @[simp]
@@ -489,7 +488,9 @@ lemma classEquivSchemePicRange_apply_val
     (c : (h.ambientOrderSystem X U hU).ClassGroup) :
     (h.classEquivSchemePicRange X U hU c).1 =
       h.classToSchemePic X U hU c := by
-  rfl
+  exact DivisorPicard.classEquivPicardRange_apply_val
+    (h.ambientOrderSystem X U hU) (h.divisorToSchemePic X U hU)
+      (h.divisorToSchemePic_kernel X U hU) c
 
 /-- Transport the checked affine-chart divisor map from the coordinate spectrum to the open
 subscheme itself. -/
