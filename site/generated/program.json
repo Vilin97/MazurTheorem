@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421232,
+    "integrated_lean_lines": 1421564,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -859,7 +859,21 @@
           "kind": "structure",
           "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary",
           "state": "contract",
-          "description": "Record the exact scheme-level comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity.",
+          "description": "Record the exact forward tensor-inverse comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality",
+          "state": "contract",
+          "description": "Package the checked localization isomorphism identifying the restriction of tilde on a free localization with the rank-one free sheaf.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.universalTildeInvertibility",
+          "state": "contract",
+          "description": "Prove global tilde invertibility from Mathlib's finite free-localization cover and Tau Ceti local trivializations.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         },
         {
@@ -873,7 +887,7 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
           "state": "contract",
-          "description": "Package the chosen affine invertible-module representative as a Tau Ceti line bundle under the explicit tilde-localization input.",
+          "description": "Package the chosen affine invertible-module representative unconditionally as a Tau Ceti line bundle.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         }
       ],
@@ -897,18 +911,17 @@
         "declaration": "MazurTheorem.Challenge.divisorLineBundleDictionary",
         "destination_module": "MazurTorsion.Upstream.DivisorLineBundle",
         "destination_declaration": "MazurTorsion.AlgebraicGeometry.divisorLineBundleDictionary",
-        "signature": "theorem divisorLineBundleDictionary\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    MazurTorsion.AlgebraicGeometry.UniversalTildeInvertibility.{u} ∧\n      Nonempty (MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary S X) := sorry",
+        "signature": "theorem divisorLineBundleDictionary\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    Nonempty (MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary S X) := sorry",
         "imports": [
           "MazurTorsion.Upstream.DivisorLineBundle",
           "Mathlib.AlgebraicGeometry.Morphisms.Proper",
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, identify locally free rank-one sheaves with Picard units, and prove that divisor classes are equivalent to the scheme Picard group; also prove the affine tilde-localization input used on charts.",
-        "recommended_route": "First prove tilde-localization on the finite basic-open cover where an invertible module is free of rank one. Compare Tau Ceti invertible sheaves with tensor units using duals, then glue inverse fractional ideals across affine charts and prove principal kernel and Picard surjectivity.",
+        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, attach their Picard classes through tensor inverses, and prove that divisor classes are equivalent to the scheme Picard group. The affine tilde-localization theorem is already checked.",
+        "recommended_route": "Construct tensor inverses for locally free rank-one sheaves, glue inverse fractional ideals across affine charts, identify principal divisors with the trivial bundle, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization and affine Dedekind standard-sign equivalence.",
         "consumer_declarations": [
-          "MazurTheorem.Challenge.divisorClassEquivPicard",
-          "MazurTheorem.Challenge.tilde_isInvertible"
+          "MazurTheorem.Challenge.divisorClassEquivPicard"
         ],
         "estimated_lines": {"min": 1000, "max": 6000},
         "skills": [

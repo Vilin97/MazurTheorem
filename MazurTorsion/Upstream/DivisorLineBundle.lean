@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.AINTLIB.Picard.Pic
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.Invertible.LocalTriviality
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.Dedekind.ClassGroup
 import Mathlib.AlgebraicGeometry.Modules.Tilde
@@ -29,13 +30,17 @@ equivalence.
 Unconditionally, the current dependency graph supports the class-level dictionary between the
 divisor class group of an affine Dedekind curve and Mathlib's module Picard group. The resulting
 equivalence has the standard sign: the checked representative formula below sends the divisor
-of a fractional ideal to the inverse of that ideal's Picard class. An explicit localization
-hypothesis packages the chosen invertible module as an invertible sheaf on `Spec R`; the further
-comparison with AINTLIB's scheme Picard group remains visible in `PicardComparison` rather than
-being hidden behind a stronger claim than the current library proves.
+of a fractional ideal to the inverse of that ideal's Picard class. The affine localization
+bridge is also unconditional: restriction of tilde to a principal open is identified through
+localized global sections, and a finite basic-open cover proves that tilde of every invertible
+module is an invertible sheaf. The further comparison with AINTLIB's scheme Picard group remains
+factored into its exact forward and reverse components rather than hidden behind a stronger
+claim than the current library proves.
 -/
 
 open CategoryTheory
+open MonoidalCategory
+open TopologicalSpace
 open scoped nonZeroDivisors
 
 namespace MazurTorsion.AlgebraicGeometry
@@ -63,10 +68,70 @@ def IsTensorInvertible (X : Scheme.{u}) (M : X.Modules) : Prop :=
   letI := Scheme.Modules.monoidalCategory X
   IsUnit (toSkeleton M)
 
+/-- The exact forward comparison needed to attach a Picard class to a locally free rank-one
+sheaf: such a sheaf admits a tensor inverse. -/
+def TensorInverseComparison (X : Scheme.{u}) : Prop :=
+  ∀ M : X.Modules,
+    SheafOfModules.isInvertible X M →
+      letI := Scheme.Modules.monoidalCategory X
+      ∃ N : X.Modules, Nonempty (M ⊗ N ≅ 𝟙_ X.Modules)
+
+/-- The reverse comparison: every tensor-unit class has a locally free rank-one
+representative. -/
+def TensorUnitLocalTriviality (X : Scheme.{u}) : Prop :=
+  ∀ M : X.Modules, IsTensorInvertible X M → SheafOfModules.isInvertible X M
+
 /-- The comparison between locally free rank-one sheaves and tensor units. -/
 def PicardComparison (X : Scheme.{u}) : Prop :=
   ∀ M : X.Modules,
     SheafOfModules.isInvertible X M ↔ IsTensorInvertible X M
+
+namespace TensorInverseComparison
+
+variable {X : Scheme.{u}} (hX : TensorInverseComparison X)
+
+include hX
+
+/-- A chosen tensor inverse makes the skeleton class of a locally free rank-one sheaf a
+unit. -/
+theorem isTensorInvertible {M : X.Modules} (hM : SheafOfModules.isInvertible X M) :
+    IsTensorInvertible X M := by
+  rw [IsTensorInvertible]
+  letI := Scheme.Modules.monoidalCategory X
+  letI := Scheme.Modules.symmetricCategory X
+  obtain ⟨N, ⟨e⟩⟩ := hX M hM
+  refine isUnit_of_dvd_one ⟨toSkeleton N, ?_⟩
+  rw [← Skeleton.toSkeleton_tensorObj, Skeleton.one_eq]
+  exact Quotient.sound ⟨e.symm⟩
+
+/-- The Picard class represented by an invertible sheaf, using only the forward tensor-inverse
+comparison. -/
+noncomputable def toPic (L : InvertibleSheaf X) : Scheme.Pic X := by
+  exact (hX.isTensorInvertible L.property).unit
+
+@[simp]
+lemma toPic_val (L : InvertibleSheaf X) :
+    (hX.toPic L).val = toSkeleton L.obj := by
+  exact IsUnit.unit_spec _
+
+end TensorInverseComparison
+
+namespace IsTensorInvertible
+
+/-- A tensor-unit class has a chosen sheaf representative of its inverse. -/
+theorem exists_tensorInverse {X : Scheme.{u}} {M : X.Modules}
+    (hM : IsTensorInvertible X M) :
+    letI := Scheme.Modules.monoidalCategory X
+    ∃ N : X.Modules, Nonempty (M ⊗ N ≅ 𝟙_ X.Modules) := by
+  rw [IsTensorInvertible] at hM
+  letI := Scheme.Modules.monoidalCategory X
+  obtain ⟨v, hv, -⟩ := isUnit_iff_exists.mp hM
+  refine ⟨(fromSkeleton X.Modules).obj v, ?_⟩
+  rw [← toSkeleton_fromSkeleton_obj (C := X.Modules) v,
+    ← Skeleton.toSkeleton_tensorObj, Skeleton.one_eq] at hv
+  exact toSkeleton_eq_toSkeleton_iff.mp hv
+
+end IsTensorInvertible
 
 /-- The affine localization input saying that the sheaf associated to an invertible module is
 locally free of rank one. -/
@@ -81,9 +146,271 @@ def UniversalTildeInvertibility : Prop :=
     SheafOfModules.isInvertible (_root_.AlgebraicGeometry.Spec R)
       (_root_.AlgebraicGeometry.tilde M)
 
+namespace AffineTilde
+
+variable {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f : R)
+
+private noncomputable abbrev awayRing := Localization.Away f
+
+private noncomputable abbrev awayMap : R ⟶ CommRingCat.of (awayRing f) :=
+  CommRingCat.ofHom (algebraMap R (awayRing f))
+
+private noncomputable abbrev awaySpecMap :
+    _root_.AlgebraicGeometry.Spec (CommRingCat.of (awayRing f)) ⟶
+      _root_.AlgebraicGeometry.Spec R :=
+  _root_.AlgebraicGeometry.Spec.map (awayMap f)
+
+private noncomputable abbrev specSectionsModule (S : CommRingCat.{u})
+    (N : (_root_.AlgebraicGeometry.Spec S).Modules)
+    (U : (_root_.AlgebraicGeometry.Spec S).Opens) : Module S Γ(N, U) :=
+  inferInstance
+
+private noncomputable local instance instModuleAwayRestrictTop :
+    Module (awayRing f) Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f),
+      (⊤ : (_root_.AlgebraicGeometry.Spec (CommRingCat.of (awayRing f))).Opens)) :=
+  specSectionsModule (CommRingCat.of (awayRing f))
+    ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f)) ⊤
+
+private noncomputable local instance instModuleRRestrictTop :
+    Module R Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f),
+      (⊤ : (_root_.AlgebraicGeometry.Spec (CommRingCat.of (awayRing f))).Opens)) :=
+  Module.compHom _ (algebraMap R (awayRing f))
+
+private noncomputable local instance instIsScalarTowerRestrictTop :
+    IsScalarTower R (awayRing f)
+      Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f),
+        (⊤ : (_root_.AlgebraicGeometry.Spec (CommRingCat.of (awayRing f))).Opens)) :=
+  IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
+
+private noncomputable def restrictAppLinearEquivR :
+    Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f), ⊤) ≃ₗ[R]
+      Γ(_root_.AlgebraicGeometry.tilde M, awaySpecMap f ''ᵁ ⊤) where
+  toFun := (Scheme.Modules.restrictAppIso
+    (awaySpecMap f) (_root_.AlgebraicGeometry.tilde M) ⊤).hom
+  invFun := (Scheme.Modules.restrictAppIso
+    (awaySpecMap f) (_root_.AlgebraicGeometry.tilde M) ⊤).inv
+  left_inv x := by simp
+  right_inv x := by simp
+  map_add' x y := (Scheme.Modules.restrictAppIso
+    (awaySpecMap f) (_root_.AlgebraicGeometry.tilde M) ⊤).hom.hom.map_add x y
+  map_smul' r x := Scheme.Modules.restrictAppIso_smul_Spec (awayMap f) r x
+
+private noncomputable def toRestrictTop :
+    ModuleCat.of R M ⟶
+      ModuleCat.of R
+        Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f), ⊤) :=
+  ModuleCat.ofHom <|
+    (restrictAppLinearEquivR M f).symm.toLinearMap.comp
+      (_root_.AlgebraicGeometry.tilde.toOpen M (awaySpecMap f ''ᵁ ⊤)).hom
+
+private noncomputable local instance instIsLocalizedModuleToRestrictTop :
+    IsLocalizedModule.Away f (toRestrictTop M f).hom := by
+  dsimp [toRestrictTop]
+  have : IsLocalizedModule.Away f
+      (_root_.AlgebraicGeometry.tilde.toOpen M (awaySpecMap f ''ᵁ ⊤)).hom := by
+    rw [show awaySpecMap f ''ᵁ
+      (⊤ : (_root_.AlgebraicGeometry.Spec (CommRingCat.of (awayRing f))).Opens) =
+        PrimeSpectrum.basicOpen f by
+      simp [awaySpecMap, awayMap, awayRing]
+      rfl]
+    infer_instance
+  exact IsLocalizedModule.of_linearEquiv (.powers f)
+    (_root_.AlgebraicGeometry.tilde.toOpen M (awaySpecMap f ''ᵁ ⊤)).hom
+    (restrictAppLinearEquivR M f).symm
+
+private noncomputable def localizedEquivRestrictTop :
+    LocalizedModule.Away f M ≃ₗ[awayRing f]
+      Γ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f), ⊤) :=
+  (IsLocalizedModule.linearEquiv (.powers f)
+    (LocalizedModule.mkLinearMap (.powers f) M)
+    (toRestrictTop M f).hom).extendScalarsOfIsLocalization (.powers f) (awayRing f)
+
+private noncomputable local instance instQuasicoherentRestrict :
+    ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f)).IsQuasicoherent :=
+  Scheme.Modules.isQuasicoherent_restrictFunctor
+    (awaySpecMap f) (_root_.AlgebraicGeometry.tilde M)
+
+private noncomputable local instance instIsIsoFromTildeRestrict :
+    IsIso (Scheme.Modules.fromTildeΓ (R := CommRingCat.of (awayRing f))
+      ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f))) :=
+  Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent
+    ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f))
+
+/-- Tilde commutes with localization to a principal open: the tilde of the localized module is
+isomorphic to the restriction of the original tilde sheaf along `Spec R[1/f] ⟶ Spec R`. -/
+noncomputable def localizedTildeRestrictIso :
+    _root_.AlgebraicGeometry.tilde (R := CommRingCat.of (awayRing f))
+        (ModuleCat.of (awayRing f) (LocalizedModule.Away f M)) ≅
+      (_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f) :=
+  (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of (awayRing f))).mapIso
+      (localizedEquivRestrictTop M f).toModuleIso ≪≫
+    @asIso _ _ _ _
+      (Scheme.Modules.fromTildeΓ (R := CommRingCat.of (awayRing f))
+        ((_root_.AlgebraicGeometry.tilde M).restrict (awaySpecMap f)))
+      (instIsIsoFromTildeRestrict M f)
+
+end AffineTilde
+
+/-- The basic open of `Spec R` associated to `r`, expressed in the scheme's own type of opens.
+This avoids hiding the comparison between the scheme topology and the raw prime spectrum. -/
+noncomputable abbrev specBasicOpen (R : CommRingCat.{u}) (r : R) :
+    (_root_.AlgebraicGeometry.Spec R).Opens :=
+  PrimeSpectrum.basicOpen r
+
+/-- The precise affine localization input: whenever `Mₙ` is free on `D(r)`, the restriction
+of `tilde M` to that basic open is the free rank-one sheaf. -/
+def BasicOpenTildeTriviality
+    (R : CommRingCat.{u}) (M : ModuleCat.{u} R) : Prop :=
+  Module.Invertible R M →
+  ∀ r : R, [Module.Free (Localization.Away r) (LocalizedModule.Away r M)] →
+    Nonempty
+      (_root_.SheafOfModules.free.{u, u, u}
+          (R := (_root_.AlgebraicGeometry.Spec R).ringCatSheaf.over (specBasicOpen R r))
+          PUnit.{u + 1} ≅
+        (_root_.AlgebraicGeometry.tilde M).over (specBasicOpen R r))
+
+/-- The basic-open tilde comparison, uniformly for rings and modules in one universe. -/
+def UniversalBasicOpenTildeTriviality : Prop :=
+  ∀ (R : CommRingCat.{u}) (M : ModuleCat.{u} R), BasicOpenTildeTriviality R M
+
+namespace AffineTilde
+
+variable {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f : R)
+
+/-- If the localization of an invertible module at `f` is free, its tilde sheaf on
+`Spec R[1/f]` is the free rank-one sheaf and hence trivializes the restricted original
+sheaf. -/
+noncomputable def localizedTildeFreeIso [Module.Invertible R M]
+    [Module.Free (Localization.Away f) (LocalizedModule.Away f M)] :
+    _root_.SheafOfModules.free
+        (R := (_root_.AlgebraicGeometry.Spec
+          (CommRingCat.of (Localization.Away f))).ringCatSheaf) PUnit.{u + 1} ≅
+      (_root_.AlgebraicGeometry.tilde M).restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom (algebraMap R (Localization.Away f)))) := by
+  let e : LocalizedModule.Away f M ≃ₗ[Localization.Away f] Localization.Away f :=
+    (Module.Invertible.free_iff_linearEquiv.mp inferInstance).some
+  let e' := e.trans (Finsupp.uniqueLinearEquiv
+    (Localization.Away f) (Localization.Away f)
+      (PUnit.unit : PUnit.{u + 1})).symm
+  exact (_root_.AlgebraicGeometry.tildeFinsupp PUnit).symm ≪≫
+    (_root_.AlgebraicGeometry.tilde.functor
+      (CommRingCat.of (Localization.Away f))).mapIso e'.symm.toModuleIso ≪≫
+    localizedTildeRestrictIso M f
+
+private noncomputable def freePUnitIso
+    {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
+    {S : Sheaf J RingCat.{u}}
+    [HasWeakSheafify J AddCommGrpCat.{u}]
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] :
+    _root_.SheafOfModules.free (R := S) PUnit.{u + 1} ≅
+      _root_.SheafOfModules.unit S :=
+  Limits.coproductUniqueIso (fun _ : PUnit.{u + 1} ↦
+    _root_.SheafOfModules.unit S)
+
+/-- The checked basic-open trivialization required by Tau Ceti's local definition of an
+invertible sheaf. -/
+noncomputable def basicOpenTrivialization [Module.Invertible R M]
+    [Module.Free (Localization.Away f) (LocalizedModule.Away f M)] :
+    _root_.SheafOfModules.free
+        (R := (_root_.AlgebraicGeometry.Spec R).ringCatSheaf.over (specBasicOpen R f))
+        PUnit.{u + 1} ≅
+      (_root_.AlgebraicGeometry.tilde M).over (specBasicOpen R f) := by
+  let U : (_root_.AlgebraicGeometry.Spec R).Opens := PrimeSpectrum.basicOpen f
+  let A : CommRingCat.{u} := .of (Localization.Away f)
+  let j : _root_.AlgebraicGeometry.Spec A ⟶ _root_.AlgebraicGeometry.Spec R :=
+    _root_.AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap R A))
+  let b : U.toScheme ≅ _root_.AlgebraicGeometry.Spec A :=
+    _root_.AlgebraicGeometry.basicOpenIsoSpecAway f
+  letI : IsOpenImmersion U.ι := inferInstance
+  let eU : _root_.SheafOfModules.free
+      (R := U.toScheme.ringCatSheaf) PUnit.{u + 1} ≅
+      (_root_.AlgebraicGeometry.tilde M).restrict U.ι :=
+    freePUnitIso ≪≫
+      (Scheme.Modules.restrictUnitIso b.hom).symm ≪≫
+      (Scheme.Modules.restrictFunctor b.hom).mapIso freePUnitIso.symm ≪≫
+      (Scheme.Modules.restrictFunctor b.hom).mapIso (localizedTildeFreeIso M f) ≪≫
+      ((Scheme.Modules.restrictFunctorComp b.hom j).app
+        (_root_.AlgebraicGeometry.tilde M)).symm ≪≫
+      (Scheme.Modules.restrictFunctorCongr (by
+        dsimp only [b, j, U, A]
+        simp)).app (_root_.AlgebraicGeometry.tilde M)
+  let eMapped : (Scheme.Modules.overEquiv U).functor.obj
+      (_root_.SheafOfModules.free
+        (R := (_root_.AlgebraicGeometry.Spec R).ringCatSheaf.over U) PUnit.{u + 1}) ≅
+      (Scheme.Modules.overEquiv U).functor.obj
+        ((_root_.AlgebraicGeometry.tilde M).over U) :=
+    (Scheme.Modules.overEquiv U).functor.mapIso freePUnitIso ≪≫
+      U.sheafOfModulesEquivOverUnit
+        (_root_.AlgebraicGeometry.Spec R).ringCatSheaf ≪≫
+      freePUnitIso.symm ≪≫ eU ≪≫
+      ((Scheme.Modules.overFunctorEquiv U).app
+        (_root_.AlgebraicGeometry.tilde M)).symm
+  exact (Scheme.Modules.overEquiv U).functor.preimageIso eMapped
+
+end AffineTilde
+
+/-- The pinned Mathlib and Tau Ceti APIs prove the universal basic-open tilde comparison. -/
+theorem universalBasicOpenTildeTriviality : UniversalBasicOpenTildeTriviality.{u} :=
+  fun _ M hM r _ ↦ by
+    letI := hM
+    exact ⟨AffineTilde.basicOpenTrivialization M r⟩
+
+/-- Finite basic-open freeness of an invertible module and the exact local restriction
+comparison imply that its tilde sheaf is invertible. -/
+theorem tilde_isInvertible_of_basicOpenTriviality
+    (R : CommRingCat.{u}) (M : ModuleCat.{u} R)
+    [Module.Invertible R M] (h : BasicOpenTildeTriviality R M) :
+    TauCeti.SheafOfModules.IsInvertible
+      (R := (_root_.AlgebraicGeometry.Spec R).ringCatSheaf)
+      (_root_.AlgebraicGeometry.tilde M) := by
+  obtain ⟨s, hs, hfree⟩ :=
+    Module.Invertible.exists_finset_free_localization (R := R) (M := M)
+  apply TauCeti.SheafOfModules.LocalTrivializations.isInvertible
+  let t : TauCeti.SheafOfModules.LocalTrivializations.{u, u, u}
+      (_root_.AlgebraicGeometry.tilde M) :=
+    { I := s
+      X := fun r ↦ specBasicOpen R r.1
+      coversTop := by
+        rw [Opens.coversTop_iff]
+        apply IsOpenCover.mk
+        change (⨆ r : s, PrimeSpectrum.basicOpen r.1 :
+          TopologicalSpace.Opens (PrimeSpectrum R)) = ⊤
+        rw [PrimeSpectrum.iSup_basicOpen_eq_top_iff]
+        simpa only [Subtype.range_coe_subtype, Finset.setOf_mem] using hs
+      iso := fun r ↦ by
+        letI := hfree r.1 r.2
+        exact (h inferInstance r.1).some }
+  exact t
+
+/-- The exact basic-open localization theorem entails the formerly bundled global tilde
+invertibility statement. -/
+theorem UniversalBasicOpenTildeTriviality.toUniversalTildeInvertibility
+    (h : UniversalBasicOpenTildeTriviality.{u}) : UniversalTildeInvertibility.{u} :=
+  fun R M _ ↦ tilde_isInvertible_of_basicOpenTriviality R M (h R M)
+
+/-- Tilde of every invertible module is an invertible sheaf. This is now unconditional in the
+pinned dependency graph. -/
+theorem universalTildeInvertibility : UniversalTildeInvertibility.{u} :=
+  universalBasicOpenTildeTriviality.toUniversalTildeInvertibility
+
+/-- The universe-local form of unconditional tilde invertibility. -/
+theorem tildeInvertibility (R : Type u) [CommRing R] : TildeInvertibility R :=
+  fun M _ ↦ universalTildeInvertibility (CommRingCat.of R) M
+
 namespace PicardComparison
 
 variable {X : Scheme.{u}} (hX : PicardComparison X)
+
+include hX
+
+/-- The full comparison contains the exact forward tensor-inverse comparison. -/
+theorem tensorInverseComparison : TensorInverseComparison X :=
+  fun M hM ↦ IsTensorInvertible.exists_tensorInverse ((hX M).mp hM)
+
+/-- The full comparison contains the reverse local-triviality comparison. -/
+theorem tensorUnitLocalTriviality : TensorUnitLocalTriviality X :=
+  fun M hM ↦ (hX M).mpr hM
 
 /-- The Picard class represented by an invertible sheaf. -/
 noncomputable def toPic (L : InvertibleSheaf X) : Scheme.Pic X := by
@@ -115,6 +442,13 @@ lemma nonempty_representative_toPic_iso (L : InvertibleSheaf X) :
   rw [toSkeleton_fromSkeleton_obj, toPic_val]
 
 end PicardComparison
+
+/-- The full Picard comparison is exactly its forward tensor-inverse component together with
+the reverse local-triviality component. -/
+theorem picardComparison_of_components {X : Scheme.{u}}
+    (hforward : TensorInverseComparison X)
+    (hreverse : TensorUnitLocalTriviality X) : PicardComparison X :=
+  fun M ↦ ⟨fun hM ↦ hforward.isTensorInvertible hM, hreverse M⟩
 
 namespace DivisorPicard
 
@@ -207,8 +541,8 @@ map and its exactness, it records chosen invertible-sheaf representatives and th
 between Tau Ceti's local rank-one predicate and AINTLIB's tensor-unit Picard group. The data does
 not assert a particular affine-chart normalization of the chosen correspondence. -/
 structure Dictionary (S : WeilDivisor.OrderSystem Y G) (X : Scheme.{u}) where
-  /-- Locally free rank-one sheaves are exactly tensor-invertible sheaves. -/
-  comparison : PicardComparison X
+  /-- Every locally free rank-one sheaf has a tensor inverse and hence a Picard class. -/
+  comparison : TensorInverseComparison X
   /-- The additive Picard class associated to a Weil divisor. -/
   divisorToPic : WeilDivisor Y →+ PicardGroup X
   /-- An invertible-sheaf representative of the line bundle associated to a divisor. -/
@@ -328,19 +662,17 @@ lemma nonempty_lineBundleModule_principal_equiv (g : Additive Kˣ) :
   rw [← CommRing.Pic.mk_eq_one_iff, lineBundleModule_picClass,
     lineBundleClass_principalDivisor]
 
-/-- The line bundle `O(D)` on the affine Dedekind scheme, assuming the precise localization
-comparison asserting that tilde of an invertible module is locally free of rank one. -/
-noncomputable def lineBundle
-    (hlocal : TildeInvertibility R) (D : WeilDivisor (HeightOneSpectrum R)) :
+/-- The line bundle `O(D)` on the affine Dedekind scheme. -/
+noncomputable def lineBundle (D : WeilDivisor (HeightOneSpectrum R)) :
     InvertibleSheaf (_root_.AlgebraicGeometry.Spec (.of R)) :=
   ⟨_root_.AlgebraicGeometry.tilde (ModuleCat.of R (lineBundleModule R K D)),
-    hlocal (ModuleCat.of R (lineBundleModule R K D))⟩
+    tildeInvertibility R (ModuleCat.of R (lineBundleModule R K D))⟩
 
 /-- The line bundle of a principal divisor is isomorphic to the trivial line bundle. -/
 lemma nonempty_lineBundle_principal_iso_trivial
-    (hlocal : TildeInvertibility R) (g : Additive Kˣ) :
+    (g : Additive Kˣ) :
     Nonempty
-      ((lineBundle R K hlocal
+      ((lineBundle R K
           ((WeilDivisor.OrderSystem.ofDedekindDomain R K).principalDivisor g)).obj ≅
         (InvertibleSheaf.trivial (_root_.AlgebraicGeometry.Spec (.of R))).obj) := by
   let e : lineBundleModule R K

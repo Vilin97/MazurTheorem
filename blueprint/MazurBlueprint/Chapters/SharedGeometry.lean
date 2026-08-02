@@ -53,12 +53,15 @@ and identify divisor classes with line bundles on a smooth curve.
 
 *Status:* `research_open`; *scope:* exact compiled existence-and-equivalence challenge
 contract. The bridge `MazurTheorem.Challenge.divisorLineBundleDictionary`
-includes the affine tilde-localization input, chosen line-bundle representatives,
-principal triviality, and the divisor-class/Picard equivalence. The checked local
-API already supplies the unconditional affine Dedekind class equivalence and an
-absolute degree-zero downstream consumer; neither is credited as the missing
-global result. The contract does not yet normalize the global correspondence on
-affine charts to the standard-sign construction checked in the affine API.
+contains the remaining global dictionary: chosen line-bundle representatives,
+principal triviality, exact principal kernel, Picard surjectivity, and the resulting
+divisor-class/Picard equivalence. Checked code proves the basic-open tilde restriction
+isomorphism and derives global tilde invertibility from Mathlib's finite
+free-localization cover and Tau Ceti local trivializations. The checked local API also
+supplies the unconditional affine Dedekind class equivalence, its actual line bundles,
+and an absolute degree-zero D1 consumer; none is credited as the missing global result.
+The contract does not yet normalize the global correspondence on affine charts to the
+standard-sign construction checked in the affine API.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -67,13 +70,18 @@ affine charts to the standard-sign construction checked in the affine API.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`
   Identify Weil divisors modulo principal divisors with the line-bundle Picard group.
 * `structure` (`contract`): `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary`
-  Record the exact scheme-level comparison, chosen line-bundle representatives, principal
-  kernel, and surjectivity needed for the global equivalence.
+  Record the exact forward tensor-inverse comparison, chosen line-bundle representatives,
+  principal kernel, and surjectivity needed for the global equivalence.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality`
+  Package the checked restriction isomorphism on a free basic-open localization.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.universalTildeInvertibility`
+  Prove global tilde invertibility from the basic-open comparison.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivPicard`
   Give the unconditional standard-sign affine Dedekind divisor-class/module-Picard equivalence.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
-  Package its chosen module representative as a Tau Ceti line bundle under the explicit
-  tilde-localization input.
+  Package its chosen module representative unconditionally as a Tau Ceti line bundle.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
