@@ -65,26 +65,76 @@ group, in exactly the form consumed by Mazur's argument.
   group.
 :::
 
-:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, group-schemes") (priority := "high") (effort := "large")
-*Finite-flat commutative group schemes.* Build the category, kernels,
-quotients, and base change, tested on constant groups, $`\mu_p`, and
-multiplication kernels.
+:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "medium")
+*Finite-flat commutative group-scheme core.* The checked core now packages
+commutative group objects over a scheme, finite-flat base change, geometric
+points, pointwise rank, honest kernel certificates, and the affine
+finite-free Deligne bridge. A connected--étale datum compiles as its
+downstream consumer.
 
-*Status:* `planned`.
+This is a scope-preserving decomposition of the original 20-point node: the
+compiled core carries 6 points and the three explicit zero-credit blockers
+below carry the remaining 14. Quotient construction is not assigned credit or
+introduced here because the present downstream consumer does not require it.
+
+*Status:* `done`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
-* `structure` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
-  Package finite flat commutative group schemes over an arithmetic base.
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
-  Construct kernels of morphisms in the finite-flat group-scheme category.
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient`
-  Construct quotients by finite-flat closed subgroup schemes.
-* `theorem` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
-  Prove compatibility of kernels and quotients with the required base changes.
+* `structure` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
+  Package finite flat commutative group schemes over an arbitrary scheme base.
+* `definition` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
+  Base change finite-flat commutative group schemes through pullback of internal
+  group objects.
+* `definition` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.orderAt`
+  Record geometric order as a pointwise rank function on the base.
+* `theorem` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.AffineFiniteFreePresentation.point_pow_orderAt_eq_one`
+  Transport Deligne's finite-free Hopf theorem to geometric affine test points.
+* `theorem` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range`
+  Combine quotient order-killing with middle exactness to put the resulting
+  power in the connected-part image.
 :::
 
-:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
+:::theorem "MT-FFGS-AFFINE-REALIZATION" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "medium")
+*Realize affine Hopf data geometrically.* Construct the internal commutative
+group object over $`\operatorname{Spec} R` represented by finite-free affine
+Hopf data and fill the compiled presentation certificate.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization`
+  Realize finite-free affine Hopf data with compatible geometric points and rank.
+:::
+
+:::theorem "MT-FFGS-ORDER-DESCENT" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "medium")
+*Descend the finite-flat order theorem.* Localize the point and convolution
+powers, use the checked local-ring theorem, and descend the result under an
+explicit constant-rank hypothesis.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
+  Kill every affine test point by the constant geometric rank without global freeness.
+:::
+
+:::theorem "MT-FFGS-KERNEL-PRESENTATION" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "small")
+*Package finite-flat kernels.* Lift the scheme-theoretic pullback kernel to a
+commutative group object when finiteness and flatness of its structure map are
+explicit hypotheses.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
+  Construct the inherited group object and its certified kernel inclusion.
+:::
+
+:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-AFFINE-REALIZATION, MT-FFGS-ORDER-DESCENT, MT-FFGS-KERNEL-PRESENTATION") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
 *Connected–étale sequence.* Every finite-flat commutative group scheme in the
 required local setting has a functorial connected–étale exact sequence,
 compatible with base change.

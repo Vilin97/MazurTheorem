@@ -10,3 +10,6 @@ import Challenge.OrderTwentyFive
 import Challenge.XOneEighteenNoncusp
 import Challenge.XOneElevenCoset
 import Challenge.XOneThirteenNoncusp
+import Challenge.FFGSAffineRealization
+import Challenge.FFGSFiniteLocallyFreeOrder
+import Challenge.FFGSKernelPresentation
