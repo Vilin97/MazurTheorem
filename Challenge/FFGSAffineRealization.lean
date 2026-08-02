@@ -7,12 +7,11 @@ Authors: Vasily Ilin
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine
 
 /-!
-# Challenge: realize affine Hopf data as a geometric group scheme
+# Checked bridge: realize affine Hopf data as a geometric group scheme
 
-The compiled affine API identifies geometric affine points with convolution points.  What remains
-is the categorical construction of the corresponding internal commutative group object over
-`Spec R`, together with the scheme, point-group, and rank compatibility assembled in
-`AffineFiniteFreePresentation`.
+The affine API constructs the internal commutative group object over `Spec R` and assembles its
+scheme, point-group, and rank compatibility in `AffineFiniteFreePresentation`.  This file retains
+the original contributor contract as a checked bridge.
 -/
 
 open AlgebraicGeometry
@@ -26,6 +25,7 @@ finite-flat commutative group scheme over its affine base. -/
 theorem affineFiniteFree_exists_geometric_realization
     {R : Type u} [CommRing R] (A : AffineFiniteFreeCommGroupScheme R) :
     ∃ (G : FiniteFlatCommGroupScheme (Spec (.of R)))
-      (P : G.AffineFiniteFreePresentation), P.hopf = A := sorry
+      (P : G.AffineFiniteFreePresentation), P.hopf = A := by
+  exact AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization A
 
 end MazurTheorem.Challenge

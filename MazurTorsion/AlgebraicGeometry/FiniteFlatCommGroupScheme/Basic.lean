@@ -5,7 +5,10 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
+import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
+import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Basic
 import Mathlib.CategoryTheory.Monoidal.Cartesian.CommGrp_
+import Mathlib.CategoryTheory.Monoidal.Cartesian.GrpLimits
 
 /-!
 # Finite flat commutative group schemes
@@ -19,11 +22,12 @@ The rank is deliberately a function on the base.  A finite flat morphism need no
 global rank on a disconnected base.  `HasConstantOrder G n` records the additional assertion
 needed to speak of one order `n`.
 
-The scheme-theoretic kernel is exposed as the pullback of a homomorphism along the identity
-section.  Packaging it back into the finite-flat category requires a commutative group structure
-and flatness over the base; neither is silently postulated here.  In particular, flatness of
-kernels is an arithmetic-base theorem rather than a formal consequence of the two source and
-target objects being finite flat.
+The scheme-theoretic kernel is the pullback of a homomorphism along the identity section.  It is
+constructed first as a pullback of internal groups, and commutativity follows from its monic map
+to the commutative source.  Packaging it back into the finite-flat category still takes explicit
+finiteness and flatness hypotheses on its structure map.  In particular, flatness of kernels is
+an arithmetic-base theorem rather than a formal consequence of the source and target being
+finite flat.
 -/
 
 noncomputable section
@@ -113,6 +117,20 @@ theorem mapPoint_comp {G H K : FiniteFlatCommGroupScheme S} (f : G ⟶ H) (g : H
   ext x
   simp
 
+/-- An isomorphism of finite-flat commutative group schemes induces a multiplicative equivalence
+on points of every test scheme. -/
+def pointMulEquivOfIso {G H : FiniteFlatCommGroupScheme S} (e : G ≅ H) (X : Over S) :
+    G.Point X ≃* H.Point X where
+  toFun := mapPoint e.hom X
+  invFun := mapPoint e.inv X
+  left_inv x := by
+    rw [← MonoidHom.comp_apply, ← mapPoint_comp, e.hom_inv_id, mapPoint_id]
+    rfl
+  right_inv x := by
+    rw [← MonoidHom.comp_apply, ← mapPoint_comp, e.inv_hom_id, mapPoint_id]
+    rfl
+  map_mul' x y := map_mul (mapPoint e.hom X) x y
+
 /-- Base change of finite flat commutative group schemes.  This is a functor because pullback is a
 finite-product-preserving functor on slice categories, hence maps internal commutative groups. -/
 def baseChange (f : T ⟶ S) :
@@ -139,6 +157,21 @@ def orderAt (G : FiniteFlatCommGroupScheme S) : S → ℕ := G.structureMap.finr
 possibly disconnected base. -/
 def HasConstantOrder (G : FiniteFlatCommGroupScheme S) (n : ℕ) : Prop :=
   G.orderAt = Function.const S n
+
+/-- Isomorphic finite-flat commutative group schemes have the same geometric rank function. -/
+theorem orderAt_eq_of_iso {G H : FiniteFlatCommGroupScheme S} (e : G ≅ H) :
+    G.orderAt = H.orderAt := by
+  funext s
+  let es : G.scheme ≅ H.scheme :=
+    { hom := hom e.hom
+      inv := hom e.inv
+      hom_inv_id := by rw [← hom_comp, e.hom_inv_id, hom_id]
+      inv_hom_id := by rw [← hom_comp, e.inv_hom_id, hom_id] }
+  letI : IsIso es.hom := es.isIso_hom
+  change G.structureMap.finrank s = H.structureMap.finrank s
+  rw [← Scheme.Hom.finrank_comp_left_of_isIso es.hom H.structureMap]
+  change G.structureMap.finrank s = (hom e.hom ≫ H.structureMap).finrank s
+  rw [hom_comp_structureMap]
 
 theorem orderAt_baseChange (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S) (t : T) :
     ((baseChange f).obj G).orderAt t = G.orderAt (f t) :=
@@ -171,6 +204,95 @@ theorem kernel_condition {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
     kernelι f ≫ hom f = kernelStructureMap f ≫ η[H.obj.X].left :=
   pullback.condition
 
+/-- The zero morphism from the trivial internal group to the target.  Its underlying map of
+schemes is the identity section of the target group scheme. -/
+noncomputable abbrev kernelZero (H : FiniteFlatCommGroupScheme S) :
+    Grp.trivial (Over S) ⟶ H.obj.toGrp :=
+  default
+
+/-- The kernel constructed first in internal (not necessarily commutative) groups.  Limits of
+internal groups are created by the forgetful functor, so this pullback inherits its group law
+without choosing formulas for multiplication and inverse on the underlying scheme. -/
+noncomputable abbrev kernelGrp {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    Grp (Over S) :=
+  pullback f.hom.hom (kernelZero H)
+
+/-- The internal group kernel is commutative.  The identity section is split mono, hence the
+first pullback projection is mono.  Its underlying map remains mono because the forgetful
+functor from internal groups preserves pullbacks, and commutativity can therefore be checked
+after mapping to the commutative source. -/
+theorem kernelGrp_isComm {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    IsCommMonObj (kernelGrp f).X := by
+  let se : SplitMono (kernelZero H) := SplitMono.mk default (Subsingleton.elim _ _)
+  letI : Mono (kernelZero H) := se.mono
+  haveI : Mono (pullback.fst f.hom.hom (kernelZero H)) := inferInstance
+  haveI : Mono (pullback.fst f.hom.hom (kernelZero H)).hom.hom := inferInstanceAs
+    (Mono ((Grp.forget (Over S)).map (pullback.fst f.hom.hom (kernelZero H))))
+  constructor
+  apply (cancel_mono (pullback.fst f.hom.hom (kernelZero H)).hom.hom).1
+  rw [Category.assoc, IsMonHom.mul_hom]
+  rw [← Category.assoc, ← BraidedCategory.braiding_naturality, Category.assoc,
+    IsCommMonObj.mul_comm]
+
+/-- The commutative group scheme underlying the scheme-theoretic kernel. -/
+noncomputable def kernelCommGroupScheme {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    CommGroupScheme S :=
+  letI : IsCommMonObj (kernelGrp f).X := kernelGrp_isComm f
+  { X := (kernelGrp f).X }
+
+/-- The kernel inclusion before imposing the finite-flat object property. -/
+noncomputable def kernelCommGroupSchemeInclusion
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    kernelCommGroupScheme f ⟶ G.obj := by
+  apply InducedCategory.homMk
+  exact pullback.fst f.hom.hom (kernelZero H)
+
+/-- After forgetting first the group structure and then the map to the base, the internal-group
+kernel square is the scheme-theoretic pullback square. -/
+theorem kernelGrp_isPullback {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    IsPullback
+      (pullback.fst f.hom.hom (kernelZero H)).hom.hom.left
+      (pullback.snd f.hom.hom (kernelZero H)).hom.hom.left
+      (hom f) (η[H.obj.X].left) := by
+  change IsPullback
+    ((Over.forget S).map
+      ((Grp.forget (Over S)).map (pullback.fst f.hom.hom (kernelZero H))))
+    ((Over.forget S).map
+      ((Grp.forget (Over S)).map (pullback.snd f.hom.hom (kernelZero H))))
+    ((Over.forget S).map ((Grp.forget (Over S)).map f.hom.hom))
+    ((Over.forget S).map ((Grp.forget (Over S)).map (kernelZero H)))
+  exact (((IsPullback.of_hasPullback f.hom.hom (kernelZero H)).map
+    (Grp.forget (Over S))).map (Over.forget S))
+
+/-- The canonical identification of the inherited internal-group kernel with the explicit
+scheme-theoretic pullback used by `kernelScheme`. -/
+noncomputable def kernelGrpSchemeIso {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    (kernelGrp f).X.left ≅ kernelScheme f :=
+  (kernelGrp_isPullback f).isoPullback
+
+@[reassoc]
+theorem kernelGrpSchemeIso_hom_structureMap
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    (kernelGrpSchemeIso f).hom ≫ kernelStructureMap f = (kernelGrp f).X.hom := by
+  have hs : (kernelGrpSchemeIso f).hom ≫ kernelStructureMap f =
+      (pullback.snd f.hom.hom (kernelZero H)).hom.hom.left := by
+    change (kernelGrp_isPullback f).isoPullback.hom ≫
+      pullback.snd (hom f) (η[H.obj.X].left) =
+        (pullback.snd f.hom.hom (kernelZero H)).hom.hom.left
+    exact IsPullback.isoPullback_hom_snd (kernelGrp_isPullback f)
+  rw [hs]
+  exact Over.w (pullback.snd f.hom.hom (kernelZero H)).hom.hom
+
+@[reassoc]
+theorem kernelGrpSchemeIso_hom_kernelι
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    (kernelGrpSchemeIso f).hom ≫ kernelι f =
+      (kernelCommGroupSchemeInclusion f).hom.hom.hom.left := by
+  change (kernelGrp_isPullback f).isoPullback.hom ≫
+    pullback.fst (hom f) (η[H.obj.X].left) =
+      (pullback.fst f.hom.hom (kernelZero H)).hom.hom.left
+  exact IsPullback.isoPullback_hom_fst (kernelGrp_isPullback f)
+
 /-- Data certifying that the scheme-theoretic kernel carries the expected finite-flat
 commutative group-scheme structure.  The isomorphism fixes its underlying scheme and structure
 map, while the universal pullback above fixes its geometric meaning. -/
@@ -185,6 +307,45 @@ structure KernelPresentation {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) w
   schemeIso_hom_structureMap : schemeIso.hom ≫ kernelStructureMap f = kernel.structureMap
   /-- Compatibility of the group-scheme inclusion with the pullback projection. -/
   schemeIso_hom_kernelι : schemeIso.hom ≫ kernelι f = hom inclusion
+
+/-- The inherited kernel group scheme, packaged as finite flat when its structure morphism is
+known to be finite and flat.  These hypotheses are intentionally attached to the explicit
+scheme-theoretic structure map rather than inferred from `G` and `H`. -/
+noncomputable def kernelFiniteFlat {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    FiniteFlatCommGroupScheme S where
+  obj := kernelCommGroupScheme f
+  property := by
+    change IsFinite (kernelGrp f).X.hom ∧ Flat (kernelGrp f).X.hom
+    rw [← kernelGrpSchemeIso_hom_structureMap f]
+    exact ⟨inferInstance, inferInstance⟩
+
+/-- The inclusion of the finite-flat kernel into its source. -/
+noncomputable def kernelFiniteFlatInclusion
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    kernelFiniteFlat f ⟶ G :=
+  ObjectProperty.homMk (kernelCommGroupSchemeInclusion f)
+
+/-- The canonical finite-flat kernel presentation under the precise hypotheses needed to put
+the inherited group scheme in `FiniteFlatCommGroupScheme S`. -/
+noncomputable def kernelPresentationOfFiniteFlat
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    KernelPresentation f where
+  kernel := kernelFiniteFlat f
+  inclusion := kernelFiniteFlatInclusion f
+  schemeIso := kernelGrpSchemeIso f
+  schemeIso_hom_structureMap := kernelGrpSchemeIso_hom_structureMap f
+  schemeIso_hom_kernelι := kernelGrpSchemeIso_hom_kernelι f
+
+/-- A scheme-theoretic kernel known finite and flat has the canonical certified presentation.
+This permanent theorem is the destination of the checked Challenge bridge. -/
+theorem kernelPresentation_exists_of_finite_flat
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    Nonempty (KernelPresentation f) :=
+  ⟨kernelPresentationOfFiniteFlat f⟩
 
 namespace KernelPresentation
 

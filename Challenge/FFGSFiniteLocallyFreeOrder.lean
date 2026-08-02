@@ -7,13 +7,16 @@ Authors: Vasily Ilin
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine
 
 /-!
-# Challenge: descend the affine order theorem
+# Checked bridge: descend the affine order theorem
 
-The local-base theorem is compiled.  The remaining global step is to localize a point and its
-convolution powers, apply the finite-free theorem over each local ring, and descend the equality.
-The explicit constant-rank hypothesis is essential on a disconnected base.
+The affine API localizes a point and its convolution powers, applies the finite-free theorem over
+each local ring, and descends the equality.  The explicit constant-rank hypothesis remains
+essential on a disconnected base.  This file retains the original contract as a checked bridge.
 -/
 
+noncomputable section
+
+open CategoryTheory.MonoidalCategory CategoryTheory.MonObj
 open AlgebraicGeometry
 
 namespace MazurTheorem.Challenge
@@ -28,6 +31,8 @@ theorem affineFiniteFlat_point_pow_eq_one_of_constantRank
     (hG : ∀ s : Spec (.of R), G.structureMap.finrank s = n)
     (B : Type u) [CommRing B] [Algebra R B]
     (x : G.Point B) :
-    x ^ n = 1 := sorry
+    x ^ n = 1 :=
+  AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank
+    G n hG B x
 
 end MazurTheorem.Challenge

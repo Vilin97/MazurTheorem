@@ -19,7 +19,7 @@ is intentionally not smuggled into this datum; those are separate existence and 
 
 No quotient machinery is introduced here.  The current consumer only needs a supplied quotient
 object and projection, pointwise kernel exactness, base change of the underlying finite-flat
-objects, and the affine order theorem for a supplied Hopf presentation.
+objects, and an isomorphism from the quotient to a constructed affine Hopf realization.
 -/
 
 noncomputable section
@@ -126,6 +126,34 @@ theorem point_pow_orderAt_mem_connectedPart_range
   rw [map_pow]
   exact D.etaleQuotient_point_pow_orderAt_eq_one P B
     (mapPoint D.project (AffineCommGroupScheme.testObject (R := R) B) x) s
+
+/-- A genuine realization consumer: if the étale quotient is isomorphic to the group scheme
+constructed from finite-free Hopf coordinates, its geometric order-power lands in the connected
+part.  No independently supplied point-group or rank compatibility data is used. -/
+theorem point_pow_orderAt_mem_connectedPart_range_of_realizedEtaleQuotient
+    (D : G.ConnectedEtaleDatum)
+    (A : AffineFiniteFreeCommGroupScheme R)
+    (e : D.etaleQuotient ≅ A.realize)
+    (B : Type u) [CommRing B] [Algebra R B]
+    (x : G.Point (AffineCommGroupScheme.testObject (R := R) B))
+    (s : Spec (.of R)) :
+    x ^ D.etaleQuotient.orderAt s ∈ Set.range
+      (mapPoint D.inclusion (AffineCommGroupScheme.testObject (R := R) B)) := by
+  rw [← D.project_point_eq_one_iff, map_pow]
+  let X := AffineCommGroupScheme.testObject (R := R) B
+  let y := mapPoint D.project X x
+  apply (pointMulEquivOfIso e X).injective
+  rw [map_pow, map_one, congrFun (orderAt_eq_of_iso e) s]
+  simpa [y, X] using
+    A.realize_point_pow_orderAt_eq_one B (pointMulEquivOfIso e X y) s
+
+/-- When the scheme-theoretic kernel of the connected--étale projection is known finite and
+flat, the BASIC kernel construction supplies its certified group-scheme presentation. -/
+theorem project_kernelPresentation_exists
+    (D : G.ConnectedEtaleDatum)
+    [IsFinite (kernelStructureMap D.project)] [Flat (kernelStructureMap D.project)] :
+    Nonempty (KernelPresentation D.project) :=
+  ⟨kernelPresentationOfFiniteFlat D.project⟩
 
 end ConnectedEtaleDatum
 
