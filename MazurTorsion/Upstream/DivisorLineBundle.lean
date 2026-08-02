@@ -45,10 +45,11 @@ with AINTLIB's scheme Picard group is now canonical in the forward direction: th
 tensor comparison assembles to a tilde tensor-product isomorphism, hence an injective homomorphism
 from the module Picard group to the scheme Picard group. Consequently the affine divisor map has
 exactly the principal divisors as its kernel, and divisor classes are unconditionally equivalent
-to their canonical image in scheme Picard. Surjectivity of that canonical map and the full
-comparison for arbitrary sheaves remain open rather than being hidden behind a stronger claim
-than the current library proves. A final affine existence theorem characterizes the remaining
-full-dictionary boundary.
+to their canonical image in scheme Picard. Surjectivity of that map is proved equivalent to the
+reverse tensor-unit/local-rank-one comparison. The forward comparison is reduced to the precise
+missing localization reflection from invertibility of tilde back to invertibility of the module.
+Thus the full affine comparison is exactly forward tensor-invertibility plus canonical Picard
+surjectivity, and the affine Dedekind dictionary exists exactly when that comparison does.
 -/
 
 open CategoryTheory
@@ -768,6 +769,158 @@ theorem modulePicToSchemePicAdd_injective
     Function.Injective (modulePicToSchemePicAdd R) :=
   modulePicToSchemePic_injective R
 
+private noncomputable abbrev affineGlobalSections
+    (R : Type u) [CommRing R]
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules) :=
+  ((_root_.AlgebraicGeometry.modulesSpecToSheaf
+    (R := CommRingCat.of R)).obj P).presheaf.obj (.op ⊤)
+
+private theorem invertible_isQuasicoherent
+    (R : Type u) [CommRing R]
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules)
+    [SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) P] :
+    P.IsQuasicoherent := by
+  letI : P.IsLocallyFree :=
+    TauCeti.SheafOfModules.IsInvertible.isLocallyFree P
+  exact _root_.SheafOfModules.instIsQuasicoherentOfIsLocallyFree P
+
+/-- An invertible sheaf on an affine scheme is reconstructed from its global sections. This uses
+the already-compiled counit of Mathlib's equivalence between modules and quasi-coherent sheaves. -/
+private noncomputable def tildeGlobalSectionsIso
+    (R : Type u) [CommRing R]
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules)
+    [SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) P] :
+    _root_.AlgebraicGeometry.tilde
+        (ModuleCat.of R (affineGlobalSections R P)) ≅ P := by
+  letI : P.IsQuasicoherent := invertible_isQuasicoherent R P
+  exact (ObjectProperty.ι
+      (_root_.SheafOfModules.isQuasicoherent
+        (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).ringCatSheaf)).mapIso
+    ((_root_.AlgebraicGeometry.tildeEquiv
+      (R := CommRingCat.of R)).counitIso.app
+        ⟨P, invertible_isQuasicoherent R P⟩)
+
+private noncomputable def tildeSelfTensorUnitIso
+    (R : Type u) [CommRing R] :
+    _root_.AlgebraicGeometry.tilde (ModuleCat.of R R) ≅
+      𝟙_ (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules :=
+  (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      (Finsupp.uniqueLinearEquiv R R PUnit.unit).symm.toModuleIso ≪≫
+    _root_.AlgebraicGeometry.tildeFinsupp PUnit ≪≫
+    TensorInverseComparison.trivialIsoTensorUnit
+
+private noncomputable def globalSectionsTensorEquiv
+    (R : Type u) [CommRing R]
+    (P Q : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules)
+    [SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) P]
+    [SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) Q]
+    (ePQ : P ⊗ Q ≅
+      𝟙_ (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules) :
+    affineGlobalSections R P ⊗[R] affineGlobalSections R Q ≃ₗ[R] R :=
+  (_root_.AlgebraicGeometry.tilde.fullyFaithfulFunctor.preimageIso
+    ((tildeTensorIso R (affineGlobalSections R P)
+        (affineGlobalSections R Q)).symm ≪≫
+      ((tildeGlobalSectionsIso R P) ⊗ᵢ
+        (tildeGlobalSectionsIso R Q)) ≪≫
+      ePQ ≪≫ (tildeSelfTensorUnitIso R).symm)).toLinearEquiv
+
+private noncomputable def tildePicMkGlobalSectionsIso
+    (R : Type u) [CommRing R]
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules)
+    [SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) P]
+    [Module.Invertible R (affineGlobalSections R P)] :
+    _root_.AlgebraicGeometry.tilde
+        (ModuleCat.of R (CommRing.Pic.mk R (affineGlobalSections R P))) ≅ P :=
+  (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      (CommRing.Pic.mk.linearEquiv R (affineGlobalSections R P)).toModuleIso ≪≫
+    tildeGlobalSectionsIso R P
+
+/-- If every tensor-unit sheaf on an affine scheme is locally free of rank one, then every
+scheme Picard class is represented by tilde of an invertible module. -/
+theorem modulePicToSchemePic_surjective_of_tensorUnitLocalTriviality
+    (R : Type u) [CommRing R]
+    (hreverse : TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))) :
+    Function.Surjective (modulePicToSchemePic R) := by
+  intro p
+  let X := _root_.AlgebraicGeometry.Spec (CommRingCat.of R)
+  let P : X.Modules := (fromSkeleton X.Modules).obj p.val
+  let Q : X.Modules := (fromSkeleton X.Modules).obj p.inv
+  have hP : IsTensorInvertible X P := by
+    rw [IsTensorInvertible, toSkeleton_fromSkeleton_obj]
+    exact p.isUnit
+  have hQ : IsTensorInvertible X Q := by
+    rw [IsTensorInvertible, toSkeleton_fromSkeleton_obj]
+    exact (p⁻¹).isUnit
+  letI : SheafOfModules.isInvertible X P := hreverse P hP
+  letI : SheafOfModules.isInvertible X Q := hreverse Q hQ
+  let ePQ : P ⊗ Q ≅ 𝟙_ X.Modules :=
+    (toSkeleton_eq_toSkeleton_iff.mp (by
+      rw [Skeleton.toSkeleton_tensorObj, toSkeleton_fromSkeleton_obj,
+        toSkeleton_fromSkeleton_obj]
+      exact p.val_inv.trans Skeleton.one_eq.symm)).some
+  letI : Module.Invertible R (affineGlobalSections R P) :=
+    Module.Invertible.left (globalSectionsTensorEquiv R P Q ePQ)
+  refine ⟨CommRing.Pic.mk R (affineGlobalSections R P), ?_⟩
+  apply Units.ext
+  change (modulePicToSchemePicClass R
+    (CommRing.Pic.mk R (affineGlobalSections R P))).val = p.val
+  rw [modulePicToSchemePicClass_val]
+  have hs : toSkeleton (_root_.AlgebraicGeometry.tilde
+      (ModuleCat.of R (CommRing.Pic.mk R (affineGlobalSections R P)))) =
+      toSkeleton P :=
+    toSkeleton_eq_toSkeleton_iff.mpr ⟨tildePicMkGlobalSectionsIso R P⟩
+  exact hs.trans (toSkeleton_fromSkeleton_obj p.val)
+
+/-- Under the exact reverse Picard comparison, tilde gives an additive equivalence from module
+Picard classes to affine-scheme Picard classes. -/
+noncomputable def modulePicEquivSchemePicOfTensorUnitLocalTriviality
+    (R : Type u) [CommRing R]
+    (hreverse : TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))) :
+    Additive (CommRing.Pic R) ≃+
+      PicardGroup (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  AddEquiv.ofBijective (modulePicToSchemePicAdd R)
+    ⟨modulePicToSchemePicAdd_injective R,
+      modulePicToSchemePic_surjective_of_tensorUnitLocalTriviality R hreverse⟩
+
+/-- The precise missing affine localization reflection: if tilde of a module is locally free of
+rank one, then the module is invertible. The converse is `tildeInvertibility` below. -/
+def TildeReflectsInvertibility (R : Type u) [CommRing R] : Prop :=
+  ∀ M : ModuleCat.{u} R,
+    SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))
+      (_root_.AlgebraicGeometry.tilde M) →
+      Module.Invertible R M
+
+/-- Reflection of rank-one local freeness through tilde supplies the forward tensor-inverse
+comparison for every invertible sheaf on an affine scheme. -/
+theorem tensorInverseComparison_of_tildeReflectsInvertibility
+    (R : Type u) [CommRing R]
+    (hreflect : TildeReflectsInvertibility R) :
+    TensorInverseComparison
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) := by
+  intro P hP
+  letI : SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) P := hP
+  let M : ModuleCat.{u} R := affineGlobalSections R P
+  let eM : _root_.AlgebraicGeometry.tilde M ≅ P :=
+    tildeGlobalSectionsIso R P
+  have htilde : SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))
+      (_root_.AlgebraicGeometry.tilde M) :=
+    (SheafOfModules.isInvertible
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))).prop_iff_of_iso eM |>.mpr hP
+  letI : Module.Invertible R M := hreflect M htilde
+  refine ⟨_root_.AlgebraicGeometry.tilde
+      (ModuleCat.of R (Module.Dual R M)), ⟨?_⟩⟩
+  exact (eM.symm ⊗ᵢ Iso.refl _) ≪≫ tildeTensorInverseIso R M
+
 variable {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f : R)
 
 private noncomputable abbrev awayRing := Localization.Away f
@@ -1018,6 +1171,34 @@ theorem universalTildeInvertibility : UniversalTildeInvertibility.{u} :=
 theorem tildeInvertibility (R : Type u) [CommRing R] : TildeInvertibility R :=
   fun M _ ↦ universalTildeInvertibility (CommRingCat.of R) M
 
+/-- Conversely, surjectivity of the canonical affine tilde map forces every tensor-unit sheaf
+to be locally free of rank one. -/
+theorem AffineTilde.tensorUnitLocalTriviality_of_modulePicToSchemePic_surjective
+    (R : Type u) [CommRing R]
+    (hsurjective : Function.Surjective (AffineTilde.modulePicToSchemePic R)) :
+    TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) := by
+  intro P hP
+  rw [IsTensorInvertible] at hP
+  obtain ⟨I, hI⟩ := hsurjective hP.unit
+  have hval := congrArg Units.val hI
+  change (AffineTilde.modulePicToSchemePicClass R I).val = hP.unit.val at hval
+  rw [AffineTilde.modulePicToSchemePicClass_val, IsUnit.unit_spec] at hval
+  obtain ⟨e⟩ := toSkeleton_eq_toSkeleton_iff.mp hval
+  exact (SheafOfModules.isInvertible
+    (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))).prop_of_iso e
+      (tildeInvertibility R (ModuleCat.of R I))
+
+/-- Surjectivity of the canonical affine module-Picard comparison is exactly the reverse
+tensor-unit/local-rank-one comparison. -/
+theorem AffineTilde.modulePicToSchemePic_surjective_iff_tensorUnitLocalTriviality
+    (R : Type u) [CommRing R] :
+    Function.Surjective (AffineTilde.modulePicToSchemePic R) ↔
+      TensorUnitLocalTriviality
+        (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  ⟨AffineTilde.tensorUnitLocalTriviality_of_modulePicToSchemePic_surjective R,
+    AffineTilde.modulePicToSchemePic_surjective_of_tensorUnitLocalTriviality R⟩
+
 namespace PicardComparison
 
 variable {X : Scheme.{u}} (hX : PicardComparison X)
@@ -1069,6 +1250,24 @@ theorem picardComparison_of_components {X : Scheme.{u}}
     (hforward : TensorInverseComparison X)
     (hreverse : TensorUnitLocalTriviality X) : PicardComparison X :=
   fun M ↦ ⟨fun hM ↦ hforward.isTensorInvertible hM, hreverse M⟩
+
+/-- The exact full affine Picard boundary: the forward tensor-inverse construction together with
+surjectivity of the canonical tilde map is necessary and sufficient. -/
+theorem AffineTilde.picardComparison_iff_tensorInverseComparison_and_modulePic_surjective
+    (R : Type u) [CommRing R] :
+    PicardComparison (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) ↔
+      TensorInverseComparison
+          (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) ∧
+        Function.Surjective (AffineTilde.modulePicToSchemePic R) := by
+  constructor
+  · intro hX
+    exact ⟨hX.tensorInverseComparison,
+      AffineTilde.modulePicToSchemePic_surjective_of_tensorUnitLocalTriviality R
+        hX.tensorUnitLocalTriviality⟩
+  · rintro ⟨hforward, hsurjective⟩
+    exact picardComparison_of_components hforward
+      (AffineTilde.tensorUnitLocalTriviality_of_modulePicToSchemePic_surjective R
+        hsurjective)
 
 namespace DivisorPicard
 
@@ -1418,6 +1617,26 @@ noncomputable def classEquivSchemePicRange :
       rintro ⟨_, ⟨x, rfl⟩⟩
       exact ⟨x, rfl⟩⟩
 
+/-- Under the reverse tensor-unit/local-rank-one comparison, every affine Dedekind divisor class
+is represented by the canonical tilde construction. -/
+theorem classToSchemePic_surjective_of_tensorUnitLocalTriviality
+    (hreverse : TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))) :
+    Function.Surjective (classToSchemePic R K) :=
+  (AffineTilde.modulePicToSchemePic_surjective_of_tensorUnitLocalTriviality
+    R hreverse).comp (classEquivPicard R K).surjective
+
+/-- The full affine divisor-class/scheme-Picard equivalence under precisely the reverse Picard
+comparison that makes the canonical tilde map surjective. -/
+noncomputable def classEquivSchemePicOfTensorUnitLocalTriviality
+    (hreverse : TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))) :
+    (WeilDivisor.OrderSystem.ofDedekindDomain R K).ClassGroup ≃+
+      PicardGroup (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  AddEquiv.ofBijective (classToSchemePic R K)
+    ⟨classToSchemePic_injective R K,
+      classToSchemePic_surjective_of_tensorUnitLocalTriviality R K hreverse⟩
+
 /-- The Picard class of the invertible module `O(D)` associated to an affine Dedekind divisor. -/
 noncomputable def divisorToPic :
     WeilDivisor (HeightOneSpectrum R) →+ Additive (CommRing.Pic R) :=
@@ -1436,6 +1655,16 @@ noncomputable def divisorToSchemePic :
 lemma divisorToSchemePic_apply (D : WeilDivisor (HeightOneSpectrum R)) :
     divisorToSchemePic R K D =
       AffineTilde.modulePicToSchemePicAdd R (divisorToPic R K D) :=
+  rfl
+
+@[simp]
+lemma classEquivSchemePicOfTensorUnitLocalTriviality_divisorClass
+    (hreverse : TensorUnitLocalTriviality
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)))
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    classEquivSchemePicOfTensorUnitLocalTriviality R K hreverse
+        ((WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass D) =
+      divisorToSchemePic R K D :=
   rfl
 
 @[simp]
@@ -1612,11 +1841,9 @@ theorem nonempty_lineBundle_iso_iff_linearlyEquivalent
       (nonempty_lineBundleModule_equiv_iff_linearlyEquivalent R K D E).mpr h
     exact ⟨(_root_.AlgebraicGeometry.tilde.functor (.of R)).mapIso e.toModuleIso⟩
 
-/-- Because affine Dedekind divisor classes are already identified with Mathlib's module Picard
-group, an exact scheme-level dictionary exists precisely when the full local-rank-one/tensor-unit
-comparison and an additive module-Picard/scheme-Picard equivalence do. The canonical tilde map
-above supplies an injection; this existence characterization does not assert that particular map
-is surjective. -/
+/-- Rewriting the general dictionary boundary through the affine Dedekind class/module-Picard
+equivalence gives this abstract two-input form. The next theorem removes the second input: the
+reverse half of the full Picard comparison makes the canonical tilde map an equivalence. -/
 theorem nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence :
     Nonempty (DivisorPicard.Dictionary
       (WeilDivisor.OrderSystem.ofDedekindDomain R K)
@@ -1630,6 +1857,23 @@ theorem nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence :
     exact ⟨hX, ⟨(classEquivPicard R K).symm.trans e⟩⟩
   · rintro ⟨hX, ⟨e⟩⟩
     exact ⟨hX, ⟨(classEquivPicard R K).trans e⟩⟩
+
+/-- For an affine Dedekind scheme, the remaining exact dictionary boundary is just the full
+local-rank-one/tensor-unit comparison. Its reverse half makes the canonical tilde map surjective,
+so the divisor-class/Picard equivalence no longer needs to be supplied separately. -/
+theorem nonempty_dictionary_iff_picardComparison :
+    Nonempty (DivisorPicard.Dictionary
+      (WeilDivisor.OrderSystem.ofDedekindDomain R K)
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))) ↔
+      PicardComparison
+        (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) := by
+  constructor
+  · rintro ⟨d⟩
+    exact d.picardComparison
+  · intro hX
+    exact ⟨DivisorPicard.Dictionary.ofClassEquivalence hX
+      (classEquivSchemePicOfTensorUnitLocalTriviality R K
+        hX.tensorUnitLocalTriviality)⟩
 
 end AffineDedekind
 

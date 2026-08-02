@@ -22,9 +22,11 @@ affine-chart normalization. On affine schemes, the localized tensor maps have no
 into an objectwise tilde tensor-product isomorphism. This gives a canonical injective
 module-Picard to scheme-Picard map. For affine Dedekind domains, the divisor map has exactly the
 principal divisors as kernel, divisor classes are equivalent to its range, and the chosen tilde
-line bundles are tensor-additive. What remains here includes the full Picard comparison for
-arbitrary sheaves and tensor units, global curve divisor gluing, and divisor-class surjectivity.
-The contract is open and earns no Mazur completion credit.
+line bundles are tensor-additive. Canonical Picard surjectivity is now proved equivalent to the
+reverse tensor-unit/local-rank-one comparison, while the forward affine gap is isolated as the
+checked localization predicate `AffineTilde.TildeReflectsInvertibility`. What remains here
+includes discharging those comparison inputs, global curve divisor gluing, and global
+divisor-class/Picard surjectivity. The contract is open and earns no Mazur completion credit.
 -/
 
 open AlgebraicGeometry

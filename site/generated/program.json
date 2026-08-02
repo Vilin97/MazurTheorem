@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1422547,
+    "integrated_lean_lines": 1422791,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -975,6 +975,34 @@
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_surjective_iff_tensorUnitLocalTriviality",
+          "state": "contract",
+          "description": "Identify surjectivity of the canonical affine Picard map exactly with the reverse tensor-unit/local-rank-one comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.TildeReflectsInvertibility",
+          "state": "contract",
+          "description": "Isolate the missing localization reflection from an invertible tilde sheaf to an invertible module.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tensorInverseComparison_of_tildeReflectsInvertibility",
+          "state": "contract",
+          "description": "Consume the localization reflection to construct tensor inverses for arbitrary affine invertible sheaves.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.picardComparison_iff_tensorInverseComparison_and_modulePic_surjective",
+          "state": "contract",
+          "description": "Characterize the full affine Picard comparison by the forward tensor-inverse component and surjectivity of the canonical tilde map.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
           "state": "contract",
@@ -1011,6 +1039,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicOfTensorUnitLocalTriviality",
+          "state": "contract",
+          "description": "Upgrade the range equivalence to the full scheme Picard group under exactly the reverse tensor-unit/local-rank-one comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic",
           "state": "contract",
           "description": "Construct the canonical affine divisor-to-scheme-Picard homomorphism through divisor classes.",
@@ -1034,7 +1069,14 @@
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence",
           "state": "contract",
-          "description": "Characterize the remaining affine scheme-level dictionary by the full Picard comparison and an additive equivalence between the module and scheme Picard groups.",
+          "description": "Record the abstract two-input rewrite through a full Picard comparison and an additive module-Picard/scheme-Picard equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison",
+          "state": "contract",
+          "description": "Sharpen the affine Dedekind boundary: the full Picard comparison alone supplies the canonical divisor-class equivalence and exact dictionary.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         }
       ],
@@ -1065,8 +1107,8 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it already constructs the actual tensor-additive tilde line bundles, an injective canonical map into scheme Picard with exact principal kernel, and an equivalence of divisor classes with its range.",
-        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, then glue the checked inverse fractional-ideal tilde representatives across those charts. Prove the full comparison for arbitrary invertible sheaves and tensor units, including the needed reverse and essential-surjectivity statements, and prove global divisor-class surjectivity. Reuse the checked basic-open tilde localization, objectwise tilde tensor-product isomorphism, canonical injective module-Picard comparison, exact affine principal kernel, and affine Dedekind range equivalence.",
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
+        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, then glue the checked inverse fractional-ideal tilde representatives across those charts. Discharge the checked tilde-reflection localization predicate for the forward comparison; canonical Picard surjectivity is now equivalent to the reverse tensor-unit/local-rank-one comparison. Reuse the checked basic-open tilde localization, objectwise tilde tensor-product isomorphism, exact affine principal kernel, and affine Dedekind equivalences, then prove global divisor-class/Picard surjectivity.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

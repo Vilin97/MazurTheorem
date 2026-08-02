@@ -72,10 +72,12 @@ injective module-Picard/scheme-Picard homomorphism. Consequently, the affine Ded
 has exactly the principal divisors as kernel, descends to divisor classes, and gives an
 unconditional equivalence from those classes to its scheme-Picard range; the actual tilde line
 bundles are tensor-additive. It also characterizes existence of the full affine scheme-level
-dictionary by the full comparison for arbitrary sheaves and an additive equivalence between the
-module and scheme Picard groups. The checked injection supplies only the forward, onto-range
-part. None of these affine results supplies the still-open reverse tensor-unit/local-rank-one
-comparison, essential-surjectivity input, or global proper-curve gluing and surjectivity.
+dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
+equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
+isolated as reflection of invertibility through tilde, and a checked consumer turns that precise
+localization predicate into the forward tensor-inverse comparison. None of these affine results
+discharges those remaining comparison inputs or supplies global proper-curve gluing and
+surjectivity.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -130,6 +132,22 @@ standard-sign construction checked in the affine API.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_injective`
   Prove that the canonical affine Picard comparison is injective.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_surjective_iff_tensorUnitLocalTriviality`
+  Identify surjectivity of the canonical affine Picard map exactly with the reverse
+  tensor-unit/local-rank-one comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.TildeReflectsInvertibility`
+  Isolate the missing localization reflection from an invertible tilde sheaf to an invertible
+  module.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.tensorInverseComparison_of_tildeReflectsInvertibility`
+  Consume the localization reflection to construct tensor inverses for arbitrary affine
+  invertible sheaves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.picardComparison_iff_tensorInverseComparison_and_modulePic_surjective`
+  Characterize the full affine Picard comparison by its forward tensor-inverse component and
+  surjectivity of the canonical tilde map.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
   Package its chosen module representative unconditionally as a Tau Ceti line bundle.
 * `theorem` (`contract`):
@@ -147,6 +165,10 @@ standard-sign construction checked in the affine API.
   Identify affine Dedekind divisor classes with the range of their canonical scheme-Picard
   realization.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicOfTensorUnitLocalTriviality`
+  Upgrade the range equivalence to the full scheme Picard group under exactly the reverse
+  comparison.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic`
   Construct the canonical affine divisor-to-scheme-Picard homomorphism through divisor classes.
 * `theorem` (`contract`):
@@ -159,8 +181,12 @@ standard-sign construction checked in the affine API.
   bundles.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence`
-  Characterize the remaining affine scheme-level dictionary by the full Picard comparison and
-  an additive equivalence between Mathlib's module Picard group and AINTLIB's scheme Picard group.
+  Record the abstract two-input rewrite through a full Picard comparison and an additive
+  module-Picard/scheme-Picard equivalence.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison`
+  Sharpen the affine Dedekind boundary: the full Picard comparison alone supplies the canonical
+  divisor-class equivalence and hence the exact dictionary.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
