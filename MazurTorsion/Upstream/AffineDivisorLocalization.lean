@@ -26,11 +26,13 @@ of divisor coefficients on `D(f)` now proves both equalities, including abstract
 `f = 0`, and directly constructs the actual chosen restriction isomorphism.
 For two coordinate rings mapping compatibly through a common affine overlap, equality of their
 extended ideals is isolated separately and identifies the two extended ideal modules and their
-tilde sheaves. On general affine overlaps, identifying each chosen chart restriction remains an
-explicit boundary; together those inputs give a checked restriction isomorphism. Establishing the
-cross-chart extension equality, choosing the resulting isomorphisms coherently, proving the triple
-cocycle, and proving module effectivity remain open in the current Mathlib and Tau Ceti dependency
-graph.
+tilde sheaves. The cross-chart extension equality is now proved outright for two principal
+divisors cut out by the same rational function, with an actual restriction-isomorphism consumer.
+On general affine overlaps, identifying each chosen chart restriction remains an explicit
+boundary; together those inputs give a checked restriction isomorphism. Establishing the
+cross-chart extension equality for arbitrary divisors, choosing the resulting isomorphisms
+coherently, proving the triple cocycle, and proving module effectivity remain open in the current
+Mathlib and Tau Ceti dependency graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -119,8 +121,9 @@ def InverseIdealLocalizationEq
 
 /-- The exact cross-chart boundary: after choosing two coordinate rings mapping through a common
 affine overlap ring `B` into a common function field `K`, the maps form scalar towers and the
-inverse divisor ideals extend to the same fractional ideal of `B`. Proving this requires the
-currently missing compatibility of divisor coefficients with extension/localization. -/
+inverse divisor ideals extend to the same fractional ideal of `B`. For arbitrary divisors,
+proving this requires the currently missing compatibility of divisor coefficients with
+extension/localization; the principal-divisor case is discharged below. -/
 noncomputable def OverlapInverseIdealExtensionEq
     (R₁ R₂ B K : Type u)
     [CommRing R₁] [IsDedekindDomain R₁]
@@ -651,6 +654,120 @@ private lemma map_localized_inverseIdeal_eq_extended
   rw [himage]
   symm
   simpa using extendedInverseIdeal_eq_span R (Localization.Away f) K D
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal
+
+variable (R K : Type u) [CommRing R] [IsDedekindDomain R]
+  [Field K] [Algebra R K] [IsFractionRing R K]
+
+/-- The explicit fractional ideal of a principal divisor is the corresponding principal
+fractional ideal. -/
+lemma divisorFractionalIdeal_principalDivisor (g : Additive Kˣ) :
+    divisorFractionalIdeal R K
+        ((OrderSystem.ofDedekindDomain R K).principalDivisor g) =
+      toPrincipalIdeal R K (Additive.toMul g) := by
+  unfold divisorFractionalIdeal
+  have h :
+      (fractionalIdealDivisorAddEquiv R K).symm
+          ((OrderSystem.ofDedekindDomain R K).principalDivisor g) =
+        Additive.ofMul (toPrincipalIdeal R K (Additive.toMul g)) := by
+    apply (fractionalIdealDivisorAddEquiv R K).injective
+    rw [AddEquiv.apply_symm_apply]
+    exact (fractionalIdealDivisorAddEquiv_toPrincipalIdeal (Additive.toMul g)).symm
+  exact congrArg Additive.toMul h
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+/-- Principal divisors defined by the same rational function have equal inverse fractional
+ideals after extension from two distinct Dedekind chart rings to a common overlap ring. -/
+theorem overlapInverseIdealExtensionEq_principal
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    (h₁ : IsScalarTower R₁ B K) (h₂ : IsScalarTower R₂ B K)
+    (g : Additive Kˣ) :
+    OverlapInverseIdealExtensionEq R₁ R₂ B K
+      ((OrderSystem.ofDedekindDomain R₁ K).principalDivisor g)
+      ((OrderSystem.ofDedekindDomain R₂ K).principalDivisor g) := by
+  letI : IsScalarTower R₁ B K := h₁
+  letI : IsScalarTower R₂ B K := h₂
+  refine ⟨h₁, h₂, ?_⟩
+  rw [ExplicitIdeal.divisorFractionalIdeal_principalDivisor,
+    ExplicitIdeal.divisorFractionalIdeal_principalDivisor]
+  apply Units.ext
+  simp only [Units.coe_map, Units.val_inv_eq_inv_val,
+    coe_toPrincipalIdeal, FractionalIdeal.spanSingleton_inv]
+  have hmap₁ :
+      IsFractionRing.map (FaithfulSMul.algebraMap_injective R₁ B) =
+        RingHom.id K := by
+    apply IsLocalization.map_unique _ (RingHom.id K)
+    intro r
+    rw [RingHom.id_apply, IsScalarTower.algebraMap_apply R₁ B K]
+  have hmap₂ :
+      IsFractionRing.map (FaithfulSMul.algebraMap_injective R₂ B) =
+        RingHom.id K := by
+    apply IsLocalization.map_unique _ (RingHom.id K)
+    intro r
+    rw [RingHom.id_apply, IsScalarTower.algebraMap_apply R₂ B K]
+  calc
+    (FractionalIdeal.extendedHom K B)
+        (FractionalIdeal.spanSingleton R₁⁰ ((Additive.toMul g : Kˣ) : K)⁻¹) =
+        FractionalIdeal.spanSingleton B⁰
+          (IsFractionRing.map (FaithfulSMul.algebraMap_injective R₁ B)
+            ((Additive.toMul g : Kˣ) : K)⁻¹) :=
+      FractionalIdeal.extendedHom_spanSingleton K B _
+    _ = FractionalIdeal.spanSingleton B⁰ ((Additive.toMul g : Kˣ) : K)⁻¹ := by
+      rw [hmap₁, RingHom.id_apply]
+    _ = FractionalIdeal.spanSingleton B⁰
+          (IsFractionRing.map (FaithfulSMul.algebraMap_injective R₂ B)
+            ((Additive.toMul g : Kˣ) : K)⁻¹) := by
+      rw [hmap₂, RingHom.id_apply]
+    _ = (FractionalIdeal.extendedHom K B)
+        (FractionalIdeal.spanSingleton R₂⁰ ((Additive.toMul g : Kˣ) : K)⁻¹) :=
+      (FractionalIdeal.extendedHom_spanSingleton K B _).symm
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+
+/-- The concrete cross-chart principal-divisor consumer: one rational function gives
+isomorphic chosen divisor line bundles on a common affine overlap once the two independent
+restriction/base-change identifications are available. -/
+noncomputable def chosenLineBundleRestrictionIsoPrincipal
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₁ B)]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₂ B)]
+    (g : Additive Kˣ)
+    (h₁ : RestrictionIdentifiesExtendedInverseIdeal R₁ B K
+      ((OrderSystem.ofDedekindDomain R₁ K).principalDivisor g))
+    (h₂ : RestrictionIdentifiesExtendedInverseIdeal R₂ B K
+      ((OrderSystem.ofDedekindDomain R₂ K).principalDivisor g)) :
+    (AffineDedekind.lineBundle R₁ K
+        ((OrderSystem.ofDedekindDomain R₁ K).principalDivisor g)).obj.restrict
+        (extensionMap R₁ B) ≅
+      (AffineDedekind.lineBundle R₂ K
+        ((OrderSystem.ofDedekindDomain R₂ K).principalDivisor g)).obj.restrict
+        (extensionMap R₂ B) :=
+  chosenLineBundleRestrictionIso R₁ R₂ B K _ _ h₁ h₂
+    (Boundary.overlapInverseIdealExtensionEq_principal R₁ R₂ B K h₁.1 h₂.1 g)
 
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
 

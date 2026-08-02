@@ -81,10 +81,12 @@ extended inverse ideals, while
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change comparison for each chosen chart bundle. That comparison is now
 proved on nonempty principal opens, and a checked consumer combines it with extension equality
-into an isomorphism of the actual chosen restrictions. For two divisors on the same chart,
+into an isomorphism of the actual chosen restrictions. Across two distinct chart rings, the
+extension equality is now proved for principal divisors defined by the same rational function,
+with a checked actual-restriction consumer. For two divisors on the same chart,
 coefficient agreement now gives the actual principal-open restriction isomorphism directly.
-Proving cross-chart extension equality, the arbitrary-overlap comparison, and cocycle coherence
-remains missing. The API also
+Proving cross-chart extension equality for arbitrary divisors, the arbitrary-overlap comparison,
+and cocycle coherence remains missing. The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
@@ -144,9 +146,9 @@ separate gluing input. Constructing compatible rational data from the explicit l
 cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the divisor cocycle system, cross-chart
-overlap-extension equality, arbitrary-overlap restriction/base-change identification, coherent
-overlap system, module-effectivity, coherent-principal-triviality,
+of the divisor cocycle system, arbitrary-divisor cross-chart overlap-extension equality,
+arbitrary-overlap restriction/base-change identification, coherent overlap system,
+module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
@@ -472,6 +474,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal`
   Identify the chosen affine Picard representative with the explicit inverse fractional ideal
   attached to the divisor.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
+  Identify the explicit ideal of a principal divisor with the corresponding principal
+  fractional ideal.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq`
   Name equality of two explicit inverse ideals after localization at a same-chart principal
@@ -491,6 +497,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq`
   Require compatible maps into a common function field and equality of the two inverse divisor
   ideals after extension to a common affine-overlap ring.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_principal`
+  Prove the cross-chart extension equality for principal divisors defined by the same rational
+  function on two distinct Dedekind chart rings.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal`
   Isolate identification of a chosen chart line-bundle restriction with tilde of its inverse
@@ -499,6 +509,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso`
   Combine extension equality and both restriction identifications into an isomorphism of the
   actual chosen chart line-bundle restrictions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipal`
+  Construct the actual cross-chart principal-divisor restriction isomorphism once both
+  restriction/base-change identifications are supplied.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_away`
   Prove the restriction/base-change identification on every nonempty principal open with a

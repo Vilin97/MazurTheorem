@@ -32,7 +32,10 @@ ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change identification. The latter is now proved on nonempty principal
 opens, with a checked consumer combining it with extension equality into an isomorphism of the
-actual chosen restrictions. Canonical Picard surjectivity is proved
+actual chosen restrictions. For two distinct chart rings, extension equality is now proved for
+the principal divisors defined by the same rational function, and a checked consumer gives the
+actual restriction isomorphism once the two base-change identifications are supplied. Canonical
+Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
 What remains here includes discharging those comparison inputs, the map-specific smooth-curve
@@ -89,8 +92,9 @@ adding surjectivity gives the full divisor-class/Picard equivalence without a gl
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
-cross-chart overlap-extension equality, arbitrary-overlap restriction/base-change
-identification, coherent overlap system, module-effectivity, coherent-principal-triviality,
+arbitrary-divisor cross-chart overlap-extension equality,
+arbitrary-overlap restriction/base-change identification, coherent overlap system,
+module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 asserted. The remaining cross-chart localization predicates are precise

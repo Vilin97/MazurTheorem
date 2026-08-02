@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1426921,
+    "integrated_lean_lines": 1427041,
     "integrated_lean_modules": 651,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -1472,6 +1472,13 @@
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor",
+          "state": "contract",
+          "description": "Identify the explicit ideal of a principal divisor with the corresponding principal fractional ideal.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq",
           "state": "contract",
@@ -1507,6 +1514,13 @@
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_principal",
+          "state": "contract",
+          "description": "Prove cross-chart extension equality for principal divisors defined by the same rational function on two distinct Dedekind chart rings.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal",
           "state": "contract",
@@ -1518,6 +1532,13 @@
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso",
           "state": "contract",
           "description": "Combine extension equality and both restriction identifications into an isomorphism of the actual chosen chart line-bundle restrictions.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipal",
+          "state": "contract",
+          "description": "Construct the actual cross-chart principal-divisor restriction isomorphism once both restriction/base-change identifications are supplied.",
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
@@ -1612,7 +1633,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart, localization, and descent modules. Prove the map-specific `AffineChart.SmoothRelativeCurveRingConditions` for each concrete base-field affine `appLE` map; checked code then supplies `AffineChart.DedekindOrderCompatibility` from dimension at most one and integral closedness. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open now gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Focus localization work on genuinely cross-chart `OverlapInverseIdealExtensionEq` and arbitrary-overlap restriction/base change. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cross-chart localization predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. Prove the map-specific `AffineChart.SmoothRelativeCurveRingConditions` for each concrete base-field affine `appLE` map; checked code then supplies `AffineChart.DedekindOrderCompatibility` from dimension at most one and integral closedness. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open now gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two distinct charts, `overlapInverseIdealExtensionEq_principal` now proves extension equality for principal divisors defined by the same rational function, and `chosenLineBundleRestrictionIsoPrincipal` consumes the two restriction/base-change identifications to give the actual restricted-bundle isomorphism. Focus localization work on arbitrary-divisor cross-chart extension equality and arbitrary-overlap restriction/base change. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cross-chart localization predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
