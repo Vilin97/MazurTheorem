@@ -7,29 +7,52 @@ Authors: Vasily Ilin
 import MazurTorsion.NumberTheory.KummerArtinProduct
 
 /-!
-# Challenge: the global Kummer--Artin product formula
+# Challenge: one-sided Kummer reciprocity for locally-primary pseudo-units
 
-Mathlib already proves the ideal-local ramification criterion used by the
-destination module, but it does not yet contain the required global Kummer
-or Artin reciprocity theorem. This contract states the missing input as the
-explicit finite product formula for the canonical Kummer presentation.
+The destination proves that the canonical Kummer radicand has `p`-divisible
+finite divisor and is a `p`-th power in the completion at the cyclotomic
+prime. It also checks the comparison between Kummer/Frobenius coordinates,
+clears prime-to-cyclotomic fractional denominators to integral ones, and
+removes the cyclotomic-prime factor itself. The sole remaining arithmetic
+contract is therefore integral one-sided Kummer reciprocity for a
+locally-primary pseudo-unit.
 
-The checked destination API proves that this formula is equivalent to
-conductor-one principal reciprocity and hence produces the required
-surjective, inverse-cyclotomic ideal-class quotient. The separate
-Herbrand--Kummer assertion that this quotient cannot exist is not part of
-this contract.
+The checked bridges then prove prime-to-cyclotomic and full principal
+reciprocity, the Kummer product formula, and the required surjective
+inverse-cyclotomic ideal-class quotient. The separate Herbrand--Kummer
+assertion that this quotient cannot exist is not part of this contract.
 -/
 
 namespace MazurTheorem.Challenge
 
+open NumberTheory.CyclotomicCharacter
+
 universe u
 
-/-- Global Kummer reciprocity makes the finite product of local
-Kummer/Frobenius symbols trivial on every principal fractional ideal. -/
-theorem cyclotomic_kummerArtinProductFormulaPrinciple
+/-- One-sided Kummer reciprocity kills every integral principal Kummer symbol
+away from the cyclotomic prime when the radicand is a locally-primary
+pseudo-unit. -/
+theorem cyclotomic_locallyPrimaryPseudoUnitKummerReciprocityPrinciple
     (p : ℕ) [Fact p.Prime] (_hp : 5 ≤ p) :
-    NumberTheory.CyclotomicCharacter.KummerArtinProductFormulaPrinciple.{u} p := sorry
+    LocallyPrimaryPseudoUnitKummerReciprocityPrinciple.{u} p := sorry
+
+/-- Checked reduction from the locally-primary pseudo-unit contract to
+prime-to-cyclotomic principal Artin reciprocity. -/
+theorem cyclotomic_primeToCyclotomicPrincipalReciprocityPrinciple
+    (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p) :
+    PrimeToCyclotomicPrincipalReciprocityPrinciple.{u} p :=
+  primeToCyclotomicPrincipalReciprocityPrinciple_of_locallyPrimaryPseudoUnit
+    (by omega)
+    (cyclotomic_locallyPrimaryPseudoUnitKummerReciprocityPrinciple p hp)
+
+/-- Checked reduction from prime-to-cyclotomic reciprocity to the full
+Kummer product formula. -/
+theorem cyclotomic_kummerArtinProductFormulaPrinciple
+    (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p) :
+    KummerArtinProductFormulaPrinciple.{u} p :=
+  kummerArtinProductFormulaPrinciple_of_primeToCyclotomic
+    (by omega)
+    (cyclotomic_primeToCyclotomicPrincipalReciprocityPrinciple p hp)
 
 /-- Checked bridge from the exact Kummer product-formula contract to the
 roadmap-facing class-field-theory principle. -/

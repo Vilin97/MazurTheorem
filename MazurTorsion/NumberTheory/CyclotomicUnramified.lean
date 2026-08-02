@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.NumberTheory.Cyclotomic.Gal
+import Mathlib.GroupTheory.FiniteAbelian.Basic
 import Mathlib.NumberTheory.NumberField.Cyclotomic.Embeddings
 import Mathlib.NumberTheory.NumberField.Cyclotomic.Ideal
 import Mathlib.NumberTheory.RamificationInertia.Unramified
@@ -751,17 +752,13 @@ theorem ncard_primesOver_eq_finrank_of_frobeniusAt_eq_one
   rw [hstabilizer] at hkey
   simpa using hkey
 
-/-- The unique prime above `p` splits completely in an everywhere-unramified
-inverse-cyclotomic extension. This is stronger than merely saying that the
-prime is unramified: the inverse-character action forces its decomposition
-Frobenius to be trivial. -/
-theorem cyclotomicPrime_splitsCompletely
+/-- The finite-prime Artin symbol at the unique prime above `p` is trivial in
+an everywhere-unramified inverse-cyclotomic extension. -/
+theorem artinSymbol_cyclotomicPrime_eq_one
     (hp : 2 < p)
     (E : InverseExtension p L)
     (hunramified : E.IsUnramifiedAtFinitePlaces) :
-    (Ideal.primesOver (cyclotomicPrime p).asIdeal
-      (NumberField.RingOfIntegers L)).ncard =
-        Module.finrank (PrimeCyclotomicField p) L := by
+    E.artinSymbol (cyclotomicPrime p) = 1 := by
   letI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   letI : NeZero (p : ℚ) :=
     ⟨Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero⟩
@@ -779,9 +776,21 @@ theorem cyclotomicPrime_splitsCompletely
   have hsigma : (inverseCharacter p sigma : ZMod p) ≠ 1 := by
     rw [hcharacter]
     exact ZMod.neg_one_ne_one
-  have hartin : E.artinSymbol (cyclotomicPrime p) = 1 :=
-    E.artinSymbol_eq_one_of_fixed hunramified sigma hsigma
-      (cyclotomicPrime p) (mapFinitePrime_cyclotomicPrime p sigma)
+  exact E.artinSymbol_eq_one_of_fixed hunramified sigma hsigma
+    (cyclotomicPrime p) (mapFinitePrime_cyclotomicPrime p sigma)
+
+/-- The unique prime above `p` splits completely in an everywhere-unramified
+inverse-cyclotomic extension. This is stronger than merely saying that the
+prime is unramified: the inverse-character action forces its decomposition
+Frobenius to be trivial. -/
+theorem cyclotomicPrime_splitsCompletely
+    (hp : 2 < p)
+    (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces) :
+    (Ideal.primesOver (cyclotomicPrime p).asIdeal
+      (NumberField.RingOfIntegers L)).ncard =
+        Module.finrank (PrimeCyclotomicField p) L := by
+  have hartin := E.artinSymbol_cyclotomicPrime_eq_one hp hunramified
   have hfrob : E.frobeniusAt (cyclotomicPrime p) = 1 := by
     apply E.galEquiv.injective
     simpa only [artinSymbol, map_one] using hartin
@@ -944,6 +953,39 @@ theorem classGroupArtin_equivariant
 
 end InverseExtension
 
+private theorem exists_surjective_hom_to_multiplicative_zmod_of_prime_dvd_card
+    (G : Type*) [CommGroup G] [Finite G]
+    (p : ℕ) [Fact p.Prime] (hp : p ∣ Nat.card G) :
+    ∃ f : G →* Multiplicative (ZMod p), Function.Surjective f := by
+  classical
+  obtain ⟨ι, _, n, _, ⟨e⟩⟩ :=
+    CommGroup.equiv_prod_multiplicative_zmod_of_finite G
+  have hcard : Nat.card G = ∏ i : ι, n i := by
+    rw [Nat.card_congr e.toEquiv, Nat.card_pi]
+    apply Finset.prod_congr rfl
+    intro i _
+    exact (Nat.card_congr Multiplicative.toAdd).trans (Nat.card_zmod (n i))
+  have hp' : p ∣ ∏ i : ι, n i := hcard ▸ hp
+  obtain ⟨i, _, hi⟩ := (_root_.Prime.dvd_finsetProd_iff
+    (Nat.prime_iff.mp (Fact.out : p.Prime)) n).mp hp'
+  let f := ((ZMod.castHom hi (ZMod p)).toAddMonoidHom.toMultiplicative.comp
+    (Pi.evalMonoidHom (fun i : ι ↦ Multiplicative (ZMod (n i))) i)).comp
+      e.toMonoidHom
+  refine ⟨f, ?_⟩
+  intro y
+  obtain ⟨x, hx⟩ := ZMod.castHom_surjective hi y.toAdd
+  let z : (j : ι) → Multiplicative (ZMod (n j)) :=
+    Function.update 1 i (Multiplicative.ofAdd x)
+  obtain ⟨g, hg⟩ := e.surjective z
+  use g
+  apply Multiplicative.toAdd.injective
+  change (ZMod.castHom hi (ZMod p)) (Multiplicative.toAdd (e g i)) =
+    Multiplicative.toAdd y
+  rw [hg]
+  rw [show z i = Multiplicative.ofAdd x by simp [z]]
+  change (ZMod.castHom hi (ZMod p)) x = Multiplicative.toAdd y
+  exact hx
+
 /-- The quotient supplied by the unramified abelian correspondence, before
 recording its Galois eigenspace. -/
 structure UnramifiedClassGroupQuotient (p : ℕ) [Fact p.Prime] where
@@ -952,6 +994,34 @@ structure UnramifiedClassGroupQuotient (p : ℕ) [Fact p.Prime] where
     Multiplicative (ZMod p)
   /-- The quotient map is onto. -/
   surjective : Function.Surjective quotient
+
+/-- Divisibility of the cyclotomic class number by `p` produces an abstract
+cyclic order-`p` quotient.  No Galois character is asserted: selecting the
+inverse-cyclotomic quotient is the additional reciprocity content below. -/
+noncomputable def UnramifiedClassGroupQuotient.ofPrimeDvdCard
+    {p : ℕ} [Fact p.Prime]
+    (h : p ∣ Nat.card
+      (ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p)))) :
+    UnramifiedClassGroupQuotient p where
+  quotient := (exists_surjective_hom_to_multiplicative_zmod_of_prime_dvd_card
+    (ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p))) p h).choose
+  surjective := (exists_surjective_hom_to_multiplicative_zmod_of_prime_dvd_card
+    (ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p))) p h).choose_spec
+
+/-- An abstract cyclic order-`p` quotient of the class group exists exactly
+when `p` divides the class number.  This deliberately omits the
+inverse-cyclotomic equivariance required by `InverseClassGroupQuotient`. -/
+theorem nonempty_unramifiedClassGroupQuotient_iff_prime_dvd_card
+    {p : ℕ} [Fact p.Prime] :
+    Nonempty (UnramifiedClassGroupQuotient p) ↔
+      p ∣ Nat.card
+        (ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p))) := by
+  constructor
+  · rintro ⟨Q⟩
+    have hcard := Subgroup.card_dvd_of_surjective Q.quotient Q.surjective
+    simpa only [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod] using hcard
+  · intro h
+    exact ⟨UnramifiedClassGroupQuotient.ofPrimeDvdCard h⟩
 
 /-- The assertion that a class-group quotient transforms through the inverse
 cyclotomic character. -/

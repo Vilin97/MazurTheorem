@@ -57,13 +57,17 @@ residue characteristics.
 
 :::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-CYCLOTOMIC-UNRAMIFIED") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "large")
 *The division-field extension is everywhere unramified.* The comparison
-forces the relevant $`p`-division extension over $`\mathbb{Q}(\zeta_p)` to be
-unramified at every finite place.
+constructs the x-coordinate $`p`-division-field datum attached to the rational
+prime-order point and forces its inverse-cyclotomic extension over
+$`\mathbb{Q}(\zeta_p)` to be unramified at every finite place.
 
 *Status:* `blocked`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
+* `structure` (`proposed`): `MazurTorsion.PrimeOrder.DivisionFieldData`
+  Tie the inverse-cyclotomic extension to a rational point of exact order p and
+  the splitting field of its x-coordinate p-division polynomial.
 * `theorem` (`proposed`): `MazurTorsion.PrimeOrder.divisionField_everywhereUnramified`
   Prove that the p-division field extension over the p-th cyclotomic field is
   everywhere unramified.

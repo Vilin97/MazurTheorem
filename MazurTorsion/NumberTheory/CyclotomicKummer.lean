@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.FieldTheory.KummerExtension
+import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Mathlib.NumberTheory.RamificationInertia.Valuation
 import Mathlib.RingTheory.DedekindDomain.Factorization
 import Mathlib.RingTheory.DedekindDomain.SelmerGroup
@@ -213,6 +214,370 @@ theorem finiteCompletionMap_algebraMap (x : K) :
   rw [UniformSpace.Completion.mapRingHom_coe]
   rfl
 
+/-- The algebra structure on completions induced by a prime lying over a
+base prime.  Its algebra map is definitionally `finiteCompletionMap`.  The
+instance is scoped because the self-extension case creates a non-definitional
+instance diamond. -/
+noncomputable scoped instance finiteCompletionAlgebra :
+    Algebra (vK.adicCompletion K) (wF.adicCompletion F) :=
+  (finiteCompletionMap vK wF).toAlgebra
+
+open scoped NumberTheory.CyclotomicCharacter.InverseExtension
+
+/-- The canonical map between finite completions is continuous. -/
+theorem continuous_finiteCompletionMap :
+    Continuous (finiteCompletionMap vK wF) := by
+  unfold finiteCompletionMap
+  exact
+    (IsDedekindDomain.HeightOneSpectrum.adicCompletion.continuous_ofCompletion F wF).comp
+      (UniformSpace.Completion.continuous_map.comp
+        (IsDedekindDomain.HeightOneSpectrum.adicCompletion.continuous_toCompletion K vK))
+
+/-- Ramification index one identifies every pair of corresponding prime
+powers under contraction. -/
+theorem comap_pow_eq_of_ramificationIdx_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (n : ℕ) :
+    (wF.asIdeal ^ n).comap
+        (algebraMap (NumberField.RingOfIntegers K)
+          (NumberField.RingOfIntegers F)) =
+      vK.asIdeal ^ n := by
+  ext x
+  rw [Ideal.mem_comap,
+    ← wF.intValuation_le_pow_iff_mem,
+    ← vK.intValuation_le_pow_iff_mem]
+  have hlies :=
+    IsDedekindDomain.HeightOneSpectrum.intValuation_liesOver vK wF x
+  rw [hram, pow_one] at hlies
+  rw [hlies]
+
+/-- When both local invariants are one, the map on every prime-power
+quotient of rings of integers is onto. -/
+theorem quotientAlgebraMap_surjective_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1)
+    (n : ℕ) :
+    letI : Algebra
+        (NumberField.RingOfIntegers K ⧸ vK.asIdeal ^ n)
+        (NumberField.RingOfIntegers F ⧸ wF.asIdeal ^ n) :=
+      Ideal.Quotient.algebraQuotientOfLEComap
+        (le_of_eq (comap_pow_eq_of_ramificationIdx_eq_one
+          vK wF hram n).symm)
+    Function.Surjective
+      (algebraMap
+        (NumberField.RingOfIntegers K ⧸ vK.asIdeal ^ n)
+        (NumberField.RingOfIntegers F ⧸ wF.asIdeal ^ n)) := by
+  let A := NumberField.RingOfIntegers K
+  let B := NumberField.RingOfIntegers F
+  let pI := vK.asIdeal ^ n
+  let QI := wF.asIdeal ^ n
+  have hcomap : QI.comap (algebraMap A B) = pI := by
+    simpa only [A, B, pI, QI] using
+      comap_pow_eq_of_ramificationIdx_eq_one vK wF hram n
+  letI : Algebra (A ⧸ pI) (B ⧸ QI) :=
+    Ideal.Quotient.algebraQuotientOfLEComap (le_of_eq hcomap.symm)
+  have hinjective : Function.Injective
+      (algebraMap (A ⧸ pI) (B ⧸ QI)) := by
+    rintro ⟨a⟩ ⟨b⟩ hab
+    replace hab := Quotient.eq.mp hab
+    apply Quotient.eq.mpr
+    apply pI.quotientRel_def.mpr
+    rw [← hcomap]
+    change (algebraMap A B) (a - b) ∈ QI
+    rw [map_sub]
+    exact QI.quotientRel_def.mp hab
+  have hQI : QI ≠ ⊥ := by
+    dsimp only [QI, B]
+    simpa only [← Ideal.zero_eq_bot] using pow_ne_zero n wF.ne_bot
+  letI : Finite (B ⧸ QI) :=
+    Ring.HasFiniteQuotients.finiteQuotient hQI
+  have hnorm : Ideal.absNorm vK.asIdeal = Ideal.absNorm wF.asIdeal := by
+    have h := Ideal.absNorm_pow_inertiaDeg vK.asIdeal wF.asIdeal
+    rw [hinertia, pow_one] at h
+    exact h
+  have hcard : Nat.card (A ⧸ pI) = Nat.card (B ⧸ QI) := by
+    rw [← Submodule.cardQuot_apply, ← Ideal.absNorm_apply,
+      ← Submodule.cardQuot_apply, ← Ideal.absNorm_apply]
+    simp only [pI, QI, map_pow, hnorm]
+  exact (hinjective.bijective_of_nat_card_le hcard.ge).2
+
+/-- Every target integer can be approximated modulo an arbitrary prime
+power by an integer from the base field. -/
+theorem exists_globalInteger_approximation_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1)
+    (n : ℕ) (b : NumberField.RingOfIntegers F) :
+    ∃ a : NumberField.RingOfIntegers K,
+      algebraMap (NumberField.RingOfIntegers K)
+          (NumberField.RingOfIntegers F) a - b ∈ wF.asIdeal ^ n := by
+  let A := NumberField.RingOfIntegers K
+  let B := NumberField.RingOfIntegers F
+  let pI := vK.asIdeal ^ n
+  let QI := wF.asIdeal ^ n
+  have hcomap : QI.comap (algebraMap A B) = pI := by
+    simpa only [A, B, pI, QI] using
+      comap_pow_eq_of_ramificationIdx_eq_one vK wF hram n
+  letI : Algebra (A ⧸ pI) (B ⧸ QI) :=
+    Ideal.Quotient.algebraQuotientOfLEComap (le_of_eq hcomap.symm)
+  obtain ⟨q, hq⟩ :=
+    quotientAlgebraMap_surjective_of_localInvariants_eq_one
+      vK wF hram hinertia n (Ideal.Quotient.mk QI b)
+  obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective q
+  refine ⟨a, ?_⟩
+  change Ideal.Quotient.mk QI (algebraMap A B a) =
+    Ideal.Quotient.mk QI b at hq
+  exact QI.quotientRel_def.mp (Quotient.eq.mp hq)
+
+private theorem WithZeroMulInt.toNNReal_apply_eq_of_eq
+    {a b : NNReal} (ha : a ≠ 0) (hb : b ≠ 0) (h : a = b)
+    (z : WithZero (Multiplicative ℤ)) :
+    WithZeroMulInt.toNNReal ha z = WithZeroMulInt.toNNReal hb z := by
+  subst b
+  rfl
+
+/-- Prime-power congruence bounds the norm of the corresponding global
+integer by the expected geometric term. -/
+theorem norm_algebraMap_globalInteger_le_of_mem_pow
+    (n : ℕ) (d : NumberField.RingOfIntegers F)
+    (hd : d ∈ wF.asIdeal ^ n) :
+    ‖algebraMap (NumberField.RingOfIntegers F)
+        (wF.adicCompletion F) d‖ ≤
+      ((Ideal.absNorm wF.asIdeal : ℝ)⁻¹) ^ n := by
+  change ‖NumberField.FinitePlace.embedding wF
+    (algebraMap (NumberField.RingOfIntegers F) F d)‖ ≤ _
+  rw [NumberField.FinitePlace.norm_embedding_int]
+  have hval : wF.intValuation d ≤ WithZero.exp (-(n : ℤ)) :=
+    (wF.intValuation_le_pow_iff_mem d n).2 hd
+  have hnn :=
+    (WithZeroMulInt.toNNReal_strictMono
+      (NumberField.HeightOneSpectrum.one_lt_absNorm_nnreal wF)).monotone hval
+  have hexp :
+      WithZeroMulInt.toNNReal
+          (NumberField.HeightOneSpectrum.absNorm_ne_zero wF)
+          (WithZero.exp (-(n : ℤ))) =
+        ((Ideal.absNorm wF.asIdeal : NNReal)⁻¹) ^ n := by
+    rw [WithZeroMulInt.toNNReal_neg_apply _ WithZero.exp_ne_zero]
+    have hunzero :
+        (WithZero.unzero (WithZero.exp_ne_zero :
+          WithZero.exp (-(n : ℤ)) ≠ 0)).toAdd = -(n : ℤ) := by
+      rfl
+    rw [hunzero]
+    simp [zpow_neg, zpow_natCast]
+  have hnn' :
+      WithZeroMulInt.toNNReal
+          (NumberField.HeightOneSpectrum.absNorm_ne_zero wF)
+          (wF.intValuation d) ≤
+        ((Ideal.absNorm wF.asIdeal : NNReal)⁻¹) ^ n := by
+    simpa only [hexp] using hnn
+  exact_mod_cast hnn'
+
+/-- Under trivial ramification and residue degree, every global target
+integer belongs to the closure of the finite-completion map. -/
+theorem globalInteger_mem_closure_range_finiteCompletionMap
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1)
+    (b : NumberField.RingOfIntegers F) :
+    algebraMap (NumberField.RingOfIntegers F)
+        (wF.adicCompletion F) b ∈
+      closure (Set.range (finiteCompletionMap vK wF)) := by
+  rw [Metric.mem_closure_range_iff]
+  intro ε hε
+  have habsNorm : 1 < (Ideal.absNorm wF.asIdeal : ℝ) := by
+    exact_mod_cast NumberField.HeightOneSpectrum.one_lt_absNorm wF
+  obtain ⟨n, hn⟩ := exists_pow_lt_of_lt_one hε
+    (inv_lt_one_of_one_lt₀ habsNorm)
+  obtain ⟨a, ha⟩ :=
+    exists_globalInteger_approximation_of_localInvariants_eq_one
+      vK wF hram hinertia n b
+  refine ⟨algebraMap K (vK.adicCompletion K)
+    (algebraMap (NumberField.RingOfIntegers K) K a), ?_⟩
+  have himage :
+      finiteCompletionMap vK wF
+          (algebraMap K (vK.adicCompletion K)
+            (algebraMap (NumberField.RingOfIntegers K) K a)) =
+        algebraMap (NumberField.RingOfIntegers F)
+          (wF.adicCompletion F)
+          (algebraMap (NumberField.RingOfIntegers K)
+            (NumberField.RingOfIntegers F) a) := by
+    rw [finiteCompletionMap_algebraMap]
+    calc
+      algebraMap F (wF.adicCompletion F)
+          (algebraMap K F
+            (algebraMap (NumberField.RingOfIntegers K) K a)) =
+          algebraMap F (wF.adicCompletion F)
+            (algebraMap (NumberField.RingOfIntegers F) F
+              (algebraMap (NumberField.RingOfIntegers K)
+                (NumberField.RingOfIntegers F) a)) := by
+            congr 1
+      _ = _ :=
+        IsScalarTower.algebraMap_apply
+          (NumberField.RingOfIntegers F) F
+          (wF.adicCompletion F) _
+  rw [himage, dist_eq_norm]
+  have hnorm := norm_algebraMap_globalInteger_le_of_mem_pow
+    wF n
+    (algebraMap (NumberField.RingOfIntegers K)
+      (NumberField.RingOfIntegers F) a - b) ha
+  calc
+    ‖algebraMap (NumberField.RingOfIntegers F)
+          (wF.adicCompletion F) b -
+        algebraMap (NumberField.RingOfIntegers F)
+          (wF.adicCompletion F)
+          (algebraMap (NumberField.RingOfIntegers K)
+            (NumberField.RingOfIntegers F) a)‖ =
+        ‖algebraMap (NumberField.RingOfIntegers F)
+          (wF.adicCompletion F)
+          (algebraMap (NumberField.RingOfIntegers K)
+            (NumberField.RingOfIntegers F) a - b)‖ := by
+          rw [map_sub]
+          exact (congrArg norm (neg_sub _ _).symm).trans (norm_neg _)
+    _ ≤ ((Ideal.absNorm wF.asIdeal : ℝ)⁻¹) ^ n := hnorm
+    _ < ε := hn
+
+/-- Under trivial local invariants, the embedded global target field lies
+in the closure of the finite-completion map. -/
+theorem globalField_mem_closure_range_finiteCompletionMap
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1)
+    (x : F) :
+    algebraMap F (wF.adicCompletion F) x ∈
+      closure (Set.range (finiteCompletionMap vK wF)) := by
+  let φ := finiteCompletionMap vK wF
+  change algebraMap F (wF.adicCompletion F) x ∈
+    φ.fieldRange.topologicalClosure
+  obtain ⟨b, c, hc, rfl⟩ :=
+    IsFractionRing.div_surjective (NumberField.RingOfIntegers F) x
+  rw [map_div₀]
+  apply φ.fieldRange.topologicalClosure.div_mem
+  · rw [← IsScalarTower.algebraMap_apply
+      (NumberField.RingOfIntegers F) F (wF.adicCompletion F)]
+    exact globalInteger_mem_closure_range_finiteCompletionMap
+      vK wF hram hinertia b
+  · rw [← IsScalarTower.algebraMap_apply
+      (NumberField.RingOfIntegers F) F (wF.adicCompletion F)]
+    exact globalInteger_mem_closure_range_finiteCompletionMap
+      vK wF hram hinertia c
+
+/-- Trivial ramification and inertia invariants make the canonical map of
+finite completions have dense range. -/
+theorem denseRange_finiteCompletionMap_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1) :
+    DenseRange (finiteCompletionMap vK wF) := by
+  rw [denseRange_iff_closure_range]
+  apply Set.eq_univ_of_univ_subset
+  rw [← (wF.denseRange_algebraMap F).closure_range]
+  apply closure_minimal _ isClosed_closure
+  rintro _ ⟨x, rfl⟩
+  exact globalField_mem_closure_range_finiteCompletionMap
+    vK wF hram hinertia x
+
+/-- On embedded base-field elements, the finite-completion map preserves
+the normalized norm when both local invariants are one. -/
+theorem norm_finiteCompletionMap_algebraMap_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1)
+    (x : K) :
+    ‖finiteCompletionMap vK wF
+        (algebraMap K (vK.adicCompletion K) x)‖ =
+      ‖algebraMap K (vK.adicCompletion K) x‖ := by
+  rw [finiteCompletionMap_algebraMap]
+  rw [NumberField.FinitePlace.norm_def,
+    NumberField.FinitePlace.norm_def]
+  have hw := congrFun
+    (IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletion
+      (NumberField.RingOfIntegers F) F wF)
+    (algebraMap K F x)
+  have hv := congrFun
+    (IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletion
+      (NumberField.RingOfIntegers K) K vK) x
+  simp only [WithVal.equiv_symm_apply, Algebra.algebraMap_self,
+    RingHom.coe_id, Function.comp_apply, id_eq] at hw hv
+  rw [hw, hv]
+  rw [← IsDedekindDomain.HeightOneSpectrum.adicCompletion.valued_toCompletion,
+    ← IsDedekindDomain.HeightOneSpectrum.adicCompletion.valued_toCompletion,
+    Valued.valuedCompletion_apply, Valued.valuedCompletion_apply,
+    WithVal.valued_toVal, WithVal.valued_toVal]
+  have hval :=
+    IsDedekindDomain.HeightOneSpectrum.valuation_liesOver F vK wF x
+  rw [hram, pow_one] at hval
+  have hnorm := Ideal.absNorm_pow_inertiaDeg vK.asIdeal wF.asIdeal
+  rw [hinertia, pow_one] at hnorm
+  rw [← hval]
+  have hnormNNReal :
+      (Ideal.absNorm wF.asIdeal : NNReal) =
+        (Ideal.absNorm vK.asIdeal : NNReal) :=
+    congrArg (fun n : ℕ ↦ (n : NNReal)) hnorm.symm
+  have htoNNReal :
+      WithZeroMulInt.toNNReal
+          (NumberField.HeightOneSpectrum.absNorm_ne_zero wF)
+          (vK.valuation K x) =
+        WithZeroMulInt.toNNReal
+          (NumberField.HeightOneSpectrum.absNorm_ne_zero vK)
+          (vK.valuation K x) :=
+    WithZeroMulInt.toNNReal_apply_eq_of_eq
+      (NumberField.HeightOneSpectrum.absNorm_ne_zero wF)
+      (NumberField.HeightOneSpectrum.absNorm_ne_zero vK)
+      hnormNNReal (vK.valuation K x)
+  exact congrArg (fun q : NNReal ↦ (q : ℝ)) htoNNReal
+
+/-- Trivial ramification and residue degree make the canonical map between
+finite completions an isometry. -/
+theorem finiteCompletionMap_isometry_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1) :
+    Isometry (finiteCompletionMap vK wF) := by
+  have hdense : DenseRange
+      (algebraMap K (vK.adicCompletion K)) :=
+    vK.denseRange_algebraMap K
+  have hnorm : (fun z : vK.adicCompletion K ↦
+      ‖finiteCompletionMap vK wF z‖) = norm := by
+    apply hdense.equalizer
+    · exact continuous_norm.comp (continuous_finiteCompletionMap vK wF)
+    · exact continuous_norm
+    · funext x
+      exact norm_finiteCompletionMap_algebraMap_of_localInvariants_eq_one
+        vK wF hram hinertia x
+  apply Isometry.of_dist_eq
+  intro x y
+  rw [dist_eq_norm, dist_eq_norm, ← map_sub]
+  exact congrFun hnorm (x - y)
+
+/-- The canonical map of finite completions is onto whenever its
+ramification index and inertia degree are both one. -/
+theorem finiteCompletionMap_surjective_of_localInvariants_eq_one
+    (hram : vK.asIdeal.ramificationIdx' wF.asIdeal = 1)
+    (hinertia : wF.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers K) = 1) :
+    Function.Surjective (finiteCompletionMap vK wF) := by
+  rw [← Set.range_eq_univ]
+  have hclosed : IsClosed (Set.range (finiteCompletionMap vK wF)) :=
+    (finiteCompletionMap_isometry_of_localInvariants_eq_one
+      vK wF hram hinertia).isClosedEmbedding.isClosed_range
+  rw [← hclosed.closure_eq,
+    (denseRange_finiteCompletionMap_of_localInvariants_eq_one
+      vK wF hram hinertia).closure_range]
+
+/-- A degree-one map of finite completions is onto.  This isolates the
+linear-algebraic end of the local splitting argument: the remaining
+arithmetic step is to identify this degree with the global ramification
+index times inertia degree. -/
+theorem finiteCompletionMap_surjective_of_finrank_eq_one
+    (hdegree : Module.finrank (vK.adicCompletion K)
+      (wF.adicCompletion F) = 1) :
+    Function.Surjective (finiteCompletionMap vK wF) := by
+  have hbijective : Function.Bijective
+      (algebraMap (vK.adicCompletion K) (wF.adicCompletion F)) :=
+    Algebra.finrank_eq_one_iff_bijective_algebraMap.mp hdegree
+  exact hbijective.2
+
 end FiniteCompletionMap
 
 /-- Surjectivity of the canonical local completion map makes the Kummer
@@ -232,9 +597,24 @@ theorem KummerPresentation.radicand_isPow_in_completion_of_surjective
   rw [map_pow, hx, finiteCompletionMap_algebraMap]
   rw [← map_pow, P.pow_radical]
 
-/-- Complete splitting already forces both ideal-theoretic local invariants
-to be one.  The remaining gap is specifically the comparison with finite
-completions, not ramification or residue-degree arithmetic. -/
+/-- Local degree one is already enough to make the Kummer radicand a
+`p`-th power in the base completion. -/
+theorem KummerPresentation.radicand_isPow_in_completion_of_finrank_eq_one
+    (E : InverseExtension p L) (P : KummerPresentation E)
+    (vK : FinitePrime (PrimeCyclotomicField p))
+    (wL : FinitePrime L) [wL.asIdeal.LiesOver vK.asIdeal]
+    (hdegree : Module.finrank
+      (vK.adicCompletion (PrimeCyclotomicField p))
+      (wL.adicCompletion L) = 1) :
+    ∃ x : vK.adicCompletion (PrimeCyclotomicField p),
+      x ^ p = algebraMap (PrimeCyclotomicField p)
+        (vK.adicCompletion (PrimeCyclotomicField p)) P.radicand :=
+  P.radicand_isPow_in_completion_of_surjective E vK wL
+    (finiteCompletionMap_surjective_of_finrank_eq_one vK wL hdegree)
+
+/-- Complete splitting forces both ideal-theoretic local invariants to be
+one.  These are the inputs to the checked finite-completion surjectivity
+theorem above. -/
 theorem cyclotomicPrime_ramificationIdxIn_inertiaDegIn_eq_one_of_split
     (E : InverseExtension p L)
     (hsplit :
@@ -267,33 +647,11 @@ theorem cyclotomicPrime_ramificationIdxIn_inertiaDegIn_eq_one_of_split
     simpa using hfund
   exact mul_eq_one.mp hprod
 
-/-- The exact local-completion assertion needed after complete splitting at
-the unique prime above `p`. -/
-noncomputable def CyclotomicPrimeCompletionSurjective
-    (E : InverseExtension p L) : Prop := by
-  let vK := cyclotomicPrime p
-  let wL := E.finitePrimeAbove vK
-  letI : wL.asIdeal.LiesOver vK.asIdeal := by
-    exact (E.primeAbove vK).2.2
-  exact Function.Surjective (finiteCompletionMap vK wL)
-
-/-- Precise missing local-degree principle: complete splitting at the
-cyclotomic prime forces the corresponding map of finite completions to be
-onto. -/
-noncomputable def SplitCyclotomicPrimeCompletionPrinciple
-    (E : InverseExtension p L) : Prop :=
-  (Ideal.primesOver (cyclotomicPrime p).asIdeal
-      (NumberField.RingOfIntegers L)).ncard =
-      Module.finrank (PrimeCyclotomicField p) L →
-    E.CyclotomicPrimeCompletionSurjective
-
-/-- Once the missing completion-surjectivity bridge is supplied, complete
-splitting turns the canonical Kummer radicand into a `p`-th power in the
-cyclotomic-prime completion. -/
-theorem cyclotomicPrime_radicand_isPow_of_completionPrinciple
+/-- Complete splitting at the cyclotomic prime turns the canonical Kummer
+radicand into a `p`-th power in the cyclotomic-prime completion. -/
+theorem cyclotomicPrime_radicand_isPow
     (hp : 2 < p) (E : InverseExtension p L)
-    (hunramified : E.IsUnramifiedAtFinitePlaces)
-    (hcompletion : E.SplitCyclotomicPrimeCompletionPrinciple) :
+    (hunramified : E.IsUnramifiedAtFinitePlaces) :
     ∃ x : (cyclotomicPrime p).adicCompletion
         (PrimeCyclotomicField p),
       x ^ p = algebraMap (PrimeCyclotomicField p)
@@ -304,11 +662,25 @@ theorem cyclotomicPrime_radicand_isPow_of_completionPrinciple
   let wL := E.finitePrimeAbove vK
   letI : wL.asIdeal.LiesOver vK.asIdeal := by
     exact (E.primeAbove vK).2.2
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
   have hsplit := E.cyclotomicPrime_splitsCompletely hp hunramified
-  have hsurjective : Function.Surjective (finiteCompletionMap vK wL) := by
-    have h := hcompletion hsplit
-    change Function.Surjective (finiteCompletionMap vK wL) at h
-    exact h
+  have hinvariants :=
+    cyclotomicPrime_ramificationIdxIn_inertiaDegIn_eq_one_of_split
+      E hsplit
+  have hram : vK.asIdeal.ramificationIdx' wL.asIdeal = 1 := by
+    rw [Ideal.ramificationIdx'_eq_ramificationIdx
+      vK.asIdeal wL.asIdeal vK.ne_bot]
+    rw [← Ideal.ramificationIdxIn_eq_ramificationIdx
+      vK.asIdeal wL.asIdeal Gal(L/PrimeCyclotomicField p)]
+    exact hinvariants.1
+  have hinertia : wL.asIdeal.inertiaDeg
+      (NumberField.RingOfIntegers (PrimeCyclotomicField p)) = 1 := by
+    rw [← Ideal.inertiaDegIn_eq_inertiaDeg
+      vK.asIdeal wL.asIdeal Gal(L/PrimeCyclotomicField p)]
+    exact hinvariants.2
+  have hsurjective : Function.Surjective (finiteCompletionMap vK wL) :=
+    finiteCompletionMap_surjective_of_localInvariants_eq_one
+      vK wL hram hinertia
   simpa only [vK] using
     E.kummerPresentation.radicand_isPow_in_completion_of_surjective
       E vK wL hsurjective

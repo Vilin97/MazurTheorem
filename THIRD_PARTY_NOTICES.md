@@ -37,21 +37,43 @@ audit and local changes are recorded in `docs/PRIOR_ART.md`.
 
 ## AINTLIB geometry foundations
 
-- Author and copyright holder recorded in source: Chris Birkbeck
+- Upstream author identified from repository authorship/history: Chris Birkbeck
 - Source: https://github.com/CBirkbeck/AINTLIB
 - Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
 - Source paths:
   - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
-- License: Apache License 2.0, under the explicit header retained in each
-  selected source file; see `LICENSE`
+- License: Apache License 2.0 under the upstream repository-wide license; see
+  `LICENSE`. The local selected files carry added attribution headers.
 
 The selected files are stored under `MazurTorsion/Upstream/AINTLIB/`. Their
 imports and a small exact-pin proof compatibility point were adjusted, and
 source-level option commands and linter findings were eliminated. No other
-AINTLIB source is included. Details are recorded in `PORTING.md` and
+AINTLIB geometry source is included. Details are recorded in `PORTING.md` and
 `docs/PRIOR_ART.md`.
+
+## AINTLIB Hilbert 92 and Hilbert 94 foundations
+
+- Upstream author identified from repository authorship/history: Chris Birkbeck
+- Source: https://github.com/CBirkbeck/AINTLIB
+- Source commit: `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`
+- Source paths:
+  - `projects/FltRegular/FltRegular/NumberTheory/CyclotomicRing.lean`
+  - `projects/FltRegular/FltRegular/NumberTheory/SystemOfUnits.lean`
+  - `projects/FltRegular/FltRegular/NumberTheory/Hilbert92.lean`
+  - `projects/FltRegular/FltRegular/NumberTheory/Unramified.lean`
+  - `projects/FltRegular/FltRegular/NumberTheory/RegularPrimes.lean`
+  - `projects/FltRegular/FltRegular/NumberTheory/Hilbert94.lean`
+- License: Apache License 2.0 under the upstream repository-wide license; see
+  `LICENSE`. The local selected files carry added attribution headers.
+
+The selected files are stored under
+`MazurTorsion/Upstream/AINTLIB/FltRegular/NumberTheory/`; only the
+class-group power lemma is retained from `RegularPrimes.lean`. Imports and
+proof details were adapted to the immutable Mathlib pin, including an
+option-free universe-shrinking bridge for Hilbert 90. Details are recorded in
+`PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## Tau Ceti
 

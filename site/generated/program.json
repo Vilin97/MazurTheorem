@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1426212,
-    "integrated_lean_modules": 651,
+    "integrated_lean_lines": 1428983,
+    "integrated_lean_modules": 659,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -1724,7 +1724,7 @@
         {"kind": "definition", "name": "NumberTheory.CyclotomicCharacter.inverseExtension", "state": "proposed", "description": "Package the inverse-cyclotomic character extension over the p-th cyclotomic field."},
         {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces", "state": "proposed", "description": "Give the local criterion showing that the relevant extension is unramified at every finite place."},
         {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.noEverywhereUnramified", "state": "proposed", "description": "Exclude an everywhere-unramified inverse-cyclotomic extension using the required class-field input."},
-        {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.kummerArtinProductFormulaPrinciple", "state": "contract", "description": "Prove the principal finite-product formula in Kummer coordinates and hence produce the inverse-character ideal-class-group quotient."}
+        {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple", "state": "contract", "description": "Prove integral one-sided Kummer reciprocity for locally-primary pseudo-units; checked comparison and normalization reductions then supply the inverse-character class-group quotient."}
       ],
       "depends_on": ["MT-BASE-INTEGRATED"],
       "unlocks": ["MT-PRIME-DIVISION-FIELD"],
@@ -1739,14 +1739,16 @@
         "claimable": true,
         "module": "Challenge.CyclotomicClassFieldTheory",
         "file": "Challenge/CyclotomicClassFieldTheory.lean",
-        "declaration": "MazurTheorem.Challenge.cyclotomic_kummerArtinProductFormulaPrinciple",
+        "declaration": "MazurTheorem.Challenge.cyclotomic_locallyPrimaryPseudoUnitKummerReciprocityPrinciple",
         "destination_module": "MazurTorsion.NumberTheory.KummerArtinProduct",
-        "destination_declaration": "NumberTheory.CyclotomicCharacter.kummerArtinProductFormulaPrinciple",
-        "signature": "theorem cyclotomic_kummerArtinProductFormulaPrinciple\n    (p : ℕ) [Fact p.Prime] (_hp : 5 ≤ p) :\n    NumberTheory.CyclotomicCharacter.KummerArtinProductFormulaPrinciple.{u} p := sorry",
+        "destination_declaration": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple",
+        "signature": "theorem cyclotomic_locallyPrimaryPseudoUnitKummerReciprocityPrinciple\n    (p : ℕ) [Fact p.Prime] (_hp : 5 ≤ p) :\n    LocallyPrimaryPseudoUnitKummerReciprocityPrinciple.{u} p := sorry",
         "imports": ["MazurTorsion.NumberTheory.KummerArtinProduct"],
-        "informal": "For every prime p at least 5 and every everywhere finite-unramified inverse-cyclotomic degree-p extension of Q(zeta_p), the explicit finite product of its local Kummer/Frobenius symbols is one on every principal fractional ideal; the checked equivalence then yields conductor-one Artin reciprocity and the equivariant ideal-class quotient.",
-        "recommended_route": "Prove the Kummer or Hilbert norm-residue-symbol product formula, identify the local symbol with the selected arithmetic Frobenius coordinate, and use the checked principal-product equivalence; alternatively develop the conductor-one part of global Artin reciprocity directly.",
+        "informal": "For every prime p at least 5 and every inverse-cyclotomic degree-p Kummer extension of Q(zeta_p), if the canonical radicand has p-divisible finite divisor and is a p-th power in the completion at the unique prime above p, its finite Kummer/Frobenius product is one on every nonzero integral principal denominator outside that prime. The destination already proves both radicand hypotheses for an everywhere-unramified extension, compares Kummer and Artin coordinates, clears fractional denominators, and removes the cyclotomic-prime factor.",
+        "recommended_route": "Prove one-sided Kummer reciprocity for a locally-primary pseudo-unit, first for integral denominators coprime to the radicand and p; then extend across the finite bad set. The Kummer/Frobenius comparison and prime-complement denominator clearing are already checked in the destination. Alternatively prove the same integral vanishing via the conductor-one cyclic Artin reciprocity theorem.",
         "consumer_declarations": [
+          "NumberTheory.CyclotomicCharacter.primeToCyclotomicPrincipalReciprocityPrinciple_of_locallyPrimaryPseudoUnit",
+          "NumberTheory.CyclotomicCharacter.kummerArtinProductFormulaPrinciple_of_primeToCyclotomic",
           "NumberTheory.CyclotomicCharacter.classFieldTheoryPrinciple_of_kummerArtinProductFormula",
           "MazurTorsion.PrimeOrder.inverseCyclotomic_extension_impossible"
         ],
@@ -1842,8 +1844,9 @@
       "weight_points": 15,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Deduce that the p-division extension over Q(zeta_p) is everywhere unramified.",
+      "summary": "Construct the x-coordinate p-division-field datum over Q(zeta_p) and prove that its inverse-cyclotomic extension is everywhere unramified.",
       "artifacts": [
+        {"kind": "structure", "name": "MazurTorsion.PrimeOrder.DivisionFieldData", "state": "proposed", "description": "Tie the inverse-cyclotomic extension to a rational prime-order point and the splitting field of its x-coordinate p-division polynomial."},
         {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.divisionField_everywhereUnramified", "state": "proposed", "description": "Prove that the p-division field extension over the p-th cyclotomic field is everywhere unramified."}
       ],
       "depends_on": [
@@ -1859,6 +1862,7 @@
         "credit_percent": 0
       },
       "acceptance_declarations": [
+        "MazurTorsion.PrimeOrder.DivisionFieldData",
         "MazurTorsion.PrimeOrder.divisionField_everywhereUnramified"
       ]
     },
