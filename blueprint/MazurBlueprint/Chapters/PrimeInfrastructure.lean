@@ -238,12 +238,15 @@ expected exact order, and its image is nonzero.
   Prove that the cusp-difference image is nonzero in the cases used by specialization.
 :::
 
-:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, planned, statement-only, number-theory") (priority := "high") (effort := "large")
-*Cyclotomic unramified character extensions.* Develop the class-field and
-cyclotomic input excluding the inverse-cyclotomic everywhere-unramified
-extension over $`\mathbb{Q}(\zeta_p)`.
+:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, number-theory") (priority := "high") (effort := "large")
+*Cyclotomic unramified character extensions.* The inverse-character extension,
+its ideal-local ramification criteria, and its class-group obstruction now have
+checked interfaces. Integral one-sided Kummer reciprocity for locally-primary
+pseudo-units remains the registered research contract; checked reductions turn
+it into the principal Kummer--Artin product formula and descend the finite-prime
+Artin map to the ideal class group over $`\mathbb{Q}(\zeta_p)`.
 
-*Status:* `planned`.
+*Status:* `research_open`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -255,4 +258,9 @@ extension over $`\mathbb{Q}(\zeta_p)`.
 * `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
   Exclude an everywhere-unramified inverse-cyclotomic extension using the required
   class-field input.
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple`
+  Prove integral one-sided Kummer reciprocity for locally-primary
+  pseudo-units; checked comparison and normalization reductions then supply
+  principal Artin reciprocity and the inverse-character class-group quotient.
 :::

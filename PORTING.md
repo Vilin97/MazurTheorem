@@ -126,6 +126,15 @@ the new `Filter.TendstoCofinite` instance expected by `Northcott.comp_of_finite_
 
 No proof-strengthening option is used.
 
+## Mathlib Dedekind-zeta finite-fibre adaptation
+
+`MazurTorsion/NumberTheory/WeakChebotarev.lean` adapts the finite-fibre
+counting rewrite in Xavier Roblot's Apache-2.0
+`Mathlib/NumberTheory/NumberField/DedekindZeta.lean` at the exact pinned
+Mathlib commit `79d0395a1825a6264ad5d269e35e60537518955e`. The file retains
+the upstream copyright and author credit. Its norm-product ideal embedding,
+zeta-square domination, and nonsplitting theorem are new local work.
+
 ## AINTLIB geometry substrate
 
 Three file-level Apache-2.0 modules were selected from the AINTLIB
@@ -156,6 +165,62 @@ selective attributed port rather than a Lake dependency.
 `MazurTorsion.Upstream.Geometry` is the reviewed boundary and
 `MazurTorsion.lean` is its named checked consumer. It also imports Tau Ceti's
 line-bundle and Abel--Jacobi layers from the root package's exact dependency.
+
+## AINTLIB Hilbert 92 and Hilbert 94
+
+Six Apache-2.0 modules were selected from AINTLIB's `main` snapshot at
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b` and placed below
+`MazurTorsion/Upstream/AINTLIB/FltRegular/NumberTheory/`:
+
+| Upstream source below `projects/FltRegular/FltRegular/NumberTheory/` | Local destination |
+|---|---|
+| `CyclotomicRing.lean` | `CyclotomicRing.lean` |
+| `SystemOfUnits.lean` | `SystemOfUnits.lean` |
+| `Hilbert92.lean` | `Hilbert92.lean` |
+| `Unramified.lean` | `Unramified.lean` |
+| the class-group power lemma from `RegularPrimes.lean` | `RegularPrimes.lean` |
+| `Hilbert94.lean` | `Hilbert94.lean` |
+
+The 1,499-line local cone adds attribution headers naming Chris Birkbeck,
+based on the upstream authorship/history and repository-wide Apache-2.0
+license; the selected upstream files themselves had no per-file headers. It
+proves the generic theorem that an unramified cyclic number-field extension
+of odd prime degree has degree dividing the base class number. The source used
+Lean `v4.33.0-rc1` and Mathlib commit
+`3edb3c0658f69f197b1e501b1f7623f3f7b3898c`; the local port compiles against
+the immutable Mazur Mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`.
+
+The port removes every source-level transparency option. Pure type aliases
+for relative units are `abbrev`s locally, quotient finiteness and finrank
+comparisons are supplied through explicit quotient maps and equalities, and
+the system-of-units argument uses an explicit restrict-scalars linear
+equivalence. The cyclotomic-integer module uses the equivalent theorem names
+available at the older pin. `RegularPrimes.lean` is intentionally pruned to
+the one class-group lemma used by Hilbert 94. Because the pinned Mathlib
+cohomological Hilbert-90 endpoint fixes its extension field in `Type`, the
+local `Hilbert94.lean` adds an option-free `Shrink` transfer for finite
+extensions. Thus the checked Hilbert-94 theorem remains universe-polymorphic
+in the extension field over its small number-field base. No theorem statement
+is weakened. That file also names Vasily Ilin for this local universe-polymorphic
+adaptation.
+
+`MazurTorsion.NumberTheory.CyclotomicHilbert94` is the reviewed specialization
+boundary. It proves only that an everywhere finite-place unramified
+`InverseExtension` forces `p` to divide the full cyclotomic class number.
+`MazurTorsion.PrimeOrder.CyclotomicObstruction` is its named downstream
+consumer. This result is explicitly non-equivariant: it does not select the
+inverse-character class-group component and therefore does not replace the
+remaining reciprocity/reflection theorem.
+
+The checked target is:
+
+```text
+LEAN_NUM_THREADS=1 lake build MazurTorsion.NumberTheory.CyclotomicHilbert94
+```
+
+`#print axioms dvd_card_classGroup_of_unramified_isCyclic` reports exactly
+`[propext, Classical.choice, Quot.sound]`.
 
 ## Build and audit
 

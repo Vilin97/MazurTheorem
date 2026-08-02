@@ -201,6 +201,13 @@ Mathematical ideas and dependency boundaries from this work inform the
 blueprint, but any implementation here must be independently written or
 come from an explicitly compatible licensed source.
 
+That policy applies in particular to the zeta-function route to finite-prime
+nonsplitting. `MazurTorsion/NumberTheory/WeakChebotarev.lean` independently
+implements the ideal-pair injection and pole-order contradiction at the
+project's exact pin. Its only adapted proof fragment is the finite-fibre
+rewrite from Xavier Roblot's Apache-2.0 Mathlib `DedekindZeta.lean`, recorded
+separately in `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
+
 Two smaller files are especially useful as designs. `TorsionCounting.lean`
 has no source placeholder or option override and gives a clean
 finite-abelian counting argument. `TorsionReduction.lean` likewise has no
@@ -450,6 +457,54 @@ on the `dev/modular-curves` branch. That snapshot uses Lean
 `3edb3c0658f69f197b1e501b1f7623f3f7b3898c`.
 The compiler therefore matches this project, but AINTLIB's mathlib pin is
 266 commits newer than the immutable Mazur pin.
+
+### Hilbert 92 and Hilbert 94
+
+A later AINTLIB `main` snapshot at
+[`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`](https://github.com/CBirkbeck/AINTLIB/commit/1c1c74664e40071c2c2165bc55ca2616a67ccd6b)
+contains a complete, placeholder-free proof of
+[`Hilbert92`](https://github.com/CBirkbeck/AINTLIB/blob/1c1c74664e40071c2c2165bc55ca2616a67ccd6b/projects/FltRegular/FltRegular/NumberTheory/Hilbert92.lean)
+and both parts of
+[`Hilbert94`](https://github.com/CBirkbeck/AINTLIB/blob/1c1c74664e40071c2c2165bc55ca2616a67ccd6b/projects/FltRegular/FltRegular/NumberTheory/Hilbert94.lean).
+For an unramified cyclic extension of odd prime degree, the checked endpoint
+proves that the degree divides the base class number. Its proof uses systems
+of units, Hilbert 92, integral Hilbert 90, capitulation, and the relative norm
+of ideals; it does not construct a Hilbert class field or an Artin map.
+
+The minimal 1,499-line cone has now been ported under
+`MazurTorsion/Upstream/AINTLIB/FltRegular/NumberTheory/` and checked at the
+immutable Mazur pin without source-level options or placeholders. The
+port includes an option-free `Shrink` transfer around the pinned Mathlib
+Hilbert-90 universe restriction, so the extension field in the final
+Hilbert-94 theorem remains universe-polymorphic over the small base. The
+Mazur-facing specialization shows that an everywhere finite-place unramified
+inverse extension forces `p` to divide the full class number. This is useful
+class-field obstruction infrastructure, but class-number divisibility alone
+does not determine the Galois-character eigenspace of the resulting class.
+The inverse-character equivariance/reflection step therefore remains a
+separate honest dependency.
+
+### Cyclotomic reciprocity boundary
+
+The same AINTLIB snapshot contains
+[`oneSidedKummerPrincipalReciprocity_canonical`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/FltRegularBernoulli/BernoulliRegular/Reflection/ResidueSymbol/Furtwaengler/OneSidedKummerReciprocity.lean),
+whose statement is the integral locally-primary pseudo-unit reciprocity input
+isolated by the Mazur development. Its proof is still a single `sorry` leaf;
+the file's subsequent principal-symbol and bad-set reductions are checked over
+that leaf. Independently,
+[`DE0CH/flt-lean`'s cyclic modulus-one Artin reciprocity theorem](https://github.com/DE0CH/flt-lean/blob/fe5131cab3d7109f1efb1e0772df0d89c04e3338/Fermat/FLT/NumberField/ArtinSymbol.lean)
+is also an explicit `sorry` leaf after construction of the ideal Artin map.
+Neither source therefore supplies an axiom-clean theorem that can be ported.
+
+The local implementation audits two tempting substitutes. Hilbert 94 gives
+only a non-equivariant order-`p` class-group quotient. Relative ideal norms are
+killed by the checked Artin map, but the relative norm homomorphism is proved
+not surjective for a nontrivial inverse extension. Likewise, the ordinary
+cyclotomic orbit norm annihilates the inverse-character line because the sum
+of the inverse cyclotomic character is zero. Isolating an arbitrary principal
+denominator requires the weighted orbit operator, and vanishing for that
+operator is precisely the remaining one-sided reciprocity theorem rather than
+a consequence of the available norm formulas.
 
 This is substantial prior art: 827 Lean files and 360,084 lines under
 `projects/ModularCurves/ModularCurves`. It is not a completed dependency.
@@ -750,8 +805,9 @@ The implementation policy following this audit is:
 6. Retain the dormant mathlib `ZSMul` audit as a generic design reference;
    use the completed local fixed-level criteria on the critical path.
 7. Use the attributed, checked AINTLIB Picard and Cartier-duality ports through
-   `MazurTorsion.Upstream.Geometry`; treat its remaining developments as
-   theorem-interface and dependency-boundary references only.
+   `MazurTorsion.Upstream.Geometry`, and the Hilbert-94 port through
+   `MazurTorsion.NumberTheory.CyclotomicHilbert94`; do not interpret the latter's
+   class-number divisibility as an inverse-character quotient.
 8. Use Schmidt's formulas as the mathematical specification for the local
    fixed-level resultant certificates; do not import the analytic proof.
 9. Treat `hex-dev` as licensed algorithmic design evidence, while retaining
