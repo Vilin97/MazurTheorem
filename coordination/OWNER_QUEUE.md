@@ -17,7 +17,7 @@ are temporary compiled handoffs and receive no completion credit.
 | `MT-TC-A2-PRODUCT-FORMULA` | `codex/mt-a2-product-formula`, separate Tau Ceti worktree | Prove the residue-degree-weighted product formula using the permanent A1 `orderSystem` and compile the immutable `degreeZero` consumer. |
 | `MT-FFGS-BASIC` | `codex/mazur-owner-uw`, integrated checkpoint | Extend the checked point-representing kernels, constant/diagonalizable examples, `μ_n` multiplication kernel, and constant-group quotient to a generic finite-flat closed-subgroup quotient; prove kernel/quotient base-change compatibility and compile a connected–étale consumer. The node remains incomplete and earns zero credit. |
 | `MT-O49-TOWER` | `codex/owner-o49-tower`, separate worktree | Derive the exact order-49 bridge from the checked X₀(49) correspondence endpoint and compile the point-order consumer. |
-| Integration and finite-endpoint triage | `codex/mazur-owner-uw`, this worktree | Review workers, preserve API coherence, and advance the next independent finite or foundational lane. |
+| `MT-X11-COSET` and integration | `codex/mazur-owner-uw`, this worktree | Build the five-isogeny descent on the checked explicit Vélu/dual formulas and their total multiplication-by-five composition; next prove the map laws and exact Selmer/coset bound. Review worker checkpoints without weakening consumer requirements. |
 
 ## Open Challenge registry
 
@@ -26,7 +26,7 @@ destination and named downstream consumer compile and the Challenge file becomes
 
 | Node | Contract file | State | Current route |
 |---|---|---|---|
-| `MT-X11-COSET` | `Challenge/XOneElevenCoset.lean` | open | Complete the one remaining five-isogeny Selmer/coset computation. |
+| `MT-X11-COSET` | `Challenge/XOneElevenCoset.lean` | open | Explicit rational Vélu and dual maps now have a checked total composition equal to multiplication by five. Prove their homomorphism laws, formalize the two Selmer computations, and close the exact coset bound. |
 | `MT-X13-NONCUSP` | `Challenge/XOneThirteenNoncusp.lean` | research open | Finish the genus-two rational-point classification from the checked split-19/Pell data. |
 | `MT-X18-NONCUSP` | `Challenge/XOneEighteenNoncusp.lean` | research open | Classify rational points on the checked X₁(18) genus-two model. |
 | `MT-O25-EXCLUDE` | `Challenge/OrderTwentyFive.lean` | research open | Build the order-25 modular/Tate reduction and endpoint. |
@@ -44,7 +44,7 @@ an external blocker. Nodes on independent lanes remain eligible for parallel wor
 
 ### Finite endpoints — 100 points
 
-1. `MT-X11-COSET` — open/compiled, 12; prove the exact Challenge contract.
+1. `MT-X11-COSET` — open/compiled, 12; the explicit degree-five maps, rational kernel classification, absence of extra rational 5-division roots, and total multiplication-by-five composition are checked. The remaining acceptance boundary is genuine map additivity plus the Kummer/dual Selmer computation proving the exact Challenge contract.
 2. `MT-X11-JOIN` — blocked by X11 cosets, 2; compile the unconditional order-11 exclusion.
 3. `MT-X13-NONCUSP` — research-open/compiled, 26; prove the exact Challenge contract.
 4. `MT-X18-NONCUSP` — research-open/compiled, 18; prove the exact Challenge contract.
@@ -66,7 +66,7 @@ an external blocker. Nodes on independent lanes remain eligible for parallel wor
 9. `MT-TC-E0-PRODUCT-DIM` — audited open contract, 2. The pinned API reduces it exactly to topological-Krull-dimension additivity for a scheme fiber product; the route needs integral-extension dimension invariance, finite-type tensor-product dimension/Noether normalization, or an equivalent bridge from fixed smooth relative dimension. Product-with-trivial and smooth-relative-dimension-addition boundary lemmas compile but do not yet have a permanent consumer.
 10. `MT-TC-E1-JACOBIAN-VARIETY` — blocked by D2+E0, 20; Jacobian representation, dimension/genus, genus-one consumers.
 11. `MT-TC-F1-ABEL-JACOBI` — blocked by C1+E1, 20; universal property, base change, closed immersion.
-12. `MT-EC-ISOGENY-WEIL` — independent planned lane, 25; quotients by finite subgroups, duals, multiplication kernels, Weil pairing, and named elliptic/modular consumers.
+12. `MT-EC-ISOGENY-WEIL` — independent planned lane, 25; the explicit `X₁(11)` Vélu/dual pair is now a checked multiplication-by-five point-level consumer, but it does not replace the generic quotient, homomorphism, duality, multiplication-kernel, and Weil-pairing interfaces required here.
 
 ### Prime infrastructure — 400 points
 
