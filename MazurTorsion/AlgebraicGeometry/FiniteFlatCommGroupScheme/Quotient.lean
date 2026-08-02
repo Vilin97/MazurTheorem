@@ -23,6 +23,7 @@ arbitrary finite-flat closed subgroup quotient is representable as an fppf sheaf
 noncomputable section
 
 open CategoryTheory
+open scoped CategoryTheory.MonObj
 
 namespace AlgebraicGeometry
 namespace FiniteFlatCommGroupScheme
@@ -117,6 +118,25 @@ noncomputable def constantQuotientRealizeBaseChangeIso
         (constantQuotient R N) ≅
       ((constantQuotientAffine R N).baseChange (K := K)).realize :=
   constantRealizeBaseChangeIso (R := R) (K := K) (G ⧸ N)
+
+/-- Geometric base change of a constant quotient is canonically the named constant quotient
+over the new base.  This is the concrete constant-family statement and does not assert
+representability of quotients by arbitrary finite-flat closed subgroups. -/
+noncomputable def constantQuotientBaseChangeIso
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    {G : Type u} [CommGroup G] [Fintype G] (N : Subgroup G) :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (constantQuotient R N) ≅ constantQuotient K N :=
+  constantBaseChangeIso (R := R) (K := K) (G ⧸ N)
+
+/-- The named constant-quotient base-change isomorphism acts on points of every test scheme. -/
+def constantQuotientBaseChangePointMulEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    {G : Type u} [CommGroup G] [Fintype G] (N : Subgroup G)
+    (X : Over (Spec (.of K))) :
+    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (constantQuotient R N)).Point X ≃* (constantQuotient K N).Point X :=
+  pointMulEquivOfIso (constantQuotientBaseChangeIso (R := R) (K := K) N) X
 
 end FiniteFlatCommGroupScheme
 end AlgebraicGeometry

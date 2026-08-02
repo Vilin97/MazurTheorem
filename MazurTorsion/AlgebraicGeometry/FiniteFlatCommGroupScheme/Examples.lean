@@ -26,7 +26,7 @@ noncomputable section
 
 open CategoryTheory Opposite WithConv
 open CategoryTheory.MonoidalCategory CategoryTheory.MonObj
-open scoped CategoryTheory.MonObj
+open scoped TensorProduct CategoryTheory.MonObj
 
 namespace AlgebraicGeometry
 namespace FiniteFlatCommGroupScheme
@@ -50,6 +50,115 @@ abbrev diagonalizableScheme (R : Type u) [CommRing R]
     FiniteFlatCommGroupScheme (Spec (.of R)) :=
   (diagonalizable R M).realize
 
+/-- The canonical scalar-extension map from a tensor product of a group algebra to the group
+algebra over the new base. -/
+def diagonalizableBaseChangeAlgHom
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] :
+    K ⊗[R] MonoidAlgebra R M →ₐ[K] MonoidAlgebra K M :=
+  Algebra.TensorProduct.lift (Algebra.ofId K (MonoidAlgebra K M))
+    (MonoidAlgebra.mapAlgHom M (Algebra.ofId R K)) (fun _ _ ↦ Commute.all _ _)
+
+@[simp]
+theorem diagonalizableBaseChangeAlgHom_tmul_single
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] (s : K) (m : M) (r : R) :
+    diagonalizableBaseChangeAlgHom (R := R) (K := K) M
+        (s ⊗ₜ[R] MonoidAlgebra.single m r) =
+      MonoidAlgebra.single m (s * algebraMap R K r) := by
+  rw [diagonalizableBaseChangeAlgHom, Algebra.TensorProduct.lift_tmul,
+    MonoidAlgebra.mapAlgHom_single]
+  simp [MonoidAlgebra.single_mul_single]
+
+/-- Scalar extension commutes with group-algebra coordinates. -/
+def diagonalizableBaseChangeAlgEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] :
+    K ⊗[R] MonoidAlgebra R M ≃ₐ[K] MonoidAlgebra K M := by
+  let f := diagonalizableBaseChangeAlgHom (R := R) (K := K) M
+  let bsource := (MonoidAlgebra.basis M R).baseChange K
+  let btarget := MonoidAlgebra.basis M K
+  let l := bsource.equiv btarget (Equiv.refl M)
+  have hlin : f.toLinearMap = l.toLinearMap := by
+    apply bsource.ext
+    intro m
+    simp [f, l, bsource, btarget, Module.Basis.baseChange_apply,
+      MonoidAlgebra.basis_apply, diagonalizableBaseChangeAlgHom_tmul_single]
+    simpa [bsource, btarget, Module.Basis.baseChange_apply, MonoidAlgebra.basis_apply]
+      using (Module.Basis.equiv_apply bsource m btarget (Equiv.refl M)).symm
+  have hbij : Function.Bijective f.toLinearMap := by
+    rw [hlin]
+    exact l.bijective
+  exact AlgEquiv.ofBijective f hbij
+
+@[simp]
+theorem diagonalizableBaseChangeAlgEquiv_apply
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] (x : K ⊗[R] MonoidAlgebra R M) :
+    diagonalizableBaseChangeAlgEquiv (R := R) (K := K) M x =
+      diagonalizableBaseChangeAlgHom (R := R) (K := K) M x := rfl
+
+/-- The group-algebra scalar-extension equivalence preserves counit and comultiplication. -/
+def diagonalizableBaseChangeBialgEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] :
+    K ⊗[R] MonoidAlgebra R M ≃ₐc[K] MonoidAlgebra K M := by
+  let e := diagonalizableBaseChangeAlgEquiv (R := R) (K := K) M
+  let f := diagonalizableBaseChangeAlgHom (R := R) (K := K) M
+  have he : e.toLinearMap = f.toLinearMap := rfl
+  let bsource := (MonoidAlgebra.basis M R).baseChange K
+  let c : K ⊗[R] MonoidAlgebra R M ≃ₗc[K] MonoidAlgebra K M :=
+    { e.toLinearEquiv with
+      counit_comp := by
+        apply bsource.ext
+        intro m
+        simp only [LinearMap.comp_apply, bsource, Module.Basis.baseChange_apply,
+          MonoidAlgebra.basis_apply]
+        change Coalgebra.counit (R := K) (e.toLinearMap
+            (1 ⊗ₜ[R] MonoidAlgebra.single m 1)) = _
+        rw [he]
+        change Coalgebra.counit (R := K)
+            (f (1 ⊗ₜ[R] MonoidAlgebra.single m 1)) = _
+        rw [diagonalizableBaseChangeAlgHom_tmul_single, TensorProduct.counit_tmul]
+        simp
+      map_comp_comul := by
+        apply bsource.ext
+        intro m
+        simp only [LinearMap.comp_apply, bsource, Module.Basis.baseChange_apply,
+          MonoidAlgebra.basis_apply]
+        change TensorProduct.map e.toLinearMap e.toLinearMap
+              (Coalgebra.comul (R := K)
+                (1 ⊗ₜ[R] MonoidAlgebra.single m (1 : R))) =
+            Coalgebra.comul (R := K) (e.toLinearMap
+              (1 ⊗ₜ[R] MonoidAlgebra.single m 1))
+        rw [he]
+        change TensorProduct.map f.toLinearMap f.toLinearMap
+              (Coalgebra.comul (R := K)
+                (1 ⊗ₜ[R] MonoidAlgebra.single m (1 : R))) =
+            Coalgebra.comul (R := K)
+              (f (1 ⊗ₜ[R] MonoidAlgebra.single m 1))
+        rw [TensorProduct.comul_tmul, diagonalizableBaseChangeAlgHom_tmul_single]
+        simp only [CommSemiring.comul_apply, MonoidAlgebra.comul_single,
+          TensorProduct.map_tmul, MonoidAlgebra.lsingle_apply,
+          TensorProduct.AlgebraTensorModule.tensorTensorTensorComm_tmul,
+          AlgHom.toLinearMap_apply, map_one, _root_.mul_one]
+        change diagonalizableBaseChangeAlgHom (R := R) (K := K) M
+              (1 ⊗ₜ[R] MonoidAlgebra.single m 1) ⊗ₜ[K]
+            diagonalizableBaseChangeAlgHom (R := R) (K := K) M
+              (1 ⊗ₜ[R] MonoidAlgebra.single m 1) =
+          MonoidAlgebra.single m 1 ⊗ₜ[K] MonoidAlgebra.single m 1
+        simp }
+  exact BialgEquiv.mk c e.map_mul
+
+/-- Coordinate scalar extension of a diagonalizable affine group is the named diagonalizable
+affine group over the new base. -/
+def diagonalizableAffineBaseChangeIso
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] [Fintype M] :
+    (diagonalizable R M).baseChange (K := K) ≅ diagonalizable K M :=
+  AffineFiniteFreeCommGroupScheme.isoOfCoordinateBialgEquiv
+    (diagonalizableBaseChangeBialgEquiv (R := R) (K := K) M)
+
 /-- Geometric pullback of a diagonalizable scheme is canonically its Hopf-coordinate scalar
 extension.  This is the base-change bridge used by the concrete examples below. -/
 noncomputable def diagonalizableRealizeBaseChangeIso
@@ -59,6 +168,26 @@ noncomputable def diagonalizableRealizeBaseChangeIso
         (diagonalizableScheme R M) ≅
       ((diagonalizable R M).baseChange (K := K)).realize :=
   (diagonalizable R M).realizeBaseChangeIso
+
+/-- Geometric base change of a diagonalizable finite group scheme is canonically the named
+diagonalizable scheme over the new base. -/
+noncomputable def diagonalizableBaseChangeIso
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] [Fintype M] :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (diagonalizableScheme R M) ≅ diagonalizableScheme K M :=
+  diagonalizableRealizeBaseChangeIso (R := R) (K := K) M ≪≫
+    (AffineFiniteFreeCommGroupScheme.realizationFunctor K).mapIso
+      (diagonalizableAffineBaseChangeIso (R := R) (K := K) M)
+
+/-- The named diagonalizable-family base-change isomorphism acts on points of every test
+scheme. -/
+def diagonalizableBaseChangePointMulEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (M : Type u) [CommGroup M] [Fintype M] (X : Over (Spec (.of K))) :
+    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (diagonalizableScheme R M)).Point X ≃* (diagonalizableScheme K M).Point X :=
+  pointMulEquivOfIso (diagonalizableBaseChangeIso (R := R) (K := K) M) X
 
 /-- Geometric affine points of `D(M)` are characters of `M`. -/
 def diagonalizablePointMulEquiv (R : Type u) [CommRing R]
@@ -86,6 +215,24 @@ noncomputable def muRealizeBaseChangeIso
     (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj (muScheme R n) ≅
       ((mu R n).baseChange (K := K)).realize :=
   (mu R n).realizeBaseChangeIso
+
+/-- Geometric base change of `mu_n` is canonically the named `mu_n` over the new base. -/
+noncomputable def muBaseChangeIso
+    {R K : Type} [CommRing R] [CommRing K] [Algebra R K]
+    (n : ℕ) [NeZero n] :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj (muScheme R n) ≅
+      muScheme K n :=
+  diagonalizableBaseChangeIso (R := R) (K := K) (Multiplicative (ZMod n))
+
+/-- The named `mu_n` base-change isomorphism acts on points of every affine test scheme. -/
+def muBaseChangePointMulEquiv
+    {R K : Type} [CommRing R] [CommRing K] [Algebra R K]
+    (n : ℕ) [NeZero n] (B : Type) [CommRing B] [Algebra K B] :
+    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (muScheme R n)).Point (AffineCommGroupScheme.testObject (R := K) B) ≃*
+      (muScheme K n).Point (AffineCommGroupScheme.testObject (R := K) B) :=
+  pointMulEquivOfIso (muBaseChangeIso (R := R) (K := K) n)
+    (AffineCommGroupScheme.testObject (R := K) B)
 
 /-- Geometric affine points of `mu_n` are exactly `n`th roots of unity. -/
 def muPointMulEquiv (R : Type) [CommRing R] (n : ℕ) [NeZero n]
