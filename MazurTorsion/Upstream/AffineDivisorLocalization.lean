@@ -19,13 +19,15 @@ For a principal open, equality of the localized explicit ideals is then carried 
 module representatives, module localization, tilde, and restriction to an actual sheaf
 isomorphism. The stronger common-extension comparison is now proved on nonempty principal opens:
 the actual chosen restriction is tilde of the inverse ideal extended inside the common fraction
-field. For two coordinate rings mapping compatibly through a common affine overlap, equality of
-their extended ideals is isolated separately and identifies the two extended ideal modules and
-their tilde sheaves. On general affine overlaps, identifying each chosen chart restriction remains
-an explicit boundary; together those inputs give a checked restriction isomorphism. Establishing
-the cross-chart extension equality, choosing the resulting isomorphisms coherently, proving the
-triple cocycle, and proving module effectivity remain open in the current Mathlib and Tau Ceti
-dependency graph.
+field. In the same-chart case, abstract localized-ideal equality is converted to equality of
+those common-field extensions and hence directly to an isomorphism of the chosen restrictions.
+For two coordinate rings mapping compatibly through a common affine overlap, equality of their
+extended ideals is isolated separately and identifies the two extended ideal modules and their
+tilde sheaves. On general affine overlaps, identifying each chosen chart restriction remains an
+explicit boundary; together those inputs give a checked restriction isomorphism. Establishing the
+cross-chart extension equality, choosing the resulting isomorphisms coherently, proving the triple
+cocycle, and proving module effectivity remain open in the current Mathlib and Tau Ceti dependency
+graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -553,3 +555,145 @@ end PrincipalOpen
 end CommonExtension
 
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
+
+open CategoryTheory
+open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.WeilDivisor
+open scoped nonZeroDivisors
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+
+private noncomputable def localizedFractionEquiv
+    (R K : Type u) [CommRing R] [IsDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K] :
+    _root_.LocalizedModule.Away f (FractionRing R) ≃ₗ[Localization.Away f] K := by
+  let e := fractionEquiv R K
+  letI : IsLocalizedModule (.powers f) (LinearMap.id : K →ₗ[R] K) :=
+    isLocalizedModule_id (.powers f) K (Localization.Away f)
+  have hlocal : IsLocalizedModule (.powers f)
+      ((LinearMap.id : K →ₗ[R] K) ∘ₗ e.toLinearMap) := inferInstance
+  have hcomp : (LinearMap.id : K →ₗ[R] K) ∘ₗ e.toLinearMap = e.toLinearMap := by
+    ext x
+    rfl
+  rw [hcomp] at hlocal
+  letI : IsLocalizedModule (.powers f) e.toLinearMap := hlocal
+  exact (IsLocalizedModule.linearEquiv (.powers f)
+    (_root_.LocalizedModule.mkLinearMap (.powers f) (FractionRing R))
+    e.toLinearMap).extendScalarsOfIsLocalization (.powers f) (Localization.Away f)
+
+private lemma localizedFractionEquiv_mk
+    (R K : Type u) [CommRing R] [IsDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (x : FractionRing R) :
+    localizedFractionEquiv R K f
+        (_root_.LocalizedModule.mkLinearMap (.powers f) (FractionRing R) x) =
+      fractionEquiv R K x := by
+  simp only [localizedFractionEquiv,
+    LinearEquiv.extendScalarsOfIsLocalization_apply]
+  rw [IsLocalizedModule.linearEquiv_apply]
+  rfl
+
+private lemma map_localized_inverseIdeal_eq_span
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    ((ExplicitIdeal.inverseIdeal R K D).localized (.powers f)).map
+        (localizedFractionEquiv R K f).toLinearMap =
+      Submodule.span (Localization.Away f)
+        (fractionEquiv R K ''
+          (ExplicitIdeal.inverseIdeal R K D : Set (FractionRing R))) := by
+  change ((ExplicitIdeal.inverseIdeal R K D).localized'
+      (Localization.Away f) (.powers f)
+      (_root_.LocalizedModule.mkLinearMap (.powers f) (FractionRing R))).map
+        (localizedFractionEquiv R K f).toLinearMap = _
+  rw [Submodule.localized'_eq_span, Submodule.map_span]
+  congr 1
+  rw [Set.image_image]
+  apply Set.image_congr
+  intro x hx
+  exact localizedFractionEquiv_mk R K f x
+
+private lemma map_localized_inverseIdeal_eq_extended
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    ((ExplicitIdeal.inverseIdeal R K D).localized (.powers f)).map
+        (localizedFractionEquiv R K f).toLinearMap =
+      extendedInverseIdeal R (Localization.Away f) K D := by
+  rw [map_localized_inverseIdeal_eq_span]
+  have himage :
+      fractionEquiv R K ''
+          (ExplicitIdeal.inverseIdeal R K D : Set (FractionRing R)) =
+        (originalInverseIdeal R K D : Set K) := by
+    change (fractionEquiv R K).toLinearMap ''
+        (ExplicitIdeal.inverseIdeal R K D : Set (FractionRing R)) = _
+    rw [← Submodule.map_coe, inverseIdeal_map_fractionEquiv R K D]
+  rw [himage]
+  symm
+  simpa using extendedInverseIdeal_eq_span R (Localization.Away f) K D
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+/-- Equality of the explicit inverse ideals after abstract module localization gives the
+same-chart overlap-extension equality inside a compatible common fraction field. -/
+theorem overlapInverseIdealExtensionEq_away
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (h : InverseIdealLocalizationEq R K D E f) :
+    OverlapInverseIdealExtensionEq
+      R R (Localization.Away f) K D E := by
+  refine ⟨inferInstance, inferInstance, ?_⟩
+  apply Units.ext
+  apply FractionalIdeal.coeToSubmodule_injective
+  change CommonExtension.extendedInverseIdeal R (Localization.Away f) K D =
+    CommonExtension.extendedInverseIdeal R (Localization.Away f) K E
+  rw [← CommonExtension.map_localized_inverseIdeal_eq_extended R K f D,
+    ← CommonExtension.map_localized_inverseIdeal_eq_extended R K f E, h]
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+
+/-- Same-chart localized inverse-ideal equality directly produces an isomorphism between the
+chosen line-bundle restrictions on the corresponding nonempty principal open. -/
+noncomputable def chosenLineBundleRestrictionIsoAwayOfLocalizationEq
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (h : Boundary.InverseIdealLocalizationEq R K D E f) :
+    (AffineDedekind.lineBundle R K D).obj.restrict
+        (extensionMap R (Localization.Away f)) ≅
+      (AffineDedekind.lineBundle R K E).obj.restrict
+        (extensionMap R (Localization.Away f)) :=
+  chosenLineBundleRestrictionIsoAway R K f D E
+    (Boundary.overlapInverseIdealExtensionEq_away R K f D E h)
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension

@@ -30,7 +30,9 @@ ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change identification. The latter is now proved on nonempty principal
 opens, with a checked consumer combining it with extension equality into an isomorphism of the
-actual chosen restrictions. Canonical Picard surjectivity is proved
+actual chosen restrictions. In the same-chart principal-open case, localized inverse-ideal
+equality supplies that extension equality and therefore the actual restriction isomorphism
+directly. Canonical Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
 What remains here includes discharging those comparison inputs, proving that smooth affine curve
@@ -66,14 +68,17 @@ For a divisor-indexed cocycle family, objectwise effectivity, tensor-additivity,
 of the zero-divisor bundle construct an actual divisor-to-Picard homomorphism: the bundle for
 `-D` is an explicit inverse to the bundle for `D`. Coherent triviality of the principal cocycles
 supplies zero triviality and descends this map to divisor classes under object separation. Exact
-principal kernel gives an equivalence with the actual Picard range, and adding surjectivity gives
-the full divisor-class/Picard equivalence without a global tensor-inverse comparison. Such a
-comparison is still required only by the stronger `DivisorPicard.Dictionary`, which records the
-class of every invertible sheaf. No inhabitant of the required divisor cocycle system,
+principal kernel is equivalent, under coherent principal triviality and object separation, to
+`ExplicitInverse.TrivialLineBundleDetectsPrincipal`: only principal divisors have globally
+trivial descended line bundle. Exactness gives an equivalence with the actual Picard range, and
+adding surjectivity gives the full divisor-class/Picard equivalence without a global
+tensor-inverse comparison. Such a comparison is still required only by the stronger
+`DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
+the required divisor cocycle system,
 cross-chart overlap-extension equality, arbitrary-overlap restriction/base-change
 identification, coherent overlap system, module-effectivity, coherent-principal-triviality,
-prestack/object-separation, exact-kernel, surjectivity, or global tensor-inverse comparison is
-asserted. The remaining localization predicates are precise
+prestack/object-separation, geometric-principal-detection, exact-kernel, surjectivity, or global
+tensor-inverse comparison is asserted. The remaining localization predicates are precise
 compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
 separately registered open theorems. Those existence results remain open, so the contract earns
 no Mazur completion credit.

@@ -20,12 +20,13 @@ skeleton, no higher tensor coherence is needed.
 
 If every principal cocycle is coherently trivial and module descent separates global objects,
 the homomorphism kills principal divisors and therefore descends to divisor classes. With the
-additional exact-kernel and surjectivity inputs, the explicit-inverse construction supplies the
-full divisor-class/Picard equivalence without comparing unrelated invertible sheaves. The more
-structured `DivisorPicard.Dictionary` still records the global forward comparison and remains
-conditional on it. This file does not assert existence of the cocycle family, effectivity,
-tensor-additivity, zero or principal coherence, object separation, exactness, surjectivity, or
-the global forward comparison.
+additional geometric assertion that only principal divisors have globally trivial descended line
+bundle, the principal kernel is exact; checked code also proves the converse. This exactness and
+surjectivity supply the full divisor-class/Picard equivalence without comparing unrelated
+invertible sheaves. The more structured `DivisorPicard.Dictionary` still records the global
+forward comparison and remains conditional on it. This file does not assert existence of the
+cocycle family, effectivity, tensor-additivity, zero or principal coherence, object separation,
+principal detection, exactness, surjectivity, or the global forward comparison.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -297,6 +298,23 @@ lemma divisorPicClass_eq_toPic
   apply Units.ext
   rw [divisorPicClass_val, hX.toPic_val]
 
+/-- The geometric injectivity boundary for descended divisor line bundles: if the line bundle
+of `D` is globally trivial, then `D` belongs to the principal subgroup. Together with coherent
+principal triviality and object separation, this is exactly the principal-kernel condition for
+the resulting explicit Picard map. -/
+def TrivialLineBundleDetectsPrincipal
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C) : Prop :=
+  ∀ D, Nonempty
+      ((descendedLineBundle X U hnonempty hcover hU h C heffective D).obj ≅
+        (InvertibleSheaf.trivial X).obj) →
+    D ∈ S.principalSubgroup
+
 /-- Coherent principal triviality makes the explicit divisor homomorphism kill principal
 divisors. -/
 theorem divisorToPic_principalTrivial
@@ -327,6 +345,94 @@ theorem divisorToPic_principalTrivial
     (descendedLineBundle_principal_iso_trivial X U hnonempty hcover hU h S C
       heffective hinjective hprincipal g).some ≪≫
       TensorInverseComparison.trivialIsoTensorUnit⟩
+
+/-- Under object separation, geometric detection of principal divisors upgrades coherent
+principal triviality to the exact principal kernel required for divisor-class injectivity. -/
+theorem hasPrincipalKernel_of_trivialLineBundleDetectsPrincipal
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (hzero : DescendedZeroTrivial X U hnonempty hcover hU h C heffective)
+    (hinjective : LineBundleDescent.ModuleDescentEssentiallyInjectiveFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C)
+    (hdetect : TrivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective) :
+    DivisorPicard.HasPrincipalKernel S
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero) := by
+  apply AddSubgroup.ext
+  intro D
+  rw [AddMonoidHom.mem_ker]
+  constructor
+  · intro hD
+    apply hdetect D
+    change divisorPicClass X U hnonempty hcover hU h C heffective hadd hzero D = 1 at hD
+    have hskel := congrArg Units.val hD
+    rw [divisorPicClass_val] at hskel
+    change toSkeleton
+        (descendedLineBundle X U hnonempty hcover hU h C heffective D).obj =
+      toSkeleton (𝟙_ X.Modules) at hskel
+    exact ⟨(toSkeleton_eq_toSkeleton_iff.mp hskel).some ≪≫
+      TensorInverseComparison.trivialIsoTensorUnit.symm⟩
+  · intro hD
+    obtain ⟨g, rfl⟩ := S.mem_principalSubgroup.mp hD
+    exact divisorToPic_principalTrivial X U hnonempty hcover hU h S C heffective hadd
+      hzero hinjective hprincipal g
+
+/-- Exact principal kernel conversely forces global triviality of a descended divisor line
+bundle to detect a principal divisor. -/
+theorem trivialLineBundleDetectsPrincipal_of_hasPrincipalKernel
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (hzero : DescendedZeroTrivial X U hnonempty hcover hU h C heffective)
+    (hker : DivisorPicard.HasPrincipalKernel S
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero)) :
+    TrivialLineBundleDetectsPrincipal X U hnonempty hcover hU h S C heffective := by
+  intro D htrivial
+  rw [← hker, AddMonoidHom.mem_ker]
+  change divisorPicClass X U hnonempty hcover hU h C heffective hadd hzero D = 1
+  apply Units.ext
+  rw [divisorPicClass_val]
+  change toSkeleton
+      (descendedLineBundle X U hnonempty hcover hU h C heffective D).obj =
+    toSkeleton (𝟙_ X.Modules)
+  exact toSkeleton_eq_toSkeleton_iff.mpr
+    ⟨htrivial.some ≪≫ TensorInverseComparison.trivialIsoTensorUnit⟩
+
+/-- Under coherent principal triviality and object separation, exactness of the divisor Picard
+map is equivalent to the geometric assertion that only principal divisors have trivial
+descended line bundle. -/
+theorem hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (hzero : DescendedZeroTrivial X U hnonempty hcover hU h C heffective)
+    (hinjective : LineBundleDescent.ModuleDescentEssentiallyInjectiveFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C) :
+    DivisorPicard.HasPrincipalKernel S
+        (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero) ↔
+      TrivialLineBundleDetectsPrincipal X U hnonempty hcover hU h S C heffective :=
+  ⟨trivialLineBundleDetectsPrincipal_of_hasPrincipalKernel
+      X U hnonempty hcover hU h S C heffective hadd hzero,
+    hasPrincipalKernel_of_trivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective hadd hzero hinjective hprincipal⟩
 
 /-- Descend the explicit divisor homomorphism to divisor classes, still without any ambient
 invertible-sheaf/Picard comparison. -/
@@ -440,6 +546,32 @@ noncomputable def classEquivPicard
     DivisorPicard.ClassEquivalence S X :=
   DivisorPicard.classEquivPicard S
     (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero) hker hsurjective
+
+/-- Under coherent principal triviality and object separation, the geometric principal-detection
+condition and Picard surjectivity give the full divisor-class/Picard equivalence. This consumer
+replaces the abstract kernel equality by its equivalent line-bundle formulation. -/
+noncomputable def classEquivPicardOfTrivialLineBundleDetection
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (hzero : DescendedZeroTrivial X U hnonempty hcover hU h C heffective)
+    (hinjective : LineBundleDescent.ModuleDescentEssentiallyInjectiveFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C)
+    (hdetect : TrivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero)) :
+    DivisorPicard.ClassEquivalence S X :=
+  classEquivPicard X U hnonempty hcover hU h S C heffective hadd hzero
+    (hasPrincipalKernel_of_trivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective hadd hzero hinjective hprincipal hdetect)
+    hsurjective
 
 /-- Adding the global comparison for arbitrary invertible sheaves packages the same explicit
 divisor-generated map and its chosen descended representatives into the stronger exact
