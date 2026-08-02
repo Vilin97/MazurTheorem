@@ -186,16 +186,16 @@ theorem hasConstantOrder_baseChange {G : FiniteFlatCommGroupScheme S} {n : ℕ}
 
 /-- The underlying scheme of the scheme-theoretic kernel of `f`, obtained by pulling `G` back
 along the identity section of `H`. -/
-def kernelScheme {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) : Scheme.{u} :=
+abbrev kernelScheme {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) : Scheme.{u} :=
   pullback (hom f) (η[H.obj.X].left)
 
 /-- The canonical map from the scheme-theoretic kernel to the source group scheme. -/
-def kernelι {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+abbrev kernelι {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
     kernelScheme f ⟶ G.scheme :=
   pullback.fst (hom f) (η[H.obj.X].left)
 
 /-- The structure morphism of the underlying scheme-theoretic kernel. -/
-def kernelStructureMap {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+abbrev kernelStructureMap {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
     kernelScheme f ⟶ S :=
   pullback.snd (hom f) (η[H.obj.X].left)
 
@@ -320,6 +320,15 @@ noncomputable def kernelFiniteFlat {G H : FiniteFlatCommGroupScheme S} (f : G �
     rw [← kernelGrpSchemeIso_hom_structureMap f]
     exact ⟨inferInstance, inferInstance⟩
 
+/-- The finite-flat kernel of `f`, under the exact geometric hypotheses needed over the base.
+
+Flatness of kernels is not automatic over an arbitrary scheme, so the hypotheses deliberately
+remain visible at this public entry point. -/
+noncomputable abbrev kernel {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    FiniteFlatCommGroupScheme S :=
+  kernelFiniteFlat f
+
 /-- The inclusion of the finite-flat kernel into its source. -/
 noncomputable def kernelFiniteFlatInclusion
     {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
@@ -327,14 +336,21 @@ noncomputable def kernelFiniteFlatInclusion
     kernelFiniteFlat f ⟶ G :=
   ObjectProperty.homMk (kernelCommGroupSchemeInclusion f)
 
+/-- The canonical inclusion of the finite-flat kernel. -/
+noncomputable abbrev kernelInclusion
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
+    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
+    kernel f ⟶ G :=
+  kernelFiniteFlatInclusion f
+
 /-- The canonical finite-flat kernel presentation under the precise hypotheses needed to put
 the inherited group scheme in `FiniteFlatCommGroupScheme S`. -/
 noncomputable def kernelPresentationOfFiniteFlat
     {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)
     [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :
     KernelPresentation f where
-  kernel := kernelFiniteFlat f
-  inclusion := kernelFiniteFlatInclusion f
+  kernel := kernel f
+  inclusion := kernelInclusion f
   schemeIso := kernelGrpSchemeIso f
   schemeIso_hom_structureMap := kernelGrpSchemeIso_hom_structureMap f
   schemeIso_hom_kernelι := kernelGrpSchemeIso_hom_kernelι f
@@ -357,6 +373,77 @@ theorem inclusion_condition (P : KernelPresentation f) :
     hom P.inclusion ≫ hom f = P.kernel.structureMap ≫ η[H.obj.X].left := by
   rw [← P.schemeIso_hom_kernelι, Category.assoc, kernel_condition, ← Category.assoc,
     P.schemeIso_hom_structureMap]
+
+/-- A point of a certified scheme-theoretic kernel maps to the identity in the target. -/
+theorem mapPoint_inclusion_eq_one (P : KernelPresentation f) (X : Over S)
+    (y : P.kernel.Point X) :
+    mapPoint f X (mapPoint P.inclusion X y) = 1 := by
+  apply Over.OverMorphism.ext
+  change (y.left ≫ hom P.inclusion) ≫ hom f = X.hom ≫ η[H.obj.X].left
+  rw [Category.assoc, P.inclusion_condition, ← Category.assoc, Over.w y]
+
+/-- Pointwise kernel membership is the scheme-theoretic pullback condition. -/
+theorem point_condition_scheme (X : Over S) (x : G.Point X)
+    (hx : mapPoint f X x = 1) :
+    x.left ≫ hom f = X.hom ≫ η[H.obj.X].left := by
+  have hxleft := congrArg Over.Hom.left hx
+  change x.left ≫ hom f = X.hom ≫ η[H.obj.X].left at hxleft
+  exact hxleft
+
+/-- Every point killed by `f` lifts uniquely to the certified scheme-theoretic kernel. -/
+theorem existsUnique_point_lift (P : KernelPresentation f) (X : Over S) (x : G.Point X)
+    (hx : mapPoint f X x = 1) :
+    ∃! y : P.kernel.Point X, mapPoint P.inclusion X y = x := by
+  let l : X.left ⟶ kernelScheme f :=
+    pullback.lift x.left X.hom (point_condition_scheme X x hx)
+  have hstruct : P.schemeIso.inv ≫ P.kernel.structureMap = kernelStructureMap f := by
+    apply (cancel_epi P.schemeIso.hom).1
+    simpa using P.schemeIso_hom_structureMap.symm
+  have hincl : P.schemeIso.inv ≫ hom P.inclusion = kernelι f := by
+    apply (cancel_epi P.schemeIso.hom).1
+    simpa using P.schemeIso_hom_kernelι.symm
+  let y : P.kernel.Point X := Over.homMk (l ≫ P.schemeIso.inv) (by
+    rw [Category.assoc, hstruct]
+    exact pullback.lift_snd _ _ _)
+  refine ⟨y, ?_, ?_⟩
+  · apply Over.OverMorphism.ext
+    change (l ≫ P.schemeIso.inv) ≫ hom P.inclusion = x.left
+    rw [Category.assoc, hincl]
+    exact pullback.lift_fst _ _ _
+  · intro z hz
+    apply Over.OverMorphism.ext
+    apply (cancel_mono P.schemeIso.hom).1
+    change z.left ≫ P.schemeIso.hom = (l ≫ P.schemeIso.inv) ≫ P.schemeIso.hom
+    rw [Category.assoc, P.schemeIso.inv_hom_id, Category.comp_id]
+    apply pullback.hom_ext
+    · rw [Category.assoc, P.schemeIso_hom_kernelι]
+      rw [show l ≫ kernelι f = x.left by exact pullback.lift_fst _ _ _]
+      exact congrArg Over.Hom.left hz
+    · rw [Category.assoc, P.schemeIso_hom_structureMap]
+      rw [show l ≫ kernelStructureMap f = X.hom by exact pullback.lift_snd _ _ _]
+      exact Over.w z
+
+/-- The inclusion identifies geometric kernel points with the actual kernel of the induced
+homomorphism on points. -/
+def pointKernelHom (P : KernelPresentation f) (X : Over S) :
+    P.kernel.Point X →* (mapPoint f X).ker :=
+  (mapPoint P.inclusion X).codRestrict (mapPoint f X).ker (P.mapPoint_inclusion_eq_one X)
+
+/-- Scheme-theoretic kernels represent the pointwise kernel functor, multiplicatively and on
+every test scheme over the base. -/
+noncomputable def pointMulEquiv (P : KernelPresentation f) (X : Over S) :
+    P.kernel.Point X ≃* (mapPoint f X).ker :=
+  MulEquiv.ofBijective (P.pointKernelHom X) ⟨by
+    intro a b hab
+    have hv : mapPoint P.inclusion X a = mapPoint P.inclusion X b :=
+      congrArg Subtype.val hab
+    exact (P.existsUnique_point_lift X (mapPoint P.inclusion X a)
+      (P.mapPoint_inclusion_eq_one X a)).unique rfl hv.symm, by
+    intro x
+    let h := P.existsUnique_point_lift X x.1 x.2
+    refine ⟨h.choose, ?_⟩
+    apply Subtype.ext
+    exact h.choose_spec.1⟩
 
 end KernelPresentation
 
