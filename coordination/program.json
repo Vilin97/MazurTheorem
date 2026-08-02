@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1422791,
-    "integrated_lean_modules": 645,
+    "integrated_lean_lines": 1423174,
+    "integrated_lean_modules": 646,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -1078,6 +1078,48 @@
           "state": "contract",
           "description": "Sharpen the affine Dedekind boundary: the full Picard comparison alone supplies the canonical divisor-class equivalence and exact dictionary.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.affineOpenHeightOneSpectrumEquiv",
+          "state": "contract",
+          "description": "Identify height-one primes of a Dedekind affine coordinate ring with the ambient codimension-one points lying in the chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility",
+          "state": "contract",
+          "description": "Isolate equality of the affine Dedekind valuations and scheme order homomorphisms on a chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor",
+          "state": "contract",
+          "description": "Transport the whole affine principal divisor to the ambient codimension-one points in the chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_principalDivisor",
+          "state": "contract",
+          "description": "Consume chart order compatibility to construct a local divisor-to-scheme-Picard map and prove principal triviality.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_kernel",
+          "state": "contract",
+          "description": "Prove that the chart divisor-to-Picard map has exactly the ambient principal divisors as its kernel.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivSchemePicRange",
+          "state": "contract",
+          "description": "Identify ambient chart divisor classes with the range of their canonical scheme-Picard realization.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -1108,7 +1150,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, then glue the checked inverse fractional-ideal tilde representatives across those charts. Discharge the checked tilde-reflection localization predicate for the forward comparison; canonical Picard surjectivity is now equivalent to the reverse tensor-unit/local-rank-one comparison. Reuse the checked basic-open tilde localization, objectwise tilde tensor-product isomorphism, exact affine principal kernel, and affine Dedekind equivalences, then prove global divisor-class/Picard surjectivity.",
+        "recommended_route": "Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts, transport the coordinate-spectrum Picard construction across `hU.isoSpec` to each open subscheme, and then glue the checked inverse fractional-ideal tilde representatives on overlaps. The height-one-prime/ambient-point equivalence, whole-principal-divisor reindexing, exact chart kernel, class descent, and range equivalence are already checked. Discharge the checked tilde-reflection localization predicate for the forward comparison; canonical Picard surjectivity is equivalent to the reverse tensor-unit/local-rank-one comparison. The order and tilde predicates are conditional APIs within the unchanged A3 Challenge, while the weighted product formula remains the independently registered A2 Challenge.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

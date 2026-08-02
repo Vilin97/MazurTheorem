@@ -25,8 +25,19 @@ principal divisors as kernel, divisor classes are equivalent to its range, and t
 line bundles are tensor-additive. Canonical Picard surjectivity is now proved equivalent to the
 reverse tensor-unit/local-rank-one comparison, while the forward affine gap is isolated as the
 checked localization predicate `AffineTilde.TildeReflectsInvertibility`. What remains here
-includes discharging those comparison inputs, global curve divisor gluing, and global
-divisor-class/Picard surjectivity. The contract is open and earns no Mazur completion credit.
+includes discharging those comparison inputs, proving the checked
+`AffineChart.DedekindOrderCompatibility` on curve charts, global curve divisor gluing, and
+global divisor-class/Picard surjectivity. The chart API already identifies height-one primes
+with ambient codimension-one points and consumes the compatibility to reindex whole principal
+divisors. Its local divisor-to-Picard map has exactly those principal divisors as kernel,
+descends injectively to chart divisor classes, and identifies them with its scheme-Picard range.
+`AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
+conditional interfaces, not solved existence results or separately registered Challenge
+declarations; discharging them remains part of this unchanged global A3 Challenge. The
+residue-degree product formula remains independently isolated by the registered A2 Challenge.
+Transport from the Picard group of a chart's coordinate spectrum to the open subscheme itself,
+and then overlap-compatible gluing to `X`, also remain open. The contract earns no Mazur
+completion credit.
 -/
 
 open AlgebraicGeometry

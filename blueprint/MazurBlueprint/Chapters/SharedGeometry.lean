@@ -75,11 +75,21 @@ bundles are tensor-additive. It also characterizes existence of the full affine 
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
 isolated as reflection of invertibility through tilde, and a checked consumer turns that precise
-localization predicate into the forward tensor-inverse comparison. None of these affine results
-discharges those remaining comparison inputs or supplies global proper-curve gluing and
-surjectivity.
-The contract does not yet normalize the global correspondence on affine charts to the
-standard-sign construction checked in the affine API.
+localization predicate into the forward tensor-inverse comparison. The chart API canonically
+identifies height-one primes of a Dedekind affine coordinate ring with the ambient
+codimension-one points lying in the chart. It isolates equality of the Dedekind and scheme order
+homomorphisms as `AffineChart.DedekindOrderCompatibility`, then genuinely consumes both fields:
+whole principal divisors are related by reindexing and the induced local divisor-to-scheme-Picard
+map has exactly those principal divisors as kernel. It therefore descends injectively to chart
+divisor classes and identifies them with its scheme-Picard range. None of these affine results
+proves that order compatibility, discharges the remaining Picard-comparison inputs, or supplies
+transport from `Pic(Spec Γ(X, U))` to `Pic(U)`, global proper-curve gluing, or surjectivity.
+`AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
+conditional interfaces rather than solved existence results or separately registered Challenge
+declarations; their discharge remains part of the unchanged global A3 Challenge. The weighted
+product formula remains independently isolated by the registered A2 Challenge. Artifact state
+`contract` records a compiled conditional API and does not assert that these predicates are
+inhabited or that A3 is solved.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -187,6 +197,27 @@ standard-sign construction checked in the affine API.
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison`
   Sharpen the affine Dedekind boundary: the full Picard comparison alone supplies the canonical
   divisor-class equivalence and hence the exact dictionary.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.affineOpenHeightOneSpectrumEquiv`
+  Identify height-one primes of a Dedekind affine coordinate ring with the ambient
+  codimension-one points in the chart.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility`
+  Isolate equality of the affine Dedekind valuations and scheme order homomorphisms on a chart.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor`
+  Transport the whole affine principal divisor to the ambient chart points.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_principalDivisor`
+  Construct and consume the chart divisor-to-scheme-Picard map, proving principal triviality.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_kernel`
+  Prove that the chart divisor-to-Picard map has exactly the ambient principal divisors as its
+  kernel.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivSchemePicRange`
+  Give the strongest unconditional conclusion from the chart compatibility: divisor classes
+  are equivalent to the range of their canonical scheme-Picard realization.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
