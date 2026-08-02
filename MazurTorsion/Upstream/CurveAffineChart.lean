@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.DivisorLineBundle
+import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.GroupTheory.ArchimedeanDensely
 import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
@@ -27,7 +28,8 @@ strong monoidality of pullback as an upstream-compatible sufficient datum for tr
 `Pic(U)` and consumes that datum to preserve the principal kernel, class descent, and range
 equivalence. Constructing the datum and overlap-compatible gluing to `X` remain separate
 obligations. For smooth curves, supplying the current library's missing route from smoothness
-and relative dimension one to the two commutative-algebra conditions remains open.
+and relative dimension one to the two commutative-algebra conditions is isolated mapwise below;
+that input directly constructs the required Dedekind order compatibility.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineChart
@@ -492,6 +494,34 @@ theorem affineOpen_isDedekindDomain_iff
           { toIsNoetherian := inferInstance
             toDimensionLEOne := inferInstance
             toIsIntegralClosure := inferInstance } }
+
+/-- The missing commutative-algebra implication for one affine smooth-relative-curve map. This
+map-specific boundary asks only for the dimension and normality consequences actually consumed
+by the chart divisor API. -/
+def SmoothRelativeCurveRingConditions
+    (R A : Type u) [CommRing R] [CommRing A] (f : R →+* A) : Prop :=
+  RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →
+    Ring.DimensionLEOne A ∧ IsIntegrallyClosed A
+
+/-- The map-specific smooth-relative-curve ring conditions directly provide the Dedekind order
+compatibility required to construct the chart divisor line bundle. -/
+theorem dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions
+    (R : Type u) [CommRing R]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of R)) [SmoothOfRelativeDimension 1 f]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : SmoothRelativeCurveRingConditions
+      Γ(Spec (.of R), ⊤) Γ(X, U) (f.appLE ⊤ U le_top).hom) :
+    DedekindOrderCompatibility X U hU := by
+  have hlocal : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1)
+      (f.appLE ⊤ U le_top).hom :=
+    HasRingHomProperty.appLE (@SmoothOfRelativeDimension 1) f inferInstance
+      ⟨⊤, isAffineOpen_top _⟩ ⟨U, hU⟩ le_top
+  have hDedekind : IsDedekindDomain Γ(X, U) :=
+    (affineOpen_isDedekindDomain_iff X U hU).2 (h hlocal)
+  letI : IsDedekindDomain Γ(X, U) := hDedekind
+  exact dedekindOrderCompatibilityOfIsDedekindDomain X U hU
 
 /-- A sufficient datum for transporting AINTLIB Picard groups along the affine-chart
 isomorphism: strong monoidality of sheaf-module pullback for the AINTLIB tensor structures. -/

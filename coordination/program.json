@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1426421,
+    "integrated_lean_lines": 1426921,
     "integrated_lean_modules": 651,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -1115,6 +1115,20 @@
           "module": "MazurTorsion.Upstream.CurveAffineChart"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveRingConditions",
+          "state": "contract",
+          "description": "Isolate mapwise the missing implication from standard smoothness of relative dimension one to dimension at most one and integral closedness.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions",
+          "state": "contract",
+          "description": "Consume the map-specific smooth-curve ring conditions to construct the Dedekind order compatibility required by the chart divisor API.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor",
           "state": "contract",
@@ -1249,6 +1263,20 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff",
+          "state": "contract",
+          "description": "Identify a coordinate-divisor coefficient with the global coefficient at the corresponding ambient codimension-one point.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictIsoOfCoeffEq",
+          "state": "contract",
+          "description": "Construct the actual same-chart principal-open restriction isomorphism from ambient coefficient equality.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle_principal_iso_trivial",
           "state": "contract",
           "description": "Prove that every global principal divisor gives a trivial line bundle on each compatible affine chart.",
@@ -1326,6 +1354,41 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.restrictDivisor_mem_principal_of_descendedLineBundle_iso_trivial",
+          "state": "contract",
+          "description": "Prove that a global trivialization makes the divisor principal on every coordinate chart.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.TrivialDescendedLineBundleHasGlobalPrincipalWitness",
+          "state": "contract",
+          "description": "Record the witness-level form of principal detection: one rational function gives every chart restriction of a divisor whose descended line bundle is trivial.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness",
+          "state": "contract",
+          "description": "Turn a global principal witness into geometric principal detection.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_of_trivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Produce the global chart witness from geometric principal detection.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Identify the witness-level formulation exactly with geometric principal detection when the chosen global order agrees with the scheme order.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal",
           "state": "contract",
           "description": "Identify exactness of the explicit divisor Picard map with geometric principal detection under coherent principal triviality and object separation.",
@@ -1350,6 +1413,13 @@
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfTrivialLineBundleDetection",
           "state": "contract",
           "description": "Under coherent principal triviality and object separation, replace the abstract exact-kernel input by geometric principal detection and combine it with Picard surjectivity.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfGlobalPrincipalWitness",
+          "state": "contract",
+          "description": "Build the full conditional divisor-class/Picard equivalence from the witness-level form of principal detection and Picard surjectivity, retaining coherent principal triviality and object separation as explicit hypotheses.",
           "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
         },
         {
@@ -1405,7 +1475,28 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq",
           "state": "contract",
-          "description": "Isolate equality of two explicit inverse ideals after localization at a same-chart principal open.",
+          "description": "Name equality of two explicit inverse ideals after localization at a same-chart principal open; coefficient equality now supplies this condition.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_of_coeff_eq_away",
+          "state": "contract",
+          "description": "Prove localized inverse-ideal equality from coefficient equality on D(f), including f = 0.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_away_of_coeff_eq",
+          "state": "contract",
+          "description": "Prove common-field extension equality from coefficient equality on a compatible nonempty principal open.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_iff_overlapExtensionEq_away",
+          "state": "contract",
+          "description": "Identify abstract localized-ideal equality with common-field extension equality on a compatible nonempty principal open.",
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
@@ -1465,6 +1556,13 @@
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfCoeffEq",
+          "state": "contract",
+          "description": "Construct the chosen same-chart restriction isomorphism directly from coefficient equality on a principal open.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibilityIsLocal",
           "state": "contract",
@@ -1514,7 +1612,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart, localization, and descent modules. Prove that smooth affine curve charts have Dedekind coordinate rings; checked code then supplies `AffineChart.DedekindOrderCompatibility` automatically, with the remaining ring boundary reduced to dimension at most one and integral closedness. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. On same-chart nonempty principal opens, prove `AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq`; checked code converts it into common-extension equality and the actual chosen restriction isomorphism. On genuinely cross-chart affine overlaps, prove `OverlapInverseIdealExtensionEq`; restriction/base change remains conditional only for arbitrary affine overlaps. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, prove `ExplicitInverse.TrivialLineBundleDetectsPrincipal`; checked code identifies it with exact principal kernel. Exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining localization predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge, while the weighted product formula remains the independently registered A2 Challenge.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. Prove the map-specific `AffineChart.SmoothRelativeCurveRingConditions`; checked code then supplies `AffineChart.DedekindOrderCompatibility` from dimension at most one and integral closedness. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open now gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Focus localization work on genuinely cross-chart `OverlapInverseIdealExtensionEq` and arbitrary-overlap restriction/base change. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cross-chart localization predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge, while the weighted product formula remains the independently registered A2 Challenge.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

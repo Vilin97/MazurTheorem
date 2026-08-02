@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveAffineChart
+import MazurTorsion.Upstream.AffineDivisorLocalization
 import MazurTorsion.Upstream.CurveLineBundleLocality
 
 /-!
@@ -17,13 +18,15 @@ trivial local line bundle.
 
 For a covering family of affine opens, `DivisorCocycle` is the exact remaining overlap input:
 pairwise isomorphisms between these specific local line bundles, diagonal normalization, and
-the triple-overlap cocycle. Given object-specific effective invertible descent, the checked
+the triple-overlap cocycle. On a single chart, equality of the ambient divisor coefficients on a
+principal open now constructs the actual pairwise restriction isomorphism; cross-chart
+comparison and coherence remain. Given object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
 module effectivity to this input. Coherent triviality of a principal cocycle, together with
 essential injectivity on objects for module descent, makes that global line bundle trivial;
-fully faithful descent is a checked sufficient source of this exact input. No overlap
-isomorphism, module-effectivity theorem, or object-separation theorem is asserted here.
+fully faithful descent is a checked sufficient source of this exact input. No cross-chart
+overlap isomorphism, module-effectivity theorem, or object-separation theorem is asserted here.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -89,6 +92,32 @@ noncomputable def localDivisor
     WeilDivisor (HeightOneSpectrum Γ(X, U)) :=
   (h.divisorEquiv X U hU).symm (restrictDivisor X U D)
 
+/-- A coordinate divisor has at a chart prime the coefficient of the original global divisor
+at the corresponding ambient codimension-one point. -/
+lemma localDivisor_coeff
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (v : HeightOneSpectrum Γ(X, U)) :
+    coeff (localDivisor X U hU h D) v =
+      coeff D (h.pointEquiv X U hU v).1 := by
+  let e := h.divisorEquiv X U hU
+  have he := e.apply_symm_apply (restrictDivisor X U D)
+  have hev := DFunLike.congr_fun he (h.pointEquiv X U hU v)
+  change (e.symm (restrictDivisor X U D)) v =
+    D (h.pointEquiv X U hU v).1
+  calc
+    (e.symm (restrictDivisor X U D)) v =
+        e (e.symm (restrictDivisor X U D))
+          (h.pointEquiv X U hU v) := by
+      change _ = Finsupp.domCongr (h.pointEquiv X U hU)
+        (e.symm (restrictDivisor X U D)) (h.pointEquiv X U hU v)
+      rw [Finsupp.domCongr_apply, Finsupp.equivMapDomain_eq_mapDomain,
+        Finsupp.mapDomain_equiv_apply, Equiv.symm_apply_apply]
+    _ = restrictDivisor X U D (h.pointEquiv X U hU v) := hev
+    _ = D (h.pointEquiv X U hU v).1 := restrictDivisor_apply X U D _
+
 /-- Restriction and chart reindexing preserve divisor addition. -/
 lemma localDivisor_add
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
@@ -133,6 +162,36 @@ noncomputable def localLineBundle
     functionField_isFractionRing_of_isAffineOpen X U hU
   exact AffineDedekind.lineBundle Γ(X, U) X.functionField
     (localDivisor X U hU h D)
+
+/-- On one affine chart, equality of the ambient divisor coefficients at every point of
+`D(f)` supplies the pairwise restriction isomorphism of the chartwise divisor line bundles.
+This is a concrete same-chart input toward `DivisorCocycle`; comparisons between two different
+coordinate rings and triple-overlap coherence remain separate requirements. -/
+noncomputable def localLineBundleRestrictIsoOfCoeffEq
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D E : WeilDivisor (CodimensionOnePoint X)) (f : Γ(X, U))
+    (hcoeff : ∀ v : HeightOneSpectrum Γ(X, U),
+      f ∉ v.asIdeal →
+        coeff D (h.pointEquiv X U hU v).1 =
+          coeff E (h.pointEquiv X U hU v).1) :
+    (localLineBundle X U hU h D).obj.restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom
+            (algebraMap Γ(X, U) (Localization.Away f)))) ≅
+      (localLineBundle X U hU h E).obj.restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom
+            (algebraMap Γ(X, U) (Localization.Away f)))) := by
+  letI := h.isDedekindDomain
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  apply AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfCoeffEq
+  intro v hfv
+  rw [localDivisor_coeff X U hU h D v,
+    localDivisor_coeff X U hU h E v]
+  exact hcoeff v hfv
 
 /-- The chartwise construction carries addition of global divisors to tensor product of the
 actual affine line bundles. -/

@@ -20,7 +20,10 @@ module representatives, module localization, tilde, and restriction to an actual
 isomorphism. The stronger common-extension comparison is now proved on nonempty principal opens:
 the actual chosen restriction is tilde of the inverse ideal extended inside the common fraction
 field. In the same-chart case, abstract localized-ideal equality is converted to equality of
-those common-field extensions and hence directly to an isomorphism of the chosen restrictions.
+those common-field extensions and hence directly to an isomorphism of the chosen restrictions;
+conversely, the two equalities are equivalent on a compatible nonempty principal open. Equality
+of divisor coefficients on `D(f)` now proves both equalities, including abstract localization at
+`f = 0`, and directly constructs the actual chosen restriction isomorphism.
 For two coordinate rings mapping compatibly through a common affine overlap, equality of their
 extended ideals is isolated separately and identifies the two extended ideal modules and their
 tilde sheaves. On general affine overlaps, identifying each chosen chart restriction remains an
@@ -651,6 +654,193 @@ private lemma map_localized_inverseIdeal_eq_extended
 
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
 
+open CategoryTheory
+open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.WeilDivisor
+open scoped nonZeroDivisors
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+private lemma divisorFractionalIdeal_coe_eq_prod
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (ExplicitIdeal.divisorFractionalIdeal R K D : FractionalIdeal R⁰ K) =
+      D.prod fun v e => (v.asIdeal : FractionalIdeal R⁰ K) ^ e := by
+  unfold ExplicitIdeal.divisorFractionalIdeal
+  rw [fractionalIdealDivisorAddEquiv_symm_apply]
+  rfl
+
+private lemma extended_prime_eq_one_of_mem
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    (v : HeightOneSpectrum R) (hfv : f ∈ v.asIdeal) :
+    FractionalIdeal.extendedHom K (Localization.Away f)
+        (v.asIdeal : FractionalIdeal R⁰ K) = 1 := by
+  rw [FractionalIdeal.extendedHom_coeIdeal_eq_map]
+  have htop : Ideal.map (algebraMap R (Localization.Away f)) v.asIdeal = ⊤ := by
+    apply IsLocalization.map_eq_top_of_not_subset (.powers f)
+    intro hsubset
+    exact (hsubset hfv) (by simp)
+  rw [htop]
+  rfl
+
+/-- Divisors with equal coefficients at every height-one prime in `D(f)` have equal inverse
+fractional ideals after extension to the compatible principal-open coordinate ring. -/
+theorem overlapInverseIdealExtensionEq_away_of_coeff_eq
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (hcoeff : ∀ v : HeightOneSpectrum R,
+      f ∉ v.asIdeal → coeff D v = coeff E v) :
+    OverlapInverseIdealExtensionEq R R (Localization.Away f) K D E := by
+  classical
+  have hf : f ≠ 0 := by
+    intro hf
+    have hu := IsLocalization.map_units (Localization.Away f)
+      (⟨f, by simp⟩ : Submonoid.powers f)
+    apply (IsUnit.ne_zero hu)
+    rw [hf, map_zero]
+  letI : IsDedekindDomain (Localization.Away f) :=
+    IsLocalization.isDedekindDomain R (M := .powers f)
+      (fun x hx => mem_nonZeroDivisors_iff_ne_zero.mpr
+        (by rcases hx with ⟨n, rfl⟩; exact pow_ne_zero n hf))
+      (Localization.Away f)
+  refine ⟨inferInstance, inferInstance, ?_⟩
+  let F : FractionalIdeal R⁰ K →+*
+      FractionalIdeal (Localization.Away f)⁰ K :=
+    FractionalIdeal.extendedHom K (Localization.Away f)
+  have hbase :
+      Units.map F.toMonoidHom (ExplicitIdeal.divisorFractionalIdeal R K D) =
+        Units.map F.toMonoidHom (ExplicitIdeal.divisorFractionalIdeal R K E) := by
+    apply Units.ext
+    change F (ExplicitIdeal.divisorFractionalIdeal R K D : FractionalIdeal R⁰ K) =
+      F (ExplicitIdeal.divisorFractionalIdeal R K E : FractionalIdeal R⁰ K)
+    rw [divisorFractionalIdeal_coe_eq_prod R K D,
+      divisorFractionalIdeal_coe_eq_prod R K E,
+      map_finsuppProd, map_finsuppProd]
+    apply Finsupp.prod_congr_of_eq_on_union
+    · intro v hv
+      by_cases hfv : f ∈ v.asIdeal
+      · have hvone : F (v.asIdeal : FractionalIdeal R⁰ K) = 1 := by
+          simpa [F] using extended_prime_eq_one_of_mem R K f v hfv
+        simp [map_zpow₀, hvone]
+      · rw [show D v = E v by simpa only [coeff] using hcoeff v hfv]
+    · intro v hv
+      simp
+    · intro v hv
+      simp
+  simpa only [map_inv] using congrArg Inv.inv hbase
+
+/-- Equality after common-field extension to a principal open implies equality of the abstract
+localized inverse-ideal submodules. -/
+theorem inverseIdealLocalizationEq_of_overlapExtensionEq_away
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (h : OverlapInverseIdealExtensionEq
+      R R (Localization.Away f) K D E) :
+    InverseIdealLocalizationEq R K D E f := by
+  apply (Submodule.map_injective_of_injective
+    (CommonExtension.localizedFractionEquiv R K f).injective)
+  rw [CommonExtension.map_localized_inverseIdeal_eq_extended R K f D,
+    CommonExtension.map_localized_inverseIdeal_eq_extended R K f E]
+  exact congrArg
+    (fun I : (FractionalIdeal (Localization.Away f)⁰ K)ˣ =>
+      (I : Submodule (Localization.Away f) K)) h.2.2
+
+/-- Same-chart divisors whose coefficients agree on `D(f)` have equal inverse ideals after
+localization at `f`. This also covers the degenerate localization at `f = 0`. -/
+theorem inverseIdealLocalizationEq_of_coeff_eq_away
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D E : WeilDivisor (HeightOneSpectrum R)) (f : R)
+    (hcoeff : ∀ v : HeightOneSpectrum R,
+      f ∉ v.asIdeal → coeff D v = coeff E v) :
+    InverseIdealLocalizationEq R K D E f := by
+  by_cases hf : f = 0
+  · subst f
+    have htop : ∀ T : Submodule R (FractionRing R),
+        T.localized (.powers (0 : R)) = ⊤ := by
+      intro T
+      rw [← top_le_iff]
+      intro x hx
+      obtain ⟨⟨m, s⟩, rfl⟩ := IsLocalizedModule.mk'_surjective
+        (.powers (0 : R))
+        (_root_.LocalizedModule.mkLinearMap
+          (.powers (0 : R)) (FractionRing R)) x
+      refine ⟨0, T.zero_mem, ⟨0, by simp⟩, ?_⟩
+      change IsLocalizedModule.mk'
+          (_root_.LocalizedModule.mkLinearMap
+            (.powers (0 : R)) (FractionRing R))
+          0 ⟨0, by simp⟩ =
+        IsLocalizedModule.mk'
+          (_root_.LocalizedModule.mkLinearMap
+            (.powers (0 : R)) (FractionRing R))
+          m s
+      rw [IsLocalizedModule.mk'_eq_mk'_iff]
+      exact ⟨1, by simp⟩
+    unfold InverseIdealLocalizationEq
+    rw [htop, htop]
+  · letI : IsDomain (Localization.Away f) :=
+      Localization.Away.isDomain hf
+    let hunit : ∀ y : Submonoid.powers f,
+        IsUnit ((algebraMap R K) (y : R)) := by
+      rintro ⟨y, hy⟩
+      apply isUnit_iff_ne_zero.mpr
+      change algebraMap R K y ≠ 0
+      apply (map_ne_zero_iff (algebraMap R K)
+        (FaithfulSMul.algebraMap_injective R K)).2
+      rcases hy with ⟨n, rfl⟩
+      exact pow_ne_zero n hf
+    letI : Algebra (Localization.Away f) K :=
+      (IsLocalization.lift hunit).toAlgebra
+    letI : IsScalarTower R (Localization.Away f) K :=
+      IsScalarTower.of_algebraMap_eq fun x =>
+        (IsLocalization.lift_eq hunit x).symm
+    letI : IsFractionRing (Localization.Away f) K :=
+      IsFractionRing.isFractionRing_of_isDomain_of_isLocalization
+        (.powers f) (Localization.Away f) K
+    exact inverseIdealLocalizationEq_of_overlapExtensionEq_away R K f D E
+      (overlapInverseIdealExtensionEq_away_of_coeff_eq R K f D E hcoeff)
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
+
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain
+
+/-- Pairwise same-chart coefficient agreement on a principal open supplies the corresponding
+chosen line-bundle restriction isomorphism. This is the pairwise input toward a divisor descent
+cocycle; cross-chart comparison and triple-overlap coherence remain separate requirements. -/
+noncomputable def chosenTildeRestrictIsoOfCoeffEq
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D E : WeilDivisor (HeightOneSpectrum R)) (f : R)
+    (hcoeff : ∀ v : HeightOneSpectrum R,
+      f ∉ v.asIdeal → coeff D v = coeff E v) :
+    (AffineDedekind.lineBundle R K D).obj.restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom (algebraMap R (Localization.Away f)))) ≅
+      (AffineDedekind.lineBundle R K E).obj.restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom (algebraMap R (Localization.Away f)))) :=
+  chosenTildeRestrictIsoOfInverseIdealEq R K D E f
+    (Boundary.inverseIdealLocalizationEq_of_coeff_eq_away
+      R K D E f hcoeff)
+
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain
+
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
 
 /-- Equality of the explicit inverse ideals after abstract module localization gives the
@@ -673,6 +863,22 @@ theorem overlapInverseIdealExtensionEq_away
     CommonExtension.extendedInverseIdeal R (Localization.Away f) K E
   rw [← CommonExtension.map_localized_inverseIdeal_eq_extended R K f D,
     ← CommonExtension.map_localized_inverseIdeal_eq_extended R K f E, h]
+
+/-- On a compatible nonempty principal open, abstract module-localization equality is exactly
+equality of the corresponding inverse ideals after extension inside the common fraction field. -/
+theorem inverseIdealLocalizationEq_iff_overlapExtensionEq_away
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (f : R) [IsDomain (Localization.Away f)]
+    [Algebra (Localization.Away f) K]
+    [IsFractionRing (Localization.Away f) K]
+    [IsScalarTower R (Localization.Away f) K]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    InverseIdealLocalizationEq R K D E f ↔
+      OverlapInverseIdealExtensionEq
+        R R (Localization.Away f) K D E :=
+  ⟨overlapInverseIdealExtensionEq_away R K f D E,
+    inverseIdealLocalizationEq_of_overlapExtensionEq_away R K f D E⟩
 
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
 

@@ -72,18 +72,19 @@ injective module-Picard/scheme-Picard homomorphism. Consequently, the affine Ded
 has exactly the principal divisors as kernel, descends to divisor classes, and gives an
 unconditional equivalence from those classes to its scheme-Picard range; the actual tilde line
 bundles are tensor-additive. The chosen Picard representative is moreover linearly equivalent
-to the explicit inverse fractional ideal attached to the divisor. On a principal open, equality
-of these localized inverse ideals now yields a checked isomorphism of the chosen restricted
-tilde bundles. For two charts mapping to a common affine overlap,
+to the explicit inverse fractional ideal attached to the divisor. On a same-chart principal
+open, coefficient equality on `D(f)` now proves equality of the localized inverse ideals,
+equivalently equality after common-field extension, and yields a checked isomorphism of the
+chosen restricted tilde bundles. For two charts mapping to a common affine overlap,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
 extended inverse ideals, while
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change comparison for each chosen chart bundle. That comparison is now
 proved on nonempty principal opens, and a checked consumer combines it with extension equality
 into an isomorphism of the actual chosen restrictions. For two divisors on the same chart,
-localized inverse-ideal equality now gives the needed common-extension equality and hence the
-actual principal-open restriction isomorphism directly. Proving cross-chart extension equality,
-the arbitrary-overlap comparison, and cocycle coherence remains missing. The API also
+coefficient agreement now gives the actual principal-open restriction isomorphism directly.
+Proving cross-chart extension equality, the arbitrary-overlap comparison, and cocycle coherence
+remains missing. The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
@@ -93,10 +94,13 @@ identifies height-one primes of a Dedekind affine coordinate ring with the ambie
 codimension-one points lying in the chart. It now proves equality of the Dedekind and scheme
 order homomorphisms from the Dedekind-domain instance, constructing
 `AffineChart.DedekindOrderCompatibility` automatically. The remaining coordinate-ring boundary
-is exactly dimension at most one plus integral closedness. Whole principal divisors are related
-by reindexing and the induced local divisor-to-scheme-Picard map has exactly those principal
-divisors as kernel. It therefore descends injectively to chart divisor classes and identifies
-them with its scheme-Picard range. Pullback
+is exactly dimension at most one plus integral closedness.
+`AffineChart.SmoothRelativeCurveRingConditions` isolates mapwise the missing implication from
+smooth relative dimension one to these conditions; its checked consumer constructs the required
+Dedekind order compatibility. Whole principal divisors are related by reindexing and the induced
+local divisor-to-scheme-Picard map has exactly those principal divisors as kernel. It therefore
+descends injectively to chart divisor classes and identifies them with its scheme-Picard range.
+Pullback
 along the chart scheme isomorphism is already an equivalence of module categories; the API
 isolates strong monoidality of that pullback as `PicardIso.PullbackMonoidalData`. Given this
 upstream-compatible sufficient datum, it constructs `Pic(Spec Γ(X, U)) ≃ Pic(U)` and
@@ -115,9 +119,11 @@ scheme-module prestack instance to produce fully faithful descent and hence the 
 object-separation property, while the current dependency graph supplies no such instance. On a
 canonical coordinate cover, the curve-divisor API restricts a global divisor, constructs the
 actual affine `O(D)` line bundle on every chart, preserves addition, and proves local triviality
-for principal divisors.
-`CurveDivisorDescent.DivisorCocycle` is the exact remaining overlap input for these specified
-line bundles. Object-specific effective invertible descent then constructs a global line bundle
+for principal divisors. On a single chart, ambient coefficient equality on a principal open now
+constructs the actual restriction isomorphism between two such bundles.
+`CurveDivisorDescent.DivisorCocycle` is the exact remaining cross-chart overlap input for these
+specified line bundles. Object-specific effective invertible descent then constructs a global
+line bundle
 with a checked isomorphism from each restriction to the corresponding `O(D)`. The companion
 `CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Objectwise
 effectivity, tensor-additivity, and triviality of the zero-divisor bundle construct an actual
@@ -127,16 +133,24 @@ triviality of principal cocycles supplies zero triviality and, with object separ
 the construction to divisor classes. Exact principal kernel identifies those classes with the
 actual Picard range. Under coherent principal triviality and object separation, checked code
 identifies exactness with `ExplicitInverse.TrivialLineBundleDetectsPrincipal`: a descended
-divisor line bundle is globally trivial only for a principal divisor. Surjectivity then gives the
-full divisor-class/Picard equivalence. Only the stronger dictionary package, which compares every
+divisor line bundle is globally trivial only for a principal divisor. A global trivialization is
+proved to make the divisor principal on every chart.
+The witness-level condition
+`ExplicitInverse.TrivialDescendedLineBundleHasGlobalPrincipalWitness` says that one rational
+function gives all chart restrictions. Under agreement of the chosen global and scheme orders,
+checked code proves it equivalent to principal detection in both directions, so it is not a
+separate gluing input. Constructing compatible rational data from the explicit line-bundle
+cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
+the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
 of the divisor cocycle system, cross-chart
 overlap-extension equality, arbitrary-overlap restriction/base-change identification, coherent
 overlap system, module-effectivity, coherent-principal-triviality,
-prestack/object-separation, geometric-principal-detection, exact-kernel, surjectivity, or global
-tensor-inverse comparison is claimed. Thus global
+prestack/object-separation, rationally normalized cocycle data,
+geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
+claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
-`AffineTilde.TildeReflectsInvertibility`, the smooth-curve route to Dedekind coordinate rings,
+`AffineTilde.TildeReflectsInvertibility`, the map-specific smooth-curve ring conditions,
 and the remaining cross-chart localization predicates are precise compiled conditional
 boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
 Challenge declarations. Their discharge remains part of that Challenge. The weighted product
@@ -268,6 +282,14 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineChart.affineOpen_isDedekindDomain_iff`
   Reduce the remaining coordinate-ring boundary to dimension at most one and integral
   closedness; domain and Noetherianity already follow from the ambient hypotheses.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveRingConditions`
+  Isolate mapwise the missing implication from standard smoothness of relative dimension one
+  to dimension at most one and integral closedness.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions`
+  Consume the map-specific smooth-curve ring conditions to construct the Dedekind order
+  compatibility required by the chart divisor API.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor`
   Transport the whole affine principal divisor to the ambient chart points.
@@ -292,7 +314,7 @@ inhabited or that A3 is solved.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_independent`
   Prove that the Picard equivalence is independent of the chosen strong monoidal structure.
-* `lemma` (`contract`):
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_symm_apply_val`
   Identify the inverse Picard equivalence on isomorphism classes with pullback along the inverse
   scheme isomorphism.
@@ -332,6 +354,14 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle`
   Construct the actual affine `O(D)` from the restriction of a global curve divisor.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff`
+  Identify a coordinate-divisor coefficient with the global coefficient at the corresponding
+  ambient codimension-one point.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictIsoOfCoeffEq`
+  Construct the actual same-chart principal-open restriction isomorphism from ambient
+  coefficient equality.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle_principal_iso_trivial`
   Prove that every global principal divisor gives a trivial line bundle on each compatible
@@ -375,6 +405,23 @@ inhabited or that A3 is solved.
   Isolate the geometric injectivity boundary that a globally trivial descended divisor line
   bundle comes only from a principal divisor.
 * `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.restrictDivisor_mem_principal_of_descendedLineBundle_iso_trivial`
+  Prove that a global trivialization makes the divisor principal on every coordinate chart.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.TrivialDescendedLineBundleHasGlobalPrincipalWitness`
+  Record the witness-level form of principal detection: one rational function gives every chart
+  restriction of a divisor whose descended line bundle is trivial.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness`
+  Turn a global principal witness into geometric principal detection.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_of_trivialLineBundleDetectsPrincipal`
+  Produce the global chart witness from geometric principal detection.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal`
+  Identify the witness-level formulation exactly with geometric principal detection when the
+  chosen global order agrees with the scheme order.
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal`
   Identify exactness of the divisor Picard map with the geometric principal-detection boundary
   under coherent principal triviality and object separation.
@@ -390,6 +437,11 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfTrivialLineBundleDetection`
   Under coherent principal triviality and object separation, replace the abstract exact-kernel
   input by geometric principal detection and combine it with Picard surjectivity.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfGlobalPrincipalWitness`
+  Build the full conditional divisor-class/Picard equivalence from the witness-level form of
+  principal detection and Picard surjectivity, retaining coherent principal triviality and
+  object separation as explicit hypotheses.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionary`
   Package the explicit divisor map and descended line bundles into the stronger all-sheaves
@@ -420,8 +472,19 @@ inhabited or that A3 is solved.
   attached to the divisor.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq`
-  Isolate equality of two explicit inverse ideals after localization at a same-chart principal
-  open.
+  Name equality of two explicit inverse ideals after localization at a same-chart principal
+  open; coefficient equality now supplies this condition.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_of_coeff_eq_away`
+  Prove localized inverse-ideal equality from coefficient equality on `D(f)`, including `f = 0`.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_away_of_coeff_eq`
+  Prove common-field extension equality from coefficient equality on a compatible nonempty
+  principal open.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_iff_overlapExtensionEq_away`
+  Identify abstract localized-ideal equality with common-field extension equality on a
+  compatible nonempty principal open.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq`
   Require compatible maps into a common function field and equality of the two inverse divisor
@@ -454,6 +517,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfInverseIdealEq`
   Consume equality of localized inverse ideals to identify the restrictions of the chosen
   affine divisor line bundles.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfCoeffEq`
+  Construct the chosen same-chart restriction isomorphism directly from coefficient equality
+  on a principal open.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibilityIsLocal`
   Prove that Tau Ceti invertibility is local on every scheme open cover.

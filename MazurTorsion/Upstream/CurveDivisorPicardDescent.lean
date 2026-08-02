@@ -26,7 +26,12 @@ surjectivity supply the full divisor-class/Picard equivalence without comparing 
 invertible sheaves. The more structured `DivisorPicard.Dictionary` still records the global
 forward comparison and remains conditional on it. This file does not assert existence of the
 cocycle family, effectivity, tensor-additivity, zero or principal coherence, object separation,
-principal detection, exactness, surjectivity, or the global forward comparison.
+principal detection, exactness, surjectivity, or the global forward comparison. A global
+trivialization is proved to make the divisor principal on each chart. Under equality of the
+chosen global and scheme orders, the witness-level statement that one rational function gives
+all chart restrictions is proved equivalent to principal detection; it is not a separate gluing
+input. Constructing compatible rational data from the explicit line-bundle cocycle remains
+absent.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -315,6 +320,178 @@ def TrivialLineBundleDetectsPrincipal
         (InvertibleSheaf.trivial X).obj) →
     D ∈ S.principalSubgroup
 
+noncomputable section
+
+/-- A global trivialization of the descended divisor line bundle makes the divisor principal on
+every coordinate chart. The unresolved global step is compatibility of these chartwise rational
+functions, not affine principal detection. -/
+theorem restrictDivisor_mem_principal_of_descendedLineBundle_iso_trivial
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (htrivial : Nonempty
+      ((descendedLineBundle X U hnonempty hcover hU h C heffective D).obj ≅
+        (InvertibleSheaf.trivial X).obj))
+    (i : I) :
+    restrictDivisor X (U i) D ∈
+      ((h i).ambientOrderSystem X (U i) (hU i)).principalSubgroup := by
+  letI := hnonempty i
+  let cov := coordinateCover U hcover hU
+  let f := cov.f i
+  letI : IsOpenImmersion f := cov.map_prop i
+  have epull :
+      (Scheme.Modules.pullback f).obj (InvertibleSheaf.trivial X).obj ≅
+        (InvertibleSheaf.trivial (Spec (.of Γ(X, U i)))).obj := by
+    let efreeX : (InvertibleSheaf.trivial X).obj ≅
+        SheafOfModules.unit X.ringCatSheaf :=
+      Limits.coproductUniqueIso (fun _ : PUnit =>
+        SheafOfModules.unit X.ringCatSheaf)
+    let Y := Spec (.of Γ(X, U i))
+    let efreeY : (InvertibleSheaf.trivial Y).obj ≅
+        SheafOfModules.unit Y.ringCatSheaf :=
+      Limits.coproductUniqueIso (fun _ : PUnit =>
+        SheafOfModules.unit Y.ringCatSheaf)
+    exact ((Scheme.Modules.restrictFunctorIsoPullback f).app
+      (InvertibleSheaf.trivial X).obj).symm ≪≫
+        (Scheme.Modules.restrictFunctor f).mapIso efreeX ≪≫
+        Scheme.Modules.restrictUnitIso f ≪≫ efreeY.symm
+  have elocal : Nonempty
+      ((localLineBundle X (U i) (hU i) (h i) D).obj ≅
+        (InvertibleSheaf.trivial (Spec (.of Γ(X, U i)))).obj) := by
+    refine ⟨(descendedLineBundleRestrictionIso X U hnonempty hcover hU h C
+      heffective D i).symm ≪≫
+      (Scheme.Modules.pullback f).mapIso htrivial.some ≪≫ epull⟩
+  have ezero : Nonempty
+      ((localLineBundle X (U i) (hU i) (h i) 0).obj ≅
+        (InvertibleSheaf.trivial (Spec (.of Γ(X, U i)))).obj) := by
+    letI := (h i).isDedekindDomain
+    letI : IsFractionRing Γ(X, U i) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X (U i) (hU i)
+    change Nonempty
+      ((AffineDedekind.lineBundle Γ(X, U i) X.functionField
+        (localDivisor X (U i) (hU i) (h i) 0)).obj ≅
+          (InvertibleSheaf.trivial (Spec (.of Γ(X, U i)))).obj)
+    simpa [localDivisor] using
+      (AffineDedekind.nonempty_lineBundle_principal_iso_trivial
+        Γ(X, U i) X.functionField
+        (Additive.ofMul (1 : X.functionFieldˣ)))
+  have hlinear :
+      (h i).affineOrderSystem X (U i) (hU i) |>.LinearlyEquivalent
+        (localDivisor X (U i) (hU i) (h i) D)
+        (localDivisor X (U i) (hU i) (h i) 0) := by
+    letI := (h i).isDedekindDomain
+    letI : IsFractionRing Γ(X, U i) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X (U i) (hU i)
+    apply (AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent
+      Γ(X, U i) X.functionField _ _).mp
+    exact ⟨elocal.some ≪≫ ezero.some.symm⟩
+  have hlocal : localDivisor X (U i) (hU i) (h i) D ∈
+      ((h i).affineOrderSystem X (U i) (hU i)).principalSubgroup := by
+    simpa [OrderSystem.LinearlyEquivalent, localDivisor] using hlinear
+  obtain ⟨g, hg⟩ :=
+    ((h i).affineOrderSystem X (U i) (hU i)).mem_principalSubgroup.mp hlocal
+  apply ((h i).ambientOrderSystem X (U i) (hU i)).mem_principalSubgroup.mpr
+  refine ⟨g, ?_⟩
+  rw [← (h i).principalDivisor_reindex_eq_ambientPrincipalDivisor
+    X (U i) (hU i) g]
+  simpa [localDivisor] using
+    congrArg ((h i).divisorEquiv X (U i) (hU i)) hg
+
+/-- Witness-level form of principal detection: every trivial descended divisor bundle admits
+one rational function whose principal divisor gives every chart restriction. Once the chosen
+global order agrees with the scheme order, this condition is equivalent to
+`TrivialLineBundleDetectsPrincipal`; it does not itself construct the witness from overlap data. -/
+def TrivialDescendedLineBundleHasGlobalPrincipalWitness
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C) : Prop :=
+  ∀ D, Nonempty
+      ((descendedLineBundle X U hnonempty hcover hU h C heffective D).obj ≅
+        (InvertibleSheaf.trivial X).obj) →
+    ∃ g : Additive X.functionFieldˣ, ∀ i,
+      restrictDivisor X (U i) D =
+        ((h i).ambientOrderSystem X (U i) (hU i)).principalDivisor g
+
+/-- A single global principal witness on every affine chart proves geometric principal
+detection. -/
+theorem trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hwitness : TrivialDescendedLineBundleHasGlobalPrincipalWitness
+      X U hnonempty hcover hU h C heffective) :
+    TrivialLineBundleDetectsPrincipal X U hnonempty hcover hU h S C heffective := by
+  intro D htrivial
+  obtain ⟨g, hg⟩ := hwitness D htrivial
+  apply S.mem_principalSubgroup.mpr
+  refine ⟨g, ?_⟩
+  ext x
+  obtain ⟨i, hxi⟩ := hcover.exists_mem x.1
+  let xi : {x : CodimensionOnePoint X // x.1 ∈ U i} := ⟨x, hxi⟩
+  have heq := congrArg (fun E => E xi)
+    ((restrictDivisor_principalDivisor X (U i) (hU i) (h i) S hord g).trans
+      (hg i).symm)
+  change (S.principalDivisor g) x = D x
+  simpa only [restrictDivisor_apply, xi] using heq
+
+/-- Geometric principal detection supplies the corresponding single rational witness on every
+chart. This is the converse of
+`trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness`. -/
+theorem globalPrincipalWitness_of_trivialLineBundleDetectsPrincipal
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hdetect : TrivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective) :
+    TrivialDescendedLineBundleHasGlobalPrincipalWitness
+      X U hnonempty hcover hU h C heffective := by
+  intro D htrivial
+  obtain ⟨g, hg⟩ := S.mem_principalSubgroup.mp (hdetect D htrivial)
+  refine ⟨g, fun i => ?_⟩
+  rw [← hg]
+  exact restrictDivisor_principalDivisor X (U i) (hU i) (h i) S hord g
+
+/-- Under compatibility of the chosen global order with the scheme order, the global-witness
+formulation is exactly geometric principal detection. In particular it is not an additional
+localization or cocycle theorem. -/
+theorem globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C) :
+    TrivialDescendedLineBundleHasGlobalPrincipalWitness
+        X U hnonempty hcover hU h C heffective ↔
+      TrivialLineBundleDetectsPrincipal
+        X U hnonempty hcover hU h S C heffective := by
+  constructor
+  · exact trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness
+      X U hnonempty hcover hU h S hord C heffective
+  · exact globalPrincipalWitness_of_trivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S hord C heffective
+
+end
+
 /-- Coherent principal triviality makes the explicit divisor homomorphism kill principal
 divisors. -/
 theorem divisorToPic_principalTrivial
@@ -571,6 +748,34 @@ noncomputable def classEquivPicardOfTrivialLineBundleDetection
   classEquivPicard X U hnonempty hcover hU h S C heffective hadd hzero
     (hasPrincipalKernel_of_trivialLineBundleDetectsPrincipal
       X U hnonempty hcover hU h S C heffective hadd hzero hinjective hprincipal hdetect)
+    hsurjective
+
+/-- The witness-level form of principal detection can replace the abstract exact-kernel input in
+the full divisor-class/Picard equivalence. Coherent principal triviality, object separation, and
+Picard surjectivity remain separate hypotheses. -/
+noncomputable def classEquivPicardOfGlobalPrincipalWitness
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (hzero : DescendedZeroTrivial X U hnonempty hcover hU h C heffective)
+    (hinjective : LineBundleDescent.ModuleDescentEssentiallyInjectiveFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C)
+    (hwitness : TrivialDescendedLineBundleHasGlobalPrincipalWitness
+      X U hnonempty hcover hU h C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero)) :
+    DivisorPicard.ClassEquivalence S X :=
+  classEquivPicardOfTrivialLineBundleDetection
+    X U hnonempty hcover hU h S C heffective hadd hzero hinjective hprincipal
+    (trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness
+      X U hnonempty hcover hU h S hord C heffective hwitness)
     hsurjective
 
 /-- Adding the global comparison for arbitrary invertible sheaves packages the same explicit

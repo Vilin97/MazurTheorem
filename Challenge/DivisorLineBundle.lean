@@ -23,26 +23,29 @@ into an objectwise tilde tensor-product isomorphism. This gives a canonical inje
 module-Picard to scheme-Picard map. For affine Dedekind domains, the divisor map has exactly the
 principal divisors as kernel, divisor classes are equivalent to its range, and the chosen tilde
 line bundles are tensor-additive. The chosen Picard representative is now identified with the
-explicit inverse fractional ideal attached to the divisor. Equality after localization gives a
-checked isomorphism of the chosen restricted tilde bundles, while
+explicit inverse fractional ideal attached to the divisor. On a same-chart principal open,
+equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
+equality after common-field extension, and constructs an isomorphism of the chosen restricted
+tilde bundles. Meanwhile,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates cross-chart
 ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
 the restriction/base-change identification. The latter is now proved on nonempty principal
 opens, with a checked consumer combining it with extension equality into an isomorphism of the
-actual chosen restrictions. In the same-chart principal-open case, localized inverse-ideal
-equality supplies that extension equality and therefore the actual restriction isomorphism
-directly. Canonical Picard surjectivity is proved
+actual chosen restrictions. Canonical Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes discharging those comparison inputs, proving that smooth affine curve
-charts have Dedekind coordinate rings, global curve divisor gluing, and global
+What remains here includes discharging those comparison inputs, the map-specific smooth-curve
+ring conditions, global curve divisor gluing, and global
 divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
 Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
-plus integral closedness. Its local divisor-to-Picard map has exactly the principal divisors as
-kernel, descends injectively to chart divisor classes, and identifies them with its scheme-Picard
-range. `AffineTilde.TildeReflectsInvertibility` is a checked conditional interface, not a solved
+plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` isolates the missing
+implication from the affine smooth-relative-dimension-one ring map to those two conditions, and
+its checked consumer constructs the required order compatibility. The local divisor-to-Picard
+map has exactly the principal divisors as kernel, descends injectively to chart divisor classes,
+and identifies them with its scheme-Picard range. `AffineTilde.TildeReflectsInvertibility` is a
+checked conditional interface, not a solved
 existence result or separately registered Challenge declaration; discharging it remains part of
 this unchanged global A3 Challenge. The
 residue-degree product formula remains independently isolated by the registered A2 Challenge.
@@ -55,7 +58,9 @@ task's no-`set_option` constraint. For gluing, the separately importable compani
 `AffineDivisorLocalization`, `CurveLineBundleDescent`, `CurveLineBundleLocality`,
 `CurveDivisorDescent`, and `CurveDivisorPicardDescent` construct the actual affine `O(D)` on a
 canonical coordinate cover and prove that every principal divisor gives a trivial line bundle
-on each chart. `CurveDivisorDescent.DivisorCocycle` is the exact missing pairwise-overlap,
+on each chart. Same-chart coefficient agreement on a principal open now constructs the actual
+restriction isomorphism between the corresponding chartwise divisor bundles.
+`CurveDivisorDescent.DivisorCocycle` is the exact remaining cross-chart pairwise-overlap,
 normalization, and triple-cocycle input for those specified bundles. Given such a cocycle,
 checked code converts it to Mathlib descent data and, under object-specific
 `LineBundleDescent.EffectiveInvertible`, constructs a global line bundle whose restriction is
@@ -70,15 +75,23 @@ of the zero-divisor bundle construct an actual divisor-to-Picard homomorphism: t
 supplies zero triviality and descends this map to divisor classes under object separation. Exact
 principal kernel is equivalent, under coherent principal triviality and object separation, to
 `ExplicitInverse.TrivialLineBundleDetectsPrincipal`: only principal divisors have globally
-trivial descended line bundle. Exactness gives an equivalence with the actual Picard range, and
+trivial descended line bundle. A global trivialization is proved to make the divisor principal
+on every chart. The witness-level condition
+`TrivialDescendedLineBundleHasGlobalPrincipalWitness` says that one rational function gives all
+chart restrictions; under agreement of the chosen global and scheme orders, checked code proves
+this condition equivalent to principal detection in both directions. It is therefore not an
+additional gluing hypothesis. Constructing compatible rational data from the explicit
+line-bundle cocycle remains absent. Exactness gives an equivalence with the actual Picard range,
+and
 adding surjectivity gives the full divisor-class/Picard equivalence without a global
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
 cross-chart overlap-extension equality, arbitrary-overlap restriction/base-change
 identification, coherent overlap system, module-effectivity, coherent-principal-triviality,
-prestack/object-separation, geometric-principal-detection, exact-kernel, surjectivity, or global
-tensor-inverse comparison is asserted. The remaining localization predicates are precise
+prestack/object-separation, rationally normalized cocycle data,
+geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
+asserted. The remaining cross-chart localization predicates are precise
 compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
 separately registered open theorems. Those existence results remain open, so the contract earns
 no Mazur completion credit.
