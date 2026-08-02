@@ -2461,7 +2461,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The checked partial substrate packages finite-flat commutative group schemes, base change, honest finite-flat kernel presentations, affine Hopf realizations, constant-rank exponent descent, and conditional connected-etale consumers. The node remains unfinished until it constructs quotients, proves kernel/quotient base-change compatibility, and compiles constant-group, mu_p, and multiplication-kernel consumers.",
+      "summary": "The checked partial substrate packages finite-flat commutative group schemes, base change, scheme-theoretic kernels representing pointwise kernels, affine Hopf realizations, constant and diagonalizable group schemes, mu_n as a genuine multiplication kernel, constant-rank exponent descent, and quotients of constant groups with their induced-map universal property. The node remains unfinished until it constructs quotients by arbitrary finite-flat closed subgroup schemes and proves kernel/quotient base-change compatibility with a connected-etale consumer.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2480,7 +2480,7 @@
         {"kind": "structure", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme", "state": "contract", "description": "Package finite flat commutative group schemes over an arbitrary scheme base."},
         {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat", "state": "contract", "description": "Package the inherited scheme-theoretic kernel under explicit finite and flat hypotheses."},
         {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank", "state": "contract", "description": "Kill affine points by the constant geometric rank after localization from finite-free Hopf coordinates."},
-        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel", "state": "proposed", "description": "Construct kernels of morphisms in the finite-flat group-scheme category."},
+        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel", "state": "contract", "description": "Construct the inherited scheme-theoretic kernel under the exact finite and flat hypotheses required over an arbitrary base."},
         {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient", "state": "proposed", "description": "Construct quotients by finite-flat closed subgroup schemes."},
         {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange", "state": "proposed", "description": "Prove compatibility of kernels and quotients with the required base changes."}
       ],

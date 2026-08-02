@@ -15,7 +15,7 @@ are temporary compiled handoffs and receive no completion credit.
 | Lane | Owner branch/worktree | Immediate acceptance boundary |
 |---|---|---|
 | `MT-TC-A2-PRODUCT-FORMULA` | `codex/mt-a2-product-formula`, separate Tau Ceti worktree | Prove the residue-degree-weighted product formula using the permanent A1 `orderSystem` and compile the immutable `degreeZero` consumer. |
-| `MT-FFGS-BASIC` | `codex/owner-ffgs-complete`, separate worktree | Add actual quotients, kernel/quotient base-change compatibility, and constant-group, `μ_p`, and multiplication-kernel consumers. The integrated Basic/Affine/ConnectedEtale substrate is partial and earns zero credit. |
+| `MT-FFGS-BASIC` | `codex/mazur-owner-uw`, integrated checkpoint | Extend the checked point-representing kernels, constant/diagonalizable examples, `μ_n` multiplication kernel, and constant-group quotient to a generic finite-flat closed-subgroup quotient; prove kernel/quotient base-change compatibility and compile a connected–étale consumer. The node remains incomplete and earns zero credit. |
 | `MT-O49-TOWER` | `codex/owner-o49-tower`, separate worktree | Derive the exact order-49 bridge from the checked X₀(49) correspondence endpoint and compile the point-order consumer. |
 | Integration and finite-endpoint triage | `codex/mazur-owner-uw`, this worktree | Review workers, preserve API coherence, and advance the next independent finite or foundational lane. |
 
@@ -73,7 +73,7 @@ an external blocker. Nodes on independent lanes remain eligible for parallel wor
 1. `MT-NERON-BASE` — blocked by E1+isogenies, 40; Néron models and mapping property.
 2. `MT-NERON-COMPONENTS` — blocked by Néron base, 30; identity component and component groups.
 3. `MT-NERON-SPECIALIZATION` — blocked by components, 30; specialization exactness and prime-to-residue torsion injection.
-4. `MT-FFGS-BASIC` — active partial substrate, 20; original quotient/base-change/example scope remains mandatory.
+4. `MT-FFGS-BASIC` — active partial substrate, 20; point-representing kernels, constant/diagonalizable examples, the `μ_n` multiplication-kernel presentation, and quotients of constant groups are integrated. Generic finite-flat closed-subgroup quotients and kernel/quotient base-change compatibility remain mandatory.
 5. `MT-FFGS-CONNECTED-ETALE` — blocked by full FFGS basic, 20; construct, rather than assume, the functorial connected–étale sequence and base change.
 6. `MT-FFGS-OORT-RAYNAUD` — blocked by connected–étale, 40; Oort–Tate classification and Raynaud uniqueness.
 7. `MT-X0-MODULI` — independent planned lane, 30; Γ₀ moduli problem with a downstream integral-curve consumer.
