@@ -105,3 +105,4 @@ import MazurTorsion.NumberTheory.XOneFifteenDescent
 import MazurTorsion.NumberTheory.XOneFifteenReduction
 import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
+import MazurTorsion.Upstream.Geometry

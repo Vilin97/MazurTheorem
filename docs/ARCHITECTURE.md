@@ -3,10 +3,10 @@
 The project separates proof, contracts, coordination, and presentation.
 
 ```text
-Mathlib / attributed exact-pin ports
-                 │
-                 ▼
-       MazurTorsion checked library
+Mathlib / Tau Ceti / attributed exact-pin ports
+                         │
+                         ▼
+               MazurTorsion checked library
                  │
         named consumer declarations
                  │
@@ -17,7 +17,7 @@ Challenge/ ── immutable open contracts
 coordination/program.json ── weighted DAG and claims
 blueprint/ ── mathematical exposition
 site/ ── generated public coordination view
-upstream/tauceti/ ── separate pin and interfaces
+upstream/tauceti/ ── same pins, separate open interfaces
 ```
 
 Checked implementation never imports `Challenge`. Challenge statements import

@@ -232,6 +232,7 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         if isinstance(requirement, dict)
     }
     root_mathlib = root_packages.get("mathlib", {})
+    root_tau = root_packages.get("TauCeti", {})
     doc_packages = {
         package.get("name"): package
         for package in doc_manifest.get("packages", [])
@@ -239,6 +240,7 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
     }
     doc_mathlib = doc_packages.get("mathlib", {})
     root_mathlib_requirement = root_requirements.get("mathlib", {})
+    root_tau_requirement = root_requirements.get("TauCeti", {})
     mathlib_source = source_by_id.get("mathlib", {})
     clawristotle_source = source_by_id.get("clawristotle", {})
     validator.require(
@@ -265,6 +267,21 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         baseline.get("source_commit") == clawristotle_source.get("commit"),
         "baseline.source_commit must match the Clawristotle source pin",
     )
+    tau_source = source_by_id.get("tauceti", {})
+    validator.require(
+        tau_source.get("commit")
+        == root_tau_requirement.get("rev")
+        == root_tau.get("rev"),
+        "Tau Ceti source, root Lake requirement, and root manifest commits must match",
+    )
+    validator.require(
+        root_tau_requirement.get("rev") == root_tau.get("inputRev"),
+        "root Tau Ceti requirement must match the manifest input revision",
+    )
+    validator.require(
+        tau_source.get("mathlib_commit") == root_mathlib.get("rev"),
+        "root Mathlib revision must match the Tau Ceti compatibility pin",
+    )
 
     tau_root = TAUCETI_CONTRACT_ROOT
     try:
@@ -288,7 +305,6 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         for requirement in tau_configuration.get("require", [])
         if isinstance(requirement, dict)
     }
-    tau_source = source_by_id.get("tauceti", {})
     tau_package = tau_packages.get("TauCeti", {})
     tau_mathlib = tau_packages.get("mathlib", {})
     tau_requirement = tau_requirements.get("TauCeti", {})

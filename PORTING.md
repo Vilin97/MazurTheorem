@@ -1,4 +1,6 @@
-# Exact-pin elliptic-curve reduction port
+# Exact-pin ports
+
+## Elliptic-curve reduction
 
 ## Provenance and license
 
@@ -123,6 +125,37 @@ the new `Filter.TendstoCofinite` instance expected by `Northcott.comp_of_finite_
 `Int.quotientSpanNatEquivZMod_comp_Quotient_mk` proof as the harness.
 
 No proof-strengthening option is used.
+
+## AINTLIB geometry substrate
+
+Three file-level Apache-2.0 modules were selected from the AINTLIB
+`dev/modular-curves` snapshot at
+`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
+`MazurTorsion/Upstream/AINTLIB/`:
+
+| Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
+|---|---|
+| `ForMathlib/CartierDual.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/CartierDual.lean` |
+| `ForMathlib/SheafOfModulesMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafOfModulesMonoidal.lean` |
+| `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
+
+Each file retains Chris Birkbeck's copyright, authorship, and Apache-2.0
+header. The port preserves declarations and namespaces. Local changes are
+limited to repointing the one internal import, removing source-level
+`set_option` commands, replacing linter-reported goal conversions with
+`change`, explicitly omitting unused section variables, and using `erw` at
+one semireducible sheaf-map rewrite required by the immutable Mathlib pin.
+
+The larger relative-Picard cone was tested but not retained: at this pin its
+essential elaboration depends on source-level backward-compatibility options,
+which this repository forbids. `MuN.lean` was also not copied because the
+audited file lacks an explicit license header. Files with placeholders or an
+unclean transitive cone remain prior art only. This is why AINTLIB is a
+selective attributed port rather than a Lake dependency.
+
+`MazurTorsion.Upstream.Geometry` is the reviewed boundary and
+`MazurTorsion.lean` is its named checked consumer. It also imports Tau Ceti's
+line-bundle and Abel--Jacobi layers from the root package's exact dependency.
 
 ## Build and audit
 

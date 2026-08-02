@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1419153,
-    "integrated_lean_modules": 639,
+    "integrated_lean_lines": 1420770,
+    "integrated_lean_modules": 643,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -33,8 +33,8 @@
       "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
       "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
       "license": "Apache-2.0",
-      "role": "Upstream home for reusable algebraic-geometry infrastructure",
-      "compatibility": "Tau Ceti and the Mazur workspace use Lean 4.33.0-rc1 and mathlib 79d0395. Tau Ceti remains an upstream target rather than a direct dependency of the Mazur package."
+      "role": "Direct exact-pin dependency and upstream home for reusable algebraic-geometry infrastructure",
+      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on Tau Ceti a3913fd with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects pin drift between them."
     },
     {
       "id": "aintlib-modular-curves",
@@ -44,7 +44,7 @@
       "mathlib_commit": "3edb3c0658f69f197b1e501b1f7623f3f7b3898c",
       "license": "Mixed branch status: curated files carry Apache-2.0 headers, but this branch has no root LICENSE",
       "role": "Audited prior art and selective porting source for Picard, cohomology, finite-group-scheme, isogeny, and open Y_0(N) infrastructure",
-      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Seven transitive Picard modules plus CartierDual and MuN compiled manually against the Mazur pin; warning cleanup, file-level license review, transitive placeholder audits, thin adapters, and real consumers are still required before integration.",
+      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Three explicitly Apache-2.0, placeholder-free modules are now selectively ported at the Mazur pin: the monoidal sheaf foundation, Scheme.Pic, and CartierDual. The larger relative-Picard and MuN cones remain excluded by the option and license gates.",
       "roadmap_impact": {
         "bankable_effort_points": {
           "min": 50,
@@ -54,7 +54,7 @@
           "min": 90,
           "max": 125
         },
-        "headline_treatment": "Already folded into the conservative 12% ecosystem-readiness estimate; it earns 0 integrated points today."
+        "headline_treatment": "The selected foundations are integrated without changing theorem-completion weights; the remaining estimate stays folded into the conservative 12% ecosystem-readiness figure."
       }
     }
   ],

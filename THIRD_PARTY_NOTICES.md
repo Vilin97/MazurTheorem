@@ -35,6 +35,34 @@ The retained `TwoTorsion.lean`, `ThreeTorsion.lean`, and
 `FullFourTorsion.lean` files preserve their source headers. The exact-pin
 audit and local changes are recorded in `docs/PRIOR_ART.md`.
 
+## AINTLIB geometry foundations
+
+- Author and copyright holder recorded in source: Chris Birkbeck
+- Source: https://github.com/CBirkbeck/AINTLIB
+- Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
+- Source paths:
+  - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
+  - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
+- License: Apache License 2.0, under the explicit header retained in each
+  selected source file; see `LICENSE`
+
+The selected files are stored under `MazurTorsion/Upstream/AINTLIB/`. Their
+imports and a small exact-pin proof compatibility point were adjusted, and
+source-level option commands and linter findings were eliminated. No other
+AINTLIB source is included. Details are recorded in `PORTING.md` and
+`docs/PRIOR_ART.md`.
+
+## Tau Ceti
+
+- Source: https://github.com/TauCetiProject/TauCeti
+- Source commit: `a3913fd9111b851af857f720b4ce6721e6634183`
+- License: Apache License 2.0
+
+Tau Ceti is an exact Git dependency, not vendored source. The root package and
+the separate upstream-contract package deliberately resolve the same Tau Ceti,
+Lean, and Mathlib revisions.
+
 ## AI-assisted development
 
 Parts of the proof development were produced in Claude Code and Codex agent

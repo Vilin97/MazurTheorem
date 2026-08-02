@@ -5,10 +5,11 @@ uses them as upstreams, not as untracked code mines.
 
 ## Core pin
 
-The checked `MazurTorsion` package uses Lean `v4.33.0-rc1` and Mathlib commit
-`79d0395a1825a6264ad5d269e35e60537518955e`, matching the current Lean Pool
-challenge and the Tau Ceti contract workspace. Future pin migrations remain
-their own weighted roadmap node and pull request.
+The checked `MazurTorsion` package uses Lean `v4.33.0-rc1`, Mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`, and Tau Ceti commit
+`a3913fd9111b851af857f720b4ce6721e6634183`. These match the current Lean Pool
+challenge and the separate Tau Ceti contract workspace. Future pin migrations
+remain their own weighted roadmap node and pull request.
 
 ## Mathlib
 
@@ -26,10 +27,29 @@ the target statement without importing its open challenge.
 
 Tau Ceti is the preferred upstream for large algebraic-geometry interfaces
 such as divisors, Picard functors, abelian varieties, and the Jacobian
-roadmap. It now shares this repository's exact Lean/Mathlib pin, while its work
-still lives in [`upstream/tauceti/`](../upstream/tauceti/) as a separately
-resolved Lake package. Direct integration remains blocked until the explicit
-migration node connects those dependency graphs and adds consumer tests.
+roadmap. The root package now has a direct immutable Tau Ceti dependency, and
+`MazurTorsion.Upstream.Geometry` compiles its line-bundle and Abel--Jacobi
+layers beside the selected AINTLIB foundations. Upstream-facing open contracts
+still live in [`upstream/tauceti/`](../upstream/tauceti/) as a separately
+resolved Lake package, pinned to the same Tau Ceti, Lean, and Mathlib commits.
+The quality gate rejects any drift between those pins.
+
+## AINTLIB
+
+AINTLIB is used selectively, not as a Lake dependency. The audited
+`dev/modular-curves` snapshot has a different Mathlib graph, many placeholders,
+source-level option commands, and no root license at that revision. The three
+file-level Apache-2.0 modules that are both useful and admissible at this pin
+are ported under `MazurTorsion/Upstream/AINTLIB/`: the monoidal sheaf foundation
+needed by `Scheme.Pic`, the Picard group itself, and the Hopf-algebraic
+Cartier-duality/Deligne-order development.
+
+The design boundary is `MazurTorsion.Upstream.Geometry`; its named aggregate
+consumer is `MazurTorsion.lean`. The relative Picard, coherent-cohomology,
+finite-group-scheme, and modular-curve frontiers remain recorded as prior art
+until their full cones satisfy the repository's proof, option, license, and
+exact-pin requirements. This retains all presently reusable checked content
+without importing AINTLIB's unresolved dependency graph.
 
 ## FLT repositories
 

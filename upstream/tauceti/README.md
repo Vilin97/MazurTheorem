@@ -1,8 +1,10 @@
 # Tau Ceti interface challenges
 
-This is a separate Lake package for work that belongs against
-[Tau Ceti](https://github.com/TauCetiProject/TauCeti). It is intentionally
-not a dependency of the core `MazurTorsion` package.
+This is a separate Lake package for open work that belongs against
+[Tau Ceti](https://github.com/TauCetiProject/TauCeti). The core
+`MazurTorsion` package now depends directly on the same immutable Tau Ceti
+commit; this package remains separate only so open upstream contracts cannot
+enter the checked implementation graph.
 
 | Dependency | Exact pin |
 |---|---|
@@ -21,7 +23,7 @@ exist in Tau Ceti:
 These are upstream-facing contracts, not completed Mazur proof. They carry
 zero theorem-completion credit until proved, reviewed upstream, and consumed
 by a Mazur node. Prefer opening the implementation in Tau Ceti and then
-updating this package to the merged commit.
+updating both the root dependency and this package to the same merged commit.
 
 ```sh
 lake exe cache get

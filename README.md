@@ -118,13 +118,15 @@ published at the stable `/blueprint/` route on GitHub Pages.
 - [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
 - [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction
   infrastructure;
+- [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — attributed AINTLIB
+  geometry foundations and the checked Tau Ceti integration boundary;
 - [`Challenge/`](Challenge/) — immutable open theorem contracts;
 - [`coordination/program.json`](coordination/program.json) — canonical
   weighted DAG and claim metadata;
 - [`blueprint/MazurBlueprint/Blueprint.lean`](blueprint/MazurBlueprint/Blueprint.lean)
   — six-stage Verso blueprint, dependency graph, and progress summary;
-- [`upstream/tauceti/`](upstream/tauceti/) — separately pinned Tau Ceti
-  interface challenges;
+- [`upstream/tauceti/`](upstream/tauceti/) — open Tau Ceti interface
+  challenges, resolved separately at the same exact pins as the core;
 - [`docs/`](docs/) — methodology, prior-art audit, and technical narrative;
 - [`archive/drafts/`](archive/drafts/) — explicitly unverified historical
   scratch files, excluded from all proof and progress claims.

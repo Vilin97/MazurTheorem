@@ -273,12 +273,14 @@ At the inspected snapshot it did not contain:
 * Hecke/Eisenstein infrastructure;
 * a theorem that closes any current Mazur dependency.
 
-Two small missing interfaces are exposed as exact, separately pinned
-challenges in this repository: finite support of scheme-theoretic `orderAt`,
+The root package now depends directly on this exact Tau Ceti snapshot, with
+`MazurTorsion.Upstream.Geometry` compiling the line-bundle and Abel--Jacobi
+layers as an acceptance boundary. Two small missing interfaces remain exposed
+as exact, separately resolved challenges in this repository: finite support of scheme-theoretic `orderAt`,
 consumed by Tau Ceti's principal-divisor `OrderSystem`, and additivity of
 abelian-variety dimension under products. Larger roadmap nodes build from
 Tau Ceti's existing divisor-class and Abel-Jacobi scaffolding but receive no
-integrated credit until a checked adapter and Mazur consumer compile.
+theorem-completion credit until their contracts are proved and consumed.
 
 Its present value is therefore both concrete and prospective: it supplies
 usable lower layers, but it does not yet discharge a finite-order obstruction
@@ -464,8 +466,11 @@ The strongest concrete reuse candidates are:
   [`picRel`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L57) and
   [`picRelFunctor`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203).
   The seven-module, 3,507-line transitive cone for these declarations was
-  compiled manually against this project's exact Lean and mathlib pin. It
-  produced only removable unused-variable warnings. The source explicitly
+  compiled manually against this project's exact Lean and mathlib pin. The
+  option-free monoidal-sheaf foundation and `Scheme.Pic` are now retained as
+  attributed local ports. The relative-Picard portion was not retained because
+  it depends essentially on source-level backward elaborator options forbidden
+  by this repository. The source explicitly
   defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle,
   and Abel's isomorphism.
 * [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
@@ -478,8 +483,9 @@ The strongest concrete reuse candidates are:
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).
   `CartierDual.lean` and `MuN.lean` both compiled manually against the Mazur
-  pin. The former carries an explicit Apache-2.0 header; the latter needs a
-  license decision before any source is copied.
+  pin. The explicitly Apache-2.0 `CartierDual.lean` is now retained as an
+  attributed, warning-free local port; `MuN.lean` remains excluded because
+  the audited file lacks an explicit license header.
 * [`GammaZeroStructure`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/CyclicSubgroup.lean#L151)
   and the coarse open scheme
   [`YZeroCoarse`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Moduli/CoarseSpace.lean#L248)
@@ -509,8 +515,10 @@ Apache-2.0 license only after the development branch diverged, and 599 of the
 827 inspected files carry an explicit Apache header. The integration policy is
 therefore selective: use named, file-level licensed leaves or obtain license
 clarification; converge the mathlib pin; remove option workarounds; preserve
-provenance; and add thin adapters plus real Mazur consumers. The whole AINTLIB
-project is neither vendored nor treated as a Lean Pool-ready dependency.
+provenance; and add checked integration boundaries plus real consumers. The
+admissible Picard and Cartier-duality leaves are now consumed through
+`MazurTorsion.Upstream.Geometry`; the whole AINTLIB project is neither vendored
+nor treated as a Lean Pool-ready dependency.
 
 ## 11. Multiplication-polynomial discriminants and executable resultants
 
@@ -741,12 +749,13 @@ The implementation policy following this audit is:
    project when they shorten the explicit `X₀(20)` and `X₀(24)` certificates.
 6. Retain the dormant mathlib `ZSMul` audit as a generic design reference;
    use the completed local fixed-level criteria on the critical path.
-7. Use the Birkbeck--Angdinata Lutz--Nagell and AINTLIB developments as
+7. Use the attributed, checked AINTLIB Picard and Cartier-duality ports through
+   `MazurTorsion.Upstream.Geometry`; treat its remaining developments as
    theorem-interface and dependency-boundary references only.
 8. Use Schmidt's formulas as the mathematical specification for the local
    fixed-level resultant certificates; do not import the analytic proof.
 9. Treat `hex-dev` as licensed algorithmic design evidence, while retaining
    the smaller option-free syzygy proof at the exact pin.
-10. Monitor Tau Ceti, the genus-one Picard work, AINTLIB, and relevant
-   mathlib PRs, while keeping the project self-contained at the LeanPool
-   pin.
+10. Continue the exact-pin Tau Ceti dependency, while monitoring the genus-one
+   Picard work, AINTLIB, and relevant mathlib PRs. Pin updates must keep the
+   root and separate Tau Ceti contract workspaces synchronized.
