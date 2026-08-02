@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1439171,
-    "integrated_lean_modules": 670,
+    "integrated_lean_lines": 1439241,
+    "integrated_lean_modules": 672,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -60,8 +60,8 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 50,
-    "percent": 5.0,
+    "earned_points": 70,
+    "percent": 7.0,
     "ecosystem_ready_estimate_percent": 12,
     "claimable_open_points": 166,
     "ordinary_claimable_points": 54,
@@ -316,8 +316,8 @@
         {
           "kind": "integration",
           "name": "Lean 4.33.0-rc1 / mathlib 79d0395 lock",
-          "state": "contract",
-          "description": "The repositories now share this exact toolchain and Mathlib pin; making Tau Ceti a tested downstream dependency remains MT-PIN-MIGRATION."
+          "state": "integrated",
+          "description": "The root and Tau Ceti contract workspaces share the exact Lean toolchain and complete resolved dependency graph, and the downstream contracts build under the permanent quality, axiom, linter, and style gates."
         },
         {
           "kind": "theorem",
@@ -3024,24 +3024,24 @@
       "title": "Converge on a shared Mathlib and Tau Ceti pin",
       "stage": "integration",
       "kind": "integration",
-      "status": "planned",
-      "readiness": "statement_only",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 20,
       "risk": "high",
       "backend": "mixed",
-      "summary": "Move the imported baseline and Tau Ceti consumers to one exact Lean/mathlib dependency graph without weakening any gate.",
+      "summary": "The root and Tau Ceti contract workspaces use one exact Lean toolchain and complete resolved package-revision graph. The Tau Ceti aggregator builds as a downstream consumer and passes the contract-axiom, Mathlib-linter, style, and repository quality gates.",
       "artifacts": [
-        {"kind": "integration", "name": "MazurTheorem.Release.sharedDependencyGraph", "state": "proposed", "description": "Pin Mazur and the tested Tau Ceti consumer workspace to one exact Lean, Mathlib, and transitive dependency graph."},
-        {"kind": "integration", "name": "MazurTheorem.Release.tauCetiConsumerBuild", "state": "proposed", "description": "Build the Tau Ceti contracts as a downstream consumer without weakening either repository's quality gates."}
+        {"kind": "integration", "name": "MazurTheorem.Release.sharedDependencyGraph", "state": "integrated", "description": "Embed the exact root and Tau Ceti toolchains and manifests whose complete resolved package-revision graphs are checked for equality.", "module": "MazurTorsion.Release.PinMigration"},
+        {"kind": "integration", "name": "MazurTheorem.Release.tauCetiConsumerBuild", "state": "integrated", "description": "Record the exact Tau Ceti downstream build and audit commands exercised by the permanent quality and CI gates.", "module": "MazurTorsion.Release.PinMigration"}
       ],
       "depends_on": ["MT-BASE-INTEGRATED"],
       "unlocks": ["MT-API-INTEGRATION"],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       }
     },
     {

@@ -13,21 +13,22 @@ Pin convergence, stable APIs, final assembly, kernel audit, and exposition.
 Stage weight: 50 points.
 :::
 
-:::theorem "MT-PIN-MIGRATION" (parent := "integration") (uses := "MT-BASE-INTEGRATED") (tags := "integration, planned, statement-only, release") (priority := "high") (effort := "medium")
-*Converge on a shared Mathlib and Tau Ceti pin.* Move the imported baseline
-and every upstream consumer to one exact Lean/Mathlib dependency graph without
-weakening the kernel, linter, or source-policy gates.
+:::theorem "MT-PIN-MIGRATION" (parent := "integration") (uses := "MT-BASE-INTEGRATED") (tags := "integration, done, integrated, release") (priority := "high") (effort := "medium")
+*Converge on a shared Mathlib and Tau Ceti pin.* The imported baseline and the
+Tau Ceti contract workspace use one exact Lean toolchain and complete resolved
+package-revision graph. The downstream aggregator builds under the contract-axiom,
+Mathlib-linter, style, and repository source-policy gates.
 
-*Status:* `planned`.
+*Status:* `done`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
-* `integration` (`proposed`): `MazurTheorem.Release.sharedDependencyGraph`
-  Pin Mazur and the tested Tau Ceti consumer workspace to one exact Lean, Mathlib, and
-  transitive dependency graph.
-* `integration` (`proposed`): `MazurTheorem.Release.tauCetiConsumerBuild`
-  Build the Tau Ceti contracts as a downstream consumer without weakening either
-  repository's quality gates.
+* `integration` (`integrated`): `MazurTheorem.Release.sharedDependencyGraph`
+  Embed the exact root and Tau Ceti toolchains and manifests whose complete resolved
+  package-revision graphs are checked for equality.
+* `integration` (`integrated`): `MazurTheorem.Release.tauCetiConsumerBuild`
+  Record the exact Tau Ceti downstream build and audit commands exercised by the
+  permanent quality and CI gates.
 :::
 
 :::theorem "MT-API-INTEGRATION" (parent := "integration") (uses := "MT-FINITE-JOIN, MT-PRIME-ISOGENY-CHAIN, MT-PIN-MIGRATION") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")

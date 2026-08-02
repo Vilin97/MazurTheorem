@@ -6,18 +6,18 @@ records dependency-critical ordering, current ownership, and the next checked ac
 It must be updated at integration checkpoints and never used to award progress independently of
 the canonical ledger.
 
-Snapshot: 2026-08-02, integration commit `3bb33b3`. The ledger has 48 nodes / 1,000 points: one
-completed baseline node (50 points) and 47 unfinished nodes (950 points). Open Challenge contracts
+Snapshot: 2026-08-02. The ledger has 48 nodes / 1,000 points: two completed nodes (70 points) and
+46 unfinished nodes (930 points). Open Challenge contracts
 are temporary compiled handoffs and receive no completion credit.
 
 ## Active lanes
 
 | Lane | Owner branch/worktree | Immediate acceptance boundary |
 |---|---|---|
-| `MT-TC-A1-ORDER-SUPPORT` | `codex/owner-a1-order-support`, separate Tau Ceti worktree | Prove `finite_support_orderAt` and compile its `orderSystem` consumer in the exact-pin upstream package. |
+| `MT-TC-A1-ORDER-SUPPORT` | `codex/owner-a1-order-support`, separate Tau Ceti worktree | Port the compiled `finite_support_orderAt` proof to the permanent exact-pin Tau Ceti module and retain the Challenge as a thin bridge. |
 | `MT-FFGS-BASIC` | `codex/owner-ffgs-complete`, separate worktree | Add actual quotients, kernel/quotient base-change compatibility, and constant-group, `μ_p`, and multiplication-kernel consumers. The integrated Basic/Affine/ConnectedEtale substrate is partial and earns zero credit. |
 | `MT-O49-TOWER` | `codex/owner-o49-tower`, separate worktree | Derive the exact order-49 bridge from the checked X₀(49) correspondence endpoint and compile the point-order consumer. |
-| Integration and finite-endpoint triage | `codex/mazur-owner-uw`, this worktree | Review workers, preserve API coherence, and decompose the missing product-dimension foundation. |
+| Integration and finite-endpoint triage | `codex/mazur-owner-uw`, this worktree | Review workers, preserve API coherence, and advance the next independent finite or foundational lane. |
 
 ## Open Challenge registry
 
@@ -100,10 +100,9 @@ an external blocker. Nodes on independent lanes remain eligible for parallel wor
 
 ### Integration and hardening — 50 points
 
-1. `MT-PIN-MIGRATION` — planned, 20; pins already agree, but complete clean exact-pin consumer builds and lifecycle/provenance evidence.
-2. `MT-API-INTEGRATION` — blocked by finite join+prime isogeny chain+pin audit, 10; compile `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders`.
-3. `MT-FINAL-ASSEMBLY` — blocked by API integration, 15; feed the unconditional order theorem to `MazurTorsion.torsion_ncard_le_of_arithmetic_inputs` and compile the final Mazur/Lean-Pool theorem.
-4. `MT-EXPOSITION-AUDIT` — blocked by final assembly, 5; final axiom, source, license, prior-art, blueprint-edge, quality, clean-checkout, and authorized full-build audit.
+1. `MT-API-INTEGRATION` — blocked by finite join+prime isogeny chain; the exact-pin audit is complete, 10; compile `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders`.
+2. `MT-FINAL-ASSEMBLY` — blocked by API integration, 15; feed the unconditional order theorem to `MazurTorsion.torsion_ncard_le_of_arithmetic_inputs` and compile the final Mazur/Lean-Pool theorem.
+3. `MT-EXPOSITION-AUDIT` — blocked by final assembly, 5; final axiom, source, license, prior-art, blueprint-edge, quality, clean-checkout, and authorized full-build audit.
 
 ## Checkpoint acceptance rules
 

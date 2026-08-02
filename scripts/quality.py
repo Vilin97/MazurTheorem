@@ -322,6 +322,25 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         tau_source.get("mathlib_commit") == tau_mathlib.get("rev"),
         "Tau Ceti source mathlib_commit must match its manifest",
     )
+    validator.require(
+        tau_toolchain == root_toolchain,
+        "root and Tau Ceti contract workspaces must use the same Lean toolchain",
+    )
+    root_resolved_graph = {
+        name: package.get("rev")
+        for name, package in root_packages.items()
+        if isinstance(name, str)
+    }
+    tau_resolved_graph = {
+        name: package.get("rev")
+        for name, package in tau_packages.items()
+        if isinstance(name, str)
+    }
+    validator.require(
+        root_resolved_graph == tau_resolved_graph,
+        "root and Tau Ceti contract manifests must resolve the same complete "
+        "package-revision graph",
+    )
 
 
 def strip_lean_comments_and_strings(source: str) -> str:
