@@ -38,6 +38,23 @@ export type ProgrammeArtifact = {
   signature?: string;
 };
 
+export type ExternalReuseDeclaration = {
+  name: string;
+  url: string;
+};
+
+export type ExternalReuse = {
+  source: string;
+  status: string;
+  estimated_node_savings_percent: {
+    min: number;
+    max: number;
+  };
+  summary: string;
+  boundary: string;
+  declarations: ExternalReuseDeclaration[];
+};
+
 export type ProgrammeNode = {
   id: string;
   title: string;
@@ -53,6 +70,7 @@ export type ProgrammeNode = {
   unlocks: string[];
   completion: Completion;
   artifacts?: ProgrammeArtifact[];
+  external_reuse?: ExternalReuse[];
   challenge?: Challenge;
 };
 

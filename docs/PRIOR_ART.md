@@ -442,40 +442,75 @@ are therefore retained as independent design references, not copied.
 
 The Lutz--Nagell development has since been incorporated into
 [`CBirkbeck/AINTLIB`](https://github.com/CBirkbeck/AINTLIB), inspected at
-[`fa3c5e6ee266ce3060bf9964fa3a592c9f8fcd8e`](https://github.com/CBirkbeck/AINTLIB/commit/fa3c5e6ee266ce3060bf9964fa3a592c9f8fcd8e).
-That snapshot uses Lean `v4.33.0-rc1` and mathlib commit
+[`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`](https://github.com/CBirkbeck/AINTLIB/commit/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684)
+on the `dev/modular-curves` branch. That snapshot uses Lean
+`v4.33.0-rc1` and mathlib commit
 `3edb3c0658f69f197b1e501b1f7623f3f7b3898c`.
+The compiler therefore matches this project, but AINTLIB's mathlib pin is
+266 commits newer than the immutable Mazur pin.
 
-Two projects are directly relevant:
+This is substantial prior art: 827 Lean files and 360,084 lines under
+`projects/ModularCurves/ModularCurves`. It is not a completed dependency.
+A source scan found 212 `sorry` tokens in 72 files, including roughly 100
+obvious proof bodies in 34 files, and 1,662 source-level `set_option` lines.
+The umbrella module does not reach every frontier file, and there were no
+GitHub check runs at the audited revision. A source-clean leaf must therefore
+still be checked through its complete import cone and with `#print axioms`.
 
-* `projects/ModularCurves` develops Katz--Mazur style torsion subgroup
-  schemes, Drinfeld and full level structures, the Tate normal form
-  `Y² + AXY + BY = X³ + BX²`, and a general construction of `Y₁(N)`.
-  A source search found no specialization to levels `10`, `12`, `20`, or
-  `24`, and no computation of the rational points of `X₁(10)`,
-  `X₁(12)`, `X₀(20)`, or `X₀(24)`. At this revision the project has 809
-  Lean files; 215 `sorry` occurrences remain in 72 files, together with
-  many local and global option overrides. It is valuable architectural
-  prior art, not a closed arithmetic proof of either exceptional subgroup
-  obstruction.
-* `projects/HasseWeil/HasseWeil/HasseBound/WeilPairing` contains a much
-  later explicit Weil-pairing construction. The core files define the
-  pairing, prove bilinearity, alternation and nondegeneracy over an
-  algebraically closed field, and develop Frobenius equivariance. The
-  directly inspected pairing core files contain no `sorry`; their
-  docstrings report foundational-axiom-only audits. The full directory is
-  nevertheless a large function-field, divisor, isogeny, and geometric
-  torsion stack, has nine remaining `sorry` occurrences elsewhere, and
-  uses forty `set_option` occurrences in 26 files. Porting it merely to
-  exclude full rational `5`- and `7`-torsion would be far larger and less
-  pin-stable than the local fixed-prime division-polynomial route.
+The strongest concrete reuse candidates are:
 
-GitHub again detects no root repository license file. Many individual
-AINTLIB files carry an Apache-2.0 header, while others, including the
-new Lutz--Nagell generalization files, do not. Nothing from an ambiguous or
-unfinished dependency cone is copied here. The Tate-normal-form equation
-and the Weil-pairing interfaces serve as independent corroboration of the
-local blueprint.
+* [`Scheme.Pic`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/Pic.lean#L118),
+  pullback on Picard groups, and the relative definitions
+  [`picRel`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L57) and
+  [`picRelFunctor`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203).
+  The seven-module, 3,507-line transitive cone for these declarations was
+  compiled manually against this project's exact Lean and mathlib pin. It
+  produced only removable unused-variable warnings. The source explicitly
+  defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle,
+  and Abel's isomorphism.
+* [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
+  Cech comparison machinery, exact sequences, and
+  [`orderedBaseCechHomologyFinite_of_isProper`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149).
+  These cover meaningful parts of coherent cohomology but not the packaged
+  proper-curve finite-dimensionality, vanishing-above-one, relative base
+  change, or semicontinuity APIs required by the roadmap.
+* elliptic finite-flat subgroups, the quotient-scheme universal property,
+  constant groups, `muN`, and the Hopf-algebraic theorem
+  [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).
+  `CartierDual.lean` and `MuN.lean` both compiled manually against the Mazur
+  pin. The former carries an explicit Apache-2.0 header; the latter needs a
+  license decision before any source is copied.
+* [`GammaZeroStructure`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/CyclicSubgroup.lean#L151)
+  and the coarse open scheme
+  [`YZeroCoarse`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Moduli/CoarseSpace.lean#L248)
+  over a fixed base where `N` is invertible. This is useful moduli
+  scaffolding, not compactified `X₀(N)`, an integral model over `ℤ`, or cusp
+  theory.
+
+The central gates remain open. `NIsogeny.lean` leaves the quotient's
+smoothness, properness, Weierstrass structure, finiteness, flatness, degree,
+and Gamma-zero classifying space as proof holes. `WeilPairing/Basic.lean`
+leaves the global scheme-valued pairing and its laws open. No Neron-model,
+component-group, Jacobian-variety, Hecke, Eisenstein-ideal, or Eisenstein-
+quotient layer was found. AINTLIB's own plan targets open `Y₁(N)`, `Y(N)`,
+and twisted `Y(ρ)` and treats the integral `X₀(N)/ℤ` needed by Mazur as a
+black box.
+
+The node-by-node estimates recorded in `coordination/program.json` put the
+de-duplicated, realistically bankable saving at about **50--75 of the 1,000
+effort points**, or **5--7.5 percentage points of total work**. Closing
+AINTLIB's quotient, global Weil-pairing, and Gamma-zero representability gates
+could raise that to roughly **9--12.5 points**. This is mostly shared-geometry
+and moduli substrate; it does not touch the 100-point prime argument or most of
+the 400-point prime-level infrastructure.
+
+The audited branch has no root `LICENSE`. The default branch acquired an
+Apache-2.0 license only after the development branch diverged, and 599 of the
+827 inspected files carry an explicit Apache header. The integration policy is
+therefore selective: use named, file-level licensed leaves or obtain license
+clarification; converge the mathlib pin; remove option workarounds; preserve
+provenance; and add thin adapters plus real Mazur consumers. The whole AINTLIB
+project is neither vendored nor treated as a Lean Pool-ready dependency.
 
 ## 11. Multiplication-polynomial discriminants and executable resultants
 

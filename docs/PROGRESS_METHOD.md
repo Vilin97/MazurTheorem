@@ -13,6 +13,13 @@ The project reports two deliberately different percentages:
 At launch these are **5% integrated** and approximately **12%
 ecosystem-ready**. The second number is not a proof-progress claim.
 
+The August 2026 audit of AINTLIB's modular-curve branch identifies roughly
+50--75 effort points of plausibly reusable material after pin convergence,
+license review, transitive axiom checks, and adapter work. Those points overlap
+infrastructure already represented in the 12% ecosystem estimate, so they are
+not added a second time. AINTLIB contributes **0 integrated points** until a
+named consumer in this repository compiles against an accepted extraction.
+
 ## Weighted denominator
 
 The denominator is 1,000 effort points, where one point is 0.1% of the
