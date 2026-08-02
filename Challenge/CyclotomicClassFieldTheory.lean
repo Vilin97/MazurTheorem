@@ -4,32 +4,39 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.CyclotomicUnramified
+import MazurTorsion.NumberTheory.KummerArtinProduct
 
 /-!
-# Challenge: the unramified class-field quotient
+# Challenge: the global Kummer--Artin product formula
 
 Mathlib already proves the ideal-local ramification criterion used by the
-destination module, but it does not yet contain the Hilbert class field or
-global Artin reciprocity.  This contract is exactly that missing global step.
+destination module, but it does not yet contain the required global Kummer
+or Artin reciprocity theorem. This contract states the missing input as the
+explicit finite product formula for the canonical Kummer presentation.
 
-Its conclusion is deliberately structured: an everywhere finite-place
-unramified inverse-cyclotomic extension must yield a surjective quotient of
-the ideal class group by `Multiplicative (ZMod p)`, and that quotient must be
-equivariant for the inverse cyclotomic character.  The separate
-Herbrand--Kummer assertion that this eigenspace vanishes is not part of this
-contract.
+The checked destination API proves that this formula is equivalent to
+conductor-one principal reciprocity and hence produces the required
+surjective, inverse-cyclotomic ideal-class quotient. The separate
+Herbrand--Kummer assertion that this quotient cannot exist is not part of
+this contract.
 -/
 
 namespace MazurTheorem.Challenge
 
 universe u
 
-/-- Global class field theory sends every everywhere-unramified
-inverse-cyclotomic extension to the corresponding inverse-character quotient
-of the cyclotomic ideal class group. -/
-theorem cyclotomic_classFieldTheoryPrinciple
+/-- Global Kummer reciprocity makes the finite product of local
+Kummer/Frobenius symbols trivial on every principal fractional ideal. -/
+theorem cyclotomic_kummerArtinProductFormulaPrinciple
     (p : ℕ) [Fact p.Prime] (_hp : 5 ≤ p) :
-    NumberTheory.CyclotomicCharacter.ClassFieldTheoryPrinciple.{u} p := sorry
+    NumberTheory.CyclotomicCharacter.KummerArtinProductFormulaPrinciple.{u} p := sorry
+
+/-- Checked bridge from the exact Kummer product-formula contract to the
+roadmap-facing class-field-theory principle. -/
+theorem cyclotomic_classFieldTheoryPrinciple
+    (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p) :
+    NumberTheory.CyclotomicCharacter.ClassFieldTheoryPrinciple.{u} p :=
+  NumberTheory.CyclotomicCharacter.classFieldTheoryPrinciple_of_kummerArtinProductFormula
+    (cyclotomic_kummerArtinProductFormulaPrinciple p hp)
 
 end MazurTheorem.Challenge

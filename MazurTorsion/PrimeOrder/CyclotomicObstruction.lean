@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.CyclotomicKummer
+import MazurTorsion.NumberTheory.CyclotomicSelmerClassGroup
 
 /-!
 # Prime division fields and the cyclotomic obstruction
@@ -73,6 +73,38 @@ theorem divisionField_radicandSelmerClass_ne_one
     (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
     divisionField_radicandSelmerClass E hlocal ≠ 1 :=
   E.unramifiedRadicandSelmerClass_ne_one
+    (divisionField_everywhereUnramified E hlocal)
+
+/-- The same division-field local datum canonically produces a class-group
+`p`-torsion element.  This is the image of the nontrivial Selmer class; it
+may still be trivial precisely when that Selmer class comes from a global
+unit modulo `p`-th powers. -/
+noncomputable def divisionField_radicandClassTorsion
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
+    IsDedekindDomain.selmerGroup.classGroupTorsion
+      (R := NumberField.RingOfIntegers (PrimeCyclotomicField p)) p :=
+  E.unramifiedRadicandClassTorsion
+    (divisionField_everywhereUnramified E hlocal)
+
+/-- The underlying ideal class of the division-field torsion element is the
+class of the explicit root of the Kummer radicand's principal divisor. -/
+@[simp]
+theorem divisionField_radicandClassTorsion_val
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
+    (divisionField_radicandClassTorsion E hlocal :
+        ClassGroup (NumberField.RingOfIntegers
+          (PrimeCyclotomicField p))) =
+      ClassGroup.mk (PrimeCyclotomicField p)
+        E.unramifiedRadicandRootIdeal :=
+  E.unramifiedRadicandClassTorsion_val
     (divisionField_everywhereUnramified E hlocal)
 
 /-- A genuine consumer of `divisionField_everywhereUnramified`: global

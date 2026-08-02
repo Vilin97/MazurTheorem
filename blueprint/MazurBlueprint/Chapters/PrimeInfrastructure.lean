@@ -241,9 +241,9 @@ expected exact order, and its image is nonzero.
 :::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, number-theory") (priority := "high") (effort := "large")
 *Cyclotomic unramified character extensions.* The inverse-character extension,
 its ideal-local ramification criteria, and its class-group obstruction now have
-checked interfaces. Global Artin reciprocity remains the registered research
-contract needed to exclude the everywhere-unramified extension over
-$`\mathbb{Q}(\zeta_p)`.
+checked interfaces. The exact principal Kummer--Artin product formula remains
+the registered research contract needed to descend the finite-prime Artin map
+to the ideal class group over $`\mathbb{Q}(\zeta_p)`.
 
 *Status:* `research_open`.
 
@@ -257,7 +257,7 @@ $`\mathbb{Q}(\zeta_p)`.
 * `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
   Exclude an everywhere-unramified inverse-cyclotomic extension using the required
   class-field input.
-* `theorem` (`contract`): `NumberTheory.CyclotomicCharacter.classFieldTheoryPrinciple`
-  Produce the surjective inverse-character ideal-class-group quotient by global
-  class field theory.
+* `theorem` (`contract`): `NumberTheory.CyclotomicCharacter.kummerArtinProductFormulaPrinciple`
+  Prove the principal finite-product formula in Kummer coordinates and hence
+  produce the inverse-character ideal-class-group quotient.
 :::

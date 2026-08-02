@@ -1036,7 +1036,7 @@ theorem nonSplitFinitePrimePrinciple
 /-- Principal reciprocity implies the required unramified inverse-character
 class-group quotient. Finite-prime nonsplitting, ideal-theoretic descent,
 surjectivity, and Galois equivariance in this assembly are all checked. -/
-theorem classFieldTheoryPrinciple
+theorem classFieldTheoryPrinciple_of_principalReciprocity
     {p : ℕ} [Fact p.Prime]
     (hprincipal : PrincipalReciprocityPrinciple.{u} p) :
     ClassFieldTheoryPrinciple.{u} p := by
