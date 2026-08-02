@@ -5,6 +5,8 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtale
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Examples
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Quotient
 import MazurTorsion.Arithmetic.LowTorsionObstructions
 import MazurTorsion.Arithmetic.CardinalityReduction
 import MazurTorsion.Arithmetic.ExceptionalProducts

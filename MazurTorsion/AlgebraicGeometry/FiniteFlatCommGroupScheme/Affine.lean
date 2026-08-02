@@ -1341,6 +1341,42 @@ def realize (G : AffineFiniteFreeCommGroupScheme R) :
     change IsFinite G.structureMap ∧ Flat G.structureMap
     exact ⟨inferInstance, inferInstance⟩
 
+/-- The affine convolution equivalence with the geometric realization type exposed. -/
+abbrev realizePointMulEquiv (G : AffineFiniteFreeCommGroupScheme R)
+    (B : Type u) [CommRing B] [Algebra R B] :
+    G.realize.Point (AffineCommGroupScheme.testObject (R := R) B) ≃*
+      WithConv (G.coordinates →ₐ[R] B) :=
+  G.obj.pointMulEquiv B
+
+@[simp]
+theorem realizePointMulEquiv_apply (G : AffineFiniteFreeCommGroupScheme R)
+    (B : Type u) [CommRing B] [Algebra R B]
+    (x : G.realize.Point (AffineCommGroupScheme.testObject (R := R) B)) :
+    G.realizePointMulEquiv B x = toConv (G.obj.pointToAlgHom B x) :=
+  AffineCommGroupScheme.pointMulEquiv_apply G.obj B x
+
+/-- Functoriality of geometric realization on morphisms of finite-free affine group schemes. -/
+def realizeMap {G H : AffineFiniteFreeCommGroupScheme R} (f : G ⟶ H) :
+    G.realize ⟶ H.realize :=
+  ObjectProperty.homMk ((AffineCommGroupScheme.realizationFunctor R).map f.hom)
+
+/-- Mapping a geometric affine point is contravariant composition with the coordinate map. -/
+theorem pointToAlgHom_map_realizeMap {G H : AffineFiniteFreeCommGroupScheme R}
+    (f : G ⟶ H) (B : Type u) [CommRing B] [Algebra R B]
+    (x : G.realize.Point (AffineCommGroupScheme.testObject (R := R) B)) :
+    H.obj.pointToAlgHom B
+        (FiniteFlatCommGroupScheme.mapPoint (realizeMap f)
+          (AffineCommGroupScheme.testObject (R := R) B) x) =
+      (G.obj.pointToAlgHom B x).comp (AffineCommGroupScheme.coordinateMap f.hom) := by
+  apply AlgHom.ext
+  intro a
+  let xleft : Spec (.of B) ⟶ G.scheme := x.left
+  change (Spec.preimage (xleft ≫ AffineCommGroupScheme.schemeMap f.hom)).hom a = _
+  rw [Spec.preimage_comp]
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply]
+  rw [AffineCommGroupScheme.schemeMap, Spec.preimage_map]
+  rfl
+
 @[simp]
 theorem realize_scheme (G : AffineFiniteFreeCommGroupScheme R) :
     G.realize.scheme = G.scheme := rfl
