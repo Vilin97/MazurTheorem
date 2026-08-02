@@ -64,8 +64,9 @@ from the full Picard comparison and divisor-class equivalence, proving these are
 irreducible global outputs. It also proves the basic-open tilde restriction isomorphism and
 derives global tilde invertibility from Mathlib's finite free-localization cover and Tau Ceti
 local trivializations. The checked local API supplies the unconditional affine Dedekind class
-equivalence, its actual line bundles, and an absolute degree-zero D1 consumer; none is credited
-as the missing global result.
+equivalence, tensor-additive module representatives, tilde line bundles detecting linear
+equivalence exactly, and an absolute degree-zero D1 consumer; none is credited as the missing
+global result.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -105,6 +106,13 @@ standard-sign construction checked in the affine API.
   Give the unconditional standard-sign affine Dedekind divisor-class/module-Picard equivalence.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
   Package its chosen module representative unconditionally as a Tau Ceti line bundle.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundleModule_add_equiv`
+  Identify `O(D + E)` with `O(D) ⊗ O(E)` as invertible modules, unconditionally.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent`
+  Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line
+  bundles.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

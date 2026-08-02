@@ -34,15 +34,15 @@ principal triviality. Conversely, every exact dictionary forces precisely those 
 outputs. Thus the remaining global Challenge has a checked irreducible characterization rather
 than hiding additional localization assumptions.
 
-Unconditionally, the current dependency graph supports the class-level dictionary between the
-divisor class group of an affine Dedekind curve and Mathlib's module Picard group. The resulting
-equivalence has the standard sign: the checked representative formula below sends the divisor
-of a fractional ideal to the inverse of that ideal's Picard class. The affine localization
-bridge is also unconditional: restriction of tilde to a principal open is identified through
-localized global sections, and a finite basic-open cover proves that tilde of every invertible
-module is an invertible sheaf. The further comparison with AINTLIB's scheme Picard group remains
-factored into its exact forward and reverse components rather than hidden behind a stronger
-claim than the current library proves.
+Unconditionally, the current dependency graph supports the standard-sign class-level dictionary
+for an affine Dedekind curve, tensor-additive chosen invertible-module representatives, and tilde
+line bundles whose isomorphism classes detect linear equivalence exactly. The checked
+representative formula below sends the divisor of a fractional ideal to the inverse of that
+ideal's Picard class. The affine localization bridge is also unconditional: restriction of tilde
+to a principal open is identified through localized global sections, and a finite basic-open
+cover proves that tilde of every invertible module is an invertible sheaf. The further comparison
+with AINTLIB's scheme Picard group remains factored into its exact forward and reverse components
+rather than hidden behind a stronger claim than the current library proves.
 -/
 
 open CategoryTheory
@@ -786,6 +786,7 @@ namespace AffineDedekind
 
 open IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry.WeilDivisor
+open scoped TensorProduct
 
 variable (R : Type u) [CommRing R] [IsDedekindDomain R]
 variable (K : Type v) [Field K] [Algebra R K] [IsFractionRing R K]
@@ -857,6 +858,37 @@ lemma lineBundleModule_picClass (D : WeilDivisor (HeightOneSpectrum R)) :
     CommRing.Pic.mk R (lineBundleModule R K D) = lineBundleClass R K D :=
   CommRing.Pic.mk_eq_self
 
+/-- The chosen affine line-bundle module carries divisor addition to tensor product, up to
+linear equivalence. -/
+lemma nonempty_lineBundleModule_add_equiv (D E : WeilDivisor (HeightOneSpectrum R)) :
+    Nonempty (lineBundleModule R K (D + E) ≃ₗ[R]
+      (lineBundleModule R K D ⊗[R] lineBundleModule R K E)) := by
+  rw [← CommRing.Pic.mk_eq_mk_iff, lineBundleModule_picClass,
+    CommRing.Pic.mk_tensor, lineBundleModule_picClass, lineBundleModule_picClass]
+  change Additive.toMul (divisorToPic R K (D + E)) =
+    Additive.toMul (divisorToPic R K D) * Additive.toMul (divisorToPic R K E)
+  rw [map_add]
+  rfl
+
+/-- Two chosen affine line-bundle modules are linearly equivalent exactly when the underlying
+divisors are linearly equivalent. -/
+lemma nonempty_lineBundleModule_equiv_iff_linearlyEquivalent
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    Nonempty (lineBundleModule R K D ≃ₗ[R] lineBundleModule R K E) ↔
+      (WeilDivisor.OrderSystem.ofDedekindDomain R K).LinearlyEquivalent D E := by
+  rw [← CommRing.Pic.mk_eq_mk_iff, lineBundleModule_picClass,
+    lineBundleModule_picClass]
+  change divisorToPic R K D = divisorToPic R K E ↔ _
+  constructor
+  · intro h
+    rw [divisorToPic, AddMonoidHom.comp_apply] at h
+    exact (WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass_eq_iff.mp
+      ((classEquivPicard R K).injective h)
+  · intro h
+    rw [divisorToPic, AddMonoidHom.comp_apply, AddMonoidHom.comp_apply]
+    exact congrArg (classEquivPicard R K)
+      ((WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass_eq_iff.mpr h)
+
 /-- A principal divisor has a trivial affine line-bundle module. -/
 lemma nonempty_lineBundleModule_principal_equiv (g : Additive Kˣ) :
     Nonempty
@@ -884,6 +916,22 @@ lemma nonempty_lineBundle_principal_iso_trivial
   let e' := e.trans (Finsupp.uniqueLinearEquiv R R PUnit.unit).symm
   exact ⟨(_root_.AlgebraicGeometry.tilde.functor (.of R)).mapIso e'.toModuleIso ≪≫
     _root_.AlgebraicGeometry.tildeFinsupp PUnit⟩
+
+/-- Isomorphism of the chosen affine tilde line bundles detects linear equivalence exactly. The
+reverse implication uses full faithfulness of Mathlib's tilde functor. -/
+theorem nonempty_lineBundle_iso_iff_linearlyEquivalent
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    Nonempty ((lineBundle R K D).obj ≅ (lineBundle R K E).obj) ↔
+      (WeilDivisor.OrderSystem.ofDedekindDomain R K).LinearlyEquivalent D E := by
+  constructor
+  · rintro ⟨e⟩
+    let e' := _root_.AlgebraicGeometry.tilde.fullyFaithfulFunctor.preimageIso e
+    exact (nonempty_lineBundleModule_equiv_iff_linearlyEquivalent R K D E).mp
+      ⟨e'.toLinearEquiv⟩
+  · intro h
+    obtain ⟨e⟩ :=
+      (nonempty_lineBundleModule_equiv_iff_linearlyEquivalent R K D E).mpr h
+    exact ⟨(_root_.AlgebraicGeometry.tilde.functor (.of R)).mapIso e.toModuleIso⟩
 
 end AffineDedekind
 

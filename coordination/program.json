@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421801,
+    "integrated_lean_lines": 1421849,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -944,6 +944,20 @@
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
           "state": "contract",
           "description": "Package the chosen affine invertible-module representative unconditionally as a Tau Ceti line bundle.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundleModule_add_equiv",
+          "state": "contract",
+          "description": "Identify O(D + E) with O(D) tensor O(E) as invertible modules, unconditionally.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent",
+          "state": "contract",
+          "description": "Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line bundles.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         }
       ],
