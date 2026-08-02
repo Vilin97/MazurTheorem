@@ -30,23 +30,21 @@ tilde bundles. Meanwhile,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates cross-chart
 ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
-the restriction/base-change identification. The latter is now proved for every open-immersion
-map presented by a classical submonoid localization. For two distinct chart rings, extension
-equality is now proved for
-the principal divisors defined by the same rational function. For arbitrary divisors it is
-proved when the common Dedekind overlap is a localization of both chart rings and coefficients
-agree after height-one-prime contraction. Affine tilde base change and module localization now
-prove the restriction comparison under simultaneous open-immersion and classical-localization
-hypotheses, so checked consumers give the actual arbitrary-divisor and principal-divisor
-restriction isomorphisms from those data alone. On an arbitrary affine overlap, the sheaf-level
-base-change identification is still proved equivalent to a linear equivalence on affine global
-sections.
+the restriction/base-change identification. Affine tilde base change and flat epimorphic
+tensor/span comparison now prove the latter for every affine open immersion, without a classical
+localization presentation. Hence the packaged cross-chart extension condition, which also
+records the scalar towers, constructs the actual chosen restriction isomorphism. For two distinct
+chart rings, extension equality is proved for the principal divisors defined by the same rational
+function, giving the actual restriction isomorphism on every common affine overlap satisfying the
+standing Dedekind and common-fraction-field assumptions. For arbitrary divisors, it is proved
+when a common Dedekind overlap is a localization of both chart rings and coefficients agree after
+height-one-prime contraction; the same checked consumer then gives the restriction isomorphism.
 Canonical
 Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes the arbitrary-affine-open tensor/span comparison, the affine Picard
-comparison inputs, the map-specific smooth-curve
+What remains here includes arbitrary-divisor cross-chart extension equality from the geometric
+ambient points, the affine Picard comparison inputs, the map-specific smooth-curve
 ring conditions, global curve divisor gluing, and global
 divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
@@ -103,15 +101,15 @@ adding surjectivity gives the full divisor-class/Picard equivalence without a gl
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
-the overlap-localization/ambient contracted-coefficient compatibility,
-the arbitrary-affine-open tensor/span comparison, coherent overlap system,
+arbitrary-divisor cross-chart extension equality, coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
-asserted. The remaining geometric localization and base-change predicates are precise
-compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
-separately registered open theorems. Those existence results remain open, so the contract earns
-no Mazur completion credit.
+asserted. `AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality
+condition, and the remaining cross-chart extension predicate are precise compiled conditional
+contracts subsumed by this unchanged registered A3 Challenge, rather than separately registered
+open theorems. Those existence results remain open, so the contract earns no Mazur completion
+credit.
 The Challenge's published import list remains unchanged; solvers use these checked route
 modules explicitly.
 -/

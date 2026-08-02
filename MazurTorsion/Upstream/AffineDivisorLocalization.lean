@@ -5,6 +5,9 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.DivisorLineBundle
+import Mathlib.Algebra.Category.Ring.Epi
+import Mathlib.LinearAlgebra.Span.TensorProduct
+import Mathlib.RingTheory.Flat.TorsionFree
 import Mathlib.RingTheory.FractionalIdeal.Extended
 
 /-!
@@ -30,15 +33,15 @@ tilde sheaves. The cross-chart extension equality is now proved outright for two
 divisors cut out by the same rational function. For arbitrary divisors, it is proved when the
 common Dedekind overlap ring is a localization of both chart rings and the coefficients agree
 after contracting its height-one primes. General affine tilde base change is derived from the
-affine adjunctions. When the induced spectrum map is an open immersion and the overlap ring is a
-classical submonoid localization, it proves that the chosen restricted bundle is tilde of the
-extended inverse ideal. Thus the localization, open-immersion, and coefficient hypotheses alone
-now construct the actual restricted-bundle isomorphism. For an
-arbitrary affine open immersion, the sheaf-level boundary is still equivalent to the corresponding
-linear equivalence on affine global sections. Constructing suitable overlap-localization
-presentations, proving ambient-point compatibility of the contracted coefficients, choosing the
-isomorphisms coherently, proving the triple cocycle, and proving module effectivity remain open in
-the current Mathlib and Tau Ceti dependency graph.
+affine adjunctions. An affine open immersion makes the coordinate-ring map an algebra epimorphism,
+and flat tensor/span comparison then proves that the chosen restricted bundle is tilde of the
+extended inverse ideal without any classical localization presentation. Consequently, equality
+of the two extended ideals, together with the standing scalar-tower data, constructs the actual
+restricted-bundle isomorphism on every affine overlap satisfying these hypotheses; in particular,
+the principal-divisor result needs no localization presentation.
+Constructing arbitrary-divisor cross-chart extension equality from the geometric ambient points,
+choosing the isomorphisms coherently, proving the triple cocycle, and proving module effectivity
+remain open in the current Mathlib and Tau Ceti dependency graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -216,10 +219,9 @@ noncomputable abbrev extensionMap
     (CommRingCat.ofHom (algebraMap R B))
 
 /-- The second exact cross-chart input: restriction of the chosen affine divisor line bundle to
-the common affine overlap agrees with tilde of the extended inverse divisor ideal. The
-localization theorem below discharges this input when the spectrum map is an open immersion and
-the overlap ring is presented as a classical submonoid localization; on an arbitrary affine open
-immersion it is equivalent below to a linear equivalence on affine global sections. -/
+the common affine overlap agrees with tilde of the extended inverse divisor ideal. Flat
+epimorphic base change below discharges this input on every affine open immersion; it is also
+identified with the corresponding linear equivalence on affine global sections. -/
 noncomputable def RestrictionIdentifiesExtendedInverseIdeal
     (R B K : Type u)
     [CommRing R] [IsDedekindDomain R]
@@ -248,7 +250,7 @@ noncomputable abbrev restrictedLineBundleGlobalSections
   (_root_.AlgebraicGeometry.moduleSpecΓFunctor (R := CommRingCat.of B)).obj
     ((AffineDedekind.lineBundle R K D).obj.restrict (extensionMap R B))
 
-/-- The module-level arbitrary-overlap boundary: global sections of the restricted chosen
+/-- The module-level arbitrary-overlap comparison: global sections of the restricted chosen
 line bundle agree with the inverse divisor ideal extended to the overlap ring. -/
 noncomputable def RestrictionGlobalSectionsEquivExtendedInverseIdeal
     (R B K : Type u)
@@ -686,6 +688,47 @@ private noncomputable def originalInverseIdealBaseChangeEquivExtended
     (P.toLocalized' B S (LinearMap.id : K →ₗ[R] K))).equiv |>.trans
       (LinearEquiv.ofEq _ _ hP)
 
+private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_flat_epi
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    B ⊗[R] originalInverseIdeal R K D ≃ₗ[B]
+      extendedInverseIdeal R B K D := by
+  let P : Submodule R K := originalInverseIdeal R K D
+  have hP : Submodule.span B (P : Set K) = extendedInverseIdeal R B K D := by
+    simpa [P] using (extendedInverseIdeal_eq_span R B K D).symm
+  exact (P.tensorEquivSpan B).trans (LinearEquiv.ofEq _ _ hP)
+
+private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    B ⊗[R] originalInverseIdeal R K D ≃ₗ[B]
+      extendedInverseIdeal R B K D := by
+  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+    CommRingCat.ofHom (algebraMap R B)
+  letI : Mono (Scheme.Spec.map f.op) := by
+    change Mono (Spec.map f)
+    infer_instance
+  letI : Mono f.op := Scheme.Spec.mono_of_mono_map inferInstance
+  letI : Epi f := by
+    change Epi f.op.unop
+    infer_instance
+  letI : Algebra.IsEpi R B :=
+    CommRingCat.epi_iff_epi.mp (inferInstanceAs (Epi f))
+  letI : Module.Flat R B := inferInstance
+  exact originalInverseIdealBaseChangeEquivExtended_of_flat_epi R B K D
+
 private noncomputable def extendScalarsCarrierEquiv
     (R B M N : Type u) [CommRing R] [CommRing B]
     [AddCommGroup M] [Module R M]
@@ -719,6 +762,86 @@ private noncomputable def chosenModuleBaseChangeEquivExtended
     (extendedInverseIdeal R B K D) <|
       ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
         (originalInverseIdealBaseChangeEquivExtended R B K S D)
+
+private noncomputable def chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (ModuleCat.extendScalars (algebraMap R B)).obj (chosenModule R K D) ≃ₗ[B]
+      extendedInverseIdeal R B K D := by
+  exact extendScalarsCarrierEquiv R B
+    (AffineDedekind.lineBundleModule R K D)
+    (extendedInverseIdeal R B K D) <|
+      ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
+        (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)
+
+/-- On every affine open immersion between the chart spectrum and a common overlap spectrum,
+restriction of the chosen affine divisor line bundle is tilde of the extended inverse divisor
+ideal. No classical localization presentation is required. -/
+theorem restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    RestrictionIdentifiesExtendedInverseIdeal R B K D := by
+  refine ⟨inferInstance, ?_⟩
+  let M := chosenModule R K D
+  exact ⟨((extendScalarsTildeIsoRestrict
+      (CommRingCat.of R) (CommRingCat.of B)
+      (CommRingCat.ofHom (algebraMap R B))).app M).symm ≪≫
+    (tilde.functor (CommRingCat.of B)).mapIso
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso⟩
+
+/-- On every affine open immersion, affine global sections of the restricted chosen line bundle
+identify with the extended inverse divisor ideal. -/
+theorem restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    RestrictionGlobalSectionsEquivExtendedInverseIdeal R B K D :=
+  restrictionGlobalSectionsEquivExtendedInverseIdeal_of_identifies R B K D
+    (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R B K D)
+
+/-- The packaged `Boundary.OverlapInverseIdealExtensionEq` condition now suffices to identify the
+actual chosen line-bundle restrictions on an affine overlap. Besides ideal equality, that
+condition records the two scalar towers; affine-open flat epimorphic base change supplies both
+restriction comparisons. -/
+noncomputable def chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    (AffineDedekind.lineBundle R₁ K D₁).obj.restrict (extensionMap R₁ B) ≅
+      (AffineDedekind.lineBundle R₂ K D₂).obj.restrict (extensionMap R₂ B) := by
+  letI : IsScalarTower R₁ B K := h.1
+  letI : IsScalarTower R₂ B K := h.2.1
+  exact chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂
+    (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₁ B K D₁)
+    (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₂ B K D₂) h
 
 /-- If the induced spectrum map is an open immersion and the overlap ring is a localization of
 the chart ring, restriction of the chosen affine divisor line bundle is tilde of the extended
@@ -1060,6 +1183,32 @@ noncomputable def chosenLineBundleRestrictionIsoPrincipal
         (extensionMap R₂ B) :=
   chosenLineBundleRestrictionIso R₁ R₂ B K _ _ h₁ h₂
     (Boundary.overlapInverseIdealExtensionEq_principal R₁ R₂ B K h₁.1 h₂.1 g)
+
+/-- On any common affine overlap, one rational function gives isomorphic restrictions of the
+chosen line bundles attached to its two chartwise principal divisors. No classical localization
+presentation of either open immersion is required. -/
+noncomputable def chosenLineBundleRestrictionIsoPrincipalOfIsOpenImmersion
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₁ B)]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₂ B)]
+    (h₁ : IsScalarTower R₁ B K) (h₂ : IsScalarTower R₂ B K)
+    (g : Additive Kˣ) :
+    (AffineDedekind.lineBundle R₁ K
+        ((OrderSystem.ofDedekindDomain R₁ K).principalDivisor g)).obj.restrict
+        (extensionMap R₁ B) ≅
+      (AffineDedekind.lineBundle R₂ K
+        ((OrderSystem.ofDedekindDomain R₂ K).principalDivisor g)).obj.restrict
+        (extensionMap R₂ B) :=
+  chosenLineBundleRestrictionIsoOfOverlapExtensionEq R₁ R₂ B K _ _
+    (Boundary.overlapInverseIdealExtensionEq_principal R₁ R₂ B K h₁ h₂ g)
 
 /-- If the common affine overlap ring is a localization of each chart ring, the chosen line
 bundles attached to the principal divisor of one rational function have isomorphic
@@ -1529,8 +1678,9 @@ noncomputable def chosenLineBundleRestrictionIsoAwayOfLocalizationEq
     (Boundary.overlapInverseIdealExtensionEq_away R K f D E h)
 
 /-- Contracted coefficient compatibility on a common Dedekind localization produces an
-isomorphism of the actual chosen restrictions. The localization theorem supplies the two
-restriction/base-change identifications. -/
+isomorphism of the actual chosen restrictions. Affine-open flat epimorphic base change supplies
+the two restriction identifications; the localization hypotheses are used only to compare the
+divisor coefficients and extended ideals. -/
 noncomputable def chosenLineBundleRestrictionIsoOfLocalizationCoeffEq
     (R₁ R₂ B K : Type u)
     [CommRing R₁] [IsDedekindDomain R₁]
@@ -1552,11 +1702,7 @@ noncomputable def chosenLineBundleRestrictionIsoOfLocalizationCoeffEq
       M₁ hM₁ M₂ hM₂ D₁ D₂) :
     (AffineDedekind.lineBundle R₁ K D₁).obj.restrict (extensionMap R₁ B) ≅
       (AffineDedekind.lineBundle R₂ K D₂).obj.restrict (extensionMap R₂ B) := by
-  letI : IsScalarTower R₁ B K := h₁
-  letI : IsScalarTower R₂ B K := h₂
-  exact chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂
-    (restrictionIdentifiesExtendedInverseIdeal_of_isLocalization R₁ B K M₁ D₁)
-    (restrictionIdentifiesExtendedInverseIdeal_of_isLocalization R₂ B K M₂ D₂)
+  exact chosenLineBundleRestrictionIsoOfOverlapExtensionEq R₁ R₂ B K D₁ D₂
     (Boundary.overlapInverseIdealExtensionEq_of_localization_coeff_eq
       R₁ R₂ B K M₁ hM₁ M₂ hM₂ h₁ h₂ D₁ D₂ hcoeff)
 

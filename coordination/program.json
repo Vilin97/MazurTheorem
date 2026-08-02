@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1427731,
+    "integrated_lean_lines": 1427878,
     "integrated_lean_modules": 651,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -1592,6 +1592,20 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion",
+          "state": "contract",
+          "description": "Discharge the sheaf-level restriction comparison on every affine open immersion by flat epimorphic tensor/span base change.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isOpenImmersion",
+          "state": "contract",
+          "description": "Identify affine global sections of every restricted chosen divisor bundle with the extended inverse ideal.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isLocalization",
           "state": "contract",
           "description": "Discharge the sheaf-level restriction comparison when the spectrum map is an open immersion and the overlap ring is a classical submonoid localization of the chart ring.",
@@ -1613,6 +1627,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq",
+          "state": "contract",
+          "description": "Construct the actual cross-chart restriction isomorphism from the packaged extended-ideal and scalar-tower compatibility on an affine overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfGlobalSectionsEquiv",
           "state": "contract",
           "description": "Construct the actual cross-chart restriction isomorphism from the two module-level global-sections comparisons and extended-ideal equality.",
@@ -1627,6 +1648,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsOpenImmersion",
+          "state": "contract",
+          "description": "Construct the principal-divisor restriction isomorphism on every common affine overlap without localization presentations.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsLocalization",
           "state": "contract",
           "description": "Construct the principal-divisor restriction isomorphism directly from two localization presentations and compatible common-fraction-field maps.",
@@ -1636,7 +1664,7 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfLocalizationCoeffEq",
           "state": "contract",
-          "description": "Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization coefficient compatibility; the localization theorem supplies both restriction comparisons.",
+          "description": "Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization coefficient compatibility; affine-open base change supplies both restriction comparisons.",
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
@@ -1731,7 +1759,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart, localization, and descent modules. For each concrete base-field affine `appLE` map, prove the normality implication isolated by `AffineChart.SmoothRelativeCurveNormality`; the checked field-base dimension theorem and `dedekindOrderCompatibilityOfSmoothRelativeCurveNormality` then supply the chart order compatibility. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two charts, construct a common Dedekind overlap ring as a localization of each chart ring and prove `LocalizationCoefficientEq`; `restrictionIdentifiesExtendedInverseIdeal_of_isLocalization` supplies both restriction comparisons, `overlapInverseIdealExtensionEq_of_localization_coeff_eq` supplies extension equality, and `chosenLineBundleRestrictionIsoOfLocalizationCoeffEq` constructs the actual arbitrary-divisor restriction isomorphism. Principal divisors retain the direct `chosenLineBundleRestrictionIsoPrincipalOfIsLocalization` shortcut. If an affine overlap is not presented as a classical localization, the exact remaining boundary is the tensor/span comparison, equivalently the named affine-global-sections comparison. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining geometric overlap and normality predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. For each concrete base-field affine `appLE` map, prove the normality implication isolated by `AffineChart.SmoothRelativeCurveNormality`; the checked field-base dimension theorem and `dedekindOrderCompatibilityOfSmoothRelativeCurveNormality` then supply the chart order compatibility. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two charts, it now suffices to prove `OverlapInverseIdealExtensionEq`: `restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion` supplies both restriction comparisons on every affine overlap, and `chosenLineBundleRestrictionIsoOfOverlapExtensionEq` constructs the actual restricted-bundle isomorphism. When the common Dedekind overlap ring is a localization of both chart rings, prove `LocalizationCoefficientEq` and use `overlapInverseIdealExtensionEq_of_localization_coeff_eq`; otherwise the exact remaining boundary is constructing extension equality directly from the common ambient codimension-one points. Principal divisors have the direct `chosenLineBundleRestrictionIsoPrincipalOfIsOpenImmersion` shortcut on every common affine overlap. Normalize the resulting restriction isomorphisms and prove the triple cocycle, ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cross-chart extension and normality predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

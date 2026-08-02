@@ -79,18 +79,16 @@ chosen restricted tilde bundles. For two charts mapping to a common affine overl
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
 extended inverse ideals, while
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
-the restriction/base-change comparison for each chosen chart bundle. That comparison is now
-proved for every open-immersion map presented by a classical submonoid localization. Across two
-distinct chart rings, the
+the restriction/base-change comparison for each chosen chart bundle. Affine tilde base change
+and flat epimorphic tensor/span comparison prove that comparison for every affine open immersion,
+without a classical localization presentation. Across two distinct chart rings, the
 extension equality is now proved for principal divisors defined by the same rational function,
 and for arbitrary divisors when the common Dedekind overlap is a localization of both rings and
 coefficients agree after height-one-prime contraction. Both routes have checked
-actual-restriction consumers. On arbitrary affine overlaps, the remaining sheaf-level comparison
-is equivalent to a linear equivalence on affine global sections. For two
+actual-restriction consumers; the principal route works on every common affine overlap. For two
 divisors on the same chart,
 coefficient agreement now gives the actual principal-open restriction isomorphism directly.
-Constructing the overlap localization structures, proving ambient compatibility of contracted
-coefficients, handling affine open immersions not presented as classical localizations, and
+Constructing arbitrary-divisor extension equality from ambient-point compatibility and proving
 cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
@@ -154,15 +152,15 @@ separate gluing input. Constructing compatible rational data from the explicit l
 cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the divisor cocycle system, the overlap-localization/ambient contracted-coefficient
-compatibility, the arbitrary-affine-open tensor/span comparison, coherent overlap system,
+of the divisor cocycle system, arbitrary-divisor cross-chart extension equality, coherent
+overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality condition,
-and the remaining geometric overlap predicates are precise compiled conditional
+and the remaining cross-chart extension predicate are precise compiled conditional
 boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
 Challenge declarations. Their discharge remains part of that Challenge. The weighted product
 formula remains the separately registered A2 prerequisite in the roadmap; the affine and local
@@ -547,6 +545,14 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_iff_globalSectionsEquiv`
   Prove that the sheaf-level and affine-global-sections overlap comparisons are equivalent.
 * `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion`
+  Discharge the sheaf-level restriction comparison on every affine open immersion by flat
+  epimorphic tensor/span base change.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isOpenImmersion`
+  Identify affine global sections of every restricted chosen divisor bundle with the extended
+  inverse ideal.
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isLocalization`
   Discharge the sheaf-level restriction comparison when the spectrum map is an open immersion
   and the overlap ring is a classical submonoid localization of the chart ring.
@@ -558,6 +564,10 @@ inhabited or that A3 is solved.
   Combine extension equality and both restriction identifications into an isomorphism of the
   actual chosen chart line-bundle restrictions.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq`
+  Construct the actual cross-chart restriction isomorphism from the packaged extended-ideal and
+  scalar-tower compatibility on an affine overlap.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfGlobalSectionsEquiv`
   Construct the actual cross-chart restriction isomorphism from the two module-level
   global-sections comparisons and extended-ideal equality.
@@ -566,13 +576,17 @@ inhabited or that A3 is solved.
   Construct the actual cross-chart principal-divisor restriction isomorphism once both
   restriction/base-change identifications are supplied.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsOpenImmersion`
+  Construct the principal-divisor restriction isomorphism on every common affine overlap without
+  localization presentations.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsLocalization`
   Construct the principal-divisor restriction isomorphism directly from two localization
   presentations and compatible common-fraction-field maps.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfLocalizationCoeffEq`
   Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization
-  coefficient compatibility; the localization theorem supplies both restriction comparisons.
+  coefficient compatibility; affine-open base change supplies both restriction comparisons.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_away`
   Prove the restriction/base-change identification on every nonempty principal open with a

@@ -24,10 +24,11 @@ comparison and coherence remain for arbitrary divisors. For principal divisors, 
 ideals defined by the same rational function are proved equal after extension to a compatible
 common affine overlap. For arbitrary divisors on a common Dedekind localization of both charts,
 contracted coefficient equality now proves both the extension equality and the actual chosen
-restriction isomorphism: affine tilde base change supplies the restriction comparison for every
-open-immersion map presented as a classical submonoid localization. Constructing suitable
-localization presentations for the geometric overlaps, ambient-point compatibility, and
-coherence remain. Given
+restriction isomorphism. More generally, affine tilde base change and flat epimorphic tensor/span
+comparison prove the restriction comparison for every affine open immersion under the standing
+Dedekind, torsion-free, and common-fraction-field assumptions. Thus the packaged cross-chart
+extension condition is the remaining algebraic input. Constructing its ideal equality from
+ambient-point compatibility for arbitrary divisors and proving coherence remain. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
