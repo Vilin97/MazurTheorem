@@ -17,13 +17,15 @@ is not an obstruction to comparing restrictions.
 
 For a principal open, equality of the localized explicit ideals is then carried through chosen
 module representatives, module localization, tilde, and restriction to an actual sheaf
-isomorphism. For two coordinate rings mapping compatibly into a common function field through a
-common affine overlap, the corresponding extension equality is isolated separately and identifies
-the two extended ideal modules and their tilde sheaves. A second explicit boundary identifies each
-actual chosen chart restriction with its extended-ideal tilde sheaf; together the two inputs give a
-checked restriction isomorphism. Establishing those inputs for curve-chart overlaps, choosing them
-coherently, proving the triple cocycle, and proving module effectivity remain open in the current
-Mathlib and Tau Ceti dependency graph.
+isomorphism. The stronger common-extension comparison is now proved on nonempty principal opens:
+the actual chosen restriction is tilde of the inverse ideal extended inside the common fraction
+field. For two coordinate rings mapping compatibly through a common affine overlap, equality of
+their extended ideals is isolated separately and identifies the two extended ideal modules and
+their tilde sheaves. On general affine overlaps, identifying each chosen chart restriction remains
+an explicit boundary; together those inputs give a checked restriction isomorphism. Establishing
+the cross-chart extension equality, choosing the resulting isomorphisms coherently, proving the
+triple cocycle, and proving module effectivity remain open in the current Mathlib and Tau Ceti
+dependency graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -200,8 +202,8 @@ noncomputable abbrev extensionMap
 
 /-- The second exact cross-chart input: restriction of the chosen affine divisor line bundle to
 the common affine overlap agrees with tilde of the extended inverse divisor ideal. The
-principal-open chain below proves the analogous direct comparison from localized-ideal equality;
-this identification remains an explicit input for an arbitrary affine open immersion. -/
+principal-open theorem below discharges this input outright for nonempty principal opens; this
+identification remains an explicit input for an arbitrary affine open immersion. -/
 noncomputable def RestrictionIdentifiesExtendedInverseIdeal
     (R B K : Type u)
     [CommRing R] [IsDedekindDomain R]
@@ -354,5 +356,200 @@ noncomputable def chosenTildeRestrictIsoOfInverseIdealEq
     (localizedLineBundleModuleEquivOfInverseIdealEq R K D E f h)
 
 end Chain
+
+namespace CommonExtension
+
+private noncomputable abbrev originalInverseIdeal
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) : Submodule R K :=
+  ((ExplicitIdeal.divisorFractionalIdeal R K D)⁻¹).1.1
+
+private noncomputable abbrev chosenModule
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+      ModuleCat.{u} (CommRingCat.of R) :=
+  ModuleCat.of R (AffineDedekind.lineBundleModule R K D)
+
+private noncomputable abbrev fractionEquiv
+    (R K : Type u) [CommRing R] [IsDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    FractionRing R ≃ₐ[R] K :=
+  IsLocalization.algEquiv R⁰ (FractionRing R) K
+
+private lemma fractionMap_eq_id
+    (R B K : Type u) [CommRing R] [IsDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K] :
+    IsLocalization.map (S := K) K (algebraMap R B)
+        (nonZeroDivisors_le_comap_nonZeroDivisors_of_injective _
+          (FaithfulSMul.algebraMap_injective R B)) = RingHom.id K := by
+  apply IsLocalization.map_unique _ (RingHom.id K)
+  intro r
+  rw [RingHom.id_apply, IsScalarTower.algebraMap_apply R B K]
+
+private lemma extendedInverseIdeal_eq_span
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    extendedInverseIdeal R B K D =
+      Submodule.span B
+        ((fun x : K ↦ x) '' (originalInverseIdeal R K D : Set K)) := by
+  let hf : R⁰ ≤ B⁰.comap (algebraMap R B) :=
+    nonZeroDivisors_le_comap_nonZeroDivisors_of_injective _
+      (FaithfulSMul.algebraMap_injective R B)
+  unfold extendedInverseIdeal
+  change
+    ((FractionalIdeal.extended K hf
+      ((ExplicitIdeal.divisorFractionalIdeal R K D)⁻¹).1 :
+        FractionalIdeal B⁰ K) : Submodule B K) = _
+  rw [FractionalIdeal.coe_extended_eq_span, show IsLocalization.map K (algebraMap R B) hf =
+    RingHom.id K from fractionMap_eq_id R B K]
+  rfl
+
+private lemma inverseIdeal_map_fractionEquiv
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (ExplicitIdeal.inverseIdeal R K D).map (fractionEquiv R K).toLinearMap =
+      originalInverseIdeal R K D := by
+  ext x
+  rw [Submodule.mem_map_equiv]
+  change (fractionEquiv R K).symm x ∈
+      FractionalIdeal.canonicalEquiv R⁰ K (FractionRing R)
+        ((ExplicitIdeal.divisorFractionalIdeal R K D)⁻¹).1 ↔
+    x ∈ ((ExplicitIdeal.divisorFractionalIdeal R K D)⁻¹).1
+  rw [FractionalIdeal.mem_canonicalEquiv_apply]
+  have hmap :
+      IsLocalization.map (S := K) (T := R⁰) (FractionRing R) (RingHom.id R)
+          (fun y (hy : y ∈ R⁰) => show RingHom.id R y ∈ R⁰ from hy) =
+        (fractionEquiv R K).symm.toRingHom := by
+    apply IsLocalization.map_unique _ _
+    intro r
+    simp [fractionEquiv]
+  rw [hmap]
+  constructor
+  · rintro ⟨y, hy, he⟩
+    simpa only [(fractionEquiv R K).symm.injective he] using hy
+  · intro hx
+    exact ⟨x, hx, rfl⟩
+
+private noncomputable def inverseIdealEquivChosenFraction
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    ExplicitIdeal.inverseIdeal R K D ≃ₗ[R] originalInverseIdeal R K D :=
+  (fractionEquiv R K).toLinearEquiv.ofSubmodules _ _
+    (inverseIdeal_map_fractionEquiv R K D)
+
+private noncomputable def chosenModuleEquivOriginalInverseIdeal
+    (R K : Type u) [CommRing R] [IsDedekindDomain R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    AffineDedekind.lineBundleModule R K D ≃ₗ[R] originalInverseIdeal R K D :=
+  (ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D).trans
+    (inverseIdealEquivChosenFraction R K D)
+
+section PrincipalOpen
+
+variable (R K : Type u) [CommRing R] [IsDedekindDomain R]
+variable [Field K] [Algebra R K] [IsFractionRing R K]
+variable (f : R) [IsDomain (Localization.Away f)]
+variable [Algebra (Localization.Away f) K]
+variable [IsFractionRing (Localization.Away f) K]
+variable [IsScalarTower R (Localization.Away f) K]
+
+private noncomputable def localizedOriginalInverseIdealEquivExtended
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    _root_.LocalizedModule.Away f (originalInverseIdeal R K D) ≃ₗ[Localization.Away f]
+      extendedInverseIdeal R (Localization.Away f) K D := by
+  letI : IsLocalizedModule (.powers f) (LinearMap.id : K →ₗ[R] K) :=
+    isLocalizedModule_id (.powers f) K (Localization.Away f)
+  let P : Submodule R K := originalInverseIdeal R K D
+  let J : Submodule (Localization.Away f) K :=
+    extendedInverseIdeal R (Localization.Away f) K D
+  have hJ : J = P.localized' (Localization.Away f) (.powers f)
+      (LinearMap.id : K →ₗ[R] K) := by
+    rw [Submodule.localized'_eq_span]
+    exact extendedInverseIdeal_eq_span R (Localization.Away f) K D
+  let eR : P.localized' (Localization.Away f) (.powers f)
+        (LinearMap.id : K →ₗ[R] K) ≃ₗ[R]
+      _root_.LocalizedModule.Away f P :=
+    IsLocalizedModule.linearEquiv (.powers f)
+      (P.toLocalized' (Localization.Away f) (.powers f)
+        (LinearMap.id : K →ₗ[R] K))
+      (_root_.LocalizedModule.mkLinearMap (.powers f) P)
+  let e : P.localized' (Localization.Away f) (.powers f)
+        (LinearMap.id : K →ₗ[R] K) ≃ₗ[Localization.Away f]
+      _root_.LocalizedModule.Away f P :=
+    eR.extendScalarsOfIsLocalization (.powers f) (Localization.Away f)
+  exact e.symm.trans (LinearEquiv.ofEq _ _ hJ.symm)
+
+private noncomputable def localizedChosenModuleEquivExtended
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    _root_.LocalizedModule.Away f (chosenModule R K D) ≃ₗ[
+        Localization.Away f] extendedInverseIdeal R (Localization.Away f) K D :=
+  (LocalizedModule.mapLinearEquiv f
+      (chosenModuleEquivOriginalInverseIdeal R K D)).trans
+    (localizedOriginalInverseIdealEquivExtended R K f D)
+
+private noncomputable def chosenTildeRestrictionIsoExtended
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (_root_.AlgebraicGeometry.tilde (chosenModule R K D)).restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom (algebraMap R (Localization.Away f)))) ≅
+      _root_.AlgebraicGeometry.tilde (R := CommRingCat.of (Localization.Away f))
+        (ModuleCat.of (Localization.Away f)
+          (extendedInverseIdeal R (Localization.Away f) K D)) :=
+  CategoryTheory.Iso.trans
+    (Y := _root_.AlgebraicGeometry.tilde
+      (R := CommRingCat.of (Localization.Away f))
+      (ModuleCat.of (Localization.Away f)
+        (_root_.LocalizedModule.Away f (chosenModule R K D))))
+    (AffineTilde.localizedTildeRestrictIso (chosenModule R K D) f).symm
+    ((_root_.AlgebraicGeometry.tilde.functor
+      (CommRingCat.of (Localization.Away f))).mapIso
+        (localizedChosenModuleEquivExtended R K f D).toModuleIso)
+
+/-- On a nonempty principal open, restriction of the chosen affine divisor line bundle is tilde
+of the inverse divisor ideal extended to the localized coordinate ring. -/
+theorem restrictionIdentifiesExtendedInverseIdeal_away
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    RestrictionIdentifiesExtendedInverseIdeal R (Localization.Away f) K D := by
+  refine ⟨inferInstance, ?_⟩
+  change Nonempty
+    ((_root_.AlgebraicGeometry.tilde (chosenModule R K D)).restrict
+        (_root_.AlgebraicGeometry.Spec.map
+          (CommRingCat.ofHom (algebraMap R (Localization.Away f)))) ≅
+      _root_.AlgebraicGeometry.tilde (R := CommRingCat.of (Localization.Away f))
+        (ModuleCat.of (Localization.Away f)
+          (extendedInverseIdeal R (Localization.Away f) K D)))
+  exact ⟨chosenTildeRestrictionIsoExtended R K f D⟩
+
+/-- The principal-open restriction theorem supplies both base-change inputs required to turn
+equality of the extended inverse ideals into an isomorphism of the chosen restricted bundles. -/
+noncomputable def chosenLineBundleRestrictionIsoAway
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (h : Boundary.OverlapInverseIdealExtensionEq
+      R R (Localization.Away f) K D E) :
+    (AffineDedekind.lineBundle R K D).obj.restrict
+        (extensionMap R (Localization.Away f)) ≅
+      (AffineDedekind.lineBundle R K E).obj.restrict
+        (extensionMap R (Localization.Away f)) :=
+  chosenLineBundleRestrictionIso R R (Localization.Away f) K D E
+    (restrictionIdentifiesExtendedInverseIdeal_away R K f D)
+    (restrictionIdentifiesExtendedInverseIdeal_away R K f E) h
+
+end PrincipalOpen
+
+end CommonExtension
 
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization

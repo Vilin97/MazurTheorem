@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Upstream.DivisorLineBundle
+import MazurTorsion.Upstream.CurveDivisorPicardDescent
 
 /-!
 # The absolute degree-zero Picard subgroup
@@ -13,6 +13,10 @@ This is a downstream consumer of the divisor-class/Picard interface for
 `MT-TC-D1-PICARD-FUNCTOR`. Given a product formula and a divisor-class/Picard equivalence, it
 transports Tau Ceti's weighted degree-zero divisor classes to an absolute `Pic⁰` subgroup of the
 scheme Picard group.
+
+The final adapter consumes the explicit-inverse curve-descent equivalence directly, so this D1
+precursor does not require the stronger dictionary comparing every invertible sheaf with a
+Picard unit.
 
 No relative Picard functor or representability claim is made here. In particular, the product
 formula remains an explicit input.
@@ -134,5 +138,72 @@ lemma divisorToPic_mem_degreeZero_iff
   exact PicardGroup.divisorClass_mem_degreeZero_iff S w h d.classEquivalence D
 
 end DivisorPicard.Dictionary
+
+namespace CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
+
+open TopologicalSpace
+open TauCeti.AlgebraicGeometry.WeilDivisor
+
+/-- The explicit-inverse curve descent route supplies the absolute degree-zero Picard subgroup
+without first constructing the stronger all-invertible-sheaves dictionary. This is a direct
+`MT-TC-D1` consumer of the strongest A3 divisor-class/Picard equivalence. -/
+noncomputable def degreeZero
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (hzero : _root_.MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DescendedZeroTrivial
+      X U hnonempty hcover hU h C heffective)
+    (hker : DivisorPicard.HasPrincipalKernel S
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero))
+    (hsurjective : Function.Surjective
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero))
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w) : AddSubgroup (PicardGroup X) :=
+  PicardGroup.degreeZero S w hdegree
+    (classEquivPicard X U hnonempty hcover hU h S C heffective hadd hzero
+      hker hsurjective)
+
+/-- A divisor lands in the explicit-inverse absolute degree-zero subgroup exactly when its
+weighted degree vanishes. -/
+lemma divisorToPic_mem_degreeZero_iff
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (hzero : _root_.MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DescendedZeroTrivial
+      X U hnonempty hcover hU h C heffective)
+    (hker : DivisorPicard.HasPrincipalKernel S
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero))
+    (hsurjective : Function.Surjective
+      (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero))
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    (D : WeilDivisor (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)) :
+    divisorToPic X U hnonempty hcover hU h C heffective hadd hzero D ∈
+        degreeZero X U hnonempty hcover hU h S C heffective hadd hzero
+          hker hsurjective w hdegree ↔
+      WeilDivisor.weightedDegree w D = 0 := by
+  rw [← classEquivPicard_divisorClass X U hnonempty hcover hU h S C
+    heffective hadd hzero hker hsurjective D]
+  exact PicardGroup.divisorClass_mem_degreeZero_iff S w hdegree
+    (classEquivPicard X U hnonempty hcover hU h S C heffective hadd hzero
+      hker hsurjective) D
+
+end CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
 
 end MazurTorsion.AlgebraicGeometry

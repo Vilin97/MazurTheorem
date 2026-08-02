@@ -78,21 +78,23 @@ tilde bundles. For two charts mapping to a common affine overlap,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
 extended inverse ideals, while
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
-the restriction/base-change comparison for each chosen chart bundle. A checked consumer combines
-both inputs into an isomorphism of the actual chosen restrictions; proving those inputs and their
-cocycle coherence remains missing. The API also characterizes
+the restriction/base-change comparison for each chosen chart bundle. That comparison is now
+proved on nonempty principal opens, and a checked consumer combines it with extension equality
+into an isomorphism of the actual chosen restrictions. Proving cross-chart extension equality,
+the arbitrary-overlap comparison, and cocycle coherence remains missing. The API also characterizes
 existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
 equivalent to the reverse tensor-unit/local-rank-one comparison. The forward affine gap is
 isolated as reflection of invertibility through tilde, and a checked consumer turns that precise
 localization predicate into the forward tensor-inverse comparison. The chart API canonically
 identifies height-one primes of a Dedekind affine coordinate ring with the ambient
-codimension-one points lying in the chart. It isolates equality of the Dedekind and scheme order
-homomorphisms as `AffineChart.DedekindOrderCompatibility`, then genuinely consumes both fields:
-whole principal divisors are related by reindexing and the induced local divisor-to-scheme-Picard
-map has exactly those principal divisors as kernel. It therefore descends injectively to chart
-divisor classes and identifies them with its scheme-Picard range. None of these affine results
-proves that order compatibility or discharges the remaining Picard-comparison inputs. Pullback
+codimension-one points lying in the chart. It now proves equality of the Dedekind and scheme
+order homomorphisms from the Dedekind-domain instance, constructing
+`AffineChart.DedekindOrderCompatibility` automatically. The remaining coordinate-ring boundary
+is exactly dimension at most one plus integral closedness. Whole principal divisors are related
+by reindexing and the induced local divisor-to-scheme-Picard map has exactly those principal
+divisors as kernel. It therefore descends injectively to chart divisor classes and identifies
+them with its scheme-Picard range. Pullback
 along the chart scheme isomorphism is already an equivalence of module categories; the API
 isolates strong monoidality of that pullback as `PicardIso.PullbackMonoidalData`. Given this
 upstream-compatible sufficient datum, it constructs `Pic(Spec Γ(X, U)) ≃ Pic(U)` and
@@ -116,24 +118,26 @@ for principal divisors.
 line bundles. Object-specific effective invertible descent then constructs a global line bundle
 with a checked isomorphism from each restriction to the corresponding `O(D)`. The companion
 `CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Objectwise
-effectivity, tensor-additivity of the descended bundles, and `TensorInverseComparison X`
-construct an actual additive divisor-to-Picard map; the zero law follows from the `0 + 0` tensor
-isomorphism by cancellation, so no extra unit or associativity coherence is assumed. Coherent
-triviality of the principal cocycles and object separation descend the construction to divisor
-classes. Exact principal kernel identifies those classes with the actual Picard range, and
-surjectivity upgrades the construction to the complete dictionary and full
-divisor-class/Picard equivalence. No inhabitant of the divisor cocycle system,
-overlap-extension equality, restriction/base-change identification, overlap isomorphism,
-module-effectivity, tensor-inverse comparison, coherent-principal-triviality,
-prestack/object-separation, exact-kernel, or surjectivity input is claimed. Thus global
+effectivity, tensor-additivity, and triviality of the zero-divisor bundle construct an actual
+additive divisor-to-Picard map. The bundle of `-D` explicitly inverts the bundle of `D`, so this
+route requires no `TensorInverseComparison X` for unrelated invertible sheaves. Coherent
+triviality of principal cocycles supplies zero triviality and, with object separation, descends
+the construction to divisor classes. Exact principal kernel identifies those classes with the
+actual Picard range, and surjectivity gives the full divisor-class/Picard equivalence. Only the
+stronger dictionary package, which compares every invertible sheaf with a Picard unit, retains
+the global tensor-inverse hypothesis. No inhabitant of the divisor cocycle system, cross-chart
+overlap-extension equality, arbitrary-overlap restriction/base-change identification, coherent
+overlap system, module-effectivity, coherent-principal-triviality,
+prestack/object-separation, exact-kernel, surjectivity, or global tensor-inverse comparison is
+claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
-`AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
-conditional interfaces rather than solved existence results or separately registered Challenge
-declarations. The two localization predicates are likewise precise compiled conditional
-contracts subsumed by the unchanged registered A3 Challenge. Their discharge remains part of
-that Challenge. The weighted product formula remains independently isolated by the registered A2
-Challenge. Artifact state `contract` records a compiled conditional API and does not assert that
-these predicates are inhabited or that A3 is solved.
+`AffineTilde.TildeReflectsInvertibility`, the smooth-curve route to Dedekind coordinate rings,
+and the remaining cross-chart localization predicates are precise compiled conditional
+boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
+Challenge declarations. Their discharge remains part of that Challenge. The weighted product
+formula remains independently isolated by the registered A2 Challenge. Artifact state
+`contract` records a compiled conditional API and does not assert that these predicates are
+inhabited or that A3 is solved.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -249,6 +253,17 @@ these predicates are inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility`
   Isolate equality of the affine Dedekind valuations and scheme order homomorphisms on a chart.
 * `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.affineOpen_order_eq`
+  Prove that the normalized Dedekind valuation agrees with the scheme order on every nonempty
+  affine chart whose coordinate ring is Dedekind.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfIsDedekindDomain`
+  Construct the complete order-compatibility package from the Dedekind-domain instance alone.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.affineOpen_isDedekindDomain_iff`
+  Reduce the remaining coordinate-ring boundary to dimension at most one and integral
+  closedness; domain and Noetherianity already follow from the ambient hypotheses.
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor`
   Transport the whole affine principal divisor to the ambient chart points.
 * `theorem` (`contract`):
@@ -336,6 +351,37 @@ these predicates are inhabited or that A3 is solved.
   Consume a scheme-module prestack instance to obtain fully faithful descent on a specified
   Zariski open cover.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DescendedZeroTrivial`
+  Isolate the minimal unit input saying that the descended bundle of the zero divisor is
+  globally trivial.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.descendedTensorInverseIso`
+  Exhibit the descended bundle of `-D` as a tensor inverse to the descended bundle of `D`.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPic`
+  Construct the divisor-to-Picard homomorphism from zero triviality and tensor additivity,
+  without a global comparison for arbitrary invertible sheaves.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classToPic`
+  Descend the explicit-inverse divisor map to divisor classes using coherent principal
+  triviality and object separation.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardRange`
+  Identify divisor classes with the actual range of the explicit divisor-generated Picard map
+  under the exact-principal-kernel hypothesis.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicard`
+  Give the strongest conditional full equivalence: exact principal kernel plus surjectivity,
+  with no global tensor-inverse comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionary`
+  Package the explicit divisor map and descended line bundles into the stronger all-sheaves
+  dictionary once the separate global tensor-inverse comparison is supplied.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.explicitDivisorToPic_eq_divisorToPic_of_tensorInverseComparison`
+  Prove that the explicit divisor map equals the earlier comparison-based construction whenever
+  the global tensor-inverse comparison is available.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.divisorToPic`
   Construct an additive divisor-to-Picard homomorphism from objectwise effective,
   tensor-additive divisor cocycles and the forward tensor-inverse comparison.
@@ -367,6 +413,14 @@ these predicates are inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso`
   Combine extension equality and both restriction identifications into an isomorphism of the
   actual chosen chart line-bundle restrictions.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_away`
+  Prove the restriction/base-change identification on every nonempty principal open with a
+  compatible common fraction field.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoAway`
+  Consume the principal-open identification and extension equality to identify the actual
+  chosen restricted divisor line bundles.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfInverseIdealEq`
   Consume equality of localized inverse ideals to identify the restrictions of the chosen
@@ -461,9 +515,10 @@ degree-zero subfunctor, rigidification, and Poincaré line bundle.
 *Status:* `blocked`.
 
 The checked A3 downstream adapter already transports weighted divisor degree zero to an
-absolute subgroup of `Scheme.Pic` and chooses a Tau Ceti invertible-sheaf representative for
-each of its elements. This is a genuine absolute precursor only; it does not claim the relative
-fppf functor or representability.
+absolute subgroup of `Scheme.Pic`. It can consume either the full dictionary or directly the
+explicit-inverse curve-descent equivalence; the dictionary route also chooses a Tau Ceti
+invertible-sheaf representative for each element. This is a genuine absolute precursor only;
+it does not claim the relative fppf functor or representability.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -479,6 +534,14 @@ fppf functor or representability.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZeroRepresentative`
   Choose an actual invertible-sheaf representative for every transported degree-zero class.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.degreeZero`
+  Consume the strongest cocycle-built divisor-class/Picard equivalence directly to construct
+  the absolute degree-zero subgroup, without first packaging the all-sheaves dictionary.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPic_mem_degreeZero_iff`
+  Characterize membership of a divisor-generated Picard class in the absolute degree-zero
+  subgroup exactly by vanishing of its weighted divisor degree.
 :::
 
 :::theorem "MT-TC-D2-PICARD-REPRESENTABILITY" (parent := "shared_geometry") (uses := "MT-TC-B2-RR-SERRE, MT-TC-C2-SYMMETRIC-POWERS, MT-TC-D1-PICARD-FUNCTOR") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

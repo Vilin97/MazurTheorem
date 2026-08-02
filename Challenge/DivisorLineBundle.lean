@@ -28,19 +28,21 @@ checked isomorphism of the chosen restricted tilde bundles, while
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates cross-chart
 ideal-extension equality and
 `AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal` isolates
-the restriction/base-change identification. A checked consumer combines both inputs into an
-isomorphism of the actual chosen chart restrictions. Canonical Picard surjectivity is proved
+the restriction/base-change identification. The latter is now proved on nonempty principal
+opens, with a checked consumer combining it with extension equality into an isomorphism of the
+actual chosen restrictions. Canonical Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes discharging those comparison inputs, proving the checked
-`AffineChart.DedekindOrderCompatibility` on curve charts, global curve divisor gluing, and
-global divisor-class/Picard surjectivity. The chart API already identifies height-one primes
-with ambient codimension-one points and consumes the compatibility to reindex whole principal
-divisors. Its local divisor-to-Picard map has exactly those principal divisors as kernel,
-descends injectively to chart divisor classes, and identifies them with its scheme-Picard range.
-`AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
-conditional interfaces, not solved existence results or separately registered Challenge
-declarations; discharging them remains part of this unchanged global A3 Challenge. The
+What remains here includes discharging those comparison inputs, proving that smooth affine curve
+charts have Dedekind coordinate rings, global curve divisor gluing, and global
+divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
+ambient codimension-one points and now proves the order compatibility automatically from a
+Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
+plus integral closedness. Its local divisor-to-Picard map has exactly the principal divisors as
+kernel, descends injectively to chart divisor classes, and identifies them with its scheme-Picard
+range. `AffineTilde.TildeReflectsInvertibility` is a checked conditional interface, not a solved
+existence result or separately registered Challenge declaration; discharging it remains part of
+this unchanged global A3 Challenge. The
 residue-degree product formula remains independently isolated by the registered A2 Challenge.
 The companion module `CurveAffineChart` isolates the upstream-compatible sufficient input
 `PicardIso.PullbackMonoidalData`: given strong monoidality of sheaf pullback, checked code
@@ -60,15 +62,18 @@ open covers, so ordinary module effectivity alone upgrades locally invertible de
 effective global line bundles.
 A prestack instance for the scheme-module pseudofunctor now has a checked consumer producing
 fully faithful descent and hence object separation, but no such instance is currently available.
-For a divisor-indexed cocycle family, objectwise effectivity, tensor-additivity of the descended
-bundles, and `TensorInverseComparison X` construct an actual divisor-to-Picard homomorphism.
-Coherent triviality of the principal cocycles then descends this map to divisor classes under
-object separation. Exact principal kernel gives an equivalence with the actual Picard range,
-and adding surjectivity constructs the complete dictionary and full divisor-class/Picard
-equivalence. No inhabitant of the required divisor cocycle system, overlap-extension equality,
-restriction/base-change identification, overlap isomorphism, module-effectivity,
-tensor-inverse comparison, coherent-principal-triviality, prestack/object-separation,
-exact-kernel, or surjectivity input is asserted. The localization predicates are precise
+For a divisor-indexed cocycle family, objectwise effectivity, tensor-additivity, and triviality
+of the zero-divisor bundle construct an actual divisor-to-Picard homomorphism: the bundle for
+`-D` is an explicit inverse to the bundle for `D`. Coherent triviality of the principal cocycles
+supplies zero triviality and descends this map to divisor classes under object separation. Exact
+principal kernel gives an equivalence with the actual Picard range, and adding surjectivity gives
+the full divisor-class/Picard equivalence without a global tensor-inverse comparison. Such a
+comparison is still required only by the stronger `DivisorPicard.Dictionary`, which records the
+class of every invertible sheaf. No inhabitant of the required divisor cocycle system,
+cross-chart overlap-extension equality, arbitrary-overlap restriction/base-change
+identification, coherent overlap system, module-effectivity, coherent-principal-triviality,
+prestack/object-separation, exact-kernel, surjectivity, or global tensor-inverse comparison is
+asserted. The remaining localization predicates are precise
 compiled conditional contracts subsumed by this unchanged registered A3 Challenge, rather than
 separately registered open theorems. Those existence results remain open, so the contract earns
 no Mazur completion credit.

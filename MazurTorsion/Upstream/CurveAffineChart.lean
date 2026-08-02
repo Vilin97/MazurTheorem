@@ -5,14 +5,18 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.DivisorLineBundle
+import Mathlib.GroupTheory.ArchimedeanDensely
+import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
 
 /-!
 # Affine charts for the divisor--line-bundle dictionary
 
 This file identifies height-one primes of a Dedekind affine chart with the ambient
-codimension-one points lying in that chart. It then isolates the exact compatibility still
-needed between the Dedekind-domain valuations and Tau Ceti's scheme-theoretic orders.
+codimension-one points lying in that chart. It proves that the Dedekind-domain valuations agree
+with Tau Ceti's scheme-theoretic orders, so the earlier compatibility package is automatic once
+the affine coordinate ring is known to be Dedekind. That remaining condition is reduced to
+dimension at most one and integral closedness.
 
 The compatibility is consumed here, rather than merely recorded: it transports the affine
 principal-divisor order system to the ambient points of the chart and constructs a canonical
@@ -22,7 +26,8 @@ The unconditional Picard target is the coordinate spectrum `Spec Γ(X, U)`. The 
 strong monoidality of pullback as an upstream-compatible sufficient datum for transport to
 `Pic(U)` and consumes that datum to preserve the principal kernel, class descent, and range
 equivalence. Constructing the datum and overlap-compatible gluing to `X` remain separate
-obligations.
+obligations. For smooth curves, supplying the current library's missing route from smoothness
+and relative dimension one to the two commutative-algebra conditions remains open.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineChart
@@ -33,7 +38,7 @@ open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open IsDedekindDomain
+open IsDedekindDomain WithZero
 
 private lemma heightOneSpectrum_height
     (R : Type u) [CommRing R] [IsDedekindDomain R]
@@ -241,7 +246,7 @@ open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open IsDedekindDomain
+open IsDedekindDomain WithZero
 
 /-- The exact local compatibility needed to compare the affine Dedekind divisor construction
 with the scheme-theoretic divisor on a curve. The equality is an equality of additive order
@@ -258,6 +263,235 @@ structure DedekindOrderCompatibility
       WeilDivisor.adicOrd Γ(X, U) X.functionField v =
         SchemeWeilDivisor.orderAt
           ((affineOpenHeightOneSpectrumEquiv X U hU v).1)
+
+private lemma withZeroMulInt_orderMonoidIso_eq_refl (e : ℤᵐ⁰ ≃*o ℤᵐ⁰) :
+    e = OrderMonoidIso.refl ℤᵐ⁰ := by
+  let f : Multiplicative ℤ ≃*o Multiplicative ℤ :=
+    OrderMonoidIso.unitsWithZero.symm.trans
+      (e.unitsCongr.trans OrderMonoidIso.unitsWithZero)
+  have hf : f = OrderMonoidIso.refl (Multiplicative ℤ) := Subsingleton.elim _ _
+  ext x
+  by_cases hx : x = 0
+  · subst x
+    simp
+  · let ux : (ℤᵐ⁰)ˣ := Units.mk0 x hx
+    have hfx := DFunLike.congr_fun hf (OrderMonoidIso.unitsWithZero ux)
+    have hu : e.unitsCongr ux = ux := by
+      apply OrderMonoidIso.unitsWithZero.injective
+      simpa [f, ux] using hfx
+    exact congrArg Units.val hu
+
+private lemma valuation_eq_of_isEquiv_of_surjective
+    {F : Type u} [Field F]
+    {v w : Valuation F ℤᵐ⁰}
+    [v.IsRankOneDiscrete] [w.IsRankOneDiscrete]
+    (h : v.IsEquiv w) (hv : Function.Surjective v) (hw : Function.Surjective w) :
+    v = w := by
+  let ev := Valuation.IsRankOneDiscrete.valueGroup₀_equiv_withZeroMulInt v
+  let ew := Valuation.IsRankOneDiscrete.valueGroup₀_equiv_withZeroMulInt w
+  let e : ℤᵐ⁰ ≃*o ℤᵐ⁰ := ev.symm.trans (h.orderMonoidIso.trans ew)
+  have he : e = OrderMonoidIso.refl ℤᵐ⁰ := withZeroMulInt_orderMonoidIso_eq_refl e
+  ext x
+  have hx := DFunLike.congr_fun he (ev (v.restrict x))
+  change ew (h.orderMonoidIso (ev.symm (ev (v.restrict x)))) = ev (v.restrict x) at hx
+  rw [ev.symm_apply_apply, h.orderMonoidIso_spec,
+    Valuation.IsRankOneDiscrete.valueGroup₀_equiv_withZeroMulInt_restrict_apply_of_surjective
+      hw,
+    Valuation.IsRankOneDiscrete.valueGroup₀_equiv_withZeroMulInt_restrict_apply_of_surjective
+      hv] at hx
+  exact hx.symm
+
+private lemma toAdd_unzero_inv_eq_neg_log (a : ℤᵐ⁰) (hai : a⁻¹ ≠ 0) :
+    Multiplicative.toAdd (WithZero.unzero hai) = -WithZero.log a := by
+  have hcoe : ((WithZero.unzero hai : Multiplicative ℤ) : ℤᵐ⁰) = a⁻¹ :=
+    WithZero.coe_unzero hai
+  have hlog := congrArg WithZero.log hcoe
+  change Multiplicative.toAdd (WithZero.unzero hai) = WithZero.log (a⁻¹) at hlog
+  simpa only [WithZero.log_inv] using hlog
+
+private lemma algebraMap_eq_mapToFractionRing
+    (R S K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing S] [IsDomain S] [Field K]
+    [Algebra R S] [Algebra R K] [Algebra S K]
+    [IsScalarTower R S K]
+    [IsFractionRing R K] [IsFractionRing S K]
+    (v : HeightOneSpectrum R) [IsLocalization.AtPrime S v.asIdeal] :
+    algebraMap S K =
+      (Localization.mapToFractionRing K v.asIdeal.primeCompl S
+        v.asIdeal.primeCompl_le_nonZeroDivisors).toRingHom := by
+  apply IsLocalization.ringHom_ext v.asIdeal.primeCompl
+  ext r
+  change algebraMap S K (algebraMap R S r) = _
+  rw [← IsScalarTower.algebraMap_apply R S K]
+  simp
+
+private lemma map_top_eq_localizationSubalgebra
+    (R S K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing S] [IsDomain S] [Field K]
+    [Algebra R S] [Algebra R K] [Algebra S K]
+    [IsScalarTower R S K]
+    [IsFractionRing R K] [IsFractionRing S K]
+    (v : HeightOneSpectrum R) [IsLocalization.AtPrime S v.asIdeal] :
+    Subring.map (algebraMap S K) ⊤ =
+      (Localization.subalgebra.ofField K v.asIdeal.primeCompl
+        v.asIdeal.primeCompl_le_nonZeroDivisors).toSubring := by
+  ext x
+  rw [Subring.mem_map, algebraMap_eq_mapToFractionRing R S K v]
+  simp only [Subring.mem_top, true_and]
+  change (∃ y, Localization.mapToFractionRing K v.asIdeal.primeCompl S
+      v.asIdeal.primeCompl_le_nonZeroDivisors y = x) ↔ _
+  rw [show x ∈ (Localization.subalgebra.ofField K v.asIdeal.primeCompl
+      v.asIdeal.primeCompl_le_nonZeroDivisors).toSubring ↔
+      x ∈ (Localization.mapToFractionRing K v.asIdeal.primeCompl S
+        v.asIdeal.primeCompl_le_nonZeroDivisors).range by
+    rw [Localization.subalgebra.mem_range_mapToFractionRing_iff_ofField]
+    rfl]
+  constructor <;> rintro ⟨y, rfl⟩ <;> exact ⟨y, rfl⟩
+
+private lemma adicValuation_eq_localizedValuation
+    (R S K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing S] [IsDomain S] [Field K]
+    [Algebra R S] [Algebra R K] [Algebra S K]
+    [IsScalarTower R S K]
+    [IsFractionRing R K] [IsFractionRing S K]
+    (v : HeightOneSpectrum R) [IsLocalization.AtPrime S v.asIdeal] :
+    letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S v.asIdeal
+    letI : IsDiscreteValuationRing S :=
+      IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain R v.ne_bot S
+    v.valuation K = (IsDiscreteValuationRing.maximalIdeal S).valuation K := by
+  letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S v.asIdeal
+  letI : IsDiscreteValuationRing S :=
+    IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain R v.ne_bot S
+  have hsubring :
+      (v.valuation K).valuationSubring.toSubring =
+        ((IsDiscreteValuationRing.maximalIdeal S).valuation K).valuationSubring.toSubring := by
+    rw [← v.valuationSubringAtPrime_eq_valuationSubring,
+      v.valuationSubringAtPrime_toSubring,
+      ← map_top_eq_localizationSubalgebra R S K v,
+      IsDiscreteValuationRing.map_algebraMap_eq_valuationSubring]
+  have hequiv :
+      (v.valuation K).IsEquiv
+        ((IsDiscreteValuationRing.maximalIdeal S).valuation K) := by
+    rw [Valuation.isEquiv_iff_valuationSubring]
+    apply ValuationSubring.ext
+    intro x
+    exact SetLike.ext_iff.mp hsubring x
+  apply valuation_eq_of_isEquiv_of_surjective hequiv
+  · exact v.valuation_surjective K
+  · exact (IsDiscreteValuationRing.maximalIdeal S).valuation_surjective K
+
+private lemma adicOrd_eq_localizedOrdFrac
+    (R S K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing S] [IsDomain S] [Field K]
+    [Algebra R S] [Algebra R K] [Algebra S K]
+    [IsScalarTower R S K]
+    [IsFractionRing R K] [IsFractionRing S K]
+    (v : HeightOneSpectrum R) [IsLocalization.AtPrime S v.asIdeal]
+    (u : Additive Kˣ) :
+    letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S v.asIdeal
+    letI : IsDiscreteValuationRing S :=
+      IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain R v.ne_bot S
+    WeilDivisor.adicOrd R K v u =
+      Multiplicative.toAdd
+        (WithZero.unzero
+          (show Ring.ordFrac S ((Additive.toMul u : Kˣ) : K) ≠ 0 by simp)) := by
+  letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S v.asIdeal
+  letI : IsDiscreteValuationRing S :=
+    IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain R v.ne_bot S
+  let k : K := ((Additive.toMul u : Kˣ) : K)
+  let a : ℤᵐ⁰ := v.valuation K k
+  have ha : a ≠ 0 := (v.valuation K).ne_zero_iff.mpr (Units.ne_zero _)
+  have hord : Ring.ordFrac S k = a⁻¹ := by
+    rw [Ring.ordFrac_eq_valuation_inv,
+      ← adicValuation_eq_localizedValuation R S K v]
+  rw [WeilDivisor.adicOrd_apply]
+  change -WithZero.log a = _
+  rw [← toAdd_unzero_inv_eq_neg_log a (inv_ne_zero ha)]
+  congr 1
+  apply WithZero.coe_injective
+  simpa [k] using hord.symm
+
+/-- On a Dedekind affine chart, the normalized height-one-prime order agrees with Tau Ceti's
+scheme-theoretic order at the corresponding ambient codimension-one point. -/
+theorem affineOpen_order_eq
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    [IsDedekindDomain Γ(X, U)] :
+    letI : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    ∀ v : HeightOneSpectrum Γ(X, U),
+      WeilDivisor.adicOrd Γ(X, U) X.functionField v =
+        SchemeWeilDivisor.orderAt
+          ((affineOpenHeightOneSpectrumEquiv X U hU v).1) := by
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  intro v
+  let e := affineOpenHeightOneSpectrumEquiv X U hU
+  let x : CodimensionOnePoint X := (e v).1
+  let y : U := ⟨x.1, (e v).2⟩
+  have hprime : (hU.primeIdealOf y).asIdeal = v.asIdeal := by
+    simpa [e, x, y] using
+      (affineOpenHeightOneSpectrumEquiv_symm_asIdeal X U hU (e v)).symm
+  letI : Algebra Γ(X, U) (X.presheaf.stalk x.1) :=
+    TopCat.Presheaf.algebra_section_stalk X.presheaf y
+  letI : IsLocalization v.asIdeal.primeCompl (X.presheaf.stalk x.1) := by
+    have hcompl : v.asIdeal.primeCompl =
+        (hU.primeIdealOf y).asIdeal.primeCompl := by
+      ext r
+      simp only [Ideal.mem_primeCompl_iff]
+      rw [hprime]
+    rw [hcompl]
+    exact hU.isLocalization_stalk y
+  letI : IsScalarTower Γ(X, U) (X.presheaf.stalk x.1) X.functionField :=
+    functionField_isScalarTower X U y
+  apply AddMonoidHom.ext
+  intro f
+  rw [SchemeWeilDivisor.orderAt_apply]
+  rw [Scheme.ord_eq_unzero_ordHom x.2 (Units.ne_zero _)]
+  simpa [Scheme.ordHom] using
+    (adicOrd_eq_localizedOrdFrac Γ(X, U) (X.presheaf.stalk x.1)
+      X.functionField v f)
+
+/-- For an affine open with Dedekind coordinate ring, the order compatibility required by the
+chart divisor API is automatic. The remaining geometric obligation is precisely the Dedekind
+domain instance for `Γ(X, U)`. -/
+theorem dedekindOrderCompatibilityOfIsDedekindDomain
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    [IsDedekindDomain Γ(X, U)] :
+    DedekindOrderCompatibility X U hU where
+  isDedekindDomain := inferInstance
+  order_eq := affineOpen_order_eq X U hU
+
+/-- For a nonempty affine open of an integral locally Noetherian scheme, the remaining
+Dedekind-domain boundary is exactly dimension at most one plus integral closedness. Domain and
+Noetherian hypotheses already follow from the ambient assumptions. -/
+theorem affineOpen_isDedekindDomain_iff
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U) :
+    IsDedekindDomain Γ(X, U) ↔
+      Ring.DimensionLEOne Γ(X, U) ∧ IsIntegrallyClosed Γ(X, U) := by
+  constructor
+  · intro h
+    letI : IsDedekindDomain Γ(X, U) := h
+    exact ⟨inferInstance, inferInstance⟩
+  · rintro ⟨hdim, hnormal⟩
+    letI : Ring.DimensionLEOne Γ(X, U) := hdim
+    letI : IsIntegrallyClosed Γ(X, U) := hnormal
+    letI : IsNoetherianRing Γ(X, U) :=
+      IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
+    letI : IsIntegralClosure Γ(X, U) Γ(X, U) (FractionRing Γ(X, U)) :=
+      (isIntegrallyClosed_iff_isIntegralClosure (FractionRing Γ(X, U))).mp hnormal
+    exact
+      { toIsDomain := inferInstance
+        toIsDedekindRing :=
+          { toIsNoetherian := inferInstance
+            toDimensionLEOne := inferInstance
+            toIsIntegralClosure := inferInstance } }
 
 /-- A sufficient datum for transporting AINTLIB Picard groups along the affine-chart
 isomorphism: strong monoidality of sheaf-module pullback for the AINTLIB tensor structures. -/
