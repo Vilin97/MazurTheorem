@@ -18,7 +18,10 @@ classes. The affine tilde restriction isomorphism and global tilde invertibility
 in checked code. A checked equivalence reduces existence of the dictionary to the full Picard
 comparison together with a divisor-class/Picard equivalence; chosen line bundles and their
 compatibilities are constructed from those data. The contract does not prescribe a canonical
-affine-chart normalization. It is open and earns no Mazur completion credit.
+affine-chart normalization. Tensor product is now proved to commute with arbitrary module
+localization; constructing the corresponding strong-monoidal tilde isomorphism still requires
+assembling the local fraction maps into a locally bijective presheaf morphism. The contract is
+open and earns no Mazur completion credit.
 -/
 
 open AlgebraicGeometry

@@ -67,7 +67,9 @@ local trivializations. The checked local API supplies the unconditional affine D
 equivalence, tensor-additive module representatives, tilde line bundles detecting linear
 equivalence exactly, and an absolute degree-zero D1 consumer; none is credited as the missing
 global result. It also characterizes existence of the affine scheme-level dictionary exactly by
-the full Picard comparison and an additive module-Picard/scheme-Picard equivalence.
+the full Picard comparison and an additive module-Picard/scheme-Picard equivalence. Tensor product
+is checked to commute with arbitrary module localization; only its presheaf assembly into a
+strong-monoidal tilde comparison remains open.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -105,6 +107,10 @@ standard-sign construction checked in the affine API.
   Prove global tilde invertibility from the basic-open comparison.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivPicard`
   Give the unconditional standard-sign affine Dedekind divisor-class/module-Picard equivalence.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.localizedTensorEquivOfIsLocalization`
+  Identify the tensor of two localized modules with the localization of their tensor over an
+  arbitrary chosen localization ring.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
   Package its chosen module representative unconditionally as a Tau Ceti line bundle.
 * `theorem` (`contract`):

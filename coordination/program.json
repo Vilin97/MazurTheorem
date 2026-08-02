@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421870,
+    "integrated_lean_lines": 1421924,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -941,6 +941,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.localizedTensorEquivOfIsLocalization",
+          "state": "contract",
+          "description": "Identify the tensor of two localized modules with the localization of their tensor over an arbitrary chosen localization ring.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
           "state": "contract",
           "description": "Package the chosen affine invertible-module representative unconditionally as a Tau Ceti line bundle.",
@@ -996,7 +1003,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary and constructs its actual tensor-additive divisor line bundles.",
-        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, glue inverse fractional-ideal tildes across those charts, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization and affine Dedekind standard-sign equivalence.",
+        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, glue inverse fractional-ideal tildes across those charts, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization, tensor-localization equivalence, and affine Dedekind standard-sign equivalence; for tensor additivity, assemble the local fraction maps into a locally bijective presheaf morphism.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

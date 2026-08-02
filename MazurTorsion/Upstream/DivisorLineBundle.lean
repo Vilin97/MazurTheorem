@@ -44,7 +44,9 @@ cover proves that tilde of every invertible module is an invertible sheaf. The f
 with AINTLIB's scheme Picard group remains factored into its exact forward and reverse components
 rather than hidden behind a stronger claim than the current library proves. A final affine
 existence theorem characterizes that boundary exactly by the full Picard comparison and an
-additive equivalence between the module and scheme Picard groups.
+additive equivalence between the module and scheme Picard groups. The local algebra identifying
+the tensor of two localized modules with the localization of their tensor is also checked; a
+strong monoidal tilde comparison still requires assembling those maps at the presheaf level.
 -/
 
 open CategoryTheory
@@ -176,6 +178,58 @@ def UniversalTildeInvertibility : Prop :=
       (_root_.AlgebraicGeometry.tilde M)
 
 namespace AffineTilde
+
+section TensorLocalization
+
+open scoped TensorProduct
+
+variable (R : Type u) [CommRing R]
+variable (M N : Type u) [AddCommGroup M] [Module R M]
+variable [AddCommGroup N] [Module R N]
+variable (S : Submonoid R)
+variable (A : Type u) [CommRing A] [Algebra R A] [IsLocalization S A]
+
+private noncomputable local instance localizedModuleM : Module A (LocalizedModule S M) :=
+  @LocalizedModule.moduleOfIsLocalization R _ S M _ _ A _ _ _
+
+private noncomputable local instance localizedModuleN : Module A (LocalizedModule S N) :=
+  @LocalizedModule.moduleOfIsLocalization R _ S N _ _ A _ _ _
+
+private noncomputable local instance localizedModuleTensor :
+    Module A (LocalizedModule S (M ⊗[R] N)) :=
+  @LocalizedModule.moduleOfIsLocalization R _ S (M ⊗[R] N) _ _ A _ _ _
+
+/-- Tensor product commutes with localization of both modules, for an arbitrary chosen
+localization ring. -/
+noncomputable def localizedTensorEquivOfIsLocalization :
+    LocalizedModule S M ⊗[A] LocalizedModule S N ≃ₗ[A]
+      LocalizedModule S (M ⊗[R] N) :=
+  IsLocalization.moduleTensorEquiv S A
+      (LocalizedModule S M) (LocalizedModule S N) ≪≫ₗ
+    (IsLocalizedModule.linearEquiv S
+      (TensorProduct.map
+        (LocalizedModule.mkLinearMap S M)
+        (LocalizedModule.mkLinearMap S N))
+      (LocalizedModule.mkLinearMap S (M ⊗[R] N))).extendScalarsOfIsLocalization S A
+
+/-- The tensor-localization equivalence sends the tensor of two denominator-one fractions to
+the denominator-one fraction of their tensor. -/
+lemma localizedTensorEquivOfIsLocalization_mk_one (m : M) (n : N) :
+    localizedTensorEquivOfIsLocalization R M N S A
+      (LocalizedModule.mk m 1 ⊗ₜ[A] LocalizedModule.mk n 1) =
+        LocalizedModule.mk (m ⊗ₜ[R] n) 1 := by
+  change (IsLocalizedModule.linearEquiv S
+      (TensorProduct.map
+        (LocalizedModule.mkLinearMap S M)
+        (LocalizedModule.mkLinearMap S N))
+      (LocalizedModule.mkLinearMap S (M ⊗[R] N)))
+        ((TensorProduct.map
+          (LocalizedModule.mkLinearMap S M)
+          (LocalizedModule.mkLinearMap S N)) (m ⊗ₜ[R] n)) =
+      (LocalizedModule.mkLinearMap S (M ⊗[R] N)) (m ⊗ₜ[R] n)
+  exact IsLocalizedModule.linearEquiv_apply S _ _ _
+
+end TensorLocalization
 
 variable {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f : R)
 
