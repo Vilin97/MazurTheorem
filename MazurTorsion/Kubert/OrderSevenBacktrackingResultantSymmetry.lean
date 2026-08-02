@@ -23,12 +23,12 @@ namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
 open MazurTorsion.PolynomialResultant
 open Internal.ResultantCertificate
 
-/-- The checked first two and final recurrences and the four remaining
+/-- The checked first two, fifth, and final recurrences and the three remaining
 recurrence hypotheses make all three bounded resultants nonzero at every
 nonsingular order-seven Kubert parameter. -/
 theorem bounded_resultants_ne_zero
     (hrec2 : recurrence2) (hrec3 : recurrence3)
-    (hrec4 : recurrence4) (hrec5 : recurrence5)
+    (hrec4 : recurrence4)
     (d : ℚ) (hd0 : d ≠ 0) (hd1 : d ≠ 1)
     (hcubic : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0) :
     resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 ≠ 0 ∧
@@ -55,12 +55,12 @@ theorem bounded_resultants_ne_zero
   have hres0 :
       resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 ≠ 0 :=
     selection_divisionCofactor0_resultant_ne_zero
-      hrec2 hrec3 hrec4 hrec5
+      hrec2 hrec3 hrec4
       d hd0 hd1 hcubic
   have hres0t :
       resultant (selectionCofactor t) (divisionCofactor0 t) 33 7 ≠ 0 :=
     selection_divisionCofactor0_resultant_ne_zero
-      hrec2 hrec3 hrec4 hrec5
+      hrec2 hrec3 hrec4
       t ht0 ht1 htcubic
   have hcop0t : IsCoprime
       (selectionCofactor t) (divisionCofactor0 t) :=
@@ -79,7 +79,7 @@ theorem bounded_resultants_ne_zero
   have hres0t2 :
       resultant (selectionCofactor t2) (divisionCofactor0 t2) 33 7 ≠ 0 :=
     selection_divisionCofactor0_resultant_ne_zero
-      hrec2 hrec3 hrec4 hrec5
+      hrec2 hrec3 hrec4
       t2 ht20 ht21 ht2cubic
   have hcop0t2 : IsCoprime
       (selectionCofactor t2) (divisionCofactor0 t2) :=
