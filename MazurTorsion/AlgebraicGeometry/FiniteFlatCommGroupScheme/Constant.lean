@@ -554,7 +554,130 @@ abbrev constantScheme (R : Type u) [CommRing R]
 def constantMap (R : Type u) [CommRing R]
     {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
     (f : G →* H) : constantScheme R G ⟶ constantScheme R H :=
-  AffineFiniteFreeCommGroupScheme.realizeMap (constantMapAffine R f)
+  (AffineFiniteFreeCommGroupScheme.realizationFunctor R).map (constantMapAffine R f)
+
+/-- The geometric constant-group construction respects composition.  This is a concrete
+downstream consumer of the finite-free realization functor's composition law. -/
+@[simp]
+theorem constantMap_comp (R : Type u) [CommRing R]
+    {G H K : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    [CommGroup K] [Fintype K] (f : G →* H) (g : H →* K) :
+    constantMap R (g.comp f) = constantMap R f ≫ constantMap R g := by
+  rw [constantMap, constantMapAffine_comp,
+    AffineFiniteFreeCommGroupScheme.realizationFunctor_map,
+    AffineFiniteFreeCommGroupScheme.realizeMap_comp]
+  rfl
+
+/-- Scalar extension commutes with the function-ring coordinates of a finite constant group.
+On a pure tensor, this sends `s ⊗ f` to the function `g ↦ algebraMap R K (f g) * s`. -/
+def constantBaseChangeAlgEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    K ⊗[R] ConstantCoordinates R G ≃ₐ[K] ConstantCoordinates K G := by
+  classical
+  exact (Algebra.TensorProduct.congr (AlgEquiv.refl : K ≃ₐ[K] K) ULift.algEquiv).trans <|
+    (Algebra.TensorProduct.piScalarRight R K K G).trans ULift.algEquiv.symm
+
+@[simp]
+theorem constantBaseChangeAlgEquiv_tmul
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G]
+    (s : K) (f : ConstantCoordinates R G) (g : G) :
+    (constantBaseChangeAlgEquiv (R := R) (K := K) G (s ⊗ₜ[R] f)).down g =
+      algebraMap R K (f.down g) * s := by
+  classical
+  simp [constantBaseChangeAlgEquiv, Algebra.TensorProduct.piScalarRight_tmul,
+    Algebra.smul_def, mul_comm]
+
+private theorem constantBaseChange_tensorEval_comulAux
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G]
+    (s : K) (q : ConstantCoordinates R G ⊗[R] ConstantCoordinates R G)
+    (g h : G) :
+    ConstantCoordinates.tensorEval (R := K) (G := G)
+        (TensorProduct.map
+          (constantBaseChangeAlgEquiv (R := R) (K := K) G).toLinearMap
+          (constantBaseChangeAlgEquiv (R := R) (K := K) G).toLinearMap
+          ((TensorProduct.AlgebraTensorModule.tensorTensorTensorComm
+            R K R K K K (ConstantCoordinates R G) (ConstantCoordinates R G))
+              (1 ⊗ₜ[K] s ⊗ₜ[R] q))) (g, h) =
+      algebraMap R K
+          (ConstantCoordinates.tensorEval (R := R) (G := G) q (g, h)) * s := by
+  classical
+  induction q using TensorProduct.induction_on with
+  | zero =>
+      simp only [TensorProduct.tmul_zero, LinearEquiv.map_zero, LinearMap.map_zero]
+      rw [map_zero, map_zero]
+      change (0 : K) = algebraMap R K 0 * s
+      simp
+  | add x y hx hy =>
+      simp only [TensorProduct.tmul_add, map_add, Pi.add_apply, hx, hy, add_mul]
+  | tmul x y =>
+      simp [TensorProduct.AlgebraTensorModule.tensorTensorTensorComm_tmul,
+        ConstantCoordinates.tensorEval_tmul, constantBaseChangeAlgEquiv_tmul,
+        map_mul, mul_assoc]
+
+/-- The scalar-extension equivalence for constant coordinates respects the full bialgebra
+structure, hence also the Hopf structure. -/
+def constantBaseChangeBialgEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    K ⊗[R] ConstantCoordinates R G ≃ₐc[K] ConstantCoordinates K G := by
+  classical
+  let e := constantBaseChangeAlgEquiv (R := R) (K := K) G
+  let c : K ⊗[R] ConstantCoordinates R G ≃ₗc[K] ConstantCoordinates K G :=
+    { e.toLinearEquiv with
+      counit_comp := by
+        apply LinearMap.ext
+        intro t
+        induction t using TensorProduct.induction_on with
+        | zero => simp
+        | add x y hx hy => simp only [map_add, hx, hy]
+        | tmul s f =>
+            rw [TensorProduct.counit_tmul]
+            change (e (s ⊗ₜ[R] f)).down 1 = _
+            rw [constantBaseChangeAlgEquiv_tmul]
+            change algebraMap R K (f.down 1) * s = f.down 1 • s
+            rw [Algebra.smul_def]
+      map_comp_comul := by
+        apply LinearMap.ext
+        intro t
+        apply (ConstantCoordinates.tensorEval (R := K) (G := G)).injective
+        funext p
+        rcases p with ⟨g, h⟩
+        induction t using TensorProduct.induction_on with
+        | zero => simp
+        | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
+        | tmul s f =>
+            simp only [LinearMap.comp_apply]
+            rw [TensorProduct.comul_tmul]
+            change ConstantCoordinates.tensorEval (R := K) (G := G)
+                (TensorProduct.map e.toLinearMap e.toLinearMap
+                  ((TensorProduct.AlgebraTensorModule.tensorTensorTensorComm
+                    R K R K K K (ConstantCoordinates R G) (ConstantCoordinates R G))
+                      (1 ⊗ₜ[K] s ⊗ₜ[R]
+                        Coalgebra.comul (R := R) (A := ConstantCoordinates R G) f))) (g, h) = _
+            rw [constantBaseChange_tensorEval_comulAux]
+            change algebraMap R K
+                (ConstantCoordinates.tensorEval (R := R) (G := G)
+                  (ConstantCoordinates.comulAlgHom (R := R) (G := G) f) (g, h)) * s = _
+            rw [ConstantCoordinates.tensorEval_comulAlgHom]
+            change algebraMap R K (f.down (g * h)) * s =
+              ConstantCoordinates.tensorEval (R := K) (G := G)
+                (ConstantCoordinates.comulAlgHom (R := K) (G := G) (e (s ⊗ₜ[R] f)))
+                  (g, h)
+            rw [ConstantCoordinates.tensorEval_comulAlgHom,
+              constantBaseChangeAlgEquiv_tmul] }
+  exact BialgEquiv.mk c e.map_mul
+
+/-- Coordinate scalar extension of a constant affine group is canonically the named constant
+affine group over the new base. -/
+def constantAffineBaseChangeIso
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    (constant R G).baseChange (K := K) ≅ constant K G :=
+  AffineFiniteFreeCommGroupScheme.isoOfCoordinateBialgEquiv
+    (constantBaseChangeBialgEquiv (R := R) (K := K) G)
 
 /-- Geometric base change of a constant finite group scheme agrees with scalar extension of
 its function Hopf algebra. -/
@@ -565,6 +688,25 @@ noncomputable def constantRealizeBaseChangeIso
         (constantScheme R G) ≅
       ((constant R G).baseChange (K := K)).realize :=
   (constant R G).realizeBaseChangeIso
+
+/-- Geometric base change of a constant finite group scheme is canonically the named constant
+scheme over the new base. -/
+noncomputable def constantBaseChangeIso
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (constantScheme R G) ≅ constantScheme K G :=
+  constantRealizeBaseChangeIso (R := R) (K := K) G ≪≫
+    (AffineFiniteFreeCommGroupScheme.realizationFunctor K).mapIso
+      (constantAffineBaseChangeIso (R := R) (K := K) G)
+
+/-- The named constant-family base-change isomorphism acts on points of every test scheme. -/
+def constantBaseChangePointMulEquiv
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G] (X : Over (Spec (.of K))) :
+    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
+        (constantScheme R G)).Point X ≃* (constantScheme K G).Point X :=
+  pointMulEquivOfIso (constantBaseChangeIso (R := R) (K := K) G) X
 
 /-- The geometric point of the constant group scheme selected by `g`. -/
 def constantPoint (R : Type u) [CommRing R]

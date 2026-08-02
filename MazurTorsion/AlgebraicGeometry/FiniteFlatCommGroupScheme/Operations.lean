@@ -78,6 +78,16 @@ theorem zeroKernelPresentation_baseChange_kernel {T : Scheme.{u}} (t : T ⟶ S)
       (zeroKernelPresentation ((baseChange t).obj G) ((baseChange t).obj H)).kernel :=
   rfl
 
+/-- The inclusion in the zero-kernel presentation is compatible with base change, not merely
+its source object. -/
+@[simp]
+theorem zeroKernelPresentation_baseChange_inclusion {T : Scheme.{u}} (t : T ⟶ S)
+    (G H : FiniteFlatCommGroupScheme S) :
+    (baseChange t).map (zeroKernelPresentation G H).inclusion =
+      (zeroKernelPresentation ((baseChange t).obj G) ((baseChange t).obj H)).inclusion := by
+  change (baseChange t).map (𝟙 G) = 𝟙 ((baseChange t).obj G)
+  exact (baseChange t).map_id G
+
 /-- Multiplication by `n` on a finite-flat commutative group scheme, in multiplicative notation. -/
 def powerEnd (G : FiniteFlatCommGroupScheme S) (n : ℕ) : G ⟶ G :=
   ObjectProperty.homMk (InducedCategory.homMk ((𝟙 G.obj.toGrp) ^ n))

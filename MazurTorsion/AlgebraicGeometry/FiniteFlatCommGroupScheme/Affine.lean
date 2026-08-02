@@ -172,6 +172,17 @@ theorem realizationFunctor_obj (G : AffineCommGroupScheme R) :
 theorem realizationFunctor_map_left {G H : AffineCommGroupScheme R} (f : G ⟶ H) :
     ((realizationFunctor R).map f).hom.hom.hom.left = schemeMap f := rfl
 
+/-- A bialgebra equivalence of coordinate Hopf algebras induces an isomorphism of affine
+commutative group schemes.  The apparent reversal is handled by the opposite category in the
+Hopf-algebra dictionary. -/
+def isoOfCoordinateBialgEquiv {G H : AffineCommGroupScheme R}
+    (e : G.coordinates ≃ₐc[R] H.coordinates) : G ≅ H := by
+  let i : G.unop.obj ≅ H.unop.obj :=
+    (CommHopfAlgCat.ofIsoSelf G.unop.obj).symm ≪≫
+      (CommHopfAlgCat.isoEquivBialgEquiv.symm e) ≪≫
+        CommHopfAlgCat.ofIsoSelf H.unop.obj
+  exact (ObjectProperty.isoMk (cocommutativeHopfProperty R) i).symm.op
+
 /-- Scalar extension of affine commutative group schemes, functorial in Hopf morphisms. -/
 def baseChangeFunctor {K : Type u} [CommRing K] [Algebra R K] :
     AffineCommGroupScheme R ⥤ AffineCommGroupScheme K :=
@@ -1359,6 +1370,46 @@ theorem realizePointMulEquiv_apply (G : AffineFiniteFreeCommGroupScheme R)
 def realizeMap {G H : AffineFiniteFreeCommGroupScheme R} (f : G ⟶ H) :
     G.realize ⟶ H.realize :=
   ObjectProperty.homMk ((AffineCommGroupScheme.realizationFunctor R).map f.hom)
+
+/-- Geometric realization is a functor from finite-free affine Hopf presentations to
+finite-flat commutative group schemes.  This packages `realizeMap` together with its identity
+and composition laws, so downstream constructions can use the categorical API directly. -/
+def realizationFunctor (R : Type u) [CommRing R] :
+    AffineFiniteFreeCommGroupScheme R ⥤ FiniteFlatCommGroupScheme (Spec (.of R)) where
+  obj G := G.realize
+  map f := realizeMap f
+  map_id G := by
+    apply ObjectProperty.hom_ext
+    exact (AffineCommGroupScheme.realizationFunctor R).map_id G.obj
+  map_comp f g := by
+    apply ObjectProperty.hom_ext
+    exact (AffineCommGroupScheme.realizationFunctor R).map_comp f.hom g.hom
+
+@[simp]
+theorem realizationFunctor_obj (G : AffineFiniteFreeCommGroupScheme R) :
+    (realizationFunctor R).obj G = G.realize := rfl
+
+@[simp]
+theorem realizationFunctor_map {G H : AffineFiniteFreeCommGroupScheme R} (f : G ⟶ H) :
+    (realizationFunctor R).map f = realizeMap f := rfl
+
+/-- A coordinate Hopf-algebra equivalence induces an isomorphism of finite-free affine group
+schemes. -/
+def isoOfCoordinateBialgEquiv {G H : AffineFiniteFreeCommGroupScheme R}
+    (e : G.coordinates ≃ₐc[R] H.coordinates) : G ≅ H :=
+  ObjectProperty.isoMk (affineFiniteFreeProperty R)
+    (AffineCommGroupScheme.isoOfCoordinateBialgEquiv e)
+
+@[simp]
+theorem realizeMap_id (G : AffineFiniteFreeCommGroupScheme R) :
+    realizeMap (𝟙 G) = 𝟙 G.realize := by
+  exact (realizationFunctor R).map_id G
+
+@[simp]
+theorem realizeMap_comp {G H K : AffineFiniteFreeCommGroupScheme R}
+    (f : G ⟶ H) (g : H ⟶ K) :
+    realizeMap (f ≫ g) = realizeMap f ≫ realizeMap g := by
+  exact (realizationFunctor R).map_comp f g
 
 /-- Mapping a geometric affine point is contravariant composition with the coordinate map. -/
 theorem pointToAlgHom_map_realizeMap {G H : AffineFiniteFreeCommGroupScheme R}
