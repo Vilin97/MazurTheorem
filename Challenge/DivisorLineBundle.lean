@@ -40,12 +40,22 @@ The companion module `CurveAffineChart` isolates the upstream-compatible suffici
 transports the divisor and class maps to `Pic(U)` while preserving the exact principal kernel
 and range equivalence. The pinned upstream AINTLIB source proves general pullback monoidality,
 but that cone is not in the current checked import graph and cannot be copied here under this
-task's no-`set_option` constraint. For gluing, the separately importable companion module
-`CurveLineBundleDescent` provides `LineBundleDescent.EffectiveInvertible`, which precisely asks
-that one coherent chart descent datum be represented by a global invertible sheaf; it neither
-constructs the overlap cocycle nor asserts a stack theorem. Those existence inputs remain
-open, so the contract earns no Mazur completion credit. The Challenge's published import list
-remains unchanged; solvers use these checked route modules explicitly.
+task's no-`set_option` constraint. For gluing, the separately importable companion modules
+`CurveLineBundleDescent` and `CurveDivisorDescent` now construct the actual affine `O(D)` on a
+canonical coordinate cover and prove that every principal divisor gives a trivial line bundle
+on each chart. `CurveDivisorDescent.DivisorCocycle` is the exact missing pairwise-overlap,
+normalization, and triple-cocycle input for those specified bundles. Given such a cocycle,
+checked code converts it to Mathlib descent data and, under
+object-specific `LineBundleDescent.EffectiveInvertible`, constructs a global line bundle whose
+restriction is the chosen affine `O(D)`. Cover-wide invertible effectivity, ordinary module
+effectivity, and locality of invertibility are exposed separately as progressively stronger
+sufficient inputs. A coherently trivial chosen principal cocycle descends to the trivial global
+bundle under essential injectivity on objects, itself implied by fully faithful module descent.
+No divisor-indexed additive cocycle system, overlap isomorphism, effectivity, locality,
+coherent-principal-triviality, or object-separation input is asserted. Those existence results
+remain open, so the contract earns no Mazur completion credit.
+The Challenge's published import list remains unchanged; solvers use these checked route
+modules explicitly.
 -/
 
 open AlgebraicGeometry

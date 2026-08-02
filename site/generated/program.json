@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1423463,
-    "integrated_lean_modules": 647,
+    "integrated_lean_lines": 1424188,
+    "integrated_lean_modules": 648,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -1176,6 +1176,83 @@
           "state": "contract",
           "description": "Recover the isomorphism between the descended global line bundle and every local chart object.",
           "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle",
+          "state": "contract",
+          "description": "Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle for actual local invertible sheaves.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData",
+          "state": "contract",
+          "description": "Convert the chosen-overlap cocycle into Mathlib coherent module descent data.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.InvertibleEffectiveDescentFor",
+          "state": "contract",
+          "description": "Isolate effective descent for all locally invertible data on one specified open cover.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity_of_locality",
+          "state": "contract",
+          "description": "Derive invertible effectivity from ordinary module effectivity and locality of invertibility.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.ModuleDescentEssentiallyInjectiveFor",
+          "state": "contract",
+          "description": "Isolate the exact object-separation input needed to lift a trivialization of descent data.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentEssentiallyInjectiveFor_of_fullyFaithful",
+          "state": "contract",
+          "description": "Derive the exact object-separation property from fully faithful module descent.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle",
+          "state": "contract",
+          "description": "Construct the actual affine O(D) from the restriction of a global curve divisor.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle_principal_iso_trivial",
+          "state": "contract",
+          "description": "Prove that every global principal divisor gives a trivial line bundle on each compatible affine chart.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycle",
+          "state": "contract",
+          "description": "Specialize the exact overlap-cocycle boundary to the constructed chartwise O(D) bundles.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleRestrictionIso",
+          "state": "contract",
+          "description": "Consume effective descent to identify every restriction of the global bundle with its actual affine divisor line bundle.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundle_principal_iso_trivial",
+          "state": "contract",
+          "description": "Descend coherent principal triviality to a global trivialization under essential injectivity on objects for module descent.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -1206,7 +1283,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart and descent modules. Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts and construct `PicardIso.PullbackMonoidalData` (or port the exact pinned upstream pullback-monoidal cone without source-level options). The checked API then transports the exact chart kernel, class descent, and range equivalence to `Pic(U)`. Construct coherent overlap isomorphisms for the local inverse-fractional-ideal line bundles and discharge `LineBundleDescent.EffectiveInvertible` for that specified datum. Separately discharge tilde reflection for the forward Picard comparison; canonical Picard surjectivity is equivalent to the reverse comparison. The weighted product formula remains the independently registered A2 Challenge.",
+        "recommended_route": "Import the companion chart and descent modules. Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts and construct `PicardIso.PullbackMonoidalData` (or port the exact pinned upstream pullback-monoidal cone without source-level options). The checked API then transports the exact chart kernel, class descent, and range equivalence to `Pic(U)`. For a canonical affine coordinate cover, construct a divisor-indexed additive system of `CurveDivisorDescent.DivisorCocycle` values by proving localization compatibility for the specified Picard-representative affine line bundles. Prove object-specific `LineBundleDescent.EffectiveInvertible` for those cocycles; cover-wide invertible effectivity, or module effectivity plus locality of invertibility, are stronger sufficient inputs. Global principal triviality additionally needs coherent triviality for the chosen principal cocycles and `ModuleDescentEssentiallyInjectiveFor`, which follows from fully faithful module descent. Separately discharge tilde reflection for the forward Picard comparison; canonical Picard surjectivity is equivalent to the reverse comparison. The weighted product formula remains the independently registered A2 Challenge.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

@@ -90,11 +90,22 @@ transports the exact principal kernel, injective class descent, and range equiva
 subscheme. The resulting Picard equivalence is proved independent of the chosen monoidal
 structure and its inverse is identified with pullback along the inverse scheme isomorphism. The
 pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
-uses source-level options forbidden in this task. Finally,
-`LineBundleDescent.EffectiveInvertible` isolates effectivity of one specified coherent module
-descent datum by a global invertible sheaf and has a checked chart-restriction consumer. It does
-not construct the overlap cocycle or claim that scheme modules form a Zariski stack. Thus global
-proper-curve gluing and Picard surjectivity remain open.
+uses source-level options forbidden in this task. The descent API now packages specified
+pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
+descent data. It separates object effectivity, cover-wide module effectivity, locality of
+invertibility, essential injectivity on objects, and fully faithful module descent instead of
+asserting a stack theorem. On a
+canonical coordinate cover, the curve-divisor API restricts a global divisor, constructs the
+actual affine `O(D)` line bundle on every chart, preserves addition, and proves local triviality
+for principal divisors. `CurveDivisorDescent.DivisorCocycle` is the exact remaining overlap
+input for these specified line bundles. Object-specific effective invertible descent then
+constructs a global
+line bundle with a checked isomorphism from each restriction to the corresponding `O(D)`.
+Coherent triviality of a chosen principal cocycle and essential injectivity on objects
+conditionally imply global principal triviality; fully faithful descent is a checked sufficient
+source of that exact input. No divisor-indexed additive cocycle system, overlap isomorphism,
+effectivity, locality, coherent-principal-triviality, or object-separation theorem is claimed.
+Thus global proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
 conditional interfaces rather than solved existence results or separately registered Challenge
 declarations; their discharge remains part of the unchanged global A3 Challenge. The weighted
@@ -257,6 +268,43 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible.restrictionIso`
   Recover the isomorphism between the descended global line bundle and every local chart object.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle`
+  Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple
+  cocycle for actual local invertible sheaves.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData`
+  Convert the chosen-overlap cocycle into Mathlib coherent module descent data.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.InvertibleEffectiveDescentFor`
+  Isolate effective descent for all locally invertible data on one specified open cover.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity_of_locality`
+  Derive invertible effectivity from ordinary module effectivity and locality of invertibility.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.ModuleDescentEssentiallyInjectiveFor`
+  Isolate the exact object-separation input needed to lift a trivialization of descent data.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentEssentiallyInjectiveFor_of_fullyFaithful`
+  Derive the exact object-separation property from fully faithful module descent.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle`
+  Construct the actual affine `O(D)` from the restriction of a global curve divisor.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle_principal_iso_trivial`
+  Prove that every global principal divisor gives a trivial line bundle on each compatible
+  affine chart.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycle`
+  Specialize the exact overlap-cocycle boundary to the constructed chartwise `O(D)` bundles.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleRestrictionIso`
+  Consume effective descent to identify every restriction of the global bundle with its actual
+  affine divisor line bundle.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundle_principal_iso_trivial`
+  Descend coherent principal triviality to a global trivialization under essential injectivity
+  on objects for module descent.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
