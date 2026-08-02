@@ -36,17 +36,29 @@ localization presentation. Hence the packaged cross-chart extension condition, w
 records the scalar towers, constructs the actual chosen restriction isomorphism. For two distinct
 chart rings, extension equality is proved for the principal divisors defined by the same rational
 function, giving the actual restriction isomorphism on every common affine overlap satisfying the
-standing Dedekind and common-fraction-field assumptions. For arbitrary divisors, it is proved
-when a common Dedekind overlap is a localization of both chart rings and coefficients agree after
-height-one-prime contraction; the same checked consumer then gives the restriction isomorphism.
-Canonical
+standing Dedekind and common-fraction-field assumptions. For arbitrary divisors, open-immersion
+prime extension proves extended-ideal equality from contracted coefficient equality on any
+common Dedekind affine overlap; the classical-localization theorem is now only a specialization.
+For restrictions of one ambient divisor, equality of the two coordinate maps to the curve makes
+the contracted ambient points, coefficients, extended ideals, and actual chosen restrictions
+agree automatically. The resulting checked consumer is
+`CurveDivisorDescent.localLineBundleRestrictionIsoOfCommonMap`. More concretely,
+`localLineBundleRestrictionIsoOnCommonAffineOpen` derives every algebraic and geometric input
+canonically from a chosen common nonempty Dedekind affine subopen. Under separatedness,
+`localLineBundleRestrictionIsoOnIntersection` specializes this to the full intersection of two
+nonempty affine charts, conditional only on its coordinate ring being Dedekind. For the intended
+proper curve over a field, `localLineBundleRestrictionIsoOnProperCurveIntersection` derives the
+separatedness input from properness. With smooth relative dimension one,
+`localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality` further replaces the
+intersection Dedekind hypothesis by exactly the existing mapwise normality contract. Canonical
 Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes arbitrary-divisor cross-chart extension equality from the geometric
-ambient points, the affine Picard comparison inputs, the map-specific smooth-curve
-ring conditions, global curve divisor gluing, and global
-divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
+What remains here includes proving the mapwise normality condition for full affine intersections,
+transporting their isomorphisms to the chosen descent pullbacks, normalizing them, proving diagonal
+and triple-cocycle coherence, the affine Picard comparison inputs, the map-specific smooth-curve
+ring conditions, global curve divisor gluing, and global divisor-class/Picard surjectivity. The
+chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
 Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
 plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` is a map-parameterized
@@ -101,15 +113,16 @@ adding surjectivity gives the full divisor-class/Picard equivalence without a gl
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
-arbitrary-divisor cross-chart extension equality, coherent overlap system,
+chosen-pullback/intersection transport, coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 asserted. `AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality
-condition, and the remaining cross-chart extension predicate are precise compiled conditional
-contracts subsumed by this unchanged registered A3 Challenge, rather than separately registered
-open theorems. Those existence results remain open, so the contract earns no Mazur completion
-credit.
+condition, and the cover-wide `CurveDivisorDescent.DivisorCocycle` and effectivity packages are
+precise compiled conditional contracts subsumed by this unchanged registered A3 Challenge,
+rather than separately registered open theorems. No additional localization Challenge is needed;
+the weighted product formula remains the separate A2 prerequisite. These existence results remain
+open, so the contract earns no Mazur completion credit.
 The Challenge's published import list remains unchanged; solvers use these checked route
 modules explicitly.
 -/

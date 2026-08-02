@@ -83,13 +83,22 @@ the restriction/base-change comparison for each chosen chart bundle. Affine tild
 and flat epimorphic tensor/span comparison prove that comparison for every affine open immersion,
 without a classical localization presentation. Across two distinct chart rings, the
 extension equality is now proved for principal divisors defined by the same rational function,
-and for arbitrary divisors when the common Dedekind overlap is a localization of both rings and
-coefficients agree after height-one-prime contraction. Both routes have checked
-actual-restriction consumers; the principal route works on every common affine overlap. For two
-divisors on the same chart,
+and for arbitrary divisors on any common Dedekind affine overlap from contracted coefficient
+equality. Open-immersion prime extension replaces the classical-localization hypothesis. For
+restrictions of one ambient divisor, compatible coordinate maps to the curve identify the
+contracted ambient points and automatically produce the coefficient equality, extended-ideal
+equality, and actual restriction isomorphism. All routes have checked actual-restriction
+consumers. For two divisors on the same chart,
 coefficient agreement now gives the actual principal-open restriction isomorphism directly.
-Constructing arbitrary-divisor extension equality from ambient-point compatibility and proving
-cocycle coherence remain missing.
+A chosen common Dedekind affine subopen canonically supplies all algebra maps, open immersions,
+scalar towers, and ambient-map compatibilities needed for the arbitrary-divisor comparison.
+On a separated integral scheme, the full intersection of two nonempty affine charts is affine
+and nonempty, and the comparison is constructed there once its coordinate ring is Dedekind.
+For a proper morphism to the spectrum of a field, relative properness supplies the absolute
+separatedness input automatically. For a smooth relative curve, the existing mapwise normality
+contract supplies the intersection's Dedekind instance and hence the actual comparison.
+Proving that normality condition, transporting the isomorphisms to the chosen descent
+pullbacks, and proving normalized diagonal and triple-cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -152,19 +161,19 @@ separate gluing input. Constructing compatible rational data from the explicit l
 cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the divisor cocycle system, arbitrary-divisor cross-chart extension equality, coherent
-overlap system,
+of the divisor cocycle system, chosen-pullback/intersection transport, coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality condition,
-and the remaining cross-chart extension predicate are precise compiled conditional
-boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
-Challenge declarations. Their discharge remains part of that Challenge. The weighted product
-formula remains the separately registered A2 prerequisite in the roadmap; the affine and local
-A3 modules here do not import it. Artifact state
+and the cover-wide `CurveDivisorDescent.DivisorCocycle` and effectivity packages are precise
+compiled conditional boundaries subsumed by the unchanged registered A3 Challenge rather than
+separately registered Challenge declarations. Their discharge remains part of that Challenge.
+No additional localization Challenge is needed. The weighted product formula remains the
+separately registered A2 prerequisite in the roadmap; the affine and local A3 modules here do not
+import it. Artifact state
 `contract` records a compiled conditional API and does not assert that these predicates are
 inhabited or that A3 is solved.
 
@@ -383,6 +392,48 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff`
   Identify a coordinate-divisor coefficient with the global coefficient at the corresponding
   ambient codimension-one point.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.contractedPoint_eq_of_commonMap`
+  Prove that two compatible coordinate maps from one common affine overlap contract a
+  height-one prime to the same ambient codimension-one point.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.openImmersionCoefficientEq_localDivisor_of_commonMap`
+  Derive contracted coefficient equality for the two chart restrictions of one ambient divisor.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.overlapInverseIdealExtensionEq_localDivisor_of_commonMap`
+  Prove equality of the two extended inverse ideals directly from a compatible common affine
+  overlap map.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOfCommonMap`
+  Construct the actual arbitrary-divisor restriction isomorphism from an explicitly compatible
+  common Dedekind affine-overlap presentation.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionAlgebra`
+  Equip the coordinate ring of an affine subopen with the algebra structure induced by section
+  restriction.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMap_comp_fromSpec`
+  Identify the composite of the restriction-induced spectrum map and the chart map with the
+  canonical map from the affine subopen.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMapIsOpenImmersion`
+  Prove that section restriction to an affine subopen induces an open immersion on spectra.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen`
+  Construct the arbitrary-divisor restriction isomorphism canonically on every chosen common
+  nonempty Dedekind affine subopen of two charts.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnIntersection`
+  Construct the arbitrary-divisor restriction isomorphism on the full intersection of two
+  nonempty affine charts under separatedness and the Dedekind condition for its coordinate ring.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperCurveIntersection`
+  Derive separatedness from properness over a field and construct the same full-intersection
+  arbitrary-divisor restriction isomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality`
+  On a proper smooth relative curve, consume the existing mapwise normality condition to derive
+  the intersection Dedekind instance and construct the full-overlap isomorphism.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictIsoOfCoeffEq`
   Construct the actual same-chart principal-open restriction isomorphism from ambient
@@ -523,6 +574,20 @@ inhabited or that A3 is solved.
   Prove the cross-chart extension equality for principal divisors defined by the same rational
   function on two distinct Dedekind chart rings.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.underHeightOneOpenImmersion`
+  Contract a height-one prime through an affine open immersion of Dedekind spectra.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.map_underHeightOneOpenImmersion`
+  Prove that extending the contracted height-one prime recovers the original overlap prime.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OpenImmersionCoefficientEq`
+  State equality of chart-divisor coefficients after contraction through two arbitrary affine
+  open immersions from a common Dedekind overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_of_openImmersion_coeff_eq`
+  Prove arbitrary-divisor cross-chart extension equality from contracted coefficient equality,
+  without classical localization presentations.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.underHeightOne`
   Contract a height-one prime through a localization whose denominators are non-zero-divisors.
 * `definition` (`contract`):
@@ -583,6 +648,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsLocalization`
   Construct the principal-divisor restriction isomorphism directly from two localization
   presentations and compatible common-fraction-field maps.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOpenImmersionCoeffEq`
+  Construct the actual arbitrary-divisor restriction isomorphism from contracted coefficient
+  equality on any common Dedekind affine overlap.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfLocalizationCoeffEq`
   Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization

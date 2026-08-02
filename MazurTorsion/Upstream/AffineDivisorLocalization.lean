@@ -6,7 +6,9 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.DivisorLineBundle
 import Mathlib.Algebra.Category.Ring.Epi
+import Mathlib.AlgebraicGeometry.Morphisms.Flat
 import Mathlib.LinearAlgebra.Span.TensorProduct
+import Mathlib.RingTheory.Flat.Equalizer
 import Mathlib.RingTheory.Flat.TorsionFree
 import Mathlib.RingTheory.FractionalIdeal.Extended
 
@@ -30,18 +32,21 @@ of divisor coefficients on `D(f)` now proves both equalities, including abstract
 For two coordinate rings mapping compatibly through a common affine overlap, equality of their
 extended ideals is isolated separately and identifies the two extended ideal modules and their
 tilde sheaves. The cross-chart extension equality is now proved outright for two principal
-divisors cut out by the same rational function. For arbitrary divisors, it is proved when the
-common Dedekind overlap ring is a localization of both chart rings and the coefficients agree
-after contracting its height-one primes. General affine tilde base change is derived from the
-affine adjunctions. An affine open immersion makes the coordinate-ring map an algebra epimorphism,
-and flat tensor/span comparison then proves that the chosen restricted bundle is tilde of the
-extended inverse ideal without any classical localization presentation. Consequently, equality
-of the two extended ideals, together with the standing scalar-tower data, constructs the actual
-restricted-bundle isomorphism on every affine overlap satisfying these hypotheses; in particular,
-the principal-divisor result needs no localization presentation.
-Constructing arbitrary-divisor cross-chart extension equality from the geometric ambient points,
-choosing the isomorphisms coherently, proving the triple cocycle, and proving module effectivity
-remain open in the current Mathlib and Tau Ceti dependency graph.
+divisors cut out by the same rational function. For arbitrary divisors, an affine open immersion
+is a flat ring epimorphism, so every overlap ideal is extended from its contraction. In particular,
+each overlap height-one prime contracts to a height-one chart prime and extends back exactly. The
+resulting count formula turns
+contracted coefficient equality into equality of the two extended inverse ideals without a
+classical localization presentation. General affine tilde base change is derived from the affine
+adjunctions: open immersion makes the coordinate-ring map an algebra epimorphism, and flat
+tensor/span comparison identifies restriction with the extended inverse ideal. Thus contracted
+coefficient equality constructs the actual restricted-bundle isomorphism on every common
+Dedekind affine overlap satisfying the standing torsion-free, common-fraction-field, and
+scalar-tower hypotheses. The companion curve module proves that coefficient equality
+automatically when the two overlap maps compose to one ambient map, and constructs all of that
+data canonically from a chosen common Dedekind affine subopen. Passing from these local
+isomorphisms to the chosen descent pullbacks, normalizing them, proving the triple cocycle, and
+proving module effectivity remain open in the current Mathlib and Tau Ceti dependency graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -978,10 +983,11 @@ end CommonExtension
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
 
 open CategoryTheory
+open _root_.AlgebraicGeometry
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open scoped nonZeroDivisors
+open scoped nonZeroDivisors TensorProduct
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
 
@@ -1247,7 +1253,7 @@ open CategoryTheory
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open scoped nonZeroDivisors
+open scoped nonZeroDivisors TensorProduct
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary
 
@@ -1260,6 +1266,300 @@ private lemma divisorFractionalIdeal_coe_eq_prod
   unfold ExplicitIdeal.divisorFractionalIdeal
   rw [fractionalIdealDivisorAddEquiv_symm_apply]
   rfl
+
+private lemma algebraIsEpiOfOpenImmersion
+    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)] : Algebra.IsEpi R B := by
+  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+    CommRingCat.ofHom (algebraMap R B)
+  letI : Mono (Scheme.Spec.map f.op) := by
+    change Mono (Spec.map f)
+    infer_instance
+  letI : Mono f.op := Scheme.Spec.mono_of_mono_map inferInstance
+  letI : Epi f := by
+    change Epi f.op.unop
+    infer_instance
+  exact CommRingCat.epi_iff_epi.mp (inferInstanceAs (Epi f))
+
+private lemma moduleFlatOfOpenImmersion
+    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)] : Module.Flat R B := by
+  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+    CommRingCat.ofHom (algebraMap R B)
+  have hs : _root_.AlgebraicGeometry.Flat (Spec.map f) := by
+    change _root_.AlgebraicGeometry.Flat (CommonExtension.extensionMap R B)
+    infer_instance
+  exact RingHom.flat_algebraMap_iff.mp
+    (_root_.AlgebraicGeometry.Flat.SpecMap_iff.mp hs)
+
+private lemma idealMapComapEqOfFlatEpi
+    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
+    [Algebra.IsEpi R B] [Module.Flat R B] (J : Ideal B) :
+    Ideal.map (algebraMap R B) (Ideal.comap (algebraMap R B) J) = J := by
+  apply le_antisymm Ideal.map_comap_le
+  intro x hx
+  let g : R →ₗ[R] B ⧸ J :=
+    (Ideal.Quotient.mkₐ R J).toLinearMap.comp (Algebra.linearMap R B)
+  let I : Ideal R := Ideal.comap (algebraMap R B) J
+  have hker : LinearMap.ker g = I.restrictScalars R := by
+    ext r
+    change (Ideal.Quotient.mk J) (algebraMap R B r) = 0 ↔
+      algebraMap R B r ∈ J
+    exact Ideal.Quotient.eq_zero_iff_mem
+  let e : B ⊗[R] R ≃ₐ[B] B := Algebra.TensorProduct.rid R B B
+  have hyker : e.symm x ∈ LinearMap.ker (LinearMap.lTensor B g) := by
+    rw [LinearMap.mem_ker]
+    apply (TensorProduct.lid' R B (B ⧸ J)).injective
+    simp only [map_zero, e, Algebra.TensorProduct.rid_symm_apply,
+      LinearMap.lTensor_tmul, TensorProduct.lid'_apply_tmul]
+    simpa [g, Algebra.smul_def, Ideal.Quotient.eq_zero_iff_mem] using hx
+  change e.symm x ∈ LinearMap.ker
+    (TensorProduct.AlgebraTensorModule.lTensor B B g) at hyker
+  rw [Module.Flat.ker_lTensor_eq, hker] at hyker
+  have hyideal : e.symm x ∈
+      Ideal.map (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R) I := by
+    change e.symm x ∈ (Ideal.map
+      (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R) I).restrictScalars R
+    rw [Ideal.map_includeRight_eq]
+    exact hyker
+  have hmap : e (e.symm x) ∈
+      Ideal.map e.toRingEquiv.toRingHom
+        (Ideal.map (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R) I) :=
+    Ideal.mem_map_of_mem e.toRingEquiv.toRingHom hyideal
+  have hcomp : e.toRingEquiv.toRingHom.comp
+      (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R).toRingHom =
+        algebraMap R B := by
+    ext r
+    simp [e, Algebra.smul_def]
+  have himage : Ideal.map e.toRingEquiv.toRingHom
+      (Ideal.map (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R) I) =
+      Ideal.map (algebraMap R B) I := by
+    calc
+      _ = Ideal.map (e.toRingEquiv.toRingHom.comp
+          (Algebra.TensorProduct.includeRight : R →ₐ[R] B ⊗[R] R).toRingHom) I :=
+        Ideal.map_map _ _
+      _ = Ideal.map (algebraMap R B) I := by rw [hcomp]
+  rw [himage] at hmap
+  simpa [I] using hmap
+
+/-- Contract a height-one prime through an affine open immersion of Dedekind spectra. -/
+def underHeightOneOpenImmersion
+    (R B : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B]
+    [Algebra R B]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (q : HeightOneSpectrum B) : HeightOneSpectrum R where
+  asIdeal := q.asIdeal.comap (algebraMap R B)
+  isPrime := Ideal.IsPrime.comap (algebraMap R B)
+  ne_bot := by
+    letI := algebraIsEpiOfOpenImmersion R B
+    letI := moduleFlatOfOpenImmersion R B
+    intro hbot
+    have hmap := idealMapComapEqOfFlatEpi R B q.asIdeal
+    rw [hbot] at hmap
+    exact q.ne_bot (by simpa using hmap.symm)
+
+/-- A surviving height-one prime extends exactly to the prime above it through an affine open
+immersion. This is the open-immersion replacement for `IsLocalization.map_under`. -/
+lemma map_underHeightOneOpenImmersion
+    (R B : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B]
+    [Algebra R B]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (q : HeightOneSpectrum B) :
+    Ideal.map (algebraMap R B)
+        (underHeightOneOpenImmersion R B q).asIdeal = q.asIdeal := by
+  letI := algebraIsEpiOfOpenImmersion R B
+  letI := moduleFlatOfOpenImmersion R B
+  exact idealMapComapEqOfFlatEpi R B q.asIdeal
+
+private lemma map_heightOne_eq_top_or_heightOne_of_isOpenImmersion
+    (R B : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B]
+    [Algebra R B] [IsTorsionFree R B]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (v : HeightOneSpectrum R) :
+    Ideal.map (algebraMap R B) v.asIdeal = ⊤ ∨
+      ∃ w : HeightOneSpectrum B,
+        Ideal.map (algebraMap R B) v.asIdeal = w.asIdeal := by
+  letI := algebraIsEpiOfOpenImmersion R B
+  letI := moduleFlatOfOpenImmersion R B
+  let J := Ideal.map (algebraMap R B) v.asIdeal
+  by_cases htop : J = ⊤
+  · exact Or.inl htop
+  · obtain ⟨M, hM, hJM⟩ := Ideal.exists_le_maximal J htop
+    have hvle : v.asIdeal ≤ Ideal.comap (algebraMap R B) M :=
+      Ideal.map_le_iff_le_comap.mp hJM
+    have hcomap : v.asIdeal = Ideal.comap (algebraMap R B) M :=
+      v.isMaximal.eq_of_le (hM.isPrime.comap (algebraMap R B)).ne_top hvle
+    have hmap : J = M := by
+      change Ideal.map (algebraMap R B) v.asIdeal = M
+      rw [hcomap]
+      exact idealMapComapEqOfFlatEpi R B M
+    let w : HeightOneSpectrum B :=
+      { asIdeal := M
+        isPrime := hM.isPrime
+        ne_bot := by
+          rw [← hmap]
+          exact (Ideal.map_eq_bot_iff_of_injective
+            (FaithfulSMul.algebraMap_injective R B)).not.mpr v.ne_bot }
+    exact Or.inr ⟨w, hmap⟩
+
+private lemma count_extended_prime_eq_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B] [Field K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (v : HeightOneSpectrum R) (q : HeightOneSpectrum B)
+    (hvq : v = underHeightOneOpenImmersion R B q) :
+    FractionalIdeal.count K q
+        (FractionalIdeal.extendedHom K B
+          (v.asIdeal : FractionalIdeal R⁰ K)) = 1 := by
+  rw [FractionalIdeal.extendedHom_coeIdeal_eq_map]
+  rw [hvq, map_underHeightOneOpenImmersion R B q]
+  exact FractionalIdeal.count_self K q
+
+private lemma count_extended_prime_ne_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B] [Field K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (v : HeightOneSpectrum R) (q : HeightOneSpectrum B)
+    (hvq : v ≠ underHeightOneOpenImmersion R B q) :
+    FractionalIdeal.count K q
+        (FractionalIdeal.extendedHom K B
+          (v.asIdeal : FractionalIdeal R⁰ K)) = 0 := by
+  rw [FractionalIdeal.extendedHom_coeIdeal_eq_map]
+  rcases map_heightOne_eq_top_or_heightOne_of_isOpenImmersion R B v with
+    htop | ⟨w, hw⟩
+  · rw [htop]
+    exact FractionalIdeal.count_one K q
+  · rw [hw]
+    apply FractionalIdeal.count_maximal_coprime K q
+    intro hwq
+    apply hvq
+    apply HeightOneSpectrum.ext
+    apply v.isMaximal.eq_of_le
+    · exact (underHeightOneOpenImmersion R B q).isPrime.ne_top
+    · change v.asIdeal ≤ q.asIdeal.comap (algebraMap R B)
+      apply Ideal.le_comap_of_map_le
+      rw [hw, hwq]
+
+/-- Coefficients of two chart divisors agree after contracting every height-one prime through
+affine open immersions from a common Dedekind overlap. -/
+def OpenImmersionCoefficientEq
+    (R₁ R₂ B : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDedekindDomain B]
+    [Algebra R₁ B] [Algebra R₂ B]
+    [IsOpenImmersion (CommonExtension.extensionMap R₁ B)]
+    [IsOpenImmersion (CommonExtension.extensionMap R₂ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂)) : Prop :=
+  ∀ q : HeightOneSpectrum B,
+    coeff D₁ (underHeightOneOpenImmersion R₁ B q) =
+      coeff D₂ (underHeightOneOpenImmersion R₂ B q)
+
+private lemma count_extended_divisorFractionalIdeal_of_isOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDedekindDomain B] [Field K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (CommonExtension.extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) (q : HeightOneSpectrum B) :
+    FractionalIdeal.count K q
+        (FractionalIdeal.extendedHom K B
+          (ExplicitIdeal.divisorFractionalIdeal R K D : FractionalIdeal R⁰ K)) =
+      coeff D (underHeightOneOpenImmersion R B q) := by
+  classical
+  let F : FractionalIdeal R⁰ K →+* FractionalIdeal B⁰ K :=
+    FractionalIdeal.extendedHom K B
+  rw [divisorFractionalIdeal_coe_eq_prod R K D, map_finsuppProd]
+  change FractionalIdeal.count K q
+      (∏ v ∈ D.support, F ((v.asIdeal : FractionalIdeal R⁰ K) ^ D v)) = _
+  rw [FractionalIdeal.count_prod]
+  · simp_rw [map_zpow₀, FractionalIdeal.count_zpow]
+    let p := underHeightOneOpenImmersion R B q
+    by_cases hp : p ∈ D.support
+    · rw [Finset.sum_eq_single p]
+      · rw [count_extended_prime_eq_of_isOpenImmersion R B K p q rfl, mul_one]
+        rfl
+      · intro v hv hvp
+        rw [count_extended_prime_ne_of_isOpenImmersion R B K v q hvp, mul_zero]
+      · intro hpnot
+        exact (hpnot hp).elim
+    · rw [Finset.sum_eq_zero]
+      · have hpzero : D p = 0 := by
+          simpa [Finsupp.mem_support_iff] using hp
+        exact (by simpa only [coeff] using hpzero.symm)
+      · intro v hv
+        have hvp : v ≠ p := by
+          intro hvp
+          exact hp (hvp ▸ hv)
+        rw [count_extended_prime_ne_of_isOpenImmersion R B K v q hvp, mul_zero]
+  · intro v hv
+    exact (FractionalIdeal.extendedHom_eq_zero_iff K B).not.mpr
+      (zpow_ne_zero _ (FractionalIdeal.coeIdeal_ne_zero.mpr v.ne_bot))
+
+/-- Equality of contracted coefficients through arbitrary affine open immersions proves the
+cross-chart equality of extended inverse divisor ideals. -/
+theorem overlapInverseIdealExtensionEq_of_openImmersion_coeff_eq
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDedekindDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (CommonExtension.extensionMap R₁ B)]
+    [IsOpenImmersion (CommonExtension.extensionMap R₂ B)]
+    (h₁ : IsScalarTower R₁ B K) (h₂ : IsScalarTower R₂ B K)
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (hcoeff : OpenImmersionCoefficientEq R₁ R₂ B D₁ D₂) :
+    OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂ := by
+  letI : IsScalarTower R₁ B K := h₁
+  letI : IsScalarTower R₂ B K := h₂
+  refine ⟨h₁, h₂, ?_⟩
+  let F₁ : FractionalIdeal R₁⁰ K →+* FractionalIdeal B⁰ K :=
+    FractionalIdeal.extendedHom K B
+  let F₂ : FractionalIdeal R₂⁰ K →+* FractionalIdeal B⁰ K :=
+    FractionalIdeal.extendedHom K B
+  have hbase :
+      Units.map F₁.toMonoidHom (ExplicitIdeal.divisorFractionalIdeal R₁ K D₁) =
+        Units.map F₂.toMonoidHom (ExplicitIdeal.divisorFractionalIdeal R₂ K D₂) := by
+    apply Units.ext
+    have hadd :
+        Additive.ofMul (Units.map F₁.toMonoidHom
+            (ExplicitIdeal.divisorFractionalIdeal R₁ K D₁)) =
+          Additive.ofMul (Units.map F₂.toMonoidHom
+            (ExplicitIdeal.divisorFractionalIdeal R₂ K D₂)) := by
+      apply (fractionalIdealDivisorAddEquiv B K).injective
+      ext q
+      rw [fractionalIdealDivisorAddEquiv_apply,
+        fractionalIdealDivisorAddEquiv_apply,
+        coeff_fractionalIdealDivisor, coeff_fractionalIdealDivisor]
+      change FractionalIdeal.count K q
+          (F₁ (ExplicitIdeal.divisorFractionalIdeal R₁ K D₁ :
+            FractionalIdeal R₁⁰ K)) =
+        FractionalIdeal.count K q
+          (F₂ (ExplicitIdeal.divisorFractionalIdeal R₂ K D₂ :
+            FractionalIdeal R₂⁰ K))
+      rw [count_extended_divisorFractionalIdeal_of_isOpenImmersion R₁ B K D₁ q,
+        count_extended_divisorFractionalIdeal_of_isOpenImmersion R₂ B K D₂ q]
+      exact hcoeff q
+    exact congrArg
+      (fun I : Additive ((FractionalIdeal B⁰ K)ˣ) ↦
+        ((Additive.toMul I : (FractionalIdeal B⁰ K)ˣ) : FractionalIdeal B⁰ K)) hadd
+  simpa only [map_inv] using congrArg Inv.inv hbase
 
 /-- Contract a height-one prime through an injective localization of Dedekind domains. -/
 def underHeightOne
@@ -1676,6 +1976,32 @@ noncomputable def chosenLineBundleRestrictionIsoAwayOfLocalizationEq
         (extensionMap R (Localization.Away f)) :=
   chosenLineBundleRestrictionIsoAway R K f D E
     (Boundary.overlapInverseIdealExtensionEq_away R K f D E h)
+
+/-- Contracted coefficient compatibility through two arbitrary affine open immersions produces
+an isomorphism of the actual chosen restrictions. The open-immersion prime-extension theorem
+supplies equality of the extended inverse ideals, and affine-open base change supplies both
+restriction comparisons. -/
+noncomputable def chosenLineBundleRestrictionIsoOfOpenImmersionCoeffEq
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDedekindDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₁ B)]
+    [_root_.AlgebraicGeometry.IsOpenImmersion (extensionMap R₂ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h₁ : IsScalarTower R₁ B K) (h₂ : IsScalarTower R₂ B K)
+    (hcoeff : Boundary.OpenImmersionCoefficientEq R₁ R₂ B D₁ D₂) :
+    (AffineDedekind.lineBundle R₁ K D₁).obj.restrict (extensionMap R₁ B) ≅
+      (AffineDedekind.lineBundle R₂ K D₂).obj.restrict (extensionMap R₂ B) :=
+  chosenLineBundleRestrictionIsoOfOverlapExtensionEq R₁ R₂ B K D₁ D₂
+    (Boundary.overlapInverseIdealExtensionEq_of_openImmersion_coeff_eq
+      R₁ R₂ B K h₁ h₂ D₁ D₂ hcoeff)
 
 /-- Contracted coefficient compatibility on a common Dedekind localization produces an
 isomorphism of the actual chosen restrictions. Affine-open flat epimorphic base change supplies
