@@ -1,0 +1,336 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence1SourceData
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence1Remainder2Data
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence1Remainder3Data
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence1CommonData
+
+import Mathlib.Tactic.Ring
+
+/-!
+# Recurrence 1 certificate: Bridge
+
+This file is a checked bounded-band arithmetic shard for the first
+pseudo-division recurrence in the order-seven branch-zero resultant certificate.
+-/
+
+open Polynomial
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+noncomputable section
+
+theorem divisionCofactor0Coefficient0_eq_normalized :
+    Internal.divisionCofactor0Coefficient0 = recurrence1Source0 := by
+  unfold Internal.divisionCofactor0Coefficient0 Internal.divisionCofactor0Coefficient0Chunk0
+  unfold Internal.divisionCofactor0Coefficient0Chunk1 Internal.divisionCofactor0Coefficient0Chunk2
+  unfold recurrence1Source0 recurrence1Source0Block0 recurrence1Source0Block1
+  unfold recurrence1Source0Block2 recurrence1Source0Block3
+  ring
+
+theorem divisionCofactor0Coefficient1_eq_normalized :
+    Internal.divisionCofactor0Coefficient1 = recurrence1Source1 := by
+  unfold Internal.divisionCofactor0Coefficient1 Internal.divisionCofactor0Coefficient1Chunk0
+  unfold Internal.divisionCofactor0Coefficient1Chunk1 recurrence1Source1 recurrence1Source1Block0
+  unfold recurrence1Source1Block1 recurrence1Source1Block2
+  ring
+
+theorem divisionCofactor0Coefficient2_eq_normalized :
+    Internal.divisionCofactor0Coefficient2 = recurrence1Source2 := by
+  unfold Internal.divisionCofactor0Coefficient2 Internal.divisionCofactor0Coefficient2Chunk0
+  unfold Internal.divisionCofactor0Coefficient2Chunk1 recurrence1Source2 recurrence1Source2Block0
+  unfold recurrence1Source2Block1 recurrence1Source2Block2
+  ring
+
+theorem divisionCofactor0Coefficient3_eq_normalized :
+    Internal.divisionCofactor0Coefficient3 = recurrence1Source3 := by
+  unfold Internal.divisionCofactor0Coefficient3 Internal.divisionCofactor0Coefficient3Chunk0
+  unfold Internal.divisionCofactor0Coefficient3Chunk1 recurrence1Source3 recurrence1Source3Block0
+  unfold recurrence1Source3Block1
+  ring
+
+theorem divisionCofactor0Coefficient4_eq_normalized :
+    Internal.divisionCofactor0Coefficient4 = recurrence1Source4 := by
+  unfold Internal.divisionCofactor0Coefficient4 Internal.divisionCofactor0Coefficient4Chunk0
+  unfold recurrence1Source4 recurrence1Source4Block0 recurrence1Source4Block1
+  ring
+
+theorem divisionCofactor0Coefficient5_eq_normalized :
+    Internal.divisionCofactor0Coefficient5 = recurrence1Source5 := by
+  unfold Internal.divisionCofactor0Coefficient5 Internal.divisionCofactor0Coefficient5Chunk0
+  unfold recurrence1Source5 recurrence1Source5Block0
+  ring
+
+theorem divisionCofactor0Coefficient6_eq_normalized :
+    Internal.divisionCofactor0Coefficient6 = recurrence1Source6 := by
+  unfold Internal.divisionCofactor0Coefficient6 Internal.divisionCofactor0Coefficient6Chunk0
+  unfold recurrence1Source6 recurrence1Source6Block0
+  ring
+
+theorem divisionCofactor0Coefficient7_eq_normalized :
+    Internal.divisionCofactor0Coefficient7 = recurrence1Source7 := by
+  unfold Internal.divisionCofactor0Coefficient7 Internal.divisionCofactor0Coefficient7Chunk0
+  unfold recurrence1Source7 recurrence1Source7Block0
+  ring
+
+theorem remainder2Coefficient0_eq_normalized :
+    remainder2Coefficient0 = recurrence1Remainder20 := by
+  unfold remainder2Coefficient0 remainder2Coefficient0Block0 remainder2Coefficient0Block1
+  unfold remainder2Coefficient0Chunk0 remainder2Coefficient0Chunk1 remainder2Coefficient0Chunk2
+  unfold remainder2Coefficient0Chunk3 remainder2Coefficient0Chunk4 remainder2Coefficient0Chunk5
+  unfold remainder2Coefficient0Chunk6 remainder2Coefficient0Chunk7 remainder2Coefficient0Chunk8
+  unfold remainder2Coefficient0Chunk9 remainder2Coefficient0Chunk10 remainder2Coefficient0Chunk11
+  unfold remainder2Coefficient0Chunk12 remainder2Coefficient0Chunk13 remainder2Coefficient0Chunk14
+  unfold recurrence1Remainder20 recurrence1Remainder20Block0 recurrence1Remainder20Block1
+  unfold recurrence1Remainder20Block2 recurrence1Remainder20Block3 recurrence1Remainder20Block4
+  unfold recurrence1Remainder20Block5 recurrence1Remainder20Block6 recurrence1Remainder20Block7
+  unfold recurrence1Remainder20Block8 recurrence1Remainder20Block9 recurrence1Remainder20Block10
+  unfold recurrence1Remainder20Block11 recurrence1Remainder20Block12 recurrence1Remainder20Block13
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder2Coefficient1_eq_normalized :
+    remainder2Coefficient1 = recurrence1Remainder21 := by
+  unfold remainder2Coefficient1 remainder2Coefficient1Block0 remainder2Coefficient1Block1
+  unfold remainder2Coefficient1Chunk0 remainder2Coefficient1Chunk1 remainder2Coefficient1Chunk2
+  unfold remainder2Coefficient1Chunk3 remainder2Coefficient1Chunk4 remainder2Coefficient1Chunk5
+  unfold remainder2Coefficient1Chunk6 remainder2Coefficient1Chunk7 remainder2Coefficient1Chunk8
+  unfold remainder2Coefficient1Chunk9 remainder2Coefficient1Chunk10 remainder2Coefficient1Chunk11
+  unfold remainder2Coefficient1Chunk12 remainder2Coefficient1Chunk13 remainder2Coefficient1Chunk14
+  unfold recurrence1Remainder21 recurrence1Remainder21Block0 recurrence1Remainder21Block1
+  unfold recurrence1Remainder21Block2 recurrence1Remainder21Block3 recurrence1Remainder21Block4
+  unfold recurrence1Remainder21Block5 recurrence1Remainder21Block6 recurrence1Remainder21Block7
+  unfold recurrence1Remainder21Block8 recurrence1Remainder21Block9 recurrence1Remainder21Block10
+  unfold recurrence1Remainder21Block11 recurrence1Remainder21Block12
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat]
+  ring
+
+theorem remainder2Coefficient2_eq_normalized :
+    remainder2Coefficient2 = recurrence1Remainder22 := by
+  unfold remainder2Coefficient2 remainder2Coefficient2Block0 remainder2Coefficient2Block1
+  unfold remainder2Coefficient2Chunk0 remainder2Coefficient2Chunk1 remainder2Coefficient2Chunk2
+  unfold remainder2Coefficient2Chunk3 remainder2Coefficient2Chunk4 remainder2Coefficient2Chunk5
+  unfold remainder2Coefficient2Chunk6 remainder2Coefficient2Chunk7 remainder2Coefficient2Chunk8
+  unfold remainder2Coefficient2Chunk9 remainder2Coefficient2Chunk10 remainder2Coefficient2Chunk11
+  unfold remainder2Coefficient2Chunk12 remainder2Coefficient2Chunk13 recurrence1Remainder22
+  unfold recurrence1Remainder22Block0 recurrence1Remainder22Block1 recurrence1Remainder22Block2
+  unfold recurrence1Remainder22Block3 recurrence1Remainder22Block4 recurrence1Remainder22Block5
+  unfold recurrence1Remainder22Block6 recurrence1Remainder22Block7 recurrence1Remainder22Block8
+  unfold recurrence1Remainder22Block9 recurrence1Remainder22Block10 recurrence1Remainder22Block11
+  unfold recurrence1Remainder22Block12
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder2Coefficient3_eq_normalized :
+    remainder2Coefficient3 = recurrence1Remainder23 := by
+  unfold remainder2Coefficient3 remainder2Coefficient3Block0 remainder2Coefficient3Block1
+  unfold remainder2Coefficient3Chunk0 remainder2Coefficient3Chunk1 remainder2Coefficient3Chunk2
+  unfold remainder2Coefficient3Chunk3 remainder2Coefficient3Chunk4 remainder2Coefficient3Chunk5
+  unfold remainder2Coefficient3Chunk6 remainder2Coefficient3Chunk7 remainder2Coefficient3Chunk8
+  unfold remainder2Coefficient3Chunk9 remainder2Coefficient3Chunk10 remainder2Coefficient3Chunk11
+  unfold remainder2Coefficient3Chunk12 remainder2Coefficient3Chunk13 recurrence1Remainder23
+  unfold recurrence1Remainder23Block0 recurrence1Remainder23Block1 recurrence1Remainder23Block2
+  unfold recurrence1Remainder23Block3 recurrence1Remainder23Block4 recurrence1Remainder23Block5
+  unfold recurrence1Remainder23Block6 recurrence1Remainder23Block7 recurrence1Remainder23Block8
+  unfold recurrence1Remainder23Block9 recurrence1Remainder23Block10 recurrence1Remainder23Block11
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat]
+  ring
+
+theorem remainder2Coefficient4_eq_normalized :
+    remainder2Coefficient4 = recurrence1Remainder24 := by
+  unfold remainder2Coefficient4 remainder2Coefficient4Block0 remainder2Coefficient4Block1
+  unfold remainder2Coefficient4Chunk0 remainder2Coefficient4Chunk1 remainder2Coefficient4Chunk2
+  unfold remainder2Coefficient4Chunk3 remainder2Coefficient4Chunk4 remainder2Coefficient4Chunk5
+  unfold remainder2Coefficient4Chunk6 remainder2Coefficient4Chunk7 remainder2Coefficient4Chunk8
+  unfold remainder2Coefficient4Chunk9 remainder2Coefficient4Chunk10 remainder2Coefficient4Chunk11
+  unfold remainder2Coefficient4Chunk12 recurrence1Remainder24 recurrence1Remainder24Block0
+  unfold recurrence1Remainder24Block1 recurrence1Remainder24Block2 recurrence1Remainder24Block3
+  unfold recurrence1Remainder24Block4 recurrence1Remainder24Block5 recurrence1Remainder24Block6
+  unfold recurrence1Remainder24Block7 recurrence1Remainder24Block8 recurrence1Remainder24Block9
+  unfold recurrence1Remainder24Block10 recurrence1Remainder24Block11
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat]
+  ring
+
+theorem remainder2Coefficient5_eq_normalized :
+    remainder2Coefficient5 = recurrence1Remainder25 := by
+  unfold remainder2Coefficient5 remainder2Coefficient5Block0 remainder2Coefficient5Block1
+  unfold remainder2Coefficient5Chunk0 remainder2Coefficient5Chunk1 remainder2Coefficient5Chunk2
+  unfold remainder2Coefficient5Chunk3 remainder2Coefficient5Chunk4 remainder2Coefficient5Chunk5
+  unfold remainder2Coefficient5Chunk6 remainder2Coefficient5Chunk7 remainder2Coefficient5Chunk8
+  unfold remainder2Coefficient5Chunk9 remainder2Coefficient5Chunk10 remainder2Coefficient5Chunk11
+  unfold remainder2Coefficient5Chunk12 recurrence1Remainder25 recurrence1Remainder25Block0
+  unfold recurrence1Remainder25Block1 recurrence1Remainder25Block2 recurrence1Remainder25Block3
+  unfold recurrence1Remainder25Block4 recurrence1Remainder25Block5 recurrence1Remainder25Block6
+  unfold recurrence1Remainder25Block7 recurrence1Remainder25Block8 recurrence1Remainder25Block9
+  unfold recurrence1Remainder25Block10
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder2Coefficient6_eq_normalized :
+    remainder2Coefficient6 = recurrence1Remainder26 := by
+  unfold remainder2Coefficient6 remainder2Coefficient6Block0 remainder2Coefficient6Chunk0
+  unfold remainder2Coefficient6Chunk1 remainder2Coefficient6Chunk2 remainder2Coefficient6Chunk3
+  unfold remainder2Coefficient6Chunk4 remainder2Coefficient6Chunk5 remainder2Coefficient6Chunk6
+  unfold remainder2Coefficient6Chunk7 remainder2Coefficient6Chunk8 remainder2Coefficient6Chunk9
+  unfold remainder2Coefficient6Chunk10 remainder2Coefficient6Chunk11 recurrence1Remainder26
+  unfold recurrence1Remainder26Block0 recurrence1Remainder26Block1 recurrence1Remainder26Block2
+  unfold recurrence1Remainder26Block3 recurrence1Remainder26Block4 recurrence1Remainder26Block5
+  unfold recurrence1Remainder26Block6 recurrence1Remainder26Block7 recurrence1Remainder26Block8
+  unfold recurrence1Remainder26Block9 recurrence1Remainder26Block10
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient0_eq_normalized :
+    remainder3Coefficient0 = recurrence1Remainder30 := by
+  unfold remainder3Coefficient0 remainder3Coefficient0Block0 remainder3Coefficient0Block1
+  unfold remainder3Coefficient0Chunk0 remainder3Coefficient0Chunk1 remainder3Coefficient0Chunk2
+  unfold remainder3Coefficient0Chunk3 remainder3Coefficient0Chunk4 remainder3Coefficient0Chunk5
+  unfold remainder3Coefficient0Chunk6 remainder3Coefficient0Chunk7 remainder3Coefficient0Chunk8
+  unfold remainder3Coefficient0Chunk9 remainder3Coefficient0Chunk10 remainder3Coefficient0Chunk11
+  unfold remainder3Coefficient0Chunk12 remainder3Coefficient0Chunk13 remainder3Coefficient0Chunk14
+  unfold remainder3Coefficient0Chunk15 remainder3Coefficient0Chunk16 remainder3Coefficient0Chunk17
+  unfold remainder3Coefficient0Chunk18 remainder3Coefficient0Chunk19 recurrence1Remainder30
+  unfold recurrence1Remainder30Block0 recurrence1Remainder30Block1 recurrence1Remainder30Block2
+  unfold recurrence1Remainder30Block3 recurrence1Remainder30Block4 recurrence1Remainder30Block5
+  unfold recurrence1Remainder30Block6 recurrence1Remainder30Block7 recurrence1Remainder30Block8
+  unfold recurrence1Remainder30Block9 recurrence1Remainder30Block10 recurrence1Remainder30Block11
+  unfold recurrence1Remainder30Block12 recurrence1Remainder30Block13 recurrence1Remainder30Block14
+  unfold recurrence1Remainder30Block15 recurrence1Remainder30Block16 recurrence1Remainder30Block17
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient1_eq_normalized :
+    remainder3Coefficient1 = recurrence1Remainder31 := by
+  unfold remainder3Coefficient1 remainder3Coefficient1Block0 remainder3Coefficient1Block1
+  unfold remainder3Coefficient1Chunk0 remainder3Coefficient1Chunk1 remainder3Coefficient1Chunk2
+  unfold remainder3Coefficient1Chunk3 remainder3Coefficient1Chunk4 remainder3Coefficient1Chunk5
+  unfold remainder3Coefficient1Chunk6 remainder3Coefficient1Chunk7 remainder3Coefficient1Chunk8
+  unfold remainder3Coefficient1Chunk9 remainder3Coefficient1Chunk10 remainder3Coefficient1Chunk11
+  unfold remainder3Coefficient1Chunk12 remainder3Coefficient1Chunk13 remainder3Coefficient1Chunk14
+  unfold remainder3Coefficient1Chunk15 remainder3Coefficient1Chunk16 remainder3Coefficient1Chunk17
+  unfold remainder3Coefficient1Chunk18 recurrence1Remainder31 recurrence1Remainder31Block0
+  unfold recurrence1Remainder31Block1 recurrence1Remainder31Block2 recurrence1Remainder31Block3
+  unfold recurrence1Remainder31Block4 recurrence1Remainder31Block5 recurrence1Remainder31Block6
+  unfold recurrence1Remainder31Block7 recurrence1Remainder31Block8 recurrence1Remainder31Block9
+  unfold recurrence1Remainder31Block10 recurrence1Remainder31Block11 recurrence1Remainder31Block12
+  unfold recurrence1Remainder31Block13 recurrence1Remainder31Block14 recurrence1Remainder31Block15
+  unfold recurrence1Remainder31Block16
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient2_eq_normalized :
+    remainder3Coefficient2 = recurrence1Remainder32 := by
+  unfold remainder3Coefficient2 remainder3Coefficient2Block0 remainder3Coefficient2Block1
+  unfold remainder3Coefficient2Chunk0 remainder3Coefficient2Chunk1 remainder3Coefficient2Chunk2
+  unfold remainder3Coefficient2Chunk3 remainder3Coefficient2Chunk4 remainder3Coefficient2Chunk5
+  unfold remainder3Coefficient2Chunk6 remainder3Coefficient2Chunk7 remainder3Coefficient2Chunk8
+  unfold remainder3Coefficient2Chunk9 remainder3Coefficient2Chunk10 remainder3Coefficient2Chunk11
+  unfold remainder3Coefficient2Chunk12 remainder3Coefficient2Chunk13 remainder3Coefficient2Chunk14
+  unfold remainder3Coefficient2Chunk15 remainder3Coefficient2Chunk16 remainder3Coefficient2Chunk17
+  unfold remainder3Coefficient2Chunk18 recurrence1Remainder32 recurrence1Remainder32Block0
+  unfold recurrence1Remainder32Block1 recurrence1Remainder32Block2 recurrence1Remainder32Block3
+  unfold recurrence1Remainder32Block4 recurrence1Remainder32Block5 recurrence1Remainder32Block6
+  unfold recurrence1Remainder32Block7 recurrence1Remainder32Block8 recurrence1Remainder32Block9
+  unfold recurrence1Remainder32Block10 recurrence1Remainder32Block11 recurrence1Remainder32Block12
+  unfold recurrence1Remainder32Block13 recurrence1Remainder32Block14 recurrence1Remainder32Block15
+  unfold recurrence1Remainder32Block16
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient3_eq_normalized :
+    remainder3Coefficient3 = recurrence1Remainder33 := by
+  unfold remainder3Coefficient3 remainder3Coefficient3Block0 remainder3Coefficient3Block1
+  unfold remainder3Coefficient3Chunk0 remainder3Coefficient3Chunk1 remainder3Coefficient3Chunk2
+  unfold remainder3Coefficient3Chunk3 remainder3Coefficient3Chunk4 remainder3Coefficient3Chunk5
+  unfold remainder3Coefficient3Chunk6 remainder3Coefficient3Chunk7 remainder3Coefficient3Chunk8
+  unfold remainder3Coefficient3Chunk9 remainder3Coefficient3Chunk10 remainder3Coefficient3Chunk11
+  unfold remainder3Coefficient3Chunk12 remainder3Coefficient3Chunk13 remainder3Coefficient3Chunk14
+  unfold remainder3Coefficient3Chunk15 remainder3Coefficient3Chunk16 remainder3Coefficient3Chunk17
+  unfold recurrence1Remainder33 recurrence1Remainder33Block0 recurrence1Remainder33Block1
+  unfold recurrence1Remainder33Block2 recurrence1Remainder33Block3 recurrence1Remainder33Block4
+  unfold recurrence1Remainder33Block5 recurrence1Remainder33Block6 recurrence1Remainder33Block7
+  unfold recurrence1Remainder33Block8 recurrence1Remainder33Block9 recurrence1Remainder33Block10
+  unfold recurrence1Remainder33Block11 recurrence1Remainder33Block12 recurrence1Remainder33Block13
+  unfold recurrence1Remainder33Block14 recurrence1Remainder33Block15
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient4_eq_normalized :
+    remainder3Coefficient4 = recurrence1Remainder34 := by
+  unfold remainder3Coefficient4 remainder3Coefficient4Block0 remainder3Coefficient4Block1
+  unfold remainder3Coefficient4Chunk0 remainder3Coefficient4Chunk1 remainder3Coefficient4Chunk2
+  unfold remainder3Coefficient4Chunk3 remainder3Coefficient4Chunk4 remainder3Coefficient4Chunk5
+  unfold remainder3Coefficient4Chunk6 remainder3Coefficient4Chunk7 remainder3Coefficient4Chunk8
+  unfold remainder3Coefficient4Chunk9 remainder3Coefficient4Chunk10 remainder3Coefficient4Chunk11
+  unfold remainder3Coefficient4Chunk12 remainder3Coefficient4Chunk13 remainder3Coefficient4Chunk14
+  unfold remainder3Coefficient4Chunk15 remainder3Coefficient4Chunk16 remainder3Coefficient4Chunk17
+  unfold recurrence1Remainder34 recurrence1Remainder34Block0 recurrence1Remainder34Block1
+  unfold recurrence1Remainder34Block2 recurrence1Remainder34Block3 recurrence1Remainder34Block4
+  unfold recurrence1Remainder34Block5 recurrence1Remainder34Block6 recurrence1Remainder34Block7
+  unfold recurrence1Remainder34Block8 recurrence1Remainder34Block9 recurrence1Remainder34Block10
+  unfold recurrence1Remainder34Block11 recurrence1Remainder34Block12 recurrence1Remainder34Block13
+  unfold recurrence1Remainder34Block14 recurrence1Remainder34Block15
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem remainder3Coefficient5_eq_normalized :
+    remainder3Coefficient5 = recurrence1Remainder35 := by
+  unfold remainder3Coefficient5 remainder3Coefficient5Block0 remainder3Coefficient5Block1
+  unfold remainder3Coefficient5Chunk0 remainder3Coefficient5Chunk1 remainder3Coefficient5Chunk2
+  unfold remainder3Coefficient5Chunk3 remainder3Coefficient5Chunk4 remainder3Coefficient5Chunk5
+  unfold remainder3Coefficient5Chunk6 remainder3Coefficient5Chunk7 remainder3Coefficient5Chunk8
+  unfold remainder3Coefficient5Chunk9 remainder3Coefficient5Chunk10 remainder3Coefficient5Chunk11
+  unfold remainder3Coefficient5Chunk12 remainder3Coefficient5Chunk13 remainder3Coefficient5Chunk14
+  unfold remainder3Coefficient5Chunk15 remainder3Coefficient5Chunk16 recurrence1Remainder35
+  unfold recurrence1Remainder35Block0 recurrence1Remainder35Block1 recurrence1Remainder35Block2
+  unfold recurrence1Remainder35Block3 recurrence1Remainder35Block4 recurrence1Remainder35Block5
+  unfold recurrence1Remainder35Block6 recurrence1Remainder35Block7 recurrence1Remainder35Block8
+  unfold recurrence1Remainder35Block9 recurrence1Remainder35Block10 recurrence1Remainder35Block11
+  unfold recurrence1Remainder35Block12 recurrence1Remainder35Block13 recurrence1Remainder35Block14
+  simp only [coefficientTerm_eq_C_mul_X_pow]
+  simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow,
+    Polynomial.C_neg, Polynomial.C_ofNat, Polynomial.C_1]
+  ring
+
+theorem exceptional1_eq_normalized :
+    exceptional1 = recurrence1Exceptional := by
+  unfold exceptional1 exceptionalUnit1 discriminantFactor parameter recurrence1Exceptional
+  unfold recurrence1ExceptionalBlock0 recurrence1ExceptionalBlock1 recurrence1ExceptionalBlock2
+  unfold recurrence1ExceptionalBlock3 recurrence1ExceptionalBlock4 recurrence1ExceptionalBlock5
+  unfold recurrence1ExceptionalBlock6 recurrence1ExceptionalBlock7
+  simp only [Polynomial.C_1]
+  ring
+
+end
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

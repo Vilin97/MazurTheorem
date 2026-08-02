@@ -1,0 +1,2546 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.Kubert.OrderSevenBacktrackingCertificateData
+import Mathlib.Tactic.Ring
+
+/-!
+# Selection-factor evaluation shard 0
+
+This serial interpolation shard verifies a small block of rational abscissas.
+-/
+
+open Polynomial
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal
+
+private def selectionNumeratorAt0 (d : ℚ) : ℚ :=
+  0 + d * (0 + d * (0 + d * (-64 + d * (8064 + d * (-416256 + d * (11645760 + d * (-201910656 +
+    d * (2411073024 + d * (-21239588288 + d * (144502377792 + d * (-784029483072))))))))))) + d
+    ^ 12 * (3473855356864 + d * (-12800864241984 + d * (39798488027904 + d * (-105587611838016 +
+    d * (241130730158976 + d * (-477030598322496 + d * (820999262298496 + d * (-1232110667497344
+    + d * (1613156304571968 + d * (-1840154157294528 + d * (1823241234612480 + d *
+    (-1561580059780608))))))))))) + d ^ 12 * (1149000214432320 + d * (-721546111788480 + d *
+    (385274214915456 + d * (-176223033281216 + d * (71564111368704 + d * (-27881598102336 + d *
+    (11172059428032 + d * (-4425556498176 + d * (1541549539968 + d * (-445122736896 + d *
+    (121124554368 + d * (-40142777856))))))))))) + d ^ 12 * (13898463744 + d * (-3418259136 + d
+    * (507226176 + d * (-102468544 + d * (46407744 + d * (-10636224 + d * (326592 + d * (122496
+    + d * (5184 + d * (64))))))))))))
+
+private def selectionDenominatorAt0 (d : ℚ) : ℚ :=
+  0 + d * (0 + d * (0 + d * (0 + d * (6144 + d * (-355328 + d * (9750528 + d * (-169938944 + d *
+    (2066597376 + d * (-18368803328 + d * (125163169664 + d * (-679350851008))))))))))) + d ^ 12
+    * (3017630620800 + d * (-11166484410496 + d * (34821297423104 + d * (-92255538409408 + d *
+    (209223633234368 + d * (-409984240190528 + d * (703618332094528 + d * (-1077640884266304 + d
+    * (1505393955688448 + d * (-1952891751625152 + d * (2367360335156864 + d *
+    (-2663106206604928))))))))))) + d ^ 12 * (2743255939917760 + d * (-2557772199344832 + d *
+    (2144657798743168 + d * (-1613044130619008 + d * (1086695719330240 + d * (-654215541123136 +
+    d * (350572824517824 + d * (-166261655241024 + d * (69173042427456 + d * (-24878509386112 +
+    d * (7549761181568 + d * (-1860539453440))))))))))) + d ^ 12 * (349440341504 + d *
+    (-43702770176 + d * (2018583552 + d * (360790016 + d * (-55055360 + d * (-1360896 + d *
+    (144384 + d * (83968 + d * (6144)))))))))))
+
+private def selectionExpandedAt0 (d : ℚ) : ℚ :=
+  0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (262144 + d *
+    (103546880 + d * (-33421787136))))))))))) + d ^ 12 * (4061744594944 + d * (-306157964754944
+    + d * (16825387463475200 + d * (-726409007042658304 + d * (25583291192503959552 + d *
+    (-750700126416607903744 + d * (18617205603740507176960 + d * (-394738735386056043790336 + d
+    * (7229153105580738231664640 + d * (-115422767184608763114160128 + d *
+    (1620417012808174929184292864 + d * (-20159352433846671482572767232))))))))))) + d ^ 12 *
+    (223825287229867581404102262784 + d * (-2231934172640756910311492288512 + d *
+    (20102186662669140531831980687360 + d * (-164341185333650934058735069822976 + d *
+    (1224773581635786041269873161535488 + d * (-8351493477981272294095408031596544 + d *
+    (52264219359380383325952765886726144 + d * (-300924953088455450468836082143199232 + d *
+    (1597180889306899471289542866849234944 + d * (-7824427748962461509260647410655297536 + d *
+    (35400277541078052746361837566171283456 + d *
+    (-147871377301024543761129154481529815040))))))))))) + d ^ 12 *
+    (569403717591548582542497579762213191680 + d * (-2014358964782669804629158181198498103296 +
+    d * (6503895429748633914184975294168545361920 + d *
+    (-18924468515749212738830303458359837720576 + d * (48334410207905885797223543337892434673664
+    + d * (-101526585396549520499830318209358024409088 + d *
+    (137379738908185654802129950378163644661760 + d *
+    (123175509460437323258327431343467098800128 + d *
+    (-1835610487284834033126769693302245087772672 + d *
+    (8904592326169094329116375829929760519618560 + d *
+    (-32938065692700355987192180357120134828261376 + d *
+    (105263091292683578368964596750183387535245312))))))))))) + d ^ 12 *
+    (-303900544909154501070143754138116476151791616 + d *
+    (809914874257496385855343814367655651576643584 + d *
+    (-2017220075217139272894588598084427458652143616 + d *
+    (4732162283256625172759827290052961515408719872 + d *
+    (-10510936806332862518550877598838508546284584960 + d *
+    (22186839228479315726778481029514789854351720448 + d *
+    (-44622825221409267535467339502633984154631143424 + d *
+    (85670936594746329001862511744861220717930479616 + d *
+    (-157213302539387521816682266197621883772636758016 + d *
+    (275997062641954526924995914083810554551211917312 + d *
+    (-463783884190698461162039247124569115167979995136 + d *
+    (746181922374352200741030795200473929226090971136))))))))))) + d ^ 12 *
+    (-1149522760061316349066145312181918779343173058560 + d *
+    (1695408773921607064281886312756448718710692118528 + d *
+    (-2393161369145920452971417290553214021153627045888 + d *
+    (3231300417530709196650032144727769120400590241792 + d *
+    (-4170158295249399047352115792800232232731314749440 + d *
+    (5138394379000984155522706677000158959999859818496 + d *
+    (-6036090212479099769412939938011675532677900402688 + d *
+    (6745972254750473649373170511083184763247249588224 + d *
+    (-7152174741475204822152914448517988870426485063680 + d *
+    (7163330442472319532141636629280014853889485176832 + d *
+    (-6734563142574430481081377238026474645229630914560 + d *
+    (5882144055979779623405434571832222890651757838336))))))))))) + d ^ 12 *
+    (-4685803284290554351830504454221293863601070145536 + d *
+    (3276852314376482739697665039539091102496565231616 + d *
+    (-1814424097852497684710795112066419444667274231808 + d *
+    (455786121544509740473232558202698304000904921088 + d *
+    (671568557506429249925592519843043099087018131456 + d *
+    (-1489161897553739171634407477265913191832709496832 + d *
+    (1974211228266139246572266481362375266443176443904 + d *
+    (-2153810068468245118674724501788155776801664925696 + d *
+    (2090086928174512869982160841713949291668515061760 + d *
+    (-1861609307364522884031866581711543282680399659008 + d *
+    (1546160238602297287994563948236152215970971385856 + d *
+    (-1208407073361707250871265822355415624493142376448))))))))))) + d ^ 12 *
+    (893783496027391956008864636945796391866470760448 + d *
+    (-627967604372815866975221522696680920746830856192 + d *
+    (420176807188146592393063126750867434966484779008 + d *
+    (-268209079600682891929604882429279039544611307520 + d *
+    (163520020629328845559114483557922215355712012288 + d *
+    (-95289971069037289903109944051960729742077591552 + d *
+    (53097681935295798486350152624278336100758454272 + d *
+    (-28294565859410801075369941221724459065874055168 + d *
+    (14416646660082210849320633774401824274442616832 + d *
+    (-7020839491822807429302362981376745241183518720 + d *
+    (3265917217687825139383187071246587189258092544 + d *
+    (-1449897157716338984797631881695270171964866560))))))))))) + d ^ 12 *
+    (613623238471085323203914626397718175185633280 + d *
+    (-247229090314804156043130316698156594694979584 + d *
+    (94667957318455672311100331434234455925456896 + d *
+    (-34382693505345316967449245083489259411734528 + d *
+    (11816011963312023816550873572028550502154240 + d *
+    (-3831416179783934940314839916061061698027520 + d *
+    (1168232251271304054039200936815375762849792 + d *
+    (-333584956228158962223606995700770206908416 + d *
+    (88763169876105815837005417233811731382272 + d * (-21874330034826027016729631088555639439360
+    + d * (4953538958323309830891604623733520596992 + d *
+    (-1020247297833968098977646934100739620864))))))))))) + d ^ 12 *
+    (188421302123053956074394249167968927744 + d * (-30552922348557075768541859224659165184 + d
+    * (4202292079322674241104869954328985600 + d * (-458434250694541771006644777550348288 + d *
+    (33017802221043786080945835720310784 + d * (-153951632592764414627158024519680 + d *
+    (-332186360256321673881186823569408 + d * (42756625236778509658926152155136 + d *
+    (-2257400848447808613159422132224 + d * (449250896231983500925100621824 + d *
+    (-243702128424654298887670988800 + d * (64700556520565709356119621632))))))))))) + d ^ 12 *
+    (-9592763984220205860950114304 + d * (653236666449720732766699520 + d *
+    (41753560645127478607085568 + d * (-14670813669347967788122112 + d *
+    (1355405504486222546075648 + d * (-12817295697455777054720 + d * (-6804295903869752049664 +
+    d * (236994994427609743360 + d * (12162171086362640384 + d * (4470743755305779200 + d *
+    (-332560477467443200 + d * (-56485422641446912))))))))))) + d ^ 12 * (1578835375030272 + d *
+    (344832647888896 + d * (16128613285888 + d * (579044114432 + d * (16752574464 + d *
+    (139722752 + d * (-262144)))))))))))))))))
+
+private def selectionCofactorAt0 (d : ℚ) : ℚ :=
+  0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (0 + d * (1 + d * (410
+    + d * (-121399))))))))))) + d ^ 12 * (13650907 + d * (-956411546 + d * (49072823403 + d *
+    (-1980788484054 + d * (65074973839702 + d * (-1773239509520132 + d * (40627693323411652 + d
+    * (-791988865989015012 + d * (13279759544126200508 + d * (-193476246290197519679 + d *
+    (2472254909075673229808 + d * (-27945770088035522844856))))))))))) + d ^ 12 *
+    (281634849274034158187665 + d * (-2548319093688465940868794 + d *
+    (20832261375560395098822405 + d * (-154718506103942735319820642 + d *
+    (1049060376268269365893681791 + d * (-6522250506002527267045261041 + d *
+    (37326215147814724113084279931 + d * (-197314991170456374815891585800 + d *
+    (966511983060565786204223002351 + d * (-4399629067401143670390634970215 + d *
+    (18662107833503336742282408215056 + d * (-73951930369289540729676006604791))))))))))) + d ^
+    12 * (274436737285772497179265453367356 + d * (-956011964135558836755283152101883 + d *
+    (3133366083436845491624043495407748 + d * (-9684175979674873140136001786465075 + d *
+    (28286110794309181177878687870986686 + d * (-78247611503993009396525793892153041 + d *
+    (205422185762843448309517043796080143 + d * (-512793076842909099938174993791680423 + d *
+    (1219350946161850235077460715532950309 + d * (-2766287676145537127234244039195294981 + d *
+    (5995724964086447898729184440955434965 + d *
+    (-12429378214754797135688292056575490389))))))))))) + d ^ 12 *
+    (24665955071283657733298137091523912319 + d * (-46887410934434770765726467410636760425 + d *
+    (85406524532219226876012848497179046970 + d * (-149099473477743656415154139680626302811 + d
+    * (249460982346701035033048891300156893827 + d * (-399934106621350535423619613748151868348 +
+    d * (614163898943235760487826743482345709771 + d * (-902974364802081736611879881566442304920
+    + d * (1270214870738085907544546522330938079433 + d *
+    (-1708137493002441242047254013716802821450 + d * (2193518323413974978536096468810311385663 +
+    d * (-2686094960854707282895345758900930927135))))))))))) + d ^ 12 *
+    (3130802096497474994670655660552948327076 + d * (-3464579093242889080793033499144421938363 +
+    d * (3627243742324389478296504008825942883420 + d *
+    (-3574401540011746973811765653430277614039 + d * (3289143809607383894789336718412338314226 +
+    d * (-2788969623687148708974081506493389633285 + d *
+    (2125291256651593037357876921244010132861 + d * (-1374917113961061479795243669757908400719 +
+    d * (625394518025289517110629935642756161065 + d * (41909954253361351994668520684085329926 +
+    d * (-566427139346884613143253748640738338223 + d *
+    (917032693428204120395040987495812968420))))))))))) + d ^ 12 *
+    (-1093144807116515423656057504188082954246 + d * (1119089178434079032030256412857132040783 +
+    d * (-1034340876488626309191978329153333738407 + d *
+    (882895148864811071785046228260065302818 + d * (-704512698727695249182829374536443150390 + d
+    * (529367592954782205868900330421419820209 + d * (-376290062573227243885465080169522587420 +
+    d * (253811036778761182461436869719124304594 + d * (-162781101458969089995859993562848664084
+    + d * (99398074197143743295852136724258363811 + d * (-57833084181584522316815376332546963307
+    + d * (32074390932807281652988759203563135141))))))))))) + d ^ 12 *
+    (-16956109105229772148018101714259198352 + d * (8541606760770454051352657267756598886 + d *
+    (-4097534890608587796166916053250688070 + d * (1870094570623995608375119355752498236 + d *
+    (-810976499196578742692640091275234842 + d * (333617483494792952625940344884552869 + d *
+    (-129928789799349946709861014411202056 + d * (47786084804344703382775346879212116 + d *
+    (-16547398514800919577031636056840673 + d * (5375351917612989093308064690508108 + d *
+    (-1630842717778527177041548866497405 + d * (459622954110653473382184416498327))))))))))) + d
+    ^ 12 * (-119533050863555041141145294099218 + d * (28448385316840362361956258577983 + d *
+    (-6130383366375970728116075636482 + d * (1179438063079057643230809551462 + d *
+    (-198704834570269297970529061006 + d * (28497122637101805966924061763 + d *
+    (-3327393128390990556265585938 + d * (293060924118216968829377132 + d *
+    (-17130238593230233524054613 + d * (783817192499879554454659 + d *
+    (-149813470385115455234091 + d * (26501130522843751275381))))))))))) + d ^ 12 *
+    (1711914551258582000563 + d * (-1805386417627497032366 + d * (418147741835225923734 + d *
+    (-52034657135340025657 + d * (2968182293720391042 + d * (118600243814230578 + d *
+    (-31132476977125856 + d * (1344713067001136 + d * (16341958388576 + d * (9961076760849 + d *
+    (-672055166805 + d * (-176848466067))))))))))) + d ^ 12 * (4970710567 + d * (1233507812 + d
+    * (58451473 + d * (2049658 + d * (62247 + d * (536 + d * (-1))))))))))))))))
+
+private theorem selection_high_level_at_0 (d : ℚ) :
+    orderSevenSelectionPolynomial d 0 = selectionExpandedAt0 d := by
+  have hA : pointTateParameterUnivariateNumerator (orderSevenQuotient d) 0 =
+      selectionNumeratorAt0 d := by
+    unfold pointTateParameterUnivariateNumerator
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionNumeratorAt0
+    ring
+  have hB : pointTateParameterUnivariateDenominator (orderSevenQuotient d) 0 =
+      selectionDenominatorAt0 d := by
+    unfold pointTateParameterUnivariateDenominator
+      pointTateGammaUnivariateCleared
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionDenominatorAt0
+    ring
+  simp only [orderSevenSelectionPolynomial]
+  rw [hA, hB]
+  unfold orderSevenParameterHauptmodulNumerator orderSevenParameterCubic
+    selectionNumeratorAt0 selectionDenominatorAt0 selectionExpandedAt0
+  ring
+
+private theorem selection_cofactor_eval_at_0 (d : ℚ) :
+    (selectionCofactor d).eval 0 = selectionCofactorAt0 d := by
+  simp only [selectionCofactor, selectionCofactorData,
+    Polynomial.eval_map, Polynomial.eval₂_add, Polynomial.eval₂_mul,
+    Polynomial.eval₂_C, Polynomial.eval₂_X]
+  unfold
+    Internal.selectionCofactorCoefficient0
+    Internal.selectionCofactorCoefficient0Chunk0
+    Internal.selectionCofactorCoefficient0Chunk1
+    Internal.selectionCofactorCoefficient0Chunk2
+    Internal.selectionCofactorCoefficient0Chunk3
+    Internal.selectionCofactorCoefficient0Chunk4
+    Internal.selectionCofactorCoefficient0Chunk5
+    Internal.selectionCofactorCoefficient0Chunk6
+    Internal.selectionCofactorCoefficient0Chunk7
+    Internal.selectionCofactorCoefficient0Chunk8
+    Internal.selectionCofactorCoefficient0Chunk9
+    Internal.selectionCofactorCoefficient0Chunk10
+    Internal.selectionCofactorCoefficient1
+    Internal.selectionCofactorCoefficient1Chunk0
+    Internal.selectionCofactorCoefficient1Chunk1
+    Internal.selectionCofactorCoefficient1Chunk2
+    Internal.selectionCofactorCoefficient1Chunk3
+    Internal.selectionCofactorCoefficient1Chunk4
+    Internal.selectionCofactorCoefficient1Chunk5
+    Internal.selectionCofactorCoefficient1Chunk6
+    Internal.selectionCofactorCoefficient1Chunk7
+    Internal.selectionCofactorCoefficient1Chunk8
+    Internal.selectionCofactorCoefficient1Chunk9
+    Internal.selectionCofactorCoefficient1Chunk10
+    Internal.selectionCofactorCoefficient2
+    Internal.selectionCofactorCoefficient2Chunk0
+    Internal.selectionCofactorCoefficient2Chunk1
+    Internal.selectionCofactorCoefficient2Chunk2
+    Internal.selectionCofactorCoefficient2Chunk3
+    Internal.selectionCofactorCoefficient2Chunk4
+    Internal.selectionCofactorCoefficient2Chunk5
+    Internal.selectionCofactorCoefficient2Chunk6
+    Internal.selectionCofactorCoefficient2Chunk7
+    Internal.selectionCofactorCoefficient2Chunk8
+    Internal.selectionCofactorCoefficient2Chunk9
+    Internal.selectionCofactorCoefficient3
+    Internal.selectionCofactorCoefficient3Chunk0
+    Internal.selectionCofactorCoefficient3Chunk1
+    Internal.selectionCofactorCoefficient3Chunk2
+    Internal.selectionCofactorCoefficient3Chunk3
+    Internal.selectionCofactorCoefficient3Chunk4
+    Internal.selectionCofactorCoefficient3Chunk5
+    Internal.selectionCofactorCoefficient3Chunk6
+    Internal.selectionCofactorCoefficient3Chunk7
+    Internal.selectionCofactorCoefficient3Chunk8
+    Internal.selectionCofactorCoefficient3Chunk9
+    Internal.selectionCofactorCoefficient4
+    Internal.selectionCofactorCoefficient4Chunk0
+    Internal.selectionCofactorCoefficient4Chunk1
+    Internal.selectionCofactorCoefficient4Chunk2
+    Internal.selectionCofactorCoefficient4Chunk3
+    Internal.selectionCofactorCoefficient4Chunk4
+    Internal.selectionCofactorCoefficient4Chunk5
+    Internal.selectionCofactorCoefficient4Chunk6
+    Internal.selectionCofactorCoefficient4Chunk7
+    Internal.selectionCofactorCoefficient4Chunk8
+    Internal.selectionCofactorCoefficient4Chunk9
+    Internal.selectionCofactorCoefficient5
+    Internal.selectionCofactorCoefficient5Chunk0
+    Internal.selectionCofactorCoefficient5Chunk1
+    Internal.selectionCofactorCoefficient5Chunk2
+    Internal.selectionCofactorCoefficient5Chunk3
+    Internal.selectionCofactorCoefficient5Chunk4
+    Internal.selectionCofactorCoefficient5Chunk5
+    Internal.selectionCofactorCoefficient5Chunk6
+    Internal.selectionCofactorCoefficient5Chunk7
+    Internal.selectionCofactorCoefficient5Chunk8
+    Internal.selectionCofactorCoefficient5Chunk9
+    Internal.selectionCofactorCoefficient6
+    Internal.selectionCofactorCoefficient6Chunk0
+    Internal.selectionCofactorCoefficient6Chunk1
+    Internal.selectionCofactorCoefficient6Chunk2
+    Internal.selectionCofactorCoefficient6Chunk3
+    Internal.selectionCofactorCoefficient6Chunk4
+    Internal.selectionCofactorCoefficient6Chunk5
+    Internal.selectionCofactorCoefficient6Chunk6
+    Internal.selectionCofactorCoefficient6Chunk7
+    Internal.selectionCofactorCoefficient6Chunk8
+    Internal.selectionCofactorCoefficient7
+    Internal.selectionCofactorCoefficient7Chunk0
+    Internal.selectionCofactorCoefficient7Chunk1
+    Internal.selectionCofactorCoefficient7Chunk2
+    Internal.selectionCofactorCoefficient7Chunk3
+    Internal.selectionCofactorCoefficient7Chunk4
+    Internal.selectionCofactorCoefficient7Chunk5
+    Internal.selectionCofactorCoefficient7Chunk6
+    Internal.selectionCofactorCoefficient7Chunk7
+    Internal.selectionCofactorCoefficient7Chunk8
+    Internal.selectionCofactorCoefficient8
+    Internal.selectionCofactorCoefficient8Chunk0
+    Internal.selectionCofactorCoefficient8Chunk1
+    Internal.selectionCofactorCoefficient8Chunk2
+    Internal.selectionCofactorCoefficient8Chunk3
+    Internal.selectionCofactorCoefficient8Chunk4
+    Internal.selectionCofactorCoefficient8Chunk5
+    Internal.selectionCofactorCoefficient8Chunk6
+    Internal.selectionCofactorCoefficient8Chunk7
+    Internal.selectionCofactorCoefficient8Chunk8
+    Internal.selectionCofactorCoefficient9
+    Internal.selectionCofactorCoefficient9Chunk0
+    Internal.selectionCofactorCoefficient9Chunk1
+    Internal.selectionCofactorCoefficient9Chunk2
+    Internal.selectionCofactorCoefficient9Chunk3
+    Internal.selectionCofactorCoefficient9Chunk4
+    Internal.selectionCofactorCoefficient9Chunk5
+    Internal.selectionCofactorCoefficient9Chunk6
+    Internal.selectionCofactorCoefficient9Chunk7
+    Internal.selectionCofactorCoefficient10
+    Internal.selectionCofactorCoefficient10Chunk0
+    Internal.selectionCofactorCoefficient10Chunk1
+    Internal.selectionCofactorCoefficient10Chunk2
+    Internal.selectionCofactorCoefficient10Chunk3
+    Internal.selectionCofactorCoefficient10Chunk4
+    Internal.selectionCofactorCoefficient10Chunk5
+    Internal.selectionCofactorCoefficient10Chunk6
+    Internal.selectionCofactorCoefficient10Chunk7
+    Internal.selectionCofactorCoefficient11
+    Internal.selectionCofactorCoefficient11Chunk0
+    Internal.selectionCofactorCoefficient11Chunk1
+    Internal.selectionCofactorCoefficient11Chunk2
+    Internal.selectionCofactorCoefficient11Chunk3
+    Internal.selectionCofactorCoefficient11Chunk4
+    Internal.selectionCofactorCoefficient11Chunk5
+    Internal.selectionCofactorCoefficient11Chunk6
+    Internal.selectionCofactorCoefficient11Chunk7
+    Internal.selectionCofactorCoefficient12
+    Internal.selectionCofactorCoefficient12Chunk0
+    Internal.selectionCofactorCoefficient12Chunk1
+    Internal.selectionCofactorCoefficient12Chunk2
+    Internal.selectionCofactorCoefficient12Chunk3
+    Internal.selectionCofactorCoefficient12Chunk4
+    Internal.selectionCofactorCoefficient12Chunk5
+    Internal.selectionCofactorCoefficient12Chunk6
+    Internal.selectionCofactorCoefficient13
+    Internal.selectionCofactorCoefficient13Chunk0
+    Internal.selectionCofactorCoefficient13Chunk1
+    Internal.selectionCofactorCoefficient13Chunk2
+    Internal.selectionCofactorCoefficient13Chunk3
+    Internal.selectionCofactorCoefficient13Chunk4
+    Internal.selectionCofactorCoefficient13Chunk5
+    Internal.selectionCofactorCoefficient13Chunk6
+    Internal.selectionCofactorCoefficient14
+    Internal.selectionCofactorCoefficient14Chunk0
+    Internal.selectionCofactorCoefficient14Chunk1
+    Internal.selectionCofactorCoefficient14Chunk2
+    Internal.selectionCofactorCoefficient14Chunk3
+    Internal.selectionCofactorCoefficient14Chunk4
+    Internal.selectionCofactorCoefficient14Chunk5
+    Internal.selectionCofactorCoefficient14Chunk6
+    Internal.selectionCofactorCoefficient15
+    Internal.selectionCofactorCoefficient15Chunk0
+    Internal.selectionCofactorCoefficient15Chunk1
+    Internal.selectionCofactorCoefficient15Chunk2
+    Internal.selectionCofactorCoefficient15Chunk3
+    Internal.selectionCofactorCoefficient15Chunk4
+    Internal.selectionCofactorCoefficient15Chunk5
+    Internal.selectionCofactorCoefficient15Chunk6
+    Internal.selectionCofactorCoefficient16
+    Internal.selectionCofactorCoefficient16Chunk0
+    Internal.selectionCofactorCoefficient16Chunk1
+    Internal.selectionCofactorCoefficient16Chunk2
+    Internal.selectionCofactorCoefficient16Chunk3
+    Internal.selectionCofactorCoefficient16Chunk4
+    Internal.selectionCofactorCoefficient16Chunk5
+    Internal.selectionCofactorCoefficient17
+    Internal.selectionCofactorCoefficient17Chunk0
+    Internal.selectionCofactorCoefficient17Chunk1
+    Internal.selectionCofactorCoefficient17Chunk2
+    Internal.selectionCofactorCoefficient17Chunk3
+    Internal.selectionCofactorCoefficient17Chunk4
+    Internal.selectionCofactorCoefficient17Chunk5
+    Internal.selectionCofactorCoefficient18
+    Internal.selectionCofactorCoefficient18Chunk0
+    Internal.selectionCofactorCoefficient18Chunk1
+    Internal.selectionCofactorCoefficient18Chunk2
+    Internal.selectionCofactorCoefficient18Chunk3
+    Internal.selectionCofactorCoefficient18Chunk4
+    Internal.selectionCofactorCoefficient18Chunk5
+    Internal.selectionCofactorCoefficient19
+    Internal.selectionCofactorCoefficient19Chunk0
+    Internal.selectionCofactorCoefficient19Chunk1
+    Internal.selectionCofactorCoefficient19Chunk2
+    Internal.selectionCofactorCoefficient19Chunk3
+    Internal.selectionCofactorCoefficient19Chunk4
+    Internal.selectionCofactorCoefficient20
+    Internal.selectionCofactorCoefficient20Chunk0
+    Internal.selectionCofactorCoefficient20Chunk1
+    Internal.selectionCofactorCoefficient20Chunk2
+    Internal.selectionCofactorCoefficient20Chunk3
+    Internal.selectionCofactorCoefficient20Chunk4
+    Internal.selectionCofactorCoefficient21
+    Internal.selectionCofactorCoefficient21Chunk0
+    Internal.selectionCofactorCoefficient21Chunk1
+    Internal.selectionCofactorCoefficient21Chunk2
+    Internal.selectionCofactorCoefficient21Chunk3
+    Internal.selectionCofactorCoefficient21Chunk4
+    Internal.selectionCofactorCoefficient22
+    Internal.selectionCofactorCoefficient22Chunk0
+    Internal.selectionCofactorCoefficient22Chunk1
+    Internal.selectionCofactorCoefficient22Chunk2
+    Internal.selectionCofactorCoefficient22Chunk3
+    Internal.selectionCofactorCoefficient23
+    Internal.selectionCofactorCoefficient23Chunk0
+    Internal.selectionCofactorCoefficient23Chunk1
+    Internal.selectionCofactorCoefficient23Chunk2
+    Internal.selectionCofactorCoefficient23Chunk3
+    Internal.selectionCofactorCoefficient24
+    Internal.selectionCofactorCoefficient24Chunk0
+    Internal.selectionCofactorCoefficient24Chunk1
+    Internal.selectionCofactorCoefficient24Chunk2
+    Internal.selectionCofactorCoefficient24Chunk3
+    Internal.selectionCofactorCoefficient25
+    Internal.selectionCofactorCoefficient25Chunk0
+    Internal.selectionCofactorCoefficient25Chunk1
+    Internal.selectionCofactorCoefficient25Chunk2
+    Internal.selectionCofactorCoefficient26
+    Internal.selectionCofactorCoefficient26Chunk0
+    Internal.selectionCofactorCoefficient26Chunk1
+    Internal.selectionCofactorCoefficient26Chunk2
+    Internal.selectionCofactorCoefficient27
+    Internal.selectionCofactorCoefficient27Chunk0
+    Internal.selectionCofactorCoefficient27Chunk1
+    Internal.selectionCofactorCoefficient27Chunk2
+    Internal.selectionCofactorCoefficient28
+    Internal.selectionCofactorCoefficient28Chunk0
+    Internal.selectionCofactorCoefficient28Chunk1
+    Internal.selectionCofactorCoefficient29
+    Internal.selectionCofactorCoefficient29Chunk0
+    Internal.selectionCofactorCoefficient29Chunk1
+    Internal.selectionCofactorCoefficient30
+    Internal.selectionCofactorCoefficient30Chunk0
+    Internal.selectionCofactorCoefficient30Chunk1
+    Internal.selectionCofactorCoefficient31
+    Internal.selectionCofactorCoefficient31Chunk0
+    Internal.selectionCofactorCoefficient32
+    Internal.selectionCofactorCoefficient32Chunk0
+    Internal.selectionCofactorCoefficient33
+    Internal.selectionCofactorCoefficient33Chunk0
+    selectionCofactorAt0
+  simp
+
+private theorem selection_factor_at_0 (d : ℚ) :
+    selectionExpandedAt0 d =
+      64 ^ 3 * orderSevenDualKernelPolynomial d 0 *
+        selectionCofactorAt0 d := by
+  unfold selectionExpandedAt0 orderSevenDualKernelPolynomial selectionCofactorAt0
+  ring
+
+theorem selectionEvalAt0 (d : ℚ) :
+    Internal.SelectionEvalCertificate d 0 := by
+  unfold Internal.SelectionEvalCertificate
+  rw [selection_high_level_at_0, selection_cofactor_eval_at_0,
+    selection_factor_at_0]
+
+private def selectionNumeratorAt1 (d : ℚ) : ℚ :=
+  -4096 + d * (-138240 + d * (-99072 + d * (20952768 + d * (-105745536 + d * (-930983040 + d *
+    (17271193536 + d * (-140848115904 + d * (795974560704 + d * (-3504563879744 + d *
+    (12685273668288 + d * (-38924776979712))))))))))) + d ^ 12 * (103282639242816 + d *
+    (-240264119577792 + d * (494894267538048 + d * (-909110169560832 + d * (1496908974129792 + d
+    * (-2216419720129152 + d * (2955913018777600 + d * (-3551190862952256 + d *
+    (3838002458470272 + d * (-3720490347525504 + d * (3219921980639424 + d *
+    (-2472055713072576))))))))))) + d ^ 12 * (1669899429322176 + d * (-983401876240704 + d *
+    (501159207864768 + d * (-221629261694912 + d * (87669580618944 + d * (-33352398295872 + d *
+    (13064038106304 + d * (-5068111603392 + d * (1727620116672 + d * (-486210176832 + d *
+    (129317029824 + d * (-42638240832))))))))))) + d ^ 12 * (14673282240 + d * (-3527313216 + d
+    * (500758848 + d * (-100318912 + d * (46550592 + d * (-10633920 + d * (326592 + d * (122496
+    + d * (5184 + d * (64))))))))))))
+
+private def selectionDenominatorAt1 (d : ℚ) : ℚ :=
+  -4800 + d * (-214720 + d * (1134208 + d * (21113472 + d * (-226359616 + d * (599863232 + d *
+    (5747288064 + d * (-77144964352 + d * (513556244736 + d * (-2456553942464 + d *
+    (9354543793408 + d * (-29727405088128))))))))))) + d ^ 12 * (80950482851392 + d *
+    (-191996784098624 + d * (400892755250688 + d * (-742655542675456 + d * (1228905173174336 + d
+    * (-1830270314601856 + d * (2477913272748928 + d * (-3089248602319616 + d *
+    (3598824919429376 + d * (-3965119250910336 + d * (4149644295493376 + d *
+    (-4103086329026816))))))))))) + d ^ 12 * (3790136144069056 + d * (-3233661958577856 + d *
+    (2527493994317696 + d * (-1800483779241600 + d * (1164011924376640 + d * (-679708492258752 +
+    d * (356460417240576 + d * (-166722511102720 + d * (68854783237440 + d * (-24705748082048 +
+    d * (7504403164544 + d * (-1854245052416))))))))))) + d ^ 12 * (349303859200 + d *
+    (-43773293056 + d * (2017019904 + d * (362180608 + d * (-54915072 + d * (-1359872 + d *
+    (144384 + d * (83968 + d * (6144)))))))))))
+
+private def selectionExpandedAt1 (d : ℚ) : ℚ :=
+  6925582336 + d * (6990845706240 + d * (336564948303872 + d * (-6685008025616384 + d *
+    (-318987857967710208 + d * (3844584607213944832 + d * (80523321412664164352 + d *
+    (-1570427620804936073216 + d * (-1130013146883296067584 + d * (265174060375430720389120 + d
+    * (-2697057726982110585552896 + d * (-1652949140862794172465152))))))))))) + d ^ 12 *
+    (305001482137273120075022336 + d * (-3415868163917840139078074368 + d *
+    (14476651324186840644635328512 + d * (91497954174558783543144611840 + d *
+    (-2118700481175823116798944870400 + d * (19467920396565759620796203663360 + d *
+    (-106436942891677813573282436218880 + d * (193412979782952670192421074108416 + d *
+    (3170177768609246917304272605413376 + d * (-46722904236633149180196300031524864 + d *
+    (406971878339807040578531742700011520 + d *
+    (-2790250949577186276915275640818892800))))))))))) + d ^ 12 *
+    (16311051992571615248307351735186227200 + d * (-84274931587458527404647106025466363904 + d *
+    (392673542719136967755643209146059980800 + d * (-1671151552127343094354975528656422567936 +
+    d * (6552801466111608500591085075596244156416 + d *
+    (-23820645410334304992488930378413128810496 + d * (80637875840567291308976764474877519069184
+    + d * (-255014281571101151761046903746600730099712 + d *
+    (754981153493146555881506881823556512514048 + d *
+    (-2094624705654588297265932711532365209141248 + d *
+    (5445360152722979375899984242920927569117184 + d *
+    (-13243733714485009270849301055400879074050048))))))))))) + d ^ 12 *
+    (30021629519285204718683208548318284660342784 + d *
+    (-62965970092089431398471599749514232155602944 + d *
+    (120451665119193445922080661277320449164836864 + d *
+    (-203902954248323412968281283999766710471360512 + d *
+    (282555045530560953276514562945375827303333888 + d *
+    (-230344093141993909141943401831355836408791040 + d *
+    (-312464470919369044094419259693071013510381568 + d *
+    (2214139652215327669358080189884440145645797376 + d *
+    (-7353943383284867177116663712397555328978780160 + d *
+    (19474016281020481326854362078577543595109646336 + d *
+    (-45523028477908315212831571731748340946245517312 + d *
+    (97626010055715640071995164250311985348682973184))))))))))) + d ^ 12 *
+    (-195753782491474742928842093122349260962375925760 + d *
+    (371024324004109501453948387705254419282235228160 + d *
+    (-669326591497351038594607137585041139572164788224 + d *
+    (1154614551887737438743899849578343224321603010560 + d *
+    (-1910813138578780066573919188665142345832611184640 + d *
+    (3040900107102170319808697934962309800144777248768 + d *
+    (-4661528812717172786227112031358848413708460752896 + d *
+    (6891728532930394403954245874170097385225546891264 + d *
+    (-9834944110019856320693647447018277204816683335680 + d *
+    (13555047580095276117126996056594520699361732591616 + d *
+    (-18048876473074690575197919408050355497601178796032 + d *
+    (23219973682703073922075502501622978009765493080064))))))))))) + d ^ 12 *
+    (-28859914226845797294862208355675580133663138906112 + d *
+    (34644160478136980874263779803871847957085867737088 + d *
+    (-40148144965761976789854516762831645484607245123584 + d *
+    (44885989348767970726604024882531126368984276140032 + d *
+    (-48369316315709401187765494344537220545271814422528 + d *
+    (50178075939234057258441253391357694906394746290176 + d *
+    (-50030746347752710701343064126540906271707054735360 + d *
+    (47839259287715698873040872432943448080145310810112 + d *
+    (-43735583813086955032239169768377966965059457908736 + d *
+    (38062122568745999999166608608198257374953409347584 + d *
+    (-31325836723205069848437528380037048544051287293952 + d *
+    (24124317200585236182921333221287340641112588288000))))))))))) + d ^ 12 *
+    (-17058544081756932859869368005352641741715802423296 + d *
+    (10649931532401891146184673990292133709611067244544 + d *
+    (-5277620165245052561590926082701173783472473899008 + d *
+    (1146399433521167237270901639858394673076098301952 + d *
+    (1712139987136352309508382468609736222267368800256 + d *
+    (-3410281374242610360369019798680174926954879254528 + d *
+    (4157166058414645162568144147016183081254492045312 + d *
+    (-4206558132119468523978695456774089441518695481344 + d *
+    (3810427754961690807517779736319589873151650824192 + d *
+    (-3185576215179067560010455365427025762391579688960 + d *
+    (2495880707192846761488781302366274092386135572480 + d *
+    (-1848707044325820075550712650034021615482632667136))))))))))) + d ^ 12 *
+    (1301521304696394204444955387575764652895465111552 + d *
+    (-873933081682956797950483578643747839341152174080 + d *
+    (560975420252929308243356214402237125810087264256 + d *
+    (-344750706074759146165329677159816821791478775808 + d *
+    (203039208409929777165923241723805351257790742528 + d *
+    (-114658444639495537867434542187911994822559531008 + d *
+    (62098098059836780196344707682040732478239145984 + d *
+    (-32253036700036714150034604334115413759555272704 + d *
+    (16060143148435848532124448604372917483182489600 + d *
+    (-7662676940938892327386478248502951885556416512 + d *
+    (3500509212846561636387157012861876303434088448 + d *
+    (-1529566992919325701722957137162332613737447424))))))))))) + d ^ 12 *
+    (638489261247261536336504588186389770059644928 + d *
+    (-254233696934961022414689865161593369212223488 + d *
+    (96388725677244244518222586178039578048331776 + d *
+    (-34722216465416906646461735032669280621297664 + d *
+    (11854505230033481184491413108097947167883264 + d *
+    (-3824392194211217371246419137460149983641600 + d *
+    (1161748796656271289216604260415766843621376 + d *
+    (-330903614705789265274797243744252102967296 + d *
+    (87925349429782862077326447095804910370816 + d * (-21658024028749708885002953472506386186240
+    + d * (4906389225071270631232874368203491901440 + d *
+    (-1011620665639213894859079553806566948864))))))))))) + d ^ 12 *
+    (187134960874131478245349584325416058880 + d * (-30407054833769967650265289388633882624 + d
+    * (4191775960441889751912652046421458944 + d * (-458204582696320766426763214131822592 + d *
+    (32979640320420742940330070976233472 + d * (-114778978350263812169428865384448 + d *
+    (-343777642103511713609731137601536 + d * (44566702085377596652572829024256 + d *
+    (-2375459742288283450450750734336 + d * (434862223419633307800318246912 + d *
+    (-239067627868701451237572739072 + d * (64194708490262024170036527104))))))))))) + d ^ 12 *
+    (-9581619601621354131600441344 + d * (656721565829395545752076288 + d *
+    (41435874753434574935031808 + d * (-14677760485379230013849600 + d *
+    (1356087461596355574366208 + d * (-12553615881295539994624 + d * (-6808639614977061945344 +
+    d * (233509237057657503744 + d * (12140538513444569088 + d * (4489968141311934464 + d *
+    (-331342754651045888 + d * (-56439337134850048))))))))))) + d ^ 12 * (1580153979273216 + d *
+    (344846971437056 + d * (16128618528768 + d * (579044114432 + d * (16752574464 + d *
+    (139722752 + d * (-262144)))))))))))))))))
+
+private def selectionCofactorAt1 (d : ℚ) : ℚ :=
+  911 + d * (922255 + d * (46969881 + d * (-747214531 + d * (-44428744588 + d * (380163239273 +
+    d * (11971078677805 + d * (-173941224227042 + d * (-729646717310248 + d * (33837741181250652
+    + d * (-251659131120781680 + d * (-1164316729461944821))))))))))) + d ^ 12 *
+    (38337377345172242640 + d * (-330263098248622463966 + d * (695594991285748083433 + d *
+    (16192056000965275163546 + d * (-235881593635798054655052 + d * (1766547992605466779355090 +
+    d * (-7312890519570188810340707 + d * (-7234497515972180325438663 + d *
+    (440958320203907997258436257 + d * (-4788820752089758205734589381 + d *
+    (36559640845692109573922112875 + d * (-229021648408155449524208113640))))))))))) + d ^ 12 *
+    (1245080792612627933596584873778 + d * (-6043452786059702948468935235370 + d *
+    (26642276671625673731438199282457 + d * (-107908016396826137243854571535409 + d *
+    (404900615332623360657316863383597 + d * (-1416490440446689361310496398271183 + d *
+    (4643426191672185865707701569968850 + d * (-14322421209880291609463446103996449 + d *
+    (41711417426868992482938260562230641 + d * (-115040206678280452012372968803020027 + d *
+    (301255635180211261224903718736160596 + d *
+    (-750795127410657443088029441845704784))))))))))) + d ^ 12 *
+    (1784512902949953686141424316570427166 + d * (-4052854825617414768843665289903507880 + d *
+    (8810679017430317760702121556916489813 + d * (-18364099243282157258451201420285466390 + d *
+    (36752974554225038639726268451106563133 + d * (-70725523483502016892118311657096544191 + d *
+    (131028542960968720612240848110411909051 + d * (-233965612724133964962729680566780247977 + d
+    * (403057594026992103258962015627205940294 + d * (-670475701890834689650741419428432502369 +
+    d * (1077726495193111474936612799712479594761 + d *
+    (-1674894896605519960597446052648111232753))))))))))) + d ^ 12 *
+    (2517668592676590816942470992252473955022 + d * (-3661467701125884164079529941369457749185 +
+    d * (5152376375979898657807252480605875766391 + d *
+    (-7015262723592857051064443837819164030998 + d * (9240431763882521519545529503766456841541 +
+    d * (-11771204130131393251061072331779165466049 + d *
+    (14495640252028968585188277161317755689220 + d * (-17245853620820585958139401220091759036596
+    + d * (19807647021363913924805567397110089494366 + d *
+    (-21941442347464080931511575550587603195019 + d * (23412878894261330837878938088594463328438
+    + d * (-24028617390744256258489701276607437140975))))))))))) + d ^ 12 *
+    (23670645347931139140159303867409952647933 + d * (-22321560366999152631761805178365775766846
+    + d * (20074418023873925034504479948960741092121 + d *
+    (-17123718416664693663446202777845876598531 + d * (13738303895995145849196765727012618278541
+    + d * (-10221229890560502610297529837344669500328 + d *
+    (6864815217706377162668605511250353277717 + d * (-3910130463114908085090820100395921462087 +
+    d * (1518816109423224468697169135137451228920 + d * (238236636906305547265385494037970309729
+    + d * (-1375110588684987933437804454947128133075 + d *
+    (1971699553817831890607015885490048939457))))))))))) + d ^ 12 *
+    (-2147342391210027635211224154121497723470 + d * (2033937648146972595487920732811735506560 +
+    d * (-1753922112690499688520205705364545393177 + d *
+    (1406116950830096409793458466554576230867 + d * (-1059899073479495987878650776877682935308 +
+    d * (756194822787361067811625467305731303253 + d * (-512792175532503349579057293819387430000
+    + d * (331401224171758206352343723409695810186 + d *
+    (-204465476710160139239181537179759768265 + d * (120557866513546600770981348204217073947 + d
+    * (-67970347302220785582086805103583756411 + d *
+    (36648517428931524504840827297801343396))))))))))) + d ^ 12 *
+    (-18893934107256314344094647864188708312 + d * (9308905488542001959632608116246386387 + d *
+    (-4379621059368839066556394309417547334 + d * (1965424730188873229081234819592274427 + d *
+    (-840117603026121056987545090362705248 + d * (341442736858889039341919362009356265 + d *
+    (-131658647832411883678200664552476568 + d * (48039326902605836273534094109769469 + d *
+    (-16534456351512774867167412962210812 + d * (5347834054606639367587798053383706 + d *
+    (-1617958925836169908772285961526763 + d * (455340460995813800363230203321230))))))))))) + d
+    ^ 12 * (-118388926073822143003195282668563 + d * (28196002446769012377330928898766 + d *
+    (-6084803631665426784424683022146 + d * (1172960199709884625131975507845 + d *
+    (-198047923520244686599124889676 + d * (28461646285853330611075089904 + d *
+    (-3327155970887966203324319842 + d * (292397130453342587312744164 + d *
+    (-16785765449618806277681759 + d * (705412867889736180431064 + d *
+    (-139777791590329596189000 + d * (25984501885618906626813))))))))))) + d ^ 12 *
+    (1652083258554191139748 + d * (-1791787303214507995440 + d * (417292953154700574800 + d *
+    (-52058437588815129369 + d * (2970770782084712719 + d * (119099477494608347 + d *
+    (-31131491713436887 + d * (1335537819085190 + d * (16238407018451 + d * (10021239255809 + d
+    * (-668034901267 + d * (-176697278065))))))))))) + d ^ 12 * (4975157545 + d * (1233558612 +
+    d * (58451500 + d * (2049658 + d * (62247 + d * (536 + d * (-1))))))))))))))))
+
+private theorem selection_high_level_at_1 (d : ℚ) :
+    orderSevenSelectionPolynomial d 1 = selectionExpandedAt1 d := by
+  have hA : pointTateParameterUnivariateNumerator (orderSevenQuotient d) 1 =
+      selectionNumeratorAt1 d := by
+    unfold pointTateParameterUnivariateNumerator
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionNumeratorAt1
+    ring
+  have hB : pointTateParameterUnivariateDenominator (orderSevenQuotient d) 1 =
+      selectionDenominatorAt1 d := by
+    unfold pointTateParameterUnivariateDenominator
+      pointTateGammaUnivariateCleared
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionDenominatorAt1
+    ring
+  simp only [orderSevenSelectionPolynomial]
+  rw [hA, hB]
+  unfold orderSevenParameterHauptmodulNumerator orderSevenParameterCubic
+    selectionNumeratorAt1 selectionDenominatorAt1 selectionExpandedAt1
+  ring
+
+private theorem selection_cofactor_eval_at_1 (d : ℚ) :
+    (selectionCofactor d).eval 1 = selectionCofactorAt1 d := by
+  simp only [selectionCofactor, selectionCofactorData,
+    Polynomial.eval_map, Polynomial.eval₂_add, Polynomial.eval₂_mul,
+    Polynomial.eval₂_C, Polynomial.eval₂_X]
+  unfold
+    Internal.selectionCofactorCoefficient0
+    Internal.selectionCofactorCoefficient0Chunk0
+    Internal.selectionCofactorCoefficient0Chunk1
+    Internal.selectionCofactorCoefficient0Chunk2
+    Internal.selectionCofactorCoefficient0Chunk3
+    Internal.selectionCofactorCoefficient0Chunk4
+    Internal.selectionCofactorCoefficient0Chunk5
+    Internal.selectionCofactorCoefficient0Chunk6
+    Internal.selectionCofactorCoefficient0Chunk7
+    Internal.selectionCofactorCoefficient0Chunk8
+    Internal.selectionCofactorCoefficient0Chunk9
+    Internal.selectionCofactorCoefficient0Chunk10
+    Internal.selectionCofactorCoefficient1
+    Internal.selectionCofactorCoefficient1Chunk0
+    Internal.selectionCofactorCoefficient1Chunk1
+    Internal.selectionCofactorCoefficient1Chunk2
+    Internal.selectionCofactorCoefficient1Chunk3
+    Internal.selectionCofactorCoefficient1Chunk4
+    Internal.selectionCofactorCoefficient1Chunk5
+    Internal.selectionCofactorCoefficient1Chunk6
+    Internal.selectionCofactorCoefficient1Chunk7
+    Internal.selectionCofactorCoefficient1Chunk8
+    Internal.selectionCofactorCoefficient1Chunk9
+    Internal.selectionCofactorCoefficient1Chunk10
+    Internal.selectionCofactorCoefficient2
+    Internal.selectionCofactorCoefficient2Chunk0
+    Internal.selectionCofactorCoefficient2Chunk1
+    Internal.selectionCofactorCoefficient2Chunk2
+    Internal.selectionCofactorCoefficient2Chunk3
+    Internal.selectionCofactorCoefficient2Chunk4
+    Internal.selectionCofactorCoefficient2Chunk5
+    Internal.selectionCofactorCoefficient2Chunk6
+    Internal.selectionCofactorCoefficient2Chunk7
+    Internal.selectionCofactorCoefficient2Chunk8
+    Internal.selectionCofactorCoefficient2Chunk9
+    Internal.selectionCofactorCoefficient3
+    Internal.selectionCofactorCoefficient3Chunk0
+    Internal.selectionCofactorCoefficient3Chunk1
+    Internal.selectionCofactorCoefficient3Chunk2
+    Internal.selectionCofactorCoefficient3Chunk3
+    Internal.selectionCofactorCoefficient3Chunk4
+    Internal.selectionCofactorCoefficient3Chunk5
+    Internal.selectionCofactorCoefficient3Chunk6
+    Internal.selectionCofactorCoefficient3Chunk7
+    Internal.selectionCofactorCoefficient3Chunk8
+    Internal.selectionCofactorCoefficient3Chunk9
+    Internal.selectionCofactorCoefficient4
+    Internal.selectionCofactorCoefficient4Chunk0
+    Internal.selectionCofactorCoefficient4Chunk1
+    Internal.selectionCofactorCoefficient4Chunk2
+    Internal.selectionCofactorCoefficient4Chunk3
+    Internal.selectionCofactorCoefficient4Chunk4
+    Internal.selectionCofactorCoefficient4Chunk5
+    Internal.selectionCofactorCoefficient4Chunk6
+    Internal.selectionCofactorCoefficient4Chunk7
+    Internal.selectionCofactorCoefficient4Chunk8
+    Internal.selectionCofactorCoefficient4Chunk9
+    Internal.selectionCofactorCoefficient5
+    Internal.selectionCofactorCoefficient5Chunk0
+    Internal.selectionCofactorCoefficient5Chunk1
+    Internal.selectionCofactorCoefficient5Chunk2
+    Internal.selectionCofactorCoefficient5Chunk3
+    Internal.selectionCofactorCoefficient5Chunk4
+    Internal.selectionCofactorCoefficient5Chunk5
+    Internal.selectionCofactorCoefficient5Chunk6
+    Internal.selectionCofactorCoefficient5Chunk7
+    Internal.selectionCofactorCoefficient5Chunk8
+    Internal.selectionCofactorCoefficient5Chunk9
+    Internal.selectionCofactorCoefficient6
+    Internal.selectionCofactorCoefficient6Chunk0
+    Internal.selectionCofactorCoefficient6Chunk1
+    Internal.selectionCofactorCoefficient6Chunk2
+    Internal.selectionCofactorCoefficient6Chunk3
+    Internal.selectionCofactorCoefficient6Chunk4
+    Internal.selectionCofactorCoefficient6Chunk5
+    Internal.selectionCofactorCoefficient6Chunk6
+    Internal.selectionCofactorCoefficient6Chunk7
+    Internal.selectionCofactorCoefficient6Chunk8
+    Internal.selectionCofactorCoefficient7
+    Internal.selectionCofactorCoefficient7Chunk0
+    Internal.selectionCofactorCoefficient7Chunk1
+    Internal.selectionCofactorCoefficient7Chunk2
+    Internal.selectionCofactorCoefficient7Chunk3
+    Internal.selectionCofactorCoefficient7Chunk4
+    Internal.selectionCofactorCoefficient7Chunk5
+    Internal.selectionCofactorCoefficient7Chunk6
+    Internal.selectionCofactorCoefficient7Chunk7
+    Internal.selectionCofactorCoefficient7Chunk8
+    Internal.selectionCofactorCoefficient8
+    Internal.selectionCofactorCoefficient8Chunk0
+    Internal.selectionCofactorCoefficient8Chunk1
+    Internal.selectionCofactorCoefficient8Chunk2
+    Internal.selectionCofactorCoefficient8Chunk3
+    Internal.selectionCofactorCoefficient8Chunk4
+    Internal.selectionCofactorCoefficient8Chunk5
+    Internal.selectionCofactorCoefficient8Chunk6
+    Internal.selectionCofactorCoefficient8Chunk7
+    Internal.selectionCofactorCoefficient8Chunk8
+    Internal.selectionCofactorCoefficient9
+    Internal.selectionCofactorCoefficient9Chunk0
+    Internal.selectionCofactorCoefficient9Chunk1
+    Internal.selectionCofactorCoefficient9Chunk2
+    Internal.selectionCofactorCoefficient9Chunk3
+    Internal.selectionCofactorCoefficient9Chunk4
+    Internal.selectionCofactorCoefficient9Chunk5
+    Internal.selectionCofactorCoefficient9Chunk6
+    Internal.selectionCofactorCoefficient9Chunk7
+    Internal.selectionCofactorCoefficient10
+    Internal.selectionCofactorCoefficient10Chunk0
+    Internal.selectionCofactorCoefficient10Chunk1
+    Internal.selectionCofactorCoefficient10Chunk2
+    Internal.selectionCofactorCoefficient10Chunk3
+    Internal.selectionCofactorCoefficient10Chunk4
+    Internal.selectionCofactorCoefficient10Chunk5
+    Internal.selectionCofactorCoefficient10Chunk6
+    Internal.selectionCofactorCoefficient10Chunk7
+    Internal.selectionCofactorCoefficient11
+    Internal.selectionCofactorCoefficient11Chunk0
+    Internal.selectionCofactorCoefficient11Chunk1
+    Internal.selectionCofactorCoefficient11Chunk2
+    Internal.selectionCofactorCoefficient11Chunk3
+    Internal.selectionCofactorCoefficient11Chunk4
+    Internal.selectionCofactorCoefficient11Chunk5
+    Internal.selectionCofactorCoefficient11Chunk6
+    Internal.selectionCofactorCoefficient11Chunk7
+    Internal.selectionCofactorCoefficient12
+    Internal.selectionCofactorCoefficient12Chunk0
+    Internal.selectionCofactorCoefficient12Chunk1
+    Internal.selectionCofactorCoefficient12Chunk2
+    Internal.selectionCofactorCoefficient12Chunk3
+    Internal.selectionCofactorCoefficient12Chunk4
+    Internal.selectionCofactorCoefficient12Chunk5
+    Internal.selectionCofactorCoefficient12Chunk6
+    Internal.selectionCofactorCoefficient13
+    Internal.selectionCofactorCoefficient13Chunk0
+    Internal.selectionCofactorCoefficient13Chunk1
+    Internal.selectionCofactorCoefficient13Chunk2
+    Internal.selectionCofactorCoefficient13Chunk3
+    Internal.selectionCofactorCoefficient13Chunk4
+    Internal.selectionCofactorCoefficient13Chunk5
+    Internal.selectionCofactorCoefficient13Chunk6
+    Internal.selectionCofactorCoefficient14
+    Internal.selectionCofactorCoefficient14Chunk0
+    Internal.selectionCofactorCoefficient14Chunk1
+    Internal.selectionCofactorCoefficient14Chunk2
+    Internal.selectionCofactorCoefficient14Chunk3
+    Internal.selectionCofactorCoefficient14Chunk4
+    Internal.selectionCofactorCoefficient14Chunk5
+    Internal.selectionCofactorCoefficient14Chunk6
+    Internal.selectionCofactorCoefficient15
+    Internal.selectionCofactorCoefficient15Chunk0
+    Internal.selectionCofactorCoefficient15Chunk1
+    Internal.selectionCofactorCoefficient15Chunk2
+    Internal.selectionCofactorCoefficient15Chunk3
+    Internal.selectionCofactorCoefficient15Chunk4
+    Internal.selectionCofactorCoefficient15Chunk5
+    Internal.selectionCofactorCoefficient15Chunk6
+    Internal.selectionCofactorCoefficient16
+    Internal.selectionCofactorCoefficient16Chunk0
+    Internal.selectionCofactorCoefficient16Chunk1
+    Internal.selectionCofactorCoefficient16Chunk2
+    Internal.selectionCofactorCoefficient16Chunk3
+    Internal.selectionCofactorCoefficient16Chunk4
+    Internal.selectionCofactorCoefficient16Chunk5
+    Internal.selectionCofactorCoefficient17
+    Internal.selectionCofactorCoefficient17Chunk0
+    Internal.selectionCofactorCoefficient17Chunk1
+    Internal.selectionCofactorCoefficient17Chunk2
+    Internal.selectionCofactorCoefficient17Chunk3
+    Internal.selectionCofactorCoefficient17Chunk4
+    Internal.selectionCofactorCoefficient17Chunk5
+    Internal.selectionCofactorCoefficient18
+    Internal.selectionCofactorCoefficient18Chunk0
+    Internal.selectionCofactorCoefficient18Chunk1
+    Internal.selectionCofactorCoefficient18Chunk2
+    Internal.selectionCofactorCoefficient18Chunk3
+    Internal.selectionCofactorCoefficient18Chunk4
+    Internal.selectionCofactorCoefficient18Chunk5
+    Internal.selectionCofactorCoefficient19
+    Internal.selectionCofactorCoefficient19Chunk0
+    Internal.selectionCofactorCoefficient19Chunk1
+    Internal.selectionCofactorCoefficient19Chunk2
+    Internal.selectionCofactorCoefficient19Chunk3
+    Internal.selectionCofactorCoefficient19Chunk4
+    Internal.selectionCofactorCoefficient20
+    Internal.selectionCofactorCoefficient20Chunk0
+    Internal.selectionCofactorCoefficient20Chunk1
+    Internal.selectionCofactorCoefficient20Chunk2
+    Internal.selectionCofactorCoefficient20Chunk3
+    Internal.selectionCofactorCoefficient20Chunk4
+    Internal.selectionCofactorCoefficient21
+    Internal.selectionCofactorCoefficient21Chunk0
+    Internal.selectionCofactorCoefficient21Chunk1
+    Internal.selectionCofactorCoefficient21Chunk2
+    Internal.selectionCofactorCoefficient21Chunk3
+    Internal.selectionCofactorCoefficient21Chunk4
+    Internal.selectionCofactorCoefficient22
+    Internal.selectionCofactorCoefficient22Chunk0
+    Internal.selectionCofactorCoefficient22Chunk1
+    Internal.selectionCofactorCoefficient22Chunk2
+    Internal.selectionCofactorCoefficient22Chunk3
+    Internal.selectionCofactorCoefficient23
+    Internal.selectionCofactorCoefficient23Chunk0
+    Internal.selectionCofactorCoefficient23Chunk1
+    Internal.selectionCofactorCoefficient23Chunk2
+    Internal.selectionCofactorCoefficient23Chunk3
+    Internal.selectionCofactorCoefficient24
+    Internal.selectionCofactorCoefficient24Chunk0
+    Internal.selectionCofactorCoefficient24Chunk1
+    Internal.selectionCofactorCoefficient24Chunk2
+    Internal.selectionCofactorCoefficient24Chunk3
+    Internal.selectionCofactorCoefficient25
+    Internal.selectionCofactorCoefficient25Chunk0
+    Internal.selectionCofactorCoefficient25Chunk1
+    Internal.selectionCofactorCoefficient25Chunk2
+    Internal.selectionCofactorCoefficient26
+    Internal.selectionCofactorCoefficient26Chunk0
+    Internal.selectionCofactorCoefficient26Chunk1
+    Internal.selectionCofactorCoefficient26Chunk2
+    Internal.selectionCofactorCoefficient27
+    Internal.selectionCofactorCoefficient27Chunk0
+    Internal.selectionCofactorCoefficient27Chunk1
+    Internal.selectionCofactorCoefficient27Chunk2
+    Internal.selectionCofactorCoefficient28
+    Internal.selectionCofactorCoefficient28Chunk0
+    Internal.selectionCofactorCoefficient28Chunk1
+    Internal.selectionCofactorCoefficient29
+    Internal.selectionCofactorCoefficient29Chunk0
+    Internal.selectionCofactorCoefficient29Chunk1
+    Internal.selectionCofactorCoefficient30
+    Internal.selectionCofactorCoefficient30Chunk0
+    Internal.selectionCofactorCoefficient30Chunk1
+    Internal.selectionCofactorCoefficient31
+    Internal.selectionCofactorCoefficient31Chunk0
+    Internal.selectionCofactorCoefficient32
+    Internal.selectionCofactorCoefficient32Chunk0
+    Internal.selectionCofactorCoefficient33
+    Internal.selectionCofactorCoefficient33Chunk0
+    selectionCofactorAt1
+  simp
+  ring
+
+private theorem selection_factor_at_1 (d : ℚ) :
+    selectionExpandedAt1 d =
+      64 ^ 3 * orderSevenDualKernelPolynomial d 1 *
+        selectionCofactorAt1 d := by
+  unfold selectionExpandedAt1 orderSevenDualKernelPolynomial selectionCofactorAt1
+  ring
+
+theorem selectionEvalAt1 (d : ℚ) :
+    Internal.SelectionEvalCertificate d 1 := by
+  unfold Internal.SelectionEvalCertificate
+  rw [selection_high_level_at_1, selection_cofactor_eval_at_1,
+    selection_factor_at_1]
+
+private def selectionNumeratorAt2 (d : ℚ) : ℚ :=
+  -11239424 + d * (-96940032 + d * (505247232 + d * (1656356800 + d * (-20642600832 + d *
+    (71012562432 + d * (16574787264 + d * (-1424104354176 + d * (8710519466880 + d *
+    (-34700188641728 + d * (107811568925760 + d * (-278898822990144))))))))))) + d ^ 12 *
+    (621211477869632 + d * (-1215834255336768 + d * (2119100086240128 + d * (-3319168370904384 +
+    d * (4701159682470528 + d * (-6044944965669696 + d * (7071404424308608 + d *
+    (-7529994032442240 + d * (7292306423667648 + d * (-6406463606834112 + d * (5084281225249536
+    + d * (-3623746250734080))))))))))) + d ^ 12 * (2301973923943104 + d * (-1291372808329152 +
+    d * (634240937136384 + d * (-272681757830336 + d * (105364174999680 + d * (-39223744375872 +
+    d * (15065534022720 + d * (-5743759697664 + d * (1920866044032 + d * (-527624571648 + d *
+    (137301692544 + d * (-45110176512))))))))))) + d ^ 12 * (15451100544 + d * (-3636300480 + d
+    * (494291520 + d * (-98169280 + d * (46693440 + d * (-10631616 + d * (326592 + d * (122496 +
+    d * (5184 + d * (64))))))))))))
+
+private def selectionDenominatorAt2 (d : ℚ) : ℚ :=
+  -13271040 + d * (-140027904 + d * (1036519424 + d * (-386497536 + d * (-19915395072 + d *
+    (116792713216 + d * (-318418909184 + d * (103748419072 + d * (3306568876544 + d *
+    (-18809454328448 + d * (67690579488128 + d * (-190251208649280))))))))))) + d ^ 12 *
+    (447314409143808 + d * (-908857232393600 + d * (1625270844232448 + d * (-2588779299101760 +
+    d * (3707706291166144 + d * (-4819638709377472 + d * (5748674913966272 + d *
+    (-6374723578837440 + d * (6664088328258816 + d * (-6640338309476672 + d * (6331235550025856
+    + d * (-5749693512543360))))))))))) + d ^ 12 * (4924533983999424 + d * (-3937035298225984 +
+    d * (2914835683430528 + d * (-1986900872397440 + d * (1240305133635136 + d *
+    (-704855110348352 + d * (362306331108672 + d * (-167196537182912 + d * (68542789945920 + d *
+    (-24533648491904 + d * (7458932503424 + d * (-1847934575616))))))))))) + d ^ 12 *
+    (349169979904 + d * (-43843781120 + d * (2015456256 + d * (363571200 + d * (-54774784 + d *
+    (-1358848 + d * (144384 + d * (83968 + d * (6144)))))))))))
+
+private def selectionExpandedAt2 (d : ℚ) : ℚ :=
+  242907521692366536704 + d * (18455417102793309159424 + d * (-341043664051152862838784 + d *
+    (-8725262183837382838583296 + d * (72230206065804424480030720 + d *
+    (583198315870206036134592512 + d * (-8911711951473350146057568256 + d *
+    (20510324125760639552412712960 + d * (323521733887766209746469650432 + d *
+    (-3133244990270986029280408633344 + d * (9133022089577387799904618545152 + d *
+    (45619967806896533544588067471360))))))))))) + d ^ 12 * (-609065672944090990104172657901568
+    + d * (2958844334141277869530410285531136 + d * (-4578888185595704561498985296035840 + d *
+    (-40432344082171402756080454818594816 + d * (383368870065375553443428411037712384 + d *
+    (-1776105265152208706508304285476847616 + d * (4504103080290976893269555249323442176 + d *
+    (2626237374298510736794328229117952000 + d * (-96668503860396583714755613981637345280 + d *
+    (599403473291124148014308323536342351872 + d * (-2434947148300781816680574288968705114112 +
+    d * (6987620365881548713846468028733092003840))))))))))) + d ^ 12 *
+    (-10779079480079967894407043389547207196672 + d *
+    (-25212129104081002594131795676646037782528 + d *
+    (300924508961226257520019251986936241586176 + d *
+    (-1600738303513555319829823419529179673133056 + d *
+    (6539479079769383728847238185860373539717120 + d *
+    (-22831582479238361180571602761047562310123520 + d *
+    (71029943851131855827259460078007918224474112 + d *
+    (-201128524438975057516569283316354100680458240 + d *
+    (524789923977561832585920959547521235287539712 + d *
+    (-1271414475129998567859653218418881079911383040 + d *
+    (2873491777140093756082650323417108564106805248 + d *
+    (-6073360439750496530420976721675612458395893760))))))))))) + d ^ 12 *
+    (12009910167297759095508710922128627119982641152 + d *
+    (-22177873656415368144537640609920371117708279808 + d *
+    (38043754567979892101344644994594067358964252672 + d *
+    (-59949540717047957916395372804234731269685510144 + d *
+    (84755232288182431914632179801106866551757733888 + d *
+    (-101509116382157639826683222361024656554548789248 + d *
+    (84368386114322192475636624348998800885952806912 + d *
+    (17874035695508234461732375710802851433786900480 + d *
+    (-295858909298957467614134861800995364425389309952 + d *
+    (896700292904310698752671695785485009285601034240 + d *
+    (-2042150546823419498902383991893999161534455742464 + d *
+    (4044550721809659408453569164651918161581491355648))))))))))) + d ^ 12 *
+    (-7315713673869952797184283855855130279320795742208 + d *
+    (12362760239673872685402945441673284660551735312384 + d *
+    (-19764693054077544629197221432771649246695910277120 + d *
+    (30124664983115119346627681086951014598088100937728 + d *
+    (-43995865568661646550311555086219296893014503063552 + d *
+    (61783784331003403040331385739680291239654540181504 + d *
+    (-83633898044833428444403940140774997783429143330816 + d *
+    (109320546568135821285916884184965711534616380964864 + d *
+    (-138158307320759115693521639361237390932571282210816 + d *
+    (168959620881532230266294893203375236395898800177152 + d *
+    (-200059981833488498946933626634529137261654179053568 + d *
+    (229423710682046361447214049043230488977987417669632))))))))))) + d ^ 12 *
+    (-254829604041580261233832003000199707339942023659520 + d *
+    (274118815021342614667405375920079997966712757026816 + d *
+    (-285470896021346783911273218357485770387343540224000 + d *
+    (287662525435730456465698781798655779121751447568384 + d *
+    (-280260942582429838699272957778779858353713926373376 + d *
+    (263712470708579818294046472979265893217923274375168 + d *
+    (-239304763562423107492826764372597337908532749533184 + d *
+    (209005690795009401572051158207351356347749746868224 + d *
+    (-175206257527194388619682976950477999591655124238336 + d *
+    (140413550642480192546582490521832892815016618360832 + d *
+    (-106947888752844450100774843122484288176871104577536 + d *
+    (76694451253150238228460596279280666015066141229056))))))))))) + d ^ 12 *
+    (-50945234263650186087015427753219843302208660570112 + d *
+    (30346402940428791862037333185746795335747506274304 + d *
+    (-14944429904230423534865020237382404689463114989568 + d *
+    (4306955861880364127302970161255433433871766257664 + d *
+    (2315464226340627833088918864970705891813050286080 + d *
+    (-5821604529798820032045600290230870685893456035840 + d *
+    (7114282214654958155103193146133489162467970383872 + d *
+    (-6995131189407265321191219269995985534982415450112 + d *
+    (6105116754479300315607965803245905733297794187264 + d *
+    (-4906513110771298929632054319366989444364747145216 + d *
+    (3695809425771131473071544365498012712278868361216 + d *
+    (-2634815348102465848184600850487382777447625785344))))))))))) + d ^ 12 *
+    (1788345508054554253722186477359799118031794470912 + d *
+    (-1159934107873846458648015786036308138681380372480 + d *
+    (720689312164572118622918540826792684626825183232 + d *
+    (-429612887919186288167612421748034956550776553472 + d *
+    (245948539205803241948984672708794383566176518144 + d *
+    (-135294699467633172939913596379905417404221227008 + d *
+    (71526714661765164282587523911953400577844576256 + d *
+    (-36338142619583694757677954895388987912293449728 + d *
+    (17734119869559261864163258519926851860952514560 + d *
+    (-8309060683091223358170792516342081605414944768 + d *
+    (3734500708964966839652845988741682834701287424 + d *
+    (-1608395577102546165013183686384714388083310592))))))))))) + d ^ 12 *
+    (662929454209434410546159987819759943015202816 + d *
+    (-261080334427264631250971203362630559800754176 + d *
+    (98062363364259667437778646696164500358823936 + d *
+    (-35050456550720356349449637222719162350567424 + d *
+    (11891021008553215812110556995979280276258816 + d *
+    (-3817225402043865803665641190447556550721536 + d *
+    (1155326322774603998460725384183898660405248 + d *
+    (-328255582445055367982268162800319105073152 + d *
+    (87097331173613825074570561748744805810176 + d * (-21443738149176331990217946449082578370560
+    + d * (4859516304889294384738780486514597429248 + d *
+    (-1003006043526365288433068311291749203968))))))))))) + d ^ 12 *
+    (185843040277018933895172555173335662592 + d * (-30259402083896098251189954686235181056 + d
+    * (4180990888368072450973506192708993024 + d * (-457962169607927786459297662626430976 + d *
+    (32945578050624190867249244211773440 + d * (-76750618096923055330165246656512 + d *
+    (-355232545637565755541137047945216 + d * (46372633781184345169923823632384 + d *
+    (-2494716060414355997564114567168 + d * (420645105538239515727276015616 + d *
+    (-234435955954387258281266511872 + d * (63687833025406857465824280576))))))))))) + d ^ 12 *
+    (-9570485113763852374346825728 + d * (660220027189858438883573760 + d *
+    (41118692123054783970410496 + d * (-14684878981533309654269952 + d *
+    (1356762265233001316876288 + d * (-12289072012992637304832 + d * (-6812902637439108251648 +
+    d * (230026948908889669632 + d * (12119006950137266176 + d * (4509193811572031488 + d *
+    (-330125029392515072 + d * (-56393251628253184))))))))))) + d ^ 12 * (1581472583516160 + d *
+    (344861294985216 + d * (16128623771648 + d * (579044114432 + d * (16752574464 + d *
+    (139722752 + d * (-262144)))))))))))))))))
+
+private def selectionCofactorAt2 (d : ℚ) : ℚ :=
+  7296209911808 + d * (565662854414336 + d * (-9388137177415680 + d * (-278313377271218176 + d *
+    (1766472777595281408 + d * (21074880934148803584 + d * (-240637284982085991424 + d *
+    (181194602129708456960 + d * (10752764075874917856360 + d * (-78200861646097687109057 + d *
+    (119792341196294701867262 + d * (1807157586231694814044043))))))))))) + d ^ 12 *
+    (-15898748105881281999359247 + d * (58423556477113251221017436 + d *
+    (4739918541198470870268423 + d * (-1395248532754152113978465122 + d *
+    (9301929818794898516154442790 + d * (-34161111497968010947103622290 + d *
+    (51561173910535447241244517958 + d * (266342775361596843576774355056 + d *
+    (-2615727874650149320064440044090 + d * (12853701239900437835394245736873 + d *
+    (-44009212391725326648045947207626 + d * (99699391588851257029514631707816))))))))))) + d ^
+    12 * (-38507517513762563588459939658823 + d * (-1052139850667162190385474533237204 + d *
+    (7133957612149699537091154571766293 + d * (-32324899368637186715164437401815820 + d *
+    (120609646279113134706092171646756477 + d * (-395371961316448420399764176784652817 + d *
+    (1173493107010701021477973427022629737 + d * (-3208063577185814017211902581411806532 + d *
+    (8167487053748133276829074910471836975 + d * (-19515738832605734195802250065095586681 + d *
+    (44019961198968434538063232557353970526 + d *
+    (-94157290818439079393710311057286055531))))))))))) + d ^ 12 *
+    (191689864612293975853176890771845300310 + d * (-372582834959096732684772362913665221083 + d
+    * (693212692419007755487410963962704107818 + d * (-1237426382045976802642009057737790081585
+    + d * (2123475532149260194110396087421711709554 + d *
+    (-3509227483992202679045468888517433845149 + d * (5593470147521557694613822953513607780455 +
+    d * (-8610761440806677041478299963045016104959 + d *
+    (12817339414935516384856346209936568056119 + d * (-18466309777443705300398232813831687864897
+    + d * (25771797114752084162787298845570734107177 + d *
+    (-34863975869941729100794213517233185243923))))))))))) + d ^ 12 *
+    (45739665429823959946292714834348429678151 + d * (-58216003644547110003573750299727928862783
+    + d * (71896891833191083635374054653926543230836 + d *
+    (-86162594234774965243853919993480347362583 + d *
+    (100191326463119419276754505272207939635393 + d *
+    (-113017503196343685299590678003902963213070 + d *
+    (123624804994401619414641838266606031913293 + d *
+    (-131064436041655866002064320506854863115830 + d *
+    (134581654356647093491543672535100507450945 + d *
+    (-133728956386291936634973389650736259072224 + d *
+    (128443969646180360843754936495865161784789 + d *
+    (-119074945315114766999430160976735120700695))))))))))) + d ^ 12 *
+    (106346112612848462758908752376896940357288 + d *
+    (-91267008880567134145794410937953389178835 + d * (75001302930167272357016608581973889625704
+    + d * (-58718657460909636529611608700194147541973 + d *
+    (43455814347770146300107656228118389828564 + d * (-30009828441382067325941683443669286893689
+    + d * (18878313942243203088930171173011952691723 + d *
+    (-10250986259775077695921031990148950203715 + d * (4046428649050010830197543416954639823105
+    + d * (19697627555159255111810652533641577650 + d *
+    (-2352387270085844800987389050603444403023 + d *
+    (3397639760989603572781015975200156519348))))))))))) + d ^ 12 *
+    (-3577974337245954790962185233975049742144 + d * (3249777497389579276296914281021480744841 +
+    d * (-2683272794753328518430585501181244495035 + d *
+    (2061417555050441849649128607651368954396 + d * (-1491622256866811906685840523558211154450 +
+    d * (1023817332469829373606086564942082666337 + d *
+    (-669504563896936662171925109531833618948 + d * (418266021926088450670641205296831822712 + d
+    * (-250077542851867362017655188276521818286 + d * (143241251849089310767666516004985379231 +
+    d * (-78641987485987545205160175661933704313 + d *
+    (41388181928485485436116516770420262133))))))))))) + d ^ 12 *
+    (-20874921935373811437943580069762164706 + d * (10084507040101673347678339388043337598 + d *
+    (-4662188487784156319069624084480157460 + d * (2060262452599247427993013070994160266 + d *
+    (-868972208678087290461128968094855082 + d * (349172708737752211245215082123537651 + d *
+    (-133368587513460374009390391901565694 + d * (48291759230073152078787932309915192 + d *
+    (-16522983124275842527741563632663209 + d * (5321117784115856108231830622942106 + d *
+    (-1605342325027680915107331923866153 + d * (451123195460086554869572407974887))))))))))) + d
+    ^ 12 * (-117256398293647911994114045695468 + d * (27944861761937576059945952465173 + d *
+    (-6039190436210583154841233696748 + d * (1166434080655670790744511372418 + d *
+    (-197379749318309178168842734640 + d * (28424773272563822864354546983 + d *
+    (-3326874199314577667747980530 + d * (291751827085566896188913624 + d *
+    (-16445120660593787323889775 + d * (627303501944686429144889 + d *
+    (-129734875504606847769115 + d * (25465133009057366019011))))))))))) + d ^ 12 *
+    (1592243466464712271235 + d * (-1778163881083733175222 + d * (416439692203450046934 + d *
+    (-52082589007218136553 + d * (2973338491290440724 + d * (119600984898749346 + d *
+    (-31130269657269966 + d * (1326372987210268 + d * (16135165741440 + d * (10081405897011 + d
+    * (-664014626763 + d * (-176546090063))))))))))) + d ^ 12 * (4979604523 + d * (1233609412 +
+    d * (58451527 + d * (2049658 + d * (62247 + d * (536 + d * (-1))))))))))))))))
+
+private theorem selection_high_level_at_2 (d : ℚ) :
+    orderSevenSelectionPolynomial d 2 = selectionExpandedAt2 d := by
+  have hA : pointTateParameterUnivariateNumerator (orderSevenQuotient d) 2 =
+      selectionNumeratorAt2 d := by
+    unfold pointTateParameterUnivariateNumerator
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionNumeratorAt2
+    ring
+  have hB : pointTateParameterUnivariateDenominator (orderSevenQuotient d) 2 =
+      selectionDenominatorAt2 d := by
+    unfold pointTateParameterUnivariateDenominator
+      pointTateGammaUnivariateCleared
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionDenominatorAt2
+    ring
+  simp only [orderSevenSelectionPolynomial]
+  rw [hA, hB]
+  unfold orderSevenParameterHauptmodulNumerator orderSevenParameterCubic
+    selectionNumeratorAt2 selectionDenominatorAt2 selectionExpandedAt2
+  ring
+
+private theorem selection_cofactor_eval_at_2 (d : ℚ) :
+    (selectionCofactor d).eval 2 = selectionCofactorAt2 d := by
+  simp only [selectionCofactor, selectionCofactorData,
+    Polynomial.eval_map, Polynomial.eval₂_add, Polynomial.eval₂_mul,
+    Polynomial.eval₂_C, Polynomial.eval₂_X]
+  unfold
+    Internal.selectionCofactorCoefficient0
+    Internal.selectionCofactorCoefficient0Chunk0
+    Internal.selectionCofactorCoefficient0Chunk1
+    Internal.selectionCofactorCoefficient0Chunk2
+    Internal.selectionCofactorCoefficient0Chunk3
+    Internal.selectionCofactorCoefficient0Chunk4
+    Internal.selectionCofactorCoefficient0Chunk5
+    Internal.selectionCofactorCoefficient0Chunk6
+    Internal.selectionCofactorCoefficient0Chunk7
+    Internal.selectionCofactorCoefficient0Chunk8
+    Internal.selectionCofactorCoefficient0Chunk9
+    Internal.selectionCofactorCoefficient0Chunk10
+    Internal.selectionCofactorCoefficient1
+    Internal.selectionCofactorCoefficient1Chunk0
+    Internal.selectionCofactorCoefficient1Chunk1
+    Internal.selectionCofactorCoefficient1Chunk2
+    Internal.selectionCofactorCoefficient1Chunk3
+    Internal.selectionCofactorCoefficient1Chunk4
+    Internal.selectionCofactorCoefficient1Chunk5
+    Internal.selectionCofactorCoefficient1Chunk6
+    Internal.selectionCofactorCoefficient1Chunk7
+    Internal.selectionCofactorCoefficient1Chunk8
+    Internal.selectionCofactorCoefficient1Chunk9
+    Internal.selectionCofactorCoefficient1Chunk10
+    Internal.selectionCofactorCoefficient2
+    Internal.selectionCofactorCoefficient2Chunk0
+    Internal.selectionCofactorCoefficient2Chunk1
+    Internal.selectionCofactorCoefficient2Chunk2
+    Internal.selectionCofactorCoefficient2Chunk3
+    Internal.selectionCofactorCoefficient2Chunk4
+    Internal.selectionCofactorCoefficient2Chunk5
+    Internal.selectionCofactorCoefficient2Chunk6
+    Internal.selectionCofactorCoefficient2Chunk7
+    Internal.selectionCofactorCoefficient2Chunk8
+    Internal.selectionCofactorCoefficient2Chunk9
+    Internal.selectionCofactorCoefficient3
+    Internal.selectionCofactorCoefficient3Chunk0
+    Internal.selectionCofactorCoefficient3Chunk1
+    Internal.selectionCofactorCoefficient3Chunk2
+    Internal.selectionCofactorCoefficient3Chunk3
+    Internal.selectionCofactorCoefficient3Chunk4
+    Internal.selectionCofactorCoefficient3Chunk5
+    Internal.selectionCofactorCoefficient3Chunk6
+    Internal.selectionCofactorCoefficient3Chunk7
+    Internal.selectionCofactorCoefficient3Chunk8
+    Internal.selectionCofactorCoefficient3Chunk9
+    Internal.selectionCofactorCoefficient4
+    Internal.selectionCofactorCoefficient4Chunk0
+    Internal.selectionCofactorCoefficient4Chunk1
+    Internal.selectionCofactorCoefficient4Chunk2
+    Internal.selectionCofactorCoefficient4Chunk3
+    Internal.selectionCofactorCoefficient4Chunk4
+    Internal.selectionCofactorCoefficient4Chunk5
+    Internal.selectionCofactorCoefficient4Chunk6
+    Internal.selectionCofactorCoefficient4Chunk7
+    Internal.selectionCofactorCoefficient4Chunk8
+    Internal.selectionCofactorCoefficient4Chunk9
+    Internal.selectionCofactorCoefficient5
+    Internal.selectionCofactorCoefficient5Chunk0
+    Internal.selectionCofactorCoefficient5Chunk1
+    Internal.selectionCofactorCoefficient5Chunk2
+    Internal.selectionCofactorCoefficient5Chunk3
+    Internal.selectionCofactorCoefficient5Chunk4
+    Internal.selectionCofactorCoefficient5Chunk5
+    Internal.selectionCofactorCoefficient5Chunk6
+    Internal.selectionCofactorCoefficient5Chunk7
+    Internal.selectionCofactorCoefficient5Chunk8
+    Internal.selectionCofactorCoefficient5Chunk9
+    Internal.selectionCofactorCoefficient6
+    Internal.selectionCofactorCoefficient6Chunk0
+    Internal.selectionCofactorCoefficient6Chunk1
+    Internal.selectionCofactorCoefficient6Chunk2
+    Internal.selectionCofactorCoefficient6Chunk3
+    Internal.selectionCofactorCoefficient6Chunk4
+    Internal.selectionCofactorCoefficient6Chunk5
+    Internal.selectionCofactorCoefficient6Chunk6
+    Internal.selectionCofactorCoefficient6Chunk7
+    Internal.selectionCofactorCoefficient6Chunk8
+    Internal.selectionCofactorCoefficient7
+    Internal.selectionCofactorCoefficient7Chunk0
+    Internal.selectionCofactorCoefficient7Chunk1
+    Internal.selectionCofactorCoefficient7Chunk2
+    Internal.selectionCofactorCoefficient7Chunk3
+    Internal.selectionCofactorCoefficient7Chunk4
+    Internal.selectionCofactorCoefficient7Chunk5
+    Internal.selectionCofactorCoefficient7Chunk6
+    Internal.selectionCofactorCoefficient7Chunk7
+    Internal.selectionCofactorCoefficient7Chunk8
+    Internal.selectionCofactorCoefficient8
+    Internal.selectionCofactorCoefficient8Chunk0
+    Internal.selectionCofactorCoefficient8Chunk1
+    Internal.selectionCofactorCoefficient8Chunk2
+    Internal.selectionCofactorCoefficient8Chunk3
+    Internal.selectionCofactorCoefficient8Chunk4
+    Internal.selectionCofactorCoefficient8Chunk5
+    Internal.selectionCofactorCoefficient8Chunk6
+    Internal.selectionCofactorCoefficient8Chunk7
+    Internal.selectionCofactorCoefficient8Chunk8
+    Internal.selectionCofactorCoefficient9
+    Internal.selectionCofactorCoefficient9Chunk0
+    Internal.selectionCofactorCoefficient9Chunk1
+    Internal.selectionCofactorCoefficient9Chunk2
+    Internal.selectionCofactorCoefficient9Chunk3
+    Internal.selectionCofactorCoefficient9Chunk4
+    Internal.selectionCofactorCoefficient9Chunk5
+    Internal.selectionCofactorCoefficient9Chunk6
+    Internal.selectionCofactorCoefficient9Chunk7
+    Internal.selectionCofactorCoefficient10
+    Internal.selectionCofactorCoefficient10Chunk0
+    Internal.selectionCofactorCoefficient10Chunk1
+    Internal.selectionCofactorCoefficient10Chunk2
+    Internal.selectionCofactorCoefficient10Chunk3
+    Internal.selectionCofactorCoefficient10Chunk4
+    Internal.selectionCofactorCoefficient10Chunk5
+    Internal.selectionCofactorCoefficient10Chunk6
+    Internal.selectionCofactorCoefficient10Chunk7
+    Internal.selectionCofactorCoefficient11
+    Internal.selectionCofactorCoefficient11Chunk0
+    Internal.selectionCofactorCoefficient11Chunk1
+    Internal.selectionCofactorCoefficient11Chunk2
+    Internal.selectionCofactorCoefficient11Chunk3
+    Internal.selectionCofactorCoefficient11Chunk4
+    Internal.selectionCofactorCoefficient11Chunk5
+    Internal.selectionCofactorCoefficient11Chunk6
+    Internal.selectionCofactorCoefficient11Chunk7
+    Internal.selectionCofactorCoefficient12
+    Internal.selectionCofactorCoefficient12Chunk0
+    Internal.selectionCofactorCoefficient12Chunk1
+    Internal.selectionCofactorCoefficient12Chunk2
+    Internal.selectionCofactorCoefficient12Chunk3
+    Internal.selectionCofactorCoefficient12Chunk4
+    Internal.selectionCofactorCoefficient12Chunk5
+    Internal.selectionCofactorCoefficient12Chunk6
+    Internal.selectionCofactorCoefficient13
+    Internal.selectionCofactorCoefficient13Chunk0
+    Internal.selectionCofactorCoefficient13Chunk1
+    Internal.selectionCofactorCoefficient13Chunk2
+    Internal.selectionCofactorCoefficient13Chunk3
+    Internal.selectionCofactorCoefficient13Chunk4
+    Internal.selectionCofactorCoefficient13Chunk5
+    Internal.selectionCofactorCoefficient13Chunk6
+    Internal.selectionCofactorCoefficient14
+    Internal.selectionCofactorCoefficient14Chunk0
+    Internal.selectionCofactorCoefficient14Chunk1
+    Internal.selectionCofactorCoefficient14Chunk2
+    Internal.selectionCofactorCoefficient14Chunk3
+    Internal.selectionCofactorCoefficient14Chunk4
+    Internal.selectionCofactorCoefficient14Chunk5
+    Internal.selectionCofactorCoefficient14Chunk6
+    Internal.selectionCofactorCoefficient15
+    Internal.selectionCofactorCoefficient15Chunk0
+    Internal.selectionCofactorCoefficient15Chunk1
+    Internal.selectionCofactorCoefficient15Chunk2
+    Internal.selectionCofactorCoefficient15Chunk3
+    Internal.selectionCofactorCoefficient15Chunk4
+    Internal.selectionCofactorCoefficient15Chunk5
+    Internal.selectionCofactorCoefficient15Chunk6
+    Internal.selectionCofactorCoefficient16
+    Internal.selectionCofactorCoefficient16Chunk0
+    Internal.selectionCofactorCoefficient16Chunk1
+    Internal.selectionCofactorCoefficient16Chunk2
+    Internal.selectionCofactorCoefficient16Chunk3
+    Internal.selectionCofactorCoefficient16Chunk4
+    Internal.selectionCofactorCoefficient16Chunk5
+    Internal.selectionCofactorCoefficient17
+    Internal.selectionCofactorCoefficient17Chunk0
+    Internal.selectionCofactorCoefficient17Chunk1
+    Internal.selectionCofactorCoefficient17Chunk2
+    Internal.selectionCofactorCoefficient17Chunk3
+    Internal.selectionCofactorCoefficient17Chunk4
+    Internal.selectionCofactorCoefficient17Chunk5
+    Internal.selectionCofactorCoefficient18
+    Internal.selectionCofactorCoefficient18Chunk0
+    Internal.selectionCofactorCoefficient18Chunk1
+    Internal.selectionCofactorCoefficient18Chunk2
+    Internal.selectionCofactorCoefficient18Chunk3
+    Internal.selectionCofactorCoefficient18Chunk4
+    Internal.selectionCofactorCoefficient18Chunk5
+    Internal.selectionCofactorCoefficient19
+    Internal.selectionCofactorCoefficient19Chunk0
+    Internal.selectionCofactorCoefficient19Chunk1
+    Internal.selectionCofactorCoefficient19Chunk2
+    Internal.selectionCofactorCoefficient19Chunk3
+    Internal.selectionCofactorCoefficient19Chunk4
+    Internal.selectionCofactorCoefficient20
+    Internal.selectionCofactorCoefficient20Chunk0
+    Internal.selectionCofactorCoefficient20Chunk1
+    Internal.selectionCofactorCoefficient20Chunk2
+    Internal.selectionCofactorCoefficient20Chunk3
+    Internal.selectionCofactorCoefficient20Chunk4
+    Internal.selectionCofactorCoefficient21
+    Internal.selectionCofactorCoefficient21Chunk0
+    Internal.selectionCofactorCoefficient21Chunk1
+    Internal.selectionCofactorCoefficient21Chunk2
+    Internal.selectionCofactorCoefficient21Chunk3
+    Internal.selectionCofactorCoefficient21Chunk4
+    Internal.selectionCofactorCoefficient22
+    Internal.selectionCofactorCoefficient22Chunk0
+    Internal.selectionCofactorCoefficient22Chunk1
+    Internal.selectionCofactorCoefficient22Chunk2
+    Internal.selectionCofactorCoefficient22Chunk3
+    Internal.selectionCofactorCoefficient23
+    Internal.selectionCofactorCoefficient23Chunk0
+    Internal.selectionCofactorCoefficient23Chunk1
+    Internal.selectionCofactorCoefficient23Chunk2
+    Internal.selectionCofactorCoefficient23Chunk3
+    Internal.selectionCofactorCoefficient24
+    Internal.selectionCofactorCoefficient24Chunk0
+    Internal.selectionCofactorCoefficient24Chunk1
+    Internal.selectionCofactorCoefficient24Chunk2
+    Internal.selectionCofactorCoefficient24Chunk3
+    Internal.selectionCofactorCoefficient25
+    Internal.selectionCofactorCoefficient25Chunk0
+    Internal.selectionCofactorCoefficient25Chunk1
+    Internal.selectionCofactorCoefficient25Chunk2
+    Internal.selectionCofactorCoefficient26
+    Internal.selectionCofactorCoefficient26Chunk0
+    Internal.selectionCofactorCoefficient26Chunk1
+    Internal.selectionCofactorCoefficient26Chunk2
+    Internal.selectionCofactorCoefficient27
+    Internal.selectionCofactorCoefficient27Chunk0
+    Internal.selectionCofactorCoefficient27Chunk1
+    Internal.selectionCofactorCoefficient27Chunk2
+    Internal.selectionCofactorCoefficient28
+    Internal.selectionCofactorCoefficient28Chunk0
+    Internal.selectionCofactorCoefficient28Chunk1
+    Internal.selectionCofactorCoefficient29
+    Internal.selectionCofactorCoefficient29Chunk0
+    Internal.selectionCofactorCoefficient29Chunk1
+    Internal.selectionCofactorCoefficient30
+    Internal.selectionCofactorCoefficient30Chunk0
+    Internal.selectionCofactorCoefficient30Chunk1
+    Internal.selectionCofactorCoefficient31
+    Internal.selectionCofactorCoefficient31Chunk0
+    Internal.selectionCofactorCoefficient32
+    Internal.selectionCofactorCoefficient32Chunk0
+    Internal.selectionCofactorCoefficient33
+    Internal.selectionCofactorCoefficient33Chunk0
+    selectionCofactorAt2
+  simp
+  ring
+
+private theorem selection_factor_at_2 (d : ℚ) :
+    selectionExpandedAt2 d =
+      64 ^ 3 * orderSevenDualKernelPolynomial d 2 *
+        selectionCofactorAt2 d := by
+  unfold selectionExpandedAt2 orderSevenDualKernelPolynomial selectionCofactorAt2
+  ring
+
+theorem selectionEvalAt2 (d : ℚ) :
+    Internal.SelectionEvalCertificate d 2 := by
+  unfold Internal.SelectionEvalCertificate
+  rw [selection_high_level_at_2, selection_cofactor_eval_at_2,
+    selection_factor_at_2]
+
+private def selectionNumeratorAt3 (d : ℚ) : ℚ :=
+  -1259712000 + d * (-5052844800 + d * (28348133760 + d * (-12800609344 + d * (-329040336384 + d
+    * (1564013769600 + d * (-3300230225472 + d * (-687775465920 + d * (33076702069440 + d *
+    (-148731022068032 + d * (448137319376832 + d * (-1074004853981184))))))))))) + d ^ 12 *
+    (2178003250348096 + d * (-3856745464169664 + d * (6074974956091776 + d * (-8613207541289472
+    + d * (11078112557403264 + d * (-12989118885654912 + d * (13921740599419264 + d *
+    (-13655013133948224 + d * (12252453965893632 + d * (-10036931612670336 + d *
+    (7477983508701120 + d * (-5040712229378496))))))))))) + d ^ 12 * (3053511786029760 + d *
+    (-1648084301204544 + d * (785308050640704 + d * (-329573913477824 + d * (124667255416896 + d
+    * (-45488354704704 + d * (17173892265408 + d * (-6452396184000 + d * (2121332017344 + d *
+    (-569364483648 + d * (145078541376 + d * (-47558584896))))))))))) + d ^ 12 * (16231918656 +
+    d * (-3745220928 + d * (487824192 + d * (-96019648 + d * (46836288 + d * (-10629312 + d *
+    (326592 + d * (122496 + d * (5184 + d * (64))))))))))))
+
+private def selectionDenominatorAt3 (d : ℚ) : ℚ :=
+  -1490239296 + d * (-7090514496 + d * (49400188416 + d * (-93510071040 + d * (-163166157504 + d
+    * (1724451511744 + d * (-5920141909632 + d * (11186854833280 + d * (-5129611861632 + d *
+    (-49097660877632 + d * (227046528057728 + d * (-645522834434560))))))))))) + d ^ 12 *
+    (1439775648046272 + d * (-2708152422573376 + d * (4437446861576576 + d * (-6451320995075200
+    + d * (8430429878084672 + d * (-10017085934840960 + d * (10957208753597824 + d *
+    (-11190027711039744 + d * (10823203624638464 + d * (-10023798834497664 + d *
+    (8923005750107648 + d * (-7602961063438336))))))))))) + d ^ 12 * (6145188099077440 + d *
+    (-4667459704036416 + d * (3306724919536384 + d * (-2172367108143104 + d * (1315589303177152
+    + d * (-729651445660864 + d * (368108743109760 + d * (-167683658552448 + d * (68237099364672
+    + d * (-24362209961344 + d * (7413349195136 + d * (-1841608023040))))))))))) + d ^ 12 *
+    (349038703616 + d * (-43914234368 + d * (2013892608 + d * (364961792 + d * (-54634496 + d *
+    (-1357824 + d * (144384 + d * (83968 + d * (6144)))))))))))
+
+private def selectionExpandedAt3 (d : ℚ) : ℚ :=
+  377892808223075249335566336 + d * (-588793318990721722154483712 + d *
+    (-343864084676337629276519006208 + d * (-646454888333400388078781595648 + d *
+    (23886801655636846769119090704384 + d * (-70681171940754663955228978839552 + d *
+    (-508271364068036251625647318499328 + d * (4762029633299196456060857874382848 + d *
+    (-12382985625696895298540513789214720 + d * (-41630831137290047582210096508698624 + d *
+    (481884548088181084603487099834335232 + d *
+    (-1863476027759179172689301656410783744))))))))))) + d ^ 12 *
+    (1977867227619444246047141173829042176 + d * (18395654721791176173102090770226872320 + d *
+    (-127448781102422556036947271142917799936 + d * (431050461964970493313736988663143727104 + d
+    * (-669324103543183550986054649106137088000 + d * (-1597660467691874924311415026861994672128
+    + d * (15706403925779910680141057401083916189696 + d *
+    (-63552263573647958278449857262760090402816 + d *
+    (165339647371760785587209005104303500165120 + d *
+    (-227456812164025838270211009102796476383232 + d *
+    (-360400464220381151595556790226963158794240 + d *
+    (3725845140691180941357783761974380208062464))))))))))) + d ^ 12 *
+    (-15182356252065302617895962131145181021339648 + d *
+    (43966124444286391874945998885698468714119168 + d *
+    (-95850154648850358680444937728441903545581568 + d *
+    (136397872635393792042918552436678250483679232 + d *
+    (25276854979960564196836707512486564592353280 + d *
+    (-1031939756675577892392650616629012694146220032 + d *
+    (4621657781385446167616000072141629315855679488 + d *
+    (-14857500546490304171901461686901415708556787712 + d *
+    (40200802388315658459580465477558683454980227072 + d *
+    (-96561882240935450654268535847672545696183746560 + d *
+    (211070589102620879690877360983483803705725419520 + d *
+    (-425526561000344322583164895765597459675400896512))))))))))) + d ^ 12 *
+    (797268619085100461965171326371985970406906920960 + d *
+    (-1393670125793389829369575762000524985243644461056 + d *
+    (2275006386796346414981132369143782845670001999872 + d *
+    (-3459710914155367948606587453820898395118605959168 + d *
+    (4866870927290825033411822085115878555008172032000 + d *
+    (-6233966874368600031096039381486735366179426402304 + d *
+    (7013677737300620636729081530329089850341418860544 + d *
+    (-6261646959427274523283944988489221392081947983872 + d *
+    (2536100186567830038482511649875005815315424083968 + d *
+    (6162041193035429500741940248930508798929098768384 + d *
+    (-22376003069733197575415054235200209805737616736256 + d *
+    (49076777450423839465746795758002856461750564814848))))))))))) + d ^ 12 *
+    (-89423517158027091311286999455594668673512227209216 + d *
+    (146398778962899132076974308504867988211170439856128 + d *
+    (-222340923506420357065454599881238646031488847183872 + d *
+    (318422829394533826473305730018702437089746743459840 + d *
+    (-434150510440476968055093585508220776534807490330624 + d *
+    (566971429960802443855555025036337333605623610736640 + d *
+    (-712084738026615061321721748216287290631757554515968 + d *
+    (862530332697866148430881341837446527959519962071040 + d *
+    (-1009599508967490900491816867115130507025740928122880 + d *
+    (1143559990209526724368707267557189185772299729502208 + d *
+    (-1254629777251858151633731656055936535195870979948544 + d *
+    (1334078723706897780126671563201737905678761048932352))))))))))) + d ^ 12 *
+    (-1375297058563849636381949798280100987251193553616896 + d *
+    (1374657868822272767999793346801853100079885706067968 + d *
+    (-1332022519249517829535748074413222242821736221900800 + d *
+    (1250793008664593823750336088444452956986975189729280 + d *
+    (-1137493516695804480593406277568542072181771394875392 + d *
+    (1000948144504739952825332282313732735810658408595456 + d *
+    (-851193726839557007275919922910267604854631618576384 + d *
+    (698309058102705288982817672874980357884023446700032 + d *
+    (-551346006251660496836036395790853294114841475678208 + d *
+    (417514834615616636162199337729453501152020785790976 + d *
+    (-301715841268400001670196963774174563293237470822400 + d *
+    (206438066023611823376266185879034794878354582142976))))))))))) + d ^ 12 *
+    (-131980083085404368689588480254713356515971283812352 + d *
+    (76900984985654399936628909843089215010470436536320 + d *
+    (-38588368215054636552414101048511664012719727050752 + d *
+    (13834227120154347496630603819892461717023195398144 + d *
+    (666769586462276003374594888708741168930038743040 + d *
+    (-7948173401100680859903162338602274379345484054528 + d *
+    (10548377838154346840306976908571600368832235962368 + d *
+    (-10420878206932472596858042867894762078460676145152 + d *
+    (8947879853882020448662315918847588735629136756736 + d *
+    (-7019878473088141938625363000150713454356830617600 + d *
+    (5145878821908757990762140328414387648930317336576 + d *
+    (-3566701290067119302084169488873739451001227182080))))))))))) + d ^ 12 *
+    (2353802863250070337591975312283656509952211550208 + d *
+    (-1485409025078259357934544855548734454790732644352 + d *
+    (898871640279135413698647802203011861870091173888 + d *
+    (-522514690777587182781989054039897119452855009280 + d *
+    (292098207277476303511023029532447808323847454720 + d *
+    (-157128889528972982938915012465604133889565261824 + d *
+    (81354684729532086566216202187806118199311466496 + d *
+    (-40539298851282305386630749363661111664254386176 + d *
+    (19435144111327584367890098793175144188924657664 + d *
+    (-8959021028698088978690452273510458589043752960 + d *
+    (3967660155022259699179787943823671680600113152 + d *
+    (-1686339072953105384968739728012589701330632704))))))))))) + d ^ 12 *
+    (686938295872042196732314288993164594411470848 + d *
+    (-267768879003340213991738956578455367108788224 + d *
+    (99688943915279952468569265547367960873533440 + d *
+    (-35367375768208524157881035353516486216122368 + d *
+    (11925517623178278168523677850905489905287168 + d *
+    (-3809896240064039798329982483685542865141760 + d *
+    (1148958531112346269142680211638428990177280 + d *
+    (-325639345424561315018878156177473221427200 + d *
+    (86278848115855045413077794740921808453632 + d * (-21231443379280834175861822503006547476480
+    + d * (4812920553427549109225729971473854496768 + d *
+    (-994404377660455072510003357408372457472))))))))))) + d ^ 12 *
+    (184545760182457462892349380733457137664 + d * (-30109990559657229160435056833132756992 + d
+    * (4169937649945591265544847450410844160 + d * (-457706691957268579751207577955336192 + d *
+    (32915557719360251139710684575563776 + d * (-39863789804152111113378086780928 + d *
+    (-366550705231560155562511240003584 + d * (48174379361610314940676175298560 + d *
+    (-2615173481348137759210990206976 + d * (406600054321491105813300772864 + d *
+    (-229807055668534087877481988096 + d * (63179923634388470637605683200))))))))))) + d ^ 12 *
+    (-9559361138738234872186798080 + d * (663732078184414210352218112 + d *
+    (40802017398067383594123264 + d * (-14692168917752804287447040 + d *
+    (1357429922814173858496512 + d * (-12023663987007120736256 + d * (-6817084970941793173504 +
+    d * (226548129981219733504 + d * (12097576396440731648 + d * (4528420766086070272 + d *
+    (-328907301691850752 + d * (-56347166121656320))))))))))) + d ^ 12 * (1582791187759104 + d *
+    (344875618533376 + d * (16128629014528 + d * (579044114432 + d * (16752574464 + d *
+    (139722752 + d * (-262144)))))))))))))))))
+
+private def selectionCofactorAt3 (d : ℚ) : ℚ :=
+  4277586534800942637 + d * (-2209600564560960453 + d * (-3903125432696549972019 + d *
+    (-11374910125819211479203 + d * (266239463588119608341184 + d * (-503693759543819795341461 +
+    d * (-6821155170578520835362765 + d * (48018046522848149106848412 + d *
+    (-76482095954718195967174308 + d * (-654410762142763832716785938 + d *
+    (4954681118935827968927191586 + d * (-14555001526904953132299210607))))))))))) + d ^ 12 *
+    (-3664467416949488611305590960 + d * (236790652939600928245267843186 + d *
+    (-1185986704876367852156451843765 + d * (3099880096934212138049820151902 + d *
+    (-1666009287032259053255827906058 + d * (-26521502909409186101112538594472 + d *
+    (151697106398576600627113820988553 + d * (-492709727648479147133410638542079 + d *
+    (998668897643833531702300195163447 + d * (-448621084217817887940000436588361 + d *
+    (-6427211277508407348097893695572585 + d * (34755564263776083593989132979798018))))))))))) +
+    d ^ 12 * (-115977429389850705400957329874774412 + d * (289242159394700049251222573141069600
+    + d * (-524893902913104746583706619858351853 + d * (444332071584517205800338718346351693 + d
+    * (1456177005717884028397264135433675547 + d * (-9624456762140225541814803775402757325 + d *
+    (35211226467599480815163697240838059226 + d * (-103056228008838459819848916872889767179 + d
+    * (263482148697683778030212487411283387249 + d * (-610448031606698555908139529131468055241 +
+    d * (1306988577564667647278544721921593147208 + d *
+    (-2617408614192103939283758524528815407164))))))))))) + d ^ 12 *
+    (4943346728338954971682160028976494646246 + d * (-8857798582200693915517917538244431833084 +
+    d * (15128088620477826848914709293204581441405 + d *
+    (-24716495007060310113098824269874253671520 + d * (38746783359599227645566936817002760576969
+    + d * (-58427147289456301021676029595220264244563 + d *
+    (84925393153412104806090347628585568894309 + d *
+    (-119200381242470120987438421458327829017073 + d *
+    (161803741395100122886142310891079840952640 + d *
+    (-212676050044907779510646681250731519240013 + d *
+    (270969876931996777733666168170587847370927 + d *
+    (-334936162979061097256573612633550544506031))))))))))) + d ^ 12 *
+    (401908370903151710257902504989850193385962 + d *
+    (-468409644062319456466036990624482836949419 + d *
+    (530391956874164294613534214833709117747859 + d *
+    (-583594664620335576230114264756033654729130 + d *
+    (623986323052531409379630684506885127448139 + d *
+    (-648232799364824435281225594878120234642499 + d *
+    (654121651841398876435268676266129132253488 + d *
+    (-640871862417402940442926324507364723197622 + d *
+    (609271443306304900933344748273510060566360 + d *
+    (-561612093208980891592240751770893128868891 + d *
+    (501425213768833643383102437524351896176616 + d *
+    (-433059670972384943367161032106063058517101))))))))))) + d ^ 12 *
+    (361170273217773546490375176187500775590983 + d *
+    (-290200190869405641490698421575600181120464 + d *
+    (223937303259985634868423672078737290397739 + d *
+    (-165205191066167531101765351072744681799949 + d *
+    (115719682856556422155688398562157927466623 + d *
+    (-76109190925414565318966125048614399471638 + d * (46069068372367560257224230483866391960301
+    + d * (-24602290920793346491250609571306963517649 + d *
+    (10293107921025309630340361980106915321702 + d * (-1565889923115210878352703152761175385505
+    + d * (-3105179272604065192330268326358841095083 + d *
+    (5053145293547790096544815049669836081283))))))))))) + d ^ 12 *
+    (-5343771104221128616829831945712931547752 + d * (4759267651539318375722930179457054363686 +
+    d * (-3823499088876011296606677016612024145461 + d *
+    (2850485680273235342931128443728787276519 + d * (-2000474283907334289509794196162709538536 +
+    d * (1332375791798196966496309894186799206543 + d *
+    (-846319532559232872596583785711241414822 + d * (514270365763107022835938266069202852414 + d
+    * (-299524853172761391212866542226448178041 + d * (167399532557955700413595337563358669717 +
+    d * (-89826665974494835531866252914212275531 + d *
+    (46285415241408862599935673685199293490))))))))))) + d ^ 12 *
+    (-22896528110648520382461589883672977454 + d * (10867722643580508068131580168133330991 + d *
+    (-4945080519521455755174052501703358238 + d * (2154576597832396023920189938593420441 + d *
+    (-897533336859346503478874899629341006 + d * (356804852147126078006509174199017945 + d *
+    (-135057433958356007824176773968975840 + d * (48542899285108355310105461797339437 + d *
+    (-16512817794753733836006728639809624 + d * (5295160050730746656391385198318156 + d *
+    (-1592983863973368376658585365979519 + d * (446969747578761969345083289178718))))))))))) + d
+    ^ 12 * (-116135337239300113593485329793905 + d * (27694967365669860982789678051968 + d *
+    (-5993547801302562257077214249758 + d * (1159860448534646187421848965297 + d *
+    (-196700373689000897051156727196 + d * (28386501739595236299961671386 + d *
+    (-3326546825963630765112089154 + d * (291124955730718123212921830 + d *
+    (-16108312046879725942483339 + d * (549489808331232548572858 + d *
+    (-119684599055082082685010 + d * (24943013194441334170893))))))))))) + d ^ 12 *
+    (1532393715181797980302 + d * (-1764516095975015250248 + d * (415587970778819604036 + d *
+    (-52107110744046429835 + d * (2975885441973628623 + d * (120104766335046861 + d *
+    (-31128810807616427 + d * (1317218571376040 + d * (16032234557543 + d * (10141576684455 + d
+    * (-659994343293 + d * (-176394902061))))))))))) + d ^ 12 * (4984051501 + d * (1233660212 +
+    d * (58451554 + d * (2049658 + d * (62247 + d * (536 + d * (-1))))))))))))))))
+
+private theorem selection_high_level_at_3 (d : ℚ) :
+    orderSevenSelectionPolynomial d 3 = selectionExpandedAt3 d := by
+  have hA : pointTateParameterUnivariateNumerator (orderSevenQuotient d) 3 =
+      selectionNumeratorAt3 d := by
+    unfold pointTateParameterUnivariateNumerator
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionNumeratorAt3
+    ring
+  have hB : pointTateParameterUnivariateDenominator (orderSevenQuotient d) 3 =
+      selectionDenominatorAt3 d := by
+    unfold pointTateParameterUnivariateDenominator
+      pointTateGammaUnivariateCleared
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionDenominatorAt3
+    ring
+  simp only [orderSevenSelectionPolynomial]
+  rw [hA, hB]
+  unfold orderSevenParameterHauptmodulNumerator orderSevenParameterCubic
+    selectionNumeratorAt3 selectionDenominatorAt3 selectionExpandedAt3
+  ring
+
+private theorem selection_cofactor_eval_at_3 (d : ℚ) :
+    (selectionCofactor d).eval 3 = selectionCofactorAt3 d := by
+  simp only [selectionCofactor, selectionCofactorData,
+    Polynomial.eval_map, Polynomial.eval₂_add, Polynomial.eval₂_mul,
+    Polynomial.eval₂_C, Polynomial.eval₂_X]
+  unfold
+    Internal.selectionCofactorCoefficient0
+    Internal.selectionCofactorCoefficient0Chunk0
+    Internal.selectionCofactorCoefficient0Chunk1
+    Internal.selectionCofactorCoefficient0Chunk2
+    Internal.selectionCofactorCoefficient0Chunk3
+    Internal.selectionCofactorCoefficient0Chunk4
+    Internal.selectionCofactorCoefficient0Chunk5
+    Internal.selectionCofactorCoefficient0Chunk6
+    Internal.selectionCofactorCoefficient0Chunk7
+    Internal.selectionCofactorCoefficient0Chunk8
+    Internal.selectionCofactorCoefficient0Chunk9
+    Internal.selectionCofactorCoefficient0Chunk10
+    Internal.selectionCofactorCoefficient1
+    Internal.selectionCofactorCoefficient1Chunk0
+    Internal.selectionCofactorCoefficient1Chunk1
+    Internal.selectionCofactorCoefficient1Chunk2
+    Internal.selectionCofactorCoefficient1Chunk3
+    Internal.selectionCofactorCoefficient1Chunk4
+    Internal.selectionCofactorCoefficient1Chunk5
+    Internal.selectionCofactorCoefficient1Chunk6
+    Internal.selectionCofactorCoefficient1Chunk7
+    Internal.selectionCofactorCoefficient1Chunk8
+    Internal.selectionCofactorCoefficient1Chunk9
+    Internal.selectionCofactorCoefficient1Chunk10
+    Internal.selectionCofactorCoefficient2
+    Internal.selectionCofactorCoefficient2Chunk0
+    Internal.selectionCofactorCoefficient2Chunk1
+    Internal.selectionCofactorCoefficient2Chunk2
+    Internal.selectionCofactorCoefficient2Chunk3
+    Internal.selectionCofactorCoefficient2Chunk4
+    Internal.selectionCofactorCoefficient2Chunk5
+    Internal.selectionCofactorCoefficient2Chunk6
+    Internal.selectionCofactorCoefficient2Chunk7
+    Internal.selectionCofactorCoefficient2Chunk8
+    Internal.selectionCofactorCoefficient2Chunk9
+    Internal.selectionCofactorCoefficient3
+    Internal.selectionCofactorCoefficient3Chunk0
+    Internal.selectionCofactorCoefficient3Chunk1
+    Internal.selectionCofactorCoefficient3Chunk2
+    Internal.selectionCofactorCoefficient3Chunk3
+    Internal.selectionCofactorCoefficient3Chunk4
+    Internal.selectionCofactorCoefficient3Chunk5
+    Internal.selectionCofactorCoefficient3Chunk6
+    Internal.selectionCofactorCoefficient3Chunk7
+    Internal.selectionCofactorCoefficient3Chunk8
+    Internal.selectionCofactorCoefficient3Chunk9
+    Internal.selectionCofactorCoefficient4
+    Internal.selectionCofactorCoefficient4Chunk0
+    Internal.selectionCofactorCoefficient4Chunk1
+    Internal.selectionCofactorCoefficient4Chunk2
+    Internal.selectionCofactorCoefficient4Chunk3
+    Internal.selectionCofactorCoefficient4Chunk4
+    Internal.selectionCofactorCoefficient4Chunk5
+    Internal.selectionCofactorCoefficient4Chunk6
+    Internal.selectionCofactorCoefficient4Chunk7
+    Internal.selectionCofactorCoefficient4Chunk8
+    Internal.selectionCofactorCoefficient4Chunk9
+    Internal.selectionCofactorCoefficient5
+    Internal.selectionCofactorCoefficient5Chunk0
+    Internal.selectionCofactorCoefficient5Chunk1
+    Internal.selectionCofactorCoefficient5Chunk2
+    Internal.selectionCofactorCoefficient5Chunk3
+    Internal.selectionCofactorCoefficient5Chunk4
+    Internal.selectionCofactorCoefficient5Chunk5
+    Internal.selectionCofactorCoefficient5Chunk6
+    Internal.selectionCofactorCoefficient5Chunk7
+    Internal.selectionCofactorCoefficient5Chunk8
+    Internal.selectionCofactorCoefficient5Chunk9
+    Internal.selectionCofactorCoefficient6
+    Internal.selectionCofactorCoefficient6Chunk0
+    Internal.selectionCofactorCoefficient6Chunk1
+    Internal.selectionCofactorCoefficient6Chunk2
+    Internal.selectionCofactorCoefficient6Chunk3
+    Internal.selectionCofactorCoefficient6Chunk4
+    Internal.selectionCofactorCoefficient6Chunk5
+    Internal.selectionCofactorCoefficient6Chunk6
+    Internal.selectionCofactorCoefficient6Chunk7
+    Internal.selectionCofactorCoefficient6Chunk8
+    Internal.selectionCofactorCoefficient7
+    Internal.selectionCofactorCoefficient7Chunk0
+    Internal.selectionCofactorCoefficient7Chunk1
+    Internal.selectionCofactorCoefficient7Chunk2
+    Internal.selectionCofactorCoefficient7Chunk3
+    Internal.selectionCofactorCoefficient7Chunk4
+    Internal.selectionCofactorCoefficient7Chunk5
+    Internal.selectionCofactorCoefficient7Chunk6
+    Internal.selectionCofactorCoefficient7Chunk7
+    Internal.selectionCofactorCoefficient7Chunk8
+    Internal.selectionCofactorCoefficient8
+    Internal.selectionCofactorCoefficient8Chunk0
+    Internal.selectionCofactorCoefficient8Chunk1
+    Internal.selectionCofactorCoefficient8Chunk2
+    Internal.selectionCofactorCoefficient8Chunk3
+    Internal.selectionCofactorCoefficient8Chunk4
+    Internal.selectionCofactorCoefficient8Chunk5
+    Internal.selectionCofactorCoefficient8Chunk6
+    Internal.selectionCofactorCoefficient8Chunk7
+    Internal.selectionCofactorCoefficient8Chunk8
+    Internal.selectionCofactorCoefficient9
+    Internal.selectionCofactorCoefficient9Chunk0
+    Internal.selectionCofactorCoefficient9Chunk1
+    Internal.selectionCofactorCoefficient9Chunk2
+    Internal.selectionCofactorCoefficient9Chunk3
+    Internal.selectionCofactorCoefficient9Chunk4
+    Internal.selectionCofactorCoefficient9Chunk5
+    Internal.selectionCofactorCoefficient9Chunk6
+    Internal.selectionCofactorCoefficient9Chunk7
+    Internal.selectionCofactorCoefficient10
+    Internal.selectionCofactorCoefficient10Chunk0
+    Internal.selectionCofactorCoefficient10Chunk1
+    Internal.selectionCofactorCoefficient10Chunk2
+    Internal.selectionCofactorCoefficient10Chunk3
+    Internal.selectionCofactorCoefficient10Chunk4
+    Internal.selectionCofactorCoefficient10Chunk5
+    Internal.selectionCofactorCoefficient10Chunk6
+    Internal.selectionCofactorCoefficient10Chunk7
+    Internal.selectionCofactorCoefficient11
+    Internal.selectionCofactorCoefficient11Chunk0
+    Internal.selectionCofactorCoefficient11Chunk1
+    Internal.selectionCofactorCoefficient11Chunk2
+    Internal.selectionCofactorCoefficient11Chunk3
+    Internal.selectionCofactorCoefficient11Chunk4
+    Internal.selectionCofactorCoefficient11Chunk5
+    Internal.selectionCofactorCoefficient11Chunk6
+    Internal.selectionCofactorCoefficient11Chunk7
+    Internal.selectionCofactorCoefficient12
+    Internal.selectionCofactorCoefficient12Chunk0
+    Internal.selectionCofactorCoefficient12Chunk1
+    Internal.selectionCofactorCoefficient12Chunk2
+    Internal.selectionCofactorCoefficient12Chunk3
+    Internal.selectionCofactorCoefficient12Chunk4
+    Internal.selectionCofactorCoefficient12Chunk5
+    Internal.selectionCofactorCoefficient12Chunk6
+    Internal.selectionCofactorCoefficient13
+    Internal.selectionCofactorCoefficient13Chunk0
+    Internal.selectionCofactorCoefficient13Chunk1
+    Internal.selectionCofactorCoefficient13Chunk2
+    Internal.selectionCofactorCoefficient13Chunk3
+    Internal.selectionCofactorCoefficient13Chunk4
+    Internal.selectionCofactorCoefficient13Chunk5
+    Internal.selectionCofactorCoefficient13Chunk6
+    Internal.selectionCofactorCoefficient14
+    Internal.selectionCofactorCoefficient14Chunk0
+    Internal.selectionCofactorCoefficient14Chunk1
+    Internal.selectionCofactorCoefficient14Chunk2
+    Internal.selectionCofactorCoefficient14Chunk3
+    Internal.selectionCofactorCoefficient14Chunk4
+    Internal.selectionCofactorCoefficient14Chunk5
+    Internal.selectionCofactorCoefficient14Chunk6
+    Internal.selectionCofactorCoefficient15
+    Internal.selectionCofactorCoefficient15Chunk0
+    Internal.selectionCofactorCoefficient15Chunk1
+    Internal.selectionCofactorCoefficient15Chunk2
+    Internal.selectionCofactorCoefficient15Chunk3
+    Internal.selectionCofactorCoefficient15Chunk4
+    Internal.selectionCofactorCoefficient15Chunk5
+    Internal.selectionCofactorCoefficient15Chunk6
+    Internal.selectionCofactorCoefficient16
+    Internal.selectionCofactorCoefficient16Chunk0
+    Internal.selectionCofactorCoefficient16Chunk1
+    Internal.selectionCofactorCoefficient16Chunk2
+    Internal.selectionCofactorCoefficient16Chunk3
+    Internal.selectionCofactorCoefficient16Chunk4
+    Internal.selectionCofactorCoefficient16Chunk5
+    Internal.selectionCofactorCoefficient17
+    Internal.selectionCofactorCoefficient17Chunk0
+    Internal.selectionCofactorCoefficient17Chunk1
+    Internal.selectionCofactorCoefficient17Chunk2
+    Internal.selectionCofactorCoefficient17Chunk3
+    Internal.selectionCofactorCoefficient17Chunk4
+    Internal.selectionCofactorCoefficient17Chunk5
+    Internal.selectionCofactorCoefficient18
+    Internal.selectionCofactorCoefficient18Chunk0
+    Internal.selectionCofactorCoefficient18Chunk1
+    Internal.selectionCofactorCoefficient18Chunk2
+    Internal.selectionCofactorCoefficient18Chunk3
+    Internal.selectionCofactorCoefficient18Chunk4
+    Internal.selectionCofactorCoefficient18Chunk5
+    Internal.selectionCofactorCoefficient19
+    Internal.selectionCofactorCoefficient19Chunk0
+    Internal.selectionCofactorCoefficient19Chunk1
+    Internal.selectionCofactorCoefficient19Chunk2
+    Internal.selectionCofactorCoefficient19Chunk3
+    Internal.selectionCofactorCoefficient19Chunk4
+    Internal.selectionCofactorCoefficient20
+    Internal.selectionCofactorCoefficient20Chunk0
+    Internal.selectionCofactorCoefficient20Chunk1
+    Internal.selectionCofactorCoefficient20Chunk2
+    Internal.selectionCofactorCoefficient20Chunk3
+    Internal.selectionCofactorCoefficient20Chunk4
+    Internal.selectionCofactorCoefficient21
+    Internal.selectionCofactorCoefficient21Chunk0
+    Internal.selectionCofactorCoefficient21Chunk1
+    Internal.selectionCofactorCoefficient21Chunk2
+    Internal.selectionCofactorCoefficient21Chunk3
+    Internal.selectionCofactorCoefficient21Chunk4
+    Internal.selectionCofactorCoefficient22
+    Internal.selectionCofactorCoefficient22Chunk0
+    Internal.selectionCofactorCoefficient22Chunk1
+    Internal.selectionCofactorCoefficient22Chunk2
+    Internal.selectionCofactorCoefficient22Chunk3
+    Internal.selectionCofactorCoefficient23
+    Internal.selectionCofactorCoefficient23Chunk0
+    Internal.selectionCofactorCoefficient23Chunk1
+    Internal.selectionCofactorCoefficient23Chunk2
+    Internal.selectionCofactorCoefficient23Chunk3
+    Internal.selectionCofactorCoefficient24
+    Internal.selectionCofactorCoefficient24Chunk0
+    Internal.selectionCofactorCoefficient24Chunk1
+    Internal.selectionCofactorCoefficient24Chunk2
+    Internal.selectionCofactorCoefficient24Chunk3
+    Internal.selectionCofactorCoefficient25
+    Internal.selectionCofactorCoefficient25Chunk0
+    Internal.selectionCofactorCoefficient25Chunk1
+    Internal.selectionCofactorCoefficient25Chunk2
+    Internal.selectionCofactorCoefficient26
+    Internal.selectionCofactorCoefficient26Chunk0
+    Internal.selectionCofactorCoefficient26Chunk1
+    Internal.selectionCofactorCoefficient26Chunk2
+    Internal.selectionCofactorCoefficient27
+    Internal.selectionCofactorCoefficient27Chunk0
+    Internal.selectionCofactorCoefficient27Chunk1
+    Internal.selectionCofactorCoefficient27Chunk2
+    Internal.selectionCofactorCoefficient28
+    Internal.selectionCofactorCoefficient28Chunk0
+    Internal.selectionCofactorCoefficient28Chunk1
+    Internal.selectionCofactorCoefficient29
+    Internal.selectionCofactorCoefficient29Chunk0
+    Internal.selectionCofactorCoefficient29Chunk1
+    Internal.selectionCofactorCoefficient30
+    Internal.selectionCofactorCoefficient30Chunk0
+    Internal.selectionCofactorCoefficient30Chunk1
+    Internal.selectionCofactorCoefficient31
+    Internal.selectionCofactorCoefficient31Chunk0
+    Internal.selectionCofactorCoefficient32
+    Internal.selectionCofactorCoefficient32Chunk0
+    Internal.selectionCofactorCoefficient33
+    Internal.selectionCofactorCoefficient33Chunk0
+    selectionCofactorAt3
+  simp
+  ring
+
+private theorem selection_factor_at_3 (d : ℚ) :
+    selectionExpandedAt3 d =
+      64 ^ 3 * orderSevenDualKernelPolynomial d 3 *
+        selectionCofactorAt3 d := by
+  unfold selectionExpandedAt3 orderSevenDualKernelPolynomial selectionCofactorAt3
+  ring
+
+theorem selectionEvalAt3 (d : ℚ) :
+    Internal.SelectionEvalCertificate d 3 := by
+  unfold Internal.SelectionEvalCertificate
+  rw [selection_high_level_at_3, selection_cofactor_eval_at_3,
+    selection_factor_at_3]
+
+private def selectionNumeratorAt4 (d : ℚ) : ℚ :=
+  -36859543552 + d * (-87319904256 + d * (472509812736 + d * (-658472299584 + d *
+    (-1864958894208 + d * (12328532651520 + d * (-32337117683136 + d * (39252274183296 + d *
+    (46866956758272 + d * (-396933801710528 + d * (1276013250328896 + d *
+    (-2983175360852544))))))))))) + d ^ 12 * (5731050462939840 + d * (-9505101380559168 + d *
+    (13963462640151552 + d * (-18447322109278272 + d * (22128994921430400 + d *
+    (-24248009572183872 + d * (24352407046840192 + d * (-22453132269505920 + d *
+    (19009621280976192 + d * (-14755170034249152 + d * (10463602591215360 + d *
+    (-6746926639500288))))))))))) + d ^ 12 * (3932597150697792 + d * (-2056070154465216 + d *
+    (955133403487872 + d * (-392499948347072 + d * (145598619849984 + d * (-52138927544640 + d *
+    (19386457798080 + d * (-7193916465408 + d * (2329062731904 + d * (-611428475136 + d *
+    (152647575168 + d * (-49983465984))))))))))) + d ^ 12 * (17015736576 + d * (-3854074560 + d
+    * (481356864 + d * (-93870016 + d * (46979136 + d * (-10627008 + d * (326592 + d * (122496 +
+    d * (5184 + d * (64))))))))))))
+
+private def selectionDenominatorAt4 (d : ℚ) : ℚ :=
+  -43637538816 + d * (-120423251968 + d * (774516441088 + d * (-1752167976960 + d *
+    (643649656832 + d * (10427926418432 + d * (-42060345176064 + d * (91716589051904 + d *
+    (-117837167061504 + d * (4470473681152 + d * (456950146034560 + d *
+    (-1532367866040000))))))))))) + d ^ 12 * (3450746469402496 + d * (-6266319249219200 + d *
+    (9734912798015232 + d * (-13307374889897152 + d * (16291951894393280 + d *
+    (-18118855439248192 + d * (18564031254008128 + d * (-17792647187339840 + d *
+    (16196039049640448 + d * (-14159798731217088 + d * (11935821880708736 + d *
+    (-9662968941719168))))))))))) + d ^ 12 * (7450781327031232 + d * (-5424458171794368 + d *
+    (3703194212444288 + d * (-2356954792076928 + d * (1389878745814720 + d * (-754093543202880 +
+    d * (373865830007232 + d * (-168183800282176 + d * (67937748305472 + d * (-24191431836032 +
+    d * (7367653236608 + d * (-1835265394688))))))))))) + d ^ 12 * (348910030336 + d *
+    (-43984652800 + d * (2012328960 + d * (366352384 + d * (-54494208 + d * (-1356800 + d *
+    (144384 + d * (83968 + d * (6144)))))))))))
+
+private def selectionExpandedAt4 (d : ℚ) : ℚ :=
+  9823837402043576963374306557952 + d * (-228980138967300581308679432699904 + d *
+    (-5201673370432358418939413870411776 + d * (11160703702834668641320811622301696 + d *
+    (147860254886712399041270325851455488 + d * (-863302742089207200205282339784228864 + d *
+    (566706705066020224306645242679918592 + d * (13472732737410641273792834993309876224 + d *
+    (-71183787915543064643043765673458139136 + d * (130635325346956117519651611906970746880 + d
+    * (346723066036192913718509179642638499840 + d *
+    (-3200749549004271878166124876098986049536))))))))))) + d ^ 12 *
+    (10799889759213422409280279265215336939520 + d * (-15808494488359044447068367249252801052672
+    + d * (-33631525027352055803574203406499284779008 + d *
+    (294133345157348170928884218216788610252800 + d *
+    (-1013387342591415656484035646261316399398912 + d *
+    (2064205526050418464076328753937940429668352 + d *
+    (-1216638151325484505518370349465160894119936 + d *
+    (-9678015102034089924091427714134844602318848 + d *
+    (49226364458182124206270359280066854150733824 + d *
+    (-142576525780780965408642028274624873612181504 + d *
+    (282882475920869937364580009740969962739597312 + d *
+    (-308196267555090635111206945302260335311847424))))))))))) + d ^ 12 *
+    (-365486766155564004502934588217200439676633088 + d *
+    (3150536337708037486871934368309348319693111296 + d *
+    (-10582579085032272621261346761358608362698440704 + d *
+    (25678395249721894420115021372291529923421011968 + d *
+    (-48516940129941002241098514116755576068354605056 + d *
+    (66821406446432381764904082642762155458249883648 + d *
+    (-36023352374111442953266336286946709335071784960 + d *
+    (-155931157901948728640373040794184299335833878528 + d *
+    (741441586251590181484301833364560686388980744192 + d *
+    (-2139765105933489725235664027665000363687826948096 + d *
+    (5021913863158356846891800854184512558397539745792 + d *
+    (-10343739087555467627784459304224293178381534494720))))))))))) + d ^ 12 *
+    (19302288322601299944035969460231222247663019491328 + d *
+    (-33162596706467379689099775137511177156857621118976 + d *
+    (52908712266854069407406304619926588628030134419456 + d *
+    (-78700057434496533002955885043948565971184400203776 + d *
+    (109163154917462582525885387046953615356102092783616 + d *
+    (-140612512761623479099468690357764520539619721740288 + d *
+    (166358310877582040563662784225337086780943431630848 + d *
+    (-176302657211970087778694492794444207231764851589120 + d *
+    (157031347803722843053282460981698089911838111956992 + d *
+    (-92562101710264552777124999167477842162027211522048 + d *
+    (-34186910563439057230851004842402842359105980727296 + d *
+    (239279057430631349514015930594628470223628310413312))))))))))) + d ^ 12 *
+    (-535209561443360615737787027144228285748887114743808 + d *
+    (928270363401593893074804020641579777867201639088128 + d *
+    (-1416255872166231783321672561478659356929734432260096 + d *
+    (1986945791234208634798084482530013227963842445443072 + d *
+    (-2617731326261834081394725559784332556938002111397888 + d *
+    (3276606596759296056213162955253598595228535111024640 + d *
+    (-3924547350772762076949616946515505885766513094033408 + d *
+    (4519074963227239908978815602313224149761184342736896 + d *
+    (-5018593004641362243187353432980570405675565516062720 + d *
+    (5386925315126544758021018046065591451054024598224896 + d *
+    (-5597411837797624851225980280336214687627952166535168 + d *
+    (5635952350631660990168091641522034107110354908872704))))))))))) + d ^ 12 *
+    (-5502531200208137059890089923724894520485918306992128 + d *
+    (5210988872924934994073657086611248936667054014988288 + d *
+    (-4787088549619663608795310114502605922693734037716992 + d *
+    (4265203259746197367759602293547551336324300849020928 + d *
+    (-3684165163627103391911961089965755498087097746325504 + d *
+    (3082928242142775142053030762873253101881146891042816 + d *
+    (-2496679087549041951065531025028169237717952284327936 + d *
+    (1953897491147831991703024615564563814681158598787072 + d *
+    (-1474655821369723691965696808579598511735789228654592 + d *
+    (1070206070691129797224010201312618470828523203067904 + d *
+    (-743688799550819133509366043660823603809132062441472 + d *
+    (491648897261908023049736463518031026384113571987456))))))))))) + d ^ 12 *
+    (-305977916536356875541236912697487183200960189562880 + d *
+    (175918470474697419906958503019819505331982180024320 + d *
+    (-89842582473421215606375553131137986079624359575552 + d *
+    (36624151758566853028363062608652458283496215150592 + d *
+    (-6537124063449022126444550880833911844064933183488 + d *
+    (-8296561866994642700076242942137385822872148377600 + d *
+    (13823873544683366261906632354104403513000438267904 + d *
+    (-14229250497829296612102429724260232794633173467136 + d *
+    (12242131774837354906155778244599492245646476836864 + d *
+    (-9490129475231357308945909451998386357516376473600 + d *
+    (6832710395040367409430688798026175189600705970176 + d *
+    (-4638802728828760588387227154024313237274783383552))))))))))) + d ^ 12 *
+    (2995232537373834023877427549454416679000026120192 + d *
+    (-1848957195499253469573179175860157621015543545856 + d *
+    (1094774536345932566216922731443417399997265346560 + d *
+    (-623074023742044732039058724226372113832642084864 + d *
+    (341306773056906091978152936157151870584568938496 + d *
+    (-180081985057427417114258340029942161439205359616 + d *
+    (91550669364112300504410315762647326991258222592 + d *
+    (-44845272337188762298336379575311780825352110080 + d *
+    (21159612739956516228444079714446079980584566784 + d *
+    (-9611540232268726980790133434520482630022201344 + d *
+    (4199741350241560830636648609740009322743595008 + d *
+    (-1763349122138175763842658267965327320285708288))))))))))) + d ^ 12 *
+    (710508972191554354871654208241702031615590400 + d *
+    (-274298890780254940703812623625965065321316352 + d *
+    (101268481025066672040749832136335551064702976 + d *
+    (-35672929622095733881673479998747849979330560 + d *
+    (11957954080352538501619050607777166788919296 + d *
+    (-3802385716352872470930679718360580099145728 + d *
+    (1142639289438176163036466267822305912029184 + d *
+    (-323053420389854524817678563100269178781696 + d *
+    (85469636676262297091133575092860678307840 + d * (-21021110735832355054203294738243510599680
+    + d * (4766602257346298594583913585731059056640 + d *
+    (-985816600725741054465609964572860481536))))))))))) + d ^ 12 *
+    (183243339476647411465055690148467965952 + d * (-29958846795992573029671573747578175488 + d
+    * (4158617051569624922846425888739295232 + d * (-457437830534751765265928990829051904 + d *
+    (32889521380990670531058423206772736 + d * (-4115722584443482724888895553536 + d *
+    (-377731751651582632871949149405184 + d * (49971897713714807671892933083136 + d *
+    (-2736835720728737077660471787520 + d * (392727581756158456953286164480 + d *
+    (-225180869769247852653825753088 + d * (62670973840566671806293868544))))))))))) + d ^ 12 *
+    (-9548248294123844283567177728 + d * (667257746474399531769790464 + d *
+    (40485855222581459083067392 + d * (-14699630053980339003981824 + d *
+    (1358090441757887284117504 + d * (-11757391697799042039808 + d * (-6821186615171018915840 +
+    d * (223072780274561187840 + d * (12076246852354965504 + d * (4547649004854050816 + d *
+    (-327689571549052928 + d * (-56301080615059456))))))))))) + d ^ 12 * (1584109792002048 + d *
+    (344889942081536 + d * (16128634257408 + d * (579044114432 + d * (16752574464 + d *
+    (139722752 + d * (-262144)))))))))))))))))
+
+private def selectionCofactorAt4 (d : ℚ) : ℚ :=
+  53459294829558112452608 + d * (-1204347611596613054627840 + d * (-29325132234742703811723264 +
+    d * (39666217981127883663343616 + d * (878117205154580754813943808 + d *
+    (-4093071823454311492696932352 + d * (-1411493036971147993533120512 + d *
+    (79013418359747519531751153664 + d * (-325605199263292615689708094912 + d *
+    (331002001826871337514680547301 + d * (2697424280873382912414177319218 + d *
+    (-15941199440420495198387228600179))))))))))) + d ^ 12 * (41875098018247217109877988953359 +
+    d * (-25963490133731886514811570854598 + d * (-275596432807775287120578884803877 + d *
+    (1424921319071821154864804579816066 + d * (-3889907068472519797384325961425538 + d *
+    (5634124180491582473836528475340248 + d * (4487646978752422280383505138469832 + d *
+    (-57576302127509683894360500009601692 + d * (208786698162989313315068323967548320 + d *
+    (-495824242856294433805806957466271471 + d * (766888764673304875654322907546488300 + d *
+    (-254093909358309051200864394188120744))))))))))) + d ^ 12 *
+    (-3180098783053058439276235625420655119 + d * (13883078827325596277286631366388403738 + d *
+    (-38270668564533828879390606021657260099 + d * (81036203256298243496914883522394092258 + d *
+    (-132595703980489286624792231426954343349 + d * (139731362131565117094907246797718525871 + d
+    * (50956617211705773846977851569613862815 + d * (-787218355470405243043744644214541048200 +
+    d * (2749044375326052288764190320157781120831 + d *
+    (-7126162315400466791527527948661808044147 + d * (15815012862975757441716032533286965232252
+    + d * (-31595860402529329336117399385554934819407))))))))))) + d ^ 12 *
+    (58233461584753639948422110324238473880072 + d *
+    (-100436210307498116707023246175147910984179 + d *
+    (163615114883268634610486506445167404215208 + d *
+    (-253408576803383719508042124426978262449175 + d *
+    (374980146654235622987534334392342856828110 + d *
+    (-532147443844746729888309439352428939057633 + d *
+    (726450584560998301576085023122151882707407 + d *
+    (-956305850031036629185040294349832575658927 + d *
+    (1216404761891139706722653180271614883921001 + d *
+    (-1497504226784860093401781020519249842907813 + d *
+    (1786709553435906318151059586497915142806301 + d *
+    (-2068284256098931118202090410783068572995273))))))))))) + d ^ 12 *
+    (2324938826270878067425139925414958257977567 + d *
+    (-2539468475823375319303991349240927242725661 + d *
+    (2696541667899846231151798410657074701013134 + d *
+    (-2784400155056117782772301533601216416123043 + d *
+    (2796226704263793731295892121702245831990879 + d *
+    (-2730972620187076717816786940994989002755040 + d *
+    (2593510618679705713809507183207288496857519 + d *
+    (-2394079252650862965318935164239310161203644 + d *
+    (2147096135373488554038245062625203547261865 + d *
+    (-1869517835444406029363784538137324410280326 + d *
+    (1578994019545829149646997293384115008112219 + d *
+    (-1292087217251069006653699024125294093840791))))))))))) + d ^ 12 *
+    (1022802580505334651291071398757806991793316 + d *
+    (-781601345426950649822980369669574810848067 + d *
+    (574974795245499240208835758438010845551860 + d *
+    (-405555033791533641494768554771558184537619 + d *
+    (272656222193415371512925098440003144091270 + d *
+    (-173089696831839076367294397863391204346429 + d *
+    (102083479473404915343907580336912267690721 + d *
+    (-54156703651357191141467053631397526978831 + d * (23841574255829928084061532425540400364985
+    + d * (-6196362154253508258407139425797602895434 + d *
+    (-2899426158282658796887345594113137464631 + d *
+    (6640488603992908247152055256889802003692))))))))))) + d ^ 12 *
+    (-7333720527419421922118396166137836777514 + d * (6524564892295000628532103940415860570411 +
+    d * (-5162673250608118100121566115520737742423 + d *
+    (3769593499970628501617801203186295169950 + d * (-2585074086985148163111285612199053800510 +
+    d * (1681176593589479984051976997780848097361 + d *
+    (-1042825558036241597906708467208855939188 + d * (619174932334085228984925877135064651270 +
+    d * (-352681327529542842909012516066042381384 + d * (192973753222589061336621302895093564115
+    + d * (-101500034141025663719581081351984130015 + d *
+    (51331373778209883555582238952657692797))))))))))) + d ^ 12 *
+    (-24955950118034990424522909192583835892 + d * (11657786375139743356646493073592273782 + d *
+    (-5228118049430049697354678613511825858 + d * (2248330054882891180829423203673245976 + d *
+    (-925792661491647357692480675135453090 + d * (364336392264850772332470003561939817 + d *
+    (-136723994544159172583666827492937548 + d * (48792269380794710337615684481557276 + d *
+    (-16503801816140483269627058948991289 + d * (5269918411872497207409877740819936 + d *
+    (-1580874586157567856003347034647117 + d * (442878714806982587838712741671983))))))))))) + d
+    ^ 12 * (-115025612124664086871896178883846 + d * (27446323142009041242980136711099 + d *
+    (-5947879726757395530467055949302 + d * (1153240047034014960272837997206 + d *
+    (-196009858736119552735013344642 + d * (28346829828576106931703890011 + d *
+    (-3326172857086915853613668290 + d * (290516457991692335589621988 + d *
+    (-15775347500188960420886009 + d * (471972500521665130994487 + d *
+    (-109626838681973229481659 + d * (24418131778358851413585))))))))))) + d ^ 12 *
+    (1472532546168350915899 + d * (-1750843892607123542694 + d * (414737800678238740622 + d *
+    (-52132002152797487553 + d * (2978411654770329982 + d * (120610822111894178 + d *
+    (-31127115163467604 + d * (1308074571582176 + d * (15929613466760 + d * (10201751618141 + d
+    * (-655974050857 + d * (-176243714059))))))))))) + d ^ 12 * (4988498479 + d * (1233711012 +
+    d * (58451581 + d * (2049658 + d * (62247 + d * (536 + d * (-1))))))))))))))))
+
+private theorem selection_high_level_at_4 (d : ℚ) :
+    orderSevenSelectionPolynomial d 4 = selectionExpandedAt4 d := by
+  have hA : pointTateParameterUnivariateNumerator (orderSevenQuotient d) 4 =
+      selectionNumeratorAt4 d := by
+    unfold pointTateParameterUnivariateNumerator
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionNumeratorAt4
+    ring
+  have hB : pointTateParameterUnivariateDenominator (orderSevenQuotient d) 4 =
+      selectionDenominatorAt4 d := by
+    unfold pointTateParameterUnivariateDenominator
+      pointTateGammaUnivariateCleared
+      pointTateAlphaUnivariateCleared
+      pointTateCompletedTangentNumerator
+      Doubling.completedCubic
+      orderSevenQuotient
+      orderSevenB
+      orderSevenC
+      WeierstrassCurve.b₂
+      WeierstrassCurve.b₄
+      WeierstrassCurve.b₆
+      selectionDenominatorAt4
+    ring
+  simp only [orderSevenSelectionPolynomial]
+  rw [hA, hB]
+  unfold orderSevenParameterHauptmodulNumerator orderSevenParameterCubic
+    selectionNumeratorAt4 selectionDenominatorAt4 selectionExpandedAt4
+  ring
+
+private theorem selection_cofactor_eval_at_4 (d : ℚ) :
+    (selectionCofactor d).eval 4 = selectionCofactorAt4 d := by
+  simp only [selectionCofactor, selectionCofactorData,
+    Polynomial.eval_map, Polynomial.eval₂_add, Polynomial.eval₂_mul,
+    Polynomial.eval₂_C, Polynomial.eval₂_X]
+  unfold
+    Internal.selectionCofactorCoefficient0
+    Internal.selectionCofactorCoefficient0Chunk0
+    Internal.selectionCofactorCoefficient0Chunk1
+    Internal.selectionCofactorCoefficient0Chunk2
+    Internal.selectionCofactorCoefficient0Chunk3
+    Internal.selectionCofactorCoefficient0Chunk4
+    Internal.selectionCofactorCoefficient0Chunk5
+    Internal.selectionCofactorCoefficient0Chunk6
+    Internal.selectionCofactorCoefficient0Chunk7
+    Internal.selectionCofactorCoefficient0Chunk8
+    Internal.selectionCofactorCoefficient0Chunk9
+    Internal.selectionCofactorCoefficient0Chunk10
+    Internal.selectionCofactorCoefficient1
+    Internal.selectionCofactorCoefficient1Chunk0
+    Internal.selectionCofactorCoefficient1Chunk1
+    Internal.selectionCofactorCoefficient1Chunk2
+    Internal.selectionCofactorCoefficient1Chunk3
+    Internal.selectionCofactorCoefficient1Chunk4
+    Internal.selectionCofactorCoefficient1Chunk5
+    Internal.selectionCofactorCoefficient1Chunk6
+    Internal.selectionCofactorCoefficient1Chunk7
+    Internal.selectionCofactorCoefficient1Chunk8
+    Internal.selectionCofactorCoefficient1Chunk9
+    Internal.selectionCofactorCoefficient1Chunk10
+    Internal.selectionCofactorCoefficient2
+    Internal.selectionCofactorCoefficient2Chunk0
+    Internal.selectionCofactorCoefficient2Chunk1
+    Internal.selectionCofactorCoefficient2Chunk2
+    Internal.selectionCofactorCoefficient2Chunk3
+    Internal.selectionCofactorCoefficient2Chunk4
+    Internal.selectionCofactorCoefficient2Chunk5
+    Internal.selectionCofactorCoefficient2Chunk6
+    Internal.selectionCofactorCoefficient2Chunk7
+    Internal.selectionCofactorCoefficient2Chunk8
+    Internal.selectionCofactorCoefficient2Chunk9
+    Internal.selectionCofactorCoefficient3
+    Internal.selectionCofactorCoefficient3Chunk0
+    Internal.selectionCofactorCoefficient3Chunk1
+    Internal.selectionCofactorCoefficient3Chunk2
+    Internal.selectionCofactorCoefficient3Chunk3
+    Internal.selectionCofactorCoefficient3Chunk4
+    Internal.selectionCofactorCoefficient3Chunk5
+    Internal.selectionCofactorCoefficient3Chunk6
+    Internal.selectionCofactorCoefficient3Chunk7
+    Internal.selectionCofactorCoefficient3Chunk8
+    Internal.selectionCofactorCoefficient3Chunk9
+    Internal.selectionCofactorCoefficient4
+    Internal.selectionCofactorCoefficient4Chunk0
+    Internal.selectionCofactorCoefficient4Chunk1
+    Internal.selectionCofactorCoefficient4Chunk2
+    Internal.selectionCofactorCoefficient4Chunk3
+    Internal.selectionCofactorCoefficient4Chunk4
+    Internal.selectionCofactorCoefficient4Chunk5
+    Internal.selectionCofactorCoefficient4Chunk6
+    Internal.selectionCofactorCoefficient4Chunk7
+    Internal.selectionCofactorCoefficient4Chunk8
+    Internal.selectionCofactorCoefficient4Chunk9
+    Internal.selectionCofactorCoefficient5
+    Internal.selectionCofactorCoefficient5Chunk0
+    Internal.selectionCofactorCoefficient5Chunk1
+    Internal.selectionCofactorCoefficient5Chunk2
+    Internal.selectionCofactorCoefficient5Chunk3
+    Internal.selectionCofactorCoefficient5Chunk4
+    Internal.selectionCofactorCoefficient5Chunk5
+    Internal.selectionCofactorCoefficient5Chunk6
+    Internal.selectionCofactorCoefficient5Chunk7
+    Internal.selectionCofactorCoefficient5Chunk8
+    Internal.selectionCofactorCoefficient5Chunk9
+    Internal.selectionCofactorCoefficient6
+    Internal.selectionCofactorCoefficient6Chunk0
+    Internal.selectionCofactorCoefficient6Chunk1
+    Internal.selectionCofactorCoefficient6Chunk2
+    Internal.selectionCofactorCoefficient6Chunk3
+    Internal.selectionCofactorCoefficient6Chunk4
+    Internal.selectionCofactorCoefficient6Chunk5
+    Internal.selectionCofactorCoefficient6Chunk6
+    Internal.selectionCofactorCoefficient6Chunk7
+    Internal.selectionCofactorCoefficient6Chunk8
+    Internal.selectionCofactorCoefficient7
+    Internal.selectionCofactorCoefficient7Chunk0
+    Internal.selectionCofactorCoefficient7Chunk1
+    Internal.selectionCofactorCoefficient7Chunk2
+    Internal.selectionCofactorCoefficient7Chunk3
+    Internal.selectionCofactorCoefficient7Chunk4
+    Internal.selectionCofactorCoefficient7Chunk5
+    Internal.selectionCofactorCoefficient7Chunk6
+    Internal.selectionCofactorCoefficient7Chunk7
+    Internal.selectionCofactorCoefficient7Chunk8
+    Internal.selectionCofactorCoefficient8
+    Internal.selectionCofactorCoefficient8Chunk0
+    Internal.selectionCofactorCoefficient8Chunk1
+    Internal.selectionCofactorCoefficient8Chunk2
+    Internal.selectionCofactorCoefficient8Chunk3
+    Internal.selectionCofactorCoefficient8Chunk4
+    Internal.selectionCofactorCoefficient8Chunk5
+    Internal.selectionCofactorCoefficient8Chunk6
+    Internal.selectionCofactorCoefficient8Chunk7
+    Internal.selectionCofactorCoefficient8Chunk8
+    Internal.selectionCofactorCoefficient9
+    Internal.selectionCofactorCoefficient9Chunk0
+    Internal.selectionCofactorCoefficient9Chunk1
+    Internal.selectionCofactorCoefficient9Chunk2
+    Internal.selectionCofactorCoefficient9Chunk3
+    Internal.selectionCofactorCoefficient9Chunk4
+    Internal.selectionCofactorCoefficient9Chunk5
+    Internal.selectionCofactorCoefficient9Chunk6
+    Internal.selectionCofactorCoefficient9Chunk7
+    Internal.selectionCofactorCoefficient10
+    Internal.selectionCofactorCoefficient10Chunk0
+    Internal.selectionCofactorCoefficient10Chunk1
+    Internal.selectionCofactorCoefficient10Chunk2
+    Internal.selectionCofactorCoefficient10Chunk3
+    Internal.selectionCofactorCoefficient10Chunk4
+    Internal.selectionCofactorCoefficient10Chunk5
+    Internal.selectionCofactorCoefficient10Chunk6
+    Internal.selectionCofactorCoefficient10Chunk7
+    Internal.selectionCofactorCoefficient11
+    Internal.selectionCofactorCoefficient11Chunk0
+    Internal.selectionCofactorCoefficient11Chunk1
+    Internal.selectionCofactorCoefficient11Chunk2
+    Internal.selectionCofactorCoefficient11Chunk3
+    Internal.selectionCofactorCoefficient11Chunk4
+    Internal.selectionCofactorCoefficient11Chunk5
+    Internal.selectionCofactorCoefficient11Chunk6
+    Internal.selectionCofactorCoefficient11Chunk7
+    Internal.selectionCofactorCoefficient12
+    Internal.selectionCofactorCoefficient12Chunk0
+    Internal.selectionCofactorCoefficient12Chunk1
+    Internal.selectionCofactorCoefficient12Chunk2
+    Internal.selectionCofactorCoefficient12Chunk3
+    Internal.selectionCofactorCoefficient12Chunk4
+    Internal.selectionCofactorCoefficient12Chunk5
+    Internal.selectionCofactorCoefficient12Chunk6
+    Internal.selectionCofactorCoefficient13
+    Internal.selectionCofactorCoefficient13Chunk0
+    Internal.selectionCofactorCoefficient13Chunk1
+    Internal.selectionCofactorCoefficient13Chunk2
+    Internal.selectionCofactorCoefficient13Chunk3
+    Internal.selectionCofactorCoefficient13Chunk4
+    Internal.selectionCofactorCoefficient13Chunk5
+    Internal.selectionCofactorCoefficient13Chunk6
+    Internal.selectionCofactorCoefficient14
+    Internal.selectionCofactorCoefficient14Chunk0
+    Internal.selectionCofactorCoefficient14Chunk1
+    Internal.selectionCofactorCoefficient14Chunk2
+    Internal.selectionCofactorCoefficient14Chunk3
+    Internal.selectionCofactorCoefficient14Chunk4
+    Internal.selectionCofactorCoefficient14Chunk5
+    Internal.selectionCofactorCoefficient14Chunk6
+    Internal.selectionCofactorCoefficient15
+    Internal.selectionCofactorCoefficient15Chunk0
+    Internal.selectionCofactorCoefficient15Chunk1
+    Internal.selectionCofactorCoefficient15Chunk2
+    Internal.selectionCofactorCoefficient15Chunk3
+    Internal.selectionCofactorCoefficient15Chunk4
+    Internal.selectionCofactorCoefficient15Chunk5
+    Internal.selectionCofactorCoefficient15Chunk6
+    Internal.selectionCofactorCoefficient16
+    Internal.selectionCofactorCoefficient16Chunk0
+    Internal.selectionCofactorCoefficient16Chunk1
+    Internal.selectionCofactorCoefficient16Chunk2
+    Internal.selectionCofactorCoefficient16Chunk3
+    Internal.selectionCofactorCoefficient16Chunk4
+    Internal.selectionCofactorCoefficient16Chunk5
+    Internal.selectionCofactorCoefficient17
+    Internal.selectionCofactorCoefficient17Chunk0
+    Internal.selectionCofactorCoefficient17Chunk1
+    Internal.selectionCofactorCoefficient17Chunk2
+    Internal.selectionCofactorCoefficient17Chunk3
+    Internal.selectionCofactorCoefficient17Chunk4
+    Internal.selectionCofactorCoefficient17Chunk5
+    Internal.selectionCofactorCoefficient18
+    Internal.selectionCofactorCoefficient18Chunk0
+    Internal.selectionCofactorCoefficient18Chunk1
+    Internal.selectionCofactorCoefficient18Chunk2
+    Internal.selectionCofactorCoefficient18Chunk3
+    Internal.selectionCofactorCoefficient18Chunk4
+    Internal.selectionCofactorCoefficient18Chunk5
+    Internal.selectionCofactorCoefficient19
+    Internal.selectionCofactorCoefficient19Chunk0
+    Internal.selectionCofactorCoefficient19Chunk1
+    Internal.selectionCofactorCoefficient19Chunk2
+    Internal.selectionCofactorCoefficient19Chunk3
+    Internal.selectionCofactorCoefficient19Chunk4
+    Internal.selectionCofactorCoefficient20
+    Internal.selectionCofactorCoefficient20Chunk0
+    Internal.selectionCofactorCoefficient20Chunk1
+    Internal.selectionCofactorCoefficient20Chunk2
+    Internal.selectionCofactorCoefficient20Chunk3
+    Internal.selectionCofactorCoefficient20Chunk4
+    Internal.selectionCofactorCoefficient21
+    Internal.selectionCofactorCoefficient21Chunk0
+    Internal.selectionCofactorCoefficient21Chunk1
+    Internal.selectionCofactorCoefficient21Chunk2
+    Internal.selectionCofactorCoefficient21Chunk3
+    Internal.selectionCofactorCoefficient21Chunk4
+    Internal.selectionCofactorCoefficient22
+    Internal.selectionCofactorCoefficient22Chunk0
+    Internal.selectionCofactorCoefficient22Chunk1
+    Internal.selectionCofactorCoefficient22Chunk2
+    Internal.selectionCofactorCoefficient22Chunk3
+    Internal.selectionCofactorCoefficient23
+    Internal.selectionCofactorCoefficient23Chunk0
+    Internal.selectionCofactorCoefficient23Chunk1
+    Internal.selectionCofactorCoefficient23Chunk2
+    Internal.selectionCofactorCoefficient23Chunk3
+    Internal.selectionCofactorCoefficient24
+    Internal.selectionCofactorCoefficient24Chunk0
+    Internal.selectionCofactorCoefficient24Chunk1
+    Internal.selectionCofactorCoefficient24Chunk2
+    Internal.selectionCofactorCoefficient24Chunk3
+    Internal.selectionCofactorCoefficient25
+    Internal.selectionCofactorCoefficient25Chunk0
+    Internal.selectionCofactorCoefficient25Chunk1
+    Internal.selectionCofactorCoefficient25Chunk2
+    Internal.selectionCofactorCoefficient26
+    Internal.selectionCofactorCoefficient26Chunk0
+    Internal.selectionCofactorCoefficient26Chunk1
+    Internal.selectionCofactorCoefficient26Chunk2
+    Internal.selectionCofactorCoefficient27
+    Internal.selectionCofactorCoefficient27Chunk0
+    Internal.selectionCofactorCoefficient27Chunk1
+    Internal.selectionCofactorCoefficient27Chunk2
+    Internal.selectionCofactorCoefficient28
+    Internal.selectionCofactorCoefficient28Chunk0
+    Internal.selectionCofactorCoefficient28Chunk1
+    Internal.selectionCofactorCoefficient29
+    Internal.selectionCofactorCoefficient29Chunk0
+    Internal.selectionCofactorCoefficient29Chunk1
+    Internal.selectionCofactorCoefficient30
+    Internal.selectionCofactorCoefficient30Chunk0
+    Internal.selectionCofactorCoefficient30Chunk1
+    Internal.selectionCofactorCoefficient31
+    Internal.selectionCofactorCoefficient31Chunk0
+    Internal.selectionCofactorCoefficient32
+    Internal.selectionCofactorCoefficient32Chunk0
+    Internal.selectionCofactorCoefficient33
+    Internal.selectionCofactorCoefficient33Chunk0
+    selectionCofactorAt4
+  simp
+  ring
+
+private theorem selection_factor_at_4 (d : ℚ) :
+    selectionExpandedAt4 d =
+      64 ^ 3 * orderSevenDualKernelPolynomial d 4 *
+        selectionCofactorAt4 d := by
+  unfold selectionExpandedAt4 orderSevenDualKernelPolynomial selectionCofactorAt4
+  ring
+
+theorem selectionEvalAt4 (d : ℚ) :
+    Internal.SelectionEvalCertificate d 4 := by
+  unfold Internal.SelectionEvalCertificate
+  rw [selection_high_level_at_4, selection_cofactor_eval_at_4,
+    selection_factor_at_4]
+
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal
