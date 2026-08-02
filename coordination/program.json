@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421564,
+    "integrated_lean_lines": 1421706,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -63,8 +63,8 @@
     "earned_points": 50,
     "percent": 5.0,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 131,
-    "ordinary_claimable_points": 39,
+    "claimable_open_points": 146,
+    "ordinary_claimable_points": 54,
     "research_open_points": 92,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
@@ -750,8 +750,8 @@
       "title": "Degree-zero product formula on a proper smooth curve",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "blocked",
-      "readiness": "statement_only",
+      "status": "open",
+      "readiness": "compiled",
       "weight_points": 15,
       "risk": "extreme",
       "backend": "tauceti",
@@ -773,12 +773,33 @@
         "integrated": false,
         "credit_percent": 0
       },
-      "interface": {
-        "claimable": false,
-        "reason_not_claimable": "It depends on the upstream order-system instance and the pin migration.",
-        "proposed_declaration": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero",
-        "proposed_signature": "(pi : X -> Spec K) [IsProper pi] [SmoothOfRelativeDimension 1 pi] : (orderSystem X).IsWeightedDegreeZero (fun x => (pi.residueDegree x : Int))",
-        "acceptance": "The exact consumer is Tau Ceti's weighted PicZero and Abel-Jacobi divisor-class API."
+      "challenge": {
+        "claimable": true,
+        "module": "Challenge.CurveProductFormula",
+        "file": "Challenge/CurveProductFormula.lean",
+        "declaration": "MazurTheorem.Challenge.divisorProductFormula",
+        "destination_module": "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree",
+        "destination_declaration": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero",
+        "signature": "theorem divisorProductFormula\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    S.IsWeightedDegreeZero (fun x ↦ (π.residueDegree x : ℤ)) := sorry",
+        "imports": [
+          "Mathlib.AlgebraicGeometry.Morphisms.Proper",
+          "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Principal.Basic",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
+        ],
+        "informal": "For the geometric order system of a smooth proper integral curve, every principal divisor has residue-degree-weighted degree zero.",
+        "recommended_route": "Prove the residue-degree-weighted product formula for Mathlib's orders of vanishing, then use the checked weighted PicZero transport into the scheme Picard group.",
+        "consumer_declarations": [
+          "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero"
+        ],
+        "estimated_lines": {"min": 500, "max": 3000},
+        "skills": [
+          "algebraic geometry",
+          "proper curves",
+          "orders of vanishing",
+          "product formula"
+        ]
       }
     },
     {
@@ -859,7 +880,21 @@
           "kind": "structure",
           "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary",
           "state": "contract",
-          "description": "Record the exact forward tensor-inverse comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity.",
+          "description": "Record the exact forward tensor-inverse comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity; checked theorems derive principal line-bundle triviality and the full Picard comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_lineBundle_iso_iff_linearlyEquivalent",
+          "state": "contract",
+          "description": "Classify isomorphism of the chosen divisor line bundles exactly by linear equivalence of divisors.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.picardComparison",
+          "state": "contract",
+          "description": "Derive the full local-rank-one/tensor-unit Picard comparison from an exact divisor dictionary.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         },
         {
@@ -918,8 +953,8 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, attach their Picard classes through tensor inverses, and prove that divisor classes are equivalent to the scheme Picard group. The affine tilde-localization theorem is already checked.",
-        "recommended_route": "Construct tensor inverses for locally free rank-one sheaves, glue inverse fractional ideals across affine charts, identify principal divisors with the trivial bundle, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization and affine Dedekind standard-sign equivalence.",
+        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, attach their Picard classes through tensor inverses, and prove that divisor classes are equivalent to the scheme Picard group. The affine tilde-localization theorem, principal-line-bundle consequence, and reverse Picard comparison are already checked.",
+        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, glue inverse fractional-ideal tildes across those charts, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization and affine Dedekind standard-sign equivalence.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard"
         ],
@@ -1165,6 +1200,20 @@
           "name": "TauCeti.AlgebraicGeometry.PoincareBundle",
           "state": "proposed",
           "description": "Package the normalized universal line bundle on the curve times its Picard space."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero",
+          "state": "contract",
+          "description": "Transport the divisor degree-zero subgroup to an absolute subgroup of the scheme Picard group.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZeroRepresentative",
+          "state": "contract",
+          "description": "Choose a Tau Ceti invertible-sheaf representative for every absolute degree-zero Picard class.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
         }
       ],
       "depends_on": [

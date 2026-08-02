@@ -89,6 +89,40 @@ noncomputable def picZeroEquiv
     S.picZero w h ≃+ d.degreeZero w h :=
   PicardGroup.picZeroEquiv S w h d.classEquivalence
 
+/-- A chosen Tau Ceti invertible-sheaf representative of an absolute degree-zero Picard class.
+This consumes the full Picard comparison forced by the exact divisor dictionary. -/
+noncomputable def degreeZeroRepresentative
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (p : d.degreeZero w h) : InvertibleSheaf X :=
+  d.picardComparison.representative (Additive.toMul p.1)
+
+/-- The chosen degree-zero line bundle represents the underlying Picard class. -/
+@[simp]
+lemma degreeZeroRepresentative_toPic
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (p : d.degreeZero w h) :
+    Additive.ofMul
+      (d.picardComparison.toPic (d.degreeZeroRepresentative w h p)) = p.1 := by
+  change Additive.ofMul
+    (d.picardComparison.toPic
+      (d.picardComparison.representative (Additive.toMul p.1))) = p.1
+  rw [PicardComparison.toPic_representative]
+  rfl
+
+/-- The Picard class of the chosen representative remains in the transported degree-zero
+subgroup. -/
+lemma degreeZeroRepresentative_mem
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (p : d.degreeZero w h) :
+    Additive.ofMul
+        (d.picardComparison.toPic (d.degreeZeroRepresentative w h p)) ∈
+      d.degreeZero w h := by
+  rw [d.degreeZeroRepresentative_toPic w h p]
+  exact p.property
+
 /-- Under an exact dictionary, a divisor represents an absolute degree-zero Picard class
 exactly when its weighted degree vanishes. -/
 lemma divisorToPic_mem_degreeZero_iff

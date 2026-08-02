@@ -25,11 +25,14 @@ challenge bridge `MazurTauCetiChallenge.finite_support_orderAt`; it instantiates
 Tau Ceti's existing `OrderSystem`.
 :::
 
-:::theorem "MT-TC-A2-PRODUCT-FORMULA" (parent := "shared_geometry") (uses := "MT-TC-A1-ORDER-SUPPORT") (tags := "upstream, blocked, statement-only, tau-ceti") (priority := "high") (effort := "large")
+:::theorem "MT-TC-A2-PRODUCT-FORMULA" (parent := "shared_geometry") (uses := "MT-TC-A1-ORDER-SUPPORT") (tags := "upstream, open, compiled, tau-ceti") (priority := "high") (effort := "large")
 *Degree-zero product formula.* Every principal divisor on a proper smooth
 geometrically integral curve has residue-degree-weighted degree zero.
 
-*Status:* `blocked`.
+*Status:* `open`; *scope:* exact compiled challenge contract. The bridge
+`MazurTheorem.Challenge.divisorProductFormula` pins the abstract order system to
+scheme-theoretic orders of vanishing and states the residue-degree-weighted result consumed by
+the checked absolute degree-zero Picard API.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -53,13 +56,14 @@ and identify divisor classes with line bundles on a smooth curve.
 
 *Status:* `research_open`; *scope:* exact compiled existence-and-equivalence challenge
 contract. The bridge `MazurTheorem.Challenge.divisorLineBundleDictionary`
-contains the remaining global dictionary: chosen line-bundle representatives,
-principal triviality, exact principal kernel, Picard surjectivity, and the resulting
-divisor-class/Picard equivalence. Checked code proves the basic-open tilde restriction
-isomorphism and derives global tilde invertibility from Mathlib's finite
-free-localization cover and Tau Ceti local trivializations. The checked local API also
-supplies the unconditional affine Dedekind class equivalence, its actual line bundles,
-and an absolute degree-zero D1 consumer; none is credited as the missing global result.
+contains the remaining global dictionary: chosen line-bundle representatives, exact principal
+kernel, Picard surjectivity, and the resulting divisor-class/Picard equivalence. Checked code
+derives principal-divisor line-bundle triviality and the full local-rank-one/tensor-unit Picard
+comparison from those data. It also proves the basic-open tilde restriction isomorphism and
+derives global tilde invertibility from Mathlib's finite free-localization cover and Tau Ceti
+local trivializations. The checked local API supplies the unconditional affine Dedekind class
+equivalence, its actual line bundles, and an absolute degree-zero D1 consumer; none is credited
+as the missing global result.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -71,7 +75,14 @@ standard-sign construction checked in the affine API.
   Identify Weil divisors modulo principal divisors with the line-bundle Picard group.
 * `structure` (`contract`): `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary`
   Record the exact forward tensor-inverse comparison, chosen line-bundle representatives,
-  principal kernel, and surjectivity needed for the global equivalence.
+  principal kernel, and surjectivity needed for the global equivalence; derive principal
+  line-bundle triviality and the reverse Picard comparison in checked code.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_lineBundle_iso_iff_linearlyEquivalent`
+  Detect linear equivalence exactly by isomorphism of the chosen divisor line bundles.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.picardComparison`
+  Recover the full equivalence between local rank-one sheaves and tensor units.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality`
   Package the checked restriction isomorphism on a free basic-open localization.
@@ -160,6 +171,11 @@ degree-zero subfunctor, rigidification, and Poincaré line bundle.
 
 *Status:* `blocked`.
 
+The checked A3 downstream adapter already transports weighted divisor degree zero to an
+absolute subgroup of `Scheme.Pic` and chooses a Tau Ceti invertible-sheaf representative for
+each of its elements. This is a genuine absolute precursor only; it does not claim the relative
+fppf functor or representability.
+
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.RelativePicardFunctor`
@@ -168,6 +184,12 @@ degree-zero subfunctor, rigidification, and Poincaré line bundle.
   Define the degree-zero subfunctor used to construct the relative Jacobian.
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PoincareBundle`
   Package the normalized universal line bundle on the curve times its Picard space.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero`
+  Transport weighted degree-zero divisor classes to the absolute scheme Picard group.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZeroRepresentative`
+  Choose an actual invertible-sheaf representative for every transported degree-zero class.
 :::
 
 :::theorem "MT-TC-D2-PICARD-REPRESENTABILITY" (parent := "shared_geometry") (uses := "MT-TC-B2-RR-SERRE, MT-TC-C2-SYMMETRIC-POWERS, MT-TC-D1-PICARD-FUNCTOR") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
