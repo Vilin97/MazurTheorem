@@ -40,15 +40,17 @@ ring conditions, global curve divisor gluing, and global
 divisor-class/Picard surjectivity. The chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
 Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
-plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` isolates the missing
-implication from the affine smooth-relative-dimension-one ring map to those two conditions, and
-its checked consumer constructs the required order compatibility. The local divisor-to-Picard
+plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` is a map-parameterized
+predicate packaging those two consequences. Its checked consumer assumes the predicate on the
+concrete affine `appLE` map and constructs the required order compatibility; no universal
+smooth-over-arbitrary-base implication is asserted. The local divisor-to-Picard
 map has exactly the principal divisors as kernel, descends injectively to chart divisor classes,
 and identifies them with its scheme-Picard range. `AffineTilde.TildeReflectsInvertibility` is a
 checked conditional interface, not a solved
 existence result or separately registered Challenge declaration; discharging it remains part of
 this unchanged global A3 Challenge. The
-residue-degree product formula remains independently isolated by the registered A2 Challenge.
+residue-degree product formula remains the separately registered A2 prerequisite in the roadmap;
+the affine and local A3 modules here do not import it.
 The companion module `CurveAffineChart` isolates the upstream-compatible sufficient input
 `PicardIso.PullbackMonoidalData`: given strong monoidality of sheaf pullback, checked code
 transports the divisor and class maps to `Pic(U)` while preserving the exact principal kernel

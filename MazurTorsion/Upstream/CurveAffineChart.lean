@@ -497,7 +497,7 @@ theorem affineOpen_isDedekindDomain_iff
 
 /-- The missing commutative-algebra implication for one affine smooth-relative-curve map. This
 map-specific boundary asks only for the dimension and normality consequences actually consumed
-by the chart divisor API. -/
+by the chart divisor API; it does not assert the implication uniformly over arbitrary bases. -/
 def SmoothRelativeCurveRingConditions
     (R A : Type u) [CommRing R] [CommRing A] (f : R →+* A) : Prop :=
   RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →

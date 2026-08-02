@@ -95,9 +95,10 @@ codimension-one points lying in the chart. It now proves equality of the Dedekin
 order homomorphisms from the Dedekind-domain instance, constructing
 `AffineChart.DedekindOrderCompatibility` automatically. The remaining coordinate-ring boundary
 is exactly dimension at most one plus integral closedness.
-`AffineChart.SmoothRelativeCurveRingConditions` isolates mapwise the missing implication from
-smooth relative dimension one to these conditions; its checked consumer constructs the required
-Dedekind order compatibility. Whole principal divisors are related by reindexing and the induced
+`AffineChart.SmoothRelativeCurveRingConditions` packages these consequences as a conditional
+mapwise predicate. Its checked consumer assumes that predicate on the concrete affine `appLE`
+map and constructs the required Dedekind order compatibility; no universal implication over an
+arbitrary base is asserted. Whole principal divisors are related by reindexing and the induced
 local divisor-to-scheme-Picard map has exactly those principal divisors as kernel. It therefore
 descends injectively to chart divisor classes and identifies them with its scheme-Picard range.
 Pullback
@@ -154,7 +155,8 @@ proper-curve gluing and Picard surjectivity remain open.
 and the remaining cross-chart localization predicates are precise compiled conditional
 boundaries subsumed by the unchanged registered A3 Challenge rather than separately registered
 Challenge declarations. Their discharge remains part of that Challenge. The weighted product
-formula remains independently isolated by the registered A2 Challenge. Artifact state
+formula remains the separately registered A2 prerequisite in the roadmap; the affine and local
+A3 modules here do not import it. Artifact state
 `contract` records a compiled conditional API and does not assert that these predicates are
 inhabited or that A3 is solved.
 
@@ -284,8 +286,8 @@ inhabited or that A3 is solved.
   closedness; domain and Noetherianity already follow from the ambient hypotheses.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveRingConditions`
-  Isolate mapwise the missing implication from standard smoothness of relative dimension one
-  to dimension at most one and integral closedness.
+  Package mapwise, behind the local standard-smooth premise, the required dimension-at-most-one
+  and integral-closedness consequences without asserting them uniformly over arbitrary bases.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions`
   Consume the map-specific smooth-curve ring conditions to construct the Dedekind order
