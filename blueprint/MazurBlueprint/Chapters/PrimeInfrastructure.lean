@@ -65,17 +65,24 @@ group, in exactly the form consumed by Mazur's argument.
   group.
 :::
 
-:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, group-schemes") (priority := "high") (effort := "large")
-*Finite-flat commutative group schemes.* Build the category, kernels,
-quotients, and base change, tested on constant groups, $`\mu_p`, and
-multiplication kernels.
+:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")
+*Finite-flat commutative group schemes.* The checked partial substrate now
+packages the category, base change, honest kernel presentations under explicit
+finite-flat hypotheses, affine Hopf realizations, constant-rank exponent
+descent, and conditional connected--étale consumers. The original node still
+requires actual quotients, kernel/quotient base-change compatibility, and
+compiled constant-group, $`\mu_p`, and multiplication-kernel consumers.
 
 *Status:* `planned`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
-* `structure` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
-  Package finite flat commutative group schemes over an arithmetic base.
+* `structure` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
+  Package finite flat commutative group schemes over an arbitrary scheme base.
+* `theorem` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
+  Package the inherited scheme-theoretic kernel under explicit finite and flat hypotheses.
+* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
+  Kill affine points by the constant geometric rank after localization from finite-free Hopf coordinates.
 * `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
   Construct kernels of morphisms in the finite-flat group-scheme category.
 * `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient`
