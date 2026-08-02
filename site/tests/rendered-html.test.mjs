@@ -127,5 +127,42 @@ test("every roadmap node exposes concrete artifacts or an exact challenge", asyn
         `${node.id} has an invalid artifact state`,
       );
     }
+    for (const entry of node.external_reuse ?? []) {
+      assert.equal(typeof entry.source, "string", `${node.id} source`);
+      assert.equal(typeof entry.status, "string", `${node.id} status`);
+      assert.equal(typeof entry.summary, "string", `${node.id} summary`);
+      assert.equal(typeof entry.boundary, "string", `${node.id} boundary`);
+      assert.equal(
+        typeof entry.estimated_node_savings_percent?.min,
+        "number",
+        `${node.id} minimum node-savings estimate`,
+      );
+      assert.equal(
+        typeof entry.estimated_node_savings_percent?.max,
+        "number",
+        `${node.id} maximum node-savings estimate`,
+      );
+      assert.ok(
+        entry.estimated_node_savings_percent.min <=
+          entry.estimated_node_savings_percent.max,
+        `${node.id} has an inverted node-savings range`,
+      );
+      assert.ok(
+        Array.isArray(entry.declarations),
+        `${node.id} declarations must be an array`,
+      );
+      for (const declaration of entry.declarations) {
+        assert.equal(
+          typeof declaration.name,
+          "string",
+          `${node.id} declaration name`,
+        );
+        assert.match(
+          declaration.url,
+          /^https:\/\//,
+          `${node.id} declaration URL`,
+        );
+      }
+    }
   }
 });

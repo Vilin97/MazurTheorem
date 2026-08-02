@@ -385,7 +385,7 @@ def validate_program_shape(
     validator: Validator, program: dict[str, Any]
 ) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
     """Validate node fields, weights, progress, and dependency topology."""
-    validator.require(program.get("schema_version") == 2, "schema_version must be 2")
+    validator.require(program.get("schema_version") == 3, "schema_version must be 3")
     stages = program.get("stages")
     nodes = program.get("nodes")
     validator.require(isinstance(stages, list), "stages must be a list")

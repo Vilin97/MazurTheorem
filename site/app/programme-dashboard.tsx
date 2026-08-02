@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type {
   Challenge,
+  ExternalReuse,
   Programme,
   ProgrammeArtifact,
   ProgrammeNode,
@@ -175,6 +176,56 @@ function ArtifactList({
   );
 }
 
+function ExternalReuseList({ entries }: { entries: ExternalReuse[] }) {
+  return (
+    <ul className="external-reuse-list">
+      {entries.map((entry, index) => (
+        <li key={`${entry.source}-${index}`}>
+          <dl className="external-reuse-facts">
+            <div>
+              <dt>Source</dt>
+              <dd>{entry.source}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{words(entry.status)}</dd>
+            </div>
+            <div className="external-reuse-estimate">
+              <dt>Planning estimate</dt>
+              <dd>
+                {entry.estimated_node_savings_percent.min}–
+                {entry.estimated_node_savings_percent.max}% node savings
+              </dd>
+            </div>
+          </dl>
+          <div className="external-reuse-copy">
+            <p>
+              <strong>Reusable substrate</strong>
+              {entry.summary}
+            </p>
+            <p>
+              <strong>Audit boundary</strong>
+              {entry.boundary}
+            </p>
+          </div>
+          {entry.declarations.length > 0 && (
+            <div className="external-reuse-declarations">
+              <p>Audited declarations</p>
+              <ul>
+                {entry.declarations.map((declaration) => (
+                  <li key={`${declaration.name}-${declaration.url}`}>
+                    <a href={declaration.url}>{declaration.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function NodeDetail({
   node,
   stage,
@@ -229,6 +280,20 @@ function NodeDetail({
         <h4>Definitions, theorems, and API surface</h4>
         <ArtifactList artifacts={nodeArtifacts(node)} />
       </div>
+      {node.external_reuse && node.external_reuse.length > 0 && (
+        <section
+          className="external-reuse"
+          aria-labelledby={`external-reuse-title-${node.id}`}
+        >
+          <div className="external-reuse-heading">
+            <span aria-hidden="true">↗</span>
+            <h4 id={`external-reuse-title-${node.id}`}>
+              Audited external substrate
+            </h4>
+          </div>
+          <ExternalReuseList entries={node.external_reuse} />
+        </section>
+      )}
       <dl className="dependency-list horizontal node-detail-dependencies">
         <div>
           <dt>Depends on</dt>

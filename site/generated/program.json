@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "title": "Mazur's rational torsion theorem",
   "baseline": {
     "source": "Vilin97/Clawristotle",
@@ -35,6 +35,27 @@
       "license": "Apache-2.0",
       "role": "Upstream home for reusable algebraic-geometry infrastructure",
       "compatibility": "Tau Ceti and the Mazur workspace use Lean 4.33.0-rc1 and mathlib 79d0395. Tau Ceti remains an upstream target rather than a direct dependency of the Mazur package."
+    },
+    {
+      "id": "aintlib-modular-curves",
+      "url": "https://github.com/CBirkbeck/AINTLIB/tree/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves",
+      "commit": "7ecbba9dbb7fee076a1b77a6cd516fc6de46d684",
+      "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
+      "mathlib_commit": "3edb3c0658f69f197b1e501b1f7623f3f7b3898c",
+      "license": "Mixed branch status: curated files carry Apache-2.0 headers, but this branch has no root LICENSE",
+      "role": "Audited prior art and selective porting source for Picard, cohomology, finite-group-scheme, isogeny, and open Y_0(N) infrastructure",
+      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Seven transitive Picard modules plus CartierDual and MuN compiled manually against the Mazur pin; warning cleanup, file-level license review, transitive placeholder audits, thin adapters, and real consumers are still required before integration.",
+      "roadmap_impact": {
+        "bankable_effort_points": {
+          "min": 50,
+          "max": 75
+        },
+        "conditional_effort_points_after_upstream_gates": {
+          "min": 90,
+          "max": 125
+        },
+        "headline_treatment": "Already folded into the conservative 12% ecosystem-readiness estimate; it earns 0 integrated points today."
+      }
     }
   ],
   "progress": {
@@ -807,6 +828,20 @@
       "risk": "extreme",
       "backend": "tauceti",
       "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "mixed: compatible Picard leaf, unaudited divisor bridge",
+          "estimated_node_savings_percent": {"min": 35, "max": 45},
+          "summary": "AINTLIB defines the Picard group of a scheme, pullback on Picard groups, relative effective Cartier divisors, and a divisor-to-Picard-class map.",
+          "boundary": "It does not identify Weil divisors modulo principal divisors with line bundles; the divisor bridge also sits above unfinished transitive imports.",
+          "declarations": [
+            {"name": "AlgebraicGeometry.Scheme.Pic", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/Pic.lean#L118"},
+            {"name": "AlgebraicGeometry.Scheme.Pic.map", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean#L1598"},
+            {"name": "RelEffCartierDiv.picClass", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/DivisorClass.lean#L53"}
+          ]
+        }
+      ],
       "artifacts": [
         {
           "kind": "structure",
@@ -846,6 +881,19 @@
       "risk": "extreme",
       "backend": "tauceti",
       "summary": "Build finite-dimensional coherent cohomology on proper curves, including affine acyclicity and vanishing above degree one.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "substantial scaffold; transitive audit required",
+          "estimated_node_savings_percent": {"min": 40, "max": 55},
+          "summary": "AINTLIB has derived sheaf cohomology, affine acyclicity, exact-sequence machinery, Cech comparison, and proper low-degree finiteness results.",
+          "boundary": "The required packaged proper-curve finite-dimensionality and vanishing-above-one API is absent, and source-clean endpoints do not by themselves certify a placeholder-free import cone.",
+          "declarations": [
+            {"name": "affine_subsingleton_H", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307"},
+            {"name": "orderedBaseCechHomologyFinite_of_isProper", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149"}
+          ]
+        }
+      ],
       "artifacts": [
         {
           "kind": "definition",
@@ -922,6 +970,18 @@
       "risk": "extreme",
       "backend": "tauceti",
       "summary": "Prove proper-flat pushforward, cohomology and base change, and semicontinuity in the form needed by the Picard construction.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "comparison maps and special cases",
+          "estimated_node_savings_percent": {"min": 15, "max": 25},
+          "summary": "AINTLIB defines pushforward/base-change comparison maps and proves several elliptic pole-sheaf base-change and fibre-cohomology special cases.",
+          "boundary": "It has neither a general proper-flat base-change isomorphism nor upper semicontinuity in the scope required by the Picard construction.",
+          "declarations": [
+            {"name": "pullbackPushforwardBaseChange", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePushforwardBaseChange.lean#L181"}
+          ]
+        }
+      ],
       "artifacts": [
         {
           "kind": "definition",
@@ -1011,6 +1071,20 @@
       "risk": "extreme",
       "backend": "tauceti",
       "summary": "Define the fppf Picard sheaf, its degree-zero subfunctor, rigidification, and Poincare line bundle.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "exact-pin compatible leaf",
+          "estimated_node_savings_percent": {"min": 30, "max": 40},
+          "summary": "A seven-module, 3,507-line AINTLIB cone defining Pic, picRel, its quotient comparison, and picRelFunctor compiled manually against this project's exact Mathlib pin.",
+          "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. Linter cleanup and a downstream adapter are still required.",
+          "declarations": [
+            {"name": "Scheme.Modules.picRel", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L57"},
+            {"name": "nonempty_picRel_mulEquiv_quotient", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L118"},
+            {"name": "picRelFunctor", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203"}
+          ]
+        }
+      ],
       "artifacts": [
         {
           "kind": "definition",
@@ -1199,6 +1273,20 @@
       "risk": "extreme",
       "backend": "mixed",
       "summary": "Build finite-subgroup quotients, dual isogenies, multiplication kernels, and the Weil pairing with base-change tests.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "strong substrate with central open gates",
+          "estimated_node_savings_percent": {"min": 35, "max": 45},
+          "summary": "AINTLIB supplies elliptic torsion subgroup schemes, multiplication kernels, a quotient-scheme universal property, field-level pairing work, and finite-flat examples.",
+          "boundary": "The elliptic quotient upgrade, dual-isogeny laws, and global scheme-valued Weil pairing remain explicit proof holes, so none of this node is discharged.",
+          "declarations": [
+            {"name": "ModularCurves.quotient", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/SubgroupQuotient.lean#L47"},
+            {"name": "EllipticCurve.torsion", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/Torsion.lean#L61"},
+            {"name": "EllipticCurve.weilPairing (open)", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/WeilPairing/Basic.lean#L44"}
+          ]
+        }
+      ],
       "artifacts": [
         {
           "kind": "structure",
@@ -1331,6 +1419,20 @@
       "risk": "extreme",
       "backend": "mixed",
       "summary": "Build finite-flat group schemes, kernels, quotients, and base change, tested on constant groups, mu_p, and multiplication kernels.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "compatible examples; generic category absent",
+          "estimated_node_savings_percent": {"min": 25, "max": 35},
+          "summary": "AINTLIB contains elliptic finite-locally-free subgroups, quotient schemes, constant groups, mu_N, and an abstract Hopf-algebraic Deligne order theorem.",
+          "boundary": "The roadmap needs a generic finite-flat commutative group-scheme category with kernels, quotients, and base change. MuN also needs a license decision before source can be copied.",
+          "declarations": [
+            {"name": "FiniteLocallyFreeSubgroup", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/Subgroup.lean#L126"},
+            {"name": "muN", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/MuN.lean#L69"},
+            {"name": "deligne_point_pow_eq_one", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724"}
+          ]
+        }
+      ],
       "artifacts": [
         {"kind": "structure", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme", "state": "proposed", "description": "Package finite flat commutative group schemes over an arithmetic base."},
         {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel", "state": "proposed", "description": "Construct kernels of morphisms in the finite-flat group-scheme category."},
@@ -1409,6 +1511,19 @@
       "risk": "extreme",
       "backend": "mixed",
       "summary": "Define elliptic curves with cyclic finite-flat subgroups and the X_0(N) moduli problem.",
+      "external_reuse": [
+        {
+          "source": "aintlib-modular-curves",
+          "status": "open Y_0(N) scaffold; transitive audit required",
+          "estimated_node_savings_percent": {"min": 40, "max": 55},
+          "summary": "AINTLIB defines GammaZeroStructure and constructs a coarse open YZeroCoarse over a fixed base where N is invertible.",
+          "boundary": "Its representability chain contains unfinished gates. YZeroCoarse is not compactified X_0(N), does not cover bad fibres over Z, and has no cusp theory.",
+          "declarations": [
+            {"name": "GammaZeroStructure", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/CyclicSubgroup.lean#L151"},
+            {"name": "YZeroCoarse", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Moduli/CoarseSpace.lean#L248"}
+          ]
+        }
+      ],
       "artifacts": [
         {"kind": "structure", "name": "ModularCurve.GammaZeroStructure", "state": "proposed", "description": "Package an elliptic curve together with a cyclic finite-flat subgroup of order N."},
         {"kind": "definition", "name": "ModularCurve.XZeroModuli", "state": "proposed", "description": "Define the Gamma-zero moduli functor with its isomorphisms and base-change action."}
