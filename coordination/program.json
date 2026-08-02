@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421706,
+    "integrated_lean_lines": 1421801,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -899,6 +899,27 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.ofClassEquivalence",
+          "state": "contract",
+          "description": "Construct the exact dictionary and its chosen divisor line bundles from a full Picard comparison and a divisor-class/Picard equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_iff_picardComparison_and_classEquivalence",
+          "state": "contract",
+          "description": "Characterize existence of the global dictionary by precisely the full Picard comparison and divisor-class equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.lineBundle_add_iso",
+          "state": "contract",
+          "description": "Identify the line bundle of a divisor sum with the tensor product of the chosen line bundles, up to isomorphism.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality",
           "state": "contract",
           "description": "Package the checked localization isomorphism identifying the restriction of tilde on a free localization with the rank-one free sheaf.",
@@ -953,10 +974,11 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, attach their Picard classes through tensor inverses, and prove that divisor classes are equivalent to the scheme Picard group. The affine tilde-localization theorem, principal-line-bundle consequence, and reverse Picard comparison are already checked.",
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary and constructs its actual tensor-additive divisor line bundles.",
         "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, glue inverse fractional-ideal tildes across those charts, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization and affine Dedekind standard-sign equivalence.",
         "consumer_declarations": [
-          "MazurTheorem.Challenge.divisorClassEquivPicard"
+          "MazurTheorem.Challenge.divisorClassEquivPicard",
+          "MazurTheorem.Challenge.divisorPicardCoreData"
         ],
         "estimated_lines": {"min": 1000, "max": 6000},
         "skills": [

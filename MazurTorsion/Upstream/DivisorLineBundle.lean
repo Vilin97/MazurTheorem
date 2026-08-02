@@ -27,6 +27,13 @@ homomorphism, the universal property of the divisor class group then supplies th
 the kernel is exactly the principal divisors and the map is surjective, the descent is an
 equivalence.
 
+At the scheme level, a full invertible-sheaf/Picard comparison together with a divisor-class
+equivalence constructs the entire dictionary: chosen line bundles come from skeleton
+representatives, their tensor-additivity holds up to isomorphism, and exactness supplies
+principal triviality. Conversely, every exact dictionary forces precisely those two global
+outputs. Thus the remaining global Challenge has a checked irreducible characterization rather
+than hiding additional localization assumptions.
+
 Unconditionally, the current dependency graph supports the class-level dictionary between the
 divisor class group of an affine Dedekind curve and Mathlib's module Picard group. The resulting
 equivalence has the standard sign: the checked representative formula below sends the divisor
@@ -590,6 +597,40 @@ namespace Dictionary
 variable {S : WeilDivisor.OrderSystem Y G}
 variable (d : Dictionary S X)
 
+/-- A full Picard comparison and a divisor-class/Picard equivalence canonically supply all data
+of an exact dictionary. The line bundle of `D` is the chosen invertible-sheaf representative of
+the image of `[D]`; exactness and surjectivity are inherited from the quotient equivalence. -/
+noncomputable def ofClassEquivalence
+    (hX : PicardComparison X) (e : ClassEquivalence S X) :
+    Dictionary S X where
+  comparison := hX.tensorInverseComparison
+  divisorToPic := e.toAddMonoidHom.comp S.divisorClass
+  lineBundle D := hX.representative (Additive.toMul (e (S.divisorClass D)))
+  lineBundle_toPic D := by
+    change hX.tensorInverseComparison.toPic
+        (hX.representative (Additive.toMul (e (S.divisorClass D)))) =
+      Additive.toMul (e (S.divisorClass D))
+    apply Units.ext
+    rw [TensorInverseComparison.toPic_val]
+    exact toSkeleton_fromSkeleton_obj _
+  principalKernel := by
+    apply AddSubgroup.ext
+    intro D
+    rw [AddMonoidHom.mem_ker]
+    change e (S.divisorClass D) = 0 ↔ D ∈ S.principalSubgroup
+    constructor
+    · intro h
+      rw [← S.divisorClass_eq_zero_iff]
+      exact e.injective (by simpa using h)
+    · intro h
+      rw [← S.divisorClass_eq_zero_iff] at h
+      simp [h]
+  surjective := by
+    intro p
+    obtain ⟨c, rfl⟩ := e.surjective p
+    obtain ⟨D, rfl⟩ := S.divisorClass_surjective c
+    exact ⟨D, rfl⟩
+
 /-- Principal divisors have trivial Picard class, as a checked consequence of exactness at the
 divisor term. -/
 lemma principalTrivial : PrincipalTrivial S d.divisorToPic :=
@@ -610,6 +651,33 @@ lemma lineBundle_principal_iso_trivial (g : G) :
         d.comparison.toPic (InvertibleSheaf.trivial X) :=
     hclass.trans d.comparison.toPic_trivial.symm
   exact congrArg Units.val hpic
+
+/-- Divisor addition is represented by tensor product of the chosen line bundles, up to the
+isomorphism appropriate for chosen representatives. -/
+lemma lineBundle_add_iso (D E : WeilDivisor Y) :
+    Nonempty ((d.lineBundle (D + E)).obj ≅
+      (d.lineBundle D).obj ⊗ (d.lineBundle E).obj) := by
+  apply toSkeleton_eq_toSkeleton_iff.mp
+  rw [Skeleton.toSkeleton_tensorObj]
+  have hp :
+      d.comparison.toPic (d.lineBundle (D + E)) =
+        d.comparison.toPic (d.lineBundle D) *
+          d.comparison.toPic (d.lineBundle E) := by
+    apply Additive.ofMul.injective
+    change Additive.ofMul (d.comparison.toPic (d.lineBundle (D + E))) =
+      Additive.ofMul (d.comparison.toPic (d.lineBundle D)) +
+        Additive.ofMul (d.comparison.toPic (d.lineBundle E))
+    rw [d.lineBundle_toPic, d.lineBundle_toPic, d.lineBundle_toPic, map_add]
+  calc
+    toSkeleton (d.lineBundle (D + E)).obj =
+        (d.comparison.toPic (d.lineBundle (D + E))).val :=
+      d.comparison.toPic_val _ |>.symm
+    _ = (d.comparison.toPic (d.lineBundle D) *
+          d.comparison.toPic (d.lineBundle E)).val := congrArg Units.val hp
+    _ = (d.comparison.toPic (d.lineBundle D)).val *
+          (d.comparison.toPic (d.lineBundle E)).val := Units.val_mul _ _
+    _ = toSkeleton (d.lineBundle D).obj * toSkeleton (d.lineBundle E).obj := by
+      rw [d.comparison.toPic_val, d.comparison.toPic_val]
 
 /-- The chosen line bundles of linearly equivalent divisors are isomorphic. -/
 lemma lineBundle_iso_of_linearlyEquivalent {D E : WeilDivisor Y}
@@ -682,6 +750,33 @@ noncomputable def classEquivalence : ClassEquivalence S X :=
 lemma classEquivalence_divisorClass (D : WeilDivisor Y) :
     d.classEquivalence (S.divisorClass D) = d.divisorToPic D :=
   classEquivPicard_divisorClass S d.divisorToPic d.principalKernel d.surjective D
+
+omit d in
+/-- The divisor-class equivalence recovered from the dictionary constructed by
+`ofClassEquivalence` is the original equivalence. -/
+@[simp]
+theorem classEquivalence_ofClassEquivalence
+    (hX : PicardComparison X) (e : ClassEquivalence S X) :
+    (ofClassEquivalence hX e).classEquivalence = e := by
+  apply AddEquiv.ext
+  intro c
+  obtain ⟨D, rfl⟩ := S.divisorClass_surjective c
+  rw [classEquivalence_divisorClass]
+  rfl
+
+omit d in
+/-- Existence of an exact dictionary is equivalent to precisely its two irreducible global
+outputs: the full invertible-sheaf/Picard comparison and an equivalence from divisor classes to
+the scheme Picard group. All chosen divisor line bundles and their compatibility are then
+constructed by `ofClassEquivalence`. -/
+theorem nonempty_iff_picardComparison_and_classEquivalence :
+    Nonempty (Dictionary S X) ↔
+      PicardComparison X ∧ Nonempty (ClassEquivalence S X) := by
+  constructor
+  · rintro ⟨d⟩
+    exact ⟨d.picardComparison, ⟨d.classEquivalence⟩⟩
+  · rintro ⟨hX, ⟨e⟩⟩
+    exact ⟨ofClassEquivalence hX e⟩
 
 end Dictionary
 

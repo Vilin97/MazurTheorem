@@ -59,7 +59,9 @@ contract. The bridge `MazurTheorem.Challenge.divisorLineBundleDictionary`
 contains the remaining global dictionary: chosen line-bundle representatives, exact principal
 kernel, Picard surjectivity, and the resulting divisor-class/Picard equivalence. Checked code
 derives principal-divisor line-bundle triviality and the full local-rank-one/tensor-unit Picard
-comparison from those data. It also proves the basic-open tilde restriction isomorphism and
+comparison from those data. Conversely, it constructs the complete tensor-additive dictionary
+from the full Picard comparison and divisor-class equivalence, proving these are exactly the two
+irreducible global outputs. It also proves the basic-open tilde restriction isomorphism and
 derives global tilde invertibility from Mathlib's finite free-localization cover and Tau Ceti
 local trivializations. The checked local API supplies the unconditional affine Dedekind class
 equivalence, its actual line bundles, and an absolute degree-zero D1 consumer; none is credited
@@ -83,6 +85,16 @@ standard-sign construction checked in the affine API.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.picardComparison`
   Recover the full equivalence between local rank-one sheaves and tensor units.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.ofClassEquivalence`
+  Construct all chosen divisor line bundles from the full Picard comparison and class
+  equivalence.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_iff_picardComparison_and_classEquivalence`
+  Characterize existence of the dictionary by precisely those two global outputs.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.lineBundle_add_iso`
+  Identify divisor addition with tensor product of the chosen line bundles up to isomorphism.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality`
   Package the checked restriction isomorphism on a free basic-open localization.
