@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.CyclotomicUnramified
+import MazurTorsion.NumberTheory.CyclotomicKummer
 
 /-!
 # Prime division fields and the cyclotomic obstruction
@@ -45,6 +45,35 @@ theorem divisionField_everywhereUnramified
     (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
     E.IsUnramifiedAtFinitePlaces :=
   unramifiedAtFinitePlaces E hlocal
+
+/-- The division-field local datum has a concrete Kummer-theoretic
+consequence: it supplies a nontrivial empty-support `p`-Selmer class of the
+cyclotomic field.  This is a genuine downstream consumer of the finite-place
+bridge and does not assert the still-deeper class-group reflection step. -/
+noncomputable def divisionField_radicandSelmerClass
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
+    IsDedekindDomain.selmerGroup
+      (K := PrimeCyclotomicField p)
+      (S := (∅ : Set (FinitePrime (PrimeCyclotomicField p))))
+      (n := p) :=
+  E.unramifiedRadicandSelmerClass
+    (divisionField_everywhereUnramified E hlocal)
+
+/-- The Selmer class produced from the division-field local datum is
+nontrivial. -/
+theorem divisionField_radicandSelmerClass_ne_one
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L) (hlocal : DivisionFieldLocalData E) :
+    divisionField_radicandSelmerClass E hlocal ≠ 1 :=
+  E.unramifiedRadicandSelmerClass_ne_one
+    (divisionField_everywhereUnramified E hlocal)
 
 /-- A genuine consumer of `divisionField_everywhereUnramified`: global
 reciprocity turns its conclusion into an inverse-cyclotomic quotient of the

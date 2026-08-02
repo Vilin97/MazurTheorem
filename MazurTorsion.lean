@@ -80,6 +80,7 @@ import MazurTorsion.Kubert.OrderTwentySevenThirdLeg
 import MazurTorsion.Kubert.OrderTwentySeven
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.CyclotomicUnramified
+import MazurTorsion.NumberTheory.CyclotomicKummer
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
