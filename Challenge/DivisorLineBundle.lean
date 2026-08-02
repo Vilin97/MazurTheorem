@@ -35,9 +35,17 @@ descends injectively to chart divisor classes, and identifies them with its sche
 conditional interfaces, not solved existence results or separately registered Challenge
 declarations; discharging them remains part of this unchanged global A3 Challenge. The
 residue-degree product formula remains independently isolated by the registered A2 Challenge.
-Transport from the Picard group of a chart's coordinate spectrum to the open subscheme itself,
-and then overlap-compatible gluing to `X`, also remain open. The contract earns no Mazur
-completion credit.
+The companion module `CurveAffineChart` isolates the upstream-compatible sufficient input
+`PicardIso.PullbackMonoidalData`: given strong monoidality of sheaf pullback, checked code
+transports the divisor and class maps to `Pic(U)` while preserving the exact principal kernel
+and range equivalence. The pinned upstream AINTLIB source proves general pullback monoidality,
+but that cone is not in the current checked import graph and cannot be copied here under this
+task's no-`set_option` constraint. For gluing, the separately importable companion module
+`CurveLineBundleDescent` provides `LineBundleDescent.EffectiveInvertible`, which precisely asks
+that one coherent chart descent datum be represented by a global invertible sheaf; it neither
+constructs the overlap cocycle nor asserts a stack theorem. Those existence inputs remain
+open, so the contract earns no Mazur completion credit. The Challenge's published import list
+remains unchanged; solvers use these checked route modules explicitly.
 -/
 
 open AlgebraicGeometry

@@ -82,8 +82,19 @@ homomorphisms as `AffineChart.DedekindOrderCompatibility`, then genuinely consum
 whole principal divisors are related by reindexing and the induced local divisor-to-scheme-Picard
 map has exactly those principal divisors as kernel. It therefore descends injectively to chart
 divisor classes and identifies them with its scheme-Picard range. None of these affine results
-proves that order compatibility, discharges the remaining Picard-comparison inputs, or supplies
-transport from `Pic(Spec Γ(X, U))` to `Pic(U)`, global proper-curve gluing, or surjectivity.
+proves that order compatibility or discharges the remaining Picard-comparison inputs. Pullback
+along the chart scheme isomorphism is already an equivalence of module categories; the API
+isolates strong monoidality of that pullback as `PicardIso.PullbackMonoidalData`. Given this
+upstream-compatible sufficient datum, it constructs `Pic(Spec Γ(X, U)) ≃ Pic(U)` and
+transports the exact principal kernel, injective class descent, and range equivalence to the open
+subscheme. The resulting Picard equivalence is proved independent of the chosen monoidal
+structure and its inverse is identified with pullback along the inverse scheme isomorphism. The
+pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
+uses source-level options forbidden in this task. Finally,
+`LineBundleDescent.EffectiveInvertible` isolates effectivity of one specified coherent module
+descent datum by a global invertible sheaf and has a checked chart-restriction consumer. It does
+not construct the overlap cocycle or claim that scheme modules form a Zariski stack. Thus global
+proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility` and `AffineChart.DedekindOrderCompatibility` are checked
 conditional interfaces rather than solved existence results or separately registered Challenge
 declarations; their discharge remains part of the unchanged global A3 Challenge. The weighted
@@ -218,6 +229,34 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivSchemePicRange`
   Give the strongest unconditional conclusion from the chart compatibility: divisor classes
   are equivalent to the range of their canonical scheme-Picard realization.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardIso.PullbackMonoidalData`
+  Isolate strong monoidality of sheaf pullback as an upstream-compatible sufficient input for
+  transporting the AINTLIB Picard group across a scheme isomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal`
+  Construct the Picard equivalence across a scheme isomorphism from that monoidality datum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_independent`
+  Prove that the Picard equivalence is independent of the chosen strong monoidal structure.
+* `lemma` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_symm_apply_val`
+  Identify the inverse Picard equivalence on isomorphism classes with pullback along the inverse
+  scheme isomorphism.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToOpenPic_kernel`
+  Preserve the exact principal kernel after transporting the chart divisor map to `Pic(U)`.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivOpenPicRange`
+  Identify chart divisor classes with their canonical range in the Picard group of the open
+  subscheme.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible`
+  State object-specific effectivity of a coherent module descent datum by a global invertible
+  sheaf, without asserting a stack theorem.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible.restrictionIso`
+  Recover the isomorphism between the descended global line bundle and every local chart object.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

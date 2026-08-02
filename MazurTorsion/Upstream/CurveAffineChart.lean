@@ -18,14 +18,18 @@ The compatibility is consumed here, rather than merely recorded: it transports t
 principal-divisor order system to the ambient points of the chart and constructs a canonical
 divisor-to-scheme-Picard map which kills those principal divisors. This is the checked local
 boundary needed before the affine line bundles in `DivisorLineBundle` can be glued on a curve.
-The Picard target here is the coordinate spectrum `Spec Γ(X, U)`; transport to the open
-subscheme `U` and overlap-compatible gluing to `X` remain separate obligations.
+The unconditional Picard target is the coordinate spectrum `Spec Γ(X, U)`. The file isolates
+strong monoidality of pullback as an upstream-compatible sufficient datum for transport to
+`Pic(U)` and consumes that datum to preserve the principal kernel, class descent, and range
+equivalence. Constructing the datum and overlap-compatible gluing to `X` remain separate
+obligations.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineChart
 
 universe u
 
+open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
@@ -145,6 +149,100 @@ lemma affineOpenHeightOneSpectrumEquiv_symm_asIdeal
       (hU.primeIdealOf ⟨x.1.1, x.2⟩).asIdeal := by
   rfl
 
+end MazurTorsion.AlgebraicGeometry.AffineChart
+
+namespace MazurTorsion.AlgebraicGeometry.PicardIso
+
+open CategoryTheory MonoidalCategory
+open _root_.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry
+
+/-- Pullback along a scheme isomorphism is an equivalence of the underlying categories of
+sheaves of modules. This uses only Mathlib's pullback identity, composition, and congruence
+isomorphisms; no tensor compatibility is needed here. -/
+noncomputable def modulesEquivalence {Y Z : Scheme.{u}} (e : Y ≅ Z) :
+    Z.Modules ≌ Y.Modules :=
+  CategoryTheory.Equivalence.mk
+    (Scheme.Modules.pullback e.hom)
+    (Scheme.Modules.pullback e.inv)
+    (((Scheme.Modules.pullbackComp e.inv e.hom) ≪≫
+      Scheme.Modules.pullbackCongr e.inv_hom_id) ≪≫
+      Scheme.Modules.pullbackId Z).symm
+    (((Scheme.Modules.pullbackComp e.hom e.inv) ≪≫
+      Scheme.Modules.pullbackCongr e.hom_inv_id) ≪≫
+      Scheme.Modules.pullbackId Y)
+
+/-- An upstream-compatible sufficient datum for transporting AINTLIB Picard groups along a
+scheme isomorphism: strong monoidality of sheaf-module pullback for the two AINTLIB tensor
+structures. The pinned upstream AINTLIB source proves this for every scheme morphism, but that
+pullback-monoidal cone is not present in the current checked import graph. -/
+noncomputable def PullbackMonoidalData {Y Z : Scheme.{u}} (e : Y ≅ Z) : Type _ :=
+  letI := Scheme.Modules.monoidalCategory Z
+  letI := Scheme.Modules.monoidalCategory Y
+  (Scheme.Modules.pullback e.hom).Monoidal
+
+/-- Strong monoidality of pullback turns the underlying module-category equivalence into an
+additive equivalence of AINTLIB Picard groups. -/
+noncomputable def equivOfPullbackMonoidal {Y Z : Scheme.{u}} (e : Y ≅ Z)
+    (hmonoidal : PullbackMonoidalData e) :
+    PicardGroup Z ≃+ PicardGroup Y := by
+  letI := Scheme.Modules.monoidalCategory Z
+  letI := Scheme.Modules.monoidalCategory Y
+  letI : (Scheme.Modules.pullback e.hom).Monoidal := hmonoidal
+  let E := modulesEquivalence e
+  letI : E.functor.Monoidal := by
+    change (Scheme.Modules.pullback e.hom).Monoidal
+    infer_instance
+  exact MulEquiv.toAdditive (Units.mapEquiv (Skeleton.mulEquiv E))
+
+/-- The Picard equivalence is induced on underlying isomorphism classes by sheaf-module
+pullback. -/
+@[simp]
+lemma equivOfPullbackMonoidal_apply_val {Y Z : Scheme.{u}} (e : Y ≅ Z)
+    (hmonoidal : PullbackMonoidalData e) (p : Scheme.Pic Z) :
+    letI := Scheme.Modules.monoidalCategory Z
+    letI := Scheme.Modules.monoidalCategory Y
+    (Additive.toMul
+      (equivOfPullbackMonoidal e hmonoidal (Additive.ofMul p))).val =
+      (Scheme.Modules.pullback e.hom).mapSkeleton.obj p.val := by
+  rfl
+
+/-- The Picard equivalence does not depend on the chosen strong monoidal structure. -/
+theorem equivOfPullbackMonoidal_independent
+    {Y Z : Scheme.{u}} (e : Y ≅ Z)
+    (h₁ h₂ : PullbackMonoidalData e) :
+    equivOfPullbackMonoidal e h₁ = equivOfPullbackMonoidal e h₂ := by
+  letI := Scheme.Modules.monoidalCategory Z
+  letI := Scheme.Modules.monoidalCategory Y
+  ext p
+  apply Units.ext
+  simpa using
+    (equivOfPullbackMonoidal_apply_val e h₁ (Additive.toMul p)).trans
+      (equivOfPullbackMonoidal_apply_val e h₂ (Additive.toMul p)).symm
+
+/-- The inverse Picard equivalence is induced on isomorphism classes by pullback along the
+inverse scheme isomorphism. -/
+@[simp]
+lemma equivOfPullbackMonoidal_symm_apply_val
+    {Y Z : Scheme.{u}} (e : Y ≅ Z)
+    (hmonoidal : PullbackMonoidalData e) (p : Scheme.Pic Y) :
+    letI := Scheme.Modules.monoidalCategory Z
+    letI := Scheme.Modules.monoidalCategory Y
+    (Additive.toMul
+      ((equivOfPullbackMonoidal e hmonoidal).symm (Additive.ofMul p))).val =
+      (Scheme.Modules.pullback e.inv).mapSkeleton.obj p.val := by
+  rfl
+
+end MazurTorsion.AlgebraicGeometry.PicardIso
+
+namespace MazurTorsion.AlgebraicGeometry.AffineChart
+
+open CategoryTheory MonoidalCategory
+open _root_.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.WeilDivisor
+open IsDedekindDomain
+
 /-- The exact local compatibility needed to compare the affine Dedekind divisor construction
 with the scheme-theoretic divisor on a curve. The equality is an equality of additive order
 homomorphisms, not merely an equality at a chosen rational function. -/
@@ -160,6 +258,21 @@ structure DedekindOrderCompatibility
       WeilDivisor.adicOrd Γ(X, U) X.functionField v =
         SchemeWeilDivisor.orderAt
           ((affineOpenHeightOneSpectrumEquiv X U hU v).1)
+
+/-- A sufficient datum for transporting AINTLIB Picard groups along the affine-chart
+isomorphism: strong monoidality of sheaf-module pullback for the AINTLIB tensor structures. -/
+abbrev ChartPullbackMonoidalData
+    (X : Scheme.{u}) (U : X.Opens) (hU : IsAffineOpen U) : Type _ :=
+  PicardIso.PullbackMonoidalData hU.isoSpec
+
+/-- Conditional Picard equivalence induced by pullback along
+`U ≅ Spec Γ(X, U)`. No geometric assumptions beyond the supplied monoidality datum are used.
+-/
+noncomputable def picardEquivSpecToOpen
+    (X : Scheme.{u}) (U : X.Opens) (hU : IsAffineOpen U)
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    PicardGroup (Spec (.of Γ(X, U))) ≃+ PicardGroup U :=
+  PicardIso.equivOfPullbackMonoidal hU.isoSpec hmonoidal
 
 namespace DedekindOrderCompatibility
 
@@ -376,6 +489,95 @@ lemma classEquivSchemePicRange_apply_val
     (c : (h.ambientOrderSystem X U hU).ClassGroup) :
     (h.classEquivSchemePicRange X U hU c).1 =
       h.classToSchemePic X U hU c := by
+  rfl
+
+/-- Transport the checked affine-chart divisor map from the coordinate spectrum to the open
+subscheme itself. -/
+noncomputable def divisorToOpenPic
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    WeilDivisor {x : CodimensionOnePoint X // x.1 ∈ U} →+ PicardGroup U :=
+  (picardEquivSpecToOpen X U hU hmonoidal).toAddMonoidHom.comp
+    (h.divisorToSchemePic X U hU)
+
+/-- The open-chart Picard class is represented by pullback of the coordinate-spectrum
+isomorphism class. -/
+@[simp]
+lemma divisorToOpenPic_apply_val
+    (hmonoidal : ChartPullbackMonoidalData X U hU)
+    (D : WeilDivisor {x : CodimensionOnePoint X // x.1 ∈ U}) :
+    letI := Scheme.Modules.monoidalCategory (Spec (.of Γ(X, U)))
+    letI := Scheme.Modules.monoidalCategory (U : Scheme)
+    (Additive.toMul (divisorToOpenPic X U hU h hmonoidal D)).val =
+      (Scheme.Modules.pullback hU.isoSpec.hom).mapSkeleton.obj
+        (Additive.toMul (h.divisorToSchemePic X U hU D)).val := by
+  exact PicardIso.equivOfPullbackMonoidal_apply_val hU.isoSpec hmonoidal
+    (Additive.toMul (h.divisorToSchemePic X U hU D))
+
+/-- Principal divisors have trivial Picard class after transport to the affine open. -/
+lemma divisorToOpenPic_principalDivisor
+    (hmonoidal : ChartPullbackMonoidalData X U hU)
+    (g : Additive X.functionFieldˣ) :
+    divisorToOpenPic X U hU h hmonoidal
+        ((h.ambientOrderSystem X U hU).principalDivisor g) = 0 := by
+  rw [divisorToOpenPic, AddMonoidHom.comp_apply,
+    h.divisorToSchemePic_principalDivisor X U hU g, map_zero]
+
+/-- Transport to the open subscheme preserves the exact principal kernel. -/
+theorem divisorToOpenPic_kernel
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    (divisorToOpenPic X U hU h hmonoidal).ker =
+      (h.ambientOrderSystem X U hU).principalSubgroup := by
+  rw [divisorToOpenPic, AddMonoidHom.ker_comp_of_injective
+    (h.divisorToSchemePic X U hU)
+    (picardEquivSpecToOpen X U hU hmonoidal).toAddMonoidHom
+    (picardEquivSpecToOpen X U hU hmonoidal).injective]
+  exact h.divisorToSchemePic_kernel X U hU
+
+/-- Transport the descended divisor-class map to the Picard group of the open subscheme. -/
+noncomputable def classToOpenPic
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    (h.ambientOrderSystem X U hU).ClassGroup →+ PicardGroup U :=
+  (picardEquivSpecToOpen X U hU hmonoidal).toAddMonoidHom.comp
+    (h.classToSchemePic X U hU)
+
+/-- The open-chart class map agrees with the transported divisor construction on
+representatives. -/
+@[simp]
+lemma classToOpenPic_divisorClass
+    (hmonoidal : ChartPullbackMonoidalData X U hU)
+    (D : WeilDivisor {x : CodimensionOnePoint X // x.1 ∈ U}) :
+    classToOpenPic X U hU h hmonoidal
+        ((h.ambientOrderSystem X U hU).divisorClass D) =
+      divisorToOpenPic X U hU h hmonoidal D := by
+  rw [classToOpenPic, divisorToOpenPic, AddMonoidHom.comp_apply,
+    AddMonoidHom.comp_apply, h.classToSchemePic_divisorClass]
+
+/-- Exactness remains injective after transporting chart divisor classes to `PicardGroup U`. -/
+theorem classToOpenPic_injective
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    Function.Injective (classToOpenPic X U hU h hmonoidal) :=
+  (picardEquivSpecToOpen X U hU hmonoidal).injective.comp
+    (h.classToSchemePic_injective X U hU)
+
+/-- The strongest honest open-chart comparison: divisor classes are equivalent to their range
+in `PicardGroup U`, without asserting that every Picard class is hit. -/
+noncomputable def classEquivOpenPicRange
+    (hmonoidal : ChartPullbackMonoidalData X U hU) :
+    (h.ambientOrderSystem X U hU).ClassGroup ≃+
+      (classToOpenPic X U hU h hmonoidal).range :=
+  AddEquiv.ofBijective (classToOpenPic X U hU h hmonoidal).rangeRestrict
+    ⟨fun _ _ hxy ↦ classToOpenPic_injective X U hU h hmonoidal
+        (congrArg Subtype.val hxy), by
+      rintro ⟨_, ⟨c, rfl⟩⟩
+      exact ⟨c, rfl⟩⟩
+
+/-- The open-chart range equivalence has the descended Picard class as its underlying value. -/
+@[simp]
+lemma classEquivOpenPicRange_apply_val
+    (hmonoidal : ChartPullbackMonoidalData X U hU)
+    (c : (h.ambientOrderSystem X U hU).ClassGroup) :
+    (classEquivOpenPicRange X U hU h hmonoidal c).1 =
+      classToOpenPic X U hU h hmonoidal c := by
   rfl
 
 end DedekindOrderCompatibility

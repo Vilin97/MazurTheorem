@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1423174,
-    "integrated_lean_modules": 646,
+    "integrated_lean_lines": 1423463,
+    "integrated_lean_modules": 647,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -1120,6 +1120,62 @@
           "state": "contract",
           "description": "Identify ambient chart divisor classes with the range of their canonical scheme-Picard realization.",
           "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.PullbackMonoidalData",
+          "state": "contract",
+          "description": "Isolate strong monoidality of sheaf pullback as an upstream-compatible sufficient input for transporting AINTLIB Picard groups across scheme isomorphisms.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal",
+          "state": "contract",
+          "description": "Construct the additive Picard equivalence across a scheme isomorphism from strong monoidality of pullback.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_independent",
+          "state": "contract",
+          "description": "Prove that the Picard equivalence is independent of the chosen strong monoidal structure.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_symm_apply_val",
+          "state": "contract",
+          "description": "Identify the inverse Picard equivalence on isomorphism classes with pullback along the inverse scheme isomorphism.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToOpenPic_kernel",
+          "state": "contract",
+          "description": "Preserve the exact principal kernel after transporting the chart divisor map to the Picard group of the open subscheme.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivOpenPicRange",
+          "state": "contract",
+          "description": "Identify chart divisor classes with their canonical range in the Picard group of the open subscheme.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible",
+          "state": "contract",
+          "description": "State object-specific effectivity of a coherent module descent datum by a global invertible sheaf, without asserting a stack theorem.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible.restrictionIso",
+          "state": "contract",
+          "description": "Recover the isomorphism between the descended global line bundle and every local chart object.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -1150,7 +1206,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts, transport the coordinate-spectrum Picard construction across `hU.isoSpec` to each open subscheme, and then glue the checked inverse fractional-ideal tilde representatives on overlaps. The height-one-prime/ambient-point equivalence, whole-principal-divisor reindexing, exact chart kernel, class descent, and range equivalence are already checked. Discharge the checked tilde-reflection localization predicate for the forward comparison; canonical Picard surjectivity is equivalent to the reverse tensor-unit/local-rank-one comparison. The order and tilde predicates are conditional APIs within the unchanged A3 Challenge, while the weighted product formula remains the independently registered A2 Challenge.",
+        "recommended_route": "Import the companion chart and descent modules. Prove `AffineChart.DedekindOrderCompatibility` for Dedekind affine charts and construct `PicardIso.PullbackMonoidalData` (or port the exact pinned upstream pullback-monoidal cone without source-level options). The checked API then transports the exact chart kernel, class descent, and range equivalence to `Pic(U)`. Construct coherent overlap isomorphisms for the local inverse-fractional-ideal line bundles and discharge `LineBundleDescent.EffectiveInvertible` for that specified datum. Separately discharge tilde reflection for the forward Picard comparison; canonical Picard surjectivity is equivalent to the reverse comparison. The weighted product formula remains the independently registered A2 Challenge.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
