@@ -66,10 +66,16 @@ derives global tilde invertibility from Mathlib's finite free-localization cover
 local trivializations. The checked local API supplies the unconditional affine Dedekind class
 equivalence, tensor-additive module representatives, tilde line bundles detecting linear
 equivalence exactly, and an absolute degree-zero D1 consumer; none is credited as the missing
-global result. It also characterizes existence of the affine scheme-level dictionary exactly by
-the full Picard comparison and an additive module-Picard/scheme-Picard equivalence. Tensor product
-is checked to commute with arbitrary module localization; only its presheaf assembly into a
-strong-monoidal tilde comparison remains open.
+global result. The localized tensor comparison is assembled into an affine tilde tensor-product
+isomorphism, proving that tilde sends invertible modules to tensor units and inducing a canonical
+injective module-Picard/scheme-Picard homomorphism. Consequently, the affine Dedekind divisor map
+has exactly the principal divisors as kernel, descends to divisor classes, and gives an
+unconditional equivalence from those classes to its scheme-Picard range; the actual tilde line
+bundles are tensor-additive. It also characterizes existence of the full affine scheme-level
+dictionary by the full comparison for arbitrary sheaves and an additive equivalence between the
+module and scheme Picard groups. The checked injection supplies only the forward, onto-range
+part. None of these affine results supplies the still-open reverse tensor-unit/local-rank-one
+comparison, essential-surjectivity input, or global proper-curve gluing and surjectivity.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -111,11 +117,42 @@ standard-sign construction checked in the affine API.
   `MazurTorsion.AlgebraicGeometry.AffineTilde.localizedTensorEquivOfIsLocalization`
   Identify the tensor of two localized modules with the localization of their tensor over an
   arbitrary chosen localization ring.
+* `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineTilde.tildeTensorIso`
+  Assemble the local fraction comparison into the objectwise tilde tensor-product isomorphism
+  on an affine scheme.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.tilde_isTensorInvertible`
+  Send every invertible module to a tensor-invertible tilde sheaf.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic`
+  Give the canonical tilde-induced homomorphism from module Picard classes to scheme Picard
+  classes.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_injective`
+  Prove that the canonical affine Picard comparison is injective.
 * `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
   Package its chosen module representative unconditionally as a Tau Ceti line bundle.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundleModule_add_equiv`
   Identify `O(D + E)` with `O(D) ⊗ O(E)` as invertible modules, unconditionally.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_add_iso`
+  Identify `O(D + E)` with `O(D) ⊗ O(E)` for the actual tilde line bundles.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.classToSchemePic`
+  Descend the canonical affine divisor construction to an injective divisor-class map into the
+  scheme Picard group.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicRange`
+  Identify affine Dedekind divisor classes with the range of their canonical scheme-Picard
+  realization.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic`
+  Construct the canonical affine divisor-to-scheme-Picard homomorphism through divisor classes.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic_kernel`
+  Prove that the canonical divisor-to-scheme-Picard map has exactly the principal divisors as
+  its kernel.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent`
   Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line

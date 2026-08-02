@@ -18,10 +18,13 @@ classes. The affine tilde restriction isomorphism and global tilde invertibility
 in checked code. A checked equivalence reduces existence of the dictionary to the full Picard
 comparison together with a divisor-class/Picard equivalence; chosen line bundles and their
 compatibilities are constructed from those data. The contract does not prescribe a canonical
-affine-chart normalization. Tensor product is now proved to commute with arbitrary module
-localization; constructing the corresponding strong-monoidal tilde isomorphism still requires
-assembling the local fraction maps into a locally bijective presheaf morphism. The contract is
-open and earns no Mazur completion credit.
+affine-chart normalization. On affine schemes, the localized tensor maps have now been assembled
+into an objectwise tilde tensor-product isomorphism. This gives a canonical injective
+module-Picard to scheme-Picard map. For affine Dedekind domains, the divisor map has exactly the
+principal divisors as kernel, divisor classes are equivalent to its range, and the chosen tilde
+line bundles are tensor-additive. What remains here includes the full Picard comparison for
+arbitrary sheaves and tensor units, global curve divisor gluing, and divisor-class surjectivity.
+The contract is open and earns no Mazur completion credit.
 -/
 
 open AlgebraicGeometry

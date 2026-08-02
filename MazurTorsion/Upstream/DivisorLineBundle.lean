@@ -41,12 +41,14 @@ representative formula below sends the divisor of a fractional ideal to the inve
 ideal's Picard class. The affine localization bridge is also unconditional: restriction of tilde
 to a principal open is identified through localized global sections, and a finite basic-open
 cover proves that tilde of every invertible module is an invertible sheaf. The further comparison
-with AINTLIB's scheme Picard group remains factored into its exact forward and reverse components
-rather than hidden behind a stronger claim than the current library proves. A final affine
-existence theorem characterizes that boundary exactly by the full Picard comparison and an
-additive equivalence between the module and scheme Picard groups. The local algebra identifying
-the tensor of two localized modules with the localization of their tensor is also checked; a
-strong monoidal tilde comparison still requires assembling those maps at the presheaf level.
+with AINTLIB's scheme Picard group is now canonical in the forward direction: the localized
+tensor comparison assembles to a tilde tensor-product isomorphism, hence an injective homomorphism
+from the module Picard group to the scheme Picard group. Consequently the affine divisor map has
+exactly the principal divisors as its kernel, and divisor classes are unconditionally equivalent
+to their canonical image in scheme Picard. Surjectivity of that canonical map and the full
+comparison for arbitrary sheaves remain open rather than being hidden behind a stronger claim
+than the current library proves. A final affine existence theorem characterizes the remaining
+full-dictionary boundary.
 -/
 
 open CategoryTheory
@@ -229,7 +231,542 @@ lemma localizedTensorEquivOfIsLocalization_mk_one (m : M) (n : N) :
       (LocalizedModule.mkLinearMap S (M ⊗[R] N)) (m ⊗ₜ[R] n)
   exact IsLocalizedModule.linearEquiv_apply S _ _ _
 
+/-- The tensor-localization equivalence multiplies denominators on arbitrary pure fractions. -/
+lemma localizedTensorEquivOfIsLocalization_mk (m : M) (n : N) (s t : S) :
+    localizedTensorEquivOfIsLocalization R M N S A
+      (LocalizedModule.mk m s ⊗ₜ[A] LocalizedModule.mk n t) =
+        LocalizedModule.mk (m ⊗ₜ[R] n) (s * t) := by
+  have hm : LocalizedModule.mk m s =
+      IsLocalization.mk' A 1 s • LocalizedModule.mk m 1 := by
+    simpa using (LocalizedModule.mk'_smul_mk (T := A) 1 m s 1).symm
+  have hn : LocalizedModule.mk n t =
+      IsLocalization.mk' A 1 t • LocalizedModule.mk n 1 := by
+    simpa using (LocalizedModule.mk'_smul_mk (T := A) 1 n t 1).symm
+  rw [hm, hn]
+  simp only [TensorProduct.smul_tmul_smul, LinearEquiv.map_smul]
+  rw [localizedTensorEquivOfIsLocalization_mk_one]
+  have hmn : LocalizedModule.mk (m ⊗ₜ[R] n) (s * t) =
+      IsLocalization.mk' A 1 (s * t) • LocalizedModule.mk (m ⊗ₜ[R] n) 1 := by
+    simpa using
+      (LocalizedModule.mk'_smul_mk (T := A) 1 (m ⊗ₜ[R] n) (s * t) 1).symm
+  rw [hmn]
+  congr 1
+  rw [← IsLocalization.mk'_mul]
+  simp
+
 end TensorLocalization
+
+section TildeTensor
+
+open scoped TensorProduct
+
+variable (R : Type u) [CommRing R]
+variable (M N : Type u) [AddCommGroup M] [Module R M]
+variable [AddCommGroup N] [Module R N]
+
+/-- Tensor product commutes with localization, using Mathlib's canonical module structures on
+`LocalizedModule`. This specialization can therefore be applied directly to stalk elements. -/
+noncomputable def localizedTensorEquiv (S : Submonoid R) :
+    LocalizedModule S M ⊗[Localization S] LocalizedModule S N ≃ₗ[Localization S]
+      LocalizedModule S (M ⊗[R] N) :=
+  IsLocalization.moduleTensorEquiv S (Localization S)
+      (LocalizedModule S M) (LocalizedModule S N) ≪≫ₗ
+    (IsLocalizedModule.linearEquiv S
+      (TensorProduct.map
+        (LocalizedModule.mkLinearMap S M)
+        (LocalizedModule.mkLinearMap S N))
+      (LocalizedModule.mkLinearMap S (M ⊗[R] N))).extendScalarsOfIsLocalization
+        S (Localization S)
+
+/-- The canonical localization tensor equivalence multiplies the denominators of pure
+fractions. -/
+lemma localizedTensorEquiv_mk (S : Submonoid R) (m : M) (n : N) (s t : S) :
+    localizedTensorEquiv R M N S
+      (LocalizedModule.mk m s ⊗ₜ[Localization S] LocalizedModule.mk n t) =
+        LocalizedModule.mk (m ⊗ₜ[R] n) (s * t) := by
+  exact localizedTensorEquivOfIsLocalization_mk R M N S (Localization S) m n s t
+
+/-- Pointwise tensor multiplication of locally fractional sections. The local-fraction proof
+intersects the two witnessing neighborhoods and multiplies their denominators. -/
+noncomputable def sectionsTensorPure (U : Opens (PrimeSpectrum.Top R))
+    (a : (structureSheafInType R M).obj.obj (.op U))
+    (b : (structureSheafInType R N).obj.obj (.op U)) :
+      (structureSheafInType R (M ⊗[R] N)).obj.obj (.op U) :=
+  ⟨fun x => letI := x.1.isPrime
+    localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        (a.1 x ⊗ₜ[StructureSheaf.Localizations R x.1] b.1 x), by
+    intro x
+    obtain ⟨Va, hxa, ia, ra, sa, wa⟩ := a.2 x
+    obtain ⟨Vb, hxb, ib, rb, sb, wb⟩ := b.2 x
+    refine ⟨Va ⊓ Vb, ⟨hxa, hxb⟩, Opens.infLELeft _ _ ≫ ia,
+      ra ⊗ₜ[R] rb, sa * sb, fun y => ?_⟩
+    obtain ⟨hsay, hay⟩ := wa ⟨y.1, y.2.1⟩
+    obtain ⟨hsby, hby⟩ := wb ⟨y.1, y.2.2⟩
+    letI := y.1.isPrime
+    refine ⟨y.1.asIdeal.primeCompl.mul_mem hsay hsby, ?_⟩
+    convert localizedTensorEquiv_mk R M N y.1.asIdeal.primeCompl
+      ra rb ⟨sa, hsay⟩ ⟨sb, hsby⟩ using 1
+    · apply congrArg (localizedTensorEquiv R M N y.1.asIdeal.primeCompl)
+      congr 1
+    · rfl⟩
+
+/-- The sectionwise bilinear pairing from the pointwise tensor of tilde presheaves to the tilde
+presheaf of the module tensor product. -/
+noncomputable def sectionsTensorMap (U : Opens (PrimeSpectrum.Top R)) :
+    (moduleStructurePresheaf R M ⊗ moduleStructurePresheaf R N).obj (.op U) ⟶
+      (moduleStructurePresheaf R (M ⊗[R] N)).obj (.op U) :=
+  ModuleCat.MonoidalCategory.tensorLift (sectionsTensorPure R M N U)
+    (by
+      intro a a' b
+      apply Subtype.ext
+      funext x
+      letI := x.1.isPrime
+      change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        ((a.1 x + a'.1 x) ⊗ₜ[StructureSheaf.Localizations R x.1] b.1 x) = _
+      rw [TensorProduct.add_tmul, map_add]
+      rfl)
+    (by
+      intro r a b
+      apply Subtype.ext
+      funext x
+      letI := x.1.isPrime
+      change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        ((r.1 x • a.1 x) ⊗ₜ[StructureSheaf.Localizations R x.1] b.1 x) = _
+      rw [← TensorProduct.smul_tmul', map_smul]
+      rfl)
+    (by
+      intro a b b'
+      apply Subtype.ext
+      funext x
+      letI := x.1.isPrime
+      change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        (a.1 x ⊗ₜ[StructureSheaf.Localizations R x.1] (b.1 x + b'.1 x)) = _
+      rw [TensorProduct.tmul_add, map_add]
+      rfl)
+    (by
+      intro r a b
+      apply Subtype.ext
+      funext x
+      letI := x.1.isPrime
+      change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        (a.1 x ⊗ₜ[StructureSheaf.Localizations R x.1] (r.1 x • b.1 x)) = _
+      rw [TensorProduct.tmul_smul]
+      change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+        (r.1 x • (a.1 x ⊗ₜ[StructureSheaf.Localizations R x.1] b.1 x)) = _
+      rw [map_smul]
+      rfl)
+
+/-- The natural presheaf morphism underlying the tensor-product comparison for tilde. -/
+noncomputable def tensorToTildePresheaf :
+    moduleStructurePresheaf R M ⊗ moduleStructurePresheaf R N ⟶
+      moduleStructurePresheaf R (M ⊗[R] N) where
+  app U := sectionsTensorMap R M N U.unop
+  naturality {U V} i := ModuleCat.MonoidalCategory.tensor_ext (by
+    intro a b
+    apply Subtype.ext
+    funext x
+    rfl)
+
+/-- On a principal open, the sectionwise tensor pairing is the standard equivalence between
+the tensor of two localized modules and the localization of their tensor. -/
+noncomputable def basicOpenTensorEquiv (f : R) :
+    (structureSheafInType R M).obj.obj (.op (PrimeSpectrum.basicOpen f))
+        ⊗[(structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f))]
+      (structureSheafInType R N).obj.obj (.op (PrimeSpectrum.basicOpen f)) ≃ₗ[
+        (structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f))]
+      (structureSheafInType R (M ⊗[R] N)).obj.obj
+        (.op (PrimeSpectrum.basicOpen f)) :=
+  IsLocalization.moduleTensorEquiv (.powers f)
+      ((structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f)))
+      ((structureSheafInType R M).obj.obj (.op (PrimeSpectrum.basicOpen f)))
+      ((structureSheafInType R N).obj.obj (.op (PrimeSpectrum.basicOpen f))) ≪≫ₗ
+    (IsLocalizedModule.linearEquiv (.powers f)
+      (TensorProduct.map
+        (StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f))
+        (StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f)))
+      (StructureSheaf.toOpenₗ R (M ⊗[R] N)
+        (PrimeSpectrum.basicOpen f))).extendScalarsOfIsLocalization
+          (.powers f)
+          ((structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f)))
+
+/-- The principal-open equivalence sends a tensor of denominator-one sections to the
+denominator-one section of the tensor. -/
+lemma basicOpenTensorEquiv_tmul_toOpen (f : R) (m : M) (n : N) :
+    basicOpenTensorEquiv R M N f
+      (StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f) m ⊗ₜ[
+        (structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f))]
+        StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f) n) =
+      StructureSheaf.toOpenₗ R (M ⊗[R] N)
+        (PrimeSpectrum.basicOpen f) (m ⊗ₜ[R] n) := by
+  change (IsLocalizedModule.linearEquiv (.powers f)
+      (TensorProduct.map
+        (StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f))
+        (StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f)))
+      (StructureSheaf.toOpenₗ R (M ⊗[R] N) (PrimeSpectrum.basicOpen f)))
+        ((TensorProduct.map
+          (StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f))
+          (StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f))) (m ⊗ₜ[R] n)) = _
+  exact IsLocalizedModule.linearEquiv_apply (.powers f) _ _ _
+
+/-- On denominator-one sections, the section pairing has the expected pure-tensor formula. -/
+lemma sectionsTensorMap_tmul_toOpen (f : R) (m : M) (n : N) :
+    sectionsTensorPure R M N (PrimeSpectrum.basicOpen f)
+      (StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f) m)
+      (StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f) n) =
+      StructureSheaf.toOpenₗ R (M ⊗[R] N)
+        (PrimeSpectrum.basicOpen f) (m ⊗ₜ[R] n) := by
+  apply Subtype.ext
+  funext x
+  letI := x.1.isPrime
+  change localizedTensorEquiv R M N x.1.asIdeal.primeCompl
+      (LocalizedModule.mk m 1 ⊗ₜ[StructureSheaf.Localizations R x.1]
+        LocalizedModule.mk n 1) =
+    LocalizedModule.mk (m ⊗ₜ[R] n) 1
+  simpa using localizedTensorEquiv_mk R M N x.1.asIdeal.primeCompl m n
+    (1 : x.1.asIdeal.primeCompl) (1 : x.1.asIdeal.primeCompl)
+
+/-- The section pairing on a principal open agrees with the localization equivalence after
+reducing arbitrary fractions to scalar multiples of denominator-one sections. -/
+lemma sectionsTensorMap_basicOpen (f : R) :
+    sectionsTensorMap R M N (PrimeSpectrum.basicOpen f) =
+      ModuleCat.ofHom (basicOpenTensorEquiv R M N f).toLinearMap := by
+  apply ModuleCat.MonoidalCategory.tensor_ext
+  intro a b
+  let A := (structureSheafInType R R).obj.obj (.op (PrimeSpectrum.basicOpen f))
+  let fM := StructureSheaf.toOpenₗ R M (PrimeSpectrum.basicOpen f)
+  let fN := StructureSheaf.toOpenₗ R N (PrimeSpectrum.basicOpen f)
+  obtain ⟨⟨m, s⟩, hm⟩ := IsLocalizedModule.mk'_surjective (.powers f) fM a
+  obtain ⟨⟨n, t⟩, hn⟩ := IsLocalizedModule.mk'_surjective (.powers f) fN b
+  have hm' : IsLocalizedModule.mk' fM m s =
+      IsLocalization.mk' A 1 s • fM m := by
+    rw [← IsLocalizedModule.mk'_one (.powers f) fM m]
+    symm
+    simpa using IsLocalizedModule.mk'_smul_mk' A fM 1 m s 1
+  have hn' : IsLocalizedModule.mk' fN n t =
+      IsLocalization.mk' A 1 t • fN n := by
+    rw [← IsLocalizedModule.mk'_one (.powers f) fN n]
+    symm
+    simpa using IsLocalizedModule.mk'_smul_mk' A fN 1 n t 1
+  let AS := ↑((structurePresheafInCommRingCat R ⋙ forget₂ CommRingCat RingCat).obj
+    (.op (PrimeSpectrum.basicOpen f)))
+  let fm : ↑((moduleStructurePresheaf R M).obj (.op (PrimeSpectrum.basicOpen f))) := fM m
+  let fn : ↑((moduleStructurePresheaf R N).obj (.op (PrimeSpectrum.basicOpen f))) := fN n
+  let rs : AS := IsLocalization.mk' A 1 s
+  let rt : AS := IsLocalization.mk' A 1 t
+  have hm'' : Function.uncurry (IsLocalizedModule.mk' fM) (m, s) = rs • fm := hm'
+  have hn'' : Function.uncurry (IsLocalizedModule.mk' fN) (n, t) = rt • fn := hn'
+  rw [← hm, ← hn, hm'', hn'']
+  have hTensor : (rs • fm) ⊗ₜ[AS] (rt • fn) =
+      (rs * rt) • (fm ⊗ₜ[AS] fn) := by
+    exact TensorProduct.smul_tmul_smul _ _ _ _
+  rw [hTensor, map_smul, map_smul]
+  have hbase :
+      (sectionsTensorMap R M N (PrimeSpectrum.basicOpen f)).hom (fm ⊗ₜ[AS] fn) =
+        basicOpenTensorEquiv R M N f (fM m ⊗ₜ[A] fN n) := by
+    change sectionsTensorPure R M N (PrimeSpectrum.basicOpen f) (fM m) (fN n) =
+      basicOpenTensorEquiv R M N f (fM m ⊗ₜ[A] fN n)
+    rw [sectionsTensorMap_tmul_toOpen, basicOpenTensorEquiv_tmul_toOpen]
+  exact congrArg ((rs * rt) • ·) hbase
+
+/-- Every principal-open component of the tilde tensor presheaf morphism is bijective. -/
+lemma sectionsTensorMap_basicOpen_bijective (f : R) :
+    Function.Bijective
+      (sectionsTensorMap R M N (PrimeSpectrum.basicOpen f)).hom := by
+  rw [sectionsTensorMap_basicOpen]
+  exact (basicOpenTensorEquiv R M N f).bijective
+
+private noncomputable abbrev tensorToTildeUnderlying :=
+  (PresheafOfModules.toPresheaf
+    (structurePresheafInCommRingCat R ⋙ forget₂ CommRingCat RingCat)).map
+      (tensorToTildePresheaf R M N)
+
+private instance tensorToTildeUnderlying_isLocallyInjective :
+    Presheaf.IsLocallyInjective
+      (Opens.grothendieckTopology (PrimeSpectrum.Top R))
+      (tensorToTildeUnderlying R M N) where
+  equalizerSieve_mem {X} a b h x hx := by
+    obtain ⟨_, ⟨_, ⟨f, rfl⟩, rfl⟩, hxf, hfX⟩ :=
+      PrimeSpectrum.isBasis_basic_opens.exists_subset_of_mem_open hx X.unop.2
+    refine ⟨PrimeSpectrum.basicOpen f, homOfLE hfX, ?_, hxf⟩
+    apply (sectionsTensorMap_basicOpen_bijective R M N f).1
+    change (tensorToTildePresheaf R M N).app (.op (PrimeSpectrum.basicOpen f))
+        ((moduleStructurePresheaf R M ⊗ moduleStructurePresheaf R N).map
+          (homOfLE hfX).op a) =
+      (tensorToTildePresheaf R M N).app (.op (PrimeSpectrum.basicOpen f))
+        ((moduleStructurePresheaf R M ⊗ moduleStructurePresheaf R N).map
+          (homOfLE hfX).op b)
+    have ha := CategoryTheory.congr_fun
+      ((tensorToTildePresheaf R M N).naturality (homOfLE hfX).op) a
+    have hb := CategoryTheory.congr_fun
+      ((tensorToTildePresheaf R M N).naturality (homOfLE hfX).op) b
+    exact ha.trans ((congrArg
+      (fun z => (moduleStructurePresheaf R (M ⊗[R] N)).map (homOfLE hfX).op z) h).trans
+        hb.symm)
+
+private instance tensorToTildeUnderlying_isLocallySurjective :
+    Presheaf.IsLocallySurjective
+      (Opens.grothendieckTopology (PrimeSpectrum.Top R))
+      (tensorToTildeUnderlying R M N) where
+  imageSieve_mem {U} s x hx := by
+    obtain ⟨_, ⟨_, ⟨f, rfl⟩, rfl⟩, hxf, hfU⟩ :=
+      PrimeSpectrum.isBasis_basic_opens.exists_subset_of_mem_open hx U.2
+    refine ⟨PrimeSpectrum.basicOpen f, homOfLE hfU, ?_, hxf⟩
+    obtain ⟨t, ht⟩ := (sectionsTensorMap_basicOpen_bijective R M N f).2
+      ((moduleStructurePresheaf R (M ⊗[R] N)).map (homOfLE hfU).op s)
+    exact ⟨t, ht⟩
+
+private noncomputable abbrev affineRingSheafId :=
+  𝟙 (⟨(_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).sheaf.obj ⋙
+    forget₂ CommRingCat RingCat,
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).ringCatSheaf.property⟩ :
+        Sheaf _ RingCat).obj
+
+private noncomputable abbrev affineSheafification :=
+  PresheafOfModules.sheafification (affineRingSheafId R)
+
+private noncomputable abbrev affineSheafificationW :=
+  PresheafOfModules.sheafificationW (affineRingSheafId R)
+
+private noncomputable abbrev underlyingAffineModule
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules) :=
+  P.val
+
+private noncomputable local instance affinePresheafModulesMonoidalStruct :
+    MonoidalCategoryStruct
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).PresheafOfModules :=
+  inferInstanceAs (MonoidalCategoryStruct
+    (PresheafOfModules
+      ((_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).sheaf.obj ⋙
+        forget₂ CommRingCat RingCat)))
+
+private noncomputable local instance affinePresheafModulesMonoidal :
+    MonoidalCategory
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).PresheafOfModules :=
+  inferInstanceAs (MonoidalCategory
+    (PresheafOfModules
+      ((_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).sheaf.obj ⋙
+        forget₂ CommRingCat RingCat)))
+
+private noncomputable local instance affineSheafificationIsLocalization :
+    (PresheafOfModules.sheafification (affineRingSheafId R)).IsLocalization
+      (PresheafOfModules.sheafificationW (affineRingSheafId R)) :=
+  PresheafOfModules.sheafificationW_isLocalization _
+
+/-- Sheafifying the underlying presheaf of a sheaf of modules returns that sheaf. This is the
+reflective sheafification counit, specialized to an affine scheme. -/
+noncomputable def sheafifyValIso
+    (P : (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules) :
+    (affineSheafification R).obj P.val ≅ P :=
+  (asIso (PresheafOfModules.sheafificationAdjunction
+    (𝟙 (_root_.AlgebraicGeometry.Spec
+      (CommRingCat.of R)).ringCatSheaf.obj)).counit).app P
+
+/-- The localized monoidal structure identifies the tensor of two tilde sheaves with the
+sheafification of the pointwise tensor of their underlying presheaves. -/
+noncomputable def tensorAsSheafification :
+    _root_.AlgebraicGeometry.tilde (ModuleCat.of R M) ⊗
+        _root_.AlgebraicGeometry.tilde (ModuleCat.of R N) ≅
+      (affineSheafification R).obj
+        (underlyingAffineModule R (_root_.AlgebraicGeometry.tilde (ModuleCat.of R M)) ⊗
+          underlyingAffineModule R (_root_.AlgebraicGeometry.tilde (ModuleCat.of R N))) :=
+  ((sheafifyValIso R
+      (_root_.AlgebraicGeometry.tilde (ModuleCat.of R M))).symm ⊗ᵢ
+    (sheafifyValIso R
+      (_root_.AlgebraicGeometry.tilde (ModuleCat.of R N))).symm) ≪≫
+      CategoryTheory.Localization.Monoidal.μ
+        (affineSheafification R) (affineSheafificationW R) (Iso.refl _) _ _
+
+/-- The locally bijective presheaf morphism used to compare the sheaf tensor with tilde of the
+module tensor product. -/
+noncomputable def tildeTensorUnderlyingHom :
+    underlyingAffineModule R (_root_.AlgebraicGeometry.tilde (ModuleCat.of R M)) ⊗
+        underlyingAffineModule R (_root_.AlgebraicGeometry.tilde (ModuleCat.of R N)) ⟶
+      underlyingAffineModule R
+        (_root_.AlgebraicGeometry.tilde (ModuleCat.of R (M ⊗[R] N))) :=
+  tensorToTildePresheaf R M N
+
+/-- The presheaf tensor comparison is inverted by sheafification because its components are
+bijective on the basis of principal opens. -/
+lemma tildeTensorUnderlyingHom_memW :
+    affineSheafificationW R (tildeTensorUnderlyingHom R M N) := by
+  apply (PresheafOfModules.sheafificationW_iff_isLocallyBijective
+    (affineRingSheafId R) _).2
+  constructor
+  · change Presheaf.IsLocallyInjective
+      (Opens.grothendieckTopology (PrimeSpectrum.Top R))
+      (tensorToTildeUnderlying R M N)
+    infer_instance
+  · change Presheaf.IsLocallySurjective
+      (Opens.grothendieckTopology (PrimeSpectrum.Top R))
+      (tensorToTildeUnderlying R M N)
+    infer_instance
+
+/-- On an affine scheme, the sheaf tensor product of two tilde objects agrees with tilde of the
+module tensor product. -/
+noncomputable def tildeTensorIso :
+    _root_.AlgebraicGeometry.tilde (ModuleCat.of R M) ⊗
+        _root_.AlgebraicGeometry.tilde (ModuleCat.of R N) ≅
+      _root_.AlgebraicGeometry.tilde (R := CommRingCat.of R)
+        (ModuleCat.of R (M ⊗[R] N)) := by
+  let h := (affineSheafification R).map (tildeTensorUnderlyingHom R M N)
+  let hi : IsIso h :=
+    (PresheafOfModules.sheafificationW_iff
+      (affineRingSheafId R) (tildeTensorUnderlyingHom R M N)).1
+        (tildeTensorUnderlyingHom_memW R M N)
+  exact tensorAsSheafification R M N ≪≫
+    (@asIso _ _ _ _ h hi) ≪≫
+      sheafifyValIso R
+        (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R)
+          (ModuleCat.of R (M ⊗[R] N)))
+
+end TildeTensor
+
+/-- The tilde sheaf of an invertible module has the tilde sheaf of its dual as an explicit
+tensor inverse. -/
+noncomputable def tildeTensorInverseIso
+    (R : Type u) [CommRing R]
+    (M : Type u) [AddCommGroup M] [Module R M] [Module.Invertible R M] :
+    _root_.AlgebraicGeometry.tilde (ModuleCat.of R M) ⊗
+        _root_.AlgebraicGeometry.tilde (ModuleCat.of R (Module.Dual R M)) ≅
+      𝟙_ (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules :=
+  tildeTensorIso R M (Module.Dual R M) ≪≫
+    (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      ((TensorProduct.comm R M (Module.Dual R M) ≪≫ₗ
+        Module.Invertible.linearEquiv R M).toModuleIso) ≪≫
+    (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      (Finsupp.uniqueLinearEquiv R R PUnit.unit).symm.toModuleIso ≪≫
+    _root_.AlgebraicGeometry.tildeFinsupp PUnit ≪≫
+    TensorInverseComparison.trivialIsoTensorUnit
+
+/-- Tilde sends every invertible module to a tensor-invertible sheaf. This proves the forward
+Picard comparison for the affine tilde representatives used below, without assuming a global
+comparison for arbitrary sheaves. -/
+theorem tilde_isTensorInvertible
+    (R : Type u) [CommRing R]
+    (M : Type u) [AddCommGroup M] [Module R M] [Module.Invertible R M] :
+    IsTensorInvertible (_root_.AlgebraicGeometry.Spec (CommRingCat.of R))
+      (_root_.AlgebraicGeometry.tilde (ModuleCat.of R M)) := by
+  rw [IsTensorInvertible]
+  refine isUnit_of_dvd_one ⟨toSkeleton
+    (_root_.AlgebraicGeometry.tilde (ModuleCat.of R (Module.Dual R M))), ?_⟩
+  rw [← Skeleton.toSkeleton_tensorObj, Skeleton.one_eq]
+  exact Quotient.sound ⟨(tildeTensorInverseIso R M).symm⟩
+
+open scoped TensorProduct
+
+/-- The scheme Picard class represented by the tilde sheaf of a module Picard-class
+representative. -/
+noncomputable def modulePicToSchemePicClass
+    (R : Type u) [CommRing R] (I : CommRing.Pic R) :
+    Scheme.Pic (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  (tilde_isTensorInvertible R I).unit
+
+@[simp]
+lemma modulePicToSchemePicClass_val
+    (R : Type u) [CommRing R] (I : CommRing.Pic R) :
+    (modulePicToSchemePicClass R I).val =
+      toSkeleton (_root_.AlgebraicGeometry.tilde (ModuleCat.of R I)) :=
+  IsUnit.unit_spec _
+
+/-- Tilde of the identity module-Picard representative is the scheme tensor unit. -/
+private noncomputable def tildePicOneIso
+    (R : Type u) [CommRing R] :
+    _root_.AlgebraicGeometry.tilde (ModuleCat.of R (1 : CommRing.Pic R)) ≅
+      𝟙_ (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules := by
+  let e : (1 : CommRing.Pic R) ≃ₗ[R] R :=
+    (CommRing.Pic.mk_eq_one_iff.mp CommRing.Pic.mk_eq_self).some
+  exact (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso e.toModuleIso ≪≫
+    (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      (Finsupp.uniqueLinearEquiv R R PUnit.unit).symm.toModuleIso ≪≫
+    _root_.AlgebraicGeometry.tildeFinsupp PUnit ≪≫
+    TensorInverseComparison.trivialIsoTensorUnit
+
+/-- Tilde carries multiplication of module Picard classes to the sheaf tensor product. -/
+private noncomputable def tildePicMulIso
+    (R : Type u) [CommRing R] (I J : CommRing.Pic R) :
+    _root_.AlgebraicGeometry.tilde (R := CommRingCat.of R)
+        (ModuleCat.of R (I * J : CommRing.Pic R)) ≅
+      _root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) (ModuleCat.of R I) ⊗
+        _root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) (ModuleCat.of R J) := by
+  have h : CommRing.Pic.mk R (I ⊗[R] J) = I * J := by
+    rw [CommRing.Pic.mk_tensor, CommRing.Pic.mk_eq_self, CommRing.Pic.mk_eq_self]
+  let e : (I * J : CommRing.Pic R) ≃ₗ[R] (I ⊗[R] J) :=
+    (CommRing.Pic.mk_eq_iff.mp h).some.symm
+  exact (_root_.AlgebraicGeometry.tilde.functor
+      (CommRingCat.of R)).mapIso e.toModuleIso ≪≫
+    (tildeTensorIso R I J).symm
+
+@[simp]
+lemma modulePicToSchemePicClass_one
+    (R : Type u) [CommRing R] :
+    modulePicToSchemePicClass R 1 = 1 := by
+  apply Units.ext
+  rw [modulePicToSchemePicClass_val]
+  change toSkeleton
+      (_root_.AlgebraicGeometry.tilde (ModuleCat.of R (1 : CommRing.Pic R))) =
+    toSkeleton (𝟙_ (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules)
+  exact Quotient.sound ⟨tildePicOneIso R⟩
+
+@[simp]
+lemma modulePicToSchemePicClass_mul
+    (R : Type u) [CommRing R] (I J : CommRing.Pic R) :
+    modulePicToSchemePicClass R (I * J) =
+      modulePicToSchemePicClass R I * modulePicToSchemePicClass R J := by
+  apply Units.ext
+  rw [modulePicToSchemePicClass_val]
+  change toSkeleton
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R)
+        (ModuleCat.of R (I * J : CommRing.Pic R))) =
+    toSkeleton (_root_.AlgebraicGeometry.tilde
+      (R := CommRingCat.of R) (ModuleCat.of R I)) *
+      toSkeleton (_root_.AlgebraicGeometry.tilde
+        (R := CommRingCat.of R) (ModuleCat.of R J))
+  rw [← Skeleton.toSkeleton_tensorObj]
+  exact Quotient.sound ⟨tildePicMulIso R I J⟩
+
+/-- The canonical comparison from the module Picard group of a ring to the scheme Picard group
+of its spectrum, induced by tilde. -/
+noncomputable def modulePicToSchemePic
+    (R : Type u) [CommRing R] :
+    CommRing.Pic R →* Scheme.Pic
+      (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) where
+  toFun := modulePicToSchemePicClass R
+  map_one' := modulePicToSchemePicClass_one R
+  map_mul' := modulePicToSchemePicClass_mul R
+
+/-- The tilde comparison from module Picard classes to scheme Picard classes is injective.
+Equality in the scheme skeleton gives an isomorphism of tilde sheaves, and full faithfulness of
+tilde recovers a linear equivalence of the module representatives. -/
+theorem modulePicToSchemePic_injective
+    (R : Type u) [CommRing R] :
+    Function.Injective (modulePicToSchemePic R) := by
+  intro I J h
+  have hs : toSkeleton
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) (ModuleCat.of R I)) =
+      toSkeleton
+        (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) (ModuleCat.of R J)) := by
+    have hval := congrArg Units.val h
+    change (modulePicToSchemePicClass R I).val =
+      (modulePicToSchemePicClass R J).val at hval
+    rw [modulePicToSchemePicClass_val, modulePicToSchemePicClass_val] at hval
+    exact hval
+  obtain ⟨e⟩ := toSkeleton_eq_toSkeleton_iff.mp hs
+  let e' := _root_.AlgebraicGeometry.tilde.fullyFaithfulFunctor.preimageIso e
+  exact CommRing.Pic.ext_iff.mpr ⟨e'.toLinearEquiv⟩
+
+/-- The additive form of the canonical comparison from module Picard classes to scheme Picard
+classes. -/
+noncomputable def modulePicToSchemePicAdd
+    (R : Type u) [CommRing R] :
+    Additive (CommRing.Pic R) →+
+      PicardGroup (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  (modulePicToSchemePic R).toAdditive
+
+/-- The additive tilde comparison is injective. -/
+theorem modulePicToSchemePicAdd_injective
+    (R : Type u) [CommRing R] :
+    Function.Injective (modulePicToSchemePicAdd R) :=
+  modulePicToSchemePic_injective R
 
 variable {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f : R)
 
@@ -857,11 +1394,49 @@ noncomputable def classEquivPicard :
     ((MulEquiv.toAdditive (ClassGroup.equivPic R)).trans
       (AddEquiv.neg (Additive (CommRing.Pic R))))
 
+/-- The canonical tilde-induced homomorphism from affine Dedekind divisor classes to AINTLIB's
+scheme Picard group. -/
+noncomputable def classToSchemePic :
+    (WeilDivisor.OrderSystem.ofDedekindDomain R K).ClassGroup →+
+      PicardGroup (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  (AffineTilde.modulePicToSchemePicAdd R).comp
+    (classEquivPicard R K).toAddMonoidHom
+
+/-- Affine Dedekind divisor classes inject canonically into the scheme Picard group. -/
+theorem classToSchemePic_injective :
+    Function.Injective (classToSchemePic R K) :=
+  (AffineTilde.modulePicToSchemePicAdd_injective R).comp
+    (classEquivPicard R K).injective
+
+/-- The strongest unconditional affine divisor-class/scheme-Picard equivalence currently
+available: divisor classes are equivalent to the range of their canonical tilde realization. -/
+noncomputable def classEquivSchemePicRange :
+    (WeilDivisor.OrderSystem.ofDedekindDomain R K).ClassGroup ≃+
+      (classToSchemePic R K).range :=
+  AddEquiv.ofBijective (classToSchemePic R K).rangeRestrict
+    ⟨fun _ _ h ↦ classToSchemePic_injective R K (congrArg Subtype.val h), by
+      rintro ⟨_, ⟨x, rfl⟩⟩
+      exact ⟨x, rfl⟩⟩
+
 /-- The Picard class of the invertible module `O(D)` associated to an affine Dedekind divisor. -/
 noncomputable def divisorToPic :
     WeilDivisor (HeightOneSpectrum R) →+ Additive (CommRing.Pic R) :=
   classEquivPicard R K |>.toAddMonoidHom.comp
     (WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass
+
+/-- The canonical affine Dedekind divisor-to-scheme-Picard homomorphism. It is the descent-ready
+scheme-level realization of the module line-bundle class. -/
+noncomputable def divisorToSchemePic :
+    WeilDivisor (HeightOneSpectrum R) →+
+      PicardGroup (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)) :=
+  (classToSchemePic R K).comp
+    (WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass
+
+@[simp]
+lemma divisorToSchemePic_apply (D : WeilDivisor (HeightOneSpectrum R)) :
+    divisorToSchemePic R K D =
+      AffineTilde.modulePicToSchemePicAdd R (divisorToPic R K D) :=
+  rfl
 
 @[simp]
 lemma divisorToPic_principalDivisor (g : Additive Kˣ) :
@@ -869,6 +1444,31 @@ lemma divisorToPic_principalDivisor (g : Additive Kˣ) :
       ((WeilDivisor.OrderSystem.ofDedekindDomain R K).principalDivisor g) = 0 := by
   rw [divisorToPic, AddMonoidHom.comp_apply,
     WeilDivisor.OrderSystem.divisorClass_principalDivisor, map_zero]
+
+/-- Principal divisors give the zero scheme-Picard class. -/
+lemma divisorToSchemePic_principalDivisor (g : Additive Kˣ) :
+    divisorToSchemePic R K
+      ((WeilDivisor.OrderSystem.ofDedekindDomain R K).principalDivisor g) = 0 := by
+  rw [divisorToSchemePic_apply, divisorToPic_principalDivisor, map_zero]
+
+/-- The kernel of the canonical divisor-to-scheme-Picard map consists exactly of principal
+divisors. Thus its factorization through `classToSchemePic` is an honest descent to divisor
+classes, with no unproved surjectivity claim. -/
+theorem divisorToSchemePic_kernel :
+    (divisorToSchemePic R K).ker =
+      (WeilDivisor.OrderSystem.ofDedekindDomain R K).principalSubgroup := by
+  apply AddSubgroup.ext
+  intro D
+  rw [AddMonoidHom.mem_ker]
+  constructor
+  · intro h
+    rw [divisorToSchemePic, AddMonoidHom.comp_apply] at h
+    rw [← (WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass_eq_zero_iff]
+    apply classToSchemePic_injective R K
+    simpa using h
+  · intro h
+    rw [← (WeilDivisor.OrderSystem.ofDedekindDomain R K).divisorClass_eq_zero_iff] at h
+    simp [divisorToSchemePic, h]
 
 /-- The multiplicative Picard class underlying `divisorToPic`. -/
 noncomputable def lineBundleClass (D : WeilDivisor (HeightOneSpectrum R)) :
@@ -959,6 +1559,29 @@ noncomputable def lineBundle (D : WeilDivisor (HeightOneSpectrum R)) :
   ⟨_root_.AlgebraicGeometry.tilde (ModuleCat.of R (lineBundleModule R K D)),
     tildeInvertibility R (ModuleCat.of R (lineBundleModule R K D))⟩
 
+/-- The canonical scheme-Picard class of `O(D)` is represented by the actual tilde line bundle
+constructed above. -/
+lemma divisorToSchemePic_val (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Additive.toMul (divisorToSchemePic R K D)).val =
+      toSkeleton (lineBundle R K D).obj := by
+  rw [divisorToSchemePic_apply]
+  change (AffineTilde.modulePicToSchemePicClass R (lineBundleClass R K D)).val = _
+  rw [AffineTilde.modulePicToSchemePicClass_val]
+  rfl
+
+/-- Divisor addition is carried to the actual sheaf tensor product by the chosen affine line
+bundles. This strengthens the module-level formula to a checked line-bundle isomorphism. -/
+lemma nonempty_lineBundle_add_iso (D E : WeilDivisor (HeightOneSpectrum R)) :
+    Nonempty
+      ((lineBundle R K (D + E)).obj ≅
+        (lineBundle R K D).obj ⊗ (lineBundle R K E).obj) := by
+  let e : lineBundleModule R K (D + E) ≃ₗ[R]
+      (lineBundleModule R K D ⊗[R] lineBundleModule R K E) :=
+    (nonempty_lineBundleModule_add_equiv R K D E).some
+  exact ⟨(_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso e.toModuleIso ≪≫
+    (AffineTilde.tildeTensorIso R
+      (lineBundleModule R K D) (lineBundleModule R K E)).symm⟩
+
 /-- The line bundle of a principal divisor is isomorphic to the trivial line bundle. -/
 lemma nonempty_lineBundle_principal_iso_trivial
     (g : Additive Kˣ) :
@@ -990,10 +1613,10 @@ theorem nonempty_lineBundle_iso_iff_linearlyEquivalent
     exact ⟨(_root_.AlgebraicGeometry.tilde.functor (.of R)).mapIso e.toModuleIso⟩
 
 /-- Because affine Dedekind divisor classes are already identified with Mathlib's module Picard
-group, an exact scheme-level dictionary exists precisely when the two remaining comparisons do:
-local rank-one sheaves versus tensor units, and the module Picard group versus AINTLIB's scheme
-Picard group. The latter is only an abstract additive equivalence here; no canonical tilde
-compatibility is claimed. -/
+group, an exact scheme-level dictionary exists precisely when the full local-rank-one/tensor-unit
+comparison and an additive module-Picard/scheme-Picard equivalence do. The canonical tilde map
+above supplies an injection; this existence characterization does not assert that particular map
+is surjective. -/
 theorem nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence :
     Nonempty (DivisorPicard.Dictionary
       (WeilDivisor.OrderSystem.ofDedekindDomain R K)

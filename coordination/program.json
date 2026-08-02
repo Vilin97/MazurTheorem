@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421924,
+    "integrated_lean_lines": 1422547,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -948,6 +948,34 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tildeTensorIso",
+          "state": "contract",
+          "description": "Assemble the local fraction comparison into an objectwise tilde tensor-product isomorphism on an affine scheme.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tilde_isTensorInvertible",
+          "state": "contract",
+          "description": "Send every invertible module to a tensor-invertible tilde sheaf using an explicit tilde of the dual as inverse.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic",
+          "state": "contract",
+          "description": "Give the canonical tilde-induced homomorphism from the module Picard group to the scheme Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_injective",
+          "state": "contract",
+          "description": "Prove that the canonical affine module-Picard to scheme-Picard homomorphism is injective.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
           "state": "contract",
           "description": "Package the chosen affine invertible-module representative unconditionally as a Tau Ceti line bundle.",
@@ -958,6 +986,41 @@
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundleModule_add_equiv",
           "state": "contract",
           "description": "Identify O(D + E) with O(D) tensor O(E) as invertible modules, unconditionally.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_add_iso",
+          "state": "contract",
+          "description": "Identify O(D + E) with O(D) tensor O(E) for the actual tilde line bundles.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classToSchemePic",
+          "state": "contract",
+          "description": "Descend the canonical affine divisor construction to an injective divisor-class homomorphism into the scheme Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicRange",
+          "state": "contract",
+          "description": "Give the strongest unconditional affine comparison by identifying divisor classes with the range of their canonical scheme-Picard realization.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic",
+          "state": "contract",
+          "description": "Construct the canonical affine divisor-to-scheme-Picard homomorphism through divisor classes.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic_kernel",
+          "state": "contract",
+          "description": "Prove that the canonical affine divisor-to-scheme-Picard map has exactly the principal divisors as its kernel.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         },
         {
@@ -1002,8 +1065,8 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary and constructs its actual tensor-additive divisor line bundles.",
-        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, glue inverse fractional-ideal tildes across those charts, and prove exact principal kernel and Picard surjectivity. Reuse the checked basic-open tilde localization, tensor-localization equivalence, and affine Dedekind standard-sign equivalence; for tensor additivity, assemble the local fraction maps into a locally bijective presheaf morphism.",
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it already constructs the actual tensor-additive tilde line bundles, an injective canonical map into scheme Picard with exact principal kernel, and an equivalence of divisor classes with its range.",
+        "recommended_route": "Establish Dedekind affine charts and codimension-one order compatibility, then glue the checked inverse fractional-ideal tilde representatives across those charts. Prove the full comparison for arbitrary invertible sheaves and tensor units, including the needed reverse and essential-surjectivity statements, and prove global divisor-class surjectivity. Reuse the checked basic-open tilde localization, objectwise tilde tensor-product isomorphism, canonical injective module-Picard comparison, exact affine principal kernel, and affine Dedekind range equivalence.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
