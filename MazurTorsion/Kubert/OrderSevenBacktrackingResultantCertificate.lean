@@ -9,6 +9,7 @@ import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData6
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantFactors
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence0
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence1
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2Lookup
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4Lookup
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5Lookup
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence6
@@ -415,11 +416,11 @@ end Internal.ResultantCertificate
 
 open Internal.ResultantCertificate
 
-/-- The five checked pseudo-remainder recurrences and the two remaining
-recurrence hypotheses imply the exact factorization of
+/-- The six checked pseudo-remainder recurrences and the remaining recurrence
+hypothesis imply the exact factorization of
 the first bounded resultant over `ℚ[D]`. -/
 theorem generic_resultant_eq_resultantFactorData
-    (hrec2 : recurrence2) (hrec3 : recurrence3) :
+    (hrec3 : recurrence3) :
     resultant selectionCofactorData divisionCofactorData0 33 7 =
       resultantFactorData := by
   have h := bounded_resultant_telescope_33_7
@@ -450,7 +451,7 @@ theorem generic_resultant_eq_resultantFactorData
     remainder7_leadingCoeff_ne_zero
     (by simpa only [recurrence0] using recurrence0_checked)
     (by simpa only [recurrence1] using recurrence1_checked)
-    (by simpa only [recurrence2] using hrec2)
+    (by simpa only [recurrence2] using recurrence2_checked)
     (by simpa only [recurrence3] using hrec3)
     (by simpa only [recurrence4] using recurrence4_checked)
     (by simpa only [recurrence5] using recurrence5_checked)
@@ -475,26 +476,25 @@ theorem generic_resultant_eq_resultantFactorData
 /-- Specializing the checked generic identity gives the first bounded
 resultant without requiring the selection cofactor to preserve its degree. -/
 theorem selection_divisionCofactor0_resultant_eq_resultantFactorData_eval
-    (hrec2 : recurrence2) (hrec3 : recurrence3) (d : ℚ) :
+    (hrec3 : recurrence3) (d : ℚ) :
     resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 =
       resultantFactorData.eval d := by
   change _ = (evalRingHom d) resultantFactorData
   have hgeneric := congrArg (evalRingHom d)
-    (generic_resultant_eq_resultantFactorData
-      hrec2 hrec3)
+    (generic_resultant_eq_resultantFactorData hrec3)
   simpa only [selectionCofactor, divisionCofactor0,
     resultant_map_map] using hgeneric
 
 /-- The first bounded resultant is nonzero at every nonsingular Kubert
-parameter once the two remaining primitive pseudo-remainder recurrences
-are known. -/
+parameter once the remaining primitive pseudo-remainder recurrence is
+known. -/
 theorem selection_divisionCofactor0_resultant_ne_zero
-    (hrec2 : recurrence2) (hrec3 : recurrence3)
+    (hrec3 : recurrence3)
     (d : ℚ) (hd0 : d ≠ 0) (hd1 : d ≠ 1)
     (hcubic : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0) :
     resultant (selectionCofactor d) (divisionCofactor0 d) 33 7 ≠ 0 := by
   rw [selection_divisionCofactor0_resultant_eq_resultantFactorData_eval
-    hrec2 hrec3 d]
+    hrec3 d]
   exact resultantFactorData_eval_ne_zero d hd0 hd1 hcubic
 
 end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
