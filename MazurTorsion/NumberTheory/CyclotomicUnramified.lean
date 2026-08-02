@@ -8,6 +8,7 @@ import Mathlib.NumberTheory.Cyclotomic.Gal
 import Mathlib.NumberTheory.NumberField.Cyclotomic.Embeddings
 import Mathlib.NumberTheory.RamificationInertia.Unramified
 import Mathlib.RingTheory.ClassGroup.Basic
+import MazurTorsion.NumberTheory.UnramifiedArtin
 
 /-!
 # Inverse-cyclotomic unramified extensions
@@ -196,6 +197,424 @@ theorem algebraUnramified_iff_ramificationIndexOne
   E.algebraUnramified_iff_isUnramifiedAtFinitePlaces.trans
     E.isUnramifiedAtFinitePlaces_iff_ramificationIndexOne
 
+/-- A chosen prime of `L` above the finite prime `v` of the cyclotomic base. -/
+noncomputable def primeAbove (_E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    Ideal.primesOver v.asIdeal (NumberField.RingOfIntegers L) := by
+  letI : IsGalois (PrimeCyclotomicField p) L := _E.isGalois
+  exact NumberTheory.UnramifiedArtin.primeAbove v
+
+/-- The arithmetic Frobenius of an inverse-cyclotomic extension at a finite
+prime of the cyclotomic base. -/
+noncomputable def frobeniusAt (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    Gal(L/PrimeCyclotomicField p) := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  exact NumberTheory.UnramifiedArtin.frobeniusAt v
+
+/-- The selected Frobenius satisfies the defining residue-field congruence at
+the selected prime above `v`. -/
+theorem frobeniusAt_isArithFrobAt (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+    IsArithFrobAt
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (E.frobeniusAt v) (E.primeAbove v).1 := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  exact NumberTheory.UnramifiedArtin.frobeniusAt_isArithFrobAt v
+
+/-- Since the relative Galois group is cyclic, the selected Frobenius is
+independent of the prime of `L` chosen above `v`. -/
+theorem frobeniusAt_eq_arithFrobAt (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p))
+    (Q : Ideal.primesOver v.asIdeal (NumberField.RingOfIntegers L)) :
+    letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+    E.frobeniusAt v =
+      arithFrobAt
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        Gal(L/PrimeCyclotomicField p) Q.1 := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  letI : IsMulCommutative Gal(L/PrimeCyclotomicField p) :=
+    IsMulCommutative.of_comm fun τ υ => by
+      apply E.galEquiv.injective
+      simp only [map_mul]
+      exact mul_comm _ _
+  exact NumberTheory.UnramifiedArtin.frobeniusAt_eq_arithFrobAt v Q
+
+/-- At an unramified finite prime, the Frobenius congruence characterizes the
+Frobenius element at every prime above it. -/
+theorem isArithFrobAt_iff_eq_frobeniusAt
+    (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p))
+    (hunramified : E.IsUnramifiedAtFinitePlace v)
+    (Q : Ideal.primesOver v.asIdeal (NumberField.RingOfIntegers L))
+    (τ : Gal(L/PrimeCyclotomicField p)) :
+    letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+    IsArithFrobAt
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)) τ Q.1 ↔
+      τ = E.frobeniusAt v := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  letI : IsMulCommutative Gal(L/PrimeCyclotomicField p) :=
+    IsMulCommutative.of_comm fun τ υ => by
+      apply E.galEquiv.injective
+      simp only [map_mul]
+      exact mul_comm _ _
+  constructor
+  · intro hτ
+    exact (NumberTheory.UnramifiedArtin.arithFrobAt_unique_of_unramified
+      v hunramified Q τ hτ).trans (E.frobeniusAt_eq_arithFrobAt v Q).symm
+  · rintro rfl
+    rw [E.frobeniusAt_eq_arithFrobAt v Q]
+    exact IsArithFrobAt.arithFrobAt
+      (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+      Gal(L/PrimeCyclotomicField p) Q.1
+
+/-- The automorphism induced by a cyclotomic Galois element on the ring of
+integers of the cyclotomic field. -/
+noncomputable def baseIntegerEquiv
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    NumberField.RingOfIntegers (PrimeCyclotomicField p) ≃+*
+      NumberField.RingOfIntegers (PrimeCyclotomicField p) :=
+  NumberField.RingOfIntegers.mapRingEquiv σ.toRingEquiv
+
+/-- The automorphism induced by the chosen lift on the ring of integers of
+the extension field. -/
+noncomputable def liftIntegerEquiv (E : InverseExtension p L)
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    NumberField.RingOfIntegers L ≃+* NumberField.RingOfIntegers L :=
+  NumberField.RingOfIntegers.mapRingEquiv (E.lift σ).toRingEquiv
+
+/-- The two induced automorphisms of the rings of integers form a semilinear
+square over the chosen lift. -/
+theorem liftIntegerEquiv_algebraMap (E : InverseExtension p L)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (x : NumberField.RingOfIntegers (PrimeCyclotomicField p)) :
+    E.liftIntegerEquiv σ
+        (algebraMap
+          (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+          (NumberField.RingOfIntegers L) x) =
+      algebraMap
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (NumberField.RingOfIntegers L) (baseIntegerEquiv σ x) := by
+  apply NumberField.RingOfIntegers.ext
+  change E.lift σ
+      (algebraMap (PrimeCyclotomicField p) L
+        (x : PrimeCyclotomicField p)) =
+    algebraMap (PrimeCyclotomicField p) L
+      (σ (x : PrimeCyclotomicField p))
+  exact E.lift_algebraMap σ (x : PrimeCyclotomicField p)
+
+omit [Fact p.Prime] in
+/-- Extending the ring-of-integers action to the fraction field recovers the
+original cyclotomic Galois automorphism. -/
+theorem inducedBaseIntegerEquiv_eq
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    IsFractionRing.ringEquivOfRingEquiv (baseIntegerEquiv σ) =
+      σ.toRingEquiv := by
+  apply RingEquiv.toRingHom_injective
+  apply IsFractionRing.ringHom_ext
+    (A := NumberField.RingOfIntegers (PrimeCyclotomicField p))
+  intro x
+  change IsFractionRing.ringEquivOfRingEquiv (baseIntegerEquiv σ)
+      (algebraMap (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (PrimeCyclotomicField p) x) =
+    σ (algebraMap (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+      (PrimeCyclotomicField p) x)
+  rw [IsFractionRing.ringEquivOfRingEquiv_algebraMap]
+  rfl
+
+/-- The action of a cyclotomic Galois element on finite primes. -/
+noncomputable def mapFinitePrime
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    FinitePrime (PrimeCyclotomicField p) ≃
+      FinitePrime (PrimeCyclotomicField p) :=
+  IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv (baseIntegerEquiv σ)
+
+omit [Fact p.Prime] in
+/-- The ideal underlying the transported finite prime is the usual ideal
+map. -/
+theorem mapFinitePrime_asIdeal
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    (mapFinitePrime σ v).asIdeal = Ideal.map (baseIntegerEquiv σ) v.asIdeal :=
+  NumberTheory.UnramifiedArtin.asIdeal_equivOfRingEquiv _ _
+
+/-- Actual conjugation by a chosen lift agrees with semilinear conjugation on
+the rings of integers. -/
+theorem conjugate_toAlgHom_eq_semilinearConjugate
+    (E : InverseExtension p L)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (τ : Gal(L/PrimeCyclotomicField p)) :
+    letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+    MulSemiringAction.toAlgHom
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (NumberField.RingOfIntegers L) (E.conjugate σ τ) =
+      NumberTheory.UnramifiedArtin.semilinearConjugate
+        (baseIntegerEquiv σ) (E.liftIntegerEquiv σ)
+        (E.liftIntegerEquiv_algebraMap σ)
+        (MulSemiringAction.toAlgHom
+          (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+          (NumberField.RingOfIntegers L) τ) := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  apply AlgHom.ext
+  intro x
+  apply NumberField.RingOfIntegers.ext
+  change E.conjugate σ τ (x : L) =
+    E.lift σ (τ ((E.lift σ).symm (x : L)))
+  exact E.conjugate_apply σ τ (x : L)
+
+/-- Arithmetic Frobenius congruences are preserved by semilinear
+conjugation. -/
+theorem conjugate_isArithFrobAt
+    (E : InverseExtension p L)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (τ : Gal(L/PrimeCyclotomicField p))
+    (Q : Ideal (NumberField.RingOfIntegers L)) :
+    letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+    IsArithFrobAt
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)) τ Q →
+      IsArithFrobAt
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (E.conjugate σ τ) (Q.map (E.liftIntegerEquiv σ)) := by
+  letI : IsGalois (PrimeCyclotomicField p) L := E.isGalois
+  intro hτ
+  change (MulSemiringAction.toAlgHom
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (NumberField.RingOfIntegers L) (E.conjugate σ τ)).IsArithFrobAt _
+  rw [E.conjugate_toAlgHom_eq_semilinearConjugate σ τ]
+  exact NumberTheory.UnramifiedArtin.isArithFrobAt_semilinearConjugate
+    (baseIntegerEquiv σ) (E.liftIntegerEquiv σ)
+      (E.liftIntegerEquiv_algebraMap σ) hτ
+
+/-- A canonical prime over the transported base prime, obtained by mapping
+the selected prime upstairs by the chosen lift. -/
+noncomputable def mappedPrimeAbove (E : InverseExtension p L)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    Ideal.primesOver (mapFinitePrime σ v).asIdeal
+      (NumberField.RingOfIntegers L) := by
+  refine ⟨(E.primeAbove v).1.map (E.liftIntegerEquiv σ), inferInstance, ?_⟩
+  constructor
+  rw [mapFinitePrime_asIdeal,
+    NumberTheory.UnramifiedArtin.under_map_semilinear
+      (baseIntegerEquiv σ) (E.liftIntegerEquiv σ)
+      (E.liftIntegerEquiv_algebraMap σ),
+    ← Ideal.over_def (p := v.asIdeal) (P := (E.primeAbove v).1)]
+
+/-- At unramified finite primes, Frobenius transforms by actual conjugation
+under the cyclotomic Galois action. -/
+theorem conjugate_frobeniusAt (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    E.conjugate σ (E.frobeniusAt v) =
+      E.frobeniusAt (mapFinitePrime σ v) := by
+  apply (E.isArithFrobAt_iff_eq_frobeniusAt
+    (mapFinitePrime σ v) (hunramified (mapFinitePrime σ v))
+      (E.mappedPrimeAbove σ v) _).mp
+  exact E.conjugate_isArithFrobAt σ (E.frobeniusAt v)
+    (E.primeAbove v).1 (E.frobeniusAt_isArithFrobAt v)
+
+/-- The local Artin symbol, expressed in the fixed cyclic coordinate
+`Multiplicative (ZMod p)`. -/
+noncomputable def artinSymbol (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    Multiplicative (ZMod p) :=
+  E.galEquiv (E.frobeniusAt v)
+
+/-- Multiplication by the inverse-cyclotomic character, viewed as an
+endomorphism of the additive cyclic coordinate. -/
+noncomputable def inverseCharacterAction
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    Multiplicative (ZMod p) →* Multiplicative (ZMod p) where
+  toFun z := Multiplicative.ofAdd
+    ((inverseCharacter p σ : ZMod p) * Multiplicative.toAdd z)
+  map_one' := by
+    apply Multiplicative.toAdd.injective
+    simp
+  map_mul' x y := by
+    apply Multiplicative.toAdd.injective
+    change (inverseCharacter p σ : ZMod p) *
+        (Multiplicative.toAdd x + Multiplicative.toAdd y) =
+      (inverseCharacter p σ : ZMod p) * Multiplicative.toAdd x +
+        (inverseCharacter p σ : ZMod p) * Multiplicative.toAdd y
+    exact mul_add _ _ _
+
+/-- Evaluation of the inverse-character action in the additive cyclic
+coordinate. -/
+@[simp]
+theorem inverseCharacterAction_toAdd
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (z : Multiplicative (ZMod p)) :
+    Multiplicative.toAdd (inverseCharacterAction σ z) =
+      (inverseCharacter p σ : ZMod p) * Multiplicative.toAdd z :=
+  rfl
+
+/-- The finite-prime Artin symbol transforms by the inverse cyclotomic
+character. -/
+theorem artinSymbol_mapFinitePrime (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    E.artinSymbol (mapFinitePrime σ v) =
+      inverseCharacterAction σ (E.artinSymbol v) := by
+  apply Multiplicative.toAdd.injective
+  change Multiplicative.toAdd
+      (E.galEquiv (E.frobeniusAt (mapFinitePrime σ v))) = _
+  rw [← E.conjugate_frobeniusAt hunramified σ v]
+  exact E.inverse_action σ (E.frobeniusAt v)
+
+/-- The semilinear action of a cyclotomic Galois element on nonzero
+fractional ideals. -/
+noncomputable def fractionalIdealEquiv
+    (σ : Gal(PrimeCyclotomicField p/ℚ)) :
+    (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ ≃*
+    (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ :=
+  Units.mapEquiv
+    (FractionalIdeal.ringEquivOfRingEquiv
+      (PrimeCyclotomicField p) (PrimeCyclotomicField p)
+      (baseIntegerEquiv σ)).toMulEquiv
+
+omit [Fact p.Prime] in
+/-- The fractional-ideal action sends a prime ideal to the transported finite
+prime. -/
+theorem fractionalIdealEquiv_prime
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    fractionalIdealEquiv σ
+        (NumberTheory.UnramifiedArtin.primeFractionalIdealUnit
+          (K := PrimeCyclotomicField p) v) =
+      NumberTheory.UnramifiedArtin.primeFractionalIdealUnit
+        (K := PrimeCyclotomicField p) (mapFinitePrime σ v) := by
+  apply Units.ext
+  change FractionalIdeal.ringEquivOfRingEquiv
+      (PrimeCyclotomicField p) (PrimeCyclotomicField p)
+      (baseIntegerEquiv σ)
+      (v.asIdeal : FractionalIdeal
+        (nonZeroDivisors
+          (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+        (PrimeCyclotomicField p)) =
+    ((mapFinitePrime σ v).asIdeal : FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))
+  rw [NumberTheory.UnramifiedArtin.ringEquivOfRingEquiv_coeIdeal,
+    mapFinitePrime_asIdeal]
+
+/-- The ideal-theoretic Artin homomorphism obtained by extending the finite
+prime symbols multiplicatively to all nonzero fractional ideals. -/
+noncomputable def fractionalArtin (E : InverseExtension p L) :
+    (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ →* Multiplicative (ZMod p) :=
+  NumberTheory.UnramifiedArtin.fractionalIdealHom E.artinSymbol
+
+/-- On a prime fractional ideal, `fractionalArtin` is the selected local
+arithmetic Frobenius in the cyclic coordinate. -/
+@[simp]
+theorem fractionalArtin_prime (E : InverseExtension p L)
+    (v : FinitePrime (PrimeCyclotomicField p)) :
+    E.fractionalArtin
+      (Units.mk0
+        (v.asIdeal : FractionalIdeal
+          (nonZeroDivisors
+            (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+          (PrimeCyclotomicField p))
+        (FractionalIdeal.coeIdeal_ne_zero.mpr v.ne_bot)) =
+      E.artinSymbol v :=
+  NumberTheory.UnramifiedArtin.fractionalIdealHom_prime _ v
+
+/-- The fractional Artin map is inverse-cyclotomic equivariant. -/
+theorem fractionalArtin_equivariant (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (I : (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ) :
+    E.fractionalArtin (fractionalIdealEquiv σ I) =
+      inverseCharacterAction σ (E.fractionalArtin I) := by
+  have hhom : E.fractionalArtin.comp
+        (fractionalIdealEquiv σ).toMonoidHom =
+      (inverseCharacterAction σ).comp E.fractionalArtin := by
+    apply NumberTheory.UnramifiedArtin.fractionalIdealMonoidHom_ext
+    intro v
+    change E.fractionalArtin (fractionalIdealEquiv σ
+        (NumberTheory.UnramifiedArtin.primeFractionalIdealUnit
+          (K := PrimeCyclotomicField p) v)) =
+      inverseCharacterAction σ
+        (E.fractionalArtin
+          (NumberTheory.UnramifiedArtin.primeFractionalIdealUnit
+            (K := PrimeCyclotomicField p) v))
+    rw [fractionalIdealEquiv_prime]
+    unfold NumberTheory.UnramifiedArtin.primeFractionalIdealUnit
+    rw [E.fractionalArtin_prime, E.fractionalArtin_prime]
+    exact E.artinSymbol_mapFinitePrime hunramified σ v
+  exact DFunLike.congr_fun hhom I
+
+/-- Conductor-one principal reciprocity for the ideal Artin map: every
+principal fractional ideal maps trivially. -/
+def SatisfiesPrincipalReciprocity (E : InverseExtension p L) : Prop :=
+  NumberTheory.UnramifiedArtin.KillsPrincipalIdeals
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) E.fractionalArtin
+
+/-- The weak Chebotarev input needed here, stated exactly as generation of the
+cyclic relative Galois group by finite-prime Artin symbols. -/
+def FrobeniusSymbolsGenerate (E : InverseExtension p L) : Prop :=
+  Subgroup.closure (Set.range E.artinSymbol) = ⊤
+
+/-- Once principal reciprocity is known, the ideal Artin map descends to the
+ordinary ideal class group. -/
+noncomputable def classGroupArtin (E : InverseExtension p L)
+    (hprincipal : E.SatisfiesPrincipalReciprocity) :
+    ClassGroup
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)) →*
+      Multiplicative (ZMod p) :=
+  NumberTheory.UnramifiedArtin.classGroupHom
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) E.fractionalArtin hprincipal
+
+/-- The class-group Artin map agrees with the fractional-ideal Artin map on a
+represented ideal class. -/
+theorem classGroupArtin_mk (E : InverseExtension p L)
+    (hprincipal : E.SatisfiesPrincipalReciprocity)
+    (I : (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ) :
+    E.classGroupArtin hprincipal
+        (ClassGroup.mk (PrimeCyclotomicField p) I) =
+      E.fractionalArtin I :=
+  NumberTheory.UnramifiedArtin.classGroupHom_mk
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) E.fractionalArtin hprincipal I
+
+/-- The descended class-group Artin map is onto exactly when the finite-prime
+Frobenius symbols generate the cyclic target. -/
+theorem classGroupArtin_surjective_iff (E : InverseExtension p L)
+    (hprincipal : E.SatisfiesPrincipalReciprocity) :
+    Function.Surjective (E.classGroupArtin hprincipal) ↔
+      E.FrobeniusSymbolsGenerate :=
+  NumberTheory.UnramifiedArtin.classGroupHom_surjective_iff_generators
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) E.artinSymbol hprincipal
+
+/-- Frobenius generation makes the descended class-group Artin map
+surjective. -/
+theorem classGroupArtin_surjective (E : InverseExtension p L)
+    (hprincipal : E.SatisfiesPrincipalReciprocity)
+    (hgenerate : E.FrobeniusSymbolsGenerate) :
+    Function.Surjective (E.classGroupArtin hprincipal) :=
+  (E.classGroupArtin_surjective_iff hprincipal).mpr hgenerate
+
 end InverseExtension
 
 /-- The strongest unconditional finite-place bridge currently supported by
@@ -215,8 +634,48 @@ noncomputable def classGroupAutomorphism (p : ℕ)
     (σ : Gal(PrimeCyclotomicField p/ℚ)) :
     ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p)) ≃*
       ClassGroup (NumberField.RingOfIntegers (PrimeCyclotomicField p)) :=
-  ClassGroup.mulEquiv
-    (NumberField.RingOfIntegers.mapRingEquiv σ.toRingEquiv)
+  NumberTheory.UnramifiedArtin.classGroupEquiv
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) (InverseExtension.baseIntegerEquiv σ)
+
+/-- Formula for the cyclotomic action on an ideal-class representative. -/
+theorem classGroupAutomorphism_mk {p : ℕ}
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (I : (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ) :
+    classGroupAutomorphism p σ (ClassGroup.mk (PrimeCyclotomicField p) I) =
+      ClassGroup.mk (PrimeCyclotomicField p)
+        (InverseExtension.fractionalIdealEquiv σ I) :=
+  NumberTheory.UnramifiedArtin.classGroupEquiv_mk
+    (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) (InverseExtension.baseIntegerEquiv σ) I
+
+namespace InverseExtension
+
+/-- The descended class-group Artin map is inverse-cyclotomic equivariant. -/
+theorem classGroupArtin_equivariant
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces)
+    (hprincipal : E.SatisfiesPrincipalReciprocity)
+    (σ : Gal(PrimeCyclotomicField p/ℚ))
+    (c : ClassGroup
+      (NumberField.RingOfIntegers (PrimeCyclotomicField p))) :
+    E.classGroupArtin hprincipal (classGroupAutomorphism p σ c) =
+      inverseCharacterAction σ (E.classGroupArtin hprincipal c) := by
+  refine ClassGroup.induction
+    (R := NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (PrimeCyclotomicField p) ?_ c
+  intro I
+  rw [classGroupAutomorphism_mk, E.classGroupArtin_mk,
+    E.classGroupArtin_mk, E.fractionalArtin_equivariant hunramified]
+
+end InverseExtension
 
 /-- The quotient supplied by the unramified abelian correspondence, before
 recording its Galois eigenspace. -/
@@ -244,6 +703,29 @@ structure InverseClassGroupQuotient (p : ℕ) [Fact p.Prime]
     extends UnramifiedClassGroupQuotient p where
   /-- The quotient transforms through the inverse cyclotomic character. -/
   inverseCyclotomic : toUnramifiedClassGroupQuotient.IsInverseCyclotomic
+
+namespace InverseExtension
+
+/-- Principal reciprocity and finite-prime Frobenius generation construct the
+required surjective inverse-cyclotomic quotient of the ordinary ideal class
+group. -/
+noncomputable def inverseClassGroupQuotient
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (E : InverseExtension p L)
+    (hunramified : E.IsUnramifiedAtFinitePlaces)
+    (hprincipal : E.SatisfiesPrincipalReciprocity)
+    (hgenerate : E.FrobeniusSymbolsGenerate) :
+    InverseClassGroupQuotient p where
+  quotient := E.classGroupArtin hprincipal
+  surjective := E.classGroupArtin_surjective hprincipal hgenerate
+  inverseCyclotomic σ c := by
+    rw [E.classGroupArtin_equivariant hunramified hprincipal σ c]
+    rfl
+
+end InverseExtension
 
 /-- The missing class-field-theory statement: over a totally complex base,
 every everywhere-unramified inverse-cyclotomic extension produces the
