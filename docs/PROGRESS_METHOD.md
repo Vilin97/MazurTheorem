@@ -39,6 +39,35 @@ The ledger and dependency graph live in
 are immutable and all weights must sum to 1,000. Changes to the denominator
 need a public design issue and must explain what new scope was discovered.
 
+## Route revisions and immutable ledger addresses
+
+Node identifiers are permanent accounting addresses, not promises that one
+particular proof strategy will remain optimal forever. A mathematical route
+may be replaced when a documented literature and API audit finds a strictly
+smaller checked dependency cone. Such a migration must:
+
+- add a dated top-level `route_revision` record;
+- retain every public node ID, weight, completion flag, and registered
+  Challenge;
+- record the former role and the replacement role in `route_history` on each
+  repurposed node;
+- rebuild reciprocal dependency edges and prove that the graph remains
+  acyclic;
+- award no completion credit for prose, rejected work, or a renamed node; and
+- identify a concrete downstream consumer for every proposed public API.
+
+A Challenge may cease to be theorem-critical without ceasing to be a release
+obligation. In that case it stays in the ledger with its immutable contract,
+and the final exposition/audit node depends on it even though the mathematical
+theorem path does not. This distinction prevents historical contributor
+contracts from forcing a needlessly difficult proof route while ensuring that
+none is silently deleted or declared solved.
+
+The `formal-immersion-at-five-v1` revision follows this policy. It changes no
+denominator or completion number: all 48 node IDs and all 1,000 points remain,
+with the obsolete prime-argument addresses assigned to the successive checked
+steps of Mazur's 1978 formal-immersion proof.
+
 This is an engineering estimate, not a theorem. High-risk nodes can vary by a
 factor of two or more. The weights are most useful for preventing tiny final
 lemmas or large generated files from distorting the picture.

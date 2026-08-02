@@ -123,6 +123,9 @@ published at the stable `/blueprint/` route on GitHub Pages.
 - [`Challenge/`](Challenge/) — immutable open theorem contracts;
 - [`coordination/program.json`](coordination/program.json) — canonical
   weighted DAG and claim metadata;
+- [`docs/ROUTE_AUDIT.md`](docs/ROUTE_AUDIT.md) — audited selection of the
+  Mazur-1978 formal-immersion route, rejected alternatives, and fallback
+  policy;
 - [`blueprint/MazurBlueprint/Blueprint.lean`](blueprint/MazurBlueprint/Blueprint.lean)
   — six-stage Verso blueprint, dependency graph, and progress summary;
 - [`upstream/tauceti/`](upstream/tauceti/) — open Tau Ceti interface

@@ -8,7 +8,12 @@
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
     "integrated_lean_lines": 1439171,
     "integrated_lean_modules": 670,
-    "remaining_composite_orders": [18, 25, 35, 49],
+    "remaining_composite_orders": [
+      18,
+      25,
+      35,
+      49
+    ],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
   "sources": [
@@ -105,7 +110,7 @@
       "id": "finite_endpoints",
       "title": "Finite-level endpoints",
       "weight_points": 100,
-      "summary": "Close orders 18, 25, 35, and 49 and the separate prime levels 11 and 13.",
+      "summary": "Close level 13 and orders 18, 25, 35, and 49; obtain order 11 from the uniform formal-immersion route, reuse the same engine for squarefree level 35, and reduce order 49 directly to the checked X_0(49) cusp classification.",
       "deliverables": [
         {
           "kind": "definition",
@@ -147,7 +152,7 @@
           "kind": "integration",
           "name": "finiteEndpointPointOrder",
           "state": "proposed",
-          "description": "One theorem discharging the six finite-level callbacks consumed by PointOrder."
+          "description": "One theorem discharging order 13 and the four composite callbacks; order 11 is supplied by the prime-level formal-immersion theorem."
         }
       ]
     },
@@ -199,55 +204,49 @@
       "id": "prime_infrastructure",
       "title": "Prime-level infrastructure",
       "weight_points": 400,
-      "summary": "Neron models, finite-flat group schemes, integral modular curves, Hecke operators, and the Eisenstein quotient.",
+      "summary": "The minimal Jacobian, Hecke, Eisenstein rank-zero, formal-immersion, and local Neron infrastructure needed at auxiliary prime 5, with reuse at 11 for level 35.",
       "deliverables": [
         {
           "kind": "structure",
-          "name": "NeronModel",
+          "name": "NeronModel and torsionSpecializationKernel",
           "state": "proposed",
-          "description": "A smooth separated model over a DVR with generic-fibre recovery and the Neron mapping property."
+          "description": "Neron models only through the component, rank-zero, and unramified prime-five torsion-specialization consumers used by the chosen proof."
         },
         {
           "kind": "definition",
-          "name": "NeronModel.identityComponent and componentGroup",
+          "name": "AdmissibleFiniteFlatGroup and eisensteinRankZeroCriterion",
           "state": "proposed",
-          "description": "Identity components, component groups, specialization exact sequence, and prime-to-residue-characteristic torsion injection."
+          "description": "The finite-flat filtration, fppf cohomology, and Raynaud uniqueness package actually consumed by finiteness of the Eisenstein quotient."
+        },
+        {
+          "kind": "definition",
+          "name": "XZeroModuli, IntegralXZero, and cuspFormalParameter",
+          "state": "proposed",
+          "description": "The Gamma_0 moduli point, compactified integral curve, cusp sections, and q-parameter needed over Q, Z_(5), and Z_(11)."
         },
         {
           "kind": "structure",
-          "name": "FiniteFlatCommGroupScheme",
+          "name": "ModularJacobian, HeckeOperator, and OptimalQuotient",
           "state": "proposed",
-          "description": "Finite-flat commutative group schemes with kernels, quotients, base change, and connected-etale sequence."
+          "description": "J_0(N), its Hecke-stable optimal quotients, and the cotangent/q-expansion interface proving formal immersion at infinity."
         },
         {
           "kind": "theorem",
-          "name": "OortTate.classification and Raynaud.uniqueness",
+          "name": "optimalQuotient_formalImmersionAtInfinity_of_residueChar_ne_two",
           "state": "proposed",
-          "description": "The classification and uniqueness results controlling prime-order subgroup schemes over arithmetic bases."
+          "description": "Mazur's degree-one formal-immersion theorem for every nontrivial optimal quotient away from characteristic two, consumed at 5 and 11."
         },
         {
           "kind": "definition",
-          "name": "XZeroModuli and IntegralXZero",
+          "name": "EisensteinQuotient",
           "state": "proposed",
-          "description": "The Gamma_0 moduli problem, its compactification, cusps, generic fibre, and reduction interfaces."
-        },
-        {
-          "kind": "structure",
-          "name": "ModularJacobian and HeckeOperator",
-          "state": "proposed",
-          "description": "J_0(N), Hecke correspondences, their algebra action, and compatibility with base change and isogenies."
-        },
-        {
-          "kind": "definition",
-          "name": "EisensteinIdeal and EisensteinQuotient",
-          "state": "proposed",
-          "description": "The Eisenstein Hecke quotient with finite Mordell-Weil group and the exact nonzero cusp-difference order."
+          "description": "A nontrivial optimal quotient for N=11 or prime N at least 17 whose rational Mordell-Weil group is finite; no exact cusp-order API is required."
         },
         {
           "kind": "theorem",
           "name": "CyclotomicCharacter.no_everywhereUnramified_inverse",
-          "state": "proposed",
-          "description": "The class-field/cyclotomic exclusion needed by the prime-order representation argument."
+          "state": "contract",
+          "description": "The inherited class-field Challenge remains a release obligation, while the formal-immersion theorem no longer depends on it."
         }
       ]
     },
@@ -255,55 +254,37 @@
       "id": "prime_argument",
       "title": "Mazur's prime-order argument",
       "weight_points": 100,
-      "summary": "The specialization, unramified-extension, splitting, and isogeny-chain argument for primes at least 17.",
+      "summary": "Mazur's 1978 degree-one formal-immersion argument at 5: potentially good, then good reduction, then a checked ten-point enumeration over F_5.",
       "deliverables": [
         {
           "kind": "theorem",
-          "name": "primeTorsion_semistable",
+          "name": "eisensteinImage_isTorsion",
           "state": "proposed",
-          "description": "A rational point of prime order p >= 17 forces semistable reduction."
+          "description": "The rational prime-torsion point defines an X_0(N) point whose image in the finite Eisenstein quotient is torsion."
         },
         {
           "kind": "theorem",
-          "name": "primeTorsion_specializes_outside_identity",
+          "name": "primeTorsion_potentiallyGoodReductionAtFive",
           "state": "proposed",
-          "description": "Hasse bounds and component groups place the marked point outside the relevant identity components."
+          "description": "Cusp reduction, torsion specialization, and formal immersion exclude potentially multiplicative reduction at 5."
         },
         {
           "kind": "theorem",
-          "name": "eisenstein_specialization_comparison",
+          "name": "primeTorsion_goodReductionAtFive",
           "state": "proposed",
-          "description": "The integral X_0(p) point has constrained and comparable images in the Eisenstein quotient at two primes."
+          "description": "Prime-to-five specialization and the tame additive component bound upgrade potentially good reduction to good reduction."
         },
         {
           "kind": "theorem",
-          "name": "divisionField_everywhereUnramified",
+          "name": "card_reductionAtFive_le_ten",
           "state": "proposed",
-          "description": "The p-division extension over Q(zeta_p) is everywhere unramified."
+          "description": "Normalize to one of 25 short models over F_5 and check that the special fibre has at most ten points."
         },
         {
           "kind": "theorem",
-          "name": "inverseCyclotomic_extension_impossible",
+          "name": "rationalPoint_addOrderOf_ne_eleven / ne_prime_ge_seventeen",
           "state": "proposed",
-          "description": "Herbrand-Kummer and B_2 = 1/6 exclude the required character extension."
-        },
-        {
-          "kind": "theorem",
-          "name": "primeTorsion_exactSequence_split",
-          "state": "proposed",
-          "description": "The exact sequence 0 -> Z/pZ -> E[p] -> mu_p -> 0 splits."
-        },
-        {
-          "kind": "theorem",
-          "name": "Shafarevich.finite_isomorphismClasses",
-          "state": "proposed",
-          "description": "Only finitely many elliptic curves have the prescribed bad-reduction set needed by the iteration."
-        },
-        {
-          "kind": "theorem",
-          "name": "rationalPoint_addOrderOf_ne_prime_ge_seventeen",
-          "state": "proposed",
-          "description": "The quotient-isogeny chain contradicts Shafarevich finiteness and excludes every prime p >= 17."
+          "description": "Inject the marked point into the at-most-ten-element fibre and exclude order 11 and every prime order at least 17."
         }
       ]
     },
@@ -391,12 +372,9 @@
       ],
       "depends_on": [],
       "unlocks": [
-        "MT-X11-COSET",
         "MT-X13-NONCUSP",
         "MT-X18-NONCUSP",
         "MT-O25-EXCLUDE",
-        "MT-O35-EXCLUDE",
-        "MT-O49-TOWER",
         "MT-TC-A1-ORDER-SUPPORT",
         "MT-TC-E0-PRODUCT-DIM",
         "MT-EC-ISOGENY-WEIL",
@@ -423,9 +401,13 @@
       "weight_points": 12,
       "risk": "high",
       "backend": "mazur",
-      "summary": "Carry out the explicit five-isogeny descent showing that the five visible torsion points represent every coset modulo 5E(Q).",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-X11-JOIN"],
+      "summary": "Discharge the retained five-coset Challenge after order 11 is known: prove the reverse X_1(11) moduli bridge, classify every rational model point as a cusp, and choose Q=0 for the five visible representatives. The direct five-isogeny Selmer calculation remains a valid fallback.",
+      "depends_on": [
+        "MT-X11-JOIN"
+      ],
+      "unlocks": [
+        "MT-EXPOSITION-AUDIT"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -441,19 +423,28 @@
         "destination_module": "MazurTorsion.NumberTheory.XOneElevenDescent",
         "destination_declaration": "MazurTorsion.XOneEleven.fiveCosetBound",
         "signature": "theorem xOneEleven_fiveCosetBound :\n    MazurTorsion.XOneEleven.FiveCosetBound := sorry",
-        "imports": ["MazurTorsion.NumberTheory.XOneElevenDescent"],
+        "imports": [
+          "MazurTorsion.NumberTheory.XOneElevenDescent"
+        ],
         "informal": "Every rational point on y^2 + y = x^3 - x^2 differs from one of the five multiples of (0,0) by five times a rational point.",
-        "recommended_route": "Complete the Kummer/Selmer calculation around the explicit five-isogeny and Miller function already recorded in XOneElevenDescent.",
+        "recommended_route": "Preferred after the route migration: formalize the reverse X_1(11) model-to-torsion bridge, apply the unconditional order-11 exclusion to rule out noncuspidal points, then prove FiveCosetBound with the visible point and Q=0. The prepared five-isogeny Selmer computation remains an independent fallback.",
         "consumer_declarations": [
           "MazurTorsion.XOneEleven.five_point_classification_of_cosetBound"
         ],
-        "estimated_lines": {"min": 1000, "max": 3000},
-        "skills": ["elliptic curves", "isogeny descent", "algebraic number theory"]
+        "estimated_lines": {
+          "min": 1000,
+          "max": 3000
+        },
+        "skills": [
+          "elliptic curves",
+          "isogeny descent",
+          "algebraic number theory"
+        ]
       }
     },
     {
       "id": "MT-X11-JOIN",
-      "title": "Exclude exact rational order 11",
+      "title": "Expose the order-11 endpoint from the prime theorem",
       "stage": "finite_endpoints",
       "kind": "integration",
       "status": "blocked",
@@ -461,17 +452,22 @@
       "weight_points": 2,
       "risk": "low",
       "backend": "mazur",
-      "summary": "Feed the five-coset bound through the existing X_1(11) reduction and classification.",
+      "summary": "Adapt the formal-immersion order-11 theorem to the existing PointOrder callback; the explicit X_1(11) descent is no longer a logical prerequisite.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.XOneEleven.rationalPoint_addOrderOf_ne_eleven",
           "state": "proposed",
-          "description": "Consume the five-coset contract and the existing X_1(11) reduction to exclude exact rational order 11."
+          "description": "Expose the uniform order-eleven result under the finite-endpoint namespace expected by PointOrder."
         }
       ],
-      "depends_on": ["MT-X11-COSET"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "depends_on": [
+        "MT-PRIME-ISOGENY-CHAIN"
+      ],
+      "unlocks": [
+        "MT-X11-COSET",
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -491,8 +487,12 @@
       "risk": "extreme",
       "backend": "mazur",
       "summary": "Show that the explicit genus-two order-13 model has no rational affine point with x different from 0 and -1.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -508,14 +508,23 @@
         "destination_module": "MazurTorsion.NumberTheory.XOneThirteenDescent",
         "destination_declaration": "MazurTorsion.XOneThirteenDescent.no_noncuspidal_point",
         "signature": "theorem xOneThirteen_no_noncuspidal_point\n    (x y : ℚ) (hx0 : x ≠ 0) (hxnegOne : x ≠ -1)\n    (hcurve : y ^ 2 =\n      MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x) :\n    False := sorry",
-        "imports": ["MazurTorsion.NumberTheory.XOneThirteenDescent"],
+        "imports": [
+          "MazurTorsion.NumberTheory.XOneThirteenDescent"
+        ],
         "informal": "The explicit X_1(13) sextic has no rational affine point away from the cusp abscissas 0 and -1.",
         "recommended_route": "Use the prepared Pell certificate and a genus-two Jacobian or descent argument, or supply another kernel-checked rational-point classification.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
-        "estimated_lines": {"min": 3000, "max": 12000},
-        "skills": ["genus-two curves", "Jacobians", "descent"]
+        "estimated_lines": {
+          "min": 3000,
+          "max": 12000
+        },
+        "skills": [
+          "genus-two curves",
+          "Jacobians",
+          "descent"
+        ]
       }
     },
     {
@@ -529,8 +538,12 @@
       "risk": "extreme",
       "backend": "mazur",
       "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -546,14 +559,23 @@
         "destination_module": "MazurTorsion.NumberTheory.XOneEighteenDescent",
         "destination_declaration": "MazurTorsion.XOneEighteenDescent.no_noncuspidal_point",
         "signature": "theorem xOneEighteen_no_noncuspidal_point\n    (x y : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1)\n    (hcurve : y ^ 2 =\n      MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :\n    False := sorry",
-        "imports": ["MazurTorsion.NumberTheory.XOneEighteenDescent"],
+        "imports": [
+          "MazurTorsion.NumberTheory.XOneEighteenDescent"
+        ],
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
         "recommended_route": "Finish the classical Eisenstein π=3+ω descent using the primitive descent data already proved, or give another kernel-checked rational-point classification.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
-        "estimated_lines": {"min": 2000, "max": 5000},
-        "skills": ["genus-two curves", "descent", "Eisenstein integers"]
+        "estimated_lines": {
+          "min": 2000,
+          "max": 5000
+        },
+        "skills": [
+          "genus-two curves",
+          "descent",
+          "Eisenstein integers"
+        ]
       }
     },
     {
@@ -567,8 +589,12 @@
       "risk": "extreme",
       "backend": "mathlib",
       "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -584,19 +610,28 @@
         "destination_module": "MazurTorsion.Kubert.OrderTwentyFive",
         "destination_declaration": "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_twentyFive",
         "signature": "theorem no_rational_point_of_order_twentyFive\n    (E : WeierstrassCurve ℚ) [E.IsElliptic]\n    (P : (E⁄ℚ).Point) :\n    addOrderOf P ≠ 25 := sorry",
-        "imports": ["MazurTorsion.Kubert.OrderTwentyFive"],
+        "imports": [
+          "MazurTorsion.Kubert.OrderTwentyFive"
+        ],
         "informal": "An elliptic curve over Q has no rational point of exact order 25.",
         "recommended_route": "Develop a Tate-normal-form or modular-curve reduction with an independently checkable descent endpoint.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
-        "estimated_lines": {"min": 2000, "max": 7000},
-        "skills": ["elliptic curves", "Tate normal form", "explicit Diophantine geometry"]
+        "estimated_lines": {
+          "min": 2000,
+          "max": 7000
+        },
+        "skills": [
+          "elliptic curves",
+          "Tate normal form",
+          "explicit Diophantine geometry"
+        ]
       }
     },
     {
       "id": "MT-O35-EXCLUDE",
-      "title": "Exclude exact rational order 35",
+      "title": "Exclude exact order 35 with the shared formal-immersion engine",
       "stage": "finite_endpoints",
       "kind": "proof",
       "status": "research_open",
@@ -604,9 +639,17 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 35.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "summary": "Use the explicit rank-zero optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. Tame local reduction and #E(F_11) <= 18 then exclude a specialized point of order 35.",
+      "depends_on": [
+        "MT-X0-MODULI",
+        "MT-X0-CUSPS",
+        "MT-X0-EISENSTEIN-ALGEBRA",
+        "MT-NERON-COMPONENTS",
+        "MT-NERON-SPECIALIZATION"
+      ],
+      "unlocks": [
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -622,19 +665,70 @@
         "destination_module": "MazurTorsion.Kubert.OrderThirtyFive",
         "destination_declaration": "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive",
         "signature": "theorem no_rational_point_of_order_thirtyFive\n    (E : WeierstrassCurve ℚ) [E.IsElliptic]\n    (P : (E⁄ℚ).Point) :\n    addOrderOf P ≠ 35 := sorry",
-        "imports": ["MazurTorsion.Kubert.OrderThirtyFive"],
+        "imports": [
+          "MazurTorsion.Kubert.OrderThirtyFive"
+        ],
         "informal": "An elliptic curve over Q has no rational point of exact order 35.",
-        "recommended_route": "Reduce to explicit compatible 5- and 7-isogeny data and close the resulting modular or Diophantine endpoint.",
+        "recommended_route": "Reuse the shared Mazur-1978 engine. Construct the optimal elliptic quotient X_0(35)/w_5 with model y^2+y=x^3+x^2+9x+1, certify its finite rational group by a checked descent, instantiate formal immersion at auxiliary prime 11, and combine tame torsion specialization with the checked 121-model enumeration #E(F_11) <= 18.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
-        "estimated_lines": {"min": 2000, "max": 7000},
-        "skills": ["elliptic curves", "isogenies", "modular curves"]
+        "estimated_lines": {
+          "min": 2000,
+          "max": 7000
+        },
+        "skills": [
+          "elliptic curves",
+          "isogenies",
+          "modular curves"
+        ]
+      },
+      "artifacts": [
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.OrderThirtyFive.optimalQuotient",
+          "state": "proposed",
+          "description": "Construct the explicit optimal quotient X_0(35)/w_5 with model y^2+y=x^3+x^2+9x+1."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.optimalQuotient_mordellWeil_finite",
+          "state": "proposed",
+          "description": "Prove the quotient has rank zero and rational torsion Z/3 by a checked descent."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven",
+          "state": "proposed",
+          "description": "Instantiate the shared optimal-quotient formal immersion in characteristic eleven."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen",
+          "state": "proposed",
+          "description": "Normalize to short form and verify the 121 coefficient pairs over F_11."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive",
+          "state": "proposed",
+          "description": "Feed the local-at-eleven collision and finite-field bound to the published endpoint."
+        }
+      ],
+      "acceptance_declarations": [
+        "MazurTorsion.OrderThirtyFive.optimalQuotient_mordellWeil_finite",
+        "MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven",
+        "MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen",
+        "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive"
+      ],
+      "route_history": {
+        "previous_scope": "an unspecified compatible 5- and 7-isogeny Diophantine endpoint",
+        "revision": "the shared squarefree-level formal-immersion engine plus one explicit rank-zero quotient"
       }
     },
     {
       "id": "MT-O49-TOWER",
-      "title": "Bridge exact order 49 to the X_0(49) correspondence",
+      "title": "Bridge order 49 directly to the classified X_0(49) curve",
       "stage": "finite_endpoints",
       "kind": "proof",
       "status": "open",
@@ -642,9 +736,13 @@
       "weight_points": 10,
       "risk": "high",
       "backend": "mazur",
-      "summary": "Turn an exact rational order-49 point into a noncuspidal point of the already classified level-seven correspondence.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FINITE-JOIN"],
+      "summary": "Use the shared cyclic-subgroup moduli bridge: an exact order-49 point gives a noncuspidal X_0(49)(Q) point, contradicting the already checked two-cusp classification. No additivity proof for the explicit Velu point function is needed.",
+      "depends_on": [
+        "MT-X0-MODULI"
+      ],
+      "unlocks": [
+        "MT-FINITE-JOIN"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -660,19 +758,32 @@
         "destination_module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
         "destination_declaration": "MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine",
         "signature": "theorem no_rational_point_of_order_fortyNine\n    (E : WeierstrassCurve ℚ) [E.IsElliptic]\n    (P : (E⁄ℚ).Point) :\n    addOrderOf P ≠ 49 := sorry",
-        "imports": ["MazurTorsion.NumberTheory.XZeroFortyNineTransfer"],
+        "imports": [
+          "MazurTorsion.NumberTheory.XZeroFortyNineTransfer"
+        ],
         "informal": "An elliptic curve over Q has no rational point of exact order 49.",
-        "recommended_route": "Use the compiled orderSevenG7F, exists_orderSevenHauptmodul_of_exactOrder, orderSevenQuotient, and orderSevenPointMap APIs; prove that the explicit Vélu point function respects addition or multiplication by seven; then carry an exact order-49 point through the nonbacktracking branch and apply XZeroFortyNine.no_noncuspidal_correspondence_point.",
+        "recommended_route": "Construct the X_0(49)(Q) moduli point directly from the cyclic subgroup generated by the exact order-49 point, prove it is noncuspidal, and apply the checked XZeroFortyNine.no_noncuspidal_correspondence_point/two-cusp classification. Do not first prove additivity of the explicit Velu point function unless the direct moduli bridge demonstrably fails.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
-        "estimated_lines": {"min": 1000, "max": 3000},
-        "skills": ["elliptic curves", "Velu isogenies", "explicit modular curves"]
+        "estimated_lines": {
+          "min": 1000,
+          "max": 3000
+        },
+        "skills": [
+          "elliptic curves",
+          "Velu isogenies",
+          "explicit modular curves"
+        ]
+      },
+      "route_history": {
+        "previous_scope": "prove additivity of an explicit Velu map and follow a nonbacktracking isogeny tower",
+        "revision": "apply the generic cyclic-subgroup-to-X_0 bridge directly to the checked X_0(49)(Q) classification"
       }
     },
     {
       "id": "MT-FINITE-JOIN",
-      "title": "Assemble all finite-level exclusions",
+      "title": "Assemble the genuinely exceptional finite levels",
       "stage": "finite_endpoints",
       "kind": "integration",
       "status": "blocked",
@@ -680,13 +791,13 @@
       "weight_points": 2,
       "risk": "low",
       "backend": "mazur",
-      "summary": "Remove all four composite callbacks and the separate 11 and 13 prime callbacks from PointOrder.",
+      "summary": "Remove the level-13 and exact-order 18, 25, 35, and 49 callbacks; order 11 is already supplied by the uniform formal-immersion theorem.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_finite_endpoints",
           "state": "proposed",
-          "description": "Combine the exact order 11, 13, 18, 25, 35, and 49 exclusions into the finite-endpoint point-order API."
+          "description": "Combine order 11 from the prime route with level 13 and the four composite exclusions."
         }
       ],
       "depends_on": [
@@ -697,7 +808,9 @@
         "MT-O35-EXCLUDE",
         "MT-O49-TOWER"
       ],
-      "unlocks": ["MT-API-INTEGRATION"],
+      "unlocks": [
+        "MT-API-INTEGRATION"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -717,8 +830,12 @@
       "risk": "high",
       "backend": "tauceti",
       "summary": "Prove that a nonzero rational function on a Noetherian integral scheme has nonzero order at only finitely many codimension-one points, then instantiate Tau Ceti's OrderSystem.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-TC-A2-PRODUCT-FORMULA"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-TC-A2-PRODUCT-FORMULA"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -740,9 +857,18 @@
         ],
         "informal": "A nonzero rational function on a Noetherian integral scheme has nonzero order at only finitely many codimension-one points.",
         "recommended_route": "Prove the global finiteness theorem upstream in Tau Ceti, then use it to package the existing local order maps as an OrderSystem.",
-        "consumer_declarations": ["MazurTauCetiChallenge.orderSystem"],
-        "estimated_lines": {"min": 200, "max": 1500},
-        "skills": ["algebraic geometry", "Noetherian schemes", "orders of vanishing"]
+        "consumer_declarations": [
+          "MazurTauCetiChallenge.orderSystem"
+        ],
+        "estimated_lines": {
+          "min": 200,
+          "max": 1500
+        },
+        "skills": [
+          "algebraic geometry",
+          "Noetherian schemes",
+          "orders of vanishing"
+        ]
       }
     },
     {
@@ -764,8 +890,12 @@
           "description": "State and prove the residue-degree-weighted product formula for every nonzero rational function on a proper smooth curve."
         }
       ],
-      "depends_on": ["MT-TC-A1-ORDER-SUPPORT"],
-      "unlocks": ["MT-TC-A3-DIVISOR-LINE-BUNDLE"],
+      "depends_on": [
+        "MT-TC-A1-ORDER-SUPPORT"
+      ],
+      "unlocks": [
+        "MT-TC-A3-DIVISOR-LINE-BUNDLE"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -793,7 +923,10 @@
         "consumer_declarations": [
           "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero"
         ],
-        "estimated_lines": {"min": 500, "max": 3000},
+        "estimated_lines": {
+          "min": 500,
+          "max": 3000
+        },
         "skills": [
           "algebraic geometry",
           "proper curves",
@@ -813,8 +946,12 @@
       "risk": "medium",
       "backend": "tauceti",
       "summary": "Prove that Tau Ceti's abelian-variety dimension is additive under its product construction.",
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-TC-E1-JACOBIAN-VARIETY"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-TC-E1-JACOBIAN-VARIETY"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -830,12 +967,23 @@
         "destination_module": "TauCeti.AlgebraicGeometry.AbelianVariety.Product",
         "destination_declaration": "TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim",
         "signature": "theorem prod_dim {K : Type u} [Field K]\n    (A B : AbelianVariety K) :\n    (AbelianVariety.prod A B).dim = A.dim + B.dim := sorry",
-        "imports": ["TauCeti.AlgebraicGeometry.AbelianVariety.Product"],
+        "imports": [
+          "TauCeti.AlgebraicGeometry.AbelianVariety.Product"
+        ],
         "informal": "The dimension of A × B is dim A + dim B for abelian varieties over a field.",
         "recommended_route": "Reduce Tau Ceti's topological Krull dimension of the product scheme to the corresponding scheme-theoretic product-dimension theorem.",
-        "consumer_declarations": ["MazurTauCetiChallenge.prod_self_dim"],
-        "estimated_lines": {"min": 100, "max": 800},
-        "skills": ["abelian varieties", "Krull dimension", "scheme products"]
+        "consumer_declarations": [
+          "MazurTauCetiChallenge.prod_self_dim"
+        ],
+        "estimated_lines": {
+          "min": 100,
+          "max": 800
+        },
+        "skills": [
+          "abelian varieties",
+          "Krull dimension",
+          "scheme products"
+        ]
       }
     },
     {
@@ -853,13 +1001,25 @@
         {
           "source": "aintlib-modular-curves",
           "status": "mixed: compatible Picard leaf, unaudited divisor bridge",
-          "estimated_node_savings_percent": {"min": 35, "max": 45},
+          "estimated_node_savings_percent": {
+            "min": 35,
+            "max": 45
+          },
           "summary": "AINTLIB defines the Picard group of a scheme, pullback on Picard groups, relative effective Cartier divisors, and a divisor-to-Picard-class map.",
           "boundary": "It does not identify Weil divisors modulo principal divisors with line bundles; the divisor bridge also sits above unfinished transitive imports.",
           "declarations": [
-            {"name": "AlgebraicGeometry.Scheme.Pic", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/Pic.lean#L118"},
-            {"name": "AlgebraicGeometry.Scheme.Pic.map", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean#L1598"},
-            {"name": "RelEffCartierDiv.picClass", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/DivisorClass.lean#L53"}
+            {
+              "name": "AlgebraicGeometry.Scheme.Pic",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/Pic.lean#L118"
+            },
+            {
+              "name": "AlgebraicGeometry.Scheme.Pic.map",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean#L1598"
+            },
+            {
+              "name": "RelEffCartierDiv.picClass",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/DivisorClass.lean#L53"
+            }
           ]
         }
       ],
@@ -1843,7 +2003,9 @@
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
-      "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
+      "depends_on": [
+        "MT-TC-A2-PRODUCT-FORMULA"
+      ],
       "unlocks": [
         "MT-TC-B1-COHERENT-COHOMOLOGY",
         "MT-TC-C2-SYMMETRIC-POWERS",
@@ -1876,7 +2038,10 @@
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
         ],
-        "estimated_lines": {"min": 1000, "max": 6000},
+        "estimated_lines": {
+          "min": 1000,
+          "max": 6000
+        },
         "skills": [
           "algebraic geometry",
           "module localization",
@@ -1900,12 +2065,21 @@
         {
           "source": "aintlib-modular-curves",
           "status": "substantial scaffold; transitive audit required",
-          "estimated_node_savings_percent": {"min": 40, "max": 55},
+          "estimated_node_savings_percent": {
+            "min": 40,
+            "max": 55
+          },
           "summary": "AINTLIB has derived sheaf cohomology, affine acyclicity, exact-sequence machinery, Cech comparison, and proper low-degree finiteness results.",
           "boundary": "The required packaged proper-curve finite-dimensionality and vanishing-above-one API is absent, and source-clean endpoints do not by themselves certify a placeholder-free import cone.",
           "declarations": [
-            {"name": "affine_subsingleton_H", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307"},
-            {"name": "orderedBaseCechHomologyFinite_of_isProper", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149"}
+            {
+              "name": "affine_subsingleton_H",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307"
+            },
+            {
+              "name": "orderedBaseCechHomologyFinite_of_isProper",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149"
+            }
           ]
         }
       ],
@@ -1923,8 +2097,13 @@
           "description": "Prove finite dimensionality, affine acyclicity, and vanishing above degree one in the required scope."
         }
       ],
-      "depends_on": ["MT-TC-A3-DIVISOR-LINE-BUNDLE"],
-      "unlocks": ["MT-TC-B2-RR-SERRE", "MT-TC-C1-RELATIVE-COHOMOLOGY"],
+      "depends_on": [
+        "MT-TC-A3-DIVISOR-LINE-BUNDLE"
+      ],
+      "unlocks": [
+        "MT-TC-B2-RR-SERRE",
+        "MT-TC-C1-RELATIVE-COHOMOLOGY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -1964,8 +2143,12 @@
           "description": "Provide Serre duality and the resulting degree formula for the dualizing sheaf."
         }
       ],
-      "depends_on": ["MT-TC-B1-COHERENT-COHOMOLOGY"],
-      "unlocks": ["MT-TC-D2-PICARD-REPRESENTABILITY"],
+      "depends_on": [
+        "MT-TC-B1-COHERENT-COHOMOLOGY"
+      ],
+      "unlocks": [
+        "MT-TC-D2-PICARD-REPRESENTABILITY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -1989,11 +2172,17 @@
         {
           "source": "aintlib-modular-curves",
           "status": "comparison maps and special cases",
-          "estimated_node_savings_percent": {"min": 15, "max": 25},
+          "estimated_node_savings_percent": {
+            "min": 15,
+            "max": 25
+          },
           "summary": "AINTLIB defines pushforward/base-change comparison maps and proves several elliptic pole-sheaf base-change and fibre-cohomology special cases.",
           "boundary": "It has neither a general proper-flat base-change isomorphism nor upper semicontinuity in the scope required by the Picard construction.",
           "declarations": [
-            {"name": "pullbackPushforwardBaseChange", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePushforwardBaseChange.lean#L181"}
+            {
+              "name": "pullbackPushforwardBaseChange",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePushforwardBaseChange.lean#L181"
+            }
           ]
         }
       ],
@@ -2017,7 +2206,9 @@
           "description": "Prove upper semicontinuity of fibrewise cohomology dimensions in the required setting."
         }
       ],
-      "depends_on": ["MT-TC-B1-COHERENT-COHOMOLOGY"],
+      "depends_on": [
+        "MT-TC-B1-COHERENT-COHOMOLOGY"
+      ],
       "unlocks": [
         "MT-TC-C2-SYMMETRIC-POWERS",
         "MT-TC-D1-PICARD-FUNCTOR",
@@ -2066,7 +2257,9 @@
         "MT-TC-A3-DIVISOR-LINE-BUNDLE",
         "MT-TC-C1-RELATIVE-COHOMOLOGY"
       ],
-      "unlocks": ["MT-TC-D2-PICARD-REPRESENTABILITY"],
+      "unlocks": [
+        "MT-TC-D2-PICARD-REPRESENTABILITY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2090,13 +2283,25 @@
         {
           "source": "aintlib-modular-curves",
           "status": "exact-pin compatible leaf",
-          "estimated_node_savings_percent": {"min": 30, "max": 40},
+          "estimated_node_savings_percent": {
+            "min": 30,
+            "max": 40
+          },
           "summary": "A seven-module, 3,507-line AINTLIB cone defining Pic, picRel, its quotient comparison, and picRelFunctor compiled manually against this project's exact Mathlib pin.",
           "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. Linter cleanup and a downstream adapter are still required.",
           "declarations": [
-            {"name": "Scheme.Modules.picRel", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L57"},
-            {"name": "nonempty_picRel_mulEquiv_quotient", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L118"},
-            {"name": "picRelFunctor", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203"}
+            {
+              "name": "Scheme.Modules.picRel",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L57"
+            },
+            {
+              "name": "nonempty_picRel_mulEquiv_quotient",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L118"
+            },
+            {
+              "name": "picRelFunctor",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203"
+            }
           ]
         }
       ],
@@ -2152,7 +2357,9 @@
         "MT-TC-A3-DIVISOR-LINE-BUNDLE",
         "MT-TC-C1-RELATIVE-COHOMOLOGY"
       ],
-      "unlocks": ["MT-TC-D2-PICARD-REPRESENTABILITY"],
+      "unlocks": [
+        "MT-TC-D2-PICARD-REPRESENTABILITY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2197,7 +2404,9 @@
         "MT-TC-C2-SYMMETRIC-POWERS",
         "MT-TC-D1-PICARD-FUNCTOR"
       ],
-      "unlocks": ["MT-TC-E1-JACOBIAN-VARIETY"],
+      "unlocks": [
+        "MT-TC-E1-JACOBIAN-VARIETY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2244,8 +2453,7 @@
       "unlocks": [
         "MT-TC-F1-ABEL-JACOBI",
         "MT-NERON-BASE",
-        "MT-X0-JACOBIAN",
-        "MT-PRIME-SHAFAREVICH"
+        "MT-X0-JACOBIAN"
       ],
       "completion": {
         "statement": false,
@@ -2296,7 +2504,9 @@
         "MT-TC-C1-RELATIVE-COHOMOLOGY",
         "MT-TC-E1-JACOBIAN-VARIETY"
       ],
-      "unlocks": ["MT-X0-JACOBIAN"],
+      "unlocks": [
+        "MT-X0-JACOBIAN"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2307,7 +2517,7 @@
     },
     {
       "id": "MT-EC-ISOGENY-WEIL",
-      "title": "Elliptic-curve isogenies, quotients, duals, and Weil pairing",
+      "title": "Cyclic subgroup quotients and classifying data",
       "stage": "shared_geometry",
       "kind": "infrastructure",
       "status": "planned",
@@ -2315,53 +2525,61 @@
       "weight_points": 25,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Build finite-subgroup quotients, dual isogenies, multiplication kernels, and the Weil pairing with base-change tests.",
+      "summary": "Package the rational cyclic subgroup generated by a torsion point, the quotient isogeny interfaces used by X_0 and the existing order-49 lane, and only the kernel/base-change laws exercised by those consumers. Dual-isogeny and full Weil-pairing developments are no longer prerequisites of the prime theorem.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
           "status": "strong substrate with central open gates",
-          "estimated_node_savings_percent": {"min": 35, "max": 45},
+          "estimated_node_savings_percent": {
+            "min": 35,
+            "max": 45
+          },
           "summary": "AINTLIB supplies elliptic torsion subgroup schemes, multiplication kernels, a quotient-scheme universal property, field-level pairing work, and finite-flat examples.",
           "boundary": "The elliptic quotient upgrade, dual-isogeny laws, and global scheme-valued Weil pairing remain explicit proof holes, so none of this node is discharged.",
           "declarations": [
-            {"name": "ModularCurves.quotient", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/SubgroupQuotient.lean#L47"},
-            {"name": "EllipticCurve.torsion", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/Torsion.lean#L61"},
-            {"name": "EllipticCurve.weilPairing (open)", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/WeilPairing/Basic.lean#L44"}
+            {
+              "name": "ModularCurves.quotient",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/SubgroupQuotient.lean#L47"
+            },
+            {
+              "name": "EllipticCurve.torsion",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/Torsion.lean#L61"
+            },
+            {
+              "name": "EllipticCurve.weilPairing (open)",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/WeilPairing/Basic.lean#L44"
+            }
           ]
         }
       ],
       "artifacts": [
         {
           "kind": "structure",
-          "name": "EllipticCurve.Isogeny",
+          "name": "EllipticCurve.CyclicSubgroup",
           "state": "proposed",
-          "description": "Package finite morphisms of elliptic curves with their group-homomorphism and degree data."
+          "description": "Package a finite cyclic subgroup with its order and rationality data."
         },
         {
           "kind": "definition",
-          "name": "EllipticCurve.quotientByFiniteSubgroup",
+          "name": "EllipticCurve.Isogeny.quotientByCyclic",
           "state": "proposed",
-          "description": "Construct the quotient elliptic curve and quotient isogeny for a finite subgroup scheme."
+          "description": "Construct the cyclic quotient used by the X_0 moduli and order-49 consumers."
         },
         {
-          "kind": "definition",
-          "name": "EllipticCurve.Isogeny.dual",
+          "kind": "theorem",
+          "name": "EllipticCurve.Isogeny.quotientByCyclic_baseChange",
           "state": "proposed",
-          "description": "Construct the dual isogeny and prove both composites are multiplication by the degree."
-        },
-        {
-          "kind": "definition",
-          "name": "EllipticCurve.weilPairing",
-          "state": "proposed",
-          "description": "Define the Weil pairing on multiplication kernels with functoriality and nondegeneracy."
+          "description": "Prove the kernel and base-change laws required by both named downstream consumers."
         }
       ],
-      "depends_on": ["MT-BASE-INTEGRATED"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
       "unlocks": [
         "MT-NERON-BASE",
+        "MT-X0-MODULI",
         "MT-X0-HECKE",
-        "MT-PRIME-SPLIT-SEQUENCE",
-        "MT-PRIME-SHAFAREVICH"
+        "MT-PRIME-SEMISTABLE"
       ],
       "completion": {
         "statement": false,
@@ -2369,11 +2587,15 @@
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "generic quotients, dual isogenies, multiplication kernels, and the Weil pairing",
+        "revision": "retain only cyclic quotient APIs with compiled X_0 and order-49 consumers"
       }
     },
     {
       "id": "MT-NERON-BASE",
-      "title": "Neron models over discrete valuation rings",
+      "title": "Neron models for the two surviving consumers",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2381,28 +2603,43 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct Neron models with generic-fibre recovery and the Neron mapping property.",
+      "summary": "Construct Neron models and their mapping property in the exact generality used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.",
       "artifacts": [
-        {"kind": "structure", "name": "AlgebraicGeometry.NeronModel", "state": "proposed", "description": "Package a smooth separated model over a discrete valuation ring together with its generic fibre."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.NeronModel.genericFiberEquiv", "state": "proposed", "description": "Identify the generic fibre of a Neron model with the original smooth group variety."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.NeronModel.mappingProperty", "state": "proposed", "description": "State the Neron mapping property as a unique extension theorem for smooth test schemes."}
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.NeronModel",
+          "state": "proposed",
+          "description": "Package a smooth separated model with generic-fibre recovery and the Neron mapping property."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.NeronModel.sectionExtension",
+          "state": "proposed",
+          "description": "Extend the rational sections used by the rank-zero and prime-five consumers."
+        }
       ],
       "depends_on": [
         "MT-TC-E1-JACOBIAN-VARIETY",
         "MT-EC-ISOGENY-WEIL"
       ],
-      "unlocks": ["MT-NERON-COMPONENTS"],
+      "unlocks": [
+        "MT-NERON-COMPONENTS"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "global Neron substrate for semistability and an isogeny-chain proof",
+        "revision": "accept only the Eisenstein rank-zero and prime-five consumers"
       }
     },
     {
       "id": "MT-NERON-COMPONENTS",
-      "title": "Identity components and component groups",
+      "title": "Identity components and tame elliptic fibres",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2410,14 +2647,42 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct identity components and component groups and expose their specialization exact sequence.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument.",
       "artifacts": [
-        {"kind": "definition", "name": "AlgebraicGeometry.NeronModel.identityComponent", "state": "proposed", "description": "Define the open identity component of the special fibre of a Neron model."},
-        {"kind": "definition", "name": "AlgebraicGeometry.NeronModel.componentGroup", "state": "proposed", "description": "Define the finite component group of the special fibre."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.NeronModel.specializationExact", "state": "proposed", "description": "Expose the exact sequence relating integral points, the identity component, and the component group."}
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.NeronModel.identityComponent",
+          "state": "proposed",
+          "description": "Define the fibrewise identity component used in both surviving consumers."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.NeronModel.componentGroup",
+          "state": "proposed",
+          "description": "Define the component quotient and its specialization map."
+        },
+        {
+          "kind": "theorem",
+          "name": "EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three",
+          "state": "proposed",
+          "description": "Bound the additive component group in the tame residue characteristics five and eleven."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.Jacobian.completelyToricReductionAtLevel",
+          "state": "proposed",
+          "description": "Supply the toric special-fibre hypothesis for the Eisenstein rank-zero criterion."
+        }
       ],
-      "depends_on": ["MT-NERON-BASE"],
-      "unlocks": ["MT-NERON-SPECIALIZATION"],
+      "depends_on": [
+        "MT-NERON-BASE"
+      ],
+      "unlocks": [
+        "MT-O35-EXCLUDE",
+        "MT-NERON-SPECIALIZATION",
+        "MT-FFGS-OORT-RAYNAUD",
+        "MT-PRIME-HERBRAND-KUMMER"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2428,7 +2693,7 @@
     },
     {
       "id": "MT-NERON-SPECIALIZATION",
-      "title": "Torsion specialization through Neron models",
+      "title": "Torsion specialization at the Eisenstein quotient and at five",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2436,13 +2701,36 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the prime-to-residue-characteristic torsion specialization and component-group statements consumed by Mazur's argument.",
+      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the quotient section and the marked elliptic point at 5.",
       "artifacts": [
-        {"kind": "theorem", "name": "AlgebraicGeometry.NeronModel.primeToResidueTorsion_injective", "state": "proposed", "description": "Prove injectivity of specialization on torsion prime to the residue characteristic."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.NeronModel.torsion_componentGroup", "state": "proposed", "description": "Relate torsion points outside the identity component to the special-fibre component group."}
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.NeronModel.torsionSpecialization_exact",
+          "state": "proposed",
+          "description": "Give the torsion specialization sequence through the identity component and formal kernel."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.NeronModel.primeToResidue_torsion_injective",
+          "state": "proposed",
+          "description": "Inject torsion of order prime to the residue characteristic."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt",
+          "state": "proposed",
+          "description": "Kill a torsion section in the formal kernel when e < p - 1, including the unramified prime-five and prime-eleven cases."
+        }
       ],
-      "depends_on": ["MT-NERON-COMPONENTS"],
-      "unlocks": ["MT-X0-EISENSTEIN-QUOTIENT", "MT-PRIME-SEMISTABLE"],
+      "depends_on": [
+        "MT-NERON-COMPONENTS"
+      ],
+      "unlocks": [
+        "MT-O35-EXCLUDE",
+        "MT-X0-EISENSTEIN-QUOTIENT",
+        "MT-PRIME-EISENSTEIN-SPECIALIZATION",
+        "MT-PRIME-DIVISION-FIELD"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2453,7 +2741,7 @@
     },
     {
       "id": "MT-FFGS-BASIC",
-      "title": "Finite-flat commutative group schemes",
+      "title": "Finite-flat commutative group schemes for Eisenstein rank zero",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "planned",
@@ -2461,31 +2749,77 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The checked partial substrate packages finite-flat commutative group schemes, base change, honest finite-flat kernel presentations, affine Hopf realizations, constant-rank exponent descent, and conditional connected-etale consumers. The node remains unfinished until it constructs quotients, proves kernel/quotient base-change compatibility, and compiles constant-group, mu_p, and multiplication-kernel consumers.",
+      "summary": "Retain the checked finite-flat substrate and complete only the kernels, quotients, base change, and constant/multiplicative examples consumed by admissible filtrations in the Eisenstein rank-zero proof.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
           "status": "compatible examples; generic category absent",
-          "estimated_node_savings_percent": {"min": 25, "max": 35},
+          "estimated_node_savings_percent": {
+            "min": 25,
+            "max": 35
+          },
           "summary": "AINTLIB contains elliptic finite-locally-free subgroups, quotient schemes, constant groups, mu_N, and an abstract Hopf-algebraic Deligne order theorem.",
           "boundary": "The roadmap needs a generic finite-flat commutative group-scheme category with kernels, quotients, and base change. MuN also needs a license decision before source can be copied.",
           "declarations": [
-            {"name": "FiniteLocallyFreeSubgroup", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/Subgroup.lean#L126"},
-            {"name": "muN", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/MuN.lean#L69"},
-            {"name": "deligne_point_pow_eq_one", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724"}
+            {
+              "name": "FiniteLocallyFreeSubgroup",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/Subgroup.lean#L126"
+            },
+            {
+              "name": "muN",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/MuN.lean#L69"
+            },
+            {
+              "name": "deligne_point_pow_eq_one",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724"
+            }
           ]
         }
       ],
       "artifacts": [
-        {"kind": "structure", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme", "state": "contract", "description": "Package finite flat commutative group schemes over an arbitrary scheme base."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat", "state": "contract", "description": "Package the inherited scheme-theoretic kernel under explicit finite and flat hypotheses."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank", "state": "contract", "description": "Kill affine points by the constant geometric rank after localization from finite-free Hopf coordinates."},
-        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel", "state": "proposed", "description": "Construct kernels of morphisms in the finite-flat group-scheme category."},
-        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient", "state": "proposed", "description": "Construct quotients by finite-flat closed subgroup schemes."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange", "state": "proposed", "description": "Prove compatibility of kernels and quotients with the required base changes."}
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme",
+          "state": "contract",
+          "description": "The checked finite-flat commutative group-scheme category over an arbitrary scheme base."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat",
+          "state": "contract",
+          "description": "Package inherited scheme-theoretic kernels under explicit finite-flat hypotheses."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank",
+          "state": "contract",
+          "description": "Retain the checked Deligne-style point-exponent theorem as a real consumer of the affine finite-flat substrate."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient",
+          "state": "proposed",
+          "description": "Construct the quotients used by admissible filtrations."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange",
+          "state": "proposed",
+          "description": "Prove kernel and quotient base-change compatibility for the rank-zero consumer."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.constantAndMu",
+          "state": "proposed",
+          "description": "Provide the constant Z/p and mu_p examples used by every graded piece."
+        }
       ],
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-FFGS-CONNECTED-ETALE"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-FFGS-CONNECTED-ETALE"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2496,7 +2830,7 @@
     },
     {
       "id": "MT-FFGS-CONNECTED-ETALE",
-      "title": "Connected-etale sequence",
+      "title": "Admissible filtrations and fppf cohomology",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2504,25 +2838,48 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the connected-etale sequence and its functoriality under base change.",
+      "summary": "Develop filtrations with constant or multiplicative order-p subquotients and the bounded fppf-cohomology estimate needed—rather than a general connected-etale theory with no named consumer.",
       "artifacts": [
-        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedComponent", "state": "proposed", "description": "Define the connected identity component of a finite-flat commutative group scheme."},
-        {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.etaleQuotient", "state": "proposed", "description": "Define the maximal etale quotient in the connected-etale sequence."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedEtale_exact", "state": "proposed", "description": "Prove exactness, functoriality, and base-change compatibility of the connected-etale sequence."}
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup",
+          "state": "proposed",
+          "description": "Package filtrations with graded pieces Z/p or mu_p."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup.fppfHOne",
+          "state": "proposed",
+          "description": "Expose the degree-one fppf cohomology set used by Kummer descent."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le",
+          "state": "proposed",
+          "description": "Prove Mazur's filtration estimate by reduction to the elementary graded pieces."
+        }
       ],
-      "depends_on": ["MT-FFGS-BASIC"],
-      "unlocks": ["MT-FFGS-OORT-RAYNAUD"],
+      "depends_on": [
+        "MT-FFGS-BASIC"
+      ],
+      "unlocks": [
+        "MT-FFGS-OORT-RAYNAUD"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "a general functorial connected-etale sequence",
+        "revision": "the exact admissible-filtration and fppf-cohomology consumer from Mazur III.3"
       }
     },
     {
       "id": "MT-FFGS-OORT-RAYNAUD",
-      "title": "Oort-Tate classification and Raynaud uniqueness",
+      "title": "Raynaud uniqueness and the Eisenstein rank-zero criterion",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2530,24 +2887,43 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Formalize the finite-flat classification and uniqueness results used to control prime-order subgroup schemes.",
+      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero.",
       "artifacts": [
-        {"kind": "theorem", "name": "AlgebraicGeometry.OortTate.classification", "state": "proposed", "description": "Classify finite-flat commutative group schemes of prime order over the required arithmetic bases."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.Raynaud.primeOrder_uniqueness", "state": "proposed", "description": "Prove the uniqueness theorem for finite-flat prime-order models used in the semistability argument."}
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Raynaud.primeOrder_uniqueness_unramified",
+          "state": "proposed",
+          "description": "Extend constant and multiplicative generic fibres uniquely over an unramified DVR."
+        },
+        {
+          "kind": "theorem",
+          "name": "AbelianVariety.rank_eq_zero_of_admissible_torsion",
+          "state": "proposed",
+          "description": "Deduce rank zero from good reduction away from the level, toric level reduction, and admissible p-torsion."
+        }
       ],
-      "depends_on": ["MT-FFGS-CONNECTED-ETALE"],
-      "unlocks": ["MT-X0-EISENSTEIN-QUOTIENT", "MT-PRIME-SEMISTABLE"],
+      "depends_on": [
+        "MT-FFGS-CONNECTED-ETALE",
+        "MT-NERON-COMPONENTS"
+      ],
+      "unlocks": [
+        "MT-X0-EISENSTEIN-QUOTIENT"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "full Oort-Tate classification plus Raynaud uniqueness for global semistability",
+        "revision": "unramified Raynaud uniqueness and its explicit Eisenstein rank-zero consumer"
       }
     },
     {
       "id": "MT-X0-MODULI",
-      "title": "The Gamma_0 modular-curve moduli problem",
+      "title": "The X_0(N) moduli point attached to rational prime torsion",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "planned",
@@ -2555,26 +2931,53 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define elliptic curves with cyclic finite-flat subgroups and the X_0(N) moduli problem.",
+      "summary": "Define the Gamma_0 moduli problem and construct its rational point from the cyclic subgroup generated by a rational prime-order point.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
           "status": "open Y_0(N) scaffold; transitive audit required",
-          "estimated_node_savings_percent": {"min": 40, "max": 55},
+          "estimated_node_savings_percent": {
+            "min": 40,
+            "max": 55
+          },
           "summary": "AINTLIB defines GammaZeroStructure and constructs a coarse open YZeroCoarse over a fixed base where N is invertible.",
           "boundary": "Its representability chain contains unfinished gates. YZeroCoarse is not compactified X_0(N), does not cover bad fibres over Z, and has no cusp theory.",
           "declarations": [
-            {"name": "GammaZeroStructure", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/CyclicSubgroup.lean#L151"},
-            {"name": "YZeroCoarse", "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Moduli/CoarseSpace.lean#L248"}
+            {
+              "name": "GammaZeroStructure",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/GroupScheme/CyclicSubgroup.lean#L151"
+            },
+            {
+              "name": "YZeroCoarse",
+              "url": "https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Moduli/CoarseSpace.lean#L248"
+            }
           ]
         }
       ],
       "artifacts": [
-        {"kind": "structure", "name": "ModularCurve.GammaZeroStructure", "state": "proposed", "description": "Package an elliptic curve together with a cyclic finite-flat subgroup of order N."},
-        {"kind": "definition", "name": "ModularCurve.XZeroModuli", "state": "proposed", "description": "Define the Gamma-zero moduli functor with its isomorphisms and base-change action."}
+        {
+          "kind": "definition",
+          "name": "ModularCurve.XZeroModuli",
+          "state": "proposed",
+          "description": "Define elliptic curves with a finite locally free cyclic subgroup of level N."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup",
+          "state": "proposed",
+          "description": "Construct the X_0(N)(Q) point consumed by the prime argument."
+        }
       ],
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-X0-INTEGRAL"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED",
+        "MT-EC-ISOGENY-WEIL"
+      ],
+      "unlocks": [
+        "MT-O35-EXCLUDE",
+        "MT-O49-TOWER",
+        "MT-X0-INTEGRAL",
+        "MT-PRIME-SEMISTABLE"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2585,7 +2988,7 @@
     },
     {
       "id": "MT-X0-INTEGRAL",
-      "title": "Integral compactified X_0(N)",
+      "title": "Integral X_0(N), cusp completions, and auxiliary q-parameters",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2593,14 +2996,35 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the integral compactification used by Mazur and prove its generic-fibre and reduction interfaces.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11; retain only the extra level-N geometry used by the modular Jacobian's toric-reduction consumer.",
       "artifacts": [
-        {"kind": "structure", "name": "ModularCurve.IntegralXZero", "state": "proposed", "description": "Package the proper integral compactification of the Gamma-zero moduli problem."},
-        {"kind": "theorem", "name": "ModularCurve.IntegralXZero.genericFiber", "state": "proposed", "description": "Identify the generic fibre with the characteristic-zero modular curve X_0(N)."},
-        {"kind": "theorem", "name": "ModularCurve.IntegralXZero.reductionCompatibility", "state": "proposed", "description": "Expose the reduction and specialization interfaces consumed by Mazur's argument."}
+        {
+          "kind": "structure",
+          "name": "ModularCurve.IntegralXZero",
+          "state": "proposed",
+          "description": "Construct the compactified integral model with generic fibre X_0(N)."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.IsFormalImmersionAt",
+          "state": "proposed",
+          "description": "Define formal immersion by surjectivity on completed local rings and expose its cotangent criterion."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime",
+          "state": "proposed",
+          "description": "Identify the odd prime-to-level cusp completion with the q-power-series ring."
+        }
       ],
-      "depends_on": ["MT-X0-MODULI"],
-      "unlocks": ["MT-X0-CUSPS", "MT-X0-JACOBIAN"],
+      "depends_on": [
+        "MT-X0-MODULI"
+      ],
+      "unlocks": [
+        "MT-X0-CUSPS",
+        "MT-X0-JACOBIAN",
+        "MT-X0-EISENSTEIN-ALGEBRA"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2611,7 +3035,7 @@
     },
     {
       "id": "MT-X0-CUSPS",
-      "title": "Cusps and the rational cusp divisor",
+      "title": "Cusps, Atkin-Lehner transport, and reduction type",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2619,14 +3043,35 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the rational cusps, their specialization, and the degree-zero cusp difference.",
+      "summary": "Construct the rational cusp sections, transport formal immersion between them by Atkin-Lehner, and prove that potentially multiplicative reduction at a prime-to-level auxiliary prime sends the classifying point to a cusp.",
       "artifacts": [
-        {"kind": "definition", "name": "ModularCurve.XZero.cusp", "state": "proposed", "description": "Define the rational cusp sections on the integral modular curve."},
-        {"kind": "definition", "name": "ModularCurve.XZero.cuspDifference", "state": "proposed", "description": "Define the degree-zero divisor class given by the difference of the two rational cusps."},
-        {"kind": "theorem", "name": "ModularCurve.XZero.cusp_specialization", "state": "proposed", "description": "Prove the cusp sections and their divisor class specialize compatibly at the required primes."}
+        {
+          "kind": "definition",
+          "name": "ModularCurve.XZero.infinityCusp",
+          "state": "proposed",
+          "description": "Construct the rational cusp used to normalize Abel-Jacobi."
+        },
+        {
+          "kind": "definition",
+          "name": "ModularCurve.XZero.atkinLehner",
+          "state": "proposed",
+          "description": "Transport either prime-level cusp to infinity."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.XZero.specializesToCusp_iff_potentiallyMultiplicative",
+          "state": "proposed",
+          "description": "Relate cusp specialization at an auxiliary prime to potentially multiplicative elliptic reduction."
+        }
       ],
-      "depends_on": ["MT-X0-INTEGRAL"],
-      "unlocks": ["MT-X0-EISENSTEIN-QUOTIENT"],
+      "depends_on": [
+        "MT-X0-INTEGRAL"
+      ],
+      "unlocks": [
+        "MT-O35-EXCLUDE",
+        "MT-X0-EISENSTEIN-QUOTIENT",
+        "MT-PRIME-OUTSIDE-IDENTITY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2637,7 +3082,7 @@
     },
     {
       "id": "MT-X0-JACOBIAN",
-      "title": "The modular Jacobian J_0(N)",
+      "title": "The modular Jacobian and cusp-based Abel-Jacobi map",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2645,18 +3090,29 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Instantiate the shared Jacobian and Abel-Jacobi APIs on X_0(N), compatibly with its integral model.",
+      "summary": "Construct J_0(N) and the Abel-Jacobi morphism x |-> [x]-[infinity], with the base-change and Neron-model interfaces used by the quotient and local proof.",
       "artifacts": [
-        {"kind": "structure", "name": "ModularCurve.ModularJacobian", "state": "proposed", "description": "Instantiate the shared Jacobian construction on the modular curve X_0(N)."},
-        {"kind": "definition", "name": "ModularCurve.ModularJacobian.abelJacobi", "state": "proposed", "description": "Define the Abel-Jacobi map from X_0(N) using a chosen rational cusp."},
-        {"kind": "theorem", "name": "ModularCurve.ModularJacobian.integralCompatibility", "state": "proposed", "description": "Prove compatibility of the modular Jacobian and Abel-Jacobi map with the integral model."}
+        {
+          "kind": "structure",
+          "name": "ModularCurve.ModularJacobian",
+          "state": "proposed",
+          "description": "Specialize the generic Jacobian API to X_0(N)."
+        },
+        {
+          "kind": "definition",
+          "name": "ModularCurve.XZero.abelJacobiAtInfinity",
+          "state": "proposed",
+          "description": "Map x to the divisor class [x]-[infinity]."
+        }
       ],
       "depends_on": [
         "MT-X0-INTEGRAL",
         "MT-TC-E1-JACOBIAN-VARIETY",
         "MT-TC-F1-ABEL-JACOBI"
       ],
-      "unlocks": ["MT-X0-HECKE"],
+      "unlocks": [
+        "MT-X0-HECKE"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2667,7 +3123,7 @@
     },
     {
       "id": "MT-X0-HECKE",
-      "title": "Hecke correspondences on J_0(N)",
+      "title": "Hecke action and cotangent q-expansions",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2675,14 +3131,28 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct Hecke correspondences and their action on the modular Jacobian, including base-change and composition tests.",
+      "summary": "Construct the Hecke action on J_0(N) and prove the q-expansion recursion that makes the first Fourier coefficient detect every nonzero simultaneous eigenform.",
       "artifacts": [
-        {"kind": "structure", "name": "ModularCurve.HeckeCorrespondence", "state": "proposed", "description": "Package the two finite maps defining a Hecke correspondence on X_0(N)."},
-        {"kind": "definition", "name": "ModularCurve.ModularJacobian.heckeOperator", "state": "proposed", "description": "Construct the induced Hecke endomorphism of the modular Jacobian."},
-        {"kind": "theorem", "name": "ModularCurve.ModularJacobian.hecke_comp", "state": "proposed", "description": "Prove the required composition, base-change, and isogeny compatibility laws."}
+        {
+          "kind": "definition",
+          "name": "ModularCurve.HeckeOperator",
+          "state": "proposed",
+          "description": "Construct prime-to-level Hecke correspondences and the level operator on J_0(N)."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero",
+          "state": "proposed",
+          "description": "Use the Hecke recursions and q-expansion principle to detect a nonzero cotangent vector at infinity."
+        }
       ],
-      "depends_on": ["MT-X0-JACOBIAN", "MT-EC-ISOGENY-WEIL"],
-      "unlocks": ["MT-X0-EISENSTEIN-ALGEBRA"],
+      "depends_on": [
+        "MT-X0-JACOBIAN",
+        "MT-EC-ISOGENY-WEIL"
+      ],
+      "unlocks": [
+        "MT-X0-EISENSTEIN-ALGEBRA"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2693,7 +3163,7 @@
     },
     {
       "id": "MT-X0-EISENSTEIN-ALGEBRA",
-      "title": "The Eisenstein ideal and Hecke quotient",
+      "title": "Optimal quotients and formal immersion at the cusp",
       "stage": "prime_infrastructure",
       "kind": "proof",
       "status": "blocked",
@@ -2701,46 +3171,29 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define the Eisenstein ideal and prove the required finite quotient and local-principality interfaces.",
+      "summary": "Define Hecke-stable optimal quotients of the new modular Jacobian and prove Mazur's Proposition 3.1 away from characteristic two, with consumers at 5 and 11.",
       "artifacts": [
-        {"kind": "definition", "name": "ModularCurve.EisensteinIdeal", "state": "proposed", "description": "Define the ideal in the Hecke algebra generated by the Eisenstein relations."},
-        {"kind": "definition", "name": "ModularCurve.EisensteinHeckeQuotient", "state": "proposed", "description": "Define the finite Hecke-algebra quotient cut out by the Eisenstein ideal."},
-        {"kind": "theorem", "name": "ModularCurve.EisensteinIdeal.locallyPrincipal", "state": "proposed", "description": "Prove the local-principality input required to control the associated quotient of J_0(N)."}
-      ],
-      "depends_on": ["MT-X0-HECKE"],
-      "unlocks": ["MT-X0-EISENSTEIN-QUOTIENT"],
-      "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
-      }
-    },
-    {
-      "id": "MT-X0-EISENSTEIN-QUOTIENT",
-      "title": "Arithmetic of the Eisenstein quotient",
-      "stage": "prime_infrastructure",
-      "kind": "proof",
-      "status": "blocked",
-      "readiness": "nouns_missing",
-      "weight_points": 40,
-      "risk": "extreme",
-      "backend": "mixed",
-      "summary": "Construct the Eisenstein quotient and prove finite Mordell-Weil group, exact cusp-difference order, and nonvanishing.",
-      "artifacts": [
-        {"kind": "structure", "name": "ModularCurve.EisensteinQuotient", "state": "proposed", "description": "Construct the abelian-variety quotient of J_0(N) determined by the Eisenstein ideal."},
-        {"kind": "theorem", "name": "ModularCurve.EisensteinQuotient.mordellWeil_finite", "state": "proposed", "description": "Prove finiteness of the rational Mordell-Weil group of the Eisenstein quotient."},
-        {"kind": "theorem", "name": "ModularCurve.EisensteinQuotient.cuspDifference_order", "state": "proposed", "description": "Compute the exact order of the rational cusp-difference class in the quotient."},
-        {"kind": "theorem", "name": "ModularCurve.EisensteinQuotient.cuspDifference_ne_zero", "state": "proposed", "description": "Prove that the cusp-difference image is nonzero in the cases used by specialization."}
+        {
+          "kind": "structure",
+          "name": "ModularCurve.OptimalNewQuotient",
+          "state": "proposed",
+          "description": "Package a connected-kernel quotient of the new part of J_0(N) with its induced Hecke action."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.OptimalNewQuotient.formalImmersionAtInfinity_of_residueChar_ne_two",
+          "state": "proposed",
+          "description": "Prove the cusp Abel-Jacobi projection is a formal immersion in every residue characteristic other than two whenever the quotient is nontrivial."
+        }
       ],
       "depends_on": [
-        "MT-X0-CUSPS",
-        "MT-X0-EISENSTEIN-ALGEBRA",
-        "MT-NERON-SPECIALIZATION",
-        "MT-FFGS-OORT-RAYNAUD"
+        "MT-X0-HECKE",
+        "MT-X0-INTEGRAL"
       ],
-      "unlocks": ["MT-PRIME-EISENSTEIN-SPECIALIZATION"],
+      "unlocks": [
+        "MT-O35-EXCLUDE",
+        "MT-X0-EISENSTEIN-QUOTIENT"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2749,9 +3202,72 @@
         "credit_percent": 0
       },
       "acceptance_declarations": [
-        "eisensteinQuotient_mordellWeil_finite",
-        "cuspDifference_exactOrder",
-        "cuspDifference_ne_zero"
+        "ModularCurve.OptimalNewQuotient.formalImmersionAtInfinity_of_residueChar_ne_two"
+      ],
+      "route_history": {
+        "previous_scope": "local principality and an exact Eisenstein Hecke-algebra quotient",
+        "revision": "the nontrivial optimal-quotient API and the formal-immersion consumer"
+      }
+    },
+    {
+      "id": "MT-X0-EISENSTEIN-QUOTIENT",
+      "title": "A nontrivial rank-zero Eisenstein quotient",
+      "stage": "prime_infrastructure",
+      "kind": "proof",
+      "status": "blocked",
+      "readiness": "nouns_missing",
+      "weight_points": 40,
+      "risk": "extreme",
+      "backend": "mixed",
+      "summary": "Construct an optimal Eisenstein quotient for N=11 or prime N at least 17, prove that it is nontrivial and that its rational Mordell-Weil group is finite, and feed it directly to the characteristic-five formal-immersion theorem. Exact cusp-order and equality of the whole rational group with the cusp subgroup are not consumers.",
+      "artifacts": [
+        {
+          "kind": "structure",
+          "name": "ModularCurve.EisensteinQuotient",
+          "state": "proposed",
+          "description": "Construct the nontrivial optimal quotient in exactly the levels used by the torsion theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.EisensteinQuotient.nontrivial_of_level_eleven_or_ge_seventeen",
+          "state": "proposed",
+          "description": "Prove that the quotient is nonzero for N=11 and prime N at least 17."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.EisensteinQuotient.mordellWeil_finite",
+          "state": "proposed",
+          "description": "Apply the admissible finite-flat rank-zero criterion and Mordell-Weil finite generation."
+        },
+        {
+          "kind": "theorem",
+          "name": "ModularCurve.EisensteinQuotient.formalImmersionAtInfinity_modFive",
+          "state": "proposed",
+          "description": "Instantiate the optimal-quotient formal-immersion theorem at the quotient used downstream."
+        }
+      ],
+      "depends_on": [
+        "MT-X0-CUSPS",
+        "MT-X0-EISENSTEIN-ALGEBRA",
+        "MT-NERON-SPECIALIZATION",
+        "MT-FFGS-OORT-RAYNAUD"
+      ],
+      "unlocks": [
+        "MT-PRIME-SEMISTABLE",
+        "MT-PRIME-EISENSTEIN-SPECIALIZATION",
+        "MT-PRIME-ISOGENY-CHAIN"
+      ],
+      "completion": {
+        "statement": false,
+        "proof": false,
+        "api": false,
+        "integrated": false,
+        "credit_percent": 0
+      },
+      "acceptance_declarations": [
+        "ModularCurve.EisensteinQuotient.nontrivial_of_level_eleven_or_ge_seventeen",
+        "ModularCurve.EisensteinQuotient.mordellWeil_finite",
+        "ModularCurve.EisensteinQuotient.formalImmersionAtInfinity_modFive"
       ]
     },
     {
@@ -2764,15 +3280,39 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Develop the class-field and cyclotomic input needed to exclude the inverse-cyclotomic everywhere-unramified extension.",
+      "summary": "Close the inherited locally-primary pseudo-unit reciprocity Challenge and preserve the checked cyclotomic infrastructure as an independent release obligation. The chosen proof of Mazur's theorem does not consume this result.",
       "artifacts": [
-        {"kind": "definition", "name": "NumberTheory.CyclotomicCharacter.inverseExtension", "state": "proposed", "description": "Package the inverse-cyclotomic character extension over the p-th cyclotomic field."},
-        {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces", "state": "proposed", "description": "Give the local criterion showing that the relevant extension is unramified at every finite place."},
-        {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.noEverywhereUnramified", "state": "proposed", "description": "Exclude an everywhere-unramified inverse-cyclotomic extension using the required class-field input."},
-        {"kind": "theorem", "name": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple", "state": "contract", "description": "Prove integral one-sided Kummer reciprocity for locally-primary pseudo-units; checked comparison and normalization reductions then supply the inverse-character class-group quotient."}
+        {
+          "kind": "definition",
+          "name": "NumberTheory.CyclotomicCharacter.inverseExtension",
+          "state": "proposed",
+          "description": "Package the inverse-cyclotomic character extension over the p-th cyclotomic field."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces",
+          "state": "proposed",
+          "description": "Give the local criterion showing that the relevant extension is unramified at every finite place."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.noEverywhereUnramified",
+          "state": "proposed",
+          "description": "Exclude an everywhere-unramified inverse-cyclotomic extension using the required class-field input."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple",
+          "state": "contract",
+          "description": "Prove integral one-sided Kummer reciprocity for locally-primary pseudo-units; checked comparison and normalization reductions then supply the inverse-character class-group quotient."
+        }
       ],
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-PRIME-DIVISION-FIELD"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-EXPOSITION-AUDIT"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -2788,7 +3328,9 @@
         "destination_module": "MazurTorsion.NumberTheory.KummerArtinProduct",
         "destination_declaration": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple",
         "signature": "theorem cyclotomic_locallyPrimaryPseudoUnitKummerReciprocityPrinciple\n    (p : ℕ) [Fact p.Prime] (_hp : 5 ≤ p) :\n    LocallyPrimaryPseudoUnitKummerReciprocityPrinciple.{u} p := sorry",
-        "imports": ["MazurTorsion.NumberTheory.KummerArtinProduct"],
+        "imports": [
+          "MazurTorsion.NumberTheory.KummerArtinProduct"
+        ],
         "informal": "For every prime p at least 5 and every inverse-cyclotomic degree-p Kummer extension of Q(zeta_p), if the canonical radicand has p-divisible finite divisor and is a p-th power in the completion at the unique prime above p, its finite Kummer/Frobenius product is one on every nonzero integral principal denominator outside that prime. The destination already proves both radicand hypotheses for an everywhere-unramified extension, compares Kummer and Artin coordinates, clears fractional denominators, and removes the cyclotomic-prime factor.",
         "recommended_route": "Prove one-sided Kummer reciprocity for a locally-primary pseudo-unit, first for integral denominators coprime to the radicand and p; then extend across the finite bad set. The Kummer/Frobenius comparison and prime-complement denominator clearing are already checked in the destination. Alternatively prove the same integral vanishing via the conductor-one cyclic Artin reciprocity theorem.",
         "consumer_declarations": [
@@ -2797,13 +3339,26 @@
           "NumberTheory.CyclotomicCharacter.classFieldTheoryPrinciple_of_kummerArtinProductFormula",
           "MazurTorsion.PrimeOrder.inverseCyclotomic_extension_impossible"
         ],
-        "estimated_lines": {"min": 3000, "max": 12000},
-        "skills": ["global class field theory", "Kummer reciprocity", "cyclotomic fields", "fractional ideals", "Galois ramification"]
+        "estimated_lines": {
+          "min": 3000,
+          "max": 12000
+        },
+        "skills": [
+          "global class field theory",
+          "Kummer reciprocity",
+          "cyclotomic fields",
+          "fractional ideals",
+          "Galois ramification"
+        ]
+      },
+      "route_history": {
+        "previous_role": "critical input to an everywhere-unramified division-field argument",
+        "revision": "registered Challenge closure and reusable result, outside the theorem cone"
       }
     },
     {
       "id": "MT-PRIME-SEMISTABLE",
-      "title": "Prime torsion forces semistability",
+      "title": "Attach the modular point and its finite quotient image",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2811,26 +3366,44 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "For a prime p at least 17, use finite-flat uniqueness and Neron models to exclude additive reduction.",
+      "summary": "A rational point of prime order N gives a rational cyclic subgroup, an X_0(N) point, and therefore a finite-order point in the rank-zero Eisenstein quotient.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.primeTorsion_semistable", "state": "proposed", "description": "Prove that a rational point of prime order p at least 17 forces semistable reduction."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.xZeroPoint_of_rationalPrimeTorsion",
+          "state": "proposed",
+          "description": "Construct the classifying X_0(N)(Q) point from the generated cyclic subgroup."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.eisensteinImage_isTorsion",
+          "state": "proposed",
+          "description": "Use finiteness of the quotient's rational points to make the modular image torsion."
+        }
       ],
       "depends_on": [
-        "MT-NERON-SPECIALIZATION",
-        "MT-FFGS-OORT-RAYNAUD"
+        "MT-X0-MODULI",
+        "MT-X0-EISENSTEIN-QUOTIENT",
+        "MT-EC-ISOGENY-WEIL"
       ],
-      "unlocks": ["MT-PRIME-OUTSIDE-IDENTITY"],
+      "unlocks": [
+        "MT-PRIME-OUTSIDE-IDENTITY"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "global semistability of the source elliptic curve",
+        "revision": "the first two elementary inputs to Mazur 1978 Corollary 4.3"
       }
     },
     {
       "id": "MT-PRIME-OUTSIDE-IDENTITY",
-      "title": "Torsion specializes outside identity components",
+      "title": "Detect cusp reduction at the auxiliary prime five",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2838,23 +3411,37 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Use Hasse bounds and component groups to place the marked point outside the identity component at 2, 3, and bad primes.",
+      "summary": "If the elliptic curve is potentially multiplicative at 5, its X_0(N) point specializes to a cusp; Atkin-Lehner transport reduces the collision to infinity.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.primeTorsion_specializesOutsideIdentity", "state": "proposed", "description": "Use Hasse bounds and component groups to locate the marked point outside the relevant identity components."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.xZeroPoint_specializesToInfinity_of_potentiallyMultiplicativeAtFive",
+          "state": "proposed",
+          "description": "Move the specialized cusp to infinity without changing the quotient argument."
+        }
       ],
-      "depends_on": ["MT-PRIME-SEMISTABLE"],
-      "unlocks": ["MT-PRIME-EISENSTEIN-SPECIALIZATION"],
+      "depends_on": [
+        "MT-PRIME-SEMISTABLE",
+        "MT-X0-CUSPS"
+      ],
+      "unlocks": [
+        "MT-PRIME-EISENSTEIN-SPECIALIZATION"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "outside-identity specialization at every bad prime",
+        "revision": "one cusp-specialization statement at 5"
       }
     },
     {
       "id": "MT-PRIME-EISENSTEIN-SPECIALIZATION",
-      "title": "Specialize through the Eisenstein quotient",
+      "title": "Formal immersion forces potentially good reduction at five",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2862,26 +3449,37 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Map the integral X_0(p) point to the Eisenstein quotient and compare its specializations in two residue characteristics.",
+      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.eisenstein_specialization_comparison", "state": "proposed", "description": "Compare the two specializations of the integral modular point after mapping to the Eisenstein quotient."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive",
+          "state": "proposed",
+          "description": "Implement Mazur 1978 Corollary 4.3 at the single unramified prime five."
+        }
       ],
       "depends_on": [
         "MT-PRIME-OUTSIDE-IDENTITY",
-        "MT-X0-EISENSTEIN-QUOTIENT"
+        "MT-X0-EISENSTEIN-QUOTIENT",
+        "MT-NERON-SPECIALIZATION"
       ],
-      "unlocks": ["MT-PRIME-DIVISION-FIELD"],
+      "unlocks": [
+        "MT-PRIME-DIVISION-FIELD"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
-      }
+      },
+      "acceptance_declarations": [
+        "MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive"
+      ]
     },
     {
       "id": "MT-PRIME-DIVISION-FIELD",
-      "title": "The division-field extension is everywhere unramified",
+      "title": "Preserve the marked prime torsion under specialization at five",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2889,16 +3487,22 @@
       "weight_points": 15,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Construct the x-coordinate p-division-field datum over Q(zeta_p) and prove that its inverse-cyclotomic extension is everywhere unramified.",
+      "summary": "Because N is prime to 5, specialization of the marked rational point keeps exact order N in the Neron special fibre. No division field is constructed.",
       "artifacts": [
-        {"kind": "structure", "name": "MazurTorsion.PrimeOrder.DivisionFieldData", "state": "proposed", "description": "Tie the inverse-cyclotomic extension to a rational prime-order point and the splitting field of its x-coordinate p-division polynomial."},
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.divisionField_everywhereUnramified", "state": "proposed", "description": "Prove that the p-division field extension over the p-th cyclotomic field is everywhere unramified."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive",
+          "state": "proposed",
+          "description": "Show that the marked point retains exact order N in the special fibre."
+        }
       ],
       "depends_on": [
         "MT-PRIME-EISENSTEIN-SPECIALIZATION",
-        "MT-CYCLOTOMIC-UNRAMIFIED"
+        "MT-NERON-SPECIALIZATION"
       ],
-      "unlocks": ["MT-PRIME-HERBRAND-KUMMER"],
+      "unlocks": [
+        "MT-PRIME-HERBRAND-KUMMER"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2907,13 +3511,16 @@
         "credit_percent": 0
       },
       "acceptance_declarations": [
-        "MazurTorsion.PrimeOrder.DivisionFieldData",
-        "MazurTorsion.PrimeOrder.divisionField_everywhereUnramified"
-      ]
+        "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive"
+      ],
+      "route_history": {
+        "previous_scope": "construct an everywhere-unramified p-division field over Q(zeta_p)",
+        "revision": "prime-to-five torsion injection into one Neron fibre"
+      }
     },
     {
       "id": "MT-PRIME-HERBRAND-KUMMER",
-      "title": "Exclude the inverse-cyclotomic extension",
+      "title": "Exclude additive reduction at five",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2921,12 +3528,22 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Use the Herbrand-Kummer calculation and B_2=1/6 to exclude the required unramified character extension.",
+      "summary": "The tame additive Neron fibre has component group of order at most four, additive quotient of order five, and pro-5 formal kernel, so it cannot contain a point of prime order N at least 11.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.inverseCyclotomic_extension_impossible", "state": "proposed", "description": "Apply the Herbrand-Kummer calculation to rule out the required inverse-cyclotomic extension."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.not_additiveReductionAtFive",
+          "state": "proposed",
+          "description": "Exclude additive reduction using the exact fibre filtration at residue characteristic five."
+        }
       ],
-      "depends_on": ["MT-PRIME-DIVISION-FIELD"],
-      "unlocks": ["MT-PRIME-SPLIT-SEQUENCE"],
+      "depends_on": [
+        "MT-PRIME-DIVISION-FIELD",
+        "MT-NERON-COMPONENTS"
+      ],
+      "unlocks": [
+        "MT-PRIME-SPLIT-SEQUENCE"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
@@ -2935,12 +3552,16 @@
         "credit_percent": 0
       },
       "acceptance_declarations": [
-        "MazurTorsion.PrimeOrder.inverseCyclotomic_extension_impossible"
-      ]
+        "MazurTorsion.PrimeOrder.not_additiveReductionAtFive"
+      ],
+      "route_history": {
+        "previous_scope": "Herbrand-Kummer exclusion of an inverse-cyclotomic extension",
+        "revision": "elementary tame component-group arithmetic at 5"
+      }
     },
     {
       "id": "MT-PRIME-SPLIT-SEQUENCE",
-      "title": "Split the p-torsion extension",
+      "title": "Upgrade potentially good to good reduction at five",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2948,26 +3569,36 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Split 0 -> Z/pZ -> E[p] -> mu_p -> 0 using the excluded character extension.",
+      "summary": "Potentially good reduction excludes multiplicative fibres, and the preceding component argument excludes additive fibres; therefore the reduction at 5 is good.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.primeTorsion_exactSequence_split", "state": "proposed", "description": "Split the exact sequence from the rational p-torsion line to its cyclotomic quotient."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.goodReductionAtFive",
+          "state": "proposed",
+          "description": "Combine the two local exclusions to obtain good reduction at five."
+        }
       ],
       "depends_on": [
-        "MT-PRIME-HERBRAND-KUMMER",
-        "MT-EC-ISOGENY-WEIL"
+        "MT-PRIME-HERBRAND-KUMMER"
       ],
-      "unlocks": ["MT-PRIME-ISOGENY-CHAIN"],
+      "unlocks": [
+        "MT-PRIME-SHAFAREVICH"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "split 0 -> Z/p -> E[p] -> mu_p -> 0",
+        "revision": "a local reduction-type trichotomy"
       }
     },
     {
       "id": "MT-PRIME-SHAFAREVICH",
-      "title": "Shafarevich finiteness for the isogeny chain",
+      "title": "The ten-point finite enumeration over F_5",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -2975,26 +3606,36 @@
       "weight_points": 15,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Formalize the finiteness theorem for elliptic curves with prescribed bad reduction in the exact form consumed by the quotient-isogeny iteration.",
+      "summary": "Normalize the good fibre to short Weierstrass form and exhaust the 25 coefficient pairs over F_5, proving #E(F_5) <= 10 without a general Hasse theorem.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.Shafarevich.finiteIsomorphismClasses", "state": "proposed", "description": "Give the finiteness theorem for elliptic curves with a prescribed finite set of bad primes."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.card_reductionAtFive_le_ten",
+          "state": "proposed",
+          "description": "Normalize in characteristics other than two and three, then verify all 25 short models over F_5."
+        }
       ],
       "depends_on": [
-        "MT-TC-E1-JACOBIAN-VARIETY",
-        "MT-EC-ISOGENY-WEIL"
+        "MT-PRIME-SPLIT-SEQUENCE"
       ],
-      "unlocks": ["MT-PRIME-ISOGENY-CHAIN"],
+      "unlocks": [
+        "MT-PRIME-ISOGENY-CHAIN"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "route_history": {
+        "previous_scope": "Shafarevich finiteness for elliptic curves with prescribed bad reduction",
+        "revision": "a finite normalization-and-enumeration certificate over the five-element field"
       }
     },
     {
       "id": "MT-PRIME-ISOGENY-CHAIN",
-      "title": "The infinite isogeny-chain contradiction",
+      "title": "Exclude order 11 and every prime order at least 17",
       "stage": "prime_argument",
       "kind": "proof",
       "status": "blocked",
@@ -3002,21 +3643,43 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Iterate quotient isogenies and contradict Shafarevich finiteness, excluding rational prime order p for every p at least 17.",
+      "summary": "Inject the marked point into the at-most-ten-element good fibre. Instantiate the Eisenstein quotient range at N=11 and prime N at least 17; level 13 remains the separate genus-two endpoint.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_prime_ge_seventeen", "state": "proposed", "description": "Exclude every rational point of prime order p at least 17 by the quotient-isogeny chain contradiction."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_eleven",
+          "state": "proposed",
+          "description": "Exclude exact rational order eleven by the formal-immersion-at-five argument."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_prime_ge_seventeen",
+          "state": "proposed",
+          "description": "Exclude every rational prime order at least seventeen by the same argument."
+        }
       ],
       "depends_on": [
-        "MT-PRIME-SPLIT-SEQUENCE",
-        "MT-PRIME-SHAFAREVICH"
+        "MT-PRIME-SHAFAREVICH",
+        "MT-X0-EISENSTEIN-QUOTIENT"
       ],
-      "unlocks": ["MT-API-INTEGRATION"],
+      "unlocks": [
+        "MT-X11-JOIN",
+        "MT-API-INTEGRATION"
+      ],
       "completion": {
         "statement": false,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "acceptance_declarations": [
+        "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_eleven",
+        "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_prime_ge_seventeen"
+      ],
+      "route_history": {
+        "previous_scope": "an infinite quotient-isogeny chain contradicting Shafarevich finiteness",
+        "revision": "torsion injection into an elliptic curve over F_5 with at most ten points"
       }
     },
     {
@@ -3031,11 +3694,25 @@
       "backend": "mixed",
       "summary": "Move the imported baseline and Tau Ceti consumers to one exact Lean/mathlib dependency graph without weakening any gate.",
       "artifacts": [
-        {"kind": "integration", "name": "MazurTheorem.Release.sharedDependencyGraph", "state": "proposed", "description": "Pin Mazur and the tested Tau Ceti consumer workspace to one exact Lean, Mathlib, and transitive dependency graph."},
-        {"kind": "integration", "name": "MazurTheorem.Release.tauCetiConsumerBuild", "state": "proposed", "description": "Build the Tau Ceti contracts as a downstream consumer without weakening either repository's quality gates."}
+        {
+          "kind": "integration",
+          "name": "MazurTheorem.Release.sharedDependencyGraph",
+          "state": "proposed",
+          "description": "Pin Mazur and the tested Tau Ceti consumer workspace to one exact Lean, Mathlib, and transitive dependency graph."
+        },
+        {
+          "kind": "integration",
+          "name": "MazurTheorem.Release.tauCetiConsumerBuild",
+          "state": "proposed",
+          "description": "Build the Tau Ceti contracts as a downstream consumer without weakening either repository's quality gates."
+        }
       ],
-      "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": ["MT-API-INTEGRATION"],
+      "depends_on": [
+        "MT-BASE-INTEGRATED"
+      ],
+      "unlocks": [
+        "MT-API-INTEGRATION"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -3046,7 +3723,7 @@
     },
     {
       "id": "MT-API-INTEGRATION",
-      "title": "Integrate finite and prime point-order APIs",
+      "title": "Integrate finite and formal-immersion prime APIs",
       "stage": "integration",
       "kind": "integration",
       "status": "blocked",
@@ -3054,16 +3731,23 @@
       "weight_points": 10,
       "risk": "medium",
       "backend": "mazur",
-      "summary": "Expose one unconditional theorem that every rational torsion point has an allowed order.",
+      "summary": "Expose one unconditional theorem that every rational torsion point has an allowed order, using the formal-immersion theorem for 11 and primes at least 17.",
       "artifacts": [
-        {"kind": "theorem", "name": "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders", "state": "proposed", "description": "Combine all finite endpoints and the prime-order theorem into an unconditional allowed-order result."}
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders",
+          "state": "proposed",
+          "description": "Combine the exceptional finite endpoints and the formal-immersion prime theorem."
+        }
       ],
       "depends_on": [
         "MT-FINITE-JOIN",
         "MT-PRIME-ISOGENY-CHAIN",
         "MT-PIN-MIGRATION"
       ],
-      "unlocks": ["MT-FINAL-ASSEMBLY"],
+      "unlocks": [
+        "MT-FINAL-ASSEMBLY"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -3084,10 +3768,19 @@
       "backend": "mazur",
       "summary": "Feed the point-order theorem to the existing cardinality reduction and prove torsion ncard at most 16 with only the accepted foundational axioms.",
       "artifacts": [
-        {"kind": "theorem", "name": "Challenge.Mazur.torsion_ncard_le", "state": "proposed", "description": "Prove the exact Lean Pool challenge statement that the rational torsion set has ncard at most 16."}
+        {
+          "kind": "theorem",
+          "name": "Challenge.Mazur.torsion_ncard_le",
+          "state": "proposed",
+          "description": "Prove the exact Lean Pool challenge statement that the rational torsion set has ncard at most 16."
+        }
       ],
-      "depends_on": ["MT-API-INTEGRATION"],
-      "unlocks": ["MT-EXPOSITION-AUDIT"],
+      "depends_on": [
+        "MT-API-INTEGRATION"
+      ],
+      "unlocks": [
+        "MT-EXPOSITION-AUDIT"
+      ],
       "completion": {
         "statement": true,
         "proof": false,
@@ -3101,7 +3794,7 @@
     },
     {
       "id": "MT-EXPOSITION-AUDIT",
-      "title": "Final exposition, provenance, and reproducibility audit",
+      "title": "Final challenge, exposition, provenance, and reproducibility audit",
       "stage": "integration",
       "kind": "integration",
       "status": "blocked",
@@ -3109,12 +3802,32 @@
       "weight_points": 5,
       "risk": "low",
       "backend": "mixed",
-      "summary": "Verify every blueprint edge against declarations, reproduce the build from the lockfile, and publish the final axiom and source audit.",
+      "summary": "Verify every blueprint edge, close every retained Challenge including the now-noncritical X_1(11) and cyclotomic contracts, reproduce the clean build, and publish the final axiom and source audit.",
       "artifacts": [
-        {"kind": "audit", "name": "MazurTheorem.Release.kernelAndProvenanceAudit", "state": "proposed", "description": "Record the final axiom report, exact source pins, declaration provenance, and reproducible build evidence."},
-        {"kind": "integration", "name": "MazurTheorem.Release.versoBlueprint", "state": "proposed", "description": "Publish a Verso blueprint whose labels and mathematical dependency edges exactly match the canonical programme."}
+        {
+          "kind": "audit",
+          "name": "MazurTheorem.Release.kernelAndProvenanceAudit",
+          "state": "proposed",
+          "description": "Record the final axiom report, exact source pins, declaration provenance, and reproducible build evidence."
+        },
+        {
+          "kind": "integration",
+          "name": "MazurTheorem.Release.allChallengesClosed",
+          "state": "proposed",
+          "description": "Verify that every registered Challenge is a checked bridge with no open contract."
+        },
+        {
+          "kind": "integration",
+          "name": "MazurTheorem.Release.versoBlueprint",
+          "state": "proposed",
+          "description": "Publish a Verso blueprint exactly matching the formal-immersion dependency graph."
+        }
       ],
-      "depends_on": ["MT-FINAL-ASSEMBLY"],
+      "depends_on": [
+        "MT-FINAL-ASSEMBLY",
+        "MT-X11-COSET",
+        "MT-CYCLOTOMIC-UNRAMIFIED"
+      ],
       "unlocks": [],
       "completion": {
         "statement": true,
@@ -3124,5 +3837,35 @@
         "credit_percent": 0
       }
     }
-  ]
+  ],
+  "route_revision": {
+    "id": "formal-immersion-at-five-v1",
+    "date": "2026-08-02",
+    "chosen_route": "Mazur 1978 Proposition 3.1 and Corollaries 4.3-4.4, specialized at auxiliary prime 5 for prime levels, with the same engine at 11 for the squarefree order-35 endpoint",
+    "scope_accounting": "All 48 public node ids, all 1,000 weights, and every registered Challenge are retained. Obsolete 1977 representation-theoretic work is replaced, not credited as completed. The cyclotomic Challenge is kept as an explicit release obligation but removed from the theorem's logical dependency cone.",
+    "retired_from_theorem_dependency_cone": [
+      "global semistability of the source elliptic curve",
+      "outside-identity specialization at every bad prime",
+      "everywhere-unramified p-division fields over cyclotomic fields",
+      "Herbrand-Kummer exclusion in the prime-torsion proof",
+      "splitting of the p-torsion Galois extension",
+      "an infinite quotient-isogeny chain",
+      "Shafarevich finiteness",
+      "the exact order of the cusp-difference class"
+    ],
+    "retained_hard_core": [
+      "Jacobians and the cusp-based Abel-Jacobi map",
+      "the Hecke action and q-expansion principle",
+      "a nontrivial optimal Eisenstein quotient with finite rational points",
+      "the exact finite-flat/Neron input used to prove rank zero for that quotient",
+      "formal immersion at the cusp in odd auxiliary characteristic",
+      "local torsion specialization and tame Neron-fibre analysis at 5 and 11"
+    ],
+    "rejected_alternatives": {
+      "mazur_1977_global_representation_route": "strictly larger theorem cone after the quotient exists",
+      "merel_winding_quotient": "adds modular-symbol, L-value, and Kolyvagin-Logachev infrastructure",
+      "kamienny_symmetric_powers": "Hecke-operator linear independence is unnecessary in degree one",
+      "calegari_emerton_rt": "replaces a bounded Eisenstein calculation with deformation and R=T machinery"
+    }
+  }
 }

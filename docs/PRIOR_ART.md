@@ -575,7 +575,57 @@ admissible Picard and Cartier-duality leaves are now consumed through
 `MazurTorsion.Upstream.Geometry`; the whole AINTLIB project is neither vendored
 nor treated as a Lean Pool-ready dependency.
 
-## 11. Multiplication-polynomial discriminants and executable resultants
+## 11. Route-specific formal-immersion API audit
+
+The August 2026 route review searched the exact project pin, the refreshed
+mathlib tree, Tau Ceti, AINTLIB, Imperial FLT, DE0CH/flt-lean, and the public
+LeanPool branches for the objects needed by Mazur's 1978 proof. No checked
+implementation of a modular-curve formal immersion, a Néron model, a modular
+Jacobian, a Hecke action on it, or an Eisenstein/winding quotient was found.
+In particular, no upstream theorem currently turns a nonvanishing modular
+abelian-variety L-value into finiteness of its rational points.
+
+There is useful lower-level vocabulary. Mathlib has local rings, stalk and
+residue-field maps, cotangent modules, completions, formal-unramifiedness
+lemmas, elliptic integral models, and equation-level reduction. Tau Ceti has
+abstract abelian varieties, divisor classes, and point-level Abel--Jacobi
+classes, but not the relative Picard scheme or Jacobian morphism required to
+construct `J₀(N)`. AINTLIB's `GammaZeroStructure` and `YZeroCoarse` live over
+bases where the level is invertible; they do not provide the compactified
+integral `X₀(N)`, cusps, Néron models, or modular quotient. These are adapters
+and foundations, not a discharge of the hard core.
+
+This audit determines the selected public boundary:
+
+- define formal immersion once for locally Noetherian schemes, with both the
+  completed-local-ring and cotangent criteria connected by checked lemmas;
+- construct only the cusp neighbourhoods at auxiliary characteristics `5`
+  and `11` used by real downstream collisions;
+- package Mazur's degree-one theorem for a nontrivial optimal new quotient,
+  avoiding the symmetric-power Hecke-independence generalization;
+- retain precisely the finite-flat and Néron results consumed by the
+  Eisenstein rank-zero proof and tame torsion specialization; and
+- require the prime-five potentially-good-reduction theorem to compile before
+  accepting any of those interfaces.
+
+The literature comparison and mathematical proof are recorded in
+[`ROUTE_AUDIT.md`](ROUTE_AUDIT.md). The decisive observation is that the
+winding quotient is geometrically larger but formally more expensive at the
+current pin: it trades Mazur's algebraic rank-zero calculation for modular
+symbols, analytic L-functions, nonvanishing, and Kolyvagin--Logachev. The
+post-`R=T` reinterpretation similarly adds deformation theory without
+removing the modular Jacobian or local formal-immersion layer. Neither is
+treated as an available shortcut.
+
+The same review found two endpoint savings. Exact order `35` can reuse the
+squarefree-level formal-immersion engine at auxiliary prime `11` with the
+explicit rank-zero quotient `X₀(35)/w₅`; it need not classify every rational
+point on the genus-three curve. Exact order `49` maps its rational cyclic
+subgroup directly to the already checked two-cusp classification of
+`X₀(49)(ℚ)`; the explicit Vélu additivity and nonbacktracking isogeny tower
+are retained as prior work but removed from the endpoint's dependency cone.
+
+## 12. Multiplication-polynomial discriminants and executable resultants
 
 Harry Schmidt's paper
 [*Resultants and discriminants of multiplication polynomials for elliptic
@@ -639,7 +689,7 @@ polynomial has enormous intermediate coefficients. The elliptic
 divisibility syzygies reduce that calculation to a handful of small
 resultants and are therefore the selected implementation.
 
-## 12. Other formalizations and branches
+## 13. Other formalizations and branches
 
 The classification-to-cardinality pattern also appears in
 [`AwesomeTheorems/Stage1/S1_M_088.lean`](https://github.com/weiyangzen/awesome_theorems/blob/9c299dbabd34878a420db46ca66d687886fe2b04/Formalizations/Lean/AwesomeTheorems/Stage1/S1_M_088.lean).
@@ -756,7 +806,7 @@ isogeny, dual-isogeny, or quotient declarations, so it is useful future
 infrastructure rather than a present discharge of the `X₀(20)` or
 `X₀(24)` work.
 
-## 13. Global code search
+## 14. Global code search
 
 Exact searches for `torsion_ncard_le`, `mazur_classification`,
 `torsion_finite_rat`, and Lean versions of Merel's theorem found no completed
@@ -789,7 +839,7 @@ proof outside the projects above. In particular:
 * `hex-dev` supplies a licensed executable-resultant design, but the local
   elliptic syzygies avoid its incompatible option-bearing dependency cone.
 
-## 14. Reuse decision
+## 15. Reuse decision
 
 The implementation policy following this audit is:
 

@@ -9,11 +9,12 @@ open Informal
 #doc (Manual) "02 — Finite-level endpoints" =>
 
 :::group "finite_endpoints"
-Close orders 18, 25, 35, and 49 and the separate prime levels 11 and 13.
-Stage weight: 100 points.
+Close level 13 and orders 18, 25, 35, and 49. Order 11 comes from the
+uniform formal-immersion theorem; the inherited five-coset Challenge is then
+discharged from the resulting cusp classification. Stage weight: 100 points.
 :::
 
-:::theorem "MT-X11-COSET" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "large")
+:::theorem "MT-X11-COSET" (parent := "finite_endpoints") (uses := "MT-X11-JOIN") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "medium")
 *The five-coset bound on $`X_1(11)`.* Every rational point on
 $`y^2+y=x^3-x^2` differs from one of the five multiples of $`(0,0)` by five
 times a rational point.
@@ -21,20 +22,23 @@ times a rational point.
 *Status:* `open`; *scope:* exact compiled challenge contract. The target
 declaration is `MazurTorsion.XOneEleven.fiveCosetBound`, with challenge bridge
 `MazurTheorem.Challenge.xOneEleven_fiveCosetBound`; the existing consumer is
-`MazurTorsion.XOneEleven.five_point_classification_of_cosetBound`.
+`MazurTorsion.XOneEleven.five_point_classification_of_cosetBound`.  The
+preferred route is now to prove the reverse $`X_1(11)` model bridge, use the
+order-11 theorem to classify all rational points as the five cusps, and take
+$`Q=0` in the coset statement.  The prepared five-isogeny Selmer computation
+remains a valid independent proof.
 :::
 
-:::theorem "MT-X11-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-COSET") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "small")
-*Exclude exact rational order 11.* Feed the five-coset classification through
-the existing $`X_1(11)` reduction.
+:::theorem "MT-X11-JOIN" (parent := "finite_endpoints") (uses := "MT-PRIME-ISOGENY-CHAIN") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "small")
+*Expose the order-11 endpoint from the prime theorem.* Adapt the uniform
+formal-immersion result to the namespace expected by PointOrder.
 
 *Status:* `blocked`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `theorem` (`proposed`): `MazurTorsion.XOneEleven.rationalPoint_addOrderOf_ne_eleven`
-  Consume the five-coset contract and the existing $`X_1(11)` reduction to exclude
-  exact rational order 11.
+  Expose the formal-immersion order-eleven theorem through the existing endpoint API.
 :::
 
 :::theorem "MT-X13-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -69,41 +73,53 @@ destination theorem is
 `MazurTheorem.Challenge.no_rational_point_of_order_twentyFive`.
 :::
 
-:::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
-*Exclude exact rational order 35.* No rational point on an elliptic curve
-over $`\mathbb{Q}` has exact additive order 35.
+:::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-X0-MODULI, MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-COMPONENTS, MT-NERON-SPECIALIZATION") (tags := "proof, research-open, compiled, mazur, formal-immersion") (priority := "high") (effort := "medium")
+*Exclude exact order 35 with the shared formal-immersion engine.* Use the
+rank-zero optimal quotient $`X_0(35)/w_5` at auxiliary prime eleven.  Tame
+specialization and $`\#E(\mathbb F_{11})\le18` then contradict exact order
+35.
 
 *Status:* `research_open`; *scope:* exact compiled challenge contract. The
 destination theorem is
 `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`, bridged by
 `MazurTheorem.Challenge.no_rational_point_of_order_thirtyFive`.
+
+* `definition` (`proposed`):
+  `MazurTorsion.OrderThirtyFive.optimalQuotient`
+* `theorem` (`proposed`):
+  `MazurTorsion.OrderThirtyFive.optimalQuotient_mordellWeil_finite`
+* `theorem` (`proposed`):
+  `MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven`
+* `theorem` (`proposed`):
+  `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
+* `theorem` (`proposed`):
+  `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 :::
 
-:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "large")
-*Bridge exact order 49 to the $`X_0(49)` correspondence.* An exact rational
-order-49 point produces a noncuspidal point of the already classified
-level-seven correspondence, a contradiction.
+:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")
+*Bridge exact order 49 directly to the classified $`X_0(49)` curve.* The
+generated cyclic subgroup gives a noncuspidal rational modular point, while
+the checked rank-zero model has only its two cusps.
 
 *Status:* `open`; *scope:* exact compiled challenge contract. The
 destination is
 `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`, bridged by
-`MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. The public APIs
-`orderSevenG7F`, `exists_orderSevenHauptmodul_of_exactOrder`,
-`orderSevenQuotient`, and `orderSevenPointMap` now compile. The missing step is
-additivity (or compatibility with multiplication by seven) followed by the
-nonbacktracking tower branch; the rank-zero endpoint already lives under
-`MazurTorsion.NumberTheory`.
+`MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. The public
+$`X_0(49)` two-cusp classification already compiles.  The preferred bridge
+uses the generic cyclic-subgroup moduli point and does not require additivity
+of the explicit Vélu point function or a nonbacktracking isogeny tower.
 :::
 
 :::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")
-*Assemble all finite-level exclusions.* Remove the four composite callbacks
-and the separate 11- and 13-level callbacks from the point-order theorem.
+*Assemble the genuinely exceptional finite levels.* Remove the level-13 and
+four composite callbacks; order 11 has already been supplied by the prime
+route.
 
 *Status:* `blocked`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `theorem` (`proposed`): `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_finite_endpoints`
-  Combine the exact order 11, 13, 18, 25, 35, and 49 exclusions into the finite-
-  endpoint point-order API.
+  Combine order 11 from the prime route with level 13 and the four composite
+  exclusions.
 :::

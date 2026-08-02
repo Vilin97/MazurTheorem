@@ -31,9 +31,9 @@ weakening the kernel, linter, or source-policy gates.
 :::
 
 :::theorem "MT-API-INTEGRATION" (parent := "integration") (uses := "MT-FINITE-JOIN, MT-PRIME-ISOGENY-CHAIN, MT-PIN-MIGRATION") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")
-*Integrate finite and prime point-order APIs.* Expose one unconditional
+*Integrate finite and formal-immersion prime APIs.* Expose one unconditional
 statement saying that every rational torsion point has one of Mazur's allowed
-orders.
+orders, using the prime-five proof for order 11 and all primes at least 17.
 
 *Status:* `blocked`.
 
@@ -58,10 +58,11 @@ has cardinality at most 16.
   ncard at most 16.
 :::
 
-:::theorem "MT-EXPOSITION-AUDIT" (parent := "integration") (uses := "MT-FINAL-ASSEMBLY") (tags := "integration, blocked, statement-only, audit") (priority := "high") (effort := "medium")
-*Final exposition, provenance, and reproducibility audit.* Verify every
-Blueprint arrow against the actual declaration graph, reproduce the build from
-the lockfiles, and publish source and axiom reports.
+:::theorem "MT-EXPOSITION-AUDIT" (parent := "integration") (uses := "MT-FINAL-ASSEMBLY, MT-X11-COSET, MT-CYCLOTOMIC-UNRAMIFIED") (tags := "integration, blocked, statement-only, audit") (priority := "high") (effort := "medium")
+*Final Challenge, exposition, provenance, and reproducibility audit.* Verify
+every Blueprint arrow, close every retained Challenge (including the two
+noncritical contracts named in the dependency metadata), reproduce the clean
+build, and publish source and axiom reports.
 
 *Status:* `blocked`.
 
@@ -70,6 +71,8 @@ the lockfiles, and publish source and axiom reports.
 * `audit` (`proposed`): `MazurTheorem.Release.kernelAndProvenanceAudit`
   Record the final axiom report, exact source pins, declaration provenance, and
   reproducible build evidence.
+* `integration` (`proposed`): `MazurTheorem.Release.allChallengesClosed`
+  Verify that every registered Challenge is a checked bridge with no open contract.
 * `integration` (`proposed`): `MazurTheorem.Release.versoBlueprint`
   Publish a Verso blueprint whose labels and mathematical dependency edges exactly
   match the canonical programme.
