@@ -67,7 +67,8 @@ theorem project_include_point_eq_one (X : Over S) (x : D.connectedPart.Point X) 
 
 /-- Pointwise kernel characterization supplied by a connected--étale sequence. -/
 theorem project_point_eq_one_iff (X : Over S) (x : G.Point X) :
-    mapPoint D.project X x = 1 ↔ x ∈ Set.range (mapPoint D.inclusion X) :=
+    AlgebraicGeometry.FiniteFlatCommGroupScheme.mapPoint D.project X x = 1 ↔
+      x ∈ Set.range (mapPoint D.inclusion X) :=
   D.exactOnPoints X x
 
 /-- Base change of the connected term has the expected pointwise order.  This consumes the BASIC
@@ -99,9 +100,8 @@ theorem etaleQuotient_etale_baseChange (f : T ⟶ S) :
 variable {R : Type u} [CommRing R]
 variable {G : FiniteFlatCommGroupScheme (Spec (.of R))}
 
-/-- The connected--étale layer consumes the geometric Deligne theorem: if its supplied étale
-quotient has an affine finite-free Hopf presentation, every affine test point of that quotient is
-killed by its geometric order at every base point. -/
+/-- Compatibility bridge for pre-existing geometric objects carrying an explicit finite-free
+Hopf presentation: every affine test point is killed by its geometric order. -/
 theorem etaleQuotient_point_pow_orderAt_eq_one
     (D : G.ConnectedEtaleDatum)
     (P : D.etaleQuotient.AffineFiniteFreePresentation)
@@ -111,9 +111,8 @@ theorem etaleQuotient_point_pow_orderAt_eq_one
     x ^ D.etaleQuotient.orderAt s = 1 :=
   P.point_pow_orderAt_eq_one B x s
 
-/-- Combining middle exactness with the geometric order theorem, the quotient order-power of
-every affine test point of the middle group comes from the connected part.  This is the first
-consumer that genuinely uses both the connected--étale datum and the affine Hopf bridge. -/
+/-- Compatibility consumer for an explicitly supplied Hopf presentation: combining middle
+exactness with its geometric order theorem puts the quotient order-power in the connected part. -/
 theorem point_pow_orderAt_mem_connectedPart_range
     (D : G.ConnectedEtaleDatum)
     (P : D.etaleQuotient.AffineFiniteFreePresentation)
@@ -145,7 +144,51 @@ theorem point_pow_orderAt_mem_connectedPart_range_of_realizedEtaleQuotient
   apply (pointMulEquivOfIso e X).injective
   rw [map_pow, map_one, congrFun (orderAt_eq_of_iso e) s]
   simpa [y, X] using
-    A.realize_point_pow_orderAt_eq_one B (pointMulEquivOfIso e X y) s
+    AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.realize_point_pow_orderAt_eq_one
+      A B (pointMulEquivOfIso e X y) s
+
+/-- The finite-locally-free descent theorem is consumed geometrically here: a constant order on
+a realized finite-flat étale quotient kills the quotient image of every middle point, so that
+power lies in the connected part. -/
+theorem point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient
+    (D : G.ConnectedEtaleDatum)
+    (A : AffineFiniteFlatCommGroupScheme R)
+    (e : D.etaleQuotient ≅ A.realize)
+    (n : ℕ) (hA : A.realize.HasConstantOrder n)
+    (B : Type u) [CommRing B] [Algebra R B]
+    (x : G.Point (AffineCommGroupScheme.testObject (R := R) B)) :
+    x ^ n ∈ Set.range
+      (mapPoint D.inclusion (AffineCommGroupScheme.testObject (R := R) B)) := by
+  rw [← D.project_point_eq_one_iff, map_pow]
+  let X := AffineCommGroupScheme.testObject (R := R) B
+  let y := mapPoint D.project X x
+  apply (pointMulEquivOfIso e X).injective
+  rw [map_pow, map_one]
+  simpa [y, X] using
+    AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realize_point_pow_eq_one_of_hasConstantOrder
+      A n hA B (pointMulEquivOfIso e X y)
+
+/-- Scalar-extension consumer for the full geometric base-change API: a quotient identified with the
+geometric pullback of a realized group is transported across `realizeBaseChangeIso`; constant
+order then makes the corresponding power land in the connected part. -/
+theorem point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient
+    {K : Type u} [CommRing K] [Algebra R K]
+    {Gₖ : FiniteFlatCommGroupScheme (Spec (.of K))}
+    (D : Gₖ.ConnectedEtaleDatum)
+    (A : AffineFiniteFlatCommGroupScheme R)
+    (n : ℕ) (hA : A.realize.HasConstantOrder n)
+    (e : D.etaleQuotient ≅
+      (FiniteFlatCommGroupScheme.baseChange
+        (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj A.realize)
+    (B : Type u) [CommRing B] [Algebra K B]
+    (x : Gₖ.Point (AffineCommGroupScheme.testObject (R := K) B)) :
+    x ^ n ∈ Set.range
+      (mapPoint D.inclusion (AffineCommGroupScheme.testObject (R := K) B)) :=
+  D.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient
+    (A.baseChange (K := K))
+      (e ≪≫ AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realizeBaseChangeIso A) n
+      (AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.baseChange_realize_hasConstantOrder
+        A n hA) B x
 
 /-- When the scheme-theoretic kernel of the connected--étale projection is known finite and
 flat, the BASIC kernel construction supplies its certified group-scheme presentation. -/
@@ -153,7 +196,7 @@ theorem project_kernelPresentation_exists
     (D : G.ConnectedEtaleDatum)
     [IsFinite (kernelStructureMap D.project)] [Flat (kernelStructureMap D.project)] :
     Nonempty (KernelPresentation D.project) :=
-  ⟨kernelPresentationOfFiniteFlat D.project⟩
+  AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat D.project
 
 end ConnectedEtaleDatum
 

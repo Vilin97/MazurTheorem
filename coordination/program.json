@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421462,
+    "integrated_lean_lines": 1423112,
     "integrated_lean_modules": 646,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -60,12 +60,12 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 56,
-    "percent": 5.6,
+    "earned_points": 70,
+    "percent": 7.0,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 127,
+    "claimable_open_points": 113,
     "ordinary_claimable_points": 39,
-    "research_open_points": 88,
+    "research_open_points": 74,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
   "stages": [
@@ -1410,15 +1410,15 @@
     },
     {
       "id": "MT-FFGS-BASIC",
-      "title": "Finite-flat commutative group-scheme core",
+      "title": "Finite-flat commutative group schemes",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "done",
       "readiness": "integrated",
-      "weight_points": 6,
+      "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Scope-preserving 6-point compiled core of the original 20-point node: package finite-flat commutative group schemes, geometric points, base change, pointwise order, honest kernel certificates, and the affine finite-free Deligne bridge, with a compiled connected-etale consumer; the remaining 14 points stay in explicit zero-credit blockers, and quotient construction is omitted because that consumer does not require it.",
+      "summary": "Package finite-flat commutative group schemes, their morphisms, affine points, base change, geometric order, finite-flat kernels under explicit hypotheses, and the affine Hopf realization. Deligne's Hopf-algebra theorem now gives the constant-rank finite-locally-free geometric order theorem, and a connected-etale consumer uses the constructed realization directly. Quotient machinery is omitted because that consumer does not require it.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1437,14 +1437,95 @@
         {"kind": "structure", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme", "state": "integrated", "description": "Package finite flat commutative group schemes over an arbitrary scheme base."},
         {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange", "state": "integrated", "description": "Base change finite-flat commutative group schemes through pullback of internal group objects."},
         {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.orderAt", "state": "integrated", "description": "Record the geometric order as a pointwise rank function on a possibly disconnected base."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AffineFiniteFreePresentation.point_pow_orderAt_eq_one", "state": "integrated", "description": "Transport the finite-free Hopf-algebraic Deligne theorem to geometric affine test points."},
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range", "state": "integrated", "description": "Use connected-etale exactness and the quotient order theorem to put an order-power of every middle point in the connected-part image."}
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineCommGroupScheme.realizationFunctor", "state": "integrated", "description": "Realize commutative cocommutative Hopf algebras contravariantly as affine commutative group schemes over the base spectrum."},
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineCommGroupScheme.pointMulEquiv", "state": "integrated", "description": "Identify the geometric group law on affine test points with convolution of coordinate-algebra maps."},
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineCommGroupScheme.baseChangeFunctor", "state": "integrated", "description": "Extend affine commutative group-scheme coordinates along a ring map through Hopf-algebra scalar extension."},
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineCommGroupScheme.realizationBaseChangeIso", "state": "integrated", "description": "Identify geometric pullback with Hopf-coordinate scalar extension as internal commutative group schemes, including unit and multiplication coherence."},
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineCommGroupScheme.baseChangePointMulEquiv", "state": "integrated", "description": "Identify points after scalar extension with restricted-scalar points compatibly with the geometric group law and convolution."},
+        {"kind": "definition", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realizeBaseChangeIso", "state": "integrated", "description": "Package realization/base-change compatibility in the finite-flat commutative group-scheme category."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.baseChange_structureMap_finrank", "state": "integrated", "description": "Prove compatibility of the local coordinate rank with scalar extension at every point of the new base spectrum."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.baseChange_realize_hasConstantOrder", "state": "integrated", "description": "Transport a constant geometric order certificate to the scalar-extended constructed realization."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank", "state": "integrated", "description": "Kill every affine point by the constant geometric rank for finite locally free coordinates over an arbitrary commutative base."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat", "state": "integrated", "description": "Package the inherited commutative group kernel when its explicit structure morphism is finite and flat."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range_of_realizedEtaleQuotient", "state": "integrated", "description": "Use a constructed affine Hopf realization in the connected-etale layer without supplied point-group or rank compatibility data."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient", "state": "integrated", "description": "Consume the general constant-rank finite-locally-free order theorem through a constructed geometric realization in the connected-etale layer."},
+        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient", "state": "integrated", "description": "Validate affine scalar extension, geometric constant order, and connected-etale exactness in one downstream realization consumer."}
       ],
       "depends_on": ["MT-BASE-INTEGRATED"],
-      "unlocks": [
-        "MT-FFGS-AFFINE-REALIZATION",
-        "MT-FFGS-ORDER-DESCENT",
-        "MT-FFGS-KERNEL-PRESENTATION"
+      "unlocks": ["MT-FFGS-CONNECTED-ETALE"],
+      "completed_challenges": [
+        {
+          "claimable": false,
+          "module": "Challenge.FFGSAffineRealization",
+          "file": "Challenge/FFGSAffineRealization.lean",
+          "declaration": "MazurTheorem.Challenge.affineFiniteFree_exists_geometric_realization",
+          "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine",
+          "destination_declaration": "AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization",
+          "signature": "theorem affineFiniteFree_exists_geometric_realization\n    {R : Type u} [CommRing R] (A : AffineFiniteFreeCommGroupScheme R) :\n    ∃ (G : FiniteFlatCommGroupScheme (Spec (.of R)))\n      (P : G.AffineFiniteFreePresentation), P.hopf = A := sorry",
+          "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine"],
+          "informal": "Every finite-free commutative cocommutative Hopf algebra over R is represented by a finite-flat commutative group scheme over Spec R with the compiled point-group and rank compatibilities.",
+          "recommended_route": "Use the CommHopfAlgCat equivalence with cogroup commutative algebras, transport it contravariantly through Spec and the affine pullback isomorphism, and prove convolution agrees with the internal group law on points.",
+          "consumer_declarations": [
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range_of_realizedEtaleQuotient",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient"
+          ],
+          "consumer_dependencies": {
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range": "AlgebraicGeometry.FiniteFlatCommGroupScheme.mapPoint",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realize_point_pow_eq_one_of_hasConstantOrder",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range_of_realizedEtaleQuotient": "AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.realize_point_pow_orderAt_eq_one",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realizeBaseChangeIso"
+          },
+          "estimated_lines": {"min": 300, "max": 1200},
+          "skills": ["affine group schemes", "Hopf algebras", "category theory"]
+        },
+        {
+          "claimable": false,
+          "module": "Challenge.FFGSFiniteLocallyFreeOrder",
+          "file": "Challenge/FFGSFiniteLocallyFreeOrder.lean",
+          "declaration": "MazurTheorem.Challenge.affineFiniteFlat_point_pow_eq_one_of_constantRank",
+          "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine",
+          "destination_declaration": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank",
+          "signature": "theorem affineFiniteFlat_point_pow_eq_one_of_constantRank\n    {R : Type u} [CommRing R]\n    (G : AffineFiniteFlatCommGroupScheme R) (n : ℕ)\n    (hG : ∀ s : Spec (.of R), G.structureMap.finrank s = n)\n    (B : Type u) [CommRing B] [Algebra R B]\n    (x : G.Point B) :\n    x ^ n = 1 := sorry",
+          "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine"],
+          "informal": "A constant-rank affine finite-flat commutative group scheme is killed on every affine test point by that rank, even when its coordinate module is not globally free.",
+          "recommended_route": "Localize at maximal ideals, use Module.free_of_flat_of_isLocalRing and the compiled local theorem, establish scalar-base-change compatibility for convolution powers, then descend the equality from all localizations.",
+          "consumer_declarations": [
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient"
+          ],
+          "consumer_dependencies": {
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range": "AlgebraicGeometry.FiniteFlatCommGroupScheme.mapPoint",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_realizedConstantOrderEtaleQuotient": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.realize_point_pow_eq_one_of_hasConstantOrder",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_mem_connectedPart_range_of_baseChangedRealizedEtaleQuotient": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.baseChange_realize_hasConstantOrder"
+          },
+          "estimated_lines": {"min": 250, "max": 900},
+          "skills": ["commutative algebra", "localization", "finite flat modules"]
+        },
+        {
+          "claimable": false,
+          "module": "Challenge.FFGSKernelPresentation",
+          "file": "Challenge/FFGSKernelPresentation.lean",
+          "declaration": "MazurTheorem.Challenge.ffgs_kernelPresentation_exists_of_finite_flat",
+          "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic",
+          "destination_declaration": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat",
+          "signature": "theorem ffgs_kernelPresentation_exists_of_finite_flat\n    {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)\n    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :\n    Nonempty (KernelPresentation f) := sorry",
+          "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"],
+          "informal": "When the scheme-theoretic kernel structure morphism is explicitly known finite and flat, it carries the inherited commutative group object and certified kernel inclusion.",
+          "recommended_route": "Use creation of limits for group objects to put the group law on the pullback kernel, identify the underlying scheme pullback, then package the supplied IsFinite and Flat instances without claiming generic kernel flatness.",
+          "consumer_declarations": [
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.project_point_eq_one_iff",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.project_kernelPresentation_exists"
+          ],
+          "consumer_dependencies": {
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.project_point_eq_one_iff": "AlgebraicGeometry.FiniteFlatCommGroupScheme.mapPoint",
+            "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.project_kernelPresentation_exists": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat"
+          },
+          "estimated_lines": {"min": 120, "max": 450},
+          "skills": ["category-theoretic limits", "group schemes", "finite flat morphisms"]
+        }
       ],
       "completion": {
         "statement": true,
@@ -1452,129 +1533,6 @@
         "api": true,
         "integrated": true,
         "credit_percent": 100
-      }
-    },
-    {
-      "id": "MT-FFGS-AFFINE-REALIZATION",
-      "title": "Realize affine Hopf data geometrically",
-      "stage": "prime_infrastructure",
-      "kind": "infrastructure",
-      "status": "research_open",
-      "readiness": "compiled",
-      "weight_points": 4,
-      "risk": "extreme",
-      "backend": "mixed",
-      "summary": "Construct the internal commutative group object over Spec R represented by a finite-free commutative cocommutative Hopf algebra and certify the compiled affine presentation API.",
-      "artifacts": [
-        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization", "state": "contract", "description": "Realize finite-free affine Hopf data as a finite-flat geometric commutative group scheme with compatible points and rank."}
-      ],
-      "depends_on": ["MT-FFGS-BASIC"],
-      "unlocks": ["MT-FFGS-CONNECTED-ETALE"],
-      "completion": {
-        "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
-      },
-      "challenge": {
-        "claimable": true,
-        "module": "Challenge.FFGSAffineRealization",
-        "file": "Challenge/FFGSAffineRealization.lean",
-        "declaration": "MazurTheorem.Challenge.affineFiniteFree_exists_geometric_realization",
-        "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine",
-        "destination_declaration": "AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization",
-        "signature": "theorem affineFiniteFree_exists_geometric_realization\n    {R : Type u} [CommRing R] (A : AffineFiniteFreeCommGroupScheme R) :\n    ∃ (G : FiniteFlatCommGroupScheme (Spec (.of R)))\n      (P : G.AffineFiniteFreePresentation), P.hopf = A := sorry",
-        "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine"],
-        "informal": "Every finite-free commutative cocommutative Hopf algebra over R is represented by a finite-flat commutative group scheme over Spec R with the compiled point-group and rank compatibilities.",
-        "recommended_route": "Use the CommHopfAlgCat equivalence with cogroup commutative algebras, transport it contravariantly through Spec and the affine pullback isomorphism, and prove convolution agrees with the internal group law on points.",
-        "consumer_declarations": [
-          "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range"
-        ],
-        "estimated_lines": {"min": 300, "max": 1200},
-        "skills": ["affine group schemes", "Hopf algebras", "category theory"]
-      }
-    },
-    {
-      "id": "MT-FFGS-ORDER-DESCENT",
-      "title": "Descend the finite-flat order theorem",
-      "stage": "prime_infrastructure",
-      "kind": "infrastructure",
-      "status": "research_open",
-      "readiness": "compiled",
-      "weight_points": 6,
-      "risk": "extreme",
-      "backend": "mixed",
-      "summary": "Descend the compiled local finite-flat Deligne theorem to constant-rank finite-flat coordinate algebras over a general base ring.",
-      "artifacts": [
-        {"kind": "theorem", "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank", "state": "contract", "description": "Prove that every affine test point is killed by the constant geometric rank without assuming global freeness."}
-      ],
-      "depends_on": ["MT-FFGS-BASIC"],
-      "unlocks": ["MT-FFGS-CONNECTED-ETALE"],
-      "completion": {
-        "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
-      },
-      "challenge": {
-        "claimable": true,
-        "module": "Challenge.FFGSFiniteLocallyFreeOrder",
-        "file": "Challenge/FFGSFiniteLocallyFreeOrder.lean",
-        "declaration": "MazurTheorem.Challenge.affineFiniteFlat_point_pow_eq_one_of_constantRank",
-        "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine",
-        "destination_declaration": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank",
-        "signature": "theorem affineFiniteFlat_point_pow_eq_one_of_constantRank\n    {R : Type u} [CommRing R]\n    (G : AffineFiniteFlatCommGroupScheme R) (n : ℕ)\n    (hG : ∀ s : Spec (.of R), G.structureMap.finrank s = n)\n    (B : Type u) [CommRing B] [Algebra R B]\n    (x : G.Point B) :\n    x ^ n = 1 := sorry",
-        "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine"],
-        "informal": "A constant-rank affine finite-flat commutative group scheme is killed on every affine test point by that rank, even when its coordinate module is not globally free.",
-        "recommended_route": "Localize at maximal ideals, use Module.free_of_flat_of_isLocalRing and the compiled local theorem, establish scalar-base-change compatibility for convolution powers, then descend the equality from all localizations.",
-        "consumer_declarations": [
-          "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.point_pow_orderAt_mem_connectedPart_range"
-        ],
-        "estimated_lines": {"min": 250, "max": 900},
-        "skills": ["commutative algebra", "localization", "finite flat modules"]
-      }
-    },
-    {
-      "id": "MT-FFGS-KERNEL-PRESENTATION",
-      "title": "Package finite-flat kernels",
-      "stage": "prime_infrastructure",
-      "kind": "infrastructure",
-      "status": "research_open",
-      "readiness": "compiled",
-      "weight_points": 4,
-      "risk": "high",
-      "backend": "mathlib",
-      "summary": "Lift the compiled scheme-theoretic pullback kernel to a certified finite-flat commutative group scheme under explicit finiteness and flatness hypotheses.",
-      "artifacts": [
-        {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat", "state": "contract", "description": "Construct the inherited group object and kernel inclusion once the underlying kernel morphism is known finite and flat."}
-      ],
-      "depends_on": ["MT-FFGS-BASIC"],
-      "unlocks": ["MT-FFGS-CONNECTED-ETALE"],
-      "completion": {
-        "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
-      },
-      "challenge": {
-        "claimable": true,
-        "module": "Challenge.FFGSKernelPresentation",
-        "file": "Challenge/FFGSKernelPresentation.lean",
-        "declaration": "MazurTheorem.Challenge.ffgs_kernelPresentation_exists_of_finite_flat",
-        "destination_module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic",
-        "destination_declaration": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat",
-        "signature": "theorem ffgs_kernelPresentation_exists_of_finite_flat\n    {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H)\n    [IsFinite (kernelStructureMap f)] [Flat (kernelStructureMap f)] :\n    Nonempty (KernelPresentation f) := sorry",
-        "imports": ["MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"],
-        "informal": "When the scheme-theoretic kernel structure morphism is explicitly known finite and flat, it carries the inherited commutative group object and certified kernel inclusion.",
-        "recommended_route": "Use creation of limits for group objects to put the group law on the pullback kernel, identify the underlying scheme pullback, then package the supplied IsFinite and Flat instances without claiming generic kernel flatness.",
-        "consumer_declarations": [
-          "AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtaleDatum.project_point_eq_one_iff"
-        ],
-        "estimated_lines": {"min": 120, "max": 450},
-        "skills": ["category-theoretic limits", "group schemes", "finite flat morphisms"]
       }
     },
     {
@@ -1593,11 +1551,7 @@
         {"kind": "definition", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.etaleQuotient", "state": "proposed", "description": "Define the maximal etale quotient in the connected-etale sequence."},
         {"kind": "theorem", "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedEtale_exact", "state": "proposed", "description": "Prove exactness, functoriality, and base-change compatibility of the connected-etale sequence."}
       ],
-      "depends_on": [
-        "MT-FFGS-AFFINE-REALIZATION",
-        "MT-FFGS-ORDER-DESCENT",
-        "MT-FFGS-KERNEL-PRESENTATION"
-      ],
+      "depends_on": ["MT-FFGS-BASIC"],
       "unlocks": ["MT-FFGS-OORT-RAYNAUD"],
       "completion": {
         "statement": false,

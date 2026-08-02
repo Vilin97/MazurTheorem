@@ -397,6 +397,37 @@ def expected_credit(node: dict[str, Any]) -> int:
     return 0
 
 
+def registered_challenges(
+    node_id: str, node: dict[str, Any]
+) -> list[tuple[str, dict[str, Any], bool]]:
+    """Return active and completed contracts registered on one roadmap node.
+
+    The singular ``challenge`` field remains the backwards-compatible home of
+    an active contract (and of older completed contracts).  A completed node
+    may additionally retain several exact solved contracts in
+    ``completed_challenges`` without splitting or reweighting the mathematical
+    roadmap node.
+    """
+    result: list[tuple[str, dict[str, Any], bool]] = []
+    challenge = node.get("challenge")
+    if isinstance(challenge, dict):
+        result.append(
+            (
+                f"{node_id}.challenge",
+                challenge,
+                node.get("status") in {"open", "research_open"},
+            )
+        )
+    completed = node.get("completed_challenges")
+    if isinstance(completed, list):
+        for index, contract in enumerate(completed, start=1):
+            if isinstance(contract, dict):
+                result.append(
+                    (f"{node_id}.completed_challenges[{index}]", contract, False)
+                )
+    return result
+
+
 def validate_program_shape(
     validator: Validator, program: dict[str, Any]
 ) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
@@ -631,6 +662,35 @@ def validate_program_shape(
                     ordinary_claimable_points += weight
                 else:
                     research_open_points += weight
+        completed_challenges = node.get("completed_challenges")
+        if "completed_challenges" in node:
+            validator.require(
+                isinstance(completed_challenges, list) and bool(completed_challenges),
+                f"{node_id}: completed_challenges must be a nonempty list",
+            )
+        if isinstance(completed_challenges, list):
+            validator.require(
+                node.get("status") == "done",
+                f"{node_id}: completed_challenges require done status",
+            )
+            validator.require(
+                isinstance(completion, dict)
+                and all(
+                    completion.get(flag) is True
+                    for flag in ("statement", "proof", "api", "integrated")
+                ),
+                f"{node_id}: completed_challenges require all completion flags",
+            )
+            for index, contract in enumerate(completed_challenges, start=1):
+                prefix = f"{node_id}.completed_challenges[{index}]"
+                validator.require(
+                    isinstance(contract, dict), f"{prefix} must be an object"
+                )
+                if isinstance(contract, dict):
+                    validator.require(
+                        contract.get("claimable") is False,
+                        f"{prefix}.claimable must be false",
+                    )
         if node.get("status") == "done":
             validator.require(
                 completion.get("integrated") is True,
@@ -1134,6 +1194,32 @@ def validate_challenge_lists(
         isinstance(consumers, list) and bool(consumers),
         f"{node_id}: challenge.consumer_declarations must be a nonempty list",
     )
+    consumer_dependencies = challenge.get("consumer_dependencies")
+    if consumer_dependencies is not None:
+        validator.require(
+            isinstance(consumer_dependencies, dict)
+            and bool(consumer_dependencies)
+            and isinstance(consumers, list)
+            and set(consumer_dependencies) == set(consumers)
+            and all(
+                isinstance(consumer, str)
+                and bool(QUALIFIED_NAME_PATTERN.fullmatch(consumer))
+                and isinstance(dependency, str)
+                and bool(QUALIFIED_NAME_PATTERN.fullmatch(dependency))
+                for consumer, dependency in consumer_dependencies.items()
+            ),
+            f"{node_id}: challenge.consumer_dependencies must map every registered "
+            "consumer declaration exactly once to a qualified API dependency",
+        )
+        if isinstance(consumer_dependencies, dict):
+            for dependency in consumer_dependencies.values():
+                if not isinstance(dependency, str):
+                    continue
+                validator.require(
+                    dependency in local_consumer_declarations,
+                    f"{node_id}: consumer dependency {dependency} has no matching "
+                    "local declaration",
+                )
     list_fields = (
         ("imports", imports),
         ("skills", skills),
@@ -1172,21 +1258,26 @@ def validate_challenge_lists(
 
 def validate_challenge_source(
     validator: Validator,
-    node_id: str,
-    node: dict[str, Any],
+    registry_id: str,
     challenge: dict[str, Any],
     path: Path,
     local_sources: dict[str, Path],
+    *,
+    active: bool,
 ) -> None:
     """Validate one durable contract source against its lifecycle."""
-    validator.require(path.suffix == ".lean", f"{node_id}: challenge file must end in .lean")
-    validator.require(path.is_file(), f"{node_id}: missing {path.relative_to(REPOSITORY_ROOT)}")
+    validator.require(
+        path.suffix == ".lean", f"{registry_id}: challenge file must end in .lean"
+    )
+    validator.require(
+        path.is_file(), f"{registry_id}: missing {path.relative_to(REPOSITORY_ROOT)}"
+    )
     if not path.is_file():
         return
     expected_module = challenge_module_for(path)
     validator.require(
         challenge.get("module") == expected_module,
-        f"{node_id}: module must be {expected_module}",
+        f"{registry_id}: module must be {expected_module}",
     )
     source = path.read_text(encoding="utf-8")
     code = strip_lean_comments_and_strings(source)
@@ -1195,15 +1286,14 @@ def validate_challenge_source(
     validator.require(
         len(SORRY_PATTERN.findall(strip_lean_comments_and_strings(str(signature)))) == 1
         and normalized_signature.endswith(":=sorry"),
-        f"{node_id}: signature must end in exactly the whole proof body ':= sorry'",
+        f"{registry_id}: signature must end in exactly the whole proof body ':= sorry'",
     )
     match = DECLARATION_PATTERN.search(signature) if isinstance(signature, str) else None
     declaration_tail = str(challenge.get("declaration", "")).rsplit(".", 1)[-1]
     validator.require(
         match is not None and match.group(1) == declaration_tail,
-        f"{node_id}: signature theorem name does not match challenge.declaration",
+        f"{registry_id}: signature theorem name does not match challenge.declaration",
     )
-    active = node.get("status") in {"open", "research_open"}
     expected_source = (
         normalized_signature
         if active
@@ -1212,13 +1302,13 @@ def validate_challenge_source(
     normalized_source = normalized_lean(source)
     validator.require(
         bool(expected_source) and expected_source in normalized_source,
-        f"{node_id}: registered statement is not exact source text modulo layout",
+        f"{registry_id}: registered statement is not exact source text modulo layout",
     )
     declared_names = declarations_in_source(code)
     registered_declaration = challenge.get("declaration")
     validator.require(
         registered_declaration in declared_names,
-        f"{node_id}: source does not define {challenge.get('declaration')}",
+        f"{registry_id}: source does not define {challenge.get('declaration')}",
     )
     same_tail_declarations = {
         declaration
@@ -1227,7 +1317,7 @@ def validate_challenge_source(
     }
     validator.require(
         same_tail_declarations == {registered_declaration},
-        f"{node_id}: theorem tail {declaration_tail} must identify only "
+        f"{registry_id}: theorem tail {declaration_tail} must identify only "
         f"{registered_declaration}, found {sorted(same_tail_declarations)}",
     )
     actual_imports = IMPORT_PATTERN.findall(code)
@@ -1235,19 +1325,19 @@ def validate_challenge_source(
     if isinstance(declared_imports, list):
         validator.require(
             declared_imports == actual_imports,
-            f"{node_id}: ordered imports differ "
+            f"{registry_id}: ordered imports differ "
             f"(declared {list(map(str, declared_imports))}, actual {actual_imports})",
         )
     validator.require(
         not any(imported.startswith("Challenge.") for imported in actual_imports),
-        f"{node_id}: a challenge may not import another challenge",
+        f"{registry_id}: a challenge may not import another challenge",
     )
     if not active:
         destination_declaration = challenge.get("destination_declaration")
         validator.require(
             isinstance(destination_declaration, str)
             and destination_declaration in code,
-            f"{node_id}: completed contract must be a thin bridge to "
+            f"{registry_id}: completed contract must be a thin bridge to "
             f"{destination_declaration}",
         )
         if isinstance(destination_declaration, str) and destination_declaration.startswith(
@@ -1255,24 +1345,34 @@ def validate_challenge_source(
         ):
             validator.require(
                 destination_declaration in local_sources,
-                f"{node_id}: completed destination {destination_declaration} "
+                f"{registry_id}: completed destination {destination_declaration} "
                 "has no local declaration",
             )
-        for consumer in challenge.get("consumer_declarations", []):
-            consumer_path = local_sources.get(consumer)
-            if consumer_path is None or not isinstance(destination_declaration, str):
-                continue
-            consumer_code = strip_lean_comments_and_strings(
-                consumer_path.read_text(encoding="utf-8")
-            )
-            validator.require(
-                destination_declaration in consumer_code,
-                f"{node_id}: completed consumer {consumer} is not wired to "
-                f"{destination_declaration}",
-            )
+        dependencies = challenge.get("consumer_dependencies")
+        if not isinstance(dependencies, dict) and isinstance(
+            destination_declaration, str
+        ):
+            dependencies = {
+                consumer: destination_declaration
+                for consumer in challenge.get("consumer_declarations", [])
+                if isinstance(consumer, str)
+            }
+        if isinstance(dependencies, dict):
+            for consumer, dependency in dependencies.items():
+                consumer_path = local_sources.get(consumer)
+                if consumer_path is None or not isinstance(dependency, str):
+                    continue
+                consumer_code = strip_lean_comments_and_strings(
+                    consumer_path.read_text(encoding="utf-8")
+                )
+                validator.require(
+                    dependency in consumer_code,
+                    f"{registry_id}: completed consumer {consumer} is not wired to "
+                    f"{dependency}",
+                )
     validator.require(
         len(SORRY_PATTERN.findall(code)) == (1 if active else 0),
-        f"{node_id}: {'open' if active else 'completed'} contract must contain "
+        f"{registry_id}: {'open' if active else 'completed'} contract must contain "
         f"{'exactly one whole-body sorry' if active else 'no sorry'}",
     )
     validate_source_prohibitions(validator, path, code, allow_single_sorry=active)
@@ -1287,25 +1387,28 @@ def validate_challenges(
     registered_count = 0
     local_sources = local_declaration_sources()
     for node_id, node in node_by_id.items():
-        challenge = node.get("challenge")
-        if not isinstance(challenge, dict):
-            continue
-        registered_count += 1
-        path = validate_challenge_metadata(
-            validator, node_id, challenge, local_sources
-        )
-        if path is None:
-            continue
-        validator.require(
-            path not in registered_files,
-            f"{node_id}: challenge file is registered by more than one node",
-        )
-        registered_files.add(path)
-        if node.get("status") in {"open", "research_open"}:
-            active_files.add(path)
-        validate_challenge_source(
-            validator, node_id, node, challenge, path, local_sources
-        )
+        for registry_id, challenge, active in registered_challenges(node_id, node):
+            registered_count += 1
+            path = validate_challenge_metadata(
+                validator, registry_id, challenge, local_sources
+            )
+            if path is None:
+                continue
+            validator.require(
+                path not in registered_files,
+                f"{registry_id}: challenge file is registered more than once",
+            )
+            registered_files.add(path)
+            if active:
+                active_files.add(path)
+            validate_challenge_source(
+                validator,
+                registry_id,
+                challenge,
+                path,
+                local_sources,
+                active=active,
+            )
 
     all_contract_files = contract_source_files()
     discovered_files = {
@@ -1348,9 +1451,9 @@ def validate_aggregator_coverage(
     for aggregator, belongs in groups:
         expected = {
             challenge["module"]
-            for node in node_by_id.values()
-            if isinstance((challenge := node.get("challenge")), dict)
-            and isinstance(challenge.get("file"), str)
+            for node_id, node in node_by_id.items()
+            for _, challenge, _ in registered_challenges(node_id, node)
+            if isinstance(challenge.get("file"), str)
             and belongs(challenge["file"])
         }
         if not aggregator.is_file():

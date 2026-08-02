@@ -73,21 +73,48 @@ def load_base_program(base: str) -> dict[str, Any] | None:
     return load_json_object(result.stdout, object_name)
 
 
-def challenge_nodes(program: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    """Index challenge objects by their durable DAG node IDs."""
+def challenge_records(
+    program: dict[str, Any],
+) -> dict[str, tuple[str, dict[str, Any], bool]]:
+    """Index singular and retained completed contracts by declaration.
+
+    A contract may move from a node's backwards-compatible ``challenge`` slot
+    into ``completed_challenges`` when it is solved.  This also permits an
+    active contract-only decomposition node to collapse back into its owning
+    mathematical node while preserving the declaration and immutable fields.
+    """
     nodes = program.get("nodes", [])
     if not isinstance(nodes, list):
         raise ValueError("program.nodes must be a list")
-    indexed: dict[str, dict[str, Any]] = {}
+    indexed: dict[str, tuple[str, dict[str, Any], bool]] = {}
     for node in nodes:
-        if not isinstance(node, dict) or not isinstance(node.get("challenge"), dict):
+        if not isinstance(node, dict):
             continue
         node_id = node.get("id")
         if not isinstance(node_id, str) or not node_id:
             raise ValueError("every challenge node must have a nonempty string id")
-        if node_id in indexed:
-            raise ValueError(f"duplicate challenge node id {node_id}")
-        indexed[node_id] = node["challenge"]
+        contracts: list[tuple[dict[str, Any], bool]] = []
+        challenge = node.get("challenge")
+        if isinstance(challenge, dict):
+            contracts.append((challenge, False))
+        completed = node.get("completed_challenges")
+        if completed is not None:
+            if not isinstance(completed, list):
+                raise ValueError(f"{node_id}.completed_challenges must be a list")
+            if not all(isinstance(item, dict) for item in completed):
+                raise ValueError(
+                    f"{node_id}.completed_challenges must contain only objects"
+                )
+            contracts.extend((contract, True) for contract in completed)
+        for contract, retained in contracts:
+            declaration = contract.get("declaration")
+            if not isinstance(declaration, str) or not declaration:
+                raise ValueError(
+                    f"{node_id}: every challenge needs a nonempty declaration"
+                )
+            if declaration in indexed:
+                raise ValueError(f"duplicate challenge declaration {declaration}")
+            indexed[declaration] = (node_id, contract, retained)
     return indexed
 
 
@@ -109,6 +136,18 @@ def node_ids(program: dict[str, Any]) -> set[str]:
     return identifiers
 
 
+def nodes_by_id(program: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Return roadmap node objects keyed by their validated identifiers."""
+    nodes = program.get("nodes", [])
+    if not isinstance(nodes, list):
+        raise ValueError("program.nodes must be a list")
+    return {
+        node["id"]: node
+        for node in nodes
+        if isinstance(node, dict) and isinstance(node.get("id"), str)
+    }
+
+
 def rendered(value: object) -> str:
     """Render an immutable value deterministically for diagnostics."""
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
@@ -118,36 +157,57 @@ def compare_programs(
     base_program: dict[str, Any], current_program: dict[str, Any]
 ) -> list[str]:
     """Return deterministic diagnostics for removed or mutated base contracts."""
-    base_challenges = challenge_nodes(base_program)
-    current_challenges = challenge_nodes(current_program)
+    base_challenges = challenge_records(base_program)
+    current_challenges = challenge_records(current_program)
     base_node_ids = node_ids(base_program)
     current_node_ids = node_ids(current_program)
-    current_ids_by_declaration = {
-        challenge.get("declaration"): node_id
-        for node_id, challenge in current_challenges.items()
-        if isinstance(challenge.get("declaration"), str)
-    }
+    base_nodes = nodes_by_id(base_program)
     errors: list[str] = []
     for node_id in sorted(base_node_ids - current_node_ids):
-        errors.append(f"{node_id}: immutable DAG node id was removed or renamed")
-    for node_id in sorted(base_challenges):
-        base_challenge = base_challenges[node_id]
-        current_challenge = current_challenges.get(node_id)
-        if current_challenge is None:
-            moved_to = current_ids_by_declaration.get(base_challenge.get("declaration"))
-            if moved_to is None:
-                errors.append(f"{node_id}: immutable challenge node was removed")
-            else:
-                errors.append(
-                    f"{node_id}: immutable challenge node id changed to {moved_to}"
-                )
+        base_challenge = base_nodes[node_id].get("challenge")
+        declaration = (
+            base_challenge.get("declaration")
+            if isinstance(base_challenge, dict)
+            else None
+        )
+        current_record = (
+            current_challenges.get(declaration)
+            if isinstance(declaration, str)
+            else None
+        )
+        migrated_completion = (
+            isinstance(base_challenge, dict)
+            and base_challenge.get("claimable") is True
+            and current_record is not None
+            and current_record[1].get("claimable") is False
+            and current_record[2]
+        )
+        if not migrated_completion:
+            errors.append(f"{node_id}: immutable DAG node id was removed or renamed")
+    for declaration in sorted(base_challenges):
+        node_id, base_challenge, base_retained = base_challenges[declaration]
+        current_record = current_challenges.get(declaration)
+        if current_record is None:
+            errors.append(f"{node_id}: immutable challenge {declaration} was removed")
             continue
+        current_node_id, current_challenge, current_retained = current_record
+        lifecycle_move = (
+            not base_retained
+            and base_challenge.get("claimable") is True
+            and current_retained
+            and current_challenge.get("claimable") is False
+        )
+        if current_node_id != node_id and not lifecycle_move:
+            errors.append(
+                f"{node_id}: immutable challenge {declaration} moved to "
+                f"{current_node_id}"
+            )
         for field in IMMUTABLE_CHALLENGE_FIELDS:
             before = base_challenge.get(field)
             after = current_challenge.get(field)
             if before != after:
                 errors.append(
-                    f"{node_id}: immutable challenge.{field} changed "
+                    f"{node_id}: immutable challenge {declaration} field {field} changed "
                     f"from {rendered(before)} to {rendered(after)}"
                 )
         base_consumers = base_challenge.get("consumer_declarations", [])
@@ -155,14 +215,31 @@ def compare_programs(
         if isinstance(base_consumers, list) and isinstance(current_consumers, list):
             if current_consumers[: len(base_consumers)] != base_consumers:
                 errors.append(
-                    f"{node_id}: consumer_declarations must retain the published "
-                    "list as an exact prefix"
+                    f"{node_id}: challenge {declaration} consumer_declarations "
+                    "must retain the published list as an exact prefix"
                 )
+        base_dependencies = base_challenge.get("consumer_dependencies")
+        current_dependencies = current_challenge.get("consumer_dependencies")
+        if isinstance(base_dependencies, dict):
+            if not isinstance(current_dependencies, dict):
+                errors.append(
+                    f"{node_id}: challenge {declaration} removed its published "
+                    "consumer_dependencies"
+                )
+            else:
+                for consumer, dependency in base_dependencies.items():
+                    if current_dependencies.get(consumer) != dependency:
+                        errors.append(
+                            f"{node_id}: challenge {declaration} changed the "
+                            f"published dependency for {consumer} from "
+                            f"{rendered(dependency)} to "
+                            f"{rendered(current_dependencies.get(consumer))}"
+                        )
     return errors
 
 
 def run_self_test() -> bool:
-    """Exercise every immutable field, node removal, ID changes, and lifecycle edits."""
+    """Exercise immutable fields, dependency mappings, removals, and lifecycle edits."""
     challenge = {
         "claimable": True,
         "module": "Challenge.Example",
@@ -210,6 +287,55 @@ def run_self_test() -> bool:
     base_with_plain_node["nodes"].append({"id": "MT-PLAIN"})
     if not compare_programs(base_with_plain_node, base):
         failures.append("non-challenge DAG node removal was accepted")
+    promoted = copy.deepcopy(base)
+    promoted["nodes"][0]["completed_challenges"] = [
+        promoted["nodes"][0].pop("challenge")
+    ]
+    promoted["nodes"][0]["completed_challenges"][0]["claimable"] = False
+    if compare_programs(base, promoted):
+        failures.append("same-node challenge completion was rejected")
+    collapsed = {
+        "nodes": [
+            {
+                "id": "MT-COLLAPSED",
+                "completed_challenges": copy.deepcopy(
+                    promoted["nodes"][0]["completed_challenges"]
+                ),
+            }
+        ]
+    }
+    if compare_programs(base, collapsed):
+        failures.append("completed challenge migration from a removed node was rejected")
+    multiple = copy.deepcopy(promoted)
+    second = copy.deepcopy(challenge)
+    second["claimable"] = False
+    second["module"] = "Challenge.ExampleAgain"
+    second["file"] = "Challenge/ExampleAgain.lean"
+    second["declaration"] = "MazurTheorem.Challenge.exampleAgain"
+    second["signature"] = "theorem exampleAgain : True := sorry"
+    multiple["nodes"][0]["completed_challenges"].append(second)
+    removed_completed = copy.deepcopy(multiple)
+    removed_completed["nodes"][0]["completed_challenges"].pop()
+    if not compare_programs(multiple, removed_completed):
+        failures.append("retained completed challenge removal was accepted")
+    dependencies = copy.deepcopy(promoted)
+    dependencies["nodes"][0]["completed_challenges"][0][
+        "consumer_dependencies"
+    ] = {"Example.consumer": "Example.destination"}
+    if compare_programs(promoted, dependencies):
+        failures.append("initial consumer dependency publication was rejected")
+    changed_dependencies = copy.deepcopy(dependencies)
+    changed_dependencies["nodes"][0]["completed_challenges"][0][
+        "consumer_dependencies"
+    ]["Example.consumer"] = "Example.otherDestination"
+    if not compare_programs(dependencies, changed_dependencies):
+        failures.append("published consumer dependency mutation was accepted")
+    removed_dependencies = copy.deepcopy(dependencies)
+    del removed_dependencies["nodes"][0]["completed_challenges"][0][
+        "consumer_dependencies"
+    ]
+    if not compare_programs(dependencies, removed_dependencies):
+        failures.append("published consumer dependencies removal was accepted")
     for failure in failures:
         print(f"self-test failed: {failure}", file=sys.stderr)
     if failures:
@@ -261,7 +387,7 @@ def main() -> int:
             print(f"  - {error}", file=sys.stderr)
         return 1
     print(
-        f"Challenge immutability passed: {len(challenge_nodes(base_program))} "
+        f"Challenge immutability passed: {len(challenge_records(base_program))} "
         f"published contract(s) unchanged from {arguments.base}."
     )
     return 0

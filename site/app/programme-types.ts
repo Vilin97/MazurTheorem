@@ -16,6 +16,7 @@ export type Challenge = {
   informal: string;
   recommended_route: string;
   consumer_declarations: string[];
+  consumer_dependencies?: Record<string, string>;
   destination_module: string;
   destination_declaration: string;
   estimated_lines:
@@ -72,6 +73,7 @@ export type ProgrammeNode = {
   artifacts?: ProgrammeArtifact[];
   external_reuse?: ExternalReuse[];
   challenge?: Challenge;
+  completed_challenges?: Challenge[];
 };
 
 export type ProgrammeStage = {
