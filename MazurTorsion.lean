@@ -149,6 +149,8 @@ import MazurTorsion.NumberTheory.XOneEighteenDescent
 import MazurTorsion.NumberTheory.XOneEighteenFiniteField
 import MazurTorsion.NumberTheory.XOneElevenDescent
 import MazurTorsion.NumberTheory.XOneElevenFiveIsogeny
+import MazurTorsion.NumberTheory.XOneElevenFiveIsogenyHom
+import MazurTorsion.NumberTheory.XOneElevenFiveSelmer
 import MazurTorsion.NumberTheory.XOneElevenReduction
 import MazurTorsion.NumberTheory.XOneThirteenDescent
 import MazurTorsion.NumberTheory.XOneThirteenFiniteField
