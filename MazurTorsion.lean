@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtale
 import MazurTorsion.Arithmetic.LowTorsionObstructions
 import MazurTorsion.Arithmetic.CardinalityReduction
 import MazurTorsion.Arithmetic.ExceptionalProducts
