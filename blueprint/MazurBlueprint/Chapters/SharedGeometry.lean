@@ -47,11 +47,18 @@ target is `TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim`, with challenge
 bridge `MazurTauCetiChallenge.prod_dim`.
 :::
 
-:::definition "MT-TC-A3-DIVISOR-LINE-BUNDLE" (parent := "shared_geometry") (uses := "MT-TC-A2-PRODUCT-FORMULA") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
+:::definition "MT-TC-A3-DIVISOR-LINE-BUNDLE" (parent := "shared_geometry") (uses := "MT-TC-A2-PRODUCT-FORMULA") (tags := "upstream, research-open, compiled, tau-ceti") (priority := "high") (effort := "large")
 *Divisor–line-bundle dictionary.* Construct the Picard group of line bundles
 and identify divisor classes with line bundles on a smooth curve.
 
-*Status:* `blocked`.
+*Status:* `research_open`; *scope:* exact compiled existence-and-equivalence challenge
+contract. The bridge `MazurTheorem.Challenge.divisorLineBundleDictionary`
+includes the affine tilde-localization input, chosen line-bundle representatives,
+principal triviality, and the divisor-class/Picard equivalence. The checked local
+API already supplies the unconditional affine Dedekind class equivalence and an
+absolute degree-zero downstream consumer; neither is credited as the missing
+global result. The contract does not yet normalize the global correspondence on
+affine charts to the standard-sign construction checked in the affine API.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -59,6 +66,14 @@ and identify divisor classes with line bundles on a smooth curve.
   Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`
   Identify Weil divisors modulo principal divisors with the line-bundle Picard group.
+* `structure` (`contract`): `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary`
+  Record the exact scheme-level comparison, chosen line-bundle representatives, principal
+  kernel, and surjectivity needed for the global equivalence.
+* `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivPicard`
+  Give the unconditional standard-sign affine Dedekind divisor-class/module-Picard equivalence.
+* `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle`
+  Package its chosen module representative as a Tau Ceti line bundle under the explicit
+  tilde-localization input.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

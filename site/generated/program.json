@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1420770,
-    "integrated_lean_modules": 643,
+    "integrated_lean_lines": 1421232,
+    "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -63,9 +63,9 @@
     "earned_points": 50,
     "percent": 5.0,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 113,
+    "claimable_open_points": 131,
     "ordinary_claimable_points": 39,
-    "research_open_points": 74,
+    "research_open_points": 92,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
   "stages": [
@@ -822,8 +822,8 @@
       "title": "Divisor-line-bundle dictionary",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "research_open",
+      "readiness": "compiled",
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
@@ -854,6 +854,27 @@
           "name": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard",
           "state": "proposed",
           "description": "Identify Weil divisors modulo principal divisors with the line-bundle Picard group."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary",
+          "state": "contract",
+          "description": "Record the exact scheme-level comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivPicard",
+          "state": "contract",
+          "description": "Give the unconditional standard-sign equivalence between affine Dedekind divisor classes and Mathlib's module Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
+          "state": "contract",
+          "description": "Package the chosen affine invertible-module representative as a Tau Ceti line bundle under the explicit tilde-localization input.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -863,11 +884,39 @@
         "MT-TC-D1-PICARD-FUNCTOR"
       ],
       "completion": {
-        "statement": false,
+        "statement": true,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "challenge": {
+        "claimable": true,
+        "module": "Challenge.DivisorLineBundle",
+        "file": "Challenge/DivisorLineBundle.lean",
+        "declaration": "MazurTheorem.Challenge.divisorLineBundleDictionary",
+        "destination_module": "MazurTorsion.Upstream.DivisorLineBundle",
+        "destination_declaration": "MazurTorsion.AlgebraicGeometry.divisorLineBundleDictionary",
+        "signature": "theorem divisorLineBundleDictionary\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    MazurTorsion.AlgebraicGeometry.UniversalTildeInvertibility.{u} ∧\n      Nonempty (MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary S X) := sorry",
+        "imports": [
+          "MazurTorsion.Upstream.DivisorLineBundle",
+          "Mathlib.AlgebraicGeometry.Morphisms.Proper",
+          "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
+        ],
+        "informal": "For the geometric order system of a smooth proper integral curve, construct actual divisor line bundles, identify locally free rank-one sheaves with Picard units, and prove that divisor classes are equivalent to the scheme Picard group; also prove the affine tilde-localization input used on charts.",
+        "recommended_route": "First prove tilde-localization on the finite basic-open cover where an invertible module is free of rank one. Compare Tau Ceti invertible sheaves with tensor units using duals, then glue inverse fractional ideals across affine charts and prove principal kernel and Picard surjectivity.",
+        "consumer_declarations": [
+          "MazurTheorem.Challenge.divisorClassEquivPicard",
+          "MazurTheorem.Challenge.tilde_isInvertible"
+        ],
+        "estimated_lines": {"min": 1000, "max": 6000},
+        "skills": [
+          "algebraic geometry",
+          "module localization",
+          "quasicoherent sheaves",
+          "divisor class groups"
+        ]
       }
     },
     {
