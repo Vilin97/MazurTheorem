@@ -1,7 +1,9 @@
 # Tau Ceti interface challenges
 
 This is a separate Lake package for open work that belongs against
-[Tau Ceti](https://github.com/TauCetiProject/TauCeti). The core
+[Tau Ceti](https://github.com/TauCetiProject/TauCeti). The exact reviewed
+feature commits are published in the
+[integration fork](https://github.com/Vilin97/TauCeti). The core
 `MazurTorsion` package now depends directly on the same immutable Tau Ceti
 commit; this package remains separate only so open upstream contracts cannot
 enter the checked implementation graph.
@@ -9,14 +11,14 @@ enter the checked implementation graph.
 | Dependency | Exact pin |
 |---|---|
 | Lean | `v4.33.0-rc1` |
-| Tau Ceti | `a3913fd9111b851af857f720b4ce6721e6634183` |
+| Tau Ceti | `10cb4c41fc7a663ea55f54f30c9db489e906b357` |
 | Mathlib (through Tau Ceti) | `79d0395a1825a6264ad5d269e35e60537518955e` |
 
-The files state small, compiler-checked API gaps against nouns that already
-exist in Tau Ceti:
+The files record small, compiler-checked API boundaries against nouns that
+already exist in Tau Ceti:
 
-- finite support of the order of a rational function at codimension-one
-  points, needed to package scheme principal divisors;
+- the solved finite-support contract is a thin bridge to the permanent Tau Ceti
+  theorem and its scheme principal-divisor `OrderSystem` consumer;
 - additivity of abelian-variety dimension under products, a basic acceptance
   result for the future Jacobian API.
 

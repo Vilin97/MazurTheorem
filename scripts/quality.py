@@ -275,6 +275,12 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         "Tau Ceti source, root Lake requirement, and root manifest commits must match",
     )
     validator.require(
+        tau_source.get("url")
+        == root_tau_requirement.get("git")
+        == root_tau.get("url"),
+        "Tau Ceti source, root Lake requirement, and root manifest URLs must match",
+    )
+    validator.require(
         root_tau_requirement.get("rev") == root_tau.get("inputRev"),
         "root Tau Ceti requirement must match the manifest input revision",
     )
@@ -315,6 +321,12 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         "Tau Ceti source, Lake requirement, and manifest commits must match",
     )
     validator.require(
+        tau_source.get("url")
+        == tau_requirement.get("git")
+        == tau_package.get("url"),
+        "Tau Ceti source, contract Lake requirement, and manifest URLs must match",
+    )
+    validator.require(
         tau_source.get("lean_toolchain") == tau_toolchain,
         "Tau Ceti source lean_toolchain must match upstream/tauceti/lean-toolchain",
     )
@@ -327,19 +339,19 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         "root and Tau Ceti contract workspaces must use the same Lean toolchain",
     )
     root_resolved_graph = {
-        name: package.get("rev")
+        name: (package.get("url"), package.get("rev"))
         for name, package in root_packages.items()
         if isinstance(name, str)
     }
     tau_resolved_graph = {
-        name: package.get("rev")
+        name: (package.get("url"), package.get("rev"))
         for name, package in tau_packages.items()
         if isinstance(name, str)
     }
     validator.require(
         root_resolved_graph == tau_resolved_graph,
         "root and Tau Ceti contract manifests must resolve the same complete "
-        "package-revision graph",
+        "package-source/revision graph",
     )
 
 

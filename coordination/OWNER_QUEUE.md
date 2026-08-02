@@ -6,15 +6,15 @@ records dependency-critical ordering, current ownership, and the next checked ac
 It must be updated at integration checkpoints and never used to award progress independently of
 the canonical ledger.
 
-Snapshot: 2026-08-02. The ledger has 48 nodes / 1,000 points: two completed nodes (70 points) and
-46 unfinished nodes (930 points). Open Challenge contracts
+Snapshot: 2026-08-02. The ledger has 48 nodes / 1,000 points: three completed nodes (85 points) and
+45 unfinished nodes (915 points). Open Challenge contracts
 are temporary compiled handoffs and receive no completion credit.
 
 ## Active lanes
 
 | Lane | Owner branch/worktree | Immediate acceptance boundary |
 |---|---|---|
-| `MT-TC-A1-ORDER-SUPPORT` | `codex/owner-a1-order-support`, separate Tau Ceti worktree | Port the compiled `finite_support_orderAt` proof to the permanent exact-pin Tau Ceti module and retain the Challenge as a thin bridge. |
+| `MT-TC-A2-PRODUCT-FORMULA` | `codex/mt-a2-product-formula`, separate Tau Ceti worktree | Prove the residue-degree-weighted product formula using the permanent A1 `orderSystem` and compile the immutable `degreeZero` consumer. |
 | `MT-FFGS-BASIC` | `codex/owner-ffgs-complete`, separate worktree | Add actual quotients, kernel/quotient base-change compatibility, and constant-group, `μ_p`, and multiplication-kernel consumers. The integrated Basic/Affine/ConnectedEtale substrate is partial and earns zero credit. |
 | `MT-O49-TOWER` | `codex/owner-o49-tower`, separate worktree | Derive the exact order-49 bridge from the checked X₀(49) correspondence endpoint and compile the point-order consumer. |
 | Integration and finite-endpoint triage | `codex/mazur-owner-uw`, this worktree | Review workers, preserve API coherence, and advance the next independent finite or foundational lane. |
@@ -32,9 +32,8 @@ destination and named downstream consumer compile and the Challenge file becomes
 | `MT-O25-EXCLUDE` | `Challenge/OrderTwentyFive.lean` | research open | Build the order-25 modular/Tate reduction and endpoint. |
 | `MT-O35-EXCLUDE` | `Challenge/OrderThirtyFive.lean` | research open | Build the order-35 modular/isogeny endpoint. |
 | `MT-O49-TOWER` | `Challenge/OrderFortyNine.lean` | open | Bridge exact order 49 to the already checked X₀(49) correspondence endpoint. |
-| `MT-TC-A1-ORDER-SUPPORT` | `upstream/tauceti/MazurTauCetiChallenge/PrincipalSupport.lean` | active | Separate exact-pin Tau Ceti proof lane. |
 | `MT-TC-E0-PRODUCT-DIM` | `upstream/tauceti/MazurTauCetiChallenge/ProductDimension.lean` | decomposed | The goal is topological-Krull-dimension additivity for a scheme fiber product. First add the missing finite-type/fiber-product dimension layer upstream. |
-| `MT-TC-A2-PRODUCT-FORMULA` | `Challenge/CurveProductFormula.lean` | queued after A1 | Residue-degree product formula; checked consumer is `DivisorPicard.Dictionary.degreeZero`. |
+| `MT-TC-A2-PRODUCT-FORMULA` | `Challenge/CurveProductFormula.lean` | active | Residue-degree product formula; checked consumer is `DivisorPicard.Dictionary.degreeZero`. |
 | `MT-TC-A3-DIVISOR-LINE-BUNDLE` | `Challenge/DivisorLineBundle.lean` | queued after A2 | Complete cocycle/effectivity/principal detection/surjectivity and the global Picard comparison. |
 | `MT-CYCLOTOMIC-UNRAMIFIED` | `Challenge/CyclotomicClassFieldTheory.lean` | research open | Prove locally-primary pseudo-unit Kummer reciprocity, then feed the checked Kummer-Artin bridges. |
 
@@ -56,19 +55,18 @@ an external blocker. Nodes on independent lanes remain eligible for parallel wor
 
 ### Shared geometry and isogenies — 300 points
 
-1. `MT-TC-A1-ORDER-SUPPORT` — active open contract, 15.
-2. `MT-TC-A2-PRODUCT-FORMULA` — open/compiled after A1, 15.
-3. `MT-TC-A3-DIVISOR-LINE-BUNDLE` — research-open/compiled after A2, 18. Retain the checked affine/descent substrate; before freezing the overlap API add chosen-pullback transport, normalization, diagonal/triple-cocycle laws, restriction naturality, and a real `DivisorCocycle` consumer.
-4. `MT-TC-B1-COHERENT-COHOMOLOGY` — blocked by A3, 35; define coherent cohomology and prove finite-dimensionality/vanishing consumers.
-5. `MT-TC-B2-RR-SERRE` — blocked by B1, 25; Riemann–Roch and Serre duality.
-6. `MT-TC-C1-RELATIVE-COHOMOLOGY` — blocked by B1, 30; base change and semicontinuity.
-7. `MT-TC-C2-SYMMETRIC-POWERS` — blocked by A3+C1, 15; effective divisors, symmetric powers, relative Abel map.
-8. `MT-TC-D1-PICARD-FUNCTOR` — blocked by A3+C1, 35; rigidified relative Picard functor, degree zero, Poincaré bundle.
-9. `MT-TC-D2-PICARD-REPRESENTABILITY` — blocked by B2+C2+D1, 45; representability and properness of Pic⁰.
-10. `MT-TC-E0-PRODUCT-DIM` — audited open contract, 2. The pinned API reduces it exactly to topological-Krull-dimension additivity for a scheme fiber product; the route needs integral-extension dimension invariance, finite-type tensor-product dimension/Noether normalization, or an equivalent bridge from fixed smooth relative dimension. Product-with-trivial and smooth-relative-dimension-addition boundary lemmas compile but do not yet have a permanent consumer.
-11. `MT-TC-E1-JACOBIAN-VARIETY` — blocked by D2+E0, 20; Jacobian representation, dimension/genus, genus-one consumers.
-12. `MT-TC-F1-ABEL-JACOBI` — blocked by C1+E1, 20; universal property, base change, closed immersion.
-13. `MT-EC-ISOGENY-WEIL` — independent planned lane, 25; quotients by finite subgroups, duals, multiplication kernels, Weil pairing, and named elliptic/modular consumers.
+1. `MT-TC-A2-PRODUCT-FORMULA` — active open/compiled, 15; the exact-pin A1 dependency is complete.
+2. `MT-TC-A3-DIVISOR-LINE-BUNDLE` — research-open/compiled after A2, 18. Retain the checked affine/descent substrate; before freezing the overlap API add chosen-pullback transport, normalization, diagonal/triple-cocycle laws, restriction naturality, and a real `DivisorCocycle` consumer.
+3. `MT-TC-B1-COHERENT-COHOMOLOGY` — blocked by A3, 35; define coherent cohomology and prove finite-dimensionality/vanishing consumers.
+4. `MT-TC-B2-RR-SERRE` — blocked by B1, 25; Riemann–Roch and Serre duality.
+5. `MT-TC-C1-RELATIVE-COHOMOLOGY` — blocked by B1, 30; base change and semicontinuity.
+6. `MT-TC-C2-SYMMETRIC-POWERS` — blocked by A3+C1, 15; effective divisors, symmetric powers, relative Abel map.
+7. `MT-TC-D1-PICARD-FUNCTOR` — blocked by A3+C1, 35; rigidified relative Picard functor, degree zero, Poincaré bundle.
+8. `MT-TC-D2-PICARD-REPRESENTABILITY` — blocked by B2+C2+D1, 45; representability and properness of Pic⁰.
+9. `MT-TC-E0-PRODUCT-DIM` — audited open contract, 2. The pinned API reduces it exactly to topological-Krull-dimension additivity for a scheme fiber product; the route needs integral-extension dimension invariance, finite-type tensor-product dimension/Noether normalization, or an equivalent bridge from fixed smooth relative dimension. Product-with-trivial and smooth-relative-dimension-addition boundary lemmas compile but do not yet have a permanent consumer.
+10. `MT-TC-E1-JACOBIAN-VARIETY` — blocked by D2+E0, 20; Jacobian representation, dimension/genus, genus-one consumers.
+11. `MT-TC-F1-ABEL-JACOBI` — blocked by C1+E1, 20; universal property, base change, closed immersion.
+12. `MT-EC-ISOGENY-WEIL` — independent planned lane, 25; quotients by finite subgroups, duals, multiplication kernels, Weil pairing, and named elliptic/modular consumers.
 
 ### Prime infrastructure — 400 points
 

@@ -7,9 +7,10 @@ uses them as upstreams, not as untracked code mines.
 
 The checked `MazurTorsion` package uses Lean `v4.33.0-rc1`, Mathlib commit
 `79d0395a1825a6264ad5d269e35e60537518955e`, and Tau Ceti commit
+`10cb4c41fc7a663ea55f54f30c9db489e906b357`, based on upstream commit
 `a3913fd9111b851af857f720b4ce6721e6634183`. These match the current Lean Pool
-challenge and the separate Tau Ceti contract workspace. Future pin migrations
-remain their own weighted roadmap node and pull request.
+challenge and the separate Tau Ceti contract workspace. The full resolved
+package-revision graph, not only the headline pins, is checked for equality.
 
 ## Mathlib
 

@@ -30,7 +30,8 @@ theorem finite_support_orderAt
     (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
     (g : Additive X.functionFieldˣ) :
     (Function.support fun x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X =>
-      TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt x g).Finite := sorry
+      TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt x g).Finite :=
+  TauCeti.AlgebraicGeometry.SchemeWeilDivisor.finite_support_orderAt X g
 
 /-- The order system unlocked by `finite_support_orderAt`. This definition is
 an acceptance consumer for the challenge theorem. -/
@@ -38,8 +39,7 @@ noncomputable def orderSystem
     (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X] :
     TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem
       (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)
-      (Additive X.functionFieldˣ) where
-  ord := TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt
-  finite_support := finite_support_orderAt X
+      (Additive X.functionFieldˣ) :=
+  TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X
 
 end MazurTauCetiChallenge

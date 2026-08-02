@@ -13,16 +13,17 @@ Reusable divisor, cohomology, Picard, Jacobian, Abel–Jacobi, and isogeny
 infrastructure, developed upstream where possible. Stage weight: 300 points.
 :::
 
-:::theorem "MT-TC-A1-ORDER-SUPPORT" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, open, compiled, tau-ceti") (priority := "high") (effort := "large")
+:::theorem "MT-TC-A1-ORDER-SUPPORT" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, done, integrated, tau-ceti") (priority := "high") (effort := "large")
 *Finite support of orders of rational functions.* A nonzero rational function
 on a Noetherian integral scheme has nonzero order at only finitely many
 codimension-one points.
 
-*Status:* `open`; *scope:* exact compiled Tau Ceti challenge contract. The
-target is
+*Status:* `done`. The permanent theorem is
 `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.finite_support_orderAt`, with
-challenge bridge `MazurTauCetiChallenge.finite_support_orderAt`; it instantiates
-Tau Ceti's existing `OrderSystem`.
+checked challenge bridge `MazurTauCetiChallenge.finite_support_orderAt`. It is
+consumed by the permanent scheme-theoretic
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem` and by the exact-pin
+contract consumer `MazurTauCetiChallenge.orderSystem`.
 :::
 
 :::theorem "MT-TC-A2-PRODUCT-FORMULA" (parent := "shared_geometry") (uses := "MT-TC-A1-ORDER-SUPPORT") (tags := "upstream, open, compiled, tau-ceti") (priority := "high") (effort := "large")

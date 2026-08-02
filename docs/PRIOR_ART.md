@@ -261,10 +261,13 @@ certificates but do not imply the rational-point classification.
 
 ## 6. Tau Ceti
 
-The current
+The
 [`TauCetiProject/TauCeti`](https://github.com/TauCetiProject/TauCeti)
-repository was refreshed at commit
+repository was inspected at base commit
 [`a3913fd9111b851af857f720b4ce6721e6634183`](https://github.com/TauCetiProject/TauCeti/commit/a3913fd9111b851af857f720b4ce6721e6634183).
+The exact dependency is reviewed feature commit
+[`10cb4c41fc7a663ea55f54f30c9db489e906b357`](https://github.com/Vilin97/TauCeti/commit/10cb4c41fc7a663ea55f54f30c9db489e906b357)
+on the integration fork.
 It is Apache-2.0 and
 contains general algebraic-geometry work,
 including abelian varieties and their products, a broad Weil-divisor API,
@@ -272,7 +275,10 @@ abstract divisor class groups and `Pic⁰`, and point-level Abel-Jacobi
 classes. It is pursuing a Jacobian roadmap and is the most promising shared
 upstream for that part of Mazur's dependency cone.
 
-At the inspected snapshot it did not contain:
+The reviewed feature commit additionally proves finite support of the
+scheme-theoretic orders of a rational function and packages them as the
+permanent `SchemeWeilDivisor.orderSystem`. At the inspected base it did not
+contain:
 
 * elliptic-curve torsion or Weil pairings;
 * modular curves or their integral models;
@@ -280,12 +286,12 @@ At the inspected snapshot it did not contain:
 * Hecke/Eisenstein infrastructure;
 * a theorem that closes any current Mazur dependency.
 
-The root package now depends directly on this exact Tau Ceti snapshot, with
+The root package now depends directly on this exact Tau Ceti feature commit, with
 `MazurTorsion.Upstream.Geometry` compiling the line-bundle and Abel--Jacobi
-layers as an acceptance boundary. Two small missing interfaces remain exposed
-as exact, separately resolved challenges in this repository: finite support of scheme-theoretic `orderAt`,
-consumed by Tau Ceti's principal-divisor `OrderSystem`, and additivity of
-abelian-variety dimension under products. Larger roadmap nodes build from
+layers as an acceptance boundary. The finite-support challenge is now a checked
+thin bridge to its permanent theorem and `OrderSystem` consumer. Additivity of
+abelian-variety dimension under products remains the open separately resolved
+Tau Ceti contract. Larger roadmap nodes build from
 Tau Ceti's existing divisor-class and Abel-Jacobi scaffolding but receive no
 theorem-completion credit until their contracts are proved and consumed.
 

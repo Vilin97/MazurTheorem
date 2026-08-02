@@ -28,13 +28,13 @@
     },
     {
       "id": "tauceti",
-      "url": "https://github.com/TauCetiProject/TauCeti",
-      "commit": "a3913fd9111b851af857f720b4ce6721e6634183",
+      "url": "https://github.com/Vilin97/TauCeti",
+      "commit": "10cb4c41fc7a663ea55f54f30c9db489e906b357",
       "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
       "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
       "license": "Apache-2.0",
       "role": "Direct exact-pin dependency and upstream home for reusable algebraic-geometry infrastructure",
-      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on Tau Ceti a3913fd with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects pin drift between them."
+      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on the reviewed Tau Ceti feature commit 10cb4c41, based on upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
     },
     {
       "id": "aintlib-modular-curves",
@@ -60,11 +60,11 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 70,
-    "percent": 7.0,
+    "earned_points": 85,
+    "percent": 8.5,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 166,
-    "ordinary_claimable_points": 54,
+    "claimable_open_points": 151,
+    "ordinary_claimable_points": 39,
     "research_open_points": 112,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
@@ -711,23 +711,23 @@
       "title": "Finite support of orders of rational functions",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "open",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 15,
       "risk": "high",
       "backend": "tauceti",
-      "summary": "Prove that a nonzero rational function on a Noetherian integral scheme has nonzero order at only finitely many codimension-one points, then instantiate Tau Ceti's OrderSystem.",
+      "summary": "Tau Ceti proves finite support by restricting a rational function to a unit on a nonempty affine open and controlling the Noetherian closed complement; its scheme orderSystem is the compiled downstream consumer.",
       "depends_on": ["MT-BASE-INTEGRATED"],
       "unlocks": ["MT-TC-A2-PRODUCT-FORMULA"],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "challenge": {
-        "claimable": true,
+        "claimable": false,
         "module": "MazurTauCetiChallenge.PrincipalSupport",
         "file": "upstream/tauceti/MazurTauCetiChallenge/PrincipalSupport.lean",
         "declaration": "MazurTauCetiChallenge.finite_support_orderAt",
