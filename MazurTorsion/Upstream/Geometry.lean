@@ -6,6 +6,12 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.CartierDual
 import MazurTorsion.Upstream.AINTLIB.Picard.Pic
+import MazurTorsion.Upstream.AffineDivisorLocalization
+import MazurTorsion.Upstream.CurveAffineChart
+import MazurTorsion.Upstream.CurveDivisorDescent
+import MazurTorsion.Upstream.CurveDivisorPicardDescent
+import MazurTorsion.Upstream.CurveLineBundleDescent
+import MazurTorsion.Upstream.CurveLineBundleLocality
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 
@@ -16,7 +22,8 @@ This module is the checked dependency boundary between Mazur's theorem and
 the reusable algebraic-geometry developments in AINTLIB and Tau Ceti.
 
 Only file-level Apache-2.0, placeholder-free AINTLIB material is imported:
-the Picard group of a scheme and the Hopf-algebraic form of Deligne's order
-theorem. Tau Ceti supplies the maintained line-bundle and abstract
-Abel--Jacobi APIs on the project's exact Lean/Mathlib pin.
+the Picard group of a scheme; the divisor-line-bundle, affine-chart, chartwise divisor, and
+descent bridges; and the Hopf-algebraic form of Deligne's order theorem. Tau Ceti supplies the
+maintained line-bundle and abstract Abel--Jacobi APIs on the project's exact
+Lean/Mathlib pin.
 -/

@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1423112,
-    "integrated_lean_modules": 646,
+    "integrated_lean_lines": 1430958,
+    "integrated_lean_modules": 654,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -63,9 +63,9 @@
     "earned_points": 50,
     "percent": 5.0,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 113,
-    "ordinary_claimable_points": 39,
-    "research_open_points": 74,
+    "claimable_open_points": 146,
+    "ordinary_claimable_points": 54,
+    "research_open_points": 92,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
   "stages": [
@@ -750,8 +750,8 @@
       "title": "Degree-zero product formula on a proper smooth curve",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "blocked",
-      "readiness": "statement_only",
+      "status": "open",
+      "readiness": "compiled",
       "weight_points": 15,
       "risk": "extreme",
       "backend": "tauceti",
@@ -773,12 +773,33 @@
         "integrated": false,
         "credit_percent": 0
       },
-      "interface": {
-        "claimable": false,
-        "reason_not_claimable": "It depends on the upstream order-system instance and the pin migration.",
-        "proposed_declaration": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero",
-        "proposed_signature": "(pi : X -> Spec K) [IsProper pi] [SmoothOfRelativeDimension 1 pi] : (orderSystem X).IsWeightedDegreeZero (fun x => (pi.residueDegree x : Int))",
-        "acceptance": "The exact consumer is Tau Ceti's weighted PicZero and Abel-Jacobi divisor-class API."
+      "challenge": {
+        "claimable": true,
+        "module": "Challenge.CurveProductFormula",
+        "file": "Challenge/CurveProductFormula.lean",
+        "declaration": "MazurTheorem.Challenge.divisorProductFormula",
+        "destination_module": "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree",
+        "destination_declaration": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero",
+        "signature": "theorem divisorProductFormula\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    S.IsWeightedDegreeZero (fun x ↦ (π.residueDegree x : ℤ)) := sorry",
+        "imports": [
+          "Mathlib.AlgebraicGeometry.Morphisms.Proper",
+          "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Principal.Basic",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
+        ],
+        "informal": "For the geometric order system of a smooth proper integral curve, every principal divisor has residue-degree-weighted degree zero.",
+        "recommended_route": "Prove the residue-degree-weighted product formula for Mathlib's orders of vanishing, then use the checked weighted PicZero transport into the scheme Picard group.",
+        "consumer_declarations": [
+          "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero"
+        ],
+        "estimated_lines": {"min": 500, "max": 3000},
+        "skills": [
+          "algebraic geometry",
+          "proper curves",
+          "orders of vanishing",
+          "product formula"
+        ]
       }
     },
     {
@@ -822,8 +843,8 @@
       "title": "Divisor-line-bundle dictionary",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "research_open",
+      "readiness": "compiled",
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
@@ -854,6 +875,972 @@
           "name": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard",
           "state": "proposed",
           "description": "Identify Weil divisors modulo principal divisors with the line-bundle Picard group."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary",
+          "state": "contract",
+          "description": "Record the exact forward tensor-inverse comparison, divisor-to-Picard map, chosen line-bundle representatives, principal kernel, and surjectivity; checked theorems derive principal line-bundle triviality and the full Picard comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_lineBundle_iso_iff_linearlyEquivalent",
+          "state": "contract",
+          "description": "Classify isomorphism of the chosen divisor line bundles exactly by linear equivalence of divisors.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.picardComparison",
+          "state": "contract",
+          "description": "Derive the full local-rank-one/tensor-unit Picard comparison from an exact divisor dictionary.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.ofClassEquivalence",
+          "state": "contract",
+          "description": "Construct the exact dictionary and its chosen divisor line bundles from a full Picard comparison and a divisor-class/Picard equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_iff_picardComparison_and_classEquivalence",
+          "state": "contract",
+          "description": "Characterize existence of the global dictionary by precisely the full Picard comparison and divisor-class equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.lineBundle_add_iso",
+          "state": "contract",
+          "description": "Identify the line bundle of a divisor sum with the tensor product of the chosen line bundles, up to isomorphism.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.UniversalBasicOpenTildeTriviality",
+          "state": "contract",
+          "description": "Package the checked localization isomorphism identifying the restriction of tilde on a free localization with the rank-one free sheaf.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.universalTildeInvertibility",
+          "state": "contract",
+          "description": "Prove global tilde invertibility from Mathlib's finite free-localization cover and Tau Ceti local trivializations.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivPicard",
+          "state": "contract",
+          "description": "Give the unconditional standard-sign equivalence between affine Dedekind divisor classes and Mathlib's module Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.localizedTensorEquivOfIsLocalization",
+          "state": "contract",
+          "description": "Identify the tensor of two localized modules with the localization of their tensor over an arbitrary chosen localization ring.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tildeTensorIso",
+          "state": "contract",
+          "description": "Assemble the local fraction comparison into an objectwise tilde tensor-product isomorphism on an affine scheme.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tilde_isTensorInvertible",
+          "state": "contract",
+          "description": "Send every invertible module to a tensor-invertible tilde sheaf using an explicit tilde of the dual as inverse.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic",
+          "state": "contract",
+          "description": "Give the canonical tilde-induced homomorphism from the module Picard group to the scheme Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_injective",
+          "state": "contract",
+          "description": "Prove that the canonical affine module-Picard to scheme-Picard homomorphism is injective.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.modulePicToSchemePic_surjective_iff_tensorUnitLocalTriviality",
+          "state": "contract",
+          "description": "Identify surjectivity of the canonical affine Picard map exactly with the reverse tensor-unit/local-rank-one comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.TildeReflectsInvertibility",
+          "state": "contract",
+          "description": "Isolate the missing localization reflection from an invertible tilde sheaf to an invertible module.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.tensorInverseComparison_of_tildeReflectsInvertibility",
+          "state": "contract",
+          "description": "Consume the localization reflection to construct tensor inverses for arbitrary affine invertible sheaves.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineTilde.picardComparison_iff_tensorInverseComparison_and_modulePic_surjective",
+          "state": "contract",
+          "description": "Characterize the full affine Picard comparison by the forward tensor-inverse component and surjectivity of the canonical tilde map.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.lineBundle",
+          "state": "contract",
+          "description": "Package the chosen affine invertible-module representative unconditionally as a Tau Ceti line bundle.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundleModule_add_equiv",
+          "state": "contract",
+          "description": "Identify O(D + E) with O(D) tensor O(E) as invertible modules, unconditionally.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_add_iso",
+          "state": "contract",
+          "description": "Identify O(D + E) with O(D) tensor O(E) for the actual tilde line bundles.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classToSchemePic",
+          "state": "contract",
+          "description": "Descend the canonical affine divisor construction to an injective divisor-class homomorphism into the scheme Picard group.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicRange",
+          "state": "contract",
+          "description": "Give the strongest unconditional affine comparison by identifying divisor classes with the range of their canonical scheme-Picard realization.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.classEquivSchemePicOfTensorUnitLocalTriviality",
+          "state": "contract",
+          "description": "Upgrade the range equivalence to the full scheme Picard group under exactly the reverse tensor-unit/local-rank-one comparison.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic",
+          "state": "contract",
+          "description": "Construct the canonical affine divisor-to-scheme-Picard homomorphism through divisor classes.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.divisorToSchemePic_kernel",
+          "state": "contract",
+          "description": "Prove that the canonical affine divisor-to-scheme-Picard map has exactly the principal divisors as its kernel.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent",
+          "state": "contract",
+          "description": "Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line bundles.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence",
+          "state": "contract",
+          "description": "Record the abstract two-input rewrite through a full Picard comparison and an additive module-Picard/scheme-Picard equivalence.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison",
+          "state": "contract",
+          "description": "Sharpen the affine Dedekind boundary: the full Picard comparison alone supplies the canonical divisor-class equivalence and exact dictionary.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.affineOpenHeightOneSpectrumEquiv",
+          "state": "contract",
+          "description": "Identify height-one primes of a Dedekind affine coordinate ring with the ambient codimension-one points lying in the chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility",
+          "state": "contract",
+          "description": "Isolate equality of the affine Dedekind valuations and scheme order homomorphisms on a chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.affineOpen_order_eq",
+          "state": "contract",
+          "description": "Prove that normalized Dedekind valuations agree with scheme orders on a nonempty affine chart whose coordinate ring is Dedekind.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfIsDedekindDomain",
+          "state": "contract",
+          "description": "Construct the complete chart order-compatibility package from the Dedekind-domain instance alone.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.affineOpen_isDedekindDomain_iff",
+          "state": "contract",
+          "description": "Reduce the remaining coordinate-ring boundary to dimension at most one and integral closedness.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveRingConditions",
+          "state": "contract",
+          "description": "Package mapwise, behind the local standard-smooth premise, the required dimension-at-most-one and integral-closedness consequences without asserting them uniformly over arbitrary bases.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field",
+          "state": "contract",
+          "description": "Prove that a locally standard-smooth relative-dimension-one domain over a field has dimension at most one.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveNormality",
+          "state": "contract",
+          "description": "Isolate integral closedness as the exact remaining field-base chart-ring condition.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.smoothRelativeCurveRingConditions_iff_normality_of_field",
+          "state": "contract",
+          "description": "Identify the two-part smooth curve ring boundary with the normality-only boundary over a field-domain chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions",
+          "state": "contract",
+          "description": "Consume the map-specific smooth-curve ring conditions to construct the Dedekind order compatibility required by the chart divisor API.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveNormality",
+          "state": "contract",
+          "description": "Construct the chart order compatibility from the normality-only input for a smooth relative curve over a field.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor",
+          "state": "contract",
+          "description": "Transport the whole affine principal divisor to the ambient codimension-one points in the chart.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_principalDivisor",
+          "state": "contract",
+          "description": "Consume chart order compatibility to construct a local divisor-to-scheme-Picard map and prove principal triviality.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToSchemePic_kernel",
+          "state": "contract",
+          "description": "Prove that the chart divisor-to-Picard map has exactly the ambient principal divisors as its kernel.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivSchemePicRange",
+          "state": "contract",
+          "description": "Identify ambient chart divisor classes with the range of their canonical scheme-Picard realization.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.PullbackMonoidalData",
+          "state": "contract",
+          "description": "Isolate strong monoidality of sheaf pullback as an upstream-compatible sufficient input for transporting AINTLIB Picard groups across scheme isomorphisms.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal",
+          "state": "contract",
+          "description": "Construct the additive Picard equivalence across a scheme isomorphism from strong monoidality of pullback.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_independent",
+          "state": "contract",
+          "description": "Prove that the Picard equivalence is independent of the chosen strong monoidal structure.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardIso.equivOfPullbackMonoidal_symm_apply_val",
+          "state": "contract",
+          "description": "Identify the inverse Picard equivalence on isomorphism classes with pullback along the inverse scheme isomorphism.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.divisorToOpenPic_kernel",
+          "state": "contract",
+          "description": "Preserve the exact principal kernel after transporting the chart divisor map to the Picard group of the open subscheme.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.classEquivOpenPicRange",
+          "state": "contract",
+          "description": "Identify chart divisor classes with their canonical range in the Picard group of the open subscheme.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible",
+          "state": "contract",
+          "description": "State object-specific effectivity of a coherent module descent datum by a global invertible sheaf, without asserting a stack theorem.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible.restrictionIso",
+          "state": "contract",
+          "description": "Recover the isomorphism between the descended global line bundle and every local chart object.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle",
+          "state": "contract",
+          "description": "Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle for actual local invertible sheaves.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData",
+          "state": "contract",
+          "description": "Convert the chosen-overlap cocycle into Mathlib coherent module descent data.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.InvertibleEffectiveDescentFor",
+          "state": "contract",
+          "description": "Isolate effective descent for all locally invertible data on one specified open cover.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity_of_locality",
+          "state": "contract",
+          "description": "Derive invertible effectivity from ordinary module effectivity and locality of invertibility.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.ModuleDescentEssentiallyInjectiveFor",
+          "state": "contract",
+          "description": "Isolate the exact object-separation input needed to lift a trivialization of descent data.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentEssentiallyInjectiveFor_of_fullyFaithful",
+          "state": "contract",
+          "description": "Derive the exact object-separation property from fully faithful module descent.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle",
+          "state": "contract",
+          "description": "Construct the actual affine O(D) from the restriction of a global curve divisor.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff",
+          "state": "contract",
+          "description": "Identify a coordinate-divisor coefficient with the global coefficient at the corresponding ambient codimension-one point.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.contractedPoint_eq_of_commonMap",
+          "state": "contract",
+          "description": "Prove that two compatible coordinate maps from one common affine overlap contract a height-one prime to the same ambient codimension-one point.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.openImmersionCoefficientEq_localDivisor_of_commonMap",
+          "state": "contract",
+          "description": "Derive contracted coefficient equality for the two chart restrictions of one ambient divisor.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.overlapInverseIdealExtensionEq_localDivisor_of_commonMap",
+          "state": "contract",
+          "description": "Prove equality of the two extended inverse ideals directly from a compatible common affine overlap map.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOfCommonMap",
+          "state": "contract",
+          "description": "Construct the actual arbitrary-divisor restriction isomorphism from an explicitly compatible common Dedekind affine-overlap presentation.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionAlgebra",
+          "state": "contract",
+          "description": "Equip the coordinate ring of an affine subopen with the algebra structure induced by section restriction.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMap_comp_fromSpec",
+          "state": "contract",
+          "description": "Identify the composite of the restriction-induced spectrum map and the chart map with the canonical map from the affine subopen.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMapIsOpenImmersion",
+          "state": "contract",
+          "description": "Prove that section restriction to an affine subopen induces an open immersion on spectra.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen",
+          "state": "contract",
+          "description": "Construct the arbitrary-divisor restriction isomorphism canonically on every chosen common nonempty Dedekind affine subopen of two charts.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnIntersection",
+          "state": "contract",
+          "description": "Construct the arbitrary-divisor restriction isomorphism on the full intersection of two nonempty affine charts under separatedness and the Dedekind condition for its coordinate ring.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperCurveIntersection",
+          "state": "contract",
+          "description": "Derive separatedness from properness over a field and construct the same full-intersection arbitrary-divisor restriction isomorphism.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality",
+          "state": "contract",
+          "description": "On a proper smooth relative curve, consume the existing mapwise normality condition to derive the intersection Dedekind instance and construct the full-overlap isomorphism.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictIsoOfCoeffEq",
+          "state": "contract",
+          "description": "Construct the actual same-chart principal-open restriction isomorphism from ambient coefficient equality.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle_principal_iso_trivial",
+          "state": "contract",
+          "description": "Prove that every global principal divisor gives a trivial line bundle on each compatible affine chart.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycle",
+          "state": "contract",
+          "description": "Specialize the exact overlap-cocycle boundary to the constructed chartwise O(D) bundles.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleRestrictionIso",
+          "state": "contract",
+          "description": "Consume effective descent to identify every restriction of the global bundle with its actual affine divisor line bundle.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundle_principal_iso_trivial",
+          "state": "contract",
+          "description": "Descend coherent principal triviality to a global trivialization under essential injectivity on objects for module descent.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.classEquivPicardRange",
+          "state": "contract",
+          "description": "Identify divisor classes with the actual range of any divisor-to-Picard map having exactly the principal kernel, without assuming Picard surjectivity.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentFullyFaithfulForOfIsPrestack",
+          "state": "contract",
+          "description": "Consume a scheme-module prestack instance to obtain fully faithful descent on a specified Zariski open cover.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DescendedZeroTrivial",
+          "state": "contract",
+          "description": "Isolate the minimal unit input saying that the descended bundle of the zero divisor is globally trivial.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.descendedTensorInverseIso",
+          "state": "contract",
+          "description": "Exhibit the descended bundle of -D as a tensor inverse to the descended bundle of D.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPic",
+          "state": "contract",
+          "description": "Construct the divisor-to-Picard homomorphism from zero triviality and tensor additivity, without a global comparison for arbitrary invertible sheaves.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classToPic",
+          "state": "contract",
+          "description": "Descend the explicit-inverse divisor map to divisor classes using coherent principal triviality and object separation.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.TrivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Isolate the geometric injectivity boundary that a globally trivial descended divisor line bundle comes only from a principal divisor.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.restrictDivisor_mem_principal_of_descendedLineBundle_iso_trivial",
+          "state": "contract",
+          "description": "Prove that a global trivialization makes the divisor principal on every coordinate chart.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.TrivialDescendedLineBundleHasGlobalPrincipalWitness",
+          "state": "contract",
+          "description": "Record the witness-level form of principal detection: one rational function gives every chart restriction of a divisor whose descended line bundle is trivial.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness",
+          "state": "contract",
+          "description": "Turn a global principal witness into geometric principal detection.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_of_trivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Produce the global chart witness from geometric principal detection.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Identify the witness-level formulation exactly with geometric principal detection when the chosen global order agrees with the scheme order.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal",
+          "state": "contract",
+          "description": "Identify exactness of the explicit divisor Picard map with geometric principal detection under coherent principal triviality and object separation.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardRange",
+          "state": "contract",
+          "description": "Identify divisor classes with the actual range of the explicit divisor-generated Picard map under exact principal kernel.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicard",
+          "state": "contract",
+          "description": "Give the strongest conditional full equivalence from exact principal kernel and surjectivity, without a global tensor-inverse comparison.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfTrivialLineBundleDetection",
+          "state": "contract",
+          "description": "Under coherent principal triviality and object separation, replace the abstract exact-kernel input by geometric principal detection and combine it with Picard surjectivity.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.classEquivPicardOfGlobalPrincipalWitness",
+          "state": "contract",
+          "description": "Build the full conditional divisor-class/Picard equivalence from the witness-level form of principal detection and Picard surjectivity, retaining coherent principal triviality and object separation as explicit hypotheses.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionary",
+          "state": "contract",
+          "description": "Package the explicit divisor map and descended line bundles into the all-sheaves dictionary once the separate global tensor-inverse comparison is supplied.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.explicitDivisorToPic_eq_divisorToPic_of_tensorInverseComparison",
+          "state": "contract",
+          "description": "Prove that the explicit divisor map equals the comparison-based construction whenever the global tensor-inverse comparison is available.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.divisorToPic",
+          "state": "contract",
+          "description": "Construct an additive Weil-divisor to scheme-Picard homomorphism from objectwise effective, tensor-additive divisor cocycles and the forward tensor-inverse comparison.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classToPic",
+          "state": "contract",
+          "description": "Descend the Picard homomorphism built using the forward tensor-inverse comparison to divisor classes from coherent principal triviality and object separation.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.dictionary",
+          "state": "contract",
+          "description": "Upgrade effective tensor-additive cocycles and the forward tensor-inverse comparison to the complete divisor-line-bundle dictionary under exact kernel and surjectivity.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.classEquivalence",
+          "state": "contract",
+          "description": "Extract the full additive equivalence between divisor classes and the scheme Picard group from the exact cocycle-built dictionary, which uses the forward tensor-inverse comparison.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal",
+          "state": "contract",
+          "description": "Identify the chosen affine Picard representative with the explicit inverse fractional ideal attached to the divisor.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor",
+          "state": "contract",
+          "description": "Identify the explicit ideal of a principal divisor with the corresponding principal fractional ideal.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.InverseIdealLocalizationEq",
+          "state": "contract",
+          "description": "Name equality of two explicit inverse ideals after localization at a same-chart principal open; coefficient equality now supplies this condition.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_of_coeff_eq_away",
+          "state": "contract",
+          "description": "Prove localized inverse-ideal equality from coefficient equality on D(f), including f = 0.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_away_of_coeff_eq",
+          "state": "contract",
+          "description": "Prove common-field extension equality from coefficient equality on a compatible nonempty principal open.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.inverseIdealLocalizationEq_iff_overlapExtensionEq_away",
+          "state": "contract",
+          "description": "Identify abstract localized-ideal equality with common-field extension equality on a compatible nonempty principal open.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq",
+          "state": "contract",
+          "description": "Require compatible maps into a common function field and equality of the two inverse divisor ideals after extension to a common affine-overlap ring.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_principal",
+          "state": "contract",
+          "description": "Prove cross-chart extension equality for principal divisors defined by the same rational function on two distinct Dedekind chart rings.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.underHeightOneOpenImmersion",
+          "state": "contract",
+          "description": "Contract a height-one prime through an affine open immersion of Dedekind spectra.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.map_underHeightOneOpenImmersion",
+          "state": "contract",
+          "description": "Prove that extending the contracted height-one prime recovers the original overlap prime.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.OpenImmersionCoefficientEq",
+          "state": "contract",
+          "description": "State equality of chart-divisor coefficients after contraction through two arbitrary affine open immersions from a common Dedekind overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_of_openImmersion_coeff_eq",
+          "state": "contract",
+          "description": "Prove arbitrary-divisor cross-chart extension equality from contracted coefficient equality, without classical localization presentations.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.underHeightOne",
+          "state": "contract",
+          "description": "Contract a height-one prime through a localization whose denominators are non-zero-divisors.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.LocalizationCoefficientEq",
+          "state": "contract",
+          "description": "State equality of chart-divisor coefficients after contracting every height-one prime of a common localization ring.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_of_localization_coeff_eq",
+          "state": "contract",
+          "description": "Prove arbitrary-divisor cross-chart extension equality from two localization structures and contracted coefficient equality.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionIdentifiesExtendedInverseIdeal",
+          "state": "contract",
+          "description": "Isolate identification of a chosen chart line-bundle restriction with tilde of its inverse divisor ideal extended to the common overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.RestrictionGlobalSectionsEquivExtendedInverseIdeal",
+          "state": "contract",
+          "description": "Reduce arbitrary-overlap restriction/base change to a linear equivalence between affine global sections and the extended inverse ideal.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_iff_globalSectionsEquiv",
+          "state": "contract",
+          "description": "Prove that the sheaf-level and affine-global-sections overlap comparisons are equivalent.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion",
+          "state": "contract",
+          "description": "Discharge the sheaf-level restriction comparison on every affine open immersion by flat epimorphic tensor/span base change.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isOpenImmersion",
+          "state": "contract",
+          "description": "Identify affine global sections of every restricted chosen divisor bundle with the extended inverse ideal.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_of_isLocalization",
+          "state": "contract",
+          "description": "Discharge the sheaf-level restriction comparison when the spectrum map is an open immersion and the overlap ring is a classical submonoid localization of the chart ring.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionGlobalSectionsEquivExtendedInverseIdeal_of_isLocalization",
+          "state": "contract",
+          "description": "Derive the corresponding affine-global-sections comparison from the localization theorem.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIso",
+          "state": "contract",
+          "description": "Combine extension equality and both restriction identifications into an isomorphism of the actual chosen chart line-bundle restrictions.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq",
+          "state": "contract",
+          "description": "Construct the actual cross-chart restriction isomorphism from the packaged extended-ideal and scalar-tower compatibility on an affine overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfGlobalSectionsEquiv",
+          "state": "contract",
+          "description": "Construct the actual cross-chart restriction isomorphism from the two module-level global-sections comparisons and extended-ideal equality.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipal",
+          "state": "contract",
+          "description": "Construct the actual cross-chart principal-divisor restriction isomorphism once both restriction/base-change identifications are supplied.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsOpenImmersion",
+          "state": "contract",
+          "description": "Construct the principal-divisor restriction isomorphism on every common affine overlap without localization presentations.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoPrincipalOfIsLocalization",
+          "state": "contract",
+          "description": "Construct the principal-divisor restriction isomorphism directly from two localization presentations and compatible common-fraction-field maps.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOpenImmersionCoeffEq",
+          "state": "contract",
+          "description": "Construct the actual arbitrary-divisor restriction isomorphism from contracted coefficient equality on any common Dedekind affine overlap.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfLocalizationCoeffEq",
+          "state": "contract",
+          "description": "Construct the actual arbitrary-divisor cross-chart restriction isomorphism from localization coefficient compatibility; affine-open base change supplies both restriction comparisons.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIdentifiesExtendedInverseIdeal_away",
+          "state": "contract",
+          "description": "Prove the restriction/base-change identification on every nonempty principal open with a compatible common fraction field.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoAway",
+          "state": "contract",
+          "description": "Consume the principal-open identification and extension equality to identify the actual chosen restricted divisor line bundles.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_away",
+          "state": "contract",
+          "description": "Convert same-chart localized inverse-ideal equality into equality of the corresponding extensions inside a compatible common fraction field.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoAwayOfLocalizationEq",
+          "state": "contract",
+          "description": "Produce the actual chosen principal-open restriction isomorphism directly from same-chart localized inverse-ideal equality.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfInverseIdealEq",
+          "state": "contract",
+          "description": "Consume localized inverse-ideal equality to identify restrictions of the chosen affine divisor line bundles.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Chain.chosenTildeRestrictIsoOfCoeffEq",
+          "state": "contract",
+          "description": "Construct the chosen same-chart restriction isomorphism directly from coefficient equality on a principal open.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibilityIsLocal",
+          "state": "contract",
+          "description": "Prove that Tau Ceti invertibility is local on every scheme open cover by refining chartwise trivialization atlases.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleLocality"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.invertibleEffectiveDescentFor_of_moduleEffectivity",
+          "state": "contract",
+          "description": "Upgrade ordinary module effectivity to effective descent for locally invertible data using the proved locality theorem.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleLocality"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalLineBundleOfModuleEffectivity",
+          "state": "contract",
+          "description": "Construct a global divisor line bundle from a coherent cocycle and ordinary module effectivity on the coordinate cover.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
       "depends_on": ["MT-TC-A2-PRODUCT-FORMULA"],
@@ -863,11 +1850,39 @@
         "MT-TC-D1-PICARD-FUNCTOR"
       ],
       "completion": {
-        "statement": false,
+        "statement": true,
         "proof": false,
         "api": false,
         "integrated": false,
         "credit_percent": 0
+      },
+      "challenge": {
+        "claimable": true,
+        "module": "Challenge.DivisorLineBundle",
+        "file": "Challenge/DivisorLineBundle.lean",
+        "declaration": "MazurTheorem.Challenge.divisorLineBundleDictionary",
+        "destination_module": "MazurTorsion.Upstream.DivisorLineBundle",
+        "destination_declaration": "MazurTorsion.AlgebraicGeometry.divisorLineBundleDictionary",
+        "signature": "theorem divisorLineBundleDictionary\n    (K : Type u) [Field K]\n    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]\n    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]\n    (S : TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem\n      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)\n      (Additive X.functionFieldˣ))\n    (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :\n    Nonempty (MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary S X) := sorry",
+        "imports": [
+          "MazurTorsion.Upstream.DivisorLineBundle",
+          "Mathlib.AlgebraicGeometry.Morphisms.Proper",
+          "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
+          "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
+        ],
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. For each concrete base-field affine `appLE` map, prove the normality implication isolated by `AffineChart.SmoothRelativeCurveNormality`; the checked field-base dimension theorem and `dedekindOrderCompatibilityOfSmoothRelativeCurveNormality` then supply the chart order compatibility. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two charts on a proper smooth curve over a field, prove that same mapwise normality implication for `f.appLE` on `U₁ ⊓ U₂` and use `localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality`; the checked API supplies separatedness, dimension at most one, the Dedekind instance, and the actual arbitrary-divisor isomorphism. `localLineBundleRestrictionIsoOnProperCurveIntersection`, `localLineBundleRestrictionIsoOnIntersection`, `localLineBundleRestrictionIsoOnCommonAffineOpen`, and `localLineBundleRestrictionIsoOfCommonMap` are the progressively more general proper, separated-scheme, chosen-subopen, and explicit-ring entry points; the classical-localization coefficient route remains only a specialization. Transport the intersection isomorphism to the chosen descent pullback, normalize it, and prove diagonal and triple-cocycle coherence. Then prove ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cover-wide cocycle, effectivity, and normality predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
+        "consumer_declarations": [
+          "MazurTheorem.Challenge.divisorClassEquivPicard",
+          "MazurTheorem.Challenge.divisorPicardCoreData"
+        ],
+        "estimated_lines": {"min": 1000, "max": 6000},
+        "skills": [
+          "algebraic geometry",
+          "module localization",
+          "quasicoherent sheaves",
+          "divisor class groups"
+        ]
       }
     },
     {
@@ -1103,6 +2118,34 @@
           "name": "TauCeti.AlgebraicGeometry.PoincareBundle",
           "state": "proposed",
           "description": "Package the normalized universal line bundle on the curve times its Picard space."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero",
+          "state": "contract",
+          "description": "Transport the divisor degree-zero subgroup to an absolute subgroup of the scheme Picard group.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZeroRepresentative",
+          "state": "contract",
+          "description": "Choose a Tau Ceti invertible-sheaf representative for every absolute degree-zero Picard class.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.degreeZero",
+          "state": "contract",
+          "description": "Consume the strongest cocycle-built divisor-class/Picard equivalence directly to construct the absolute degree-zero subgroup without first packaging the all-sheaves dictionary.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPic_mem_degreeZero_iff",
+          "state": "contract",
+          "description": "Characterize explicit divisor-generated degree-zero Picard classes exactly by vanishing of weighted divisor degree.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardDegreeZero"
         }
       ],
       "depends_on": [

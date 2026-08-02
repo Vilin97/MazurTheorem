@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import Challenge.CurveProductFormula
+import Challenge.DivisorLineBundle
 import Challenge.OrderFortyNine
 import Challenge.OrderThirtyFive
 import Challenge.OrderTwentyFive

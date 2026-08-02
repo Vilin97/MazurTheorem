@@ -107,3 +107,4 @@ import MazurTorsion.NumberTheory.XOneFifteenReduction
 import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
 import MazurTorsion.Upstream.Geometry
+import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
