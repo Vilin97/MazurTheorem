@@ -126,6 +126,15 @@ the new `Filter.TendstoCofinite` instance expected by `Northcott.comp_of_finite_
 
 No proof-strengthening option is used.
 
+## Mathlib Dedekind-zeta finite-fibre adaptation
+
+`MazurTorsion/NumberTheory/WeakChebotarev.lean` adapts the finite-fibre
+counting rewrite in Xavier Roblot's Apache-2.0
+`Mathlib/NumberTheory/NumberField/DedekindZeta.lean` at the exact pinned
+Mathlib commit `79d0395a1825a6264ad5d269e35e60537518955e`. The file retains
+the upstream copyright and author credit. Its norm-product ideal embedding,
+zeta-square domination, and nonsplitting theorem are new local work.
+
 ## AINTLIB geometry substrate
 
 Three file-level Apache-2.0 modules were selected from the AINTLIB

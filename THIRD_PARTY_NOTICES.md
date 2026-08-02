@@ -63,6 +63,18 @@ Tau Ceti is an exact Git dependency, not vendored source. The root package and
 the separate upstream-contract package deliberately resolve the same Tau Ceti,
 Lean, and Mathlib revisions.
 
+## Mathlib Dedekind-zeta finite-fibre argument
+
+- Author and copyright holder: Xavier Roblot
+- Source: `Mathlib/NumberTheory/NumberField/DedekindZeta.lean`
+- Source commit: `79d0395a1825a6264ad5d269e35e60537518955e`
+- License: Apache License 2.0
+
+`MazurTorsion/NumberTheory/WeakChebotarev.lean` adapts the short
+finite-fibre counting rewrite from Mathlib's proof of the Dedekind-zeta
+class-number formula. The local file retains Xavier Roblot's copyright and
+authorship; the surrounding ideal-pair injection and pole argument are new.
+
 ## AI-assisted development
 
 Parts of the proof development were produced in Claude Code and Codex agent

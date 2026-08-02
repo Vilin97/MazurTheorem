@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import Mathlib.FieldTheory.Galois.Abelian
 import Mathlib.NumberTheory.NumberField.Ideal.Basic
+import Mathlib.NumberTheory.RamificationInertia.Galois
 import Mathlib.NumberTheory.RamificationInertia.Unramified
 import Mathlib.RingTheory.ClassGroup.Basic
 import Mathlib.RingTheory.DedekindDomain.Factorization
@@ -36,9 +37,11 @@ this number-theory module does not depend on Picard or Weil-divisor theory.
 -/
 
 open IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
-open scoped IsMulCommutative NumberField nonZeroDivisors
+open scoped IsMulCommutative NumberField nonZeroDivisors Pointwise
 
 namespace NumberTheory.UnramifiedArtin
+
+attribute [local instance] Ideal.Quotient.field
 
 universe u v w w'
 
@@ -46,6 +49,75 @@ universe u v w w'
 its ring of integers. -/
 abbrev FinitePrime (K : Type*) [Field K] :=
   HeightOneSpectrum (NumberField.RingOfIntegers K)
+
+section LocalDecompositionGroup
+
+variable {R S G : Type*} [CommRing R] [CommRing S] [Algebra R S]
+variable [Group G] [Finite G] [MulSemiringAction G S] [SMulCommClass G R S]
+variable [IsGaloisGroup G R S] [IsDomain R] [IsDomain S]
+variable [Module.Finite R S] [Module.Flat R S]
+
+/-- At an unramified prime, an arithmetic Frobenius generates the full
+decomposition group. -/
+theorem stabilizer_eq_zpowers_of_isArithFrobAt
+    (p : Ideal R) (Q : Ideal S) [p.IsPrime] [Q.IsPrime] [Q.LiesOver p]
+    [Finite (S ⧸ Q)] [PerfectField p.ResidueField]
+    [Algebra.IsUnramifiedAt R Q]
+    {σ : G} (hσ : IsArithFrobAt R σ Q) :
+    Subgroup.zpowers σ = MulAction.stabilizer G Q := by
+  let g : MulAction.stabilizer G Q :=
+    ⟨σ, IsArithFrobAt.mem_stabilizer hσ⟩
+  haveI : Q.IsMaximal :=
+    Ideal.Quotient.maximal_of_isField _
+      (Finite.isField_of_domain (S ⧸ Q))
+  haveI : Finite (R ⧸ p) := by
+    rw [Q.over_def p]
+    exact hσ.finite_quotient
+  haveI : p.IsMaximal :=
+    Ideal.Quotient.maximal_of_isField _
+      (Finite.isField_of_domain (R ⧸ p))
+  letI : Fintype (R ⧸ p) := Fintype.ofFinite (R ⧸ p)
+  letI : Fintype (S ⧸ Q) := Fintype.ofFinite (S ⧸ Q)
+  have hfrob : Ideal.Quotient.stabilizerHom Q p G g =
+      FiniteField.frobeniusAlgEquivOfAlgebraic (R ⧸ p) (S ⧸ Q) := by
+    ext x
+    obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
+    rw [Ideal.Quotient.stabilizerHom_apply]
+    change Ideal.Quotient.mk Q
+      ((MulSemiringAction.toAlgHom R S σ) x) = _
+    rw [hσ.mk_apply, FiniteField.coe_frobeniusAlgEquivOfAlgebraic,
+      ← Q.over_def p, Nat.card_eq_fintype_card]
+  have hker : Function.Injective
+      (Ideal.Quotient.stabilizerHom Q p G) := by
+    rw [← MonoidHom.ker_eq_bot_iff, Ideal.Quotient.ker_stabilizerHom]
+    apply Subgroup.card_eq_one.mp
+    calc
+      Nat.card (Q.inertia (MulAction.stabilizer G Q)) =
+          Nat.card (Q.inertia G) :=
+        Nat.card_congr
+          (Subgroup.subgroupOfEquivOfLe
+            (Ideal.inertia_le_stabilizer (M := G) Q)).toEquiv
+      _ = p.ramificationIdxIn S :=
+        Ideal.card_inertia_eq_ramificationIdxIn p Q
+      _ = Q.ramificationIdx R :=
+        Ideal.ramificationIdxIn_eq_ramificationIdx p Q G
+      _ = 1 := Ideal.ramificationIdx_eq_one Q R
+  have horder : orderOf g = Q.inertiaDeg R := by
+    rw [← orderOf_injective (Ideal.Quotient.stabilizerHom Q p G) hker g,
+      hfrob, FiniteField.orderOf_frobeniusAlgEquivOfAlgebraic]
+    exact (Ideal.inertiaDeg_eq_of_isMaximal p Q).symm
+  have hcard : Nat.card (MulAction.stabilizer G Q) = Q.inertiaDeg R := by
+    rw [Ideal.card_stabilizer_eq_card_inertia_mul_finrank p Q,
+      Ideal.card_inertia_eq_ramificationIdxIn p Q,
+      Ideal.ramificationIdxIn_eq_ramificationIdx p Q G,
+      Ideal.ramificationIdx_eq_one Q R, one_mul]
+  apply Subgroup.eq_of_le_of_card_ge
+  · intro x hx
+    obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
+    exact (MulAction.stabilizer G Q).zpow_mem g.2 n
+  · rw [Nat.card_zpowers, hcard, ← horder, ← orderOf_submonoid g]
+
+end LocalDecompositionGroup
 
 section Frobenius
 

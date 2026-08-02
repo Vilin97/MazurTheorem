@@ -201,6 +201,13 @@ Mathematical ideas and dependency boundaries from this work inform the
 blueprint, but any implementation here must be independently written or
 come from an explicitly compatible licensed source.
 
+That policy applies in particular to the zeta-function route to finite-prime
+nonsplitting. `MazurTorsion/NumberTheory/WeakChebotarev.lean` independently
+implements the ideal-pair injection and pole-order contradiction at the
+project's exact pin. Its only adapted proof fragment is the finite-fibre
+rewrite from Xavier Roblot's Apache-2.0 Mathlib `DedekindZeta.lean`, recorded
+separately in `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
+
 Two smaller files are especially useful as designs. `TorsionCounting.lean`
 has no source placeholder or option override and gives a clean
 finite-abelian counting argument. `TorsionReduction.lean` likewise has no
