@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1421849,
+    "integrated_lean_lines": 1421870,
     "integrated_lean_modules": 645,
     "remaining_composite_orders": [18, 25, 35, 49],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
@@ -958,6 +958,13 @@
           "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent",
           "state": "contract",
           "description": "Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line bundles.",
+          "module": "MazurTorsion.Upstream.DivisorLineBundle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence",
+          "state": "contract",
+          "description": "Characterize the remaining affine scheme-level dictionary by the full Picard comparison and an additive equivalence between the module and scheme Picard groups.",
           "module": "MazurTorsion.Upstream.DivisorLineBundle"
         }
       ],

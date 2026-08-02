@@ -66,7 +66,8 @@ derives global tilde invertibility from Mathlib's finite free-localization cover
 local trivializations. The checked local API supplies the unconditional affine Dedekind class
 equivalence, tensor-additive module representatives, tilde line bundles detecting linear
 equivalence exactly, and an absolute degree-zero D1 consumer; none is credited as the missing
-global result.
+global result. It also characterizes existence of the affine scheme-level dictionary exactly by
+the full Picard comparison and an additive module-Picard/scheme-Picard equivalence.
 The contract does not yet normalize the global correspondence on affine charts to the
 standard-sign construction checked in the affine API.
 
@@ -113,6 +114,10 @@ standard-sign construction checked in the affine API.
   `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_lineBundle_iso_iff_linearlyEquivalent`
   Detect affine Dedekind linear equivalence exactly by isomorphism of the chosen tilde line
   bundles.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDedekind.nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence`
+  Characterize the remaining affine scheme-level dictionary by the full Picard comparison and
+  an additive equivalence between Mathlib's module Picard group and AINTLIB's scheme Picard group.
 :::
 
 :::definition "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

@@ -42,7 +42,9 @@ ideal's Picard class. The affine localization bridge is also unconditional: rest
 to a principal open is identified through localized global sections, and a finite basic-open
 cover proves that tilde of every invertible module is an invertible sheaf. The further comparison
 with AINTLIB's scheme Picard group remains factored into its exact forward and reverse components
-rather than hidden behind a stronger claim than the current library proves.
+rather than hidden behind a stronger claim than the current library proves. A final affine
+existence theorem characterizes that boundary exactly by the full Picard comparison and an
+additive equivalence between the module and scheme Picard groups.
 -/
 
 open CategoryTheory
@@ -932,6 +934,25 @@ theorem nonempty_lineBundle_iso_iff_linearlyEquivalent
     obtain ⟨e⟩ :=
       (nonempty_lineBundleModule_equiv_iff_linearlyEquivalent R K D E).mpr h
     exact ⟨(_root_.AlgebraicGeometry.tilde.functor (.of R)).mapIso e.toModuleIso⟩
+
+/-- Because affine Dedekind divisor classes are already identified with Mathlib's module Picard
+group, an exact scheme-level dictionary exists precisely when the two remaining comparisons do:
+local rank-one sheaves versus tensor units, and the module Picard group versus AINTLIB's scheme
+Picard group. The latter is only an abstract additive equivalence here; no canonical tilde
+compatibility is claimed. -/
+theorem nonempty_dictionary_iff_picardComparison_and_modulePicardEquivalence :
+    Nonempty (DivisorPicard.Dictionary
+      (WeilDivisor.OrderSystem.ofDedekindDomain R K)
+      (_root_.AlgebraicGeometry.Spec (.of R))) ↔
+      PicardComparison (_root_.AlgebraicGeometry.Spec (.of R)) ∧
+        Nonempty (Additive (CommRing.Pic R) ≃+
+          PicardGroup (_root_.AlgebraicGeometry.Spec (.of R))) := by
+  rw [DivisorPicard.Dictionary.nonempty_iff_picardComparison_and_classEquivalence]
+  constructor
+  · rintro ⟨hX, ⟨e⟩⟩
+    exact ⟨hX, ⟨(classEquivPicard R K).symm.trans e⟩⟩
+  · rintro ⟨hX, ⟨e⟩⟩
+    exact ⟨hX, ⟨(classEquivPicard R K).trans e⟩⟩
 
 end AffineDedekind
 
