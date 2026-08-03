@@ -21,6 +21,8 @@ ground field whose action agrees with Mathlib negation on the checked point comp
 an exact Serre quotient by bad-fibre-supported fppf sheaves, unconditional
 geometric reducedness of the concrete cubic, and an honest pointed-Picard
 group-law transfer boundary with a finite-flat consumer,
+checked two-stage/direct transition-pullback consumers for the A3 divisor cocycle,
+and supported constant/`μ` sheaf-level fppf-`H¹` equivalences on the good open,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -30,8 +32,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `586c7cc` contains reviewed acceptance
-boundaries. The newest range forms the actual abelian Serre quotient by
+The combined owner history through `d144ed0` contains reviewed acceptance
+boundaries. The newest A3 range proves two-stage pullback coherence for the
+pairwise inverse-ideal model, exposes the independently constructed direct
+common-affine comparison, isolates their exact compatibility predicate, and
+derives the full cocycle after arbitrary further pullback from precisely three
+such predicates (`06afa47`, `f5b398d`). It does not assume that compatibility;
+the remaining lower extension-of-scalars proof is explicit. The supported
+cohomology range proves coefficient-isomorphism invariance of the checked
+global fppf `H¹` and turns actual open-restriction isomorphisms into concrete
+constant-flat and multiplicative-flat sheaf-level `H¹` equivalences on
+`D(level)` (`d144ed0`). The represented group-scheme `H¹` bridge and global
+bad-level calculations remain open. All three commits passed independent
+mathematical/API review and claim no roadmap-node credit.
+
+The preceding range forms the actual abelian Serre quotient by
 bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
 represented-point cokernel short exact sequence into it, kills the supported
 third term, and routes both concrete bad-level inclusions through that exact
@@ -187,9 +202,10 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
-`SupportedFppfSerreQuotient`,
+`SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
+`CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
 `XZeroWeierstrassGeometricIntegrality`,
 `XZeroWeierstrassProjectivePlaneBaseChange`,
 `XZeroWeierstrassCubicReducedBaseChange`,
@@ -198,8 +214,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 758 integrated Lean
-sources / 1,472,677 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 760 integrated Lean
+sources / 1,473,370 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -372,10 +388,13 @@ within each lane follows the listed order.
    models. Scalar-tower extension and pairwise-intersection restriction now
    identify each pairwise-via-intersection comparison with the direct
    common-affine comparison, and the actual triple common-model cocycle
-   compiles. The remaining geometric construction is pseudofunctorial
-   composition naturality between these integrated pairwise triple Homs and
-   Mathlib's separately chosen direct triple pullback, followed by comparison
-   with the normalized transition, general module effectivity, object
+   compiles. Two-stage pullback of each pairwise model now agrees with pullback
+   along the composite map. The direct common-affine model and the exact
+   equality required between it and the pulled pairwise model are explicit;
+   three such equalities imply the full cocycle after arbitrary further
+   pullback. The remaining lower construction is that pairwise/direct equality
+   from extension-of-scalars and inverse-ideal base-change coherence, followed
+   by comparison with the normalized transition, general module effectivity, object
    separation, rational normalization,
    tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
@@ -487,6 +506,12 @@ within each lane follows the listed order.
    abelian Serre quotient and exact canonical functor now compile; the mapped
    point-cokernel sequence stays short exact, its supported third term becomes
    zero, and both concrete inclusions are inverted through this consumer. An
+   isomorphism of commutative coefficient presheaves now induces an equivalence
+   on the checked global fppf `H¹`; the two concrete open-restriction
+   isomorphisms therefore give constant-flat and multiplicative-flat
+   sheaf-level `H¹` equivalences on `D(level)`. A bridge to the original
+   represented group-scheme `H¹` spelling is still required before these feed
+   the existing low-degree rank-zero package. An
    equivalence with sheaves on the open, recollement, and a cohomological
    localization sequence remain absent, as do the quasi-finite
    admissible-filtration exact sequences and the
@@ -717,20 +742,22 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-tc-a3-transition-cocycle`: reviewed infrastructure is integrated through scalar-tower
-  inverse-ideal extension, equality of pairwise-via-intersection and direct
-  common-affine comparisons, and the actual triple common-model cocycle. A new
-  checkpoint isolates the exact chosen-pullback composition compatibility and
-  proves its arbitrary-further-pullback consumer; it is under independent
-  review while a companion API audit searches for the universal coherence proof.
-- `codex/owner-cubic-pullback-reduced`: independently reviewed and integrated.
-  Prime affine/infinity charts, their actual open cover and scalar pullbacks prove
-  unconditional field-pullback reducedness and geometric reducedness. The next
-  cubic boundary is the canonical-chart isomorphism and density, not reducedness.
+- `codex/mt-tc-a3-transition-cocycle`: the reviewed transition-pullback and
+  conditional arbitrary-pullback cocycle checkpoints are integrated. The
+  active worker is proving the isolated pairwise/direct compatibility from the
+  lower tensor and inverse-ideal base-change coherence, with an unconditional
+  cocycle as the required consumer.
+- `codex/owner-cubic-chart-density`: independently reviewed reducedness is
+  integrated. The active worker is constructing the canonical standard-chart
+  isomorphism and dense-range witness over every field extension, with the
+  existing geometric-integrality/Tau Ceti/finite-flat consumer as the gate.
 - `finite-flat supported quotient`: the exact abelian Serre quotient, mapped
   short-exact sequence, supported-term vanishing, and constant/`μ` consumers are
-  reviewed and integrated. The next boundary is a genuine cohomological
-  localization/quasi-finite exact consumer feeding the page-49 estimate.
+  reviewed and integrated. The reviewed sheaf-level `H¹` equivalences on the
+  good open are also integrated. A separate active worker is proving the
+  universe, sheafification, and base-change comparison to the existing
+  represented group-scheme `H¹`; the next acceptance boundary requires a real
+  constant/`μ` rank-zero consumer.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1472677,
-    "integrated_lean_modules": 758,
+    "integrated_lean_lines": 1473370,
+    "integrated_lean_modules": 760,
     "remaining_composite_orders": [
       18,
       25,
@@ -1108,7 +1108,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there, and the raw cocycle is equivalent to the model-Hom cocycle. Inverse-ideal extension now commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is pseudofunctorial composition naturality comparing the integrated pairwise triple Homs with the separately chosen direct triple pullback, followed by the normalized-transition comparison, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there, and the raw cocycle is equivalent to the model-Hom cocycle. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Two-stage pullback of every pairwise model now agrees with pullback along the composite, the independently constructed direct common-affine model is exposed, and three explicit pairwise/direct compatibility hypotheses suffice for the full model cocycle after every further pullback. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is to prove the isolated pairwise/direct compatibility from extension-of-scalars and inverse-ideal base-change coherence, compare with the normalized transition, and then establish full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2365,6 +2365,62 @@
           "state": "contract",
           "description": "Consume scalar-tower and restriction coherence in the actual triple common-model cocycle for arbitrary divisor line bundles.",
           "module": "MazurTorsion.Upstream.CurveLineBundleTripleTower"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMap_comp",
+          "state": "contract",
+          "description": "Identify the two-stage spectrum map induced by nested section restrictions with the direct restriction map.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePairwiseModelHomOnCommonAffine",
+          "state": "contract",
+          "description": "Pull the checked pairwise inverse-ideal transition to an arbitrary smaller common affine open.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundlePairwiseModelHomOnCommonAffine",
+          "state": "contract",
+          "description": "Prove that two-stage pullback of the pairwise model is pullback along the composite map.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleDirectModelHomOnCommonAffine",
+          "state": "contract",
+          "description": "Expose the independently constructed direct inverse-ideal comparison on the common affine open.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.PairwiseCommonAffinePullbackCompatibility",
+          "state": "contract",
+          "description": "Isolate the exact equality still required between the pulled pairwise model and the direct common-affine model.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_eq_directPullHom_of_compatibility",
+          "state": "contract",
+          "description": "Transport the isolated pairwise/direct compatibility through every further pullback.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundlePullbackIsoViaPairwiseIntersection_hom_trans",
+          "state": "contract",
+          "description": "Show that the checked direct common-affine cocycle persists under arbitrary further pullback.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_compatibilities",
+          "state": "contract",
+          "description": "Derive the full pulled pairwise-model cocycle from exactly the three explicit pairwise/direct compatibility hypotheses.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTransitionCocycle"
         }
       ],
       "depends_on": [
@@ -3257,7 +3313,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization now constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. No equivalence with sheaves on the open, recollement, cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support also gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, closed-fibre pushforward, or comparison of this lifted sheaf spelling with the original represented group-scheme H1 is asserted. Quasi-finite admissible-filtration exact sequences, the represented-H1 bridge, both global bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3936,6 +3992,62 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
           "description": "Route the actual multiplicative-flat bad-level inclusion through the quotient short-exact consumer."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.FppfHOne.mulEquivOfIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Turn an isomorphism of commutative coefficient presheaves into a multiplicative equivalence on the checked global fppf H1."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafOverOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Expose the universe-lifted additive represented point sheaf on an open as a commutative-group coefficient presheaf."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.AddPointFppfHOneOverOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Instantiate the checked global fppf H1 on the restricted universe-lifted represented additive point sheaf."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafIsoOverOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Forget an isomorphism of restricted additive point sheaves to an isomorphism of commutative coefficient presheaves."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquivOfIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Apply coefficient-isomorphism invariance of H1 to represented additive point sheaves on an open."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquiv_of_supported",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Use zero of the actual restricted cokernel sheaf to compare subgroup and ambient sheaf-level H1 on the open."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfHOneAwayMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Concrete constant-flat consumer of the supported sheaf-level H1 equivalence on D(level)."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfHOneAwayMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
+          "description": "Concrete multiplicative-flat consumer of the supported sheaf-level H1 equivalence on D(level)."
         }
       ],
       "depends_on": [

@@ -128,9 +128,12 @@ pairwise inverse-ideal model Hom. Consequently the raw chosen-overlap cocycle is
 to composition of those three model Homs. Inverse-ideal extension now commutes with the relevant
 scalar towers. Restriction through each pairwise affine intersection is equal to the direct
 common-affine comparison; the corresponding pullback Homs satisfy transitivity, and an actual
-triple common-model cocycle is a checked consumer. What remains is pseudofunctorial composition
-naturality comparing these integrated pairwise triple Homs with Mathlib's separately chosen direct
-triple pullback, followed by the normalized-transition comparison. Only then can the full
+triple common-model cocycle is a checked consumer. Two-stage pullback of a pairwise model now
+agrees with pullback along the composite, and the separately constructed direct common-affine
+comparison is exposed. Their equality is isolated as an explicit compatibility predicate;
+three such predicates imply the full pairwise-model cocycle after every further pullback. What
+remains at this boundary is the lower extension-of-scalars and inverse-ideal base-change proof of
+that predicate, followed by the normalized-transition comparison. Only then can the full
 arbitrary-divisor descent-datum cocycle be packaged.
 
 *Checked pairwise-naturality deliverables (no node credit):*
@@ -146,7 +149,15 @@ arbitrary-divisor descent-datum cocycle be packaged.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.extendedInverseIdeal_span_tower`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.overlapInverseIdealExtensionEq_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoViaPairwiseIntersection_eq_direct`;
-* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePullbackIsoViaPairwiseIntersection_triple_hom_trans`.
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePullbackIsoViaPairwiseIntersection_triple_hom_trans`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMap_comp`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePairwiseModelHomOnCommonAffine`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundlePairwiseModelHomOnCommonAffine`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleDirectModelHomOnCommonAffine`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.PairwiseCommonAffinePullbackCompatibility`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_eq_directPullHom_of_compatibility`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundlePullbackIsoViaPairwiseIntersection_hom_trans`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_compatibilities`.
 
 The API also
 characterizes existence of the full affine scheme-level

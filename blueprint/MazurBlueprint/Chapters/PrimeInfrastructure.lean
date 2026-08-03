@@ -323,6 +323,22 @@ are not being represented as quasi-finite flat group schemes.
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMap_supportedQuotient_isIso`
 * `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne.mulEquivOfIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafOverOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.AddPointFppfHOneOverOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafIsoOverOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquivOfIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquiv_of_supported`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfHOneAwayMulEquiv`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfHOneAwayMulEquiv`
+* `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
@@ -414,10 +430,15 @@ fibre and supported-sheaf full subcategory now compile; restriction preserves th
 short-exact point-cokernel sequences, and the two bad-level inclusions are isomorphisms over
 `D(level)`. Closed-complement support is a checked Serre class, and isomorphism modulo support is
 equivalent to isomorphism after open restriction, with both bad-level inclusions as consumers.
-Construction of the global Serre quotient category and localization sequence,
-quasi-finite admissible-filtration exact sequences, both bad-level `H¹`
-comparisons, middle-`H¹` finiteness proof, and focused rank-zero specialization
-are still absent, so no node credit is claimed.
+The global Serre quotient and its exact canonical functor now compile: the supported cokernel
+sequence becomes a short exact sequence with zero third term, and both concrete inclusions are
+isomorphisms in the quotient. Isomorphism invariance of the checked global `H¹` also turns the
+actual open-restriction isomorphisms into constant-flat and multiplicative-flat equivalences for
+the universe-lifted additive represented sheaves on `D(level)`. This does not yet identify that
+spelling with the original represented group-scheme `H¹`. An open-sheaf equivalence, global
+cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the
+represented-`H¹` bridge, both global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
+and focused rank-zero specialization are still absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
