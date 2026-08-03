@@ -276,6 +276,12 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint_injective`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartLiftOfOverPoint_fac`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint_chartIndex`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
 * `definition` (`contract`):
@@ -304,10 +310,14 @@ the canonical affine normalization gives a forward map from Mathlib projective
 points to cubic `K`-points. Homogeneous linear vanishing equations recover the
 normalized coordinates, proving this forward map injective. The compiled
 canonical finite-flat consumer therefore reduces point comparison to group-law
-compatibility and surjectivity of this explicit map. The scheme group law,
-geometric integrality, surjectivity, `E/C`, the coarse modular point, and the
-required Atkin--Lehner geometry remain open, so this node receives no completion
-credit.
+compatibility and surjectivity of this explicit map. In the reverse direction,
+the coordinate basic opens now give an actual affine-chart factor for every
+scheme-valued cubic point; the induced homogeneous-localization ring map
+extracts a normalized nonzero coordinate triple. Identifying these ratios with
+the pullback along the forward point map and using ellipticity to exclude
+singular coordinate solutions remain open. The scheme group law, geometric
+integrality, surjectivity, `E/C`, the coarse modular point, and the required
+Atkin--Lehner geometry remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
