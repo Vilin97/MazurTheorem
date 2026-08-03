@@ -315,6 +315,274 @@ theorem targetCubicFibreRoots_iff_targetThreeCandidateSurjective :
     exact exists_targetCubicFibre_root_of_candidate_preimage hP
       (hsurj (WeierstrassCurve.Affine.Point.some X Y hP))
 
+/-! ## The conductor-seven cyclic cubic obstruction
+
+The only conductor-seven cyclic cubic order has power-basis relation
+`θ³+θ²-2θ-1=0`.  If the irreducible-fibre branch is reduced to
+this order, the element obtained by replacing a fibre root `α` with
+`-7/α` would have trace `4` and norm `7`.  The following fixed calculation
+shows that no such integral element exists.  It is kept separate from the
+still-needed global ramification/classification step.
+-/
+
+/-- Multiplication by `a+bθ+cθ²` in the basis `(1,θ,θ²)`, using
+`θ³=-θ²+2θ+1`. -/
+def sevenCyclicMultiplicationMatrix (a b c : ℤ) :
+    Matrix (Fin 3) (Fin 3) ℤ :=
+  !![a, c, b - c;
+     b, a + 2 * c, 2 * b - c;
+     c, b - c, a - b + 3 * c]
+
+/-- The trace in the conductor-seven cubic power basis. -/
+def sevenCyclicTrace (a b c : ℤ) : ℤ :=
+  3 * a - b + 5 * c
+
+/-- The norm in the conductor-seven cubic power basis. -/
+def sevenCyclicNorm (a b c : ℤ) : ℤ :=
+  a ^ 3 - a ^ 2 * b + 5 * a ^ 2 * c - 2 * a * b ^ 2 -
+    a * b * c + 6 * a * c ^ 2 + b ^ 3 - b ^ 2 * c -
+      2 * b * c ^ 2 + c ^ 3
+
+/-- The matrix trace gives the displayed integral trace form. -/
+theorem trace_sevenCyclicMultiplicationMatrix (a b c : ℤ) :
+    Matrix.trace (sevenCyclicMultiplicationMatrix a b c) =
+      sevenCyclicTrace a b c := by
+  simp [Matrix.trace, sevenCyclicMultiplicationMatrix,
+    sevenCyclicTrace, Fin.sum_univ_succ]
+  ring
+
+/-- The matrix determinant gives the displayed integral norm form. -/
+theorem det_sevenCyclicMultiplicationMatrix (a b c : ℤ) :
+    Matrix.det (sevenCyclicMultiplicationMatrix a b c) =
+      sevenCyclicNorm a b c := by
+  rw [Matrix.det_fin_three]
+  change
+    a * (a + 2 * c) * (a - b + 3 * c) -
+          a * (2 * b - c) * (b - c) -
+        c * b * (a - b + 3 * c) +
+      c * (2 * b - c) * c +
+    (b - c) * b * (b - c) -
+      (b - c) * (a + 2 * c) * c = sevenCyclicNorm a b c
+  simp only [sevenCyclicNorm]
+  ring
+
+/-- There is no integral element of trace `4` and norm `7` in the
+conductor-seven cubic power basis.  After eliminating `b`, the norm is
+congruent to `-64` modulo seven. -/
+theorem not_exists_sevenCyclicTrace_four_norm_seven :
+    ¬ ∃ a b c : ℤ,
+      sevenCyclicTrace a b c = 4 ∧
+        sevenCyclicNorm a b c = 7 := by
+  rintro ⟨a, b, c, htrace, hnorm⟩
+  have hb : b = 3 * a + 5 * c - 4 := by
+    simp only [sevenCyclicTrace] at htrace
+    linarith
+  have hdvd : (7 : ℤ) ∣ sevenCyclicNorm a b c + 64 := by
+    rw [hb]
+    refine ⟨a ^ 3 + 9 * a ^ 2 * c - 8 * a ^ 2 +
+      20 * a * c ^ 2 - 36 * a * c + 16 * a +
+      13 * c ^ 3 - 36 * c ^ 2 + 32 * c, ?_⟩
+    simp only [sevenCyclicNorm]
+    ring
+  rw [hnorm] at hdvd
+  norm_num at hdvd
+
+/-! ## The nontrivial Eisenstein-unit cover
+
+Putting the candidate target in Cohen--Pazuki form gives
+
+`v² = u³ - 3(12u+1500)²`.
+
+For either nontrivial unit cube-class in `ℤ[ζ₃]`, their homogeneous
+three-descent cubic is, up to conjugating `Y`, the form below.  Modulo seven
+it has only the zero solution, hence an integral solution would be divisible
+by arbitrarily high powers of seven.  The minimal-size argument below
+packages that infinite descent without any unproved unique-factorization
+step.
+-/
+
+/-- The abscissa change from the checked candidate target to the integral
+dual three-descent model. -/
+def targetThreeDescentU (X : ℚ) : ℚ :=
+  36 * X + 192
+
+/-- The ordinate change to the integral dual three-descent model. -/
+def targetThreeDescentV (X Y : ℚ) : ℚ :=
+  108 * (2 * Y + 4 * X + 7)
+
+/-- The candidate target is explicitly the dual three-descent model
+`v² = u³ - 3(12u+1500)²`, with parameters
+`D=-3`, `a=12`, and `b=1500`. -/
+theorem targetThreeDescent_equation
+    {X Y : ℚ}
+    (hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y) :
+    targetThreeDescentV X Y ^ 2 =
+      targetThreeDescentU X ^ 3 -
+        3 * (12 * targetThreeDescentU X + 1500) ^ 2 := by
+  simp only [targetThreeDescentV, targetThreeDescentU]
+  linear_combination
+    11664 * veluThreeCandidateTarget_completedEquation hP
+
+/-- The fixed homogeneous cubic for a nontrivial Eisenstein-unit class in
+the target three-descent. -/
+def targetEisensteinUnitCover (X Y Z : ℤ) : ℤ :=
+  X ^ 3 - 3 * Y ^ 3 + 3000 * Z ^ 3 + 3 * X ^ 2 * Y -
+    9 * X * Y ^ 2 + 24 * X ^ 2 * Z + 72 * Y ^ 2 * Z
+
+/-- The unit-cover cubic is homogeneous of degree three. -/
+theorem targetEisensteinUnitCover_scale (r X Y Z : ℤ) :
+    targetEisensteinUnitCover (r * X) (r * Y) (r * Z) =
+      r ^ 3 * targetEisensteinUnitCover X Y Z := by
+  simp only [targetEisensteinUnitCover]
+  ring
+
+private theorem targetEisensteinUnitCover_modSeven_only_zero :
+    ∀ X Y Z : ZMod 7,
+      X ^ 3 - 3 * Y ^ 3 + 3000 * Z ^ 3 + 3 * X ^ 2 * Y -
+          9 * X * Y ^ 2 + 24 * X ^ 2 * Z + 72 * Y ^ 2 * Z = 0 →
+        X = 0 ∧ Y = 0 ∧ Z = 0 := by
+  decide
+
+/-- Every integral zero of the nontrivial-unit cover is coordinatewise
+divisible by seven. -/
+theorem seven_dvd_targetEisensteinUnitCover_zero
+    {X Y Z : ℤ}
+    (hcover : targetEisensteinUnitCover X Y Z = 0) :
+    (7 : ℤ) ∣ X ∧ (7 : ℤ) ∣ Y ∧ (7 : ℤ) ∣ Z := by
+  have hcast := congrArg (fun n : ℤ ↦ (n : ZMod 7)) hcover
+  have hmod :
+      (X : ZMod 7) ^ 3 - 3 * (Y : ZMod 7) ^ 3 +
+            3000 * (Z : ZMod 7) ^ 3 +
+            3 * (X : ZMod 7) ^ 2 * (Y : ZMod 7) -
+          9 * (X : ZMod 7) * (Y : ZMod 7) ^ 2 +
+        24 * (X : ZMod 7) ^ 2 * (Z : ZMod 7) +
+      72 * (Y : ZMod 7) ^ 2 * (Z : ZMod 7) = 0 := by
+    simpa [targetEisensteinUnitCover] using hcast
+  obtain ⟨hX, hY, hZ⟩ :=
+    targetEisensteinUnitCover_modSeven_only_zero
+      (X : ZMod 7) (Y : ZMod 7) (Z : ZMod 7) hmod
+  exact ⟨(ZMod.intCast_zmod_eq_zero_iff_dvd X 7).mp hX,
+    (ZMod.intCast_zmod_eq_zero_iff_dvd Y 7).mp hY,
+    (ZMod.intCast_zmod_eq_zero_iff_dvd Z 7).mp hZ⟩
+
+/-- The nontrivial Eisenstein-unit cover has no nonzero integral point. -/
+theorem targetEisensteinUnitCover_no_nonzero_integer_solution
+    (X Y Z : ℤ)
+    (hcover : targetEisensteinUnitCover X Y Z = 0) :
+    X = 0 ∧ Y = 0 ∧ Z = 0 := by
+  classical
+  by_contra hnonzero
+  let sizes : Set ℕ :=
+    {n | ∃ x y z : ℤ,
+      targetEisensteinUnitCover x y z = 0 ∧
+        ¬(x = 0 ∧ y = 0 ∧ z = 0) ∧
+        x.natAbs + y.natAbs + z.natAbs = n}
+  have hsizes : sizes.Nonempty := by
+    refine ⟨X.natAbs + Y.natAbs + Z.natAbs, X, Y, Z,
+      hcover, hnonzero, rfl⟩
+  let n : ℕ := Nat.find hsizes
+  obtain ⟨x, y, z, hxyz, hxyz0, hsize⟩ := Nat.find_spec hsizes
+  obtain ⟨⟨x', hx⟩, ⟨y', hy⟩, ⟨z', hz⟩⟩ :=
+    seven_dvd_targetEisensteinUnitCover_zero hxyz
+  have hscaled : targetEisensteinUnitCover x' y' z' = 0 := by
+    have hhom := targetEisensteinUnitCover_scale (7 : ℤ) x' y' z'
+    rw [← hx, ← hy, ← hz, hxyz] at hhom
+    norm_num at hhom
+    exact hhom
+  have hscaled0 : ¬(x' = 0 ∧ y' = 0 ∧ z' = 0) := by
+    rintro ⟨rfl, rfl, rfl⟩
+    simp at hx hy hz
+    exact hxyz0 ⟨hx, hy, hz⟩
+  have hnew : x'.natAbs + y'.natAbs + z'.natAbs ∈ sizes :=
+    ⟨x', y', z', hscaled, hscaled0, rfl⟩
+  have hpositive : 0 < x'.natAbs + y'.natAbs + z'.natAbs := by
+    omega
+  have hfactor :
+      x.natAbs + y.natAbs + z.natAbs =
+        7 * (x'.natAbs + y'.natAbs + z'.natAbs) := by
+    rw [hx, hy, hz]
+    simp only [Int.natAbs_mul]
+    norm_num
+    omega
+  have hless : x'.natAbs + y'.natAbs + z'.natAbs < n := by
+    change x'.natAbs + y'.natAbs + z'.natAbs < Nat.find hsizes
+    rw [← hsize, hfactor]
+    omega
+  exact (Nat.not_lt_of_ge (Nat.find_min' hsizes hnew)) hless
+
+/-- The homogeneous cubic for the conjugate nontrivial unit class. -/
+def targetEisensteinConjugateUnitCover (X Y Z : ℤ) : ℤ :=
+  -X ^ 3 - 3 * Y ^ 3 + 3000 * Z ^ 3 + 3 * X ^ 2 * Y +
+    9 * X * Y ^ 2 + 24 * X ^ 2 * Z + 72 * Y ^ 2 * Z
+
+/-- Conjugating the Eisenstein unit class changes the second and third
+homogeneous coordinates by sign. -/
+theorem targetEisensteinConjugateUnitCover_eq
+    (X Y Z : ℤ) :
+    targetEisensteinConjugateUnitCover X Y Z =
+      -targetEisensteinUnitCover X (-Y) (-Z) := by
+  simp only [targetEisensteinConjugateUnitCover,
+    targetEisensteinUnitCover]
+  ring
+
+/-- The conjugate nontrivial unit cover also has no nonzero integral
+point. -/
+theorem targetEisensteinConjugateUnitCover_no_nonzero_integer_solution
+    (X Y Z : ℤ)
+    (hcover : targetEisensteinConjugateUnitCover X Y Z = 0) :
+    X = 0 ∧ Y = 0 ∧ Z = 0 := by
+  have hunit : targetEisensteinUnitCover X (-Y) (-Z) = 0 := by
+    rw [targetEisensteinConjugateUnitCover_eq] at hcover
+    linarith
+  obtain ⟨hX, hY, hZ⟩ :=
+    targetEisensteinUnitCover_no_nonzero_integer_solution
+      X (-Y) (-Z) hunit
+  exact ⟨hX, neg_eq_zero.mp hY, neg_eq_zero.mp hZ⟩
+
+/-- The exact global-algebra output still required from the dual
+three-descent.  It says that a target point either has a rational fibre
+root (the trivial Eisenstein unit class), or supplies a nonzero integral
+point on one of the two nontrivial unit covers.  The class-number-one and
+prime-support argument over `ℤ[ζ₃]` is precisely the missing proof of this
+proposition; the two local-obstruction branches are checked above. -/
+def TargetEisensteinDescentReduction : Prop :=
+  ∀ {X Y : ℚ},
+    veluThreeCandidateTarget.toAffine.Nonsingular X Y →
+      (∃ t : ℚ, targetCubicFibre X t = 0) ∨
+      (∃ A B C : ℤ,
+        targetEisensteinUnitCover A B C = 0 ∧
+          ¬(A = 0 ∧ B = 0 ∧ C = 0)) ∨
+      ∃ A B C : ℤ,
+        targetEisensteinConjugateUnitCover A B C = 0 ∧
+          ¬(A = 0 ∧ B = 0 ∧ C = 0)
+
+/-- Once the global Eisenstein descent has reduced the target points to
+the three unit classes, the two mod-seven infinite descents force every
+target fibre to have a rational root. -/
+theorem targetCubicFibreRoots_of_eisensteinDescentReduction
+    (hdescent : TargetEisensteinDescentReduction) :
+    TargetCubicFibreRoots := by
+  intro X Y hP
+  rcases hdescent hP with hroot | hunit | hconjugate
+  · exact hroot
+  · obtain ⟨A, B, C, hcover, hnonzero⟩ := hunit
+    exact (hnonzero
+      (targetEisensteinUnitCover_no_nonzero_integer_solution
+        A B C hcover)).elim
+  · obtain ⟨A, B, C, hcover, hnonzero⟩ := hconjugate
+    exact (hnonzero
+      (targetEisensteinConjugateUnitCover_no_nonzero_integer_solution
+        A B C hcover)).elim
+
+/-- The exact global Eisenstein reduction has a checked end-to-end
+rank-zero consumer. -/
+theorem optimalQuotientModel_rank_zero_of_eisensteinDescentReduction
+    (hdescent : TargetEisensteinDescentReduction) :
+    Module.finrank ℤ optimalQuotientModel.toAffine.Point = 0 :=
+  optimalQuotientModel_rank_zero_of_targetCandidateSurjective
+    (targetThreeCandidateSurjective_of_cubicFibreRoots
+      (targetCubicFibreRoots_of_eisensteinDescentReduction hdescent))
+
 /-- The cubic-fibre input has a checked end-to-end rank-zero consumer. -/
 theorem optimalQuotientModel_rank_zero_of_targetCubicFibreRoots
     (hroots : TargetCubicFibreRoots) :
