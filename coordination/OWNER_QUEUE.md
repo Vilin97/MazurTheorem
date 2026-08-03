@@ -106,12 +106,13 @@ within each lane follows the listed order.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
    Hecke action, cotangent map, and q-expansion recursion. The canonical
    stalk-cotangent map, its surjectivity predicate, a surjective-stalk
-   consumer, the separate residue-field-isomorphism condition, and a
-   chosen-field degree-one certificate now compile.
+   consumer, its canonical residue-field-semilinear form, the separate
+   residue-field-isomorphism condition, and a residue-honest degree-one
+   certificate now compile.
    Cotangent and combined-criterion functoriality for composites also compile.
-   This is partial infrastructure only: identify the chosen scalar action and
-   connect it to completed local rings, the
-   integral cusp, and the actual q-expansion differential before credit.
+   This is partial infrastructure only: connect the criterion to completed
+   local rings, the integral cusp, and the actual q-expansion differential
+   before credit.
 5. `MT-X0-EISENSTEIN-ALGEBRA` (30): package a nontrivial optimal new quotient
    and prove Mazur 1978 Proposition 3.1 away from characteristic `2`. Degree
    one needs first-coefficient detection, not Kamienny's multi-Hecke linear

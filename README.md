@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 696 checked Lean sources and 1,446,382
+The integrated development contains 696 checked Lean sources and 1,446,429
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -48,7 +48,7 @@ enumeration for every elliptic curve over `F₅`. The current frontier is:
 
 The shared formal-immersion lane now has a checked canonical map on stalk
 cotangent spaces, its surjectivity criterion, a surjective-stalk consumer,
-the required residue-field isomorphism, and a chosen-field degree-one
+the canonical residue-field-semilinear map, and a residue-honest degree-one
 certificate that the future q-expansion proof must fill. This is deliberately
 not node completion: the completed-local-ring criterion, integral cusp
 geometry, modular quotient, and cusp-collision theorem remain open.

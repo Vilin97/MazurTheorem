@@ -178,9 +178,8 @@ cotangent space of a nontrivial quotient.
 
 The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
 provisional target for this calculation: it requires a residue-field
-isomorphism, a chosen-field linearization, source-curve cotangent dimension
-one, and one detected vector.  The modular construction must still identify
-this scalar action with the geometric residue-field action.
+isomorphism, dimension one over the actual source residue field, and one
+vector detected by the canonical semilinear cotangent map.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

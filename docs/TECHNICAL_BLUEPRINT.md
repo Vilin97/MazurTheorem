@@ -33,10 +33,10 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,432,068 project-specific lines across 663
+The latest integrated package has 1,432,115 project-specific lines across 663
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
-root aggregators. These 696 sources and 1,446,382 checked lines build without
+root aggregators. These 696 sources and 1,446,429 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1576,16 +1576,14 @@ cotangent map are checked, and the identity morphism is a separate compiled
 normalization consumer.  The combined first-order predicate separately
 requires invertibility of the induced residue-field map. The modular-facing
 `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` packages an induced
-residue-field-map isomorphism, a chosen-field linearization, a
-one-dimensional source-curve cotangent realization, and one detected vector;
-its theorem derives the canonical cotangent criterion.
+residue-field-map isomorphism, one-dimensionality over the actual source
+residue field, and one vector detected by the canonical semilinear map; its
+theorem derives the canonical cotangent criterion.
 The canonical cotangent map and the combined criterion are functorial for
 composites, providing the checked factorization shape `X₀ ⟶ J₀ ⟶ A`.
-The chosen scalar action still has to be identified with the geometric
-residue-field action in the modular construction. These declarations
-intentionally do not use the final `IsFormalImmersionAt` name: the
-completed-local-ring map and its equivalence with the cotangent criterion are
-still open.
+These declarations intentionally do not use the final
+`IsFormalImmersionAt` name: the completed-local-ring map and its equivalence
+with the cotangent criterion are still open.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
