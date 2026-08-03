@@ -60,8 +60,13 @@ Current machine-checked results include:
   exact-order preservation under good reduction; the compiled consumers
   `rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive` and
   `rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven` join these
-  maps to the exhaustive `F₅` and `F₁₁` bounds.  The Néron special-fibre and
-  component-group maps needed before good reduction remain open;
+  maps to the exhaustive `F₅` and `F₁₁` bounds. At five, a second checked
+  consumer starts from Mathlib's minimal completed equation, derives an
+  elliptic integral model from good reduction, preserves point order through
+  `adicRed`, and transports the result to `ZMod 5`; the local integral-`j` and
+  supplied-filtration trichotomy feeds that endpoint directly. The
+  global-to-local marked-point/minimal-model bridge and the Néron special-fibre
+  and component-group maps needed before good reduction remain open;
 * an explicit algebraic tame-additive filtration contract, recording a
   component group of cardinality at most four, the additive residue quotient,
   exact identification of its kernel with the formal kernel, and

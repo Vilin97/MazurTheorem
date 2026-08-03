@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1473882,
+    "integrated_lean_lines": 1473978,
     "integrated_lean_modules": 762,
     "remaining_composite_orders": [
       18,
@@ -5588,7 +5588,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. The actual Neron filtration and the implication from the modular formal-immersion endpoint to integral j remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer now carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The actual Neron filtration, global-to-local marked-point/minimal-model transport, and the implication from the modular formal-immersion endpoint to integral j remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5616,6 +5616,20 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
           "description": "Consume integral j, an actual tame additive filtration, and a marked large-prime-order point in the reduction-type trichotomy to prove good reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Reduce a torsion point on a minimal completed equation with good reduction, transport it to ZMod 5, and consume the checked finite-field order bound."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Join integral j and the supplied genuine tame additive filtration through the reduction trichotomy to the completion-level F_5 point-order contradiction."
         }
       ],
       "depends_on": [

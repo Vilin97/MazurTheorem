@@ -1767,9 +1767,15 @@ under the deliberately narrower names
 `specializedPoint_addOrderOf_eq_atFive_of_goodReduction` and
 `rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive`.  The latter
 is a real consumer of both the abstract residue-field reduction map and the
-25-model `F₅` enumeration.  The unsuffixed Néron-fibre theorem above remains
-the target before good reduction is known; the checked result does not supply
-the missing special-fibre/component map.
+25-model `F₅` enumeration. The completion-level theorem
+`completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive`
+additionally derives the elliptic integral model selected over the completed
+valuation ring, preserves the same point's order through `adicRed`, and
+transports its reduction to `ZMod 5`. Its downstream consumer joins the
+integral-`j`/tame-filtration trichotomy to this finite contradiction. The
+unsuffixed Néron-fibre theorem above remains the target before good reduction
+is known; these checked results do not supply the global-to-local marked-point
+and minimal-model transport or the missing special-fibre/component map.
 
 The proof sequence is:
 
