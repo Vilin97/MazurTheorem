@@ -199,6 +199,57 @@ theorem isFormalImmersionAt_of_completeDVR_normalizedQExpansion
   exact isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion
     K X π Y f g hx (CompleteDVRCoordinate.ringEquiv q hq hcoeff) a c hc F hqExpansion
 
+/-- A normalized expansion in the constructed complete-DVR coordinate separates actual local
+scheme points.  This is the collision endpoint of the coordinate construction: equality after
+restriction to the quotient stalk, together with the first `q`-coefficient calculation, gives
+equality of the canonical morphisms from a Noetherian local spectrum. -/
+theorem specMap_fromStalk_eq_of_completeDVR_normalizedQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    [IsDomain (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))]
+    [IsDiscreteValuationRing (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))]
+    [Algebra K (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))]
+    [IsAdicComplete
+      (IsLocalRing.maximalIdeal
+        (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K))))
+      (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))]
+    (q : Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (hcoeff : Function.Surjective
+      ((Ideal.Quotient.mk
+          (IsLocalRing.maximalIdeal
+            (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K))))).comp
+        (algebraMap K (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K))))))
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      CompleteDVRCoordinate.ringEquiv q hq hcoeff
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F)
+    (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    (a b : X.presheaf.stalk (g (IsLocalRing.closedPoint K)) →+* R)
+    [IsLocalHom a] [IsLocalHom b]
+    (hrestrict :
+      a.comp (f.stalkMap (g (IsLocalRing.closedPoint K))).hom =
+        b.comp (f.stalkMap (g (IsLocalRing.closedPoint K))).hom) :
+    Spec.map (CommRingCat.ofHom a) ≫
+        X.fromSpecStalk (g (IsLocalRing.closedPoint K)) =
+      Spec.map (CommRingCat.ofHom b) ≫
+        X.fromSpecStalk (g (IsLocalRing.closedPoint K)) := by
+  have hformal :=
+    isFormalImmersionAt_of_completeDVR_normalizedQExpansion
+      K X π Y f g hx q hq hcoeff targetParameter c hc F hqExpansion
+  exact hformal.specMap_fromStalk_ext_of_isNoetherian a b hrestrict
+
 end DegreeOneCotangentCertificate
 
 end MazurTorsion.ModularCurve
