@@ -425,7 +425,13 @@ within each lane follows the listed order.
    derives geometric integrality from the still-open canonical base-change
    chart, dense-range, and target-reducedness witness, and reaches real Tau
    Ceti and split-`Γ₀` consumers. Next construct that witness and the group
-   object, and prove that the point bijection preserves the group law, then `E/C`
+   object. The graded coefficient map now constructs `P²_L ⟶ P²_K`, with its
+   irrelevant-ideal hypothesis, coordinate and cubic formulas, exact `D₊(Z)`
+   away square, and a downstream ambient-compatibility consumer all checked.
+   Next construct the projective-plane pullback isomorphism, restrict it to the
+   reduced cubic with the recorded ambient equality, and identify the resulting
+   canonical open with the checked quotient chart; density remains separate.
+   Also prove that the point bijection preserves the group law, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
