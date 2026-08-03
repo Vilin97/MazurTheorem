@@ -83,6 +83,26 @@ theorem pullHom'_hom_comp_opaque
       pullHom' D.hom (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃ :=
   D.pullHom'_hom_comp i j k
 
+/-- Two chosen-overlap descent data with equal object fields and heterogeneously equal
+transition fields are equal; the remaining structure fields are propositions. This is the
+structure-extensionality helper used by the chosen-overlap/full-descent comparison below. -/
+theorem eq_of_obj_hom_heq
+    {D₁ D₂ : F.DescentData' sq sq₃}
+    (hobj : D₁.obj = D₂.obj) (hhom : HEq D₁.hom D₂.hom) : D₁ = D₂ := by
+  cases D₁
+  cases D₂
+  rw [Pseudofunctor.DescentData'.mk.injEq]
+  exact ⟨hobj, hhom⟩
+
+/-- Extending the chosen-overlap restriction of a full descent datum recovers it. This is the
+counit of Mathlib's equivalence between chosen-overlap and full descent data. -/
+noncomputable def descentDataOfDescentDataIso
+    (sq : ∀ i j, ChosenPullback (f i) (f j))
+    (sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k))
+    (D : F.DescentData f) :
+    (Pseudofunctor.DescentData'.ofDescentData sq sq₃ D).descentData ≅ D :=
+  (Pseudofunctor.DescentData'.descentDataEquivalence F sq sq₃).counitIso.app D
+
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent.DescentDataPrime
 
 namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent
@@ -475,6 +495,59 @@ noncomputable def toDescentData
     (C : LineBundleCocycle cov sq sq₃ L) :
     modulesPseudofunctor.DescentData cov.f :=
   C.toDescentDataPrime.descentData
+
+private theorem toDescentDataPrime_ofDescentDataObjectIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) :
+    (ofDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e).toDescentDataPrime =
+      Pseudofunctor.DescentData'.ofDescentData sq sq₃
+        (PseudofunctorDescent.changeObjects cov.f D (fun i ↦ (L i).obj) e) := by
+  apply DescentDataPrime.eq_of_obj_hom_heq
+  · rfl
+  · exact HEq.rfl
+
+private noncomputable def ofDescentDataObjectIsoToDescentDataPrimeIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) :
+    (ofDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e).toDescentDataPrime ≅
+      Pseudofunctor.DescentData'.ofDescentData sq sq₃
+        (PseudofunctorDescent.changeObjects cov.f D (fun i ↦ (L i).obj) e) :=
+  eqToIso (toDescentDataPrime_ofDescentDataObjectIso L D e)
+
+/-- Reconstructing full descent data from the normalized chosen-overlap cocycle obtained by
+objectwise transport recovers the transported full descent datum. This compares the actual
+cocycle consumer with its full coherent source; it does not assume effectivity. -/
+noncomputable def ofDescentDataObjectIso_toDescentDataIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) :
+    (ofDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e).toDescentData ≅
+      PseudofunctorDescent.changeObjects cov.f D (fun i ↦ (L i).obj) e := by
+  let D' := PseudofunctorDescent.changeObjects cov.f D (fun i ↦ (L i).obj) e
+  let C := ofDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e
+  let E : C.toDescentDataPrime ≅
+      Pseudofunctor.DescentData'.ofDescentData sq sq₃ D' :=
+    ofDescentDataObjectIsoToDescentDataPrimeIso L D e
+  let Efull : C.toDescentData ≅
+      (Pseudofunctor.DescentData'.ofDescentData sq sq₃ D').descentData :=
+    (Pseudofunctor.DescentData'.toDescentDataFunctor
+      modulesPseudofunctor sq sq₃).mapIso E
+  let Ecounit :
+      (Pseudofunctor.DescentData'.ofDescentData sq sq₃ D').descentData ≅ D' :=
+    DescentDataPrime.descentDataOfDescentDataIso sq sq₃ D'
+  change C.toDescentData ≅ D'
+  exact Efull.trans Ecounit
 
 @[simp]
 lemma toDescentData_obj

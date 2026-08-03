@@ -35,9 +35,10 @@ isomorphisms to the chosen descent pullbacks is now checked. For principal divis
 transport of the canonical trivial descent datum constructs the full normalized cocycle, proves
 triple coherence, and produces a full Mathlib descent datum. Direct objectwise transport also
 produces a principal datum explicitly isomorphic to the canonical global trivial datum, so that
-datum is effective; identifying it with the separately reconstructed chosen-overlap datum remains
-open. For arbitrary divisors, normalizing the transported transitions and proving cover-wide
-cocycle coherence remain. Given
+datum is effective. The chosen-overlap/full-descent equivalence identifies it with the separately
+reconstructed normalized principal cocycle, making that actual cocycle effective too. For
+arbitrary divisors, normalizing the transported transitions and proving cover-wide cocycle
+coherence remain. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
@@ -934,6 +935,51 @@ noncomputable def principalDivisorDescentData
     LineBundleDescent.modulesPseudofunctor.DescentData
       (coordinateCover U hcover hU).f :=
   (principalDivisorCocycle X U hnonempty hcover hU h S hord g).toDescentData
+
+/-- Reconstructing coherent descent data from the normalized principal-divisor cocycle recovers
+the full datum obtained by transporting the restrictions of the global trivial line bundle.
+This is the principal-divisor specialization of the chosen-overlap/full-descent comparison. -/
+noncomputable def principalDivisorDescentDataIso
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    principalDivisorDescentData X U hnonempty hcover hU h S hord g ≅
+      principalTransportDescentData X U hnonempty hcover hU h S hord g :=
+  LineBundleDescent.LineBundleCocycle.ofDescentDataObjectIso_toDescentDataIso
+    (localLineBundles X U hnonempty hcover hU h (S.principalDivisor g))
+    ((LineBundleDescent.modulesPseudofunctor.toDescentData
+      (coordinateCover U hcover hU).f).obj
+        (InvertibleSheaf.trivial X).obj)
+    (principalLocalObjectIso X U hnonempty hcover hU h S hord g)
+
+/-- The actual descent datum reconstructed from the normalized principal-divisor cocycle is
+unconditionally effective, represented by the global trivial line bundle. This consumes the
+comparison with the directly transported datum and assumes no general descent-effectivity
+theorem. -/
+theorem principalDivisorCocycleEffectiveInvertible
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.EffectiveInvertible (coordinateCover U hcover hU)
+      (principalDivisorCocycle X U hnonempty hcover hU h S hord g).toDescentData := by
+  refine ⟨InvertibleSheaf.trivial X, ?_⟩
+  exact ⟨(LineBundleDescent.PseudofunctorDescent.changeObjectsIso
+      (coordinateCover U hcover hU).f
+      ((LineBundleDescent.modulesPseudofunctor.toDescentData
+        (coordinateCover U hcover hU).f).obj
+          (InvertibleSheaf.trivial X).obj)
+      (fun i ↦ (localLineBundles X U hnonempty hcover hU h
+        (S.principalDivisor g) i).obj)
+      (principalLocalObjectIso X U hnonempty hcover hU h S hord g)).trans
+    (principalDivisorDescentDataIso X U hnonempty hcover hU h S hord g).symm⟩
 
 /-- A coherent divisor cocycle gives locally invertible descent data. -/
 noncomputable def invertibleDescentData
