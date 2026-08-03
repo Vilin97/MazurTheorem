@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 690 checked Lean sources and 1,444,603
+The integrated development contains 693 checked Lean sources and 1,444,949
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -45,6 +45,13 @@ enumeration for every elliptic curve over `F₅`. The current frontier is:
   Néron-model, Hecke, and focused finite-flat infrastructure; and
 - the X₁(11) five-coset and cyclotomic reciprocity Challenges, which remain
   mandatory release obligations but are not premises of the prime theorem.
+
+The shared formal-immersion lane now has a checked canonical map on stalk
+cotangent spaces, its surjectivity criterion, a surjective-stalk consumer,
+the required residue-field isomorphism, and a chosen-field degree-one
+certificate that the future q-expansion proof must fill. This is deliberately
+not node completion: the completed-local-ring criterion, integral cusp
+geometry, modular quotient, and cusp-collision theorem remain open.
 
 The percentage and task graph come from
 [`coordination/program.json`](coordination/program.json), not prose or line

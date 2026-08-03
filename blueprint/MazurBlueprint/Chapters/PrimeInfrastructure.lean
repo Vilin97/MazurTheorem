@@ -136,6 +136,10 @@ toric reduction of the modular Jacobian.
 * `definition` (`proposed`): `AlgebraicGeometry.IsFormalImmersionAt`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
+
+The canonical stalk-cotangent map and its surjectivity predicate now compile,
+with surjective-stalk and identity consumers.  They deliberately retain
+different names until the completed-local-ring criterion is proved.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -171,6 +175,12 @@ cotangent space of a nontrivial quotient.
 * `definition` (`proposed`): `ModularCurve.HeckeOperator`
 * `theorem` (`proposed`):
   `ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero`
+
+The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
+provisional target for this calculation: it requires a residue-field
+isomorphism, a chosen-field linearization, source-curve cotangent dimension
+one, and one detected vector.  The modular construction must still identify
+this scalar action with the geometric residue-field action.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

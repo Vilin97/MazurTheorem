@@ -7,8 +7,8 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-02, route revision `formal-immersion-at-five-v1`, through
-owner checkpoint `43f899f`. The ledger still has 48 nodes / 1,000
-points: five completed nodes worth 102 points and 43 unfinished nodes. No
+the formal-immersion cotangent checkpoint. The ledger still has 48 nodes /
+1,000 points: five completed nodes worth 102 points and 43 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
@@ -103,7 +103,14 @@ within each lane follows the listed order.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
    reduction-type bridge.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
-   Hecke action, cotangent map, and q-expansion recursion.
+   Hecke action, cotangent map, and q-expansion recursion. The canonical
+   stalk-cotangent map, its surjectivity predicate, a surjective-stalk
+   consumer, the separate residue-field-isomorphism condition, and a
+   chosen-field degree-one certificate now compile.
+   Cotangent and combined-criterion functoriality for composites also compile.
+   This is partial infrastructure only: identify the chosen scalar action and
+   connect it to completed local rings, the
+   integral cusp, and the actual q-expansion differential before credit.
 5. `MT-X0-EISENSTEIN-ALGEBRA` (30): package a nontrivial optimal new quotient
    and prove Mazur 1978 Proposition 3.1 away from characteristic `2`. Degree
    one needs first-coefficient detection, not Kamienny's multi-Hecke linear

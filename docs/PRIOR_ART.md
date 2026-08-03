@@ -621,6 +621,16 @@ bases where the level is invertible; they do not provide the compactified
 integral `X₀(N)`, cusps, Néron models, or modular quotient. These are adapters
 and foundations, not a discharge of the hard core.
 
+The project now supplies the first checked adapter on top of that vocabulary:
+the local map of a scheme morphism induces a canonical `ℤ`-linear map on
+stalk cotangent spaces, with a representative formula and a proof that a
+surjective stalk map makes it surjective.  A separate modular-curve boundary
+records the residue-field isomorphism and packages chosen-field dimension-one
+and nonzero-vector inputs expected from the first q-coefficient calculation.
+The geometric identification of that scalar action is still owed. This
+adapter is not prior art for, or a proof of, formal immersion itself: no
+completed-stalk comparison or modular cusp collision is claimed.
+
 This audit determines the selected public boundary:
 
 - define formal immersion once for locally Noetherian schemes, with both the

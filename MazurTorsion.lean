@@ -8,6 +8,7 @@ import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltra
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtale
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Examples
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Quotient
+import MazurTorsion.AlgebraicGeometry.FormalImmersionIdentity
 import MazurTorsion.Arithmetic.LowTorsionObstructions
 import MazurTorsion.Arithmetic.CardinalityReduction
 import MazurTorsion.Arithmetic.ExceptionalProducts
@@ -54,6 +55,8 @@ import MazurTorsion.Kubert.OrderTwentyFive
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm
+import MazurTorsion.ModularCurve.DegreeOneCotangent
+import MazurTorsion.ModularCurve.XZeroModuli
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.Kubert.OrderSevenHauptmodul

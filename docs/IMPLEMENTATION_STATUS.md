@@ -64,6 +64,14 @@ Current machine-checked results include:
   least eleven when the residue group has cardinality five and order 35 when
   it has cardinality eleven. This does not construct the geometric Néron
   filtration and earns no Néron node credit;
+* the canonical `ℤ`-linear map between stalk cotangent spaces for a scheme
+  morphism, its representative formula, surjectivity under a surjective
+  stalk map, and an identity-morphism normalization consumer. A separate
+  degree-one certificate records the residue-field isomorphism and turns a
+  detected vector in a chosen one-dimensional scalar realization into the
+  canonical surjectivity criterion.
+  The completion comparison, integral cusp model, q-expansion calculation,
+  and formal-immersion collision remain open, so no roadmap node is credited;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;
