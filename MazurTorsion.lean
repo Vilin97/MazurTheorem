@@ -119,6 +119,7 @@ import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
 import MazurTorsion.PrimeOrder.CyclotomicObstruction
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
+import MazurTorsion.PrimeOrder.GoodReductionAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.Geometry

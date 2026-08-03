@@ -35,6 +35,44 @@ abbrev reductionCurveAtFive (W₀ : WeierstrassCurve ℤ) : Affine (ZMod 5) :=
 abbrev reductionCurveAtEleven (W₀ : WeierstrassCurve ℤ) : Affine (ZMod 11) :=
   ((W₀.toAffine ⁄ (ZMod 11)) : WeierstrassCurve _).toAffine
 
+/-- Identifying the residue field at five with `ZMod 5` carries the abstract
+reduced equation to the concrete coefficientwise reduction. -/
+theorem reductionCurveAtFive_eq_map (W₀ : WeierstrassCurve ℤ) :
+    reductionCurveAtFive W₀ =
+      (redCurve atFive W₀).map residueFiveAlgEquiv.toRingEquiv := by
+  have hcomm (a : ℤ) :
+      algebraMap ℤ (ZMod 5) a =
+        residueFiveAlgEquiv (algebraMap ℤ _ a) :=
+    (residueFiveAlgEquiv.commutes a).symm
+  ext <;> exact hcomm _
+
+/-- Identifying the residue field at eleven with `ZMod 11` carries the
+abstract reduced equation to the concrete coefficientwise reduction. -/
+theorem reductionCurveAtEleven_eq_map (W₀ : WeierstrassCurve ℤ) :
+    reductionCurveAtEleven W₀ =
+      (redCurve atEleven W₀).map residueElevenAlgEquiv.toRingEquiv := by
+  have hcomm (a : ℤ) :
+      algebraMap ℤ (ZMod 11) a =
+        residueElevenAlgEquiv (algebraMap ℤ _ a) :=
+    (residueElevenAlgEquiv.commutes a).symm
+  ext <;> exact hcomm _
+
+/-- Good reduction at the abstract residue field transfers to the concrete
+`ZMod 5` equation. -/
+theorem reductionCurveAtFive_isElliptic
+    (W₀ : WeierstrassCurve ℤ) [(redCurve atFive W₀).IsElliptic] :
+    (reductionCurveAtFive W₀).IsElliptic := by
+  rw [reductionCurveAtFive_eq_map]
+  infer_instance
+
+/-- Good reduction at the abstract residue field transfers to the concrete
+`ZMod 11` equation. -/
+theorem reductionCurveAtEleven_isElliptic
+    (W₀ : WeierstrassCurve ℤ) [(redCurve atEleven W₀).IsElliptic] :
+    (reductionCurveAtEleven W₀).IsElliptic := by
+  rw [reductionCurveAtEleven_eq_map]
+  infer_instance
+
 /-- Reduction at five followed by the canonical identification of the residue field with
 `ZMod 5`. -/
 noncomputable def reductionAtFiveToZMod

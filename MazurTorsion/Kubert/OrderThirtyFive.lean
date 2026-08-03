@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteField
+import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
 # Rational points of order thirty-five
@@ -15,6 +16,10 @@ become a thin, immutable bridge to that theorem.
 -/
 
 namespace MazurTorsion.OrderThirtyFive
+
+open WeierstrassCurve
+open WeierstrassCurve.Affine
+open MazurTorsion.IntegerPrimeSpecialization
 
 private instance : Fact (Nat.Prime 11) := ⟨by decide⟩
 
@@ -32,5 +37,27 @@ theorem reductionAtEleven_addOrderOf_ne_thirtyFive
     (Nat.le_of_dvd Nat.card_pos hdvd).trans
       (card_reductionAtEleven_le_eighteen W)
   omega
+
+/-- If an integral model has good reduction at eleven, a rational point on
+its generic fibre cannot have exact order 35.  This is the checked join
+between unramified specialization and the exhaustive `F_11` certificate. -/
+theorem rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven
+    {E : Affine ℚ} {W₀ : WeierstrassCurve ℤ}
+    (hE : W₀.map (algebraMap ℤ ℚ) = E)
+    [E.IsElliptic] [(redCurve atEleven W₀).IsElliptic]
+    {P : E.Point} :
+    addOrderOf P ≠ 35 := by
+  intro horder
+  have hP : IsOfFinAddOrder P := addOrderOf_pos_iff.mp (by
+    rw [horder]
+    norm_num)
+  letI : (MazurTorsion.PrimeOrder.reductionCurveAtEleven W₀).IsElliptic :=
+    MazurTorsion.PrimeOrder.reductionCurveAtEleven_isElliptic W₀
+  apply reductionAtEleven_addOrderOf_ne_thirtyFive
+    (MazurTorsion.PrimeOrder.reductionCurveAtEleven W₀)
+    (MazurTorsion.PrimeOrder.reductionAtElevenToZMod hE P)
+  exact
+    (MazurTorsion.PrimeOrder.specializedPointZMod_addOrderOf_eq_atEleven_of_goodReduction
+      hE hP).trans horder
 
 end MazurTorsion.OrderThirtyFive

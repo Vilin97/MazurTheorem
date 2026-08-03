@@ -36,7 +36,7 @@ dependency.
 The latest integrated package has 1,428,727 project-specific lines across 649
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 159 lines in the two
-root aggregators. These 682 sources and 1,443,028 checked lines build without
+root aggregators. These 685 sources and 1,443,490 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1555,6 +1555,15 @@ card_reductionAtFive_le_ten
 rationalPoint_addOrderOf_ne_eleven
 rationalPoint_addOrderOf_ne_prime_ge_seventeen
 ```
+
+The equation-level good-reduction part of this interface is already checked
+under the deliberately narrower names
+`specializedPoint_addOrderOf_eq_atFive_of_goodReduction` and
+`rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive`.  The latter
+is a real consumer of both the abstract residue-field reduction map and the
+25-model `F₅` enumeration.  The unsuffixed Néron-fibre theorem above remains
+the target before good reduction is known; the checked result does not supply
+the missing special-fibre/component map.
 
 The proof sequence is:
 

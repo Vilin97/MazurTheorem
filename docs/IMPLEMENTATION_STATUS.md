@@ -41,6 +41,13 @@ Current machine-checked results include:
 * a second checked finite normalization/enumeration over `F₁₁`, proving
   `#E(F₁₁) ≤ 18` for every elliptic Weierstrass equation and supplying
   the exact-order-35 reduction-fibre contradiction;
+* exact unramified formal-kernel torsion and collision theorems at the integer
+  primes `5` and `11`, plus concrete residue-field identifications and
+  exact-order preservation under good reduction; the compiled consumers
+  `rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive` and
+  `rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven` join these
+  maps to the exhaustive `F₅` and `F₁₁` bounds.  The Néron special-fibre and
+  component-group maps needed before good reduction remain open;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;
