@@ -120,17 +120,30 @@ essential ellipticity hypothesis, a direct `Z = 0`/`Z ≠ 0` argument proves
 that every such nonzero solution is nonsingular; `projectivePointOfOverPoint`
 therefore constructs a genuine Mathlib projective point from every
 scheme-valued cubic point.  `recoveredPointOverMorphism` is the compiled
-downstream consumer that sends this point forward again.  No equality with
-the original morphism, and hence no surjectivity, is claimed yet.
+downstream consumer that sends this point forward again.  The comparison
+module proves that every homogeneous fraction on the chosen chart is evaluated
+at the recovered triple and that chart maps are determined by constants and
+the three ratios `X_j/X_i`.  It follows that two `K`-points of the cubic with
+the same ambient closed point are equal.  The recovered triple represents the
+original ambient point, while Mathlib's affine normalization is related to it
+by unit scaling in both the `Z = 0` and `Z ≠ 0` cases.  Consequently
+`recoveredPointOverMorphism_eq` proves that the forward image is the original
+scheme morphism.  The compiled consumers
+`projectivePointOverMorphism_surjective` and
+`projectivePointOverMorphism_bijective` now finish the point-set comparison.
+`canonicalProjectivePointEquivOfGroupLaw` is the downstream API consumer: it
+uses the checked surjectivity so that only zero/addition compatibility remains
+before producing the multiplicative equivalence required by the finite-flat
+bridge.
 
 The concrete `toOver` object then feeds Tau Ceti's
 `AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
 `GeometricallyIntegral` instances are established.  The compiled downstream
 consumer `splitGammaZeroDatumOfCanonicalProjectiveCubic` reaches the
 finite-flat `Gamma₀(N)` construction from this exact cubic and its canonical
-forward point map.  Its remaining hypotheses say precisely that this checked
-map preserves the group law and is surjective; injectivity is already proved,
-and no unrelated point equivalence is required.  This construction uses
+forward point map.  The checked point map is now bijective; the consumer's
+surjectivity argument can therefore be discharged directly, while group-law
+compatibility remains.  No unrelated point equivalence is required.  This construction uses
 Mathlib's reduced induced subscheme;
 identifying it with a principal homogeneous-coordinate quotient is not needed
 for the consumer and is not claimed.
@@ -147,16 +160,11 @@ field:
    checked), so that the concrete `toOver` object becomes a Tau Ceti
    `AbelianVariety`;
 3. compatibility of the canonical forward coordinate-point map with the
-   scheme group law, and surjectivity.  Injectivity is now checked.
-   The basic-chart factor, normalized coordinate ratios, cubic equation, and
-   elliptic nonsingularity are now checked.  The remaining reverse-map step is
-   the chart computation identifying the pullback of `X_j/X_i` along a forward
-   coordinate point with its normalized coordinate; chart-ring extensionality
-   then lets one cancel the chart open immersion and prove
-   `recoveredPointOverMorphism W g = g`.  The ellipticity hypothesis used above
-   is essential: for a singular Weierstrass equation the reduced cubic may
-   have rational singular points which are deliberately absent from Mathlib's
-   nonsingular `Projective.Point` type.  Once the morphism equality is checked,
+   scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
+   now checked.  The ellipticity hypothesis used for surjectivity is essential:
+   for a singular Weierstrass equation the reduced cubic may have rational
+   singular points which are deliberately absent from Mathlib's nonsingular
+   `Projective.Point` type.  Once group-law compatibility is checked,
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 

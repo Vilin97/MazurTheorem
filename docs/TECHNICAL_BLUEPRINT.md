@@ -1557,11 +1557,12 @@ cubic. Homogeneous evaluation gives an injective map from Mathlib projective
 points to scheme-valued rational points. Conversely, every scheme-valued point
 factors through a coordinate chart; its chart ring map yields a normalized
 nonzero triple satisfying the cubic equation, and ellipticity proves that
-triple nonsingular. The remaining point-comparison step is the explicit
-pullback computation for `X_j/X_i` showing that the recovered point maps back
-to the original scheme morphism. Group-law compatibility, geometric
-integrality, the cyclic quotient `E/C`, and the coarse modular point remain
-open.
+triple nonsingular. Constants and the three ratios `X_j/X_i` determine the
+chart ring map, while unit-equivalent affine normalization preserves the
+ambient closed point. These facts prove that the recovered point maps back to
+the original scheme morphism, so the canonical projective-point map is now
+bijective. Group-law compatibility, geometric integrality, the cyclic quotient
+`E/C`, and the coarse modular point remain open.
 
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic

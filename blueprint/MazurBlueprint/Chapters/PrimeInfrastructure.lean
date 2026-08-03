@@ -326,6 +326,16 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOfOverPoint`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartRingHom_ext`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism_eq`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_surjective`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_bijective`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquivOfGroupLaw`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
 * `definition` (`contract`):
@@ -353,17 +363,19 @@ coordinate triples now give actual morphisms from `Spec K` to the cubic, and
 the canonical affine normalization gives a forward map from Mathlib projective
 points to cubic `K`-points. Homogeneous linear vanishing equations recover the
 normalized coordinates, proving this forward map injective. The compiled
-canonical finite-flat consumer therefore reduces point comparison to group-law
-compatibility and surjectivity of this explicit map. In the reverse direction,
+canonical finite-flat consumer therefore reduces point comparison to the group-law
+compatibility of this explicit map. In the reverse direction,
 the coordinate basic opens now give an actual affine-chart factor for every
 scheme-valued cubic point; the induced homogeneous-localization ring map
 extracts a normalized nonzero coordinate triple, fixes base-field constants,
 and evaluates every homogeneous fraction through those ratios. The extracted
 triple now satisfies the cubic equation and, under ellipticity, is proved
 nonsingular, yielding an actual Mathlib projective point and a compiled forward
-recovered-point morphism. Identifying the forward point's chart pullback with
-these ratios, and hence proving that recovered morphism equals the original,
-remains open. The scheme group law, geometric integrality, surjectivity, `E/C`,
+recovered-point morphism. Chart-ring extensionality and invariance of the ambient
+closed point under affine normalization prove that this recovered morphism equals
+the original. The canonical projective-point map is therefore surjective and,
+together with the earlier injectivity proof, bijective. The scheme group law,
+geometric integrality, `E/C`,
 the coarse modular point, and the required Atkin--Lehner geometry remain open,
 so this node receives no completion credit.
 :::

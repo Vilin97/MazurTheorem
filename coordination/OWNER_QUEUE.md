@@ -61,7 +61,7 @@ Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
 space, factors nonsingular coordinate triples through the reduced cubic, proves
 the resulting points lie over `Spec K`, and gives canonical affine and
 projective point maps. A finite-flat consumer now reaches constant-order
-`Γ₀(N)` data once this explicit map is proved multiplicative and surjective.
+`Γ₀(N)` data once this explicit map is proved multiplicative.
 Checkpoint `8986a24` already proves injectivity directly: positive-degree
 homogeneous functions recover the normalized affine coordinates and distinguish
 the point at infinity, and the result propagates through the slice and
@@ -74,26 +74,30 @@ the chart ring map fixes constants and evaluates weighted-homogeneous
 fractions at those ratios. The extracted triple satisfies the cubic equation
 and, under ellipticity, is nonsingular, so every scheme-valued cubic point now
 produces a genuine Mathlib projective point and a compiled forward recovered
-morphism. Equality with the original morphism is not yet claimed.
+morphism. Reviewed checkpoint `ed73a67` proves that unit-equivalent
+normalizations have the same ambient closed point, that constants and the
+three coordinate ratios determine every chart ring map, and hence that the
+recovered morphism equals the original. The canonical projective-point map is
+therefore bijective; its group-law compatibility is still open.
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
-The focused single-threaded builds of `ElementaryGlobalSections` and
-`XZeroWeierstrassProjectivePointInverse` pass; the audited declarations use only
+The focused single-threaded builds of `ElementaryGlobalSections`,
+`XZeroWeierstrassProjectivePointComparison`, and the ambient kernel module
+pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 726 integrated Lean
-sources / 1,461,284 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 728 integrated Lean
+sources / 1,461,774 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
-The remaining modular boundary is to construct the group law and geometric
-integrality on the checked projective cubic, prove that its canonical forward
-point map preserves the group law and is surjective under the required
-ellipticity/nonsingularity hypothesis, and then construct `E/C`. The immediate
-reverse-map boundary is to compute the canonical chart pullback of `X_j/X_i`,
-use chart-ring extensionality, and compare the recovered and original scheme
-morphisms through the chart open immersion. The cubic equation and elliptic
-nonsingularity are already checked. The quotient/classifying geometry follows
-after `E/C`. The A3
+The recovered morphism now equals the original scheme-valued point: constants
+and coordinate ratios determine every chart ring map, unit-equivalent
+normalizations preserve the ambient closed point, and cancellation through the
+closed cubic immersion finishes the comparison. Hence the canonical map from
+Mathlib projective points is bijective. The remaining modular boundary is to
+construct the group law and geometric integrality on the checked projective
+cubic, prove that this canonical bijection preserves the group law, and then
+construct `E/C`. The quotient/classifying geometry follows after `E/C`. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
 the directly transported principal Picard datum now has the global trivial line
@@ -147,7 +151,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic, its injective canonical forward coordinate-point map, and recovery of a nonsingular coordinate point from every scheme-valued point; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The quasi-finite filtration/rank-zero consumer and unramified Raynaud uniqueness remain; equality of the recovered and original cubic morphisms, the cubic group law, geometric integrality, multiplicativity and surjectivity of the canonical point map, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic and a bijection between its scheme-valued rational points and Mathlib's projective coordinate points; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The quasi-finite filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic group law, geometric integrality, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -308,11 +312,11 @@ within each lane follows the listed order.
    reverse scheme-valued point now factors through a chosen coordinate chart
    and supplies a normalized nonzero ratio triple. That triple is now proved
    to satisfy the cubic equation and to be nonsingular under
-   `[W.IsElliptic]`, yielding an actual recovered projective point. Next
-   compute the forward point's chart ratios, compare the recovered and
-   original morphisms, construct the group object
-   and geometric integrality, and prove that the map preserves the group law
-   and is surjective, then `E/C`
+   `[W.IsElliptic]`, yielding an actual recovered projective point. Chart
+   extensionality and ambient closed-point comparison now prove that mapping
+   this recovered point forward returns the original morphism, so the canonical
+   point map is bijective. Next construct the group object and geometric
+   integrality, and prove that this bijection preserves the group law, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
