@@ -12,6 +12,7 @@ import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.Unramified.LocalStructure
 import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
+import TauCeti.RingTheory.Smooth.DimensionOne
 
 /-!
 # Affine charts for the divisor--line-bundle dictionary
@@ -252,6 +253,7 @@ open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
+open _root_.TauCeti.RingTheory
 open IsDedekindDomain WithZero
 open scoped nonZeroDivisors
 
@@ -551,53 +553,31 @@ theorem dimensionLEOne_of_standardSmoothRelDimOne_over_field
 
 /-- A standard-smooth relative curve domain over a field is integrally closed.
 
-The standard-smooth presentation is étale over a one-variable polynomial ring. At every
-maximal ideal, formal unramifiedness identifies the maximal ideal of the localized chart with
-the extension of its contraction to that polynomial ring. The contraction is principal, so the
-Noetherian local domain has principal maximal ideal and is a PID. Integral closedness then
-follows from its maximal localizations. -/
+Tau Ceti proves that every prime localization is a valuation ring. In particular, every maximal
+localization is integrally closed, so integral closedness follows from the maximal-localization
+criterion. -/
 theorem isIntegrallyClosed_of_standardSmoothRelDimOne_over_field
     (K A : Type u) [Field K] [CommRing A] [IsDomain A]
     (f : K →+* A) (hf : f.IsStandardSmoothOfRelativeDimension 1) :
     IsIntegrallyClosed A := by
   letI : Algebra K A := f.toAlgebra
   letI : Algebra.IsStandardSmoothOfRelativeDimension 1 K A := hf.toAlgebra
-  obtain ⟨g, hg⟩ :=
-    Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial 1 K A
-  letI : Algebra (MvPolynomial (Fin 1) K) A := g.toRingHom.toAlgebra
-  haveI : Algebra.Etale (MvPolynomial (Fin 1) K) A := by
-    rw [← RingHom.etale_algebraMap]
-    exact hg
-  letI : IsPrincipalIdealRing (MvPolynomial (Fin 1) K) :=
-    IsPrincipalIdealRing.of_surjective
-      (MvPolynomial.uniqueAlgEquiv K (Fin 1)).symm.toRingHom
-      (MvPolynomial.uniqueAlgEquiv K (Fin 1)).symm.surjective
-  letI : IsNoetherianRing A :=
-    Algebra.FiniteType.isNoetherianRing (MvPolynomial (Fin 1) K) A
+  letI : Algebra.IsStandardSmooth K A :=
+    Algebra.IsStandardSmoothOfRelativeDimension.isStandardSmooth 1
+  letI : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing K A
   apply IsIntegrallyClosed.of_localization_maximal
   intro Q _ hmax
-  letI : Q.IsMaximal := hmax
-  let p := Q.under (MvPolynomial (Fin 1) K)
-  letI : Q.IsPrime := Ideal.IsMaximal.isPrime inferInstance
-  letI : p.IsPrime := Ideal.IsPrime.under (MvPolynomial (Fin 1) K) Q
-  letI : Q.LiesOver p := ⟨rfl⟩
-  letI := Localization.AtPrime.algebraOfLiesOver p Q
-  have hmap : p.map
-      (algebraMap (MvPolynomial (Fin 1) K) (Localization.AtPrime Q)) =
-        IsLocalRing.maximalIdeal (Localization.AtPrime Q) :=
-    (Algebra.isUnramifiedAt_iff_map_eq (MvPolynomial (Fin 1) K) p Q).mp
-      (by infer_instance) |>.2
-  have hprincipal :
-      (IsLocalRing.maximalIdeal (Localization.AtPrime Q)).IsPrincipal := by
-    rw [← hmap]
-    infer_instance
+  letI : Q.IsPrime := hmax.isPrime
   letI : IsNoetherianRing (Localization.AtPrime Q) :=
     IsLocalization.isNoetherianRing Q.primeCompl _ inferInstance
-  have hpid : IsPrincipalIdealRing (Localization.AtPrime Q) :=
+  have hvaluation : ValuationRing (Localization.AtPrime Q) :=
+    valuationRing_localizationAtPrime_of_isStandardSmoothOfRelativeDimension_one K A Q
+  have hnormal : IsIntegrallyClosed (Localization.AtPrime Q) ∧
+      ∀ P : Ideal (Localization.AtPrime Q), P ≠ ⊥ → P.IsPrime →
+        P = IsLocalRing.maximalIdeal (Localization.AtPrime Q) :=
     ((tfae_of_isNoetherianRing_of_isLocalRing_of_isDomain
-      (Localization.AtPrime Q)).out 4 0).mp hprincipal
-  letI := hpid
-  infer_instance
+      (Localization.AtPrime Q)).out 1 3).mp hvaluation
+  exact hnormal.1
 
 private theorem dimensionLEOne_of_ringHom_standardSmoothRelDimOne_over_field
     (K A : Type u) [Field K] [CommRing A] [IsDomain A]
