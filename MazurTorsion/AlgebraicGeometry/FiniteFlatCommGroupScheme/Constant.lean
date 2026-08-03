@@ -568,6 +568,39 @@ theorem constantMap_comp (R : Type u) [CommRing R]
     AffineFiniteFreeCommGroupScheme.realizeMap_comp]
   rfl
 
+/-- An isomorphism of finite commutative groups induces an isomorphism of
+their constant finite-flat group schemes. -/
+def constantSchemeIsoOfMulEquiv (R : Type u) [CommRing R]
+    {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    (e : G ≃* H) : constantScheme R G ≅ constantScheme R H :=
+  (AffineFiniteFreeCommGroupScheme.realizationFunctor R).mapIso
+    { hom := constantMapAffine R e.toMonoidHom
+      inv := constantMapAffine R e.symm.toMonoidHom
+      hom_inv_id := by
+        rw [← constantMapAffine_comp]
+        apply ObjectProperty.hom_ext
+        apply Quiver.Hom.unop_inj
+        apply ObjectProperty.hom_ext
+        apply CommHopfAlgCat.hom_ext
+        apply BialgHom.ext
+        intro x
+        apply ULift.down_injective
+        funext g
+        change x.down (e.symm (e g)) = x.down g
+        rw [e.symm_apply_apply]
+      inv_hom_id := by
+        rw [← constantMapAffine_comp]
+        apply ObjectProperty.hom_ext
+        apply Quiver.Hom.unop_inj
+        apply ObjectProperty.hom_ext
+        apply CommHopfAlgCat.hom_ext
+        apply BialgHom.ext
+        intro x
+        apply ULift.down_injective
+        funext g
+        change x.down (e (e.symm g)) = x.down g
+        rw [e.apply_symm_apply] }
+
 /-- Scalar extension commutes with the function-ring coordinates of a finite constant group.
 On a pure tensor, this sends `s ⊗ f` to the function `g ↦ algebraMap R K (f g) * s`. -/
 def constantBaseChangeAlgEquiv
