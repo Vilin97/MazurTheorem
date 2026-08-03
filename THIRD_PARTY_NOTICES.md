@@ -10,6 +10,9 @@
 The retained modules have been modified for Lean `4.33.0-rc1` and mathlib
 `79d0395a1825a6264ad5d269e35e60537518955e`. The modifications and exact
 production-file manifest are recorded in `PORTING.md`.
+`MazurTorsion/EllipticCurve/NonsingularReduction.lean` is a downstream
+singular-fibre adaptation of the pinned good-reduction construction and
+retains Michael Stoll's author credit.
 
 ## Variable-change implementation
 

@@ -70,6 +70,14 @@ The new harness is deliberately self-contained. The project-level bridge
 its model with `MazurTorsion.ExceptionalCubic.curve.toAffine` and supplies
 `MazurTorsion.ExceptionalCubic.point_finite` to its final cardinality theorem.
 
+`MazurTorsion/EllipticCurve/NonsingularReduction.lean` is new downstream
+project code rather than a retained port. Its pointwise reduction, exact-kernel,
+and negation proofs explicitly adapt Michael Stoll's pinned
+`EllipticCurves/WeierstrassFormalGroup/Reduction.lean` construction from good
+reduction to the nonsingular locus of a singular special fibre. The new file
+retains Stoll's author credit and records the changed hypothesis boundary in
+its module documentation.
+
 ## Exact-pin modifications
 
 - `Mathlib/AdicCompletionExtension.lean`: retained lines 1–384 of the upstream mathematical

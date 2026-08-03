@@ -10,17 +10,18 @@ import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 /-!
 # The canonical Néron-filtration handoff at five
 
-This file replaces the arbitrary tame-additive filtration argument in the prime-route endpoint by
-the canonical quotient data expected from a Néron model.  The component group is the actual
-quotient by the supplied identity subgroup, identity-component reduction has the exact-pinned
-formal filtration as its kernel, and torsion-freeness of that kernel is proved by the unramified
-formal-group theorem at five.
+The legacy endpoint in this file accepts the canonical tame-additive handoff:
+its component group is the quotient by the chosen identity subgroup, its
+identity-component reduction has the exact-pinned formal filtration as kernel,
+and that kernel is torsion-free by the unramified formal-group theorem at five.
 
-The remaining inputs are genuinely geometric: construction of the identity subgroup and its
-reduction map into the residue field, the kernel equality, and the order-at-most-four component
-theorem.  Component finiteness follows from the checked finite-index theorem for the formal
-subgroup, and the five-element cardinality of the fixed target is proved here.  No Néron-model
-geometry is inferred.
+The stronger endpoint constructs the identity subgroup from the actual
+predicate of nonsingular coordinate reduction on Mathlib's selected minimal
+integral model. Coordinatewise reduction and its exact formal kernel are
+checked. The remaining geometric inputs are precisely additivity of this
+reduction on its canonical domain, identification of the nonsingular points of
+the singular special cubic with the additive residue group, and the
+order-at-most-four component quotient. No Néron-model geometry is inferred.
 -/
 
 noncomputable section

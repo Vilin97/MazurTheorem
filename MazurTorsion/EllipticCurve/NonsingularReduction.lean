@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Vasily Ilin
+Authors: Michael Stoll, Vasily Ilin
 -/
 
 import MazurTorsion.EllipticCurve.TameAdditiveReductionData
@@ -28,6 +28,13 @@ At five and eleven, an additive-special-fibre classification
 longer accepts an arbitrary identity subgroup or an arbitrary map to the additive residue group.
 The three remaining inputs name the actual group law, special-fibre classification, and component
 geometry rather than hiding them.
+
+The pointwise reduction, kernel, and negation arguments are a singular-fibre
+adaptation of Michael Stoll's good-reduction construction in
+`EllipticCurves.WeierstrassFormalGroup.Reduction`, pinned at commit
+`3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f` under Apache-2.0. Unlike that
+source, this file does not assume the reduced cubic is elliptic and restricts
+the map to the canonical nonsingular-reduction domain.
 -/
 
 noncomputable section
@@ -270,8 +277,8 @@ local instance : DecidableEq
   Classical.decEq _
 
 /-- Build the five-adic tame-additive reduction handoff from the canonical nonsingular-reduction
-domain, actual coordinatewise reduction, an additive classification of the smooth special cubic,
-and the genuine component bound. -/
+domain, actual coordinatewise reduction, an additive classification of the group of nonsingular
+points of the singular special cubic, and the genuine component bound. -/
 def TameAdditiveReductionDataAtFive.ofNonsingularReduction
     {W : Affine (atFive.adicCompletion ℚ)}
     {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
