@@ -223,6 +223,18 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfProjectivePointComparison`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumPointHom_range`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.polynomial_isHomogeneous`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.range_inclusion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_isProper`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVariety`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfProjectiveCubic`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -236,10 +248,13 @@ genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme
 interface, and a checked consumer identifies its rational point range with
 the existing carrier. A genuine Tau Ceti abelian variety plus a comparison of
 its rational points with Mathlib's projective Weierstrass points now supplies
-that interface and feeds the same consumer. Constructing the projective cubic
-as such an abelian variety, proving the scheme-point comparison, constructing
-`E/C` and the coarse modular point, and the required Atkin--Lehner geometry
-remain open, so this node receives no completion credit.
+that interface and feeds the same consumer. The homogeneous cubic now also
+defines an actual reduced closed subscheme of projective two-space, with its
+closed immersion, exact zero-locus range, proper structure map, and a compiled
+finite-flat consumer through Tau Ceti's abelian-variety constructor. The
+scheme group law, geometric integrality, scheme-point comparison, `E/C`, the
+coarse modular point, and the required Atkin--Lehner geometry remain open, so
+this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
