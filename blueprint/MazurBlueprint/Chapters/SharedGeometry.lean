@@ -111,8 +111,8 @@ hypothesis. For principal divisors, direct objectwise transport of the canonical
 datum gives the specified local divisor line bundles, a full coherent descent datum, and a
 checked global trivial witness. The separately reconstructed chosen-overlap principal cocycle is
 also coherent, but its comparison with that directly transported datum remains missing. For
-arbitrary divisors, transporting the intersection isomorphisms to the chosen descent pullbacks
-and proving normalized diagonal and triple-cocycle coherence remain missing.
+arbitrary divisors, the pairwise intersection isomorphisms are already transported to the chosen
+descent pullbacks; normalized diagonal and triple-cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -183,8 +183,8 @@ the actual line-bundle cocycle and trivialization remains absent. Surjectivity t
 full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the arbitrary-divisor cocycle system, chosen-pullback/intersection transport, coherent overlap
-system, general module-effectivity, chosen-cocycle coherent-principal-triviality,
+of the arbitrary-divisor cocycle system, normalized cover-wide coherent overlap system, general
+module-effectivity, chosen-cocycle coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
