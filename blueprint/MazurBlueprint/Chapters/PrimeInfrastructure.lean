@@ -130,6 +130,21 @@ subgroup.
 * `definition` (`proposed`): `ModularCurve.XZeroModuli`
 * `theorem` (`proposed`):
   `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`
+
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.variableChange`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.lift`
+
+The generated rational subgroup and raw datum compile. Admissible Weierstrass
+changes now transport both the curve and subgroup, and checked code quotients
+by the generated equivalence and descends every presentation-invariant
+function. The genuine coarse modular point and finite-locally-free subgroup
+geometry remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

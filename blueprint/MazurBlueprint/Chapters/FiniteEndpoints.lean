@@ -133,7 +133,15 @@ destination is
 `MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. The public
 $`X_0(49)` two-cusp classification already compiles.  The preferred bridge
 uses the generic cyclic-subgroup moduli point and does not require additivity
-of the explicit Vélu point function or a nonbacktracking isogeny tower.
+of the explicit Vélu point function or a nonbacktracking isogeny tower. The
+raw datum is now quotiented by checked admissible Weierstrass changes, and the
+presentation-independent endpoint
+`MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap`
+compiles. Constructing the coarse classifying map, its noncuspidality, and the
+target identification remains the open Challenge.
+
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap`
 :::
 
 :::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")

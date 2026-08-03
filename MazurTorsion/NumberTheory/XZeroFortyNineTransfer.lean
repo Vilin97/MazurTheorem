@@ -571,4 +571,40 @@ theorem rationalPoint_addOrderOf_ne_fortyNine_of_classifyingMap
   exact (no_rationalDatum_of_classifyingMap classify hclassify).false
     (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP)
 
+/-- A presentation-independent classifying map from rational `Γ₀(49)` data
+modulo admissible Weierstrass changes to the explicit two-cusp model forces the
+raw rational moduli datum to be empty.  Compared with
+`no_rationalDatum_of_classifyingMap`, invariance under the checked model changes
+is now built into the domain rather than left implicit in the missing coarse
+moduli construction. -/
+theorem no_rationalDatum_of_variableChangeClassifyingMap
+    (classify :
+      ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass (K := ℚ) (N := 49) →
+        curve.toAffine.Point)
+    (hclassify : ∀ x, classify x ≠ 0 ∧ classify x ≠ T) :
+    IsEmpty (ModularCurve.XZeroModuli.RationalDatum ℚ 49) := by
+  constructor
+  intro x
+  let xclass :=
+    ModularCurve.XZeroModuli.RationalDatum.variableChangeClassOf x
+  rcases point_eq_zero_or_T (classify xclass) with hzero | hT
+  · exact (hclassify xclass).1 hzero
+  · exact (hclassify xclass).2 hT
+
+/-- Direct order-49 endpoint for a presentation-independent cyclic-subgroup
+moduli map.  The remaining hypothesis is now exactly a map from the checked
+variable-change quotient to the explicit `X₀(49)` model whose image is
+noncuspidal. -/
+theorem rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap
+    (classify :
+      ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass (K := ℚ) (N := 49) →
+        curve.toAffine.Point)
+    (hclassify : ∀ x, classify x ≠ 0 ∧ classify x ≠ T)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 49 := by
+  intro hP
+  exact (no_rationalDatum_of_variableChangeClassifyingMap classify hclassify).false
+    (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP)
+
 end MazurTorsion.XZeroFortyNine
