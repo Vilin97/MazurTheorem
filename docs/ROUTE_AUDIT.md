@@ -100,13 +100,19 @@ following remain on the theorem's critical path:
 * finiteness of that quotient's rational points; and
 * the focused Néron and finite-flat theory used in the last assertion.
 
-The rank-zero input is why the existing finite-flat work is retained.  The
-selected proof follows the exact criterion isolated in Mazur 1977 III.3:
-admissible `p`-primary finite-flat filtrations, Raynaud uniqueness over an
-unramified DVR, the elementary fppf-cohomology calculation, completely toric
-reduction at the level, and Mordell--Weil finite generation.  The roadmap no
-longer asks for a full Oort--Tate classification or connected--étale theory
-unless a named rank-zero consumer actually needs it.
+The rank-zero input is why the existing finite-flat work is retained, but its
+integral scope must be stated precisely. In Mazur 1977 III.3 the
+pre-admissible group over `Spec ℤ` is flat, quasi-finite, separated, and of
+finite presentation; it becomes finite only after inverting the level. The
+two constant-or-multiplicative factors on that open have four possible
+integral closures: `ℤ/p`, its bad-level flat extension, `mu_p`, and its
+bad-level flat extension. Thus the finite-flat two-factor API is a reusable
+subcase, not the theorem itself. The selected proof still uses Raynaud
+uniqueness over an unramified DVR, the four elementary fppf-cohomology
+calculations, completely toric reduction at the level, and Mordell--Weil
+finite generation. The roadmap does not ask for a full Oort--Tate
+classification or connected--étale theory unless a named rank-zero consumer
+actually needs it.
 
 The formal-immersion proof itself needs less Hecke algebra than the old
 roadmap suggested.  In degree one, the cotangent map only has to detect the

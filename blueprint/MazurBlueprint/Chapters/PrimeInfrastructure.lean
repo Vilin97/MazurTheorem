@@ -121,14 +121,26 @@ global sections and the odd multiplicative factor has one; these checked
 cardinal certificates feed a reusable quotient bound with one admissible
 elementary kernel, and the two-elementary-factor step consumes that recursive
 interface. This finite-flat API does not yet represent Mazur's two quasi-finite
-closures at the primes dividing the level. The next boundary is their exact
-coefficient interface, elementary-factor `H⁰`/`H¹` comparisons, and
-middle-`H¹` finiteness.
+closures at the primes dividing the level. The represented coefficient and
+global `H¹` construction now extends to every ambient commutative group scheme,
+and a checked wrapper packages the flat, quasi-finite, separated,
+finite-presentation case with a finite-flat compatibility consumer. The next
+boundary is to construct the four actual integral elementary factors and their
+exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
+finiteness.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
 * `definition` (`contract`):
   `AlgebraicGeometry.Scheme.FppfHOne`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointPresheaf_isFppfSheaf`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.FppfHOne`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMulEquivOfFiniteFlat`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -203,9 +215,11 @@ assumes the exact cardinal of the group being bounded. The two elementary
 constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
 odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
 explicit for recursive finite-flat use, and the actual two-factor theorem is
-its compiled consumer. The quasi-finite bad-level factors, their `H⁰`/`H¹`
-certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
-are still absent, so no node credit is claimed.
+its compiled consumer. Ambient commutative-group-scheme `H¹` and the structural
+quasi-finite wrapper now compile and agree definitionally with the finite-flat
+API. The four actual integral factors, their extension-by-zero exact sequences
+and `H⁰`/`H¹` certificates, middle-`H¹` finiteness proof, and focused rank-zero
+specialization are still absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

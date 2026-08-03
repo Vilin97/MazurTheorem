@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1460640,
-    "integrated_lean_modules": 724,
+    "integrated_lean_lines": 1460835,
+    "integrated_lean_modules": 726,
     "remaining_composite_orders": [
       18,
       25,
@@ -3043,7 +3043,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor now consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative elementary factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Mazur's required quasi-finite closures at primes dividing the level remain outside this finite-flat interface.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction now applies to every ambient commutative group scheme. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 API. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. The four integral elementary factors required by Mazur, their quasi-finite exact sequences, and their H0/H1 calculations remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3058,6 +3058,34 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
           "description": "Globalize relative cover-level nonabelian H1 over genuine fppf covers by the common-refinement quotient in Scheme.Over X."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointPresheaf_isFppfSheaf",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfHOne",
+          "description": "Apply subcanonicity to the represented point presheaf of an arbitrary ambient commutative group scheme, without a finiteness hypothesis."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.FppfHOne",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfHOne",
+          "description": "Instantiate the checked common-refinement fppf H1 construction for an arbitrary represented commutative group-scheme coefficient."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfHOne",
+          "description": "Package flat, locally quasi-finite, quasi-compact, separated, locally finitely presented commutative group schemes as the ambient type for Mazur's integral pre-admissible groups."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMulEquivOfFiniteFlat",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfHOne",
+          "description": "Check that the broader quasi-finite coefficient wrapper recovers the existing finite-flat fppf H1 and its canonical group law definitionally."
         },
         {
           "kind": "definition",

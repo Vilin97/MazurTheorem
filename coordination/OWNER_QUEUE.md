@@ -81,8 +81,8 @@ the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections` and
 `XZeroWeierstrassProjectivePointInverse` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 724 integrated Lean
-sources / 1,460,640 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 726 integrated Lean
+sources / 1,460,835 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The remaining modular boundary is to construct the group law and geometric
@@ -111,9 +111,13 @@ an actual quotient with one admissible elementary kernel consumes the kernel
 certificate while leaving quotient data explicit for the next finite-flat
 recursive layer; the actual two-elementary-factor step is its compiled
 downstream consumer. Mazur's quasi-finite closures at primes dividing the
-level are not represented by this finite-flat interface. Their `H⁰`/`H¹`
-certificates, middle-`H¹` finiteness, and rank-zero specialization remain,
-followed by the unramified Raynaud uniqueness input.
+level are not represented by this finite-flat interface. The ambient
+commutative-group-scheme point sheaf and `H¹` now compile without a finiteness
+hypothesis, and an honest flat, quasi-finite, separated, finite-presentation
+wrapper has a checked finite-flat compatibility consumer. The four actual
+integral elementary factors, their extension-by-zero exact sequences and
+`H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
+remain, followed by the unramified Raynaud uniqueness input.
 
 ## Route decision
 
@@ -258,9 +262,11 @@ within each lane follows the listed order.
    certificates over `Spec ℤ` now compile. The one-admissible-kernel quotient
    theorem exposes the recursive finite-flat extension-step interface, and
    the actual two-elementary-factor theorem consumes it. This does not cover
-   Mazur's two quasi-finite extension-by-zero factors at the bad level; their
-   coefficient API and `H⁰`/`H¹` certificates, together with middle-`H¹`
-   finiteness, remain absent. Next finish
+   Mazur's two quasi-finite extension-by-zero factors at the bad level. The
+   generic represented coefficient sheaf/`H¹` and structural quasi-finite
+   wrapper now compile with a finite-flat adapter, but the four factor
+   constructions, their exact sequences and `H⁰`/`H¹` certificates, together
+   with middle-`H¹` finiteness, remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
    rank-zero specialization. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
