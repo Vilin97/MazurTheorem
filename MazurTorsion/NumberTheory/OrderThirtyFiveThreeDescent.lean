@@ -177,4 +177,63 @@ theorem exists_dualCandidate_preimage_of_Y_eq_cube
   · rw [veluThreeDualCandidateY_threeCoverTarget hcover]
     exact hy.symm
 
+/-! ## Translation by the visible kernel -/
+
+/-- Translating by `(0,0)` multiplies the source descent class by `49`:
+the new ordinate is `-49y/x³`. -/
+theorem addY_threeTorsionOrigin
+    {x y : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y)
+    (hx : x ≠ 0) :
+    threeTorsionCurve.toAffine.addY x 0 y
+        (threeTorsionCurve.toAffine.slope x 0 y 0) =
+      -49 * y / x ^ 3 := by
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  norm_num [threeTorsionCurve] at hcurve
+  rw [threeTorsionCurve.toAffine.slope_of_X_ne hx]
+  simp only [WeierstrassCurve.Affine.addY,
+    WeierstrassCurve.Affine.negAddY,
+    WeierstrassCurve.Affine.addX,
+    WeierstrassCurve.Affine.negY, threeTorsionCurve]
+  field_simp [hx]
+  linear_combination -x ^ 3 * (4 * x + y - 7) * hcurve
+
+/-- Translating by `(0,-7) = -(0,0)` gives the symmetric raw ordinate
+formula. -/
+theorem addY_neg_threeTorsionOrigin
+    {x y : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y)
+    (hx : x ≠ 0) :
+    threeTorsionCurve.toAffine.addY x 0 y
+        (threeTorsionCurve.toAffine.slope x 0 y (-7)) =
+      -7 * (y + 4 * x + 7) ^ 2 / x ^ 3 := by
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  norm_num [threeTorsionCurve] at hcurve
+  rw [threeTorsionCurve.toAffine.slope_of_X_ne hx]
+  simp only [WeierstrassCurve.Affine.addY,
+    WeierstrassCurve.Affine.negAddY,
+    WeierstrassCurve.Affine.addX,
+    WeierstrassCurve.Affine.negY, threeTorsionCurve]
+  field_simp [hx]
+  linear_combination -x ^ 3 * (4 * x + y + 7) * hcurve
+
+/-- Away from the exceptional ordinate zero, translation by `(0,-7)`
+multiplies the descent class by `7`, up to the displayed rational cube. -/
+theorem addY_neg_threeTorsionOrigin_cubeClass
+    {x y : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y)
+    (hx : x ≠ 0) (hy : y ≠ 0) :
+    threeTorsionCurve.toAffine.addY x 0 y
+        (threeTorsionCurve.toAffine.slope x 0 y (-7)) =
+      -7 * y * (x / y) ^ 3 := by
+  rw [addY_neg_threeTorsionOrigin hP hx]
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  norm_num [threeTorsionCurve] at hcurve
+  field_simp [hx, hy]
+  linear_combination
+    -(x ^ 3 + 4 * x * y + y ^ 2 + 7 * y) * hcurve
+
 end MazurTorsion.OrderThirtyFive
