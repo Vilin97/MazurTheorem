@@ -7,7 +7,7 @@ uses them as upstreams, not as untracked code mines.
 
 The checked `MazurTorsion` package uses Lean `v4.33.0-rc1`, Mathlib commit
 `79d0395a1825a6264ad5d269e35e60537518955e`, and Tau Ceti commit
-`10cb4c41fc7a663ea55f54f30c9db489e906b357`, based on upstream commit
+`de8aff326e96872ef479602ed7d9dcc1e6d9783b`, based on upstream commit
 `a3913fd9111b851af857f720b4ce6721e6634183`. These match the current Lean Pool
 challenge and the separate Tau Ceti contract workspace. The full resolved
 package-revision graph, not only the headline pins, is checked for equality.
@@ -31,9 +31,12 @@ such as divisors, Picard functors, abelian varieties, and the Jacobian
 roadmap. The root package now has a direct immutable Tau Ceti dependency, and
 `MazurTorsion.Upstream.Geometry` compiles its line-bundle and Abel--Jacobi
 layers beside the selected AINTLIB foundations. Upstream-facing open contracts
-still live in [`upstream/tauceti/`](../upstream/tauceti/) as a separately
-resolved Lake package, pinned to the same Tau Ceti, Lean, and Mathlib commits.
-The quality gate rejects any drift between those pins.
+and their solved lifecycle bridges live in
+[`upstream/tauceti/`](../upstream/tauceti/) as a separately resolved Lake
+package, pinned to the same Tau Ceti, Lean, and Mathlib commits. The current
+pin contains both the finite-support/order-system result and the checked
+abelian-variety product-dimension chain. The quality gate rejects any drift
+between those pins.
 
 ## AINTLIB
 

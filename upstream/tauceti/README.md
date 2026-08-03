@@ -11,7 +11,7 @@ enter the checked implementation graph.
 | Dependency | Exact pin |
 |---|---|
 | Lean | `v4.33.0-rc1` |
-| Tau Ceti | `10cb4c41fc7a663ea55f54f30c9db489e906b357` |
+| Tau Ceti | `de8aff326e96872ef479602ed7d9dcc1e6d9783b` |
 | Mathlib (through Tau Ceti) | `79d0395a1825a6264ad5d269e35e60537518955e` |
 
 The files record small, compiler-checked API boundaries against nouns that
@@ -19,13 +19,14 @@ already exist in Tau Ceti:
 
 - the solved finite-support contract is a thin bridge to the permanent Tau Ceti
   theorem and its scheme principal-divisor `OrderSystem` consumer;
-- additivity of abelian-variety dimension under products, a basic acceptance
-  result for the future Jacobian API.
+- the solved additivity theorem for abelian-variety dimension under products,
+  with a checked self-product consumer for the future Jacobian API.
 
-These are upstream-facing contracts, not completed Mazur proof. They carry
-zero theorem-completion credit until proved, reviewed upstream, and consumed
-by a Mazur node. Prefer opening the implementation in Tau Ceti and then
-updating both the root dependency and this package to the same merged commit.
+These are upstream-facing contracts, not Mazur's final theorem. A contract
+earns its fixed roadmap credit only after its upstream destination and named
+consumer compile; both contracts in this package now meet that criterion.
+Future changes should be implemented in Tau Ceti first and then update both
+the root dependency and this package to the same reviewed commit.
 
 ```sh
 lake exe cache get

@@ -34,12 +34,12 @@
     {
       "id": "tauceti",
       "url": "https://github.com/Vilin97/TauCeti",
-      "commit": "10cb4c41fc7a663ea55f54f30c9db489e906b357",
+      "commit": "de8aff326e96872ef479602ed7d9dcc1e6d9783b",
       "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
       "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
       "license": "Apache-2.0",
       "role": "Direct exact-pin dependency and upstream home for reusable algebraic-geometry infrastructure",
-      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on the reviewed Tau Ceti feature commit 10cb4c41, based on upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
+      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on the reviewed Tau Ceti feature commit de8aff32, based on upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
     },
     {
       "id": "aintlib-modular-curves",
@@ -65,11 +65,11 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 100,
-    "percent": 10.0,
+    "earned_points": 102,
+    "percent": 10.2,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 151,
-    "ordinary_claimable_points": 39,
+    "claimable_open_points": 149,
+    "ordinary_claimable_points": 37,
     "research_open_points": 112,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
@@ -940,12 +940,12 @@
       "title": "Dimension of a product of abelian varieties",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "open",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 2,
       "risk": "medium",
       "backend": "tauceti",
-      "summary": "Prove that Tau Ceti's abelian-variety dimension is additive under its product construction.",
+      "summary": "Tau Ceti proves faithful integral extensions preserve Krull dimension, derives tensor-product dimension additivity by Noether normalization, glues affine-chart bounds for scheme products, and obtains abelian-variety product dimension as a checked consumer.",
       "depends_on": [
         "MT-BASE-INTEGRATED"
       ],
@@ -954,13 +954,13 @@
       ],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "challenge": {
-        "claimable": true,
+        "claimable": false,
         "module": "MazurTauCetiChallenge.ProductDimension",
         "file": "upstream/tauceti/MazurTauCetiChallenge/ProductDimension.lean",
         "declaration": "MazurTauCetiChallenge.prod_dim",

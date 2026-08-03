@@ -26,11 +26,13 @@ universe u
 /-- The dimension of a product of abelian varieties is the sum of the
 dimensions. -/
 theorem prod_dim {K : Type u} [Field K] (A B : AbelianVariety K) :
-    (AbelianVariety.prod A B).dim = A.dim + B.dim := sorry
+    (AbelianVariety.prod A B).dim = A.dim + B.dim :=
+  TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim A B
 
 /-- The self-product of an abelian variety has twice its dimension. -/
 theorem prod_self_dim {K : Type u} [Field K] (A : AbelianVariety K) :
     (AbelianVariety.prod A A).dim = 2 * A.dim := by
-  simpa [two_mul] using prod_dim A A
+  exact (TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim A A).trans
+    (two_mul A.dim).symm
 
 end MazurTauCetiChallenge

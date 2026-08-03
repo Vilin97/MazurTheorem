@@ -41,13 +41,15 @@ Current machine-checked results include:
 * a second checked finite normalization/enumeration over `F₁₁`, proving
   `#E(F₁₁) ≤ 18` for every elliptic Weierstrass equation and supplying
   the exact-order-35 reduction-fibre contradiction;
-* the fixed order-35 quotient `y²+y=x³+x²+9x+1`, its explicit
+* the fixed model expected for the order-35 quotient,
+  `y²+y=x³+x²+9x+1`, its explicit
   order-three normalization, and an unconditional equivalence of its rational
-  torsion subgroup with `ZMod 3`; the checked Vélu point function has exactly
-  the visible three-element kernel, and its explicit quotient has trivial
-  rational torsion by division-polynomial factorization and reduction at
-  three.  The remaining fixed-curve boundary is the three-isogeny Selmer
-  image calculation needed to prove Mordell--Weil rank zero;
+  torsion subgroup with `ZMod 3`; the equation-checked Vélu point-function
+  candidate has exactly the visible three-element zero fibre, and its
+  candidate target has trivial rational torsion by division-polynomial
+  factorization and reduction at three. The modular identification,
+  additivity/isogeny interface, dual composition, and three-isogeny Selmer
+  image calculation needed for Mordell--Weil rank zero remain open;
 * exact unramified formal-kernel torsion and collision theorems at the integer
   primes `5` and `11`, plus concrete residue-field identifications and
   exact-order preservation under good reduction; the compiled consumers
@@ -173,6 +175,11 @@ Current machine-checked results include:
   downstream Tau Ceti contract build and permanent pin/provenance audit;
 * Tau Ceti's finite-support theorem for codimension-one orders and its
   compiled scheme `OrderSystem` consumer;
+* Tau Ceti's product-dimension theorem for abelian varieties, proved through
+  faithful integral-extension invariance of Krull dimension, Noether
+  normalization for tensor products, and matching affine-chart bounds for
+  nonempty finite-type scheme products, with a compiled self-product
+  consumer;
 * a checked finite-flat commutative group-scheme substrate with honest
   kernels, affine constant-rank point exponent, constant and diagonalizable
   examples, a genuine `μₙ` multiplication kernel, and constant-group

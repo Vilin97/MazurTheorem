@@ -266,7 +266,7 @@ The
 repository was inspected at base commit
 [`a3913fd9111b851af857f720b4ce6721e6634183`](https://github.com/TauCetiProject/TauCeti/commit/a3913fd9111b851af857f720b4ce6721e6634183).
 The exact dependency is reviewed feature commit
-[`10cb4c41fc7a663ea55f54f30c9db489e906b357`](https://github.com/Vilin97/TauCeti/commit/10cb4c41fc7a663ea55f54f30c9db489e906b357)
+[`de8aff326e96872ef479602ed7d9dcc1e6d9783b`](https://github.com/Vilin97/TauCeti/commit/de8aff326e96872ef479602ed7d9dcc1e6d9783b)
 on the integration fork.
 It is Apache-2.0 and
 contains general algebraic-geometry work,
@@ -277,14 +277,18 @@ upstream for that part of Mazur's dependency cone.
 
 The reviewed feature commit additionally proves finite support of the
 scheme-theoretic orders of a rational function and packages them as the
-permanent `SchemeWeilDivisor.orderSystem`. At the inspected base it did not
-contain:
+permanent `SchemeWeilDivisor.orderSystem`. It also proves Krull-dimension
+invariance for faithful integral extensions, tensor-product dimension
+additivity via Noether normalization, the corresponding product theorem for
+nonempty finite-type schemes, and
+`TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim`. At the inspected base it
+did not contain:
 
 * elliptic-curve torsion or Weil pairings;
 * modular curves or their integral models;
 * the functorial Picard scheme or Jacobian variety needed for `J₀(N)`;
 * Hecke/Eisenstein infrastructure;
-* a theorem that closes any current Mazur dependency.
+* a product-dimension theorem for schemes or abelian varieties.
 
 The root package now depends directly on this exact Tau Ceti feature commit, with
 `MazurTorsion.Upstream.Geometry` compiling the line-bundle and Abel--Jacobi

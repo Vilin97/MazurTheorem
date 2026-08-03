@@ -6,11 +6,11 @@ metadata, and completion; this file records dependency-critical ordering,
 handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
-Snapshot: 2026-08-02, route revision `formal-immersion-at-five-v1`, merged
-over owner checkpoint `686bf31`. The ledger still has 48 nodes / 1,000
-points: four completed nodes worth 100 points and 44 unfinished nodes. No
+Snapshot: 2026-08-02, route revision `formal-immersion-at-five-v1`, through
+owner checkpoint `43f899f`. The ledger still has 48 nodes / 1,000
+points: five completed nodes worth 102 points and 43 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
-and exact-pin completions remain credited.
+and product-dimension results and exact-pin completion remain credited.
 
 ## Route decision
 
@@ -31,7 +31,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1, and the `F₅` ten-point enumeration; integrated finite-flat kernels, named morphism base change, and one admissible `p²`-exponent step; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1 and product dimension, and the `F₅` ten-point enumeration; integrated finite-flat kernels, named morphism base change, and one admissible `p²`-exponent step; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, product dimension, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
 | `codex/mt-a2-product-formula` | A2 local-order and proper-curve groundwork built over the permanent A1 API | Re-audit against the Picard/Jacobian consumer, then continue the residue-degree product formula without changing the A1 interface. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, kernel presentation, and the constant-rank point-exponent consumer | Keep the sound declarations. Complete quotient/base-change and constant/`μ_p` examples only through the admissible-filtration/rank-zero consumer. Partial infrastructure earns zero completion credit. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -39,9 +39,10 @@ collision at `5` and a ten-point finite-field bound.
 | `codex/owner-o49-tower` | Checked level-seven correspondence and explicit Vélu work; reusable Tate normalization is isolated at `9dad18d` | Retain as useful library work, but pivot the endpoint to the direct rational cyclic-subgroup map into the already classified two-cusp `X₀(49)`. Do not require Vélu additivity or a nonbacktracking tower. |
 | `codex/owner-x11-selmer` | Checked isogeny kernels and an empty-support fifth-power Selmer factor at `be3f2b7` | Freeze as a fallback and release-API check. Further Selmer work is not theorem-critical after the uniform order-eleven theorem. |
 
-The independent Tau Ceti order-support and product-dimension contracts remain
-valid. Every worker commit must be reviewed against the revised consumer,
-rather than accepted because it extends the superseded route.
+The Tau Ceti order-support and product-dimension contracts are checked bridges
+to integrated upstream theorems. Every worker commit must be reviewed against
+the revised consumer, rather than accepted because it extends the superseded
+route.
 
 ## Theorem-critical queue
 
@@ -58,7 +59,7 @@ within each lane follows the listed order.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
-4. Close `MT-TC-E0-PRODUCT-DIM` (2), then integrate it with D2 as
+4. Completed `MT-TC-E0-PRODUCT-DIM` (2); integrate it with D2 as
    `MT-TC-E1-JACOBIAN-VARIETY` (20).
 5. Combine C1 and E1 in `MT-TC-F1-ABEL-JACOBI` (20).
 6. In parallel, narrow `MT-EC-ISOGENY-WEIL` (25) to rational cyclic

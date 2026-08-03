@@ -42,13 +42,16 @@ the checked absolute degree-zero Picard API.
   rational function on a proper smooth curve.
 :::
 
-:::theorem "MT-TC-E0-PRODUCT-DIM" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, open, compiled, tau-ceti") (priority := "high") (effort := "medium")
+:::theorem "MT-TC-E0-PRODUCT-DIM" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, done, integrated, tau-ceti") (priority := "high") (effort := "medium")
 *Dimension of a product of abelian varieties.* Tau Ceti's abelian-variety
 dimension is additive under its product construction.
 
-*Status:* `open`; *scope:* exact compiled Tau Ceti challenge contract. The
-target is `TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim`, with challenge
-bridge `MazurTauCetiChallenge.prod_dim`.
+*Status:* `done`; *scope:* integrated Tau Ceti theorem and checked challenge
+bridge. The proof lifts arbitrary prime chains through faithful integral
+extensions, applies Noether normalization to tensor products, proves matching
+affine-chart bounds for products of nonempty finite-type schemes, and is
+consumed by `TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim` and
+`MazurTauCetiChallenge.prod_self_dim`.
 :::
 
 :::definition "MT-TC-A3-DIVISOR-LINE-BUNDLE" (parent := "shared_geometry") (uses := "MT-TC-A2-PRODUCT-FORMULA") (tags := "upstream, research-open, compiled, tau-ceti") (priority := "high") (effort := "large")
