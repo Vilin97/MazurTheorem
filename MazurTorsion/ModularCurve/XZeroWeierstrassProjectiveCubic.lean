@@ -10,6 +10,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 import Mathlib.RingTheory.FiniteType
+import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
 
 /-!
 # The projective Weierstrass cubic as a scheme
@@ -121,6 +122,19 @@ def idealSheaf (W : WeierstrassCurve K) : (projectivePlane K).IdealSheafData :=
 /-- The reduced closed subscheme of `P²_K` supported on the homogeneous Weierstrass cubic. -/
 abbrev scheme (W : WeierstrassCurve K) : Scheme.{u} :=
   (idealSheaf W).subscheme
+
+/-- The vanishing-ideal construction gives the cubic its reduced induced scheme structure. -/
+instance scheme_isReduced (W : WeierstrassCurve K) : IsReduced (scheme W) := by
+  rw [IsReduced.iff_of_openCover (scheme W) (idealSheaf W).subschemeCover.openCover]
+  intro U
+  letI : _root_.IsReduced
+      (Γ(projectivePlane K, U.1) ⧸ (idealSheaf W).ideal U) :=
+    (Ideal.isRadical_iff_quotient_reduced _).mp (by
+      change (PrimeSpectrum.vanishingIdeal _).IsRadical
+      exact PrimeSpectrum.isRadical_vanishingIdeal _)
+  change IsReduced (Spec (.of
+    (Γ(projectivePlane K, U.1) ⧸ (idealSheaf W).ideal U)))
+  infer_instance
 
 /-- The closed immersion of the reduced projective Weierstrass cubic into `P²_K`. -/
 def inclusion (W : WeierstrassCurve K) : scheme W ⟶ projectivePlane K :=

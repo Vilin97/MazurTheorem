@@ -81,8 +81,9 @@ points by fiat.
 previously missing scheme itself.  It proves that Mathlib's explicit
 Weierstrass polynomial is homogeneous of degree three, forms its projective
 zero locus in `Proj K[X,Y,Z]`, equips that closed set with Mathlib's reduced
-induced closed-subscheme structure, and proves that the inclusion has exactly
-that zero locus as its range.  The degree-zero ring is identified with `K`,
+induced closed-subscheme structure, exports the checked `scheme_isReduced`
+instance via its affine radical-ideal quotients, and proves that the inclusion
+has exactly that zero locus as its range.  The degree-zero ring is identified with `K`,
 finite type of the homogeneous coordinate algebra is checked, and the cubic's
 structure morphism to `Spec K` is proved proper as a closed subscheme of the
 proper projective plane.

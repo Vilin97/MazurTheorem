@@ -243,6 +243,8 @@ subgroup.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme`
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isReduced`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.range_inclusion`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_isProper`
@@ -264,8 +266,9 @@ interface, and a checked consumer identifies its rational point range with
 the existing carrier. A genuine Tau Ceti abelian variety plus a comparison of
 its rational points with Mathlib's projective Weierstrass points now supplies
 that interface and feeds the same consumer. The homogeneous cubic now also
-defines an actual reduced closed subscheme of projective two-space, with its
-closed immersion, exact zero-locus range, proper structure map, and a compiled
+defines an actual reduced closed subscheme of projective two-space, with
+reducedness checked affine-locally from its radical vanishing ideals, its closed
+immersion, exact zero-locus range, proper structure map, and a compiled
 finite-flat consumer through Tau Ceti's abelian-variety constructor. The
 scheme group law, geometric integrality, scheme-point comparison, `E/C`, the
 coarse modular point, and the required Atkin--Lehner geometry remain open, so
