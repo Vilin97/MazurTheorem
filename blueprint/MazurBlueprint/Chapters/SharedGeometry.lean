@@ -858,24 +858,17 @@ it is a closed immersion in positive genus.
 :::
 
 :::definition "MT-EC-ISOGENY-WEIL" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, mathlib") (priority := "high") (effort := "large")
-*Elliptic-curve isogenies, quotients, duals, and Weil pairing.* Supply
-finite-subgroup quotients, dual isogenies, multiplication kernels, and the
-Weil pairing, all compatible with base change.
+*Cyclic subgroup quotients and classifying data.* Package exactly the cyclic
+quotient and base-change laws consumed by $`X_0(N)` and the existing order-49
+lane.  Dual isogenies and a general Weil-pairing library are no longer
+prerequisites of the prime theorem.
 
 *Status:* `planned`.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
-* `structure` (`proposed`): `EllipticCurve.Isogeny`
-  Package finite morphisms of elliptic curves with their group-homomorphism and degree
-  data.
-* `definition` (`proposed`): `EllipticCurve.quotientByFiniteSubgroup`
-  Construct the quotient elliptic curve and quotient isogeny for a finite subgroup
-  scheme.
-* `definition` (`proposed`): `EllipticCurve.Isogeny.dual`
-  Construct the dual isogeny and prove both composites are multiplication by the
-  degree.
-* `definition` (`proposed`): `EllipticCurve.weilPairing`
-  Define the Weil pairing on multiplication kernels with functoriality and
-  nondegeneracy.
+* `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
+* `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
+* `theorem` (`proposed`):
+  `EllipticCurve.Isogeny.quotientByCyclic_baseChange`
 :::

@@ -11,6 +11,15 @@ placeholder-free: incomplete mathematical layers are tracked in the
 [canonical programme ledger](../coordination/program.json), not introduced
 as axioms or admitted Lean declarations.
 
+The audited prime-order route is Mazur's 1978 degree-one formal-immersion
+argument at auxiliary prime five, not the older global
+semistability--cyclotomic--Shafarevich chain. The same engine is reused at
+eleven for exact order 35, while order 49 now maps directly to the checked
+two-cusp classification of `X₀(49)`. See
+[`ROUTE_AUDIT.md`](ROUTE_AUDIT.md) for the literature comparison, exact
+dependency migration, and fallback policy. This refactor awards no
+completion credit and leaves every registered Challenge in force.
+
 Current machine-checked results include:
 
 * the exact finite/infinite `Set.ncard` reduction;
@@ -127,7 +136,18 @@ Current machine-checked results include:
   variable change, ported from Michael Stoll's Apache-2.0 project;
 * torsion-subgroup transport along additive equivalences, the cyclic
   extension lemma needed for the `20`/`24` isogeny kernels, and rational
-  Northcott finiteness for logarithmic height.
+  Northcott finiteness for logarithmic height;
+* the exact shared Lean/Mathlib/Tau Ceti dependency graph, with a compiled
+  downstream Tau Ceti contract build and permanent pin/provenance audit;
+* Tau Ceti's finite-support theorem for codimension-one orders and its
+  compiled scheme `OrderSystem` consumer;
+* a checked finite-flat commutative group-scheme substrate with honest
+  kernels, affine constant-rank point exponent, constant and diagonalizable
+  examples, a genuine `μₙ` multiplication kernel, and constant-group
+  quotients; the focused Eisenstein rank-zero consumer is still open; and
+* explicit total Vélu and dual point maps for `X₁(11)` whose composition is
+  multiplication by five; this is retained as a release-obligation fallback,
+  not a prerequisite of the uniform order-eleven theorem.
 
 The deep point-order theorem remains incomplete.  Its exact dependency
 frontier is documented rather than hidden.
@@ -135,7 +155,9 @@ frontier is documented rather than hidden.
 Project documentation:
 
 * [`INFORMAL_PROOF.md`](INFORMAL_PROOF.md) gives the detailed mathematical
-  proof and Mazur's prime-level argument;
+  proof and Mazur's formal-immersion prime-level argument;
+* [`ROUTE_AUDIT.md`](ROUTE_AUDIT.md) records the primary-literature and
+  pinned-API comparison behind the route selection;
 * [`PRIOR_ART.md`](PRIOR_ART.md) records the pinned repository and
   declaration audit;
 * [`TECHNICAL_BLUEPRINT.md`](TECHNICAL_BLUEPRINT.md) gives the original

@@ -22,24 +22,28 @@ exact source commit, subtree hash, and split.
 
 ## Where the project stands
 
-The strict weighted estimate is **5% integrated**. Approximately **12% is
+The strict weighted estimate is **8.5% integrated**. Approximately **12% is
 ecosystem-ready** when compatible work already available in Mathlib, Lean
 Pool, Tau Ceti, FLT, and related repositories is counted as reusable rather
 than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 175 checked Lean files and 89,307
+The integrated development contains 677 checked Lean sources and 1,441,548
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
-`27`. The current finite frontier is:
+`27`; it also completes the exact-pin migration and Tau Ceti's finite-support
+order system. The current frontier is:
 
-- the final five-isogeny/Selmer bound for order `11`;
-- the genus-two closures for orders `13` and `18`;
-- exclusions for `25`, `35`, and a bridge for `49`;
-- the uniform prime-order theorem, whose main path requires substantial
-  modular-curve, Jacobian, Néron-model, and finite-flat group-scheme
-  infrastructure.
+- the genus-two closures for orders `13` and `18` and the explicit order-25
+  endpoint;
+- order `35` through the shared squarefree formal-immersion engine at `11`,
+  and order `49` through the direct cyclic-subgroup map to `X₀(49)`;
+- the uniform prime-order theorem via Mazur's degree-one formal immersion at
+  `5`, whose main path requires substantial modular-curve, Jacobian,
+  Néron-model, Hecke, and focused finite-flat infrastructure; and
+- the X₁(11) five-coset and cyclotomic reciprocity Challenges, which remain
+  mandatory release obligations but are not premises of the prime theorem.
 
 The percentage and task graph come from
 [`coordination/program.json`](coordination/program.json), not prose or line
@@ -51,8 +55,9 @@ counts. See the [live roadmap](https://mazur-theorem-formalization.vilin402100.c
 
 Yes—but not as one flat list of unrelated bounties.
 
-At launch, **11.3% of the total weighted work** is exposed through exact,
-compiled contracts: **3.9%** as ordinary claimable tasks and **7.4%** as
+At the current checkpoint, **15.1% of the total weighted work** is exposed
+through exact, compiled contracts: **3.9%** as ordinary claimable tasks and
+**11.2%** as
 research-open problems where parallel approaches are welcome. With reviewed
 interfaces and upstream coordination, roughly **35–45%** can be parallelized
 into bounded work packages. The remaining **45–55%** is high-dependency
@@ -123,6 +128,9 @@ published at the stable `/blueprint/` route on GitHub Pages.
 - [`Challenge/`](Challenge/) — immutable open theorem contracts;
 - [`coordination/program.json`](coordination/program.json) — canonical
   weighted DAG and claim metadata;
+- [`docs/ROUTE_AUDIT.md`](docs/ROUTE_AUDIT.md) — audited selection of the
+  Mazur-1978 formal-immersion route, rejected alternatives, and fallback
+  policy;
 - [`blueprint/MazurBlueprint/Blueprint.lean`](blueprint/MazurBlueprint/Blueprint.lean)
   — six-stage Verso blueprint, dependency graph, and progress summary;
 - [`upstream/tauceti/`](upstream/tauceti/) — open Tau Ceti interface

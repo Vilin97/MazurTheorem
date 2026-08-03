@@ -9,265 +9,205 @@ open Informal
 #doc (Manual) "04 — Prime-level infrastructure" =>
 
 :::group "prime_infrastructure"
-Néron models, finite-flat group schemes, integral modular curves, Hecke
-operators, and the Eisenstein quotient. Stage weight: 400 points.
+The minimal Néron, finite-flat, modular-Jacobian, Hecke, Eisenstein rank-zero,
+and formal-immersion infrastructure needed at auxiliary prime five, with the
+same squarefree-level interfaces reused at eleven for level thirty-five.
+The inherited cyclotomic contract remains a release obligation but is not an
+input to the theorem. Stage weight: 400 points.
 :::
 
 :::definition "MT-NERON-BASE" (parent := "prime_infrastructure") (uses := "MT-TC-E1-JACOBIAN-VARIETY, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Néron models over discrete valuation rings.* Construct the smooth separated
-model of an abelian variety, recover its generic fibre, and expose the Néron
-mapping property.
+*Néron models for the two surviving consumers.* Build only the generality
+used by the Eisenstein rank-zero criterion and elliptic reduction at five.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
 * `structure` (`proposed`): `AlgebraicGeometry.NeronModel`
-  Package a smooth separated model over a discrete valuation ring together with its
-  generic fibre.
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.genericFiberEquiv`
-  Identify the generic fibre of a Neron model with the original smooth group variety.
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.mappingProperty`
-  State the Neron mapping property as a unique extension theorem for smooth test
-  schemes.
+* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.sectionExtension`
 :::
 
 :::definition "MT-NERON-COMPONENTS" (parent := "prime_infrastructure") (uses := "MT-NERON-BASE") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Identity components and component groups.* Construct the open identity
-component of a Néron model and the finite component group of its special fibre.
+*Identity components and tame elliptic fibres.* Supply the toric level fibre
+used by rank zero and the additive component bound used at five.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.identityComponent`
-  Define the open identity component of the special fibre of a Neron model.
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.componentGroup`
-  Define the finite component group of the special fibre.
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.specializationExact`
-  Expose the exact sequence relating integral points, the identity component, and the
-  component group.
+* `theorem` (`proposed`):
+  `EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three`
+* `theorem` (`proposed`):
+  `ModularCurve.Jacobian.completelyToricReductionAtLevel`
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Torsion specialization through Néron models.* Prime-to-residue-characteristic
-torsion specializes injectively into the identity component plus component
-group, in exactly the form consumed by Mazur's argument.
+*Torsion specialization for the quotient and prime five.* Expose the exact
+sequence, prime-to-residue injection, and the $`e<p-1` formal-kernel lemma.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.primeToResidueTorsion_injective`
-  Prove injectivity of specialization on torsion prime to the residue characteristic.
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.torsion_componentGroup`
-  Relate torsion points outside the identity component to the special-fibre component
-  group.
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.NeronModel.torsionSpecialization_exact`
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.NeronModel.primeToResidue_torsion_injective`
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt`
 :::
 
 :::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")
-*Finite-flat commutative group schemes.* The checked partial substrate now
-packages the category, base change, honest kernel presentations under explicit
-finite-flat hypotheses, affine Hopf realizations, constant-rank exponent
-descent, and conditional connected--étale consumers. The original node still
-requires actual quotients, kernel/quotient base-change compatibility, and
-compiled constant-group, $`\mu_p`, and multiplication-kernel consumers.
+*Finite-flat commutative group schemes for Eisenstein rank zero.* Retain the
+checked category, honest kernel presentations, affine Hopf realization,
+constant/diagonalizable examples, $`\mu_n` multiplication kernel,
+constant-rank point-exponent consumer, and constant-group quotients. Finish
+the generic quotient/base-change boundary only through the
+admissible-filtration consumer.
 
-*Status:* `planned`.
-
-*Canonical deliverables — these names are authoritative for this node:*
+*Status:* `planned`; partial compiled work earns no completion credit.
 
 * `structure` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
-  Package finite flat commutative group schemes over an arbitrary scheme base.
-* `theorem` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
-  Package the inherited scheme-theoretic kernel under explicit finite and flat hypotheses.
-* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
-  Kill affine points by the constant geometric rank after localization from finite-free Hopf coordinates.
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
-  Construct kernels of morphisms in the finite-flat group-scheme category.
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient`
-  Construct quotients by finite-flat closed subgroup schemes.
-* `theorem` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
-  Prove compatibility of kernels and quotients with the required base changes.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
+* `definition` (`proposed`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient`
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
+* `definition` (`proposed`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.constantAndMu`
 :::
 
 :::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
-*Connected–étale sequence.* Every finite-flat commutative group scheme in the
-required local setting has a functorial connected–étale exact sequence,
-compatible with base change.
+*Admissible filtrations and fppf cohomology.* Formalize the exact filtration
+and cohomology estimate used in Mazur's rank-zero proof, rather than an
+unconsumed general connected--étale library.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedComponent`
-  Define the connected identity component of a finite-flat commutative group scheme.
-* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.etaleQuotient`
-  Define the maximal etale quotient in the connected-etale sequence.
-* `theorem` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedEtale_exact`
-  Prove exactness, functoriality, and base-change compatibility of the connected-etale
-  sequence.
+* `definition` (`proposed`): `AlgebraicGeometry.AdmissibleFiniteFlatGroup`
+* `definition` (`proposed`):
+  `AlgebraicGeometry.AdmissibleFiniteFlatGroup.fppfHOne`
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 :::
 
-:::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
-*Oort–Tate classification and Raynaud uniqueness.* Classify finite-flat
-group schemes of prime order and prove the uniqueness statements controlling
-extensions of generic-fibre subgroup schemes.
+:::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
+*Raynaud uniqueness and the Eisenstein rank-zero criterion.* Extend the
+constant and multiplicative constituents over an unramified DVR, then apply
+the bounded Kummer cohomology calculation to the modular quotient.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `theorem` (`proposed`): `AlgebraicGeometry.OortTate.classification`
-  Classify finite-flat commutative group schemes of prime order over the required
-  arithmetic bases.
-* `theorem` (`proposed`): `AlgebraicGeometry.Raynaud.primeOrder_uniqueness`
-  Prove the uniqueness theorem for finite-flat prime-order models used in the
-  semistability argument.
+* `theorem` (`proposed`):
+  `AlgebraicGeometry.Raynaud.primeOrder_uniqueness_unramified`
+* `theorem` (`proposed`):
+  `AbelianVariety.rank_eq_zero_of_admissible_torsion`
 :::
 
-:::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*The $`\Gamma_0` modular-curve moduli problem.* Define elliptic curves with
-cyclic finite-flat subgroups and their isomorphisms, families, and base change.
+:::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")
+*The $`X_0(N)` point attached to rational prime torsion.* Define the
+$`\Gamma_0` moduli problem and its classifying point from a rational cyclic
+subgroup.
 
 *Status:* `planned`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `structure` (`proposed`): `ModularCurve.GammaZeroStructure`
-  Package an elliptic curve together with a cyclic finite-flat subgroup of order N.
 * `definition` (`proposed`): `ModularCurve.XZeroModuli`
-  Define the Gamma-zero moduli functor with its isomorphisms and base-change action.
+* `theorem` (`proposed`):
+  `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*Integral compactified $`X_0(N)`.* Construct the compactification used by
-Mazur and prove its generic-fibre and reduction interfaces.
+*Integral $`X_0(N)`, cusp completions, and auxiliary q-parameters.* Build the
+smooth cusp neighbourhood at the prime-to-level auxiliary characteristics
+five and eleven, and only the additional level-$`N` geometry consumed by
+toric reduction of the modular Jacobian.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
 * `structure` (`proposed`): `ModularCurve.IntegralXZero`
-  Package the proper integral compactification of the Gamma-zero moduli problem.
-* `theorem` (`proposed`): `ModularCurve.IntegralXZero.genericFiber`
-  Identify the generic fibre with the characteristic-zero modular curve $`X_0(N)`.
-* `theorem` (`proposed`): `ModularCurve.IntegralXZero.reductionCompatibility`
-  Expose the reduction and specialization interfaces consumed by Mazur's argument.
+* `definition` (`proposed`): `AlgebraicGeometry.IsFormalImmersionAt`
+* `theorem` (`proposed`):
+  `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*Cusps and the rational cusp divisor.* Construct the rational cusps, their
-specializations, and the degree-zero difference of the zero and infinity cusps.
+*Cusps, Atkin--Lehner transport, and reduction type.* Move a squarefree-level
+cusp to infinity and identify cusp specialization with potentially
+multiplicative reduction at a prime-to-level auxiliary prime.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `definition` (`proposed`): `ModularCurve.XZero.cusp`
-  Define the rational cusp sections on the integral modular curve.
-* `definition` (`proposed`): `ModularCurve.XZero.cuspDifference`
-  Define the degree-zero divisor class given by the difference of the two rational
-  cusps.
-* `theorem` (`proposed`): `ModularCurve.XZero.cusp_specialization`
-  Prove the cusp sections and their divisor class specialize compatibly at the
-  required primes.
+* `definition` (`proposed`): `ModularCurve.XZero.infinityCusp`
+* `definition` (`proposed`): `ModularCurve.XZero.atkinLehner`
+* `theorem` (`proposed`):
+  `ModularCurve.XZero.specializesToCusp_iff_potentiallyMultiplicative`
 :::
 
 :::definition "MT-X0-JACOBIAN" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL, MT-TC-E1-JACOBIAN-VARIETY, MT-TC-F1-ABEL-JACOBI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*The modular Jacobian $`J_0(N)`.* Instantiate the shared Jacobian and
-Abel–Jacobi APIs on $`X_0(N)`, compatibly with the integral model.
+*The modular Jacobian and cusp-based Abel--Jacobi map.* Normalize the map by
+$`x\mapsto[x]-[\infty]` and expose the base-change interface used downstream.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
 * `structure` (`proposed`): `ModularCurve.ModularJacobian`
-  Instantiate the shared Jacobian construction on the modular curve $`X_0(N)`.
-* `definition` (`proposed`): `ModularCurve.ModularJacobian.abelJacobi`
-  Define the Abel-Jacobi map from $`X_0(N)` using a chosen rational cusp.
-* `theorem` (`proposed`): `ModularCurve.ModularJacobian.integralCompatibility`
-  Prove compatibility of the modular Jacobian and Abel-Jacobi map with the integral
-  model.
+* `definition` (`proposed`): `ModularCurve.XZero.abelJacobiAtInfinity`
 :::
 
 :::definition "MT-X0-HECKE" (parent := "prime_infrastructure") (uses := "MT-X0-JACOBIAN, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, hecke") (priority := "high") (effort := "large")
-*Hecke correspondences on $`J_0(N)`.* Construct the correspondences and their
-endomorphism action, including base-change and composition laws.
+*Hecke action and cotangent q-expansions.* The Hecke recursions make the first
+Fourier coefficient detect every nonzero simultaneous eigenvector in the
+cotangent space of a nontrivial quotient.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `structure` (`proposed`): `ModularCurve.HeckeCorrespondence`
-  Package the two finite maps defining a Hecke correspondence on $`X_0(N)`.
-* `definition` (`proposed`): `ModularCurve.ModularJacobian.heckeOperator`
-  Construct the induced Hecke endomorphism of the modular Jacobian.
-* `theorem` (`proposed`): `ModularCurve.ModularJacobian.hecke_comp`
-  Prove the required composition, base-change, and isogeny compatibility laws.
+* `definition` (`proposed`): `ModularCurve.HeckeOperator`
+* `theorem` (`proposed`):
+  `ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero`
 :::
 
-:::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE") (tags := "proof, blocked, nouns-missing, eisenstein") (priority := "high") (effort := "large")
-*The Eisenstein ideal and Hecke quotient.* Define the Eisenstein ideal and
-prove the finite-quotient and local-principality interfaces used by the
-arithmetic quotient.
+:::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")
+*Optimal quotients and formal immersion at the cusp.* Prove Mazur's
+Proposition 3.1 away from characteristic two.  The prime proof consumes its
+characteristic-five instance and the order-35 endpoint consumes eleven.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `definition` (`proposed`): `ModularCurve.EisensteinIdeal`
-  Define the ideal in the Hecke algebra generated by the Eisenstein relations.
-* `definition` (`proposed`): `ModularCurve.EisensteinHeckeQuotient`
-  Define the finite Hecke-algebra quotient cut out by the Eisenstein ideal.
-* `theorem` (`proposed`): `ModularCurve.EisensteinIdeal.locallyPrincipal`
-  Prove the local-principality input required to control the associated quotient of
-  $`J_0(N)`.
+* `structure` (`proposed`): `ModularCurve.OptimalNewQuotient`
+* `theorem` (`proposed`):
+  `ModularCurve.OptimalNewQuotient.formalImmersionAtInfinity_of_residueChar_ne_two`
 :::
 
 :::theorem "MT-X0-EISENSTEIN-QUOTIENT" (parent := "prime_infrastructure") (uses := "MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-SPECIALIZATION, MT-FFGS-OORT-RAYNAUD") (tags := "proof, blocked, nouns-missing, eisenstein") (priority := "high") (effort := "large")
-*Arithmetic of the Eisenstein quotient.* Construct the quotient and prove
-that its rational Mordell–Weil group is finite, the cusp difference has the
-expected exact order, and its image is nonzero.
+*A nontrivial rank-zero Eisenstein quotient.* Construct it for $`N=11` or
+prime $`N\ge17`, prove finite rational points, and instantiate the formal-
+immersion theorem.  Exact cusp order is intentionally not an acceptance API.
 
 *Status:* `blocked`.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
 * `structure` (`proposed`): `ModularCurve.EisensteinQuotient`
-  Construct the abelian-variety quotient of $`J_0(N)` determined by the Eisenstein
-  ideal.
-* `theorem` (`proposed`): `ModularCurve.EisensteinQuotient.mordellWeil_finite`
-  Prove finiteness of the rational Mordell-Weil group of the Eisenstein quotient.
-* `theorem` (`proposed`): `ModularCurve.EisensteinQuotient.cuspDifference_order`
-  Compute the exact order of the rational cusp-difference class in the quotient.
-* `theorem` (`proposed`): `ModularCurve.EisensteinQuotient.cuspDifference_ne_zero`
-  Prove that the cusp-difference image is nonzero in the cases used by specialization.
+* `theorem` (`proposed`):
+  `ModularCurve.EisensteinQuotient.nontrivial_of_level_eleven_or_ge_seventeen`
+* `theorem` (`proposed`):
+  `ModularCurve.EisensteinQuotient.mordellWeil_finite`
+* `theorem` (`proposed`):
+  `ModularCurve.EisensteinQuotient.formalImmersionAtInfinity_modFive`
 :::
 
-:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, number-theory") (priority := "high") (effort := "large")
-*Cyclotomic unramified character extensions.* The inverse-character extension,
-its ideal-local ramification criteria, and its class-group obstruction now have
-checked interfaces. Integral one-sided Kummer reciprocity for locally-primary
-pseudo-units remains the registered research contract; checked reductions turn
-it into the principal Kummer--Artin product formula and descend the finite-prime
-Artin map to the ideal class group over $`\mathbb{Q}(\zeta_p)`.
+:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, number-theory, release-obligation") (priority := "high") (effort := "large")
+*Inherited cyclotomic Challenge closure.* Finish the checked Kummer--Artin
+pipeline as an independent reusable result. It remains mandatory for project
+release, but no theorem arrow runs from it into the formal-immersion proof.
 
-*Status:* `research_open`.
+*Status:* `research_open`; *scope:* the immutable compiled Challenge.
 
-*Canonical deliverables — these names are authoritative for this node:*
-
-* `definition` (`proposed`): `NumberTheory.CyclotomicCharacter.inverseExtension`
-  Package the inverse-cyclotomic character extension over the p-th cyclotomic field.
-* `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces`
-  Give the local criterion showing that the relevant extension is unramified at every
-  finite place.
-* `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
-  Exclude an everywhere-unramified inverse-cyclotomic extension using the required
-  class-field input.
+* `definition` (`proposed`):
+  `NumberTheory.CyclotomicCharacter.inverseExtension`
+* `theorem` (`proposed`):
+  `NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces`
+* `theorem` (`proposed`):
+  `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
 * `theorem` (`contract`):
   `NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple`
-  Prove integral one-sided Kummer reciprocity for locally-primary
-  pseudo-units; checked comparison and normalization reductions then supply
-  principal Artin reciprocity and the inverse-character class-group quotient.
 :::
