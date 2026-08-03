@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
+import MazurTorsion.ModularCurve.HeckeFirstCoefficient
 import Mathlib.RingTheory.AdicCompletion.AsTensorProduct
 import Mathlib.RingTheory.Flat.TorsionFree
 
@@ -567,6 +568,44 @@ theorem isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_normalizedQExpan
       K X Y π ρ f hf g hsection
   exact isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
     K X π Y f g hsection hx q hq targetParameter c hc F hqExpansion
+
+/-- The degree-one Hecke eigen-expansion criterion instantiated at an actual base-relative smooth
+rational cusp.  The structural section constructs the q-coordinate and both residue-field
+identifications; the remaining modular inputs are nonvanishing, the Hecke first-coefficient
+formula, and simultaneous eigenvector equations for the pulled-back target parameter. -/
+theorem isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_heckeEigenQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (ρ : Y ⟶ Spec (.of K)) (f : X ⟶ Y) (hf : f ≫ ρ = π)
+    (g : Spec (.of K) ⟶ X) (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (Q : PowerSeries K)
+    (hqExpansion :
+      rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (T : ℕ → Module.End K (PowerSeries K)) (eigenvalue : ℕ → K)
+    (hfirst : ∀ n, PowerSeries.coeff 1 (T n Q) = PowerSeries.coeff n Q)
+    (heigen : ∀ n, T n Q = eigenvalue n • Q) :
+    AlgebraicGeometry.IsFormalImmersionAt f (g (IsLocalRing.closedPoint K)) := by
+  letI : IsIso (X.descResidueField (Scheme.stalkClosedPointTo g)) :=
+    descResidueField_isIso_of_rationalSection K X π g hsection
+  letI : IsIso
+      (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f))) :=
+    descResidueField_isIso_of_rationalSection_comp
+      K X Y π ρ f hf g hsection
+  exact DegreeOneCotangentCertificate.isFormalImmersionAt_of_heckeEigen_qExpansion
+    K X π Y f g hx
+      (rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq)
+      targetParameter Q hqExpansion hQ T eigenvalue hfirst heigen
 
 /-- The completed-stalk DVR bridge and normalized expansion separate actual local-spectrum
 morphisms.  This is the downstream collision test for the constructed coordinate. -/
