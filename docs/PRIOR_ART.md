@@ -682,28 +682,30 @@ point-function candidate, trivial torsion on the candidate target, a total
 opposite candidate, and the composite identity with multiplication by three.
 The checked rational cover, visible-coset translations, and reduced
 numerator-denominator calculation prove the source `1`, `7`, `49` cube-class
-alternatives. Rank zero is now reduced to target-candidate surjectivity, for
-which target-curve finiteness is a checked sufficient condition. The modular
-quotient identification and target finiteness are not yet proved; no
-unconditional Mordell--Weil rank-zero theorem is claimed.
+alternatives.  The target-candidate surjectivity and the fixed target model's
+Mordell--Weil rank-zero theorem are now unconditional.  The modular quotient
+identification is not yet proved, so this does not by itself identify the
+model with the required modular quotient.
 
 Henri Cohen and Fabien Pazuki's
 [*Elementary 3-descent with a 3-isogeny*](https://arxiv.org/abs/0903.4963),
 Theorem 4.1 and Corollary 4.3, supply the mathematical specification for the
-remaining target descent.  After the checked coordinate change the target is
-`v² = u³ - 3(12u+1500)²`.  The paper's ideal-support theorem leaves no split
-prime because the primes dividing `2·1500` are nonsplit in `ℚ(√-3)`; the
-class-number-one calculation therefore reduces to the three Eisenstein unit
-classes.  The two nontrivial homogeneous cubics were instantiated locally
-from the published general formula, and Lean proves by a mod-seven infinite
-descent that each has only the zero integral solution.  Lean now also clears
-the target denominators, checks the conjugate norm factorization, applies the
-complete six-unit classification, and derives the explicit fibre root
-`-42d/(c+8d)` in the trivial unit class.  This gives an end-to-end rank-zero
-consumer of the exact associated-cube statement.  The source is used as the
-specification for the still-missing nonsplit common-prime ideal-support
-reduction; no paper claim, database rank, or computer-algebra transcript is
-imported as proof.
+target descent.  After the checked coordinate change the target is
+`v² = u³ - 3(12u+1500)²`.  Here the only rational primes in the possible
+common-prime support are `2`, `3`, and `5`: Lean proves that `2` and `5` are
+inert prime elements and that `√-3` generates the ramified prime over `3`.
+Coordinate conjugation then identifies the two factor valuations at every
+exceptional prime, and unique factorization makes the negative factor an
+associated cube.  The two nontrivial homogeneous cubics were instantiated
+locally from the published general formula, and Lean proves by a mod-seven
+infinite descent that each has only the zero integral solution.  Lean also
+clears the target denominators primitively, checks the conjugate norm
+factorization, applies the complete six-unit classification, and derives the
+explicit fibre root `-42d/(c+8d)` in the trivial unit class.  The paper is used
+as mathematical specification and provenance; the denominator normalization,
+prime-support, valuation, unique-factorization, and rank-zero deductions are
+all checked declarations, with no paper claim, database rank, or
+computer-algebra transcript imported as proof.
 
 ## 12. Multiplication-polynomial discriminants and executable resultants
 

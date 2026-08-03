@@ -27,10 +27,11 @@ excluded by the checked mod-seven infinite descents.  Consequently the exact
 associated-cube statement has a compiled consumer proving target-candidate
 surjectivity and rank zero.
 
-The remaining global input is deliberately isolated as
+The global input is deliberately isolated as
 `TargetEisensteinAssociatedCube`: it is the ideal-support calculation from
-Cohen--Pazuki, Theorem 4.1 and Corollary 4.3.  This file does not infer that
-input from class number one alone.
+Cohen--Pazuki, Theorem 4.1 and Corollary 4.3.  It is proved from the primitive
+denominator data in `OrderThirtyFiveEisensteinIdealSupport`, rather than being
+inferred from class number one alone.
 -/
 
 open NumberField
@@ -39,51 +40,6 @@ open WeierstrassCurve
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.OrderThirtyFive
-
-private theorem integral_scaled_target_abscissa
-    {X Y : ℚ}
-    (hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y) :
-    ∃ M : ℤ,
-      ((targetThreeDescentV X Y).den : ℚ) ^ 2 *
-          targetThreeDescentU X = M := by
-  let v : ℚ := targetThreeDescentV X Y
-  let r : ℤ := v.num
-  let s : ℤ := v.den
-  let u : ℚ := (s : ℚ) ^ 2 * targetThreeDescentU X
-  let p : ℤ[X] :=
-    Polynomial.X ^ 3 -
-      (Polynomial.C (432 * s ^ 2) * Polynomial.X ^ 2 +
-        Polynomial.C (108000 * s ^ 4) * Polynomial.X +
-        Polynomial.C (6750000 * s ^ 6 + r ^ 2 * s ^ 4))
-  have hs : (s : ℚ) ≠ 0 := by
-    dsimp only [s]
-    exact_mod_cast v.den_ne_zero
-  have hv : v = (r : ℚ) / (s : ℚ) := by
-    simpa [r, s] using v.num_div_den.symm
-  have hcurve := targetThreeDescent_equation hP
-  have hu :
-      u ^ 3 - 432 * (s : ℚ) ^ 2 * u ^ 2 -
-          108000 * (s : ℚ) ^ 4 * u -
-          (6750000 * (s : ℚ) ^ 6 + (r : ℚ) ^ 2 * (s : ℚ) ^ 4) = 0 := by
-    change v ^ 2 = targetThreeDescentU X ^ 3 -
-      3 * (12 * targetThreeDescentU X + 1500) ^ 2 at hcurve
-    rw [hv] at hcurve
-    dsimp only [u]
-    field_simp [hs] at hcurve
-    linear_combination -(s : ℚ) ^ 4 * hcurve
-  have hp : p.Monic := by
-    dsimp only [p]
-    apply Polynomial.monic_X_pow_sub
-    compute_degree
-    norm_num
-  have hroot : Polynomial.aeval u p = 0 := by
-    dsimp only [p]
-    simp only [map_sub, map_add, map_mul, Polynomial.aeval_X,
-      Polynomial.aeval_C, map_pow]
-    norm_num at hu ⊢
-    linear_combination hu
-  obtain ⟨M, hM, -⟩ := exists_integer_of_is_root_of_monic hp hroot
-  exact ⟨M, by simpa [u, s, v] using hM⟩
 
 /-- Integral data obtained by clearing a target point's denominators.  Its
 last equation is the Eisenstein norm factorization to be descended. -/
@@ -98,55 +54,163 @@ structure TargetEisensteinIntegralData (U V : ℚ) where
   b_eq : b = d * (12 * m + 1500 * d ^ 2)
   norm_eq : n ^ 2 + 3 * b ^ 2 = m ^ 3
 
-/-- Every affine target point has integral norm data with a nonzero common
-denominator. -/
+/-- The denominator presentation used by the ideal-support argument.  The
+positive `d` is the square denominator of `U`; both numerators are primitive
+with respect to it. -/
+structure TargetEisensteinNormalizedIntegralData (U V : ℚ)
+    extends TargetEisensteinIntegralData U V where
+  d_pos : 0 < d
+  m_coprime_d : IsCoprime m d
+  n_coprime_d : IsCoprime n d
+
+private theorem targetEisensteinNormalizedIntegralData_of_equation
+    {U V : ℚ}
+    (hcurve : V ^ 2 = U ^ 3 - 3 * (12 * U + 1500) ^ 2) :
+    Nonempty (TargetEisensteinNormalizedIntegralData U V) := by
+  let m : ℤ := U.num
+  let q : ℕ := U.den
+  let A : ℤ := m ^ 3 - 3 * (q : ℤ) * (12 * m + 1500 * q) ^ 2
+  have hqpos : 0 < q := by
+    dsimp only [q]
+    exact U.den_pos
+  have hq0Q : (q : ℚ) ≠ 0 := by positivity
+  have hU : U = (m : ℚ) / (q : ℚ) := by
+    simpa [m, q] using U.num_div_den.symm
+  have hcurve' : V ^ 2 = (A : ℚ) / (q : ℚ) ^ 3 := by
+    rw [hU] at hcurve
+    dsimp only [A]
+    push_cast
+    field_simp [hq0Q] at hcurve ⊢
+    linear_combination hcurve
+  have hmq : IsCoprime m (q : ℤ) := by
+    simpa [m, q] using Rat.isCoprime_num_den U
+  have hAq : IsCoprime A ((q : ℤ) ^ 3) := by
+    have hbase : IsCoprime A (q : ℤ) := by
+      have hpow : IsCoprime (m ^ 3) (q : ℤ) := hmq.pow_left
+      have h := hpow.add_mul_left_left
+        (-3 * (12 * m + 1500 * (q : ℤ)) ^ 2)
+      have heq : m ^ 3 + (q : ℤ) *
+          (-3 * (12 * m + 1500 * (q : ℤ)) ^ 2) = A := by
+        dsimp only [A]
+        ring
+      rw [← heq]
+      exact h
+    exact hbase.pow_right
+  have hdenCast : (((V ^ 2).den : ℤ)) = (q : ℤ) ^ 3 := by
+    rw [hcurve']
+    exact Rat.den_div_eq_of_coprime (by positivity)
+      (Int.isCoprime_iff_nat_coprime.mp hAq)
+  have hden : V.den ^ 2 = q ^ 3 := by
+    rw [Rat.den_pow] at hdenCast
+    exact_mod_cast hdenCast
+  have hq_dvd_vden : q ∣ V.den := by
+    apply (UniqueFactorizationMonoid.pow_dvd_pow_iff_dvd
+      (R := ℕ) (n := 2) (by norm_num)).mp
+    rw [hden]
+    exact ⟨q, by ring⟩
+  obtain ⟨d, hd⟩ := hq_dvd_vden
+  have hq_sq : q = d ^ 2 := by
+    have hmul : q ^ 2 * q = q ^ 2 * d ^ 2 := by
+      calc
+        q ^ 2 * q = q ^ 3 := by ring
+        _ = V.den ^ 2 := hden.symm
+        _ = q ^ 2 * d ^ 2 := by rw [hd]; ring
+    exact Nat.eq_of_mul_eq_mul_left (by positivity) hmul
+  have hdpos : 0 < d := by
+    by_contra hd0
+    simp only [not_lt, nonpos_iff_eq_zero] at hd0
+    subst d
+    norm_num at hq_sq
+    exact hqpos.ne' hq_sq
+  have hd0Z : (d : ℤ) ≠ 0 := by positivity
+  have hd0Q : (d : ℚ) ≠ 0 := by positivity
+  have hU' : U = (m : ℚ) / (d : ℚ) ^ 2 := by
+    rw [hU, hq_sq]
+    norm_cast
+  let W : ℚ := V * (d : ℚ) ^ 3
+  let B : ℤ := m ^ 3 - 3 * (d : ℤ) ^ 2 *
+    (12 * m + 1500 * (d : ℤ) ^ 2) ^ 2
+  have hWsq : W ^ 2 = (B : ℚ) := by
+    dsimp only [W, B]
+    rw [hU'] at hcurve
+    field_simp [hd0Q] at hcurve
+    push_cast
+    linear_combination hcurve
+  let p : ℤ[X] := Polynomial.X ^ 2 - Polynomial.C B
+  have hp : p.Monic := by
+    dsimp only [p]
+    exact Polynomial.monic_X_pow_sub_C B (by norm_num)
+  have hroot : Polynomial.aeval W p = 0 := by
+    dsimp only [p]
+    simp only [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C]
+    exact sub_eq_zero.mpr hWsq
+  obtain ⟨n, hn, -⟩ := exists_integer_of_is_root_of_monic hp hroot
+  have hV' : V = (n : ℚ) / (d : ℚ) ^ 3 := by
+    dsimp only [W] at hn
+    field_simp [hd0Q]
+    exact hn
+  let b : ℤ := (d : ℤ) * (12 * m + 1500 * (d : ℤ) ^ 2)
+  have hnorm : n ^ 2 + 3 * b ^ 2 = m ^ 3 := by
+    have hWsq' := hWsq
+    rw [hn] at hWsq'
+    have hnBcast : ((n ^ 2 : ℤ) : ℚ) = (B : ℚ) := by
+      simpa using hWsq'
+    have hnB : n ^ 2 = B := by exact_mod_cast hnBcast
+    dsimp only [B, b] at hnB ⊢
+    linear_combination hnB
+  have hmd : IsCoprime m (d : ℤ) := by
+    have hm_dsq : IsCoprime m ((d : ℤ) ^ 2) := by
+      simpa [hq_sq] using hmq
+    exact hm_dsq.of_isCoprime_of_dvd_right ⟨d, by ring⟩
+  have hnd : IsCoprime n (d : ℤ) := by
+    apply isCoprime_of_prime_dvd
+    · rintro ⟨-, hdzero⟩
+      exact hd0Z hdzero
+    · intro p hp hpn hpd
+      have hpb : p ∣ b := by
+        exact hpd.trans ⟨12 * m + 1500 * (d : ℤ) ^ 2, rfl⟩
+      have hpm3 : p ∣ m ^ 3 := by
+        rw [← hnorm]
+        have hpn2 : p ∣ n ^ 2 := by
+          simpa [pow_two] using hpn.mul_right n
+        have hpb2 : p ∣ b ^ 2 := by
+          simpa [pow_two] using hpb.mul_right b
+        exact dvd_add hpn2 (hpb2.mul_left 3)
+      have hpm : p ∣ m := hp.dvd_of_dvd_pow hpm3
+      exact hp.not_unit (hmd.isUnit_of_dvd' hpm hpd)
+  refine ⟨
+    { d := d
+      m := m
+      n := n
+      b := b
+      d_ne_zero := hd0Z
+      U_eq := hU'
+      V_eq := hV'
+      b_eq := rfl
+      norm_eq := hnorm
+      d_pos := by exact_mod_cast hdpos
+      m_coprime_d := hmd
+      n_coprime_d := hnd }⟩
+
+/-- Every affine target point has a positive primitive denominator
+presentation. -/
+theorem targetEisensteinNormalizedIntegralData
+    {X Y : ℚ}
+    (hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y) :
+    Nonempty (TargetEisensteinNormalizedIntegralData
+      (targetThreeDescentU X) (targetThreeDescentV X Y)) := by
+  apply targetEisensteinNormalizedIntegralData_of_equation
+  exact targetThreeDescent_equation hP
+
+/-- Forgetting primitivity recovers the original denominator-cleared
+interface. -/
 theorem targetEisensteinIntegralData
     {X Y : ℚ}
     (hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y) :
     Nonempty (TargetEisensteinIntegralData (targetThreeDescentU X)
       (targetThreeDescentV X Y)) := by
-  let v : ℚ := targetThreeDescentV X Y
-  let r : ℤ := v.num
-  let s : ℤ := v.den
-  obtain ⟨M, hM⟩ := integral_scaled_target_abscissa hP
-  have hs : (s : ℚ) ≠ 0 := by
-    dsimp only [s]
-    exact_mod_cast v.den_ne_zero
-  have hsZ : s ≠ 0 := by exact_mod_cast hs
-  have hv : v = (r : ℚ) / (s : ℚ) := by
-    simpa [r, s] using v.num_div_den.symm
-  have hU : targetThreeDescentU X = (M : ℚ) / (s : ℚ) ^ 2 := by
-    have hM' : (s : ℚ) ^ 2 * targetThreeDescentU X = M := by
-      simpa [s, v] using hM
-    field_simp [hs]
-    linear_combination hM'
-  refine ⟨
-    { d := s
-      m := M
-      n := r * s ^ 2
-      b := s * (12 * M + 1500 * s ^ 2)
-      d_ne_zero := hsZ
-      U_eq := ?_
-      V_eq := ?_
-      b_eq := rfl
-      norm_eq := ?_ }⟩
-  · exact hU
-  · change v = ((r * s ^ 2 : ℤ) : ℚ) / (s : ℚ) ^ 3
-    rw [hv]
-    push_cast
-    field_simp [hs]
-  · have hcurve := targetThreeDescent_equation hP
-    change v ^ 2 = targetThreeDescentU X ^ 3 -
-      3 * (12 * targetThreeDescentU X + 1500) ^ 2 at hcurve
-    have hq :
-        (((r * s ^ 2) ^ 2 +
-          3 * (s * (12 * M + 1500 * s ^ 2)) ^ 2 : ℤ) : ℚ) =
-          ((M ^ 3 : ℤ) : ℚ) := by
-      push_cast
-      rw [hv, hU] at hcurve
-      field_simp [hs] at hcurve
-      linear_combination hcurve
-    exact_mod_cast hq
+  obtain ⟨D⟩ := targetEisensteinNormalizedIntegralData hP
+  exact ⟨D.toTargetEisensteinIntegralData⟩
 
 end MazurTorsion.OrderThirtyFive
 
@@ -211,7 +275,8 @@ private theorem eisensteinEtaCoords_zero [CharZero K] {a b : ℤ}
   change (a : K) + b * ζ = 0 at hK
   exact eisensteinEtaCoords_zero_field hζ hK
 
-private theorem eisensteinEtaCoords_injective [CharZero K] {a b c d : ℤ}
+/-- Equality in the integral basis `(1, ζ₃)` is coordinatewise. -/
+theorem eisensteinEtaCoords_injective [CharZero K] {a b c d : ℤ}
     (h : (a : 𝓞 K) + b * hζ.toInteger =
       (c : 𝓞 K) + d * hζ.toInteger) :
     a = c ∧ b = d := by
@@ -427,7 +492,9 @@ theorem TargetEisensteinIntegralData.exists_associated_cube_of_isCoprime
     IsCyclotomicExtension.Rat.three_pid K
   exact exists_associated_pow_of_mul_eq_pow' hcoprime (D.factors_mul hζ)
 
-private theorem exists_eisenstein_integer_coords
+/-- Every Eisenstein integer has coordinates in the integral basis
+`(1, ζ₃)`. -/
+theorem exists_eisenstein_integer_coords
     [NumberField K] [IsCyclotomicExtension {3} ℚ K]
     (z : 𝓞 K) :
     ∃ a b : ℤ, z = a + b * hζ.toInteger := by
@@ -672,17 +739,21 @@ theorem TargetEisensteinIntegralData.descent_alternatives_of_associated
           rw [hetaSq]
           ring)
 
-/-- The exact outstanding ideal-support statement: the negative factor of
-every cleared target point is associated to a cube in `ℤ[ζ₃]`. -/
+/-- The exact ideal-support interface: every target point admits
+a positive primitive integral presentation whose negative factor is
+associated to a cube in `ℤ[ζ₃]`.  The existential presentation is essential:
+the rank-zero consumer does not require a claim about every possible common
+rescaling of the denominator data. -/
 def TargetEisensteinAssociatedCube : Prop :=
   ∀ (K : Type) [Field K] [NumberField K]
       [IsCyclotomicExtension {3} ℚ K]
       {ζ : K} (hζ : IsPrimitiveRoot ζ 3)
       {X Y : ℚ}
-      (_hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y)
-      (D : TargetEisensteinIntegralData (targetThreeDescentU X)
-        (targetThreeDescentV X Y)),
-    ∃ z : 𝓞 K, Associated (z ^ 3) (D.minusFactor hζ)
+      (_hP : veluThreeCandidateTarget.toAffine.Nonsingular X Y),
+    ∃ (D : TargetEisensteinNormalizedIntegralData
+        (targetThreeDescentU X) (targetThreeDescentV X Y)) (z : 𝓞 K),
+      Associated (z ^ 3)
+        (D.toTargetEisensteinIntegralData.minusFactor hζ)
 
 /-- The associated-cube input discharges the complete three-class descent
 reduction consumed by the checked local obstructions. -/
@@ -696,9 +767,9 @@ theorem targetEisensteinDescentReduction_of_associatedCube
   let hζ := IsCyclotomicExtension.zeta_spec 3 ℚ K
   have : NumberField K :=
     IsCyclotomicExtension.numberField {3} ℚ K
-  obtain ⟨D⟩ := targetEisensteinIntegralData hP
-  obtain ⟨z, hz⟩ := hfactor K hζ hP D
-  exact D.descent_alternatives_of_associated hζ hz
+  obtain ⟨D, z, hz⟩ := hfactor K hζ hP
+  exact D.toTargetEisensteinIntegralData.descent_alternatives_of_associated
+    hζ hz
 
 /-- The associated-cube input forces a rational root in every target cubic
 fibre. -/
