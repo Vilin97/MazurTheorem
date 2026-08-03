@@ -183,6 +183,18 @@ def isoOfCoordinateBialgEquiv {G H : AffineCommGroupScheme R}
         CommHopfAlgCat.ofIsoSelf H.unop.obj
   exact (ObjectProperty.isoMk (cocommutativeHopfProperty R) i).symm.op
 
+@[simp]
+theorem coordinateMap_isoOfCoordinateBialgEquiv_hom
+    {G H : AffineCommGroupScheme R} (e : G.coordinates ≃ₐc[R] H.coordinates) :
+    coordinateMap (isoOfCoordinateBialgEquiv e).hom =
+      (e.symm : H.coordinates →ₐc[R] G.coordinates) := rfl
+
+@[simp]
+theorem coordinateMap_isoOfCoordinateBialgEquiv_inv
+    {G H : AffineCommGroupScheme R} (e : G.coordinates ≃ₐc[R] H.coordinates) :
+    coordinateMap (isoOfCoordinateBialgEquiv e).inv =
+      (e : G.coordinates →ₐc[R] H.coordinates) := rfl
+
 /-- Scalar extension of affine commutative group schemes, functorial in Hopf morphisms. -/
 def baseChangeFunctor {K : Type u} [CommRing K] [Algebra R K] :
     AffineCommGroupScheme R ⥤ AffineCommGroupScheme K :=
@@ -1149,6 +1161,153 @@ def realizationBaseChangeIso (G : AffineCommGroupScheme k) :
       (G.baseChange (K := K)).toCommGroupScheme :=
   baseChangeCommGroupIso (K := K) G.coordinates
 
+private def geometricMapOfBialgHom
+    {A B : CommHopfAlgCat.{u} k} [Coalgebra.IsCocomm k A]
+    [Coalgebra.IsCocomm k B] (f : B →ₐc[k] A) :
+    geometricCommGroup k A ⟶ geometricCommGroup k B := by
+  let φ : (coordinateCommGroup (R := k) A).X ⟶
+      (coordinateCommGroup (R := k) B).X :=
+    (CommAlgCat.ofHom f.toAlgHom).op
+  exact (relativeSpecFunctor k).mapCommGrp.map
+    (InducedCategory.homMk (Grp.homMk φ))
+
+private def geometricRealizationMap {G H : AffineCommGroupScheme k} (f : G ⟶ H) :
+    geometricCommGroup k G.coordinates ⟶ geometricCommGroup k H.coordinates :=
+  geometricMapOfBialgHom (coordinateMap f)
+
+private def geometricBaseChangeRealizationMap
+    {G H : AffineCommGroupScheme k} (f : G ⟶ H) :
+    geometricCommGroup K
+        (TauCeti.CommHopfAlgCat.baseChange (K := K) G.coordinates) ⟶
+      geometricCommGroup K
+        (TauCeti.CommHopfAlgCat.baseChange (K := K) H.coordinates) :=
+  geometricMapOfBialgHom
+    (TauCeti.CommHopfAlgCat.baseChangeMap (K := K) f.unop.hom).hom
+
+private lemma geometricBaseChangeRealizationMap_projection
+    {G H : AffineCommGroupScheme k} (f : G ⟶ H) :
+    (geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left ≫
+        baseChangeTargetProjectionToOldScheme (K := K) H.coordinates =
+      baseChangeTargetProjectionToOldScheme (K := K) G.coordinates ≫
+        (geometricRealizationMap f).hom.hom.hom.left := by
+  change
+    Spec.map (CommRingCat.ofHom
+        (TauCeti.CommHopfAlgCat.baseChangeMap (K := K) f.unop.hom).hom.toAlgHom.toRingHom) ≫
+      Spec.map (CommRingCat.ofHom
+        (Algebra.TensorProduct.includeRight
+          (R := k) (A := K) (B := H.coordinates)).toRingHom) =
+    Spec.map (CommRingCat.ofHom
+        (Algebra.TensorProduct.includeRight
+          (R := k) (A := K) (B := G.coordinates)).toRingHom) ≫
+      Spec.map (CommRingCat.ofHom
+        (coordinateMap f).toAlgHom.toRingHom)
+  rw [← Spec.map_comp, ← Spec.map_comp, Spec.map_inj]
+  apply CommRingCat.hom_ext
+  ext a
+  exact TauCeti.CommHopfAlgCat.baseChangeMap_apply_tmul (K := K) f.unop.hom 1 a
+
+private lemma baseChangeUnderlyingSchemeIso_naturality
+    {G H : AffineCommGroupScheme k} (f : G ⟶ H) :
+    ((Over.pullback scalarSpecMap).mapCommGrp.map
+          (geometricRealizationMap f)).hom.hom.hom.left ≫
+        (baseChangeUnderlyingSchemeIso (K := K) H.coordinates).hom =
+      (baseChangeUnderlyingSchemeIso (K := K) G.coordinates).hom ≫
+        (geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left := by
+  apply (cancel_mono
+    (baseChangeTargetPullbackIso (K := K) H.coordinates).hom).1
+  rw [Category.assoc,
+    baseChangeUnderlyingSchemeIso_hom_comp_targetPullbackIso_hom]
+  rw [Category.assoc]
+  apply pullback.hom_ext
+  · rw [Category.assoc, baseChangeSwappedPullbackIso_hom_fst]
+    have p_fst :
+        (baseChangeTargetPullbackIso (K := K) H.coordinates).hom ≫
+          pullback.fst scalarSpecMap
+            (Spec.map (CommRingCat.ofHom (algebraMap k H.coordinates))) =
+        (geometricCommGroup K
+          (TauCeti.CommHopfAlgCat.baseChange (K := K) H.coordinates)).X.hom := by
+      dsimp [baseChangeTargetPullbackIso, baseChangeTargetSpecIso]
+      exact pullbackSpecIso_inv_fst' k K H.coordinates
+    simp only [Category.assoc, p_fst]
+    change
+      ((Over.pullback scalarSpecMap).mapCommGrp.map
+            (geometricRealizationMap f)).hom.hom.hom.left ≫
+          ((Over.pullback scalarSpecMap).mapCommGrp.obj
+            (geometricCommGroup k H.coordinates)).X.hom =
+        (baseChangeUnderlyingSchemeIso (K := K) G.coordinates).hom ≫
+          (geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left ≫
+            (geometricCommGroup K
+              (TauCeti.CommHopfAlgCat.baseChange (K := K) H.coordinates)).X.hom
+    calc
+      ((Over.pullback scalarSpecMap).mapCommGrp.map
+            (geometricRealizationMap f)).hom.hom.hom.left ≫
+          ((Over.pullback scalarSpecMap).mapCommGrp.obj
+            (geometricCommGroup k H.coordinates)).X.hom =
+        ((Over.pullback scalarSpecMap).mapCommGrp.obj
+            (geometricCommGroup k G.coordinates)).X.hom :=
+          ((Over.pullback scalarSpecMap).mapCommGrp.map
+            (geometricRealizationMap f)).hom.hom.hom.w
+      _ = (baseChangeUnderlyingSchemeIso (K := K) G.coordinates).hom ≫
+          (geometricCommGroup K
+            (TauCeti.CommHopfAlgCat.baseChange (K := K) G.coordinates)).X.hom :=
+        (baseChangeUnderlyingIso (K := K) G.coordinates).hom.w.symm
+      _ = (baseChangeUnderlyingSchemeIso (K := K) G.coordinates).hom ≫
+          ((geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left ≫
+            (geometricCommGroup K
+              (TauCeti.CommHopfAlgCat.baseChange (K := K) H.coordinates)).X.hom) := by
+        rw [(geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.w]
+      _ = ((baseChangeUnderlyingSchemeIso (K := K) G.coordinates).hom ≫
+          (geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left) ≫
+            (geometricCommGroup K
+              (TauCeti.CommHopfAlgCat.baseChange (K := K) H.coordinates)).X.hom :=
+        Category.assoc _ _ _
+  · rw [Category.assoc, baseChangeSwappedPullbackIso_hom_snd]
+    change
+      pullback.lift
+          (pullback.fst
+              (geometricCommGroup k G.coordinates).X.hom scalarSpecMap ≫
+            (geometricRealizationMap f).hom.hom.hom.left)
+          (pullback.snd
+            (geometricCommGroup k G.coordinates).X.hom scalarSpecMap) _ ≫
+        pullback.fst
+          (geometricCommGroup k H.coordinates).X.hom scalarSpecMap = _
+    rw [pullback.lift_fst]
+    simp only [Category.assoc,
+      baseChangeTargetPullbackIso_hom_snd_projection]
+    change
+      pullback.fst (geometricCommGroup k G.coordinates).X.hom scalarSpecMap ≫
+          (geometricRealizationMap f).hom.hom.hom.left =
+        (baseChangeUnderlyingIso (K := K) G.coordinates).hom.left ≫
+          (geometricBaseChangeRealizationMap (K := K) f).hom.hom.hom.left ≫
+            baseChangeTargetProjectionToOldScheme (K := K) H.coordinates
+    rw [geometricBaseChangeRealizationMap_projection (K := K)]
+    rw [← Category.assoc,
+      baseChangeUnderlyingIso_hom_projection_typed]
+    have hprojection :
+        baseChangeProjectionToOld (K := K) G.coordinates =
+          pullback.fst (geometricCommGroup k G.coordinates).X.hom scalarSpecMap :=
+      baseChangePullbackIso_hom_fst (K := K) G.coordinates
+    rw [hprojection]
+    rfl
+
+/-- Geometric realization commutes naturally with scalar extension on affine Hopf
+presentations. -/
+theorem realizationBaseChangeIso_naturality
+    {G H : AffineCommGroupScheme k} (f : G ⟶ H) :
+    (Over.pullback scalarSpecMap).mapCommGrp.map
+          ((realizationFunctor k).map f) ≫
+        (realizationBaseChangeIso (K := K) H).hom =
+      (realizationBaseChangeIso (K := K) G).hom ≫
+        (realizationFunctor K).map
+          ((baseChangeFunctor (R := k) (K := K)).map f) := by
+  change
+    (Over.pullback scalarSpecMap).mapCommGrp.map (geometricRealizationMap f) ≫
+          (baseChangeCommGroupIso (K := K) H.coordinates).hom =
+      (baseChangeCommGroupIso (K := K) G.coordinates).hom ≫
+        geometricBaseChangeRealizationMap (K := K) f
+  ext
+  exact baseChangeUnderlyingSchemeIso_naturality (K := K) f
+
 end GeometricBaseChange
 
 /-- `Spec B` as an object over `Spec R`. -/
@@ -1401,6 +1560,20 @@ def isoOfCoordinateBialgEquiv {G H : AffineFiniteFreeCommGroupScheme R}
     (AffineCommGroupScheme.isoOfCoordinateBialgEquiv e)
 
 @[simp]
+theorem coordinateMap_isoOfCoordinateBialgEquiv_hom
+    {G H : AffineFiniteFreeCommGroupScheme R}
+    (e : G.coordinates ≃ₐc[R] H.coordinates) :
+    AffineCommGroupScheme.coordinateMap (isoOfCoordinateBialgEquiv e).hom.hom =
+      (e.symm : H.coordinates →ₐc[R] G.coordinates) := rfl
+
+@[simp]
+theorem coordinateMap_isoOfCoordinateBialgEquiv_inv
+    {G H : AffineFiniteFreeCommGroupScheme R}
+    (e : G.coordinates ≃ₐc[R] H.coordinates) :
+    AffineCommGroupScheme.coordinateMap (isoOfCoordinateBialgEquiv e).inv.hom =
+      (e : G.coordinates →ₐc[R] H.coordinates) := rfl
+
+@[simp]
 theorem realizeMap_id (G : AffineFiniteFreeCommGroupScheme R) :
     realizeMap (𝟙 G) = 𝟙 G.realize := by
   exact (realizationFunctor R).map_id G
@@ -1462,6 +1635,20 @@ def realizeBaseChangeIso {K : Type u} [CommRing K] [Algebra R K]
       (G.baseChange (K := K)).realize :=
   ObjectProperty.isoMk _
     (AffineCommGroupScheme.realizationBaseChangeIso (K := K) G.obj)
+
+/-- The realization/base-change comparison is natural in morphisms of finite-free affine
+commutative group schemes.  This is the morphism-level bridge needed to transport exact
+finite-flat filtrations, rather than merely identifying their individual terms. -/
+theorem realizeBaseChangeIso_naturality
+    {K : Type u} [CommRing K] [Algebra R K]
+    {G H : AffineFiniteFreeCommGroupScheme R} (f : G ⟶ H) :
+    (FiniteFlatCommGroupScheme.baseChange
+          (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map (realizeMap f) ≫
+        (realizeBaseChangeIso (K := K) H).hom =
+      (realizeBaseChangeIso (K := K) G).hom ≫
+        realizeMap ((baseChangeFunctor (R := R) (K := K)).map f) := by
+  apply ObjectProperty.hom_ext
+  exact AffineCommGroupScheme.realizationBaseChangeIso_naturality (K := K) f.hom
 
 /-- The order of an affine finite-free group scheme is the rank of its coordinate algebra. -/
 def order (G : AffineFiniteFreeCommGroupScheme R) : ℕ := Module.finrank R G.coordinates
