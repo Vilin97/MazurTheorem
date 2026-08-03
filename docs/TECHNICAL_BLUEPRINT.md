@@ -1561,8 +1561,15 @@ triple nonsingular. Constants and the three ratios `X_j/X_i` determine the
 chart ring map, while unit-equivalent affine normalization preserves the
 ambient closed point. These facts prove that the recovered point maps back to
 the original scheme morphism, so the canonical projective-point map is now
-bijective. Group-law compatibility, geometric integrality, the cyclic quotient
-`E/C`, and the coarse modular point remain open.
+bijective. The standard `Z ≠ 0` homogeneous localization is now explicitly
+equivalent to the affine bivariate polynomial ring; the localized cubic is the
+affine Weierstrass polynomial, its principal ideal is prime, and the quotient
+chart is integral. A checked criterion reduces geometric integrality to
+identifying this chart with a dense open after every field base change and
+proving the pullback reduced; this criterion reaches actual Tau Ceti and
+finite-flat split-`Γ₀` consumers. Construction of that witness, group-law
+compatibility, the cyclic quotient `E/C`, and the coarse modular point remain
+open.
 
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic

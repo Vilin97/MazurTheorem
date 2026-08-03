@@ -87,6 +87,15 @@ three coordinate ratios determine every chart ring map, and hence that the
 recovered morphism equals the original. The canonical projective-point map is
 therefore bijective; its group-law compatibility is still open.
 
+Reviewed checkpoint `67c8cfb` identifies the degree-zero homogeneous
+localization at `Z` with Mathlib's affine bivariate polynomial ring by explicit
+inverse maps, transports the projective cubic to the affine Weierstrass
+polynomial, proves the localized equation ideal prime, and proves its quotient
+chart integral. A precise base-change witness reduces geometric integrality to
+the canonical open comparison, dense range, and reducedness of every field
+pullback; actual Tau Ceti abelian-variety and finite-flat split-`Γ₀` consumers
+compile. It does not claim that this still-substantial witness exists.
+
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections`,
@@ -94,11 +103,12 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
-`MultiplicativeFlatGlobalSections`, and `SupportedPointCokernel`
+`MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`, and
+`XZeroWeierstrassGeometricIntegrality`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 739 integrated Lean
-sources / 1,465,537 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 740 integrated Lean
+sources / 1,465,961 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -106,9 +116,10 @@ and coordinate ratios determine every chart ring map, unit-equivalent
 normalizations preserve the ambient closed point, and cancellation through the
 closed cubic immersion finishes the comparison. Hence the canonical map from
 Mathlib projective points is bijective. The remaining modular boundary is to
-construct the group law and geometric integrality on the checked projective
-cubic, prove that this canonical bijection preserves the group law, and then
-construct `E/C`. The quotient/classifying geometry follows after `E/C`. The A3
+construct the field-base-change standard-chart witness and the group law on the
+checked projective cubic, prove that this canonical bijection preserves that
+group law, and then construct `E/C`. The quotient/classifying geometry follows
+after `E/C`. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
 the chosen-overlap/full-descent equivalence now compares the separately
@@ -200,7 +211,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic and a bijection between its scheme-valued rational points and Mathlib's projective coordinate points; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The quasi-finite filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic group law, geometric integrality, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, and an integral standard affine chart with a precise geometric-integrality reduction; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The supported-sheaf filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic base-change witness, group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -383,8 +394,13 @@ within each lane follows the listed order.
    `[W.IsElliptic]`, yielding an actual recovered projective point. Chart
    extensionality and ambient closed-point comparison now prove that mapping
    this recovered point forward returns the original morphism, so the canonical
-   point map is bijective. Next construct the group object and geometric
-   integrality, and prove that this bijection preserves the group law, then `E/C`
+   point map is bijective. The standard `Z ≠ 0` homogeneous-localization ring
+   is now explicitly equivalent to the affine Weierstrass ring; its localized
+   cubic ideal is prime and its quotient chart integral. A checked criterion
+   derives geometric integrality from the still-open canonical base-change
+   chart, dense-range, and target-reducedness witness, and reaches real Tau
+   Ceti and split-`Γ₀` consumers. Next construct that witness and the group
+   object, and prove that the point bijection preserves the group law, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
@@ -546,18 +562,18 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/owner-a3-triple-coherence`: prove triple-overlap naturality for the
-  reviewed normalized arbitrary-divisor transition maps and consume it in an
-  actual descent datum; diagonal normalization alone is already integrated.
-- `codex/owner-mu-flat-h0`: determine and certify the integral global sections
-  of the bad-level multiplicative factor, with a real low-degree cohomology
-  consumer; the group scheme and its typed open inclusion are integrated.
-- `codex/owner-weierstrass-geometric-integrality`: prove the focused geometric
-  integrality boundary for the checked reduced projective cubic and remove that
-  hypothesis from the Tau Ceti abelian-variety/Γ₀ consumer.
-- Integration owner: review and integrate those isolated branches, then open
-  the supported-sheaf localization sequence and modular cusp/q-expansion lanes.
-  The owner retains responsibility for the projective group law,
+- `codex/owner-a3-triple-coherence`: the reviewed fixed-common-affine cocycle
+  law is ready for integration; next prove pairwise-overlap-to-triple
+  base-change naturality and consume it in an actual descent datum.
+- `codex/owner-weierstrass-basechange-witness`: construct the canonical
+  `Z ≠ 0` open comparison, dense range, and pullback reducedness needed by the
+  checked geometric-integrality/Tau Ceti consumer.
+- `codex/owner-supported-fppf-sheaf`: sheafify the checked point-cokernel
+  presheaf, prove the honest local-surjectivity/exactness statement, and then
+  prove its constant/μ quotients vanish away from the bad level.
+- Integration owner: review and integrate those isolated branches while
+  keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
+  owner retains responsibility for the projective group law,
   multiplicativity of the coordinate/scheme-point bijection, `E/C`, and the
   coarse `X₀` classifying map.
 

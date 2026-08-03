@@ -340,8 +340,8 @@ multiplicative-flat factor and its typed inclusion now compile, as do the raw
 point-cokernel presheaves and concrete bad-level consumers. Its trivial
 odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. Fppf
 sheafification, support, the supported sheaf localization sequences,
-quasi-finite admissible-filtration exact sequences, remaining `H⁰`/`H¹`
-certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
+quasi-finite admissible-filtration exact sequences, both bad-level `H¹`
+comparisons, middle-`H¹` finiteness proof, and focused rank-zero specialization
 are still absent, so no node credit is claimed.
 :::
 
@@ -449,6 +449,18 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfProjectiveCubic`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfCanonicalProjectiveCubic`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartRingEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartIdeal_isPrime`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartScheme_isIntegral`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartBaseChangeWitness`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartBaseChangeWitness`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackage_hasConstantOrder`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -481,10 +493,15 @@ nonsingular, yielding an actual Mathlib projective point and a compiled forward
 recovered-point morphism. Chart-ring extensionality and invariance of the ambient
 closed point under affine normalization prove that this recovered morphism equals
 the original. The canonical projective-point map is therefore surjective and,
-together with the earlier injectivity proof, bijective. The scheme group law,
-geometric integrality, `E/C`,
-the coarse modular point, and the required Atkin--Lehner geometry remain open,
-so this node receives no completion credit.
+together with the earlier injectivity proof, bijective. The standard `Z ≠ 0`
+homogeneous localization is explicitly equivalent to the affine bivariate
+polynomial ring; the localized cubic becomes the affine Weierstrass
+polynomial, its equation ideal is prime, and the quotient chart is integral. A
+checked criterion reduces geometric integrality to the canonical dense-open
+comparison and reducedness after every field base change, with actual Tau Ceti
+and split-`Γ₀` consumers. That witness, the scheme group law, group-law
+compatibility, `E/C`, the coarse modular point, and the required Atkin--Lehner
+geometry remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
