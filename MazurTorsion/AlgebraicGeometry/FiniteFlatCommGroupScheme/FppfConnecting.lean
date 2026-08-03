@@ -24,6 +24,7 @@ remain separate obligations.
 noncomputable section
 
 open CategoryTheory
+open CategoryTheory.Limits
 
 namespace AlgebraicGeometry.FiniteFlatCommGroupScheme
 
@@ -316,8 +317,482 @@ theorem boundaryClass_eq (M : P.LocalLift.{v} q) :
     _ = M'.boundaryClass := L'.boundaryClass_eq_withLift M'.lift M'.maps_to
     _ = M.boundaryClass := M.boundaryClass_pullback s
 
+/-- The trivial target section has its tautological lift on the identity fppf cover. -/
+def one (P : KernelPresentation f) : P.LocalLift.{v} (1 : BasePoint H) where
+  cover := Scheme.FppfHOne.identityCover S
+  lift _ := 1
+  maps_to i := by
+    rw [map_one]
+    unfold restrictBasePoint
+    exact map_one (pullPoint H (coverToBase (Scheme.FppfHOne.identityCover S) i))
+
+@[simp]
+theorem one_cocycle (P : KernelPresentation f) :
+    (LocalLift.one.{v} P).cocycle = 1 := by
+  apply PresheafOfCommGroups.OneCocycle.ext
+  apply PresheafOfGroups.OneCochain.ext
+  funext i j T a b
+  apply P.inclusion_point_injective T
+  change mapPoint P.inclusion T
+      (P.liftPoint ((LocalLift.one.{v} P).difference i j a b)
+        ((LocalLift.one.{v} P).mapPoint_difference_eq_one i j a b)) =
+    mapPoint P.inclusion T 1
+  rw [P.mapPoint_liftPoint, map_one]
+  change
+    (pullPoint G a ((LocalLift.one.{v} P).lift i) ⁻¹ *
+        pullPoint G b ((LocalLift.one.{v} P).lift j)) = 1
+  have hi : (LocalLift.one.{v} P).lift i = 1 := rfl
+  have hj : (LocalLift.one.{v} P).lift j = 1 := rfl
+  simp only [hi, hj, map_one, inv_one, one_mul]
+
+@[simp]
+theorem one_boundaryClass (P : KernelPresentation f) :
+    (LocalLift.one.{v} P).boundaryClass = 1 := by
+  unfold boundaryClass
+  rw [one_cocycle]
+  exact Scheme.FppfHOne.mk_one _
+
+/-- Multiply two locally lifted sections after passing to the intersection of their covers. -/
+def mul {q r : BasePoint H} (L : P.LocalLift.{v} q) (M : P.LocalLift.{v} r) :
+    P.LocalLift.{v} (q * r) := by
+  let 𝒬 : Scheme.Cover.{v} Scheme.fppfPrecoverage S := L.cover.inter M.cover
+  let pL : 𝒬.Hom L.cover := Scheme.Cover.interFst L.cover M.cover
+  let pM : 𝒬.Hom M.cover := Scheme.Cover.interSnd L.cover M.cover
+  let rrL := Scheme.Cover.Hom.toOverFamilyRefinement pL
+  let rrM := Scheme.Cover.Hom.toOverFamilyRefinement pM
+  let bL : (i : 𝒬.I₀) → G.Point (𝒬.overFamily i) :=
+    fun i ↦ pullPoint G (rrL.map i) (L.lift (rrL.index i))
+  let bM : (i : 𝒬.I₀) → G.Point (𝒬.overFamily i) :=
+    fun i ↦ pullPoint G (rrM.map i) (M.lift (rrM.index i))
+  have hbL : ∀ i, mapPoint f (𝒬.overFamily i) (bL i) =
+      restrictBasePoint H 𝒬 i q := by
+    intro i
+    rw [mapPoint_pullPoint, L.maps_to]
+    unfold restrictBasePoint
+    rw [← pullPoint_comp]
+    apply congrArg (fun k : 𝒬.overFamily i ⟶ baseObject S ↦ pullPoint H k q)
+    unfold baseObject
+    exact Over.mkIdTerminal.hom_ext _ _
+  have hbM : ∀ i, mapPoint f (𝒬.overFamily i) (bM i) =
+      restrictBasePoint H 𝒬 i r := by
+    intro i
+    rw [mapPoint_pullPoint, M.maps_to]
+    unfold restrictBasePoint
+    rw [← pullPoint_comp]
+    apply congrArg (fun k : 𝒬.overFamily i ⟶ baseObject S ↦ pullPoint H k r)
+    unfold baseObject
+    exact Over.mkIdTerminal.hom_ext _ _
+  exact
+    { cover := 𝒬
+      lift := fun i ↦ bL i * bM i
+      maps_to := fun i ↦ by
+        rw [map_mul, hbL, hbM]
+        unfold restrictBasePoint
+        rw [map_mul] }
+
+/-- The overlap cocycle of a product of local lifts is the pointwise product of the two
+pulled-back overlap cocycles on the common refinement. -/
+theorem mul_cocycle {q r : BasePoint H} (L : P.LocalLift.{v} q)
+    (M : P.LocalLift.{v} r) :
+    (L.mul M).cocycle =
+      OneCocycle.mul (commPointPresheaf P.kernel)
+        (L.pullback (Scheme.Cover.interFst L.cover M.cover)).cocycle
+        (M.pullback (Scheme.Cover.interSnd L.cover M.cover)).cocycle := by
+  apply PresheafOfCommGroups.OneCocycle.ext
+  apply PresheafOfGroups.OneCochain.ext
+  funext i j T a b
+  apply P.inclusion_point_injective T
+  change mapPoint P.inclusion T
+      (P.liftPoint ((L.mul M).difference i j a b)
+        ((L.mul M).mapPoint_difference_eq_one i j a b)) =
+    mapPoint P.inclusion T
+      (P.liftPoint
+          ((L.pullback (Scheme.Cover.interFst L.cover M.cover)).difference i j a b)
+          ((L.pullback (Scheme.Cover.interFst L.cover M.cover)).mapPoint_difference_eq_one
+            i j a b) *
+        P.liftPoint
+          ((M.pullback (Scheme.Cover.interSnd L.cover M.cover)).difference i j a b)
+          ((M.pullback (Scheme.Cover.interSnd L.cover M.cover)).mapPoint_difference_eq_one
+            i j a b))
+  rw [P.mapPoint_liftPoint, map_mul, P.mapPoint_liftPoint, P.mapPoint_liftPoint]
+  dsimp only [difference, mul, pullback]
+  simp only [map_mul, mul_inv_rev]
+  ac_rfl
+
+/-- The connecting class respects multiplication.  Both sides are computed on the actual
+intersection cover used to multiply the local lifts. -/
+theorem mul_boundaryClass {q r : BasePoint H} (L : P.LocalLift.{v} q)
+    (M : P.LocalLift.{v} r) :
+    (L.mul M).boundaryClass = L.boundaryClass * M.boundaryClass := by
+  let 𝒬 : Scheme.Cover.{v} Scheme.fppfPrecoverage S := L.cover.inter M.cover
+  let pL : 𝒬.Hom L.cover := Scheme.Cover.interFst L.cover M.cover
+  let pM : 𝒬.Hom M.cover := Scheme.Cover.interSnd L.cover M.cover
+  rw [boundaryClass, L.mul_cocycle M]
+  change fppfHOneClass P.kernel 𝒬
+      ((OneCocycle.mul (commPointPresheaf P.kernel)
+        (L.pullback pL).cocycle (M.pullback pM).cocycle).class) = _
+  rw [L.cocycle_pullback pL, M.cocycle_pullback pM]
+  exact (fppfHOneClass_mul_of_commonRefinement P.kernel
+    L.cover M.cover 𝒬 pL pM L.cocycle.class M.cocycle.class).symm
+
+/-- A global source section gives a local lift of its image on the identity cover. -/
+def ofBasePoint (P : KernelPresentation f) (x : BasePoint G) :
+    P.LocalLift.{v} (mapPoint f (baseObject S) x) where
+  cover := Scheme.FppfHOne.identityCover S
+  lift i := restrictBasePoint G (Scheme.FppfHOne.identityCover S) i x
+  maps_to i := mapPoint_pullPoint f
+    (coverToBase (Scheme.FppfHOne.identityCover S) i) x
+
+/-- The overlap cocycle of a genuinely global lift is trivial. -/
+@[simp]
+theorem ofBasePoint_cocycle (P : KernelPresentation f) (x : BasePoint G) :
+    (LocalLift.ofBasePoint.{v} P x).cocycle = 1 := by
+  apply PresheafOfCommGroups.OneCocycle.ext
+  apply PresheafOfGroups.OneCochain.ext
+  funext i j T a b
+  apply P.inclusion_point_injective T
+  change mapPoint P.inclusion T
+      (P.liftPoint ((LocalLift.ofBasePoint.{v} P x).difference i j a b)
+        ((LocalLift.ofBasePoint.{v} P x).mapPoint_difference_eq_one i j a b)) =
+    mapPoint P.inclusion T 1
+  rw [P.mapPoint_liftPoint, map_one]
+  change
+    ((pullPoint G a ((LocalLift.ofBasePoint.{v} P x).lift i)) ⁻¹ *
+        pullPoint G b ((LocalLift.ofBasePoint.{v} P x).lift j)) = 1
+  have hij :
+      pullPoint G a ((LocalLift.ofBasePoint.{v} P x).lift i) =
+        pullPoint G b ((LocalLift.ofBasePoint.{v} P x).lift j) := by
+    change pullPoint G a
+        (pullPoint G
+          (coverToBase (LocalLift.ofBasePoint.{v} P x).cover i) x) =
+      pullPoint G b
+        (pullPoint G
+          (coverToBase (LocalLift.ofBasePoint.{v} P x).cover j) x)
+    rw [← pullPoint_comp, ← pullPoint_comp]
+    apply congrArg (fun k : T ⟶ baseObject S ↦ pullPoint G k x)
+    unfold baseObject
+    exact Over.mkIdTerminal.hom_ext _ _
+  rw [hij, inv_mul_cancel]
+
+/-- A global lift therefore has the trivial global connecting class. -/
+@[simp]
+theorem ofBasePoint_boundaryClass (P : KernelPresentation f) (x : BasePoint G) :
+    (LocalLift.ofBasePoint.{v} P x).boundaryClass = 1 := by
+  unfold boundaryClass
+  rw [ofBasePoint_cocycle]
+  exact Scheme.FppfHOne.mk_one _
+
+/-- After applying the kernel inclusion to coefficients, a boundary cocycle is cohomologous to
+the trivial cocycle; the original local source points are the explicit gauge. -/
+theorem map_cocycle_isCohomologous_one :
+    (NatTrans.mapOneCocycle
+      (commPointPresheafMap P.inclusion) L.cocycle).IsCohomologous
+        (1 : OneCocycle (toGroups (commPointPresheaf G)) L.cover.overFamily) := by
+  refine ⟨L.lift, ?_⟩
+  intro i j T a b
+  change pullPoint G a (L.lift i) *
+      mapPoint P.inclusion T
+        (P.liftPoint (L.difference i j a b)
+          (L.mapPoint_difference_eq_one i j a b)) =
+    1 * pullPoint G b (L.lift j)
+  rw [P.mapPoint_liftPoint]
+  simp only [difference, one_mul, mul_inv_cancel_left]
+
+/-- The induced `H¹` map along the kernel inclusion kills every constructed boundary class. -/
+@[simp]
+theorem fppfHOneMap_boundaryClass :
+    fppfHOneMap P.inclusion L.boundaryClass = 1 := by
+  rw [boundaryClass, fppfHOneMap_class]
+  change fppfHOneClass G L.cover
+      (NatTrans.mapOneCocycle (commPointPresheafMap P.inclusion) L.cocycle).class = 1
+  rw [L.map_cocycle_isCohomologous_one.class_eq]
+  exact Scheme.FppfHOne.mk_one _
+
 end LocalLift
 
+/-- Local surjectivity on represented points, with the actual fppf cover and local lifts retained
+for every global target section. -/
+structure LocallyLiftable where
+  /-- A genuine local lift of each global target section. -/
+  localLift (q : BasePoint H) : P.LocalLift.{v} q
+
+namespace LocallyLiftable
+
+variable {P : KernelPresentation f}
+variable (E : P.LocallyLiftable.{v})
+
+/-- The connecting homomorphism obtained from actual local lifts and their kernel-valued Čech
+cocycles.  Independence of all choices, rather than an assumed map, supplies its group laws. -/
+def boundaryHom : BasePoint H →* P.kernel.FppfHOne.{v} where
+  toFun q := (E.localLift q).boundaryClass
+  map_one' := by
+    calc
+      (E.localLift 1).boundaryClass =
+          (LocalLift.one.{v} P).boundaryClass :=
+        (E.localLift 1).boundaryClass_eq (LocalLift.one P)
+      _ = 1 := LocalLift.one_boundaryClass P
+  map_mul' q r := by
+    calc
+      (E.localLift (q * r)).boundaryClass =
+          ((E.localLift q).mul (E.localLift r)).boundaryClass :=
+        (E.localLift (q * r)).boundaryClass_eq
+          ((E.localLift q).mul (E.localLift r))
+      _ = (E.localLift q).boundaryClass * (E.localLift r).boundaryClass :=
+        (E.localLift q).mul_boundaryClass (E.localLift r)
+
+@[simp]
+theorem boundaryHom_apply (q : BasePoint H) :
+    E.boundaryHom q = (E.localLift q).boundaryClass :=
+  rfl
+
+/-- A section already lifted globally has zero boundary.  This is the checked
+`image(H⁰(G)) ⊆ kernel(δ)` half of exactness at `H⁰(H)`. -/
+@[simp]
+theorem boundaryHom_mapPoint (x : BasePoint G) :
+    E.boundaryHom (mapPoint f (baseObject S) x) = 1 := by
+  calc
+    E.boundaryHom (mapPoint f (baseObject S) x) =
+        (LocalLift.ofBasePoint.{v} P x).boundaryClass :=
+      (E.localLift (mapPoint f (baseObject S) x)).boundaryClass_eq
+        (LocalLift.ofBasePoint P x)
+    _ = 1 := LocalLift.ofBasePoint_boundaryClass P x
+
+/-- Every constructed connecting class maps to zero in `H¹(G)`.  This is the checked
+`image(δ) ⊆ kernel(H¹(P.kernel) → H¹(G))` half of the next exactness assertion. -/
+@[simp]
+theorem fppfHOneMap_boundaryHom (q : BasePoint H) :
+    fppfHOneMap P.inclusion (E.boundaryHom q) = 1 :=
+  (E.localLift q).fppfHOneMap_boundaryClass
+
+end LocallyLiftable
+
 end KernelPresentation
+
+namespace FppfQuotientPresentation
+
+variable {G : FiniteFlatCommGroupScheme S}
+
+/-- The quotient projection itself, regarded as a singleton fppf cover of the quotient scheme. -/
+abbrev projectCover (D : FppfQuotientPresentation G) :
+    Scheme.Cover.{u} Scheme.fppfPrecoverage D.quotient.scheme := by
+  letI : Flat (hom D.project) := D.project_flat
+  letI : Surjective (hom D.project) := D.project_surjective
+  letI : LocallyOfFinitePresentation (hom D.project) := D.project_lfp
+  exact (hom D.project).cover ⟨D.project_flat, D.project_lfp⟩
+
+/-- A checked fppf quotient projection is locally surjective on represented points.  The lift is
+the second projection from the actual pullback of the quotient cover along the target section. -/
+def locallyLiftable (D : FppfQuotientPresentation G) :
+    D.kernelPresentation.LocallyLiftable.{u} where
+  localLift q := by
+    letI : Precoverage.IsStableUnderBaseChange Scheme.fppfPrecoverage :=
+      Scheme.instIsStableUnderBaseChangeFppfPrecoverage
+    let 𝒱 := D.projectCover
+    let 𝒬 := 𝒱.pullback₁ q.left
+    have hq : q.left ≫ D.quotient.structureMap = (baseObject S).hom :=
+      Over.w q
+    exact
+      { cover := 𝒬
+        lift := fun _ ↦
+          Over.homMk (pullback.snd q.left (hom D.project)) (by
+          change pullback.snd q.left (hom D.project) ≫ G.structureMap =
+            pullback.fst q.left (hom D.project)
+          rw [← hom_comp_structureMap D.project, ← Category.assoc,
+            ← pullback.condition, Category.assoc, hq]
+          change pullback.fst q.left (hom D.project) ≫ 𝟙 S =
+            pullback.fst q.left (hom D.project)
+          exact Category.comp_id _)
+        maps_to := fun i ↦ by
+          ext
+          change pullback.snd q.left (hom D.project) ≫ hom D.project =
+            (coverToBase 𝒬 i).left ≫ q.left
+          exact (pullback.condition :
+            pullback.fst q.left (hom D.project) ≫ q.left =
+              pullback.snd q.left (hom D.project) ≫ hom D.project).symm
+      }
+
+/-- The canonical connecting homomorphism of an actual checked fppf quotient presentation.  Its
+value is the kernel torsor of the tautological local lifts on the pulled-back quotient cover. -/
+def boundaryHom (D : FppfQuotientPresentation G) :
+    BasePoint D.quotient →* D.kernelPresentation.kernel.FppfHOne.{u} :=
+  D.locallyLiftable.boundaryHom
+
+@[simp]
+theorem boundaryHom_apply (D : FppfQuotientPresentation G) (q : BasePoint D.quotient) :
+    D.boundaryHom q = (D.locallyLiftable.localLift q).boundaryClass :=
+  rfl
+
+/-- A globally lifted quotient section has trivial connecting class. -/
+@[simp]
+theorem boundaryHom_project (D : FppfQuotientPresentation G) (x : BasePoint G) :
+    D.boundaryHom (mapPoint D.project (baseObject S) x) = 1 :=
+  D.locallyLiftable.boundaryHom_mapPoint x
+
+/-- The constructed quotient boundary maps to zero after extending its kernel torsor to the
+middle finite-flat group scheme. -/
+@[simp]
+theorem fppfHOneMap_boundaryHom (D : FppfQuotientPresentation G)
+    (q : BasePoint D.quotient) :
+    fppfHOneMap D.kernelPresentation.inclusion (D.boundaryHom q) = 1 :=
+  D.locallyLiftable.fppfHOneMap_boundaryHom q
+
+end FppfQuotientPresentation
+
+namespace FinitePGroup
+
+/-- Finiteness and a certified base-`p` logarithm for an already specified commutative group.
+Unlike `FinitePGroup`, this structure does not replace the carrier by an abstract type, so it is
+suited to packaging the actual represented-point and fppf-cohomology groups in a consumer. -/
+structure CertifiedData (p : ℕ) (A : Type u) [CommGroup A] where
+  finite : Finite A
+  length : ℕ
+  card_eq : Nat.card A = p ^ length
+
+/-- Package certified data while preserving the specified carrier definitionally. -/
+def CertifiedData.toFinitePGroup {p : ℕ} {A : Type u} [CommGroup A]
+    (D : CertifiedData p A) : FinitePGroup p where
+  carrier := A
+  commGroup := inferInstance
+  finite := D.finite
+  length := D.length
+  card_eq := D.card_eq
+
+/-- Raise a certified carrier by one universe while preserving its cardinal certificate.  This
+is needed because the global Čech quotient defining fppf `H¹` lives one universe above the
+represented-point groups. -/
+def CertifiedData.toULiftFinitePGroup {p : ℕ} {A : Type u} [CommGroup A]
+    (D : CertifiedData p A) : FinitePGroup.{u + 1} p := by
+  letI : Finite A := D.finite
+  exact
+    { carrier := ULift.{u + 1} A
+      commGroup := inferInstance
+      finite := inferInstance
+      length := D.length
+      card_eq := by
+        rw [Nat.card_congr Equiv.ulift]
+        exact D.card_eq }
+
+/-- Raise both source and target of a homomorphism by one universe. -/
+def uliftMonoidHom {A B : Type u} [CommGroup A] [CommGroup B] (g : A →* B) :
+    ULift.{u + 1} A →* ULift.{u + 1} B :=
+  MulEquiv.ulift.symm.toMonoidHom.comp
+    (g.comp MulEquiv.ulift.toMonoidHom)
+
+/-- Use a homomorphism on the underlying value of a universe-raised source. -/
+def downMonoidHom {A : Type u} {B : Type (u + 1)} [CommGroup A] [CommGroup B]
+    (g : A →* B) : ULift.{u + 1} A →* B :=
+  g.comp MulEquiv.ulift.toMonoidHom
+
+/-- Multiplicative exactness is unchanged when all three terms are universe-raised. -/
+theorem mulExact_ulift {A B C : Type u} [CommGroup A] [CommGroup B] [CommGroup C]
+    {g : A →* B} {h : B →* C} (e : Function.MulExact g h) :
+    Function.MulExact (uliftMonoidHom g) (uliftMonoidHom h) := by
+  rintro ⟨y⟩
+  constructor
+  · intro hy
+    have hy' : h y = 1 := congrArg ULift.down hy
+    obtain ⟨x, hx⟩ := (e y).mp hy'
+    exact ⟨ULift.up x, by
+      change ULift.up (g x) = ULift.up y
+      rw [hx]⟩
+  · rintro ⟨⟨x⟩, hx⟩
+    have hx' : g x = y := congrArg ULift.down hx
+    have hy : h y = 1 := (e y).mpr ⟨x, hx'⟩
+    apply ULift.ext
+    exact hy
+
+/-- Raising only the source of the first map leaves exactness at its target unchanged. -/
+theorem mulExact_downMonoidHom {A : Type u} {B C : Type (u + 1)}
+    [CommGroup A] [CommGroup B] [CommGroup C]
+    {g : A →* B} {h : B →* C} (e : Function.MulExact g h) :
+    Function.MulExact (downMonoidHom g) h := by
+  intro y
+  rw [e y]
+  constructor
+  · rintro ⟨x, rfl⟩
+    exact ⟨ULift.up x, rfl⟩
+  · rintro ⟨⟨x⟩, hx⟩
+    exact ⟨x, hx⟩
+
+/-- Injectivity is unchanged when a homomorphism is universe-raised. -/
+theorem uliftMonoidHom_injective {A B : Type u} [CommGroup A] [CommGroup B]
+    {g : A →* B} (hg : Function.Injective g) :
+    Function.Injective (uliftMonoidHom g) := by
+  rintro ⟨x⟩ ⟨y⟩ hxy
+  apply ULift.ext
+  exact hg (congrArg ULift.down hxy)
+
+end FinitePGroup
+
+namespace FppfLowDegreeExactSequence
+
+/-- Build the concrete five-term group sequence attached to a certified finite-flat kernel and
+its constructed connecting homomorphism.  The middle `H⁰` exactness and left injectivity are
+discharged by the scheme-theoretic kernel universal property.  The three descent-sensitive
+remaining exactness assertions stay explicit inputs; this constructor does not disguise them as
+formal consequences of the group packages. -/
+def ofKernelPresentation {p : ℕ} (P : KernelPresentation f)
+    (E : P.LocallyLiftable.{u})
+    (kernelHZeroData : FinitePGroup.CertifiedData p (BasePoint P.kernel))
+    (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
+    (quotientHZeroData : FinitePGroup.CertifiedData p (BasePoint H))
+    (kernelHOneData : FinitePGroup.CertifiedData p P.kernel.FppfHOne.{u})
+    (middleHOneData : FinitePGroup.CertifiedData p G.FppfHOne.{u})
+    (quotientHOneData : FinitePGroup.CertifiedData p H.FppfHOne.{u})
+    (exact_quotientHZero : Function.MulExact
+      (FinitePGroup.uliftMonoidHom (mapPoint f (baseObject S)))
+      (FinitePGroup.downMonoidHom E.boundaryHom))
+    (exact_kernelHOne : Function.MulExact
+      E.boundaryHom (fppfHOneMap P.inclusion))
+    (exact_middleHOne : Function.MulExact
+      (fppfHOneMap P.inclusion) (fppfHOneMap f)) :
+    FppfLowDegreeExactSequence.{u + 1} p where
+  kernelHZero := kernelHZeroData.toULiftFinitePGroup
+  middleHZero := middleHZeroData.toULiftFinitePGroup
+  quotientHZero := quotientHZeroData.toULiftFinitePGroup
+  kernelHOne := kernelHOneData.toFinitePGroup
+  middleHOne := middleHOneData.toFinitePGroup
+  quotientHOne := quotientHOneData.toFinitePGroup
+  includeHZero := FinitePGroup.uliftMonoidHom
+    (mapPoint P.inclusion (baseObject S))
+  projectHZero := FinitePGroup.uliftMonoidHom (mapPoint f (baseObject S))
+  boundary := FinitePGroup.downMonoidHom E.boundaryHom
+  includeHOne := fppfHOneMap P.inclusion
+  projectHOne := fppfHOneMap f
+  includeHZero_injective := FinitePGroup.uliftMonoidHom_injective
+    (P.inclusion_point_injective (baseObject S))
+  exact_middleHZero := FinitePGroup.mulExact_ulift
+    (P.point_mulExact (baseObject S))
+  exact_quotientHZero := exact_quotientHZero
+  exact_kernelHOne := FinitePGroup.mulExact_downMonoidHom exact_kernelHOne
+  exact_middleHOne := exact_middleHOne
+
+/-- The concrete low-degree sequence constructor for an actual fppf quotient presentation.  It
+uses the quotient's pulled-back singleton cover and the resulting checked boundary homomorphism;
+only the three genuinely descent-sensitive full exactness statements remain arguments. -/
+def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
+    (D : FppfQuotientPresentation G)
+    (kernelHZeroData : FinitePGroup.CertifiedData p
+      (BasePoint D.kernelPresentation.kernel))
+    (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
+    (quotientHZeroData : FinitePGroup.CertifiedData p (BasePoint D.quotient))
+    (kernelHOneData : FinitePGroup.CertifiedData p
+      D.kernelPresentation.kernel.FppfHOne.{u})
+    (middleHOneData : FinitePGroup.CertifiedData p G.FppfHOne.{u})
+    (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{u})
+    (exact_quotientHZero : Function.MulExact
+      (FinitePGroup.uliftMonoidHom (mapPoint D.project (baseObject S)))
+      (FinitePGroup.downMonoidHom D.boundaryHom))
+    (exact_kernelHOne : Function.MulExact D.boundaryHom
+      (fppfHOneMap D.kernelPresentation.inclusion))
+    (exact_middleHOne : Function.MulExact
+      (fppfHOneMap D.kernelPresentation.inclusion) (fppfHOneMap D.project)) :
+    FppfLowDegreeExactSequence.{u + 1} p :=
+  ofKernelPresentation D.kernelPresentation D.locallyLiftable
+    kernelHZeroData middleHZeroData quotientHZeroData
+    kernelHOneData middleHOneData quotientHOneData
+    exact_quotientHZero exact_kernelHOne exact_middleHOne
+
+end FppfLowDegreeExactSequence
 
 end AlgebraicGeometry.FiniteFlatCommGroupScheme
