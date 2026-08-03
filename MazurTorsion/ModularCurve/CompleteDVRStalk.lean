@@ -594,6 +594,46 @@ theorem spec_eq_of_smoothCurveStalkDVR_normalizedQExpansion_of_comp_eq
   exact hformalAtS.spec_ext_of_comp_eq_of_isNoetherian s t
     (hs.trans ht.symm) himage
 
+/-- The rational-section completed-stalk coordinate feeds the final local collision directly.
+Thus an actual smooth rational cusp, its non-genericity and uniformizer, and a normalized first
+`q` coefficient separate arbitrary Noetherian local sections having the same quotient image. -/
+theorem spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F)
+    (S : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
+    (s t : Spec (.of S) ⟶ X)
+    (hs : s (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (ht : t (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (himage : s ≫ f = t ≫ f) :
+    s = t := by
+  have hformal :=
+    isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
+      K X π Y f g hsection hx q hq targetParameter c hc F hqExpansion
+  have hformalAtS :
+      AlgebraicGeometry.IsFormalImmersionAt f
+        (s (IsLocalRing.closedPoint S)) := by
+    simpa only [hs] using hformal
+  exact hformalAtS.spec_ext_of_comp_eq_of_isNoetherian s t
+    (hs.trans ht.symm) himage
+
 end SmoothCurve
 
 end CompleteDVRStalk
