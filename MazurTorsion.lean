@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConnectedEtale
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Examples
