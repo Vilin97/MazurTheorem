@@ -1581,7 +1581,10 @@ finite-flat interface does not yet express the two quasi-finite closures at
 primes dividing the level that occur in Mazur III.3. The represented point
 sheaf and global `H¹` are now available for every ambient commutative group
 scheme, and a structural wrapper packages the flat, quasi-finite, separated,
-finite-presentation case with a checked finite-flat adapter. The four actual
+finite-presentation case. Ambient morphisms induce represented-point and
+global-`H¹` maps with checked identity and composition laws; the quasi-finite
+wrapper consumes those maps, and finite-flat coefficient and morphism adapters
+agree definitionally with the existing API. The four actual
 integral factors, their extension-by-zero exact sequences, elementary
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
 specialization remain open.

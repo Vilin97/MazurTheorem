@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneCommGroup
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfHOne
 
 /-!
 # Functoriality of global commutative fppf H¹
@@ -14,9 +14,10 @@ cochains.  This file proves that the action preserves cocycles and cohomology, c
 genuine cover refinements, and descends to the common-refinement quotient defining global
 relative fppf `H¹`.  Identity and composition are proved both before and after globalization.
 
-The final section applies the construction to an actual morphism of finite-flat commutative
-group schemes.  Its action on `H¹` is therefore induced by postcomposition on represented
-points, rather than by an unrelated homomorphism between abstract groups.
+The geometric sections apply the construction first to an arbitrary commutative group-scheme
+morphism and then to the existing finite-flat wrapper.  The two induced maps agree
+definitionally.  Thus quasi-finite coefficients can use the same functorial cohomology without
+creating a parallel theory, while the finite-flat low-degree sequence retains its existing API.
 -/
 
 noncomputable section
@@ -336,6 +337,86 @@ lemma mapHom_comp (η : A ⟶ B) (θ : B ⟶ D) :
 
 end AlgebraicGeometry.Scheme.FppfHOne
 
+namespace AlgebraicGeometry.CommGroupScheme
+
+universe v u
+
+open CategoryTheory.PresheafOfCommGroups
+open scoped CategoryTheory.MonObj
+
+variable {S : Scheme.{u}} {G H K : CommGroupScheme S}
+
+/-- An ambient commutative group scheme acts on its groups of test-scheme points by
+postcomposition. No finiteness property of the representing scheme is used. -/
+def mapPoint (f : G ⟶ H) (T : Over S) : G.Point T →* H.Point T :=
+  IsMonHom.monoidHom f.hom.hom.hom T
+
+@[simp]
+theorem mapPoint_apply (f : G ⟶ H) (T : Over S) (x : G.Point T) :
+    mapPoint f T x = x ≫ f.hom.hom.hom :=
+  rfl
+
+/-- A morphism of ambient commutative group schemes induces the natural transformation of
+represented point presheaves given by postcomposition. -/
+def commPointPresheafMap (f : G ⟶ H) :
+    G.commPointPresheaf ⟶ H.commPointPresheaf where
+  app T := ConcreteCategory.ofHom (C := CommGrpCat) (mapPoint f T.unop)
+  naturality T U g := by
+    apply CommGrpCat.ext
+    intro x
+    change (g.unop ≫ (show T.unop ⟶ G.X from x)) ≫ f.hom.hom.hom =
+      g.unop ≫ ((show T.unop ⟶ G.X from x) ≫ f.hom.hom.hom)
+    exact Category.assoc _ _ _
+
+@[simp]
+theorem commPointPresheafMap_id (G : CommGroupScheme S) :
+    commPointPresheafMap (CategoryStruct.id G) =
+      CategoryStruct.id G.commPointPresheaf := by
+  ext T x
+  change (show T.unop ⟶ G.X from x) ≫ CategoryStruct.id G.X = x
+  rw [Category.comp_id]
+
+theorem commPointPresheafMap_comp (f : G ⟶ H) (g : H ⟶ K) :
+    commPointPresheafMap (f ≫ g) = commPointPresheafMap f ≫ commPointPresheafMap g := by
+  ext T x
+  change (show T.unop ⟶ G.X from x) ≫ (f.hom.hom.hom ≫ g.hom.hom.hom) =
+    ((show T.unop ⟶ G.X from x) ≫ f.hom.hom.hom) ≫ g.hom.hom.hom
+  exact (Category.assoc _ _ _).symm
+
+/-- The map on global fppf `H¹` induced by a morphism of ambient commutative group schemes. -/
+def fppfHOneMap (f : G ⟶ H) : G.FppfHOne.{v} →* H.FppfHOne.{v} :=
+  Scheme.FppfHOne.mapHom (commPointPresheafMap f)
+
+/-- On a cover-level class, an ambient group-scheme map acts pointwise on the Cech cocycle. -/
+@[simp]
+theorem fppfHOneMap_class (f : G ⟶ H)
+    (Ucover : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+    (x : H1 G.commPointPresheaf Ucover.overFamily) :
+    fppfHOneMap f (Scheme.FppfHOne.mk Ucover x) =
+      Scheme.FppfHOne.mk Ucover
+        (NatTrans.mapHOneHom (commPointPresheafMap f) x) :=
+  rfl
+
+@[simp]
+theorem fppfHOneMap_id (G : CommGroupScheme S) :
+    fppfHOneMap (CategoryStruct.id G) = MonoidHom.id G.FppfHOne.{v} := by
+  ext x
+  change Scheme.FppfHOne.mapHom
+      (commPointPresheafMap (CategoryStruct.id G)) x = x
+  rw [commPointPresheafMap_id, Scheme.FppfHOne.mapHom_id]
+  rfl
+
+theorem fppfHOneMap_comp (f : G ⟶ H) (g : H ⟶ K) :
+    fppfHOneMap (f ≫ g) = (fppfHOneMap g).comp (fppfHOneMap f) := by
+  ext x
+  change Scheme.FppfHOne.mapHom (commPointPresheafMap (f ≫ g)) x =
+    Scheme.FppfHOne.mapHom (commPointPresheafMap g)
+      (Scheme.FppfHOne.mapHom (commPointPresheafMap f) x)
+  rw [commPointPresheafMap_comp, Scheme.FppfHOne.mapHom_comp]
+  rfl
+
+end AlgebraicGeometry.CommGroupScheme
+
 namespace AlgebraicGeometry.FiniteFlatCommGroupScheme
 
 universe v u
@@ -377,6 +458,23 @@ theorem commPointPresheafMap_comp (f : G ⟶ H) (g : H ⟶ K) :
 /-- The map on global fppf `H¹` induced by an actual finite-flat group-scheme morphism. -/
 def fppfHOneMap (f : G ⟶ H) : G.FppfHOne.{v} →* H.FppfHOne.{v} :=
   Scheme.FppfHOne.mapHom (commPointPresheafMap f)
+
+/-- The ambient and finite-flat actions on test-scheme points agree definitionally. -/
+theorem commGroupScheme_mapPoint_eq (f : G ⟶ H) :
+    CommGroupScheme.mapPoint f.hom = mapPoint f :=
+  rfl
+
+/-- The ambient and finite-flat natural transformations on represented point presheaves agree
+definitionally. -/
+theorem commGroupScheme_commPointPresheafMap_eq (f : G ⟶ H) :
+    CommGroupScheme.commPointPresheafMap f.hom = commPointPresheafMap f :=
+  rfl
+
+/-- Forgetting finite-flat structure does not change the induced map on global fppf `H¹`.
+This is the compiled compatibility consumer for ambient coefficient functoriality. -/
+theorem commGroupScheme_fppfHOneMap_eq (f : G ⟶ H) :
+    CommGroupScheme.fppfHOneMap.{v} f.hom = fppfHOneMap f :=
+  rfl
 
 /-- On an actual cover-level class, the group-scheme map acts pointwise on its Čech cocycle. -/
 @[simp]

@@ -122,9 +122,12 @@ cardinal certificates feed a reusable quotient bound with one admissible
 elementary kernel, and the two-elementary-factor step consumes that recursive
 interface. This finite-flat API does not yet represent Mazur's two quasi-finite
 closures at the primes dividing the level. The represented coefficient and
-global `H¹` construction now extends to every ambient commutative group scheme,
-and a checked wrapper packages the flat, quasi-finite, separated,
-finite-presentation case with a finite-flat compatibility consumer. The next
+global `H¹` construction now extends to every ambient commutative group scheme.
+Ambient group-scheme morphisms induce canonical maps on represented points and
+`H¹` with checked identity and composition laws. A checked wrapper packages
+the flat, quasi-finite, separated, finite-presentation case, consumes those
+maps, and agrees definitionally with the finite-flat coefficient and morphism
+APIs. The next
 boundary is to construct the four actual integral elementary factors and their
 exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
 finiteness.
@@ -138,9 +141,13 @@ finiteness.
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.FppfHOne`
 * `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.fppfHOneMap`
+* `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMulEquivOfFiniteFlat`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMap_ofFiniteFlat_eq`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
