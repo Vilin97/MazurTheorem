@@ -150,6 +150,234 @@ theorem baseChange_scheme (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S) :
 theorem baseChange_structureMap (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S) :
     ((baseChange f).obj G).structureMap = pullback.snd G.structureMap f := rfl
 
+/-- Projection from a base-changed finite-flat group scheme to its original scheme. -/
+def baseChangeProjection (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S) :
+    ((baseChange f).obj G).scheme ⟶ G.scheme :=
+  pullback.fst G.structureMap f
+
+@[reassoc]
+theorem baseChangeProjection_condition (f : T ⟶ S)
+    (G : FiniteFlatCommGroupScheme S) :
+    baseChangeProjection f G ≫ G.structureMap =
+      ((baseChange f).obj G).structureMap ≫ f := by
+  exact pullback.condition
+
+/-- Two maps into a base-changed scheme agree when they agree after both projections. -/
+theorem baseChangeScheme_hom_ext (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S)
+    {X : Scheme.{u}} {a b : X ⟶ ((baseChange f).obj G).scheme}
+    (hprojection : a ≫ baseChangeProjection f G = b ≫ baseChangeProjection f G)
+    (hbase : a ≫ ((baseChange f).obj G).structureMap =
+      b ≫ ((baseChange f).obj G).structureMap) : a = b := by
+  apply pullback.hom_ext
+  · exact hprojection
+  · exact hbase
+
+/-- The universal lift into a base-changed scheme, with its source type kept opaque. -/
+def baseChangeLift (f : T ⟶ S) (G : FiniteFlatCommGroupScheme S)
+    {X : Scheme.{u}} (a : X ⟶ G.scheme) (b : X ⟶ T)
+    (h : a ≫ G.structureMap = b ≫ f) : X ⟶ ((baseChange f).obj G).scheme :=
+  pullback.lift a b h
+
+@[reassoc]
+theorem baseChangeLift_projection (f : T ⟶ S)
+    (G : FiniteFlatCommGroupScheme S) {X : Scheme.{u}}
+    (a : X ⟶ G.scheme) (b : X ⟶ T) (h : a ≫ G.structureMap = b ≫ f) :
+    baseChangeLift f G a b h ≫ baseChangeProjection f G = a := by
+  unfold baseChangeLift baseChangeProjection
+  exact pullback.lift_fst _ _ _
+
+@[reassoc]
+theorem baseChangeLift_structureMap (f : T ⟶ S)
+    (G : FiniteFlatCommGroupScheme S) {X : Scheme.{u}}
+    (a : X ⟶ G.scheme) (b : X ⟶ T) (h : a ≫ G.structureMap = b ≫ f) :
+    baseChangeLift f G a b h ≫ ((baseChange f).obj G).structureMap = b := by
+  unfold baseChangeLift
+  exact pullback.lift_snd _ _ _
+
+/-- Base change of a group-scheme homomorphism commutes with the projection to the original
+source and target. -/
+@[reassoc]
+theorem baseChange_hom_projection (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    hom ((baseChange t).map f) ≫ baseChangeProjection t H =
+      baseChangeProjection t G ≫ hom f := by
+  unfold baseChangeProjection
+  change ((Over.pullback t).map f.hom.hom.hom.hom).left ≫
+      pullback.fst H.structureMap t = _
+  have hmap := Over.pullback_map_left t G.obj.X (k := f.hom.hom.hom.hom)
+  have hmcomp := congrArg (fun q ↦ q ≫ pullback.fst H.structureMap t) hmap
+  rw [pullback.lift_fst] at hmcomp
+  exact hmcomp
+
+/-- Base change of a group-scheme homomorphism remains a morphism over the new base. -/
+@[reassoc]
+theorem baseChange_hom_structureMap (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    hom ((baseChange t).map f) ≫ ((baseChange t).obj H).structureMap =
+      ((baseChange t).obj G).structureMap := by
+  exact hom_comp_structureMap ((baseChange t).map f)
+
+/-- The identity section of a base-changed group scheme projects to the original identity
+section. -/
+@[reassoc]
+theorem baseChange_one_projection (t : T ⟶ S) (H : FiniteFlatCommGroupScheme S) :
+    η[((baseChange t).obj H).obj.X].left ≫ baseChangeProjection t H =
+      t ≫ η[H.obj.X].left := by
+  unfold baseChangeProjection
+  change Over.Hom.left (η[((Over.pullback t).mapCommGrp.obj H.obj).X]) ≫
+      pullback.fst H.structureMap t = t ≫ η[H.obj.X].left
+  change Over.Hom.left (Functor.LaxMonoidal.ε (Over.pullback t) ≫
+      (Over.pullback t).map η[H.obj.X]) ≫ pullback.fst H.structureMap t = _
+  rw [Functor.Monoidal.ε_of_cartesianMonoidalCategory]
+  simp only [Over.tensorUnit_left, Over.pullback_obj_left,
+    Over.preservesTerminalIso_pullback, Over.tensorUnit_hom, Over.comp_left,
+    Over.isoMk_inv_left, asIso_inv, Over.pullback_map_left, Category.assoc,
+    IsIso.inv_comp_eq]
+  rw [pullback.lift_fst]
+  have hbase : pullback.fst (𝟙 S) t = pullback.snd (𝟙 S) t ≫ t := by
+    simpa only [Category.comp_id] using (pullback.condition :
+      pullback.fst (𝟙 S) t ≫ 𝟙 S = pullback.snd (𝟙 S) t ≫ t)
+  rw [hbase, Category.assoc]
+
+/-- The identity section of a base-changed group scheme is a section over the new base. -/
+@[reassoc]
+theorem baseChange_one_structureMap (t : T ⟶ S) (H : FiniteFlatCommGroupScheme S) :
+    η[((baseChange t).obj H).obj.X].left ≫ ((baseChange t).obj H).structureMap = 𝟙 T := by
+  exact (η[((baseChange t).obj H).obj.X]).w
+
+/-- The square underlying a base-changed group-scheme homomorphism is cartesian. -/
+theorem baseChange_hom_isPullback (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    IsPullback (baseChangeProjection t G) (hom ((baseChange t).map f))
+      (hom f) (baseChangeProjection t H) := by
+  refine ⟨⟨(baseChange_hom_projection t f).symm⟩, ⟨?_⟩⟩
+  let lift (s : PullbackCone (hom f) (baseChangeProjection t H)) :
+      s.pt ⟶ ((baseChange t).obj G).scheme :=
+    baseChangeLift t G s.fst (s.snd ≫ ((baseChange t).obj H).structureMap) (by
+      calc
+        s.fst ≫ G.structureMap = s.fst ≫ hom f ≫ H.structureMap := by
+          rw [hom_comp_structureMap]
+        _ = s.snd ≫ baseChangeProjection t H ≫ H.structureMap :=
+          s.condition_assoc H.structureMap
+        _ = s.snd ≫ ((baseChange t).obj H).structureMap ≫ t := by
+          rw [baseChangeProjection_condition])
+  refine PullbackCone.IsLimit.mk _ lift ?_ ?_ ?_
+  · intro s
+    simpa only [lift] using
+      (baseChangeLift_projection t G s.fst
+        (s.snd ≫ ((baseChange t).obj H).structureMap) _)
+  · intro s
+    apply baseChangeScheme_hom_ext t H
+    · calc
+        (lift s ≫ hom ((baseChange t).map f)) ≫ baseChangeProjection t H =
+            lift s ≫ (baseChangeProjection t G ≫ hom f) := by
+          rw [Category.assoc, baseChange_hom_projection]
+        _ = s.fst ≫ hom f := by
+          rw [← Category.assoc]
+          have hlift : lift s ≫ baseChangeProjection t G = s.fst := by
+            simpa only [lift] using
+              (baseChangeLift_projection t G s.fst
+                (s.snd ≫ ((baseChange t).obj H).structureMap) _)
+          rw [hlift]
+        _ = s.snd ≫ baseChangeProjection t H := s.condition
+    · calc
+        (lift s ≫ hom ((baseChange t).map f)) ≫
+            ((baseChange t).obj H).structureMap =
+            lift s ≫ ((baseChange t).obj G).structureMap := by
+          rw [Category.assoc, baseChange_hom_structureMap]
+        _ = s.snd ≫ ((baseChange t).obj H).structureMap := by
+          simpa only [lift] using
+            (baseChangeLift_structureMap t G s.fst
+              (s.snd ≫ ((baseChange t).obj H).structureMap) _)
+  · intro s m hfst hsnd
+    apply baseChangeScheme_hom_ext t G
+    · have hlift : lift s ≫ baseChangeProjection t G = s.fst := by
+        simpa only [lift] using
+          (baseChangeLift_projection t G s.fst
+            (s.snd ≫ ((baseChange t).obj H).structureMap) _)
+      exact hfst.trans hlift.symm
+    · calc
+        m ≫ ((baseChange t).obj G).structureMap =
+            m ≫ hom ((baseChange t).map f) ≫
+              ((baseChange t).obj H).structureMap := by
+          rw [baseChange_hom_structureMap]
+        _ = s.snd ≫ ((baseChange t).obj H).structureMap := by
+          rw [← Category.assoc, hsnd]
+        _ = lift s ≫ ((baseChange t).obj G).structureMap := by
+          symm
+          simpa only [lift] using
+            (baseChangeLift_structureMap t G s.fst
+              (s.snd ≫ ((baseChange t).obj H).structureMap) _)
+
+/-- The direct pullback kernel over a new base maps canonically to the base-changed source. -/
+noncomputable def directKernelToBaseChangeSource (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    pullback (hom f) (t ≫ η[H.obj.X].left) ⟶ ((baseChange t).obj G).scheme :=
+  (baseChange_hom_isPullback t f).lift
+    (pullback.fst (hom f) (t ≫ η[H.obj.X].left))
+    (pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+      η[((baseChange t).obj H).obj.X].left)
+    (by
+      calc
+        pullback.fst (hom f) (t ≫ η[H.obj.X].left) ≫ hom f =
+            pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+              (t ≫ η[H.obj.X].left) := pullback.condition
+        _ = pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+              (η[((baseChange t).obj H).obj.X].left ≫
+                baseChangeProjection t H) := by rw [baseChange_one_projection]
+        _ = (pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+              η[((baseChange t).obj H).obj.X].left) ≫
+                baseChangeProjection t H := (Category.assoc _ _ _).symm)
+
+/-- The direct kernel square remains a pullback after changing the base. -/
+theorem directKernel_isPullback (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    IsPullback (directKernelToBaseChangeSource t f)
+      (pullback.snd (hom f) (t ≫ η[H.obj.X].left))
+      (hom ((baseChange t).map f)) η[((baseChange t).obj H).obj.X].left := by
+  let right := baseChange_hom_isPullback t f
+  have outer : IsPullback
+      (pullback.fst (hom f) (t ≫ η[H.obj.X].left))
+      (pullback.snd (hom f) (t ≫ η[H.obj.X].left)) (hom f)
+      (η[((baseChange t).obj H).obj.X].left ≫ baseChangeProjection t H) := by
+    rw [baseChange_one_projection]
+    exact IsPullback.of_hasPullback (hom f) (t ≫ η[H.obj.X].left)
+  exact outer.of_right' right
+
+@[reassoc]
+theorem directKernelToBaseChangeSource_projection (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    directKernelToBaseChangeSource t f ≫ baseChangeProjection t G =
+      pullback.fst (hom f) (t ≫ η[H.obj.X].left) := by
+  unfold directKernelToBaseChangeSource
+  exact (baseChange_hom_isPullback t f).lift_fst _ _ _
+
+@[reassoc]
+theorem directKernelToBaseChangeSource_project (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    directKernelToBaseChangeSource t f ≫ hom ((baseChange t).map f) =
+      pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+        η[((baseChange t).obj H).obj.X].left := by
+  unfold directKernelToBaseChangeSource
+  exact (baseChange_hom_isPullback t f).lift_snd _ _ _
+
+@[reassoc]
+theorem directKernelToBaseChangeSource_structureMap (t : T ⟶ S)
+    {G H : FiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    directKernelToBaseChangeSource t f ≫ ((baseChange t).obj G).structureMap =
+      pullback.snd (hom f) (t ≫ η[H.obj.X].left) := by
+  calc
+    directKernelToBaseChangeSource t f ≫ ((baseChange t).obj G).structureMap =
+        (directKernelToBaseChangeSource t f ≫ hom ((baseChange t).map f)) ≫
+          ((baseChange t).obj H).structureMap := by
+      rw [Category.assoc, baseChange_hom_structureMap]
+    _ = (pullback.snd (hom f) (t ≫ η[H.obj.X].left) ≫
+          η[((baseChange t).obj H).obj.X].left) ≫
+            ((baseChange t).obj H).structureMap := by
+      rw [directKernelToBaseChangeSource_project]
+    _ = pullback.snd (hom f) (t ≫ η[H.obj.X].left) := by
+      rw [Category.assoc, baseChange_one_structureMap, Category.comp_id]
+
 /-- The rank of a finite flat commutative group scheme at a point of its base. -/
 def orderAt (G : FiniteFlatCommGroupScheme S) : S → ℕ := G.structureMap.finrank
 
@@ -366,6 +594,158 @@ theorem kernelPresentation_exists_of_finite_flat
 namespace KernelPresentation
 
 variable {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
+
+/-- The first comparison map in the geometric pullback of a certified kernel. -/
+def baseChangeKernelMap (P : KernelPresentation f) (t : T ⟶ S) :
+    pullback P.kernel.structureMap t ⟶ pullback (kernelStructureMap f) t :=
+  pullback.map P.kernel.structureMap t (kernelStructureMap f) t
+    P.schemeIso.hom (𝟙 T) (𝟙 S)
+    (by simpa using P.schemeIso_hom_structureMap.symm) (by simp)
+
+/-- Pulling back the chosen kernel scheme or its canonical scheme-theoretic model gives
+isomorphic schemes over the new base. -/
+noncomputable def baseChangeKernelIso (P : KernelPresentation f) (t : T ⟶ S) :
+    pullback P.kernel.structureMap t ≅ pullback (kernelStructureMap f) t := by
+  haveI : IsIso (P.baseChangeKernelMap t) := by
+    unfold baseChangeKernelMap
+    exact pullback.map_isIso P.kernel.structureMap t (kernelStructureMap f) t
+      P.schemeIso.hom (𝟙 T) (𝟙 S)
+      (by simpa using P.schemeIso_hom_structureMap.symm) (by simp)
+  exact asIso (P.baseChangeKernelMap t)
+
+@[reassoc]
+theorem baseChangeKernelIso_hom_fst (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeKernelIso t).hom ≫ pullback.fst (kernelStructureMap f) t =
+      baseChangeProjection t P.kernel ≫ P.schemeIso.hom := by
+  change P.baseChangeKernelMap t ≫ pullback.fst (kernelStructureMap f) t = _
+  unfold baseChangeKernelMap baseChangeProjection
+  exact pullback.lift_fst _ _ _
+
+@[reassoc]
+theorem baseChangeKernelIso_hom_snd (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeKernelIso t).hom ≫ pullback.snd (kernelStructureMap f) t =
+      ((baseChange t).obj P.kernel).structureMap := by
+  change P.baseChangeKernelMap t ≫ pullback.snd (kernelStructureMap f) t = _
+  unfold baseChangeKernelMap
+  exact pullback.lift_snd _ _ _
+
+/-- The pullback of a certified kernel is the direct kernel of the original morphism against
+the base-changed identity section. -/
+noncomputable def baseChangeDirectIso (P : KernelPresentation f) (t : T ⟶ S) :
+    ((baseChange t).obj P.kernel).scheme ≅ pullback (hom f) (t ≫ η[H.obj.X].left) :=
+  P.baseChangeKernelIso t ≪≫
+    pullbackLeftPullbackSndIso (hom f) η[H.obj.X].left t
+
+@[reassoc]
+theorem baseChangeDirectIso_hom_fst (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeDirectIso t).hom ≫
+        pullback.fst (hom f) (t ≫ η[H.obj.X].left) =
+      baseChangeProjection t P.kernel ≫ hom P.inclusion := by
+  unfold baseChangeDirectIso
+  change ((P.baseChangeKernelIso t).hom ≫
+      (pullbackLeftPullbackSndIso (hom f) η[H.obj.X].left t).hom) ≫
+        pullback.fst (hom f) (t ≫ η[H.obj.X].left) = _
+  rw [Category.assoc, pullbackLeftPullbackSndIso_hom_fst]
+  rw [← Category.assoc, baseChangeKernelIso_hom_fst]
+  change (baseChangeProjection t P.kernel ≫ P.schemeIso.hom) ≫ kernelι f =
+    baseChangeProjection t P.kernel ≫ hom P.inclusion
+  calc
+    (baseChangeProjection t P.kernel ≫ P.schemeIso.hom) ≫ kernelι f =
+        baseChangeProjection t P.kernel ≫ (P.schemeIso.hom ≫ kernelι f) :=
+      Category.assoc _ _ _
+    _ = baseChangeProjection t P.kernel ≫ hom P.inclusion :=
+      congrArg (fun q ↦ baseChangeProjection t P.kernel ≫ q) P.schemeIso_hom_kernelι
+
+@[reassoc]
+theorem baseChangeDirectIso_hom_snd (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeDirectIso t).hom ≫
+        pullback.snd (hom f) (t ≫ η[H.obj.X].left) =
+      ((baseChange t).obj P.kernel).structureMap := by
+  unfold baseChangeDirectIso
+  change ((P.baseChangeKernelIso t).hom ≫
+      (pullbackLeftPullbackSndIso (hom f) η[H.obj.X].left t).hom) ≫
+        pullback.snd (hom f) (t ≫ η[H.obj.X].left) = _
+  rw [Category.assoc, pullbackLeftPullbackSndIso_hom_snd]
+  exact baseChangeKernelIso_hom_snd P t
+
+@[reassoc]
+theorem baseChangeDirectIso_hom_toSource (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeDirectIso t).hom ≫ directKernelToBaseChangeSource t f =
+      hom ((baseChange t).map P.inclusion) := by
+  apply baseChangeScheme_hom_ext t G
+  · calc
+      ((P.baseChangeDirectIso t).hom ≫ directKernelToBaseChangeSource t f) ≫
+          baseChangeProjection t G =
+        (P.baseChangeDirectIso t).hom ≫
+          (directKernelToBaseChangeSource t f ≫ baseChangeProjection t G) :=
+        Category.assoc _ _ _
+      _ = (P.baseChangeDirectIso t).hom ≫
+          pullback.fst (hom f) (t ≫ η[H.obj.X].left) := by
+        rw [directKernelToBaseChangeSource_projection]
+      _ = baseChangeProjection t P.kernel ≫ hom P.inclusion :=
+        P.baseChangeDirectIso_hom_fst t
+      _ = hom ((baseChange t).map P.inclusion) ≫ baseChangeProjection t G :=
+        (baseChange_hom_projection t P.inclusion).symm
+  · calc
+      ((P.baseChangeDirectIso t).hom ≫ directKernelToBaseChangeSource t f) ≫
+          ((baseChange t).obj G).structureMap =
+        (P.baseChangeDirectIso t).hom ≫
+          (directKernelToBaseChangeSource t f ≫
+            ((baseChange t).obj G).structureMap) := Category.assoc _ _ _
+      _ = (P.baseChangeDirectIso t).hom ≫
+          pullback.snd (hom f) (t ≫ η[H.obj.X].left) := by
+        rw [directKernelToBaseChangeSource_structureMap]
+      _ = ((baseChange t).obj P.kernel).structureMap :=
+        P.baseChangeDirectIso_hom_snd t
+      _ = hom ((baseChange t).map P.inclusion) ≫
+          ((baseChange t).obj G).structureMap :=
+        (hom_comp_structureMap ((baseChange t).map P.inclusion)).symm
+
+/-- The canonical identification of a pulled-back certified kernel with the scheme-theoretic
+kernel of the pulled-back homomorphism. -/
+noncomputable def baseChangeSchemeIso (P : KernelPresentation f) (t : T ⟶ S) :
+    ((baseChange t).obj P.kernel).scheme ≅ kernelScheme ((baseChange t).map f) :=
+  P.baseChangeDirectIso t ≪≫ (directKernel_isPullback t f).isoPullback
+
+@[reassoc]
+theorem baseChangeSchemeIso_hom_structureMap (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeSchemeIso t).hom ≫ kernelStructureMap ((baseChange t).map f) =
+      ((baseChange t).obj P.kernel).structureMap := by
+  unfold baseChangeSchemeIso
+  change ((P.baseChangeDirectIso t).hom ≫
+      (directKernel_isPullback t f).isoPullback.hom) ≫
+        kernelStructureMap ((baseChange t).map f) = _
+  rw [Category.assoc, IsPullback.isoPullback_hom_snd]
+  exact P.baseChangeDirectIso_hom_snd t
+
+@[reassoc]
+theorem baseChangeSchemeIso_hom_kernelι (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChangeSchemeIso t).hom ≫ kernelι ((baseChange t).map f) =
+      hom ((baseChange t).map P.inclusion) := by
+  unfold baseChangeSchemeIso
+  change ((P.baseChangeDirectIso t).hom ≫
+      (directKernel_isPullback t f).isoPullback.hom) ≫
+        kernelι ((baseChange t).map f) = _
+  rw [Category.assoc, IsPullback.isoPullback_hom_fst]
+  exact P.baseChangeDirectIso_hom_toSource t
+
+/-- Certified scheme-theoretic kernels commute with arbitrary base change. -/
+noncomputable def baseChange (P : KernelPresentation f) (t : T ⟶ S) :
+    KernelPresentation ((FiniteFlatCommGroupScheme.baseChange t).map f) where
+  kernel := (FiniteFlatCommGroupScheme.baseChange t).obj P.kernel
+  inclusion := (FiniteFlatCommGroupScheme.baseChange t).map P.inclusion
+  schemeIso := P.baseChangeSchemeIso t
+  schemeIso_hom_structureMap := P.baseChangeSchemeIso_hom_structureMap t
+  schemeIso_hom_kernelι := P.baseChangeSchemeIso_hom_kernelι t
+
+@[simp]
+theorem baseChange_kernel (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChange t).kernel = (FiniteFlatCommGroupScheme.baseChange t).obj P.kernel := rfl
+
+@[simp]
+theorem baseChange_inclusion (P : KernelPresentation f) (t : T ⟶ S) :
+    (P.baseChange t).inclusion =
+      (FiniteFlatCommGroupScheme.baseChange t).map P.inclusion := rfl
 
 /-- The certified kernel inclusion maps trivially to the target group scheme. -/
 @[reassoc]

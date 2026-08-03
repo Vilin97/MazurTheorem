@@ -17,10 +17,10 @@ identified with one of the two admissible order-`p` factors, the constant group 
 
 The main theorem is not a reformulation of a point equivalence: it combines the certified
 scheme-theoretic kernel universal property with both factor exponents to prove that every
-affine point of the middle term is killed by `p^2`.  A separate compatibility datum records
-exactly what remains to transport a certified kernel presentation through geometric base
-change; once supplied, the same exponent theorem applies after scalar extension and the
-constant/`mu_p` factors are normalized by the checked named base-change isomorphisms.
+affine point of the middle term is killed by `p^2`.  Certified kernel presentations now commute
+with arbitrary geometric base change, so the same exponent theorem applies after scalar
+extension without extra caller data; the constant/`mu_p` factors are normalized by the checked
+named base-change isomorphisms.
 
 This is deliberately narrower than a connected--etale or Oort--Tate classification.  Iterated
 filtrations, fppf cohomology, and Raynaud uniqueness remain later rank-zero work.
@@ -220,23 +220,12 @@ theorem point_pow_sq_eq_one
     _ = mapPoint D.kernelPresentation.inclusion X 1 := by rw [hkernel]
     _ = 1 := map_one _
 
-/-- The precise extra datum needed to transport a certified kernel presentation across base
-change.  The compatibility equation prevents replacing the true base-changed kernel inclusion
-with an unrelated isomorphic object. -/
-abbrev KernelBaseChangeCompatibility
-    (D : AdmissibleFiltrationStep R p G)
-    (K : Type) [CommRing K] [Algebra R K] :=
-  D.toFppfQuotientPresentation.KernelBaseChangeCompatibility
-    (Spec.map (CommRingCat.ofHom (algebraMap R K)))
-
 /-- A point killed by the base-changed projection really lifts through the geometric pullback
-of the original kernel inclusion.  This consumes the inclusion compatibility in
-`KernelBaseChangeCompatibility`; it is the pointwise consequence needed by an iterated
-admissible filtration. -/
+of the original kernel inclusion.  This is the pointwise consequence needed by an iterated
+admissible filtration and now follows from automatic kernel base change. -/
 theorem exists_baseChangedKernel_lift
     (D : AdmissibleFiltrationStep R p G)
     (K : Type) [CommRing K] [Algebra R K]
-    (C : D.KernelBaseChangeCompatibility K)
     (X : Over (Spec (.of K)))
     (x : ((FiniteFlatCommGroupScheme.baseChange
       (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj G).Point X)
@@ -251,38 +240,34 @@ theorem exists_baseChangedKernel_lift
           (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
             D.kernelPresentation.inclusion) X y = x :=
   D.toFppfQuotientPresentation.exists_baseChangedKernel_lift
-    (Spec.map (CommRingCat.ofHom (algebraMap R K))) C X x hx
+    (Spec.map (CommRingCat.ofHom (algebraMap R K))) X x hx
 
-/-- Transport an admissible filtration step through scalar extension once the genuine
-scheme-theoretic kernel comparison has been supplied. -/
+/-- Transport an admissible filtration step through scalar extension. -/
 def baseChange
     (D : AdmissibleFiltrationStep R p G)
-    (K : Type) [CommRing K] [Nontrivial K] [Algebra R K]
-    (C : D.KernelBaseChangeCompatibility K) :
+    (K : Type) [CommRing K] [Nontrivial K] [Algebra R K] :
     AdmissibleFiltrationStep K p
       ((FiniteFlatCommGroupScheme.baseChange
         (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj G) := by
   let f := Spec.map (CommRingCat.ofHom (algebraMap R K))
-  let Q := D.toFppfQuotientPresentation.baseChangePresentation f C
+  let Q := D.toFppfQuotientPresentation.baseChangePresentation f
   exact
     { toFppfQuotientPresentation := Q
       prime := D.prime
-      kernelFactor := D.kernelFactor.baseChange.ofIso C.kernelIso
+      kernelFactor := D.kernelFactor.baseChange
       quotientFactor := D.quotientFactor.baseChange }
 
-/-- The `p^2` exponent bound survives scalar extension for a kernel-compatible admissible
-filtration step.  This is the compiled downstream consumer of the factor and morphism
-base-change interfaces. -/
+/-- The `p^2` exponent bound survives arbitrary scalar extension.  This is the compiled
+downstream consumer of the factor, quotient, and kernel base-change interfaces. -/
 theorem baseChange_point_pow_sq_eq_one
     (D : AdmissibleFiltrationStep R p G)
     (K : Type) [CommRing K] [Nontrivial K] [Algebra R K]
-    (C : D.KernelBaseChangeCompatibility K)
     (B : Type) [CommRing B] [Algebra K B]
     (x : ((FiniteFlatCommGroupScheme.baseChange
       (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj G).Point
         (AffineCommGroupScheme.testObject (R := K) B)) :
     x ^ (p * p) = 1 :=
-  (D.baseChange K C).point_pow_sq_eq_one B x
+  (D.baseChange K).point_pow_sq_eq_one B x
 
 end AdmissibleFiltrationStep
 

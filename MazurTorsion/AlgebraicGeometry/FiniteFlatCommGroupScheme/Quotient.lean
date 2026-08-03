@@ -14,7 +14,8 @@ The rank-zero argument does not need a constructor for the fppf-sheaf quotient b
 finite-flat closed subgroup.  Its actual input is narrower: a supplied finite-flat quotient
 object and projection, the fppf properties of that projection, and a certified presentation of
 its scheme-theoretic kernel.  `FppfQuotientPresentation` packages exactly this data.  Its base
-change API asks only for the genuinely nonformal kernel comparison.
+change API consumes the checked theorem that certified scheme-theoretic kernels commute with
+arbitrary base change.
 
 For a finite commutative group `G` and a subgroup `N`, the quotient `G/N` is again finite
 commutative.  Applying the explicit function-Hopf-algebra construction gives a genuine
@@ -89,47 +90,20 @@ theorem project_point_eq_one_iff (D : FppfQuotientPresentation G)
   · rintro ⟨y, rfl⟩
     exact D.kernelPresentation.mapPoint_inclusion_eq_one X y
 
-/-- The nonformal datum needed to transport an exact quotient presentation through base
-change: a certified kernel for the pulled-back projection and an identification with the
-pulled-back original kernel that respects the actual inclusions. -/
-structure KernelBaseChangeCompatibility
-    (D : FppfQuotientPresentation G) (f : T ⟶ S) where
-  /-- A certified kernel presentation for the base-changed projection. -/
-  presentation : KernelPresentation ((baseChange f).map D.project)
-  /-- Its kernel is the geometric pullback of the original kernel. -/
-  kernelIso : presentation.kernel ≅ (baseChange f).obj D.kernelPresentation.kernel
-  /-- The kernel comparison respects the inclusions into the pulled-back middle term. -/
-  inclusion_compatibility :
-    kernelIso.hom ≫ (baseChange f).map D.kernelPresentation.inclusion =
-      presentation.inclusion
-
 /-- A point killed by the pulled-back quotient projection lifts through the pulled-back
 original kernel inclusion. -/
 theorem exists_baseChangedKernel_lift
-    (D : FppfQuotientPresentation G) (f : T ⟶ S)
-    (C : D.KernelBaseChangeCompatibility f) (X : Over T)
+    (D : FppfQuotientPresentation G) (f : T ⟶ S) (X : Over T)
     (x : ((baseChange f).obj G).Point X)
     (hx : mapPoint ((baseChange f).map D.project) X x = 1) :
     ∃ y : ((baseChange f).obj D.kernelPresentation.kernel).Point X,
       mapPoint ((baseChange f).map D.kernelPresentation.inclusion) X y = x := by
-  obtain ⟨z, hz, -⟩ := C.presentation.existsUnique_point_lift X x hx
-  refine ⟨mapPoint C.kernelIso.hom X z, ?_⟩
-  calc
-    mapPoint ((baseChange f).map D.kernelPresentation.inclusion) X
-        (mapPoint C.kernelIso.hom X z) =
-      mapPoint (C.kernelIso.hom ≫
-        (baseChange f).map D.kernelPresentation.inclusion) X z := by
-          rw [mapPoint_comp]
-          rfl
-    _ = mapPoint C.presentation.inclusion X z := by
-      rw [C.inclusion_compatibility]
-    _ = x := hz
+  obtain ⟨y, hy, -⟩ := (D.kernelPresentation.baseChange f).existsUnique_point_lift X x hx
+  exact ⟨y, hy⟩
 
-/-- Pull an fppf exact quotient presentation back along a base morphism once its true
-scheme-theoretic kernel comparison is supplied. -/
+/-- Pull an fppf exact quotient presentation back along an arbitrary base morphism. -/
 def baseChangePresentation
-    (D : FppfQuotientPresentation G) (f : T ⟶ S)
-    (C : D.KernelBaseChangeCompatibility f) :
+    (D : FppfQuotientPresentation G) (f : T ⟶ S) :
     FppfQuotientPresentation ((baseChange f).obj G) where
   quotient := (baseChange f).obj D.quotient
   project := (baseChange f).map D.project
@@ -139,7 +113,7 @@ def baseChangePresentation
     exact MorphismProperty.overPullbackMap f D.project.hom.hom.hom.hom D.project_surjective
   project_lfp := by
     exact MorphismProperty.overPullbackMap f D.project.hom.hom.hom.hom D.project_lfp
-  kernelPresentation := C.presentation
+  kernelPresentation := D.kernelPresentation.baseChange f
 
 end FppfQuotientPresentation
 
