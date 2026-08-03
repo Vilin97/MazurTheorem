@@ -114,9 +114,9 @@ theorem addPointFppfMap_supportedQuotient_isIso_of_supported
     (h : fppfSheafSupportedOnClosedComplementProperty U
       (pointCokernelFppfSheaf f)) :
     IsIso ((fppfSheafSupportedQuotientFunctor U).map (addPointFppfMap f)) := by
-  apply (fppfSheafSupportedQuotientFunctor_map_isIso_iff_openRestriction_isIso
-    U _).2
-  exact addPointFppfMapOverOpen_isIso_of_supported f U h
+  change IsIso (pointCokernelFppfSequenceSupportedQuotient f U).f
+  rw [(pointCokernelFppfSequenceSupportedQuotient_shortExact_of_mono f U).isIso_f_iff]
+  exact pointCokernelFppfSequenceSupportedQuotient_X₃_isZero f U h
 
 end AlgebraicGeometry.CommGroupScheme
 
@@ -135,10 +135,9 @@ quotient. -/
 theorem constantFlatAddPointFppfMap_supportedQuotient_isIso (level : R) :
     IsIso ((fppfSheafSupportedQuotientFunctor (levelOpen level)).map
       (addPointFppfMap (constantFlatInclusion (G := G) level))) := by
-  apply (ObjectProperty.SerreClassLocalization.isIso_map_iff
-    (fppfSheafSupportedQuotientFunctor (levelOpen level))
-    (fppfSheafSupportedOnClosedComplementProperty (levelOpen level)) _).2
-  exact constantFlatAddPointFppfMap_isoModSupported level
+  exact addPointFppfMap_supportedQuotient_isIso_of_supported
+    (constantFlatInclusion (G := G) level) (levelOpen level)
+    (constantFlatPointCokernelFppfSheafAway_isZero (G := G) level)
 
 end ConstantFlat
 
@@ -152,10 +151,9 @@ theorem muFlatAddPointFppfMap_supportedQuotient_isIso
     (datum : MuFlatDatum coeffPrime level) :
     IsIso ((fppfSheafSupportedQuotientFunctor (levelOpen (level : ℤ))).map
       (addPointFppfMap (muFlatInclusion coeffPrime level datum))) := by
-  apply (ObjectProperty.SerreClassLocalization.isIso_map_iff
-    (fppfSheafSupportedQuotientFunctor (levelOpen (level : ℤ)))
-    (fppfSheafSupportedOnClosedComplementProperty (levelOpen (level : ℤ))) _).2
-  exact muFlatAddPointFppfMap_isoModSupported datum
+  exact addPointFppfMap_supportedQuotient_isIso_of_supported
+    (muFlatInclusion coeffPrime level datum) (levelOpen (level : ℤ))
+    (muFlatPointCokernelFppfSheafAway_isZero datum)
 
 end MultiplicativeFlat
 
