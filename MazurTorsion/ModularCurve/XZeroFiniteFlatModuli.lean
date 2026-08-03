@@ -567,6 +567,86 @@ theorem splitGammaZeroDatumPointHom_range
     torsionParameterization_additive_range,
     RationalCyclicSubgroup.ofPoint_carrier]
 
+/-! ### Forgetting the choice of generator -/
+
+/-- A split rational cyclic subgroup constructs a genuine split finite-flat
+`Γ₀(N)` datum without retaining a chosen generator.  A generator is selected
+internally only to invoke the checked constant-subgroup construction; the
+public input and output are both generator-free. -/
+noncomputable def splitGammaZeroDatumOfRationalCyclicSubgroup
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    SplitGammaZeroDatum W M (N := N) :=
+  splitGammaZeroDatumOfTorsion W M C.generator C.addOrderOf_generator
+
+omit [W.IsElliptic] in
+/-- The generator-free finite-flat subgroup has constant geometric order
+`N`. -/
+theorem splitGammaZeroDatumOfRationalCyclicSubgroup_hasConstantOrder
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.carrier.HasConstantOrder N :=
+  splitGammaZeroDatumOfTorsion_hasConstantOrder
+    W M C.generator C.addOrderOf_generator
+
+/-- The additive rational-point parameterization underlying the
+generator-free construction.  Although it uses the internally selected
+generator, its range is intrinsic by the theorem below. -/
+noncomputable def rationalCyclicSubgroupPointHom
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    ZMod N →+ W.toAffine.Point :=
+  splitGammaZeroDatumPointHom W M C.generator C.addOrderOf_generator
+
+omit [W.IsElliptic] in
+/-- Rational points of the constructed finite-flat subgroup recover exactly
+the supplied cyclic subgroup carrier, not merely a cyclic subgroup of the
+same cardinality. -/
+theorem rationalCyclicSubgroupPointHom_range
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    (rationalCyclicSubgroupPointHom W M C).range = C.carrier := by
+  rw [rationalCyclicSubgroupPointHom,
+    splitGammaZeroDatumPointHom_range]
+  exact C.zmultiples_generator
+
+/-- A raw split rational `Γ₀(N)` datum, together with the checked
+Weierstrass group-scheme interface for its curve, constructs the corresponding
+split finite-flat subgroup datum.  This is the generator-free source consumed
+by the future coarse `X₀(N)` classifying map. -/
+noncomputable def splitGammaZeroDatumOfRationalDatum
+    (x : RationalDatum K N)
+    (M : WeierstrassGroupSchemeInterface x.curve) :
+    SplitGammaZeroDatum x.curve M (N := N) :=
+  splitGammaZeroDatumOfRationalCyclicSubgroup x.curve M x.subgroup
+
+/-- The finite-flat subgroup attached to a raw rational moduli datum has the
+required constant geometric order. -/
+theorem splitGammaZeroDatumOfRationalDatum_hasConstantOrder
+    (x : RationalDatum K N)
+    (M : WeierstrassGroupSchemeInterface x.curve) :
+    (splitGammaZeroDatumOfRationalDatum x M).subgroup.carrier.HasConstantOrder N :=
+  splitGammaZeroDatumOfRationalCyclicSubgroup_hasConstantOrder
+    x.curve M x.subgroup
+
+/-- Pull the rational constant sections of the finite-flat subgroup attached
+to a raw moduli datum back to its coordinate point group. -/
+noncomputable def rationalDatumPointHom
+    (x : RationalDatum K N)
+    (M : WeierstrassGroupSchemeInterface x.curve) :
+    ZMod N →+ x.curve.toAffine.Point :=
+  rationalCyclicSubgroupPointHom x.curve M x.subgroup
+
+/-- The scheme-theoretic split subgroup constructed from a raw rational datum
+has exactly the datum's original rational-point carrier.  This is the checked
+compatibility required before a coarse `X₀(N)` map may consume the new
+finite-flat interface. -/
+theorem rationalDatumPointHom_range
+    (x : RationalDatum K N)
+    (M : WeierstrassGroupSchemeInterface x.curve) :
+    (rationalDatumPointHom x M).range = x.subgroup.carrier :=
+  rationalCyclicSubgroupPointHom_range x.curve M x.subgroup
+
 end WeierstrassGroupSchemeInterface
 
 end WeierstrassInterface
