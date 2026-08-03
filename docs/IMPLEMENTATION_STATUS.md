@@ -38,6 +38,9 @@ Current machine-checked results include:
   construction, and a direct conditional order-49 consumer of the two-cusp
   `X₀(49)(ℚ)` classification; the actual coarse classifying map and
   explicit-model identification remain open;
+* a second checked finite normalization/enumeration over `F₁₁`, proving
+  `#E(F₁₁) ≤ 18` for every elliptic Weierstrass equation and supplying
+  the exact-order-35 reduction-fibre contradiction;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;
