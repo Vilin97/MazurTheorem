@@ -1011,8 +1011,12 @@ curve without any cancelled exceptional factors:
 ```text
 Kubert/OrderElevenReduction.lean
 Kubert/OrderElevenModel.lean
+Kubert/OrderElevenModelInverse.lean
 NumberTheory/XOneElevenReduction.lean
 NumberTheory/XOneElevenDescent.lean
+NumberTheory/XOneElevenFiveIsogenyHom.lean
+NumberTheory/XOneElevenFiveSelmer.lean
+NumberTheory/XOneElevenUniformCoset.lean
 ```
 
 For a marked point `P=(0,0)` on Tate normal form, exact order eleven gives
@@ -1057,6 +1061,51 @@ V^2+V=U^3-U^2.
 The raw equation proves `N`, `K`, and `q-r` nonzero, and the exact-order
 certificate proves `U≠0,1`.  Thus exact rational order eleven produces a
 non-cusp affine point on `X₁(11)`.
+
+The reverse direction is now checked on precisely that noncusp locus.  For a
+model point `(U,V)` with `U≠0,1`, put
+
+\[
+r=\frac{U-1}{U^2-V-1},\qquad
+q=\frac{U^2-U+V+1}{V+1},\qquad
+c=q(r-1),\qquad b=rc.
+\]
+
+The model equation proves every displayed denominator and the factors
+`r`, `q`, `r-1`, and `q-1` nonzero.  Lean proves the raw equation, the exact
+round trip back to `(U,V)`, the compact Tate equation, and exact additive order
+eleven of `(0,0)` on the reconstructed Tate cubic.
+
+Ellipticity is not inferred from nonsingularity of that one point.  After the
+visible nonzero factors are removed, singularity would force
+
+\[
+S(r,q)=q^3r^2-2q^3r+q^3-8q^2r^2+5q^2r+3q^2
+       +16qr^2-20qr+3q+1=0.
+\]
+
+A checked Bézout identity between `S` and the raw modular equation has scalar
+target
+
+\[
+(q-1)^7\bigl(q^5-4q^4-9q^3+27q^2-13q-1\bigr).
+\]
+
+The degree-five factor is monic with constant coefficient `-1`; the integral
+root theorem reduces a rational root to `q=±1`, and direct evaluation excludes
+both.  This proves nonzero Tate discriminant and constructs a genuine
+`IsElliptic` witness.  Consequently
+`model_abscissa_eq_zero_or_one_of_no_order_eleven` is a real downstream
+consumer of a uniform exact-order-eleven exclusion.
+
+`NumberTheory/XOneElevenUniformCoset.lean` then checks the whole preferred
+release route after that one input.  The model equation turns `U=0` or `1`
+into `V=0` or `-1`; these four affine points and infinity are identified with
+the five already computed multiples of `P₀=(0,0)`.  The theorem
+`fiveCosetBound_of_no_order_eleven` chooses that representative and `Q=0`, and
+its cardinality/classification consumer compiles.  What remains on the
+preferred route is exactly the unconditional uniform theorem exposed by
+`MT-X11-JOIN`, followed by the destination and immutable Challenge bridges.
 
 `NumberTheory/XOneElevenReduction.lean` proves good reduction at three
 and computes the reduced point group to have cardinality five.  Under the
@@ -1107,7 +1156,8 @@ points, and the five multiples of `P₀` are distinct.  Hence
  P=iP_0+5Q. \tag{X11-Sel}
 \]
 
-Everything after (X11-Sel) is compiled.  The five representatives make
+Everything after (X11-Sel) is compiled, so it remains a valid independent
+fallback.  The five representatives make
 `E(ℚ)/5E(ℚ)` finite of cardinality at most five.  An explicit
 five-fold naïve-height descent turns this finite index into finite
 generation: the checked growth inequality has leading term `25h(P)`,
@@ -1122,10 +1172,14 @@ generated group the already compiled index formula gives
 The left side is at most five and the torsion factor is exactly five, so
 the rank is zero.  Finite generation plus torsion then gives finiteness,
 and the reduction theorem classifies all five points as cusps.  Thus the
-only unconditional input still missing at level eleven is exactly
-(X11-Sel), the finite local squareclass/Selmer computation for the
-five-isogeny; no broader Mordell--Weil hypothesis remains hidden in the
-interface, and order eleven is not yet claimed excluded.
+fallback boundary is exactly (X11-Sel), not a hidden Mordell--Weil hypothesis.
+The retained point-function work now proves negation compatibility and that
+its zero fibre is exactly the five-torsion kernel, without claiming additivity
+or a packaged isogeny.  The empty-support rational fifth-power Selmer factor
+also compiles with a concrete fifth-power consumer.  The local Kummer
+comparison and the ramified factor at eleven remain open.  None of this
+fallback arithmetic is a logical premise of the selected formal-immersion
+route, and order eleven is not yet claimed excluded.
 
 ### 6.3 Order-thirteen boundary
 

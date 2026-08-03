@@ -121,13 +121,16 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
-`MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`, and
-`SupportedFppfCokernel`, `XZeroWeierstrassGeometricIntegrality`, and
-`XZeroWeierstrassProjectivePlaneBaseChange`
+`MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
+`SupportedFppfCokernel`, `CurveLineBundleOverlapNaturality`,
+`XZeroWeierstrassGeometricIntegrality`,
+`XZeroWeierstrassProjectivePlaneBaseChange`, `OrderElevenModelInverse`,
+`XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
+`XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 742 integrated Lean
-sources / 1,466,815 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 747 integrated Lean
+sources / 1,467,827 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -235,7 +238,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, and an integral standard affine chart with a precise geometric-integrality reduction; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The supported-sheaf filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic base-change witness, group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, and canonical pairwise-overlap pullback naturality; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, an integral standard affine chart, and the actual projective-plane coefficient-extension map; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. D(level) support/site restriction and unramified Raynaud uniqueness remain; the projective-plane pullback/cubic base-change isomorphism, group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -524,11 +527,14 @@ The independent explicit lanes `MT-X13-NONCUSP` (26),
 `MT-X18-NONCUSP` (18), and `MT-O25-EXCLUDE` (16) remain unchanged: their
 genus-zero `X₀` quotients do not support the selected argument.
 
-- `MT-X11-JOIN` (2) consumes the uniform prime theorem. Afterwards,
-  `MT-X11-COSET` (12) proves its immutable Challenge preferably by the reverse
-  `X₁(11)` moduli bridge and the five visible cusps; the prepared five-isogeny
-  Selmer calculation remains a fallback. The Challenge is a release
-  obligation, not a prerequisite of the point-order theorem.
+- `MT-X11-JOIN` (2) consumes the uniform prime theorem. The reverse
+  `X₁(11)` moduli bridge now reconstructs an actual elliptic Tate curve, and
+  `fiveCosetBound_of_no_order_eleven` already enumerates the five visible
+  points and takes `Q=0`. Thus `MT-X11-COSET` (12) now needs only the uniform
+  endpoint plus the unconditional destination/immutable Challenge bridge.
+  The prepared zero-fibre and empty-support five-isogeny Selmer factors remain
+  a partial fallback. The Challenge is a release obligation, not a prerequisite
+  of the point-order theorem.
 - `MT-O35-EXCLUDE` (14) constructs the explicit optimal elliptic quotient
   `X₀(35)/w₅ : y²+y=x³+x²+9x+1`, proves finite rational points, and reuses the
   squarefree-level formal immersion at auxiliary prime `11`. The fixed curve
@@ -590,27 +596,31 @@ genus-zero `X₀` quotients do not support the selected argument.
 - `MT-CYCLOTOMIC-UNRAMIFIED` (20): solve the immutable locally-primary
   pseudo-unit Kummer reciprocity Challenge and compile its Kummer--Artin
   consumer. It no longer unlocks a prime-theorem node.
-- `MT-X11-COSET` (12): solve the immutable five-coset Challenge after the
-  uniform order-eleven theorem is available.
+- `MT-X11-COSET` (12): feed the uniform order-eleven theorem to the checked
+  reverse-bridge consumer `fiveCosetBound_of_no_order_eleven`, expose the
+  unconditional destination, and solve the immutable five-coset Challenge.
 
 The final audit depends on both, so this separation cannot be used as a scope
 or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/owner-a3-triple-coherence`: the reviewed fixed-common-affine cocycle
-  law is integrated; next prove pairwise-overlap-to-triple
-  base-change naturality and consume it in an actual descent datum.
-- `codex/owner-weierstrass-basechange-witness`: the canonical `Z ≠ 0` pullback
-  open and its exact range are reviewed and integrated. Next construct the
-  projective base-change isomorphism, the quotient-chart/open isomorphism, and
-  density needed by the checked geometric-integrality/Tau Ceti consumer; include
-  the ambient compatibility square needed later for canonical coordinates.
-- `codex/owner-supported-fppf-sheaf`: an honest AddCommGrp fppf sheafification,
-  locally-surjective projection, categorical cokernel exactness, and constant/μ
-  consumers compile on the isolated branch and await final checks/review. Next
-  prove pointwise open-immersion factorization and site restriction to show the
-  quotients vanish away from the bad level.
+- `codex/owner-a3-triple-coherence`: canonical pairwise-overlap pullback
+  naturality and affine-intersection projection laws are reviewed and
+  integrated. Next compare the three canonical pairwise transports on the
+  chosen triple intersection and relate them to the normalized transition Iso
+  in an actual descent datum.
+- `codex/owner-projective-plane-pullback-iso`: the coefficient-extension
+  graded map, actual `P²_L ⟶ P²_K`, coordinate-away square, cubic zero-locus
+  transport, and conditional ambient consumer are reviewed and integrated.
+  Next construct the projective-plane pullback isomorphism, restrict it to the
+  cubic, and discharge `targetBaseChangeIso`; the chart isomorphism and density
+  follow.
+- `codex/owner-supported-fppf-sheaf`: the honest AddCommGrp fppf cokernel
+  sheaf, locally-surjective/epi projection, categorical exactness, and
+  constant/μ consumers are reviewed and integrated. Next prove pointwise
+  open-immersion factorization and site restriction to show the quotients
+  vanish away from the bad level.
 - Integration owner: review and integrate those isolated branches while
   keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
   owner retains responsibility for the projective group law,

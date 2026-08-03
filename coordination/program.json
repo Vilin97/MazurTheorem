@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1467720,
-    "integrated_lean_modules": 746,
+    "integrated_lean_lines": 1467827,
+    "integrated_lean_modules": 747,
     "remaining_composite_orders": [
       18,
       25,
@@ -401,7 +401,51 @@
       "weight_points": 12,
       "risk": "high",
       "backend": "mazur",
-      "summary": "Discharge the retained five-coset Challenge after order 11 is known: prove the reverse X_1(11) moduli bridge, classify every rational model point as a cusp, and choose Q=0 for the five visible representatives. The direct five-isogeny Selmer calculation remains a valid fallback.",
+      "summary": "The reverse X_1(11) model-to-Tate bridge, its discriminant certificate, the conditional cusp classification, and the conditional five-coset proof with Q=0 are checked. The node remains open until MT-X11-JOIN supplies the unconditional order-11 exclusion and the immutable Challenge bridge compiles. The direct five-isogeny Selmer calculation remains a partial fallback.",
+      "artifacts": [
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderElevenModelOfRaw_inverse",
+          "state": "contract",
+          "description": "The denominator-safe reverse rational functions are a checked inverse to the forward X_1(11) model map on the noncusp locus.",
+          "module": "MazurTorsion.Kubert.OrderElevenModelInverse"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.exists_elliptic_tate_marked_order_eleven_of_model",
+          "state": "contract",
+          "description": "A noncusp model point reconstructs an actual elliptic Tate curve with a rational point of exact order eleven; nonzero discriminant follows from the checked degree-five resultant certificate.",
+          "module": "MazurTorsion.Kubert.OrderElevenModelInverse"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.model_abscissa_eq_zero_or_one_of_no_order_eleven",
+          "state": "contract",
+          "description": "Real consumer reducing rational X_1(11) points to the two cusp abscissae from any uniform exact-order-eleven exclusion.",
+          "module": "MazurTorsion.Kubert.OrderElevenModelInverse"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEleven.fiveCosetBound_of_no_order_eleven",
+          "state": "contract",
+          "description": "The preferred route consumer enumerates the four affine cusp points plus infinity and proves FiveCosetBound with quotient point Q=0.",
+          "module": "MazurTorsion.NumberTheory.XOneElevenUniformCoset"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEleven.veluFiveMap_eq_zero_iff_five_nsmul",
+          "state": "contract",
+          "description": "Fallback five-isogeny infrastructure: the candidate Velu point function has zero fibre exactly the points killed by five; no additivity or packaged isogeny is claimed.",
+          "module": "MazurTorsion.NumberTheory.XOneElevenFiveIsogenyHom"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEleven.exists_fifthPower_of_emptyFiveSelmer",
+          "state": "contract",
+          "description": "Fallback arithmetic consumer: a rational unit with all finite valuation residues trivial modulo five is a fifth power; the local Kummer comparison and ramified factor remain open.",
+          "module": "MazurTorsion.NumberTheory.XOneElevenFiveSelmer"
+        }
+      ],
       "depends_on": [
         "MT-X11-JOIN"
       ],
@@ -427,9 +471,11 @@
           "MazurTorsion.NumberTheory.XOneElevenDescent"
         ],
         "informal": "Every rational point on y^2 + y = x^3 - x^2 differs from one of the five multiples of (0,0) by five times a rational point.",
-        "recommended_route": "Preferred after the route migration: formalize the reverse X_1(11) model-to-torsion bridge, apply the unconditional order-11 exclusion to rule out noncuspidal points, then prove FiveCosetBound with the visible point and Q=0. The prepared five-isogeny Selmer computation remains an independent fallback.",
+        "recommended_route": "The reverse X_1(11) model-to-torsion bridge and five-visible-point/Q=0 consumer now compile. Feed the unconditional order-11 exclusion from MT-X11-JOIN to fiveCosetBound_of_no_order_eleven, expose the destination theorem, and close the immutable Challenge bridge. The prepared five-isogeny Selmer computation remains an independent partial fallback.",
         "consumer_declarations": [
-          "MazurTorsion.XOneEleven.five_point_classification_of_cosetBound"
+          "MazurTorsion.XOneEleven.five_point_classification_of_cosetBound",
+          "MazurTorsion.XOneEleven.fiveCosetBound_of_no_order_eleven",
+          "MazurTorsion.XOneEleven.five_point_classification_of_no_order_eleven"
         ],
         "estimated_lines": {
           "min": 1000,
@@ -1062,7 +1108,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps now satisfy genuine triple transitivity, with a concrete arbitrary-divisor O(D) consumer and no caller-supplied cocycle. The chosen-overlap/full-descent comparison makes the actual reconstructed principal cocycle effective with the global trivial line bundle as witness. Naturality from separately chosen pairwise overlaps to a common triple pullback, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps satisfy genuine triple transitivity. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer now compile. The chosen-overlap/full-descent comparison makes the reconstructed principal cocycle effective with the global trivial line bundle as witness. Comparing all three separately chosen pairwise transports on the common triple model, relating the canonical Hom to the normalized transition Iso, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1090,6 +1136,27 @@
         }
       ],
       "artifacts": [
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapHomOfModel",
+          "state": "contract",
+          "description": "Transport an explicit fibre-product comparison canonically to Mathlib's chosen pairwise pullback through the module pseudofunctor.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleOverlapNaturality"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullHom_pullbackOverlapHomOfModel",
+          "state": "contract",
+          "description": "Identify every further pullback of the canonical pairwise transport with pullback of the original explicit-model comparison along the composite map.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleOverlapNaturality"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Real arbitrary-divisor consumer applying canonical pairwise pullback transport to the inverse-ideal comparison on a proper smooth curve.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
         {
           "kind": "structure",
           "name": "TauCeti.AlgebraicGeometry.PicardGroup",

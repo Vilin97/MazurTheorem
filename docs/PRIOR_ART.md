@@ -851,6 +851,16 @@ verifies every denominator and every identity in the rational map
 \right).
 \]
 
+The inverse rational functions and singular-discriminant eliminant in
+`Kubert/OrderElevenModelInverse.lean` were derived locally rather than copied
+from Sutherland's tables.  A scratch SymPy calculation was used to discover
+the compact Bézout coefficients for the raw modular equation and the remaining
+discriminant factor.  No generated source or transcript is imported: Lean's
+`ring` tactic checks the full polynomial identity, and Mathlib's integral-root
+theorem plus direct evaluation at `±1` checks that the monic degree-five
+eliminant has no rational root.  The reverse round trip, every denominator,
+the Tate discriminant, and the exact-order consumer are all kernel-checked.
+
 William Stein and Andrew Snowden's public
 [`X₁(N)` lecture notes](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L23.html)
 also identify the remaining arithmetic character of these cases:

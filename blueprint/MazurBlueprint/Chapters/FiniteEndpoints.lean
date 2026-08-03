@@ -23,10 +23,24 @@ times a rational point.
 declaration is `MazurTorsion.XOneEleven.fiveCosetBound`, with challenge bridge
 `MazurTheorem.Challenge.xOneEleven_fiveCosetBound`; the existing consumer is
 `MazurTorsion.XOneEleven.five_point_classification_of_cosetBound`.  The
-preferred route is now to prove the reverse $`X_1(11)` model bridge, use the
-order-11 theorem to classify all rational points as the five cusps, and take
-$`Q=0` in the coset statement.  The prepared five-isogeny Selmer computation
-remains a valid independent proof.
+reverse $`X_1(11)` model bridge now compiles through an actual elliptic Tate
+curve with an exact order-eleven marked point; its nonzero discriminant is
+proved by a checked resultant and monic rational-root certificate.  The
+compiled theorem `fiveCosetBound_of_no_order_eleven` consumes a uniform
+order-eleven exclusion, enumerates the four affine cusp points plus infinity,
+and takes $`Q=0` in the coset statement.  Thus the preferred route now lacks
+only `MT-X11-JOIN` and the unconditional destination/Challenge bridge.  The
+prepared five-isogeny fallback has checked zero-fibre and empty-support Selmer
+factors, but still lacks the local Kummer comparison and ramified factor.
+
+*Checked partial deliverables (no node credit):*
+
+* `MazurTorsion.Kubert.orderElevenModelOfRaw_inverse`;
+* `MazurTorsion.Kubert.exists_elliptic_tate_marked_order_eleven_of_model`;
+* `MazurTorsion.Kubert.model_abscissa_eq_zero_or_one_of_no_order_eleven`;
+* `MazurTorsion.XOneEleven.fiveCosetBound_of_no_order_eleven`;
+* `MazurTorsion.XOneEleven.veluFiveMap_eq_zero_iff_five_nsmul`;
+* `MazurTorsion.XOneEleven.exists_fifthPower_of_emptyFiveSelmer`.
 :::
 
 :::theorem "MT-X11-JOIN" (parent := "finite_endpoints") (uses := "MT-PRIME-ISOGENY-CHAIN") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "small")

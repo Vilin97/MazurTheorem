@@ -227,6 +227,19 @@ points, and prove the coset statement with zero quotient representative.  Its
 direct five-isogeny Selmer proof remains a fallback and an independent API
 check.
 
+That preferred finite-endpoint bridge is now checked conditionally on the
+uniform theorem.  `OrderElevenModelInverse` constructs the reverse rational
+functions, proves all denominator conditions and the raw round trip, and uses
+a Bézout/resultant certificate plus the rational-root theorem to show that the
+reconstructed Tate curve has nonzero discriminant and an exact order-eleven
+marked point.  `XOneElevenUniformCoset` consumes any uniform order-eleven
+exclusion, identifies the four affine cusp points and infinity with the five
+visible multiples of `(0,0)`, and proves `FiveCosetBound` with `Q=0`.
+Accordingly, no new explicit Selmer premise has been added to the selected
+route: the remaining dependency is `MT-X11-JOIN` and the immutable Challenge
+bridge.  The node remains open with zero credit until those declarations
+compile unconditionally.
+
 ## Acceptance and fallback rules
 
 The new route is accepted only after the following downstream chain compiles:

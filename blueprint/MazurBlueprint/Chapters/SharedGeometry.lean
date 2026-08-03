@@ -115,9 +115,22 @@ principal cocycle is unconditionally effective with the global trivial line bund
 divisors, the pairwise intersection isomorphisms are already transported to the chosen descent
 pullbacks and normalized on the diagonal. On one fixed common Dedekind affine open, the
 equality-induced inverse-ideal comparisons now satisfy genuine triple transitivity, with an
-actual arbitrary-divisor `O(D)` consumer and no caller-supplied cocycle. Naturality comparing
-the separately chosen pairwise pullbacks with a common triple pullback, and hence the full
-descent-datum cocycle, remain missing.
+actual arbitrary-divisor `O(D)` consumer and no caller-supplied cocycle. Canonical
+pseudofunctor transport from any explicit pairwise fibre-product model to Mathlib's chosen
+pullback now compiles, as does its exact naturality under every further `pullHom`; the proper
+smooth curve inverse-ideal comparison is a real consumer, and the comparison from the chosen
+pairwise pullback to the affine chart intersection satisfies both projection laws. What remains
+is to instantiate and compare all three separately chosen pairwise transports on the common
+triple model, prove compatibility of the inverse-ideal construction with those base changes,
+and relate the canonical transported Hom to the normalized transition Iso. Only then can the
+full arbitrary-divisor descent-datum cocycle be packaged.
+
+*Checked pairwise-naturality deliverables (no node credit):*
+
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapHomOfModel`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullHom_pullbackOverlapHomOfModel`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve`.
+
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
