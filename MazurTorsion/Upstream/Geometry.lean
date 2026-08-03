@@ -13,6 +13,7 @@ import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
 import MazurTorsion.Upstream.CurveLineBundleDescent
 import MazurTorsion.Upstream.CurveLineBundleLocality
+import MazurTorsion.Upstream.CurveLineBundleTripleIntersection
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 
