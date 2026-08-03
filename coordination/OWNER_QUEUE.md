@@ -65,7 +65,11 @@ projective point maps. A finite-flat consumer now reaches constant-order
 Checkpoint `8986a24` already proves injectivity directly: positive-degree
 homogeneous functions recover the normalized affine coordinates and distinguish
 the point at infinity, and the result propagates through the slice and
-abelian-variety rational-point types.
+abelian-variety rational-point types. Reviewed checkpoint `752d7ba` proves that
+the coordinate basic opens cover the ambient `Proj`, factors every scheme-valued
+cubic point through a chosen standard affine chart, and extracts a normalized
+nonzero coordinate-ratio triple from its actual chart ring map. It makes no
+inverse-map or surjectivity claim.
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
@@ -73,14 +77,17 @@ The focused single-threaded builds of `FppfQuotientConnecting` and
 `XZeroWeierstrassProjectiveCubic` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
 unchanged; and `python3 scripts/quality.py` passes at 723 integrated Lean
-sources / 1,460,080 lines with all 48 node IDs and 1,000 points intact. These
+sources / 1,460,254 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The remaining modular boundary is to construct the group law and geometric
 integrality on the checked projective cubic, prove that its canonical forward
 point map preserves the group law and is surjective under the required
-ellipticity/nonsingularity hypothesis, and then construct `E/C`
-and quotient/classifying geometry. The A3
+ellipticity/nonsingularity hypothesis, and then construct `E/C`. The immediate
+reverse-map boundary is to compute the canonical chart pullback of `X_j/X_i`,
+prove the extracted cubic equation and nonsingularity, and compare the two
+scheme morphisms through the chart open immersion. The quotient/classifying
+geometry follows after `E/C`. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
 the directly transported principal Picard datum now has the global trivial line
@@ -267,9 +274,13 @@ within each lane follows the listed order.
    proper closed subscheme of `P²`, with its inclusion range and underlying
    Tau Ceti scheme pinned definitionally. Nonsingular homogeneous coordinates
    now factor through this reduced cubic and give the canonical forward map on
-   projective points; coordinate evaluation proves this map injective. Next
-   construct its group object and geometric integrality and prove that this map
-   preserves the group law and is surjective, then `E/C`
+   projective points; coordinate evaluation proves this map injective. Every
+   reverse scheme-valued point now factors through a chosen coordinate chart
+   and supplies a normalized nonzero ratio triple. Next compute the forward
+   point's chart ratios, recover the cubic equation and nonsingularity under
+   `[W.IsElliptic]`, compare the actual morphisms, construct the group object
+   and geometric integrality, and prove that the map preserves the group law
+   and is surjective, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
