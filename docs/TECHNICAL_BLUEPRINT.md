@@ -33,10 +33,10 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,427,712 project-specific lines across 648
+The latest integrated package has 1,428,727 project-specific lines across 649
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 159 lines in the two
-root aggregators. These 681 sources and 1,442,013 checked lines build without
+root aggregators. These 682 sources and 1,443,028 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 

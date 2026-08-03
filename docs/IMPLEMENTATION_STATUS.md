@@ -155,7 +155,12 @@ Current machine-checked results include:
 * a checked finite-flat commutative group-scheme substrate with honest
   kernels, affine constant-rank point exponent, constant and diagonalizable
   examples, a genuine `μₙ` multiplication kernel, and constant-group
-  quotients; the focused Eisenstein rank-zero consumer is still open; and
+  quotients; morphism-level base-change naturality for the named constant
+  families; and one exact fppf admissible-filtration step whose constant/μₚ
+  factors force a `p²` point-exponent bound before and after
+  kernel-compatible scalar extension. Generic kernel/quotient base change,
+  fppf cohomology, Raynaud uniqueness, and the Eisenstein rank-zero consumer
+  remain open; and
 * explicit total Vélu and dual point maps for `X₁(11)` whose composition is
   multiplication by five; this is retained as a release-obligation fallback,
   not a prerequisite of the uniform order-eleven theorem.

@@ -31,7 +31,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1, and the `F₅` ten-point enumeration; integrated finite-flat declarations, checked explicit X₁(11) five-isogeny composition, and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1, and the `F₅` ten-point enumeration; integrated finite-flat kernels, named morphism base change, and one admissible `p²`-exponent step; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
 | `codex/mt-a2-product-formula` | A2 local-order and proper-curve groundwork built over the permanent A1 API | Re-audit against the Picard/Jacobian consumer, then continue the residue-degree product formula without changing the A1 interface. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, kernel presentation, and the constant-rank point-exponent consumer | Keep the sound declarations. Complete quotient/base-change and constant/`μ_p` examples only through the admissible-filtration/rank-zero consumer. Partial infrastructure earns zero completion credit. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -76,11 +76,13 @@ within each lane follows the listed order.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion.
-4. Independently finish `MT-FFGS-BASIC` (20), then
-   `MT-FFGS-CONNECTED-ETALE` (20) as admissible filtrations plus their fppf
-   cohomology, then `MT-FFGS-OORT-RAYNAUD` (40) as the unramified Raynaud
-   uniqueness and rank-zero criterion. Do not build unconsumed classification
-   generality.
+4. Independently finish `MT-FFGS-BASIC` (20): the named constant/μₚ base
+   changes, constant quotient square, and one kernel-certified admissible step
+   now compile, including its `p²` exponent consumer. Generic kernel/quotient
+   base change remains. Then finish `MT-FFGS-CONNECTED-ETALE` (20) with
+   iterated admissible filtrations and their fppf cohomology, and
+   `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
+   rank-zero criterion. Do not build unconsumed classification generality.
 
 ### 3. Modular curve, quotient, and formal immersion
 
