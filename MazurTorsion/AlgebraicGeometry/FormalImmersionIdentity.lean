@@ -30,6 +30,12 @@ theorem isCotangentSurjectiveAt_id (X : Scheme.{u}) (x : X) :
   rw [Scheme.Hom.stalkMap_id]
   exact Function.surjective_id
 
+/-- The canonical residue-field-semilinear cotangent map of the identity is surjective. -/
+theorem cotangentMapAtResidue_id_surjective (X : Scheme.{u}) (x : X) :
+    Function.Surjective (cotangentMapAtResidue (𝟙 X) x) := by
+  change IsCotangentSurjectiveAt (𝟙 X) x
+  exact isCotangentSurjectiveAt_id X x
+
 /-- The identity morphism satisfies both halves of the cotangent criterion. -/
 theorem isCotangentCriterionAt_id (X : Scheme.{u}) (x : X) :
     IsCotangentCriterionAt (𝟙 X) x := by
