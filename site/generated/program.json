@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1449834,
-    "integrated_lean_modules": 701,
+    "integrated_lean_lines": 1450106,
+    "integrated_lean_modules": 702,
     "remaining_composite_orders": [
       18,
       25,
@@ -2065,6 +2065,41 @@
           "state": "contract",
           "description": "Provide the concrete base-normalized weighted Abel--Jacobi consumer of the narrowed A3 boundary.",
           "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.CompatibleChartPrincipalGenerators",
+          "state": "contract",
+          "description": "Record function-field units whose principal divisors give the chart restrictions and whose rational normalizations agree on every nonempty overlap.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.exists_chartPrincipalGenerator_of_descendedLineBundle_iso_trivial",
+          "state": "contract",
+          "description": "Extract an individual function-field generator on every affine Dedekind chart from a global trivialization of the descended divisor line bundle.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.compatibleChartPrincipalGenerators_iff_globalPrincipalWitness",
+          "state": "contract",
+          "description": "Prove that rationally compatible chart generators are exactly one global function-field witness because all nonempty opens of an integral scheme intersect.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.GlobalPrincipalBoundary.of_compatibleChartPrincipalGenerators",
+          "state": "contract",
+          "description": "Construct the exact two-way global principal boundary from coherent principal descent, object separation, and rationally compatible chart generators.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionaryOfCompatibleChartPrincipalGenerators",
+          "state": "contract",
+          "description": "Compile the full conditional divisor-to-Picard dictionary as a downstream consumer of the rationally compatible chart-generator boundary.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
         }
       ],
       "depends_on": [

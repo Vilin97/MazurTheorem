@@ -63,9 +63,14 @@ within each lane follows the listed order.
    `ExplicitInverse.GlobalPrincipalBoundary`: it identifies triviality of
    the descended divisor line bundle with principality, gives the exact
    principal kernel and class equivalence, and feeds the weighted
-   Abel--Jacobi normalization. The missing geometric construction is the
-   rational-section/global-principal boundary from the actual descent data;
-   no A3 credit is claimed.
+   Abel--Jacobi normalization. A global trivialization now produces an
+   individual function-field generator on each affine chart, and checked
+   overlap compatibility makes all generators equal because nonempty opens
+   of an integral curve intersect. The missing geometric construction is
+   precisely that compatible rational normalization from the actual
+   line-bundle cocycle/trivialization, together with the independent cover
+   coherence, effectivity, object-separation, tensor-additivity, and Picard
+   surjectivity inputs; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and

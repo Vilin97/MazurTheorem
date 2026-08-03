@@ -169,9 +169,14 @@ checked code proves it equivalent to principal detection in both directions, so 
 separate gluing input. `ExplicitInverse.GlobalPrincipalBoundary` now packages the exact
 two-way statement $`\mathcal O(D) \cong \mathcal O \leftrightarrow D` principal; it derives zero
 triviality, the exact principal kernel, the class equivalence, the Dictionary, and a
-base-normalized weighted Abel--Jacobi consumer. Constructing that boundary from compatible
-rational sections of the explicit line-bundle cocycle remains absent. Surjectivity then gives
-the full divisor-class/Picard equivalence. Only
+base-normalized weighted Abel--Jacobi consumer. A global trivialization now produces an
+individual function-field generator on every affine Dedekind chart. The new
+`ExplicitInverse.CompatibleChartPrincipalGenerators` records their rational normalization on
+overlaps; integrality makes every two nonempty chart opens intersect, so checked code proves
+this condition is exactly one global rational witness and constructs the global principal
+boundary and a Dictionary consumer from it. Constructing that compatible normalization from
+the actual line-bundle cocycle and trivialization remains absent. Surjectivity then gives the
+full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
 of the divisor cocycle system, chosen-pullback/intersection transport, coherent overlap system,
@@ -529,6 +534,24 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary`
   Normalize the resulting weighted Abel--Jacobi class at a chosen degree-one basepoint.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.CompatibleChartPrincipalGenerators`
+  Record chartwise function-field generators and their equality on every nonempty overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.exists_chartPrincipalGenerator_of_descendedLineBundle_iso_trivial`
+  Extract an individual principal generator on every affine Dedekind chart from a global
+  trivialization of the descended divisor line bundle.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.compatibleChartPrincipalGenerators_iff_globalPrincipalWitness`
+  Identify overlap-compatible chart generators with one global rational witness on an integral
+  scheme.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.GlobalPrincipalBoundary.of_compatibleChartPrincipalGenerators`
+  Construct the exact two-way principal boundary from coherent principal descent, object
+  separation, and rationally compatible generators.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionaryOfCompatibleChartPrincipalGenerators`
+  Compile the conditional full Dictionary as a downstream consumer of that boundary.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal`
   Identify exactness of the divisor Picard map with the geometric principal-detection boundary
