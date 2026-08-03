@@ -495,21 +495,33 @@ theorem exists_project_of_boundaryHom_eq_one
     let b : T ⟶ M.cover.overFamily j :=
       Over.homMk (pullback.snd (M.cover.f i) (M.cover.f j)) pullback.condition.symm
     have hrel := congrArg
-      (mapPoint D.kernelPresentation.inclusion T) (hα i j a b)
-    change mapPoint D.kernelPresentation.inclusion T
-        (pullPoint D.kernelPresentation.kernel a (gauge i) *
-          D.kernelPresentation.liftPoint (M.difference i j a b)
-            (M.mapPoint_difference_eq_one i j a b)) =
-      mapPoint D.kernelPresentation.inclusion T
-        (1 * pullPoint D.kernelPresentation.kernel b (gauge j)) at hrel
-    rw [map_mul, map_mul, mapPoint_pullPoint,
-      D.kernelPresentation.mapPoint_liftPoint, map_one, one_mul,
-      mapPoint_pullPoint] at hrel
-    have hp : pullPoint G a (adjusted i) = pullPoint G b (adjusted j) := by
+      (CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion T)
+      (hα i j a b)
+    change CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion T
+        (CommGroupScheme.pullPoint D.kernelPresentation.kernel.obj a (gauge i) *
+          D.kernelPresentation.toCommGroupScheme.liftPoint (M.difference i j a b)
+            (CommGroupScheme.KernelPresentation.LocalLift.mapPoint_difference_eq_one
+              M i j a b)) =
+      CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion T
+        (1 * CommGroupScheme.pullPoint D.kernelPresentation.kernel.obj b (gauge j)) at hrel
+    rw [map_mul, map_mul, CommGroupScheme.mapPoint_pullPoint,
+      D.kernelPresentation.toCommGroupScheme.mapPoint_liftPoint, map_one, one_mul,
+      CommGroupScheme.mapPoint_pullPoint] at hrel
+    have hp : CommGroupScheme.pullPoint G.obj a (adjusted i) =
+        CommGroupScheme.pullPoint G.obj b (adjusted j) := by
       dsimp only [adjusted]
+      change CommGroupScheme.pullPoint G.obj a
+          (M.lift i *
+            (CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion
+              (M.cover.overFamily i) (gauge i))⁻¹) =
+        CommGroupScheme.pullPoint G.obj b
+          (M.lift j *
+            (CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion
+              (M.cover.overFamily j) (gauge j))⁻¹)
       rw [map_mul, map_mul, map_inv, map_inv]
       rw [← hrel]
-      dsimp only [KernelPresentation.LocalLift.difference]
+      dsimp only [KernelPresentation.LocalLift.difference,
+        CommGroupScheme.KernelPresentation.LocalLift.difference]
       group
     change (a ≫ adjusted i).left = (b ≫ adjusted j).left
     exact congrArg Over.Hom.left hp
@@ -538,9 +550,14 @@ theorem exists_project_of_boundaryHom_eq_one
       mapPoint D.project (M.cover.overFamily i) (adjusted i) =
         restrictBasePoint D.quotient M.cover i q := by
     dsimp only [adjusted]
+    change CommGroupScheme.mapPoint D.project.hom (M.cover.overFamily i)
+        (M.lift i *
+          (CommGroupScheme.mapPoint D.kernelPresentation.toCommGroupScheme.inclusion
+            (M.cover.overFamily i) (gauge i))⁻¹) =
+      CommGroupScheme.restrictBasePoint D.quotient.obj M.cover i q
     rw [map_mul, map_inv,
-      D.kernelPresentation.mapPoint_inclusion_eq_one, inv_one, mul_one,
-      M.maps_to]
+      D.kernelPresentation.toCommGroupScheme.mapPoint_inclusion_eq_one, inv_one, mul_one,
+      CommGroupScheme.KernelPresentation.LocalLift.maps_to]
   refine ⟨x, ?_⟩
   apply Over.OverMorphism.ext
   apply Precoverage.ZeroHypercover.hom_ext M.cover
@@ -679,24 +696,45 @@ private theorem exists_boundary_of_class
     rw [one_mul] at hrel
     rw [← hrel]
     group
+  let cAmbient : OneCocycle
+      (toGroups (CommGroupScheme.commPointPresheaf
+        D.kernelPresentation.kernel.obj)) U.overFamily := by
+    change OneCocycle
+      (toGroups (commPointPresheaf D.kernelPresentation.kernel)) U.overFamily
+    exact c
+  let cWClass : H1
+      (CommGroupScheme.commPointPresheaf D.kernelPresentation.kernel.obj)
+      W.overFamily :=
+    (Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle cAmbient |>.class
+  have hLcClass :
+      (CommGroupScheme.KernelPresentation.LocalLift.cocycle L).class = cWClass := by
+    dsimp only [cWClass, cAmbient, cW, ρ]
+    exact congrArg (fun z ↦ z.class) hLc
   refine ⟨q, ?_⟩
+  change CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom
+      D.locallyLiftable q =
+    CommGroupScheme.fppfHOneClass
+      D.kernelPresentation.kernel.obj U cAmbient.class
   calc
-    D.boundaryHom q =
-        (D.locallyLiftable.localLift q).boundaryClass := rfl
-    _ = L.boundaryClass :=
-      (D.locallyLiftable.localLift q).boundaryClass_eq L
-    _ = fppfHOneClass D.kernelPresentation.kernel W cW.class := by
-      rw [KernelPresentation.LocalLift.boundaryClass, hLc]
-    _ = fppfHOneClass D.kernelPresentation.kernel U c.class := by
-      change fppfHOneClass D.kernelPresentation.kernel W
-          ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
-        fppfHOneClass D.kernelPresentation.kernel U c.class
+    CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom
+        D.locallyLiftable q =
+        CommGroupScheme.KernelPresentation.LocalLift.boundaryClass
+          (D.locallyLiftable.localLift q) := rfl
+    _ = CommGroupScheme.KernelPresentation.LocalLift.boundaryClass L :=
+      CommGroupScheme.KernelPresentation.LocalLift.boundaryClass_eq
+        (D.locallyLiftable.localLift q) L
+    _ = CommGroupScheme.fppfHOneClass
+        D.kernelPresentation.kernel.obj W cWClass := by
+      rw [CommGroupScheme.KernelPresentation.LocalLift.boundaryClass, hLcClass]
+    _ = CommGroupScheme.fppfHOneClass
+        D.kernelPresentation.kernel.obj U cAmbient.class := by
       change Scheme.FppfHOne.mk W
-          ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
-        Scheme.FppfHOne.mk U c.class
+        cWClass =
+        Scheme.FppfHOne.mk U cAmbient.class
+      dsimp only [cWClass]
       simpa only [Scheme.Cover.Hom.pullbackHOne,
         PresheafOfGroups.FamilyRefinement.pullbackHOne_class] using
-        Scheme.FppfHOne.class_pullback U W r c.class
+        Scheme.FppfHOne.class_pullback U W r cAmbient.class
 
 /-- Every global kernel `H¹` class killed by extension to the middle group is represented by a
 boundary of a global quotient section. -/

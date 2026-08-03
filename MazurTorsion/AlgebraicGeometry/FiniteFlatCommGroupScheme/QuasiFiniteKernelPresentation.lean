@@ -119,7 +119,7 @@ noncomputable def commGroupSchemeKernelIso :
 
 /-- Forget the finite-flat structure while retaining the supplied kernel object, inclusion, and
 its checked geometric identification with the canonical ambient kernel. -/
-noncomputable def toCommGroupScheme :
+noncomputable abbrev toCommGroupScheme :
     CommGroupScheme.KernelPresentation f.hom where
   kernel := P.kernel.obj
   inclusion := P.inclusion.hom
@@ -161,7 +161,7 @@ def inclusion : P.kernel ⟶ G :=
 
 /-- Forget the quasi-finite-flat structure while retaining the supplied geometric kernel and
 its chosen inclusion. -/
-def toCommGroupScheme : CommGroupScheme.KernelPresentation f.hom where
+abbrev toCommGroupScheme : CommGroupScheme.KernelPresentation f.hom where
   kernel := P.kernel.obj
   inclusion := P.inclusion.hom
   kernelIso := P.kernelIso
