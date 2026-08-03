@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import Mathlib.GroupTheory.Index
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneCommGroup
 
 /-!
 # Iterated admissible filtrations and the low-degree cardinal estimate
@@ -262,6 +262,33 @@ namespace FinitePGroup
 instance {p : ℕ} : CoeSort (FinitePGroup.{u} p) (Type u) := ⟨carrier⟩
 instance {p : ℕ} (A : FinitePGroup.{u} p) : CommGroup A := A.commGroup
 instance {p : ℕ} (A : FinitePGroup.{u} p) : Finite A := A.finite
+
+universe v uScheme
+
+/-- Package global fppf `H¹` of an actual finite-flat commutative group scheme as a finite
+`p`-group once finiteness and its `p`-power cardinality have been proved.  The group law is the
+canonical common-refinement law constructed from cover-level cocycles; it is not supplied as an
+independent input. -/
+def ofFiniteFlatFppfHOne {p : ℕ} {S : Scheme.{uScheme}}
+    (G : FiniteFlatCommGroupScheme S)
+    [Finite G.FppfHOne.{v}]
+    (length : ℕ)
+    (card_eq : Nat.card G.FppfHOne.{v} = p ^ length) :
+    FinitePGroup p where
+  carrier := G.FppfHOne.{v}
+  commGroup := inferInstance
+  finite := inferInstance
+  length := length
+  card_eq := card_eq
+
+@[simp]
+lemma ofFiniteFlatFppfHOne_length {p : ℕ} {S : Scheme.{uScheme}}
+    (G : FiniteFlatCommGroupScheme S)
+    [Finite G.FppfHOne.{v}]
+    (length : ℕ)
+    (card_eq : Nat.card G.FppfHOne.{v} = p ^ length) :
+    (ofFiniteFlatFppfHOne G length card_eq).length = length :=
+  rfl
 
 /-- The low-degree Euler length `h¹ - h⁰`. -/
 def eulerLength {p : ℕ} (hZero hOne : FinitePGroup.{u} p) : ℤ :=
