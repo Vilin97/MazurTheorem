@@ -10,12 +10,40 @@ Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and choice-independent local-lift boundary class, unconditional
 smooth-curve chart normality, genuine split finite-flat cyclic-subgroup data,
+checked extension of injective finite rational sections to closed constant
+subgroup schemes,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
+
+## Latest owner checkpoint
+
+Checkpoint `59cc975` proves that an injectively indexed finite group of
+rational sections over a field extends to a commutative group-scheme morphism
+from the corresponding constant scheme and that its underlying scheme map is
+a closed immersion. Identity and multiplication are checked on the finite
+coproduct components. The former assumed `extendConstant` field was removed
+from `WeierstrassGroupSchemeInterface`; the derived construction compiles in
+the existing exact-order torsion → split finite-flat `Γ₀(N)` consumer.
+
+Independent review accepted the checkpoint without repair. Direct and
+focused single-threaded builds of `ConstantSections` and
+`XZeroFiniteFlatModuli` passed; audited declarations use only `propext`,
+`Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are unchanged;
+and `python3 scripts/quality.py` passed at 718 integrated Lean sources / 1,457,617
+lines with all 48 node IDs and 1,000 points intact. This removes an assumed API
+burden but claims no roadmap-node completion credit.
+
+The remaining critical boundary in this lane is the actual projective
+Weierstrass/elliptic commutative group scheme and its rational-point
+comparison, followed by quotient/classifying geometry. In parallel, the A3
+principal-divisor cocycle checkpoint is under independent review, and the
+finite-flat lane proceeds from the now-checked local-lift boundary homomorphism
+to the three genuine reverse exactness inclusions and the focused rank-zero
+consumer.
 
 ## Route decision
 
@@ -36,7 +64,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, certified degree-zero exactness and a choice-independent local-lift boundary class; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data relative to an explicit Weierstrass interface; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks uniform lifts from the quotient, the boundary homomorphism and Kummer exactness; the Weierstrass group-scheme interface, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and certified degree-zero exactness; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and now derives its constant closed embedding from injective rational sections, leaving only the actual Weierstrass group scheme and point comparison as that interface; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks the three reverse exactness inclusions needed for the full low-degree sequence; the actual Weierstrass group scheme, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -130,9 +158,12 @@ within each lane follows the listed order.
    exact on represented points. Given genuine local lifts, overlap
    differences construct a kernel-valued Čech class; kernel uniqueness proves
    cocycle naturality, and gauge/refinement/intersection arguments prove full
-   choice independence. Next finish `MT-FFGS-CONNECTED-ETALE` (20) by deriving
-   those local lifts from the fppf quotient presentation, proving the boundary
-   is a homomorphism, and filling the six-group/five-map exact-sequence instance. Then finish
+   choice independence. The checked fppf quotient projection now supplies the
+   pulled-back singleton cover and its tautological local lifts, so the
+   boundary is an actual homomorphism and the low-degree package has its
+   correct maps. Next finish `MT-FFGS-CONNECTED-ETALE` (20) by proving the
+   three reverse image/kernel inclusions and filling the six-group/five-map
+   exact-sequence instance. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
 
@@ -147,9 +178,11 @@ within each lane follows the listed order.
    scheme-theoretic layer now packages finite-locally-free closed subgroup
    schemes, checked base change, and split cyclic subgroups identified with
    the constant group of order `N`. Exact coordinate torsion constructs a
-   genuine split Γ₀ datum and recovers the existing rational carrier, relative
-   to a narrow `WeierstrassGroupSchemeInterface`. Next construct that
-   interface for the actual elliptic curve, then `E/C` and the coarse `X₀(N)`
+   genuine split Γ₀ datum and recovers the existing rational carrier. The
+   extension of an injective constant family and its closed immersion are now
+   checked generically, so `WeierstrassGroupSchemeInterface` retains only the
+   actual group scheme and rational-point comparison. Next construct those
+   remaining fields for the elliptic curve, then `E/C` and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
 2. `MT-X0-INTEGRAL` (30): compactification and cusp neighbourhoods only in
