@@ -229,10 +229,13 @@ within each lane follows the listed order.
    quotient-valued trivializing gauge lifts on a genuine fppf refinement; the
    resulting gauged cocycle lifts uniquely through the certified kernel. This
    proves the last reverse inclusion, so the six-group/five-map constructor now
-   accepts no exactness inputs. Its downstream cardinal theorem consumes six
-   finite-length certificates without accepting exactness inputs. Next finish
-   `MT-FFGS-CONNECTED-ETALE` (20) by constructing the concrete elementary-factor
-   certificates and focused finite rank-zero specialization. Then finish
+   accepts no exactness inputs. Its non-circular downstream cardinal theorem
+   consumes five endpoint finite-cardinality certificates plus finiteness of
+   the middle `H¹`, without accepting exactness inputs or the middle cardinal
+   itself. Those arithmetic endpoint certificates and middle-`H¹` finiteness
+   remain absent. Next finish `MT-FFGS-CONNECTED-ETALE` (20) by constructing the
+   concrete elementary-factor certificates and focused finite rank-zero
+   specialization. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
    Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
