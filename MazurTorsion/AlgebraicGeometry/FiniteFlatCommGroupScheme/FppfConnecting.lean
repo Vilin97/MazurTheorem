@@ -27,7 +27,7 @@ open CategoryTheory.PresheafOfCommGroups
 open CategoryTheory.PresheafOfGroups
 open scoped CategoryTheory.MonObj
 
-universe v u
+universe w v u
 
 variable {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
 
@@ -109,6 +109,50 @@ theorem pullPoint_liftPoint {T U : Over S} (g : T ⟶ U)
   P.toCommGroupScheme.pullPoint_liftPoint g x hx
 
 namespace LocalLift
+
+/-- Compatibility constructor retained from the original finite-flat `LocalLift` structure. -/
+@[match_pattern]
+abbrev mk {P : KernelPresentation f} {q : BasePoint H}
+    (cover : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+    (lift : ∀ i : cover.I₀, G.Point (cover.overFamily i))
+    (maps_to : ∀ i : cover.I₀,
+      mapPoint f (cover.overFamily i) (lift i) = restrictBasePoint H cover i q) :
+    P.LocalLift.{v} q :=
+  CommGroupScheme.KernelPresentation.LocalLift.mk cover lift maps_to
+
+/-- Compatibility recursor retained from the original finite-flat `LocalLift` structure. -/
+@[elab_as_elim]
+abbrev rec {P : KernelPresentation f} {q : BasePoint H}
+    {motive : P.LocalLift.{v} q → Sort w}
+    (mk : ∀ (cover : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+      (lift : ∀ i : cover.I₀, G.Point (cover.overFamily i))
+      (maps_to : ∀ i : cover.I₀,
+        mapPoint f (cover.overFamily i) (lift i) = restrictBasePoint H cover i q),
+      motive (LocalLift.mk cover lift maps_to))
+    (t : P.LocalLift.{v} q) : motive t :=
+  CommGroupScheme.KernelPresentation.LocalLift.rec mk t
+
+/-- Compatibility recursor retained from the original finite-flat `LocalLift` structure. -/
+@[elab_as_elim]
+abbrev recOn {P : KernelPresentation f} {q : BasePoint H}
+    {motive : P.LocalLift.{v} q → Sort w} (t : P.LocalLift.{v} q)
+    (mk : ∀ (cover : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+      (lift : ∀ i : cover.I₀, G.Point (cover.overFamily i))
+      (maps_to : ∀ i : cover.I₀,
+        mapPoint f (cover.overFamily i) (lift i) = restrictBasePoint H cover i q),
+      motive (LocalLift.mk cover lift maps_to)) : motive t :=
+  CommGroupScheme.KernelPresentation.LocalLift.recOn t mk
+
+/-- Compatibility cases eliminator retained from the original finite-flat `LocalLift` structure. -/
+@[elab_as_elim]
+abbrev casesOn {P : KernelPresentation f} {q : BasePoint H}
+    {motive : P.LocalLift.{v} q → Sort w} (t : P.LocalLift.{v} q)
+    (mk : ∀ (cover : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+      (lift : ∀ i : cover.I₀, G.Point (cover.overFamily i))
+      (maps_to : ∀ i : cover.I₀,
+        mapPoint f (cover.overFamily i) (lift i) = restrictBasePoint H cover i q),
+      motive (LocalLift.mk cover lift maps_to)) : motive t :=
+  CommGroupScheme.KernelPresentation.LocalLift.casesOn t mk
 
 /-- Compatibility projection for the genuine cover carried by finite-flat local lifts. -/
 abbrev cover {P : KernelPresentation f} {q : BasePoint H}
@@ -271,6 +315,38 @@ end LocalLift
 abbrev LocallyLiftable := P.toCommGroupScheme.LocallyLiftable.{v}
 
 namespace LocallyLiftable
+
+/-- Compatibility constructor retained from the original finite-flat `LocallyLiftable` structure. -/
+@[match_pattern]
+abbrev mk {P : KernelPresentation f}
+    (localLift : ∀ q : BasePoint H, P.LocalLift.{v} q) :
+    P.LocallyLiftable.{v} :=
+  CommGroupScheme.KernelPresentation.LocallyLiftable.mk localLift
+
+/-- Compatibility recursor retained from the original finite-flat `LocallyLiftable` structure. -/
+@[elab_as_elim]
+abbrev rec {P : KernelPresentation f} {motive : P.LocallyLiftable.{v} → Sort w}
+    (mk : ∀ localLift : ∀ q : BasePoint H, P.LocalLift.{v} q,
+      motive (LocallyLiftable.mk localLift))
+    (t : P.LocallyLiftable.{v}) : motive t :=
+  CommGroupScheme.KernelPresentation.LocallyLiftable.rec mk t
+
+/-- Compatibility recursor retained from the original finite-flat `LocallyLiftable` structure. -/
+@[elab_as_elim]
+abbrev recOn {P : KernelPresentation f} {motive : P.LocallyLiftable.{v} → Sort w}
+    (t : P.LocallyLiftable.{v})
+    (mk : ∀ localLift : ∀ q : BasePoint H, P.LocalLift.{v} q,
+      motive (LocallyLiftable.mk localLift)) : motive t :=
+  CommGroupScheme.KernelPresentation.LocallyLiftable.recOn t mk
+
+/-- Compatibility cases eliminator retained from the original finite-flat `LocallyLiftable`
+structure. -/
+@[elab_as_elim]
+abbrev casesOn {P : KernelPresentation f} {motive : P.LocallyLiftable.{v} → Sort w}
+    (t : P.LocallyLiftable.{v})
+    (mk : ∀ localLift : ∀ q : BasePoint H, P.LocalLift.{v} q,
+      motive (LocallyLiftable.mk localLift)) : motive t :=
+  CommGroupScheme.KernelPresentation.LocallyLiftable.casesOn t mk
 
 variable {P : KernelPresentation f}
 
