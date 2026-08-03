@@ -182,6 +182,7 @@ import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
 import MazurTorsion.PrimeOrder.CyclotomicObstruction
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
+import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 import MazurTorsion.PrimeOrder.GoodReductionAtFive
 import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
