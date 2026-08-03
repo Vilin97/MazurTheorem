@@ -461,6 +461,16 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartBaseChangeWitness`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackage_hasConstantOrder`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affineEquationToStandardChartRingEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardOpenMap_opensRange_eq_preimage_basicOpen`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartComparison`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfStandardChartComparison`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -497,11 +507,18 @@ together with the earlier injectivity proof, bijective. The standard `Z ≠ 0`
 homogeneous localization is explicitly equivalent to the affine bivariate
 polynomial ring; the localized cubic becomes the affine Weierstrass
 polynomial, its equation ideal is prime, and the quotient chart is integral. A
-checked criterion reduces geometric integrality to the canonical dense-open
-comparison and reducedness after every field base change, with actual Tau Ceti
-and split-`Γ₀` consumers. That witness, the scheme group law, group-law
-compatibility, `E/C`, the coarse modular point, and the required Atkin--Lehner
-geometry remain open, so this node receives no completion credit.
+second equivalence identifies the affine equation quotient with that localized
+homogeneous chart. For every field extension, the canonical standard open of
+the actual pullback is constructed by pulling back `Proj.awayι`; it is an open
+immersion whose range is exactly the inverse image of `D₊(Z)`. A checked
+comparison structure isolates the remaining projective base-change
+isomorphism, chart/open isomorphism, and density. Its projective isomorphism
+derives target reducedness, and its consumer reaches both geometric
+integrality and Tau Ceti's abelian-variety constructor; the earlier split-`Γ₀`
+consumer then reaches constant geometric order. The three comparison fields,
+the scheme group law and compatibility, `E/C`, the coarse modular point, and
+the required Atkin--Lehner geometry remain open, so this node receives no
+completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
