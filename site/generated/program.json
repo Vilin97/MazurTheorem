@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1450225,
-    "integrated_lean_modules": 702,
+    "integrated_lean_lines": 1450607,
+    "integrated_lean_modules": 703,
     "remaining_composite_orders": [
       18,
       25,
@@ -2973,13 +2973,14 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact one-step constant-or-multiplicative filtration and arbitrary-base-change exponent consumer now compile. Develop the iterated filtration and bounded fppf-cohomology estimate needed by Mazur's rank-zero argument, rather than a general connected-etale theory with no named consumer.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Construct genuine global fppf H1, its Kummer maps, and instantiate the exact-sequence certificate needed by Mazur's rank-zero argument.",
       "artifacts": [
         {
-          "kind": "definition",
-          "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup",
-          "state": "proposed",
-          "description": "Package filtrations with graded pieces Z/p or mu_p."
+          "kind": "structure",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Package an honest recursive exact filtration whose graded kernels are the checked constant Z/p or multiplicative mu_p factors."
         },
         {
           "kind": "definition",
@@ -2992,6 +2993,34 @@
           "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le",
           "state": "proposed",
           "description": "Prove Mazur's filtration estimate by reduction to the elementary graded pieces."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration.baseChange_point_pow_eq_one",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Prove that every affine point after arbitrary scalar extension is killed by p raised to the exact filtration length."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.UnitKummerClasses.pow_eq_one",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Prove directly that every class in the explicit unit quotient by p-th powers is killed by p, without calling it global fppf cohomology."
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Require six concrete finite p-groups, all five low-degree maps, left injectivity, and the four interior exactness proofs."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.middleHOne_natCard_le_pow",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Derive the bounded middle H1 cardinal estimate from the fully specified low-degree finite p-group exact sequence."
         }
       ],
       "depends_on": [

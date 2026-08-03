@@ -96,15 +96,31 @@ consumer compiles.
 and cohomology estimate used in Mazur's rank-zero proof, rather than an
 unconsumed general connected--étale library.
 
-*Status:* `planned`; the completed finite-flat exact-presentation layer is
-available, and the next boundary is the iterated filtration/fppf-cohomology
-estimate itself.
+*Status:* `planned`; the completed finite-flat exact-presentation layer now
+supports honest recursive admissible filtrations, their base-change exponent
+bound, and the elementary low-degree finite-group estimate. The next boundary
+is genuine global fppf cohomology and its Kummer exact sequence.
 
-* `definition` (`proposed`): `AlgebraicGeometry.AdmissibleFiniteFlatGroup`
+* `structure` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
 * `definition` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.fppfHOne`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration.baseChange_point_pow_eq_one`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.UnitKummerClasses.pow_eq_one`
+* `structure` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.middleHOne_natCard_le_pow`
+
+The exact-sequence certificate exposes all six finite p-groups, five maps,
+left injectivity, and four exactness proofs. It therefore cannot be populated
+by a cardinal bound alone. Pinned Mathlib still lacks the global colimit over
+fppf covers, Kummer connecting morphism, and long exact sequence needed to
+instantiate it; no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

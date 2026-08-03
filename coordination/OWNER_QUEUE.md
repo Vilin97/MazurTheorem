@@ -106,8 +106,12 @@ within each lane follows the listed order.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
-   Next finish `MT-FFGS-CONNECTED-ETALE` (20) with iterated admissible
-   filtrations and their focused fppf cohomology estimate, and
+   The honest recursive filtration, its `p^length` exponent bound under
+   arbitrary base change, the explicit unit Kummer quotient, and the complete
+   finite-p-group low-degree Euler estimate now compile. Next finish
+   `MT-FFGS-CONNECTED-ETALE` (20) by constructing genuine global fppf `H¹`,
+   its refinement/colimit and Kummer connecting maps, and instantiating the
+   six-group/five-map exact-sequence certificate. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
 
