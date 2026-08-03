@@ -64,6 +64,7 @@ import MazurTorsion.ModularCurve.QExpansionFirstCoefficient
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli
+import MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
 import MazurTorsion.ModularCurve.XZeroThirtyFive
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence
