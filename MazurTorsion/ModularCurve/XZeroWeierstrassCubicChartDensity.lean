@@ -346,5 +346,33 @@ noncomputable def toAbelianVarietyOfCanonicalStandardChart
   toAbelianVarietyOfStandardChartComparison W fun L ↦
     canonicalStandardChartComparison W L
 
+/-- Real finite-flat consumer of the unconditional chart comparison. Once the independently
+required group law on the cubic is supplied, a coordinate point of exact order `N` gives the
+checked split `Gamma_0(N)` datum without any chart or geometric-integrality hypothesis at the
+call site. -/
+noncomputable def canonicalStandardChartSplitGammaZeroPackage
+    {N : ℕ} [NeZero N] (W : WeierstrassCurve K)
+    [DecidableEq K] [W.IsElliptic] [GrpObj (toOver W)]
+    (hgroup : CanonicalPointGroupLawCompatibility W)
+    (P : W.toAffine.Point) (hP : addOrderOf P = N) :
+    StandardChartSplitGammaZeroPackage (N := N) W :=
+  standardChartSplitGammaZeroPackage W
+    (fun L ↦ (canonicalStandardChartComparison W L).toBaseChangeWitness W L)
+    hgroup P hP
+
+/-- The subgroup produced by the canonical chart consumer has the requested constant geometric
+order. -/
+theorem canonicalStandardChartSplitGammaZeroPackage_hasConstantOrder
+    {N : ℕ} [NeZero N] (W : WeierstrassCurve K)
+    [DecidableEq K] [W.IsElliptic] [GrpObj (toOver W)]
+    (hgroup : CanonicalPointGroupLawCompatibility W)
+    (P : W.toAffine.Point) (hP : addOrderOf P = N) :
+    (canonicalStandardChartSplitGammaZeroPackage W hgroup P hP).datum.subgroup.carrier
+      |>.HasConstantOrder N := by
+  simpa [canonicalStandardChartSplitGammaZeroPackage] using
+    standardChartSplitGammaZeroPackage_hasConstantOrder W
+      (fun L ↦ (canonicalStandardChartComparison W L).toBaseChangeWitness W L)
+      hgroup P hP
+
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
