@@ -1611,15 +1611,18 @@ compiled consumers. The multiplicative bad-level factor `mu_p^flat` is now an
 actual quasi-finite flat commutative group scheme: an explicit Hopf
 localization gives its typed open inclusion into `mu_p`, identifies its range,
 and proves that it agrees with `mu_p` over `D(N)`. Its Fermat specialization is
-the concrete bad-level factor consumer. The represented additive point maps
+the concrete bad-level factor consumer. At odd coefficient every integral
+global section is trivial; at distinct prime coefficient and level this is
+packaged as cardinality `1 = p^0`, with a compiled low-degree Euler consumer.
+The represented additive point maps
 now have their actual pointwise categorical cokernel presheaves,
 objectwise-surjective projections, and exact short complexes, and the two
 typed bad-level inclusions consume this interface. This is deliberately only
 the presheaf precursor: fppf sheafification, bad-fibre support, and local
 surjectivity of the supported quotient projection remain to be proved. The
 supported sheaf localization sequences at the bad fibre, the quasi-finite
-admissible-filtration exact sequences, the bad-level multiplicative
-`H⁰`/`H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
+admissible-filtration exact sequences, both bad-level `H¹` certificates,
+middle-`H¹` finiteness, and the focused rank-zero
 specialization remain open. The supported quotient terms in the localization
 sequences are not quasi-finite flat group schemes.
 

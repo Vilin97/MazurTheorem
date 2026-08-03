@@ -93,12 +93,12 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 `XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
-`QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`, and
-`SupportedPointCokernel`
+`QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
+`MultiplicativeFlatGlobalSections`, and `SupportedPointCokernel`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 738 integrated Lean
-sources / 1,465,388 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 739 integrated Lean
+sources / 1,465,537 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -163,15 +163,18 @@ are now proved trivial and consumed by a concrete `p^0` cardinal certificate.
 The multiplicative-flat factor now compiles as an explicit Hopf localization,
 an actual quasi-finite flat commutative group scheme, and a typed open subgroup
 of `mu_p`; its exact principal-open range contains the full model over `D(N)`,
-and the Fermat specialization is a concrete consumer. The fppf connecting
-construction itself is now finiteness-free, with quasi-finite and finite-flat
-compatibility consumers. The represented additive point maps now have actual
+and the Fermat specialization is a concrete consumer. At odd coefficient its
+integral global sections are trivial; distinct prime coefficient and level
+give a checked `p^0` certificate, and the low-degree Euler package consumes
+the resulting zero-length endpoint. The fppf connecting construction itself
+is now finiteness-free, with quasi-finite and finite-flat compatibility
+consumers. The represented additive point maps now have actual
 pointwise categorical cokernel presheaves, objectwise-surjective projections,
 and exact short complexes, with both typed bad-level inclusions as downstream
 consumers. These are only the raw presheaf precursors. Their fppf
 sheafification, bad-fibre support, locally-surjective supported sequences, the
 quasi-finite admissible-filtration exact sequences, the remaining bad-level
-`H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
+`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
 remain, followed by the unramified Raynaud uniqueness input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
 sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
@@ -336,6 +339,8 @@ within each lane follows the listed order.
    The multiplicative-flat construction also compiles as an actual
    quasi-finite flat group scheme with a typed open inclusion into `mu_p`, its
    exact range, its `D(N)` containment, and a canonical Fermat consumer. The
+   odd-coefficient integral `H⁰` is trivial, and the distinct-prime-level
+   certificate has a checked low-degree Euler consumer. The
    local-lift connecting homomorphism is now constructed for arbitrary ambient
    commutative group schemes and consumed by both the quasi-finite wrapper and
    the repaired finite-flat API. Actual categorical point-cokernel presheaves,
@@ -343,7 +348,7 @@ within each lane follows the listed order.
    bad-level consumers now compile. Fppf sheafification and support are not
    claimed. The sheaf-level supported localization sequences, the quasi-finite
    admissible-filtration exact sequences, the
-   remaining bad-level `H⁰`/`H¹` certificates, and middle-`H¹` finiteness
+   remaining bad-level `H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
    rank-zero specialization. Then finish

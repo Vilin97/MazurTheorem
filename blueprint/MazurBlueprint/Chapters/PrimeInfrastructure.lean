@@ -153,6 +153,9 @@ consumers. The multiplicative-flat factor is now constructed by an explicit
 Hopf localization, packaged as a quasi-finite flat commutative group scheme,
 and included into `mu_p` by a typed open immersion whose exact range contains
 the whole model over `D(N)`. The Fermat specialization is a concrete consumer.
+At odd coefficient every integral global section is the identity; a
+distinct-prime-level specialization packages this as cardinality `1 = p^0`,
+and the low-degree Euler length bound consumes the endpoint.
 Actual pointwise categorical cokernel presheaves now compile for represented
 additive point maps, with objectwise-surjective projections and exact short
 complexes; both typed bad-level inclusions are downstream consumers. These raw
@@ -223,6 +226,12 @@ group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatBasePoint_eq_one`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatBasePointCertifiedDataOfPrimeLevel`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatBasePoint_eq_one`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatBasePointCertifiedDataOfPrimeLevel`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.middleHOne_length_le_of_fermatMuFlatKernelHZero`
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom`
 * `theorem` (`contract`):
@@ -328,7 +337,8 @@ constant-flat factor now compiles as a principal-open Hopf localization with
 distinct coefficient and level parameters, a typed realized range and
 level-open consumer, and certified trivial integral global sections. The
 multiplicative-flat factor and its typed inclusion now compile, as do the raw
-point-cokernel presheaves and concrete bad-level consumers. Fppf
+point-cokernel presheaves and concrete bad-level consumers. Its trivial
+odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. Fppf
 sheafification, support, the supported sheaf localization sequences,
 quasi-finite admissible-filtration exact sequences, remaining `H⁰`/`H¹`
 certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
