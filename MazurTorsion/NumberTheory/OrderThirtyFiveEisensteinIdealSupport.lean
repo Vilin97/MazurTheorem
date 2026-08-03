@@ -609,4 +609,11 @@ theorem optimalQuotientModel_rank_zero :
     Module.finrank ℤ optimalQuotientModel.toAffine.Point = 0 :=
   optimalQuotientModel_rank_zero_of_associatedCube targetEisensteinAssociatedCube
 
+/-- The rational point group of the fixed explicit level-`35` model is finite,
+with no remaining arithmetic hypothesis.  Identifying this model with the
+required modular quotient is a separate geometric step. -/
+theorem optimalQuotientModel_finite :
+    Finite optimalQuotientModel.toAffine.Point :=
+  optimalQuotientModel_finite_of_associatedCube targetEisensteinAssociatedCube
+
 end MazurTorsion.OrderThirtyFive

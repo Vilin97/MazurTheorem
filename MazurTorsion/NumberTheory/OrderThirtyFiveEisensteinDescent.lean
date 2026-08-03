@@ -787,4 +787,12 @@ theorem optimalQuotientModel_rank_zero_of_associatedCube
   optimalQuotientModel_rank_zero_of_targetCubicFibreRoots
     (targetCubicFibreRoots_of_associatedCube hfactor)
 
+/-- End-to-end finiteness consumer of the associated-cube ideal-support
+statement. -/
+theorem optimalQuotientModel_finite_of_associatedCube
+    (hfactor : TargetEisensteinAssociatedCube) :
+    Finite optimalQuotientModel.toAffine.Point :=
+  optimalQuotientModel_finite_of_targetCubicFibreRoots
+    (targetCubicFibreRoots_of_associatedCube hfactor)
+
 end MazurTorsion.OrderThirtyFive
