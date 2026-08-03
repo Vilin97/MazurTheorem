@@ -98,13 +98,19 @@ unconsumed general connected--étale library.
 
 *Status:* `planned`; the completed finite-flat exact-presentation layer now
 supports honest recursive admissible filtrations, their base-change exponent
-bound, and the elementary low-degree finite-group estimate. The next boundary
-is genuine global fppf cohomology and its Kummer exact sequence.
+bound, and the elementary low-degree finite-group estimate. Genuine relative
+global fppf `H¹` over `Scheme.Over X` now compiles as a common-refinement
+quotient with a representable finite-flat group-scheme consumer. The next
+boundary is its canonical commutative group law and Kummer exact sequence.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
-* `definition` (`proposed`):
-  `AlgebraicGeometry.AdmissibleFiniteFlatGroup.fppfHOne`
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -118,9 +124,11 @@ is genuine global fppf cohomology and its Kummer exact sequence.
 
 The exact-sequence certificate exposes all six finite p-groups, five maps,
 left injectivity, and four exactness proofs. It therefore cannot be populated
-by a cardinal bound alone. Pinned Mathlib still lacks the global colimit over
-fppf covers, Kummer connecting morphism, and long exact sequence needed to
-instantiate it; no node credit is claimed.
+by a cardinal bound alone. The repository now supplies the fixed-universe
+global colimit over actual relative fppf covers, including refinement-choice
+independence and a type-level eliminator. The Kummer connecting morphism,
+commutative group structure, and low-degree exact sequence are still absent;
+no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
@@ -181,6 +189,10 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRCoordinate.ringEquiv`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -195,9 +207,13 @@ non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk
 power-series coordinate now transports membership in the square of the stalk
-maximal ideal to vanishing of the first q-coefficient. The integral cusp
-model, its actual q-coordinate, and cusp comparison remain open, so this node
-receives no completion credit.
+maximal ideal to vanishing of the first q-coefficient. A complete domain DVR
+with a coefficient field and irreducible uniformizer now constructs the
+coordinate in the opposite direction. Formal immersion also cancels arbitrary
+maps from a separated local spectrum once their closed points and restricted
+local maps agree. The integral cusp model and the instances realizing these
+hypotheses on its actual completed stalk remain open, so this node receives no
+completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -235,6 +251,10 @@ cotangent space of a nontrivial quotient.
   `ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_normalizedQExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_completeDVR_normalizedQExpansion`
 
 The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
 provisional target for this calculation: it requires a residue-field
@@ -242,8 +262,10 @@ isomorphism, dimension one over the actual source residue field, and one
 vector detected by the canonical semilinear cotangent map. A target local
 parameter whose completed pullback is `c*q + q^2*F`, with `c` nonzero, now
 instantiates that certificate and proves actual completed-stalk formal
-immersion. The missing Hecke work is the modular/Jacobian action and the
-checked expansion identity at the auxiliary characteristics five and eleven.
+immersion. Named consumers carry both a supplied coordinate and the constructed
+complete-DVR coordinate through to equality of canonical local-spectrum maps.
+The missing Hecke work is the modular/Jacobian action and the checked expansion
+identity at the auxiliary characteristics five and eleven.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

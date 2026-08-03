@@ -49,6 +49,13 @@ to formal immersion.
 
 *Status:* `blocked`.
 
+The local algebraic endpoint already compiles:
+`AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo`
+separates arbitrary maps from a Noetherian local spectrum once their closed
+points and restricted local homomorphisms agree. What remains here is to
+construct the modular and cusp sections and prove that their quotient images
+satisfy those hypotheses.
+
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive`
 :::

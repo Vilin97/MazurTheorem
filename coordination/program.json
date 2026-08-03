@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1450766,
-    "integrated_lean_modules": 704,
+    "integrated_lean_lines": 1452520,
+    "integrated_lean_modules": 708,
     "remaining_composite_orders": [
       18,
       25,
@@ -639,7 +639,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and both nontrivial Eisenstein unit covers are checked; the remaining rank-zero input is the nonsplit common-prime ideal-support proof that the cleared negative Eisenstein factor is associated to a cube. Tame local reduction and #E(F_11) <= 18 then exclude a specialized point of order 35.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, the nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers now prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. Identifying that model with the modular quotient, constructing its classifying map and formal immersion, and supplying the geometric bad-fibre specialization remain open; the checked F_11 enumeration then gives the final local contradiction.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -669,7 +669,7 @@
           "MazurTorsion.Kubert.OrderThirtyFive"
         ],
         "informal": "An elliptic curve over Q has no rational point of exact order 35.",
-        "recommended_route": "Reuse the shared Mazur-1978 engine. Construct the optimal elliptic quotient X_0(35)/w_5 with model y^2+y=x^3+x^2+9x+1. For rank zero, retain the checked source cube classes, target cyclic-fibre equivalence, denominator clearing, Eisenstein norm factorization, six-unit split, and two mod-seven infinite descents. Narrow TargetEisensteinAssociatedCube to the existential integral-data witness actually needed, then prove it by the nonsplit common-prime ideal-support calculation at 2, 3, and 5. Instantiate formal immersion at auxiliary prime 11 and combine tame torsion specialization with the checked 121-model enumeration #E(F_11) <= 18.",
+        "recommended_route": "Reuse the shared Mazur-1978 engine. Retain the now-checked rank-zero and finiteness proof for the fixed model y^2+y=x^3+x^2+9x+1, including source cube classes, target cyclic-fibre equivalence, denominator clearing, Eisenstein ideal support, the six-unit split, and both mod-seven descents. Construct and identify the actual quotient X_0(35)/w_5 with that model, instantiate formal immersion at auxiliary prime 11, and combine tame torsion specialization with the checked 121-model enumeration #E(F_11) <= 18.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
@@ -732,7 +732,7 @@
           "kind": "definition",
           "name": "MazurTorsion.OrderThirtyFive.TargetEisensteinAssociatedCube",
           "state": "contract",
-          "description": "Isolate the exact remaining ideal-support proposition for the cleared negative Eisenstein factor; this conditional input is not claimed proved.",
+          "description": "Package the existential normalized integral-data witness needed by the cleared negative Eisenstein factor; the checked ideal-support theorem now supplies this witness unconditionally.",
           "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent"
         },
         {
@@ -741,6 +741,27 @@
           "state": "contract",
           "description": "Compile the end-to-end rank-zero consumer of the associated-cube ideal-support statement through all six Eisenstein unit classes.",
           "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.targetEisensteinAssociatedCube",
+          "state": "contract",
+          "description": "Prove the normalized associated-cube witness by the checked common-prime ideal-support calculation at 2, 3, and 5.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinIdealSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero",
+          "state": "contract",
+          "description": "Deduce unconditionally that the fixed explicit level-35 model has Mordell--Weil rank zero.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinIdealSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.optimalQuotientModel_finite",
+          "state": "contract",
+          "description": "Deduce unconditionally that the rational point group of the fixed explicit level-35 model is finite; identifying it with the modular quotient remains separate.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinIdealSupport"
         }
       ],
       "acceptance_declarations": [
@@ -2973,7 +2994,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Construct genuine global fppf H1, its Kummer maps, and instantiate the exact-sequence certificate needed by Mazur's rank-zero argument.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global fppf H1 is now constructed from relative cover-level classes in Scheme.Over X, with refinement independence, a type-level colimit eliminator, and a representable finite-flat group-scheme consumer. Construct its canonical commutative group law, the Kummer connecting maps, and the exact-sequence instance needed by Mazur's rank-zero argument.",
       "artifacts": [
         {
           "kind": "structure",
@@ -2984,9 +3005,24 @@
         },
         {
           "kind": "definition",
-          "name": "AlgebraicGeometry.AdmissibleFiniteFlatGroup.fppfHOne",
-          "state": "proposed",
-          "description": "Expose the degree-one fppf cohomology set used by Kummer descent."
+          "name": "AlgebraicGeometry.Scheme.FppfHOne",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
+          "description": "Globalize relative cover-level nonabelian H1 over genuine fppf covers by the common-refinement quotient in Scheme.Over X."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
+          "description": "Instantiate relative global fppf H1 with the representable point presheaf of an actual finite-flat commutative group scheme."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
+          "description": "Prove that an actual finite-flat group-scheme cocycle and its pullback to a genuine relative refinement define the same global fppf class."
         },
         {
           "kind": "theorem",
@@ -3233,6 +3269,20 @@
         },
         {
           "kind": "theorem",
+          "name": "AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionCollision",
+          "description": "Cancel arbitrary morphisms from a separated local spectrum when their closed points and induced local maps agree after restriction along a formal immersion."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRCoordinate.ringEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRCoordinate",
+          "description": "Construct a power-series coordinate on a complete equicharacteristic DVR from a coefficient field and an irreducible uniformizer."
+        },
+        {
+          "kind": "theorem",
           "name": "ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime",
           "state": "proposed",
           "description": "Identify the odd prime-to-level cusp completion with the q-power-series ring."
@@ -3372,6 +3422,20 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.QExpansionFirstCoefficient",
           "description": "Conclude actual completed-stalk formal immersion from a target local parameter whose pullback has normalized expansion c q plus q squared times a series with c nonzero."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_normalizedQExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.QExpansionFirstCoefficient",
+          "description": "Use a normalized first q-coefficient to cancel canonical local-spectrum points through the resulting formal immersion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_completeDVR_normalizedQExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRCoordinate",
+          "description": "Construct the complete-DVR coordinate, prove the normalized-q formal immersion, and cancel its actual canonical local-spectrum points in one checked consumer."
         }
       ],
       "depends_on": [

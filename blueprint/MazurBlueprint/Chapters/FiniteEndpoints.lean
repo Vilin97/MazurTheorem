@@ -102,6 +102,12 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.TargetEisensteinAssociatedCube`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero_of_associatedCube`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.targetEisensteinAssociatedCube`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_finite`
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
 point-function candidate and its zero fibre, and trivial torsion on the
@@ -114,12 +120,14 @@ numerator-denominator and gcd-at-seven calculation. The target cyclic cubic
 fibre is proved equivalent to surjectivity. Denominator clearing, the
 Eisenstein norm factorization, all six unit classes, both nontrivial
 mod-seven infinite descents, and the trivial-unit rational fibre root now
-feed a compiled end-to-end rank-zero consumer. The remaining target-descent
-input is the nonsplit common-prime ideal-support proof at `2`, `3`, and `5`,
-isolated as `TargetEisensteinAssociatedCube`; its API should be narrowed to
-the existential integral-data witness produced by that proof. Target-curve
-finiteness, the modular quotient map, and formal immersion therefore remain
-open, so this is not node completion.
+feed a compiled end-to-end rank-zero consumer. The associated-cube boundary is
+now the existential normalized integral-data witness actually used by that
+consumer, and the nonsplit common-prime ideal-support calculation at `2`, `3`,
+and `5` supplies it unconditionally. Thus the fixed explicit curve model has
+checked rank zero and a finite rational point group. Its identification with
+the actual modular quotient, the classifying map, formal immersion, and the
+geometric bad-fibre specialization remain open, so this is not node
+completion.
 :::
 
 :::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")
