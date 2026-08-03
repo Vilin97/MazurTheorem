@@ -141,15 +141,16 @@ kernel presentation with a compatible chosen inclusion, unique point lifts,
 and represented-point exactness. A supplied quasi-finite fppf quotient now records its fppf
 projection and geometric kernel, proves represented-point exactness, and
 embeds the checked finite-flat quotient presentations compatibly. A reusable
-principal-open Hopf localization now constructs the actual bad-level constant
-factor `(Z/pZ)^flat` with coefficient `p` separate from level `N`; its realized
-typed inclusion has the advertised componentwise principal-open range and
-contains the full constant family over `D(N)`. Every integral global section
-at a nonunit level is now proved to be the identity, and a prime-level
-specialization packages this as cardinality `1 = p^0`. The next boundary is
-to construct the multiplicative-flat factor, the supported sheaf localization
-sequences, and the quasi-finite admissible-filtration exact sequences, then
-prove the remaining `H⁰`/`H¹` comparisons and middle-`H¹` finiteness. The
+principal-open Hopf localizations now construct the actual bad-level constant
+and multiplicative factors with coefficient `p` separate from level `N`; their
+realized typed inclusions have the advertised principal-open ranges and contain
+the full models over `D(N)`. Every constant-flat integral global section at a
+nonunit level is the identity. At odd coefficient the same holds for the
+multiplicative-flat model; a distinct-prime-level specialization packages this
+as cardinality `1 = p^0`, and the low-degree Euler length bound consumes the
+resulting endpoint. The next boundary is to construct the supported sheaf
+localization sequences and the quasi-finite admissible-filtration exact
+sequences, then prove both bad-level `H¹` comparisons and middle-`H¹` finiteness. The
 supported bad-fibre quotients are not being represented as quasi-finite flat
 group schemes.
 
@@ -213,6 +214,12 @@ group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatBasePoint_eq_one`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatBasePointCertifiedDataOfPrimeLevel`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatBasePoint_eq_one`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatBasePointCertifiedDataOfPrimeLevel`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.middleHOne_length_le_of_fermatMuFlatKernelHZero`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):

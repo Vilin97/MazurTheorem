@@ -1599,15 +1599,17 @@ compatible chosen inclusion and derives unique point lifts. Both canonical and a
 certified finite-flat kernels have geometric adapters preserving their chosen
 inclusions. A supplied quasi-finite fppf quotient now packages its fppf
 projection and geometric kernel and recovers checked finite-flat quotient data.
-A principal-open Hopf localization constructs the actual bad-level constant
-factor `(Z/pZ)^flat`, with the coefficient prime `p` separate from the bad
-level `N`; its typed inclusion has the exact componentwise open range and
-contains the full constant family over `D(N)`. Its integral global sections at
-a nonunit level are proved trivial and packaged as checked cardinality
-`1 = p^0`. The multiplicative-flat factor, the supported sheaf localization
-sequences at the bad fibre, the quasi-finite admissible-filtration exact
-sequences, remaining elementary `H⁰`/`H¹` certificates, middle-`H¹` finiteness,
-and the focused rank-zero specialization remain open. The supported quotient
+Principal-open Hopf localizations construct the actual bad-level constant and
+multiplicative factors, with the coefficient prime `p` separate from the bad
+level `N`; their typed inclusions have the exact principal-open ranges and
+contain the full models over `D(N)`. The constant-flat integral global sections
+at nonunit level and the multiplicative-flat integral global sections at odd
+coefficient are trivial. At distinct prime coefficient and level the latter is
+packaged as checked cardinality `1 = p^0`, with a compiled low-degree Euler
+consumer. The supported sheaf localization sequences at the bad fibre, the
+quasi-finite admissible-filtration exact sequences, both bad-level `H¹`
+certificates, middle-`H¹` finiteness, and the focused rank-zero specialization
+remain open. The supported quotient
 terms in the localization sequences are not quasi-finite flat group schemes.
 
 Tau Ceti's Jacobian work and later mathlib developments should still be
