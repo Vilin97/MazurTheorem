@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Constant
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantSections
 import MazurTorsion.GroupTheory.IndependentCyclicGenerators
 import MazurTorsion.ModularCurve.XZeroModuli
 import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
@@ -25,13 +25,14 @@ whose finite-flat carrier is isomorphic to the constant group scheme on
 only become constant fppf-locally, and at primes dividing `N` the usual
 generalized cyclicity condition requires still more care.
 
-The final section records the precise missing Weierstrass scheme interface.
-It asks for a commutative group scheme with the expected rational point group
-and for the standard extension of an injective finite constant family of
-rational sections to a closed subgroup-scheme immersion.  Given that one
-scheme-theoretic interface, a marked point of exact order `N` constructs a
-genuine split finite-flat `Γ₀(N)` datum.  The checked point comparison proves
-that its rational points recover exactly the existing point-group carrier.
+The final section records the precise remaining Weierstrass scheme interface:
+a commutative group scheme with the expected rational point group.  The
+extension of an injective finite constant family of rational sections to a
+closed subgroup-scheme immersion is constructed in the imported finite-flat
+group-scheme layer.  Given the remaining interface, a marked point of exact
+order `N` constructs a genuine split finite-flat `Γ₀(N)` datum.  The checked
+point comparison proves that its rational points recover exactly the existing
+point-group carrier.
 
 No representability of `X₀(N)`, elliptic quotient `E/C`, Atkin--Lehner action,
 or closure of split data under that action is asserted here.
@@ -276,6 +277,21 @@ structure ConstantClosedEmbedding where
         (AlgebraicGeometry.FiniteFlatCommGroupScheme.constantGeometricPoint K G g) =
       f g
 
+/-- An injective finite group of rational sections gives a closed constant
+subgroup scheme.  The group-scheme homomorphism and its closed-immersion proof
+are supplied by the checked componentwise extension theorem. -/
+def constantClosedEmbeddingOfInjective
+    (hinj : Function.Injective f) :
+    ConstantClosedEmbedding K E G f where
+  hom :=
+    AlgebraicGeometry.FiniteFlatCommGroupScheme.extendConstantHom K E G f
+  hom_isClosedImmersion :=
+    AlgebraicGeometry.FiniteFlatCommGroupScheme.extendConstantHom_isClosedImmersion
+      K E G f hinj
+  map_constantPoint :=
+    AlgebraicGeometry.FiniteFlatCommGroupScheme.extendConstantHom_map_point
+      K E G f
+
 namespace ConstantClosedEmbedding
 
 variable {K E G f}
@@ -304,15 +320,9 @@ variable {K : Type u} [Field K] [DecidableEq K]
   {N : ℕ} [NeZero N]
   (W : WeierstrassCurve K) [W.IsElliptic]
 
-/-- The exact scheme-theoretic interface missing from the pinned
-Weierstrass-coordinate API.
-
-The first two fields identify a commutative group scheme with the expected
-rational point group.  `extendConstant` is the standard scheme construction
-which turns an injective finite family of rational sections into a closed
-constant subgroup.  It is quantified over every finite commutative group so
-that it is an ambient model law, not a restatement of one desired `Γ₀(N)`
-datum. -/
+/-- The exact scheme-theoretic interface still missing from the pinned
+Weierstrass-coordinate API: a commutative group scheme whose rational points
+are the checked coordinate point group. -/
 structure WeierstrassGroupSchemeInterface where
   /-- The projective commutative group scheme associated to `W`. -/
   groupScheme : AlgebraicGeometry.CommGroupScheme
@@ -322,16 +332,23 @@ structure WeierstrassGroupSchemeInterface where
   rationalPointEquiv :
     Multiplicative W.toAffine.Point ≃*
       CommGroupScheme.Point groupScheme (baseTestObject K)
-  /-- Injective finite constant rational sections extend to a closed subgroup
-  scheme. -/
-  extendConstant :
-    ∀ (G : Type u) [CommGroup G] [Fintype G]
-      (f : G →* Multiplicative W.toAffine.Point),
-      Function.Injective f →
-        ConstantClosedEmbedding K groupScheme G
-          (rationalPointEquiv.toMonoidHom.comp f)
 
 namespace WeierstrassGroupSchemeInterface
+
+/-- Extend an injective finite family of coordinate points to a closed
+constant subgroup of the associated group scheme. -/
+def extendConstant
+    {W' : WeierstrassCurve K}
+    (M : WeierstrassGroupSchemeInterface W')
+    (G : Type u) [CommGroup G] [Fintype G]
+    (f : G →* Multiplicative W'.toAffine.Point)
+    (hinj : Function.Injective f) :
+    ConstantClosedEmbedding K M.groupScheme G
+      (M.rationalPointEquiv.toMonoidHom.comp f) :=
+  constantClosedEmbeddingOfInjective K M.groupScheme G
+    (M.rationalPointEquiv.toMonoidHom.comp f) (by
+      intro a b hab
+      exact hinj (M.rationalPointEquiv.injective hab))
 
 /-- The additive homomorphism sending `1 : ZMod N` to a point killed by
 `N`. -/
