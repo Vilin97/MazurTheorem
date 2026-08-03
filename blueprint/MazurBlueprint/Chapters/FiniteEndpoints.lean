@@ -120,6 +120,8 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.reductionAtEleven_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -160,6 +162,10 @@ reconstruct the order-35 carrier; this does not construct the finite-flat
 subgroup scheme or `w₅`. Exhaustive normalization of all 121 short models over
 `F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
 the exact order-35 endpoint, and a good-reduction specialization consumer.
+The canonical eleven-adic reduction-data consumer also reaches the additive
+fibre endpoint while deriving component finiteness and formal-kernel torsion;
+the actual identity subgroup, reduction map/kernel, and component bound remain
+geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

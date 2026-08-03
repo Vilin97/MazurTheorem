@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1474953,
-    "integrated_lean_modules": 766,
+    "integrated_lean_lines": 1475378,
+    "integrated_lean_modules": 768,
     "remaining_composite_orders": [
       18,
       25,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound and a separate point-order consumer excludes exact order 35; the integral good-reduction specialization consumes that endpoint. Finite-flat subgroup schemes, identification of the model with the modular quotient, its classifying map and formal immersion, and geometric bad-fibre specialization remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound and a separate point-order consumer excludes exact order 35; both integral good-reduction and canonical eleven-adic tame-reduction-data consumers reach that endpoint. The latter derives component finiteness and formal-kernel torsion from checked exact-pin results but still requires the actual identity subgroup, reduction map/kernel, and component bound. Finite-flat subgroup schemes, identification of the model with the modular quotient, its classifying map and formal immersion, and geometric bad-fibre specialization remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -803,6 +803,13 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFive",
           "description": "Join unramified exact-order specialization at good reduction to the exhaustive F_11 point-order certificate."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFive",
+          "description": "Consume the canonical component quotient and actual eleven-adic residue-field target, deriving component finiteness and formal-kernel torsion from checked exact-pin results before reaching the additive-fibre contradiction."
         },
         {
           "kind": "theorem",
@@ -3145,7 +3152,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument. A checked algebraic handoff now fixes the component map to the canonical quotient by a supplied identity subgroup, fixes reduction targets to the actual residue fields at five and eleven, identifies the exact formal kernel, and derives component finiteness from the exact-pin finite-index theorem. Constructing those data from a genuine Neron model and proving the component bound remain open.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3164,6 +3171,27 @@
           "name": "EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three",
           "state": "proposed",
           "description": "Bound the additive component group in the tame residue characteristics five and eleven."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionData",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveReductionData",
+          "description": "Package the canonical component quotient, identity-component reduction map, and exact formal-kernel comparison, with a compiled conversion to the algebraic torsion filtration."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveReductionData",
+          "description": "Fix the reduction target to the actual five-adic residue field and derive component finiteness and formal-kernel torsion from checked exact-pin theorems."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveReductionData",
+          "description": "Provide the analogous canonical eleven-adic handoff consumed by the order-35 route."
         },
         {
           "kind": "theorem",
@@ -5638,7 +5666,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The tame additive Neron fibre has component group of order at most four, additive quotient of order five, and torsion-free formal kernel, so the checked abstract filtration cannot contain a point of prime order N at least 11. Constructing that filtration from the actual Neron special fibre remains open.",
+      "summary": "The tame additive Neron fibre has component group of order at most four, reduction into the five-element additive residue field, and torsion-free formal kernel, so the checked filtration cannot contain a point of prime order N at least 11. A canonical quotient handoff now derives component finiteness from the exact-pin finite-index theorem and formal-kernel torsion from the unramified theorem; constructing its identity subgroup, reduction map/kernel, and component bound from the actual Neron special fibre remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5652,6 +5680,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
           "description": "Prove the prime-order contradiction from the component, additive-residue, and torsion-free formal-kernel filtration."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.toTameAdditiveFiltrationData",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveReductionData",
+          "description": "Convert the canonical five-adic handoff to the checked torsion filtration while deriving finite component and torsion-free formal-kernel inputs."
         }
       ],
       "depends_on": [
@@ -5686,7 +5721,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is now base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. A checked downstream theorem now supplies that j bound from the explicit formal-immersion collision inputs and reaches the same rational-point contradiction. The represented modular/cusp collision and the actual Neron filtration remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is now base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. A checked downstream theorem now supplies that j bound from the explicit formal-immersion collision inputs and reaches the same rational-point contradiction. Its stronger canonical-data consumer removes arbitrary component, residue-cardinality, and formal-torsion inputs. The represented modular/cusp collision and construction of the identity subgroup, reduction map/kernel, and component bound from the actual Neron fibre remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5756,6 +5791,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionAtFive",
           "description": "Consume the explicit modular/cusp formal-immersion collision to discharge the rational j bound, while retaining the genuine tame-additive Neron filtration as an explicit input to the checked F_5 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionNeronAtFive",
+          "description": "Feed the formal-immersion collision and canonical five-adic reduction data to the rational F_5 contradiction, deriving residue cardinality, component finiteness, and formal-kernel torsion internally."
         }
       ],
       "depends_on": [

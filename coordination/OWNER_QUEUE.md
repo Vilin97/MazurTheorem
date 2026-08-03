@@ -9,6 +9,7 @@ progress independently.
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
 the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`) and
 the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
+the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -38,7 +39,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `ca695f1` contains reviewed acceptance
+The combined owner history through `855439f` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -59,6 +60,22 @@ preserving their lengths and p-power cardinal equalities (`40c6e22`); no
 finiteness or arithmetic certificate is manufactured. The two global
 good-open calculations remain open. These commits passed independent
 mathematical/API review and claim no roadmap-node credit.
+
+The canonical tame-reduction range replaces arbitrary component and residue
+targets by the quotient by a supplied identity subgroup and the actual
+five- or eleven-adic residue field. It proves the prescribed formal subgroup
+is exactly the formal kernel inside that canonical component kernel. The
+exact-pin finite-index theorem derives component finiteness from the
+formal-subgroup inclusion, while the unramified formal-group results derive
+torsion-freeness. Real downstream consumers reach the prime formal-immersion
+`F₅` contradiction and the order-35 additive-fibre contradiction (`855439f`).
+Independent review verified every field is consumed and all declarations use
+only standard axioms. Constructing the identity subgroup, reduction map with
+the exact kernel, and the component-cardinality bound from a genuine Néron
+fibre remains open; no node credit is claimed. The two focused Lean targets
+build with `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph, all eleven
+Challenge contracts, 768-source inventory, quality suite, and official
+Blueprint build/check pass.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -482,7 +499,12 @@ within each lane follows the listed order.
    API stops at section extension for the modular quotient and elliptic local
    models.
 2. `MT-NERON-COMPONENTS` (30) supplies completely toric level reduction and
-   the tame additive component bound at `5` and `11`.
+   the tame additive component bound at `5` and `11`. The checked canonical
+   handoff fixes the component to the quotient by the identity subgroup and
+   fixes the reduction target to the actual residue field. Component finiteness
+   follows from the exact-pin formal-filtration finite-index theorem. Build the
+   genuine identity subgroup, reduction/kernel theorem, and component bound;
+   the handoff itself earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
@@ -494,9 +516,10 @@ within each lane follows the listed order.
    good-reduction theorem once the genuine filtration is supplied. The actual
    completed marked point then reduces with unchanged order and reaches the
    checked `F₅` contradiction through the canonical residue equivalence. This is
-   not node completion: the Néron special-fibre/component specialization map
-   and its actual additive filtration used before good reduction are still
-   absent.
+   not node completion: canonical five- and eleven-adic data now discharge
+   finite-component and formal-torsion bookkeeping, but their Néron
+   identity-subgroup and reduction/kernel construction used before good
+   reduction is still absent.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -719,15 +742,19 @@ in `route_history`:
 4. `MT-PRIME-DIVISION-FIELD` (15): preserve the exact prime-to-five order of
    the marked point in the Néron fibre.
 5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
-   contradiction using the formal kernel, additive quotient, and component
-   group compiles; construct its actual Néron filtration.
+   contradiction using the formal kernel, additive reduction target, and
+   component group compiles. Its canonical five-adic consumer derives
+   component finiteness, residue cardinality, and formal-kernel torsion;
+   construct the remaining actual Néron data.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the exhaustive trichotomy reaches good reduction from the
    supplied tame filtration. A real downstream consumer now carries the same
    rational point through base change, the selected minimal variable change,
    and exact-order reduction to the `F₅` enumeration. The formal-immersion
    collision now supplies its `j` premise without changing the marked point or
-   filtration; construct the represented collision and genuine Néron data.
+   filtration. A stronger downstream theorem takes the canonical five-adic
+   reduction data; construct the represented collision and those genuine
+   Néron data.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -845,8 +872,12 @@ or accounting shortcut.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The owner is now driving the
   represented modular/cusp specialization and optimal-quotient equality that
-  discharge its explicit premises; the genuine Néron filtration stays on the
-  independent arithmetic lane.
+  discharge its explicit premises.
+- `codex/mt-neron-direct-reduction`: the canonical component/residue/formal
+  boundary and both checked downstream consumers are integrated. The active
+  worker is constructing the strongest direct minimal-Weierstrass identity
+  subgroup and reduction/kernel theorem available from the exact-pin local
+  APIs, with the canonical five-adic handoff as acceptance consumer.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

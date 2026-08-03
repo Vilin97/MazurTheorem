@@ -36,8 +36,20 @@ used by rank zero and the additive component bound used at five.
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.componentGroup`
 * `theorem` (`proposed`):
   `EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three`
+* `structure` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionData`
+* `structure` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive`
+* `structure` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven`
 * `theorem` (`proposed`):
   `ModularCurve.Jacobian.completelyToricReductionAtLevel`
+
+The checked canonical handoff fixes the component to the quotient by a
+supplied identity subgroup and fixes reduction targets to the actual residue
+fields at five and eleven. Exact-pin finite index derives component finiteness.
+The identity subgroup, reduction/kernel theorem, and component bound still
+require the genuine Néron geometry, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
@@ -54,10 +66,10 @@ sequence, prime-to-residue injection, and the $`e<p-1` formal-kernel lemma.
   `AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt`
 
 The checked partial boundary
-`MazurTorsion.EllipticCurve.TameAdditiveFiltrationData` records the exact two
-finite quotients and torsion-free formal kernel needed after the geometric
-maps exist. Its separate characteristic-five and order-35 consumers compile,
-but it neither constructs a Néron model nor changes this node's blocked status.
+`MazurTorsion.EllipticCurve.TameAdditiveFiltrationData` records the two finite
+targets and torsion-free formal kernel needed after the geometric maps exist.
+Its separate characteristic-five and order-35 consumers compile, but it
+neither constructs a Néron model nor changes this node's blocked status.
 :::
 
 :::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "large")

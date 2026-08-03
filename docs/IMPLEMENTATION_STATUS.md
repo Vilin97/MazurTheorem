@@ -68,16 +68,21 @@ Current machine-checked results include:
   point is now base-changed to `ℚ₅`, transported through Mathlib's selected
   minimal variable change with exact order preserved, and consumed by that
   local endpoint. Invariance and valuation comparison identify its local `j`
-  premise with the original rational curve. The Néron special-fibre,
-  component-group, and actual filtration maps needed before good reduction
-  remain open;
+  premise with the original rational curve. Canonical five- and eleven-adic
+  reduction-data consumers now fix the component map to the quotient by a
+  supplied identity subgroup, fix reduction targets to the actual residue
+  fields, derive component finiteness from the checked finite-index theorem,
+  and derive formal-kernel torsion from the exact-pinned unramified results.
+  The Néron identity subgroup, reduction homomorphism/kernel theorem, and
+  component-cardinality bound needed before good reduction remain open;
 * an explicit algebraic tame-additive filtration contract, recording a
-  component group of cardinality at most four, the additive residue quotient,
-  exact identification of its kernel with the formal kernel, and
-  torsion-freeness there. Separate consumers now rule out prime orders at
-  least eleven when the residue group has cardinality five and order 35 when
-  it has cardinality eleven. This does not construct the geometric Néron
-  filtration and earns no Néron node credit;
+  component target of cardinality at most four, a finite additive reduction
+  target, exact identification of its kernel with the formal kernel, and
+  torsion-freeness there. The stronger canonical handoff uses the actual
+  component quotient and actual residue fields at five and eleven. Separate
+  consumers now rule out prime orders at least eleven at five and order 35 at
+  eleven. This does not construct the geometric Néron filtration and earns no
+  Néron node credit;
 * the canonical `ℤ`-linear map between stalk cotangent spaces for a scheme
   morphism, its representative formula, surjectivity under a surjective
   stalk map, and an identity-morphism normalization consumer. A separate
@@ -100,10 +105,12 @@ Current machine-checked results include:
   actual completed integer ring at five, a checked collision theorem now turns
   explicit modular/cusp closed-point and quotient-section equalities into the
   rational `j`-valuation bound, and a downstream consumer carries it through
-  the minimal completion to the `F₅` contradiction. The integral cusp model,
-  q-expansion calculation, represented modular specialization, quotient
-  collision, and genuine Néron filtration remain open, so no roadmap node is
-  credited;
+  the minimal completion to the `F₅` contradiction. A stronger consumer takes
+  the canonical five-adic reduction data and derives all remaining algebraic
+  filtration inputs internally. The integral cusp model, q-expansion
+  calculation, represented modular specialization, quotient collision, and
+  construction of those canonical data from a genuine Néron fibre remain
+  open, so no roadmap node is credited;
 * the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
   through a divisor-class/Picard equivalence into the actual degree-zero
   subgroup of `Scheme.Pic`. The checked formulas cover the base point,

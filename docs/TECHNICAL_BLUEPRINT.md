@@ -1573,6 +1573,7 @@ EllipticCurve/FiniteField/CardFiveEleven.lean
 EllipticCurve/NeronModel/Basic.lean
 EllipticCurve/NeronModel/ComponentGroup.lean
 EllipticCurve/NeronModel/TorsionSpecialization.lean
+EllipticCurve/TameAdditiveReductionData.lean
 
 FiniteFlatGroupScheme/Basic.lean
 FiniteFlatGroupScheme/Admissible.lean
@@ -1780,6 +1781,19 @@ valuation are proved equal to the image and five-adic valuation of the
 original rational `j`. The unsuffixed Néron-fibre theorem above remains the
 target before good reduction is known; these checked results do not supply the
 missing special-fibre/component map or its genuine additive filtration.
+
+The checked `TameAdditiveReductionData` boundary now removes three artificial
+inputs from that filtration. Its component map is the canonical quotient by a
+supplied identity subgroup; at five and eleven its reduction target is the
+actual residue field; and the exact-pinned finite-index and unramified formal
+kernel theorems derive component finiteness and torsion-freeness. The compiled
+prime consumer
+`rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
+and the order-35 consumer
+`addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven` exercise both
+specializations. The actual identity subgroup, reduction homomorphism with
+the stated kernel, and component-cardinality bound are still geometric Néron
+inputs; no node credit is claimed for the algebraic handoff.
 
 The proof sequence is:
 

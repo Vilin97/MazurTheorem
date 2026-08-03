@@ -86,10 +86,13 @@ at least eleven.
   `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.toTameAdditiveFiltrationData`
 
-The abstract component/additive-residue/formal-kernel filtration now gives
-the exact prime-order contradiction. Constructing it from the genuine Néron
-special fibre remains open.
+The canonical five-adic handoff now derives component finiteness, residue
+cardinality, and formal-kernel torsion before applying the exact prime-order
+contradiction. Constructing its identity subgroup, reduction map/kernel, and
+component bound from the genuine Néron special fibre remains open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -118,6 +121,8 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
@@ -130,8 +135,10 @@ variable change with unchanged exact order; `j`-invariance and the completion
 valuation comparison return the local hypothesis to the rational curve. The
 new formal-immersion consumer discharges that rational `j` premise from the
 explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
-The actual represented modular/cusp collision and genuine Néron filtration are
-still required, so this node receives no completion credit.
+Its stronger canonical-data consumer derives the finite component, residue
+cardinality, and formal-torsion bookkeeping. The actual represented
+modular/cusp collision and construction of those data from the genuine Néron
+fibre are still required, so this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
