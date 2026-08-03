@@ -141,7 +141,13 @@ toric reduction of the modular Jacobian.
 *Status:* `blocked`.
 
 * `structure` (`proposed`): `ModularCurve.IntegralXZero`
-* `definition` (`proposed`): `AlgebraicGeometry.IsFormalImmersionAt`
+* `definition` (`contract`): `AlgebraicGeometry.IsFormalImmersionAt`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.residueFieldMap_isIso_at_rationalPoint`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -151,9 +157,13 @@ stalk-cotangent map and its residue-honest first-order criterion also compile.
 The finite-maximal-ideal Nakayama consequence and surjectivity modulo the
 square compile with a modular degree-one consumer. The residue/cotangent
 criterion now implies surjectivity on completed stalks under finite maximal
-ideals, and locally Noetherian schemes supply those finiteness instances.
-The integral cusp model and cusp comparison remain open, so this node receives
-no completion credit.
+ideals, and locally Noetherian schemes supply those finiteness instances. At a
+non-generic point of a smooth integral relative curve, the checked DVR theorem
+supplies cotangent dimension one; literal rationality of the point and its
+image supplies the residue-field isomorphism. The rational-point endpoint
+therefore leaves the actual cusp and detected first q-coefficient as the
+remaining modular inputs. The integral cusp model and cusp comparison remain
+open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

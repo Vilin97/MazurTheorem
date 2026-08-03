@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1449747,
+    "integrated_lean_lines": 1449834,
     "integrated_lean_modules": 701,
     "remaining_composite_orders": [
       18,
@@ -3098,9 +3098,30 @@
         {
           "kind": "definition",
           "name": "AlgebraicGeometry.IsFormalImmersionAt",
-          "state": "proposed",
+          "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FormalCompletion",
           "description": "Define formal immersion by surjectivity on the functorial completed-stalk map; on locally Noetherian schemes, the checked residue-field and cotangent criterion implies this predicate."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.DegreeOneCotangent",
+          "description": "Derive one-dimensionality of the source cotangent space at every non-generic point of a smooth integral relative curve from the checked DVR theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.residueFieldMap_isIso_at_rationalPoint",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.DegreeOneCotangent",
+          "description": "Derive the residue-field comparison from literal rationality of a source point and its image using functoriality of residue fields."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.DegreeOneCotangent",
+          "description": "Compile the degree-one completed-stalk formal-immersion endpoint for a rational non-generic point of a smooth integral relative curve, leaving only the detected cotangent vector."
         },
         {
           "kind": "theorem",

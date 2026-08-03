@@ -121,8 +121,12 @@ within each lane follows the listed order.
    Nakayama step and surjectivity modulo the square also compile with the
    modular degree-one consumer. The full completion-surjectivity implication
    now compiles under finite stalk maximal ideals, and locally Noetherian
-   schemes supply those instances automatically. Next construct the integral
-   cusp model and instantiate its degree-one certificate.
+   schemes supply those instances automatically. At a non-generic point of a
+   smooth integral relative curve, the checked DVR theorem now supplies the
+   one-dimensional source cotangent space; a literal rational cusp and its
+   rational image supply the residue-field isomorphism. Next construct the
+   integral cusp model and its first-coefficient cotangent vector, then invoke
+   the rational-point degree-one consumer.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
    reduction-type bridge.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
