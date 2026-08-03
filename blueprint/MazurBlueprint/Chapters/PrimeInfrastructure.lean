@@ -100,8 +100,11 @@ unconsumed general connected--étale library.
 supports honest recursive admissible filtrations, their base-change exponent
 bound, and the elementary low-degree finite-group estimate. Genuine relative
 global fppf `H¹` over `Scheme.Over X` now compiles as a common-refinement
-quotient with a representable finite-flat group-scheme consumer. The next
-boundary is its canonical commutative group law and Kummer exact sequence.
+quotient. Pointwise commutative Čech cocycle operations descend to its
+canonical group law; refinement pullback is multiplicative, products can be
+computed on any common refinement, and the representable finite-flat
+specialization feeds the existing finite-p-group consumer. The next boundary
+is functoriality in coefficients and the Kummer exact sequence.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -111,6 +114,12 @@ boundary is its canonical commutative group law and Kummer exact sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne.commGroup`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_mul_of_commonRefinement`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.ofFiniteFlatFppfHOne`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -126,9 +135,9 @@ The exact-sequence certificate exposes all six finite p-groups, five maps,
 left injectivity, and four exactness proofs. It therefore cannot be populated
 by a cardinal bound alone. The repository now supplies the fixed-universe
 global colimit over actual relative fppf covers, including refinement-choice
-independence and a type-level eliminator. The Kummer connecting morphism,
-commutative group structure, and low-degree exact sequence are still absent;
-no node credit is claimed.
+independence, a type-level eliminator, and its canonical commutative group
+law. Functorial coefficient maps, the Kummer connecting morphism, and the
+low-degree exact sequence are still absent; no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
@@ -163,12 +172,22 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.lift`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.divisorSubgroup`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.forgetToDivisor`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 
-The generated rational subgroup and raw datum compile. Admissible Weierstrass
-changes now transport both the curve and subgroup, and checked code quotients
-by the generated equivalence and descends every presentation-invariant
-function. The genuine coarse modular point and finite-locally-free subgroup
-geometry remain open, so this node receives no completion credit.
+The generated split rational subgroup and raw datum compile. Admissible
+Weierstrass changes transport both the curve and subgroup, and checked code
+quotients by the generated equivalence and descends every
+presentation-invariant function. Intrinsic divisor subgroups, split
+divisor-level degeneracy maps, and reconstruction from the order-five and
+order-seven carriers at level 35 also compile. This split locus is not the
+full finite-flat Γ₀ moduli problem and is not closed under Atkin--Lehner. The
+genuine coarse modular point and finite-locally-free subgroup geometry remain
+open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -193,6 +212,12 @@ toric reduction of the modular Jacobian.
   `AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.CompleteDVRCoordinate.ringEquiv`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRStalk.rationalSectionStalkCompletionRingEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRStalk.spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -209,11 +234,13 @@ image supplies the residue-field isomorphism. A genuine completed-stalk
 power-series coordinate now transports membership in the square of the stalk
 maximal ideal to vanishing of the first q-coefficient. A complete domain DVR
 with a coefficient field and irreducible uniformizer now constructs the
-coordinate in the opposite direction. Formal immersion also cancels arbitrary
-maps from a separated local spectrum once their closed points and restricted
-local maps agree. The integral cusp model and the instances realizing these
-hypotheses on its actual completed stalk remain open, so this node receives no
-completion credit.
+coordinate in the opposite direction. For an actual rational section, the
+structural map now supplies the coefficient algebra, the section equation
+retracts it and proves the source residue field is the base field, and a
+normalized expansion separates arbitrary Noetherian local sections with equal
+quotient image. The integral cusp model, its non-generic section and
+uniformizer, and the actual modular q-expansion remain open, so this node
+receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

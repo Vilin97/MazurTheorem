@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1452520,
-    "integrated_lean_modules": 708,
+    "integrated_lean_lines": 1454284,
+    "integrated_lean_modules": 711,
     "remaining_composite_orders": [
       18,
       25,
@@ -639,7 +639,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, the nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers now prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. Identifying that model with the modular quotient, constructing its classifying map and formal immersion, and supplying the geometric bad-fibre specialization remain open; the checked F_11 enumeration then gives the final local contradiction.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Finite-flat subgroup schemes, identification of the model with the modular quotient, its classifying map and formal immersion, and geometric bad-fibre specialization remain open; the checked F_11 enumeration then gives the final local contradiction.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -762,6 +762,13 @@
           "state": "contract",
           "description": "Deduce unconditionally that the rational point group of the fixed explicit level-35 model is finite; identifying it with the modular quotient remains separate.",
           "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinIdealSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven",
+          "state": "contract",
+          "description": "On the split rational source locus, prove that the canonical order-five and order-seven divisor subgroups reconstruct the order-35 subgroup; finite-flat subgroup schemes and the Atkin--Lehner quotient remain separate.",
+          "module": "MazurTorsion.ModularCurve.XZeroThirtyFive"
         }
       ],
       "acceptance_declarations": [
@@ -2994,7 +3001,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global fppf H1 is now constructed from relative cover-level classes in Scheme.Over X, with refinement independence, a type-level colimit eliminator, and a representable finite-flat group-scheme consumer. Construct its canonical commutative group law, the Kummer connecting maps, and the exact-sequence instance needed by Mazur's rank-zero argument.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient and now carries the canonical commutative group law descended from pointwise Cech cocycles; refinement homomorphisms, finite-flat specialization, and a FinitePGroup consumer compile. Construct functorial coefficient maps, Kummer connecting morphisms, and the exact-sequence instance needed by Mazur's rank-zero argument.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3023,6 +3030,27 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne",
           "description": "Prove that an actual finite-flat group-scheme cocycle and its pullback to a genuine relative refinement define the same global fppf class."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.FppfHOne.commGroup",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneCommGroup",
+          "description": "Descend pointwise commutative Cech cocycle multiplication and inversion through genuine common refinements to the canonical group law on global relative fppf H1."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_mul_of_commonRefinement",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneCommGroup",
+          "description": "Compute multiplication of actual finite-flat group-scheme cohomology classes after pullback to any supplied common fppf refinement."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.ofFiniteFlatFppfHOne",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Package finite global fppf H1 as the existing finite p-group consumer using its canonical descended group law rather than an unrelated group instance."
         },
         {
           "kind": "theorem",
@@ -3131,7 +3159,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the rational cyclic subgroup generated by a torsion point, quotient raw Weierstrass data by checked admissible variable changes, and then build the genuine coarse Gamma_0 classifying point.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, quotient raw Weierstrass data by checked admissible variable changes, and then build the genuine finite-flat Gamma_0 datum and coarse classifying point.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3194,6 +3222,27 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroModuli",
           "description": "Descend every presentation-invariant function on raw cyclic-subgroup data to the checked variable-change quotient."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.divisorSubgroup",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroModuli",
+          "description": "Construct the intrinsic order-d subgroup C[d] of a split rational cyclic subgroup of order N for d dividing N, with transport, nesting, and generator formulas."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.forgetToDivisor",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroModuli",
+          "description": "Descend the split divisor-level degeneracy map through admissible Weierstrass variable-change classes without claiming coarse-moduli representability."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroThirtyFive",
+          "description": "Prove that the canonical order-five and order-seven carriers reconstruct a split rational cyclic subgroup of order 35."
         }
       ],
       "depends_on": [
@@ -3280,6 +3329,27 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.CompleteDVRCoordinate",
           "description": "Construct a power-series coordinate on a complete equicharacteristic DVR from a coefficient field and an irreducible uniformizer."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRStalk.rationalSectionStalkCompletionRingEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
+          "description": "Construct the completed-stalk power-series coordinate at an actual rational section of a smooth integral curve; the structural map supplies the coefficient algebra and the section supplies its retraction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
+          "description": "Derive that an actual section of the structural morphism has residue field exactly the base field."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRStalk.spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
+          "description": "Consume the structural section, non-generic cusp, irreducible uniformizer, and normalized first q coefficient to separate arbitrary Noetherian local sections with equal quotient image."
         },
         {
           "kind": "theorem",

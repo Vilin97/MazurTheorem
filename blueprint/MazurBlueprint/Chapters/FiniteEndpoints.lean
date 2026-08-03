@@ -108,6 +108,8 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.optimalQuotientModel_finite`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
 point-function candidate and its zero fibre, and trivial torsion on the
@@ -124,7 +126,10 @@ feed a compiled end-to-end rank-zero consumer. The associated-cube boundary is
 now the existential normalized integral-data witness actually used by that
 consumer, and the nonsplit common-prime ideal-support calculation at `2`, `3`,
 and `5` supplies it unconditionally. Thus the fixed explicit curve model has
-checked rank zero and a finite rational point group. Its identification with
+checked rank zero and a finite rational point group. On the split rational
+source locus, canonical order-five and order-seven divisor subgroups now
+reconstruct the order-35 carrier; this does not construct the finite-flat
+subgroup scheme or `w₅`. The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node
 completion.

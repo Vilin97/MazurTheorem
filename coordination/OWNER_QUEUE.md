@@ -7,8 +7,9 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
-the Tau Ceti product-formula, relative fppf-`H¹`, complete-DVR formal-immersion
-collision, and unconditional order-35 model-finiteness checkpoints. The ledger still has
+the Tau Ceti product-formula, canonical relative fppf-`H¹` group law,
+structural-section complete-DVR formal-immersion collision, split level-35
+degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
@@ -33,7 +34,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated relative fppf `H¹`, complete-DVR q-coordinates and local-point cancellation, and unconditional rank zero/finiteness for the fixed order-35 model; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep the seven completed nodes at full credit. Relative `H¹` still lacks Kummer exactness, the explicit order-35 model still lacks its modular-quotient identification, and A3, formal immersion, X₁(11), and the raw X₀ datum remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated relative fppf `H¹` with its canonical commutative group law, complete-DVR q-coordinates and structural rational-cusp collision, split divisor-level degeneracy at 35, and unconditional rank zero/finiteness for the fixed order-35 model; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep the seven completed nodes at full credit. Relative `H¹` still lacks functorial coefficient maps and Kummer exactness, the split level-35 datum is not a finite-flat subgroup-scheme moduli point, the explicit order-35 model still lacks its modular-quotient identification, and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -111,20 +112,28 @@ within each lane follows the listed order.
    finite-p-group low-degree Euler estimate now compile. Genuine global fppf
    `H¹` now also compiles as the common-refinement quotient of cover-level
    classes in `Scheme.Over X`: refinement independence, its type-level colimit
-   eliminator, the representable finite-flat point presheaf, and an actual
-   pullback-invariance consumer are checked. Next finish
-   `MT-FFGS-CONNECTED-ETALE` (20) by constructing the canonical commutative
-   group law, Kummer connecting maps, and the six-group/five-map exact-sequence
-   instance. Then finish
+   eliminator, the representable finite-flat commutative point presheaf, and
+   an actual pullback-invariance consumer are checked. Pointwise Čech
+   multiplication and inversion now descend to canonical commutative group
+   structures on cover-level and global `H¹`; refinement pullback is a
+   homomorphism, products are computed on arbitrary common refinements, and an
+   actual finite-flat `H¹` feeds the existing `FinitePGroup` consumer without
+   a supplied unrelated group law. Next finish
+   `MT-FFGS-CONNECTED-ETALE` (20) by constructing functorial coefficient maps,
+   Kummer connecting maps, and the six-group/five-map exact-sequence instance. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
 
 ### 3. Modular curve, quotient, and formal immersion
 
-1. `MT-X0-MODULI` (30): the raw rational cyclic subgroup/datum, transport by
+1. `MT-X0-MODULI` (30): the raw split rational cyclic subgroup/datum, transport by
    admissible Weierstrass variable changes, the generated variable-change
    quotient, invariant-function descent, and its direct conditional order-49
-   consumer compile. Next construct the actual coarse `X₀(N)` classifying
+   consumer compile. Intrinsic divisor subgroups `C[d]`, their transport and
+   composition laws, split degeneracy maps, and the level-35 theorem that the
+   order-five and order-seven carriers reconstruct `C` also compile. This API
+   deliberately excludes general Galois-stable subgroup schemes and is not
+   closed under Atkin--Lehner. Next construct the actual coarse `X₀(N)` classifying
    point on this presentation-independent domain and identify the level-49
    target with the checked explicit model; the raw constructor remains named
    `datumOf…` until that geometric map exists.
@@ -143,10 +152,14 @@ within each lane follows the listed order.
    coordinate `CompletedStalk ≃ K⟦q⟧` now transports maximal-ideal-square vanishing to
    vanishing of the `q¹` coefficient. Conversely, a complete domain DVR with
    a coefficient field and chosen irreducible uniformizer now yields such a
-   power-series coordinate. Formal immersion cancels arbitrary maps from a
-   separated local spectrum once their closed points and restricted local maps
-   agree. Next construct the integral cusp model and instantiate the DVR,
-   coefficient-field, and uniformizer data for its actual completed stalk.
+   power-series coordinate. At an actual rational section of a smooth integral
+   curve, the structural morphism now constructs the coefficient algebra, the
+   section equation retracts it and proves that the source residue field is
+   the base field, and the normalized expansion feeds formal immersion all the
+   way to equality of arbitrary Noetherian local sections with equal quotient
+   image. Next construct the integral cusp model and its actual section,
+   non-genericity, uniformizer, and modular q-expansion; no coefficient-field
+   hypothesis remains at that handoff.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
    reduction-type bridge.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
@@ -229,8 +242,12 @@ genus-zero `X₀` quotients do not support the selected argument.
   existential normalized integral-data witness used downstream; the checked
   nonsplit common-prime ideal-support calculation at `2`, `3`, and `5`
   supplies it. Consequently the fixed explicit curve model now has
-  unconditional rank zero and a finite rational point group. The local
-  normalization/enumeration, good-reduction join, and an abstract
+  unconditional rank zero and a finite rational point group. The split source
+  datum now also has canonical level-5 and level-7 degeneracy maps, with
+  carriers generated by `7 • P` and `5 • P` and their supremum equal to the
+  original order-35 carrier. This is not the finite-flat subgroup-scheme
+  construction and does not define `w₅`. The local normalization/enumeration,
+  good-reduction join, and an abstract
   tame-additive filtration consumer also compile. The actual modular quotient
   identification and classifying map, formal immersion, and geometric
   bad-fibre specialization remain open. No order-35 node credit is claimed
@@ -270,6 +287,17 @@ genus-zero `X₀` quotients do not support the selected argument.
 
 The final audit depends on both, so this separation cannot be used as a scope
 or accounting shortcut.
+
+## Active critical assignments
+
+- `codex/owner-a3-curve-normality`: prove the field-base smooth-curve
+  normality input and consume it in the affine-intersection divisor descent.
+- `codex/owner-ffgs-kummer`: construct functorial global `H¹` maps and advance
+  the genuine Kummer connecting/exactness sequence from the canonical group
+  law.
+- `codex/owner-x0-finite-flat-moduli`: replace the split rational source
+  boundary by honest finite-flat cyclic subgroup-scheme data with a checked
+  Γ₀ consumer; do not assert an Atkin--Lehner map before the quotient geometry.
 
 ## Checkpoint acceptance rules
 
