@@ -16,18 +16,19 @@ infinity; a point outside the formal kernel has integral coordinates, and belong
 exactly when their residues form a nonsingular point of the special cubic.
 
 This file constructs that predicate and the actual coordinatewise reduction function.  Its kernel
-is proved to be the exact-pinned formal filtration without any good-reduction hypothesis.  One
-remaining local compatibility statement, `NonsingularReductionIsAdditive`, says precisely that
-this canonical predicate is closed under addition and that coordinatewise reduction respects the
-group law.  From this single statement we construct the canonical identity subgroup and its
-reduction homomorphism.
+is proved to be the exact-pinned formal filtration without any good-reduction hypothesis.  The
+interface `NonsingularReductionIsAdditive` says precisely that this canonical predicate is closed
+under addition and that coordinatewise reduction respects the group law.  From this statement we
+construct the canonical identity subgroup and its reduction homomorphism; the downstream module
+`NonsingularReductionAdditive` proves the interface unconditionally.
 
 At five and eleven, an additive-special-fibre classification
 `(adicRedCurve W₀).Point ≃+ ResidueField 𝒪` and the genuine component bound then produce
 `TameAdditiveReductionDataAtFive` or `TameAdditiveReductionDataAtEleven`.  Thus downstream code no
 longer accepts an arbitrary identity subgroup or an arbitrary map to the additive residue group.
 The three remaining inputs name the actual group law, special-fibre classification, and component
-geometry rather than hiding them.
+geometry rather than hiding them.  After importing `NonsingularReductionAdditive`, additivity is
+checked and only the latter two inputs remain.
 
 The pointwise reduction, kernel, and negation arguments are a singular-fibre
 adaptation of Michael Stoll's good-reduction construction in

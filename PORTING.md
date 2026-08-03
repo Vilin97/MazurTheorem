@@ -78,6 +78,15 @@ reduction to the nonsingular locus of a singular special fibre. The new file
 retains Stoll's author credit and records the changed hypothesis boundary in
 its module documentation.
 
+`MazurTorsion/EllipticCurve/NonsingularReductionAdditive.lean` completes that
+singular-fibre adaptation. Its congruence criterion and slope calculations
+adapt the pinned proof of additivity, replacing global smoothness of the
+reduced cubic by the explicit nonsingularity carried by the canonical domain.
+It proves `sub_mem_filtration_of_nonsingularReduction_eq`,
+`nonsingularReduction_add_of_mem_filtration_left`, and
+`nonsingularReduction_isAdditive`, and retains Stoll's author credit. The
+five- and eleven-adic constructors in that file are new downstream consumers.
+
 ## Exact-pin modifications
 
 - `Mathlib/AdicCompletionExtension.lean`: retained lines 1–384 of the upstream mathematical
