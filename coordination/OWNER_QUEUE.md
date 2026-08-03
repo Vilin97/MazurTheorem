@@ -23,12 +23,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `a4fff82` contains reviewed acceptance
-boundaries. The latest integration range adds the independently accepted A3
-diagonal normalization (`5bcc0a6`), the finiteness-free connecting construction
-and its finite/quasi-finite compatibility repair (`c18a9b7`, `3e20401`), and
-the independently accepted multiplicative-flat Hopf localization and typed
-group-scheme bundle (`8bf3798`, `a4fff82`). Checkpoint `8f77d87` proves
+The combined owner history through `c85f557` contains reviewed acceptance
+boundaries. The latest accepted integration range constructs the canonical
+standard open in every actual Weierstrass field pullback and proves that its
+open-immersion range is exactly the inverse image of `D₊(Z)` (`0964540`,
+`573027b`). It also transports Tau Ceti's fixed-degree and formal-symmetric-power
+Abel--Jacobi fiber formulas through the checked divisor-class/Picard equivalence
+(`a797c15`, `c85f557`). These formulas concern the absolute Picard group and
+formal `Sym`; relative families, representability, and an Abel morphism remain
+open, with no C2/F1 credit claimed.
+
+Earlier accepted integration adds the A3 diagonal normalization (`5bcc0a6`),
+the finiteness-free connecting construction and its finite/quasi-finite
+compatibility repair (`c18a9b7`, `3e20401`), and the multiplicative-flat Hopf
+localization and typed group-scheme bundle (`8bf3798`, `a4fff82`). Checkpoint
+`8f77d87` proves
 exactness at quotient-valued
 `H⁰`: a common-refinement gauge adjusts local lifts, subcanonical fppf descent
 glues them to a global section, and the concrete low-degree constructor now
@@ -98,7 +107,12 @@ polynomial, proves the localized equation ideal prime, and proves its quotient
 chart integral. A precise base-change witness reduces geometric integrality to
 the canonical open comparison, dense range, and reducedness of every field
 pullback; actual Tau Ceti abelian-variety and finite-flat split-`Γ₀` consumers
-compile. It does not claim that this still-substantial witness exists.
+compile. Reviewed checkpoint `0964540` descends the affine/chart equivalence
+through the equation ideals, constructs the canonical pulled-back `D₊(Z)` open,
+and isolates the remaining projective base-change isomorphism, chart isomorphism,
+and density in `StandardChartComparison`. The projective isomorphism derives
+reducedness rather than assuming it. None of those three fields is yet
+constructed.
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
@@ -112,8 +126,9 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
 unchanged; and `python3 scripts/quality.py` passes at 740 integrated Lean
-sources / 1,466,101 lines with all 48 node IDs and 1,000 points intact. These
-checkpoints claim no roadmap-node completion credit.
+sources / 1,466,356 lines with all 48 node IDs and 1,000 points intact. The
+blueprint build/check also passes. These checkpoints claim no roadmap-node
+completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
 and coordinate ratios determine every chart ring map, unit-equivalent
@@ -575,12 +590,16 @@ or accounting shortcut.
 - `codex/owner-a3-triple-coherence`: the reviewed fixed-common-affine cocycle
   law is integrated; next prove pairwise-overlap-to-triple
   base-change naturality and consume it in an actual descent datum.
-- `codex/owner-weierstrass-basechange-witness`: construct the canonical
-  `Z ≠ 0` open comparison, dense range, and pullback reducedness needed by the
-  checked geometric-integrality/Tau Ceti consumer.
-- `codex/owner-supported-fppf-sheaf`: sheafify the checked point-cokernel
-  presheaf, prove the honest local-surjectivity/exactness statement, and then
-  prove its constant/μ quotients vanish away from the bad level.
+- `codex/owner-weierstrass-basechange-witness`: the canonical `Z ≠ 0` pullback
+  open and its exact range are reviewed and integrated. Next construct the
+  projective base-change isomorphism, the quotient-chart/open isomorphism, and
+  density needed by the checked geometric-integrality/Tau Ceti consumer; include
+  the ambient compatibility square needed later for canonical coordinates.
+- `codex/owner-supported-fppf-sheaf`: an honest AddCommGrp fppf sheafification,
+  locally-surjective projection, categorical cokernel exactness, and constant/μ
+  consumers compile on the isolated branch and await final checks/review. Next
+  prove pointwise open-immersion factorization and site restriction to show the
+  quotients vanish away from the bad level.
 - Integration owner: review and integrate those isolated branches while
   keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
   owner retains responsibility for the projective group law,
