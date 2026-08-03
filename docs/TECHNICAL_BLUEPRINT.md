@@ -1547,11 +1547,12 @@ for finite-index tripling lives with its doubling analogue in
 `Foundations/NaiveHeightDescent.lean`; the order-35 result is its concrete
 consumer. The first input is now proved: clearing the reduced ordinate
 denominator makes `den(y) * x` integral, and the resulting product of three
-integer factors has gcd supported to exponent at most one at `7`. Finiteness
-of the target curve is a compiled sufficient condition for the sole remaining
-input. Target finiteness, the modular identification, and the squarefree
-formal-immersion consumer at eleven remain open. Thus no unconditional
-rank-zero theorem or roadmap-node completion is claimed.
+integer factors has gcd supported to exponent at most one at `7`. The
+Eisenstein integer factorization and ideal-support calculation now prove the
+remaining associated-cube input without hypotheses. Consequently the fixed
+explicit model has checked rank zero and a finite rational point group. Its
+modular-quotient identification and the squarefree formal-immersion consumer
+at eleven remain open, so the roadmap node receives no completion credit.
 
 ## 7. Prime-level Mazur layer
 
@@ -1566,6 +1567,8 @@ finiteness, or an isogeny chain.
 ### 7.1 Required lower-level modules
 
 ```text
+AlgebraicGeometry/FormalImmersionSpecialFiber.lean
+
 EllipticCurve/Isogeny/CyclicSubgroup.lean
 EllipticCurve/Isogeny/CyclicQuotient.lean
 EllipticCurve/FiniteField/CardFiveEleven.lean
@@ -1574,6 +1577,7 @@ EllipticCurve/NeronModel/Basic.lean
 EllipticCurve/NeronModel/ComponentGroup.lean
 EllipticCurve/NeronModel/TorsionSpecialization.lean
 EllipticCurve/TameAdditiveReductionData.lean
+EllipticCurve/NonsingularReduction.lean
 
 FiniteFlatGroupScheme/Basic.lean
 FiniteFlatGroupScheme/Admissible.lean
@@ -1751,8 +1755,14 @@ degree-one consumers. The full implication now also compiles: residue-field
 and cotangent surjectivity imply completion-map surjectivity under finite
 maximal ideals, via Mathlib's precomplete/Hausdorff criterion. Mathlib's
 Noetherian-stalk theorem supplies the finite-module hypotheses for locally
-Noetherian schemes. What remains at this boundary is the actual integral cusp
-model and q-expansion certificate, not generic local algebra.
+Noetherian schemes. A checked quotient-cotangent certificate now covers the
+characteristic-five lifting step: quotient Nakayama identifies the quotient
+maximal ideals, the mapped target ideal lets that equality lift to the total
+local map, and residue-field surjectivity gives total cotangent and completion
+surjectivity. The scheme-level mapped-ideal consumer concludes formal immersion
+directly from the special-fibre calculation. What remains at this boundary is
+the actual integral cusp model and q-expansion certificate, not generic local
+algebra.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
@@ -1800,9 +1810,14 @@ prime consumer
 `rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
 and the order-35 consumer
 `addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven` exercise both
-specializations. The actual identity subgroup, reduction homomorphism with
-the stated kernel, and component-cardinality bound are still geometric Néron
-inputs; no node credit is claimed for the algebraic handoff.
+specializations. The canonical nonsingular-reduction domain on the actual
+minimal integral model, coordinate reduction, negation closure, and exact
+formal kernel now compile. A single explicit additivity premise constructs
+its subgroup and reduction homomorphism; the resulting prime-five and
+order-35 consumers no longer accept either object arbitrarily. Proving that
+additivity, identifying the nonsingular points of the cuspidal special cubic
+with the additive residue group, and the component-cardinality bound remain
+geometric inputs; no node credit is claimed for this partial handoff.
 
 The proof sequence is:
 

@@ -122,6 +122,8 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -158,14 +160,17 @@ consumer, and the nonsplit common-prime ideal-support calculation at `2`, `3`,
 and `5` supplies it unconditionally. Thus the fixed explicit curve model has
 checked rank zero and a finite rational point group. On the split rational
 source locus, canonical order-five and order-seven divisor subgroups now
-reconstruct the order-35 carrier; this does not construct the finite-flat
-subgroup scheme or `w₅`. Exhaustive normalization of all 121 short models over
+reconstruct the order-35 carrier and feed the checked split finite-flat `Γ₀`
+package; this does not construct `w₅` or identify the modular quotient.
+Exhaustive normalization of all 121 short models over
 `F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
 the exact order-35 endpoint, and a good-reduction specialization consumer.
 The canonical eleven-adic reduction-data consumer also reaches the additive
-fibre endpoint while deriving component finiteness and formal-kernel torsion;
-the actual identity subgroup, reduction map/kernel, and component bound remain
-geometric inputs.
+fibre endpoint while deriving component finiteness and formal-kernel torsion.
+The canonical nonsingular-reduction consumer fixes the coordinate domain/map
+and exact formal kernel. Proving additivity, the actual cuspidal
+nonsingular-locus/additive-field equivalence, the genuine Néron identity
+component, and the component bound remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

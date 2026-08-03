@@ -51,10 +51,10 @@ Current machine-checked results include:
   checked composite equal to multiplication by three on every rational source
   point. The rational three-cover and visible `1`, `7`, and `49` translations
   feed a checked reduced numerator-denominator argument proving the exact
-  source cube-class bound. Target-candidate surjectivity then assembles the
-  three cosets, with compiled downstream consumers proving finite generation,
-  rank zero, and finiteness. Target-curve finiteness and the modular
-  identification remain open, so unconditional rank zero is not yet claimed;
+  source cube-class bound. The completed Eisenstein ideal-support argument
+  proves the remaining associated-cube condition unconditionally, and compiled
+  downstream consumers now prove rank zero and finiteness of the fixed model.
+  Its identification with the required modular quotient remains open;
 * exact unramified formal-kernel torsion and collision theorems at the integer
   primes `5` and `11`, plus concrete residue-field identifications and
   exact-order preservation under good reduction; the compiled consumers
@@ -73,8 +73,13 @@ Current machine-checked results include:
   supplied identity subgroup, fix reduction targets to the actual residue
   fields, derive component finiteness from the checked finite-index theorem,
   and derive formal-kernel torsion from the exact-pinned unramified results.
-  The Néron identity subgroup, reduction homomorphism/kernel theorem, and
-  component-cardinality bound needed before good reduction remain open;
+  The canonical domain of points with nonsingular coordinate reduction is now
+  constructed on Mathlib's actual minimal integral model; its coordinate map,
+  negation closure, and exact formal kernel are checked. One explicit
+  additivity statement builds the subgroup and reduction homomorphism, with
+  five- and eleven-adic prime/order-35 consumers. Proving that additivity,
+  identifying the nonsingular locus of the cuspidal special cubic with the
+  additive residue group, and the component-cardinality bound remain open;
 * an explicit algebraic tame-additive filtration contract, recording a
   component target of cardinality at most four, a finite additive reduction
   target, exact identification of its kernel with the formal kernel, and
@@ -101,16 +106,20 @@ Current machine-checked results include:
   convenient corollary assumes both maximal ideals finite. Mathlib's
   Noetherian-stalk theorem discharges these assumptions on locally Noetherian
   schemes, so the modular degree-one theorem now concludes the actual
-  formal-immersion predicate under the natural geometric hypothesis. Over the
-  actual completed integer ring at five, a checked collision theorem now turns
+  formal-immersion predicate under the natural geometric hypothesis. A new
+  quotient certificate lifts a checked special-fibre cotangent calculation to
+  the total stalk map: in the standard mapped-ideal case, quotient Nakayama and
+  residue-field surjectivity yield completion-map surjectivity, with a direct
+  scheme-level formal-immersion consumer. Over the actual completed integer
+  ring at five, a checked collision theorem now turns
   explicit modular/cusp closed-point and quotient-section equalities into the
   rational `j`-valuation bound, and a downstream consumer carries it through
   the minimal completion to the `F₅` contradiction. A stronger consumer takes
   the canonical five-adic reduction data and derives all remaining algebraic
   filtration inputs internally. The integral cusp model, q-expansion
   calculation, represented modular specialization, quotient collision, and
-  construction of those canonical data from a genuine Néron fibre remain
-  open, so no roadmap node is credited;
+  the nonsingular-reduction additivity, cuspidal smooth-locus classification,
+  and genuine component bound remain open, so no roadmap node is credited;
 * the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
   through a divisor-class/Picard equivalence into the actual degree-zero
   subgroup of `Scheme.Pic`. The checked formulas cover the base point,

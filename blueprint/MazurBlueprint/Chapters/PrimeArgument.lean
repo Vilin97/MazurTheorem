@@ -88,11 +88,16 @@ at least eleven.
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.toTameAdditiveFiltrationData`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_reduction_invariants_of_hasAdditiveReduction`
 
 The canonical five-adic handoff now derives component finiteness, residue
 cardinality, and formal-kernel torsion before applying the exact prime-order
-contradiction. Constructing its identity subgroup, reduction map/kernel, and
-component bound from the genuine Néron special fibre remains open.
+contradiction. Canonical coordinate reduction on the selected minimal model
+has exact formal kernel, and additive reduction forces reduced `Δ` and `c₄`
+to vanish. Proving reduction additivity, the cuspidal nonsingular-locus
+equivalence with the additive residue field, the genuine identity-component
+identification, and the component bound remain open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -123,6 +128,8 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
@@ -135,10 +142,12 @@ variable change with unchanged exact order; `j`-invariance and the completion
 valuation comparison return the local hypothesis to the rational curve. The
 new formal-immersion consumer discharges that rational `j` premise from the
 explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
-Its stronger canonical-data consumer derives the finite component, residue
-cardinality, and formal-torsion bookkeeping. The actual represented
-modular/cusp collision and construction of those data from the genuine Néron
-fibre are still required, so this node receives no completion credit.
+Its canonical nonsingular-reduction consumer fixes the actual minimal
+integral model, coordinate domain/map, and exact formal kernel, accepting no
+arbitrary identity subgroup or reduction homomorphism. The represented
+modular/cusp collision, reduction additivity, cuspidal special-locus
+classification, genuine Néron component identification, and component bound
+remain open, so this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

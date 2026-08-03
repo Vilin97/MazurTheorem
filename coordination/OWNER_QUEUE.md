@@ -10,6 +10,8 @@ Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
 the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`) and
 the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
 the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
+the quotient/special-fibre cotangent lift (`ce04968`), and canonical
+nonsingular coordinate reduction on the selected minimal model (`2317209`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -40,7 +42,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `21215e5` contains reviewed acceptance
+The combined owner history through `51af2a6` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -82,12 +84,37 @@ formal-subgroup inclusion, while the unramified formal-group results derive
 torsion-freeness. Real downstream consumers reach the prime formal-immersion
 `F₅` contradiction and the order-35 additive-fibre contradiction (`855439f`).
 Independent review verified every field is consumed and all declarations use
-only standard axioms. Constructing the identity subgroup, reduction map with
-the exact kernel, and the component-cardinality bound from a genuine Néron
-fibre remains open; no node credit is claimed. The two focused Lean targets
+only standard axioms. The later nonsingular-reduction range below constructs
+the coordinate domain/map and exact formal kernel. Proving its additivity,
+the cuspidal nonsingular-locus equivalence, genuine Néron identity-component
+identification, and component-cardinality bound remains open; no node credit
+is claimed. The focused Lean targets
 build with `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph, all eleven
-Challenge contracts, 769-source / 1,476,172-line inventory, quality suite, and official
-Blueprint build/check pass.
+Challenge contracts, 771-source / 1,476,935-line inventory, quality suite,
+and official Blueprint build/check pass.
+
+The special-fibre formal-immersion range packages compatible quotient ideals,
+finite generation of the quotient target maximal ideal, and the computed
+quotient cotangent surjection. Quotient Nakayama and the mapped-ideal condition
+lift this to the total maximal ideal; residue surjectivity then yields total
+cotangent and completion surjectivity. A scheme-level mapped-ideal consumer
+concludes formal immersion directly from the characteristic-five calculation
+(`ce04968`). Independent review accepted the ideal orientations and confirmed
+only standard axioms. The actual modular special-fibre stalk identification
+and q-expansion calculation remain open; no node credit is claimed.
+
+Canonical nonsingular reduction is now defined on the actual coordinate
+domain of the selected local Weierstrass equation. Its zero fibre is exactly
+the exact-pinned formal filtration, and the domain is closed under negation. A
+single explicit additivity predicate constructs the subgroup and reduction
+homomorphism; five- and eleven-adic constructors and real prime/order-35
+consumers compile (`2317209`, `51af2a6`). Additive reduction of the actual
+minimal equation also forces both reduced `Δ` and `c₄` to vanish. Independent
+review accepted the construction as noncircular and the singular-fibre
+adaptation is now explicitly attributed to Michael Stoll's pinned reduction
+work. Proving additivity, the cuspidal nonsingular-locus equivalence with the
+additive residue field, and the component quotient bound remains open; no node
+credit is claimed.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -287,6 +314,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
 `FppfHOneUniverse`, `SupportedFppfHOneBridge`, `FppfHOneBaseIso`,
 `SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
+`FormalImmersionSpecialFiber`, `NonsingularReduction`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
@@ -514,9 +542,12 @@ within each lane follows the listed order.
    the tame additive component bound at `5` and `11`. The checked canonical
    handoff fixes the component to the quotient by the identity subgroup and
    fixes the reduction target to the actual residue field. Component finiteness
-   follows from the exact-pin formal-filtration finite-index theorem. Build the
-   genuine identity subgroup, reduction/kernel theorem, and component bound;
-   the handoff itself earns no node credit.
+   follows from the exact-pin formal-filtration finite-index theorem. The
+   canonical coordinate domain/map and exact formal kernel now compile.
+   Prove `NonsingularReductionIsAdditive`, the cuspidal nonsingular-locus
+   equivalence with the additive residue field, identification with the
+   genuine Néron identity component, and the component bound; the handoff
+   itself earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
@@ -530,8 +561,9 @@ within each lane follows the listed order.
    checked `F₅` contradiction through the canonical residue equivalence. This is
    not node completion: canonical five- and eleven-adic data now discharge
    finite-component and formal-torsion bookkeeping, but their Néron
-   identity-subgroup and reduction/kernel construction used before good
-   reduction is still absent.
+   component identification, reduction additivity, cuspidal-locus
+   classification, and component bound used before good reduction are still
+   absent.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -760,8 +792,10 @@ in `route_history`:
 5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
    contradiction using the formal kernel, additive reduction target, and
    component group compiles. Its canonical five-adic consumer derives
-   component finiteness, residue cardinality, and formal-kernel torsion;
-   construct the remaining actual Néron data.
+   component finiteness, residue cardinality, and formal-kernel torsion. The
+   actual minimal equation's nonsingular coordinate map and exact kernel also
+   compile; prove additivity, the cuspidal additive classification, genuine
+   identity-component identification, and component bound.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the exhaustive trichotomy reaches good reduction from the
    supplied tame filtration. A real downstream consumer now carries the same
@@ -769,8 +803,10 @@ in `route_history`:
    and exact-order reduction to the `F₅` enumeration. The formal-immersion
    collision now supplies its `j` premise without changing the marked point or
    filtration. A stronger downstream theorem takes the canonical five-adic
-   reduction data; construct the represented collision and those genuine
-   Néron data.
+   reduction data, while the newest endpoint fixes coordinatewise nonsingular
+   reduction on the selected minimal model. Construct the represented
+   collision and discharge additivity, cuspidal classification, and genuine
+   component geometry.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -816,12 +852,16 @@ genus-zero `X₀` quotients do not support the selected argument.
   supplies it. Consequently the fixed explicit curve model now has
   unconditional rank zero and a finite rational point group. The split source
   datum now also has canonical level-5 and level-7 degeneracy maps, with
-  carriers generated by `7 • P` and `5 • P` and their supremum equal to the
-  original order-35 carrier. This is not the finite-flat subgroup-scheme
-  construction and does not define `w₅`. The local normalization/enumeration
+   carriers generated by `7 • P` and `5 • P` and their supremum equal to the
+   original order-35 carrier. These carriers feed the checked split
+   finite-flat `Γ₀` package, but do not define `w₅` or identify the modular
+   quotient. The local normalization/enumeration
   now has a separate uniform point-order bound and exact order-35 consumer;
   the good-reduction join and an abstract
-  tame-additive filtration consumer also compile. The actual modular quotient
+  tame-additive filtration consumer also compile. Canonical coordinatewise
+  nonsingular reduction at eleven reaches the same endpoint with its exact
+  formal kernel checked. Its additivity, cuspidal nonsingular-locus
+  classification, genuine component geometry, the actual modular quotient
   identification and classifying map, formal immersion, and geometric
   bad-fibre specialization remain open. No order-35 node credit is claimed
   until those modular consumers compile. Once good reduction at
@@ -886,14 +926,18 @@ or accounting shortcut.
   now independently reviewed and integrated; the ambient constant/Kummer calculations and
   middle-`H¹` finiteness remain open.
 - `formal immersion at five`: the reviewed completed-ring collision and its
-  rational-point/F₅ consumer are integrated. The owner is now driving the
-  represented modular/cusp specialization and optimal-quotient equality that
-  discharge its explicit premises.
+  rational-point/F₅ consumer are integrated. The quotient/special-fibre
+  cotangent lift and mapped-ideal scheme consumer are also independently
+  reviewed and integrated. The owner is now driving the actual modular
+  special-fibre stalk identification, q-expansion calculation, represented
+  modular/cusp specialization, and optimal-quotient equality.
 - `codex/mt-neron-direct-reduction`: the canonical component/residue/formal
-  boundary and both checked downstream consumers are integrated. The active
-  worker is constructing the strongest direct minimal-Weierstrass identity
-  subgroup and reduction/kernel theorem available from the exact-pin local
-  APIs, with the canonical five-adic handoff as acceptance consumer.
+  boundary and both checked downstream consumers are integrated. The actual
+  nonsingular-reduction domain, coordinate map, negation closure, exact formal
+  kernel, and conditional subgroup/homomorphism on the selected minimal model
+  are now independently reviewed and integrated. The next assignment proves
+  its additivity, the cuspidal nonsingular-locus/additive-field equivalence at
+  five and eleven, and the genuine component quotient bound.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

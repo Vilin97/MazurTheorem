@@ -42,14 +42,33 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive`
 * `structure` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven`
+* `definition` (`contract`):
+  `WeierstrassCurve.Affine.HasNonsingularReduction`
+* `definition` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReduction`
+* `definition` (`contract`):
+  `WeierstrassCurve.Affine.NonsingularReductionIsAdditive`
+* `definition` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReductionSubgroup`
+* `definition` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReductionHom`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReductionHom_ker`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofNonsingularReduction`
 * `theorem` (`proposed`):
   `ModularCurve.Jacobian.completelyToricReductionAtLevel`
 
-The checked canonical handoff fixes the component to the quotient by a
-supplied identity subgroup and fixes reduction targets to the actual residue
-fields at five and eleven. Exact-pin finite index derives component finiteness.
-The identity subgroup, reduction/kernel theorem, and component bound still
-require the genuine Néron geometry, so this node remains blocked.
+The canonical domain of points with nonsingular coordinate reduction, its
+actual map, negation closure, and exact formal zero fibre now compile.
+Assuming precisely `NonsingularReductionIsAdditive` constructs the subgroup
+and reduction homomorphism; the five- and eleven-adic handoffs use the actual
+residue fields and canonical component quotients. Proving additivity,
+identifying the cuspidal nonsingular locus with the additive residue group,
+identifying the subgroup with the genuine Néron identity component, and the
+component bound remain open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
@@ -814,6 +833,14 @@ toric reduction of the modular Jacobian.
 
 * `structure` (`proposed`): `ModularCurve.IntegralXZero`
 * `definition` (`contract`): `AlgebraicGeometry.IsFormalImmersionAt`
+* `structure` (`contract`):
+  `IsLocalRing.QuotientCotangentCertificate`
+* `theorem` (`contract`):
+  `IsLocalRing.cotangentMap_surjective_of_quotientCotangentCertificate`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve`
 * `theorem` (`contract`):
@@ -845,7 +872,10 @@ stalk-cotangent map and its residue-honest first-order criterion also compile.
 The finite-maximal-ideal Nakayama consequence and surjectivity modulo the
 square compile with a modular degree-one consumer. The residue/cotangent
 criterion now implies surjectivity on completed stalks under finite maximal
-ideals, and locally Noetherian schemes supply those finiteness instances. At a
+ideals, and locally Noetherian schemes supply those finiteness instances. A
+quotient certificate additionally lifts a special-fibre cotangent calculation
+through quotient Nakayama and residue surjectivity to completed-stalk formal
+immersion; its mapped-ideal endpoint is the characteristic-five consumer. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk
@@ -858,9 +888,9 @@ retracts it and proves the source residue field is the base field, and the
 over-base quotient equation proves the image residue field is also the base.
 A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
-equal quotient image. The integral cusp model, its non-generic section and
-uniformizer, and the actual modular q-expansion remain open, so this node
-receives no completion credit.
+equal quotient image. The integral cusp model, its quotient-ideal/stalk
+identification, non-generic section and uniformizer, and the actual modular
+q-expansion remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
