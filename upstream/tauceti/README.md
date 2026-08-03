@@ -11,7 +11,7 @@ enter the checked implementation graph.
 | Dependency | Exact pin |
 |---|---|
 | Lean | `v4.33.0-rc1` |
-| Tau Ceti | `de8aff326e96872ef479602ed7d9dcc1e6d9783b` |
+| Tau Ceti | `a74dfee78f800df63f085a19006f7d502eee365e` |
 | Mathlib (through Tau Ceti) | `79d0395a1825a6264ad5d269e35e60537518955e` |
 
 The files record small, compiler-checked API boundaries against nouns that
@@ -21,6 +21,11 @@ already exist in Tau Ceti:
   theorem and its scheme principal-divisor `OrderSystem` consumer;
 - the solved additivity theorem for abelian-variety dimension under products,
   with a checked self-product consumer for the future Jacobian API.
+
+The shared exact pin also contains the solved smooth-proper-curve product
+formula used by the root `Challenge.CurveProductFormula` bridge and its
+scheme-Picard consumer. That contract lives in the root package because it is
+consumed directly by Mazur's divisor/Picard layer.
 
 These are upstream-facing contracts, not Mazur's final theorem. A contract
 earns its fixed roadmap credit only after its upstream destination and named

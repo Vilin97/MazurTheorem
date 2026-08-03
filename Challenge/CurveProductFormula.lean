@@ -13,9 +13,9 @@ import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
 /-!
 # Challenge: the product formula on a smooth proper curve
 
-This contract isolates the exact residue-degree-weighted product formula needed by the checked
-degree-zero Picard consumer. It is independent of the divisor-line-bundle construction. The
-contract is open and earns no Mazur completion credit.
+This checked bridge preserves the exact residue-degree-weighted product-formula contract used by
+the degree-zero Picard consumer.  Tau Ceti proves the result for its geometric order system; the
+bridge transports it to an abstract order system with the same order homomorphisms.
 -/
 
 open AlgebraicGeometry
@@ -35,6 +35,10 @@ theorem divisorProductFormula
       (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)
       (Additive X.functionFieldˣ))
     (hord : S.ord = TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt) :
-    S.IsWeightedDegreeZero (fun x ↦ (π.residueDegree x : ℤ)) := sorry
+    S.IsWeightedDegreeZero (fun x ↦ (π.residueDegree x : ℤ)) := by
+  exact
+    TauCeti.AlgebraicGeometry.SchemeWeilDivisor.isWeightedDegreeZero_of_ord_eq_orderAt
+      π S hord
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X π)
 
 end MazurTheorem.Challenge

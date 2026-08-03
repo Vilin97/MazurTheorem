@@ -7,9 +7,9 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
-the formal-immersion cotangent and order-35 three-descent checkpoints. The
-ledger still has 48 nodes / 1,000 points: five completed nodes worth 102
-points and 43 unfinished nodes. No
+the Tau Ceti product-formula, formal-immersion cotangent, and order-35
+three-descent checkpoints. The ledger still has 48 nodes / 1,000 points: six
+completed nodes worth 117 points and 42 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
@@ -33,7 +33,7 @@ collision at `5` and a ten-point finite-field bound.
 | Branch | Retained value | Integration consequence |
 |---|---|---|
 | `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1 and product dimension, and the `F₅` ten-point enumeration; integrated finite-flat kernels, named morphism base change, and one admissible `p²`-exponent step; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, product dimension, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
-| `codex/mt-a2-product-formula` | A2 local-order and proper-curve groundwork built over the permanent A1 API | Re-audit against the Picard/Jacobian consumer, then continue the residue-degree product formula without changing the A1 interface. |
+| `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, kernel presentation, and the constant-rank point-exponent consumer | Keep the sound declarations. Complete quotient/base-change and constant/`μ_p` examples only through the admissible-filtration/rank-zero consumer. Partial infrastructure earns zero completion credit. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
 | `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary | Keep it as an independent release obligation. It is not a premise of the formal-immersion theorem. |
@@ -52,9 +52,13 @@ within each lane follows the listed order.
 
 ### 1. Shared geometry and cyclic quotients
 
-1. Completed `MT-TC-A1-ORDER-SUPPORT` (15); next
-   `MT-TC-A2-PRODUCT-FORMULA` (15) →
-   `MT-TC-A3-DIVISOR-LINE-BUNDLE` (18).
+1. Completed `MT-TC-A1-ORDER-SUPPORT` (15) and
+   `MT-TC-A2-PRODUCT-FORMULA` (15); next
+   `MT-TC-A3-DIVISOR-LINE-BUNDLE` (18). The A2 endpoint is
+   `SchemeWeilDivisor.divisorProductFormula`; its completed immutable bridge
+   transports from the geometric order system, and
+   `DivisorPicard.Dictionary.properCurveDegreeZero` is the concrete
+   scheme-Picard consumer.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and

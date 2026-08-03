@@ -210,6 +210,12 @@ Current machine-checked results include:
   downstream Tau Ceti contract build and permanent pin/provenance audit;
 * Tau Ceti's finite-support theorem for codimension-one orders and its
   compiled scheme `OrderSystem` consumer;
+* Tau Ceti's smooth-proper-curve product formula: a non-global rational
+  function extends to a finite flat map to `P¹`, whose zero and infinity
+  fibre degrees cancel. The checked Challenge transports the theorem to any
+  order system with the same geometric orders, while the divisor quotient
+  and `DivisorPicard.Dictionary.properCurveDegreeZero` provide real
+  downstream consumers;
 * Tau Ceti's product-dimension theorem for abelian varieties, proved through
   faithful integral-extension invariance of Krull dimension, Noether
   normalization for tensor products, and matching affine-chart bounds for

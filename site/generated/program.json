@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1446855,
-    "integrated_lean_modules": 696,
+    "integrated_lean_lines": 1447678,
+    "integrated_lean_modules": 699,
     "remaining_composite_orders": [
       18,
       25,
@@ -34,12 +34,12 @@
     {
       "id": "tauceti",
       "url": "https://github.com/Vilin97/TauCeti",
-      "commit": "de8aff326e96872ef479602ed7d9dcc1e6d9783b",
+      "commit": "a74dfee78f800df63f085a19006f7d502eee365e",
       "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
       "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
       "license": "Apache-2.0",
       "role": "Direct exact-pin dependency and upstream home for reusable algebraic-geometry infrastructure",
-      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on the reviewed Tau Ceti feature commit de8aff32, based on upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
+      "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on reviewed Tau Ceti integration commit a74dfee7, merging the finite-support and product-dimension lines, adding the smooth-proper-curve product formula, and preserving its published Scheme.Degree facade over upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
     },
     {
       "id": "aintlib-modular-curves",
@@ -65,11 +65,11 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 102,
-    "percent": 10.2,
+    "earned_points": 117,
+    "percent": 11.7,
     "ecosystem_ready_estimate_percent": 12,
-    "claimable_open_points": 149,
-    "ordinary_claimable_points": 37,
+    "claimable_open_points": 134,
+    "ordinary_claimable_points": 22,
     "research_open_points": 112,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
@@ -165,7 +165,7 @@
         {
           "kind": "definition",
           "name": "SchemeWeilDivisor.orderAt and OrderSystem",
-          "state": "contract",
+          "state": "integrated",
           "description": "Codimension-one orders of rational functions, finite support, principal divisors, and their degree-zero product formula."
         },
         {
@@ -876,18 +876,18 @@
       "title": "Degree-zero product formula on a proper smooth curve",
       "stage": "shared_geometry",
       "kind": "upstream",
-      "status": "open",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 15,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Prove that every principal divisor on a proper smooth geometrically integral curve has residue-degree-weighted degree zero.",
+      "summary": "Tau Ceti extends a nonconstant rational function to a finite flat map to the projective line, identifies its zero and infinity fibre multiplicities with orders of vanishing and residue degrees, and proves every principal divisor on a smooth proper integral curve has weighted degree zero; a quotient-to-PicZero equivalence and the scheme-Picard subgroup are checked consumers.",
       "artifacts": [
         {
           "kind": "theorem",
-          "name": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero",
-          "state": "proposed",
-          "description": "State and prove the residue-degree-weighted product formula for every nonzero rational function on a proper smooth curve."
+          "name": "TauCeti.AlgebraicGeometry.SchemeWeilDivisor.divisorProductFormula",
+          "state": "contract",
+          "description": "The residue-degree-weighted product formula for every nonzero rational function on a smooth proper integral curve, consumed by properCurveDegreeZeroQuotientEquivPicZero and the Mazur scheme-Picard adapter."
         }
       ],
       "depends_on": [
@@ -898,13 +898,13 @@
       ],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "challenge": {
-        "claimable": true,
+        "claimable": false,
         "module": "Challenge.CurveProductFormula",
         "file": "Challenge/CurveProductFormula.lean",
         "declaration": "MazurTheorem.Challenge.divisorProductFormula",
@@ -921,7 +921,8 @@
         "informal": "For the geometric order system of a smooth proper integral curve, every principal divisor has residue-degree-weighted degree zero.",
         "recommended_route": "Prove the residue-degree-weighted product formula for Mathlib's orders of vanishing, then use the checked weighted PicZero transport into the scheme Picard group.",
         "consumer_declarations": [
-          "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero"
+          "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero",
+          "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.properCurveDegreeZero"
         ],
         "estimated_lines": {
           "min": 500,
@@ -3014,7 +3015,8 @@
           "kind": "definition",
           "name": "AlgebraicGeometry.IsFormalImmersionAt",
           "state": "proposed",
-          "description": "Define formal immersion by surjectivity on completed local rings and expose its cotangent criterion."
+          "module": "MazurTorsion.AlgebraicGeometry.FormalCompletion",
+          "description": "Define formal immersion by surjectivity on the functorial completed-stalk map; on locally Noetherian schemes, the checked residue-field and cotangent criterion implies this predicate."
         },
         {
           "kind": "theorem",

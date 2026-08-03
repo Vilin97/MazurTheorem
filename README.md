@@ -22,18 +22,19 @@ exact source commit, subtree hash, and split.
 
 ## Where the project stands
 
-The strict weighted estimate is **10.2% integrated**. Approximately **12% is
+The strict weighted estimate is **11.7% integrated**. Approximately **12% is
 ecosystem-ready** when compatible work already available in Mathlib, Lean
 Pool, Tau Ceti, FLT, and related repositories is counted as reusable rather
 than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 699 checked Lean sources and 1,447,650
+The integrated development contains 699 checked Lean sources and 1,447,678
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
-order system and abelian-variety product-dimension theorem, and the ten-point
+order system, smooth-proper-curve product formula, and abelian-variety
+product-dimension theorem, and the ten-point
 enumeration for every elliptic curve over `F₅`. The current frontier is:
 
 - the genus-two closures for orders `13` and `18` and the explicit order-25
@@ -58,6 +59,13 @@ Noetherian schemes, and the degree-one certificate is the compiled geometric
 consumer. This is deliberately not node completion: the locally Noetherian
 integral cusp model, its q-expansion certificate, modular quotient, and
 cusp-collision theorem remain open.
+
+The shared divisor lane now proves the residue-degree product formula for a
+smooth proper integral curve by extending a nonconstant rational function to
+a finite flat map to the projective line and comparing its zero and infinity
+fibres.  The immutable Challenge is a checked order-system transport bridge,
+and the result has concrete consumers both in Tau Ceti's degree-zero divisor
+quotient and in the actual scheme Picard group used here.
 
 On the Jacobian path, Tau Ceti's weighted point and divisor Abel--Jacobi
 classes now transport through the checked divisor-class/Picard equivalence to
@@ -87,8 +95,8 @@ counts. See the [live roadmap](https://mazur-theorem-formalization.vilin402100.c
 
 Yes—but not as one flat list of unrelated bounties.
 
-At the current checkpoint, **14.9% of the total weighted work** is exposed
-through exact, compiled contracts: **3.7%** as ordinary claimable tasks and
+At the current checkpoint, **13.4% of the total weighted work** is exposed
+through exact, compiled contracts: **2.2%** as ordinary claimable tasks and
 **11.2%** as
 research-open problems where parallel approaches are welcome. With reviewed
 interfaces and upstream coordination, roughly **35–45%** can be parallelized

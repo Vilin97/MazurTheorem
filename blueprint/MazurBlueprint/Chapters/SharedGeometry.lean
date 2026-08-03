@@ -26,20 +26,25 @@ consumed by the permanent scheme-theoretic
 contract consumer `MazurTauCetiChallenge.orderSystem`.
 :::
 
-:::theorem "MT-TC-A2-PRODUCT-FORMULA" (parent := "shared_geometry") (uses := "MT-TC-A1-ORDER-SUPPORT") (tags := "upstream, open, compiled, tau-ceti") (priority := "high") (effort := "large")
+:::theorem "MT-TC-A2-PRODUCT-FORMULA" (parent := "shared_geometry") (uses := "MT-TC-A1-ORDER-SUPPORT") (tags := "upstream, done, integrated, tau-ceti") (priority := "high") (effort := "large")
 *Degree-zero product formula.* Every principal divisor on a proper smooth
-geometrically integral curve has residue-degree-weighted degree zero.
+integral curve has residue-degree-weighted degree zero.
 
-*Status:* `open`; *scope:* exact compiled challenge contract. The bridge
+*Status:* `done`; *scope:* integrated Tau Ceti theorem and checked challenge bridge. The bridge
 `MazurTheorem.Challenge.divisorProductFormula` pins the abstract order system to
-scheme-theoretic orders of vanishing and states the residue-degree-weighted result consumed by
-the checked absolute degree-zero Picard API.
+scheme-theoretic orders of vanishing. Tau Ceti extends every non-global rational function to a
+finite flat map to the projective line, computes the zero and infinity fibres through
+ramification and residue degrees, and cancels their common finite-flat rank. Global functions
+are handled separately by properness. The result is consumed by both the degree-zero divisor
+quotient and the checked absolute scheme-Picard API.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
-* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero`
-  State and prove the residue-degree-weighted product formula for every nonzero
-  rational function on a proper smooth curve.
+* `theorem` (`contract`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.divisorProductFormula`
+  Proves the residue-degree-weighted product formula for every nonzero rational function on a
+  smooth proper integral curve. It is consumed by
+  `SchemeWeilDivisor.properCurveDegreeZeroQuotientEquivPicZero` and
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.properCurveDegreeZero`.
 :::
 
 :::theorem "MT-TC-E0-PRODUCT-DIM" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, done, integrated, tau-ceti") (priority := "high") (effort := "medium")

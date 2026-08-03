@@ -79,7 +79,7 @@ option-free universe-shrinking bridge for Hilbert 90. Details are recorded in
 
 - Upstream source: https://github.com/TauCetiProject/TauCeti
 - Reviewed integration source: https://github.com/Vilin97/TauCeti
-- Exact dependency commit: `de8aff326e96872ef479602ed7d9dcc1e6d9783b`
+- Exact dependency commit: `a74dfee78f800df63f085a19006f7d502eee365e`
 - Upstream base commit: `a3913fd9111b851af857f720b4ce6721e6634183`
 - License: Apache License 2.0
 
@@ -88,8 +88,10 @@ the separate upstream-contract package deliberately resolve the same Tau Ceti,
 Lean, and Mathlib revisions. The exact feature commit adds the finite-support
 theorem for scheme-theoretic orders and its `OrderSystem` consumer, together
 with faithful-integral, tensor-product, scheme-product, and abelian-variety
-product-dimension theorems. Its commit retains Tau Ceti's repository-wide
-license and contributor attribution.
+product-dimension theorems. It also constructs the rational-function map to
+the projective line and proves the residue-degree product formula for smooth
+proper integral curves, with a checked Picard-zero quotient consumer. Its
+commits retain Tau Ceti's repository-wide license and contributor attribution.
 
 ## Mathlib Dedekind-zeta finite-fibre argument
 

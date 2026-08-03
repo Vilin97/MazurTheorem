@@ -266,7 +266,7 @@ The
 repository was inspected at base commit
 [`a3913fd9111b851af857f720b4ce6721e6634183`](https://github.com/TauCetiProject/TauCeti/commit/a3913fd9111b851af857f720b4ce6721e6634183).
 The exact dependency is reviewed feature commit
-[`de8aff326e96872ef479602ed7d9dcc1e6d9783b`](https://github.com/Vilin97/TauCeti/commit/de8aff326e96872ef479602ed7d9dcc1e6d9783b)
+[`a74dfee78f800df63f085a19006f7d502eee365e`](https://github.com/Vilin97/TauCeti/commit/a74dfee78f800df63f085a19006f7d502eee365e)
 on the integration fork.
 It is Apache-2.0 and
 contains general algebraic-geometry work,
@@ -281,7 +281,11 @@ permanent `SchemeWeilDivisor.orderSystem`. It also proves Krull-dimension
 invariance for faithful integral extensions, tensor-product dimension
 additivity via Noether normalization, the corresponding product theorem for
 nonempty finite-type schemes, and
-`TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim`. At the inspected base it
+`TauCeti.AlgebraicGeometry.AbelianVariety.prod_dim`. The same reviewed
+descendant extends rational functions on smooth curves to finite flat maps to
+the projective line, identifies zero and infinity fibre multiplicities, and
+proves `SchemeWeilDivisor.divisorProductFormula` with a checked Picard-zero
+consumer. At the inspected base it
 did not contain:
 
 * elliptic-curve torsion or Weil pairings;

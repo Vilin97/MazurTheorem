@@ -33,12 +33,12 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,433,335 project-specific lines across 666
+The latest integrated package has 1,433,363 project-specific lines across 666
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 173 lines in the two
-root aggregators. These 699 sources and 1,447,650 checked lines build without
-unproved declarations; the separate challenge library contains only its
-registered open contracts.
+root aggregators. These 699 sources and 1,447,678 checked lines build without
+unproved declarations; the separate challenge library contains exactly its
+registered open contracts and checked solved bridges.
 
 ### 2.1 Cardinality bridge
 
@@ -1535,6 +1535,13 @@ ModularCurve/X0/EisensteinQuotient.lean
 
 Mazur/PrimeOrder/AtFive.lean
 ```
+
+Tau Ceti now proves the residue-degree product formula on a smooth proper
+integral curve by extending non-global rational functions to finite flat maps
+to `P¹` and comparing zero and infinity fibres. The exact Challenge bridge
+transports this theorem to any order system with the same geometric orders,
+and `DivisorPicard.Dictionary.properCurveDegreeZero` consumes it in the actual
+scheme Picard group.
 
 The checked absolute precursor
 `AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted

@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
+import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree
 
 /-!
 # The absolute degree-zero Picard subgroup
@@ -18,8 +19,9 @@ The final adapter consumes the explicit-inverse curve-descent equivalence direct
 precursor does not require the stronger dictionary comparing every invertible sheaf with a
 Picard unit.
 
-No relative Picard functor or representability claim is made here. In particular, the product
-formula remains an explicit input.
+No relative Picard functor or representability claim is made here. The generic weighted
+construction retains the product formula as an explicit input; the smooth proper curve
+specialization discharges it with Tau Ceti's checked theorem.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry
@@ -78,19 +80,44 @@ variable {X : Scheme.{u}}
 variable {Y : Type*} {G : Type v} [AddCommGroup G]
 variable {S : WeilDivisor.OrderSystem Y G}
 
-/-- The absolute degree-zero Picard subgroup attached to an exact divisor-line-bundle
-dictionary. This is the named `MT-TC-D1` consumer of the A3 dictionary interface. -/
-noncomputable def degreeZero
+/-- The weighted degree-zero Picard subgroup attached to an exact divisor-line-bundle
+dictionary. This generic construction retains the weight and product formula as explicit
+inputs; `degreeZero` below is the canonical proper-curve specialization. -/
+noncomputable def weightedDegreeZero
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w) :
     AddSubgroup (PicardGroup X) :=
   PicardGroup.degreeZero S w h d.classEquivalence
 
+/-- The canonical degree-zero Picard subgroup of a smooth proper integral curve. The geometric
+product formula supplies the weighted-degree hypothesis automatically, so no abstract premise
+remains in this named Challenge consumer. -/
+noncomputable def degreeZero
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]
+    (d : DivisorPicard.Dictionary
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X) :
+    AddSubgroup (PicardGroup X) :=
+  d.weightedDegreeZero (fun x ↦ (π.residueDegree x.1 : ℤ))
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X π)
+
+/-- Explicitly named alias for the proper-curve specialization, retained for downstream code
+that needs to distinguish it from `PicardGroup.degreeZero`. -/
+noncomputable def properCurveDegreeZero
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (π : X ⟶ Spec (.of K)) [IsProper π] [SmoothOfRelativeDimension 1 π]
+    (d : DivisorPicard.Dictionary
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X) :
+    AddSubgroup (PicardGroup X) :=
+  d.degreeZero K X π
+
 /-- An exact dictionary identifies divisor `Pic⁰` with its absolute scheme-Picard image. -/
 noncomputable def picZeroEquiv
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w) :
-    S.picZero w h ≃+ d.degreeZero w h :=
+    S.picZero w h ≃+ d.weightedDegreeZero w h :=
   PicardGroup.picZeroEquiv S w h d.classEquivalence
 
 /-- A chosen Tau Ceti invertible-sheaf representative of an absolute degree-zero Picard class.
@@ -98,7 +125,7 @@ This consumes the full Picard comparison forced by the exact divisor dictionary.
 noncomputable def degreeZeroRepresentative
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
-    (p : d.degreeZero w h) : InvertibleSheaf X :=
+    (p : d.weightedDegreeZero w h) : InvertibleSheaf X :=
   d.picardComparison.representative (Additive.toMul p.1)
 
 /-- The chosen degree-zero line bundle represents the underlying Picard class. -/
@@ -106,7 +133,7 @@ noncomputable def degreeZeroRepresentative
 lemma degreeZeroRepresentative_toPic
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
-    (p : d.degreeZero w h) :
+    (p : d.weightedDegreeZero w h) :
     Additive.ofMul
       (d.picardComparison.toPic (d.degreeZeroRepresentative w h p)) = p.1 := by
   change Additive.ofMul
@@ -120,10 +147,10 @@ subgroup. -/
 lemma degreeZeroRepresentative_mem
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
-    (p : d.degreeZero w h) :
+    (p : d.weightedDegreeZero w h) :
     Additive.ofMul
         (d.picardComparison.toPic (d.degreeZeroRepresentative w h p)) ∈
-      d.degreeZero w h := by
+      d.weightedDegreeZero w h := by
   rw [d.degreeZeroRepresentative_toPic w h p]
   exact p.property
 
@@ -133,7 +160,8 @@ lemma divisorToPic_mem_degreeZero_iff
     (d : DivisorPicard.Dictionary S X)
     (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
     (D : WeilDivisor Y) :
-    d.divisorToPic D ∈ d.degreeZero w h ↔ WeilDivisor.weightedDegree w D = 0 := by
+    d.divisorToPic D ∈ d.weightedDegreeZero w h ↔
+      WeilDivisor.weightedDegree w D = 0 := by
   rw [← d.classEquivalence_divisorClass D]
   exact PicardGroup.divisorClass_mem_degreeZero_iff S w h d.classEquivalence D
 

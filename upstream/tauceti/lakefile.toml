@@ -4,7 +4,7 @@ defaultTargets = ["MazurTauCetiChallenge"]
 [[require]]
 name = "TauCeti"
 git = "https://github.com/Vilin97/TauCeti"
-rev = "de8aff326e96872ef479602ed7d9dcc1e6d9783b"
+rev = "a74dfee78f800df63f085a19006f7d502eee365e"
 
 [[lean_lib]]
 name = "MazurTauCetiChallenge"
