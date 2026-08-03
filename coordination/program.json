@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1458026,
+    "integrated_lean_lines": 1458161,
     "integrated_lean_modules": 718,
     "remaining_composite_orders": [
       18,
@@ -3022,7 +3022,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points, and genuine supplied local lifts now construct a choice-independent Cech boundary class across arbitrary covers. Uniformly constructing those lifts from an fppf quotient, proving the boundary homomorphism, and filling the low-degree exact-sequence instance remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient now supplies tautological local lifts and a choice-independent boundary homomorphism; subcanonical descent proves exactness at quotient-valued global sections and the concrete low-degree constructor consumes it. The two reverse H1 exactness inclusions remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3107,6 +3107,34 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfConnecting",
           "description": "Prove the constructed boundary class is independent of local lifts and of the fppf cover via genuine refinement and intersection covers."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.locallyLiftable",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Pull the quotient projection back along each global quotient section to obtain its tautological local lifts on a genuine fppf cover."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.boundaryHom",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Construct the choice-independent connecting homomorphism of an actual checked fppf quotient presentation."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Use a common-refinement gauge and subcanonical fppf descent to prove that a quotient section has trivial boundary exactly when it lifts globally."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Consume the checked quotient boundary and its degree-zero exactness, leaving only the two reverse H1 exactness proofs as inputs to the concrete sequence."
         },
         {
           "kind": "theorem",

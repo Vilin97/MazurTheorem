@@ -107,9 +107,12 @@ specialization feeds the existing finite-p-group consumer. Natural
 transformations of commutative coefficients now induce global homomorphisms,
 and actual finite-flat group-scheme maps consume this functoriality. Certified
 kernels are exact on test-scheme points. Genuine supplied local lifts produce
-a kernel-valued Čech boundary class independent of the lifts and cover. The
-next boundary is uniform local lifting from the fppf quotient, multiplicativity,
-and the Kummer exact sequence.
+a kernel-valued Čech boundary class independent of the lifts and cover. An
+actual checked fppf quotient now supplies its tautological local lifts and
+connecting homomorphism. If that boundary vanishes, a common-refinement gauge
+makes the lifts compatible and subcanonical descent glues them globally, so
+exactness at quotient-valued global sections is checked. The next boundary is
+the two reverse `H¹` exactness inclusions and the resulting Kummer sequence.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -135,6 +138,14 @@ and the Kummer exact sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass_eq`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.locallyLiftable`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.boundaryHom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -152,9 +163,10 @@ by a cardinal bound alone. The repository now supplies the fixed-universe
 global colimit over actual relative fppf covers, including refinement-choice
 independence, a type-level eliminator, its canonical commutative group law,
 functorial coefficient maps, and a choice-independent local-lift connecting
-class. Constructing those lifts from the quotient, the connecting
-homomorphism, and the low-degree exact sequence are still absent; no node
-credit is claimed.
+class. The quotient-derived lifts, boundary homomorphism, and exactness at the
+quotient `H⁰` term now compile and feed the concrete low-degree constructor.
+The two reverse `H¹` exactness inclusions are still absent; no node credit is
+claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

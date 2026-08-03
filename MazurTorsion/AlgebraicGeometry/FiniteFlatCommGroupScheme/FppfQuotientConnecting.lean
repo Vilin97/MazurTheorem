@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfConnecting
+import Mathlib.CategoryTheory.Sites.Hypercover.Subcanonical
 
 /-!
 # Quotient connecting homomorphisms and the low-degree sequence
@@ -17,9 +18,9 @@ packages the represented-point groups and global fppf `H¹` groups into the exis
 `p`-group low-degree sequence.
 
 The certified kernel property proves left injectivity and exactness at the middle degree-zero
-term.  Exactness at the quotient degree-zero term and the two following `H¹` terms remains
-explicit input: the two checked image-in-kernel laws do not masquerade as the missing reverse
-inclusions.
+term.  Fppf descent proves exactness at the quotient degree-zero term by gluing a gauged system
+of local lifts.  The two following `H¹` exactness assertions remain explicit input: the checked
+image-in-kernel laws do not masquerade as the missing reverse inclusions.
 -/
 
 noncomputable section
@@ -102,6 +103,123 @@ theorem fppfHOneMap_boundaryHom (D : FppfQuotientPresentation G)
     fppfHOneMap D.kernelPresentation.inclusion (D.boundaryHom q) = 1 :=
   D.locallyLiftable.fppfHOneMap_boundaryHom q
 
+/-- If the connecting class of a quotient section is trivial, a Čech gauge makes its local
+lifts agree after an fppf refinement, and subcanonical descent glues them to a global lift. -/
+theorem exists_project_of_boundaryHom_eq_one
+    (D : FppfQuotientPresentation G) (q : BasePoint D.quotient)
+    (hq : D.boundaryHom q = 1) :
+    ∃ x : BasePoint G, mapPoint D.project (baseObject S) x = q := by
+  let L := D.locallyLiftable.localLift q
+  have hq' : L.boundaryClass = 1 := hq
+  change Scheme.FppfHOne.mk L.cover L.cocycle.class = 1 at hq'
+  have hq'' : Scheme.FppfHOne.mk L.cover L.cocycle.class =
+      Scheme.FppfHOne.mk (Scheme.FppfHOne.identityCover S) 1 := by
+    rw [Scheme.FppfHOne.mk_one]
+    exact hq'
+  obtain ⟨𝒲, r, s, hrs⟩ :=
+    (Scheme.FppfHOne.class_eq_iff L.cover
+      (Scheme.FppfHOne.identityCover S) L.cocycle.class 1).mp hq''
+  have hrs' :
+      ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle
+        L.cocycle).class = 1 := by
+    simpa only [Scheme.Cover.Hom.pullbackHOne,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_class,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_one] using hrs
+  let M := L.pullback r
+  have hM : M.cocycle.class = 1 := by
+    rw [L.cocycle_pullback r]
+    exact hrs'
+  obtain ⟨α, hα⟩ :=
+    (PresheafOfGroups.OneCocycle.class_eq_iff M.cocycle 1).mp hM
+  let gauge (i : M.cover.I₀) :
+      D.kernelPresentation.kernel.Point (M.cover.overFamily i) := α i
+  let adjusted (i : M.cover.I₀) : G.Point (M.cover.overFamily i) :=
+    M.lift i *
+      (mapPoint D.kernelPresentation.inclusion (M.cover.overFamily i) (gauge i))⁻¹
+  have hadjusted (i j : M.cover.I₀) :
+      pullback.fst (M.cover.f i) (M.cover.f j) ≫ (adjusted i).left =
+        pullback.snd (M.cover.f i) (M.cover.f j) ≫ (adjusted j).left := by
+    let T : Over S :=
+      Over.mk (pullback.fst (M.cover.f i) (M.cover.f j) ≫ M.cover.f i)
+    let a : T ⟶ M.cover.overFamily i :=
+      Over.homMk (pullback.fst (M.cover.f i) (M.cover.f j)) rfl
+    let b : T ⟶ M.cover.overFamily j :=
+      Over.homMk (pullback.snd (M.cover.f i) (M.cover.f j)) pullback.condition.symm
+    have hrel := congrArg
+      (mapPoint D.kernelPresentation.inclusion T) (hα i j a b)
+    change mapPoint D.kernelPresentation.inclusion T
+        (pullPoint D.kernelPresentation.kernel a (gauge i) *
+          D.kernelPresentation.liftPoint (M.difference i j a b)
+            (M.mapPoint_difference_eq_one i j a b)) =
+      mapPoint D.kernelPresentation.inclusion T
+        (1 * pullPoint D.kernelPresentation.kernel b (gauge j)) at hrel
+    rw [map_mul, map_mul, mapPoint_pullPoint,
+      D.kernelPresentation.mapPoint_liftPoint, map_one, one_mul,
+      mapPoint_pullPoint] at hrel
+    have hp : pullPoint G a (adjusted i) = pullPoint G b (adjusted j) := by
+      dsimp only [adjusted]
+      rw [map_mul, map_mul, map_inv, map_inv]
+      rw [← hrel]
+      dsimp only [KernelPresentation.LocalLift.difference]
+      group
+    change (a ≫ adjusted i).left = (b ≫ adjusted j).left
+    exact congrArg Over.Hom.left hp
+  let xleft : S ⟶ G.scheme :=
+    Precoverage.ZeroHypercover.glueMorphisms M.cover
+      (fun i ↦ (adjusted i).left) hadjusted
+  have hxleft : xleft ≫ G.structureMap = 𝟙 S := by
+    apply Precoverage.ZeroHypercover.hom_ext M.cover
+    intro i
+    have hglue : M.cover.f i ≫ xleft = (adjusted i).left := by
+      simpa only [xleft] using
+        Precoverage.ZeroHypercover.f_glueMorphisms M.cover
+          (fun i ↦ (adjusted i).left) hadjusted i
+    rw [← Category.assoc, hglue]
+    rw [Category.comp_id]
+    exact (adjusted i).w
+  let x : BasePoint G := Over.homMk xleft hxleft
+  have hxrestrict (i : M.cover.I₀) :
+      pullPoint G (coverToBase M.cover i) x = adjusted i := by
+    apply Over.OverMorphism.ext
+    change M.cover.f i ≫ xleft = (adjusted i).left
+    simpa only [xleft] using
+      Precoverage.ZeroHypercover.f_glueMorphisms M.cover
+        (fun i ↦ (adjusted i).left) hadjusted i
+  have hadjusted_map (i : M.cover.I₀) :
+      mapPoint D.project (M.cover.overFamily i) (adjusted i) =
+        restrictBasePoint D.quotient M.cover i q := by
+    dsimp only [adjusted]
+    rw [map_mul, map_inv,
+      D.kernelPresentation.mapPoint_inclusion_eq_one, inv_one, mul_one,
+      M.maps_to]
+  refine ⟨x, ?_⟩
+  apply Over.OverMorphism.ext
+  apply Precoverage.ZeroHypercover.hom_ext M.cover
+  intro i
+  have hlocal :
+      pullPoint D.quotient (coverToBase M.cover i)
+          (mapPoint D.project (baseObject S) x) =
+        pullPoint D.quotient (coverToBase M.cover i) q := by
+    rw [← mapPoint_pullPoint, hxrestrict, hadjusted_map]
+    rfl
+  exact congrArg Over.Hom.left hlocal
+
+/-- Exactness at quotient-valued global sections: a quotient section has zero boundary exactly
+when it comes from a global section of the middle group scheme. -/
+theorem boundaryHom_eq_one_iff_exists_project
+    (D : FppfQuotientPresentation G) (q : BasePoint D.quotient) :
+    D.boundaryHom q = 1 ↔
+      ∃ x : BasePoint G, mapPoint D.project (baseObject S) x = q := by
+  constructor
+  · exact D.exists_project_of_boundaryHom_eq_one q
+  · rintro ⟨x, rfl⟩
+    exact D.boundaryHom_project x
+
+/-- The quotient projection followed by the constructed boundary homomorphism is exact. -/
+theorem exact_project_boundaryHom (D : FppfQuotientPresentation G) :
+    Function.MulExact (mapPoint D.project (baseObject S)) D.boundaryHom :=
+  fun q ↦ D.boundaryHom_eq_one_iff_exists_project q
+
 end FppfQuotientPresentation
 
 namespace FinitePGroup
@@ -148,6 +266,24 @@ def uliftMonoidHom {A B : Type u} [CommGroup A] [CommGroup B] (g : A →* B) :
 def downMonoidHom {A : Type u} {B : Type (u + 1)} [CommGroup A] [CommGroup B]
     (g : A →* B) : ULift.{u + 1} A →* B :=
   g.comp MulEquiv.ulift.toMonoidHom
+
+/-- Raising the first map's source and evaluating the second map on the lowered middle term
+preserves multiplicative exactness. -/
+theorem mulExact_ulift_downMonoidHom
+    {A B : Type u} {C : Type (u + 1)}
+    [CommGroup A] [CommGroup B] [CommGroup C]
+    {g : A →* B} {h : B →* C} (e : Function.MulExact g h) :
+    Function.MulExact (uliftMonoidHom g) (downMonoidHom h) := by
+  rintro ⟨y⟩
+  constructor
+  · intro hy
+    obtain ⟨x, hx⟩ := (e y).mp hy
+    exact ⟨ULift.up x, by
+      apply ULift.ext
+      exact hx⟩
+  · rintro ⟨⟨x⟩, hx⟩
+    apply (e y).mpr
+    exact ⟨x, congrArg ULift.down hx⟩
 
 /-- Multiplicative exactness is unchanged when all three terms are universe-raised. -/
 theorem mulExact_ulift {A B C : Type u} [CommGroup A] [CommGroup B] [CommGroup C]
@@ -234,8 +370,9 @@ def ofKernelPresentation {p : ℕ} (P : KernelPresentation f)
   exact_middleHOne := exact_middleHOne
 
 /-- The concrete low-degree sequence constructor for an actual fppf quotient presentation.  It
-uses the quotient's pulled-back singleton cover and the resulting checked boundary homomorphism;
-only the three genuinely descent-sensitive full exactness statements remain arguments. -/
+uses the quotient's pulled-back singleton cover, the resulting checked boundary homomorphism,
+and fppf descent for exactness at quotient-valued global sections. Only the two genuinely
+degree-one reverse exactness statements remain arguments. -/
 def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     (D : FppfQuotientPresentation G)
     (kernelHZeroData : FinitePGroup.CertifiedData p
@@ -246,9 +383,6 @@ def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
       D.kernelPresentation.kernel.FppfHOne.{u})
     (middleHOneData : FinitePGroup.CertifiedData p G.FppfHOne.{u})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{u})
-    (exact_quotientHZero : Function.MulExact
-      (FinitePGroup.uliftMonoidHom (mapPoint D.project (baseObject S)))
-      (FinitePGroup.downMonoidHom D.boundaryHom))
     (exact_kernelHOne : Function.MulExact D.boundaryHom
       (fppfHOneMap D.kernelPresentation.inclusion))
     (exact_middleHOne : Function.MulExact
@@ -257,7 +391,8 @@ def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
   ofKernelPresentation D.kernelPresentation D.locallyLiftable
     kernelHZeroData middleHZeroData quotientHZeroData
     kernelHOneData middleHOneData quotientHOneData
-    exact_quotientHZero exact_kernelHOne exact_middleHOne
+    (FinitePGroup.mulExact_ulift_downMonoidHom D.exact_project_boundaryHom)
+    exact_kernelHOne exact_middleHOne
 
 end FppfLowDegreeExactSequence
 

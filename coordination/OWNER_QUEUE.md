@@ -44,8 +44,8 @@ principal-divisor cocycle checkpoint `46d5b74` has passed independent review
 and is integrated with no node credit; arbitrary-divisor coherence and the
 effectivity comparison remain open. The
 finite-flat lane proceeds from the now-checked local-lift boundary homomorphism
-to the three genuine reverse exactness inclusions and the focused rank-zero
-consumer.
+through the checked quotient-`H⁰` reverse inclusion to the two genuine reverse
+`H¹` exactness inclusions and the focused rank-zero consumer.
 
 ## Route decision
 
@@ -66,7 +66,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and certified degree-zero exactness; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and now derives its constant closed embedding from injective rational sections, leaving only the actual Weierstrass group scheme and point comparison as that interface; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks the three reverse exactness inclusions needed for the full low-degree sequence; the actual Weierstrass group scheme, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and certified exactness through quotient-valued global sections; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and now derives its constant closed embedding from injective rational sections, leaving only the actual Weierstrass group scheme and point comparison as that interface; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks the two reverse degree-one exactness inclusions needed for the full low-degree sequence; the actual Weierstrass group scheme, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -169,9 +169,13 @@ within each lane follows the listed order.
    choice independence. The checked fppf quotient projection now supplies the
    pulled-back singleton cover and its tautological local lifts, so the
    boundary is an actual homomorphism and the low-degree package has its
-   correct maps. Next finish `MT-FFGS-CONNECTED-ETALE` (20) by proving the
-   three reverse image/kernel inclusions and filling the six-group/five-map
-   exact-sequence instance. Then finish
+   correct maps. A common-refinement gauge now makes locally lifted quotient
+   sections compatible; subcanonical fppf descent glues them globally and
+   proves exactness at quotient-valued `H⁰`. The concrete low-degree
+   constructor consumes this proof rather than accepting it as an input. Next
+   finish `MT-FFGS-CONNECTED-ETALE` (20) by proving the two reverse `H¹`
+   image/kernel inclusions and filling the six-group/five-map exact-sequence
+   instance. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
 
