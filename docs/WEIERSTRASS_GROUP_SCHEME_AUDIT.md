@@ -97,6 +97,11 @@ Compatibility with the projective-plane structure morphism is checked, so
 this is an honest point over `Spec K`, not only a map of underlying schemes.
 The checked projective-to-affine normalization then gives a canonical forward
 map from every Mathlib projective point without choosing a representative.
+Equality of two such morphisms gives equality of their homogeneous vanishing
+ideals at the closed point of `Spec K`; the linear forms `X - xZ`, `Y - yZ`,
+and `Z` then recover and distinguish the normalized representatives.  Thus
+`projectivePointToAbelianVarietyRationalPoint_injective` checks injectivity
+without assuming a scheme group law.
 
 The concrete `toOver` object then feeds Tau Ceti's
 `AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
@@ -104,8 +109,9 @@ The concrete `toOver` object then feeds Tau Ceti's
 consumer `splitGammaZeroDatumOfCanonicalProjectiveCubic` reaches the
 finite-flat `Gamma₀(N)` construction from this exact cubic and its canonical
 forward point map.  Its remaining hypotheses say precisely that this checked
-map preserves the group law and is bijective; no unrelated point equivalence
-is required.  This construction uses Mathlib's reduced induced subscheme;
+map preserves the group law and is surjective; injectivity is already proved,
+and no unrelated point equivalence is required.  This construction uses
+Mathlib's reduced induced subscheme;
 identifying it with a principal homogeneous-coordinate quotient is not needed
 for the consumer and is not claimed.
 
@@ -121,9 +127,10 @@ field:
    checked), so that the concrete `toOver` object becomes a Tau Ceti
    `AbelianVariety`;
 3. compatibility of the canonical forward coordinate-point map with the
-   scheme group law, and bijectivity.  Surjectivity/injectivity requires
-   recovering homogeneous coordinates from a cubic `K`-point on basic affine
-   charts and proving overlap independence; once checked,
+   scheme group law, and surjectivity.  Injectivity is now checked.
+   Surjectivity requires recovering homogeneous coordinates from an arbitrary
+   cubic `K`-point on basic affine charts and proving overlap independence;
+   once checked,
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 

@@ -243,6 +243,8 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVariety`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint_injective`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
 * `definition` (`contract`):
@@ -268,11 +270,13 @@ reducedness checked affine-locally from its radical vanishing ideals, its closed
 immersion, exact zero-locus range, and proper structure map. Nonsingular
 coordinate triples now give actual morphisms from `Spec K` to the cubic, and
 the canonical affine normalization gives a forward map from Mathlib projective
-points to cubic `K`-points. The compiled canonical finite-flat consumer reduces
-point comparison to group-law compatibility and bijectivity of this explicit
-map. The scheme group law, geometric integrality, reverse point comparison,
-`E/C`, the coarse modular point, and the required Atkin--Lehner geometry remain
-open, so this node receives no completion credit.
+points to cubic `K`-points. Homogeneous linear vanishing equations recover the
+normalized coordinates, proving this forward map injective. The compiled
+canonical finite-flat consumer therefore reduces point comparison to group-law
+compatibility and surjectivity of this explicit map. The scheme group law,
+geometric integrality, surjectivity, `E/C`, the coarse modular point, and the
+required Atkin--Lehner geometry remain open, so this node receives no completion
+credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

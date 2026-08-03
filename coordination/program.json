@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1458932,
+    "integrated_lean_lines": 1459096,
     "integrated_lean_modules": 721,
     "remaining_composite_orders": [
       18,
@@ -3455,11 +3455,18 @@
           "description": "Construct the canonical forward map from Mathlib projective Weierstrass coordinate points to rational points of the abelian variety on the exact concrete cubic."
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint_injective",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
+          "description": "Prove the canonical coordinate-to-scheme rational-point map injective by recovering normalized affine coordinates from homogeneous linear vanishing equations."
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
-          "description": "Turn proofs that the canonical forward point map preserves the group law and is bijective into the required multiplicative equivalence."
+          "description": "Turn proofs that the canonical forward point map preserves the group law and is surjective into the required multiplicative equivalence; injectivity is already checked."
         },
         {
           "kind": "definition",
@@ -3473,7 +3480,7 @@
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfCanonicalProjectiveCubic",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
-          "description": "Feed group-law compatibility and bijectivity of the explicit coordinate-to-scheme point map into the finite-flat split Gamma_0 construction."
+          "description": "Feed group-law compatibility and surjectivity of the explicit coordinate-to-scheme point map into the finite-flat split Gamma_0 construction; injectivity is already checked."
         }
       ],
       "depends_on": [
