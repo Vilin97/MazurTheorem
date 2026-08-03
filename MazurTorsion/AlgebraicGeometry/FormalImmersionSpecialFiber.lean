@@ -314,4 +314,33 @@ theorem isFormalImmersionAt_of_mappedIdealCotangentSurjective
     (IsLocalRing.QuotientCotangentCertificate.ofMappedIdeal
       (f.stalkMap x).hom I hI hfinite hquotient)
 
+/-- On locally Noetherian schemes, the quotient-cotangent certificate proves
+formal immersion without exposing finite-generation instances for the two
+stalk maximal ideals. -/
+theorem
+    isFormalImmersionAt_of_quotientCotangentCertificate_of_isLocallyNoetherian
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (hresidue : IsIso (f.residueFieldMap x))
+    (data : IsLocalRing.QuotientCotangentCertificate (f.stalkMap x).hom) :
+    IsFormalImmersionAt f x :=
+  isFormalImmersionAt_of_quotientCotangentCertificate f x hresidue data
+
+/-- Locally Noetherian source and target schemes discharge the two total-stalk
+finiteness conditions in the mapped-special-fibre criterion. -/
+theorem
+    isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (hresidue : IsIso (f.residueFieldMap x))
+    (I : Ideal (Y.presheaf.stalk (f x)))
+    (hI : I ≤ IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))
+    (hfinite : Module.Finite
+      (X.presheaf.stalk x ⧸ I.map (f.stalkMap x).hom)
+      ((IsLocalRing.maximalIdeal (X.presheaf.stalk x)).map
+        (Ideal.Quotient.mk (I.map (f.stalkMap x).hom))))
+    (hquotient : IsLocalRing.IsMappedIdealCotangentSurjective
+      (f.stalkMap x).hom I hI) :
+    IsFormalImmersionAt f x :=
+  isFormalImmersionAt_of_mappedIdealCotangentSurjective
+    f x hresidue I hI hfinite hquotient
+
 end AlgebraicGeometry.Scheme.Hom

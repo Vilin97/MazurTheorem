@@ -188,6 +188,7 @@ import MazurTorsion.PrimeOrder.CyclotomicObstruction
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
 import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 import MazurTorsion.PrimeOrder.FormalImmersionNeronAtFive
+import MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive
 import MazurTorsion.PrimeOrder.GoodReductionAtFive
 import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
