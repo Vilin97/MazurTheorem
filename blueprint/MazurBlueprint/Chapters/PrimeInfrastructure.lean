@@ -52,6 +52,12 @@ sequence, prime-to-residue injection, and the $`e<p-1` formal-kernel lemma.
   `AlgebraicGeometry.NeronModel.primeToResidue_torsion_injective`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt`
+
+The checked partial boundary
+`MazurTorsion.EllipticCurve.TameAdditiveFiltrationData` records the exact two
+finite quotients and torsion-free formal kernel needed after the geometric
+maps exist. Its separate characteristic-five and order-35 consumers compile,
+but it neither constructs a Néron model nor changes this node's blocked status.
 :::
 
 :::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")

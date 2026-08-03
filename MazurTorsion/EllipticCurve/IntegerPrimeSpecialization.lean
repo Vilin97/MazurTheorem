@@ -7,12 +7,14 @@ Authors: Vasily Ilin
 import EllipticCurves.ReductionAtPrime
 
 /-!
-# Torsion in the formal kernel at the integer primes five and eleven
+# Integer-prime residue fields and formal-kernel torsion
 
 The exact-pinned `EllipticCurves` reduction library proves that the formal kernel over an adic
 completion contains no nonzero torsion when the absolute ramification index is less than
 `p - 1`.  This file discharges that arithmetic condition for the two unramified completions of
-`ℚ` used by the formal-immersion route, at `p = 5` and `p = 11`.
+`ℚ` used by the formal-immersion route, at `p = 5` and `p = 11`.  It also exposes the canonical
+integer prime and residue-field identification at `p = 3`, consumed by explicit fixed-curve
+reductions.
 
 These statements do not assume good reduction: they concern the formal filtration attached to
 an arbitrary integral Weierstrass equation whose generic fibre is elliptic.  Thus they are the
@@ -36,8 +38,12 @@ def integerPrime (p : ℕ) [Fact p.Prime] : HeightOneSpectrum ℤ :=
     (integerPrime p).asIdeal = Ideal.span {(p : ℤ)} :=
   rfl
 
+private instance : Fact (Nat.Prime 3) := ⟨by norm_num⟩
 private instance : Fact (Nat.Prime 5) := ⟨by norm_num⟩
 private instance : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+
+/-- The integer height-one prime above three, with its primality witness fixed internally. -/
+def atThree : HeightOneSpectrum ℤ := integerPrime 3
 
 /-- The integer height-one prime above five, with its primality witness fixed internally. -/
 def atFive : HeightOneSpectrum ℤ := integerPrime 5
@@ -45,11 +51,22 @@ def atFive : HeightOneSpectrum ℤ := integerPrime 5
 /-- The integer height-one prime above eleven, with its primality witness fixed internally. -/
 def atEleven : HeightOneSpectrum ℤ := integerPrime 11
 
+@[simp] theorem atThree_asIdeal : atThree.asIdeal = Ideal.span {(3 : ℤ)} :=
+  rfl
+
 @[simp] theorem atFive_asIdeal : atFive.asIdeal = Ideal.span {(5 : ℤ)} :=
   rfl
 
 @[simp] theorem atEleven_asIdeal : atEleven.asIdeal = Ideal.span {(11 : ℤ)} :=
   rfl
+
+theorem three_mem_atThree : (3 : ℤ) ∈ atThree.asIdeal := by
+  rw [atThree_asIdeal]
+  exact Ideal.mem_span_singleton_self 3
+
+theorem three_not_mem_atThree_pow_two : (3 : ℤ) ∉ atThree.asIdeal ^ (3 - 1) := by
+  rw [atThree_asIdeal, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
+  norm_num
 
 theorem five_mem_atFive : (5 : ℤ) ∈ atFive.asIdeal := by
   rw [atFive_asIdeal]
@@ -68,11 +85,23 @@ theorem eleven_not_mem_atEleven_pow_ten :
   rw [atEleven_asIdeal, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
   norm_num
 
+instance : DecidableEq (ℤ ⧸ atThree.asIdeal) :=
+  (Int.quotientSpanNatEquivZMod 3).toEquiv.decidableEq
+
 instance : DecidableEq (ℤ ⧸ atFive.asIdeal) :=
   (Int.quotientSpanNatEquivZMod 5).toEquiv.decidableEq
 
 instance : DecidableEq (ℤ ⧸ atEleven.asIdeal) :=
   (Int.quotientSpanNatEquivZMod 11).toEquiv.decidableEq
+
+/-- The residue field at the integer prime three, identified with `ZMod 3`. -/
+noncomputable def residueThreeAlgEquiv : (ℤ ⧸ atThree.asIdeal) ≃ₐ[ℤ] ZMod 3 :=
+  AlgEquiv.ofRingEquiv (f := Int.quotientSpanNatEquivZMod 3) fun x ↦ by
+    change (Int.quotientSpanNatEquivZMod 3 :
+      (ℤ ⧸ Ideal.span {((3 : ℕ) : ℤ)}) →+* ZMod 3)
+        (Ideal.Quotient.mk (Ideal.span {((3 : ℕ) : ℤ)}) x) = Int.castRingHom (ZMod 3) x
+    simpa only [RingHom.comp_apply] using DFunLike.congr_fun
+      (Int.quotientSpanNatEquivZMod_comp_Quotient_mk 3) x
 
 /-- The residue field at the integer prime five, identified with `ZMod 5`. -/
 noncomputable def residueFiveAlgEquiv : (ℤ ⧸ atFive.asIdeal) ≃ₐ[ℤ] ZMod 5 :=

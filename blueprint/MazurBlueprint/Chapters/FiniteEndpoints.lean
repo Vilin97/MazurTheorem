@@ -94,6 +94,12 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
+
+The fixed equation, its rational torsion subgroup, an equation-checked Vélu
+point-function candidate and its zero fibre, and trivial torsion on the
+candidate target are checked. Additivity, a bundled isogeny, the modular
+quotient map, and the dual/composition plus Selmer-image calculation needed
+for rank zero remain open, so this is not node completion.
 :::
 
 :::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")

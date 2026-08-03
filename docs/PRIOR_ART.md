@@ -647,6 +647,22 @@ subgroup directly to the already checked two-cusp classification of
 `X₀(49)(ℚ)`; the explicit Vélu additivity and nonbacktracking isogeny tower
 are retained as prior work but removed from the endpoint's dependency cone.
 
+For the order-35 model, Bryden Cais's
+[*Mazur's torsion theorem* seminar notes, pp. 9--10](https://math.arizona.edu/~cais/Papers/Expos/elltors.pdf)
+derive the equation
+`y² + y = x³ + x² + 9x + 1` for `X₀(35)/w₅`, list its three rational
+torsion points, and state rank zero; the notes explicitly omit the descent
+that proves the rank assertion.  The
+[LMFDB isogeny class 35.a](https://www.lmfdb.org/EllipticCurve/Q/35/a/)
+records `[0,1,1,9,1]` as the Γ₀(35)-optimal curve 35.a3 and
+`[0,1,1,-131,-650]` as the torsion-free curve 35.a1 in the same isogeny
+class.  These sources are used only as specification and provenance.  The
+local checked declarations verify arithmetic on the fixed equation, its
+rational torsion, the equation landing and zero fibre of a Vélu
+point-function candidate, and trivial torsion on the candidate target.  They
+do not yet construct the modular quotient map or identification, prove the
+candidate additive or isogenous, or establish Mordell--Weil rank zero.
+
 ## 12. Multiplication-polynomial discriminants and executable resultants
 
 Harry Schmidt's paper

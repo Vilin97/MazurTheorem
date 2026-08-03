@@ -55,6 +55,13 @@ Current machine-checked results include:
   `rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven` join these
   maps to the exhaustive `F₅` and `F₁₁` bounds.  The Néron special-fibre and
   component-group maps needed before good reduction remain open;
+* an explicit algebraic tame-additive filtration contract, recording a
+  component group of cardinality at most four, the additive residue quotient,
+  exact identification of its kernel with the formal kernel, and
+  torsion-freeness there. Separate consumers now rule out prime orders at
+  least eleven when the residue group has cardinality five and order 35 when
+  it has cardinality eleven. This does not construct the geometric Néron
+  filtration and earns no Néron node credit;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

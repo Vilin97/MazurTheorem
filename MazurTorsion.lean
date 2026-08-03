@@ -18,6 +18,7 @@ import MazurTorsion.Arithmetic.PointOrderReduction
 import MazurTorsion.EllipticCurve.TwoIsogeny
 import MazurTorsion.EllipticCurve.TwoIsogenyMultiples
 import MazurTorsion.EllipticCurve.TwoTorsionNormalization
+import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.VariableChange
 import MazurTorsion.Foundations.DivisionPolynomialRootCriterion
 import MazurTorsion.Foundations.DivisionPolynomialDiscriminantFive
@@ -121,6 +122,7 @@ import MazurTorsion.NumberTheory.XOneFourteenReduction
 import MazurTorsion.PrimeOrder.CyclotomicObstruction
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
 import MazurTorsion.PrimeOrder.GoodReductionAtFive
+import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.Geometry

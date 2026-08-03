@@ -9,18 +9,18 @@ import MazurTorsion.NumberTheory.OrderThirtyFiveQuotientReduction
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
-# The rational three-isogeny attached to the level-35 quotient
+# An equation-checked Vélu three-isogeny candidate
 
 On the normalized curve
 
 `E : y² + 4xy + 7y = x³`,
 
 the points `(0,0)` and `(0,-7)` form the nonidentity part of a rational
-order-three kernel.  Vélu's coordinate sums give the quotient
+order-three subgroup.  Vélu's coordinate sums suggest the target model
 
 `E' : Y² + 4XY + 7Y = X³ - 140X - 791`
 
-and, away from the kernel,
+and, away from that subgroup, the coordinate formulas
 
 ```
 X = (x³ + 28x + 49) / x²,
@@ -28,11 +28,16 @@ Y = (x³y - 28xy - 98y - 112x² - 392x - 343) / x³.
 ```
 
 This file checks that the denominator-safe point function lands on `E'`
-and has exactly the expected rational kernel.  It also proves that `E'` has
+and computes its zero fibre.  It does **not** yet prove that the function is
+additive, construct a bundled isogeny, determine its degree, construct its
+dual, or prove a multiplication-by-three composition.  Accordingly all
+declarations below use candidate and zero-fibre language.
+
+The file also proves that `E'` has
 trivial rational torsion: reduction modulo three bounds torsion by three,
 while an explicit factorization of the third division polynomial rules out
-nonidentity rational three-torsion.  These are the two fixed-curve group
-inputs for the remaining three-isogeny Selmer calculation.
+nonidentity rational three-torsion.  These are fixed-curve arithmetic inputs
+for a prospective three-isogeny Selmer calculation, not such a calculation.
 -/
 
 open WeierstrassCurve
@@ -43,44 +48,45 @@ namespace MazurTorsion.OrderThirtyFive
 open WeierstrassCurve.Affine
   IsDedekindDomain
   IsDedekindDomain.HeightOneSpectrum
+open MazurTorsion.IntegerPrimeSpecialization
 
-/-- The quotient of `threeTorsionCurve` by its visible order-three
-subgroup. -/
-def threeIsogenousQuotient : WeierstrassCurve ℚ :=
+/-- The candidate target obtained from the Vélu coordinate formulas for the
+visible order-three subgroup. -/
+def veluThreeCandidateTarget : WeierstrassCurve ℚ :=
   ⟨4, 0, 7, -140, -791⟩
 
-/-- The integral model of the three-isogenous quotient. -/
-def threeIsogenousQuotientIntegral : WeierstrassCurve ℤ :=
+/-- The integral model of the candidate target. -/
+def veluThreeCandidateTargetIntegral : WeierstrassCurve ℤ :=
   ⟨4, 0, 7, -140, -791⟩
 
-/-- The quotient discriminant is `-5⁹7`. -/
-theorem threeIsogenousQuotientIntegral_discriminant :
-    threeIsogenousQuotientIntegral.Δ = -13671875 := by
-  norm_num [threeIsogenousQuotientIntegral,
+/-- The candidate target discriminant is `-5⁹7`. -/
+theorem veluThreeCandidateTargetIntegral_discriminant :
+    veluThreeCandidateTargetIntegral.Δ = -13671875 := by
+  norm_num [veluThreeCandidateTargetIntegral,
     WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆,
     WeierstrassCurve.b₈]
 
-theorem map_threeIsogenousQuotientIntegral :
-    (threeIsogenousQuotientIntegral.map
+theorem map_veluThreeCandidateTargetIntegral :
+    (veluThreeCandidateTargetIntegral.map
       (algebraMap ℤ ℚ)).toAffine =
-        threeIsogenousQuotient.toAffine := by
-  ext <;> simp [threeIsogenousQuotientIntegral,
-    threeIsogenousQuotient]
+        veluThreeCandidateTarget.toAffine := by
+  ext <;> simp [veluThreeCandidateTargetIntegral,
+    veluThreeCandidateTarget]
 
-instance threeIsogenousQuotient_isElliptic :
-    threeIsogenousQuotient.IsElliptic := by
+instance veluThreeCandidateTarget_isElliptic :
+    veluThreeCandidateTarget.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
-  norm_num [threeIsogenousQuotient, WeierstrassCurve.Δ,
+  norm_num [veluThreeCandidateTarget, WeierstrassCurve.Δ,
     WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
-/-- The abscissa of the three-isogeny away from its kernel. -/
-def threeIsogenyX (x : ℚ) : ℚ :=
+/-- The candidate abscissa formula away from the visible subgroup. -/
+def veluThreeCandidateX (x : ℚ) : ℚ :=
   (x ^ 3 + 28 * x + 49) / x ^ 2
 
-/-- The ordinate of the three-isogeny away from its kernel. -/
-def threeIsogenyY (x y : ℚ) : ℚ :=
+/-- The candidate ordinate formula away from the visible subgroup. -/
+def veluThreeCandidateY (x y : ℚ) : ℚ :=
   (x ^ 3 * y - 28 * x * y - 98 * y - 112 * x ^ 2 -
       392 * x - 343) / x ^ 3
 
@@ -94,62 +100,63 @@ private theorem threeTorsionCurve_equation
   exact heq
 
 /-- Direct substitution verifies the Vélu formulas. -/
-theorem threeIsogeny_equation
+theorem veluThreeCandidate_equation
     {x y : ℚ} (hx : x ≠ 0)
     (hcurve : y ^ 2 + 4 * x * y + 7 * y = x ^ 3) :
-    threeIsogenyY x y ^ 2 +
-        4 * threeIsogenyX x * threeIsogenyY x y +
-        7 * threeIsogenyY x y =
-      threeIsogenyX x ^ 3 - 140 * threeIsogenyX x - 791 := by
-  simp only [threeIsogenyX, threeIsogenyY]
+    veluThreeCandidateY x y ^ 2 +
+        4 * veluThreeCandidateX x * veluThreeCandidateY x y +
+        7 * veluThreeCandidateY x y =
+      veluThreeCandidateX x ^ 3 - 140 * veluThreeCandidateX x - 791 := by
+  simp only [veluThreeCandidateX, veluThreeCandidateY]
   field_simp [hx]
   linear_combination
     (x ^ 3 - 28 * x - 98) ^ 2 * hcurve
 
-private theorem threeIsogeny_nonsingular
+private theorem veluThreeCandidate_nonsingular
     {x y : ℚ}
     (h : threeTorsionCurve.toAffine.Nonsingular x y)
     (hx : x ≠ 0) :
-    threeIsogenousQuotient.toAffine.Nonsingular
-      (threeIsogenyX x) (threeIsogenyY x y) := by
-  apply threeIsogenousQuotient.toAffine.equation_iff_nonsingular.mp
+    veluThreeCandidateTarget.toAffine.Nonsingular
+      (veluThreeCandidateX x) (veluThreeCandidateY x y) := by
+  apply veluThreeCandidateTarget.toAffine.equation_iff_nonsingular.mp
   rw [WeierstrassCurve.Affine.equation_iff]
-  norm_num [threeIsogenousQuotient]
+  norm_num [veluThreeCandidateTarget]
   simpa only [sub_eq_add_neg] using
-    threeIsogeny_equation hx (threeTorsionCurve_equation h)
+    veluThreeCandidate_equation hx (threeTorsionCurve_equation h)
 
-/-- The denominator-safe underlying point function of the rational
-three-isogeny. -/
-noncomputable def threeIsogenyPointFun :
+/-- The denominator-safe point-function candidate.  No additivity theorem is
+asserted here. -/
+noncomputable def veluThreeCandidatePointFun :
     threeTorsionCurve.toAffine.Point →
-      threeIsogenousQuotient.toAffine.Point
+      veluThreeCandidateTarget.toAffine.Point
   | .zero => .zero
   | .some x y h =>
       if hx : x = 0 then .zero
-      else .some (threeIsogenyX x) (threeIsogenyY x y)
-        (threeIsogeny_nonsingular h hx)
+      else .some (veluThreeCandidateX x) (veluThreeCandidateY x y)
+        (veluThreeCandidate_nonsingular h hx)
 
-@[simp] theorem threeIsogenyPointFun_zero :
-    threeIsogenyPointFun 0 = 0 :=
+@[simp] theorem veluThreeCandidatePointFun_zero :
+    veluThreeCandidatePointFun 0 = 0 :=
   rfl
 
-@[simp] theorem threeIsogenyPointFun_threeTorsionOrigin :
-    threeIsogenyPointFun threeTorsionOrigin = 0 := by
-  simp [threeIsogenyPointFun, threeTorsionOrigin]
+@[simp] theorem veluThreeCandidatePointFun_threeTorsionOrigin :
+    veluThreeCandidatePointFun threeTorsionOrigin = 0 := by
+  simp [veluThreeCandidatePointFun, threeTorsionOrigin]
   rfl
 
-@[simp] theorem threeIsogenyPointFun_neg_threeTorsionOrigin :
-    threeIsogenyPointFun (-threeTorsionOrigin) = 0 := by
+@[simp] theorem veluThreeCandidatePointFun_neg_threeTorsionOrigin :
+    veluThreeCandidatePointFun (-threeTorsionOrigin) = 0 := by
   rw [threeTorsionOrigin,
     WeierstrassCurve.Affine.Point.neg_some]
-  simp [threeIsogenyPointFun]
+  simp [veluThreeCandidatePointFun]
   rfl
 
-/-- The rational kernel of the explicit point function is exactly the
-visible order-three subgroup. -/
-theorem threeIsogenyPointFun_eq_zero_iff
+/-- The zero fibre of the explicit point function is exactly the visible
+three-element set.  This is not a group-kernel theorem until additivity is
+proved. -/
+theorem veluThreeCandidatePointFun_eq_zero_iff
     (P : threeTorsionCurve.toAffine.Point) :
-    threeIsogenyPointFun P = 0 ↔
+    veluThreeCandidatePointFun P = 0 ↔
       P = 0 ∨ P = threeTorsionOrigin ∨
         P = -threeTorsionOrigin := by
   cases P with
@@ -158,7 +165,7 @@ theorem threeIsogenyPointFun_eq_zero_iff
       · intro
         exact Or.inl rfl
       · intro
-        exact threeIsogenyPointFun_zero
+        exact veluThreeCandidatePointFun_zero
   | some x y h =>
       by_cases hx : x = 0
       · subst x
@@ -191,20 +198,20 @@ theorem threeIsogenyPointFun_eq_zero_iff
                 threeTorsionCurve]
           rw [hP]
           simp
-      · simp [threeIsogenyPointFun, hx,
+      · simp [veluThreeCandidatePointFun, hx,
           threeTorsionOrigin,
           WeierstrassCurve.Affine.Point.neg_some]
 
-/-! ## The dual curve has no rational three-torsion -/
+/-! ## The candidate target has no rational three-torsion -/
 
-/-- Evaluation of the third division polynomial on the quotient. -/
-theorem eval_threeIsogenousQuotient_Psi_three (x : ℚ) :
-    Polynomial.eval x threeIsogenousQuotient.Ψ₃ =
+/-- Evaluation of the third division polynomial on the candidate target. -/
+theorem eval_veluThreeCandidateTarget_Psi_three (x : ℚ) :
+    Polynomial.eval x veluThreeCandidateTarget.Ψ₃ =
       (3 * x + 16) * (x ^ 3 - 252 * x - 1771) := by
   simp only [WeierstrassCurve.Ψ₃, Polynomial.eval_add,
     Polynomial.eval_mul, Polynomial.eval_pow, Polynomial.eval_C,
     Polynomial.eval_X, Polynomial.eval_ofNat,
-    threeIsogenousQuotient, WeierstrassCurve.b₂,
+    veluThreeCandidateTarget, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆,
     WeierstrassCurve.b₈]
   ring
@@ -273,17 +280,17 @@ private theorem cubic_threeKernel_ne_zero (x : ℚ) :
 
 private theorem linear_threeKernel_impossible
     {x y : ℚ}
-    (hP : threeIsogenousQuotient.toAffine.Nonsingular x y)
+    (hP : veluThreeCandidateTarget.toAffine.Nonsingular x y)
     (hx : 3 * x + 16 = 0) : False := by
   have hx' : x = -16 / 3 := by linarith
   have hcurve := hP.1
   rw [WeierstrassCurve.Affine.equation_iff] at hcurve
-  norm_num [threeIsogenousQuotient, hx'] at hcurve
+  norm_num [veluThreeCandidateTarget, hx'] at hcurve
   nlinarith [sq_nonneg (6 * y - 43)]
 
-/-- The quotient curve has no nonidentity rational point killed by three. -/
-theorem threeIsogenous_eq_zero_of_three_nsmul_eq_zero
-    (P : threeIsogenousQuotient.toAffine.Point)
+/-- The candidate target has no nonidentity rational point killed by three. -/
+theorem veluThreeCandidateTarget_eq_zero_of_three_nsmul_eq_zero
+    (P : veluThreeCandidateTarget.toAffine.Point)
     (hP : (3 : ℕ) • P = 0) :
     P = 0 := by
   cases P with
@@ -292,100 +299,97 @@ theorem threeIsogenous_eq_zero_of_three_nsmul_eq_zero
       exfalso
       have hroot :=
         (MazurTorsion.ThreeTorsion.three_nsmul_some_eq_zero_iff
-          threeIsogenousQuotient hxy).mp hP
-      rw [eval_threeIsogenousQuotient_Psi_three] at hroot
+          veluThreeCandidateTarget hxy).mp hP
+      rw [eval_veluThreeCandidateTarget_Psi_three] at hroot
       rcases mul_eq_zero.mp hroot with hlinear | hcubic
       · exact linear_threeKernel_impossible hxy hlinear
       · exact cubic_threeKernel_ne_zero x hcubic
 
-/-! ## Reduction bounds all rational torsion on the dual curve -/
+/-! ## Reduction bounds all rational torsion on the candidate target -/
 
 private instance : Fact (Nat.Prime 3) := ⟨by decide⟩
 
 instance :
-    (redCurve (quotientIntPrime 3)
-      threeIsogenousQuotientIntegral).IsElliptic := by
+    (redCurve atThree
+      veluThreeCandidateTargetIntegral).IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff, isUnit_iff_ne_zero]
   change
-    (threeIsogenousQuotientIntegral.map
+    (veluThreeCandidateTargetIntegral.map
       (algebraMap ℤ
-        (ℤ ⧸ (quotientIntPrime 3).asIdeal))).Δ ≠ 0
+        (ℤ ⧸ atThree.asIdeal))).Δ ≠ 0
   rw [Ne, WeierstrassCurve.map_Δ,
     Ideal.Quotient.algebraMap_eq,
     Ideal.Quotient.eq_zero_iff_mem,
-    quotientIntPrime_asIdeal, Ideal.mem_span_singleton]
-  norm_num [threeIsogenousQuotientIntegral_discriminant]
+    atThree_asIdeal, Ideal.mem_span_singleton]
+  norm_num [veluThreeCandidateTargetIntegral_discriminant]
 
-/-- The concrete dual reduction over `F₃`. -/
-def threeIsogenousQuotientModThree : WeierstrassCurve (ZMod 3) :=
+/-- The concrete candidate-target reduction over `F₃`. -/
+def veluThreeCandidateTargetModThree : WeierstrassCurve (ZMod 3) :=
   ⟨4, 0, 7, -140, -791⟩
 
-instance : threeIsogenousQuotientModThree.IsElliptic := by
+instance : veluThreeCandidateTargetModThree.IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff]
   decide
 
-private theorem threeIsogenousBaseChange_modThree :
-    ((threeIsogenousQuotientIntegral.toAffine ⁄ (ZMod 3)) :
+private theorem veluThreeCandidateTargetBaseChange_modThree :
+    ((veluThreeCandidateTargetIntegral.toAffine ⁄ (ZMod 3)) :
       WeierstrassCurve _).toAffine =
-        threeIsogenousQuotientModThree.toAffine := by
+        veluThreeCandidateTargetModThree.toAffine := by
   ext <;> decide +kernel
 
-noncomputable def threeIsogenousReducedPointEquiv :
-    (redCurve (quotientIntPrime 3)
-        threeIsogenousQuotientIntegral).Point ≃+
-      threeIsogenousQuotientModThree.toAffine.Point :=
+noncomputable def veluThreeCandidateTargetReducedPointEquiv :
+    (redCurve atThree
+        veluThreeCandidateTargetIntegral).Point ≃+
+      veluThreeCandidateTargetModThree.toAffine.Point :=
   (WeierstrassCurve.Affine.Point.mapEquiv
-      (W' := threeIsogenousQuotientIntegral.toAffine)
-      quotientResidueThreeAlgEquiv).trans
+      (W' := veluThreeCandidateTargetIntegral.toAffine)
+      residueThreeAlgEquiv).trans
     (WeierstrassCurve.Affine.Point.congr
-      threeIsogenousBaseChange_modThree)
+      veluThreeCandidateTargetBaseChange_modThree)
 
 noncomputable instance :
     Finite
-      (redCurve (quotientIntPrime 3)
-        threeIsogenousQuotientIntegral).Point :=
-  .of_equiv threeIsogenousQuotientModThree.toAffine.Point
-    threeIsogenousReducedPointEquiv.symm.toEquiv
+      (redCurve atThree
+        veluThreeCandidateTargetIntegral).Point :=
+  .of_equiv veluThreeCandidateTargetModThree.toAffine.Point
+    veluThreeCandidateTargetReducedPointEquiv.symm.toEquiv
 
-theorem card_threeIsogenousRedCurve_three :
+theorem card_veluThreeCandidateTargetRedCurve_three :
     Nat.card
-      (redCurve (quotientIntPrime 3)
-        threeIsogenousQuotientIntegral).Point = 3 := by
+      (redCurve atThree
+        veluThreeCandidateTargetIntegral).Point = 3 := by
   calc
     Nat.card
-        (redCurve (quotientIntPrime 3)
-          threeIsogenousQuotientIntegral).Point =
+        (redCurve atThree
+          veluThreeCandidateTargetIntegral).Point =
         Fintype.card
-          threeIsogenousQuotientModThree.toAffine.Point :=
+          veluThreeCandidateTargetModThree.toAffine.Point :=
       (Nat.card_congr
-        threeIsogenousReducedPointEquiv.toEquiv).trans
+        veluThreeCandidateTargetReducedPointEquiv.toEquiv).trans
           Nat.card_eq_fintype_card
     _ = 3 := by decide
 
-private theorem three_mem_dualIntPrime :
-    (3 : ℤ) ∈ (quotientIntPrime 3).asIdeal :=
-  Ideal.mem_span_singleton_self 3
+private theorem three_mem_targetIntPrime :
+    (3 : ℤ) ∈ atThree.asIdeal :=
+  three_mem_atThree
 
-private theorem three_not_mem_dualIntPrime_sq :
-    (3 : ℤ) ∉ (quotientIntPrime 3).asIdeal ^ (3 - 1) := by
-  rw [quotientIntPrime_asIdeal, Ideal.span_singleton_pow,
-    Ideal.mem_span_singleton]
-  norm_num
+private theorem three_not_mem_targetIntPrime_sq :
+    (3 : ℤ) ∉ atThree.asIdeal ^ (3 - 1) :=
+  three_not_mem_atThree_pow_two
 
-/-- Every rational torsion point on the three-isogenous quotient is the
-identity. -/
-theorem threeIsogenous_torsion_eq_zero
-    (P : threeIsogenousQuotient.toAffine.Point)
+/-- Every rational torsion point on the candidate target is the identity. -/
+theorem veluThreeCandidateTarget_torsion_eq_zero
+    (P : veluThreeCandidateTarget.toAffine.Point)
     (hP : IsOfFinAddOrder P) :
     P = 0 := by
   have hdvd :
       addOrderOf P ∣ 3 := by
-    rw [← card_threeIsogenousRedCurve_three]
+    rw [← card_veluThreeCandidateTargetRedCurve_three]
     exact addOrderOf_dvd_natCard_red
-      (quotientIntPrime 3)
-      map_threeIsogenousQuotientIntegral
-      (by decide) three_mem_dualIntPrime
-      three_not_mem_dualIntPrime_sq hP
+      atThree
+      map_veluThreeCandidateTargetIntegral
+      (by decide) three_mem_targetIntPrime
+      three_not_mem_targetIntPrime_sq hP
   have hpos : 0 < addOrderOf P :=
     addOrderOf_pos_iff.mpr hP
   have hcases : addOrderOf P = 1 ∨ addOrderOf P = 3 := by
@@ -397,7 +401,7 @@ theorem threeIsogenous_torsion_eq_zero
     omega
   rcases hcases with horder | horder
   · exact AddMonoid.addOrderOf_eq_one_iff.mp horder
-  · apply threeIsogenous_eq_zero_of_three_nsmul_eq_zero P
+  · apply veluThreeCandidateTarget_eq_zero_of_three_nsmul_eq_zero P
     rw [← horder]
     exact addOrderOf_nsmul_eq_zero P
 
