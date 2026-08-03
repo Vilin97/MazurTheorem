@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
-import MazurTorsion.EllipticCurve.TameAdditiveReductionData
+import MazurTorsion.EllipticCurve.NonsingularReduction
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -27,6 +27,10 @@ open MazurTorsion.IntegerPrimeSpecialization
 open MazurTorsion.EllipticCurve
 
 private instance : Fact (Nat.Prime 11) := ⟨by decide⟩
+
+noncomputable local instance : DecidableEq
+    (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
+  Classical.decEq _
 
 /-- The checked `F_11` enumeration rules out a specialized point of exact
 order 35.  The remaining rational theorem must construct this point through
@@ -104,5 +108,27 @@ theorem addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven
   addOrderOf_ne_thirtyFive_of_tameAdditiveFiltrationAtEleven
     D.toTameAdditiveFiltrationData
     TameAdditiveReductionDataAtEleven.residue_natCard P
+
+/-- The order-35 additive-fibre contradiction using only canonical coordinatewise nonsingular
+reduction.  The identity subgroup and its reduction map are constructed, rather than supplied;
+the remaining inputs are the group-law compatibility of that reduction, the additive
+classification of the actual special cubic, and the genuine component bound. -/
+theorem addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hadd : NonsingularReductionIsAdditive hW)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (hcomponent : Nat.card
+      (W.Point ⧸ nonsingularReductionSubgroup hW hadd) ≤ 4)
+    (P : W.Point) :
+    addOrderOf P ≠ 35 :=
+  addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven hW
+    (TameAdditiveReductionDataAtEleven.ofNonsingularReduction
+      hadd especial hcomponent) P
 
 end MazurTorsion.OrderThirtyFive
