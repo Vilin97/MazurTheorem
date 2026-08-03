@@ -238,6 +238,8 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfProjectivePointComparison`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumPointHom_range`
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme.lift`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.polynomial_isHomogeneous`
 * `definition` (`contract`):
@@ -246,12 +248,22 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isReduced`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.range_inclusion`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.pointOfNonsingularRepresentative`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.ambientPoint_comp_projectivePlaneStructureMap`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_isProper`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVariety`
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfProjectiveCubic`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfCanonicalProjectiveCubic`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -268,11 +280,14 @@ its rational points with Mathlib's projective Weierstrass points now supplies
 that interface and feeds the same consumer. The homogeneous cubic now also
 defines an actual reduced closed subscheme of projective two-space, with
 reducedness checked affine-locally from its radical vanishing ideals, its closed
-immersion, exact zero-locus range, proper structure map, and a compiled
-finite-flat consumer through Tau Ceti's abelian-variety constructor. The
-scheme group law, geometric integrality, scheme-point comparison, `E/C`, the
-coarse modular point, and the required Atkin--Lehner geometry remain open, so
-this node receives no completion credit.
+immersion, exact zero-locus range, and proper structure map. Nonsingular
+coordinate triples now give actual morphisms from `Spec K` to the cubic, and
+the canonical affine normalization gives a forward map from Mathlib projective
+points to cubic `K`-points. The compiled canonical finite-flat consumer reduces
+point comparison to group-law compatibility and bijectivity of this explicit
+map. The scheme group law, geometric integrality, reverse point comparison,
+`E/C`, the coarse modular point, and the required Atkin--Lehner geometry remain
+open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

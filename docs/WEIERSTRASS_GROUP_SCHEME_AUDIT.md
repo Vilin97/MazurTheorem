@@ -88,14 +88,26 @@ finite type of the homogeneous coordinate algebra is checked, and the cubic's
 structure morphism to `Spec K` is proved proper as a closed subscheme of the
 proper projective plane.
 
+`MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme.lift` supplies the
+reusable scheme-theoretic step: a quasi-compact morphism from a reduced scheme
+whose range lies in a closed set factors through its reduced induced
+subscheme.  Applying it to homogeneous evaluation proves that every
+nonsingular Weierstrass coordinate triple defines a morphism `Spec K ⟶ E`.
+Compatibility with the projective-plane structure morphism is checked, so
+this is an honest point over `Spec K`, not only a map of underlying schemes.
+The checked projective-to-affine normalization then gives a canonical forward
+map from every Mathlib projective point without choosing a representative.
+
 The concrete `toOver` object then feeds Tau Ceti's
 `AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
 `GeometricallyIntegral` instances are established.  The compiled downstream
-consumer `splitGammaZeroDatumOfProjectiveCubic` reaches the finite-flat
-`Gamma₀(N)` construction from this exact cubic, rather than from an unrelated
-supplied abelian variety.  This construction uses Mathlib's reduced induced
-subscheme; identifying it with a principal homogeneous-coordinate quotient is
-not needed for the consumer and is not claimed.
+consumer `splitGammaZeroDatumOfCanonicalProjectiveCubic` reaches the
+finite-flat `Gamma₀(N)` construction from this exact cubic and its canonical
+forward point map.  Its remaining hypotheses say precisely that this checked
+map preserves the group law and is bijective; no unrelated point equivalence
+is required.  This construction uses Mathlib's reduced induced subscheme;
+identifying it with a principal homogeneous-coordinate quotient is not needed
+for the consumer and is not claimed.
 
 ## Remaining mathematical boundary
 
@@ -108,10 +120,12 @@ field:
 2. geometric integrality of its structure morphism (properness is now
    checked), so that the concrete `toOver` object becomes a Tau Ceti
    `AbelianVariety`;
-3. a multiplicative equivalence between morphisms `Spec K ⟶ E` and
-   Mathlib's projective coordinate-point group
-   `Multiplicative W.toProjective.Point`; the new bridge then derives the
-   affine-coordinate comparison.
+3. compatibility of the canonical forward coordinate-point map with the
+   scheme group law, and bijectivity.  Surjectivity/injectivity requires
+   recovering homogeneous coordinates from a cubic `K`-point on basic affine
+   charts and proving overlap independence; once checked,
+   `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
+   the existing bridge derives the affine-coordinate comparison.
 
 No searched dependency supplies these declarations at the pinned revisions.
 They remain formalization work rather than external blockers.
