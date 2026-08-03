@@ -6,8 +6,10 @@ Authors: Vasily Ilin
 
 import Mathlib.Algebra.Category.Grp.Ulift
 import Mathlib.CategoryTheory.Sites.Abelian
+import Mathlib.CategoryTheory.Sites.CoverLifting
 import Mathlib.CategoryTheory.Sites.EpiMono
 import Mathlib.CategoryTheory.Sites.LeftExact
+import Mathlib.CategoryTheory.Sites.Over
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedPointCokernel
 
 /-!
@@ -26,12 +28,11 @@ sheafification.  The represented ambient point presheaf remains an fppf sheaf af
 No mathematical coefficient change is involved.
 
 The constant-flat and multiplicative-flat sections provide concrete downstream consumers.  The
-imported point-cokernel layer now turns the checked `contains_levelOpen` inequalities into actual
-point factorizations and proves objectwise vanishing on every test scheme over `D(level)`.  This
-file does not yet assert sheaf-restriction support: that vanishing still has to be transported
-through site restriction and sheafification.  In particular, objectwise surjectivity below is
-used only to prove genuine fppf local surjectivity; it is not presented as a substitute for the
-restriction argument.
+imported point-cokernel layer turns the checked `contains_levelOpen` inequalities into actual
+point factorizations and proves objectwise vanishing on every test scheme over `D(level)`.  Here
+we transport that vanishing through site restriction and sheafification, proving that the actual
+fppf cokernel sheaves restrict to zero over `D(level)`.  Thus these quotient sheaves are genuinely
+supported on the bad fibre; the next localization step is to control them there.
 -/
 
 noncomputable section
@@ -84,6 +85,46 @@ noncomputable abbrev pointCokernelFppfSheaf (f : G ⟶ H) :
     Sheaf (Scheme.fppfTopology.over S) AddCommGrpCat.{u + 1} :=
   (presheafToSheaf (Scheme.fppfTopology.over S) AddCommGrpCat.{u + 1}).obj
     (pointCokernelPresheaf f ⋙ AddCommGrpCat.uliftFunctor.{u + 1})
+
+/-- A test scheme over an open subscheme pulls that open back to its whole carrier. -/
+theorem overMap_opensInclusion_preimage_eq_top (U : S.Opens)
+    (T : Over U.toScheme) :
+    ((Over.map U.ι).obj T).hom ⁻¹ᵁ U = ⊤ := by
+  change (T.hom ≫ U.ι) ⁻¹ᵁ U = ⊤
+  rw [Scheme.Hom.comp_preimage, Scheme.Opens.ι_preimage_self]
+  simp
+
+/-- Restrict the universe-lifted point-cokernel presheaf along an open immersion. -/
+def pointCokernelPresheafUliftOverOpen (f : G ⟶ H) (U : S.Opens) :
+    (Over U.toScheme)ᵒᵖ ⥤ AddCommGrpCat.{u + 1} :=
+  (Over.map U.ι).op ⋙
+    (pointCokernelPresheaf f ⋙ AddCommGrpCat.uliftFunctor.{u + 1})
+
+/-- Restriction of the actual fppf cokernel sheaf along an open immersion. -/
+noncomputable abbrev pointCokernelFppfSheafOverOpen
+    (f : G ⟶ H) (U : S.Opens) :
+    Sheaf (Scheme.fppfTopology.over U.toScheme) AddCommGrpCat.{u + 1} :=
+  (Scheme.fppfTopology.overMapPullback AddCommGrpCat.{u + 1} U.ι).obj
+    (pointCokernelFppfSheaf f)
+
+/-- If the restricted point-cokernel presheaf vanishes, then so does the restriction of its
+actual fppf sheafification.  The comparison is the continuous-pushforward/sheafification
+compatibility for the open-immersion map of relative sites. -/
+theorem pointCokernelFppfSheafOverOpen_isZero
+    (f : G ⟶ H) (U : S.Opens)
+    (h : IsZero (pointCokernelPresheafUliftOverOpen f U)) :
+    IsZero (pointCokernelFppfSheafOverOpen f U) := by
+  let P : (Over S)ᵒᵖ ⥤ AddCommGrpCat.{u + 1} :=
+    pointCokernelPresheaf f ⋙ AddCommGrpCat.uliftFunctor.{u + 1}
+  let F := Over.map U.ι
+  let J := Scheme.fppfTopology.over U.toScheme
+  let K := Scheme.fppfTopology.over S
+  have hsheaf :
+      IsZero ((presheafToSheaf J AddCommGrpCat.{u + 1}).obj (F.op ⋙ P)) :=
+    Functor.map_isZero (presheafToSheaf J AddCommGrpCat.{u + 1}) h
+  let e := F.pushforwardContinuousSheafificationCompatibility
+    AddCommGrpCat.{u + 1} J K
+  exact hsheaf.of_iso (e.app P).symm
 
 /-- The map of represented point sheafifications induced by a commutative group-scheme map. -/
 noncomputable abbrev addPointFppfMap (f : G ⟶ H) :
@@ -161,6 +202,11 @@ universe u
 
 open CommGroupScheme
 
+/-- The principal open complement of a level, regarded as an open subscheme of the affine base. -/
+abbrev levelOpen {R : Type u} [CommRing R] (level : R) :
+    (Spec (.of R)).Opens :=
+  PrimeSpectrum.basicOpen level
+
 section ConstantFlat
 
 variable {R G : Type u} [CommRing R] [CommGroup G] [Fintype G]
@@ -186,6 +232,51 @@ theorem constantFlatRepresentedPointCokernelFppfProjection_epi (level : R) :
 theorem constantFlatPointCokernelFppfSequence_exact (level : R) :
     (pointCokernelFppfSequence (constantFlatInclusion (G := G) level)).Exact :=
   pointCokernelFppfSequence_exact _
+
+/-- Restriction of the constant-flat point-cokernel presheaf to `D(level)`. -/
+def constantFlatPointCokernelPresheafAway (level : R) :
+    (Over (levelOpen level).toScheme)ᵒᵖ ⥤ AddCommGrpCat.{u} :=
+  (Over.map (levelOpen level).ι).op ⋙
+    constantFlatPointCokernelPresheaf (G := G) level
+
+/-- The constant-flat point-cokernel presheaf vanishes after restriction to `D(level)`. -/
+theorem constantFlatPointCokernelPresheafAway_isZero (level : R) :
+    IsZero (constantFlatPointCokernelPresheafAway (G := G) level) := by
+  apply Functor.isZero
+  intro T
+  exact constantFlatPointCokernelPresheaf_obj_isZero_away
+    (G := G) level
+    (Opposite.op ((Over.map (levelOpen level).ι).obj T.unop))
+    (CommGroupScheme.overMap_opensInclusion_preimage_eq_top
+      (levelOpen level) T.unop)
+
+/-- Universe-lifted restriction used by concrete fppf sheafification. -/
+def constantFlatPointCokernelPresheafUliftAway (level : R) :
+    (Over (levelOpen level).toScheme)ᵒᵖ ⥤ AddCommGrpCat.{u + 1} :=
+  constantFlatPointCokernelPresheafAway (G := G) level ⋙
+    AddCommGrpCat.uliftFunctor.{u + 1}
+
+/-- Universe lifting preserves vanishing of the restricted constant-flat presheaf. -/
+theorem constantFlatPointCokernelPresheafUliftAway_isZero (level : R) :
+    IsZero (constantFlatPointCokernelPresheafUliftAway (G := G) level) := by
+  apply Functor.isZero
+  intro T
+  exact Functor.map_isZero AddCommGrpCat.uliftFunctor.{u + 1}
+    ((constantFlatPointCokernelPresheafAway_isZero (G := G) level).obj T)
+
+/-- Restriction of the actual constant-flat fppf cokernel sheaf to `D(level)`. -/
+noncomputable abbrev constantFlatPointCokernelFppfSheafAway (level : R) :
+    Sheaf (Scheme.fppfTopology.over (levelOpen level).toScheme)
+      AddCommGrpCat.{u + 1} :=
+  CommGroupScheme.pointCokernelFppfSheafOverOpen
+    (constantFlatInclusion (G := G) level) (levelOpen level)
+
+/-- The actual constant-flat fppf cokernel sheaf is supported on the bad fibre: its restriction
+to `D(level)` is zero. -/
+theorem constantFlatPointCokernelFppfSheafAway_isZero (level : R) :
+    IsZero (constantFlatPointCokernelFppfSheafAway (G := G) level) := by
+  apply CommGroupScheme.pointCokernelFppfSheafOverOpen_isZero
+  exact constantFlatPointCokernelPresheafUliftAway_isZero (G := G) level
 
 end ConstantFlat
 
@@ -219,6 +310,55 @@ theorem muFlatPointCokernelFppfSequence_exact
     (datum : MuFlatDatum coeffPrime level) :
     (pointCokernelFppfSequence (muFlatInclusion coeffPrime level datum)).Exact :=
   pointCokernelFppfSequence_exact _
+
+/-- Restriction of the multiplicative-flat point-cokernel presheaf to `D(level)`. -/
+def muFlatPointCokernelPresheafAway
+    (datum : MuFlatDatum coeffPrime level) :=
+  (Over.map (levelOpen (level : ℤ)).ι).op ⋙
+    muFlatPointCokernelPresheaf datum
+
+/-- The multiplicative-flat point-cokernel presheaf vanishes after restriction to `D(level)`. -/
+theorem muFlatPointCokernelPresheafAway_isZero
+    (datum : MuFlatDatum coeffPrime level) :
+    IsZero (muFlatPointCokernelPresheafAway datum) := by
+  apply Functor.isZero
+  intro T
+  exact muFlatPointCokernelPresheaf_obj_isZero_away datum
+    (Opposite.op
+      ((Over.map (levelOpen (level : ℤ)).ι).obj T.unop))
+    (CommGroupScheme.overMap_opensInclusion_preimage_eq_top
+      (levelOpen (level : ℤ)) T.unop)
+
+/-- Universe-lifted restriction used by concrete fppf sheafification. -/
+def muFlatPointCokernelPresheafUliftAway
+    (datum : MuFlatDatum coeffPrime level) :=
+  CommGroupScheme.pointCokernelPresheafUliftOverOpen
+    (muFlatInclusion coeffPrime level datum)
+    (levelOpen (level : ℤ))
+
+/-- Universe lifting preserves vanishing of the restricted multiplicative-flat presheaf. -/
+theorem muFlatPointCokernelPresheafUliftAway_isZero
+    (datum : MuFlatDatum coeffPrime level) :
+    IsZero (muFlatPointCokernelPresheafUliftAway datum) := by
+  apply Functor.isZero
+  intro T
+  exact Functor.map_isZero AddCommGrpCat.uliftFunctor
+    ((muFlatPointCokernelPresheafAway_isZero datum).obj T)
+
+/-- Restriction of the actual multiplicative-flat fppf cokernel sheaf to `D(level)`. -/
+noncomputable abbrev muFlatPointCokernelFppfSheafAway
+    (datum : MuFlatDatum coeffPrime level) :=
+  CommGroupScheme.pointCokernelFppfSheafOverOpen
+    (muFlatInclusion coeffPrime level datum)
+    (levelOpen (level : ℤ))
+
+/-- The actual multiplicative-flat fppf cokernel sheaf is supported on the bad fibre: its
+restriction to `D(level)` is zero. -/
+theorem muFlatPointCokernelFppfSheafAway_isZero
+    (datum : MuFlatDatum coeffPrime level) :
+    IsZero (muFlatPointCokernelFppfSheafAway datum) := by
+  apply CommGroupScheme.pointCokernelFppfSheafOverOpen_isZero
+  exact muFlatPointCokernelPresheafUliftAway_isZero datum
 
 end MultiplicativeFlat
 
