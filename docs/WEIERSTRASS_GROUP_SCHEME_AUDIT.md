@@ -112,8 +112,16 @@ then through the corresponding affine scheme
 `X_j/X_i` produces `coordinateRepresentativeOfOverPoint`; its chosen
 coordinate is proved equal to one, hence this extracted triple is nonzero.
 The cubic polynomial's membership in the image homogeneous prime is checked
-at the same point.  This is coordinate extraction from an actual scheme
-morphism, not a postulated inverse to the forward map.
+at the same point.  The chart ring map is proved to fix base-field constants,
+and weighted-homogeneous induction proves that every fraction `q/X_i^n` is
+evaluation of `q` at those constants and the three coordinate ratios.  Thus
+the extracted triple satisfies the homogeneous cubic equation.  Under the
+essential ellipticity hypothesis, a direct `Z = 0`/`Z ≠ 0` argument proves
+that every such nonzero solution is nonsingular; `projectivePointOfOverPoint`
+therefore constructs a genuine Mathlib projective point from every
+scheme-valued cubic point.  `recoveredPointOverMorphism` is the compiled
+downstream consumer that sends this point forward again.  No equality with
+the original morphism, and hence no surjectivity, is claimed yet.
 
 The concrete `toOver` object then feeds Tau Ceti's
 `AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
@@ -140,15 +148,15 @@ field:
    `AbelianVariety`;
 3. compatibility of the canonical forward coordinate-point map with the
    scheme group law, and surjectivity.  Injectivity is now checked.
-   The basic-chart factor and normalized coordinate ratios are now checked.
-   The remaining reverse-map step is the chart computation identifying the
-   pullback of `X_j/X_i` along a forward coordinate point with its normalized
-   coordinate; this lets one cancel the chart open immersion and compare the
-   two scheme morphisms.  The extracted cubic equation must then be converted
-   to Mathlib nonsingularity using the elliptic hypothesis.  That hypothesis
+   The basic-chart factor, normalized coordinate ratios, cubic equation, and
+   elliptic nonsingularity are now checked.  The remaining reverse-map step is
+   the chart computation identifying the pullback of `X_j/X_i` along a forward
+   coordinate point with its normalized coordinate; chart-ring extensionality
+   then lets one cancel the chart open immersion and prove
+   `recoveredPointOverMorphism W g = g`.  The ellipticity hypothesis used above
    is essential: for a singular Weierstrass equation the reduced cubic may
-   have rational singular points which are deliberately absent from
-   Mathlib's nonsingular `Projective.Point` type.  Once these steps are checked,
+   have rational singular points which are deliberately absent from Mathlib's
+   nonsingular `Projective.Point` type.  Once the morphism equality is checked,
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 
