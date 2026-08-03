@@ -5,6 +5,8 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FormalImmersion
+import Mathlib.RingTheory.AdicCompletion.Functoriality
+import Mathlib.RingTheory.AdicCompletion.LocalRing
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 
 /-!
@@ -19,10 +21,11 @@ immersion route.  For a local homomorphism `A → B`, if the maximal ideal of `B
 forces the extension of `m_A` to equal `m_B`.  The finiteness assumption is exactly the input to
 Nakayama's lemma; Noetherianity of all of `B` is not required.
 
-This is deliberately only the first-order algebra step.  Surjectivity of `A → B` itself requires
-additional residue-field lifting and completeness/separatedness hypotheses.  The scheme theorem
-below applies the checked local result to stalk maps, and the modular degree-one certificate is a
-separate downstream consumer.
+The completion theorem then combines this first-order algebra with residue-field lifting and
+Mathlib's precomplete/Hausdorff surjectivity criterion.  It separates the logically minimal
+precompleteness hypothesis on the source completion from a convenient corollary assuming both
+maximal ideals are finite.  The scheme theorem applies that corollary to stalk maps, and the
+modular degree-one certificate is a separate downstream consumer.
 -/
 
 namespace IsLocalRing
@@ -167,6 +170,92 @@ universe u
 
 open CategoryTheory
 
+namespace LocalCompletion
+
+variable {A B : Type*} [CommRing A] [CommRing B]
+  [IsLocalRing A] [IsLocalRing B]
+
+/-- The residue-field and cotangent criterion makes the induced map on local completions
+surjective.
+
+The target maximal ideal is finite so that Nakayama identifies it with the extension of the
+source maximal ideal and so that the target completion is Hausdorff for that ideal.  On the source
+side, the proof only needs precompleteness of its completion for the extended maximal ideal; this
+is stated directly instead of imposing a stronger Noetherian hypothesis. -/
+theorem map_surjective_of_residue_and_cotangent
+    [Module.Finite B (IsLocalRing.maximalIdeal B)]
+    [IsPrecomplete
+      ((IsLocalRing.maximalIdeal A).map (algebraMap A (Ring A))) (Ring A)]
+    (f : A →+* B) [IsLocalHom f]
+    (hresidue : Function.Surjective (IsLocalRing.ResidueField.map f))
+    (hcotangent : Function.Surjective (IsLocalRing.cotangentMap f)) :
+    Function.Surjective (map f) := by
+  have hfgB : (IsLocalRing.maximalIdeal B).FG :=
+    (Submodule.fg_top (IsLocalRing.maximalIdeal B)).mp Module.Finite.fg_top
+  have hmax : (IsLocalRing.maximalIdeal A).map f =
+      IsLocalRing.maximalIdeal B :=
+    IsLocalRing.map_maximalIdeal_eq_of_surjective_mapCotangent f hcotangent
+  let I : Ideal (Ring A) :=
+    (IsLocalRing.maximalIdeal A).map (algebraMap A (Ring A))
+  let J : Ideal (Ring B) :=
+    (IsLocalRing.maximalIdeal B).map (algebraMap B (Ring B))
+  let F : Ring A →+* Ring B := map f
+  have hcomp : F.comp (algebraMap A (Ring A)) =
+      (algebraMap B (Ring B)).comp f := by
+    apply RingHom.ext
+    intro a
+    change map f (AdicCompletion.of (IsLocalRing.maximalIdeal A) A a) =
+      AdicCompletion.of (IsLocalRing.maximalIdeal B) B (f a)
+    exact map_of f a
+  have hIJ : I.map F = J := by
+    dsimp only [I, J]
+    rw [Ideal.map_map, hcomp, ← Ideal.map_map, hmax]
+  letI : IsAdicComplete J (Ring B) := by
+    dsimp only [J, Ring]
+    exact AdicCompletion.isAdicComplete_self _ hfgB
+  letI : IsHausdorff (I.map F) (Ring B) := by
+    rw [hIJ]
+    infer_instance
+  apply surjective_of_mk_map_comp_surjective (I := I) F
+  intro z
+  obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective z
+  obtain ⟨r, hr⟩ := hresidue
+    (AdicCompletion.evalOneₐ (IsLocalRing.maximalIdeal B) b)
+  obtain ⟨a, ha⟩ := IsLocalRing.residue_surjective r
+  refine ⟨AdicCompletion.of (IsLocalRing.maximalIdeal A) A a, ?_⟩
+  rw [RingHom.comp_apply]
+  apply (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).2
+  rw [hIJ]
+  change F (AdicCompletion.of (IsLocalRing.maximalIdeal A) A a) - b ∈
+    (IsLocalRing.maximalIdeal B).map (algebraMap B (Ring B))
+  rw [← AdicCompletion.ker_evalOneₐ_eq_map _ hfgB]
+  change AdicCompletion.evalOneₐ (IsLocalRing.maximalIdeal B)
+      (F (AdicCompletion.of (IsLocalRing.maximalIdeal A) A a) - b) = 0
+  rw [map_sub]
+  dsimp only [F]
+  rw [map_of, AdicCompletion.evalOneₐ_of, sub_eq_zero]
+  change IsLocalRing.residue B (f a) =
+    AdicCompletion.evalOneₐ (IsLocalRing.maximalIdeal B) b
+  rw [← IsLocalRing.ResidueField.map_residue f, ha, hr]
+
+/-- Finite maximal ideals provide the precompleteness hypothesis in
+`map_surjective_of_residue_and_cotangent` automatically. -/
+theorem map_surjective_of_residue_and_cotangent_of_finite_maximalIdeals
+    [Module.Finite A (IsLocalRing.maximalIdeal A)]
+    [Module.Finite B (IsLocalRing.maximalIdeal B)]
+    (f : A →+* B) [IsLocalHom f]
+    (hresidue : Function.Surjective (IsLocalRing.ResidueField.map f))
+    (hcotangent : Function.Surjective (IsLocalRing.cotangentMap f)) :
+    Function.Surjective (map f) := by
+  have hfgA : (IsLocalRing.maximalIdeal A).FG :=
+    (Submodule.fg_top (IsLocalRing.maximalIdeal A)).mp Module.Finite.fg_top
+  letI : IsAdicComplete
+      ((IsLocalRing.maximalIdeal A).map (algebraMap A (Ring A))) (Ring A) :=
+    AdicCompletion.isAdicComplete_self _ hfgA
+  exact map_surjective_of_residue_and_cotangent f hresidue hcotangent
+
+end LocalCompletion
+
 namespace Scheme.Hom
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X)
@@ -196,6 +285,24 @@ theorem maximalIdealSquareQuotientMap_stalkMap_surjective_of_isCotangentCriterio
       (IsLocalRing.ResidueField.map (f.stalkMap x).hom) :=
     (ConcreteCategory.bijective_of_isIso (f.residueFieldMap x)).2
   exact IsLocalRing.maximalIdealSquareQuotientMap_surjective
+    (f.stalkMap x).hom hresidue h.2
+
+/-- For stalks with finite maximal ideals, the residue-field and cotangent criterion is a formal
+immersion: the induced map on completed local rings is surjective. -/
+theorem isFormalImmersionAt_of_isCotangentCriterionAt
+    [Module.Finite (Y.presheaf.stalk (f x))
+      (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))]
+    [Module.Finite (X.presheaf.stalk x)
+      (IsLocalRing.maximalIdeal (X.presheaf.stalk x))]
+    (h : IsCotangentCriterionAt f x) :
+    IsFormalImmersionAt f x := by
+  rw [IsFormalImmersionAt]
+  change Function.Surjective (LocalCompletion.map (f.stalkMap x).hom)
+  letI := h.1
+  have hresidue : Function.Surjective
+      (IsLocalRing.ResidueField.map (f.stalkMap x).hom) :=
+    (ConcreteCategory.bijective_of_isIso (f.residueFieldMap x)).2
+  exact LocalCompletion.map_surjective_of_residue_and_cotangent_of_finite_maximalIdeals
     (f.stalkMap x).hom hresidue h.2
 
 end Scheme.Hom

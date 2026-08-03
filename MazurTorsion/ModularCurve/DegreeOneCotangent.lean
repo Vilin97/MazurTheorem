@@ -19,9 +19,10 @@ the remaining Hecke calculation must:
 
 `DegreeOneCotangentCertificate.isCotangentCriterionAt` then supplies both checked first-order
 conditions.  Its Nakayama consumers generate the source maximal ideal and prove surjectivity on
-the quotient by the square of the maximal ideal.  This is not yet a formal-immersion theorem: the
-full tower of adic quotients and the completed-local-ring comparison remain `MT-X0-INTEGRAL`
-obligations.
+the quotient by the square of the maximal ideal.  When the two stalk maximal ideals are finite,
+`DegreeOneCotangentCertificate.isFormalImmersionAt` upgrades the certificate to surjectivity on
+completed local rings.  The remaining `MT-X0-INTEGRAL` work is therefore geometric: construct the
+stalk finiteness instances and the modular certificate at the chosen cusp.
 Functoriality of the underlying canonical map for the composite modular morphism is already
 checked in the imported core.
 -/
@@ -93,6 +94,17 @@ theorem maximalIdealSquareQuotientMap_stalkMap_surjective
     Function.Surjective
       (IsLocalRing.maximalIdealSquareQuotientMap (f.stalkMap x).hom) :=
   Scheme.Hom.maximalIdealSquareQuotientMap_stalkMap_surjective_of_isCotangentCriterionAt
+    f x C.isCotangentCriterionAt
+
+/-- With finite stalk maximal ideals, the degree-one modular certificate proves the actual
+formal-immersion predicate on completed local rings. -/
+theorem isFormalImmersionAt (C : DegreeOneCotangentCertificate f x)
+    [Module.Finite (Y.presheaf.stalk (f x))
+      (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))]
+    [Module.Finite (X.presheaf.stalk x)
+      (IsLocalRing.maximalIdeal (X.presheaf.stalk x))] :
+    AlgebraicGeometry.IsFormalImmersionAt f x :=
+  Scheme.Hom.isFormalImmersionAt_of_isCotangentCriterionAt
     f x C.isCotangentCriterionAt
 
 end DegreeOneCotangentCertificate
