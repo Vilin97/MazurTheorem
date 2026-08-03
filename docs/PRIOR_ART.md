@@ -687,6 +687,19 @@ which target-curve finiteness is a checked sufficient condition. The modular
 quotient identification and target finiteness are not yet proved; no
 unconditional Mordell--Weil rank-zero theorem is claimed.
 
+Henri Cohen and Fabien Pazuki's
+[*Elementary 3-descent with a 3-isogeny*](https://arxiv.org/abs/0903.4963),
+Theorem 4.1 and Corollary 4.3, supply the mathematical specification for the
+remaining target descent.  After the checked coordinate change the target is
+`v² = u³ - 3(12u+1500)²`.  The paper's ideal-support theorem leaves no split
+prime because the primes dividing `2·1500` are nonsplit in `ℚ(√-3)`; the
+class-number-one calculation therefore reduces to the three Eisenstein unit
+classes.  The two nontrivial homogeneous cubics were instantiated locally
+from the published general formula, and Lean proves by a mod-seven infinite
+descent that each has only the zero integral solution.  The source is used as
+the specification for the still-missing ideal-support reduction; no paper
+claim, database rank, or computer-algebra transcript is imported as proof.
+
 ## 12. Multiplication-polynomial discriminants and executable resultants
 
 Harry Schmidt's paper
