@@ -334,6 +334,53 @@ theorem specMap_fromStalk_eq_of_smoothCurveStalkDVR_normalizedQExpansion
       K X π Y f g hx q hq hcoeff targetParameter c hc F hqExpansion
   exact hformal.specMap_fromStalk_ext_of_isNoetherian a b hrestrict
 
+/-- The complete-DVR stalk construction feeds the arithmetic collision in its final morphism-level
+form: arbitrary local points specializing to the cusp are equal when their quotient images agree.
+No domain, DVR, completeness, or power-series-coordinate instance is assumed on the completed
+stalk. -/
+theorem spec_eq_of_smoothCurveStalkDVR_normalizedQExpansion_of_comp_eq
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    [Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))]
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (hcoeff : Function.Surjective
+      ((Ideal.Quotient.mk
+          (IsLocalRing.maximalIdeal
+            (X.presheaf.stalk (g (IsLocalRing.closedPoint K))))).comp
+        (algebraMap K (X.presheaf.stalk (g (IsLocalRing.closedPoint K))))))
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      smoothCurveStalkCompletionRingEquiv K X π
+          (g (IsLocalRing.closedPoint K)) hx q hq hcoeff
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F)
+    (S : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
+    (s t : Spec (.of S) ⟶ X)
+    (hs : s (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (ht : t (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (himage : s ≫ f = t ≫ f) :
+    s = t := by
+  have hformal :=
+    isFormalImmersionAt_of_smoothCurveStalkDVR_normalizedQExpansion
+      K X π Y f g hx q hq hcoeff targetParameter c hc F hqExpansion
+  have hformalAtS :
+      AlgebraicGeometry.IsFormalImmersionAt f
+        (s (IsLocalRing.closedPoint S)) := by
+    simpa only [hs] using hformal
+  exact hformalAtS.spec_ext_of_comp_eq_of_isNoetherian s t
+    (hs.trans ht.symm) himage
+
 end SmoothCurve
 
 end CompleteDVRStalk
