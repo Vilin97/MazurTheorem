@@ -528,6 +528,180 @@ theorem projectivePointOverMorphism_injective
     projectivePointOverMorphism_left] at hleft
   exact hleft
 
+/-! ## Extracting homogeneous coordinates from scheme-valued points -/
+
+/-- The three coordinate variables generate the homogeneous coordinate ring even when the
+degree-zero homogeneous piece, rather than `K`, is used as the scalar ring. -/
+theorem adjoin_coordinateVariables_eq_top :
+    Algebra.adjoin (homogeneousPieces K 0)
+      (Set.range (MvPolynomial.X : Fin 3 → MvPolynomial (Fin 3) K)) = ⊤ := by
+  rw [← top_le_iff]
+  rintro p -
+  have hp : p ∈ Algebra.adjoin K
+      (Set.range (MvPolynomial.X : Fin 3 → MvPolynomial (Fin 3) K)) := by
+    rw [MvPolynomial.adjoin_range_X]
+    trivial
+  induction hp using Algebra.adjoin_induction with
+  | mem p hp => exact Algebra.subset_adjoin hp
+  | algebraMap r =>
+      exact (Algebra.adjoin (homogeneousPieces K 0)
+        (Set.range (MvPolynomial.X : Fin 3 → MvPolynomial (Fin 3) K))).algebraMap_mem
+        ⟨MvPolynomial.C r, MvPolynomial.isHomogeneous_C (σ := Fin 3) r⟩
+  | add p q _ _ hp hq => exact add_mem hp hq
+  | mul p q _ _ hp hq => exact mul_mem hp hq
+
+/-- The standard coordinate basic opens cover projective two-space. -/
+theorem iSup_coordinateBasicOpen_eq_top :
+    ⨆ i : Fin 3,
+      Proj.basicOpen (homogeneousPieces K) (MvPolynomial.X i) = ⊤ :=
+  Proj.iSup_basicOpen_eq_top' (homogeneousPieces K) MvPolynomial.X
+    (fun i ↦ ⟨1, MvPolynomial.isHomogeneous_X K i⟩) adjoin_coordinateVariables_eq_top
+
+/-- Every projective point has at least one nonvanishing homogeneous coordinate. -/
+theorem exists_coordinate_not_mem (p : projectivePlane K) :
+    ∃ i : Fin 3, MvPolynomial.X i ∉ p.asHomogeneousIdeal := by
+  have hp : p ∈ (⊤ : (projectivePlane K).Opens) := trivial
+  rw [← iSup_coordinateBasicOpen_eq_top] at hp
+  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hp
+  exact ⟨i, (ProjectiveSpectrum.mem_basicOpen
+    (homogeneousPieces K) (MvPolynomial.X i) p).mp hi⟩
+
+/-- The ambient projective-plane morphism underlying a scheme-valued point of the cubic. -/
+noncomputable def ambientMorphismOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    Spec (.of K) ⟶ projectivePlane K :=
+  g.left ≫ inclusion W
+
+/-- The ambient image of a scheme-valued point still lies on the concrete cubic. -/
+theorem ambientMorphismOfOverPoint_mem_carrier (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W)
+    (s : Spec (.of K)) :
+    ambientMorphismOfOverPoint W g s ∈ carrier W := by
+  rw [← range_inclusion W]
+  exact ⟨g.left s, rfl⟩
+
+/-- Consequently the homogeneous cubic belongs to the projective prime at the image point. -/
+theorem ambientMorphismOfOverPoint_polynomial_mem (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W)
+    (s : Spec (.of K)) :
+    W.toProjective.polynomial ∈
+      (ambientMorphismOfOverPoint W g s).asHomogeneousIdeal :=
+  (mem_zeroLocus_iff W _).mp (ambientMorphismOfOverPoint_mem_carrier W g s)
+
+/-- The image of the unique point of `Spec K` in the ambient projective plane. -/
+noncomputable def ambientClosedPointOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    projectivePlane K :=
+  ambientMorphismOfOverPoint W g (IsLocalRing.closedPoint K)
+
+/-- Choose a standard affine chart containing an arbitrary scheme-valued `K`-point. -/
+noncomputable def chartIndexOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) : Fin 3 :=
+  (exists_coordinate_not_mem (ambientClosedPointOfOverPoint W g)).choose
+
+theorem chartIndexOfOverPoint_spec (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    MvPolynomial.X (chartIndexOfOverPoint W g) ∉
+      (ambientClosedPointOfOverPoint W g).asHomogeneousIdeal :=
+  (exists_coordinate_not_mem (ambientClosedPointOfOverPoint W g)).choose_spec
+
+/-- Since `Spec K` has only one point, the whole ambient morphism lands in the chosen chart. -/
+theorem ambientMorphismOfOverPoint_range_subset_chart (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    Set.range (ambientMorphismOfOverPoint W g) ⊆
+      (Proj.basicOpen (homogeneousPieces K)
+        (MvPolynomial.X (chartIndexOfOverPoint W g))).ι.opensRange := by
+  rw [Scheme.Opens.opensRange_ι]
+  rintro _ ⟨s, rfl⟩
+  obtain rfl : s = IsLocalRing.closedPoint K := Subsingleton.elim _ _
+  exact (ProjectiveSpectrum.mem_basicOpen
+    (homogeneousPieces K) (MvPolynomial.X (chartIndexOfOverPoint W g)) _).2
+      (chartIndexOfOverPoint_spec W g)
+
+/-- Factor an arbitrary rational point through the standard basic open selected above. -/
+noncomputable def chartBasicOpenLiftOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    Spec (.of K) ⟶
+      (Proj.basicOpen (homogeneousPieces K)
+        (MvPolynomial.X (chartIndexOfOverPoint W g))).toScheme :=
+  IsOpenImmersion.lift
+    (Proj.basicOpen (homogeneousPieces K)
+      (MvPolynomial.X (chartIndexOfOverPoint W g))).ι
+    (ambientMorphismOfOverPoint W g)
+    (ambientMorphismOfOverPoint_range_subset_chart W g)
+
+/-- The chosen-chart factor, expressed as a morphism to the degree-zero homogeneous
+localization. -/
+noncomputable def chartLiftOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    Spec (.of K) ⟶
+      Spec (.of (HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X (chartIndexOfOverPoint W g)))) :=
+  chartBasicOpenLiftOfOverPoint W g ≫
+    (Proj.basicOpenIsoSpec (homogeneousPieces K)
+      (MvPolynomial.X (chartIndexOfOverPoint W g))
+      (MvPolynomial.isHomogeneous_X K (chartIndexOfOverPoint W g))
+      (by omega)).hom
+
+@[reassoc]
+theorem chartLiftOfOverPoint_fac (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    chartLiftOfOverPoint W g ≫
+      Proj.awayι (homogeneousPieces K) (m := 1)
+        (MvPolynomial.X (chartIndexOfOverPoint W g))
+        (MvPolynomial.isHomogeneous_X K (chartIndexOfOverPoint W g))
+        (by omega) = ambientMorphismOfOverPoint W g := by
+  unfold chartLiftOfOverPoint Proj.awayι
+  simp only [Category.assoc, Iso.hom_inv_id_assoc]
+  exact IsOpenImmersion.lift_fac _ _ _
+
+/-- The ring map on the chosen homogeneous-localization chart. -/
+noncomputable def chartRingHomOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    HomogeneousLocalization.Away (homogeneousPieces K)
+      (MvPolynomial.X (chartIndexOfOverPoint W g)) →+* K :=
+  (Spec.preimage (chartLiftOfOverPoint W g)).hom
+
+/-- Coordinate ratios extracted from a scheme-valued `K`-point, normalized in the chosen chart. -/
+noncomputable def coordinateRepresentativeOfOverPoint (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) : Fin 3 → K :=
+  fun j ↦ chartRingHomOfOverPoint W g
+    (HomogeneousLocalization.Away.isLocalizationElem
+      (MvPolynomial.isHomogeneous_X K (chartIndexOfOverPoint W g))
+      (MvPolynomial.isHomogeneous_X K j))
+
+/-- The degree-one ratio of a chart coordinate by itself is one. -/
+theorem isLocalizationElem_self_degree_one {f : MvPolynomial (Fin 3) K}
+    (hf : f ∈ homogeneousPieces K 1) :
+    HomogeneousLocalization.Away.isLocalizationElem hf hf = 1 := by
+  apply HomogeneousLocalization.val_injective
+  simp only [HomogeneousLocalization.Away.isLocalizationElem,
+    HomogeneousLocalization.Away.val_mk, pow_one,
+    HomogeneousLocalization.val_one]
+  rw [Localization.mk_eq_mk'_apply]
+  exact IsLocalization.mk'_self (Localization (Submonoid.powers f))
+    (show f ∈ Submonoid.powers f from ⟨1, pow_one f⟩)
+
+/-- The coordinate selected as the chart denominator is normalized to one. -/
+theorem coordinateRepresentativeOfOverPoint_chartIndex (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    coordinateRepresentativeOfOverPoint W g (chartIndexOfOverPoint W g) = 1 := by
+  unfold coordinateRepresentativeOfOverPoint
+  calc
+    _ = chartRingHomOfOverPoint W g 1 := congrArg _
+      (isLocalizationElem_self_degree_one
+        (MvPolynomial.isHomogeneous_X K (chartIndexOfOverPoint W g)))
+    _ = 1 := map_one (chartRingHomOfOverPoint W g)
+
+/-- The extracted normalized coordinate representative is nonzero. -/
+theorem coordinateRepresentativeOfOverPoint_ne_zero (W : WeierstrassCurve K)
+    (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :
+    coordinateRepresentativeOfOverPoint W g ≠ 0 := by
+  intro h
+  have hi := congrFun h (chartIndexOfOverPoint W g)
+  rw [coordinateRepresentativeOfOverPoint_chartIndex] at hi
+  simp at hi
+
 /-- Once the concrete cubic carries a group-object structure and is geometrically integral,
 Tau Ceti packages it as an abelian variety; properness is already proved above. -/
 noncomputable def toAbelianVariety (W : WeierstrassCurve K)

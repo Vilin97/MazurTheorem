@@ -103,6 +103,18 @@ and `Z` then recover and distinguish the normalized representatives.  Thus
 `projectivePointToAbelianVarietyRationalPoint_injective` checks injectivity
 without assuming a scheme group law.
 
+The reverse construction has also crossed its first scheme-theoretic
+boundary.  The checked coordinate basic opens cover the ambient `Proj`, so an
+arbitrary point of the concrete cubic over `Spec K` has a chosen nonvanishing
+coordinate.  Its whole ambient morphism factors through that basic open and
+then through the corresponding affine scheme
+`Spec (K[X,Y,Z]_(X_i))_0`.  Pulling back the homogeneous-localization ratios
+`X_j/X_i` produces `coordinateRepresentativeOfOverPoint`; its chosen
+coordinate is proved equal to one, hence this extracted triple is nonzero.
+The cubic polynomial's membership in the image homogeneous prime is checked
+at the same point.  This is coordinate extraction from an actual scheme
+morphism, not a postulated inverse to the forward map.
+
 The concrete `toOver` object then feeds Tau Ceti's
 `AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
 `GeometricallyIntegral` instances are established.  The compiled downstream
@@ -128,9 +140,15 @@ field:
    `AbelianVariety`;
 3. compatibility of the canonical forward coordinate-point map with the
    scheme group law, and surjectivity.  Injectivity is now checked.
-   Surjectivity requires recovering homogeneous coordinates from an arbitrary
-   cubic `K`-point on basic affine charts and proving overlap independence;
-   once checked,
+   The basic-chart factor and normalized coordinate ratios are now checked.
+   The remaining reverse-map step is the chart computation identifying the
+   pullback of `X_j/X_i` along a forward coordinate point with its normalized
+   coordinate; this lets one cancel the chart open immersion and compare the
+   two scheme morphisms.  The extracted cubic equation must then be converted
+   to Mathlib nonsingularity using the elliptic hypothesis.  That hypothesis
+   is essential: for a singular Weierstrass equation the reduced cubic may
+   have rational singular points which are deliberately absent from
+   Mathlib's nonsingular `Projective.Point` type.  Once these steps are checked,
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 

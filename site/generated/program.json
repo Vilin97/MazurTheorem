@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1459096,
+    "integrated_lean_lines": 1459270,
     "integrated_lean_modules": 721,
     "remaining_composite_orders": [
       18,
@@ -3460,6 +3460,27 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
           "description": "Prove the canonical coordinate-to-scheme rational-point map injective by recovering normalized affine coordinates from homogeneous linear vanishing equations."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartLiftOfOverPoint_fac",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
+          "description": "Factor every scheme-valued cubic point through a chosen standard affine chart and its degree-zero homogeneous localization."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
+          "description": "Extract homogeneous coordinate ratios from the actual chart ring map of an arbitrary scheme-valued cubic point."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint_chartIndex",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
+          "description": "Prove the extracted representative is normalized to one at the chosen nonvanishing chart coordinate."
         },
         {
           "kind": "definition",
