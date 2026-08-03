@@ -86,7 +86,8 @@ theorem mem_ambientMorphismOfOverPoint_iff_eval_coordinateRepresentative
     mem_chartLift_closedPoint_iff_map_eq_zero,
     chartRingHomOfOverPoint_awayMk_eq_eval W g p hp]
 
-private theorem mem_projective_degree_zero_iff_eq_zero
+/-- A degree-zero homogeneous polynomial belongs to a projective prime exactly when it is zero. -/
+theorem mem_projective_degree_zero_iff_eq_zero
     (x : projectivePlane K)
     (p : MvPolynomial (Fin 3) K) (hp : p ∈ homogeneousPieces K 0) :
     p ∈ x.asHomogeneousIdeal ↔ p = 0 := by
