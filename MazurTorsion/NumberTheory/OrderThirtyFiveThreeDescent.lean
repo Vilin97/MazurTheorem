@@ -236,4 +236,204 @@ theorem addY_neg_threeTorsionOrigin_cubeClass
   linear_combination
     -(x ^ 3 + 4 * x * y + y ^ 2 + 7 * y) * hcurve
 
+/-! ## Exact arithmetic inputs and assembly of the three cosets -/
+
+/-- The source local calculation needed from the fixed three-descent: every
+nonexceptional ordinate has one of the three supported cube classes
+`1`, `7`, or `49`. -/
+def SourceThreeCubeClassBound : Prop :=
+  ∀ {x y : ℚ},
+    threeTorsionCurve.toAffine.Nonsingular x y → x ≠ 0 →
+      ∃ t : ℚ, t ≠ 0 ∧
+        (y = t ^ 3 ∨ y = 7 * t ^ 3 ∨ y = 49 * t ^ 3)
+
+/-- The target local calculation needed from the fixed three-descent: every
+rational target point is in the image of the first candidate point
+function.  No additivity is included in this proposition. -/
+def TargetThreeCandidateSurjective : Prop :=
+  Function.Surjective veluThreeCandidatePointFun
+
+/-- Under target surjectivity, a nonzero cube source ordinate makes the
+source point an actual triple. -/
+theorem exists_eq_three_nsmul_of_Y_eq_cube
+    (htarget : TargetThreeCandidateSurjective)
+    {x y t : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y)
+    (ht : t ≠ 0) (hy : y = t ^ 3) :
+    ∃ R : threeTorsionCurve.toAffine.Point,
+      WeierstrassCurve.Affine.Point.some x y hP = (3 : ℕ) • R := by
+  obtain ⟨Q, hQ⟩ := exists_dualCandidate_preimage_of_Y_eq_cube hP ht hy
+  obtain ⟨R, hR⟩ := htarget Q
+  refine ⟨R, ?_⟩
+  calc
+    WeierstrassCurve.Affine.Point.some x y hP =
+        veluThreeDualCandidatePointFun Q := hQ.symm
+    _ = veluThreeDualCandidatePointFun
+          (veluThreeCandidatePointFun R) := by rw [hR]
+    _ = (3 : ℕ) • R :=
+      veluThreeDualCandidatePointFun_candidate R
+
+private theorem two_nsmul_threeTorsionOrigin_eq_neg :
+    (2 : ℕ) • threeTorsionOrigin = -threeTorsionOrigin := by
+  have hthree : (3 : ℕ) • threeTorsionOrigin = 0 := by
+    rw [← addOrderOf_threeTorsionOrigin]
+    exact addOrderOf_nsmul_eq_zero threeTorsionOrigin
+  calc
+    (2 : ℕ) • threeTorsionOrigin =
+        (3 : ℕ) • threeTorsionOrigin - threeTorsionOrigin := by abel
+    _ = -threeTorsionOrigin := by rw [hthree]; simp
+
+/-- The two fixed arithmetic outputs assemble to the exact three-coset
+certificate consumed by the rank-zero boundary. -/
+theorem threeCosetBound_of_descent_inputs
+    (hsource : SourceThreeCubeClassBound)
+    (htarget : TargetThreeCandidateSurjective) :
+    ThreeCosetBound := by
+  intro P
+  cases P with
+  | zero =>
+      refine ⟨⟨0, by norm_num⟩, 0, ?_⟩
+      simp [normalizedThreeRepresentative]
+      rfl
+  | some x y hP =>
+      by_cases hx : x = 0
+      · have hcandidate :
+            veluThreeCandidatePointFun
+              (WeierstrassCurve.Affine.Point.some x y hP) = 0 := by
+          simp [veluThreeCandidatePointFun, hx]
+          rfl
+        rcases
+            (veluThreeCandidatePointFun_eq_zero_iff
+              (WeierstrassCurve.Affine.Point.some x y hP)).mp hcandidate with
+          hzero | horigin | hnegOrigin
+        · exact (WeierstrassCurve.Affine.Point.some_ne_zero hP hzero).elim
+        · refine ⟨⟨1, by norm_num⟩, 0, ?_⟩
+          simpa [normalizedThreeRepresentative] using horigin
+        · refine ⟨⟨2, by norm_num⟩, 0, ?_⟩
+          rw [hnegOrigin, normalizedThreeRepresentative]
+          norm_num
+          exact two_nsmul_threeTorsionOrigin_eq_neg.symm
+      · obtain ⟨t, ht, hy | hy | hy⟩ := hsource hP hx
+        · obtain ⟨R, hR⟩ :=
+            exists_eq_three_nsmul_of_Y_eq_cube htarget hP ht hy
+          refine ⟨⟨0, by norm_num⟩, R, ?_⟩
+          simpa [normalizedThreeRepresentative] using hR
+        · have hT : threeTorsionCurve.toAffine.Nonsingular 0 0 := by
+            apply threeTorsionCurve.toAffine.equation_iff_nonsingular.mp
+            norm_num [WeierstrassCurve.Affine.equation_iff,
+              threeTorsionCurve]
+          let x' : ℚ := threeTorsionCurve.toAffine.addX x 0
+            (threeTorsionCurve.toAffine.slope x 0 y 0)
+          let y' : ℚ := threeTorsionCurve.toAffine.addY x 0 y
+            (threeTorsionCurve.toAffine.slope x 0 y 0)
+          have hP' : threeTorsionCurve.toAffine.Nonsingular x' y' :=
+            nonsingular_add hP hT (fun hxy => hx hxy.1)
+          let t' : ℚ := -7 * t / x
+          have ht' : t' ≠ 0 := by
+            dsimp only [t']
+            exact div_ne_zero (mul_ne_zero (by norm_num) ht) hx
+          have hy' : y' = t' ^ 3 := by
+            dsimp only [y', t']
+            rw [addY_threeTorsionOrigin hP hx, hy]
+            field_simp [hx]
+            ring
+          obtain ⟨R, hR⟩ :=
+            exists_eq_three_nsmul_of_Y_eq_cube htarget hP' ht' hy'
+          have hsum :
+              WeierstrassCurve.Affine.Point.some x y hP +
+                  threeTorsionOrigin = (3 : ℕ) • R := by
+            calc
+              WeierstrassCurve.Affine.Point.some x y hP +
+                    threeTorsionOrigin =
+                  WeierstrassCurve.Affine.Point.some x' y' hP' := by
+                rw [threeTorsionOrigin]
+                exact WeierstrassCurve.Affine.Point.add_of_X_ne hx
+              _ = (3 : ℕ) • R := hR
+          refine ⟨⟨2, by norm_num⟩, R, ?_⟩
+          rw [normalizedThreeRepresentative]
+          norm_num
+          rw [two_nsmul_threeTorsionOrigin_eq_neg]
+          calc
+            WeierstrassCurve.Affine.Point.some x y hP =
+                -threeTorsionOrigin +
+                  (WeierstrassCurve.Affine.Point.some x y hP +
+                    threeTorsionOrigin) := by abel
+            _ = -threeTorsionOrigin + (3 : ℕ) • R := by rw [hsum]
+        · have hnegT : threeTorsionCurve.toAffine.Nonsingular 0 (-7) := by
+            apply threeTorsionCurve.toAffine.equation_iff_nonsingular.mp
+            norm_num [WeierstrassCurve.Affine.equation_iff,
+              threeTorsionCurve]
+          let x' : ℚ := threeTorsionCurve.toAffine.addX x 0
+            (threeTorsionCurve.toAffine.slope x 0 y (-7))
+          let y' : ℚ := threeTorsionCurve.toAffine.addY x 0 y
+            (threeTorsionCurve.toAffine.slope x 0 y (-7))
+          have hP' : threeTorsionCurve.toAffine.Nonsingular x' y' :=
+            nonsingular_add hP hnegT (fun hxy => hx hxy.1)
+          have hy0 : y ≠ 0 := by rw [hy]; positivity
+          let t' : ℚ := -7 * t * x / y
+          have ht' : t' ≠ 0 := by
+            dsimp only [t']
+            exact div_ne_zero
+              (mul_ne_zero (mul_ne_zero (by norm_num) ht) hx) hy0
+          have hy' : y' = t' ^ 3 := by
+            dsimp only [y', t']
+            rw [addY_neg_threeTorsionOrigin_cubeClass hP hx hy0, hy]
+            field_simp [hy0]
+            ring
+          obtain ⟨R, hR⟩ :=
+            exists_eq_three_nsmul_of_Y_eq_cube htarget hP' ht' hy'
+          have hsum :
+              WeierstrassCurve.Affine.Point.some x y hP +
+                  -threeTorsionOrigin = (3 : ℕ) • R := by
+            calc
+              WeierstrassCurve.Affine.Point.some x y hP +
+                    -threeTorsionOrigin =
+                  WeierstrassCurve.Affine.Point.some x' y' hP' := by
+                rw [threeTorsionOrigin,
+                  WeierstrassCurve.Affine.Point.neg_some]
+                norm_num [WeierstrassCurve.Affine.negY,
+                  threeTorsionCurve]
+                exact WeierstrassCurve.Affine.Point.add_of_X_ne hx
+              _ = (3 : ℕ) • R := hR
+          refine ⟨⟨1, by norm_num⟩, R, ?_⟩
+          rw [normalizedThreeRepresentative]
+          norm_num
+          calc
+            WeierstrassCurve.Affine.Point.some x y hP =
+                threeTorsionOrigin +
+                  (WeierstrassCurve.Affine.Point.some x y hP +
+                    -threeTorsionOrigin) := by abel
+            _ = threeTorsionOrigin + (3 : ℕ) • R := by rw [hsum]
+
+/-- Finiteness of the candidate target is sufficient for the target
+surjectivity input, because its checked rational torsion subgroup is
+trivial. -/
+theorem targetThreeCandidateSurjective_of_finite
+    [Finite veluThreeCandidateTarget.toAffine.Point] :
+    TargetThreeCandidateSurjective := by
+  intro P
+  have hPzero : P = 0 :=
+    veluThreeCandidateTarget_torsion_eq_zero P
+      (isOfFinAddOrder_of_finite P)
+  refine ⟨0, ?_⟩
+  rw [veluThreeCandidatePointFun_zero, hPzero]
+
+/-- End-to-end rank-zero consumer of the two isolated fixed descent
+calculations. -/
+theorem optimalQuotientModel_rank_zero_of_three_descent_inputs
+    (hsource : SourceThreeCubeClassBound)
+    (htarget : TargetThreeCandidateSurjective) :
+    Module.finrank ℤ optimalQuotientModel.toAffine.Point = 0 :=
+  optimalQuotientModel_point_rank_zero_of_cosetBound
+    (threeCosetBound_of_descent_inputs hsource htarget)
+
+/-- End-to-end finiteness consumer of the two isolated fixed descent
+calculations. -/
+theorem optimalQuotientModel_finite_of_three_descent_inputs
+    (hsource : SourceThreeCubeClassBound)
+    (htarget : TargetThreeCandidateSurjective) :
+    Finite optimalQuotientModel.toAffine.Point :=
+  optimalQuotientModel_point_finite_of_cosetBound
+    (threeCosetBound_of_descent_inputs hsource htarget)
+
 end MazurTorsion.OrderThirtyFive
