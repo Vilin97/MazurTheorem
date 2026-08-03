@@ -87,8 +87,8 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`, and
 `ConstantFlat` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 733 integrated Lean
-sources / 1,463,300 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 734 integrated Lean
+sources / 1,463,463 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -138,6 +138,12 @@ comparison that retains its supplied inclusion. A quasi-finite fppf quotient
 presentation now records a supplied fppf projection and such a geometric
 kernel, proves exactness on represented points, and embeds every existing
 finite-flat quotient while retaining both its projection and kernel inclusion.
+The kernel proof is now centralized in a finiteness-free ambient geometric
+presentation: it records the actual group scheme, compatible chosen
+inclusion, and kernel isomorphism, and derives unique represented-point lifts.
+Finite-flat and quasi-finite wrappers are checked adapters, and the supplied
+quasi-finite quotient's point-kernel criterion is a concrete downstream
+consumer.
 A reusable principal-open Hopf localization now constructs the actual
 bad-level constant-flat factor `(Z/pZ)^flat` with coefficient `p` separate
 from bad level `N`, its typed quasi-finite inclusion into the constant model,
@@ -301,7 +307,10 @@ within each lane follows the listed order.
    generic represented coefficient sheaf/`H¹`, its morphism-level functoriality,
    its canonical ambient kernel and pointwise universal property, and the
    structural quasi-finite wrapper and geometric kernel-presentation interface
-   now compile with finite-flat coefficient, map, and kernel adapters. The
+   now compile with finite-flat coefficient, map, and kernel adapters. Their
+   common geometric kernel and represented-point exactness proof now lives in
+   an ambient finiteness-free presentation, consumed by the quasi-finite
+   quotient's concrete point-kernel criterion. The
    constant-flat factor with separate coefficient and level parameters, its
    typed open immersion, and its certified trivial integral `H⁰` now compile.
    The multiplicative-flat construction, the sheaf-level supported

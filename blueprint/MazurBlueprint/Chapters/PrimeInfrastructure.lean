@@ -136,7 +136,9 @@ actual quasi-finite flat group scheme together with its group-scheme
 identification with the ambient kernel, yielding pointwise exactness. The
 canonical finite-flat kernel is a checked adapter, and every certified
 finite-flat kernel has a geometric adapter that preserves its chosen
-inclusion. A supplied quasi-finite fppf quotient now records its fppf
+inclusion. The common proof is now factored through a finiteness-free ambient
+kernel presentation with a compatible chosen inclusion, unique point lifts,
+and represented-point exactness. A supplied quasi-finite fppf quotient now records its fppf
 projection and geometric kernel, proves represented-point exactness, and
 embeds the checked finite-flat quotient presentations compatibly. A reusable
 principal-open Hopf localization now constructs the actual bad-level constant
@@ -163,6 +165,10 @@ group schemes.
   `AlgebraicGeometry.CommGroupScheme.fppfHOneMap`
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.pointKernelMulEquiv`
+* `structure` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.mapPoint_eq_one_iff_exists_kernelPoint`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme`
 * `definition` (`contract`):
@@ -189,6 +195,8 @@ group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.ofFiniteFlat_kernel_inclusion`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.project_point_eq_one_iff`
 * `definition` (`contract`):
   `HopfLocalizationAway.hopfAlgebra`
 * `definition` (`contract`):

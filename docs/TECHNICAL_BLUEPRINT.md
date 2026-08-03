@@ -1593,7 +1593,9 @@ kernel flatness; the existing canonical finite-flat kernel is a checked
 compatibility consumer. A quasi-finite kernel presentation now packages an
 actual quasi-finite flat kernel with a group-scheme isomorphism to this
 canonical ambient kernel, yielding a multiplicative point-kernel equivalence
-and exactness on every represented test object. Both canonical and arbitrary
+and exactness on every represented test object. This proof now factors through
+a finiteness-free ambient geometric kernel presentation that retains a
+compatible chosen inclusion and derives unique point lifts. Both canonical and arbitrary
 certified finite-flat kernels have geometric adapters preserving their chosen
 inclusions. A supplied quasi-finite fppf quotient now packages its fppf
 projection and geometric kernel and recovers checked finite-flat quotient data.
