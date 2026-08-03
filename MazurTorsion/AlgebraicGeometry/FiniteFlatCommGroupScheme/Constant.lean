@@ -670,6 +670,85 @@ def constantBaseChangeBialgEquiv
               constantBaseChangeAlgEquiv_tmul] }
   exact BialgEquiv.mk c e.map_mul
 
+@[simp]
+theorem constantBaseChangeBialgEquiv_apply
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    (G : Type u) [CommGroup G] [Fintype G]
+    (x : K ⊗[R] ConstantCoordinates R G) :
+    constantBaseChangeBialgEquiv (R := R) (K := K) G x =
+      constantBaseChangeAlgEquiv (R := R) (K := K) G x := rfl
+
+/-- The constant-coordinate base-change equivalence is natural in the finite group. -/
+theorem constantBaseChangeBialgEquiv_natural
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    (f : G →* H) :
+    BialgHom.comp
+        (constantBaseChangeBialgEquiv (R := R) (K := K) G).toBialgHom
+        (Bialgebra.TensorProduct.map (BialgHom.id K K)
+          (ConstantCoordinates.pullbackBialgHom (R := R) f)) =
+      BialgHom.comp (ConstantCoordinates.pullbackBialgHom (R := K) f)
+        (constantBaseChangeBialgEquiv (R := R) (K := K) H).toBialgHom := by
+  apply BialgHom.ext
+  intro t
+  induction t using TensorProduct.induction_on with
+  | zero => rw [map_zero, map_zero]
+  | add x y hx hy => rw [map_add, map_add, hx, hy]
+  | tmul s x =>
+      apply ULift.down_injective
+      funext g
+      change
+        (constantBaseChangeBialgEquiv (R := R) (K := K) G
+          (Bialgebra.TensorProduct.map (BialgHom.id K K)
+            (ConstantCoordinates.pullbackBialgHom (R := R) f) (s ⊗ₜ[R] x))).down g =
+        (ConstantCoordinates.pullbackBialgHom (R := K) f
+          (constantBaseChangeBialgEquiv (R := R) (K := K) H (s ⊗ₜ[R] x))).down g
+      rw [Bialgebra.TensorProduct.map_tmul, BialgHom.id_apply]
+      change (constantBaseChangeAlgEquiv (R := R) (K := K) G
+          (s ⊗ₜ[R] (ConstantCoordinates.pullbackBialgHom (R := R) f x))).down g = _
+      rw [constantBaseChangeAlgEquiv_tmul]
+      change algebraMap R K
+          ((ConstantCoordinates.pullbackAlgHom (R := R) f x).down g) * s =
+        (ConstantCoordinates.pullbackAlgHom (R := K) f
+          (constantBaseChangeAlgEquiv (R := R) (K := K) H (s ⊗ₜ[R] x))).down g
+      rw [ConstantCoordinates.pullbackAlgHom_down_apply,
+        ConstantCoordinates.pullbackAlgHom_down_apply,
+        constantBaseChangeAlgEquiv_tmul]
+
+/-- Naturality of the inverse constant-coordinate base-change equivalence, in the orientation
+used by morphisms of affine schemes. -/
+theorem constantBaseChangeBialgEquiv_symm_natural
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    (f : G →* H) :
+    BialgHom.comp
+        (Bialgebra.TensorProduct.map (BialgHom.id K K)
+          (ConstantCoordinates.pullbackBialgHom (R := R) f))
+        (constantBaseChangeBialgEquiv (R := R) (K := K) H).symm.toBialgHom =
+      BialgHom.comp
+        (constantBaseChangeBialgEquiv (R := R) (K := K) G).symm.toBialgHom
+        (ConstantCoordinates.pullbackBialgHom (R := K) f) := by
+  apply BialgHom.ext
+  intro x
+  apply (constantBaseChangeBialgEquiv (R := R) (K := K) G).injective
+  calc
+    constantBaseChangeBialgEquiv (R := R) (K := K) G
+        ((Bialgebra.TensorProduct.map (BialgHom.id K K)
+          (ConstantCoordinates.pullbackBialgHom (R := R) f))
+            ((constantBaseChangeBialgEquiv (R := R) (K := K) H).symm x)) =
+      ConstantCoordinates.pullbackBialgHom (R := K) f
+        (constantBaseChangeBialgEquiv (R := R) (K := K) H
+          ((constantBaseChangeBialgEquiv (R := R) (K := K) H).symm x)) := by
+            exact BialgHom.congr_fun
+              (constantBaseChangeBialgEquiv_natural (R := R) (K := K) f)
+              ((constantBaseChangeBialgEquiv (R := R) (K := K) H).symm x)
+    _ = ConstantCoordinates.pullbackBialgHom (R := K) f x := by
+      rw [(constantBaseChangeBialgEquiv (R := R) (K := K) H).apply_symm_apply]
+    _ = constantBaseChangeBialgEquiv (R := R) (K := K) G
+        ((constantBaseChangeBialgEquiv (R := R) (K := K) G).symm
+          (ConstantCoordinates.pullbackBialgHom (R := K) f x)) := by
+      rw [(constantBaseChangeBialgEquiv (R := R) (K := K) G).apply_symm_apply]
+
 /-- Coordinate scalar extension of a constant affine group is canonically the named constant
 affine group over the new base. -/
 def constantAffineBaseChangeIso
@@ -678,6 +757,24 @@ def constantAffineBaseChangeIso
     (constant R G).baseChange (K := K) ≅ constant K G :=
   AffineFiniteFreeCommGroupScheme.isoOfCoordinateBialgEquiv
     (constantBaseChangeBialgEquiv (R := R) (K := K) G)
+
+/-- The named constant-coordinate base-change isomorphism is natural in the finite group.
+This is the affine Hopf presentation of the commutative square later used by quotient
+filtrations. -/
+theorem constantAffineBaseChangeIso_naturality
+    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
+    {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    (f : G →* H) :
+    (AffineFiniteFreeCommGroupScheme.baseChangeFunctor (R := R) (K := K)).map
+          (constantMapAffine R f) ≫
+        (constantAffineBaseChangeIso (R := R) (K := K) H).hom =
+      (constantAffineBaseChangeIso (R := R) (K := K) G).hom ≫
+        constantMapAffine K f := by
+  apply ObjectProperty.hom_ext
+  apply Quiver.Hom.unop_inj
+  apply ObjectProperty.hom_ext
+  apply CommHopfAlgCat.hom_ext
+  exact constantBaseChangeBialgEquiv_symm_natural (R := R) (K := K) f
 
 /-- Geometric base change of a constant finite group scheme agrees with scalar extension of
 its function Hopf algebra. -/
@@ -700,13 +797,45 @@ noncomputable def constantBaseChangeIso
     (AffineFiniteFreeCommGroupScheme.realizationFunctor K).mapIso
       (constantAffineBaseChangeIso (R := R) (K := K) G)
 
-/-- The named constant-family base-change isomorphism acts on points of every test scheme. -/
-def constantBaseChangePointMulEquiv
+/-- Geometric base change of constant group morphisms commutes with the named constant-family
+identifications.  Unlike a bare equivalence of point sets, this is an equality of finite-flat
+group-scheme morphisms and can therefore be used as a filtration square. -/
+theorem constantBaseChangeIso_naturality
     {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
-    (G : Type u) [CommGroup G] [Fintype G] (X : Over (Spec (.of K))) :
-    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
-        (constantScheme R G)).Point X ≃* (constantScheme K G).Point X :=
-  pointMulEquivOfIso (constantBaseChangeIso (R := R) (K := K) G) X
+    {G H : Type u} [CommGroup G] [Fintype G] [CommGroup H] [Fintype H]
+    (f : G →* H) :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
+          (constantMap R f) ≫
+        (constantBaseChangeIso (R := R) (K := K) H).hom =
+      (constantBaseChangeIso (R := R) (K := K) G).hom ≫ constantMap K f := by
+  change
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
+          (AffineFiniteFreeCommGroupScheme.realizeMap (constantMapAffine R f)) ≫
+        (AffineFiniteFreeCommGroupScheme.realizeBaseChangeIso
+          (K := K) (constant R H)).hom ≫
+          AffineFiniteFreeCommGroupScheme.realizeMap
+            (constantAffineBaseChangeIso (R := R) (K := K) H).hom =
+      (AffineFiniteFreeCommGroupScheme.realizeBaseChangeIso
+          (K := K) (constant R G)).hom ≫
+        AffineFiniteFreeCommGroupScheme.realizeMap
+          (constantAffineBaseChangeIso (R := R) (K := K) G).hom ≫
+            AffineFiniteFreeCommGroupScheme.realizeMap (constantMapAffine K f)
+  rw [← Category.assoc,
+    AffineFiniteFreeCommGroupScheme.realizeBaseChangeIso_naturality]
+  simp only [Category.assoc]
+  have hinner :
+      AffineFiniteFreeCommGroupScheme.realizeMap
+            ((AffineFiniteFreeCommGroupScheme.baseChangeFunctor
+              (R := R) (K := K)).map (constantMapAffine R f)) ≫
+          AffineFiniteFreeCommGroupScheme.realizeMap
+            (constantAffineBaseChangeIso (R := R) (K := K) H).hom =
+        AffineFiniteFreeCommGroupScheme.realizeMap
+            (constantAffineBaseChangeIso (R := R) (K := K) G).hom ≫
+          AffineFiniteFreeCommGroupScheme.realizeMap (constantMapAffine K f) := by
+    rw [← AffineFiniteFreeCommGroupScheme.realizeMap_comp,
+      constantAffineBaseChangeIso_naturality,
+      AffineFiniteFreeCommGroupScheme.realizeMap_comp]
+  rw [hinner]
 
 /-- The geometric point of the constant group scheme selected by `g`. -/
 def constantPoint (R : Type u) [CommRing R]

@@ -129,14 +129,18 @@ noncomputable def constantQuotientBaseChangeIso
         (constantQuotient R N) ≅ constantQuotient K N :=
   constantBaseChangeIso (R := R) (K := K) (G ⧸ N)
 
-/-- The named constant-quotient base-change isomorphism acts on points of every test scheme. -/
-def constantQuotientBaseChangePointMulEquiv
+/-- The constant quotient projection commutes with scalar extension.  This is the
+morphism-level base-change square needed when the projection is used as a graded step in an
+admissible finite-flat filtration. -/
+theorem constantQuotientMap_baseChange_naturality
     {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
-    {G : Type u} [CommGroup G] [Fintype G] (N : Subgroup G)
-    (X : Over (Spec (.of K))) :
-    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
-        (constantQuotient R N)).Point X ≃* (constantQuotient K N).Point X :=
-  pointMulEquivOfIso (constantQuotientBaseChangeIso (R := R) (K := K) N) X
+    {G : Type u} [CommGroup G] [Fintype G] (N : Subgroup G) :
+    (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
+          (constantQuotientMap R N) ≫
+        (constantQuotientBaseChangeIso (R := R) (K := K) N).hom =
+      (constantBaseChangeIso (R := R) (K := K) G).hom ≫
+        constantQuotientMap K N :=
+  constantBaseChangeIso_naturality (R := R) (K := K) (QuotientGroup.mk' N)
 
 end FiniteFlatCommGroupScheme
 end AlgebraicGeometry

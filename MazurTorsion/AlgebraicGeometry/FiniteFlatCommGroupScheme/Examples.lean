@@ -180,15 +180,6 @@ noncomputable def diagonalizableBaseChangeIso
     (AffineFiniteFreeCommGroupScheme.realizationFunctor K).mapIso
       (diagonalizableAffineBaseChangeIso (R := R) (K := K) M)
 
-/-- The named diagonalizable-family base-change isomorphism acts on points of every test
-scheme. -/
-def diagonalizableBaseChangePointMulEquiv
-    {R K : Type u} [CommRing R] [CommRing K] [Algebra R K]
-    (M : Type u) [CommGroup M] [Fintype M] (X : Over (Spec (.of K))) :
-    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
-        (diagonalizableScheme R M)).Point X ≃* (diagonalizableScheme K M).Point X :=
-  pointMulEquivOfIso (diagonalizableBaseChangeIso (R := R) (K := K) M) X
-
 /-- Geometric affine points of `D(M)` are characters of `M`. -/
 def diagonalizablePointMulEquiv (R : Type u) [CommRing R]
     (M : Type u) [CommGroup M] [Fintype M]
@@ -223,16 +214,6 @@ noncomputable def muBaseChangeIso
     (baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj (muScheme R n) ≅
       muScheme K n :=
   diagonalizableBaseChangeIso (R := R) (K := K) (Multiplicative (ZMod n))
-
-/-- The named `mu_n` base-change isomorphism acts on points of every affine test scheme. -/
-def muBaseChangePointMulEquiv
-    {R K : Type} [CommRing R] [CommRing K] [Algebra R K]
-    (n : ℕ) [NeZero n] (B : Type) [CommRing B] [Algebra K B] :
-    ((baseChange (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
-        (muScheme R n)).Point (AffineCommGroupScheme.testObject (R := K) B) ≃*
-      (muScheme K n).Point (AffineCommGroupScheme.testObject (R := K) B) :=
-  pointMulEquivOfIso (muBaseChangeIso (R := R) (K := K) n)
-    (AffineCommGroupScheme.testObject (R := K) B)
 
 /-- Geometric affine points of `mu_n` are exactly `n`th roots of unity. -/
 def muPointMulEquiv (R : Type) [CommRing R] (n : ℕ) [NeZero n]
