@@ -48,8 +48,8 @@ data canonically from a chosen common Dedekind affine subopen. On one fixed comm
 the three specified restriction isomorphisms now satisfy the exact transitivity equation.
 Inverse-ideal extension is also compatible with a further scalar-tower base change.  The
 companion curve modules use this to identify pairwise-derived comparisons with direct
-triple-affine comparisons; compatibility of the surrounding pseudofunctor pullback isomorphisms
-with that restriction tower, and module effectivity, remain open.
+triple-affine comparisons.  The surrounding affine-tilde pullback isomorphisms are compatible
+with composition as well, providing the coherence input for the companion transition module.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -59,7 +59,7 @@ open _root_.AlgebraicGeometry
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open scoped nonZeroDivisors TensorProduct
+open scoped ChangeOfRings nonZeroDivisors TensorProduct
 
 universe u
 
@@ -545,6 +545,38 @@ private noncomputable def gammaPushforwardIsoRestrictScalars
     (pushforwardCompModulesSpecToSheafIso f) (evalTop A)) ≪≫ ?_
   exact sectionsPreimageIsoTop A B f
 
+private noncomputable def gammaPushforwardIsoRestrictScalarsCompPathRaw
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) ≅
+      moduleSpecΓFunctor (R := C) ⋙
+        ModuleCat.restrictScalars (f ≫ g).hom :=
+  Functor.isoWhiskerRight
+      (Scheme.Modules.pushforwardComp (Spec.map g) (Spec.map f)).symm
+      (moduleSpecΓFunctor (R := A)) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (Scheme.Modules.pushforward (Spec.map g))
+      (gammaPushforwardIsoRestrictScalars A B f) ≪≫
+    (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight (gammaPushforwardIsoRestrictScalars B C g)
+      (ModuleCat.restrictScalars f.hom) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (moduleSpecΓFunctor (R := C))
+      (ModuleCat.restrictScalarsComp f.hom g.hom).symm
+
+private theorem gammaPushforwardIsoRestrictScalars_comp
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    gammaPushforwardIsoRestrictScalarsCompPathRaw A B C f g =
+      Functor.isoWhiskerRight
+          (Scheme.Modules.pushforwardCongr
+            (show Spec.map g ≫ Spec.map f = Spec.map (f ≫ g) from
+              (@Spec.map_comp A B C f g).symm))
+          (moduleSpecΓFunctor (R := A)) ≪≫
+        gammaPushforwardIsoRestrictScalars A C (f ≫ g) := by
+  apply Iso.ext
+  ext M x
+  rfl
+
 private noncomputable def extendTildeAdjunction
     (A B : CommRingCat.{u}) (f : A ⟶ B) :
     ModuleCat.extendScalars f.hom ⋙ tilde.functor B ⊣
@@ -558,6 +590,14 @@ private noncomputable def tildePullbackAdjunction
   (tilde.adjunction (R := A)).comp
     (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map f))
 
+private noncomputable def tildePullbackAdjunctionCompRaw
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    tilde.functor A ⋙ Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) ⊣
+      Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) :=
+  (tilde.adjunction (R := A)).comp
+    (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g ≫ Spec.map f))
+
 private noncomputable def extendScalarsTildeIsoPullback
     (A B : CommRingCat.{u}) (f : A ⟶ B) :
     ModuleCat.extendScalars f.hom ⋙ tilde.functor B ≅
@@ -565,6 +605,233 @@ private noncomputable def extendScalarsTildeIsoPullback
   (conjugateIsoEquiv (tildePullbackAdjunction A B f)
     (extendTildeAdjunction A B f)).symm
       (gammaPushforwardIsoRestrictScalars A B f)
+
+private lemma conjugateEquiv_extendScalarsComp_hom
+    {R₁ R₂ R₃ : Type u} [CommRing R₁] [CommRing R₂] [CommRing R₃]
+    (f₁₂ : R₁ →+* R₂) (f₂₃ : R₂ →+* R₃) :
+    conjugateEquiv
+        ((ModuleCat.extendRestrictScalarsAdj f₁₂).comp
+          (ModuleCat.extendRestrictScalarsAdj f₂₃))
+        (ModuleCat.extendRestrictScalarsAdj (f₂₃.comp f₁₂))
+        (ModuleCat.extendScalarsComp f₁₂ f₂₃).hom =
+      (ModuleCat.restrictScalarsComp f₁₂ f₂₃).inv := by
+  rw [← conjugateIsoEquiv_apply_hom]
+  exact congrArg Iso.hom <|
+    (conjugateIsoEquiv
+      ((ModuleCat.extendRestrictScalarsAdj f₁₂).comp
+        (ModuleCat.extendRestrictScalarsAdj f₂₃))
+      (ModuleCat.extendRestrictScalarsAdj (f₂₃.comp f₁₂))).apply_symm_apply _
+
+private lemma conjugateEquiv_extendScalarsTildeIsoPullback_hom
+    (A B : CommRingCat.{u}) (f : A ⟶ B) :
+    conjugateEquiv (tildePullbackAdjunction A B f)
+        (extendTildeAdjunction A B f)
+        (extendScalarsTildeIsoPullback A B f).hom =
+      (gammaPushforwardIsoRestrictScalars A B f).hom := by
+  rw [← conjugateIsoEquiv_apply_hom]
+  exact congrArg Iso.hom <|
+    (conjugateIsoEquiv (tildePullbackAdjunction A B f)
+      (extendTildeAdjunction A B f)).apply_symm_apply _
+
+private lemma conjugateEquiv_pullbackComp_hom
+    {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    conjugateEquiv
+        (Scheme.Modules.pullbackPushforwardAdjunction (f ≫ g))
+        ((Scheme.Modules.pullbackPushforwardAdjunction g).comp
+          (Scheme.Modules.pullbackPushforwardAdjunction f))
+        (Scheme.Modules.pullbackComp f g).hom =
+      (Scheme.Modules.pushforwardComp f g).inv := by
+  apply (cancel_mono (Scheme.Modules.pushforwardComp f g).hom).mp
+  rw [← Scheme.Modules.conjugateEquiv_pullbackComp_inv,
+    conjugateEquiv_comp, Iso.inv_hom_id, conjugateEquiv_id,
+    Scheme.Modules.conjugateEquiv_pullbackComp_inv, Iso.inv_hom_id]
+
+private lemma conjugateEquiv_pullbackCongr_hom
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g) :
+    conjugateEquiv
+        (Scheme.Modules.pullbackPushforwardAdjunction g)
+        (Scheme.Modules.pullbackPushforwardAdjunction f)
+        (Scheme.Modules.pullbackCongr h).hom =
+      (Scheme.Modules.pushforwardCongr h).inv := by
+  cases h
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_hom,
+    conjugateEquiv_id]
+  ext M U x
+  rw [Scheme.Modules.pushforwardCongr_inv_app_app]
+  simp
+
+private lemma pushforwardCongr_symm_hom
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g) :
+    (Scheme.Modules.pushforwardCongr h.symm).hom =
+      (Scheme.Modules.pushforwardCongr h).inv := by
+  cases h
+  ext M U x
+  rw [Scheme.Modules.pushforwardCongr_hom_app_app,
+    Scheme.Modules.pushforwardCongr_inv_app_app]
+
+private lemma conjugateEquiv_comp_seven
+    {C D : Type*} [Category C] [Category D]
+    {L₀ L₁ L₂ L₃ L₄ L₅ L₆ L₇ : C ⥤ D}
+    {R₀ R₁ R₂ R₃ R₄ R₅ R₆ R₇ : D ⥤ C}
+    (a₀ : L₀ ⊣ R₀) (a₁ : L₁ ⊣ R₁) (a₂ : L₂ ⊣ R₂)
+    (a₃ : L₃ ⊣ R₃) (a₄ : L₄ ⊣ R₄) (a₅ : L₅ ⊣ R₅)
+    (a₆ : L₆ ⊣ R₆) (a₇ : L₇ ⊣ R₇)
+    (s₀ : L₀ ⟶ L₁) (s₁ : L₁ ⟶ L₂) (s₂ : L₂ ⟶ L₃)
+    (s₃ : L₃ ⟶ L₄) (s₄ : L₄ ⟶ L₅) (s₅ : L₅ ⟶ L₆)
+    (s₆ : L₆ ⟶ L₇) :
+    conjugateEquiv a₇ a₀ (s₀ ≫ s₁ ≫ s₂ ≫ s₃ ≫ s₄ ≫ s₅ ≫ s₆) =
+      conjugateEquiv a₇ a₆ s₆ ≫ conjugateEquiv a₆ a₅ s₅ ≫
+        conjugateEquiv a₅ a₄ s₄ ≫ conjugateEquiv a₄ a₃ s₃ ≫
+          conjugateEquiv a₃ a₂ s₂ ≫ conjugateEquiv a₂ a₁ s₁ ≫
+            conjugateEquiv a₁ a₀ s₀ := by
+  rw [← conjugateEquiv_comp a₇ a₁ a₀ (s₁ ≫ s₂ ≫ s₃ ≫ s₄ ≫ s₅ ≫ s₆) s₀,
+    ← conjugateEquiv_comp a₇ a₂ a₁ (s₂ ≫ s₃ ≫ s₄ ≫ s₅ ≫ s₆) s₁,
+    ← conjugateEquiv_comp a₇ a₃ a₂ (s₃ ≫ s₄ ≫ s₅ ≫ s₆) s₂,
+    ← conjugateEquiv_comp a₇ a₄ a₃ (s₄ ≫ s₅ ≫ s₆) s₃,
+    ← conjugateEquiv_comp a₇ a₅ a₄ (s₅ ≫ s₆) s₄,
+    ← conjugateEquiv_comp a₇ a₆ a₅ s₆ s₅]
+  simp only [Category.assoc]
+
+private lemma conjugateEquiv_comp_two
+    {C D : Type*} [Category C] [Category D]
+    {L₀ L₁ L₂ : C ⥤ D} {R₀ R₁ R₂ : D ⥤ C}
+    (a₀ : L₀ ⊣ R₀) (a₁ : L₁ ⊣ R₁) (a₂ : L₂ ⊣ R₂)
+    (s₀ : L₀ ⟶ L₁) (s₁ : L₁ ⟶ L₂) :
+    conjugateEquiv a₂ a₀ (s₀ ≫ s₁) =
+      conjugateEquiv a₂ a₁ s₁ ≫ conjugateEquiv a₁ a₀ s₀ := by
+  exact (conjugateEquiv_comp a₂ a₁ a₀ s₁ s₀).symm
+
+private lemma conjugateEquiv_associator_inv
+    {A B C D : Type*} [Category A] [Category B] [Category C] [Category D]
+    {L₀₁ : A ⥤ B} {R₁₀ : B ⥤ A}
+    {L₁₂ : B ⥤ C} {R₂₁ : C ⥤ B}
+    {L₂₃ : C ⥤ D} {R₃₂ : D ⥤ C}
+    (a₀₁ : L₀₁ ⊣ R₁₀) (a₁₂ : L₁₂ ⊣ R₂₁)
+    (a₂₃ : L₂₃ ⊣ R₃₂) :
+    conjugateEquiv ((a₀₁.comp a₁₂).comp a₂₃)
+        (a₀₁.comp (a₁₂.comp a₂₃))
+        (Functor.associator L₀₁ L₁₂ L₂₃).inv =
+      (Functor.associator R₃₂ R₂₁ R₁₀).inv := by
+  apply (cancel_mono (Functor.associator R₃₂ R₂₁ R₁₀).hom).mp
+  rw [← conjugateEquiv_associator_hom a₀₁ a₁₂ a₂₃,
+    conjugateEquiv_comp, Iso.hom_inv_id, conjugateEquiv_id,
+    conjugateEquiv_associator_hom a₀₁ a₁₂ a₂₃,
+    Iso.inv_hom_id]
+
+private noncomputable def extendScalarsTildeIsoPullbackCompPathRaw
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    ModuleCat.extendScalars (f ≫ g).hom ⋙ tilde.functor C ≅
+      tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) :=
+  Functor.isoWhiskerRight (ModuleCat.extendScalarsComp f.hom g.hom)
+      (tilde.functor C) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (ModuleCat.extendScalars f.hom)
+      (extendScalarsTildeIsoPullback B C g) ≪≫
+    (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight (extendScalarsTildeIsoPullback A B f)
+      (Scheme.Modules.pullback (Spec.map g)) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (tilde.functor A)
+      (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f))
+
+private theorem extendScalarsTildeIsoPullback_comp
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    extendScalarsTildeIsoPullbackCompPathRaw A B C f g =
+      extendScalarsTildeIsoPullback A C (f ≫ g) ≪≫
+        Functor.isoWhiskerLeft (tilde.functor A)
+          (Scheme.Modules.pullbackCongr
+            (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+              @Spec.map_comp A B C f g)) := by
+  let e_f := ModuleCat.extendRestrictScalarsAdj f.hom
+  let e_g := ModuleCat.extendRestrictScalarsAdj g.hom
+  let e_fg := ModuleCat.extendRestrictScalarsAdj (f ≫ g).hom
+  let tA := tilde.adjunction (R := A)
+  let tB := tilde.adjunction (R := B)
+  let tC := tilde.adjunction (R := C)
+  let p_f := Scheme.Modules.pullbackPushforwardAdjunction (Spec.map f)
+  let p_g := Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g)
+  let p_fg := Scheme.Modules.pullbackPushforwardAdjunction
+    (Spec.map g ≫ Spec.map f)
+  let p_d := Scheme.Modules.pullbackPushforwardAdjunction (Spec.map (f ≫ g))
+  let a₀ := e_fg.comp tC
+  let a₁ := (e_f.comp e_g).comp tC
+  let a₂ := e_f.comp (e_g.comp tC)
+  let a₃ := e_f.comp (tB.comp p_g)
+  let a₄ := (e_f.comp tB).comp p_g
+  let a₅ := (tA.comp p_f).comp p_g
+  let a₆ := tA.comp (p_f.comp p_g)
+  let a₇ := tA.comp p_fg
+  let a_d := tA.comp p_d
+  let s₀ := (Functor.isoWhiskerRight
+    (ModuleCat.extendScalarsComp f.hom g.hom) (tilde.functor C)).hom
+  let s₁ := (Functor.associator (ModuleCat.extendScalars f.hom)
+    (ModuleCat.extendScalars g.hom) (tilde.functor C)).hom
+  let s₂ := (Functor.isoWhiskerLeft (ModuleCat.extendScalars f.hom)
+    (extendScalarsTildeIsoPullback B C g)).hom
+  let s₃ := (Functor.associator (ModuleCat.extendScalars f.hom)
+    (tilde.functor B) (Scheme.Modules.pullback (Spec.map g))).inv
+  let s₄ := (Functor.isoWhiskerRight
+    (extendScalarsTildeIsoPullback A B f)
+    (Scheme.Modules.pullback (Spec.map g))).hom
+  let s₅ := (Functor.associator (tilde.functor A)
+    (Scheme.Modules.pullback (Spec.map f))
+    (Scheme.Modules.pullback (Spec.map g))).hom
+  let s₆ := (Functor.isoWhiskerLeft (tilde.functor A)
+    (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f))).hom
+  let r₀ := (extendScalarsTildeIsoPullback A C (f ≫ g)).hom
+  let r₁ := (Functor.isoWhiskerLeft (tilde.functor A)
+    (Scheme.Modules.pullbackCongr
+      (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+        @Spec.map_comp A B C f g))).hom
+  apply (conjugateIsoEquiv a₇ a₀).injective
+  apply Iso.ext
+  simp only [conjugateIsoEquiv_apply_hom, Iso.trans_hom]
+  change conjugateEquiv a₇ a₀ (s₀ ≫ s₁ ≫ s₂ ≫ s₃ ≫ s₄ ≫ s₅ ≫ s₆) =
+    conjugateEquiv a₇ a₀ (r₀ ≫ r₁)
+  rw [conjugateEquiv_comp_seven a₀ a₁ a₂ a₃ a₄ a₅ a₆ a₇
+      s₀ s₁ s₂ s₃ s₄ s₅ s₆,
+    conjugateEquiv_comp_two a₀ a_d a₇ r₀ r₁]
+  dsimp only [a₀, a₁, a₂, a₃, a₄, a₅, a₆, a₇, a_d,
+    s₀, s₁, s₂, s₃, s₄, s₅, s₆, r₀, r₁]
+  simp only [Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom]
+  have hE_f := conjugateEquiv_extendScalarsTildeIsoPullback_hom A B f
+  change conjugateEquiv (tA.comp p_f) (e_f.comp tB)
+    (extendScalarsTildeIsoPullback A B f).hom =
+      (gammaPushforwardIsoRestrictScalars A B f).hom at hE_f
+  have hE_g := conjugateEquiv_extendScalarsTildeIsoPullback_hom B C g
+  change conjugateEquiv (tB.comp p_g) (e_g.comp tC)
+    (extendScalarsTildeIsoPullback B C g).hom =
+      (gammaPushforwardIsoRestrictScalars B C g).hom at hE_g
+  have hE_fg := conjugateEquiv_extendScalarsTildeIsoPullback_hom A C (f ≫ g)
+  change conjugateEquiv (tA.comp p_d) (e_fg.comp tC)
+    (extendScalarsTildeIsoPullback A C (f ≫ g)).hom =
+      (gammaPushforwardIsoRestrictScalars A C (f ≫ g)).hom at hE_fg
+  have hext := conjugateEquiv_extendScalarsComp_hom f.hom g.hom
+  change conjugateEquiv (e_f.comp e_g) e_fg
+    (ModuleCat.extendScalarsComp f.hom g.hom).hom =
+      (ModuleCat.restrictScalarsComp f.hom g.hom).inv at hext
+  rw [conjugateEquiv_whiskerLeft p_fg (p_f.comp p_g) tA,
+    conjugateEquiv_pullbackComp_hom,
+    conjugateEquiv_associator_hom tA p_f p_g,
+    conjugateEquiv_whiskerRight
+      (tA.comp p_f) (e_f.comp tB) p_g,
+    hE_f,
+    conjugateEquiv_associator_inv e_f tB p_g,
+    conjugateEquiv_whiskerLeft
+      (tB.comp p_g) (e_g.comp tC) e_f,
+    hE_g,
+    conjugateEquiv_associator_hom e_f e_g tC,
+    conjugateEquiv_whiskerRight (e_f.comp e_g) e_fg tC,
+    hext,
+    conjugateEquiv_whiskerLeft
+      p_fg p_d tA,
+    conjugateEquiv_pullbackCongr_hom,
+    hE_fg]
+  rw [← pushforwardCongr_symm_hom (@Spec.map_comp A B C f g)]
+  simpa only [gammaPushforwardIsoRestrictScalarsCompPathRaw, Iso.trans_hom,
+    Iso.symm_hom, Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom] using
+      congrArg Iso.hom (gammaPushforwardIsoRestrictScalars_comp A B C f g)
 
 private noncomputable def extendScalarsTildeIsoRestrict
     (A B : CommRingCat.{u}) (f : A ⟶ B)
@@ -810,6 +1077,86 @@ private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_flat_ep
     simpa [P] using (extendedInverseIdeal_eq_span R B K D).symm
   exact (P.tensorEquivSpan B).trans (LinearEquiv.ofEq _ _ hP)
 
+/-- Extension of an inverse divisor ideal through a flat epimorphic scalar tower agrees with
+the inverse divisor ideal obtained by extending directly to the top ring. -/
+noncomputable def extendedInverseIdealBaseChangeEquiv
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    C ⊗[B] extendedInverseIdeal R B K D ≃ₗ[C]
+      extendedInverseIdeal R C K D :=
+  ((extendedInverseIdeal R B K D).tensorEquivSpan C).trans
+    (LinearEquiv.ofEq _ _ (extendedInverseIdeal_span_tower R B C K D))
+
+/-- The tower base-change equivalence is the evident multiplication map inside the common
+fraction field. -/
+lemma extendedInverseIdealBaseChangeEquiv_apply_tmul
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) (c : C)
+    (x : extendedInverseIdeal R B K D) :
+    ((extendedInverseIdealBaseChangeEquiv R B C K D) (c ⊗ₜ x) : K) =
+      c • (x : K) := by
+  rfl
+
+/-- Equality-induced maps between two overlap inverse ideals commute with extension to a
+further flat epimorphic overlap.  This is the module-level naturality square needed when a
+pairwise overlap is pulled back to a triple overlap. -/
+theorem extendedInverseIdealEquiv_baseChange
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+    ((extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h).baseChange B C).trans
+        (extendedInverseIdealBaseChangeEquiv R₂ B C K D₂) =
+      (extendedInverseIdealBaseChangeEquiv R₁ B C K D₁).trans
+        (extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC) := by
+  let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+  dsimp only
+  apply LinearEquiv.ext
+  intro z
+  induction z using TensorProduct.induction_on with
+  | zero => simp only [map_zero]
+  | tmul c x =>
+      apply Subtype.ext
+      simp only [LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
+      change c • (x : K) = c • (x : K)
+      rfl
+  | add x y hx hy => simp only [map_add, hx, hy]
+
 private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
@@ -885,6 +1232,165 @@ private noncomputable def chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
     (extendedInverseIdeal R B K D) <|
       ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
         (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)
+
+private lemma extendScalarsCarrierEquiv_apply_tmul
+    (R B M N : Type u) [CommRing R] [CommRing B]
+    [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module B N]
+    [Algebra R B]
+    (e : B ⊗[R] M ≃ₗ[B] N) (b : B) (m : M) :
+    extendScalarsCarrierEquiv R B M N e (b ⊗ₜ[R] m) = e (b ⊗ₜ[R] m) := by
+  change ((TensorProduct.AlgebraTensorModule.congr
+      (LinearEquiv.refl B B) (LinearEquiv.refl R M)).trans e)
+      (b ⊗ₜ[R] m) = e (b ⊗ₜ[R] m)
+  simp
+
+private noncomputable def extendedInverseIdealBaseChangeModuleEquiv
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (ModuleCat.extendScalars (algebraMap B C)).obj
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) ≃ₗ[C]
+      extendedInverseIdeal R C K D :=
+  extendScalarsCarrierEquiv B C _ _
+    (extendedInverseIdealBaseChangeEquiv R B C K D)
+
+private lemma extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (x : extendedInverseIdeal R B K D) :
+    ((extendedInverseIdealBaseChangeModuleEquiv R B C K D)
+        ((1 : C) ⊗ₜ[B] x) : K) = (x : K) := by
+  rw [show extendedInverseIdealBaseChangeModuleEquiv R B C K D =
+      extendScalarsCarrierEquiv B C _ _
+        (extendedInverseIdealBaseChangeEquiv R B C K D) from rfl]
+  rw [extendScalarsCarrierEquiv_apply_tmul,
+    extendedInverseIdealBaseChangeEquiv_apply_tmul, one_smul]
+
+private lemma chosenModuleBaseChangeEquivExtended_apply_one_tmul
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (m : AffineDedekind.lineBundleModule R K D) :
+    ((chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D)
+        ((1 : B) ⊗ₜ[R] m) : K) =
+      (chosenModuleEquivOriginalInverseIdeal R K D m : K) := by
+  rw [show chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D =
+      extendScalarsCarrierEquiv R B
+        (AffineDedekind.lineBundleModule R K D)
+        (extendedInverseIdeal R B K D)
+        (((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
+          (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)) from rfl]
+  rw [extendScalarsCarrierEquiv_apply_tmul]
+  simp only [
+    originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion,
+    originalInverseIdealBaseChangeEquivExtended_of_flat_epi,
+    LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
+  change (1 : B) • (chosenModuleEquivOriginalInverseIdeal R K D m : K) = _
+  rw [one_smul]
+
+private lemma extendScalarsCongr_inv_app_one_tmul
+    {R₁ R₂ R₃ : Type u} [CommRing R₁] [CommRing R₂] [CommRing R₃]
+    (f₁₂ : R₁ →+* R₂) (f₂₃ : R₂ →+* R₃) (f₁₃ : R₁ →+* R₃)
+    (h : f₂₃.comp f₁₂ = f₁₃) (M : ModuleCat R₁) (m : M) :
+    (eqToIso (congrArg (fun f : R₁ →+* R₃ ↦
+        (ModuleCat.extendScalars f).obj M) h)).inv
+        ((1 : R₃) ⊗ₜ[R₁,f₁₃] m) =
+      (1 : R₃) ⊗ₜ[R₁,f₂₃.comp f₁₂] m := by
+  subst f₁₃
+  rfl
+
+private theorem chosenModuleBaseChangeEquivExtended_tower
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [IsOpenImmersion (extensionMap B C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let M := chosenModule R K D
+    let hcomp : (algebraMap B C).comp (algebraMap R B) = algebraMap R C :=
+      (IsScalarTower.algebraMap_eq R B C).symm
+    (eqToIso (congrArg (fun f : R →+* C ↦
+          (ModuleCat.extendScalars f).obj M) hcomp)).inv ≫
+        (ModuleCat.extendScalarsComp (algebraMap R B) (algebraMap B C)).hom.app M ≫
+        (ModuleCat.extendScalars (algebraMap B C)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso.hom ≫
+        (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom =
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R C K D).toModuleIso.hom := by
+  let M := chosenModule R K D
+  let hcomp : (algebraMap B C).comp (algebraMap R B) = algebraMap R C :=
+    (IsScalarTower.algebraMap_eq R B C).symm
+  dsimp only
+  apply (ModuleCat.extendRestrictScalarsAdj (algebraMap R C)).homEquiv _ _ |>.injective
+  ext m
+  rw [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
+  let x := (eqToIso (congrArg (fun f : R →+* C ↦
+      (ModuleCat.extendScalars f).obj M) hcomp)).inv ((1 : C) ⊗ₜ[R] m)
+  have hx : x = (1 : C) ⊗ₜ[R,(algebraMap B C).comp (algebraMap R B)] m :=
+    extendScalarsCongr_inv_app_one_tmul
+      (algebraMap R B) (algebraMap B C) (algebraMap R C) hcomp M m
+  let y := (ModuleCat.extendScalarsComp
+    (algebraMap R B) (algebraMap B C)).hom.app M x
+  let y₀ := (ModuleCat.extendScalarsComp
+    (algebraMap R B) (algebraMap B C)).hom.app M
+      ((1 : C) ⊗ₜ[R,(algebraMap B C).comp (algebraMap R B)] m)
+  have hy : y = y₀ := by
+    dsimp only [y, y₀]
+    rw [hx]
+    rfl
+  have hy₀ := ModuleCat.extendScalarsComp_hom_app_one_tmul
+    (algebraMap R B) (algebraMap B C) M m
+  change y₀ = _ at hy₀
+  let z := (ModuleCat.extendScalars (algebraMap B C)).map
+    (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso.hom y
+  have hz : z = (1 : C) ⊗ₜ[B,algebraMap B C]
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D
+        ((1 : B) ⊗ₜ[R] m)) := by
+    dsimp only [z]
+    rw [hy, hy₀]
+    rfl
+  change (extendedInverseIdealBaseChangeModuleEquiv R B C K D z :
+      extendedInverseIdeal R C K D) =
+    chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R C K D
+      ((1 : C) ⊗ₜ[R] m)
+  rw [hz]
+  apply Subtype.ext
+  trans (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D
+    ((1 : B) ⊗ₜ[R] m) : K)
+  · exact extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul
+      R B C K D _
+  · rw [chosenModuleBaseChangeEquivExtended_apply_one_tmul,
+      chosenModuleBaseChangeEquivExtended_apply_one_tmul]
 
 /-- On every affine open immersion between the chart spectrum and a common overlap spectrum,
 restriction of the chosen affine divisor line bundle is *specified* by tilde of the extended
