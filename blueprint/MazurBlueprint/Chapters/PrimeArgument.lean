@@ -107,16 +107,24 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_addOrderOf`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_minimalCompletionAtFive_j`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
 exhaustive reduction-type trichotomy and the checked tame-additive consumer
 then prove good reduction. The completion-level consumer carries that same
 marked point through the selected integral model, exact-order reduction, and
-the residue-field equivalence to the checked `𝔽₅` contradiction. The modular
-integral-`j` input, genuine Néron filtration, and global-to-local marked-point
-and minimal-model transport are still required, so this node receives no
-completion credit.
+the residue-field equivalence to the checked `𝔽₅` contradiction. The rational
+point is now base-changed and carried through Mathlib's selected minimal
+variable change with unchanged exact order; `j`-invariance and the completion
+valuation comparison return the local hypothesis to the rational curve. The
+modular integral-`j` input and genuine Néron filtration are still required, so
+this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

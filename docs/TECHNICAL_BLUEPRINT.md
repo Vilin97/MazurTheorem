@@ -1773,9 +1773,13 @@ additionally derives the elliptic integral model selected over the completed
 valuation ring, preserves the same point's order through `adicRed`, and
 transports its reduction to `ZMod 5`. Its downstream consumer joins the
 integral-`j`/tame-filtration trichotomy to this finite contradiction. The
-unsuffixed Néron-fibre theorem above remains the target before good reduction
-is known; these checked results do not supply the global-to-local marked-point
-and minimal-model transport or the missing special-fibre/component map.
+rational marked point is now base-changed to `ℚ₅` and transported through the
+inverse of the exact variable change selected by Mathlib's minimal-model
+construction, preserving its additive order. The minimal equation's `j` and
+valuation are proved equal to the image and five-adic valuation of the
+original rational `j`. The unsuffixed Néron-fibre theorem above remains the
+target before good reduction is known; these checked results do not supply the
+missing special-fibre/component map or its genuine additive filtration.
 
 The proof sequence is:
 

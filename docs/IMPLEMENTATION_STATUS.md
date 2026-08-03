@@ -64,9 +64,13 @@ Current machine-checked results include:
   consumer starts from Mathlib's minimal completed equation, derives an
   elliptic integral model from good reduction, preserves point order through
   `adicRed`, and transports the result to `ZMod 5`; the local integral-`j` and
-  supplied-filtration trichotomy feeds that endpoint directly. The
-  global-to-local marked-point/minimal-model bridge and the Néron special-fibre
-  and component-group maps needed before good reduction remain open;
+  supplied-filtration trichotomy feeds that endpoint directly. The rational
+  point is now base-changed to `ℚ₅`, transported through Mathlib's selected
+  minimal variable change with exact order preserved, and consumed by that
+  local endpoint. Invariance and valuation comparison identify its local `j`
+  premise with the original rational curve. The Néron special-fibre,
+  component-group, and actual filtration maps needed before good reduction
+  remain open;
 * an explicit algebraic tame-additive filtration contract, recording a
   component group of cardinality at most four, the additive residue quotient,
   exact identification of its kernel with the formal kernel, and

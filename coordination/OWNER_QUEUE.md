@@ -7,7 +7,7 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
-the completion-level local reduction/F₅ join (`48c32ac`),
+the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -34,7 +34,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `48c32ac` contains reviewed acceptance
+The combined owner history through `bcdbe51` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -73,10 +73,15 @@ valuation ring is proved elliptic, `adicRed` preserves the marked exact order,
 the canonical residue equivalence transports it to `ZMod 5`, and the checked
 ten-point enumeration gives the contradiction. A second theorem joins the
 integral-`j`/supplied-filtration trichotomy to that same point-level endpoint
-(`0cbab2f`, `48c32ac`). These ranges use only standard axioms. The actual Néron
-filtration, global-to-local marked-point and minimal-model transport, modular
-quotient identification, and formal-immersion input remain open, so no node
-credit is claimed.
+(`0cbab2f`, `48c32ac`). The rational point is now base-changed to the five-adic
+field and transported through the inverse of the exact variable change used
+by Mathlib's selected minimal model, with additive order preserved. The
+minimal equation's `j`-invariant and its local valuation are identified with
+the base-changed rational `j`, so the final rational-point consumer takes its
+integral-`j` premise on the original curve (`d36477e`, `bcdbe51`). These ranges
+use only standard axioms. The actual Néron filtration, modular quotient
+identification, and formal-immersion-to-integral-`j` input remain open, so no
+node credit is claimed.
 
 The preceding range forms the actual abelian Serre quotient by
 bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
@@ -471,9 +476,9 @@ within each lane follows the listed order.
    good-reduction theorem once the genuine filtration is supplied. The actual
    completed marked point then reduces with unchanged order and reaches the
    checked `F₅` contradiction through the canonical residue equivalence. This is
-   not node completion: the global-to-local point/minimal-model bridge and Néron
-   special-fibre/component specialization map used before good reduction is
-   still absent.
+   not node completion: the Néron special-fibre/component specialization map
+   and its actual additive filtration used before good reduction are still
+   absent.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -693,9 +698,9 @@ in `route_history`:
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the exhaustive trichotomy reaches good reduction from the
    supplied tame filtration. A real downstream consumer now carries the same
-   completed point through exact-order reduction to the `F₅` enumeration;
-   connect the modular potentially-good endpoint, global rational marked
-   point/minimal model, and genuine Néron data.
+   rational point through base change, the selected minimal variable change,
+   and exact-order reduction to the `F₅` enumeration; connect the modular
+   potentially-good/integral-`j` endpoint and genuine Néron data.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;

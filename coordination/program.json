@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1473978,
+    "integrated_lean_lines": 1474097,
     "integrated_lean_modules": 762,
     "remaining_composite_orders": [
       18,
@@ -5588,7 +5588,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer now carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The actual Neron filtration, global-to-local marked-point/minimal-model transport, and the implication from the modular formal-immersion endpoint to integral j remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is now base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. The actual Neron filtration and the implication from the modular formal-immersion endpoint to integral j remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5630,6 +5630,27 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
           "description": "Join integral j and the supplied genuine tame additive filtration through the reduction trichotomy to the completion-level F_5 point-order contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_addOrderOf",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Preserve exact additive order while base-changing a rational point to Q_5 and transporting it through Mathlib's selected minimal variable change."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_minimalCompletionAtFive_j",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Identify the completed minimal equation's j valuation with the original rational curve's five-adic j valuation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Feed rational integral j, the genuine filtration on the selected minimal completion, and the transported rational point to the checked F_5 contradiction."
         }
       ],
       "depends_on": [
