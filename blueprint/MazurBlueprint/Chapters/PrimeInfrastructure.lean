@@ -449,6 +449,16 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfProjectiveCubic`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfCanonicalProjectiveCubic`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affineEquationToStandardChartRingEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardOpenMap_opensRange_eq_preimage_basicOpen`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartComparison`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfStandardChartComparison`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -482,7 +492,15 @@ recovered-point morphism. Chart-ring extensionality and invariance of the ambien
 closed point under affine normalization prove that this recovered morphism equals
 the original. The canonical projective-point map is therefore surjective and,
 together with the earlier injectivity proof, bijective. The scheme group law,
-geometric integrality, `E/C`,
+The affine equation quotient is now isomorphic to the localized homogeneous
+standard chart. For every field extension, the canonical standard open of the
+actual pullback is constructed by pulling back `Proj.awayι`; it is an open
+immersion whose range is exactly the inverse image of `D₊(Z)`. A checked
+comparison structure isolates the remaining projective base-change
+isomorphism, chart/open isomorphism, and density. Its projective isomorphism
+derives target reducedness, and its consumer reaches both geometric
+integrality and Tau Ceti's abelian-variety constructor. Those three comparison
+fields are not yet constructed. The scheme group law, `E/C`,
 the coarse modular point, and the required Atkin--Lehner geometry remain open,
 so this node receives no completion credit.
 :::
