@@ -73,8 +73,10 @@ of a one-object descent datum along the chart open immersion and proves its
 normalization. Reviewed checkpoint `243b1e9` proves that the inverse-ideal
 restriction maps through three chart models compose on one fixed common
 Dedekind affine open and consumes this for the actual arbitrary-divisor
-`O(D)` bundles. Naturality from separately chosen pairwise pullbacks to the
-common triple pullback, general effectivity, and comparison with the
+`O(D)` bundles. Checkpoint `51131e2` maps Mathlib's chosen triple overlap to
+the actual affine triple chart intersection and proves compatibility through
+all three chosen pairwise faces. Comparing the three pulled inverse-ideal
+transports on that common model, general effectivity, and comparison with the
 separately reconstructed principal cocycle remain open.
 
 Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
@@ -123,14 +125,15 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `CurveLineBundleOverlapNaturality`,
+`CurveLineBundleTripleIntersection`,
 `XZeroWeierstrassGeometricIntegrality`,
 `XZeroWeierstrassProjectivePlaneBaseChange`, `OrderElevenModelInverse`,
 `XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 747 integrated Lean
-sources / 1,467,827 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 748 integrated Lean
+sources / 1,468,131 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -289,10 +292,12 @@ within each lane follows the listed order.
    checked: coherent one-object descent along each open immersion proves the
    diagonal identity. On a fixed common Dedekind affine open the actual three
    arbitrary-divisor restriction maps now compose to the direct comparison.
-   The missing geometric construction is pairwise-to-triple base-change naturality,
-   followed by comparison of the arbitrary-divisor presentations, general module effectivity, object
-   separation, rational normalization, tensor-additivity, and Picard
-   surjectivity; no A3 credit is claimed.
+   The chosen triple overlap now maps to the actual affine triple intersection,
+   compatibly with all three pairwise faces. The missing geometric construction
+   is compatibility of the inverse-ideal transports with those base changes,
+   followed by comparison of the arbitrary-divisor presentations, general
+   module effectivity, object separation, rational normalization,
+   tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
@@ -606,10 +611,10 @@ or accounting shortcut.
 ## Active critical assignments
 
 - `codex/owner-a3-triple-coherence`: canonical pairwise-overlap pullback
-  naturality and affine-intersection projection laws are reviewed and
-  integrated. Next compare the three canonical pairwise transports on the
-  chosen triple intersection and relate them to the normalized transition Iso
-  in an actual descent datum.
+  naturality, affine-intersection projection laws, and the common triple
+  intersection comparison through all three faces compile. Next compare the
+  three canonical inverse-ideal transports after pullback to that common model
+  and relate them to the normalized transition Iso in an actual descent datum.
 - `codex/owner-projective-plane-pullback-iso`: the coefficient-extension
   graded map, actual `P²_L ⟶ P²_K`, coordinate-away square, cubic zero-locus
   transport, and conditional ambient consumer are reviewed and integrated.

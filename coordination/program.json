@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1467827,
-    "integrated_lean_modules": 747,
+    "integrated_lean_lines": 1468131,
+    "integrated_lean_modules": 748,
     "remaining_composite_orders": [
       18,
       25,
@@ -1108,7 +1108,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps satisfy genuine triple transitivity. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer now compile. The chosen-overlap/full-descent comparison makes the reconstructed principal cocycle effective with the global trivial line bundle as witness. Comparing all three separately chosen pairwise transports on the common triple model, relating the canonical Hom to the normalized transition Iso, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps satisfy genuine triple transitivity. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer now compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection, and its restrictions through all three chosen pairwise faces agree with their affine-intersection comparison maps. The chosen-overlap/full-descent comparison makes the reconstructed principal cocycle effective with the global trivial line bundle as witness. Comparing the three pulled inverse-ideal transports on that common triple model, relating the canonical Hom to the normalized transition Iso, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1156,6 +1156,20 @@
           "state": "contract",
           "description": "Real arbitrary-divisor consumer applying canonical pairwise pullback transport to the inverse-ideal comparison on a proper smooth curve.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection",
+          "state": "contract",
+          "description": "Map Mathlib's chosen threefold overlap to the spectrum of the actual triple affine chart intersection.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTripleIntersection"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_fromSpec",
+          "state": "contract",
+          "description": "Verify that the triple-intersection comparison has the chosen threefold overlap's structural map to the curve; its three face-specific consumers are checked in the same module.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTripleIntersection"
         },
         {
           "kind": "structure",
