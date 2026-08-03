@@ -258,6 +258,73 @@ section SmoothCurve
 
 variable {X Y : Scheme.{u}}
 
+/-- The coefficient ring homomorphism from the base field to the stalk at a field-valued point,
+constructed from the structural morphism.  The unique point of `Spec K` identifies the source of
+the structural stalk map with the closed-point stalk. -/
+noncomputable def rationalPointStalkCoeffRingHom
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (π : X ⟶ Spec (.of K)) (g : Spec (.of K) ⟶ X) :
+    K →+* X.presheaf.stalk (g (IsLocalRing.closedPoint K)) :=
+  ((stalkClosedPointIso (.of K)).inv ≫
+    ((Spec (.of K)).presheaf.stalkCongr (.of_eq
+      (Subsingleton.elim (IsLocalRing.closedPoint K)
+        (π (g (IsLocalRing.closedPoint K)))))).hom ≫
+    π.stalkMap (g (IsLocalRing.closedPoint K))).hom
+
+/-- When `g` is a section of the structural morphism, its local map retracts the structural
+coefficient homomorphism. -/
+theorem stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (π : X ⟶ Spec (.of K)) (g : Spec (.of K) ⟶ X)
+    (hsection : g ≫ π = 𝟙 (Spec (.of K))) :
+    (Scheme.stalkClosedPointTo g).hom.comp
+        (rationalPointStalkCoeffRingHom K X π g) =
+      RingHom.id K := by
+  let e₁ : Inseparable (IsLocalRing.closedPoint K)
+      (π (g (IsLocalRing.closedPoint K))) :=
+    .of_eq (Subsingleton.elim _ _)
+  let e₂ : Inseparable (π (g (IsLocalRing.closedPoint K)))
+      (IsLocalRing.closedPoint K) :=
+    .of_eq (by
+      change (g ≫ π) (IsLocalRing.closedPoint K) =
+        (𝟙 (Spec (.of K))) (IsLocalRing.closedPoint K)
+      rw [hsection])
+  have hcongr :
+      ((Spec (.of K)).presheaf.stalkCongr e₁).hom ≫
+          ((Spec (.of K)).presheaf.stalkCongr e₂).hom =
+        𝟙 _ := by
+    have he : e₂ = e₁.symm := Subsingleton.elim _ _
+    rw [he]
+    exact ((Spec (.of K)).presheaf.stalkCongr e₁).hom_inv_id
+  have hcat :
+      (stalkClosedPointIso (.of K)).inv ≫
+        ((Spec (.of K)).presheaf.stalkCongr e₁).hom ≫
+          π.stalkMap (g (IsLocalRing.closedPoint K)) ≫
+            Scheme.stalkClosedPointTo g =
+        𝟙 (CommRingCat.of K) := by
+    rw [← Scheme.stalkClosedPointTo_comp g π]
+    unfold Scheme.stalkClosedPointTo
+    rw [Scheme.Hom.stalkMap_congr_hom (g ≫ π) (𝟙 (Spec (.of K))) hsection
+      (IsLocalRing.closedPoint (CommRingCat.of K))]
+    rw [Scheme.Hom.stalkMap_id (Spec (.of K))
+      (IsLocalRing.closedPoint (CommRingCat.of K))]
+    change
+      (stalkClosedPointIso (.of K)).inv ≫
+          ((Spec (.of K)).presheaf.stalkCongr e₁).hom ≫
+            ((Spec (.of K)).presheaf.stalkCongr e₂).hom ≫
+              (𝟙 _ : (Spec (.of K)).presheaf.stalk _ ⟶ _) ≫
+                (stalkClosedPointIso (.of K)).hom =
+        𝟙 (CommRingCat.of K)
+    simp only [Category.id_comp]
+    rw [← Category.assoc
+        ((Spec (.of K)).presheaf.stalkCongr e₁).hom
+        ((Spec (.of K)).presheaf.stalkCongr e₂).hom
+        (stalkClosedPointIso (.of K)).hom,
+      hcongr, Category.id_comp, Iso.inv_hom_id]
+  simpa only [rationalPointStalkCoeffRingHom, CommRingCat.hom_comp,
+    CommRingCat.hom_id, RingHom.comp_assoc] using
+    CommRingCat.hom_ext_iff.mp hcat
+
 /-- The checked completed-stalk coordinate at a non-generic point of a smooth integral curve.
 The explicit algebra and residue-surjectivity hypotheses are the honest equal-characteristic
 coefficient-field input. -/
@@ -299,6 +366,24 @@ noncomputable def rationalPointStalkCompletionRingEquiv
   exact stalkCompletionRingEquivOfRetraction
     (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) K
     (Scheme.stalkClosedPointTo g).hom hretract q hq
+
+/-- The completed-stalk coordinate at an actual rational section of a smooth curve.  The
+structural morphism constructs the coefficient algebra, and the section equation proves the local
+retraction, so neither is left as an external instance or hypothesis. -/
+noncomputable def rationalSectionStalkCompletionRingEquiv
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (g : Spec (.of K) ⟶ X) (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q) :
+    Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)) ≃+* PowerSeries K := by
+  letI : Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) :=
+    (rationalPointStalkCoeffRingHom K X π g).toAlgebra
+  apply rationalPointStalkCompletionRingEquiv K X π g hx
+    (q := q) (hq := hq)
+  simpa only [RingHom.algebraMap_toAlgebra] using
+    stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom K X π g hsection
 
 /-- A normalized first-`q` expansion in the coordinate constructed from the actual smooth-curve
 stalk proves the formal-immersion predicate.  In particular, this consumer no longer assumes
@@ -382,6 +467,41 @@ theorem isFormalImmersionAt_of_rationalPointStalkDVR_normalizedQExpansion
     targetParameter c hc F
   simpa only [rationalPointStalkCompletionRingEquiv,
     smoothCurveStalkCompletionRingEquiv, stalkCompletionRingEquivOfRetraction] using hqExpansion
+
+/-- Cusp-facing formal-immersion consumer for an actual rational section of the structural
+morphism.  The section constructs and retracts the coefficient algebra, leaving only the
+geometric non-genericity, a local uniformizer, and the normalized first-`q` expansion as explicit
+inputs. -/
+theorem isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F) :
+    AlgebraicGeometry.IsFormalImmersionAt f (g (IsLocalRing.closedPoint K)) := by
+  letI : Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) :=
+    (rationalPointStalkCoeffRingHom K X π g).toAlgebra
+  apply isFormalImmersionAt_of_rationalPointStalkDVR_normalizedQExpansion
+    K X π Y f g hx
+    (stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom K X π g hsection)
+    q hq targetParameter c hc F
+  simpa only [rationalSectionStalkCompletionRingEquiv,
+    RingHom.algebraMap_toAlgebra] using hqExpansion
 
 /-- The completed-stalk DVR bridge and normalized expansion separate actual local-spectrum
 morphisms.  This is the downstream collision test for the constructed coordinate. -/
