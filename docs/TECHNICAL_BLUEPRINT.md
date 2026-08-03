@@ -1559,6 +1559,18 @@ and rank-zero consumers.  A full Oort--Tate classification or generic
 connected--étale package is out of the theorem cone unless one of those
 consumers demonstrates that it is necessary.
 
+The checked low-degree fppf sequence now has a non-circular cardinal bound:
+an actual quotient presentation supplies all exactness proofs, while callers
+supply five endpoint cardinal certificates and only finiteness of the middle
+`H¹`. Over `Spec ℤ`, the constant order-`p` factor has `p` global sections and
+`mu_p` has one global section for odd `p`. A recursive theorem consumes the
+integral `H⁰` certificate of one admissible elementary kernel, and the actual
+two-elementary-factor quotient is a compiled downstream consumer. This
+finite-flat interface does not yet express the two quasi-finite closures at
+primes dividing the level that occur in Mazur III.3. Their coefficient API,
+elementary `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and the focused
+rank-zero specialization remain open.
+
 Tau Ceti's Jacobian work and later mathlib developments should still be
 monitored before independently building every generic algebraic-geometric
 layer.

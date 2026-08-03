@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1460254,
+    "integrated_lean_lines": 1460284,
     "integrated_lean_modules": 723,
     "remaining_composite_orders": [
       18,
@@ -3043,7 +3043,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor now consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative elementary factors have checked H0 cardinal certificates, consumed by an actual one-step quotient bound.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor now consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative elementary factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Mazur's required quasi-finite closures at primes dividing the level remain outside this finite-flat interface.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3201,10 +3201,17 @@
         },
         {
           "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections",
+          "description": "Consume the checked integral H0 cardinality of one admissible elementary kernel in the actual quotient H1 bound, leaving quotient certificates and middle-H1 finiteness explicit for recursive finite-flat use."
+        },
+        {
+          "kind": "theorem",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.fppfHOne_natCard_le_pow_int",
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections",
-          "description": "Consume both elementary H0 certificates in the actual quotient-presentation H1 bound, while retaining explicit endpoint H1 data and middle-H1 finiteness."
+          "description": "Provide the checked two-elementary-factor downstream consumer of the recursive finite-flat kernel theorem, while retaining explicit endpoint H1 data and middle-H1 finiteness."
         },
         {
           "kind": "theorem",

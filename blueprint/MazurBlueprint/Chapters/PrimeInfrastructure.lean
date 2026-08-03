@@ -118,8 +118,12 @@ zero-cochain as local lifts proves exactness at kernel `H¹`. A quotient-valued
 trivializing gauge also lifts on a genuine refinement, proving the reverse
 inclusion at middle `H¹`. Over `Spec ℤ`, the constant order-`p` factor has `p`
 global sections and the odd multiplicative factor has one; these checked
-cardinal certificates feed a one-step quotient bound. The next boundary is
-the elementary-factor `H¹` comparison and middle-`H¹` finiteness.
+cardinal certificates feed a reusable quotient bound with one admissible
+elementary kernel, and the two-elementary-factor step consumes that recursive
+interface. This finite-flat API does not yet represent Mazur's two quasi-finite
+closures at the primes dividing the level. The next boundary is their exact
+coefficient interface, elementary-factor `H⁰`/`H¹` comparisons, and
+middle-`H¹` finiteness.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -166,6 +170,8 @@ the elementary-factor `H¹` comparison and middle-`H¹` finiteness.
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.basePointCertifiedDataInt`
 * `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt`
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.fppfHOne_natCard_le_pow_int`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
@@ -195,9 +201,11 @@ finiteness of the middle global `H¹` imply its cardinal bound. It no longer
 assumes the exact cardinal of the group being bounded. The two elementary
 `H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
 constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
-odd `p`. The middle `H⁰` certificate, elementary-factor `H¹` certificates,
-middle-`H¹` finiteness proof, and focused rank-zero specialization are still
-absent, so no node credit is claimed.
+odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
+explicit for recursive finite-flat use, and the actual two-factor theorem is
+its compiled consumer. The quasi-finite bad-level factors, their `H⁰`/`H¹`
+certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
+are still absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

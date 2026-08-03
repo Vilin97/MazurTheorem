@@ -12,8 +12,9 @@ import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientEule
 This file computes the degree-zero terms needed by the finite-flat Euler estimate over
 `Spec ℤ`.  Global sections of a constant finite group scheme over an integral domain are exactly
 the constant sections.  For an odd prime, the only integral point of `mu_p` is `1`.  These
-computations give honest `FinitePGroup.CertifiedData` for both elementary factors and are consumed
-by an actual one-step admissible quotient bound.
+computations give honest `FinitePGroup.CertifiedData` for both elementary factors.  A recursive
+actual-quotient theorem consumes one kernel certificate, and the two-elementary-factor step is its
+checked downstream consumer.
 
 No comparison with fppf `H¹`, Kummer sequence, quasi-finite extension-by-zero factor, or
 middle-`H¹` finiteness theorem is asserted here.
@@ -171,6 +172,36 @@ theorem basePointCertifiedDataInt_length
 
 end AdmissibleSimpleFactor
 
+namespace FppfQuotientPresentation
+
+/-- An actual quotient over `Spec ℤ` whose kernel is one admissible elementary factor consumes
+that kernel's checked `H⁰` cardinality directly.  This is the recursive extension-step form:
+the quotient's `H⁰` and `H¹` data, the middle `H⁰`, and mere finiteness of the middle `H¹` remain
+explicit for the next filtration layer. -/
+theorem fppfHOne_natCard_le_pow_of_admissibleKernelInt
+    {p : ℕ} [NeZero p]
+    {G : FiniteFlatCommGroupScheme (Spec (.of ℤ))}
+    (D : FppfQuotientPresentation G)
+    (kernelFactor : AdmissibleSimpleFactor ℤ p D.kernelPresentation.kernel)
+    (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
+    (quotientHZeroData : FinitePGroup.CertifiedData p (BasePoint D.quotient))
+    (kernelHOneData : FinitePGroup.CertifiedData p
+      D.kernelPresentation.kernel.FppfHOne.{0})
+    (middleHOneFinite : Finite G.FppfHOne.{0})
+    (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{0})
+    (hp : p.Prime) (hp2 : p ≠ 2) (bound : ℕ)
+    (hbound :
+      middleHZeroData.length + kernelHOneData.length + quotientHOneData.length ≤
+        bound + kernelFactor.hZeroLength + quotientHZeroData.length) :
+    Nat.card G.FppfHOne.{0} ≤ p ^ bound := by
+  have hpOdd : Odd p := hp.odd_of_ne_two hp2
+  apply FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
+    D (kernelFactor.basePointCertifiedDataInt hpOdd) middleHZeroData
+    quotientHZeroData kernelHOneData middleHOneFinite quotientHOneData hp bound
+  simpa using hbound
+
+end FppfQuotientPresentation
+
 namespace AdmissibleFiltrationStep
 
 /-- One actual admissible quotient step over `Spec ℤ` consumes the checked elementary-factor
@@ -192,11 +223,10 @@ theorem fppfHOne_natCard_le_pow_int
         bound + D.kernelFactor.hZeroLength + D.quotientFactor.hZeroLength) :
     Nat.card G.FppfHOne.{0} ≤ p ^ bound := by
   have hpOdd : Odd p := D.prime.odd_of_ne_two hp2
-  apply FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
-    D.toFppfQuotientPresentation
-    (D.kernelFactor.basePointCertifiedDataInt hpOdd) middleHZeroData
+  apply D.toFppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt
+    D.kernelFactor middleHZeroData
     (D.quotientFactor.basePointCertifiedDataInt hpOdd) kernelHOneData
-    middleHOneFinite quotientHOneData D.prime bound
+    middleHOneFinite quotientHOneData D.prime hp2 bound
   simpa using hbound
 
 end AdmissibleFiltrationStep
