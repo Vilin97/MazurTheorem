@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1460640,
+    "integrated_lean_lines": 1460759,
     "integrated_lean_modules": 724,
     "remaining_composite_orders": [
       18,
@@ -1062,7 +1062,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Direct transport now makes the principal Picard-boundary datum effective with the global trivial line bundle as witness. Arbitrary-divisor cocycle coherence and effectivity, comparison with the chosen-overlap principal cocycle, object separation, rational normalization, and Picard surjectivity remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. The chosen-overlap/full-descent comparison now makes the actual reconstructed principal cocycle effective with the global trivial line bundle as witness. Arbitrary-divisor cocycle coherence and effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1482,6 +1482,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.ofDescentDataObjectIso_toDescentDataIso",
+          "state": "contract",
+          "description": "Identify the full descent datum reconstructed from an objectwise-transported chosen-overlap cocycle with its transported coherent source.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent.changeObjectsIso",
           "state": "contract",
           "description": "Identify a coherent descent datum with its objectwise transport by supplied local isomorphisms.",
@@ -1530,10 +1537,24 @@
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalDivisorDescentDataIso",
+          "state": "contract",
+          "description": "Identify the descent datum reconstructed from the normalized principal-divisor cocycle with the directly transported principal datum.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalDivisorCocycleEffectiveInvertible",
+          "state": "contract",
+          "description": "Exhibit the global trivial line bundle as an effective witness for the actual reconstructed principal-divisor cocycle.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalPicardBoundaryDatum_effective",
           "state": "contract",
-          "description": "Consume direct principal effectivity at the divisor-to-Picard boundary.",
+          "description": "Consume reconstructed principal-cocycle effectivity at the divisor-to-Picard boundary.",
           "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
         },
         {

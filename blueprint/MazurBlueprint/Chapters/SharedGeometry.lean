@@ -109,10 +109,11 @@ valuation-ring theorem and localization-cover gluing now prove integral closedne
 intersection's Dedekind instance and actual comparison therefore compile without a normality
 hypothesis. For principal divisors, direct objectwise transport of the canonical global trivial
 datum gives the specified local divisor line bundles, a full coherent descent datum, and a
-checked global trivial witness. The separately reconstructed chosen-overlap principal cocycle is
-also coherent, but its comparison with that directly transported datum remains missing. For
-arbitrary divisors, the pairwise intersection isomorphisms are already transported to the chosen
-descent pullbacks; normalized diagonal and triple-cocycle coherence remain missing.
+checked global trivial witness. The chosen-overlap/full-descent equivalence now identifies the
+separately reconstructed normalized principal cocycle with that transported datum, so the actual
+principal cocycle is unconditionally effective with the global trivial line bundle. For arbitrary
+divisors, the pairwise intersection isomorphisms are already transported to the chosen descent
+pullbacks; normalized diagonal and triple-cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -403,6 +404,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData`
   Convert the chosen-overlap cocycle into Mathlib coherent module descent data.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.ofDescentDataObjectIso_toDescentDataIso`
+  Identify the reconstructed full datum of an objectwise-transported cocycle with its coherent
+  source via Mathlib's chosen-overlap/full-descent equivalence.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent.changeObjectsIso`
   Identify a coherent descent datum with its objectwise transport by the supplied local
   isomorphisms.
@@ -425,9 +430,16 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalTransportEffectiveInvertible`
   Exhibit the global trivial line bundle as an effective witness for the directly transported
   principal-divisor datum.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalDivisorDescentDataIso`
+  Compare the actual reconstructed principal-divisor datum with the directly transported datum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalDivisorCocycleEffectiveInvertible`
+  Exhibit the global trivial line bundle as an effective witness for the actual reconstructed
+  principal-divisor cocycle.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalPicardBoundaryDatum_effective`
-  Consume that witness at the principal divisor-to-Picard boundary.
+  Consume reconstructed principal-cocycle effectivity at the divisor-to-Picard boundary.
 * `lemma` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff`
   Identify a coordinate-divisor coefficient with the global coefficient at the corresponding
