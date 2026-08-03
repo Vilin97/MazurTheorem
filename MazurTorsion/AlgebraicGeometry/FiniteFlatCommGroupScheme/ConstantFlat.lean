@@ -28,8 +28,9 @@ witnesses needed to descend the constant Hopf structure to `R^G[1/e_N]`.  The re
 scheme is flat, quasi-finite, quasi-compact, separated, and of finite presentation, and its map
 to the constant finite-flat group is an open immersion with range `D(e_N)`.
 
-For `R = ℤ`, `G = Multiplicative (ZMod p)`, and `N = p`, this is Mazur's elementary factor
-usually denoted `(Z/pZ)^flat`.  It is finite away from `p` but need not be finite over `ℤ`.
+For `R = ℤ` and `G = Multiplicative (ZMod p)`, this is Mazur's elementary factor usually
+denoted `(Z/pZ)^flat` at level `N`.  The coefficient prime `p` and the bad level `N` are
+independent parameters: the model is finite away from `N` but need not be finite over `ℤ`.
 -/
 
 noncomputable section
@@ -418,6 +419,15 @@ theorem constantFlatInclusionMap_hom (N : R) :
       constantFlatInclusion (G := G) N :=
   rfl
 
+/-- The typed quasi-finite inclusion retains the open-immersion property of its underlying
+scheme map. -/
+instance constantFlatInclusionMap_isOpenImmersion (N : R) :
+    IsOpenImmersion
+      (constantFlatInclusionMap (G := G) N).hom.hom.hom.hom.left := by
+  change IsOpenImmersion
+    (constantFlatInclusionSchemeMap (G := G) N)
+  exact constantFlatInclusionSchemeMap_isOpenImmersion (G := G) N
+
 @[simp]
 theorem constantFlatInclusion_left (N : R) :
     (constantFlatInclusion (G := G) N).hom.hom.hom.left =
@@ -449,6 +459,14 @@ theorem constantFlatInclusion_opensRange (N : R) :
     PrimeSpectrum.basicOpen (constantFlatElement (G := G) N)
   exact constantFlatInclusionSchemeMap_opensRange (G := G) N
 
+/-- The typed quasi-finite inclusion has the advertised componentwise principal-open range. -/
+theorem constantFlatInclusionMap_opensRange (N : R) :
+    ((constantFlatInclusionMap (G := G) N).hom.hom.hom.hom.left).opensRange =
+      PrimeSpectrum.basicOpen (constantFlatElement (G := G) N) := by
+  change ((constantFlatInclusion (G := G) N).hom.hom.hom.left).opensRange =
+    PrimeSpectrum.basicOpen (constantFlatElement (G := G) N)
+  exact constantFlatInclusion_opensRange (G := G) N
+
 /-- Over `D(N)`, every component of the finite constant model lies in the bad-level model.  This
 is the geometric consumer of the coordinate identity `e_N * e_N' = N`. -/
 theorem constantFlatInclusion_contains_levelOpen (N : R) :
@@ -459,12 +477,21 @@ theorem constantFlatInclusion_contains_levelOpen (N : R) :
   rw [constantFlatInclusionSchemeMap_opensRange]
   exact basicOpen_level_le_constantFlatElement (G := G) N
 
-/-- Mazur's elementary factor `(Z/pZ)^flat` over `Spec ℤ`.  The multiplicative type wrapper
+/-- The typed quasi-finite inclusion contains the whole constant family over `D(N)`. -/
+theorem constantFlatInclusionMap_contains_levelOpen (N : R) :
+    PrimeSpectrum.basicOpen (algebraMap R (ConstantCoordinates R G) N) ≤
+      ((constantFlatInclusionMap (G := G) N).hom.hom.hom.hom.left).opensRange := by
+  change PrimeSpectrum.basicOpen (algebraMap R (ConstantCoordinates R G) N) ≤
+    ((constantFlatInclusion (G := G) N).hom.hom.hom.left).opensRange
+  exact constantFlatInclusion_contains_levelOpen (G := G) N
+
+/-- Mazur's elementary factor `(Z/pZ)^flat` at bad level `N` over `Spec ℤ`.  The coefficient
+prime `p` and level `N` are deliberately separate parameters.  The multiplicative type wrapper
 turns the additive cyclic group `ZMod p` into the indexing commutative group used by the constant
 group-scheme API. -/
-noncomputable abbrev mazurConstantFlat (p : ℕ) [NeZero p] :
+noncomputable abbrev mazurConstantFlat (coeffPrime level : ℕ) [NeZero coeffPrime] :
     QuasiFiniteFlatCommGroupScheme (Spec (.of ℤ)) :=
-  constantFlat ℤ (Multiplicative (ZMod p)) (p : ℤ)
+  constantFlat ℤ (Multiplicative (ZMod coeffPrime)) (level : ℤ)
 
 end QuasiFiniteFlatCommGroupScheme
 end AlgebraicGeometry

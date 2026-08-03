@@ -888,7 +888,30 @@ isogeny, dual-isogeny, or quotient declarations, so it is useful future
 infrastructure rather than a present discharge of the `X₀(20)` or
 `X₀(24)` work.
 
-## 14. Global code search
+## 14. Mazur's bad-level elementary factors
+
+The integral scope and notation for the quasi-finite elementary factors were
+checked directly against Barry Mazur's
+[*Modular curves and the Eisenstein ideal*](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf),
+Chapter I §1, printed pp. 43--49, and the modern seminar exposition
+[*Admissible group schemes*](https://www.dpmms.cam.ac.uk/~jcsl5/mazur/4.Admissiblegroups.pdf),
+slides 14--20. These sources distinguish the coefficient prime `p` from the
+bad level `N` and identify the minimal extension as `j_!` from
+`Spec ℤ[1/N]`. They also show that the page-49 quotient terms are fppf
+sheaves supported on the fibre at `N`, not quasi-finite flat quotient group
+schemes.
+
+The local `constantFlat` Hopf localization is an independent Lean
+implementation of the componentwise principal open; no source code or
+computer-algebra transcript was copied. The former one-parameter
+specialization was repaired to `mazurConstantFlat coeffPrime level` before a
+downstream cohomology interface was accepted. The multiplicative-flat design
+is likewise being derived directly from the group-algebra trace element and
+will not use an unsupported Cartier-dual shortcut. The checked route therefore
+keeps quasi-finite admissible-filtration quotients separate from supported
+sheaf localization sequences.
+
+## 15. Global code search
 
 Exact searches for `torsion_ncard_le`, `mazur_classification`,
 `torsion_finite_rat`, and Lean versions of Merel's theorem found no completed
@@ -921,7 +944,7 @@ proof outside the projects above. In particular:
 * `hex-dev` supplies a licensed executable-resultant design, but the local
   elliptic syzygies avoid its incompatible option-bearing dependency cone.
 
-## 15. Reuse decision
+## 16. Reuse decision
 
 The implementation policy following this audit is:
 

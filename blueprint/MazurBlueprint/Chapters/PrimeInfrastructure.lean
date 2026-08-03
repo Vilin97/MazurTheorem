@@ -140,12 +140,16 @@ inclusion. A supplied quasi-finite fppf quotient now records its fppf
 projection and geometric kernel, proves represented-point exactness, and
 embeds the checked finite-flat quotient presentations compatibly. A reusable
 principal-open Hopf localization now constructs the actual bad-level constant
-factor `(Z/pZ)^flat`; its realized typed inclusion has the advertised
-componentwise principal-open range and contains the full constant family over
-the level open. The next boundary is to construct the multiplicative-flat
-factor and the quasi-finite exact sequences, then prove the `H⁰`/`H¹`
-comparisons and middle-`H¹`
-finiteness.
+factor `(Z/pZ)^flat` with coefficient `p` separate from level `N`; its realized
+typed inclusion has the advertised componentwise principal-open range and
+contains the full constant family over `D(N)`. Every integral global section
+at a nonunit level is now proved to be the identity, and a prime-level
+specialization packages this as cardinality `1 = p^0`. The next boundary is
+to construct the multiplicative-flat factor, the supported sheaf localization
+sequences, and the quasi-finite admissible-filtration exact sequences, then
+prove the remaining `H⁰`/`H¹` comparisons and middle-`H¹` finiteness. The
+supported bad-fibre quotients are not being represented as quasi-finite flat
+group schemes.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -192,11 +196,15 @@ finiteness.
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_hom`
 * `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_opensRange`
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_opensRange`
 * `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_contains_levelOpen`
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_contains_levelOpen`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlat`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatBasePoint_eq_one`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatBasePointCertifiedDataOfPrimeLevel`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -276,11 +284,13 @@ quasi-finite wrapper now compile and agree definitionally with the finite-flat
 API. Geometric kernel and fppf quotient presentations now extend this
 compatibility to arbitrary certified finite-flat kernels and quotient
 projections, including their chosen inclusions. The actual bad-level
-constant-flat factor now compiles as a principal-open Hopf localization with a
-realized range and level-open consumer. The multiplicative-flat factor, the
-quasi-finite extension-by-zero exact sequences
-and `H⁰`/`H¹` certificates, middle-`H¹` finiteness proof, and focused rank-zero
-specialization are still absent, so no node credit is claimed.
+constant-flat factor now compiles as a principal-open Hopf localization with
+distinct coefficient and level parameters, a typed realized range and
+level-open consumer, and certified trivial integral global sections. The
+multiplicative-flat factor, the supported sheaf localization sequences,
+quasi-finite admissible-filtration exact sequences, remaining `H⁰`/`H¹`
+certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
+are still absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

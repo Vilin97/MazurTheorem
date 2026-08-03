@@ -114,6 +114,15 @@ finite generation. The roadmap does not ask for a full Oort--Tate
 classification or connected--étale theory unless a named rank-zero consumer
 actually needs it.
 
+Here `p` is the coefficient prime of an admissible `p`-group, `N` is the
+modular level, and the formal-immersion reduction prime is a third parameter
+`ℓ` (`5`, or `11` for level `35`). Mazur assumes `p ≠ N` in the bad-level
+calculation. The two page-49 localization sequences have quotient sheaves
+supported on the fibre at `N`; those supported terms are not quasi-finite flat
+group schemes. They therefore belong in a sheaf-level locally-surjective exact
+interface, separately from the quasi-finite quotient presentations used for
+actual admissible filtrations.
+
 The formal-immersion proof itself needs less Hecke algebra than the old
 roadmap suggested.  In degree one, the cotangent map only has to detect the
 first Fourier coefficient.  A nonzero simultaneous Hecke eigenvector in the

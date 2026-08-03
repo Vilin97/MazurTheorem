@@ -87,8 +87,8 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`, and
 `ConstantFlat` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 732 integrated Lean
-sources / 1,463,093 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 733 integrated Lean
+sources / 1,463,300 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -139,12 +139,19 @@ presentation now records a supplied fppf projection and such a geometric
 kernel, proves exactness on represented points, and embeds every existing
 finite-flat quotient while retaining both its projection and kernel inclusion.
 A reusable principal-open Hopf localization now constructs the actual
-bad-level constant-flat factor `(Z/pZ)^flat`, its typed quasi-finite inclusion
-into the constant model, the exact componentwise principal-open range, and
-the containment of the full constant model over `D(p)`. The multiplicative-flat
-factor, the quasi-finite extension-by-zero exact sequences, the new factors'
-`H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
-remain, followed by the unramified Raynaud uniqueness input.
+bad-level constant-flat factor `(Z/pZ)^flat` with coefficient `p` separate
+from bad level `N`, its typed quasi-finite inclusion into the constant model,
+the exact componentwise principal-open range, and the containment of the full
+constant model over `D(N)`. Its integral global sections at a nonunit level
+are now proved trivial and consumed by a concrete `p^0` cardinal certificate.
+The multiplicative-flat factor, the supported localization sequences at the
+bad fibre, the quasi-finite admissible-filtration exact sequences, the
+remaining `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero
+specialization remain, followed by the unramified Raynaud uniqueness input.
+The supported quotients in Mazur's page-49 localization sequences are fppf
+sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
+sheaf-level locally-surjective exact interface rather than the quasi-finite
+quotient wrapper.
 
 ## Route decision
 
@@ -294,10 +301,13 @@ within each lane follows the listed order.
    generic represented coefficient sheaf/`H¹`, its morphism-level functoriality,
    its canonical ambient kernel and pointwise universal property, and the
    structural quasi-finite wrapper and geometric kernel-presentation interface
-   now compile with finite-flat coefficient, map, and kernel adapters, but the
-   four factor
-   constructions, their exact sequences and `H⁰`/`H¹` certificates, together
-   with middle-`H¹` finiteness, remain absent. Next finish
+   now compile with finite-flat coefficient, map, and kernel adapters. The
+   constant-flat factor with separate coefficient and level parameters, its
+   typed open immersion, and its certified trivial integral `H⁰` now compile.
+   The multiplicative-flat construction, the sheaf-level supported
+   localization sequences, the quasi-finite admissible-filtration exact
+   sequences, the remaining `H⁰`/`H¹` certificates, and middle-`H¹` finiteness
+   remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
    rank-zero specialization. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
