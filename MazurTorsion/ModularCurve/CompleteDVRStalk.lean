@@ -276,6 +276,30 @@ noncomputable def smoothCurveStalkCompletionRingEquiv
       K X π x hx
   exact stalkCompletionRingEquiv (X.presheaf.stalk x) K q hq hcoeff
 
+/-- The completed-stalk coordinate at a smooth rational point, with the coefficient input stated
+as the actual local-ring retraction furnished by that point.  This removes the lower-level residue
+quotient surjectivity hypothesis from the cusp-facing API. -/
+noncomputable def rationalPointStalkCompletionRingEquiv
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (g : Spec (.of K) ⟶ X)
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    [Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))]
+    (hretract :
+      (Scheme.stalkClosedPointTo g).hom.comp
+          (algebraMap K (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))) =
+        RingHom.id K)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q) :
+    Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)) ≃+* PowerSeries K := by
+  letI : IsDiscreteValuationRing
+      (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) :=
+    isDiscreteValuationRing_stalk_of_ne_genericPoint_of_smoothRelativeDimension_one
+      K X π (g (IsLocalRing.closedPoint K)) hx
+  exact stalkCompletionRingEquivOfRetraction
+    (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) K
+    (Scheme.stalkClosedPointTo g).hom hretract q hq
+
 /-- A normalized first-`q` expansion in the coordinate constructed from the actual smooth-curve
 stalk proves the formal-immersion predicate.  In particular, this consumer no longer assumes
 domain, DVR, or completeness instances on the completed stalk. -/
@@ -322,6 +346,42 @@ theorem isFormalImmersionAt_of_smoothCurveStalkDVR_normalizedQExpansion
     (coefficientField_surjective_completion (X.presheaf.stalk x) K hcoeff)
     targetParameter c hc F
   simpa only [smoothCurveStalkCompletionRingEquiv, stalkCompletionRingEquiv] using hqExpansion
+
+/-- Cusp-facing formal-immersion consumer using a local retraction onto the coefficient field,
+rather than a separately supplied surjectivity theorem for the residue quotient. -/
+theorem isFormalImmersionAt_of_rationalPointStalkDVR_normalizedQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    [Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))]
+    (hretract :
+      (Scheme.stalkClosedPointTo g).hom.comp
+          (algebraMap K (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))) =
+        RingHom.id K)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      rationalPointStalkCompletionRingEquiv K X π g hx hretract q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F) :
+    AlgebraicGeometry.IsFormalImmersionAt f (g (IsLocalRing.closedPoint K)) := by
+  apply isFormalImmersionAt_of_smoothCurveStalkDVR_normalizedQExpansion
+    K X π Y f g hx q hq
+    (coefficientField_surjective_of_algebraMap_retraction
+      (Scheme.stalkClosedPointTo g).hom hretract)
+    targetParameter c hc F
+  simpa only [rationalPointStalkCompletionRingEquiv,
+    smoothCurveStalkCompletionRingEquiv, stalkCompletionRingEquivOfRetraction] using hqExpansion
 
 /-- The completed-stalk DVR bridge and normalized expansion separate actual local-spectrum
 morphisms.  This is the downstream collision test for the constructed coordinate. -/
