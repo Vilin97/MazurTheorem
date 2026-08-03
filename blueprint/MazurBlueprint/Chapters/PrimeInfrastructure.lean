@@ -60,37 +60,45 @@ maps exist. Its separate characteristic-five and order-35 consumers compile,
 but it neither constructs a Néron model nor changes this node's blocked status.
 :::
 
-:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")
-*Finite-flat commutative group schemes for Eisenstein rank zero.* Retain the
-checked category, honest kernel presentations, affine Hopf realization,
+:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "large")
+*Finite-flat commutative group schemes for Eisenstein rank zero.* The checked
+category, honest kernel presentations, affine Hopf realization,
 constant/diagonalizable examples, $`\mu_n` multiplication kernel,
-constant-rank point-exponent consumer, and constant-group quotients. Finish
-the generic quotient/base-change boundary only through the
-admissible-filtration consumer.
+constant-rank point-exponent consumer, and constant-group quotients are now
+joined to an exact supplied fppf quotient interface. Certified kernels,
+quotient presentations, and the named constant/multiplicative factors commute
+with arbitrary base change.
 
-*Status:* `planned`; partial compiled work earns no completion credit.
+*Status:* `done`; the base-changed admissible-filtration $`p^2`-exponent
+consumer compiles.
 
-* `structure` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
-* `theorem` (`contract`):
+* `structure` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
+* `theorem` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
-* `theorem` (`contract`):
+* `theorem` (`integrated`):
   `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
-* `definition` (`contract`):
+* `definition` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
-* `definition` (`proposed`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient`
-* `theorem` (`proposed`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
-* `definition` (`proposed`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.constantAndMu`
+* `structure` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation`
+* `definition` (`integrated`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.baseChange`
+* `definition` (`integrated`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.baseChangePresentation`
+* `definition` (`integrated`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.baseChange`
+* `theorem` (`integrated`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.baseChange_point_pow_sq_eq_one`
 :::
 
-:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
+:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")
 *Admissible filtrations and fppf cohomology.* Formalize the exact filtration
 and cohomology estimate used in Mazur's rank-zero proof, rather than an
 unconsumed general connected--étale library.
 
-*Status:* `blocked`.
+*Status:* `planned`; the completed finite-flat exact-presentation layer is
+available, and the next boundary is the iterated filtration/fppf-cohomology
+estimate itself.
 
 * `definition` (`proposed`): `AlgebraicGeometry.AdmissibleFiniteFlatGroup`
 * `definition` (`proposed`):

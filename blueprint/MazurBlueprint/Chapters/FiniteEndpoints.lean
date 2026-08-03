@@ -94,6 +94,14 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.targetCubicFibreRoots_iff_targetThreeCandidateSurjective`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.targetEisensteinUnitCover_no_nonzero_integer_solution`
+* `definition` (`contract`):
+  `MazurTorsion.OrderThirtyFive.TargetEisensteinAssociatedCube`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero_of_associatedCube`
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
 point-function candidate and its zero fibre, and trivial torsion on the
@@ -102,9 +110,16 @@ on rational points, and its composite with the first candidate is checked to
 be multiplication by three. The rational three-cover and visible-coset
 translations compile through conditional rank-zero and finiteness consumers.
 The source cube-class bound is now checked by a reduced
-numerator-denominator and gcd-at-seven calculation. Target-curve finiteness,
-the modular quotient map, and formal immersion remain open, so this is not
-node completion.
+numerator-denominator and gcd-at-seven calculation. The target cyclic cubic
+fibre is proved equivalent to surjectivity. Denominator clearing, the
+Eisenstein norm factorization, all six unit classes, both nontrivial
+mod-seven infinite descents, and the trivial-unit rational fibre root now
+feed a compiled end-to-end rank-zero consumer. The remaining target-descent
+input is the nonsplit common-prime ideal-support proof at `2`, `3`, and `5`,
+isolated as `TargetEisensteinAssociatedCube`; its API should be narrowed to
+the existential integral-data witness produced by that proof. Target-curve
+finiteness, the modular quotient map, and formal immersion therefore remain
+open, so this is not node completion.
 :::
 
 :::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")

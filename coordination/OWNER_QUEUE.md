@@ -7,9 +7,10 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
-the Tau Ceti product-formula, formal-immersion cotangent, and order-35
-three-descent checkpoints. The ledger still has 48 nodes / 1,000 points: six
-completed nodes worth 117 points and 42 unfinished nodes. No
+the Tau Ceti product-formula, finite-flat exact-presentation, formal-immersion
+cotangent, and order-35 Eisenstein-descent checkpoints. The ledger still has
+48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
+unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
@@ -32,9 +33,9 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1 and product dimension, and the `F₅` ten-point enumeration; integrated finite-flat kernels, named morphism base change, and one admissible `p²`-exponent step; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, product dimension, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated formal-immersion local algebra and narrowed the A3 and order-35 descent boundaries; checked explicit X₁(11) five-isogeny composition and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep the seven completed nodes at full credit. A3, order 35, formal immersion, X₁(11), and the raw X₀ datum remain partial checked infrastructure and earn no completion credit yet. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
-| `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, kernel presentation, and the constant-rank point-exponent consumer | Keep the sound declarations. Complete quotient/base-change and constant/`μ_p` examples only through the admissible-filtration/rank-zero consumer. Partial infrastructure earns zero completion credit. |
+| `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
 | `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary | Keep it as an independent release obligation. It is not a premise of the formal-immersion theorem. |
 | `codex/owner-o49-tower` | Checked level-seven correspondence and explicit Vélu work; reusable Tate normalization is isolated at `9dad18d` | Retain as useful library work, but pivot the endpoint to the direct rational cyclic-subgroup map into the already classified two-cusp `X₀(49)`. Do not require Vélu additivity or a nonbacktracking tower. |
@@ -58,7 +59,13 @@ within each lane follows the listed order.
    `SchemeWeilDivisor.divisorProductFormula`; its completed immutable bridge
    transports from the geometric order system, and
    `DivisorPicard.Dictionary.properCurveDegreeZero` is the concrete
-   scheme-Picard consumer.
+   scheme-Picard consumer. A3 now also has an exact
+   `ExplicitInverse.GlobalPrincipalBoundary`: it identifies triviality of
+   the descended divisor line bundle with principality, gives the exact
+   principal kernel and class equivalence, and feeds the weighted
+   Abel--Jacobi normalization. The missing geometric construction is the
+   rational-section/global-principal boundary from the actual descent data;
+   no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
@@ -91,11 +98,11 @@ within each lane follows the listed order.
    `F₁₁` contradiction consumers. This is not node completion: the Néron
    special-fibre/component specialization map used before good reduction is
    still absent.
-4. Independently finish `MT-FFGS-BASIC` (20): the named constant/μₚ base
-   changes, constant quotient square, and one kernel-certified admissible step
-   now compile, including its `p²` exponent consumer. Generic kernel/quotient
-   base change remains. Then finish `MT-FFGS-CONNECTED-ETALE` (20) with
-   iterated admissible filtrations and their fppf cohomology, and
+4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
+   certified kernel/quotient base change, named constant/μₚ factor base
+   change, and base-changed admissible-step `p²` exponent consumer compile.
+   Next finish `MT-FFGS-CONNECTED-ETALE` (20) with iterated admissible
+   filtrations and their focused fppf cohomology estimate, and
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
 
@@ -186,10 +193,16 @@ genus-zero `X₀` quotients do not support the selected argument.
   finiteness from `SourceThreeCubeClassBound` and
   `TargetThreeCandidateSurjective`. The source cube-class calculation now
   compiles unconditionally: reduced numerator-denominator coordinates and a
-  gcd-at-seven argument prove the exact `1`, `7`, `49` alternatives. A
-  rank-zero/finiteness proof for the target, hence target-candidate
-  surjectivity, is the sole remaining explicit descent input. The local
-  normalization/enumeration, good-reduction join,
+  gcd-at-seven argument prove the exact `1`, `7`, `49` alternatives. The
+  target cubic fibre is now checked to be exactly the surjectivity condition.
+  Denominator clearing, the Eisenstein norm factorization, all six unit
+  classes, the two mod-seven infinite descents, and the explicit trivial-unit
+  fibre root compile. The sole remaining explicit descent input is
+  `TargetEisensteinAssociatedCube`: prove the nonsplit common-prime
+  ideal-support calculation at `2`, `3`, and `5`. The current universal
+  associated-cube API should be narrowed to the existential integral-data
+  witness actually produced by that argument before final acceptance. The
+  local normalization/enumeration, good-reduction join,
   and an abstract tame-additive filtration consumer also compile. The actual
   modular quotient map, unconditional rank-zero proof, formal immersion, and
   geometric bad-fibre specialization remain open. Once good reduction at

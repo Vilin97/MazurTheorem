@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1447678,
-    "integrated_lean_modules": 699,
+    "integrated_lean_lines": 1449747,
+    "integrated_lean_modules": 701,
     "remaining_composite_orders": [
       18,
       25,
@@ -65,9 +65,9 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 117,
-    "percent": 11.7,
-    "ecosystem_ready_estimate_percent": 12,
+    "earned_points": 137,
+    "percent": 13.7,
+    "ecosystem_ready_estimate_percent": 14,
     "claimable_open_points": 134,
     "ordinary_claimable_points": 22,
     "research_open_points": 112,
@@ -639,7 +639,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit rank-zero optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. Tame local reduction and #E(F_11) <= 18 then exclude a specialized point of order 35.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and both nontrivial Eisenstein unit covers are checked; the remaining rank-zero input is the nonsplit common-prime ideal-support proof that the cleared negative Eisenstein factor is associated to a cube. Tame local reduction and #E(F_11) <= 18 then exclude a specialized point of order 35.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -669,7 +669,7 @@
           "MazurTorsion.Kubert.OrderThirtyFive"
         ],
         "informal": "An elliptic curve over Q has no rational point of exact order 35.",
-        "recommended_route": "Reuse the shared Mazur-1978 engine. Construct the optimal elliptic quotient X_0(35)/w_5 with model y^2+y=x^3+x^2+9x+1, certify its finite rational group by a checked descent, instantiate formal immersion at auxiliary prime 11, and combine tame torsion specialization with the checked 121-model enumeration #E(F_11) <= 18.",
+        "recommended_route": "Reuse the shared Mazur-1978 engine. Construct the optimal elliptic quotient X_0(35)/w_5 with model y^2+y=x^3+x^2+9x+1. For rank zero, retain the checked source cube classes, target cyclic-fibre equivalence, denominator clearing, Eisenstein norm factorization, six-unit split, and two mod-seven infinite descents. Narrow TargetEisensteinAssociatedCube to the existential integral-data witness actually needed, then prove it by the nonsplit common-prime ideal-support calculation at 2, 3, and 5. Instantiate formal immersion at auxiliary prime 11 and combine tame torsion specialization with the checked 121-model enumeration #E(F_11) <= 18.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
@@ -713,6 +713,34 @@
           "name": "MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive",
           "state": "proposed",
           "description": "Feed the local-at-eleven collision and finite-field bound to the published endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.targetCubicFibreRoots_iff_targetThreeCandidateSurjective",
+          "state": "contract",
+          "description": "Identify the rational-root condition for the explicit cyclic cubic fibre exactly with surjectivity of the target three-isogeny point function.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveTargetCubic"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.targetEisensteinUnitCover_no_nonzero_integer_solution",
+          "state": "contract",
+          "description": "Exclude one nontrivial Eisenstein unit cover by a checked mod-seven infinite descent; the conjugate cover has a parallel checked theorem.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveTargetCubic"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.OrderThirtyFive.TargetEisensteinAssociatedCube",
+          "state": "contract",
+          "description": "Isolate the exact remaining ideal-support proposition for the cleared negative Eisenstein factor; this conditional input is not claimed proved.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero_of_associatedCube",
+          "state": "contract",
+          "description": "Compile the end-to-end rank-zero consumer of the associated-cube ideal-support statement through all six Eisenstein unit classes.",
+          "module": "MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent"
         }
       ],
       "acceptance_declarations": [
@@ -2002,6 +2030,41 @@
           "state": "contract",
           "description": "Construct a global divisor line bundle from a coherent cocycle and ordinary module effectivity on the coordinate cover.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.ModuleDescentReflectsTrivialityFor",
+          "state": "contract",
+          "description": "Isolate the object-separation input actually used by the divisor kernel: a descended module is trivial when its cover descent datum is isomorphic to the trivial datum.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleDescent"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.GlobalPrincipalBoundary",
+          "state": "contract",
+          "description": "Package the honest equivalence O(D) is trivial if and only if D is principal for the descended divisor line bundles; construction from compatible rational sections remains the A3 boundary.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPicOfGlobalPrincipalBoundary_hasPrincipalKernel",
+          "state": "contract",
+          "description": "Consume the global principal boundary to prove the exact principal kernel of the derived divisor-to-Picard map.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionaryOfGlobalPrincipalBoundary",
+          "state": "contract",
+          "description": "Construct the exact divisor/Picard dictionary from the global principal boundary, tensor additivity, and surjectivity.",
+          "module": "MazurTorsion.Upstream.CurveDivisorPicardDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary",
+          "state": "contract",
+          "description": "Provide the concrete base-normalized weighted Abel--Jacobi consumer of the narrowed A3 boundary.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
         }
       ],
       "depends_on": [
@@ -2745,12 +2808,12 @@
       "title": "Finite-flat commutative group schemes for Eisenstein rank zero",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
-      "status": "planned",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The checked substrate already packages finite-flat commutative group schemes, scheme-theoretic kernels, affine Hopf realizations, constant and diagonalizable examples, mu_n multiplication kernels, the constant-rank point-exponent consumer, and constant-group quotients. Complete only the generic quotient/base-change and constant/multiplicative interfaces consumed by admissible filtrations in the Eisenstein rank-zero proof.",
+      "summary": "The checked substrate packages finite-flat commutative group schemes, certified scheme-theoretic kernels, affine Hopf realizations, constant and diagonalizable examples, mu_n multiplication kernels, constant-group quotients, and an exact supplied fppf quotient presentation. Certified kernels, quotient presentations, and the named constant/multiplicative factors commute with arbitrary base change, with a compiled admissible-filtration p^2-exponent consumer.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2760,7 +2823,7 @@
             "max": 35
           },
           "summary": "AINTLIB contains elliptic finite-locally-free subgroups, quotient schemes, constant groups, mu_N, and an abstract Hopf-algebraic Deligne order theorem.",
-          "boundary": "The roadmap needs a generic finite-flat commutative group-scheme category with kernels, quotients, and base change. MuN also needs a license decision before source can be copied.",
+          "boundary": "AINTLIB does not provide the generic exact-presentation category used here, so this repository supplies certified kernels and exact fppf quotient data directly. No AINTLIB MuN source was copied; the local named constant and mu_n models have independent checked implementations.",
           "declarations": [
             {
               "name": "FiniteLocallyFreeSubgroup",
@@ -2781,44 +2844,65 @@
         {
           "kind": "structure",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme",
-          "state": "contract",
-          "description": "The checked finite-flat commutative group-scheme category over an arbitrary scheme base."
+          "state": "integrated",
+          "description": "The checked finite-flat commutative group-scheme category over an arbitrary scheme base.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"
         },
         {
           "kind": "theorem",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat",
-          "state": "contract",
-          "description": "Package inherited scheme-theoretic kernels under explicit finite-flat hypotheses."
+          "state": "integrated",
+          "description": "Package inherited scheme-theoretic kernels under explicit finite-flat hypotheses.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"
         },
         {
           "kind": "theorem",
           "name": "AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank",
-          "state": "contract",
-          "description": "Retain the checked Deligne-style point-exponent theorem as a real consumer of the affine finite-flat substrate."
+          "state": "integrated",
+          "description": "The checked Deligne-style point-exponent theorem is a real consumer of the affine finite-flat substrate.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Affine"
         },
         {
           "kind": "definition",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel",
+          "state": "integrated",
+          "description": "Construct the inherited scheme-theoretic kernel under the exact finite and flat hypotheses required over an arbitrary base.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation",
           "state": "contract",
-          "description": "Construct the inherited scheme-theoretic kernel under the exact finite and flat hypotheses required over an arbitrary base."
+          "description": "Package exactly the supplied finite-flat quotient, fppf projection, and certified scheme-theoretic kernel used by admissible filtrations; no unconsumed general quotient representability theorem is asserted.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Quotient"
         },
         {
           "kind": "definition",
-          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.quotient",
-          "state": "proposed",
-          "description": "Construct the quotients used by admissible filtrations."
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.baseChange",
+          "state": "integrated",
+          "description": "Construct the certified scheme-theoretic kernel of a pulled-back homomorphism and prove that both its scheme and inclusion are the geometric pullbacks of the original kernel data.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Basic"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.baseChangePresentation",
+          "state": "integrated",
+          "description": "Pull the exact quotient presentation back along an arbitrary base morphism, using geometric stability of fppf morphisms and certified kernel base change.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Quotient"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.baseChange",
+          "state": "integrated",
+          "description": "Transport the named constant Z/p and mu_p factor presentations across scalar extension.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration"
         },
         {
           "kind": "theorem",
-          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange",
-          "state": "proposed",
-          "description": "Prove kernel and quotient base-change compatibility for the rank-zero consumer."
-        },
-        {
-          "kind": "definition",
-          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.constantAndMu",
-          "state": "proposed",
-          "description": "Provide the constant Z/p and mu_p examples used by every graded piece."
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.baseChange_point_pow_sq_eq_one",
+          "state": "integrated",
+          "description": "Compile the downstream rank-zero-oriented consumer: every affine point in a base-changed exact two-factor filtration step is killed by p^2.",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration"
         }
       ],
       "depends_on": [
@@ -2828,11 +2912,11 @@
         "MT-FFGS-CONNECTED-ETALE"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       }
     },
     {
@@ -2840,12 +2924,12 @@
       "title": "Admissible filtrations and fppf cohomology",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "planned",
+      "readiness": "compiled",
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Develop filtrations with constant or multiplicative order-p subquotients and the bounded fppf-cohomology estimate needed—rather than a general connected-etale theory with no named consumer.",
+      "summary": "The exact one-step constant-or-multiplicative filtration and arbitrary-base-change exponent consumer now compile. Develop the iterated filtration and bounded fppf-cohomology estimate needed by Mazur's rank-zero argument, rather than a general connected-etale theory with no named consumer.",
       "artifacts": [
         {
           "kind": "definition",

@@ -166,8 +166,12 @@ The witness-level condition
 `ExplicitInverse.TrivialDescendedLineBundleHasGlobalPrincipalWitness` says that one rational
 function gives all chart restrictions. Under agreement of the chosen global and scheme orders,
 checked code proves it equivalent to principal detection in both directions, so it is not a
-separate gluing input. Constructing compatible rational data from the explicit line-bundle
-cocycle remains absent. Surjectivity then gives the full divisor-class/Picard equivalence. Only
+separate gluing input. `ExplicitInverse.GlobalPrincipalBoundary` now packages the exact
+two-way statement $`\mathcal O(D) \cong \mathcal O \leftrightarrow D` principal; it derives zero
+triviality, the exact principal kernel, the class equivalence, the Dictionary, and a
+base-normalized weighted Abel--Jacobi consumer. Constructing that boundary from compatible
+rational sections of the explicit line-bundle cocycle remains absent. Surjectivity then gives
+the full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
 of the divisor cocycle system, chosen-pullback/intersection transport, coherent overlap system,
@@ -471,6 +475,10 @@ inhabited or that A3 is solved.
   Consume a scheme-module prestack instance to obtain fully faithful descent on a specified
   Zariski open cover.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.ModuleDescentReflectsTrivialityFor`
+  Isolate the narrower object-separation input actually consumed by the principal-kernel
+  argument: reflection of the trivial descent object.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DescendedZeroTrivial`
   Isolate the minimal unit input saying that the descended bundle of the zero divisor is
   globally trivial.
@@ -506,6 +514,21 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal`
   Identify the witness-level formulation exactly with geometric principal detection when the
   chosen global order agrees with the scheme order.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.GlobalPrincipalBoundary`
+  Package exactly that principal divisors give trivial descended bundles and that trivial
+  descended bundles detect principal divisors.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.divisorToPicOfGlobalPrincipalBoundary_hasPrincipalKernel`
+  Consume the global principal boundary to prove the exact principal kernel of the derived
+  divisor-to-Picard map.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.dictionaryOfGlobalPrincipalBoundary`
+  Construct the complete conditional dictionary from the narrowed boundary, tensor additivity,
+  Picard surjectivity, and the separate all-sheaves comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary`
+  Normalize the resulting weighted Abel--Jacobi class at a chosen degree-one basepoint.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.hasPrincipalKernel_iff_trivialLineBundleDetectsPrincipal`
   Identify exactness of the divisor Picard map with the geometric principal-detection boundary
