@@ -61,6 +61,14 @@ specialization and Eisenstein-quotient equality.
   `MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_formalImmersionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_j_le_one_of_quotientCotangentCertificateAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_quotientCotangentAtFive_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealCotangentAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedCotangentAtFive_of_nonsingularReduction`
 :::
 
 :::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -112,6 +120,8 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.valuation_j_gt_one_of_hasMultiplicativeReduction`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.not_hasMultiplicativeReduction_of_valuation_j_le_one`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
 * `theorem` (`contract`):

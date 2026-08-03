@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1476935,
-    "integrated_lean_modules": 771,
+    "integrated_lean_lines": 1477705,
+    "integrated_lean_modules": 774,
     "remaining_composite_orders": [
       18,
       25,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound and a separate point-order consumer excludes exact order 35. Integral good reduction, canonical eleven-adic tame-reduction data, and canonical coordinatewise nonsingular reduction all reach that endpoint. The coordinate domain/map and exact formal kernel are checked; proving additivity, the actual cuspidal nonsingular-locus equivalence with the additive residue field, the genuine component bound, modular quotient identification and classifying map, Atkin-Lehner geometry, formal immersion, and bad-fibre specialization remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound. The selected eleven-adic minimal model, rational-point order transport, reduction-type trichotomy, good-reduction specialization, and actual cusp-stalk quotient-cotangent collision now form a checked end-to-end local consumer. Canonical coordinatewise nonsingular reduction reaches it without an arbitrary subgroup or map. Proving reduction additivity, the cuspidal nonsingular-locus equivalence with the additive residue field, the genuine component bound, and the represented modular quotient/classifying/Atkin-Lehner specialization inputs remains open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -817,6 +817,69 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFive",
           "description": "Reach the order-35 additive-fibre contradiction from canonical coordinatewise nonsingular reduction, leaving only additivity, the actual special-cubic classification, and the genuine component bound."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Select Mathlib's minimal eleven-adic equation after coefficientwise base change from the rational curve."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_addOrderOf",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Preserve exact additive order under eleven-adic base change and the selected minimal variable change."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Specialize the same marked point from a good minimal eleven-adic equation to the exhaustive F_11 point-order obstruction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Join integral j and canonical nonsingular reduction through the reduction trichotomy to the completion-level F_11 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReductionAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Transport the rational j valuation and marked point to the selected minimal completion and consume the canonical local reduction endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_quotientCotangentCertificateAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Lift the actual cusp-stalk quotient cotangent certificate to formal immersion and derive the eleven-adic j-valuation bound from the modular collision."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_quotientCotangentAtEleven_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Feed the characteristic-eleven cusp-stalk calculation through canonical local reduction and the checked F_11 enumeration."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealCotangentAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Derive the eleven-adic j bound directly from the standard extended special-fibre ideal and its quotient cotangent calculation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_mappedCotangentAtEleven_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Reach the canonical order-35 endpoint directly from the mapped characteristic-eleven cotangent calculation."
         },
         {
           "kind": "theorem",
@@ -5140,7 +5203,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate now lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion. The actual integral modular cusp section, its quotient-ideal/stalk identification, uniformizer, and genuine modular q-expansion remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. The actual integral modular cusp section, its quotient-ideal/stalk identification, uniformizer, and genuine modular q-expansion remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -5182,6 +5245,20 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
           "description": "Specialize the lift to quotienting the target stalk by one ideal and the source stalk by its extension, giving the characteristic-five special-fibre consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate_of_isLocallyNoetherian",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
+          "description": "Use local Noetherianity of the actual source and target schemes to discharge both total-stalk maximal-ideal finiteness conditions."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
+          "description": "Expose the mapped-special-fibre cotangent calculation with local Noetherianity automatically supplying every maximal-ideal finiteness condition."
         },
         {
           "kind": "theorem",
@@ -5734,7 +5811,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion. The completed local collision now compiles over the actual five-adic integer ring: equality of the closed points and quotient sections, formal immersion at the cusp, and distinctness of the integral sections force the rational j-valuation bound. Constructing those modular/cusp sections and proving their specialization and Eisenstein-quotient equality remain open.",
+      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion. The completed local collision compiles over the actual five-adic integer ring, and a new theorem-level consumer derives its formal-immersion premise from a quotient-cotangent certificate on that same cusp stalk before reaching the canonical nonsingular-reduction F_5 contradiction. Constructing the represented modular/cusp sections, the actual quotient certificate from the modular q-expansion, and their specialization and Eisenstein-quotient equality remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5748,6 +5825,34 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionAtFive",
           "description": "Turn the explicit modular/cusp closed-point collision and quotient-section equality into the five-adic j-valuation bound using the checked completed-stalk formal immersion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_j_le_one_of_quotientCotangentCertificateAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Derive formal immersion from the quotient-cotangent certificate on the actual five-adic cusp stalk and feed it to the rational j collision."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_quotientCotangentAtFive_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Consume the cusp-stalk quotient calculation and canonical nonsingular-reduction inputs in the checked prime-order F_5 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealCotangentAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Derive the five-adic j bound directly from the extended special-fibre ideal and its quotient cotangent calculation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedCotangentAtFive_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Feed the mapped characteristic-five cotangent calculation directly to the canonical prime-order F_5 contradiction."
         }
       ],
       "depends_on": [
@@ -5882,7 +5987,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. A checked downstream theorem supplies that j bound from explicit formal-immersion collision inputs and reaches the same rational-point contradiction. Its canonical nonsingular-reduction consumer fixes the actual minimal integral model, coordinate domain/map, and exact formal kernel, accepting no arbitrary identity subgroup or reduction homomorphism. The represented modular/cusp collision, nonsingular-reduction additivity, cuspidal special-locus classification, genuine Neron component identification, and component bound remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction; it is consumed both by the prime route at five and the order-35 route at eleven. The five-adic completion consumer carries the same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved, and the cusp-stalk quotient-cotangent consumer now supplies its local j bound. The represented modular/cusp data, nonsingular-reduction additivity, cuspidal special-locus classification, genuine Neron component identification, and component bound remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5903,6 +6008,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
           "description": "Deduce that an integral j-invariant excludes the multiplicative branch."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Share the reduction trichotomy between residue characteristics five and eleven by isolating the additive branch as an exact-order obstruction."
         },
         {
           "kind": "theorem",

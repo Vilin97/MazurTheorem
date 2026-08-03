@@ -842,6 +842,10 @@ toric reduction of the modular Jacobian.
 * `theorem` (`contract`):
   `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective`
 * `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate_of_isLocallyNoetherian`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.residueFieldMap_isIso_at_rationalPoint`
@@ -875,7 +879,8 @@ criterion now implies surjectivity on completed stalks under finite maximal
 ideals, and locally Noetherian schemes supply those finiteness instances. A
 quotient certificate additionally lifts a special-fibre cotangent calculation
 through quotient Nakayama and residue surjectivity to completed-stalk formal
-immersion; its mapped-ideal endpoint is the characteristic-five consumer. At a
+immersion; its mapped-ideal endpoint is the characteristic-five consumer, and
+local Noetherianity discharges the total-stalk finiteness instances. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk

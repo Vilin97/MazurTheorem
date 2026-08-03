@@ -12,6 +12,9 @@ the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
 the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
 the quotient/special-fibre cotangent lift (`ce04968`), and canonical
 nonsingular coordinate reduction on the selected minimal model (`2317209`),
+the actual five-adic cusp-stalk quotient-certificate consumer (`77e5a4d`),
+and the selected eleven-adic minimal-model/formal-immersion order-35 chain
+(`c7eb1e5`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -42,7 +45,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `51af2a6` contains reviewed acceptance
+The combined owner history through `c7eb1e5` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -90,7 +93,7 @@ the cuspidal nonsingular-locus equivalence, genuine Néron identity-component
 identification, and component-cardinality bound remains open; no node credit
 is claimed. The focused Lean targets
 build with `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph, all eleven
-Challenge contracts, 771-source / 1,476,935-line inventory, quality suite,
+Challenge contracts, 774-source / 1,477,705-line inventory, quality suite,
 and official Blueprint build/check pass.
 
 The special-fibre formal-immersion range packages compatible quotient ideals,
@@ -102,6 +105,30 @@ concludes formal immersion directly from the characteristic-five calculation
 (`ce04968`). Independent review accepted the ideal orientations and confirmed
 only standard axioms. The actual modular special-fibre stalk identification
 and q-expansion calculation remain open; no node credit is claimed.
+
+Locally Noetherian source and target schemes now discharge the total-stalk
+finiteness instances in both quotient-certificate consumers. At five, a new
+theorem fixes that certificate to the actual cusp stalk used by the modular
+collision, derives the rational `j`-valuation bound, and reaches the canonical
+nonsingular-reduction `F₅` contradiction (`77e5a4d`). This is a real
+theorem-level consumer of the quotient API. A direct mapped-ideal endpoint now
+also infers every finiteness condition from local Noetherianity; constructing
+its cotangent calculation from the represented modular special fibre and
+q-expansion remains open. The
+focused build and four-declaration axiom audit pass with only standard axioms.
+
+The order-35 local path now uses Mathlib's selected minimal eleven-adic
+equation. Base change and the selected variable change preserve the rational
+point's exact order; integral `j` excludes multiplicative reduction, a shared
+reduction-type theorem consumes the canonical additive obstruction, and good
+reduction preserves exact order into the checked exhaustive `F₁₁`
+enumeration. A second actual cusp-stalk quotient certificate derives the
+eleven-adic `j` bound and feeds this complete conditional endpoint
+(`c7eb1e5`). The modular quotient/classifying map, Atkin--Lehner
+specialization, reduction additivity, nonsingular-locus classification, and
+component geometry remain honest premises; no order-35 credit is claimed.
+Focused builds and an eight-declaration axiom audit pass with only standard
+axioms.
 
 Canonical nonsingular reduction is now defined on the actual coordinate
 domain of the selected local Weierstrass equation. Its zero fibre is exactly
@@ -150,10 +177,12 @@ integral-`j` premise on the original curve (`d36477e`, `bcdbe51`). The actual
 completed-ring formal-immersion collision now proves that valuation bound from
 explicit modular/cusp specialization, quotient equality, and distinctness
 premises, and a named consumer reaches the same rational-point contradiction
-without changing the supplied filtration (`ca695f1`). These ranges use only
-standard axioms. The actual Néron filtration and the represented modular/cusp
-specialization and Eisenstein-quotient equality remain open, so no node credit
-is claimed.
+without changing the supplied filtration (`ca695f1`). The same reduction-type
+engine now has a selected-minimal-model consumer at eleven, including exact
+point transport, good-reduction specialization, and the `F₁₁` order-35
+contradiction (`c7eb1e5`). These ranges use only standard axioms. The actual
+Néron geometry and represented modular/cusp specialization and
+Eisenstein-quotient equality remain open, so no node credit is claimed.
 
 The preceding range forms the actual abelian Serre quotient by
 bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
@@ -314,7 +343,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
 `FppfHOneUniverse`, `SupportedFppfHOneBridge`, `FppfHOneBaseIso`,
 `SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
-`FormalImmersionSpecialFiber`, `NonsingularReduction`,
+`FormalImmersionSpecialFiber`, `FormalImmersionSpecialFiberAtFive`,
+`NonsingularReduction`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
@@ -323,13 +353,15 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XZeroWeierstrassCubicReducedBaseChange`,
 `XZeroWeierstrassCubicChartDensity`,
 `XZeroWeierstrassAbelianVarietyTransfer`, `TameAdditiveAtFive`,
-`OrderThirtyFiveFiniteFieldOrder`, `OrderThirtyFive`, `OrderElevenModelInverse`,
+`OrderThirtyFiveFiniteFieldOrder`, `OrderThirtyFive`,
+`OrderThirtyFiveGoodReductionAtEleven`,
+`OrderThirtyFiveFormalImmersionAtEleven`, `OrderElevenModelInverse`,
 `XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 766 integrated Lean
-sources / 1,474,953 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 774 integrated Lean
+sources / 1,477,705 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -785,8 +817,11 @@ in `route_history`:
 3. `MT-PRIME-EISENSTEIN-SPECIALIZATION` (20): torsion collision plus formal
    immersion proves potentially good reduction at `5`. The completed-ring
    collision-to-`j` theorem compiles from explicit modular/cusp closed-point,
-   quotient-equality, and distinctness premises; construct those represented
-   sections and discharge the premises.
+   quotient-equality, and distinctness premises. A locally Noetherian
+   cusp-stalk quotient certificate now supplies the formal-immersion premise
+   and reaches the canonical `F₅` endpoint; construct that certificate from
+   the represented integral model and modular q-expansion and discharge the
+   collision premises.
 4. `MT-PRIME-DIVISION-FIELD` (15): preserve the exact prime-to-five order of
    the marked point in the Néron fibre.
 5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
@@ -797,8 +832,9 @@ in `route_history`:
    compile; prove additivity, the cuspidal additive classification, genuine
    identity-component identification, and component bound.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
-   reduction and the exhaustive trichotomy reaches good reduction from the
-   supplied tame filtration. A real downstream consumer now carries the same
+   reduction and the shared exhaustive trichotomy reaches good reduction from
+   any genuine additive exact-order obstruction; five and eleven are both
+   compiled consumers. A real downstream consumer now carries the same
    rational point through base change, the selected minimal variable change,
    and exact-order reduction to the `F₅` enumeration. The formal-immersion
    collision now supplies its `j` premise without changing the marked point or
@@ -854,16 +890,17 @@ genus-zero `X₀` quotients do not support the selected argument.
   datum now also has canonical level-5 and level-7 degeneracy maps, with
    carriers generated by `7 • P` and `5 • P` and their supremum equal to the
    original order-35 carrier. These carriers feed the checked split
-   finite-flat `Γ₀` package, but do not define `w₅` or identify the modular
+  finite-flat `Γ₀` package, but do not define `w₅` or identify the modular
    quotient. The local normalization/enumeration
   now has a separate uniform point-order bound and exact order-35 consumer;
-  the good-reduction join and an abstract
-  tame-additive filtration consumer also compile. Canonical coordinatewise
-  nonsingular reduction at eleven reaches the same endpoint with its exact
-  formal kernel checked. Its additivity, cuspidal nonsingular-locus
-  classification, genuine component geometry, the actual modular quotient
-  identification and classifying map, formal immersion, and geometric
-  bad-fibre specialization remain open. No order-35 node credit is claimed
+  the selected minimal eleven-adic equation, exact rational-point order
+  transport, reduction trichotomy, good-reduction specialization, and actual
+  cusp-stalk quotient-cotangent collision all compile. Canonical coordinatewise
+  nonsingular reduction reaches that same endpoint with its exact formal
+  kernel checked. Its additivity, cuspidal nonsingular-locus classification,
+  genuine component geometry, the represented modular quotient/classifying
+  map, and Atkin--Lehner bad-fibre specialization remain open. No order-35
+  node credit is claimed
   until those modular consumers compile. Once good reduction at
   eleven is supplied, the joined theorem
   `rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven` now closes
@@ -928,16 +965,20 @@ or accounting shortcut.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The quotient/special-fibre
   cotangent lift and mapped-ideal scheme consumer are also independently
-  reviewed and integrated. The owner is now driving the actual modular
+  reviewed and integrated. Locally Noetherian certificate consumers now reach
+  the actual prime-five cusp collision and the order-35 eleven-adic local
+  endpoint. The owner is now driving the actual modular
   special-fibre stalk identification, q-expansion calculation, represented
   modular/cusp specialization, and optimal-quotient equality.
-- `codex/mt-neron-direct-reduction`: the canonical component/residue/formal
+- `codex/mt-neron-additivity`: the canonical component/residue/formal
   boundary and both checked downstream consumers are integrated. The actual
   nonsingular-reduction domain, coordinate map, negation closure, exact formal
   kernel, and conditional subgroup/homomorphism on the selected minimal model
-  are now independently reviewed and integrated. The next assignment proves
-  its additivity, the cuspidal nonsingular-locus/additive-field equivalence at
-  five and eleven, and the genuine component quotient bound.
+  are now independently reviewed and integrated. The active isolated worker
+  is adapting the exact-pin slope proof to prove additivity on this canonical
+  nonsingular domain. The cuspidal nonsingular-locus/additive-field
+  equivalence at five and eleven and the genuine component quotient bound
+  follow that gate.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

@@ -110,13 +110,20 @@ Current machine-checked results include:
   quotient certificate lifts a checked special-fibre cotangent calculation to
   the total stalk map: in the standard mapped-ideal case, quotient Nakayama and
   residue-field surjectivity yield completion-map surjectivity, with a direct
-  scheme-level formal-immersion consumer. Over the actual completed integer
-  ring at five, a checked collision theorem now turns
+  scheme-level formal-immersion consumer. Locally Noetherian source and target
+  schemes now discharge the two total-stalk finiteness conditions. Over the
+  actual completed integer ring at five, a checked cusp-stalk certificate
+  consumer turns
   explicit modular/cusp closed-point and quotient-section equalities into the
   rational `j`-valuation bound, and a downstream consumer carries it through
   the minimal completion to the `F₅` contradiction. A stronger consumer takes
   the canonical five-adic reduction data and derives all remaining algebraic
-  filtration inputs internally. The integral cusp model, q-expansion
+  filtration inputs internally. A mapped-ideal variant is the direct endpoint
+  for the actual special-fibre q-expansion and needs no separately supplied
+  quotient-finiteness proof. The same checked engine at eleven constructs
+  the selected minimal equation, preserves exact order, upgrades integral `j`
+  to good reduction from the canonical additive obstruction, and reaches the
+  exhaustive `F₁₁` order-35 endpoint. The integral cusp models, q-expansion
   calculation, represented modular specialization, quotient collision, and
   the nonsingular-reduction additivity, cuspidal smooth-locus classification,
   and genuine component bound remain open, so no roadmap node is credited;

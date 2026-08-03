@@ -124,6 +124,24 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven`
+* `definition` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_addOrderOf`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReductionAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_quotientCotangentCertificateAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_quotientCotangentAtEleven_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealCotangentAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_mappedCotangentAtEleven_of_nonsingularReduction`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):

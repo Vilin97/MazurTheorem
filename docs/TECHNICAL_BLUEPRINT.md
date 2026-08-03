@@ -1551,8 +1551,12 @@ integer factors has gcd supported to exponent at most one at `7`. The
 Eisenstein integer factorization and ideal-support calculation now prove the
 remaining associated-cube input without hypotheses. Consequently the fixed
 explicit model has checked rank zero and a finite rational point group. Its
-modular-quotient identification and the squarefree formal-immersion consumer
-at eleven remain open, so the roadmap node receives no completion credit.
+selected eleven-adic minimal model, exact-order transport, reduction-type
+trichotomy, good-reduction specialization, and cusp-stalk quotient-cotangent
+collision now compile through the `F₁₁` contradiction. The actual modular
+quotient identification, classifying map, Atkin--Lehner specialization,
+nonsingular-locus classification, and component geometry remain open, so the
+roadmap node receives no completion credit.
 
 ## 7. Prime-level Mazur layer
 
@@ -1568,6 +1572,9 @@ finiteness, or an isogeny chain.
 
 ```text
 AlgebraicGeometry/FormalImmersionSpecialFiber.lean
+PrimeOrder/FormalImmersionSpecialFiberAtFive.lean
+Kubert/OrderThirtyFiveGoodReductionAtEleven.lean
+Kubert/OrderThirtyFiveFormalImmersionAtEleven.lean
 
 EllipticCurve/Isogeny/CyclicSubgroup.lean
 EllipticCurve/Isogeny/CyclicQuotient.lean
@@ -1760,9 +1767,13 @@ characteristic-five lifting step: quotient Nakayama identifies the quotient
 maximal ideals, the mapped target ideal lets that equality lift to the total
 local map, and residue-field surjectivity gives total cotangent and completion
 surjectivity. The scheme-level mapped-ideal consumer concludes formal immersion
-directly from the special-fibre calculation. What remains at this boundary is
-the actual integral cusp model and q-expansion certificate, not generic local
-algebra.
+directly from the special-fibre calculation, while locally Noetherian variants
+remove the total-stalk finite-generation plumbing. Actual cusp-stalk
+certificates at five and eleven now feed theorem-level rational torsion
+consumers; mapped-ideal variants remove separate certificate packaging and
+derive quotient finiteness from local Noetherianity. What remains at this
+boundary is the actual integral cusp model and
+q-expansion certificate, not generic local algebra.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
@@ -1800,6 +1811,14 @@ valuation are proved equal to the image and five-adic valuation of the
 original rational `j`. The unsuffixed Néron-fibre theorem above remains the
 target before good reduction is known; these checked results do not supply the
 missing special-fibre/component map or its genuine additive filtration.
+
+At auxiliary prime eleven, the order-35 modules now check the analogous
+selected minimal model, exact-order transport, good-reduction specialization,
+and `F₁₁` contradiction. A shared reduction-type theorem isolates the
+additive branch as an exact-order obstruction, and the actual cusp-stalk
+quotient-cotangent certificate feeds the full conditional rational order-35
+consumer. The represented modular quotient and its geometric collision inputs
+are not inferred.
 
 The checked `TameAdditiveReductionData` boundary now removes three artificial
 inputs from that filtration. Its component map is the canonical quotient by a
