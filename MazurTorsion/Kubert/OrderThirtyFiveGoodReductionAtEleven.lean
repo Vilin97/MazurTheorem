@@ -250,23 +250,23 @@ theorem
     (hj : valuation (atEleven.adicCompletion ℚ)
       (IsDiscreteValuationRing.maximalIdeal
         (atEleven.adicCompletionIntegers ℚ)) W.j ≤ 1)
-    (hadd : W.HasAdditiveReduction (atEleven.adicCompletionIntegers ℚ) →
-      NonsingularReductionIsAdditive
-        (completionIntegralModelAtEleven_map W))
     (especial : W.HasAdditiveReduction
       (atEleven.adicCompletionIntegers ℚ) →
         (adicRedCurve (completionIntegralModelAtEleven W)).Point ≃+
           IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
-    (hcomponent : ∀ hA,
+    (hcomponent : ∀ (_hA : W.HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)),
       Nat.card (W.toAffine.Point ⧸
         nonsingularReductionSubgroup
-          (completionIntegralModelAtEleven_map W) (hadd hA)) ≤ 4)
+          (completionIntegralModelAtEleven_map W)
+          (nonsingularReduction_isAdditive
+            (completionIntegralModelAtEleven_map W))) ≤ 4)
     (P : W.toAffine.Point) :
     addOrderOf P ≠ 35 :=
   completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_tameReductionAtEleven
     hj
-      (fun hA ↦ TameAdditiveReductionDataAtEleven.ofNonsingularReduction
-        (hadd hA) (especial hA) (hcomponent hA))
+      (fun hA ↦ TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction
+        (especial hA) (hcomponent hA))
       P
 
 /-- The integral equation on the selected minimal completion used by the
@@ -293,18 +293,17 @@ theorem
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
     [DecidableEq (atEleven.adicCompletion ℚ)]
     (hj : atEleven.valuation ℚ E.j ≤ 1)
-    (hadd : (minimalCompletionAtEleven E).HasAdditiveReduction
-      (atEleven.adicCompletionIntegers ℚ) →
-        NonsingularReductionIsAdditive
-          (minimalCompletionIntegralModelAtEleven_map E))
     (especial : (minimalCompletionAtEleven E).HasAdditiveReduction
       (atEleven.adicCompletionIntegers ℚ) →
         (adicRedCurve (minimalCompletionIntegralModelAtEleven E)).Point ≃+
           IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
-    (hcomponent : ∀ hA,
+    (hcomponent : ∀ (_hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)),
       Nat.card ((minimalCompletionAtEleven E).toAffine.Point ⧸
         nonsingularReductionSubgroup
-          (minimalCompletionIntegralModelAtEleven_map E) (hadd hA)) ≤ 4)
+          (minimalCompletionIntegralModelAtEleven_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtEleven_map E))) ≤ 4)
     (P : E.toAffine.Point) :
     addOrderOf P ≠ 35 := by
   have hj' : valuation (atEleven.adicCompletion ℚ)
@@ -316,7 +315,7 @@ theorem
   intro horder
   apply
     completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReduction
-      hj' hadd especial hcomponent (minimalCompletionPointAtEleven E P)
+      hj' especial hcomponent (minimalCompletionPointAtEleven E P)
   exact (minimalCompletionPointAtEleven_addOrderOf E P).trans horder
 
 end MazurTorsion.OrderThirtyFive

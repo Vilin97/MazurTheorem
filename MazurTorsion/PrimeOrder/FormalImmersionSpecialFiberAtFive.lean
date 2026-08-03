@@ -159,18 +159,17 @@ theorem
         closedFiberPointAtFive cuspSection)
     (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
       modularSection ≫ f = cuspSection ≫ f)
-    (hadd : (minimalCompletionAtFive E).HasAdditiveReduction
-      (atFive.adicCompletionIntegers ℚ) →
-        NonsingularReductionIsAdditive
-          (minimalCompletionIntegralModelAtFive_map E))
     (especial : (minimalCompletionAtFive E).HasAdditiveReduction
       (atFive.adicCompletionIntegers ℚ) →
         (adicRedCurve (minimalCompletionIntegralModelAtFive E)).Point ≃+
           IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
-    (hcomponent : ∀ hA,
+    (hcomponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
       Nat.card ((minimalCompletionAtFive E).toAffine.Point ⧸
         nonsingularReductionSubgroup
-          (minimalCompletionIntegralModelAtFive_map E) (hadd hA)) ≤ 4)
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E))) ≤ 4)
     (P : E.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
     addOrderOf P ≠ N := by
   have hformal : IsFormalImmersionAt f (closedFiberPointAtFive cuspSection) :=
@@ -179,7 +178,7 @@ theorem
   exact
     rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction
       f modularSection cuspSection hformal hne hspecializes hquotient
-      hadd especial hcomponent P N hprime hN
+      especial hcomponent P N hprime hN
 
 /-- The mapped characteristic-five cotangent calculation is sufficient for
 the final canonical nonsingular-reduction prime-order consumer. -/
@@ -205,24 +204,68 @@ theorem
         closedFiberPointAtFive cuspSection)
     (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
       modularSection ≫ f = cuspSection ≫ f)
-    (hadd : (minimalCompletionAtFive E).HasAdditiveReduction
-      (atFive.adicCompletionIntegers ℚ) →
-        NonsingularReductionIsAdditive
-          (minimalCompletionIntegralModelAtFive_map E))
     (especial : (minimalCompletionAtFive E).HasAdditiveReduction
       (atFive.adicCompletionIntegers ℚ) →
         (adicRedCurve (minimalCompletionIntegralModelAtFive E)).Point ≃+
           IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
-    (hcomponent : ∀ hA,
+    (hcomponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
       Nat.card ((minimalCompletionAtFive E).toAffine.Point ⧸
         nonsingularReductionSubgroup
-          (minimalCompletionIntegralModelAtFive_map E) (hadd hA)) ≤ 4)
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E))) ≤ 4)
     (P : E.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
     addOrderOf P ≠ N :=
   rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction
     f modularSection cuspSection
       (Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian
         f (closedFiberPointAtFive cuspSection) hresidue I hI hcotangent)
-      hne hspecializes hquotient hadd especial hcomponent P N hprime hN
+      hne hspecializes hquotient especial hcomponent P N hprime hN
+
+/-- The actual degree-one characteristic-five calculation reaches the
+rational prime-order contradiction.  Additivity of canonical nonsingular
+reduction is now checked internally, so the remaining local premises are the
+special-cubic additive classification and genuine component bound. -/
+theorem
+    rationalPoint_addOrderOf_ne_of_mappedDegreeOneCotangentAtFive_of_nonsingularReduction
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtFive cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap (closedFiberPointAtFive cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtFive modularSection =
+        closedFiberPointAtFive cuspSection)
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (especial : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ) →
+        (adicRedCurve (minimalCompletionIntegralModelAtFive E)).Point ≃+
+          IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (hcomponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      Nat.card ((minimalCompletionAtFive E).toAffine.Point ⧸
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E))) ≤ 4)
+    (P : E.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N :=
+  rationalPoint_addOrderOf_ne_of_mappedCotangentAtFive_of_nonsingularReduction
+    f modularSection cuspSection hresidue I hI
+      (hdegreeOne.isMappedIdealCotangentSurjective
+        (f.stalkMap (closedFiberPointAtFive cuspSection)).hom I hI)
+      hne hspecializes hquotient especial hcomponent P N hprime hN
 
 end MazurTorsion.PrimeOrder
