@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.EllipticCurve.NonsingularReduction
+import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 
 /-!
@@ -17,11 +17,11 @@ and that kernel is torsion-free by the unramified formal-group theorem at five.
 
 The stronger endpoint constructs the identity subgroup from the actual
 predicate of nonsingular coordinate reduction on Mathlib's selected minimal
-integral model. Coordinatewise reduction and its exact formal kernel are
-checked. The remaining geometric inputs are precisely additivity of this
-reduction on its canonical domain, identification of the nonsingular points of
-the singular special cubic with the additive residue group, and the
-order-at-most-four component quotient. No Néron-model geometry is inferred.
+integral model. Coordinatewise reduction, its exact formal kernel, and its
+additivity on the canonical domain are checked. The remaining geometric inputs
+are precisely identification of the nonsingular points of the singular special
+cubic with the additive residue group and the order-at-most-four component
+quotient. No Néron-model geometry is inferred.
 -/
 
 noncomputable section
@@ -119,12 +119,11 @@ theorem
 /-- The prime-order formal-immersion endpoint with the identity subgroup and reduction map fixed
 to canonical coordinatewise nonsingular reduction.
 
-Unlike the preceding handoff, this theorem does not accept either an identity subgroup or a
-reduction homomorphism.  In the additive branch the caller proves the single group-law statement
-`NonsingularReductionIsAdditive` for the canonical domain, identifies the group of nonsingular
-points of the actual special cubic with the additive residue field, and supplies the genuine
-component bound.  The exact formal-kernel statement is checked by
-`nonsingularReduction_eq_zero_iff`. -/
+Unlike the preceding handoff, this theorem does not accept an identity subgroup, a reduction
+homomorphism, or a group-law premise for reduction.  The additivity theorem and exact formal
+kernel are checked by `nonsingularReduction_isAdditive` and
+`nonsingularReduction_eq_zero_iff`; the caller identifies the nonsingular points of the actual
+special cubic with the additive residue field and supplies the genuine component bound. -/
 theorem
     rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
@@ -144,18 +143,17 @@ theorem
           (atFive.adicCompletionIntegers ℚ)))
     (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
       modularSection ≫ f = cuspSection ≫ f)
-    (hadd : (minimalCompletionAtFive E).HasAdditiveReduction
-      (atFive.adicCompletionIntegers ℚ) →
-        NonsingularReductionIsAdditive
-          (minimalCompletionIntegralModelAtFive_map E))
     (especial : (minimalCompletionAtFive E).HasAdditiveReduction
       (atFive.adicCompletionIntegers ℚ) →
         (adicRedCurve (minimalCompletionIntegralModelAtFive E)).Point ≃+
           IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
-    (hcomponent : ∀ hA,
+    (hcomponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
       Nat.card ((minimalCompletionAtFive E).toAffine.Point ⧸
         nonsingularReductionSubgroup
-          (minimalCompletionIntegralModelAtFive_map E) (hadd hA)) ≤ 4)
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E))) ≤ 4)
     (P : E.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
     addOrderOf P ≠ N := by
   apply
@@ -163,7 +161,7 @@ theorem
       f modularSection cuspSection hformal hne hspecializes hquotient
       (minimalCompletionIntegralModelAtFive E)
       (minimalCompletionIntegralModelAtFive_map E)
-      (fun hA ↦ TameAdditiveReductionDataAtFive.ofNonsingularReduction
-        (hadd hA) (especial hA) (hcomponent hA)) P N hprime hN
+      (fun hA ↦ TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction
+        (especial hA) (hcomponent hA)) P N hprime hN
 
 end MazurTorsion.PrimeOrder

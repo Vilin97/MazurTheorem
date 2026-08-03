@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
-import MazurTorsion.EllipticCurve.NonsingularReduction
+import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -111,8 +111,8 @@ theorem addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven
 
 /-- The order-35 additive-fibre contradiction using only canonical coordinatewise nonsingular
 reduction.  The identity subgroup and its reduction map are constructed, rather than supplied;
-the remaining inputs are the group-law compatibility of that reduction, the additive
-classification of the actual special cubic, and the genuine component bound. -/
+the group-law compatibility is checked, and the remaining inputs are the additive classification
+of the actual special cubic and the genuine component bound. -/
 theorem addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven
     {W : Affine (atEleven.adicCompletion ℚ)}
     {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
@@ -120,15 +120,15 @@ theorem addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven
       (algebraMap (atEleven.adicCompletionIntegers ℚ)
         (atEleven.adicCompletion ℚ)) = W)
     [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
-    (hadd : NonsingularReductionIsAdditive hW)
     (especial : (adicRedCurve W₀).Point ≃+
       IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
     (hcomponent : Nat.card
-      (W.Point ⧸ nonsingularReductionSubgroup hW hadd) ≤ 4)
+      (W.Point ⧸ nonsingularReductionSubgroup hW
+        (nonsingularReduction_isAdditive hW)) ≤ 4)
     (P : W.Point) :
     addOrderOf P ≠ 35 :=
   addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven hW
-    (TameAdditiveReductionDataAtEleven.ofNonsingularReduction
-      hadd especial hcomponent) P
+    (TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction
+      especial hcomponent) P
 
 end MazurTorsion.OrderThirtyFive
