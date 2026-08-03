@@ -14,8 +14,10 @@ cyclic-subgroup data from every rational cyclic subgroup,
 checked extension of injective finite rational sections to closed constant
 subgroup schemes, a checked Tau Ceti abelian-variety bridge for the remaining
 Weierstrass group-scheme interface, and the actual reduced proper projective
-Weierstrass cubic scheme with its bijective coordinate-point map and checked
-ambient projective-plane field-pullback isomorphism,
+Weierstrass cubic scheme with its bijective coordinate-point map, checked
+ambient projective-plane field-pullback isomorphism, exact reduction of the
+mapped cubic field pullback, and a scheme-level negation automorphism over the
+ground field whose action agrees with Mathlib negation on the checked point comparison,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -25,7 +27,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `9ce998a` contains reviewed acceptance
+The combined owner history through `716960b` contains reviewed acceptance
 boundaries. The latest semantic range constructs a finite-flat split Γ₀ datum
 directly from every supplied rational cyclic subgroup, using its intrinsic
 carrier as the presentation-independent constant source and proving exact point
@@ -34,11 +36,26 @@ factorization, objectwise cokernel vanishing, and then zero of the actual
 restricted constant/`μ` fppf cokernel sheaves over `D(level)` (`6024521`,
 `14726f6`). It also rewrites all three chosen-overlap maps on the actual triple
 intersection as explicit pairwise inverse-ideal model Homs and reduces the raw
-cocycle exactly to their model cocycle (`c7a1ddf`). Finally, three affine chart
-pullbacks glue to the ambient projective-plane base-change pullback; the
-canonical isomorphism satisfies both projection laws and has an actual cubic
-zero-locus consumer (`9ce998a`). Each lane passed independent semantic/API and
-axiom review; no roadmap-node credit is claimed.
+cocycle exactly to their model cocycle (`c7a1ddf`). Three affine chart pullbacks
+glue to the ambient projective-plane base-change pullback (`9ce998a`). Its
+restriction to the field-pulled cubic is now a surjective closed immersion with
+exact carrier and radical kernel; the canonical reduction map is an isomorphism
+exactly when the pullback is reduced, and reducedness supplies the
+ambient-compatible cubic isomorphism and standard-chart consumer (`3ae4ac4`).
+The supported cokernel sheaves are now objects of the actual closed-complement
+support subcategory; restriction preserves their exact and short-exact
+point-cokernel sequences, and the constant/`μ` inclusions become isomorphisms
+over `D(level)` (`6cc0268`). Scalar-tower inverse-ideal extension identifies the
+pairwise-via-intersection comparison with the direct common-affine comparison
+and proves the actual triple common-model cocycle (`912249d`). Finally,
+homogeneous Weierstrass negation restricts to an involutive automorphism of the
+reduced cubic over `Spec K` (`223f41f`). Closed-complement-supported fppf
+sheaves now form a Serre class, and isomorphism modulo this class is detected
+exactly by open restriction, with the actual constant/`μ` inclusions as
+consumers (`619bc66`). Finally, the canonical comparison from Mathlib
+projective points to scheme-valued cubic points intertwines Mathlib negation
+with the checked scheme involution, including at infinity (`716960b`). No
+roadmap-node credit is claimed.
 
 The preceding accepted range constructs the canonical standard open in every
 actual Weierstrass field pullback and proves that its open-immersion range is
@@ -135,19 +152,24 @@ and density in `StandardChartComparison`. The projective isomorphism derives
 reducedness rather than assuming it. Reviewed checkpoint `9ce998a` now proves
 the ambient `P²_L` square is a pullback by gluing the three coordinate charts,
 constructs the canonical projective-plane pullback isomorphism, proves both
-projection laws, and consumes it on the Weierstrass zero locus. The remaining
-fields are restriction to the reduced cubic, the chart/open isomorphism, and
+projection laws, and consumes it on the Weierstrass zero locus. Checkpoint
+`3ae4ac4` restricts this projection to the pulled cubic, identifies its exact
+mapped carrier and radical kernel, and proves that its canonical reduction map
+is an isomorphism exactly under pullback reducedness. Thus the remaining fields
+are unconditional field-pullback reducedness, the chart/open isomorphism, and
 density.
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections`,
-`XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
+`XZeroWeierstrassProjectivePointComparison`,
+`XZeroWeierstrassProjectivePointNegation`, the ambient and quasi-finite
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
-`SupportedFppfCokernel`, `CurveLineBundleOverlapNaturality`,
+`SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
+`CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `XZeroWeierstrassGeometricIntegrality`,
 `XZeroWeierstrassProjectivePlaneBaseChange`, `OrderElevenModelInverse`,
@@ -155,8 +177,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 749 integrated Lean
-sources / 1,469,663 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 755 integrated Lean
+sources / 1,471,538 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -165,9 +187,12 @@ and coordinate ratios determine every chart ring map, unit-equivalent
 normalizations preserve the ambient closed point, and cancellation through the
 closed cubic immersion finishes the comparison. Hence the canonical map from
 Mathlib projective points is bijective. The remaining modular boundary is to
-construct the field-base-change standard-chart witness and the group law on the
-checked projective cubic, prove that this canonical bijection preserves that
-group law, and then construct `E/C`. The quotient/classifying geometry follows
+prove reducedness of every field pullback, finish the standard-chart density
+witness, construct addition and the remaining group-object laws on the checked
+projective cubic, prove that the canonical bijection preserves the group law,
+and then construct `E/C`. Scheme negation and its compatibility with the
+canonical point comparison are checked, but do not substitute for addition or
+full multiplicativity. The quotient/classifying geometry follows
 after `E/C`. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
@@ -322,10 +347,14 @@ within each lane follows the listed order.
    compatibly with all three pairwise faces. Each pulled chosen-overlap Hom is
    now the corresponding pairwise inverse-ideal model Hom on that common
    domain, and the raw cocycle is equivalent to composition of those three
-   models. The missing geometric construction is tower coherence identifying
-   those models with the directly constructed common-affine comparisons,
-   followed by comparison of the arbitrary-divisor presentations, general
-   module effectivity, object separation, rational normalization,
+   models. Scalar-tower extension and pairwise-intersection restriction now
+   identify each pairwise-via-intersection comparison with the direct
+   common-affine comparison, and the actual triple common-model cocycle
+   compiles. The remaining geometric construction is pseudofunctorial
+   composition naturality between these integrated pairwise triple Homs and
+   Mathlib's separately chosen direct triple pullback, followed by comparison
+   with the normalized transition, general module effectivity, object
+   separation, rational normalization,
    tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
@@ -426,7 +455,14 @@ within each lane follows the listed order.
    bad-level consumers now compile. Their point maps are surjective on every
    test scheme over `D(level)`, so the point-cokernel presheaves vanish there;
    the continuous site-restriction/sheafification comparison proves zero of
-   both actual restricted fppf cokernel sheaves. The sheaf-level supported localization sequences, the quasi-finite
+   both actual restricted fppf cokernel sheaves. The actual closed fibre is
+   `Spec(R/(level))`, with complement `D(level)`. Supported cokernel sheaves now
+   form a checked full subcategory; restriction preserves their exact and
+   short-exact point-cokernel sequences, and both bad-level inclusion maps are
+   isomorphisms over the open. Closed-complement support is a Serre class, and
+   isomorphism modulo support is equivalent to isomorphism after open
+   restriction, with both bad-level inclusions as consumers. Construction of
+   the global Serre quotient category and localization sequence, the quasi-finite
    admissible-filtration exact sequences, the
    remaining bad-level `H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
@@ -478,10 +514,16 @@ within each lane follows the listed order.
    away square, and a downstream ambient-compatibility consumer all checked.
    The three coordinate charts now prove the whole ambient square is a
    pullback, yielding the canonical projective-plane pullback isomorphism, both
-   projection laws, and a checked cubic zero-locus consumer. Next restrict it to
-   the reduced cubic with the recorded ambient equality, and identify the resulting
-   canonical open with the checked quotient chart; density remains separate.
-   Also prove that the point bijection preserves the group law, then `E/C`
+   projection laws, and a checked cubic zero-locus consumer. Its restriction
+   to the pulled cubic is now a surjective closed immersion with exact mapped
+   carrier and radical kernel. The canonical reduction map is an isomorphism
+   exactly under field-pullback reducedness, which then supplies the
+   ambient-compatible cubic isomorphism and standard-chart consumer. Prove
+   reducedness unconditionally and identify the canonical open with the
+   checked quotient chart; density remains separate. Scheme negation is now an
+   involutive automorphism over `Spec K`, and the point bijection intertwines
+   it with Mathlib negation. Construct addition and prove that the point
+   bijection preserves the full group law, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
@@ -647,21 +689,23 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/owner-a3-triple-tower-2`: the three pulled chosen-overlap Homs are
-  reviewed and integrated as explicit pairwise inverse-ideal model Homs, and
-  the raw cocycle is equivalent to their model cocycle. The active worker is
-  proving tower coherence with the directly constructed common-affine maps and
-  then applying fixed-common-affine transitivity.
-- `codex/owner-cubic-basechange-iso`: the actual ambient projective-plane
-  pullback isomorphism, both projection laws, and its cubic zero-locus consumer
-  are reviewed and integrated. The active worker is restricting it to the
-  reduced cubic and discharging `StandardChartComparison.targetBaseChangeIso`
-  with the recorded ambient compatibility.
-- `codex/owner-supported-localization`: pointwise open-immersion factorization,
-  site restriction, and zero of both actual cokernel sheaves over `D(level)`
-  are reviewed and integrated. The active worker is auditing open/closed sheaf
-  recollement and constructing the first genuine supported localization
-  consumer without asserting quotient representability.
+- `codex/mt-tc-a3-transition-cocycle`: reviewed infrastructure is integrated through scalar-tower
+  inverse-ideal extension, equality of pairwise-via-intersection and direct
+  common-affine comparisons, and the actual triple common-model cocycle. The
+  active worker is proving chosen-pullback pseudofunctor composition naturality,
+  before normalized-transition comparison and general effectivity.
+- `codex/owner-cubic-pullback-reduced`: the reduced mapped-cubic projection and
+  its exact `IsIso ↔ IsReduced` boundary are reviewed and integrated. The active
+  worker is proving field-pullback reducedness chartwise, beginning with the
+  homogeneous `Y` and `Z` localizations.
+- `codex/mt-ffgs-supported-sequence-2`: the exact/short-exact restriction,
+  Serre-support criterion, and constant/`μ` consumers are independently
+  reviewed and integrated. The next boundary is supported bad-fibre
+  cohomology feeding the page-49 low-degree estimate.
+- `projective-point-negation`: independently reviewed and integrated through
+  compatibility of the canonical point bijection with the scheme involution.
+  The owner now proceeds to addition and the pointed genus-one/Picard route;
+  no group-object claim is inferred from negation alone.
 - Integration owner: review and integrate those isolated branches while
   keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
   owner retains responsibility for the projective group law,

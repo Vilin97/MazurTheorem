@@ -167,7 +167,14 @@ surjectivity and objectwise cokernel vanishing on every test scheme over
 `D(level)`. Continuous restriction of the relative fppf site is compared with
 sheafification, so both actual bad-level cokernel sheaves restrict to zero over
 `D(level)`. They are therefore honestly supported on the bad fibre, without
-any representability claim. The supported sheaf localization sequences remain open, followed by the
+any representability claim. The closed fibre `Spec(R/(level))` is now identified with the
+complement of `D(level)`, and the actual cokernel sheaves are packaged in the corresponding
+supported full subcategory. Restriction preserves finite colimits, hence the point-cokernel
+sequences remain exact and short exact on the open; both constant-flat and multiplicative-flat
+inclusions become isomorphisms there. Sheaves supported on the closed complement form a Serre
+class, and a sheaf morphism is an isomorphism modulo this class exactly when its open restriction
+is an isomorphism; both bad-level inclusions are checked consumers. Construction of the global
+Serre quotient category and its localization sequence remains open, followed by the
 quasi-finite admissible-filtration exact sequences, bad-level multiplicative
 `H⁰`/`H¹` comparisons, and middle-`H¹` finiteness. The supported bad-fibre
 quotients are not being represented as quasi-finite flat group schemes.
@@ -284,6 +291,22 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSheafAway_isZero`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSheafAway_isZero`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequenceOverOpen_shortExact_of_mono`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.addPointFppfMapOverOpen_isIso_of_supported`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMapAway_isIso`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMapAway_isIso`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedOnClosedComplementProperty_isSerreClass`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.isoModSupported_iff_openRestriction_isIso`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMap_isoModSupported`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMap_isoModSupported`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -371,7 +394,12 @@ point-cokernel presheaves and concrete bad-level consumers. Their point maps
 are surjective above `D(level)`, their point-cokernel presheaves vanish there,
 and continuous site restriction carries this through sheafification to zero of
 the actual fppf cokernel sheaves. The multiplicative factor's trivial
-odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. The supported sheaf localization sequences,
+odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. The actual closed
+fibre and supported-sheaf full subcategory now compile; restriction preserves the exact and
+short-exact point-cokernel sequences, and the two bad-level inclusions are isomorphisms over
+`D(level)`. Closed-complement support is a checked Serre class, and isomorphism modulo support is
+equivalent to isomorphism after open restriction, with both bad-level inclusions as consumers.
+Construction of the global Serre quotient category and localization sequence,
 quasi-finite admissible-filtration exact sequences, both bad-level `H¹`
 comparisons, middle-`H¹` finiteness proof, and focused rank-zero specialization
 are still absent, so no node credit is claimed.
@@ -525,6 +553,20 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso_mem_mappedWeierstrassZeroLocus_iff`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_isIso_iff_isReduced`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.fieldBaseChangeIsoMappedCubic`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartComparisonOfReducedFieldBaseChange`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negation`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negation_comp_structureMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negationOver_involutive`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_neg`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -585,9 +627,15 @@ three normalized affine coordinate charts are now proved to be pullbacks and
 glued over their open cover, so the complete ambient projective-plane square is
 a pullback. Its canonical isomorphism with `P²_L` satisfies both projection
 laws, and a cubic zero-locus consumer identifies the mapped equation with the
-inverse image of the original equation. Restriction of that ambient
-isomorphism to an ambient-compatible reduced cubic is still open. The chart/open
-isomorphism and density, the scheme group law and compatibility, `E/C`, the coarse modular
+inverse image of the original equation. Restriction of the projection to the
+pulled cubic is now a surjective closed immersion with exact mapped carrier and radical kernel.
+Its canonical reduction map is an isomorphism exactly when the field pullback is reduced; under
+that hypothesis the ambient-compatible cubic isomorphism and standard-chart consumer compile.
+Homogeneous Weierstrass negation also restricts to an involutive automorphism of the reduced cubic
+over `Spec K`, and the canonical Mathlib-projective-point comparison intertwines point negation
+with this scheme involution, including the point at infinity. Unconditional field-pullback
+reducedness, the chart/open isomorphism and density, addition and the remaining scheme group laws,
+full point-map multiplicativity, `E/C`, the coarse modular
 point, and the required Atkin--Lehner geometry remain open, so this node
 receives no completion credit.
 :::
