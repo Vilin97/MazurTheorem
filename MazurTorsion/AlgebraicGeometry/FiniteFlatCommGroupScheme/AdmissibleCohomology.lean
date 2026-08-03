@@ -6,7 +6,6 @@ Authors: Vasily Ilin
 
 import Mathlib.GroupTheory.Index
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne
 
 /-!
 # Iterated admissible filtrations and the low-degree cardinal estimate
@@ -32,11 +31,10 @@ cardinal bound `middleHOne_natCard_le_pow` is the form consumed by the later ran
 
 At the pinned Mathlib revision, `Scheme.fppfTopology` and cover-level
 `PresheafOfGroups.H1` exist, but the latter file explicitly leaves the global colimit over covers,
-the connecting morphism, and the low-degree exact sequence as TODOs.  The repository's
-`FppfHOne` module now constructs the first of these from genuine cover refinements.  This file
-still does not pretend that the connecting morphism or exact sequence follows automatically.
-`UnitKummerClasses` is only the explicit unit quotient on the right of the Kummer comparison; its
-exponent and finite-unit cardinal bound are proved directly.
+the connecting morphism, and the low-degree exact sequence as TODOs.  Accordingly this file does
+not label a generic type as global fppf `H¹`.  `UnitKummerClasses` is only the explicit unit
+quotient on the right of the Kummer comparison; its exponent and finite-unit cardinal bound are
+proved directly.
 
 The mathematical source for the inequality and elementary Kummer reduction is
 B. Mazur, *Modular curves and the Eisenstein ideal*, Chapter I, Proposition 1.7.
@@ -262,34 +260,6 @@ namespace FinitePGroup
 instance {p : ℕ} : CoeSort (FinitePGroup.{u} p) (Type u) := ⟨carrier⟩
 instance {p : ℕ} (A : FinitePGroup.{u} p) : CommGroup A := A.commGroup
 instance {p : ℕ} (A : FinitePGroup.{u} p) : Finite A := A.finite
-
-universe w v uScheme
-
-/-- Package an actual global fppf `H¹` type as one of the finite `p`-groups used by the
-low-degree cardinal argument.  Commutativity, finiteness, and the cardinal computation remain
-explicit obligations: the global-colimit construction alone does not manufacture them. -/
-def ofFppfHOne {p : ℕ} {X : Scheme.{uScheme}}
-    {G : Scheme.{uScheme}ᵒᵖ ⥤ GrpCat.{w}}
-    (commGroup : CommGroup (Scheme.FppfHOne.{w, v, uScheme} X G))
-    (finite : Finite (Scheme.FppfHOne.{w, v, uScheme} X G))
-    (length : ℕ)
-    (card_eq : Nat.card (Scheme.FppfHOne.{w, v, uScheme} X G) = p ^ length) :
-    FinitePGroup p where
-  carrier := Scheme.FppfHOne.{w, v, uScheme} X G
-  commGroup := commGroup
-  finite := finite
-  length := length
-  card_eq := card_eq
-
-@[simp]
-lemma ofFppfHOne_length {p : ℕ} {X : Scheme.{uScheme}}
-    {G : Scheme.{uScheme}ᵒᵖ ⥤ GrpCat.{w}}
-    (commGroup : CommGroup (Scheme.FppfHOne.{w, v, uScheme} X G))
-    (finite : Finite (Scheme.FppfHOne.{w, v, uScheme} X G))
-    (length : ℕ)
-    (card_eq : Nat.card (Scheme.FppfHOne.{w, v, uScheme} X G) = p ^ length) :
-    (ofFppfHOne commGroup finite length card_eq).length = length :=
-  rfl
 
 /-- The low-degree Euler length `h¹ - h⁰`. -/
 def eulerLength {p : ℕ} (hZero hOne : FinitePGroup.{u} p) : ℤ :=
