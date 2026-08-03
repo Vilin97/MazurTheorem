@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.NumberTheory.OrderThirtyFiveRankBoundary
+import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
 # The rational three-cover attached to the order-35 dual candidate
@@ -36,6 +37,7 @@ zero convention.
 
 open WeierstrassCurve
 open scoped WeierstrassCurve.Affine
+open Polynomial
 
 namespace MazurTorsion.OrderThirtyFive
 
@@ -238,6 +240,340 @@ theorem addY_neg_threeTorsionOrigin_cubeClass
 
 /-! ## Exact arithmetic inputs and assembly of the three cosets -/
 
+/-- Coprime integer factors whose product is a cube are themselves cubes.
+For odd exponent the sign unit is absorbed by the cube root. -/
+private theorem int_eq_cube_of_isCoprime
+    {a b c : ℤ}
+    (hab : IsCoprime a b) (hprod : a * b = c ^ 3) :
+  ∃ d : ℤ, a = d ^ 3 := by
+  have hgcd : IsUnit (GCDMonoid.gcd a b) := by
+    exact (gcd_isUnit_iff a b).2 hab
+  obtain ⟨d, ⟨u, hu⟩⟩ :=
+    exists_associated_pow_of_mul_eq_pow hgcd hprod
+  rcases Int.units_eq_one_or u with hu1 | hu1
+  · refine ⟨d, ?_⟩
+    rw [← hu, hu1]
+    simp
+  · refine ⟨-d, ?_⟩
+    rw [← hu, hu1]
+    norm_num
+    ring
+
+/-- A nonzero factor of a cube whose gcd with the cofactor divides `7` has
+one of the three cube classes supported at `7`. -/
+private theorem cubeclass_of_gcd_dvd_seven
+    {A B C : ℤ}
+    (hA : A ≠ 0) (hprod : A * B = C ^ 3)
+    (hgcd : GCDMonoid.gcd A B ∣ (7 : ℤ)) :
+    ∃ d : ℤ, A = d ^ 3 ∨ A = 7 * d ^ 3 ∨ A = 49 * d ^ 3 := by
+  let g : ℤ := GCDMonoid.gcd A B
+  have hgA : g ∣ A := GCDMonoid.gcd_dvd_left A B
+  have hgB : g ∣ B := GCDMonoid.gcd_dvd_right A B
+  have hg0 : g ≠ 0 := by
+    intro hz
+    rw [hz] at hgA
+    exact hA (zero_dvd_iff.mp hgA)
+  have hgpos : 0 < g :=
+    lt_of_le_of_ne (Int.gcd_nonneg A B) (Ne.symm hg0)
+  have hdivNat : g.natAbs ∣ 7 := by
+    simpa using Int.natAbs_dvd_natAbs.mpr hgcd
+  have hgleNat : g.natAbs ≤ 7 := Nat.le_of_dvd (by norm_num) hdivNat
+  have hgle : g ≤ 7 := by
+    have : (g.natAbs : ℤ) ≤ 7 := by exact_mod_cast hgleNat
+    simpa [Int.natCast_natAbs, abs_of_pos hgpos] using this
+  have hgval : g = 1 ∨ g = 7 := by
+    interval_cases g <;> norm_num at hdivNat
+    all_goals simp
+  rcases hgval with hg | hg
+  · have hab : IsCoprime A B := by
+      apply (gcd_isUnit_iff A B).mp
+      rw [← show g = GCDMonoid.gcd A B from rfl, hg]
+      exact isUnit_one
+    obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime hab hprod
+    exact ⟨d, Or.inl hd⟩
+  · have hsevenA : (7 : ℤ) ∣ A := by simpa [hg] using hgA
+    have hsevenB : (7 : ℤ) ∣ B := by simpa [hg] using hgB
+    have hsevenC : (7 : ℤ) ∣ C := by
+      have hsevenC3 : (7 : ℤ) ∣ C ^ 3 := by
+        rw [← hprod]
+        exact dvd_mul_of_dvd_left hsevenA B
+      have hprime7 : Prime (7 : ℤ) :=
+        Int.prime_iff_natAbs_prime.mpr (by norm_num)
+      exact hprime7.dvd_of_dvd_pow hsevenC3
+    let a : ℤ := A / 7
+    let b : ℤ := B / 7
+    let c : ℤ := C / 7
+    have hga : 7 * a = A := by
+      exact EuclideanDomain.mul_div_cancel' (by norm_num) hsevenA
+    have hgb : 7 * b = B := by
+      exact EuclideanDomain.mul_div_cancel' (by norm_num) hsevenB
+    have hgc : 7 * c = C := by
+      exact EuclideanDomain.mul_div_cancel' (by norm_num) hsevenC
+    have hab : a * b = 7 * c ^ 3 := by
+      apply mul_left_cancel₀ (show (49 : ℤ) ≠ 0 by norm_num)
+      calc
+        49 * (a * b) = A * B := by rw [← hga, ← hgb]; ring
+        _ = C ^ 3 := hprod
+        _ = 49 * (7 * c ^ 3) := by rw [← hgc]; ring
+    have habcop : IsCoprime a b := by
+      simpa [g, hg] using
+        (isCoprime_div_gcd_div_gcd_of_gcd_ne_zero hg0 :
+          IsCoprime (A / g) (B / g))
+    have hsevenab : (7 : ℤ) ∣ a * b := by
+      rw [hab]
+      exact dvd_mul_right 7 (c ^ 3)
+    have hprime7 : Prime (7 : ℤ) :=
+      Int.prime_iff_natAbs_prime.mpr (by norm_num)
+    rcases hprime7.dvd_mul.mp hsevenab with hsevena | hsevenb
+    · obtain ⟨a', ha'⟩ := hsevena
+      have ha'div : a' ∣ a := ⟨7, by rw [ha']; ring⟩
+      have ha'bcube : a' * b = c ^ 3 := by
+        apply mul_left_cancel₀ (show (7 : ℤ) ≠ 0 by norm_num)
+        calc
+          7 * (a' * b) = a * b := by rw [ha']; ring
+          _ = 7 * c ^ 3 := hab
+      have ha'b : IsCoprime a' b :=
+        habcop.of_isCoprime_of_dvd_left ha'div
+      obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime ha'b ha'bcube
+      refine ⟨d, Or.inr (Or.inr ?_)⟩
+      rw [← hga, ha', hd]
+      ring
+    · obtain ⟨b', hb'⟩ := hsevenb
+      have hb'div : b' ∣ b := ⟨7, by rw [hb']; ring⟩
+      have hab'cube : a * b' = c ^ 3 := by
+        apply mul_left_cancel₀ (show (7 : ℤ) ≠ 0 by norm_num)
+        calc
+          7 * (a * b') = a * b := by rw [hb']; ring
+          _ = 7 * c ^ 3 := hab
+      have hab' : IsCoprime a b' :=
+        habcop.of_isCoprime_of_dvd_right hb'div
+      obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime hab' hab'cube
+      refine ⟨d, Or.inr (Or.inl ?_)⟩
+      rw [← hga, hd]
+
+/-- Scaling the abscissa by the reduced denominator of the ordinate gives
+an integer.  This is the integral-root step behind the weighted integral
+coordinates used in the source descent. -/
+private theorem integral_scaled_abscissa
+    {x y : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y) :
+    ∃ U : ℤ, (y.den : ℚ) * x = U := by
+  let r : ℤ := y.num
+  let s : ℤ := y.den
+  let u : ℚ := (s : ℚ) * x
+  let p : ℤ[X] :=
+    Polynomial.X ^ 3 -
+      (Polynomial.C (4 * r * s) * Polynomial.X +
+        Polynomial.C (r ^ 2 * s + 7 * r * s ^ 2))
+  have hs : (s : ℚ) ≠ 0 := by
+    dsimp [s]
+    exact_mod_cast y.den_ne_zero
+  have hy : y = (r : ℚ) / (s : ℚ) := by
+    simpa [r, s] using y.num_div_den.symm
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  norm_num [threeTorsionCurve] at hcurve
+  have hu :
+      u ^ 3 - (4 * r * s : ℤ) * u -
+          (r ^ 2 * s + 7 * r * s ^ 2 : ℤ) = 0 := by
+    rw [hy] at hcurve
+    dsimp only [u]
+    push_cast
+    field_simp [hs] at hcurve
+    linear_combination -(s : ℚ) * hcurve
+  have hp : p.Monic := by
+    dsimp only [p]
+    apply Polynomial.monic_X_pow_sub
+    compute_degree
+    norm_num
+  have hroot : Polynomial.aeval u p = 0 := by
+    dsimp only [p]
+    simp only [map_sub, map_add, map_mul, Polynomial.aeval_X,
+      Polynomial.aeval_C, map_pow]
+    norm_num at hu ⊢
+    linear_combination hu
+  obtain ⟨U, hU, -⟩ := exists_integer_of_is_root_of_monic hp hroot
+  exact ⟨U, by simpa [u, s] using hU⟩
+
+/-- In the reduced integral source equation, any common divisor of the two
+descent factors divides `7`.  The exponent-one assertion at `7` is the only
+non-radical part of the calculation. -/
+private theorem common_divisor_source_dvd_seven
+    {r s U T d : ℤ}
+    (hrs : IsCoprime r s)
+    (hT : T = r + 4 * U + 7 * s)
+    (hcurve : r * s * T = U ^ 3)
+    (hdr : d ∣ r) (hdT : d ∣ T) :
+    d ∣ (7 : ℤ) := by
+  have hds : IsCoprime d s :=
+    hrs.of_isCoprime_of_dvd_left hdr
+  have hdU3 : d ∣ U ^ 3 := by
+    rw [← hcurve]
+    exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_left hdr s) T
+  have hdlin : d ∣ 4 * U + 7 * s := by
+    have hsub : d ∣ T - r := hdT.sub hdr
+    convert hsub using 1
+    rw [hT]
+    ring
+  have hd343s3 : d ∣ 343 * s ^ 3 := by
+    have hid :
+        (4 * U + 7 * s) *
+            (16 * U ^ 2 - 28 * U * s + 49 * s ^ 2) =
+          64 * U ^ 3 + 343 * s ^ 3 := by ring
+    have hdsum : d ∣ 64 * U ^ 3 + 343 * s ^ 3 := by
+      rw [← hid]
+      exact dvd_mul_of_dvd_left hdlin _
+    obtain ⟨a, ha⟩ := hdsum
+    obtain ⟨b, hb⟩ : d ∣ 64 * U ^ 3 := by
+      simpa [mul_comm] using dvd_mul_of_dvd_right hdU3 64
+    refine ⟨a - b, ?_⟩
+    linear_combination ha - hb
+  have hd343 : d ∣ (343 : ℤ) :=
+    hds.pow_right.dvd_of_dvd_mul_right hd343s3
+  by_cases hd0 : d = 0
+  · subst d
+    norm_num at hd343
+  have hdabs : d.natAbs ∣ 343 := by
+    simpa using Int.natAbs_dvd_natAbs.mpr hd343
+  have hdabs' : d.natAbs ∣ 7 ^ 3 := by
+    norm_num at hdabs ⊢
+    exact hdabs
+  obtain ⟨k, hk, hkval⟩ :=
+    (Nat.dvd_prime_pow Nat.prime_seven).mp hdabs'
+  have hnot49 : ¬ (49 : ℤ) ∣ d := by
+    intro h49d
+    have h49r : (49 : ℤ) ∣ r := h49d.trans hdr
+    have h49T : (49 : ℤ) ∣ T := h49d.trans hdT
+    have h2401U3 : (2401 : ℤ) ∣ U ^ 3 := by
+      obtain ⟨r', hr'⟩ := h49r
+      obtain ⟨T', hT'⟩ := h49T
+      refine ⟨r' * s * T', ?_⟩
+      rw [← hcurve, hr', hT']
+      ring
+    have h7U : (7 : ℤ) ∣ U := by
+      apply Int.Prime.dvd_pow' Nat.prime_seven
+      exact (show (7 : ℤ) ∣ 2401 by norm_num).trans h2401U3
+    obtain ⟨u, hu⟩ := h7U
+    obtain ⟨q, hq⟩ := h2401U3
+    have huCube : u ^ 3 = 7 * q := by
+      apply mul_left_cancel₀ (show (343 : ℤ) ≠ 0 by norm_num)
+      calc
+        343 * u ^ 3 = U ^ 3 := by rw [hu]; ring
+        _ = 2401 * q := hq
+        _ = 343 * (7 * q) := by ring
+    have h7u : (7 : ℤ) ∣ u := by
+      apply Int.Prime.dvd_pow' Nat.prime_seven
+      exact ⟨q, huCube⟩
+    obtain ⟨u', hu'⟩ := h7u
+    have h49U : (49 : ℤ) ∣ U := by
+      refine ⟨u', ?_⟩
+      rw [hu, hu']
+      ring
+    have h49lin : (49 : ℤ) ∣ 4 * U + 7 * s := by
+      have hsub : (49 : ℤ) ∣ T - r := h49T.sub h49r
+      convert hsub using 1
+      rw [hT]
+      ring
+    have h49sevenS : (49 : ℤ) ∣ 7 * s := by
+      obtain ⟨a, ha⟩ := h49lin
+      obtain ⟨b, hb⟩ : (49 : ℤ) ∣ 4 * U := by
+        simpa [mul_comm] using dvd_mul_of_dvd_right h49U 4
+      refine ⟨a - b, ?_⟩
+      linear_combination ha - hb
+    obtain ⟨q, hq⟩ := h49sevenS
+    have h7s : (7 : ℤ) ∣ s := by
+      refine ⟨q, ?_⟩
+      apply mul_left_cancel₀ (show (7 : ℤ) ≠ 0 by norm_num)
+      calc
+        7 * s = 49 * q := hq
+        _ = 7 * (7 * q) := by ring
+    have h7r : (7 : ℤ) ∣ r :=
+      (show (7 : ℤ) ∣ 49 by norm_num).trans h49r
+    have hunit : IsUnit (7 : ℤ) :=
+      hrs.isUnit_of_dvd' h7r h7s
+    rcases Int.isUnit_iff.mp hunit with h | h <;> norm_num at h
+  have hklt : k < 2 := by
+    by_contra hknot
+    have hk2 : 2 ≤ k := by omega
+    have h49abs : 49 ∣ d.natAbs := by
+      rw [hkval]
+      simpa using (pow_dvd_pow (7 : ℕ) hk2)
+    apply hnot49
+    have h49cast : (49 : ℤ) ∣ (d.natAbs : ℤ) := by
+      exact_mod_cast h49abs
+    simpa [Int.natCast_natAbs] using h49cast
+  have hkcases : k = 0 ∨ k = 1 := by omega
+  rcases hkcases with rfl | rfl
+  · have hdabs1 : d.natAbs = 1 := by simpa using hkval
+    have hdunit : IsUnit d := by
+      exact Int.isUnit_iff.mpr (Int.natAbs_eq_iff.mp hdabs1)
+    exact hdunit.dvd
+  · have hdseven : d.natAbs = 7 := by simpa using hkval
+    have hdval : d = 7 ∨ d = -7 := by
+      simpa using (Int.natAbs_eq_iff.mp hdseven)
+    rcases hdval with rfl | rfl
+    · exact dvd_rfl
+    · norm_num
+
+/-- The second reduced source factor is coprime to the denominator. -/
+private theorem source_factor_coprime_denominator
+    {r s U T : ℤ}
+    (hrs : IsCoprime r s) (hs0 : s ≠ 0)
+    (hT : T = r + 4 * U + 7 * s)
+    (hcurve : r * s * T = U ^ 3) :
+    IsCoprime T s := by
+  apply isCoprime_of_prime_dvd
+  · exact fun h ↦ hs0 h.2
+  · intro p hp hpT hps
+    have hpU3 : p ∣ U ^ 3 := by
+      rw [← hcurve]
+      exact dvd_mul_of_dvd_left
+        (dvd_mul_of_dvd_right hps r) T
+    have hpU : p ∣ U := hp.dvd_of_dvd_pow hpU3
+    have hp4U : p ∣ 4 * U := by
+      simpa [mul_comm] using dvd_mul_of_dvd_right hpU 4
+    have hp7s : p ∣ 7 * s :=
+      dvd_mul_of_dvd_right hps 7
+    have hpr : p ∣ r := by
+      obtain ⟨a, ha⟩ := hpT
+      obtain ⟨b, hb⟩ := hp4U
+      obtain ⟨c, hc⟩ := hp7s
+      refine ⟨a - b - c, ?_⟩
+      calc
+        r = T - 4 * U - 7 * s := by rw [hT]; ring
+        _ = p * (a - b - c) := by rw [ha, hb, hc]; ring
+    exact hp.not_unit (hrs.isUnit_of_dvd' hpr hps)
+
+/-- The source equation in the reduced integral coordinates
+`r = num(y)`, `s = den(y)`, and `U = sx`. -/
+private theorem scaled_source_equation
+    {x y : ℚ}
+    (hP : threeTorsionCurve.toAffine.Nonsingular x y)
+    {U : ℤ} (hU : (y.den : ℚ) * x = U) :
+    y.num * (y.den : ℤ) *
+        (y.num + 4 * U + 7 * (y.den : ℤ)) = U ^ 3 := by
+  let r : ℤ := y.num
+  let s : ℤ := y.den
+  have hs : (s : ℚ) ≠ 0 := by
+    dsimp [s]
+    exact_mod_cast y.den_ne_zero
+  have hy : y = (r : ℚ) / (s : ℚ) := by
+    simpa [r, s] using y.num_div_den.symm
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  norm_num [threeTorsionCurve] at hcurve
+  have hQ :
+      ((r * s * (r + 4 * U + 7 * s) : ℤ) : ℚ) =
+        ((U ^ 3 : ℤ) : ℚ) := by
+    rw [hy] at hcurve
+    have hU' : (s : ℚ) * x = (U : ℚ) := by
+      simpa [s] using hU
+    push_cast
+    field_simp [hs] at hcurve
+    rw [← hU']
+    linear_combination (s : ℚ) * hcurve
+  exact_mod_cast hQ
+
 /-- The source local calculation needed from the fixed three-descent: every
 nonexceptional ordinate has one of the three supported cube classes
 `1`, `7`, or `49`. -/
@@ -246,6 +582,90 @@ def SourceThreeCubeClassBound : Prop :=
     threeTorsionCurve.toAffine.Nonsingular x y → x ≠ 0 →
       ∃ t : ℚ, t ≠ 0 ∧
         (y = t ^ 3 ∨ y = 7 * t ^ 3 ∨ y = 49 * t ^ 3)
+
+/-- The fixed source local calculation: the ordinate of every
+nonexceptional rational point has cube class `1`, `7`, or `49`.
+
+The proof uses reduced numerator-denominator coordinates for the ordinate.
+The integral-root theorem first shows that `den(y) * x` is integral.  The
+resulting two integral descent factors are coprime away from `7`, while a
+short exponent calculation rules out a common factor `49`. -/
+theorem sourceThreeCubeClassBound : SourceThreeCubeClassBound := by
+  intro x y hP hx
+  have hy0 : y ≠ 0 := by
+    intro hy
+    have hcurve := hP.1
+    rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+    norm_num [threeTorsionCurve, hy] at hcurve
+    exact hx (eq_zero_of_pow_eq_zero hcurve.symm)
+  obtain ⟨U, hU⟩ := integral_scaled_abscissa hP
+  let r : ℤ := y.num
+  let s : ℤ := y.den
+  let T : ℤ := r + 4 * U + 7 * s
+  have hr0 : r ≠ 0 := by
+    dsimp only [r]
+    exact Rat.num_ne_zero.mpr hy0
+  have hs0 : s ≠ 0 := by
+    dsimp only [s]
+    exact_mod_cast y.den_ne_zero
+  have hrs : IsCoprime r s := by
+    simpa [r, s] using Rat.isCoprime_num_den y
+  have hT : T = r + 4 * U + 7 * s := rfl
+  have hcurve : r * s * T = U ^ 3 := by
+    simpa [r, s, T] using scaled_source_equation hP hU
+  have hTs : IsCoprime T s :=
+    source_factor_coprime_denominator hrs hs0 hT hcurve
+  have hRTs : IsCoprime (r * T) s := hrs.mul_left hTs
+  have hprod : (r * T) * s = U ^ 3 := by
+    calc
+      (r * T) * s = r * s * T := by ring
+      _ = U ^ 3 := hcurve
+  obtain ⟨e, he⟩ :=
+    int_eq_cube_of_isCoprime hRTs.symm (by simpa [mul_comm] using hprod)
+  obtain ⟨w, hw⟩ := int_eq_cube_of_isCoprime hRTs hprod
+  have hgcd : GCDMonoid.gcd r T ∣ (7 : ℤ) :=
+    common_divisor_source_dvd_seven hrs hT hcurve
+      (GCDMonoid.gcd_dvd_left r T)
+      (GCDMonoid.gcd_dvd_right r T)
+  have he0 : e ≠ 0 := by
+    intro hezero
+    rw [hezero] at he
+    norm_num at he
+    exact hs0 he
+  have hy : y = (r : ℚ) / (s : ℚ) := by
+    simpa [r, s] using y.num_div_den.symm
+  obtain ⟨d, hd | hd | hd⟩ :=
+    cubeclass_of_gcd_dvd_seven hr0 hw hgcd
+  · have hd0 : d ≠ 0 := by
+      intro hdzero
+      rw [hdzero] at hd
+      norm_num at hd
+      exact hr0 hd
+    refine ⟨(d : ℚ) / (e : ℚ), div_ne_zero (by exact_mod_cast hd0)
+      (by exact_mod_cast he0), Or.inl ?_⟩
+    rw [hy, hd, he]
+    push_cast
+    field_simp [he0]
+  · have hd0 : d ≠ 0 := by
+      intro hdzero
+      rw [hdzero] at hd
+      norm_num at hd
+      exact hr0 hd
+    refine ⟨(d : ℚ) / (e : ℚ), div_ne_zero (by exact_mod_cast hd0)
+      (by exact_mod_cast he0), Or.inr (Or.inl ?_)⟩
+    rw [hy, hd, he]
+    push_cast
+    field_simp [he0]
+  · have hd0 : d ≠ 0 := by
+      intro hdzero
+      rw [hdzero] at hd
+      norm_num at hd
+      exact hr0 hd
+    refine ⟨(d : ℚ) / (e : ℚ), div_ne_zero (by exact_mod_cast hd0)
+      (by exact_mod_cast he0), Or.inr (Or.inr ?_)⟩
+    rw [hy, hd, he]
+    push_cast
+    field_simp [he0]
 
 /-- The target local calculation needed from the fixed three-descent: every
 rational target point is in the image of the first candidate point
@@ -405,6 +825,13 @@ theorem threeCosetBound_of_descent_inputs
                     -threeTorsionOrigin) := by abel
             _ = threeTorsionOrigin + (3 : ℕ) • R := by rw [hsum]
 
+/-- Once target surjectivity is supplied, the checked source cube-class
+calculation discharges the complete three-coset certificate. -/
+theorem threeCosetBound_of_targetCandidateSurjective
+    (htarget : TargetThreeCandidateSurjective) :
+    ThreeCosetBound :=
+  threeCosetBound_of_descent_inputs sourceThreeCubeClassBound htarget
+
 /-- Finiteness of the candidate target is sufficient for the target
 surjectivity input, because its checked rational torsion subgroup is
 trivial. -/
@@ -435,5 +862,19 @@ theorem optimalQuotientModel_finite_of_three_descent_inputs
     Finite optimalQuotientModel.toAffine.Point :=
   optimalQuotientModel_point_finite_of_cosetBound
     (threeCosetBound_of_descent_inputs hsource htarget)
+
+/-- Rank-zero consumer with the source local calculation fully discharged. -/
+theorem optimalQuotientModel_rank_zero_of_targetCandidateSurjective
+    (htarget : TargetThreeCandidateSurjective) :
+    Module.finrank ℤ optimalQuotientModel.toAffine.Point = 0 :=
+  optimalQuotientModel_point_rank_zero_of_cosetBound
+    (threeCosetBound_of_targetCandidateSurjective htarget)
+
+/-- Finiteness consumer with the source local calculation fully discharged. -/
+theorem optimalQuotientModel_finite_of_targetCandidateSurjective
+    (htarget : TargetThreeCandidateSurjective) :
+    Finite optimalQuotientModel.toAffine.Point :=
+  optimalQuotientModel_point_finite_of_cosetBound
+    (threeCosetBound_of_targetCandidateSurjective htarget)
 
 end MazurTorsion.OrderThirtyFive
