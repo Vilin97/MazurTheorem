@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1474709,
-    "integrated_lean_modules": 764,
+    "integrated_lean_lines": 1474953,
+    "integrated_lean_modules": 766,
     "remaining_composite_orders": [
       18,
       25,
@@ -3363,7 +3363,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, both global bad-level H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, both global bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -4147,6 +4147,48 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
           "description": "Consume the represented-H1 bridge and supported comparison for the canonical base changes of the multiplicative-flat bad-level model and mu_p."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Transport a supplied finite-p-group certificate for the ambient constant-group H1 across the checked good-open equivalence to the actual constant-flat carrier."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData_length",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Verify that certificate transport preserves the supplied p-length exactly."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAway_natCard_eq_pow",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Expose the exact p-power cardinal equality on the genuine constant-flat good-open H1 carrier."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Transport a supplied finite-p-group certificate for ambient mu_p H1 across the checked good-open equivalence to the actual multiplicative-flat carrier."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData_length",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Verify that multiplicative certificate transport preserves the supplied p-length exactly."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAway_natCard_eq_pow",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData",
+          "description": "Expose the exact p-power cardinal equality on the genuine multiplicative-flat good-open H1 carrier."
         }
       ],
       "depends_on": [
@@ -5510,13 +5552,20 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion.",
+      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion. The completed local collision now compiles over the actual five-adic integer ring: equality of the closed points and quotient sections, formal immersion at the cusp, and distinctness of the integral sections force the rational j-valuation bound. Constructing those modular/cusp sections and proving their specialization and Eisenstein-quotient equality remain open.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive",
           "state": "proposed",
           "description": "Implement Mazur 1978 Corollary 4.3 at the single unramified prime five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_j_le_one_of_formalImmersionAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionAtFive",
+          "description": "Turn the explicit modular/cusp closed-point collision and quotient-section equality into the five-adic j-valuation bound using the checked completed-stalk formal immersion."
         }
       ],
       "depends_on": [
@@ -5637,7 +5686,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is now base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. The actual Neron filtration and the implication from the modular formal-immersion endpoint to integral j remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. A completion-level consumer carries that same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is now base-changed and transported through Mathlib's selected minimal variable change with exact order preserved; invariance of j and comparison of completion valuations reduce the local j hypothesis to the original rational curve. A checked downstream theorem now supplies that j bound from the explicit formal-immersion collision inputs and reaches the same rational-point contradiction. The represented modular/cusp collision and the actual Neron filtration remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5700,6 +5749,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
           "description": "Feed rational integral j, the genuine filtration on the selected minimal completion, and the transported rational point to the checked F_5 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionAtFive",
+          "description": "Consume the explicit modular/cusp formal-immersion collision to discharge the rational j bound, while retaining the genuine tame-additive Neron filtration as an explicit input to the checked F_5 contradiction."
         }
       ],
       "depends_on": [

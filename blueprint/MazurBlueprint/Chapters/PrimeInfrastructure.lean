@@ -183,9 +183,12 @@ multiplicative-flat `H¹` equivalences for the universe-lifted additive represen
 `D(level)`. Explicit cocycle/common-refinement universe invariance and the multiplicative
 pullback-adjunction comparison for represented points then identify those equivalences with the
 original represented group-scheme `H¹` of the canonical base changes; both bad-level models are
-compiled consumers. The quasi-finite admissible-filtration exact sequences, bad-level multiplicative
-`H⁰`/`H¹` comparisons, and middle-`H¹` finiteness remain open. The supported bad-fibre quotients
-are not being represented as quasi-finite flat group schemes.
+compiled consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
+`mu_p` cohomology now transport across these equivalences to the genuine bad-level carriers,
+preserving both their lengths and exact cardinal equalities; this transport proves no arithmetic
+certificate by itself. The quasi-finite admissible-filtration exact sequences, both ambient
+good-open `H¹` calculations, and middle-`H¹` finiteness remain open. The supported bad-fibre
+quotients are not being represented as quasi-finite flat group schemes.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -358,6 +361,18 @@ are not being represented as quasi-finite flat group schemes.
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayMulEquiv`
 * `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData_length`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAway_natCard_eq_pow`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData_length`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAway_natCard_eq_pow`
+* `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
@@ -457,7 +472,9 @@ the universe-lifted additive represented sheaves on `D(level)`. Explicit univers
 the cocycle and common-refinement levels, together with the multiplicative base-change point
 presheaf comparison, now identifies that spelling with the original represented group-scheme
 `H¹` of the canonical base changes; constant-flat and multiplicative-flat declarations are real
-downstream consumers. An open-sheaf equivalence, global
+downstream consumers. Genuine supplied finite-p-group certificates now transport to the exact
+constant-flat and multiplicative-flat carriers with unchanged lengths and p-power cardinalities;
+no constant-group or Kummer arithmetic is inferred. An open-sheaf equivalence, global
 cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the
 two global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.

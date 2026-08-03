@@ -49,15 +49,18 @@ to formal immersion.
 
 *Status:* `blocked`.
 
-The local algebraic endpoint already compiles:
-`AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo`
-separates arbitrary maps from a Noetherian local spectrum once their closed
-points and restricted local homomorphisms agree. What remains here is to
-construct the modular and cusp sections and prove that their quotient images
-satisfy those hypotheses.
+The local collision endpoint now compiles over the actual completed integer
+ring at five. Equality of the modular and cusp closed points transports formal
+immersion to the modular point; equality of their quotient sections then
+forces equality of the integral sections, contradicting their supplied
+distinctness and proving the `j`-valuation bound. What remains here is to
+construct those modular and cusp sections and prove their bad-valuation
+specialization and Eisenstein-quotient equality.
 
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_j_le_one_of_formalImmersionAtFive`
 :::
 
 :::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -113,6 +116,8 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.valuation_minimalCompletionAtFive_j`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
@@ -123,8 +128,10 @@ the residue-field equivalence to the checked `𝔽₅` contradiction. The ration
 point is now base-changed and carried through Mathlib's selected minimal
 variable change with unchanged exact order; `j`-invariance and the completion
 valuation comparison return the local hypothesis to the rational curve. The
-modular integral-`j` input and genuine Néron filtration are still required, so
-this node receives no completion credit.
+new formal-immersion consumer discharges that rational `j` premise from the
+explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
+The actual represented modular/cusp collision and genuine Néron filtration are
+still required, so this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

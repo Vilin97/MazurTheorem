@@ -7,7 +7,8 @@ handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
-the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`),
+the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`) and
+the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -26,7 +27,8 @@ group-law transfer boundary with a finite-flat consumer,
 checked two-stage/direct transition-pullback consumers for the A3 divisor cocycle,
 and supported constant/`μ` sheaf-level fppf-`H¹` equivalences on the good open,
 their explicit universe/base-change comparison with represented group-scheme
-fppf-`H¹`, and canonical constant/`μ` base-change consumers,
+fppf-`H¹`, canonical constant/`μ` base-change consumers, and carrier-preserving
+finite-p-group certificate transport for both bad-level factors,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -36,7 +38,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `f3aa6e8` contains reviewed acceptance
+The combined owner history through `ca695f1` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -51,9 +53,12 @@ common-refinement construction, plus a multiplicative pullback-adjunction
 comparison for represented points, now bridge those equivalences to the
 original represented group-scheme `H¹` of the canonical base changes. The
 constant-flat and multiplicative-flat comparisons are compiled downstream
-consumers (`f3aa6e8`). The two global bad-level calculations remain open. All
-four commits passed independent mathematical/API review and claim no
-roadmap-node credit.
+consumers (`f3aa6e8`). Supplied finite-p-group certificates for the ambient
+constant and `μ_p` cohomology now transport to the exact bad-level carriers,
+preserving their lengths and p-power cardinal equalities (`40c6e22`); no
+finiteness or arithmetic certificate is manufactured. The two global
+good-open calculations remain open. These commits passed independent
+mathematical/API review and claim no roadmap-node credit.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -85,10 +90,14 @@ field and transported through the inverse of the exact variable change used
 by Mathlib's selected minimal model, with additive order preserved. The
 minimal equation's `j`-invariant and its local valuation are identified with
 the base-changed rational `j`, so the final rational-point consumer takes its
-integral-`j` premise on the original curve (`d36477e`, `bcdbe51`). These ranges
-use only standard axioms. The actual Néron filtration, modular quotient
-identification, and formal-immersion-to-integral-`j` input remain open, so no
-node credit is claimed.
+integral-`j` premise on the original curve (`d36477e`, `bcdbe51`). The actual
+completed-ring formal-immersion collision now proves that valuation bound from
+explicit modular/cusp specialization, quotient equality, and distinctness
+premises, and a named consumer reaches the same rational-point contradiction
+without changing the supplied filtration (`ca695f1`). These ranges use only
+standard axioms. The actual Néron filtration and the represented modular/cusp
+specialization and Eisenstein-quotient equality remain open, so no node credit
+is claimed.
 
 The preceding range forms the actual abelian Serre quotient by
 bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
@@ -248,6 +257,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
 `FppfHOneUniverse`, `SupportedFppfHOneBridge`,
+`SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
@@ -261,8 +271,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 764 integrated Lean
-sources / 1,474,709 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 766 integrated Lean
+sources / 1,474,953 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -568,11 +578,13 @@ within each lane follows the listed order.
    pullback-adjunction point-presheaf comparison, now bridge this spelling to
    the original represented group-scheme `H¹` of the canonical base changes.
    Both constant-flat and multiplicative-flat models are compiled consumers.
-   An
+   Supplied ambient finite-p-group certificates now transport to the actual
+   bad-level carriers with unchanged lengths and exact p-power cardinalities;
+   no arithmetic certificate is manufactured. An
    equivalence with sheaves on the open, recollement, and a cohomological
    localization sequence remain absent, as do the quasi-finite
    admissible-filtration exact sequences and the
-   remaining bad-level `H¹` certificates, and middle-`H¹` finiteness
+   ambient constant/Kummer `H¹` calculations and middle-`H¹` finiteness
    remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
    rank-zero specialization. Then finish
@@ -700,7 +712,10 @@ in `route_history`:
 2. `MT-PRIME-OUTSIDE-IDENTITY` (10): potentially multiplicative reduction
    gives cusp specialization at `5`.
 3. `MT-PRIME-EISENSTEIN-SPECIALIZATION` (20): torsion collision plus formal
-   immersion proves potentially good reduction at `5`.
+   immersion proves potentially good reduction at `5`. The completed-ring
+   collision-to-`j` theorem compiles from explicit modular/cusp closed-point,
+   quotient-equality, and distinctness premises; construct those represented
+   sections and discharge the premises.
 4. `MT-PRIME-DIVISION-FIELD` (15): preserve the exact prime-to-five order of
    the marked point in the Néron fibre.
 5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
@@ -710,8 +725,9 @@ in `route_history`:
    reduction and the exhaustive trichotomy reaches good reduction from the
    supplied tame filtration. A real downstream consumer now carries the same
    rational point through base change, the selected minimal variable change,
-   and exact-order reduction to the `F₅` enumeration; connect the modular
-   potentially-good/integral-`j` endpoint and genuine Néron data.
+   and exact-order reduction to the `F₅` enumeration. The formal-immersion
+   collision now supplies its `j` premise without changing the marked point or
+   filtration; construct the represented collision and genuine Néron data.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -821,9 +837,16 @@ or accounting shortcut.
   good open are also integrated. The explicit universe, sheafification, and
   base-change comparison to the existing represented group-scheme `H¹` is now
   reviewed and integrated, with canonical constant/`μ` base changes as real
-  consumers. A separate active worker is auditing the next focused
-  rank-zero consumer; the two global bad-level `H¹` calculations and
+  consumers. Carrier-preserving finite-p-group certificate transport is also
+  reviewed and integrated. A separate worktree is proving H¹ transport under
+  base-scheme isomorphisms with `basicOpenIsoSpecAway` as the required
+  localization consumer; the ambient constant/Kummer calculations and
   middle-`H¹` finiteness remain open.
+- `formal immersion at five`: the reviewed completed-ring collision and its
+  rational-point/F₅ consumer are integrated. The owner is now driving the
+  represented modular/cusp specialization and optimal-quotient equality that
+  discharge its explicit premises; the genuine Néron filtration stays on the
+  independent arithmetic lane.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

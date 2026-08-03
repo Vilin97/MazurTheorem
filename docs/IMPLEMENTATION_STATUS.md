@@ -96,9 +96,14 @@ Current machine-checked results include:
   convenient corollary assumes both maximal ideals finite. Mathlib's
   Noetherian-stalk theorem discharges these assumptions on locally Noetherian
   schemes, so the modular degree-one theorem now concludes the actual
-  formal-immersion predicate under the natural geometric hypothesis.
-  The integral cusp model, q-expansion calculation, and formal-immersion
-  collision remain open, so no roadmap node is credited;
+  formal-immersion predicate under the natural geometric hypothesis. Over the
+  actual completed integer ring at five, a checked collision theorem now turns
+  explicit modular/cusp closed-point and quotient-section equalities into the
+  rational `j`-valuation bound, and a downstream consumer carries it through
+  the minimal completion to the `F₅` contradiction. The integral cusp model,
+  q-expansion calculation, represented modular specialization, quotient
+  collision, and genuine Néron filtration remain open, so no roadmap node is
+  credited;
 * the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
   through a divisor-class/Picard equivalence into the actual degree-zero
   subgroup of `Scheme.Pic`. The checked formulas cover the base point,
@@ -241,6 +246,9 @@ Current machine-checked results include:
   sequence, the supported bad-fibre Serre quotient, and the explicit bridge
   from supported universe-lifted coefficients to represented group-scheme
   `H¹` of canonical base changes now compile with constant/μₚ consumers.
+  Supplied finite-p-group certificates transport to those exact bad-level
+  carriers with their lengths and cardinal equalities unchanged; the missing
+  arithmetic certificates are not inferred.
   Quasi-finite admissible-filtration exact sequences, the two global bad-level
   `H¹` calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the
   Eisenstein rank-zero consumer remain open; and
