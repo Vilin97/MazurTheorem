@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
+import MazurTorsion.Kubert.OrderSevenIsogenyDoubling
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -24,6 +25,8 @@ cusp image `(0,0)`.
 -/
 
 namespace MazurTorsion.XZeroFortyNine
+
+open scoped WeierstrassCurve.Affine
 
 open Kubert (orderSevenG7F)
 
@@ -528,5 +531,75 @@ theorem no_noncuspidal_correspondence_point
       · exact h'
       · exact absurd h' hGB
     exact mNX_ne_zero hs hB hG hx0
+
+/-- An exact order-49 point gives an exact order-seven marked point and
+therefore a parametrized order-seven Tate model carrying the original
+point and its seventh multiple. -/
+theorem orderFortyNine_tate_package
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (h49 : addOrderOf P = 49) :
+    ∃ (d : ℚ) (_ : d ≠ 0) (_ : d ≠ 1)
+      (_ : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0)
+      (h00 : (Kubert.orderSevenFamily d).toAffine.Nonsingular 0 0)
+      (e : E.toAffine.Point ≃+
+        (Kubert.orderSevenFamily d).toAffine.Point),
+      addOrderOf (e P) = 49 ∧
+        (7 : ℕ) • e P =
+          WeierstrassCurve.Affine.Point.some 0 0 h00 := by
+  let R : E.toAffine.Point := (7 : ℕ) • P
+  have hRorder : addOrderOf R = 7 := by
+    dsimp only [R]
+    rw [addOrderOf_nsmul' P (by norm_num), h49]
+    norm_num
+  have hnot : ∀ n : ℕ, ¬ (7 ∣ n) → (n : ℕ) • R ≠ 0 := by
+    intro n hn hzero
+    exact hn (hRorder ▸ addOrderOf_dvd_of_nsmul_eq_zero hzero)
+  have hR2 : R + R ≠ 0 := by
+    intro hzero
+    exact hnot 2 (by norm_num) (by simpa [two_nsmul] using hzero)
+  have hR3 : R + R + R ≠ 0 := by
+    intro hzero
+    exact hnot 3 (by norm_num) (by
+      rw [show (3 : ℕ) • R = R + R + R by abel]
+      exact hzero)
+  obtain ⟨b, c, u, hu, hb, h00, e, heR, hdisc, -, -⟩ :=
+    Kubert.exists_tateNormalCurve_scaled E R hR2 hR3
+  have hR0 : R ≠ 0 := hnot 1 (by norm_num)
+  have hsevenR : (7 : ℕ) • R = 0 := by
+    rw [← hRorder]
+    exact addOrderOf_nsmul_eq_zero R
+  have horigin0 :
+      (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+        (Kubert.tateNormalCurve b c).toAffine.Point) ≠ 0 := by
+    rw [← heR]
+    exact fun h ↦ hR0 (e.injective (by simpa using h))
+  have hsevenOrigin :
+      (7 : ℕ) • (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+        (Kubert.tateNormalCurve b c).toAffine.Point) = 0 := by
+    rw [← heR, ← map_nsmul, hsevenR, map_zero]
+  obtain ⟨hc, hrel⟩ :=
+    Kubert.orderSeven_tate_relation b c hb h00 horigin0 hsevenOrigin
+  obtain ⟨d, hd0, hd1, hbeq, hceq⟩ :=
+    Kubert.orderSeven_parametrization b c hb hc hrel
+  subst b
+  subst c
+  have hfamilyDelta : (Kubert.tateNormalCurve (d ^ 3 - d ^ 2)
+      (d ^ 2 - d)).Δ ≠ 0 := by
+    rw [← hdisc]
+    exact mul_ne_zero (pow_ne_zero 12 hu) E.isUnit_Δ.ne_zero
+  have hK : d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0 := by
+    intro hzero
+    apply hfamilyDelta
+    rw [Kubert.orderSeven_Δ, hzero]
+    ring
+  have horder : addOrderOf (e P) = 49 := by
+    rw [AddEquiv.addOrderOf_eq, h49]
+  have hseven : (7 : ℕ) • e P =
+      WeierstrassCurve.Affine.Point.some 0 0 h00 := by
+    rw [← map_nsmul]
+    simpa only [R] using heR
+  simpa only [Kubert.orderSevenFamily, Kubert.orderSevenB,
+    Kubert.orderSevenC] using
+      ⟨d, hd0, hd1, hK, h00, e, horder, hseven⟩
 
 end MazurTorsion.XZeroFortyNine
