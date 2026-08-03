@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1471538,
-    "integrated_lean_modules": 755,
+    "integrated_lean_lines": 1472677,
+    "integrated_lean_modules": 758,
     "remaining_composite_orders": [
       18,
       25,
@@ -3257,7 +3257,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is now identified with the complement of D(level); the cokernel sheaves are packaged in the corresponding supported full subcategory. Restriction preserves finite colimits, so the point-cokernel sequences remain exact and short exact on the open, and mono of the represented inclusion upgrades the restricted maps to isomorphisms. Sheaves supported on the closed complement form a Serre class, and a morphism is an isomorphism modulo that class exactly when its open restriction is an isomorphism; both actual constant-flat and multiplicative-flat inclusions are checked consumers. Construction of the global Serre quotient category and its localization sequence, quasi-finite exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open; no representability, recollement, or closed-fibre pushforward claim is made for the supported cokernel sheaves.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization now constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. No equivalence with sheaves on the open, recollement, cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3894,6 +3894,48 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerre",
           "description": "Consume the Serre criterion on the actual multiplicative-flat bad-level inclusion."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedQuotientExactFunctor",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Form the abelian Serre quotient by bad-fibre-supported fppf sheaves and bundle its canonical functor as exact."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedQuotientFunctor_map_isIso_iff_openRestriction_isIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Detect exactly the quotient isomorphisms by restriction to the complementary open."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequenceSupportedQuotient_shortExact_of_mono",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Map the actual monic represented-point cokernel sequence through the exact quotient functor."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.addPointFppfMap_supportedQuotient_isIso_of_supported",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Consume short exactness and vanishing of the supported quotient term to invert the represented-point map."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMap_supportedQuotient_isIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Route the actual constant-flat bad-level inclusion through the quotient short-exact consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMap_supportedQuotient_isIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfSerreQuotient",
+          "description": "Route the actual multiplicative-flat bad-level inclusion through the quotient short-exact consumer."
         }
       ],
       "depends_on": [
@@ -3968,7 +4010,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion compile; every split rational cyclic subgroup supplies the constant finite-flat carrier with exact point range. A genuine Tau Ceti abelian variety plus a multiplicative rational-point comparison feeds the exact-torsion consumer. The concrete reduced proper projective cubic has a checked bijective comparison with Mathlib projective points and an integral standard affine chart. Three coordinate charts prove the ambient projective-plane field square is a pullback. Restricting the canonical pullback projection to the reduced cubic now gives a surjective closed immersion with exact mapped-cubic range and radical kernel; its reduction map is an isomorphism exactly when the field pullback is reduced, and reducedness yields the ambient-compatible cubic base-change isomorphism and standard-chart consumer. Separately, homogeneous Weierstrass negation defines an involutive automorphism of the ambient plane and of the reduced cubic over Spec K, packaged as an isomorphism in the slice; the canonical Mathlib-projective-point comparison is checked to intertwine point negation with this scheme involution, including the point at infinity. The remaining geometric-integrality boundary is unconditional reducedness of every field pullback, the chart-to-canonical-open isomorphism, and density. Addition and full group-object laws, multiplicativity of the point bijection, E/C, and the coarse X_0 classifying point remain absent.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion compile; every split rational cyclic subgroup supplies the constant finite-flat carrier with exact point range. The concrete reduced proper projective cubic has a checked bijective comparison with Mathlib projective points and an integral standard affine chart. Three coordinate charts prove the ambient projective-plane field square is a pullback. The affine and infinity equation charts are prime over every field extension, form an actual open cover of the cubic, and commute with scalar extension by checked pullback/pushout squares. Hence every field pullback is reduced, the structure map is geometrically reduced, and the canonical reduction map and ambient-compatible mapped-cubic comparison are unconditional. Homogeneous Weierstrass negation defines an involutive automorphism over Spec K and agrees with Mathlib point negation. A genuine scheme isomorphism from the cubic to an abelian variety now transports its group object; when the canonical point map agrees after that isomorphism with a multiplicative Abel--Jacobi point map, cancellation proves the exact group-law compatibility and feeds a constant-order finite-flat Gamma_0 consumer. The remaining geometric-integrality inputs are the chart-to-canonical-open isomorphism and density. A pointed Picard/Jacobian isomorphism and its multiplicative point comparison, rather than a rational-point bijection, must supply the group law. E/C and the coarse X_0 classifying point remain absent.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -4486,6 +4528,41 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointNegation",
           "description": "Prove that the canonical bijection from Mathlib projective points to scheme-valued points intertwines Mathlib negation with the checked cubic involution."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.fieldBaseChange_isReduced",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCubicReducedBaseChange",
+          "description": "Prove every field pullback of the reduced projective Weierstrass cubic is reduced from the actual prime two-chart open cover."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartComparisonOfFieldBaseChange",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCubicReducedBaseChange",
+          "description": "Remove reducedness from the standard-chart boundary while retaining the independent chart isomorphism and density inputs."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.grpObjOfAbelianVarietyIso",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVarietyTransfer",
+          "description": "Transport an abelian variety's genuine group-object structure across a supplied scheme isomorphism to the concrete cubic."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalPointGroupLawCompatibility_of_abelianVarietyIso",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVarietyTransfer",
+          "description": "Derive zero and addition compatibility by cancelling the scheme isomorphism against a genuine multiplicative Abel--Jacobi point map."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackageOfAbelianVarietyIso_hasConstantOrder",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVarietyTransfer",
+          "description": "Consume the transported Picard/Jacobian group law in the actual finite-flat split Gamma_0 subgroup of constant order."
         }
       ],
       "depends_on": [

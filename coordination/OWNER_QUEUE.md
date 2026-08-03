@@ -18,6 +18,9 @@ Weierstrass cubic scheme with its bijective coordinate-point map, checked
 ambient projective-plane field-pullback isomorphism, exact reduction of the
 mapped cubic field pullback, and a scheme-level negation automorphism over the
 ground field whose action agrees with Mathlib negation on the checked point comparison,
+an exact Serre quotient by bad-fibre-supported fppf sheaves, unconditional
+geometric reducedness of the concrete cubic, and an honest pointed-Picard
+group-law transfer boundary with a finite-flat consumer,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -27,8 +30,23 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `716960b` contains reviewed acceptance
-boundaries. The latest semantic range constructs a finite-flat split Γ₀ datum
+The combined owner history through `586c7cc` contains reviewed acceptance
+boundaries. The newest range forms the actual abelian Serre quotient by
+bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
+represented-point cokernel short exact sequence into it, kills the supported
+third term, and routes both concrete bad-level inclusions through that exact
+consumer (`21d02c5`, `cf0ba32`). The affine and infinity cubic charts are prime
+after every field extension and form an actual two-chart open cover, proving
+unconditional field-pullback reducedness, geometric reducedness, and the
+mapped-cubic reduction-map isomorphism (`586c7cc`). A supplied genuine
+isomorphism to an abelian variety transports its group object; agreement of
+the canonical point map with a multiplicative Abel--Jacobi point map then
+proves the remaining group-law compatibility and reaches the constant-order
+finite-flat Γ₀ consumer (`f93d0d6`). The point-negation bridge additionally
+exposes the exact conditional inverse compatibility (`f0afb57`). These are
+reviewed API boundaries and claim no roadmap-node credit.
+
+The earlier semantic range constructs a finite-flat split Γ₀ datum
 directly from every supplied rational cyclic subgroup, using its intrinsic
 carrier as the presentation-independent constant source and proving exact point
 range (`7b8b305`, `24ee7bf`, `094e823`). It proves genuine open-immersion point
@@ -169,16 +187,19 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
+`SupportedFppfSerreQuotient`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `XZeroWeierstrassGeometricIntegrality`,
-`XZeroWeierstrassProjectivePlaneBaseChange`, `OrderElevenModelInverse`,
+`XZeroWeierstrassProjectivePlaneBaseChange`,
+`XZeroWeierstrassCubicReducedBaseChange`,
+`XZeroWeierstrassAbelianVarietyTransfer`, `OrderElevenModelInverse`,
 `XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 755 integrated Lean
-sources / 1,471,538 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 758 integrated Lean
+sources / 1,472,677 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -186,13 +207,14 @@ The recovered morphism now equals the original scheme-valued point: constants
 and coordinate ratios determine every chart ring map, unit-equivalent
 normalizations preserve the ambient closed point, and cancellation through the
 closed cubic immersion finishes the comparison. Hence the canonical map from
-Mathlib projective points is bijective. The remaining modular boundary is to
-prove reducedness of every field pullback, finish the standard-chart density
-witness, construct addition and the remaining group-object laws on the checked
-projective cubic, prove that the canonical bijection preserves the group law,
-and then construct `E/C`. Scheme negation and its compatibility with the
-canonical point comparison are checked, but do not substitute for addition or
-full multiplicativity. The quotient/classifying geometry follows
+Mathlib projective points is bijective, and every field pullback is now reduced.
+The remaining modular boundary is to prove the standard-chart isomorphism and
+density witness, construct the pointed Picard/Jacobian abelian variety and its
+scheme isomorphism with the cubic, identify the canonical point map with the
+resulting multiplicative Abel--Jacobi map, and then construct `E/C`. Scheme
+negation and its compatibility with the canonical point comparison are checked,
+but do not substitute for the pointed Picard/Jacobian construction or full
+multiplicativity. The quotient/classifying geometry follows
 after `E/C`. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
@@ -461,9 +483,13 @@ within each lane follows the listed order.
    short-exact point-cokernel sequences, and both bad-level inclusion maps are
    isomorphisms over the open. Closed-complement support is a Serre class, and
    isomorphism modulo support is equivalent to isomorphism after open
-   restriction, with both bad-level inclusions as consumers. Construction of
-   the global Serre quotient category and localization sequence, the quasi-finite
-   admissible-filtration exact sequences, the
+   restriction, with both bad-level inclusions as consumers. The actual
+   abelian Serre quotient and exact canonical functor now compile; the mapped
+   point-cokernel sequence stays short exact, its supported third term becomes
+   zero, and both concrete inclusions are inverted through this consumer. An
+   equivalence with sheaves on the open, recollement, and a cohomological
+   localization sequence remain absent, as do the quasi-finite
+   admissible-filtration exact sequences and the
    remaining bad-level `H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
@@ -516,14 +542,16 @@ within each lane follows the listed order.
    pullback, yielding the canonical projective-plane pullback isomorphism, both
    projection laws, and a checked cubic zero-locus consumer. Its restriction
    to the pulled cubic is now a surjective closed immersion with exact mapped
-   carrier and radical kernel. The canonical reduction map is an isomorphism
-   exactly under field-pullback reducedness, which then supplies the
-   ambient-compatible cubic isomorphism and standard-chart consumer. Prove
-   reducedness unconditionally and identify the canonical open with the
-   checked quotient chart; density remains separate. Scheme negation is now an
-   involutive automorphism over `Spec K`, and the point bijection intertwines
-   it with Mathlib negation. Construct addition and prove that the point
-   bijection preserves the full group law, then `E/C`
+   carrier and radical kernel. The affine and infinity equation charts are
+   prime after every field extension, form an actual open cover, and commute
+   with scalar extension; consequently every field pullback is reduced and
+   the ambient-compatible mapped-cubic comparison is unconditional. Identify
+   the canonical open with the checked quotient chart; density remains
+   separate. Scheme negation is an involutive automorphism over `Spec K`, and
+   the point bijection intertwines it with Mathlib negation. A genuine
+   abelian-variety scheme isomorphism now transports the group object and a
+   multiplicative point comparison reaches the finite-flat consumer. Construct
+   those pointed Picard/Jacobian inputs, then `E/C`
    and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
@@ -691,26 +719,28 @@ or accounting shortcut.
 
 - `codex/mt-tc-a3-transition-cocycle`: reviewed infrastructure is integrated through scalar-tower
   inverse-ideal extension, equality of pairwise-via-intersection and direct
-  common-affine comparisons, and the actual triple common-model cocycle. The
-  active worker is proving chosen-pullback pseudofunctor composition naturality,
-  before normalized-transition comparison and general effectivity.
-- `codex/owner-cubic-pullback-reduced`: the reduced mapped-cubic projection and
-  its exact `IsIso ↔ IsReduced` boundary are reviewed and integrated. The active
-  worker is proving field-pullback reducedness chartwise, beginning with the
-  homogeneous `Y` and `Z` localizations.
-- `codex/mt-ffgs-supported-sequence-2`: the exact/short-exact restriction,
-  Serre-support criterion, and constant/`μ` consumers are independently
-  reviewed and integrated. The next boundary is supported bad-fibre
-  cohomology feeding the page-49 low-degree estimate.
+  common-affine comparisons, and the actual triple common-model cocycle. A new
+  checkpoint isolates the exact chosen-pullback composition compatibility and
+  proves its arbitrary-further-pullback consumer; it is under independent
+  review while a companion API audit searches for the universal coherence proof.
+- `codex/owner-cubic-pullback-reduced`: independently reviewed and integrated.
+  Prime affine/infinity charts, their actual open cover and scalar pullbacks prove
+  unconditional field-pullback reducedness and geometric reducedness. The next
+  cubic boundary is the canonical-chart isomorphism and density, not reducedness.
+- `finite-flat supported quotient`: the exact abelian Serre quotient, mapped
+  short-exact sequence, supported-term vanishing, and constant/`μ` consumers are
+  reviewed and integrated. The next boundary is a genuine cohomological
+  localization/quasi-finite exact consumer feeding the page-49 estimate.
 - `projective-point-negation`: independently reviewed and integrated through
-  compatibility of the canonical point bijection with the scheme involution.
-  The owner now proceeds to addition and the pointed genus-one/Picard route;
-  no group-object claim is inferred from negation alone.
+  compatibility of the canonical point bijection with the scheme involution and
+  the exact conditional inverse bridge. The pointed genus-one/Picard transfer API
+  is also reviewed: only a genuine scheme isomorphism and multiplicative point map
+  install the group object and reach the finite-flat consumer.
 - Integration owner: review and integrate those isolated branches while
   keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
-  owner retains responsibility for the projective group law,
-  multiplicativity of the coordinate/scheme-point bijection, `E/C`, and the
-  coarse `X₀` classifying map.
+  owner retains responsibility for the pointed Picard/Jacobian construction,
+  multiplicativity of its Abel--Jacobi point map, `E/C`, and the coarse `X₀`
+  classifying map.
 
 ## Checkpoint acceptance rules
 
