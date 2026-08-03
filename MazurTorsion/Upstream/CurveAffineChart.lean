@@ -251,6 +251,7 @@ namespace MazurTorsion.AlgebraicGeometry.AffineChart
 
 open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
+open _root_.TauCeti.RingTheory
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
 open IsDedekindDomain WithZero
@@ -570,7 +571,7 @@ theorem isIntegrallyClosed_of_standardSmoothRelDimOne_over_field
   letI : IsNoetherianRing (Localization.AtPrime Q) :=
     IsLocalization.isNoetherianRing Q.primeCompl _ inferInstance
   have hvaluation : ValuationRing (Localization.AtPrime Q) :=
-    _root_.TauCeti.RingTheory.valuationRing_localizationAtPrime_of_isStandardSmoothOfRelativeDimension_one
+    valuationRing_localizationAtPrime_of_isStandardSmoothOfRelativeDimension_one
       K A Q
   have hnormal : IsIntegrallyClosed (Localization.AtPrime Q) ∧
       ∀ P : Ideal (Localization.AtPrime Q), P ≠ ⊥ → P.IsPrime →
