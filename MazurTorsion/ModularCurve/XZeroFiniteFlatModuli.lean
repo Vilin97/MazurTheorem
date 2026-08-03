@@ -614,8 +614,8 @@ noncomputable def rationalCyclicSubgroupEmbedding
 /-- A split rational cyclic subgroup constructs a genuine split finite-flat
 `Γ₀(N)` datum.  Its carrier is the constant scheme on the supplied subgroup
 subtype, so the actual closed embedding does not depend on a selected
-generator.  Choice enters only in the nonempty comparison with `ZMod N` that
-certifies split cyclicity. -/
+generator.  A cyclic-generator choice enters only in the nonempty comparison
+with `ZMod N` that certifies split cyclicity. -/
 noncomputable def splitGammaZeroDatumOfRationalCyclicSubgroup
     (M : WeierstrassGroupSchemeInterface W)
     (C : RationalCyclicSubgroup W.toAffine.Point N) :
