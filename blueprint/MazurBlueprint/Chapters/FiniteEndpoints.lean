@@ -104,8 +104,22 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.optimalQuotient_mordellWeil_finite`
 * `theorem` (`proposed`):
   `MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven`
-* `theorem` (`proposed`):
+* `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_le_eighteen`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_ne_of_nineteen_le`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_le_eighteen`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_of_nineteen_le`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_thirtyFive`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.reductionAtEleven_addOrderOf_ne_thirtyFive`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -143,7 +157,10 @@ and `5` supplies it unconditionally. Thus the fixed explicit curve model has
 checked rank zero and a finite rational point group. On the split rational
 source locus, canonical order-five and order-seven divisor subgroups now
 reconstruct the order-35 carrier; this does not construct the finite-flat
-subgroup scheme or `w₅`. The model's identification with
+subgroup scheme or `w₅`. Exhaustive normalization of all 121 short models over
+`F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
+the exact order-35 endpoint, and a good-reduction specialization consumer.
+The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node
 completion.

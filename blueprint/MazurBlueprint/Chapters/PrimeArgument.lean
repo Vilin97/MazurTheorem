@@ -81,6 +81,12 @@ at least eleven.
 
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
+
+The abstract component/additive-residue/formal-kernel filtration now gives
+the exact prime-order contradiction. Constructing it from the genuine Néron
+special fibre remains open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -91,6 +97,18 @@ fibre. The remaining fibre is good.
 *Status:* `blocked`.
 
 * `theorem` (`proposed`): `MazurTorsion.PrimeOrder.goodReductionAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_j_gt_one_of_hasMultiplicativeReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.not_hasMultiplicativeReduction_of_valuation_j_le_one`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
+
+The valuation of `j` is now proved strictly greater than one under
+multiplicative reduction, so integral `j` excludes that branch. Mathlib's
+exhaustive reduction-type trichotomy and the checked tame-additive consumer
+then prove good reduction. The modular integral-`j` input and genuine Néron
+filtration are still required, so this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

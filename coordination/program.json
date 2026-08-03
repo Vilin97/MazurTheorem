@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1473749,
-    "integrated_lean_modules": 761,
+    "integrated_lean_lines": 1473882,
+    "integrated_lean_modules": 762,
     "remaining_composite_orders": [
       18,
       25,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Finite-flat subgroup schemes, identification of the model with the modular quotient, its classifying map and formal immersion, and geometric bad-fibre specialization remain open; the checked F_11 enumeration then gives the final local contradiction.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound and a separate point-order consumer excludes exact order 35; the integral good-reduction specialization consumes that endpoint. Finite-flat subgroup schemes, identification of the model with the modular quotient, its classifying map and formal immersion, and geometric bad-fibre specialization remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -751,8 +751,58 @@
         {
           "kind": "theorem",
           "name": "MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen",
-          "state": "proposed",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteField",
           "description": "Normalize to short form and verify the 121 coefficient pairs over F_11."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_le_eighteen",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder",
+          "description": "Turn the enumerated short-model cardinality bound into a point-order bound."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_ne_of_nineteen_le",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder",
+          "description": "Exclude every exact point order at least nineteen on an elliptic short model over F_11."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_le_eighteen",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder",
+          "description": "Consume short-Weierstrass normalization to bound point order on every elliptic curve over F_11."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_of_nineteen_le",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder",
+          "description": "Uniformly exclude every exact order at least nineteen after arbitrary-model normalization."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_thirtyFive",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder",
+          "description": "Specialize the checked F_11 point-order obstruction to exact order 35."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.reductionAtEleven_addOrderOf_ne_thirtyFive",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFive",
+          "description": "Expose the exact-order-35 F_11 obstruction as the local order-35 endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFive",
+          "description": "Join unramified exact-order specialization at good reduction to the exhaustive F_11 point-order certificate."
         },
         {
           "kind": "theorem",
@@ -5490,13 +5540,20 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The tame additive Neron fibre has component group of order at most four, additive quotient of order five, and pro-5 formal kernel, so it cannot contain a point of prime order N at least 11.",
+      "summary": "The tame additive Neron fibre has component group of order at most four, additive quotient of order five, and torsion-free formal kernel, so the checked abstract filtration cannot contain a point of prime order N at least 11. Constructing that filtration from the actual Neron special fibre remains open.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.not_additiveReductionAtFive",
           "state": "proposed",
           "description": "Exclude additive reduction using the exact fibre filtration at residue characteristic five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Prove the prime-order contradiction from the component, additive-residue, and torsion-free formal-kernel filtration."
         }
       ],
       "depends_on": [
@@ -5531,13 +5588,34 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Potentially good reduction excludes multiplicative fibres, and the preceding component argument excludes additive fibres; therefore the reduction at 5 is good.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. Together with the checked tame-additive filtration consumer and Mathlib's exhaustive good/multiplicative/additive trichotomy, this proves good reduction. The actual Neron filtration and the implication from the modular formal-immersion endpoint to integral j remain open.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.goodReductionAtFive",
           "state": "proposed",
           "description": "Combine the two local exclusions to obtain good reduction at five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_j_gt_one_of_hasMultiplicativeReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Calculate that multiplicative reduction forces valuation of the j-invariant strictly above one."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.not_hasMultiplicativeReduction_of_valuation_j_le_one",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Deduce that an integral j-invariant excludes the multiplicative branch."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Consume integral j, an actual tame additive filtration, and a marked large-prime-order point in the reduction-type trichotomy to prove good reduction."
         }
       ],
       "depends_on": [
