@@ -569,15 +569,67 @@ theorem splitGammaZeroDatumPointHom_range
 
 /-! ### Forgetting the choice of generator -/
 
+noncomputable local instance rationalCyclicSubgroupFintype
+    (C : RationalCyclicSubgroup W.toAffine.Point N) : Fintype C.carrier :=
+  Fintype.ofFinite C.carrier
+
+/-- The canonical inclusion of the supplied subgroup subtype into the
+ambient rational point group, in multiplicative notation. -/
+def rationalCyclicSubgroupParameterization
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    Multiplicative C.carrier →* Multiplicative W.toAffine.Point :=
+  (AddSubgroup.subtype C.carrier).toMultiplicative
+
+omit [W.IsElliptic] in
+/-- The subgroup-subtype parameterization is injective. -/
+theorem rationalCyclicSubgroupParameterization_injective
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    Function.Injective (rationalCyclicSubgroupParameterization W C) := by
+  intro a b h
+  exact Multiplicative.ext
+    (C.carrier.subtype_injective (Multiplicative.toAdd.injective h))
+
+/-- A cyclic subgroup of order `N`, viewed multiplicatively, is isomorphic to
+the universe-compatible standard cyclic indexing group.  This choice is used
+only to certify split cyclicity, not to define the subgroup inclusion. -/
+noncomputable def rationalCyclicSubgroupIndexEquiv
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    Multiplicative C.carrier ≃* CyclicIndex.{u} N :=
+  (addEquivOfAddCyclicCardEq (G := C.carrier) (G' := ZMod N) (by
+      rw [C.card_eq]
+      simp)).toMultiplicative.trans MulEquiv.ulift.symm
+
+/-- Extend the canonical inclusion of the supplied rational subgroup to a
+closed embedding of its constant finite-flat group scheme. -/
+noncomputable def rationalCyclicSubgroupEmbedding
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    ConstantClosedEmbedding K M.groupScheme (Multiplicative C.carrier)
+      (M.rationalPointEquiv.toMonoidHom.comp
+        (rationalCyclicSubgroupParameterization W C)) :=
+  M.extendConstant (Multiplicative C.carrier)
+    (rationalCyclicSubgroupParameterization W C)
+    (rationalCyclicSubgroupParameterization_injective W C)
+
 /-- A split rational cyclic subgroup constructs a genuine split finite-flat
-`Γ₀(N)` datum without retaining a chosen generator.  A generator is selected
-internally only to invoke the checked constant-subgroup construction; the
-public input and output are both generator-free. -/
+`Γ₀(N)` datum.  Its carrier is the constant scheme on the supplied subgroup
+subtype, so the actual closed embedding does not depend on a selected
+generator.  Choice enters only in the nonempty comparison with `ZMod N` that
+certifies split cyclicity. -/
 noncomputable def splitGammaZeroDatumOfRationalCyclicSubgroup
     (M : WeierstrassGroupSchemeInterface W)
     (C : RationalCyclicSubgroup W.toAffine.Point N) :
     SplitGammaZeroDatum W M (N := N) :=
-  splitGammaZeroDatumOfTorsion W M C.generator C.addOrderOf_generator
+  let D := rationalCyclicSubgroupEmbedding W M C
+  ⟨
+    { carrier :=
+        AlgebraicGeometry.FiniteFlatCommGroupScheme.constantScheme K
+          (Multiplicative C.carrier)
+      inclusion := D.hom
+      inclusion_isClosedImmersion := D.hom_isClosedImmersion
+      isSplit :=
+        ⟨AlgebraicGeometry.FiniteFlatCommGroupScheme.constantSchemeIsoOfMulEquiv K
+          (rationalCyclicSubgroupIndexEquiv W C)⟩ }⟩
 
 omit [W.IsElliptic] in
 /-- The generator-free finite-flat subgroup has constant geometric order
@@ -586,17 +638,73 @@ theorem splitGammaZeroDatumOfRationalCyclicSubgroup_hasConstantOrder
     (M : WeierstrassGroupSchemeInterface W)
     (C : RationalCyclicSubgroup W.toAffine.Point N) :
     (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.carrier.HasConstantOrder N :=
-  splitGammaZeroDatumOfTorsion_hasConstantOrder
-    W M C.generator C.addOrderOf_generator
+  (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.hasConstantOrder
 
-/-- The additive rational-point parameterization underlying the
-generator-free construction.  Although it uses the internally selected
-generator, its range is intrinsic by the theorem below. -/
+omit [W.IsElliptic] in
+/-- The canonical subgroup inclusion agrees on every distinguished constant
+point with the corresponding element of the supplied rational subgroup. -/
+theorem splitGammaZeroDatumOfRationalCyclicSubgroup_map_constantPoint
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N)
+    (z : Multiplicative C.carrier) :
+    CommGroupScheme.mapPoint
+        (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.inclusion
+        (baseTestObject K)
+        (AlgebraicGeometry.FiniteFlatCommGroupScheme.constantGeometricPoint
+          K (Multiplicative C.carrier) z) =
+      M.rationalPointEquiv (rationalCyclicSubgroupParameterization W C z) :=
+  (rationalCyclicSubgroupEmbedding W M C).map_constantPoint z
+
+/-- Pull the actual constant subgroup sections back through the rational-point
+comparison. -/
+noncomputable def rationalCyclicSubgroupPointMonoidHom
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    Multiplicative C.carrier →* Multiplicative W.toAffine.Point :=
+  M.rationalPointEquiv.symm.toMonoidHom.comp <|
+    (CommGroupScheme.mapPoint
+      (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.inclusion
+      (baseTestObject K)).comp <|
+    constantPointHom K (Multiplicative C.carrier)
+
+omit [W.IsElliptic] in
+/-- The scheme-theoretic point map is the canonical subgroup-subtype
+inclusion. -/
+theorem rationalCyclicSubgroupPointMonoidHom_eq
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    rationalCyclicSubgroupPointMonoidHom W M C =
+      rationalCyclicSubgroupParameterization W C := by
+  apply MonoidHom.ext
+  intro z
+  change M.rationalPointEquiv.symm
+      (CommGroupScheme.mapPoint
+        (splitGammaZeroDatumOfRationalCyclicSubgroup W M C).subgroup.inclusion
+        (baseTestObject K)
+        (AlgebraicGeometry.FiniteFlatCommGroupScheme.constantGeometricPoint
+          K (Multiplicative C.carrier) z)) =
+    rationalCyclicSubgroupParameterization W C z
+  apply M.rationalPointEquiv.injective
+  rw [M.rationalPointEquiv.apply_symm_apply]
+  exact splitGammaZeroDatumOfRationalCyclicSubgroup_map_constantPoint W M C z
+
+/-- The additive rational-point map induced by the actual finite-flat subgroup
+inclusion. -/
 noncomputable def rationalCyclicSubgroupPointHom
     (M : WeierstrassGroupSchemeInterface W)
     (C : RationalCyclicSubgroup W.toAffine.Point N) :
-    ZMod N →+ W.toAffine.Point :=
-  splitGammaZeroDatumPointHom W M C.generator C.addOrderOf_generator
+    C.carrier →+ W.toAffine.Point :=
+  (rationalCyclicSubgroupPointMonoidHom W M C).toAdditive
+
+omit [W.IsElliptic] in
+/-- The additive scheme-point map is exactly the subtype inclusion. -/
+theorem rationalCyclicSubgroupPointHom_eq
+    (M : WeierstrassGroupSchemeInterface W)
+    (C : RationalCyclicSubgroup W.toAffine.Point N) :
+    rationalCyclicSubgroupPointHom W M C = AddSubgroup.subtype C.carrier := by
+  rw [rationalCyclicSubgroupPointHom,
+    rationalCyclicSubgroupPointMonoidHom_eq]
+  rfl
 
 omit [W.IsElliptic] in
 /-- Rational points of the constructed finite-flat subgroup recover exactly
@@ -606,9 +714,8 @@ theorem rationalCyclicSubgroupPointHom_range
     (M : WeierstrassGroupSchemeInterface W)
     (C : RationalCyclicSubgroup W.toAffine.Point N) :
     (rationalCyclicSubgroupPointHom W M C).range = C.carrier := by
-  rw [rationalCyclicSubgroupPointHom,
-    splitGammaZeroDatumPointHom_range]
-  exact C.zmultiples_generator
+  rw [rationalCyclicSubgroupPointHom_eq]
+  exact AddSubgroup.range_subtype C.carrier
 
 /-- A raw split rational `Γ₀(N)` datum, together with the checked
 Weierstrass group-scheme interface for its curve, constructs the corresponding
@@ -634,7 +741,7 @@ to a raw moduli datum back to its coordinate point group. -/
 noncomputable def rationalDatumPointHom
     (x : RationalDatum K N)
     (M : WeierstrassGroupSchemeInterface x.curve) :
-    ZMod N →+ x.curve.toAffine.Point :=
+    x.subgroup.carrier →+ x.curve.toAffine.Point :=
   rationalCyclicSubgroupPointHom x.curve M x.subgroup
 
 /-- The scheme-theoretic split subgroup constructed from a raw rational datum
