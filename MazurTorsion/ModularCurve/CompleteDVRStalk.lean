@@ -348,6 +348,17 @@ theorem descResidueField_isIso_of_rationalSection
       (stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom
         K X π g hsection) k
 
+/-- A morphism over the base sends a structural section to a structural section, so the image
+point also has residue field exactly the base field. -/
+theorem descResidueField_isIso_of_rationalSection_comp
+    (K : Type u) [Field K] (X Y : Scheme.{u})
+    (π : X ⟶ Spec (.of K)) (ρ : Y ⟶ Spec (.of K))
+    (f : X ⟶ Y) (hf : f ≫ ρ = π)
+    (g : Spec (.of K) ⟶ X) (hsection : g ≫ π = 𝟙 (Spec (.of K))) :
+    IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f))) := by
+  apply descResidueField_isIso_of_rationalSection K Y ρ (g ≫ f)
+  rw [Category.assoc, hf, hsection]
+
 /-- The checked completed-stalk coordinate at a non-generic point of a smooth integral curve.
 The explicit algebra and residue-surjectivity hypotheses are the honest equal-characteristic
 coefficient-field input. -/
@@ -527,6 +538,36 @@ theorem isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
   simpa only [rationalSectionStalkCompletionRingEquiv,
     RingHom.algebraMap_toAlgebra] using hqExpansion
 
+/-- Base-relative cusp-facing formal immersion with no residue-field instances supplied by the
+caller.  A morphism over `K` carries the structural section to a structural section, so both
+residue-field isomorphisms are derived from the two section equations. -/
+theorem isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_normalizedQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (ρ : Y ⟶ Spec (.of K)) (f : X ⟶ Y) (hf : f ≫ ρ = π)
+    (g : Spec (.of K) ⟶ X) (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F) :
+    AlgebraicGeometry.IsFormalImmersionAt f (g (IsLocalRing.closedPoint K)) := by
+  letI : IsIso
+      (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f))) :=
+    descResidueField_isIso_of_rationalSection_comp
+      K X Y π ρ f hf g hsection
+  exact isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
+    K X π Y f g hsection hx q hq targetParameter c hc F hqExpansion
+
 /-- The completed-stalk DVR bridge and normalized expansion separate actual local-spectrum
 morphisms.  This is the downstream collision test for the constructed coordinate. -/
 theorem specMap_fromStalk_eq_of_smoothCurveStalkDVR_normalizedQExpansion
@@ -650,6 +691,44 @@ theorem spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq
   have hformal :=
     isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
       K X π Y f g hsection hx q hq targetParameter c hc F hqExpansion
+  have hformalAtS :
+      AlgebraicGeometry.IsFormalImmersionAt f
+        (s (IsLocalRing.closedPoint S)) := by
+    simpa only [hs] using hformal
+  exact hformalAtS.spec_ext_of_comp_eq_of_isNoetherian s t
+    (hs.trans ht.symm) himage
+
+/-- Final base-relative cusp collision.  For a morphism of schemes over `K`, an actual smooth
+rational cusp, its uniformizer, and the normalized first coefficient are the only local inputs;
+both source and target residue-field identifications are consequences rather than hypotheses. -/
+theorem spec_eq_of_rationalSection_overBaseStalkDVR_normalizedQExpansion_of_comp_eq
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (ρ : Y ⟶ Spec (.of K)) (f : X ⟶ Y) (hf : f ≫ ρ = π)
+    (g : Spec (.of K) ⟶ X) (hsection : g ≫ π = 𝟙 (Spec (.of K)))
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+    (hq : Irreducible q)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      rationalSectionStalkCompletionRingEquiv K X π g hsection hx q hq
+        (algebraMap
+          (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+          (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+          ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F)
+    (S : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
+    (s t : Spec (.of S) ⟶ X)
+    (hs : s (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (ht : t (IsLocalRing.closedPoint S) = g (IsLocalRing.closedPoint K))
+    (himage : s ≫ f = t ≫ f) :
+    s = t := by
+  have hformal :=
+    isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_normalizedQExpansion
+      K X π Y ρ f hf g hsection hx q hq targetParameter c hc F hqExpansion
   have hformalAtS :
       AlgebraicGeometry.IsFormalImmersionAt f
         (s (IsLocalRing.closedPoint S)) := by
