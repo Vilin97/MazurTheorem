@@ -19,7 +19,8 @@ ambient projective-plane field-pullback isomorphism, exact reduction of the
 mapped cubic field pullback, and a scheme-level negation automorphism over the
 ground field whose action agrees with Mathlib negation on the checked point comparison,
 an exact Serre quotient by bad-fibre-supported fppf sheaves, unconditional
-geometric reducedness of the concrete cubic, and an honest pointed-Picard
+geometric integrality of the concrete cubic, its canonical dense standard-chart
+comparison, a finite-flat consumer of that comparison, and an honest pointed-Picard
 group-law transfer boundary with a finite-flat consumer,
 checked two-stage/direct transition-pullback consumers for the A3 divisor cocycle,
 and supported constant/`μ` sheaf-level fppf-`H¹` equivalences on the good open,
@@ -32,7 +33,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `d144ed0` contains reviewed acceptance
+The combined owner history through `62386a7` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -45,6 +46,17 @@ constant-flat and multiplicative-flat sheaf-level `H¹` equivalences on
 `D(level)` (`d144ed0`). The represented group-scheme `H¹` bridge and global
 bad-level calculations remain open. All three commits passed independent
 mathematical/API review and claim no roadmap-node credit.
+
+The canonical cubic-chart range proves that the infinity and standard equation
+charts have nonempty overlap, hence every concrete cubic is integral even in
+the singular case. It identifies the mapped affine chart with the actual
+field-pullback `D₊(Z)` open, constructs the canonical chart isomorphism, proves
+density and geometric integrality, and instantiates the unconditional Tau Ceti
+comparison (`30d4361`). The finite-flat consumer then takes only a genuine
+group object and the exact canonical-point group-law compatibility to produce
+the split constant-order `Γ₀` package (`62386a7`). This range was independently
+reviewed; it does not manufacture a group law from the rational-point
+bijection and claims no roadmap-node credit.
 
 The preceding range forms the actual abelian Serre quotient by
 bad-fibre-supported fppf sheaves, proves its canonical functor exact, maps the
@@ -188,9 +200,9 @@ constructs the canonical projective-plane pullback isomorphism, proves both
 projection laws, and consumes it on the Weierstrass zero locus. Checkpoint
 `3ae4ac4` restricts this projection to the pulled cubic, identifies its exact
 mapped carrier and radical kernel, and proves that its canonical reduction map
-is an isomorphism exactly under pullback reducedness. Thus the remaining fields
-are unconditional field-pullback reducedness, the chart/open isomorphism, and
-density.
+is an isomorphism exactly under pullback reducedness. Subsequent prime-chart
+and overlap arguments discharge reducedness, integrality, the chart/open
+isomorphism, and density unconditionally (`586c7cc`, `30d4361`).
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
@@ -209,13 +221,14 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XZeroWeierstrassGeometricIntegrality`,
 `XZeroWeierstrassProjectivePlaneBaseChange`,
 `XZeroWeierstrassCubicReducedBaseChange`,
+`XZeroWeierstrassCubicChartDensity`,
 `XZeroWeierstrassAbelianVarietyTransfer`, `OrderElevenModelInverse`,
 `XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 760 integrated Lean
-sources / 1,473,370 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 761 integrated Lean
+sources / 1,473,749 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -223,9 +236,10 @@ The recovered morphism now equals the original scheme-valued point: constants
 and coordinate ratios determine every chart ring map, unit-equivalent
 normalizations preserve the ambient closed point, and cancellation through the
 closed cubic immersion finishes the comparison. Hence the canonical map from
-Mathlib projective points is bijective, and every field pullback is now reduced.
-The remaining modular boundary is to prove the standard-chart isomorphism and
-density witness, construct the pointed Picard/Jacobian abelian variety and its
+Mathlib projective points is bijective, and every field pullback is now integral.
+The canonical standard-chart isomorphism, dense-range witness, and geometric
+integrality are also checked. The remaining modular boundary is to construct
+the pointed Picard/Jacobian abelian variety and its
 scheme isomorphism with the cubic, identify the canonical point map with the
 resulting multiplicative Abel--Jacobi map, and then construct `E/C`. Scheme
 negation and its compatibility with the canonical point comparison are checked,
@@ -330,7 +344,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, an integral standard affine chart, the actual projective-plane coefficient-extension map, and the ambient projective-plane pullback isomorphism; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; restriction of the ambient projective isomorphism to the cubic, the group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -556,11 +570,8 @@ within each lane follows the listed order.
    this recovered point forward returns the original morphism, so the canonical
    point map is bijective. The standard `Z ≠ 0` homogeneous-localization ring
    is now explicitly equivalent to the affine Weierstrass ring; its localized
-   cubic ideal is prime and its quotient chart integral. A checked criterion
-   derives geometric integrality from the still-open canonical base-change
-   chart, dense-range, and target-reducedness witness, and reaches real Tau
-   Ceti and split-`Γ₀` consumers. Next construct that witness and the group
-   object. The graded coefficient map now constructs `P²_L ⟶ P²_K`, with its
+   cubic ideal is prime and its quotient chart integral. The graded coefficient
+   map now constructs `P²_L ⟶ P²_K`, with its
    irrelevant-ideal hypothesis, coordinate and cubic formulas, exact `D₊(Z)`
    away square, and a downstream ambient-compatibility consumer all checked.
    The three coordinate charts now prove the whole ambient square is a
@@ -568,11 +579,13 @@ within each lane follows the listed order.
    projection laws, and a checked cubic zero-locus consumer. Its restriction
    to the pulled cubic is now a surjective closed immersion with exact mapped
    carrier and radical kernel. The affine and infinity equation charts are
-   prime after every field extension, form an actual open cover, and commute
-   with scalar extension; consequently every field pullback is reduced and
-   the ambient-compatible mapped-cubic comparison is unconditional. Identify
-   the canonical open with the checked quotient chart; density remains
-   separate. Scheme negation is an involutive automorphism over `Spec K`, and
+   prime after every field extension, form an actual open cover with nonempty
+   overlap, and commute with scalar extension; consequently every cubic and
+   field pullback is integral and the ambient-compatible mapped-cubic comparison
+   is unconditional. The mapped quotient chart is now identified with the
+   canonical `D₊(Z)` open, its range is dense, and the resulting geometric-
+   integrality comparison feeds real Tau Ceti and finite-flat consumers.
+   Scheme negation is an involutive automorphism over `Spec K`, and
    the point bijection intertwines it with Mathlib negation. A genuine
    abelian-variety scheme isomorphism now transports the group object and a
    multiplicative point comparison reaches the finite-flat consumer. Construct
@@ -747,10 +760,11 @@ or accounting shortcut.
   active worker is proving the isolated pairwise/direct compatibility from the
   lower tensor and inverse-ideal base-change coherence, with an unconditional
   cocycle as the required consumer.
-- `codex/owner-cubic-chart-density`: independently reviewed reducedness is
-  integrated. The active worker is constructing the canonical standard-chart
-  isomorphism and dense-range witness over every field extension, with the
-  existing geometric-integrality/Tau Ceti/finite-flat consumer as the gate.
+- `canonical cubic chart`: the independently reviewed standard-chart
+  isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
+  consumer, and finite-flat constant-order consumer are integrated. The next
+  geometric gate is the genuine pointed Picard/Jacobian group object and its
+  multiplicative canonical-point comparison.
 - `finite-flat supported quotient`: the exact abelian Serre quotient, mapped
   short-exact sequence, supported-term vanishing, and constant/`μ` consumers are
   reviewed and integrated. The reviewed sheaf-level `H¹` equivalences on the

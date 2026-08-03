@@ -613,6 +613,46 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalPointGroupLawCompatibility_of_abelianVarietyIso`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackageOfAbelianVarietyIso_hasConstantOrder`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinityChartPolynomial_not_dvd_innerX`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateChartRatio_one_two_not_mem_infinityChartIdeal`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartRanges_inter_nonempty`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartRanges_union_eq_univ`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_irreducibleSpace`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isIntegral`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap_isOpenImmersion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_comp_fieldBaseChangeAmbientMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_preimage_canonicalStandardOpen`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap_opensRange`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartIsoCanonicalStandardOpen`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartIsoCanonicalStandardOpen_hom_comp`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardOpenMap_denseRange`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartComparison`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartComparison_isAmbientCompatible`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_geometricallyIntegral`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfCanonicalStandardChart`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage_hasConstantOrder`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -656,12 +696,7 @@ polynomial, its equation ideal is prime, and the quotient chart is integral. A
 second equivalence identifies the affine equation quotient with that localized
 homogeneous chart. For every field extension, the canonical standard open of
 the actual pullback is constructed by pulling back `Proj.awayι`; it is an open
-immersion whose range is exactly the inverse image of `D₊(Z)`. A checked
-comparison structure isolates the remaining projective base-change
-isomorphism, chart/open isomorphism, and density. Its projective isomorphism
-derives target reducedness, and its consumer reaches both geometric
-integrality and Tau Ceti's abelian-variety constructor; the earlier split-`Γ₀`
-consumer then reaches constant geometric order. Graded coefficient extension
+immersion whose range is exactly the inverse image of `D₊(Z)`. Graded coefficient extension
 now constructs the ambient map `P²_L ⟶ P²_K`; the required irrelevant-ideal
 inclusion is proved from the coordinate generators. This map fixes the three
 coordinates, carries the cubic polynomial to the mapped equation, has the
@@ -680,13 +715,16 @@ that hypothesis the ambient-compatible cubic isomorphism and standard-chart cons
 Homogeneous Weierstrass negation also restricts to an involutive automorphism of the reduced cubic
 over `Spec K`, and the canonical Mathlib-projective-point comparison intertwines point negation
 with this scheme involution, including the point at infinity. The affine and infinity equation
-charts are now prime over every field extension, form an actual open cover, and commute with scalar
-extension. Thus every field pullback is reduced, the structure map is geometrically reduced, and
-the reduction-map isomorphism and ambient-compatible mapped-cubic comparison are unconditional.
+charts are now prime over every field extension, form an actual open cover with nonempty
+intersection, and commute with scalar extension. Thus every cubic and every field pullback is
+integral, the structure map is geometrically integral, and the reduction-map isomorphism and
+ambient-compatible mapped-cubic comparison are unconditional. The mapped integral quotient chart
+has exactly the canonical `D₊(Z)` range, so the chart/open isomorphism, dense-range theorem, and
+unconditional `StandardChartComparison` now compile and feed Tau Ceti and finite-flat consumers.
 A genuine isomorphism to an abelian variety now transports the group object; compatibility with a
 multiplicative Abel--Jacobi point map then supplies the exact group-law equations and reaches the
-constant-order finite-flat `Γ₀` consumer. The chart/open isomorphism and density, the pointed
-Picard/Jacobian isomorphism and multiplicative point comparison, `E/C`, the coarse modular point,
+constant-order finite-flat `Γ₀` consumer. The genuine pointed Picard/Jacobian group object and
+multiplicative point comparison, `E/C`, the coarse modular point,
 and the required Atkin--Lehner geometry remain open, so this node receives no completion credit.
 :::
 
