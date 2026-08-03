@@ -113,6 +113,43 @@ theorem valuation_j_le_one_of_mappedIdealCotangentAtEleven
   exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
     modularSection cuspSection hpoint (hquotient hj)
 
+/-- The squarefree level-35 calculation may be supplied directly as the
+degree-one quotient-fibre data detected by the characteristic-eleven
+`q`-expansion. -/
+theorem valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtEleven cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap (closedFiberPointAtEleven cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f) :
+    atEleven.valuation ℚ E.j ≤ 1 := by
+  by_contra hj
+  apply hne
+  have hpoint := hspecializes hj
+  have hformal : IsFormalImmersionAt f
+      (closedFiberPointAtEleven cuspSection) :=
+    Scheme.Hom.isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian
+      f (closedFiberPointAtEleven cuspSection) hresidue I hI hdegreeOne
+  have hformalAtModular : IsFormalImmersionAt f
+      (closedFiberPointAtEleven modularSection) := by
+    simpa only [hpoint] using hformal
+  exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
+    modularSection cuspSection hpoint (hquotient hj)
+
 /-- The level-35 special-fibre cotangent calculation reaches the rational
 order-35 exclusion through the canonical nonsingular-reduction endpoint at
 eleven. -/

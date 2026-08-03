@@ -42,6 +42,66 @@ noncomputable def cotangentMap
       change maximalIdeal A ≤ (maximalIdeal B).comap f
       rw [maximalIdeal_comap])
 
+/-- The cotangent map of a local homomorphism, semilinear over its canonical
+map on residue fields.  This is the local-ring version of the scheme-stalk
+map used by the modular degree-one criterion. -/
+noncomputable def cotangentMapAtResidue
+    {A B : Type*} [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B]
+    (f : A →+* B) [IsLocalHom f] :
+    CotangentSpace A →ₛₗ[ResidueField.map f] CotangentSpace B where
+  toFun := cotangentMap f
+  map_add' := (cotangentMap f).map_add
+  map_smul' := by
+    intro c z
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective c
+    obtain ⟨b, rfl⟩ :=
+      Ideal.toCotangent_surjective (maximalIdeal A) z
+    change Ideal.toCotangent (maximalIdeal B) _ =
+      Ideal.toCotangent (maximalIdeal B) _
+    congr 1
+    apply Subtype.ext
+    exact f.map_mul a b
+
+/-- Forgetting residue-field semilinearity recovers the integer-linear local
+cotangent map. -/
+@[simp]
+theorem cotangentMapAtResidue_apply
+    {A B : Type*} [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B]
+    (f : A →+* B) [IsLocalHom f] (z : CotangentSpace A) :
+    cotangentMapAtResidue f z = cotangentMap f z :=
+  rfl
+
+/-- A nonzero canonical cotangent map onto a one-dimensional target
+cotangent space is surjective.  Surjectivity of the residue-field map is kept
+explicit because this local-ring statement also applies before a geometric
+residue-field isomorphism has been installed. -/
+theorem cotangentMap_surjective_of_degreeOne
+    {A B : Type*} [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B]
+    (f : A →+* B) [IsLocalHom f]
+    (hresidue : Function.Surjective (ResidueField.map f))
+    (hfinrank : Module.finrank (ResidueField B) (CotangentSpace B) = 1)
+    (hnonzero : cotangentMapAtResidue f ≠ 0) :
+    Function.Surjective (cotangentMap f) := by
+  have hsurjective : Function.Surjective (cotangentMapAtResidue f) :=
+    AlgebraicGeometry.surjective_semilinear_of_nonzero_of_finrank_eq_one
+      hresidue hfinrank hnonzero
+  exact hsurjective
+
+/-- Construct the nonzero-map input in the degree-one criterion from one
+explicitly detected cotangent vector. -/
+theorem cotangentMap_surjective_of_degreeOne_of_apply_ne_zero
+    {A B : Type*} [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B]
+    (f : A →+* B) [IsLocalHom f]
+    (hresidue : Function.Surjective (ResidueField.map f))
+    (hfinrank : Module.finrank (ResidueField B) (CotangentSpace B) = 1)
+    (z : CotangentSpace A) (hz : cotangentMapAtResidue f z ≠ 0) :
+    Function.Surjective (cotangentMap f) := by
+  apply cotangentMap_surjective_of_degreeOne f hresidue hfinrank
+  intro hzero
+  apply hz
+  rw [hzero]
+  rfl
+
 /-- The local cotangent map sends the class of `a` to the class of `f a`. -/
 @[simp]
 theorem cotangentMap_toCotangent

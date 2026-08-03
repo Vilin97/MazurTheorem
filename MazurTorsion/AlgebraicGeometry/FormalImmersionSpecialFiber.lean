@@ -142,6 +142,73 @@ def IsMappedIdealCotangentSurjective
   IsQuotientCotangentSurjective f I (I.map f) hI
     ((Ideal.map_mono hI).trans (map_maximalIdeal_le f)) le_rfl
 
+/-- The degree-one data produced by a special-fibre `q`-expansion
+calculation.  The source and target quotient local rings are the actual
+quotients of the total stalks, the residue-field map is canonical, and the
+last field exhibits a target cotangent vector detected nontrivially after
+pullback.
+
+This is deliberately stronger and more geometric than a bare surjectivity
+hypothesis: it records exactly the three outputs of the characteristic-`p`
+calculation which imply mapped-ideal cotangent surjectivity. -/
+def IsMappedIdealDegreeOneCotangent
+    (f : A →+* B) [IsLocalHom f]
+    (I : Ideal A) (hI : I ≤ maximalIdeal A) : Prop :=
+  letI : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr
+    (hI.trans_lt (maximalIdeal.isMaximal A).lt_top).ne
+  letI : IsLocalRing (A ⧸ I) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk I) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
+  let J : Ideal B := I.map f
+  let hJ : J ≤ maximalIdeal B :=
+    (Ideal.map_mono hI).trans (map_maximalIdeal_le f)
+  letI : Nontrivial (B ⧸ J) := Ideal.Quotient.nontrivial_iff.mpr
+    (hJ.trans_lt (maximalIdeal.isMaximal B).lt_top).ne
+  letI : IsLocalRing (B ⧸ J) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk J) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective
+  let fbar : A ⧸ I →+* B ⧸ J :=
+    Ideal.quotientMap J f (Ideal.map_le_iff_le_comap.mp le_rfl)
+  letI : IsLocalHom fbar := quotientMap_isLocalHom f I J le_rfl
+  Function.Surjective (ResidueField.map fbar) ∧
+    Module.finrank (ResidueField (B ⧸ J)) (CotangentSpace (B ⧸ J)) = 1 ∧
+    ∃ z : CotangentSpace (A ⧸ I), cotangentMapAtResidue fbar z ≠ 0
+
+/-- A genuine degree-one calculation on the mapped special fibre supplies
+the quotient-cotangent surjectivity used by the lifting theorem. -/
+theorem IsMappedIdealDegreeOneCotangent.isMappedIdealCotangentSurjective
+    (f : A →+* B) [IsLocalHom f]
+    (I : Ideal A) (hI : I ≤ maximalIdeal A)
+    (hdegreeOne : IsMappedIdealDegreeOneCotangent f I hI) :
+    IsMappedIdealCotangentSurjective f I hI := by
+  letI : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr
+    (hI.trans_lt (maximalIdeal.isMaximal A).lt_top).ne
+  letI : IsLocalRing (A ⧸ I) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk I) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
+  let J : Ideal B := I.map f
+  let hJ : J ≤ maximalIdeal B :=
+    (Ideal.map_mono hI).trans (map_maximalIdeal_le f)
+  letI : Nontrivial (B ⧸ J) := Ideal.Quotient.nontrivial_iff.mpr
+    (hJ.trans_lt (maximalIdeal.isMaximal B).lt_top).ne
+  letI : IsLocalRing (B ⧸ J) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk J) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective
+  let fbar : A ⧸ I →+* B ⧸ J :=
+    Ideal.quotientMap J f (Ideal.map_le_iff_le_comap.mp le_rfl)
+  letI : IsLocalHom fbar := quotientMap_isLocalHom f I J le_rfl
+  change Function.Surjective (ResidueField.map fbar) ∧
+      Module.finrank (ResidueField (B ⧸ J)) (CotangentSpace (B ⧸ J)) = 1 ∧
+      ∃ z : CotangentSpace (A ⧸ I), cotangentMapAtResidue fbar z ≠ 0 at hdegreeOne
+  change Function.Surjective (cotangentMap fbar)
+  exact cotangentMap_surjective_of_degreeOne_of_apply_ne_zero fbar
+    hdegreeOne.1 hdegreeOne.2.1 hdegreeOne.2.2.choose
+    hdegreeOne.2.2.choose_spec
+
 /-- The exact special-fibre data needed to lift cotangent surjectivity to a
 local homomorphism. Finiteness is imposed only on the target quotient's
 maximal ideal, and the target quotient ideal must already come from the source
@@ -338,5 +405,21 @@ theorem
     IsFormalImmersionAt f x :=
   isFormalImmersionAt_of_mappedIdealCotangentSurjective
     f x hresidue I hI (by infer_instance) hquotient
+
+/-- At a locally Noetherian special fibre, the concrete degree-one outputs
+(residue surjectivity, one-dimensional source cotangent space, and one
+detected vector) lift directly to formal immersion of the total morphism. -/
+theorem
+    isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (hresidue : IsIso (f.residueFieldMap x))
+    (I : Ideal (Y.presheaf.stalk (f x)))
+    (hI : I ≤ IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap x).hom I hI) :
+    IsFormalImmersionAt f x :=
+  isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian
+    f x hresidue I hI
+      (hdegreeOne.isMappedIdealCotangentSurjective (f.stalkMap x).hom I hI)
 
 end AlgebraicGeometry.Scheme.Hom

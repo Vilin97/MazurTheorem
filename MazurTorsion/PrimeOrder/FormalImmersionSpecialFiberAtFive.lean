@@ -102,6 +102,37 @@ theorem valuation_j_le_one_of_mappedIdealCotangentAtFive
   exact valuation_j_le_one_of_formalImmersionAtFive
     f modularSection cuspSection hformal hne hspecializes hquotient
 
+/-- The characteristic-five calculation may be supplied in its natural
+degree-one form: the actual quotient residue map, the one-dimensional source
+cotangent space, and one target vector detected nontrivially by its first
+`q`-coefficient. -/
+theorem valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtFive cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap (closedFiberPointAtFive cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtFive modularSection =
+        closedFiberPointAtFive cuspSection)
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f) :
+    atFive.valuation ℚ E.j ≤ 1 := by
+  have hformal : IsFormalImmersionAt f (closedFiberPointAtFive cuspSection) :=
+    Scheme.Hom.isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian
+      f (closedFiberPointAtFive cuspSection) hresidue I hI hdegreeOne
+  exact valuation_j_le_one_of_formalImmersionAtFive
+    f modularSection cuspSection hformal hne hspecializes hquotient
+
 /-- The characteristic-five quotient-cotangent certificate reaches the
 prime-order exclusion with the canonical nonsingular-reduction domain on
 Mathlib's selected minimal equation.
