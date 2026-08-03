@@ -178,7 +178,12 @@ now forms the actual abelian quotient and its exact canonical functor. The mappe
 cokernel sequence remains short exact, its supported third term becomes zero, and both actual
 bad-level inclusions are inverted through this exact-sequence consumer. No equivalence with sheaves
 on the open, recollement, cohomological localization sequence, or closed-fibre pushforward is
-claimed. The quasi-finite admissible-filtration exact sequences, bad-level multiplicative
+claimed. Coefficient-isomorphism invariance first gives supported constant-flat and
+multiplicative-flat `H¹` equivalences for the universe-lifted additive represented sheaves on
+`D(level)`. Explicit cocycle/common-refinement universe invariance and the multiplicative
+pullback-adjunction comparison for represented points then identify those equivalences with the
+original represented group-scheme `H¹` of the canonical base changes; both bad-level models are
+compiled consumers. The quasi-finite admissible-filtration exact sequences, bad-level multiplicative
 `H⁰`/`H¹` comparisons, and middle-`H¹` finiteness remain open. The supported bad-fibre quotients
 are not being represented as quasi-finite flat group schemes.
 
@@ -339,6 +344,20 @@ are not being represented as quasi-finite flat group schemes.
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfHOneAwayMulEquiv`
 * `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne.mulEquivUlift`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.baseChangePointMulEquiv`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.baseChangeCommPointPresheafIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.baseChangeAddPointFppfCommPresheafIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.baseChangeFppfHOneMulEquivAddPointFppfHOneOverOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayMulEquiv`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayMulEquiv`
+* `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
@@ -434,10 +453,13 @@ The global Serre quotient and its exact canonical functor now compile: the suppo
 sequence becomes a short exact sequence with zero third term, and both concrete inclusions are
 isomorphisms in the quotient. Isomorphism invariance of the checked global `H¹` also turns the
 actual open-restriction isomorphisms into constant-flat and multiplicative-flat equivalences for
-the universe-lifted additive represented sheaves on `D(level)`. This does not yet identify that
-spelling with the original represented group-scheme `H¹`. An open-sheaf equivalence, global
+the universe-lifted additive represented sheaves on `D(level)`. Explicit universe invariance at
+the cocycle and common-refinement levels, together with the multiplicative base-change point
+presheaf comparison, now identifies that spelling with the original represented group-scheme
+`H¹` of the canonical base changes; constant-flat and multiplicative-flat declarations are real
+downstream consumers. An open-sheaf equivalence, global
 cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the
-represented-`H¹` bridge, both global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
+two global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.
 :::
 

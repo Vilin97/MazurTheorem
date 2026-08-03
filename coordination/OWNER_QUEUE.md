@@ -25,6 +25,8 @@ comparison, a finite-flat consumer of that comparison, and an honest pointed-Pic
 group-law transfer boundary with a finite-flat consumer,
 checked two-stage/direct transition-pullback consumers for the A3 divisor cocycle,
 and supported constant/`μ` sheaf-level fppf-`H¹` equivalences on the good open,
+their explicit universe/base-change comparison with represented group-scheme
+fppf-`H¹`, and canonical constant/`μ` base-change consumers,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -34,7 +36,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `bcdbe51` contains reviewed acceptance
+The combined owner history through `f3aa6e8` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -44,9 +46,14 @@ the remaining lower extension-of-scalars proof is explicit. The supported
 cohomology range proves coefficient-isomorphism invariance of the checked
 global fppf `H¹` and turns actual open-restriction isomorphisms into concrete
 constant-flat and multiplicative-flat sheaf-level `H¹` equivalences on
-`D(level)` (`d144ed0`). The represented group-scheme `H¹` bridge and global
-bad-level calculations remain open. All three commits passed independent
-mathematical/API review and claim no roadmap-node credit.
+`D(level)` (`d144ed0`). Explicit universe invariance of the checked cocycle and
+common-refinement construction, plus a multiplicative pullback-adjunction
+comparison for represented points, now bridge those equivalences to the
+original represented group-scheme `H¹` of the canonical base changes. The
+constant-flat and multiplicative-flat comparisons are compiled downstream
+consumers (`f3aa6e8`). The two global bad-level calculations remain open. All
+four commits passed independent mathematical/API review and claim no
+roadmap-node credit.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -240,6 +247,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
+`FppfHOneUniverse`, `SupportedFppfHOneBridge`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
@@ -253,8 +261,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 762 integrated Lean
-sources / 1,473,882 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 764 integrated Lean
+sources / 1,474,709 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -555,9 +563,12 @@ within each lane follows the listed order.
    isomorphism of commutative coefficient presheaves now induces an equivalence
    on the checked global fppf `H¹`; the two concrete open-restriction
    isomorphisms therefore give constant-flat and multiplicative-flat
-   sheaf-level `H¹` equivalences on `D(level)`. A bridge to the original
-   represented group-scheme `H¹` spelling is still required before these feed
-   the existing low-degree rank-zero package. An
+   sheaf-level `H¹` equivalences on `D(level)`. Explicit cochain/cocycle and
+   common-refinement universe invariance, together with the multiplicative
+   pullback-adjunction point-presheaf comparison, now bridge this spelling to
+   the original represented group-scheme `H¹` of the canonical base changes.
+   Both constant-flat and multiplicative-flat models are compiled consumers.
+   An
    equivalence with sheaves on the open, recollement, and a cohomological
    localization sequence remain absent, as do the quasi-finite
    admissible-filtration exact sequences and the
@@ -807,10 +818,12 @@ or accounting shortcut.
 - `finite-flat supported quotient`: the exact abelian Serre quotient, mapped
   short-exact sequence, supported-term vanishing, and constant/`μ` consumers are
   reviewed and integrated. The reviewed sheaf-level `H¹` equivalences on the
-  good open are also integrated. A separate active worker is proving the
-  universe, sheafification, and base-change comparison to the existing
-  represented group-scheme `H¹`; the next acceptance boundary requires a real
-  constant/`μ` rank-zero consumer.
+  good open are also integrated. The explicit universe, sheafification, and
+  base-change comparison to the existing represented group-scheme `H¹` is now
+  reviewed and integrated, with canonical constant/`μ` base changes as real
+  consumers. A separate active worker is auditing the next focused
+  rank-zero consumer; the two global bad-level `H¹` calculations and
+  middle-`H¹` finiteness remain open.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

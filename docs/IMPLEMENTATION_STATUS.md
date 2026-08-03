@@ -236,9 +236,14 @@ Current machine-checked results include:
   quotients; morphism-level base-change naturality for the named constant
   families; and one exact fppf admissible-filtration step whose constant/μₚ
   factors force a `p²` point-exponent bound before and after
-  kernel-compatible scalar extension. Generic kernel/quotient base change,
-  fppf cohomology, Raynaud uniqueness, and the Eisenstein rank-zero consumer
-  remain open; and
+  kernel-compatible scalar extension. Generic certified kernel/quotient base
+  change, common-refinement global fppf `H¹`, its functorial low-degree exact
+  sequence, the supported bad-fibre Serre quotient, and the explicit bridge
+  from supported universe-lifted coefficients to represented group-scheme
+  `H¹` of canonical base changes now compile with constant/μₚ consumers.
+  Quasi-finite admissible-filtration exact sequences, the two global bad-level
+  `H¹` calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the
+  Eisenstein rank-zero consumer remain open; and
 * explicit total Vélu and dual point maps for `X₁(11)` whose composition is
   multiplication by five; this is retained as a release-obligation fallback,
   not a prerequisite of the uniform order-eleven theorem.

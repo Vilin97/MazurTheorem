@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1474097,
-    "integrated_lean_modules": 762,
+    "integrated_lean_lines": 1474709,
+    "integrated_lean_modules": 764,
     "remaining_composite_orders": [
       18,
       25,
@@ -3363,7 +3363,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support also gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, closed-fibre pushforward, or comparison of this lifted sheaf spelling with the original represented group-scheme H1 is asserted. Quasi-finite admissible-filtration exact sequences, the represented-H1 bridge, both global bad-level H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, both global bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -4098,6 +4098,55 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOne",
           "description": "Concrete multiplicative-flat consumer of the supported sheaf-level H1 equivalence on D(level)."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.FppfHOne.mulEquivUlift",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneUniverse",
+          "description": "Prove universe invariance of global fppf H1 explicitly on cochains, cocycles, cover quotients, and the common-refinement quotient, compatibly with multiplication and pullback."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.baseChangePointMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Identify points of a canonical base-changed commutative group scheme with restricted original points as multiplicative groups via the pullback adjunction."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.baseChangeCommPointPresheafIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Upgrade the multiplicative point equivalence to a natural isomorphism of represented commutative point presheaves."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.baseChangeAddPointFppfCommPresheafIso",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Compare the universe-lifted point presheaf of the canonical base change with the actual restricted represented additive fppf sheaf."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.baseChangeFppfHOneMulEquivAddPointFppfHOneOverOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Bridge the original represented group-scheme fppf H1 of a canonical base change to the supported universe-lifted additive-sheaf spelling on the open."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Consume the represented-H1 bridge and supported comparison for the canonical base changes of the constant-flat bad-level model and constant group scheme."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge",
+          "description": "Consume the represented-H1 bridge and supported comparison for the canonical base changes of the multiplicative-flat bad-level model and mu_p."
         }
       ],
       "depends_on": [
