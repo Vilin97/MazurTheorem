@@ -89,6 +89,29 @@ noncomputable instance minimalCompletionAtFive_isElliptic
   dsimp only [minimalCompletionAtFive]
   infer_instance
 
+/-- The `j`-invariant of the selected minimal completion is the image of the original rational
+`j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
+explicit in the construction above. -/
+theorem minimalCompletionAtFive_j
+    (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    (minimalCompletionAtFive E).j =
+      algebraMap ℚ (atFive.adicCompletion ℚ) E.j := by
+  simp only [minimalCompletionAtFive, WeierstrassCurve.variableChange_j,
+    completionAtFive, WeierstrassCurve.Affine.baseChange,
+    WeierstrassCurve.baseChange, WeierstrassCurve.map_j]
+
+/-- The local valuation of the selected minimal equation's `j`-invariant is exactly the original
+five-adic valuation of the rational `j`-invariant. -/
+theorem valuation_minimalCompletionAtFive_j
+    (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    valuation (atFive.adicCompletion ℚ)
+        (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ))
+        (minimalCompletionAtFive E).j =
+      atFive.valuation ℚ E.j := by
+  rw [minimalCompletionAtFive_j]
+  exact atFive.valuation_adicCompletion_algebraMap
+    (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ)) E.j
+
 /-- Transport a rational point first into the five-adic completion and then through the inverse
 of the admissible variable change defining Mathlib's selected minimal equation. -/
 noncomputable def minimalCompletionPointAtFive
@@ -207,14 +230,13 @@ theorem
 to Mathlib's selected minimal five-adic equation, preserving exact order, before invoking the
 integral-`j` and tame-additive-filtration contradiction.
 
-The only remaining local inputs are stated on that concrete minimal equation: `hj` and `F` must
-ultimately come from the modular potentially-good theorem and the genuine Néron model. -/
+The rational `j`-invariant hypothesis is transported by the checked invariance and completion
+valuation lemmas above. The remaining filtration input is stated on the concrete minimal equation
+and must ultimately come from the genuine Néron model. -/
 theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
     [DecidableEq (atFive.adicCompletion ℚ)]
-    (hj : valuation (atFive.adicCompletion ℚ)
-      (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ))
-        (minimalCompletionAtFive E).j ≤ 1)
+    (hj : atFive.valuation ℚ E.j ≤ 1)
     (F : (minimalCompletionAtFive E).HasAdditiveReduction
       (atFive.adicCompletionIntegers ℚ) →
         MazurTorsion.EllipticCurve.TameAdditiveFiltrationData
@@ -223,9 +245,14 @@ theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFiv
     (P : E.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
     addOrderOf P ≠ N := by
   intro horder
+  have hj' : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ))
+        (minimalCompletionAtFive E).j ≤ 1 := by
+    rw [valuation_minimalCompletionAtFive_j]
+    exact hj
   apply
     completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive
-      hj F hresidue (minimalCompletionPointAtFive E P) N hprime hN
+      hj' F hresidue (minimalCompletionPointAtFive E P) N hprime hN
   exact (minimalCompletionPointAtFive_addOrderOf E P).trans horder
 
 end MazurTorsion.PrimeOrder
