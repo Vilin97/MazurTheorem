@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import Mathlib.GroupTheory.Index
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne
 
 /-!
 # Iterated admissible filtrations and the low-degree cardinal estimate
@@ -31,10 +32,11 @@ cardinal bound `middleHOne_natCard_le_pow` is the form consumed by the later ran
 
 At the pinned Mathlib revision, `Scheme.fppfTopology` and cover-level
 `PresheafOfGroups.H1` exist, but the latter file explicitly leaves the global colimit over covers,
-the connecting morphism, and the low-degree exact sequence as TODOs.  Accordingly this file does
-not label a generic type as global fppf `H¹`.  `UnitKummerClasses` is only the explicit unit
-quotient on the right of the Kummer comparison; its exponent and finite-unit cardinal bound are
-proved directly.
+the connecting morphism, and the low-degree exact sequence as TODOs.  The repository's
+`FppfHOne` module now constructs the first of these from genuine cover refinements.  This file
+still does not pretend that the connecting morphism or exact sequence follows automatically.
+`UnitKummerClasses` is only the explicit unit quotient on the right of the Kummer comparison; its
+exponent and finite-unit cardinal bound are proved directly.
 
 The mathematical source for the inequality and elementary Kummer reduction is
 B. Mazur, *Modular curves and the Eisenstein ideal*, Chapter I, Proposition 1.7.
