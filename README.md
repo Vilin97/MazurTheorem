@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 679 checked Lean sources and 1,441,674
+The integrated development contains 680 checked Lean sources and 1,441,929
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support

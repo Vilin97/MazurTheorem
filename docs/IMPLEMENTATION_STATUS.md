@@ -34,6 +34,10 @@ Current machine-checked results include:
   `F₅` to one of 25 short models, exhaustive proof that its point group has
   at most ten elements, and a separate compiled consumer excluding point
   orders at least eleven;
+* a checked raw rational cyclic-subgroup datum, exact-order generator
+  construction, and a direct conditional order-49 consumer of the two-cusp
+  `X₀(49)(ℚ)` classification; the actual coarse classifying map and
+  explicit-model identification remain open;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

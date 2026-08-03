@@ -5,7 +5,6 @@ Authors: Vasily Ilin
 -/
 
 import EllipticCurves.Mathlib.EllipticCurvePoint
-import Mathlib.GroupTheory.QuotientGroup.Basic
 import Mathlib.GroupTheory.SpecificGroups.Cyclic
 
 /-!
@@ -17,20 +16,12 @@ available at the project's exact Mathlib pin.  A rational point of exact order
 elements.  Forgetting the chosen generator gives the rational `Γ₀(N)`
 datum `(E, C)`.
 
-The point-group quotient in this file is deliberately not advertised as the
-elliptic curve quotient `E/C`.  Constructing that quotient as an elliptic curve,
-and proving that the resulting datum is classified by the coarse open modular
-curve, are scheme-theoretic geometry that is not present at the core package's
-exact pin.  Keeping that distinction explicit prevents an algebraic quotient of
-`E(K)` from being mistaken for the quotient elliptic curve.
-
-The definitions here have two checked consumers:
-
-* the canonical quotient homomorphism has exactly the supplied cyclic subgroup
-  as its kernel; and
-* `XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_classifyingMap`
-  consumes a genuine classifying map into the already checked two-cusp model of
-  `X₀(49)`.
+Constructing the elliptic quotient `E/C`, and proving that the resulting datum
+is classified by the coarse open modular curve, are scheme-theoretic geometry
+that is not present at the core package's exact pin.  The downstream theorem
+`XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_classifyingMap`
+therefore takes that genuine classifying map as its explicit remaining input
+and lands in the already checked two-cusp model of `X₀(49)`.
 -/
 
 open scoped WeierstrassCurve.Affine
@@ -155,37 +146,6 @@ theorem carrier_ne_bot (C : RationalCyclicSubgroup A N) (hN : N ≠ 1) :
   apply hN
   rw [← C.card_eq, hbot, AddSubgroup.card_bot]
 
-/-- The algebraic quotient of the rational point group by `C`.
-
-This is useful for checking the kernel interface, but it is not the point
-group of a constructed elliptic quotient until the missing quotient geometry
-has been supplied. -/
-abbrev PointQuotient (C : RationalCyclicSubgroup A N) := A ⧸ C.carrier
-
-/-- The canonical homomorphism to the rational point-group quotient. -/
-def quotientPointMap (C : RationalCyclicSubgroup A N) :
-    A →+ C.PointQuotient :=
-  QuotientAddGroup.mk' C.carrier
-
-@[simp]
-theorem quotientPointMap_apply (C : RationalCyclicSubgroup A N) (P : A) :
-    C.quotientPointMap P = (P : C.PointQuotient) :=
-  rfl
-
-/-- The kernel of the point-group quotient is exactly the rational cyclic
-subgroup. -/
-theorem ker_quotientPointMap (C : RationalCyclicSubgroup A N) :
-    C.quotientPointMap.ker = C.carrier :=
-  QuotientAddGroup.ker_mk' C.carrier
-
-theorem quotientPointMap_eq_zero_iff (C : RationalCyclicSubgroup A N) (P : A) :
-    C.quotientPointMap P = 0 ↔ P ∈ C.carrier := by
-  exact QuotientAddGroup.eq_zero_iff P
-
-theorem quotientPointMap_surjective (C : RationalCyclicSubgroup A N) :
-    Function.Surjective C.quotientPointMap :=
-  QuotientAddGroup.mk'_surjective C.carrier
-
 end RationalCyclicSubgroup
 
 universe v
@@ -214,7 +174,7 @@ instance (x : RationalDatum K N) : x.curve.IsElliptic :=
 
 /-- Package an elliptic curve and a rational cyclic subgroup as a raw
 `Γ₀(N)` datum. -/
-def pointOfRationalCyclicSubgroup (E : WeierstrassCurve K) [E.IsElliptic]
+def datumOfRationalCyclicSubgroup (E : WeierstrassCurve K) [E.IsElliptic]
     (C : RationalCyclicSubgroup E.toAffine.Point N) : RationalDatum K N where
   curve := E
   isElliptic := inferInstance
@@ -222,20 +182,20 @@ def pointOfRationalCyclicSubgroup (E : WeierstrassCurve K) [E.IsElliptic]
 
 /-- A rational point of exact order `N` supplies the open `Γ₀(N)` datum
 by forgetting its choice of generator. -/
-def pointOfTorsion (E : WeierstrassCurve K) [E.IsElliptic]
+def datumOfTorsion (E : WeierstrassCurve K) [E.IsElliptic]
     (P : E.toAffine.Point) (hP : addOrderOf P = N) : RationalDatum K N :=
-  pointOfRationalCyclicSubgroup E (RationalCyclicSubgroup.ofPoint P hP)
+  datumOfRationalCyclicSubgroup E (RationalCyclicSubgroup.ofPoint P hP)
 
 @[simp]
-theorem pointOfTorsion_curve (E : WeierstrassCurve K) [E.IsElliptic]
+theorem datumOfTorsion_curve (E : WeierstrassCurve K) [E.IsElliptic]
     (P : E.toAffine.Point) (hP : addOrderOf P = N) :
-    (pointOfTorsion E P hP).curve = E :=
+    (datumOfTorsion E P hP).curve = E :=
   rfl
 
 @[simp]
-theorem pointOfTorsion_subgroup (E : WeierstrassCurve K) [E.IsElliptic]
+theorem datumOfTorsion_subgroup (E : WeierstrassCurve K) [E.IsElliptic]
     (P : E.toAffine.Point) (hP : addOrderOf P = N) :
-    (pointOfTorsion E P hP).subgroup.carrier = AddSubgroup.zmultiples P :=
+    (datumOfTorsion E P hP).subgroup.carrier = AddSubgroup.zmultiples P :=
   rfl
 
 /-- Conversely, a raw rational `Γ₀(N)` datum contains a rational point

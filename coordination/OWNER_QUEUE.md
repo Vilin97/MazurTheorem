@@ -31,7 +31,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration and Tau Ceti A1, integrated finite-flat declarations, and checked explicit X₁(11) five-isogeny composition | Keep A1 and pin migration at full credit. Finite-flat and X₁(11) are partial checked infrastructure and earn no node credit yet. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1, and the `F₅` ten-point enumeration; integrated finite-flat declarations, checked explicit X₁(11) five-isogeny composition, and a raw rational cyclic-subgroup datum with direct conditional X₀(49) consumer | Keep A1, pin migration, and the finite enumeration at full credit. Finite-flat, X₁(11), and the raw X₀ datum are partial checked infrastructure and earn no additional node credit yet. |
 | `codex/mt-a2-product-formula` | A2 local-order and proper-curve groundwork built over the permanent A1 API | Re-audit against the Picard/Jacobian consumer, then continue the residue-degree product formula without changing the A1 interface. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, kernel presentation, and the constant-rank point-exponent consumer | Keep the sound declarations. Complete quotient/base-change and constant/`μ_p` examples only through the admissible-filtration/rank-zero consumer. Partial infrastructure earns zero completion credit. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -84,9 +84,11 @@ within each lane follows the listed order.
 
 ### 3. Modular curve, quotient, and formal immersion
 
-1. `MT-X0-MODULI` (30): attach a rational `X₀(N)` point directly to a
-   rational cyclic subgroup. This also unlocks the simplified order-49
-   endpoint.
+1. `MT-X0-MODULI` (30): the raw rational cyclic subgroup/datum and its direct
+   conditional order-49 consumer compile. Next construct the actual coarse
+   `X₀(N)` classifying point and identify the level-49 target with the
+   checked explicit model; the constructor is deliberately named `datumOf…`
+   until that geometric map exists.
 2. `MT-X0-INTEGRAL` (30): compactification and cusp neighbourhoods only in
    the generality consumed at auxiliary primes `5` and `11` and at the level
    for toric reduction.

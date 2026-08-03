@@ -569,6 +569,6 @@ theorem rationalPoint_addOrderOf_ne_fortyNine_of_classifyingMap
     addOrderOf P ≠ 49 := by
   intro hP
   exact (no_rationalDatum_of_classifyingMap classify hclassify).false
-    (ModularCurve.XZeroModuli.RationalDatum.pointOfTorsion E P hP)
+    (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP)
 
 end MazurTorsion.XZeroFortyNine
