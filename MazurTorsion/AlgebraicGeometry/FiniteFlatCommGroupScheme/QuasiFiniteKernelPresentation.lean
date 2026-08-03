@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeKernel
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeKernelPresentation
 
 /-!
 # Kernel presentations for quasi-finite flat group schemes
@@ -26,42 +26,6 @@ noncomputable section
 
 open CategoryTheory CategoryTheory.Limits
 open scoped CategoryTheory.MonObj
-
-namespace AlgebraicGeometry.CommGroupScheme
-
-universe u
-
-variable {S : Scheme.{u}} {G H K : CommGroupScheme S}
-
-/-- Ambient group-scheme point maps preserve identity morphisms. -/
-@[simp]
-theorem mapPoint_id (G : CommGroupScheme S) (T : Over S) :
-    mapPoint (CategoryStruct.id G) T = MonoidHom.id (G.Point T) := by
-  ext x
-  simp [mapPoint]
-
-/-- Ambient group-scheme point maps turn composition into composition of homomorphisms. -/
-@[simp]
-theorem mapPoint_comp (f : G ⟶ H) (g : H ⟶ K) (T : Over S) :
-    mapPoint (f ≫ g) T = (mapPoint g T).comp (mapPoint f T) := by
-  ext x
-  simp only [mapPoint_apply, MonoidHom.comp_apply]
-  exact (Category.assoc _ _ _).symm
-
-/-- An isomorphism of ambient commutative group schemes induces a multiplicative equivalence on
-points of every test scheme. -/
-def pointMulEquivOfIso (e : G ≅ H) (T : Over S) : G.Point T ≃* H.Point T where
-  toFun := mapPoint e.hom T
-  invFun := mapPoint e.inv T
-  left_inv x := by
-    rw [← MonoidHom.comp_apply, ← mapPoint_comp, e.hom_inv_id, mapPoint_id]
-    rfl
-  right_inv x := by
-    rw [← MonoidHom.comp_apply, ← mapPoint_comp, e.inv_hom_id, mapPoint_id]
-    rfl
-  map_mul' x y := map_mul (mapPoint e.hom T) x y
-
-end AlgebraicGeometry.CommGroupScheme
 
 namespace AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation
 
@@ -153,6 +117,22 @@ noncomputable def commGroupSchemeKernelIso :
     P.kernel.obj ≅ CommGroupScheme.kernel f.hom :=
   asIso P.toCommGroupSchemeKernel
 
+/-- Forget the finite-flat structure while retaining the supplied kernel object, inclusion, and
+its checked geometric identification with the canonical ambient kernel. -/
+noncomputable def toCommGroupScheme :
+    CommGroupScheme.KernelPresentation f.hom where
+  kernel := P.kernel.obj
+  inclusion := P.inclusion.hom
+  kernelIso := P.commGroupSchemeKernelIso
+  kernelIso_hom_kernelInclusion :=
+    P.toCommGroupSchemeKernel_comp_kernelInclusion
+
+/-- The ambient geometric-kernel API recovers represented-point exactness for every certified
+finite-flat kernel presentation. -/
+theorem toCommGroupScheme_point_mulExact (T : Over S) :
+    Function.MulExact (mapPoint P.inclusion T) (mapPoint f T) :=
+  P.toCommGroupScheme.point_mulExact T
+
 end AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation
 
 namespace AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme
@@ -179,42 +159,72 @@ def inclusion : P.kernel ⟶ G :=
   ObjectProperty.homMk
     (P.kernelIso.hom ≫ CommGroupScheme.kernelInclusion f.hom)
 
+/-- Forget the quasi-finite-flat structure while retaining the supplied geometric kernel and
+its chosen inclusion. -/
+def toCommGroupScheme : CommGroupScheme.KernelPresentation f.hom where
+  kernel := P.kernel.obj
+  inclusion := P.inclusion.hom
+  kernelIso := P.kernelIso
+  kernelIso_hom_kernelInclusion := rfl
+
 /-- Points of the chosen geometric kernel are the pointwise kernel of the original morphism. -/
 noncomputable def pointKernelMulEquiv (T : Over S) :
     CommGroupScheme.Point P.kernel.obj T ≃* (mapPoint f T).ker :=
-  (CommGroupScheme.pointMulEquivOfIso P.kernelIso T).trans
-    (CommGroupScheme.pointKernelMulEquiv f.hom T)
+  P.toCommGroupScheme.pointKernelMulEquiv T
 
 @[simp]
 theorem pointKernelMulEquiv_apply (T : Over S)
     (x : CommGroupScheme.Point P.kernel.obj T) :
     (P.pointKernelMulEquiv T x).1 = mapPoint P.inclusion T x := by
-  change (x ≫ P.kernelIso.hom.hom.hom.hom) ≫
-      (CommGroupScheme.kernelInclusion f.hom).hom.hom.hom =
-    x ≫ (P.kernelIso.hom.hom.hom.hom ≫
-      (CommGroupScheme.kernelInclusion f.hom).hom.hom.hom)
-  exact Category.assoc _ _ _
+  exact P.toCommGroupScheme.pointKernelMulEquiv_apply T x
 
 @[simp]
 theorem mapPoint_inclusion_eq_one (T : Over S)
     (x : CommGroupScheme.Point P.kernel.obj T) :
     mapPoint f T (mapPoint P.inclusion T x) = 1 :=
-  (P.pointKernelMulEquiv T x).2
+  P.toCommGroupScheme.mapPoint_inclusion_eq_one T x
 
 /-- The chosen quasi-finite kernel presentation is exact on represented points of every test
 scheme. -/
 theorem point_mulExact (T : Over S) :
-    Function.MulExact (mapPoint P.inclusion T) (mapPoint f T) := by
-  intro x
-  constructor
-  · intro hx
-    let z : (mapPoint f T).ker := ⟨x, hx⟩
-    exact ⟨(P.pointKernelMulEquiv T).symm z, by
-      have h := P.pointKernelMulEquiv_apply T ((P.pointKernelMulEquiv T).symm z)
-      rw [MulEquiv.apply_symm_apply] at h
-      exact h.symm⟩
-  · rintro ⟨y, rfl⟩
-    exact P.mapPoint_inclusion_eq_one T y
+    Function.MulExact (mapPoint P.inclusion T) (mapPoint f T) :=
+  P.toCommGroupScheme.point_mulExact T
+
+/-- The quasi-finite wrapper consumes the ambient geometric-kernel lift API without adding a
+finiteness hypothesis. -/
+noncomputable def liftPoint {T : Over S}
+    (x : CommGroupScheme.Point G.obj T) (hx : mapPoint f T x = 1) :
+    CommGroupScheme.Point P.kernel.obj T :=
+  P.toCommGroupScheme.liftPoint x hx
+
+@[simp]
+theorem mapPoint_liftPoint {T : Over S}
+    (x : CommGroupScheme.Point G.obj T) (hx : mapPoint f T x = 1) :
+    mapPoint P.inclusion T (P.liftPoint x hx) = x :=
+  P.toCommGroupScheme.mapPoint_liftPoint x hx
+
+/-- The inclusion of a supplied quasi-finite geometric kernel is injective on every test
+scheme. -/
+theorem inclusion_point_injective (T : Over S) :
+    Function.Injective (mapPoint P.inclusion T) :=
+  P.toCommGroupScheme.inclusion_point_injective T
+
+/-- A killed quasi-finite source point comes from a unique point of the supplied geometric
+kernel. -/
+theorem existsUnique_point_lift (T : Over S)
+    (x : CommGroupScheme.Point G.obj T) (hx : mapPoint f T x = 1) :
+    ∃! y : CommGroupScheme.Point P.kernel.obj T,
+      mapPoint P.inclusion T y = x :=
+  P.toCommGroupScheme.existsUnique_point_lift T x hx
+
+/-- Represented-point exactness as the concrete existence criterion consumed by quotient
+presentations. -/
+theorem mapPoint_eq_one_iff_exists_kernelPoint (T : Over S)
+    (x : CommGroupScheme.Point G.obj T) :
+    mapPoint f T x = 1 ↔
+      ∃ y : CommGroupScheme.Point P.kernel.obj T,
+        mapPoint P.inclusion T y = x :=
+  P.toCommGroupScheme.mapPoint_eq_one_iff_exists_kernelPoint T x
 
 end KernelPresentation
 
