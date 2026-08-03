@@ -22,18 +22,19 @@ exact source commit, subtree hash, and split.
 
 ## Where the project stands
 
-The strict weighted estimate is **8.5% integrated**. Approximately **12% is
+The strict weighted estimate is **10% integrated**. Approximately **12% is
 ecosystem-ready** when compatible work already available in Mathlib, Lean
 Pool, Tau Ceti, FLT, and related repositories is counted as reusable rather
 than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 677 checked Lean sources and 1,441,548
+The integrated development contains 679 checked Lean sources and 1,441,674
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
-`27`; it also completes the exact-pin migration and Tau Ceti's finite-support
-order system. The current frontier is:
+`27`; it also completes the exact-pin migration, Tau Ceti's finite-support
+order system, and the ten-point enumeration for every elliptic curve over
+`F₅`. The current frontier is:
 
 - the genus-two closures for orders `13` and `18` and the explicit order-25
   endpoint;

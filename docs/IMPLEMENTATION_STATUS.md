@@ -30,6 +30,10 @@ Current machine-checked results include:
 * an exact bridge from the point-order theorem alone to the LeanPool
   cardinality target, with all seven forbidden subgroup embeddings
   discharged internally;
+* a checked normalization of every elliptic Weierstrass equation over
+  `F₅` to one of 25 short models, exhaustive proof that its point group has
+  at most ten elements, and a separate compiled consumer excluding point
+  orders at least eleven;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

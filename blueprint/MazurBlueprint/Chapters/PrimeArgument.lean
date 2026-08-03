@@ -86,16 +86,19 @@ fibre. The remaining fibre is good.
 * `theorem` (`proposed`): `MazurTorsion.PrimeOrder.goodReductionAtFive`
 :::
 
-:::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
+:::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
 *The ten-point finite enumeration.* Normalize the good fibre to short
 Weierstrass form (valid in characteristic five), enumerate the 25 coefficient
 pairs, and verify `#E(𝔽₅) ≤ 10`. This avoids adding a general Hasse
 theorem solely for one tiny field and replaces Shafarevich finiteness.
 
-*Status:* `blocked`.
+*Status:* `done`.
 
-* `theorem` (`proposed`):
+* `theorem` (`integrated`):
   `MazurTorsion.PrimeOrder.card_reductionAtFive_le_ten`
+
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.zmod_five_addOrderOf_ne_of_eleven_le`
 :::
 
 :::theorem "MT-PRIME-ISOGENY-CHAIN" (parent := "prime_argument") (uses := "MT-PRIME-SHAFAREVICH, MT-X0-EISENSTEIN-QUOTIENT") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")

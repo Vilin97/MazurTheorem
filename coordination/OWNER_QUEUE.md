@@ -8,7 +8,7 @@ progress independently.
 
 Snapshot: 2026-08-02, route revision `formal-immersion-at-five-v1`, merged
 over owner checkpoint `686bf31`. The ledger still has 48 nodes / 1,000
-points: three completed nodes worth 85 points and 45 unfinished nodes. No
+points: four completed nodes worth 100 points and 44 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and exact-pin completions remain credited.
 
@@ -119,9 +119,11 @@ in `route_history`:
 5. `MT-PRIME-HERBRAND-KUMMER` (10): exclude tame additive reduction using the
    formal kernel, additive quotient, and component group.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): conclude good reduction at `5`.
-7. `MT-PRIME-SHAFAREVICH` (15): prove `#E(𝔽₅) ≤ 10`; a checked enumeration of
-   the 25 short models is an acceptable and potentially cheaper consumer than
-   a general Hasse theorem.
+7. Completed `MT-PRIME-SHAFAREVICH` (15):
+   `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
+   Weierstrass equation over `F₅` and checks all 25 short models;
+   `PrimeOrder.zmod_five_addOrderOf_ne_of_eleven_le` is its separate compiled
+   point-order consumer. No general Hasse theorem is used.
 8. `MT-PRIME-ISOGENY-CHAIN` (10): exclude exact order `11` and every prime
    order at least `17`.
 

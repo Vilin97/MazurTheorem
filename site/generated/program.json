@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1441548,
-    "integrated_lean_modules": 677,
+    "integrated_lean_lines": 1441674,
+    "integrated_lean_modules": 679,
     "remaining_composite_orders": [
       18,
       25,
@@ -65,8 +65,8 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 85,
-    "percent": 8.5,
+    "earned_points": 100,
+    "percent": 10.0,
     "ecosystem_ready_estimate_percent": 12,
     "claimable_open_points": 151,
     "ordinary_claimable_points": 39,
@@ -3607,8 +3607,8 @@
       "title": "The ten-point finite enumeration over F_5",
       "stage": "prime_argument",
       "kind": "proof",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 15,
       "risk": "extreme",
       "backend": "mixed",
@@ -3617,8 +3617,16 @@
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.card_reductionAtFive_le_ten",
-          "state": "proposed",
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.FiniteFieldFive",
           "description": "Normalize in characteristics other than two and three, then verify all 25 short models over F_5."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.zmod_five_addOrderOf_ne_of_eleven_le",
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.FiniteFieldFiveOrder",
+          "description": "Consume the finite enumeration to rule out every point whose exact additive order is at least eleven."
         }
       ],
       "depends_on": [
@@ -3628,11 +3636,11 @@
         "MT-PRIME-ISOGENY-CHAIN"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "route_history": {
         "previous_scope": "Shafarevich finiteness for elliptic curves with prescribed bad reduction",
