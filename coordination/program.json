@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1463075,
+    "integrated_lean_lines": 1463093,
     "integrated_lean_modules": 732,
     "remaining_composite_orders": [
       18,
@@ -3064,7 +3064,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction and morphism-level H1 functoriality now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. The four integral elementary factors required by Mazur, their quasi-finite exact sequences, and their H0/H1 calculations remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction and morphism-level H1 functoriality now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. A reusable Hopf localization constructs the actual bad-level constant-flat factor, its typed inclusion into the constant quasi-finite wrapper, its exact principal-open range, and the containment showing that it agrees with the full constant model away from the level. The multiplicative-flat factor, the quasi-finite exact sequences, and the new factors' H0/H1 calculations remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3191,6 +3191,48 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteQuotient",
           "description": "Embed every checked finite-flat quotient while retaining both its projection and its supplied kernel inclusion."
+        },
+        {
+          "kind": "definition",
+          "name": "HopfLocalizationAway.hopfAlgebra",
+          "state": "contract",
+          "module": "MazurTorsion.Algebra.HopfLocalizationAway",
+          "description": "Descend a commutative Hopf algebra to a principal localization from explicit unit witnesses for comultiplication, counit, and antipode."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlat",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlat",
+          "description": "Construct the flat quasi-finite constant group retaining only the identity component over the bad fibre."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_hom",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlat",
+          "description": "Expose the realized open-subgroup inclusion as a typed morphism in the quasi-finite flat category."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_opensRange",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlat",
+          "description": "Identify the realized subgroup range with the principal open cut out by the componentwise level function."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_contains_levelOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlat",
+          "description": "Prove that the whole constant group over the base level open lies in the bad-level model."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlat",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlat",
+          "description": "Specialize the construction to Mazur's (Z/pZ)^flat over Spec Z."
         },
         {
           "kind": "theorem",

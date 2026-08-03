@@ -83,11 +83,12 @@ therefore bijective; its group-law compatibility is still open.
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections`,
-`XZeroWeierstrassProjectivePointComparison`, and the ambient kernel module
-pass; the audited declarations use only
+`XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
+kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`, and
+`ConstantFlat` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 730 integrated Lean
-sources / 1,462,279 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 732 integrated Lean
+sources / 1,463,093 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -137,8 +138,11 @@ comparison that retains its supplied inclusion. A quasi-finite fppf quotient
 presentation now records a supplied fppf projection and such a geometric
 kernel, proves exactness on represented points, and embeds every existing
 finite-flat quotient while retaining both its projection and kernel inclusion.
-The four actual
-integral elementary factors, their extension-by-zero exact sequences and
+A reusable principal-open Hopf localization now constructs the actual
+bad-level constant-flat factor `(Z/pZ)^flat`, its typed quasi-finite inclusion
+into the constant model, the exact componentwise principal-open range, and
+the containment of the full constant model over `D(p)`. The multiplicative-flat
+factor, the quasi-finite extension-by-zero exact sequences, the new factors'
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
 remain, followed by the unramified Raynaud uniqueness input.
 

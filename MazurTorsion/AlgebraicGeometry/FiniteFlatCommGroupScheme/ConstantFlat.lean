@@ -304,6 +304,11 @@ instance constantStructureMap_locallyOfFinitePresentation :
   rw [LocallyOfFinitePresentation.SpecMap_iff]
   exact RingHom.finitePresentation_algebraMap.mpr inferInstance
 
+instance constantSchemeStructureMap_locallyOfFinitePresentation :
+    LocallyOfFinitePresentation (constantScheme R G).obj.X.hom := by
+  change LocallyOfFinitePresentation (constant R G).obj.structureMap
+  exact constantStructureMap_locallyOfFinitePresentation (R := R) (G := G)
+
 private noncomputable def inclusionBialgHom (N : R) :
     ConstantA (R := R) (G := G) →ₐc[R] ConstantFlatCoordinates R G N :=
   BialgHom.ofAlgHom
@@ -399,6 +404,19 @@ noncomputable def constantFlatInclusion (N : R) :
     (constantFlat R G N).obj ⟶ (constantScheme R G).obj :=
   (AffineCommGroupScheme.realizationFunctor R).map
     (constantFlatInclusionAffine (G := G) N)
+
+/-- The open-subgroup inclusion as a morphism in the quasi-finite flat category.  This is the
+typed map consumed by the later integral elementary-factor exact sequences. -/
+noncomputable def constantFlatInclusionMap (N : R) :
+    constantFlat R G N ⟶ ofFiniteFlat (constantScheme R G) :=
+  ObjectProperty.homMk (constantFlatInclusion (G := G) N)
+
+/-- Forgetting the quasi-finite wrappers recovers the realized open-subgroup morphism. -/
+@[simp]
+theorem constantFlatInclusionMap_hom (N : R) :
+    (constantFlatInclusionMap (G := G) N).hom =
+      constantFlatInclusion (G := G) N :=
+  rfl
 
 @[simp]
 theorem constantFlatInclusion_left (N : R) :

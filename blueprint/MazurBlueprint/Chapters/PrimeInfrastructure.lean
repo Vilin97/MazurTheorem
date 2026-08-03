@@ -138,9 +138,13 @@ canonical finite-flat kernel is a checked adapter, and every certified
 finite-flat kernel has a geometric adapter that preserves its chosen
 inclusion. A supplied quasi-finite fppf quotient now records its fppf
 projection and geometric kernel, proves represented-point exactness, and
-embeds the checked finite-flat quotient presentations compatibly. The next boundary is to
-construct the four actual integral elementary factors and their
-exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
+embeds the checked finite-flat quotient presentations compatibly. A reusable
+principal-open Hopf localization now constructs the actual bad-level constant
+factor `(Z/pZ)^flat`; its realized typed inclusion has the advertised
+componentwise principal-open range and contains the full constant family over
+the level open. The next boundary is to construct the multiplicative-flat
+factor and the quasi-finite exact sequences, then prove the `H⁰`/`H¹`
+comparisons and middle-`H¹`
 finiteness.
 
 * `structure` (`contract`):
@@ -181,6 +185,18 @@ finiteness.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.ofFiniteFlat_kernel_inclusion`
+* `definition` (`contract`):
+  `HopfLocalizationAway.hopfAlgebra`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlat`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_hom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_opensRange`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusion_contains_levelOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlat`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -259,8 +275,10 @@ its compiled consumer. Ambient commutative-group-scheme `H¹` and the structural
 quasi-finite wrapper now compile and agree definitionally with the finite-flat
 API. Geometric kernel and fppf quotient presentations now extend this
 compatibility to arbitrary certified finite-flat kernels and quotient
-projections, including their chosen inclusions. The four actual integral
-factors, their extension-by-zero exact sequences
+projections, including their chosen inclusions. The actual bad-level
+constant-flat factor now compiles as a principal-open Hopf localization with a
+realized range and level-open consumer. The multiplicative-flat factor, the
+quasi-finite extension-by-zero exact sequences
 and `H⁰`/`H¹` certificates, middle-`H¹` finiteness proof, and focused rank-zero
 specialization are still absent, so no node credit is claimed.
 :::
