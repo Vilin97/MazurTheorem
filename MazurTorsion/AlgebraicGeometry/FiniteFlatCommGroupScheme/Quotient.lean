@@ -8,7 +8,13 @@ import Mathlib.GroupTheory.Coset.Card
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Constant
 
 /-!
-# Quotients of constant finite-flat commutative group schemes
+# Fppf quotient presentations and constant finite-flat quotients
+
+The rank-zero argument does not need a constructor for the fppf-sheaf quotient by every
+finite-flat closed subgroup.  Its actual input is narrower: a supplied finite-flat quotient
+object and projection, the fppf properties of that projection, and a certified presentation of
+its scheme-theoretic kernel.  `FppfQuotientPresentation` packages exactly this data.  Its base
+change API asks only for the genuinely nonformal kernel comparison.
 
 For a finite commutative group `G` and a subgroup `N`, the quotient `G/N` is again finite
 commutative.  Applying the explicit function-Hopf-algebra construction gives a genuine
@@ -29,6 +35,113 @@ namespace AlgebraicGeometry
 namespace FiniteFlatCommGroupScheme
 
 universe u
+
+variable {S T : Scheme.{u}}
+
+/-- The exact quotient data consumed by an admissible finite-flat filtration.
+
+This structure does not assert a new general representability theorem.  It records a quotient
+object already constructed in `FiniteFlatCommGroupScheme`, an fppf projection to it, and the
+certified scheme-theoretic kernel of that projection.  For a faithfully flat homomorphism of
+group schemes this is the concrete exact-sequence interface used by descent. -/
+structure FppfQuotientPresentation (G : FiniteFlatCommGroupScheme S) where
+  /-- The supplied finite-flat quotient object. -/
+  quotient : FiniteFlatCommGroupScheme S
+  /-- Projection from the middle group scheme to the quotient. -/
+  project : G ⟶ quotient
+  /-- Flatness of the quotient projection. -/
+  project_flat : Flat (hom project)
+  /-- Surjectivity of the quotient projection on underlying topological spaces. -/
+  project_surjective : Surjective (hom project)
+  /-- Local finite presentation of the quotient projection. -/
+  project_lfp : LocallyOfFinitePresentation (hom project)
+  /-- The certified scheme-theoretic kernel of the projection. -/
+  kernelPresentation : KernelPresentation project
+
+namespace FppfQuotientPresentation
+
+variable {G : FiniteFlatCommGroupScheme S}
+
+/-- A quotient projection between finite schemes over the same base is finite. -/
+theorem project_isFinite (D : FppfQuotientPresentation G) :
+    IsFinite (hom D.project) := by
+  haveI : IsFinite (hom D.project ≫ D.quotient.structureMap) := by
+    rw [hom_comp_structureMap]
+    infer_instance
+  exact IsFinite.of_comp (hom D.project) D.quotient.structureMap
+
+/-- The three concrete properties making the supplied projection an fppf cover. -/
+theorem project_is_fppf (D : FppfQuotientPresentation G) :
+    Flat (hom D.project) ∧ Surjective (hom D.project) ∧
+      LocallyOfFinitePresentation (hom D.project) :=
+  ⟨D.project_flat, D.project_surjective, D.project_lfp⟩
+
+/-- Exactness at the middle group scheme on points of every test scheme.  Raw surjectivity of
+the quotient map on `X`-points is neither asserted nor needed. -/
+theorem project_point_eq_one_iff (D : FppfQuotientPresentation G)
+    (X : Over S) (x : G.Point X) :
+    mapPoint D.project X x = 1 ↔
+      x ∈ Set.range (mapPoint D.kernelPresentation.inclusion X) := by
+  constructor
+  · intro hx
+    obtain ⟨y, hy, -⟩ := D.kernelPresentation.existsUnique_point_lift X x hx
+    exact ⟨y, hy⟩
+  · rintro ⟨y, rfl⟩
+    exact D.kernelPresentation.mapPoint_inclusion_eq_one X y
+
+/-- The nonformal datum needed to transport an exact quotient presentation through base
+change: a certified kernel for the pulled-back projection and an identification with the
+pulled-back original kernel that respects the actual inclusions. -/
+structure KernelBaseChangeCompatibility
+    (D : FppfQuotientPresentation G) (f : T ⟶ S) where
+  /-- A certified kernel presentation for the base-changed projection. -/
+  presentation : KernelPresentation ((baseChange f).map D.project)
+  /-- Its kernel is the geometric pullback of the original kernel. -/
+  kernelIso : presentation.kernel ≅ (baseChange f).obj D.kernelPresentation.kernel
+  /-- The kernel comparison respects the inclusions into the pulled-back middle term. -/
+  inclusion_compatibility :
+    kernelIso.hom ≫ (baseChange f).map D.kernelPresentation.inclusion =
+      presentation.inclusion
+
+/-- A point killed by the pulled-back quotient projection lifts through the pulled-back
+original kernel inclusion. -/
+theorem exists_baseChangedKernel_lift
+    (D : FppfQuotientPresentation G) (f : T ⟶ S)
+    (C : D.KernelBaseChangeCompatibility f) (X : Over T)
+    (x : ((baseChange f).obj G).Point X)
+    (hx : mapPoint ((baseChange f).map D.project) X x = 1) :
+    ∃ y : ((baseChange f).obj D.kernelPresentation.kernel).Point X,
+      mapPoint ((baseChange f).map D.kernelPresentation.inclusion) X y = x := by
+  obtain ⟨z, hz, -⟩ := C.presentation.existsUnique_point_lift X x hx
+  refine ⟨mapPoint C.kernelIso.hom X z, ?_⟩
+  calc
+    mapPoint ((baseChange f).map D.kernelPresentation.inclusion) X
+        (mapPoint C.kernelIso.hom X z) =
+      mapPoint (C.kernelIso.hom ≫
+        (baseChange f).map D.kernelPresentation.inclusion) X z := by
+          rw [mapPoint_comp]
+          rfl
+    _ = mapPoint C.presentation.inclusion X z := by
+      rw [C.inclusion_compatibility]
+    _ = x := hz
+
+/-- Pull an fppf exact quotient presentation back along a base morphism once its true
+scheme-theoretic kernel comparison is supplied. -/
+def baseChangePresentation
+    (D : FppfQuotientPresentation G) (f : T ⟶ S)
+    (C : D.KernelBaseChangeCompatibility f) :
+    FppfQuotientPresentation ((baseChange f).obj G) where
+  quotient := (baseChange f).obj D.quotient
+  project := (baseChange f).map D.project
+  project_flat := by
+    exact MorphismProperty.overPullbackMap f D.project.hom.hom.hom.hom D.project_flat
+  project_surjective := by
+    exact MorphismProperty.overPullbackMap f D.project.hom.hom.hom.hom D.project_surjective
+  project_lfp := by
+    exact MorphismProperty.overPullbackMap f D.project.hom.hom.hom.hom D.project_lfp
+  kernelPresentation := C.presentation
+
+end FppfQuotientPresentation
 
 noncomputable local instance quotientFintype
     {G : Type u} [Group G] [Finite G] (N : Subgroup G) : Fintype (G ⧸ N) :=

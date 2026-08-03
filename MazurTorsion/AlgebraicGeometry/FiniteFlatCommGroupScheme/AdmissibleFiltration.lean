@@ -161,21 +161,10 @@ it is a morphism between schemes finite over the base; local finite presentation
 separately, since it does not follow from finiteness over an arbitrary base ring. -/
 structure AdmissibleFiltrationStep
     (R : Type) [CommRing R] (p : ℕ) [NeZero p]
-    (G : FiniteFlatCommGroupScheme (Spec (.of R))) where
+    (G : FiniteFlatCommGroupScheme (Spec (.of R)))
+    extends FppfQuotientPresentation G where
   /-- The filtration is primary at an actual rational prime. -/
   prime : p.Prime
-  /-- The graded quotient of this step. -/
-  quotient : FiniteFlatCommGroupScheme (Spec (.of R))
-  /-- Projection from the middle term to the graded quotient. -/
-  project : G ⟶ quotient
-  /-- The quotient projection is flat. -/
-  project_flat : Flat (FiniteFlatCommGroupScheme.hom project)
-  /-- The quotient projection is surjective on the underlying topological spaces. -/
-  project_surjective : Surjective (FiniteFlatCommGroupScheme.hom project)
-  /-- The quotient projection is locally of finite presentation. -/
-  project_lfp : LocallyOfFinitePresentation (FiniteFlatCommGroupScheme.hom project)
-  /-- The scheme-theoretic kernel, including its universal point-lifting property. -/
-  kernelPresentation : KernelPresentation project
   /-- Identification of the kernel with `Z/pZ` or `mu_p`. -/
   kernelFactor : AdmissibleSimpleFactor R p kernelPresentation.kernel
   /-- Identification of the quotient with `Z/pZ` or `mu_p`. -/
@@ -190,12 +179,8 @@ variable {G : FiniteFlatCommGroupScheme (Spec (.of R))}
 /-- The projection in an admissible filtration step is finite.  This is not an extra field:
 both its source and target are finite over the base, and the target structure map is separated. -/
 theorem project_isFinite (D : AdmissibleFiltrationStep R p G) :
-    IsFinite (FiniteFlatCommGroupScheme.hom D.project) := by
-  haveI : IsFinite
-      (FiniteFlatCommGroupScheme.hom D.project ≫ D.quotient.structureMap) := by
-    rw [hom_comp_structureMap]
-    infer_instance
-  exact IsFinite.of_comp (FiniteFlatCommGroupScheme.hom D.project) D.quotient.structureMap
+    IsFinite (FiniteFlatCommGroupScheme.hom D.project) :=
+  D.toFppfQuotientPresentation.project_isFinite
 
 /-- The finite quotient projection is locally of finite presentation. -/
 theorem project_locallyOfFinitePresentation (D : AdmissibleFiltrationStep R p G) :
@@ -208,7 +193,7 @@ theorem project_is_fppf (D : AdmissibleFiltrationStep R p G) :
     Flat (FiniteFlatCommGroupScheme.hom D.project) ∧
       Surjective (FiniteFlatCommGroupScheme.hom D.project) ∧
         LocallyOfFinitePresentation (FiniteFlatCommGroupScheme.hom D.project) :=
-  ⟨D.project_flat, D.project_surjective, D.project_locallyOfFinitePresentation⟩
+  D.toFppfQuotientPresentation.project_is_fppf
 
 /-- The arithmetic content of one admissible filtration step: two order-`p` graded pieces
 force exponent dividing `p^2` on every affine point of the middle finite-flat group scheme. -/
@@ -225,7 +210,8 @@ theorem point_pow_sq_eq_one
   have hproject : mapPoint D.project X (x ^ p) = 1 := by
     rw [map_pow]
     exact hquotient
-  obtain ⟨y, hy, -⟩ := D.kernelPresentation.existsUnique_point_lift X (x ^ p) hproject
+  obtain ⟨y, hy⟩ :=
+    (D.toFppfQuotientPresentation.project_point_eq_one_iff X (x ^ p)).mp hproject
   have hkernel : y ^ p = 1 := D.kernelFactor.point_pow_eq_one B y
   calc
     x ^ (p * p) = (x ^ p) ^ p := pow_mul x p p
@@ -237,25 +223,11 @@ theorem point_pow_sq_eq_one
 /-- The precise extra datum needed to transport a certified kernel presentation across base
 change.  The compatibility equation prevents replacing the true base-changed kernel inclusion
 with an unrelated isomorphic object. -/
-structure KernelBaseChangeCompatibility
+abbrev KernelBaseChangeCompatibility
     (D : AdmissibleFiltrationStep R p G)
-    (K : Type) [CommRing K] [Algebra R K] where
-  /-- A certified kernel presentation for the base-changed projection. -/
-  presentation : KernelPresentation
-    ((FiniteFlatCommGroupScheme.baseChange
-      (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map D.project)
-  /-- Its kernel is the geometric pullback of the original kernel. -/
-  kernelIso : presentation.kernel ≅
-    (FiniteFlatCommGroupScheme.baseChange
-      (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj
-        D.kernelPresentation.kernel
-  /-- The kernel isomorphism respects the actual inclusions into the middle term. -/
-  inclusion_compatibility :
-    kernelIso.hom ≫
-        (FiniteFlatCommGroupScheme.baseChange
-          (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
-            D.kernelPresentation.inclusion =
-      presentation.inclusion
+    (K : Type) [CommRing K] [Algebra R K] :=
+  D.toFppfQuotientPresentation.KernelBaseChangeCompatibility
+    (Spec.map (CommRingCat.ofHom (algebraMap R K)))
 
 /-- A point killed by the base-changed projection really lifts through the geometric pullback
 of the original kernel inclusion.  This consumes the inclusion compatibility in
@@ -277,23 +249,9 @@ theorem exists_baseChangedKernel_lift
       mapPoint
         ((FiniteFlatCommGroupScheme.baseChange
           (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
-            D.kernelPresentation.inclusion) X y = x := by
-  obtain ⟨z, hz, -⟩ := C.presentation.existsUnique_point_lift X x hx
-  refine ⟨mapPoint C.kernelIso.hom X z, ?_⟩
-  calc
-    mapPoint
-        ((FiniteFlatCommGroupScheme.baseChange
-          (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
-            D.kernelPresentation.inclusion) X (mapPoint C.kernelIso.hom X z) =
-      mapPoint (C.kernelIso.hom ≫
-        (FiniteFlatCommGroupScheme.baseChange
-          (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map
-            D.kernelPresentation.inclusion) X z := by
-        rw [mapPoint_comp]
-        rfl
-    _ = mapPoint C.presentation.inclusion X z := by
-      rw [C.inclusion_compatibility]
-    _ = x := hz
+            D.kernelPresentation.inclusion) X y = x :=
+  D.toFppfQuotientPresentation.exists_baseChangedKernel_lift
+    (Spec.map (CommRingCat.ofHom (algebraMap R K))) C X x hx
 
 /-- Transport an admissible filtration step through scalar extension once the genuine
 scheme-theoretic kernel comparison has been supplied. -/
@@ -303,25 +261,14 @@ def baseChange
     (C : D.KernelBaseChangeCompatibility K) :
     AdmissibleFiltrationStep K p
       ((FiniteFlatCommGroupScheme.baseChange
-        (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj G) where
-  prime := D.prime
-  quotient := (FiniteFlatCommGroupScheme.baseChange
-    (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj D.quotient
-  project := (FiniteFlatCommGroupScheme.baseChange
-    (Spec.map (CommRingCat.ofHom (algebraMap R K)))).map D.project
-  project_flat := by
-    exact MorphismProperty.overPullbackMap
-      (Spec.map (CommRingCat.ofHom (algebraMap R K))) D.project.hom.hom.hom.hom D.project_flat
-  project_surjective := by
-    exact MorphismProperty.overPullbackMap
-      (Spec.map (CommRingCat.ofHom (algebraMap R K))) D.project.hom.hom.hom.hom
-        D.project_surjective
-  project_lfp := by
-    exact MorphismProperty.overPullbackMap
-      (Spec.map (CommRingCat.ofHom (algebraMap R K))) D.project.hom.hom.hom.hom D.project_lfp
-  kernelPresentation := C.presentation
-  kernelFactor := D.kernelFactor.baseChange.ofIso C.kernelIso
-  quotientFactor := D.quotientFactor.baseChange
+        (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj G) := by
+  let f := Spec.map (CommRingCat.ofHom (algebraMap R K))
+  let Q := D.toFppfQuotientPresentation.baseChangePresentation f C
+  exact
+    { toFppfQuotientPresentation := Q
+      prime := D.prime
+      kernelFactor := D.kernelFactor.baseChange.ofIso C.kernelIso
+      quotientFactor := D.quotientFactor.baseChange }
 
 /-- The `p^2` exponent bound survives scalar extension for a kernel-compatible admissible
 filtration step.  This is the compiled downstream consumer of the factor and morphism
