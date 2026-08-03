@@ -77,18 +77,36 @@ This removes internal-group and commutativity packaging from the remaining
 Weierstrass task. It does not assume representability or identify coordinate
 points by fiat.
 
+`MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic` now supplies the
+previously missing scheme itself.  It proves that Mathlib's explicit
+Weierstrass polynomial is homogeneous of degree three, forms its projective
+zero locus in `Proj K[X,Y,Z]`, equips that closed set with Mathlib's reduced
+induced closed-subscheme structure, and proves that the inclusion has exactly
+that zero locus as its range.  The degree-zero ring is identified with `K`,
+finite type of the homogeneous coordinate algebra is checked, and the cubic's
+structure morphism to `Spec K` is proved proper as a closed subscheme of the
+proper projective plane.
+
+The concrete `toOver` object then feeds Tau Ceti's
+`AbelianVariety.ofGeometricallyIntegral` once standard `GrpObj` and
+`GeometricallyIntegral` instances are established.  The compiled downstream
+consumer `splitGammaZeroDatumOfProjectiveCubic` reaches the finite-flat
+`Gamma₀(N)` construction from this exact cubic, rather than from an unrelated
+supplied abelian variety.  This construction uses Mathlib's reduced induced
+subscheme; identifying it with a principal homogeneous-coordinate quotient is
+not needed for the consumer and is not claimed.
+
 ## Remaining mathematical boundary
 
-The full `MT-X0-MODULI` acceptance boundary still requires all of the
-following checked constructions for every elliptic Weierstrass curve over
-the relevant field:
+The full `MT-X0-MODULI` acceptance boundary still requires the following
+checked constructions for every elliptic Weierstrass curve over the relevant
+field:
 
-1. an actual projective cubic scheme over `Spec K` (for example from the
-   homogeneous cubic and a checked `Proj`/closed-subscheme construction);
-2. its multiplication, identity, and inverse as scheme morphisms, with the
-   group laws, plus the properness and geometric-integrality facts needed to
-   package it as Tau Ceti's `AbelianVariety` (or an equivalent direct
-   commutative group-scheme construction);
+1. multiplication, identity, and inverse as scheme morphisms on the concrete
+   reduced cubic, together with the group laws;
+2. geometric integrality of its structure morphism (properness is now
+   checked), so that the concrete `toOver` object becomes a Tau Ceti
+   `AbelianVariety`;
 3. a multiplicative equivalence between morphisms `Spec K ⟶ E` and
    Mathlib's projective coordinate-point group
    `Multiplicative W.toProjective.Point`; the new bridge then derives the
