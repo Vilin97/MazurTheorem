@@ -33,10 +33,10 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,432,541 project-specific lines across 663
+The latest integrated package has 1,433,335 project-specific lines across 666
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
-reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
-root aggregators. These 698 sources and 1,447,311 checked lines build without
+reduction cone in 31 sources under `EllipticCurves/` and 173 lines in the two
+root aggregators. These 699 sources and 1,447,650 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1600,9 +1600,12 @@ composites, providing the checked factorization shape `X₀ ⟶ J₀ ⟶ A`.
 The corresponding completed-stalk factorization has now also been checked.
 The finite-maximal-ideal Nakayama consequence and surjectivity on the quotient
 by the square of the maximal ideal compile, including scheme and modular
-degree-one consumers. What remains open at this boundary is passage through
-the full adic tower, deriving completed-ring surjectivity from the
-residue-field and cotangent criterion.
+degree-one consumers. The full implication now also compiles: residue-field
+and cotangent surjectivity imply completion-map surjectivity under finite
+maximal ideals, via Mathlib's precomplete/Hausdorff criterion. Mathlib's
+Noetherian-stalk theorem supplies the finite-module hypotheses for locally
+Noetherian schemes. What remains at this boundary is the actual integral cusp
+model and q-expansion certificate, not generic local algebra.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier

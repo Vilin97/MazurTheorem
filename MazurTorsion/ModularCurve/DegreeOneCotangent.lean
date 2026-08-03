@@ -98,13 +98,23 @@ theorem maximalIdealSquareQuotientMap_stalkMap_surjective
 
 /-- With finite stalk maximal ideals, the degree-one modular certificate proves the actual
 formal-immersion predicate on completed local rings. -/
-theorem isFormalImmersionAt (C : DegreeOneCotangentCertificate f x)
+theorem isFormalImmersionAt_of_finiteMaximalIdeals
+    (C : DegreeOneCotangentCertificate f x)
     [Module.Finite (Y.presheaf.stalk (f x))
       (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))]
     [Module.Finite (X.presheaf.stalk x)
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x))] :
     AlgebraicGeometry.IsFormalImmersionAt f x :=
   Scheme.Hom.isFormalImmersionAt_of_isCotangentCriterionAt
+    f x C.isCotangentCriterionAt
+
+/-- On locally Noetherian source and target schemes, the degree-one certificate proves the
+actual formal-immersion predicate on completed local rings. This is the geometric consumer used
+at the integral modular cusp. -/
+theorem isFormalImmersionAt (C : DegreeOneCotangentCertificate f x)
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y] :
+    AlgebraicGeometry.IsFormalImmersionAt f x :=
+  Scheme.Hom.isFormalImmersionAt_of_isCotangentCriterionAt_of_isLocallyNoetherian
     f x C.isCotangentCriterionAt
 
 end DegreeOneCotangentCertificate

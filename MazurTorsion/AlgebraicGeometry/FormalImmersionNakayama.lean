@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FormalImmersion
+import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.RingTheory.AdicCompletion.Functoriality
 import Mathlib.RingTheory.AdicCompletion.LocalRing
 import Mathlib.RingTheory.Ideal.Quotient.Operations
@@ -304,6 +305,14 @@ theorem isFormalImmersionAt_of_isCotangentCriterionAt
     (ConcreteCategory.bijective_of_isIso (f.residueFieldMap x)).2
   exact LocalCompletion.map_surjective_of_residue_and_cotangent_of_finite_maximalIdeals
     (f.stalkMap x).hom hresidue h.2
+
+/-- On locally Noetherian schemes, Mathlib's Noetherian stalk theorem supplies the finite
+maximal ideals required by the completed-local-ring criterion. -/
+theorem isFormalImmersionAt_of_isCotangentCriterionAt_of_isLocallyNoetherian
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (h : IsCotangentCriterionAt f x) :
+    IsFormalImmersionAt f x :=
+  isFormalImmersionAt_of_isCotangentCriterionAt f x h
 
 end Scheme.Hom
 

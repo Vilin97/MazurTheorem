@@ -108,8 +108,10 @@ within each lane follows the listed order.
    actual completed-stalk definition `AlgebraicGeometry.IsFormalImmersionAt`,
    and identity/composition consumers compile. The finite-maximal-ideal
    Nakayama step and surjectivity modulo the square also compile with the
-   modular degree-one consumer. Next pass from these results to the full adic
-   completion and instantiate it on the integral cusp.
+   modular degree-one consumer. The full completion-surjectivity implication
+   now compiles under finite stalk maximal ideals, and locally Noetherian
+   schemes supply those instances automatically. Next construct the integral
+   cusp model and instantiate its degree-one certificate.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
    reduction-type bridge.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
@@ -120,9 +122,9 @@ within each lane follows the listed order.
    certificate now compile.
    Cotangent and combined-criterion functoriality for composites also compile,
    in parallel with functoriality of the actual completed-stalk map. This is
-   partial infrastructure only: finish the adic local-algebra converse from
-   the checked Nakayama and second-neighbourhood steps, then connect it to the
-   integral cusp and actual q-expansion differential before credit.
+   partial infrastructure only: supply the locally Noetherian integral cusp
+   and actual q-expansion differential needed by the now-complete
+   local-algebra implication before credit.
 5. `MT-X0-EISENSTEIN-ALGEBRA` (30): package a nontrivial optimal new quotient
    and prove Mazur 1978 Proposition 3.1 away from characteristic `2`. Degree
    one needs first-coefficient detection, not Kamienny's multi-Hecke linear

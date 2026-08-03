@@ -141,8 +141,10 @@ The functorial completed-stalk map and the actual formal-immersion predicate
 now compile with identity and composition consumers. The canonical
 stalk-cotangent map and its residue-honest first-order criterion also compile.
 The finite-maximal-ideal Nakayama consequence and surjectivity modulo the
-square compile with a modular degree-one consumer. Passage through the full
-adic tower and the integral cusp comparison remain open, so this node receives
+square compile with a modular degree-one consumer. The residue/cotangent
+criterion now implies surjectivity on completed stalks under finite maximal
+ideals, and locally Noetherian schemes supply those finiteness instances.
+The integral cusp model and cusp comparison remain open, so this node receives
 no completion credit.
 :::
 

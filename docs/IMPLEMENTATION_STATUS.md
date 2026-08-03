@@ -82,10 +82,14 @@ Current machine-checked results include:
   generation of the target maximal ideal, a checked Nakayama theorem shows
   that cotangent surjectivity generates that maximal ideal. Residue and
   cotangent surjectivity also give a surjection modulo its square, with the
-  modular degree-one certificate as a downstream consumer.
-  The full adic/completion converse, integral cusp model, q-expansion
-  calculation, and formal-immersion collision remain open, so no roadmap node
-  is credited;
+  modular degree-one certificate as a downstream consumer. Mathlib's
+  precomplete/Hausdorff criterion then proves surjectivity on completions; a
+  convenient corollary assumes both maximal ideals finite. Mathlib's
+  Noetherian-stalk theorem discharges these assumptions on locally Noetherian
+  schemes, so the modular degree-one theorem now concludes the actual
+  formal-immersion predicate under the natural geometric hypothesis.
+  The integral cusp model, q-expansion calculation, and formal-immersion
+  collision remain open, so no roadmap node is credited;
 * the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
   through a divisor-class/Picard equivalence into the actual degree-zero
   subgroup of `Scheme.Pic`. The checked formulas cover the base point,

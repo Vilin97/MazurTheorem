@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 699 checked Lean sources and 1,447,510
+The integrated development contains 699 checked Lean sources and 1,447,650
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -50,11 +50,14 @@ The shared formal-immersion lane now has a checked functorial map on completed
 local rings and the actual surjectivity definition of formal immersion, with
 identity and composition consumers. It also has the canonical map on stalk
 cotangent spaces, its first-order criterion, and a residue-honest degree-one
-certificate that the future q-expansion proof must fill. This is deliberately
-not node completion: a checked Nakayama step now identifies the generated
-maximal ideal and the criterion is surjective modulo its square, but the full
-adic-quotient/completion-surjectivity theorem, integral cusp geometry, modular
-quotient, and cusp-collision theorem remain open.
+certificate that the future q-expansion proof must fill. A checked Nakayama
+and adic-completeness argument now proves that this residue/cotangent
+criterion implies the actual formal-immersion predicate when both stalk
+maximal ideals are finite modules. Mathlib supplies those instances on locally
+Noetherian schemes, and the degree-one certificate is the compiled geometric
+consumer. This is deliberately not node completion: the locally Noetherian
+integral cusp model, its q-expansion certificate, modular quotient, and
+cusp-collision theorem remain open.
 
 On the Jacobian path, Tau Ceti's weighted point and divisor Abel--Jacobi
 classes now transport through the checked divisor-class/Picard equivalence to
