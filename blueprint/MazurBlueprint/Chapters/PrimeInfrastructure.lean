@@ -111,8 +111,11 @@ a kernel-valued Čech boundary class independent of the lifts and cover. An
 actual checked fppf quotient now supplies its tautological local lifts and
 connecting homomorphism. If that boundary vanishes, a common-refinement gauge
 makes the lifts compatible and subcanonical descent glues them globally, so
-exactness at quotient-valued global sections is checked. The next boundary is
-the two reverse `H¹` exactness inclusions and the resulting Kummer sequence.
+exactness at quotient-valued global sections is checked. If a kernel `H¹`
+class becomes trivial in the middle group, a common-refinement zero-cochain
+has compatible quotient images; gluing those images and reusing the
+zero-cochain as local lifts proves exactness at kernel `H¹`. The next boundary
+is the reverse inclusion at middle `H¹` and the resulting Kummer sequence.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -144,6 +147,8 @@ the two reverse `H¹` exactness inclusions and the resulting Kummer sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.boundaryHom`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
 * `theorem` (`proposed`):
@@ -164,9 +169,9 @@ global colimit over actual relative fppf covers, including refinement-choice
 independence, a type-level eliminator, its canonical commutative group law,
 functorial coefficient maps, and a choice-independent local-lift connecting
 class. The quotient-derived lifts, boundary homomorphism, and exactness at the
-quotient `H⁰` term now compile and feed the concrete low-degree constructor.
-The two reverse `H¹` exactness inclusions are still absent; no node credit is
-claimed.
+quotient `H⁰` and kernel `H¹` terms now compile and feed the concrete
+low-degree constructor. The reverse inclusion at middle `H¹` is still absent;
+no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
