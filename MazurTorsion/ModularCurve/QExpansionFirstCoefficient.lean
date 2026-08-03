@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.FormalImmersionCollision
 import MazurTorsion.ModularCurve.DegreeOneCotangent
 import Mathlib.RingTheory.PowerSeries.Inverse
 
@@ -152,6 +153,44 @@ theorem isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQE
     K X π Y f g hx qCoordinate a
   rw [hqExpansion, QExpansionFirstCoefficient.coeff_one_C_mul_X_add_X_sq_mul]
   exact hc
+
+/-- The normalized `q`-expansion feeds the local collision argument all the way to equality of
+actual scheme morphisms from a Noetherian local spectrum.  The two local points are written in
+the canonical normal form supplied by `SpecToEquivOfLocalRing`; equality of their quotient-side
+local maps is the remaining rank-zero/specialization input in Mazur's argument. -/
+theorem specMap_fromStalk_eq_of_normalizedQExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
+    [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
+    (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
+    (qCoordinate :
+      Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)) ≃+* PowerSeries K)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (g (IsLocalRing.closedPoint K)))))
+    (c : K) (hc : c ≠ 0) (F : PowerSeries K)
+    (hqExpansion :
+      qCoordinate (algebraMap
+        (X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
+        (Scheme.CompletedStalk X (g (IsLocalRing.closedPoint K)))
+        ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
+        PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F)
+    (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    (a b : X.presheaf.stalk (g (IsLocalRing.closedPoint K)) →+* R)
+    [IsLocalHom a] [IsLocalHom b]
+    (hrestrict :
+      a.comp (f.stalkMap (g (IsLocalRing.closedPoint K))).hom =
+        b.comp (f.stalkMap (g (IsLocalRing.closedPoint K))).hom) :
+    Spec.map (CommRingCat.ofHom a) ≫
+        X.fromSpecStalk (g (IsLocalRing.closedPoint K)) =
+      Spec.map (CommRingCat.ofHom b) ≫
+        X.fromSpecStalk (g (IsLocalRing.closedPoint K)) := by
+  have hformal :=
+    isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion
+      K X π Y f g hx qCoordinate targetParameter c hc F hqExpansion
+  exact hformal.specMap_fromStalk_ext_of_isNoetherian a b hrestrict
 
 end DegreeOneCotangentCertificate
 
