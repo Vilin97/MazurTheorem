@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
+import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.LinearSystem
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Sum.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.BasepointChange
 
@@ -148,6 +149,81 @@ lemma weightedAbelJacobiDivisorClass_principalDivisor
   change picZeroEquiv S w h e
       (S.weightedAbelJacobiDivisorClass w h hx₀ (S.principalDivisor g)) = 0
   rw [S.weightedAbelJacobiDivisorClass_principalDivisor, map_zero]
+
+/-! ### Fixed-degree fibers in the scheme Picard group -/
+
+/-- After transport to the scheme Picard group, the fixed-degree Abel--Jacobi fiber through an
+effective divisor is still its complete linear system.  This is a checked group-valued consumer;
+it does not assert that the symmetric power or Picard group is represented by a scheme. -/
+lemma weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem
+    (S : WeilDivisor.OrderSystem Y G)
+    (h : S.IsUnweightedDegreeZero)
+    (e : DivisorPicard.ClassEquivalence S X)
+    (x₀ : Y) {d : ℕ} (D E : EffectiveDivisorOfDegree Y d) :
+    weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+        (E : WeilDivisor Y) =
+      weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+        (D : WeilDivisor Y) ↔
+      (E : WeilDivisor Y) ∈ S.completeLinearSystem (D : WeilDivisor Y) := by
+  change picZeroEquiv S (fun _ : Y => (1 : ℤ)) h e
+        (S.weightedAbelJacobiDivisorClass (fun _ : Y => (1 : ℤ)) h (x₀ := x₀) rfl E) =
+      picZeroEquiv S (fun _ : Y => (1 : ℤ)) h e
+        (S.weightedAbelJacobiDivisorClass (fun _ : Y => (1 : ℤ)) h (x₀ := x₀) rfl D) ↔ _
+  rw [(picZeroEquiv S (fun _ : Y => (1 : ℤ)) h e).injective.eq_iff,
+    S.weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem]
+
+/-- The scheme-Picard fixed-degree fiber, as a set of effective divisors, is the restriction of
+the complete linear system. -/
+lemma setOf_weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq
+    (S : WeilDivisor.OrderSystem Y G)
+    (h : S.IsUnweightedDegreeZero)
+    (e : DivisorPicard.ClassEquivalence S X)
+    (x₀ : Y) {d : ℕ} (D : EffectiveDivisorOfDegree Y d) :
+    {E : EffectiveDivisorOfDegree Y d |
+        weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+          (E : WeilDivisor Y) =
+        weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+          (D : WeilDivisor Y)} =
+      {E : EffectiveDivisorOfDegree Y d |
+        (E : WeilDivisor Y) ∈ S.completeLinearSystem (D : WeilDivisor Y)} := by
+  ext E
+  exact
+    weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem
+      S h e x₀ D E
+
+/-- The equality fiber of the scheme-Picard class function on a symmetric power is the preimage
+of the corresponding complete linear system. -/
+lemma weightedAbelJacobiDivisorClass_one_ofSym_eq_iff_mem_completeLinearSystem
+    (S : WeilDivisor.OrderSystem Y G)
+    (h : S.IsUnweightedDegreeZero)
+    (e : DivisorPicard.ClassEquivalence S X)
+    (x₀ : Y) {d : ℕ} (s t : Sym Y d) :
+    weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+        (EffectiveDivisorOfDegree.ofSym t : WeilDivisor Y) =
+      weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+        (EffectiveDivisorOfDegree.ofSym s : WeilDivisor Y) ↔
+      (EffectiveDivisorOfDegree.ofSym t : WeilDivisor Y) ∈
+        S.completeLinearSystem (EffectiveDivisorOfDegree.ofSym s : WeilDivisor Y) :=
+  weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem
+    S h e x₀ (EffectiveDivisorOfDegree.ofSym s) (EffectiveDivisorOfDegree.ofSym t)
+
+/-- Set-level form of the transported symmetric-power fiber formula. -/
+lemma setOf_weightedAbelJacobiDivisorClass_one_ofSym_eq
+    (S : WeilDivisor.OrderSystem Y G)
+    (h : S.IsUnweightedDegreeZero)
+    (e : DivisorPicard.ClassEquivalence S X)
+    (x₀ : Y) {d : ℕ} (s : Sym Y d) :
+    {t : Sym Y d |
+        weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+          (EffectiveDivisorOfDegree.ofSym t : WeilDivisor Y) =
+        weightedAbelJacobiDivisorClass S (fun _ : Y => (1 : ℤ)) h e (x₀ := x₀) rfl
+          (EffectiveDivisorOfDegree.ofSym s : WeilDivisor Y)} =
+      {t : Sym Y d |
+        (EffectiveDivisorOfDegree.ofSym t : WeilDivisor Y) ∈
+          S.completeLinearSystem (EffectiveDivisorOfDegree.ofSym s : WeilDivisor Y)} := by
+  ext t
+  exact weightedAbelJacobiDivisorClass_one_ofSym_eq_iff_mem_completeLinearSystem
+    S h e x₀ s t
 
 end PicardGroup
 
