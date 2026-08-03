@@ -10,6 +10,7 @@ import MazurTorsion.Upstream.AffineDivisorLocalization
 import MazurTorsion.Upstream.CurveAffineChart
 import MazurTorsion.Upstream.CurveDivisorDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
+import MazurTorsion.Upstream.CurveDivisorRationalBoundary
 import MazurTorsion.Upstream.CurveLineBundleDescent
 import MazurTorsion.Upstream.CurveLineBundleLocality
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
