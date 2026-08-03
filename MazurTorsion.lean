@@ -59,6 +59,7 @@ import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.ModularCurve.DegreeOneCotangent
 import MazurTorsion.ModularCurve.QExpansionFirstCoefficient
+import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.XZeroModuli
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence
