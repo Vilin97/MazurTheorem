@@ -25,12 +25,13 @@ sheafification.  The represented ambient point presheaf remains an fppf sheaf af
 `representedAddPointFppfSheafIso` records its canonical identification with its sheafification.
 No mathematical coefficient change is involved.
 
-The constant-flat and multiplicative-flat sections provide concrete downstream consumers.  This
-file does not yet assert bad-fibre support.  Proving vanishing after restriction to `D(level)`
-requires turning the checked `contains_levelOpen` range inequalities into pointwise factorization
-through the open subgroup, then transporting that factorization through site restriction and
-sheafification.  In particular, objectwise surjectivity below is used only to prove genuine fppf
-local surjectivity; it is not presented as a substitute for the restriction argument.
+The constant-flat and multiplicative-flat sections provide concrete downstream consumers.  The
+imported point-cokernel layer now turns the checked `contains_levelOpen` inequalities into actual
+point factorizations and proves objectwise vanishing on every test scheme over `D(level)`.  This
+file does not yet assert sheaf-restriction support: that vanishing still has to be transported
+through site restriction and sheafification.  In particular, objectwise surjectivity below is
+used only to prove genuine fppf local surjectivity; it is not presented as a substitute for the
+restriction argument.
 -/
 
 noncomputable section
