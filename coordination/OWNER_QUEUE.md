@@ -11,7 +11,8 @@ the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and choice-independent local-lift boundary class, unconditional
 smooth-curve chart normality, genuine split finite-flat cyclic-subgroup data,
 checked extension of injective finite rational sections to closed constant
-subgroup schemes,
+subgroup schemes, a checked Tau Ceti abelian-variety bridge for the remaining
+Weierstrass group-scheme interface,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -21,31 +22,33 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-Checkpoint `59cc975` proves that an injectively indexed finite group of
-rational sections over a field extends to a commutative group-scheme morphism
-from the corresponding constant scheme and that its underlying scheme map is
-a closed immersion. Identity and multiplication are checked on the finite
-coproduct components. The former assumed `extendConstant` field was removed
-from `WeierstrassGroupSchemeInterface`; the derived construction compiles in
-the existing exact-order torsion → split finite-flat `Γ₀(N)` consumer.
+The combined owner history through `4b6a54b` contains two newly reviewed
+acceptance boundaries. Checkpoint `8f77d87` proves exactness at quotient-valued
+`H⁰`: a common-refinement gauge adjusts local lifts, subcanonical fppf descent
+glues them to a global section, and the concrete low-degree constructor now
+supplies this exactness internally. Checkpoint `4b6a54b` packages a genuine Tau
+Ceti abelian variety and a multiplicative comparison of rational points into
+the narrow `WeierstrassGroupSchemeInterface`; exact torsion is a compiled
+downstream consumer producing the split finite-flat `Γ₀(N)` datum, with a
+checked theorem recovering the coordinate cyclic subgroup.
 
-Independent review accepted the checkpoint without repair. Direct and
-focused single-threaded builds of `ConstantSections` and
-`XZeroFiniteFlatModuli` passed; audited declarations use only `propext`,
-`Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are unchanged;
-and `python3 scripts/quality.py` passed at 718 integrated Lean sources / 1,457,617
-lines with all 48 node IDs and 1,000 points intact. This removes an assumed API
-burden but claims no roadmap-node completion credit.
+Both checkpoints passed independent mathematical and API review unchanged.
+The focused single-threaded builds of `FppfQuotientConnecting` and
+`XZeroWeierstrassAbelianVariety` pass; the audited declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
+unchanged; and `python3 scripts/quality.py` passes at 719 integrated Lean
+sources / 1,458,323 lines with all 48 node IDs and 1,000 points intact. Neither
+checkpoint claims roadmap-node completion credit.
 
-The remaining critical boundary in this lane is the actual projective
-Weierstrass/elliptic commutative group scheme and its rational-point
-comparison, followed by quotient/classifying geometry. In parallel, the A3
-principal-divisor cocycle checkpoint `46d5b74` has passed independent review
-and is integrated with no node credit; arbitrary-divisor coherence and the
-effectivity comparison remain open. The
-finite-flat lane proceeds from the now-checked local-lift boundary homomorphism
-through the checked quotient-`H⁰` reverse inclusion to the two genuine reverse
-`H¹` exactness inclusions and the focused rank-zero consumer.
+The remaining modular boundary is to construct the actual projective cubic as
+an abelian variety and prove its scheme-point comparison, followed by `E/C`
+and quotient/classifying geometry. The A3 principal-divisor cocycle checkpoint
+`46d5b74` is also reviewed and integrated with no node credit;
+arbitrary-divisor coherence and the effectivity comparison remain open. Two
+independent workers are now proving the kernel-`H¹` reverse inclusion and
+designing/implementing the final middle-`H¹` reverse inclusion. Those are the
+only missing exactness inputs before the focused finite-flat rank-zero
+consumer.
 
 ## Route decision
 
@@ -66,7 +69,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and certified exactness through quotient-valued global sections; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and now derives its constant closed embedding from injective rational sections, leaving only the actual Weierstrass group scheme and point comparison as that interface; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks the two reverse degree-one exactness inclusions needed for the full low-degree sequence; the actual Weierstrass group scheme, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and certified exactness through quotient-valued global sections; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data, derives its constant closed embedding from injective rational sections, and reduces the remaining group-scheme interface to a genuine abelian variety plus its rational-point comparison; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Relative `H¹` still lacks the two reverse degree-one exactness inclusions needed for the full low-degree sequence; the actual projective cubic as an abelian variety, its point comparison, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -192,9 +195,11 @@ within each lane follows the listed order.
    the constant group of order `N`. Exact coordinate torsion constructs a
    genuine split Γ₀ datum and recovers the existing rational carrier. The
    extension of an injective constant family and its closed immersion are now
-   checked generically, so `WeierstrassGroupSchemeInterface` retains only the
-   actual group scheme and rational-point comparison. Next construct those
-   remaining fields for the elliptic curve, then `E/C` and the coarse `X₀(N)`
+   checked generically. A genuine Tau Ceti abelian variety plus a comparison
+   of its scheme-valued rational points with Mathlib's projective Weierstrass
+   points now supplies the interface and compiles in the exact-torsion
+   consumer. Next construct that projective cubic abelian variety and point
+   comparison for the elliptic curve, then `E/C` and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
 2. `MT-X0-INTEGRAL` (30): compactification and cusp neighbourhoods only in

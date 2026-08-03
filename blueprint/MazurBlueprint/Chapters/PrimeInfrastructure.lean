@@ -215,6 +215,14 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitGammaZeroDatumOfTorsion`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.ofProjectivePointEquiv`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfProjectivePointComparison`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumPointHom_range`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -226,9 +234,12 @@ actual finite-locally-free closed subgroup, arbitrary base change, and an
 identification with the constant cyclic group. Exact rational torsion gives a
 genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme
 interface, and a checked consumer identifies its rational point range with
-the existing carrier. Constructing that interface for the actual elliptic
-curve, `E/C`, the coarse modular point, and Atkin--Lehner geometry remain open,
-so this node receives no completion credit.
+the existing carrier. A genuine Tau Ceti abelian variety plus a comparison of
+its rational points with Mathlib's projective Weierstrass points now supplies
+that interface and feeds the same consumer. Constructing the projective cubic
+as such an abelian variety, proving the scheme-point comparison, constructing
+`E/C` and the coarse modular point, and the required Atkin--Lehner geometry
+remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
