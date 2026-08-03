@@ -62,6 +62,7 @@ import MazurTorsion.GroupTheory.IndependentCyclicGenerators
 import MazurTorsion.GroupTheory.IndexNSmulFG
 import MazurTorsion.GroupTheory.TorsionEquiv
 import MazurTorsion.Kubert.OrderElevenModel
+import MazurTorsion.Kubert.OrderElevenModelInverse
 import MazurTorsion.Kubert.OrderElevenReduction
 import MazurTorsion.Kubert.OrderNineReduction
 import MazurTorsion.Kubert.OrderEighteenReduction
