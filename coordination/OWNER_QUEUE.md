@@ -13,7 +13,7 @@ smooth-curve chart normality, genuine split finite-flat cyclic-subgroup data,
 checked extension of injective finite rational sections to closed constant
 subgroup schemes, a checked Tau Ceti abelian-variety bridge for the remaining
 Weierstrass group-scheme interface, and the actual reduced proper projective
-Weierstrass cubic scheme,
+Weierstrass cubic scheme with its canonical forward coordinate-point map,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -23,7 +23,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `aef49ec` contains five reviewed acceptance
+The combined owner history through `d61566c` contains reviewed acceptance
 boundaries. Checkpoint `8f77d87` proves exactness at quotient-valued
 `H⁰`: a common-refinement gauge adjusts local lifts, subcanonical fppf descent
 glues them to a global section, and the concrete low-degree constructor now
@@ -49,18 +49,33 @@ constructor now consumes this exact scheme once its group object and geometric
 integrality are supplied; the existing split finite-flat `Γ₀(N)` datum is a
 compiled downstream consumer after the projective coordinate-point comparison.
 
-All five acceptance boundaries passed independent mathematical and API review;
+Checkpoint `b3cfcaf` transports the canonical trivial descent datum to the
+specified affine principal-divisor line bundles and proves this direct Picard
+boundary datum effective with the global trivial line bundle as witness. The
+independently required documentation repair `abe004a` records that arbitrary
+pairwise chosen-pullback transport was already checked; diagonal normalization
+and triple coherence, general effectivity, and comparison with the separately
+reconstructed principal cocycle remain open.
+
+Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
+space, factors nonsingular coordinate triples through the reduced cubic, proves
+the resulting points lie over `Spec K`, and gives canonical affine and
+projective point maps. A finite-flat consumer now reaches constant-order
+`Γ₀(N)` data once this explicit map is proved multiplicative and bijective.
+
+All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `FppfQuotientConnecting` and
 `XZeroWeierstrassProjectiveCubic` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 721 integrated Lean
-sources / 1,459,254 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 722 integrated Lean
+sources / 1,459,598 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The remaining modular boundary is to construct the group law and geometric
-integrality on the checked projective cubic, prove its scheme-point comparison,
-and then construct `E/C` and quotient/classifying geometry. The A3
+integrality on the checked projective cubic, prove that its canonical forward
+point map preserves the group law and is bijective, and then construct `E/C`
+and quotient/classifying geometry. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
 the directly transported principal Picard datum now has the global trivial line
@@ -92,7 +107,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic and reduced the remaining group-scheme interface to its group law, geometric integrality, and rational-point comparison; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The focused filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic group law, geometric integrality, point comparison, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality and proper-intersection divisor-line-bundle comparison; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic and its canonical forward coordinate-point map; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. The focused filtration/rank-zero consumer and unramified Raynaud uniqueness remain; the cubic group law, geometric integrality, multiplicativity and bijectivity of the canonical point map, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -235,9 +250,11 @@ within each lane follows the listed order.
    points now supplies the interface and compiles in the exact-torsion
    consumer. The actual homogeneous projective cubic now exists as a reduced
    proper closed subscheme of `P²`, with its inclusion range and underlying
-   Tau Ceti scheme pinned definitionally. Next construct its group object and
-   geometric integrality and prove the projective coordinate/scheme-point
-   comparison, then `E/C` and the coarse `X₀(N)`
+   Tau Ceti scheme pinned definitionally. Nonsingular homogeneous coordinates
+   now factor through this reduced cubic and give the canonical forward map on
+   projective points. Next construct its group object and geometric integrality
+   and prove that this map preserves the group law and is bijective, then `E/C`
+   and the coarse `X₀(N)`
    classifying point, and identify the level-49 target with the checked
    explicit model. No Atkin--Lehner closure is claimed before that geometry.
 2. `MT-X0-INTEGRAL` (30): compactification and cusp neighbourhoods only in
