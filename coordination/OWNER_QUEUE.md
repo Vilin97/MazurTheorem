@@ -40,7 +40,9 @@ burden but claims no roadmap-node completion credit.
 The remaining critical boundary in this lane is the actual projective
 Weierstrass/elliptic commutative group scheme and its rational-point
 comparison, followed by quotient/classifying geometry. In parallel, the A3
-principal-divisor cocycle checkpoint is under independent review, and the
+principal-divisor cocycle checkpoint `46d5b74` has passed independent review
+and is integrated with no node credit; arbitrary-divisor coherence and the
+effectivity comparison remain open. The
 finite-flat lane proceeds from the now-checked local-lift boundary homomorphism
 to the three genuine reverse exactness inclusions and the focused rank-zero
 consumer.
@@ -101,9 +103,15 @@ within each lane follows the listed order.
    integral closedness for locally standard-smooth relative-dimension-one
    domains over a field; localization-cover gluing gives unconditional
    Dedekind chart compatibility, and the actual line-bundle comparison on a
-   proper smooth curve intersection compiles. The missing geometric
-   construction is now the normalized pairwise cocycle and triple coherence,
-   then module effectivity, object separation, compatible rational
+   proper smooth curve intersection compiles. Generic objectwise transport of
+   descent data now preserves normalization and triple coherence. For a
+   principal divisor, the chosen-overlap cocycle, full descent datum, locally
+   invertible descent datum, and a concrete scheme-Picard boundary consumer
+   compile; their coherence is transported from the canonical trivial global
+   datum. For an arbitrary divisor only the pairwise chosen-overlap
+   isomorphism is checked. The missing geometric construction is its diagonal
+   normalization and triple naturality, followed by the principal effectivity
+   comparison, general module effectivity, object separation, rational
    normalization, tensor-additivity, and Picard surjectivity; no A3 credit is
    claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
