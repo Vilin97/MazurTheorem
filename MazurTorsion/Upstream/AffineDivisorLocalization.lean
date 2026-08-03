@@ -45,9 +45,11 @@ Dedekind affine overlap satisfying the standing torsion-free, common-fraction-fi
 scalar-tower hypotheses. The companion curve module proves that coefficient equality
 automatically when the two overlap maps compose to one ambient map, and constructs all of that
 data canonically from a chosen common Dedekind affine subopen. On one fixed common affine model,
-the three specified restriction isomorphisms now satisfy the exact transitivity equation. Passing
-that equation functorially from pairwise intersections to the chosen triple pullback, and proving
-module effectivity, remain open in the current Mathlib and Tau Ceti dependency graph.
+the three specified restriction isomorphisms now satisfy the exact transitivity equation.
+Inverse-ideal extension is also compatible with a further scalar-tower base change.  The
+companion curve modules use this to identify pairwise-derived comparisons with direct
+triple-affine comparisons; compatibility of the surrounding pseudofunctor pullback isomorphisms
+with that restriction tower, and module effectivity, remain open.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -606,6 +608,9 @@ private lemma fractionMap_eq_id
   intro r
   rw [RingHom.id_apply, IsScalarTower.algebraMap_apply R B K]
 
+/-- The extended inverse divisor ideal is the span, in the target fraction field, of the
+original inverse divisor ideal.  This description is the input for tower compatibility of
+inverse-ideal extension. -/
 private lemma extendedInverseIdeal_eq_span
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
@@ -628,6 +633,101 @@ private lemma extendedInverseIdeal_eq_span
   rw [FractionalIdeal.coe_extended_eq_span, show IsLocalization.map K (algebraMap R B) hf =
     RingHom.id K from fractionMap_eq_id R B K]
   rfl
+
+private lemma span_span_of_scalar_tower
+    (B C K : Type u) [CommRing B] [CommRing C] [Field K]
+    [Algebra B C] [Algebra B K] [Algebra C K] [IsScalarTower B C K]
+    (s : Set K) :
+    Submodule.span C (Submodule.span B s : Set K) = Submodule.span C s := by
+  apply le_antisymm
+  · apply Submodule.span_le.mpr
+    intro x hx
+    refine Submodule.span_induction (p := fun x _ => x ∈ Submodule.span C s)
+      (fun x hx => Submodule.subset_span hx) ?_ ?_ ?_ hx
+    · exact (Submodule.span C s).zero_mem
+    · intro x y _ _ hx hy
+      exact (Submodule.span C s).add_mem hx hy
+    · intro b x _ hx
+      rw [← IsScalarTower.algebraMap_smul C b x]
+      exact (Submodule.span C s).smul_mem (algebraMap B C b) hx
+  · exact Submodule.span_mono Submodule.subset_span
+
+/-- Extending an inverse divisor ideal first to `B` and then taking its `C`-span agrees with
+extending it directly to `C`.  All three submodules live in the specified common fraction
+field, so the statement records the scalar-tower compatibility needed on triple affine
+intersections without choosing localization presentations. -/
+theorem extendedInverseIdeal_span_tower
+    (R B C K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    Submodule.span C (extendedInverseIdeal R B K D : Set K) =
+      extendedInverseIdeal R C K D := by
+  rw [extendedInverseIdeal_eq_span R B K D,
+    extendedInverseIdeal_eq_span R C K D]
+  exact span_span_of_scalar_tower B C K _
+
+/-- A cross-chart inverse-ideal equality on `B` remains the same equality after extension to
+`C`.  The scalar towers from the chart rings to `C` are derived from the given tower through
+`B`; the equality itself is transported by the checked span-tower formula above.  This is the
+algebraic restriction law needed to compare pairwise and triple affine overlap models. -/
+theorem overlapInverseIdealExtensionEq_baseChange
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    Boundary.OverlapInverseIdealExtensionEq R₁ R₂ C K D₁ D₂ := by
+  letI : IsScalarTower R₁ B K := h.1
+  letI : IsScalarTower R₂ B K := h.2.1
+  let htower₁ : IsScalarTower R₁ C K := by
+    apply IsScalarTower.of_algebraMap_eq'
+    apply RingHom.ext
+    intro r
+    change algebraMap R₁ K r = algebraMap C K (algebraMap R₁ C r)
+    rw [IsScalarTower.algebraMap_apply R₁ B K,
+      IsScalarTower.algebraMap_apply R₁ B C,
+      IsScalarTower.algebraMap_apply B C K]
+  let htower₂ : IsScalarTower R₂ C K := by
+    apply IsScalarTower.of_algebraMap_eq'
+    apply RingHom.ext
+    intro r
+    change algebraMap R₂ K r = algebraMap C K (algebraMap R₂ C r)
+    rw [IsScalarTower.algebraMap_apply R₂ B K,
+      IsScalarTower.algebraMap_apply R₂ B C,
+      IsScalarTower.algebraMap_apply B C K]
+  letI : IsScalarTower R₁ C K := htower₁
+  letI : IsScalarTower R₂ C K := htower₂
+  refine ⟨htower₁, htower₂, ?_⟩
+  have hB : extendedInverseIdeal R₁ B K D₁ =
+      extendedInverseIdeal R₂ B K D₂ :=
+    congrArg (fun I : (FractionalIdeal B⁰ K)ˣ ↦ (I : Submodule B K)) h.2.2
+  have hC : extendedInverseIdeal R₁ C K D₁ =
+      extendedInverseIdeal R₂ C K D₂ := by
+    rw [← extendedInverseIdeal_span_tower R₁ B C K D₁,
+      ← extendedInverseIdeal_span_tower R₂ B C K D₂, hB]
+  apply Units.ext
+  apply FractionalIdeal.coe_ext
+  exact hC
 
 private lemma inverseIdeal_map_fractionEquiv
     (R K : Type u) [CommRing R] [IsDedekindDomain R]
