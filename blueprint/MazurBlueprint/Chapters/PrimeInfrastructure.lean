@@ -124,10 +124,13 @@ interface. This finite-flat API does not yet represent Mazur's two quasi-finite
 closures at the primes dividing the level. The represented coefficient and
 global `H¹` construction now extends to every ambient commutative group scheme.
 Ambient group-scheme morphisms induce canonical maps on represented points and
-`H¹` with checked identity and composition laws. A checked wrapper packages
-the flat, quasi-finite, separated, finite-presentation case, consumes those
-maps, and agrees definitionally with the finite-flat coefficient and morphism
-APIs. The next
+`H¹` with checked identity and composition laws. Their canonical kernel is
+constructed as the pullback against the identity in internal groups, identified
+with the scheme-theoretic pullback, and proved to represent the pointwise kernel
+on every test scheme. A checked wrapper packages the flat, quasi-finite,
+separated, finite-presentation case, consumes those maps and the ambient kernel,
+and agrees definitionally with the finite-flat coefficient, morphism, and
+canonical-kernel APIs. The next
 boundary is to construct the four actual integral elementary factors and their
 exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
 finiteness.
@@ -143,11 +146,17 @@ finiteness.
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.fppfHOneMap`
 * `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointKernelMulEquiv`
+* `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMulEquivOfFiniteFlat`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMap_ofFiniteFlat_eq`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.canonicalAmbientKernel_pointMulEquiv`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.canonicalKernel_point_mulExact`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):

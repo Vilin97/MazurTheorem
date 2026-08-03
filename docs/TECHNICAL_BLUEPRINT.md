@@ -1584,7 +1584,12 @@ scheme, and a structural wrapper packages the flat, quasi-finite, separated,
 finite-presentation case. Ambient morphisms induce represented-point and
 global-`H¹` maps with checked identity and composition laws; the quasi-finite
 wrapper consumes those maps, and finite-flat coefficient and morphism adapters
-agree definitionally with the existing API. The four actual
+agree definitionally with the existing API. The canonical ambient kernel is
+constructed as a pullback in internal groups, identified with the
+scheme-theoretic pullback, and proved to represent the pointwise kernel on every
+test scheme. Quasi-finite morphisms consume this theorem without asserting
+kernel flatness; the existing canonical finite-flat kernel is a checked
+compatibility consumer. The four actual
 integral factors, their extension-by-zero exact sequences, elementary
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
 specialization remain open.
