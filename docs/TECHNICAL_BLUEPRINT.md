@@ -33,10 +33,10 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,430,638 project-specific lines across 660
+The latest integrated package has 1,432,068 project-specific lines across 663
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
-reduction cone in 31 sources under `EllipticCurves/` and 169 lines in the two
-root aggregators. These 693 sources and 1,444,949 checked lines build without
+reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
+root aggregators. These 696 sources and 1,446,382 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1466,6 +1466,36 @@ legs (the cusp by nonvanishing of the leg numerator, the CM value by a
 monic degree-nine integral polynomial with no root modulo two), and
 `Kubert/OrderTwentySeven.lean` assembles
 `no_rational_point_of_order_twentySeven`.
+
+### 6.7 Order-thirty-five boundary
+
+The selected endpoint uses the fixed elliptic curve expected to be
+`X₀(35)/w₅`, normalized as `y² + 4xy + 7y = x³`. Its rational torsion group
+is checked to be `ZMod 3`. The two explicit rational point-function
+candidates now satisfy the unconditional composite identity
+
+```text
+veluThreeDualCandidatePointFun (veluThreeCandidatePointFun P) = 3 • P.
+```
+
+This is intentionally a theorem about the composite, not an unsupported
+claim that either point function is additive or bundled as an isogeny. The
+dual denominator is proved nonzero on every rational affine target point.
+The associated rational three-cover reconstructs a dual preimage whenever
+the source ordinate is a nonzero cube, and translation by the visible kernel
+tracks the three cube classes `1`, `7`, and `49`.
+
+`threeCosetBound_of_descent_inputs` consumes exactly
+`SourceThreeCubeClassBound` and `TargetThreeCandidateSurjective`. Its checked
+downstream closure proves finite index for tripling, finite generation, rank
+zero, and finiteness of the fixed model. The generic height-descent theorem
+for finite-index tripling lives with its doubling analogue in
+`Foundations/NaiveHeightDescent.lean`; the order-35 result is its concrete
+consumer. Finiteness of the target curve is a compiled sufficient condition
+for the second input. The source cube-class calculation and target-curve
+finiteness remain open, as do the modular identification and the squarefree
+formal-immersion consumer at eleven. Thus no unconditional rank-zero theorem
+or roadmap-node completion is claimed.
 
 ## 7. Prime-level Mazur layer
 

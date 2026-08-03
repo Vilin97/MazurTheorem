@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Michael Stoll. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Michael Stoll
+Authors: Michael Stoll, Vasily Ilin
 -/
 
 import Mathlib.GroupTheory.Descent
@@ -22,11 +22,11 @@ This file is a narrow port of the height part of Michael Stoll's
 
 It proves the approximate parallelogram law for the naïve logarithmic
 height on affine Weierstrass points. Combined with Northcott and finite
-index of the doubling map, this gives finite generation by
-`AddCommGroup.fg_of_descent'`.
+index of multiplication by two or three, this gives finite generation by
+the descent theorems in `Mathlib.GroupTheory.Descent`.
 
 The much larger weak Mordell--Weil and Selmer-group layers are deliberately
-not imported: callers may establish finite index of doubling by a
+not imported: callers may establish the required finite index by a
 curve-specific descent.
 -/
 
@@ -364,6 +364,50 @@ theorem fg_point_of_finiteIndex_two
     positivity
   obtain ⟨C, hC⟩ := approx_parallelogram_law W
   exact AddCommGroup.fg_of_descent' hindex hnonneg hC
+
+/-- The approximate parallelogram law runs naïve-height descent with
+multiplication by three. -/
+theorem fg_point_of_finiteIndex_three
+    (hindex :
+      (nsmulAddMonoidHom (α := W.toAffine.Point) 3).range.FiniteIndex) :
+    AddGroup.FG W.toAffine.Point := by
+  let h : W.toAffine.Point → ℝ := Point.naiveHeight
+  have hnonneg (P : W.toAffine.Point) : 0 ≤ h P := by
+    change 0 ≤ P.naiveHeight
+    rw [Point.naiveHeight_eq_logHeight P]
+    positivity
+  obtain ⟨C, hC⟩ := approx_parallelogram_law W
+  have htranslate (G P : W.toAffine.Point) :
+      h P ≤ 2 * h (G + P) + (2 * h (-G) + C) := by
+    have hpar := hC (G + P) (-G)
+    have hrest : 0 ≤ h ((G + P) - (-G)) := hnonneg _
+    have hsum : (G + P) + (-G) = P := by abel
+    rw [hsum] at hpar
+    grind
+  have hgrowth (P : W.toAffine.Point) :
+      9 * h P - (2 * h 0 + 3 * C) ≤ h ((3 : ℕ) • P) := by
+    have htwoPar := hC P P
+    have htwo :
+        4 * h P - (h 0 + C) ≤ h ((2 : ℕ) • P) := by
+      have hsum : P + P = (2 : ℕ) • P := by abel
+      have hdiff : P - P = 0 := sub_self P
+      rw [hsum, hdiff] at htwoPar
+      grind
+    have hthreePar := hC ((2 : ℕ) • P) P
+    have hsum : (2 : ℕ) • P + P = (3 : ℕ) • P := by abel
+    have hdiff : (2 : ℕ) • P - P = P := by abel
+    rw [hsum, hdiff] at hthreePar
+    grind
+  letI : Northcott h := by
+    dsimp only [h]
+    infer_instance
+  exact
+    AddCommGroup.fg_of_descent
+      (n := 3) (h := h) (a := 2) (b := 9)
+      (c₀ := 2 * h 0 + 3 * C)
+      (c := fun G ↦ 2 * h (-G) + C)
+      (by norm_num) (by norm_num) hindex
+      htranslate hgrowth
 
 end Height
 

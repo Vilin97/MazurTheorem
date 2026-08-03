@@ -29,57 +29,6 @@ are checked consumers of the exact proposition it must establish.
 
 open WeierstrassCurve
 
-namespace WeierstrassCurve.Affine
-
-open Height
-
-/-- The approximate parallelogram law runs naïve-height descent with
-multiplication by three. -/
-theorem fg_point_of_finiteIndex_three
-    (W : WeierstrassCurve ℚ) [W.toAffine.IsElliptic]
-    (hindex :
-      (nsmulAddMonoidHom (α := W.toAffine.Point) 3).range.FiniteIndex) :
-    AddGroup.FG W.toAffine.Point := by
-  let h : W.toAffine.Point → ℝ := Point.naiveHeight
-  have hnonneg (P : W.toAffine.Point) : 0 ≤ h P := by
-    change 0 ≤ P.naiveHeight
-    rw [Point.naiveHeight_eq_logHeight P]
-    positivity
-  obtain ⟨C, hC⟩ := approx_parallelogram_law W
-  have htranslate (G P : W.toAffine.Point) :
-      h P ≤ 2 * h (G + P) + (2 * h (-G) + C) := by
-    have hpar := hC (G + P) (-G)
-    have hrest : 0 ≤ h ((G + P) - (-G)) := hnonneg _
-    have hsum : (G + P) + (-G) = P := by abel
-    rw [hsum] at hpar
-    grind
-  have hgrowth (P : W.toAffine.Point) :
-      9 * h P - (2 * h 0 + 3 * C) ≤ h ((3 : ℕ) • P) := by
-    have htwoPar := hC P P
-    have htwo :
-        4 * h P - (h 0 + C) ≤ h ((2 : ℕ) • P) := by
-      have hsum : P + P = (2 : ℕ) • P := by abel
-      have hdiff : P - P = 0 := sub_self P
-      rw [hsum, hdiff] at htwoPar
-      grind
-    have hthreePar := hC ((2 : ℕ) • P) P
-    have hsum : (2 : ℕ) • P + P = (3 : ℕ) • P := by abel
-    have hdiff : (2 : ℕ) • P - P = P := by abel
-    rw [hsum, hdiff] at hthreePar
-    grind
-  letI : Northcott h := by
-    dsimp only [h]
-    infer_instance
-  exact
-    AddCommGroup.fg_of_descent
-      (n := 3) (h := h) (a := 2) (b := 9)
-      (c₀ := 2 * h 0 + 3 * C)
-      (c := fun G ↦ 2 * h (-G) + C)
-      (by norm_num) (by norm_num) hindex
-      htranslate hgrowth
-
-end WeierstrassCurve.Affine
-
 namespace MazurTorsion.OrderThirtyFive
 
 open WeierstrassCurve.Affine

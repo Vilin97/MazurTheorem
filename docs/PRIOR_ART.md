@@ -673,9 +673,13 @@ records `[0,1,1,9,1]` as the Γ₀(35)-optimal curve 35.a3 and
 class.  These sources are used only as specification and provenance.  The
 local checked declarations verify arithmetic on the fixed equation, its
 rational torsion, the equation landing and zero fibre of a Vélu
-point-function candidate, and trivial torsion on the candidate target.  They
-do not yet construct the modular quotient map or identification, prove the
-candidate additive or isogenous, or establish Mordell--Weil rank zero.
+point-function candidate, trivial torsion on the candidate target, a total
+opposite candidate, and the composite identity with multiplication by three.
+The checked rational cover and visible-coset translations reduce rank zero
+to the explicit source cube-class and target-finiteness inputs. They do not
+yet construct the modular quotient map or identification or establish those
+two arithmetic inputs; no unconditional Mordell--Weil rank-zero theorem is
+claimed.
 
 ## 12. Multiplication-polynomial discriminants and executable resultants
 

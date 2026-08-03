@@ -47,9 +47,14 @@ Current machine-checked results include:
   torsion subgroup with `ZMod 3`; the equation-checked Vélu point-function
   candidate has exactly the visible three-element zero fibre, and its
   candidate target has trivial rational torsion by division-polynomial
-  factorization and reduction at three. The modular identification,
-  additivity/isogeny interface, dual composition, and three-isogeny Selmer
-  image calculation needed for Mordell--Weil rank zero remain open;
+  factorization and reduction at three. A total opposite candidate now has a
+  checked composite equal to multiplication by three on every rational source
+  point. The rational three-cover and visible `1`, `7`, and `49` translations
+  assemble an exact three-coset certificate from two named arithmetic inputs,
+  with compiled downstream consumers proving finite generation, rank zero,
+  and finiteness. The source cube-class bound, target-curve finiteness, and
+  modular identification remain open, so unconditional rank zero is not yet
+  claimed;
 * exact unramified formal-kernel torsion and collision theorems at the integer
   primes `5` and `11`, plus concrete residue-field identifications and
   exact-order preservation under good reduction; the compiled consumers

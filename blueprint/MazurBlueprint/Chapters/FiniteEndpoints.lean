@@ -97,9 +97,12 @@ destination theorem is
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
 point-function candidate and its zero fibre, and trivial torsion on the
-candidate target are checked. Additivity, a bundled isogeny, the modular
-quotient map, and the dual/composition plus Selmer-image calculation needed
-for rank zero remain open, so this is not node completion.
+candidate target are checked. The opposite point-function candidate is total
+on rational points, and its composite with the first candidate is checked to
+be multiplication by three. The rational three-cover and visible-coset
+translations compile through conditional rank-zero and finiteness consumers.
+The source cube-class bound, target-curve finiteness, modular quotient map,
+and formal immersion remain open, so this is not node completion.
 :::
 
 :::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")

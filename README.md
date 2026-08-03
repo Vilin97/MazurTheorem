@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 693 checked Lean sources and 1,444,949
+The integrated development contains 696 checked Lean sources and 1,446,382
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -52,6 +52,13 @@ the required residue-field isomorphism, and a chosen-field degree-one
 certificate that the future q-expansion proof must fill. This is deliberately
 not node completion: the completed-local-ring criterion, integral cusp
 geometry, modular quotient, and cusp-collision theorem remain open.
+
+The order-35 lane also now checks the opposite rational point-function
+candidate and the composite identity `dual (candidate P) = 3 • P`, together
+with the rational three-cover, visible-coset translations, and a full
+conditional chain from the two exact descent inputs to finite generation,
+rank zero, and finiteness. The source cube-class calculation and target-curve
+finiteness are still open, so this likewise earns no node credit.
 
 The percentage and task graph come from
 [`coordination/program.json`](coordination/program.json), not prose or line
