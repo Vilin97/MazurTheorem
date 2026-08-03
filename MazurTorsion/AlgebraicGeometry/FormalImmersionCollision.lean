@@ -173,4 +173,47 @@ theorem IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo_of_isNoetherian
     g = h :=
   hf.spec_ext_of_stalkClosedPointTo g h hpoint hrestrict
 
+/-- A formal immersion turns equality after the target morphism into equality of local-spectrum
+points, provided the two points meet on the source special fibre.  This is the form used by the
+modular-section/cusp collision: the quotient images agree as morphisms, rather than as a separately
+supplied equation between local-ring homomorphisms. -/
+theorem IsFormalImmersionAt.spec_ext_of_comp_eq
+    {X Y : Scheme.{u}} {f : X ⟶ Y}
+    {R : Type u} [CommRing R] [IsLocalRing R]
+    [IsHausdorff (IsLocalRing.maximalIdeal R) R]
+    (g h : Spec (.of R) ⟶ X)
+    (hpoint : g (IsLocalRing.closedPoint R) = h (IsLocalRing.closedPoint R))
+    (hf : IsFormalImmersionAt f (g (IsLocalRing.closedPoint R)))
+    (himage : g ≫ f = h ≫ f) :
+    g = h := by
+  apply hf.spec_ext_of_stalkClosedPointTo g h hpoint
+  have hcat :
+      f.stalkMap (g (IsLocalRing.closedPoint R)) ≫
+          Scheme.stalkClosedPointTo g =
+        f.stalkMap (g (IsLocalRing.closedPoint R)) ≫
+          (X.presheaf.stalkCongr (.of_eq hpoint)).hom ≫
+            Scheme.stalkClosedPointTo h := by
+    rw [← Scheme.stalkClosedPointTo_comp g f]
+    rw [← Category.assoc,
+      Scheme.Hom.stalkMap_congr_point f _ _ hpoint]
+    rw [Category.assoc, ← Scheme.stalkClosedPointTo_comp h f]
+    unfold Scheme.stalkClosedPointTo
+    rw [Scheme.Hom.stalkMap_congr_hom (g ≫ f) (h ≫ f) himage
+      (IsLocalRing.closedPoint (CommRingCat.of R))]
+    simp only [Category.assoc]
+    rfl
+  exact CommRingCat.hom_ext_iff.mp hcat
+
+/-- Noetherian specialization of `spec_ext_of_comp_eq`, matching sections over localizations of
+the arithmetic base. -/
+theorem IsFormalImmersionAt.spec_ext_of_comp_eq_of_isNoetherian
+    {X Y : Scheme.{u}} {f : X ⟶ Y}
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    (g h : Spec (.of R) ⟶ X)
+    (hpoint : g (IsLocalRing.closedPoint R) = h (IsLocalRing.closedPoint R))
+    (hf : IsFormalImmersionAt f (g (IsLocalRing.closedPoint R)))
+    (himage : g ≫ f = h ≫ f) :
+    g = h :=
+  hf.spec_ext_of_comp_eq g h hpoint himage
+
 end AlgebraicGeometry
