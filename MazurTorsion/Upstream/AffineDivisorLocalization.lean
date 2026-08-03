@@ -786,8 +786,30 @@ private noncomputable def chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
         (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)
 
 /-- On every affine open immersion between the chart spectrum and a common overlap spectrum,
-restriction of the chosen affine divisor line bundle is tilde of the extended inverse divisor
-ideal. No classical localization presentation is required. -/
+restriction of the chosen affine divisor line bundle is *specified* by tilde of the extended
+inverse divisor ideal.  Keeping this isomorphism as data, rather than immediately hiding it in a
+`Nonempty`, is the coherence-ready form used by the overlap construction below.  No classical
+localization presentation is required. -/
+noncomputable def restrictionIsoExtendedInverseIdealOfIsOpenImmersion
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (AffineDedekind.lineBundle R K D).obj.restrict (extensionMap R B) ≅
+      _root_.AlgebraicGeometry.tilde (R := CommRingCat.of B)
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) := by
+  let M := chosenModule R K D
+  exact ((extendScalarsTildeIsoRestrict
+      (CommRingCat.of R) (CommRingCat.of B)
+      (CommRingCat.ofHom (algebraMap R B))).app M).symm ≪≫
+    (tilde.functor (CommRingCat.of B)).mapIso
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso
+
+/-- Proposition-valued compatibility wrapper for the specified open-immersion comparison. -/
 theorem restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
@@ -797,14 +819,8 @@ theorem restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion
     [IsScalarTower R B K]
     [IsOpenImmersion (extensionMap R B)]
     (D : WeilDivisor (HeightOneSpectrum R)) :
-    RestrictionIdentifiesExtendedInverseIdeal R B K D := by
-  refine ⟨inferInstance, ?_⟩
-  let M := chosenModule R K D
-  exact ⟨((extendScalarsTildeIsoRestrict
-      (CommRingCat.of R) (CommRingCat.of B)
-      (CommRingCat.ofHom (algebraMap R B))).app M).symm ≪≫
-    (tilde.functor (CommRingCat.of B)).mapIso
-      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso⟩
+    RestrictionIdentifiesExtendedInverseIdeal R B K D :=
+  ⟨inferInstance, ⟨restrictionIsoExtendedInverseIdealOfIsOpenImmersion R B K D⟩⟩
 
 /-- On every affine open immersion, affine global sections of the restricted chosen line bundle
 identify with the extended inverse divisor ideal. -/
@@ -844,9 +860,9 @@ noncomputable def chosenLineBundleRestrictionIsoOfOverlapExtensionEq
       (AffineDedekind.lineBundle R₂ K D₂).obj.restrict (extensionMap R₂ B) := by
   letI : IsScalarTower R₁ B K := h.1
   letI : IsScalarTower R₂ B K := h.2.1
-  exact chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂
-    (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₁ B K D₁)
-    (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₂ B K D₂) h
+  exact restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₁ B K D₁ ≪≫
+    extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h ≪≫
+    (restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₂ B K D₂).symm
 
 /-- If the induced spectrum map is an open immersion and the overlap ring is a localization of
 the chart ring, restriction of the chosen affine divisor line bundle is tilde of the extended

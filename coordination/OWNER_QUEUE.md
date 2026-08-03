@@ -53,9 +53,11 @@ Checkpoint `b3cfcaf` transports the canonical trivial descent datum to the
 specified affine principal-divisor line bundles and proves this direct Picard
 boundary datum effective with the global trivial line bundle as witness. The
 independently required documentation repair `abe004a` records that arbitrary
-pairwise chosen-pullback transport was already checked; diagonal normalization
-and triple coherence, general effectivity, and comparison with the separately
-reconstructed principal cocycle remain open.
+pairwise chosen-pullback transport was already checked. The current owner
+checkpoint replaces each diagonal transition by the coherent self-overlap map
+of a one-object descent datum along the chart open immersion and proves its
+normalization. Triple coherence, general effectivity, and comparison with the
+separately reconstructed principal cocycle remain open.
 
 Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
 space, factors nonsingular coordinate triples through the reduced cubic, proves
@@ -84,11 +86,11 @@ All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections`,
 `XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
-kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`, and
-`ConstantFlat` pass; the audited declarations use only
+kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
+`ConstantFlat`, and `ConstantFlatGlobalSections` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
 unchanged; and `python3 scripts/quality.py` passes at 734 integrated Lean
-sources / 1,463,463 lines with all 48 node IDs and 1,000 points intact. These
+sources / 1,463,670 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -224,10 +226,11 @@ within each lane follows the listed order.
    isomorphic to the canonical descent datum of the global trivial line bundle;
    the chosen-overlap/full-descent equivalence identifies the reconstructed and
    transported data, and the Picard boundary now consumes the actual normalized
-   cocycle's checked effectivity witness. For an arbitrary divisor only the
-   pairwise chosen-overlap isomorphism is checked. The missing geometric
-   construction is its diagonal normalization and triple naturality, followed
-   by comparison of the arbitrary-divisor presentations, general module effectivity, object
+   cocycle's checked effectivity witness. For an arbitrary divisor the
+   pairwise chosen-overlap isomorphism and a normalized replacement are now
+   checked: coherent one-object descent along each open immersion proves the
+   diagonal identity. The missing geometric construction is triple naturality,
+   followed by comparison of the arbitrary-divisor presentations, general module effectivity, object
    separation, rational normalization, tensor-additivity, and Picard
    surjectivity; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel

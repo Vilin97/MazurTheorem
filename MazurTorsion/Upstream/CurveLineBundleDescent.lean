@@ -166,6 +166,48 @@ noncomputable def changeObjectsIso
     simp only [changeObjects]
     simp)
 
+/-- Reinterpret a one-object descent datum for the identity of `X` as descent data along a
+monomorphism `f : X ⟶ S`.  Any two lifts through a monomorphism agree, so the identity-base
+transition maps provide all transitions over `S`; their pullback, identity, and composition laws
+are inherited from the original datum.  This is the categorical source of canonical normalized
+self-overlap maps below. -/
+noncomputable def rebaseSingleAlongMono
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {S X : C} (f : X ⟶ S) [Mono f]
+    (D : F.DescentData (fun _ : Unit ↦ 𝟙 X)) :
+    F.DescentData (fun _ : Unit ↦ f) := by
+  refine
+    { obj := D.obj
+      hom := fun {Y} q {i₁ i₂} f₁ f₂ hf₁ hf₂ ↦
+        D.hom f₁ f₁ f₂ (by simp) (by
+          simp only [Category.comp_id]
+          apply (cancel_mono f).1
+          exact hf₂.trans hf₁.symm)
+      pullHom_hom := ?_
+      hom_self := ?_
+      hom_comp := ?_ }
+  · intro Y' Y g q q' hq i₁ i₂ f₁ f₂ hf₁ hf₂ gf₁ gf₂ hgf₁ hgf₂
+    have hf₂₁ : f₂ = f₁ := by
+      apply (cancel_mono f).1
+      exact hf₂.trans hf₁.symm
+    subst f₂
+    simpa only [] using D.pullHom_hom g f₁ gf₁ hgf₁ f₁ f₁
+      (by simp) (by simp) gf₁ gf₂ hgf₁ hgf₂
+  · intro Y q i g hg
+    simpa only [] using D.hom_self g g (by simp)
+  · intro Y q i₁ i₂ i₃ f₁ f₂ f₃ hf₁ hf₂ hf₃
+    have hf₂₁ : f₂ = f₁ := by
+      apply (cancel_mono f).1
+      exact hf₂.trans hf₁.symm
+    have hf₃₁ : f₃ = f₁ := by
+      apply (cancel_mono f).1
+      exact hf₃.trans hf₁.symm
+    subst f₂
+    subst f₃
+    simpa only [] using D.hom_comp f₁ f₁ f₁ f₁
+      (by simp) (by simp) (by simp)
+
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent
 
 namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent
@@ -224,6 +266,105 @@ noncomputable def tripleOverlap
     ChosenPullback₃ (overlap cov i j) (overlap cov j k) (overlap cov i k) :=
   ChosenOverlaps.chosenPullback₃
     (overlap cov i j) (overlap cov j k) (overlap cov i k)
+
+/-! ## Canonical normalized self-overlaps for monomorphisms -/
+
+/-- The identity-base descent datum of a scheme module, transported so that its unique local
+object is definitionally the supplied module. -/
+noncomputable def identityModuleDescentData
+    (X : Scheme.{u}) (M : X.Modules) :
+    modulesPseudofunctor.DescentData (fun _ : Unit ↦ 𝟙 X) :=
+  PseudofunctorDescent.changeObjects
+    (fun _ : Unit ↦ 𝟙 X)
+    ((modulesPseudofunctor.toDescentData (fun _ : Unit ↦ 𝟙 X)).obj M)
+    (fun _ ↦ M)
+    (fun _ ↦ (Scheme.Modules.pullbackId X).app M)
+
+/-- Every module on the source of a monomorphism has coherent one-object descent data along that
+monomorphism.  This asserts descent *data*, not effectivity on the target. -/
+noncomputable def monoModuleDescentData
+    {S X : Scheme.{u}} (f : X ⟶ S) [Mono f] (M : X.Modules) :
+    modulesPseudofunctor.DescentData (fun _ : Unit ↦ f) :=
+  PseudofunctorDescent.rebaseSingleAlongMono f (identityModuleDescentData X M)
+
+/-- Restrict the coherent one-object datum along any chosen self-pullback of a monomorphism. -/
+noncomputable def monoSelfOverlapDescentDataPrime
+    {S X : Scheme.{u}} (f : X ⟶ S) [Mono f] (M : X.Modules)
+    (sq : ChosenPullback f f) :
+    modulesPseudofunctor.DescentData'
+      (fun _ _ : Unit ↦ sq)
+      (fun _ _ _ : Unit ↦ ChosenOverlaps.chosenPullback₃ sq sq sq) :=
+  Pseudofunctor.DescentData'.ofDescentData _ _ (monoModuleDescentData f M)
+
+/-- The canonical isomorphism between the two pullbacks of a module to a chosen self-overlap of
+a monomorphism.  Unlike an arbitrary equality-induced isomorphism, this is extracted from a full
+descent datum and therefore carries the required pseudofunctor coherence. -/
+noncomputable def monoSelfOverlapIso
+    {S X : Scheme.{u}} (f : X ⟶ S) [Mono f] (M : X.Modules)
+    (sq : ChosenPullback f f) :
+    (Scheme.Modules.pullback sq.p₁).obj M ≅
+      (Scheme.Modules.pullback sq.p₂).obj M := by
+  let D := monoSelfOverlapDescentDataPrime f M sq
+  let hIso : IsIso (D.hom () ()) := by
+    rw [← D.pullHom'_eq_hom () ()]
+    infer_instance
+  exact @asIso _ _ _ _ (D.hom () ()) hIso
+
+/-- The canonical self-overlap isomorphism pulls back to the identity along the diagonal. -/
+theorem monoSelfOverlapIso_normalization
+    {S X : Scheme.{u}} (f : X ⟶ S) [Mono f] (M : X.Modules)
+    (sq : ChosenPullback f f) :
+    Pseudofunctor.DescentData'.pullHom' (i₁ := ()) (i₂ := ())
+      (F := modulesPseudofunctor) (sq := fun _ _ : Unit ↦ sq)
+      (fun _ _ : Unit ↦ (monoSelfOverlapIso f M sq).hom)
+      f (𝟙 X) (𝟙 X) = 𝟙 _ := by
+  change Pseudofunctor.DescentData'.pullHom'
+    (F := modulesPseudofunctor) (sq := fun _ _ : Unit ↦ sq)
+    (monoSelfOverlapDescentDataPrime f M sq).hom f (𝟙 X) (𝟙 X) = 𝟙 _
+  exact DescentDataPrime.pullHom'_hom_self_opaque
+    (monoSelfOverlapDescentDataPrime f M sq) ()
+
+/-- Replace only the diagonal members of an arbitrary overlap-isomorphism family by the
+canonical coherent self-overlap maps.  Off the diagonal the original family is unchanged. -/
+noncomputable def normalizeOverlapDiagonal
+    {X : Scheme.{u}} (cov : X.OpenCover)
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (raw : ∀ i j : cov.I₀,
+      (Scheme.Modules.pullback (overlap cov i j).p₁).obj (L i).obj ≅
+        (Scheme.Modules.pullback (overlap cov i j).p₂).obj (L j).obj)
+    (i j : cov.I₀) :
+    (Scheme.Modules.pullback (overlap cov i j).p₁).obj (L i).obj ≅
+      (Scheme.Modules.pullback (overlap cov i j).p₂).obj (L j).obj := by
+  classical
+  by_cases hij : i = j
+  · subst j
+    exact monoSelfOverlapIso (cov.f i) (L i).obj (overlap cov i i)
+  · exact raw i j
+
+/-- Replacing the diagonal overlap maps as above genuinely proves the normalization field needed
+by `LineBundleCocycle`, for every original family of off-diagonal isomorphisms. -/
+theorem normalizeOverlapDiagonal_normalization
+    {X : Scheme.{u}} (cov : X.OpenCover)
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (raw : ∀ i j : cov.I₀,
+      (Scheme.Modules.pullback (overlap cov i j).p₁).obj (L i).obj ≅
+        (Scheme.Modules.pullback (overlap cov i j).p₂).obj (L j).obj)
+    (i : cov.I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+      (F := modulesPseudofunctor) (sq := overlap cov)
+      (fun i j ↦ (normalizeOverlapDiagonal cov L raw i j).hom)
+      (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _ := by
+  classical
+  have hdiag : normalizeOverlapDiagonal cov L raw i i =
+      monoSelfOverlapIso (cov.f i) (L i).obj (overlap cov i i) := by
+    simp [normalizeOverlapDiagonal]
+  have hdiagHom : (fun i j ↦ (normalizeOverlapDiagonal cov L raw i j).hom) i i =
+      (monoSelfOverlapIso (cov.f i) (L i).obj (overlap cov i i)).hom :=
+    congrArg Iso.hom hdiag
+  unfold Pseudofunctor.DescentData'.pullHom'
+  rw [hdiagHom]
+  simpa only [Pseudofunctor.DescentData'.pullHom'] using
+    monoSelfOverlapIso_normalization (cov.f i) (L i).obj (overlap cov i i)
 
 /-- Transport a module isomorphism from any explicit model of a fibre product to the standard
 chosen pullback. The comparison uses only the pullback universal property, pullback

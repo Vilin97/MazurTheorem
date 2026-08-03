@@ -413,6 +413,18 @@ inhabited or that A3 is solved.
   Identify a coherent descent datum with its objectwise transport by the supplied local
   isomorphisms.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent.rebaseSingleAlongMono`
+  Construct coherent one-object descent data along a monomorphism from the identity-base datum,
+  using uniqueness of lifts.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.normalizeOverlapDiagonal_normalization`
+  Replace arbitrary diagonal overlap choices by coherent self-overlap maps and prove the
+  diagonal identity.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_normalization`
+  Consume monomorphism descent to normalize the actual arbitrary-divisor overlap family on a
+  proper smooth curve.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.InvertibleEffectiveDescentFor`
   Isolate effective descent for all locally invertible data on one specified open cover.
 * `theorem` (`contract`):

@@ -37,8 +37,8 @@ triple coherence, and produces a full Mathlib descent datum. Direct objectwise t
 produces a principal datum explicitly isomorphic to the canonical global trivial datum, so that
 datum is effective. The chosen-overlap/full-descent equivalence identifies it with the separately
 reconstructed normalized principal cocycle, making that actual cocycle effective too. For
-arbitrary divisors, normalizing the transported transitions and proving cover-wide cocycle
-coherence remain. Given
+arbitrary divisors, the diagonal transitions are now replaced by coherent self-overlap maps and
+their normalization is proved. Cover-wide triple-cocycle coherence remains. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
@@ -753,8 +753,8 @@ noncomputable def localLineBundles
 
 /-- The arbitrary-divisor intersection isomorphism on a proper smooth curve, transported to
 Mathlib's chosen pairwise pullback for the coordinate cover. This discharges the former
-pullback-model mismatch; diagonal normalization and the triple cocycle for arbitrary divisors
-remain separate coherence statements. -/
+pullback-model mismatch. The raw family is normalized immediately below; the triple cocycle for
+arbitrary divisors remains a separate coherence statement. -/
 noncomputable def localLineBundleChosenOverlapIsoOnProperSmoothCurve
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
@@ -804,6 +804,56 @@ noncomputable def localLineBundleChosenOverlapIsoOnProperSmoothCurve
         (Scheme.Modules.restrictFunctorIsoPullback
           (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))).app
             (localLineBundles X U hnonempty hcover hU h D j).obj)
+
+/-- Normalize the diagonal members of the arbitrary-divisor overlap family using the coherent
+one-object descent datum attached to each open immersion.  Off the diagonal this retains the
+explicit inverse-ideal comparison constructed above. -/
+noncomputable def localLineBundleNormalizedOverlapIsoOnProperSmoothCurve
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : (coordinateCover U hcover hU).I₀) :
+    (Scheme.Modules.pullback
+      (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₁).obj
+        (localLineBundles X U hnonempty hcover hU h D i).obj ≅
+      (Scheme.Modules.pullback
+        (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₂).obj
+        (localLineBundles X U hnonempty hcover hU h D j).obj :=
+  LineBundleDescent.normalizeOverlapDiagonal
+    (coordinateCover U hcover hU)
+    (localLineBundles X U hnonempty hcover hU h D)
+    (localLineBundleChosenOverlapIsoOnProperSmoothCurve
+      K X f U hnonempty hcover hU h D) i j
+
+/-- The normalized arbitrary-divisor overlap family satisfies the diagonal identity required by
+`DivisorCocycle`.  Thus only triple-overlap coherence remains for these specified transitions. -/
+theorem localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_normalization
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i : (coordinateCover U hcover hU).I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+      (F := LineBundleDescent.modulesPseudofunctor)
+      (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
+      (fun i j ↦
+        (localLineBundleNormalizedOverlapIsoOnProperSmoothCurve
+          K X f U hnonempty hcover hU h D i j).hom)
+      ((coordinateCover U hcover hU).f i)
+      (𝟙 ((coordinateCover U hcover hU).X i))
+      (𝟙 ((coordinateCover U hcover hU).X i)) = 𝟙 _ :=
+  LineBundleDescent.normalizeOverlapDiagonal_normalization
+    (coordinateCover U hcover hU)
+    (localLineBundles X U hnonempty hcover hU h D)
+    (localLineBundleChosenOverlapIsoOnProperSmoothCurve
+      K X f U hnonempty hcover hU h D) i
 
 /-- The exact overlap-cocycle input for the chartwise divisor line bundles. -/
 abbrev DivisorCocycle
