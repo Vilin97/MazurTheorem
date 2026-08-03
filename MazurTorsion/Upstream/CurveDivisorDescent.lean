@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Upstream.CurveAffineChart
 import MazurTorsion.Upstream.AffineDivisorLocalization
 import MazurTorsion.Upstream.CurveLineBundleLocality
+import MazurTorsion.Upstream.CurveLineBundleOverlapNaturality
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
 
 /-!
@@ -825,6 +826,112 @@ noncomputable def localLineBundles
   letI := hnonempty i
   exact localLineBundle X (U i) (hU i) (h i) D
 
+/-- The explicit inverse-ideal comparison on the affine model of a pairwise chart
+intersection, written with pullbacks rather than open-immersion restriction functors. This is
+the model isomorphism transported by `localLineBundleChosenOverlapIsoOnProperSmoothCurve`; naming
+it makes its further pullback to a chosen triple overlap available to coherence proofs. -/
+noncomputable def localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : I) :
+    letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+    letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+    (Scheme.Modules.pullback
+      (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))).obj
+        (localLineBundles X U hnonempty hcover hU h D i).obj ≅
+      (Scheme.Modules.pullback
+        (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))).obj
+        (localLineBundles X U hnonempty hcover hU h D j).obj := by
+  letI := hnonempty i
+  letI := hnonempty j
+  letI : IsDedekindDomain Γ(X, U i) := (h i).isDedekindDomain
+  letI : IsDedekindDomain Γ(X, U j) := (h j).isDedekindDomain
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  let hW : IsAffineOpen (U i ⊓ U j) := (hU i).inf (hU j)
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j)) :=
+    restrictionExtensionMapIsOpenImmersion X (U i) (U i ⊓ U j)
+      (hU i) hW inf_le_left
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j)) :=
+    restrictionExtensionMapIsOpenImmersion X (U j) (U i ⊓ U j)
+      (hU j) hW inf_le_right
+  exact
+    ((Scheme.Modules.restrictFunctorIsoPullback
+      (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))).app
+        (localLineBundles X U hnonempty hcover hU h D i).obj).symm ≪≫
+      localLineBundleRestrictionIsoOnProperSmoothCurveIntersection
+        K X f (U i) (U j) (hU i) (hU j) (h i) (h j) D ≪≫
+      (Scheme.Modules.restrictFunctorIsoPullback
+        (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))).app
+          (localLineBundles X U hnonempty hcover hU h D j).obj
+
+/-- The canonical comparison from Mathlib's chosen pairwise pullback to the affine spectrum of
+the chart intersection. Further composition with a face of `tripleOverlap` is the exact map on
+which pairwise inverse-ideal transitions must be compared to the common triple model. -/
+noncomputable def pairwiseOverlapComparisonToIntersection
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of K)) [IsProper f]
+    {I : Type v} (U : I → X.Opens)
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (i j : I) :
+    (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).pullback ⟶
+      Spec (.of Γ(X, U i ⊓ U j)) := by
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  exact (properCurveIntersectionSpectrumIsPullback
+    K X f (U i) (U j) (hU i) (hU j)).isoPullback.inv
+
+/-- The pairwise model comparison commutes with the first chart projection. -/
+theorem pairwiseOverlapComparisonToIntersection_comp_left
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of K)) [IsProper f]
+    {I : Type v} (U : I → X.Opens)
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (i j : I) :
+    letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+    pairwiseOverlapComparisonToIntersection K X f U hcover hU i j ≫
+        CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j) =
+      (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₁ := by
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  exact (properCurveIntersectionSpectrumIsPullback
+    K X f (U i) (U j) (hU i) (hU j)).isoPullback_inv_fst
+
+/-- The pairwise model comparison commutes with the second chart projection. -/
+theorem pairwiseOverlapComparisonToIntersection_comp_right
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of K)) [IsProper f]
+    {I : Type v} (U : I → X.Opens)
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (i j : I) :
+    letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+    pairwiseOverlapComparisonToIntersection K X f U hcover hU i j ≫
+        CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j) =
+      (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₂ := by
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  exact (properCurveIntersectionSpectrumIsPullback
+    K X f (U i) (U j) (hU i) (hU j)).isoPullback_inv_snd
+
 /-- The arbitrary-divisor intersection isomorphism on a proper smooth curve, transported to
 Mathlib's chosen pairwise pullback for the coordinate cover. This discharges the pairwise
 pullback-model mismatch. The raw family is normalized immediately below; its comparison under
@@ -870,14 +977,42 @@ noncomputable def localLineBundleChosenOverlapIsoOnProperSmoothCurve
     (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))
     hpb (localLineBundles X U hnonempty hcover hU h D i).obj
       (localLineBundles X U hnonempty hcover hU h D j).obj
-      (((Scheme.Modules.restrictFunctorIsoPullback
-          (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))).app
-            (localLineBundles X U hnonempty hcover hU h D i).obj).symm ≪≫
-        localLineBundleRestrictionIsoOnProperSmoothCurveIntersection
-          K X f (U i) (U j) (hU i) (hU j) (h i) (h j) D ≪≫
-        (Scheme.Modules.restrictFunctorIsoPullback
-          (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))).app
-            (localLineBundles X U hnonempty hcover hU h D j).obj)
+      (localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
+        K X f U hnonempty hcover hU h D i j)
+
+/-- The canonical pseudofunctorial hom underlying transport of the pairwise inverse-ideal
+comparison to Mathlib's standard overlap. Unlike the compatibility isomorphism above, this form
+is definitionally stable under a further `pullHom`, which is what triple coherence needs. -/
+noncomputable def localLineBundleChosenOverlapHomOnProperSmoothCurve
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : (coordinateCover U hcover hU).I₀) :
+    (Scheme.Modules.pullback
+      (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₁).obj
+        (localLineBundles X U hnonempty hcover hU h D i).obj ⟶
+      (Scheme.Modules.pullback
+        (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₂).obj
+        (localLineBundles X U hnonempty hcover hU h D j).obj := by
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  exact LineBundleDescent.pullbackOverlapHomOfModel
+    (hU i).fromSpec (hU j).fromSpec
+    (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))
+    (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))
+    (properCurveIntersectionSpectrumIsPullback
+      K X f (U i) (U j) (hU i) (hU j))
+    (localLineBundles X U hnonempty hcover hU h D i).obj
+    (localLineBundles X U hnonempty hcover hU h D j).obj
+    (localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
+      K X f U hnonempty hcover hU h D i j)
 
 /-- Normalize the diagonal members of the arbitrary-divisor overlap family using the coherent
 one-object descent datum attached to each open immersion.  Off the diagonal this retains the
