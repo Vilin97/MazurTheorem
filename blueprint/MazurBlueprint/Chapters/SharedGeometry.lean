@@ -122,11 +122,13 @@ smooth curve inverse-ideal comparison is a real consumer, and the comparison fro
 pairwise pullback to the affine chart intersection satisfies both projection laws. The chosen
 threefold overlap now maps canonically to the spectrum of the actual triple chart intersection;
 after restriction to each of the `(i,j)`, `(j,k)`, and `(i,k)` affine intersections, this map is
-proved equal to the corresponding chosen face followed by its pairwise comparison. What remains
-is to use these three scheme-map identities to instantiate and compare the separately chosen
-pairwise inverse-ideal transports on the common triple model, prove compatibility of the
-inverse-ideal construction with those base changes, and relate the canonical transported Hom to
-the normalized transition Iso. Only then can the full arbitrary-divisor descent-datum cocycle be
+proved equal to the corresponding chosen face followed by its pairwise comparison. Pulling the
+three chosen-overlap Homs to that common triple domain now identifies each one with its explicit
+pairwise inverse-ideal model Hom. Consequently the raw chosen-overlap cocycle is checked equivalent
+to composition of those three model Homs. What remains is the tower-coherence comparison between
+each pairwise model and the directly constructed common-affine comparison, followed by the existing
+fixed-common-affine transitivity theorem, and then relation of the canonical transported Hom to the
+normalized transition Iso. Only then can the full arbitrary-divisor descent-datum cocycle be
 packaged.
 
 *Checked pairwise-naturality deliverables (no node credit):*
@@ -135,7 +137,10 @@ packaged.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullHom_pullbackOverlapHomOfModel`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection`;
-* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_fromSpec`.
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_fromSpec`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePairwiseModelHomOnTripleIntersection`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundleChosenOverlapHom_eq_pairwiseModelOnTripleIntersection`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle_iff_pairwiseModelOnTripleIntersection`.
 
 The API also
 characterizes existence of the full affine scheme-level

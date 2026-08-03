@@ -162,9 +162,12 @@ complexes. Universe lifting to `AddCommGrp` and fppf sheafification now supply
 the actual cokernel terms in categorically exact short complexes. The
 canonical projections from the represented ambient point sheaves are genuinely
 fppf-locally surjective and hence epic; both typed bad-level inclusions are
-downstream consumers. These quotient sheaves are not claimed to be represented
-or supported yet. Bad-fibre support over `D(level)`, site restriction, and the
-supported sheaf localization sequences remain open, followed by the
+downstream consumers. Open-immersion factorization now proves point-map
+surjectivity and objectwise cokernel vanishing on every test scheme over
+`D(level)`. Continuous restriction of the relative fppf site is compared with
+sheafification, so both actual bad-level cokernel sheaves restrict to zero over
+`D(level)`. They are therefore honestly supported on the bad fibre, without
+any representability claim. The supported sheaf localization sequences remain open, followed by the
 quasi-finite admissible-filtration exact sequences, bad-level multiplicative
 `H⁰`/`H¹` comparisons, and middle-`H¹` finiteness. The supported bad-fibre
 quotients are not being represented as quasi-finite flat group schemes.
@@ -271,6 +274,16 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSequence_exact`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSequence_exact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.mapPoint_surjective_of_base_preimage_eq_top`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelPresheaf_obj_isZero_of_base_preimage_eq_top`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheafOverOpen_isZero`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSheafAway_isZero`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSheafAway_isZero`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -354,9 +367,11 @@ constant-flat factor now compiles as a principal-open Hopf localization with
 distinct coefficient and level parameters, a typed realized range and
 level-open consumer, and certified trivial integral global sections. The
 multiplicative-flat factor and its typed inclusion now compile, as do the raw
-point-cokernel presheaves and concrete bad-level consumers. Its trivial
-odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. Fppf
-sheafification, support, the supported sheaf localization sequences,
+point-cokernel presheaves and concrete bad-level consumers. Their point maps
+are surjective above `D(level)`, their point-cokernel presheaves vanish there,
+and continuous site restriction carries this through sheafification to zero of
+the actual fppf cokernel sheaves. The multiplicative factor's trivial
+odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. The supported sheaf localization sequences,
 quasi-finite admissible-filtration exact sequences, both bad-level `H¹`
 comparisons, middle-`H¹` finiteness proof, and focused rank-zero specialization
 are still absent, so no node credit is claimed.
@@ -408,6 +423,10 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitGammaZeroDatumOfTorsion`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.splitGammaZeroDatumOfRationalCyclicSubgroup`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.rationalDatumPointHom_range`
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison`
 * `definition` (`contract`):
@@ -500,6 +519,12 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.IsAmbientCompatible`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.canonicalStandardOpenMap_opensRange_eq_preimage_mapped`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlaneBaseChange_isPullback`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso_mem_mappedWeierstrassZeroLocus_iff`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -511,7 +536,11 @@ actual finite-locally-free closed subgroup, arbitrary base change, and an
 identification with the constant cyclic group. Exact rational torsion gives a
 genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme
 interface, and a checked consumer identifies its rational point range with
-the existing carrier. A genuine Tau Ceti abelian variety plus a comparison of
+the existing carrier. More generally, every supplied split rational cyclic
+subgroup directly produces such a finite-flat datum: its intrinsic carrier is
+the constant source, its point homomorphism is exactly subgroup inclusion, and
+choice of a cyclic generator occurs only in the splitness isomorphism. Raw
+rational Γ₀ data is a checked downstream consumer with exact point range. A genuine Tau Ceti abelian variety plus a comparison of
 its rational points with Mathlib's projective Weierstrass points now supplies
 that interface and feeds the same consumer. The homogeneous cubic now also
 defines an actual reduced closed subscheme of projective two-space, with
@@ -551,10 +580,14 @@ coordinates, carries the cubic polynomial to the mapped equation, has the
 checked `D₊(Z)` away-chart square, and preserves the cubic zero locus on
 projective-spectrum points. An explicit ambient-compatibility predicate for the
 still-open target isomorphism has a compiled consumer identifying the actual
-pullback's canonical-open range with the mapped cubic's coordinate open. No
-projective-plane pullback isomorphism or cubic base-change isomorphism is
-claimed. The three comparison fields, the ambient-compatible target
-isomorphism, the scheme group law and compatibility, `E/C`, the coarse modular
+pullback's canonical-open range with the mapped cubic's coordinate open. The
+three normalized affine coordinate charts are now proved to be pullbacks and
+glued over their open cover, so the complete ambient projective-plane square is
+a pullback. Its canonical isomorphism with `P²_L` satisfies both projection
+laws, and a cubic zero-locus consumer identifies the mapped equation with the
+inverse image of the original equation. Restriction of that ambient
+isomorphism to an ambient-compatible reduced cubic is still open. The chart/open
+isomorphism and density, the scheme group law and compatibility, `E/C`, the coarse modular
 point, and the required Atkin--Lehner geometry remain open, so this node
 receives no completion credit.
 :::

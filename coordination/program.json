@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1468131,
-    "integrated_lean_modules": 748,
+    "integrated_lean_lines": 1469663,
+    "integrated_lean_modules": 749,
     "remaining_composite_orders": [
       18,
       25,
@@ -1108,7 +1108,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps satisfy genuine triple transitivity. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer now compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection, and its restrictions through all three chosen pairwise faces agree with their affine-intersection comparison maps. The chosen-overlap/full-descent comparison makes the reconstructed principal cocycle effective with the global trivial line bundle as witness. Comparing the three pulled inverse-ideal transports on that common triple model, relating the canonical Hom to the normalized transition Iso, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps satisfy genuine triple transitivity. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer now compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection, and its restrictions through all three chosen pairwise faces agree with their affine-intersection comparison maps. Each pulled chosen-overlap Hom is identified with the corresponding pairwise inverse-ideal model Hom on that triple intersection, and the raw chosen-overlap cocycle is equivalent to the model-Hom cocycle. The chosen-overlap/full-descent comparison makes the reconstructed principal cocycle effective with the global trivial line bundle as witness. Tower coherence comparing those three pairwise models with directly constructed common-affine comparisons, relation to the normalized transition Iso, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2316,6 +2316,27 @@
           "state": "contract",
           "description": "Consume the fixed-ring cocycle algebra for three actual arbitrary-divisor O(D) chart restrictions on one common Dedekind affine open.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePairwiseModelHomOnTripleIntersection",
+          "state": "contract",
+          "description": "Pull a pairwise inverse-ideal comparison through the actual affine triple chart intersection, producing the explicit common-domain Hom used by the cocycle calculation.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTripleNaturality"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundleChosenOverlapHom_eq_pairwiseModelOnTripleIntersection",
+          "state": "contract",
+          "description": "Identify further pullback of a chosen-overlap comparison with its pairwise inverse-ideal model on the actual triple intersection; all three chosen faces are checked consumers.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTripleNaturality"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle_iff_pairwiseModelOnTripleIntersection",
+          "state": "contract",
+          "description": "Reduce the raw chosen-overlap triple cocycle exactly to composition of the three explicit pairwise inverse-ideal model Homs on the common triple intersection.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleTripleNaturality"
         }
       ],
       "depends_on": [
@@ -3208,7 +3229,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, connecting, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Reusable Hopf localizations construct both actual bad-level elementary factors with separate coefficient and level parameters. The constant-flat and multiplicative-flat models have typed inclusions into their full quasi-finite wrappers, exact principal-open ranges, and contain the full models away from the level; the multiplicative construction is consumed by its canonical Fermat specialization. At every nonunit level the constant-flat global sections are proved trivial and packaged as certified p-power cardinal data. At odd coefficient the multiplicative-flat global sections are also proved trivial; distinct prime coefficient and level give a checked p^0 certificate whose zero-length endpoint is consumed by the low-degree Euler bound. The additive represented-point maps now have their actual pointwise categorical cokernel presheaves, objectwise-surjective projections, and exact short complexes. Their universe-lifted AddCommGrp fppf sheafifications supply the actual cokernel terms in categorically exact short complexes; the canonical projections from the represented ambient point sheaves are genuinely locally surjective and epic, and both bad-level inclusions are checked consumers. Bad-fibre support over D(level), site restriction, the supported localization sequences, quasi-finite exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, connecting, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Reusable Hopf localizations construct both actual bad-level elementary factors with separate coefficient and level parameters. The constant-flat and multiplicative-flat models have typed inclusions into their full quasi-finite wrappers, exact principal-open ranges, and contain the full models away from the level; the multiplicative construction is consumed by its canonical Fermat specialization. At every nonunit level the constant-flat global sections are proved trivial and packaged as certified p-power cardinal data. At odd coefficient the multiplicative-flat global sections are also proved trivial; distinct prime coefficient and level give a checked p^0 certificate whose zero-length endpoint is consumed by the low-degree Euler bound. The additive represented-point maps now have their actual pointwise categorical cokernel presheaves, objectwise-surjective projections, and exact short complexes. Their universe-lifted AddCommGrp fppf sheafifications supply the actual cokernel terms in categorically exact short complexes; the canonical projections from the represented ambient point sheaves are genuinely locally surjective and epic, and both bad-level inclusions are checked consumers. Open-immersion lifts prove point-map surjectivity and objectwise cokernel vanishing above D(level). Continuous restriction of the relative fppf site is compared with sheafification, proving that the actual constant-flat and multiplicative-flat cokernel sheaves restrict to zero over D(level). Supported localization sequences, quasi-finite exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3754,6 +3775,41 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
           "description": "Derive the bounded middle H1 cardinal estimate from the fully specified low-degree finite p-group exact sequence."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.mapPoint_surjective_of_base_preimage_eq_top",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedPointCokernel",
+          "description": "Lift every target point through an open group-scheme inclusion when the test scheme lies entirely over an open contained in the inclusion range."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointCokernelPresheaf_obj_isZero_of_base_preimage_eq_top",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedPointCokernel",
+          "description": "Turn the open-immersion point lift into categorical vanishing of the actual point-cokernel presheaf on every test scheme above the chosen base open."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheafOverOpen_isZero",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Transport zero of the restricted universe-lifted point-cokernel presheaf through continuous site restriction and sheafification to zero of the actual fppf cokernel sheaf."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSheafAway_isZero",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Prove that the actual constant-flat fppf quotient sheaf restricts to zero over D(level)."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSheafAway_isZero",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Prove that the actual multiplicative-flat fppf quotient sheaf restricts to zero over D(level)."
         }
       ],
       "depends_on": [
@@ -3828,7 +3884,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion now compile. A genuine Tau Ceti abelian variety plus a multiplicative comparison of its rational points supplies the narrow Weierstrass group-scheme interface and feeds the exact-torsion consumer. The concrete projective cubic has a checked bijective rational-point comparison. Its Z-nonzero homogeneous localization is explicitly equivalent to the affine Weierstrass polynomial ring, the localized equation ideal is prime, and the quotient chart is integral. The affine equation quotient is identified with this localized chart, and the canonical D_+(Z) open of every actual field pullback is an open immersion with exact range. Graded coefficient extension now constructs P^2_L -> P^2_K from a proved irrelevant-ideal inclusion, preserves the coordinates and cubic equation, and gives the checked D_+(Z) away-chart square. An explicit ambient-compatibility consumer identifies the actual pullback's canonical-open range with the mapped cubic's coordinate open. The remaining geometric-integrality boundary is the projective-plane pullback isomorphism, cubic base-change isomorphism with ambient compatibility, chart-to-canonical-open isomorphism, and density; the checked comparison consumes these data through Tau Ceti and the split Gamma_0 constant-order endpoint. Then construct those comparison fields, the cubic group law and multiplicativity, E/C, and the coarse X_0 classifying point.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion now compile. Every split rational cyclic subgroup now canonically supplies the constant finite-flat carrier and inclusion whose point homomorphism is exactly subgroup inclusion; cyclic-generator choice is confined to the splitness isomorphism, and raw rational Gamma_0 data is a checked consumer with exact point range. A genuine Tau Ceti abelian variety plus a multiplicative comparison of its rational points supplies the narrow Weierstrass group-scheme interface and feeds the exact-torsion consumer. The concrete projective cubic has a checked bijective rational-point comparison. Its Z-nonzero homogeneous localization is explicitly equivalent to the affine Weierstrass polynomial ring, the localized equation ideal is prime, and the quotient chart is integral. The affine equation quotient is identified with this localized chart, and the canonical D_+(Z) open of every actual field pullback is an open immersion with exact range. Graded coefficient extension constructs P^2_L -> P^2_K from a proved irrelevant-ideal inclusion, preserves the coordinates and cubic equation, and gives the checked D_+(Z) away-chart square. Coordinate-chart pushout squares and a three-chart cover prove that the ambient projective-plane square is a pullback, yielding the canonical P^2 base-change isomorphism with both projection laws. Its checked cubic consumer identifies the mapped zero locus with the pullback of the original zero locus. The remaining geometric-integrality boundary is restriction of that ambient isomorphism to an ambient-compatible reduced cubic base-change isomorphism, the chart-to-canonical-open isomorphism, and density; the checked comparison consumes these data through Tau Ceti and the split Gamma_0 constant-order endpoint. Then construct the cubic group law and multiplicativity, E/C, and the coarse X_0 classifying point.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -4262,6 +4318,41 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePlaneBaseChange",
           "description": "Consume ambient compatibility to identify the actual field pullback's canonical-open range with the inverse image of the mapped cubic's D_+(Z) open."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.splitGammaZeroDatumOfRationalCyclicSubgroup",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Construct a genuine split finite-flat Gamma_0 datum directly from a split rational cyclic subgroup, using its intrinsic carrier as the constant source presentation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.rationalDatumPointHom_range",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Verify that the finite-flat datum constructed from raw rational Gamma_0 data has point-homomorphism range exactly equal to the supplied cyclic subgroup carrier."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlaneBaseChange_isPullback",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePlaneBaseChange",
+          "description": "Prove the projective-plane coefficient-extension square is a pullback by checking the three normalized affine coordinate charts and gluing over their open cover."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePlaneBaseChange",
+          "description": "Identify the canonical pullback of P^2_K to Spec L with the concrete P^2_L, with checked projection and structure-map compatibility."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso_mem_mappedWeierstrassZeroLocus_iff",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePlaneBaseChange",
+          "description": "Consume the ambient pullback isomorphism and its projection law to identify the coefficient-extended cubic zero locus with the inverse image of the original zero locus."
         }
       ],
       "depends_on": [

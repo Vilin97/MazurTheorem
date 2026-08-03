@@ -9,11 +9,13 @@ progress independently.
 Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
-smooth-curve chart normality, genuine split finite-flat cyclic-subgroup data,
+smooth-curve chart normality, genuine presentation-independent split finite-flat
+cyclic-subgroup data from every rational cyclic subgroup,
 checked extension of injective finite rational sections to closed constant
 subgroup schemes, a checked Tau Ceti abelian-variety bridge for the remaining
 Weierstrass group-scheme interface, and the actual reduced proper projective
-Weierstrass cubic scheme with its injective canonical forward coordinate-point map,
+Weierstrass cubic scheme with its bijective coordinate-point map and checked
+ambient projective-plane field-pullback isomorphism,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
 48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
@@ -23,15 +25,29 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `c85f557` contains reviewed acceptance
-boundaries. The latest accepted integration range constructs the canonical
-standard open in every actual Weierstrass field pullback and proves that its
-open-immersion range is exactly the inverse image of `D₊(Z)` (`0964540`,
-`573027b`). It also transports Tau Ceti's fixed-degree and formal-symmetric-power
-Abel--Jacobi fiber formulas through the checked divisor-class/Picard equivalence
-(`a797c15`, `c85f557`). These formulas concern the absolute Picard group and
-formal `Sym`; relative families, representability, and an Abel morphism remain
-open, with no C2/F1 credit claimed.
+The combined owner history through `9ce998a` contains reviewed acceptance
+boundaries. The latest semantic range constructs a finite-flat split Γ₀ datum
+directly from every supplied rational cyclic subgroup, using its intrinsic
+carrier as the presentation-independent constant source and proving exact point
+range (`7b8b305`, `24ee7bf`, `094e823`). It proves genuine open-immersion point
+factorization, objectwise cokernel vanishing, and then zero of the actual
+restricted constant/`μ` fppf cokernel sheaves over `D(level)` (`6024521`,
+`14726f6`). It also rewrites all three chosen-overlap maps on the actual triple
+intersection as explicit pairwise inverse-ideal model Homs and reduces the raw
+cocycle exactly to their model cocycle (`c7a1ddf`). Finally, three affine chart
+pullbacks glue to the ambient projective-plane base-change pullback; the
+canonical isomorphism satisfies both projection laws and has an actual cubic
+zero-locus consumer (`9ce998a`). Each lane passed independent semantic/API and
+axiom review; no roadmap-node credit is claimed.
+
+The preceding accepted range constructs the canonical standard open in every
+actual Weierstrass field pullback and proves that its open-immersion range is
+exactly the inverse image of `D₊(Z)` (`0964540`, `573027b`). It also transports
+Tau Ceti's fixed-degree and formal-symmetric-power Abel--Jacobi fiber formulas
+through the checked divisor-class/Picard equivalence (`a797c15`, `c85f557`).
+These formulas concern the absolute Picard group and formal `Sym`; relative
+families, representability, and an Abel morphism remain open, with no C2/F1
+credit claimed.
 
 Earlier accepted integration adds the A3 diagonal normalization (`5bcc0a6`),
 the finiteness-free connecting construction and its finite/quasi-finite
@@ -75,9 +91,12 @@ restriction maps through three chart models compose on one fixed common
 Dedekind affine open and consumes this for the actual arbitrary-divisor
 `O(D)` bundles. Checkpoint `51131e2` maps Mathlib's chosen triple overlap to
 the actual affine triple chart intersection and proves compatibility through
-all three chosen pairwise faces. Comparing the three pulled inverse-ideal
-transports on that common model, general effectivity, and comparison with the
-separately reconstructed principal cocycle remain open.
+all three chosen pairwise faces. Checkpoint `c7a1ddf` then identifies each
+pulled chosen-overlap Hom with its pairwise inverse-ideal model on that common
+triple domain and proves that the raw chosen cocycle holds exactly when the
+three model Homs compose. Tower coherence comparing each pairwise model with
+the directly constructed common-affine comparison, general effectivity, and
+comparison with the separately reconstructed principal cocycle remain open.
 
 Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
 space, factors nonsingular coordinate triples through the reduced cubic, proves
@@ -113,8 +132,12 @@ compile. Reviewed checkpoint `0964540` descends the affine/chart equivalence
 through the equation ideals, constructs the canonical pulled-back `D₊(Z)` open,
 and isolates the remaining projective base-change isomorphism, chart isomorphism,
 and density in `StandardChartComparison`. The projective isomorphism derives
-reducedness rather than assuming it. None of those three fields is yet
-constructed.
+reducedness rather than assuming it. Reviewed checkpoint `9ce998a` now proves
+the ambient `P²_L` square is a pullback by gluing the three coordinate charts,
+constructs the canonical projective-plane pullback isomorphism, proves both
+projection laws, and consumes it on the Weierstrass zero locus. The remaining
+fields are restriction to the reduced cubic, the chart/open isomorphism, and
+density.
 
 All these acceptance boundaries passed independent mathematical and API review;
 the cubic reducedness repair was independently re-reviewed and accepted.
@@ -125,15 +148,15 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `CurveLineBundleOverlapNaturality`,
-`CurveLineBundleTripleIntersection`,
+`CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `XZeroWeierstrassGeometricIntegrality`,
 `XZeroWeierstrassProjectivePlaneBaseChange`, `OrderElevenModelInverse`,
 `XOneElevenFiveIsogenyHom`, `XOneElevenFiveSelmer`, and
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 748 integrated Lean
-sources / 1,468,131 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 749 integrated Lean
+sources / 1,469,663 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -212,13 +235,16 @@ consumers. Their universe-lifted `AddCommGrp` fppf sheafifications now give the
 actual cokernel terms in categorically exact short complexes. The canonical
 projections from represented ambient point sheaves are genuinely locally
 surjective and epic, and both typed inclusions consume the sheaf-level exact
-interface. Bad-fibre support over `D(level)`, site restriction, the supported
-localization sequences, the quasi-finite admissible-filtration exact sequences,
+interface. Open-immersion lifts now prove point-map surjectivity and objectwise
+cokernel vanishing above `D(level)`. Continuous site restriction and the
+sheafification comparison then prove that both actual fppf quotient sheaves
+restrict to zero there. The supported localization sequences, the quasi-finite admissible-filtration exact sequences,
 the remaining bad-level `H¹` certificates, middle-`H¹` finiteness, and
 rank-zero specialization remain, followed by the unramified Raynaud uniqueness
 input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
-sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
+sheaves now checked to be supported at `N`, not quasi-finite flat group schemes;
+the next step must use a
 sheaf-level locally-surjective exact interface rather than the quasi-finite
 quotient wrapper.
 
@@ -241,7 +267,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, and canonical pairwise-overlap pullback naturality; constructed genuine split finite-flat cyclic-subgroup data and its constant closed embedding, then constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, an integral standard affine chart, and the actual projective-plane coefficient-extension map; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. D(level) support/site restriction and unramified Raynaud uniqueness remain; the projective-plane pullback/cubic base-change isomorphism, group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, an integral standard affine chart, the actual projective-plane coefficient-extension map, and the ambient projective-plane pullback isomorphism; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; restriction of the ambient projective isomorphism to the cubic, the group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -293,8 +319,11 @@ within each lane follows the listed order.
    diagonal identity. On a fixed common Dedekind affine open the actual three
    arbitrary-divisor restriction maps now compose to the direct comparison.
    The chosen triple overlap now maps to the actual affine triple intersection,
-   compatibly with all three pairwise faces. The missing geometric construction
-   is compatibility of the inverse-ideal transports with those base changes,
+   compatibly with all three pairwise faces. Each pulled chosen-overlap Hom is
+   now the corresponding pairwise inverse-ideal model Hom on that common
+   domain, and the raw cocycle is equivalent to composition of those three
+   models. The missing geometric construction is tower coherence identifying
+   those models with the directly constructed common-affine comparisons,
    followed by comparison of the arbitrary-divisor presentations, general
    module effectivity, object separation, rational normalization,
    tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
@@ -394,8 +423,10 @@ within each lane follows the listed order.
    commutative group schemes and consumed by both the quasi-finite wrapper and
    the repaired finite-flat API. Actual categorical point-cokernel presheaves,
    their objectwise-surjective projections, exact short complexes, and both
-   bad-level consumers now compile. Fppf sheafification and support are not
-   claimed. The sheaf-level supported localization sequences, the quasi-finite
+   bad-level consumers now compile. Their point maps are surjective on every
+   test scheme over `D(level)`, so the point-cokernel presheaves vanish there;
+   the continuous site-restriction/sheafification comparison proves zero of
+   both actual restricted fppf cokernel sheaves. The sheaf-level supported localization sequences, the quasi-finite
    admissible-filtration exact sequences, the
    remaining bad-level `H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
@@ -418,7 +449,11 @@ within each lane follows the listed order.
    the constant group of order `N`. Exact coordinate torsion constructs a
    genuine split Γ₀ datum and recovers the existing rational carrier. The
    extension of an injective constant family and its closed immersion are now
-   checked generically. A genuine Tau Ceti abelian variety plus a comparison
+   checked generically. Every supplied split rational cyclic subgroup now also
+   constructs this finite-flat datum directly from its intrinsic carrier; its
+   point homomorphism is subgroup inclusion with exact range, while generator
+   choice is confined to the constant-`ZMod` splitness isomorphism. Raw rational
+   Γ₀ data is a concrete consumer. A genuine Tau Ceti abelian variety plus a comparison
    of its scheme-valued rational points with Mathlib's projective Weierstrass
    points now supplies the interface and compiles in the exact-torsion
    consumer. The actual homogeneous projective cubic now exists as a reduced
@@ -441,8 +476,10 @@ within each lane follows the listed order.
    object. The graded coefficient map now constructs `P²_L ⟶ P²_K`, with its
    irrelevant-ideal hypothesis, coordinate and cubic formulas, exact `D₊(Z)`
    away square, and a downstream ambient-compatibility consumer all checked.
-   Next construct the projective-plane pullback isomorphism, restrict it to the
-   reduced cubic with the recorded ambient equality, and identify the resulting
+   The three coordinate charts now prove the whole ambient square is a
+   pullback, yielding the canonical projective-plane pullback isomorphism, both
+   projection laws, and a checked cubic zero-locus consumer. Next restrict it to
+   the reduced cubic with the recorded ambient equality, and identify the resulting
    canonical open with the checked quotient chart; density remains separate.
    Also prove that the point bijection preserves the group law, then `E/C`
    and the coarse `X₀(N)`
@@ -610,22 +647,21 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/owner-a3-triple-coherence`: canonical pairwise-overlap pullback
-  naturality, affine-intersection projection laws, and the common triple
-  intersection comparison through all three faces compile. Next compare the
-  three canonical inverse-ideal transports after pullback to that common model
-  and relate them to the normalized transition Iso in an actual descent datum.
-- `codex/owner-projective-plane-pullback-iso`: the coefficient-extension
-  graded map, actual `P²_L ⟶ P²_K`, coordinate-away square, cubic zero-locus
-  transport, and conditional ambient consumer are reviewed and integrated.
-  Next construct the projective-plane pullback isomorphism, restrict it to the
-  cubic, and discharge `targetBaseChangeIso`; the chart isomorphism and density
-  follow.
-- `codex/owner-supported-fppf-sheaf`: the honest AddCommGrp fppf cokernel
-  sheaf, locally-surjective/epi projection, categorical exactness, and
-  constant/μ consumers are reviewed and integrated. Next prove pointwise
-  open-immersion factorization and site restriction to show the quotients
-  vanish away from the bad level.
+- `codex/owner-a3-triple-tower-2`: the three pulled chosen-overlap Homs are
+  reviewed and integrated as explicit pairwise inverse-ideal model Homs, and
+  the raw cocycle is equivalent to their model cocycle. The active worker is
+  proving tower coherence with the directly constructed common-affine maps and
+  then applying fixed-common-affine transitivity.
+- `codex/owner-cubic-basechange-iso`: the actual ambient projective-plane
+  pullback isomorphism, both projection laws, and its cubic zero-locus consumer
+  are reviewed and integrated. The active worker is restricting it to the
+  reduced cubic and discharging `StandardChartComparison.targetBaseChangeIso`
+  with the recorded ambient compatibility.
+- `codex/owner-supported-localization`: pointwise open-immersion factorization,
+  site restriction, and zero of both actual cokernel sheaves over `D(level)`
+  are reviewed and integrated. The active worker is auditing open/closed sheaf
+  recollement and constructing the first genuine supported localization
+  consumer without asserting quotient representability.
 - Integration owner: review and integrate those isolated branches while
   keeping the Picard/Jacobian and modular cusp/q-expansion lanes moving. The
   owner retains responsibility for the projective group law,
