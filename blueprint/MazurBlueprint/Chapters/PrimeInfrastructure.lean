@@ -195,7 +195,11 @@ multiplicative-flat `H¹` equivalences for the universe-lifted additive represen
 `D(level)`. Explicit cocycle/common-refinement universe invariance and the multiplicative
 pullback-adjunction comparison for represented points then identify those equivalences with the
 original represented group-scheme `H¹` of the canonical base changes; both bad-level models are
-compiled consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
+compiled consumers. Explicit cover-level and global `H¹` transport along equivalences of bases
+commutes with refinements and combines with represented-point base change. The named
+`basicOpenIsoSpecAway` consumer identifies represented `H¹` on `D(level)` with the direct
+`Spec(Localization.Away level)` model; the constant-flat and multiplicative-flat supported
+comparisons are concrete downstream consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
 `mu_p` cohomology now transport across these equivalences to the genuine bad-level carriers,
 preserving both their lengths and exact cardinal equalities; this transport proves no arithmetic
 certificate by itself. The quasi-finite admissible-filtration exact sequences, both ambient
@@ -373,6 +377,24 @@ quotients are not being represented as quasi-finite flat group schemes.
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayMulEquiv`
 * `definition` (`contract`):
+  `CategoryTheory.PresheafOfCommGroups.BaseEquivalence.hOneMulEquiv`
+* `theorem` (`contract`):
+  `CategoryTheory.PresheafOfCommGroups.BaseEquivalence.hOneMulEquiv_pullback`
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne.baseIsoMulEquiv`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.fppfHOneMulEquivOfIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.fppfHOneMulEquivBaseIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.basicOpenBaseChangeIso`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.basicOpenFppfHOneMulEquivSpecAway`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneSpecAwayMulEquiv`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneSpecAwayMulEquiv`
+* `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData_length`
@@ -484,7 +506,10 @@ the universe-lifted additive represented sheaves on `D(level)`. Explicit univers
 the cocycle and common-refinement levels, together with the multiplicative base-change point
 presheaf comparison, now identifies that spelling with the original represented group-scheme
 `H¹` of the canonical base changes; constant-flat and multiplicative-flat declarations are real
-downstream consumers. Genuine supplied finite-p-group certificates now transport to the exact
+downstream consumers. Explicit cover-level and global `H¹` transport along base equivalences now
+commutes with refinements and combines with represented-point base change. The
+`basicOpenIsoSpecAway` consumer transports both supported comparisons to the direct
+`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group certificates now transport to the exact
 constant-flat and multiplicative-flat carriers with unchanged lengths and p-power cardinalities;
 no constant-group or Kummer arithmetic is inferred. An open-sheaf equivalence, global
 cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the

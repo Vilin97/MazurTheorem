@@ -28,7 +28,8 @@ group-law transfer boundary with a finite-flat consumer,
 checked two-stage/direct transition-pullback consumers for the A3 divisor cocycle,
 and supported constant/`μ` sheaf-level fppf-`H¹` equivalences on the good open,
 their explicit universe/base-change comparison with represented group-scheme
-fppf-`H¹`, canonical constant/`μ` base-change consumers, and carrier-preserving
+fppf-`H¹`, canonical constant/`μ` base-change consumers, explicit Čech
+transport under base isomorphisms with direct-localization consumers, and carrier-preserving
 finite-p-group certificate transport for both bad-level factors,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
@@ -39,7 +40,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `855439f` contains reviewed acceptance
+The combined owner history through `21215e5` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -61,6 +62,17 @@ finiteness or arithmetic certificate is manufactured. The two global
 good-open calculations remain open. These commits passed independent
 mathematical/API review and claim no roadmap-node credit.
 
+Explicit cochain and cocycle transport under an equivalence of indexing
+categories now commutes with cover refinement and descends through the global
+common-refinement quotient. Represented-point base change then gives global
+fppf-`H¹` invariance under a base-scheme isomorphism. The named
+`basicOpenIsoSpecAway` consumer identifies the basic-open spelling with direct
+base change to `Spec(Localization.Away level)`, and both constant-flat and
+multiplicative-flat supported comparisons compile at that direct-localization
+endpoint (`21215e5`). Independent review and a focused kernel audit accepted
+the API; no ambient constant/Kummer calculation or finiteness certificate is
+inferred, and no node credit is claimed.
+
 The canonical tame-reduction range replaces arbitrary component and residue
 targets by the quotient by a supplied identity subgroup and the actual
 five- or eleven-adic residue field. It proves the prescribed formal subgroup
@@ -74,7 +86,7 @@ only standard axioms. Constructing the identity subgroup, reduction map with
 the exact kernel, and the component-cardinality bound from a genuine Néron
 fibre remains open; no node credit is claimed. The two focused Lean targets
 build with `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph, all eleven
-Challenge contracts, 768-source inventory, quality suite, and official
+Challenge contracts, 769-source / 1,476,172-line inventory, quality suite, and official
 Blueprint build/check pass.
 
 The canonical cubic-chart range proves that the infinity and standard equation
@@ -273,7 +285,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`,
 `SupportedFppfCokernel`, `SupportedFppfLocalization`, `SupportedFppfSerre`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
-`FppfHOneUniverse`, `SupportedFppfHOneBridge`,
+`FppfHOneUniverse`, `SupportedFppfHOneBridge`, `FppfHOneBaseIso`,
 `SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
@@ -405,7 +417,7 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -601,6 +613,10 @@ within each lane follows the listed order.
    pullback-adjunction point-presheaf comparison, now bridge this spelling to
    the original represented group-scheme `H¹` of the canonical base changes.
    Both constant-flat and multiplicative-flat models are compiled consumers.
+   Explicit cover/refinement transport now proves base-isomorphism invariance
+   of global represented `H¹`. The `basicOpenIsoSpecAway` consumer moves both
+   supported comparisons from `D(level)` to the direct
+   `Spec(Localization.Away level)` base changes.
    Supplied ambient finite-p-group certificates now transport to the actual
    bad-level carriers with unchanged lengths and exact p-power cardinalities;
    no arithmetic certificate is manufactured. An
@@ -865,9 +881,9 @@ or accounting shortcut.
   base-change comparison to the existing represented group-scheme `H¹` is now
   reviewed and integrated, with canonical constant/`μ` base changes as real
   consumers. Carrier-preserving finite-p-group certificate transport is also
-  reviewed and integrated. A separate worktree is proving H¹ transport under
-  base-scheme isomorphisms with `basicOpenIsoSpecAway` as the required
-  localization consumer; the ambient constant/Kummer calculations and
+  reviewed and integrated. Explicit H¹ transport under base-scheme
+  isomorphisms and its `basicOpenIsoSpecAway` direct-localization consumer are
+  now independently reviewed and integrated; the ambient constant/Kummer calculations and
   middle-`H¹` finiteness remain open.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The owner is now driving the

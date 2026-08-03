@@ -1578,6 +1578,7 @@ EllipticCurve/TameAdditiveReductionData.lean
 FiniteFlatGroupScheme/Basic.lean
 FiniteFlatGroupScheme/Admissible.lean
 FiniteFlatGroupScheme/FppfCohomology.lean
+FiniteFlatGroupScheme/FppfHOneBaseIso.lean
 FiniteFlatGroupScheme/Raynaud.lean
 
 ModularCurve/X0/Moduli.lean
@@ -1683,12 +1684,20 @@ typed bad-level inclusions consume this interface. Their universe-lifted
 `AddCommGrp` fppf sheafifications are now the actual cokernel terms in
 categorically exact short complexes. The canonical projections from the
 represented ambient point sheaves are genuinely locally surjective and epic.
-No representability or bad-fibre support is inferred: support over `D(level)`, site
-restriction, and the supported sheaf localization sequences at the bad fibre
-remain open, followed by the quasi-finite admissible-filtration exact sequences,
-both bad-level `H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
-specialization remain open. The supported quotient terms in the localization
-sequences are not quasi-finite flat group schemes.
+The point-cokernel sheaves vanish after restriction to `D(level)`, form the
+corresponding bad-fibre-supported Serre class, and yield an exact Serre
+quotient in which the two concrete inclusions are isomorphisms. Explicit
+cochain, cocycle, cover, and common-refinement transport identifies their
+supported `H¹` comparisons with represented group-scheme `H¹`. Global
+represented fppf `H¹` is now invariant under base-scheme isomorphisms, and the
+named `basicOpenIsoSpecAway` consumer moves both constant/μ comparisons to
+the direct `Spec(Localization.Away level)` base changes. Supplied
+finite-p-group certificates transport across these equivalences without
+manufacturing the ambient constant or Kummer arithmetic. The quasi-finite
+admissible-filtration exact sequences, both ambient bad-level `H¹`
+calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the focused
+rank-zero specialization remain open. The supported quotient terms are not
+represented as quasi-finite flat group schemes.
 
 Tau Ceti's Jacobian work and later mathlib developments should still be
 monitored before independently building every generic algebraic-geometric

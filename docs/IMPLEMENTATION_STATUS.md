@@ -253,6 +253,10 @@ Current machine-checked results include:
   sequence, the supported bad-fibre Serre quotient, and the explicit bridge
   from supported universe-lifted coefficients to represented group-scheme
   `H¹` of canonical base changes now compile with constant/μₚ consumers.
+  Global represented fppf `H¹` is invariant under base-scheme isomorphisms by
+  explicit Čech cover and refinement transport. The `basicOpenIsoSpecAway`
+  consumer moves both supported constant/μ comparisons from `D(level)` to
+  direct localization base changes over `Spec(Localization.Away level)`.
   Supplied finite-p-group certificates transport to those exact bad-level
   carriers with their lengths and cardinal equalities unchanged; the missing
   arithmetic certificates are not inferred.
