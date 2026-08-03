@@ -325,6 +325,29 @@ theorem stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom
     CommRingCat.hom_id, RingHom.comp_assoc] using
     CommRingCat.hom_ext_iff.mp hcat
 
+/-- A section of the structural morphism has residue field exactly the base field.  The inverse
+on residue fields is induced by the structural coefficient map; its right-inverse identity is
+the stalk-level section equation above. -/
+theorem descResidueField_isIso_of_rationalSection
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (π : X ⟶ Spec (.of K)) (g : Spec (.of K) ⟶ X)
+    (hsection : g ≫ π = 𝟙 (Spec (.of K))) :
+    IsIso (X.descResidueField (Scheme.stalkClosedPointTo g)) := by
+  rw [ConcreteCategory.isIso_iff_bijective]
+  constructor
+  · exact RingHom.injective _
+  · intro k
+    refine ⟨(X.residue (g (IsLocalRing.closedPoint K))).hom
+      (rationalPointStalkCoeffRingHom K X π g k), ?_⟩
+    change
+      ((X.residue (g (IsLocalRing.closedPoint K)) ≫
+          X.descResidueField (Scheme.stalkClosedPointTo g)).hom)
+          (rationalPointStalkCoeffRingHom K X π g k) = k
+    rw [Scheme.residue_descResidueField]
+    exact DFunLike.congr_fun
+      (stalkClosedPointTo_comp_rationalPointStalkCoeffRingHom
+        K X π g hsection) k
+
 /-- The checked completed-stalk coordinate at a non-generic point of a smooth integral curve.
 The explicit algebra and residue-surjectivity hypotheses are the honest equal-characteristic
 coefficient-field input. -/
@@ -478,7 +501,6 @@ theorem isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
     (Y : Scheme.{u}) [IsLocallyNoetherian Y]
     (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
     (hsection : g ≫ π = 𝟙 (Spec (.of K)))
-    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
     [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
     (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
     (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
@@ -494,6 +516,8 @@ theorem isFormalImmersionAt_of_rationalSectionStalkDVR_normalizedQExpansion
           ((f.stalkMap (g (IsLocalRing.closedPoint K))).hom targetParameter)) =
         PowerSeries.C c * PowerSeries.X + PowerSeries.X ^ 2 * F) :
     AlgebraicGeometry.IsFormalImmersionAt f (g (IsLocalRing.closedPoint K)) := by
+  letI : IsIso (X.descResidueField (Scheme.stalkClosedPointTo g)) :=
+    descResidueField_isIso_of_rationalSection K X π g hsection
   letI : Algebra K (X.presheaf.stalk (g (IsLocalRing.closedPoint K))) :=
     (rationalPointStalkCoeffRingHom K X π g).toAlgebra
   apply isFormalImmersionAt_of_rationalPointStalkDVR_normalizedQExpansion
@@ -603,7 +627,6 @@ theorem spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq
     (Y : Scheme.{u}) [IsLocallyNoetherian Y]
     (f : X ⟶ Y) (g : Spec (.of K) ⟶ X)
     (hsection : g ≫ π = 𝟙 (Spec (.of K)))
-    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo g))]
     [IsIso (Y.descResidueField (Scheme.stalkClosedPointTo (g ≫ f)))]
     (hx : g (IsLocalRing.closedPoint K) ≠ genericPoint X)
     (q : X.presheaf.stalk (g (IsLocalRing.closedPoint K)))
