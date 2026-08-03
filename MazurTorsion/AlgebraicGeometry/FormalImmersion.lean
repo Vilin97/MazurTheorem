@@ -25,8 +25,9 @@ Surjectivity of this cotangent map is recorded as
 `Scheme.Hom.IsCotangentSurjectiveAt`.  Because cotangent surjectivity alone does not control a
 residue-field extension, `Scheme.Hom.IsCotangentCriterionAt` adds invertibility of the induced
 residue-field map.  The actual completed-local-ring predicate is
-`AlgebraicGeometry.IsFormalImmersionAt`; it remains distinct from these first-order conditions until
-the locally Noetherian converse criterion required by `MT-X0-INTEGRAL` is proved.
+`AlgebraicGeometry.IsFormalImmersionAt`; it remains definitionally distinct from these first-order
+conditions.  The downstream `FormalImmersionNakayama` module proves that the criterion implies
+formal immersion when the relevant maximal ideals are finite modules.
 
 The generic theorem `isCotangentSurjectiveAt_of_degreeOne` isolates the degree-one linear-algebra
 step: when the residue-field map is an isomorphism, a nonzero canonical semilinear map onto a
@@ -162,8 +163,9 @@ def IsCotangentSurjectiveAt : Prop :=
 /-- The two first-order conditions used by the cotangent criterion for a formal immersion:
 the residue-field map is an isomorphism and the canonical cotangent map is surjective.
 
-This remains distinct from `IsFormalImmersionAt`: proving the equivalence with a surjective map
-on completed local rings still requires the appropriate finiteness and Noetherian hypotheses. -/
+This remains distinct from `IsFormalImmersionAt`.  Under finite-maximal-ideal hypotheses,
+`Scheme.Hom.isFormalImmersionAt_of_isCotangentCriterionAt` supplies the implication to a
+surjective map on completed local rings. -/
 def IsCotangentCriterionAt : Prop :=
   IsIso (f.residueFieldMap x) ∧ IsCotangentSurjectiveAt f x
 
