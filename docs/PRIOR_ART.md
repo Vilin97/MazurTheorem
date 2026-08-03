@@ -554,6 +554,22 @@ The strongest concrete reuse candidates are:
   scaffolding, not compactified `X₀(N)`, an integral model over `ℤ`, or cusp
   theory.
 
+An exact transitive-import scan, with nested comments and string literals
+removed before counting proof holes, sharpens that boundary. Starting from
+`CyclicSubgroup`, `SubgroupQuotient`, `NIsogSpace`, and `CoarseSpace` reaches
+respectively 215, 250, 265, and 363 local AINTLIB modules. Their closures
+contain respectively 7, 7, 10, and 20 files with actual `sorry`, `admit`, or
+`axiom` occurrences in code. In particular, `YZeroCoarse` occurs only as the
+quotient scheme definition in `CoarseSpace.lean`; the audited tree contains
+no map from `GammaZeroStructure` to its points. The older geometric-point
+statement `exists_coarse_gammaH` in `Moduli/Coarse.lean` is itself an explicit `sorry`,
+as is the non-record-parametric `EllipticCurve.exists_gammaZeroSpace` in
+`GroupScheme/NIsogeny.lean`. The sorry-free
+`NIsogModuli.exists_gammaZeroSpace` merely assembles a classifier from an
+already supplied `NIsogModuli` record and does not construct that record.
+Thus none of these names supplies the checked rational `Y₀(N)` classifying
+map needed by the direct order-49 consumer.
+
 The central gates remain open. `NIsogeny.lean` leaves the quotient's
 smoothness, properness, Weierstrass structure, finiteness, flatness, degree,
 and Gamma-zero classifying space as proof holes. `WeilPairing/Basic.lean`
