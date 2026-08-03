@@ -17,11 +17,9 @@ homogeneous fractions are evaluated by its three coordinate ratios, and that
 the extracted nonzero triple satisfies the cubic equation.
 
 For an elliptic Weierstrass curve the extracted triple is nonsingular, so every
-scheme-valued point produces an actual Mathlib projective point.  This does not
-yet assert that mapping that coordinate point forward recovers the original
-scheme morphism: the remaining comparison is the explicit pullback computation
-for `X_j / X_i` along `Proj.fromOfGlobalSections`, followed by chart-ring
-extensionality.
+scheme-valued point produces an actual Mathlib projective point.  The subsequent
+`XZeroWeierstrassProjectivePointComparison` module proves that mapping this
+coordinate point forward recovers the original scheme morphism.
 -/
 
 noncomputable section
@@ -342,8 +340,8 @@ noncomputable def projectivePointOfOverPoint
     (coordinateRepresentativeOfOverPoint W g)).mpr
       (coordinateRepresentativeOfOverPoint_nonsingular W g)⟩
 
-/-- Send the recovered projective point back to the concrete cubic.  Proving this morphism equal
-to `g` is the remaining explicit chart-pullback comparison needed for surjectivity. -/
+/-- Send the recovered projective point back to the concrete cubic.  The point-comparison module
+proves that this morphism equals `g`. -/
 noncomputable def recoveredPointOverMorphism
     (W : WeierstrassCurve K) [W.IsElliptic]
     (g : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) :

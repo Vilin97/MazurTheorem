@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1459626,
-    "integrated_lean_modules": 722,
+    "integrated_lean_lines": 1460116,
+    "integrated_lean_modules": 723,
     "remaining_composite_orders": [
       18,
       25,
@@ -3501,7 +3501,42 @@
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointInverse",
-          "description": "Send the recovered projective point through the checked forward point map; equality with the original scheme morphism remains the explicit chart-pullback obligation."
+          "description": "Send the recovered projective point through the checked forward point map; the comparison module proves that this map recovers the original scheme morphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartRingHom_ext",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison",
+          "description": "Prove that a standard projective-chart ring map is determined by its base constants and the three homogeneous coordinate ratios."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison",
+          "description": "Prove that affine-normalizing the coordinates recovered from an arbitrary scheme-valued point and mapping them forward returns that original point."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_surjective",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison",
+          "description": "Consume the recovered-point inverse equality to prove surjectivity of the canonical map from Mathlib projective points to scheme-valued points."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_bijective",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison",
+          "description": "Combine the checked coordinate injectivity and recovered-point surjectivity into the bijective point comparison."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquivOfGroupLaw",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison",
+          "description": "Consume the checked point-set surjectivity so that group-law compatibility alone produces the multiplicative point equivalence used by the finite-flat bridge."
         },
         {
           "kind": "definition",

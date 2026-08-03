@@ -722,8 +722,8 @@ theorem toAbelianVariety_toScheme (W : WeierstrassCurve K)
   rfl
 
 /-- The canonical forward map from Mathlib's projective coordinate points to the rational points
-of the abelian variety carried by the concrete cubic.  Proving that this map preserves the group
-law and is surjective remains the point-comparison obligation; injectivity is proved below. -/
+of the abelian variety carried by the concrete cubic.  Injectivity is proved below, and the
+subsequent point-comparison module proves surjectivity; group-law compatibility remains separate. -/
 noncomputable def projectivePointToAbelianVarietyRationalPoint
     (W : WeierstrassCurve K)
     [GrpObj (toOver W)] [GeometricallyIntegral (toOver W).hom]
@@ -758,7 +758,8 @@ noncomputable def canonicalProjectivePointMonoidHom
   map_mul' P Q := hadd P.toAdd Q.toAdd
 
 /-- Once the canonical point map is known to preserve the group law and to be surjective, it is the
-required multiplicative equivalence: injectivity was proved directly from coordinates above. -/
+required multiplicative equivalence.  The subsequent point-comparison module supplies
+surjectivity; injectivity was proved directly from coordinates above. -/
 noncomputable def canonicalProjectivePointEquiv
     (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
     (hadd : ∀ P Q : W.toProjective.Point,
@@ -799,8 +800,9 @@ noncomputable def toAbelianVarietyComparison
     WeierstrassAbelianVarietyComparison W :=
   WeierstrassAbelianVarietyComparison.ofProjectivePointEquiv W (toAbelianVariety W) e
 
-/-- Canonical comparison consumer: the remaining group-law and surjectivity proofs are attached to
-the explicit coordinate-to-scheme point map constructed above. -/
+/-- Canonical comparison consumer: group-law compatibility and point-set surjectivity are attached
+to the explicit coordinate-to-scheme point map constructed above.  The subsequent comparison
+module discharges the latter. -/
 noncomputable def toAbelianVarietyComparisonOfCanonicalPointMap
     (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
     (hadd : ∀ P Q : W.toProjective.Point,
@@ -825,9 +827,9 @@ noncomputable def splitGammaZeroDatumOfProjectiveCubic
   WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfTorsion
     W (toAbelianVarietyComparison W e) P hP
 
-/-- Finite-flat consumer of the canonical coordinate-to-scheme point map: after its group-law and
-surjectivity obligations are proved, exact coordinate torsion produces the split `Gamma₀(N)` datum
-on this concrete cubic. -/
+/-- Finite-flat consumer of the canonical coordinate-to-scheme point map: after group-law
+compatibility and point-set surjectivity are supplied, exact coordinate torsion produces the split
+`Gamma₀(N)` datum on this concrete cubic.  The subsequent comparison module proves surjectivity. -/
 noncomputable def splitGammaZeroDatumOfCanonicalProjectiveCubic
     (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
     (hadd : ∀ P Q : W.toProjective.Point,
