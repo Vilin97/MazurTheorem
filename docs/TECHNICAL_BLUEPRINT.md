@@ -1604,11 +1604,18 @@ factor `(Z/pZ)^flat`, with the coefficient prime `p` separate from the bad
 level `N`; its typed inclusion has the exact componentwise open range and
 contains the full constant family over `D(N)`. Its integral global sections at
 a nonunit level are proved trivial and packaged as checked cardinality
-`1 = p^0`. The multiplicative-flat factor, the supported sheaf localization
-sequences at the bad fibre, the quasi-finite admissible-filtration exact
-sequences, remaining elementary `H⁰`/`H¹` certificates, middle-`H¹` finiteness,
-and the focused rank-zero specialization remain open. The supported quotient
-terms in the localization sequences are not quasi-finite flat group schemes.
+`1 = p^0`. The same finiteness-free ambient kernel API now constructs Čech
+connecting classes and their homomorphism from genuine local lifts; the
+quasi-finite wrapper and the existing finite-flat quotient sequence are
+compiled consumers. The multiplicative bad-level factor `mu_p^flat` is now an
+actual quasi-finite flat commutative group scheme: an explicit Hopf
+localization gives its typed open inclusion into `mu_p`, identifies its range,
+and proves that it agrees with `mu_p` over `D(N)`. Its Fermat specialization is
+the concrete bad-level factor consumer. The supported sheaf localization sequences at
+the bad fibre, the quasi-finite admissible-filtration exact sequences, the
+bad-level multiplicative `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and
+the focused rank-zero specialization remain open. The supported quotient terms
+in the localization sequences are not quasi-finite flat group schemes.
 
 Tau Ceti's Jacobian work and later mathlib developments should still be
 monitored before independently building every generic algebraic-geometric

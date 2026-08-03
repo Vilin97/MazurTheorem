@@ -3085,7 +3085,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction and morphism-level H1 functoriality now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. A reusable Hopf localization constructs the actual bad-level constant-flat factor with separate coefficient and level parameters, its typed inclusion into the constant quasi-finite wrapper, its exact principal-open range, and the containment showing that it agrees with the full constant model away from the level. At every nonunit level its global sections are proved trivial and packaged as certified p-power cardinal data. The multiplicative-flat factor, the quasi-finite exact sequences, the constant-flat H1 calculation, the multiplicative-flat H0/H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, connecting, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Reusable Hopf localizations construct both actual bad-level elementary factors with separate coefficient and level parameters. The constant-flat and multiplicative-flat models have typed inclusions into their full quasi-finite wrappers, exact principal-open ranges, and contain the full models away from the level; the multiplicative construction is consumed by its canonical Fermat specialization. At every nonunit level the constant-flat global sections are proved trivial and packaged as certified p-power cardinal data. The supported sheaf localization sequences, quasi-finite exact sequences, constant-flat H1 calculation, multiplicative-flat H0/H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3289,6 +3289,48 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalSections",
           "description": "Package the unique integral global section at a prime level as a checked cardinality certificate 1 = p^0."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfConnecting",
+          "description": "Construct the choice-independent fppf connecting homomorphism from genuine local lifts for an arbitrary ambient commutative group-scheme kernel presentation."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom_mapPoint",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfConnecting",
+          "description": "Consume the ambient construction in the quasi-finite wrapper and prove that every globally lifted section has trivial connecting class."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlat",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlat",
+          "description": "Package the explicit Hopf localization as the flat quasi-finite multiplicative model at the bad level."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusionMap",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlat",
+          "description": "Realize the canonical Fermat multiplicative-flat model as a typed open subgroup of the full mu_p model."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_opensRange",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlat",
+          "description": "Identify the typed Fermat inclusion with its explicit defining principal open."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_contains_levelOpen",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlat",
+          "description": "Prove that the multiplicative-flat factor agrees with the full mu_p family over the level open D(N)."
         },
         {
           "kind": "theorem",

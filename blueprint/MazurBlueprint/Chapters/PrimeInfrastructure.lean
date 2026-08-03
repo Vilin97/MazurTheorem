@@ -146,12 +146,18 @@ factor `(Z/pZ)^flat` with coefficient `p` separate from level `N`; its realized
 typed inclusion has the advertised componentwise principal-open range and
 contains the full constant family over `D(N)`. Every integral global section
 at a nonunit level is now proved to be the identity, and a prime-level
-specialization packages this as cardinality `1 = p^0`. The next boundary is
-to construct the multiplicative-flat factor, the supported sheaf localization
-sequences, and the quasi-finite admissible-filtration exact sequences, then
-prove the remaining `H⁰`/`H¹` comparisons and middle-`H¹` finiteness. The
-supported bad-fibre quotients are not being represented as quasi-finite flat
-group schemes.
+specialization packages this as cardinality `1 = p^0`. The connecting-class
+construction now also lives over arbitrary ambient commutative group schemes;
+its quasi-finite wrapper and the finite-flat quotient layer are compiled
+consumers. The multiplicative-flat factor is now constructed by an explicit
+Hopf localization, packaged as a quasi-finite flat commutative group scheme,
+and included into `mu_p` by a typed open immersion whose exact range contains
+the whole model over `D(N)`. The Fermat specialization is a concrete consumer.
+The next boundary is the supported sheaf localization sequences and the
+quasi-finite admissible-filtration exact sequences, followed by the bad-level
+multiplicative `H⁰`/`H¹` comparisons and middle-`H¹` finiteness. The supported
+bad-fibre quotients are not being represented as quasi-finite flat group
+schemes.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -213,6 +219,18 @@ group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatBasePoint_eq_one`
 * `definition` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatBasePointCertifiedDataOfPrimeLevel`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom_mapPoint`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlat`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusionMap`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_opensRange`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_contains_levelOpen`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):

@@ -23,8 +23,13 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `8986a24` contains reviewed acceptance
-boundaries. Checkpoint `8f77d87` proves exactness at quotient-valued
+The combined owner history through `a4fff82` contains reviewed acceptance
+boundaries. The latest integration range adds the independently accepted A3
+diagonal normalization (`5bcc0a6`), the finiteness-free connecting construction
+and its finite/quasi-finite compatibility repair (`c18a9b7`, `3e20401`), and
+the independently accepted multiplicative-flat Hopf localization and typed
+group-scheme bundle (`8bf3798`, `a4fff82`). Checkpoint `8f77d87` proves
+exactness at quotient-valued
 `H⁰`: a common-refinement gauge adjusts local lifts, subcanonical fppf descent
 glues them to a global section, and the concrete low-degree constructor now
 supplies this exactness internally. Checkpoint `4b6a54b` packages a genuine Tau
@@ -87,10 +92,12 @@ the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `ElementaryGlobalSections`,
 `XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
-`ConstantFlat`, and `ConstantFlatGlobalSections` pass; the audited declarations use only
+`ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
+`QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, and `MultiplicativeFlat`
+pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 734 integrated Lean
-sources / 1,463,670 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 737 integrated Lean
+sources / 1,465,239 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -152,9 +159,14 @@ from bad level `N`, its typed quasi-finite inclusion into the constant model,
 the exact componentwise principal-open range, and the containment of the full
 constant model over `D(N)`. Its integral global sections at a nonunit level
 are now proved trivial and consumed by a concrete `p^0` cardinal certificate.
-The multiplicative-flat factor, the supported localization sequences at the
-bad fibre, the quasi-finite admissible-filtration exact sequences, the
-remaining `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero
+The multiplicative-flat factor now compiles as an explicit Hopf localization,
+an actual quasi-finite flat commutative group scheme, and a typed open subgroup
+of `mu_p`; its exact principal-open range contains the full model over `D(N)`,
+and the Fermat specialization is a concrete consumer. The fppf connecting
+construction itself is now finiteness-free, with quasi-finite and finite-flat
+compatibility consumers. The supported localization sequences at the bad
+fibre, the quasi-finite admissible-filtration exact sequences, the remaining
+bad-level `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero
 specialization remain, followed by the unramified Raynaud uniqueness input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
 sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
@@ -316,9 +328,14 @@ within each lane follows the listed order.
    quotient's concrete point-kernel criterion. The
    constant-flat factor with separate coefficient and level parameters, its
    typed open immersion, and its certified trivial integral `H⁰` now compile.
-   The multiplicative-flat construction, the sheaf-level supported
-   localization sequences, the quasi-finite admissible-filtration exact
-   sequences, the remaining `H⁰`/`H¹` certificates, and middle-`H¹` finiteness
+   The multiplicative-flat construction also compiles as an actual
+   quasi-finite flat group scheme with a typed open inclusion into `mu_p`, its
+   exact range, its `D(N)` containment, and a canonical Fermat consumer. The
+   local-lift connecting homomorphism is now constructed for arbitrary ambient
+   commutative group schemes and consumed by both the quasi-finite wrapper and
+   the repaired finite-flat API. The sheaf-level supported localization
+   sequences, the quasi-finite admissible-filtration exact sequences, the
+   remaining bad-level `H⁰`/`H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
    rank-zero specialization. Then finish
@@ -516,20 +533,20 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/owner-a3-tilde-reflect`: prove that invertibility of the affine tilde
-  sheaf reflects to the module, and consume it in the tensor-inverse and
-  Picard-surjectivity path. Unconditional curve normality is already
-  integrated; the next independent A3 assignment is cocycle coherence and
-  ordinary module descent effectivity.
-- `codex/owner-ffgs-kummer`: construct the six concrete finite-length
-  certificates consumed by the quotient-cardinal theorem, then specialize the
-  bound to the focused rank-zero and unramified Raynaud uniqueness boundary.
-- Integration owner: construct the group law and geometric integrality on the
-  checked projective Weierstrass cubic and its coordinate/scheme-point
-  comparison consumed by the checked split finite-flat Γ₀ datum,
-  and continue the modular Hecke/q-expansion path from the checked
-  first-coefficient consumer. The audited boundary and curve-normality worker
-  commits are integrated and no longer active assignments.
+- `codex/owner-a3-triple-coherence`: prove triple-overlap naturality for the
+  reviewed normalized arbitrary-divisor transition maps and consume it in an
+  actual descent datum; diagonal normalization alone is already integrated.
+- `codex/owner-mu-flat-h0`: determine and certify the integral global sections
+  of the bad-level multiplicative factor, with a real low-degree cohomology
+  consumer; the group scheme and its typed open inclusion are integrated.
+- `codex/owner-weierstrass-geometric-integrality`: prove the focused geometric
+  integrality boundary for the checked reduced projective cubic and remove that
+  hypothesis from the Tau Ceti abelian-variety/Γ₀ consumer.
+- Integration owner: review and integrate those isolated branches, then open
+  the supported-sheaf localization sequence and modular cusp/q-expansion lanes.
+  The owner retains responsibility for the projective group law,
+  multiplicativity of the coordinate/scheme-point bijection, `E/C`, and the
+  coarse `X₀` classifying map.
 
 ## Checkpoint acceptance rules
 
