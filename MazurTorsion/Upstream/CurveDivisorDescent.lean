@@ -766,8 +766,30 @@ noncomputable def PrincipalCocycleTrivial
       (LineBundleDescent.modulesPseudofunctor.toDescentData
         (coordinateCover U hcover hU).f).obj (InvertibleSheaf.trivial X).obj)
 
-/-- A coherently trivial principal cocycle descends to the trivial global line bundle when
-module descent is fully faithful on the cover. -/
+/-- A coherently trivial principal cocycle descends to the trivial global line bundle as soon as
+module descent reflects the trivial object. This is the narrower separation property used here;
+comparison of two arbitrary global modules is unnecessary. -/
+lemma globalLineBundle_principal_iso_trivial_of_reflectsTriviality
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (g : Additive X.functionFieldˣ)
+    (C : DivisorCocycle X U hnonempty hcover hU h (S.principalDivisor g))
+    (heffective : LineBundleDescent.EffectiveInvertible
+      (coordinateCover U hcover hU) C.toDescentData)
+    (hreflect : LineBundleDescent.ModuleDescentReflectsTrivialityFor
+      (coordinateCover U hcover hU))
+    (htrivial : PrincipalCocycleTrivial X U hnonempty hcover hU h S g C) :
+    Nonempty
+      ((globalLineBundle X U hnonempty hcover hU h (S.principalDivisor g)
+        C heffective).obj ≅ (InvertibleSheaf.trivial X).obj) := by
+  change Nonempty (heffective.lineBundle.obj ≅ (InvertibleSheaf.trivial X).obj)
+  exact hreflect _ ⟨heffective.descentIso ≪≫ htrivial.some⟩
+
+/-- Full object separation remains a sufficient source of the sharper trivial-object reflection
+theorem. -/
 lemma globalLineBundle_principal_iso_trivial
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
@@ -783,8 +805,10 @@ lemma globalLineBundle_principal_iso_trivial
     (htrivial : PrincipalCocycleTrivial X U hnonempty hcover hU h S g C) :
     Nonempty
       ((globalLineBundle X U hnonempty hcover hU h (S.principalDivisor g)
-        C heffective).obj ≅ (InvertibleSheaf.trivial X).obj) := by
-  change Nonempty (heffective.lineBundle.obj ≅ (InvertibleSheaf.trivial X).obj)
-  exact hinjective _ _ ⟨heffective.descentIso ≪≫ htrivial.some⟩
+        C heffective).obj ≅ (InvertibleSheaf.trivial X).obj) :=
+  globalLineBundle_principal_iso_trivial_of_reflectsTriviality
+    X U hnonempty hcover hU h S g C heffective
+    (LineBundleDescent.moduleDescentReflectsTrivialityFor_of_essentiallyInjective hinjective)
+    htrivial
 
 end MazurTorsion.AlgebraicGeometry.CurveDivisorDescent

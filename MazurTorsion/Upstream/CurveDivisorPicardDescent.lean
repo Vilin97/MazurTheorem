@@ -145,7 +145,40 @@ def PrincipalCocycleSystemTrivial
   ∀ g, PrincipalCocycleTrivial X U hnonempty hcover hU h S g
     (C (S.principalDivisor g))
 
+/-- The global consequence of coherent principal cocycles that the Picard construction actually
+uses: every descended principal-divisor line bundle is trivial. This boundary deliberately omits
+descent-data coherence and separation for unrelated global modules. -/
+def DescendedPrincipalTrivial
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C) : Prop :=
+  ∀ g, Nonempty
+    ((descendedLineBundle X U hnonempty hcover hU h C heffective
+      (S.principalDivisor g)).obj ≅ (InvertibleSheaf.trivial X).obj)
+
 namespace DivisorCocycleSystem
+
+/-- Coherent principal cocycles plus reflection of the trivial descent object imply exactly the
+global principal triviality needed by the Picard map. -/
+theorem descendedPrincipalTrivial_of_principalCocycleSystem
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hreflect : LineBundleDescent.ModuleDescentReflectsTrivialityFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C) :
+    DescendedPrincipalTrivial X U hnonempty hcover hU h S C heffective :=
+  fun g ↦ globalLineBundle_principal_iso_trivial_of_reflectsTriviality
+    X U hnonempty hcover hU h S g (C (S.principalDivisor g))
+    (heffective (S.principalDivisor g)) hreflect (hprincipal g)
 
 /-- Coherent triviality of the principal cocycles and object separation for module descent make
 every descended principal-divisor line bundle globally trivial. -/
@@ -188,6 +221,28 @@ theorem descendedZeroTrivial_of_principalCocycleSystem
       (InvertibleSheaf.trivial X).obj)
   simpa using descendedLineBundle_principal_iso_trivial X U hnonempty hcover hU h S C
     heffective hinjective hprincipal (Additive.ofMul (1 : X.functionFieldˣ))
+
+/-- Global triviality of principal-divisor bundles already includes the zero-bundle
+trivialization. Thus `DescendedZeroTrivial` is not an independent hypothesis in the exact
+principal-boundary API. -/
+theorem descendedZeroTrivial_of_descendedPrincipalTrivial
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hprincipal : DescendedPrincipalTrivial
+      X U hnonempty hcover hU h S C heffective) :
+    DescendedZeroTrivial X U hnonempty hcover hU h C heffective := by
+  change Nonempty
+    ((descendedLineBundle X U hnonempty hcover hU h C heffective 0).obj ≅
+      (InvertibleSheaf.trivial X).obj)
+  have hp := hprincipal (Additive.ofMul (1 : X.functionFieldˣ))
+  rw [show Additive.ofMul (1 : X.functionFieldˣ) = 0 by rfl,
+    S.principalDivisor_zero] at hp
+  exact hp
 
 namespace ExplicitInverse
 
@@ -319,6 +374,102 @@ def TrivialLineBundleDetectsPrincipal
       ((descendedLineBundle X U hnonempty hcover hU h C heffective D).obj ≅
         (InvertibleSheaf.trivial X).obj) →
     D ∈ S.principalSubgroup
+
+/-- The exact global principal boundary for the descended divisor bundles. The forward field says
+that principal divisors give trivial bundles; the reverse field says that a trivial bundle comes
+only from a principal divisor. This is a logically narrower interface than the earlier cone of
+coherent principal cocycles, arbitrary-object separation, separate zero triviality, and principal
+detection. Establishing either field from rational sections remains genuine A3 mathematics. -/
+structure GlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C) : Prop where
+  /-- Every principal divisor has a globally trivial descended line bundle. -/
+  trivial_of_principal :
+    DescendedPrincipalTrivial X U hnonempty hcover hU h S C heffective
+  /-- A globally trivial descended divisor line bundle detects a principal divisor. -/
+  principal_of_trivial :
+    TrivialLineBundleDetectsPrincipal X U hnonempty hcover hU h S C heffective
+
+namespace GlobalPrincipalBoundary
+
+/-- The two fields of the global boundary are equivalent to the standard geometric
+classification of trivial divisor line bundles. -/
+theorem trivial_iff_mem_principalSubgroup
+    {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} {U : I → X.Opens} {hnonempty : ∀ i, Nonempty (U i)}
+    {hcover : IsOpenCover U} {hU : ∀ i, IsAffineOpen (U i)}
+    {h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i)}
+    {S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ)}
+    {C : DivisorCocycleSystem X U hnonempty hcover hU h}
+    {heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C}
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (D : WeilDivisor (CodimensionOnePoint X)) :
+    Nonempty
+        ((descendedLineBundle X U hnonempty hcover hU h C heffective D).obj ≅
+          (InvertibleSheaf.trivial X).obj) ↔
+      D ∈ S.principalSubgroup := by
+  constructor
+  · exact b.principal_of_trivial D
+  · intro hD
+    obtain ⟨g, rfl⟩ := S.mem_principalSubgroup.mp hD
+    exact b.trivial_of_principal g
+
+/-- The older coherent-cocycle and object-separation cone constructs the sharper global
+principal boundary. Only reflection of the trivial object is needed. -/
+theorem of_principalCocycleSystem
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hreflect : LineBundleDescent.ModuleDescentReflectsTrivialityFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C)
+    (hdetect : TrivialLineBundleDetectsPrincipal
+      X U hnonempty hcover hU h S C heffective) :
+    GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective where
+  trivial_of_principal := descendedPrincipalTrivial_of_principalCocycleSystem
+    X U hnonempty hcover hU h S C heffective hreflect hprincipal
+  principal_of_trivial := hdetect
+
+/-- The zero-divisor bundle is trivial without a separate zero-coherence hypothesis. -/
+theorem zeroTrivial
+    {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} {U : I → X.Opens} {hnonempty : ∀ i, Nonempty (U i)}
+    {hcover : IsOpenCover U} {hU : ∀ i, IsAffineOpen (U i)}
+    {h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i)}
+    {S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ)}
+    {C : DivisorCocycleSystem X U hnonempty hcover hU h}
+    {heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C}
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective) :
+    DescendedZeroTrivial X U hnonempty hcover hU h C heffective :=
+  descendedZeroTrivial_of_descendedPrincipalTrivial
+    X U hnonempty hcover hU h S C heffective b.trivial_of_principal
+
+end GlobalPrincipalBoundary
+
+/-- The divisor-to-Picard map attached to the exact global principal boundary. Its zero-bundle
+trivialization is derived from the principal divisor of the unit rational function and is not a
+separate argument. -/
+noncomputable def divisorToPicOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective) :
+    WeilDivisor (CodimensionOnePoint X) →+ PicardGroup X :=
+  divisorToPic X U hnonempty hcover hU h C heffective hadd b.zeroTrivial
 
 noncomputable section
 
@@ -491,6 +642,97 @@ theorem globalPrincipalWitness_iff_trivialLineBundleDetectsPrincipal
       X U hnonempty hcover hU h S hord C heffective
 
 end
+
+namespace GlobalPrincipalBoundary
+
+/-- A single rational function compatible on all charts supplies the reverse direction of the
+global principal boundary. Together with coherent principal cocycles, only reflection of the
+trivial descent object is needed for the forward direction. This is the reduced consumer aimed
+at a future rational-section construction. -/
+theorem of_globalPrincipalWitness
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hreflect : LineBundleDescent.ModuleDescentReflectsTrivialityFor
+      (coordinateCover U hcover hU))
+    (hprincipal : PrincipalCocycleSystemTrivial X U hnonempty hcover hU h S C)
+    (hwitness : TrivialDescendedLineBundleHasGlobalPrincipalWitness
+      X U hnonempty hcover hU h C heffective) :
+    GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective :=
+  of_principalCocycleSystem X U hnonempty hcover hU h S C heffective
+    hreflect hprincipal
+    (trivialLineBundleDetectsPrincipal_of_globalPrincipalWitness
+      X U hnonempty hcover hU h S hord C heffective hwitness)
+
+end GlobalPrincipalBoundary
+
+/-- The map built from the global principal boundary kills principal divisors. No descent
+object-separation or separate zero-bundle input appears in this theorem. -/
+theorem divisorToPicOfGlobalPrincipalBoundary_principalTrivial
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective) :
+    DivisorPicard.PrincipalTrivial S
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b) := by
+  intro g
+  change divisorPicClass X U hnonempty hcover hU h C heffective hadd b.zeroTrivial
+    (S.principalDivisor g) = 1
+  apply Units.ext
+  rw [divisorPicClass_val]
+  change toSkeleton
+      (descendedLineBundle X U hnonempty hcover hU h C heffective
+        (S.principalDivisor g)).obj =
+    toSkeleton (𝟙_ X.Modules)
+  exact Quotient.sound ⟨(b.trivial_of_principal g).some ≪≫
+    TensorInverseComparison.trivialIsoTensorUnit⟩
+
+/-- The global principal boundary gives the exact principal kernel of the derived Picard map.
+This is a checked consumer of the two directions of the classical statement
+`𝒪(D) ≅ 𝒪 ⇔ D` is principal; constructing the boundary itself remains open. -/
+theorem divisorToPicOfGlobalPrincipalBoundary_hasPrincipalKernel
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective) :
+    DivisorPicard.HasPrincipalKernel S
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b) := by
+  apply AddSubgroup.ext
+  intro D
+  rw [AddMonoidHom.mem_ker]
+  constructor
+  · intro hD
+    apply b.principal_of_trivial D
+    change divisorPicClass X U hnonempty hcover hU h C heffective hadd b.zeroTrivial D = 1
+      at hD
+    have hskel := congrArg Units.val hD
+    rw [divisorPicClass_val] at hskel
+    change toSkeleton
+        (descendedLineBundle X U hnonempty hcover hU h C heffective D).obj =
+      toSkeleton (𝟙_ X.Modules) at hskel
+    exact ⟨(toSkeleton_eq_toSkeleton_iff.mp hskel).some ≪≫
+      TensorInverseComparison.trivialIsoTensorUnit.symm⟩
+  · intro hD
+    obtain ⟨g, rfl⟩ := S.mem_principalSubgroup.mp hD
+    exact divisorToPicOfGlobalPrincipalBoundary_principalTrivial
+      X U hnonempty hcover hU h S C heffective hadd b g
 
 /-- Coherent principal triviality makes the explicit divisor homomorphism kill principal
 divisors. -/
@@ -724,6 +966,31 @@ noncomputable def classEquivPicard
   DivisorPicard.classEquivPicard S
     (divisorToPic X U hnonempty hcover hU h C heffective hadd hzero) hker hsurjective
 
+/-- The exact global principal boundary and surjectivity construct the full divisor-class/Picard
+equivalence. Compared with the earlier descent cone, separate zero trivialization,
+arbitrary-object separation, and descent-level principal cocycle hypotheses are not parameters of
+this consumer. -/
+noncomputable def classEquivPicardOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b)) :
+    DivisorPicard.ClassEquivalence S X :=
+  DivisorPicard.classEquivPicard S
+    (divisorToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b)
+    (divisorToPicOfGlobalPrincipalBoundary_hasPrincipalKernel
+      X U hnonempty hcover hU h S C heffective hadd b)
+    hsurjective
+
 /-- Under coherent principal triviality and object separation, the geometric principal-detection
 condition and Picard surjectivity give the full divisor-class/Picard equivalence. This consumer
 replaces the abstract kernel equality by its equivalent line-bundle formulation. -/
@@ -811,6 +1078,29 @@ noncomputable def dictionary
         hzero hX D).symm
   principalKernel := hker
   surjective := hsurjective
+
+/-- A forward tensor-inverse comparison upgrades the exact global principal boundary to the
+full divisor-line-bundle dictionary. The earlier descent and zero conditions are replaced here by
+their global principal-boundary consequence, not proved automatically. -/
+noncomputable def dictionaryOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : EffectiveDivisorCocycleSystem X U hnonempty hcover hU h C)
+    (hadd : DescendedTensorAdditive X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (hX : TensorInverseComparison X)
+    (hsurjective : Function.Surjective
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b)) :
+    DivisorPicard.Dictionary S X :=
+  dictionary X U hnonempty hcover hU h S C heffective hadd b.zeroTrivial hX
+    (divisorToPicOfGlobalPrincipalBoundary_hasPrincipalKernel
+      X U hnonempty hcover hU h S C heffective hadd b)
+    hsurjective
 
 /-- The full explicit-inverse equivalence computes to the divisor Picard map on
 representatives. -/
