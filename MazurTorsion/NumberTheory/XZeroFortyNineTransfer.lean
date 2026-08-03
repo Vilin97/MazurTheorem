@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
+import MazurTorsion.ModularCurve.XZeroModuli
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -528,5 +529,46 @@ theorem no_noncuspidal_correspondence_point
       · exact h'
       · exact absurd h' hGB
     exact mNX_ne_zero hs hB hG hx0
+
+/-! ## The direct `X₀(49)` moduli consumer
+
+The checked group-theoretic source datum and the checked two-cusp target are
+now connected by the exact geometric interface still required from the coarse
+moduli construction.  No explicit Vélu additivity or nonbacktracking isogeny
+tower occurs in this interface. -/
+
+/-- Any classifying map from rational `Γ₀(49)` data to the explicit
+`X₀(49)` model which sends every elliptic datum away from the two cusps
+forces the rational moduli datum to be empty.
+
+The function and its two noncuspidality laws are the honest missing geometry:
+they must be constructed from coarse `Y₀(49)` representability and the
+identification with `curve`.  The conclusion itself uses the already checked
+two-cusp classification `point_eq_zero_or_T`. -/
+theorem no_rationalDatum_of_classifyingMap
+    (classify :
+      ModularCurve.XZeroModuli.RationalDatum ℚ 49 → curve.toAffine.Point)
+    (hclassify : ∀ x, classify x ≠ 0 ∧ classify x ≠ T) :
+    IsEmpty (ModularCurve.XZeroModuli.RationalDatum ℚ 49) := by
+  constructor
+  intro x
+  rcases point_eq_zero_or_T (classify x) with hzero | hT
+  · exact (hclassify x).1 hzero
+  · exact (hclassify x).2 hT
+
+/-- Real downstream consumer for the order-49 classifying map: a rational
+point of exact order 49 supplies its generated cyclic subgroup, the classifying
+map supplies a noncuspidal point on the explicit `X₀(49)` model, and the
+two-cusp theorem gives the contradiction. -/
+theorem rationalPoint_addOrderOf_ne_fortyNine_of_classifyingMap
+    (classify :
+      ModularCurve.XZeroModuli.RationalDatum ℚ 49 → curve.toAffine.Point)
+    (hclassify : ∀ x, classify x ≠ 0 ∧ classify x ≠ T)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 49 := by
+  intro hP
+  exact (no_rationalDatum_of_classifyingMap classify hclassify).false
+    (ModularCurve.XZeroModuli.RationalDatum.pointOfTorsion E P hP)
 
 end MazurTorsion.XZeroFortyNine
