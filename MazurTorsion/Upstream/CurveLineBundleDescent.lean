@@ -371,6 +371,27 @@ def ModuleDescentEssentiallyInjectiveFor
         (modulesPseudofunctor.toDescentData cov.f).obj N) →
       Nonempty (M ≅ N)
 
+/-- A narrower object-separation input sufficient for principal divisor line bundles:
+the coherent restrictions of a global module can be isomorphic to those of the trivial line
+bundle only when the global module itself is trivial.  Unlike
+`ModuleDescentEssentiallyInjectiveFor`, this does not compare two arbitrary global modules. -/
+def ModuleDescentReflectsTrivialityFor
+    {X : Scheme.{u}} (cov : X.OpenCover) : Prop :=
+  ∀ M : X.Modules,
+    Nonempty
+      ((modulesPseudofunctor.toDescentData cov.f).obj M ≅
+        (modulesPseudofunctor.toDescentData cov.f).obj
+          (InvertibleSheaf.trivial X).obj) →
+      Nonempty (M ≅ (InvertibleSheaf.trivial X).obj)
+
+/-- Full object separation implies reflection of the one object actually used by the divisor
+kernel argument. -/
+theorem moduleDescentReflectsTrivialityFor_of_essentiallyInjective
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (hinjective : ModuleDescentEssentiallyInjectiveFor cov) :
+    ModuleDescentReflectsTrivialityFor cov :=
+  fun M e ↦ hinjective M (InvertibleSheaf.trivial X).obj e
+
 /-- Fully faithful module descent is a standard sufficient source of the exact object-separation
 property used below. -/
 theorem moduleDescentEssentiallyInjectiveFor_of_fullyFaithful
@@ -379,6 +400,14 @@ theorem moduleDescentEssentiallyInjectiveFor_of_fullyFaithful
     ModuleDescentEssentiallyInjectiveFor cov :=
   fun _ _ e ↦ ⟨hfaithful.preimageIso e.some⟩
 
+/-- Fully faithful module descent implies reflection of global triviality. -/
+theorem moduleDescentReflectsTrivialityFor_of_fullyFaithful
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (hfaithful : ModuleDescentFullyFaithfulFor cov) :
+    ModuleDescentReflectsTrivialityFor cov :=
+  moduleDescentReflectsTrivialityFor_of_essentiallyInjective
+    (moduleDescentEssentiallyInjectiveFor_of_fullyFaithful hfaithful)
+
 /-- A prestack theorem for scheme modules implies the exact object-separation property used for
 principal divisor line bundles. This is the checked consumer of the missing prestack input. -/
 theorem moduleDescentEssentiallyInjectiveFor_of_isPrestack
@@ -386,6 +415,15 @@ theorem moduleDescentEssentiallyInjectiveFor_of_isPrestack
     [hprestack : modulesPseudofunctor.{u}.IsPrestack Scheme.zariskiTopology.{u}] :
     ModuleDescentEssentiallyInjectiveFor cov :=
   moduleDescentEssentiallyInjectiveFor_of_fullyFaithful
+    (@moduleDescentFullyFaithfulForOfIsPrestack X cov hprestack)
+
+/-- A prestack theorem supplies the narrower trivial-object reflection used by the exact
+divisor-kernel consumer. -/
+theorem moduleDescentReflectsTrivialityFor_of_isPrestack
+    {X : Scheme.{u}} (cov : X.OpenCover)
+    [hprestack : modulesPseudofunctor.{u}.IsPrestack Scheme.zariskiTopology.{u}] :
+    ModuleDescentReflectsTrivialityFor cov :=
+  moduleDescentReflectsTrivialityFor_of_fullyFaithful
     (@moduleDescentFullyFaithfulForOfIsPrestack X cov hprestack)
 
 /-- The exact open-cover localization input for line bundles: a global module whose pullback to

@@ -195,4 +195,71 @@ theorem nonempty_weightedAbelJacobiLineBundle_iso_iff_linearlyEquivalent
 
 end DivisorPicard.Dictionary
 
+namespace CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
+
+open TopologicalSpace
+open TauCeti.AlgebraicGeometry.WeilDivisor
+
+/-- The pointwise Abel--Jacobi class obtained directly from the exact global principal boundary
+for descended divisor bundles. This is a downstream consumer of
+`classEquivPicardOfGlobalPrincipalBoundary`: neither arbitrary-object descent separation nor a
+separate zero-bundle trivialization occurs in the interface. -/
+noncomputable def weightedAbelJacobiClassOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b))
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X} (hx₀ : w x₀ = 1)
+    (x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X) :
+    PicardGroup.degreeZero S w hdegree
+      (classEquivPicardOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b hsurjective) :=
+  PicardGroup.weightedAbelJacobiClass S w hdegree
+    (classEquivPicardOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b hsurjective) hx₀ x
+
+/-- The global-principal-boundary Abel--Jacobi adapter retains the checked basepoint
+normalization. -/
+@[simp]
+theorem weightedAbelJacobiClassOfGlobalPrincipalBoundary_base
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b))
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X} (hx₀ : w x₀ = 1) :
+    weightedAbelJacobiClassOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b hsurjective
+        w hdegree hx₀ x₀ = 0 :=
+  PicardGroup.weightedAbelJacobiClass_base S w hdegree
+    (classEquivPicardOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b hsurjective) hx₀
+
+end CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
+
 end MazurTorsion.AlgebraicGeometry
