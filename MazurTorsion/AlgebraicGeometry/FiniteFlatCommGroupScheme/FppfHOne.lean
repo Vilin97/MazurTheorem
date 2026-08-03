@@ -535,11 +535,17 @@ open scoped CategoryTheory.MonObj
 
 variable {S : Scheme.{u}}
 
-/-- The presheaf of groups on `Over S` represented by a finite-flat commutative group scheme.
-Its value on `T ⟶ S` is the actual group of `S`-morphisms `T ⟶ G`. -/
-def pointPresheaf (G : FiniteFlatCommGroupScheme S) :
+/-- The presheaf of commutative groups on `Over S` represented by a finite-flat commutative
+group scheme.  Its value on `T ⟶ S` is the actual commutative group of `S`-morphisms `T ⟶ G`. -/
+noncomputable def commPointPresheaf (G : FiniteFlatCommGroupScheme S) :
+    (Over S)ᵒᵖ ⥤ CommGrpCat.{u} where
+  obj T := CommGrpCat.of (G.Point T.unop)
+  map f := CommGrpCat.ofHom ((yonedaGrpObj G.obj.X).map f).hom
+
+/-- The representable point presheaf, forgotten from commutative groups to groups. -/
+noncomputable def pointPresheaf (G : FiniteFlatCommGroupScheme S) :
     (Over S)ᵒᵖ ⥤ GrpCat.{u} :=
-  yonedaGrpObj G.obj.X
+  commPointPresheaf G ⋙ forget₂ CommGrpCat GrpCat
 
 @[simp]
 lemma pointPresheaf_obj (G : FiniteFlatCommGroupScheme S) (T : Over S) :
