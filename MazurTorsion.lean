@@ -74,6 +74,7 @@ import MazurTorsion.ModularCurve.XZeroModuli
 import MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
 import MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVariety
 import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic
+import MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointInverse
 import MazurTorsion.ModularCurve.XZeroThirtyFive
 import MazurTorsion.Kubert.OrderSevenParametrization
 import MazurTorsion.Kubert.OrderSevenCorrespondence

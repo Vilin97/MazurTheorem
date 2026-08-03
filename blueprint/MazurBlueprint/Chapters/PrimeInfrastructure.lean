@@ -290,6 +290,12 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint_chartIndex`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.eval_coordinateRepresentativeOfOverPoint_polynomial_eq_zero`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOfOverPoint`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
 * `definition` (`contract`):
@@ -321,11 +327,15 @@ canonical finite-flat consumer therefore reduces point comparison to group-law
 compatibility and surjectivity of this explicit map. In the reverse direction,
 the coordinate basic opens now give an actual affine-chart factor for every
 scheme-valued cubic point; the induced homogeneous-localization ring map
-extracts a normalized nonzero coordinate triple. Identifying these ratios with
-the pullback along the forward point map and using ellipticity to exclude
-singular coordinate solutions remain open. The scheme group law, geometric
-integrality, surjectivity, `E/C`, the coarse modular point, and the required
-Atkin--Lehner geometry remain open, so this node receives no completion credit.
+extracts a normalized nonzero coordinate triple, fixes base-field constants,
+and evaluates every homogeneous fraction through those ratios. The extracted
+triple now satisfies the cubic equation and, under ellipticity, is proved
+nonsingular, yielding an actual Mathlib projective point and a compiled forward
+recovered-point morphism. Identifying the forward point's chart pullback with
+these ratios, and hence proving that recovered morphism equals the original,
+remains open. The scheme group law, geometric integrality, surjectivity, `E/C`,
+the coarse modular point, and the required Atkin--Lehner geometry remain open,
+so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

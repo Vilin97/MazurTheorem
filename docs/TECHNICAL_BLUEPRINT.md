@@ -1552,6 +1552,17 @@ normalizations and has a chosen line-bundle consumer from the exact divisor
 dictionary. It deliberately does not construct the relative Picard functor,
 representing scheme, Jacobian variety, or Abel--Jacobi scheme morphism.
 
+The split `X₀` lane now has a concrete reduced proper projective Weierstrass
+cubic. Homogeneous evaluation gives an injective map from Mathlib projective
+points to scheme-valued rational points. Conversely, every scheme-valued point
+factors through a coordinate chart; its chart ring map yields a normalized
+nonzero triple satisfying the cubic equation, and ellipticity proves that
+triple nonsingular. The remaining point-comparison step is the explicit
+pullback computation for `X_j/X_i` showing that the recovered point maps back
+to the original scheme morphism. Group-law compatibility, geometric
+integrality, the cyclic quotient `E/C`, and the coarse modular point remain
+open.
+
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic
 curve.  Acceptance stops at the admissible-filtration, unramified Raynaud,
