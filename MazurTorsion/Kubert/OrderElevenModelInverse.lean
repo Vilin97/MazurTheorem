@@ -348,8 +348,10 @@ theorem exists_admissible_orderEleven_tateParameters_of_model
       tateNormalDiscriminant b c ≠ 0 := by
   let r := orderElevenRawROfModel u v
   let q := orderElevenRawQOfModel u v
-  let c := q * (r - 1)
-  let b := r * c
+  let c := orderElevenCOfModel u v
+  let b := orderElevenBOfModel u v
+  have hc_eq : c = q * (r - 1) := rfl
+  have hb_eq : b = r * c := rfl
   have hr0 : r ≠ 0 := by
     simpa only [r] using orderElevenRawROfModel_ne_zero hP hu0 hu1
   have hr1 : r ≠ 1 := by
@@ -362,16 +364,20 @@ theorem exists_admissible_orderEleven_tateParameters_of_model
     simpa only [r, q] using orderElevenRawPolynomial_of_model hP hu0 hu1
   have hsing : orderElevenSingularFactor r q ≠ 0 :=
     orderElevenSingularFactor_ne_zero_of_raw hq1 hraw
-  have hc : c ≠ 0 := mul_ne_zero hq0 (sub_ne_zero.mpr hr1)
-  have hb : b ≠ 0 := mul_ne_zero hr0 hc
+  have hc : c ≠ 0 := by
+    rw [hc_eq]
+    exact mul_ne_zero hq0 (sub_ne_zero.mpr hr1)
+  have hb : b ≠ 0 := by
+    rw [hb_eq]
+    exact mul_ne_zero hr0 hc
   have hbc : b ≠ c := by
     intro h
     have hzero : c * (r - 1) = 0 := by
-      dsimp only [b] at h
+      rw [hb_eq] at h
       linear_combination h
     exact (mul_ne_zero hc (sub_ne_zero.mpr hr1)) hzero
   have hAeq : c ^ 2 + c - b = q * (q - 1) * (r - 1) ^ 2 := by
-    dsimp only [b, c]
+    rw [hb_eq, hc_eq]
     ring
   have hA : c ^ 2 + c - b ≠ 0 := by
     rw [hAeq]
@@ -382,7 +388,7 @@ theorem exists_admissible_orderEleven_tateParameters_of_model
         q ^ 5 * (r - 1) ^ 8 * orderElevenRawPolynomial r q := by
     simp only [orderElevenPolynomial, orderElevenSixNumerator,
       orderElevenRawPolynomial]
-    dsimp only [b, c]
+    rw [hb_eq, hc_eq]
     ring
   have hpoly : orderElevenPolynomial b c = 0 := by
     rw [hpolyIdentity, hraw, mul_zero]
