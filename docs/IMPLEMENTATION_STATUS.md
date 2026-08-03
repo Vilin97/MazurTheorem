@@ -75,11 +75,13 @@ Current machine-checked results include:
   and derive formal-kernel torsion from the exact-pinned unramified results.
   The canonical domain of points with nonsingular coordinate reduction is now
   constructed on Mathlib's actual minimal integral model; its coordinate map,
-  negation closure, and exact formal kernel are checked. One explicit
-  additivity statement builds the subgroup and reduction homomorphism, with
-  five- and eleven-adic prime/order-35 consumers. Proving that additivity,
-  identifying the nonsingular locus of the cuspidal special cubic with the
-  additive residue group, and the component-cardinality bound remain open;
+  negation closure, and exact formal kernel are checked. Equal reductions are
+  proved to differ by an exact-filtration point, translation by such a point is
+  reduction-invisible, and coordinatewise reduction is unconditionally
+  additive. Canonical five- and eleven-adic prime/order-35 consumers need no
+  additivity premise. Identifying the nonsingular locus of the cuspidal special
+  cubic with the additive residue group and proving the component-cardinality
+  bound remain open;
 * an explicit algebraic tame-additive filtration contract, recording a
   component target of cardinality at most four, a finite additive reduction
   target, exact identification of its kernel with the formal kernel, and
@@ -120,13 +122,16 @@ Current machine-checked results include:
   the canonical five-adic reduction data and derives all remaining algebraic
   filtration inputs internally. A mapped-ideal variant is the direct endpoint
   for the actual special-fibre q-expansion and needs no separately supplied
-  quotient-finiteness proof. The same checked engine at eleven constructs
+  quotient-finiteness proof. A degree-one mapped-fibre interface now packages
+  precisely the quotient residue surjection, one-dimensional target cotangent,
+  and one source vector detected by the first coefficient; full prime-five and
+  order-35 consumers compile from it. The same checked engine at eleven constructs
   the selected minimal equation, preserves exact order, upgrades integral `j`
   to good reduction from the canonical additive obstruction, and reaches the
   exhaustive `F₁₁` order-35 endpoint. The integral cusp models, q-expansion
-  calculation, represented modular specialization, quotient collision, and
-  the nonsingular-reduction additivity, cuspidal smooth-locus classification,
-  and genuine component bound remain open, so no roadmap node is credited;
+  calculation, represented modular specialization, quotient collision,
+  cuspidal smooth-locus classification, and genuine component bound remain
+  open, so no roadmap node is credited;
 * the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
   through a divisor-class/Picard equivalence into the actual degree-zero
   subgroup of `Scheme.Pic`. The checked formulas cover the base point,

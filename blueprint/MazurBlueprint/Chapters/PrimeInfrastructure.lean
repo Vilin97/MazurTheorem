@@ -54,21 +54,30 @@ used by rank zero and the additive component bound used at five.
   `WeierstrassCurve.Affine.nonsingularReductionHom`
 * `theorem` (`contract`):
   `WeierstrassCurve.Affine.nonsingularReductionHom_ker`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.sub_mem_filtration_of_nonsingularReduction_eq`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReduction_add_of_mem_filtration_left`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.nonsingularReduction_isAdditive`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofNonsingularReduction`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction`
 * `theorem` (`proposed`):
   `ModularCurve.Jacobian.completelyToricReductionAtLevel`
 
 The canonical domain of points with nonsingular coordinate reduction, its
-actual map, negation closure, and exact formal zero fibre now compile.
-Assuming precisely `NonsingularReductionIsAdditive` constructs the subgroup
-and reduction homomorphism; the five- and eleven-adic handoffs use the actual
-residue fields and canonical component quotients. Proving additivity,
-identifying the cuspidal nonsingular locus with the additive residue group,
-identifying the subgroup with the genuine Néron identity component, and the
-component bound remain open, so this node remains blocked.
+actual map, negation closure, exact formal zero fibre, addition closure, and
+additivity now compile. The canonical five- and eleven-adic handoffs use the
+actual residue fields and component quotients without a supplied additivity
+premise. Identifying the cuspidal nonsingular locus with the additive residue
+group, identifying the subgroup with the genuine Néron identity component,
+and the component bound remain open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
@@ -845,6 +854,14 @@ toric reduction of the modular Jacobian.
   `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate_of_isLocallyNoetherian`
 * `theorem` (`contract`):
   `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian`
+* `theorem` (`contract`):
+  `IsLocalRing.cotangentMap_surjective_of_degreeOne_of_apply_ne_zero`
+* `definition` (`contract`):
+  `IsLocalRing.IsMappedIdealDegreeOneCotangent`
+* `theorem` (`contract`):
+  `IsLocalRing.IsMappedIdealDegreeOneCotangent.isMappedIdealCotangentSurjective`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve`
 * `theorem` (`contract`):

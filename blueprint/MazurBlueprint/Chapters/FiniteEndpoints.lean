@@ -142,6 +142,10 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealCotangentAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_mappedCotangentAtEleven_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_degreeOneCotangentAtEleven_of_nonsingularReduction`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -186,9 +190,9 @@ the exact order-35 endpoint, and a good-reduction specialization consumer.
 The canonical eleven-adic reduction-data consumer also reaches the additive
 fibre endpoint while deriving component finiteness and formal-kernel torsion.
 The canonical nonsingular-reduction consumer fixes the coordinate domain/map
-and exact formal kernel. Proving additivity, the actual cuspidal
-nonsingular-locus/additive-field equivalence, the genuine Néron identity
-component, and the component bound remain geometric inputs.
+and exact formal kernel, and its additivity is checked. The actual cuspidal
+nonsingular-locus/additive-field equivalence, genuine Néron identity
+component, and component bound remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

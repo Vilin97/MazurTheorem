@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1477705,
-    "integrated_lean_modules": 774,
+    "integrated_lean_lines": 1478843,
+    "integrated_lean_modules": 775,
     "remaining_composite_orders": [
       18,
       25,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound. The selected eleven-adic minimal model, rational-point order transport, reduction-type trichotomy, good-reduction specialization, and actual cusp-stalk quotient-cotangent collision now form a checked end-to-end local consumer. Canonical coordinatewise nonsingular reduction reaches it without an arbitrary subgroup or map. Proving reduction additivity, the cuspidal nonsingular-locus equivalence with the additive residue field, the genuine component bound, and the represented modular quotient/classifying/Atkin-Lehner specialization inputs remains open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound. The selected eleven-adic minimal model, rational-point order transport, reduction-type trichotomy, good-reduction specialization, canonical additivity of coordinatewise nonsingular reduction, and actual cusp-stalk degree-one quotient-cotangent collision now form a checked end-to-end local consumer. Proving the cuspidal nonsingular-locus equivalence with the additive residue field, the genuine component bound, and the represented modular quotient/classifying/Atkin-Lehner specialization inputs remains open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -816,7 +816,7 @@
           "name": "MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven",
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFive",
-          "description": "Reach the order-35 additive-fibre contradiction from canonical coordinatewise nonsingular reduction, leaving only additivity, the actual special-cubic classification, and the genuine component bound."
+          "description": "Reach the order-35 additive-fibre contradiction from canonical coordinatewise nonsingular reduction with additivity proved internally, leaving the actual special-cubic classification and genuine component bound."
         },
         {
           "kind": "definition",
@@ -880,6 +880,20 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
           "description": "Reach the canonical order-35 endpoint directly from the mapped characteristic-eleven cotangent calculation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Turn the actual degree-one special-fibre outputs at eleven into formal immersion and the rational j-valuation bound."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_degreeOneCotangentAtEleven_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven",
+          "description": "Consume the degree-one quotient-fibre calculation and canonical reduction additivity in the full conditional order-35 endpoint."
         },
         {
           "kind": "theorem",
@@ -3222,7 +3236,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument. The canonical domain of points with nonsingular coordinate reduction, its actual reduction map, negation closure, and exact formal zero fibre now compile. Assuming precisely the isolated additivity statement constructs the subgroup and reduction homomorphism; the five- and eleven-adic handoffs use the actual residue fields and canonical component quotients. Proving additivity, identifying the cuspidal nonsingular locus with the additive residue group, identifying the subgroup with the genuine Neron identity component, and proving the component bound remain open.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument. The canonical domain of points with nonsingular coordinate reduction, its actual reduction map, negation closure, exact formal zero fibre, addition closure, and additivity now compile. The five- and eleven-adic handoffs use the checked canonical reduction homomorphism, actual residue fields, and canonical component quotients. Identifying the cuspidal nonsingular locus with the additive residue group, identifying the subgroup with the genuine Neron identity component, and proving the component bound remain open.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3282,21 +3296,21 @@
           "name": "WeierstrassCurve.Affine.NonsingularReductionIsAdditive",
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.NonsingularReduction",
-          "description": "Isolate the one remaining assertion that the canonical domain is addition-closed and coordinatewise reduction respects addition."
+          "description": "Expose the addition-closure and reduction-additivity interface, now inhabited by the checked canonical theorem."
         },
         {
           "kind": "definition",
           "name": "WeierstrassCurve.Affine.nonsingularReductionSubgroup",
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.NonsingularReduction",
-          "description": "Construct the canonical subgroup from the explicit additivity premise."
+          "description": "Construct the canonical subgroup from the checked coordinatewise reduction additivity theorem."
         },
         {
           "kind": "definition",
           "name": "WeierstrassCurve.Affine.nonsingularReductionHom",
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.NonsingularReduction",
-          "description": "Bundle coordinatewise reduction as a homomorphism on the canonical subgroup."
+          "description": "Bundle coordinatewise reduction as a homomorphism on the canonical subgroup using the checked additivity theorem."
         },
         {
           "kind": "theorem",
@@ -3304,6 +3318,41 @@
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.NonsingularReduction",
           "description": "Identify the kernel exactly with the exact-pinned formal filtration."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.sub_mem_filtration_of_nonsingularReduction_eq",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
+          "description": "Show equal nonsingular reductions differ by a point in the exact formal filtration."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.nonsingularReduction_add_of_mem_filtration_left",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
+          "description": "Prove that adding a formal-filtration point preserves nonsingular reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.nonsingularReduction_isAdditive",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
+          "description": "Prove unconditional addition closure and additivity of canonical coordinatewise nonsingular reduction."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
+          "description": "Build the five-adic tame-additive handoff without an additivity premise."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
+          "description": "Build the eleven-adic tame-additive handoff without an additivity premise."
         },
         {
           "kind": "definition",
@@ -5262,6 +5311,34 @@
         },
         {
           "kind": "theorem",
+          "name": "IsLocalRing.cotangentMap_surjective_of_degreeOne_of_apply_ne_zero",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionNakayama",
+          "description": "Derive cotangent surjectivity from a surjective residue map, target cotangent dimension one, and one detected source vector."
+        },
+        {
+          "kind": "definition",
+          "name": "IsLocalRing.IsMappedIdealDegreeOneCotangent",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
+          "description": "Package the exact residue, degree-one, and detected-vector outputs of a mapped special-fibre q-expansion calculation."
+        },
+        {
+          "kind": "theorem",
+          "name": "IsLocalRing.IsMappedIdealDegreeOneCotangent.isMappedIdealCotangentSurjective",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
+          "description": "Convert degree-one mapped special-fibre data into the quotient cotangent surjectivity used by the lifting theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
+          "description": "Lift the concrete degree-one special-fibre outputs directly to formal immersion of locally Noetherian schemes."
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.DegreeOneCotangent",
@@ -5853,6 +5930,20 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
           "description": "Feed the mapped characteristic-five cotangent calculation directly to the canonical prime-order F_5 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Derive the five-adic j bound from the concrete degree-one quotient-fibre outputs detected by q-expansion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedDegreeOneCotangentAtFive_of_nonsingularReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Consume degree-one special-fibre data and checked canonical reduction additivity in the prime-order endpoint."
         }
       ],
       "depends_on": [
@@ -5987,7 +6078,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction; it is consumed both by the prime route at five and the order-35 route at eleven. The five-adic completion consumer carries the same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved, and the cusp-stalk quotient-cotangent consumer now supplies its local j bound. The represented modular/cusp data, nonsingular-reduction additivity, cuspidal special-locus classification, genuine Neron component identification, and component bound remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction; it is consumed both by the prime route at five and the order-35 route at eleven. The five-adic completion consumer carries the same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved, the cusp-stalk quotient-cotangent consumer supplies its local j bound, and canonical nonsingular reduction is now proved additive. The represented modular/cusp data, cuspidal special-locus classification, genuine Neron component identification, and component bound remain open.",
       "artifacts": [
         {
           "kind": "theorem",

@@ -69,6 +69,10 @@ specialization and Eisenstein-quotient equality.
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealCotangentAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedCotangentAtFive_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedDegreeOneCotangentAtFive_of_nonsingularReduction`
 :::
 
 :::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -103,9 +107,9 @@ The canonical five-adic handoff now derives component finiteness, residue
 cardinality, and formal-kernel torsion before applying the exact prime-order
 contradiction. Canonical coordinate reduction on the selected minimal model
 has exact formal kernel, and additive reduction forces reduced `Δ` and `c₄`
-to vanish. Proving reduction additivity, the cuspidal nonsingular-locus
-equivalence with the additive residue field, the genuine identity-component
-identification, and the component bound remain open.
+to vanish. Its additivity is now checked. The cuspidal nonsingular-locus
+equivalence with the additive residue field, genuine identity-component
+identification, and component bound remain open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -155,9 +159,9 @@ explicit modular/cusp collision inputs and reaches the same `F₅` contradiction
 Its canonical nonsingular-reduction consumer fixes the actual minimal
 integral model, coordinate domain/map, and exact formal kernel, accepting no
 arbitrary identity subgroup or reduction homomorphism. The represented
-modular/cusp collision, reduction additivity, cuspidal special-locus
-classification, genuine Néron component identification, and component bound
-remain open, so this node receives no completion credit.
+modular/cusp collision, cuspidal special-locus classification, genuine Néron
+component identification, and component bound remain open, so this node
+receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

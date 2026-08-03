@@ -1771,7 +1771,10 @@ directly from the special-fibre calculation, while locally Noetherian variants
 remove the total-stalk finite-generation plumbing. Actual cusp-stalk
 certificates at five and eleven now feed theorem-level rational torsion
 consumers; mapped-ideal variants remove separate certificate packaging and
-derive quotient finiteness from local Noetherianity. What remains at this
+derive quotient finiteness from local Noetherianity. The degree-one mapped-
+fibre variant further narrows the q-expansion handoff to residue surjectivity,
+one-dimensional target cotangent, and one detected source vector, with checked
+full consumers at five and eleven. What remains at this
 boundary is the actual integral cusp model and
 q-expansion certificate, not generic local algebra.
 
@@ -1830,12 +1833,13 @@ prime consumer
 and the order-35 consumer
 `addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven` exercise both
 specializations. The canonical nonsingular-reduction domain on the actual
-minimal integral model, coordinate reduction, negation closure, and exact
-formal kernel now compile. A single explicit additivity premise constructs
-its subgroup and reduction homomorphism; the resulting prime-five and
-order-35 consumers no longer accept either object arbitrarily. Proving that
-additivity, identifying the nonsingular points of the cuspidal special cubic
-with the additive residue group, and the component-cardinality bound remain
+minimal integral model, coordinate reduction, negation closure, exact formal
+kernel, addition closure, and additivity now compile. The proof reduces equal
+coordinate reductions to the exact formal filtration and shows filtration
+translation is invisible after reduction. The resulting prime-five and
+order-35 consumers accept no arbitrary subgroup, reduction map, or additivity
+premise. Identifying the nonsingular points of the cuspidal special cubic with
+the additive residue group and proving the component-cardinality bound remain
 geometric inputs; no node credit is claimed for this partial handoff.
 
 The proof sequence is:

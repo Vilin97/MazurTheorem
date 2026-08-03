@@ -14,7 +14,10 @@ the quotient/special-fibre cotangent lift (`ce04968`), and canonical
 nonsingular coordinate reduction on the selected minimal model (`2317209`),
 the actual five-adic cusp-stalk quotient-certificate consumer (`77e5a4d`),
 and the selected eleven-adic minimal-model/formal-immersion order-35 chain
-(`c7eb1e5`),
+(`c7eb1e5`), the degree-one mapped-special-fibre interface and its five- and
+eleven-adic theorem-level consumers (`2f27a77`), and the unconditional
+coordinatewise nonsingular-reduction additivity theorem with canonical local
+handoffs (`123ba52`, `b2c9257`),
 the Tau Ceti product formula, canonical functorial relative fppf-`H¹` group
 law and the complete quotient low-degree exact sequence, unconditional
 smooth-curve chart normality, genuine presentation-independent split finite-flat
@@ -45,7 +48,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `c7eb1e5` contains reviewed acceptance
+The combined owner history through `b2c9257` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -88,13 +91,12 @@ torsion-freeness. Real downstream consumers reach the prime formal-immersion
 `F₅` contradiction and the order-35 additive-fibre contradiction (`855439f`).
 Independent review verified every field is consumed and all declarations use
 only standard axioms. The later nonsingular-reduction range below constructs
-the coordinate domain/map and exact formal kernel. Proving its additivity,
-the cuspidal nonsingular-locus equivalence, genuine Néron identity-component
-identification, and component-cardinality bound remains open; no node credit
-is claimed. The focused Lean targets
-build with `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph, all eleven
-Challenge contracts, 774-source / 1,477,705-line inventory, quality suite,
-and official Blueprint build/check pass.
+the coordinate domain/map and exact formal kernel and now proves its additivity
+unconditionally. The cuspidal nonsingular-locus equivalence, genuine Néron
+identity-component identification, and component-cardinality bound remain
+open; no node credit is claimed. The focused Lean targets build with
+`LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph and all eleven Challenge
+contracts remain unchanged.
 
 The special-fibre formal-immersion range packages compatible quotient ideals,
 finite generation of the quotient target maximal ideal, and the computed
@@ -112,10 +114,13 @@ theorem fixes that certificate to the actual cusp stalk used by the modular
 collision, derives the rational `j`-valuation bound, and reaches the canonical
 nonsingular-reduction `F₅` contradiction (`77e5a4d`). This is a real
 theorem-level consumer of the quotient API. A direct mapped-ideal endpoint now
-also infers every finiteness condition from local Noetherianity; constructing
-its cotangent calculation from the represented modular special fibre and
-q-expansion remains open. The
-focused build and four-declaration axiom audit pass with only standard axioms.
+also infers every finiteness condition from local Noetherianity. Its stricter
+degree-one form records exactly a surjective quotient residue map, a
+one-dimensional target cotangent, and one detected source vector; the five-
+and eleven-adic consumers feed this data to the full local contradiction
+(`2f27a77`). Constructing that calculation from the represented modular
+special fibre and q-expansion remains open. The focused build and declaration
+axiom audits pass with only standard axioms.
 
 The order-35 local path now uses Mathlib's selected minimal eleven-adic
 equation. Base change and the selected variable change preserve the rational
@@ -124,9 +129,10 @@ reduction-type theorem consumes the canonical additive obstruction, and good
 reduction preserves exact order into the checked exhaustive `F₁₁`
 enumeration. A second actual cusp-stalk quotient certificate derives the
 eleven-adic `j` bound and feeds this complete conditional endpoint
-(`c7eb1e5`). The modular quotient/classifying map, Atkin--Lehner
-specialization, reduction additivity, nonsingular-locus classification, and
-component geometry remain honest premises; no order-35 credit is claimed.
+(`c7eb1e5`). The degree-one quotient-fibre variant is the narrowed q-expansion
+handoff (`2f27a77`). The modular quotient/classifying map, Atkin--Lehner
+specialization, nonsingular-locus classification, and component geometry
+remain honest premises; no order-35 credit is claimed.
 Focused builds and an eight-declaration axiom audit pass with only standard
 axioms.
 
@@ -134,14 +140,18 @@ Canonical nonsingular reduction is now defined on the actual coordinate
 domain of the selected local Weierstrass equation. Its zero fibre is exactly
 the exact-pinned formal filtration, and the domain is closed under negation. A
 single explicit additivity predicate constructs the subgroup and reduction
-homomorphism; five- and eleven-adic constructors and real prime/order-35
-consumers compile (`2317209`, `51af2a6`). Additive reduction of the actual
+homomorphism. That predicate is now proved from the exact-pinned affine group
+law: equal reductions differ by a formal-filtration point, such a point is
+translation-invisible after reduction, and canonical reduction is additive.
+Five- and eleven-adic constructors and real prime/order-35 consumers compile
+without an additivity premise (`2317209`, `51af2a6`, `123ba52`, `b2c9257`).
+Additive reduction of the actual
 minimal equation also forces both reduced `Δ` and `c₄` to vanish. Independent
 review accepted the construction as noncircular and the singular-fibre
 adaptation is now explicitly attributed to Michael Stoll's pinned reduction
-work. Proving additivity, the cuspidal nonsingular-locus equivalence with the
-additive residue field, and the component quotient bound remains open; no node
-credit is claimed.
+work. Proving the cuspidal nonsingular-locus equivalence with the additive
+residue field, genuine identity-component comparison, and the component
+quotient bound remains open; no node credit is claimed.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -344,7 +354,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `FppfHOneUniverse`, `SupportedFppfHOneBridge`, `FppfHOneBaseIso`,
 `SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
 `FormalImmersionSpecialFiber`, `FormalImmersionSpecialFiberAtFive`,
-`NonsingularReduction`,
+`NonsingularReduction`, `NonsingularReductionAdditive`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
 `CurveLineBundleTripleTower`, `CurveLineBundleTransitionCocycle`,
@@ -360,8 +370,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `XOneElevenUniformCoset`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 774 integrated Lean
-sources / 1,477,705 lines with all 48 node IDs and 1,000 points intact. The
+unchanged; and `python3 scripts/quality.py` passes at 775 integrated Lean
+sources / 1,478,843 lines with all 48 node IDs and 1,000 points intact. The
 blueprint build/check also passes. These checkpoints claim no roadmap-node
 completion credit.
 
@@ -575,11 +585,11 @@ within each lane follows the listed order.
    handoff fixes the component to the quotient by the identity subgroup and
    fixes the reduction target to the actual residue field. Component finiteness
    follows from the exact-pin formal-filtration finite-index theorem. The
-   canonical coordinate domain/map and exact formal kernel now compile.
-   Prove `NonsingularReductionIsAdditive`, the cuspidal nonsingular-locus
-   equivalence with the additive residue field, identification with the
-   genuine Néron identity component, and the component bound; the handoff
-   itself earns no node credit.
+   canonical coordinate domain/map, exact formal kernel, and unconditional
+   `NonsingularReductionIsAdditive` theorem now compile. Prove the cuspidal
+   nonsingular-locus equivalence with the additive residue field,
+   identification with the genuine Néron identity component, and the
+   component bound; the handoff itself earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
@@ -593,9 +603,8 @@ within each lane follows the listed order.
    checked `F₅` contradiction through the canonical residue equivalence. This is
    not node completion: canonical five- and eleven-adic data now discharge
    finite-component and formal-torsion bookkeeping, but their Néron
-   component identification, reduction additivity, cuspidal-locus
-   classification, and component bound used before good reduction are still
-   absent.
+   component identification, cuspidal-locus classification, and component
+   bound used before good reduction are still absent.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -819,18 +828,19 @@ in `route_history`:
    collision-to-`j` theorem compiles from explicit modular/cusp closed-point,
    quotient-equality, and distinctness premises. A locally Noetherian
    cusp-stalk quotient certificate now supplies the formal-immersion premise
-   and reaches the canonical `F₅` endpoint; construct that certificate from
-   the represented integral model and modular q-expansion and discharge the
-   collision premises.
+   and reaches the canonical `F₅` endpoint. A stricter degree-one mapped-fibre
+   input exposes exactly the finite-field normalization and first-coefficient
+   detection expected from the represented q-expansion; construct it from the
+   integral modular model and discharge the collision premises.
 4. `MT-PRIME-DIVISION-FIELD` (15): preserve the exact prime-to-five order of
    the marked point in the Néron fibre.
 5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
    contradiction using the formal kernel, additive reduction target, and
    component group compiles. Its canonical five-adic consumer derives
    component finiteness, residue cardinality, and formal-kernel torsion. The
-   actual minimal equation's nonsingular coordinate map and exact kernel also
-   compile; prove additivity, the cuspidal additive classification, genuine
-   identity-component identification, and component bound.
+   actual minimal equation's nonsingular coordinate map, exact kernel, and
+   additivity also compile; prove the cuspidal additive classification,
+   genuine identity-component identification, and component bound.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the shared exhaustive trichotomy reaches good reduction from
    any genuine additive exact-order obstruction; five and eleven are both
@@ -841,8 +851,8 @@ in `route_history`:
    filtration. A stronger downstream theorem takes the canonical five-adic
    reduction data, while the newest endpoint fixes coordinatewise nonsingular
    reduction on the selected minimal model. Construct the represented
-   collision and discharge additivity, cuspidal classification, and genuine
-   component geometry.
+   collision and discharge the cuspidal classification and genuine component
+   geometry.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -897,7 +907,8 @@ genus-zero `X₀` quotients do not support the selected argument.
   transport, reduction trichotomy, good-reduction specialization, and actual
   cusp-stalk quotient-cotangent collision all compile. Canonical coordinatewise
   nonsingular reduction reaches that same endpoint with its exact formal
-  kernel checked. Its additivity, cuspidal nonsingular-locus classification,
+  kernel and additivity checked. The degree-one quotient-fibre consumer is now
+  the narrow q-expansion handoff. Its cuspidal nonsingular-locus classification,
   genuine component geometry, the represented modular quotient/classifying
   map, and Atkin--Lehner bad-fibre specialization remain open. No order-35
   node credit is claimed
@@ -967,18 +978,20 @@ or accounting shortcut.
   cotangent lift and mapped-ideal scheme consumer are also independently
   reviewed and integrated. Locally Noetherian certificate consumers now reach
   the actual prime-five cusp collision and the order-35 eleven-adic local
-  endpoint. The owner is now driving the actual modular
-  special-fibre stalk identification, q-expansion calculation, represented
-  modular/cusp specialization, and optimal-quotient equality.
+  endpoint. The mapped degree-one interface now narrows the remaining input to
+  the quotient residue map, one-dimensional cotangent target, and one detected
+  vector, with full five- and eleven-adic consumers. The owner is driving the
+  actual modular special-fibre stalk identification, q-expansion calculation,
+  represented modular/cusp specialization, and optimal-quotient equality.
 - `codex/mt-neron-additivity`: the canonical component/residue/formal
   boundary and both checked downstream consumers are integrated. The actual
   nonsingular-reduction domain, coordinate map, negation closure, exact formal
-  kernel, and conditional subgroup/homomorphism on the selected minimal model
-  are now independently reviewed and integrated. The active isolated worker
-  is adapting the exact-pin slope proof to prove additivity on this canonical
-  nonsingular domain. The cuspidal nonsingular-locus/additive-field
-  equivalence at five and eleven and the genuine component quotient bound
-  follow that gate.
+  kernel, and unconditional subgroup/homomorphism on the selected minimal
+  model are now independently reviewed and integrated. The exact-pin slope
+  proof establishes additivity on this canonical nonsingular domain. The next
+  gates are the cuspidal nonsingular-locus/additive-field equivalence at five
+  and eleven, genuine identity-component comparison, and component quotient
+  bound.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API
