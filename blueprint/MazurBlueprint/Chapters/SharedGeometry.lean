@@ -868,6 +868,14 @@ maps.
 
 *Status:* `blocked`.
 
+The formal symmetric power of the divisor index type now has a checked absolute
+scheme-Picard consumer. For fixed-degree effective divisors, and hence for `Sym`,
+equality of normalized degree-zero Picard classes is exactly membership in the
+corresponding complete linear system; set-level fiber formulas also compile.
+This does not construct relative effective-divisor families, a representing
+symmetric-power scheme, or an Abel morphism, so the node remains blocked with no
+completion credit.
+
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.RelativeEffectiveDivisor`
@@ -878,6 +886,20 @@ maps.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.relativeAbelMap`
   Construct the relative Abel map from the symmetric power to the degree-d Picard
   functor.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem`
+  Identify a fixed-degree equality fiber in the transported absolute Picard group
+  with a complete linear system.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.setOf_weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq`
+  State the transported fixed-degree fiber equality at the set level.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_one_ofSym_eq_iff_mem_completeLinearSystem`
+  Transport the fiber formula to the formal symmetric power.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.setOf_weightedAbelJacobiDivisorClass_one_ofSym_eq`
+  Identify the symmetric-power equality fiber with the preimage of a complete
+  linear system.
 :::
 
 :::definition "MT-TC-D1-PICARD-FUNCTOR" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE, MT-TC-C1-RELATIVE-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
@@ -966,9 +988,10 @@ it is a closed immersion in positive genus.
 *Status:* `blocked`.
 
 The checked `PicardAbelJacobi` adapter supplies the absolute group-valued point and divisor
-classes, including the base-point, linear-equivalence collision, point-difference, and chosen
-line-bundle formulas. It is a normalization consumer for the future morphism, not a morphism of
-schemes and not a proof of the universal property, base change, or closed immersion.
+classes, including the base-point, linear-equivalence collision, point-difference, chosen
+line-bundle, fixed-degree fiber, and formal symmetric-power fiber formulas. It is a normalization
+consumer for the future morphism, not a morphism of schemes and not a proof of the universal
+property, base change, or closed immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 

@@ -275,6 +275,10 @@ within each lane follows the listed order.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
+   The absolute scheme-Picard fixed-degree and formal `Sym` fiber formulas now
+   compile: equality of normalized classes is complete-linear-system membership.
+   Treat them as acceptance tests for the eventual represented Abel map, not as
+   relative symmetric-power, representability, or C2 completion.
 4. Completed `MT-TC-E0-PRODUCT-DIM` (2); integrate it with D2 as
    `MT-TC-E1-JACOBIAN-VARIETY` (20).
 5. Combine C1 and E1 in `MT-TC-F1-ABEL-JACOBI` (20).

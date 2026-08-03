@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1466280,
+    "integrated_lean_lines": 1466356,
     "integrated_lean_modules": 740,
     "remaining_composite_orders": [
       18,
@@ -2466,7 +2466,7 @@
       "weight_points": 15,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Represent degree-d effective divisors by Sym^d X and construct the relative Abel maps.",
+      "summary": "Represent degree-d effective divisors by Sym^d X and construct the relative Abel maps. The formal symmetric power of the underlying divisor index type now has checked fixed-degree fiber formulas after transport to the actual absolute scheme Picard group: equality of normalized classes is exactly complete-linear-system membership. This is an acceptance formula only; relative effective-divisor families, scheme representability, and the Abel morphism remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -2485,6 +2485,34 @@
           "name": "TauCeti.AlgebraicGeometry.relativeAbelMap",
           "state": "proposed",
           "description": "Construct the relative Abel map from the symmetric power to the degree-d Picard functor."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq_iff_mem_completeLinearSystem",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi",
+          "description": "Transport the fixed-degree Abel--Jacobi fiber theorem through the checked divisor-class/Picard equivalence, identifying equality in absolute Picard degree zero with complete-linear-system membership."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.setOf_weightedAbelJacobiDivisorClass_one_effectiveDivisorOfDegree_eq",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi",
+          "description": "Give the set-level fixed-degree fiber formula for actual scheme-Picard classes."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_one_ofSym_eq_iff_mem_completeLinearSystem",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi",
+          "description": "Prove the transported fiber formula on the formal symmetric power of the divisor index type."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.setOf_weightedAbelJacobiDivisorClass_one_ofSym_eq",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi",
+          "description": "Identify the symmetric-power equality fiber with the preimage of its complete linear system."
         }
       ],
       "depends_on": [
