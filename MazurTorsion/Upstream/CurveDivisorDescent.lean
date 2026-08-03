@@ -539,9 +539,9 @@ noncomputable def localLineBundleRestrictionIsoOnProperCurveIntersection
     infer_instance
   exact localLineBundleRestrictionIsoOnIntersection X U₁ U₂ hU₁ hU₂ h₁ h₂ D
 
-/-- For a proper smooth relative curve, the mapwise normality input on the full affine
-intersection supplies its Dedekind-domain instance and hence the actual overlap isomorphism. -/
-noncomputable def localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality
+/-- For a proper smooth relative curve, smoothness makes the full affine intersection a
+Dedekind chart and hence supplies the actual overlap isomorphism. -/
+noncomputable def localLineBundleRestrictionIsoOnProperSmoothCurveIntersection
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
@@ -550,10 +550,6 @@ noncomputable def localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOf
     (h₁ : AffineChart.DedekindOrderCompatibility X U₁ hU₁)
     (h₂ : AffineChart.DedekindOrderCompatibility X U₂ hU₂)
     [IsDedekindDomain Γ(X, U₁)] [IsDedekindDomain Γ(X, U₂)]
-    (hnormal : RingHom.Locally
-      (RingHom.IsStandardSmoothOfRelativeDimension 1)
-      (f.appLE ⊤ (U₁ ⊓ U₂) le_top).hom →
-        IsIntegrallyClosed Γ(X, U₁ ⊓ U₂))
     (D : WeilDivisor (CodimensionOnePoint X)) :
     letI : IsSeparated (terminal.from X) := by
       rw [← terminal.comp_from f]
@@ -578,10 +574,46 @@ noncomputable def localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOf
   letI : Nonempty ↑(U₁ ⊓ U₂ : X.Opens) :=
     nonempty_inf_of_isIntegral X U₁ U₂
   let hW : IsAffineOpen (U₁ ⊓ U₂) := hU₁.inf hU₂
-  let hcompat := AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveNormality
-    K X f (U₁ ⊓ U₂) hW hnormal
+  let hcompat := AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurve
+    K X f (U₁ ⊓ U₂) hW
   letI : IsDedekindDomain Γ(X, U₁ ⊓ U₂) := hcompat.isDedekindDomain
   exact localLineBundleRestrictionIsoOnProperCurveIntersection
+    K X f U₁ U₂ hU₁ hU₂ h₁ h₂ D
+
+/-- Compatibility alias retaining the historical normality-input API. The hypothesis is no
+longer needed because smoothness makes the affine intersection integrally closed. -/
+noncomputable def localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (U₁ U₂ : X.Opens) [Nonempty U₁] [Nonempty U₂]
+    (hU₁ : IsAffineOpen U₁) (hU₂ : IsAffineOpen U₂)
+    (h₁ : AffineChart.DedekindOrderCompatibility X U₁ hU₁)
+    (h₂ : AffineChart.DedekindOrderCompatibility X U₂ hU₂)
+    [IsDedekindDomain Γ(X, U₁)] [IsDedekindDomain Γ(X, U₂)]
+    (_hnormal : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1)
+      (f.appLE ⊤ (U₁ ⊓ U₂) le_top).hom →
+        IsIntegrallyClosed Γ(X, U₁ ⊓ U₂))
+    (D : WeilDivisor (CodimensionOnePoint X)) :
+    letI : IsSeparated (terminal.from X) := by
+      rw [← terminal.comp_from f]
+      infer_instance
+    letI := restrictionAlgebra X U₁ (U₁ ⊓ U₂) inf_le_left
+    letI := restrictionAlgebra X U₂ (U₁ ⊓ U₂) inf_le_right
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U₁) Γ(X, U₁ ⊓ U₂)) :=
+      restrictionExtensionMapIsOpenImmersion X U₁ (U₁ ⊓ U₂)
+        hU₁ (hU₁.inf hU₂) inf_le_left
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U₂) Γ(X, U₁ ⊓ U₂)) :=
+      restrictionExtensionMapIsOpenImmersion X U₂ (U₁ ⊓ U₂)
+        hU₂ (hU₁.inf hU₂) inf_le_right
+    (localLineBundle X U₁ hU₁ h₁ D).obj.restrict
+        (CommonExtension.extensionMap Γ(X, U₁) Γ(X, U₁ ⊓ U₂)) ≅
+      (localLineBundle X U₂ hU₂ h₂ D).obj.restrict
+        (CommonExtension.extensionMap Γ(X, U₂) Γ(X, U₁ ⊓ U₂)) :=
+  localLineBundleRestrictionIsoOnProperSmoothCurveIntersection
     K X f U₁ U₂ hU₁ hU₂ h₁ h₂ D
 
 /-- On one affine chart, equality of the ambient divisor coefficients at every point of
