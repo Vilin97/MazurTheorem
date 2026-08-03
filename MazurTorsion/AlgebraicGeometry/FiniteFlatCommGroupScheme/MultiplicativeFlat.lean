@@ -14,6 +14,7 @@ import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.TensorProduct.MonoidAlgebra
 import MazurTorsion.Algebra.HopfLocalizationAway
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.Examples
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfHOne
 
 /-!
 # The bad-level flat model of `mu_p`
@@ -559,6 +560,94 @@ theorem muFlat_counit_algebraMap (datum : MuFlatDatum coeffPrime level)
           (MuFlatCoordinates coeffPrime level datum) x) = _
   exact HopfLocalizationAway.counit_algebraMap _ _ _
 
+/-- Cocommutativity of the localized Hopf algebra, constructed with the localization algebra's
+`ℤ`-module structure in a local scope.  This avoids exporting a competing global integer-module
+instance for the localized ring. -/
+private theorem muFlatCocomm (datum : MuFlatDatum coeffPrime level) :
+    letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+    Coalgebra.IsCocomm ℤ (MuFlatCoordinates coeffPrime level datum) := by
+  letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+  refine { comm_comp_comul := ?_ }
+  have h :
+      (Algebra.TensorProduct.comm ℤ (MuFlatCoordinates coeffPrime level datum)
+        (MuFlatCoordinates coeffPrime level datum)).toAlgHom.comp
+          (Bialgebra.comulAlgHom ℤ (MuFlatCoordinates coeffPrime level datum)) =
+        Bialgebra.comulAlgHom ℤ (MuFlatCoordinates coeffPrime level datum) := by
+    apply IsLocalization.algHom_ext
+      (Submonoid.powers (muFlatElement coeffPrime level datum))
+    apply AlgHom.ext
+    intro x
+    simp only [AlgHom.comp_apply]
+    change (Algebra.TensorProduct.comm ℤ _ _)
+        (HopfLocalizationAway.comul (muFlatElement coeffPrime level datum)
+          (comul_muFlatElement_isUnit coeffPrime level datum)
+            (algebraMap (MuCoordinates coeffPrime)
+              (MuFlatCoordinates coeffPrime level datum) x)) =
+      HopfLocalizationAway.comul (muFlatElement coeffPrime level datum)
+        (comul_muFlatElement_isUnit coeffPrime level datum)
+          (algebraMap (MuCoordinates coeffPrime)
+            (MuFlatCoordinates coeffPrime level datum) x)
+    rw [HopfLocalizationAway.comul_algebraMap,
+      Algebra.TensorProduct.comm_comp_map_apply]
+    apply congrArg
+      (Algebra.TensorProduct.map
+        (Algebra.algHom ℤ (MuCoordinates coeffPrime)
+          (MuFlatCoordinates coeffPrime level datum))
+        (Algebra.algHom ℤ (MuCoordinates coeffPrime)
+          (MuFlatCoordinates coeffPrime level datum)))
+    change TensorProduct.comm ℤ _ _ (Coalgebra.comul x) = Coalgebra.comul x
+    exact Coalgebra.comm_comul ℤ x
+  exact congrArg AlgHom.toLinearMap h
+
+/-- The affine commutative group scheme carried by the multiplicative-flat Hopf localization.
+The local module choice is sealed inside the bundled object. -/
+noncomputable def muFlatAffine (datum : MuFlatDatum coeffPrime level) :
+    AffineCommGroupScheme ℤ := by
+  letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+  exact Opposite.op
+    ⟨CommHopfAlgCat.of ℤ (MuFlatCoordinates coeffPrime level datum),
+      muFlatCocomm coeffPrime level datum⟩
+
+/-- The localization algebra map preserves the counit and comultiplication.  Its local module
+choice is the same one sealed into `muFlatAffine`. -/
+private noncomputable def muFlatInclusionBialgHom (datum : MuFlatDatum coeffPrime level) :
+    letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+    MuCoordinates coeffPrime →ₐc[ℤ] MuFlatCoordinates coeffPrime level datum := by
+  letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+  exact BialgHom.ofAlgHom
+    (Algebra.algHom ℤ (MuCoordinates coeffPrime) (MuFlatCoordinates coeffPrime level datum))
+    (by
+      apply AlgHom.ext
+      intro x
+      change HopfLocalizationAway.counit (muFlatElement coeffPrime level datum)
+          (counit_muFlatElement_isUnit coeffPrime level datum)
+            (algebraMap (MuCoordinates coeffPrime)
+              (MuFlatCoordinates coeffPrime level datum) x) =
+        Bialgebra.counitAlgHom ℤ (MuCoordinates coeffPrime) x
+      exact HopfLocalizationAway.counit_algebraMap _ _ _)
+    (by
+      apply AlgHom.ext
+      intro x
+      change Algebra.TensorProduct.map
+          (Algebra.algHom ℤ (MuCoordinates coeffPrime)
+            (MuFlatCoordinates coeffPrime level datum))
+          (Algebra.algHom ℤ (MuCoordinates coeffPrime)
+            (MuFlatCoordinates coeffPrime level datum))
+            (Bialgebra.comulAlgHom ℤ (MuCoordinates coeffPrime) x) =
+        HopfLocalizationAway.comul (muFlatElement coeffPrime level datum)
+          (comul_muFlatElement_isUnit coeffPrime level datum)
+            (algebraMap (MuCoordinates coeffPrime)
+              (MuFlatCoordinates coeffPrime level datum) x)
+      exact (HopfLocalizationAway.comul_algebraMap _ _ _).symm)
+
+/-- The typed affine open-subgroup morphism from the multiplicative-flat model to `mu_p`. -/
+noncomputable def muFlatInclusionAffine (datum : MuFlatDatum coeffPrime level) :
+    muFlatAffine coeffPrime level datum ⟶
+      (FiniteFlatCommGroupScheme.mu ℤ coeffPrime).obj := by
+  letI : Module ℤ (MuFlatCoordinates coeffPrime level datum) := Algebra.toModule
+  exact (ObjectProperty.homMk (P := cocommutativeHopfProperty ℤ)
+    (CommHopfAlgCat.ofHom (muFlatInclusionBialgHom coeffPrime level datum))).op
+
 /-- The underlying affine principal-open scheme of the multiplicative-flat model. -/
 noncomputable abbrev muFlatScheme (datum : MuFlatDatum coeffPrime level) : Scheme :=
   Spec (.of (MuFlatCoordinates coeffPrime level datum))
@@ -569,6 +658,11 @@ noncomputable abbrev muFlatInclusionSchemeMap (datum : MuFlatDatum coeffPrime le
       (FiniteFlatCommGroupScheme.mu ℤ coeffPrime).obj.scheme :=
   Spec.map (CommRingCat.ofHom
     (algebraMap (MuCoordinates coeffPrime) (MuFlatCoordinates coeffPrime level datum)))
+
+@[simp]
+theorem schemeMap_muFlatInclusionAffine (datum : MuFlatDatum coeffPrime level) :
+    AffineCommGroupScheme.schemeMap (muFlatInclusionAffine coeffPrime level datum) =
+      muFlatInclusionSchemeMap coeffPrime level datum := rfl
 
 instance muFlatInclusionSchemeMap_isOpenImmersion (datum : MuFlatDatum coeffPrime level) :
     IsOpenImmersion (muFlatInclusionSchemeMap coeffPrime level datum) := by
@@ -591,7 +685,7 @@ theorem muFlatInclusionSchemeMap_opensRange (datum : MuFlatDatum coeffPrime leve
 
 /-- Geometric away-from-level consumer: over `D(level)`, the inclusion contains all of
 `mu_p`. -/
-theorem muFlatInclusion_contains_levelOpen (datum : MuFlatDatum coeffPrime level) :
+theorem muFlatInclusionSchemeMap_contains_levelOpen (datum : MuFlatDatum coeffPrime level) :
     PrimeSpectrum.basicOpen
         (algebraMap ℤ (MuCoordinates coeffPrime) (level : ℤ)) ≤
       (muFlatInclusionSchemeMap coeffPrime level datum).opensRange := by
@@ -638,7 +732,192 @@ instance muFlatStructureMap_locallyOfFinitePresentation
   dsimp only [muFlatStructureMap]
   infer_instance
 
+private theorem muFlatAffine_structureMap_eq (datum : MuFlatDatum coeffPrime level) :
+    (muFlatAffine coeffPrime level datum).structureMap =
+      muFlatStructureMap coeffPrime level datum := by
+  change Spec.map (CommRingCat.ofHom
+      (algebraMap ℤ (MuFlatCoordinates coeffPrime level datum))) =
+    Spec.map (CommRingCat.ofHom
+        (algebraMap (MuCoordinates coeffPrime)
+          (MuFlatCoordinates coeffPrime level datum))) ≫
+      Spec.map (CommRingCat.ofHom (algebraMap ℤ (MuCoordinates coeffPrime)))
+  rw [← Spec.map_comp, Spec.map_inj]
+  ext z
+  exact (IsScalarTower.algebraMap_apply ℤ (MuCoordinates coeffPrime)
+    (MuFlatCoordinates coeffPrime level datum) z).symm
+
+instance muFlatAffine_flat (datum : MuFlatDatum coeffPrime level) :
+    Flat (muFlatAffine coeffPrime level datum).structureMap := by
+  rw [muFlatAffine_structureMap_eq]
+  exact muFlatStructureMap_flat coeffPrime level datum
+
+instance muFlatAffine_locallyQuasiFinite (datum : MuFlatDatum coeffPrime level) :
+    LocallyQuasiFinite (muFlatAffine coeffPrime level datum).structureMap := by
+  rw [muFlatAffine_structureMap_eq]
+  exact muFlatStructureMap_locallyQuasiFinite coeffPrime level datum
+
+instance muFlatAffine_quasiCompact (datum : MuFlatDatum coeffPrime level) :
+    QuasiCompact (muFlatAffine coeffPrime level datum).structureMap := by
+  rw [muFlatAffine_structureMap_eq]
+  exact muFlatStructureMap_quasiCompact coeffPrime level datum
+
+instance muFlatAffine_isSeparated (datum : MuFlatDatum coeffPrime level) :
+    IsSeparated (muFlatAffine coeffPrime level datum).structureMap := by
+  rw [muFlatAffine_structureMap_eq]
+  exact muFlatStructureMap_isSeparated coeffPrime level datum
+
+instance muFlatAffine_locallyOfFinitePresentation (datum : MuFlatDatum coeffPrime level) :
+    LocallyOfFinitePresentation (muFlatAffine coeffPrime level datum).structureMap := by
+  rw [muFlatAffine_structureMap_eq]
+  exact muFlatStructureMap_locallyOfFinitePresentation coeffPrime level datum
+
+/-- The multiplicative-flat model as a typed flat, quasi-finite, quasi-compact, separated
+commutative group scheme of finite presentation over `Spec ℤ`. -/
+noncomputable def muFlat (datum : MuFlatDatum coeffPrime level) :
+    QuasiFiniteFlatCommGroupScheme (Spec (.of ℤ)) where
+  obj := (muFlatAffine coeffPrime level datum).toCommGroupScheme
+  property := by
+    change Flat (muFlatAffine coeffPrime level datum).structureMap ∧
+      LocallyQuasiFinite (muFlatAffine coeffPrime level datum).structureMap ∧
+      QuasiCompact (muFlatAffine coeffPrime level datum).structureMap ∧
+      IsSeparated (muFlatAffine coeffPrime level datum).structureMap ∧
+      LocallyOfFinitePresentation (muFlatAffine coeffPrime level datum).structureMap
+    exact ⟨inferInstance, inferInstance, inferInstance, inferInstance, inferInstance⟩
+
+instance muSchemeStructureMap_locallyOfFinitePresentation :
+    LocallyOfFinitePresentation
+      (FiniteFlatCommGroupScheme.muScheme ℤ coeffPrime).obj.X.hom := by
+  change LocallyOfFinitePresentation
+    (FiniteFlatCommGroupScheme.mu ℤ coeffPrime).obj.structureMap
+  exact muStructureMap_locallyOfFinitePresentation coeffPrime
+
+/-- The realized typed open-subgroup morphism from the multiplicative-flat model to `mu_p`. -/
+noncomputable def muFlatInclusion (datum : MuFlatDatum coeffPrime level) :
+    (muFlat coeffPrime level datum).obj ⟶
+      (FiniteFlatCommGroupScheme.muScheme ℤ coeffPrime).obj :=
+  (AffineCommGroupScheme.realizationFunctor ℤ).map
+    (muFlatInclusionAffine coeffPrime level datum)
+
+/-- The open-subgroup inclusion in the quasi-finite flat category. -/
+noncomputable def muFlatInclusionMap (datum : MuFlatDatum coeffPrime level) :
+    muFlat coeffPrime level datum ⟶
+      ofFiniteFlat (FiniteFlatCommGroupScheme.muScheme ℤ coeffPrime) :=
+  ObjectProperty.homMk (muFlatInclusion coeffPrime level datum)
+
+@[simp]
+theorem muFlatInclusionMap_hom (datum : MuFlatDatum coeffPrime level) :
+    (muFlatInclusionMap coeffPrime level datum).hom =
+      muFlatInclusion coeffPrime level datum := rfl
+
+@[simp]
+theorem muFlatInclusion_left (datum : MuFlatDatum coeffPrime level) :
+    (muFlatInclusion coeffPrime level datum).hom.hom.hom.left =
+      muFlatInclusionSchemeMap coeffPrime level datum := rfl
+
+instance muFlatInclusion_isOpenImmersion (datum : MuFlatDatum coeffPrime level) :
+    IsOpenImmersion (muFlatInclusion coeffPrime level datum).hom.hom.hom.left := by
+  rw [muFlatInclusion_left]
+  exact muFlatInclusionSchemeMap_isOpenImmersion coeffPrime level datum
+
+/-- The typed realized inclusion has exactly the defining principal-open range. -/
+theorem muFlatInclusion_opensRange (datum : MuFlatDatum coeffPrime level) :
+    ((muFlatInclusion coeffPrime level datum).hom.hom.hom.left).opensRange =
+      PrimeSpectrum.basicOpen (muFlatElement coeffPrime level datum) := by
+  change (muFlatInclusionSchemeMap coeffPrime level datum).opensRange =
+    PrimeSpectrum.basicOpen (muFlatElement coeffPrime level datum)
+  exact muFlatInclusionSchemeMap_opensRange coeffPrime level datum
+
+/-- The typed realized inclusion contains the whole `mu_p` over `D(level)`. -/
+theorem muFlatInclusion_contains_levelOpen (datum : MuFlatDatum coeffPrime level) :
+    PrimeSpectrum.basicOpen
+        (algebraMap ℤ (MuCoordinates coeffPrime) (level : ℤ)) ≤
+      ((muFlatInclusion coeffPrime level datum).hom.hom.hom.left).opensRange := by
+  change PrimeSpectrum.basicOpen
+      (algebraMap ℤ (MuCoordinates coeffPrime) (level : ℤ)) ≤
+    (muFlatInclusionSchemeMap coeffPrime level datum).opensRange
+  exact muFlatInclusionSchemeMap_contains_levelOpen coeffPrime level datum
+
 end MuCoordinates
+
+section FermatSpecialization
+
+variable {coeffPrime level : ℕ}
+
+/-- The canonical multiplicative-flat group scheme attached to a prime coefficient and a
+coprime level, using Fermat's exponent `coeffPrime - 1`.  The nonzero instance is sealed into
+the value and need not be supplied separately by downstream users. -/
+noncomputable def fermatMuFlat (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    QuasiFiniteFlatCommGroupScheme (Spec (.of ℤ)) := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  exact muFlat coeffPrime level (MuFlatDatum.ofPrimeCoprime hprime hcoprime)
+
+/-- The canonical Fermat multiplicative-flat model comes with the typed localization inclusion
+into `mu_p`; this is the concrete downstream consumer of `MuFlatDatum.ofPrimeCoprime`. -/
+noncomputable def fermatMuFlatInclusionMap (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    fermatMuFlat hprime hcoprime ⟶
+      ofFiniteFlat (FiniteFlatCommGroupScheme.muScheme ℤ coeffPrime) := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  exact muFlatInclusionMap coeffPrime level
+    (MuFlatDatum.ofPrimeCoprime hprime hcoprime)
+
+@[simp]
+theorem fermatMuFlatInclusionMap_hom (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    (fermatMuFlatInclusionMap hprime hcoprime).hom =
+      muFlatInclusion coeffPrime level
+        (MuFlatDatum.ofPrimeCoprime hprime hcoprime) := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  rfl
+
+instance fermatMuFlatInclusionMap_isOpenImmersion (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    IsOpenImmersion
+      (fermatMuFlatInclusionMap hprime hcoprime).hom.hom.hom.hom.left := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  change IsOpenImmersion
+    (muFlatInclusion coeffPrime level
+      (MuFlatDatum.ofPrimeCoprime hprime hcoprime)).hom.hom.hom.left
+  exact muFlatInclusion_isOpenImmersion coeffPrime level
+    (MuFlatDatum.ofPrimeCoprime hprime hcoprime)
+
+/-- The canonical Fermat inclusion has the same explicit principal-open range. -/
+theorem fermatMuFlatInclusion_opensRange (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    ((fermatMuFlatInclusionMap hprime hcoprime).hom.hom.hom.hom.left).opensRange =
+      PrimeSpectrum.basicOpen
+        (muFlatElement coeffPrime level (MuFlatDatum.ofPrimeCoprime hprime hcoprime)) := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  change ((muFlatInclusion coeffPrime level
+      (MuFlatDatum.ofPrimeCoprime hprime hcoprime)).hom.hom.hom.left).opensRange =
+    PrimeSpectrum.basicOpen
+      (muFlatElement coeffPrime level (MuFlatDatum.ofPrimeCoprime hprime hcoprime))
+  exact muFlatInclusion_opensRange coeffPrime level
+    (MuFlatDatum.ofPrimeCoprime hprime hcoprime)
+
+/-- In the canonical Fermat specialization, the typed inclusion contains all of `mu_p` over
+the actual level open `D(level)`. -/
+theorem fermatMuFlatInclusion_contains_levelOpen (hprime : Nat.Prime coeffPrime)
+    (hcoprime : IsCoprime (level : ℤ) (coeffPrime : ℤ)) :
+    letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+    PrimeSpectrum.basicOpen
+        (algebraMap ℤ (MuCoordinates coeffPrime) (level : ℤ)) ≤
+      ((fermatMuFlatInclusionMap hprime hcoprime).hom.hom.hom.hom.left).opensRange := by
+  letI : NeZero coeffPrime := ⟨hprime.ne_zero⟩
+  change PrimeSpectrum.basicOpen
+      (algebraMap ℤ (MuCoordinates coeffPrime) (level : ℤ)) ≤
+    ((muFlatInclusion coeffPrime level
+      (MuFlatDatum.ofPrimeCoprime hprime hcoprime)).hom.hom.hom.left).opensRange
+  exact muFlatInclusion_contains_levelOpen coeffPrime level
+    (MuFlatDatum.ofPrimeCoprime hprime hcoprime)
+
+end FermatSpecialization
 
 end QuasiFiniteFlatCommGroupScheme
 end AlgebraicGeometry
