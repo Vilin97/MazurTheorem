@@ -3085,7 +3085,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, connecting, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Reusable Hopf localizations construct both actual bad-level elementary factors with separate coefficient and level parameters. The constant-flat and multiplicative-flat models have typed inclusions into their full quasi-finite wrappers, exact principal-open ranges, and contain the full models away from the level; the multiplicative construction is consumed by its canonical Fermat specialization. At every nonunit level the constant-flat global sections are proved trivial and packaged as certified p-power cardinal data. At odd coefficient the multiplicative-flat global sections are also proved trivial; distinct prime coefficient and level give a checked p^0 certificate whose zero-length endpoint is consumed by the low-degree Euler bound. The additive represented-point maps now have their actual pointwise categorical cokernel presheaves, objectwise-surjective projections, and exact short complexes, with both bad-level inclusions as checked consumers. This is only the honest presheaf precursor: fppf sheafification, bad-fibre support, locally surjective sheaf sequences, quasi-finite exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism now apply to every ambient commutative group scheme. The canonical ambient group-scheme kernel is constructed as an internal-group pullback, identified with the scheme-theoretic pullback, and proved to represent the pointwise kernel on every test scheme. A finiteness-free geometric kernel-presentation interface records an actual supplied ambient group scheme, its chosen inclusion, and its compatible isomorphism to that kernel; unique point lifts and represented-point exactness are derived once, then consumed by finite-flat and quasi-finite adapters. A checked wrapper packages flat, quasi-finite, separated, finite-presentation group schemes and is definitionally compatible with the finite-flat H1 coefficient, morphism, connecting, and canonical-kernel APIs. A quasi-finite kernel presentation now requires an actual quasi-finite flat group scheme identified geometrically with the ambient kernel; this yields pointwise exactness. Both canonical and arbitrary certified finite-flat kernels have compiled geometric adapters that retain their chosen inclusions. A supplied quasi-finite fppf quotient now packages its fppf projection and geometric kernel, proves exactness on represented points through the ambient interface, and embeds every checked finite-flat quotient while retaining its projection and kernel inclusion. Certified finite-flat kernels are exact on represented points. An actual finite-flat fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor consumes every proof without accepting exactness hypotheses. Over Spec Z, the constant and odd multiplicative finite-flat factors have checked H0 cardinal certificates. A reusable recursive quotient theorem consumes the kernel certificate, and the actual two-elementary-factor step is its checked downstream consumer. Reusable Hopf localizations construct both actual bad-level elementary factors with separate coefficient and level parameters. The constant-flat and multiplicative-flat models have typed inclusions into their full quasi-finite wrappers, exact principal-open ranges, and contain the full models away from the level; the multiplicative construction is consumed by its canonical Fermat specialization. At every nonunit level the constant-flat global sections are proved trivial and packaged as certified p-power cardinal data. At odd coefficient the multiplicative-flat global sections are also proved trivial; distinct prime coefficient and level give a checked p^0 certificate whose zero-length endpoint is consumed by the low-degree Euler bound. The additive represented-point maps now have their actual pointwise categorical cokernel presheaves, objectwise-surjective projections, and exact short complexes. Their universe-lifted AddCommGrp fppf sheafifications supply the actual cokernel terms in categorically exact short complexes; the canonical projections from the represented ambient point sheaves are genuinely locally surjective and epic, and both bad-level inclusions are checked consumers. Bad-fibre support over D(level), site restriction, the supported localization sequences, quasi-finite exact sequences, both bad-level H1 calculations, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3387,6 +3387,55 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedPointCokernel",
           "description": "Consume the raw cokernel interface for the typed multiplicative-flat bad-level inclusion."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheaf",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Sheafify the universe-lifted AddCommGrp pointwise cokernel presheaf on the relative fppf site, without asserting representability or bad-fibre support."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Compose the canonical represented-point sheafification isomorphism with the fppf cokernel projection."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_isLocallySurjective",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Prove genuine fppf-local surjectivity of the canonical projection from the represented ambient point sheaf."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_epi",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Deduce that the canonical represented-point cokernel projection is an epimorphism of AddCommGrp-valued fppf sheaves."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequence_exact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Map the actual pointwise cokernel colimit through universe lifting and fppf sheafification to obtain a categorically exact short complex."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSequence_exact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Consume the sheaf-level cokernel exact sequence for the typed constant-flat bad-level inclusion."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSequence_exact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel",
+          "description": "Consume the sheaf-level cokernel exact sequence for the typed multiplicative-flat bad-level inclusion."
         },
         {
           "kind": "theorem",

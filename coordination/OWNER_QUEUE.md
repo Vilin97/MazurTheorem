@@ -94,11 +94,12 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
 `QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`,
-`MultiplicativeFlatGlobalSections`, and `SupportedPointCokernel`
+`MultiplicativeFlatGlobalSections`, `SupportedPointCokernel`, and
+`SupportedFppfCokernel`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 739 integrated Lean
-sources / 1,465,537 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 741 integrated Lean
+sources / 1,466,186 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -171,11 +172,15 @@ is now finiteness-free, with quasi-finite and finite-flat compatibility
 consumers. The represented additive point maps now have actual
 pointwise categorical cokernel presheaves, objectwise-surjective projections,
 and exact short complexes, with both typed bad-level inclusions as downstream
-consumers. These are only the raw presheaf precursors. Their fppf
-sheafification, bad-fibre support, locally-surjective supported sequences, the
-quasi-finite admissible-filtration exact sequences, the remaining bad-level
-`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
-remain, followed by the unramified Raynaud uniqueness input.
+consumers. Their universe-lifted `AddCommGrp` fppf sheafifications now give the
+actual cokernel terms in categorically exact short complexes. The canonical
+projections from represented ambient point sheaves are genuinely locally
+surjective and epic, and both typed inclusions consume the sheaf-level exact
+interface. Bad-fibre support over `D(level)`, site restriction, the supported
+localization sequences, the quasi-finite admissible-filtration exact sequences,
+the remaining bad-level `H¹` certificates, middle-`H¹` finiteness, and
+rank-zero specialization remain, followed by the unramified Raynaud uniqueness
+input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
 sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
 sheaf-level locally-surjective exact interface rather than the quasi-finite

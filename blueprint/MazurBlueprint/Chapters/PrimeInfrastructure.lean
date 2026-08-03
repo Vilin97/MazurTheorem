@@ -158,13 +158,16 @@ distinct-prime-level specialization packages this as cardinality `1 = p^0`,
 and the low-degree Euler length bound consumes the endpoint.
 Actual pointwise categorical cokernel presheaves now compile for represented
 additive point maps, with objectwise-surjective projections and exact short
-complexes; both typed bad-level inclusions are downstream consumers. These raw
-presheaves are not yet the supported quotient sheaves. The next boundary is
-fppf sheafification, bad-fibre support, and the supported sheaf localization
-sequences, followed by the quasi-finite admissible-filtration exact sequences,
-bad-level multiplicative `H⁰`/`H¹` comparisons, and middle-`H¹` finiteness. The
-supported bad-fibre quotients are not being represented as quasi-finite flat
-group schemes.
+complexes. Universe lifting to `AddCommGrp` and fppf sheafification now supply
+the actual cokernel terms in categorically exact short complexes. The
+canonical projections from the represented ambient point sheaves are genuinely
+fppf-locally surjective and hence epic; both typed bad-level inclusions are
+downstream consumers. These quotient sheaves are not claimed to be represented
+or supported yet. Bad-fibre support over `D(level)`, site restriction, and the
+supported sheaf localization sequences remain open, followed by the
+quasi-finite admissible-filtration exact sequences, bad-level multiplicative
+`H⁰`/`H¹` comparisons, and middle-`H¹` finiteness. The supported bad-fibre
+quotients are not being represented as quasi-finite flat group schemes.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -254,6 +257,20 @@ group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelSequence_exact`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelSequence_exact`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheaf`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_isLocallySurjective`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_epi`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequence_exact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSequence_exact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSequence_exact`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
