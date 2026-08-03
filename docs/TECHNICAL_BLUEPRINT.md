@@ -36,7 +36,7 @@ dependency.
 The latest integrated package has 1,432,541 project-specific lines across 663
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
-root aggregators. These 696 sources and 1,446,855 checked lines build without
+root aggregators. These 697 sources and 1,447,085 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1570,7 +1570,12 @@ AlgebraicGeometry.IsFormalImmersionAt
 OptimalNewQuotient.formalImmersionAtInfinity_modFive
 ```
 
-The first local-algebra boundary now compiles as
+The completed-local-ring boundary now compiles as
+`AlgebraicGeometry.LocalCompletion.map`,
+`AlgebraicGeometry.Scheme.Hom.completedStalkMap`, and
+`AlgebraicGeometry.IsFormalImmersionAt`. The completion map extends a local
+homomorphism and is functorial; identity formal immersion and composition are
+checked consumers. The first-order boundary compiles as
 `AlgebraicGeometry.Scheme.Hom.cotangentMapAtInt` and
 `AlgebraicGeometry.Scheme.Hom.IsCotangentSurjectiveAt`.  The representative
 formula and the theorem that a surjective stalk map gives a surjective
@@ -1583,9 +1588,9 @@ residue field, and one vector detected by the canonical semilinear map; its
 theorem derives the canonical cotangent criterion.
 The canonical cotangent map and the combined criterion are functorial for
 composites, providing the checked factorization shape `X₀ ⟶ J₀ ⟶ A`.
-These declarations intentionally do not use the final
-`IsFormalImmersionAt` name: the completed-local-ring map and its equivalence
-with the cotangent criterion are still open.
+The corresponding completed-stalk factorization has now also been checked.
+What remains open at this boundary is the locally Noetherian theorem deriving
+completed-ring surjectivity from the residue-field and cotangent criterion.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier

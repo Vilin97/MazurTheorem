@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.FormalCompletion
 import Mathlib.AlgebraicGeometry.ResidueField
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.RingTheory.Ideal.Cotangent
@@ -23,9 +24,9 @@ functoriality because the residue fields at the two points need not be definitio
 Surjectivity of this cotangent map is recorded as
 `Scheme.Hom.IsCotangentSurjectiveAt`.  Because cotangent surjectivity alone does not control a
 residue-field extension, `Scheme.Hom.IsCotangentCriterionAt` adds invertibility of the induced
-residue-field map.  Neither predicate is identified here with surjectivity on completed local
-rings, and neither is called a formal immersion.  The final equivalence needs the locally
-Noetherian hypotheses and the completed-stalk comparison required by `MT-X0-INTEGRAL`.
+residue-field map.  The actual completed-local-ring predicate is
+`AlgebraicGeometry.IsFormalImmersionAt`; it remains distinct from these first-order conditions until
+the locally Noetherian converse criterion required by `MT-X0-INTEGRAL` is proved.
 
 The generic theorem `isCotangentSurjectiveAt_of_degreeOne` isolates the degree-one linear-algebra
 step: when the residue-field map is an isomorphism, a nonzero canonical semilinear map onto a

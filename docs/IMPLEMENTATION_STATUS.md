@@ -75,9 +75,13 @@ Current machine-checked results include:
   canonical semilinear map records the actual induced residue-field
   homomorphism. The degree-one certificate requires dimension one over the
   source residue field and turns a detected vector into the canonical
-  surjectivity criterion.
-  The completion comparison, integral cusp model, q-expansion calculation,
-  and formal-immersion collision remain open, so no roadmap node is credited;
+  surjectivity criterion. The maximal-ideal-adic completion map now also
+  compiles for arbitrary local homomorphisms, is functorial, and defines
+  `AlgebraicGeometry.IsFormalImmersionAt` by actual completed-local-ring
+  surjectivity; identity and composition are checked consumers.
+  The Noetherian converse from the cotangent criterion, integral cusp model,
+  q-expansion calculation, and formal-immersion collision remain open, so no
+  roadmap node is credited;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

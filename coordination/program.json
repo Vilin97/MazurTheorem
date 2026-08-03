@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1446855,
-    "integrated_lean_modules": 696,
+    "integrated_lean_lines": 1447085,
+    "integrated_lean_modules": 697,
     "remaining_composite_orders": [
       18,
       25,
@@ -3014,7 +3014,8 @@
           "kind": "definition",
           "name": "AlgebraicGeometry.IsFormalImmersionAt",
           "state": "proposed",
-          "description": "Define formal immersion by surjectivity on completed local rings and expose its cotangent criterion."
+          "module": "MazurTorsion.AlgebraicGeometry.FormalCompletion",
+          "description": "Define formal immersion by surjectivity on the functorial completed-stalk map; the locally Noetherian converse from the separate cotangent criterion remains open."
         },
         {
           "kind": "theorem",

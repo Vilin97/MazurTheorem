@@ -137,9 +137,11 @@ toric reduction of the modular Jacobian.
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
-The canonical stalk-cotangent map and its surjectivity predicate now compile,
-with surjective-stalk and identity consumers.  They deliberately retain
-different names until the completed-local-ring criterion is proved.
+The functorial completed-stalk map and the actual formal-immersion predicate
+now compile with identity and composition consumers. The canonical
+stalk-cotangent map and its residue-honest first-order criterion also compile.
+The locally Noetherian converse from that criterion and the integral cusp
+comparison remain open, so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

@@ -7,12 +7,12 @@ Authors: Vasily Ilin
 import MazurTorsion.AlgebraicGeometry.FormalImmersion
 
 /-!
-# Identity consumer for the stalk-cotangent interface
+# Identity consumers for formal completion and the stalk-cotangent interface
 
-The identity morphism is the first concrete consumer of
-`Scheme.Hom.IsCotangentSurjectiveAt`.  It checks that the chosen maximal-ideal comparison is
-surjective when the canonical stalk map is the identity.  The second theorem also checks the
-residue-field half of `Scheme.Hom.IsCotangentCriterionAt`.
+The identity morphism is the first concrete consumer of both the completed-local-ring map and
+`Scheme.Hom.IsCotangentSurjectiveAt`.  It checks the normalization of the completion
+construction as well as the chosen maximal-ideal comparison.  The final theorem also checks
+the residue-field half of `Scheme.Hom.IsCotangentCriterionAt`.
 -/
 
 namespace AlgebraicGeometry
@@ -22,6 +22,21 @@ universe u
 open CategoryTheory
 
 namespace Scheme.Hom
+
+/-- The identity morphism is a formal immersion at every point. -/
+theorem isFormalImmersionAt_id (X : Scheme.{u}) (x : X) :
+    IsFormalImmersionAt (𝟙 X) x := by
+  rw [AlgebraicGeometry.IsFormalImmersionAt]
+  change Function.Surjective
+    (LocalCompletion.map (((𝟙 X : X ⟶ X).stalkMap x).hom))
+  have hstalk : ((𝟙 X : X ⟶ X).stalkMap x).hom =
+      RingHom.id (X.presheaf.stalk x) :=
+    CommRingCat.hom_ext_iff.mp (Scheme.Hom.stalkMap_id X x)
+  have hmap : LocalCompletion.map (((𝟙 X : X ⟶ X).stalkMap x).hom) =
+      LocalCompletion.map (RingHom.id (X.presheaf.stalk x)) := by
+    congr
+  rw [hmap, LocalCompletion.map_id]
+  exact Function.surjective_id
 
 /-- The identity morphism satisfies the cotangent criterion at every point. -/
 theorem isCotangentSurjectiveAt_id (X : Scheme.{u}) (x : X) :
