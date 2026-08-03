@@ -17,7 +17,7 @@ point of `Spec K`; it does not assume a group-object structure on the cubic.
 
 noncomputable section
 
-open CategoryTheory
+open CategoryTheory CategoryTheory.MonoidalCategory CategoryTheory.MonObj
 open AlgebraicGeometry
 open scoped WeierstrassCurve.Projective
 
@@ -174,6 +174,17 @@ theorem projectivePointOverMorphism_neg (W : WeierstrassCurve K)
     affinePointOverMorphism W P.toAffineLift ≫ negationOver W
   rw [WeierstrassCurve.Projective.Point.toAffineLift_neg,
     affinePointOverMorphism_neg]
+
+/-- If a future group-object construction identifies its inverse morphism with the checked
+homogeneous involution, the canonical point comparison preserves inverses.  This is the exact
+consumer expected from a pointed Picard/Jacobian construction; it does not assume or construct
+the multiplication morphism. -/
+theorem projectivePointOverMorphism_inv_of_inv_eq_negation
+    (W : WeierstrassCurve K) [GrpObj (toOver W)]
+    (hinv : ι[toOver W] = negationOver W) (P : W.toProjective.Point) :
+    projectivePointOverMorphism W (-P) =
+      (projectivePointOverMorphism W P)⁻¹ := by
+  rw [projectivePointOverMorphism_neg, CategoryTheory.Hom.inv_def, hinv]
 
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
