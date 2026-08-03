@@ -129,6 +129,23 @@ noncomputable def changeObjects
         (F.map f₃.op.toLoc).toFunctor.map (e _).hom)
       (D.hom_comp q f₁ f₂ f₃ hf₁ hf₂ hf₃)
 
+/-- The original descent datum is isomorphic to its objectwise transport.  This is the
+effectivity comparison used when a known global object is replaced by specified isomorphic local
+models: the transition maps were defined by conjugation, so the supplied object isomorphisms are
+automatically a morphism of descent data. -/
+noncomputable def changeObjectsIso
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {ι : Type t} {S : C} {X : ι → C} (f : ∀ i, X i ⟶ S)
+    (D : F.DescentData f)
+    (obj : ∀ i, F.obj (.mk (.op (X i))))
+    (e : ∀ i, D.obj i ≅ obj i) :
+    D ≅ changeObjects f D obj e :=
+  Pseudofunctor.DescentData.isoMk e (by
+    intro Y q i₁ i₂ f₁ f₂ hf₁ hf₂
+    simp only [changeObjects]
+    simp)
+
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent
 
 namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent

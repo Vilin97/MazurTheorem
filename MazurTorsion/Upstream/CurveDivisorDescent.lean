@@ -33,9 +33,11 @@ the arbitrary-divisor isomorphism there once its coordinate ring is Dedekind. Pr
 field supplies the required absolute separatedness automatically. Transporting these intersection
 isomorphisms to the chosen descent pullbacks is now checked. For principal divisors, objectwise
 transport of the canonical trivial descent datum constructs the full normalized cocycle, proves
-triple coherence, and produces a full Mathlib descent datum. Comparing that reconstructed datum
-with the canonical trivial datum remains an effectivity step. For arbitrary divisors, normalizing
-the transported transitions and proving cover-wide cocycle coherence remain. Given
+triple coherence, and produces a full Mathlib descent datum. Direct objectwise transport also
+produces a principal datum explicitly isomorphic to the canonical global trivial datum, so that
+datum is effective; identifying it with the separately reconstructed chosen-overlap datum remains
+open. For arbitrary divisors, normalizing the transported transitions and proving cover-wide
+cocycle coherence remain. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
@@ -836,6 +838,68 @@ noncomputable def principalLocalObjectIso
       ((coordinateCover U hcover hU).f i) ≪≫
     (localLineBundle_principal_iso_trivial
       X (U i) (hU i) (h i) S hord g).some.symm
+
+/-- The canonical descent datum of the global trivial line bundle, transported objectwise to
+the chosen affine line bundles of a principal divisor.  Unlike reconstruction from only the
+chosen pairwise overlaps, this full descent datum remembers its global source by construction. -/
+noncomputable def principalTransportDescentData
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.modulesPseudofunctor.DescentData
+      (coordinateCover U hcover hU).f :=
+  LineBundleDescent.PseudofunctorDescent.changeObjects
+    (coordinateCover U hcover hU).f
+    ((LineBundleDescent.modulesPseudofunctor.toDescentData
+      (coordinateCover U hcover hU).f).obj
+        (InvertibleSheaf.trivial X).obj)
+    (fun i ↦ (localLineBundles X U hnonempty hcover hU h
+      (S.principalDivisor g) i).obj)
+    (principalLocalObjectIso X U hnonempty hcover hU h S hord g)
+
+/-- The directly transported principal datum has the specified affine divisor line bundles as
+invertible local objects. -/
+noncomputable def principalTransportInvertibleDescentData
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.InvertibleDescentData (coordinateCover U hcover hU) where
+  toDescentData := principalTransportDescentData
+    X U hnonempty hcover hU h S hord g
+  localInvertible i :=
+    (localLineBundles X U hnonempty hcover hU h (S.principalDivisor g) i).property
+
+/-- The directly transported principal datum is effectively represented by the global trivial
+line bundle.  This discharges principal effectivity without assuming effective descent for
+arbitrary modules on the cover. -/
+theorem principalTransportEffectiveInvertible
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.EffectiveInvertible (coordinateCover U hcover hU)
+      (principalTransportInvertibleDescentData
+        X U hnonempty hcover hU h S hord g).toDescentData := by
+  refine ⟨InvertibleSheaf.trivial X, ?_⟩
+  exact ⟨LineBundleDescent.PseudofunctorDescent.changeObjectsIso
+    (coordinateCover U hcover hU).f
+    ((LineBundleDescent.modulesPseudofunctor.toDescentData
+      (coordinateCover U hcover hU).f).obj
+        (InvertibleSheaf.trivial X).obj)
+    (fun i ↦ (localLineBundles X U hnonempty hcover hU h
+      (S.principalDivisor g) i).obj)
+    (principalLocalObjectIso X U hnonempty hcover hU h S hord g)⟩
 
 /-- Every global principal divisor has an actual normalized divisor cocycle. It is obtained by
 transporting the canonical descent datum of the trivial global line bundle, so inverse

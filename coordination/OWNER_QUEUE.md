@@ -55,7 +55,7 @@ The focused single-threaded builds of `FppfQuotientConnecting` and
 `XZeroWeierstrassProjectiveCubic` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
 unchanged; and `python3 scripts/quality.py` passes at 721 integrated Lean
-sources / 1,459,154 lines with all 48 node IDs and 1,000 points intact. These
+sources / 1,459,254 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The remaining modular boundary is to construct the group law and geometric
@@ -63,7 +63,10 @@ integrality on the checked projective cubic, prove its scheme-point comparison,
 and then construct `E/C` and quotient/classifying geometry. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
-arbitrary-divisor coherence and the effectivity comparison remain open. The
+the directly transported principal Picard datum now has the global trivial line
+bundle as a checked effectivity witness. Comparison with the separately
+reconstructed chosen-overlap principal cocycle, arbitrary-divisor coherence and
+general effectivity remain open. The
 finite-flat lane now has the complete checked low-degree fppf exact sequence
 and a downstream theorem converting its six finite-cardinality certificates
 into the middle-`H¹` cardinal bound. The next acceptance boundary is the
@@ -131,10 +134,13 @@ within each lane follows the listed order.
    principal divisor, the chosen-overlap cocycle, full descent datum, locally
    invertible descent datum, and a concrete scheme-Picard boundary consumer
    compile; their coherence is transported from the canonical trivial global
-   datum. For an arbitrary divisor only the pairwise chosen-overlap
+   datum. A second, directly transported principal datum is explicitly
+   isomorphic to the canonical descent datum of the global trivial line bundle,
+   and the Picard boundary now consumes its checked effectivity witness. For an
+   arbitrary divisor only the pairwise chosen-overlap
    isomorphism is checked. The missing geometric construction is its diagonal
-   normalization and triple naturality, followed by the principal effectivity
-   comparison, general module effectivity, object separation, rational
+   normalization and triple naturality, followed by comparison of the two
+   principal data, general module effectivity, object separation, rational
    normalization, tensor-additivity, and Picard surjectivity; no A3 credit is
    claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel

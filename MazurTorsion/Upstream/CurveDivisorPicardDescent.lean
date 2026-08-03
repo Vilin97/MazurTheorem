@@ -12,7 +12,9 @@ import MazurTorsion.Upstream.CurveDivisorDescent
 This file packages the exact coherence needed to turn the chartwise divisor line bundles from
 `CurveDivisorDescent` into a divisor-to-Picard homomorphism. A cocycle is chosen for every Weil
 divisor, every cocycle is effectively descended, and the resulting global line bundles are
-tensor-additive up to isomorphism. Given the forward `TensorInverseComparison X`, these bundles
+tensor-additive up to isomorphism. The directly transported datum of a principal divisor is
+unconditionally effective, with the trivial global line bundle as its witness; arbitrary-divisor
+effectivity remains an input. Given the forward `TensorInverseComparison X`, these bundles
 define elements of the scheme Picard group. More sharply, the `ExplicitInverse` namespace avoids
 that global comparison: once the zero-divisor bundle is trivial, tensor additivity makes the
 bundle of `-D` an explicit inverse to the bundle of `D`. Since Picard classes live in the
@@ -25,7 +27,8 @@ bundle, the principal kernel is exact; checked code also proves the converse. Th
 surjectivity supply the full divisor-class/Picard equivalence without comparing unrelated
 invertible sheaves. The more structured `DivisorPicard.Dictionary` still records the global
 forward comparison and remains conditional on it. This file does not assert existence of the
-cocycle family, effectivity, tensor-additivity, zero or principal coherence, object separation,
+arbitrary-divisor cocycle family, its effectivity, tensor-additivity, zero or principal coherence
+for that family, object separation,
 principal detection, exactness, surjectivity, or the global forward comparison. A global
 trivialization is proved to make the divisor principal on each chart. Under equality of the
 chosen global and scheme orders, the witness-level statement that one rational function gives
@@ -54,9 +57,9 @@ noncomputable local instance schemeModulesSymmetricForPicardDescent (Y : Scheme.
     SymmetricCategory Y.Modules :=
   Scheme.Modules.symmetricCategory Y
 
-/-- The coherent principal-divisor datum delivered to the divisor-to-Picard boundary. This is
-an actual normalized cocycle and full Mathlib descent datum; it deliberately stops before the
-still-separate effectivity comparison with the global trivial line bundle. -/
+/-- The coherent principal-divisor datum delivered to the divisor-to-Picard boundary.  It is the
+canonical descent datum of the global trivial line bundle transported to the specified affine
+principal-divisor line bundles, so its effectivity comparison remains available. -/
 noncomputable def principalPicardBoundaryDatum
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
@@ -66,7 +69,7 @@ noncomputable def principalPicardBoundaryDatum
     (hord : S.ord = SchemeWeilDivisor.orderAt)
     (g : Additive X.functionFieldˣ) :
     LineBundleDescent.InvertibleDescentData (coordinateCover U hcover hU) :=
-  principalDivisorInvertibleDescentData
+  principalTransportInvertibleDescentData
     X U hnonempty hcover hU h S hord g
 
 @[simp]
@@ -80,8 +83,24 @@ lemma principalPicardBoundaryDatum_toDescentData
     (g : Additive X.functionFieldˣ) :
     (principalPicardBoundaryDatum
       X U hnonempty hcover hU h S hord g).toDescentData =
-      principalDivisorDescentData X U hnonempty hcover hU h S hord g :=
+      principalTransportDescentData X U hnonempty hcover hU h S hord g :=
   rfl
+
+/-- The Picard-boundary principal datum is effectively represented by the global trivial line
+bundle.  This is the checked downstream consumer of objectwise descent transport. -/
+theorem principalPicardBoundaryDatum_effective
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.EffectiveInvertible (coordinateCover U hcover hU)
+      (principalPicardBoundaryDatum
+        X U hnonempty hcover hU h S hord g).toDescentData :=
+  principalTransportEffectiveInvertible
+    X U hnonempty hcover hU h S hord g
 
 /-- A chosen coherent chart cocycle for every Weil divisor. This family does not by itself
 assert compatibility with divisor addition or principal divisors. -/

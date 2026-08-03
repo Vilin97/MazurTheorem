@@ -107,8 +107,12 @@ For a proper morphism to the spectrum of a field, relative properness supplies t
 separatedness input automatically. For a smooth relative curve, the pinned Tau Ceti
 valuation-ring theorem and localization-cover gluing now prove integral closedness; the
 intersection's Dedekind instance and actual comparison therefore compile without a normality
-hypothesis. Transporting these isomorphisms to the chosen descent pullbacks and proving
-normalized diagonal and triple-cocycle coherence remain missing.
+hypothesis. For principal divisors, direct objectwise transport of the canonical global trivial
+datum gives the specified local divisor line bundles, a full coherent descent datum, and a
+checked global trivial witness. The separately reconstructed chosen-overlap principal cocycle is
+also coherent, but its comparison with that directly transported datum remains missing. For
+arbitrary divisors, transporting the intersection isomorphisms to the chosen descent pullbacks
+and proving normalized diagonal and triple-cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -150,7 +154,9 @@ constructs the actual restriction isomorphism between two such bundles.
 specified line bundles. Object-specific effective invertible descent then constructs a global
 line bundle
 with a checked isomorphism from each restriction to the corresponding `O(D)`. The companion
-`CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Objectwise
+`CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Its principal
+boundary datum is now the directly transported datum and is checked effective with the trivial
+global line bundle as witness. Objectwise
 effectivity, tensor-additivity, and triviality of the zero-divisor bundle construct an actual
 additive divisor-to-Picard map. The bundle of `-D` explicitly inverts the bundle of `D`, so this
 route requires no `TensorInverseComparison X` for unrelated invertible sheaves. Coherent
@@ -177,8 +183,8 @@ the actual line-bundle cocycle and trivialization remains absent. Surjectivity t
 full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the divisor cocycle system, chosen-pullback/intersection transport, coherent overlap system,
-module-effectivity, coherent-principal-triviality,
+of the arbitrary-divisor cocycle system, chosen-pullback/intersection transport, coherent overlap
+system, general module-effectivity, chosen-cocycle coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
@@ -397,6 +403,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData`
   Convert the chosen-overlap cocycle into Mathlib coherent module descent data.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent.changeObjectsIso`
+  Identify a coherent descent datum with its objectwise transport by the supplied local
+  isomorphisms.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.InvertibleEffectiveDescentFor`
   Isolate effective descent for all locally invertible data on one specified open cover.
 * `theorem` (`contract`):
@@ -411,6 +421,13 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle`
   Construct the actual affine `O(D)` from the restriction of a global curve divisor.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalTransportEffectiveInvertible`
+  Exhibit the global trivial line bundle as an effective witness for the directly transported
+  principal-divisor datum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalPicardBoundaryDatum_effective`
+  Consume that witness at the principal divisor-to-Picard boundary.
 * `lemma` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localDivisor_coeff`
   Identify a coordinate-divisor coefficient with the global coefficient at the corresponding
