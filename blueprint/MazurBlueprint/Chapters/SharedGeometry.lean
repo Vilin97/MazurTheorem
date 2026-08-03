@@ -113,7 +113,11 @@ checked global trivial witness. The chosen-overlap/full-descent equivalence now 
 separately reconstructed normalized principal cocycle with that transported datum, so the actual
 principal cocycle is unconditionally effective with the global trivial line bundle. For arbitrary
 divisors, the pairwise intersection isomorphisms are already transported to the chosen descent
-pullbacks; normalized diagonal and triple-cocycle coherence remain missing.
+pullbacks and normalized on the diagonal. On one fixed common Dedekind affine open, the
+equality-induced inverse-ideal comparisons now satisfy genuine triple transitivity, with an
+actual arbitrary-divisor `O(D)` consumer and no caller-supplied cocycle. Naturality comparing
+the separately chosen pairwise pullbacks with a common triple pullback, and hence the full
+descent-datum cocycle, remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -487,6 +491,14 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen`
   Construct the arbitrary-divisor restriction isomorphism canonically on every chosen common
   nonempty Dedekind affine subopen of two charts.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq_hom_trans`
+  Prove fixed-common-affine transitivity of three equality-induced inverse-ideal restriction
+  isomorphisms.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen_hom_trans`
+  Consume that transitivity for three actual arbitrary-divisor chart line bundles on one common
+  Dedekind affine open.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnIntersection`
   Construct the arbitrary-divisor restriction isomorphism on the full intersection of two

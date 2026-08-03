@@ -61,7 +61,11 @@ independently required documentation repair `abe004a` records that arbitrary
 pairwise chosen-pullback transport was already checked. The current owner
 checkpoint replaces each diagonal transition by the coherent self-overlap map
 of a one-object descent datum along the chart open immersion and proves its
-normalization. Triple coherence, general effectivity, and comparison with the
+normalization. Reviewed checkpoint `243b1e9` proves that the inverse-ideal
+restriction maps through three chart models compose on one fixed common
+Dedekind affine open and consumes this for the actual arbitrary-divisor
+`O(D)` bundles. Naturality from separately chosen pairwise pullbacks to the
+common triple pullback, general effectivity, and comparison with the
 separately reconstructed principal cocycle remain open.
 
 Checkpoint `d61566c` constructs homogeneous evaluation maps into projective
@@ -108,7 +112,7 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
 unchanged; and `python3 scripts/quality.py` passes at 740 integrated Lean
-sources / 1,465,961 lines with all 48 node IDs and 1,000 points intact. These
+sources / 1,466,101 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -260,7 +264,9 @@ within each lane follows the listed order.
    cocycle's checked effectivity witness. For an arbitrary divisor the
    pairwise chosen-overlap isomorphism and a normalized replacement are now
    checked: coherent one-object descent along each open immersion proves the
-   diagonal identity. The missing geometric construction is triple naturality,
+   diagonal identity. On a fixed common Dedekind affine open the actual three
+   arbitrary-divisor restriction maps now compose to the direct comparison.
+   The missing geometric construction is pairwise-to-triple base-change naturality,
    followed by comparison of the arbitrary-divisor presentations, general module effectivity, object
    separation, rational normalization, tensor-additivity, and Picard
    surjectivity; no A3 credit is claimed.
@@ -563,7 +569,7 @@ or accounting shortcut.
 ## Active critical assignments
 
 - `codex/owner-a3-triple-coherence`: the reviewed fixed-common-affine cocycle
-  law is ready for integration; next prove pairwise-overlap-to-triple
+  law is integrated; next prove pairwise-overlap-to-triple
   base-change naturality and consume it in an actual descent datum.
 - `codex/owner-weierstrass-basechange-witness`: construct the canonical
   `Z ≠ 0` open comparison, dense range, and pullback reducedness needed by the

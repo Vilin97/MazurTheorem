@@ -1062,7 +1062,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. The chosen-overlap/full-descent comparison now makes the actual reconstructed principal cocycle effective with the global trivial line bundle as witness. Arbitrary-divisor cocycle coherence and effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. On one fixed common Dedekind affine overlap, the equality-induced inverse-ideal restriction maps now satisfy genuine triple transitivity, with a concrete arbitrary-divisor O(D) consumer and no caller-supplied cocycle. The chosen-overlap/full-descent comparison makes the actual reconstructed principal cocycle effective with the global trivial line bundle as witness. Naturality from separately chosen pairwise overlaps to a common triple pullback, full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2220,6 +2220,20 @@
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersection",
           "state": "contract",
           "description": "Consume unconditional smooth-curve normality to compare the two chosen divisor line bundles on the actual affine intersection of proper smooth curve charts.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq_hom_trans",
+          "state": "contract",
+          "description": "Prove that equality-induced inverse-ideal restriction isomorphisms through three chart models compose on one fixed common affine extension ring.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen_hom_trans",
+          "state": "contract",
+          "description": "Consume the fixed-ring cocycle algebra for three actual arbitrary-divisor O(D) chart restrictions on one common Dedekind affine open.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
