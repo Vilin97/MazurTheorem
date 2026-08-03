@@ -19,8 +19,10 @@ packages the represented-point groups and global fppf `H¹` groups into the exis
 
 The certified kernel property proves left injectivity and exactness at the middle degree-zero
 term.  Fppf descent proves exactness at the quotient degree-zero term by gluing a gauged system
-of local lifts.  The two following `H¹` exactness assertions remain explicit input: the checked
-image-in-kernel laws do not masquerade as the missing reverse inclusions.
+of local lifts.  A second descent argument proves exactness at the kernel `H¹` term by gluing the
+quotient images of a trivializing zero-cochain.  Exactness at the middle `H¹` term remains an
+explicit input: the checked image-in-kernel law does not masquerade as its missing reverse
+inclusion.
 -/
 
 noncomputable section
@@ -38,6 +40,9 @@ variable {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
 namespace FppfQuotientPresentation
 
 variable {G : FiniteFlatCommGroupScheme S}
+
+open CategoryTheory.PresheafOfCommGroups
+open CategoryTheory.PresheafOfGroups
 
 /-- The quotient projection itself, regarded as a singleton fppf cover of the quotient scheme. -/
 abbrev projectCover (D : FppfQuotientPresentation G) :
@@ -220,6 +225,167 @@ theorem exact_project_boundaryHom (D : FppfQuotientPresentation G) :
     Function.MulExact (mapPoint D.project (baseObject S)) D.boundaryHom :=
   fun q ↦ D.boundaryHom_eq_one_iff_exists_project q
 
+/-- A kernel-valued cocycle whose extension to the middle group is trivial is the boundary of a
+global quotient section.  On a common refinement, the trivialization supplies middle-group
+zero-cochain values.  Their quotient images agree on overlaps and hence glue by fppf descent;
+the original values are local lifts of the glued section, whose boundary is the refined input
+cocycle by injectivity of the certified kernel inclusion. -/
+private theorem exists_boundary_of_class
+    (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (c : OneCocycle
+      (toGroups (commPointPresheaf D.kernelPresentation.kernel)) U.overFamily)
+    (hc : fppfHOneMap D.kernelPresentation.inclusion
+      (fppfHOneClass D.kernelPresentation.kernel U c.class) = 1) :
+    ∃ q : BasePoint D.quotient,
+      D.boundaryHom q =
+        fppfHOneClass D.kernelPresentation.kernel U c.class := by
+  let coeffMap := commPointPresheafMap D.kernelPresentation.inclusion
+  change Scheme.FppfHOne.mk U
+      (NatTrans.mapOneCocycle coeffMap c).class = 1 at hc
+  have hc' : Scheme.FppfHOne.mk U
+      (NatTrans.mapOneCocycle coeffMap c).class =
+      Scheme.FppfHOne.mk (Scheme.FppfHOne.identityCover S) 1 := by
+    rw [Scheme.FppfHOne.mk_one]
+    exact hc
+  obtain ⟨W, r, s, hrs⟩ :=
+    (Scheme.FppfHOne.class_eq_iff U
+      (Scheme.FppfHOne.identityCover S)
+      (NatTrans.mapOneCocycle coeffMap c).class 1).mp hc'
+  let ρ := Scheme.Cover.Hom.toOverFamilyRefinement r
+  let cW := ρ.pullbackOneCocycle c
+  have hrs' :
+      (ρ.pullbackOneCocycle (NatTrans.mapOneCocycle coeffMap c)).class = 1 := by
+    simpa only [Scheme.Cover.Hom.pullbackHOne,
+      FamilyRefinement.pullbackHOne_class,
+      FamilyRefinement.pullbackHOne_one] using hrs
+  have hmapped : (NatTrans.mapOneCocycle coeffMap cW).class = 1 := by
+    change
+      (NatTrans.mapOneCocycle coeffMap (ρ.pullbackOneCocycle c)).class = 1
+    rw [NatTrans.mapOneCocycle_pullback]
+    exact hrs'
+  obtain ⟨b, hb⟩ :=
+    (OneCocycle.class_eq_iff (NatTrans.mapOneCocycle coeffMap cW) 1).mp hmapped
+  let liftLocal (i : W.I₀) : G.Point (W.overFamily i) := b i
+  let qLocal (i : W.I₀) : D.quotient.Point (W.overFamily i) :=
+    mapPoint D.project (W.overFamily i) (liftLocal i)
+  have hqLocal (i j : W.I₀) :
+      pullback.fst (W.f i) (W.f j) ≫ (qLocal i).left =
+        pullback.snd (W.f i) (W.f j) ≫ (qLocal j).left := by
+    let T : Over S := Over.mk (pullback.fst (W.f i) (W.f j) ≫ W.f i)
+    let a : T ⟶ W.overFamily i :=
+      Over.homMk (pullback.fst (W.f i) (W.f j)) rfl
+    let d : T ⟶ W.overFamily j :=
+      Over.homMk (pullback.snd (W.f i) (W.f j)) pullback.condition.symm
+    let kOverlap : D.kernelPresentation.kernel.Point T := cW.ev i j a d
+    have hrel := hb i j a d
+    change pullPoint G a (liftLocal i) *
+        mapPoint D.kernelPresentation.inclusion T kOverlap =
+      1 * pullPoint G d (liftLocal j) at hrel
+    have hp := congrArg (mapPoint D.project T) hrel
+    rw [map_mul, map_mul, map_one, one_mul,
+      mapPoint_pullPoint, mapPoint_pullPoint,
+      D.kernelPresentation.mapPoint_inclusion_eq_one T kOverlap, mul_one] at hp
+    change (a ≫ qLocal i).left = (d ≫ qLocal j).left
+    exact congrArg Over.Hom.left hp
+  let qleft : S ⟶ D.quotient.scheme :=
+    Precoverage.ZeroHypercover.glueMorphisms W
+      (fun i ↦ (qLocal i).left) hqLocal
+  have hqleft : qleft ≫ D.quotient.structureMap = 𝟙 S := by
+    apply Precoverage.ZeroHypercover.hom_ext W
+    intro i
+    have hglue : W.f i ≫ qleft = (qLocal i).left := by
+      simpa only [qleft] using
+        Precoverage.ZeroHypercover.f_glueMorphisms W
+          (fun i ↦ (qLocal i).left) hqLocal i
+    rw [← Category.assoc, hglue, Category.comp_id]
+    exact (qLocal i).w
+  let q : BasePoint D.quotient := Over.homMk qleft hqleft
+  have hqrestrict (i : W.I₀) :
+      pullPoint D.quotient (coverToBase W i) q = qLocal i := by
+    apply Over.OverMorphism.ext
+    change W.f i ≫ qleft = (qLocal i).left
+    simpa only [qleft] using
+      Precoverage.ZeroHypercover.f_glueMorphisms W
+        (fun i ↦ (qLocal i).left) hqLocal i
+  let L : D.kernelPresentation.LocalLift.{u} q :=
+    { cover := W
+      lift := liftLocal
+      maps_to := fun i ↦ by
+        change qLocal i = restrictBasePoint D.quotient W i q
+        exact (hqrestrict i).symm }
+  have hLc : L.cocycle = cW := by
+    apply PresheafOfCommGroups.OneCocycle.ext
+    apply PresheafOfGroups.OneCochain.ext
+    funext i j T a d
+    apply D.kernelPresentation.inclusion_point_injective T
+    change mapPoint D.kernelPresentation.inclusion T
+        (D.kernelPresentation.liftPoint (L.difference i j a d)
+          (L.mapPoint_difference_eq_one i j a d)) =
+      mapPoint D.kernelPresentation.inclusion T (cW.ev i j a d)
+    rw [D.kernelPresentation.mapPoint_liftPoint]
+    have hrel := hb i j a d
+    change pullPoint G a (liftLocal i) *
+        mapPoint D.kernelPresentation.inclusion T (cW.ev i j a d) =
+      1 * pullPoint G d (liftLocal j) at hrel
+    dsimp only [KernelPresentation.LocalLift.difference]
+    change (pullPoint G a (liftLocal i))⁻¹ *
+        pullPoint G d (liftLocal j) =
+      mapPoint D.kernelPresentation.inclusion T (cW.ev i j a d)
+    rw [one_mul] at hrel
+    rw [← hrel]
+    group
+  refine ⟨q, ?_⟩
+  calc
+    D.boundaryHom q =
+        (D.locallyLiftable.localLift q).boundaryClass := rfl
+    _ = L.boundaryClass :=
+      (D.locallyLiftable.localLift q).boundaryClass_eq L
+    _ = fppfHOneClass D.kernelPresentation.kernel W cW.class := by
+      rw [KernelPresentation.LocalLift.boundaryClass, hLc]
+    _ = fppfHOneClass D.kernelPresentation.kernel U c.class := by
+      change fppfHOneClass D.kernelPresentation.kernel W
+          ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
+        fppfHOneClass D.kernelPresentation.kernel U c.class
+      change Scheme.FppfHOne.mk W
+          ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
+        Scheme.FppfHOne.mk U c.class
+      simpa only [Scheme.Cover.Hom.pullbackHOne,
+        PresheafOfGroups.FamilyRefinement.pullbackHOne_class] using
+        Scheme.FppfHOne.class_pullback U W r c.class
+
+/-- Every global kernel `H¹` class killed by extension to the middle group is represented by a
+boundary of a global quotient section. -/
+theorem exists_boundary_of_fppfHOneMap_eq_one
+    (D : FppfQuotientPresentation G)
+    (z : D.kernelPresentation.kernel.FppfHOne.{u})
+    (hz : fppfHOneMap D.kernelPresentation.inclusion z = 1) :
+    ∃ q : BasePoint D.quotient, D.boundaryHom q = z := by
+  induction z using Quot.inductionOn with
+  | _ a =>
+    rcases a with ⟨U, x⟩
+    induction x using Quot.inductionOn with
+    | _ c => exact D.exists_boundary_of_class U c hz
+
+/-- Membership in the kernel of the map from kernel `H¹` to middle `H¹` is equivalent to
+coming from the quotient connecting homomorphism. -/
+theorem fppfHOneMap_eq_one_iff_exists_boundaryHom
+    (D : FppfQuotientPresentation G)
+    (z : D.kernelPresentation.kernel.FppfHOne.{u}) :
+    fppfHOneMap D.kernelPresentation.inclusion z = 1 ↔
+      ∃ q : BasePoint D.quotient, D.boundaryHom q = z := by
+  constructor
+  · exact D.exists_boundary_of_fppfHOneMap_eq_one z
+  · rintro ⟨q, rfl⟩
+    exact D.fppfHOneMap_boundaryHom q
+
+/-- Exactness at the kernel `H¹` term of the quotient low-degree sequence. -/
+theorem exact_boundaryHom_fppfHOneMap
+    (D : FppfQuotientPresentation G) :
+    Function.MulExact D.boundaryHom
+      (fppfHOneMap D.kernelPresentation.inclusion) :=
+  fun z ↦ D.fppfHOneMap_eq_one_iff_exists_boundaryHom z
+
 end FppfQuotientPresentation
 
 namespace FinitePGroup
@@ -371,8 +537,8 @@ def ofKernelPresentation {p : ℕ} (P : KernelPresentation f)
 
 /-- The concrete low-degree sequence constructor for an actual fppf quotient presentation.  It
 uses the quotient's pulled-back singleton cover, the resulting checked boundary homomorphism,
-and fppf descent for exactness at quotient-valued global sections. Only the two genuinely
-degree-one reverse exactness statements remain arguments. -/
+and fppf descent for exactness at quotient-valued global sections and kernel-valued `H¹`.
+Only exactness at the middle `H¹` term remains an argument. -/
 def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     (D : FppfQuotientPresentation G)
     (kernelHZeroData : FinitePGroup.CertifiedData p
@@ -383,8 +549,6 @@ def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
       D.kernelPresentation.kernel.FppfHOne.{u})
     (middleHOneData : FinitePGroup.CertifiedData p G.FppfHOne.{u})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{u})
-    (exact_kernelHOne : Function.MulExact D.boundaryHom
-      (fppfHOneMap D.kernelPresentation.inclusion))
     (exact_middleHOne : Function.MulExact
       (fppfHOneMap D.kernelPresentation.inclusion) (fppfHOneMap D.project)) :
     FppfLowDegreeExactSequence.{u + 1} p :=
@@ -392,7 +556,7 @@ def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     kernelHZeroData middleHZeroData quotientHZeroData
     kernelHOneData middleHOneData quotientHOneData
     (FinitePGroup.mulExact_ulift_downMonoidHom D.exact_project_boundaryHom)
-    exact_kernelHOne exact_middleHOne
+    D.exact_boundaryHom_fppfHOneMap exact_middleHOne
 
 end FppfLowDegreeExactSequence
 
