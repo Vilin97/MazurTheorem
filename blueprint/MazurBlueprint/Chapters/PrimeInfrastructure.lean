@@ -112,7 +112,9 @@ actual checked fppf quotient now supplies its tautological local lifts and
 connecting homomorphism. If that boundary vanishes, a common-refinement gauge
 makes the lifts compatible and subcanonical descent glues them globally, so
 exactness at quotient-valued global sections is checked. The next boundary is
-the two reverse `H¹` exactness inclusions and the resulting Kummer sequence.
+the remaining reverse exactness inclusion at kernel `H¹` and the resulting
+Kummer sequence: a lifted quotient-valued gauge now proves exactness at the
+middle `H¹` term.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -144,6 +146,8 @@ the two reverse `H¹` exactness inclusions and the resulting Kummer sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.boundaryHom`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
 * `theorem` (`proposed`):
@@ -165,8 +169,10 @@ independence, a type-level eliminator, its canonical commutative group law,
 functorial coefficient maps, and a choice-independent local-lift connecting
 class. The quotient-derived lifts, boundary homomorphism, and exactness at the
 quotient `H⁰` term now compile and feed the concrete low-degree constructor.
-The two reverse `H¹` exactness inclusions are still absent; no node credit is
-claimed.
+A quotient-valued trivializing gauge can now be lifted after an fppf
+refinement, and its uniquely kernel-valued gauge transform proves exactness at
+middle `H¹`. The reverse inclusion at kernel `H¹` is still absent; no node
+credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
