@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
+import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
 
@@ -23,6 +24,8 @@ namespace MazurTorsion.PrimeOrder
 
 open WeierstrassCurve.Affine
 open MazurTorsion.IntegerPrimeSpecialization
+open IsDiscreteValuationRing
+open IsDedekindDomain.HeightOneSpectrum
 
 /-- If an integral model has good reduction at five, none of its rational
 torsion points has exact order at least eleven. -/
@@ -106,5 +109,31 @@ theorem completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
     W₅ (redPointEquiv (adicRed hW P)) N hN
   exact (AddEquiv.addOrderOf_eq redPointEquiv (adicRed hW P)).trans
     (hredOrder.trans horder)
+
+/-- The completion-level prime-order endpoint after the integral-`j` and tame
+additive-filtration inputs have been supplied.  The reduction trichotomy first upgrades the
+minimal equation to good reduction; the preceding completion theorem then specializes the same
+marked point to the checked finite field at five.
+
+The filtration argument remains an explicit input: a later Néron-model consumer must instantiate
+`F` with the actual component, smooth-residue, and formal-kernel filtration of `W`. -/
+theorem
+    completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive
+    {W : WeierstrassCurve (atFive.adicCompletion ℚ)}
+    [W.IsElliptic] [W.IsMinimal (atFive.adicCompletionIntegers ℚ)]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ)) W.j ≤ 1)
+    (F : W.HasAdditiveReduction (atFive.adicCompletionIntegers ℚ) →
+      MazurTorsion.EllipticCurve.TameAdditiveFiltrationData W.toAffine.Point)
+    (hresidue : ∀ hW, Nat.card (F hW).ResidueAdditive = 5)
+    (P : W.toAffine.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  intro horder
+  have hgood : W.HasGoodReduction (atFive.adicCompletionIntegers ℚ) :=
+    hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive
+      hj F hresidue P N hprime hN horder
+  exact completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
+    hgood P N hN horder
 
 end MazurTorsion.PrimeOrder
