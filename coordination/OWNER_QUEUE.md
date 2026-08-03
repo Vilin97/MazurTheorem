@@ -86,8 +86,8 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 `XZeroWeierstrassProjectivePointComparison`, and the ambient kernel module
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 728 integrated Lean
-sources / 1,461,774 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 729 integrated Lean
+sources / 1,461,931 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -127,6 +127,10 @@ internal-group pullback, is identified with the scheme-theoretic kernel, and
 represents the pointwise kernel on every test scheme. Quasi-finite morphisms
 consume this ambient theorem without an unsupported kernel-flatness claim, and
 the canonical finite-flat kernel is a checked compatibility consumer.
+A quasi-finite kernel presentation now requires an actual quasi-finite flat
+kernel and a group-scheme isomorphism to that ambient kernel; it yields a
+multiplicative point-kernel equivalence and represented-point exactness. Its
+canonical finite-flat adapter recovers the existing inclusion definitionally.
 The four actual
 integral elementary factors, their extension-by-zero exact sequences and
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
@@ -278,8 +282,9 @@ within each lane follows the listed order.
    Mazur's two quasi-finite extension-by-zero factors at the bad level. The
    generic represented coefficient sheaf/`H¹`, its morphism-level functoriality,
    its canonical ambient kernel and pointwise universal property, and the
-   structural quasi-finite wrapper now compile with finite-flat coefficient,
-   map, and kernel adapters, but the four factor
+   structural quasi-finite wrapper and geometric kernel-presentation interface
+   now compile with finite-flat coefficient, map, and kernel adapters, but the
+   four factor
    constructions, their exact sequences and `H⁰`/`H¹` certificates, together
    with middle-`H¹` finiteness, remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite

@@ -1590,7 +1590,11 @@ constructed as a pullback in internal groups, identified with the
 scheme-theoretic pullback, and proved to represent the pointwise kernel on every
 test scheme. Quasi-finite morphisms consume this theorem without asserting
 kernel flatness; the existing canonical finite-flat kernel is a checked
-compatibility consumer. The four actual
+compatibility consumer. A quasi-finite kernel presentation now packages an
+actual quasi-finite flat kernel with a group-scheme isomorphism to this
+canonical ambient kernel, yielding a multiplicative point-kernel equivalence
+and exactness on every represented test object. Its finite-flat adapter
+recovers the existing canonical inclusion definitionally. The four actual
 integral factors, their extension-by-zero exact sequences, elementary
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
 specialization remain open.

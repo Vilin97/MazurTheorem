@@ -131,7 +131,11 @@ on every test scheme. A checked wrapper packages the flat, quasi-finite,
 separated, finite-presentation case, consumes those maps and the ambient kernel,
 and agrees definitionally with the finite-flat coefficient, morphism, and
 canonical-kernel APIs. The next
-boundary is to construct the four actual integral elementary factors and their
+kernel boundary is now explicit: a quasi-finite presentation supplies an
+actual quasi-finite flat group scheme together with its group-scheme
+identification with the ambient kernel, yielding pointwise exactness. The
+canonical finite-flat kernel is a checked adapter. The next boundary is to
+construct the four actual integral elementary factors and their
 exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
 finiteness.
 
@@ -157,6 +161,14 @@ finiteness.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.canonicalAmbientKernel_pointMulEquiv`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.canonicalKernel_point_mulExact`
+* `structure` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.pointKernelMulEquiv`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.point_mulExact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.ofFiniteFlatCanonical_inclusion`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
