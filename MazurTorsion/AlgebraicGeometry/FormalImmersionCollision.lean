@@ -119,4 +119,58 @@ theorem IsFormalImmersionAt.specMap_fromStalk_ext_of_isNoetherian
       Spec.map (CommRingCat.ofHom b) ≫ X.fromSpecStalk x :=
   hf.specMap_fromStalk_ext a b hrestrict
 
+/-- The local collision theorem for arbitrary morphisms from a local spectrum.  If the two
+morphisms meet at the closed point and their induced local homomorphisms agree after restriction
+along a formal immersion, then they are equal.  Maximal-adic separatedness is the precise
+target-ring hypothesis used to descend equality from completed local rings. -/
+theorem IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo
+    {X Y : Scheme.{u}} {f : X ⟶ Y}
+    {R : Type u} [CommRing R] [IsLocalRing R]
+    [IsHausdorff (IsLocalRing.maximalIdeal R) R]
+    (g h : Spec (.of R) ⟶ X)
+    (hpoint : g (IsLocalRing.closedPoint R) = h (IsLocalRing.closedPoint R))
+    (hf : IsFormalImmersionAt f (g (IsLocalRing.closedPoint R)))
+    (hrestrict :
+      (Scheme.stalkClosedPointTo g).hom.comp
+          (f.stalkMap (g (IsLocalRing.closedPoint R))).hom =
+        ((X.presheaf.stalkCongr (.of_eq hpoint)).hom ≫
+          Scheme.stalkClosedPointTo h).hom.comp
+            (f.stalkMap (g (IsLocalRing.closedPoint R))).hom) :
+    g = h := by
+  letI : IsLocalHom
+      (X.presheaf.stalkCongr (.of_eq hpoint)).hom.hom := by
+    rw [← Iso.commRingCatIsoToRingEquiv_toRingHom]
+    infer_instance
+  letI : IsLocalHom
+      ((X.presheaf.stalkCongr (.of_eq hpoint)).hom ≫
+        Scheme.stalkClosedPointTo h).hom := by
+    change IsLocalHom
+      ((Scheme.stalkClosedPointTo h).hom.comp
+        (X.presheaf.stalkCongr (.of_eq hpoint)).hom.hom)
+    infer_instance
+  have hlocal := hf.localHom_ext
+    (Scheme.stalkClosedPointTo g).hom
+    ((X.presheaf.stalkCongr (.of_eq hpoint)).hom ≫
+      Scheme.stalkClosedPointTo h).hom hrestrict
+  apply (SpecToEquivOfLocalRing X (.of R)).injective
+  apply (SpecToEquivOfLocalRing_eq_iff (X := X) (R := .of R)).mpr
+  exact ⟨hpoint, CommRingCat.hom_ext hlocal⟩
+
+/-- Noetherian local rings supply the separatedness needed by
+`spec_ext_of_stalkClosedPointTo`. -/
+theorem IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo_of_isNoetherian
+    {X Y : Scheme.{u}} {f : X ⟶ Y}
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    (g h : Spec (.of R) ⟶ X)
+    (hpoint : g (IsLocalRing.closedPoint R) = h (IsLocalRing.closedPoint R))
+    (hf : IsFormalImmersionAt f (g (IsLocalRing.closedPoint R)))
+    (hrestrict :
+      (Scheme.stalkClosedPointTo g).hom.comp
+          (f.stalkMap (g (IsLocalRing.closedPoint R))).hom =
+        ((X.presheaf.stalkCongr (.of_eq hpoint)).hom ≫
+          Scheme.stalkClosedPointTo h).hom.comp
+            (f.stalkMap (g (IsLocalRing.closedPoint R))).hom) :
+    g = h :=
+  hf.spec_ext_of_stalkClosedPointTo g h hpoint hrestrict
+
 end AlgebraicGeometry
