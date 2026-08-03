@@ -1624,12 +1624,14 @@ packaged as cardinality `1 = p^0`, with a compiled low-degree Euler consumer.
 The represented additive point maps
 now have their actual pointwise categorical cokernel presheaves,
 objectwise-surjective projections, and exact short complexes, and the two
-typed bad-level inclusions consume this interface. This is deliberately only
-the presheaf precursor: fppf sheafification, bad-fibre support, and local
-surjectivity of the supported quotient projection remain to be proved. The
-supported sheaf localization sequences at the bad fibre, the quasi-finite
-admissible-filtration exact sequences, both bad-level `H¹` certificates,
-middle-`H¹` finiteness, and the focused rank-zero
+typed bad-level inclusions consume this interface. Their universe-lifted
+`AddCommGrp` fppf sheafifications are now the actual cokernel terms in
+categorically exact short complexes. The canonical projections from the
+represented ambient point sheaves are genuinely locally surjective and epic.
+No representability or bad-fibre support is inferred: support over `D(level)`, site
+restriction, and the supported sheaf localization sequences at the bad fibre
+remain open, followed by the quasi-finite admissible-filtration exact sequences,
+both bad-level `H¹` certificates, middle-`H¹` finiteness, and the focused rank-zero
 specialization remain open. The supported quotient terms in the localization
 sequences are not quasi-finite flat group schemes.
 
