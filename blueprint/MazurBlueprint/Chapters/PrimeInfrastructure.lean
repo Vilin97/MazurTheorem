@@ -177,11 +177,12 @@ Independent common-refinement arguments prove exactness at quotient `H⁰`,
 kernel `H¹`, and middle `H¹`: quotient gauges are lifted on genuine fppf
 refinements, and certified kernel uniqueness produces the required kernel
 cocycle. All three proofs feed the concrete low-degree constructor, which
-accepts no exactness hypotheses. A checked downstream consumer now turns six
-finite-cardinality certificates for an actual quotient presentation directly
-into the middle global `H¹` cardinal bound. The arithmetic certificates and
-focused rank-zero specialization are still absent, so no node credit is
-claimed.
+accepts no exactness hypotheses. A checked downstream consumer now applies the
+exact maps directly: five endpoint finite-cardinality certificates and mere
+finiteness of the middle global `H¹` imply its cardinal bound. It no longer
+assumes the exact cardinal of the group being bounded. The arithmetic endpoint
+certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
+are still absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

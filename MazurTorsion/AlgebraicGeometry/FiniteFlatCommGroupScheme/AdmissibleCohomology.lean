@@ -340,29 +340,54 @@ private theorem card_range_eq_of_injective
   symm
   exact Nat.card_congr (Equiv.ofInjective f hf)
 
+/-- Multiplicative cardinal subadditivity for five consecutive maps in an exact sequence.
+
+Unlike `FppfLowDegreeExactSequence.card_euler_le`, this form needs only finiteness of the six
+groups.  In particular, a geometric consumer can bound the middle `H¹` without first supplying
+its exact `p`-power cardinality. -/
+theorem card_euler_le_of_exact
+    {A₀ B₀ C₀ : Type u} {A₁ B₁ C₁ : Type v}
+    [Group A₀] [Group B₀] [Group C₀]
+    [Group A₁] [Group B₁] [Group C₁]
+    [Finite A₀] [Finite B₀] [Finite C₀]
+    [Finite A₁] [Finite B₁] [Finite C₁]
+    (i₀ : A₀ →* B₀) (q₀ : B₀ →* C₀) (d : C₀ →* A₁)
+    (i₁ : A₁ →* B₁) (q₁ : B₁ →* C₁)
+    (hi₀ : Function.Injective i₀)
+    (hB₀ : Function.MulExact i₀ q₀)
+    (hC₀ : Function.MulExact q₀ d)
+    (hA₁ : Function.MulExact d i₁)
+    (hB₁ : Function.MulExact i₁ q₁) :
+    Nat.card B₁ * Nat.card A₀ * Nat.card C₀ ≤
+      Nat.card B₀ * Nat.card A₁ * Nat.card C₁ := by
+  have hcardB₀ := card_eq_range_mul_range i₀ q₀ hB₀
+  have hcardC₀ := card_eq_range_mul_range q₀ d hC₀
+  have hcardA₁ := card_eq_range_mul_range d i₁ hA₁
+  have hcardB₁ := card_eq_range_mul_range i₁ q₁ hB₁
+  have hcardA₀ := card_range_eq_of_injective i₀ hi₀
+  rw [hcardB₀, hcardC₀, hcardA₁, hcardB₁, ← hcardA₀]
+  have hrange : Nat.card q₁.range ≤ Nat.card C₁ :=
+    q₁.range.card_le_card_group
+  calc
+    (Nat.card i₁.range * Nat.card q₁.range) *
+          Nat.card i₀.range *
+          (Nat.card q₀.range * Nat.card d.range) ≤
+        (Nat.card i₁.range * Nat.card C₁) *
+          Nat.card i₀.range *
+          (Nat.card q₀.range * Nat.card d.range) := by
+      gcongr
+    _ = (Nat.card i₀.range * Nat.card q₀.range) *
+          (Nat.card d.range * Nat.card i₁.range) *
+          Nat.card C₁ := by ac_rfl
+
 /-- Multiplicative cardinal form of subadditivity for the five-term exact sequence. -/
 theorem card_euler_le (D : FppfLowDegreeExactSequence.{u} p) :
     Nat.card D.middleHOne * Nat.card D.kernelHZero * Nat.card D.quotientHZero ≤
       Nat.card D.middleHZero * Nat.card D.kernelHOne * Nat.card D.quotientHOne := by
-  have hB0 := card_eq_range_mul_range D.includeHZero D.projectHZero D.exact_middleHZero
-  have hC0 := card_eq_range_mul_range D.projectHZero D.boundary D.exact_quotientHZero
-  have hA1 := card_eq_range_mul_range D.boundary D.includeHOne D.exact_kernelHOne
-  have hB1 := card_eq_range_mul_range D.includeHOne D.projectHOne D.exact_middleHOne
-  have hA0 := card_range_eq_of_injective D.includeHZero D.includeHZero_injective
-  rw [hB0, hC0, hA1, hB1, ← hA0]
-  have hrange : Nat.card D.projectHOne.range ≤ Nat.card D.quotientHOne :=
-    D.projectHOne.range.card_le_card_group
-  calc
-    (Nat.card D.includeHOne.range * Nat.card D.projectHOne.range) *
-          Nat.card D.includeHZero.range *
-          (Nat.card D.projectHZero.range * Nat.card D.boundary.range) ≤
-        (Nat.card D.includeHOne.range * Nat.card D.quotientHOne) *
-          Nat.card D.includeHZero.range *
-          (Nat.card D.projectHZero.range * Nat.card D.boundary.range) := by
-      gcongr
-    _ = (Nat.card D.includeHZero.range * Nat.card D.projectHZero.range) *
-          (Nat.card D.boundary.range * Nat.card D.includeHOne.range) *
-          Nat.card D.quotientHOne := by ac_rfl
+  exact card_euler_le_of_exact
+    D.includeHZero D.projectHZero D.boundary D.includeHOne D.projectHOne
+    D.includeHZero_injective D.exact_middleHZero D.exact_quotientHZero
+    D.exact_kernelHOne D.exact_middleHOne
 
 /-- Natural-number form of the low-degree Euler-length inequality. -/
 theorem length_euler_le (D : FppfLowDegreeExactSequence.{u} p) (hp : p.Prime) :
