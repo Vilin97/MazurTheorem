@@ -19,8 +19,9 @@ packages the represented-point groups and global fppf `H¹` groups into the exis
 
 The certified kernel property proves left injectivity and exactness at the middle degree-zero
 term.  Fppf descent proves exactness at the quotient degree-zero term by gluing a gauged system
-of local lifts.  The two following `H¹` exactness assertions remain explicit input: the checked
-image-in-kernel laws do not masquerade as the missing reverse inclusions.
+of local lifts.  A second descent argument lifts a trivializing quotient-valued gauge and proves
+exactness at the middle `H¹` term.  Exactness at kernel `H¹` remains explicit input here: the
+checked image-in-kernel law does not masquerade as that remaining reverse inclusion.
 -/
 
 noncomputable section
@@ -34,6 +35,117 @@ namespace AlgebraicGeometry.FiniteFlatCommGroupScheme
 universe u
 
 variable {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
+
+/-- Gauge a represented-point one-cocycle by a represented-point zero-cochain. -/
+def pointGaugeOneCocycle (G : FiniteFlatCommGroupScheme S)
+    {I : Type u} {U : I → Over S}
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U)
+    (gauge : ∀ i : I, G.Point (U i)) :
+    PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U where
+  toOneCochain :=
+    { ev := fun i j T x y ↦
+        pullPoint G x (gauge i) * (show G.Point T from c.ev i j x y) *
+          (pullPoint G y (gauge j))⁻¹
+      ev_precomp := by
+        intro i j T V g x y
+        change pullPoint G g
+            (pullPoint G x (gauge i) * (show G.Point V from c.ev i j x y) *
+              (pullPoint G y (gauge j))⁻¹) =
+          pullPoint G (g ≫ x) (gauge i) *
+            (show G.Point T from c.ev i j (g ≫ x) (g ≫ y)) *
+              (pullPoint G (g ≫ y) (gauge j))⁻¹
+        have hcev : pullPoint G g (show G.Point V from c.ev i j x y) =
+            (show G.Point T from c.ev i j (g ≫ x) (g ≫ y)) := by
+          exact c.ev_precomp i j g x y
+        rw [map_mul, map_mul, map_inv, ← pullPoint_comp, ← pullPoint_comp, hcev] }
+  ev_trans i j k T x y z := by
+    let cij : G.Point T := c.ev i j x y
+    let cjk : G.Point T := c.ev j k y z
+    let cik : G.Point T := c.ev i k x z
+    change
+      (pullPoint G x (gauge i) *
+          cij *
+            (pullPoint G y (gauge j))⁻¹) *
+        (pullPoint G y (gauge j) *
+          cjk *
+            (pullPoint G z (gauge k))⁻¹) =
+      pullPoint G x (gauge i) *
+        cik *
+          (pullPoint G z (gauge k))⁻¹
+    have hc : cij * cjk = cik := c.ev_trans i j k x y z
+    rw [← hc]
+    group
+
+/-- A cocycle and any of its represented-point gauge transforms are cohomologous via the
+displayed zero-cochain. -/
+theorem pointGaugeOneCocycle_isCohomologous (G : FiniteFlatCommGroupScheme S)
+    {I : Type u} {U : I → Over S}
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U)
+    (gauge : ∀ i : I, G.Point (U i)) :
+    c.IsCohomologous (pointGaugeOneCocycle G c gauge) := by
+  refine ⟨gauge, ?_⟩
+  intro i j T x y
+  change pullPoint G x (gauge i) * (show G.Point T from c.ev i j x y) =
+    (pullPoint G x (gauge i) * (show G.Point T from c.ev i j x y) *
+      (pullPoint G y (gauge j))⁻¹) * pullPoint G y (gauge j)
+  group
+
+namespace KernelPresentation
+
+variable {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
+
+/-- A `G`-valued one-cocycle whose values are pointwise killed by `f` lifts uniquely to a
+one-cocycle valued in a certified scheme-theoretic kernel of `f`.  Naturality and the cocycle
+law follow from uniqueness of kernel lifts on every test scheme. -/
+def liftOneCocycle (P : KernelPresentation f)
+    {I : Type u} {U : I → Over S}
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U)
+    (hc : ∀ (i j : I) (T : Over S) (a : T ⟶ U i) (b : T ⟶ U j),
+      mapPoint f T (c.ev i j a b) = 1) :
+    PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf P.kernel)) U where
+  toOneCochain :=
+    { ev := fun i j T a b ↦
+        P.liftPoint (show G.Point T from c.ev i j a b) (hc i j T a b)
+      ev_precomp := by
+        intro i j T V g a b
+        change pullPoint P.kernel g
+            (P.liftPoint (show G.Point V from c.ev i j a b) (hc i j V a b)) =
+          P.liftPoint (show G.Point T from c.ev i j (g ≫ a) (g ≫ b))
+            (hc i j T (g ≫ a) (g ≫ b))
+        apply P.inclusion_point_injective T
+        rw [mapPoint_pullPoint, P.mapPoint_liftPoint, P.mapPoint_liftPoint]
+        exact c.ev_precomp i j g a b }
+  ev_trans i j k T a b d := by
+    change P.liftPoint (show G.Point T from c.ev i j a b) (hc i j T a b) *
+        P.liftPoint (show G.Point T from c.ev j k b d) (hc j k T b d) =
+      P.liftPoint (show G.Point T from c.ev i k a d) (hc i k T a d)
+    apply P.inclusion_point_injective T
+    rw [map_mul, P.mapPoint_liftPoint, P.mapPoint_liftPoint, P.mapPoint_liftPoint]
+    exact c.ev_trans i j k a b d
+
+/-- Mapping the uniquely lifted cocycle back along the kernel inclusion recovers the original
+cocycle strictly. -/
+theorem mapOneCocycle_liftOneCocycle (P : KernelPresentation f)
+    {I : Type u} {U : I → Over S}
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U)
+    (hc : ∀ (i j : I) (T : Over S) (a : T ⟶ U i) (b : T ⟶ U j),
+      mapPoint f T (c.ev i j a b) = 1) :
+    PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap P.inclusion) (P.liftOneCocycle c hc) = c := by
+  apply PresheafOfCommGroups.OneCocycle.ext
+  apply PresheafOfGroups.OneCochain.ext
+  funext i j T a b
+  change mapPoint P.inclusion T
+      (P.liftPoint (show G.Point T from c.ev i j a b) (hc i j T a b)) = c.ev i j a b
+  exact P.mapPoint_liftPoint (c.ev i j a b) (hc i j T a b)
+
+end KernelPresentation
 
 namespace FppfQuotientPresentation
 
@@ -77,6 +189,239 @@ def locallyLiftable (D : FppfQuotientPresentation G) :
             pullback.fst q.left (hom D.project) ≫ q.left =
               pullback.snd q.left (hom D.project) ≫ hom D.project).symm
       }
+
+/-- Refine an fppf cover so that every member of a quotient-valued zero-cochain acquires a
+lift through the quotient projection.  Each component is refined by the pullback of the actual
+singleton quotient cover. -/
+noncomputable def gaugeLiftCover (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, D.quotient.Point (U.overFamily i)) :
+    Scheme.Cover.{u} Scheme.fppfPrecoverage S :=
+  U.bind fun i ↦ D.projectCover.pullback₁ (b i).left
+
+/-- The composite gauge-lifting cover genuinely refines the original cover. -/
+def gaugeLiftCoverHom (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, D.quotient.Point (U.overFamily i)) :
+    (D.gaugeLiftCover U b).Hom U where
+  s₀ ij := ij.1
+  h₀ ij := (D.projectCover.pullback₁ (b ij.1).left).f ij.2
+  w₀ _ := rfl
+
+/-- The tautological lift of a quotient-valued zero-cochain on its gauge-lifting cover. -/
+def gaugeLift (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, D.quotient.Point (U.overFamily i))
+    (ij : (D.gaugeLiftCover U b).I₀) :
+    G.Point ((D.gaugeLiftCover U b).overFamily ij) :=
+  Over.homMk (pullback.snd (b ij.1).left (hom D.project)) (by
+    change pullback.snd (b ij.1).left (hom D.project) ≫ G.structureMap =
+      pullback.fst (b ij.1).left (hom D.project) ≫ U.f ij.1
+    rw [← hom_comp_structureMap D.project, ← Category.assoc,
+      ← pullback.condition, Category.assoc, Over.w (b ij.1)]
+    rfl)
+
+/-- The tautological gauge lift maps to the pullback of the original quotient-valued
+zero-cochain. -/
+theorem mapPoint_gaugeLift (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, D.quotient.Point (U.overFamily i))
+    (ij : (D.gaugeLiftCover U b).I₀) :
+    mapPoint D.project ((D.gaugeLiftCover U b).overFamily ij) (D.gaugeLift U b ij) =
+      pullPoint D.quotient
+        ((Scheme.Cover.Hom.toOverFamilyRefinement (D.gaugeLiftCoverHom U b)).map ij)
+        (b ((Scheme.Cover.Hom.toOverFamilyRefinement
+          (D.gaugeLiftCoverHom U b)).index ij)) := by
+  apply Over.OverMorphism.ext
+  change pullback.snd (b ij.1).left (hom D.project) ≫ hom D.project =
+    pullback.fst (b ij.1).left (hom D.project) ≫ (b ij.1).left
+  exact pullback.condition.symm
+
+/-- Cover-level reverse exactness at the middle `H¹` term.  If the projected cocycle is
+cohomologous to one on its current cover, refine by the pulled-back quotient cover, lift the
+trivializing gauge, and take the uniquely kernel-valued gauge transform. -/
+theorem exists_kernelClass_of_mapOneCocycle_isCohomologous_one
+    (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U.overFamily)
+    (hc : (PresheafOfCommGroups.NatTrans.mapOneCocycle
+      (commPointPresheafMap D.project) c).IsCohomologous 1) :
+    ∃ z : D.kernelPresentation.kernel.FppfHOne.{u},
+      fppfHOneMap D.kernelPresentation.inclusion z =
+        fppfHOneClass G U c.class := by
+  obtain ⟨b, hb⟩ := hc
+  let qGauge (i : U.I₀) : D.quotient.Point (U.overFamily i) := b i
+  have hb' : ∀ (i j : U.I₀) (T : Over S)
+      (a : T ⟶ U.overFamily i) (d : T ⟶ U.overFamily j),
+      pullPoint D.quotient a (qGauge i) *
+          mapPoint D.project T (show G.Point T from c.ev i j a d) =
+        1 * pullPoint D.quotient d (qGauge j) := by
+    intro i j T a d
+    exact hb i j a d
+  let V := D.gaugeLiftCover U qGauge
+  let r : V.Hom U := D.gaugeLiftCoverHom U qGauge
+  let rr := Scheme.Cover.Hom.toOverFamilyRefinement r
+  let cV := rr.pullbackOneCocycle c
+  let gauge (i : V.I₀) : G.Point (V.overFamily i) := D.gaugeLift U qGauge i
+  let d := pointGaugeOneCocycle G cV gauge
+  have hd : ∀ (i j : V.I₀) (T : Over S)
+      (a : T ⟶ V.overFamily i) (e : T ⟶ V.overFamily j),
+      mapPoint D.project T (show G.Point T from d.ev i j a e) = 1 := by
+    intro i j T a e
+    have hrel := hb' (rr.index i) (rr.index j) T
+      (a ≫ rr.map i) (e ≫ rr.map j)
+    change mapPoint D.project T
+        (pullPoint G a (gauge i) *
+          (show G.Point T from cV.ev i j a e) *
+            (pullPoint G e (gauge j))⁻¹) = 1
+    rw [map_mul, map_mul, map_inv, mapPoint_pullPoint, mapPoint_pullPoint]
+    rw [D.mapPoint_gaugeLift U qGauge, D.mapPoint_gaugeLift U qGauge]
+    rw [← pullPoint_comp, ← pullPoint_comp]
+    change
+      pullPoint D.quotient (a ≫ rr.map i) (qGauge (rr.index i)) *
+          mapPoint D.project T
+            (show G.Point T from c.ev (rr.index i) (rr.index j)
+              (a ≫ rr.map i) (e ≫ rr.map j)) *
+            (pullPoint D.quotient (e ≫ rr.map j) (qGauge (rr.index j)))⁻¹ = 1
+    rw [hrel]
+    group
+  let k := D.kernelPresentation.liftOneCocycle d hd
+  refine ⟨fppfHOneClass D.kernelPresentation.kernel V k.class, ?_⟩
+  rw [fppfHOneMap_class]
+  change fppfHOneClass G V
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.kernelPresentation.inclusion) k).class =
+    fppfHOneClass G U c.class
+  rw [D.kernelPresentation.mapOneCocycle_liftOneCocycle d hd]
+  calc
+    fppfHOneClass G V d.class = fppfHOneClass G V cV.class :=
+      congrArg (fppfHOneClass G V)
+        (pointGaugeOneCocycle_isCohomologous G cV gauge).class_eq.symm
+    _ = fppfHOneClass G U c.class := by
+      have h := fppfHOneClass_pullback G U V r c.class
+      change fppfHOneClass G V
+        ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
+          fppfHOneClass G U c.class at h
+      exact h
+
+/-- A represented global `H¹(G)` class killed by the quotient map comes from the kernel after
+passing to the common refinement which witnesses global triviality. -/
+theorem exists_kernelClass_of_fppfHOneMap_class_eq_one
+    (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (c : PresheafOfGroups.OneCocycle
+      (PresheafOfCommGroups.toGroups (commPointPresheaf G)) U.overFamily)
+    (hc : fppfHOneMap D.project (fppfHOneClass G U c.class) = 1) :
+    ∃ z : D.kernelPresentation.kernel.FppfHOne.{u},
+      fppfHOneMap D.kernelPresentation.inclusion z =
+        fppfHOneClass G U c.class := by
+  change fppfHOneClass D.quotient U
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.project) c).class = 1 at hc
+  have hc' : Scheme.FppfHOne.mk U
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.project) c).class =
+      Scheme.FppfHOne.mk (Scheme.FppfHOne.identityCover S) 1 := by
+    rw [Scheme.FppfHOne.mk_one]
+    exact hc
+  obtain ⟨W, r, s, hrs⟩ :=
+    (Scheme.FppfHOne.class_eq_iff U (Scheme.FppfHOne.identityCover S)
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.project) c).class 1).mp hc'
+  let rr := Scheme.Cover.Hom.toOverFamilyRefinement r
+  let cW := rr.pullbackOneCocycle c
+  have hrs' :
+      (rr.pullbackOneCocycle
+        (PresheafOfCommGroups.NatTrans.mapOneCocycle
+          (commPointPresheafMap D.project) c)).class = 1 := by
+    simpa only [Scheme.Cover.Hom.pullbackHOne,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_class,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_one] using hrs
+  have hmap :
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.project) cW).class = 1 := by
+    dsimp only [cW]
+    rw [PresheafOfCommGroups.NatTrans.mapOneCocycle_pullback]
+    exact hrs'
+  have hcoh :
+      (PresheafOfCommGroups.NatTrans.mapOneCocycle
+        (commPointPresheafMap D.project) cW).IsCohomologous 1 :=
+    (PresheafOfGroups.OneCocycle.class_eq_iff _ 1).mp hmap
+  obtain ⟨z, hz⟩ := D.exists_kernelClass_of_mapOneCocycle_isCohomologous_one W cW hcoh
+  refine ⟨z, hz.trans ?_⟩
+  have h := fppfHOneClass_pullback G U W r c.class
+  change fppfHOneClass G W
+      ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle c).class =
+    fppfHOneClass G U c.class at h
+  exact h
+
+/-- Reverse exactness at the middle global `H¹` term, for an arbitrary class represented in
+the common-refinement quotient. -/
+theorem exists_kernelClass_of_fppfHOneMap_eq_one
+    (D : FppfQuotientPresentation G) (z : G.FppfHOne.{u})
+    (hz : fppfHOneMap D.project z = 1) :
+    ∃ y : D.kernelPresentation.kernel.FppfHOne.{u},
+      fppfHOneMap D.kernelPresentation.inclusion y = z := by
+  induction z using Quot.inductionOn with
+  | _ a =>
+      rcases a with ⟨U, x⟩
+      induction x using Quot.inductionOn with
+      | _ c => exact D.exists_kernelClass_of_fppfHOneMap_class_eq_one U c hz
+
+/-- Extending a kernel torsor to the middle group scheme and then to the quotient gives the
+trivial torsor.  This is the direct image-in-kernel half of middle-`H¹` exactness. -/
+@[simp]
+theorem fppfHOneMap_project_fppfHOneMap_inclusion
+    (D : FppfQuotientPresentation G)
+    (z : D.kernelPresentation.kernel.FppfHOne.{u}) :
+    fppfHOneMap D.project
+      (fppfHOneMap D.kernelPresentation.inclusion z) = 1 := by
+  induction z using Quot.inductionOn with
+  | _ a =>
+      rcases a with ⟨U, x⟩
+      induction x using Quot.inductionOn with
+      | _ c =>
+          change fppfHOneClass D.quotient U
+            (PresheafOfCommGroups.NatTrans.mapOneCocycle
+              (commPointPresheafMap D.project)
+              (PresheafOfCommGroups.NatTrans.mapOneCocycle
+                (commPointPresheafMap D.kernelPresentation.inclusion) c)).class = 1
+          have hmap :
+              PresheafOfCommGroups.NatTrans.mapOneCocycle
+                (commPointPresheafMap D.project)
+                (PresheafOfCommGroups.NatTrans.mapOneCocycle
+                  (commPointPresheafMap D.kernelPresentation.inclusion) c) = 1 := by
+            apply PresheafOfCommGroups.OneCocycle.ext
+            apply PresheafOfGroups.OneCochain.ext
+            funext i j T a b
+            change mapPoint D.project T
+              (mapPoint D.kernelPresentation.inclusion T
+                (show D.kernelPresentation.kernel.Point T from c.ev i j a b)) = 1
+            exact D.kernelPresentation.mapPoint_inclusion_eq_one T _
+          rw [hmap]
+          exact Scheme.FppfHOne.mk_one U
+
+/-- A middle `H¹` class maps trivially to the quotient if and only if it is induced from a
+kernel `H¹` class. -/
+theorem fppfHOneMap_project_eq_one_iff_exists_kernelClass
+    (D : FppfQuotientPresentation G) (z : G.FppfHOne.{u}) :
+    fppfHOneMap D.project z = 1 ↔
+      ∃ y : D.kernelPresentation.kernel.FppfHOne.{u},
+        fppfHOneMap D.kernelPresentation.inclusion y = z := by
+  constructor
+  · exact D.exists_kernelClass_of_fppfHOneMap_eq_one z
+  · rintro ⟨y, rfl⟩
+    exact D.fppfHOneMap_project_fppfHOneMap_inclusion y
+
+/-- Exactness of the global fppf `H¹` sequence at the middle group scheme for every checked
+fppf quotient presentation. -/
+theorem exact_fppfHOneMap_inclusion_project (D : FppfQuotientPresentation G) :
+    Function.MulExact
+      (fppfHOneMap D.kernelPresentation.inclusion :
+        D.kernelPresentation.kernel.FppfHOne.{u} →* G.FppfHOne.{u})
+      (fppfHOneMap D.project : G.FppfHOne.{u} →* D.quotient.FppfHOne.{u}) :=
+  fun z ↦ D.fppfHOneMap_project_eq_one_iff_exists_kernelClass z
 
 /-- The canonical connecting homomorphism of an actual checked fppf quotient presentation.  Its
 value is the kernel torsor of the tautological local lifts on the pulled-back quotient cover. -/
@@ -371,8 +716,8 @@ def ofKernelPresentation {p : ℕ} (P : KernelPresentation f)
 
 /-- The concrete low-degree sequence constructor for an actual fppf quotient presentation.  It
 uses the quotient's pulled-back singleton cover, the resulting checked boundary homomorphism,
-and fppf descent for exactness at quotient-valued global sections. Only the two genuinely
-degree-one reverse exactness statements remain arguments. -/
+and fppf descent for exactness at quotient-valued global sections and middle `H¹`.  Only the
+reverse exactness statement at kernel `H¹` remains an argument. -/
 def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     (D : FppfQuotientPresentation G)
     (kernelHZeroData : FinitePGroup.CertifiedData p
@@ -384,15 +729,13 @@ def ofFppfQuotientPresentation {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     (middleHOneData : FinitePGroup.CertifiedData p G.FppfHOne.{u})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{u})
     (exact_kernelHOne : Function.MulExact D.boundaryHom
-      (fppfHOneMap D.kernelPresentation.inclusion))
-    (exact_middleHOne : Function.MulExact
-      (fppfHOneMap D.kernelPresentation.inclusion) (fppfHOneMap D.project)) :
+      (fppfHOneMap D.kernelPresentation.inclusion)) :
     FppfLowDegreeExactSequence.{u + 1} p :=
   ofKernelPresentation D.kernelPresentation D.locallyLiftable
     kernelHZeroData middleHZeroData quotientHZeroData
     kernelHOneData middleHOneData quotientHOneData
     (FinitePGroup.mulExact_ulift_downMonoidHom D.exact_project_boundaryHom)
-    exact_kernelHOne exact_middleHOne
+    exact_kernelHOne D.exact_fppfHOneMap_inclusion_project
 
 end FppfLowDegreeExactSequence
 
