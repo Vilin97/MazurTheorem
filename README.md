@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 697 checked Lean sources and 1,447,085
+The integrated development contains 698 checked Lean sources and 1,447,311
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -51,9 +51,10 @@ local rings and the actual surjectivity definition of formal immersion, with
 identity and composition consumers. It also has the canonical map on stalk
 cotangent spaces, its first-order criterion, and a residue-honest degree-one
 certificate that the future q-expansion proof must fill. This is deliberately
-not node completion: the Noetherian theorem deriving completion surjectivity
-from the cotangent criterion, integral cusp geometry, modular quotient, and
-cusp-collision theorem remain open.
+not node completion: a checked Nakayama step now identifies the generated
+maximal ideal and the criterion is surjective modulo its square, but the full
+adic-quotient/completion-surjectivity theorem, integral cusp geometry, modular
+quotient, and cusp-collision theorem remain open.
 
 The order-35 lane also now checks the opposite rational point-function
 candidate and the composite identity `dual (candidate P) = 3 • P`, together

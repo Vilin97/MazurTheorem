@@ -36,7 +36,7 @@ dependency.
 The latest integrated package has 1,432,541 project-specific lines across 663
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
-root aggregators. These 697 sources and 1,447,085 checked lines build without
+root aggregators. These 698 sources and 1,447,311 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1589,8 +1589,11 @@ theorem derives the canonical cotangent criterion.
 The canonical cotangent map and the combined criterion are functorial for
 composites, providing the checked factorization shape `X₀ ⟶ J₀ ⟶ A`.
 The corresponding completed-stalk factorization has now also been checked.
-What remains open at this boundary is the locally Noetherian theorem deriving
-completed-ring surjectivity from the residue-field and cotangent criterion.
+The finite-maximal-ideal Nakayama consequence and surjectivity on the quotient
+by the square of the maximal ideal compile, including scheme and modular
+degree-one consumers. What remains open at this boundary is passage through
+the full adic tower, deriving completed-ring surjectivity from the
+residue-field and cotangent criterion.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier

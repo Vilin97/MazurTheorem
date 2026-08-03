@@ -78,10 +78,14 @@ Current machine-checked results include:
   surjectivity criterion. The maximal-ideal-adic completion map now also
   compiles for arbitrary local homomorphisms, is functorial, and defines
   `AlgebraicGeometry.IsFormalImmersionAt` by actual completed-local-ring
-  surjectivity; identity and composition are checked consumers.
-  The Noetherian converse from the cotangent criterion, integral cusp model,
-  q-expansion calculation, and formal-immersion collision remain open, so no
-  roadmap node is credited;
+  surjectivity; identity and composition are checked consumers. Under finite
+  generation of the target maximal ideal, a checked Nakayama theorem shows
+  that cotangent surjectivity generates that maximal ideal. Residue and
+  cotangent surjectivity also give a surjection modulo its square, with the
+  modular degree-one certificate as a downstream consumer.
+  The full adic/completion converse, integral cusp model, q-expansion
+  calculation, and formal-immersion collision remain open, so no roadmap node
+  is credited;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

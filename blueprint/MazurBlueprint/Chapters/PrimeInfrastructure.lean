@@ -140,8 +140,10 @@ toric reduction of the modular Jacobian.
 The functorial completed-stalk map and the actual formal-immersion predicate
 now compile with identity and composition consumers. The canonical
 stalk-cotangent map and its residue-honest first-order criterion also compile.
-The locally Noetherian converse from that criterion and the integral cusp
-comparison remain open, so this node receives no completion credit.
+The finite-maximal-ideal Nakayama consequence and surjectivity modulo the
+square compile with a modular degree-one consumer. Passage through the full
+adic tower and the integral cusp comparison remain open, so this node receives
+no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
