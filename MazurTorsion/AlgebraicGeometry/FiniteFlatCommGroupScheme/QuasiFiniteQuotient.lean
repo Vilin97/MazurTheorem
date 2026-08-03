@@ -67,7 +67,7 @@ theorem project_point_eq_one_iff (D : FppfQuotientPresentation G)
     (T : Over S) (x : CommGroupScheme.Point G.obj T) :
     mapPoint D.project T x = 1 ↔
       x ∈ Set.range (mapPoint D.kernelPresentation.inclusion T) := by
-  exact D.kernelPresentation.point_mulExact T x
+  exact D.kernelPresentation.toCommGroupScheme.mapPoint_eq_one_iff_exists_kernelPoint T x
 
 /-- Regard a checked finite-flat fppf quotient as a quasi-finite one. -/
 noncomputable def ofFiniteFlat
