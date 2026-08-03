@@ -16,15 +16,15 @@ kernel.  `KernelPresentation` records exactly this data as an isomorphism of com
 schemes.
 
 The chosen identification yields a multiplicative equivalence with the pointwise kernel and
-therefore exactness on points of every test scheme.  The final adapter is a genuine downstream
-consumer: when the canonical kernel is finite flat and locally of finite presentation, the
-existing finite-flat kernel supplies this quasi-finite presentation definitionally.  No general
-kernel-flatness or quotient-representability theorem is asserted.
+therefore exactness on points of every test scheme.  The final adapters are genuine downstream
+consumers: the canonical finite-flat kernel supplies such a presentation definitionally, and any
+previously certified finite-flat kernel presentation is compared geometrically with the ambient
+kernel.  No general kernel-flatness or quotient-representability theorem is asserted.
 -/
 
 noncomputable section
 
-open CategoryTheory
+open CategoryTheory CategoryTheory.Limits
 open scoped CategoryTheory.MonObj
 
 namespace AlgebraicGeometry.CommGroupScheme
@@ -62,6 +62,98 @@ def pointMulEquivOfIso (e : G ≅ H) (T : Over S) : G.Point T ≃* H.Point T whe
   map_mul' x y := map_mul (mapPoint e.hom T) x y
 
 end AlgebraicGeometry.CommGroupScheme
+
+namespace AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation
+
+universe u
+
+variable {S : Scheme.{u}} {G H : FiniteFlatCommGroupScheme S}
+variable {f : G ⟶ H} (P : KernelPresentation f)
+
+private theorem inclusion_zero_grp :
+    P.inclusion.hom.hom ≫ f.hom.hom =
+      (default : P.kernel.obj.toGrp ⟶ Grp.trivial (Over S)) ≫
+        CommGroupScheme.kernelZero H.obj := by
+  apply Grp.hom_ext
+  apply Over.OverMorphism.ext
+  exact P.inclusion_condition
+
+/-- Comparison from a certified finite-flat kernel to the canonical ambient kernel. -/
+noncomputable def toCommGroupSchemeKernel :
+    P.kernel.obj ⟶ CommGroupScheme.kernel f.hom := by
+  apply InducedCategory.homMk
+  exact pullback.lift P.inclusion.hom.hom default P.inclusion_zero_grp
+
+@[reassoc]
+theorem toCommGroupSchemeKernel_comp_kernelInclusion :
+    P.toCommGroupSchemeKernel ≫ CommGroupScheme.kernelInclusion f.hom =
+      P.inclusion.hom := by
+  apply CommGrp.hom_ext
+  have hlift := pullback.lift_fst P.inclusion.hom.hom
+    (default : P.kernel.obj.toGrp ⟶ Grp.trivial (Over S)) P.inclusion_zero_grp
+  exact congrArg (fun q ↦ q.hom.hom) hlift
+
+@[reassoc]
+theorem toCommGroupSchemeKernel_hom_comp_kernelSchemeIso :
+    CommGroupScheme.underlyingHom P.toCommGroupSchemeKernel ≫
+      (CommGroupScheme.kernelSchemeIso f.hom).hom =
+        P.schemeIso.hom := by
+  apply pullback.hom_ext
+  · rw [Category.assoc, CommGroupScheme.kernelSchemeIso_hom_kernelι]
+    change
+      (pullback.lift P.inclusion.hom.hom default P.inclusion_zero_grp).hom.hom.left ≫
+          (pullback.fst f.hom.hom (CommGroupScheme.kernelZero H.obj)).hom.hom.left =
+        P.schemeIso.hom ≫ kernelι f
+    rw [P.schemeIso_hom_kernelι]
+    have hlift := pullback.lift_fst P.inclusion.hom.hom
+      (default : P.kernel.obj.toGrp ⟶ Grp.trivial (Over S)) P.inclusion_zero_grp
+    exact congrArg (fun q ↦ q.hom.hom.left) hlift
+  · rw [Category.assoc, CommGroupScheme.kernelSchemeIso_hom_structureMap]
+    change
+      (pullback.lift P.inclusion.hom.hom default P.inclusion_zero_grp).hom.hom.left ≫
+          (CommGroupScheme.kernel f.hom).X.hom =
+        P.schemeIso.hom ≫ kernelStructureMap f
+    rw [P.schemeIso_hom_structureMap]
+    exact Over.w (pullback.lift P.inclusion.hom.hom default P.inclusion_zero_grp).hom.hom
+
+theorem toCommGroupSchemeKernel_underlyingHom :
+    CommGroupScheme.underlyingHom P.toCommGroupSchemeKernel =
+      P.schemeIso.hom ≫ (CommGroupScheme.kernelSchemeIso f.hom).inv := by
+  apply (cancel_mono (CommGroupScheme.kernelSchemeIso f.hom).hom).1
+  rw [Category.assoc, (CommGroupScheme.kernelSchemeIso f.hom).inv_hom_id,
+    Category.comp_id, P.toCommGroupSchemeKernel_hom_comp_kernelSchemeIso]
+
+noncomputable instance : IsIso P.toCommGroupSchemeKernel := by
+  haveI : IsIso (CommGroupScheme.underlyingHom P.toCommGroupSchemeKernel) := by
+    rw [P.toCommGroupSchemeKernel_underlyingHom]
+    infer_instance
+  haveI : IsIso ((Over.forget S).map P.toCommGroupSchemeKernel.hom.hom.hom) := by
+    change IsIso (CommGroupScheme.underlyingHom P.toCommGroupSchemeKernel)
+    infer_instance
+  haveI : IsIso P.toCommGroupSchemeKernel.hom.hom.hom :=
+    isIso_of_reflects_iso _ (Over.forget S)
+  haveI : IsIso ((Mon.forget (Over S)).map P.toCommGroupSchemeKernel.hom.hom) := by
+    change IsIso P.toCommGroupSchemeKernel.hom.hom.hom
+    infer_instance
+  haveI : IsIso P.toCommGroupSchemeKernel.hom.hom :=
+    isIso_of_reflects_iso _ (Mon.forget (Over S))
+  haveI : IsIso ((Grp.forget₂Mon (Over S)).map P.toCommGroupSchemeKernel.hom) := by
+    change IsIso P.toCommGroupSchemeKernel.hom.hom
+    infer_instance
+  haveI : IsIso P.toCommGroupSchemeKernel.hom :=
+    isIso_of_reflects_iso _ (Grp.forget₂Mon (Over S))
+  haveI : IsIso ((CommGrp.forget₂Grp (Over S)).map P.toCommGroupSchemeKernel) := by
+    change IsIso P.toCommGroupSchemeKernel.hom
+    infer_instance
+  exact isIso_of_reflects_iso _ (CommGrp.forget₂Grp (Over S))
+
+/-- A certified finite-flat kernel presentation is geometrically isomorphic to the canonical
+ambient group-scheme kernel. -/
+noncomputable def commGroupSchemeKernelIso :
+    P.kernel.obj ≅ CommGroupScheme.kernel f.hom :=
+  asIso P.toCommGroupSchemeKernel
+
+end AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation
 
 namespace AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme
 
@@ -152,5 +244,31 @@ theorem KernelPresentation.ofFiniteFlatCanonical_inclusion
     (KernelPresentation.ofFiniteFlatCanonical f).inclusion =
       ofFiniteFlatMap (FiniteFlatCommGroupScheme.kernelInclusion f) :=
   rfl
+
+namespace KernelPresentation
+
+/-- Embed any certified finite-flat kernel presentation in the quasi-finite interface. -/
+noncomputable def ofFiniteFlat
+    {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
+    (P : FiniteFlatCommGroupScheme.KernelPresentation f)
+    [LocallyOfFinitePresentation G.obj.X.hom]
+    [LocallyOfFinitePresentation H.obj.X.hom]
+    [LocallyOfFinitePresentation P.kernel.obj.X.hom] :
+    KernelPresentation (ofFiniteFlatMap f) where
+  kernel := QuasiFiniteFlatCommGroupScheme.ofFiniteFlat P.kernel
+  kernelIso := P.commGroupSchemeKernelIso
+
+/-- The arbitrary finite-flat adapter retains the supplied finite-flat kernel inclusion. -/
+theorem ofFiniteFlat_inclusion
+    {G H : FiniteFlatCommGroupScheme S} {f : G ⟶ H}
+    (P : FiniteFlatCommGroupScheme.KernelPresentation f)
+    [LocallyOfFinitePresentation G.obj.X.hom]
+    [LocallyOfFinitePresentation H.obj.X.hom]
+    [LocallyOfFinitePresentation P.kernel.obj.X.hom] :
+    (ofFiniteFlat P).inclusion = ofFiniteFlatMap P.inclusion := by
+  apply ObjectProperty.hom_ext
+  exact P.toCommGroupSchemeKernel_comp_kernelInclusion
+
+end KernelPresentation
 
 end AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme

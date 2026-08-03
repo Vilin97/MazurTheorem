@@ -130,7 +130,12 @@ the canonical finite-flat kernel is a checked compatibility consumer.
 A quasi-finite kernel presentation now requires an actual quasi-finite flat
 kernel and a group-scheme isomorphism to that ambient kernel; it yields a
 multiplicative point-kernel equivalence and represented-point exactness. Its
-canonical finite-flat adapter recovers the existing inclusion definitionally.
+canonical finite-flat adapter recovers the existing inclusion definitionally,
+and any previously certified finite-flat kernel now has a checked geometric
+comparison that retains its supplied inclusion. A quasi-finite fppf quotient
+presentation now records a supplied fppf projection and such a geometric
+kernel, proves exactness on represented points, and embeds every existing
+finite-flat quotient while retaining both its projection and kernel inclusion.
 The four actual
 integral elementary factors, their extension-by-zero exact sequences and
 `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization

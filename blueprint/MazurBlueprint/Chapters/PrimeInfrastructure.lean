@@ -134,7 +134,11 @@ canonical-kernel APIs. The next
 kernel boundary is now explicit: a quasi-finite presentation supplies an
 actual quasi-finite flat group scheme together with its group-scheme
 identification with the ambient kernel, yielding pointwise exactness. The
-canonical finite-flat kernel is a checked adapter. The next boundary is to
+canonical finite-flat kernel is a checked adapter, and every certified
+finite-flat kernel has a geometric adapter that preserves its chosen
+inclusion. A supplied quasi-finite fppf quotient now records its fppf
+projection and geometric kernel, proves represented-point exactness, and
+embeds the checked finite-flat quotient presentations compatibly. The next boundary is to
 construct the four actual integral elementary factors and their
 exact sequences, then prove the `H⁰`/`H¹` comparisons and middle-`H¹`
 finiteness.
@@ -169,6 +173,14 @@ finiteness.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.point_mulExact`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.ofFiniteFlatCanonical_inclusion`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.commGroupSchemeKernelIso`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.ofFiniteFlat_inclusion`
+* `structure` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.ofFiniteFlat_kernel_inclusion`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -245,7 +257,10 @@ odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
 explicit for recursive finite-flat use, and the actual two-factor theorem is
 its compiled consumer. Ambient commutative-group-scheme `H¹` and the structural
 quasi-finite wrapper now compile and agree definitionally with the finite-flat
-API. The four actual integral factors, their extension-by-zero exact sequences
+API. Geometric kernel and fppf quotient presentations now extend this
+compatibility to arbitrary certified finite-flat kernels and quotient
+projections, including their chosen inclusions. The four actual integral
+factors, their extension-by-zero exact sequences
 and `H⁰`/`H¹` certificates, middle-`H¹` finiteness proof, and focused rank-zero
 specialization are still absent, so no node credit is claimed.
 :::
