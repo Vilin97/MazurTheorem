@@ -55,6 +55,29 @@ theorem not_hasMultiplicativeReduction_of_valuation_j_le_one
 
 end ReductionType
 
+/-- Integral `j` upgrades a minimal equation to good reduction whenever the
+marked point's exact order is impossible in the additive branch.
+
+This is the shared reduction-type engine behind the prime route at five and
+the order-35 route at eleven.  It isolates the only residue-characteristic
+dependent input as an exact-order obstruction under additive reduction. -/
+theorem hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+    {R K : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hj : valuation K (maximalIdeal R) W.j ≤ 1)
+    {G : Type u} [AddCommGroup G]
+    (P : G) (N : ℕ)
+    (hadditive : W.HasAdditiveReduction R → addOrderOf P ≠ N)
+    (horder : addOrderOf P = N) :
+    W.HasGoodReduction R := by
+  rcases W.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction R with
+    hgood | hmultiplicative | hA
+  · exact hgood
+  · exact (not_hasMultiplicativeReduction_of_valuation_j_le_one
+      hj hmultiplicative).elim
+  · exact (hadditive hA horder).elim
+
 /-- A tame additive filtration with five-element residue group has no point
 of prime exact order at least eleven. -/
 theorem addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive
@@ -99,11 +122,10 @@ theorem hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive
     (P : G) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
     (horder : addOrderOf P = N) :
     W.HasGoodReduction R := by
-  rcases W.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction R with
-    hgood | hmultiplicative | hadditive
-  · exact hgood
-  · exact (not_hasMultiplicativeReduction_of_valuation_j_le_one hj hmultiplicative).elim
-  · exact (addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive
-      (F hadditive) (hresidue hadditive) P N hprime hN horder).elim
+  exact hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+    hj P N
+      (fun hA ↦ addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive
+        (F hA) (hresidue hA) P N hprime hN)
+      horder
 
 end MazurTorsion.PrimeOrder

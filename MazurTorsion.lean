@@ -89,6 +89,8 @@ import MazurTorsion.Kubert.OrderThirteenModel
 import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.OrderTwentyFive
 import MazurTorsion.Kubert.OrderThirtyFive
+import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
+import MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven
 import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.ModularCurve.DegreeOneCotangent
