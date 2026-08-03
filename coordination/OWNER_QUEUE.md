@@ -72,13 +72,14 @@ the cubic reducedness repair was independently re-reviewed and accepted.
 The focused single-threaded builds of `FppfQuotientConnecting` and
 `XZeroWeierstrassProjectiveCubic` pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 722 integrated Lean
-sources / 1,459,824 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 723 integrated Lean
+sources / 1,460,080 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The remaining modular boundary is to construct the group law and geometric
 integrality on the checked projective cubic, prove that its canonical forward
-point map preserves the group law and is surjective, and then construct `E/C`
+point map preserves the group law and is surjective under the required
+ellipticity/nonsingularity hypothesis, and then construct `E/C`
 and quotient/classifying geometry. The A3
 principal-divisor cocycle checkpoint
 `46d5b74` is also reviewed and integrated with no node credit;
@@ -88,10 +89,14 @@ reconstructed chosen-overlap principal cocycle, arbitrary-divisor coherence and
 general effectivity remain open. The
 finite-flat lane now has the complete checked low-degree fppf exact sequence
 and a non-circular downstream theorem converting five endpoint cardinality
-certificates plus finiteness of the middle `H¹` into its cardinal bound. The
-next acceptance boundary is the focused arithmetic endpoint certificates,
-middle-`H¹` finiteness, and rank-zero specialization, followed by the unramified
-Raynaud uniqueness input.
+certificates plus finiteness of the middle `H¹` into its cardinal bound.
+Checkpoints `afd487c` and `9170e45` remove the formerly circular middle-cardinal
+certificate and passed independent mathematical/API review. The two elementary
+`H⁰` endpoint certificates over `Spec ℤ` now compile: the constant factor has
+cardinality `p`, and `mu_p(ℤ)` is trivial for odd `p`; an actual admissible-step
+quotient theorem consumes them. The middle `H⁰` certificate, elementary-factor
+`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization remain,
+followed by the unramified Raynaud uniqueness input.
 
 ## Route decision
 
@@ -232,10 +237,12 @@ within each lane follows the listed order.
    accepts no exactness inputs. Its non-circular downstream cardinal theorem
    consumes five endpoint finite-cardinality certificates plus finiteness of
    the middle `H¹`, without accepting exactness inputs or the middle cardinal
-   itself. Those arithmetic endpoint certificates and middle-`H¹` finiteness
-   remain absent. Next finish `MT-FFGS-CONNECTED-ETALE` (20) by constructing the
-   concrete elementary-factor certificates and focused finite rank-zero
-   specialization. Then finish
+   itself. The constant and odd multiplicative elementary `H⁰` endpoint
+   certificates over `Spec ℤ` now compile and feed an actual admissible-step
+   quotient bound. The middle `H⁰` certificate, elementary-factor `H¹`
+   certificates, and middle-`H¹` finiteness remain absent. Next finish
+   `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
+   rank-zero specialization. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
    Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.

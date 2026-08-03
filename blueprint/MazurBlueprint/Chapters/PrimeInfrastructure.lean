@@ -114,8 +114,12 @@ makes the lifts compatible and subcanonical descent glues them globally, so
 exactness at quotient-valued global sections is checked. If a kernel `H¹`
 class becomes trivial in the middle group, a common-refinement zero-cochain
 has compatible quotient images; gluing those images and reusing the
-zero-cochain as local lifts proves exactness at kernel `H¹`. The next boundary
-is the reverse inclusion at middle `H¹` and the resulting Kummer sequence.
+zero-cochain as local lifts proves exactness at kernel `H¹`. A quotient-valued
+trivializing gauge also lifts on a genuine refinement, proving the reverse
+inclusion at middle `H¹`. Over `Spec ℤ`, the constant order-`p` factor has `p`
+global sections and the odd multiplicative factor has one; these checked
+cardinal certificates feed a one-step quotient bound. The next boundary is
+the elementary-factor `H¹` comparison and middle-`H¹` finiteness.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -155,6 +159,14 @@ is the reverse inclusion at middle `H¹` and the resulting Kummer sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.constantBasePointCertifiedDataInt`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.muBasePointCertifiedDataIntOfOdd`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.basePointCertifiedDataInt`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.fppfHOne_natCard_le_pow_int`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -180,9 +192,12 @@ cocycle. All three proofs feed the concrete low-degree constructor, which
 accepts no exactness hypotheses. A checked downstream consumer now applies the
 exact maps directly: five endpoint finite-cardinality certificates and mere
 finiteness of the middle global `H¹` imply its cardinal bound. It no longer
-assumes the exact cardinal of the group being bounded. The arithmetic endpoint
-certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
-are still absent, so no node credit is claimed.
+assumes the exact cardinal of the group being bounded. The two elementary
+`H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
+constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
+odd `p`. The middle `H⁰` certificate, elementary-factor `H¹` certificates,
+middle-`H¹` finiteness proof, and focused rank-zero specialization are still
+absent, so no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

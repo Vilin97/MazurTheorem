@@ -892,6 +892,57 @@ theorem constantPoint_mul (R : Type u) [CommRing R]
   simp only [constantPoint, MulEquiv.apply_symm_apply]
   exact (ConstantCoordinates.evaluation_convMul (R := R) g h).symm
 
+/-- Distinct indices give distinct distinguished points over every nonzero base ring. -/
+theorem constantPoint_injective (R : Type u) [CommRing R] [Nontrivial R]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    Function.Injective (constantPoint R G) := by
+  classical
+  intro g h hgh
+  have heval : ConstantCoordinates.evaluation (R := R) g =
+      ConstantCoordinates.evaluation (R := R) h := by
+    rw [← pointToAlgHom_constantPoint R G g,
+      ← pointToAlgHom_constantPoint R G h, hgh]
+  by_contra hne
+  let δ : ConstantCoordinates R G :=
+    ULift.up (fun y ↦ if y = g then 1 else 0)
+  have hδ := DFunLike.congr_fun heval δ
+  change (if g = g then (1 : R) else 0) = (if h = g then 1 else 0) at hδ
+  rw [if_pos rfl, if_neg (Ne.symm hne)] at hδ
+  exact one_ne_zero hδ
+
+/-- Over an integral domain, every section of a finite constant scheme is one of its
+distinguished constant sections. -/
+theorem constantPoint_surjective_of_noZeroDivisors
+    (R : Type u) [CommRing R] [NoZeroDivisors R] [Nontrivial R]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    Function.Surjective (constantPoint R G) := by
+  intro x
+  let φ : (G → R) →ₐ[R] R :=
+    ((constant R G).obj.pointToAlgHom R x).comp ULift.algEquiv.symm.toAlgHom
+  obtain ⟨s, hs⟩ := AlgHom.eq_piEvalAlgHom φ
+  refine ⟨s, ?_⟩
+  apply ((constant R G).obj.pointMulEquiv R).injective
+  rw [AffineCommGroupScheme.pointMulEquiv_apply,
+    AffineCommGroupScheme.pointMulEquiv_apply]
+  apply WithConv.ofConv_injective
+  rw [pointToAlgHom_constantPoint]
+  apply AlgHom.ext
+  intro z
+  have hz := DFunLike.congr_fun hs z.down
+  exact hz.symm
+
+/-- Over an integral domain, the indexing group is multiplicatively equivalent to all global
+sections of its constant finite group scheme. -/
+noncomputable def constantPointMulEquiv_of_noZeroDivisors
+    (R : Type u) [CommRing R] [NoZeroDivisors R] [Nontrivial R]
+    (G : Type u) [CommGroup G] [Fintype G] :
+    G ≃* (constantScheme R G).Point
+      (AffineCommGroupScheme.testObject (R := R) R) := by
+  let e := Equiv.ofBijective (constantPoint R G)
+    ⟨constantPoint_injective R G,
+      constantPoint_surjective_of_noZeroDivisors R G⟩
+  exact { e with map_mul' := constantPoint_mul R G }
+
 /-- The standard basis of the coordinate ring `R^G`. -/
 def ConstantCoordinates.basis (R : Type u) [CommRing R]
     (G : Type u) [CommGroup G] [Fintype G] :
