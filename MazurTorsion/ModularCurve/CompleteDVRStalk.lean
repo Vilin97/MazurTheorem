@@ -80,6 +80,28 @@ theorem exists_unit_mul_pow_of_maximalIdeal_eq_span
   obtain ⟨v, rfl⟩ := haunit
   exact ⟨n, v, by simp [ha, mul_comm]⟩
 
+/-- A coefficient-field section of a local homomorphism to a field surjects onto the residue
+field.  This is the algebraic form in which a rational section of a curve supplies the coefficient
+input for its completed local ring. -/
+theorem coefficientField_surjective_of_algebraMap_retraction
+    {K A : Type*} [Field K] [CommRing A] [IsLocalRing A] [Algebra K A]
+    (r : A →+* K) [IsLocalHom r]
+    (hretract : r.comp (algebraMap K A) = RingHom.id K) :
+    Function.Surjective
+      ((Ideal.Quotient.mk (IsLocalRing.maximalIdeal A)).comp (algebraMap K A)) := by
+  have hr : Function.Surjective r := by
+    intro c
+    refine ⟨algebraMap K A c, ?_⟩
+    exact DFunLike.congr_fun hretract c
+  intro y
+  obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
+  refine ⟨r a, ?_⟩
+  apply (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).mpr
+  rw [← IsLocalRing.ker_eq_maximalIdeal r hr, RingHom.mem_ker, map_sub]
+  have hsection := DFunLike.congr_fun hretract (r a)
+  change r (algebraMap K A (r a)) = r a at hsection
+  rw [hsection, sub_self]
+
 variable (R : Type*) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 
 private abbrev Completion :=
@@ -205,6 +227,17 @@ noncomputable def stalkCompletionRingEquiv
     (algebraMap R (Completion R) q)
     (irreducible_algebraMap_completion R hq)
     (coefficientField_surjective_completion R K hcoeff)
+
+/-- Construct the completed DVR coordinate from an actual local retraction onto its coefficient
+field.  This is the interface expected from a rational section of a smooth curve. -/
+noncomputable def stalkCompletionRingEquivOfRetraction
+    (K : Type*) [Field K] [Algebra K R]
+    (r : R →+* K) [IsLocalHom r]
+    (hretract : r.comp (algebraMap K R) = RingHom.id K)
+    (q : R) (hq : Irreducible q) :
+    Completion R ≃+* PowerSeries K :=
+  stalkCompletionRingEquiv R K q hq
+    (coefficientField_surjective_of_algebraMap_retraction r hretract)
 
 @[simp]
 theorem stalkCompletionRingEquiv_uniformizer
