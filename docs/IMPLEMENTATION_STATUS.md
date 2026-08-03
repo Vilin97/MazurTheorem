@@ -41,6 +41,13 @@ Current machine-checked results include:
 * a second checked finite normalization/enumeration over `F₁₁`, proving
   `#E(F₁₁) ≤ 18` for every elliptic Weierstrass equation and supplying
   the exact-order-35 reduction-fibre contradiction;
+* the fixed order-35 quotient `y²+y=x³+x²+9x+1`, its explicit
+  order-three normalization, and an unconditional equivalence of its rational
+  torsion subgroup with `ZMod 3`; the checked Vélu point function has exactly
+  the visible three-element kernel, and its explicit quotient has trivial
+  rational torsion by division-polynomial factorization and reduction at
+  three.  The remaining fixed-curve boundary is the three-isogeny Selmer
+  image calculation needed to prove Mordell--Weil rank zero;
 * exact unramified formal-kernel torsion and collision theorems at the integer
   primes `5` and `11`, plus concrete residue-field identifications and
   exact-order preservation under good reduction; the compiled consumers
