@@ -94,6 +94,7 @@ import MazurTorsion.NumberTheory.ExceptionalCubicDescent
 import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
 import MazurTorsion.NumberTheory.ExceptionalQuarticDescent
+import MazurTorsion.NumberTheory.OrderThirtyFiveThreeIsogeny
 import MazurTorsion.NumberTheory.QuarticDifferenceDescent
 import MazurTorsion.NumberTheory.RatNorthcott
 import MazurTorsion.NumberTheory.RationalRootsOfUnity
