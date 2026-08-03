@@ -153,11 +153,15 @@ consumers. The multiplicative-flat factor is now constructed by an explicit
 Hopf localization, packaged as a quasi-finite flat commutative group scheme,
 and included into `mu_p` by a typed open immersion whose exact range contains
 the whole model over `D(N)`. The Fermat specialization is a concrete consumer.
-The next boundary is the supported sheaf localization sequences and the
-quasi-finite admissible-filtration exact sequences, followed by the bad-level
-multiplicative `H⁰`/`H¹` comparisons and middle-`H¹` finiteness. The supported
-bad-fibre quotients are not being represented as quasi-finite flat group
-schemes.
+Actual pointwise categorical cokernel presheaves now compile for represented
+additive point maps, with objectwise-surjective projections and exact short
+complexes; both typed bad-level inclusions are downstream consumers. These raw
+presheaves are not yet the supported quotient sheaves. The next boundary is
+fppf sheafification, bad-fibre support, and the supported sheaf localization
+sequences, followed by the quasi-finite admissible-filtration exact sequences,
+bad-level multiplicative `H⁰`/`H¹` comparisons, and middle-`H¹` finiteness. The
+supported bad-fibre quotients are not being represented as quasi-finite flat
+group schemes.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -231,6 +235,16 @@ schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_opensRange`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_contains_levelOpen`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelPresheaf`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelProjection_app_surjective`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.pointCokernelSequence_exact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelSequence_exact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelSequence_exact`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -313,7 +327,9 @@ projections, including their chosen inclusions. The actual bad-level
 constant-flat factor now compiles as a principal-open Hopf localization with
 distinct coefficient and level parameters, a typed realized range and
 level-open consumer, and certified trivial integral global sections. The
-multiplicative-flat factor, the supported sheaf localization sequences,
+multiplicative-flat factor and its typed inclusion now compile, as do the raw
+point-cokernel presheaves and concrete bad-level consumers. Fppf
+sheafification, support, the supported sheaf localization sequences,
 quasi-finite admissible-filtration exact sequences, remaining `H⁰`/`H¹`
 certificates, middle-`H¹` finiteness proof, and focused rank-zero specialization
 are still absent, so no node credit is claimed.

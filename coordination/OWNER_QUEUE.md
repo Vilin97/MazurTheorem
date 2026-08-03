@@ -93,11 +93,12 @@ The focused single-threaded builds of `ElementaryGlobalSections`,
 `XZeroWeierstrassProjectivePointComparison`, the ambient and quasi-finite
 kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `ConstantFlat`, `ConstantFlatGlobalSections`, `CommGroupSchemeFppfConnecting`,
-`QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, and `MultiplicativeFlat`
+`QuasiFiniteFppfConnecting`, `FppfQuotientEuler`, `MultiplicativeFlat`, and
+`SupportedPointCokernel`
 pass; the audited declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`; all 11 Challenge contracts are
-unchanged; and `python3 scripts/quality.py` passes at 737 integrated Lean
-sources / 1,465,239 lines with all 48 node IDs and 1,000 points intact. These
+unchanged; and `python3 scripts/quality.py` passes at 738 integrated Lean
+sources / 1,465,388 lines with all 48 node IDs and 1,000 points intact. These
 checkpoints claim no roadmap-node completion credit.
 
 The recovered morphism now equals the original scheme-valued point: constants
@@ -164,10 +165,14 @@ an actual quasi-finite flat commutative group scheme, and a typed open subgroup
 of `mu_p`; its exact principal-open range contains the full model over `D(N)`,
 and the Fermat specialization is a concrete consumer. The fppf connecting
 construction itself is now finiteness-free, with quasi-finite and finite-flat
-compatibility consumers. The supported localization sequences at the bad
-fibre, the quasi-finite admissible-filtration exact sequences, the remaining
-bad-level `H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero
-specialization remain, followed by the unramified Raynaud uniqueness input.
+compatibility consumers. The represented additive point maps now have actual
+pointwise categorical cokernel presheaves, objectwise-surjective projections,
+and exact short complexes, with both typed bad-level inclusions as downstream
+consumers. These are only the raw presheaf precursors. Their fppf
+sheafification, bad-fibre support, locally-surjective supported sequences, the
+quasi-finite admissible-filtration exact sequences, the remaining bad-level
+`H⁰`/`H¹` certificates, middle-`H¹` finiteness, and rank-zero specialization
+remain, followed by the unramified Raynaud uniqueness input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
 sheaves supported at `N`, not quasi-finite flat group schemes; they must use a
 sheaf-level locally-surjective exact interface rather than the quasi-finite
@@ -333,8 +338,11 @@ within each lane follows the listed order.
    exact range, its `D(N)` containment, and a canonical Fermat consumer. The
    local-lift connecting homomorphism is now constructed for arbitrary ambient
    commutative group schemes and consumed by both the quasi-finite wrapper and
-   the repaired finite-flat API. The sheaf-level supported localization
-   sequences, the quasi-finite admissible-filtration exact sequences, the
+   the repaired finite-flat API. Actual categorical point-cokernel presheaves,
+   their objectwise-surjective projections, exact short complexes, and both
+   bad-level consumers now compile. Fppf sheafification and support are not
+   claimed. The sheaf-level supported localization sequences, the quasi-finite
+   admissible-filtration exact sequences, the
    remaining bad-level `H⁰`/`H¹` certificates, and middle-`H¹` finiteness
    remain absent. Next finish
    `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
