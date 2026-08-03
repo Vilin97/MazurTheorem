@@ -44,9 +44,10 @@ coefficient equality constructs the actual restricted-bundle isomorphism on ever
 Dedekind affine overlap satisfying the standing torsion-free, common-fraction-field, and
 scalar-tower hypotheses. The companion curve module proves that coefficient equality
 automatically when the two overlap maps compose to one ambient map, and constructs all of that
-data canonically from a chosen common Dedekind affine subopen. Passing from these local
-isomorphisms to the chosen descent pullbacks, normalizing them, proving the triple cocycle, and
-proving module effectivity remain open in the current Mathlib and Tau Ceti dependency graph.
+data canonically from a chosen common Dedekind affine subopen. On one fixed common affine model,
+the three specified restriction isomorphisms now satisfy the exact transitivity equation. Passing
+that equation functorially from pairwise intersections to the chosen triple pullback, and proving
+module effectivity, remain open in the current Mathlib and Tau Ceti dependency graph.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
@@ -863,6 +864,70 @@ noncomputable def chosenLineBundleRestrictionIsoOfOverlapExtensionEq
   exact restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₁ B K D₁ ≪≫
     extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h ≪≫
     (restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₂ B K D₂).symm
+
+/-- On one common affine overlap, the specified inverse-ideal comparisons are transitive.
+The intermediate restriction comparison cancels, while the equality-induced maps between the
+three extended inverse ideals compose to the direct equality-induced map.  This is the algebraic
+core of triple-overlap coherence; functoriality under restriction from pairwise to triple
+intersections is a separate geometric comparison. -/
+theorem chosenLineBundleRestrictionIsoOfOverlapExtensionEq_hom_trans
+    (R₁ R₂ R₃ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing R₃] [IsDedekindDomain R₃]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₃ K] [IsFractionRing R₃ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra R₃ B] [IsTorsionFree R₃ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    [IsOpenImmersion (extensionMap R₃ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (D₃ : WeilDivisor (HeightOneSpectrum R₃))
+    (h₁₂ : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂)
+    (h₂₃ : Boundary.OverlapInverseIdealExtensionEq R₂ R₃ B K D₂ D₃)
+    (h₁₃ : Boundary.OverlapInverseIdealExtensionEq R₁ R₃ B K D₁ D₃) :
+    (chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+        R₁ R₂ B K D₁ D₂ h₁₂).hom ≫
+      (chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+        R₂ R₃ B K D₂ D₃ h₂₃).hom =
+    (chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+      R₁ R₃ B K D₁ D₃ h₁₃).hom := by
+  letI : IsScalarTower R₁ B K := h₁₂.1
+  letI : IsScalarTower R₂ B K := h₁₂.2.1
+  letI : IsScalarTower R₃ B K := h₂₃.2.1
+  let e₁ := restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₁ B K D₁
+  let e₂ := restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₂ B K D₂
+  let e₃ := restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₃ B K D₃
+  let b₁₂ := extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h₁₂
+  let b₂₃ := extendedInverseIdealTildeIso R₂ R₃ B K D₂ D₃ h₂₃
+  let b₁₃ := extendedInverseIdealTildeIso R₁ R₃ B K D₁ D₃ h₁₃
+  change (e₁ ≪≫ b₁₂ ≪≫ e₂.symm).hom ≫
+      (e₂ ≪≫ b₂₃ ≪≫ e₃.symm).hom =
+    (e₁ ≪≫ b₁₃ ≪≫ e₃.symm).hom
+  simp only [Iso.trans_hom, Category.assoc]
+  change e₁.hom ≫ b₁₂.hom ≫ e₂.inv ≫ e₂.hom ≫ b₂₃.hom ≫ e₃.inv =
+    e₁.hom ≫ b₁₃.hom ≫ e₃.inv
+  rw [Iso.inv_hom_id_assoc]
+  have hb : b₁₂.hom ≫ b₂₃.hom = b₁₃.hom := by
+    dsimp only [b₁₂, b₂₃, b₁₃, extendedInverseIdealTildeIso]
+    let F := tilde.functor (CommRingCat.of B)
+    let c₁₂ :=
+      (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h₁₂).toModuleIso.hom
+    let c₂₃ :=
+      (extendedInverseIdealEquiv R₂ R₃ B K D₂ D₃ h₂₃).toModuleIso.hom
+    let c₁₃ :=
+      (extendedInverseIdealEquiv R₁ R₃ B K D₁ D₃ h₁₃).toModuleIso.hom
+    change F.map c₁₂ ≫ F.map c₂₃ = F.map c₁₃
+    rw [← F.map_comp]
+    congr 1
+  simpa only [Category.assoc] using
+    congrArg (fun z ↦ e₁.hom ≫ z ≫ e₃.inv) hb
 
 /-- If the induced spectrum map is an open immersion and the overlap ring is a localization of
 the chart ring, restriction of the chosen affine divisor line bundle is tilde of the extended

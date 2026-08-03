@@ -38,7 +38,10 @@ produces a principal datum explicitly isomorphic to the canonical global trivial
 datum is effective. The chosen-overlap/full-descent equivalence identifies it with the separately
 reconstructed normalized principal cocycle, making that actual cocycle effective too. For
 arbitrary divisors, the diagonal transitions are now replaced by coherent self-overlap maps and
-their normalization is proved. Cover-wide triple-cocycle coherence remains. Given
+their normalization is proved. The inverse-ideal comparisons satisfy the cocycle equation on
+every fixed common Dedekind affine subopen. Comparing restriction from the three pairwise
+intersection presentations with that triple-intersection presentation remains before the
+cover-wide chosen-pullback cocycle follows. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
@@ -467,6 +470,77 @@ noncomputable def localLineBundleRestrictionIsoOnCommonAffineOpen
       (restrictionExtensionMap_comp_fromSpec X U₁ W hU₁ hW hWU₁)
       (restrictionExtensionMap_comp_fromSpec X U₂ W hU₂ hW hWU₂) D
 
+/-- On a fixed common Dedekind affine subopen, the three arbitrary-divisor restriction
+comparisons satisfy the cocycle equation.  The proof uses the specified inverse-ideal
+factorization, so this is genuine triple coherence on the common affine model rather than a
+packaged caller-supplied cocycle. -/
+theorem localLineBundleRestrictionIsoOnCommonAffineOpen_hom_trans
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U₁ U₂ U₃ W : X.Opens)
+    [Nonempty U₁] [Nonempty U₂] [Nonempty U₃] [Nonempty W]
+    (hU₁ : IsAffineOpen U₁) (hU₂ : IsAffineOpen U₂)
+    (hU₃ : IsAffineOpen U₃) (hW : IsAffineOpen W)
+    (hWU₁ : W ≤ U₁) (hWU₂ : W ≤ U₂) (hWU₃ : W ≤ U₃)
+    (h₁ : AffineChart.DedekindOrderCompatibility X U₁ hU₁)
+    (h₂ : AffineChart.DedekindOrderCompatibility X U₂ hU₂)
+    (h₃ : AffineChart.DedekindOrderCompatibility X U₃ hU₃)
+    [IsDedekindDomain Γ(X, U₁)] [IsDedekindDomain Γ(X, U₂)]
+    [IsDedekindDomain Γ(X, U₃)] [IsDedekindDomain Γ(X, W)]
+    (D : WeilDivisor (CodimensionOnePoint X)) :
+    letI := restrictionAlgebra X U₁ W hWU₁
+    letI := restrictionAlgebra X U₂ W hWU₂
+    letI := restrictionAlgebra X U₃ W hWU₃
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U₁) Γ(X, W)) :=
+      restrictionExtensionMapIsOpenImmersion X U₁ W hU₁ hW hWU₁
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U₂) Γ(X, W)) :=
+      restrictionExtensionMapIsOpenImmersion X U₂ W hU₂ hW hWU₂
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U₃) Γ(X, W)) :=
+      restrictionExtensionMapIsOpenImmersion X U₃ W hU₃ hW hWU₃
+    (localLineBundleRestrictionIsoOnCommonAffineOpen
+      X U₁ U₂ W hU₁ hU₂ hW hWU₁ hWU₂ h₁ h₂ D).hom ≫
+      (localLineBundleRestrictionIsoOnCommonAffineOpen
+        X U₂ U₃ W hU₂ hU₃ hW hWU₂ hWU₃ h₂ h₃ D).hom =
+    (localLineBundleRestrictionIsoOnCommonAffineOpen
+      X U₁ U₃ W hU₁ hU₃ hW hWU₁ hWU₃ h₁ h₃ D).hom := by
+  letI := restrictionAlgebra X U₁ W hWU₁
+  letI := restrictionAlgebra X U₂ W hWU₂
+  letI := restrictionAlgebra X U₃ W hWU₃
+  letI : Module.IsTorsionFree Γ(X, U₁) Γ(X, W) :=
+    restrictionTorsionFree X U₁ W hWU₁
+  letI : Module.IsTorsionFree Γ(X, U₂) Γ(X, W) :=
+    restrictionTorsionFree X U₂ W hWU₂
+  letI : Module.IsTorsionFree Γ(X, U₃) Γ(X, W) :=
+    restrictionTorsionFree X U₃ W hWU₃
+  letI : IsFractionRing Γ(X, U₁) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U₁ hU₁
+  letI : IsFractionRing Γ(X, U₂) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U₂ hU₂
+  letI : IsFractionRing Γ(X, U₃) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U₃ hU₃
+  letI : IsFractionRing Γ(X, W) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X W hW
+  letI : IsScalarTower Γ(X, U₁) Γ(X, W) X.functionField :=
+    restrictionFunctionFieldTower X U₁ W hWU₁
+  letI : IsScalarTower Γ(X, U₂) Γ(X, W) X.functionField :=
+    restrictionFunctionFieldTower X U₂ W hWU₂
+  letI : IsScalarTower Γ(X, U₃) Γ(X, W) X.functionField :=
+    restrictionFunctionFieldTower X U₃ W hWU₃
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U₁) Γ(X, W)) :=
+    restrictionExtensionMapIsOpenImmersion X U₁ W hU₁ hW hWU₁
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U₂) Γ(X, W)) :=
+    restrictionExtensionMapIsOpenImmersion X U₂ W hU₂ hW hWU₂
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U₃) Γ(X, W)) :=
+    restrictionExtensionMapIsOpenImmersion X U₃ W hU₃ hW hWU₃
+  dsimp only [localLineBundleRestrictionIsoOnCommonAffineOpen,
+    localLineBundleRestrictionIsoOfCommonMap]
+  apply CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq_hom_trans
+
 private lemma nonempty_inf_of_isIntegral
     (X : Scheme.{u}) [IsIntegral X]
     (U V : X.Opens) [Nonempty U] [Nonempty V] :
@@ -752,9 +826,9 @@ noncomputable def localLineBundles
   exact localLineBundle X (U i) (hU i) (h i) D
 
 /-- The arbitrary-divisor intersection isomorphism on a proper smooth curve, transported to
-Mathlib's chosen pairwise pullback for the coordinate cover. This discharges the former
-pullback-model mismatch. The raw family is normalized immediately below; the triple cocycle for
-arbitrary divisors remains a separate coherence statement. -/
+Mathlib's chosen pairwise pullback for the coordinate cover. This discharges the pairwise
+pullback-model mismatch. The raw family is normalized immediately below; its comparison under
+further restriction with the checked fixed-common-affine triple equation remains. -/
 noncomputable def localLineBundleChosenOverlapIsoOnProperSmoothCurve
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
@@ -830,7 +904,8 @@ noncomputable def localLineBundleNormalizedOverlapIsoOnProperSmoothCurve
       K X f U hnonempty hcover hU h D) i j
 
 /-- The normalized arbitrary-divisor overlap family satisfies the diagonal identity required by
-`DivisorCocycle`.  Thus only triple-overlap coherence remains for these specified transitions. -/
+`DivisorCocycle`.  The fixed-common-affine triple equation is checked above; functorial comparison
+with the three pairwise chosen-pullback presentations remains for these specified transitions. -/
 theorem localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_normalization
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
