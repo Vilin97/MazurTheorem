@@ -471,6 +471,18 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartComparison`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfStandardChartComparison`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveGradedCoefficientMap_irrelevant_le`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlaneBaseChangeProjection`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAway_comp_projectivePlaneBaseChangeProjection`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveSpectrum_comap_mem_weierstrassZeroLocus_iff`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.IsAmbientCompatible`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.canonicalStandardOpenMap_opensRange_eq_preimage_mapped`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -515,10 +527,19 @@ comparison structure isolates the remaining projective base-change
 isomorphism, chart/open isomorphism, and density. Its projective isomorphism
 derives target reducedness, and its consumer reaches both geometric
 integrality and Tau Ceti's abelian-variety constructor; the earlier split-`Γ₀`
-consumer then reaches constant geometric order. The three comparison fields,
-the scheme group law and compatibility, `E/C`, the coarse modular point, and
-the required Atkin--Lehner geometry remain open, so this node receives no
-completion credit.
+consumer then reaches constant geometric order. Graded coefficient extension
+now constructs the ambient map `P²_L ⟶ P²_K`; the required irrelevant-ideal
+inclusion is proved from the coordinate generators. This map fixes the three
+coordinates, carries the cubic polynomial to the mapped equation, has the
+checked `D₊(Z)` away-chart square, and preserves the cubic zero locus on
+projective-spectrum points. An explicit ambient-compatibility predicate for the
+still-open target isomorphism has a compiled consumer identifying the actual
+pullback's canonical-open range with the mapped cubic's coordinate open. No
+projective-plane pullback isomorphism or cubic base-change isomorphism is
+claimed. The three comparison fields, the ambient-compatible target
+isomorphism, the scheme group law and compatibility, `E/C`, the coarse modular
+point, and the required Atkin--Lehner geometry remain open, so this node
+receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
