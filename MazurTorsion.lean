@@ -52,6 +52,7 @@ import MazurTorsion.EllipticCurve.TwoIsogenyMultiples
 import MazurTorsion.EllipticCurve.TwoTorsionNormalization
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.TameAdditiveReductionData
+import MazurTorsion.EllipticCurve.NonsingularReduction
 import MazurTorsion.EllipticCurve.VariableChange
 import MazurTorsion.Foundations.DivisionPolynomialRootCriterion
 import MazurTorsion.Foundations.DivisionPolynomialDiscriminantFive
