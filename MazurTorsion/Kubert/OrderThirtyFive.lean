@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderThirtyFiveFiniteField
+import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
@@ -33,14 +33,8 @@ the squarefree-level formal-immersion and Néron-specialization route. -/
 theorem reductionAtEleven_addOrderOf_ne_thirtyFive
     (W : WeierstrassCurve (ZMod 11)) [W.IsElliptic]
     (P : W.toAffine.Point) :
-    addOrderOf P ≠ 35 := by
-  intro hP
-  have hdvd : addOrderOf P ∣ Nat.card W.toAffine.Point :=
-    addOrderOf_dvd_natCard P
-  have hle : addOrderOf P ≤ 18 :=
-    (Nat.le_of_dvd Nat.card_pos hdvd).trans
-      (card_reductionAtEleven_le_eighteen W)
-  omega
+    addOrderOf P ≠ 35 :=
+  zmod_eleven_addOrderOf_ne_thirtyFive W P
 
 /-- If an integral model has good reduction at eleven, a rational point on
 its generic fibre cannot have exact order 35.  This is the checked join
