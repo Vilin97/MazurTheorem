@@ -696,9 +696,14 @@ prime because the primes dividing `2·1500` are nonsplit in `ℚ(√-3)`; the
 class-number-one calculation therefore reduces to the three Eisenstein unit
 classes.  The two nontrivial homogeneous cubics were instantiated locally
 from the published general formula, and Lean proves by a mod-seven infinite
-descent that each has only the zero integral solution.  The source is used as
-the specification for the still-missing ideal-support reduction; no paper
-claim, database rank, or computer-algebra transcript is imported as proof.
+descent that each has only the zero integral solution.  Lean now also clears
+the target denominators, checks the conjugate norm factorization, applies the
+complete six-unit classification, and derives the explicit fibre root
+`-42d/(c+8d)` in the trivial unit class.  This gives an end-to-end rank-zero
+consumer of the exact associated-cube statement.  The source is used as the
+specification for the still-missing nonsplit common-prime ideal-support
+reduction; no paper claim, database rank, or computer-algebra transcript is
+imported as proof.
 
 ## 12. Multiplication-polynomial discriminants and executable resultants
 

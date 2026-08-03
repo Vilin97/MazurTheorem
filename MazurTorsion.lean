@@ -103,6 +103,7 @@ import MazurTorsion.NumberTheory.OrderThirtyFiveThreeIsogenyDual
 import MazurTorsion.NumberTheory.OrderThirtyFiveRankBoundary
 import MazurTorsion.NumberTheory.OrderThirtyFiveThreeDescent
 import MazurTorsion.NumberTheory.OrderThirtyFiveTargetCubic
+import MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent
 import MazurTorsion.NumberTheory.QuarticDifferenceDescent
 import MazurTorsion.NumberTheory.RatNorthcott
 import MazurTorsion.NumberTheory.RationalRootsOfUnity

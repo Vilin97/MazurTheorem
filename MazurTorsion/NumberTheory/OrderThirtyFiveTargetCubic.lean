@@ -491,8 +491,10 @@ theorem targetEisensteinUnitCover_no_nonzero_integer_solution
     exact hhom
   have hscaled0 : ¬(x' = 0 ∧ y' = 0 ∧ z' = 0) := by
     rintro ⟨rfl, rfl, rfl⟩
-    simp at hx hy hz
-    exact hxyz0 ⟨hx, hy, hz⟩
+    have hx0 : x = 0 := by simpa using hx
+    have hy0 : y = 0 := by simpa using hy
+    have hz0 : z = 0 := by simpa using hz
+    exact hxyz0 ⟨hx0, hy0, hz0⟩
   have hnew : x'.natAbs + y'.natAbs + z'.natAbs ∈ sizes :=
     ⟨x', y', z', hscaled, hscaled0, rfl⟩
   have hpositive : 0 < x'.natAbs + y'.natAbs + z'.natAbs := by
