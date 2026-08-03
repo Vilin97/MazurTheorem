@@ -145,6 +145,7 @@ import MazurTorsion.PrimeOrder.GoodReductionAtFive
 import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
+import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
