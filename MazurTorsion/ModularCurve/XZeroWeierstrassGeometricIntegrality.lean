@@ -254,6 +254,23 @@ instance standardChartIdeal_isPrime (W : WeierstrassCurve K) :
 abbrev standardAffineChartCoordinateRing (W : WeierstrassCurve K) :=
   standardAmbientChartRing K ⧸ standardChartIdeal W
 
+/-- The usual affine Weierstrass coordinate ring, retained as a named source
+for the scheme-level standard-chart comparison. -/
+abbrev affineWeierstrassCoordinateRing (W : WeierstrassCurve K) :=
+  Polynomial (Polynomial K) ⧸ Ideal.span {W.toAffine.polynomial}
+
+/-- The checked ambient chart equivalence descends through the actual
+Weierstrass equation ideals.  Thus the source appearing in the later
+base-change witness is not merely abstractly integral: it is the usual affine
+Weierstrass quotient. -/
+noncomputable def affineEquationToStandardChartRingEquiv
+    (W : WeierstrassCurve K) :
+    affineWeierstrassCoordinateRing W ≃+*
+      standardAffineChartCoordinateRing W :=
+  Ideal.quotientEquiv
+    (Ideal.span {W.toAffine.polynomial}) (standardChartIdeal W)
+    (standardChartRingEquiv (K := K)) (standardChartIdeal_eq_map W)
+
 instance standardAffineChartCoordinateRing_isDomain (W : WeierstrassCurve K) :
     IsDomain (standardAffineChartCoordinateRing W) := by
   infer_instance
@@ -261,6 +278,16 @@ instance standardAffineChartCoordinateRing_isDomain (W : WeierstrassCurve K) :
 /-- The integral affine scheme supplied by the `Z != 0` chart equation. -/
 abbrev standardAffineChartScheme (W : WeierstrassCurve K) : Scheme.{u} :=
   Spec (.of (standardAffineChartCoordinateRing W))
+
+/-- Scheme-level form of `affineEquationToStandardChartRingEquiv`.  This is
+the concrete source side of the still-missing identification with the
+canonical `D₊(Z)` pullback open. -/
+noncomputable def affineEquationSchemeIsoStandardChart
+    (W : WeierstrassCurve K) :
+  Spec (.of (affineWeierstrassCoordinateRing W)) ≅
+      standardAffineChartScheme W :=
+  Scheme.Spec.mapIso
+    (affineEquationToStandardChartRingEquiv W).toCommRingCatIso.symm.op
 
 instance standardAffineChartScheme_isIntegral (W : WeierstrassCurve K) :
     IsIntegral (standardAffineChartScheme W) := by
@@ -272,6 +299,113 @@ abbrev fieldBaseChange (W : WeierstrassCurve K) (L : Type u)
     [Field L] [Algebra K L] : Scheme.{u} :=
   pullback (structureMap W)
     (Spec.map (CommRingCat.ofHom (algebraMap K L)))
+
+/-- The projection from a field base change of the concrete cubic back to the
+original cubic. -/
+noncomputable def fieldBaseChangeProjection (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] :
+    fieldBaseChange W L ⟶ scheme W :=
+  pullback.fst (structureMap W)
+    (Spec.map (CommRingCat.ofHom (algebraMap K L)))
+
+/-- The projection is the first leg of the defining base-change square. -/
+@[reassoc]
+theorem fieldBaseChangeProjection_comp_structureMap
+    (W : WeierstrassCurve K) (L : Type u) [Field L] [Algebra K L] :
+    fieldBaseChangeProjection W L ≫ structureMap W =
+      pullback.snd (structureMap W)
+          (Spec.map (CommRingCat.ofHom (algebraMap K L))) ≫
+        Spec.map (CommRingCat.ofHom (algebraMap K L)) := by
+  exact pullback.condition
+
+/-- The field-base-changed cubic, viewed in the original projective plane.
+
+This map is deliberately defined through the pullback projection.  Thus its
+inverse image of `D₊(Z)` is the canonical standard open of the *actual*
+base change used by `GeometricallyIntegral`, without first postulating an
+identification with the cubic reconstructed from `W.map`. -/
+noncomputable def fieldBaseChangeAmbientMap (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] :
+    fieldBaseChange W L ⟶ projectivePlane K :=
+  fieldBaseChangeProjection W L ≫ inclusion W
+
+/-- The canonical `Z ≠ 0` open of the actual field base change, obtained by
+pulling back Mathlib's checked `Proj.awayι` chart. -/
+abbrev canonicalStandardOpen (W : WeierstrassCurve K) (L : Type u)
+    [Field L] [Algebra K L] : Scheme.{u} :=
+  pullback
+    (Proj.awayι (homogeneousPieces K)
+      (MvPolynomial.X (2 : Fin 3)) (coordinate_mem_degree_one_geometric 2)
+      (by omega))
+    (fieldBaseChangeAmbientMap W L)
+
+/-- The canonical standard open immersed into the actual field base change. -/
+noncomputable def canonicalStandardOpenMap (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] :
+    canonicalStandardOpen W L ⟶ fieldBaseChange W L :=
+  pullback.snd
+    (Proj.awayι (homogeneousPieces K)
+      (MvPolynomial.X (2 : Fin 3)) (coordinate_mem_degree_one_geometric 2)
+      (by omega))
+    (fieldBaseChangeAmbientMap W L)
+
+/-- The canonical standard open is genuinely an open subscheme of the actual
+field base change.  This is the base-change-stability part supplied directly
+by Mathlib's `Proj.awayι` and pullback APIs. -/
+instance canonicalStandardOpenMap_isOpenImmersion (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] :
+    IsOpenImmersion (canonicalStandardOpenMap W L) := by
+  dsimp only [canonicalStandardOpenMap]
+  infer_instance
+
+/-- The range of the canonical chart is exactly the inverse image of the
+ambient projective `D₊(Z)` chart.  This pins down which open must be compared
+with the checked principal quotient. -/
+theorem canonicalStandardOpenMap_opensRange (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] :
+    (canonicalStandardOpenMap W L).opensRange =
+      fieldBaseChangeAmbientMap W L ⁻¹ᵁ
+        (Proj.awayι (homogeneousPieces K)
+          (MvPolynomial.X (2 : Fin 3)) (coordinate_mem_degree_one_geometric 2)
+          (by omega)).opensRange := by
+  simpa only [canonicalStandardOpenMap] using
+    (Scheme.Hom.opensRange_pullbackSnd
+      (Proj.awayι (homogeneousPieces K)
+        (MvPolynomial.X (2 : Fin 3)) (coordinate_mem_degree_one_geometric 2)
+        (by omega))
+      (fieldBaseChangeAmbientMap W L))
+
+/-- In particular, the canonical open is exactly the inverse image of the
+standard projective coordinate open `D₊(Z)`, rather than merely an unspecified
+open subscheme. -/
+theorem canonicalStandardOpenMap_opensRange_eq_preimage_basicOpen
+    (W : WeierstrassCurve K) (L : Type u) [Field L] [Algebra K L] :
+    (canonicalStandardOpenMap W L).opensRange =
+      fieldBaseChangeAmbientMap W L ⁻¹ᵁ
+        Proj.basicOpen (homogeneousPieces K) (MvPolynomial.X (2 : Fin 3)) := by
+  rw [canonicalStandardOpenMap_opensRange, Proj.opensRange_awayι]
+
+/-- A comparison package separating the now-canonical open immersion from
+the two remaining geometric inputs.
+
+The isomorphism is the precise quotient/restriction comparison still needed:
+it must identify the already checked principal quotient after scalar
+extension with the pullback of the actual reduced projective cubic.  Neither
+density nor reducedness is folded into that comparison. -/
+structure StandardChartComparison (W : WeierstrassCurve K)
+    (L : Type u) [Field L] [Algebra K L] where
+  /-- Scheme-level comparison between the checked quotient chart and the
+  canonical pullback open. -/
+  chartIso : standardAffineChartScheme (W.map (algebraMap K L)) ≅
+    canonicalStandardOpen W L
+  /-- Compatibility of the reduced projective cubic construction with this
+  field extension.  Unlike a reducedness hypothesis, this is a concrete
+  scheme comparison; reducedness of its source follows from the already
+  checked reducedness of `scheme (W.map ...)`. -/
+  targetBaseChangeIso : fieldBaseChange W L ≅
+    scheme (W.map (algebraMap K L))
+  /-- Density of the canonical `Z ≠ 0` open in the actual pullback. -/
+  canonicalMap_denseRange : DenseRange (canonicalStandardOpenMap W L)
 
 /-- The exact geometric data still needed to pass from the checked integral
 affine equation to an integral field base change of the projective cubic.
@@ -295,6 +429,26 @@ structure StandardChartBaseChangeWitness (W : WeierstrassCurve K)
   because the current cubic was reduced before, rather than after, base
   change. -/
   target_isReduced : IsReduced (fieldBaseChange W L)
+
+/-- Turn the exact quotient/open comparison into the original dense-chart
+witness.  The open-immersion proof is no longer caller-supplied: it is the
+composition of an isomorphism with the canonical pulled-back `Proj.awayι`.
+
+This is a real downstream consumer of `StandardChartComparison`; composing it
+with `geometricallyIntegral_of_standardChartBaseChangeWitness` below reaches
+the Tau Ceti/Γ₀ package without adding geometric-integrality assumptions. -/
+noncomputable def StandardChartComparison.toBaseChangeWitness
+    (W : WeierstrassCurve K) (L : Type u) [Field L] [Algebra K L]
+    (D : StandardChartComparison W L) :
+    StandardChartBaseChangeWitness W L where
+  chartMap := D.chartIso.hom ≫ canonicalStandardOpenMap W L
+  chartMap_isOpenImmersion := by infer_instance
+  chartMap_denseRange :=
+    D.canonicalMap_denseRange.comp D.chartIso.hom.surjective.denseRange
+      (canonicalStandardOpenMap W L).continuous
+  target_isReduced := by
+    letI : IsReduced (scheme (W.map (algebraMap K L))) := by infer_instance
+    exact isReduced_of_isOpenImmersion D.targetBaseChangeIso.hom
 
 /-- A dense integral standard chart in every field base change, together
 with reducedness of the ambient pullback, proves geometric integrality of the
@@ -331,6 +485,18 @@ theorem geometricallyIntegral_of_standardChartBaseChangeWitness
   exact GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible
     (structureMap W)
 
+/-- The canonical comparison package reaches geometric integrality of the
+actual projective cubic.  This is the checked consumer ensuring that the new
+comparison interface has exactly the data required by the existing
+dense-chart reduction. -/
+theorem geometricallyIntegral_of_standardChartComparison
+    (W : WeierstrassCurve K)
+    (hcomparison : ∀ (L : Type u) [Field L] [Algebra K L],
+      StandardChartComparison W L) :
+    GeometricallyIntegral (structureMap W) :=
+  geometricallyIntegral_of_standardChartBaseChangeWitness W fun L ↦
+    (hcomparison L).toBaseChangeWitness W L
+
 /-- The dense-chart criterion reaches Tau Ceti's actual abelian-variety
 constructor.  This is the first downstream consumer of the new interface and
 removes geometric integrality as a separately supplied typeclass at the call
@@ -343,6 +509,19 @@ noncomputable def toAbelianVarietyOfStandardChartBaseChangeWitness
   letI : GeometricallyIntegral (toOver W).hom := by
     change GeometricallyIntegral (structureMap W)
     exact geometricallyIntegral_of_standardChartBaseChangeWitness W hchart
+  exact toAbelianVariety W
+
+/-- The canonical quotient/open comparison reaches Tau Ceti's concrete
+abelian-variety constructor, not only the intermediate integrality
+proposition. -/
+noncomputable def toAbelianVarietyOfStandardChartComparison
+    (W : WeierstrassCurve K) [GrpObj (toOver W)]
+    (hcomparison : ∀ (L : Type u) [Field L] [Algebra K L],
+      StandardChartComparison W L) :
+    TauCeti.AlgebraicGeometry.AbelianVariety K := by
+  letI : GeometricallyIntegral (toOver W).hom := by
+    change GeometricallyIntegral (structureMap W)
+    exact geometricallyIntegral_of_standardChartComparison W hcomparison
   exact toAbelianVariety W
 
 /-- Group-law compatibility of the canonical coordinate-to-scheme point map,
