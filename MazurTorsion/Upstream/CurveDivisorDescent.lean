@@ -31,15 +31,18 @@ divisors retain a direct rational-function shortcut. On a separated integral sch
 intersection of two nonempty affine charts is affine and nonempty; a final checked consumer gives
 the arbitrary-divisor isomorphism there once its coordinate ring is Dedekind. Properness over a
 field supplies the required absolute separatedness automatically. Transporting these intersection
-isomorphisms to the chosen descent pullbacks, normalizing them, and proving cover-wide cocycle
-coherence remain. Given
+isomorphisms to the chosen descent pullbacks is now checked. For principal divisors, objectwise
+transport of the canonical trivial descent datum constructs the full normalized cocycle, proves
+triple coherence, and produces a full Mathlib descent datum. Comparing that reconstructed datum
+with the canonical trivial datum remains an effectivity step. For arbitrary divisors, normalizing
+the transported transitions and proving cover-wide cocycle coherence remain. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
 module effectivity to this input. Coherent triviality of a principal cocycle, together with
 essential injectivity on objects for module descent, makes that global line bundle trivial;
-fully faithful descent is a checked sufficient source of this exact input. No cover-wide divisor
-cocycle, module-effectivity theorem, or object-separation theorem is asserted here.
+fully faithful descent is a checked sufficient source of this exact input. No arbitrary-divisor
+cover-wide cocycle, module-effectivity theorem, or object-separation theorem is asserted here.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -473,6 +476,48 @@ private lemma nonempty_inf_of_isIntegral
       (by simpa using (inferInstance : Nonempty V))
   exact ⟨⟨genericPoint X, hU, hV⟩⟩
 
+/-- The affine spectrum of the coordinate ring of an affine-open intersection is a pullback of
+the two coordinate spectra over the ambient scheme. The proof transports Mathlib's pullback
+square for open subschemes through the three affine-spectrum isomorphisms. -/
+theorem intersectionSpectrumIsPullback
+    (X : Scheme.{u}) (U V : X.Opens)
+    (hU : IsAffineOpen U) (hV : IsAffineOpen V)
+    (hW : IsAffineOpen (U ⊓ V)) :
+    letI := restrictionAlgebra X U (U ⊓ V) inf_le_left
+    letI := restrictionAlgebra X V (U ⊓ V) inf_le_right
+    IsPullback
+      (CommonExtension.extensionMap Γ(X, U) Γ(X, U ⊓ V))
+      (CommonExtension.extensionMap Γ(X, V) Γ(X, U ⊓ V))
+      hU.fromSpec hV.fromSpec := by
+  letI := restrictionAlgebra X U (U ⊓ V) inf_le_left
+  letI := restrictionAlgebra X V (U ⊓ V) inf_le_right
+  apply (isPullback_opens_inf U V).of_iso
+    hW.isoSpec hU.isoSpec hV.isoSpec (Iso.refl X)
+  · exact (Scheme.Opens.toSpecΓ_SpecMap_presheaf_map _ _ _).symm
+  · exact (Scheme.Opens.toSpecΓ_SpecMap_presheaf_map _ _ _).symm
+  · simp
+  · simp
+
+/-- Properness over a field makes the intersection of two affine charts affine, and hence the
+coordinate spectrum of the intersection is the fibre product of their coordinate spectra. -/
+theorem properCurveIntersectionSpectrumIsPullback
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of K)) [IsProper f]
+    (U V : X.Opens) (hU : IsAffineOpen U) (hV : IsAffineOpen V) :
+    letI : IsSeparated (terminal.from X) := by
+      rw [← terminal.comp_from f]
+      infer_instance
+    letI := restrictionAlgebra X U (U ⊓ V) inf_le_left
+    letI := restrictionAlgebra X V (U ⊓ V) inf_le_right
+    IsPullback
+      (CommonExtension.extensionMap Γ(X, U) Γ(X, U ⊓ V))
+      (CommonExtension.extensionMap Γ(X, V) Γ(X, U ⊓ V))
+      hU.fromSpec hV.fromSpec := by
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  exact intersectionSpectrumIsPullback X U V hU hV (hU.inf hV)
+
 /-- On an absolutely separated integral scheme, the full intersection of two nonempty affine
 charts is a nonempty affine open. Once its coordinate ring is Dedekind, the arbitrary-divisor
 restriction isomorphism is therefore constructed on the full pairwise intersection. -/
@@ -703,6 +748,60 @@ noncomputable def localLineBundles
   letI := hnonempty i
   exact localLineBundle X (U i) (hU i) (h i) D
 
+/-- The arbitrary-divisor intersection isomorphism on a proper smooth curve, transported to
+Mathlib's chosen pairwise pullback for the coordinate cover. This discharges the former
+pullback-model mismatch; diagonal normalization and the triple cocycle for arbitrary divisors
+remain separate coherence statements. -/
+noncomputable def localLineBundleChosenOverlapIsoOnProperSmoothCurve
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : (coordinateCover U hcover hU).I₀) :
+    (Scheme.Modules.pullback
+      (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₁).obj
+        (localLineBundles X U hnonempty hcover hU h D i).obj ≅
+      (Scheme.Modules.pullback
+        (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₂).obj
+        (localLineBundles X U hnonempty hcover hU h D j).obj := by
+  letI := hnonempty i
+  letI := hnonempty j
+  letI : IsDedekindDomain Γ(X, U i) := (h i).isDedekindDomain
+  letI : IsDedekindDomain Γ(X, U j) := (h j).isDedekindDomain
+  letI : IsSeparated (terminal.from X) := by
+    rw [← terminal.comp_from f]
+    infer_instance
+  let hW : IsAffineOpen (U i ⊓ U j) := (hU i).inf (hU j)
+  letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+  letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j)) :=
+    restrictionExtensionMapIsOpenImmersion X (U i) (U i ⊓ U j)
+      (hU i) hW inf_le_left
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j)) :=
+    restrictionExtensionMapIsOpenImmersion X (U j) (U i ⊓ U j)
+      (hU j) hW inf_le_right
+  let hpb := properCurveIntersectionSpectrumIsPullback
+    K X f (U i) (U j) (hU i) (hU j)
+  exact LineBundleDescent.pullbackOverlapIsoOfModel
+    (hU i).fromSpec (hU j).fromSpec
+    (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))
+    (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))
+    hpb (localLineBundles X U hnonempty hcover hU h D i).obj
+      (localLineBundles X U hnonempty hcover hU h D j).obj
+      (((Scheme.Modules.restrictFunctorIsoPullback
+          (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))).app
+            (localLineBundles X U hnonempty hcover hU h D i).obj).symm ≪≫
+        localLineBundleRestrictionIsoOnProperSmoothCurveIntersection
+          K X f (U i) (U j) (hU i) (hU j) (h i) (h j) D ≪≫
+        (Scheme.Modules.restrictFunctorIsoPullback
+          (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))).app
+            (localLineBundles X U hnonempty hcover hU h D j).obj)
+
 /-- The exact overlap-cocycle input for the chartwise divisor line bundles. -/
 abbrev DivisorCocycle
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
@@ -716,6 +815,62 @@ abbrev DivisorCocycle
     (LineBundleDescent.tripleOverlap (coordinateCover U hcover hU))
     (localLineBundles X U hnonempty hcover hU h D)
 
+/-- On a principal divisor, the canonical descent datum of the global trivial line bundle has
+local objects isomorphic to the chosen affine divisor line bundles. -/
+noncomputable def principalLocalObjectIso
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ)
+    (i : (coordinateCover U hcover hU).I₀) :
+    ((LineBundleDescent.modulesPseudofunctor.toDescentData
+      (coordinateCover U hcover hU).f).obj
+        (InvertibleSheaf.trivial X).obj).obj i ≅
+      (localLineBundles X U hnonempty hcover hU h
+        (S.principalDivisor g) i).obj := by
+  letI := hnonempty i
+  exact LineBundleDescent.pullbackTrivialIso
+      ((coordinateCover U hcover hU).f i) ≪≫
+    (localLineBundle_principal_iso_trivial
+      X (U i) (hU i) (h i) S hord g).some.symm
+
+/-- Every global principal divisor has an actual normalized divisor cocycle. It is obtained by
+transporting the canonical descent datum of the trivial global line bundle, so inverse
+orientation, diagonal normalization, and triple coherence are inherited from Mathlib descent
+data rather than assumed as extra fields. -/
+noncomputable def principalDivisorCocycle
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    DivisorCocycle X U hnonempty hcover hU h (S.principalDivisor g) :=
+  LineBundleDescent.LineBundleCocycle.ofDescentDataObjectIso
+    (localLineBundles X U hnonempty hcover hU h (S.principalDivisor g))
+    ((LineBundleDescent.modulesPseudofunctor.toDescentData
+      (coordinateCover U hcover hU).f).obj
+        (InvertibleSheaf.trivial X).obj)
+    (principalLocalObjectIso X U hnonempty hcover hU h S hord g)
+
+/-- The actual coherent Mathlib descent datum reconstructed from the normalized principal
+divisor cocycle. This is a downstream consumer of diagonal normalization and triple coherence. -/
+noncomputable def principalDivisorDescentData
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.modulesPseudofunctor.DescentData
+      (coordinateCover U hcover hU).f :=
+  (principalDivisorCocycle X U hnonempty hcover hU h S hord g).toDescentData
+
 /-- A coherent divisor cocycle gives locally invertible descent data. -/
 noncomputable def invertibleDescentData
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
@@ -726,6 +881,20 @@ noncomputable def invertibleDescentData
     (C : DivisorCocycle X U hnonempty hcover hU h D) :
     LineBundleDescent.InvertibleDescentData (coordinateCover U hcover hU) :=
   C.toInvertibleDescentData
+
+/-- The principal-divisor cocycle as coherent locally invertible descent data. This checked
+consumer retains the actual chosen affine divisor line bundles as its local objects. -/
+noncomputable def principalDivisorInvertibleDescentData
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.InvertibleDescentData (coordinateCover U hcover hU) :=
+  invertibleDescentData X U hnonempty hcover hU h (S.principalDivisor g)
+    (principalDivisorCocycle X U hnonempty hcover hU h S hord g)
 
 /-- Object-specific effectivity of a divisor cocycle produces a global line bundle. -/
 noncomputable def globalLineBundle

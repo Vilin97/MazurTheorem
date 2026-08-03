@@ -54,6 +54,35 @@ noncomputable local instance schemeModulesSymmetricForPicardDescent (Y : Scheme.
     SymmetricCategory Y.Modules :=
   Scheme.Modules.symmetricCategory Y
 
+/-- The coherent principal-divisor datum delivered to the divisor-to-Picard boundary. This is
+an actual normalized cocycle and full Mathlib descent datum; it deliberately stops before the
+still-separate effectivity comparison with the global trivial line bundle. -/
+noncomputable def principalPicardBoundaryDatum
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    LineBundleDescent.InvertibleDescentData (coordinateCover U hcover hU) :=
+  principalDivisorInvertibleDescentData
+    X U hnonempty hcover hU h S hord g
+
+@[simp]
+lemma principalPicardBoundaryDatum_toDescentData
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : OrderSystem (CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (hord : S.ord = SchemeWeilDivisor.orderAt)
+    (g : Additive X.functionFieldˣ) :
+    (principalPicardBoundaryDatum
+      X U hnonempty hcover hU h S hord g).toDescentData =
+      principalDivisorDescentData X U hnonempty hcover hU h S hord g :=
+  rfl
+
 /-- A chosen coherent chart cocycle for every Weil divisor. This family does not by itself
 assert compatibility with divisor addition or principal divisors. -/
 abbrev DivisorCocycleSystem

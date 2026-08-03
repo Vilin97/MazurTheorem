@@ -69,7 +69,67 @@ noncomputable def ofIso
   pullHom'_hom_self := normalization
   pullHom'_hom_comp := cocycle
 
+/-- An opaque wrapper around a chosen-overlap datum's diagonal field. -/
+theorem pullHom'_hom_self_opaque
+    (D : F.DescentData' sq sq₃) (i : ι) :
+    pullHom' D.hom (f i) (𝟙 (X i)) (𝟙 (X i)) = 𝟙 _ :=
+  D.pullHom'_hom_self i
+
+/-- An opaque wrapper around a chosen-overlap datum's triple-coherence field. -/
+theorem pullHom'_hom_comp_opaque
+    (D : F.DescentData' sq sq₃) (i j k : ι) :
+    pullHom' D.hom (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₂ ≫
+        pullHom' D.hom (sq₃ i j k).p (sq₃ i j k).p₂ (sq₃ i j k).p₃ =
+      pullHom' D.hom (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃ :=
+  D.pullHom'_hom_comp i j k
+
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent.DescentDataPrime
+
+namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent
+
+universe t v' v u' u
+
+open CategoryTheory
+
+/-- Transport coherent descent data across a specified isomorphism on every local object.
+The transition morphisms are conjugated by the pulled-back object isomorphisms, so
+normalization and the triple cocycle are inherited from the original datum. -/
+noncomputable def changeObjects
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {ι : Type t} {S : C} {X : ι → C} (f : ∀ i, X i ⟶ S)
+    (D : F.DescentData f)
+    (obj : ∀ i, F.obj (.mk (.op (X i))))
+    (e : ∀ i, D.obj i ≅ obj i) : F.DescentData f where
+  obj := obj
+  hom {Y} q {i₁ i₂} f₁ f₂ hf₁ hf₂ :=
+    (F.map f₁.op.toLoc).toFunctor.map (e _).inv ≫
+      D.hom q f₁ f₂ hf₁ hf₂ ≫
+      (F.map f₂.op.toLoc).toFunctor.map (e _).hom
+  pullHom_hom {Y'} {Y} g q q' hq {i₁ i₂} f₁ f₂ hf₁ hf₂
+      gf₁ gf₂ hgf₁ hgf₂ := by
+    rw [Pseudofunctor.LocallyDiscreteOpToCat.pullHom]
+    simp only [Functor.map_comp, Category.assoc]
+    rw [← F.mapComp'_hom_naturality_assoc,
+      F.mapComp'_inv_naturality]
+    simpa only [Pseudofunctor.LocallyDiscreteOpToCat.pullHom,
+      Category.assoc] using congrArg
+      (fun k ↦ (F.map gf₁.op.toLoc).toFunctor.map (e i₁).inv ≫ k ≫
+        (F.map gf₂.op.toLoc).toFunctor.map (e i₂).hom)
+      (D.pullHom_hom g q q' hq f₁ f₂ hf₁ hf₂
+        gf₁ gf₂ hgf₁ hgf₂)
+  hom_self {Y} q {i} g hg := by
+    rw [D.hom_self q g hg]
+    simp
+  hom_comp {Y} q {i₁ i₂ i₃} f₁ f₂ f₃ hf₁ hf₂ hf₃ := by
+    simp only [Category.assoc]
+    rw [Iso.map_hom_inv_id_assoc]
+    simpa only [Category.assoc] using congrArg
+      (fun k ↦ (F.map f₁.op.toLoc).toFunctor.map (e _).inv ≫ k ≫
+        (F.map f₃.op.toLoc).toFunctor.map (e _).hom)
+      (D.hom_comp q f₁ f₂ f₃ hf₁ hf₂ hf₃)
+
+end MazurTorsion.AlgebraicGeometry.LineBundleDescent.PseudofunctorDescent
 
 namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent
 
@@ -127,6 +187,44 @@ noncomputable def tripleOverlap
     ChosenPullback₃ (overlap cov i j) (overlap cov j k) (overlap cov i k) :=
   ChosenOverlaps.chosenPullback₃
     (overlap cov i j) (overlap cov j k) (overlap cov i k)
+
+/-- Transport a module isomorphism from any explicit model of a fibre product to the standard
+chosen pullback. The comparison uses only the pullback universal property, pullback
+composition, and congruence along the two projection equations. -/
+noncomputable def pullbackOverlapIsoOfModel
+    {S X₁ X₂ W : Scheme.{u}}
+    (f₁ : X₁ ⟶ S) (f₂ : X₂ ⟶ S)
+    (p₁ : W ⟶ X₁) (p₂ : W ⟶ X₂)
+    (hpb : IsPullback p₁ p₂ f₁ f₂)
+    (M₁ : X₁.Modules) (M₂ : X₂.Modules)
+    (e : (Scheme.Modules.pullback p₁).obj M₁ ≅
+      (Scheme.Modules.pullback p₂).obj M₂) :
+    (Scheme.Modules.pullback (pullback.fst f₁ f₂)).obj M₁ ≅
+      (Scheme.Modules.pullback (pullback.snd f₁ f₂)).obj M₂ :=
+  ((Scheme.Modules.pullbackCongr hpb.isoPullback_inv_fst).app M₁).symm ≪≫
+    ((Scheme.Modules.pullbackComp hpb.isoPullback.inv p₁).app M₁).symm ≪≫
+    (Scheme.Modules.pullback hpb.isoPullback.inv).mapIso e ≪≫
+    (Scheme.Modules.pullbackComp hpb.isoPullback.inv p₂).app M₂ ≪≫
+    (Scheme.Modules.pullbackCongr hpb.isoPullback_inv_snd).app M₂
+
+/-- Pullback of the globally trivial line bundle along an open immersion is the trivial line
+bundle on the source. This concrete comparison is used by the principal-divisor cocycle. -/
+noncomputable def pullbackTrivialIso
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    (Scheme.Modules.pullback f).obj (InvertibleSheaf.trivial Y).obj ≅
+      (InvertibleSheaf.trivial X).obj := by
+  let efreeY : (InvertibleSheaf.trivial Y).obj ≅
+      SheafOfModules.unit Y.ringCatSheaf :=
+    Limits.coproductUniqueIso (fun _ : PUnit ↦
+      SheafOfModules.unit Y.ringCatSheaf)
+  let efreeX : (InvertibleSheaf.trivial X).obj ≅
+      SheafOfModules.unit X.ringCatSheaf :=
+    Limits.coproductUniqueIso (fun _ : PUnit ↦
+      SheafOfModules.unit X.ringCatSheaf)
+  exact ((Scheme.Modules.restrictFunctorIsoPullback f).app
+    (InvertibleSheaf.trivial Y).obj).symm ≪≫
+      (Scheme.Modules.restrictFunctor f).mapIso efreeY ≪≫
+      Scheme.Modules.restrictUnitIso f ≪≫ efreeX.symm
 
 /-- A coherent module descent datum all of whose local objects are invertible sheaves. The
 coherence is exactly Mathlib's `DescentData`; this structure adds only the rank-one property
@@ -226,6 +324,119 @@ structure LineBundleCocycle
         (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃
 
 namespace LineBundleCocycle
+
+/-- Chosen-overlap descent data after transporting every local object across a specified
+isomorphism. Naming this intermediate object keeps its coherence proofs opaque to later
+consumers. -/
+noncomputable def descentDataPrimeOfObjectIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j))
+    (sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k))
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) :
+    modulesPseudofunctor.DescentData' sq sq₃ :=
+  Pseudofunctor.DescentData'.ofDescentData sq sq₃
+    (PseudofunctorDescent.changeObjects
+      cov.f D (fun i ↦ (L i).obj) e)
+
+/-- The chosen-overlap transition isomorphism obtained by transporting coherent descent data
+across specified isomorphisms of its local objects. -/
+noncomputable def overlapIsoOfDescentDataObjectIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) (i j : cov.I₀) :
+    (Scheme.Modules.pullback (sq i j).p₁).obj (L i).obj ≅
+      (Scheme.Modules.pullback (sq i j).p₂).obj (L j).obj := by
+  let D' := descentDataPrimeOfObjectIso sq sq₃ L D e
+  let hIso : IsIso (D'.hom i j) := by
+    rw [← D'.pullHom'_eq_hom i j]
+    infer_instance
+  exact @asIso _ _ _ _ (D'.hom i j) hIso
+
+/-- Objectwise transport preserves diagonal normalization on chosen overlaps. -/
+theorem overlapIsoOfDescentDataObjectIso_normalization
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) (i : cov.I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+      (F := modulesPseudofunctor) (sq := sq)
+      (fun i j ↦
+        (overlapIsoOfDescentDataObjectIso
+          (sq := sq) (sq₃ := sq₃) L D e i j).hom)
+      (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _ := by
+  change Pseudofunctor.DescentData'.pullHom'
+    (F := modulesPseudofunctor) (sq := sq)
+    (descentDataPrimeOfObjectIso sq sq₃ L D e).hom
+    (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _
+  exact DescentDataPrime.pullHom'_hom_self_opaque
+    (descentDataPrimeOfObjectIso sq sq₃ L D e) i
+
+/-- Objectwise transport preserves the triple-overlap cocycle. -/
+theorem overlapIsoOfDescentDataObjectIso_cocycle
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) (i j k : cov.I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (fun i j ↦
+          (overlapIsoOfDescentDataObjectIso
+            (sq := sq) (sq₃ := sq₃) L D e i j).hom)
+        (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₂ ≫
+      Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (fun i j ↦
+          (overlapIsoOfDescentDataObjectIso
+            (sq := sq) (sq₃ := sq₃) L D e i j).hom)
+        (sq₃ i j k).p (sq₃ i j k).p₂ (sq₃ i j k).p₃ =
+      Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (fun i j ↦
+          (overlapIsoOfDescentDataObjectIso
+            (sq := sq) (sq₃ := sq₃) L D e i j).hom)
+        (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃ := by
+  change
+    Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (descentDataPrimeOfObjectIso sq sq₃ L D e).hom
+        (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₂ ≫
+      Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (descentDataPrimeOfObjectIso sq sq₃ L D e).hom
+        (sq₃ i j k).p (sq₃ i j k).p₂ (sq₃ i j k).p₃ =
+      Pseudofunctor.DescentData'.pullHom'
+        (F := modulesPseudofunctor) (sq := sq)
+        (descentDataPrimeOfObjectIso sq sq₃ L D e).hom
+        (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃
+  exact DescentDataPrime.pullHom'_hom_comp_opaque
+    (descentDataPrimeOfObjectIso sq sq₃ L D e) i j k
+
+/-- A coherent descent datum whose local objects are isomorphic to specified line bundles
+induces a normalized line-bundle cocycle. Object transport inherits diagonal normalization and
+the triple cocycle from the original datum. -/
+noncomputable def ofDescentDataObjectIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (D : modulesPseudofunctor.DescentData cov.f)
+    (e : ∀ i, D.obj i ≅ (L i).obj) :
+    LineBundleCocycle cov sq sq₃ L where
+  overlapIso :=
+    overlapIsoOfDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e
+  normalization :=
+    overlapIsoOfDescentDataObjectIso_normalization (sq := sq) (sq₃ := sq₃) L D e
+  cocycle :=
+    overlapIsoOfDescentDataObjectIso_cocycle (sq := sq) (sq₃ := sq₃) L D e
 
 /-- The chosen-overlap presentation of a line-bundle cocycle as Mathlib descent data. -/
 noncomputable def toDescentDataPrime
