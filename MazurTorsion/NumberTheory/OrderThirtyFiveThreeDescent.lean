@@ -240,25 +240,6 @@ theorem addY_neg_threeTorsionOrigin_cubeClass
 
 /-! ## Exact arithmetic inputs and assembly of the three cosets -/
 
-/-- Coprime integer factors whose product is a cube are themselves cubes.
-For odd exponent the sign unit is absorbed by the cube root. -/
-private theorem int_eq_cube_of_isCoprime
-    {a b c : ℤ}
-    (hab : IsCoprime a b) (hprod : a * b = c ^ 3) :
-  ∃ d : ℤ, a = d ^ 3 := by
-  have hgcd : IsUnit (GCDMonoid.gcd a b) := by
-    exact (gcd_isUnit_iff a b).2 hab
-  obtain ⟨d, ⟨u, hu⟩⟩ :=
-    exists_associated_pow_of_mul_eq_pow hgcd hprod
-  rcases Int.units_eq_one_or u with hu1 | hu1
-  · refine ⟨d, ?_⟩
-    rw [← hu, hu1]
-    simp
-  · refine ⟨-d, ?_⟩
-    rw [← hu, hu1]
-    norm_num
-    ring
-
 /-- A nonzero factor of a cube whose gcd with the cofactor divides `7` has
 one of the three cube classes supported at `7`. -/
 private theorem cubeclass_of_gcd_dvd_seven
@@ -289,7 +270,8 @@ private theorem cubeclass_of_gcd_dvd_seven
       apply (gcd_isUnit_iff A B).mp
       rw [← show g = GCDMonoid.gcd A B from rfl, hg]
       exact isUnit_one
-    obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime hab hprod
+    obtain ⟨d, hd⟩ :=
+      Int.eq_pow_of_mul_eq_pow_odd_left (k := 3) hab (by norm_num) hprod
     exact ⟨d, Or.inl hd⟩
   · have hsevenA : (7 : ℤ) ∣ A := by simpa [hg] using hgA
     have hsevenB : (7 : ℤ) ∣ B := by simpa [hg] using hgB
@@ -334,7 +316,8 @@ private theorem cubeclass_of_gcd_dvd_seven
           _ = 7 * c ^ 3 := hab
       have ha'b : IsCoprime a' b :=
         habcop.of_isCoprime_of_dvd_left ha'div
-      obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime ha'b ha'bcube
+      obtain ⟨d, hd⟩ :=
+        Int.eq_pow_of_mul_eq_pow_odd_left (k := 3) ha'b (by norm_num) ha'bcube
       refine ⟨d, Or.inr (Or.inr ?_)⟩
       rw [← hga, ha', hd]
       ring
@@ -347,7 +330,8 @@ private theorem cubeclass_of_gcd_dvd_seven
           _ = 7 * c ^ 3 := hab
       have hab' : IsCoprime a b' :=
         habcop.of_isCoprime_of_dvd_right hb'div
-      obtain ⟨d, hd⟩ := int_eq_cube_of_isCoprime hab' hab'cube
+      obtain ⟨d, hd⟩ :=
+        Int.eq_pow_of_mul_eq_pow_odd_left (k := 3) hab' (by norm_num) hab'cube
       refine ⟨d, Or.inr (Or.inl ?_)⟩
       rw [← hga, hd]
 
@@ -620,9 +604,10 @@ theorem sourceThreeCubeClassBound : SourceThreeCubeClassBound := by
     calc
       (r * T) * s = r * s * T := by ring
       _ = U ^ 3 := hcurve
-  obtain ⟨e, he⟩ :=
-    int_eq_cube_of_isCoprime hRTs.symm (by simpa [mul_comm] using hprod)
-  obtain ⟨w, hw⟩ := int_eq_cube_of_isCoprime hRTs hprod
+  obtain ⟨e, he⟩ := Int.eq_pow_of_mul_eq_pow_odd_left (k := 3) hRTs.symm
+    (by norm_num) (by simpa [mul_comm] using hprod)
+  obtain ⟨w, hw⟩ :=
+    Int.eq_pow_of_mul_eq_pow_odd_left (k := 3) hRTs (by norm_num) hprod
   have hgcd : GCDMonoid.gcd r T ∣ (7 : ℤ) :=
     common_divisor_source_dvd_seven hrs hT hcurve
       (GCDMonoid.gcd_dvd_left r T)

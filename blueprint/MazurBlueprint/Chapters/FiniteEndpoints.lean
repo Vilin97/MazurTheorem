@@ -101,8 +101,10 @@ candidate target are checked. The opposite point-function candidate is total
 on rational points, and its composite with the first candidate is checked to
 be multiplication by three. The rational three-cover and visible-coset
 translations compile through conditional rank-zero and finiteness consumers.
-The source cube-class bound, target-curve finiteness, modular quotient map,
-and formal immersion remain open, so this is not node completion.
+The source cube-class bound is now checked by a reduced
+numerator-denominator and gcd-at-seven calculation. Target-curve finiteness,
+the modular quotient map, and formal immersion remain open, so this is not
+node completion.
 :::
 
 :::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")

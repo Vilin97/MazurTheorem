@@ -33,10 +33,10 @@ dependency.
 
 ## 2. Current proved state
 
-The latest integrated package has 1,432,115 project-specific lines across 663
+The latest integrated package has 1,432,541 project-specific lines across 663
 Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
 reduction cone in 31 sources under `EllipticCurves/` and 172 lines in the two
-root aggregators. These 696 sources and 1,446,429 checked lines build without
+root aggregators. These 696 sources and 1,446,855 checked lines build without
 unproved declarations; the separate challenge library contains only its
 registered open contracts.
 
@@ -1491,11 +1491,13 @@ downstream closure proves finite index for tripling, finite generation, rank
 zero, and finiteness of the fixed model. The generic height-descent theorem
 for finite-index tripling lives with its doubling analogue in
 `Foundations/NaiveHeightDescent.lean`; the order-35 result is its concrete
-consumer. Finiteness of the target curve is a compiled sufficient condition
-for the second input. The source cube-class calculation and target-curve
-finiteness remain open, as do the modular identification and the squarefree
-formal-immersion consumer at eleven. Thus no unconditional rank-zero theorem
-or roadmap-node completion is claimed.
+consumer. The first input is now proved: clearing the reduced ordinate
+denominator makes `den(y) * x` integral, and the resulting product of three
+integer factors has gcd supported to exponent at most one at `7`. Finiteness
+of the target curve is a compiled sufficient condition for the sole remaining
+input. Target finiteness, the modular identification, and the squarefree
+formal-immersion consumer at eleven remain open. Thus no unconditional
+rank-zero theorem or roadmap-node completion is claimed.
 
 ## 7. Prime-level Mazur layer
 

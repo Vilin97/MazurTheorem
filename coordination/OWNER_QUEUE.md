@@ -168,9 +168,12 @@ genus-zero `X₀` quotients do not support the selected argument.
   rational three-cover and the visible `1`, `7`, and `49` translations feed
   a real conditional consumer proving finite generation, rank zero, and
   finiteness from `SourceThreeCubeClassBound` and
-  `TargetThreeCandidateSurjective`. The former cube-class calculation and a
-  rank-zero/finiteness proof for the target remain the two exact arithmetic
-  inputs. The local normalization/enumeration, good-reduction join,
+  `TargetThreeCandidateSurjective`. The source cube-class calculation now
+  compiles unconditionally: reduced numerator-denominator coordinates and a
+  gcd-at-seven argument prove the exact `1`, `7`, `49` alternatives. A
+  rank-zero/finiteness proof for the target, hence target-candidate
+  surjectivity, is the sole remaining explicit descent input. The local
+  normalization/enumeration, good-reduction join,
   and an abstract tame-additive filtration consumer also compile. The actual
   modular quotient map, unconditional rank-zero proof, formal immersion, and
   geometric bad-fibre specialization remain open. Once good reduction at

@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 696 checked Lean sources and 1,446,429
+The integrated development contains 696 checked Lean sources and 1,446,855
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -55,10 +55,12 @@ geometry, modular quotient, and cusp-collision theorem remain open.
 
 The order-35 lane also now checks the opposite rational point-function
 candidate and the composite identity `dual (candidate P) = 3 • P`, together
-with the rational three-cover, visible-coset translations, and a full
-conditional chain from the two exact descent inputs to finite generation,
-rank zero, and finiteness. The source cube-class calculation and target-curve
-finiteness are still open, so this likewise earns no node credit.
+with the rational three-cover and visible-coset translations. The reduced
+numerator/denominator calculation now proves that every nonexceptional source
+ordinate has cube class `1`, `7`, or `49`. Target-curve finiteness (or the
+more direct candidate-surjectivity input used here) remains open before the
+conditional rank-zero chain becomes unconditional, so this still earns no
+node credit.
 
 The percentage and task graph come from
 [`coordination/program.json`](coordination/program.json), not prose or line

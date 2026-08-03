@@ -676,11 +676,12 @@ local checked declarations verify arithmetic on the fixed equation, its
 rational torsion, the equation landing and zero fibre of a Vélu
 point-function candidate, trivial torsion on the candidate target, a total
 opposite candidate, and the composite identity with multiplication by three.
-The checked rational cover and visible-coset translations reduce rank zero
-to the explicit source cube-class and target-finiteness inputs. They do not
-yet construct the modular quotient map or identification or establish those
-two arithmetic inputs; no unconditional Mordell--Weil rank-zero theorem is
-claimed.
+The checked rational cover, visible-coset translations, and reduced
+numerator-denominator calculation prove the source `1`, `7`, `49` cube-class
+alternatives. Rank zero is now reduced to target-candidate surjectivity, for
+which target-curve finiteness is a checked sufficient condition. The modular
+quotient identification and target finiteness are not yet proved; no
+unconditional Mordell--Weil rank-zero theorem is claimed.
 
 ## 12. Multiplication-polynomial discriminants and executable resultants
 

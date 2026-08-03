@@ -50,11 +50,11 @@ Current machine-checked results include:
   factorization and reduction at three. A total opposite candidate now has a
   checked composite equal to multiplication by three on every rational source
   point. The rational three-cover and visible `1`, `7`, and `49` translations
-  assemble an exact three-coset certificate from two named arithmetic inputs,
-  with compiled downstream consumers proving finite generation, rank zero,
-  and finiteness. The source cube-class bound, target-curve finiteness, and
-  modular identification remain open, so unconditional rank zero is not yet
-  claimed;
+  feed a checked reduced numerator-denominator argument proving the exact
+  source cube-class bound. Target-candidate surjectivity then assembles the
+  three cosets, with compiled downstream consumers proving finite generation,
+  rank zero, and finiteness. Target-curve finiteness and the modular
+  identification remain open, so unconditional rank zero is not yet claimed;
 * exact unramified formal-kernel torsion and collision theorems at the integer
   primes `5` and `11`, plus concrete residue-field identifications and
   exact-order preservation under good reduction; the compiled consumers
