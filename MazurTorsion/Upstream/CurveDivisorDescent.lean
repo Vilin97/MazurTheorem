@@ -396,6 +396,30 @@ theorem restrictionAlgebraTower
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
 
+/-- The spectrum maps induced by restriction through two nested opens compose to the spectrum
+map induced by direct restriction.  This is the scheme-level form of
+`restrictionAlgebraTower`, used when comparing one-stage and two-stage module pullbacks. -/
+theorem restrictionExtensionMap_comp
+    (X : Scheme.{u}) (U V W : X.Opens)
+    (hVU : V ≤ U) (hWV : W ≤ V) (hWU : W ≤ U) :
+    letI := restrictionAlgebra X U V hVU
+    letI := restrictionAlgebra X V W hWV
+    letI := restrictionAlgebra X U W hWU
+    CommonExtension.extensionMap Γ(X, V) Γ(X, W) ≫
+        CommonExtension.extensionMap Γ(X, U) Γ(X, V) =
+      CommonExtension.extensionMap Γ(X, U) Γ(X, W) := by
+  letI := restrictionAlgebra X U V hVU
+  letI := restrictionAlgebra X V W hWV
+  letI := restrictionAlgebra X U W hWU
+  letI : IsScalarTower Γ(X, U) Γ(X, V) Γ(X, W) :=
+    restrictionAlgebraTower X U V W hVU hWV hWU
+  change Spec.map (CommRingCat.ofHom (algebraMap Γ(X, V) Γ(X, W))) ≫
+      Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U) Γ(X, V))) =
+    Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U) Γ(X, W)))
+  rw [← Spec.map_comp, Spec.map_inj]
+  ext s
+  exact (IsScalarTower.algebraMap_apply Γ(X, U) Γ(X, V) Γ(X, W) s).symm
+
 /-- The spectrum map induced by section restriction, followed by the larger affine chart map,
 is the canonical map from the smaller affine open to the ambient scheme. -/
 lemma restrictionExtensionMap_comp_fromSpec
