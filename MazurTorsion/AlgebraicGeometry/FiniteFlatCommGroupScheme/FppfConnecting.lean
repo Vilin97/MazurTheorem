@@ -4,7 +4,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneFunctoriality
 
 /-!
@@ -16,8 +15,10 @@ overlap differences in `G`.  The kernel universal property lifts each difference
 `P.kernel`; uniqueness proves naturality and the cocycle law.  Thus the construction below is an
 actual Čech connecting class in global fppf `H¹`, not an abstract map supplied as an assumption.
 
-The final section records how the already-proved exactness on points fills the middle degree-zero
-field of `FppfLowDegreeExactSequence`; the other low-degree terms remain explicit obligations.
+This file constructs the class associated to supplied local lifts and proves that it is independent
+of every choice.  Constructing local lifts uniformly from an fppf quotient presentation, proving
+that the resulting assignment is a homomorphism, and establishing the low-degree exact sequence
+remain separate obligations.
 -/
 
 noncomputable section
