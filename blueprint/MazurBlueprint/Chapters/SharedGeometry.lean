@@ -779,6 +779,11 @@ explicit-inverse curve-descent equivalence; the dictionary route also chooses a 
 invertible-sheaf representative for each element. This is a genuine absolute precursor only;
 it does not claim the relative fppf functor or representability.
 
+The absolute Abel--Jacobi adapter now also transports Tau Ceti's weighted point and divisor
+classes into this subgroup, proves its normalization and collision formulas, and gives a chosen
+dictionary line-bundle consumer. These declarations fix the point-level formulas that the
+future relative functor must represent; they do not change this node's blocked status.
+
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.RelativePicardFunctor`
@@ -846,6 +851,11 @@ morphism, prove its universal property and base-change compatibility, and show
 it is a closed immersion in positive genus.
 
 *Status:* `blocked`.
+
+The checked `PicardAbelJacobi` adapter supplies the absolute group-valued point and divisor
+classes, including the base-point, linear-equivalence collision, point-difference, and chosen
+line-bundle formulas. It is a normalization consumer for the future morphism, not a morphism of
+schemes and not a proof of the universal property, base change, or closed immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 

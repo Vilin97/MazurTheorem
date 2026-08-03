@@ -1536,6 +1536,15 @@ ModularCurve/X0/EisensteinQuotient.lean
 Mazur/PrimeOrder/AtFive.lean
 ```
 
+The checked absolute precursor
+`AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted
+point and divisor Abel--Jacobi classes through the divisor-class/Picard
+equivalence into the actual scheme Picard `degreeZero`. It proves the
+base-point, collision, difference, point-divisor, and principal-divisor
+normalizations and has a chosen line-bundle consumer from the exact divisor
+dictionary. It deliberately does not construct the relative Picard functor,
+representing scheme, Jacobian variety, or Abel--Jacobi scheme morphism.
+
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic
 curve.  Acceptance stops at the admissible-filtration, unramified Raynaud,

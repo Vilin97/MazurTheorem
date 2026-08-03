@@ -63,6 +63,10 @@ within each lane follows the listed order.
 4. Completed `MT-TC-E0-PRODUCT-DIM` (2); integrate it with D2 as
    `MT-TC-E1-JACOBIAN-VARIETY` (20).
 5. Combine C1 and E1 in `MT-TC-F1-ABEL-JACOBI` (20).
+   The absolute point/divisor class map into the scheme Picard `degreeZero`
+   and its dictionary line-bundle normalization now compile. Treat these as
+   acceptance formulas for the eventual represented morphism, not as D1/E1/F1
+   completion or a substitute for base change and the universal property.
 6. In parallel, narrow `MT-EC-ISOGENY-WEIL` (25) to rational cyclic
    subgroups, their quotient/classifying data, duals and multiplication
    kernels actually consumed by `X₀(N)` and reduction. A general Weil-pairing

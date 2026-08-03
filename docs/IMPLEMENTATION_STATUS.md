@@ -86,6 +86,15 @@ Current machine-checked results include:
   The full adic/completion converse, integral cusp model, q-expansion
   calculation, and formal-immersion collision remain open, so no roadmap node
   is credited;
+* the weighted point and divisor Abel--Jacobi classes from Tau Ceti transported
+  through a divisor-class/Picard equivalence into the actual degree-zero
+  subgroup of `Scheme.Pic`. The checked formulas cover the base point,
+  collision by linear equivalence, equal-weight point differences, point
+  divisors, and principal divisors. An exact divisor dictionary additionally
+  produces the chosen Abel--Jacobi line bundle and detects its isomorphism
+  class. This is an absolute group-valued precursor, not the relative Picard
+  functor, Jacobian variety, or Abel--Jacobi scheme morphism, so no D1, E1, or
+  F1 credit is claimed;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;

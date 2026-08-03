@@ -133,3 +133,4 @@ import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
+import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi

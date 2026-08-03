@@ -29,7 +29,7 @@ than as completed here. Those are deliberately different numbers:
 publishing a statement, finding prior art, or drafting an interface earns no
 theorem-completion credit.
 
-The integrated development contains 698 checked Lean sources and 1,447,311
+The integrated development contains 699 checked Lean sources and 1,447,510
 lines. It closes the group-theoretic cardinality endpoint and many
 finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
 `27`; it also completes the exact-pin migration, Tau Ceti's finite-support
@@ -55,6 +55,15 @@ not node completion: a checked Nakayama step now identifies the generated
 maximal ideal and the criterion is surjective modulo its square, but the full
 adic-quotient/completion-surjectivity theorem, integral cusp geometry, modular
 quotient, and cusp-collision theorem remain open.
+
+On the Jacobian path, Tau Ceti's weighted point and divisor Abel--Jacobi
+classes now transport through the checked divisor-class/Picard equivalence to
+the actual degree-zero subgroup of the scheme Picard group. Base-point,
+collision, point-difference, additivity, and principal-divisor formulas
+compile, and the exact divisor dictionary supplies a chosen line-bundle
+consumer. This is the group-valued normalization boundary only; the relative
+Picard functor, representability, Jacobian variety, and Abel--Jacobi scheme
+morphism remain open and receive no node credit.
 
 The order-35 lane also now checks the opposite rational point-function
 candidate and the composite identity `dual (candidate P) = 3 • P`, together
