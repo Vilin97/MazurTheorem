@@ -76,6 +76,43 @@ theorem valuation_j_le_one_of_quotientCotangentCertificateAtEleven
   exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
     modularSection cuspSection hpoint (hquotient hj)
 
+/-- The standard mapped special-fibre ideal is enough for the eleven-adic
+collision; local Noetherianity supplies all three finiteness statements used
+by quotient Nakayama and completion surjectivity. -/
+theorem valuation_j_le_one_of_mappedIdealCotangentAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtEleven cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hcotangent : IsLocalRing.IsMappedIdealCotangentSurjective
+      (f.stalkMap (closedFiberPointAtEleven cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f) :
+    atEleven.valuation ℚ E.j ≤ 1 := by
+  by_contra hj
+  apply hne
+  have hpoint := hspecializes hj
+  have hformal : IsFormalImmersionAt f
+      (closedFiberPointAtEleven cuspSection) :=
+    Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian
+      f (closedFiberPointAtEleven cuspSection) hresidue I hI hcotangent
+  have hformalAtModular : IsFormalImmersionAt f
+      (closedFiberPointAtEleven modularSection) := by
+    simpa only [hpoint] using hformal
+  exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
+    modularSection cuspSection hpoint (hquotient hj)
+
 /-- The level-35 special-fibre cotangent calculation reaches the rational
 order-35 exclusion through the canonical nonsingular-reduction endpoint at
 eleven. -/
@@ -114,6 +151,51 @@ theorem
   rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReductionAtEleven
     (valuation_j_le_one_of_quotientCotangentCertificateAtEleven
       f modularSection cuspSection hresidue data hne hspecializes hquotient)
+    hadd especial hcomponent P
+
+/-- The actual mapped characteristic-eleven cotangent calculation reaches the
+canonical local order-35 contradiction without separately packaging a
+quotient certificate. -/
+theorem
+    rationalPoint_addOrderOf_ne_thirtyFive_of_mappedCotangentAtEleven_of_nonsingularReduction
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtEleven cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hcotangent : IsLocalRing.IsMappedIdealCotangentSurjective
+      (f.stalkMap (closedFiberPointAtEleven cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (hadd : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ) →
+        NonsingularReductionIsAdditive
+          (minimalCompletionIntegralModelAtEleven_map E))
+    (especial : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ) →
+        (adicRedCurve (minimalCompletionIntegralModelAtEleven E)).Point ≃+
+          IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (hcomponent : ∀ hA,
+      Nat.card ((minimalCompletionAtEleven E).toAffine.Point ⧸
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtEleven_map E) (hadd hA)) ≤ 4)
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 35 :=
+  rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReductionAtEleven
+    (valuation_j_le_one_of_mappedIdealCotangentAtEleven
+      f modularSection cuspSection hresidue I hI hcotangent hne
+      hspecializes hquotient)
     hadd especial hcomponent P
 
 end MazurTorsion.OrderThirtyFive

@@ -333,14 +333,10 @@ theorem
     (hresidue : IsIso (f.residueFieldMap x))
     (I : Ideal (Y.presheaf.stalk (f x)))
     (hI : I ≤ IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x)))
-    (hfinite : Module.Finite
-      (X.presheaf.stalk x ⧸ I.map (f.stalkMap x).hom)
-      ((IsLocalRing.maximalIdeal (X.presheaf.stalk x)).map
-        (Ideal.Quotient.mk (I.map (f.stalkMap x).hom))))
     (hquotient : IsLocalRing.IsMappedIdealCotangentSurjective
       (f.stalkMap x).hom I hI) :
     IsFormalImmersionAt f x :=
   isFormalImmersionAt_of_mappedIdealCotangentSurjective
-    f x hresidue I hI hfinite hquotient
+    f x hresidue I hI (by infer_instance) hquotient
 
 end AlgebraicGeometry.Scheme.Hom
