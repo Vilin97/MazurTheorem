@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme
 import MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVariety
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
@@ -22,10 +23,11 @@ closed immersion, its proper structure morphism, and a bridge to Tau Ceti's
 abelian-variety package once the remaining group law and geometric integrality
 are supplied.
 
-The final declarations are real consumers in the finite-flat `X₀(N)` path.
-They isolate the remaining coordinate-to-scheme comparison without assuming an
-unrelated abelian variety: the underlying scheme is definitionally the cubic
-constructed here.
+The final declarations construct the canonical forward map from Mathlib's
+coordinate points to scheme-valued points and consume it in the finite-flat
+`X₀(N)` path.  They isolate the remaining group-law compatibility and
+bijectivity proofs without assuming an unrelated abelian variety: the
+underlying scheme is definitionally the cubic constructed here.
 
 The degree-zero and finite-type arguments specialize the exact-pinned Tau Ceti
 projective-line construction from two homogeneous coordinates to three.
@@ -152,6 +154,96 @@ theorem range_inclusion (W : WeierstrassCurve K) :
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   rfl
 
+/-- Evaluation at a nonzero homogeneous coordinate triple, as a map into the global sections of
+`Spec K`. -/
+noncomputable def coordinateRingHom (P : Fin 3 → K) :
+    MvPolynomial (Fin 3) K →+* Γ(Spec (.of K), ⊤) :=
+  (Scheme.ΓSpecIso (.of K)).inv.hom.comp (MvPolynomial.eval P)
+
+/-- A nonzero coordinate triple maps the irrelevant ideal to the unit ideal, as required to
+construct its point of projective space. -/
+theorem irrelevant_map_eq_top (P : Fin 3 → K) (hP : P ≠ 0) :
+    Ideal.map (coordinateRingHom P)
+      (HomogeneousIdeal.irrelevant (homogeneousPieces K)).toIdeal = ⊤ := by
+  obtain ⟨i, hi⟩ : ∃ i, P i ≠ 0 := by
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp hP
+    exact ⟨i, hi⟩
+  have hXi : MvPolynomial.X i ∈
+      (HomogeneousIdeal.irrelevant (homogeneousPieces K)).toIdeal :=
+    HomogeneousIdeal.mem_irrelevant_of_mem (homogeneousPieces K) (by omega)
+      (MvPolynomial.isHomogeneous_X K i)
+  refine (Ideal.map (coordinateRingHom P)
+    (HomogeneousIdeal.irrelevant (homogeneousPieces K)).toIdeal).eq_top_of_isUnit_mem
+      (x := coordinateRingHom P (MvPolynomial.X i)) ?_ ?_
+  · exact Ideal.mem_map_of_mem (coordinateRingHom P) hXi
+  · simpa [coordinateRingHom, MvPolynomial.eval] using
+      hi.isUnit.map (Scheme.ΓSpecIso (.of K)).inv.hom
+
+/-- The point of projective two-space represented by a nonzero coordinate triple. -/
+noncomputable def ambientPoint (P : Fin 3 → K) (hP : P ≠ 0) :
+    Spec (.of K) ⟶ projectivePlane K :=
+  Proj.fromOfGlobalSections (homogeneousPieces K) (coordinateRingHom P)
+    (irrelevant_map_eq_top P hP)
+
+/-- A nonsingular projective Weierstrass representative is not the zero triple. -/
+theorem nonsingular_ne_zero (W : WeierstrassCurve K) (P : Fin 3 → K)
+    (hP : W.toProjective.Nonsingular P) : P ≠ 0 := by
+  intro h
+  subst P
+  simp [WeierstrassCurve.Projective.nonsingular_iff] at hP
+
+/-- The projective-space point represented by a nonsingular Weierstrass triple belongs to the
+cubic's projective zero locus. -/
+theorem ambientPoint_mem_carrier (W : WeierstrassCurve K) (P : Fin 3 → K)
+    (hP : W.toProjective.Nonsingular P) (s : Spec (.of K)) :
+    ambientPoint P (nonsingular_ne_zero W P hP) s ∈ carrier W := by
+  let x : ProjectiveSpectrum (homogeneousPieces K) :=
+    ambientPoint P (nonsingular_ne_zero W P hP) s
+  change x ∈ ProjectiveSpectrum.zeroLocus (homogeneousPieces K)
+    {W.toProjective.polynomial}
+  rw [ProjectiveSpectrum.mem_zeroLocus]
+  simp only [Set.singleton_subset_iff, SetLike.mem_coe]
+  by_contra hxq
+  have hxbo : x ∈ Proj.basicOpen (homogeneousPieces K) W.toProjective.polynomial := hxq
+  change ambientPoint P (nonsingular_ne_zero W P hP) s ∈
+    Proj.basicOpen (homogeneousPieces K) W.toProjective.polynomial at hxbo
+  have hs : s ∈ ambientPoint P (nonsingular_ne_zero W P hP) ⁻¹ᵁ
+      Proj.basicOpen (homogeneousPieces K) W.toProjective.polynomial := hxbo
+  rw [ambientPoint, Proj.fromOfGlobalSections_preimage_basicOpen
+    (homogeneousPieces K) (coordinateRingHom P)
+    (irrelevant_map_eq_top P (nonsingular_ne_zero W P hP))
+    (by omega) (polynomial_mem_degree_three W)] at hs
+  have hfq : coordinateRingHom P W.toProjective.polynomial = 0 := by
+    change (Scheme.ΓSpecIso (.of K)).inv
+      (MvPolynomial.eval P W.toProjective.polynomial) = 0
+    rw [hP.1, map_zero]
+  rw [hfq, Scheme.basicOpen_zero] at hs
+  simp at hs
+
+/-- The whole range of the point represented by a nonsingular Weierstrass triple lies in the
+cubic's projective zero locus. -/
+theorem ambientPoint_range_subset_carrier (W : WeierstrassCurve K)
+    (P : Fin 3 → K) (hP : W.toProjective.Nonsingular P) :
+    Set.range (ambientPoint P (nonsingular_ne_zero W P hP)) ⊆ carrier W := by
+  rintro _ ⟨s, rfl⟩
+  exact ambientPoint_mem_carrier W P hP s
+
+/-- A nonsingular homogeneous coordinate representative defines a scheme-valued point of the
+reduced Weierstrass cubic. -/
+noncomputable def pointOfNonsingularRepresentative (W : WeierstrassCurve K)
+    (P : Fin 3 → K) (hP : W.toProjective.Nonsingular P) :
+    Spec (.of K) ⟶ scheme W :=
+  MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme.lift
+    (ambientPoint P (nonsingular_ne_zero W P hP)) (closedCarrier W)
+    (ambientPoint_range_subset_carrier W P hP)
+
+@[simp]
+theorem pointOfNonsingularRepresentative_comp_inclusion (W : WeierstrassCurve K)
+    (P : Fin 3 → K) (hP : W.toProjective.Nonsingular P) :
+    pointOfNonsingularRepresentative W P hP ≫ inclusion W =
+      ambientPoint P (nonsingular_ne_zero W P hP) :=
+  MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme.lift_comp_subschemeι _ _ _
+
 /-- Constants identify `K` with the degree-zero part of `K[X,Y,Z]`. -/
 noncomputable def degreeZeroRingEquiv (K : Type u) [Field K] :
     K ≃+* homogeneousPieces K 0 :=
@@ -187,6 +279,20 @@ instance projectivePlaneStructureMap_isProper (K : Type u) [Field K] :
   dsimp only [projectivePlaneStructureMap]
   infer_instance
 
+/-- A homogeneous coordinate point constructed by evaluation is a morphism over `Spec K`. -/
+theorem ambientPoint_comp_projectivePlaneStructureMap
+    (P : Fin 3 → K) (hP : P ≠ 0) :
+    ambientPoint P hP ≫ projectivePlaneStructureMap K = 𝟙 _ := by
+  rw [ambientPoint, projectivePlaneStructureMap, ← Category.assoc,
+    Proj.fromOfGlobalSections_toSpecZero]
+  rw [← SpecMap_ΓSpecIso_hom, ← Spec.map_comp, ← Spec.map_comp,
+    ← Spec.map_id]
+  congr 1
+  ext r
+  change (Scheme.ΓSpecIso (.of K)).hom
+    (coordinateRingHom P ((algebraMap K (homogeneousPieces K 0)) r)) = r
+  simp [coordinateRingHom]
+
 /-- The structure morphism of the reduced projective Weierstrass cubic. -/
 noncomputable def structureMap (W : WeierstrassCurve K) : scheme W ⟶ Spec (.of K) :=
   inclusion W ≫ projectivePlaneStructureMap K
@@ -195,6 +301,15 @@ instance structureMap_isProper (W : WeierstrassCurve K) : IsProper (structureMap
   dsimp only [structureMap]
   infer_instance
 
+@[simp]
+theorem pointOfNonsingularRepresentative_comp_structureMap
+    (W : WeierstrassCurve K) (P : Fin 3 → K)
+    (hP : W.toProjective.Nonsingular P) :
+    pointOfNonsingularRepresentative W P hP ≫ structureMap W = 𝟙 _ := by
+  rw [structureMap, ← Category.assoc,
+    pointOfNonsingularRepresentative_comp_inclusion,
+    ambientPoint_comp_projectivePlaneStructureMap]
+
 /-- The concrete Weierstrass cubic as an object over `Spec K`. -/
 noncomputable def toOver (W : WeierstrassCurve K) : Over (Spec (.of K)) :=
   Over.mk (structureMap W)
@@ -202,6 +317,61 @@ noncomputable def toOver (W : WeierstrassCurve K) : Over (Spec (.of K)) :=
 instance toOver_hom_isProper (W : WeierstrassCurve K) : IsProper (toOver W).hom := by
   change IsProper (structureMap W)
   infer_instance
+
+/-- A nonsingular coordinate representative defines an honest `K`-point of the cubic as a
+morphism in the slice over `Spec K`. -/
+noncomputable def pointOverOfNonsingularRepresentative
+    (W : WeierstrassCurve K) (P : Fin 3 → K)
+    (hP : W.toProjective.Nonsingular P) :
+    AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W :=
+  Over.homMk (pointOfNonsingularRepresentative W P hP) <| by
+    change pointOfNonsingularRepresentative W P hP ≫ structureMap W =
+      Spec.map (CommRingCat.ofHom (algebraMap K K))
+    rw [pointOfNonsingularRepresentative_comp_structureMap]
+    simp
+
+/-- Canonical affine-coordinate points as morphisms from `Spec K` to the concrete cubic. -/
+noncomputable def affinePointMorphism (W : WeierstrassCurve K) :
+    W.toAffine.Point → (Spec (.of K) ⟶ scheme W)
+  | .zero => pointOfNonsingularRepresentative W ![0, 1, 0]
+      W.toProjective.nonsingular_zero
+  | .some x y h => pointOfNonsingularRepresentative W ![x, y, 1]
+      ((W.toProjective.nonsingular_some x y).mpr h)
+
+@[simp]
+theorem affinePointMorphism_zero (W : WeierstrassCurve K) :
+    affinePointMorphism W .zero =
+      pointOfNonsingularRepresentative W ![0, 1, 0]
+        W.toProjective.nonsingular_zero :=
+  rfl
+
+@[simp]
+theorem affinePointMorphism_some (W : WeierstrassCurve K) (x y : K)
+    (h : W.toAffine.Nonsingular x y) :
+    affinePointMorphism W (.some x y h) =
+      pointOfNonsingularRepresentative W ![x, y, 1]
+        ((W.toProjective.nonsingular_some x y).mpr h) :=
+  rfl
+
+/-- A Mathlib projective Weierstrass point as a morphism to the concrete cubic.  Passing through
+the checked affine normal form avoids making a choice of homogeneous representative. -/
+noncomputable def projectivePointMorphism (W : WeierstrassCurve K)
+    (P : W.toProjective.Point) : Spec (.of K) ⟶ scheme W :=
+  affinePointMorphism W P.toAffineLift
+
+/-- Canonical affine-coordinate points as `K`-points in the slice category. -/
+noncomputable def affinePointOverMorphism (W : WeierstrassCurve K) :
+    W.toAffine.Point → (AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W)
+  | .zero => pointOverOfNonsingularRepresentative W ![0, 1, 0]
+      W.toProjective.nonsingular_zero
+  | .some x y h => pointOverOfNonsingularRepresentative W ![x, y, 1]
+      ((W.toProjective.nonsingular_some x y).mpr h)
+
+/-- A Mathlib projective Weierstrass point as an honest `K`-point of the concrete cubic. -/
+noncomputable def projectivePointOverMorphism (W : WeierstrassCurve K)
+    (P : W.toProjective.Point) :
+    AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W :=
+  affinePointOverMorphism W P.toAffineLift
 
 /-- Once the concrete cubic carries a group-object structure and is geometrically integral,
 Tau Ceti packages it as an abelian variety; properness is already proved above. -/
@@ -222,9 +392,64 @@ theorem toAbelianVariety_toScheme (W : WeierstrassCurve K)
     (toAbelianVariety W).toScheme = scheme W :=
   rfl
 
+/-- The canonical forward map from Mathlib's projective coordinate points to the rational points
+of the abelian variety carried by the concrete cubic.  Proving that this map preserves the group
+law and is bijective remains the point-comparison obligation. -/
+noncomputable def projectivePointToAbelianVarietyRationalPoint
+    (W : WeierstrassCurve K)
+    [GrpObj (toOver W)] [GeometricallyIntegral (toOver W).hom]
+    (P : W.toProjective.Point) :
+    AbelianVarietyRationalPoint (toAbelianVariety W) :=
+  projectivePointOverMorphism W P
+
 variable [DecidableEq K] {N : ℕ} [NeZero N]
   (W : WeierstrassCurve K) [W.IsElliptic]
   [GrpObj (toOver W)] [GeometricallyIntegral (toOver W).hom]
+
+/-- Package proofs that the canonical coordinate-to-scheme point map preserves zero and addition
+as a monoid homomorphism from the multiplicative spelling of the coordinate group. -/
+noncomputable def canonicalProjectivePointMonoidHom
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q) :
+    Multiplicative W.toProjective.Point →*
+      AbelianVarietyRationalPoint (toAbelianVariety W) where
+  toFun P := projectivePointToAbelianVarietyRationalPoint W P.toAdd
+  map_one' := hzero
+  map_mul' P Q := hadd P.toAdd Q.toAdd
+
+/-- Once the canonical point map is known to preserve the group law and to be bijective, it is the
+required multiplicative equivalence; no unrelated point equivalence has to be supplied. -/
+noncomputable def canonicalProjectivePointEquiv
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q)
+    (hbij : Function.Bijective
+      (fun P : Multiplicative W.toProjective.Point =>
+        projectivePointToAbelianVarietyRationalPoint W P.toAdd)) :
+    Multiplicative W.toProjective.Point ≃*
+      AbelianVarietyRationalPoint (toAbelianVariety W) :=
+  MulEquiv.ofBijective (canonicalProjectivePointMonoidHom W hzero hadd) hbij
+
+omit [DecidableEq K] [W.IsElliptic] in
+@[simp]
+theorem canonicalProjectivePointEquiv_apply
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q)
+    (hbij : Function.Bijective
+      (fun P : Multiplicative W.toProjective.Point =>
+        projectivePointToAbelianVarietyRationalPoint W P.toAdd))
+    (P : Multiplicative W.toProjective.Point) :
+    canonicalProjectivePointEquiv W hzero hadd hbij P =
+      projectivePointToAbelianVarietyRationalPoint W P.toAdd :=
+  rfl
 
 /-- A comparison of Mathlib's projective coordinate points with the rational points of the
 concrete cubic supplies the existing abelian-variety bridge.  Unlike an arbitrary supplied
@@ -235,6 +460,20 @@ noncomputable def toAbelianVarietyComparison
       AbelianVarietyRationalPoint (toAbelianVariety W)) :
     WeierstrassAbelianVarietyComparison W :=
   WeierstrassAbelianVarietyComparison.ofProjectivePointEquiv W (toAbelianVariety W) e
+
+/-- Canonical comparison consumer: the remaining group-law and bijectivity proofs are attached to
+the explicit coordinate-to-scheme point map constructed above. -/
+noncomputable def toAbelianVarietyComparisonOfCanonicalPointMap
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q)
+    (hbij : Function.Bijective
+      (fun P : Multiplicative W.toProjective.Point =>
+        projectivePointToAbelianVarietyRationalPoint W P.toAdd)) :
+    WeierstrassAbelianVarietyComparison W :=
+  toAbelianVarietyComparison W (canonicalProjectivePointEquiv W hzero hadd hbij)
 
 /-- Real finite-flat downstream consumer of the concrete cubic: once its group law,
 geometric integrality, and projective-coordinate point comparison are established, a point of
@@ -248,6 +487,25 @@ noncomputable def splitGammaZeroDatumOfProjectiveCubic
   WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfTorsion
     W (toAbelianVarietyComparison W e) P hP
 
+/-- Finite-flat consumer of the canonical coordinate-to-scheme point map: after its group-law and
+bijectivity obligations are proved, exact coordinate torsion produces the split `Gamma₀(N)` datum
+on this concrete cubic. -/
+noncomputable def splitGammaZeroDatumOfCanonicalProjectiveCubic
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q)
+    (hbij : Function.Bijective
+      (fun Q : Multiplicative W.toProjective.Point =>
+        projectivePointToAbelianVarietyRationalPoint W Q.toAdd))
+    (P : W.toAffine.Point) (hP : addOrderOf P = N) :
+    WeierstrassGroupSchemeInterface.SplitGammaZeroDatum
+      (N := N) W
+        (toAbelianVarietyComparisonOfCanonicalPointMap W hzero hadd hbij).toGroupSchemeInterface :=
+  splitGammaZeroDatumOfProjectiveCubic W
+    (canonicalProjectivePointEquiv W hzero hadd hbij) P hP
+
 omit [W.IsElliptic] in
 /-- The finite-flat subgroup produced from the concrete projective cubic has constant order
 `N`; this theorem checks that the bridge reaches the scheme-theoretic consumer. -/
@@ -258,6 +516,23 @@ theorem splitGammaZeroDatumOfProjectiveCubic_hasConstantOrder
     (splitGammaZeroDatumOfProjectiveCubic W e P hP).subgroup.carrier.HasConstantOrder N :=
   WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfTorsion_hasConstantOrder
     W (toAbelianVarietyComparison W e) P hP
+
+omit [W.IsElliptic] in
+/-- The canonical-point-map finite-flat consumer produces a subgroup of constant order `N`. -/
+theorem splitGammaZeroDatumOfCanonicalProjectiveCubic_hasConstantOrder
+    (hzero : projectivePointToAbelianVarietyRationalPoint W 0 = 1)
+    (hadd : ∀ P Q : W.toProjective.Point,
+      projectivePointToAbelianVarietyRationalPoint W (P + Q) =
+        projectivePointToAbelianVarietyRationalPoint W P *
+          projectivePointToAbelianVarietyRationalPoint W Q)
+    (hbij : Function.Bijective
+      (fun Q : Multiplicative W.toProjective.Point =>
+        projectivePointToAbelianVarietyRationalPoint W Q.toAdd))
+    (P : W.toAffine.Point) (hP : addOrderOf P = N) :
+    _root_.AlgebraicGeometry.FiniteFlatCommGroupScheme.HasConstantOrder
+      (splitGammaZeroDatumOfCanonicalProjectiveCubic W hzero hadd hbij P hP).subgroup.carrier N :=
+  splitGammaZeroDatumOfProjectiveCubic_hasConstantOrder W
+    (canonicalProjectivePointEquiv W hzero hadd hbij) P hP
 
 end WeierstrassProjectiveCubic
 
