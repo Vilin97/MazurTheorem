@@ -40,9 +40,11 @@ datum is effective. The chosen-overlap/full-descent equivalence identifies it wi
 reconstructed normalized principal cocycle, making that actual cocycle effective too. For
 arbitrary divisors, the diagonal transitions are now replaced by coherent self-overlap maps and
 their normalization is proved. The inverse-ideal comparisons satisfy the cocycle equation on
-every fixed common Dedekind affine subopen. Comparing restriction from the three pairwise
-intersection presentations with that triple-intersection presentation remains before the
-cover-wide chosen-pullback cocycle follows. Given
+every fixed common Dedekind affine subopen. Pairwise inverse-ideal equalities now base-change to
+the actual triple intersection and give the same direct common-affine module comparisons, which
+satisfy the required cocycle there. Comparing the surrounding pseudofunctorial pullback
+composition isomorphisms with those direct module comparisons remains before the cover-wide
+chosen-pullback cocycle follows. Given
 object-specific effective invertible descent, the checked
 consumer `globalLineBundle` constructs a global line bundle and identifies every chart
 restriction with the affine `O(D)`. Proven locality of invertibility now upgrades ordinary
@@ -372,6 +374,28 @@ noncomputable abbrev restrictionAlgebra
     Algebra Γ(X, U) Γ(X, W) :=
   (X.presheaf.map (homOfLE hWU).op).hom.toAlgebra
 
+/-- Section restriction through two nested affine opens forms the expected scalar tower.  The
+statement keeps the direct inclusion proof explicit, so it can be used when the same smallest
+open is simultaneously presented as a subopen of several pairwise intersections. -/
+theorem restrictionAlgebraTower
+    (X : Scheme.{u}) (U V W : X.Opens)
+    (hVU : V ≤ U) (hWV : W ≤ V) (hWU : W ≤ U) :
+    letI := restrictionAlgebra X U V hVU
+    letI := restrictionAlgebra X V W hWV
+    letI := restrictionAlgebra X U W hWU
+    IsScalarTower Γ(X, U) Γ(X, V) Γ(X, W) := by
+  letI := restrictionAlgebra X U V hVU
+  letI := restrictionAlgebra X V W hWV
+  letI := restrictionAlgebra X U W hWU
+  apply IsScalarTower.of_algebraMap_eq'
+  apply RingHom.ext
+  intro s
+  change (X.presheaf.map (homOfLE hWU).op).hom s =
+    (X.presheaf.map (homOfLE hWV).op).hom
+      ((X.presheaf.map (homOfLE hVU).op).hom s)
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
 /-- The spectrum map induced by section restriction, followed by the larger affine chart map,
 is the canonical map from the smaller affine open to the ambient scheme. -/
 lemma restrictionExtensionMap_comp_fromSpec
@@ -397,7 +421,9 @@ lemma restrictionExtensionMapIsOpenImmersion
   exact IsOpenImmersion.of_comp
     (CommonExtension.extensionMap Γ(X, U) Γ(X, W)) hU.fromSpec
 
-private lemma restrictionFunctionFieldTower
+/-- Restriction from a nonempty open to a nonempty subopen is compatible with the two canonical
+maps into the function field of an integral scheme. -/
+lemma restrictionFunctionFieldTower
     (X : Scheme.{u}) [IsIntegral X]
     (U W : X.Opens) [Nonempty U] [Nonempty W] (hWU : W ≤ U) :
     letI := restrictionAlgebra X U W hWU
@@ -415,7 +441,9 @@ private lemma restrictionFunctionFieldTower
           (by simpa using (inferInstance : Nonempty W))))) s
   exact h.symm
 
-private lemma restrictionTorsionFree
+/-- On an integral scheme, restriction from an affine domain to a nonempty subopen is
+torsion-free. -/
+lemma restrictionTorsionFree
     (X : Scheme.{u}) [IsIntegral X]
     (U W : X.Opens) [Nonempty W] [IsDomain Γ(X, U)] (hWU : W ≤ U) :
     letI := restrictionAlgebra X U W hWU
@@ -542,7 +570,9 @@ theorem localLineBundleRestrictionIsoOnCommonAffineOpen_hom_trans
     localLineBundleRestrictionIsoOfCommonMap]
   apply CommonExtension.chosenLineBundleRestrictionIsoOfOverlapExtensionEq_hom_trans
 
-private lemma nonempty_inf_of_isIntegral
+/-- Two nonempty opens of an integral scheme have nonempty intersection, witnessed by the
+generic point. -/
+lemma nonempty_inf_of_isIntegral
     (X : Scheme.{u}) [IsIntegral X]
     (U V : X.Opens) [Nonempty U] [Nonempty V] :
     Nonempty ↑(U ⊓ V : X.Opens) := by
