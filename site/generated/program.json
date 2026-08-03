@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1458574,
+    "integrated_lean_lines": 1458588,
     "integrated_lean_modules": 720,
     "remaining_composite_orders": [
       18,
@@ -3397,6 +3397,13 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
           "description": "Construct the actual reduced closed subscheme of projective two-space supported on the homogeneous Weierstrass zero locus."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isReduced",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic",
+          "description": "Check reducedness affine-locally: every chart is the quotient by a radical vanishing ideal, hence reduced."
         },
         {
           "kind": "theorem",
