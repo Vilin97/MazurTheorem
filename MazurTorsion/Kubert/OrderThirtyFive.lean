@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
+import MazurTorsion.EllipticCurve.TameAdditiveReductionData
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -86,5 +87,22 @@ theorem addOrderOf_ne_thirtyFive_of_tameAdditiveFiltrationAtEleven
     hcomponentCoprime hresidueCoprime horder
   rw [hzero] at horder
   norm_num at horder
+
+/-- The order-35 additive-fibre contradiction from the canonical eleven-adic reduction data.
+The component is the quotient by the specified identity subgroup, reduction targets the actual
+eleven-adic residue field, and formal-kernel torsion-freeness comes from the checked
+unramified formal-group theorem. -/
+theorem addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    (D : TameAdditiveReductionDataAtEleven hW) (P : W.Point) :
+    addOrderOf P ≠ 35 :=
+  addOrderOf_ne_thirtyFive_of_tameAdditiveFiltrationAtEleven
+    D.toTameAdditiveFiltrationData
+    TameAdditiveReductionDataAtEleven.residue_natCard P
 
 end MazurTorsion.OrderThirtyFive
