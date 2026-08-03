@@ -103,8 +103,13 @@ global fppf `H¹` over `Scheme.Over X` now compiles as a common-refinement
 quotient. Pointwise commutative Čech cocycle operations descend to its
 canonical group law; refinement pullback is multiplicative, products can be
 computed on any common refinement, and the representable finite-flat
-specialization feeds the existing finite-p-group consumer. The next boundary
-is functoriality in coefficients and the Kummer exact sequence.
+specialization feeds the existing finite-p-group consumer. Natural
+transformations of commutative coefficients now induce global homomorphisms,
+and actual finite-flat group-scheme maps consume this functoriality. Certified
+kernels are exact on test-scheme points. Genuine supplied local lifts produce
+a kernel-valued Čech boundary class independent of the lifts and cover. The
+next boundary is uniform local lifting from the fppf quotient, multiplicativity,
+and the Kummer exact sequence.
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
@@ -120,6 +125,16 @@ is functoriality in coefficients and the Kummer exact sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_mul_of_commonRefinement`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.ofFiniteFlatFppfHOne`
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.FppfHOne.mapHom`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneMap`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.point_mulExact`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass_eq`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -135,9 +150,11 @@ The exact-sequence certificate exposes all six finite p-groups, five maps,
 left injectivity, and four exactness proofs. It therefore cannot be populated
 by a cardinal bound alone. The repository now supplies the fixed-universe
 global colimit over actual relative fppf covers, including refinement-choice
-independence, a type-level eliminator, and its canonical commutative group
-law. Functorial coefficient maps, the Kummer connecting morphism, and the
-low-degree exact sequence are still absent; no node credit is claimed.
+independence, a type-level eliminator, its canonical commutative group law,
+functorial coefficient maps, and a choice-independent local-lift connecting
+class. Constructing those lifts from the quotient, the connecting
+homomorphism, and the low-degree exact sequence are still absent; no node
+credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
@@ -178,16 +195,28 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.forgetToDivisor`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.FiniteLocallyFreeSubgroup`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.SplitCyclicSubgroup`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitGammaZeroDatumOfTorsion`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
 quotients by the generated equivalence and descends every
 presentation-invariant function. Intrinsic divisor subgroups, split
 divisor-level degeneracy maps, and reconstruction from the order-five and
-order-seven carriers at level 35 also compile. This split locus is not the
-full finite-flat Γ₀ moduli problem and is not closed under Atkin--Lehner. The
-genuine coarse modular point and finite-locally-free subgroup geometry remain
-open, so this node receives no completion credit.
+order-seven carriers at level 35 also compile. The scheme layer packages an
+actual finite-locally-free closed subgroup, arbitrary base change, and an
+identification with the constant cyclic group. Exact rational torsion gives a
+genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme
+interface, and a checked consumer identifies its rational point range with
+the existing carrier. Constructing that interface for the actual elliptic
+curve, `E/C`, the coarse modular point, and Atkin--Lehner geometry remain open,
+so this node receives no completion credit.
 :::
 
 :::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -217,6 +246,10 @@ toric reduction of the modular Jacobian.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection`
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection_comp`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.CompleteDVRStalk.isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_heckeEigenQExpansion`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.CompleteDVRStalk.spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
@@ -236,9 +269,11 @@ maximal ideal to vanishing of the first q-coefficient. A complete domain DVR
 with a coefficient field and irreducible uniformizer now constructs the
 coordinate in the opposite direction. For an actual rational section, the
 structural map now supplies the coefficient algebra, the section equation
-retracts it and proves the source residue field is the base field, and a
-normalized expansion separates arbitrary Noetherian local sections with equal
-quotient image. The integral cusp model, its non-generic section and
+retracts it and proves the source residue field is the base field, and the
+over-base quotient equation proves the image residue field is also the base.
+A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
+immersion predicate and separates arbitrary Noetherian local sections with
+equal quotient image. The integral cusp model, its non-generic section and
 uniformizer, and the actual modular q-expansion remain open, so this node
 receives no completion credit.
 :::
@@ -282,6 +317,10 @@ cotangent space of a nontrivial quotient.
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_normalizedQExpansion`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_completeDVR_normalizedQExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_heckeEigen_qExpansion`
 
 The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
 provisional target for this calculation: it requires a residue-field
@@ -291,8 +330,11 @@ parameter whose completed pullback is `c*q + q^2*F`, with `c` nonzero, now
 instantiates that certificate and proves actual completed-stalk formal
 immersion. Named consumers carry both a supplied coordinate and the constructed
 complete-DVR coordinate through to equality of canonical local-spectrum maps.
-The missing Hecke work is the modular/Jacobian action and the checked expansion
-identity at the auxiliary characteristics five and eleven.
+The abstract first-coefficient argument now proves that a nonzero simultaneous
+eigen-expansion has nonzero coefficient in degree one and feeds that result to
+the real completed-stalk formal-immersion theorem. The missing Hecke work is
+the modular/Jacobian action and its checked expansion identity at auxiliary
+characteristics five and eleven.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

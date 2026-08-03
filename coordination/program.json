@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1454284,
-    "integrated_lean_modules": 711,
+    "integrated_lean_lines": 1455948,
+    "integrated_lean_modules": 715,
     "remaining_composite_orders": [
       18,
       25,
@@ -1062,7 +1062,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path now proves integral closedness and Dedekind order compatibility unconditionally for locally standard-smooth relative curves over a field, and constructs the actual overlap line-bundle isomorphism on proper smooth curve intersections. Cover cocycle coherence, descent effectivity, object separation, rational normalization, and Picard surjectivity remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2137,6 +2137,27 @@
           "state": "contract",
           "description": "Compile the full conditional divisor-to-Picard dictionary as a downstream consumer of the rationally compatible chart-generator boundary.",
           "module": "MazurTorsion.Upstream.CurveDivisorRationalBoundary"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field",
+          "state": "contract",
+          "description": "Glue the pinned Tau Ceti valuation-ring theorem across a localization cover to prove normality of every locally standard-smooth relative-dimension-one domain over a field.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurve",
+          "state": "contract",
+          "description": "Construct the full Dedekind valuation versus scheme-order compatibility on a smooth relative curve chart without a supplied normality hypothesis.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersection",
+          "state": "contract",
+          "description": "Consume unconditional smooth-curve normality to compare the two chosen divisor line bundles on the actual affine intersection of proper smooth curve charts.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         }
       ],
       "depends_on": [
@@ -3001,7 +3022,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient and now carries the canonical commutative group law descended from pointwise Cech cocycles; refinement homomorphisms, finite-flat specialization, and a FinitePGroup consumer compile. Construct functorial coefficient maps, Kummer connecting morphisms, and the exact-sequence instance needed by Mazur's rank-zero argument.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points, and genuine supplied local lifts now construct a choice-independent Cech boundary class across arbitrary covers. Uniformly constructing those lifts from an fppf quotient, proving the boundary homomorphism, and filling the low-degree exact-sequence instance remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3051,6 +3072,41 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
           "description": "Package finite global fppf H1 as the existing finite p-group consumer using its canonical descended group law rather than an unrelated group instance."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.FppfHOne.mapHom",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneFunctoriality",
+          "description": "Descend a natural transformation of commutative coefficient presheaves to a homomorphism on global relative fppf H1, compatible with genuine cover refinements, identities, and composition."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneMap",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneFunctoriality",
+          "description": "Apply global fppf-H1 functoriality to the represented point-presheaf map induced by an actual finite-flat commutative group-scheme morphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.point_mulExact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneFunctoriality",
+          "description": "Consume the certified scheme-theoretic kernel universal property to prove degree-zero exactness on points of every test scheme."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfConnecting",
+          "description": "Construct the global kernel-valued fppf-H1 class from actual local source lifts by overlap differences and certified-kernel uniqueness."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass_eq",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfConnecting",
+          "description": "Prove the constructed boundary class is independent of local lifts and of the fppf cover via genuine refinement and intersection covers."
         },
         {
           "kind": "theorem",
@@ -3159,7 +3215,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, quotient raw Weierstrass data by checked admissible variable changes, and then build the genuine finite-flat Gamma_0 datum and coarse classifying point.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion now compile relative to a narrow Weierstrass group-scheme interface. Construct that interface for actual elliptic curves, the quotient E/C, and the coarse X_0 classifying point.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3243,6 +3299,34 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroThirtyFive",
           "description": "Prove that the canonical order-five and order-seven carriers reconstruct a split rational cyclic subgroup of order 35."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.FiniteLocallyFreeSubgroup",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Package a finite-locally-free commutative group scheme with an actual closed-immersion inclusion into the ambient commutative group scheme, with checked base change."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.SplitCyclicSubgroup",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Identify a finite-flat closed subgroup scheme with the constant cyclic group of order N and verify its constant rank and base change."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Isolate the missing actual Weierstrass commutative group scheme and extension of injective finite constant rational sections to closed subgroups."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitGammaZeroDatumOfTorsion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli",
+          "description": "Consume exact additive torsion and the Weierstrass group-scheme interface to construct a genuine split finite-flat Gamma_0 source datum whose rational-point range is the existing cyclic carrier."
         }
       ],
       "depends_on": [
@@ -3273,7 +3357,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11; retain only the extra level-N geometry used by the modular Jacobian's toric-reduction consumer.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section now derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. The integral modular cusp section, its uniformizer, and its genuine modular q-expansion remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3343,6 +3427,20 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
           "description": "Derive that an actual section of the structural morphism has residue field exactly the base field."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection_comp",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
+          "description": "Derive the target residue-field isomorphism from a rational structural section whose image morphism also lies over the base."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.CompleteDVRStalk.isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_heckeEigenQExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.CompleteDVRStalk",
+          "description": "Consume structural rationality, a completed-stalk coordinate, and a nonzero simultaneous Hecke eigen-expansion to prove the actual formal-immersion predicate."
         },
         {
           "kind": "theorem",
@@ -3472,7 +3570,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the Hecke action on J_0(N) and prove the q-expansion recursion that makes the first Fourier coefficient detect every nonzero simultaneous eigenform.",
+      "summary": "Construct the Hecke action on J_0(N) and prove its q-expansion recursion. The abstract degree-one argument now proves that every nonzero simultaneous eigen-expansion has nonzero first coefficient and consumes that fact in an actual completed-stalk formal-immersion theorem. The modular/Jacobian Hecke operators and their genuine q-expansion identity at characteristics 5 and 11 remain open.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3506,6 +3604,20 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.CompleteDVRCoordinate",
           "description": "Construct the complete-DVR coordinate, prove the normalized-q formal immersion, and cancel its actual canonical local-spectrum points in one checked consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.HeckeFirstCoefficient",
+          "description": "Use the first-coefficient Hecke recursion to prove that a nonzero simultaneous eigen-expansion cannot have zero q coefficient in degree one."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_heckeEigen_qExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.HeckeFirstCoefficient",
+          "description": "Feed the detected first q coefficient to the real completed-stalk formal-immersion predicate as a named downstream consumer."
         }
       ],
       "depends_on": [

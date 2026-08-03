@@ -104,10 +104,11 @@ scalar towers, and ambient-map compatibilities needed for the arbitrary-divisor 
 On a separated integral scheme, the full intersection of two nonempty affine charts is affine
 and nonempty, and the comparison is constructed there once its coordinate ring is Dedekind.
 For a proper morphism to the spectrum of a field, relative properness supplies the absolute
-separatedness input automatically. For a smooth relative curve, the existing mapwise normality
-contract supplies the intersection's Dedekind instance and hence the actual comparison.
-Proving that normality condition, transporting the isomorphisms to the chosen descent
-pullbacks, and proving normalized diagonal and triple-cocycle coherence remain missing.
+separatedness input automatically. For a smooth relative curve, the pinned Tau Ceti
+valuation-ring theorem and localization-cover gluing now prove integral closedness; the
+intersection's Dedekind instance and actual comparison therefore compile without a normality
+hypothesis. Transporting these isomorphisms to the chosen descent pullbacks and proving
+normalized diagonal and triple-cocycle coherence remain missing.
 The API also
 characterizes existence of the full affine scheme-level
 dictionary by the full comparison for arbitrary sheaves alone: canonical Picard surjectivity is
@@ -117,14 +118,11 @@ localization predicate into the forward tensor-inverse comparison. The chart API
 identifies height-one primes of a Dedekind affine coordinate ring with the ambient
 codimension-one points lying in the chart. It now proves equality of the Dedekind and scheme
 order homomorphisms from the Dedekind-domain instance, constructing
-`AffineChart.DedekindOrderCompatibility` automatically. The remaining coordinate-ring boundary
-is exactly dimension at most one plus integral closedness.
-`AffineChart.SmoothRelativeCurveRingConditions` packages these consequences as a conditional
-mapwise predicate. Over a field, the dimension-at-most-one consequence is now proved from local
-standard smoothness and relative dimension one, so `AffineChart.SmoothRelativeCurveNormality`
-is the exact remaining part. Its checked consumer assumes normality on the concrete affine
-`appLE` map and constructs the required Dedekind order compatibility; no universal implication
-over an arbitrary base is asserted. Whole principal divisors are related by reindexing and the induced
+`AffineChart.DedekindOrderCompatibility` automatically. Over a field, local standard smoothness
+and relative dimension one now prove both dimension at most one and integral closedness. The
+historical `SmoothRelativeCurveRingConditions` and `SmoothRelativeCurveNormality` declarations
+remain compatibility wrappers, while `dedekindOrderCompatibilityOfSmoothRelativeCurve` is the
+unconditional checked consumer. Whole principal divisors are related by reindexing and the induced
 local divisor-to-scheme-Picard map has exactly those principal divisors as kernel. It therefore
 descends injectively to chart divisor classes and identifies them with its scheme-Picard range.
 Pullback
@@ -185,8 +183,8 @@ prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
-`AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality condition,
-and the cover-wide `CurveDivisorDescent.DivisorCocycle` and effectivity packages are precise
+`AffineTilde.TildeReflectsInvertibility` and the cover-wide
+`CurveDivisorDescent.DivisorCocycle` and effectivity packages are precise
 compiled conditional boundaries subsumed by the unchanged registered A3 Challenge rather than
 separately registered Challenge declarations. Their discharge remains part of that Challenge.
 No additional localization Challenge is needed. The weighted product formula remains the
@@ -327,6 +325,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineChart.dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field`
   Prove that a locally standard-smooth relative-dimension-one domain over a field has dimension
   at most one.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field`
+  Glue the pinned local valuation-ring theorem across the standard-smooth localization cover
+  and prove the affine chart is integrally closed.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveNormality`
   Isolate integral closedness as the exact remaining field-base chart-ring condition.
@@ -340,8 +342,11 @@ inhabited or that A3 is solved.
   compatibility required by the chart divisor API.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveNormality`
-  Construct the chart order compatibility from the normality-only input for a smooth relative
-  curve over a field.
+  Preserve the former normality-only entry point as a compatibility wrapper.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurve`
+  Construct the chart order compatibility unconditionally for a locally standard-smooth
+  relative curve over a field.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.DedekindOrderCompatibility.principalDivisor_reindex_eq_ambientPrincipalDivisor`
   Transport the whole affine principal divisor to the ambient chart points.
@@ -450,8 +455,11 @@ inhabited or that A3 is solved.
   arbitrary-divisor restriction isomorphism.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality`
-  On a proper smooth relative curve, consume the existing mapwise normality condition to derive
-  the intersection Dedekind instance and construct the full-overlap isomorphism.
+  Preserve the former supplied-normality entry point as a compatibility wrapper.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersection`
+  Construct the full-overlap line-bundle isomorphism on a proper smooth relative curve with no
+  supplied normality hypothesis.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictIsoOfCoeffEq`
   Construct the actual same-chart principal-open restriction isomorphism from ambient
