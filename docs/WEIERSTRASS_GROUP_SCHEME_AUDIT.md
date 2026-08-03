@@ -148,6 +148,31 @@ Mathlib's reduced induced subscheme;
 identifying it with a principal homogeneous-coordinate quotient is not needed
 for the consumer and is not claimed.
 
+`MazurTorsion.ModularCurve.XZeroWeierstrassGeometricIntegrality` now removes
+the main algebraic part of the geometric-integrality premise.  It constructs
+an explicit equivalence between the bivariate affine polynomial ring and the
+degree-zero homogeneous localization of `K[X,Y,Z]` at `Z`.  Under that
+equivalence, the localized projective cubic equation is exactly Mathlib's
+affine Weierstrass polynomial.  Mathlib's checked irreducibility theorem makes
+the resulting principal ideal prime over every field extension, so the
+quotient scheme representing this `Z != 0` equation is integral.
+
+`StandardChartBaseChangeWitness` isolates the remaining geometric comparison:
+an open immersion from that checked integral quotient into each field
+base-change of the concrete reduced cubic, density of its range, and
+reducedness of the target pullback.  The theorem
+`geometricallyIntegral_of_standardChartBaseChangeWitness` proves geometric
+integrality from precisely these data.  Its proof transports irreducibility
+from the integral chart across the dense range and combines it with target
+reducedness.  The consumers
+`toAbelianVarietyOfStandardChartBaseChangeWitness` and
+`standardChartSplitGammaZeroPackage` install the resulting instance
+internally and reach, respectively, Tau Ceti's abelian-variety constructor and
+the finite-flat split `Gamma₀(N)` datum.  The theorem
+`standardChartSplitGammaZeroPackage_hasConstantOrder` checks the latter all
+the way through the constant geometric-order conclusion.  Thus no caller of
+this interface supplies a freestanding geometric-integrality instance.
+
 ## Remaining mathematical boundary
 
 The full `MT-X0-MODULI` acceptance boundary still requires the following
@@ -156,9 +181,11 @@ field:
 
 1. multiplication, identity, and inverse as scheme morphisms on the concrete
    reduced cubic, together with the group laws;
-2. geometric integrality of its structure morphism (properness is now
-   checked), so that the concrete `toOver` object becomes a Tau Ceti
-   `AbelianVariety`;
+2. construction of `StandardChartBaseChangeWitness` for every field
+   extension: identify the checked integral quotient with the `Z != 0` open
+   of the pullback of the concrete reduced cubic, prove that open dense, and
+   prove reducedness after base change.  Properness and the algebraic
+   irreducibility/integrality of the chart are checked;
 3. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:
