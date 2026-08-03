@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FormalImmersion
+import MazurTorsion.AlgebraicGeometry.FormalImmersionNakayama
 
 /-!
 # The degree-one cotangent consumer
@@ -18,9 +18,12 @@ the remaining Hecke calculation must:
 * exhibit a cotangent vector whose image is nonzero (the first-coefficient calculation).
 
 `DegreeOneCotangentCertificate.isCotangentCriterionAt` then supplies both checked first-order
-conditions.  This is not yet a formal-immersion theorem: the completed-local-ring equivalence
-remains an `MT-X0-INTEGRAL` obligation.  Functoriality of the underlying canonical map for the
-composite modular morphism is already checked in the imported core.
+conditions.  Its Nakayama consumers generate the source maximal ideal and prove surjectivity on
+the quotient by the square of the maximal ideal.  This is not yet a formal-immersion theorem: the
+full tower of adic quotients and the completed-local-ring comparison remain `MT-X0-INTEGRAL`
+obligations.
+Functoriality of the underlying canonical map for the composite modular morphism is already
+checked in the imported core.
 -/
 
 namespace MazurTorsion.ModularCurve
@@ -71,6 +74,26 @@ theorem isCotangentCriterionAt (C : DegreeOneCotangentCertificate f x) :
     Scheme.Hom.IsCotangentCriterionAt f x :=
   Scheme.Hom.isCotangentCriterionAt_of_degreeOne f x C.residueFieldMap_isIso
     C.sourceFinrank C.cotangentMapAtResidue_ne_zero
+
+/-- The degree-one modular certificate generates the source-stalk maximal ideal from the
+target-stalk maximal ideal.  This is the checked Nakayama consequence used before passing to
+adic completions. -/
+theorem map_maximalIdeal_stalkMap_eq (C : DegreeOneCotangentCertificate f x)
+    [Module.Finite (X.presheaf.stalk x)
+      (IsLocalRing.maximalIdeal (X.presheaf.stalk x))] :
+    (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x))).map (f.stalkMap x).hom =
+      IsLocalRing.maximalIdeal (X.presheaf.stalk x) :=
+  Scheme.Hom.map_maximalIdeal_stalkMap_eq_of_isCotangentSurjectiveAt
+    f x C.isCotangentSurjectiveAt
+
+/-- The degree-one modular certificate is already surjective on second infinitesimal
+neighbourhoods. -/
+theorem maximalIdealSquareQuotientMap_stalkMap_surjective
+    (C : DegreeOneCotangentCertificate f x) :
+    Function.Surjective
+      (IsLocalRing.maximalIdealSquareQuotientMap (f.stalkMap x).hom) :=
+  Scheme.Hom.maximalIdealSquareQuotientMap_stalkMap_surjective_of_isCotangentCriterionAt
+    f x C.isCotangentCriterionAt
 
 end DegreeOneCotangentCertificate
 
