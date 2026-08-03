@@ -179,6 +179,8 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.residueFieldMap_isIso_at_rationalPoint`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -191,10 +193,11 @@ criterion now implies surjectivity on completed stalks under finite maximal
 ideals, and locally Noetherian schemes supply those finiteness instances. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
-image supplies the residue-field isomorphism. The rational-point endpoint
-therefore leaves the actual cusp and detected first q-coefficient as the
-remaining modular inputs. The integral cusp model and cusp comparison remain
-open, so this node receives no completion credit.
+image supplies the residue-field isomorphism. A genuine completed-stalk
+power-series coordinate now transports membership in the square of the stalk
+maximal ideal to vanishing of the first q-coefficient. The integral cusp
+model, its actual q-coordinate, and cusp comparison remain open, so this node
+receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -230,11 +233,17 @@ cotangent space of a nontrivial quotient.
 * `definition` (`proposed`): `ModularCurve.HeckeOperator`
 * `theorem` (`proposed`):
   `ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion`
 
 The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
 provisional target for this calculation: it requires a residue-field
 isomorphism, dimension one over the actual source residue field, and one
-vector detected by the canonical semilinear cotangent map.
+vector detected by the canonical semilinear cotangent map. A target local
+parameter whose completed pullback is `c*q + q^2*F`, with `c` nonzero, now
+instantiates that certificate and proves actual completed-stalk formal
+immersion. The missing Hecke work is the modular/Jacobian action and the
+checked expansion identity at the auxiliary characteristics five and eleven.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

@@ -135,9 +135,10 @@ within each lane follows the listed order.
    schemes supply those instances automatically. At a non-generic point of a
    smooth integral relative curve, the checked DVR theorem now supplies the
    one-dimensional source cotangent space; a literal rational cusp and its
-   rational image supply the residue-field isomorphism. Next construct the
-   integral cusp model and its first-coefficient cotangent vector, then invoke
-   the rational-point degree-one consumer.
+   rational image supply the residue-field isomorphism. A completed-stalk
+   coordinate `CompletedStalk ≃ K⟦q⟧` now transports maximal-ideal-square vanishing to
+   vanishing of the `q¹` coefficient. Next construct the integral cusp model
+   and its actual completed-stalk q-coordinate.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
    reduction-type bridge.
 4. `MT-X0-JACOBIAN` (20) → `MT-X0-HECKE` (30): cusp-normalized Abel--Jacobi,
@@ -147,10 +148,12 @@ within each lane follows the listed order.
    residue-field-isomorphism condition, and a residue-honest degree-one
    certificate now compile.
    Cotangent and combined-criterion functoriality for composites also compile,
-   in parallel with functoriality of the actual completed-stalk map. This is
-   partial infrastructure only: supply the locally Noetherian integral cusp
-   and actual q-expansion differential needed by the now-complete
-   local-algebra implication before credit.
+   in parallel with functoriality of the actual completed-stalk map. A target
+   local parameter with pullback `c*q + q²*F`, `c ≠ 0`, now directly proves
+   completed-stalk formal immersion. This is partial infrastructure only:
+   supply the locally Noetherian integral cusp, its q-coordinate, the optimal
+   quotient parameter, and the actual Hecke/modular-symbol expansion identity
+   at `F₅` and `F₁₁` before credit.
 5. `MT-X0-EISENSTEIN-ALGEBRA` (30): package a nontrivial optimal new quotient
    and prove Mazur 1978 Proposition 3.1 away from characteristic `2`. Degree
    one needs first-coefficient detection, not Kamienny's multi-Hecke linear

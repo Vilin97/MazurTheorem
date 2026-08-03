@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1450607,
-    "integrated_lean_modules": 703,
+    "integrated_lean_lines": 1450766,
+    "integrated_lean_modules": 704,
     "remaining_composite_orders": [
       18,
       25,
@@ -3226,6 +3226,13 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.QExpansionFirstCoefficient",
+          "description": "Transport vanishing of the first q-coefficient for maximal-ideal squares through the actual completed-stalk map and a chosen power-series coordinate."
+        },
+        {
+          "kind": "theorem",
           "name": "ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime",
           "state": "proposed",
           "description": "Identify the odd prime-to-level cusp completion with the q-power-series ring."
@@ -3358,6 +3365,13 @@
           "name": "ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero",
           "state": "proposed",
           "description": "Use the Hecke recursions and q-expansion principle to detect a nonzero cotangent vector at infinity."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.QExpansionFirstCoefficient",
+          "description": "Conclude actual completed-stalk formal immersion from a target local parameter whose pullback has normalized expansion c q plus q squared times a series with c nonzero."
         }
       ],
       "depends_on": [
