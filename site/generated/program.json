@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1458323,
-    "integrated_lean_modules": 719,
+    "integrated_lean_lines": 1458889,
+    "integrated_lean_modules": 720,
     "remaining_composite_orders": [
       18,
       25,
@@ -3022,7 +3022,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient now supplies tautological local lifts and a choice-independent boundary homomorphism; subcanonical descent proves exactness at quotient-valued global sections and the concrete low-degree constructor consumes it. The two reverse H1 exactness inclusions remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Certified kernels are exact on represented points. An actual fppf quotient supplies tautological local lifts and a choice-independent boundary homomorphism. Common-refinement, gauge-lifting, kernel uniqueness, and subcanonical descent prove exactness at quotient H0 and both H1 terms; the concrete low-degree constructor now consumes every proof without accepting exactness hypotheses.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3130,11 +3130,32 @@
           "description": "Use a common-refinement gauge and subcanonical fppf descent to prove that a quotient section has trivial boundary exactly when it lifts globally."
         },
         {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Use a common-refinement trivializing zero-cochain, quotient-valued fppf gluing, and kernel injectivity to prove exactness at kernel-valued H1."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Lift a quotient-valued trivializing gauge on a genuine fppf refinement and use certified kernel uniqueness to prove exactness at middle-valued H1."
+        },
+        {
           "kind": "definition",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation",
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
-          "description": "Consume the checked quotient boundary and its degree-zero exactness, leaving only the two reverse H1 exactness proofs as inputs to the concrete sequence."
+          "description": "Consume the checked quotient boundary and all three descent exactness theorems, with no exactness assertion remaining as an input to the concrete sequence."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientEuler",
+          "description": "Consume an actual quotient presentation and six finite-cardinality certificates to bound the middle global fppf H1 without caller-supplied exactness hypotheses."
         },
         {
           "kind": "theorem",

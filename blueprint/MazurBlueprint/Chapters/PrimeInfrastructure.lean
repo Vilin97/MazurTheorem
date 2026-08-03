@@ -149,8 +149,12 @@ is the reverse inclusion at middle `H¹` and the resulting Kummer sequence.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
 * `theorem` (`contract`):
@@ -168,10 +172,16 @@ by a cardinal bound alone. The repository now supplies the fixed-universe
 global colimit over actual relative fppf covers, including refinement-choice
 independence, a type-level eliminator, its canonical commutative group law,
 functorial coefficient maps, and a choice-independent local-lift connecting
-class. The quotient-derived lifts, boundary homomorphism, and exactness at the
-quotient `H⁰` and kernel `H¹` terms now compile and feed the concrete
-low-degree constructor. The reverse inclusion at middle `H¹` is still absent;
-no node credit is claimed.
+class. The quotient-derived lifts and boundary homomorphism now compile.
+Independent common-refinement arguments prove exactness at quotient `H⁰`,
+kernel `H¹`, and middle `H¹`: quotient gauges are lifted on genuine fppf
+refinements, and certified kernel uniqueness produces the required kernel
+cocycle. All three proofs feed the concrete low-degree constructor, which
+accepts no exactness hypotheses. A checked downstream consumer now turns six
+finite-cardinality certificates for an actual quotient presentation directly
+into the middle global `H¹` cardinal bound. The arithmetic certificates and
+focused rank-zero specialization are still absent, so no node credit is
+claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
