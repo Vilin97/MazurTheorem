@@ -3299,7 +3299,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. A full quotient-cardinality bound remains only a stronger fallback. Proving this marked-class statement from tame Tate--Kodaira geometry for the selected minimal equations and identifying the subgroup with the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The first exact Tate-algorithm inputs now compile as well: integral j gives the c4/discriminant valuation inequality, and minimality forbids any further pure weighted scaling that keeps all coefficients integral. A full quotient-cardinality bound remains only a stronger fallback. Translations, blowups, the tame Kodaira case split, the marked-class theorem for the selected minimal equations, and identification with the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3472,6 +3472,27 @@
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
           "description": "Retain the traditional full component-cardinality theorem as an explicit stronger fallback into the pointwise interface."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.not_isIntegral_scale_of_isMinimal",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.MinimalModelScaling",
+          "description": "Specialize minimality to the pure weighted scale by an element of multiplicative valuation below one."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.MinimalModelScaling",
+          "description": "State exactly that all five Weierstrass coefficients retain integral lifts after one weighted pure scaling step."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.tateAlgorithm_minimalityCoefficientObstruction",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.MinimalModelScaling",
+          "description": "Give the named Tate-algorithm consumer: a minimal equation cannot admit that simultaneous weighted coefficient scaling."
         },
         {
           "kind": "definition",
@@ -6177,7 +6198,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is now a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. Proving the marked-class proposition for the selected minimal equation and identifying the canonical subgroup with the genuine Neron identity component remain open.",
+      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data and the minimal-model obstruction to another simultaneous weighted coefficient scaling are now checked starting inputs for that proof. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. The translation and blowup stages, tame Kodaira case split, marked-class proposition for the selected minimal equation, and genuine Neron identity-component comparison remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6219,6 +6240,20 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionNeronAtFive",
           "description": "Specialize vanishing of the discriminant and c₄ to Mathlib's selected minimal five-adic integral model, starting the cuspidal nonsingular-locus classification."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_valuationInput_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Package the additive-reduction and integral-j valuation inequalities consumed by the tame Tate-algorithm route."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_coefficientObstruction_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Apply selected-equation minimality to rule out another pure weighted scaling while retaining all translation, blowup, and component steps as open work."
         }
       ],
       "depends_on": [

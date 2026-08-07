@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `9e1439e` contains reviewed acceptance
+The combined owner history through `7c2e6ad` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -127,6 +127,18 @@ Tate--Kodaira assertion that this class has finite order at most four on
 Mathlib's selected minimal equation; it is not inferred from additive
 reduction alone. The three focused builds and a nine-declaration axiom audit
 pass with only standard axioms, and no node credit is claimed (`9e1439e`).
+
+The follow-up minimal-model range checks the first arithmetic inputs to the
+missing Tate--Kodaira proof. Integral `j` is converted into the exact
+multiplicative-valuation inequality between `c₄³` and `Δ`. Mathlib's
+`IsMinimal` maximality is then unpacked to show that a pure scale of valuation
+below one cannot leave all five weighted coefficients integral; a named
+additive-reduction consumer uses this on the selected minimal equation. The
+direction of the valuation comparison and the weighted powers were reviewed
+independently. This does not determine a Kodaira type or component class:
+translations, blowups, component incidence, and the marked order-at-most-four
+theorem remain. Focused builds and a seven-declaration axiom audit pass with
+only standard axioms; no node credit is claimed (`7c2e6ad`).
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -648,8 +660,10 @@ within each lane follows the listed order.
    class having finite order at most four; consumers do not need the full
    component quotient or its cardinality. The cuspidal nonsingular-locus
    equivalences at five and eleven now compile from finite normalization.
-   Prove identification with the genuine Néron identity component and this
-   precise tame Tate--Kodaira marked-class theorem. Retain the stronger
+   The integral-`j` valuation input and the minimal-model obstruction to a
+   further pure weighted scaling now compile. Prove the remaining translation,
+   blowup, and tame Kodaira case split, identify the genuine Néron identity
+   component, and derive the precise marked-class theorem. Retain the stronger
    component bound only for a named toric/Néron consumer; the handoff itself
    earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the

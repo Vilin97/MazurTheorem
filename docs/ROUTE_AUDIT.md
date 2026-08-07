@@ -109,7 +109,10 @@ following remain on the theorem's critical path:
   nonsingular reduction has finite order at most four at `5` and `11`. The
   checked pointwise interface already converts this exact assertion into the
   uniform exponent `12` used downstream; a full component-cardinality bound
-  is only a stronger fallback.
+  is only a stronger fallback. The integral-`j` valuation inequality and the
+  minimal-model obstruction to another pure weighted coefficient scaling are
+  checked first steps, but translations, blowups, the tame Kodaira case split,
+  and component incidence are still required.
 
 The rank-zero input is why the existing finite-flat work is retained, but its
 integral scope must be stated precisely. In Mazur 1977 III.3 the

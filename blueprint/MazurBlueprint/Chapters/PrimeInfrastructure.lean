@@ -80,6 +80,16 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
 * `theorem` (`contract`):
   `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_quotient_card_le_four`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.valuation_c₄_pow_three_le_valuation_Δ_of_valuation_j_le_one`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.not_valuation_Δ_lt_of_isMinimal_of_isIntegral_variableChange`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.not_isIntegral_scale_of_isMinimal`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.tateAlgorithm_minimalityCoefficientObstruction`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
 * `definition` (`contract`):
@@ -99,8 +109,10 @@ endpoints now use the actual quotient class through
 `MarkedComponentOrderAtMost`; its pointwise bounded-multiple characterization
 derives `12 • P` in the subgroup from order at most four. A cardinality bound
 for the full component quotient is retained only as a stronger fallback.
-Identifying the subgroup with the genuine Néron identity component and proving
-this marked-class bound from tame Tate--Kodaira geometry remain open, so this
+The integral-`j` valuation inequality and the minimal-model obstruction to a
+further pure weighted scaling are now checked. Identifying the subgroup with
+the genuine Néron identity component and completing the translations,
+blowups, tame Kodaira case split, and marked-class bound remain open, so this
 node remains blocked.
 :::
 
