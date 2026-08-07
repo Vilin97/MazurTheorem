@@ -208,6 +208,94 @@ theorem minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization
   exact tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
     hA h2 h3
 
+/-- The selected five-adic minimal equation has an exact integral short model in the additive
+branch.  Its generic fibre is explicitly the unit-scale transform of the selected completion,
+while its special fibre is the standard cusp and its two remaining coefficients vanish modulo
+the five-adic maximal ideal. -/
+theorem minimalCompletionAtFive_tateAlgorithm_exists_integralShortNormalization
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)) :
+    ∃ C : WeierstrassCurve.VariableChange (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) := by
+  let e₅ : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ) ≃+* ZMod 5 :=
+    (atFive.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueFiveAlgEquiv.toRingEquiv
+  have h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (2 : ZMod 5) ≠ 0)
+    calc
+      (2 : ZMod 5) = e₅ (2 : IsLocalRing.ResidueField
+          (atFive.adicCompletionIntegers ℚ)) := (map_ofNat e₅ 2).symm
+      _ = e₅ 0 := congrArg e₅ h
+      _ = 0 := by simp
+  have h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (3 : ZMod 5) ≠ 0)
+    calc
+      (3 : ZMod 5) = e₅ (3 : IsLocalRing.ResidueField
+          (atFive.adicCompletionIntegers ℚ)) := (map_ofNat e₅ 3).symm
+      _ = e₅ 0 := congrArg e₅ h
+      _ = 0 := by simp
+  exact tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction
+    hA h2 h3
+
+/-- The exact five-adic short model carries the three honest one-exceptional-factor equation
+charts for the first blowup at its closed cusp. -/
+theorem minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)) :
+    ∃ C : WeierstrassCurve.VariableChange (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ha₄, ha₆⟩ :=
+    minimalCompletionAtFive_tateAlgorithm_exists_integralShortNormalization E hA
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  have ha₁ : W'.a₁ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₁]
+    exact Submodule.zero_mem _
+  have ha₂ : W'.a₂ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₂]
+    exact Submodule.zero_mem _
+  have ha₃ : W'.a₃ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₃]
+    exact Submodule.zero_mem _
+  exact ⟨C, hAdditive, hmap, hshort, hspecial,
+    nonempty_firstBlowupEquationCharts_of_coefficients_mem_maximalIdeal
+      W' ha₁ ha₂ ha₃ ha₄ ha₆⟩
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/

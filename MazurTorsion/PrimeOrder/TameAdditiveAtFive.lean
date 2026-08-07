@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
+import MazurTorsion.EllipticCurve.TateFirstBlowup
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
@@ -218,6 +219,144 @@ theorem tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
     (IsLocalRing.residue_eq_zero_iff W'.a₃).mp ha₃,
     (IsLocalRing.residue_eq_zero_iff W'.a₄).mp ha₄,
     (IsLocalRing.residue_eq_zero_iff W'.a₆).mp ha₆⟩
+
+/-- **Exact integral short normalization.**  If two and three remain nonzero in the residue
+field, then they are units in the DVR.  Hence Mathlib's short-normal-form change may be applied
+directly to the integral model of a minimal additive equation.  Its scale is one, so the generic
+curve remains minimal and additive.  The resulting integral equation has `a₁ = a₂ = a₃ = 0`
+exactly, has special fibre `Y² = X³`, and has `a₄` and `a₆` in the maximal ideal.
+
+This improves the preceding residue-only normalization and is the form used by the explicit
+first-blowup charts below. -/
+theorem tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hA : W.HasAdditiveReduction R)
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0) :
+    ∃ C : WeierstrassCurve.VariableChange R,
+      let W' := C • W.integralModel R
+      let CK := C.map (algebraMap R K)
+      (CK • W).HasAdditiveReduction R ∧
+        W'.map (algebraMap R K) = CK • W ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue R) =
+          cuspidalShortCurve (IsLocalRing.ResidueField R) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal R := by
+  have h2unit : IsUnit (2 : R) := by
+    apply (IsLocalRing.residue_ne_zero_iff_isUnit (R := R) (2 : R)).mp
+    simpa only [map_ofNat] using h2
+  have h3unit : IsUnit (3 : R) := by
+    apply (IsLocalRing.residue_ne_zero_iff_isUnit (R := R) (3 : R)).mp
+    simpa only [map_ofNat] using h3
+  letI : Invertible (2 : R) := h2unit.invertible
+  letI : Invertible (3 : R) := h3unit.invertible
+  let W₀ : WeierstrassCurve R := W.integralModel R
+  let C : WeierstrassCurve.VariableChange R := W₀.toShortNF
+  let W' : WeierstrassCurve R := C • W₀
+  let CK : WeierstrassCurve.VariableChange K := C.map (algebraMap R K)
+  have hbase : W₀.map (algebraMap R K) = W := by
+    simpa [W₀, WeierstrassCurve.baseChange] using
+      W.baseChange_integralModel_eq R
+  have hmap : W'.map (algebraMap R K) = CK • W := by
+    calc
+      W'.map (algebraMap R K) =
+          C.map (algebraMap R K) • W₀.map (algebraMap R K) := by
+            simpa [W'] using
+              (WeierstrassCurve.map_variableChange
+                (W := W₀) (C := C) (φ := algebraMap R K)).symm
+      _ = CK • W := by rw [hbase]
+  have hIntegral : WeierstrassCurve.IsIntegral R (CK • W) := by
+    apply WeierstrassCurve.isIntegral_of_exists_lift R
+    · exact ⟨W'.a₁, by
+        simpa [WeierstrassCurve.map] using congrArg (fun V ↦ V.a₁) hmap⟩
+    · exact ⟨W'.a₂, by
+        simpa [WeierstrassCurve.map] using congrArg (fun V ↦ V.a₂) hmap⟩
+    · exact ⟨W'.a₃, by
+        simpa [WeierstrassCurve.map] using congrArg (fun V ↦ V.a₃) hmap⟩
+    · exact ⟨W'.a₄, by
+        simpa [WeierstrassCurve.map] using congrArg (fun V ↦ V.a₄) hmap⟩
+    · exact ⟨W'.a₆, by
+        simpa [WeierstrassCurve.map] using congrArg (fun V ↦ V.a₆) hmap⟩
+  have hu : valuation K (maximalIdeal R) (CK.u : K) = 1 := by
+    simp [CK, C, W₀, WeierstrassCurve.toShortNF,
+      WeierstrassCurve.toCharNeTwoNF,
+      WeierstrassCurve.VariableChange.mul_def]
+  have hAdditive : (CK • W).HasAdditiveReduction R :=
+    tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one
+      hA CK hIntegral hu
+  have hshort : W'.IsShortNF := by
+    dsimp only [W', C]
+    infer_instance
+  letI : W'.IsShortNF := hshort
+  letI : Invertible (2 : IsLocalRing.ResidueField R) := invertibleOfNonzero h2
+  letI : Invertible (3 : IsLocalRing.ResidueField R) := invertibleOfNonzero h3
+  letI : (W'.map (IsLocalRing.residue R)).IsShortNF := by
+    constructor
+    · change IsLocalRing.residue R W'.a₁ = 0
+      rw [W'.a₁_of_isShortNF, map_zero]
+    · change IsLocalRing.residue R W'.a₂ = 0
+      rw [W'.a₂_of_isShortNF, map_zero]
+    · change IsLocalRing.residue R W'.a₃ = 0
+      rw [W'.a₃_of_isShortNF, map_zero]
+  have hΔ : (W'.map (IsLocalRing.residue R)).Δ = 0 := by
+    rw [← WeierstrassCurve.map_variableChange,
+      WeierstrassCurve.variableChange_Δ]
+    change _ * (W.reduction R).Δ = 0
+    rw [reduction_Δ_eq_zero_of_hasAdditiveReduction hA, mul_zero]
+  have hc₄ : (W'.map (IsLocalRing.residue R)).c₄ = 0 := by
+    rw [← WeierstrassCurve.map_variableChange,
+      WeierstrassCurve.variableChange_c₄]
+    change _ * (W.reduction R).c₄ = 0
+    rw [reduction_c₄_eq_zero_of_hasAdditiveReduction hA, mul_zero]
+  have hspecial : W'.map (IsLocalRing.residue R) =
+      cuspidalShortCurve (IsLocalRing.ResidueField R) :=
+    short_eq_cuspidal_of_invariants
+      (W'.map (IsLocalRing.residue R)) hΔ hc₄
+  have ha₄ : IsLocalRing.residue R W'.a₄ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₄) hspecial
+  have ha₆ : IsLocalRing.residue R W'.a₆ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₆) hspecial
+  exact ⟨C, hAdditive, hmap, hshort, hspecial,
+    (IsLocalRing.residue_eq_zero_iff W'.a₄).mp ha₄,
+    (IsLocalRing.residue_eq_zero_iff W'.a₆).mp ha₆⟩
+
+/-- **Constructed affine first-blowup equation charts.**  After exact integral short
+normalization, choose a DVR uniformizer and divide the remaining two coefficients by it.  The
+resulting bundled object carries the exact one-exceptional-factor quotients and total-transform
+factorizations on the uniformizer, `X`, and `Y` charts of the blowup of the closed cusp.
+
+This is an algebraic chart construction only.  No regularity, Kodaira-symbol, special-component,
+strict-transform, or marked-point incidence conclusion is asserted. -/
+theorem tateAlgorithm_exists_firstBlowupEquationCharts_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hA : W.HasAdditiveReduction R)
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0) :
+    ∃ C : WeierstrassCurve.VariableChange R,
+      let W' := C • W.integralModel R
+      let CK := C.map (algebraMap R K)
+      (CK • W).HasAdditiveReduction R ∧
+        W'.map (algebraMap R K) = CK • W ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue R) =
+          cuspidalShortCurve (IsLocalRing.ResidueField R) ∧
+        Nonempty (FirstBlowupEquationCharts W') := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ha₄, ha₆⟩ :=
+    tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction hA h2 h3
+  let W' := C • W.integralModel R
+  have ha₁ : W'.a₁ ∈ IsLocalRing.maximalIdeal R := by
+    rw [hshort.a₁]
+    exact Submodule.zero_mem _
+  have ha₂ : W'.a₂ ∈ IsLocalRing.maximalIdeal R := by
+    rw [hshort.a₂]
+    exact Submodule.zero_mem _
+  have ha₃ : W'.a₃ ∈ IsLocalRing.maximalIdeal R := by
+    rw [hshort.a₃]
+    exact Submodule.zero_mem _
+  exact ⟨C, hAdditive, hmap, hshort, hspecial,
+    nonempty_firstBlowupEquationCharts_of_coefficients_mem_maximalIdeal
+      W' ha₁ ha₂ ha₃ ha₄ ha₆⟩
 
 /-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
 minimal equation cannot have all five coefficients remain integral after a further weighted
