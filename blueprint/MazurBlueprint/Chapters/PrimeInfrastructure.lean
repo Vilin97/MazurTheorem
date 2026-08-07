@@ -86,6 +86,14 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.EllipticCurve.not_valuation_Δ_lt_of_isMinimal_of_isIntegral_variableChange`
 * `theorem` (`contract`):
   `MazurTorsion.EllipticCurve.not_isIntegral_scale_of_isMinimal`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.isMinimal_variableChange_of_isIntegral_of_valuation_u_eq_one`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.not_isIntegral_variableChange_of_isMinimal_of_valuation_u_lt_one`
+* `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.TranslatedWeightedCoefficientsIntegralAfterScale`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.tateAlgorithm_minimalityTranslatedCoefficientObstruction`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale`
 * `theorem` (`contract`):
@@ -109,10 +117,11 @@ endpoints now use the actual quotient class through
 `MarkedComponentOrderAtMost`; its pointwise bounded-multiple characterization
 derives `12 • P` in the subgroup from order at most four. A cardinality bound
 for the full component quotient is retained only as a stronger fallback.
-The integral-`j` valuation inequality and the minimal-model obstruction to a
-further pure weighted scaling are now checked. Identifying the subgroup with
-the genuine Néron identity component and completing the translations,
-blowups, tame Kodaira case split, and marked-class bound remain open, so this
+The integral-`j` valuation inequality, stability under integral
+valuation-unit coordinate changes, and the obstruction to every translated
+scaling of valuation below one are now checked. Identifying the subgroup with
+the genuine Néron identity component and constructing the residue
+translations, blowups, tame Kodaira case split, and marked-class bound remain open, so this
 node remains blocked.
 :::
 

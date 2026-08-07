@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `658dcca` contains reviewed acceptance
+The combined owner history through `a19e63c` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -128,17 +128,22 @@ Mathlib's selected minimal equation; it is not inferred from additive
 reduction alone. The three focused builds and a nine-declaration axiom audit
 pass with only standard axioms, and no node credit is claimed (`9e1439e`).
 
-The follow-up minimal-model range checks the first arithmetic inputs to the
+The follow-up minimal-model range checks the opening arithmetic inputs to the
 missing Tate--Kodaira proof. Integral `j` is converted into the exact
 multiplicative-valuation inequality between `c₄³` and `Δ`. Mathlib's
 `IsMinimal` maximality is then unpacked to show that a pure scale of valuation
 below one cannot leave all five weighted coefficients integral; a named
 additive-reduction consumer uses this on the selected minimal equation. The
-direction of the valuation comparison and the weighted powers were reviewed
-independently. This does not determine a Kodaira type or component class:
-translations, blowups, component incidence, and the marked order-at-most-four
-theorem remain. Focused builds and a seven-declaration axiom audit pass with
-only standard axioms; no node credit is claimed (`7c2e6ad`).
+next reviewed range proves that every integral coordinate change with
+valuation-unit scale preserves minimality and the additive branch. It then
+includes arbitrary translation parameters in all five exact coefficient
+formulas and rules out simultaneous integrality after any scale of valuation
+below one. The discriminant direction, composition order, and formulas were
+checked independently against Mathlib. This does not construct the required
+residue translations or determine a Kodaira type or component class: blowups,
+component incidence, and the marked order-at-most-four theorem remain. Four
+focused builds and a seven-declaration axiom audit pass with only standard
+axioms; no node credit is claimed (`7c2e6ad`, `a19e63c`).
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -676,9 +681,10 @@ within each lane follows the listed order.
    class having finite order at most four; consumers do not need the full
    component quotient or its cardinality. The cuspidal nonsingular-locus
    equivalences at five and eleven now compile from finite normalization.
-   The integral-`j` valuation input and the minimal-model obstruction to a
-   further pure weighted scaling now compile. Prove the remaining translation,
-   blowup, and tame Kodaira case split, identify the genuine Néron identity
+   The integral-`j` valuation input, stability under integral valuation-unit
+   coordinate changes, and the arbitrary translated-scaling obstruction now
+   compile. Construct the residue translations, then prove the remaining
+   blowup and tame Kodaira case split, identify the genuine Néron identity
    component, and derive the precise marked-class theorem. Retain the stronger
    component bound only for a named toric/Néron consumer; the handoff itself
    earns no node credit.

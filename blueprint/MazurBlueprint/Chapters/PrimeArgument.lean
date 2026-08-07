@@ -110,6 +110,10 @@ at least eleven.
   `MazurTorsion.PrimeOrder.tateAlgorithm_valuationInput_of_hasAdditiveReduction`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_coefficientObstruction_of_hasAdditiveReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_translatedCoefficientObstruction_of_hasAdditiveReduction`
 
 The narrower canonical five-adic handoff needs only `12 • P` in the
 nonsingular-reduction subgroup and the exact torsion-free formal kernel.
@@ -117,8 +121,9 @@ Finite normalization and enumeration now turn the vanishing reduced `Δ` and
 `c₄` into the actual five-element residue additive group. The checked
 pointwise quotient-order API derives the exponent from a marked class of
 finite order at most four. Genuine identity-component identification and the
-translation, blowup, and tame Kodaira steps proving that marked-class bound
-remain open; the initial valuation and minimal-scaling obstructions compile.
+residue-translation construction, blowup, and tame Kodaira steps proving that
+marked-class bound remain open; valuation-unit coordinate changes preserve the
+additive branch, and the full translated-scaling obstruction compiles.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
