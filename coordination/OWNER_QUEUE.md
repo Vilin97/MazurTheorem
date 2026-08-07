@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `7c2e6ad` contains reviewed acceptance
+The combined owner history through `695b7eb` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -167,10 +167,16 @@ both tensor generators and explicitly transports the quotient ideal equality;
 the final comparison is not treated as definitional. A degree-one residue and
 cotangent calculation on that fibre now yields the ambient quotient-cotangent
 certificate and a compiled completed-local-map surjectivity consumer, while
-retaining residue surjectivity and both finiteness inputs. The modular affine
-presentation/stalk identification and genuine q-expansion remain open. The
-focused build and an eight-declaration axiom audit pass with only standard
-axioms; no node credit is claimed.
+retaining residue surjectivity and both finiteness inputs. The follow-up
+identifies this ambient map with the actual stalk map of `Spec.map` through
+canonical affine stalk equivalences and an explicit source-prime transport.
+The same degree-one datum therefore proves formal immersion for the genuine
+affine-scheme morphism, with a Noetherian endpoint discharging both
+maximal-ideal finiteness inputs. Independent review accepted the arrow
+orientation and completion transport; the 2,796-job focused build and a
+nine-declaration axiom audit pass with only standard axioms (`695b7eb`). The
+modular affine presentation and genuine q-expansion remain open; no node
+credit is claimed.
 
 Locally Noetherian source and target schemes now discharge the total-stalk
 finiteness instances in both quotient-certificate consumers. At five, a new
@@ -556,7 +562,7 @@ collision at `5` and a ten-point finite-field bound.
 |---|---|---|
 | `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-cuspidal-finite` | Checked finite normalization of the cuspidal special fibres, singular-cubic variable-change transport, and actual residue-field additive equivalences at five and eleven (`dbf34d0`) | Integrated after independent mathematical/API review and owner layering/provenance repairs. Prime-five and order-35 leaves each have completion, rational, and formal-immersion consumers. Keep only the genuine marked exponent `12 • P ∈ E₀` on the critical queue; no component or node credit is inferred. |
-| `codex/mt-fiber-stalk-naturality` | Checked affine-fibre localization naturality, ambient quotient-cotangent transport, and completed-local-map consumer (`85b76ce`, integrated as `7d0b653`) | Integrated after repairing the false `rfl` with explicit `quotientEquivAlgOfEq` transport and independently rebuilding and auditing the public endpoints. Construct the modular affine presentation/stalk identification and actual q-expansion next; no node credit is inferred. |
+| `codex/mt-fiber-stalk-naturality` | Checked affine-fibre localization naturality, ambient quotient-cotangent transport, and completed-local-map consumer (`85b76ce`, integrated as `7d0b653`); the follow-up affine-Spec consumer identifies the ambient map with the actual stalk arrow (`695b7eb`) | Integrated after repairing the false `rfl` with explicit `quotientEquivAlgOfEq` transport and independently rebuilding and auditing both layers. Construct the modular affine cusp presentation and actual q-expansion next; no node credit is inferred. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |

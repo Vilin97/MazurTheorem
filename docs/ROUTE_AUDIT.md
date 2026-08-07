@@ -149,9 +149,11 @@ prerequisite here.
 The local algebra bridge is now checked one layer below the modular geometry:
 localizing an explicit affine special fibre agrees naturally with quotienting
 the ambient local ring by the base-fibre ideal, and degree-one cotangent data
-on that fibre feeds the completed ambient map. What remains is the genuine
-affine presentation and stalk identification at the modular cusp, together
-with its q-expansion calculation.
+on that fibre feeds the completed ambient map. Canonical affine stalk
+equivalences now identify this map with the actual stalk map of `Spec.map`, so
+the same data proves formal immersion for a genuine affine-scheme morphism.
+What remains is the modular affine presentation at the cusp, together with its
+q-expansion calculation.
 
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an
 identification of all of `A(ℚ)` with the cuspidal subgroup, or local

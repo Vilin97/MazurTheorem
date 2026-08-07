@@ -928,6 +928,12 @@ toric reduction of the modular Jacobian.
   `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.quotientCotangentCertificate`
 * `theorem` (`contract`):
   `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.ambientCompletionMapSurjective`
+* `theorem` (`contract`):
+  `Ideal.Fiber.specMap_stalkMap_eq_ambientLocalizedMap`
+* `theorem` (`contract`):
+  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap`
+* `theorem` (`contract`):
+  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap_of_isNoetherian`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -946,7 +952,10 @@ concrete affine fibre, localization is now proved natural with the quotient of
 the ambient local ring, including the non-definitional quotient transport. Its
 degree-one cotangent data therefore produces the ambient certificate and a
 compiled completed-local-map consumer while leaving residue surjectivity and
-finiteness explicit. At a
+finiteness explicit. Canonical affine stalk equivalences now identify that
+ambient map with the actual stalk map of `Spec.map`; the same degree-one data
+therefore proves formal immersion of a genuine affine-scheme morphism, with a
+Noetherian endpoint discharging both maximal-ideal finiteness inputs. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk
@@ -960,7 +969,8 @@ over-base quotient equation proves the image residue field is also the base.
 A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
 equal quotient image. The integral cusp model, its quotient-ideal/stalk
-identification, non-generic section and uniformizer, and the actual modular
+identification, modular affine presentation, non-generic section and
+uniformizer, and the actual modular
 q-expansion remain open, so this node receives no completion credit.
 :::
 

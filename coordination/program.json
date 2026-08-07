@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1481034,
-    "integrated_lean_modules": 780,
+    "integrated_lean_lines": 1481361,
+    "integrated_lean_modules": 781,
     "remaining_composite_orders": [
       18,
       25,
@@ -5406,7 +5406,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is now proved natural under ambient algebra maps, so a degree-one calculation on an explicit fibre transports to the ambient quotient-cotangent certificate and completed local map. The actual integral modular cusp section, affine presentation/stalk identification, uniformizer, and genuine modular q-expansion remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is proved natural under ambient algebra maps, and the ambient localized map is now identified with the actual stalk map of Spec.map under canonical affine stalk equivalences. Consequently a degree-one calculation on an explicit fibre reaches formal immersion for the genuine affine-scheme morphism. The actual integral modular cusp section, modular affine presentation, uniformizer, and genuine modular q-expansion remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -5518,6 +5518,27 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiber",
           "description": "Consume the transported affine-fibre calculation, explicit finiteness, and residue surjectivity in the actual completed-local-ring map."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.specMap_stalkMap_eq_ambientLocalizedMap",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec",
+          "description": "Identify the actual stalk arrow of Spec.map with the ambient localized map through the canonical affine stalk equivalences and the source-prime transport."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec",
+          "description": "Transport the explicit affine-fibre degree-one calculation to formal immersion of the genuine affine-scheme morphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap_of_isNoetherian",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec",
+          "description": "Discharge the two maximal-ideal finiteness inputs for Noetherian affine rings while retaining the geometric residue-map hypothesis."
         },
         {
           "kind": "theorem",
