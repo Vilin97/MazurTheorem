@@ -139,6 +139,13 @@ Hecke recursions would then kill all of its coefficients and the
 of several Hecke operators is a higher-symmetric-power generalization, not a
 prerequisite here.
 
+The local algebra bridge is now checked one layer below the modular geometry:
+localizing an explicit affine special fibre agrees naturally with quotienting
+the ambient local ring by the base-fibre ideal, and degree-one cotangent data
+on that fibre feeds the completed ambient map. What remains is the genuine
+affine presentation and stalk identification at the modular cusp, together
+with its q-expansion calculation.
+
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an
 identification of all of `A(ℚ)` with the cuspidal subgroup, or local
 principality of the Eisenstein ideal except insofar as one of those facts is

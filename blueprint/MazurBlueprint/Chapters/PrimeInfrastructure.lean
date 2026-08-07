@@ -897,6 +897,14 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.ModularCurve.CompleteDVRStalk.isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_heckeEigenQExpansion`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.CompleteDVRStalk.spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq`
+* `theorem` (`contract`):
+  `Ideal.Fiber.localizationAlgEquivQuotient_naturality`
+* `definition` (`contract`):
+  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent`
+* `definition` (`contract`):
+  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.quotientCotangentCertificate`
+* `theorem` (`contract`):
+  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.ambientCompletionMapSurjective`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -910,7 +918,12 @@ ideals, and locally Noetherian schemes supply those finiteness instances. A
 quotient certificate additionally lifts a special-fibre cotangent calculation
 through quotient Nakayama and residue surjectivity to completed-stalk formal
 immersion; its mapped-ideal endpoint is the characteristic-five consumer, and
-local Noetherianity discharges the total-stalk finiteness instances. At a
+local Noetherianity discharges the total-stalk finiteness instances. On a
+concrete affine fibre, localization is now proved natural with the quotient of
+the ambient local ring, including the non-definitional quotient transport. Its
+degree-one cotangent data therefore produces the ambient certificate and a
+compiled completed-local-map consumer while leaving residue surjectivity and
+finiteness explicit. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk

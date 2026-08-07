@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1479862,
-    "integrated_lean_modules": 778,
+    "integrated_lean_lines": 1480667,
+    "integrated_lean_modules": 779,
     "remaining_composite_orders": [
       18,
       25,
@@ -5343,7 +5343,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. The actual integral modular cusp section, its quotient-ideal/stalk identification, uniformizer, and genuine modular q-expansion remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is now proved natural under ambient algebra maps, so a degree-one calculation on an explicit fibre transports to the ambient quotient-cotangent certificate and completed local map. The actual integral modular cusp section, affine presentation/stalk identification, uniformizer, and genuine modular q-expansion remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -5427,6 +5427,34 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber",
           "description": "Lift the concrete degree-one special-fibre outputs directly to formal immersion of locally Noetherian schemes."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.localizationAlgEquivQuotient_naturality",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiber",
+          "description": "Identify localization of an affine fibre with the corresponding ambient local-ring quotient naturally under an algebra homomorphism, including the non-definitional quotient transport."
+        },
+        {
+          "kind": "definition",
+          "name": "Ideal.Fiber.IsAffineFiberDegreeOneCotangent",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiber",
+          "description": "Package the residue, one-dimensional cotangent, and detected-vector outputs on an explicit affine special fibre."
+        },
+        {
+          "kind": "definition",
+          "name": "Ideal.Fiber.IsAffineFiberDegreeOneCotangent.quotientCotangentCertificate",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiber",
+          "description": "Transport an affine-fibre degree-one calculation through the localization square into the ambient quotient-cotangent certificate."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.IsAffineFiberDegreeOneCotangent.ambientCompletionMapSurjective",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiber",
+          "description": "Consume the transported affine-fibre calculation, explicit finiteness, and residue surjectivity in the actual completed-local-ring map."
         },
         {
           "kind": "theorem",

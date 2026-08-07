@@ -13,6 +13,8 @@ the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
 the quotient/special-fibre cotangent lift (`ce04968`), and canonical
 nonsingular coordinate reduction on the selected minimal model (`2317209`),
 the actual five-adic cusp-stalk quotient-certificate consumer (`77e5a4d`),
+the natural affine-fibre localization/ambient-quotient square and its
+completed-local-map consumer (`7d0b653`),
 and the selected eleven-adic minimal-model/formal-immersion order-35 chain
 (`c7eb1e5`), the degree-one mapped-special-fibre interface and its five- and
 eleven-adic theorem-level consumers (`2f27a77`), and the unconditional
@@ -48,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `554cc10` contains reviewed acceptance
+The combined owner history through `7d0b653` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -132,6 +134,17 @@ concludes formal immersion directly from the characteristic-five calculation
 (`ce04968`). Independent review accepted the ideal orientations and confirmed
 only standard axioms. The actual modular special-fibre stalk identification
 and q-expansion calculation remain open; no node credit is claimed.
+
+The recovered affine-fibre range now proves that Mathlib's localization of an
+actual affine fibre is natural under an ambient algebra map. The proof checks
+both tensor generators and explicitly transports the quotient ideal equality;
+the final comparison is not treated as definitional. A degree-one residue and
+cotangent calculation on that fibre now yields the ambient quotient-cotangent
+certificate and a compiled completed-local-map surjectivity consumer, while
+retaining residue surjectivity and both finiteness inputs. The modular affine
+presentation/stalk identification and genuine q-expansion remain open. The
+focused build and an eight-declaration axiom audit pass with only standard
+axioms; no node credit is claimed.
 
 Locally Noetherian source and target schemes now discharge the total-stalk
 finiteness instances in both quotient-certificate consumers. At five, a new
@@ -380,7 +393,8 @@ kernel modules, `QuasiFiniteQuotient`, `CurveDivisorPicardDescent`,
 `SupportedFppfSerreQuotient`, `SupportedFppfHOne`,
 `FppfHOneUniverse`, `SupportedFppfHOneBridge`, `FppfHOneBaseIso`,
 `SupportedFppfHOneCertifiedData`, `FormalImmersionAtFive`,
-`FormalImmersionSpecialFiber`, `FormalImmersionSpecialFiberAtFive`,
+`FormalImmersionSpecialFiber`, `FormalImmersionAffineFiber`,
+`FormalImmersionSpecialFiberAtFive`,
 `NonsingularReduction`, `NonsingularReductionAdditive`,
 `CurveLineBundleOverlapNaturality`,
 `CurveLineBundleTripleIntersection`, `CurveLineBundleTripleNaturality`,
@@ -516,7 +530,7 @@ collision at `5` and a ten-point finite-field bound.
 |---|---|---|
 | `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
 | `codex/mt-cuspidal-finite` | Checked finite normalization of the cuspidal special fibres, singular-cubic variable-change transport, and actual residue-field additive equivalences at five and eleven (`dbf34d0`) | Integrated after independent mathematical/API review and owner layering/provenance repairs. Prime-five and order-35 leaves each have completion, rational, and formal-immersion consumers. Keep only the genuine marked exponent `12 • P ∈ E₀` on the critical queue; no component or node credit is inferred. |
-| `codex/mt-fiber-stalk-naturality` | Untracked affine-fibre localization scratch proof exposing the required generator formula | Retain as scratch and do not integrate. Direct Lean checking reaches the final `localizationAlgEquivQuotient` comparison but the claimed `rfl` is false; prove the remaining quotient-equivalence transport explicitly, move only the minimal theorem into a licensed module, and compile the degree-one cotangent consumer before review. |
+| `codex/mt-fiber-stalk-naturality` | Checked affine-fibre localization naturality, ambient quotient-cotangent transport, and completed-local-map consumer (`85b76ce`, integrated as `7d0b653`) | Integrated after repairing the false `rfl` with explicit `quotientEquivAlgOfEq` transport and independently rebuilding and auditing the public endpoints. Construct the modular affine presentation/stalk identification and actual q-expansion next; no node credit is inferred. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -1035,10 +1049,12 @@ or accounting shortcut.
   `dbf34d0` with owner lane-splitting, provenance, and root-reachability
   repairs. Both finite classifications and their marked-exponent consumers
   compile; no full component claim or node credit is recorded.
-- `codex/mt-fiber-stalk-naturality`: inspected but not integrated. The
-  untracked scratch theorem reaches the localization/quotient comparison, but
-  its final definitional-equality step fails. Complete that transport and add
-  the mapped degree-one cotangent consumer before creating a review commit.
+- `codex/mt-fiber-stalk-naturality`: independently rebuilt, axiom-audited,
+  and integrated. The repaired theorem checks the localization/quotient square
+  on both tensor generators and transports the non-definitional quotient
+  equality explicitly. Its degree-one affine-fibre datum now feeds an ambient
+  completed-local-map consumer. The modular presentation/stalk comparison and
+  q-expansion remain open.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API
