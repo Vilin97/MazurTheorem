@@ -39,6 +39,32 @@ local instance : DecidableEq
     (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
+private theorem residueAtEleven_natCast_ne_zero
+    (n : ℕ) (hn : (n : ZMod 11) ≠ 0) :
+    (n : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+  let e₁₁ : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
+    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueElevenAlgEquiv.toRingEquiv
+  intro h
+  apply hn
+  calc
+    (n : ZMod 11) = e₁₁ (n : IsLocalRing.ResidueField
+        (atEleven.adicCompletionIntegers ℚ)) := (map_natCast e₁₁ n).symm
+    _ = e₁₁ 0 := congrArg e₁₁ h
+    _ = 0 := by simp
+
+private theorem residueAtEleven_two_ne_zero :
+    (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 :=
+  residueAtEleven_natCast_ne_zero 2 (by decide)
+
+private theorem residueAtEleven_three_ne_zero :
+    (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 :=
+  residueAtEleven_natCast_ne_zero 3 (by decide)
+
 /-- Coefficientwise base change of a rational Weierstrass equation to the
 eleven-adic completion. -/
 noncomputable abbrev completionAtEleven (E : WeierstrassCurve ℚ) :
@@ -128,30 +154,9 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueTranslation
           (atEleven.adicCompletionIntegers ℚ) ∧
         W'.a₃ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
         W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
-        W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
-  let e₁₁ : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
-    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
-      residueElevenAlgEquiv.toRingEquiv
-  have h2 : (2 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (2 : ZMod 11) ≠ 0)
-    calc
-      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
-  have h3 : (3 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (3 : ZMod 11) ≠ 0)
-    calc
-      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
-  exact tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction hA h2 h3
+      W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
+  exact tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction
+    hA residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
 
 /-- The selected eleven-adic minimal equation admits the full residue short normalization used
 before the tame Tate blowups.  The transformed special fibre is literally `Y² = X³`, and every
@@ -176,30 +181,8 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization
         W'.a₃ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
         W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
         W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
-  let e₁₁ : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
-    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
-      residueElevenAlgEquiv.toRingEquiv
-  have h2 : (2 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (2 : ZMod 11) ≠ 0)
-    calc
-      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
-  have h3 : (3 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (3 : ZMod 11) ≠ 0)
-    calc
-      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
   exact tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
-    hA h2 h3
+    hA residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
 
 /-- The selected eleven-adic minimal equation has an exact integral short model in the additive
 branch.  Its generic fibre is explicitly the unit-scale transform of the selected completion,
@@ -226,30 +209,8 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_integralShortNormalizatio
         W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
         W'.a₆ ∈ IsLocalRing.maximalIdeal
           (atEleven.adicCompletionIntegers ℚ) := by
-  let e₁₁ : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
-    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
-      residueElevenAlgEquiv.toRingEquiv
-  have h2 : (2 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (2 : ZMod 11) ≠ 0)
-    calc
-      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
-  have h3 : (3 : IsLocalRing.ResidueField
-      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
-    intro h
-    apply (by decide : (3 : ZMod 11) ≠ 0)
-    calc
-      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
-          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
-      _ = e₁₁ 0 := congrArg e₁₁ h
-      _ = 0 := by simp
   exact tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction
-    hA h2 h3
+    hA residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
 
 /-- The exact eleven-adic short model carries the three honest one-exceptional-factor equation
 charts for the first blowup at its closed cusp. -/
@@ -272,25 +233,75 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts
           cuspidalShortCurve
             (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
         Nonempty (FirstBlowupEquationCharts W') := by
-  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ha₄, ha₆⟩ :=
-    minimalCompletionAtEleven_tateAlgorithm_exists_integralShortNormalization E hA
+  exact tateAlgorithm_exists_firstBlowupEquationCharts_of_hasAdditiveReduction
+    hA residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
+
+/-- A marked point of order 35 eliminates the order-one first-blowup branch.  The selected exact
+short model therefore has `a₆` in the square of the eleven-adic maximal ideal, while retaining
+the one-factor chart data required by the next valuation branch. -/
+theorem
+    minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 2 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, hcharts⟩ :=
+    minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts E hA
   let W' := C • (minimalCompletionAtEleven E).integralModel
     (atEleven.adicCompletionIntegers ℚ)
-  have ha₁ : W'.a₁ ∈ IsLocalRing.maximalIdeal
-      (atEleven.adicCompletionIntegers ℚ) := by
-    rw [hshort.a₁]
-    exact Submodule.zero_mem _
-  have ha₂ : W'.a₂ ∈ IsLocalRing.maximalIdeal
-      (atEleven.adicCompletionIntegers ℚ) := by
-    rw [hshort.a₂]
-    exact Submodule.zero_mem _
-  have ha₃ : W'.a₃ ∈ IsLocalRing.maximalIdeal
-      (atEleven.adicCompletionIntegers ℚ) := by
-    rw [hshort.a₃]
-    exact Submodule.zero_mem _
-  exact ⟨C, hAdditive, hmap, hshort, hspecial,
-    nonempty_firstBlowupEquationCharts_of_coefficients_mem_maximalIdeal
-      W' ha₁ ha₂ ha₃ ha₄ ha₆⟩
+  let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+    (atEleven.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  obtain ⟨B⟩ := hcharts
+  let P' : (CK • minimalCompletionAtEleven E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P
+  have horder' : addOrderOf P' = 35 := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P).trans horder
+  have ha₆ : W'.a₆ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2 := by
+    by_contra ha₆
+    have hb₆ : IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)
+        B.coefficients.b₆ ≠ 0 :=
+      B.residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq.mpr ha₆
+    have hΔ : (adicRedCurve W').Δ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).Δ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+        WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+    have hc₄ : (adicRedCurve W').c₄ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).c₄ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+    exact
+      (addOrderOf_ne_thirtyFive_of_firstBlowup_residue_b₆_ne_zeroAtEleven
+        hmap B residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
+        hspecial hb₆
+        (specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄) P') horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆⟩
 
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
