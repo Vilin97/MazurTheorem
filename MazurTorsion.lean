@@ -105,6 +105,7 @@ import MazurTorsion.ModularCurve.AffineCuspQExpansion
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli
+import MazurTorsion.ModularCurve.XZeroCyclicQuotient
 import MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
 import MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVariety
 import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic
