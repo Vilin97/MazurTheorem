@@ -618,6 +618,8 @@ subgroup.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.forgetToDivisor`
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.divisorSubgroup_sup_of_coprime_mul`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.FiniteLocallyFreeSubgroup`
@@ -797,9 +799,11 @@ subgroup.
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
 quotients by the generated equivalence and descends every
-presentation-invariant function. Intrinsic divisor subgroups, split
-divisor-level degeneracy maps, and reconstruction from the order-five and
-order-seven carriers at level 35 also compile. The scheme layer packages an
+presentation-invariant function. Intrinsic divisor subgroups and split
+divisor-level degeneracy maps compile. A general integral Bézout argument
+shows that coprime divisor subgroups whose orders multiply to the ambient
+level recover the full carrier; reconstruction from the order-five and
+order-seven carriers at level 35 is its checked consumer. The scheme layer packages an
 actual finite-locally-free closed subgroup, arbitrary base change, and an
 identification with the constant cyclic group. Exact rational torsion gives a
 genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme

@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `695b7eb` contains reviewed acceptance
+The combined owner history through `658dcca` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -150,6 +150,16 @@ prime-five path. The remaining local premise is exactly the marked assertion
 `12 • P ∈ E₀`. Independent review required and verified the lane split,
 lowered imports, downstream consumers, and explicit local provenance. No node
 credit is claimed.
+
+The squarefree source-data range now factors the level-35 subgroup
+reconstruction through a general theorem: if two intrinsic divisor levels are
+coprime and multiply to the ambient cyclic order, their carriers generate the
+whole subgroup. The proof uses the selected cyclic generator only to apply an
+integral Bézout combination, while the public statement remains intrinsic.
+The order-five/order-seven level-35 theorem is the compiled downstream
+consumer. Both focused modules and a two-declaration axiom audit pass with
+only standard axioms; no coarse-moduli, quotient, Atkin--Lehner, or node-credit
+claim is made (`658dcca`).
 
 The special-fibre formal-immersion range packages compatible quotient ideals,
 finite generation of the quotient target maximal ideal, and the computed
