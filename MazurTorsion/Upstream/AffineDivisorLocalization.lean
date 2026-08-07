@@ -1838,6 +1838,35 @@ private theorem extendScalarsTildeIsoPullbackTowerRightComponents_postcompose_th
   unfold pullbackPrecompPrefix₂
   exact pullbackPrecompPostcompose_three_reassoc _ _ _ z₁ z₂ z₃
 
+private theorem extendScalarsTildeIsoPullbackTowerRightComponents_postcompose_finish
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) (k : A ⟶ C)
+    (hfg : f ≫ g = k)
+    (hcomp : Spec.map g ≫ Spec.map f = Spec.map k)
+    (M : ModuleCat A)
+    {X₄ X₅ X₆ : (Spec C).Modules}
+    (z₁ : (tilde.functor C).obj
+        ((ModuleCat.extendScalars (f ≫ g).hom).obj M) ⟶ X₄)
+    (z₂ : X₄ ⟶ X₅) (z₃ : X₅ ⟶ X₆)
+    (w : (tilde.functor C).obj
+        ((ModuleCat.extendScalars k.hom).obj M) ⟶ X₆)
+    (htail :
+      (tilde.functor C).map
+            (eqToIso (congrArg
+              (fun q : A ⟶ C ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)).inv ≫
+          z₁ ≫ z₂ ≫ z₃ = w) :
+    pullbackPrecompPostcompose
+        (pullbackPrecompPostcompose
+          (pullbackPrecompPostcompose
+            (extendScalarsTildeIsoPullbackTowerRightComponents
+              A B C f g k hfg hcomp M) z₁) z₂) z₃ =
+      pullbackPrecompPrefix₂
+        ((Scheme.Modules.pullbackCongr hcomp).hom.app
+          ((tilde.functor A).obj M))
+        ((extendScalarsTildeIsoPullback A C k).inv.app M) w :=
+  (extendScalarsTildeIsoPullbackTowerRightComponents_postcompose_three_reassoc
+      A B C f g k hfg hcomp M z₁ z₂ z₃).trans
+    (pullbackPrecompPrefix₂_eq _ _ htail)
+
 private theorem extendScalarsTildeIsoPullback_tower_inv_app_canonical
     (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) (k : A ⟶ C)
     (hfg : f ≫ g = k)
@@ -1904,6 +1933,37 @@ private noncomputable def chosenModuleTowerCongrIso
   let hfg := extensionCommRingCatHom_comp R B C
   eqToIso (congrArg
     (fun q : A ⟶ C' ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)
+
+private theorem chosenModuleBaseChangeEquivExtended_tower_canonical
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    let mcomp := (ModuleCat.extendScalarsComp f.hom g.hom).app M
+    let mcongr := chosenModuleTowerCongrIso R B C K D
+    mcongr.inv ≫ mcomp.hom ≫
+        (ModuleCat.extendScalars g.hom).map cB ≫ b = cC := by
+  dsimp only
+  have hmodule := chosenModuleBaseChangeEquivExtended_tower R B C K D
+  change (chosenModuleTowerCongrIso R B C K D).inv ≫
+      (ModuleCat.extendScalarsComp (algebraMap R B) (algebraMap B C)).hom.app
+        (chosenModule R K D) ≫
+      (ModuleCat.extendScalars (algebraMap B C)).map
+        (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+          R B K D).toModuleIso.hom ≫
+      (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom =
+    (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom at hmodule
+  exact hmodule
 
 /- Superseded reducible path experiments.  The final proof below uses the generic categorical
 composition lemma directly, so none of these intermediate declarations is part of the checked
@@ -2959,7 +3019,7 @@ private noncomputable def chosenLineBundlePullbackPrecompModuleTail
   let B' := CommRingCat.of B
   let C' := CommRingCat.of C
   let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
-  have hmodule := chosenModuleBaseChangeEquivExtended_tower R B C K D
+  have hmodule := chosenModuleBaseChangeEquivExtended_tower_canonical R B C K D
   have hmoduleT := congrArg (fun z ↦ (tilde.functor C').map z) hmodule
   simp only [CategoryTheory.Functor.map_comp] at hmoduleT
   exact hmoduleT
@@ -3048,17 +3108,30 @@ private noncomputable def chosenLineBundlePullbackPrecompEndTail
   exact pullbackPrecompPrefix₂_eq pcongr.hom (E_k.inv.app M)
     (chosenLineBundlePullbackPrecompModuleTail R B C K D hcomp)
 
-/- The final transitivity join is intentionally left outside the compiling helper checkpoint.
-Its two endpoints are now expressed through `pullbackPrecompPrefix₂`; the next integration step
-is the one remaining typed equality recorded in the branch handoff.
-
 private noncomputable def chosenLineBundlePullbackPrecompEnd
     (D : WeilDivisor (HeightOneSpectrum R))
-    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :=
-  (chosenLineBundlePullbackPrecompEndReassoc R B C K D hcomp).trans
-    (chosenLineBundlePullbackPrecompEndTail R B C K D hcomp)
-
--/
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) := by
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+  let M := chosenModule R K D
+  let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R B K D).toModuleIso.hom
+  let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R C K D).toModuleIso.hom
+  let b := (extendedInverseIdealBaseChangeModuleEquiv
+    R B C K D).toModuleIso.hom
+  let mcomp := (ModuleCat.extendScalarsComp f.hom g.hom).app M
+  let hfg := extensionCommRingCatHom_comp R B C
+  exact extendScalarsTildeIsoPullbackTowerRightComponents_postcompose_finish
+    A B' C' f g k hfg hcomp M
+    ((tilde.functor C').map mcomp.hom)
+    ((tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB))
+    ((tilde.functor C').map b) ((tilde.functor C').map cC)
+    (chosenLineBundlePullbackPrecompModuleTail R B C K D hcomp)
 
 private noncomputable def chosenLineBundlePullbackPrecompHeadMiddle
     (D : WeilDivisor (HeightOneSpectrum R))
@@ -3125,30 +3198,29 @@ private noncomputable def chosenLineBundlePullbackPrecompHeadMiddleAtJunction
   exact (chosenLineBundlePullbackPrecompHeadWitness R B C K D).coherent.trans
     (chosenLineBundlePullbackPrecompMiddleAtJunction R B C K D hcomp)
 
-/- Aggregate consumers of the pending final end join.
-
-private noncomputable def chosenLineBundlePullbackPrecompEndReassocAtJunction
+private noncomputable def chosenLineBundlePullbackPrecompEndAtJunction
     (D : WeilDivisor (HeightOneSpectrum R))
     (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) := by
   let p := chosenLineBundlePullbackPrecompJunction R B C K D hcomp
-  exact show p = _ from
-    chosenLineBundlePullbackPrecompEndReassoc R B C K D hcomp
+  exact show p = _ from chosenLineBundlePullbackPrecompEnd R B C K D hcomp
 
-private noncomputable def chosenLineBundlePullbackPrecompEndAtJunction
+private theorem chosenLineBundlePullbackPrecompCoherent
     (D : WeilDivisor (HeightOneSpectrum R))
-    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :=
-  (chosenLineBundlePullbackPrecompEndReassocAtJunction
-      R B C K D hcomp).trans
-    (chosenLineBundlePullbackPrecompEndTail R B C K D hcomp)
-
-private noncomputable def chosenLineBundlePullbackPrecompCoherent
-    (D : WeilDivisor (HeightOneSpectrum R))
-    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :=
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (chosenLineBundlePullbackPrecompHeadWitness R B C K D).start =
+      pullbackPrecompPrefix₂
+        ((Scheme.Modules.pullbackCongr hcomp).hom.app
+          ((tilde.functor (CommRingCat.of R)).obj (chosenModule R K D)))
+        ((extendScalarsTildeIsoPullback
+          (CommRingCat.of R) (CommRingCat.of C)
+          (CommRingCat.ofHom (algebraMap R C))).inv.app
+            (chosenModule R K D))
+        ((tilde.functor (CommRingCat.of C)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+            R C K D).toModuleIso.hom) :=
   (chosenLineBundlePullbackPrecompHeadMiddleAtJunction
       R B C K D hcomp).trans
     (chosenLineBundlePullbackPrecompEndAtJunction R B C K D hcomp)
-
--/
 
 end PullbackPrecompPackedWitnesses
 
