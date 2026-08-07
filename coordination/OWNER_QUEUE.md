@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `1b2947b` contains reviewed acceptance
+The combined owner history through `d0025fd` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -156,6 +156,39 @@ determine a Kodaira type, construct components, or prove the marked
 order-at-most-four theorem. The combined five-target build and the declaration
 axiom audits use only standard axioms (`8ad490e`, `32cd9d9`, `0df68ab`). No
 node credit is claimed.
+
+The reviewed first coefficient-depth range now continues on the same exact
+integral short model. `FirstBlowupEquationCharts` bundles a DVR uniformizer,
+the coefficient quotients, and three honest one-exceptional-factor total-
+transform identities; it does not claim strict transforms, coverage, or a
+regular model. The uniformizer factorization and exceptional restriction feed
+the actual integral-point theorem. If the exceptional `b₆` residue is nonzero,
+every local point belongs to canonical nonsingular reduction, so the existing
+component-exponent consumers exclude marked prime order at five and exact
+order 35 at eleven. The selected normalization packages therefore force
+`a₆ ∈ 𝔪²` while retaining the chart witness for the next valuation branch.
+Independent review rebuilt all six touched modules directly, audited all 24
+public declarations to standard axioms only, and required the sole unused
+chart helper to remain private (`f17a4dd`, `8851520`, `b815d92`, `af96e2e`).
+Canonical nonsingular reduction now also transports through every integral
+admissible unit change: the formal-kernel gate, affine residue coordinates,
+subgroup membership, and marked multiples are all preserved with the point-
+equivalence orientation explicit. A real order-one consumer carries
+`12 • P` from the normalized short equation back to the original model
+(`d0025fd`); independent review checked both formal and affine branches and
+the standard axiom closure. No Kodaira symbol, full component bound, Néron
+identity comparison, or node credit is claimed. The active coefficient-depth
+lane is repairing its public surface after review correctly rejected unused
+terminal weighted identities; the next accepted code must attach each such
+identity to an actual marked-point case consumer.
+
+The interrupted `codex/mt-cuspidal-finite` and
+`codex/mt-fiber-stalk-naturality` worktrees are clean. Their sound content was
+already integrated under reviewed owner commits `6e1a994`/`04644fa` and
+`7d0b653`/`2947570`, respectively; the historical branches are retained and
+must not be cherry-picked again. The recovered A3 transition-cocycle branch is
+also retained at `48e9cb0` but remains unintegrated because it has no public
+naturality or curve-level consumer.
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -738,12 +771,16 @@ within each lane follows the listed order.
    equivalences at five and eleven now compile from finite normalization.
    The integral-`j` valuation input, stability under integral valuation-unit
    coordinate changes, the arbitrary translated-scaling obstruction, the
-   singular-point residue translation, and the full short-cusp residue
-   normalization now compile. Prove the remaining blowup and tame Kodaira
-   case split, identify the genuine Néron identity
-   component, and derive the precise marked-class theorem. Retain the stronger
-   component bound only for a named toric/Néron consumer; the handoff itself
-   earns no node credit.
+   singular-point residue translation, exact integral short normalization,
+   and honest one-factor total-transform equations now compile. The first
+   coefficient-depth branch is closed pointwise and forces `a₆ ∈ 𝔪²` for both
+   marked consumers. Integral unit variable changes now transport the canonical
+   subgroup and every marked multiple back from the normalized model. Complete
+   the two-factor and weighted valuation branches, the affine doubling/secant
+   cases, and the bounded-multiple theorem; identify the genuine Néron identity
+   component only where the toric/rank-zero consumer requires it. Retain the
+   stronger component bound only for that named consumer; the pointwise handoff
+   itself earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact

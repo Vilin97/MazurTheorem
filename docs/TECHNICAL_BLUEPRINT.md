@@ -1847,9 +1847,21 @@ point directly from additive reduction, and then lifts the complete
 short-normal-form change. For the selected five- and eleven-adic minimal
 equations the resulting integral model remains additive, has special fibre
 exactly `Y² = X³`, and has all five coefficients in the maximal ideal. The
-subsequent blowups, tame Kodaira case split, marked component incidence, and
-genuine identity-component comparison remain geometric inputs; no node credit
-is claimed for this partial handoff.
+next checked layer gives honest one-factor total-transform quotients for the
+three standard substitutions at the closed cusp. The uniformizer chart is a
+real downstream consumer: if its exceptional `b₆` residue is nonzero, an
+integral point cannot specialize to the cusp. Hence every local point has
+canonical nonsingular reduction, and the selected prime-five and order-35
+consumers exclude that coefficient branch and force `a₆ ∈ 𝔪²`. These are
+equation identities and pointwise reduction results, not strict-transform,
+chart-coverage, Kodaira-symbol, or component-cardinality theorems. A separate
+checked invariance theorem treats the formal-kernel gate and affine residue
+coordinates explicitly and proves that the canonical reduction subgroup and
+every marked multiple transport through the integral unit change. Its
+order-one consumer carries `12 • P` back from the normalized equation. The
+remaining two-factor and weighted valuation branches, marked affine group-law
+case split, and genuine identity-component comparison remain open; no node
+credit is claimed for this partial handoff.
 
 The proof sequence is:
 

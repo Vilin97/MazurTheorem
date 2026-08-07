@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1482801,
-    "integrated_lean_modules": 785,
+    "integrated_lean_lines": 1484046,
+    "integrated_lean_modules": 788,
     "remaining_composite_orders": [
       18,
       25,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. Singular-cubic normalization classifies the actual additive special fibre at eleven. The rational endpoint now consumes the exact pointwise Kodaira handoff: the marked class in the quotient by canonical nonsingular reduction has finite order at most four; the checked generic bridge turns this into 12 • P in the subgroup. Proving that marked-class theorem for the selected minimal equation, the genuine Neron identity-component comparison, represented modular quotient/classifying map, and Atkin-Lehner specialization inputs remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. Singular-cubic normalization classifies the actual additive special fibre at eleven. The rational endpoint now consumes the exact pointwise Kodaira handoff: the marked class in the quotient by canonical nonsingular reduction has finite order at most four; the checked generic bridge turns this into 12 • P in the subgroup. On the selected exact short model, the first one-factor chart calculation proves that the order-one branch puts every local point in canonical nonsingular reduction and hence contradicts exact order 35; the marked equation therefore has a6 in the square of the eleven-adic maximal ideal. Integral-variable-change transport carries canonical subgroup membership and marked multiples between the normalized and original equations. The remaining tame valuation branches, the marked-class theorem, genuine Neron identity-component comparison, represented modular quotient/classifying map, and Atkin-Lehner specialization inputs remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -3348,7 +3348,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The exact opening Tate-algorithm inputs now compile: integral j gives the c4/discriminant valuation inequality, every integral valuation-unit coordinate change preserves minimality, and no arbitrary translation followed by a scale of valuation below one can leave all five transformed coefficients integral. Additive reduction now constructs its singular residue point, lifts the unit-scale translation, and then lifts the full short-normal-form change so that the displayed integral model has special fibre Y²=X³ and all five coefficients in the maximal ideal, with selected consumers at five and eleven. A full quotient-cardinality bound remains only a stronger fallback. Performing the blowups and tame Kodaira case split, proving the marked-class theorem for the selected minimal equations, and identifying the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The exact opening Tate-algorithm inputs now compile: integral j gives the c4/discriminant valuation inequality, every integral valuation-unit coordinate change preserves minimality, and no arbitrary translation followed by a scale of valuation below one can leave all five transformed coefficients integral. Additive reduction constructs its singular residue point and an exact integral short model with special fibre Y²=X³. Bundled one-factor total-transform quotients at the closed cusp are checked without claiming strict transforms or blowup coverage. In the order-one branch a6 ∉ m², every local point lies in canonical nonsingular reduction, so the selected prime-order and order-35 consumers rule out that branch and force a6 ∈ m² on the same charted model. Canonical nonsingular reduction, subgroup membership, and bounded multiples are now invariant under the integral unit variable change, and the order-one 12-multiple conclusion transports back from the normalized model. A full quotient-cardinality bound remains only a stronger fallback. The remaining two-factor and weighted valuation branches, marked point group-law case split, genuine Neron identity-component comparison, and toric input remain open; no Kodaira symbol or component-cardinality result is inferred from the checked chart algebra.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3591,6 +3591,83 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
           "description": "Instantiate the checked full residue normalization on Mathlib's selected eleven-adic minimal equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Construct an exact integral short model whose generic fibre is the selected unit-scale additive transform and whose special fibre is the standard cusp."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.EllipticCurve.FirstBlowupEquationCharts",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TateFirstBlowup",
+          "description": "Bundle a DVR uniformizer, coefficient quotients, and honest one-exceptional-factor total-transform identities at the closed cusp."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_exists_firstBlowupEquationCharts_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Attach the bundled one-factor chart equations to the exact short normalization of every tame minimal additive equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Instantiate the generic chart constructor on Mathlib's selected five-adic minimal equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Instantiate the generic chart constructor on Mathlib's selected eleven-adic minimal equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts_of_primeOrder",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Preserve the exact charted short model and force a6 into the square of the five-adic maximal ideal from marked prime torsion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts_of_orderThirtyFive",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Preserve the exact charted short model and force a6 into the square of the eleven-adic maximal ideal from exact order 35."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.hasNonsingularReduction_equivVariableChange_iff",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionVariableChange",
+          "description": "Transport the canonical formal-kernel gate and affine nonsingular-reduction predicate through an integral admissible variable change."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.equivVariableChange_mem_nonsingularReductionSubgroup_iff",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionVariableChange",
+          "description": "Identify the canonical nonsingular-reduction subgroups under the induced point-group equivalence."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.nsmul_equivVariableChange_symm_mem_nonsingularReductionSubgroup_iff",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.NonsingularReductionVariableChange",
+          "description": "Transport a concrete marked n-multiple membership statement from the normalized equation back to the original equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.twelve_nsmul_mem_nonsingularReductionSubgroup_of_integralVariableChange_firstBlowup",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TateTypeIIComponent",
+          "description": "Consume variable-change invariance to carry the checked order-one twelve-multiple conclusion from the exact short model to its original integral equation."
         },
         {
           "kind": "definition",
@@ -6380,7 +6457,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data, preservation of the additive branch under integral valuation-unit coordinate changes, the obstruction to every translated scaling of valuation below one, singular-point translation, and full residue short normalization are checked starting inputs. The normalized integral equation has special fibre Y²=X³ and all five coefficients in the maximal ideal at both selected primes. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. The blowup stages, tame Kodaira case split, marked-class proposition for the selected minimal equation, and genuine Neron identity-component comparison remain open.",
+      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data, preservation of the additive branch under integral valuation-unit coordinate changes, the obstruction to every translated scaling of valuation below one, singular-point translation, and exact integral short normalization are checked starting inputs. Honest one-factor chart quotients now prove that a6 ∉ m² puts every local point in canonical nonsingular reduction. The prime-order consumer excludes this first valuation branch and forces a6 ∈ m² on the selected five-adic model. Canonical reduction and n-multiple subgroup membership transport through the integral unit normalization, so later case conclusions can return to the original selected equation. This avoids constructing or cardinality-bounding the full component quotient. The remaining two-factor and weighted valuation branches, affine group-law case split, marked-class proposition, and genuine Neron identity-component comparison remain open.",
       "artifacts": [
         {
           "kind": "theorem",

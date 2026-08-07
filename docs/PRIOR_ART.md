@@ -921,7 +921,32 @@ will not use an unsupported Cartier-dual shortcut. The checked route therefore
 keeps quasi-finite admissible-filtration quotients separate from supported
 sheaf localization sequences.
 
-## 15. Global code search
+## 15. Tate's tame local algorithm
+
+The coefficient-depth cases were checked against John Tate,
+[*Algorithm for determining the type of a singular fiber in an elliptic
+pencil*](https://doi.org/10.1007/BFb0097582), LNM 476 (1975). The public
+Antwerp scans used for the exact sequence are the
+[normalization and opening cases](https://wstein.org/Tables/antwerp/tate/47.jpg),
+[types II and III](https://wstein.org/Tables/antwerp/tate/48.jpg),
+[type IV and the star cubic](https://wstein.org/Tables/antwerp/tate/49.jpg),
+[the star branches](https://wstein.org/Tables/antwerp/tate/50.jpg),
+[the dual branches](https://wstein.org/Tables/antwerp/tate/51.jpg), and the
+[terminal minimality case](https://wstein.org/Tables/antwerp/tate/52.jpg).
+
+No source code or formal proof was copied. The local Lean development derives
+the displayed polynomial identities directly by ring normalization and proves
+only the pointwise consequences needed by Mazur's torsion argument. In
+particular, `TateFirstBlowup.lean` calls its formulas total-transform quotient
+identities: it does not claim scheme-theoretic strict transforms, coverage of
+a blowup, regularity, Kodaira symbols, or component intersection graphs. The
+first checked coefficient-depth branch proves that nonzero exceptional `b₆`
+puts every local point in canonical nonsingular reduction. The selected
+five- and eleven-adic consumers then rule out that branch for the marked
+torsion point and force `a₆` into the square of the maximal ideal. The later
+weighted branches and affine group-law case split remain separate work.
+
+## 16. Global code search
 
 Exact searches for `torsion_ncard_le`, `mazur_classification`,
 `torsion_finite_rat`, and Lean versions of Merel's theorem found no completed
@@ -954,7 +979,7 @@ proof outside the projects above. In particular:
 * `hex-dev` supplies a licensed executable-resultant design, but the local
   elliptic syzygies avoid its incompatible option-bearing dependency cone.
 
-## 16. Reuse decision
+## 17. Reuse decision
 
 The implementation policy following this audit is:
 

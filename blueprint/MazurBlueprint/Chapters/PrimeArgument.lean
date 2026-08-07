@@ -120,10 +120,15 @@ nonsingular-reduction subgroup and the exact torsion-free formal kernel.
 Finite normalization and enumeration now turn the vanishing reduced `Δ` and
 `c₄` into the actual five-element residue additive group. The checked
 pointwise quotient-order API derives the exponent from a marked class of
-finite order at most four. Genuine identity-component identification and the
-residue-translation construction, blowup, and tame Kodaira steps proving that
-marked-class bound remain open; valuation-unit coordinate changes preserve the
-additive branch, and the full translated-scaling obstruction compiles.
+finite order at most four. Residue translation, exact short normalization,
+and honest one-factor cusp-chart identities now compile. In the first
+coefficient-depth branch every local point has nonsingular reduction, so the
+prime-order consumer rules it out and forces `a₆ ∈ 𝔪²` on the same selected
+model. Canonical subgroup membership and marked multiples transport through
+the integral unit normalization. The remaining weighted valuation branches
+and affine group-law cases proving the marked-class bound remain open, as does
+genuine identity-component identification; no full component-cardinality
+claim is used here.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")

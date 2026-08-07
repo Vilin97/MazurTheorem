@@ -104,6 +104,28 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction`
+* `structure` (`contract`):
+  `MazurTorsion.EllipticCurve.FirstBlowupEquationCharts`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_firstBlowupEquationCharts_of_hasAdditiveReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts_of_primeOrder`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts_of_orderThirtyFive`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.hasNonsingularReduction_equivVariableChange_iff`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.equivVariableChange_mem_nonsingularReductionSubgroup_iff`
+* `theorem` (`contract`):
+  `WeierstrassCurve.Affine.nsmul_equivVariableChange_symm_mem_nonsingularReductionSubgroup_iff`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_nonsingularReductionSubgroup_of_integralVariableChange_firstBlowup`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale`
 * `theorem` (`contract`):
@@ -130,11 +152,18 @@ for the full component quotient is retained only as a stronger fallback.
 The integral-`j` valuation inequality, stability under integral
 valuation-unit coordinate changes, and the obstruction to every translated
 scaling of valuation below one are now checked. Additive reduction constructs
-its singular residue point, and the lifted full short-normal-form change has
-special fibre `Y² = X³` with all five coefficients in the maximal ideal at
-both selected primes. Identifying the subgroup with the genuine Néron
-identity component and constructing the blowups, tame Kodaira case split, and
-marked-class bound remain open, so this node remains blocked.
+its singular residue point and an exact integral short model with special
+fibre `Y² = X³`. Honest one-factor total-transform quotients at the closed
+cusp now drive the complete first coefficient-depth case: nonzero exceptional
+`b₆` puts every local point in canonical nonsingular reduction, and the
+selected torsion consumers therefore force `a₆ ∈ 𝔪²` at both auxiliary
+primes. The canonical reduction predicate, subgroup, and marked multiples now
+transport through the integral unit normalization, with an order-one consumer
+carrying `12 • P` back to the original model. No strict-transform, chart-
+coverage, Kodaira-symbol, or component-cardinality claim is made. The remaining
+two-factor and weighted valuation branches, marked affine group-law case split,
+genuine Néron identity-component comparison, and marked-class bound remain
+open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")

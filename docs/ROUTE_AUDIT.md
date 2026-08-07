@@ -116,8 +116,16 @@ following remain on the theorem's critical path:
   singular residue point, and the lifted complete short-normal-form change
   produces an integral model whose special fibre is exactly `Y² = X³` and
   whose five coefficients all lie in the maximal ideal at both selected
-  primes. The blowups, tame Kodaira case split, and component incidence are
-  still required.
+  primes. Bundled one-factor total-transform quotients at the closed cusp are
+  now checked without asserting strict-transform or chart-coverage geometry.
+  Their first coefficient-depth branch proves every local point has canonical
+  nonsingular reduction; the prime-order and order-35 consumers exclude that
+  branch and force `a₆ ∈ 𝔪²` on the same exact model. The remaining two-factor
+  and weighted valuation branches, affine group-law case split, and component
+  incidence are still required. The canonical reduction predicate, subgroup,
+  and marked multiples now transport through the integral unit normalization,
+  so each future normalized-case conclusion can be carried back to the
+  original selected equation without a new geometric assumption.
 
 The point-group shadow of the cyclic quotient is now checked: quotienting by
 the supplied rational cyclic subgroup has the exact kernel, multiplication by
