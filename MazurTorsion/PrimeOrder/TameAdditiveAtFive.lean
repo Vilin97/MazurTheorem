@@ -51,6 +51,41 @@ theorem tateAlgorithm_valuationInput_of_hasAdditiveReduction
   ⟨hA.badReduction, hA.additiveReduction,
     valuation_c₄_pow_three_le_valuation_Δ_of_valuation_j_le_one hj⟩
 
+/-- **Named translation consumer for the tame Tate algorithm.** An integral admissible change
+whose scale factor is a valuation unit preserves the additive-reduction branch.  In particular,
+the translations used to move a singular point can be composed without losing minimality or the
+two strict valuation inequalities.  Constructing those translations and the later blowups remains
+separate work. -/
+theorem tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one
+    {W : WeierstrassCurve K} [W.IsElliptic]
+    (hA : W.HasAdditiveReduction R)
+    (C : WeierstrassCurve.VariableChange K)
+    (hC : WeierstrassCurve.IsIntegral R (C • W))
+    (hu : valuation K (maximalIdeal R) (C.u : K) = 1) :
+    (C • W).HasAdditiveReduction R := by
+  letI : W.IsMinimal R := hA.toIsMinimal
+  have hminimal : (C • W).IsMinimal R :=
+    isMinimal_variableChange_of_isIntegral_of_valuation_u_eq_one C hC hu
+  letI : (C • W).IsMinimal R := hminimal
+  refine ⟨?_, ?_⟩
+  · simpa [WeierstrassCurve.variableChange_Δ, map_mul, map_pow,
+      Units.val_inv_eq_inv_val, map_inv₀, hu] using hA.badReduction
+  · simpa [WeierstrassCurve.variableChange_c₄, map_mul, map_pow,
+      Units.val_inv_eq_inv_val, map_inv₀, hu] using hA.additiveReduction
+
+/-- **Named translated-minimality consumer for the tame Tate algorithm.** In the additive branch,
+no choice of translation parameters can make all five coefficients integral after a further scale
+by `u⁻¹` with `v(u) < 1`.  This supplies the simultaneous coefficient obstruction, but not the
+blowup sequence, Kodaira classification, or marked-component incidence theorem. -/
+theorem tateAlgorithm_translatedCoefficientObstruction_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic]
+    (hA : W.HasAdditiveReduction R)
+    (u : Kˣ) (r s t : K)
+    (hu : valuation K (maximalIdeal R) (u : K) < 1) :
+    ¬ TranslatedWeightedCoefficientsIntegralAfterScale (R := R) W u r s t := by
+  letI : W.IsMinimal R := hA.toIsMinimal
+  exact tateAlgorithm_minimalityTranslatedCoefficientObstruction u r s t hu
+
 /-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
 minimal equation cannot have all five coefficients remain integral after a further weighted
 scaling by `u⁻¹` with `v(u) < 1`.  Completing the marked component theorem still requires the
