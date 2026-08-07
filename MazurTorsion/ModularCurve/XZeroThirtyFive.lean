@@ -126,39 +126,7 @@ no subgroup information at this squarefree level. -/
 theorem subgroup_five_sup_seven (x : RationalDatum K 35) :
     (forgetToFive x).subgroup.carrier ⊔
         (forgetToSeven x).subgroup.carrier = x.subgroup.carrier := by
-  let P : x.curve.toAffine.Point := x.subgroup.generator
-  have hfive : (forgetToFive x).subgroup.carrier =
-      AddSubgroup.zmultiples (7 • P) := by
-    unfold forgetToFive RationalDatum.forgetToDivisor
-      RationalDatum.datumOfRationalCyclicSubgroup
-    convert x.subgroup.divisorSubgroup_generator_carrier
-      5 five_dvd_thirtyFive using 1
-  have hseven : (forgetToSeven x).subgroup.carrier =
-      AddSubgroup.zmultiples (5 • P) := by
-    unfold forgetToSeven RationalDatum.forgetToDivisor
-      RationalDatum.datumOfRationalCyclicSubgroup
-    convert x.subgroup.divisorSubgroup_generator_carrier
-      7 seven_dvd_thirtyFive using 1
-  rw [hfive, hseven, ← x.subgroup.zmultiples_generator]
-  apply le_antisymm
-  · have hPmem : P ∈ AddSubgroup.zmultiples P :=
-      AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩
-    exact sup_le
-      (AddSubgroup.zmultiples_le_of_mem
-        ((AddSubgroup.zmultiples P).nsmul_mem hPmem 7))
-      (AddSubgroup.zmultiples_le_of_mem
-        ((AddSubgroup.zmultiples P).nsmul_mem hPmem 5))
-  · apply AddSubgroup.zmultiples_le_of_mem
-    let S : AddSubgroup x.curve.toAffine.Point :=
-      AddSubgroup.zmultiples (7 • P) ⊔ AddSubgroup.zmultiples (5 • P)
-    change P ∈ S
-    have hfiveMem : 7 • P ∈ S :=
-      AddSubgroup.mem_sup_left (AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩)
-    have hsevenMem : 5 • P ∈ S :=
-      AddSubgroup.mem_sup_right (AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩)
-    have hcombination : P = (3 : ℕ) • (5 • P) - (2 : ℕ) • (7 • P) := by
-      abel
-    rw [hcombination]
-    exact S.sub_mem (S.nsmul_mem hsevenMem 3) (S.nsmul_mem hfiveMem 2)
+  exact x.subgroup.divisorSubgroup_sup_of_coprime_mul
+    5 7 five_dvd_thirtyFive seven_dvd_thirtyFive (by norm_num) (by norm_num)
 
 end MazurTorsion.ModularCurve.XZeroThirtyFive

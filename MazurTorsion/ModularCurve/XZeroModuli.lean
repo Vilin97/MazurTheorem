@@ -282,6 +282,66 @@ theorem divisorSubgroup_generator_carrier (C : RationalCyclicSubgroup A N)
       divisorSubgroup_ofPoint_carrier
         (C.generator : A) C.addOrderOf_generator d hd
 
+/-- Coprime divisor-level subgroups whose orders multiply to the ambient
+cyclic order generate the whole subgroup. This is the group-theoretic core of
+the squarefree degeneracy map used at level 35. -/
+theorem divisorSubgroup_sup_of_coprime_mul
+    (C : RationalCyclicSubgroup A N)
+    (m n : ℕ) [NeZero m] [NeZero n]
+    (hm : m ∣ N) (hn : n ∣ N)
+    (hcoprime : m.Coprime n) (hmul : m * n = N) :
+    (C.divisorSubgroup m hm).carrier ⊔
+        (C.divisorSubgroup n hn).carrier = C.carrier := by
+  let P : A := C.generator
+  have hNm : N / m = n := by
+    rw [← hmul]
+    simpa [Nat.mul_comm] using Nat.mul_div_left n (NeZero.pos m)
+  have hNn : N / n = m := by
+    rw [← hmul, Nat.mul_comm]
+    simpa [Nat.mul_comm] using Nat.mul_div_left m (NeZero.pos n)
+  have hmCarrier : (C.divisorSubgroup m hm).carrier =
+      AddSubgroup.zmultiples (n • P) := by
+    rw [C.divisorSubgroup_generator_carrier m hm, hNm]
+  have hnCarrier : (C.divisorSubgroup n hn).carrier =
+      AddSubgroup.zmultiples (m • P) := by
+    rw [C.divisorSubgroup_generator_carrier n hn, hNn]
+  rw [hmCarrier, hnCarrier, ← C.zmultiples_generator]
+  apply le_antisymm
+  · have hPmem : P ∈ AddSubgroup.zmultiples P :=
+      AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩
+    exact sup_le
+      (AddSubgroup.zmultiples_le_of_mem
+        ((AddSubgroup.zmultiples P).nsmul_mem hPmem n))
+      (AddSubgroup.zmultiples_le_of_mem
+        ((AddSubgroup.zmultiples P).nsmul_mem hPmem m))
+  · apply AddSubgroup.zmultiples_le_of_mem
+    let S : AddSubgroup A :=
+      AddSubgroup.zmultiples (n • P) ⊔ AddSubgroup.zmultiples (m • P)
+    change P ∈ S
+    have hnMem : n • P ∈ S :=
+      AddSubgroup.mem_sup_left
+        (AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩)
+    have hmMem : m • P ∈ S :=
+      AddSubgroup.mem_sup_right
+        (AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp⟩)
+    have hbezout :
+        (m.gcdA n : ℤ) * m + (m.gcdB n : ℤ) * n = 1 := by
+      have h := Nat.gcd_eq_gcd_ab m n
+      rw [hcoprime] at h
+      simpa [mul_comm] using h.symm
+    have hcombination :
+        P = (m.gcdA n : ℤ) • (m • P) +
+          (m.gcdB n : ℤ) • (n • P) := by
+      calc
+        P = (1 : ℤ) • P := by simp
+        _ = ((m.gcdA n : ℤ) * m +
+              (m.gcdB n : ℤ) * n) • P := by rw [hbezout]
+        _ = (m.gcdA n : ℤ) • (m • P) +
+              (m.gcdB n : ℤ) • (n • P) := by
+          simp only [add_zsmul, mul_zsmul, natCast_zsmul]
+    rw [hcombination]
+    exact S.add_mem (S.zsmul_mem hmMem _) (S.zsmul_mem hnMem _)
+
 end RationalCyclicSubgroup
 
 universe v
