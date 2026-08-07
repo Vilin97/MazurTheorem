@@ -279,7 +279,7 @@ private theorem evalEval_polynomial_yChart_factorization
   B.coefficients.evalEval_polynomial_yChart_factorization X₁ Y P hϖ
 
 /-- The bundled coefficient quotient certifies that `a₄` lies in the maximal ideal. -/
-theorem a₄_mem_maximalIdeal (B : FirstBlowupEquationCharts W) :
+private theorem a₄_mem_maximalIdeal (B : FirstBlowupEquationCharts W) :
     W.a₄ ∈ IsLocalRing.maximalIdeal R := by
   rw [B.uniformizer_irreducible.maximalIdeal_eq,
     Ideal.mem_span_singleton, B.coefficients.a₄_eq]
