@@ -599,28 +599,271 @@ theorem seven_not_common_divisor
     hcoprime.isUnit_of_dvd' hm hn
   norm_num [Int.isUnit_iff] at hunit
 
+/-! ## Rational-root divisibility -/
+
+/-- The integer obtained by clearing the denominator of a rational root
+of the homogeneous cyclic cubic. -/
+private def rootNumeratorEquation (m n a b : ℤ) : ℤ :=
+  (m ^ 2 - n ^ 2) * a ^ 3 -
+    (m ^ 2 - 6 * m * n - 3 * n ^ 2) * a ^ 2 * b +
+    (-2 * m ^ 2 - 6 * m * n) * a * b ^ 2 +
+    (m ^ 2 - n ^ 2) * b ^ 3
+
+private lemma rootNumeratorEquation_eq_zero
+    (m n a b : ℤ) (hb : b ≠ 0)
+    (hroot :
+      homogeneousFiber (m : ℚ) (n : ℚ) ((a : ℚ) / (b : ℚ)) = 0) :
+    rootNumeratorEquation m n a b = 0 := by
+  simp only [homogeneousFiber] at hroot
+  field_simp [Int.cast_ne_zero.mpr hb] at hroot
+  have hcast :
+      (rootNumeratorEquation m n a b : ℚ) = 0 := by
+    simp only [rootNumeratorEquation, Int.cast_add, Int.cast_sub,
+      Int.cast_mul, Int.cast_pow, Int.cast_ofNat, Int.cast_neg]
+    linear_combination hroot
+  exact_mod_cast hcast
+
+private lemma root_num_dvd_leadingCoefficient
+    (m n a b : ℤ) (hab : IsCoprime a b)
+    (hroot : rootNumeratorEquation m n a b = 0) :
+    a ∣ m ^ 2 - n ^ 2 := by
+  have hdiv : a ∣ (m ^ 2 - n ^ 2) * b ^ 3 := by
+    refine ⟨
+      -(m ^ 2 - n ^ 2) * a ^ 2 +
+        (m ^ 2 - 6 * m * n - 3 * n ^ 2) * a * b -
+        (-2 * m ^ 2 - 6 * m * n) * b ^ 2,
+      ?_⟩
+    unfold rootNumeratorEquation at hroot
+    linear_combination hroot
+  exact hab.pow_right.dvd_of_dvd_mul_right hdiv
+
+private lemma root_den_dvd_leadingCoefficient
+    (m n a b : ℤ) (hab : IsCoprime a b)
+    (hroot : rootNumeratorEquation m n a b = 0) :
+    b ∣ m ^ 2 - n ^ 2 := by
+  have hdiv : b ∣ (m ^ 2 - n ^ 2) * a ^ 3 := by
+    refine ⟨
+      (m ^ 2 - 6 * m * n - 3 * n ^ 2) * a ^ 2 -
+        (-2 * m ^ 2 - 6 * m * n) * a * b -
+        (m ^ 2 - n ^ 2) * b ^ 2,
+      ?_⟩
+    unfold rootNumeratorEquation at hroot
+    linear_combination hroot
+  exact hab.symm.pow_right.dvd_of_dvd_mul_right hdiv
+
+private lemma root_difference_dvd_leadingCoefficient
+    (m n a b : ℤ) (hab : IsCoprime a b)
+    (hroot : rootNumeratorEquation m n a b = 0) :
+    a - b ∣ m ^ 2 - n ^ 2 := by
+  have hdifference : IsCoprime (a - b) b := by
+    simpa [sub_eq_add_neg, add_comm] using
+      (hab.add_mul_left_left (-1 : ℤ))
+  have hdiv : a - b ∣ (m ^ 2 - n ^ 2) * b ^ 3 := by
+    refine ⟨
+      a ^ 2 * m ^ 2 - a ^ 2 * n ^ 2 + 6 * a * b * m * n +
+        2 * a * b * n ^ 2 - 2 * b ^ 2 * m ^ 2 +
+        2 * b ^ 2 * n ^ 2,
+      ?_⟩
+    unfold rootNumeratorEquation at hroot
+    linear_combination -hroot
+  exact hdifference.pow_right.dvd_of_dvd_mul_right hdiv
+
+/-- If a primitive rational number `a/b` is a root of the homogeneous
+cyclic cubic, then the three pairwise-coprime cusp factors of its
+Möbius orbit divide the leading coefficient together. -/
+theorem root_orbit_product_dvd_leadingCoefficient
+    (m n a b : ℤ) (hab : IsCoprime a b)
+    (hroot :
+      homogeneousFiber (m : ℚ) (n : ℚ) ((a : ℚ) / (b : ℚ)) = 0)
+    (hb : b ≠ 0) :
+    a * b * (a - b) ∣ m ^ 2 - n ^ 2 := by
+  have hrootInt :=
+    rootNumeratorEquation_eq_zero m n a b hb hroot
+  have ha :=
+    root_num_dvd_leadingCoefficient m n a b hab hrootInt
+  have hbdiv :=
+    root_den_dvd_leadingCoefficient m n a b hab hrootInt
+  have hdifference :=
+    root_difference_dvd_leadingCoefficient m n a b hab hrootInt
+  have habDifference : IsCoprime (a * b) (a - b) := by
+    have haDifference : IsCoprime a (a - b) := by
+      simpa [sub_eq_add_neg, add_comm] using
+        (hab.add_mul_right_right (-1 : ℤ)).neg_right
+    have hbDifference : IsCoprime b (a - b) := by
+      simpa [sub_eq_add_neg] using
+        hab.symm.add_mul_right_right (-1 : ℤ)
+    exact haDifference.mul_left hbDifference
+  exact habDifference.mul_dvd (hab.mul_dvd ha hbdiv) hdifference
+
+private lemma invariantX_discriminant_factorization
+    (x : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1) :
+    invariantX x ^ 2 - 3 * invariantX x + 9 =
+      (x ^ 2 - x + 1) ^ 3 / (x ^ 2 * (x - 1) ^ 2) := by
+  have hxsub : x - 1 ≠ 0 := sub_ne_zero.mpr hx1
+  simp only [invariantX]
+  field_simp [hx0, hxsub]
+  ring
+
+/-- Equating the two presentations of the cyclic-cubic discriminant
+gives an integral norm equation for primitive quotient and root
+coordinates. -/
+theorem parameter_forms_mul_orbitNorm_sq
+    (m n a b : ℤ) (hn : n ≠ 0) (hb : b ≠ 0)
+    (ha : a ≠ 0) (hab : a ≠ b)
+    (ht : ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1)
+    (hU :
+      conicU ((m : ℚ) / (n : ℚ)) =
+        invariantX ((a : ℚ) / (b : ℚ))) :
+    firstParameterForm m n * piParameterForm m n *
+        (a * b * (a - b)) ^ 2 =
+      (m ^ 2 - n ^ 2) ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 := by
+  have hnq : (n : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hn
+  have hbq : (b : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hb
+  have hx0 : (a : ℚ) / (b : ℚ) ≠ 0 :=
+    div_ne_zero (Int.cast_ne_zero.mpr ha) hbq
+  have hx1 : (a : ℚ) / (b : ℚ) ≠ 1 := by
+    intro hx
+    have habq : (a : ℚ) = (b : ℚ) :=
+      (div_eq_one_iff_eq hbq).mp hx
+    exact hab (by exact_mod_cast habq)
+  have hparameterDenominator :
+      (m : ℚ) ^ 2 - (n : ℚ) ^ 2 ≠ 0 := by
+    intro hzero
+    apply ht
+    field_simp [hnq]
+    linear_combination hzero
+  have hrootDenominator : (a : ℚ) - (b : ℚ) ≠ 0 := by
+    exact sub_ne_zero.mpr (by exact_mod_cast hab)
+  have hparameter :=
+    fiber_discriminant_parameter_factorization
+      ((m : ℚ) / (n : ℚ)) ht
+  have hroot :=
+    invariantX_discriminant_factorization
+      ((a : ℚ) / (b : ℚ)) hx0 hx1
+  have heq :
+      ((((m : ℚ) / (n : ℚ)) ^ 2 + 3) *
+          (7 * ((m : ℚ) / (n : ℚ)) ^ 2 +
+            6 * ((m : ℚ) / (n : ℚ)) + 3) /
+        (((m : ℚ) / (n : ℚ)) ^ 2 - 1) ^ 2) =
+        ((((a : ℚ) / (b : ℚ)) ^ 2 -
+              (a : ℚ) / (b : ℚ) + 1) ^ 3 /
+          (((a : ℚ) / (b : ℚ)) ^ 2 *
+            ((a : ℚ) / (b : ℚ) - 1) ^ 2)) := by
+    rw [← hparameter, ← hroot, hU]
+  field_simp [hnq, hbq, hparameterDenominator,
+    hrootDenominator] at heq
+  have hcast :
+      ((firstParameterForm m n * piParameterForm m n *
+          (a * b * (a - b)) ^ 2 : ℤ) : ℚ) =
+        (((m ^ 2 - n ^ 2) ^ 2 *
+          (a ^ 2 - a * b + b ^ 2) ^ 3 : ℤ) : ℚ) := by
+    simp only [firstParameterForm, piParameterForm, Int.cast_mul,
+      Int.cast_pow, Int.cast_sub, Int.cast_add, Int.cast_ofNat]
+    linear_combination heq
+  exact_mod_cast hcast
+
+/-- After dividing by the nonzero product of the three cusp factors,
+the discriminant identity becomes a square times the cube of the
+Eisenstein orbit norm. -/
+theorem exists_root_leadingCoefficient_quotient
+    (m n a b : ℤ) (hn : n ≠ 0) (hb : b ≠ 0)
+    (ha : a ≠ 0) (hab : a ≠ b)
+    (ht : ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1)
+    (hU :
+      conicU ((m : ℚ) / (n : ℚ)) =
+        invariantX ((a : ℚ) / (b : ℚ)))
+    (hdvd : a * b * (a - b) ∣ m ^ 2 - n ^ 2) :
+    ∃ k : ℤ,
+      m ^ 2 - n ^ 2 = k * (a * b * (a - b)) ∧
+      firstParameterForm m n * piParameterForm m n =
+        k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 := by
+  obtain ⟨k, hk⟩ := hdvd
+  have hnorm :=
+    parameter_forms_mul_orbitNorm_sq
+      m n a b hn hb ha hab ht hU
+  have hproduct : a * b * (a - b) ≠ 0 :=
+    mul_ne_zero (mul_ne_zero ha hb) (sub_ne_zero.mpr hab)
+  refine ⟨k, by simpa [mul_comm] using hk, ?_⟩
+  apply mul_left_cancel₀ (pow_ne_zero 2 hproduct)
+  calc
+    (a * b * (a - b)) ^ 2 *
+          (firstParameterForm m n * piParameterForm m n) =
+        firstParameterForm m n * piParameterForm m n *
+          (a * b * (a - b)) ^ 2 := by ring
+    _ = (m ^ 2 - n ^ 2) ^ 2 *
+          (a ^ 2 - a * b + b ^ 2) ^ 3 := hnorm
+    _ = (a * b * (a - b)) ^ 2 *
+          (k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3) := by
+      rw [hk]
+      ring
+
 /-- The complete elementary descent package obtained here from a
-noncuspidal rational point: primitive homogeneous parameters, the
-homogeneous cubic equation, and the local exclusion of a simultaneous
-factor of `7` in its two Eisenstein norm factors. -/
+noncuspidal rational point.  Besides primitive quotient and root
+coordinates, it supplies the exact quotient of the cubic's leading
+coefficient by the three cusp factors and the resulting square-times-cube
+Eisenstein norm equation. -/
 theorem noncuspidal_curve_primitive_descent_data
     (x y : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1)
     (hcurve :
       y ^ 2 =
         MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
-    ∃ m n : ℤ,
+    ∃ m n a b k : ℤ,
       0 < n ∧
+      0 < b ∧
       IsCoprime m n ∧
+      IsCoprime a b ∧
+      (a : ℚ) / (b : ℚ) = x ∧
+      a ≠ 0 ∧
+      a ≠ b ∧
       ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1 ∧
-      conicU ((m : ℚ) / (n : ℚ)) = invariantX x ∧
+      conicU ((m : ℚ) / (n : ℚ)) =
+        invariantX ((a : ℚ) / (b : ℚ)) ∧
       conicV ((m : ℚ) / (n : ℚ)) = invariantY x y ∧
-      homogeneousFiber (m : ℚ) (n : ℚ) x = 0 ∧
+      homogeneousFiber (m : ℚ) (n : ℚ)
+          ((a : ℚ) / (b : ℚ)) = 0 ∧
+      m ^ 2 - n ^ 2 = k * (a * b * (a - b)) ∧
+      firstParameterForm m n * piParameterForm m n =
+        k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 ∧
       ¬((7 : ℤ) ∣ firstParameterForm m n ∧
         (7 : ℤ) ∣ piParameterForm m n) := by
   obtain ⟨m, n, hn, hcoprime, ht, hU, hV, hroot⟩ :=
     noncuspidal_curve_primitive_parameterization
       x y hx0 hx1 hcurve
-  exact ⟨m, n, hn, hcoprime, ht, hU, hV, hroot,
+  let a : ℤ := x.num
+  let b : ℤ := x.den
+  have hbpos : 0 < b := by
+    simpa [b] using (show (0 : ℤ) < (x.den : ℤ) by
+      exact_mod_cast x.den_pos)
+  have hb : b ≠ 0 := ne_of_gt hbpos
+  have habCoprime : IsCoprime a b := by
+    simpa [a, b] using Rat.isCoprime_num_den x
+  have hxrepr : (a : ℚ) / (b : ℚ) = x := by
+    simpa [a, b] using Rat.num_div_den x
+  have ha : a ≠ 0 := by
+    simpa [a] using (Rat.num_ne_zero.mpr hx0)
+  have hab : a ≠ b := by
+    intro heq
+    apply hx1
+    rw [← hxrepr, heq]
+    exact div_self (Int.cast_ne_zero.mpr hb)
+  have hUab :
+      conicU ((m : ℚ) / (n : ℚ)) =
+        invariantX ((a : ℚ) / (b : ℚ)) := by
+    rw [hxrepr]
+    exact hU
+  have hrootab :
+      homogeneousFiber (m : ℚ) (n : ℚ)
+          ((a : ℚ) / (b : ℚ)) = 0 := by
+    rw [hxrepr]
+    exact hroot
+  have hdvd :=
+    root_orbit_product_dvd_leadingCoefficient
+      m n a b habCoprime hrootab hb
+  obtain ⟨k, hk, hnorm⟩ :=
+    exists_root_leadingCoefficient_quotient
+      m n a b (ne_of_gt hn) hb ha hab ht hUab hdvd
+  exact ⟨m, n, a, b, k, hn, hbpos, hcoprime, habCoprime,
+    hxrepr, ha, hab, ht, hUab, hV, hrootab, hk, hnorm,
     seven_not_common_divisor m n hcoprime⟩
 
 end MazurTorsion.XOneEighteenDescent
