@@ -16,8 +16,10 @@ with a genuine monoid homomorphism on rational points, its zero and addition law
 cancelling the isomorphism.
 
 The final definitions feed this transported structure directly to the checked finite-flat
-`Gamma_0(N)` consumer.  No rational-point bijection is used to manufacture a scheme isomorphism:
-the scheme isomorphism and the multiplicative point comparison are explicit hypotheses.
+`Gamma_0(N)` consumer.  The file also transports finiteness of rational points from a concrete
+elliptic Weierstrass model across a supplied scheme isomorphism.  No rational-point bijection is
+used to manufacture a scheme isomorphism: the scheme isomorphism and the multiplicative point
+comparison are explicit hypotheses.
 -/
 
 noncomputable section
@@ -31,6 +33,34 @@ namespace WeierstrassProjectiveCubic
 universe u
 
 variable {K : Type u} [Field K]
+
+/-- Finiteness of the affine rational points of an elliptic Weierstrass model transfers to the
+rational points of any abelian variety whose underlying scheme is isomorphic to the concrete
+projective cubic.
+
+The proof uses the checked comparison between affine coordinates and scheme-valued points, then
+postcomposes with the supplied scheme isomorphism.  In particular, this theorem does not construct
+an isomorphism from point-set data. -/
+theorem rationalPoint_finite_of_iso
+    (W : WeierstrassCurve K) [W.IsElliptic]
+    (A : TauCeti.AlgebraicGeometry.AbelianVariety K)
+    (e : toOver W ≅ A.toOver)
+    (hfinite : Finite W.toAffine.Point) :
+    Finite (AbelianVarietyRationalPoint A) := by
+  classical
+  letI := hfinite
+  apply Finite.of_surjective
+    (fun P : W.toAffine.Point ↦
+      projectivePointOverMorphism W
+          ((WeierstrassCurve.Projective.Point.toAffineAddEquiv W).symm P) ≫
+        e.hom)
+  intro g
+  obtain ⟨P, hP⟩ :=
+    projectivePointOverMorphism_surjective W (g ≫ e.inv)
+  refine ⟨WeierstrassCurve.Projective.Point.toAffineAddEquiv W P, ?_⟩
+  simp only [AddEquiv.symm_apply_apply]
+  rw [hP]
+  simp
 
 /-- Transport the group-object structure of an abelian variety across a genuine isomorphism of
 schemes over the base field. -/
