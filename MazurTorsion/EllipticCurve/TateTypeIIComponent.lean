@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.EllipticCurve.NonsingularReductionVariableChange
 import MazurTorsion.EllipticCurve.TateFirstBlowup
 
 /-!
@@ -113,5 +113,43 @@ theorem twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b�
   rw [nonsingularReductionSubgroup_eq_top_of_firstBlowup_residue_b₆_ne_zero
     hW B h2 h3 hspecial hb₆]
   simp
+
+/-- The order-one component conclusion on an integrally normalized equation transports back to
+the original integral equation.  The point equivalence is oriented from the transformed generic
+fibre to the original one, so the normalized marked point is the inverse image of `P`. -/
+theorem twelve_nsmul_mem_nonsingularReductionSubgroup_of_integralVariableChange_firstBlowup
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    [CharZero K]
+    {v : HeightOneSpectrum R}
+    {W : WeierstrassCurve.Affine (v.adicCompletion K)}
+    {W₀ : WeierstrassCurve (v.adicCompletionIntegers K)}
+    (hW : W₀.map
+      (algebraMap (v.adicCompletionIntegers K) (v.adicCompletion K)) = W)
+    (C : WeierstrassCurve.VariableChange (v.adicCompletionIntegers K))
+    (hWC : (C • W₀).map
+      (algebraMap (v.adicCompletionIntegers K) (v.adicCompletion K)) =
+        C.map (algebraMap (v.adicCompletionIntegers K)
+          (v.adicCompletion K)) • W)
+    [W.IsElliptic] [DecidableEq (v.adicCompletion K)]
+    [(C • W₀).IsShortNF]
+    (B : FirstBlowupEquationCharts (C • W₀))
+    (h2 : (2 : ResidueField (v.adicCompletionIntegers K)) ≠ 0)
+    (h3 : (3 : ResidueField (v.adicCompletionIntegers K)) ≠ 0)
+    (hspecial : (C • W₀).map
+      (residue (v.adicCompletionIntegers K)) =
+        cuspidalShortCurve (ResidueField (v.adicCompletionIntegers K)))
+    (hb₆ : residue (v.adicCompletionIntegers K) B.coefficients.b₆ ≠ 0)
+    (P : W.Point) :
+    12 • P ∈ nonsingularReductionSubgroup hW
+      (nonsingularReduction_isAdditive hW) := by
+  apply (nsmul_equivVariableChange_symm_mem_nonsingularReductionSubgroup_iff
+    hW C hWC 12 P).mp
+  exact
+    twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₆_ne_zero
+      hWC B h2 h3 hspecial hb₆
+        ((Point.equivVariableChange W
+          (C.map (algebraMap (v.adicCompletionIntegers K)
+            (v.adicCompletion K)))).symm P)
 
 end MazurTorsion.EllipticCurve
