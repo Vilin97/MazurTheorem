@@ -21,7 +21,9 @@ The downstream theorem immediately feeds that formal immersion into the
 canonical nonsingular-reduction endpoint.  Thus the interface cannot be
 satisfied merely by a calculation on an unrelated pair of quotient rings:
 its stalk map is definitionally the map at the same cusp used in the Mazur
-collision.
+collision. The narrowest degree-one consumer also discharges the cuspidal
+special-fibre classification and leaves only `12 • P ∈ E₀` from component
+geometry.
 -/
 
 noncomputable section
@@ -267,5 +269,48 @@ theorem
       (hdegreeOne.isMappedIdealCotangentSurjective
         (f.stalkMap (closedFiberPointAtFive cuspSection)).hom I hI)
       hne hspecializes hquotient especial hcomponent P N hprime hN
+
+/-- The degree-one characteristic-five formal-immersion endpoint with the cuspidal special fibre
+classified and the full component-cardinality premise removed.
+
+The sole additive-fibre input is the marked assertion `12 • P ∈ E₀` on Mathlib's selected
+minimal five-adic equation. -/
+theorem
+    rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtFive cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtFive cuspSection))))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap (closedFiberPointAtFive cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtFive modularSection =
+        closedFiberPointAtFive cuspSection)
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (P : E.toAffine.Point)
+    (hcomponentExponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtFive E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E)))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N :=
+  rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive
+    (valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtFive
+      f modularSection cuspSection hresidue I hI hdegreeOne hne
+      hspecializes hquotient)
+    P hcomponentExponent N hprime hN
 
 end MazurTorsion.PrimeOrder

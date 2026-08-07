@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1479817,
+    "integrated_lean_lines": 1479862,
     "integrated_lean_modules": 778,
     "remaining_composite_orders": [
       18,
@@ -6183,7 +6183,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction at five or eleven. Finite cuspidal classification is now discharged in lane-specific completion and rational consumers, which require only 12 • P in the canonical nonsingular-reduction subgroup before reaching the checked F_5 contradiction. A compiled formal-immersion consumer carries the same marked point and premise. The represented modular/cusp data, genuine Neron identity-component identification, and marked-point component-exponent proof remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction at five or eleven. Finite cuspidal classification is now discharged in lane-specific completion and rational consumers, which require only 12 • P in the canonical nonsingular-reduction subgroup before reaching the checked F_5 contradiction. A compiled degree-one special-fibre formal-immersion consumer carries the same marked point and premise. The represented modular/cusp data, genuine Neron identity-component identification, and marked-point component-exponent proof remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6309,6 +6309,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionNeronAtFive",
           "description": "Join the prime formal-immersion collision to the classified cuspidal fibre while leaving only the marked component exponent explicit."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
+          "description": "Feed the actual degree-one cusp-stalk calculation through the classified cuspidal fibre while leaving only the marked exponent explicit."
         }
       ],
       "depends_on": [

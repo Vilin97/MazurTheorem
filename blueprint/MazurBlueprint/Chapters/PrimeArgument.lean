@@ -156,6 +156,8 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
@@ -171,7 +173,7 @@ explicit modular/cusp collision inputs and reaches the same `F₅` contradiction
 Its canonical nonsingular-reduction consumer fixes the actual minimal
 integral model, coordinate domain/map, and exact formal kernel, accepting no
 arbitrary identity subgroup or reduction homomorphism. Lane-specific
-completion, rational, and formal-immersion consumers now discharge the
+completion, rational, formal-immersion, and degree-one cusp-stalk consumers discharge the
 cuspidal special-locus classification and replace the full component-cardinality
 input by the marked statement `12 • P ∈ E₀`. The represented modular/cusp
 collision, genuine Néron identity-component identification, and marked-point

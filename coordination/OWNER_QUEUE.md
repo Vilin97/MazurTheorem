@@ -142,9 +142,11 @@ theorem-level consumer of the quotient API. A direct mapped-ideal endpoint now
 also infers every finiteness condition from local Noetherianity. Its stricter
 degree-one form records exactly a surjective quotient residue map, a
 one-dimensional target cotangent, and one detected source vector; the five-
-and eleven-adic consumers feed this data to the full local contradiction
-(`2f27a77`). Constructing that calculation from the represented modular
-special fibre and q-expansion remains open. The focused build and declaration
+and eleven-adic consumers now feed this data through the classified cuspidal
+fibres while retaining only the marked exponent `12 • P ∈ E₀` in the additive
+branch (`2f27a77` and the newest owner range). Constructing that calculation
+from the represented modular special fibre and q-expansion remains open. The
+focused build and declaration
 axiom audits pass with only standard axioms.
 
 The order-35 local path now uses Mathlib's selected minimal eleven-adic
