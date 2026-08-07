@@ -46,45 +46,72 @@ theorem card_cuspidalShortCurve_eleven :
     Fintype.card (cuspidalShortCurve (ZMod 11)).toAffine.Point = 11 := by
   decide
 
-private theorem short_eq_cuspidal_five
-    (W : WeierstrassCurve (ZMod 5)) [W.IsShortNF]
+private theorem short_eq_cuspidal
+    {F : Type*} [Field F] [Invertible (2 : F)] [Invertible (3 : F)]
+    (W : WeierstrassCurve F) [W.IsShortNF]
     (hΔ : W.Δ = 0) (hc₄ : W.c₄ = 0) :
-    W = cuspidalShortCurve (ZMod 5) := by
-  have hc₄' : (-48 : ZMod 5) * W.a₄ = 0 := by
+    W = cuspidalShortCurve F := by
+  have h2 : (2 : F) ≠ 0 := (isUnit_of_invertible (2 : F)).ne_zero
+  have h3 : (3 : F) ≠ 0 := (isUnit_of_invertible (3 : F)).ne_zero
+  have h48 : (-48 : F) ≠ 0 := by
+    rw [show (-48 : F) = -1 * 2 ^ 4 * 3 by norm_num]
+    exact mul_ne_zero (mul_ne_zero (neg_ne_zero.mpr one_ne_zero) (pow_ne_zero 4 h2)) h3
+  have hc₄' : (-48 : F) * W.a₄ = 0 := by
     rw [← W.c₄_of_isShortNF]
     exact hc₄
   have ha₄ : W.a₄ = 0 :=
-    (mul_eq_zero.mp hc₄').resolve_left (by decide)
-  have hΔ' : (-16 : ZMod 5) * (4 * W.a₄ ^ 3 + 27 * W.a₆ ^ 2) = 0 := by
+    (mul_eq_zero.mp hc₄').resolve_left h48
+  have h16 : (-16 : F) ≠ 0 := by
+    rw [show (-16 : F) = -1 * 2 ^ 4 by norm_num]
+    exact mul_ne_zero (neg_ne_zero.mpr one_ne_zero) (pow_ne_zero 4 h2)
+  have h27 : (27 : F) ≠ 0 := by
+    rw [show (27 : F) = 3 ^ 3 by norm_num]
+    exact pow_ne_zero 3 h3
+  have hΔ' : (-16 : F) * (4 * W.a₄ ^ 3 + 27 * W.a₆ ^ 2) = 0 := by
     rw [← W.Δ_of_isShortNF]
     exact hΔ
-  have hinner : (4 : ZMod 5) * W.a₄ ^ 3 + 27 * W.a₆ ^ 2 = 0 :=
-    (mul_eq_zero.mp hΔ').resolve_left (by decide)
+  have hinner : (4 : F) * W.a₄ ^ 3 + 27 * W.a₆ ^ 2 = 0 :=
+    (mul_eq_zero.mp hΔ').resolve_left h16
   rw [ha₄, zero_pow (by decide), mul_zero, zero_add] at hinner
   have ha₆sq : W.a₆ ^ 2 = 0 :=
-    (mul_eq_zero.mp hinner).resolve_left (by decide)
+    (mul_eq_zero.mp hinner).resolve_left h27
   have ha₆ : W.a₆ = 0 := sq_eq_zero_iff.mp ha₆sq
   ext <;> simp [cuspidalShortCurve, ha₄, ha₆]
 
-private theorem short_eq_cuspidal_eleven
-    (W : WeierstrassCurve (ZMod 11)) [W.IsShortNF]
+/-- A Weierstrass cubic with vanishing discriminant and `c₄` has an affine singular point
+whenever two and three are nonzero in the ground field.  The proof normalizes to the standard
+cusp and transports its origin back through the admissible variable change. -/
+theorem exists_affine_singular_of_cuspidal
+    {F : Type*} [Field F]
+    (W : WeierstrassCurve F) (h2 : (2 : F) ≠ 0) (h3 : (3 : F) ≠ 0)
     (hΔ : W.Δ = 0) (hc₄ : W.c₄ = 0) :
-    W = cuspidalShortCurve (ZMod 11) := by
-  have hc₄' : (-48 : ZMod 11) * W.a₄ = 0 := by
-    rw [← W.c₄_of_isShortNF]
-    exact hc₄
-  have ha₄ : W.a₄ = 0 :=
-    (mul_eq_zero.mp hc₄').resolve_left (by decide)
-  have hΔ' : (-16 : ZMod 11) * (4 * W.a₄ ^ 3 + 27 * W.a₆ ^ 2) = 0 := by
-    rw [← W.Δ_of_isShortNF]
-    exact hΔ
-  have hinner : (4 : ZMod 11) * W.a₄ ^ 3 + 27 * W.a₆ ^ 2 = 0 :=
-    (mul_eq_zero.mp hΔ').resolve_left (by decide)
-  rw [ha₄, zero_pow (by decide), mul_zero, zero_add] at hinner
-  have ha₆sq : W.a₆ ^ 2 = 0 :=
-    (mul_eq_zero.mp hinner).resolve_left (by decide)
-  have ha₆ : W.a₆ = 0 := sq_eq_zero_iff.mp ha₆sq
-  ext <;> simp [cuspidalShortCurve, ha₄, ha₆]
+    ∃ x y : F, W.toAffine.Equation x y ∧ ¬ W.toAffine.Nonsingular x y := by
+  letI : Invertible (2 : F) := invertibleOfNonzero h2
+  letI : Invertible (3 : F) := invertibleOfNonzero h3
+  let C : WeierstrassCurve.VariableChange F := W.toShortNF
+  let Wshort : WeierstrassCurve F := C • W
+  haveI : Wshort.IsShortNF := by
+    dsimp only [Wshort, C]
+    infer_instance
+  have hΔshort : Wshort.Δ = 0 := by
+    change (C • W).Δ = 0
+    rw [variableChange_Δ, hΔ, mul_zero]
+  have hc₄short : Wshort.c₄ = 0 := by
+    change (C • W).c₄ = 0
+    rw [variableChange_c₄, hc₄, mul_zero]
+  have hshort : Wshort = cuspidalShortCurve F :=
+    short_eq_cuspidal Wshort hΔshort hc₄short
+  have hequation : Wshort.toAffine.Equation 0 0 := by
+    rw [hshort]
+    simp [cuspidalShortCurve]
+  have hsingular : ¬ Wshort.toAffine.Nonsingular 0 0 := by
+    rw [hshort]
+    simp [cuspidalShortCurve]
+  refine ⟨C.r, C.t, ?_, ?_⟩
+  · simpa [Wshort] using (variableChange_equation W C 0 0).mpr hequation
+  · intro h
+    apply hsingular
+    exact (variableChange_nonsingular W C 0 0).mp (by simpa using h)
 
 /-- A Weierstrass cubic over `F₅` with vanishing discriminant and `c₄` has exactly five
 nonsingular projective points. -/
@@ -105,7 +132,7 @@ theorem natCard_point_eq_five_of_cuspidal
     change (C • W).c₄ = 0
     rw [variableChange_c₄, hc₄, mul_zero]
   have hshort : Wshort = cuspidalShortCurve (ZMod 5) :=
-    short_eq_cuspidal_five Wshort hΔshort hc₄short
+    short_eq_cuspidal Wshort hΔshort hc₄short
   calc
     Nat.card W.toAffine.Point = Nat.card Wshort.toAffine.Point :=
       Nat.card_congr (Point.equivVariableChange W C).symm.toEquiv
@@ -134,7 +161,7 @@ theorem natCard_point_eq_eleven_of_cuspidal
     change (C • W).c₄ = 0
     rw [variableChange_c₄, hc₄, mul_zero]
   have hshort : Wshort = cuspidalShortCurve (ZMod 11) :=
-    short_eq_cuspidal_eleven Wshort hΔshort hc₄short
+    short_eq_cuspidal Wshort hΔshort hc₄short
   calc
     Nat.card W.toAffine.Point = Nat.card Wshort.toAffine.Point :=
       Nat.card_congr (Point.equivVariableChange W C).symm.toEquiv
