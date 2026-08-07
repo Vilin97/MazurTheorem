@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.EllipticCurve.CuspidalReduction
 import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic
 import Mathlib.AlgebraicGeometry.EllipticCurve.NormalForms
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
@@ -183,6 +184,66 @@ theorem a₆_mem_maximalIdeal_sq_of_short_equation
   rw [ha6eq]
   exact Ideal.sub_mem _ (Ideal.sub_mem _ hy2 hx3) ha4x
 
+/-- Away from its affine origin, the standard cusp is nonsingular in characteristics different
+from two and three. -/
+private theorem cusp_nonsingular_aux
+    {F : Type*} [Field F] [Invertible (2 : F)] [Invertible (3 : F)]
+    {x y : F}
+    (heq : (cuspidalShortCurve F).toAffine.Equation x y)
+    (hne : x ≠ 0 ∨ y ≠ 0) :
+    (cuspidalShortCurve F).toAffine.Nonsingular x y := by
+  rw [WeierstrassCurve.Affine.nonsingular_iff]
+  refine ⟨heq, ?_⟩
+  rcases hne with hx | hy
+  · left
+    simpa [cuspidalShortCurve] using
+      (mul_ne_zero (isUnit_of_invertible (3 : F)).ne_zero
+        (pow_ne_zero 2 hx)).symm
+  · right
+    simp only [cuspidalShortCurve, zero_mul, sub_zero]
+    intro h
+    apply hy
+    have h2 : (2 : F) ≠ 0 := (isUnit_of_invertible (2 : F)).ne_zero
+    apply (mul_eq_zero.mp ?_).resolve_left h2
+    linear_combination h
+
+/-- **Order-one specialization endpoint.**  Let an integral short equation have standard
+cuspidal special fibre.  If `a₄ ∈ 𝔪` and `a₆ ∉ 𝔪²`, then every integral affine point specializes
+to a nonsingular point of the special fibre.
+
+Indeed, simultaneous reduction of both coordinates to zero would force `a₆ ∈ 𝔪²` by the short
+Weierstrass equation, while every other point of the standard cusp is nonsingular. -/
+theorem nonsingular_reduction_of_short_equation_of_a₆_not_mem_maximalIdeal_sq
+    [IsLocalRing R]
+    (W : WeierstrassCurve R) [W.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0)
+    (hspecial : W.map (IsLocalRing.residue R) =
+      cuspidalShortCurve (IsLocalRing.ResidueField R))
+    (ha₄ : W.a₄ ∈ IsLocalRing.maximalIdeal R)
+    (ha₆ : W.a₆ ∉ IsLocalRing.maximalIdeal R ^ 2)
+    {x y : R} (heq : W.toAffine.Equation x y) :
+    (W.map (IsLocalRing.residue R)).toAffine.Nonsingular
+      (IsLocalRing.residue R x) (IsLocalRing.residue R y) := by
+  have heqmap := WeierstrassCurve.Affine.Equation.map
+    (IsLocalRing.residue R) heq
+  change (W.map (IsLocalRing.residue R)).toAffine.Equation
+    (IsLocalRing.residue R x) (IsLocalRing.residue R y) at heqmap
+  have hne : IsLocalRing.residue R x ≠ 0 ∨
+      IsLocalRing.residue R y ≠ 0 := by
+    by_contra h
+    have hnot := not_or.mp h
+    have hx0 : IsLocalRing.residue R x = 0 := not_ne_iff.mp hnot.1
+    have hy0 : IsLocalRing.residue R y = 0 := not_ne_iff.mp hnot.2
+    apply ha₆
+    exact a₆_mem_maximalIdeal_sq_of_short_equation W ha₄ heq
+      ((IsLocalRing.residue_eq_zero_iff x).mp hx0)
+      ((IsLocalRing.residue_eq_zero_iff y).mp hy0)
+  letI : Invertible (2 : IsLocalRing.ResidueField R) := invertibleOfNonzero h2
+  letI : Invertible (3 : IsLocalRing.ResidueField R) := invertibleOfNonzero h3
+  rw [hspecial] at heqmap ⊢
+  exact cusp_nonsingular_aux heqmap hne
+
 /-- The three affine one-factor equation quotients attached to a choice of DVR uniformizer. -/
 structure FirstBlowupEquationCharts
     (W : WeierstrassCurve R) [IsDomain R] [IsDiscreteValuationRing R] where
@@ -245,6 +306,22 @@ theorem not_both_mem_maximalIdeal_of_residue_b₆_ne_zero
   exact (B.residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq.mp hb₆)
     (a₆_mem_maximalIdeal_sq_of_short_equation W B.a₄_mem_maximalIdeal
       heq hxy.1 hxy.2)
+
+/-- In the order-one `b₆ ≠ 0` branch, every integral affine point on the bundled short equation
+specializes to a nonsingular point of its standard cuspidal special fibre. -/
+theorem nonsingular_reduction_of_equation_of_residue_b₆_ne_zero
+    (B : FirstBlowupEquationCharts W) [W.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0)
+    (hspecial : W.map (IsLocalRing.residue R) =
+      cuspidalShortCurve (IsLocalRing.ResidueField R))
+    {x y : R} (heq : W.toAffine.Equation x y)
+    (hb₆ : IsLocalRing.residue R B.coefficients.b₆ ≠ 0) :
+    (W.map (IsLocalRing.residue R)).toAffine.Nonsingular
+      (IsLocalRing.residue R x) (IsLocalRing.residue R y) :=
+  nonsingular_reduction_of_short_equation_of_a₆_not_mem_maximalIdeal_sq
+    W h2 h3 hspecial B.a₄_mem_maximalIdeal
+      (B.residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq.mp hb₆) heq
 
 end FirstBlowupEquationCharts
 
