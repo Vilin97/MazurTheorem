@@ -41,6 +41,97 @@ theorem map_eq_zero_of_addOrderOf_eq_of_coprime_card
     simpa [hcoprime.gcd_eq_one] using hdvdGcd
   exact AddMonoid.addOrderOf_eq_one_iff.mp hone
 
+/-- The marked-point part of the tame Kodaira component classification.
+
+This predicate deliberately records the order of one point in the *actual* quotient by the
+specified identity subgroup.  It is strictly narrower than finiteness or a cardinality bound for
+the whole component quotient.  For a minimal elliptic equation with additive reduction in tame
+residue characteristic, the missing geometric input is that this predicate holds with bound four
+for the canonical nonsingular-reduction subgroup. -/
+def MarkedComponentOrderAtMost
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G) (bound : ℕ) (P : G) : Prop :=
+  let component : G →+ G ⧸ identitySubgroup := QuotientAddGroup.mk' identitySubgroup
+  IsOfFinAddOrder (component P) ∧ addOrderOf (component P) ≤ bound
+
+/-- The marked component-order predicate is equivalent to a completely pointwise certificate:
+some positive multiplier up to the bound sends the marked point into the identity subgroup.  This
+is a useful target for a Tate-algorithm proof because it mentions neither finiteness nor the
+cardinality of the ambient quotient. -/
+theorem markedComponentOrderAtMost_iff_exists_nsmul_mem
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G) (bound : ℕ) (P : G) :
+    MarkedComponentOrderAtMost identitySubgroup bound P ↔
+      ∃ n : ℕ, 0 < n ∧ n ≤ bound ∧ n • P ∈ identitySubgroup := by
+  let component : G →+ G ⧸ identitySubgroup :=
+    QuotientAddGroup.mk' identitySubgroup
+  constructor
+  · intro hP
+    refine ⟨addOrderOf (component P), addOrderOf_pos_iff.mpr hP.1, hP.2, ?_⟩
+    have hzero : addOrderOf (component P) • component P = 0 :=
+      addOrderOf_nsmul_eq_zero (component P)
+    rw [← component.map_nsmul] at hzero
+    exact (QuotientAddGroup.eq_zero_iff _).mp hzero
+  · rintro ⟨n, hn, hnle, hnmem⟩
+    have hzero : n • component P = 0 := by
+      rw [← component.map_nsmul]
+      exact (QuotientAddGroup.eq_zero_iff _).mpr hnmem
+    exact ⟨isOfFinAddOrder_iff_nsmul_eq_zero.mpr ⟨n, hn, hzero⟩,
+      addOrderOf_le_of_nsmul_eq_zero hn hzero |>.trans hnle⟩
+
+/-- A marked component class of finite order at most four is killed by the uniform tame exponent
+`12`.  This is the exact group-theoretic passage from the pointwise Kodaira assertion to the
+canonical identity subgroup; it does not construct or count the full component quotient. -/
+theorem twelve_nsmul_mem_of_markedComponentOrderAtMostFour
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G) (P : G)
+    (hP : MarkedComponentOrderAtMost identitySubgroup 4 P) :
+    12 • P ∈ identitySubgroup := by
+  let component : G →+ G ⧸ identitySubgroup :=
+    QuotientAddGroup.mk' identitySubgroup
+  have hpositive : 0 < addOrderOf (component P) :=
+    addOrderOf_pos_iff.mpr hP.1
+  have hle : addOrderOf (component P) ≤ 4 := hP.2
+  have hcases : addOrderOf (component P) = 1 ∨
+      addOrderOf (component P) = 2 ∨
+      addOrderOf (component P) = 3 ∨
+      addOrderOf (component P) = 4 := by
+    omega
+  have hdiv : addOrderOf (component P) ∣ 12 := by
+    rcases hcases with h | h | h | h <;> simp [h]
+  have hzero : 12 • component P = 0 :=
+    addOrderOf_dvd_iff_nsmul_eq_zero.mp hdiv
+  rw [← component.map_nsmul] at hzero
+  exact (QuotientAddGroup.eq_zero_iff (12 • P)).mp hzero
+
+/-- A cardinality bound for the full component quotient implies the narrower marked-order
+certificate.  This lemma is an explicit fallback for callers that already possess the stronger
+Néron component theorem; the marked-point consumers do not otherwise require such a bound. -/
+theorem markedComponentOrderAtMost_of_quotient_card_le
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G)
+    [Finite (G ⧸ identitySubgroup)]
+    (bound : ℕ) (hcard : Nat.card (G ⧸ identitySubgroup) ≤ bound)
+    (P : G) :
+    MarkedComponentOrderAtMost identitySubgroup bound P := by
+  let component : G →+ G ⧸ identitySubgroup :=
+    QuotientAddGroup.mk' identitySubgroup
+  exact ⟨isOfFinAddOrder_of_finite (component P),
+    (addOrderOf_le_card (x := component P)).trans hcard⟩
+
+/-- The traditional full component-cardinality bound therefore gives the uniform marked
+exponent.  Keeping this bridge separate makes the extra strength of that fallback visible in
+downstream theorem signatures. -/
+theorem twelve_nsmul_mem_of_quotient_card_le_four
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G)
+    [Finite (G ⧸ identitySubgroup)]
+    (hcard : Nat.card (G ⧸ identitySubgroup) ≤ 4)
+    (P : G) :
+    12 • P ∈ identitySubgroup :=
+  twelve_nsmul_mem_of_markedComponentOrderAtMostFour identitySubgroup P
+    (markedComponentOrderAtMost_of_quotient_card_le identitySubgroup 4 hcard P)
+
 /-- A component-cardinality bound is stronger than the local torsion argument needs.  It is
 enough to know that one integer coprime to the marked order sends the marked point into the
 identity subgroup.  Reduction there, followed by the torsion-free formal kernel, then kills the
