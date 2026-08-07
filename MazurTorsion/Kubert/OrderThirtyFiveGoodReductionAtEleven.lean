@@ -111,6 +111,48 @@ theorem minimalCompletionAtEleven_tateAlgorithm_residueTranslation_of_singularPo
       W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
   exact tateAlgorithm_residueTranslation_of_singularPoint hA x y hequation hsingular
 
+/-- Additive reduction on the selected eleven-adic minimal equation constructs its affine
+singular residue point and the corresponding integral translation, with no coordinate choice
+left to the order-35 caller. -/
+theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueTranslation
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)) :
+    ∃ x y : IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ),
+      let W' := residueTranslatedIntegralModel
+        (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ)
+        (minimalCompletionAtEleven E) x 0 y
+      (genericResidueTranslation
+          (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ) x 0 y •
+        minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₃ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
+  let e₁₁ : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
+    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueElevenAlgEquiv.toRingEquiv
+  have h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (2 : ZMod 11) ≠ 0)
+    calc
+      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  have h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (3 : ZMod 11) ≠ 0)
+    calc
+      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  exact tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction hA h2 h3
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j

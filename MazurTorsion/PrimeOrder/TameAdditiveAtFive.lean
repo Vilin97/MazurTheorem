@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
@@ -117,6 +118,29 @@ theorem tateAlgorithm_residueTranslation_of_singularPoint
     residueTranslatedIntegralModel_a₃_a₄_a₆_mem_maximalIdeal_of_singular
       R K W x y hequation hsingular
   simpa [C] using And.intro hAdditive hcoeff
+
+/-- **Constructed first Tate step.** In residue characteristic different from two and three,
+additive reduction itself supplies the affine singular point used by the preceding translation
+theorem.  Thus the caller need not choose residue coordinates: normalization to the standard
+cusp produces them, and their integral lifts give an additive translated equation with `a₃`,
+`a₄`, and `a₆` in the maximal ideal. -/
+theorem tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hA : W.HasAdditiveReduction R)
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0) :
+    ∃ x y : IsLocalRing.ResidueField R,
+      let W' := residueTranslatedIntegralModel R K W x 0 y
+      (genericResidueTranslation R K x 0 y • W).HasAdditiveReduction R ∧
+        W'.a₃ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal R := by
+  obtain ⟨x, y, hequation, hsingular⟩ := exists_affine_singular_of_cuspidal
+    (W.reduction R) h2 h3
+      (reduction_Δ_eq_zero_of_hasAdditiveReduction hA)
+      (reduction_c₄_eq_zero_of_hasAdditiveReduction hA)
+  exact ⟨x, y,
+    tateAlgorithm_residueTranslation_of_singularPoint hA x y hequation hsingular⟩
 
 /-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
 minimal equation cannot have all five coefficients remain integral after a further weighted
