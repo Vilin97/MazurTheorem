@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
-import MazurTorsion.EllipticCurve.TateTypeIIComponent
+import MazurTorsion.EllipticCurve.TateTypeIIIComponent
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
@@ -574,6 +574,41 @@ theorem addOrderOf_ne_prime_ge_eleven_of_firstBlowup_residue_b₆_ne_zeroAtFive
   · exact
       twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₆_ne_zero
         hW B h2 h3 hspecial hb₆ P
+  · exact hprime
+  · exact hN
+
+/-- In the next coefficient branch at five, the checked tangent calculation puts the double of
+every local point in canonical nonsingular reduction.  Hence the same exponent-twelve consumer
+excludes every marked prime order at least eleven. -/
+theorem addOrderOf_ne_prime_ge_eleven_of_firstBlowup_residue_b₄_ne_zeroAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (B : FirstBlowupEquationCharts W₀)
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (hb₄ : IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)
+      B.coefficients.b₄ ≠ 0)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (P : W.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  apply
+    addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+      hW especial P
+  · exact
+      twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₄_ne_zero
+        hW B h2 h3 hspecial hb₄ P
   · exact hprime
   · exact hN
 

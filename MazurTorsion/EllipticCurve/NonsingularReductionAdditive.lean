@@ -372,7 +372,10 @@ private theorem sub_mem_filtration_of_slope
   norm_num
 
 include hW in
-private theorem add_self_mem_filtration_of_slope
+/-- An affine point with integral abscissa whose tangent slope has a pole of order at least one
+doubles into the formal kernel.  This valuation-only statement is useful for the marked-point
+branches of Tate's algorithm and does not assume that the source has nonsingular reduction. -/
+theorem add_self_mem_filtration_of_slope
     {x₀ y₀ : v.adicCompletion K}
     (h₀ : W.Nonsingular x₀ y₀) (hx₀ : Valued.v x₀ ≤ 1)
     (hψ : y₀ ≠ W.negY x₀ y₀)

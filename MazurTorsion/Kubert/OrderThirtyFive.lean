@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
-import MazurTorsion.EllipticCurve.TateTypeIIComponent
+import MazurTorsion.EllipticCurve.TateTypeIIIComponent
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -239,5 +239,36 @@ theorem addOrderOf_ne_thirtyFive_of_firstBlowup_residue_b₆_ne_zeroAtEleven
   exact
     twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₆_ne_zero
       hW B h2 h3 hspecial hb₆ P
+
+/-- In the next coefficient branch at eleven, the tangent calculation puts the marked double in
+canonical nonsingular reduction.  The established exponent-twelve endpoint therefore excludes
+exact order thirty-five. -/
+theorem addOrderOf_ne_thirtyFive_of_firstBlowup_residue_b₄_ne_zeroAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (B : FirstBlowupEquationCharts W₀)
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (hb₄ : IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)
+      B.coefficients.b₄ ≠ 0)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (P : W.Point) : addOrderOf P ≠ 35 := by
+  apply addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+    hW especial P
+  exact
+    twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₄_ne_zero
+      hW B h2 h3 hspecial hb₄ P
 
 end MazurTorsion.OrderThirtyFive

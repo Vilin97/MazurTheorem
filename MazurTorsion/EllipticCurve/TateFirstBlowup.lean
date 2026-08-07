@@ -151,6 +151,23 @@ theorem residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq
   exact (IsLocalRing.residue_ne_zero_iff_isUnit D.b₆).trans
     IsLocalRing.notMem_maximalIdeal.symm
 
+/-- The exceptional restriction `b₄` is nonzero precisely when
+`a₄ ∈ 𝔪 \ 𝔪²`.  This is the coefficient split used after the order-one
+`b₆` branch has been excluded. -/
+theorem residue_b₄_ne_zero_iff_a₄_not_mem_maximalIdeal_sq
+    [IsDomain R] [IsDiscreteValuationRing R]
+    (hϖ : Irreducible ϖ) (D : FirstBlowupCoefficientData W ϖ) :
+    IsLocalRing.residue R D.b₄ ≠ 0 ↔
+      W.a₄ ∉ IsLocalRing.maximalIdeal R ^ 2 := by
+  have hsquare : W.a₄ ∈ IsLocalRing.maximalIdeal R ^ 2 ↔
+      D.b₄ ∈ IsLocalRing.maximalIdeal R := by
+    rw [hϖ.maximalIdeal_eq, Ideal.span_singleton_pow,
+      Ideal.mem_span_singleton, Ideal.mem_span_singleton, D.a₄_eq, pow_two,
+      mul_dvd_mul_iff_left hϖ.ne_zero]
+  rw [not_congr hsquare]
+  exact (IsLocalRing.residue_ne_zero_iff_isUnit D.b₄).trans
+    IsLocalRing.notMem_maximalIdeal.symm
+
 end FirstBlowupCoefficientData
 
 /-- On an integral short equation, a point whose two affine coordinates reduce to the cusp forces
@@ -206,6 +223,16 @@ private theorem cusp_nonsingular_aux
     have h2 : (2 : F) ≠ 0 := (isUnit_of_invertible (2 : F)).ne_zero
     apply (mul_eq_zero.mp ?_).resolve_left h2
     linear_combination h
+
+/-- Every affine point of the standard cusp away from its origin is nonsingular when two and
+three are invertible. -/
+theorem cuspidalShortCurve_nonsingular_of_ne_origin
+    {F : Type*} [Field F] [Invertible (2 : F)] [Invertible (3 : F)]
+    {x y : F}
+    (heq : (cuspidalShortCurve F).toAffine.Equation x y)
+    (hne : x ≠ 0 ∨ y ≠ 0) :
+    (cuspidalShortCurve F).toAffine.Nonsingular x y :=
+  cusp_nonsingular_aux heq hne
 
 /-- **Order-one specialization endpoint.**  Let an integral short equation have standard
 cuspidal special fibre.  If `a₄ ∈ 𝔪` and `a₆ ∉ 𝔪²`, then every integral affine point specializes
@@ -292,6 +319,15 @@ theorem residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq
     IsLocalRing.residue R B.coefficients.b₆ ≠ 0 ↔
       W.a₆ ∉ IsLocalRing.maximalIdeal R ^ 2 :=
   B.coefficients.residue_b₆_ne_zero_iff_a₆_not_mem_maximalIdeal_sq
+    B.uniformizer_irreducible
+
+/-- For bundled first-blowup data, nonvanishing of the exceptional `b₄` is exactly failure of
+`a₄` to lie in the square of the maximal ideal. -/
+theorem residue_b₄_ne_zero_iff_a₄_not_mem_maximalIdeal_sq
+    (B : FirstBlowupEquationCharts W) :
+    IsLocalRing.residue R B.coefficients.b₄ ≠ 0 ↔
+      W.a₄ ∉ IsLocalRing.maximalIdeal R ^ 2 :=
+  B.coefficients.residue_b₄_ne_zero_iff_a₄_not_mem_maximalIdeal_sq
     B.uniformizer_irreducible
 
 /-- In the order-one `b₆ ≠ 0` branch, an integral point on a short equation cannot have both
