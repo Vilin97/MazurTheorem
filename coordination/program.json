@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1482000,
-    "integrated_lean_modules": 783,
+    "integrated_lean_lines": 1482801,
+    "integrated_lean_modules": 785,
     "remaining_composite_orders": [
       18,
       25,
@@ -3348,7 +3348,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The exact opening Tate-algorithm inputs now compile: integral j gives the c4/discriminant valuation inequality, every integral valuation-unit coordinate change preserves minimality, and no arbitrary translation followed by a scale of valuation below one can leave all five transformed coefficients integral. A full quotient-cardinality bound remains only a stronger fallback. Constructing the residue translations, performing the blowups and tame Kodaira case split, proving the marked-class theorem for the selected minimal equations, and identifying the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The exact opening Tate-algorithm inputs now compile: integral j gives the c4/discriminant valuation inequality, every integral valuation-unit coordinate change preserves minimality, and no arbitrary translation followed by a scale of valuation below one can leave all five transformed coefficients integral. Additive reduction now constructs its singular residue point, lifts the unit-scale translation, and then lifts the full short-normal-form change so that the displayed integral model has special fibre Y²=X³ and all five coefficients in the maximal ideal, with selected consumers at five and eleven. A full quotient-cardinality bound remains only a stronger fallback. Performing the blowups and tame Kodaira case split, proving the marked-class theorem for the selected minimal equations, and identifying the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3556,6 +3556,41 @@
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.MinimalModelScaling",
           "description": "Give the simultaneous translated-coefficient obstruction consumed before the Tate blowup and Kodaira case split."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.exists_affine_singular_of_cuspidal",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.CuspidalReduction",
+          "description": "Construct the affine singular point of every cubic with vanishing discriminant and c4 in residue characteristic different from two and three."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Construct the singular-point translation directly from additive reduction in tame residue characteristic."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Lift the complete residue short-normal-form change, preserve the additive branch, identify the special fibre with Y²=X³, and put all five coefficients in the maximal ideal."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Instantiate the checked full residue normalization on Mathlib's selected five-adic minimal equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Instantiate the checked full residue normalization on Mathlib's selected eleven-adic minimal equation."
         },
         {
           "kind": "definition",
@@ -5490,7 +5525,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is proved natural under ambient algebra maps, and the ambient localized map is identified with the actual stalk map of Spec.map under canonical affine stalk equivalences. A principal cusp maximal ideal generated by q with q nonzero modulo its square now supplies the degree-one cotangent dimension, and an actual localized first-order identity with unit q coefficient constructs the detected vector and proves formal immersion of Spec.map. The actual integral modular cusp section, modular affine presentation, its generator and non-square proofs, the two residue surjections, and the genuine optimal-quotient q-expansion identity remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is proved natural under ambient algebra maps, and the ambient localized map is identified with the actual stalk map of Spec.map under canonical affine stalk equivalences. A principal cusp maximal ideal generated by q with q nonzero modulo its square now supplies the degree-one cotangent dimension, and an actual localized first-order identity with unit q coefficient constructs the detected vector and proves formal immersion of Spec.map. Selected arithmetic consumers at five and eleven pin that affine point to the integral cusp specialization and carry the genuine Spec.map formal immersion through the collision and marked component-exponent-twelve endpoints. The actual integral modular cusp section, modular affine presentation, its generator and non-square proofs, the two residue surjections, and the genuine optimal-quotient q-expansion identity remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -5651,6 +5686,20 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.AffineCuspQExpansion",
           "description": "Consume a concrete localized first-order quotient-map identity with unit q coefficient and conclude formal immersion of the genuine Spec.map morphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspQExpansionAtFive_of_componentExponentTwelve",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
+          "description": "Pin the affine fibre point to the selected five-adic cusp specialization and consume its unit-linear q-expansion in the uniform prime-order exclusion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspQExpansionAtEleven_of_componentExponentTwelve",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
+          "description": "Pin the affine fibre point to the selected eleven-adic cusp specialization and consume its unit-linear q-expansion in the order-35 exclusion."
         },
         {
           "kind": "theorem",
@@ -6331,7 +6380,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data, preservation of the additive branch under integral valuation-unit coordinate changes, and the obstruction to every translated scaling of valuation below one are checked starting inputs. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. Constructing the Tate residue translations, the blowup stages, tame Kodaira case split, marked-class proposition for the selected minimal equation, and genuine Neron identity-component comparison remain open.",
+      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data, preservation of the additive branch under integral valuation-unit coordinate changes, the obstruction to every translated scaling of valuation below one, singular-point translation, and full residue short normalization are checked starting inputs. The normalized integral equation has special fibre Y²=X³ and all five coefficients in the maximal ideal at both selected primes. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. The blowup stages, tame Kodaira case split, marked-class proposition for the selected minimal equation, and genuine Neron identity-component comparison remain open.",
       "artifacts": [
         {
           "kind": "theorem",

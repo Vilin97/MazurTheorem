@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `f1ad4db` contains reviewed acceptance
+The combined owner history through `1b2947b` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -139,11 +139,23 @@ valuation-unit scale preserves minimality and the additive branch. It then
 includes arbitrary translation parameters in all five exact coefficient
 formulas and rules out simultaneous integrality after any scale of valuation
 below one. The discriminant direction, composition order, and formulas were
-checked independently against Mathlib. This does not construct the required
-residue translations or determine a Kodaira type or component class: blowups,
-component incidence, and the marked order-at-most-four theorem remain. Four
+checked independently against Mathlib. Four
 focused builds and a seven-declaration axiom audit pass with only standard
 axioms; no node credit is claimed (`7c2e6ad`, `a19e63c`).
+
+The residue-normalization range now constructs the next two tame Tate steps.
+Residue coordinates are lifted to an integral unit-scale change, and generic-
+and special-fibre compatibility is exact. Additive reduction itself constructs
+the singular affine residue point in characteristics different from two and
+three, so no coordinate witness remains at either selected prime. Lifting the
+complete short-normal-form change then preserves the minimal additive branch,
+identifies the displayed special fibre literally with `Y² = X³`, and puts all
+five coefficients in the maximal ideal. The selected five- and eleven-adic
+minimal equations are compiled consumers. This does not perform a blowup,
+determine a Kodaira type, construct components, or prove the marked
+order-at-most-four theorem. The combined five-target build and the declaration
+axiom audits use only standard axioms (`8ad490e`, `32cd9d9`, `0df68ab`). No
+node credit is claimed.
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -217,6 +229,19 @@ The 2,797-job focused build and four-declaration axiom audit pass with only
 standard axioms (`e1fc301`). The represented modular chart, cusp prime,
 generator and non-square proofs, two residue surjections, and genuine
 optimal-quotient first-order identity remain open; no node credit is claimed.
+
+The selected affine arithmetic consumers now specialize that exact handoff to
+the five- and eleven-adic integer rings. They require the real integral
+modular and cusp sections, identify the affine prime with the same closed cusp
+point used by the collision, and retain both residue surjections and the full
+localized q-calculation as premises. The resulting formal immersion is the
+genuine contravariant `Spec.map`, and it reaches the uniform prime-order and
+order-35 marked component-exponent-twelve exclusions. Independent review
+accepted both map orientations and confirmed only standard axioms in the two
+endpoints; the 8,720-job focused owner build passes (`1b2947b`). Constructing
+the represented modular chart, sections, cusp prime, residue maps, quotient
+collision, q-identity, and component statement remains open, so no node credit
+is claimed.
 
 Locally Noetherian source and target schemes now discharge the total-stalk
 finiteness instances in both quotient-certificate consumers. At five, a new
@@ -712,9 +737,10 @@ within each lane follows the listed order.
    component quotient or its cardinality. The cuspidal nonsingular-locus
    equivalences at five and eleven now compile from finite normalization.
    The integral-`j` valuation input, stability under integral valuation-unit
-   coordinate changes, and the arbitrary translated-scaling obstruction now
-   compile. Construct the residue translations, then prove the remaining
-   blowup and tame Kodaira case split, identify the genuine Néron identity
+   coordinate changes, the arbitrary translated-scaling obstruction, the
+   singular-point residue translation, and the full short-cusp residue
+   normalization now compile. Prove the remaining blowup and tame Kodaira
+   case split, identify the genuine Néron identity
    component, and derive the precise marked-class theorem. Retain the stronger
    component bound only for a named toric/Néron consumer; the handoff itself
    earns no node credit.

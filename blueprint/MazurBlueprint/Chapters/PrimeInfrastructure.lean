@@ -94,6 +94,16 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.EllipticCurve.TranslatedWeightedCoefficientsIntegralAfterScale`
 * `theorem` (`contract`):
   `MazurTorsion.EllipticCurve.tateAlgorithm_minimalityTranslatedCoefficientObstruction`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.exists_affine_singular_of_cuspidal`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale`
 * `theorem` (`contract`):
@@ -119,10 +129,12 @@ derives `12 • P` in the subgroup from order at most four. A cardinality bound
 for the full component quotient is retained only as a stronger fallback.
 The integral-`j` valuation inequality, stability under integral
 valuation-unit coordinate changes, and the obstruction to every translated
-scaling of valuation below one are now checked. Identifying the subgroup with
-the genuine Néron identity component and constructing the residue
-translations, blowups, tame Kodaira case split, and marked-class bound remain open, so this
-node remains blocked.
+scaling of valuation below one are now checked. Additive reduction constructs
+its singular residue point, and the lifted full short-normal-form change has
+special fibre `Y² = X³` with all five coefficients in the maximal ideal at
+both selected primes. Identifying the subgroup with the genuine Néron
+identity component and constructing the blowups, tame Kodaira case split, and
+marked-class bound remain open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
@@ -955,6 +967,10 @@ toric reduction of the modular Jacobian.
   `Ideal.Fiber.isFormalImmersionAtSpecMap_of_qParameter`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_unit_qExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspQExpansionAtFive_of_componentExponentTwelve`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspQExpansionAtEleven_of_componentExponentTwelve`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -981,7 +997,10 @@ affine cusp parameter which generates the localized maximal ideal and survives
 modulo its square now proves the cotangent dimension is exactly one. A concrete
 localized identity whose linear q coefficient is a unit constructs the
 detected cotangent vector and reaches the actual `Spec.map` formal immersion.
-At a
+Selected arithmetic consumers at five and eleven now identify that affine
+point with the integral cusp specialization and carry the actual `Spec.map`
+formal immersion through the collision and marked component-exponent-twelve
+endpoints. At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk

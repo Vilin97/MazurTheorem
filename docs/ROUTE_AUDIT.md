@@ -112,9 +112,12 @@ following remain on the theorem's critical path:
   is only a stronger fallback. The integral-`j` valuation inequality,
   preservation under integral valuation-unit coordinate changes, and the
   obstruction to every arbitrary translation followed by a scale of valuation
-  below one are checked first steps. Constructing the residue translations,
-  blowups, the tame Kodaira case split, and component incidence is still
-  required.
+  below one are checked first steps. Additive reduction now constructs its
+  singular residue point, and the lifted complete short-normal-form change
+  produces an integral model whose special fibre is exactly `Y² = X³` and
+  whose five coefficients all lie in the maximal ideal at both selected
+  primes. The blowups, tame Kodaira case split, and component incidence are
+  still required.
 
 The point-group shadow of the cyclic quotient is now checked: quotienting by
 the supplied rational cyclic subgroup has the exact kernel, multiplication by
@@ -165,8 +168,12 @@ A principal localized cusp maximal ideal with generator `q` surviving modulo
 its square now supplies the exact degree-one cotangent dimension. A concrete
 localized first-order identity with unit `q` coefficient constructs the
 detected vector and reaches formal immersion of the genuine `Spec.map`.
-What remains is the represented modular affine presentation, its cusp prime
-and parameter proofs, both residue surjections, and the optimal-quotient
+At both selected auxiliary primes, checked consumers identify that affine
+point with the same integral cusp specialization used by the collision and
+carry the resulting formal immersion through the marked
+component-exponent-twelve arithmetic endpoint. What remains is the represented
+modular affine presentation and sections, its cusp prime and parameter proofs,
+both residue surjections, the quotient collision, and the optimal-quotient
 q-expansion identity.
 
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an

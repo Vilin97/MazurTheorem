@@ -1774,9 +1774,11 @@ consumers; mapped-ideal variants remove separate certificate packaging and
 derive quotient finiteness from local Noetherianity. The degree-one mapped-
 fibre variant further narrows the q-expansion handoff to residue surjectivity,
 one-dimensional target cotangent, and one detected source vector, with checked
-full consumers at five and eleven. What remains at this
-boundary is the actual integral cusp model and
-q-expansion certificate, not generic local algebra.
+full consumers at five and eleven. Those selected consumers now pin the affine
+prime to the exact integral cusp specialization used by the collision and
+reach the marked component-exponent-twelve exclusions. What remains at this
+boundary is the actual integral cusp model, its modular sections and collision,
+and the q-expansion certificate, not generic local algebra.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
@@ -1838,9 +1840,16 @@ kernel, addition closure, and additivity now compile. The proof reduces equal
 coordinate reductions to the exact formal filtration and shows filtration
 translation is invisible after reduction. The resulting prime-five and
 order-35 consumers accept no arbitrary subgroup, reduction map, or additivity
-premise. Identifying the nonsingular points of the cuspidal special cubic with
-the additive residue group and proving the component-cardinality bound remain
-geometric inputs; no node credit is claimed for this partial handoff.
+premise. Finite short normalization identifies the nonsingular points of the
+cuspidal special cubic with the additive residue group. The next checked Tate
+range lifts arbitrary residue translations, derives the singular residue
+point directly from additive reduction, and then lifts the complete
+short-normal-form change. For the selected five- and eleven-adic minimal
+equations the resulting integral model remains additive, has special fibre
+exactly `Y² = X³`, and has all five coefficients in the maximal ideal. The
+subsequent blowups, tame Kodaira case split, marked component incidence, and
+genuine identity-component comparison remain geometric inputs; no node credit
+is claimed for this partial handoff.
 
 The proof sequence is:
 
