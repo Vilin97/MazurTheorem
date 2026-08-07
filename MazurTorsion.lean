@@ -58,6 +58,7 @@ import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.TameAdditiveReductionData
 import MazurTorsion.EllipticCurve.NonsingularReduction
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.EllipticCurve.TateShortCoefficientDepth
 import MazurTorsion.EllipticCurve.VariableChange
 import MazurTorsion.PrimeOrder.CuspidalReductionAtFive
 import MazurTorsion.Foundations.DivisionPolynomialRootCriterion
