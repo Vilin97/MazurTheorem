@@ -103,6 +103,36 @@ theorem dualMap_ker (C : RationalCyclicSubgroup A N) :
   exact QuotientAddGroup.ker_lift
     (N := C.carrier) (nsmulAddMonoidHom N) C.carrier_le_nsmul_ker
 
+/-- Transport the point-group quotient along an isomorphism of ambient point
+groups. -/
+def mapPointQuotient (C : RationalCyclicSubgroup A N)
+    {B : Type*} [AddCommGroup B] (e : A ≃+ B) :
+    C.PointQuotient ≃+ (C.map e).PointQuotient :=
+  QuotientAddGroup.congr C.carrier (C.map e).carrier e rfl
+
+/-- Transport of the quotient sends the class of `x` to the class of
+`e x`. -/
+@[simp]
+theorem mapPointQuotient_quotientMap
+    (C : RationalCyclicSubgroup A N)
+    {B : Type*} [AddCommGroup B] (e : A ≃+ B) (x : A) :
+    C.mapPointQuotient e (C.quotientMap x) =
+      (C.map e).quotientMap (e x) :=
+  rfl
+
+/-- The descended dual multiplication map is natural under transport of the
+ambient point group. -/
+theorem mapPointQuotient_dualMap
+    (C : RationalCyclicSubgroup A N)
+    {B : Type*} [AddCommGroup B] (e : A ≃+ B)
+    (x : C.PointQuotient) :
+    e (C.dualMap x) =
+      (C.map e).dualMap (C.mapPointQuotient e x) := by
+  induction x using QuotientAddGroup.induction_on with
+  | H x =>
+      change e (N • x) = N • e x
+      exact map_nsmul e N x
+
 end RationalCyclicSubgroup
 
 namespace RationalDatum
@@ -144,6 +174,44 @@ theorem pointQuotientMap_comp_pointQuotientDualMap
     x.pointQuotientMap.comp x.pointQuotientDualMap =
       nsmulAddMonoidHom N :=
   x.subgroup.quotientMap_comp_dualMap
+
+/-- The point-group isomorphism used by an admissible change of Weierstrass
+variables. -/
+abbrev variableChangePointEquiv (x : RationalDatum K N)
+    (C : WeierstrassCurve.VariableChange K) :
+    x.curve.toAffine.Point ≃+
+      (x.variableChange C).curve.toAffine.Point :=
+  (WeierstrassCurve.Affine.Point.equivVariableChange x.curve C).symm
+
+/-- An admissible change of Weierstrass variables transports the point-group
+quotient attached to the cyclic subgroup. -/
+def variableChangePointQuotientEquiv (x : RationalDatum K N)
+    (C : WeierstrassCurve.VariableChange K) :
+    x.PointQuotient ≃+ (x.variableChange C).PointQuotient :=
+  x.subgroup.mapPointQuotient (variableChangePointEquiv x C)
+
+/-- The variable-change quotient equivalence commutes with the canonical
+quotient projections. -/
+@[simp]
+theorem variableChangePointQuotientEquiv_pointQuotientMap
+    (x : RationalDatum K N) (C : WeierstrassCurve.VariableChange K)
+    (P : x.curve.toAffine.Point) :
+    variableChangePointQuotientEquiv x C (x.pointQuotientMap P) =
+      (x.variableChange C).pointQuotientMap
+        (variableChangePointEquiv x C P) :=
+  x.subgroup.mapPointQuotient_quotientMap
+    (variableChangePointEquiv x C) P
+
+/-- The variable-change quotient equivalence also commutes with the descended
+dual multiplication map. -/
+theorem variableChangePointQuotientEquiv_dualMap
+    (x : RationalDatum K N) (C : WeierstrassCurve.VariableChange K)
+    (Q : x.PointQuotient) :
+    variableChangePointEquiv x C (x.pointQuotientDualMap Q) =
+      (x.variableChange C).pointQuotientDualMap
+        (variableChangePointQuotientEquiv x C Q) :=
+  x.subgroup.mapPointQuotient_dualMap
+    (variableChangePointEquiv x C) Q
 
 end RationalDatum
 end MazurTorsion.ModularCurve.XZeroModuli
