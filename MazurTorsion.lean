@@ -102,6 +102,7 @@ import MazurTorsion.ModularCurve.DegreeOneCotangent
 import MazurTorsion.ModularCurve.QExpansionFirstCoefficient
 import MazurTorsion.ModularCurve.HeckeFirstCoefficient
 import MazurTorsion.ModularCurve.AffineCuspQExpansion
+import MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli
