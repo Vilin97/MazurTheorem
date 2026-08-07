@@ -46,7 +46,9 @@ theorem card_cuspidalShortCurve_eleven :
     Fintype.card (cuspidalShortCurve (ZMod 11)).toAffine.Point = 11 := by
   decide
 
-private theorem short_eq_cuspidal
+/-- A short Weierstrass equation with vanishing discriminant and `c₄` is the standard cusp
+in every characteristic different from two and three. -/
+theorem short_eq_cuspidal_of_invariants
     {F : Type*} [Field F] [Invertible (2 : F)] [Invertible (3 : F)]
     (W : WeierstrassCurve F) [W.IsShortNF]
     (hΔ : W.Δ = 0) (hc₄ : W.c₄ = 0) :
@@ -100,7 +102,7 @@ theorem exists_affine_singular_of_cuspidal
     change (C • W).c₄ = 0
     rw [variableChange_c₄, hc₄, mul_zero]
   have hshort : Wshort = cuspidalShortCurve F :=
-    short_eq_cuspidal Wshort hΔshort hc₄short
+    short_eq_cuspidal_of_invariants Wshort hΔshort hc₄short
   have hequation : Wshort.toAffine.Equation 0 0 := by
     rw [hshort]
     simp [cuspidalShortCurve]
@@ -132,7 +134,7 @@ theorem natCard_point_eq_five_of_cuspidal
     change (C • W).c₄ = 0
     rw [variableChange_c₄, hc₄, mul_zero]
   have hshort : Wshort = cuspidalShortCurve (ZMod 5) :=
-    short_eq_cuspidal Wshort hΔshort hc₄short
+    short_eq_cuspidal_of_invariants Wshort hΔshort hc₄short
   calc
     Nat.card W.toAffine.Point = Nat.card Wshort.toAffine.Point :=
       Nat.card_congr (Point.equivVariableChange W C).symm.toEquiv
@@ -161,7 +163,7 @@ theorem natCard_point_eq_eleven_of_cuspidal
     change (C • W).c₄ = 0
     rw [variableChange_c₄, hc₄, mul_zero]
   have hshort : Wshort = cuspidalShortCurve (ZMod 11) :=
-    short_eq_cuspidal Wshort hΔshort hc₄short
+    short_eq_cuspidal_of_invariants Wshort hΔshort hc₄short
   calc
     Nat.card W.toAffine.Point = Nat.card Wshort.toAffine.Point :=
       Nat.card_congr (Point.equivVariableChange W C).symm.toEquiv

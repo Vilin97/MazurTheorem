@@ -160,6 +160,54 @@ theorem minimalCompletionAtFive_tateAlgorithm_exists_residueTranslation
       _ = 0 := by simp
   exact tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction hA h2 h3
 
+/-- The selected five-adic minimal equation admits the full residue short normalization used
+before the tame Tate blowups.  The transformed special fibre is literally `Y² = X³`, and every
+coefficient of the displayed integral lift lies in the five-adic maximal ideal. -/
+theorem minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)) :
+    ∃ r s t : IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ),
+      let W' := residueTranslatedIntegralModel
+        (atFive.adicCompletionIntegers ℚ) (atFive.adicCompletion ℚ)
+        (minimalCompletionAtFive E) r s t
+      (genericResidueTranslation
+          (atFive.adicCompletionIntegers ℚ) (atFive.adicCompletion ℚ) r s t •
+        minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        W'.a₁ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+        W'.a₂ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+        W'.a₃ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) := by
+  let e₅ : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ) ≃+* ZMod 5 :=
+    (atFive.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueFiveAlgEquiv.toRingEquiv
+  have h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (2 : ZMod 5) ≠ 0)
+    calc
+      (2 : ZMod 5) = e₅ (2 : IsLocalRing.ResidueField
+          (atFive.adicCompletionIntegers ℚ)) := (map_ofNat e₅ 2).symm
+      _ = e₅ 0 := congrArg e₅ h
+      _ = 0 := by simp
+  have h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (3 : ZMod 5) ≠ 0)
+    calc
+      (3 : ZMod 5) = e₅ (3 : IsLocalRing.ResidueField
+          (atFive.adicCompletionIntegers ℚ)) := (map_ofNat e₅ 3).symm
+      _ = e₅ 0 := congrArg e₅ h
+      _ = 0 := by simp
+  exact tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
+    hA h2 h3
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/

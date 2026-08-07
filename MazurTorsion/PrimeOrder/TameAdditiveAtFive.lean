@@ -142,6 +142,83 @@ theorem tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction
   exact ⟨x, y,
     tateAlgorithm_residueTranslation_of_singularPoint hA x y hequation hsingular⟩
 
+/-- **Constructed tangent normalization.** In residue characteristic different from two and
+three, lift the complete short-normal-form change of the additive special cubic.  Its scale is
+one, so the generic equation remains minimal and additive; its special fibre is exactly the
+standard cusp `Y² = X³`.  Consequently all five coefficients of the explicit integral model
+belong to the maximal ideal.
+
+This is the coordinate-normalization step preceding the blowups in the tame Tate algorithm.  It
+does not determine a Kodaira symbol, construct special-fibre components, or bound a component
+class. -/
+theorem tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hA : W.HasAdditiveReduction R)
+    (h2 : (2 : IsLocalRing.ResidueField R) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField R) ≠ 0) :
+    ∃ r s t : IsLocalRing.ResidueField R,
+      let W' := residueTranslatedIntegralModel R K W r s t
+      (genericResidueTranslation R K r s t • W).HasAdditiveReduction R ∧
+        W'.map (IsLocalRing.residue R) =
+          cuspidalShortCurve (IsLocalRing.ResidueField R) ∧
+        W'.a₁ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₂ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₃ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal R ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal R := by
+  letI : Invertible (2 : IsLocalRing.ResidueField R) := invertibleOfNonzero h2
+  letI : Invertible (3 : IsLocalRing.ResidueField R) := invertibleOfNonzero h3
+  let Wbar : WeierstrassCurve (IsLocalRing.ResidueField R) := W.reduction R
+  let C : WeierstrassCurve.VariableChange (IsLocalRing.ResidueField R) := Wbar.toShortNF
+  refine ⟨C.r, C.s, C.t, ?_⟩
+  let W' := residueTranslatedIntegralModel R K W C.r C.s C.t
+  let Cgeneric := genericResidueTranslation R K C.r C.s C.t
+  have hIntegral : WeierstrassCurve.IsIntegral R (Cgeneric • W) := by
+    simpa [Cgeneric] using
+      isIntegral_genericResidueTranslation R K W C.r C.s C.t
+  have hAdditive : (Cgeneric • W).HasAdditiveReduction R :=
+    tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one
+      hA Cgeneric hIntegral (by
+        simp [Cgeneric, genericResidueTranslation, integralResidueTranslation])
+  have hchange :
+      (⟨1, C.r, C.s, C.t⟩ :
+        WeierstrassCurve.VariableChange (IsLocalRing.ResidueField R)) = C := by
+    ext <;>
+      simp [C, Wbar, WeierstrassCurve.toShortNF,
+        WeierstrassCurve.toCharNeTwoNF, WeierstrassCurve.VariableChange.mul_def]
+  have hspecial : W'.map (IsLocalRing.residue R) =
+      cuspidalShortCurve (IsLocalRing.ResidueField R) := by
+    calc
+      W'.map (IsLocalRing.residue R) =
+          (⟨1, C.r, C.s, C.t⟩ :
+            WeierstrassCurve.VariableChange (IsLocalRing.ResidueField R)) •
+            (W.integralModel R).map (IsLocalRing.residue R) := by
+              simpa [W'] using
+                residueTranslatedIntegralModel_map_residue R K W C.r C.s C.t
+      _ = C • Wbar := by rw [hchange]; rfl
+      _ = cuspidalShortCurve (IsLocalRing.ResidueField R) := by
+        apply short_eq_cuspidal_of_invariants
+        · rw [WeierstrassCurve.variableChange_Δ,
+            reduction_Δ_eq_zero_of_hasAdditiveReduction hA, mul_zero]
+        · rw [WeierstrassCurve.variableChange_c₄,
+            reduction_c₄_eq_zero_of_hasAdditiveReduction hA, mul_zero]
+  have ha₁ : IsLocalRing.residue R W'.a₁ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₁) hspecial
+  have ha₂ : IsLocalRing.residue R W'.a₂ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₂) hspecial
+  have ha₃ : IsLocalRing.residue R W'.a₃ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₃) hspecial
+  have ha₄ : IsLocalRing.residue R W'.a₄ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₄) hspecial
+  have ha₆ : IsLocalRing.residue R W'.a₆ = 0 := by
+    simpa [cuspidalShortCurve] using congrArg (fun V ↦ V.a₆) hspecial
+  exact ⟨by simpa [Cgeneric] using hAdditive, hspecial,
+    (IsLocalRing.residue_eq_zero_iff W'.a₁).mp ha₁,
+    (IsLocalRing.residue_eq_zero_iff W'.a₂).mp ha₂,
+    (IsLocalRing.residue_eq_zero_iff W'.a₃).mp ha₃,
+    (IsLocalRing.residue_eq_zero_iff W'.a₄).mp ha₄,
+    (IsLocalRing.residue_eq_zero_iff W'.a₆).mp ha₆⟩
+
 /-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
 minimal equation cannot have all five coefficients remain integral after a further weighted
 scaling by `u⁻¹` with `v(u) < 1`.  Completing the marked component theorem still requires the

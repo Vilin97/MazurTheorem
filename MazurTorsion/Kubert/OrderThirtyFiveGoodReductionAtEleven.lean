@@ -153,6 +153,54 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueTranslation
       _ = 0 := by simp
   exact tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction hA h2 h3
 
+/-- The selected eleven-adic minimal equation admits the full residue short normalization used
+before the tame Tate blowups.  The transformed special fibre is literally `Y² = X³`, and every
+coefficient of the displayed integral lift lies in the eleven-adic maximal ideal. -/
+theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)) :
+    ∃ r s t : IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ),
+      let W' := residueTranslatedIntegralModel
+        (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ)
+        (minimalCompletionAtEleven E) r s t
+      (genericResidueTranslation
+          (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ) r s t •
+        minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        W'.a₁ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₂ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₃ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
+  let e₁₁ : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
+    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueElevenAlgEquiv.toRingEquiv
+  have h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (2 : ZMod 11) ≠ 0)
+    calc
+      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  have h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (3 : ZMod 11) ≠ 0)
+    calc
+      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  exact tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
+    hA h2 h3
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j
