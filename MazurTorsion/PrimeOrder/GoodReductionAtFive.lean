@@ -23,6 +23,7 @@ open WeierstrassCurve
 namespace MazurTorsion.PrimeOrder
 
 open WeierstrassCurve.Affine
+open MazurTorsion.EllipticCurve
 open MazurTorsion.IntegerPrimeSpecialization
 open IsDiscreteValuationRing
 open IsDedekindDomain.HeightOneSpectrum
@@ -92,6 +93,30 @@ noncomputable instance minimalCompletionAtFive_isElliptic
     (minimalCompletionAtFive E).IsElliptic := by
   dsimp only [minimalCompletionAtFive]
   infer_instance
+
+/-- On the selected five-adic minimal equation, a singular special-fibre point supplies an actual
+integral unit-scale translation to the origin.  The translated equation stays additive and its
+explicit integral model has `a₃`, `a₄`, and `a₆` in the five-adic maximal ideal. -/
+theorem minimalCompletionAtFive_tateAlgorithm_residueTranslation_of_singularPoint
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (x y : IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (hequation : ((minimalCompletionAtFive E).reduction
+      (atFive.adicCompletionIntegers ℚ)).toAffine.Equation x y)
+    (hsingular : ¬ ((minimalCompletionAtFive E).reduction
+      (atFive.adicCompletionIntegers ℚ)).toAffine.Nonsingular x y) :
+    let W' := residueTranslatedIntegralModel
+      (atFive.adicCompletionIntegers ℚ) (atFive.adicCompletion ℚ)
+      (minimalCompletionAtFive E) x 0 y
+    (genericResidueTranslation
+        (atFive.adicCompletionIntegers ℚ) (atFive.adicCompletion ℚ) x 0 y •
+      minimalCompletionAtFive E).HasAdditiveReduction
+        (atFive.adicCompletionIntegers ℚ) ∧
+      W'.a₃ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+      W'.a₄ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ∧
+      W'.a₆ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) := by
+  exact tateAlgorithm_residueTranslation_of_singularPoint hA x y hequation hsingular
 
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made

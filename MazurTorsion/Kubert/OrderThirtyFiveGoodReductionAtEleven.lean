@@ -87,6 +87,30 @@ noncomputable instance minimalCompletionAtEleven_isElliptic
   dsimp only [minimalCompletionAtEleven]
   infer_instance
 
+/-- The shared residue-translation construction on the selected eleven-adic minimal equation.
+A singular point of its special fibre is moved to the origin by an integral unit-scale change;
+the new equation stays additive and has `a₃`, `a₄`, and `a₆` in the maximal ideal. -/
+theorem minimalCompletionAtEleven_tateAlgorithm_residueTranslation_of_singularPoint
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (x y : IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (hequation : ((minimalCompletionAtEleven E).reduction
+      (atEleven.adicCompletionIntegers ℚ)).toAffine.Equation x y)
+    (hsingular : ¬ ((minimalCompletionAtEleven E).reduction
+      (atEleven.adicCompletionIntegers ℚ)).toAffine.Nonsingular x y) :
+    let W' := residueTranslatedIntegralModel
+      (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ)
+      (minimalCompletionAtEleven E) x 0 y
+    (genericResidueTranslation
+        (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ) x 0 y •
+      minimalCompletionAtEleven E).HasAdditiveReduction
+        (atEleven.adicCompletionIntegers ℚ) ∧
+      W'.a₃ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+      W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+      W'.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) := by
+  exact tateAlgorithm_residueTranslation_of_singularPoint hA x y hequation hsingular
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j

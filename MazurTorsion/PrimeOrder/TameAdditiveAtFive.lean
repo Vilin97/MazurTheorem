@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.MinimalModelScaling
+import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
 import Mathlib.Tactic.NormNum
@@ -85,6 +86,37 @@ theorem tateAlgorithm_translatedCoefficientObstruction_of_hasAdditiveReduction
     ¬ TranslatedWeightedCoefficientsIntegralAfterScale (R := R) W u r s t := by
   letI : W.IsMinimal R := hA.toIsMinimal
   exact tateAlgorithm_minimalityTranslatedCoefficientObstruction u r s t hu
+
+/-- **First residue-translation step of the tame Tate algorithm.** Given a singular affine point
+of the reduced minimal cubic, lift its two coordinates to the valuation ring and translate that
+point to the origin.  The resulting generic equation remains in the minimal additive branch, and
+the explicit translated integral model has `a₃`, `a₄`, and `a₆` in the maximal ideal.
+
+This constructs the translation rather than taking its parameters as hypotheses.  The later
+tangent normalization, blowups, Kodaira case split, and marked-component calculation remain
+separate work. -/
+theorem tateAlgorithm_residueTranslation_of_singularPoint
+    {W : WeierstrassCurve K} [W.IsElliptic] [W.IsMinimal R]
+    (hA : W.HasAdditiveReduction R)
+    (x y : IsLocalRing.ResidueField R)
+    (hequation : (W.reduction R).toAffine.Equation x y)
+    (hsingular : ¬ (W.reduction R).toAffine.Nonsingular x y) :
+    let W' := residueTranslatedIntegralModel R K W x 0 y
+    (genericResidueTranslation R K x 0 y • W).HasAdditiveReduction R ∧
+      W'.a₃ ∈ IsLocalRing.maximalIdeal R ∧
+      W'.a₄ ∈ IsLocalRing.maximalIdeal R ∧
+      W'.a₆ ∈ IsLocalRing.maximalIdeal R := by
+  let C := genericResidueTranslation R K x 0 y
+  have hIntegral : WeierstrassCurve.IsIntegral R (C • W) := by
+    simpa [C] using isIntegral_genericResidueTranslation R K W x 0 y
+  have hAdditive : (C • W).HasAdditiveReduction R :=
+    tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one
+      hA C hIntegral (by
+        simp [C, genericResidueTranslation, integralResidueTranslation])
+  have hcoeff :=
+    residueTranslatedIntegralModel_a₃_a₄_a₆_mem_maximalIdeal_of_singular
+      R K W x y hequation hsingular
+  simpa [C] using And.intro hAdditive hcoeff
 
 /-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
 minimal equation cannot have all five coefficients remain integral after a further weighted
