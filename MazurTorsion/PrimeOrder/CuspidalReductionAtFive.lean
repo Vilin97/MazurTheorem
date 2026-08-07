@@ -90,4 +90,52 @@ theorem
       WeierstrassCurve.reduction] using
       reduction_c₄_eq_zero_of_hasAdditiveReduction hA
 
+/-- A finite marked component class of order at most four on Mathlib's selected minimal
+five-adic equation yields the exact `12 • P ∈ E₀` handoff.  This is the pointwise Kodaira
+intermediate needed by the torsion argument; it neither assumes nor constructs a cardinality
+bound for the entire component quotient. -/
+theorem minimalCompletionPointAtFive_twelve_nsmul_mem_of_markedComponentOrderAtMostFour
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (P : E.toAffine.Point)
+    (hcomponentOrder : MarkedComponentOrderAtMost
+      (nonsingularReductionSubgroup
+        (completionIntegralModelAtFive_map (minimalCompletionAtFive E))
+        (nonsingularReduction_isAdditive
+          (completionIntegralModelAtFive_map (minimalCompletionAtFive E))))
+      4 (minimalCompletionPointAtFive E P)) :
+    12 • minimalCompletionPointAtFive E P ∈
+      nonsingularReductionSubgroup
+        (completionIntegralModelAtFive_map (minimalCompletionAtFive E))
+        (nonsingularReduction_isAdditive
+          (completionIntegralModelAtFive_map (minimalCompletionAtFive E))) :=
+  twelve_nsmul_mem_of_markedComponentOrderAtMostFour _ _ hcomponentOrder
+
+/-- The checked prime-order consumer phrased at the precise remaining Kodaira statement: in the
+additive branch, the marked class in the quotient by canonical nonsingular reduction has finite
+order at most four.  The preceding theorem converts that certificate into the uniform exponent
+used by the cuspidal reduction endpoint. -/
+theorem
+    rationalPoint_primeOrder_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : atFive.valuation ℚ E.j ≤ 1)
+    (P : E.toAffine.Point)
+    (hcomponentOrder : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      MarkedComponentOrderAtMost
+        (nonsingularReductionSubgroup
+          (completionIntegralModelAtFive_map (minimalCompletionAtFive E))
+          (nonsingularReduction_isAdditive
+            (completionIntegralModelAtFive_map (minimalCompletionAtFive E))))
+        4 (minimalCompletionPointAtFive E P))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N :=
+  rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive
+    hj P
+      (fun hA ↦
+        minimalCompletionPointAtFive_twelve_nsmul_mem_of_markedComponentOrderAtMostFour
+          E P (hcomponentOrder hA))
+    N hprime hN
+
 end MazurTorsion.PrimeOrder
