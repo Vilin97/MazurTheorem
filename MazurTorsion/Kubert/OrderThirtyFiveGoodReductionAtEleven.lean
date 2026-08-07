@@ -201,6 +201,97 @@ theorem minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization
   exact tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction
     hA h2 h3
 
+/-- The selected eleven-adic minimal equation has an exact integral short model in the additive
+branch.  Its generic fibre is explicitly the unit-scale transform of the selected completion,
+while its special fibre is the standard cusp and its two remaining coefficients vanish modulo
+the eleven-adic maximal ideal. -/
+theorem minimalCompletionAtEleven_tateAlgorithm_exists_integralShortNormalization
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) := by
+  let e₁₁ : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ) ≃+* ZMod 11 :=
+    (atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueElevenAlgEquiv.toRingEquiv
+  have h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (2 : ZMod 11) ≠ 0)
+    calc
+      (2 : ZMod 11) = e₁₁ (2 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 2).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  have h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0 := by
+    intro h
+    apply (by decide : (3 : ZMod 11) ≠ 0)
+    calc
+      (3 : ZMod 11) = e₁₁ (3 : IsLocalRing.ResidueField
+          (atEleven.adicCompletionIntegers ℚ)) := (map_ofNat e₁₁ 3).symm
+      _ = e₁₁ 0 := congrArg e₁₁ h
+      _ = 0 := by simp
+  exact tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction
+    hA h2 h3
+
+/-- The exact eleven-adic short model carries the three honest one-exceptional-factor equation
+charts for the first blowup at its closed cusp. -/
+theorem minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ha₄, ha₆⟩ :=
+    minimalCompletionAtEleven_tateAlgorithm_exists_integralShortNormalization E hA
+  let W' := C • (minimalCompletionAtEleven E).integralModel
+    (atEleven.adicCompletionIntegers ℚ)
+  have ha₁ : W'.a₁ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₁]
+    exact Submodule.zero_mem _
+  have ha₂ : W'.a₂ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₂]
+    exact Submodule.zero_mem _
+  have ha₃ : W'.a₃ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) := by
+    rw [hshort.a₃]
+    exact Submodule.zero_mem _
+  exact ⟨C, hAdditive, hmap, hshort, hspecial,
+    nonempty_firstBlowupEquationCharts_of_coefficients_mem_maximalIdeal
+      W' ha₁ ha₂ ha₃ ha₄ ha₆⟩
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j
