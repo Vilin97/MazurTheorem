@@ -866,4 +866,63 @@ theorem noncuspidal_curve_primitive_descent_data
     hxrepr, ha, hab, ht, hUab, hV, hrootab, hk, hnorm,
     seven_not_common_divisor m n hcoprime⟩
 
+/-- The remaining arithmetic statement after the checked quotient and
+rational-root descent.  It rules out primitive integral parameters for which
+the cyclic cubic has a rational root and satisfies the resulting
+square-times-cube norm equation.
+
+This predicate is deliberately narrower than the original rational-point
+classification: all coordinate changes, denominator conditions, and norm
+identities needed to reach it are proved above. -/
+def PrimitiveCyclicCubicObstruction : Prop :=
+  ∀ m n a b k : ℤ,
+    0 < n →
+    0 < b →
+    IsCoprime m n →
+    IsCoprime a b →
+    a ≠ 0 →
+    a ≠ b →
+    ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1 →
+    conicU ((m : ℚ) / (n : ℚ)) =
+      invariantX ((a : ℚ) / (b : ℚ)) →
+    homogeneousFiber (m : ℚ) (n : ℚ)
+        ((a : ℚ) / (b : ℚ)) = 0 →
+    m ^ 2 - n ^ 2 = k * (a * b * (a - b)) →
+    firstParameterForm m n * piParameterForm m n =
+      k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 →
+    ¬((7 : ℤ) ∣ firstParameterForm m n ∧
+      (7 : ℤ) ∣ piParameterForm m n) →
+    False
+
+/-- The primitive cyclic-cubic obstruction consumes the complete descent
+package and rules out a noncuspidal rational point on the `X₁(18)` model. -/
+theorem no_noncuspidal_point_of_primitiveCyclicCubicObstruction
+    (hobs : PrimitiveCyclicCubicObstruction)
+    (x y : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1)
+    (hcurve :
+      y ^ 2 =
+        MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
+    False := by
+  obtain ⟨m, n, a, b, k, hn, hb, hmn, hab, _hx,
+    ha, habne, ht, hU, _hV, hroot, hk, hnorm, hseven⟩ :=
+    noncuspidal_curve_primitive_descent_data
+      x y hx0 hx1 hcurve
+  exact hobs m n a b k hn hb hmn hab ha habne ht hU hroot hk
+    hnorm hseven
+
+/-- A proof of the explicit primitive cyclic-cubic obstruction excludes
+exact rational order eighteen through the already checked Tate-normal-form
+and genus-two reduction. -/
+theorem rationalPoint_addOrderOf_ne_eighteen_of_primitiveCyclicCubicObstruction
+    (hobs : PrimitiveCyclicCubicObstruction)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : E.toAffine.Point) :
+    addOrderOf Q ≠ 18 := by
+  apply
+    MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_eighteen_of_noNoncuspidalPoint
+      E Q
+  intro x y hx0 hx1 hcurve
+  exact no_noncuspidal_point_of_primitiveCyclicCubicObstruction
+    hobs x y hx0 hx1 hcurve
+
 end MazurTorsion.XOneEighteenDescent
