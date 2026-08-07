@@ -116,6 +116,13 @@ following remain on the theorem's critical path:
   blowups, the tame Kodaira case split, and component incidence is still
   required.
 
+The point-group shadow of the cyclic quotient is now checked: quotienting by
+the supplied rational cyclic subgroup has the exact kernel, multiplication by
+the level descends, both quotient/dual composites are level multiplication,
+and these identities are natural under admissible Weierstrass variable
+changes. This is not the elliptic quotient scheme `E/C`; representability and
+base change remain part of the first modular step above.
+
 The rank-zero input is why the existing finite-flat work is retained, but its
 integral scope must be stated precisely. In Mazur 1977 III.3 the
 pre-admissible group over `Spec ℤ` is flat, quasi-finite, separated, and of
@@ -154,8 +161,13 @@ the ambient local ring by the base-fibre ideal, and degree-one cotangent data
 on that fibre feeds the completed ambient map. Canonical affine stalk
 equivalences now identify this map with the actual stalk map of `Spec.map`, so
 the same data proves formal immersion for a genuine affine-scheme morphism.
-What remains is the modular affine presentation at the cusp, together with its
-q-expansion calculation.
+A principal localized cusp maximal ideal with generator `q` surviving modulo
+its square now supplies the exact degree-one cotangent dimension. A concrete
+localized first-order identity with unit `q` coefficient constructs the
+detected vector and reaches formal immersion of the genuine `Spec.map`.
+What remains is the represented modular affine presentation, its cusp prime
+and parameter proofs, both residue surjections, and the optimal-quotient
+q-expansion identity.
 
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an
 identification of all of `A(ℚ)` with the cuspidal subgroup, or local

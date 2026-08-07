@@ -1057,8 +1057,30 @@ prerequisites of the prime theorem.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.PointQuotient`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.quotientMap`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.dualMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.dualMap_comp_quotientMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.quotientMap_comp_dualMap`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.dualMap_ker`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.variableChangePointQuotientEquiv`
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
 * `theorem` (`proposed`):
   `EllipticCurve.Isogeny.quotientByCyclic_baseChange`
+
+The abstract rational point-group quotient now has the exact supplied kernel.
+Multiplication by the level descends to a dual map, both composites are level
+multiplication, and the dual kernel is the image of the full level-torsion
+kernel. These maps are natural under point-group isomorphisms, with an actual
+admissible Weierstrass variable-change consumer. Representability by an
+elliptic quotient scheme and its base-change law remain open, so this node
+receives no completion credit.
 :::

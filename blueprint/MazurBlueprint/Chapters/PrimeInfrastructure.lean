@@ -947,6 +947,14 @@ toric reduction of the modular Jacobian.
   `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap`
 * `theorem` (`contract`):
   `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap_of_isNoetherian`
+* `theorem` (`contract`):
+  `Ideal.Fiber.exists_detectedVector_of_unit_qExpansion`
+* `theorem` (`contract`):
+  `Ideal.Fiber.isAffineFiberDegreeOneCotangent_of_qParameter`
+* `theorem` (`contract`):
+  `Ideal.Fiber.isFormalImmersionAtSpecMap_of_qParameter`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_unit_qExpansion`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -968,7 +976,12 @@ compiled completed-local-map consumer while leaving residue surjectivity and
 finiteness explicit. Canonical affine stalk equivalences now identify that
 ambient map with the actual stalk map of `Spec.map`; the same degree-one data
 therefore proves formal immersion of a genuine affine-scheme morphism, with a
-Noetherian endpoint discharging both maximal-ideal finiteness inputs. At a
+Noetherian endpoint discharging both maximal-ideal finiteness inputs. A chosen
+affine cusp parameter which generates the localized maximal ideal and survives
+modulo its square now proves the cotangent dimension is exactly one. A concrete
+localized identity whose linear q coefficient is a unit constructs the
+detected cotangent vector and reaches the actual `Spec.map` formal immersion.
+At a
 non-generic point of a smooth integral relative curve, the checked DVR theorem
 supplies cotangent dimension one; literal rationality of the point and its
 image supplies the residue-field isomorphism. A genuine completed-stalk
@@ -982,8 +995,8 @@ over-base quotient equation proves the image residue field is also the base.
 A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
 equal quotient image. The integral cusp model, its quotient-ideal/stalk
-identification, modular affine presentation, non-generic section and
-uniformizer, and the actual modular
+identification, modular affine presentation, non-generic section, generator
+and non-square proofs, both residue surjections, and the actual modular
 q-expansion remain open, so this node receives no completion credit.
 :::
 
