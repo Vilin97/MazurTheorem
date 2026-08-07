@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1480850,
+    "integrated_lean_lines": 1480852,
     "integrated_lean_modules": 779,
     "remaining_composite_orders": [
       18,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. Singular-cubic normalization now classifies the actual additive special fibre at eleven, and completion, rational, and degree-one formal-immersion consumers need only 12 • P in the canonical nonsingular-reduction subgroup. The genuine Neron identity-component comparison, marked-point exponent, represented modular quotient/classifying map, and Atkin-Lehner specialization inputs remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. Singular-cubic normalization classifies the actual additive special fibre at eleven. The rational endpoint now consumes the exact pointwise Kodaira handoff: the marked class in the quotient by canonical nonsingular reduction has finite order at most four; the checked generic bridge turns this into 12 • P in the subgroup. Proving that marked-class theorem for the selected minimal equation, the genuine Neron identity-component comparison, represented modular quotient/classifying map, and Atkin-Lehner specialization inputs remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -894,6 +894,20 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven",
           "description": "Transport a rational order-35 point through the selected minimal equation and the checked cuspidal classification."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_twelve_nsmul_mem_of_markedComponentOrderAtMostFour",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven",
+          "description": "Turn the exact pointwise order-at-most-four certificate for the marked Kodaira component class into the uniform exponent twelve on canonical nonsingular reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven",
+          "description": "Reach the rational order-35 contradiction from the checked cuspidal fibre and the precise marked-class consequence of tame Tate--Kodaira geometry."
         },
         {
           "kind": "theorem",
@@ -3285,7 +3299,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration now identify every additive special cubic at five and eleven with the corresponding additive residue group. Checked consumers therefore need only the marked component-exponent statement 12 • P ∈ E₀, not a cardinality bound for the full component quotient. Identifying this subgroup with the genuine Neron identity component and proving the marked-point exponent remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. A full quotient-cardinality bound remains only a stronger fallback. Proving this marked-class statement from tame Tate--Kodaira geometry for the selected minimal equations and identifying the subgroup with the genuine Neron identity component remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3430,6 +3444,34 @@
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
           "description": "Kill a marked torsion point from a coprime component exponent, finite identity-component reduction, and torsion-free formal kernel without constructing or counting the component quotient."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.EllipticCurve.MarkedComponentOrderAtMost",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
+          "description": "Record finite order and an upper bound for one actual class in the quotient by the supplied canonical identity subgroup."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.markedComponentOrderAtMost_iff_exists_nsmul_mem",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
+          "description": "Equate the marked quotient-order predicate with a positive bounded multiplier carrying the point into the subgroup."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_markedComponentOrderAtMostFour",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
+          "description": "Derive the uniform tame exponent twelve from the precise pointwise order-at-most-four certificate."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_quotient_card_le_four",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
+          "description": "Retain the traditional full component-cardinality theorem as an explicit stronger fallback into the pointwise interface."
         },
         {
           "kind": "definition",
@@ -6135,7 +6177,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration now classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. Identifying the canonical subgroup with the genuine Neron identity component and proving 12 • P lies there remain open.",
+      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate--Kodaira input is now a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. This avoids constructing or cardinality-bounding the full component quotient in the torsion consumer. Proving the marked-class proposition for the selected minimal equation and identifying the canonical subgroup with the genuine Neron identity component remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6211,7 +6253,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction at five or eleven. Finite cuspidal classification is now discharged in lane-specific completion and rational consumers, which require only 12 • P in the canonical nonsingular-reduction subgroup before reaching the checked F_5 contradiction. A compiled degree-one special-fibre formal-immersion consumer carries the same marked point and premise. The represented modular/cusp data, genuine Neron identity-component identification, and marked-point component-exponent proof remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction at five or eleven. Finite cuspidal classification is discharged in lane-specific completion and rational consumers. The newest rational consumer requires only that the marked class in the actual quotient by canonical nonsingular reduction have finite order at most four; the generic pointwise bridge supplies 12 • P in the subgroup before reaching the checked F_5 contradiction. A compiled degree-one special-fibre formal-immersion consumer carries the same marked point. The represented modular/cusp data, genuine Neron identity-component identification, and the tame Tate--Kodaira proof of the pointwise marked-class bound remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6330,6 +6372,20 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.CuspidalReductionAtFive",
           "description": "Transport the rational point to the selected minimal equation and consume the checked cuspidal classification plus marked exponent."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_twelve_nsmul_mem_of_markedComponentOrderAtMostFour",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.CuspidalReductionAtFive",
+          "description": "Turn the exact pointwise order-at-most-four certificate for the marked Kodaira component class into exponent twelve on canonical nonsingular reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.CuspidalReductionAtFive",
+          "description": "Exclude every prime order at least eleven from the checked cuspidal fibre and the precise marked-class consequence of tame Tate--Kodaira geometry."
         },
         {
           "kind": "theorem",

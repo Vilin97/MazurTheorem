@@ -73,6 +73,14 @@ used by rank zero and the additive component bound used at five.
 * `theorem` (`contract`):
   `MazurTorsion.EllipticCurve.point_eq_zero_of_coprime_component_exponent`
 * `definition` (`contract`):
+  `MazurTorsion.EllipticCurve.MarkedComponentOrderAtMost`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.markedComponentOrderAtMost_iff_exists_nsmul_mem`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_quotient_card_le_four`
+* `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofNonsingularReduction`
@@ -87,10 +95,13 @@ The canonical nonsingular-reduction subgroup, its additive map, and its exact
 formal kernel compile. Singular-cubic variable-change transport plus finite
 normalization and enumeration identify the additive special cubics at five
 and eleven with their actual residue additive groups. The marked torsion
-endpoints therefore need only `12 • P` in this subgroup, not a cardinality
-bound for the full component quotient. Identifying the subgroup with the
-genuine Néron identity component and proving the marked-point exponent remain
-open, so this node remains blocked.
+endpoints now use the actual quotient class through
+`MarkedComponentOrderAtMost`; its pointwise bounded-multiple characterization
+derives `12 • P` in the subgroup from order at most four. A cardinality bound
+for the full component quotient is retained only as a stronger fallback.
+Identifying the subgroup with the genuine Néron identity component and proving
+this marked-class bound from tame Tate--Kodaira geometry remain open, so this
+node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")

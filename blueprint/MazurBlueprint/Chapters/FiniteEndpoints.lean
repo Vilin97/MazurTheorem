@@ -147,6 +147,10 @@ destination theorem is
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven`
 * `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtEleven`
+* `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_quotientCotangentCertificateAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_quotientCotangentAtEleven_of_nonsingularReduction`
@@ -206,10 +210,12 @@ fibre endpoint while deriving component finiteness and formal-kernel torsion.
 The canonical nonsingular-reduction consumer fixes the coordinate domain/map
 and exact formal kernel, and its additivity is checked. Finite normalization
 classifies the actual cuspidal nonsingular group at eleven; new local,
-rational, and degree-one formal-immersion consumers therefore require only the
-marked statement `12 • P ∈ E₀`, not a cardinality bound for the full component
-quotient. The genuine Néron identity-component comparison and marked-point
-exponent remain geometric inputs.
+rational, and degree-one formal-immersion consumers avoid any cardinality
+bound for the full component quotient. The newest rational consumer instead
+uses the exact pointwise statement that the marked quotient class has finite
+order at most four, from which the checked bridge derives `12 • P ∈ E₀`.
+The genuine Néron identity-component comparison and the tame Tate--Kodaira
+proof of this marked-class bound remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

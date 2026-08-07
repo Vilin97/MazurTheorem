@@ -110,8 +110,10 @@ at least eleven.
 The narrower canonical five-adic handoff needs only `12 • P` in the
 nonsingular-reduction subgroup and the exact torsion-free formal kernel.
 Finite normalization and enumeration now turn the vanishing reduced `Δ` and
-`c₄` into the actual five-element residue additive group. Genuine
-identity-component identification and the marked-point exponent remain open.
+`c₄` into the actual five-element residue additive group. The checked
+pointwise quotient-order API derives the exponent from a marked class of
+finite order at most four. Genuine identity-component identification and the
+tame Tate--Kodaira proof of that marked-class bound remain open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -155,6 +157,10 @@ fibre. The remaining fibre is good.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
 * `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtFive`
+* `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve`
@@ -173,11 +179,14 @@ explicit modular/cusp collision inputs and reaches the same `F₅` contradiction
 Its canonical nonsingular-reduction consumer fixes the actual minimal
 integral model, coordinate domain/map, and exact formal kernel, accepting no
 arbitrary identity subgroup or reduction homomorphism. Lane-specific
-completion, rational, formal-immersion, and degree-one cusp-stalk consumers discharge the
-cuspidal special-locus classification and replace the full component-cardinality
-input by the marked statement `12 • P ∈ E₀`. The represented modular/cusp
-collision, genuine Néron identity-component identification, and marked-point
-exponent remain open, so this node receives no completion credit.
+completion, rational, formal-immersion, and degree-one cusp-stalk consumers
+discharge the cuspidal special-locus classification. The newest rational
+consumer replaces the full component-cardinality input by the exact pointwise
+statement that the marked quotient class has finite order at most four; the
+checked generic bridge derives `12 • P ∈ E₀`. The represented modular/cusp
+collision, genuine Néron identity-component identification, and tame
+Tate--Kodaira proof of that marked-class bound remain open, so this node
+receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

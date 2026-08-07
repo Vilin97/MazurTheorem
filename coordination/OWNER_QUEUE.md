@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `7d0b653` contains reviewed acceptance
+The combined owner history through `9e1439e` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -113,6 +113,20 @@ bound for the full component quotient; they still require the honest geometric
 statement `12 • P ∈ E₀` and the cuspidal special-fibre equivalence. All five
 focused modules compile with `LEAN_NUM_THREADS=1`, and their axiom closure is
 only `propext`, `Classical.choice`, and `Quot.sound`.
+
+The latest Néron checkpoint makes that remaining premise pointwise rather than
+leaving an opaque exponent assumption. The checked
+`MarkedComponentOrderAtMost` predicate refers to the marked point's actual
+class in the quotient by canonical nonsingular reduction. It is equivalent to
+the existence of a positive multiplier bounded by four that enters the
+subgroup, and it implies `12 • P ∈ E₀`. A full component-cardinality bound
+is retained only as a stronger fallback. Rational consumers at five and
+eleven now reach the prime and order-35 contradictions from this exact marked
+class certificate. The remaining local theorem is the genuine tame
+Tate--Kodaira assertion that this class has finite order at most four on
+Mathlib's selected minimal equation; it is not inferred from additive
+reduction alone. The three focused builds and a nine-declaration axiom audit
+pass with only standard axioms, and no node credit is claimed (`9e1439e`).
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -629,14 +643,15 @@ within each lane follows the listed order.
    fixes the reduction target to the actual residue field. Component finiteness
    follows from the exact-pin formal-filtration finite-index theorem. The
    canonical coordinate domain/map, exact formal kernel, and unconditional
-   `NonsingularReductionIsAdditive` theorem now compile. The marked torsion
-   consumers need only `12 • P` in that subgroup; they do not need the full
+   `NonsingularReductionIsAdditive` theorem now compile. The pointwise
+   quotient-order interface derives `12 • P` in that subgroup from the marked
+   class having finite order at most four; consumers do not need the full
    component quotient or its cardinality. The cuspidal nonsingular-locus
    equivalences at five and eleven now compile from finite normalization.
-   Prove identification with the genuine Néron identity component and the
-   marked-point exponent. Retain
-   the stronger component bound only for a named toric/Néron consumer; the
-   handoff itself earns no node credit.
+   Prove identification with the genuine Néron identity component and this
+   precise tame Tate--Kodaira marked-class theorem. Retain the stronger
+   component bound only for a named toric/Néron consumer; the handoff itself
+   earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
@@ -650,8 +665,9 @@ within each lane follows the listed order.
    checked `F₅` contradiction through the canonical residue equivalence. This is
    not node completion: canonical five- and eleven-adic data now discharge
    the reduction-cardinality and formal-torsion bookkeeping, but their Néron
-   identity-component identification and marked-point exponent before good
-   reduction are still absent; the cuspidal-locus classification is checked.
+   identity-component identification and tame Tate--Kodaira marked-class
+   theorem before good reduction are still absent; the cuspidal-locus
+   classification is checked.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -888,8 +904,10 @@ in `route_history`:
    actual minimal equation's nonsingular coordinate map, exact kernel, and
    additivity also compile. A narrower canonical consumer proves the same
    contradiction from `12 • P ∈ E₀`. Finite normalization now discharges
-   the cuspidal additive classification; prove genuine identity-component
-   identification and that marked-point exponent.
+   the cuspidal additive classification, and the pointwise quotient-order API
+   derives that exponent from a marked class of finite order at most four.
+   Prove this precise tame Tate--Kodaira statement on the selected minimal
+   equation and the genuine identity-component comparison.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the shared exhaustive trichotomy reaches good reduction from
    any genuine additive exact-order obstruction; five and eleven are both
@@ -900,10 +918,10 @@ in `route_history`:
    filtration. A stronger downstream theorem takes the canonical five-adic
    reduction data, while the newest endpoint fixes coordinatewise nonsingular
    reduction on the selected minimal model. The completion and rational
-   endpoints now consume the marked component exponent instead of a full
-   component-cardinality theorem, and the cuspidal classification is checked.
-   Construct the represented collision and discharge the genuine marked-point
-   component geometry.
+   endpoints now consume the pointwise marked-class order-at-most-four
+   certificate instead of a full component-cardinality theorem, and the
+   cuspidal classification is checked. Construct the represented collision
+   and discharge the genuine tame Tate--Kodaira marked-point geometry.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -1043,8 +1061,9 @@ or accounting shortcut.
   proof establishes additivity on this canonical nonsingular domain. Finite
   normalization and actual-residue-field transport now prove the cuspidal
   nonsingular-locus equivalences at five and eleven. The theorem endpoints
-  need only `12 • P` in this subgroup; genuine identity-component comparison
-  and the marked-point exponent are the next gates.
+  now consume the exact marked quotient-class order-at-most-four predicate;
+  genuine identity-component comparison and its tame Tate--Kodaira proof are
+  the next gates.
 - `codex/mt-cuspidal-finite`: independently reviewed and integrated from
   `dbf34d0` with owner lane-splitting, provenance, and root-reachability
   repairs. Both finite classifications and their marked-exponent consumers

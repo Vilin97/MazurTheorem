@@ -104,8 +104,12 @@ following remain on the theorem's critical path:
 * a nontrivial optimal Eisenstein quotient for `N=11` or prime `N≥17`;
 * finiteness of that quotient's rational points; and
 * the focused Néron and finite-flat theory used in the last assertion,
-  including genuine identity-component comparison and the marked-point
-  tame-component exponent at `5` and `11`.
+  including genuine identity-component comparison and the tame
+  Tate--Kodaira theorem that the marked class in the quotient by canonical
+  nonsingular reduction has finite order at most four at `5` and `11`. The
+  checked pointwise interface already converts this exact assertion into the
+  uniform exponent `12` used downstream; a full component-cardinality bound
+  is only a stronger fallback.
 
 The rank-zero input is why the existing finite-flat work is retained, but its
 integral scope must be stated precisely. In Mazur 1977 III.3 the
