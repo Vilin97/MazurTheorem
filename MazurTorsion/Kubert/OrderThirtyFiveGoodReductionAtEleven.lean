@@ -303,6 +303,76 @@ theorem
         (specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄) P') horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆⟩
 
+/-- A marked point of exact order 35 also eliminates the branch in which `a₄/ϖ` has nonzero
+residue.  Thus the same normalized eleven-adic model has both remaining short coefficients at
+the displayed depths.  The pointwise input is only that the marked double has nonsingular
+reduction; no Kodaira-type or component-cardinality conclusion is asserted. -/
+theorem
+    minimalCompletionAtEleven_tateAlgorithm_exists_secondCoefficientDepth_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 2 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆⟩ :=
+    minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts_of_orderThirtyFive
+      E hA P horder
+  let W' := C • (minimalCompletionAtEleven E).integralModel
+    (atEleven.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+    (atEleven.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtEleven E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P
+  have horder' : addOrderOf P' = 35 := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P).trans horder
+  have ha₄ : W'.a₄ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2 := by
+    by_contra ha₄
+    have hb₄ : IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)
+        B.coefficients.b₄ ≠ 0 :=
+      B.residue_b₄_ne_zero_iff_a₄_not_mem_maximalIdeal_sq.mpr ha₄
+    have hΔ : (adicRedCurve W').Δ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).Δ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+        WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+    have hc₄ : (adicRedCurve W').c₄ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).c₄ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+    exact
+      (addOrderOf_ne_thirtyFive_of_firstBlowup_residue_b₄_ne_zeroAtEleven
+        hmap B residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero
+        hspecial hb₄
+        (specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄) P') horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j

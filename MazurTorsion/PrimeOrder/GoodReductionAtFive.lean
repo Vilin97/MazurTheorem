@@ -308,6 +308,77 @@ theorem minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts_o
         P' N hprime hN) horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆⟩
 
+/-- A marked prime-order point also eliminates the branch in which `a₄/ϖ` has nonzero residue.
+On the same exact short model, both `a₆` and `a₄` therefore lie in the indicated square of the
+maximal ideal.  The proof uses the checked pointwise statement that the double enters canonical
+nonsingular reduction; it makes no Kodaira-type assertion. -/
+theorem minimalCompletionAtFive_tateAlgorithm_exists_secondCoefficientDepth_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal
+          (atFive.adicCompletionIntegers ℚ) ^ 2 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆⟩ :=
+    minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts_of_primeOrder
+      E hA P N hprime hN horder
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+    (atFive.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+  have horder' : addOrderOf P' = N := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P).trans horder
+  have ha₄ : W'.a₄ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 2 := by
+    by_contra ha₄
+    have hb₄ : IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)
+        B.coefficients.b₄ ≠ 0 :=
+      B.residue_b₄_ne_zero_iff_a₄_not_mem_maximalIdeal_sq.mpr ha₄
+    have hΔ : (adicRedCurve W').Δ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atFive.adicCompletionIntegers ℚ))).Δ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+        WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+    have hc₄ : (adicRedCurve W').c₄ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atFive.adicCompletionIntegers ℚ))).c₄ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+    exact
+      (addOrderOf_ne_prime_ge_eleven_of_firstBlowup_residue_b₄_ne_zeroAtFive
+        hmap B residueAtFive_two_ne_zero residueAtFive_three_ne_zero
+        hspecial hb₄
+        (specialFiberPointAddEquivAtFiveOfCuspidal W' hΔ hc₄)
+        P' N hprime hN) horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/
