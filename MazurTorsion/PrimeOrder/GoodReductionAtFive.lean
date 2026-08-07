@@ -27,6 +27,10 @@ open MazurTorsion.IntegerPrimeSpecialization
 open IsDiscreteValuationRing
 open IsDedekindDomain.HeightOneSpectrum
 
+noncomputable local instance : DecidableEq
+    (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) :=
+  Classical.decEq _
+
 /-- If an integral model has good reduction at five, none of its rational
 torsion points has exact order at least eleven. -/
 theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive
@@ -134,6 +138,24 @@ theorem minimalCompletionPointAtFive_addOrderOf
   exact addOrderOf_injective _
     (pointMap_injective E.toAffine (atFive.adicCompletion ℚ)) P
 
+/-- The integral model canonically selected from a five-adic integral equation. -/
+noncomputable abbrev completionIntegralModelAtFive
+    (W : WeierstrassCurve (atFive.adicCompletion ℚ))
+    [W.IsIntegral (atFive.adicCompletionIntegers ℚ)] :
+    WeierstrassCurve (atFive.adicCompletionIntegers ℚ) :=
+  W.integralModel (atFive.adicCompletionIntegers ℚ)
+
+/-- The selected five-adic integral model has generic fibre `W`. -/
+theorem completionIntegralModelAtFive_map
+    (W : WeierstrassCurve (atFive.adicCompletion ℚ))
+    [W.IsIntegral (atFive.adicCompletionIntegers ℚ)] :
+    (completionIntegralModelAtFive W).map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W := by
+  simpa only [completionIntegralModelAtFive,
+    WeierstrassCurve.baseChange] using
+      W.baseChange_integralModel_eq (atFive.adicCompletionIntegers ℚ)
+
 /-- A minimal elliptic curve over the completion of `ℚ` at five with good reduction has no
 point of exact order at least eleven.
 
@@ -226,6 +248,39 @@ theorem
   exact completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
     hgood P N hN horder
 
+/-- The completion-level prime-order endpoint with the additive component geometry reduced to
+the marked point.  In the additive branch the caller proves only `12 • P ∈ E₀`; canonical
+nonsingular reduction and the exact formal kernel supply the rest of the local contradiction. -/
+theorem
+    completionPoint_addOrderOf_ne_of_eleven_le_of_componentExponentTwelveAtFive
+    {W : WeierstrassCurve (atFive.adicCompletion ℚ)}
+    [W.IsElliptic] [W.IsMinimal (atFive.adicCompletionIntegers ℚ)]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ)) W.j ≤ 1)
+    (especial : W.HasAdditiveReduction (atFive.adicCompletionIntegers ℚ) →
+      (adicRedCurve (completionIntegralModelAtFive W)).Point ≃+
+        IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (P : W.toAffine.Point)
+    (hcomponent : ∀ (_hA : W.HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      12 • P ∈ nonsingularReductionSubgroup
+        (completionIntegralModelAtFive_map W)
+        (nonsingularReduction_isAdditive (completionIntegralModelAtFive_map W)))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  intro horder
+  have hgood : W.HasGoodReduction (atFive.adicCompletionIntegers ℚ) :=
+    hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+      hj P N
+        (fun hA ↦
+          addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+            (completionIntegralModelAtFive_map W) (especial hA) P (hcomponent hA)
+            N hprime hN)
+        horder
+  exact completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
+    hgood P N hN horder
+
 /-- The rational-point version of the local completion endpoint.  It transports the marked point
 to Mathlib's selected minimal five-adic equation, preserving exact order, before invoking the
 integral-`j` and tame-additive-filtration contradiction.
@@ -253,6 +308,39 @@ theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFiv
   apply
     completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive
       hj' F hresidue (minimalCompletionPointAtFive E P) N hprime hN
+  exact (minimalCompletionPointAtFive_addOrderOf E P).trans horder
+
+/-- The rational prime-order local endpoint requiring only the marked-point component exponent on
+Mathlib's selected five-adic minimal equation. -/
+theorem
+    rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_componentExponentTwelveAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : atFive.valuation ℚ E.j ≤ 1)
+    (especial : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ) →
+        (adicRedCurve (completionIntegralModelAtFive
+          (minimalCompletionAtFive E))).Point ≃+
+          IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (P : E.toAffine.Point)
+    (hcomponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtFive E P ∈
+        nonsingularReductionSubgroup
+          (completionIntegralModelAtFive_map (minimalCompletionAtFive E))
+          (nonsingularReduction_isAdditive
+            (completionIntegralModelAtFive_map (minimalCompletionAtFive E))))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  have hj' : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal (atFive.adicCompletionIntegers ℚ))
+        (minimalCompletionAtFive E).j ≤ 1 := by
+    rw [valuation_minimalCompletionAtFive_j]
+    exact hj
+  intro horder
+  apply
+    completionPoint_addOrderOf_ne_of_eleven_le_of_componentExponentTwelveAtFive
+      hj' especial (minimalCompletionPointAtFive E P) hcomponent N hprime hN
   exact (minimalCompletionPointAtFive_addOrderOf E P).trans horder
 
 end MazurTorsion.PrimeOrder

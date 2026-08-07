@@ -60,6 +60,8 @@ used by rank zero and the additive component bound used at five.
   `WeierstrassCurve.Affine.nonsingularReduction_add_of_mem_filtration_left`
 * `theorem` (`contract`):
   `WeierstrassCurve.Affine.nonsingularReduction_isAdditive`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.point_eq_zero_of_coprime_component_exponent`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
 * `definition` (`contract`):
@@ -75,9 +77,12 @@ The canonical domain of points with nonsingular coordinate reduction, its
 actual map, negation closure, exact formal zero fibre, addition closure, and
 additivity now compile. The canonical five- and eleven-adic handoffs use the
 actual residue fields and component quotients without a supplied additivity
-premise. Identifying the cuspidal nonsingular locus with the additive residue
-group, identifying the subgroup with the genuine Néron identity component,
-and the component bound remain open, so this node remains blocked.
+premise. The checked component-exponent consumer shows that the marked
+torsion endpoints need only `12 • P` in this subgroup, not a construction or
+cardinality bound for the full quotient. Identifying the cuspidal nonsingular
+locus with the additive residue group, identifying the subgroup with the
+genuine Néron identity component, and proving the marked-point exponent remain
+open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")

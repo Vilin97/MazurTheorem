@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1478843,
+    "integrated_lean_lines": 1479248,
     "integrated_lean_modules": 775,
     "remaining_composite_orders": [
       18,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound. The selected eleven-adic minimal model, rational-point order transport, reduction-type trichotomy, good-reduction specialization, canonical additivity of coordinatewise nonsingular reduction, and actual cusp-stalk degree-one quotient-cotangent collision now form a checked end-to-end local consumer. Proving the cuspidal nonsingular-locus equivalence with the additive residue field, the genuine component bound, and the represented modular quotient/classifying/Atkin-Lehner specialization inputs remains open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent, nonsplit common-prime ideal-support calculation, and both nontrivial Eisenstein unit covers prove unconditionally that the fixed explicit curve model has rank zero and finite rational point group. On the split rational source locus, canonical level-5 and level-7 degeneracy carriers reconstruct the order-35 subgroup. Normalization and exhaustive enumeration of all 121 short F_11 models prove the eighteen-point bound. The selected eleven-adic minimal model, rational-point order transport, reduction-type trichotomy, good-reduction specialization, and canonical nonsingular reduction now have checked consumers needing only 12 • P in the canonical identity subgroup, rather than a full component-quotient cardinality bound. Proving the cuspidal nonsingular-locus equivalence, genuine Neron identity-component comparison, marked-point exponent, and represented modular quotient/classifying/Atkin-Lehner specialization inputs remains open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -819,6 +819,20 @@
           "description": "Reach the order-35 additive-fibre contradiction from canonical coordinatewise nonsingular reduction with additivity proved internally, leaving the actual special-cubic classification and genuine component bound."
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_componentExponentTwelveAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFive",
+          "description": "Exclude exact order 35 from a marked-point component exponent, eleven-element identity-component reduction target, and torsion-free formal kernel."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFive",
+          "description": "Instantiate the component-exponent contradiction on canonical nonsingular reduction and the exact eleven-adic formal kernel."
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven",
           "state": "contract",
@@ -852,6 +866,20 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
           "description": "Transport the rational j valuation and marked point to the selected minimal completion and consume the canonical local reduction endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelve",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Reach the completion-level F_11 contradiction from integral j and the marked-point component exponent on canonical nonsingular reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelveAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven",
+          "description": "Transport a rational order-35 point to the selected minimal completion and consume the narrower component-exponent handoff."
         },
         {
           "kind": "theorem",
@@ -3236,7 +3264,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the residue-characteristic-five additive component bound used by the final local argument. The canonical domain of points with nonsingular coordinate reduction, its actual reduction map, negation closure, exact formal zero fibre, addition closure, and additivity now compile. The five- and eleven-adic handoffs use the checked canonical reduction homomorphism, actual residue fields, and canonical component quotients. Identifying the cuspidal nonsingular locus with the additive residue group, identifying the subgroup with the genuine Neron identity component, and proving the component bound remain open.",
+      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical domain of points with nonsingular coordinate reduction, its actual reduction map, negation closure, exact formal zero fibre, addition closure, and additivity now compile. A checked group-theoretic lemma and canonical five- and eleven-adic consumers show that the marked torsion endpoints need only the component-exponent statement 12 • P ∈ E₀, not finiteness or a cardinality bound for the full component quotient. Identifying the cuspidal nonsingular locus with the additive residue group, identifying the subgroup with the genuine Neron identity component, and proving this marked-point exponent statement remain open; the stronger full component bound remains proposed for the shared Neron/toric API.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3339,6 +3367,13 @@
           "state": "contract",
           "module": "MazurTorsion.EllipticCurve.NonsingularReductionAdditive",
           "description": "Prove unconditional addition closure and additivity of canonical coordinatewise nonsingular reduction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.EllipticCurve.point_eq_zero_of_coprime_component_exponent",
+          "state": "contract",
+          "module": "MazurTorsion.EllipticCurve.TameAdditiveFiltration",
+          "description": "Kill a marked torsion point from a coprime component exponent, finite identity-component reduction, and torsion-free formal kernel without constructing or counting the component quotient."
         },
         {
           "kind": "definition",
@@ -6016,7 +6051,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The tame additive Neron fibre has component group of order at most four, reduction into the five-element additive residue field, and torsion-free formal kernel, so the checked filtration cannot contain a point of prime order N at least 11. Canonical nonsingular coordinate reduction on Mathlib's selected minimal equation has the exact formal kernel, and additive reduction forces the reduced discriminant and c₄ to vanish. Proving its additivity, classifying the actual cuspidal nonsingular locus as the additive residue group, identifying the genuine Neron identity component, and proving the component bound remain open.",
+      "summary": "The checked marked-point argument now needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. This avoids constructing, proving finite, or cardinality-bounding the full component quotient in the torsion consumer. Canonical nonsingular coordinate reduction on Mathlib's selected minimal equation is additive and has the exact formal kernel, while additive reduction forces reduced discriminant and c₄ to vanish. Classifying the actual cuspidal nonsingular locus as the additive residue group, identifying the genuine Neron identity component, and proving 12 • P lies there remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6030,6 +6065,20 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
           "description": "Prove the prime-order contradiction from the component, additive-residue, and torsion-free formal-kernel filtration."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_componentExponentTwelveAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Exclude a marked prime-order point using only its component exponent, the five-element identity-component reduction target, and the torsion-free formal kernel."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.TameAdditiveAtFive",
+          "description": "Instantiate the component-exponent contradiction on canonical coordinatewise nonsingular reduction and discharge the formal-kernel theorem at five."
         },
         {
           "kind": "definition",
@@ -6078,7 +6127,7 @@
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction; it is consumed both by the prime route at five and the order-35 route at eleven. The five-adic completion consumer carries the same marked point through the completed integral model, exact-order reduction, and the residue-field equivalence to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved, the cusp-stalk quotient-cotangent consumer supplies its local j bound, and canonical nonsingular reduction is now proved additive. The represented modular/cusp data, cuspidal special-locus classification, genuine Neron component identification, and component bound remain open.",
+      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction; it is consumed both by the prime route at five and the order-35 route at eleven. New completion and rational consumers use the narrower marked-point input 12 • P in the canonical nonsingular-reduction subgroup, then carry the same point through good-reduction specialization to the checked F_5 contradiction. The rational marked point is base-changed and transported through Mathlib's selected minimal variable change with exact order preserved. The represented modular/cusp data, cuspidal special-locus classification, genuine Neron identity-component identification, and marked-point component-exponent proof remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6130,6 +6179,13 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_componentExponentTwelveAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Reach the completion-level F_5 contradiction from integral j, canonical nonsingular reduction, and the marked-point component-exponent statement."
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_addOrderOf",
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
@@ -6148,6 +6204,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
           "description": "Feed rational integral j, the genuine filtration on the selected minimal completion, and the transported rational point to the checked F_5 contradiction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_componentExponentTwelveAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Transport the rational point to the selected minimal completion and consume only its canonical component-exponent statement in the additive branch."
         },
         {
           "kind": "theorem",

@@ -48,7 +48,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `b2c9257` contains reviewed acceptance
+The combined owner history through `2b03e7c` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -97,6 +97,19 @@ identity-component identification, and component-cardinality bound remain
 open; no node credit is claimed. The focused Lean targets build with
 `LEAN_NUM_THREADS=1`; the 48-node/1,000-point graph and all eleven Challenge
 contracts remain unchanged.
+
+The newest owner range narrows the remaining tame-component handoff without
+claiming node credit. A generic checked lemma kills a marked torsion point
+from a component exponent coprime to its order, finite reduction on the
+identity subgroup, and the torsion-free formal kernel. Canonical consumers at
+five and eleven instantiate the exponent `12`, coordinatewise nonsingular
+reduction, and the exact-pinned formal kernels. Completion-level and rational
+consumers then reach the existing `F₅` and `F₁₁` contradictions. Thus these
+torsion endpoints no longer require construction, finiteness, or a cardinality
+bound for the full component quotient; they still require the honest geometric
+statement `12 • P ∈ E₀` and the cuspidal special-fibre equivalence. All five
+focused modules compile with `LEAN_NUM_THREADS=1`, and their axiom closure is
+only `propext`, `Classical.choice`, and `Quot.sound`.
 
 The special-fibre formal-immersion range packages compatible quotient ideals,
 finite generation of the quotient target maximal ideal, and the computed
@@ -488,6 +501,8 @@ collision at `5` and a ten-point finite-field bound.
 | Branch | Retained value | Integration consequence |
 |---|---|---|
 | `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
+| `codex/mt-cuspidal-finite` | Uncommitted finite-enumeration prototype for the cuspidal special fibre, plus a singular-cubic variable-change extension | Retain in its `/data/codex-scratch`-backed worktree but do not integrate yet. Focused build fails reproducibly at missing residue-field `DecidableEq` instances, invariant transport through the residue equivalence, and two malformed quotient tokens. Repair, compile both primes, add the canonical component-exponent endpoint as consumer, audit the widened variable-change API, then commit and review. |
+| `codex/mt-fiber-stalk-naturality` | Untracked affine-fibre localization scratch proof exposing the required generator formula | Retain as scratch and do not integrate. Direct Lean checking reaches the final `localizationAlgEquivQuotient` comparison but the claimed `rfl` is false; prove the remaining quotient-equivalence transport explicitly, move only the minimal theorem into a licensed module, and compile the degree-one cotangent consumer before review. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
@@ -581,15 +596,18 @@ within each lane follows the listed order.
    API stops at section extension for the modular quotient and elliptic local
    models.
 2. `MT-NERON-COMPONENTS` (30) supplies completely toric level reduction and
-   the tame additive component bound at `5` and `11`. The checked canonical
+   the tame additive component geometry at `5` and `11`. The checked canonical
    handoff fixes the component to the quotient by the identity subgroup and
    fixes the reduction target to the actual residue field. Component finiteness
    follows from the exact-pin formal-filtration finite-index theorem. The
    canonical coordinate domain/map, exact formal kernel, and unconditional
-   `NonsingularReductionIsAdditive` theorem now compile. Prove the cuspidal
-   nonsingular-locus equivalence with the additive residue field,
-   identification with the genuine Néron identity component, and the
-   component bound; the handoff itself earns no node credit.
+   `NonsingularReductionIsAdditive` theorem now compile. The marked torsion
+   consumers need only `12 • P` in that subgroup; they do not need the full
+   component quotient or its cardinality. Prove the cuspidal nonsingular-locus
+   equivalence with the additive residue field, identification with the
+   genuine Néron identity component, and this marked-point exponent. Retain
+   the stronger component bound only for a named toric/Néron consumer; the
+   handoff itself earns no node credit.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
@@ -602,9 +620,9 @@ within each lane follows the listed order.
    completed marked point then reduces with unchanged order and reaches the
    checked `F₅` contradiction through the canonical residue equivalence. This is
    not node completion: canonical five- and eleven-adic data now discharge
-   finite-component and formal-torsion bookkeeping, but their Néron
-   component identification, cuspidal-locus classification, and component
-   bound used before good reduction are still absent.
+   the reduction-cardinality and formal-torsion bookkeeping, but their Néron
+   identity-component identification, cuspidal-locus classification, and
+   marked-point exponent before good reduction are still absent.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -839,8 +857,10 @@ in `route_history`:
    component group compiles. Its canonical five-adic consumer derives
    component finiteness, residue cardinality, and formal-kernel torsion. The
    actual minimal equation's nonsingular coordinate map, exact kernel, and
-   additivity also compile; prove the cuspidal additive classification,
-   genuine identity-component identification, and component bound.
+   additivity also compile. A narrower canonical consumer proves the same
+   contradiction from `12 • P ∈ E₀`; prove the cuspidal additive
+   classification, genuine identity-component identification, and that
+   marked-point exponent.
 6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
    reduction and the shared exhaustive trichotomy reaches good reduction from
    any genuine additive exact-order obstruction; five and eleven are both
@@ -850,8 +870,10 @@ in `route_history`:
    collision now supplies its `j` premise without changing the marked point or
    filtration. A stronger downstream theorem takes the canonical five-adic
    reduction data, while the newest endpoint fixes coordinatewise nonsingular
-   reduction on the selected minimal model. Construct the represented
-   collision and discharge the cuspidal classification and genuine component
+   reduction on the selected minimal model. The completion and rational
+   endpoints now consume the marked component exponent instead of a full
+   component-cardinality theorem. Construct the represented collision and
+   discharge the cuspidal classification and genuine marked-point component
    geometry.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
@@ -988,10 +1010,20 @@ or accounting shortcut.
   nonsingular-reduction domain, coordinate map, negation closure, exact formal
   kernel, and unconditional subgroup/homomorphism on the selected minimal
   model are now independently reviewed and integrated. The exact-pin slope
-  proof establishes additivity on this canonical nonsingular domain. The next
-  gates are the cuspidal nonsingular-locus/additive-field equivalence at five
-  and eleven, genuine identity-component comparison, and component quotient
-  bound.
+  proof establishes additivity on this canonical nonsingular domain. The new
+  component-exponent consumers show that the theorem endpoints only need
+  `12 • P` in this subgroup. The next gates are the repaired finite cuspidal
+  nonsingular-locus/additive-field equivalence at five and eleven, genuine
+  identity-component comparison, and the marked-point exponent.
+- `codex/mt-cuspidal-finite`: inspected but not integrated. Its uncommitted
+  prototype is mathematically aligned with the route, but the focused build
+  currently fails at the residue-field instances/invariant transport and two
+  malformed quotient tokens. Repair it in place and require the canonical
+  component-exponent consumer before acceptance.
+- `codex/mt-fiber-stalk-naturality`: inspected but not integrated. The
+  untracked scratch theorem reaches the localization/quotient comparison, but
+  its final definitional-equality step fails. Complete that transport and add
+  the mapped degree-one cotangent consumer before creating a review commit.
 - `projective-point-negation`: independently reviewed and integrated through
   compatibility of the canonical point bijection with the scheme involution and
   the exact conditional inverse bridge. The pointed genus-one/Picard transfer API

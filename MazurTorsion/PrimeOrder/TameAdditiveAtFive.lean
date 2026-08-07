@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
 import Mathlib.Tactic.NormNum
@@ -19,10 +20,15 @@ local elliptic curve.
 namespace MazurTorsion.PrimeOrder
 
 open MazurTorsion.EllipticCurve
+open MazurTorsion.IntegerPrimeSpecialization
 open IsDiscreteValuationRing
 open IsDedekindDomain.HeightOneSpectrum
 
 universe u v
+
+noncomputable local instance : DecidableEq
+    (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) :=
+  Classical.decEq _
 
 section ReductionType
 
@@ -102,6 +108,103 @@ theorem addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive
   rw [hzero] at horder
   simp at horder
   omega
+
+/-- The prime-five additive contradiction needs only a component exponent, not a cardinality
+bound for a separately constructed component group.  The tame universal exponent `12` is coprime
+to every prime order at least eleven, while the identity-component residue group has cardinality
+five. -/
+theorem addOrderOf_ne_prime_ge_eleven_of_componentExponentTwelveAtFive
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G)
+    {ResidueAdditive : Type v} [AddCommGroup ResidueAdditive]
+    [Finite ResidueAdditive]
+    (identityReduction : identitySubgroup →+ ResidueAdditive)
+    (formalKernel : AddSubgroup identitySubgroup)
+    (identityReduction_ker : identityReduction.ker = formalKernel)
+    (formalKernel_torsionFree :
+      ∀ Q : formalKernel, IsOfFinAddOrder Q → Q = 0)
+    (hresidue : Nat.card ResidueAdditive = 5)
+    (P : G) (hcomponent : 12 • P ∈ identitySubgroup)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  intro horder
+  have hcomponentCoprime : N.Coprime 12 := by
+    rw [hprime.coprime_iff_not_dvd]
+    intro hdvd
+    have hle : N ≤ 12 := Nat.le_of_dvd (by norm_num) hdvd
+    have hcases : N = 11 ∨ N = 12 := by omega
+    rcases hcases with rfl | rfl
+    · norm_num at hdvd
+    · exact (by decide : ¬ Nat.Prime 12) hprime
+  have hresidueCoprime : N.Coprime (Nat.card ResidueAdditive) := by
+    rw [hresidue]
+    exact Nat.coprime_of_lt_prime (by norm_num) (by omega) hprime
+  have hzero := point_eq_zero_of_coprime_component_exponent
+    identitySubgroup identityReduction formalKernel identityReduction_ker
+    formalKernel_torsionFree hprime.ne_zero hcomponentCoprime
+    hresidueCoprime hcomponent horder
+  rw [hzero] at horder
+  simp at horder
+  omega
+
+/-- The canonical five-adic prime-order contradiction through the component-exponent handoff.
+
+Coordinatewise nonsingular reduction fixes the identity subgroup and reduction homomorphism, and
+the exact-pinned unramified theorem proves torsion-freeness of the formal kernel.  Consequently the
+only component geometry required for the marked point is `12 • P ∈ E₀`; neither finiteness nor a
+cardinality bound for the full component quotient appears in this interface. -/
+theorem
+    addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (P : W.Point)
+    (hcomponent : 12 • P ∈
+      WeierstrassCurve.Affine.nonsingularReductionSubgroup hW
+        (WeierstrassCurve.Affine.nonsingularReduction_isAdditive hW))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  let residueEquivZMod :
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ) ≃ ZMod 5 :=
+    ((atFive.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      MazurTorsion.IntegerPrimeSpecialization.residueFiveAlgEquiv.toRingEquiv).toEquiv
+  letI : Finite
+      (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) :=
+    Finite.of_equiv (ZMod 5) residueEquivZMod.symm
+  let identitySubgroup : AddSubgroup W.Point :=
+    WeierstrassCurve.Affine.nonsingularReductionSubgroup hW
+      (WeierstrassCurve.Affine.nonsingularReduction_isAdditive hW)
+  let identityReduction : identitySubgroup →+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ) :=
+    especial.toAddMonoidHom.comp
+      (WeierstrassCurve.Affine.nonsingularReductionHom hW
+        (WeierstrassCurve.Affine.nonsingularReduction_isAdditive hW))
+  let formalKernel : AddSubgroup identitySubgroup :=
+    (WeierstrassCurve.Affine.filtration hW 0).comap identitySubgroup.subtype
+  apply addOrderOf_ne_prime_ge_eleven_of_componentExponentTwelveAtFive
+    identitySubgroup identityReduction formalKernel
+  · ext Q
+    change especial
+      (WeierstrassCurve.Affine.nonsingularReductionHom hW
+        (WeierstrassCurve.Affine.nonsingularReduction_isAdditive hW) Q) = 0 ↔ _
+    rw [← map_zero especial, especial.injective.eq_iff]
+    exact WeierstrassCurve.Affine.nonsingularReduction_eq_zero_iff hW Q Q.property
+  · intro Q hQ
+    apply Subtype.ext
+    apply Subtype.ext
+    exact MazurTorsion.IntegerPrimeSpecialization.torsion_eq_zero_of_mem_formalKernel_atFive
+      hW Q.property
+      (identitySubgroup.subtype.isOfFinAddOrder
+        (formalKernel.subtype.isOfFinAddOrder hQ))
+  · exact MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.residue_natCard
+  · exact hcomponent
+  · exact hprime
+  · exact hN
 
 /-- Integral `j`, the actual tame additive Néron filtration, and a marked prime-order point
 upgrade a minimal equation to good reduction.  The proof uses Mathlib's exhaustive

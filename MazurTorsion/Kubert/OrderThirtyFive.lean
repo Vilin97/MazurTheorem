@@ -92,6 +92,30 @@ theorem addOrderOf_ne_thirtyFive_of_tameAdditiveFiltrationAtEleven
   rw [hzero] at horder
   norm_num at horder
 
+/-- The order-35 additive contradiction through the narrower tame component-exponent handoff.
+The universal exponent `12` is coprime to `35`, and the eleven-element additive residue group is
+also coprime to `35`; no cardinality or finiteness of the full component quotient is used. -/
+theorem addOrderOf_ne_thirtyFive_of_componentExponentTwelveAtEleven
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G)
+    {ResidueAdditive : Type v} [AddCommGroup ResidueAdditive]
+    [Finite ResidueAdditive]
+    (identityReduction : identitySubgroup →+ ResidueAdditive)
+    (formalKernel : AddSubgroup identitySubgroup)
+    (identityReduction_ker : identityReduction.ker = formalKernel)
+    (formalKernel_torsionFree :
+      ∀ Q : formalKernel, IsOfFinAddOrder Q → Q = 0)
+    (hresidue : Nat.card ResidueAdditive = 11)
+    (P : G) (hcomponent : 12 • P ∈ identitySubgroup) :
+    addOrderOf P ≠ 35 := by
+  intro horder
+  have hzero := point_eq_zero_of_coprime_component_exponent
+    identitySubgroup identityReduction formalKernel identityReduction_ker
+    formalKernel_torsionFree (N := 35) (componentExponent := 12)
+    (by norm_num) (by norm_num) (by rw [hresidue]; norm_num) hcomponent horder
+  rw [hzero] at horder
+  norm_num at horder
+
 /-- The order-35 additive-fibre contradiction from the canonical eleven-adic reduction data.
 The component is the quotient by the specified identity subgroup, reduction targets the actual
 eleven-adic residue field, and formal-kernel torsion-freeness comes from the checked
@@ -130,5 +154,58 @@ theorem addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven
   addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven hW
     (TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction
       especial hcomponent) P
+
+/-- The canonical eleven-adic additive contradiction through the component-exponent handoff.
+
+This is the first geometric consumer of
+`addOrderOf_ne_thirtyFive_of_componentExponentTwelveAtEleven`: coordinatewise nonsingular
+reduction supplies the identity subgroup and reduction homomorphism, while the exact-pinned
+formal-group theorem supplies torsion-freeness of its kernel.  The remaining component input is
+only the marked-point assertion `12 • P ∈ E₀`; no component quotient or cardinality bound is
+constructed. -/
+theorem
+    addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (P : W.Point)
+    (hcomponent : 12 • P ∈
+      nonsingularReductionSubgroup hW (nonsingularReduction_isAdditive hW)) :
+    addOrderOf P ≠ 35 := by
+  let residueEquivZMod :
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ) ≃ ZMod 11 :=
+    ((atEleven.residueFieldEquivAdicCompletionIntegers (K := ℚ)).symm.trans
+      residueElevenAlgEquiv.toRingEquiv).toEquiv
+  letI : Finite
+      (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
+    Finite.of_equiv (ZMod 11) residueEquivZMod.symm
+  let identitySubgroup : AddSubgroup W.Point :=
+    nonsingularReductionSubgroup hW (nonsingularReduction_isAdditive hW)
+  let identityReduction : identitySubgroup →+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ) :=
+    especial.toAddMonoidHom.comp
+      (nonsingularReductionHom hW (nonsingularReduction_isAdditive hW))
+  let formalKernel : AddSubgroup identitySubgroup :=
+    (filtration hW 0).comap identitySubgroup.subtype
+  apply addOrderOf_ne_thirtyFive_of_componentExponentTwelveAtEleven
+    identitySubgroup identityReduction formalKernel
+  · ext Q
+    change especial
+      (nonsingularReductionHom hW (nonsingularReduction_isAdditive hW) Q) = 0 ↔ _
+    rw [← map_zero especial, especial.injective.eq_iff]
+    exact nonsingularReduction_eq_zero_iff hW Q Q.property
+  · intro Q hQ
+    apply Subtype.ext
+    apply Subtype.ext
+    exact torsion_eq_zero_of_mem_formalKernel_atEleven hW Q.property
+      (identitySubgroup.subtype.isOfFinAddOrder
+        (formalKernel.subtype.isOfFinAddOrder hQ))
+  · exact TameAdditiveReductionDataAtEleven.residue_natCard
+  · exact hcomponent
 
 end MazurTorsion.OrderThirtyFive

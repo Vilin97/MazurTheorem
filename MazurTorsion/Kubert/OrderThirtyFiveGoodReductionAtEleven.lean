@@ -269,6 +269,42 @@ theorem
         (especial hA) (hcomponent hA))
       P
 
+/-- The completion-level order-35 endpoint with the component geometry reduced to the marked
+point.  In the additive branch the caller proves only that `12 • P` has nonsingular reduction;
+the canonical reduction homomorphism and exact formal kernel then give the additive-order
+contradiction without constructing the full component quotient. -/
+theorem
+    completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelve
+    {W : WeierstrassCurve (atEleven.adicCompletion ℚ)}
+    [W.IsElliptic]
+    [W.IsMinimal (atEleven.adicCompletionIntegers ℚ)]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hj : valuation (atEleven.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atEleven.adicCompletionIntegers ℚ)) W.j ≤ 1)
+    (especial : W.HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ) →
+        (adicRedCurve (completionIntegralModelAtEleven W)).Point ≃+
+          IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (P : W.toAffine.Point)
+    (hcomponent : ∀ (_hA : W.HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)),
+      12 • P ∈ nonsingularReductionSubgroup
+        (completionIntegralModelAtEleven_map W)
+        (nonsingularReduction_isAdditive
+          (completionIntegralModelAtEleven_map W))) :
+    addOrderOf P ≠ 35 := by
+  intro horder
+  have hgood : W.HasGoodReduction (atEleven.adicCompletionIntegers ℚ) :=
+    hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+      hj P 35
+        (fun hA ↦
+          addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+            (completionIntegralModelAtEleven_map W) (especial hA) P (hcomponent hA))
+        horder
+  exact completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven
+    hgood P horder
+
 /-- The integral equation on the selected minimal completion used by the
 order-35 canonical nonsingular-reduction consumer. -/
 noncomputable abbrev minimalCompletionIntegralModelAtEleven
@@ -316,6 +352,38 @@ theorem
   apply
     completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReduction
       hj' especial hcomponent (minimalCompletionPointAtEleven E P)
+  exact (minimalCompletionPointAtEleven_addOrderOf E P).trans horder
+
+/-- Rational order 35 is excluded using the eleven-adic valuation bound and only the
+marked-point component-exponent statement on the selected minimal equation. -/
+theorem
+    rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelveAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hj : atEleven.valuation ℚ E.j ≤ 1)
+    (especial : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ) →
+        (adicRedCurve (minimalCompletionIntegralModelAtEleven E)).Point ≃+
+          IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (P : E.toAffine.Point)
+    (hcomponent : ∀ (_hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtEleven E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtEleven_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtEleven_map E))) :
+    addOrderOf P ≠ 35 := by
+  have hj' : valuation (atEleven.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atEleven.adicCompletionIntegers ℚ))
+      (minimalCompletionAtEleven E).j ≤ 1 := by
+    rw [valuation_minimalCompletionAtEleven_j]
+    exact hj
+  intro horder
+  apply
+    completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelve
+      hj' especial (minimalCompletionPointAtEleven E P) hcomponent
   exact (minimalCompletionPointAtEleven_addOrderOf E P).trans horder
 
 end MazurTorsion.OrderThirtyFive

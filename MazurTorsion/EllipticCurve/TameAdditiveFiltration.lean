@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.GroupTheory.OrderOfElement
+import Mathlib.GroupTheory.QuotientGroup.Basic
 
 /-!
 # The group-theoretic filtration of a tame additive Néron fibre
@@ -39,6 +40,74 @@ theorem map_eq_zero_of_addOrderOf_eq_of_coprime_card
     apply Nat.dvd_one.mp
     simpa [hcoprime.gcd_eq_one] using hdvdGcd
   exact AddMonoid.addOrderOf_eq_one_iff.mp hone
+
+/-- A component-cardinality bound is stronger than the local torsion argument needs.  It is
+enough to know that one integer coprime to the marked order sends the marked point into the
+identity subgroup.  Reduction there, followed by the torsion-free formal kernel, then kills the
+point.
+
+For a tame additive elliptic fibre the uniform integer used downstream is `12`: it annihilates
+every group of order at most four, including the order-three component cases.  Thus the geometric
+handoff may prove the narrower statement `12 • P ∈ E₀` without constructing or counting the full
+component quotient. -/
+theorem point_eq_zero_of_coprime_component_exponent
+    {G : Type u} [AddCommGroup G]
+    (identitySubgroup : AddSubgroup G)
+    {ResidueAdditive : Type v} [AddCommGroup ResidueAdditive]
+    [Finite ResidueAdditive]
+    (identityReduction : identitySubgroup →+ ResidueAdditive)
+    (formalKernel : AddSubgroup identitySubgroup)
+    (identityReduction_ker : identityReduction.ker = formalKernel)
+    (formalKernel_torsionFree :
+      ∀ Q : formalKernel, IsOfFinAddOrder Q → Q = 0)
+    {componentExponent N : ℕ} {P : G}
+    (hN : N ≠ 0)
+    (hcomponentCoprime : N.Coprime componentExponent)
+    (hresidueCoprime : N.Coprime (Nat.card ResidueAdditive))
+    (hcomponentExponent : componentExponent • P ∈ identitySubgroup)
+    (horder : addOrderOf P = N) :
+    P = 0 := by
+  let component : G →+ G ⧸ identitySubgroup :=
+    QuotientAddGroup.mk' identitySubgroup
+  have hcomponentN : addOrderOf (component P) ∣ N := by
+    rw [← horder]
+    exact addOrderOf_map_dvd component P
+  have hcomponentExp : componentExponent • component P = 0 := by
+    rw [← component.map_nsmul]
+    exact (QuotientAddGroup.eq_zero_iff (componentExponent • P)).mpr hcomponentExponent
+  have hcomponentDvd : addOrderOf (component P) ∣ componentExponent :=
+    addOrderOf_dvd_iff_nsmul_eq_zero.mpr hcomponentExp
+  have hcomponentOne : addOrderOf (component P) = 1 := by
+    apply Nat.dvd_one.mp
+    rw [← hcomponentCoprime.gcd_eq_one]
+    exact Nat.dvd_gcd hcomponentN hcomponentDvd
+  have hcomponentZero : component P = 0 :=
+    AddMonoid.addOrderOf_eq_one_iff.mp hcomponentOne
+  have hPidentity : P ∈ identitySubgroup :=
+    (QuotientAddGroup.eq_zero_iff P).mp hcomponentZero
+  let P₀ : identitySubgroup := ⟨P, hPidentity⟩
+  have hP₀order : addOrderOf P₀ = N := by
+    rw [← AddSubgroup.addOrderOf_coe P₀]
+    simpa [P₀] using horder
+  have hresidueZero : identityReduction P₀ = 0 :=
+    map_eq_zero_of_addOrderOf_eq_of_coprime_card
+      identityReduction hP₀order hresidueCoprime
+  have hP₀mem : P₀ ∈ formalKernel := by
+    rw [← identityReduction_ker]
+    exact hresidueZero
+  let Q : formalKernel := ⟨P₀, hP₀mem⟩
+  have hQorder : addOrderOf Q = N := by
+    rw [← AddSubgroup.addOrderOf_coe Q]
+    simpa [Q] using hP₀order
+  have hQtorsion : IsOfFinAddOrder Q := addOrderOf_pos_iff.mp (by
+    rw [hQorder]
+    exact Nat.pos_of_ne_zero hN)
+  have hQzero : Q = 0 := formalKernel_torsionFree Q hQtorsion
+  have hP₀zero : P₀ = 0 := by
+    have h := congrArg (fun x : formalKernel ↦ (x : identitySubgroup)) hQzero
+    simpa [Q] using h
+  have hPzero := congrArg (fun x : identitySubgroup ↦ (x : G)) hP₀zero
+  simpa [P₀] using hPzero
 
 /-- The algebraic data in the filtration of local points of an elliptic
 curve with tame additive reduction. The component group is finite of size at

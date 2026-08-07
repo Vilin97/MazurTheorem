@@ -70,11 +70,14 @@ Fix a rational prime `N` with `N = 11` or `17 ≤ N`, an elliptic curve
    completed local rings—the definition of formal immersion—makes this
    impossible.  Thus `E` has potentially good reduction at `5`.
 7. Since `N ≠ 5`, the marked point retains exact order `N` in the Néron
-   special fibre.  An additive fibre in residue characteristic `5` has a
-   component group of order at most four, an additive quotient of order five,
-   and a pro-five formal kernel.  It has no point of prime order `N ≥ 11`.
-   Potentially good reduction also excludes a multiplicative fibre, so the
-   reduction is good.
+   special fibre.  For the torsion contradiction it is enough to prove the
+   marked-point consequence `12 • P ∈ E₀`: `12` annihilates every tame
+   elliptic component group of order at most four and is coprime to every
+   prime `N ≥ 11`.  Reduction from `E₀` to the five-element additive group,
+   followed by the pro-five formal kernel, then kills `P`.  The checked Lean
+   consumer uses exactly this component-exponent statement and does not need
+   to construct or count the full component quotient. Potentially good
+   reduction also excludes a multiplicative fibre, so the reduction is good.
 8. The point injects into `E(𝔽₅)`, but the checked finite-field certificate
    gives `#E(𝔽₅) ≤ 10`, a contradiction. Mathematically this is the `q=5`
    case of Hasse; in Lean it is cheaper to normalize to short form and
@@ -98,7 +101,8 @@ following remain on the theorem's critical path:
 * Hecke correspondences, cotangent action, and the `q`-expansion recursion;
 * a nontrivial optimal Eisenstein quotient for `N=11` or prime `N≥17`;
 * finiteness of that quotient's rational points; and
-* the focused Néron and finite-flat theory used in the last assertion.
+* the focused Néron and finite-flat theory used in the last assertion,
+  including the marked-point tame-component exponent at `5` and `11`.
 
 The rank-zero input is why the existing finite-flat work is retained, but its
 integral scope must be stated precisely. In Mazur 1977 III.3 the

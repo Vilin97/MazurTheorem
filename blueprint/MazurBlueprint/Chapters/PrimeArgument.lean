@@ -98,18 +98,22 @@ at least eleven.
   `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_componentExponentTwelveAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.toTameAdditiveFiltrationData`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.minimalCompletionAtFive_reduction_invariants_of_hasAdditiveReduction`
 
-The canonical five-adic handoff now derives component finiteness, residue
-cardinality, and formal-kernel torsion before applying the exact prime-order
-contradiction. Canonical coordinate reduction on the selected minimal model
-has exact formal kernel, and additive reduction forces reduced `Δ` and `c₄`
-to vanish. Its additivity is now checked. The cuspidal nonsingular-locus
-equivalence with the additive residue field, genuine identity-component
-identification, and component bound remain open.
+The narrower canonical five-adic handoff now needs only `12 • P` in the
+nonsingular-reduction subgroup, residue cardinality five, and the exact
+torsion-free formal kernel. Canonical coordinate reduction on the selected
+minimal model is additive and has that exact kernel; additive reduction forces
+reduced `Δ` and `c₄` to vanish. The cuspidal nonsingular-locus equivalence,
+genuine identity-component identification, and marked-point exponent remain
+open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -133,11 +137,15 @@ fibre. The remaining fibre is good.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
 * `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_componentExponentTwelveAtFive`
+* `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_addOrderOf`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_minimalCompletionAtFive_j`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_componentExponentTwelveAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive`
 * `theorem` (`contract`):
@@ -158,10 +166,12 @@ new formal-immersion consumer discharges that rational `j` premise from the
 explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
 Its canonical nonsingular-reduction consumer fixes the actual minimal
 integral model, coordinate domain/map, and exact formal kernel, accepting no
-arbitrary identity subgroup or reduction homomorphism. The represented
-modular/cusp collision, cuspidal special-locus classification, genuine Néron
-component identification, and component bound remain open, so this node
-receives no completion credit.
+arbitrary identity subgroup or reduction homomorphism. A compiled completion
+and rational consumer replace the full component-cardinality input by the
+marked statement `12 • P ∈ E₀`. The represented modular/cusp collision,
+cuspidal special-locus classification, genuine Néron component identification,
+and marked-point exponent remain open, so this node receives no completion
+credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
