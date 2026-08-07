@@ -1,0 +1,264 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec
+
+/-!
+# An affine cusp uniformizer feeds the `Spec.map` formal-immersion criterion
+
+This file narrows the remaining handoff from an explicit modular affine chart
+to the checked affine-fibre formal-immersion machinery.  For an affine map
+`Spec T → Spec S`, a prime `q` of the special fibre of `T` is the proposed
+cusp.  The geometric chart calculation is asked to prove that an element
+called `qParameter`:
+
+* generates the maximal ideal of the localized special fibre at `q`; and
+* does not lie in its square.
+
+Those two concrete equalities imply that the source cotangent space has
+dimension one.  Thus a nonzero first-`q`-coefficient of one pulled-back
+cotangent vector supplies `Ideal.Fiber.IsAffineFiberDegreeOneCotangent`, and
+the existing stalk comparison proves formal immersion for the genuine map
+`Spec.map g`.
+
+No integral `X₀(N)` is manufactured here.  An application to the Mazur route
+must still construct the represented modular chart, identify its cusp prime
+and `q`-parameter, prove the two residue-map surjections, and calculate the
+first coefficient of the optimal-quotient map.  The final theorem exposes
+exactly those obligations rather than hiding them in a proposed modular-curve
+structure.
+-/
+
+open Algebra TensorProduct AlgebraicGeometry
+
+namespace Ideal.Fiber
+
+universe u
+
+variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
+  [Algebra R S] [Algebra R T]
+
+/-- The cotangent class of an explicitly supplied maximal-ideal element.
+This helper keeps the localization ring instances coherent when the element
+is used with `localizedRingMap`. -/
+private noncomputable def cotangentClass
+    {A : Type*} [CommRing A] [IsLocalRing A]
+    (a : A) (ha : a ∈ IsLocalRing.maximalIdeal A) :
+    IsLocalRing.CotangentSpace A :=
+  (IsLocalRing.maximalIdeal A).toCotangent ⟨a, ha⟩
+
+/-- A unit linear term in the local affine `q`-expansion produces the
+explicit cotangent vector detected by the degree-one criterion.
+
+The equality says that the pullback of `sourceParameter` is a unit multiple
+of `qParameter`, modulo the square of the cusp maximal ideal.  If its
+cotangent class vanished, both the pullback and the remainder would lie in
+that square, forcing `qParameter` into the square because the coefficient is
+a unit. -/
+theorem exists_detectedVector_of_unit_qExpansion
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (qParameter : Localization.AtPrime q)
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (unitCoefficient remainder : Localization.AtPrime q)
+    (hunit : IsUnit unitCoefficient)
+    (hremainder : remainder ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (hfirstOrder : localizedMap p g q sourceParameter =
+      unitCoefficient * qParameter + remainder) :
+    ∃ detectedVector : IsLocalRing.CotangentSpace
+        (Localization.AtPrime (q.comap (map p g))),
+      IsLocalRing.cotangentMapAtResidue (localizedRingMap p g q)
+        detectedVector ≠ 0 := by
+  let detectedVector : IsLocalRing.CotangentSpace
+      (Localization.AtPrime (q.comap (map p g))) :=
+    cotangentClass sourceParameter hsourceMem
+  refine ⟨detectedVector, ?_⟩
+  intro hzero
+  rw [IsLocalRing.cotangentMapAtResidue_apply] at hzero
+  dsimp [detectedVector, cotangentClass] at hzero
+  have hsourceSquare : localizedMap p g q sourceParameter ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2 := by
+    rwa [Ideal.toCotangent_eq_zero] at hzero
+  have hunitQ : unitCoefficient * qParameter ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2 := by
+    have heq : unitCoefficient * qParameter =
+        localizedMap p g q sourceParameter - remainder := by
+      rw [hfirstOrder]
+      abel
+    rw [heq]
+    exact (IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2).sub_mem
+      hsourceSquare hremainder
+  exact hqLinear
+    ((IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2).unit_mul_mem_iff_mem
+      hunit |>.mp hunitQ)
+
+/-- A genuine uniformizer on the localized target affine fibre supplies the
+one-dimensional part of the affine-fibre cotangent certificate.
+
+Here `T` is the coordinate ring of the source scheme, so the localization at
+`q` is the target of the contravariant local-ring map.  The remaining vector
+and its nonzero image are precisely the first-order quotient-map calculation.
+The proof does not assume cotangent dimension one: it derives it from the
+principal maximal ideal and the assertion that `qParameter` survives modulo
+its square. -/
+theorem isAffineFiberDegreeOneCotangent_of_qParameter
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing (p.Fiber T)]
+    (hresidue : Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)))
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (detectedVector : IsLocalRing.CotangentSpace
+      (Localization.AtPrime (q.comap (map p g))))
+    (hdetected : IsLocalRing.cotangentMapAtResidue
+      (localizedRingMap p g q) detectedVector ≠ 0) :
+    IsAffineFiberDegreeOneCotangent p g q := by
+  have hqMem : qParameter ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) := by
+    rw [hmaximal]
+    exact Ideal.mem_span_singleton_self qParameter
+  have hprincipal :
+      (IsLocalRing.maximalIdeal (Localization.AtPrime q)).IsPrincipal := by
+    let qParameter' :
+        IsLocalRing.maximalIdeal (Localization.AtPrime q) :=
+      ⟨qParameter, hqMem⟩
+    refine ⟨⟨qParameter', ?_⟩⟩
+    ext x
+    constructor
+    · intro hx
+      have hx' : x ∈ Ideal.span {qParameter} := by
+        rw [← hmaximal]
+        exact hx
+      rw [Ideal.mem_span_singleton] at hx'
+      obtain ⟨a, rfl⟩ := hx'
+      exact Submodule.mem_span_singleton.mpr
+        ⟨a, by simpa [smul_eq_mul, qParameter'] using
+          (mul_comm a qParameter)⟩
+    · intro hx
+      rw [Submodule.mem_span_singleton] at hx
+      obtain ⟨a, ha⟩ := hx
+      have hx' : x ∈ Ideal.span {qParameter} := by
+        rw [Ideal.mem_span_singleton]
+        exact ⟨a, ha.symm.trans (mul_comm a qParameter)⟩
+      rw [hmaximal]
+      exact hx'
+  have hnotField : ¬ IsField (Localization.AtPrime q) := by
+    intro hfield
+    have hzero : qParameter = 0 := by
+      have : qParameter ∈ (⊥ : Ideal (Localization.AtPrime q)) := by
+        rw [← IsLocalRing.isField_iff_maximalIdeal_eq.mp hfield]
+        exact hqMem
+      simpa using this
+    apply hqLinear
+    rw [hzero]
+    exact (IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2).zero_mem
+  have hle : Module.finrank
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (IsLocalRing.CotangentSpace (Localization.AtPrime q)) ≤ 1 :=
+    IsLocalRing.finrank_cotangentSpace_le_one_iff.mpr hprincipal
+  have hne : Module.finrank
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (IsLocalRing.CotangentSpace (Localization.AtPrime q)) ≠ 0 := by
+    intro hzero
+    exact hnotField
+      (IsLocalRing.finrank_cotangentSpace_eq_zero_iff.mp hzero)
+  have hfinrank : Module.finrank
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (IsLocalRing.CotangentSpace (Localization.AtPrime q)) = 1 := by
+    omega
+  exact ⟨hresidue, hfinrank, ⟨detectedVector, hdetected⟩⟩
+
+/-- The uniformizer calculation reaches formal immersion for the actual
+affine-scheme morphism.  Noetherianity of the ambient affine rings discharges
+the completion finiteness inputs; Noetherianity of the special-fibre chart is
+used above to turn principality into the exact cotangent dimension. -/
+theorem isFormalImmersionAtSpecMap_of_qParameter
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (hresidueFiber : Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)))
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (detectedVector : IsLocalRing.CotangentSpace
+      (Localization.AtPrime (q.comap (map p g))))
+    (hdetected : IsLocalRing.cotangentMapAtResidue
+      (localizedRingMap p g q) detectedVector ≠ 0)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q))) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) :=
+  (isAffineFiberDegreeOneCotangent_of_qParameter p g q hresidueFiber
+    qParameter hmaximal hqLinear detectedVector
+      hdetected).isFormalImmersionAtSpecMap_of_isNoetherian
+        p g q hresidueAmbient
+
+end Ideal.Fiber
+
+namespace MazurTorsion.ModularCurve.AffineCuspQExpansion
+
+open Ideal.Fiber
+
+universe u
+
+variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
+  [Algebra R S] [Algebra R T]
+
+/-- The named downstream handoff for a represented modular affine cusp chart.
+
+It consumes an actual first-order identity in the localized special-fibre
+ring: the pullback of a quotient-side parameter is a unit times `q`, modulo
+`q²`.  The preceding theorem proves that this equality detects a cotangent
+vector; the principal cusp maximal ideal then gives the degree-one
+certificate and formal immersion of the genuine `Spec.map` morphism. -/
+theorem isFormalImmersionAtSpecMap_of_unit_qExpansion
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (hresidueFiber : Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)))
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (unitCoefficient remainder : Localization.AtPrime q)
+    (hunit : IsUnit unitCoefficient)
+    (hremainder : remainder ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (hfirstOrder : localizedMap p g q sourceParameter =
+      unitCoefficient * qParameter + remainder)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q))) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) := by
+  obtain ⟨detectedVector, hdetected⟩ :=
+    exists_detectedVector_of_unit_qExpansion p g q qParameter hqLinear
+      sourceParameter hsourceMem unitCoefficient remainder hunit
+      hremainder hfirstOrder
+  exact isFormalImmersionAtSpecMap_of_qParameter p g q hresidueFiber
+    qParameter hmaximal hqLinear detectedVector hdetected hresidueAmbient
+
+end MazurTorsion.ModularCurve.AffineCuspQExpansion
