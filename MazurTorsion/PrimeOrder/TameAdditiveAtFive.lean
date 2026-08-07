@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.EllipticCurve.MinimalModelScaling
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
 import Mathlib.Tactic.NormNum
@@ -34,6 +35,34 @@ section ReductionType
 
 variable {R K : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 variable [Field K] [Algebra R K] [IsFractionRing R K]
+
+/-- **Named additive-reduction consumer for the tame Tate algorithm.** Additive reduction and
+integral `j` give the three valuation inequalities available from the exact-pin reduction API:
+positive discriminant valuation, positive `c₄` valuation, and the potentially-good comparison
+`v(c₄)³ ≤ v(Δ)`.  This package does not determine a Kodaira symbol or component order. -/
+theorem tateAlgorithm_valuationInput_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic]
+    (hA : W.HasAdditiveReduction R)
+    (hj : valuation K (maximalIdeal R) W.j ≤ 1) :
+    valuation K (maximalIdeal R) W.Δ < 1 ∧
+      valuation K (maximalIdeal R) W.c₄ < 1 ∧
+      valuation K (maximalIdeal R) W.c₄ ^ 3 ≤
+        valuation K (maximalIdeal R) W.Δ :=
+  ⟨hA.badReduction, hA.additiveReduction,
+    valuation_c₄_pow_three_le_valuation_Δ_of_valuation_j_le_one hj⟩
+
+/-- **Named minimality consumer for the tame Tate algorithm.** In the additive branch, the
+minimal equation cannot have all five coefficients remain integral after a further weighted
+scaling by `u⁻¹` with `v(u) < 1`.  Completing the marked component theorem still requires the
+subsequent translation, blowup, Kodaira classification, and component-incidence steps. -/
+theorem tateAlgorithm_coefficientObstruction_of_hasAdditiveReduction
+    {W : WeierstrassCurve K} [W.IsElliptic]
+    (hA : W.HasAdditiveReduction R)
+    (u : Kˣ)
+    (hu : valuation K (maximalIdeal R) (u : K) < 1) :
+    ¬ WeightedCoefficientsIntegralAfterScale (R := R) W u := by
+  letI : W.IsMinimal R := hA.toIsMinimal
+  exact tateAlgorithm_minimalityCoefficientObstruction u hu
 
 /-- Multiplicative reduction forces the `j`-invariant to have valuation strictly greater than
 one.  This is the elementary bridge from the integral-`j` formulation of potentially good
