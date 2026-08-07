@@ -4,10 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.EllipticCurve.IntegerPrimeSpecialization
 import MazurTorsion.EllipticCurve.VariableChange
 import Mathlib.GroupTheory.SpecificGroups.Cyclic
-import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.NormNum
 
 /-!
 # The nonsingular group of an additive special Weierstrass cubic
@@ -162,11 +162,11 @@ noncomputable def pointAddEquivZModElevenOfCuspidal
   exact addEquivOfPrimeCardEq
     (natCard_point_eq_eleven_of_cuspidal W hΔ hc₄) (by norm_num)
 
-local instance : DecidableEq
+local instance cuspidalDecidableEqResidueAtFive : DecidableEq
     (ResidueField (atFive.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
-local instance : DecidableEq
+local instance cuspidalDecidableEqResidueAtEleven : DecidableEq
     (ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
@@ -251,35 +251,5 @@ noncomputable def specialFiberPointAddEquivAtElevenOfCuspidal
   exact redPointEquiv.trans
     ((pointAddEquivZModElevenOfCuspidal W₁₁ hΔ₁₁ hc₄₁₁).trans
       e₁₁.toAddEquiv.symm)
-
-/-- Build the canonical five-adic tame-additive handoff directly from the two cuspidal special
-fibre invariants and the genuine component bound. -/
-def TameAdditiveReductionDataAtFive.ofCanonicalCuspidalNonsingularReduction
-    {W : Affine (atFive.adicCompletion ℚ)}
-    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
-    {hW : W₀.map
-      (algebraMap (atFive.adicCompletionIntegers ℚ) (atFive.adicCompletion ℚ)) = W}
-    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
-    (hΔ : (adicRedCurve W₀).Δ = 0) (hc₄ : (adicRedCurve W₀).c₄ = 0)
-    (hcomponent : Nat.card
-      (W.Point ⧸ nonsingularReductionSubgroup hW (nonsingularReduction_isAdditive hW)) ≤ 4) :
-    TameAdditiveReductionDataAtFive hW :=
-  TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction
-    (specialFiberPointAddEquivAtFiveOfCuspidal W₀ hΔ hc₄) hcomponent
-
-/-- Build the canonical eleven-adic tame-additive handoff directly from the two cuspidal special
-fibre invariants and the genuine component bound. -/
-def TameAdditiveReductionDataAtEleven.ofCanonicalCuspidalNonsingularReduction
-    {W : Affine (atEleven.adicCompletion ℚ)}
-    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
-    {hW : W₀.map
-      (algebraMap (atEleven.adicCompletionIntegers ℚ) (atEleven.adicCompletion ℚ)) = W}
-    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
-    (hΔ : (adicRedCurve W₀).Δ = 0) (hc₄ : (adicRedCurve W₀).c₄ = 0)
-    (hcomponent : Nat.card
-      (W.Point ⧸ nonsingularReductionSubgroup hW (nonsingularReduction_isAdditive hW)) ≤ 4) :
-    TameAdditiveReductionDataAtEleven hW :=
-  TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction
-    (specialFiberPointAddEquivAtElevenOfCuspidal W₀ hΔ hc₄) hcomponent
 
 end MazurTorsion.EllipticCurve

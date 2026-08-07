@@ -107,13 +107,11 @@ at least eleven.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.minimalCompletionAtFive_reduction_invariants_of_hasAdditiveReduction`
 
-The narrower canonical five-adic handoff now needs only `12 • P` in the
-nonsingular-reduction subgroup, residue cardinality five, and the exact
-torsion-free formal kernel. Canonical coordinate reduction on the selected
-minimal model is additive and has that exact kernel; additive reduction forces
-reduced `Δ` and `c₄` to vanish. The cuspidal nonsingular-locus equivalence,
-genuine identity-component identification, and marked-point exponent remain
-open.
+The narrower canonical five-adic handoff needs only `12 • P` in the
+nonsingular-reduction subgroup and the exact torsion-free formal kernel.
+Finite normalization and enumeration now turn the vanishing reduced `Δ` and
+`c₄` into the actual five-element residue additive group. Genuine
+identity-component identification and the marked-point exponent remain open.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
@@ -152,6 +150,12 @@ fibre. The remaining fibre is good.
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.completionPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve`
 
 The valuation of `j` is now proved strictly greater than one under
 multiplicative reduction, so integral `j` excludes that branch. Mathlib's
@@ -166,12 +170,12 @@ new formal-immersion consumer discharges that rational `j` premise from the
 explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
 Its canonical nonsingular-reduction consumer fixes the actual minimal
 integral model, coordinate domain/map, and exact formal kernel, accepting no
-arbitrary identity subgroup or reduction homomorphism. A compiled completion
-and rational consumer replace the full component-cardinality input by the
-marked statement `12 • P ∈ E₀`. The represented modular/cusp collision,
-cuspidal special-locus classification, genuine Néron component identification,
-and marked-point exponent remain open, so this node receives no completion
-credit.
+arbitrary identity subgroup or reduction homomorphism. Lane-specific
+completion, rational, and formal-immersion consumers now discharge the
+cuspidal special-locus classification and replace the full component-cardinality
+input by the marked statement `12 • P ∈ E₀`. The represented modular/cusp
+collision, genuine Néron identity-component identification, and marked-point
+exponent remain open, so this node receives no completion credit.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

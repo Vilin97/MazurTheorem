@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Kevin Buzzard. All rights reserved.
+Copyright (c) 2026 Kevin Buzzard, Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Michael Stoll, Claude
+Authors: Michael Stoll, Claude, Vasily Ilin
 -/
 module
 
@@ -14,6 +14,10 @@ public import Mathlib.Tactic.LinearCombination
 
 This file is ported from Michael Stoll's Apache-2.0 `EllipticCurves` project at commit
 `3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f`.
+
+The derivative-transport and singular-cubic nonsingular-locus equivalence are local extensions.
+They generalize the ported point equivalence beyond elliptic equations while retaining the
+original admissible change-of-variables formulas and attribution.
 
 Mathlib's affine `Point` API provides the group homomorphism induced by a change of the base
 field for a fixed Weierstrass curve, but not the isomorphism of Mordell--Weil groups induced by

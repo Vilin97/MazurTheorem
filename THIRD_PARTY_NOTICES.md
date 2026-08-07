@@ -15,17 +15,18 @@ production-file manifest are recorded in `PORTING.md`.
 singular-fibre adaptations of the pinned good-reduction construction and
 retain Michael Stoll's author credit.
 
-## Variable-change implementation
+## Variable-change implementation and local singular-cubic extension
 
-- Copyright holder: Kevin Buzzard
-- Authors recorded in source: Michael Stoll and Claude
+- Copyright holders recorded in source: Kevin Buzzard; Vasily Ilin for the local extension
+- Authors recorded in source: Michael Stoll, Claude, and Vasily Ilin
 - Files:
   - `MazurTorsion/EllipticCurve/VariableChange.lean`
   - `EllipticCurves/VariableChange.lean`
 - License: Apache License 2.0; see `LICENSE`
 
-The copyright, license, and authorship headers are retained verbatim. The
-compatibility file avoids duplicating the declarations.
+The original copyright, license, and author credit remain in the retained implementation.
+Its header additionally records Vasily Ilin's derivative-transport and singular-cubic
+nonsingular-locus generalization. The compatibility file avoids duplicating the declarations.
 
 ## Lean Pool torsion foundations
 

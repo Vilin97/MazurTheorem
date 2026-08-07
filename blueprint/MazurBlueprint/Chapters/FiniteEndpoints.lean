@@ -143,6 +143,10 @@ destination theorem is
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelveAtEleven`
 * `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.completionPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven`
+* `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_quotientCotangentCertificateAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_quotientCotangentAtEleven_of_nonsingularReduction`
@@ -154,6 +158,8 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_degreeOneCotangentAtEleven_of_nonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_degreeOneCotangentAtEleven_of_componentExponentTwelve`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -198,11 +204,12 @@ the exact order-35 endpoint, and a good-reduction specialization consumer.
 The canonical eleven-adic reduction-data consumer also reaches the additive
 fibre endpoint while deriving component finiteness and formal-kernel torsion.
 The canonical nonsingular-reduction consumer fixes the coordinate domain/map
-and exact formal kernel, and its additivity is checked. New local and rational
-consumers require only the marked statement `12 • P ∈ E₀`, not a cardinality
-bound for the full component quotient. The actual cuspidal
-nonsingular-locus/additive-field equivalence, genuine Néron identity
-component, and marked-point exponent remain geometric inputs.
+and exact formal kernel, and its additivity is checked. Finite normalization
+classifies the actual cuspidal nonsingular group at eleven; new local,
+rational, and degree-one formal-immersion consumers therefore require only the
+marked statement `12 • P ∈ E₀`, not a cardinality bound for the full component
+quotient. The genuine Néron identity-component comparison and marked-point
+exponent remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

@@ -76,7 +76,9 @@ Fix a rational prime `N` with `N = 11` or `17 ≤ N`, an elliptic curve
    prime `N ≥ 11`.  Reduction from `E₀` to the five-element additive group,
    followed by the pro-five formal kernel, then kills `P`.  The checked Lean
    consumer uses exactly this component-exponent statement and does not need
-   to construct or count the full component quotient. Potentially good
+   to construct or count the full component quotient. The additive special
+   group at `5` (and at `11` for order `35`) is now constructed by checked
+   singular-cubic normalization and finite enumeration. Potentially good
    reduction also excludes a multiplicative fibre, so the reduction is good.
 8. The point injects into `E(𝔽₅)`, but the checked finite-field certificate
    gives `#E(𝔽₅) ≤ 10`, a contradiction. Mathematically this is the `q=5`
@@ -102,7 +104,8 @@ following remain on the theorem's critical path:
 * a nontrivial optimal Eisenstein quotient for `N=11` or prime `N≥17`;
 * finiteness of that quotient's rational points; and
 * the focused Néron and finite-flat theory used in the last assertion,
-  including the marked-point tame-component exponent at `5` and `11`.
+  including genuine identity-component comparison and the marked-point
+  tame-component exponent at `5` and `11`.
 
 The rank-zero input is why the existing finite-flat work is retained, but its
 integral scope must be stated precisely. In Mazur 1977 III.3 the

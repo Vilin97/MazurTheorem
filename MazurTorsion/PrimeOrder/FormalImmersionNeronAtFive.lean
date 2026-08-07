@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
+import MazurTorsion.PrimeOrder.CuspidalReductionAtFive
 import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 
 /-!
@@ -15,13 +15,13 @@ its component group is the quotient by the chosen identity subgroup, its
 identity-component reduction has the exact-pinned formal filtration as kernel,
 and that kernel is torsion-free by the unramified formal-group theorem at five.
 
-The stronger endpoint constructs the identity subgroup from the actual
+The stronger endpoints construct the identity subgroup from the actual
 predicate of nonsingular coordinate reduction on Mathlib's selected minimal
 integral model. Coordinatewise reduction, its exact formal kernel, and its
-additivity on the canonical domain are checked. The remaining geometric inputs
-are precisely identification of the nonsingular points of the singular special
-cubic with the additive residue group and the order-at-most-four component
-quotient. No Néron-model geometry is inferred.
+additivity on the canonical domain are checked. Finite normalization and
+enumeration identify the nonsingular points of the singular special cubic with
+the additive residue group.  The narrowest endpoint therefore leaves only the
+marked component assertion `12 • P ∈ E₀`; no Néron-model geometry is inferred.
 -/
 
 noncomputable section
@@ -44,8 +44,7 @@ unrelated integral equation with the same generic fibre. -/
 noncomputable abbrev minimalCompletionIntegralModelAtFive
     (E : WeierstrassCurve ℚ) :
     WeierstrassCurve (atFive.adicCompletionIntegers ℚ) :=
-  (minimalCompletionAtFive E).integralModel
-    (atFive.adicCompletionIntegers ℚ)
+  completionIntegralModelAtFive (minimalCompletionAtFive E)
 
 /-- The named integral equation has the selected minimal completion as its generic fibre. -/
 theorem minimalCompletionIntegralModelAtFive_map
@@ -53,11 +52,8 @@ theorem minimalCompletionIntegralModelAtFive_map
     (minimalCompletionIntegralModelAtFive E).map
       (algebraMap (atFive.adicCompletionIntegers ℚ)
         (atFive.adicCompletion ℚ)) =
-      (minimalCompletionAtFive E).toAffine := by
-  simpa only [minimalCompletionIntegralModelAtFive,
-    WeierstrassCurve.baseChange] using
-      (minimalCompletionAtFive E).baseChange_integralModel_eq
-        (atFive.adicCompletionIntegers ℚ)
+      (minimalCompletionAtFive E).toAffine :=
+  completionIntegralModelAtFive_map (minimalCompletionAtFive E)
 
 /-- In the additive branch, the actual special cubic used by canonical nonsingular reduction has
 vanishing discriminant and `c₄`.  This specializes the two checked valuation-to-residue lemmas to
@@ -163,5 +159,44 @@ theorem
       (minimalCompletionIntegralModelAtFive_map E)
       (fun hA ↦ TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction
         (especial hA) (hcomponent hA)) P N hprime hN
+
+/-- The prime-order formal-immersion endpoint after the special cuspidal cubic has been classified.
+
+The formal-immersion collision supplies the five-adic valuation bound, and finite normalization of
+the additive special cubic supplies its residue-group equivalence.  Thus the sole additive-fibre
+premise is the honest marked-point statement `12 • P ∈ E₀` on the selected minimal equation. -/
+theorem
+    rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    {X Y : Scheme}
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ X)
+    (hformal : IsFormalImmersionAt f
+      (cuspSection (IsLocalRing.closedPoint
+        (atFive.adicCompletionIntegers ℚ))))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)) =
+        cuspSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)))
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (P : E.toAffine.Point)
+    (hcomponentExponent : ∀ (_hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtFive E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E)))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N :=
+  rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive
+    (valuation_j_le_one_of_formalImmersionAtFive f modularSection cuspSection
+      hformal hne hspecializes hquotient)
+    P hcomponentExponent N hprime hN
 
 end MazurTorsion.PrimeOrder

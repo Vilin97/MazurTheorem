@@ -57,6 +57,7 @@ import MazurTorsion.EllipticCurve.TameAdditiveReductionData
 import MazurTorsion.EllipticCurve.NonsingularReduction
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.VariableChange
+import MazurTorsion.PrimeOrder.CuspidalReductionAtFive
 import MazurTorsion.Foundations.DivisionPolynomialRootCriterion
 import MazurTorsion.Foundations.DivisionPolynomialDiscriminantFive
 import MazurTorsion.Foundations.DivisionPolynomialDiscriminantSeven
@@ -91,6 +92,7 @@ import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.OrderTwentyFive
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
+import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
 import MazurTorsion.Kubert.OrderThirtyFiveFormalImmersionAtEleven
 import MazurTorsion.Kubert.TateNormalForm
 import MazurTorsion.Kubert.ThreeNormalForm

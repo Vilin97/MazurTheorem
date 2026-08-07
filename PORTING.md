@@ -116,8 +116,10 @@ five- and eleven-adic constructors in that file are new downstream consumers.
   elaborates within default heartbeat limits; removed two proof-only residue-field
   `DecidableEq` assumptions.
 - `VariableChange.lean`: replaced the duplicate implementation with a public compatibility
-  import of `MazurTorsion.EllipticCurve.VariableChange`, which is already the same pinned Stoll
-  port and exports the required `Point.equivVariableChange` API.
+  import of `MazurTorsion.EllipticCurve.VariableChange`, the pinned Stoll port exporting the
+  required `Point.equivVariableChange` API. The retained implementation now also contains a
+  locally authored derivative-transport proof and nonsingular-locus equivalence for singular
+  Weierstrass cubics; its header and third-party notice record that extension separately.
 - `WeierstrassFormalGroup/Chord.lean:590–638`: supplied the missing zero-family substitution
   lemma.
 - `WeierstrassFormalGroup/Foundations.lean`: made quotient-map arguments and subtype

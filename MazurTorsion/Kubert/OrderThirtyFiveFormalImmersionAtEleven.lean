@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber
 import MazurTorsion.AlgebraicGeometry.FormalImmersionCollision
-import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
+import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
 
 /-!
 # The order-35 formal-immersion collision at eleven
@@ -20,9 +20,10 @@ rational `j`-invariant to be eleven-adically integral.
 
 The final theorem sends this valuation bound through the selected minimal
 eleven-adic equation, canonical nonsingular reduction, good-reduction
-specialization, and the checked `F_11` enumeration.  The remaining explicit
-premises are precisely the modular/cusp geometry, quotient specialization,
-special-cubic classification, and component bound.
+specialization, and the checked `F_11` enumeration.  Finite normalization also
+classifies the cuspidal special cubic.  The narrowest endpoint leaves the
+modular/cusp geometry, quotient specialization, and the marked component
+assertion `12 • P ∈ E₀` explicit.
 -/
 
 noncomputable section
@@ -276,5 +277,47 @@ theorem
       (hdegreeOne.isMappedIdealCotangentSurjective
         (f.stalkMap (closedFiberPointAtEleven cuspSection)).hom I hI)
       hne hspecializes hquotient especial hcomponent P
+
+/-- The degree-one squarefree-level formal-immersion endpoint with the cuspidal special fibre
+classified and the full component-cardinality premise removed.
+
+The only remaining additive-fibre input is the marked assertion `12 • P ∈ E₀` on the selected
+minimal eleven-adic equation. -/
+theorem
+    rationalPoint_orderThirtyFive_ne_of_degreeOneCotangentAtEleven_of_componentExponentTwelve
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    {X Y : Scheme} [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hresidue : IsIso
+      (f.residueFieldMap (closedFiberPointAtEleven cuspSection)))
+    (I : Ideal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hI : I ≤ IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (closedFiberPointAtEleven cuspSection))))
+    (hdegreeOne : IsLocalRing.IsMappedIdealDegreeOneCotangent
+      (f.stalkMap (closedFiberPointAtEleven cuspSection)).hom I hI)
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (P : E.toAffine.Point)
+    (hcomponentExponent : ∀ (_hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtEleven E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtEleven_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtEleven_map E))) :
+    addOrderOf P ≠ 35 :=
+  rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven
+    (valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven
+      f modularSection cuspSection hresidue I hI hdegreeOne hne
+      hspecializes hquotient)
+    P hcomponentExponent
 
 end MazurTorsion.OrderThirtyFive
