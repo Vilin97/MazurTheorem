@@ -115,27 +115,74 @@ lemma variableChange_equation (x y : F) :
     variableChange_a₄, variableChange_a₆, Units.val_inv_eq_inv_val, field]
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩ <;> linear_combination h
 
+/-- The `Y`-derivative of a Weierstrass equation under an admissible change of variables.
+This formula does not require either equation to be elliptic. -/
+lemma variableChange_polynomialY (x y : F) :
+    W.toAffine.polynomialY.evalEval ((C.u : F) ^ 2 * x + C.r)
+        ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t) =
+      (C.u : F) ^ 3 * (C • W).toAffine.polynomialY.evalEval x y := by
+  simp only [Affine.evalEval_polynomialY, variableChange_a₁, variableChange_a₃,
+    Units.val_inv_eq_inv_val]
+  field
+
+/-- The `X`-derivative of a Weierstrass equation under an admissible change of variables.
+The correction term is the chain-rule contribution from the `sx` term in the new `Y` coordinate.
+This formula does not require either equation to be elliptic. -/
+lemma variableChange_polynomialX (x y : F) :
+    W.toAffine.polynomialX.evalEval ((C.u : F) ^ 2 * x + C.r)
+        ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t) =
+      (C.u : F) ^ 4 * (C • W).toAffine.polynomialX.evalEval x y -
+        C.s * ((C.u : F) ^ 3 * (C • W).toAffine.polynomialY.evalEval x y) := by
+  simp only [Affine.evalEval_polynomialX, Affine.evalEval_polynomialY, variableChange_a₁,
+    variableChange_a₂, variableChange_a₃, variableChange_a₄,
+    Units.val_inv_eq_inv_val]
+  field
+
+/-- An admissible change of variables identifies the nonsingular loci even when the common
+Weierstrass cubic is singular. -/
+lemma variableChange_nonsingular (x y : F) :
+    W.toAffine.Nonsingular ((C.u : F) ^ 2 * x + C.r)
+        ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t) ↔
+      (C • W).toAffine.Nonsingular x y := by
+  rw [Affine.Nonsingular, Affine.Nonsingular, variableChange_equation W C,
+    variableChange_polynomialX W C, variableChange_polynomialY W C]
+  apply and_congr_right
+  intro _
+  have hu : (C.u : F) ≠ 0 := C.u.ne_zero
+  constructor
+  · rintro (hx | hy)
+    · by_cases hY : (C • W).toAffine.polynomialY.evalEval x y = 0
+      · left
+        intro hX
+        apply hx
+        rw [hY, mul_zero, mul_zero, sub_zero, hX, mul_zero]
+      · exact Or.inr hY
+    · exact Or.inr fun hY ↦ hy (mul_eq_zero.mpr <| Or.inr hY)
+  · rintro (hx | hy)
+    · by_cases hY : (C • W).toAffine.polynomialY.evalEval x y = 0
+      · left
+        rw [hY, mul_zero, mul_zero, sub_zero]
+        exact mul_ne_zero (pow_ne_zero 4 hu) hx
+      · exact Or.inr (mul_ne_zero (pow_ne_zero 3 hu) hY)
+    · exact Or.inr (mul_ne_zero (pow_ne_zero 3 hu) hy)
+
 /-! ### The induced isomorphism of point groups -/
 
 namespace Point
-
-variable [W.IsElliptic]
 
 /-- The underlying point map of the change of variables, sending `0` to `0`. -/
 def mapVariableChangeFun : (C • W).toAffine.Point → W.toAffine.Point
   | .zero => .zero
   | .some x y h => .some ((C.u : F) ^ 2 * x + C.r)
       ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t)
-      (equation_iff_nonsingular.mp
-        ((variableChange_equation W C x y).mpr (equation_iff_nonsingular.mpr h)))
+      ((variableChange_nonsingular W C x y).mpr h)
 
 @[simp] lemma mapVariableChangeFun_zero : mapVariableChangeFun W C 0 = 0 := rfl
 
 lemma mapVariableChangeFun_some {x y : F} (h : (C • W).toAffine.Nonsingular x y) :
     mapVariableChangeFun W C (.some x y h)
       = .some ((C.u : F) ^ 2 * x + C.r) ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t)
-          (equation_iff_nonsingular.mp
-            ((variableChange_equation W C x y).mpr (equation_iff_nonsingular.mpr h))) := rfl
+          ((variableChange_nonsingular W C x y).mpr h) := rfl
 
 lemma some_eq_some (W : WeierstrassCurve F) {x₁ x₂ y₁ y₂ : F} (hx : x₁ = x₂) (hy : y₁ = y₂)
     {h₁ : W.toAffine.Nonsingular x₁ y₁} {h₂ : W.toAffine.Nonsingular x₂ y₂} :
@@ -178,8 +225,8 @@ def mapVariableChange : (C • W).toAffine.Point →+ W.toAffine.Point where
     rintro (_ | ⟨x₁, y₁, h₁⟩) (_ | ⟨x₂, y₂, h₂⟩)
     any_goals rfl
     simp only [mapVariableChangeFun_some]
-    have e₁ : (C • W).toAffine.Equation x₁ y₁ := equation_iff_nonsingular.mpr h₁
-    have e₂ : (C • W).toAffine.Equation x₂ y₂ := equation_iff_nonsingular.mpr h₂
+    have e₁ : (C • W).toAffine.Equation x₁ y₁ := h₁.left
+    have e₂ : (C • W).toAffine.Equation x₂ y₂ := h₂.left
     by_cases hxy : x₁ = x₂ ∧ y₁ = (C • W).toAffine.negY x₂ y₂
     · rw [add_of_Y_eq hxy.1 hxy.2, mapVariableChangeFun_zero]
       refine (add_of_Y_eq ?_ ?_).symm
@@ -208,8 +255,7 @@ def equivVariableChange : (C • W).toAffine.Point ≃+ W.toAffine.Point :=
 lemma equivVariableChange_some {x y : F} (h : (C • W).toAffine.Nonsingular x y) :
     equivVariableChange W C (.some x y h)
       = .some ((C.u : F) ^ 2 * x + C.r) ((C.u : F) ^ 3 * y + (C.u : F) ^ 2 * C.s * x + C.t)
-          (equation_iff_nonsingular.mp
-            ((variableChange_equation W C x y).mpr (equation_iff_nonsingular.mpr h))) := rfl
+          ((variableChange_nonsingular W C x y).mpr h) := rfl
 
 end Point
 
