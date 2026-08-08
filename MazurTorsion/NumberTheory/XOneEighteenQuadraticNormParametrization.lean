@@ -123,6 +123,67 @@ theorem antiDiagonalNormParametricBidegreeForm_eq_zero
       p * hfirst - (q ^ 2 - 2 * p ^ 2) * hlinear
   linarith
 
+/-- In the gcd-one branch, the fixed bidegree equation allocates the two
+coprime factors globally: the real norm coefficient divides the Pell-type
+factor, while the cubic factor `r(r²-s²)` divides `pq`. -/
+theorem antiDiagonalNormParametric_coprime_support
+    (r s p q : ℤ)
+    (hgcd : (GCDMonoid.gcd (antiDiagonalNormReal r s)
+      (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1)
+    (hform : antiDiagonalNormParametricBidegreeForm r s p q = 0) :
+    antiDiagonalNormReal r s ∣ q ^ 2 - 2 * p ^ 2 ∧
+      r * (r ^ 2 - s ^ 2) ∣ p * q := by
+  let A := antiDiagonalNormReal r s
+  let D := r * (r ^ 2 - s ^ 2)
+  have hgcdNat :
+      Int.gcd (antiDiagonalNormReal r s)
+        (antiDiagonalNormSqrtNegTwo r s) = 1 := by
+    have h := congrArg Int.natAbs hgcd
+    simpa only [Int.natAbs_gcd, Int.natAbs_one] using h
+  have hcoprimeAB : IsCoprime A (antiDiagonalNormSqrtNegTwo r s) :=
+    Int.isCoprime_iff_gcd_eq_one.mpr (by simpa only [A] using hgcdNat)
+  have htwoDvdB : 2 * D ∣ antiDiagonalNormSqrtNegTwo r s := by
+    refine ⟨-2, ?_⟩
+    simp only [D, antiDiagonalNormSqrtNegTwo]
+    ring
+  have hDvdB : D ∣ antiDiagonalNormSqrtNegTwo r s :=
+    dvd_trans (dvd_mul_left D 2) htwoDvdB
+  have hcoprimeA2D : IsCoprime A (2 * D) :=
+    IsCoprime.of_isCoprime_of_dvd_right hcoprimeAB htwoDvdB
+  have hcoprimeDA : IsCoprime D A :=
+    (IsCoprime.of_isCoprime_of_dvd_right hcoprimeAB hDvdB).symm
+  have hAdvd : A ∣ (2 * D) * (q ^ 2 - 2 * p ^ 2) := by
+    refine ⟨-(p * q), ?_⟩
+    simp only [A, D, antiDiagonalNormParametricBidegreeForm] at hform ⊢
+    linear_combination hform
+  have hDdvd : D ∣ A * (p * q) := by
+    refine ⟨-2 * (q ^ 2 - 2 * p ^ 2), ?_⟩
+    simp only [A, D, antiDiagonalNormParametricBidegreeForm] at hform ⊢
+    linear_combination hform
+  exact ⟨hcoprimeA2D.dvd_of_dvd_mul_left hAdvd,
+    hcoprimeDA.dvd_of_dvd_mul_left hDdvd⟩
+
+/-- The gcd-one branch lifts to a genuine split cover: the cubic factor
+`r(r²-s²)` decomposes into coprime divisors supported separately on the
+coprime conic parameters `p` and `q`. -/
+theorem antiDiagonalNormParametric_coprime_cover
+    (r s p q : ℤ) (hpq : IsCoprime p q)
+    (hgcd : (GCDMonoid.gcd (antiDiagonalNormReal r s)
+      (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1)
+    (hform : antiDiagonalNormParametricBidegreeForm r s p q = 0) :
+    antiDiagonalNormReal r s ∣ q ^ 2 - 2 * p ^ 2 ∧
+      ∃ d₁ d₂ : ℤ,
+        d₁ ∣ p ∧
+        d₂ ∣ q ∧
+        r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
+        IsCoprime d₁ d₂ := by
+  obtain ⟨hPell, hproduct⟩ :=
+    antiDiagonalNormParametric_coprime_support r s p q hgcd hform
+  obtain ⟨d₁, d₂, hd₁, hd₂, hsplit⟩ :=
+    exists_dvd_and_dvd_of_dvd_mul hproduct
+  exact ⟨hPell, d₁, d₂, hd₁, hd₂, hsplit,
+    hpq.mono hd₁ hd₂⟩
+
 /-! ## Excluding the tangent and consuming an order-eighteen point -/
 
 /-- The imaginary norm coefficient cannot vanish on the primitive
@@ -217,7 +278,15 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
         (c + antiDiagonalNormReal r s) * (q ^ 2 - 2 * p ^ 2) ∧
       2 * c * q ^ 2 =
           (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) ∧
-      antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
+      antiDiagonalNormParametricBidegreeForm r s p q = 0 ∧
+      ((GCDMonoid.gcd (antiDiagonalNormReal r s)
+          (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1 →
+        antiDiagonalNormReal r s ∣ q ^ 2 - 2 * p ^ 2 ∧
+        ∃ d₁ d₂ : ℤ,
+          d₁ ∣ p ∧
+          d₂ ∣ q ∧
+          r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
+          IsCoprime d₁ d₂) := by
   obtain ⟨w, z, hw1, hanti, hinverse⟩ :=
     exists_antiDiagonal_point_of_orderEighteen_point x y hcurve
   obtain ⟨r, s, c, hs, hrs, hw, hc, hnorm, hgcd⟩ :=
@@ -240,8 +309,20 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
   have hform : antiDiagonalNormParametricBidegreeForm r s p q = 0 :=
     antiDiagonalNormParametricBidegreeForm_eq_zero
       r s c p q (ne_of_gt hq) hlinear hfirst
+  have hsupport :
+      (GCDMonoid.gcd (antiDiagonalNormReal r s)
+          (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1 →
+        antiDiagonalNormReal r s ∣ q ^ 2 - 2 * p ^ 2 ∧
+        ∃ d₁ d₂ : ℤ,
+          d₁ ∣ p ∧
+          d₂ ∣ q ∧
+          r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
+          IsCoprime d₁ d₂ := fun hgcdOne ↦
+    antiDiagonalNormParametric_coprime_cover
+      r s p q hpq hgcdOne hform
   refine ⟨r, s, c, p, q, hs, hrs, ?_, hc, hnorm, hgcd,
-    himag, htangent, hq, hp0, hpq, hlinear, hfirst, hsecond, hform⟩
+    himag, htangent, hq, hp0, hpq, hlinear, hfirst, hsecond, hform,
+    hsupport⟩
   rw [← hw]
   exact hinverse
 
@@ -277,7 +358,15 @@ theorem exists_primitive_normParameter_of_exact_order_eighteen
           (c + antiDiagonalNormReal r s) * (q ^ 2 - 2 * p ^ 2) ∧
         2 * c * q ^ 2 =
             (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) ∧
-        antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
+        antiDiagonalNormParametricBidegreeForm r s p q = 0 ∧
+        ((GCDMonoid.gcd (antiDiagonalNormReal r s)
+            (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1 →
+          antiDiagonalNormReal r s ∣ q ^ 2 - 2 * p ^ 2 ∧
+          ∃ d₁ d₂ : ℤ,
+            d₁ ∣ p ∧
+            d₂ ∣ q ∧
+            r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
+            IsCoprime d₁ d₂) := by
   obtain ⟨b, c₀, u, r₀, d, t, _hu, _hb, _hc, _hbc, _hr,
     _hdEq, _hd0, _hd1, _hcparam, _hbparam, _htEq, _hnine, _htwo,
     _haux, _hden, hx0, hx1, hcurve, _hdisc⟩ :=
