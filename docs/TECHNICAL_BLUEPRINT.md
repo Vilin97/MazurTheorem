@@ -1747,9 +1747,12 @@ global Picard steps.
 The coherent-cohomology lane now uses Mathlib's actual Ext-based cohomology of
 the underlying abelian sheaf of a `Scheme.Modules` object on the Zariski
 opens site. Its degree-zero group is naturally equivalent to genuine global
-sections, and the affine tilde consumer recovers the coefficient module
-additively. A scalar-linear formulation, coherence, affine acyclicity, proper
-finite-dimensionality, and positive-degree vanishing remain open.
+sections. The global-functions action is transported back explicitly rather
+than registered as a global typeclass instance; native H0 functor maps are
+linear for this action and keep the same underlying function. The affine
+tilde consumer is linear over the coefficient ring and transfers finite
+generation. Coherence, affine acyclicity, proper finite-dimensionality, H1,
+and positive-degree vanishing remain open.
 
 The checked absolute precursor
 `AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted

@@ -885,10 +885,12 @@ cohomology, affine acyclicity, and vanishing above degree one.
 *Status:* `blocked`. The first native boundary now compiles: actual
 `Scheme.Modules` are sent through Mathlib's underlying-abelian-sheaf functor
 to its Ext-based Zariski cohomology; degree zero is naturally equivalent to
-sections on the terminal open. For an affine tilde module this recovers the
-coefficient module additively as a real downstream consumer. Scalar
-linearity, coherence, affine acyclicity, proper finite-dimensionality, and
-higher vanishing remain open.
+sections on the terminal open. Its global-functions action is transported as
+an explicit opt-in module structure; actual H0 functor maps become linear and
+retain exactly their native underlying functions. For an affine tilde module
+the comparison is linear over the coefficient ring and transfers finite
+generation. Coherence, affine acyclicity, proper finite-dimensionality, H1,
+and higher vanishing remain open.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -909,6 +911,21 @@ higher vanishing remain open.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroEquiv`
   Recover an affine tilde module's coefficients additively as the H0 consumer.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule`
+  Transport the global-functions action explicitly without registering a global instance.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroLinearEquivGlobalSections`
+  Upgrade the degree-zero comparison to a global-functions-linear equivalence.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroLinearMap_apply`
+  Identify the bundled linear map's function with the native cohomology functor map.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroLinearEquiv`
+  Recover affine tilde coefficients through an equivalence linear over the base ring.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZero_finite`
+  Transfer finite generation from the affine coefficient module to its H0.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

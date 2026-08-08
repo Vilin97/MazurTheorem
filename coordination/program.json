@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1502976,
+    "integrated_lean_lines": 1503103,
     "integrated_lean_modules": 815,
     "remaining_composite_orders": [
       18,
@@ -2861,7 +2861,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open, and an affine tilde module has H0 additively equivalent to its coefficient module as a compiled consumer. Scalar-linearity, coherence, affine acyclicity, proper finite-dimensionality, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. Coherence, affine acyclicity, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2923,6 +2923,41 @@
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroEquiv",
           "state": "contract",
           "description": "Consume the H0 boundary and Mathlib's affine tilde global-sections equivalence to recover the original coefficient module additively.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffine"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule",
+          "state": "contract",
+          "description": "Transport the genuine global-functions module structure to Ext-based H0 as an explicit opt-in definition rather than a global instance.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroLinearEquivGlobalSections",
+          "state": "contract",
+          "description": "Upgrade the H0/global-sections comparison to a linear equivalence over the ring of global functions.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroLinearMap_apply",
+          "state": "contract",
+          "description": "Prove that the bundled global-functions-linear H0 map has exactly the underlying function of Mathlib's cohomology functor map.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroLinearEquiv",
+          "state": "contract",
+          "description": "Restrict the global-functions action and identify affine tilde H0 linearly with the original coefficient module.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffine"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZero_finite",
+          "state": "contract",
+          "description": "Transfer finite generation from an affine coefficient module to its actual Ext-based degree-zero cohomology.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffine"
         }
       ],

@@ -83,11 +83,16 @@ The coherent-cohomology lane now starts from actual `Scheme.Modules`, not a
 parallel placeholder. Mathlib's Ext-based sheaf cohomology on the Zariski
 opens site gives the functor `SchemeModuleCohomology.zariskiFunctor`; its
 degree zero is naturally equivalent to genuine sections at the terminal
-open. An affine tilde sheaf recovers its coefficient module additively as a
-compiled consumer (`4b896ec`, reviewed from contributor `4f8f366`). This is
-only the honest H0 foundation. Scalar-linearity, coherence, affine
-acyclicity, proper finite-dimensionality, and higher vanishing remain open,
-so MT-TC-B1 receives no completion credit.
+open. An affine tilde sheaf first recovers its coefficient module additively
+(`4b896ec`, reviewed from contributor `4f8f366`). The global-functions action
+is now transported explicitly to H0, actual cohomology functor maps are proved
+linear with unchanged underlying functions, and the affine comparison is
+linear over the coefficient ring and transfers finite generation (`f623e29`,
+reviewed from contributor `d5b5749`, instance-scope repaired by `972f425`).
+The transported actions are reducible named definitions, not global
+instances. This is still only the honest H0 foundation: coherence, affine
+acyclicity, proper finite-dimensionality, H1, and higher vanishing remain
+open, so MT-TC-B1 receives no completion credit.
 
 The rational-section boundary no longer asks callers to prove that a section
 misses the generic point. A section of an integral smooth relative curve is a
@@ -272,7 +277,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 815 Lean modules and 1,502,976 Lean lines.
+exact quality baseline is 815 Lean modules and 1,503,103 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -328,6 +333,9 @@ pairwise, and normalized declarations use only the three standard axioms.
 The finite-affine product-cover target and the two scheme-module H0 targets
 build together through 3,342 jobs; twelve audited public endpoints again have
 only the standard axiom closure.
+The repaired scalar-linear H0 and affine finite-generation targets rebuild
+through 2,765 jobs with no warnings; all ten new public declarations have the
+same standard axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
