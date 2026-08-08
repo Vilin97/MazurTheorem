@@ -92,6 +92,27 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The B1 lane now has a genuinely low-degree-only exactness and support-induction
+cone.  The attributed AINTLIB slices prove degreewise exactness of ordered
+base-Cech complexes on affine intersections and propagate finite generation in
+degrees zero and one through the two short exact sequences used by
+closed-stalk-support codévissage.  The project-facing
+`IsCoherentLowDegreeSupportComodel` keeps quasicoherence of the comparison
+image explicit; the named downstream theorem
+`genuineSheafHOne_finite_of_coherentSupportComodels` carries any producer of
+that interface through ordered/native comparison and the explicit transported
+base action (`3cbaacd`, reviewed from `599356e`).  The focused serial endpoint
+build, ten representative axiom audits, and `scripts/quality.py` pass; the
+axiom closure is exactly `propext`, `Classical.choice`, and `Quot.sound`, and
+the quality baseline is 905 Lean modules / 1,531,644 Lean lines.  This is a
+reduction, not proper H1 finiteness: the B1 worker is slicing the historical
+canonical-support Chow producer rather than importing its 366-module cone.
+In parallel, the owner is packaging the raw arbitrary-divisor cocycle into the
+checked A3 effectivity consumer, the order-25 worker is required to reach a
+public characteristic-zero Brunault-polynomial consumer, and the X1(13)
+worker is pursuing the specialized Jacobian certificate after ruling out a
+local-congruence-only finish.  No node or Challenge receives credit.
+
 The B1 facade now carries a chosen affine cover's base-ring action all the way
 from ordered base-Cech degree-one homology to genuine Ext-based sheaf `H¹`.
 `genuineSheafHOneBaseModule_of_affineOpenCover` is an explicit named module,

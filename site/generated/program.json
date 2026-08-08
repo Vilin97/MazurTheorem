@@ -3159,17 +3159,17 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves applies to actual Scheme.Modules on the Zariski opens site. Degree zero is naturally identified with global sections, with an explicit global-functions action and linear affine-tilde finite-generation consumer. Quasicoherent cokernel closure, finite affine restriction-pushforward covers, the canonical short exact cover sequence, the retained long exact sequence, flasque injective acyclicity, recursive syzygies, and finite local killing prove by strong induction that quasicoherent cohomology vanishes in every positive degree on every affine scheme. The LeanPool Grothendieck-vanishing proof, Tau Ceti's dimension-one theorem, and proper/smooth Noetherianity then prove genuine sheaf cohomology vanishes in every degree at least two on a smooth proper integral curve. Separately, an option-free AINTLIB slice proves that finite generation of ordered base-Cech H1 transfers to native all-tuples base-Cech H1. On every affine open cover the native object's underlying additive group is isomorphic to genuine Ext-based sheaf H1; an explicit cover-dependent global-functions module is transported across that isomorphism, and the named consumer `genuineSheafHOne_finite_of_ordered_affineOpenCover` transfers ordered finite generation to genuine H1. The remaining B1 mathematics is the proper ordered base-Cech low-degree finiteness input, its support/Chow construction, and the final field-linear proper-curve finite-dimensional facade. No base change or semicontinuity is claimed.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves applies to actual Scheme.Modules on the Zariski opens site. Degree zero is naturally identified with global sections, with an explicit global-functions action and linear affine-tilde finite-generation consumer. Quasicoherent cokernel closure, finite affine restriction-pushforward covers, the canonical short exact cover sequence, the retained long exact sequence, flasque injective acyclicity, recursive syzygies, and finite local killing prove by strong induction that quasicoherent cohomology vanishes in every positive degree on every affine scheme. The LeanPool Grothendieck-vanishing proof, Tau Ceti's dimension-one theorem, and proper/smooth Noetherianity then prove genuine sheaf cohomology vanishes in every degree at least two on a smooth proper integral curve. Separately, an option-free AINTLIB slice proves that finite generation of ordered base-Cech H1 transfers to native all-tuples base-Cech H1. On every affine open cover the native object's underlying additive group is isomorphic to genuine Ext-based sheaf H1; an explicit cover-dependent global-functions module is transported across that isomorphism, and the named consumer `genuineSheafHOne_finite_of_ordered_affineOpenCover` transfers ordered finite generation to genuine H1. A checked low-degree exactness and closed-support induction slice now reduces ordered low-degree finiteness to explicit coherent support-decreasing comodels; `genuineSheafHOne_finite_of_coherentSupportComodels` carries any such producer through to genuine H1. The remaining B1 mathematics is the canonical proper Chow comodel producer and the final field-linear proper-curve finite-dimensional facade. No properness theorem, base change, or semicontinuity is claimed by the reduction.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
-          "status": "exact-sequence core retained; larger scaffold requires transitive audit",
+          "status": "low-degree exactness and closed-support induction retained; proper producer under audit",
           "estimated_node_savings_percent": {
             "min": 40,
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge and additive sheaf-H1 comparison compile, but the AINTLIB support/Chow proper-finiteness cone remains excluded pending a narrow provenance and placeholder audit. Proper coherent H1 finiteness and its final field-linear facade remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The retained project-facing comodel interface deliberately exposes quasicoherence of the comparison image. The canonical-support Chow construction producing those comodels, proper coherent H1 finiteness, and its final field-linear facade remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3543,6 +3543,27 @@
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover",
           "state": "contract",
           "description": "Transfer ordered base-Cech H1 finite generation through the native comparison to genuine sheaf H1 with its explicit cover-dependent action.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel",
+          "state": "contract",
+          "description": "Package exactly the coherent target, low-degree finite target homology, quasicoherent comparison image, coherent residuals, and strict closed-support decrease consumed by the checked support induction.",
+          "module": "MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.orderedBaseCechLowDegreeFinite_of_coherentSupportComodels",
+          "state": "contract",
+          "description": "Use well-founded closed-stalk-support induction and low-degree exact sequences to derive ordered base-Cech finiteness in degrees zero and one from the explicit comodel producer.",
+          "module": "MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_coherentSupportComodels",
+          "state": "contract",
+          "description": "Carry a coherent support-decreasing comodel producer through ordered support induction, the ordered/native comparison, and the explicit transported action to genuine sheaf H1 finite generation.",
           "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
         }
       ],

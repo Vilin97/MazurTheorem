@@ -1003,8 +1003,13 @@ finite generation transfers to the native all-tuples complex. On an affine
 open cover its underlying additive group is genuine Ext-based sheaf H1; an
 explicit cover-dependent global-functions action makes that comparison
 linear, and a named consumer transfers ordered finite generation to genuine
-H1. Proper ordered base-Cech low-degree finiteness, its support/Chow
-construction, and the final field-linear proper-curve facade remain open.
+H1. An option-free low-degree exactness and closed-stalk-support induction
+slice now reduces ordered finiteness in degrees zero and one to an explicit
+coherent support-decreasing comodel producer. Its genuine-H1 consumer composes
+that reduction with the ordered/native comparison and the transported action.
+The canonical proper Chow construction producing those comodels, and the final
+field-linear proper-curve facade, remain open; the reduction itself makes no
+properness, base-change, or semicontinuity claim.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1188,6 +1193,19 @@ construction, and the final field-linear proper-curve facade remain open.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover`
   Transfer ordered H1 finite generation through the native comparison to
   genuine sheaf H1.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel`
+  Package the exact coherent target, low-degree finite target homology,
+  quasicoherent comparison image, coherent residuals, and strict support
+  decrease consumed by closed-support induction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.orderedBaseCechLowDegreeFinite_of_coherentSupportComodels`
+  Prove ordered base-Cech finiteness in degrees zero and one from the explicit
+  support-decreasing comodel producer.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_coherentSupportComodels`
+  Carry the comodel producer through support induction, ordered/native
+  comparison, and scalar transport to genuine sheaf H1 finite generation.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
