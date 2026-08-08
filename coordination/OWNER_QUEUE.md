@@ -55,6 +55,18 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The multiplicative descent lane now evaluates an actual represented `G_m`
+`OneCocycle` on a singleton affine family at the tensor-product overlap
+(`4a73dc5`, reviewed from contributor `ffecc5b`). Represented-point
+naturality proves diagonal normalization and identifies all three pullbacks
+to the triple overlap; `OneCocycle.ev_trans` proves the correctly oriented
+tensor-unit identity. The resulting cocycle reaches the genuine comonadic
+descended module, its base-change isomorphism, and the explicit
+`Z[1/ell]` linear trivialization. This closes the represented-to-tensor seam
+for singleton affine presentations only. Refinement of arbitrary multi-object
+fppf covers and gauge comparison remain open, so no ambient `H¹(G_m)`
+vanishing or node credit is claimed.
+
 The shared Picard handoff now accepts actual rational sections rather than
 only abstract codimension-one points with caller-supplied weight equations.
 Smooth relative dimension one turns each explicitly non-generic section image
@@ -115,11 +127,13 @@ and every invertible module is explicitly linearly equivalent to the trivial
 rank-one module (`d780fe9`). A normalized tensor-unit cocycle on a faithfully
 flat affine cover now gives the actual extension/restriction-comonad coalgebra,
 descends effectively to a rank-one module, and is trivialized over this prime
-localization (`16fb904`, reviewed from contributor `9adef47`). This still does
-not prove `H¹(G_m)=0`: the represented fppf cocycle must be compared with the
-normalized tensor-unit model, and arbitrary covers still require an honest
-refinement/descent argument. The constant-factor `H¹` calculation remains
-independent and open.
+localization (`16fb904`, reviewed from contributor `9adef47`). A represented
+multiplicative cocycle on a singleton affine family is now compared with that
+normalized tensor-unit model and consumed by the same prime-away
+trivialization (`4a73dc5`, reviewed from contributor `ffecc5b`). This still
+does not prove `H¹(G_m)=0`: arbitrary multi-object covers require an honest
+singleton refinement and gauge/descent comparison. The constant-factor `H¹`
+calculation remains independent and open.
 
 The newest A3 boundary proves the lower coherence that the prior checkpoint
 had isolated. Extension of inverse fractional ideals through a flat ring
@@ -213,7 +227,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 809 Lean modules and 1,501,607 Lean lines.
+exact quality baseline is 809 Lean modules and 1,501,985 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -242,6 +256,9 @@ module declarations use only the three standard axioms. The A3 affine and curve 
 target and all five public declarations have the same standard axiom closure.
 The 3,579-job combined geometry/comonadic-descent build passes, and all eleven
 audited multiplicative-descent endpoints use only the standard axioms.
+The represented singleton-cocycle extension rebuilds its 3,105-job focused
+target; all nineteen public definitions and theorems were independently
+audited and use only `propext`, `Classical.choice`, and `Quot.sound`.
 The X₁(18) branch-unification and seven-scaled normalization modules rebuild
 3,578 and 3,579 jobs respectively; their audited public declarations use only
 the standard axioms. The repaired quadratic-norm module rebuilds its 3,581-job
@@ -265,9 +282,10 @@ target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
 workers are pursuing the A3 normalized-transition/effectivity seam, the honest
-represented-fppf-to-tensor-unit cocycle comparison, and the removal of the
-explicit non-genericity premise from rational sections of proper smooth
-curves. The reviewed represented point-quotient comparison is integrated;
+arbitrary-cover refinement/gauge step beyond the now-integrated singleton
+represented multiplicative cocycle, and the removal of the explicit
+non-genericity premise from rational sections of proper smooth curves. The
+reviewed represented point-quotient comparison is integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
 open. The represented integral cusp chart remains queued for the prime-five
 and level-35 consumers. The finite-flat lane still also needs the independent

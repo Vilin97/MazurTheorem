@@ -583,6 +583,12 @@ quotients are not being represented as quasi-finite flat group schemes.
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle.primeAwayLinearEquivBase`
 * `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.toMultiplicativeUnitCocycle`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.descendedModule`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.primeAwayLinearEquivBase`
+* `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
@@ -692,9 +698,13 @@ the multiplicative Kummer kernel over every prime localization now has an actual
 certificate. The localization is a principal ideal ring, its ring Picard group is trivial, and
 every invertible module is explicitly trivialized. A normalized tensor-unit cocycle on a
 faithfully flat affine cover now defines the actual descent-comonad coalgebra, descends
-effectively to a rank-one module, and is explicitly trivial over `Z[1/ell]`. The missing
-comparison is from a represented multiplicative fppf cocycle to that normalized tensor-unit
-model; no ambient `H¹(G_m)` vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
+effectively to a rank-one module, and is explicitly trivial over `Z[1/ell]`. Evaluating an
+actual represented multiplicative cocycle on a singleton affine family now produces exactly
+that normalized tensor-unit model: naturality proves normalization and the three overlap
+pullbacks, and the represented cocycle law proves the tensor identity. Effective descent and
+the prime-away linear trivialization are direct consumers. Refinement of arbitrary multi-object
+fppf covers to singleton affine presentations and gauge comparison remain open, so no ambient
+`H¹(G_m)` vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
 quasi-finite admissible-filtration exact sequences, the constant-factor global
 `H¹` calculation, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.

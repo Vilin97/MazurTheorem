@@ -1856,6 +1856,17 @@ calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the focused
 rank-zero specialization remain open. The supported quotient terms are not
 represented as quasi-finite flat group schemes.
 
+For the multiplicative coefficient, evaluation of an actual represented
+`OneCocycle` on a singleton affine family now produces the normalized
+tensor-unit cocycle used by effective descent. Represented-point naturality
+gives diagonal normalization and all three maps to the triple overlap, while
+the represented cocycle law gives the correctly oriented tensor identity.
+The extracted cocycle has the genuine comonadic descended module, base-change
+isomorphism, and explicit prime-away linear trivialization as compiled
+consumers. This comparison is only for singleton affine presentations.
+Refinement of arbitrary multi-object fppf covers and the associated gauge
+comparison remain open, so this does not assert global `H¹(G_m)` vanishing.
+
 Tau Ceti's Jacobian work and later mathlib developments should still be
 monitored before independently building every generic algebraic-geometric
 layer.
