@@ -674,8 +674,16 @@ therefore selective: use named, file-level licensed leaves or obtain license
 clarification; converge the mathlib pin; remove option workarounds; preserve
 provenance; and add checked integration boundaries plus real consumers. The
 admissible Picard and Cartier-duality leaves are now consumed through
-`MazurTorsion.Upstream.Geometry`; the whole AINTLIB project is neither vendored
-nor treated as a Lean Pool-ready dependency.
+`MazurTorsion.Upstream.Geometry`. Thirteen file-level licensed finite-action
+leaves are also retained, and the local split-constant translation route now
+constructs the corresponding quotient without resolving AINTLIB's general
+`NIsogeny` or classifying-space holes. Its elementary translation proof
+skeletons come from `GroupScheme/TranslationBySection.lean`, exact blob
+`6223d2904bc6f2162d4ee4e77ed684a40396ef18`; because the audited branch copy
+has no header, the license evidence is the identical blob at commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b` under that commit's root
+Apache-2.0 license. The whole AINTLIB project is neither vendored nor treated
+as a Lean Pool-ready dependency.
 
 ## 11. Route-specific formal-immersion API audit
 

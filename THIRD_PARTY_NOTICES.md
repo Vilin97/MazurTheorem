@@ -184,6 +184,14 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   Their local headers record Chris Birkbeck's authorship/history on those
   exact licensed blobs rather than claiming that the dev source supplied
   headers or a root license.
+- Additional adapted proof source, not vendored as a module:
+  - `projects/ModularCurves/ModularCurves/GroupScheme/TranslationBySection.lean`
+    (blob `6223d2904bc6f2162d4ee4e77ed684a40396ef18`; Chris Birkbeck and
+    Claude Opus 4.8)
+- The adapted `TranslationBySection` blob had no header at the audited commit,
+  but is byte-identical at AINTLIB commit
+  `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, under root Apache-2.0 license
+  blob `8dada3edaf50dbc082c9a125058f25def75e625a`. See `docs/PRIOR_ART.md`.
 
 The selected source and slices are stored under
 `MazurTorsion/Upstream/AINTLIB/`. The exact-sequence sheaf-cohomology files
@@ -207,9 +215,11 @@ The thirteen finite-action quotient files retain the upstream statements and
 namespaces. Besides internal import repointing, formatting, and removal of
 source-level compatibility options and linter suppressions forbidden by this
 repository, `SpecGroupAction` has explicit coercion and primality witnesses
-and `BaseChangeAlongCompat` explicitly selects existing Mathlib locality,
-stability, descent, and multiplicativity instances needed at the immutable
-pin. No statement is weakened.
+and `BaseChangeAlongCompat` uses the pinned Mathlib finite-affine and
+fpqc-to-fppf proof APIs explicitly. `SchemeQuotient` uses current affine-open
+naturality and diagonal-composition APIs. No statement is weakened. The
+additional translation proof adaptation and its exact-blob license evidence
+are described above.
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
