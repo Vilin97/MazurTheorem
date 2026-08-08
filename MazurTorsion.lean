@@ -232,6 +232,7 @@ import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffine
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover
+import MazurTorsion.Upstream.SchemeModuleCohomologyAffineCoverMono
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact
 import MazurTorsion.Upstream.SchemeModuleCohomologyHZero
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
