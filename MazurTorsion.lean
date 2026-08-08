@@ -219,3 +219,4 @@ import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
+import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
