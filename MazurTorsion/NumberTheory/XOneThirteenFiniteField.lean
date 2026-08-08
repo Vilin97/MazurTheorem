@@ -945,4 +945,127 @@ theorem card_reducedDegreeTwoClassCertificateF5 :
     Fintype.card ReducedDegreeTwoClassCertificateF5 = 19 := by
   decide
 
+/-! ## A cyclic coordinate on the reduced class certificates -/
+
+/-- A perfect six-element degree-two coordinate set in `ZMod 19`.  Opposite
+labels are hyperelliptic conjugates. -/
+def rationalCuspDegreeTwoCoordinate : RationalCuspLabel → ZMod 19
+  | .zeroPos => 1
+  | .zeroNeg => -1
+  | .negOnePos => 7
+  | .negOneNeg => -7
+  | .infinityPos => 8
+  | .infinityNeg => -8
+
+/-- Hyperelliptic conjugation negates the cusp coordinate. -/
+theorem rationalCuspDegreeTwoCoordinate_conjugate :
+    ∀ c : RationalCuspLabel,
+      rationalCuspDegreeTwoCoordinate (rationalCuspConjugate c) =
+        -rationalCuspDegreeTwoCoordinate c := by
+  intro c
+  cases c <;> decide
+
+/-- The coordinate of an unordered rational cusp pair. -/
+def unorderedRationalCuspPairCoordinate
+    (p : UnorderedRationalCuspPair) : ZMod 19 :=
+  rationalCuspDegreeTwoCoordinate p.1.1 +
+    rationalCuspDegreeTwoCoordinate p.1.2
+
+/-- The degree-two class coordinate over `𝔽₃`.  A quadratic
+hyperelliptic fiber has coordinate zero. -/
+def degreeTwoClassCoordinateF3 :
+    DegreeTwoDivisorCertificateF3 → ZMod 19
+  | .inl p => unorderedRationalCuspPairCoordinate p
+  | .inr _ => 0
+
+/-- Vanishing of the `𝔽₃` coordinate detects exactly the canonical
+hyperelliptic pencil. -/
+theorem degreeTwoClassCoordinateF3_eq_zero_iff :
+    ∀ D : DegreeTwoDivisorCertificateF3,
+      degreeTwoClassCoordinateF3 D = 0 ↔ IsCanonicalDegreeTwoF3 D := by
+  decide
+
+/-- The degree-two class coordinate over `𝔽₅`. -/
+def degreeTwoClassCoordinateF5 :
+    DegreeTwoDivisorCertificateF5 → ZMod 19
+  | .inl p => unorderedRationalCuspPairCoordinate p
+  | .inr _ => 0
+
+/-- Vanishing of the `𝔽₅` coordinate detects exactly the canonical
+hyperelliptic pencil. -/
+theorem degreeTwoClassCoordinateF5_eq_zero_iff :
+    ∀ D : DegreeTwoDivisorCertificateF5,
+      degreeTwoClassCoordinateF5 D = 0 ↔ IsCanonicalDegreeTwoF5 D := by
+  decide
+
+/-- The reduced coordinate over `𝔽₃`; the collapsed pencil is sent to
+zero and every noncanonical divisor retains its nonzero coordinate. -/
+def reducedDegreeTwoClassCoordinateF3 :
+    ReducedDegreeTwoClassCertificateF3 → ZMod 19
+  | .inl D => degreeTwoClassCoordinateF3 D.1
+  | .inr _ => 0
+
+/-- The reduced coordinate over `𝔽₃` is a bijection. -/
+theorem reducedDegreeTwoClassCoordinateF3_bijective :
+    Function.Bijective reducedDegreeTwoClassCoordinateF3 := by
+  apply (Fintype.bijective_iff_surjective_and_card _).2
+  constructor
+  · exact (by decide :
+      ∀ z : ZMod 19,
+        ∃ D : ReducedDegreeTwoClassCertificateF3,
+          reducedDegreeTwoClassCoordinateF3 D = z)
+  · rw [card_reducedDegreeTwoClassCertificateF3, ZMod.card]
+
+/-- The checked equivalence between the reduced `𝔽₃` certificate and the
+nineteen cyclic coordinates. -/
+noncomputable def reducedDegreeTwoClassEquivZModF3 :
+    ReducedDegreeTwoClassCertificateF3 ≃ ZMod 19 :=
+  Equiv.ofBijective reducedDegreeTwoClassCoordinateF3
+    reducedDegreeTwoClassCoordinateF3_bijective
+
+/-- Transport the cyclic group law along the checked `𝔽₃` coordinate.
+This is a group law on the combinatorial certificate, not an assertion that
+it is the geometric Jacobian. -/
+noncomputable instance : AddCommGroup ReducedDegreeTwoClassCertificateF3 :=
+  reducedDegreeTwoClassEquivZModF3.addCommGroup
+
+/-- With the transported group law, the coordinate is an additive
+equivalence to `ZMod 19`. -/
+noncomputable def reducedDegreeTwoClassAddEquivZModF3 :
+    ReducedDegreeTwoClassCertificateF3 ≃+ ZMod 19 :=
+  reducedDegreeTwoClassEquivZModF3.addEquiv
+
+/-- The reduced coordinate over `𝔽₅`. -/
+def reducedDegreeTwoClassCoordinateF5 :
+    ReducedDegreeTwoClassCertificateF5 → ZMod 19
+  | .inl D => degreeTwoClassCoordinateF5 D.1
+  | .inr _ => 0
+
+/-- The reduced coordinate over `𝔽₅` is a bijection. -/
+theorem reducedDegreeTwoClassCoordinateF5_bijective :
+    Function.Bijective reducedDegreeTwoClassCoordinateF5 := by
+  apply (Fintype.bijective_iff_surjective_and_card _).2
+  constructor
+  · exact (by decide :
+      ∀ z : ZMod 19,
+        ∃ D : ReducedDegreeTwoClassCertificateF5,
+          reducedDegreeTwoClassCoordinateF5 D = z)
+  · rw [card_reducedDegreeTwoClassCertificateF5, ZMod.card]
+
+/-- The checked equivalence between the reduced `𝔽₅` certificate and
+`ZMod 19`. -/
+noncomputable def reducedDegreeTwoClassEquivZModF5 :
+    ReducedDegreeTwoClassCertificateF5 ≃ ZMod 19 :=
+  Equiv.ofBijective reducedDegreeTwoClassCoordinateF5
+    reducedDegreeTwoClassCoordinateF5_bijective
+
+/-- The transported cyclic group law on the `𝔽₅` certificate. -/
+noncomputable instance : AddCommGroup ReducedDegreeTwoClassCertificateF5 :=
+  reducedDegreeTwoClassEquivZModF5.addCommGroup
+
+/-- The additive cyclic coordinate over `𝔽₅`. -/
+noncomputable def reducedDegreeTwoClassAddEquivZModF5 :
+    ReducedDegreeTwoClassCertificateF5 ≃+ ZMod 19 :=
+  reducedDegreeTwoClassEquivZModF5.addEquiv
+
 end MazurTorsion.XOneThirteenFiniteField
