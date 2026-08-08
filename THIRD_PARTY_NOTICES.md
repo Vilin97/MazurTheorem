@@ -58,7 +58,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB geometry foundations
 
-- Upstream author identified from repository authorship/history: Chris Birkbeck
+- Upstream authorship retained from the selected file headers: Chris
+  Birkbeck and the AINTLIB ModularCurves contributors
 - Source: https://github.com/CBirkbeck/AINTLIB
 - Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
 - Canonical-support audit commit:
@@ -120,6 +121,19 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
     (homology isomorphisms only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSupport.lean`
     (split between the closed-stalk rank core and the remaining support API)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FinitePresentationOfFinite.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/BaseChangeAlongCompat.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantBaseChange.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantLocalization.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SpecGroupAction.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackLocalAtTarget.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantTorsor.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/EtaleCancellation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AffineQuotient.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeQuotient.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeActionFree.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TorsorMap.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecBasicOpenAway.lean`
     (`specBasicOpen` only)
@@ -188,6 +202,12 @@ The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and
 tensor/invertible tails.
+
+The thirteen finite-action quotient files retain the upstream statements and
+proof bodies; local changes are limited to internal import repointing, blank
+line normalization, and removal of source-level compatibility options and
+linter suppressions forbidden by this repository.
+
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations

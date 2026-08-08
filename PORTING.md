@@ -203,11 +203,12 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Seventy-seven local Apache-2.0 modules were selected from the AINTLIB
+Ninety local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. The first forty-four modules comprise the
-whole files and narrow option-free slices in the following table:
+`MazurTorsion/Upstream/AINTLIB/`. The original forty-four-module foundation
+and the thirteen finite-action quotient modules comprise the whole files and
+narrow option-free slices in the following table:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
 |---|---|
@@ -215,6 +216,19 @@ whole files and narrow option-free slices in the following table:
 | `ForMathlib/SheafOfModulesMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafOfModulesMonoidal.lean` |
 | `ForMathlib/SchemeModuleSheaf.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleSheaf.lean` |
 | `ForMathlib/SheafCohomologyExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyExact.lean` |
+| `ForMathlib/FinitePresentationOfFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FinitePresentationOfFinite.lean` |
+| `ForMathlib/BaseChangeAlongCompat.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/BaseChangeAlongCompat.lean` |
+| `ForMathlib/InvariantBaseChange.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantBaseChange.lean` |
+| `ForMathlib/InvariantLocalization.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantLocalization.lean` |
+| `ForMathlib/SpecGroupAction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SpecGroupAction.lean` |
+| `ForMathlib/PullbackLocalAtTarget.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PullbackLocalAtTarget.lean` |
+| `ForMathlib/InvariantTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantTorsor.lean` |
+| `ForMathlib/EtaleCancellation.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/EtaleCancellation.lean` |
+| `ForMathlib/AffineQuotient.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/AffineQuotient.lean` |
+| `ForMathlib/SchemeQuotient.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeQuotient.lean` |
+| `ForMathlib/SchemeActionFree.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeActionFree.lean` |
+| `ForMathlib/TorsorMap.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TorsorMap.lean` |
+| `ForMathlib/QuotientTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/QuotientTorsor.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 | `ForMathlib/FormalCoproductAdditive.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FormalCoproductAdditive.lean` |
 | `ForMathlib/FiniteHomologySequence.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FiniteHomologySequence.lean` |
@@ -402,6 +416,17 @@ instead of importing AINTLIB's larger `AffineVanishing` cone.
 `SchemeModuleBaseCechHomology` retains only the two homology isomorphisms
 needed to pass from the base-linear complex to the native additive Cech
 complex and then to sheaf `H¹`.
+
+The thirteen finite-action quotient modules are a source-preserving port of
+the same exact snapshot. Their declarations and proof bodies are unchanged.
+Only imports between retained AINTLIB modules are repointed into the local
+namespace, blank lines are normalized, and source-level backward-elaboration
+options and linter suppressions are omitted. They construct the quotient of a
+scheme by a finite action from a stable affine atlas, prove the quotient
+projection finite, and in the free-action case prove it finite etale,
+surjective, and a torsor after arbitrary base change. The new local
+translation-quotient consumer descends the commutative group law through that
+checked universal property.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
