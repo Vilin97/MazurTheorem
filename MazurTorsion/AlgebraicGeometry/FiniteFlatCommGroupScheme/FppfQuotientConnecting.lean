@@ -465,6 +465,18 @@ theorem exact_fppfHOneMap_inclusion_project (D : FppfQuotientPresentation G) :
       (fppfHOneMap D.project : G.FppfHOne.{u} →* D.quotient.FppfHOne.{u}) :=
   fun z ↦ D.fppfHOneMap_project_eq_one_iff_exists_kernelClass z
 
+/-- Finiteness propagates through the exact global fppf `H¹` sequence of a checked quotient
+presentation.  Thus finite cohomology of the kernel and quotient is enough; consumers need not
+separately assume finiteness of the middle cohomology group. -/
+theorem finite_fppfHOne_of_kernel_quotient
+    (D : FppfQuotientPresentation G)
+    [Finite D.kernelPresentation.kernel.FppfHOne.{u}]
+    [Finite D.quotient.FppfHOne.{u}] :
+    Finite G.FppfHOne.{u} :=
+  FppfLowDegreeExactSequence.finite_middle_of_mulExact
+    (fppfHOneMap D.kernelPresentation.inclusion)
+    (fppfHOneMap D.project) D.exact_fppfHOneMap_inclusion_project
+
 /-- The canonical connecting homomorphism of an actual checked fppf quotient presentation.  Its
 value is the kernel torsor of the tautological local lifts on the pulled-back quotient cover. -/
 def boundaryHom (D : FppfQuotientPresentation G) :

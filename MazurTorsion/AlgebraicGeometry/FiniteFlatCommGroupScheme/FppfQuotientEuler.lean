@@ -11,9 +11,9 @@ import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConn
 
 The checked quotient presentation now constructs every exactness proof in its six-term
 low-degree sequence.  This file is its first cardinal downstream consumer: five endpoint
-finite-cardinality certificates, finiteness of the middle global fppf `H¹`, and the numerical
-Euler bound give the desired cardinal bound, with no caller-supplied exactness assertion or
-circular certificate of the cardinal being bounded.
+finite-cardinality certificates and the numerical Euler bound give the desired cardinal bound.
+Finiteness of the middle global fppf `H¹` follows from exactness and the two finite neighboring
+`H¹` groups, so no caller-supplied exactness or finiteness assertion is needed.
 -/
 
 noncomputable section
@@ -30,8 +30,8 @@ variable {S : Scheme.{u}}
 namespace FppfLowDegreeExactSequence
 
 /-- Certified endpoint cardinal lengths for an actual quotient presentation imply the expected
-bound on the middle global fppf `H¹`.  Its finiteness is required, but not a certificate of its
-cardinality; all exactness is supplied by the quotient presentation itself. -/
+bound on the middle global fppf `H¹`.  Its finiteness follows from exactness and finiteness of
+the neighboring `H¹` groups; all exactness is supplied by the quotient presentation itself. -/
 theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
     {p : ℕ} {G : FiniteFlatCommGroupScheme S}
     (D : FppfQuotientPresentation G)
@@ -41,7 +41,6 @@ theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
     (quotientHZeroData : FinitePGroup.CertifiedData p (BasePoint D.quotient))
     (kernelHOneData : FinitePGroup.CertifiedData p
       D.kernelPresentation.kernel.FppfHOne.{u})
-    (middleHOneFinite : Finite G.FppfHOne.{u})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{u})
     (hp : p.Prime) (bound : ℕ)
     (hbound :
@@ -52,8 +51,8 @@ theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
   letI : Finite (BasePoint G) := middleHZeroData.finite
   letI : Finite (BasePoint D.quotient) := quotientHZeroData.finite
   letI : Finite D.kernelPresentation.kernel.FppfHOne.{u} := kernelHOneData.finite
-  letI : Finite G.FppfHOne.{u} := middleHOneFinite
   letI : Finite D.quotient.FppfHOne.{u} := quotientHOneData.finite
+  letI : Finite G.FppfHOne.{u} := D.finite_fppfHOne_of_kernel_quotient
   have hcard := card_euler_le_of_exact
     (mapPoint D.kernelPresentation.inclusion (baseObject S))
     (mapPoint D.project (baseObject S)) D.boundaryHom

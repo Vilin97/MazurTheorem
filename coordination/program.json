@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1505759,
-    "integrated_lean_modules": 822,
+    "integrated_lean_lines": 1506281,
+    "integrated_lean_modules": 823,
     "remaining_composite_orders": [
       18,
       25,
@@ -4454,7 +4454,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The same prime localization is now proved principal; its ring Picard group is trivial, and every invertible module is explicitly equivalent to the trivial rank-one module. A normalized tensor-unit cocycle on a faithfully flat affine cover now gives a genuine coalgebra for the extension/restriction comonad, descends effectively to a rank-one module, and becomes the trivial line over Z[1/ell]. Evaluation of an actual represented multiplicative OneCocycle on a singleton affine family now supplies that normalized tensor-unit cocycle: naturality proves normalization and the three overlap pullbacks, while the represented cocycle law proves the tensor identity. Its effective descended module and prime-away trivialization are direct consumers. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Refining arbitrary multi-object fppf covers to singleton affine presentations and comparing gauges, quasi-finite admissible-filtration exact sequences, the constant-factor global H1 calculation, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. Exactness at middle H1 propagates finiteness from finite kernel and quotient H1 groups, and the finite-flat Euler and rank-zero consumers no longer ask callers for middle-H1 finiteness. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The same prime localization is now proved principal; its ring Picard group is trivial, and every invertible module is explicitly equivalent to the trivial rank-one module. A normalized tensor-unit cocycle on a faithfully flat affine cover now gives a genuine coalgebra for the extension/restriction comonad, descends effectively to a rank-one module, and becomes the trivial line over Z[1/ell]. Evaluation of an actual represented multiplicative OneCocycle on a singleton affine family now supplies that normalized tensor-unit cocycle: naturality proves normalization and the three overlap pullbacks, while the represented cocycle law proves the tensor identity. Its effective descended module and prime-away trivialization are direct consumers. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Refining arbitrary multi-object fppf covers to singleton affine presentations and comparing gauges, quasi-finite admissible-filtration exact sequences, and the constant-factor global H1 calculation remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -4919,6 +4919,20 @@
           "description": "Lift a quotient-valued trivializing gauge on a genuine fppf refinement and use certified kernel uniqueness to prove exactness at middle-valued H1."
         },
         {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology",
+          "description": "Derive finiteness of the middle group in an exact pair from finite source and target groups; the finite-flat quotient theorem is its geometric consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.finite_fppfHOne_of_kernel_quotient",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Propagate finiteness through the checked kernel-middle-quotient H1 pair; the Euler estimate and both Kummer rank-zero theorems consume it."
+        },
+        {
           "kind": "definition",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation",
           "state": "contract",
@@ -4930,7 +4944,7 @@
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation",
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientEuler",
-          "description": "Consume an actual quotient presentation, five endpoint finite-cardinality certificates, and finiteness of the middle global fppf H1 to bound that H1 without caller-supplied exactness hypotheses or a circular cardinal certificate."
+          "description": "Consume an actual quotient presentation and five endpoint finite-cardinality certificates to bound the middle global fppf H1; exactness derives its finiteness internally."
         },
         {
           "kind": "definition",
@@ -4958,14 +4972,14 @@
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt",
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections",
-          "description": "Consume the checked integral H0 cardinality of one admissible elementary kernel in the actual quotient H1 bound, leaving quotient certificates and middle-H1 finiteness explicit for recursive finite-flat use."
+          "description": "Consume the checked integral H0 cardinality of one admissible elementary kernel in the actual quotient H1 bound, leaving the quotient certificates explicit for recursive finite-flat use while deriving middle-H1 finiteness."
         },
         {
           "kind": "theorem",
           "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.fppfHOne_natCard_le_pow_int",
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections",
-          "description": "Provide the checked two-elementary-factor downstream consumer of the recursive finite-flat kernel theorem, while retaining explicit endpoint H1 data and middle-H1 finiteness."
+          "description": "Provide the checked two-elementary-factor downstream consumer of the recursive finite-flat kernel theorem, retaining explicit endpoint H1 data and deriving middle-H1 finiteness from exactness."
         },
         {
           "kind": "theorem",
@@ -5534,7 +5548,7 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero. The numerical endpoint now compiles: an injective Kummer map from A/pA into a finite group whose cardinality is bounded by the cardinality of A[p] forces a finitely generated abelian group A to have rank zero and hence be finite. Actual downstream consumers take the repository's represented finite-flat FppfHOne target and derive its bound from a checked two-factor admissible filtration and low-degree exact sequence. The Eisenstein quotient's genuine Mordell-Weil Kummer injection, endpoint cohomology certificates, middle-H1 finiteness, torsion-cardinality equality, and unramified Raynaud input remain open.",
+      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero. The numerical endpoint now compiles: an injective Kummer map from A/pA into a finite group whose cardinality is bounded by the cardinality of A[p] forces a finitely generated abelian group A to have rank zero and hence be finite. Actual downstream consumers take the repository's represented finite-flat FppfHOne target and derive its bound from a checked two-factor admissible filtration and low-degree exact sequence. Exactness now derives finite middle H1 from the finite kernel and quotient certificates. The Eisenstein quotient's genuine Mordell-Weil Kummer injection, endpoint cohomology certificates, torsion-cardinality equality, and unramified Raynaud input remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6392,7 +6406,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. The represented polynomial chart Spec R[t] constructs its zero section, identifies every fibre cusp prime with (t), proves the localized maximal ideal is generated by q with q not in its square, and supplies prime-5 and order-35-at-11 arithmetic consumers. Identifying an actual integral X_0(N) infinity neighbourhood with this chart, and proving the represented quotient collision and genuine optimal-quotient q-expansion identity, remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. The represented polynomial chart Spec R[t] constructs its zero section, identifies every fibre cusp prime with (t), proves the localized maximal ideal is generated by q with q not in its square, and supplies prime-5 and order-35-at-11 arithmetic consumers. A genuine affine algebra equivalence T ~= R[t] now transports the Spec isomorphism, structural section, fibre prime, q-generator, cotangent nonvanishing, and Noetherianity; generic Spec.map formal immersion and both arithmetic endpoints consume this transported geometry. Identifying an actual integral X_0(N) infinity neighbourhood with such a chart, and proving the represented quotient collision and genuine optimal-quotient q-expansion identity, remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -6756,6 +6770,41 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
           "description": "Feed the same represented cusp geometry into the order-35 arithmetic endpoint at eleven."
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspChartTransport",
+          "description": "Package a genuine affine coordinate-ring equivalence with the represented one-variable polynomial cusp chart."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.specIso",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspChartTransport",
+          "description": "Construct the contravariant affine-scheme isomorphism induced by the chart equivalence."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspChartTransport",
+          "description": "Transport the full cusp-local algebra and consume a quotient-side Hecke eigen-expansion in a genuine Spec.map formal-immersion theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_affinePresentationAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspChartTransport",
+          "description": "Consume the transported affine cusp chart in the unconditional prime-order endpoint at five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_affinePresentationAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspChartTransport",
+          "description": "Consume the transported affine cusp chart in the unconditional order-35 endpoint at eleven."
         },
         {
           "kind": "theorem",

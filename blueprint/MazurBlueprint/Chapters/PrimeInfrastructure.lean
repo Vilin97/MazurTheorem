@@ -347,9 +347,11 @@ commutes with refinements and combines with represented-point base change. The n
 comparisons are concrete downstream consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
 `mu_p` cohomology now transport across these equivalences to the genuine bad-level carriers,
 preserving both their lengths and exact cardinal equalities; this transport proves no arithmetic
-certificate by itself. The quasi-finite admissible-filtration exact sequences,
-ambient `H¹(G_m)` vanishing on the good open, the constant-factor global `H¹`
-calculation, and middle-`H¹` finiteness remain open. The supported bad-fibre
+certificate by itself. Exactness of the checked finite-flat kernel-middle-quotient `H¹` pair now
+propagates finiteness from its two endpoints; the Euler estimate and both Kummer rank-zero
+consumers no longer require a separate middle-`H¹` finiteness premise. The quasi-finite
+admissible-filtration exact sequences, ambient `H¹(G_m)` vanishing on the good open, and the
+constant-factor global `H¹` calculation remain open. The supported bad-fibre
 quotients are not being represented as quasi-finite flat group schemes.
 
 * `structure` (`contract`):
@@ -628,6 +630,10 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.finite_fppfHOne_of_kernel_quotient`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
 * `theorem` (`contract`):
@@ -665,9 +671,10 @@ kernel `H¹`, and middle `H¹`: quotient gauges are lifted on genuine fppf
 refinements, and certified kernel uniqueness produces the required kernel
 cocycle. All three proofs feed the concrete low-degree constructor, which
 accepts no exactness hypotheses. A checked downstream consumer now applies the
-exact maps directly: five endpoint finite-cardinality certificates and mere
-finiteness of the middle global `H¹` imply its cardinal bound. It no longer
-assumes the exact cardinal of the group being bounded. The two elementary
+exact maps directly: five endpoint finite-cardinality certificates imply the
+middle global `H¹` cardinal bound, while exactness derives its finiteness from
+the two neighboring finite `H¹` groups. It no longer assumes either finiteness
+or the exact cardinal of the group being bounded. The two elementary
 `H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
 constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
 odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
@@ -719,9 +726,9 @@ and `FppfHOne.class_pullback` identifies the resulting global classes. This is o
 singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
 cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
 vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
-quasi-finite admissible-filtration exact sequences, the constant-factor global
-`H¹` calculation, middle-`H¹` finiteness proof,
-and focused rank-zero specialization are still absent, so no node credit is claimed.
+quasi-finite admissible-filtration exact sequences, the constant-factor global `H¹`
+calculation, and focused rank-zero specialization are still absent, so no node credit is
+claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
@@ -748,9 +755,10 @@ The checked finite-index formula now supplies the numerical endpoint: an
 injective map from `A/pA` into a finite group no larger than `A[p]` forces a
 finitely generated abelian group to have rank zero and hence be finite. The
 geometric consumers use the actual represented finite-flat `FppfHOne` target
-and derive its bound from the checked two-factor admissible filtration. The
-Eisenstein Kummer injection, endpoint certificates, middle-H1 finiteness,
-torsion-cardinality equality, and unramified Raynaud input remain open.
+and derive its bound from the checked two-factor admissible filtration. Exactness derives
+finiteness of the middle `FppfHOne` from finite endpoint certificates. The Eisenstein Kummer
+injection, endpoint certificates, torsion-cardinality equality, and unramified Raynaud input
+remain open.
 :::
 
 :::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")
@@ -1166,6 +1174,16 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_polynomialCuspAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_polynomialCuspAtEleven`
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.specIso`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_affinePresentationAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_affinePresentationAtEleven`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -1219,9 +1237,13 @@ remain open. Independently, the represented polynomial chart `Spec R[t]` now
 constructs its zero section, identifies the fibre prime and localized maximal
 ideal with the coordinate, proves the coordinate survives modulo the square,
 and reaches the actual prime-five and order-35-at-eleven arithmetic consumers.
-It is not identified with an integral modular-curve neighbourhood; that
-comparison and the optimal-quotient q-expansion remain open. This node receives
-no completion credit.
+A genuine affine algebra equivalence with this polynomial chart now transports
+the contravariant `Spec` isomorphism, structural section, fibre prime,
+q-generator, nonzero cotangent class, and Noetherianity. Generic formal
+immersion and both arithmetic endpoints consume the transported geometry. It
+is not identified with an integral modular-curve neighbourhood; constructing
+that equivalence and the optimal-quotient q-expansion remain open. This node
+receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

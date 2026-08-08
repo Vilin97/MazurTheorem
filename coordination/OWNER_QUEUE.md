@@ -50,7 +50,9 @@ weighted-depth/minimality contradictions at five and eleven, and the
 no-component formal-immersion arithmetic consumers, the global X1(13) Pell
 power split (`034eaac`), the denominator-checked and fraction-free X1(25)
 recurrences (`600422d`, `350024a`), and the represented polynomial cusp chart
-with five- and eleven-adic consumers (`b838e9d`). The ledger still has
+with five- and eleven-adic consumers (`b838e9d`), now transported across a
+genuine affine coordinate equivalence with full cusp-local algebra and the same
+two arithmetic consumers (`2825aee`). The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
@@ -321,10 +323,11 @@ zero by the checked finite-index formula and then finiteness. The specialized
 theorems target the actual represented finite-flat `FppfHOne` and derive its
 cardinal bound from the checked two-factor admissible filtration and
 low-degree exact sequence (`4b137af`, reviewed from contributor `fc0b7f6`).
-The Eisenstein quotient's Kummer injection, endpoint constant and
-multiplicative `H1` certificates, middle-`H1` finiteness, and p-torsion
-cardinality equality remain open. No Raynaud theorem or node completion is
-claimed.
+Exactness now propagates finiteness from the kernel and quotient `H1`
+certificates, so neither finite-flat Kummer consumer asks for a separate
+middle-`H1` finiteness premise. The Eisenstein quotient's Kummer injection,
+endpoint constant and multiplicative `H1` certificates, and p-torsion cardinality
+equality remain open. No Raynaud theorem or node completion is claimed.
 
 The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
@@ -446,22 +449,24 @@ cleared collision, and arbitrary-curve certificate have the same axiom
 closure. The represented polynomial cusp chart rebuilds all 8,751 jobs; nine
 audited section, fibre-prime, q-parameter, formal-immersion, and arithmetic
 consumer declarations again use only those three standard axioms.
+The affine-presentation transport rebuilds all 8,752 jobs; its contravariant
+`Spec` isomorphism, transported section/fibre/q geometry, generic formal
+immersion, and consumers at five and eleven have the same axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the A3 named cocycle, a tractable cleared order-25
-model, and transport of the polynomial cusp chart across a genuine affine
-coordinate equivalence. The reviewed A3 lower comparisons, finite-family
+workers are pursuing the A3 named cocycle, a tractable cleared order-25 model,
+and quasi-finite middle-`H¹` exactness. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
 rational-section non-genericity, split finite-flat inverse datum, affine H0
 right exactness, and X1(13) Pell allocation are integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
-open. The represented polynomial cusp chart and its prime-five and level-35
-consumers are integrated, but its identification with the integral modular
-curve remains open. The finite-flat lane still also needs the independent
+open. The represented polynomial cusp chart and its affine-equivalence transport to the
+prime-five and level-35 consumers are integrated, but constructing that equivalence for the
+integral modular curve remains open. The finite-flat lane still also needs the independent
 constant-factor global `H¹` calculation, while X₁(18) now returns to its fixed
 genus-two Jacobian or complete-descent leaf.
 
@@ -1129,7 +1134,8 @@ line bundle as a checked effectivity witness. Arbitrary-divisor coherence and
 general effectivity remain open. The
 finite-flat lane now has the complete checked low-degree fppf exact sequence
 and a non-circular downstream theorem converting five endpoint cardinality
-certificates plus finiteness of the middle `H¹` into its cardinal bound.
+certificates into its middle-`H¹` cardinal bound. Exactness itself derives
+middle-`H¹` finiteness from the finite kernel and quotient groups.
 Checkpoints `afd487c` and `9170e45` remove the formerly circular middle-cardinal
 certificate and passed independent mathematical/API review. The two elementary
 `H⁰` endpoint certificates over `Spec ℤ` now compile: the constant factor has
@@ -1190,8 +1196,8 @@ interface. Open-immersion lifts now prove point-map surjectivity and objectwise
 cokernel vanishing above `D(level)`. Continuous site restriction and the
 sheafification comparison then prove that both actual fppf quotient sheaves
 restrict to zero there. The supported localization sequences, the quasi-finite admissible-filtration exact sequences,
-the remaining bad-level `H¹` certificates, middle-`H¹` finiteness, and
-rank-zero specialization remain, followed by the unramified Raynaud uniqueness
+the remaining bad-level `H¹` certificates and rank-zero specialization remain,
+followed by the unramified Raynaud uniqueness
 input.
 The supported quotients in Mazur's page-49 localization sequences are fppf
 sheaves now checked to be supported at `N`, not quasi-finite flat group schemes;
@@ -1391,9 +1397,9 @@ within each lane follows the listed order.
    resulting gauged cocycle lifts uniquely through the certified kernel. This
    proves the last reverse inclusion, so the six-group/five-map constructor now
    accepts no exactness inputs. Its non-circular downstream cardinal theorem
-   consumes five endpoint finite-cardinality certificates plus finiteness of
-   the middle `H¹`, without accepting exactness inputs or the middle cardinal
-   itself. The constant and odd multiplicative elementary `H⁰` endpoint
+   consumes five endpoint finite-cardinality certificates and derives
+   finiteness of the middle `H¹` from exactness, without accepting exactness
+   inputs or the middle cardinal itself. The constant and odd multiplicative elementary `H⁰` endpoint
    certificates over `Spec ℤ` now compile. The one-admissible-kernel quotient
    theorem exposes the recursive finite-flat extension-step interface, and
    the actual two-elementary-factor theorem consumes it. This does not cover
@@ -1447,12 +1453,10 @@ within each lane follows the listed order.
    equivalence with sheaves on the open, recollement, and a cohomological
    localization sequence remain absent, as do the quasi-finite
    admissible-filtration exact sequences and the
-   ambient constant/Kummer `H¹` calculations and middle-`H¹` finiteness
-   remain absent. The numerical Kummer rank-zero theorem and its actual
+   ambient constant/Kummer `H¹` calculations. The numerical Kummer rank-zero theorem and its actual
    represented-`H1` two-factor admissible-filtration consumers now compile.
    Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
-   cohomology certificates, middle-`H1` finiteness, and the torsion-cardinality
-   equality. Then finish
+   cohomology certificates, and the torsion-cardinality equality. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
    Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
@@ -1787,10 +1791,11 @@ or accounting shortcut.
   isomorphisms and its `basicOpenIsoSpecAway` direct-localization consumer are
   now independently reviewed and integrated. The arithmetic Kummer quotient
   and its actual geometric kernel over every `Z[1/ell]` have exact length-one
-  certificates. The base ring is now principal, its ring Picard group is
-  trivial, and every invertible module is explicitly trivialized. Effective
-  descent from the checked fppf cocycles to those modules, the constant-factor
-  global `H¹` calculation, and middle-`H¹` finiteness remain open.
+   certificates. The base ring is now principal, its ring Picard group is
+   trivial, and every invertible module is explicitly trivialized. Effective
+   descent from arbitrary checked fppf cocycles to those modules and the constant-factor
+   global `H¹` calculation remain open. Finite-flat middle-`H¹` finiteness now follows from
+   exactness once its endpoint certificates are supplied.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The quotient/special-fibre
   cotangent lift and mapped-ideal scheme consumer are also independently
@@ -1800,8 +1805,10 @@ or accounting shortcut.
   the quotient residue map, one-dimensional cotangent target, and one detected
   vector, with full five- and eleven-adic consumers. The represented
   polynomial cusp chart now constructs the principal q-ideal and its nonzero
-  cotangent class and reaches both arithmetic endpoints. The owner is driving
-  its identification with the actual modular special-fibre stalk, the
+  cotangent class and reaches both arithmetic endpoints. A genuine affine
+  coordinate equivalence now transports all of this geometry and both
+  endpoints, so the owner is driving construction of that equivalence for the actual modular
+  special-fibre stalk, the
   q-expansion calculation, represented modular/cusp specialization, and
   optimal-quotient equality.
 - `codex/mt-neron-additivity`: the canonical component/residue/formal

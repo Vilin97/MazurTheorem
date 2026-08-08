@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.GroupTheory.Index
+import Mathlib.GroupTheory.QuotientGroup.Finite
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOneCommGroup
 
@@ -322,6 +323,19 @@ structure FppfLowDegreeExactSequence (p : ℕ) where
 namespace FppfLowDegreeExactSequence
 
 variable {p : ℕ}
+
+/-- In an exact pair of group homomorphisms, finiteness of the two outer groups forces
+finiteness of the middle group.  This is the finiteness input needed by the cardinal form of
+the low-degree fppf Euler estimate. -/
+theorem finite_middle_of_mulExact
+    {A B C : Type*} [Group A] [Group B] [Group C]
+    [Finite A] [Finite C]
+    (f : A →* B) (g : B →* C) (h : Function.MulExact f g) :
+    Finite B := by
+  letI := Fintype.ofFinite A
+  letI := Fintype.ofFinite C
+  letI : Fintype B := Group.fintypeOfKerEqRange f g h.monoidHom_ker_eq
+  infer_instance
 
 private theorem card_eq_range_mul_range
     {A B C : Type*} [Group A] [Group B] [Group C]

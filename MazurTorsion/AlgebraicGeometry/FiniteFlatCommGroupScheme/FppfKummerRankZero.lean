@@ -25,8 +25,9 @@ the complete checked low-degree fppf exact sequence.
 
 The remaining arithmetic inputs stay explicit: a future Eisenstein-quotient consumer must
 construct its Mordell--Weil Kummer homomorphism, certify the two elementary endpoint `H¹`
-groups, prove finiteness of the middle `H¹`, and identify the `p`-torsion cardinality.  No
-constant-factor cohomology calculation or Raynaud uniqueness theorem is asserted here.
+groups, and identify the `p`-torsion cardinality.  Exactness derives finiteness of the middle
+`H¹` from the endpoint certificates.  No constant-factor cohomology calculation or Raynaud
+uniqueness theorem is asserted here.
 -/
 
 noncomputable section
@@ -106,7 +107,6 @@ theorem finrank_eq_zero_of_fppfKummer_int
     (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
     (kernelHOneData : FinitePGroup.CertifiedData p
       D.kernelPresentation.kernel.FppfHOne.{0})
-    (middleHOneFinite : Finite G.FppfHOne.{0})
     (quotientHOneData : FinitePGroup.CertifiedData p
       D.quotient.FppfHOne.{0})
     (kummer : Multiplicative
@@ -120,11 +120,14 @@ theorem finrank_eq_zero_of_fppfKummer_int
         torsionLength + D.kernelFactor.hZeroLength +
           D.quotientFactor.hZeroLength) :
     Module.finrank ℤ A = 0 := by
-  letI : Finite G.FppfHOne.{0} := middleHOneFinite
+  letI : Finite D.kernelPresentation.kernel.FppfHOne.{0} := kernelHOneData.finite
+  letI : Finite D.quotient.FppfHOne.{0} := quotientHOneData.finite
+  letI : Finite G.FppfHOne.{0} :=
+    D.toFppfQuotientPresentation.finite_fppfHOne_of_kernel_quotient
   apply finrank_eq_zero_of_injective_kummer_of_card_le_torsion
     p torsionLength D.prime hkernel kummer hkummer
   exact D.fppfHOne_natCard_le_pow_int middleHZeroData kernelHOneData
-    middleHOneFinite quotientHOneData hp2 torsionLength hbound
+    quotientHOneData hp2 torsionLength hbound
 
 /-- The same genuine finite-flat Kummer input makes the Mordell--Weil group finite.  This is the
 form needed when the later formal-immersion argument uses finiteness rather than a rank equation. -/
@@ -139,7 +142,6 @@ theorem finite_of_fppfKummer_int
     (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
     (kernelHOneData : FinitePGroup.CertifiedData p
       D.kernelPresentation.kernel.FppfHOne.{0})
-    (middleHOneFinite : Finite G.FppfHOne.{0})
     (quotientHOneData : FinitePGroup.CertifiedData p
       D.quotient.FppfHOne.{0})
     (kummer : Multiplicative
@@ -153,11 +155,14 @@ theorem finite_of_fppfKummer_int
         torsionLength + D.kernelFactor.hZeroLength +
           D.quotientFactor.hZeroLength) :
     Finite A := by
-  letI : Finite G.FppfHOne.{0} := middleHOneFinite
+  letI : Finite D.kernelPresentation.kernel.FppfHOne.{0} := kernelHOneData.finite
+  letI : Finite D.quotient.FppfHOne.{0} := quotientHOneData.finite
+  letI : Finite G.FppfHOne.{0} :=
+    D.toFppfQuotientPresentation.finite_fppfHOne_of_kernel_quotient
   apply finite_of_injective_kummer_of_card_le_torsion
     p torsionLength D.prime hkernel kummer hkummer
   exact D.fppfHOne_natCard_le_pow_int middleHZeroData kernelHOneData
-    middleHOneFinite quotientHOneData hp2 torsionLength hbound
+    quotientHOneData hp2 torsionLength hbound
 
 end AdmissibleFiltrationStep
 

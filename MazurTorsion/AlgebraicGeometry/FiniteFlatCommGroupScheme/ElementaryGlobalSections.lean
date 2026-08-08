@@ -163,8 +163,8 @@ namespace FppfQuotientPresentation
 
 /-- An actual quotient over `Spec ℤ` whose kernel is one admissible elementary factor consumes
 that kernel's checked `H⁰` cardinality directly.  This is the recursive extension-step form:
-the quotient's `H⁰` and `H¹` data, the middle `H⁰`, and mere finiteness of the middle `H¹` remain
-explicit for the next filtration layer. -/
+the quotient's `H⁰` and `H¹` data and the middle `H⁰` remain explicit for the next filtration
+layer; exactness derives finiteness of the middle `H¹`. -/
 theorem fppfHOne_natCard_le_pow_of_admissibleKernelInt
     {p : ℕ} [NeZero p]
     {G : FiniteFlatCommGroupScheme (Spec (.of ℤ))}
@@ -174,7 +174,6 @@ theorem fppfHOne_natCard_le_pow_of_admissibleKernelInt
     (quotientHZeroData : FinitePGroup.CertifiedData p (BasePoint D.quotient))
     (kernelHOneData : FinitePGroup.CertifiedData p
       D.kernelPresentation.kernel.FppfHOne.{0})
-    (middleHOneFinite : Finite G.FppfHOne.{0})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{0})
     (hp : p.Prime) (hp2 : p ≠ 2) (bound : ℕ)
     (hbound :
@@ -184,7 +183,7 @@ theorem fppfHOne_natCard_le_pow_of_admissibleKernelInt
   have hpOdd : Odd p := hp.odd_of_ne_two hp2
   apply FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
     D (kernelFactor.basePointCertifiedDataInt hpOdd) middleHZeroData
-    quotientHZeroData kernelHOneData middleHOneFinite quotientHOneData hp bound
+    quotientHZeroData kernelHOneData quotientHOneData hp bound
   simpa using hbound
 
 end FppfQuotientPresentation
@@ -192,8 +191,8 @@ end FppfQuotientPresentation
 namespace AdmissibleFiltrationStep
 
 /-- One actual admissible quotient step over `Spec ℤ` consumes the checked elementary-factor
-`H⁰` cardinalities directly.  The remaining endpoint `H¹` certificates, middle `H⁰`, and mere
-finiteness of the middle `H¹` stay explicit; in particular this theorem does not assume the
+`H⁰` cardinalities directly.  The remaining endpoint `H¹` certificates and middle `H⁰` stay
+explicit; exactness derives finiteness of the middle `H¹`, and this theorem does not assume the
 cardinality it is proving. -/
 theorem fppfHOne_natCard_le_pow_int
     {p : ℕ} [NeZero p]
@@ -202,7 +201,6 @@ theorem fppfHOne_natCard_le_pow_int
     (middleHZeroData : FinitePGroup.CertifiedData p (BasePoint G))
     (kernelHOneData : FinitePGroup.CertifiedData p
       D.kernelPresentation.kernel.FppfHOne.{0})
-    (middleHOneFinite : Finite G.FppfHOne.{0})
     (quotientHOneData : FinitePGroup.CertifiedData p D.quotient.FppfHOne.{0})
     (hp2 : p ≠ 2) (bound : ℕ)
     (hbound :
@@ -213,7 +211,7 @@ theorem fppfHOne_natCard_le_pow_int
   apply D.toFppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt
     D.kernelFactor middleHZeroData
     (D.quotientFactor.basePointCertifiedDataInt hpOdd) kernelHOneData
-    middleHOneFinite quotientHOneData D.prime hp2 bound
+    quotientHOneData D.prime hp2 bound
   simpa using hbound
 
 end AdmissibleFiltrationStep
