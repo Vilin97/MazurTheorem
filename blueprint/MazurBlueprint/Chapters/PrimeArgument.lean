@@ -86,15 +86,14 @@ point's exact order in the Néron special fibre.  No division field is built.
   `MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive`
 :::
 
-:::theorem "MT-PRIME-HERBRAND-KUMMER" (parent := "prime_argument") (uses := "MT-PRIME-DIVISION-FIELD, MT-NERON-COMPONENTS") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "medium")
-*Exclude additive reduction at five.* In tame characteristic five, the
-component group has order at most four, the additive quotient has order five,
-and the formal kernel is pro-five.  Such a fibre has no point of prime order
-at least eleven.
+:::theorem "MT-PRIME-HERBRAND-KUMMER" (parent := "prime_argument") (uses := "MT-PRIME-DIVISION-FIELD, MT-NERON-COMPONENTS") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "medium")
+*Exclude additive reduction at five.* The checked marked Tate-depth argument
+on the selected minimal equation forces the terminal weighted coefficient
+depths and contradicts minimality. No component-group bound is assumed.
 
-*Status:* `blocked`.
+*Status:* `done`.
 
-* `theorem` (`proposed`):
+* `theorem` (`integrated`):
   `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
@@ -119,40 +118,24 @@ at least eleven.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_markedExceptionalCubic_repeatedRoot_of_primeOrder`
 
-The narrower canonical five-adic handoff needs only `12 • P` in the
-nonsingular-reduction subgroup and the exact torsion-free formal kernel.
-Finite normalization and enumeration now turn the vanishing reduced `Δ` and
-`c₄` into the actual five-element residue additive group. The checked
-pointwise quotient-order API derives the exponent from a marked class of
-finite order at most four. Residue translation, exact short normalization,
-and honest one-factor cusp-chart identities now compile. In the first
-coefficient-depth branch every local point has nonsingular reduction, so the
-prime-order consumer rules it out and forces `a₆ ∈ 𝔪²` on the same selected
-model. The next tangent branch puts `2 • P` in that subgroup and forces
-`a₄ ∈ 𝔪²`; the following tangent--secant branch puts `3 • P` there and forces
-`a₆ ∈ 𝔪³`. Canonical subgroup membership and marked multiples transport
-through the integral unit normalization. The same-model exceptional-cubic
-package now proves that a simple marked root puts `2 • P` in the subgroup.
-The exact prime-order consumer rules out this branch and returns a repeated
-marked root using the original chart uniformizer. A nonzero repeated root
-either sends the double into canonical reduction or gives `2P` the simple
-root `-2r`; hence `4P` enters the subgroup. The arithmetic consumer forces
-`r=0` and derives `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴` on the same model. The
-next pointwise tangent--secant calculation puts `3 • P` in the subgroup when
-`a₆ ∉ 𝔪⁵`; the actual prime-order consumer therefore forces `a₆ ∈ 𝔪⁵` while
-retaining fourth depth on the same model. The later weighted case and final
-minimality contradiction remain open, as does genuine identity-component
-identification; no full component-cardinality or Kodaira claim is used here.
+Finite normalization, the canonical nonsingular-reduction group, and the
+exact formal kernel discharge the intermediate exceptional-depth cases. The
+terminal calculation derives `y ∈ 𝔪³`, forces `a₄ ∈ 𝔪⁴`, and obtains
+`a₆ ∈ 𝔪⁶` from the point equation. The resulting pure scaling contradicts
+minimality. `PrimeOrder.not_additiveReductionAtFive` is consumed by the
+stable good-reduction theorem. Genuine identity components and completely
+toric modular reduction remain work in the broader Néron infrastructure node,
+not premises of this completed pointwise theorem.
 :::
 
-:::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
+:::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
 *Upgrade potentially good to good reduction.* Potentially good excludes a
-multiplicative fibre; the preceding component argument excludes an additive
+multiplicative fibre; the preceding weighted-depth argument excludes an additive
 fibre. The remaining fibre is good.
 
-*Status:* `blocked`.
+*Status:* `done`.
 
-* `theorem` (`proposed`): `MazurTorsion.PrimeOrder.goodReductionAtFive`
+* `theorem` (`integrated`): `MazurTorsion.PrimeOrder.goodReductionAtFive`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_gt_one_of_hasMultiplicativeReduction`
 * `theorem` (`contract`):
@@ -194,28 +177,14 @@ fibre. The remaining fibre is good.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve`
 
-The valuation of `j` is now proved strictly greater than one under
-multiplicative reduction, so integral `j` excludes that branch. Mathlib's
-exhaustive reduction-type trichotomy and the checked tame-additive consumer
-then prove good reduction. The completion-level consumer carries that same
-marked point through the selected integral model, exact-order reduction, and
-the residue-field equivalence to the checked `𝔽₅` contradiction. The rational
-point is now base-changed and carried through Mathlib's selected minimal
-variable change with unchanged exact order; `j`-invariance and the completion
-valuation comparison return the local hypothesis to the rational curve. The
-new formal-immersion consumer discharges that rational `j` premise from the
-explicit modular/cusp collision inputs and reaches the same `F₅` contradiction.
-Its canonical nonsingular-reduction consumer fixes the actual minimal
-integral model, coordinate domain/map, and exact formal kernel, accepting no
-arbitrary identity subgroup or reduction homomorphism. Lane-specific
-completion, rational, formal-immersion, and degree-one cusp-stalk consumers
-discharge the cuspidal special-locus classification. The newest rational
-consumer replaces the full component-cardinality input by the exact pointwise
-statement that the marked quotient class has finite order at most four; the
-checked generic bridge derives `12 • P ∈ E₀`. The represented modular/cusp
-collision, genuine Néron identity-component identification, and tame
-Tate--Kodaira proof of that marked-class bound remain open, so this node
-receives no completion credit.
+The valuation of `j` is strictly greater than one under multiplicative
+reduction, so integral `j` excludes that branch. The checked additive theorem
+and Mathlib's exhaustive reduction trichotomy give good reduction. The same
+rational point is transported through the selected minimal variable change
+with unchanged exact order and then reduced into the exhaustively enumerated
+`𝔽₅` group. The resulting local contradiction is consumed by both the
+formal-immersion endpoint and the affine Hecke/q-expansion retraction endpoint.
+Represented modular/cusp data remain in their upstream nodes.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

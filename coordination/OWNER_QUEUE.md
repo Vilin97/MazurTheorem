@@ -42,32 +42,48 @@ fppf-`H¹`, canonical constant/`μ` base-change consumers, explicit Čech
 transport under base isomorphisms with direct-localization consumers, and carrier-preserving
 finite-p-group certificate transport for both bad-level factors,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
-degeneracy bridge, and unconditional order-35 model-finiteness checkpoints. The ledger still has
-48 nodes / 1,000 points: seven completed nodes worth 137 points and 41
+degeneracy bridge, unconditional order-35 model finiteness, the terminal
+weighted-depth/minimality contradictions at five and eleven, and the
+no-component formal-immersion arithmetic consumers. The ledger still has
+48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The current content boundary adds three independently reviewed ranges without
-changing roadmap credit. First, the order-18 scalar-cube identity is realized
-in the ring of integers of a third cyclotomic field and reaches a real
-exact-order consumer; prime support and unit elimination remain open
-(`b64f55c`). Second, compatible local quotients and affine-fibre localization
-transport derive the fibre residue surjection from the ambient one, while a
-nonzero completed-local Hecke eigen-expansion supplies the detected cotangent
-vector. Genuine `Spec.map` consumers reach both the prime-five and order-35
-arithmetic endpoints (`64d82b6`). Third, the marked exceptional branch now
-forces `a₆ ∈ 𝔪⁵` at both selected primes: when fifth depth fails, an exact
-tangent--secant calculation puts `3P`, hence `12P`, in canonical nonsingular
-reduction. The selected endpoints retain the same change of variables,
-uniformizer, marked point, and fourth-depth proof (`c0ad6c9`, `64cf1d6`). The
-five Néron targets and all four affine-cusp targets rebuild serially; direct
-source elaboration, independent API review, and declaration audits use only
-`propext`, `Classical.choice`, and `Quot.sound`. The exact quality baseline at
-this boundary is 796 Lean modules and 1,490,698 Lean lines. No Challenge or
-public node status changes.
+The current content boundary closes the pointwise local arithmetic branch at
+both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
+the exact `a₄`-depth case, forces `a₄ ∈ 𝔪⁴`, and derives `a₆ ∈ 𝔪⁶`; a further
+weighted scaling contradicts minimality (`9a8d959`). The stable public
+endpoints `PrimeOrder.not_additiveReductionAtFive` and
+`PrimeOrder.goodReductionAtFive` are consumed by the rational finite-field
+contradiction, the formal-immersion collision, and the affine Hecke/q-expansion
+handoff (`bd46098`, `f94bb25`). Thus `MT-PRIME-HERBRAND-KUMMER` and
+`MT-PRIME-SPLIT-SEQUENCE` are complete for 20 additional points. This does not
+complete `MT-PRIME-DIVISION-FIELD` or `MT-NERON-COMPONENTS`: pre-good-reduction
+Néron specialization, genuine identity components, component groups, and the
+completely toric rank-zero input remain open. Independent review, focused
+single-thread builds, and declaration audits accepted the chain with only
+`propext`, `Classical.choice`, and `Quot.sound`. The reviewed X₀ chart API also
+derives preservation of the identity from addition and cancellation while
+retaining its old projection-shaped consumer (`2a60eec`); the actual scheme
+group law and Picard/Jacobian comparison remain open. No Challenge changed.
+The exact quality baseline is 798 Lean modules and 1,492,503 Lean lines.
+
+Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
+canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
+transfer with `LEAN_NUM_THREADS=1`. The stable local endpoints and reviewed X₀
+declarations use only `propext`, `Classical.choice`, and `Quot.sound`.
+`scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
+contracts, and the exact source baseline above. Challenge immutability against
+`origin/main` and its mutation self-test pass. The aggregate `Challenge`
+target builds 8,788 jobs with exactly the eight registered open `:= sorry`
+warnings. The official Verso blueprint build and topology check pass; their
+only warnings are inherited from the pinned Verso dependencies. The next
+workers are pursuing A3 chosen-line-bundle pullback naturality, the genuine X₀
+scheme group law/Picard comparison, and the ramified-prime step in the X₁(18)
+Eisenstein descent.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
@@ -280,9 +296,11 @@ integers of an arbitrary number field containing a primitive third root of
 unity, with the canonical third cyclotomic field as a downstream
 specialization. The resulting finite Eisenstein-integer obstruction preserves
 the four scalar cases, primitive hypotheses, congruence separation, and exact
-factorization and reaches the exact-order theorem (`b64f55c`). The UFD
-prime-support calculation, primes above two and seven, and unit cases remain
-open; no Challenge or node credit changes.
+factorization and reaches the exact-order theorem (`b64f55c`). The common
+prime support is now checked: a common prime lies over `2` or is the ramified
+prime over `3` (`db213d3`). Allocation of those factors, the separate
+scalar/norm contribution at `7`, and the unit cases remain open; no Challenge
+or node credit changes.
 
 The repeated exceptional-root branch is now checked on the same normalized
 model and uniformizer (`f8fa442`). A repeated nonzero root `r` either sends the
@@ -296,8 +314,9 @@ branch derives rather than assumes fourth depth: if `a₆ ∉ 𝔪⁵`, the poin
 equation gives exact ordinate depth two, and the tangent--secant split puts
 `3P` in canonical nonsingular reduction. Actual five- and eleven-adic
 consumers therefore force `a₆ ∈ 𝔪⁵` and retain both fourth and fifth depth on
-the same data (`c0ad6c9`, `64cf1d6`). The active local lane is the later
-weighted `a₄` branch and final minimality contradiction.
+the same data (`c0ad6c9`, `64cf1d6`). The later weighted branch is now closed:
+`a₄ ∈ 𝔪⁴` and `a₆ ∈ 𝔪⁶` yield the checked minimality contradiction at both
+five and eleven (`9a8d959`).
 
 The level-35 rank-zero model now reaches the abelian-variety side of the
 planned quotient seam. A generic theorem transports finiteness of affine
@@ -428,12 +447,12 @@ modular and cusp sections, identify the affine prime with the same closed cusp
 point used by the collision, and retain the ambient residue surjection and
 full localized Hecke/q-calculation as premises. The resulting formal immersion is the
 genuine contravariant `Spec.map`, and it reaches the uniform prime-order and
-order-35 marked component-exponent-twelve exclusions. Independent review
+order-35 unconditional weighted-depth exclusions. Independent review
 accepted both map orientations and confirmed only standard axioms in the two
 endpoints; the current 8,746-job focused owner build passes (`64d82b6`). Constructing
 the represented modular chart, sections, cusp prime, residue maps, quotient
-collision, q-identity, and component statement remains open, so no node credit
-is claimed.
+collision, and q-identity remain open. The arithmetic endpoint no longer needs
+a component statement.
 
 Locally Noetherian source and target schemes now discharge the total-stalk
 finiteness instances in both quotient-certificate consumers. At five, a new
@@ -444,9 +463,8 @@ theorem-level consumer of the quotient API. A direct mapped-ideal endpoint now
 also infers every finiteness condition from local Noetherianity. Its stricter
 degree-one form records exactly a surjective quotient residue map, a
 one-dimensional target cotangent, and one detected source vector; the five-
-and eleven-adic consumers now feed this data through the classified cuspidal
-fibres while retaining only the marked exponent `12 • P ∈ E₀` in the additive
-branch (`2f27a77` and the newest owner range). Constructing that calculation
+and eleven-adic consumers now feed this data through the unconditional
+weighted-depth arithmetic endpoints (`2f27a77`, `bd46098`). Constructing that calculation
 from the represented modular special fibre and q-expansion remains open. The
 focused build and declaration
 axiom audits pass with only standard axioms.
@@ -459,9 +477,10 @@ reduction preserves exact order into the checked exhaustive `F₁₁`
 enumeration. A second actual cusp-stalk quotient certificate derives the
 eleven-adic `j` bound and feeds this complete conditional endpoint
 (`c7eb1e5`). The degree-one quotient-fibre variant is the narrowed q-expansion
-handoff (`2f27a77`). The modular quotient/classifying map, Atkin--Lehner
-specialization and marked component geometry remain honest premises; the
-nonsingular-locus classification is now checked. No order-35 credit is claimed.
+handoff (`2f27a77`). The weighted-depth proof now closes the additive branch
+without a component premise. The modular quotient/classifying map and
+Atkin--Lehner specialization remain honest premises; no order-35 node credit
+is claimed.
 Focused builds and an eight-declaration axiom audit pass with only standard
 axioms.
 
@@ -479,8 +498,10 @@ minimal equation also forces both reduced `Δ` and `c₄` to vanish. Independent
 review accepted the construction as noncircular and the singular-fibre
 adaptation is now explicitly attributed to Michael Stoll's pinned reduction
 work. The cuspidal nonsingular-locus equivalence with the additive residue
-field is now checked at five and eleven. Genuine identity-component comparison
-and the marked component exponent remain open; no node credit is claimed.
+field is now checked at five and eleven. The pointwise weighted-depth route no
+longer needs a marked component exponent. Genuine identity-component
+comparison remains open for the toric/rank-zero consumer; no credit is claimed
+for the broader Néron node.
 
 The canonical cubic-chart range proves that the infinity and standard equation
 charts have nonempty overlap, hence every concrete cubic is integral even in
@@ -817,8 +838,8 @@ collision at `5` and a ten-point finite-field bound.
 
 | Branch | Retained value | Integration consequence |
 |---|---|---|
-| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; and compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model | Keep the seven completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no new node credit. |
-| `codex/mt-cuspidal-finite` | Checked finite normalization of the cuspidal special fibres, singular-cubic variable-change transport, and actual residue-field additive equivalences at five and eleven (`dbf34d0`) | Integrated after independent mathematical/API review and owner layering/provenance repairs. Prime-five and order-35 leaves each have completion, rational, and formal-immersion consumers. Keep only the genuine marked exponent `12 • P ∈ E₀` on the critical queue; no component or node credit is inferred. |
+| `codex/mazur-owner-uw` | Completed exact-pin migration, Tau Ceti A1/product dimension/product formula, the `F₅` ten-point enumeration, and the finite-flat exact-presentation layer; integrated canonical and functorial relative fppf `H¹`, explicit base-isomorphism and direct-localization transport, its supported cokernel sheaf and exact sequence, a quotient-derived local-lift boundary homomorphism, and the complete low-degree exact sequence through both `H¹` terms; proved smooth-curve affine normality, proper-intersection divisor-line-bundle comparison, canonical pairwise-overlap pullback naturality, and reduction of the raw triple cocycle to explicit pairwise model Homs; constructed presentation-independent split finite-flat cyclic-subgroup data from every rational cyclic subgroup and proved its exact point range; constructed the reduced proper projective Weierstrass cubic, a bijection between its scheme-valued rational points and Mathlib's projective coordinate points, the actual projective-plane coefficient-extension map and pullback isomorphism, unconditional field-pullback integrality, the canonical dense standard-chart comparison, and Tau Ceti/finite-flat consumers; proved the actual constant/`μ` fppf cokernel sheaves vanish away from the bad level; compiled the reverse noncusp `X₁(11)` bridge through nonzero discriminant and a conditional five-visible-point coset consumer; compiled structural rational-cusp Hecke-eigen formal immersion, split level-35 degeneracy, and unconditional rank zero/finiteness for the fixed order-35 model; and closed the marked weighted-depth/minimality branch at five and eleven | Keep the nine completed nodes at full credit. Supported localization sequences and unramified Raynaud uniqueness remain; the genuine Picard/Jacobian group law, multiplicativity of the canonical point bijection, quotient and coarse X₀ point remain absent; the explicit order-35 model still lacks its modular-quotient identification; the uniform order-eleven endpoint is still needed before the X₁(11) Challenge bridge; and A3, formal immersion, X₁(11), and X₀ remain partial checked infrastructure with no additional node credit. |
+| `codex/mt-cuspidal-finite` | Checked finite normalization of the cuspidal special fibres, singular-cubic variable-change transport, and actual residue-field additive equivalences at five and eleven (`dbf34d0`) | Integrated after independent mathematical/API review and owner layering/provenance repairs. Prime-five and order-35 leaves each have completion, rational, and formal-immersion consumers. The later weighted-depth closure removes their component premise; no credit is inferred for the broader Néron node. |
 | `codex/mt-fiber-stalk-naturality` | Checked affine-fibre localization naturality, ambient quotient-cotangent transport, and completed-local-map consumer (`85b76ce`, integrated as `7d0b653`); the follow-up affine-Spec consumer identifies the ambient map with the actual stalk arrow (`695b7eb`) | Integrated after repairing the false `rfl` with explicit `quotientEquivAlgOfEq` transport and independently rebuilding and auditing both layers. Construct the modular affine cusp presentation and actual q-expansion next; no node credit is inferred. |
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
@@ -918,7 +939,7 @@ within each lane follows the listed order.
    API stops at section extension for the modular quotient and elliptic local
    models.
 2. `MT-NERON-COMPONENTS` (30) supplies completely toric level reduction and
-   the tame additive component geometry at `5` and `11`. The checked canonical
+   the identity-component geometry required by the rank-zero quotient. The checked canonical
    handoff fixes the component to the quotient by the identity subgroup and
    fixes the reduction target to the actual residue field. Component finiteness
    follows from the exact-pin formal-filtration finite-index theorem. The
@@ -933,29 +954,24 @@ within each lane follows the listed order.
    singular-point residue translation, exact integral short normalization,
    and honest one-factor total-transform equations now compile. The first
    coefficient-depth branch is closed pointwise and forces `a₆ ∈ 𝔪²` for both
-   marked consumers. Integral unit variable changes now transport the canonical
-   subgroup and every marked multiple back from the normalized model. Complete
-   the two-factor and weighted valuation branches, the affine doubling/secant
-   cases, and the bounded-multiple theorem; identify the genuine Néron identity
-   component only where the toric/rank-zero consumer requires it. Retain the
-   stronger component bound only for that named consumer; the pointwise handoff
-   itself earns no node credit.
+   marked consumers. Integral unit variable changes transport the canonical
+   subgroup and every marked multiple back from the normalized model. The full
+   pointwise depth chain and minimality contradiction are now checked and no
+   longer consume a component theorem. Construct the genuine Néron identity
+   component, component quotient, and completely toric modular-level input for
+   the named Eisenstein rank-zero consumer; do not reattach them to the closed
+   local arithmetic branch.
 3. `MT-NERON-SPECIALIZATION` (30) supplies prime-to-residue injection and the
    full formal-kernel torsion lemma for `e < p-1`. The latter is essential
    because the quotient image can have residue-primary torsion. The exact
    formal-kernel collision at the unramified integer primes `5` and `11` now
    compiles, as do good-reduction exact-order maps and their separate `F₅` and
-   `F₁₁` contradiction consumers. The tame-additive filtration excludes every
-   prime order at least eleven over residue field five; integral `j` excludes
-   multiplicative reduction, and the checked trichotomy combines both into a
-   good-reduction theorem once the genuine filtration is supplied. The actual
-   completed marked point then reduces with unchanged order and reaches the
-   checked `F₅` contradiction through the canonical residue equivalence. This is
-   not node completion: canonical five- and eleven-adic data now discharge
-   the reduction-cardinality and formal-torsion bookkeeping, but their Néron
-   identity-component identification and tame Tate--Kodaira marked-class
-   theorem before good reduction are still absent; the cuspidal-locus
-   classification is checked.
+   `F₁₁` contradiction consumers. The marked elliptic-point path now obtains
+   good reduction from weighted depth and then specializes with unchanged
+   order. This node remains open for the quotient section: construct the
+   genuine Néron specialization sequence and the unramified formal-kernel
+   torsion theorem needed to kill a finite-order Eisenstein-quotient image that
+   specializes to zero.
 4. Completed `MT-FFGS-BASIC` (20): the exact supplied fppf quotient,
    certified kernel/quotient base change, named constant/μₚ factor base
    change, and base-changed admissible-step `p²` exponent consumer compile.
@@ -1190,31 +1206,22 @@ in `route_history`:
    integral modular model and discharge the collision premises.
 4. `MT-PRIME-DIVISION-FIELD` (15): preserve the exact prime-to-five order of
    the marked point in the Néron fibre.
-5. `MT-PRIME-HERBRAND-KUMMER` (10): the exact abstract tame-additive
-   contradiction using the formal kernel, additive reduction target, and
-   component group compiles. Its canonical five-adic consumer derives
-   component finiteness, residue cardinality, and formal-kernel torsion. The
-   actual minimal equation's nonsingular coordinate map, exact kernel, and
-   additivity also compile. A narrower canonical consumer proves the same
-   contradiction from `12 • P ∈ E₀`. Finite normalization now discharges
-   the cuspidal additive classification, and the pointwise quotient-order API
-   derives that exponent from a marked class of finite order at most four.
-   Prove this precise tame Tate--Kodaira statement on the selected minimal
-   equation and the genuine identity-component comparison.
-6. `MT-PRIME-SPLIT-SEQUENCE` (10): integral `j` now excludes multiplicative
-   reduction and the shared exhaustive trichotomy reaches good reduction from
-   any genuine additive exact-order obstruction; five and eleven are both
-   compiled consumers. A real downstream consumer now carries the same
-   rational point through base change, the selected minimal variable change,
-   and exact-order reduction to the `F₅` enumeration. The formal-immersion
-   collision now supplies its `j` premise without changing the marked point or
-   filtration. A stronger downstream theorem takes the canonical five-adic
-   reduction data, while the newest endpoint fixes coordinatewise nonsingular
-   reduction on the selected minimal model. The completion and rational
-   endpoints now consume the pointwise marked-class order-at-most-four
-   certificate instead of a full component-cardinality theorem, and the
-   cuspidal classification is checked. Construct the represented collision
-   and discharge the genuine tame Tate--Kodaira marked-point geometry.
+5. Completed `MT-PRIME-HERBRAND-KUMMER` (10):
+   `PrimeOrder.not_additiveReductionAtFive` uses the checked marked
+   tangent--secant and weighted-depth calculation to force `a₄ ∈ 𝔪⁴` and
+   `a₆ ∈ 𝔪⁶`, then contradicts minimality by a pure scaling. The proof consumes
+   the exact prime-order point and does not assume a component-group bound or
+   Néron identity-component comparison. Its real downstream consumer is the
+   stable good-reduction endpoint.
+6. Completed `MT-PRIME-SPLIT-SEQUENCE` (10):
+   `PrimeOrder.goodReductionAtFive` combines the integral-`j` exclusion of
+   multiplicative reduction with the checked additive exclusion. The rational
+   point is transported to the selected completion with unchanged exact order,
+   reduced into the enumerated `F₅` group, and consumed by both
+   `rationalPoint_primeOrder_ne_of_formalImmersionAtFive` and the affine
+   Hecke/q-expansion retraction endpoint. The represented modular collision is
+   still work in `MT-PRIME-EISENSTEIN-SPECIALIZATION`, not a premise of this
+   completed local node.
 7. Completed `MT-PRIME-SHAFAREVICH` (15):
    `PrimeOrder.card_reductionAtFive_le_ten` normalizes every elliptic
    Weierstrass equation over `F₅` and checks all 25 short models;
@@ -1271,9 +1278,9 @@ genus-zero `X₀` quotients do not support the selected argument.
   nonsingular reduction reaches that same endpoint with its exact formal
   kernel and additivity checked. The degree-one quotient-fibre consumer is now
   the narrow q-expansion handoff, and finite normalization discharges its
-  cuspidal nonsingular-locus classification. Genuine component geometry, the
-  represented modular quotient/classifying map, and Atkin--Lehner bad-fibre
-  specialization remain open. No order-35
+  cuspidal nonsingular-locus classification. The local arithmetic endpoint no
+  longer needs component geometry. The represented modular quotient/classifying
+  map and Atkin--Lehner bad-fibre specialization remain open. No order-35
   node credit is claimed
   until those modular consumers compile. Once good reduction at
   eleven is supplied, the joined theorem
@@ -1324,12 +1331,11 @@ or accounting shortcut.
   `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise curve
   compatibility, and unconditional cocycle consumer; no raised heartbeat or
   proposition-wrapper bulk is allowed.
-- `codex/mt-tate-star-depth-four`: the repeated-root branch is reviewed and
-  integrated through the same-model conclusion `r=0`, `x ∈ 𝔪²`,
-  `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`, and now `a₆ ∈ 𝔪⁵`. The fifth-depth step has real
-  five- and eleven-adic consumers and no Kodaira or component-graph assertion.
-  The active lane is proving `a₄ ∈ 𝔪⁴`, then `a₆ ∈ 𝔪⁶`, and connecting those
-  exact weighted depths to the selected model's checked minimality.
+- `weighted local arithmetic`: the five- and eleven-adic depth chains are
+  independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
+  the selected model's checked minimality contradiction. Preserve the older
+  component APIs for the separate toric/rank-zero consumer, but do not put a
+  component premise back into the closed pointwise arithmetic endpoint.
 - `MT-X18-NONCUSP`: the primitive obstruction is reduced to the four signed
   quotients `-8,-4,4,8`, now separated modulo four and exposed as an explicit
   scalar-cube product in Eisenstein coordinates. The identity is now lifted
@@ -1376,14 +1382,15 @@ or accounting shortcut.
   model are now independently reviewed and integrated. The exact-pin slope
   proof establishes additivity on this canonical nonsingular domain. Finite
   normalization and actual-residue-field transport now prove the cuspidal
-  nonsingular-locus equivalences at five and eleven. The theorem endpoints
-  now consume the exact marked quotient-class order-at-most-four predicate;
-  genuine identity-component comparison and its tame Tate--Kodaira proof are
-  the next gates.
+  nonsingular-locus equivalences at five and eleven. The marked local
+  arithmetic no longer consumes a component assertion. Genuine
+  identity-component comparison and completely toric reduction remain gates
+  only for the Eisenstein rank-zero lane.
 - `codex/mt-cuspidal-finite`: independently reviewed and integrated from
   `dbf34d0` with owner lane-splitting, provenance, and root-reachability
-  repairs. Both finite classifications and their marked-exponent consumers
-  compile; no full component claim or node credit is recorded.
+  repairs. Both finite classifications and their historical marked-exponent
+  consumers compile; the accepted weighted-depth endpoints no longer require a
+  component claim.
 - `codex/mt-fiber-stalk-naturality`: independently rebuilt, axiom-audited,
   and integrated. The repaired theorem checks the localization/quotient square
   on both tensor generators and transports the non-definitional quotient

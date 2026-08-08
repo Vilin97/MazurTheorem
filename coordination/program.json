@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1490698,
-    "integrated_lean_modules": 796,
+    "integrated_lean_lines": 1492503,
+    "integrated_lean_modules": 798,
     "remaining_composite_orders": [
       18,
       25,
@@ -65,9 +65,9 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 137,
-    "percent": 13.7,
-    "ecosystem_ready_estimate_percent": 14,
+    "earned_points": 157,
+    "percent": 15.7,
+    "ecosystem_ready_estimate_percent": 16,
     "claimable_open_points": 134,
     "ordinary_claimable_points": 22,
     "research_open_points": 112,
@@ -685,7 +685,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. Singular-cubic normalization classifies the actual additive special fibre at eleven. The rational endpoint now consumes the exact pointwise Kodaira handoff: the marked class in the quotient by canonical nonsingular reduction has finite order at most four; the checked generic bridge turns this into 12 • P in the subgroup. On the selected exact short model, the first one-factor chart calculation proves that the order-one branch puts every local point in canonical nonsingular reduction and hence contradicts exact order 35; the marked equation therefore has a6 in the square of the eleven-adic maximal ideal. Integral-variable-change transport carries canonical subgroup membership and marked multiples between the normalized and original equations. The remaining tame valuation branches, the marked-class theorem, genuine Neron identity-component comparison, represented modular quotient/classifying map, and Atkin-Lehner specialization inputs remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. The checked marked tangent--secant and weighted-depth chain excludes additive reduction on the selected minimal equation without a component premise, so the eleven-adic formal-immersion collision now reaches the finite enumeration directly. The represented modular quotient/classifying map, its abelian-variety identification, and Atkin--Lehner specialization inputs remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -3348,7 +3348,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Define identity components and component groups; prove the toric input for the Eisenstein rank-zero criterion and the tame component geometry used by the local arguments. The canonical nonsingular-reduction subgroup, its additive reduction map, and its exact formal kernel compile. Singular-cubic variable-change transport plus finite normalization and enumeration identify every additive special cubic at five and eleven with the corresponding additive residue group. A checked pointwise interface records that the actual marked class in the quotient by this subgroup has finite order at most four, proves the equivalent bounded-multiple certificate, and derives 12 • P ∈ E₀. The exact opening Tate-algorithm inputs now compile: integral j gives the c4/discriminant valuation inequality, every integral valuation-unit coordinate change preserves minimality, and no arbitrary translation followed by a scale of valuation below one can leave all five transformed coefficients integral. Additive reduction constructs its singular residue point and an exact integral short model with special fibre Y²=X³. Bundled one-factor total-transform quotients at the closed cusp are checked without claiming strict transforms or blowup coverage. In the order-one branch a6 ∉ m², every local point lies in canonical nonsingular reduction, so the selected prime-order and order-35 consumers force a6 ∈ m² on the same model. In the next branch, nonzero residue of a4/ϖ puts the marked double in canonical nonsingular reduction and forces a4 ∈ m². In the exact-depth-two a6 branch, an affine tangent--secant split puts the marked triple in canonical nonsingular reduction and forces a6 ∈ m³. The marked exceptional-cubic package retains the same uniformizer and model. A simple marked root puts 2 • P in canonical reduction. At a repeated nonzero root, doubling either already enters canonical reduction or produces the simple root -2r on the same model; hence 4 • P and 12 • P enter it. Real five- and eleven-adic consumers force r=0 and then x ∈ m², a4 ∈ m³, and a6 ∈ m⁴. Canonical nonsingular reduction, subgroup membership, and bounded multiples are invariant under the integral unit variable change. A full quotient-cardinality bound remains only a stronger fallback. The exact-depth-four and later weighted branches, genuine Neron identity-component comparison, and toric input remain open; no Kodaira symbol or component-cardinality result is inferred from the checked chart algebra.",
+      "summary": "Define genuine Neron identity components and component groups and prove completely toric reduction at the modular level for the Eisenstein rank-zero criterion. The canonical nonsingular-reduction subgroup, its additive map, exact formal kernel, finite cuspidal classification, unit-change transport, and the full marked tangent--secant/weighted-depth calculation already compile at five and eleven. That pointwise calculation now forces a4 in m⁴ and a6 in m⁶ and contradicts minimality, so the local prime and order-35 arithmetic endpoints no longer depend on component geometry. The open node is the represented identity-component/component-quotient and toric modular input consumed by rank zero; no Kodaira or full component-cardinality result is inferred from the checked chart algebra.",
       "artifacts": [
         {
           "kind": "definition",
@@ -5602,7 +5602,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. A checked quotient certificate lifts a special-fibre cotangent calculation through quotient Nakayama and residue surjectivity to completed-stalk formal immersion; locally Noetherian source and target schemes now discharge the total-stalk finiteness plumbing in both the general and mapped-ideal forms. Localization of an affine fibre is proved natural under ambient algebra maps, and the ambient localized map is identified with the actual stalk map of Spec.map under canonical affine stalk equivalences. A principal cusp maximal ideal generated by q with q nonzero modulo its square now supplies the degree-one cotangent dimension, and an actual localized first-order identity with unit q coefficient constructs the detected vector and proves formal immersion of Spec.map. Selected arithmetic consumers at five and eleven pin that affine point to the integral cusp specialization and carry the genuine Spec.map formal immersion through the collision and marked component-exponent-twelve endpoints. The actual integral modular cusp section, modular affine presentation, its generator and non-square proofs, the two residue surjections, and the genuine optimal-quotient q-expansion identity remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. Rational cusp retractions derive both residue surjections. Selected arithmetic consumers at five and eleven pin that affine point to the integral cusp specialization and carry the formal immersion through the unconditional weighted-depth endpoints. The actual integral modular cusp section and affine presentation, its generator and non-square proofs, the represented quotient collision, and the genuine optimal-quotient q-expansion identity remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -6452,18 +6452,19 @@
       "title": "Exclude additive reduction at five",
       "stage": "prime_argument",
       "kind": "proof",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "The checked marked-point argument needs only a component exponent coprime to the torsion order: at five, 12 • P in the canonical nonsingular-reduction subgroup, reduction into the five-element additive residue field, and the exact torsion-free formal kernel exclude every prime order N at least 11. Finite normalization and enumeration classify the actual cuspidal nonsingular locus and construct its residue-field additive equivalence. The exact remaining tame Tate input is a pointwise proposition saying that the marked class in the actual quotient by canonical nonsingular reduction has finite order at most four; a checked equivalence turns this into a bounded positive multiple in the subgroup and hence exponent twelve. Integral-j valuation data, preservation of the additive branch under integral valuation-unit coordinate changes, the obstruction to every translated scaling of valuation below one, singular-point translation, and exact integral short normalization are checked starting inputs. Honest one-factor chart quotients now prove that a6 ∉ m² puts every local point in canonical nonsingular reduction. The prime-order consumer excludes this first valuation branch and forces a6 ∈ m² on the selected five-adic model. Canonical reduction and n-multiple subgroup membership transport through the integral unit normalization, so later case conclusions can return to the original selected equation. This avoids constructing or cardinality-bounding the full component quotient. The remaining two-factor and weighted valuation branches, affine group-law case split, marked-class proposition, and genuine Neron identity-component comparison remain open.",
+      "summary": "A checked direct marked Tate-depth argument on Mathlib's selected five-adic minimal model excludes additive reduction for every exact prime-order point with N at least 11. It reaches x in m², a4 in m⁴, and a6 in m⁶, then contradicts minimality by a pure weighted scaling. Intermediate exact-depth branches use canonical nonsingular reduction, the checked five-element cuspidal group, and the torsion-free formal kernel; no unproved component-group bound or Neron identity-component identification is assumed. The stable endpoint is consumed by the good-reduction theorem.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.not_additiveReductionAtFive",
-          "state": "proposed",
-          "description": "Exclude additive reduction using the exact fibre filtration at residue characteristic five."
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Exclude additive reduction by the checked marked weighted-depth and minimality contradiction; the good-reduction theorem is its compiled consumer."
         },
         {
           "kind": "theorem",
@@ -6537,11 +6538,11 @@
         "MT-PRIME-SPLIT-SEQUENCE"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "acceptance_declarations": [
         "MazurTorsion.PrimeOrder.not_additiveReductionAtFive"
@@ -6556,18 +6557,19 @@
       "title": "Upgrade potentially good to good reduction at five",
       "stage": "prime_argument",
       "kind": "proof",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 10,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Integral j excludes multiplicative reduction by an explicit valuation calculation. A shared reduction-type theorem upgrades to good reduction from any honest additive-branch exact-order obstruction at five or eleven. Finite cuspidal classification is discharged in lane-specific completion and rational consumers. The newest rational consumer requires only that the marked class in the actual quotient by canonical nonsingular reduction have finite order at most four; the generic pointwise bridge supplies 12 • P in the subgroup before reaching the checked F_5 contradiction. A compiled degree-one special-fibre formal-immersion consumer carries the same marked point. The represented modular/cusp data, genuine Neron identity-component identification, and the tame Tate--Kodaira proof of the pointwise marked-class bound remain open.",
+      "summary": "Integral j excludes multiplicative reduction, while the checked marked Tate-depth theorem excludes additive reduction; the exhaustive reduction trichotomy therefore gives good reduction on the selected five-adic minimal equation. Exact-order transport from the rational point and checked F_5 reduction yield the unconditional local contradiction, consumed by both the formal-immersion and affine Hecke/q-expansion endpoints. Represented modular/cusp data remain in the upstream formal-immersion node, not as a premise of this completed local result.",
       "artifacts": [
         {
           "kind": "theorem",
           "name": "MazurTorsion.PrimeOrder.goodReductionAtFive",
-          "state": "proposed",
-          "description": "Combine the two local exclusions to obtain good reduction at five."
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Combine the checked multiplicative and weighted-depth additive exclusions; the rational finite-field and formal-immersion endpoints consume this theorem."
         },
         {
           "kind": "theorem",
@@ -6717,12 +6719,15 @@
         "MT-PRIME-SHAFAREVICH"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
+      "acceptance_declarations": [
+        "MazurTorsion.PrimeOrder.goodReductionAtFive"
+      ],
       "route_history": {
         "previous_scope": "split 0 -> Z/p -> E[p] -> mu_p -> 0",
         "revision": "a local reduction-type trichotomy"

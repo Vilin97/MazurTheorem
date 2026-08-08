@@ -72,18 +72,16 @@ Fix a rational prime `N` with `N = 11` or `17 ≤ N`, an elliptic curve
    image under `f`, while their generic points differ.  Surjectivity on
    completed local rings—the definition of formal immersion—makes this
    impossible.  Thus `E` has potentially good reduction at `5`.
-7. Since `N ≠ 5`, the marked point retains exact order `N` in the Néron
-   special fibre.  For the torsion contradiction it is enough to prove the
-   marked-point consequence `12 • P ∈ E₀`: `12` annihilates every tame
-   elliptic component group of order at most four and is coprime to every
-   prime `N ≥ 11`.  Reduction from `E₀` to the five-element additive group,
-   followed by the pro-five formal kernel, then kills `P`.  The checked Lean
-   consumer uses exactly this component-exponent statement and does not need
-   to construct or count the full component quotient. The additive special
-   group at `5` (and at `11` for order `35`) is now constructed by checked
-   singular-cubic normalization and finite enumeration. Potentially good
-   reduction also excludes a multiplicative fibre, so the reduction is good.
-8. The point injects into `E(𝔽₅)`, but the checked finite-field certificate
+7. On Mathlib's selected minimal five-adic equation, a marked point of exact
+   prime order at least eleven rules out additive reduction directly.  The
+   checked normalization and tangent--secant analysis force the terminal
+   weighted depths `a₄ ∈ 𝔪⁴` and `a₆ ∈ 𝔪⁶`; scaling the short equation once
+   more would preserve integrality, contradicting minimality.  Thus this
+   pointwise arithmetic step no longer assumes a component exponent or a
+   Néron identity-component comparison.  The integral-`j` bound from Step 6
+   also excludes multiplicative reduction, so the reduction is good.
+8. Good-reduction specialization preserves the marked point's exact order in
+   `E(𝔽₅)`, but the checked finite-field certificate
    gives `#E(𝔽₅) ≤ 10`, a contradiction. Mathematically this is the `q=5`
    case of Hasse; in Lean it is cheaper to normalize to short form and
    enumerate 25 coefficient pairs.
@@ -106,13 +104,11 @@ following remain on the theorem's critical path:
 * Hecke correspondences, cotangent action, and the `q`-expansion recursion;
 * a nontrivial optimal Eisenstein quotient for `N=11` or prime `N≥17`;
 * finiteness of that quotient's rational points; and
-* the focused Néron and finite-flat theory used in the last assertion,
-  including genuine identity-component comparison and the tame
-  Tate--Kodaira theorem that the marked class in the quotient by canonical
-  nonsingular reduction has finite order at most four at `5` and `11`. The
-  checked pointwise interface already converts this exact assertion into the
-  uniform exponent `12` used downstream; a full component-cardinality bound
-  is only a stronger fallback. The integral-`j` valuation inequality,
+* the focused Néron and finite-flat theory used by the Eisenstein rank-zero
+  quotient, including genuine identity-component comparison and completely
+  toric reduction at the modular level.  The pointwise prime-five and
+  order-35 arithmetic endpoints no longer consume this geometry: the
+  integral-`j` valuation inequality,
   preservation under integral valuation-unit coordinate changes, and the
   obstruction to every arbitrary translation followed by a scale of valuation
   below one are checked first steps. Additive reduction now constructs its
@@ -149,9 +145,13 @@ following remain on the theorem's critical path:
   triple away from the cusp; the equal-abscissa cases are checked separately.
   Thus `3P`, hence `12P`, lies in canonical nonsingular reduction, and the
   actual five- and eleven-adic consumers force `a₆ ∈ 𝔪⁵` while retaining the
-  already checked fourth-depth conclusion on the identical model. The later
-  weighted `a₄` branch and the final minimality contradiction are still
-  required. The
+  already checked fourth-depth conclusion on the identical model.  The
+  terminal weighted calculation now derives `y ∈ 𝔪³`, separates the exact
+  `a₄`-depth branch, forces `a₄ ∈ 𝔪⁴`, and then derives `a₆ ∈ 𝔪⁶` from the
+  point equation.  The resulting pure scaling contradicts minimality.  Real
+  prime-five and order-35 consumers therefore exclude additive reduction,
+  prove good reduction from the integral-`j` bound, and reach the checked
+  finite-field contradictions without a component premise. The
   canonical reduction predicate, subgroup, and marked multiples now transport
   through the integral unit normalization, so each future normalized-case
   conclusion can be carried back to the original selected equation without a
@@ -214,8 +214,8 @@ actual completed-local power-series coordinate constructs the detected
 cotangent vector without an asserted linear coefficient.
 At both selected auxiliary primes, checked consumers identify that affine
 point with the same integral cusp specialization used by the collision and
-carry the resulting formal immersion through the marked
-component-exponent-twelve arithmetic endpoint. What remains is the represented
+carry the resulting formal immersion through the unconditional weighted-depth
+arithmetic endpoint. What remains is the represented
 modular affine presentation and sections, its cusp prime and parameter proofs,
 the ambient residue surjection, the quotient collision, and the
 optimal-quotient Hecke/q-expansion identity.

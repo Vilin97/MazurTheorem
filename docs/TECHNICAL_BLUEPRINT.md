@@ -766,8 +766,11 @@ an arbitrary number field containing a primitive third root of unity, and in
 particular in the canonical third cyclotomic field. The resulting
 `EisensteinIntegerFiniteSplitCyclicCubicObstruction` retains every primitive,
 four-case, congruence, and exact factorization hypothesis and has a compiled
-exact-order-eighteen consumer. Unique-factorization support, the primes above
-two and seven, and the unit cases are not yet discharged. Consequently the
+exact-order-eighteen consumer. The checked determinant argument now proves
+that a prime common to the two linear factors lies over `2` or is the
+ramified prime over `3`. Unique-factorization allocation of those common
+factors, the separate scalar/norm contribution at `7`, and the unit cases are
+not yet discharged. Consequently the
 four integral families and the immutable `XOneEighteenNoncusp` Challenge
 remain open; no rational-point classification is claimed.
 
@@ -1893,7 +1896,7 @@ fibre variant further narrows the q-expansion handoff to residue surjectivity,
 one-dimensional target cotangent, and one detected source vector, with checked
 full consumers at five and eleven. Those selected consumers now pin the affine
 prime to the exact integral cusp specialization used by the collision and
-reach the marked component-exponent-twelve exclusions. What remains at this
+reach the unconditional weighted-depth exclusions. What remains at this
 boundary is the actual integral cusp model, its modular sections and collision,
 and the q-expansion certificate, not generic local algebra.
 
@@ -1943,9 +1946,11 @@ rational marked point is now base-changed to `ℚ₅` and transported through th
 inverse of the exact variable change selected by Mathlib's minimal-model
 construction, preserving its additive order. The minimal equation's `j` and
 valuation are proved equal to the image and five-adic valuation of the
-original rational `j`. The unsuffixed Néron-fibre theorem above remains the
-target before good reduction is known; these checked results do not supply the
-missing special-fibre/component map or its genuine additive filtration.
+original rational `j`. The broader unsuffixed Néron-fibre theorem remains
+useful to the Eisenstein-quotient specialization lane. For the marked elliptic
+point, however, the checked weighted-depth argument excludes additive
+reduction before invoking specialization, so the prime-five arithmetic
+endpoint no longer needs a special-fibre component map.
 
 At auxiliary prime eleven, the order-35 modules now check the analogous
 selected minimal model, exact-order transport, good-reduction specialization,
@@ -2036,9 +2041,14 @@ nonsingular reduction away from the cusp); equal-abscissa and vertical cases
 are handled explicitly. Therefore `3 • P`, and then `12 • P`, belongs to the
 canonical subgroup. The selected five- and eleven-adic exact-order consumers
 force `a₆ ∈ 𝔪⁵` while retaining all earlier data on the same equation. The
-weighted `a₄` branch, final scaling/minimality contradiction, and genuine
-identity-component comparison remain open; no Kodaira or component-incidence
-statement and no node credit is claimed.
+terminal weighted branch now derives `y ∈ 𝔪³`, forces `a₄ ∈ 𝔪⁴`, and then
+derives `a₆ ∈ 𝔪⁶` from the marked point equation. A further integral pure
+scaling contradicts minimality. The selected prime-five and order-35
+consumers therefore exclude additive reduction, upgrade integral `j` to good
+reduction, and reach the finite enumerations without a component premise.
+Genuine Néron identity-component comparison and completely toric modular
+reduction remain open for the Eisenstein rank-zero consumer; no Kodaira or
+component-incidence statement is inferred from the pointwise calculation.
 
 The proof sequence is:
 
@@ -2049,9 +2059,10 @@ The proof sequence is:
 3. use the unramified torsion-specialization lemma and formal immersion to
    contradict that cusp collision, proving potentially good reduction at
    five;
-4. preserve the marked prime-to-five torsion point in the Néron fibre;
-5. use the tame component filtration to exclude additive reduction, hence
-   obtain good reduction;
+4. use the checked weighted-depth/minimality argument on the marked point to
+   exclude additive reduction, hence obtain good reduction;
+5. preserve the marked point's exact order under good-reduction
+   specialization;
 6. normalize to short form and exhaust the 25 models over `𝔽₅` to prove
    `#E(𝔽₅) ≤ 10`; and
 7. conclude order `11` and every prime order at least `17` are impossible.
