@@ -63,6 +63,12 @@ translation class. The existing effective divisor-cocycle and
 global-principal-boundary construction is a real downstream consumer
 (`625e4a4`). This remains class-level normalization: it does not construct a
 Jacobian scheme or an Abel--Jacobi morphism and earns no node credit.
+The chosen divisor line bundles now retain the same normalization before
+passing to Picard classes: the new-basepoint bundle is isomorphic to the old
+bundle tensored with the explicit weighted point-difference correction. Its
+scheme-Picard image is a compiled downstream consumer (`a660669`). This is
+bundle-level input for a future Poincare construction, still without a
+represented Picard scheme or node credit.
 
 The newest arithmetic boundary computes the previously abstract Kummer input
 over `Z[1/ell]`. Every localization unit is an integral sign times an integral
@@ -168,7 +174,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 805 Lean modules and 1,499,752 Lean lines.
+exact quality baseline is 805 Lean modules and 1,499,841 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -204,8 +210,8 @@ The import-layer repair independently rebuilds the new 2,380-job base, the
 2,381-job descent layer, the 3,582-job FourScalar aggregate, and the immutable
 2,382-job Challenge target; the public declaration set is unchanged.
 The scheme-Picard Abel--Jacobi adapter rebuilds its 3,545-job closure; its six
-new basepoint-transport declarations use only `propext`, `Classical.choice`,
-and `Quot.sound`.
+class-level and two bundle-level basepoint-transport declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`

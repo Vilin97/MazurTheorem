@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1499752,
+    "integrated_lean_lines": 1499841,
     "integrated_lean_modules": 805,
     "remaining_composite_orders": [
       18,
@@ -3239,7 +3239,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus. The checked absolute scheme-Picard adapter now also transports the exact weighted basepoint-change laws for both points and divisors from the pinned Tau Ceti divisor-class API. A real effective divisor-cocycle/global-principal-boundary consumer reaches the same normalization law. These are class-level normalization results, not a represented morphism, universal property, base-change theorem, or closed immersion.",
+      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus. The checked absolute scheme-Picard adapter transports the exact weighted basepoint-change laws for both points and divisors from the pinned Tau Ceti divisor-class API. A real effective divisor-cocycle/global-principal-boundary consumer reaches the same normalization law. At the chosen line-bundle level, changing basepoint is now an actual isomorphism to the old bundle tensored with the explicit weighted point-difference bundle, and its Picard-class image is checked. These remain normalization results, not a represented morphism, universal property, base-change theorem, or closed immersion.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3305,6 +3305,20 @@
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary_change_base",
           "state": "contract",
           "description": "Consume the point basepoint-change formula through the effective divisor-cocycle and global-principal-boundary construction.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_weightedAbelJacobiLineBundle_change_base",
+          "state": "contract",
+          "description": "Identify the chosen new-basepoint Abel-Jacobi line bundle with the old one tensored by the exact weighted point-difference correction bundle.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.weightedAbelJacobiLineBundle_toPic_change_base",
+          "state": "contract",
+          "description": "Consume the bundle isomorphism to recover its exact basepoint-translation equality in the scheme Picard group.",
           "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
         }
       ],

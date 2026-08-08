@@ -1041,9 +1041,11 @@ classes, including the base-point, linear-equivalence collision, point-differenc
 line-bundle, fixed-degree fiber, and formal symmetric-power fiber formulas. It also transports
 the exact weighted basepoint-change laws for point and divisor classes into scheme `Pic⁰`; the
 effective divisor-cocycle/global-principal-boundary construction is a compiled downstream
-consumer of the same translation law. This is class-level normalization for the future
-morphism, not a morphism of schemes and not a proof of the universal property, base change, or
-closed immersion.
+consumer of the same translation law. For the chosen divisor line bundles, changing basepoint
+is now an actual isomorphism to the old bundle tensored with the explicit weighted
+point-difference correction bundle, and a second theorem consumes that isomorphism in scheme
+Picard. These are normalization inputs for the future morphism, not a morphism of schemes and
+not a proof of the universal property, base change, or closed immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1074,6 +1076,12 @@ closed immersion.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary_change_base`
   Consume the translation formula through the effective divisor-cocycle construction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_weightedAbelJacobiLineBundle_change_base`
+  Identify the new-basepoint bundle with the old bundle tensored by the correction bundle.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.weightedAbelJacobiLineBundle_toPic_change_base`
+  Consume the bundle isomorphism in the exact scheme-Picard translation equality.
 :::
 
 :::definition "MT-EC-ISOGENY-WEIL" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, mathlib") (priority := "high") (effort := "large")
