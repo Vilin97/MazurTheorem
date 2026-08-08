@@ -19,9 +19,11 @@ comonad for extension/restriction of scalars; Mathlib's comonadic faithfully-fla
 constructs the descended module.  Over a principal ideal domain, local triviality forces the
 descended module to be free of rank one.
 
-The final theorem specializes this construction to `ℤ[1/ℓ]` and consumes the checked Picard
-triviality of that ring.  This file deliberately does not identify represented fppf cocycles
-with tensor-unit cocycles and does not assert an ambient `H¹(G_m)` vanishing theorem.
+The arithmetic theorem specializes this construction to `ℤ[1/ℓ]` and consumes the checked
+Picard triviality of that ring.  The final section evaluates a represented `G_m` cocycle on a
+singleton affine family at the tensor-product overlap and proves that it supplies exactly this
+normalized tensor-unit data.  It does not construct refinements or gauges for arbitrary covers
+and therefore does not assert an ambient `H¹(G_m)` vanishing theorem.
 -/
 
 open CategoryTheory ModuleCat Comonad TensorProduct
@@ -106,13 +108,16 @@ abbrev descentComonad :=
 /-- The right-associated threefold tensor product used for the cocycle identity. -/
 abbrev tripleRing := B ⊗[A] (B ⊗[A] B)
 
-private noncomputable def firstToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
+/-- Embed an algebra into the first factor of its right-associated threefold tensor product. -/
+noncomputable def firstToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
   Algebra.TensorProduct.includeLeft
 
-private noncomputable def secondToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
+/-- Embed an algebra into the second factor of its right-associated threefold tensor product. -/
+noncomputable def secondToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
   Algebra.TensorProduct.includeRight.comp Algebra.TensorProduct.includeLeft
 
-private noncomputable def thirdToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
+/-- Embed an algebra into the third factor of its right-associated threefold tensor product. -/
+noncomputable def thirdToTriple : B →ₐ[A] tripleRing (A := A) (B := B) :=
   Algebra.TensorProduct.includeRight.comp Algebra.TensorProduct.includeRight
 
 /-- Pullback from the double overlap to factors one and two of the triple overlap. -/
@@ -543,5 +548,378 @@ noncomputable def MultiplicativeUnitCocycle.primeAwayLinearEquivBase
     Module.Invertible.congr e.symm
   exact MultiplicativeKummer.awayInvertibleModuleLinearEquiv
     ℓ hℓ (c.descendedModule hf)
+
+/-! ## Represented multiplicative cocycles on a singleton affine family -/
+
+open AffineCommGroupScheme
+open CategoryTheory.PresheafOfGroups
+
+/-- A represented multiplicative-group cocycle on the singleton family consisting of
+`Spec B → Spec A`.  No covering property is needed to define the cocycle; faithful flatness is
+supplied only when it is passed to effective descent. -/
+abbrev RepresentedMultiplicativeOneCocycle :=
+  OneCocycle
+    (pointPresheaf (multiplicativeScheme A))
+    (fun _ : Unit ↦ testObject (R := A) B)
+
+/-- The first projection from the affine pair overlap `Spec (B ⊗_A B)` to `Spec B`. -/
+noncomputable def singletonPairLeft :
+    testObject (R := A) (B ⊗[A] B) ⟶ testObject (R := A) B :=
+  testObjectMap (Algebra.TensorProduct.includeLeft : B →ₐ[A] B ⊗[A] B)
+
+/-- The second projection from the affine pair overlap `Spec (B ⊗_A B)` to `Spec B`. -/
+noncomputable def singletonPairRight :
+    testObject (R := A) (B ⊗[A] B) ⟶ testObject (R := A) B :=
+  testObjectMap (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B)
+
+/-- Evaluate a represented multiplicative cocycle on the two projections of the singleton
+affine pair overlap and read the resulting point as a unit. -/
+noncomputable def representedOverlapUnit
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    (B ⊗[A] B)ˣ :=
+  multiplicativePointMulEquiv A (B ⊗[A] B)
+    (c.ev () () singletonPairLeft singletonPairRight)
+
+private theorem testObjectMap_comp
+    {C D E : Type u} [CommRing C] [CommRing D] [CommRing E]
+    [Algebra A C] [Algebra A D] [Algebra A E]
+    (f : C →ₐ[A] D) (g : D →ₐ[A] E) :
+    testObjectMap g ≫ testObjectMap f = testObjectMap (g.comp f) := by
+  apply Over.OverMorphism.ext
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
+  rw [← Spec.map_comp, Spec.map_inj]
+  rfl
+
+private noncomputable def singletonDiagonal :
+    testObject (R := A) B ⟶ testObject (R := A) (B ⊗[A] B) :=
+  testObjectMap (Algebra.TensorProduct.lmul' A)
+
+private theorem singletonDiagonal_pairLeft :
+    singletonDiagonal (A := A) (B := B) ≫ singletonPairLeft = 𝟙 _ := by
+  rw [singletonDiagonal, singletonPairLeft, testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = 𝟙 _
+  rw [← Spec.map_id, Spec.map_inj]
+  ext b
+  simp
+
+private theorem singletonDiagonal_pairRight :
+    singletonDiagonal (A := A) (B := B) ≫ singletonPairRight = 𝟙 _ := by
+  rw [singletonDiagonal, singletonPairRight, testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = 𝟙 _
+  rw [← Spec.map_id, Spec.map_inj]
+  ext b
+  simp
+
+/-- The unit obtained from a represented singleton-family cocycle restricts to one along the
+diagonal `Spec B → Spec (B ⊗_A B)`. -/
+theorem representedOverlapUnit_normalization
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    Units.map (Algebra.TensorProduct.lmul' A).toMonoidHom
+      (representedOverlapUnit c) = 1 := by
+  letI : CommGroup ((multiplicative A).Point B) :=
+    AffineCommGroupScheme.pointCommGroup (multiplicative A) B
+  let x : (multiplicative A).Point (B ⊗[A] B) :=
+    c.ev () () (singletonPairLeft (A := A) (B := B))
+      (singletonPairRight (A := A) (B := B))
+  have hnat := multiplicativePointMulEquiv_testObjectMap
+    (R := A) (f := Algebra.TensorProduct.lmul' A) (x := x)
+  change Units.map (Algebra.TensorProduct.lmul' A).toMonoidHom
+      (multiplicativePointMulEquiv A (B ⊗[A] B) x) = 1
+  rw [← hnat]
+  have hpre := c.ev_precomp () ()
+    (singletonDiagonal (A := A) (B := B))
+    (singletonPairLeft (A := A) (B := B))
+    (singletonPairRight (A := A) (B := B))
+  change singletonDiagonal (A := A) (B := B) ≫
+      c.ev () () (singletonPairLeft (A := A) (B := B))
+        (singletonPairRight (A := A) (B := B)) =
+    c.ev () ()
+      (singletonDiagonal (A := A) (B := B) ≫
+        singletonPairLeft (A := A) (B := B))
+      (singletonDiagonal (A := A) (B := B) ≫
+        singletonPairRight (A := A) (B := B)) at hpre
+  rw [singletonDiagonal_pairLeft, singletonDiagonal_pairRight] at hpre
+  dsimp only [singletonDiagonal] at hpre
+  have hrefl := OneCocycle.ev_refl
+    (pointPresheaf (multiplicativeScheme A))
+    (fun _ : Unit ↦ testObject (R := A) B) c ()
+    (𝟙 (testObject (R := A) B))
+  change c.ev () () (𝟙 _) (𝟙 _) = (1 : (multiplicative A).Point B) at hrefl
+  change testObjectMap (Algebra.TensorProduct.lmul' A) ≫ x =
+      c.ev () () (𝟙 _) (𝟙 _) at hpre
+  rw [hpre, hrefl]
+  exact map_one (multiplicativePointMulEquiv A B)
+
+/-- The first projection from the singleton triple overlap to `Spec B`. -/
+noncomputable def singletonTripleFirst :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) B :=
+  testObjectMap (firstToTriple (A := A) (B := B))
+
+/-- The second projection from the singleton triple overlap to `Spec B`. -/
+noncomputable def singletonTripleSecond :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) B :=
+  testObjectMap (secondToTriple (A := A) (B := B))
+
+/-- The third projection from the singleton triple overlap to `Spec B`. -/
+noncomputable def singletonTripleThird :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) B :=
+  testObjectMap (thirdToTriple (A := A) (B := B))
+
+private noncomputable def singletonPullTwelve :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) (B ⊗[A] B) :=
+  testObjectMap (pairTwelve (A := A) (B := B))
+
+private noncomputable def singletonPullTwentyThree :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) (B ⊗[A] B) :=
+  testObjectMap (pairTwentyThree (A := A) (B := B))
+
+private noncomputable def singletonPullThirteen :
+    testObject (R := A) (tripleRing (A := A) (B := B)) ⟶
+      testObject (R := A) (B ⊗[A] B) :=
+  testObjectMap (pairThirteen (A := A) (B := B))
+
+private theorem singletonPullTwelve_pairLeft :
+    singletonPullTwelve (A := A) (B := B) ≫ singletonPairLeft =
+      singletonTripleFirst := by
+  rw [singletonPullTwelve, singletonPairLeft, singletonTripleFirst,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairTwelve, firstToTriple, secondToTriple]
+
+private theorem singletonPullTwelve_pairRight :
+    singletonPullTwelve (A := A) (B := B) ≫ singletonPairRight =
+      singletonTripleSecond := by
+  rw [singletonPullTwelve, singletonPairRight, singletonTripleSecond,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairTwelve, firstToTriple, secondToTriple]
+
+private theorem singletonPullTwentyThree_pairLeft :
+    singletonPullTwentyThree (A := A) (B := B) ≫ singletonPairLeft =
+      singletonTripleSecond := by
+  rw [singletonPullTwentyThree, singletonPairLeft, singletonTripleSecond,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairTwentyThree, secondToTriple]
+
+private theorem singletonPullTwentyThree_pairRight :
+    singletonPullTwentyThree (A := A) (B := B) ≫ singletonPairRight =
+      singletonTripleThird := by
+  rw [singletonPullTwentyThree, singletonPairRight, singletonTripleThird,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairTwentyThree, thirdToTriple]
+
+private theorem singletonPullThirteen_pairLeft :
+    singletonPullThirteen (A := A) (B := B) ≫ singletonPairLeft =
+      singletonTripleFirst := by
+  rw [singletonPullThirteen, singletonPairLeft, singletonTripleFirst,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairThirteen, firstToTriple, thirdToTriple]
+
+private theorem singletonPullThirteen_pairRight :
+    singletonPullThirteen (A := A) (B := B) ≫ singletonPairRight =
+      singletonTripleThird := by
+  rw [singletonPullThirteen, singletonPairRight, singletonTripleThird,
+    testObjectMap_comp]
+  apply Over.OverMorphism.ext
+  change Spec.map _ = Spec.map _
+  rw [Spec.map_inj]
+  ext b
+  simp [pairThirteen, firstToTriple, thirdToTriple]
+
+/-- Pulling the represented overlap unit to factors `(1,2)` agrees with evaluating the
+represented cocycle on the first and second projections of the triple overlap. -/
+theorem representedOverlapUnit_pairTwelve
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    Units.map (pairTwelve (A := A) (B := B)).toMonoidHom
+        (representedOverlapUnit c) =
+      multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))
+        (c.ev () () (singletonTripleFirst (A := A) (B := B))
+          (singletonTripleSecond (A := A) (B := B))) := by
+  let x : (multiplicative A).Point (B ⊗[A] B) :=
+    c.ev () () (singletonPairLeft (A := A) (B := B))
+      (singletonPairRight (A := A) (B := B))
+  have hnat := multiplicativePointMulEquiv_testObjectMap
+    (R := A) (f := pairTwelve (A := A) (B := B)) (x := x)
+  change Units.map (pairTwelve (A := A) (B := B)).toMonoidHom
+      (multiplicativePointMulEquiv A (B ⊗[A] B) x) = _
+  rw [← hnat]
+  have hpre := c.ev_precomp () ()
+    (singletonPullTwelve (A := A) (B := B))
+    (singletonPairLeft (A := A) (B := B))
+    (singletonPairRight (A := A) (B := B))
+  change singletonPullTwelve (A := A) (B := B) ≫ x =
+    c.ev () ()
+      (singletonPullTwelve (A := A) (B := B) ≫
+        singletonPairLeft (A := A) (B := B))
+      (singletonPullTwelve (A := A) (B := B) ≫
+        singletonPairRight (A := A) (B := B)) at hpre
+  rw [singletonPullTwelve_pairLeft, singletonPullTwelve_pairRight] at hpre
+  dsimp only [singletonPullTwelve] at hpre
+  exact congrArg
+    (multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))) hpre
+
+/-- Pulling the represented overlap unit to factors `(2,3)` agrees with evaluating the
+represented cocycle on the second and third projections of the triple overlap. -/
+theorem representedOverlapUnit_pairTwentyThree
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    Units.map (pairTwentyThree (A := A) (B := B)).toMonoidHom
+        (representedOverlapUnit c) =
+      multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))
+        (c.ev () () (singletonTripleSecond (A := A) (B := B))
+          (singletonTripleThird (A := A) (B := B))) := by
+  let x : (multiplicative A).Point (B ⊗[A] B) :=
+    c.ev () () (singletonPairLeft (A := A) (B := B))
+      (singletonPairRight (A := A) (B := B))
+  have hnat := multiplicativePointMulEquiv_testObjectMap
+    (R := A) (f := pairTwentyThree (A := A) (B := B)) (x := x)
+  change Units.map (pairTwentyThree (A := A) (B := B)).toMonoidHom
+      (multiplicativePointMulEquiv A (B ⊗[A] B) x) = _
+  rw [← hnat]
+  have hpre := c.ev_precomp () ()
+    (singletonPullTwentyThree (A := A) (B := B))
+    (singletonPairLeft (A := A) (B := B))
+    (singletonPairRight (A := A) (B := B))
+  change singletonPullTwentyThree (A := A) (B := B) ≫ x =
+    c.ev () ()
+      (singletonPullTwentyThree (A := A) (B := B) ≫
+        singletonPairLeft (A := A) (B := B))
+      (singletonPullTwentyThree (A := A) (B := B) ≫
+        singletonPairRight (A := A) (B := B)) at hpre
+  rw [singletonPullTwentyThree_pairLeft,
+    singletonPullTwentyThree_pairRight] at hpre
+  dsimp only [singletonPullTwentyThree] at hpre
+  exact congrArg
+    (multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))) hpre
+
+/-- Pulling the represented overlap unit to factors `(1,3)` agrees with evaluating the
+represented cocycle on the first and third projections of the triple overlap. -/
+theorem representedOverlapUnit_pairThirteen
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    Units.map (pairThirteen (A := A) (B := B)).toMonoidHom
+        (representedOverlapUnit c) =
+      multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))
+        (c.ev () () (singletonTripleFirst (A := A) (B := B))
+          (singletonTripleThird (A := A) (B := B))) := by
+  let x : (multiplicative A).Point (B ⊗[A] B) :=
+    c.ev () () (singletonPairLeft (A := A) (B := B))
+      (singletonPairRight (A := A) (B := B))
+  have hnat := multiplicativePointMulEquiv_testObjectMap
+    (R := A) (f := pairThirteen (A := A) (B := B)) (x := x)
+  change Units.map (pairThirteen (A := A) (B := B)).toMonoidHom
+      (multiplicativePointMulEquiv A (B ⊗[A] B) x) = _
+  rw [← hnat]
+  have hpre := c.ev_precomp () ()
+    (singletonPullThirteen (A := A) (B := B))
+    (singletonPairLeft (A := A) (B := B))
+    (singletonPairRight (A := A) (B := B))
+  change singletonPullThirteen (A := A) (B := B) ≫ x =
+    c.ev () ()
+      (singletonPullThirteen (A := A) (B := B) ≫
+        singletonPairLeft (A := A) (B := B))
+      (singletonPullThirteen (A := A) (B := B) ≫
+        singletonPairRight (A := A) (B := B)) at hpre
+  rw [singletonPullThirteen_pairLeft, singletonPullThirteen_pairRight] at hpre
+  dsimp only [singletonPullThirteen] at hpre
+  exact congrArg
+    (multiplicativePointMulEquiv A (tripleRing (A := A) (B := B))) hpre
+
+/-- Evaluate a represented `G_m` cocycle on a singleton affine overlap and package the result
+as normalized tensor-unit descent data.  Normalization comes from `ev_refl`; the tensor
+`(1,2)(2,3)=(1,3)` identity is exactly `OneCocycle.ev_trans` transported through the represented
+point/unit equivalence. -/
+noncomputable def RepresentedMultiplicativeOneCocycle.toMultiplicativeUnitCocycle
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    MultiplicativeUnitCocycle (A := A) (B := B) where
+  unit := representedOverlapUnit c
+  normalization := representedOverlapUnit_normalization c
+  cocycle := by
+    letI : CommGroup ((multiplicative A).Point (tripleRing (A := A) (B := B))) :=
+      AffineCommGroupScheme.pointCommGroup (multiplicative A)
+        (tripleRing (A := A) (B := B))
+    let x₁₂ : (multiplicative A).Point (tripleRing (A := A) (B := B)) :=
+      c.ev () () (singletonTripleFirst (A := A) (B := B))
+        (singletonTripleSecond (A := A) (B := B))
+    let x₂₃ : (multiplicative A).Point (tripleRing (A := A) (B := B)) :=
+      c.ev () () (singletonTripleSecond (A := A) (B := B))
+        (singletonTripleThird (A := A) (B := B))
+    let x₁₃ : (multiplicative A).Point (tripleRing (A := A) (B := B)) :=
+      c.ev () () (singletonTripleFirst (A := A) (B := B))
+        (singletonTripleThird (A := A) (B := B))
+    rw [representedOverlapUnit_pairTwelve,
+      representedOverlapUnit_pairTwentyThree,
+      representedOverlapUnit_pairThirteen]
+    change multiplicativePointMulEquiv A (tripleRing (A := A) (B := B)) x₁₂ *
+        multiplicativePointMulEquiv A (tripleRing (A := A) (B := B)) x₂₃ =
+      multiplicativePointMulEquiv A (tripleRing (A := A) (B := B)) x₁₃
+    rw [← map_mul]
+    have htrans := c.ev_trans () () ()
+      (singletonTripleFirst (A := A) (B := B))
+      (singletonTripleSecond (A := A) (B := B))
+      (singletonTripleThird (A := A) (B := B))
+    change x₁₂ * x₂₃ = x₁₃ at htrans
+    exact congrArg
+      (multiplicativePointMulEquiv A (tripleRing (A := A) (B := B)))
+      htrans
+
+@[simp]
+theorem RepresentedMultiplicativeOneCocycle.toMultiplicativeUnitCocycle_unit
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B)) :
+    c.toMultiplicativeUnitCocycle.unit = representedOverlapUnit c :=
+  rfl
+
+/-- The effective `A`-module descended from a represented multiplicative cocycle on the
+faithfully-flat singleton affine family `Spec B → Spec A`. -/
+noncomputable def RepresentedMultiplicativeOneCocycle.descendedModule
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B))
+    (hf : (algebraMap A B).FaithfullyFlat) : ModuleCat A :=
+  c.toMultiplicativeUnitCocycle.descendedModule hf
+
+/-- The represented cocycle's effective descent becomes the regular line after base change to
+the faithfully-flat singleton cover. -/
+noncomputable def RepresentedMultiplicativeOneCocycle.baseChangeIso
+    (c : RepresentedMultiplicativeOneCocycle (A := A) (B := B))
+    (hf : (algebraMap A B).FaithfullyFlat) :
+    (extendScalars (algebraMap A B)).obj (c.descendedModule hf) ≅
+      ModuleCat.of B B :=
+  c.toMultiplicativeUnitCocycle.baseChangeIso hf
+
+/-- A represented multiplicative cocycle on a faithfully-flat singleton affine cover of
+`Spec ℤ[1/ℓ]` descends to the trivial line.  This is the direct represented-cocycle consumer of
+the tensor-unit comparison, comonadic effectiveness, and prime-away Picard calculation. -/
+noncomputable def RepresentedMultiplicativeOneCocycle.primeAwayLinearEquivBase
+    (ℓ : ℕ) (hℓ : ℓ.Prime)
+    {B : Type} [CommRing B]
+    [Algebra (Localization.Away (ℓ : ℤ)) B] [Nontrivial B]
+    (c : RepresentedMultiplicativeOneCocycle
+      (A := Localization.Away (ℓ : ℤ)) (B := B))
+    (hf : (algebraMap (Localization.Away (ℓ : ℤ)) B).FaithfullyFlat) :
+    c.descendedModule hf ≃ₗ[Localization.Away (ℓ : ℤ)]
+      Localization.Away (ℓ : ℤ) :=
+  c.toMultiplicativeUnitCocycle.primeAwayLinearEquivBase ℓ hℓ hf
 
 end AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent
