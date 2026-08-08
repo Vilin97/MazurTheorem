@@ -63,6 +63,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 - Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
 - Canonical-support audit commit:
   `6b879658fe916b5db2afcddebbed35a9dc10aa61`
+- Historical direct low-degree audit commit:
+  `d78d10a74577e28840d21eb4e07395d87c44370f`
 - Source paths:
   - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
@@ -148,6 +150,16 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
     (private explicit-square/mate slice in the preceding local module)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportThickening.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportFull.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeInducingOpenLift.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePushforwardMapRestrictionIso.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleRestrictionIsoMonotone.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechPushforward.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechPushforward.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHomologyRetract.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePushforwardPullbackSupport.lean`
+    (support-only slice)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechPushforwardFinite.lean`
+    (degree-zero/degree-one specialization)
 - License evidence: the audited source commit has no root `LICENSE`. Selected
   files retain their per-file Apache-2.0 notices where present. Exact
   repository-level evidence is AINTLIB `origin/main` commit
@@ -172,6 +184,10 @@ packaged acyclic-resolution tail, and keeps only the degree-one affine and
 base-homology comparisons. The separate canonical-support extension stops at
 the canonical thickening/full-support model and strict support-drop API; it
 does not retain or claim the Chow/projective producer or properness endpoint.
+The finite-pushforward comparison extension retains the inverse-image-cover
+complex isomorphisms, their low-degree finiteness transport, and the
+support-only pushforward/pullback result; it omits the all-degree and
+tensor/invertible tails.
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
