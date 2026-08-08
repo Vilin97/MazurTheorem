@@ -5,8 +5,12 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.Data.Nat.Prime.Int
+import Mathlib.GroupTheory.MonoidLocalization.UniqueFactorization
 import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
 import Mathlib.NumberTheory.Padics.PadicVal.Basic
+import Mathlib.RingTheory.DedekindDomain.PID
+import Mathlib.RingTheory.Localization.Submodule
+import Mathlib.RingTheory.PicardGroup
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeKummer
 
@@ -208,6 +212,13 @@ theorem awayToRat_algebraMap (ℓ : ℕ) (hℓ : ℓ.Prime) (a : ℤ) :
   exact IsLocalization.Away.lift_eq (ℓ : ℤ)
     (primeIntCast_isUnitRat ℓ hℓ) a
 
+private theorem away_nontrivial (ℓ : ℕ) (hℓ : ℓ.Prime) :
+    Nontrivial (Localization.Away (ℓ : ℤ)) :=
+  ⟨⟨0, 1, fun h ↦ by
+    have h' := congrArg (awayToRat ℓ hℓ) h
+    exact (zero_ne_one : (0 : ℚ) ≠ 1)
+      (by simpa only [map_zero, map_one] using h')⟩⟩
+
 /-- The `ℓ`-adic exponent of a unit of `ℤ[1/ℓ]`, as a multiplicative homomorphism to the
 multiplicative spelling of the additive group `ℤ`. -/
 noncomputable def awayUnitValuation (ℓ : ℕ) (hℓ : ℓ.Prime) :
@@ -332,13 +343,53 @@ noncomputable def unitKummerBoundaryKernelCertifiedDataPrimeAway
     FiniteFlatCommGroupScheme.FinitePGroup.CertifiedData p
       (fppfHOneMap
         (powerKernelPresentation (Localization.Away (ℓ : ℤ)) p).inclusion).ker := by
-  letI : Nontrivial (Localization.Away (ℓ : ℤ)) :=
-    ⟨⟨0, 1, fun h ↦ by
-      have h' := congrArg (awayToRat ℓ hℓ) h
-      exact (zero_ne_one : (0 : ℚ) ≠ 1)
-        (by simpa only [map_zero, map_one] using h')⟩⟩
+  letI : Nontrivial (Localization.Away (ℓ : ℤ)) := away_nontrivial ℓ hℓ
   exact (unitKummerClassesCertifiedDataPrimeAway ℓ p hℓ hp hpOdd).congr
     (unitKummerBoundaryMulEquivKernel
       (R := Localization.Away (ℓ : ℤ)) p hp.ne_zero)
+
+/-! ## Picard triviality of the prime localization -/
+
+/-- The localization `ℤ[1/ℓ]` at a prime is a principal ideal ring.  This records the arithmetic
+input behind vanishing of its ring Picard group without asserting an fppf-cohomology comparison. -/
+theorem away_isPrincipalIdealRing (ℓ : ℕ) (hℓ : ℓ.Prime) :
+    IsPrincipalIdealRing (Localization.Away (ℓ : ℤ)) := by
+  letI : Nontrivial (Localization.Away (ℓ : ℤ)) := away_nontrivial ℓ hℓ
+  letI : IsDomain (Localization.Away (ℓ : ℤ)) :=
+    NoZeroDivisors.to_isDomain _
+  let hM : Submonoid.powers (ℓ : ℤ) ≤ nonZeroDivisors ℤ := by
+    rintro _ ⟨n, rfl⟩
+    exact mem_nonZeroDivisors_iff_ne_zero.mpr
+      (pow_ne_zero n (Int.ofNat_ne_zero.mpr hℓ.ne_zero))
+  letI : IsDedekindDomain (Localization.Away (ℓ : ℤ)) :=
+    IsLocalization.isDedekindDomain ℤ hM _
+  exact IsPrincipalIdealRing.of_isDedekindDomain_of_uniqueFactorizationMonoid _
+
+/-- Every class in the ring Picard group of `ℤ[1/ℓ]` is trivial. -/
+theorem awayPic_eq_one (ℓ : ℕ) (hℓ : ℓ.Prime)
+    (L : CommRing.Pic (Localization.Away (ℓ : ℤ))) :
+    L = 1 := by
+  letI : Nontrivial (Localization.Away (ℓ : ℤ)) := away_nontrivial ℓ hℓ
+  letI : IsDomain (Localization.Away (ℓ : ℤ)) :=
+    NoZeroDivisors.to_isDomain _
+  letI : IsPrincipalIdealRing (Localization.Away (ℓ : ℤ)) :=
+    away_isPrincipalIdealRing ℓ hℓ
+  exact Subsingleton.elim L 1
+
+/-- Every invertible module over `ℤ[1/ℓ]` is explicitly linearly equivalent to the trivial
+rank-one module.  This is the downstream consumer of prime-localization Picard triviality needed
+by a future comparison from multiplicative fppf cocycles to invertible modules. -/
+noncomputable def awayInvertibleModuleLinearEquiv
+    (ℓ : ℕ) (hℓ : ℓ.Prime)
+    (M : Type*) [AddCommGroup M]
+    [Module (Localization.Away (ℓ : ℤ)) M]
+    [Module.Invertible (Localization.Away (ℓ : ℤ)) M] :
+    M ≃ₗ[Localization.Away (ℓ : ℤ)] Localization.Away (ℓ : ℤ) := by
+  letI : Nontrivial (Localization.Away (ℓ : ℤ)) := away_nontrivial ℓ hℓ
+  letI : IsDomain (Localization.Away (ℓ : ℤ)) :=
+    NoZeroDivisors.to_isDomain _
+  exact Classical.choice (CommRing.Pic.mk_eq_one_iff.mp
+    (awayPic_eq_one ℓ hℓ
+      (CommRing.Pic.mk (Localization.Away (ℓ : ℤ)) M)))
 
 end AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer
