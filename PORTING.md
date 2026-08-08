@@ -203,11 +203,11 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Nineteen local Apache-2.0 modules were selected from the AINTLIB
+Forty-one local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. Seventeen upstream files are retained
-whole; three additional source files contribute the narrow option-free slices
+`MazurTorsion/Upstream/AINTLIB/`. Thirty-six upstream files are retained
+whole; six additional source files contribute the narrow option-free slices
 recorded below:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
@@ -226,12 +226,34 @@ recorded below:
 | `ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` |
-| `ForMathlib/SheafCechCochains.lean` (generic product/cochain equivalences; unused inverse and affine-vanishing tails omitted) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechCochains.lean` |
+| `ForMathlib/SheafCechCochains.lean` (generic product/cochain equivalences; affine-vanishing tail omitted) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechCochains.lean` |
 | `ForMathlib/SheafCechDifferential.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechDifferential.lean` |
 | `ForMathlib/TopCatSheafRestrict.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TopCatSheafRestrict.lean` |
 | `ForMathlib/SheafCechSheafTerms.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafTerms.lean` |
 | `ForMathlib/SheafCechSheafDifferential.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafDifferential.lean` |
 | `ForMathlib/SheafCechSheafComplex.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafComplex.lean` |
+| `ForMathlib/SheafCechSheafAugmentation.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafAugmentation.lean` |
+| `ForMathlib/SheafCechSheafZeroExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafZeroExact.lean` |
+| `ForMathlib/SheafCechSheafLocalContraction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafLocalContraction.lean` |
+| `ForMathlib/SheafCechSheafPositiveExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafPositiveExact.lean` |
+| `ForMathlib/SheafCechSheafResolution.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafResolution.lean` |
+| `ForMathlib/SheafCohomologyFiniteProducts.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyFiniteProducts.lean` |
+| `ForMathlib/FlasqueCohomology.lean` (notation and the two consumed instances only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyCompat.lean` |
+| `ForMathlib/SheafDerivedGlobalSections.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafDerivedGlobalSections.lean` |
+| `ForMathlib/SheafCechGlobalSections.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechGlobalSections.lean` |
+| `ForMathlib/SheafCechFlasqueTerms.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechFlasqueTerms.lean` |
+| `ForMathlib/SheafCechFlasqueHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechFlasqueHOne.lean` |
+| `ForMathlib/SheafCechZero.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechZero.lean` |
+| `ForMathlib/SheafCechInjectiveBicomplex.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechInjectiveBicomplex.lean` |
+| `ForMathlib/TotalComplexUpNat.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TotalComplexUpNat.lean` |
+| `ForMathlib/TotalComplexUpNatLowDegrees.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TotalComplexUpNatLowDegrees.lean` |
+| `ForMathlib/TotalComplexUpNatHorizontalEdge.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TotalComplexUpNatHorizontalEdge.lean` |
+| `ForMathlib/TotalComplexUpNatHorizontalEdgeHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TotalComplexUpNatHorizontalEdgeHOne.lean` |
+| `ForMathlib/TotalComplexUpNatVerticalEdge.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TotalComplexUpNatVerticalEdge.lean` |
+| `ForMathlib/SheafCechInjectiveAugmentation.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechInjectiveAugmentation.lean` |
+| `ForMathlib/SheafCechInjectiveComparison.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechInjectiveComparison.lean` |
+| `ForMathlib/AcyclicAffineCechComparison.lean` (degree-one comparison only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/AcyclicAffineCechComparison.lean` |
+| `ForMathlib/SchemeModuleBaseCechHomology.lean` (homology isomorphisms only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechHomology.lean` |
 
 The audited `dev/modular-curves` snapshot has no root `LICENSE` file. The
 selected sources preserve their per-file Apache-2.0 headers and authorship
@@ -253,6 +275,28 @@ commit. The exact Git blob identities are:
 | `ForMathlib/SheafCechSheafTerms.lean` | `39d21d24b4486535f4eb3619e4ba3ffa6f7d9d2a` |
 | `ForMathlib/SheafCechSheafDifferential.lean` | `f850801ff3badb73afe98caddbb473cecc41195c` |
 | `ForMathlib/SheafCechSheafComplex.lean` | `8300aa4c67c0b49ecc4c7a2feb3af931d2c944bd` |
+| `ForMathlib/SheafCechSheafAugmentation.lean` | `edbb87e068941f11264f4282516d807f35cac6dc` |
+| `ForMathlib/SheafCechSheafZeroExact.lean` | `c50ea2f83d030617e76f47cf32ef56288399668b` |
+| `ForMathlib/SheafCechSheafLocalContraction.lean` | `7632d7677654c951127540032ca14cd0d85d4faf` |
+| `ForMathlib/SheafCechSheafPositiveExact.lean` | `ca8c7e01511f67005ce0ba4be3418b802e65b18a` |
+| `ForMathlib/SheafCechSheafResolution.lean` | `d8fe1191e1a306510695e986a61b7ba9e08761c9` |
+| `ForMathlib/SheafCohomologyFiniteProducts.lean` | `479008834bc72bc202159904f583543656162cd1` |
+| `ForMathlib/FlasqueCohomology.lean` | `1f221974db26088d0125f98660e0e112bec31057` |
+| `ForMathlib/SheafDerivedGlobalSections.lean` | `ae7d55c46db058995ed61a2eb04cf5a9bc778ee6` |
+| `ForMathlib/SheafCechGlobalSections.lean` | `605965412bf601ba582b4521aff62922691f06c3` |
+| `ForMathlib/SheafCechFlasqueTerms.lean` | `88cd0898b08aa10103731361b7a09dccd52bb9e4` |
+| `ForMathlib/SheafCechFlasqueHOne.lean` | `493e1160978287c58bc85c9f0d2993161ec74577` |
+| `ForMathlib/SheafCechZero.lean` | `68d19028324ec05f6f3ef48d8f6d9cefd79cba26` |
+| `ForMathlib/SheafCechInjectiveBicomplex.lean` | `818e2682b6a42a379766d99646032333ac9ded38` |
+| `ForMathlib/TotalComplexUpNat.lean` | `0474ed80c6f01ff99ca7f9148b21a4ac39c60db4` |
+| `ForMathlib/TotalComplexUpNatLowDegrees.lean` | `5c930d53703919088ce38e864485270b6f9fea9c` |
+| `ForMathlib/TotalComplexUpNatHorizontalEdge.lean` | `7afce36aee0cbad26858d9999878620193f8d4d1` |
+| `ForMathlib/TotalComplexUpNatHorizontalEdgeHOne.lean` | `53e52723f780d53ae77c5aa0432e08e4a7e6fe55` |
+| `ForMathlib/TotalComplexUpNatVerticalEdge.lean` | `18e8539dcf2af0b158979a75a09417f20a516c1b` |
+| `ForMathlib/SheafCechInjectiveAugmentation.lean` | `8ac865544643412961c5dc13bfe77f4edb7cf961` |
+| `ForMathlib/SheafCechInjectiveComparison.lean` | `335ec862219f3a10b1fbce5d176ce34e53e51780` |
+| `ForMathlib/AcyclicAffineCechComparison.lean` | `8d755017960c28d232b9b34afec5d542ee427885` |
+| `ForMathlib/SchemeModuleBaseCechHomology.lean` | `12d8ef13169435f18d66efb37431e563ab21746b` |
 
 Their local headers use that exact licensed-blob evidence together with Chris
 Birkbeck's repository authorship/history; they were not present in the dev
@@ -276,6 +320,27 @@ options: its adjunction unit component is proved with the explicit Mathlib
 `sheafPushforwardContinuous_unit_app_hom_app` theorem. The named downstream
 consumer of these foundations is the checked sheaf-level complex
 `TopCat.Sheaf.cechComplex` in `SheafCechSheafComplex`.
+
+The remainder of the retained sheaf-Cech lane proves exactness of the
+augmented sheaf complex, computes its global sections, constructs the
+first-quadrant injective Cech bicomplex and its two low-degree edge maps, and
+identifies native Cech homology in degree one with Ext-based sheaf cohomology.
+The full source `FlasqueCohomology` module is not retained: the four notation
+aliases and two instances actually consumed by this lane live in
+`SheafCohomologyCompat`, and the instances are derived from the already
+checked project theorems `injectiveSheaf_isFlasque` and
+`flasqueSheaf_H_succ_subsingleton`. The three source compatibility options in
+`TotalComplexUpNatVerticalEdge` are replaced by explicitly typed flip maps,
+the sign equality, and its composition calculation. Same-file construction
+machinery is private in the local API.
+
+The affine comparison is also deliberately narrow. The degree-one theorem
+from `AcyclicAffineCechComparison` obtains the required restricted positive
+cohomology vanishing from the project's checked affine quasicoherent theorem,
+instead of importing AINTLIB's larger `AffineVanishing` cone.
+`SchemeModuleBaseCechHomology` retains only the two homology isomorphisms
+needed to pass from the base-linear complex to the native additive Cech
+complex and then to sheaf `H¹`.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
@@ -305,9 +370,19 @@ The new project-facing consumer
 takes finite generation of ordered degree-one homology and proves finite
 generation of native base-Cech degree-one homology. It does not identify
 Cech homology with Ext/sheaf cohomology or establish the ordered input from
-properness. The remaining seams are the option-free sheaf-Cech degree-one
-comparison, base-linear transport, cover-relative Ext scalar transfer,
-low-degree Chow/properness input, proper H1 finiteness, and the curve facade.
+properness.
+
+The separate checked boundary
+`MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
+now identifies the additive group underlying native base-Cech degree-one
+homology with genuine sheaf `H¹` on an affine open cover. Its elementwise
+consumer `exists_nativeBaseCechHOne_class_of_sheafHOne_class` verifies that
+the comparison is actually usable. This is only an additive-group
+isomorphism: it does not assert compatibility with the scalar action of
+global functions, finite generation, properness, base change, or
+semicontinuity. The remaining seams therefore include base-linear Ext
+transport, the proper ordered input, low-degree Chow/properness input, proper
+`H¹` finiteness, and the curve facade.
 
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,
@@ -321,6 +396,8 @@ Cartier-duality ports;
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift` is the boundary
 for the two sheaf-cohomology ports. The named boundary for the ordered/native
 Cech lane is `MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite`.
+The named boundary for the native-Cech/sheaf-cohomology comparison is
+`MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

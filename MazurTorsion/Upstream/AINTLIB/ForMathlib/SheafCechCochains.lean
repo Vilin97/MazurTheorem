@@ -37,6 +37,14 @@ theorem productIsoPi_hom_apply {ι : Type u} (X : ι → AddCommGrpCat.{u})
     (IsLimit.conePointUniqueUpToIso_hom_comp (limit.isLimit _)
       (HasLimit.productLimitCone X).isLimit ⟨i⟩) x
 
+/-- Every component of the inverse product isomorphism is evaluation. -/
+@[simp]
+theorem productIsoPi_inv_apply {ι : Type u} (X : ι → AddCommGrpCat.{u})
+    (x : ∀ i, X i) (i : ι) : Pi.π X i ((productIsoPi X).inv x) = x i :=
+  ConcreteCategory.congr_hom
+    (IsLimit.conePointUniqueUpToIso_inv_comp (limit.isLimit _)
+      (HasLimit.productLimitCone X).isLimit ⟨i⟩) x
+
 end AddCommGrpCat
 
 namespace TopologicalSpace
@@ -61,5 +69,15 @@ theorem cechCochainAddEquiv_apply
       Pi.π (fun i : Fin (n + 1) → ι =>
         F.obj (op (∏ᶜ fun k : Fin (n + 1) => U (i k)))) i x :=
   AddCommGrpCat.productIsoPi_hom_apply _ _ _
+
+@[simp]
+theorem cechCochainAddEquiv_symm_apply_component
+    (x : ∀ i : Fin (n + 1) → ι,
+      F.obj (op (∏ᶜ fun k : Fin (n + 1) => U (i k))))
+    (i : Fin (n + 1) → ι) :
+    Pi.π (fun i : Fin (n + 1) → ι =>
+      F.obj (op (∏ᶜ fun k : Fin (n + 1) => U (i k)))) i
+        ((cechCochainAddEquiv F U n).symm x) = x i :=
+  AddCommGrpCat.productIsoPi_inv_apply _ _ _
 
 end TopologicalSpace
