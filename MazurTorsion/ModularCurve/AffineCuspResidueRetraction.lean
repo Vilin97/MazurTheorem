@@ -65,6 +65,113 @@ universe u
 variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
 
+/-- An affine section of a structural morphism.
+
+Unlike `AffineSectionAtFiberPoint`, this structure does not ask the caller
+to choose a prime of every special fibre.  A prime is instead constructed
+canonically below as the kernel of the section after base change to the
+residue field. -/
+structure AffineStructuralSection where
+  toSpec : Spec (.of R) ⟶ Spec (.of T)
+  isSection :
+    toSpec ≫ Spec.map (CommRingCat.ofHom (algebraMap R T)) = 𝟙 _
+
+namespace AffineStructuralSection
+
+/-- The coordinate-ring retraction contravariantly represented by an affine
+structural section. -/
+noncomputable def retraction
+    (C : AffineStructuralSection (R := R) (T := T)) : T →ₐ[R] R where
+  toRingHom := (Spec.preimage C.toSpec).hom
+  commutes' r := by
+    change (Spec.preimage C.toSpec).hom (algebraMap R T r) = r
+    have hcomp :
+        (CommRingCat.ofHom (algebraMap R T)) ≫
+          Spec.preimage C.toSpec = 𝟙 _ := by
+      rw [← Spec.preimage_map
+        (φ := CommRingCat.ofHom (algebraMap R T))]
+      rw [← Spec.preimage_comp, C.isSection, Spec.preimage_id]
+    exact DFunLike.congr_fun (congrArg CommRingCat.Hom.hom hcomp) r
+
+/-- Base change of an affine structural section to the residue field at
+`p`. -/
+noncomputable def fiberRetraction
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    p.Fiber T →ₐ[p.ResidueField] p.ResidueField :=
+  Algebra.TensorProduct.lift (AlgHom.id _ _)
+    ((Algebra.ofId R p.ResidueField).comp C.retraction)
+    fun _ _ ↦ Commute.all _ _
+
+/-- The base-changed section is surjective: the left residue-field factor
+maps identically to the target residue field. -/
+theorem fiberRetraction_surjective
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    Function.Surjective (C.fiberRetraction p) := by
+  intro k
+  refine ⟨Algebra.TensorProduct.includeLeft
+    (R := R) (S := p.ResidueField) (B := T) k, ?_⟩
+  simp [fiberRetraction]
+
+/-- The point of the special fibre selected canonically by an affine
+structural section. -/
+noncomputable def fiberPrime
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    Ideal (p.Fiber T) :=
+  RingHom.ker (C.fiberRetraction p).toRingHom
+
+instance fiberPrime_isPrime
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    (C.fiberPrime p).IsPrime :=
+  RingHom.ker_isPrime _
+
+/-- The canonical fibre prime is maximal because its residue evaluation is
+surjective onto the field `κ(p)`. -/
+instance fiberPrime_isMaximal
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    (C.fiberPrime p).IsMaximal :=
+  RingHom.ker_isMaximal_of_surjective _ (C.fiberRetraction_surjective p)
+
+/-- The point selected by a structural section is a closed point of the
+affine special fibre. -/
+theorem isClosed_fiberPoint
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    IsClosed
+      ({(show Spec (.of (p.Fiber T)) from
+        ⟨C.fiberPrime p, inferInstance⟩)} : Set (Spec (.of (p.Fiber T)))) :=
+  (PrimeSpectrum.isClosed_singleton_iff_isMaximal _).2 inferInstance
+
+/-- The ambient prime under the canonical fibre point is exactly the
+inverse image of the base prime under the section retraction. -/
+theorem targetBasePrime_fiberPrime
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    targetBasePrime p (C.fiberPrime p) =
+      p.comap C.retraction.toRingHom := by
+  ext t
+  simp [targetBasePrime, fiberPrime, fiberRetraction,
+    Ideal.algebraMap_residueField_eq_zero]
+
+/-- The structural section meets its canonically constructed special-fibre
+point. -/
+theorem atPrime
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    C.toSpec (show Spec (.of R) from ⟨p, inferInstance⟩) =
+      targetSpecPoint p (C.fiberPrime p) := by
+  rw [← Spec.map_preimage C.toSpec]
+  apply PrimeSpectrum.ext
+  change p.comap (Spec.preimage C.toSpec).hom =
+    targetBasePrime p (C.fiberPrime p)
+  exact (C.targetBasePrime_fiberPrime p).symm
+
+end AffineStructuralSection
+
 /-- A section of an affine structural morphism that meets a specified point
 of the special fibre.
 
@@ -119,6 +226,21 @@ theorem targetBasePrime_eq_comap_retraction
   exact (congrArg PrimeSpectrum.asIdeal hpoint).symm
 
 end AffineSectionAtFiberPoint
+
+namespace AffineStructuralSection
+
+/-- A structural section, together with its canonical closed fibre point,
+supplies the point-compatible section package used by the affine
+formal-immersion consumer. -/
+noncomputable def atFiberPoint
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T)) :
+    AffineSectionAtFiberPoint p (C.fiberPrime p) where
+  toSpec := C.toSpec
+  isSection := C.isSection
+  atPrime := C.atPrime p
+
+end AffineStructuralSection
 
 /-- An `R`-algebra retraction at the selected closed point makes the
 localized structural map surjective on residue fields.
@@ -395,5 +517,64 @@ theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section
     hmaximal hqLinear sourceParameter hsourceMem qCoordinate Q hqExpansion
     hQ hecke eigenvalue hfirst heigen
     (ambientResidue_surjective_of_section p g q C)
+
+/-- A structural affine section canonically selects the special-fibre prime
+at which its Hecke expansion proves formal immersion.
+
+The fibre prime is the kernel of the base-changed section.  Consequently the
+caller no longer supplies either that prime or a proof that the section meets
+it; both are derived from the represented section itself. -/
+theorem
+    isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_structuralSection
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T)
+    (C : AffineStructuralSection (R := R) (T := T))
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (qParameter : Localization.AtPrime (C.fiberPrime p))
+    (hmaximal :
+      IsLocalRing.maximalIdeal
+          (Localization.AtPrime (C.fiberPrime p)) =
+        Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal
+          (Localization.AtPrime (C.fiberPrime p)) ^ 2)
+    (sourceParameter : Localization.AtPrime
+      ((C.fiberPrime p).comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime ((C.fiberPrime p).comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring
+          (Localization.AtPrime (C.fiberPrime p)) ≃+*
+        PowerSeries
+          (IsLocalRing.ResidueField
+            (Localization.AtPrime (C.fiberPrime p))))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p))))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom
+            (Localization.AtPrime (C.fiberPrime p))
+            (localizedMap p g (C.fiberPrime p) sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p)))
+      (PowerSeries
+        (IsLocalRing.ResidueField
+          (Localization.AtPrime (C.fiberPrime p)))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p)))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p (C.fiberPrime p)) :=
+  isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section
+    p g (C.fiberPrime p) qParameter hmaximal hqLinear sourceParameter
+    hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
+    (C.atFiberPoint p)
 
 end MazurTorsion.ModularCurve.AffineCuspQExpansion
