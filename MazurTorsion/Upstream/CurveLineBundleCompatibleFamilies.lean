@@ -1851,4 +1851,471 @@ theorem compatibleFamilyRestrictionIso_inv
     (compatibleFamilyRestrictionIso D i).inv = compatibleFamilyRestrictionInverse D i :=
   rfl
 
+private theorem modulesPseudofunctor_mapComp'_inv_app
+    {X Y Z : Scheme.{u}} (b : X ⟶ Y) (a : Y ⟶ Z)
+    (c : X ⟶ Z) (h : b ≫ a = c) (M : Z.Modules) :
+    (modulesPseudofunctor.mapComp'
+      a.op.toLoc b.op.toLoc c.op.toLoc (by cases h; rfl)).inv.toNatTrans.app M =
+      (Scheme.Modules.pullbackComp b a).hom.app M ≫
+        (Scheme.Modules.pullbackCongr h).hom.app M := by
+  subst c
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_hom]
+  change (modulesPseudofunctor.mapComp'
+      a.op.toLoc b.op.toLoc (a.op.toLoc ≫ b.op.toLoc) _).inv.toNatTrans.app M = _
+  calc
+    _ = (modulesPseudofunctor.mapComp a.op.toLoc b.op.toLoc).inv.toNatTrans.app M := by
+      simpa only [] using congrArg (fun e ↦ e.inv.toNatTrans.app M)
+        (modulesPseudofunctor.mapComp'_eq_mapComp a.op.toLoc b.op.toLoc)
+    _ = _ := by
+      unfold modulesPseudofunctor
+      rw [Pseudofunctor.comp_mapComp]
+      dsimp
+      exact congrArg (fun k ↦ k.toNatTrans.app M)
+        (Scheme.Modules.pseudofunctor_mapComp_inv_τl a.op.toLoc b.op.toLoc)
+
+private theorem modulesPseudofunctor_mapComp'_hom_app
+    {X Y Z : Scheme.{u}} (b : X ⟶ Y) (a : Y ⟶ Z)
+    (c : X ⟶ Z) (h : b ≫ a = c) (M : Z.Modules) :
+    (modulesPseudofunctor.mapComp'
+      a.op.toLoc b.op.toLoc c.op.toLoc (by cases h; rfl)).hom.toNatTrans.app M =
+      (Scheme.Modules.pullbackCongr h).inv.app M ≫
+        (Scheme.Modules.pullbackComp b a).inv.app M := by
+  subst c
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_inv]
+  change (modulesPseudofunctor.mapComp'
+      a.op.toLoc b.op.toLoc (a.op.toLoc ≫ b.op.toLoc) _).hom.toNatTrans.app M = _
+  calc
+    _ = (modulesPseudofunctor.mapComp a.op.toLoc b.op.toLoc).hom.toNatTrans.app M := by
+      simpa only [] using congrArg (fun e ↦ e.hom.toNatTrans.app M)
+        (modulesPseudofunctor.mapComp'_eq_mapComp a.op.toLoc b.op.toLoc)
+    _ = _ := by
+      unfold modulesPseudofunctor
+      rw [Pseudofunctor.comp_mapComp]
+      dsimp
+      exact congrArg (fun k ↦ k.toNatTrans.app M)
+        (Scheme.Modules.pseudofunctor_mapComp_hom_τl a.op.toLoc b.op.toLoc)
+
+private theorem pullbackCongr_refl_hom
+    {X Y : Scheme.{u}} (f : X ⟶ Y) (h : f = f) (M : Y.Modules) :
+    (Scheme.Modules.pullbackCongr h).hom.app M = 𝟙 _ := by
+  cases Subsingleton.elim h rfl
+  rfl
+
+private theorem restrictFunctorIsoPullback_congr
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g)
+    [hf : IsOpenImmersion f] [hg : IsOpenImmersion g] (M : Y.Modules) :
+    (Scheme.Modules.restrictFunctorCongr h).hom.app M ≫
+        (Scheme.Modules.restrictFunctorIsoPullback g).hom.app M =
+      (Scheme.Modules.restrictFunctorIsoPullback f).hom.app M ≫
+        (Scheme.Modules.pullbackCongr h).hom.app M := by
+  subst g
+  cases Subsingleton.elim hf hg
+  rw [restrictFunctorCongr_refl_hom]
+  rw [pullbackCongr_refl_hom]
+  simp
+
+private theorem pullbackCongr_symm_inv
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g) (M : Y.Modules) :
+    (Scheme.Modules.pullbackCongr h.symm).inv.app M =
+      (Scheme.Modules.pullbackCongr h).hom.app M := by
+  subst g
+  rfl
+
+private theorem compatibleFamilyRestrictionHom_from_restriction
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app
+          (compatibleFamilyModule D) ≫
+        compatibleFamilyRestrictionHom D i =
+      (Scheme.Modules.restrictFunctor (cov.f i)).map
+          (compatibleFamilyProjection D i) ≫
+        (Scheme.Modules.restrictAdjunction (cov.f i)).counit.app (D.obj i) := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let P := Scheme.Modules.pullback (cov.f i)
+  let AR := Scheme.Modules.restrictAdjunction (cov.f i)
+  let AP := Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)
+  let e := Scheme.Modules.restrictFunctorIsoPullback (cov.f i)
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let p : M ⟶ (Scheme.Modules.pushforward (cov.f i)).obj Di :=
+    compatibleFamilyProjection D i
+  have hnat : e.hom.app M ≫ P.map p =
+      F.map p ≫ e.hom.app ((Scheme.Modules.pushforward (cov.f i)).obj Di) :=
+    (e.hom.naturality p).symm
+  have hcou : e.hom.app ((Scheme.Modules.pushforward (cov.f i)).obj Di) ≫
+      AP.counit.app Di = AR.counit.app Di := by
+    dsimp only [e, AR, AP]
+    exact Adjunction.leftAdjointUniq_hom_app_counit
+      (Scheme.Modules.restrictAdjunction (cov.f i))
+      (Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)) Di
+  change e.hom.app M ≫ (P.map p ≫ AP.counit.app Di) =
+    F.map p ≫ AR.counit.app Di
+  rw [← Category.assoc, hnat, Category.assoc, hcou]
+
+private theorem compatibleFamilyRestrictionHom_comp_chartComponent
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    ((Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app
+          (compatibleFamilyModule D) ≫
+        compatibleFamilyRestrictionHom D i) ≫
+      compatibleFamilyChartComponent D i j =
+    (Scheme.Modules.restrictFunctor (cov.f i)).map
+      (compatibleFamilyProjection D j) := by
+  rw [compatibleFamilyRestrictionHom_from_restriction D i]
+  change (((Scheme.Modules.restrictFunctor (cov.f i)).map
+          (compatibleFamilyProjection D i) ≫
+        (Scheme.Modules.restrictAdjunction (cov.f i)).counit.app (D.obj i)) ≫
+      compatibleFamilyChartComponent D i j) =
+    (Scheme.Modules.restrictFunctor (cov.f i)).map
+      (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D) ≫
+        Pi.π (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)
+  exact compatibleFamilyRestrictedProjection_comp_component D i j
+
+private theorem compatibleFamilyRestrictionHom_comm_restriction
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    let P := overlap cov i j
+    letI : IsOpenImmersion P.p₁ :=
+      MorphismProperty.of_isPullback P.isPullback.flip
+        (inferInstance : IsOpenImmersion (cov.f j))
+    letI : IsOpenImmersion P.p₂ :=
+      MorphismProperty.of_isPullback P.isPullback
+        (inferInstance : IsOpenImmersion (cov.f i))
+    (Scheme.Modules.restrictFunctor P.p₁).map
+        ((Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app
+            (compatibleFamilyModule D) ≫
+          compatibleFamilyRestrictionHom D i) ≫
+      restrictionTransition D (P.p₁ ≫ cov.f i) P.p₁ P.p₂
+        rfl P.condition.symm =
+    ((Scheme.Modules.restrictFunctorComp P.p₁ (cov.f i)).inv.app
+          (compatibleFamilyModule D) ≫
+        (Scheme.Modules.restrictFunctorCongr P.condition).hom.app
+          (compatibleFamilyModule D) ≫
+        (Scheme.Modules.restrictFunctorComp P.p₂ (cov.f j)).hom.app
+          (compatibleFamilyModule D)) ≫
+      (Scheme.Modules.restrictFunctor P.p₂).map
+        ((Scheme.Modules.restrictFunctorIsoPullback (cov.f j)).hom.app
+            (compatibleFamilyModule D) ≫
+          compatibleFamilyRestrictionHom D j) := by
+  let P := overlap cov i j
+  letI : IsOpenImmersion P.p₁ :=
+    MorphismProperty.of_isPullback P.isPullback.flip
+      (inferInstance : IsOpenImmersion (cov.f j))
+  letI : IsOpenImmersion P.p₂ :=
+    MorphismProperty.of_isPullback P.isPullback
+      (inferInstance : IsOpenImmersion (cov.f i))
+  let Ri := Scheme.Modules.restrictFunctor (cov.f i)
+  let Rj := Scheme.Modules.restrictFunctor (cov.f j)
+  let R₁ := Scheme.Modules.restrictFunctor P.p₁
+  let R₂ := Scheme.Modules.restrictFunctor P.p₂
+  let Sj := Scheme.Modules.pushforward (cov.f j)
+  let S₁ := Scheme.Modules.pushforward P.p₁
+  let Aj := Scheme.Modules.restrictAdjunction (cov.f j)
+  let A₁ := Scheme.Modules.restrictAdjunction P.p₁
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let Dj : (cov.X j).Modules := D.obj j
+  let hi : Ri.obj M ⟶ Di :=
+    (Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app M ≫
+      compatibleFamilyRestrictionHom D i
+  let hj : Rj.obj M ⟶ Dj :=
+    (Scheme.Modules.restrictFunctorIsoPullback (cov.f j)).hom.app M ≫
+      compatibleFamilyRestrictionHom D j
+  let cij : Di ⟶ Ri.obj (Sj.obj Dj) := compatibleFamilyChartComponent D i j
+  let B := openPullbackRestrictPushforwardIso
+    P.p₁ P.p₂ (cov.f i) (cov.f j) P.isPullback
+  let K : R₁.obj (Ri.obj M) ⟶ R₂.obj (Rj.obj M) :=
+    (Scheme.Modules.restrictFunctorComp P.p₁ (cov.f i)).inv.app M ≫
+      (Scheme.Modules.restrictFunctorCongr P.condition).hom.app M ≫
+      (Scheme.Modules.restrictFunctorComp P.p₂ (cov.f j)).hom.app M
+  let T : R₁.obj Di ⟶ R₂.obj Dj :=
+    restrictionTransition D (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm
+  let A := A₁.homEquiv Di (R₂.obj Dj)
+  let Ah := A₁.homEquiv (Ri.obj M) (R₂.obj Dj)
+  let Au := A₁.homEquiv (Ri.obj M) (R₂.obj (Rj.obj M))
+  have hAdj : A.symm (cij ≫ B.hom.app Dj) = T := by
+    have h := compatibleFamilyChartComponent_adjunct D i j
+    change ((Scheme.Modules.restrictAdjunction P.p₁).homEquiv
+        (D.obj i) ((Scheme.Modules.restrictFunctor P.p₂).obj (D.obj j))).symm
+          (compatibleFamilyChartComponent D i j ≫ B.hom.app (D.obj j)) =
+      (Scheme.Modules.restrictFunctorIsoPullback P.p₁).hom.app (D.obj i) ≫
+        D.hom (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm ≫
+        (Scheme.Modules.restrictFunctorIsoPullback P.p₂).inv.app (D.obj j) at h
+    simpa only [A, A₁, cij, B, T, restrictionTransition,
+      Category.assoc] using h
+  have hunit : Au.symm (Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) = K := by
+    simpa only [Au, A₁, Ri, Rj, Aj, B, K, Category.assoc] using
+      openPullback_unit_mate P.p₁ P.p₂
+        (cov.f i) (cov.f j) P.isPullback M
+  have hhi : hi ≫ cij = Ri.map (compatibleFamilyProjection D j) := by
+    simpa only [hi, cij, Ri, Di, Dj, M] using
+      compatibleFamilyRestrictionHom_comp_chartComponent D i j
+  have hhj : Aj.homEquiv M Dj hj = compatibleFamilyProjection D j := by
+    dsimp only [hj, Aj, M, Dj, Rj]
+    rw [compatibleFamilyRestrictionHom_from_restriction D j]
+    exact ((Scheme.Modules.restrictAdjunction (cov.f j)).homEquiv
+      (compatibleFamilyModule D) (D.obj j)).apply_symm_apply
+        (compatibleFamilyProjection D j)
+  have hBC := (B.hom.naturality hj).symm
+  change B.hom.app (Rj.obj M) ≫ S₁.map (R₂.map hj) =
+    Ri.map (Sj.map hj) ≫ B.hom.app Dj at hBC
+  change R₁.map hi ≫ T = K ≫ R₂.map hj
+  calc
+    R₁.map hi ≫ T =
+        R₁.map hi ≫ A.symm (cij ≫ B.hom.app Dj) := by rw [hAdj]
+    _ = Ah.symm (hi ≫ (cij ≫ B.hom.app Dj)) :=
+      (A₁.homEquiv_naturality_left_symm hi
+        (cij ≫ B.hom.app Dj)).symm
+    _ = Ah.symm ((hi ≫ cij) ≫ B.hom.app Dj) := by
+      simp only [hi, Category.assoc]
+    _ = Ah.symm (Ri.map (compatibleFamilyProjection D j) ≫
+        B.hom.app Dj) := by rw [hhi]
+    _ = Ah.symm (Ri.map (Aj.homEquiv M Dj hj) ≫ B.hom.app Dj) := by
+      rw [hhj]
+    _ = Ah.symm (Ri.map (Aj.unit.app M ≫ Sj.map hj) ≫
+        B.hom.app Dj) := by
+      rw [Adjunction.homEquiv_apply]
+    _ = Ah.symm ((Ri.map (Aj.unit.app M) ≫ Ri.map (Sj.map hj)) ≫
+        B.hom.app Dj) := by rw [Ri.map_comp]
+    _ = Ah.symm (Ri.map (Aj.unit.app M) ≫
+        (Ri.map (Sj.map hj) ≫ B.hom.app Dj)) := by
+      rw [Category.assoc]
+    _ = Ah.symm (Ri.map (Aj.unit.app M) ≫
+        (B.hom.app (Rj.obj M) ≫ S₁.map (R₂.map hj))) := by
+      rw [hBC]
+    _ = Ah.symm ((Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) ≫
+        S₁.map (R₂.map hj)) := by rw [Category.assoc]
+    _ = Au.symm (Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) ≫
+        R₂.map hj :=
+      A₁.homEquiv_naturality_right_symm
+        (Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) (R₂.map hj)
+    _ = K ≫ R₂.map hj := by rw [hunit]
+
+private theorem compatibleFamilyOfObjTransition_from_restriction
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    let P := overlap cov i j
+    letI : IsOpenImmersion P.p₁ :=
+      MorphismProperty.of_isPullback P.isPullback.flip
+        (inferInstance : IsOpenImmersion (cov.f j))
+    letI : IsOpenImmersion P.p₂ :=
+      MorphismProperty.of_isPullback P.isPullback
+        (inferInstance : IsOpenImmersion (cov.f i))
+    ((Scheme.Modules.restrictFunctor P.p₁).map
+          ((Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app
+            (compatibleFamilyModule D)) ≫
+        (Scheme.Modules.restrictFunctorIsoPullback P.p₁).hom.app
+          ((Scheme.Modules.pullback (cov.f i)).obj (compatibleFamilyModule D))) ≫
+      ((modulesPseudofunctor.toDescentData cov.f).obj
+          (compatibleFamilyModule D)).hom
+        (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm =
+    ((Scheme.Modules.restrictFunctorComp P.p₁ (cov.f i)).inv.app
+          (compatibleFamilyModule D) ≫
+        (Scheme.Modules.restrictFunctorCongr P.condition).hom.app
+          (compatibleFamilyModule D) ≫
+        (Scheme.Modules.restrictFunctorComp P.p₂ (cov.f j)).hom.app
+          (compatibleFamilyModule D)) ≫
+      ((Scheme.Modules.restrictFunctor P.p₂).map
+          ((Scheme.Modules.restrictFunctorIsoPullback (cov.f j)).hom.app
+            (compatibleFamilyModule D)) ≫
+        (Scheme.Modules.restrictFunctorIsoPullback P.p₂).hom.app
+          ((Scheme.Modules.pullback (cov.f j)).obj (compatibleFamilyModule D))) := by
+  let P := overlap cov i j
+  letI : IsOpenImmersion P.p₁ :=
+    MorphismProperty.of_isPullback P.isPullback.flip
+      (inferInstance : IsOpenImmersion (cov.f j))
+  letI : IsOpenImmersion P.p₂ :=
+    MorphismProperty.of_isPullback P.isPullback
+      (inferInstance : IsOpenImmersion (cov.f i))
+  let M : X.Modules := compatibleFamilyModule D
+  let ei := Scheme.Modules.restrictFunctorIsoPullback (cov.f i)
+  let ej := Scheme.Modules.restrictFunctorIsoPullback (cov.f j)
+  let e₁ := Scheme.Modules.restrictFunctorIsoPullback P.p₁
+  let e₂ := Scheme.Modules.restrictFunctorIsoPullback P.p₂
+  let ci := Scheme.Modules.restrictFunctorComp P.p₁ (cov.f i)
+  let cj := Scheme.Modules.restrictFunctorComp P.p₂ (cov.f j)
+  let pi := Scheme.Modules.pullbackComp P.p₁ (cov.f i)
+  let pj := Scheme.Modules.pullbackComp P.p₂ (cov.f j)
+  let er := Scheme.Modules.restrictFunctorCongr P.condition
+  let ep := Scheme.Modules.pullbackCongr P.condition
+  let L := (Scheme.Modules.restrictFunctor P.p₁).map (ei.hom.app M) ≫
+    e₁.hom.app ((Scheme.Modules.pullback (cov.f i)).obj M)
+  let R := (Scheme.Modules.restrictFunctor P.p₂).map (ej.hom.app M) ≫
+    e₂.hom.app ((Scheme.Modules.pullback (cov.f j)).obj M)
+  let K := ci.inv.app M ≫ er.hom.app M ≫ cj.hom.app M
+  have hs : ((modulesPseudofunctor.toDescentData cov.f).obj M).hom
+        (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm =
+      pi.hom.app M ≫ ep.hom.app M ≫ pj.inv.app M := by
+    change (modulesPseudofunctor.mapComp'
+          (cov.f i).op.toLoc P.p₁.op.toLoc
+          (P.p₁ ≫ cov.f i).op.toLoc _).inv.toNatTrans.app M ≫
+        (modulesPseudofunctor.mapComp'
+          (cov.f j).op.toLoc P.p₂.op.toLoc
+          (P.p₁ ≫ cov.f i).op.toLoc _).hom.toNatTrans.app M = _
+    rw [modulesPseudofunctor_mapComp'_inv_app
+      P.p₁ (cov.f i) (P.p₁ ≫ cov.f i) rfl M]
+    rw [modulesPseudofunctor_mapComp'_hom_app
+      P.p₂ (cov.f j) (P.p₁ ≫ cov.f i) P.condition.symm M]
+    rw [pullbackCongr_symm_inv P.condition M]
+    rfl
+  have hci := restrictFunctorIsoPullback_comp P.p₁ (cov.f i) M
+  have hcj := restrictFunctorIsoPullback_comp P.p₂ (cov.f j) M
+  have hcongr := restrictFunctorIsoPullback_congr P.condition M
+  change L ≫
+      ((modulesPseudofunctor.toDescentData cov.f).obj M).hom
+        (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm = K ≫ R
+  rw [hs]
+  have hleft : L ≫ pi.hom.app M = ci.inv.app M ≫
+      (Scheme.Modules.restrictFunctorIsoPullback
+        (P.p₁ ≫ cov.f i)).hom.app M := by
+    rw [← cancel_epi (ci.hom.app M)]
+    simpa only [L, ci, ei, e₁, pi, Category.assoc,
+      Iso.hom_inv_id_app_assoc] using hci.symm
+  have hright :
+      (Scheme.Modules.restrictFunctorIsoPullback
+          (P.p₂ ≫ cov.f j)).hom.app M ≫ pj.inv.app M =
+        cj.hom.app M ≫ R := by
+    rw [hcj]
+    simp only [R, cj, ej, e₂, pj, Category.assoc]
+    slice_lhs 4 5 => rw [Iso.hom_inv_id_app]
+    simp
+  calc
+    L ≫ (pi.hom.app M ≫ ep.hom.app M ≫ pj.inv.app M) =
+        (L ≫ pi.hom.app M) ≫ ep.hom.app M ≫ pj.inv.app M := by
+      simp only [Category.assoc]
+    _ = (ci.inv.app M ≫
+          (Scheme.Modules.restrictFunctorIsoPullback
+            (P.p₁ ≫ cov.f i)).hom.app M) ≫
+        ep.hom.app M ≫ pj.inv.app M := by rw [hleft]
+    _ = ci.inv.app M ≫
+        ((Scheme.Modules.restrictFunctorIsoPullback
+            (P.p₁ ≫ cov.f i)).hom.app M ≫ ep.hom.app M) ≫
+          pj.inv.app M := by simp only [Category.assoc]
+    _ = ci.inv.app M ≫
+        (er.hom.app M ≫
+          (Scheme.Modules.restrictFunctorIsoPullback
+            (P.p₂ ≫ cov.f j)).hom.app M) ≫ pj.inv.app M := by
+      rw [hcongr]
+    _ = ci.inv.app M ≫ er.hom.app M ≫
+        ((Scheme.Modules.restrictFunctorIsoPullback
+            (P.p₂ ≫ cov.f j)).hom.app M ≫ pj.inv.app M) := by
+      simp only [Category.assoc]
+    _ = ci.inv.app M ≫ er.hom.app M ≫ (cj.hom.app M ≫ R) := by
+      rw [hright]
+    _ = K ≫ R := by simp only [K, Category.assoc]
+
+private theorem compatibleFamilyRestrictionHom_comm_overlap
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    let P := overlap cov i j
+    (Scheme.Modules.pullback P.p₁).map
+          (compatibleFamilyRestrictionHom D i) ≫
+        D.hom (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm =
+      ((modulesPseudofunctor.toDescentData cov.f).obj
+          (compatibleFamilyModule D)).hom
+          (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm ≫
+        (Scheme.Modules.pullback P.p₂).map
+          (compatibleFamilyRestrictionHom D j) := by
+  let P := overlap cov i j
+  letI : IsOpenImmersion P.p₁ :=
+    MorphismProperty.of_isPullback P.isPullback.flip
+      (inferInstance : IsOpenImmersion (cov.f j))
+  letI : IsOpenImmersion P.p₂ :=
+    MorphismProperty.of_isPullback P.isPullback
+      (inferInstance : IsOpenImmersion (cov.f i))
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let Dj : (cov.X j).Modules := D.obj j
+  let Ri := Scheme.Modules.restrictFunctor (cov.f i)
+  let Rj := Scheme.Modules.restrictFunctor (cov.f j)
+  let R₁ := Scheme.Modules.restrictFunctor P.p₁
+  let R₂ := Scheme.Modules.restrictFunctor P.p₂
+  let Q₁ := Scheme.Modules.pullback P.p₁
+  let Q₂ := Scheme.Modules.pullback P.p₂
+  let ei := Scheme.Modules.restrictFunctorIsoPullback (cov.f i)
+  let ej := Scheme.Modules.restrictFunctorIsoPullback (cov.f j)
+  let e₁ := Scheme.Modules.restrictFunctorIsoPullback P.p₁
+  let e₂ := Scheme.Modules.restrictFunctorIsoPullback P.p₂
+  let ri : (Scheme.Modules.pullback (cov.f i)).obj M ⟶ Di :=
+    compatibleFamilyRestrictionHom D i
+  let rj : (Scheme.Modules.pullback (cov.f j)).obj M ⟶ Dj :=
+    compatibleFamilyRestrictionHom D j
+  let A := R₁.map (ei.hom.app M) ≫
+    e₁.hom.app ((Scheme.Modules.pullback (cov.f i)).obj M)
+  let B := R₂.map (ej.hom.app M) ≫
+    e₂.hom.app ((Scheme.Modules.pullback (cov.f j)).obj M)
+  let K := (Scheme.Modules.restrictFunctorComp P.p₁ (cov.f i)).inv.app M ≫
+    (Scheme.Modules.restrictFunctorCongr P.condition).hom.app M ≫
+    (Scheme.Modules.restrictFunctorComp P.p₂ (cov.f j)).hom.app M
+  let T := restrictionTransition D
+    (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm
+  let d : Q₁.obj Di ⟶ Q₂.obj Dj := D.hom
+    (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm
+  let s := ((modulesPseudofunctor.toDescentData cov.f).obj M).hom
+    (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm
+  have hA : A ≫ Q₁.map ri = R₁.map (ei.hom.app M ≫ ri) ≫
+      e₁.hom.app Di := by
+    calc
+      A ≫ Q₁.map ri = R₁.map (ei.hom.app M) ≫
+          (e₁.hom.app ((Scheme.Modules.pullback (cov.f i)).obj M) ≫
+            Q₁.map ri) := by simp only [A, Category.assoc]
+      _ = R₁.map (ei.hom.app M) ≫
+          (R₁.map ri ≫ e₁.hom.app Di) := by
+        rw [e₁.hom.naturality ri]
+      _ = (R₁.map (ei.hom.app M) ≫ R₁.map ri) ≫
+          e₁.hom.app Di := by simp only [Category.assoc]
+      _ = R₁.map (ei.hom.app M ≫ ri) ≫ e₁.hom.app Di := by
+        rw [R₁.map_comp]
+  have hB : R₂.map (ej.hom.app M ≫ rj) ≫ e₂.hom.app Dj =
+      B ≫ Q₂.map rj := by
+    calc
+      R₂.map (ej.hom.app M ≫ rj) ≫ e₂.hom.app Dj =
+          (R₂.map (ej.hom.app M) ≫ R₂.map rj) ≫
+            e₂.hom.app Dj := by rw [R₂.map_comp]
+      _ = R₂.map (ej.hom.app M) ≫
+          (R₂.map rj ≫ e₂.hom.app Dj) := by simp only [Category.assoc]
+      _ = R₂.map (ej.hom.app M) ≫
+          (e₂.hom.app ((Scheme.Modules.pullback (cov.f j)).obj M) ≫
+            Q₂.map rj) := by rw [e₂.hom.naturality rj]
+      _ = B ≫ Q₂.map rj := by simp only [B, Category.assoc]
+  have hrestriction : R₁.map (ei.hom.app M ≫ ri) ≫ T =
+      K ≫ R₂.map (ej.hom.app M ≫ rj) := by
+    simpa only [P, Ri, Rj, R₁, R₂, ei, ej, ri, rj, K, T, M] using
+      compatibleFamilyRestrictionHom_comm_restriction D i j
+  have hsource : A ≫ s = K ≫ B := by
+    simpa only [P, A, B, K, s, M, R₁, R₂, ei, ej, e₁, e₂] using
+      compatibleFamilyOfObjTransition_from_restriction D i j
+  have hinner : (d ≫ e₂.inv.app Dj) ≫ e₂.hom.app Dj = d := by
+    calc
+      _ = d ≫ (e₂.inv.app Dj ≫ e₂.hom.app Dj) := Category.assoc _ _ _
+      _ = d ≫ 𝟙 _ := congrArg (fun z ↦ d ≫ z) (e₂.inv_hom_id_app Dj)
+      _ = d := Category.comp_id _
+  have hT : e₁.hom.app Di ≫ d = T ≫ e₂.hom.app Dj := by
+    calc
+      _ = e₁.hom.app Di ≫ ((d ≫ e₂.inv.app Dj) ≫ e₂.hom.app Dj) :=
+        congrArg (fun z ↦ e₁.hom.app Di ≫ z) hinner.symm
+      _ = (e₁.hom.app Di ≫ (d ≫ e₂.inv.app Dj)) ≫ e₂.hom.app Dj :=
+        (Category.assoc _ _ _).symm
+      _ = T ≫ e₂.hom.app Dj := by rfl
+  change Q₁.map ri ≫ d = s ≫ Q₂.map rj
+  apply (cancel_epi A).mp
+  calc
+    A ≫ (Q₁.map ri ≫ d) =
+        (R₁.map (ei.hom.app M ≫ ri) ≫ e₁.hom.app Di) ≫ d := by
+      rw [← Category.assoc, hA]
+    _ = R₁.map (ei.hom.app M ≫ ri) ≫
+        (T ≫ e₂.hom.app Dj) := by
+      simp only [Category.assoc, hT]
+    _ = (R₁.map (ei.hom.app M ≫ ri) ≫ T) ≫
+        e₂.hom.app Dj := by simp only [Category.assoc]
+    _ = (K ≫ R₂.map (ej.hom.app M ≫ rj)) ≫
+        e₂.hom.app Dj := by rw [hrestriction]
+    _ = K ≫ (R₂.map (ej.hom.app M ≫ rj) ≫
+        e₂.hom.app Dj) := by simp only [Category.assoc]
+    _ = K ≫ (B ≫ Q₂.map rj) := by rw [hB]
+    _ = (K ≫ B) ≫ Q₂.map rj := by simp only [Category.assoc]
+    _ = (A ≫ s) ≫ Q₂.map rj :=
+      congrArg (fun z ↦ z ≫ Q₂.map rj) hsource.symm
+    _ = A ≫ (s ≫ Q₂.map rj) := Category.assoc A s (Q₂.map rj)
+
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent
