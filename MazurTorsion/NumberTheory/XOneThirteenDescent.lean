@@ -1326,7 +1326,7 @@ theorem split_quotient_eq_neg_four_or_four
 rational point.  It includes primitive coordinates for both quotient
 and fiber parameters, the exact leading-coefficient quotient, and the
 resulting square-times-cube norm equation. -/
-theorem noncuspidal_curve_primitive_descent_data
+theorem noncuspidal_curve_primitive_split_descent_data
     (x y : ℚ) (hx0 : x ≠ 0) (hxneg : x ≠ -1)
     (hcurve :
       y ^ 2 = orderThirteenHyperellipticPolynomial x) :
@@ -1392,6 +1392,30 @@ theorem noncuspidal_curve_primitive_descent_data
   exact ⟨m, n, a, b, k, hn, hbpos, hcoprime, habCoprime,
     hxrepr, ha, hasum, ht, hUab, hV, hrootab, hk, hnorm,
     primitive_parameter_not_both_pi_factors m n hcoprime⟩
+
+/-- The original primitive conic-parameter package, retained as a stable
+projection of the stronger split-cubic descent data. -/
+theorem noncuspidal_curve_primitive_descent_data
+    (x y : ℚ) (hx0 : x ≠ 0) (hxneg : x ≠ -1)
+    (hcurve :
+      y ^ 2 = orderThirteenHyperellipticPolynomial x) :
+    ∃ m n : ℤ,
+      0 < n ∧
+      IsCoprime m n ∧
+      ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1 ∧
+      conicU ((m : ℚ) / (n : ℚ)) = quotientU x ∧
+      conicV ((m : ℚ) / (n : ℚ)) = quotientV x y ∧
+      homogeneousFiber (m : ℚ) (n : ℚ) x = 0 ∧
+      ¬(SixthRootPiDivides (parameterNormCoordinates m n) ∧
+        SixthRootPiConjDivides
+          (parameterNormCoordinates m n)) := by
+  obtain ⟨m, n, _a, _b, _k, hn, _hb, hmn, _hab, hx,
+    _ha, _hasum, ht, hU, hV, hroot, _hk, _hnorm, hsplit⟩ :=
+    noncuspidal_curve_primitive_split_descent_data
+      x y hx0 hxneg hcurve
+  refine ⟨m, n, hn, hmn, ht, ?_, hV, ?_, hsplit⟩
+  · simpa only [hx] using hU
+  · simpa only [hx] using hroot
 
 /-- The residual integral statement after quotienting by the diamond
 symmetry and applying rational-root divisibility. -/
@@ -1468,7 +1492,7 @@ theorem no_noncuspidal_point_of_primitiveCyclicCubicObstruction
     False := by
   obtain ⟨m, n, a, b, k, hn, hb, hmn, hab, _hx, ha,
     hasum, ht, hU, _hV, hroot, hk, hnorm, hsplit⟩ :=
-    noncuspidal_curve_primitive_descent_data
+    noncuspidal_curve_primitive_split_descent_data
       x y hx0 hxneg hcurve
   exact hobs m n a b k hn hb hmn hab ha hasum ht hU hroot hk
     hnorm hsplit
