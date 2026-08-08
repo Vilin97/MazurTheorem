@@ -88,8 +88,11 @@ def isFiniteAffineProperty : AffineTargetMorphismProperty :=
   fun X _ f _ ↦ IsAffine X ∧ RingHom.Finite (Scheme.Hom.appTop f).hom
 
 instance hasAffineProperty_isFinite :
-    HasAffineProperty (@IsFinite) isFiniteAffineProperty :=
-  IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+    HasAffineProperty (@IsFinite) isFiniteAffineProperty := by
+  change HasAffineProperty @IsFinite (affineAnd RingHom.Finite)
+  exact (HasAffineProperty.affineAnd_iff (@IsFinite) RingHom.finite_respectsIso
+    RingHom.finite_localizationPreserves.away RingHom.finite_ofLocalizationSpan).mpr
+      (fun f ↦ isFinite_iff f)
 
 instance zariskiLocalAtTarget_isFinite : IsZariskiLocalAtTarget (@IsFinite) :=
   @HasAffineProperty.instIsZariskiLocalAtTarget (@IsFinite)
@@ -129,13 +132,27 @@ instance zariskiLocalAtSource_locallyOfFinitePresentation :
 
 instance descendsAlong_etale_fppf :
     MorphismProperty.DescendsAlong (@Etale)
+      (@Surjective ⊓ @Flat ⊓ @LocallyOfFinitePresentation) := by
+  letI : MorphismProperty.IsStableUnderBaseChange (@Surjective ⊓ @Flat) :=
+    MorphismProperty.IsStableUnderBaseChange.inf
+  letI : MorphismProperty.IsStableUnderBaseChange
       (@Surjective ⊓ @Flat ⊓ @LocallyOfFinitePresentation) :=
-  AlgebraicGeometry.instDescendsAlongSchemeMinMorphismPropertySurjectiveFlatLocallyOfFinitePresentationOfQuasiCompactOfIsZariskiLocalAtTarget
-    (@Etale)
+    MorphismProperty.IsStableUnderBaseChange.inf
+  apply IsZariskiLocalAtTarget.descendsAlong
+  rintro R X Y f g ⟨⟨h₁, h₂⟩, h₃⟩ H
+  obtain ⟨V : X.Opens, hV, e⟩ := f.isOpenMap.exists_opens_image_eq_of_prespectralSpace
+    f.continuous (by simp) isOpen_univ isCompact_univ
+  refine MorphismProperty.of_isPullback_of_descendsAlong
+    (Q := @Surjective ⊓ @Flat ⊓ @QuasiCompact)
+    (.paste_vert (.of_hasPullback V.ι _) (.of_hasPullback f g)) ⟨⟨?_, inferInstance⟩,
+      (quasiCompact_iff_compactSpace _).mpr (isCompact_iff_compactSpace.mp hV)⟩ ?_
+  · exact ⟨fun x ↦ have ⟨y, hyV, ey⟩ := e.ge (Set.mem_univ x); ⟨⟨y, hyV⟩, ey⟩⟩
+  · exact IsZariskiLocalAtTarget.of_isPullback (.flip <| .of_hasPullback _ _) H
 
 instance zariskiLocalAtTarget_smoothOfRelativeDimension (n : ℕ) :
     IsZariskiLocalAtTarget (@SmoothOfRelativeDimension n) :=
-  letI := AlgebraicGeometry.instHasRingHomPropertySmoothOfRelativeDimensionLocallyIsStandardSmoothOfRelativeDimension n
+  letI :=
+    instHasRingHomPropertySmoothOfRelativeDimensionLocallyIsStandardSmoothOfRelativeDimension n
   HasRingHomProperty.instIsZariskiLocalAtTarget (@SmoothOfRelativeDimension n)
 
 instance zariskiLocalAtTarget_isAffineHom : IsZariskiLocalAtTarget (@IsAffineHom) :=
