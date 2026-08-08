@@ -179,6 +179,7 @@ import MazurTorsion.NumberTheory.RationalRootsOfUnity
 import MazurTorsion.NumberTheory.XOneEighteenDescent
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinIntegers
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinAllocation
+import MazurTorsion.NumberTheory.XOneEighteenCubeCorrespondence
 import MazurTorsion.NumberTheory.XOneEighteenFiniteField
 import MazurTorsion.NumberTheory.XOneElevenDescent
 import MazurTorsion.NumberTheory.XOneElevenFiveIsogeny
