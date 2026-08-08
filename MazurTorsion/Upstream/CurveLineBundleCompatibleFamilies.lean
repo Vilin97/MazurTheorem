@@ -25,6 +25,91 @@ namespace MazurTorsion.AlgebraicGeometry.LineBundleDescent
 
 universe u
 
+/-- For a cartesian square whose vertical maps are open immersions, taking the image along the
+left projection after pulling an open set back agrees with pulling back its image along the right
+vertical map.  This is the site-level comparison underlying open base change for module sheaves.
+-/
+noncomputable def openPullbackOpensIso
+    {X₁ X₂ Y P : Scheme.{u}}
+    (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
+    [IsOpenImmersion p₂] [IsOpenImmersion f₁]
+    (H : IsPullback p₁ p₂ f₁ f₂) :
+    f₁.opensFunctor ⋙ TopologicalSpace.Opens.map f₂.base ≅
+      TopologicalSpace.Opens.map p₁.base ⋙ p₂.opensFunctor :=
+  NatIso.ofComponents
+    (fun W ↦ eqToIso
+      (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W).symm)
+    (fun _ ↦ Subsingleton.elim _ _)
+
+/-- Restriction of a direct image around a cartesian square of open immersions is the direct
+image of the corresponding restriction. -/
+noncomputable def openPullbackRestrictPushforwardIso
+    {X₁ X₂ Y P : Scheme.{u}}
+    (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
+    [IsOpenImmersion p₂] [IsOpenImmersion f₁]
+    (H : IsPullback p₁ p₂ f₁ f₂) :
+    Scheme.Modules.pushforward f₂ ⋙ Scheme.Modules.restrictFunctor f₁ ≅
+      Scheme.Modules.restrictFunctor p₂ ⋙ Scheme.Modules.pushforward p₁ := by
+  let e := openPullbackOpensIso p₁ p₂ f₁ f₂ H
+  refine SheafOfModules.pushforwardComp _ _ ≪≫ ?_ ≪≫
+    (SheafOfModules.pushforwardComp _ _).symm
+  exact SheafOfModules.pushforwardCongr₂ _ e.symm (by
+    ext W x
+    let hW := IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W.unop
+    change ((f₁.appIso W.unop).inv ≫ f₂.app (f₁ ''ᵁ W.unop) ≫
+      X₂.presheaf.map (eqToHom hW).op) x =
+        (p₁.app W.unop ≫ (p₂.appIso (p₁ ⁻¹ᵁ W.unop)).inv) x
+    suffices (f₁.appIso W.unop).inv ≫ f₂.app (f₁ ''ᵁ W.unop) ≫
+        X₂.presheaf.map (eqToHom hW).op =
+      p₁.app W.unop ≫ (p₂.appIso (p₁ ⁻¹ᵁ W.unop)).inv by
+      exact congr($this x)
+    rw [← cancel_mono (p₂.appIso (p₁ ⁻¹ᵁ W.unop)).hom]
+    simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+    rw [p₂.appIso_hom, p₂.naturality_assoc]
+    rw [IsOpenImmersion.app_eq_appIso_inv_app_of_comp_eq
+      p₁ f₁ (p₂ ≫ f₂) H.w.symm W.unop]
+    simp only [Scheme.Hom.comp_app]
+    rw [← Functor.map_comp, ← op_comp]
+    rfl)
+
+/-- The descent transition on a chosen pairwise overlap. -/
+noncomputable def compatibleFamilyOverlapPullbackIso
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    (Scheme.Modules.pullback (overlap cov i j).p₁).obj (D.obj i) ≅
+      (Scheme.Modules.pullback (overlap cov i j).p₂).obj (D.obj j) :=
+  let P := overlap cov i j
+  D.iso (P.p₁ ≫ cov.f i) P.p₁ P.p₂ rfl P.condition.symm
+
+/-- The `j`-th component of the compatible family induced by the local object on chart `i`.
+It first transposes the overlap transition across restriction/direct-image adjunction, then uses
+open base change to land in the restriction to chart `i` of the direct image from chart `j`.
+These maps are the components required to construct an inverse to
+`compatibleFamilyRestrictionHom`. -/
+noncomputable def compatibleFamilyChartComponent
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    D.obj i ⟶
+      (Scheme.Modules.restrictFunctor (cov.f i)).obj
+        ((Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) :=
+  let P := overlap cov i j
+  letI : IsOpenImmersion P.p₁ :=
+    MorphismProperty.of_isPullback P.isPullback.flip
+      (inferInstance : IsOpenImmersion (cov.f j))
+  letI : IsOpenImmersion P.p₂ :=
+    MorphismProperty.of_isPullback P.isPullback
+      (inferInstance : IsOpenImmersion (cov.f i))
+  let transition :=
+    (Scheme.Modules.restrictFunctorIsoPullback P.p₁).app (D.obj i) ≪≫
+      compatibleFamilyOverlapPullbackIso D i j ≪≫
+      ((Scheme.Modules.restrictFunctorIsoPullback P.p₂).app (D.obj j)).symm
+  ((Scheme.Modules.restrictAdjunction P.p₁).homEquiv
+      (D.obj i)
+      ((Scheme.Modules.restrictFunctor P.p₂).obj (D.obj j)))
+      transition.hom ≫
+    (openPullbackRestrictPushforwardIso
+      P.p₁ P.p₂ (cov.f i) (cov.f j) P.isPullback).inv.app (D.obj j)
+
 /-- The product of the direct images of all local modules in a descent datum. -/
 noncomputable def compatibleFamilyAmbient
     {X : Scheme.{u}} {cov : X.OpenCover}
