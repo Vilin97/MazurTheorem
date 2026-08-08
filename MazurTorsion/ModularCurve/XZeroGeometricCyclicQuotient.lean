@@ -59,6 +59,15 @@ theorem rationalDatumGeometricPointKernelRange_toAddSubgroup
       finiteFlatSubgroupPointRange x M :=
   rfl
 
+/-- The fppf boundary homomorphism on the affine self-test object used by the represented
+rational-point quotient.  It is the base-section boundary transported across the canonical
+isomorphism with the identity object of the slice. -/
+def rationalDatumGeometricPointBoundaryHom
+    (x : RationalDatum K N)
+    (M : WeierstrassGroupSchemeInterface x.curve)
+    (Q : RationalDatumGeometricQuotientPresentation x M) :=
+  Q.boundaryHomOfOverIso (AffineCommGroupScheme.baseIsoSelfTestObject K)
+
 /-- The quotient of represented rational points by the actual finite-flat cyclic subgroup embeds
 in the rational points of every supplied geometric quotient scheme. -/
 theorem rationalDatumGeometricPointQuotientMap_injective
@@ -78,9 +87,10 @@ theorem rationalDatumGeometricPointQuotient_boundary_exact
     (Q : RationalDatumGeometricQuotientPresentation x M) :
     Function.MulExact
       (Q.pointQuotientMap
-        (CommGroupScheme.baseObject (Spec (.of K))))
-      Q.boundaryHom :=
-  Q.exact_pointQuotientMap_boundaryHom
+        (AffineCommGroupScheme.testObject (R := K) K))
+      (rationalDatumGeometricPointBoundaryHom x M Q) :=
+  Q.exact_pointQuotientMap_boundaryHomOfOverIso
+    (AffineCommGroupScheme.baseIsoSelfTestObject K)
 
 /-- Under extension of the base field, the geometric quotient presentation still has exactly the
 base-changed finite-flat cyclic subgroup as its chosen kernel inclusion. -/

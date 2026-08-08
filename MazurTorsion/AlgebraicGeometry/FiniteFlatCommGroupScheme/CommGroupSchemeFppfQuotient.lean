@@ -186,6 +186,52 @@ theorem pointQuotientMap_injective
       (D.pointKernelRange_le_project_ker X)).2
         (D.pointKernelRange_eq_project_ker X)
 
+private theorem pointMulEquivOfOverIso_mapPoint
+    {A B : CommGroupScheme S} (g : A ⟶ B)
+    {X Y : Over S} (e : X ≅ Y) (x : A.Point X) :
+    pointMulEquivOfOverIso B e (mapPoint g X x) =
+      mapPoint g Y (pointMulEquivOfOverIso A e x) :=
+  (mapPoint_pullPoint g e.inv x).symm
+
+/-- Changing the test scheme by an isomorphism carries the specified point-kernel image to the
+specified point-kernel image. -/
+theorem pointKernelRange_map_pointMulEquivOfOverIso
+    (D : FppfQuotientPresentation i) {X Y : Over S} (e : X ≅ Y) :
+    (D.pointKernelRange X).map
+        (pointMulEquivOfOverIso G e).toMonoidHom =
+      D.pointKernelRange Y := by
+  ext y
+  constructor
+  · rintro ⟨x, ⟨k, rfl⟩, rfl⟩
+    exact ⟨pointMulEquivOfOverIso K e k,
+      (pointMulEquivOfOverIso_mapPoint i e k).symm⟩
+  · rintro ⟨k, rfl⟩
+    obtain ⟨k', rfl⟩ := (pointMulEquivOfOverIso K e).surjective k
+    exact ⟨mapPoint i X k', ⟨k', rfl⟩,
+      pointMulEquivOfOverIso_mapPoint i e k'⟩
+
+/-- Point quotients are invariant under an isomorphism of test schemes. -/
+def pointQuotientMulEquivOfOverIso
+    (D : FppfQuotientPresentation i) {X Y : Over S} (e : X ≅ Y) :
+    D.PointQuotient X ≃* D.PointQuotient Y :=
+  QuotientGroup.congr (D.pointKernelRange X) (D.pointKernelRange Y)
+    (pointMulEquivOfOverIso G e)
+    (D.pointKernelRange_map_pointMulEquivOfOverIso e)
+
+/-- The point-quotient injection commutes with changing the test scheme by an isomorphism. -/
+theorem pointQuotientMap_pointQuotientMulEquivOfOverIso
+    (D : FppfQuotientPresentation i) {X Y : Over S} (e : X ≅ Y)
+    (x : D.PointQuotient X) :
+    D.pointQuotientMap Y (D.pointQuotientMulEquivOfOverIso e x) =
+      pointMulEquivOfOverIso D.quotient e (D.pointQuotientMap X x) := by
+  obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (D.pointKernelRange X) x
+  rw [D.pointQuotientMap_mk]
+  change D.pointQuotientMap Y
+      (QuotientGroup.mk' (D.pointKernelRange Y)
+        (pointMulEquivOfOverIso G e x)) = _
+  rw [D.pointQuotientMap_mk]
+  exact (pointMulEquivOfOverIso_mapPoint D.project e x).symm
+
 /-- The quotient projection itself, regarded as a singleton fppf cover of its target. -/
 abbrev projectCover (D : FppfQuotientPresentation i) :
     Scheme.Cover.{u} Scheme.fppfPrecoverage D.quotient.X.left := by
@@ -260,6 +306,35 @@ theorem exact_pointQuotientMap_boundaryHom
     Function.MulExact
       (D.pointQuotientMap (baseObject S)) D.boundaryHom :=
   fun q ↦ D.boundaryHom_eq_one_iff_exists_pointQuotient q
+
+/-- Transport the fppf boundary homomorphism from base sections to points on an isomorphic test
+scheme.  This changes only the presentation of the represented points; it does not assert point
+surjectivity. -/
+def boundaryHomOfOverIso (D : FppfQuotientPresentation i)
+    {X : Over S} (e : baseObject S ≅ X) :
+    D.quotient.Point X →* K.FppfHOne.{u} :=
+  D.boundaryHom.comp
+    (pointMulEquivOfOverIso D.quotient e).symm.toMonoidHom
+
+/-- After transport along an isomorphism of test schemes, the same point quotient embeds as
+exactly the zero-boundary fibre. -/
+theorem exact_pointQuotientMap_boundaryHomOfOverIso
+    (D : FppfQuotientPresentation i) {X : Over S}
+    (e : baseObject S ≅ X) :
+    Function.MulExact (D.pointQuotientMap X) (D.boundaryHomOfOverIso e) := by
+  refine Function.MulExact.of_ladder_mulEquiv_of_mulExact
+    (D.pointQuotientMulEquivOfOverIso e)
+    (pointMulEquivOfOverIso D.quotient e) (MulEquiv.refl _)
+    ?_ ?_ D.exact_pointQuotientMap_boundaryHom
+  · apply MonoidHom.ext
+    intro x
+    exact D.pointQuotientMap_pointQuotientMulEquivOfOverIso e x
+  · apply MonoidHom.ext
+    intro q
+    change D.boundaryHom
+        ((pointMulEquivOfOverIso D.quotient e).symm
+          (pointMulEquivOfOverIso D.quotient e q)) = D.boundaryHom q
+    rw [(pointMulEquivOfOverIso D.quotient e).symm_apply_apply]
 
 end FppfQuotientPresentation
 
