@@ -39,9 +39,10 @@ noncomputable def PushforwardHIso
     {X : TopCat.{u}} (Z : Set X) (hZ : IsClosed Z)
     (G : TopCat.Sheaf AddCommGrpCat.{u} (TopCat.of Z))
     (n : ℕ) :
-    AddCommGrpCat.of (Sheaf.H G n) ≅
-      AddCommGrpCat.of (Sheaf.H ((TopCat.Sheaf.pushforward AddCommGrpCat.{u}
-        (TopCat.closedIncl hZ)).obj G) n) := by
+    (sheafCohomologyFunctor (TopCat.of Z) n).obj G ≅
+      (sheafCohomologyFunctor X n).obj
+        ((TopCat.Sheaf.pushforward AddCommGrpCat.{u}
+          (TopCat.closedIncl hZ)).obj G) := by
   let closedIncl := TopCat.closedIncl hZ
   induction n generalizing G with
   | zero =>
@@ -57,6 +58,10 @@ noncomputable def PushforwardHIso
     let ip : InjectivePresentation G := Classical.choice (EnoughInjectives.presentation G)
     let S := ip.shortComplex
     let SX := S.map (TopCat.Sheaf.pushforward AddCommGrpCat.{u} closedIncl)
+    let hInjective : Injective S.X₂ := by
+      change Injective ip.J
+      exact ip.injective
+    letI : Injective S.X₂ := hInjective
     have hSE_X : SX.ShortExact :=
       closedIncl_pushforward_shortExact hZ ip.shortExact_shortComplex
     have hFlasqueSX₂ : IsFlasqueSheaf SX.X₂ := fun j ↦ by
@@ -64,16 +69,19 @@ noncomputable def PushforwardHIso
       exact (isFlasque_of_injective S.X₂) ((Opens.map closedIncl).map j)
     have hSE : S.ShortExact := by simpa [S] using ip.shortExact_shortComplex
     have hSrcSub (r : ℕ) : Subsingleton (Sheaf.H S.X₂ (r + 1)) :=
-      sheafH_subsingleton_of_injective S.X₂ r
+      @sheafH_subsingleton_of_injective (Opens (TopCat.of Z)) _
+        (Opens.grothendieckTopology (TopCat.of Z)) _ _ S.X₂ hInjective r
     have hTgtSub (r : ℕ) : Subsingleton (Sheaf.H SX.X₂ (r + 1)) :=
       sheafH_subsingleton_of_flasque X SX.X₂ hFlasqueSX₂ r
-    change AddCommGrpCat.of (Sheaf.H G (k + 1)) ≅
-      AddCommGrpCat.of (Sheaf.H SX.X₁ (k + 1))
+    change (sheafCohomologyFunctor (TopCat.of Z) (k + 1)).obj G ≅
+      (sheafCohomologyFunctor X (k + 1)).obj SX.X₁
     cases k with
     | zero =>
       simpa [S, SX] using
-        (show cokernel (SX.g.hom.app (op ⊤)) ≅ AddCommGrpCat.of (Sheaf.H G 1) from by
-            change cokernel (S.g.hom.app (op ⊤)) ≅ AddCommGrpCat.of (Sheaf.H S.X₁ 1)
+        (show cokernel (SX.g.hom.app (op ⊤)) ≅
+            (sheafCohomologyFunctor (TopCat.of Z) 1).obj G from by
+            change cokernel (S.g.hom.app (op ⊤)) ≅
+              (sheafCohomologyFunctor (TopCat.of Z) 1).obj S.X₁
             exact sheafH1CokernelIsoOfSubsingletonMiddle hSE (hSrcSub 0)).symm ≪≫
           sheafH1CokernelIsoOfSubsingletonMiddle hSE_X (hTgtSub 0)
     | succ m =>
