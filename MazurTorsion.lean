@@ -219,6 +219,8 @@ import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
 import MazurTorsion.Upstream.Geometry
+import MazurTorsion.Upstream.SchemeModuleCohomologyAffine
+import MazurTorsion.Upstream.SchemeModuleCohomologyHZero
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
 import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
