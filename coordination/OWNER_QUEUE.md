@@ -91,10 +91,14 @@ actual kernel of `H¹(mu_p) -> H¹(G_m)` (`e23b431`). This is a genuine
 downstream consumer. The immediate arithmetic Picard input is now also
 checked: `Z[1/ell]` is a principal ideal ring, every ring-Picard class is one,
 and every invertible module is explicitly linearly equivalent to the trivial
-rank-one module (`d780fe9`). This still does not prove `H¹(G_m)=0`; the missing
-map is the effective fppf descent comparison from a multiplicative cocycle to
-an invertible module. The constant-factor `H¹` calculation remains independent
-and open.
+rank-one module (`d780fe9`). A normalized tensor-unit cocycle on a faithfully
+flat affine cover now gives the actual extension/restriction-comonad coalgebra,
+descends effectively to a rank-one module, and is trivialized over this prime
+localization (`16fb904`, reviewed from contributor `9adef47`). This still does
+not prove `H¹(G_m)=0`: the represented fppf cocycle must be compared with the
+normalized tensor-unit model, and arbitrary covers still require an honest
+refinement/descent argument. The constant-factor `H¹` calculation remains
+independent and open.
 
 The newest A3 boundary proves the lower coherence that the prior checkpoint
 had isolated. Extension of inverse fractional ideals through a flat ring
@@ -104,10 +108,13 @@ is natural under further affine restriction. Proper-smooth-curve consumers
 therefore discharge `PairwiseCommonAffinePullbackCompatibility`, identify the
 pairwise and direct pullback Homs without hypotheses, and prove the full
 pairwise-model cocycle unconditionally (`c1e5c2c`, reviewed from contributor
-`77b533e`). This closes the pairwise/direct naturality gate, not the A3
-Challenge: normalized-transition comparison, full descent effectivity, object
-separation, rational normalization, Picard surjectivity, and the complete
-dictionary remain open.
+`77b533e`). The canonical triple-intersection map now also has all three direct
+chart-projection equations, and a proper-smooth consumer derives the six
+pairwise composite equations from those three inputs (`75f41c6`, reviewed from
+contributor `8caabfe`). This closes another lower coherence gate, not the A3
+Challenge: simultaneous comparison with the normalized transition, full
+descent effectivity, object separation, rational normalization, Picard
+surjectivity, and the complete dictionary remain open.
 
 The active order-18 global route now has a checked anti-diagonal quotient of
 the surviving four-scalar cube correspondence (`b37dbd5`, reviewed from
@@ -185,7 +192,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 805 Lean modules and 1,500,224 Lean lines.
+exact quality baseline is 807 Lean modules and 1,501,073 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -210,8 +217,10 @@ kernel equivalence also compile in the 3,029-job focused dependency closure.
 The prime-localization Kummer and ring-Picard calculation rebuilds in a focused
 target, and all seventeen audited arithmetic, geometric-kernel, and invertible-
 module declarations use only the three standard axioms. The A3 affine and curve consumers rebuild
-3,079 and 3,463 jobs at the default heartbeat; all eleven new public
-declarations have the same standard axiom closure.
+3,079 and 3,463 jobs at the default heartbeat; the new 3,487-job triple-projection
+target and all five public declarations have the same standard axiom closure.
+The 3,579-job combined geometry/comonadic-descent build passes, and all eleven
+audited multiplicative-descent endpoints use only the standard axioms.
 The X₁(18) branch-unification and seven-scaled normalization modules rebuild
 3,578 and 3,579 jobs respectively; their audited public declarations use only
 the standard axioms. The repaired quadratic-norm module rebuilds its 3,581-job
@@ -226,11 +235,11 @@ class-level and two bundle-level basepoint-transport declarations use only
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
-target builds 8,788 jobs with exactly the eight registered open `:= sorry`
+target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
 workers are pursuing the A3 normalized-transition/effectivity seam, the honest
-fppf multiplicative-cocycle-to-invertible-module descent comparison, and the
+represented-fppf-to-tensor-unit cocycle comparison, and the
 represented elliptic quotient/dual seam needed by the coarse `X₀` moduli
 point. The represented integral cusp chart remains queued for the prime-five
 and level-35 consumers. The finite-flat lane still also needs the independent

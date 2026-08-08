@@ -133,8 +133,10 @@ agrees with pullback along the composite, and the separately constructed direct 
 comparison is exposed. Their equality is isolated as an explicit compatibility predicate;
 extension-of-scalars and inverse-ideal base-change coherence now prove that predicate on every
 common affine subopen. The pairwise/direct equality and full pairwise-model cocycle therefore
-hold unconditionally after every further pullback. What remains at this boundary is comparison
-with the normalized chosen transition, followed by full arbitrary-divisor descent effectivity,
+hold unconditionally after every further pullback. The canonical triple-intersection comparison
+now also satisfies all three direct chart-projection equations, and a checked proper-smooth
+consumer derives the six pairwise composites from only those three equations. What remains at
+this boundary is comparison with the normalized chosen transition, followed by full arbitrary-divisor descent effectivity,
 object separation, rational normalization, and Picard surjectivity.
 
 *Checked pairwise-naturality deliverables (no node credit):*
@@ -165,7 +167,12 @@ object separation, rational normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_pullback_hom`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseCommonAffinePullbackCompatibility`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_eq_directPullHom`;
-* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle`.
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_first`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_second`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_third`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_projections`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_directProjections`.
 
 The API also
 characterizes existence of the full affine scheme-level
