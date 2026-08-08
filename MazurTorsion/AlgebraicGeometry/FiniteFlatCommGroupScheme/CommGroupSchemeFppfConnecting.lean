@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeKernelPresentation
+import Mathlib.CategoryTheory.Sites.Hypercover.Subcanonical
 
 /-!
 # Čech connecting classes for geometric group-scheme kernels
@@ -591,6 +592,115 @@ theorem boundaryHom_mapPoint (x : BasePoint G) :
 theorem fppfHOneMap_boundaryHom (q : BasePoint H) :
     fppfHOneMap P.inclusion (E.boundaryHom q) = 1 :=
   (E.localLift q).fppfHOneMap_boundaryClass
+
+/-- If a locally liftable section has trivial connecting class, an fppf refinement and a
+zero-cochain gauge make its local lifts agree.  Subcanonical descent then glues those lifts to a
+global source section. -/
+theorem exists_source_of_boundaryHom_eq_one (q : BasePoint H)
+    (hq : E.boundaryHom q = 1) :
+    ∃ x : BasePoint G, mapPoint f (baseObject S) x = q := by
+  let L := E.localLift q
+  have hq' : L.boundaryClass = 1 := hq
+  change Scheme.FppfHOne.mk L.cover L.cocycle.class = 1 at hq'
+  have hq'' : Scheme.FppfHOne.mk L.cover L.cocycle.class =
+      Scheme.FppfHOne.mk (Scheme.FppfHOne.identityCover S) 1 := by
+    rw [Scheme.FppfHOne.mk_one]
+    exact hq'
+  obtain ⟨𝒲, r, _s, hrs⟩ :=
+    (Scheme.FppfHOne.class_eq_iff L.cover
+      (Scheme.FppfHOne.identityCover S) L.cocycle.class 1).mp hq''
+  have hrs' :
+      ((Scheme.Cover.Hom.toOverFamilyRefinement r).pullbackOneCocycle
+        L.cocycle).class = 1 := by
+    simpa only [Scheme.Cover.Hom.pullbackHOne,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_class,
+      PresheafOfGroups.FamilyRefinement.pullbackHOne_one] using hrs
+  let M := L.pullback r
+  have hM : M.cocycle.class = 1 := by
+    rw [L.cocycle_pullback r]
+    exact hrs'
+  obtain ⟨α, hα⟩ :=
+    (PresheafOfGroups.OneCocycle.class_eq_iff M.cocycle 1).mp hM
+  let gauge (i : M.cover.I₀) : P.kernel.Point (M.cover.overFamily i) := α i
+  let adjusted (i : M.cover.I₀) : G.Point (M.cover.overFamily i) :=
+    M.lift i *
+      (mapPoint P.inclusion (M.cover.overFamily i) (gauge i))⁻¹
+  have hadjusted (i j : M.cover.I₀) :
+      pullback.fst (M.cover.f i) (M.cover.f j) ≫ (adjusted i).left =
+        pullback.snd (M.cover.f i) (M.cover.f j) ≫ (adjusted j).left := by
+    let T : Over S :=
+      Over.mk (pullback.fst (M.cover.f i) (M.cover.f j) ≫ M.cover.f i)
+    let a : T ⟶ M.cover.overFamily i :=
+      Over.homMk (pullback.fst (M.cover.f i) (M.cover.f j)) rfl
+    let b : T ⟶ M.cover.overFamily j :=
+      Over.homMk (pullback.snd (M.cover.f i) (M.cover.f j)) pullback.condition.symm
+    have hrel := congrArg (mapPoint P.inclusion T) (hα i j a b)
+    change mapPoint P.inclusion T
+        (pullPoint P.kernel a (gauge i) *
+          P.liftPoint (M.difference i j a b)
+            (M.mapPoint_difference_eq_one i j a b)) =
+      mapPoint P.inclusion T (1 * pullPoint P.kernel b (gauge j)) at hrel
+    rw [map_mul, map_mul, mapPoint_pullPoint, P.mapPoint_liftPoint,
+      map_one, one_mul, mapPoint_pullPoint] at hrel
+    have hp : pullPoint G a (adjusted i) = pullPoint G b (adjusted j) := by
+      dsimp only [adjusted]
+      rw [map_mul, map_mul, map_inv, map_inv]
+      rw [← hrel]
+      dsimp only [LocalLift.difference]
+      group
+    change (a ≫ adjusted i).left = (b ≫ adjusted j).left
+    exact congrArg Over.Hom.left hp
+  let xleft : S ⟶ G.X.left :=
+    Precoverage.ZeroHypercover.glueMorphisms M.cover
+      (fun i ↦ (adjusted i).left) hadjusted
+  have hxleft : xleft ≫ G.X.hom = 𝟙 S := by
+    apply Precoverage.ZeroHypercover.hom_ext M.cover
+    intro i
+    have hglue : M.cover.f i ≫ xleft = (adjusted i).left := by
+      simpa only [xleft] using
+        Precoverage.ZeroHypercover.f_glueMorphisms M.cover
+          (fun i ↦ (adjusted i).left) hadjusted i
+    rw [← Category.assoc, hglue, Category.comp_id]
+    exact (adjusted i).w
+  let x : BasePoint G := Over.homMk xleft hxleft
+  have hxrestrict (i : M.cover.I₀) :
+      pullPoint G (coverToBase M.cover i) x = adjusted i := by
+    apply Over.OverMorphism.ext
+    change M.cover.f i ≫ xleft = (adjusted i).left
+    simpa only [xleft] using
+      Precoverage.ZeroHypercover.f_glueMorphisms M.cover
+        (fun i ↦ (adjusted i).left) hadjusted i
+  have hadjusted_map (i : M.cover.I₀) :
+      mapPoint f (M.cover.overFamily i) (adjusted i) =
+        restrictBasePoint H M.cover i q := by
+    dsimp only [adjusted]
+    rw [map_mul, map_inv, P.mapPoint_inclusion_eq_one, inv_one, mul_one,
+      LocalLift.maps_to]
+  refine ⟨x, ?_⟩
+  apply Over.OverMorphism.ext
+  apply Precoverage.ZeroHypercover.hom_ext M.cover
+  intro i
+  have hlocal :
+      pullPoint H (coverToBase M.cover i)
+          (mapPoint f (baseObject S) x) =
+        pullPoint H (coverToBase M.cover i) q := by
+    rw [← mapPoint_pullPoint, hxrestrict, hadjusted_map]
+    rfl
+  exact congrArg Over.Hom.left hlocal
+
+/-- Exactness at global target sections for every locally liftable group-scheme morphism. -/
+theorem boundaryHom_eq_one_iff_exists_source (q : BasePoint H) :
+    E.boundaryHom q = 1 ↔
+      ∃ x : BasePoint G, mapPoint f (baseObject S) x = q := by
+  constructor
+  · exact E.exists_source_of_boundaryHom_eq_one q
+  · rintro ⟨x, rfl⟩
+    exact E.boundaryHom_mapPoint x
+
+/-- The represented-point map followed by its checked connecting homomorphism is exact. -/
+theorem exact_mapPoint_boundaryHom :
+    Function.MulExact (mapPoint f (baseObject S)) E.boundaryHom :=
+  fun q ↦ E.boundaryHom_eq_one_iff_exists_source q
 
 end LocallyLiftable
 
