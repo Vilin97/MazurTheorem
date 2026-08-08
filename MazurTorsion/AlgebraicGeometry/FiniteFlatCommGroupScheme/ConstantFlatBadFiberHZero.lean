@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import Mathlib.Data.ZMod.QuotientRing
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ElementaryGlobalSections
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneBridge
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfLocalization
 
 /-!
@@ -17,17 +18,18 @@ Mazur's constant-flat inclusion.  This file defines its canonical restriction fr
 to the bad fibre `Spec (ZMod level)`.  It also identifies that fibre with the previously named
 closed fibre `Spec (ℤ / (level))`.
 
-The ambient constant group after base change to a prime fibre has exactly `coeffPrime` global
-sections.  Consequently, an injective comparison from the restricted cokernel sections to those
-ambient sections gives a checked `coeffPrime ^ 1` bound for the original global cokernel
-sections.  `MazurConstantFlatBadFiberClosedFiberControl` records precisely this geometric
-comparison and injectivity.  It does not accept a finiteness or cardinality certificate for the
-source.
+The represented ambient constant sheaf on a prime fibre has exactly `coeffPrime` sections.
+Its actual evaluated projection to the cokernel sheaf is named below.  Consequently, a section
+of that projection, together with injectivity of canonical restriction to the fibre, gives a
+checked `coeffPrime ^ 1` bound for the original global cokernel sections.
+`MazurConstantFlatBadFiberClosedFiberControl` records precisely these geometric obligations.  It
+does not accept a finiteness or cardinality certificate for the source or an arbitrary injection
+into a finite carrier.
 
-Constructing this control from the quotient sheaf remains the next closed-fibre theorem: one
-must compare sheafified cokernel evaluation with the base-changed ambient constant sheaf and
-prove that restriction of supported global sections is injective.  The definitions specialized
-at fibres `5` and `11` are the consumers needed by the selected formal-immersion route.
+Constructing this control remains the next closed-fibre theorem: one must split the actual
+evaluated cokernel projection on the closed fibre and prove that restriction of supported global
+sections is injective.  The definitions specialized at fibres `5` and `11` are the consumers
+needed by the selected formal-immersion route.
 -/
 
 noncomputable section
@@ -76,6 +78,15 @@ abbrev MazurConstantClosedFiberHZero
 def zmodLevelFiberOverBase (level : ℕ) : Over (Spec (.of ℤ)) :=
   Over.mk (zmodLevelFiberInclusion level)
 
+/-- The named fibre test object is canonically the image of the terminal fibre object under
+composition with the closed-fibre inclusion. -/
+def zmodLevelFiberOverBaseIsoMappedBaseObject (level : ℕ) :
+    zmodLevelFiberOverBase level ≅
+      (Over.map (zmodLevelFiberInclusion level)).obj
+        (CommGroupScheme.baseObject (Spec (.of (ZMod level)))) :=
+  Over.isoMk (Iso.refl _) (by
+    simp [zmodLevelFiberOverBase, CommGroupScheme.baseObject])
+
 /-- The structural map from the level-fibre test object to the terminal relative test object. -/
 def zmodLevelFiberToBaseObject (level : ℕ) :
     zmodLevelFiberOverBase level ⟶
@@ -91,6 +102,26 @@ abbrev MazurConstantFlatClosedFiberCokernelHZero
     ((constantFlatPointCokernelFppfSheaf
       (R := ℤ) (G := Multiplicative (ZMod coeffPrime)) (level : ℤ)).obj.obj
         (Opposite.op (zmodLevelFiberOverBase level)))
+
+/-- Sections of the actual represented ambient constant sheaf on the level-fibre test object.
+The `ULift` in this carrier is the one used by concrete fppf sheafification. -/
+abbrev MazurConstantFlatClosedFiberAmbientHZero
+    (coeffPrime level : ℕ) [NeZero coeffPrime] :=
+  Multiplicative
+    (((representedAddPointFppfSheaf
+      (constantScheme ℤ (Multiplicative (ZMod coeffPrime))).obj).obj).obj
+        (Opposite.op (zmodLevelFiberOverBase level)))
+
+/-- The actual evaluated projection from the represented ambient constant sheaf to the
+constant-flat cokernel sheaf on the level fibre. -/
+def mazurConstantFlatClosedFiberCokernelProjection
+    (coeffPrime level : ℕ) [NeZero coeffPrime] :
+    MazurConstantFlatClosedFiberAmbientHZero coeffPrime level →*
+      MazurConstantFlatClosedFiberCokernelHZero coeffPrime level :=
+  AddMonoidHom.toMultiplicative <|
+    ((constantFlatRepresentedPointCokernelFppfProjection
+      (R := ℤ) (G := Multiplicative (ZMod coeffPrime)) (level : ℤ)).hom.app
+        (Opposite.op (zmodLevelFiberOverBase level))).hom
 
 /-- Canonical restriction of actual supported-cokernel sections from the terminal object to the
 level-fibre test object.  This is induced by the sheaf's own restriction map. -/
@@ -137,21 +168,62 @@ def mazurConstantClosedFiberHZeroCertifiedData
             Multiplicative (ZMod coeffPrime))).trans
               (Nat.card_zmod coeffPrime) }
 
-/-- The remaining geometric closed-fibre comparison needed to bound the actual supported
-cokernel sections.  The source first passes through the canonical sheaf restriction map; the
-only supplied map is from that actual fibre evaluation to the actual ambient constant group on
-the fibre. -/
+/-- The represented-sheaf fibre carrier is canonically the base-point carrier of the actual
+base-changed ambient constant group. -/
+def mazurConstantFlatClosedFiberAmbientHZeroMulEquiv
+    (coeffPrime level : ℕ) [NeZero coeffPrime] :
+    MazurConstantFlatClosedFiberAmbientHZero coeffPrime level ≃*
+      MazurConstantClosedFiberHZero coeffPrime level :=
+  ((AddEquiv.ulift (α := Additive
+    ((constantScheme ℤ (Multiplicative (ZMod coeffPrime))).obj.Point
+      (zmodLevelFiberOverBase level)))).toMultiplicative).trans <|
+    ((constantScheme ℤ (Multiplicative (ZMod coeffPrime))).obj.pointMulEquivOfOverIso
+      (zmodLevelFiberOverBaseIsoMappedBaseObject level)).trans <|
+        (CommGroupScheme.baseChangePointMulEquiv
+          (zmodLevelFiberInclusion level)
+          (constantScheme ℤ (Multiplicative (ZMod coeffPrime))).obj
+          (CommGroupScheme.baseObject (Spec (.of (ZMod level))))).symm
+
+/-- The actual represented ambient sheaf evaluation on a prime fibre has cardinality
+`coeffPrime = coeffPrime ^ 1`. -/
+def mazurConstantFlatClosedFiberAmbientHZeroCertifiedData
+    (coeffPrime level : ℕ) [NeZero coeffPrime] (hlevel : level.Prime) :
+    FinitePGroup.CertifiedData coeffPrime
+      (MazurConstantFlatClosedFiberAmbientHZero coeffPrime level) :=
+  (mazurConstantClosedFiberHZeroCertifiedData
+    coeffPrime level hlevel).congr
+      (mazurConstantFlatClosedFiberAmbientHZeroMulEquiv
+        coeffPrime level).symm
+
+/-- The remaining geometric closed-fibre control needed to bound the actual supported cokernel
+sections.  The comparison must be a section of the actual evaluated ambient-to-cokernel
+projection, and the canonical restriction map must independently detect global supported
+sections. -/
 structure MazurConstantFlatBadFiberClosedFiberControl
     (coeffPrime level : ℕ) [NeZero coeffPrime] where
-  /-- Comparison from actual cokernel sections on the fibre to ambient constant-group sections. -/
+  /-- A section candidate from actual cokernel sections to represented ambient sections. -/
   comparison : MazurConstantFlatClosedFiberCokernelHZero coeffPrime level →*
-    MazurConstantClosedFiberHZero coeffPrime level
-  /-- The comparison after canonical restriction detects every global supported section. -/
+    MazurConstantFlatClosedFiberAmbientHZero coeffPrime level
+  /-- The candidate really splits the actual evaluated fppf cokernel projection. -/
+  projection_comp_comparison :
+    (mazurConstantFlatClosedFiberCokernelProjection
+      coeffPrime level).comp comparison = MonoidHom.id _
+  /-- Canonical restriction itself detects every global supported section. -/
   restriction_injective : Function.Injective
-    (comparison.comp
-      (mazurConstantFlatBadFiberRestriction coeffPrime level))
+    (mazurConstantFlatBadFiberRestriction coeffPrime level)
 
 namespace MazurConstantFlatBadFiberClosedFiberControl
+
+/-- A comparison which splits the actual cokernel projection is injective. -/
+theorem comparison_injective
+    {coeffPrime level : ℕ} [NeZero coeffPrime]
+    (C : MazurConstantFlatBadFiberClosedFiberControl coeffPrime level) :
+    Function.Injective C.comparison := by
+  intro x y hxy
+  apply_fun
+    (mazurConstantFlatClosedFiberCokernelProjection coeffPrime level) at hxy
+  simpa only [← MonoidHom.comp_apply, C.projection_comp_comparison,
+    MonoidHom.id_apply] using hxy
 
 /-- Closed-fibre control supplies the requested upper bound on the actual global cokernel
 section group; no finiteness premise on that group is accepted. -/
@@ -162,11 +234,11 @@ def boundedData
     FinitePGroup.BoundedData coeffPrime
       (MazurConstantFlatBadFiberHZero coeffPrime level) := by
   exact
-    (mazurConstantClosedFiberHZeroCertifiedData
+    (mazurConstantFlatClosedFiberAmbientHZeroCertifiedData
       coeffPrime level hlevel).toBoundedData.ofInjective
         (C.comparison.comp
           (mazurConstantFlatBadFiberRestriction coeffPrime level))
-        C.restriction_injective
+        (C.comparison_injective.comp C.restriction_injective)
 
 @[simp]
 theorem boundedData_length
