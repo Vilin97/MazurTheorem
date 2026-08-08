@@ -203,11 +203,11 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Thirteen local Apache-2.0 modules were selected from the AINTLIB
+Nineteen local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. Twelve upstream files are retained
-whole; two additional source files contribute the narrow option-free slices
+`MazurTorsion/Upstream/AINTLIB/`. Seventeen upstream files are retained
+whole; three additional source files contribute the narrow option-free slices
 recorded below:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
@@ -226,22 +226,37 @@ recorded below:
 | `ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` |
+| `ForMathlib/SheafCechCochains.lean` (generic product/cochain equivalences; unused inverse and affine-vanishing tails omitted) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechCochains.lean` |
+| `ForMathlib/SheafCechDifferential.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechDifferential.lean` |
+| `ForMathlib/TopCatSheafRestrict.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TopCatSheafRestrict.lean` |
+| `ForMathlib/SheafCechSheafTerms.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafTerms.lean` |
+| `ForMathlib/SheafCechSheafDifferential.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafDifferential.lean` |
+| `ForMathlib/SheafCechSheafComplex.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafComplex.lean` |
 
 The audited `dev/modular-curves` snapshot has no root `LICENSE` file. The
 selected sources preserve their per-file Apache-2.0 headers and authorship
 where present. Exact repository-level license evidence is AINTLIB
 `origin/main` commit `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`,
 whose root `LICENSE` is Apache License 2.0. That commit and the selected dev
-commit are divergent: neither is an ancestor of the other. The three source
-files without per-file headers are byte-identical at the license-bearing main
-commit: `SchemeModuleSheaf.lean` has blob
-`b735f77f920d236c5416f43201aefd9804cea4b6`,
-`SheafCohomologyExact.lean` has blob
-`5e8e401a5556eef7940273fd1443b84c236fabbb`, and
-`SchemeModuleBaseCech.lean` has blob
-`d62a2d04dab99e404c934d5f25e28738b5539175`. Their local headers use that
-exact licensed-blob evidence together with Chris Birkbeck's repository
-authorship/history; they were not present in the dev source files.
+commit are divergent: neither is an ancestor of the other. Every selected
+source without a per-file header is byte-identical at the license-bearing main
+commit. The exact Git blob identities are:
+
+| Headerless source | Blob at both exact commits |
+|---|---|
+| `ForMathlib/SchemeModuleSheaf.lean` | `b735f77f920d236c5416f43201aefd9804cea4b6` |
+| `ForMathlib/SheafCohomologyExact.lean` | `5e8e401a5556eef7940273fd1443b84c236fabbb` |
+| `ForMathlib/SchemeModuleBaseCech.lean` | `d62a2d04dab99e404c934d5f25e28738b5539175` |
+| `ForMathlib/SheafCechCochains.lean` | `cba6087ad0f679b62d96e6ed90a903b98d208a45` |
+| `ForMathlib/SheafCechDifferential.lean` | `09f04ff660cd0409dd09d478bbfa03f8ae023428` |
+| `ForMathlib/TopCatSheafRestrict.lean` | `329d123b629d4f6f3a1ed835b581979fdf8157f0` |
+| `ForMathlib/SheafCechSheafTerms.lean` | `39d21d24b4486535f4eb3619e4ba3ffa6f7d9d2a` |
+| `ForMathlib/SheafCechSheafDifferential.lean` | `f850801ff3badb73afe98caddbb473cecc41195c` |
+| `ForMathlib/SheafCechSheafComplex.lean` | `8300aa4c67c0b49ecc4c7a2feb3af931d2c944bd` |
+
+Their local headers use that exact licensed-blob evidence together with Chris
+Birkbeck's repository authorship/history; they were not present in the dev
+source files.
 `SchemeModuleOrderedBaseCechHOneFinite.lean` retains its broader AINTLIB
 contributors header. The port preserves declarations and namespaces. The
 `SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
@@ -252,6 +267,15 @@ internal import, removing source-level `set_option` commands, replacing
 linter-reported goal conversions with `change`, explicitly omitting unused
 section variables, and using `erw` at one semireducible sheaf-map rewrite
 required by the immutable Mathlib pin.
+
+The sheaf-Cech foundation removes the source import of
+`AcyclicAffineOpenCover` from `SheafCechCochains` and omits that file's affine
+tail. Its generic cochain API instead imports the already reviewed local
+base-Cech foundation. `TopCatSheafRestrict` carries no backward-elaboration
+options: its adjunction unit component is proved with the explicit Mathlib
+`sheafPushforwardContinuous_unit_app_hom_app` theorem. The named downstream
+consumer of these foundations is the checked sheaf-level complex
+`TopCat.Sheaf.cechComplex` in `SheafCechSheafComplex`.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
