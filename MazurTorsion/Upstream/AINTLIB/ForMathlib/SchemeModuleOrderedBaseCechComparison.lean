@@ -50,7 +50,7 @@ noncomputable def baseCechCoface {X S : Scheme.{u}} (π : X ⟶ S)
   ((FormalCoproduct.cosimplicialObjectFunctor
     (FormalCoproduct.mk _ U).cech).obj (baseModulePresheaf π M)).δ k
 
-private theorem baseCechCoface_comp_π
+theorem baseCechCoface_comp_π
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) (n : ℕ)
     (k : Fin (n + 2)) (i : Fin (n + 2) → ι) :

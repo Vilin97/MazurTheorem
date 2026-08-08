@@ -30,7 +30,7 @@ def OrderedCechIndex (ι : Type u) [Preorder ι] (n : ℕ) :=
   {i : Fin (n + 1) → ι // StrictMono i}
 
 /-- Deleting an entry from a strictly increasing tuple preserves strict increase. -/
-private def OrderedCechIndex.delete {ι : Type u} [Preorder ι] {n : ℕ}
+def OrderedCechIndex.delete {ι : Type u} [Preorder ι] {n : ℕ}
     (i : OrderedCechIndex ι (n + 1)) (k : Fin (n + 2)) :
     OrderedCechIndex ι n :=
   ⟨i.1 ∘ (SimplexCategory.δ k).toOrderHom,
@@ -141,7 +141,7 @@ noncomputable def orderedBaseCechCoface
     (ModuleCat.{u} Γ(S, (⊤ : S.Opens)))).obj
       (baseModulePresheaf π M)).map (orderedCechFace U n k).op
 
-private theorem orderedBaseCechCoface_comp_π
+theorem orderedBaseCechCoface_comp_π
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) (n : ℕ)
     (k : Fin (n + 2)) (i : OrderedCechIndex ι (n + 1)) :

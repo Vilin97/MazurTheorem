@@ -23,7 +23,7 @@ universe u
 namespace AlgebraicGeometry
 
 /-- Inverse image commutes with the finite product open indexing a Cech cochain factor. -/
-private theorem Scheme.Hom.preimage_cechIntersection
+theorem Scheme.Hom.preimage_cechIntersection
     {X Y : Scheme.{u}} (g : Y ⟶ X) {ι : Type u}
     (U : ι → X.Opens) (n : ℕ) (i : Fin (n + 1) → ι) :
     g ⁻¹ᵁ (∏ᶜ fun k : Fin (n + 1) => U (i k)) =

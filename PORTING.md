@@ -203,7 +203,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Seventy local Apache-2.0 modules were selected from the AINTLIB
+Seventy-seven local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`. The first forty-four modules comprise the
@@ -292,6 +292,26 @@ source is split between the earlier rank core and the remaining support API:
 | `Picard/DualPullback/OpenAdjunction.lean` | private comparison slice in `SchemeModuleOpenUnitIso.lean` |
 | `ForMathlib/SchemeModuleCanonicalSupportThickening.lean` | same basename |
 | `ForMathlib/SchemeModuleCanonicalSupportFull.lean` | same basename |
+
+The finite-pushforward/Čech extension adds seven local AINTLIB modules:
+
+| Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination or retained slice |
+|---|---|
+| `ForMathlib/SchemeInducingOpenLift.lean` | same basename |
+| `ForMathlib/SchemeModulePushforwardMapRestrictionIso.lean` | same basename |
+| `ForMathlib/SchemeModuleRestrictionIsoMonotone.lean` | same basename |
+| `ForMathlib/SchemeModuleOrderedBaseCechPushforward.lean` | same basename |
+| `ForMathlib/SchemeModuleBaseCechPushforward.lean` | same basename |
+| `ForMathlib/SchemeModuleOrderedBaseCechHomologyRetract.lean` | same basename |
+| `ForMathlib/SchemeModulePushforwardPullbackSupport.lean` | same basename (support-only slice) |
+
+The project-owned `SchemeModuleFinitePushforward` proves that pushforward
+along a finite morphism preserves finite type for quasicoherent modules.
+Its checked consumer `SchemeModuleFinitePushforwardCech` specializes the
+Apache-licensed AINTLIB
+`SchemeModuleOrderedBaseCechPushforwardFinite.lean` comparison to the
+retained degree-zero/degree-one predicate and combines it with that finite
+pushforward theorem.
 
 The audited `dev/modular-curves` snapshot has no root `LICENSE` file. The
 selected sources preserve their per-file Apache-2.0 headers and authorship
@@ -462,9 +482,10 @@ module imports the already retained rank core and omits only duplicate
 declarations. The affine-base-change module retains exactly the tilde-unit
 comparison consumed by the affine ideal-quotient theorem; quasicoherence of
 its pullback is transported across that same comparison. The open-unit module
-keeps its public localization theorem but makes the required explicit-square
-and conjugate-equivalence calculation private, avoiding the unrelated Picard
-dependency cone. The generated long-name colimit instance in the
+keeps its public localization theorem and the explicit pullback-square
+comparison consumed by the pushforward/pullback support theorem, while its
+conjugate-equivalence calculation remains private; this avoids the unrelated
+Picard dependency cone. The generated long-name colimit instance in the
 quasicoherent source is expanded to its source proof body for the style gate,
 and the older-pin finite-module call is supplied explicitly. The two
 base-presheaf restriction comparison declarations are public only because
@@ -477,6 +498,33 @@ stalk support. It also retains the finite-type/quasicoherent comparison
 residuals and their strict support decrease. These are inputs to, not a
 substitute for, the Chow/projective low-degree comodel. No properness or
 cohomology-finiteness conclusion is claimed at this checkpoint.
+
+The finite-pushforward/Čech extension was checked at historical direct
+low-degree commit `d78d10a74577e28840d21eb4e07395d87c44370f`, AINTLIB head
+`6b879658fe916b5db2afcddebbed35a9dc10aa61`, and license-bearing main commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`. Every source blob is
+byte-identical at all three commits:
+
+```text
+SchemeInducingOpenLift                         ccf539a03181e015fa47166cd71593c4278bdf9d
+SchemeModulePushforwardMapRestrictionIso      43fcbc86d17090eb407ccc1e9c394e53809c50de
+SchemeModuleRestrictionIsoMonotone            93c4c4968e3a18013575acaae7ac65ec06cedda1
+SchemeModuleOrderedBaseCechPushforward        b990c1c8b7bffc3b6aafbadab40e449df1d5bc07
+SchemeModuleBaseCechPushforward               5e7753aca27fa64b6aff8d27f3370a41a23985cc
+SchemeModuleOrderedBaseCechHomologyRetract    12a220cf08300a3ae58e278c14bdb4c105dcdf6a
+SchemeModulePushforwardPullbackSupport        77359ef7d3bed34bad0c0dbf808bda8cd62cb218
+SchemeModuleOrderedBaseCechPushforwardFinite  48ab1220efbbaee5acb3dad357c402c11630fc3c
+```
+
+All eight sources carry per-file Apache-2.0 headers. Imports are repointed to
+the reviewed local cone. `SchemeModuleOrderedBaseCechPushforward` defines
+locally the two section abbreviations that its source obtains from a broader
+base-change module. `SchemeModulePushforwardPullbackSupport` stops before the
+unconsumed tensor/invertible tail. The low-degree consumer transports only
+degrees zero and one rather than importing AINTLIB's all-degree finiteness
+predicate. Public helper declarations in the existing Čech and open-unit
+modules now each have one of these checked comparison/support modules as a
+downstream consumer.
 
 This low-degree cone does not import the 1,956-line
 `SchemeModuleQuasicoherent` module or AINTLIB's all-degree properness cone.
