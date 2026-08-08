@@ -819,6 +819,12 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negationOver_involutive`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_neg`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_comp_negationOver`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.CanonicalPointGroupLawCompatibility.unit_eq_infinitySectionOver`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.fieldBaseChange_isReduced`
 * `definition` (`contract`):
@@ -932,7 +938,11 @@ Its canonical reduction map is an isomorphism exactly when the field pullback is
 that hypothesis the ambient-compatible cubic isomorphism and standard-chart consumer compile.
 Homogeneous Weierstrass negation also restricts to an involutive automorphism of the reduced cubic
 over `Spec K`, and the canonical Mathlib-projective-point comparison intertwines point negation
-with this scheme involution, including the point at infinity. The affine and infinity equation
+with this scheme involution, including the point at infinity. The infinity point is now an actual
+section from the tensor unit, fixed by scheme negation. For any supplied compatible group object,
+addition preservation and cancellation identify its abstract unit with that concrete section; the
+generic finite-flat `Γ₀(N)` package consumes the resulting zero compatibility. This does not
+construct multiplication. The affine and infinity equation
 charts are now prime over every field extension, form an actual open cover with nonempty
 intersection, and commute with scalar extension. Thus every cubic and every field pullback is
 integral, the structure map is geometrically integral, and the reduction-map isomorphism and

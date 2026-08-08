@@ -82,6 +82,13 @@ $`x,y` satisfy the explicit order-18 sextic equation, then $`x=0` or $`x=1`.
 *Status:* `research_open`; *scope:* exact compiled challenge contract. The
 destination is `MazurTorsion.XOneEighteenDescent.no_noncuspidal_point`; the
 challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.splitEisensteinThreePrime_not_common`
+* `definition` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.TwoPrimeSupportedEisensteinIntegerFiniteSplitCyclicCubicObstruction`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.rationalPoint_addOrderOf_ne_eighteen_of_twoPrimeSupportedEisensteinIntegerObstruction`
+
 The proposed proof finishes the Eisenstein-integer descent already exposed by
 the module. The checked split-cubic calculation now compares all three
 coefficients, forces the primitive conic parameters odd, and uses a
@@ -91,9 +98,11 @@ and an explicit Eisenstein-coordinate identity packages the two norm factors
 as a scalar times a cube. The compatibility-preserving
 `RefinedFiniteSplitCyclicCubicObstruction` has a real exact-order-eighteen
 consumer. The identity now lifts multiplicatively to the ring of integers of
-the third cyclotomic field, and the resulting finite Eisenstein-integer
-obstruction also has a real exact-order consumer. Its prime-support and unit
-analysis, the four integral families, and therefore the Challenge remain open.
+the third cyclotomic field. Common support lies over two or at the ramified
+prime over three; exact-depth arguments now exclude the ramified case. The
+resulting support-only-over-two obstruction has a real exact-order consumer.
+Prime allocation above two, the distinguished seven constraint, the unit
+cases, and therefore the Challenge remain open.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")

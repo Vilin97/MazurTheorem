@@ -73,8 +73,12 @@ now packages the actual section law and selected fibre point together;
 contravariance derives its coordinate-ring retraction, and checked consumers
 reach both the uniform prime endpoint at five and order 35 at eleven
 (`5f80342`). The represented integral modular cusp and its q-expansion remain
-open. No Challenge changed. The exact quality baseline is 798 Lean modules
-and 1,492,793 Lean lines.
+open. The X₁(18) Eisenstein descent now excludes simultaneous ramified-prime
+support and reaches a narrower exact-order consumer (`a8d104b`). The concrete
+projective cubic now has its actual infinity section; negation fixes it, and
+any supplied compatible group object's unit is forced to equal it
+(`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
+exact quality baseline is 799 Lean modules and 1,493,301 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -82,7 +86,11 @@ transfer with `LEAN_NUM_THREADS=1`. The stable local endpoints and reviewed X₀
 declarations use only `propext`, `Classical.choice`, and `Quot.sound`. The
 affine-section handoff was independently rebuilt through its 3,088-job generic
 target and 8,749-job arithmetic consumer; its six audited declarations have
-the same standard axiom closure.
+the same standard axiom closure. The X₁(18) endpoint rebuilds 3,569 jobs.
+The X₀ section and generic finite-flat `Γ₀(N)` consumer rebuild 3,159
+jobs after two stale cached payloads were quarantined and regenerated; their
+hashes then match the isolated review build. All audited declarations retain
+the standard axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -90,8 +98,8 @@ target builds 8,788 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The next
 workers are pursuing A3 chosen-line-bundle pullback naturality and the genuine
-X₀ scheme group law/Picard comparison. The ramified-prime X₁(18)
-checkpoint is undergoing independent review before integration.
+X₀ scheme group law/Picard comparison, while the X₁(18) lane allocates
+the remaining primes above two and unit cases.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
@@ -1351,11 +1359,11 @@ or accounting shortcut.
   quotients `-8,-4,4,8`, separated modulo four and exposed as an explicit
   scalar-cube product in the actual Eisenstein integer ring. A focused
   checkpoint excludes the ramified prime above three from simultaneous split-
-  factor support and narrows the remaining boundary to primes above two; its
-  exact-order-eighteen consumer is under independent review. The remaining
-  proof must allocate the primes above two, use the distinguished seven
-  constraint, and eliminate the unit cases. The Challenge remains open until
-  the obstruction itself is proved.
+  factor support and narrows the remaining boundary to primes above two. Its
+  exact-order-eighteen consumer is independently reviewed and integrated as
+  `a8d104b`. The remaining proof must allocate the primes above two, use the
+  distinguished seven constraint, and eliminate the unit cases. The Challenge
+  remains open until the obstruction itself is proved.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. The remaining proof is the genuine Mazur--Tate
@@ -1363,9 +1371,13 @@ or accounting shortcut.
   The immutable Challenge remains open until that conclusion is unconditional.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
-  consumer, and finite-flat constant-order consumer are integrated. The next
-  geometric gate is the genuine pointed Picard/Jacobian group object and its
-  multiplicative canonical-point comparison.
+  consumer, and finite-flat constant-order consumer are integrated. The actual
+  infinity section and its invariance under scheme negation now compile; a
+  compatible supplied group object's unit is provably this section, and the
+  generic finite-flat `Γ₀(N)` path consumes the equality. No semantic
+  level-35 use is claimed. The next geometric gate remains the genuine pointed
+  Picard/Jacobian group object and its multiplicative canonical-point
+  comparison.
 - `finite-flat supported quotient`: the exact abelian Serre quotient, mapped
   short-exact sequence, supported-term vanishing, and constant/`μ` consumers are
   reviewed and integrated. The reviewed sheaf-level `H¹` equivalences on the

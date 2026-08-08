@@ -768,9 +768,13 @@ particular in the canonical third cyclotomic field. The resulting
 four-case, congruence, and exact factorization hypothesis and has a compiled
 exact-order-eighteen consumer. The checked determinant argument now proves
 that a prime common to the two linear factors lies over `2` or is the
-ramified prime over `3`. Unique-factorization allocation of those common
-factors, the separate scalar/norm contribution at `7`, and the unit cases are
-not yet discharged. Consequently the
+ramified prime over `3`. The square of the standard ramified factor is
+associated to `3`; primitivity bounds both linear factors to ramified depth at
+most one, while the scalar-times-cube equality would force total depth at
+least three. Thus the ramified common-prime case is excluded, and the narrower
+support-only-over-two obstruction has a checked exact-order consumer.
+Allocation above `2`, the separate scalar/norm contribution at `7`, and the
+unit cases are not yet discharged. Consequently the
 four integral families and the immutable `XOneEighteenNoncusp` Challenge
 remain open; no rational-point classification is claimed.
 
@@ -1748,15 +1752,21 @@ triple nonsingular. Constants and the three ratios `X_j/X_i` determine the
 chart ring map, while unit-equivalent affine normalization preserves the
 ambient closed point. These facts prove that the recovered point maps back to
 the original scheme morphism, so the canonical projective-point map is now
-bijective. The standard `Z ≠ 0` homogeneous localization is now explicitly
-equivalent to the affine bivariate polynomial ring; the localized cubic is the
-affine Weierstrass polynomial, its principal ideal is prime, and the quotient
-chart is integral. A checked criterion reduces geometric integrality to
-identifying this chart with a dense open after every field base change and
-proving the pullback reduced; this criterion reaches actual Tau Ceti and
-finite-flat split-`Γ₀` consumers. Construction of that witness, group-law
-compatibility, the cyclic quotient `E/C`, and the coarse modular point remain
-open.
+bijective. Homogeneous negation is an involutive automorphism over `Spec K`
+and agrees with point negation. The point `[0:1:0]` is now an actual section
+from the tensor unit and is fixed by that automorphism. For any independently
+supplied compatible group object, addition preservation and cancellation
+identify its abstract unit morphism with this section; the generic finite-flat
+split-`Γ₀(N)` constructor consumes the resulting zero compatibility. This
+does not construct multiplication. The standard `Z ≠ 0` homogeneous
+localization is explicitly equivalent to the affine bivariate polynomial
+ring; the localized cubic is the affine Weierstrass polynomial, its principal
+ideal is prime, and the quotient chart is integral. The affine and infinity
+equation charts prove every field pullback integral and identify the mapped
+standard chart with the canonical dense `D₊(Z)` open. The resulting
+unconditional chart comparison reaches actual Tau Ceti and finite-flat
+split-`Γ₀` consumers. The genuine group object, point-map multiplicativity,
+the cyclic quotient `E/C`, and the coarse modular point remain open.
 
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic
