@@ -9,7 +9,7 @@ import Mathlib.Topology.Sheaves.Flasque
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineHTwo
 
 /-!
-# Degree-three affine quasicoherent acyclicity
+# Positive-degree affine quasicoherent acyclicity
 
 This file develops the flasque-sheaf input needed to iterate the affine
 local-killing argument beyond degree two.  Injective abelian sheaves are
@@ -17,10 +17,11 @@ proved flasque from the free abelian sheaf represented by an open set, and
 flasque sheaves are then proved acyclic in every positive degree by honest
 dimension shifting through injective cokernels.
 
-The degree-three consumer below uses this acyclicity after restriction to an
-affine open.  Together with affine degree-two vanishing, it supplies the next
-injective-cokernel section-surjectivity premise rather than assuming that
-premise for an iterated syzygy.
+The recursive consumer below uses this acyclicity after restriction to affine
+opens.  Lower-degree affine vanishing supplies section-surjectivity for each
+successive injective-cokernel projection; generic finite local killing and the
+affine-cover cokernel then prove vanishing in the next degree.  The explicit
+degree-three declarations are retained as checked index-two corollaries.
 
 The construction is a clean-room derivation against this repository's pinned
 Mathlib.  The unlicensed AINTLIB files `KempfLocalKilling.lean` and
@@ -247,6 +248,103 @@ private theorem subsingleton_H_X₃_of_shortExact
   rw [Subsingleton.elim y 0, map_zero] at hy
   exact hy.symm
 
+private theorem openSheafPullback_injectiveCokernel_H_succ_subsingleton
+    {X : Scheme.{u}} (U : X.Opens) (F : AbSheaf X) (n : ℕ)
+    (hF : Subsingleton
+      (CategoryTheory.Sheaf.H ((openSheafPullback U).obj F) (n + 2))) :
+    Subsingleton (CategoryTheory.Sheaf.H
+      ((openSheafPullback U).obj (cokernel (Injective.ι F))) (n + 1)) := by
+  let L := openSheafPullback U
+  let S := injectiveCokernelSequence F
+  letI : PreservesFiniteLimits L := by
+    dsimp [L]
+    infer_instance
+  letI : PreservesFiniteColimits L := by
+    dsimp [L]
+    infer_instance
+  letI : L.PreservesZeroMorphisms := by infer_instance
+  letI : L.Additive := L.additive_of_preserves_binary_products
+  have hS : S.ShortExact := injectiveCokernelSequence_shortExact F
+  have hSL : (S.map L).ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS L
+  have hI : TopCat.Sheaf.IsFlasque (Injective.under F) :=
+    injectiveSheaf_isFlasque (Injective.under F)
+  letI : TopCat.Sheaf.IsFlasque (Injective.under F) := hI
+  letI : TopCat.Sheaf.IsFlasque (L.obj (Injective.under F)) :=
+    @openSheafPullback_isFlasque _ U (Injective.under F) hI
+  have hmiddle : Subsingleton
+      (CategoryTheory.Sheaf.H (L.obj (Injective.under F)) (n + 1)) :=
+    flasqueSheaf_H_succ_subsingleton _ n
+  have hleft : Subsingleton
+      (CategoryTheory.Sheaf.H (L.obj F) (n + 2)) := by
+    exact hF
+  exact subsingleton_H_X₃_of_shortExact hSL (n + 1) hmiddle hleft
+
+private theorem injectiveCokernel_app_surjective_of_pullback_HOne_subsingleton
+    {R : CommRingCat.{u}} (F : AbSheaf (Spec R))
+    (U : (Spec R).Opens)
+    (hF : Subsingleton
+      (CategoryTheory.Sheaf.H ((openSheafPullback U).obj F) 1)) :
+    Function.Surjective
+      ((cokernel.π (Injective.ι F)).hom.app (op U)) := by
+  let L := openSheafPullback U
+  let S := injectiveCokernelSequence F
+  letI : PreservesFiniteLimits L := by
+    dsimp [L]
+    infer_instance
+  letI : PreservesFiniteColimits L := by
+    dsimp [L]
+    infer_instance
+  letI : L.PreservesZeroMorphisms := by infer_instance
+  letI : L.Additive := L.additive_of_preserves_binary_products
+  have hS : S.ShortExact := injectiveCokernelSequence_shortExact F
+  have hSL : (S.map L).ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS L
+  letI : Subsingleton ((S.map L).X₁.H 1) := by
+    change Subsingleton (CategoryTheory.Sheaf.H (L.obj F) 1)
+    exact hF
+  have hsurjective :=
+    CategoryTheory.Sheaf.H.longSequence_surjective_of_subsingleton_H
+      hSL (isTerminalTop : IsTerminal (⊤ : Opens (U : Scheme)))
+  change Function.Surjective
+    ((L.map (cokernel.π (Injective.ι F))).hom.app
+      (op (⊤ : Opens (U : Scheme)))) at hsurjective
+  change Function.Surjective
+    ((cokernel.π (Injective.ι F)).hom.app
+      (op (U.ι.isOpenEmbedding.functor.obj
+        (⊤ : Opens (U : Scheme))))) at hsurjective
+  have htop : U.ι.isOpenEmbedding.functor.obj
+      (⊤ : Opens (U : Scheme)) = U := by
+    ext x
+    simp
+  rw [htop] at hsurjective
+  exact hsurjective
+
+private theorem affineSyzygyAppSurjective_of_pullback_H_succ_subsingleton
+    {R : CommRingCat.{u}} (F : AbSheaf (Spec R)) (n : ℕ)
+    (hF : ∀ (U : (Spec R).Opens), IsAffineOpen U →
+      ∀ k, k < n → Subsingleton
+        (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F)
+            (k + 1))) :
+    LocalKilling.AffineSyzygyAppSurjective F n := by
+  induction n generalizing F with
+  | zero => exact .zero F
+  | succ n ih =>
+      apply LocalKilling.AffineSyzygyAppSurjective.succ
+      · intro U hU
+        apply injectiveCokernel_app_surjective_of_pullback_HOne_subsingleton
+        change Subsingleton (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F) 1)
+        exact hF U hU 0 (Nat.zero_lt_succ n)
+      · apply ih
+        intro U hU k hk
+        apply openSheafPullback_injectiveCokernel_H_succ_subsingleton
+        change Subsingleton (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F)
+            (k + 2))
+        exact hF U hU (k + 1) (Nat.succ_lt_succ hk)
+
 private theorem secondInjectiveCokernel_app_surjective_of_isAffineOpen
     {R : CommRingCat.{u}} (M : (Spec R).Modules) [M.IsQuasicoherent]
     (U : (Spec R).Opens) (hU : IsAffineOpen U) :
@@ -313,6 +411,91 @@ private theorem secondInjectiveCokernel_app_surjective_of_isAffineOpen
   rw [htop] at hsurjective
   exact hsurjective
 
+/-- Genuine Ext-based cohomology of a quasicoherent module on an affine
+spectrum is subsingleton in every positive degree. -/
+theorem moduleSpecHSucc_subsingleton
+    {R : CommRingCat.{u}} (M : (Spec R).Modules)
+    [M.IsQuasicoherent] (n : ℕ) : Subsingleton (H M (n + 1)) := by
+  induction n using Nat.strong_induction_on generalizing R M with
+  | h n ih =>
+      cases n with
+      | zero => exact moduleSpecHOne_subsingleton M
+      | succ n =>
+          refine subsingleton_of_forall_eq 0 fun c ↦ ?_
+          let F := (SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M
+          have hsyzygy : LocalKilling.AffineSyzygyAppSurjective F (n + 1) := by
+            apply affineSyzygyAppSurjective_of_pullback_H_succ_subsingleton
+            intro U hU k hk
+            letI : IsAffine (U : Scheme) := hU
+            let N := (Scheme.Modules.restrictFunctor U.ι).obj M
+            letI : N.IsQuasicoherent := by
+              dsimp [N]
+              infer_instance
+            let e := (U : Scheme).isoSpec
+            let P := (Scheme.Modules.pushforward e.hom).obj N
+            letI : P.IsQuasicoherent := isQuasicoherent_pushforward_iso
+            have hP : Subsingleton (H P (k + 1)) := ih k hk P
+            letI : Subsingleton (H P (k + 1)) := hP
+            letI : Subsingleton (CategoryTheory.Sheaf.H
+                ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} e.hom.base).obj
+                  ((SheafOfModules.toSheaf (U : Scheme).ringCatSheaf).obj N))
+                (k + 1)) := by
+              change Subsingleton (H P (k + 1))
+              exact hP
+            have hN : Subsingleton (H N (k + 1)) :=
+              sheafH_subsingleton_of_iso e
+                ((SheafOfModules.toSheaf
+                  (U : Scheme).ringCatSheaf).obj N) (k + 1)
+            change Subsingleton (H N (k + 1))
+            exact hN
+          obtain ⟨I, U, hfinite, hcover, haffine, _, hkilled⟩ :=
+            LocalKilling.schemeHSucc_finiteAffineKillingCover_of_affine_syzygy_app_surjective
+              M (n + 1) c hsyzygy
+          letI : Finite I := hfinite
+          letI (i : I) : IsAffine (U i) := haffine i
+          letI : (cokernel (toAffineCoverModule M U)).IsQuasicoherent :=
+            affineCoverCokernel_isQuasicoherent M U
+          letI : Subsingleton
+              (H (cokernel (toAffineCoverModule M U)) (n + 1)) :=
+            ih n (Nat.lt_succ_self n) _
+          apply toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton
+            M U hcover (n + 1)
+          rw [hkilled, map_zero]
+
+/-- Every genuine Ext-based positive-degree class of a quasicoherent module
+on an affine spectrum is zero. -/
+theorem moduleSpecHSucc_eq_zero
+    {R : CommRingCat.{u}} (M : (Spec R).Modules)
+    [M.IsQuasicoherent] (n : ℕ) (c : H M (n + 1)) : c = 0 := by
+  letI : Subsingleton (H M (n + 1)) := moduleSpecHSucc_subsingleton M n
+  exact Subsingleton.elim _ _
+
+/-- Genuine Ext-based cohomology of a quasicoherent module on any affine
+scheme is subsingleton in every positive degree. -/
+theorem moduleAffineHSucc_subsingleton
+    {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
+    [M.IsQuasicoherent] (n : ℕ) : Subsingleton (H M (n + 1)) := by
+  let e := X.isoSpec
+  let N := (Scheme.Modules.pushforward e.hom).obj M
+  letI : N.IsQuasicoherent := isQuasicoherent_pushforward_iso
+  have hN : Subsingleton (H N (n + 1)) := moduleSpecHSucc_subsingleton N n
+  letI : Subsingleton (H N (n + 1)) := hN
+  letI : Subsingleton (CategoryTheory.Sheaf.H
+      ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} e.hom.base).obj
+        ((SheafOfModules.toSheaf X.ringCatSheaf).obj M)) (n + 1)) := by
+    change Subsingleton (H N (n + 1))
+    exact hN
+  exact sheafH_subsingleton_of_iso e
+    ((SheafOfModules.toSheaf X.ringCatSheaf).obj M) (n + 1)
+
+/-- Every genuine Ext-based positive-degree class of a quasicoherent module
+on an affine scheme is zero. -/
+theorem moduleAffineHSucc_eq_zero
+    {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
+    [M.IsQuasicoherent] (n : ℕ) (c : H M (n + 1)) : c = 0 := by
+  letI : Subsingleton (H M (n + 1)) := moduleAffineHSucc_subsingleton M n
+  exact Subsingleton.elim _ _
+
 namespace LocalKilling
 
 /-- Every degree-three class of a quasicoherent module on an affine spectrum
@@ -339,51 +522,27 @@ spectrum is subsingleton. -/
 theorem moduleSpecHThree_subsingleton
     {R : CommRingCat.{u}} (M : (Spec R).Modules)
     [M.IsQuasicoherent] : Subsingleton (H M 3) := by
-  refine subsingleton_of_forall_eq 0 fun c ↦ ?_
-  obtain ⟨I, U, hfinite, hcover, haffine, _, hkilled⟩ :=
-    LocalKilling.schemeHThree_finiteAffineKillingCover M c
-  letI : Finite I := hfinite
-  letI (i : I) : IsAffine (U i) := haffine i
-  letI : (cokernel (toAffineCoverModule M U)).IsQuasicoherent :=
-    affineCoverCokernel_isQuasicoherent M U
-  letI : Subsingleton (H (cokernel (toAffineCoverModule M U)) 2) :=
-    moduleSpecHTwo_subsingleton _
-  apply toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton
-    M U hcover 2
-  rw [hkilled, map_zero]
+  exact moduleSpecHSucc_subsingleton M 2
 
 /-- Every genuine Ext-based degree-three class of a quasicoherent scheme
 module on an affine spectrum is zero. -/
 theorem moduleSpecHThree_eq_zero
     {R : CommRingCat.{u}} (M : (Spec R).Modules)
     [M.IsQuasicoherent] (c : H M 3) : c = 0 := by
-  letI : Subsingleton (H M 3) := moduleSpecHThree_subsingleton M
-  exact Subsingleton.elim _ _
+  exact moduleSpecHSucc_eq_zero M 2 c
 
 /-- Genuine degree-three cohomology of a quasicoherent module on any affine
 scheme is subsingleton. -/
 theorem moduleAffineHThree_subsingleton
     {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
     [M.IsQuasicoherent] : Subsingleton (H M 3) := by
-  let e := X.isoSpec
-  let N := (Scheme.Modules.pushforward e.hom).obj M
-  letI : N.IsQuasicoherent := isQuasicoherent_pushforward_iso
-  have hN : Subsingleton (H N 3) := moduleSpecHThree_subsingleton N
-  letI : Subsingleton (H N 3) := hN
-  letI : Subsingleton (CategoryTheory.Sheaf.H
-      ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} e.hom.base).obj
-        ((SheafOfModules.toSheaf X.ringCatSheaf).obj M)) 3) := by
-    change Subsingleton (H N 3)
-    exact hN
-  exact sheafH_subsingleton_of_iso e
-    ((SheafOfModules.toSheaf X.ringCatSheaf).obj M) 3
+  exact moduleAffineHSucc_subsingleton M 2
 
 /-- Every genuine Ext-based degree-three class of a quasicoherent module on
 an affine scheme is zero. -/
 theorem moduleAffineHThree_eq_zero
     {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
     [M.IsQuasicoherent] (c : H M 3) : c = 0 := by
-  letI : Subsingleton (H M 3) := moduleAffineHThree_subsingleton M
-  exact Subsingleton.elim _ _
+  exact moduleAffineHSucc_eq_zero M 2 c
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
