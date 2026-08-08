@@ -201,16 +201,24 @@ The checked forward reduction now exposes:
   `MazurTorsion.Kubert.orderTwentyFiveClearedEquation_eq_zero_of_marked_order`
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.exists_tateOrderTwentyFive_recurrence_certificate`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_normalized_collision_factorization`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.exists_tateOrderTwentyFive_noncuspidal_certificate`
 
 Index `n` in the reusable recurrence is `(n+2)P`. Exact order 25 proves all
 abscissas at indices at most ten nonzero, which is exactly the denominator
 input needed to compare `12P` and `13P`; their sum is zero, so their
 abscissas agree. A parallel numerator-denominator recurrence contains no
-division, has proved nonzero denominators, and cross-multiplies this collision
-to a fixed polynomial expression. The arbitrary-curve consumer retains both
-equations, the denominator certificates, and the twelfth-power discriminant
-scale. A tractable reduced or birational model and its complete rational-point
-classification remain open.
+division, has proved nonzero denominators, and cross-multiplies this collision.
+Explicit square/cube normalized coordinates through `13P` factor that collision
+as the cusp component `b-c` times one fixed 234-term polynomial of total degree
+40. The arbitrary-curve consumer retains `b`, `c`, and `b-c` nonzero together
+with the twelfth-power discriminant scale. A complete rational-point
+classification of this explicit noncuspidal factor, directly or after a
+checked birational reduction, remains open.
 :::
 
 :::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-X0-MODULI, MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-COMPONENTS, MT-NERON-SPECIALIZATION") (tags := "proof, research-open, compiled, mazur, formal-immersion") (priority := "high") (effort := "medium")

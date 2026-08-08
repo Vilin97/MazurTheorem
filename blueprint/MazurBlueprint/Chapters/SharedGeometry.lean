@@ -896,9 +896,13 @@ the comparison is linear over the coefficient ring and transfers finite
 generation. On an affine spectrum, an epimorphism of actual quasicoherent
 modules induces an epimorphism and elementwise surjection on global sections;
 the genuine Ext-based H0 comparison gives a surjective H0 map as a downstream
-consumer. Positive-degree affine acyclicity and the required quasicoherent
-closure lemmas remain open, as do proper finite-dimensionality, H1, and higher
-vanishing.
+consumer. The affine tilde equivalence also identifies the ambient cokernel of
+a quasicoherent morphism with the tilde of the coefficient-module cokernel.
+Thus this scheme-module cokernel is quasicoherent, and the canonical cokernel
+projection is surjective on genuine Ext-based H0. Positive-degree affine
+acyclicity, the quasicoherent finite-cover construction, and local killing of
+positive-degree classes remain open, as do proper finite-dimensionality, H1,
+and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -943,6 +947,12 @@ vanishing.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHZero_surjective_of_epi`
   Consume the genuine H0/global-sections square in affine H0 right exactness.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpec_isQuasicoherent_cokernel`
+  Transport an affine quasicoherent cokernel through tilde and the counit isomorphisms.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHZero_surjective_cokernel_pi`
+  Apply genuine Ext-based H0 right exactness to the canonical cokernel projection.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

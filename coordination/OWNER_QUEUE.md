@@ -54,7 +54,10 @@ with five- and eleven-adic consumers (`b838e9d`), now transported across a
 genuine affine coordinate equivalence with full cusp-local algebra and the same
 two arithmetic consumers (`2825aee`), the raw A3 triple-transition cocycle and
 normalized pairwise-distinct consumer (`510e177`), and coverwise quasi-finite
-middle-`H¹` exactness with its five-endpoint Euler bound (`d9cf93c`, `31cc4b9`).
+middle-`H¹` exactness with its five-endpoint Euler bound (`d9cf93c`, `31cc4b9`),
+affine quasicoherent cokernel closure with its genuine Ext-`H⁰` consumer
+(`07b3ad6`), the two actual bad-level factor-order Euler specializations
+(`6641d79`), and the normalized order-25 degree-40 endpoint (`689655d`).
 The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
@@ -105,10 +108,13 @@ instances. On `Spec R`, an epimorphism of actual quasicoherent modules now
 induces an epimorphism and an elementwise surjection on global sections by
 tilde full faithfulness; naturality of the genuine Ext H0 comparison gives a
 compiled H0-surjectivity consumer (`74a7383`, reviewed from contributor
-`99c1dc5`). This is still only the honest H0 and right-exact boundary:
-positive-degree affine acyclicity, the required quasicoherent closure lemmas,
-proper finite-dimensionality, H1, and higher vanishing remain open, so
-MT-TC-B1 receives no completion credit.
+`99c1dc5`). The affine tilde equivalence now also identifies the ambient
+cokernel of a quasicoherent morphism with a tilde module, proving its
+quasicoherence; the canonical cokernel projection is a compiled Ext-`H⁰`
+surjectivity consumer (`07b3ad6`). Positive-degree affine acyclicity, the
+quasicoherent finite-cover construction and local-killing step, proper
+finite-dimensionality, H1, and higher vanishing remain open, so MT-TC-B1
+receives no completion credit.
 
 The split finite-flat X0 lane now has the inverse point-level handoff below
 coarse representability. The image of the genuine closed immersion on
@@ -147,8 +153,13 @@ arbitrary-curve consumer retains the denominator certificate and twelfth-power
 discriminant scale (`600422d`, independently reviewed). A subsequent
 fraction-free recurrence proves its own denominator specification and
 cross-multiplies the collision to a fixed polynomial expression without any
-division. Reducing that expression to a tractable birational model and
-classifying its noncuspidal rational points remain open, so
+division. Explicit square/cube coordinates through `13P` now factor the
+normalized collision as `-(b-c)F₂₅`, where the checked 234-term polynomial
+`F₂₅` has total degree 40. Exact order proves `b`, `c`, and `b-c` nonzero,
+and the arbitrary-curve consumer retains the twelfth-power discriminant scale
+(`689655d`, reviewed from contributor `19b1def`). Classifying rational
+solutions of this explicit noncuspidal factor, directly or after a checked
+birational reduction, remains open, so
 `MT-O25-EXCLUDE` receives no completion credit.
 
 The integral-cusp lane now constructs the actual represented polynomial chart
@@ -343,9 +354,14 @@ kernel-middle-quotient `H¹` exactness. Together with the already checked
 degree-zero and kernel-`H¹` terms, this supplies the full low-degree Euler
 bound for a quasi-finite quotient from five endpoint certificates, deriving
 middle-`H¹` finiteness internally (`d9cf93c`, `31cc4b9`). A finite-flat
-adapter compiles as a carrier-preserving consumer. The remaining step is to
-attach the actual constant-flat/multiplicative-flat bad-level filtration and
-its arithmetic endpoint `H¹` certificates; no rank-zero conclusion is claimed.
+adapter compiles as a carrier-preserving consumer. A typed extension now fixes
+the actual constant-flat and multiplicative-flat factors as kernel and
+quotient. Trivial endpoint points force the middle point group to be trivial,
+so both factor orders consume the full Euler theorem without supplied `H⁰`,
+exactness, or middle-finiteness (`6641d79`, reviewed from contributor
+`cae870a`). The remaining inputs are an actual geometric extension
+presentation for the bad-level filtration and the global endpoint `H¹`
+certificates with their length bound; no rank-zero conclusion is claimed.
 
 The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
@@ -474,14 +490,24 @@ The named A3 triple-cocycle module and its `Geometry` consumer rebuild all
 3,490 jobs. The ambient/quasi-finite middle-`H¹` modules and quasi-finite Euler
 consumer rebuild their focused closures through 3,031 jobs. Every audited new
 declaration in both lanes uses only the same three standard axioms.
+The affine quasicoherent cokernel target rebuilds all 2,768 jobs, and both the
+closure theorem and canonical Ext-`H⁰` cokernel-projection consumer use only
+the standard three axioms. The actual bad-level factor specialization rebuilds
+all 3,042 jobs; its middle-point certificate and both factor-order Euler
+consumers have the same axiom closure. The normalized order-25 target rebuilds
+all 1,987 jobs from source in 156 seconds; its explicit factorization,
+marked-order endpoint, and arbitrary-curve consumer again use only those
+axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the A3 diagonal normalized cocycle, a tractable cleared order-25 model,
-and specialization of the quasi-finite Euler theorem to the actual bad-level factors. The reviewed A3 lower comparisons, finite-family
+workers are pursuing the A3 diagonal normalized cocycle and an honest global
+bad-fibre localization boundary for the constant-flat `H¹` endpoint. The
+normalized order-25 model and both quasi-finite bad-level Euler
+specializations are integrated. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
 rational-section non-genericity, split finite-flat inverse datum, affine H0
 right exactness, and X1(13) Pell allocation are integrated;
@@ -1322,9 +1348,11 @@ within each lane follows the listed order.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
    Actual affine quasicoherent epimorphisms now give surjections on global
-   sections and on Ext-based H0. Next prove the quasicoherent closure needed
-   for the finite affine cover/cokernel construction and the positive-degree
-   local-killing step; do not count H0 right exactness as affine acyclicity.
+   sections and on Ext-based H0. Ambient cokernels of quasicoherent morphisms
+   are now quasicoherent, with the canonical cokernel projection as a checked
+   Ext-H0 consumer. Next construct the quasicoherent finite-cover object and
+   the positive-degree local-killing step; do not count H0 right exactness or
+   cokernel closure as affine acyclicity.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
@@ -1477,9 +1505,11 @@ within each lane follows the listed order.
    bad-level carriers with unchanged lengths and exact p-power cardinalities;
    no arithmetic certificate is manufactured. An
    equivalence with sheaves on the open, recollement, and a cohomological
-   localization sequence remain absent, as do the quasi-finite
-   admissible-filtration exact sequences and the
-   ambient constant/Kummer `H¹` calculations. The numerical Kummer rank-zero theorem and its actual
+   localization sequence remain absent. The typed two-factor quasi-finite
+   Euler consumers now discharge all `H⁰`, exactness, and middle-finiteness
+   inputs in both factor orders. The actual bad-level extension presentation
+   and ambient/global constant and multiplicative `H¹` endpoint calculations
+   remain. The numerical Kummer rank-zero theorem and its actual
    represented-`H1` two-factor admissible-filtration consumers now compile.
    Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
    cohomology certificates, and the torsion-cardinality equality. Then finish

@@ -129,7 +129,7 @@ quasicoherent modules on an affine spectrum is surjective.
 
 This is a checked cohomological consumer of
 `moduleSpec_isQuasicoherent_cokernel`. -/
-theorem moduleSpecHZero_surjective_cokernel_π {R : CommRingCat.{u}}
+theorem moduleSpecHZero_surjective_cokernel_pi {R : CommRingCat.{u}}
     {M N : (Spec R).Modules} (f : M ⟶ N)
     [M.IsQuasicoherent] [N.IsQuasicoherent] :
     Function.Surjective

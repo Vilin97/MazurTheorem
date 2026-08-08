@@ -646,6 +646,14 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finiteFlat_fppfHOne_natCard_le_pow_viaQuasiFinite`
+* `structure` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfExtensionPresentation`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfExtensionPresentation.middleBasePointCertifiedData`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
 * `theorem` (`contract`):
@@ -697,7 +705,11 @@ middle-`H¹` exactness by a common-refinement gauge argument. Genuine
 quasi-finite fppf quotient presentations construct that coverwise input by
 pullback, supply the complete low-degree exactness chain, derive middle-`H¹`
 finiteness from finite endpoints, and feed a five-endpoint Euler bound. The
-finite-flat adapter is a checked compatibility consumer. The two elementary
+finite-flat adapter is a checked compatibility consumer. A typed extension
+presentation now fixes the actual constant-flat and multiplicative-flat
+factors as kernel and quotient. Their trivial integral point groups force the
+middle point group to be trivial, so both factor orders feed the Euler bound
+without caller-supplied H0, exactness, or middle-H1 finiteness. The two elementary
 `H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
 constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
 odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
@@ -748,10 +760,11 @@ are the product evaluations, the singleton is proved fppf through the finite sig
 and `FppfHOne.class_pullback` identifies the resulting global classes. This is only the valid
 singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
 cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
-vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
-the iterated quasi-finite admissible-filtration specialization, the constant-factor global
-`H¹` calculation, and focused rank-zero specialization are still absent, so no node credit is
-claimed.
+vanishing is claimed. An open-sheaf equivalence and global cohomological localization sequence
+are still absent. The rank-zero route must construct the actual bad-level extension
+presentation and prove the global constant-flat and multiplicative-flat `H¹` endpoint
+certificates and their length bound. Focused rank-zero specialization therefore remains open,
+and no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
