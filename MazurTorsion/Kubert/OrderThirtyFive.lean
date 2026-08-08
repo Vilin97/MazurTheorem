@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
-import MazurTorsion.EllipticCurve.TateStarSimpleRoot
+import MazurTorsion.EllipticCurve.TateStarRepeatedRoot
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -333,5 +333,78 @@ theorem addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_simpleRootAtEleven
   exact
     twelve_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot
       hW h2 h3 hspecial D hsimple
+
+/-- A nonzero repeated marked root of the exceptional cubic at eleven forces the marked twelfth
+multiple into canonical nonsingular reduction, contradicting exact order thirty-five. -/
+theorem
+    addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_repeatedNonzeroRootAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hrepeated : D.derivativeResidue = 0)
+    (hroot_ne : IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ) D.X ≠ 0)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :
+    addOrderOf P ≠ 35 := by
+  apply addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+    hW especial P
+  exact
+    twelve_nsmul_mem_nonsingularReductionSubgroup_of_repeatedExceptionalRoot_ne_zero
+      hW h2 h3 hspecial D hrepeated hroot_ne
+
+/-- For an order-35 point on the selected eleven-adic short equation, a repeated marked
+exceptional root must be zero.  The marked abscissa and both coefficients consequently gain one
+power of the same bundled uniformizer. -/
+theorem markedExceptionalCubic_zeroRoot_and_deeperDepths_of_orderThirtyFiveAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hrepeated : D.derivativeResidue = 0)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (horder : addOrderOf P = 35) :
+    IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ) D.X = 0 ∧
+      IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ) D.A = 0 ∧
+      IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ) D.B = 0 ∧
+      D.x ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+      W₀.a₄ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ^ 3 ∧
+      W₀.a₆ ∈ IsLocalRing.maximalIdeal (atEleven.adicCompletionIntegers ℚ) ^ 4 := by
+  have hroot : IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ) D.X = 0 := by
+    by_contra hroot_ne
+    exact
+      (addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_repeatedNonzeroRootAtEleven
+        hW h2 h3 hspecial D hrepeated hroot_ne especial) horder
+  have hdepth :=
+    markedExceptionalCubic_deeper_depths_of_derivative_eq_zero_of_root_eq_zero
+      D hrepeated hroot
+  exact ⟨hroot, hdepth⟩
 
 end MazurTorsion.OrderThirtyFive
