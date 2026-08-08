@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1512675,
+    "integrated_lean_lines": 1512864,
     "integrated_lean_modules": 844,
     "remaining_composite_orders": [
       18,
@@ -3131,7 +3131,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. Clean-room Ext/sheaf arguments prove genuine affine quasicoherent H1 and H2 vanishing. Injective abelian sheaves are now proved flasque from free abelian representable sheaves, and every positive-degree cohomology group of a flasque sheaf is subsingleton by an actual injective-cokernel induction. On an affine open, restricted flasque H1 together with affine quasicoherent H2 vanishing makes the second injective-cokernel projection surjective on sections. This supplies finite local killing in degree three; the genuine affine-cover dimension shift then proves quasicoherent H3 vanishing on every affine spectrum and, by scheme-isomorphism transport, every affine scheme. The H3 theorem is a checked milestone, not the all-positive result. Generalizing the syzygy/local-killing argument to every positive degree, proper finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. Injective abelian sheaves are flasque by extension from free abelian representables, and an actual injective-cokernel induction proves flasque acyclicity in every positive degree. A recursive syzygy datum now records exactly the finite chain of affine section-surjectivity facts needed to kill an arbitrary positive-degree class. Lower-degree affine pullback vanishing derives that datum through the long exact sequence and flasque middle terms; generic finite local killing and lower-degree vanishing of the genuine quasicoherent cover cokernel then prove, by strong induction, that quasicoherent H^(n+1) is zero on every affine spectrum and every affine scheme for all n. The explicit H3 declarations are checked index-two consumers. Thus the affine acyclicity part of B1 is complete. Proper finite-dimensionality, proper-curve H1 finiteness, and proper-curve vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3141,7 +3141,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only the exact-sequence core is retained from AINTLIB. Degree-one local killing and affine H1 acyclicity are independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. The same clean-room line proves finite local killing and affine acyclicity in degrees two and three; the H3 proof derives flasque acyclicity and the second-syzygy section-surjectivity directly from pinned Mathlib. General all-positive-degree affine acyclicity and the required packaged proper-curve finite-dimensionality and vanishing-above-one API remain absent.",
+          "boundary": "Only the exact-sequence core is retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. The clean-room proof now covers every positive degree through recursive syzygies, flasque acyclicity, and genuine affine-cover dimension shifting. The required packaged proper-curve finite-dimensionality, H1 finiteness, and vanishing-above-one API remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3431,6 +3431,34 @@
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHThree_subsingleton",
           "state": "contract",
           "description": "Combine the second-syzygy section-surjectivity, finite local killing, and genuine cover dimension shift to prove quasicoherent H3 vanishing on every affine scheme.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
+        },
+        {
+          "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.AffineSyzygyAppSurjective",
+          "state": "contract",
+          "description": "Record exactly the finite recursive chain of affine-basis section-surjectivity facts for successive injective cokernels.",
+          "module": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHSucc_finiteAffineKillingCover_of_affine_syzygy_app_surjective",
+          "state": "contract",
+          "description": "Use the recursive syzygy data to kill an arbitrary positive-degree class on a finite affine cover and under the actual product cover map.",
+          "module": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHSucc_subsingleton",
+          "state": "contract",
+          "description": "Prove quasicoherent cohomology vanishes in every positive degree on an affine spectrum by simultaneous strong induction.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHSucc_subsingleton",
+          "state": "contract",
+          "description": "Transport the all-positive affine-spectrum result to every affine scheme; the elementwise zero theorem is its checked consumer.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
         }
       ],

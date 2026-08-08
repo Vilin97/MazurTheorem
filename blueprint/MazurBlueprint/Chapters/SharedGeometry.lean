@@ -965,10 +965,16 @@ free abelian representables, and an injective-cokernel induction proves
 flasque acyclicity in every positive degree. On an affine open, this and H2
 vanishing give the second-syzygy section-surjectivity needed for degree-three
 local killing. The same genuine cover dimension shift proves quasicoherent H3
-vanishing on every affine spectrum and every affine scheme. Extending this
-syzygy argument through all positive degrees and proving all-positive-degree
-affine acyclicity remain open, as do proper
-finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
+vanishing on every affine spectrum and every affine scheme. A recursive
+syzygy datum now packages precisely the finite sequence of affine section
+surjectivity facts needed for an arbitrary positive degree. Lower-degree
+affine pullback vanishing derives this datum through the long exact sequence
+and flasque middle terms. Generic finite local killing, followed by
+lower-degree vanishing of the genuine quasicoherent cover cokernel, therefore
+proves by strong induction that every positive-degree quasicoherent
+cohomology group vanishes on every affine spectrum and every affine scheme.
+Proper finite-dimensionality, proper-curve H1 finiteness, and proper-curve
+vanishing above degree one remain open.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1105,6 +1111,22 @@ finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
   Combine unconditional degree-three local killing with the actual cover
   dimension shift and transport affine quasicoherent H3 vanishing to every
   affine scheme.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.AffineSyzygyAppSurjective`
+  Record exactly the finite recursive chain of affine-basis section-surjectivity
+  facts for successive injective cokernels.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHSucc_finiteAffineKillingCover_of_affine_syzygy_app_surjective`
+  Consume recursive syzygy data to kill an arbitrary positive-degree class on
+  a finite affine cover and under the actual product cover map.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHSucc_subsingleton`
+  Prove quasicoherent cohomology vanishes in every positive degree on an affine
+  spectrum by simultaneous strong induction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHSucc_subsingleton`
+  Transport all-positive affine-spectrum acyclicity to every affine scheme;
+  its elementwise zero theorem is the checked downstream consumer.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

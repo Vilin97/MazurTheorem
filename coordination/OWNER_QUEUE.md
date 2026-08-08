@@ -103,19 +103,21 @@ assemble the chart components through the ambient product or equalizer and
 does not prove them inverse to `compatibleFamilyRestrictionHom`; A3 remains
 open with no credit.
 
-The coherent-cohomology lane now proves genuine affine quasicoherent H3
-acyclicity (`f383d58`, reviewed from contributor `6434f7b`).  Injective
-abelian sheaves are flasque by extension from free abelian representables,
-and an actual injective-cokernel induction proves every positive-degree
-cohomology group of a flasque sheaf subsingleton.  On affine opens, this and
-the checked H2 theorem supply second-syzygy section surjectivity.  The
-existing finite local-killing and cover dimension-shift machinery then kills
-every H3 class on an affine spectrum and transports the result to every
-affine scheme.  Both owner focused builds and all ten endpoint axiom audits
-pass; the proof is option-free and records its clean-room provenance.  This
-is an H3 milestone, not all-positive affine acyclicity, so B1 remains open
-with no credit.  The exact quality baseline is now 844 Lean modules and
-1,512,675 Lean lines.
+The coherent-cohomology lane now proves genuine affine quasicoherent
+acyclicity in every positive degree (`43487fc`, reviewed from contributor
+`8ccacc8e`).  A recursive syzygy datum records precisely the finite chain of
+affine-section surjectivity facts needed in degree `n + 1`; lower-degree
+affine pullback vanishing derives that datum through flasque injective middle
+terms.  Generic finite local killing and lower-degree vanishing of the actual
+quasicoherent cover cokernel then close a strong induction on every affine
+spectrum, with canonical-scheme-isomorphism transport to every affine
+scheme.  The explicit H3 results remain checked index-two consumers.  Both
+serial focused builds, arbitrary-index import smokes, and all fourteen public
+endpoint axiom audits pass with only `propext`, `Classical.choice`, and
+`Quot.sound`; the proof is option-free and clean-room.  B1 remains open with
+no credit because proper finite-dimensionality, proper-curve H1 finiteness,
+and proper-curve vanishing above degree one are not yet proved.  The exact
+quality baseline is now 844 Lean modules and 1,512,864 Lean lines.
 
 The initial owner audit distinguishes the public base from this integration
 line. `origin/main` is `cf85e1a` with 50 / 1,000 points credited; the owner
