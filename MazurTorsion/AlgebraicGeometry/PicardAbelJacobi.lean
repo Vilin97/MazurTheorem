@@ -30,6 +30,13 @@ universe u v
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
+open CategoryTheory
+open CategoryTheory.MonoidalCategory
+
+noncomputable local instance picardAbelJacobiSchemeModulesMonoidal
+    (X : Scheme.{u}) :
+    CategoryTheory.MonoidalCategory X.Modules :=
+  Scheme.Modules.monoidalCategory X
 
 namespace PicardGroup
 
@@ -331,6 +338,88 @@ lemma weightedAbelJacobiLineBundle_toPic
   rw [weightedAbelJacobiLineBundle, d.lineBundle_toPic,
     PicardGroup.coe_weightedAbelJacobiClass,
     d.classEquivalence_divisorClass]
+
+/-- Changing the basepoint of the chosen Abel--Jacobi line bundle tensors it
+with the chosen bundle of the exact weighted point-difference correction.
+This is the line-bundle-level normalization consumed by a future Poincare
+bundle construction. -/
+theorem nonempty_weightedAbelJacobiLineBundle_change_base
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (x₀ y₀ x : Y) :
+    Nonempty
+      ((d.weightedAbelJacobiLineBundle w (x₀ := y₀) x).obj ≅
+        (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x).obj ⊗
+          (d.lineBundle (w x • pointDifference x₀ y₀)).obj) := by
+  change Nonempty
+    ((d.lineBundle (weightedPointBaseDifference w y₀ x)).obj ≅
+      (d.lineBundle (weightedPointBaseDifference w x₀ x)).obj ⊗
+        (d.lineBundle (w x • pointDifference x₀ y₀)).obj)
+  rw [weightedPointBaseDifference_change_base]
+  exact d.lineBundle_add_iso (weightedPointBaseDifference w x₀ x)
+    (w x • pointDifference x₀ y₀)
+
+/-- The chosen line-bundle representatives recover the exact scheme-Picard
+basepoint-translation law. This is the compiled downstream consumer of the
+bundle-level normalization. -/
+theorem weightedAbelJacobiLineBundle_toPic_change_base
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : Y) :
+    Additive.ofMul
+        (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)) =
+      Additive.ofMul
+          (d.comparison.toPic
+            (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)) +
+        w x • (PicardGroup.weightedBasepointChangeClass
+          S w h d.classEquivalence (hx₀.trans hy₀.symm) : PicardGroup X) := by
+  have hskeleton :
+      toSkeleton
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x).obj =
+        toSkeleton
+          ((d.weightedAbelJacobiLineBundle w (x₀ := x₀) x).obj ⊗
+            (d.lineBundle (w x • pointDifference x₀ y₀)).obj) :=
+    toSkeleton_eq_toSkeleton_iff.mpr
+      (d.nonempty_weightedAbelJacobiLineBundle_change_base w x₀ y₀ x)
+  have hpic :
+      d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x) =
+        d.comparison.toPic
+            (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x) *
+          d.comparison.toPic
+            (d.lineBundle (w x • pointDifference x₀ y₀)) := by
+    apply Units.ext
+    change (d.comparison.toPic
+        (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)).val =
+      (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)).val *
+        (d.comparison.toPic
+          (d.lineBundle (w x • pointDifference x₀ y₀))).val
+    rw [d.comparison.toPic_val, d.comparison.toPic_val,
+      d.comparison.toPic_val, ← Skeleton.toSkeleton_tensorObj]
+    exact hskeleton
+  have hadd := congrArg Additive.ofMul hpic
+  change Additive.ofMul
+      (d.comparison.toPic
+        (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)) =
+    Additive.ofMul
+        (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)) +
+      Additive.ofMul
+        (d.comparison.toPic
+          (d.lineBundle (w x • pointDifference x₀ y₀))) at hadd
+  have hcorrection :
+      Additive.ofMul
+          (d.comparison.toPic
+            (d.lineBundle (w x • pointDifference x₀ y₀))) =
+        w x • (PicardGroup.weightedBasepointChangeClass
+          S w h d.classEquivalence
+            (hx₀.trans hy₀.symm) : PicardGroup X) := by
+    rw [d.lineBundle_toPic, map_zsmul,
+      ← d.classEquivalence_divisorClass,
+      ← PicardGroup.coe_weightedBasepointChangeClass]
+  exact hadd.trans (congrArg _ hcorrection)
 
 /-- Two chosen Abel--Jacobi line bundles are isomorphic exactly when the corresponding
 degree-corrected point divisors are linearly equivalent. -/
