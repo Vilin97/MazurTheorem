@@ -169,7 +169,7 @@ theorem sheafify_const_flasque_of_irreducible
           ((Opens.grothendieckTopology X).toPlus
             ((Opens.grothendieckTopology X).plusObj P)).app (op U) := by
       simp only [GrothendieckTopology.toSheafify,
-        (Opens.grothendieckTopology X).plusMap_toPlus, NatTrans.comp_app]
+        (Opens.grothendieckTopology X).plusMap_toPlus]
       rfl
     have hEpiToSheafify : Epi (((Opens.grothendieckTopology X).toSheafify P).app (op U)) := by
       apply ConcreteCategory.epi_of_surjective
@@ -242,7 +242,13 @@ theorem isFlasqueSheaf_zeroOutsideInt_top (X : TopCat.{u}) [IrreducibleSpace X] 
     epi_comp' inferInstance hconst'
   have hcomp : Epi (((TopCat.Sheaf.zeroOutsideInt (⊤ : Opens X)).obj.map i.op) ≫
       eP.hom.app (op U)) := by
-    simp_all
+    change Epi
+      (((sheafToPresheaf J AddCommGrpCat.{u}).obj
+          ((presheafToSheaf J AddCommGrpCat.{u}).obj
+            (TopCat.Presheaf.zeroOutside ⊤ TopCat.Presheaf.constZ))).map i.op ≫
+        eP.hom.app (op U))
+    rw [eP.hom.naturality i.op]
+    exact hepiComp
   change Epi
     (((sheafToPresheaf J AddCommGrpCat.{u}).obj
         ((presheafToSheaf J AddCommGrpCat.{u}).obj
