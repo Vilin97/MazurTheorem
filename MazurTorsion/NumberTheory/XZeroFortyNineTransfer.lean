@@ -609,8 +609,9 @@ theorem orderFortyNineGeometricPointQuotient_boundary_exact
     (Q : CommGroupScheme.FppfQuotientPresentation
       (splitFiniteFlatSourceOfOrderFortyNineTorsion E M P hP).subgroup.inclusion) :
     Function.MulExact
-      (Q.pointQuotientMap (CommGroupScheme.baseObject (Spec (.of ℚ))))
-      Q.boundaryHom :=
+      (Q.pointQuotientMap (AffineCommGroupScheme.testObject (R := ℚ) ℚ))
+      (WeierstrassGroupSchemeInterface.rationalDatumGeometricPointBoundaryHom
+        (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP) M Q) :=
   WeierstrassGroupSchemeInterface.rationalDatumGeometricPointQuotient_boundary_exact
     (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP) M Q
 
