@@ -46,6 +46,8 @@ audit and local changes are recorded in `docs/PRIOR_ART.md`.
 - Source: https://github.com/Vilin97/lean-pool/tree/4eef1ffb3b643d606665e3b5585aa69454e137d1/LeanPool/GrothendieckVanishing
 - Source commit: `4eef1ffb3b643d606665e3b5585aa69454e137d1`
 - Upstream Lean 4.33 migration reference: `cc54a3adb51cb00b78cbe025818a24b676aeada7`
+- Migration co-authors recorded upstream: `github-actions[bot]`, Vasily Ilin,
+  and Claude Opus 5
 - License: Apache License 2.0; see `LICENSE`
 
 The 15 retained modules are stored under
