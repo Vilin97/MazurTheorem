@@ -702,6 +702,153 @@ theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩
 
+/-- The same selected five-adic short model reaches the terminal weighted
+depths.  In particular the marked ordinate lies in `𝔪³`, `a₄` lies in
+`𝔪⁴`, and the equation then puts `a₆` in `𝔪⁶`. -/
+theorem minimalCompletionAtFive_exists_sixthCoefficientDepth_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+        (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        ∃ B : FirstBlowupEquationCharts W',
+          W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₄ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 3 ∧
+            ∃ D : MarkedExceptionalCubicData W'
+                (CK • minimalCompletionAtFive E).toAffine P',
+              D.uniformizer = B.uniformizer ∧
+                D.derivativeResidue = 0 ∧
+                IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.X = 0 ∧
+                IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.A = 0 ∧
+                IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.B = 0 ∧
+                D.x ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+                W'.a₄ ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 3 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 4 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 5 ∧
+                D.y ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 3 ∧
+                W'.a₄ ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 4 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atFive.adicCompletionIntegers ℚ) ^ 6 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
+      ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+      hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩ :=
+    minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
+      E hA P N hprime hN horder
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+    (atFive.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+  have horder' : addOrderOf P' = N := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P).trans horder
+  have hΔ : (adicRedCurve W').Δ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atFive.adicCompletionIntegers ℚ))).Δ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+      WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+  have hc₄ : (adicRedCurve W').c₄ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atFive.adicCompletionIntegers ℚ))).c₄ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  let especial := specialFiberPointAddEquivAtFiveOfCuspidal W' hΔ hc₄
+  have hycube :=
+    markedExceptionalCubic_y_mem_cube_of_coefficient_depths
+      hmap D hxsq ha₄cube ha₆five
+  have ha₄four := markedExceptionalCubic_a₄_mem_fourth_of_primeOrderAtFive
+    hmap residueAtFive_two_ne_zero residueAtFive_three_ne_zero hspecial
+      D hxsq ha₄cube ha₆five especial N hprime hN horder'
+  have ha₆six := markedExceptionalCubic_a₆_mem_sixth_of_coefficient_depths
+    hmap D hxsq ha₄four ha₆five
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
+    ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+    hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five,
+    hycube, ha₄four, ha₆six⟩
+
+/-- A prime-order point on the selected minimal five-adic equation excludes
+the additive branch.  The terminal weighted depths would permit one further
+integral pure scaling, contradicting minimality of the unit-change model. -/
+theorem minimalCompletionAtFive_not_hasAdditiveReduction_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ¬(minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ) := by
+  intro hA
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
+      ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+      hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five,
+      hycube, ha₄four, ha₆six⟩ :=
+    minimalCompletionAtFive_exists_sixthCoefficientDepth_of_primeOrder
+      E hA P N hprime hN horder
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+    (atFive.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  exact
+    (not_isMinimal_of_short_model_weighted_coefficient_depths
+      hmap D.uniformizer D.uniformizer_irreducible ha₄four ha₆six)
+      hAdditive.toIsMinimal
+
+/-- Integral `j` and a marked prime-order point force good reduction on
+Mathlib's selected five-adic minimal equation.  The additive branch is now
+closed by the checked marked-point depth and minimality argument. -/
+theorem minimalCompletionAtFive_hasGoodReduction_of_valuation_j_le_one_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atFive.adicCompletionIntegers ℚ))
+      (minimalCompletionAtFive E).j ≤ 1)
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    (minimalCompletionAtFive E).HasGoodReduction
+      (atFive.adicCompletionIntegers ℚ) := by
+  exact hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+    hj P N
+      (fun hA horder' ↦
+        (minimalCompletionAtFive_not_hasAdditiveReduction_of_primeOrder
+          E P N hprime hN horder') hA)
+      horder
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/
@@ -830,6 +977,33 @@ theorem completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
     W₅ (redPointEquiv (adicRed hW P)) N hN
   exact (AddEquiv.addOrderOf_eq redPointEquiv (adicRed hW P)).trans
     (hredOrder.trans horder)
+
+/-- The unconditional five-adic arithmetic endpoint for the formal-immersion
+route: integral `j` excludes multiplicative reduction, the marked weighted
+depth argument excludes additive reduction, and checked enumeration over
+`F_5` excludes the surviving good-reduction specialization. -/
+theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_oneAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    (hj : atFive.valuation ℚ E.j ≤ 1)
+    (P : E.toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  classical
+  intro horder
+  let P' := minimalCompletionPointAtFive E P
+  have horder' : addOrderOf P' = N :=
+    (minimalCompletionPointAtFive_addOrderOf E P).trans horder
+  have hj' : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atFive.adicCompletionIntegers ℚ))
+      (minimalCompletionAtFive E).j ≤ 1 := by
+    rw [valuation_minimalCompletionAtFive_j]
+    exact hj
+  have hgood :=
+    minimalCompletionAtFive_hasGoodReduction_of_valuation_j_le_one_of_primeOrder
+      E hj' P' N hprime hN horder'
+  exact completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
+    hgood P' N hN horder'
 
 /-- The completion-level prime-order endpoint after the integral-`j` and tame
 additive-filtration inputs have been supplied.  The reduction trichotomy first upgrades the

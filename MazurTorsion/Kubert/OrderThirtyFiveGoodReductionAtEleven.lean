@@ -692,6 +692,152 @@ theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFiv
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩
 
+/-- The same selected eleven-adic short model reaches the terminal weighted
+depths: the marked ordinate lies in `𝔪³`, `a₄` in `𝔪⁴`, and `a₆` in `𝔪⁶`. -/
+theorem minimalCompletionAtEleven_exists_sixthCoefficientDepth_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      let P' : (CK • minimalCompletionAtEleven E).toAffine.Point :=
+        (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        ∃ B : FirstBlowupEquationCharts W',
+          W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₄ ∈ IsLocalRing.maximalIdeal
+              (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atEleven.adicCompletionIntegers ℚ) ^ 3 ∧
+            ∃ D : MarkedExceptionalCubicData W'
+                (CK • minimalCompletionAtEleven E).toAffine P',
+              D.uniformizer = B.uniformizer ∧
+                D.derivativeResidue = 0 ∧
+                IsLocalRing.residue
+                    (atEleven.adicCompletionIntegers ℚ) D.X = 0 ∧
+                IsLocalRing.residue
+                    (atEleven.adicCompletionIntegers ℚ) D.A = 0 ∧
+                IsLocalRing.residue
+                    (atEleven.adicCompletionIntegers ℚ) D.B = 0 ∧
+                D.x ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+                W'.a₄ ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 3 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 4 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 5 ∧
+                D.y ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 3 ∧
+                W'.a₄ ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 4 ∧
+                W'.a₆ ∈ IsLocalRing.maximalIdeal
+                    (atEleven.adicCompletionIntegers ℚ) ^ 6 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
+      ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+      hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩ :=
+    minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFive
+      E hA P horder
+  let W' := C • (minimalCompletionAtEleven E).integralModel
+    (atEleven.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+    (atEleven.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtEleven E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P
+  have horder' : addOrderOf P' = 35 := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P).trans horder
+  have hΔ : (adicRedCurve W').Δ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atEleven.adicCompletionIntegers ℚ))).Δ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+      WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+  have hc₄ : (adicRedCurve W').c₄ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atEleven.adicCompletionIntegers ℚ))).c₄ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  let especial := specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄
+  have hycube :=
+    markedExceptionalCubic_y_mem_cube_of_coefficient_depths
+      hmap D hxsq ha₄cube ha₆five
+  have ha₄four :=
+    markedExceptionalCubic_a₄_mem_fourth_of_orderThirtyFiveAtEleven
+      hmap residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero hspecial
+      D hxsq ha₄cube ha₆five especial horder'
+  have ha₆six := markedExceptionalCubic_a₆_mem_sixth_of_coefficient_depths
+    hmap D hxsq ha₄four ha₆five
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
+    ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+    hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five,
+    hycube, ha₄four, ha₆six⟩
+
+/-- Exact order thirty-five on the selected minimal eleven-adic equation
+excludes additive reduction by the terminal pure-scaling obstruction. -/
+theorem minimalCompletionAtEleven_not_hasAdditiveReduction_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    ¬(minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ) := by
+  intro hA
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
+      ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
+      hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five,
+      hycube, ha₄four, ha₆six⟩ :=
+    minimalCompletionAtEleven_exists_sixthCoefficientDepth_of_orderThirtyFive
+      E hA P horder
+  let W' := C • (minimalCompletionAtEleven E).integralModel
+    (atEleven.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+    (atEleven.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  exact
+    (not_isMinimal_of_short_model_weighted_coefficient_depths
+      hmap D.uniformizer D.uniformizer_irreducible ha₄four ha₆six)
+      hAdditive.toIsMinimal
+
+/-- Integral `j` and a point of exact order thirty-five force good reduction
+on the selected eleven-adic minimal equation. -/
+theorem
+    minimalCompletionAtEleven_hasGoodReduction_of_valuation_j_le_one_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hj : valuation (atEleven.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atEleven.adicCompletionIntegers ℚ))
+      (minimalCompletionAtEleven E).j ≤ 1)
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    (minimalCompletionAtEleven E).HasGoodReduction
+      (atEleven.adicCompletionIntegers ℚ) := by
+  exact hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
+    hj P 35
+      (fun hA horder' ↦
+        (minimalCompletionAtEleven_not_hasAdditiveReduction_of_orderThirtyFive
+          E P horder') hA)
+      horder
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j
@@ -816,6 +962,31 @@ theorem completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven
     W₁₁ (redPointEquiv (adicRed hW P))
   exact (AddEquiv.addOrderOf_eq redPointEquiv (adicRed hW P)).trans
     (hredOrder.trans horder)
+
+/-- The unconditional eleven-adic arithmetic endpoint for order thirty-five:
+the valuation bound and weighted-depth minimality closure force good
+reduction, where checked `F_11` enumeration gives the contradiction. -/
+theorem rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_oneAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    (hj : atEleven.valuation ℚ E.j ≤ 1)
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 35 := by
+  classical
+  intro horder
+  let P' := minimalCompletionPointAtEleven E P
+  have horder' : addOrderOf P' = 35 :=
+    (minimalCompletionPointAtEleven_addOrderOf E P).trans horder
+  have hj' : valuation (atEleven.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atEleven.adicCompletionIntegers ℚ))
+      (minimalCompletionAtEleven E).j ≤ 1 := by
+    rw [valuation_minimalCompletionAtEleven_j]
+    exact hj
+  have hgood :=
+    minimalCompletionAtEleven_hasGoodReduction_of_valuation_j_le_one_of_orderThirtyFive
+      E hj' P' horder'
+  exact completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven
+    hgood P' horder'
 
 /-- Integral `j` and the actual canonical tame-additive handoff force good
 reduction and hence exclude exact order 35 on an eleven-adic minimal
