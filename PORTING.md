@@ -245,19 +245,55 @@ The thirteen finite-action quotient modules retain the declarations and
 namespaces of the same exact snapshot. Imports between retained AINTLIB
 modules are repointed into the local namespace, blank lines are normalized,
 and source-level backward-elaboration options and linter suppressions are
-omitted. Two proof-level elaboration repairs were required at this repository's
+omitted. Their exact upstream blobs, in the table order from
+`FinitePresentationOfFinite` through `QuotientTorsor`, are
+`a63130001df32873fa40737b55c3f916a282bc93`,
+`f4f98c82bcb0d3db4f9626a5d5c520e70f351e14`,
+`4ad231cfa7290a7d577970b1a72fa71ef44feac2`,
+`f4843478116fef7247d67ab319e34a1e9c275f16`,
+`002f96481b6bdc393cb4209dd8cdc78dd524d76d`,
+`df99ae754b2ddac032c4b016a6b6b99780f2e0eb`,
+`13d27b67025a5b610abbd0824090e3e7f66926e0`,
+`a019115d6f72da6ee7d8c536115a0354fd5a1469`,
+`83a2c33579548f37b3279d5dd8aa978117c66a5b`,
+`69f2aa854184ac53c24b23ae6eba46f83eccf9a8`,
+`08c2bdb598a75f6f8ab7aed7100616e732a6ee64`,
+`11ccd932de1300067c26118dc277d8adaceb5aa6`, and
+`722ec41c6ec7da27031c1cc2e4d664fe87b1c57f`. Each exact blob has an explicit
+Apache-2.0 file header. Three proof-level elaboration repairs were required at this repository's
 immutable pin. In `SpecGroupAction`, the prime-ideal membership proof now
 states the scheme/prime-spectrum coercion explicitly and installs the two
 available `IsPrime` witnesses locally. In `BaseChangeAlongCompat`, the finite
 affine-target predicate is named to resolve its `outParam`, and the existing
 Mathlib witnesses for locality, base-change stability, fppf descent, and
 étale multiplicativity are applied explicitly instead of through fragile
-`inferInstance` calls. No statement is weakened. The modules construct the
+`inferInstance` calls. Its finite affine-property proof is adapted from pinned
+Mathlib `Morphisms/Finite.lean` blob
+`cf6826b55377d33e384b8db846996ecf55bf8c9b` (Christian Merten and Andrew
+Yang), and its fpqc-to-fppf descent proof from `Morphisms/FlatDescent.lean`
+blob `754666351a96d06b20f2d755c23e39601f590178` (Christian Merten); both are
+Apache-2.0. In `SchemeQuotient`, affine-open naturality uses the current
+`IsAffineOpen.isoSpec_hom` and `Scheme.Opens.toSpecΓ_SpecMap_appLE` API, the
+now-redundant closing `rfl` is removed, and diagonal composition is expressed
+through an explicitly named morphism property. No statement is weakened. The modules construct the
 quotient of a scheme by a finite action from a stable affine atlas, prove the
 quotient projection finite, and in the free-action case prove it finite
 étale, surjective, and a torsor after arbitrary base change. The new local
 translation-quotient consumer descends the commutative group law through that
 checked universal property.
+
+That consumer also adapts proof skeletons from AINTLIB
+`GroupScheme/TranslationBySection.lean`, exact blob
+`6223d2904bc6f2162d4ee4e77ed684a40396ef18`. The file at the audited
+`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` snapshot has no license header,
+so the license basis is the identical blob at AINTLIB commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, whose root Apache-2.0 license
+has blob `8dada3edaf50dbc082c9a125058f25def75e625a`. Authorship from the introducing
+commit is retained for Chris Birkbeck and co-author Claude Opus 4.8. Only the
+constant-section, translation, and elementary composition proof skeletons are
+adapted; the tensor equivariance, inverse conjugation, action, quotient
+descent, and group-object construction are new local proofs. This adapted
+source is not counted among the eighteen vendored modules above.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by

@@ -81,8 +81,15 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/TorsorMap.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
-- License: Apache License 2.0 under the upstream repository-wide license; see
-  `LICENSE`. The local selected files carry added attribution headers.
+- Additional adapted proof source, not vendored as a module:
+  - `projects/ModularCurves/ModularCurves/GroupScheme/TranslationBySection.lean`
+    (blob `6223d2904bc6f2162d4ee4e77ed684a40396ef18`; Chris Birkbeck and
+    Claude Opus 4.8)
+- License: Apache License 2.0 as explicitly stated in every selected file
+  header. The adapted `TranslationBySection` blob had no header at the audited
+  commit, but is byte-identical at AINTLIB commit
+  `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, under root Apache-2.0 license
+  blob `8dada3edaf50dbc082c9a125058f25def75e625a`. See `docs/PRIOR_ART.md`.
 
 The selected files are stored under `MazurTorsion/Upstream/AINTLIB/`. The two
 sheaf-cohomology files preserve the upstream declarations and proofs, with
@@ -93,9 +100,11 @@ The thirteen finite-action quotient files retain the upstream statements and
 namespaces. Besides internal import repointing, formatting, and removal of
 source-level compatibility options and linter suppressions forbidden by this
 repository, `SpecGroupAction` has explicit coercion and primality witnesses
-and `BaseChangeAlongCompat` explicitly selects existing Mathlib locality,
-stability, descent, and multiplicativity instances needed at the immutable
-pin. No statement is weakened. No other AINTLIB geometry source is included.
+and `BaseChangeAlongCompat` uses the pinned Mathlib finite-affine and
+fpqc-to-fppf proof APIs explicitly. `SchemeQuotient` uses current affine-open
+naturality and diagonal-composition APIs. No statement is weakened. The
+additional translation proof adaptation and its exact-blob license evidence
+are described above. No other AINTLIB geometry source is included or adapted.
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
