@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleCohomology
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfMiddleExact
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfConnecting
 import Mathlib.CategoryTheory.Sites.Hypercover.Subcanonical
 
@@ -279,6 +280,17 @@ theorem mapPoint_gaugeLift (D : FppfQuotientPresentation G)
     pullback.fst (b ij.1).left (hom D.project) ≫ (b ij.1).left
   exact pullback.condition.symm
 
+/-- A checked finite-flat fppf quotient supplies the ambient coverwise lifting input.  This
+adapter is a downstream API check: it retains the actual quotient projection and its pullback
+cover, rather than replacing the quotient by an abstract representable cokernel. -/
+def coverwiseLocallyLiftable (D : FppfQuotientPresentation G) :
+    D.kernelPresentation.toCommGroupScheme.CoverwiseLocallyLiftable.{u} where
+  liftData U b :=
+    { cover := D.gaugeLiftCover U b
+      refinement := D.gaugeLiftCoverHom U b
+      lift := D.gaugeLift U b
+      maps_to := D.mapPoint_gaugeLift U b }
+
 /-- Cover-level reverse exactness at the middle `H¹` term.  If the projected cocycle is
 cohomologous to one on its current cover, refine by the pulled-back quotient cover, lift the
 trivializing gauge, and take the uniquely kernel-valued gauge transform. -/
@@ -465,6 +477,16 @@ theorem exact_fppfHOneMap_inclusion_project (D : FppfQuotientPresentation G) :
       (fppfHOneMap D.project : G.FppfHOne.{u} →* D.quotient.FppfHOne.{u}) :=
   fun z ↦ D.fppfHOneMap_project_eq_one_iff_exists_kernelClass z
 
+/-- The ambient coverwise theorem recovers the established finite-flat middle-`H¹` exactness
+with the original projection and kernel inclusion definitionally unchanged. -/
+theorem exact_fppfHOneMap_inclusion_project_via_ambient
+    (D : FppfQuotientPresentation G) :
+    Function.MulExact
+      (fppfHOneMap D.kernelPresentation.inclusion :
+        D.kernelPresentation.kernel.FppfHOne.{u} →* G.FppfHOne.{u})
+      (fppfHOneMap D.project : G.FppfHOne.{u} →* D.quotient.FppfHOne.{u}) :=
+  D.coverwiseLocallyLiftable.exact_fppfHOneMap_inclusion_f
+
 /-- Finiteness propagates through the exact global fppf `H¹` sequence of a checked quotient
 presentation.  Thus finite cohomology of the kernel and quotient is enough; consumers need not
 separately assume finiteness of the middle cohomology group. -/
@@ -475,7 +497,8 @@ theorem finite_fppfHOne_of_kernel_quotient
     Finite G.FppfHOne.{u} :=
   FppfLowDegreeExactSequence.finite_middle_of_mulExact
     (fppfHOneMap D.kernelPresentation.inclusion)
-    (fppfHOneMap D.project) D.exact_fppfHOneMap_inclusion_project
+    (fppfHOneMap D.project)
+    D.exact_fppfHOneMap_inclusion_project_via_ambient
 
 /-- The canonical connecting homomorphism of an actual checked fppf quotient presentation.  Its
 value is the kernel torsor of the tautological local lifts on the pulled-back quotient cover. -/
