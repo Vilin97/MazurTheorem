@@ -8,6 +8,7 @@ import MazurTorsion.Upstream.AINTLIB.ForMathlib.CartierDual
 import MazurTorsion.Upstream.AINTLIB.Picard.Pic
 import MazurTorsion.Upstream.AffineDivisorLocalization
 import MazurTorsion.Upstream.CurveAffineChart
+import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.CurveDivisorDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
@@ -29,11 +30,12 @@ import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 # Shared upstream geometry
 
 This module is the checked dependency boundary between Mazur's theorem and
-the reusable algebraic-geometry developments in AINTLIB and Tau Ceti.
+the reusable algebraic-geometry developments in AINTLIB, LeanPool, and Tau Ceti.
 
 Only file-level Apache-2.0, placeholder-free AINTLIB material is imported:
 the Picard group of a scheme; the divisor-line-bundle, affine-chart, chartwise divisor, and
 descent bridges; and the Hopf-algebraic form of Deligne's order theorem. Tau Ceti supplies the
 maintained line-bundle and abstract Abel--Jacobi APIs on the project's exact
-Lean/Mathlib pin.
+Lean/Mathlib pin. The LeanPool Grothendieck-vanishing port is consumed through
+the actual underlying additive sheaf of a smooth proper integral curve module.
 -/
