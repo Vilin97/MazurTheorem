@@ -42,7 +42,7 @@ noncomputable def affineTildeHZeroEquiv {R : CommRingCat.{u}}
 the transported global-functions action along
 `R → Γ(Spec R, ⊤)`.  As for `hZeroModule`, this is an explicit named
 structure rather than a global instance. -/
-@[instance_reducible]
+@[reducible]
 noncomputable def affineTildeHZeroModule {R : CommRingCat.{u}}
     (M : ModuleCat R) : Module R (H (tilde M) 0) :=
   letI := hZeroModule (tilde M)

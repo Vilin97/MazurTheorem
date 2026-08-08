@@ -82,7 +82,7 @@ theorem hZeroEquivGlobalSections_naturality {X : Scheme.{u}}
 from genuine global sections.  It is named, not registered globally, because
 the underlying Ext group also carries native scalar structures coming from
 linearity of its ambient abelian-sheaf category. -/
-@[instance_reducible]
+@[reducible]
 noncomputable def hZeroModule {X : Scheme.{u}} (M : X.Modules) :
     Module Γ(X, ⊤) (H M 0) :=
   (hZeroEquivGlobalSections M).module Γ(X, ⊤)
