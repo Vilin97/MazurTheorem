@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1499841,
+    "integrated_lean_lines": 1500224,
     "integrated_lean_modules": 805,
     "remaining_composite_orders": [
       18,
@@ -5863,7 +5863,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. A checked affine-section package binds the section law and selected fibre prime, derives the coordinate-ring retraction contravariantly, and supplies both residue surjections. Its arithmetic consumers at five and eleven carry the formal immersion through the unconditional weighted-depth endpoints. The actual integral modular cusp section and affine presentation, its generator and non-square proofs, the represented quotient collision, and the genuine optimal-quotient q-expansion identity remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. A checked affine structural section derives its coordinate-ring retraction, canonically selects the special-fibre prime as the kernel of the residue-field base change, proves that point maximal and closed, and supplies both residue surjections. Its arithmetic consumers at five and eleven carry the formal immersion through the unconditional weighted-depth endpoints without a caller-chosen fibre point. The actual integral modular cusp section and affine presentation, its generator and non-square proofs, the represented quotient collision, and the genuine optimal-quotient q-expansion identity remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -6124,11 +6124,32 @@
           "description": "Bind an affine structural section, its section law, and its value at the selected special-fibre point in one geometric input."
         },
         {
+          "kind": "structure",
+          "name": "Ideal.Fiber.AffineStructuralSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspResidueRetraction",
+          "description": "Represent an affine cusp section without asking the caller to choose a point in each special fibre."
+        },
+        {
+          "kind": "theorem",
+          "name": "Ideal.Fiber.AffineStructuralSection.isClosed_fiberPoint",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspResidueRetraction",
+          "description": "Base-change the section retraction to the residue field, take its kernel, and prove that the resulting canonical special-fibre point is closed."
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.AffineCuspResidueRetraction",
           "description": "Derive the coordinate-ring retraction and both residue surjections from the actual affine section, then consume the Hecke eigen-expansion in the genuine Spec.map formal-immersion theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_structuralSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspResidueRetraction",
+          "description": "Derive the closed special-fibre cusp from the section itself and consume its Hecke eigen-expansion in the genuine Spec.map formal-immersion theorem."
         },
         {
           "kind": "theorem",
@@ -6143,6 +6164,20 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
           "description": "Consume the same section-compatible cusp handoff at eleven in the unconditional order-35 endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_structuralSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
+          "description": "Use the canonical fibre point of a characteristic-five structural cusp section in the unconditional uniform prime-order endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_structuralSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
+          "description": "Use the canonical fibre point of a characteristic-eleven structural cusp section in the unconditional order-35 endpoint."
         },
         {
           "kind": "theorem",

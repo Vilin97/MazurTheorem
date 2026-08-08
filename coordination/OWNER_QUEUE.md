@@ -55,6 +55,16 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The affine cusp handoff now begins with only a represented structural section.
+After base change to the residue field, its retraction is surjective; the
+kernel therefore gives a canonical maximal and closed point of the special
+fibre, and the section is proved to meet that exact point. The genuine
+`Spec.map` formal-immersion theorem and both the prime-five and
+order-35/prime-eleven arithmetic endpoints consume this derived point
+(`bfc2745`). This removes a weak caller-chosen-fibre-point API, but it does not
+construct the integral `X₀` cusp chart, q-parameter, quotient collision, or
+optimal-quotient q-expansion. No node credit or Challenge change is claimed.
+
 The newest shared-geometry boundary transports Tau Ceti's exact weighted
 basepoint-change identities into the actual absolute scheme `Pic⁰`. Point
 classes translate by the marked weight times `[x₀]-[y₀]`, divisor classes
@@ -152,11 +162,12 @@ single-thread builds, and declaration audits accepted the chain with only
 derives preservation of the identity from addition and cancellation while
 retaining its old projection-shaped consumer (`2a60eec`); the actual scheme
 group law and Picard/Jacobian comparison remain open. The affine cusp handoff
-now packages the actual section law and selected fibre point together;
-contravariance derives its coordinate-ring retraction, and checked consumers
-reach both the uniform prime endpoint at five and order 35 at eleven
-(`5f80342`). The represented integral modular cusp and its q-expansion remain
-open. The X₁(18) Eisenstein descent now excludes simultaneous ramified-prime
+now derives a canonical closed fibre point from the actual section law;
+contravariance and residue-field base change supply its retraction and both
+residue surjections, and checked consumers reach both the uniform prime
+endpoint at five and order 35 at eleven (`5f80342`, `bfc2745`). The represented
+integral modular cusp and its q-expansion remain open. The X₁(18) Eisenstein
+descent now excludes simultaneous ramified-prime
 support, proves that `2` is inert, removes the exact forced powers of two,
 allocates the coprime normalized factors to cubes, and eliminates eight of the
 nine unit-class pairs in each scalar branch. Exactly two explicit integer
@@ -174,14 +185,14 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 805 Lean modules and 1,499,841 Lean lines.
+exact quality baseline is 805 Lean modules and 1,500,224 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
 transfer with `LEAN_NUM_THREADS=1`. The stable local endpoints and reviewed X₀
 declarations use only `propext`, `Classical.choice`, and `Quot.sound`. The
-affine-section handoff was independently rebuilt through its 3,088-job generic
-target and 8,749-job arithmetic consumer; its six audited declarations have
+affine-section handoff was independently rebuilt through its 8,749-job
+arithmetic consumer; all thirteen newly audited definitions and theorems have
 the same standard axiom closure. The X₁(18) endpoint rebuilds 3,569 jobs.
 The X₀ section and generic finite-flat `Γ₀(N)` consumer rebuild 3,159
 jobs after two stale cached payloads were quarantined and regenerated; their
@@ -220,8 +231,9 @@ warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
 workers are pursuing the A3 normalized-transition/effectivity seam, the honest
 fppf multiplicative-cocycle-to-invertible-module descent comparison, and the
-represented integral X₀ cusp/moduli handoff needed by the prime-five and
-level-35 consumers. The finite-flat lane still also needs the independent
+represented elliptic quotient/dual seam needed by the coarse `X₀` moduli
+point. The represented integral cusp chart remains queued for the prime-five
+and level-35 consumers. The finite-flat lane still also needs the independent
 constant-factor global `H¹` calculation, while X₁(18) now returns to its fixed
 genus-two Jacobian or complete-descent leaf.
 
@@ -1293,11 +1305,12 @@ within each lane follows the listed order.
    parameter surviving modulo its square now supplies degree one, and an
    actual localized identity with unit q coefficient constructs the detected
    vector and proves formal immersion of `Spec.map`. An actual affine
-   structural section, its section law, and the chosen fibre point are now one
-   checked object; contravariance derives the algebra retraction and both
-   residue surjections, with final consumers at five and eleven. Next
-   construct the represented integral cusp chart and instantiate that section
-   package, its generator and non-square proofs, and the modular quotient
+   structural section now canonically selects the fibre point as the kernel of
+   its base-changed retraction and proves that point maximal and closed;
+   contravariance derives both residue surjections, with final consumers at
+   five and eleven. Next construct the represented integral cusp chart and
+   instantiate that section package, its generator and non-square proofs, and
+   the modular quotient
    q-expansion identity; no independent residue-field hypothesis remains at
    that handoff.
 3. `MT-X0-CUSPS` (20): cusp sections, Atkin--Lehner transport, and the exact
