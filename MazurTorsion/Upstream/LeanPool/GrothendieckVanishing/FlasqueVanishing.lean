@@ -67,10 +67,11 @@ lemma sections_exact_of_shortExact {X : TopCat.{u}}
     infer_instance
   let complex := @ShortComplex.map _ _ _ _ _ _ S sectV hzero
   have hhomology : complex.HasHomology := inferInstance
+  let z : S.X₂ ⟶ S.X₃ := 0
   have hexact : complex.Exact :=
     @ShortComplex.Exact.map_of_mono_of_preservesKernel _ _ _ _ _ _ S _
       hS.exact sectV hzero hhomology hS.mono_f
-      (PreservesLimitsOfShape.preservesLimit (F := sectV) (K := parallelPair S.g 0))
+      (PreservesLimitsOfShape.preservesLimit (F := sectV) (K := parallelPair S.g z))
   exact (ShortComplex.ab_exact_iff complex).mp hexact x hx
 
 private lemma presheaf_map_eq {X : TopCat.{u}}
@@ -179,7 +180,7 @@ private lemma chain_isCompatible_of_chain {X : TopCat.{u}}
     {g : F ⟶ G} {U : Opens X} {s : G.obj.obj (op U)}
     {c : Set (StructuredArrow ⟨op U, s⟩
       (Functor.whiskerRight g.hom (CategoryTheory.forget AddCommGrpCat.{u})).mapElements)}
-    (hchain : IsChain (fun x y ↦ Nonempty (y ⟶ x)) c) :
+    (hchain : IsChain (fun x y ↦ Nonempty (StructuredArrow.Hom y x)) c) :
     TopCat.Presheaf.IsCompatible F.obj
       (fun x : c ↦ x.1.right.1.unop)
       (fun x : c ↦ x.1.right.2) := by
@@ -257,7 +258,8 @@ private lemma under_extend_by_one_open {X : TopCat.{u}}
     (ht' : ConcreteCategory.hom (S.g.hom.app (op W)) t' =
       ConcreteCategory.hom (S.X₃.obj.map (homOfLE hWU).op) s)
     {x : X} (hxW : x ∈ W) :
-    ∃ y : PartialLift S.g s, Nonempty (y ⟶ t) ∧ x ∈ y.right.1.unop := by
+    ∃ y : PartialLift S.g s, Nonempty (StructuredArrow.Hom y t) ∧
+      x ∈ y.right.1.unop := by
   let V₀ : Opens X := t.right.1.unop
   let t₀ : S.X₂.obj.obj (op V₀) := t.right.2
   have hV₀U : V₀ ≤ U := leOfHom t.hom.val.unop
@@ -278,8 +280,11 @@ private lemma under_extend_by_one_open {X : TopCat.{u}}
     exact hcompat_patch
   obtain ⟨y, hy_open, hy⟩ := exists_glued_lift_upper_bound S.g s T hcompat_glue
   refine ⟨y, hy false, ?_⟩
+  have hright : (T true).right.1 = op W := by rfl
   rw [hy_open]
-  exact Opens.mem_iSup.mpr ⟨true, by simpa [T] using hxW⟩
+  refine Opens.mem_iSup.mpr ⟨true, ?_⟩
+  rw [hright]
+  exact hxW
 
 /-- If `0 → X₁ → X₂ → X₃ → 0` is short exact and every restriction map of the
 underlying presheaf `S.X₁.obj` is epi, then `g(U) : X₂(U) → X₃(U)` is epi. -/
@@ -302,9 +307,10 @@ theorem epi_app_of_shortExact_of_epi_restrictions {X : TopCat.{u}}
         chain_isCompatible_of_chain (g := S.g) (s := s) (c := c) hchain
       obtain ⟨ub, _, hub⟩ := exists_glued_lift_upper_bound S.g s (fun x : c ↦ x.1) hcompat
       exact ⟨ub, fun a ha ↦ hub ⟨a, ha⟩⟩)
-    (fun {a b c : PartialLift S.g s} (hab : Nonempty (b ⟶ a))
-      (hbc : Nonempty (c ⟶ b)) ↦
-      ⟨hbc.some ≫ hab.some⟩)
+    (fun {a b c : PartialLift S.g s}
+      (hab : Nonempty (StructuredArrow.Hom b a))
+      (hbc : Nonempty (StructuredArrow.Hom c b)) ↦
+      ⟨StructuredArrow.homMk (hbc.some.right ≫ hab.some.right) (by cat_disch)⟩)
   let V₀ : Opens X := t.right.1.unop
   let t₀ : S.X₂.obj.obj (op V₀) := t.right.2
   have hV₀U : V₀ ≤ U := leOfHom t.hom.val.unop
@@ -319,7 +325,7 @@ theorem epi_app_of_shortExact_of_epi_restrictions {X : TopCat.{u}}
     obtain ⟨y, hyt, hxy⟩ :=
       under_extend_by_one_open (S := S) hS hX₁_epi
         s t W (leOfHom iWU) t' ht' hxW
-    have h_back : Nonempty (t ⟶ y) := hmax y hyt
+    have h_back : Nonempty (StructuredArrow.Hom t y) := hmax y hyt
     exact hxV₀ (leOfHom h_back.some.right.val.unop hxy)
   exact ⟨ConcreteCategory.hom (S.X₂.obj.map (homOfLE hUleV₀).op) t₀, by
     rw [S.g.hom.naturality_apply (homOfLE hUleV₀).op t₀, ht₀]
