@@ -63,8 +63,13 @@ modulo `p`th powers, the localized-prime class generates the quotient, and its
 exact cardinality `p` and receives `FinitePGroup.CertifiedData` of length one.
 The checked geometric Kummer equivalence transports this certificate to the
 actual kernel of `H¹(mu_p) -> H¹(G_m)` (`e23b431`). This is a genuine
-downstream consumer, but it does not prove `H¹(G_m)=0`; the Picard calculation
-over the good open and the constant-factor `H¹` calculation remain open.
+downstream consumer. The immediate arithmetic Picard input is now also
+checked: `Z[1/ell]` is a principal ideal ring, every ring-Picard class is one,
+and every invertible module is explicitly linearly equivalent to the trivial
+rank-one module (`d780fe9`). This still does not prove `H¹(G_m)=0`; the missing
+map is the effective fppf descent comparison from a multiplicative cocycle to
+an invertible module. The constant-factor `H¹` calculation remains independent
+and open.
 
 The newest A3 boundary proves the lower coherence that the prior checkpoint
 had isolated. Extension of inverse fractional ideals through a flat ring
@@ -78,6 +83,22 @@ pairwise-model cocycle unconditionally (`c1e5c2c`, reviewed from contributor
 Challenge: normalized-transition comparison, full descent effectivity, object
 separation, rational normalization, Picard surjectivity, and the complete
 dictionary remain open.
+
+The active order-18 global route now has a checked anti-diagonal quotient of
+the surviving four-scalar cube correspondence (`b37dbd5`, reviewed from
+contributor `e5c477a`). Complete projective enumeration over `F_5` removes the
+exceptional denominator, the quotient sextic is Möbius-related to the existing
+order-eighteen model, and its homogeneous equation factors as
+`A² + 2*B²`. For primitive coordinates, two explicit Bézout identities and
+mod-16/mod-8 certificates prove `gcd(A,B)=1` or `8`; a canonical rational-to-
+integral norm datum is the real downstream consumer. This does not classify
+the rational points. Owner review then completed the point-level Möbius
+transport (`0b4da17`): the exceptional original abscissa `x=-1` is impossible,
+the inverse abscissa and ordinate scaling compile, and every original rational
+point supplies a nonexceptional anti-diagonal point. The remaining leaf is a
+fixed genus-two Jacobian rank-zero certificate or an equivalent complete
+descent. Before final installation, the low-level transport must move below
+`XOneEighteenDescent` to avoid the immutable Challenge's import cycle.
 
 The current content boundary also constructs the geometric multiplicative
 Kummer boundary required by the finite-flat rank-zero lane. Laurent-coordinate
@@ -135,7 +156,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 803 Lean modules and 1,498,748 Lean lines.
+exact quality baseline is 804 Lean modules and 1,499,604 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -157,14 +178,16 @@ injectivity, and range equivalence have the same audited axiom closure and
 compile through the finite-flat quotient and elementary-global-section
 consumers. Generic exactness at kernel-valued `H¹` and the concrete Kummer
 kernel equivalence also compile in the 3,029-job focused dependency closure.
-The prime-localization Kummer calculation rebuilds in a 3,032-job focused
-target, and all fourteen audited arithmetic and geometric-kernel declarations
-use only the three standard axioms. The A3 affine and curve consumers rebuild
+The prime-localization Kummer and ring-Picard calculation rebuilds in a focused
+target, and all seventeen audited arithmetic, geometric-kernel, and invertible-
+module declarations use only the three standard axioms. The A3 affine and curve consumers rebuild
 3,079 and 3,463 jobs at the default heartbeat; all eleven new public
 declarations have the same standard axiom closure.
 The X₁(18) branch-unification and seven-scaled normalization modules rebuild
 3,578 and 3,579 jobs respectively; their audited public declarations use only
-the standard axioms.
+the standard axioms. The repaired quadratic-norm module rebuilds its 3,581-job
+closure, and all thirty-seven public declarations likewise use only the standard
+axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -172,10 +195,11 @@ target builds 8,788 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The next
 workers are pursuing the A3 normalized-transition/effectivity seam, the
-genuine X₀ scheme group law/Picard comparison, and a global Jacobian or
-explicit genus-two elimination of the final X₁(18) cubic leaf. The finite-flat
-lane next needs the Picard-zero consequence for `H¹(G_m)` on the localized
-base and the independent constant-factor global `H¹` calculation.
+order-35 modular quotient handoff, and a checked fixed-Jacobian certificate for
+the anti-diagonal X₁(18) curve. The finite-flat lane next needs the effective
+fppf cocycle-to-invertible-module comparison that turns the checked ring-Picard
+calculation into `H¹(G_m)=0`, plus the independent constant-factor global `H¹`
+calculation.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
@@ -1435,8 +1459,14 @@ or accounting shortcut.
   cube coordinates force `42 ∣ eta`, and the seven-scaled deck chart leaves
   one explicit four-variable cubic leaf. Local seven-adic descent is
   demonstrably insufficient because all normalized residue branches Hensel
-  lift. The active route is a genuine global Jacobian or explicit genus-two
-  descent. The Challenge remains open until that obstruction is proved.
+  lift. The anti-diagonal quotient now removes its exceptional denominator,
+  identifies a Möbius-related genus-two sextic, packages its homogeneous
+  equation as `A² + 2*B²` with primitive coefficient gcd one or eight, and
+  transports every original rational point with the exact ordinate scaling
+  and inverse abscissa. The active route is the fixed curve's genuine Jacobian
+  rank-zero certificate or an equivalent complete descent. The Challenge
+  remains open until that classification is proved and the low-level transport
+  is refactored below its immutable destination module.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. The remaining proof is the genuine Mazur--Tate
@@ -1462,8 +1492,10 @@ or accounting shortcut.
   isomorphisms and its `basicOpenIsoSpecAway` direct-localization consumer are
   now independently reviewed and integrated. The arithmetic Kummer quotient
   and its actual geometric kernel over every `Z[1/ell]` have exact length-one
-  certificates. Ambient `H¹(G_m)`/Picard vanishing, the constant-factor global
-  `H¹` calculation, and middle-`H¹` finiteness remain open.
+  certificates. The base ring is now principal, its ring Picard group is
+  trivial, and every invertible module is explicitly trivialized. Effective
+  descent from the checked fppf cocycles to those modules, the constant-factor
+  global `H¹` calculation, and middle-`H¹` finiteness remain open.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The quotient/special-fibre
   cotangent lift and mapped-ideal scheme consumer are also independently

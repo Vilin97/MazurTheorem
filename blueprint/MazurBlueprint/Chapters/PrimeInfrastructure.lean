@@ -566,6 +566,12 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClassesCertifiedDataPrimeAway`
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryKernelCertifiedDataPrimeAway`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.away_isPrincipalIdealRing`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayPic_eq_one`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayInvertibleModuleLinearEquiv`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -669,11 +675,16 @@ presheaf comparison, now identifies that spelling with the original represented 
 downstream consumers. Explicit cover-level and global `H¹` transport along base equivalences now
 commutes with refinements and combines with represented-point base change. The
 `basicOpenIsoSpecAway` consumer transports both supported comparisons to the direct
-`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group certificates now transport to the exact
-constant-flat and multiplicative-flat carriers with unchanged lengths and p-power cardinalities;
-no constant-group or Kummer arithmetic is inferred. An open-sheaf equivalence, global
-cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the
-two global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
+`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group
+certificates now transport to the exact constant-flat and multiplicative-flat
+carriers with unchanged lengths and p-power cardinalities;
+the multiplicative Kummer kernel over every prime localization now has an actual length-one
+certificate. The localization is a principal ideal ring, its ring Picard group is trivial, and
+every invertible module is explicitly trivialized. The missing comparison is from a represented
+multiplicative fppf cocycle to its descended invertible module; no ambient `H¹(G_m)` vanishing is
+claimed. An open-sheaf equivalence, global cohomological localization sequence,
+quasi-finite admissible-filtration exact sequences, the constant-factor global
+`H¹` calculation, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.
 :::
 

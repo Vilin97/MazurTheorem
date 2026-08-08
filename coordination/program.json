@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1498748,
-    "integrated_lean_modules": 803,
+    "integrated_lean_lines": 1499604,
+    "integrated_lean_modules": 804,
     "remaining_composite_orders": [
       18,
       25,
@@ -583,7 +583,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Allocation above 2, the distinguished-prime-above-7 constraint, and the remaining unit cases are open.",
+      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. A fixed genus-two Jacobian rank-zero certificate or an equivalent checked descent is still required; the Challenge remains open, and final installation requires resolving the downstream import cycle.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -605,6 +605,48 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneEighteenEisensteinIntegers",
           "description": "Carry the narrowed support-only-over-two obstruction through the checked descent to the exact-order-18 exclusion."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalExceptionalPolynomial_ne_zero",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Remove the exceptional denominator of the anti-diagonal quotient by complete projective enumeration modulo five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalZ_sq_of_fourScalarCorrespondence",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Map every surviving nondegenerate four-scalar cube correspondence to the explicit anti-diagonal genus-two curve."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalSextic_birational_identity",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Prove the polynomial covariance identity underlying the Möbius comparison with the existing order-eighteen model."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.gcd_antiDiagonalNorm_eq_one_or_eight",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Prove that the two integral coefficients in the quadratic norm factorization have gcd exactly one or eight on primitive coordinates."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.exists_primitive_quadraticNormDatum_of_fourScalarCorrespondence",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Package the quotient, homogeneous norm equation, and exact gcd alternatives as a real consumer of the surviving four-scalar leaf."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.exists_antiDiagonal_point_of_orderEighteen_point",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "description": "Transport every rational point of the original order-eighteen sextic to a nonexceptional anti-diagonal point, including ordinate scaling and the inverse abscissa identity."
         }
       ],
       "depends_on": [
@@ -632,7 +674,7 @@
           "MazurTorsion.NumberTheory.XOneEighteenDescent"
         ],
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
-        "recommended_route": "Finish the classical Eisenstein π=3+ω descent using the primitive descent data already proved, or give another kernel-checked rational-point classification.",
+        "recommended_route": "Formalize a fixed genus-two Jacobian rank-zero certificate for the checked anti-diagonal sextic, or finish an equivalent complete descent. Before installing the immutable destination, split the low-level point transport below XOneEighteenDescent to avoid the current downstream import cycle.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
@@ -3981,7 +4023,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Quasi-finite admissible-filtration exact sequences, ambient H1(G_m) vanishing over the prime localization, the constant-factor global H1 calculation, and middle-H1 finiteness remain open.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The same prime localization is now proved principal; its ring Picard group is trivial, and every invertible module is explicitly equivalent to the trivial rank-one module. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. The comparison from multiplicative fppf cocycles to invertible modules, quasi-finite admissible-filtration exact sequences, the constant-factor global H1 calculation, and middle-H1 finiteness remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -4919,6 +4961,27 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.KummerLocalizationAway",
           "description": "Transport the exact arithmetic certificate to the genuine geometric Kummer kernel as its compiled downstream consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.away_isPrincipalIdealRing",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.KummerLocalizationAway",
+          "description": "Prove that the prime localization Z[1/ell] is a principal ideal ring using localized Dedekind and unique-factorization structure."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayPic_eq_one",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.KummerLocalizationAway",
+          "description": "Trivialize every class in the ring Picard group of Z[1/ell]."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayInvertibleModuleLinearEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.KummerLocalizationAway",
+          "description": "Give every invertible Z[1/ell]-module an explicit linear equivalence with the trivial rank-one module as a downstream Picard consumer."
         }
       ],
       "depends_on": [
