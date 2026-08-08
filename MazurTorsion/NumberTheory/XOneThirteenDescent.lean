@@ -1416,8 +1416,9 @@ def PrimitiveCyclicCubicObstruction : Prop :=
     False
 
 /-- The two-case integral boundary left after comparing all coefficients
-of the split cubic.  The quotient is `-4` or `4`; rational functions and
-denominator side conditions no longer occur in this statement. -/
+of the split cubic.  The quotient is `-4` or `4`; rational-function
+equalities have become integral identities, while canonical denominator
+positivity and the two cusp exclusions remain explicit. -/
 def FiniteSplitCyclicCubicObstruction : Prop :=
   ∀ m n a b k : ℤ,
     0 < n →
