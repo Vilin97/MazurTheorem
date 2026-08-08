@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle
-
+import Mathlib.Tactic.IrreducibleDef
 /-!
 # The raw divisor cocycle in the chosen-overlap descent API
 
@@ -236,7 +236,7 @@ theorem localLineBundleChosenOverlapIso_raw_cocycle_prime
       K X f U hnonempty hcover hU h D i j k
 
 /-- The chosen raw overlap isomorphisms as one opaque family. -/
-noncomputable def localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
+noncomputable irreducible_def localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
@@ -282,8 +282,8 @@ theorem localLineBundleRawOverlapIsoFamily_cocycle_prime
         (F := LineBundleDescent.modulesPseudofunctor)
         (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
         (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₃ := by
-  unfold localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
-  exact localLineBundleChosenOverlapIso_raw_cocycle_prime
-    K X f U hnonempty hcover hU h D i j k
+  simpa only [localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve_def] using
+    localLineBundleChosenOverlapIso_raw_cocycle_prime
+      K X f U hnonempty hcover hU h D i j k
 
 end MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
