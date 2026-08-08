@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1510450,
-    "integrated_lean_modules": 837,
+    "integrated_lean_lines": 1510591,
+    "integrated_lean_modules": 838,
     "remaining_composite_orders": [
       18,
       25,
@@ -1563,7 +1563,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The generic theorem that an invertible cocycle forces diagonal normalization was reviewed but deliberately not integrated because its concrete specialization does not compile at the default elaboration budget. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is a compiled diagonal-normalization consumer connecting the raw all-index cocycle to `LineBundleCocycle`, followed by full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The generic theorem that an invertible cocycle forces diagonal normalization was reviewed but deliberately not integrated because its concrete specialization did not compile at the default elaboration budget; an active narrower consumer avoids the expensive pullback/map conversion. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. For arbitrary module descent data, the actual product of direct images, both transition-compatible overlap maps, their equalizer, and the adjoint chart-restriction morphism now compile. This is the global compatible-family candidate, not effectivity: the chart morphism is not yet proved invertible. What remains is the raw diagonal-normalization consumer, the open-pullback restriction/pushforward comparison, construction of inverse chart maps and the resulting descent-data isomorphism, followed by object separation, rational normalization, and Picard surjectivity.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3023,6 +3023,27 @@
           "state": "contract",
           "description": "Compile the full all-index cocycle for the opaque raw overlap-isomorphism family as a real consumer of the named triple transition proof.",
           "module": "MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyModule",
+          "state": "contract",
+          "description": "Construct the genuine equalizer of the two overlap-restriction maps on the product of all pushed-forward local modules for one coherent descent datum.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom",
+          "state": "contract",
+          "description": "Expose the adjoint chart-restriction morphism from the compatible-family equalizer to the specified local module; proving it invertible is the next effectivity seam.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct",
+          "state": "contract",
+          "description": "Verify that the chart-restriction morphism is exactly adjoint to projection of compatible families onto the selected pushed-forward local module.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
         },
         {
           "kind": "theorem",

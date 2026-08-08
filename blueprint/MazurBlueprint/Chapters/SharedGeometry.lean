@@ -192,6 +192,9 @@ normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamily_cocycle_prime`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne`.
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyModule`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -221,7 +224,11 @@ uses source-level options forbidden in this task. The concrete raw overlap-isomo
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
 indices. The generic idempotent-isomorphism normalization lemma was reviewed but held out of the
 integrated API because its concrete specialization does not compile at the default elaboration
-budget. The descent API now packages specified
+budget. Independently, the checked compatible-family equalizer is now the kernel of the two
+overlap maps, its chart projection is transposed through the pullback--pushforward adjunction,
+and the adjunct equation is proved. This is a genuine candidate for the direct image of the
+eventual descended module, but no chart projection is yet proved invertible. The descent API now
+packages specified
 pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
 descent data. It separates object effectivity, cover-wide module effectivity, essential
 injectivity on objects, and fully faithful module descent instead of asserting a stack theorem.
@@ -480,6 +487,18 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.EffectiveInvertible.restrictionIso`
   Recover the isomorphism between the descended global line bundle and every local chart object.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyModule`
+  Construct the equalizer of the two genuine overlap maps on the products of chart
+  pushforwards.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom`
+  Transpose the equalizer projection to a canonical map from the restriction of the compatible
+  family to each chart object.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`
+  Identify the adjunct of each chart restriction map with the corresponding equalizer
+  projection.
 * `structure` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle`
   Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple

@@ -85,6 +85,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The arbitrary-module effectivity lane now has its genuine global candidate.
+For one coherent module descent datum, the product of all direct images and
+the product over pairwise overlaps are connected by the two actual
+restriction/transition maps; their equalizer is an `X.Modules` object. Its
+projection to every direct image is transposed through the genuine
+pullback--pushforward adjunction to the required chart-restriction morphism
+(`078132e`, independently reviewed from `c4d1742`). Both the 2,753-job focused
+module build and the 3,493-job public Geometry build pass serially, and the
+two theorem declarations use only `propext`, `Classical.choice`, and
+`Quot.sound`. No effectivity is asserted: the chart morphisms still need
+checked inverses. The next exact seam is open-pullback base change, followed
+by the cocycle-defined inverse family and a descent-data isomorphism. A3
+remains open and receives no completion credit. The exact quality baseline is
+now 838 Lean modules and 1,510,591 Lean lines.
+
 The A3 overlap transport now has a source-clean, definitionally aligned
 forward map. Owner review quarantined a stale cached payload and rejected the
 first contributed spelling because it timed out at the default heartbeat;
@@ -1844,13 +1859,25 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-a3-coherence-api`: the lower tensor/inverse-ideal naturality proof,
-  real `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise
-  curve compatibility, and unconditional cocycle consumer are independently
-  reviewed and integrated at the default heartbeat. The lane now moves to the
-  normalized-transition comparison, cover-wide descent effectivity, object
-  separation, rational normalization, and Picard surjectivity required by the
-  unchanged A3 Challenge.
+- `codex/mt-a3-raw-normalization-consumer` is reducing the checked all-index
+  raw cocycle to a concrete normalized `LineBundleCocycle` and full descent
+  datum without raising elaboration limits. Direct specialization and a
+  pullback/map-typed factory timed out reproducibly; the active route packages
+  the diagonal pullback as an explicit `Iso` and cancels its idempotent Hom.
+- `codex/mt-open-pullback-basechange` starts from the reviewed compatible-family
+  equalizer at `078132e`. It is proving the one cartesian-open comparison
+  `f_j,* ; f_i^* ≅ p_1,* ; p_2^*` and must compile the actual chart-family
+  component before acceptance. The following step constructs the inverse
+  chart maps, proves the equalizer equations from `D.hom_comp`, and packages
+  object-specific `EffectiveModule`; object separation, rational
+  normalization, and Picard surjectivity then remain for the unchanged A3
+  Challenge.
+- `codex/mt-cleanroom-affine-local-killing` independently derives the actual
+  affine `H¹` local-killing cover using only licensed pinned APIs. The earlier
+  technically sound contribution is rejected because its adapted AINTLIB
+  sources lack an explicit compatible license. The clean-room endpoint must
+  retain the exact scheme-module unit consumed by the held affine-`H¹`
+  vanishing theorem.
 - `weighted local arithmetic`: the five- and eleven-adic depth chains are
   independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
   the selected model's checked minimality contradiction. Preserve the older
