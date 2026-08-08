@@ -92,6 +92,23 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The B1 facade now carries a chosen affine cover's base-ring action all the way
+from ordered base-Cech degree-one homology to genuine Ext-based sheaf `H¹`.
+`genuineSheafHOneBaseModule_of_affineOpenCover` is an explicit named module,
+not a global instance; a private dependent package shares that exact action
+with `genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover` without
+raising the elaboration budget.  The real downstream theorem
+`genuineSheafHOne_finite_of_ordered_affineOpenCover` composes the earlier
+ordered/native finite transfer with the affine-cover comparison (`94c814b`,
+reviewed from `3048167`).  The 2,932-job focused serial build passes and all
+five public declarations use only `propext`, `Classical.choice`, and
+`Quot.sound`.  This closes scalar transport only: the current worker is
+porting the narrow support/Chow argument needed to prove ordered H1 finiteness
+from properness.  No properness, base change, or semicontinuity claim is
+inferred, and B1 receives no credit.  Together with the integrated
+proper-curve vanishing above degree one, the exact quality baseline is now
+898 Lean modules and 1,530,476 Lean lines.
+
 The A3 compatible-family equalizer now proves ordinary module effectivity on
 every universe-zero-indexed scheme open cover.  The explicit chartwise
 restriction isomorphisms commute with the chosen overlap transitions; the

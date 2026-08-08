@@ -3159,7 +3159,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. Injective abelian sheaves are flasque by extension from free abelian representables, and an actual injective-cokernel induction proves flasque acyclicity in every positive degree. A recursive syzygy datum now records exactly the finite chain of affine section-surjectivity facts needed to kill an arbitrary positive-degree class. Lower-degree affine pullback vanishing derives that datum through the long exact sequence and flasque middle terms; generic finite local killing and lower-degree vanishing of the genuine quasicoherent cover cokernel then prove, by strong induction, that quasicoherent H^(n+1) is zero on every affine spectrum and every affine scheme for all n. The explicit H3 declarations are checked index-two consumers. Thus the affine acyclicity part of B1 is complete. Proper finite-dimensionality, proper-curve H1 finiteness, and proper-curve vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves applies to actual Scheme.Modules on the Zariski opens site. Degree zero is naturally identified with global sections, with an explicit global-functions action and linear affine-tilde finite-generation consumer. Quasicoherent cokernel closure, finite affine restriction-pushforward covers, the canonical short exact cover sequence, the retained long exact sequence, flasque injective acyclicity, recursive syzygies, and finite local killing prove by strong induction that quasicoherent cohomology vanishes in every positive degree on every affine scheme. The LeanPool Grothendieck-vanishing proof, Tau Ceti's dimension-one theorem, and proper/smooth Noetherianity then prove genuine sheaf cohomology vanishes in every degree at least two on a smooth proper integral curve. Separately, an option-free AINTLIB slice proves that finite generation of ordered base-Cech H1 transfers to native all-tuples base-Cech H1. On every affine open cover the native object's underlying additive group is isomorphic to genuine Ext-based sheaf H1; an explicit cover-dependent global-functions module is transported across that isomorphism, and the named consumer `genuineSheafHOne_finite_of_ordered_affineOpenCover` transfers ordered finite generation to genuine H1. The remaining B1 mathematics is the proper ordered base-Cech low-degree finiteness input, its support/Chow construction, and the final field-linear proper-curve finite-dimensional facade. No base change or semicontinuity is claimed.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3169,7 +3169,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only the exact-sequence core is retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. The clean-room proof now covers every positive degree through recursive syzygies, flasque acyclicity, and genuine affine-cover dimension shifting. The required packaged proper-curve finite-dimensionality, H1 finiteness, and vanishing-above-one API remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge and additive sheaf-H1 comparison compile, but the AINTLIB support/Chow proper-finiteness cone remains excluded pending a narrow provenance and placeholder audit. Proper coherent H1 finiteness and its final field-linear facade remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3488,6 +3488,62 @@
           "state": "contract",
           "description": "Transport the all-positive affine-spectrum result to every affine scheme; the elementwise zero theorem is its checked consumer.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_subsingleton",
+          "state": "contract",
+          "description": "Apply Grothendieck vanishing and the dimension-one bound to genuine sheaf cohomology on a smooth proper integral curve in every degree at least two.",
+          "module": "MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero",
+          "state": "contract",
+          "description": "Expose the elementwise zero consumer of proper-curve higher cohomology vanishing.",
+          "module": "MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered",
+          "state": "contract",
+          "description": "Transfer finite generation from ordered degree-one base-Cech homology to the native all-tuples complex.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover",
+          "state": "contract",
+          "description": "Identify the underlying additive group of native base-Cech H1 with genuine Ext-based sheaf H1 on an affine open cover.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.exists_nativeBaseCechHOne_class_of_sheafHOne_class",
+          "state": "contract",
+          "description": "Give an elementwise representative consumer of the additive native-Cech/sheaf-H1 comparison.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneBaseModule_of_affineOpenCover",
+          "state": "contract",
+          "description": "Transport the global-functions action to genuine sheaf H1 through a chosen affine-cover comparison without registering a global instance.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover",
+          "state": "contract",
+          "description": "Upgrade the affine-cover native-Cech/sheaf-H1 comparison to a linear equivalence for the explicit transported action.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover",
+          "state": "contract",
+          "description": "Transfer ordered base-Cech H1 finite generation through the native comparison to genuine sheaf H1 with its explicit cover-dependent action.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
         }
       ],
       "depends_on": [

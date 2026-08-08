@@ -996,8 +996,15 @@ and flasque middle terms. Generic finite local killing, followed by
 lower-degree vanishing of the genuine quasicoherent cover cokernel, therefore
 proves by strong induction that every positive-degree quasicoherent
 cohomology group vanishes on every affine spectrum and every affine scheme.
-Proper finite-dimensionality, proper-curve H1 finiteness, and proper-curve
-vanishing above degree one remain open.
+The attributed LeanPool Grothendieck-vanishing proof and Tau Ceti's
+dimension-one bound now prove genuine sheaf cohomology vanishes above degree
+one on every smooth proper integral curve. Separately, ordered base-Cech H1
+finite generation transfers to the native all-tuples complex. On an affine
+open cover its underlying additive group is genuine Ext-based sheaf H1; an
+explicit cover-dependent global-functions action makes that comparison
+linear, and a named consumer transfers ordered finite generation to genuine
+H1. Proper ordered base-Cech low-degree finiteness, its support/Chow
+construction, and the final field-linear proper-curve facade remain open.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1150,6 +1157,37 @@ vanishing above degree one remain open.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHSucc_subsingleton`
   Transport all-positive affine-spectrum acyclicity to every affine scheme;
   its elementwise zero theorem is the checked downstream consumer.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_subsingleton`
+  Apply Grothendieck vanishing and the dimension-one bound to a smooth proper
+  integral curve in every degree at least two.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero`
+  Expose the elementwise zero consumer of proper-curve higher cohomology
+  vanishing.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
+  Transfer finite generation from ordered degree-one base-Cech homology to
+  the native all-tuples complex.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
+  Identify the underlying additive group of native base-Cech H1 with genuine
+  Ext-based sheaf H1 on an affine open cover.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.exists_nativeBaseCechHOne_class_of_sheafHOne_class`
+  Give an elementwise representative consumer of the additive comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneBaseModule_of_affineOpenCover`
+  Transport the global-functions action through the chosen affine-cover
+  comparison without registering a global instance.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover`
+  Upgrade the native-Cech/sheaf-H1 comparison to a linear equivalence for the
+  explicit transported action.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover`
+  Transfer ordered H1 finite generation through the native comparison to
+  genuine sheaf H1.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
