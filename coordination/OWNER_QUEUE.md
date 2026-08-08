@@ -83,11 +83,15 @@ contravariance derives its coordinate-ring retraction, and checked consumers
 reach both the uniform prime endpoint at five and order 35 at eleven
 (`5f80342`). The represented integral modular cusp and its q-expansion remain
 open. The X₁(18) Eisenstein descent now excludes simultaneous ramified-prime
-support and reaches a narrower exact-order consumer (`a8d104b`). The concrete
+support, proves that `2` is inert, removes the exact forced powers of two,
+allocates the coprime normalized factors to cubes, and eliminates eight of the
+nine unit-class pairs in each scalar branch. Exactly two explicit integer
+cubic systems survive, with their distinguished-prime-seven consequences
+retained in the exact-order consumer (`a8d104b`, `da3c238`, `a013f50`). The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 800 Lean modules and 1,493,750 Lean lines.
+exact quality baseline is 801 Lean modules and 1,495,041 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -111,9 +115,8 @@ target builds 8,788 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The next
 workers are pursuing A3 chosen-line-bundle pullback naturality and the genuine
-X₀ scheme group law/Picard comparison. The X₁(18) lane has kernel-checked the
-unit cases down to two explicit pure-integer cubic systems and is eliminating
-those final arithmetic cases.
+X₀ scheme group law/Picard comparison. The X₁(18) lane is eliminating the two
+final pure-integer cubic systems.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
