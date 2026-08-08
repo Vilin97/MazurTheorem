@@ -50,17 +50,32 @@ audit and local changes are recorded in `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSheaf.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCohomologyExact.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FormalCoproductAdditive.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechBasic.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCech.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechFlat.lean`
+    (two core declarations only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCech.lean`
+    (the core before the flatness tail only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/HomologicalComplexExactRetract.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechComparison.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
 - License: Apache License 2.0 under the upstream repository-wide license; see
   `LICENSE`. The local selected files carry added attribution headers.
 
-The selected files are stored under `MazurTorsion/Upstream/AINTLIB/`. The two
+The selected source and slices are stored under
+`MazurTorsion/Upstream/AINTLIB/`. The two
 sheaf-cohomology files preserve the upstream declarations and proofs, with
 only attribution, documentation, and formatting changes. The other files
 have the import and exact-pin compatibility adjustments recorded in
 `PORTING.md`; source-level option commands and linter findings were removed.
-No other AINTLIB geometry source is included. Details are recorded in
-`PORTING.md` and `docs/PRIOR_ART.md`.
+The base-Cech slice excludes the unused affine-comparison dependency and
+splits the ordered core before the flat/Picard tail. No other AINTLIB
+geometry source is included. Details are recorded in `PORTING.md` and
+`docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 

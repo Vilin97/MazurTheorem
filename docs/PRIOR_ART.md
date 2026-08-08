@@ -550,9 +550,14 @@ The strongest concrete reuse candidates are:
   proves that an affine-cover inclusion is injective on `H^(n + 1)` whenever
   `H^n` of its actual cokernel vanishes. The full affine-vanishing result is
   not claimed: constructing the local-killing cover and proving that
-  cokernel hypothesis remain open. Nor does this prior art provide the
-  packaged proper-curve finite-dimensionality, vanishing-above-one, relative
-  base change, or semicontinuity APIs required by the roadmap.
+  cokernel hypothesis remain open. The option-free base-Cech and ordered
+  degree-one comparison slices are also retained. The checked project
+  consumer `nativeBaseCechHOne_finite_of_ordered` transfers `Module.Finite`
+  from ordered degree-one homology to native all-tuples degree-one homology.
+  This intentionally stops before the source's properness cone: the
+  sheaf-Cech comparison, base-linear Ext transport, proper ordered input,
+  and final curve H1 facade remain open. Nor does this prior art provide
+  relative base change or semicontinuity APIs required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).
