@@ -39,10 +39,16 @@ and `N(3+ω)=7`.  We prove these norm identities, multiplicativity, two
 primitive-form Bézout identities, and the fact that the two norm forms
 cannot both be divisible by `7` for coprime integer parameters.
 
+For a rational root, comparison of all three coefficients of the cyclic
+cubic gives two binary quadratic--cubic identities.  Their resultant is
+`16`; a mod-`2` and mod-`16` calculation then proves that the remaining
+integer quotient is one of `-8`, `-4`, `4`, or `8`.  The final boundary is
+therefore a four-case primitive integral obstruction.
+
 These are algebraic and local prerequisites for the classical
 `π = 3+ω` descent.  They do not construct the induced endomorphism of the
 Jacobian, prove `π`-surjectivity on its Mordell--Weil group, determine its
-torsion, or classify rational points.
+torsion, or solve the four remaining integral cases.
 -/
 
 namespace MazurTorsion.XOneEighteenDescent
@@ -797,6 +803,357 @@ theorem exists_root_leadingCoefficient_quotient
       rw [hk]
       ring
 
+/-- Once the quotient parameter and a primitive rational root are both
+cleared, equality of the two invariant presentations determines the other
+two coefficients of the split cyclic cubic. -/
+theorem root_split_coefficient_identities
+    (m n a b k : ℤ) (hn : n ≠ 0) (hb : b ≠ 0)
+    (ha : a ≠ 0) (hab : a ≠ b)
+    (ht : ((m : ℚ) / (n : ℚ)) ^ 2 ≠ 1)
+    (hU :
+      conicU ((m : ℚ) / (n : ℚ)) =
+        invariantX ((a : ℚ) / (b : ℚ)))
+    (hk : m ^ 2 - n ^ 2 = k * (a * b * (a - b))) :
+    m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) ∧
+      -2 * m ^ 2 - 6 * m * n =
+        k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3) := by
+  have hnq : (n : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hn
+  have hbq : (b : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hb
+  have habq : (a : ℚ) - (b : ℚ) ≠ 0 := by
+    exact_mod_cast sub_ne_zero.mpr hab
+  have hparameterDenominator :
+      (m : ℚ) ^ 2 - (n : ℚ) ^ 2 ≠ 0 := by
+    intro hzero
+    apply ht
+    field_simp [hnq]
+    linear_combination hzero
+  have hrootProduct : a * b * (a - b) ≠ 0 :=
+    mul_ne_zero (mul_ne_zero ha hb) (sub_ne_zero.mpr hab)
+  have hcross :
+      (m ^ 2 - 6 * m * n - 3 * n ^ 2) *
+          (a * b * (a - b)) =
+        (m ^ 2 - n ^ 2) *
+          (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) := by
+    have hU' := hU
+    simp only [conicU, invariantX] at hU'
+    field_simp [hnq, hbq, habq, hparameterDenominator] at hU'
+    have hcrossQ :
+        (((m ^ 2 - 6 * m * n - 3 * n ^ 2) *
+            (a * b * (a - b)) : ℤ) : ℚ) =
+          (((m ^ 2 - n ^ 2) *
+            (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) : ℤ) : ℚ) := by
+      push_cast
+      linear_combination hU'
+    exact_mod_cast hcrossQ
+  have hfirst :
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) := by
+    apply mul_right_cancel₀ hrootProduct
+    calc
+      (m ^ 2 - 6 * m * n - 3 * n ^ 2) *
+            (a * b * (a - b)) =
+          (m ^ 2 - n ^ 2) *
+            (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) := hcross
+      _ = (k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3)) *
+            (a * b * (a - b)) := by rw [hk]; ring
+  exact ⟨hfirst, by
+    linear_combination hfirst - 3 * hk
+    ⟩
+
+private lemma primitive_split_mod_two :
+    ∀ m n a b k : ZMod 2,
+      (m ≠ 0 ∨ n ≠ 0) →
+      (a ≠ 0 ∨ b ≠ 0) →
+      m ^ 2 - n ^ 2 = k * (a * b * (a - b)) →
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) →
+      -2 * m ^ 2 - 6 * m * n =
+        k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3) →
+      m = 1 ∧ n = 1 ∧ k = 0 := by
+  decide
+
+/-- A primitive split fiber can only occur in the odd-odd parameter
+class.  Opposite parity would give the rootless cubic
+`z³ + z² + 1` modulo two. -/
+theorem split_parameters_odd
+    (m n a b k : ℤ)
+    (hmn : IsCoprime m n) (hab : IsCoprime a b)
+    (hk : m ^ 2 - n ^ 2 = k * (a * b * (a - b)))
+    (htrace :
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3))
+    (hpair :
+      -2 * m ^ 2 - 6 * m * n =
+        k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3)) :
+    Odd m ∧ Odd n := by
+  have hmnMod :
+      IsCoprime (m : ZMod 2) (n : ZMod 2) :=
+    hmn.intCast
+  have habMod :
+      IsCoprime (a : ZMod 2) (b : ZMod 2) :=
+    hab.intCast
+  have hkMod :
+      (m : ZMod 2) ^ 2 - (n : ZMod 2) ^ 2 =
+        (k : ZMod 2) *
+          ((a : ZMod 2) * (b : ZMod 2) *
+            ((a : ZMod 2) - (b : ZMod 2))) := by
+    simpa only [Int.cast_sub, Int.cast_pow, Int.cast_mul,
+      Int.cast_ofNat] using
+      congrArg (fun z : ℤ ↦ (z : ZMod 2)) hk
+  have htraceMod :
+      (m : ZMod 2) ^ 2 - 6 * (m : ZMod 2) * (n : ZMod 2) -
+          3 * (n : ZMod 2) ^ 2 =
+        (k : ZMod 2) *
+          ((a : ZMod 2) ^ 3 -
+            3 * (a : ZMod 2) * (b : ZMod 2) ^ 2 +
+            (b : ZMod 2) ^ 3) := by
+    simpa only [Int.cast_sub, Int.cast_pow, Int.cast_mul,
+      Int.cast_add, Int.cast_ofNat] using
+      congrArg (fun z : ℤ ↦ (z : ZMod 2)) htrace
+  have hpairMod :
+      -2 * (m : ZMod 2) ^ 2 -
+          6 * (m : ZMod 2) * (n : ZMod 2) =
+        (k : ZMod 2) *
+          ((a : ZMod 2) ^ 3 -
+            3 * (a : ZMod 2) ^ 2 * (b : ZMod 2) +
+            (b : ZMod 2) ^ 3) := by
+    simpa only [Int.cast_sub, Int.cast_pow, Int.cast_mul,
+      Int.cast_add, Int.cast_ofNat, Int.cast_neg] using
+      congrArg (fun z : ℤ ↦ (z : ZMod 2)) hpair
+  obtain ⟨hmMod, hnMod, -⟩ :=
+    primitive_split_mod_two
+      (m : ZMod 2) (n : ZMod 2) (a : ZMod 2) (b : ZMod 2)
+      (k : ZMod 2) hmnMod.ne_zero_or_ne_zero
+      habMod.ne_zero_or_ne_zero hkMod htraceMod hpairMod
+  have hmNotEven : ¬Even m := by
+    rw [even_iff_two_dvd]
+    intro hm
+    have hmZero : (m : ZMod 2) = 0 :=
+      (ZMod.intCast_zmod_eq_zero_iff_dvd m 2).2 hm
+    rw [hmMod] at hmZero
+    norm_num at hmZero
+  have hnNotEven : ¬Even n := by
+    rw [even_iff_two_dvd]
+    intro hn
+    have hnZero : (n : ZMod 2) = 0 :=
+      (ZMod.intCast_zmod_eq_zero_iff_dvd n 2).2 hn
+    rw [hnMod] at hnZero
+    norm_num at hnZero
+  exact ⟨Int.not_even_iff_odd.mp hmNotEven,
+    Int.not_even_iff_odd.mp hnNotEven⟩
+
+/-- The two independent split-fiber coefficients have resultant sixteen
+as binary quadratic forms in the primitive conic parameters. -/
+theorem split_parameter_resultant_identities (m n : ℤ) :
+    (15 * m + 9 * n) * (m ^ 2 - n ^ 2) +
+        (m - 3 * n) * (m ^ 2 - 6 * m * n - 3 * n ^ 2) =
+      16 * m ^ 3 ∧
+    (3 * m - 19 * n) * (m ^ 2 - n ^ 2) +
+        (-3 * m + n) * (m ^ 2 - 6 * m * n - 3 * n ^ 2) =
+      16 * n ^ 3 := by
+  constructor <;> ring
+
+private lemma primitive_trace_mod_two :
+    ∀ a b : ZMod 2,
+      (a ≠ 0 ∨ b ≠ 0) →
+      a ^ 3 - 3 * a * b ^ 2 + b ^ 3 = 1 := by
+  decide
+
+private lemma primitive_root_trace_odd
+    (a b : ℤ) (hab : IsCoprime a b) :
+    Odd (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) := by
+  have habMod :
+      IsCoprime (a : ZMod 2) (b : ZMod 2) :=
+    hab.intCast
+  have htraceMod :
+      ((a ^ 3 - 3 * a * b ^ 2 + b ^ 3 : ℤ) : ZMod 2) = 1 := by
+    simpa only [Int.cast_sub, Int.cast_pow, Int.cast_mul,
+      Int.cast_add, Int.cast_ofNat] using
+      primitive_trace_mod_two (a : ZMod 2) (b : ZMod 2)
+        habMod.ne_zero_or_ne_zero
+  apply Int.not_even_iff_odd.mp
+  rw [even_iff_two_dvd]
+  intro htwo
+  have hzero :
+      ((a ^ 3 - 3 * a * b ^ 2 + b ^ 3 : ℤ) : ZMod 2) = 0 :=
+    (ZMod.intCast_zmod_eq_zero_iff_dvd
+      (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) 2).2 htwo
+  rw [htraceMod] at hzero
+  norm_num at hzero
+
+private lemma odd_traceCoefficient_ne_zero_mod_sixteen :
+    ∀ m n : ZMod 16,
+      (ZMod.cast m : ZMod 2) = 1 →
+      (ZMod.cast n : ZMod 2) = 1 →
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 ≠ 0 := by
+  decide
+
+private lemma odd_intCast_mod_two_eq_one
+    (z : ℤ) (hz : Odd z) : (z : ZMod 2) = 1 := by
+  obtain ⟨r, rfl⟩ := hz
+  push_cast
+  simp [show (2 : ZMod 2) = 0 by decide]
+
+private lemma four_dvd_traceCoefficient_of_odd
+    (m n : ℤ) (hm : Odd m) (hn : Odd n) :
+    (4 : ℤ) ∣ m ^ 2 - 6 * m * n - 3 * n ^ 2 := by
+  obtain ⟨r, hr⟩ := hm
+  obtain ⟨s, hs⟩ := hn
+  refine ⟨r ^ 2 - 6 * r * s - 2 * r - 3 * s ^ 2 - 6 * s - 2, ?_⟩
+  rw [hr, hs]
+  ring
+
+private lemma sixteen_not_dvd_traceCoefficient_of_odd
+    (m n : ℤ) (hm : Odd m) (hn : Odd n) :
+    ¬(16 : ℤ) ∣ m ^ 2 - 6 * m * n - 3 * n ^ 2 := by
+  have hmReduce :
+      (ZMod.cast (m : ZMod 16) : ZMod 2) = 1 := by
+    rw [ZMod.cast_intCast (R := ZMod 2)
+      (by norm_num : 2 ∣ 16) m]
+    exact odd_intCast_mod_two_eq_one m hm
+  have hnReduce :
+      (ZMod.cast (n : ZMod 16) : ZMod 2) = 1 := by
+    rw [ZMod.cast_intCast (R := ZMod 2)
+      (by norm_num : 2 ∣ 16) n]
+    exact odd_intCast_mod_two_eq_one n hn
+  have hnonzero :
+      (m : ZMod 16) ^ 2 -
+          6 * (m : ZMod 16) * (n : ZMod 16) -
+          3 * (n : ZMod 16) ^ 2 ≠ 0 :=
+    odd_traceCoefficient_ne_zero_mod_sixteen
+      (m : ZMod 16) (n : ZMod 16) hmReduce hnReduce
+  intro hdvd
+  apply hnonzero
+  have hcast :
+      ((m ^ 2 - 6 * m * n - 3 * n ^ 2 : ℤ) : ZMod 16) = 0 :=
+    (ZMod.intCast_zmod_eq_zero_iff_dvd
+      (m ^ 2 - 6 * m * n - 3 * n ^ 2) 16).2 hdvd
+  simpa only [Int.cast_sub, Int.cast_pow, Int.cast_mul,
+    Int.cast_ofNat] using hcast
+
+/-- Primitivity and the split coefficient identities make the apparent
+quotient `k` a divisor of sixteen with exact two-adic order two or three.
+In particular, the remaining arithmetic boundary has only four possible
+signed values for `k`. -/
+theorem split_quotient_divisibility
+    (m n a b k : ℤ)
+    (hmn : IsCoprime m n) (hab : IsCoprime a b)
+    (hk : m ^ 2 - n ^ 2 = k * (a * b * (a - b)))
+    (htrace :
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3))
+    (hpair :
+      -2 * m ^ 2 - 6 * m * n =
+        k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3)) :
+    Odd m ∧ Odd n ∧
+      (4 : ℤ) ∣ k ∧ ¬(16 : ℤ) ∣ k ∧ k ∣ 16 := by
+  obtain ⟨hmOdd, hnOdd⟩ :=
+    split_parameters_odd m n a b k hmn hab hk htrace hpair
+  let trace := a ^ 3 - 3 * a * b ^ 2 + b ^ 3
+  have htraceOdd : Odd trace :=
+    primitive_root_trace_odd a b hab
+  have hDfour :
+      (4 : ℤ) ∣ m ^ 2 - 6 * m * n - 3 * n ^ 2 :=
+    four_dvd_traceCoefficient_of_odd m n hmOdd hnOdd
+  have hDnotSixteen :
+      ¬(16 : ℤ) ∣ m ^ 2 - 6 * m * n - 3 * n ^ 2 :=
+    sixteen_not_dvd_traceCoefficient_of_odd m n hmOdd hnOdd
+  have htwoCoprime : IsCoprime (2 : ℤ) trace := by
+    obtain ⟨r, hr⟩ := htraceOdd
+    exact ⟨-r, 1, by simp only [one_mul]; rw [hr]; ring⟩
+  have hfourCoprime : IsCoprime (4 : ℤ) trace := by
+    simpa using htwoCoprime.pow_left (m := 2)
+  have hkFour : (4 : ℤ) ∣ k := by
+    apply hfourCoprime.dvd_of_dvd_mul_right
+    rw [← htrace]
+    exact hDfour
+  have hkNotSixteen : ¬(16 : ℤ) ∣ k := by
+    intro hkSixteen
+    apply hDnotSixteen
+    rw [htrace]
+    exact hkSixteen.mul_right trace
+  have hkA : k ∣ m ^ 2 - n ^ 2 := ⟨a * b * (a - b), hk⟩
+  have hkD :
+      k ∣ m ^ 2 - 6 * m * n - 3 * n ^ 2 :=
+    ⟨trace, htrace⟩
+  obtain ⟨hmResultant, hnResultant⟩ :=
+    split_parameter_resultant_identities m n
+  have hkMCube : k ∣ 16 * m ^ 3 := by
+    rw [← hmResultant]
+    exact dvd_add (hkA.mul_left (15 * m + 9 * n))
+      (hkD.mul_left (m - 3 * n))
+  have hkNCube : k ∣ 16 * n ^ 3 := by
+    rw [← hnResultant]
+    exact dvd_add (hkA.mul_left (3 * m - 19 * n))
+      (hkD.mul_left (-3 * m + n))
+  have hmnCubes : IsCoprime (m ^ 3) (n ^ 3) :=
+    hmn.pow_left.pow_right
+  obtain ⟨u, v, huv⟩ := hmnCubes
+  have hkSixteen : k ∣ 16 := by
+    have hsum :
+        k ∣ u * (16 * m ^ 3) + v * (16 * n ^ 3) :=
+      dvd_add (hkMCube.mul_left u) (hkNCube.mul_left v)
+    have hsumEq :
+        u * (16 * m ^ 3) + v * (16 * n ^ 3) = 16 := by
+      calc
+        u * (16 * m ^ 3) + v * (16 * n ^ 3) =
+            16 * (u * m ^ 3 + v * n ^ 3) := by ring
+        _ = 16 := by rw [huv]; ring
+    rw [hsumEq] at hsum
+    exact hsum
+  exact ⟨hmOdd, hnOdd, hkFour, hkNotSixteen, hkSixteen⟩
+
+/-- The quotient in a primitive split cyclic cubic is one of the four
+signed integers of two-adic order two or three. -/
+theorem split_quotient_eq_neg_eight_or_neg_four_or_four_or_eight
+    (m n a b k : ℤ)
+    (hmn : IsCoprime m n) (hab : IsCoprime a b)
+    (hk : m ^ 2 - n ^ 2 = k * (a * b * (a - b)))
+    (htrace :
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3))
+    (hpair :
+      -2 * m ^ 2 - 6 * m * n =
+        k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3)) :
+    k = -8 ∨ k = -4 ∨ k = 4 ∨ k = 8 := by
+  obtain ⟨-, -, hkFour, hkNotSixteen, hkSixteen⟩ :=
+    split_quotient_divisibility
+      m n a b k hmn hab hk htrace hpair
+  have hkNe : k ≠ 0 := by
+    intro hkZero
+    subst k
+    exact hkNotSixteen (dvd_zero 16)
+  have hkAbsFour : 4 ∣ k.natAbs :=
+    Int.natCast_dvd.mp hkFour
+  have hkAbsSixteen : k.natAbs ∣ 16 :=
+    Int.dvd_natCast.mp hkSixteen
+  have hkAbsPos : 0 < k.natAbs :=
+    Int.natAbs_pos.mpr hkNe
+  have hkAbsLower : 4 ≤ k.natAbs :=
+    Nat.le_of_dvd hkAbsPos hkAbsFour
+  have hkAbsUpper : k.natAbs ≤ 16 :=
+    Nat.le_of_dvd (by norm_num) hkAbsSixteen
+  have hkAbsNotSixteen : k.natAbs ≠ 16 := by
+    intro hkAbs
+    apply hkNotSixteen
+    apply Int.natCast_dvd.mpr
+    rw [hkAbs]
+  have hkAbs : k.natAbs = 4 ∨ k.natAbs = 8 := by
+    interval_cases h : k.natAbs
+    all_goals norm_num at *
+  obtain hkAbs | hkAbs := hkAbs
+  · obtain hkPos | hkNeg := Int.natAbs_eq k
+    · right; right; left
+      omega
+    · right; left
+      omega
+  · obtain hkPos | hkNeg := Int.natAbs_eq k
+    · right; right; right
+      omega
+    · left
+      omega
+
 /-- The complete elementary descent package obtained here from a
 noncuspidal rational point.  Besides primitive quotient and root
 coordinates, it supplies the exact quotient of the cubic's leading
@@ -894,6 +1251,50 @@ def PrimitiveCyclicCubicObstruction : Prop :=
       (7 : ℤ) ∣ piParameterForm m n) →
     False
 
+/-- The finite integral boundary left after comparing all three
+coefficients of the split cyclic cubic.  The quotient is restricted to
+`-8`, `-4`, `4`, or `8`; no rational functions or denominator conditions
+remain in the statement. -/
+def FiniteSplitCyclicCubicObstruction : Prop :=
+  ∀ m n a b k : ℤ,
+    0 < n →
+    0 < b →
+    IsCoprime m n →
+    IsCoprime a b →
+    a ≠ 0 →
+    a ≠ b →
+    Odd m →
+    Odd n →
+    m ^ 2 - n ^ 2 = k * (a * b * (a - b)) →
+    m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+      k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) →
+    -2 * m ^ 2 - 6 * m * n =
+      k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3) →
+    (k = -8 ∨ k = -4 ∨ k = 4 ∨ k = 8) →
+    firstParameterForm m n * piParameterForm m n =
+      k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 →
+    ¬((7 : ℤ) ∣ firstParameterForm m n ∧
+      (7 : ℤ) ∣ piParameterForm m n) →
+    False
+
+/-- The finite split-coefficient boundary implies the earlier primitive
+rational-root obstruction. -/
+theorem primitiveCyclicCubicObstruction_of_finiteSplit
+    (hfinite : FiniteSplitCyclicCubicObstruction) :
+    PrimitiveCyclicCubicObstruction := by
+  intro m n a b k hn hb hmn hab ha habne ht hU _hroot hk hnorm
+    hseven
+  obtain ⟨htrace, hpair⟩ :=
+    root_split_coefficient_identities m n a b k
+      (ne_of_gt hn) (ne_of_gt hb) ha habne ht hU hk
+  obtain ⟨hmOdd, hnOdd⟩ :=
+    split_parameters_odd m n a b k hmn hab hk htrace hpair
+  have hkCases :=
+    split_quotient_eq_neg_eight_or_neg_four_or_four_or_eight
+      m n a b k hmn hab hk htrace hpair
+  exact hfinite m n a b k hn hb hmn hab ha habne hmOdd hnOdd hk
+    htrace hpair hkCases hnorm hseven
+
 /-- The primitive cyclic-cubic obstruction consumes the complete descent
 package and rules out a noncuspidal rational point on the `X₁(18)` model. -/
 theorem no_noncuspidal_point_of_primitiveCyclicCubicObstruction
@@ -924,5 +1325,15 @@ theorem rationalPoint_addOrderOf_ne_eighteen_of_primitiveCyclicCubicObstruction
   intro x y hx0 hx1 hcurve
   exact no_noncuspidal_point_of_primitiveCyclicCubicObstruction
     hobs x y hx0 hx1 hcurve
+
+/-- The four-case integral split obstruction excludes exact rational
+order eighteen through the checked primitive descent. -/
+theorem rationalPoint_addOrderOf_ne_eighteen_of_finiteSplitCyclicCubicObstruction
+    (hfinite : FiniteSplitCyclicCubicObstruction)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : E.toAffine.Point) :
+    addOrderOf Q ≠ 18 :=
+  rationalPoint_addOrderOf_ne_eighteen_of_primitiveCyclicCubicObstruction
+    (primitiveCyclicCubicObstruction_of_finiteSplit hfinite) E Q
 
 end MazurTorsion.XOneEighteenDescent
