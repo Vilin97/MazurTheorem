@@ -138,6 +138,16 @@ used by rank zero and the additive component bound used at five.
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction`
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.y_mem_maximalIdeal_sq_of_short_equation_of_coefficient_divisibility`
+* `structure` (`contract`):
+  `MazurTorsion.EllipticCurve.MarkedExceptionalCubicData`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.exists_markedExceptionalCubicData_of_not_hasNonsingularReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.two_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot`
+* `theorem` (`contract`):
+  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot`
 * `theorem` (`proposed`):
   `ModularCurve.Jacobian.completelyToricReductionAtLevel`
 
@@ -163,10 +173,14 @@ canonical nonsingular reduction and forces `a₄ ∈ 𝔪²`. In the exact-depth
 the subgroup and forces `a₆ ∈ 𝔪³`. The canonical reduction predicate,
 subgroup, and marked multiples transport through the integral unit
 normalization, with an order-one consumer carrying `12 • P` back to the
-original model. No strict-transform, chart-coverage, Kodaira-symbol, or
-component-cardinality claim is made. The exceptional star-cubic repeated-root
-analysis, deeper weighted branches, genuine Néron identity-component
-comparison, and marked-class bound remain open, so this node remains blocked.
+original model. On that same model and chart uniformizer, the marked
+exceptional-cubic package proves the residue root equation. A simple marked
+root puts the double, hence the twelfth multiple, in the subgroup; the actual
+five- and eleven-adic exact-order consumers therefore force the marked
+derivative to vanish. No strict-transform, chart-coverage, Kodaira-symbol, or
+component-cardinality claim is made. The repeated-root analysis, deeper
+weighted branches, genuine Néron identity-component comparison, and
+marked-class bound remain open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")

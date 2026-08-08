@@ -114,6 +114,10 @@ at least eleven.
   `MazurTorsion.PrimeOrder.tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_translatedCoefficientObstruction_of_hasAdditiveReduction`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_simpleRootAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_markedExceptionalCubic_repeatedRoot_of_primeOrder`
 
 The narrower canonical five-adic handoff needs only `12 • P` in the
 nonsingular-reduction subgroup and the exact torsion-free formal kernel.
@@ -127,10 +131,13 @@ prime-order consumer rules it out and forces `a₆ ∈ 𝔪²` on the same selec
 model. The next tangent branch puts `2 • P` in that subgroup and forces
 `a₄ ∈ 𝔪²`; the following tangent--secant branch puts `3 • P` there and forces
 `a₆ ∈ 𝔪³`. Canonical subgroup membership and marked multiples transport
-through the integral unit normalization. The exceptional star-cubic
-repeated-root analysis and deeper weighted cases proving the marked-class
-bound remain open, as does genuine identity-component identification; no full
-component-cardinality claim is used here.
+through the integral unit normalization. The same-model exceptional-cubic
+package now proves that a simple marked root puts `2 • P` in the subgroup.
+The exact prime-order consumer rules out this branch and returns a repeated
+marked root using the original chart uniformizer. The repeated-root analysis
+and deeper weighted cases proving the marked-class bound remain open, as does
+genuine identity-component identification; no full component-cardinality or
+Kodaira claim is used here.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")

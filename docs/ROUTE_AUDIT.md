@@ -132,12 +132,16 @@ following remain on the theorem's critical path:
   after doubling stays at the cusp, the secant for the triple either has a
   pole and enters the formal kernel or is a unit and reduces away from the
   cusp. Real marked consumers therefore force `a₆ ∈ 𝔪³` at five and eleven.
-  The exceptional star-cubic repeated-root analysis, deeper weighted
-  branches, and component incidence are still required. The canonical
-  reduction predicate, subgroup, and marked multiples now transport through
-  the integral unit normalization, so each future normalized-case conclusion
-  can be carried back to the original selected equation without a new
-  geometric assumption.
+  A same-model marked exceptional-cubic package now derives its residue root
+  equation. The checked tangent split puts the marked double in canonical
+  nonsingular reduction whenever that root is simple, so real five- and
+  eleven-adic exact-order consumers force the marked derivative to vanish
+  without a Kodaira or component-incidence claim. The repeated-root analysis,
+  deeper weighted branches, and component incidence are still required. The
+  canonical reduction predicate, subgroup, and marked multiples now transport
+  through the integral unit normalization, so each future normalized-case
+  conclusion can be carried back to the original selected equation without a
+  new geometric assumption.
 
 The point-group shadow of the cyclic quotient is now checked: quotienting by
 the supplied rational cyclic subgroup has the exact kernel, multiplication by

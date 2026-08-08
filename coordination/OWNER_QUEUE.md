@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `53e3aa1` contains reviewed acceptance
+The combined owner history through `a74668d` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -221,6 +221,27 @@ denominator orientations, reconstruction boundary, API use, focused builds,
 and standard axiom closure. The obstruction itself remains unproved, the
 Challenge remains open, and no node credit is claimed.
 
+The follow-up compares the other two split-cubic coefficients, proves the
+primitive conic parameters odd, and uses explicit resultant-sixteen and
+two-adic certificates to force `k ∈ {-8,-4,4,8}` (`2d0fcb8`). The resulting
+`FiniteSplitCyclicCubicObstruction` has a compiled conversion to the primitive
+boundary and a real exact-order-eighteen consumer. Independent review accepted
+the four-case reduction. Those four integral families remain unproved, so the
+Challenge is still open and no node credit is claimed.
+
+The order-13 elementary descent now reaches an analogous but sharper finite
+boundary. It clears all three cusp factors, proves the integral discriminant
+identity and both remaining split-cubic coefficient identities, forces the
+primitive conic parameters odd, and combines a resultant-four certificate
+with exact two-adic valuation to obtain `k = -4 ∨ k = 4` (`54ce698`). Review
+repaired the public surface by retaining the stronger theorem under
+`noncuspidal_curve_primitive_split_descent_data` and restoring the old
+`noncuspidal_curve_primitive_descent_data` as a checked projection
+(`d002897`, `7e43db6`). Both the finite obstruction and its exact-order-13
+consumer compile with standard axioms only. The two integral families and the
+immutable Challenge remain open; no rational-point classification or node
+credit is claimed.
+
 The level-35 rank-zero model now reaches the abelian-variety side of the
 planned quotient seam. A generic theorem transports finiteness of affine
 Weierstrass points to rational points of an abelian variety across a supplied
@@ -246,9 +267,25 @@ full `MazurTorsion` root build.
 The immediately following type-IV checkpoint adds one module and 762 net Lean
 lines, for an exact 791-module/1,485,752-line baseline. Its six focused serial
 targets, independent group-law/valuation review, standard-axiom audit,
-forbidden-source scan, and immutable-Challenge check pass. The next local
-boundary is the marked repeated root of the exceptional star cubic, not a
-premature component classification.
+forbidden-source scan, and immutable-Challenge check pass.
+
+The marked exceptional-cubic checkpoint adds the coefficient-depth lemma and
+the same-model root package (`2dc2d87`, `a74668d`). The package retains the
+chosen chart uniformizer, proves `y ∈ 𝔪²` and the marked cubic equation, and
+identifies its derivative with the tangent numerator quotient. A simple marked
+root puts `2 • P`, hence `12 • P`, in canonical nonsingular reduction. Real
+five- and eleven-adic exact-order consumers therefore force derivative zero on
+the same selected model. Independent review rebuilt all six affected modules
+and audited the new public declarations to standard axioms only. The next
+local boundary is the repeated marked root and its deeper coefficient
+consequences, not a premature Kodaira, regular-model, or component claim.
+
+At this combined boundary the exact quality baseline is 793 Lean modules and
+1,487,889 Lean lines. Focused serial builds cover both descent/Challenge pairs
+and the six exceptional-cubic consumers. The graph remains 48 nodes / 1,000
+points with seven completed nodes worth 137 points; all eleven immutable
+Challenge contracts remain registered and eight still contain their permitted
+open `:= sorry` bodies.
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -1216,21 +1253,31 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-tc-a3-transition-cocycle`: the reviewed transition-pullback and
-  conditional arbitrary-pullback cocycle checkpoints are integrated. The
-  active worker is proving the isolated pairwise/direct compatibility from the
-  lower tensor and inverse-ideal base-change coherence, with an unconditional
-  cocycle as the required consumer.
-- `codex/mt-tate-star-simple-root`: use the checked `a₄ ∈ 𝔪²`, `a₆ ∈ 𝔪³`
-  model and coordinate-depth lemma to expose the marked root of the exceptional
-  cubic. The simple-root tangent branch must have real five- and eleven-adic
-  consumers; their accepted output is the precise repeated-root datum for the
-  marked point, not a Kodaira label or a global component graph.
-- `codex/mt-x118-primitive-obstruction`: attack the newly isolated primitive
-  square-times-cube obstruction directly through Eisenstein UFD, valuation,
-  parity, and finite congruence arguments. Any further public reduction must
-  have a compiled exact-order-eighteen consumer; the Challenge remains open
-  until the obstruction itself is proved.
+- `codex/mt-a3-coherence-api`: the reviewed transition-pullback and conditional
+  arbitrary-pullback cocycle checkpoints are integrated. A historical
+  2,600-line aggregate was rejected and removed after reproducibly exhausting
+  the default deterministic budget at the chosen-line-bundle pullback
+  comparison. The active lane is redesigning precisely that equality from the
+  lower tensor/inverse-ideal naturality API. Acceptance still requires the real
+  `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise curve
+  compatibility, and unconditional cocycle consumer; no raised heartbeat or
+  proposition-wrapper bulk is allowed.
+- `codex/mt-tate-star-repeated-root`: the marked root package and simple-root
+  branch are reviewed and integrated. The active lane uses the two repeated-root
+  equations to analyze the nonzero root through the doubled cusp point and the
+  simple root `-2r`; its accepted output is the same-model conclusion `r=0`
+  and coefficient depths `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`, with real five- and
+  eleven-adic consumers and no Kodaira or component-graph assertion.
+- `MT-X18-NONCUSP`: the primitive obstruction is reduced to the four signed
+  quotients `-8,-4,4,8`. The next proof must eliminate those integral families
+  through Eisenstein UFD, valuation, congruence, or another checked descent.
+  Any further public reduction needs a compiled exact-order-eighteen consumer;
+  the Challenge remains open until the obstruction itself is proved.
+- `MT-X13-NONCUSP`: the primitive obstruction is reduced to `k=-4` and `k=4`.
+  The next proof must eliminate both retained integral families (or complete
+  the independently prepared Jacobian/Pell route) and compile the exact-order-13
+  consumer. The immutable Challenge remains open until that conclusion is
+  unconditional.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The next

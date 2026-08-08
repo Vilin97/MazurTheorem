@@ -63,7 +63,12 @@ $`x,y` satisfy the explicit order-13 sextic equation, then $`x=0` or $`x=-1`.
 destination is `MazurTorsion.XOneThirteenDescent.no_noncuspidal_point`; the
 challenge name is `MazurTheorem.Challenge.xOneThirteen_no_noncuspidal_point`.
 The prepared nouns are the Kubert sextic, Pell certificate, and genus-two
-descent data in `MazurTorsion.NumberTheory.XOneThirteenDescent`.
+descent data in `MazurTorsion.NumberTheory.XOneThirteenDescent`. The checked
+split-cubic calculation now clears all cusp factors, compares all three
+coefficients, forces the primitive conic parameters odd, and uses a
+resultant-four certificate to reduce the quotient to `k=-4` or `k=4`.
+`FiniteSplitCyclicCubicObstruction` has a real exact-order-thirteen consumer;
+the two integral families, and therefore the Challenge, remain open.
 :::
 
 :::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -74,7 +79,12 @@ $`x,y` satisfy the explicit order-18 sextic equation, then $`x=0` or $`x=1`.
 destination is `MazurTorsion.XOneEighteenDescent.no_noncuspidal_point`; the
 challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
 The proposed proof finishes the Eisenstein-integer descent already exposed by
-the module.
+the module. The checked split-cubic calculation now compares all three
+coefficients, forces the primitive conic parameters odd, and uses a
+resultant-sixteen certificate to reduce the quotient to
+`k ∈ {-8,-4,4,8}`. `FiniteSplitCyclicCubicObstruction` has a real
+exact-order-eighteen consumer; the four integral families, and therefore the
+Challenge, remain open.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -164,6 +174,10 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_degreeOneCotangentAtEleven_of_nonsingularReduction`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_degreeOneCotangentAtEleven_of_componentExponentTwelve`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_simpleRootAtEleven`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_exists_markedExceptionalCubic_repeatedRoot_of_orderThirtyFive`
 * `theorem` (`proposed`):
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
 * `theorem` (`contract`):
@@ -214,7 +228,11 @@ rational, and degree-one formal-immersion consumers avoid any cardinality
 bound for the full component quotient. The newest rational consumer instead
 uses the exact pointwise statement that the marked quotient class has finite
 order at most four, from which the checked bridge derives `12 • P ∈ E₀`.
-The genuine Néron identity-component comparison and the tame Tate--Kodaira
+On the exact normalized model, the marked exceptional cubic and its chosen
+uniformizer now compile; a simple marked root forces the twelfth multiple
+into `E₀`. The exact order-35 consumer therefore returns a repeated marked
+root on that same model. Its repeated-root and deeper coefficient analysis,
+the genuine Néron identity-component comparison, and the tame Tate--Kodaira
 proof of this marked-class bound remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the

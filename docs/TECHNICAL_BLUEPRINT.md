@@ -720,6 +720,30 @@ integral boundary.  It has compiled consumers first at the noncuspidal
 curve statement and then at the exact-order-eighteen endpoint, so none of
 the new quotient data is a terminal interface.
 
+Comparing all three coefficients of the split cubic sharpens this boundary.
+Lean proves
+
+\[
+\begin{aligned}
+m^2-6mn-3n^2&=k(a^3-3ab^2+b^3),\\
+-2m^2-6mn&=k(a^3-3a^2b+b^3).
+\end{aligned}
+\]
+
+Primitivity and a complete modulo-two check force `m,n` odd.  Two explicit
+resultant-sixteen identities then show `k\mid16`; the first displayed
+coefficient is divisible by four but not sixteen.  Consequently
+
+\[
+k\in\{-8,-4,4,8\}.
+\]
+
+`FiniteSplitCyclicCubicObstruction` is the remaining four-case integral
+statement.  Its conversion to `PrimitiveCyclicCubicObstruction` and its
+exact-order-eighteen consumer both compile.  The four integral families are
+not yet eliminated, so the immutable `XOneEighteenNoncusp` Challenge remains
+open and no rational-point classification is claimed.
+
 This is the full elementary/local input to the classical `π=3+ω` descent,
 not its global Jacobian conclusion.  Completion may prove the displayed
 primitive obstruction directly, or may still use the order-three
@@ -1325,6 +1349,38 @@ index-19 lattice criteria
 the converse split-norm theorem, and a modulo-19 certificate showing that
 primitive `(m,n)` cannot lie in both branches.
 
+The rational root is now cleared through all three cusp factors as well.
+For primitive root coordinates `a,b`, Lean obtains an integer `k` with
+
+\[
+n^2-m^2=k,ab(a+b)
+\]
+
+and the integral discriminant identity
+
+\[
+\operatorname{Disc}_{13}(m,n)
+  =k^2(a^2+ab+b^2)^3.
+\]
+
+The two remaining split-cubic coefficients are checked to satisfy
+
+\[
+\begin{aligned}
+m^2+4mn-n^2&=k(a^3-3ab^2-b^3),\\
+2m^2-4mn-2n^2&=k(-a^3-3a^2b+b^3).
+\end{aligned}
+\]
+
+A complete modulo-two calculation forces `m,n` odd.  Explicit
+resultant-four identities imply `k\mid4`, while the first coefficient has
+exact two-adic valuation two; hence `k=-4` or `k=4`.  The strengthened
+descent theorem retains every positivity, primitivity, denominator and cusp
+side condition, while the earlier public descent theorem is preserved as a
+checked projection for API compatibility.  The resulting
+`FiniteSplitCyclicCubicObstruction` has compiled noncuspidal and
+exact-order-thirteen consumers.
+
 The same file also contains a polynomial Pell certificate.  Independently
 computed polynomials `H` and `K` of degrees `19` and `16`, respectively,
 satisfy
@@ -1347,7 +1403,9 @@ polynomial continued-fraction computation and are independently
 kernel-checked by Lean's `ring`; no external coefficient table or
 unlicensed source was copied.
 
-These calculations still do not classify the rational points.  Pinned
+These calculations still do not classify the rational points: the two
+integral `k` families in `FiniteSplitCyclicCubicObstruction` have not been
+eliminated, and the immutable Challenge remains open.  Pinned
 mathlib has no genus-two hyperelliptic divisor/Picard/Jacobian
 implementation, so the first missing bridge is to interpret (X13-Pell) as
 the displayed principal-divisor identity and construct the Abel--Jacobi
@@ -1896,9 +1954,29 @@ formal kernel or is a unit and reduces the triple away from the cusp; the
 equal-abscissa cases are handled separately. Thus `3 • P`, and hence
 `12 • P`, lies in canonical nonsingular reduction. The selected consumers
 exclude this branch and force `a₆ ∈ 𝔪³` on the same normalized model. The
-exceptional star-cubic repeated-root analysis and its deeper weighted
+next checked layer packages the marked exceptional cubic on that exact model
+and with the exact chart uniformizer. It proves `y ∈ 𝔪²`, writes
+
+\[
+x=\varpi X,\qquad a_4=\varpi^2A,\qquad a_6=\varpi^3B,
+\]
+
+and obtains the marked residue equation
+
+\[
+\bar X^3+\bar A\bar X+\bar B=0.
+\]
+
+If `3 X̄² + Ā` is nonzero, the tangent numerator has exact depth two. A
+deeper ordinate makes the tangent slope a pole and the double enters the
+formal kernel; an ordinate of exact depth two makes the slope a unit and the
+double reduce away from the cusp; the anti-diagonal case again doubles to
+zero. Thus the simple-root branch puts `2 • P`, hence `12 • P`, in canonical
+nonsingular reduction. Real five- and eleven-adic exact-order consumers rule
+out that branch and return derivative zero for the marked root on the same
+model and uniformizer. The repeated-root analysis and its deeper weighted
 branches, together with genuine identity-component comparison, remain open;
-no node credit is claimed for this partial handoff.
+no Kodaira or component-incidence statement and no node credit is claimed.
 
 The proof sequence is:
 
