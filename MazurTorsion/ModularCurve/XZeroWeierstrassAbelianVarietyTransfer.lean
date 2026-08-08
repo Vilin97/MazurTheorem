@@ -72,7 +72,8 @@ noncomputable def grpObjOfAbelianVarietyIso
   GrpObj.ofIso e.symm
 
 /-- A pointed Abel--Jacobi isomorphism whose point map is multiplicative supplies the exact
-zero/addition compatibility required by the concrete cubic's finite-flat consumer. -/
+addition compatibility required by the concrete cubic's finite-flat consumer.  Preservation of
+zero is then derived by `CanonicalPointGroupLawCompatibility.map_zero`. -/
 theorem canonicalPointGroupLawCompatibility_of_abelianVarietyIso
     (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
     (A : TauCeti.AlgebraicGeometry.AbelianVariety K)
@@ -89,29 +90,20 @@ theorem canonicalPointGroupLawCompatibility_of_abelianVarietyIso
   haveI : IsMonHom e.hom := by
     simpa using (inferInstance : IsMonHom e.symm.inv)
   constructor
-  · intro
-    change projectivePointOverMorphism W 0 =
-      (1 : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W)
-    apply (cancel_mono e.hom).1
-    rw [hφ]
-    exact φ.map_one.trans <| by
-      simpa only [CategoryTheory.IsMonHom.monoidHom_apply] using
-        ((CategoryTheory.IsMonHom.monoidHom e.hom
-          (AffineCommGroupScheme.testObject (R := K) K)).map_one).symm
-  · intro _ P Q
-    change projectivePointOverMorphism W (P + Q) =
-      projectivePointOverMorphism W P * projectivePointOverMorphism W Q
-    apply (cancel_mono e.hom).1
-    rw [hφ]
-    rw [show (projectivePointOverMorphism W P * projectivePointOverMorphism W Q) ≫ e.hom =
-        (projectivePointOverMorphism W P ≫ e.hom) *
-          (projectivePointOverMorphism W Q ≫ e.hom) by
-      simpa only [CategoryTheory.IsMonHom.monoidHom_apply] using
-        (CategoryTheory.IsMonHom.monoidHom e.hom
-          (AffineCommGroupScheme.testObject (R := K) K)).map_mul
-            (projectivePointOverMorphism W P) (projectivePointOverMorphism W Q)]
-    rw [hφ, hφ]
-    exact φ.map_mul (Multiplicative.ofAdd P) (Multiplicative.ofAdd Q)
+  intro _ P Q
+  change projectivePointOverMorphism W (P + Q) =
+    projectivePointOverMorphism W P * projectivePointOverMorphism W Q
+  apply (cancel_mono e.hom).1
+  rw [hφ]
+  rw [show (projectivePointOverMorphism W P * projectivePointOverMorphism W Q) ≫ e.hom =
+      (projectivePointOverMorphism W P ≫ e.hom) *
+        (projectivePointOverMorphism W Q ≫ e.hom) by
+    simpa only [CategoryTheory.IsMonHom.monoidHom_apply] using
+      (CategoryTheory.IsMonHom.monoidHom e.hom
+        (AffineCommGroupScheme.testObject (R := K) K)).map_mul
+          (projectivePointOverMorphism W P) (projectivePointOverMorphism W Q)]
+  rw [hφ, hφ]
+  exact φ.map_mul (Multiplicative.ofAdd P) (Multiplicative.ofAdd Q)
 
 /-- Real downstream consumer of the transported group-object interface: the standard-chart
 geometric-integrality proof and an exact coordinate torsion point produce a finite-flat split
