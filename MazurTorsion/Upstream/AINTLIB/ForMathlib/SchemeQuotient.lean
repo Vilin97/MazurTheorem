@@ -226,29 +226,9 @@ theorem resLE_isoSpec_hom {V : X.Opens} (hV : σ.IsStableOpen V)
     (σ.hom g).resLE V V (hV.le_preimage g) ≫ hVa.isoSpec.hom =
       hVa.isoSpec.hom ≫ specSMul g := by
   letI := σ.gammaMulSemiringAction hV
-  haveI : IsAffine (V : Scheme.{u}) := hVa
-  have hnat := Scheme.isoSpec_hom_naturality ((σ.hom g).resLE V V (hV.le_preimage g))
-  -- unfold `IsAffineOpen.isoSpec` as `Scheme.isoSpec ≪≫ Spec.mapIso (topIso.symm.op)`
-  show (σ.hom g).resLE V V (hV.le_preimage g) ≫
-      ((V : Scheme.{u}).isoSpec ≪≫ Scheme.Spec.mapIso V.topIso.symm.op).hom = _
-  rw [Iso.trans_hom, ← Category.assoc, ← hnat, Category.assoc]
-  show _ = ((V : Scheme.{u}).isoSpec ≪≫ Scheme.Spec.mapIso V.topIso.symm.op).hom ≫ _
-  rw [Iso.trans_hom, Category.assoc]
-  congr 1
-  -- now a pure `Spec.map` computation
-  show Spec.map ((σ.hom g).resLE V V (hV.le_preimage g)).appTop ≫
-      Spec.map V.topIso.inv =
-    Spec.map V.topIso.inv ≫
-      Spec.map (CommRingCat.ofHom (MulSemiringAction.toRingHom G ↑Γ(X, V) g))
-  rw [← Spec.map_comp, ← Spec.map_comp]
-  congr 1
-  have hsq : V.topIso.hom ≫ (σ.hom g).appLE V V (hV.le_preimage g) =
-      ((σ.hom g).resLE V V (hV.le_preimage g)).appTop ≫ V.topIso.hom :=
-    (arrowResLEAppIso (σ.hom g) V V (hV.le_preimage g)).hom.w
-  have hof : CommRingCat.ofHom (MulSemiringAction.toRingHom G ↑Γ(X, V) g) =
-      (σ.hom g).appLE V V (hV.le_preimage g) := rfl
-  rw [hof, Iso.inv_comp_eq, ← Category.assoc, hsq, Category.assoc,
-    Iso.hom_inv_id, Category.comp_id]
+  rw [IsAffineOpen.isoSpec_hom]
+  symm
+  exact Scheme.Opens.toSpecΓ_SpecMap_appLE (σ.hom g) V V (hV.le_preimage g)
 
 theorem localQuotientπ_eq {V : X.Opens} (hV : σ.IsStableOpen V) (hVa : IsAffineOpen V) :
     letI := σ.gammaMulSemiringAction hV
@@ -626,7 +606,6 @@ private theorem localQuotientπ_mem_imageOpens_iff (hWV : W ≤ V) (hVa : IsAffi
   letI := σ.gammaMulSemiringAction hV
   have hπ : σ.localQuotientπ hV hVa w = invariantsπ G ↑Γ(X, V) ℤ (hVa.isoSpec.hom w) := by
     rw [localQuotientπ_def, Scheme.Hom.comp_apply]
-    rfl
   constructor
   · rintro ⟨t, ht, hteq⟩
     rw [hπ] at hteq
@@ -801,13 +780,15 @@ theorem _root_.AlgebraicGeometry.isAffineHom_diagonal_terminalFrom_of_isAffineHo
     [IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from S))] :
     IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from Z)) := by
   rw [← Limits.terminal.comp_from f]
-  have h₁ : MorphismProperty.diagonal @IsAffineHom f := by
-    rw [MorphismProperty.diagonal_iff]
+  let P : MorphismProperty Scheme := @IsAffineHom
+  have h₁ : P.diagonal f := by
+    change IsAffineHom (Limits.pullback.diagonal f)
     haveI : IsSeparated f := .of_isAffineHom f
     infer_instance
-  have h₂ : MorphismProperty.diagonal @IsAffineHom (Limits.terminal.from S) := ‹_›
-  exact MorphismProperty.IsStableUnderComposition.comp_mem
-    (P := MorphismProperty.diagonal @IsAffineHom) f (Limits.terminal.from S) h₁ h₂
+  have h₂ : P.diagonal (Limits.terminal.from S) := by
+    change IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from S))
+    infer_instance
+  exact P.diagonal.comp_mem f (Limits.terminal.from S) h₁ h₂
 
 section Glue
 
