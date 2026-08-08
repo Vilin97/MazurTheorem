@@ -92,6 +92,26 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 compatible-family equalizer now proves ordinary module effectivity on
+every universe-zero-indexed scheme open cover.  The explicit chartwise
+restriction isomorphisms commute with the chosen overlap transitions; the
+generic `DescentData'.comm` theorem upgrades that equation to every common
+base change, yielding the full descent-data isomorphism
+`compatibleFamilyDescentIso`.  The named consumers
+`compatibleFamilyEffectiveModule` and `moduleEffectiveDescentForOpenCover`
+discharge the pre-existing object-specific and cover-wide contracts with the
+actual equalizer module (`29ac3c4`, `0731ac2`, independently reviewed from
+`995d385`, `87c8aca`).  The 2,629-job focused and 3,725-job Geometry serial
+builds pass, and all four public endpoints use only `propext`,
+`Classical.choice`, and `Quot.sound`.  The honest boundary remains
+`OpenCover.{0}`.  This closes the general ordinary-module effectivity seam,
+not A3: the concrete arbitrary-divisor overlap family still must be packaged
+as the required normalized line-bundle cocycle and then carried through
+object separation, rational normalization/principal detection, tensor
+additivity, Picard surjectivity, and the global tensor-inverse comparison.
+No A3 credit is claimed.  The exact quality baseline is now 897 Lean modules
+and 1,530,362 Lean lines.
+
 The B1 lane now identifies degree-one native base-Cech homology on every
 affine open cover with genuine Ext-based sheaf cohomology after forgetting
 the base-module structure
@@ -1589,11 +1609,14 @@ within each lane follows the listed order.
    along the composite map. The direct common-affine model and the exact
    equality required between it and the pulled pairwise model are explicit;
    three such equalities imply the full cocycle after arbitrary further
-   pullback. The remaining lower construction is that pairwise/direct equality
-   from extension-of-scalars and inverse-ideal base-change coherence, followed
-   by comparison with the normalized transition, general module effectivity, object
-   separation, rational normalization,
-   tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
+   pullback. Extension-of-scalars and inverse-ideal base-change coherence now
+   supply that pairwise/direct equality, and the compatible-family equalizer
+   proves ordinary module effectivity for every `OpenCover.{0}` descent datum.
+   The remaining A3 construction is to package the concrete arbitrary-divisor
+   raw overlap family as the normalized line-bundle cocycle consumed by that
+   effectivity theorem, then prove object separation, rational normalization
+   and principal detection, tensor additivity, Picard surjectivity, and the
+   global tensor-inverse comparison; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
    Actual affine quasicoherent epimorphisms now give surjections on global
@@ -2046,26 +2069,23 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-a3-raw-normalization-consumer` has a pruned research checkpoint
-  for generic exact normalization and an abstract owned-package consumer
-  (`22f750e`), but it is deliberately not integrated because forming that
-  package from the concrete raw A3 cocycle exceeds the default elaboration
-  budget and no real raw consumer compiles. The active repair moves the short
-  bundled `obj/sq/sq₃/overlapIso` value to the raw-cocycle source boundary;
-  downstream dependent-wrapper variants are closed.
-- `codex/mt-open-pullback-basechange` starts from the reviewed compatible-family
-  equalizer at `078132e`. It is proving the one cartesian-open comparison
-  `f_j,* ; f_i^* ≅ p_1,* ; p_2^*` and must compile the actual chart-family
-  component before acceptance. The following step constructs the inverse
-  chart maps, proves the equalizer equations from `D.hom_comp`, and packages
-  object-specific `EffectiveModule`; object separation, rational
-  normalization, and Picard surjectivity then remain for the unchanged A3
-  Challenge.
-- `MT-TC-B1-COHERENT-COHOMOLOGY` now has affine quasicoherent H1 and H2
-  acyclicity with real finite-cover consumers. The next research seam is a
-  reduction-stable induction for local killing in every positive degree,
-  followed by proper finite-dimensionality and the dimension-one vanishing
-  consumer; do not infer those claims from the two checked base degrees.
+- A3 ordinary module effectivity is integrated through `0731ac2`.  The next
+  A3 coding lane must package the already checked concrete raw arbitrary-
+  divisor overlap family as the normalized `LineBundleCocycle` consumed by
+  `moduleEffectiveDescentForOpenCover`.  The older generic normalization
+  experiment `22f750e` remains held out because its concrete specialization
+  exceeded the default elaboration budget; do not revive an abstract wrapper
+  without the real divisor consumer.
+- `codex/owner-b1-proper-hone` has pushed scalar transport checkpoint
+  `3048167`: genuine Ext-based sheaf `H¹` carries an explicit cover-dependent
+  base action and is finite whenever ordered base-Cech `H¹` is finite.  The
+  active work is the smallest provenance-clean low-degree support/Chow cone
+  proving that ordered input for a proper curve.  Properness is not inferred
+  from the transport checkpoint.
+- `MT-TC-B1-COHERENT-COHOMOLOGY` also retains affine quasicoherent acyclicity
+  in every positive degree and proper-curve higher vanishing.  The unresolved
+  B1 endpoint is proper coherent `H¹` finiteness and its field-linear curve
+  facade; do not infer either from affine acyclicity or additive comparison.
 - `weighted local arithmetic`: the five- and eleven-adic depth chains are
   independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
   the selected model's checked minimality contradiction. Preserve the older
@@ -2093,7 +2113,8 @@ or accounting shortcut.
   remains open until that classification is proved. The low-level transport
   is now below its immutable destination module, with the downstream
   FourScalar consumers retained in the aggregate.
-- `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
+- `codex/owner-x13-noncusp` is the active `MT-X13-NONCUSP` lane. Exact
+  symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. Integral homogenization now supplies the positive
   ordinate and checks the degree-38 Pell factorization. The forced scalar two
@@ -2104,12 +2125,17 @@ or accounting shortcut.
   genuine Mazur--Tate Jacobian/rank-zero result or an equivalent checked
   elimination of this chamber.
   The immutable Challenge remains open until that conclusion is unconditional.
-- `MT-O25-EXCLUDE`: exact order now reaches the denominator-checked Tate
+- `codex/owner-o25-brunault-bridge` is the active `MT-O25-EXCLUDE` lane.
+  Exact order now reaches the denominator-checked Tate
   recurrence equation `x(13P)=x(12P)` and its fraction-free cross-multiplied
-  expression with a real arbitrary-curve consumer. Normalize or factor that
-  fixed expression into a tractable birational model, retain all noncuspidal
-  denominator conditions, and complete its rational-point classification.
-  The recursive equation is a forward reduction, not the endpoint theorem.
+  expression with a real arbitrary-curve consumer. A research checkpoint also
+  computes the Brunault modular units, their nonzero denominator conditions,
+  and a staged raw Sutherland relation, but its 306-line private algebra is
+  not integration-ready until a public characteristic-zero
+  `orderTwentyFiveBrunaultPolynomial U V = 0` consumer reaches it. Normalize
+  or factor the fixed expression into a tractable birational model, retain all
+  noncuspidal conditions, and complete the rational-point classification.
+  Neither the recursive equation nor an unused raw certificate is the endpoint.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The actual

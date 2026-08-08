@@ -141,9 +141,12 @@ so they compile without unfolding all faces simultaneously. Those opaque faces n
 the direct and raw chosen-overlap cocycles, including the fully expanded `pullHom` statement used
 by descent. Off the diagonal, the normalized transition is the raw chosen-overlap morphism, and
 the normalized triple cocycle is checked for pairwise-distinct indices; on the diagonal it is the
-canonical coherent self-overlap. What remains at this boundary is diagonal normalized-cocycle
-assembly, followed by full arbitrary-divisor descent effectivity, object separation, rational
-normalization, and Picard surjectivity.
+canonical coherent self-overlap. Independently, the compatible-family equalizer now restricts
+isomorphically to every chart, those isomorphisms commute after arbitrary common base change,
+and ordinary module descent is effective on every `OpenCover.{0}`. What remains at this boundary
+is diagonal normalized-cocycle assembly for the concrete arbitrary-divisor family, followed by
+object separation, rational normalization and principal detection, tensor additivity, Picard
+surjectivity, and the global tensor-inverse comparison.
 
 *Checked pairwise-naturality deliverables (no node credit):*
 
@@ -197,7 +200,11 @@ normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackOpensIso`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackRestrictPushforwardIso`;
-* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent`.
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionIso`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyDescentIso`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyEffectiveModule`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -227,11 +234,11 @@ uses source-level options forbidden in this task. The concrete raw overlap-isomo
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
 indices. The generic idempotent-isomorphism normalization lemma was reviewed but held out of the
 integrated API because its concrete specialization does not compile at the default elaboration
-budget. Independently, the checked compatible-family equalizer is now the kernel of the two
-overlap maps, its chart projection is transposed through the pullback--pushforward adjunction,
-and the adjunct equation is proved. This is a genuine candidate for the direct image of the
-eventual descended module, but no chart projection is yet proved invertible. The descent API now
-packages specified
+budget. Independently, the checked compatible-family equalizer is the kernel of the two overlap
+maps, its chart projection is transposed through the pullback--pushforward adjunction, and the
+resulting chart maps are explicit isomorphisms. Their chosen-overlap commutativity upgrades to
+arbitrary common base changes, giving an isomorphism of full descent data and ordinary module
+effectivity on every `OpenCover.{0}`. The descent API also packages specified
 pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
 descent data. It separates object effectivity, cover-wide module effectivity, essential
 injectivity on objects, and fully faithful module descent instead of asserting a stack theorem.
@@ -278,16 +285,18 @@ the actual line-bundle cocycle and trivialization remains absent. Surjectivity t
 full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every
 invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the arbitrary-divisor cocycle system, normalized cover-wide coherent overlap system, general
-module-effectivity, chosen-cocycle coherent-principal-triviality,
+of the arbitrary-divisor cocycle system, normalized cover-wide coherent overlap system,
+chosen-cocycle coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
 claimed. Thus global
 proper-curve gluing and Picard surjectivity remain open.
 `AffineTilde.TildeReflectsInvertibility` and the cover-wide
-`CurveDivisorDescent.DivisorCocycle` and effectivity packages are precise
+`CurveDivisorDescent.DivisorCocycle` and invertible-effectivity packages are precise
 compiled conditional boundaries subsumed by the unchanged registered A3 Challenge rather than
-separately registered Challenge declarations. Their discharge remains part of that Challenge.
+separately registered Challenge declarations. Ordinary module effectivity on `OpenCover.{0}` is
+now checked; constructing the concrete normalized divisor cocycle and the remaining global
+Picard inputs remains part of that Challenge.
 No additional localization Challenge is needed. The weighted product formula remains the
 separately registered A2 prerequisite in the roadmap; the affine and local A3 modules here do not
 import it. Artifact state
@@ -514,6 +523,20 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent`
   Consume open base change and the descent transition to map one local chart object into the
   restriction of every pushed-forward chart object.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionIso`
+  Identify the restriction of the compatible-family equalizer with the prescribed local module
+  by explicit mutually inverse morphisms.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyDescentIso`
+  Upgrade the chartwise isomorphisms to an isomorphism of full descent data, commuting after
+  every common base change.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyEffectiveModule`
+  Package the equalizer and full descent-data isomorphism as object-specific effective descent.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`
+  Prove ordinary module effectivity for every descent datum on an `OpenCover.{0}`.
 * `structure` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle`
   Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple
