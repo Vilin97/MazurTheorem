@@ -89,14 +89,12 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafLocalContraction.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafPositiveExact.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafResolution.lean`
-  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCohomologyFiniteProducts.lean`
+    (augmentation-mono slice only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/FlasqueCohomology.lean`
     (notation and two consumed instances only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafDerivedGlobalSections.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechGlobalSections.lean`
-  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechFlasqueTerms.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechFlasqueHOne.lean`
-  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechZero.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechInjectiveBicomplex.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNat.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNatLowDegrees.lean`
@@ -129,9 +127,10 @@ API-narrowing, and exact-pin compatibility adjustments recorded in
 `PORTING.md`; source-level option commands and linter findings were removed.
 The retained Cech lane excludes the unused flat/Picard and properness cones,
 replaces the option-dependent flasque-cohomology proof with existing checked
-project theorems, and keeps only the degree-one affine and base-homology
-comparisons. No other AINTLIB geometry source is included. Details are
-recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
+project theorems, drops three unconsumed intermediate modules and the unused
+packaged acyclic-resolution tail, and keeps only the degree-one affine and
+base-homology comparisons. No other AINTLIB geometry source is included.
+Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 
