@@ -82,6 +82,7 @@ import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.CyclotomicUnramified
 import MazurTorsion.NumberTheory.CyclotomicKummer
 import MazurTorsion.NumberTheory.CyclotomicHilbert94
+import MazurTorsion.NumberTheory.CyclotomicCapitulation
 import MazurTorsion.NumberTheory.SelmerClassGroup
 import MazurTorsion.NumberTheory.CyclotomicSelmerClassGroup
 import MazurTorsion.NumberTheory.KummerArtinProduct

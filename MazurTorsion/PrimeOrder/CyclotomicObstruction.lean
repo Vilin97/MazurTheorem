@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Basic
 import Mathlib.FieldTheory.SplittingField.IsSplittingField
-import MazurTorsion.NumberTheory.CyclotomicHilbert94
+import MazurTorsion.NumberTheory.CyclotomicCapitulation
 import MazurTorsion.NumberTheory.CyclotomicSelmerClassGroup
 import MazurTorsion.NumberTheory.UnramifiedNormArtin
 
@@ -102,6 +102,28 @@ theorem divisionField_unramifiedClassGroupQuotient
     (E : InverseExtension p L) (hdivision : DivisionFieldData W E) :
     Nonempty (UnramifiedClassGroupQuotient p) :=
   E.nonempty_unramifiedClassGroupQuotient_of_isUnramifiedAtFinitePlaces hp
+    (divisionField_everywhereUnramified W E hdivision)
+
+/-- Equivariant Hilbert 94 gives a concrete further consumer of the
+division-field local datum: there is a nontrivial exponent-`p` ideal class
+whose entire cyclotomic Galois orbit capitulates in the division field.  This
+records genuine equivariance of the capitulation kernel without claiming
+that the kernel carries the inverse cyclotomic character. -/
+theorem divisionField_exists_nontrivial_p_torsion_capitulating_orbit
+    {p : ℕ} [Fact p.Prime]
+    {L : Type u} [Field L] [NumberField L]
+    [Algebra (PrimeCyclotomicField p) L]
+    [IsScalarTower ℚ (PrimeCyclotomicField p) L]
+    (W : WeierstrassCurve ℚ) [W.IsElliptic]
+    (E : InverseExtension p L) (hdivision : DivisionFieldData W E) :
+    ∃ c : ClassGroup
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)),
+      c ≠ 1 ∧ c ^ p = 1 ∧
+        ∀ σ : Gal(PrimeCyclotomicField p/ℚ),
+          E.capitulationHom (classGroupAutomorphism p σ c) = 1 :=
+  E.exists_nontrivial_p_torsion_capitulating_orbit (by
+    have := hdivision.prime_ge_five
+    omega)
     (divisionField_everywhereUnramified W E hdivision)
 
 /-- The division-field local datum also rules out surjectivity of the
