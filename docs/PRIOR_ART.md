@@ -997,6 +997,22 @@ subsequent mathematical dependency shape: divisor interpretation,
 `19`-isogeny surjectivity on the Jacobian, rational Jacobian torsion, and
 the Abel--Jacobi cusp intersection.
 
+The primary paper was re-audited directly as B. Mazur and J. Tate,
+*Points of Order 13 on Elliptic Curves*, Invent. Math. 22 (1973), 41--49,
+[doi:10.1007/BF01425572](https://doi.org/10.1007/BF01425572); the reviewed
+PDF has SHA-256
+`a451c978b1557e7f1f95e34bf62f51f8ee98d5e29b100a5e46345a69653e49c1`.
+The paper proves `#J₁(13)(ℚ)=19` by a finite-flat `19`-isogeny descent
+and then invokes Ogg's determination of the curve's intersection with the
+rational cusp subgroup.  S. Kamienny and B. Newman's later paper of the
+same title, [arXiv:1608.08672](https://arxiv.org/abs/1608.08672), was also
+checked (reviewed PDF SHA-256
+`5d7d5412bf1bcdf2162eb0b1320af1d159eca62c1f9f6e0e8fb36789820ee22d`).
+Its bielliptic route over `ℚ(ζ₁₃)⁺` does not remove the rational
+Jacobian descent needed here.  The exact local-cover failure and the new
+two-prime finite divisor enumeration are documented in
+`docs/XONE_THIRTEEN_JACOBIAN_AUDIT.md`.
+
 The Apache-2.0 repository
 [`vaca22/riemann-roch-function-fields`](https://github.com/vaca22/riemann-roch-function-fields)
 was also inspected at

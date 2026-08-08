@@ -1336,14 +1336,29 @@ abscissae relevant to the forward map.  This gives an unconditional
 end-to-end reduction from exact order thirteen to a non-cusp point on the
 sextic, but not yet its rational-point classification.
 
-`XOneThirteenFiniteField` is also compiled.  Over `𝔽₃` it checks an
-explicit Bézout identity between the sextic and its derivative, proving
-separability and squarefreeness.  Ordinary finite enumeration gives the
-four affine solutions at `x=0,-1`, and the monic even-degree infinity chart
-has two smooth normalized directions.  The file deliberately packages this
-as a six-element finite-field certificate rather than pretending that a
-projective hyperelliptic API or rational reduction injection already
-exists.
+`XOneThirteenFiniteField` is also compiled.  At both `3` and `5` it checks
+explicit Bézout identities between the sextic and its derivative.  Ordinary
+finite enumeration gives six point-certificate directions over each base
+field.  Transparent quadratic presentations, with nonsquare and inverse
+certificates, give eight directions over `𝔽₉` and twelve over `𝔽₂₅`.
+The file then enumerates rational unordered pairs and quadratic Frobenius
+fibers.  There are twenty-two degree-two divisor labels over `𝔽₃` and
+twenty-four over `𝔽₅`; collapsing the four- or six-member
+hyperelliptic pencil leaves a nineteen-element reduced class certificate at
+either prime.  These remain explicit combinatorial certificates, not
+definitions of a projective curve, Picard group, Jacobian, or rational
+reduction map.
+
+`XOneThirteenDescent` has named consumers for the missing geometric bridge.
+A genuine equivalence from each finite Picard/Jacobian point type to its
+reduced degree-two certificate forces both finite orders to be `19`.
+Moreover, if a finite rational Jacobian has cardinality dividing
+`19·3ᵃ` and `19·5ᵇ`, while the Pell divisor supplies a subgroup of
+order `19`, the two-prime boundary theorem forces its cardinality to be
+exactly `19`.  Constructing those Picard equivalences, proving the reduction
+kernel bounds and rank zero, and checking the Abel--Jacobi cusp intersection
+remain genuine global obligations.  See
+`docs/XONE_THIRTEEN_JACOBIAN_AUDIT.md` for the route audit.
 
 `XOneThirteenDescent` exposes much more of the classical `19`-isogeny
 calculation without pretending that the missing Jacobian exists at this
