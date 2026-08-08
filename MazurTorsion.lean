@@ -223,6 +223,7 @@ import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffine
+import MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact
 import MazurTorsion.Upstream.SchemeModuleCohomologyHZero
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
