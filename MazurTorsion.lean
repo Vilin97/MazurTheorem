@@ -178,6 +178,7 @@ import MazurTorsion.NumberTheory.XOneEighteenDescent
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinIntegers
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinAllocation
 import MazurTorsion.NumberTheory.XOneEighteenCubeCorrespondence
+import MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm
 import MazurTorsion.NumberTheory.XOneEighteenFiniteField
 import MazurTorsion.NumberTheory.XOneElevenDescent
 import MazurTorsion.NumberTheory.XOneElevenFiveIsogeny
