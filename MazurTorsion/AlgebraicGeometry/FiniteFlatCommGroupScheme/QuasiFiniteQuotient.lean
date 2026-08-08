@@ -37,6 +37,12 @@ abbrev hom {G H : QuasiFiniteFlatCommGroupScheme S} (f : G ⟶ H) :
     G.scheme ⟶ H.scheme :=
   CommGroupScheme.underlyingHom f.hom
 
+/-- The underlying scheme morphism of a quasi-finite group-scheme map lies over the base. -/
+@[reassoc (attr := simp)]
+theorem hom_comp_structureMap {G H : QuasiFiniteFlatCommGroupScheme S} (f : G ⟶ H) :
+    hom f ≫ H.structureMap = G.structureMap :=
+  f.hom.hom.hom.hom.w
+
 /-- An fppf quotient between quasi-finite flat group schemes, with its actual geometric kernel. -/
 structure FppfQuotientPresentation (G : QuasiFiniteFlatCommGroupScheme S) where
   /-- The supplied quotient object. -/

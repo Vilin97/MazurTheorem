@@ -4,8 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfConnecting
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteKernelPresentation
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfMiddleExact
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteQuotient
 
 /-!
 # Fppf connecting classes for quasi-finite flat group schemes
@@ -24,6 +24,7 @@ is asserted here.
 noncomputable section
 
 open CategoryTheory
+open CategoryTheory.Limits
 open scoped CategoryTheory.MonObj
 
 namespace AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme
@@ -169,5 +170,110 @@ theorem fppfHOneMap_boundaryHom (q : BasePoint H) :
 end LocallyLiftable
 
 end KernelPresentation
+
+namespace FppfQuotientPresentation
+
+variable {G : QuasiFiniteFlatCommGroupScheme S}
+
+/-- The quasi-finite quotient projection itself, regarded as a singleton fppf cover. -/
+abbrev projectCover (D : FppfQuotientPresentation G) :
+    Scheme.Cover.{u} Scheme.fppfPrecoverage D.quotient.scheme := by
+  letI : Flat (hom D.project) := D.project_flat
+  letI : Surjective (hom D.project) := D.project_surjective
+  letI : LocallyOfFinitePresentation (hom D.project) := D.project_lfp
+  exact (hom D.project).cover ⟨D.project_flat, D.project_lfp⟩
+
+/-- Refine a cover so that every quotient-valued zero-cochain entry acquires a source lift. -/
+noncomputable def gaugeLiftCover (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, CommGroupScheme.Point D.quotient.obj (U.overFamily i)) :
+    Scheme.Cover.{u} Scheme.fppfPrecoverage S :=
+  U.bind fun i ↦ D.projectCover.pullback₁ (b i).left
+
+/-- The gauge-lifting cover is a genuine refinement of the original cover. -/
+def gaugeLiftCoverHom (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, CommGroupScheme.Point D.quotient.obj (U.overFamily i)) :
+    (D.gaugeLiftCover U b).Hom U where
+  s₀ ij := ij.1
+  h₀ ij := (D.projectCover.pullback₁ (b ij.1).left).f ij.2
+  w₀ _ := rfl
+
+/-- The tautological source point on the pullback of the quotient projection. -/
+def gaugeLift (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, CommGroupScheme.Point D.quotient.obj (U.overFamily i))
+    (ij : (D.gaugeLiftCover U b).I₀) :
+    CommGroupScheme.Point G.obj ((D.gaugeLiftCover U b).overFamily ij) :=
+  Over.homMk (pullback.snd (b ij.1).left (hom D.project)) (by
+    change pullback.snd (b ij.1).left (hom D.project) ≫ G.structureMap =
+      pullback.fst (b ij.1).left (hom D.project) ≫ U.f ij.1
+    rw [← hom_comp_structureMap D.project, ← Category.assoc,
+      ← pullback.condition, Category.assoc, Over.w (b ij.1)]
+    rfl)
+
+/-- The tautological source point maps to the pulled-back zero-cochain entry. -/
+theorem mapPoint_gaugeLift (D : FppfQuotientPresentation G)
+    (U : Scheme.Cover.{u} Scheme.fppfPrecoverage S)
+    (b : ∀ i : U.I₀, CommGroupScheme.Point D.quotient.obj (U.overFamily i))
+    (ij : (D.gaugeLiftCover U b).I₀) :
+    mapPoint D.project ((D.gaugeLiftCover U b).overFamily ij) (D.gaugeLift U b ij) =
+      pullPoint D.quotient
+        ((Scheme.Cover.Hom.toOverFamilyRefinement (D.gaugeLiftCoverHom U b)).map ij)
+        (b ((Scheme.Cover.Hom.toOverFamilyRefinement
+          (D.gaugeLiftCoverHom U b)).index ij)) := by
+  apply Over.OverMorphism.ext
+  change pullback.snd (b ij.1).left (hom D.project) ≫ hom D.project =
+    pullback.fst (b ij.1).left (hom D.project) ≫ (b ij.1).left
+  exact pullback.condition.symm
+
+/-- An actual quasi-finite fppf quotient projection is coverwise locally liftable. -/
+def coverwiseLocallyLiftable (D : FppfQuotientPresentation G) :
+    D.kernelPresentation.toCommGroupScheme.CoverwiseLocallyLiftable.{u} where
+  liftData U b :=
+    { cover := D.gaugeLiftCover U b
+      refinement := D.gaugeLiftCoverHom U b
+      lift := D.gaugeLift U b
+      maps_to := D.mapPoint_gaugeLift U b }
+
+/-- The quotient projection is locally liftable on global sections, obtained from its stronger
+coverwise lifting property. -/
+def locallyLiftable (D : FppfQuotientPresentation G) :
+    D.kernelPresentation.LocallyLiftable.{u} :=
+  D.coverwiseLocallyLiftable.toLocallyLiftable
+
+/-- The connecting homomorphism of a genuine quasi-finite fppf quotient. -/
+def boundaryHom (D : FppfQuotientPresentation G) :
+    BasePoint D.quotient →* D.kernelPresentation.kernel.FppfHOne.{u} :=
+  D.locallyLiftable.boundaryHom
+
+@[simp]
+theorem boundaryHom_apply (D : FppfQuotientPresentation G)
+    (q : BasePoint D.quotient) :
+    D.boundaryHom q = (D.locallyLiftable.localLift q).boundaryClass :=
+  D.locallyLiftable.boundaryHom_apply q
+
+/-- Exactness at global quotient sections for a genuine quasi-finite fppf quotient. -/
+theorem exact_project_boundaryHom (D : FppfQuotientPresentation G) :
+    Function.MulExact
+      (mapPoint D.project (baseObject S)) D.boundaryHom :=
+  D.locallyLiftable.exact_mapPoint_boundaryHom
+
+/-- Exactness at kernel-valued `H¹` for a genuine quasi-finite fppf quotient. -/
+theorem exact_boundaryHom_fppfHOneMap (D : FppfQuotientPresentation G) :
+    Function.MulExact D.boundaryHom
+      (fppfHOneMap D.kernelPresentation.inclusion) :=
+  D.locallyLiftable.exact_boundaryHom_fppfHOneMap
+
+/-- Exactness at the middle global fppf `H¹` term for a genuine quasi-finite quotient
+presentation.  This is the geometric downstream consumer of the ambient coverwise interface. -/
+theorem exact_fppfHOneMap_inclusion_project (D : FppfQuotientPresentation G) :
+    Function.MulExact
+      (fppfHOneMap D.kernelPresentation.inclusion :
+        D.kernelPresentation.kernel.FppfHOne.{u} →* G.FppfHOne.{u})
+      (fppfHOneMap D.project : G.FppfHOne.{u} →* D.quotient.FppfHOne.{u}) :=
+  D.coverwiseLocallyLiftable.exact_fppfHOneMap_inclusion_f
+
+end FppfQuotientPresentation
 
 end AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme
