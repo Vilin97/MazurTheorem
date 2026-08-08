@@ -23,9 +23,9 @@ then gives the required surjectivity for `Ideal.Fiber.ambientLocalizedMap`.
 
 The final theorem is a genuine `Spec.map` formal-immersion consumer.  It
 replaces the former ambient residue-field hypothesis by the rational affine
-section and the exact closed-point equality.  The separate special-fibre
-residue map remains explicit, since it belongs to the affine chart
-calculation rather than to this ambient section argument.
+section and the exact closed-point equality.  The checked compatible-quotient
+comparison then derives the special-fibre residue surjection from that
+ambient result, so neither residue map remains an independent premise.
 -/
 
 open Algebra TensorProduct AlgebraicGeometry
