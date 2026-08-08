@@ -63,10 +63,12 @@ private theorem constantBaseChangeAlgEquiv_badFiberDelta
     constantFlatElement_down_apply, constantFlatElement_down_apply]
   by_cases hg : g = 1 <;> simp [hg, hN]
 
-private theorem badFiberDelta_isIdempotentElem
+omit [Fintype G] in
+private theorem badFiberDelta_isIdempotentElem [Finite G]
     (N : R) (hN : algebraMap R K N = 0) :
     IsIdempotentElem
       (badFiberDelta (R := R) (K := K) (G := G) N) := by
+  letI := Fintype.ofFinite G
   let e := constantBaseChangeAlgEquiv (R := R) (K := K) G
   apply e.injective
   rw [map_mul, constantBaseChangeAlgEquiv_badFiberDelta (G := G) N hN]
