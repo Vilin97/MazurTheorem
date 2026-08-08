@@ -379,6 +379,76 @@ theorem minimalCompletionAtFive_tateAlgorithm_exists_secondCoefficientDepth_of_p
         P' N hprime hN) horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩
 
+/-- The same marked prime-order point eliminates the exact depth-two `a₆` branch.  On one selected
+integral short model, `a₄` and `a₆` retain their checked square-depth properties and `a₆` in fact
+lies in the cube of the maximal ideal.  The only new geometric input is the pointwise type-IV
+tangent--secant theorem; no Kodaira symbol or component-cardinality assertion is used. -/
+theorem minimalCompletionAtFive_tateAlgorithm_exists_thirdCoefficientDepth_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal
+          (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atFive.adicCompletionIntegers ℚ) ^ 3 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩ :=
+    minimalCompletionAtFive_tateAlgorithm_exists_secondCoefficientDepth_of_primeOrder
+      E hA P N hprime hN horder
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+    (atFive.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+  have horder' : addOrderOf P' = N := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P).trans horder
+  have ha₆cube : W'.a₆ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 3 := by
+    by_contra ha₆notcube
+    have hΔ : (adicRedCurve W').Δ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atFive.adicCompletionIntegers ℚ))).Δ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+        WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+    have hc₄ : (adicRedCurve W').c₄ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atFive.adicCompletionIntegers ℚ))).c₄ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+    exact
+      (addOrderOf_ne_prime_ge_eleven_of_a₄_sq_a₆_sq_not_cubeAtFive
+        hmap residueAtFive_two_ne_zero residueAtFive_three_ne_zero hspecial
+        ha₄ ha₆ ha₆notcube
+        (specialFiberPointAddEquivAtFiveOfCuspidal W' hΔ hc₄)
+        P' N hprime hN) horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄, ha₆cube⟩
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/

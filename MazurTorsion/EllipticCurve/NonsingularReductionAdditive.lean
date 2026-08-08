@@ -372,6 +372,47 @@ private theorem sub_mem_filtration_of_slope
   norm_num
 
 include hW in
+/-- Two affine points with integral abscissas add into the formal kernel when their secant slope
+has a pole of order at least one.  The distinct-abscissa premise selects the ordinary secant
+formula; vertical and equal-point cases are intentionally left to the caller. -/
+theorem add_mem_filtration_of_slope
+    {x₁ y₁ x₂ y₂ : v.adicCompletion K}
+    (h₁ : W.Nonsingular x₁ y₁) (h₂ : W.Nonsingular x₂ y₂)
+    (hxx : x₁ ≠ x₂)
+    (hx₁ : Valued.v x₁ ≤ 1) (hx₂ : Valued.v x₂ ≤ 1)
+    (hs : exp (1 : ℤ) ≤ Valued.v ((y₁ - y₂) / (x₁ - x₂))) :
+    (.some x₁ y₁ h₁ : W.Point) + .some x₂ y₂ h₂ ∈ filtration hW 0 := by
+  have ha₁ : Valued.v W.a₁ ≤ 1 := valued_a₁ hW
+  have ha₂ : Valued.v W.a₂ ≤ 1 := valued_a₂ hW
+  rw [Point.add_some (fun hc ↦ hxx hc.1), some_mem_filtration]
+  rw [Affine.slope_of_X_ne hxx, Affine.addX]
+  set L : v.adicCompletion K := (y₁ - y₂) / (x₁ - x₂) with hL
+  have hL₁ : (1 : ℤᵐ⁰) < Valued.v L :=
+    lt_of_lt_of_le (by rw [← exp_zero, exp_lt_exp]; lia) hs
+  have hbig : ∀ c : ℤᵐ⁰, c ≤ 1 → c < Valued.v L ^ 2 := fun c hc ↦
+    lt_of_le_of_lt hc (by
+      calc
+        (1 : ℤᵐ⁰) < Valued.v L := hL₁
+        _ = Valued.v L ^ 1 := (pow_one _).symm
+        _ < Valued.v L ^ 2 := pow_lt_pow_right₀ hL₁ (by lia))
+  have hrest : Valued.v (W.a₁ * L - W.a₂ - x₁ - x₂) < Valued.v L ^ 2 := by
+    refine lt_of_le_of_lt (Valuation.map_sub _ _ _) (max_lt
+      (lt_of_le_of_lt (Valuation.map_sub _ _ _) (max_lt
+        (lt_of_le_of_lt (Valuation.map_sub _ _ _) (max_lt ?_ (hbig _ ha₂)))
+        (hbig _ hx₁))) (hbig _ hx₂))
+    rw [map_mul]
+    calc
+      Valued.v W.a₁ * Valued.v L ≤ 1 * Valued.v L := mul_le_mul' ha₁ le_rfl
+      _ = Valued.v L ^ 1 := by rw [one_mul, pow_one]
+      _ < Valued.v L ^ 2 := pow_lt_pow_right₀ hL₁ (by lia)
+  rw [show L ^ 2 + W.a₁ * L - W.a₂ - x₁ - x₂ =
+      L ^ 2 + (W.a₁ * L - W.a₂ - x₁ - x₂) by ring,
+    Valuation.map_add_eq_of_lt_left _ (by rw [map_pow]; exact hrest), map_pow]
+  refine le_trans (le_of_eq ?_) (pow_le_pow_left' hs 2)
+  rw [← exp_nsmul, nsmul_eq_mul]
+  norm_num
+
+include hW in
 /-- An affine point with integral abscissa whose tangent slope has a pole of order at least one
 doubles into the formal kernel.  This valuation-only statement is useful for the marked-point
 branches of Tate's algorithm and does not assume that the source has nonsingular reduction. -/
