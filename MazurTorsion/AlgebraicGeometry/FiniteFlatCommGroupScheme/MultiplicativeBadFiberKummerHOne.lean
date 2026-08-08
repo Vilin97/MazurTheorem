@@ -5,6 +5,8 @@ Authors: Vasily Ilin
 -/
 
 import Mathlib.FieldTheory.Finite.Basic
+import Mathlib.GroupTheory.SpecificGroups.Cyclic
+import Mathlib.RingTheory.ZMod.UnitsCyclic
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfCardinalityBound
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFppfHOneField
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeKummer
@@ -24,8 +26,65 @@ open CategoryTheory
 
 namespace AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer
 
+universe u
+
 open AffineCommGroupScheme
 open FiniteFlatCommGroupScheme
+
+/-- Over a field, Hilbert 90 upgrades the checked Kummer kernel equivalence to an equivalence
+with the full fppf `H¹` of the scheme-theoretic power kernel. -/
+noncomputable def powerKernelFppfHOneMulEquivUnitKummerClasses
+    (K : Type u) [Field K] (n : ℕ) (hn : n ≠ 0) :
+    (powerKernel K n).FppfHOne.{u} ≃* UnitKummerClasses K n := by
+  let f : (powerKernel K n).FppfHOne.{u} →*
+      (fppfHOneMap (powerKernelPresentation K n).inclusion).ker :=
+    (MonoidHom.id (powerKernel K n).FppfHOne.{u}).codRestrict
+      (fppfHOneMap (powerKernelPresentation K n).inclusion).ker
+      (fun z ↦ MonoidHom.mem_ker.mpr (Subsingleton.elim _ _))
+  let e : (powerKernel K n).FppfHOne.{u} ≃*
+      (fppfHOneMap (powerKernelPresentation K n).inclusion).ker :=
+    MulEquiv.ofBijective f ⟨
+      (fun _ _ h ↦ congrArg Subtype.val h),
+      (fun z ↦ ⟨z.1, Subtype.ext rfl⟩)⟩
+  exact e.trans (unitKummerBoundaryMulEquivKernel (R := K) n hn).symm
+
+/-- For prime exponent `p`, the unit Kummer quotient of a prime field has at most `p`
+elements. -/
+noncomputable def unitKummerClasses_zmod_primes_boundedData
+    (p q : ℕ) (hp : p.Prime) (hq : q.Prime) :
+    FinitePGroup.BoundedData p (UnitKummerClasses (ZMod q) p) := by
+  letI : Fact q.Prime := ⟨hq⟩
+  letI : IsCyclic (ZMod q)ˣ := ZMod.isCyclic_units_prime hq
+  letI : Finite (UnitKummerClasses (ZMod q) p) := inferInstance
+  exact
+    { finite := inferInstance
+      length := 1
+      card_le := by
+        rw [pow_one, ← Subgroup.index_eq_card,
+          IsCyclic.index_powMonoidHom_range]
+        exact Nat.le_of_dvd hp.pos (Nat.gcd_dvd_right _ _) }
+
+@[simp]
+theorem unitKummerClasses_zmod_primes_boundedData_length
+    (p q : ℕ) (hp : p.Prime) (hq : q.Prime) :
+    (unitKummerClasses_zmod_primes_boundedData p q hp hq).length = 1 :=
+  rfl
+
+/-- Over any prime field, the full fppf `H¹` of a prime-power kernel of `G_m` has
+`p`-length at most one. -/
+noncomputable def powerKernelFppfHOne_zmod_primes_boundedData
+    (p q : ℕ) (hp : p.Prime) (hq : q.Prime) :
+    FinitePGroup.BoundedData p (powerKernel (ZMod q) p).FppfHOne.{0} := by
+  letI : Fact q.Prime := ⟨hq⟩
+  exact (unitKummerClasses_zmod_primes_boundedData p q hp hq).congr
+    (powerKernelFppfHOneMulEquivUnitKummerClasses
+      (ZMod q) p hp.ne_zero).symm
+
+@[simp]
+theorem powerKernelFppfHOne_zmod_primes_boundedData_length
+    (p q : ℕ) (hp : p.Prime) (hq : q.Prime) :
+    (powerKernelFppfHOne_zmod_primes_boundedData p q hp hq).length = 1 :=
+  rfl
 
 /-- Frobenius makes the unit Kummer quotient over the prime field trivial. -/
 theorem unitKummerClasses_zmod_prime_eq_one
