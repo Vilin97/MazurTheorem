@@ -55,6 +55,17 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The rational-section boundary no longer asks callers to prove that a section
+misses the generic point. A section of an integral smooth relative curve is a
+closed immersion; if its image were generic, the curve and its structure map
+would be isomorphic to the base point, contradicting the ranks zero and one
+forced on Kähler differentials. The proof needs no properness
+(`3eeb92f`, reviewed from contributor `7bd99dc`). It now lives in a shared
+lightweight geometry module, while the existing codimension-one Picard class
+and a new degree-one Hecke formal-immersion theorem are compiled downstream
+consumers (`cf30a73`). This removes one geometric caller premise but does not
+construct the Picard scheme, modular Jacobian, or modular Hecke operators.
+
 The multiplicative descent lane now evaluates an actual represented `G_m`
 `OneCocycle` on a singleton affine family at the tensor-product overlap
 (`4a73dc5`, reviewed from contributor `ffecc5b`). Represented-point
@@ -67,10 +78,10 @@ for singleton affine presentations only. Refinement of arbitrary multi-object
 fppf covers and gauge comparison remain open, so no ambient `H¹(G_m)`
 vanishing or node credit is claimed.
 
-The shared Picard handoff now accepts actual rational sections rather than
-only abstract codimension-one points with caller-supplied weight equations.
-Smooth relative dimension one turns each explicitly non-generic section image
-into a codimension-one point, and the section law proves residue degree one.
+The shared Picard handoff accepts actual rational sections rather than only
+abstract codimension-one points with caller-supplied weight equations. Smooth
+relative dimension one now proves each section image non-generic and then
+turns it into a codimension-one point; the section law proves residue degree one.
 The resulting section-level Abel--Jacobi class reaches basepoint-zero,
 point-difference, and collision/linear-equivalence consumers in the actual
 scheme Picard group (`9796266`). This remains group-valued and does not
@@ -227,7 +238,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 809 Lean modules and 1,501,985 Lean lines.
+exact quality baseline is 810 Lean modules and 1,502,139 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -270,9 +281,10 @@ The import-layer repair independently rebuilds the new 2,380-job base, the
 The scheme-Picard Abel--Jacobi adapter rebuilds its 3,545-job closure; its six
 class-level and two bundle-level basepoint-transport declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`.
-The rational-section Picard adapter rebuilds its 3,547-job closure; all seven
-audited construction and consumer declarations use only those same three
-standard axioms. The represented finite-flat point quotient rebuilds in a
+The rational-section core, Picard adapter, and degree-one Hecke consumer
+rebuild together in a 3,594-job focused closure. The derived non-genericity,
+codimension-one point, Picard class, and Hecke formal-immersion consumer use
+only those same three standard axioms. The represented finite-flat point quotient rebuilds in a
 combined 3,609-job owner target, and its thirteen contributor-audited theorem
 endpoints have the same axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
@@ -281,11 +293,12 @@ contracts, and the exact source baseline above. Challenge immutability against
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
-workers are pursuing the A3 normalized-transition/effectivity seam, the honest
-arbitrary-cover refinement/gauge step beyond the now-integrated singleton
-represented multiplicative cocycle, and the removal of the explicit
-non-genericity premise from rational sections of proper smooth curves. The
-reviewed represented point-quotient comparison is integrated;
+workers are pursuing the A3 normalized-transition/effectivity seam, the
+honest arbitrary-cover refinement/gauge step beyond the now-integrated
+singleton represented multiplicative cocycle, and the first actual
+scheme-module cohomology/H-zero boundary with a global-sections consumer. The
+reviewed represented point-quotient comparison and derived rational-section
+non-genericity are integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
 open. The represented integral cusp chart remains queued for the prime-five
 and level-35 consumers. The finite-flat lane still also needs the independent

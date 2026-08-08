@@ -1744,12 +1744,15 @@ dictionary. It deliberately does not construct the relative Picard functor,
 representing scheme, Jacobian variety, or Abel--Jacobi scheme morphism.
 `AlgebraicGeometry/PicardRationalSectionAbelJacobi.lean` removes the abstract
 weight-one premise at the rational-point boundary: an actual section of a
-smooth integral relative curve, together with its non-genericity, constructs
-the associated codimension-one point, and the section law proves its residue
-degree is one. Two such represented sections feed directly to the absolute
-scheme-Picard Abel--Jacobi class; its basepoint, difference-divisor, and
-collision/linear-equivalence laws are checked. This remains a group-valued
-shadow, not a represented Abel--Jacobi morphism.
+smooth integral relative curve automatically has non-generic image. Indeed,
+the section is a closed immersion; a generic closed image would make the
+curve isomorphic to the base point, contradicting the rank of Kähler
+differentials in relative dimension one. The section therefore constructs
+the associated codimension-one point without a caller premise, and its law
+proves residue degree one. Two such represented sections feed directly to the
+absolute scheme-Picard Abel--Jacobi class; its basepoint,
+difference-divisor, and collision/linear-equivalence laws are checked. This
+remains a group-valued shadow, not a represented Abel--Jacobi morphism.
 
 The split `X₀` lane now has a concrete reduced proper projective Weierstrass
 cubic. Homogeneous evaluation gives an injective map from Mathlib projective
@@ -1945,12 +1948,15 @@ completed-local power-series coordinate and a nonzero simultaneous Hecke
 eigen-expansion now construct the detected cotangent vector directly: a
 vanishing pullback class would lie in the square of the cusp maximal ideal and
 have zero first coefficient, contradicting the checked Hecke recursion. The
-resulting genuine `Spec.map` theorem has real prime-five and order-35
-consumers. A checked affine-section structure now binds the section law to the
-selected fibre point and derives the ambient algebra retraction and residue
-surjection. The represented modular chart, an inhabitant of that section
-structure, the collision, and the actual optimal-quotient Hecke expansion
-remain geometric inputs; no completion credit is inferred.
+resulting completed-stalk theorem now also accepts an actual rational section:
+the shared smooth-curve argument derives source non-genericity from the
+section law rather than asking the modular caller to prove it separately. The
+genuine `Spec.map` theorem has real prime-five and order-35 consumers. A
+checked affine-section structure binds the section law to the selected fibre
+point and derives the ambient algebra retraction and residue surjection. The
+represented modular chart, an inhabitant of those section structures, the
+collision, and the actual optimal-quotient Hecke expansion remain geometric
+inputs; no completion credit is inferred.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier

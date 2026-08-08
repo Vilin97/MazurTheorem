@@ -1202,6 +1202,8 @@ cotangent space of a nontrivial quotient.
   `MazurTorsion.ModularCurve.HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_heckeEigen_qExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_rationalSection_heckeEigen_qExpansion`
 
 The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
 provisional target for this calculation: it requires a residue-field
@@ -1213,9 +1215,11 @@ immersion. Named consumers carry both a supplied coordinate and the constructed
 complete-DVR coordinate through to equality of canonical local-spectrum maps.
 The abstract first-coefficient argument now proves that a nonzero simultaneous
 eigen-expansion has nonzero coefficient in degree one and feeds that result to
-the real completed-stalk formal-immersion theorem. The missing Hecke work is
-the modular/Jacobian action and its checked expansion identity at auxiliary
-characteristics five and eleven.
+the real completed-stalk formal-immersion theorem. An actual rational section
+is a compiled consumer whose section law derives the formerly explicit
+non-genericity premise. The missing Hecke work is the modular/Jacobian action
+and its checked expansion identity at auxiliary characteristics five and
+eleven.
 :::
 
 :::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")

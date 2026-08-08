@@ -1052,10 +1052,11 @@ consumer of the same translation law. For the chosen divisor line bundles, chang
 is now an actual isomorphism to the old bundle tensored with the explicit weighted
 point-difference correction bundle, and a second theorem consumes that isomorphism in scheme
 Picard. An actual rational section of a smooth integral curve now constructs its codimension-one
-point, derives residue-degree weight one from the section law, and feeds directly to this
-group-valued Abel--Jacobi normalization. These are normalization inputs for the future morphism,
-not a morphism of schemes and not a proof of the universal property, base change, or closed
-immersion.
+point after deriving non-genericity from its section law, integrality, and smooth relative
+dimension one. The same section law gives residue-degree weight one, and the section feeds
+directly to this group-valued Abel--Jacobi normalization. These are normalization inputs for the
+future morphism, not a morphism of schemes and not a proof of the universal property, base
+change, or closed immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1094,7 +1095,10 @@ immersion.
   Consume the bundle isomorphism in the exact scheme-Picard translation equality.
 * `structure` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection`
-  Package a represented rational section with its section law and non-generic image.
+  Package a represented rational section using only its morphism and section law.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection.ne_generic`
+  Derive non-genericity from the section law and relative dimension one.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection.toCodimensionOnePoint`
   Construct the section's codimension-one point and derive residue-degree weight one.

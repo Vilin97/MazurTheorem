@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1501985,
-    "integrated_lean_modules": 809,
+    "integrated_lean_lines": 1502139,
+    "integrated_lean_modules": 810,
     "remaining_composite_orders": [
       18,
       25,
@@ -3274,7 +3274,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus. The checked absolute scheme-Picard adapter transports the exact weighted basepoint-change laws for both points and divisors from the pinned Tau Ceti divisor-class API. An actual rational section of a smooth integral curve now constructs its codimension-one point, derives residue-degree weight one from the section law, and feeds the resulting section directly to the scheme-Picard Abel-Jacobi class. A real effective divisor-cocycle/global-principal-boundary consumer reaches the same normalization law. At the chosen line-bundle level, changing basepoint is now an actual isomorphism to the old bundle tensored with the explicit weighted point-difference bundle, and its Picard-class image is checked. These remain normalization results, not a represented morphism, universal property, base-change theorem, or closed immersion.",
+      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus. The checked absolute scheme-Picard adapter transports the exact weighted basepoint-change laws for both points and divisors from the pinned Tau Ceti divisor-class API. An actual rational section of a smooth integral curve now derives its own non-genericity from the section law, integrality, and smooth relative dimension one, constructs its codimension-one point, derives residue-degree weight one, and feeds the resulting section directly to the scheme-Picard Abel-Jacobi class. A real effective divisor-cocycle/global-principal-boundary consumer reaches the same normalization law. At the chosen line-bundle level, changing basepoint is now an actual isomorphism to the old bundle tensored with the explicit weighted point-difference bundle, and its Picard-class image is checked. These remain normalization results, not a represented morphism, universal property, base-change theorem, or closed immersion.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3360,8 +3360,15 @@
           "kind": "structure",
           "name": "MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection",
           "state": "contract",
-          "description": "Package an actual rational section of a smooth integral relative curve with its section law and the non-genericity needed to obtain a prime divisor.",
-          "module": "MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi"
+          "description": "Package an actual rational section of a smooth integral relative curve using only its represented morphism and section law.",
+          "module": "MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection.ne_generic",
+          "state": "contract",
+          "description": "Derive that the section image is non-generic from integrality and smooth relative dimension one, with no properness or caller-supplied point premise.",
+          "module": "MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection"
         },
         {
           "kind": "definition",
@@ -6447,7 +6454,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the Hecke action on J_0(N) and prove its q-expansion recursion. The abstract degree-one argument now proves that every nonzero simultaneous eigen-expansion has nonzero first coefficient and consumes that fact in an actual completed-stalk formal-immersion theorem. The modular/Jacobian Hecke operators and their genuine q-expansion identity at characteristics 5 and 11 remain open.",
+      "summary": "Construct the Hecke action on J_0(N) and prove its q-expansion recursion. The abstract degree-one argument now proves that every nonzero simultaneous eigen-expansion has nonzero first coefficient and consumes that fact in an actual completed-stalk formal-immersion theorem. A represented rational section is a second compiled consumer: its section law automatically discharges the source non-genericity premise. The modular/Jacobian Hecke operators and their genuine q-expansion identity at characteristics 5 and 11 remain open.",
       "artifacts": [
         {
           "kind": "definition",
@@ -6495,6 +6502,13 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.HeckeFirstCoefficient",
           "description": "Feed the detected first q coefficient to the real completed-stalk formal-immersion predicate as a named downstream consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_rationalSection_heckeEigen_qExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.HeckeFirstCoefficient",
+          "description": "Apply the Hecke first-coefficient criterion to an actual rational section, using its derived non-genericity instead of a caller hypothesis."
         }
       ],
       "depends_on": [
