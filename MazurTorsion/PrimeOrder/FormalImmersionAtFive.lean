@@ -109,4 +109,36 @@ theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive
       hformal hne hspecializes hquotient)
     F hresidue P N hprime hN
 
+/-- The theorem-critical prime-order endpoint of the five-adic
+formal-immersion collision.
+
+Unlike the legacy filtration handoff above, this theorem has no additive
+reduction premise.  The marked weighted-depth argument on Mathlib's selected
+minimal equation rules out that branch, and the checked enumeration over
+`F₅` rules out the remaining good-reduction specialization. -/
+theorem rationalPoint_primeOrder_ne_of_formalImmersionAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme}
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ X)
+    (hformal : IsFormalImmersionAt f
+      (cuspSection (IsLocalRing.closedPoint
+        (atFive.adicCompletionIntegers ℚ))))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)) =
+        cuspSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)))
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (P : E.toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N :=
+  rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_oneAtFive
+    (valuation_j_le_one_of_formalImmersionAtFive f modularSection cuspSection
+      hformal hne hspecializes hquotient)
+    P N hprime hN
+
 end MazurTorsion.PrimeOrder

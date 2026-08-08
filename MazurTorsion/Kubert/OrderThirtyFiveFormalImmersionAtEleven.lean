@@ -45,6 +45,36 @@ abbrev closedFiberPointAtEleven {X : Scheme}
     (s : Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X) : X :=
   s (IsLocalRing.closedPoint (atEleven.adicCompletionIntegers ℚ))
 
+/-- A formal immersion at the selected eleven-adic cusp forces the
+`j`-valuation bound used by the squarefree level-35 route.
+
+This is the direct formal-immersion analogue of the cotangent-certificate
+adapters below.  The integral modular specialization and equality in the
+rank-zero quotient remain explicit geometric inputs. -/
+theorem valuation_j_le_one_of_formalImmersionAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme}
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hformal : IsFormalImmersionAt f
+      (closedFiberPointAtEleven cuspSection))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f) :
+    atEleven.valuation ℚ E.j ≤ 1 := by
+  by_contra hj
+  apply hne
+  have hpoint := hspecializes hj
+  have hformalAtModular : IsFormalImmersionAt f
+      (closedFiberPointAtEleven modularSection) := by
+    simpa only [hpoint] using hformal
+  exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
+    modularSection cuspSection hpoint (hquotient hj)
+
 /-- The actual cusp-stalk quotient-cotangent certificate supplies the
 eleven-adic `j`-valuation bound through the formal-immersion collision. -/
 theorem valuation_j_le_one_of_quotientCotangentCertificateAtEleven
@@ -319,5 +349,32 @@ theorem
       f modularSection cuspSection hresidue I hI hdegreeOne hne
       hspecializes hquotient)
     P hcomponentExponent
+
+/-- The theorem-critical order-35 endpoint of the eleven-adic
+formal-immersion collision.
+
+The marked weighted-depth argument rules out additive reduction on the
+selected minimal equation, so the collision's valuation bound now reaches
+the checked `F₁₁` enumeration without a component-group premise. -/
+theorem rationalPoint_orderThirtyFive_ne_of_formalImmersionAtEleven
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {X Y : Scheme}
+    (f : X ⟶ Y)
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ X)
+    (hformal : IsFormalImmersionAt f
+      (closedFiberPointAtEleven cuspSection))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      closedFiberPointAtEleven modularSection =
+        closedFiberPointAtEleven cuspSection)
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ f = cuspSection ≫ f)
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 35 :=
+  rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_oneAtEleven
+    (valuation_j_le_one_of_formalImmersionAtEleven
+      f modularSection cuspSection hformal hne hspecializes hquotient)
+    P
 
 end MazurTorsion.OrderThirtyFive
