@@ -77,21 +77,24 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechCochains.lean`
+    (generic cochain slice only; affine-vanishing tail omitted)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechDifferential.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TopCatSheafRestrict.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafTerms.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafDifferential.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafComplex.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
 - License evidence: the audited source commit has no root `LICENSE`. Selected
   files retain their per-file Apache-2.0 notices where present. Exact
   repository-level evidence is AINTLIB `origin/main` commit
   `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, whose root `LICENSE` is
   Apache License 2.0. The source and license-evidence commits are divergent;
-  neither is an ancestor of the other. The three headerless selected sources
-  are byte-identical at both commits: `SchemeModuleSheaf.lean` blob
-  `b735f77f920d236c5416f43201aefd9804cea4b6`,
-  `SheafCohomologyExact.lean` blob
-  `5e8e401a5556eef7940273fd1443b84c236fabbb`, and
-  `SchemeModuleBaseCech.lean` blob
-  `d62a2d04dab99e404c934d5f25e28738b5539175`. Their local headers record
-  Chris Birkbeck's authorship/history on those exact licensed blobs rather
-  than claiming that the dev source supplied headers or a root license.
+  neither is an ancestor of the other. Every headerless selected source is
+  byte-identical at both commits; `PORTING.md` records every exact Git blob.
+  Their local headers record Chris Birkbeck's authorship/history on those
+  exact licensed blobs rather than claiming that the dev source supplied
+  headers or a root license.
 
 The selected source and slices are stored under
 `MazurTorsion/Upstream/AINTLIB/`. The two
