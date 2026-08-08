@@ -113,6 +113,7 @@ import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli
 import MazurTorsion.ModularCurve.XZeroCyclicQuotient
 import MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
+import MazurTorsion.ModularCurve.XZeroFiniteFlatCyclicQuotient
 import MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVariety
 import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic
 import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveNegation
