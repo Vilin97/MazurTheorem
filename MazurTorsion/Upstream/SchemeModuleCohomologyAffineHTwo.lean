@@ -296,4 +296,56 @@ theorem schemeHTwo_finiteAffineKillingCover
 
 end LocalKilling
 
+/-- Genuine Ext-based `H²` of a quasicoherent scheme module on an affine
+spectrum is subsingleton. -/
+theorem moduleSpecHTwo_subsingleton
+    {R : CommRingCat.{u}} (M : (Spec R).Modules)
+    [M.IsQuasicoherent] : Subsingleton (H M 2) := by
+  refine subsingleton_of_forall_eq 0 fun c ↦ ?_
+  obtain ⟨I, U, hfinite, hcover, haffine, _, hkilled⟩ :=
+    LocalKilling.schemeHTwo_finiteAffineKillingCover M c
+  letI : Finite I := hfinite
+  letI (i : I) : IsAffine (U i) := haffine i
+  letI : (cokernel (toAffineCoverModule M U)).IsQuasicoherent :=
+    affineCoverCokernel_isQuasicoherent M U
+  letI : Subsingleton (H (cokernel (toAffineCoverModule M U)) 1) :=
+    moduleSpecHOne_subsingleton _
+  apply toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton
+    M U hcover 1
+  rw [hkilled, map_zero]
+
+/-- Every genuine Ext-based degree-two class of a quasicoherent scheme
+module on an affine spectrum is zero. -/
+theorem moduleSpecHTwo_eq_zero
+    {R : CommRingCat.{u}} (M : (Spec R).Modules)
+    [M.IsQuasicoherent] (c : H M 2) : c = 0 := by
+  letI : Subsingleton (H M 2) := moduleSpecHTwo_subsingleton M
+  exact Subsingleton.elim _ _
+
+/-- Genuine degree-two cohomology of a quasicoherent module on any affine
+scheme is subsingleton. -/
+theorem moduleAffineHTwo_subsingleton
+    {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
+    [M.IsQuasicoherent] : Subsingleton (H M 2) := by
+  let e := X.isoSpec
+  let N := (Scheme.Modules.pushforward e.hom).obj M
+  letI : N.IsQuasicoherent := isQuasicoherent_pushforward_iso
+  have hN : Subsingleton (H N 2) := moduleSpecHTwo_subsingleton N
+  letI : Subsingleton (H N 2) := hN
+  letI : Subsingleton (CategoryTheory.Sheaf.H
+      ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} e.hom.base).obj
+        ((SheafOfModules.toSheaf X.ringCatSheaf).obj M)) 2) := by
+    change Subsingleton (H N 2)
+    exact hN
+  exact sheafH_subsingleton_of_iso e
+    ((SheafOfModules.toSheaf X.ringCatSheaf).obj M) 2
+
+/-- Every genuine Ext-based degree-two class of a quasicoherent module on
+an affine scheme is zero. -/
+theorem moduleAffineHTwo_eq_zero
+    {X : Scheme.{u}} [IsAffine X] (M : X.Modules)
+    [M.IsQuasicoherent] (c : H M 2) : c = 0 := by
+  letI : Subsingleton (H M 2) := moduleAffineHTwo_subsingleton M
+  exact Subsingleton.elim _ _
+
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
