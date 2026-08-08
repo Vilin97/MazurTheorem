@@ -5,7 +5,6 @@ Authors: Chris Birkbeck
 -/
 import Mathlib.Data.Fin.Tuple.Sort
 import Mathlib.GroupTheory.Perm.Fin
-import MazurTorsion.Upstream.AINTLIB.ForMathlib.HomologicalComplexExactRetract
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleOrderedBaseCechComparison
 
 /-!
@@ -1125,26 +1124,6 @@ private theorem orderedToBaseCechAlternating_f
     (orderedToBaseCechAlternating π M U).f n =
       orderedToBaseCechAlternatingF π M U n :=
   rfl
-
-private theorem orderedToBaseCechAlternating_comp_baseCechToOrdered
-    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
-    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) :
-    orderedToBaseCechAlternating π M U ≫ baseCechToOrdered π M U =
-      𝟙 (orderedBaseCechComplex π M U) := by
-  apply HomologicalComplex.hom_ext
-  intro n
-  exact orderedToBaseCechAlternatingF_comp_baseCechToOrderedF
-    π M U n
-
-private theorem orderedBaseCechComplex_exactAt_of_baseCechComplex_exactAt
-    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
-    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) (n : ℕ)
-    (h : (baseCechComplex π M U).ExactAt n) :
-    (orderedBaseCechComplex π M U).ExactAt n :=
-  h.of_retract
-    (orderedToBaseCechAlternating π M U)
-    (baseCechToOrdered π M U)
-    (orderedToBaseCechAlternating_comp_baseCechToOrdered π M U)
 
 end
 

@@ -30,7 +30,7 @@ def OrderedCechIndex (ι : Type u) [Preorder ι] (n : ℕ) :=
   {i : Fin (n + 1) → ι // StrictMono i}
 
 /-- Deleting an entry from a strictly increasing tuple preserves strict increase. -/
-def OrderedCechIndex.delete {ι : Type u} [Preorder ι] {n : ℕ}
+private def OrderedCechIndex.delete {ι : Type u} [Preorder ι] {n : ℕ}
     (i : OrderedCechIndex ι (n + 1)) (k : Fin (n + 2)) :
     OrderedCechIndex ι n :=
   ⟨i.1 ∘ (SimplexCategory.δ k).toOrderHom,
@@ -75,7 +75,7 @@ noncomputable def orderedCechFace {X : Scheme.{u}}
   φ i := (((FormalCoproduct.mk _ U).mapPower
     (SimplexCategory.δ k).toOrderHom.toFun).φ i.1)
 
-theorem orderedCechFace_comp {X : Scheme.{u}}
+private theorem orderedCechFace_comp {X : Scheme.{u}}
     {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) (n : ℕ)
     {i j : Fin (n + 2)} (hij : i ≤ j) :
     orderedCechFace U (n + 1) j.succ ≫ orderedCechFace U n i =

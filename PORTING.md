@@ -203,10 +203,10 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Fourteen local Apache-2.0 modules were selected from the AINTLIB
+Thirteen local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. Thirteen upstream files are retained
+`MazurTorsion/Upstream/AINTLIB/`. Twelve upstream files are retained
 whole; two additional source files contribute the narrow option-free slices
 recorded below:
 
@@ -222,15 +222,26 @@ recorded below:
 | `ForMathlib/SchemeModuleBaseCech.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCech.lean` |
 | `ForMathlib/SchemeModuleBaseCechFlat.lean` (only `baseCechFactor` and `baseCechXIsoPi`) | moved into the preceding two core modules |
 | `ForMathlib/SchemeModuleOrderedBaseCech.lean` (lines 1–310, before the flatness tail) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechBasic.lean` |
-| `ForMathlib/HomologicalComplexExactRetract.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/HomologicalComplexExactRetract.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` |
 
-The files preserve their upstream Apache-2.0 headers and authorship. The
-source `SchemeModuleBaseCech.lean` had no per-file header, so the local copy
-adds Chris Birkbeck's attribution from the repository authorship/history;
+The audited `dev/modular-curves` snapshot has no root `LICENSE` file. The
+selected sources preserve their per-file Apache-2.0 headers and authorship
+where present. Exact repository-level license evidence is AINTLIB
+`origin/main` commit `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`,
+whose root `LICENSE` is Apache License 2.0. That commit and the selected dev
+commit are divergent: neither is an ancestor of the other. The three source
+files without per-file headers are byte-identical at the license-bearing main
+commit: `SchemeModuleSheaf.lean` has blob
+`b735f77f920d236c5416f43201aefd9804cea4b6`,
+`SheafCohomologyExact.lean` has blob
+`5e8e401a5556eef7940273fd1443b84c236fabbb`, and
+`SchemeModuleBaseCech.lean` has blob
+`d62a2d04dab99e404c934d5f25e28738b5539175`. Their local headers use that
+exact licensed-blob evidence together with Chris Birkbeck's repository
+authorship/history; they were not present in the dev source files.
 `SchemeModuleOrderedBaseCechHOneFinite.lean` retains its broader AINTLIB
 contributors header. The port preserves declarations and namespaces. The
 `SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
@@ -261,8 +272,9 @@ argument to `Fin.succAbove_right_injective`, eliminating two current style
 warnings. No proof option, source placeholder, affine-comparison module,
 flat/Picard module, or properness cone is imported.
 Declarations used only as same-file proof machinery are private in the local
-port. The public comparison spine and the source theorem statements used by
-later modules are unchanged.
+port, and the unused exact-retract helper and its sole downstream proof are
+omitted. The public comparison spine and the source theorem statements used
+by later modules are unchanged.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`

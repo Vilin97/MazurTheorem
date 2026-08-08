@@ -23,7 +23,7 @@ namespace AlgebraicGeometry.Scheme.Modules
 
 /-- Alternating extension from the ordered Cech complex is surjective on
 degree-one homology. -/
-theorem orderedToBaseCechAlternating_homologyMap_surjective
+private theorem orderedToBaseCechAlternating_homologyMap_surjective
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) :
     Function.Surjective
