@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfCardinalityBound
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientEuler
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfConnecting
 
@@ -50,6 +51,84 @@ theorem middleFppfHOne_finite (D : FppfQuotientPresentation G)
 end FppfQuotientPresentation
 
 namespace FppfLowDegreeExactSequence
+
+/-- Endpoint cardinal upper bounds suffice for the quasi-finite Euler estimate.  Exact
+`p`-power cardinalities of the two `H¹` groups are unnecessary: exactness first proves middle
+finiteness, and the two supplied upper bounds control its cardinality. -/
+theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded
+    {p : ℕ} {G : QuasiFiniteFlatCommGroupScheme S}
+    (D : FppfQuotientPresentation G)
+    (kernelHZeroData : FiniteFlatCommGroupScheme.FinitePGroup.CertifiedData p
+      (BasePoint D.kernelPresentation.kernel))
+    (middleHZeroData : FiniteFlatCommGroupScheme.FinitePGroup.CertifiedData p
+      (BasePoint G))
+    (quotientHZeroData : FiniteFlatCommGroupScheme.FinitePGroup.CertifiedData p
+      (BasePoint D.quotient))
+    (kernelHOneData : FiniteFlatCommGroupScheme.FinitePGroup.BoundedData p
+      D.kernelPresentation.kernel.FppfHOne.{u})
+    (quotientHOneData : FiniteFlatCommGroupScheme.FinitePGroup.BoundedData p
+      D.quotient.FppfHOne.{u})
+    (hp : p.Prime) (bound : ℕ)
+    (hbound :
+      middleHZeroData.length + kernelHOneData.length + quotientHOneData.length ≤
+        bound + kernelHZeroData.length + quotientHZeroData.length) :
+    Nat.card G.FppfHOne.{u} ≤ p ^ bound := by
+  letI : Finite (BasePoint D.kernelPresentation.kernel) := kernelHZeroData.finite
+  letI : Finite (BasePoint G) := middleHZeroData.finite
+  letI : Finite (BasePoint D.quotient) := quotientHZeroData.finite
+  letI : Finite D.kernelPresentation.kernel.FppfHOne.{u} := kernelHOneData.finite
+  letI : Finite D.quotient.FppfHOne.{u} := quotientHOneData.finite
+  letI : Finite G.FppfHOne.{u} := D.middleFppfHOne_finite
+  have hcard :=
+    FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.card_euler_le_of_exact
+      (mapPoint D.kernelPresentation.inclusion (baseObject S))
+      (mapPoint D.project (baseObject S)) D.boundaryHom
+      (fppfHOneMap D.kernelPresentation.inclusion) (fppfHOneMap D.project)
+      (D.kernelPresentation.inclusion_point_injective (baseObject S))
+      (D.kernelPresentation.point_mulExact (baseObject S))
+      D.exact_project_boundaryHom D.exact_boundaryHom_fppfHOneMap
+      D.exact_fppfHOneMap_inclusion_project
+  rw [kernelHZeroData.card_eq, middleHZeroData.card_eq,
+    quotientHZeroData.card_eq] at hcard
+  have hcard' :
+      Nat.card G.FppfHOne.{u} *
+          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
+        p ^ (middleHZeroData.length + kernelHOneData.length +
+          quotientHOneData.length) := by
+    calc
+      Nat.card G.FppfHOne.{u} *
+            p ^ (kernelHZeroData.length + quotientHZeroData.length) =
+          Nat.card G.FppfHOne.{u} * p ^ kernelHZeroData.length *
+            p ^ quotientHZeroData.length := by simp [pow_add, Nat.mul_assoc]
+      _ ≤ p ^ middleHZeroData.length *
+            Nat.card D.kernelPresentation.kernel.FppfHOne.{u} *
+            Nat.card D.quotient.FppfHOne.{u} := by simpa using hcard
+      _ ≤ p ^ middleHZeroData.length * p ^ kernelHOneData.length *
+            p ^ quotientHOneData.length := by
+        exact Nat.mul_le_mul
+          (Nat.mul_le_mul_left _ kernelHOneData.card_le)
+          quotientHOneData.card_le
+      _ = p ^ (middleHZeroData.length + kernelHOneData.length +
+            quotientHOneData.length) := by simp [pow_add, Nat.mul_assoc]
+  have hpowers :
+      p ^ (middleHZeroData.length + kernelHOneData.length +
+          quotientHOneData.length) ≤
+        p ^ (bound + kernelHZeroData.length + quotientHZeroData.length) :=
+    (Nat.pow_le_pow_iff_right hp.one_lt).mpr hbound
+  have hcancel :
+      Nat.card G.FppfHOne.{u} *
+          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
+        p ^ bound * p ^ (kernelHZeroData.length + quotientHZeroData.length) := by
+    calc
+      Nat.card G.FppfHOne.{u} *
+          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
+          p ^ (middleHZeroData.length + kernelHOneData.length +
+            quotientHOneData.length) := hcard'
+      _ ≤ p ^ (bound + kernelHZeroData.length + quotientHZeroData.length) := hpowers
+      _ = p ^ bound * p ^ (kernelHZeroData.length + quotientHZeroData.length) := by
+        rw [add_assoc, pow_add, pow_add]
+  exact Nat.le_of_mul_le_mul_right hcancel
+    (pow_pos hp.pos (kernelHZeroData.length + quotientHZeroData.length))
 
 /-- The multiplicative Euler inequality for a quasi-finite fppf quotient.  The five endpoint
 certificates supply all endpoint finiteness, and middle-`H¹` finiteness follows from exactness. -/
@@ -108,43 +187,10 @@ theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
       middleHZeroData.length + kernelHOneData.length + quotientHOneData.length ≤
         bound + kernelHZeroData.length + quotientHZeroData.length) :
     Nat.card G.FppfHOne.{u} ≤ p ^ bound := by
-  letI : Finite (BasePoint D.kernelPresentation.kernel) := kernelHZeroData.finite
-  letI : Finite (BasePoint G) := middleHZeroData.finite
-  letI : Finite (BasePoint D.quotient) := quotientHZeroData.finite
-  letI : Finite D.kernelPresentation.kernel.FppfHOne.{u} := kernelHOneData.finite
-  letI : Finite D.quotient.FppfHOne.{u} := quotientHOneData.finite
-  letI : Finite G.FppfHOne.{u} := D.middleFppfHOne_finite
-  have hcard := fppfHOne_card_euler_le_ofFppfQuotientPresentation D
+  apply fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded D
     kernelHZeroData middleHZeroData quotientHZeroData
-    kernelHOneData quotientHOneData
-  rw [kernelHZeroData.card_eq, middleHZeroData.card_eq,
-    quotientHZeroData.card_eq, kernelHOneData.card_eq,
-    quotientHOneData.card_eq] at hcard
-  have hcard' :
-      Nat.card G.FppfHOne.{u} *
-          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
-        p ^ (middleHZeroData.length + kernelHOneData.length +
-          quotientHOneData.length) := by
-    simpa [pow_add, Nat.mul_assoc] using hcard
-  have hpowers :
-      p ^ (middleHZeroData.length + kernelHOneData.length +
-          quotientHOneData.length) ≤
-        p ^ (bound + kernelHZeroData.length + quotientHZeroData.length) :=
-    (Nat.pow_le_pow_iff_right hp.one_lt).mpr hbound
-  have hcancel :
-      Nat.card G.FppfHOne.{u} *
-          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
-        p ^ bound * p ^ (kernelHZeroData.length + quotientHZeroData.length) := by
-    calc
-      Nat.card G.FppfHOne.{u} *
-          p ^ (kernelHZeroData.length + quotientHZeroData.length) ≤
-          p ^ (middleHZeroData.length + kernelHOneData.length +
-            quotientHOneData.length) := hcard'
-      _ ≤ p ^ (bound + kernelHZeroData.length + quotientHZeroData.length) := hpowers
-      _ = p ^ bound * p ^ (kernelHZeroData.length + quotientHZeroData.length) := by
-        rw [add_assoc, pow_add, pow_add]
-  exact Nat.le_of_mul_le_mul_right hcancel
-    (pow_pos hp.pos (kernelHZeroData.length + quotientHZeroData.length))
+    kernelHOneData.toBoundedData quotientHOneData.toBoundedData hp bound
+  simpa using hbound
 
 /-- A finite-flat fppf quotient consumes the quasi-finite Euler theorem through the checked
 adapter.  This compatibility theorem agrees with the repaired finite-flat cardinal API: neither
