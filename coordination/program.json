@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1508785,
-    "integrated_lean_modules": 828,
+    "integrated_lean_lines": 1508970,
+    "integrated_lean_modules": 829,
     "remaining_composite_orders": [
       18,
       25,
@@ -3068,7 +3068,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence now also proves that an ambient scheme-module cokernel of a quasicoherent morphism is quasicoherent, and its actual cokernel projection is surjective on Ext-based H0. Coherence, positive-degree affine acyclicity, the quasicoherent finite-cover construction and local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. Coherence, positive-degree affine acyclicity, monicity of the cover map, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3201,6 +3201,48 @@
           "state": "contract",
           "description": "Consume affine cokernel quasicoherence in the genuine Ext-based H0 right-exactness theorem for the canonical cokernel projection.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpec_isQuasicoherent_pi",
+          "state": "contract",
+          "description": "Prove that a finite product of actual quasicoherent scheme modules on an affine spectrum is quasicoherent.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isQuasicoherent_pushforward_of_affine",
+          "state": "contract",
+          "description": "Transport quasicoherence through pushforward between affine schemes using affine spectrum presentations.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverModule",
+          "state": "contract",
+          "description": "Construct the finite product of restriction-pushforwards associated to a family of affine opens of Spec R.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule",
+          "state": "contract",
+          "description": "Map an actual scheme module to its finite affine-cover module through the restriction-pushforward adjunction units.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverModule_isQuasicoherent",
+          "state": "contract",
+          "description": "Prove that the finite restriction-pushforward cover module is quasicoherent when every cover member is affine.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_isQuasicoherent",
+          "state": "contract",
+          "description": "Consume affine cokernel closure to prove quasicoherence of the cokernel of the actual finite-cover map.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
         }
       ],
       "depends_on": [

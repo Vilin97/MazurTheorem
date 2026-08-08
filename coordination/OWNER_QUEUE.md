@@ -58,6 +58,9 @@ middle-`H¹` exactness with its five-endpoint Euler bound (`d9cf93c`, `31cc4b9`)
 affine quasicoherent cokernel closure with its genuine Ext-`H⁰` consumer
 (`07b3ad6`), the two actual bad-level factor-order Euler specializations
 (`6641d79`), and the normalized order-25 degree-40 endpoint (`689655d`).
+The finite affine restriction-pushforward cover module and its quasicoherent
+cokernel now compile (`bde0414`); this is the structural cover handoff for
+Kempf dimension shifting, not affine acyclicity.
 The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
@@ -111,8 +114,11 @@ compiled H0-surjectivity consumer (`74a7383`, reviewed from contributor
 `99c1dc5`). The affine tilde equivalence now also identifies the ambient
 cokernel of a quasicoherent morphism with a tilde module, proving its
 quasicoherence; the canonical cokernel projection is a compiled Ext-`H⁰`
-surjectivity consumer (`07b3ad6`). Positive-degree affine acyclicity, the
-quasicoherent finite-cover construction and local-killing step, proper
+surjectivity consumer (`07b3ad6`). Finite products on an affine spectrum and
+pushforwards between affine schemes preserve quasicoherence. Consequently the
+actual finite product of affine restriction-pushforwards is quasicoherent, as
+is the cokernel of its adjunction-unit map (`bde0414`). Monicity of that map,
+positive-degree local killing and affine acyclicity, proper
 finite-dimensionality, H1, and higher vanishing remain open, so MT-TC-B1
 receives no completion credit.
 
@@ -497,7 +503,9 @@ all 3,042 jobs; its middle-point certificate and both factor-order Euler
 consumers have the same axiom closure. The normalized order-25 target rebuilds
 all 1,987 jobs from source in 156 seconds; its explicit factorization,
 marked-order endpoint, and arbitrary-curve consumer again use only those
-axioms.
+axioms. The finite affine-cover target rebuilds all 2,770 jobs. Its
+finite-product, affine-pushforward, cover-module, and cover-cokernel
+declarations use only the same standard axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -1350,9 +1358,11 @@ within each lane follows the listed order.
    Actual affine quasicoherent epimorphisms now give surjections on global
    sections and on Ext-based H0. Ambient cokernels of quasicoherent morphisms
    are now quasicoherent, with the canonical cokernel projection as a checked
-   Ext-H0 consumer. Next construct the quasicoherent finite-cover object and
-   the positive-degree local-killing step; do not count H0 right exactness or
-   cokernel closure as affine acyclicity.
+   Ext-H0 consumer. The finite affine restriction-pushforward cover object and
+   its cokernel are now genuine quasicoherent modules. Next prove the cover map
+   is mono from the sheaf condition, then construct the positive-degree
+   local-killing step; do not count this structural cover construction as
+   affine acyclicity.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).

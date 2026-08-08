@@ -900,9 +900,12 @@ consumer. The affine tilde equivalence also identifies the ambient cokernel of
 a quasicoherent morphism with the tilde of the coefficient-module cokernel.
 Thus this scheme-module cokernel is quasicoherent, and the canonical cokernel
 projection is surjective on genuine Ext-based H0. Positive-degree affine
-acyclicity, the quasicoherent finite-cover construction, and local killing of
-positive-degree classes remain open, as do proper finite-dimensionality, H1,
-and higher vanishing.
+acyclicity remains open. Finite products of quasicoherent modules on an affine
+spectrum and pushforwards between affine schemes are now quasicoherent. Hence
+the actual finite product of affine restriction-pushforwards, and the cokernel
+of its adjunction-unit map, are quasicoherent. Monicity of that map and local
+killing of positive-degree classes remain open, as do proper
+finite-dimensionality, H1, and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -953,6 +956,24 @@ and higher vanishing.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHZero_surjective_cokernel_pi`
   Apply genuine Ext-based H0 right exactness to the canonical cokernel projection.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpec_isQuasicoherent_pi`
+  Prove that finite products of quasicoherent modules on an affine spectrum are quasicoherent.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isQuasicoherent_pushforward_of_affine`
+  Prove that pushforward between affine schemes preserves quasicoherence.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverModule`
+  Construct the finite product of affine restriction-pushforwards.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule`
+  Assemble the restriction adjunction units into the actual finite-cover map.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverModule_isQuasicoherent`
+  Prove quasicoherence of the finite affine-cover module.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_isQuasicoherent`
+  Consume affine cokernel closure for the actual cover-map cokernel.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")
