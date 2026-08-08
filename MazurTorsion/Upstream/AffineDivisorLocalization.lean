@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Upstream.DivisorLineBundle
 import Mathlib.Algebra.Category.Ring.Epi
 import Mathlib.AlgebraicGeometry.Morphisms.Flat
+import Mathlib.CategoryTheory.Adjunction.CompositionIso
 import Mathlib.LinearAlgebra.Span.TensorProduct
 import Mathlib.RingTheory.Flat.Equalizer
 import Mathlib.RingTheory.Flat.TorsionFree
@@ -59,7 +60,7 @@ open _root_.AlgebraicGeometry
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
-open scoped nonZeroDivisors TensorProduct
+open scoped ChangeOfRings nonZeroDivisors TensorProduct
 
 universe u
 
@@ -566,6 +567,361 @@ private noncomputable def extendScalarsTildeIsoPullback
     (extendTildeAdjunction A B f)).symm
       (gammaPushforwardIsoRestrictScalars A B f)
 
+private lemma conjugateEquiv_extendScalarsTildeIsoPullback_hom
+    (A B : CommRingCat.{u}) (f : A ⟶ B) :
+    conjugateEquiv (tildePullbackAdjunction A B f)
+        (extendTildeAdjunction A B f)
+        (extendScalarsTildeIsoPullback A B f).hom =
+      (gammaPushforwardIsoRestrictScalars A B f).hom := by
+  rw [← conjugateIsoEquiv_apply_hom]
+  exact congrArg Iso.hom <|
+    (conjugateIsoEquiv (tildePullbackAdjunction A B f)
+      (extendTildeAdjunction A B f)).apply_symm_apply _
+
+private lemma conjugateEquiv_pullbackCongr_hom
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g) :
+    conjugateEquiv
+        (Scheme.Modules.pullbackPushforwardAdjunction g)
+        (Scheme.Modules.pullbackPushforwardAdjunction f)
+        (Scheme.Modules.pullbackCongr h).hom =
+      (Scheme.Modules.pushforwardCongr h).inv := by
+  cases h
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_hom,
+    conjugateEquiv_id]
+  ext M U x
+  rw [Scheme.Modules.pushforwardCongr_inv_app_app]
+  simp
+
+private lemma pushforwardCongr_symm_hom
+    {X Y : Scheme.{u}} {f g : X ⟶ Y} (h : f = g) :
+    (Scheme.Modules.pushforwardCongr h.symm).hom =
+      (Scheme.Modules.pushforwardCongr h).inv := by
+  cases h
+  ext M U x
+  rw [Scheme.Modules.pushforwardCongr_hom_app_app,
+    Scheme.Modules.pushforwardCongr_inv_app_app]
+
+section TildePullbackComposition
+
+variable (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C)
+
+private noncomputable def pushGammaRestrictCompIso :
+    (Scheme.Modules.pushforward (Spec.map g) ⋙ moduleSpecΓFunctor (R := B)) ⋙
+        ModuleCat.restrictScalars f.hom ≅
+      Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) :=
+  Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (Scheme.Modules.pushforward (Spec.map g))
+      (gammaPushforwardIsoRestrictScalars A B f).symm ≪≫
+    (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight
+      (Scheme.Modules.pushforwardComp (Spec.map g) (Spec.map f))
+      (moduleSpecΓFunctor (R := A))
+
+private noncomputable def directGammaCompIso :
+    Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) ≅
+      moduleSpecΓFunctor (R := C) ⋙
+        ModuleCat.restrictScalars (f ≫ g).hom :=
+  Functor.isoWhiskerRight
+      (Scheme.Modules.pushforwardCongr
+        (show Spec.map g ≫ Spec.map f = Spec.map (f ≫ g) from
+          (@Spec.map_comp A B C f g).symm))
+      (moduleSpecΓFunctor (R := A)) ≪≫
+    gammaPushforwardIsoRestrictScalars A C (f ≫ g)
+
+private theorem gammaRightAssociativity :
+    Functor.isoWhiskerLeft (moduleSpecΓFunctor (R := C))
+          (ModuleCat.restrictScalarsComp f.hom g.hom).symm ≪≫
+        (directGammaCompIso A B C f g).symm =
+      (Functor.associator _ _ _).symm ≪≫
+        Functor.isoWhiskerRight
+          (gammaPushforwardIsoRestrictScalars B C g).symm
+          (ModuleCat.restrictScalars f.hom) ≪≫
+        pushGammaRestrictCompIso A B C f g := by
+  apply Iso.ext
+  ext M x
+  rfl
+
+private noncomputable def tildeCompositePullbackAdjunction :
+    tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) ⊣
+      Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) :=
+  (tilde.adjunction (R := A)).comp
+    (Scheme.Modules.pullbackPushforwardAdjunction
+      (Spec.map g ≫ Spec.map f))
+
+private noncomputable def outerTailIso :
+    ModuleCat.extendScalars f.hom ⋙
+        (tilde.functor B ⋙ Scheme.Modules.pullback (Spec.map g)) ≅
+      tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) :=
+  (ModuleCat.extendRestrictScalarsAdj f.hom).leftAdjointCompIso
+    (tildePullbackAdjunction B C g)
+    (tildeCompositePullbackAdjunction A B C f g)
+    (pushGammaRestrictCompIso A B C f g)
+
+private noncomputable def outerDirectIso :
+    ModuleCat.extendScalars (f ≫ g).hom ⋙ tilde.functor C ≅
+      tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) :=
+  (ModuleCat.extendRestrictScalarsAdj (f ≫ g).hom).leftAdjointCompIso
+    (tilde.adjunction (R := C))
+    (tildeCompositePullbackAdjunction A B C f g)
+    (directGammaCompIso A B C f g).symm
+
+private theorem outer_leftAdjointAssociativity :
+    Functor.isoWhiskerLeft (ModuleCat.extendScalars f.hom)
+          (extendScalarsTildeIsoPullback B C g) ≪≫
+        outerTailIso A B C f g =
+      (Functor.associator _ _ _).symm ≪≫
+        Functor.isoWhiskerRight
+          (ModuleCat.extendScalarsComp f.hom g.hom).symm
+          (tilde.functor C) ≪≫
+        outerDirectIso A B C f g := by
+  exact Adjunction.leftAdjointCompIso_assoc
+    (ModuleCat.extendRestrictScalarsAdj f.hom)
+    (ModuleCat.extendRestrictScalarsAdj g.hom)
+    (tilde.adjunction (R := C))
+    (ModuleCat.extendRestrictScalarsAdj (f ≫ g).hom)
+    (tildePullbackAdjunction B C g)
+    (tildeCompositePullbackAdjunction A B C f g)
+    (ModuleCat.restrictScalarsComp f.hom g.hom).symm
+    (gammaPushforwardIsoRestrictScalars B C g).symm
+    (pushGammaRestrictCompIso A B C f g)
+    (directGammaCompIso A B C f g).symm
+    (gammaRightAssociativity A B C f g)
+
+private theorem leftAdjointCompIso_refl
+    {C₀ C₁ C₂ : Type*} [Category C₀] [Category C₁] [Category C₂]
+    {F₀₁ : C₀ ⥤ C₁} {F₁₂ : C₁ ⥤ C₂}
+    {G₁₀ : C₁ ⥤ C₀} {G₂₁ : C₂ ⥤ C₁}
+    (adj₀₁ : F₀₁ ⊣ G₁₀) (adj₁₂ : F₁₂ ⊣ G₂₁) :
+    adj₀₁.leftAdjointCompIso adj₁₂ (adj₀₁.comp adj₁₂)
+        (Iso.refl _) = Iso.refl _ := by
+  apply Iso.ext
+  simp [Adjunction.leftAdjointCompIso_hom,
+    Adjunction.leftAdjointCompNatTrans]
+
+private noncomputable def pushforwardCompGammaIso :
+    Scheme.Modules.pushforward (Spec.map g) ⋙
+        (Scheme.Modules.pushforward (Spec.map f) ⋙
+          moduleSpecΓFunctor (R := A)) ≅
+      Scheme.Modules.pushforward (Spec.map g ≫ Spec.map f) ⋙
+        moduleSpecΓFunctor (R := A) :=
+  (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight
+      (Scheme.Modules.pushforwardComp (Spec.map g) (Spec.map f))
+      (moduleSpecΓFunctor (R := A))
+
+private theorem innerGammaRightAssociativity :
+    Functor.isoWhiskerLeft (Scheme.Modules.pushforward (Spec.map g))
+          (gammaPushforwardIsoRestrictScalars A B f).symm ≪≫
+        pushforwardCompGammaIso A B C f g =
+      (Functor.associator _ _ _).symm ≪≫
+        Functor.isoWhiskerRight
+          (Iso.refl (Scheme.Modules.pushforward (Spec.map g) ⋙
+            moduleSpecΓFunctor (R := B)))
+          (ModuleCat.restrictScalars f.hom) ≪≫
+        pushGammaRestrictCompIso A B C f g := by
+  apply Iso.ext
+  ext M x
+  rfl
+
+private noncomputable def innerTerminalIso :
+    (tilde.functor A ⋙ Scheme.Modules.pullback (Spec.map f)) ⋙
+        Scheme.Modules.pullback (Spec.map g) ≅
+      tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) :=
+  (tildePullbackAdjunction A B f).leftAdjointCompIso
+    (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g))
+    (tildeCompositePullbackAdjunction A B C f g)
+    (pushforwardCompGammaIso A B C f g)
+
+private theorem inner_leftAdjointAssociativity :
+    Functor.isoWhiskerLeft (ModuleCat.extendScalars f.hom)
+          ((tilde.adjunction (R := B)).leftAdjointCompIso
+            (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g))
+            (tildePullbackAdjunction B C g) (Iso.refl _)) ≪≫
+        outerTailIso A B C f g =
+      (Functor.associator _ _ _).symm ≪≫
+        Functor.isoWhiskerRight
+          (extendScalarsTildeIsoPullback A B f)
+          (Scheme.Modules.pullback (Spec.map g)) ≪≫
+        innerTerminalIso A B C f g := by
+  exact Adjunction.leftAdjointCompIso_assoc
+    (ModuleCat.extendRestrictScalarsAdj f.hom)
+    (tilde.adjunction (R := B))
+    (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g))
+    (tildePullbackAdjunction A B f)
+    (tildePullbackAdjunction B C g)
+    (tildeCompositePullbackAdjunction A B C f g)
+    (gammaPushforwardIsoRestrictScalars A B f).symm
+    (Iso.refl _)
+    (pushGammaRestrictCompIso A B C f g)
+    (pushforwardCompGammaIso A B C f g)
+    (innerGammaRightAssociativity A B C f g)
+
+private lemma conjugateEquiv_associator_inv
+    {C₀ C₁ C₂ C₃ : Type*}
+    [Category C₀] [Category C₁] [Category C₂] [Category C₃]
+    {L₀₁ : C₀ ⥤ C₁} {R₁₀ : C₁ ⥤ C₀}
+    {L₁₂ : C₁ ⥤ C₂} {R₂₁ : C₂ ⥤ C₁}
+    {L₂₃ : C₂ ⥤ C₃} {R₃₂ : C₃ ⥤ C₂}
+    (adj₀₁ : L₀₁ ⊣ R₁₀) (adj₁₂ : L₁₂ ⊣ R₂₁)
+    (adj₂₃ : L₂₃ ⊣ R₃₂) :
+    conjugateEquiv ((adj₀₁.comp adj₁₂).comp adj₂₃)
+        (adj₀₁.comp (adj₁₂.comp adj₂₃))
+        (Functor.associator L₀₁ L₁₂ L₂₃).inv =
+      (Functor.associator R₃₂ R₂₁ R₁₀).inv := by
+  apply (cancel_mono (Functor.associator R₃₂ R₂₁ R₁₀).hom).1
+  rw [← CategoryTheory.conjugateEquiv_associator_hom adj₀₁ adj₁₂ adj₂₃,
+    CategoryTheory.conjugateEquiv_comp, Iso.hom_inv_id,
+    CategoryTheory.conjugateEquiv_id,
+    CategoryTheory.conjugateEquiv_associator_hom adj₀₁ adj₁₂ adj₂₃,
+    Iso.inv_hom_id]
+
+private lemma conjugateEquiv_comp_two
+    {C D : Type*} [Category C] [Category D]
+    {L₀ L₁ L₂ : C ⥤ D} {R₀ R₁ R₂ : D ⥤ C}
+    (a₀ : L₀ ⊣ R₀) (a₁ : L₁ ⊣ R₁) (a₂ : L₂ ⊣ R₂)
+    (s₀ : L₀ ⟶ L₁) (s₁ : L₁ ⟶ L₂) :
+    conjugateEquiv a₂ a₀ (s₀ ≫ s₁) =
+      conjugateEquiv a₂ a₁ s₁ ≫ conjugateEquiv a₁ a₀ s₀ := by
+  exact (conjugateEquiv_comp a₂ a₁ a₀ s₁ s₀).symm
+
+private theorem innerTerminalIso_eq : innerTerminalIso A B C f g =
+    Functor.associator (tilde.functor A)
+        (Scheme.Modules.pullback (Spec.map f))
+        (Scheme.Modules.pullback (Spec.map g)) ≪≫
+      Functor.isoWhiskerLeft (tilde.functor A)
+        (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)) := by
+  apply Iso.ext
+  apply (Iso.inv_eq_inv _ _).mp
+  apply (conjugateEquiv
+    ((tildePullbackAdjunction A B f).comp
+      (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g)))
+    (tildeCompositePullbackAdjunction A B C f g)).injective
+  unfold innerTerminalIso
+  rw [Adjunction.conjugateEquiv_leftAdjointCompIso_inv]
+  simp only [Iso.trans_inv, Functor.isoWhiskerLeft_inv]
+  rw [conjugateEquiv_comp_two
+      (tildeCompositePullbackAdjunction A B C f g)
+      ((tilde.adjunction (R := A)).comp
+        ((Scheme.Modules.pullbackPushforwardAdjunction (Spec.map f)).comp
+          (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g))))
+      ((tildePullbackAdjunction A B f).comp
+        (Scheme.Modules.pullbackPushforwardAdjunction (Spec.map g)))]
+  unfold tildePullbackAdjunction tildeCompositePullbackAdjunction
+  rw [conjugateEquiv_associator_inv,
+    CategoryTheory.conjugateEquiv_whiskerLeft,
+    Scheme.Modules.conjugateEquiv_pullbackComp_inv]
+  rfl
+
+private theorem outerTailIso_eq : outerTailIso A B C f g =
+    (Functor.associator (ModuleCat.extendScalars f.hom)
+        (tilde.functor B) (Scheme.Modules.pullback (Spec.map g))).symm ≪≫
+      Functor.isoWhiskerRight (extendScalarsTildeIsoPullback A B f)
+        (Scheme.Modules.pullback (Spec.map g)) ≪≫
+      Functor.associator (tilde.functor A)
+        (Scheme.Modules.pullback (Spec.map f))
+        (Scheme.Modules.pullback (Spec.map g)) ≪≫
+      Functor.isoWhiskerLeft (tilde.functor A)
+        (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)) := by
+  have h := inner_leftAdjointAssociativity A B C f g
+  unfold tildePullbackAdjunction at h
+  rw [leftAdjointCompIso_refl, innerTerminalIso_eq] at h
+  simpa using h
+
+private theorem outerDirectIso_eq : outerDirectIso A B C f g =
+    extendScalarsTildeIsoPullback A C (f ≫ g) ≪≫
+      Functor.isoWhiskerLeft (tilde.functor A)
+        (Scheme.Modules.pullbackCongr
+          (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+            @Spec.map_comp A B C f g)) := by
+  let sourceAdj := extendTildeAdjunction A C (f ≫ g)
+  let directAdj := tildePullbackAdjunction A C (f ≫ g)
+  let compositeAdj := tildeCompositePullbackAdjunction A B C f g
+  apply Iso.ext
+  apply (conjugateEquiv compositeAdj sourceAdj).injective
+  have hOuter : conjugateEquiv compositeAdj sourceAdj
+      (outerDirectIso A B C f g).hom =
+        (directGammaCompIso A B C f g).hom := by
+    unfold outerDirectIso Adjunction.leftAdjointCompIso
+    rw [← conjugateIsoEquiv_apply_hom]
+    exact congrArg Iso.hom <|
+      (conjugateIsoEquiv compositeAdj sourceAdj).apply_symm_apply _
+  rw [hOuter]
+  simp only [Iso.trans_hom, Functor.isoWhiskerLeft_hom]
+  rw [conjugateEquiv_comp_two sourceAdj directAdj compositeAdj]
+  dsimp only [compositeAdj, directAdj, sourceAdj]
+  unfold tildeCompositePullbackAdjunction tildePullbackAdjunction
+  rw [CategoryTheory.conjugateEquiv_whiskerLeft,
+    conjugateEquiv_pullbackCongr_hom]
+  have hE := conjugateEquiv_extendScalarsTildeIsoPullback_hom A C (f ≫ g)
+  unfold tildePullbackAdjunction at hE
+  rw [hE]
+  unfold directGammaCompIso
+  simp only [Iso.trans_hom, Functor.isoWhiskerRight_hom]
+  rw [pushforwardCongr_symm_hom]
+
+private noncomputable def extendScalarsTildeIsoPullbackCompPath
+    (A B C : CommRingCat.{u}) (f : A ⟶ B) (g : B ⟶ C) :
+    ModuleCat.extendScalars (f ≫ g).hom ⋙ tilde.functor C ≅
+      tilde.functor A ⋙
+        Scheme.Modules.pullback (Spec.map g ≫ Spec.map f) :=
+  Functor.isoWhiskerRight (ModuleCat.extendScalarsComp f.hom g.hom)
+      (tilde.functor C) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (ModuleCat.extendScalars f.hom)
+      (extendScalarsTildeIsoPullback B C g) ≪≫
+    (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight (extendScalarsTildeIsoPullback A B f)
+      (Scheme.Modules.pullback (Spec.map g)) ≪≫
+    Functor.associator _ _ _ ≪≫
+    Functor.isoWhiskerLeft (tilde.functor A)
+      (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f))
+
+private theorem extendScalarsTildeIsoPullback_comp :
+    extendScalarsTildeIsoPullbackCompPath A B C f g =
+      extendScalarsTildeIsoPullback A C (f ≫ g) ≪≫
+        Functor.isoWhiskerLeft (tilde.functor A)
+          (Scheme.Modules.pullbackCongr
+            (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+              @Spec.map_comp A B C f g)) := by
+  unfold extendScalarsTildeIsoPullbackCompPath
+  rw [← outerTailIso_eq A B C f g]
+  rw [outer_leftAdjointAssociativity A B C f g]
+  rw [outerDirectIso_eq A B C f g]
+  rw [← Functor.isoWhiskerRight_symm]
+  simp
+
+private theorem extendScalarsTildeIsoPullback_comp_inv_app
+    (M : ModuleCat A) :
+    (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)).inv.app
+          ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map
+          ((extendScalarsTildeIsoPullback A B f).inv.app M) ≫
+        (extendScalarsTildeIsoPullback B C g).inv.app
+          ((ModuleCat.extendScalars f.hom).obj M) ≫
+        (tilde.functor C).map
+          ((ModuleCat.extendScalarsComp f.hom g.hom).inv.app M) =
+      (Scheme.Modules.pullbackCongr
+          (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+            @Spec.map_comp A B C f g)).inv.app ((tilde.functor A).obj M) ≫
+        (extendScalarsTildeIsoPullback A C (f ≫ g)).inv.app M := by
+  have h := congrArg (fun e ↦ e.inv.app M)
+    (extendScalarsTildeIsoPullback_comp A B C f g)
+  simp only [extendScalarsTildeIsoPullbackCompPath, Iso.trans_inv,
+    NatTrans.comp_app, Functor.isoWhiskerLeft_inv,
+    Functor.isoWhiskerRight_inv, Functor.whiskerLeft_app,
+    Functor.whiskerRight_app, Iso.symm_inv, Functor.associator_hom_app,
+    Functor.associator_inv_app, Functor.comp_obj, Category.comp_id] at h
+  exact h
+
+end TildePullbackComposition
+
 private noncomputable def extendScalarsTildeIsoRestrict
     (A B : CommRingCat.{u}) (f : A ⟶ B)
     [IsOpenImmersion (Spec.map f)] :
@@ -810,6 +1166,84 @@ private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_flat_ep
     simpa [P] using (extendedInverseIdeal_eq_span R B K D).symm
   exact (P.tensorEquivSpan B).trans (LinearEquiv.ofEq _ _ hP)
 
+/-- Extension of an inverse divisor ideal through a flat epimorphic scalar tower agrees with
+the inverse divisor ideal obtained by extending directly to the top ring. -/
+noncomputable def extendedInverseIdealBaseChangeEquiv
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    C ⊗[B] extendedInverseIdeal R B K D ≃ₗ[C]
+      extendedInverseIdeal R C K D :=
+  ((extendedInverseIdeal R B K D).tensorEquivSpan C).trans
+    (LinearEquiv.ofEq _ _ (extendedInverseIdeal_span_tower R B C K D))
+
+/-- The inverse-ideal tower comparison is multiplication inside the common fraction field. -/
+lemma extendedInverseIdealBaseChangeEquiv_apply_tmul
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) (c : C)
+    (x : extendedInverseIdeal R B K D) :
+    ((extendedInverseIdealBaseChangeEquiv R B C K D) (c ⊗ₜ x) : K) =
+      c • (x : K) := by
+  rfl
+
+/-- Equality-induced maps between overlap inverse ideals commute with a further flat
+epimorphic base change. -/
+theorem extendedInverseIdealEquiv_baseChange
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+    ((extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h).baseChange B C).trans
+        (extendedInverseIdealBaseChangeEquiv R₂ B C K D₂) =
+      (extendedInverseIdealBaseChangeEquiv R₁ B C K D₁).trans
+        (extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC) := by
+  let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+  dsimp only
+  apply LinearEquiv.ext
+  intro z
+  induction z using TensorProduct.induction_on with
+  | zero => simp only [map_zero]
+  | tmul c x =>
+      apply Subtype.ext
+      simp only [LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
+      change c • (x : K) = c • (x : K)
+      rfl
+  | add x y hx hy => simp only [map_add, hx, hy]
+
 private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
@@ -886,6 +1320,1491 @@ private noncomputable def chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
       ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
         (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)
 
+private lemma extendScalarsCarrierEquiv_apply_tmul
+    (R B M N : Type u) [CommRing R] [CommRing B]
+    [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module B N]
+    [Algebra R B]
+    (e : B ⊗[R] M ≃ₗ[B] N) (b : B) (m : M) :
+    extendScalarsCarrierEquiv R B M N e (b ⊗ₜ[R] m) = e (b ⊗ₜ[R] m) := by
+  change ((TensorProduct.AlgebraTensorModule.congr
+      (LinearEquiv.refl B B) (LinearEquiv.refl R M)).trans e)
+      (b ⊗ₜ[R] m) = e (b ⊗ₜ[R] m)
+  simp
+
+private noncomputable def extendedInverseIdealBaseChangeModuleEquiv
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (ModuleCat.extendScalars (algebraMap B C)).obj
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) ≃ₗ[C]
+      extendedInverseIdeal R C K D :=
+  extendScalarsCarrierEquiv B C _ _
+    (extendedInverseIdealBaseChangeEquiv R B C K D)
+
+private lemma extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (x : extendedInverseIdeal R B K D) :
+    ((extendedInverseIdealBaseChangeModuleEquiv R B C K D)
+        ((1 : C) ⊗ₜ[B] x) : K) = (x : K) := by
+  rw [show extendedInverseIdealBaseChangeModuleEquiv R B C K D =
+      extendScalarsCarrierEquiv B C _ _
+        (extendedInverseIdealBaseChangeEquiv R B C K D) from rfl]
+  rw [extendScalarsCarrierEquiv_apply_tmul,
+    extendedInverseIdealBaseChangeEquiv_apply_tmul, one_smul]
+
+private theorem extendedInverseIdealEquiv_baseChange_module
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    let hC := overlapInverseIdealExtensionEq_baseChange
+      R₁ R₂ B C K D₁ D₂ h
+    (ModuleCat.extendScalars (algebraMap B C)).map
+          (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h).toModuleIso.hom ≫
+        (extendedInverseIdealBaseChangeModuleEquiv R₂ B C K D₂).toModuleIso.hom =
+      (extendedInverseIdealBaseChangeModuleEquiv R₁ B C K D₁).toModuleIso.hom ≫
+        (extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC).toModuleIso.hom := by
+  let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+  dsimp only
+  apply (ModuleCat.extendRestrictScalarsAdj (algebraMap B C)).homEquiv _ _ |>.injective
+  ext x
+  rw [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
+  change (extendedInverseIdealBaseChangeModuleEquiv R₂ B C K D₂
+      ((1 : C) ⊗ₜ[B]
+        (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h x))) =
+    extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC
+      (extendedInverseIdealBaseChangeModuleEquiv R₁ B C K D₁
+        ((1 : C) ⊗ₜ[B] x))
+  apply Subtype.ext
+  calc
+    ((extendedInverseIdealBaseChangeModuleEquiv R₂ B C K D₂
+        ((1 : C) ⊗ₜ[B]
+          (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h x))) : K) =
+        (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h x : K) :=
+      extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul R₂ B C K D₂ _
+    _ = (x : K) := rfl
+    _ = ((extendedInverseIdealBaseChangeModuleEquiv R₁ B C K D₁
+        ((1 : C) ⊗ₜ[B] x)) : K) :=
+      (extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul
+        R₁ B C K D₁ x).symm
+    _ = (extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC
+        (extendedInverseIdealBaseChangeModuleEquiv R₁ B C K D₁
+          ((1 : C) ⊗ₜ[B] x)) : K) := rfl
+
+private lemma chosenModuleBaseChangeEquivExtended_apply_one_tmul
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (m : AffineDedekind.lineBundleModule R K D) :
+    ((chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D)
+        ((1 : B) ⊗ₜ[R] m) : K) =
+      (chosenModuleEquivOriginalInverseIdeal R K D m : K) := by
+  rw [show chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D =
+      extendScalarsCarrierEquiv R B
+        (AffineDedekind.lineBundleModule R K D)
+        (extendedInverseIdeal R B K D)
+        (((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
+          (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)) from rfl]
+  rw [extendScalarsCarrierEquiv_apply_tmul]
+  simp only [originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion,
+    originalInverseIdealBaseChangeEquivExtended_of_flat_epi,
+    LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
+  change (1 : B) • (chosenModuleEquivOriginalInverseIdeal R K D m : K) = _
+  rw [one_smul]
+
+private lemma extendScalarsCongr_inv_app_one_tmul
+    {R₁ R₂ R₃ : Type u} [CommRing R₁] [CommRing R₂] [CommRing R₃]
+    (f₁₂ : R₁ →+* R₂) (f₂₃ : R₂ →+* R₃) (f₁₃ : R₁ →+* R₃)
+    (h : f₂₃.comp f₁₂ = f₁₃) (M : ModuleCat R₁) (m : M) :
+    (eqToIso (congrArg (fun f : R₁ →+* R₃ ↦
+        (ModuleCat.extendScalars f).obj M) h)).inv
+        ((1 : R₃) ⊗ₜ[R₁,f₁₃] m) =
+      (1 : R₃) ⊗ₜ[R₁,f₂₃.comp f₁₂] m := by
+  subst f₁₃
+  rfl
+
+private theorem chosenModuleBaseChangeEquivExtended_tower
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let M := chosenModule R K D
+    let hcomp : (algebraMap B C).comp (algebraMap R B) = algebraMap R C :=
+      (IsScalarTower.algebraMap_eq R B C).symm
+    (eqToIso (congrArg (fun f : R →+* C ↦
+          (ModuleCat.extendScalars f).obj M) hcomp)).inv ≫
+        (ModuleCat.extendScalarsComp (algebraMap R B)
+          (algebraMap B C)).hom.app M ≫
+        (ModuleCat.extendScalars (algebraMap B C)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso.hom ≫
+        (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom =
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R C K D).toModuleIso.hom := by
+  let M := chosenModule R K D
+  let hcomp : (algebraMap B C).comp (algebraMap R B) = algebraMap R C :=
+    (IsScalarTower.algebraMap_eq R B C).symm
+  dsimp only
+  apply (ModuleCat.extendRestrictScalarsAdj (algebraMap R C)).homEquiv _ _ |>.injective
+  ext m
+  rw [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
+  let x := (eqToIso (congrArg (fun f : R →+* C ↦
+      (ModuleCat.extendScalars f).obj M) hcomp)).inv ((1 : C) ⊗ₜ[R] m)
+  have hx : x = (1 : C) ⊗ₜ[R,(algebraMap B C).comp (algebraMap R B)] m :=
+    extendScalarsCongr_inv_app_one_tmul
+      (algebraMap R B) (algebraMap B C) (algebraMap R C) hcomp M m
+  let y := (ModuleCat.extendScalarsComp
+    (algebraMap R B) (algebraMap B C)).hom.app M x
+  let y₀ := (ModuleCat.extendScalarsComp
+    (algebraMap R B) (algebraMap B C)).hom.app M
+      ((1 : C) ⊗ₜ[R,(algebraMap B C).comp (algebraMap R B)] m)
+  have hy : y = y₀ := by
+    dsimp only [y, y₀]
+    rw [hx]
+    rfl
+  have hy₀ := ModuleCat.extendScalarsComp_hom_app_one_tmul
+    (algebraMap R B) (algebraMap B C) M m
+  change y₀ = _ at hy₀
+  let z := (ModuleCat.extendScalars (algebraMap B C)).map
+    (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso.hom y
+  have hz : z = (1 : C) ⊗ₜ[B,algebraMap B C]
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D
+        ((1 : B) ⊗ₜ[R] m)) := by
+    dsimp only [z]
+    rw [hy, hy₀]
+    rfl
+  change (extendedInverseIdealBaseChangeModuleEquiv R B C K D z :
+      extendedInverseIdeal R C K D) =
+    chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R C K D
+      ((1 : C) ⊗ₜ[R] m)
+  rw [hz]
+  apply Subtype.ext
+  trans (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D
+    ((1 : B) ⊗ₜ[R] m) : K)
+  · exact extendedInverseIdealBaseChangeModuleEquiv_apply_one_tmul R B C K D _
+  · rw [chosenModuleBaseChangeEquivExtended_apply_one_tmul,
+      chosenModuleBaseChangeEquivExtended_apply_one_tmul]
+
+private noncomputable def isoOfHomEq
+    {C : Type*} [Category C] {X Y : C} (i : X ≅ Y)
+    (f : X ⟶ Y) (h : f = i.hom) : X ≅ Y where
+  hom := f
+  inv := i.inv
+  hom_inv_id := by rw [h]; exact i.hom_inv_id
+  inv_hom_id := by rw [h]; exact i.inv_hom_id
+
+private noncomputable def chosenLineBundlePullbackRawIsoExtendedInverseIdeal
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap R B)).obj
+        (AffineDedekind.lineBundle R K D).obj ≅
+      tilde (R := CommRingCat.of B)
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) :=
+  ((extendScalarsTildeIsoPullback
+      (CommRingCat.of R) (CommRingCat.of B)
+      (CommRingCat.ofHom (algebraMap R B))).app (chosenModule R K D)).symm ≪≫
+    (tilde.functor (CommRingCat.of B)).mapIso
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso
+
+private noncomputable def chosenLineBundlePullbackHomExtendedInverseIdeal
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap R B)).obj
+        (AffineDedekind.lineBundle R K D).obj ⟶
+      tilde (R := CommRingCat.of B)
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) :=
+  (extendScalarsTildeIsoPullback
+      (CommRingCat.of R) (CommRingCat.of B)
+      (CommRingCat.ofHom (algebraMap R B))).inv.app (chosenModule R K D) ≫
+    (tilde.functor (CommRingCat.of B)).map
+      (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+        R B K D).toModuleIso.hom
+
+private theorem chosenLineBundlePullbackHomExtendedInverseIdeal_eq
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    chosenLineBundlePullbackHomExtendedInverseIdeal R B K D =
+      (extendScalarsTildeIsoPullback
+          (CommRingCat.of R) (CommRingCat.of B)
+          (CommRingCat.ofHom (algebraMap R B))).inv.app
+            (chosenModule R K D) ≫
+        (tilde.functor (CommRingCat.of B)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+            R B K D).toModuleIso.hom := by
+  rfl
+
+private noncomputable def chosenLineBundlePullbackIsoExtendedInverseIdeal
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap R B)).obj
+        (AffineDedekind.lineBundle R K D).obj ≅
+      tilde (R := CommRingCat.of B)
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) :=
+  isoOfHomEq
+    (chosenLineBundlePullbackRawIsoExtendedInverseIdeal R B K D)
+    (chosenLineBundlePullbackHomExtendedInverseIdeal R B K D) (by rfl)
+
+private theorem chosenLineBundlePullbackIsoExtendedInverseIdeal_hom
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (chosenLineBundlePullbackIsoExtendedInverseIdeal R B K D).hom =
+      (extendScalarsTildeIsoPullback
+          (CommRingCat.of R) (CommRingCat.of B)
+          (CommRingCat.ofHom (algebraMap R B))).inv.app (chosenModule R K D) ≫
+        (tilde.functor (CommRingCat.of B)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+            R B K D).toModuleIso.hom := by
+  rfl
+
+private theorem chosenLineBundlePullbackIsoExtendedInverseIdeal_hom_map_comp
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra B C]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (Z : (Spec (CommRingCat.of C)).Modules)
+    (q : (Scheme.Modules.pullback (extensionMap B C)).obj
+        (tilde (R := CommRingCat.of B)
+          (ModuleCat.of B (extendedInverseIdeal R B K D))) ⟶ Z) :
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackIsoExtendedInverseIdeal R B K D).hom ≫ q =
+      (Scheme.Modules.pullback (extensionMap B C)).map
+          ((extendScalarsTildeIsoPullback
+            (CommRingCat.of R) (CommRingCat.of B)
+            (CommRingCat.ofHom (algebraMap R B))).inv.app
+              (chosenModule R K D) ≫
+            (tilde.functor (CommRingCat.of B)).map
+              (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+                R B K D).toModuleIso.hom) ≫ q := by
+  rw [chosenLineBundlePullbackIsoExtendedInverseIdeal_hom]
+  rfl
+
+private theorem chosenLineBundlePullbackIsoExtendedInverseIdeal_hom_precomp
+    (R C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R C)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (X : (Spec (CommRingCat.of C)).Modules)
+    (q : X ⟶ (Scheme.Modules.pullback (extensionMap R C)).obj
+      (AffineDedekind.lineBundle R K D).obj) :
+    q ≫ (chosenLineBundlePullbackIsoExtendedInverseIdeal R C K D).hom =
+      q ≫
+        (extendScalarsTildeIsoPullback
+          (CommRingCat.of R) (CommRingCat.of C)
+          (CommRingCat.ofHom (algebraMap R C))).inv.app
+            (chosenModule R K D) ≫
+        (tilde.functor (CommRingCat.of C)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+            R C K D).toModuleIso.hom := by
+  rw [chosenLineBundlePullbackIsoExtendedInverseIdeal_hom]
+  rfl
+
+private noncomputable def extendedInverseIdealPullbackRawIso
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        (tilde (R := CommRingCat.of B)
+          (ModuleCat.of B (extendedInverseIdeal R B K D))) ≅
+      tilde (R := CommRingCat.of C)
+        (ModuleCat.of C (extendedInverseIdeal R C K D)) :=
+  ((extendScalarsTildeIsoPullback
+      (CommRingCat.of B) (CommRingCat.of C)
+      (CommRingCat.ofHom (algebraMap B C))).app
+        (ModuleCat.of B (extendedInverseIdeal R B K D))).symm ≪≫
+    (tilde.functor (CommRingCat.of C)).mapIso
+      (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso
+
+private noncomputable def extendedInverseIdealPullbackHom
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        (tilde (R := CommRingCat.of B)
+          (ModuleCat.of B (extendedInverseIdeal R B K D))) ⟶
+      tilde (R := CommRingCat.of C)
+        (ModuleCat.of C (extendedInverseIdeal R C K D)) :=
+  (extendScalarsTildeIsoPullback
+      (CommRingCat.of B) (CommRingCat.of C)
+      (CommRingCat.ofHom (algebraMap B C))).inv.app
+        (ModuleCat.of B (extendedInverseIdeal R B K D)) ≫
+    (tilde.functor (CommRingCat.of C)).map
+      (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+
+private theorem extendedInverseIdealPullbackHom_eq
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    extendedInverseIdealPullbackHom R B C K D =
+      (extendScalarsTildeIsoPullback
+          (CommRingCat.of B) (CommRingCat.of C)
+          (CommRingCat.ofHom (algebraMap B C))).inv.app
+            (ModuleCat.of B (extendedInverseIdeal R B K D)) ≫
+        (tilde.functor (CommRingCat.of C)).map
+          (extendedInverseIdealBaseChangeModuleEquiv
+            R B C K D).toModuleIso.hom := by
+  rfl
+
+private noncomputable def extendedInverseIdealPullbackIso
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        (tilde (R := CommRingCat.of B)
+          (ModuleCat.of B (extendedInverseIdeal R B K D))) ≅
+      tilde (R := CommRingCat.of C)
+        (ModuleCat.of C (extendedInverseIdeal R C K D)) :=
+  isoOfHomEq (extendedInverseIdealPullbackRawIso R B C K D)
+    (extendedInverseIdealPullbackHom R B C K D) (by rfl)
+
+private theorem extendedInverseIdealPullbackIso_hom
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    (extendedInverseIdealPullbackIso R B C K D).hom =
+      (extendScalarsTildeIsoPullback
+          (CommRingCat.of B) (CommRingCat.of C)
+          (CommRingCat.ofHom (algebraMap B C))).inv.app
+            (ModuleCat.of B (extendedInverseIdeal R B K D)) ≫
+        (tilde.functor (CommRingCat.of C)).map
+          (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom := by
+  rfl
+
+private theorem extendedInverseIdealPullbackIso_hom_precomp
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (X : (Spec (CommRingCat.of C)).Modules)
+    (q : X ⟶ (Scheme.Modules.pullback (extensionMap B C)).obj
+      (tilde (R := CommRingCat.of B)
+        (ModuleCat.of B (extendedInverseIdeal R B K D)))) :
+    q ≫ (extendedInverseIdealPullbackIso R B C K D).hom =
+      q ≫
+        (extendScalarsTildeIsoPullback
+          (CommRingCat.of B) (CommRingCat.of C)
+          (CommRingCat.ofHom (algebraMap B C))).inv.app
+            (ModuleCat.of B (extendedInverseIdeal R B K D)) ≫
+        (tilde.functor (CommRingCat.of C)).map
+          (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom := by
+  rw [extendedInverseIdealPullbackIso_hom]
+  rfl
+
+private theorem extendedInverseIdealTildeIso_pullback
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    let hC := overlapInverseIdealExtensionEq_baseChange
+      R₁ R₂ B C K D₁ D₂ h
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h).hom ≫
+        (extendedInverseIdealPullbackIso R₂ B C K D₂).hom =
+      (extendedInverseIdealPullbackIso R₁ B C K D₁).hom ≫
+        (extendedInverseIdealTildeIso R₁ R₂ C K D₁ D₂ hC).hom := by
+  let hC := overlapInverseIdealExtensionEq_baseChange R₁ R₂ B C K D₁ D₂ h
+  let E := extendScalarsTildeIsoPullback
+    (CommRingCat.of B) (CommRingCat.of C)
+      (CommRingCat.ofHom (algebraMap B C))
+  let I₁ := ModuleCat.of B (extendedInverseIdeal R₁ B K D₁)
+  let I₂ := ModuleCat.of B (extendedInverseIdeal R₂ B K D₂)
+  let eB := (extendedInverseIdealEquiv R₁ R₂ B K D₁ D₂ h).toModuleIso.hom
+  let eC := (extendedInverseIdealEquiv R₁ R₂ C K D₁ D₂ hC).toModuleIso.hom
+  let b₁ := (extendedInverseIdealBaseChangeModuleEquiv R₁ B C K D₁).toModuleIso.hom
+  let b₂ := (extendedInverseIdealBaseChangeModuleEquiv R₂ B C K D₂).toModuleIso.hom
+  have hE := E.inv.naturality eB
+  have hb := extendedInverseIdealEquiv_baseChange_module R₁ R₂ B C K D₁ D₂ h
+  change
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          ((tilde.functor (CommRingCat.of B)).map eB) ≫
+        E.inv.app I₂ =
+      E.inv.app I₁ ≫ (tilde.functor (CommRingCat.of C)).map
+        ((ModuleCat.extendScalars (algebraMap B C)).map eB) at hE
+  change
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          ((tilde.functor (CommRingCat.of B)).map eB) ≫
+        E.inv.app I₂ ≫ (tilde.functor (CommRingCat.of C)).map b₂ =
+      E.inv.app I₁ ≫ (tilde.functor (CommRingCat.of C)).map b₁ ≫
+        (tilde.functor (CommRingCat.of C)).map eC
+  rw [← Category.assoc, hE]
+  simp only [Category.assoc, ← Functor.map_comp]
+  rw [hb]
+
+private noncomputable def chosenLineBundlePullbackCompRawIso
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        ((Scheme.Modules.pullback (extensionMap R B)).obj
+          (AffineDedekind.lineBundle R K D).obj) ≅
+      (Scheme.Modules.pullback (extensionMap R C)).obj
+        (AffineDedekind.lineBundle R K D).obj :=
+  (Scheme.Modules.pullbackComp
+      (extensionMap B C) (extensionMap R B)).app
+        (AffineDedekind.lineBundle R K D).obj ≪≫
+    (Scheme.Modules.pullbackCongr hcomp).app
+      (AffineDedekind.lineBundle R K D).obj
+
+private noncomputable def chosenLineBundlePullbackCompHom
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        ((Scheme.Modules.pullback (extensionMap R B)).obj
+          (AffineDedekind.lineBundle R K D).obj) ⟶
+      (Scheme.Modules.pullback (extensionMap R C)).obj
+        (AffineDedekind.lineBundle R K D).obj :=
+  (chosenLineBundlePullbackCompRawIso R B C K D hcomp).hom
+
+private noncomputable def chosenLineBundlePullbackCompExpandedHom
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        ((Scheme.Modules.pullback (extensionMap R B)).obj
+          (AffineDedekind.lineBundle R K D).obj) ⟶
+      (Scheme.Modules.pullback (extensionMap R C)).obj
+        (AffineDedekind.lineBundle R K D).obj :=
+  (Scheme.Modules.pullbackComp
+      (extensionMap B C) (extensionMap R B)).hom.app
+        (AffineDedekind.lineBundle R K D).obj ≫
+    (Scheme.Modules.pullbackCongr hcomp).hom.app
+      (AffineDedekind.lineBundle R K D).obj
+
+/-- The canonical comparison between the iterated pullback of a chosen divisor line bundle and
+its pullback along a specified composite map. -/
+noncomputable def chosenLineBundlePullbackCompIso
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).obj
+        ((Scheme.Modules.pullback (extensionMap R B)).obj
+          (AffineDedekind.lineBundle R K D).obj) ≅
+      (Scheme.Modules.pullback (extensionMap R C)).obj
+        (AffineDedekind.lineBundle R K D).obj :=
+  isoOfHomEq (chosenLineBundlePullbackCompRawIso R B C K D hcomp)
+    (chosenLineBundlePullbackCompHom R B C K D hcomp) rfl
+
+private theorem chosenLineBundlePullbackCompRawIso_eq
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    chosenLineBundlePullbackCompRawIso R B C K D hcomp =
+      (Scheme.Modules.pullbackComp
+          (extensionMap B C) (extensionMap R B)).app
+            (AffineDedekind.lineBundle R K D).obj ≪≫
+        (Scheme.Modules.pullbackCongr hcomp).app
+          (AffineDedekind.lineBundle R K D).obj := by
+  rfl
+
+private theorem chosenLineBundlePullbackCompRawIso_hom_eq
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (chosenLineBundlePullbackCompRawIso R B C K D hcomp).hom =
+      ((Scheme.Modules.pullbackComp
+          (extensionMap B C) (extensionMap R B)).app
+            (AffineDedekind.lineBundle R K D).obj ≪≫
+        (Scheme.Modules.pullbackCongr hcomp).app
+          (AffineDedekind.lineBundle R K D).obj).hom :=
+  congrArg Iso.hom
+    (chosenLineBundlePullbackCompRawIso_eq R B C K D hcomp)
+
+private theorem chosenLineBundlePullbackCompHom_eq_trans
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    chosenLineBundlePullbackCompHom R B C K D hcomp =
+      ((Scheme.Modules.pullbackComp
+          (extensionMap B C) (extensionMap R B)).app
+            (AffineDedekind.lineBundle R K D).obj ≪≫
+        (Scheme.Modules.pullbackCongr hcomp).app
+          (AffineDedekind.lineBundle R K D).obj).hom := by
+  change (chosenLineBundlePullbackCompRawIso R B C K D hcomp).hom = _
+  exact chosenLineBundlePullbackCompRawIso_hom_eq R B C K D hcomp
+
+private theorem natIso_app_trans_hom
+    {C D : Type u} [Category C] [Category D]
+    {F G H : C ⥤ D} (i : F ≅ G) (j : G ≅ H) (X : C) :
+    (i.app X ≪≫ j.app X).hom = i.hom.app X ≫ j.hom.app X := by
+  simp only [Iso.trans_hom]
+  rfl
+
+private theorem chosenLineBundlePullbackCompTransHom_eq_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    ((Scheme.Modules.pullbackComp
+        (extensionMap B C) (extensionMap R B)).app
+          (AffineDedekind.lineBundle R K D).obj ≪≫
+      (Scheme.Modules.pullbackCongr hcomp).app
+        (AffineDedekind.lineBundle R K D).obj).hom =
+      chosenLineBundlePullbackCompExpandedHom R B C K D hcomp := by
+  exact natIso_app_trans_hom
+    (Scheme.Modules.pullbackComp
+      (extensionMap B C) (extensionMap R B))
+    (Scheme.Modules.pullbackCongr hcomp)
+    (AffineDedekind.lineBundle R K D).obj
+
+private theorem extendScalarsTildeIsoPullback_congr_inv
+    (A B : CommRingCat.{u}) {f g : A ⟶ B} (h : f = g)
+    (M : ModuleCat A) :
+    (Scheme.Modules.pullbackCongr (congrArg Spec.map h)).inv.app
+          ((tilde.functor A).obj M) ≫
+        (extendScalarsTildeIsoPullback A B f).inv.app M =
+      (extendScalarsTildeIsoPullback A B g).inv.app M ≫
+        (tilde.functor B).map
+          (eqToIso (congrArg
+            (fun k : A ⟶ B ↦ (ModuleCat.extendScalars k.hom).obj M) h)).inv := by
+  subst g
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_inv,
+    NatTrans.id_app, Category.id_comp]
+  rw [CategoryTheory.Functor.map_id]
+  exact (Category.comp_id
+    ((extendScalarsTildeIsoPullback A B f).inv.app M)).symm
+
+private theorem pullbackCongr_hom_comp_inv
+    {X Y : Scheme.{u}} {f g h : X ⟶ Y}
+    (hfg : f = g) (hfh : f = h) (hgh : g = h) (M : Y.Modules) :
+    (Scheme.Modules.pullbackCongr hgh).hom.app M ≫
+        (Scheme.Modules.pullbackCongr hfh).inv.app M =
+      (Scheme.Modules.pullbackCongr hfg).inv.app M := by
+  subst g
+  subst h
+  simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_hom,
+    Iso.refl_inv, NatTrans.id_app, Category.id_comp]
+
+private theorem extensionCommRingCatHom_comp
+    (R B C : Type u) [CommRing R] [CommRing B] [CommRing C]
+    [Algebra R B] [Algebra B C] [Algebra R C] [IsScalarTower R B C] :
+    let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+      CommRingCat.ofHom (algebraMap R B)
+    let g : CommRingCat.of B ⟶ CommRingCat.of C :=
+      CommRingCat.ofHom (algebraMap B C)
+    let k : CommRingCat.of R ⟶ CommRingCat.of C :=
+      CommRingCat.ofHom (algebraMap R C)
+    f ≫ g = k := by
+  dsimp only
+  ext x
+  exact (IsScalarTower.algebraMap_apply R B C x).symm
+
+private theorem extendScalarsTildeIsoPullback_tower_inv_app
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [CommRing C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [Algebra R C] [Algebra B C] [IsScalarTower R B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let hfg := extensionCommRingCatHom_comp R B C
+    let mcongr := eqToIso (congrArg
+      (fun q : A ⟶ C' ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)
+    (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)).inv.app
+          ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map
+          ((extendScalarsTildeIsoPullback A B' f).inv.app M) ≫
+        (extendScalarsTildeIsoPullback B' C' g).inv.app
+          ((ModuleCat.extendScalars f.hom).obj M) ≫
+        (tilde.functor C').map
+          ((ModuleCat.extendScalarsComp f.hom g.hom).inv.app M) =
+      (Scheme.Modules.pullbackCongr hcomp).hom.app ((tilde.functor A).obj M) ≫
+        (extendScalarsTildeIsoPullback A C' k).inv.app M ≫
+        (tilde.functor C').map mcongr.inv := by
+  dsimp only
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+  let M := chosenModule R K D
+  let hfg : f ≫ g = k := extensionCommRingCatHom_comp R B C
+  rw [extendScalarsTildeIsoPullback_comp_inv_app A B' C' f g M]
+  rw [← extendScalarsTildeIsoPullback_congr_inv A C' hfg M]
+  rw [← pullbackCongr_hom_comp_inv
+    (show Spec.map (f ≫ g) = Spec.map g ≫ Spec.map f from
+      @Spec.map_comp A B' C' f g)
+    (congrArg Spec.map hfg) hcomp ((tilde.functor A).obj M)]
+  exact Category.assoc _ _ _
+
+private theorem functor_iso_tower_splice
+    {C D : Type*} [Category C] [Category D]
+    (F : C ⥤ D)
+    {A B T E Z : C} {X₀ X₁ X₂ Y : D}
+    (p : X₀ ⟶ X₁) (a : X₁ ⟶ X₂) (u : X₂ ⟶ F.obj B)
+    (q : X₀ ⟶ Y) (r : Y ⟶ F.obj T)
+    (m : A ≅ B) (n : A ≅ T) (c : B ⟶ E) (b : E ⟶ Z) (d : T ⟶ Z)
+    (hcore : p ≫ a ≫ u ≫ F.map m.inv = q ≫ r ≫ F.map n.inv)
+    (htail : n.inv ≫ m.hom ≫ c ≫ b = d) :
+    p ≫ a ≫ u ≫ F.map c ≫ F.map b = q ≫ r ≫ F.map d := by
+  calc
+    _ = (p ≫ a ≫ u ≫ F.map m.inv) ≫
+        F.map m.hom ≫ F.map c ≫ F.map b := by
+      simp only [Category.assoc, ← F.map_comp]
+      rw [Iso.inv_hom_id_assoc]
+    _ = (q ≫ r ≫ F.map n.inv) ≫
+        F.map m.hom ≫ F.map c ≫ F.map b := by rw [hcore]
+    _ = q ≫ r ≫ F.map (n.inv ≫ m.hom ≫ c ≫ b) := by
+      simp only [F.map_comp, Category.assoc]
+    _ = q ≫ r ≫ F.map d := by rw [htail]
+
+private theorem functor_iso_insert
+    {C D : Type*} [Category C] [Category D]
+    (F : C ⥤ D) {A B E Z : C} {X₀ X₁ X₂ : D}
+    (p : X₀ ⟶ X₁) (a : X₁ ⟶ X₂) (u : X₂ ⟶ F.obj B)
+    (m : A ≅ B) (c : B ⟶ E) (b : E ⟶ Z) :
+    p ≫ a ≫ u ≫ F.map c ≫ F.map b =
+      (p ≫ a ≫ u ≫ F.map m.inv) ≫
+        F.map m.hom ≫ F.map c ≫ F.map b := by
+  simp only [Category.assoc, ← F.map_comp]
+  rw [Iso.inv_hom_id_assoc]
+
+private theorem postcompose_three_eq
+    {C : Type*} [Category C]
+    {X Y Z₁ Z₂ Z₃ : C} {p q : X ⟶ Y}
+    (h : p = q) (a : Y ⟶ Z₁) (b : Z₁ ⟶ Z₂) (c : Z₂ ⟶ Z₃) :
+    p ≫ a ≫ b ≫ c = q ≫ a ≫ b ≫ c := by
+  rw [h]
+
+private theorem functor_iso_module_tail
+    {C D : Type*} [Category C] [Category D]
+    (F : C ⥤ D) {A B T E Z : C} {X₀ X₁ : D}
+    (q : X₀ ⟶ X₁) (r : X₁ ⟶ F.obj T)
+    (m : A ≅ B) (n : A ≅ T) (c : B ⟶ E) (b : E ⟶ Z) (d : T ⟶ Z)
+    (htail : n.inv ≫ m.hom ≫ c ≫ b = d) :
+    (q ≫ r ≫ F.map n.inv) ≫ F.map m.hom ≫ F.map c ≫ F.map b =
+      q ≫ r ≫ F.map d := by
+  calc
+    _ = q ≫ r ≫ F.map (n.inv ≫ m.hom ≫ c ≫ b) := by
+      simp only [F.map_comp, Category.assoc]
+    _ = q ≫ r ≫ F.map d := by rw [htail]
+
+private theorem functor_map_comp_naturality
+    {C D : Type*} [Category C] [Category D]
+    (F : C ⥤ D)
+    {X₀ X₁ X₂ : C} {Y₀ W T Z : D}
+    (p : Y₀ ⟶ F.obj X₀) (a : X₀ ⟶ X₁) (b : X₁ ⟶ X₂)
+    (d : F.obj X₂ ⟶ T) (c : F.obj X₁ ⟶ W) (u : W ⟶ T) (v : T ⟶ Z)
+    (hnatural : F.map b ≫ d = c ≫ u) :
+    p ≫ F.map (a ≫ b) ≫ d ≫ v = p ≫ F.map a ≫ c ≫ u ≫ v := by
+  rw [F.map_comp]
+  simpa only [Category.assoc] using
+    congrArg (fun z ↦ p ≫ F.map a ≫ z ≫ v) hnatural
+
+private theorem eq_iso_hom_comp_of_inv_comp_eq
+    {C : Type*} [Category C] {X Y Z : C}
+    (i : X ≅ Y) {f : X ⟶ Z} {g : Y ⟶ Z} (h : i.inv ≫ f = g) :
+    f = i.hom ≫ g := by
+  apply (cancel_epi i.inv).1
+  simpa only [Category.assoc, Iso.inv_hom_id_assoc] using h
+
+private theorem functor_map_comp_congr
+    {C D : Type*} [Category C] [Category D] (F : C ⥤ D)
+    {X Y : C} {Z : D} {f f' : X ⟶ Y} {g g' : F.obj Y ⟶ Z}
+    (hf : f = f') (hg : g = g') : F.map f ≫ g = F.map f' ≫ g' := by
+  rw [hf, hg]
+
+private theorem comp_right_congr
+    {C : Type*} [Category C] {X Y Z : C} (f : X ⟶ Y)
+    {g g' : Y ⟶ Z} (h : g = g') : f ≫ g = f ≫ g' := by
+  rw [h]
+
+private theorem chosenLineBundlePullback_head
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    pcomp.inv.app ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        E_g.inv.app I ≫ (tilde.functor C').map b =
+      pcomp.inv.app ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map (E_f.inv.app M) ≫
+        E_g.inv.app ((ModuleCat.extendScalars f.hom).obj M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b := by
+  dsimp only
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+  let E_g := extendScalarsTildeIsoPullback B' C' g
+  let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R B K D).toModuleIso.hom
+  have hnatural := E_g.inv.naturality cB
+  change
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          ((tilde.functor B').map cB) ≫ E_g.inv.app I =
+      E_g.inv.app ((ModuleCat.extendScalars
+        (algebraMap R B)).obj (chosenModule R K D)) ≫
+        (tilde.functor C').map
+          ((ModuleCat.extendScalars g.hom).map cB) at hnatural
+  exact functor_map_comp_naturality
+    (Scheme.Modules.pullback (Spec.map g))
+    ((Scheme.Modules.pullbackComp
+      (Spec.map g) (Spec.map (CommRingCat.ofHom (algebraMap R B)))).inv.app
+        ((tilde.functor (CommRingCat.of R)).obj (chosenModule R K D)))
+    ((extendScalarsTildeIsoPullback
+      (CommRingCat.of R) B'
+      (CommRingCat.ofHom (algebraMap R B))).inv.app (chosenModule R K D))
+    ((tilde.functor B').map cB) (E_g.inv.app I)
+    (E_g.inv.app ((ModuleCat.extendScalars
+      (algebraMap R B)).obj (chosenModule R K D)))
+    ((tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB))
+    ((tilde.functor C').map
+      (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom)
+    hnatural
+
+private theorem chosenLineBundlePullback_tail_insert
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+    pcomp.inv.app ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map (E_f.inv.app M) ≫
+        E_g.inv.app ((ModuleCat.extendScalars f.hom).obj M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b =
+      (pcomp.inv.app ((tilde.functor A).obj M) ≫
+          (Scheme.Modules.pullback (Spec.map g)).map (E_f.inv.app M) ≫
+          E_g.inv.app ((ModuleCat.extendScalars f.hom).obj M) ≫
+          (tilde.functor C').map (mcomp.inv.app M)) ≫
+        (tilde.functor C').map (mcomp.hom.app M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b := by
+  dsimp only
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let M := chosenModule R K D
+  let E_f := extendScalarsTildeIsoPullback A B' f
+  let E_g := extendScalarsTildeIsoPullback B' C' g
+  let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R B K D).toModuleIso.hom
+  let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+  let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+  let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+  symm
+  slice_lhs 4 5 =>
+    rw [← (tilde.functor C').map_comp, mcomp.inv_hom_id_app]
+    dsimp only [A, B', C', f, g, M]
+    exact (tilde.functor (CommRingCat.of C)).map_id _
+  slice_lhs 4 5 => simp only [Functor.comp_obj, Category.id_comp]
+
+private theorem chosenLineBundlePullback_tail_core
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    let pcongr := Scheme.Modules.pullbackCongr hcomp
+    let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+    let hfg : f ≫ g = k := extensionCommRingCatHom_comp R B C
+    let mcongr := eqToIso (congrArg
+      (fun q : A ⟶ C' ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)
+    (pcomp.inv.app ((tilde.functor A).obj M) ≫
+          (Scheme.Modules.pullback (Spec.map g)).map (E_f.inv.app M) ≫
+          E_g.inv.app ((ModuleCat.extendScalars f.hom).obj M) ≫
+          (tilde.functor C').map (mcomp.inv.app M)) ≫
+        (tilde.functor C').map (mcomp.hom.app M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b =
+      (pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+          (tilde.functor C').map mcongr.inv) ≫
+        (tilde.functor C').map (mcomp.hom.app M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b := by
+  dsimp only
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let M := chosenModule R K D
+  let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R B K D).toModuleIso.hom
+  let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+  let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+  exact postcompose_three_eq
+    (extendScalarsTildeIsoPullback_tower_inv_app R B C K D hcomp)
+    ((tilde.functor C').map (mcomp.hom.app M))
+    ((tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB))
+    ((tilde.functor C').map b)
+
+private theorem chosenLineBundlePullback_tail_module
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (_hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+    let pcongr := Scheme.Modules.pullbackCongr _hcomp
+    let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+    let hfg : f ≫ g = k := extensionCommRingCatHom_comp R B C
+    let mcongr := eqToIso (congrArg
+      (fun q : A ⟶ C' ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)
+    (pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+          (tilde.functor C').map mcongr.inv) ≫
+        (tilde.functor C').map (mcomp.hom.app M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b =
+      pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+        (tilde.functor C').map cC := by
+  dsimp only
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+  let M := chosenModule R K D
+  let E_k := extendScalarsTildeIsoPullback A C' k
+  let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R B K D).toModuleIso.hom
+  let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+    R C K D).toModuleIso.hom
+  let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+  let pcongr := Scheme.Modules.pullbackCongr _hcomp
+  let mcomp := ModuleCat.extendScalarsComp f.hom g.hom
+  let hfg : f ≫ g = k := extensionCommRingCatHom_comp R B C
+  let mcongr := eqToIso (congrArg
+    (fun q : A ⟶ C' ↦ (ModuleCat.extendScalars q.hom).obj M) hfg)
+  exact functor_iso_module_tail (tilde.functor C')
+    (pcongr.hom.app ((tilde.functor A).obj M)) (E_k.inv.app M)
+    (mcomp.app M) mcongr ((ModuleCat.extendScalars g.hom).map cB) b cC
+    (chosenModuleBaseChangeEquivExtended_tower R B C K D)
+
+private theorem chosenLineBundlePullback_tail
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    let pcongr := Scheme.Modules.pullbackCongr hcomp
+    pcomp.inv.app ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map (E_f.inv.app M) ≫
+        E_g.inv.app ((ModuleCat.extendScalars f.hom).obj M) ≫
+        (tilde.functor C').map ((ModuleCat.extendScalars g.hom).map cB) ≫
+        (tilde.functor C').map b =
+      pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+        (tilde.functor C').map cC := by
+  dsimp only
+  exact (chosenLineBundlePullback_tail_insert R B C K D).trans <|
+    (chosenLineBundlePullback_tail_core R B C K D hcomp).trans
+      (chosenLineBundlePullback_tail_module R B C K D hcomp)
+
+private theorem chosenLineBundlePullback_precomp
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    let pcongr := Scheme.Modules.pullbackCongr hcomp
+    pcomp.inv.app ((tilde.functor A).obj M) ≫
+        (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        E_g.inv.app I ≫ (tilde.functor C').map b =
+      pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+        (tilde.functor C').map cC := by
+  dsimp only
+  exact (chosenLineBundlePullback_head R B C K D).trans
+    (chosenLineBundlePullback_tail R B C K D hcomp)
+
+private theorem chosenLineBundlePullback_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+    let pcongr := Scheme.Modules.pullbackCongr hcomp
+    (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        E_g.inv.app I ≫ (tilde.functor C').map b =
+      pcomp.hom.app ((tilde.functor A).obj M) ≫
+        pcongr.hom.app ((tilde.functor A).obj M) ≫ E_k.inv.app M ≫
+        (tilde.functor C').map cC := by
+  dsimp only
+  let A := CommRingCat.of R
+  let B' := CommRingCat.of B
+  let C' := CommRingCat.of C
+  let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+  let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+  let M := chosenModule R K D
+  let pcomp := Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)
+  apply eq_iso_hom_comp_of_inv_comp_eq
+    (pcomp.app ((tilde.functor A).obj M))
+  exact chosenLineBundlePullback_precomp R B C K D hcomp
+
+private theorem chosenLineBundlePullbackHom_lhs_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackHomExtendedInverseIdeal R B K D) ≫
+        extendedInverseIdealPullbackHom R B C K D =
+      (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        E_g.inv.app I ≫ (tilde.functor C').map b := by
+  dsimp only
+  rw [chosenLineBundlePullbackHomExtendedInverseIdeal_eq,
+    extendedInverseIdealPullbackHom_eq]
+  rfl
+
+private theorem chosenLineBundlePullbackHom_rhs_comp
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    chosenLineBundlePullbackCompHom R B C K D hcomp ≫
+        chosenLineBundlePullbackHomExtendedInverseIdeal R C K D =
+      chosenLineBundlePullbackCompExpandedHom R B C K D hcomp ≫
+        chosenLineBundlePullbackHomExtendedInverseIdeal R C K D := by
+  rw [chosenLineBundlePullbackCompHom_eq_trans,
+    chosenLineBundlePullbackCompTransHom_eq_expanded]
+
+private theorem chosenLineBundlePullbackHom_rhs_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    let A := CommRingCat.of R
+    let C' := CommRingCat.of C
+    let k : A ⟶ C' := CommRingCat.ofHom (algebraMap R C)
+    let M := chosenModule R K D
+    let E_k := extendScalarsTildeIsoPullback A C' k
+    let cC := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R C K D).toModuleIso.hom
+    let pcomp := Scheme.Modules.pullbackComp
+      (extensionMap B C) (extensionMap R B)
+    let pcongr := Scheme.Modules.pullbackCongr hcomp
+    chosenLineBundlePullbackCompExpandedHom R B C K D hcomp ≫
+        chosenLineBundlePullbackHomExtendedInverseIdeal R C K D =
+      pcomp.hom.app (AffineDedekind.lineBundle R K D).obj ≫
+        pcongr.hom.app (AffineDedekind.lineBundle R K D).obj ≫
+          E_k.inv.app M ≫ (tilde.functor C').map cC := by
+  dsimp only
+  rw [chosenLineBundlePullbackHomExtendedInverseIdeal_eq]
+  dsimp only [chosenLineBundlePullbackCompExpandedHom]
+  exact Category.assoc _ _ _
+
+private theorem chosenLineBundlePullbackHom_naturality
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackHomExtendedInverseIdeal R B K D) ≫
+        extendedInverseIdealPullbackHom R B C K D =
+      chosenLineBundlePullbackCompHom R B C K D hcomp ≫
+        chosenLineBundlePullbackHomExtendedInverseIdeal R C K D := by
+  exact (chosenLineBundlePullbackHom_lhs_expanded R B C K D).trans <|
+    (chosenLineBundlePullback_expanded R B C K D hcomp).trans
+      ((chosenLineBundlePullbackHom_rhs_comp R B C K D hcomp).trans
+        (chosenLineBundlePullbackHom_rhs_expanded R B C K D hcomp)).symm
+
+
+private theorem chosenLineBundlePullback_lhs_chosen_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackIsoExtendedInverseIdeal R B K D).hom ≫
+        (extendedInverseIdealPullbackIso R B C K D).hom =
+      (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        (extendedInverseIdealPullbackIso R B C K D).hom := by
+  dsimp only
+  exact chosenLineBundlePullbackIsoExtendedInverseIdeal_hom_map_comp
+    R B C K D _ (extendedInverseIdealPullbackIso R B C K D).hom
+
+private theorem chosenLineBundlePullback_lhs_extended_expanded
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    let A := CommRingCat.of R
+    let B' := CommRingCat.of B
+    let C' := CommRingCat.of C
+    let f : A ⟶ B' := CommRingCat.ofHom (algebraMap R B)
+    let g : B' ⟶ C' := CommRingCat.ofHom (algebraMap B C)
+    let M := chosenModule R K D
+    let I := ModuleCat.of B (extendedInverseIdeal R B K D)
+    let E_f := extendScalarsTildeIsoPullback A B' f
+    let E_g := extendScalarsTildeIsoPullback B' C' g
+    let cB := (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+      R B K D).toModuleIso.hom
+    let b := (extendedInverseIdealBaseChangeModuleEquiv
+      R B C K D).toModuleIso.hom
+    (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        (extendedInverseIdealPullbackIso R B C K D).hom =
+      (Scheme.Modules.pullback (Spec.map g)).map
+          (E_f.inv.app M ≫ (tilde.functor B').map cB) ≫
+        E_g.inv.app I ≫ (tilde.functor C').map b := by
+  dsimp only
+  exact extendedInverseIdealPullbackIso_hom_precomp R B C K D _
+    ((Scheme.Modules.pullback (extensionMap B C)).map
+      ((extendScalarsTildeIsoPullback
+        (CommRingCat.of R) (CommRingCat.of B)
+        (CommRingCat.ofHom (algebraMap R B))).inv.app (chosenModule R K D) ≫
+        (tilde.functor (CommRingCat.of B)).map
+          (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
+            R B K D).toModuleIso.hom))
+
+
+
+
+private theorem chosenLineBundlePullbackIsoExtendedInverseIdeal_pullback
+    (R B C K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R C] [IsTorsionFree R C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R B C] [IsScalarTower B C K]
+    [IsScalarTower R B K] [IsScalarTower R C K]
+    [IsOpenImmersion (extensionMap R B)]
+    [IsOpenImmersion (extensionMap R C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hcomp : extensionMap B C ≫ extensionMap R B = extensionMap R C) :
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackIsoExtendedInverseIdeal R B K D).hom ≫
+        (extendedInverseIdealPullbackIso R B C K D).hom =
+      (chosenLineBundlePullbackCompIso R B C K D hcomp).hom ≫
+        (chosenLineBundlePullbackIsoExtendedInverseIdeal R C K D).hom := by
+  exact chosenLineBundlePullbackHom_naturality R B C K D hcomp
+
 /-- On every affine open immersion between the chart spectrum and a common overlap spectrum,
 restriction of the chosen affine divisor line bundle is *specified* by tilde of the extended
 inverse divisor ideal.  Keeping this isomorphism as data, rather than immediately hiding it in a
@@ -909,6 +2828,22 @@ noncomputable def restrictionIsoExtendedInverseIdealOfIsOpenImmersion
       (CommRingCat.ofHom (algebraMap R B))).app M).symm ≪≫
     (tilde.functor (CommRingCat.of B)).mapIso
       (chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D).toModuleIso
+
+private theorem restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    restrictionIsoExtendedInverseIdealOfIsOpenImmersion R B K D =
+      (Scheme.Modules.restrictFunctorIsoPullback
+          (extensionMap R B)).app
+            (AffineDedekind.lineBundle R K D).obj ≪≫
+        chosenLineBundlePullbackIsoExtendedInverseIdeal R B K D := by
+  rfl
 
 /-- Proposition-valued compatibility wrapper for the specified open-immersion comparison. -/
 theorem restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion
@@ -964,6 +2899,196 @@ noncomputable def chosenLineBundleRestrictionIsoOfOverlapExtensionEq
   exact restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₁ B K D₁ ≪≫
     extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h ≪≫
     (restrictionIsoExtendedInverseIdealOfIsOpenImmersion R₂ B K D₂).symm
+
+/-- The specified inverse-ideal comparison, expressed between ordinary module pullbacks rather
+than the open-immersion restriction functors. This is the affine model transported by the
+curve-level pairwise overlap construction. -/
+noncomputable def chosenLineBundlePullbackIsoOfOverlapExtensionEq
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    (Scheme.Modules.pullback (extensionMap R₁ B)).obj
+        (AffineDedekind.lineBundle R₁ K D₁).obj ≅
+      (Scheme.Modules.pullback (extensionMap R₂ B)).obj
+        (AffineDedekind.lineBundle R₂ K D₂).obj :=
+  ((Scheme.Modules.restrictFunctorIsoPullback
+      (extensionMap R₁ B)).app
+        (AffineDedekind.lineBundle R₁ K D₁).obj).symm ≪≫
+    chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+      R₁ R₂ B K D₁ D₂ h ≪≫
+    (Scheme.Modules.restrictFunctorIsoPullback
+      (extensionMap R₂ B)).app
+        (AffineDedekind.lineBundle R₂ K D₂).obj
+
+private theorem chosenLineBundlePullbackIsoOfOverlapExtensionEq_eq
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂) :
+    chosenLineBundlePullbackIsoOfOverlapExtensionEq
+        R₁ R₂ B K D₁ D₂ h =
+      chosenLineBundlePullbackIsoExtendedInverseIdeal R₁ B K D₁ ≪≫
+        extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h ≪≫
+        (chosenLineBundlePullbackIsoExtendedInverseIdeal R₂ B K D₂).symm := by
+  apply Iso.ext
+  simp only [chosenLineBundlePullbackIsoOfOverlapExtensionEq,
+    chosenLineBundleRestrictionIsoOfOverlapExtensionEq,
+    restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq,
+    Iso.trans_hom, Iso.trans_inv, Iso.symm_hom, Category.assoc]
+  simp only [Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]
+
+/-- The chosen affine overlap comparison is natural under further flat epimorphic base change.
+This is the exact compatibility consumed when pairwise common affine models are restricted to a
+common refinement. -/
+theorem chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    [IsOpenImmersion (extensionMap R₁ C)]
+    [IsOpenImmersion (extensionMap R₂ C)]
+    [IsOpenImmersion (extensionMap B C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂)
+    (hcomp₁ : extensionMap B C ≫ extensionMap R₁ B = extensionMap R₁ C)
+    (hcomp₂ : extensionMap B C ≫ extensionMap R₂ B = extensionMap R₂ C) :
+    let hC := overlapInverseIdealExtensionEq_baseChange
+      R₁ R₂ B C K D₁ D₂ h
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (chosenLineBundlePullbackIsoOfOverlapExtensionEq
+            R₁ R₂ B K D₁ D₂ h).hom ≫
+        (chosenLineBundlePullbackCompIso R₂ B C K D₂ hcomp₂).hom =
+      (chosenLineBundlePullbackCompIso R₁ B C K D₁ hcomp₁).hom ≫
+        (chosenLineBundlePullbackIsoOfOverlapExtensionEq
+          R₁ R₂ C K D₁ D₂ hC).hom := by
+  let hC := overlapInverseIdealExtensionEq_baseChange
+    R₁ R₂ B C K D₁ D₂ h
+  dsimp only
+  let s₁B := chosenLineBundlePullbackIsoExtendedInverseIdeal R₁ B K D₁
+  let s₂B := chosenLineBundlePullbackIsoExtendedInverseIdeal R₂ B K D₂
+  let s₁C := chosenLineBundlePullbackIsoExtendedInverseIdeal R₁ C K D₁
+  let s₂C := chosenLineBundlePullbackIsoExtendedInverseIdeal R₂ C K D₂
+  let eB := extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h
+  let eC := extendedInverseIdealTildeIso R₁ R₂ C K D₁ D₂ hC
+  let t₁ := extendedInverseIdealPullbackIso R₁ B C K D₁
+  let t₂ := extendedInverseIdealPullbackIso R₂ B C K D₂
+  let A₁ := chosenLineBundlePullbackCompIso R₁ B C K D₁ hcomp₁
+  let A₂ := chosenLineBundlePullbackCompIso R₂ B C K D₂ hcomp₂
+  have hs₁ := chosenLineBundlePullbackIsoExtendedInverseIdeal_pullback
+    R₁ B C K D₁ hcomp₁
+  have hs₂ := chosenLineBundlePullbackIsoExtendedInverseIdeal_pullback
+    R₂ B C K D₂ hcomp₂
+  have he := extendedInverseIdealTildeIso_pullback
+    R₁ R₂ B C K D₁ D₂ h
+  have hs₂inv :
+      (Scheme.Modules.pullback (extensionMap B C)).map s₂B.inv ≫
+          A₂.hom ≫ s₂C.hom = t₂.hom := by
+    calc
+      _ = (Scheme.Modules.pullback (extensionMap B C)).map s₂B.inv ≫
+          ((Scheme.Modules.pullback (extensionMap B C)).map s₂B.hom ≫
+            t₂.hom) := by rw [← hs₂]
+      _ = ((Scheme.Modules.pullback (extensionMap B C)).map s₂B.inv ≫
+          (Scheme.Modules.pullback (extensionMap B C)).map s₂B.hom) ≫
+            t₂.hom := (Category.assoc _ _ _).symm
+      _ = (Scheme.Modules.pullback (extensionMap B C)).map
+            (s₂B.inv ≫ s₂B.hom) ≫ t₂.hom := by
+        rw [CategoryTheory.Functor.map_comp]
+      _ = t₂.hom := by
+        rw [Iso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
+  rw [chosenLineBundlePullbackIsoOfOverlapExtensionEq_eq,
+    chosenLineBundlePullbackIsoOfOverlapExtensionEq_eq]
+  change
+    (Scheme.Modules.pullback (extensionMap B C)).map
+          (s₁B.hom ≫ eB.hom ≫ s₂B.inv) ≫ A₂.hom =
+      A₁.hom ≫ s₁C.hom ≫ eC.hom ≫ s₂C.inv
+  apply (cancel_mono s₂C.hom).1
+  simp only [CategoryTheory.Functor.map_comp, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id]
+  rw [hs₂inv, he]
+  rw [← Category.assoc, hs₁]
+  exact Category.assoc _ _ _
+
+/-- Pulling the chosen overlap comparison to a common refinement and identifying both iterated
+pullbacks with their composite pullbacks gives the comparison constructed on that refinement. -/
+theorem chosenLineBundlePullbackIsoOfOverlapExtensionEq_pullback_hom
+    (R₁ R₂ B C K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [CommRing C] [IsDomain C] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    [Algebra R₁ C] [IsTorsionFree R₁ C]
+    [Algebra R₂ C] [IsTorsionFree R₂ C]
+    [Algebra C K] [IsFractionRing C K]
+    [Algebra B C] [IsScalarTower R₁ B C] [IsScalarTower R₂ B C]
+    [IsScalarTower B C K]
+    [IsScalarTower R₁ B K] [IsScalarTower R₂ B K]
+    [IsScalarTower R₁ C K] [IsScalarTower R₂ C K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    [IsOpenImmersion (extensionMap R₁ C)]
+    [IsOpenImmersion (extensionMap R₂ C)]
+    [IsOpenImmersion (extensionMap B C)]
+    [Algebra.IsEpi B C] [Module.Flat B C]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (h : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂)
+    (hcomp₁ : extensionMap B C ≫ extensionMap R₁ B = extensionMap R₁ C)
+    (hcomp₂ : extensionMap B C ≫ extensionMap R₂ B = extensionMap R₂ C) :
+    let hC := overlapInverseIdealExtensionEq_baseChange
+      R₁ R₂ B C K D₁ D₂ h
+    (chosenLineBundlePullbackCompIso R₁ B C K D₁ hcomp₁).inv ≫
+          (Scheme.Modules.pullback (extensionMap B C)).map
+            (chosenLineBundlePullbackIsoOfOverlapExtensionEq
+              R₁ R₂ B K D₁ D₂ h).hom ≫
+          (chosenLineBundlePullbackCompIso R₂ B C K D₂ hcomp₂).hom =
+      (chosenLineBundlePullbackIsoOfOverlapExtensionEq
+        R₁ R₂ C K D₁ D₂ hC).hom := by
+  dsimp only
+  rw [chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality
+      R₁ R₂ B C K D₁ D₂ h hcomp₁ hcomp₂]
+  simp only [Iso.inv_hom_id_assoc]
 
 /-- On one common affine overlap, the specified inverse-ideal comparisons are transitive.
 The intermediate restriction comparison cancels, while the equality-induced maps between the
