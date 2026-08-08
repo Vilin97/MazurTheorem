@@ -241,14 +241,21 @@ conversions with `change`, explicitly omitting unused section variables, and
 using `erw` at one semireducible sheaf-map rewrite required by the immutable
 Mathlib pin.
 
-The thirteen finite-action quotient modules are a source-preserving port of
-the same exact snapshot. Their declarations and proof bodies are unchanged.
-Only imports between retained AINTLIB modules are repointed into the local
-namespace, blank lines are normalized, and source-level backward-elaboration
-options and linter suppressions are omitted. They construct the quotient of a
-scheme by a finite action from a stable affine atlas, prove the quotient
-projection finite, and in the free-action case prove it finite etale,
-surjective, and a torsor after arbitrary base change. The new local
+The thirteen finite-action quotient modules retain the declarations and
+namespaces of the same exact snapshot. Imports between retained AINTLIB
+modules are repointed into the local namespace, blank lines are normalized,
+and source-level backward-elaboration options and linter suppressions are
+omitted. Two proof-level elaboration repairs were required at this repository's
+immutable pin. In `SpecGroupAction`, the prime-ideal membership proof now
+states the scheme/prime-spectrum coercion explicitly and installs the two
+available `IsPrime` witnesses locally. In `BaseChangeAlongCompat`, the finite
+affine-target predicate is named to resolve its `outParam`, and the existing
+Mathlib witnesses for locality, base-change stability, fppf descent, and
+étale multiplicativity are applied explicitly instead of through fragile
+`inferInstance` calls. No statement is weakened. The modules construct the
+quotient of a scheme by a finite action from a stable affine atlas, prove the
+quotient projection finite, and in the free-action case prove it finite
+étale, surjective, and a torsor after arbitrary base change. The new local
 translation-quotient consumer descends the commutative group law through that
 checked universal property.
 

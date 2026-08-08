@@ -90,11 +90,13 @@ only attribution, documentation, and formatting changes. The other files
 have the import and exact-pin compatibility adjustments recorded in
 `PORTING.md`; source-level option commands and linter findings were removed.
 The thirteen finite-action quotient files retain the upstream statements and
-proof bodies; local changes are limited to internal import repointing, blank
-line normalization, and removal of source-level compatibility options and
-linter suppressions forbidden by this repository. No other AINTLIB geometry
-source is included. Details are recorded in `PORTING.md` and
-`docs/PRIOR_ART.md`.
+namespaces. Besides internal import repointing, formatting, and removal of
+source-level compatibility options and linter suppressions forbidden by this
+repository, `SpecGroupAction` has explicit coercion and primality witnesses
+and `BaseChangeAlongCompat` explicitly selects existing Mathlib locality,
+stability, descent, and multiplicativity instances needed at the immutable
+pin. No statement is weakened. No other AINTLIB geometry source is included.
+Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 

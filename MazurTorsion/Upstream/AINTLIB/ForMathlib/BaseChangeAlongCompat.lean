@@ -82,21 +82,27 @@ instance respectsIso_isProper : MorphismProperty.RespectsIso (@IsProper) :=
 instance respectsIso_isClosedImmersion : MorphismProperty.RespectsIso (@IsClosedImmersion) :=
   MorphismProperty.IsStableUnderBaseChange.respectsIso
 
-instance zariskiLocalAtTarget_isFinite : IsZariskiLocalAtTarget (@IsFinite) :=
-  inferInstance
+/-- The affine-target property underlying `IsFinite`, kept named because the 4.33
+instance synthesizer does not assign the anonymous function to the `outParam`. -/
+def isFiniteAffineProperty : AffineTargetMorphismProperty :=
+  fun X _ f _ ↦ IsAffine X ∧ RingHom.Finite (Scheme.Hom.appTop f).hom
 
-instance hasAffineProperty_isFinite : HasAffineProperty (@IsFinite)
-    (fun X _ f _ ↦ IsAffine X ∧ RingHom.Finite (Scheme.Hom.appTop f).hom) :=
-  inferInstance
+instance hasAffineProperty_isFinite :
+    HasAffineProperty (@IsFinite) isFiniteAffineProperty :=
+  IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+
+instance zariskiLocalAtTarget_isFinite : IsZariskiLocalAtTarget (@IsFinite) :=
+  @HasAffineProperty.instIsZariskiLocalAtTarget (@IsFinite)
+    isFiniteAffineProperty hasAffineProperty_isFinite
 
 instance zariskiLocalAtTarget_etale : IsZariskiLocalAtTarget (@Etale) :=
-  inferInstance
+  HasRingHomProperty.instIsZariskiLocalAtTarget @Etale
 
 instance respectsIso_etale : MorphismProperty.RespectsIso (@Etale) :=
-  inferInstance
+  MorphismProperty.IsStableUnderBaseChange.respectsIso
 
 instance zariskiLocalAtTarget_flat : IsZariskiLocalAtTarget (@Flat) :=
-  inferInstance
+  HasRingHomProperty.instIsZariskiLocalAtTarget @Flat
 
 instance respectsIso_formallyUnramified :
     MorphismProperty.RespectsIso (@FormallyUnramified) :=
@@ -115,26 +121,29 @@ instance stableAlong_etale {X Y : Scheme.{u}} (f : X ⟶ Y) :
   ⟨fun pb hg => MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
 
 instance zariskiLocalAtSource_flat : IsZariskiLocalAtSource (@Flat) :=
-  inferInstance
+  HasRingHomProperty.instIsZariskiLocalAtSource
 
 instance zariskiLocalAtSource_locallyOfFinitePresentation :
     IsZariskiLocalAtSource (@LocallyOfFinitePresentation) :=
-  inferInstance
+  HasRingHomProperty.instIsZariskiLocalAtSource
 
 instance descendsAlong_etale_fppf :
     MorphismProperty.DescendsAlong (@Etale)
       (@Surjective ⊓ @Flat ⊓ @LocallyOfFinitePresentation) :=
-  inferInstance
+  AlgebraicGeometry.instDescendsAlongSchemeMinMorphismPropertySurjectiveFlatLocallyOfFinitePresentationOfQuasiCompactOfIsZariskiLocalAtTarget
+    (@Etale)
 
 instance zariskiLocalAtTarget_smoothOfRelativeDimension (n : ℕ) :
     IsZariskiLocalAtTarget (@SmoothOfRelativeDimension n) :=
-  inferInstance
+  letI := AlgebraicGeometry.instHasRingHomPropertySmoothOfRelativeDimensionLocallyIsStandardSmoothOfRelativeDimension n
+  HasRingHomProperty.instIsZariskiLocalAtTarget (@SmoothOfRelativeDimension n)
 
 instance zariskiLocalAtTarget_isAffineHom : IsZariskiLocalAtTarget (@IsAffineHom) :=
-  inferInstance
+  @HasAffineProperty.instIsZariskiLocalAtTarget (@IsAffineHom) (fun X _ _ _ ↦ IsAffine X)
+    AlgebraicGeometry.instHasAffinePropertyIsAffineHomIsAffine
 
 instance stableUnderComposition_etale :
     MorphismProperty.IsStableUnderComposition (@Etale) :=
-  inferInstance
+  MorphismProperty.IsMultiplicative.toIsStableUnderComposition
 
 end ModularCurves.BumpCompat
