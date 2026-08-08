@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
-import MazurTorsion.EllipticCurve.TateTypeIIIComponent
+import MazurTorsion.EllipticCurve.TateTypeIVComponent
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
@@ -609,6 +609,44 @@ theorem addOrderOf_ne_prime_ge_eleven_of_firstBlowup_residue_b₄_ne_zeroAtFive
   · exact
       twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₄_ne_zero
         hW B h2 h3 hspecial hb₄ P
+  · exact hprime
+  · exact hN
+
+/-- In the exact depth-two `a₆` branch at five, the checked tangent--secant calculation puts the
+marked triple, and therefore the twelfth multiple, in canonical nonsingular reduction.  The
+component-exponent consumer excludes every marked prime order at least eleven. -/
+theorem addOrderOf_ne_prime_ge_eleven_of_a₄_sq_a₆_sq_not_cubeAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (ha₄sq : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 2)
+    (ha₆sq : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 2)
+    (ha₆notcube : W₀.a₆ ∉ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 3)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (P : W.Point) (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  apply
+    addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+      hW especial P
+  · exact
+      twelve_nsmul_mem_nonsingularReductionSubgroup_of_a₄_sq_a₆_sq_not_cube
+        hW h2 h3 hspecial ha₄sq ha₆sq ha₆notcube P
   · exact hprime
   · exact hN
 

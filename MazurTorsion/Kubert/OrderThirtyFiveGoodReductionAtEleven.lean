@@ -373,6 +373,75 @@ theorem
         (specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄) P') horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩
 
+/-- A marked point of exact order 35 also eliminates the exact depth-two `a₆` branch.  The same
+selected integral short model keeps the checked square-depth properties for `a₄` and `a₆`, while
+`a₆` lies in the cube of the eleven-adic maximal ideal.  This uses only the pointwise type-IV
+tangent--secant theorem and the established component-exponent consumer. -/
+theorem
+    minimalCompletionAtEleven_tateAlgorithm_exists_thirdCoefficientDepth_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atEleven.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtEleven E).integralModel
+        (atEleven.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ))
+      (CK • minimalCompletionAtEleven E).HasAdditiveReduction
+          (atEleven.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+          (atEleven.adicCompletion ℚ)) = CK • minimalCompletionAtEleven E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) ∧
+        Nonempty (FirstBlowupEquationCharts W') ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₄ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 2 ∧
+        W'.a₆ ∈ IsLocalRing.maximalIdeal
+          (atEleven.adicCompletionIntegers ℚ) ^ 3 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄⟩ :=
+    minimalCompletionAtEleven_tateAlgorithm_exists_secondCoefficientDepth_of_orderThirtyFive
+      E hA P horder
+  let W' := C • (minimalCompletionAtEleven E).integralModel
+    (atEleven.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atEleven.adicCompletionIntegers ℚ)
+    (atEleven.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtEleven E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P
+  have horder' : addOrderOf P' = 35 := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtEleven E) CK).symm P).trans horder
+  have ha₆cube : W'.a₆ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 3 := by
+    by_contra ha₆notcube
+    have hΔ : (adicRedCurve W').Δ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).Δ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+        WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+    have hc₄ : (adicRedCurve W').c₄ = 0 := by
+      change (W'.map (IsLocalRing.residue
+        (atEleven.adicCompletionIntegers ℚ))).c₄ = 0
+      rw [hspecial]
+      simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+        WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+    exact
+      (addOrderOf_ne_thirtyFive_of_a₄_sq_a₆_sq_not_cubeAtEleven
+        hmap residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero hspecial
+        ha₄ ha₆ ha₆notcube
+        (specialFiberPointAddEquivAtElevenOfCuspidal W' hΔ hc₄) P') horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄, ha₆cube⟩
+
 /-- The selected minimal equation has the base-changed rational
 `j`-invariant. -/
 theorem minimalCompletionAtEleven_j

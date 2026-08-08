@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
-import MazurTorsion.EllipticCurve.TateTypeIIIComponent
+import MazurTorsion.EllipticCurve.TateTypeIVComponent
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -270,5 +270,38 @@ theorem addOrderOf_ne_thirtyFive_of_firstBlowup_residue_b₄_ne_zeroAtEleven
   exact
     twelve_nsmul_mem_nonsingularReductionSubgroup_of_firstBlowup_residue_b₄_ne_zero
       hW B h2 h3 hspecial hb₄ P
+
+/-- In the exact depth-two `a₆` branch at eleven, the checked tangent--secant calculation puts the
+twelfth multiple of the marked point in canonical nonsingular reduction.  This is incompatible
+with exact order thirty-five. -/
+theorem addOrderOf_ne_thirtyFive_of_a₄_sq_a₆_sq_not_cubeAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (ha₄sq : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2)
+    (ha₆sq : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2)
+    (ha₆notcube : W₀.a₆ ∉ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 3)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (P : W.Point) : addOrderOf P ≠ 35 := by
+  apply addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+    hW especial P
+  exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_a₄_sq_a₆_sq_not_cube
+    hW h2 h3 hspecial ha₄sq ha₆sq ha₆notcube P
 
 end MazurTorsion.OrderThirtyFive
