@@ -203,10 +203,12 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Five file-level Apache-2.0 modules were selected from the AINTLIB
+Fourteen local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`:
+`MazurTorsion/Upstream/AINTLIB/`. Thirteen upstream files are retained
+whole; two additional source files contribute the narrow option-free slices
+recorded below:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
 |---|---|
@@ -215,16 +217,30 @@ Five file-level Apache-2.0 modules were selected from the AINTLIB
 | `ForMathlib/SchemeModuleSheaf.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleSheaf.lean` |
 | `ForMathlib/SheafCohomologyExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyExact.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
+| `ForMathlib/FormalCoproductAdditive.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FormalCoproductAdditive.lean` |
+| `ForMathlib/SchemeModuleBaseCechBasic.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechBasic.lean` |
+| `ForMathlib/SchemeModuleBaseCech.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCech.lean` |
+| `ForMathlib/SchemeModuleBaseCechFlat.lean` (only `baseCechFactor` and `baseCechXIsoPi`) | moved into the preceding two core modules |
+| `ForMathlib/SchemeModuleOrderedBaseCech.lean` (lines 1–310, before the flatness tail) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechBasic.lean` |
+| `ForMathlib/HomologicalComplexExactRetract.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/HomologicalComplexExactRetract.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` |
 
-Each file carries Chris Birkbeck's copyright, authorship, and Apache-2.0
-attribution. The port preserves declarations and namespaces. The
+The files preserve their upstream Apache-2.0 headers and authorship. The
+source `SchemeModuleBaseCech.lean` had no per-file header, so the local copy
+adds Chris Birkbeck's attribution from the repository authorship/history;
+`SchemeModuleOrderedBaseCechHOneFinite.lean` retains its broader AINTLIB
+contributors header. The port preserves declarations and namespaces. The
 `SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
 source-preserving modulo formatting and syntax modernization; they compile
-directly at the immutable pin. Changes to the other three files are limited
-to repointing the one internal import, removing source-level `set_option`
-commands, replacing linter-reported goal conversions with `change`,
-explicitly omitting unused section variables, and using `erw` at one
-semireducible sheaf-map rewrite required by the immutable Mathlib pin.
+directly at the immutable pin. Changes to `CartierDual`,
+`SheafOfModulesMonoidal`, and `Pic` are limited to repointing the one
+internal import, removing source-level `set_option` commands, replacing
+linter-reported goal conversions with `change`, explicitly omitting unused
+section variables, and using `erw` at one semireducible sheaf-map rewrite
+required by the immutable Mathlib pin.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
@@ -233,6 +249,29 @@ proves the injective long-exact-sequence step for the actual affine-cover
 short exact sequence. It does not import AINTLIB's full affine-vanishing
 proof: the local-killing and cokernel-vanishing argument remains a separate
 checked dependency.
+
+The ordered/native base-Cech lane is a separate option-free slice. The
+unused `AcyclicAffineCechComparison` import in `SchemeModuleBaseCech` is
+replaced by the direct `SchemeModuleSheaf` dependency. The two concrete
+factor/product declarations needed by comparison are moved out of
+`SchemeModuleBaseCechFlat`, and the ordered complex is cut immediately
+after `orderedBaseCechLinearDifferential_comp`, before its flatness and
+Picard-specific tail. Its only compatibility change is supplying the pivot
+argument to `Fin.succAbove_right_injective`, eliminating two current style
+warnings. No proof option, source placeholder, affine-comparison module,
+flat/Picard module, or properness cone is imported.
+Declarations used only as same-file proof machinery are private in the local
+port. The public comparison spine and the source theorem statements used by
+later modules are unchanged.
+
+The new project-facing consumer
+`MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
+takes finite generation of ordered degree-one homology and proves finite
+generation of native base-Cech degree-one homology. It does not identify
+Cech homology with Ext/sheaf cohomology or establish the ordered input from
+properness. The remaining seams are the option-free sheaf-Cech degree-one
+comparison, base-linear transport, cover-relative Ext scalar transfer,
+low-degree Chow/properness input, proper H1 finiteness, and the curve facade.
 
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,
@@ -244,8 +283,10 @@ selective attributed port rather than a Lake dependency.
 `MazurTorsion.Upstream.Geometry` is the reviewed boundary for the Picard and
 Cartier-duality ports;
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift` is the boundary
-for the two sheaf-cohomology ports. `MazurTorsion.lean` is their named checked
-consumer. The geometry boundary also imports Tau Ceti's line-bundle and
+for the two sheaf-cohomology ports. The named boundary for the ordered/native
+Cech lane is `MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite`.
+`MazurTorsion.lean` is the named checked consumer of the earlier geometry
+boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.
 
 ## AINTLIB Hilbert 92 and Hilbert 94
