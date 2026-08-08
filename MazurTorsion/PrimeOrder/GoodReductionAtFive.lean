@@ -449,6 +449,91 @@ theorem minimalCompletionAtFive_tateAlgorithm_exists_thirdCoefficientDepth_of_pr
         P' N hprime hN) horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄, ha₆cube⟩
 
+/-- On the selected five-adic short model, the marked point determines an exceptional-cubic root
+for the chart uniformizer, and that particular root has zero derivative.  The square and cube
+coefficient depths are retained on the same model.  No assertion is made about any other root. -/
+theorem
+    minimalCompletionAtFive_tateAlgorithm_exists_markedExceptionalCubic_repeatedRoot_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ∃ C : WeierstrassCurve.VariableChange
+        (atFive.adicCompletionIntegers ℚ),
+      let W' := C • (minimalCompletionAtFive E).integralModel
+        (atFive.adicCompletionIntegers ℚ)
+      let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ))
+      let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+        (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+      (CK • minimalCompletionAtFive E).HasAdditiveReduction
+          (atFive.adicCompletionIntegers ℚ) ∧
+        W'.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+          (atFive.adicCompletion ℚ)) = CK • minimalCompletionAtFive E ∧
+        W'.IsShortNF ∧
+        W'.map (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+          cuspidalShortCurve
+            (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) ∧
+        ∃ B : FirstBlowupEquationCharts W',
+          W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₄ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+            W'.a₆ ∈ IsLocalRing.maximalIdeal
+              (atFive.adicCompletionIntegers ℚ) ^ 3 ∧
+            ∃ D : MarkedExceptionalCubicData W'
+                (CK • minimalCompletionAtFive E).toAffine P',
+              D.uniformizer = B.uniformizer ∧ D.derivativeResidue = 0 := by
+  obtain ⟨C, hAdditive, hmap, hshort, hspecial, ⟨B⟩, ha₆, ha₄, ha₆cube⟩ :=
+    minimalCompletionAtFive_tateAlgorithm_exists_thirdCoefficientDepth_of_primeOrder
+      E hA P N hprime hN horder
+  let W' := C • (minimalCompletionAtFive E).integralModel
+    (atFive.adicCompletionIntegers ℚ)
+  let CK := C.map (algebraMap (atFive.adicCompletionIntegers ℚ)
+    (atFive.adicCompletion ℚ))
+  letI : W'.IsShortNF := hshort
+  let P' : (CK • minimalCompletionAtFive E).toAffine.Point :=
+    (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P
+  have horder' : addOrderOf P' = N := by
+    exact (AddEquiv.addOrderOf_eq
+      (Point.equivVariableChange (minimalCompletionAtFive E) CK).symm P).trans horder
+  have hΔ : (adicRedCurve W').Δ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atFive.adicCompletionIntegers ℚ))).Δ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.Δ,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+      WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+  have hc₄ : (adicRedCurve W').c₄ = 0 := by
+    change (W'.map (IsLocalRing.residue
+      (atFive.adicCompletionIntegers ℚ))).c₄ = 0
+    rw [hspecial]
+    simp [cuspidalShortCurve, WeierstrassCurve.c₄,
+      WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  let especial := specialFiberPointAddEquivAtFiveOfCuspidal W' hΔ hc₄
+  have hPnot : ¬HasNonsingularReduction hmap P' := by
+    intro hP
+    have hcomponent := (nonsingularReductionSubgroup hmap
+      (nonsingularReduction_isAdditive hmap)).nsmul_mem hP 12
+    exact
+      (addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+        hmap especial P' hcomponent N hprime hN) horder'
+  obtain ⟨D, hDuniformizer⟩ :=
+    exists_markedExceptionalCubicData_of_not_hasNonsingularReduction
+      hmap residueAtFive_two_ne_zero residueAtFive_three_ne_zero hspecial
+      B.uniformizer B.uniformizer_irreducible ha₄ ha₆cube P' hPnot
+  have hderivative : D.derivativeResidue = 0 := by
+    by_contra hsimple
+    exact
+      (addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_simpleRootAtFive
+        hmap residueAtFive_two_ne_zero residueAtFive_three_ne_zero hspecial
+        D hsimple especial N hprime hN) horder'
+  exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
+    ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative⟩
+
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
 explicit in the construction above. -/
