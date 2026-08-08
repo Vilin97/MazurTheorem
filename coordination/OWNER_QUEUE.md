@@ -92,6 +92,35 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 compatible-family lane now constructs, on each fixed chart, the
+genuine family of overlap-transition components inside the restricted product
+of direct images.  Triple-overlap coherence reduces to the descent datum's
+actual `D.hom_comp`; the family satisfies both restricted compatibility maps
+and therefore factors through their actual equalizer
+(`1b27f52`, API-narrowed by `bb5a8a3`).  The factorization projection is a
+checked consumer.  Independent review and the serial touched-module and
+3,493-job Geometry builds pass, and the public endpoints use only `propext`,
+`Classical.choice`, and `Quot.sound`.  This does not yet identify the
+restricted global equalizer with the local chart object or prove effective
+descent, so A3 remains open with no credit.
+
+The B1 lane now retains the complete attributed LeanPool proof of
+Grothendieck vanishing and applies it to the underlying additive sheaf of an
+actual module on a smooth proper integral relative curve (`ed7f385` through
+`58fc0a9`, exposed by `c2d9c16`).  Tau Ceti supplies the dimension-one bound;
+properness and smooth finite type supply Noetherianity.  Thus every such
+module has `H n` subsingleton, and elementwise zero, for `2 ≤ n`.  Exact-pin
+API repairs restore fixed-stage filtered-colimit hypotheses, use the canonical
+abelian image, avoid unsupported reducibility commands, and preserve the
+upstream migration's co-author credits (`6a6af26`, `758a25c`).  Independent
+review, the 3,725-job serial Geometry build, and endpoint axiom audits pass.
+This closes only higher vanishing: proper coherent `H¹` finiteness and its
+field-linear finite-dimensional facade remain open, so B1 receives no credit.
+The next worker is splitting an option-free ordered-to-native Čech `H¹`
+finite-generation bridge from the audited AINTLIB source; the 428-module
+proper cone, its unrelated open proofs, and proof options remain excluded.
+The exact quality baseline is now 862 Lean modules and 1,521,363 Lean lines.
+
 The compatible-family effectivity lane now has the exact open base-change seam.
 For a cartesian square of open immersions, the induced equivalence of open
 sets gives a checked restriction-of-pushforward isomorphism.  The actual
