@@ -58,7 +58,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB geometry foundations
 
-- Upstream author identified from repository authorship/history: Chris Birkbeck
+- Upstream authorship retained from the selected file headers: Chris
+  Birkbeck and the AINTLIB ModularCurves contributors
 - Source: https://github.com/CBirkbeck/AINTLIB
 - Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
 - Source paths:
@@ -66,6 +67,19 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSheaf.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCohomologyExact.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FinitePresentationOfFinite.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/BaseChangeAlongCompat.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantBaseChange.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantLocalization.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SpecGroupAction.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackLocalAtTarget.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantTorsor.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/EtaleCancellation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AffineQuotient.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeQuotient.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeActionFree.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TorsorMap.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
 - License: Apache License 2.0 under the upstream repository-wide license; see
   `LICENSE`. The local selected files carry added attribution headers.
@@ -75,8 +89,12 @@ sheaf-cohomology files preserve the upstream declarations and proofs, with
 only attribution, documentation, and formatting changes. The other files
 have the import and exact-pin compatibility adjustments recorded in
 `PORTING.md`; source-level option commands and linter findings were removed.
-No other AINTLIB geometry source is included. Details are recorded in
-`PORTING.md` and `docs/PRIOR_ART.md`.
+The thirteen finite-action quotient files retain the upstream statements and
+proof bodies; local changes are limited to internal import repointing, blank
+line normalization, and removal of source-level compatibility options and
+linter suppressions forbidden by this repository. No other AINTLIB geometry
+source is included. Details are recorded in `PORTING.md` and
+`docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 

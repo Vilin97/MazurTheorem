@@ -203,7 +203,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Five file-level Apache-2.0 modules were selected from the AINTLIB
+Eighteen file-level Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`:
@@ -214,17 +214,43 @@ Five file-level Apache-2.0 modules were selected from the AINTLIB
 | `ForMathlib/SheafOfModulesMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafOfModulesMonoidal.lean` |
 | `ForMathlib/SchemeModuleSheaf.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleSheaf.lean` |
 | `ForMathlib/SheafCohomologyExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyExact.lean` |
+| `ForMathlib/FinitePresentationOfFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FinitePresentationOfFinite.lean` |
+| `ForMathlib/BaseChangeAlongCompat.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/BaseChangeAlongCompat.lean` |
+| `ForMathlib/InvariantBaseChange.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantBaseChange.lean` |
+| `ForMathlib/InvariantLocalization.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantLocalization.lean` |
+| `ForMathlib/SpecGroupAction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SpecGroupAction.lean` |
+| `ForMathlib/PullbackLocalAtTarget.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PullbackLocalAtTarget.lean` |
+| `ForMathlib/InvariantTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantTorsor.lean` |
+| `ForMathlib/EtaleCancellation.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/EtaleCancellation.lean` |
+| `ForMathlib/AffineQuotient.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/AffineQuotient.lean` |
+| `ForMathlib/SchemeQuotient.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeQuotient.lean` |
+| `ForMathlib/SchemeActionFree.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeActionFree.lean` |
+| `ForMathlib/TorsorMap.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TorsorMap.lean` |
+| `ForMathlib/QuotientTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/QuotientTorsor.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 
-Each file carries Chris Birkbeck's copyright, authorship, and Apache-2.0
-attribution. The port preserves declarations and namespaces. The
-`SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
+Each file retains its upstream copyright and authorship header (Chris
+Birkbeck or the AINTLIB contributors) and Apache-2.0 attribution. The port
+preserves declarations and namespaces. In the original five-file tranche,
+the `SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
 source-preserving modulo formatting and syntax modernization; they compile
-directly at the immutable pin. Changes to the other three files are limited
-to repointing the one internal import, removing source-level `set_option`
-commands, replacing linter-reported goal conversions with `change`,
-explicitly omitting unused section variables, and using `erw` at one
-semireducible sheaf-map rewrite required by the immutable Mathlib pin.
+directly at the immutable pin. Changes to the other three files in that
+tranche are limited to repointing the one internal import, removing
+source-level `set_option` commands, replacing linter-reported goal
+conversions with `change`, explicitly omitting unused section variables, and
+using `erw` at one semireducible sheaf-map rewrite required by the immutable
+Mathlib pin.
+
+The thirteen finite-action quotient modules are a source-preserving port of
+the same exact snapshot. Their declarations and proof bodies are unchanged.
+Only imports between retained AINTLIB modules are repointed into the local
+namespace, blank lines are normalized, and source-level backward-elaboration
+options and linter suppressions are omitted. They construct the quotient of a
+scheme by a finite action from a stable affine atlas, prove the quotient
+projection finite, and in the free-action case prove it finite etale,
+surjective, and a torsor after arbitrary base change. The new local
+translation-quotient consumer descends the commutative group law through that
+checked universal property.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
