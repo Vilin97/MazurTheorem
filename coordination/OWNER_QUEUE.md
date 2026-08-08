@@ -62,11 +62,14 @@ The finite affine restriction-pushforward cover module and its quasicoherent
 cokernel now compile (`bde0414`); this is the structural cover handoff for
 Kempf dimension shifting, not affine acyclicity. The sheaf condition now proves
 the cover map monic for every actual open cover, and its canonical cokernel
-complex is short exact (`37a30f5`). The actual supported constant-flat
-cokernel sections, inclusion-induced global `H¹` map, and localization
-exactness boundary are now a typed handoff; both factor orderings consume it
-through carrier-preserving endpoint bounds (`6eb0919`, API-repaired by
-`48331ad`). Neither the boundary nor its endpoint bounds are asserted.
+complex is short exact (`37a30f5`). The attributed, option-free sheaf long
+exact sequence and exact additive forgetful functor are now retained; their
+real affine-cover consumer proves the injective dimension-shift step from the
+still-explicit cokernel-vanishing hypothesis (`44cc236`). The actual supported
+constant-flat cokernel sections, inclusion-induced global `H¹` map, and
+localization exactness boundary are now a typed handoff; both factor orderings
+consume it through carrier-preserving endpoint bounds (`6eb0919`, API-repaired
+by `48331ad`). Neither the boundary nor its endpoint bounds are asserted.
 The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
@@ -125,9 +128,11 @@ pushforwards between affine schemes preserve quasicoherence. Consequently the
 actual finite product of affine restriction-pushforwards is quasicoherent, as
 is the cokernel of its adjunction-unit map (`bde0414`). The sheaf condition on
 an actual open cover proves that map monic, and the cover-module/cokernel
-complex is short exact (`37a30f5`). Positive-degree local killing and affine
-acyclicity, proper finite-dimensionality, H1, and higher vanishing remain open,
-so MT-TC-B1 receives no completion credit.
+complex is short exact (`37a30f5`). The checked long exact sequence now turns
+degree-`n` vanishing for that actual cokernel into injectivity of the cover map
+on degree `n + 1` cohomology (`44cc236`). Positive-degree local killing and
+affine acyclicity, proper finite-dimensionality, H1, and higher vanishing
+remain open, so MT-TC-B1 receives no completion credit.
 
 The split finite-flat X0 lane now has the inverse point-level handoff below
 coarse representability. The image of the genuine closed immersion on
@@ -518,6 +523,10 @@ short-exact consumer have that closure. The localized bad-level Euler target
 rebuilds all 3,110 jobs after owner review decoupled the endpoint universes and
 narrowed the localization module's imports. Six audited localization,
 bounded-cardinality, and factor-order consumers use only the standard closure.
+The two retained AINTLIB sheaf-cohomology targets and their local
+dimension-shift consumer rebuild a 2,775-job focused closure. Both new public
+injectivity declarations use only `propext`, `Classical.choice`, and
+`Quot.sound`.
 The recovered `codex/mt-cuspidal-finite` and
 `codex/mt-fiber-stalk-naturality` worktrees are clean and pushed. Their unique
 commits are patch-equivalent to the already integrated `6e1a994` and
@@ -529,9 +538,9 @@ target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
 workers are pursuing the A3 diagonal normalized cocycle and the next
-positive-degree affine local-killing boundary. The constant-flat localization
-boundary and its two actual endpoints are now precisely typed, but remain to
-be constructed and bounded. The
+positive-degree affine local-killing boundary. A closed-fibre restriction
+worker has a compiled constant-flat branch awaiting owner review; construction
+of its actual comparison map and injectivity proof remains explicit. The
 normalized order-25 model and both quasi-finite bad-level Euler
 specializations are integrated. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
@@ -1379,9 +1388,10 @@ within each lane follows the listed order.
    Ext-H0 consumer. The finite affine restriction-pushforward cover object and
    its cokernel are now genuine quasicoherent modules. The sheaf condition now
    proves the cover map mono and yields the canonical short exact complex.
-   Next construct the positive-degree local-killing map and perform the
-   dimension shift; do not count the structural short exact sequence as
-   affine acyclicity.
+   The real long exact sequence now performs the injective dimension-shift
+   step under degree-`n` vanishing of the actual cokernel. Next construct the
+   positive-degree local-killing cover and prove that cokernel vanishing; do
+   not count the structural step as affine acyclicity.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).

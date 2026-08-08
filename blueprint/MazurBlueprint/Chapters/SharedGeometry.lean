@@ -899,15 +899,18 @@ the genuine Ext-based H0 comparison gives a surjective H0 map as a downstream
 consumer. The affine tilde equivalence also identifies the ambient cokernel of
 a quasicoherent morphism with the tilde of the coefficient-module cokernel.
 Thus this scheme-module cokernel is quasicoherent, and the canonical cokernel
-projection is surjective on genuine Ext-based H0. Positive-degree affine
-acyclicity remains open. Finite products of quasicoherent modules on an affine
-spectrum and pushforwards between affine schemes are now quasicoherent. Hence
+projection is surjective on genuine Ext-based H0. Finite products of
+quasicoherent modules on an affine spectrum and pushforwards between affine
+schemes are now quasicoherent. Hence
 the actual finite product of affine restriction-pushforwards, and the cokernel
 of its adjunction-unit map, are quasicoherent. For every actual open cover,
 the sheaf condition proves that this adjunction-unit map is monic; the
-resulting canonical cokernel complex is short exact. Local killing of
-positive-degree classes remains open, as do proper finite-dimensionality, H1,
-and higher vanishing.
+resulting canonical cokernel complex is short exact. The retained long exact
+sequence and exact additive-sheaf forgetful functor prove the structural
+dimension-shift step: degree-`n` vanishing for that actual cokernel makes the
+cover inclusion injective on degree `n + 1` cohomology. Local killing and
+positive-degree affine acyclicity remain open, as do proper
+finite-dimensionality, H1, and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -982,6 +985,14 @@ and higher vanishing.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_shortExact`
   Form the canonical short exact cover-module/cokernel sequence.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_cokernel_subsingleton`
+  Derive cohomological injectivity in degree `n + 1` from degree-`n` cokernel
+  vanishing.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton`
+  Consume the actual affine-cover short exact sequence in the structural
+  dimension shift.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

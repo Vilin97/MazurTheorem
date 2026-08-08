@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1509451,
-    "integrated_lean_modules": 832,
+    "integrated_lean_lines": 1509805,
+    "integrated_lean_modules": 835,
     "remaining_composite_orders": [
       18,
       25,
@@ -49,7 +49,7 @@
       "mathlib_commit": "3edb3c0658f69f197b1e501b1f7623f3f7b3898c",
       "license": "Mixed branch status: curated files carry Apache-2.0 headers, but this branch has no root LICENSE",
       "role": "Audited prior art and selective porting source for Picard, cohomology, finite-group-scheme, isogeny, and open Y_0(N) infrastructure",
-      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Three explicitly Apache-2.0, placeholder-free modules are now selectively ported at the Mazur pin: the monoidal sheaf foundation, Scheme.Pic, and CartierDual. The larger relative-Picard and MuN cones remain excluded by the option and license gates.",
+      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Five explicitly Apache-2.0, placeholder-free modules are now selectively ported at the Mazur pin: the monoidal sheaf foundation, the additive-sheaf scheme-module bridge, the sheaf-cohomology exact-sequence core, Scheme.Pic, and CartierDual. The larger relative-Picard and MuN cones remain excluded by the option and license gates.",
       "roadmap_impact": {
         "bankable_effort_points": {
           "min": 50,
@@ -3068,17 +3068,17 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. Coherence, positive-degree affine acyclicity, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor now prove the structural dimension-shift step: vanishing of degree n cohomology of the actual cokernel makes the cover inclusion injective in degree n+1. Coherence, positive-degree affine acyclicity, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
-          "status": "substantial scaffold; transitive audit required",
+          "status": "exact-sequence core retained; larger scaffold requires transitive audit",
           "estimated_node_savings_percent": {
             "min": 40,
             "max": 55
           },
-          "summary": "AINTLIB has derived sheaf cohomology, affine acyclicity, exact-sequence machinery, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "The required packaged proper-curve finite-dimensionality and vanishing-above-one API is absent, and source-clean endpoints do not by themselves certify a placeholder-free import cone.",
+          "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
+          "boundary": "Only the exact-sequence core is retained. Local killing, the required packaged proper-curve finite-dimensionality and vanishing-above-one API are absent, and source-clean endpoints do not by themselves certify a placeholder-free import cone.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3257,6 +3257,20 @@
           "state": "contract",
           "description": "Consume cover-map monicity in the canonical short exact sequence from a scheme module to its cover module and cokernel.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCoverMono"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_cokernel_subsingleton",
+          "state": "contract",
+          "description": "Apply the actual sheaf-cohomology long exact sequence to turn degree-n cokernel vanishing into injectivity in degree n+1.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton",
+          "state": "contract",
+          "description": "Consume the genuine affine-cover short exact sequence in the checked structural dimension-shift step.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift"
         }
       ],
       "depends_on": [
