@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalSections
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlatGlobalSections
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler
 
@@ -224,6 +225,101 @@ theorem fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient
       coeffPrime level hlevel)
     kernelHOneData quotientHOneData hprime bound
   simpa [hconstantLength, hmuLength] using hbound
+
+/-- Bad-fibre localization removes the global constant-flat `H¹` certificate from the
+constant-kernel Euler consumer.  Its replacement is the exact localization datum on the actual
+supported cokernel, together with separate upper bounds for that supported `H⁰` carrier and
+the ambient constant-group `H¹`. -/
+theorem fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized
+    (hprime : coeffPrime.Prime) (hprime2 : coeffPrime ≠ 2)
+    (hlevel : level.Prime) (datum : MuFlatDatum coeffPrime level)
+    (D : FppfExtensionPresentation
+      (mazurConstantFlat coeffPrime level) G (muFlat coeffPrime level datum))
+    (localizationData :
+      MazurConstantFlatHOneLocalizationData coeffPrime level)
+    (badFiberData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantFlatBadFiberHZero coeffPrime level))
+    (ambientConstantHOneData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantAmbientFppfHOne coeffPrime))
+    (quotientHOneData : FinitePGroup.BoundedData coeffPrime
+      (muFlat coeffPrime level datum).FppfHOne.{0})
+    (bound : ℕ)
+    (hbound : badFiberData.length + ambientConstantHOneData.length +
+      quotientHOneData.length ≤ bound) :
+    Nat.card G.FppfHOne.{0} ≤ coeffPrime ^ bound := by
+  have hodd : Odd coeffPrime := hprime.odd_of_ne_two hprime2
+  have hconstant : ∀ x : BasePoint (mazurConstantFlat coeffPrime level), x = 1 := by
+    intro x
+    exact constantFlatBasePoint_eq_one ℤ (Multiplicative (ZMod coeffPrime))
+      (level : ℤ) (by
+        rw [Int.ofNat_isUnit]
+        exact hlevel.not_isUnit) x
+  have hmu : ∀ x : BasePoint (muFlat coeffPrime level datum), x = 1 :=
+    fun x ↦ muFlatBasePoint_eq_one coeffPrime level datum hodd x
+  have hconstantLength :
+      (mazurConstantFlatBasePointCertifiedDataOfPrimeLevel
+        coeffPrime level hlevel).length = 0 := rfl
+  have hmuLength :
+      (muFlatBasePointCertifiedDataOfOdd
+        coeffPrime level datum hodd).length = 0 := rfl
+  apply fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded
+    D.toFppfQuotientPresentation
+    (mazurConstantFlatBasePointCertifiedDataOfPrimeLevel
+      coeffPrime level hlevel)
+    (D.middleBasePointCertifiedData coeffPrime hconstant hmu)
+    (muFlatBasePointCertifiedDataOfOdd coeffPrime level datum hodd)
+    (localizationData.globalHOneBoundedData badFiberData
+      ambientConstantHOneData)
+    quotientHOneData hprime bound
+  simpa [hconstantLength, hmuLength] using hbound
+
+/-- The reverse bad-level ordering uses the same global localization handoff for the
+constant-flat quotient and therefore also avoids a caller-supplied global constant-flat `H¹`
+certificate. -/
+theorem fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized
+    (hprime : coeffPrime.Prime) (hprime2 : coeffPrime ≠ 2)
+    (hlevel : level.Prime) (datum : MuFlatDatum coeffPrime level)
+    (D : FppfExtensionPresentation
+      (muFlat coeffPrime level datum) G (mazurConstantFlat coeffPrime level))
+    (kernelHOneData : FinitePGroup.BoundedData coeffPrime
+      (muFlat coeffPrime level datum).FppfHOne.{0})
+    (localizationData :
+      MazurConstantFlatHOneLocalizationData coeffPrime level)
+    (badFiberData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantFlatBadFiberHZero coeffPrime level))
+    (ambientConstantHOneData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantAmbientFppfHOne coeffPrime))
+    (bound : ℕ)
+    (hbound : kernelHOneData.length + badFiberData.length +
+      ambientConstantHOneData.length ≤ bound) :
+    Nat.card G.FppfHOne.{0} ≤ coeffPrime ^ bound := by
+  have hodd : Odd coeffPrime := hprime.odd_of_ne_two hprime2
+  have hmu : ∀ x : BasePoint (muFlat coeffPrime level datum), x = 1 :=
+    fun x ↦ muFlatBasePoint_eq_one coeffPrime level datum hodd x
+  have hconstant : ∀ x : BasePoint (mazurConstantFlat coeffPrime level), x = 1 := by
+    intro x
+    exact constantFlatBasePoint_eq_one ℤ (Multiplicative (ZMod coeffPrime))
+      (level : ℤ) (by
+        rw [Int.ofNat_isUnit]
+        exact hlevel.not_isUnit) x
+  have hconstantLength :
+      (mazurConstantFlatBasePointCertifiedDataOfPrimeLevel
+        coeffPrime level hlevel).length = 0 := rfl
+  have hmuLength :
+      (muFlatBasePointCertifiedDataOfOdd
+        coeffPrime level datum hodd).length = 0 := rfl
+  apply fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded
+    D.toFppfQuotientPresentation
+    (muFlatBasePointCertifiedDataOfOdd coeffPrime level datum hodd)
+    (D.middleBasePointCertifiedData coeffPrime hmu hconstant)
+    (mazurConstantFlatBasePointCertifiedDataOfPrimeLevel
+      coeffPrime level hlevel)
+    kernelHOneData
+    (localizationData.globalHOneBoundedData badFiberData
+      ambientConstantHOneData)
+    hprime bound
+  simpa [hconstantLength, hmuLength, Nat.add_assoc,
+    Nat.add_left_comm, Nat.add_comm] using hbound
 
 end FppfLowDegreeExactSequence
 
