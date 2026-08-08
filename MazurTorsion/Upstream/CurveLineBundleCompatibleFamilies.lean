@@ -12,8 +12,9 @@ import MazurTorsion.Upstream.CurveLineBundleDescent
 
 This file constructs the canonical compatible-family object attached to module descent data on
 one scheme open cover.  The construction is an equalizer of the two overlap-restriction maps.
-It is only a candidate until its restriction to every member of the cover is identified with the
-specified local module.
+Its restriction to every member of the cover is identified with the specified local module.  To
+obtain effective descent, the resulting pointwise isomorphisms must additionally be shown to
+commute with the descent maps after arbitrary base change.
 -/
 
 noncomputable section
@@ -414,6 +415,27 @@ private theorem restrictionTransition_comp
   have hcomp : hab ≫ hbc = hac := D.hom_comp q a b c ha hb hc
   slice_lhs 2 3 => rw [hcomp]
 
+private theorem restrictionTransition_self
+    {X : Scheme} {cov : X.OpenCover}
+    (D : modulesPseudofunctor.DescentData cov.f)
+    {Y : Scheme} (q : Y ⟶ X) {i : cov.I₀}
+    (a : Y ⟶ cov.X i) [IsOpenImmersion a]
+    (ha : a ≫ cov.f i = q) :
+    restrictionTransition D q a a ha ha = 𝟙 _ := by
+  let e := Scheme.Modules.restrictFunctorIsoPullback a
+  letI : IsIso ((Scheme.Modules.restrictFunctorIsoPullback a).hom.app (D.obj i)) :=
+    ((Scheme.Modules.restrictFunctorIsoPullback a).app (D.obj i)).isIso_hom
+  rw [← cancel_mono
+    ((Scheme.Modules.restrictFunctorIsoPullback a).hom.app (D.obj i))]
+  dsimp only [restrictionTransition]
+  simp only [Category.assoc, Category.id_comp]
+  rw [D.hom_self q a ha]
+  change e.hom.app (D.obj i) ≫
+      (𝟙 ((Scheme.Modules.pullback a).obj (D.obj i)) ≫ e.inv.app (D.obj i)) ≫
+        e.hom.app (D.obj i) = e.hom.app (D.obj i)
+  rw [Category.id_comp]
+  exact e.hom_inv_id_app_assoc (D.obj i) _
+
 private theorem restrictFunctorCongr_refl_hom
     {X Y : Scheme} (f : X ⟶ Y) [IsOpenImmersion f]
     (M : Y.Modules) :
@@ -725,6 +747,62 @@ private theorem compatibleFamilyChartComponent_eq_transition
       (inferInstance : IsOpenImmersion (cov.f i))
   dsimp only [compatibleFamilyChartComponent, restrictionTransition]
   congr 2
+
+private theorem compatibleFamilyChartComponent_self_counit
+    {X : Scheme} {cov : X.OpenCover}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    compatibleFamilyChartComponent D i i ≫
+        (Scheme.Modules.restrictAdjunction (cov.f i)).counit.app (D.obj i) =
+      𝟙 _ := by
+  let P := overlap cov i i
+  letI : IsOpenImmersion P.p₁ :=
+    MorphismProperty.of_isPullback P.isPullback.flip
+      (inferInstance : IsOpenImmersion (cov.f i))
+  letI : IsOpenImmersion P.p₂ :=
+    MorphismProperty.of_isPullback P.isPullback
+      (inferInstance : IsOpenImmersion (cov.f i))
+  have hp : P.p₁ = P.p₂ := by
+    rw [← cancel_mono (cov.f i)]
+    exact P.condition
+  have ht : restrictionTransition D P.p P.p₁ P.p₂ P.hp₁ P.hp₂ =
+      (Scheme.Modules.restrictFunctorCongr hp).hom.app (D.obj i) := by
+    have h := restrictionTransition_congr_all D P.p P.p
+      P.p₁ P.p₁ P.p₂ P.p₁ rfl rfl hp.symm
+      P.hp₁ P.hp₂ P.hp₁ P.hp₁
+    have hr := restrictFunctorCongr_refl_hom P.p₁ (D.obj i)
+    have hs := restrictionTransition_self D P.p P.p₁ P.hp₁
+    rw [hr, hs] at h
+    simpa only [Category.id_comp] using h.symm
+  rw [compatibleFamilyChartComponent_eq_transition D i i, ht]
+  let Di : (cov.X i).Modules := D.obj i
+  change ((((Scheme.Modules.restrictAdjunction P.p₁).homEquiv
+      Di ((Scheme.Modules.restrictFunctor P.p₂).obj Di))
+        ((Scheme.Modules.restrictFunctorCongr hp).hom.app Di) ≫
+      (openPullbackRestrictPushforwardIso
+        P.p₁ P.p₂ (cov.f i) (cov.f i) P.isPullback).inv.app Di) ≫
+      (Scheme.Modules.restrictAdjunction (cov.f i)).counit.app Di) = 𝟙 Di
+  apply @Scheme.Modules.hom_ext (cov.X i) Di Di
+  intro U
+  rw [Scheme.Modules.Hom.comp_app, Scheme.Modules.Hom.comp_app,
+    Scheme.Modules.Hom.id_app, Adjunction.homEquiv_apply,
+    Scheme.Modules.Hom.comp_app]
+  ext x
+  change Di.presheaf.obj (Opposite.op U) at x
+  simp only [Scheme.Modules.pushforward_map_app,
+    Scheme.Modules.restrictAdjunction_unit_app_app,
+    openPullbackRestrictPushforwardIso_inv_app,
+    Scheme.Modules.restrictAdjunction_counit_app_app,
+    Scheme.Modules.restrictFunctorCongr_hom_app_app,
+    AddCommGrpCat.hom_id]
+  change Di.presheaf.map _ (Di.presheaf.map _
+    (Di.presheaf.map _ (Di.presheaf.map _ x))) = x
+  rw [← Di.presheaf.map_comp_apply]
+  rw [← Di.presheaf.map_comp_apply]
+  rw [← Di.presheaf.map_comp_apply]
+  calc
+    _ = Di.presheaf.map (𝟙 _) x :=
+      Di.val.congr_map_apply (Subsingleton.elim _ _) x
+    _ = x := by simp
 
 private theorem compatibleFamilyChartComponent_mate
     {X : Scheme} {cov : X.OpenCover}
@@ -1359,6 +1437,102 @@ theorem compatibleFamilyModule_condition
         compatibleFamilySecond D :=
   equalizer.condition _ _
 
+private theorem compatibleFamilyModule_component_condition
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D) ≫
+        compatibleFamilyFirstComponent D i j =
+      equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D) ≫
+        compatibleFamilySecondComponent D i j := by
+  let N : cov.I₀ × cov.I₀ → X.Modules := fun ij ↦
+    (Scheme.Modules.pushforward (cov.f ij.1)).obj
+      ((Scheme.Modules.restrictFunctor (cov.f ij.1)).obj
+        ((Scheme.Modules.pushforward (cov.f ij.2)).obj (D.obj ij.2)))
+  let q : compatibleFamilyOverlapAmbient D ⟶ N (i, j) :=
+    Pi.π N (i, j)
+  have h := congrArg (fun z ↦ z ≫ q) (compatibleFamilyModule_condition D)
+  have hfirst : compatibleFamilyFirst D ≫ q =
+      compatibleFamilyFirstComponent D i j := by
+    exact Pi.lift_π _ (i, j)
+  have hsecond : compatibleFamilySecond D ≫ q =
+      compatibleFamilySecondComponent D i j := by
+    exact Pi.lift_π _ (i, j)
+  simpa only [Category.assoc, hfirst, hsecond] using h
+
+/-- Restriction to one chart commutes with the compatible-family equalizer. -/
+noncomputable def compatibleFamilyRestrictionEqualizerIso
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (Scheme.Modules.restrictFunctor (cov.f i)).obj (compatibleFamilyModule D) ≅
+      compatibleFamilyChartObject D i := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let a := compatibleFamilyFirst D
+  let b := compatibleFamilySecond D
+  letI : PreservesLimit (parallelPair a b) F :=
+    restrictFunctorPreservesLimit (cov.f i) (parallelPair a b)
+  change F.obj (equalizer a b) ≅ equalizer (F.map a) (F.map b)
+  exact PreservesEqualizer.iso F a b
+
+/-- The inverse equalizer comparison followed by the restricted global equalizer inclusion is the
+local equalizer inclusion. -/
+theorem compatibleFamilyRestrictionEqualizerIso_inv_comp_ι
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (compatibleFamilyRestrictionEqualizerIso D i).inv ≫
+        (Scheme.Modules.restrictFunctor (cov.f i)).map
+          (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D)) =
+      equalizer.ι
+        ((Scheme.Modules.restrictFunctor (cov.f i)).map (compatibleFamilyFirst D))
+        ((Scheme.Modules.restrictFunctor (cov.f i)).map (compatibleFamilySecond D)) := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let a := compatibleFamilyFirst D
+  let b := compatibleFamilySecond D
+  letI : PreservesLimit (parallelPair a b) F :=
+    restrictFunctorPreservesLimit (cov.f i) (parallelPair a b)
+  change (PreservesEqualizer.iso F a b).inv ≫ F.map (equalizer.ι a b) =
+    equalizer.ι (F.map a) (F.map b)
+  exact PreservesEqualizer.iso_inv_ι F a b
+
+/-- The fixed-chart compatible family, regarded as a morphism into the restriction of the actual
+global compatible-family equalizer. -/
+noncomputable def compatibleFamilyChartToRestrictedModule
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    D.obj i ⟶
+      (Scheme.Modules.restrictFunctor (cov.f i)).obj (compatibleFamilyModule D) :=
+  compatibleFamilyChartObjectHom D i ≫
+    (compatibleFamilyRestrictionEqualizerIso D i).inv
+
+/-- The chart-to-global-restriction morphism has the originally constructed ambient family as its
+image under the restricted global equalizer inclusion. -/
+theorem compatibleFamilyChartToRestrictedModule_comp_ι
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    compatibleFamilyChartToRestrictedModule D i ≫
+        (Scheme.Modules.restrictFunctor (cov.f i)).map
+          (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D)) =
+      compatibleFamilyChartAmbientHom D i := by
+  change (compatibleFamilyChartObjectHom D i ≫
+      (compatibleFamilyRestrictionEqualizerIso D i).inv) ≫
+        (Scheme.Modules.restrictFunctor (cov.f i)).map
+          (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D)) =
+    compatibleFamilyChartAmbientHom D i
+  calc
+    _ = compatibleFamilyChartObjectHom D i ≫
+        ((compatibleFamilyRestrictionEqualizerIso D i).inv ≫
+          (Scheme.Modules.restrictFunctor (cov.f i)).map
+            (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D))) :=
+      Category.assoc _ _ _
+    _ = compatibleFamilyChartObjectHom D i ≫
+        equalizer.ι
+          ((Scheme.Modules.restrictFunctor (cov.f i)).map (compatibleFamilyFirst D))
+          ((Scheme.Modules.restrictFunctor (cov.f i)).map (compatibleFamilySecond D)) := by
+      exact congrArg
+        (fun z ↦ compatibleFamilyChartObjectHom D i ≫ z)
+        (compatibleFamilyRestrictionEqualizerIso_inv_comp_ι D i)
+    _ = compatibleFamilyChartAmbientHom D i :=
+      compatibleFamilyChartObjectHom_comp_ι D i
+
 /-- The compatible-family module projects to each pushed-forward local module. -/
 noncomputable def compatibleFamilyProjection
     {X : Scheme.{u}} {cov : X.OpenCover}
@@ -1369,8 +1543,7 @@ noncomputable def compatibleFamilyProjection
     Pi.π (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) i
 
 /-- The adjoint transpose of the chart projection, stated with the genuine module pullback
-functor used by `EffectiveModule`.  Proving that this morphism is an isomorphism is the remaining
-effective-descent theorem for the equalizer candidate. -/
+functor used by `EffectiveModule`. -/
 noncomputable def compatibleFamilyRestrictionHom
     {X : Scheme.{u}} {cov : X.OpenCover}
     (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
@@ -1388,5 +1561,294 @@ theorem compatibleFamilyRestrictionHom_adjunct
       compatibleFamilyProjection D i := by
   exact ((Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)).homEquiv
     (compatibleFamilyModule D) (D.obj i)).apply_symm_apply _
+
+/-- The fixed-chart compatible family, transported from restriction to the genuine module
+pullback. -/
+noncomputable def compatibleFamilyRestrictionInverse
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    D.obj i ⟶
+      (Scheme.Modules.pullback (cov.f i)).obj (compatibleFamilyModule D) :=
+  compatibleFamilyChartToRestrictedModule D i ≫
+    (Scheme.Modules.restrictFunctorIsoPullback (cov.f i)).hom.app
+      (compatibleFamilyModule D)
+
+private theorem compatibleFamilyRestrictedProjection_comp_component
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    ((Scheme.Modules.restrictFunctor (cov.f i)).map
+        (compatibleFamilyProjection D i) ≫
+      (Scheme.Modules.restrictAdjunction (cov.f i)).counit.app (D.obj i)) ≫
+        compatibleFamilyChartComponent D i j =
+      (Scheme.Modules.restrictFunctor (cov.f i)).map
+        (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D) ≫
+          Pi.π (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j) := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let R := Scheme.Modules.pushforward (cov.f i)
+  let AR := Scheme.Modules.restrictAdjunction (cov.f i)
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let N : X.Modules := (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)
+  let cij : Di ⟶ F.obj N := compatibleFamilyChartComponent D i j
+  let pi : M ⟶ R.obj Di := compatibleFamilyProjection D i
+  let pj : M ⟶ N :=
+    equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D) ≫
+      Pi.π (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j
+  have hglobal : pi ≫ R.map cij = pj ≫ AR.unit.app N := by
+    have h := compatibleFamilyModule_component_condition D i j
+    dsimp only [compatibleFamilyFirstComponent,
+      compatibleFamilySecondComponent] at h
+    change pi ≫ R.map cij = pj ≫ AR.unit.app N at h
+    exact h
+  have hmap : F.map pi ≫ F.map (R.map cij) =
+      F.map pj ≫ F.map (AR.unit.app N) := by
+    simpa only [Functor.map_comp] using congrArg F.map hglobal
+  have hcounit : F.map (R.map cij) ≫ AR.counit.app (F.obj N) =
+      AR.counit.app Di ≫ cij := AR.counit.naturality cij
+  have htriangle : F.map (AR.unit.app N) ≫ AR.counit.app (F.obj N) =
+      𝟙 (F.obj N) := by
+    simpa only [Functor.id_obj] using AR.left_triangle_components N
+  change (F.map pi ≫ AR.counit.app Di) ≫ cij = F.map pj
+  calc
+    _ = F.map pi ≫ (AR.counit.app Di ≫ cij) := Category.assoc _ _ _
+    _ = F.map pi ≫
+        (F.map (R.map cij) ≫ AR.counit.app (F.obj N)) := by rw [hcounit]
+    _ = (F.map pi ≫ F.map (R.map cij)) ≫ AR.counit.app (F.obj N) := by
+      rw [Category.assoc]
+    _ = (F.map pj ≫ F.map (AR.unit.app N)) ≫ AR.counit.app (F.obj N) := by
+      rw [hmap]
+    _ = F.map pj ≫
+        (F.map (AR.unit.app N) ≫ AR.counit.app (F.obj N)) := Category.assoc _ _ _
+    _ = F.map pj ≫ 𝟙 _ := by rw [htriangle]
+    _ = F.map pj := Category.comp_id _
+
+/-- Reconstructing a compatible family from its `i`-th component and then projecting back to that
+component is the identity. -/
+theorem compatibleFamilyRestrictionInverse_comp_hom
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    compatibleFamilyRestrictionInverse D i ≫
+        compatibleFamilyRestrictionHom D i =
+      𝟙 _ := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let P := Scheme.Modules.pullback (cov.f i)
+  let R := Scheme.Modules.pushforward (cov.f i)
+  let AR := Scheme.Modules.restrictAdjunction (cov.f i)
+  let AP := Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)
+  let e := Scheme.Modules.restrictFunctorIsoPullback (cov.f i)
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let p : M ⟶ R.obj Di := compatibleFamilyProjection D i
+  let c : Di ⟶ F.obj M := compatibleFamilyChartToRestrictedModule D i
+  have hnat : e.hom.app M ≫ P.map p = F.map p ≫ e.hom.app (R.obj Di) :=
+    (e.hom.naturality p).symm
+  have hcou : e.hom.app (R.obj Di) ≫ AP.counit.app Di = AR.counit.app Di := by
+    dsimp only [e, AR, AP]
+    exact Adjunction.leftAdjointUniq_hom_app_counit
+      (Scheme.Modules.restrictAdjunction (cov.f i))
+      (Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)) Di
+  have hι : c ≫ F.map
+        (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D)) =
+      compatibleFamilyChartAmbientHom D i :=
+    compatibleFamilyChartToRestrictedModule_comp_ι D i
+  let π : compatibleFamilyAmbient D ⟶ R.obj Di :=
+    Pi.π (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) i
+  have hπ : compatibleFamilyChartAmbientHom D i ≫ F.map π =
+      compatibleFamilyChartComponent D i i :=
+    compatibleFamilyChartAmbientHom_component D i i
+  have hproj : c ≫ F.map p = compatibleFamilyChartComponent D i i := by
+    have hdecomp : c ≫ F.map p =
+        (c ≫ F.map
+          (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D))) ≫
+            F.map π := by
+      dsimp only [p, compatibleFamilyProjection, π]
+      exact congrArg (fun z ↦ c ≫ z) (F.map_comp
+        (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D))
+        (Pi.π (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) i))
+    have hlift :
+        (c ≫ F.map
+          (equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D))) ≫
+            F.map π =
+          compatibleFamilyChartAmbientHom D i ≫ F.map π :=
+      congrArg (fun z ↦ z ≫ F.map π) hι
+    exact hdecomp.trans (hlift.trans hπ)
+  have hproj_counit : (c ≫ F.map p) ≫ AR.counit.app Di =
+      compatibleFamilyChartComponent D i i ≫ AR.counit.app Di :=
+    congrArg (fun z ↦ z ≫ AR.counit.app Di) hproj
+  have hself : compatibleFamilyChartComponent D i i ≫ AR.counit.app Di =
+      𝟙 Di := compatibleFamilyChartComponent_self_counit D i
+  change (c ≫ e.hom.app M) ≫
+      (P.map p ≫ AP.counit.app Di) = 𝟙 Di
+  calc
+    _ = c ≫ (e.hom.app M ≫ P.map p) ≫ AP.counit.app Di := by
+      simp only [Category.assoc]
+    _ = c ≫ (F.map p ≫ e.hom.app (R.obj Di)) ≫ AP.counit.app Di := by
+      rw [hnat]
+    _ = c ≫ F.map p ≫ (e.hom.app (R.obj Di) ≫ AP.counit.app Di) := by
+      simp only [Category.assoc]
+    _ = (c ≫ F.map p) ≫ AR.counit.app Di := by
+      rw [hcou, Category.assoc]
+    _ = 𝟙 Di := hproj_counit.trans hself
+
+/-- Projecting a restricted compatible family to its `i`-th component and reconstructing all
+components gives the original restricted family. -/
+theorem compatibleFamilyRestrictionHom_comp_inverse
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    compatibleFamilyRestrictionHom D i ≫
+        compatibleFamilyRestrictionInverse D i =
+      𝟙 _ := by
+  let F := Scheme.Modules.restrictFunctor (cov.f i)
+  let P := Scheme.Modules.pullback (cov.f i)
+  let R := Scheme.Modules.pushforward (cov.f i)
+  let AR := Scheme.Modules.restrictAdjunction (cov.f i)
+  let AP := Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)
+  let e := Scheme.Modules.restrictFunctorIsoPullback (cov.f i)
+  let M : X.Modules := compatibleFamilyModule D
+  let Di : (cov.X i).Modules := D.obj i
+  let p : M ⟶ R.obj Di := compatibleFamilyProjection D i
+  let r : P.obj M ⟶ Di := compatibleFamilyRestrictionHom D i
+  let c : Di ⟶ F.obj M := compatibleFamilyChartToRestrictedModule D i
+  let q : M ⟶ compatibleFamilyAmbient D :=
+    equalizer.ι (compatibleFamilyFirst D) (compatibleFamilySecond D)
+  let a : Di ⟶ F.obj (compatibleFamilyAmbient D) :=
+    compatibleFamilyChartAmbientHom D i
+  have hnat : e.hom.app M ≫ P.map p = F.map p ≫ e.hom.app (R.obj Di) :=
+    (e.hom.naturality p).symm
+  have hcou : e.hom.app (R.obj Di) ≫ AP.counit.app Di = AR.counit.app Di := by
+    dsimp only [e, AR, AP]
+    exact Adjunction.leftAdjointUniq_hom_app_counit
+      (Scheme.Modules.restrictAdjunction (cov.f i))
+      (Scheme.Modules.pullbackPushforwardAdjunction (cov.f i)) Di
+  have hr : e.hom.app M ≫ r = F.map p ≫ AR.counit.app Di := by
+    change e.hom.app M ≫ (P.map p ≫ AP.counit.app Di) =
+      F.map p ≫ AR.counit.app Di
+    calc
+      _ = (e.hom.app M ≫ P.map p) ≫ AP.counit.app Di := by
+        rw [Category.assoc]
+      _ = (F.map p ≫ e.hom.app (R.obj Di)) ≫ AP.counit.app Di := by
+        rw [hnat]
+      _ = F.map p ≫ (e.hom.app (R.obj Di) ≫ AP.counit.app Di) :=
+        Category.assoc _ _ _
+      _ = F.map p ≫ AR.counit.app Di := by rw [hcou]
+  have hambient : (e.hom.app M ≫ r) ≫ a = F.map q := by
+    letI : PreservesLimit
+        (Discrete.functor
+          (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j))) F :=
+      restrictFunctorPreservesLimit (cov.f i)
+        (Discrete.functor
+          (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)))
+    let prodIso : F.obj (compatibleFamilyAmbient D) ≅
+        ∏ᶜ fun j ↦ F.obj
+          ((Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) := by
+      change F.obj
+          (∏ᶜ fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j)) ≅
+        ∏ᶜ fun j ↦ F.obj
+          ((Scheme.Modules.pushforward (cov.f j)).obj (D.obj j))
+      exact PreservesProduct.iso F
+        (fun j ↦ (Scheme.Modules.pushforward (cov.f j)).obj (D.obj j))
+    apply (cancel_mono prodIso.hom).mp
+    apply Pi.hom_ext
+    intro j
+    have hprod : prodIso.hom ≫
+        Pi.π (fun j ↦ F.obj
+          ((Scheme.Modules.pushforward (cov.f j)).obj (D.obj j))) j =
+      F.map (Pi.π
+        (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j) := by
+      change (PreservesProduct.iso F
+          (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k))).hom ≫
+          Pi.π (fun j ↦ F.obj
+            ((Scheme.Modules.pushforward (cov.f j)).obj (D.obj j))) j =
+        F.map (Pi.π
+          (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)
+      rw [PreservesProduct.iso_hom]
+      exact piComparison_comp_π F
+        (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j
+    simp only [Category.assoc, hprod]
+    have hc := compatibleFamilyChartAmbientHom_component D i j
+    have hrec := compatibleFamilyRestrictedProjection_comp_component D i j
+    change (e.hom.app M ≫ r) ≫
+        (a ≫ F.map (Pi.π
+          (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)) =
+      F.map q ≫ F.map (Pi.π
+        (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)
+    have hc' : a ≫ F.map (Pi.π
+          (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j) =
+        compatibleFamilyChartComponent D i j := by
+      change compatibleFamilyChartAmbientHom D i ≫
+          (Scheme.Modules.restrictFunctor (cov.f i)).map
+            (Pi.π (fun k ↦
+              (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j) =
+        compatibleFamilyChartComponent D i j
+      exact hc
+    have hrec' : (F.map p ≫ AR.counit.app Di) ≫
+          compatibleFamilyChartComponent D i j =
+        F.map (q ≫ Pi.π
+          (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j) := by
+      simpa only [q, F, p, AR, Di, M, compatibleFamilyModule] using hrec
+    rw [hc', hr, hrec']
+    exact F.map_comp q
+      (Pi.π (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)
+  have hmono : Mono (F.map q) := by
+    letI : PreservesLimit
+        (parallelPair (compatibleFamilyFirst D) (compatibleFamilySecond D)) F :=
+      restrictFunctorPreservesLimit (cov.f i)
+        (parallelPair (compatibleFamilyFirst D) (compatibleFamilySecond D))
+    dsimp only [q, M, compatibleFamilyModule]
+    rw [← equalizerComparison_comp_π
+      (compatibleFamilyFirst D) (compatibleFamilySecond D) F]
+    infer_instance
+  letI : Mono (F.map q) := hmono
+  have hcι : c ≫ F.map q = a := by
+    dsimp only [c, q, a, F, Di, M]
+    exact compatibleFamilyChartToRestrictedModule_comp_ι D i
+  have hF : (e.hom.app M ≫ r) ≫ c = 𝟙 (F.obj M) := by
+    apply (cancel_mono (F.map q)).mp
+    calc
+      _ = (e.hom.app M ≫ r) ≫ (c ≫ F.map q) := by
+        rw [Category.assoc]
+      _ = (e.hom.app M ≫ r) ≫ a := by
+        rw [hcι]
+      _ = F.map q := hambient
+      _ = 𝟙 (F.obj M) ≫ F.map q :=
+        (Category.id_comp _).symm
+  letI : IsIso (e.hom.app M) := (e.app M).isIso_hom
+  rw [← cancel_epi (e.hom.app M)]
+  change e.hom.app M ≫ (r ≫ (c ≫ e.hom.app M)) =
+    e.hom.app M ≫ 𝟙 (P.obj M)
+  calc
+    _ = ((e.hom.app M ≫ r) ≫ c) ≫ e.hom.app M := by
+      simp only [Category.assoc]
+    _ = 𝟙 (F.obj M) ≫ e.hom.app M := by rw [hF]
+    _ = e.hom.app M := Category.id_comp _
+    _ = e.hom.app M ≫ 𝟙 (P.obj M) := (Category.comp_id _).symm
+
+/-- The compatible-family equalizer restricts to the prescribed module on each chart.
+
+This is the pointwise restriction-isomorphism boundary of the construction.  An isomorphism of
+the full descent data additionally requires compatibility with `DescentData.hom` after arbitrary
+base change; that coherence is not part of this definition. -/
+noncomputable def compatibleFamilyRestrictionIso
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (Scheme.Modules.pullback (cov.f i)).obj (compatibleFamilyModule D) ≅ D.obj i where
+  hom := compatibleFamilyRestrictionHom D i
+  inv := compatibleFamilyRestrictionInverse D i
+  hom_inv_id := compatibleFamilyRestrictionHom_comp_inverse D i
+  inv_hom_id := compatibleFamilyRestrictionInverse_comp_hom D i
+
+@[simp]
+theorem compatibleFamilyRestrictionIso_hom
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (compatibleFamilyRestrictionIso D i).hom = compatibleFamilyRestrictionHom D i :=
+  rfl
+
+@[simp]
+theorem compatibleFamilyRestrictionIso_inv
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (compatibleFamilyRestrictionIso D i).inv = compatibleFamilyRestrictionInverse D i :=
+  rfl
 
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent
