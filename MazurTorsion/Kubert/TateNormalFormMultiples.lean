@@ -69,6 +69,70 @@ theorem add_origin_coordinates
   rw [WeierstrassCurve.Affine.Point.add_of_X_ne hx]
   exact WeierstrassCurve.Affine.Point.some_eq_some W hxnext hynext
 
+/-- Successive affine coordinates obtained by starting at `2P = (b, bc)` and
+repeatedly adding the marked Tate point `P = (0, 0)`.  Index `n` is intended
+to represent `(n + 2)P`; the accompanying theorem records exactly the
+nonzero abscissas needed for this rational recurrence to agree with the group
+law. -/
+def tateSuccessiveCoordinates (b c : ℚ) : ℕ → ℚ × ℚ
+  | 0 => (b, b * c)
+  | n + 1 =>
+      let Q := tateSuccessiveCoordinates b c n
+      (tateNextX b c Q.1 Q.2, tateNextY b c Q.1 Q.2)
+
+/-- The recurrence-defined abscissa of `(n + 2)P`. -/
+def tateSuccessiveX (b c : ℚ) (n : ℕ) : ℚ :=
+  (tateSuccessiveCoordinates b c n).1
+
+/-- The recurrence-defined ordinate of `(n + 2)P`. -/
+def tateSuccessiveY (b c : ℚ) (n : ℕ) : ℚ :=
+  (tateSuccessiveCoordinates b c n).2
+
+@[simp] lemma tateSuccessiveX_zero (b c : ℚ) :
+    tateSuccessiveX b c 0 = b := rfl
+
+@[simp] lemma tateSuccessiveY_zero (b c : ℚ) :
+    tateSuccessiveY b c 0 = b * c := rfl
+
+@[simp] lemma tateSuccessiveX_succ (b c : ℚ) (n : ℕ) :
+    tateSuccessiveX b c (n + 1) =
+      tateNextX b c (tateSuccessiveX b c n) (tateSuccessiveY b c n) := by
+  rfl
+
+@[simp] lemma tateSuccessiveY_succ (b c : ℚ) (n : ℕ) :
+    tateSuccessiveY b c (n + 1) =
+      tateNextY b c (tateSuccessiveX b c n) (tateSuccessiveY b c n) := by
+  rfl
+
+/-- The rational recurrence computes `(n + 2)P` whenever every earlier
+abscissa used as a secant denominator is nonzero. -/
+theorem nsmul_origin_eq_successiveCoordinates
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (n : ℕ) (hx : ∀ k < n, tateSuccessiveX b c k ≠ 0) :
+    ∃ h : (tateNormalCurve b c).toAffine.Nonsingular
+        (tateSuccessiveX b c n) (tateSuccessiveY b c n),
+      (n + 2) • WeierstrassCurve.Affine.Point.some 0 0 h00 =
+        WeierstrassCurve.Affine.Point.some
+          (tateSuccessiveX b c n) (tateSuccessiveY b c n) h := by
+  induction n with
+  | zero =>
+      simpa using two_nsmul_origin_coordinates b c hb h00
+  | succ n ih =>
+      have hx' : ∀ k < n, tateSuccessiveX b c k ≠ 0 := by
+        intro k hk
+        exact hx k (Nat.lt_succ_of_lt hk)
+      obtain ⟨hn, hncoord⟩ := ih hx'
+      obtain ⟨hsucc, hsucccoord⟩ :=
+        add_origin_coordinates b c
+          (tateSuccessiveX b c n) (tateSuccessiveY b c n)
+          (hx n (Nat.lt_succ_self n)) hn h00
+      refine ⟨?_, ?_⟩
+      · simpa using hsucc
+      · rw [show n + 1 + 2 = (n + 2) + 1 by omega, add_nsmul,
+          one_nsmul, hncoord, hsucccoord]
+        rfl
+
 /-- The `X`-coordinate of `5P` in Tate normal form. -/
 def tateFiveX (b c : ℚ) : ℚ :=
   b * c * (c ^ 2 + c - b) / (b - c) ^ 2
