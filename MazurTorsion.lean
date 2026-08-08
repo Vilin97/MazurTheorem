@@ -122,6 +122,7 @@ import MazurTorsion.ModularCurve.XZeroModuli
 import MazurTorsion.ModularCurve.XZeroCyclicQuotient
 import MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
 import MazurTorsion.ModularCurve.XZeroFiniteFlatCyclicQuotient
+import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
 import MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData
 import MazurTorsion.ModularCurve.XZeroWeierstrassAbelianVariety
 import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveCubic

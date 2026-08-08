@@ -8,6 +8,7 @@ import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData
+import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -537,7 +538,12 @@ now connected by the exact geometric interface still required from the coarse
 moduli construction.  No explicit Vélu additivity or nonbacktracking isogeny
 tower occurs in this interface. -/
 
+open CategoryTheory CategoryTheory.MonoidalCategory CategoryTheory.MonObj
+open AlgebraicGeometry
 open ModularCurve.XZeroFiniteFlatModuli
+
+attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
+  CategoryTheory.Over.braidedCategory
 
 /-- An exact-order-49 rational point supplies the genuine split finite-flat
 source datum that a future coarse `X₀(49)` classifying morphism must consume.
@@ -576,6 +582,51 @@ theorem rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion
       ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP :=
   WeierstrassGroupSchemeInterface.rationalDatumOfSplitGammaZeroDatum_ofRationalDatum
     (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP) M
+
+/-! ### The supplied geometric quotient seam -/
+
+/-- If a geometric fppf quotient of the actual order-49 subgroup has been constructed, the
+quotient of represented rational points embeds in its rational points.  This consumes the
+specific subgroup above; it does not assert that such a quotient presentation exists. -/
+theorem orderFortyNineGeometricPointQuotientMap_injective
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (M : WeierstrassGroupSchemeInterface E)
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49)
+    (Q : CommGroupScheme.FppfQuotientPresentation
+      (splitFiniteFlatSourceOfOrderFortyNineTorsion E M P hP).subgroup.inclusion) :
+    Function.Injective
+      (Q.pointQuotientMap (AffineCommGroupScheme.testObject (R := ℚ) ℚ)) :=
+  WeierstrassGroupSchemeInterface.rationalDatumGeometricPointQuotientMap_injective
+    (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP) M Q
+
+/-- For a supplied geometric quotient of the actual order-49 subgroup, its rational-point image
+is exactly the zero fibre of the fppf boundary map.  In particular no surjectivity of the point
+quotient map is introduced at the order-49 endpoint. -/
+theorem orderFortyNineGeometricPointQuotient_boundary_exact
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (M : WeierstrassGroupSchemeInterface E)
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49)
+    (Q : CommGroupScheme.FppfQuotientPresentation
+      (splitFiniteFlatSourceOfOrderFortyNineTorsion E M P hP).subgroup.inclusion) :
+    Function.MulExact
+      (Q.pointQuotientMap (CommGroupScheme.baseObject (Spec (.of ℚ))))
+      Q.boundaryHom :=
+  WeierstrassGroupSchemeInterface.rationalDatumGeometricPointQuotient_boundary_exact
+    (ModularCurve.XZeroModuli.RationalDatum.datumOfTorsion E P hP) M Q
+
+/-- Extension of the base field preserves the identification of the order-49 subgroup with the
+geometric kernel of any supplied quotient presentation. -/
+theorem orderFortyNineGeometricQuotient_baseChange_kernel_inclusion
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (M : WeierstrassGroupSchemeInterface E)
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49)
+    (Q : CommGroupScheme.FppfQuotientPresentation
+      (splitFiniteFlatSourceOfOrderFortyNineTorsion E M P hP).subgroup.inclusion)
+    (L : Type) [Field L] [Algebra ℚ L] :
+    (Q.baseChange
+      (Spec.map (CommRingCat.ofHom (algebraMap ℚ L)))).kernelPresentation.inclusion =
+      ((splitFiniteFlatSourceOfOrderFortyNineTorsion E M P hP).subgroup.baseChange).inclusion :=
+  rfl
 
 /-- Any classifying map from rational `Γ₀(49)` data to the explicit
 `X₀(49)` model which sends every elliptic datum away from the two cusps
