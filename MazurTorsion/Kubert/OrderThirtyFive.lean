@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
-import MazurTorsion.EllipticCurve.TateTypeIVComponent
+import MazurTorsion.EllipticCurve.TateStarSimpleRoot
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -303,5 +303,35 @@ theorem addOrderOf_ne_thirtyFive_of_a₄_sq_a₆_sq_not_cubeAtEleven
     hW especial P
   exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_a₄_sq_a₆_sq_not_cube
     hW h2 h3 hspecial ha₄sq ha₆sq ha₆notcube P
+
+/-- A simple marked root of the exceptional cubic at eleven forces the marked twelfth multiple
+into canonical nonsingular reduction, contradicting exact order thirty-five. -/
+theorem addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_simpleRootAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hsimple : D.derivativeResidue ≠ 0)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :
+    addOrderOf P ≠ 35 := by
+  apply addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+    hW especial P
+  exact
+    twelve_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot
+      hW h2 h3 hspecial D hsimple
 
 end MazurTorsion.OrderThirtyFive
