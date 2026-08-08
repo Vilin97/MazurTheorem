@@ -114,7 +114,7 @@ private theorem baseModuleSheaf_map_apply {X S : Scheme.{u}} (π : X ⟶ S)
   rfl
 
 /-- Sections over source opens, functorially regarded as modules over the base ring. -/
-private noncomputable def baseModulePresheafFunctor {X S : Scheme.{u}} (π : X ⟶ S) :
+noncomputable def baseModulePresheafFunctor {X S : Scheme.{u}} (π : X ⟶ S) :
     X.Modules ⥤ X.Opensᵒᵖ ⥤ ModuleCat.{u} Γ(S, (⊤ : S.Opens)) :=
   toPresheafOfModules X ⋙
     PresheafOfModules.forgetToPresheafModuleCat
@@ -123,19 +123,19 @@ private noncomputable def baseModulePresheafFunctor {X S : Scheme.{u}} (π : X �
       (ModuleCat.restrictScalars π.appTop.hom)
 
 @[simp]
-private theorem baseModulePresheafFunctor_obj {X S : Scheme.{u}} (π : X ⟶ S)
+theorem baseModulePresheafFunctor_obj {X S : Scheme.{u}} (π : X ⟶ S)
     (M : X.Modules) :
     (baseModulePresheafFunctor π).obj M = baseModulePresheaf π M :=
   rfl
 
-private instance baseModulePresheafFunctor_preservesZeroMorphisms
+instance baseModulePresheafFunctor_preservesZeroMorphisms
     {X S : Scheme.{u}} (π : X ⟶ S) :
     (baseModulePresheafFunctor π).PreservesZeroMorphisms where
   map_zero M N := by
     ext U x
     rfl
 
-private instance baseModulePresheafFunctor_additive
+instance baseModulePresheafFunctor_additive
     {X S : Scheme.{u}} (π : X ⟶ S) :
     (baseModulePresheafFunctor π).Additive where
   map_add := by
@@ -271,13 +271,13 @@ noncomputable def baseCechComplex {X S : Scheme.{u}} (π : X ⟶ S)
   (cechComplexFunctor U).obj (baseModulePresheaf π M)
 
 /-- The base-linear Cech complex, functorially in the scheme module. -/
-private noncomputable def baseCechComplexFunctor {X S : Scheme.{u}} (π : X ⟶ S)
+noncomputable def baseCechComplexFunctor {X S : Scheme.{u}} (π : X ⟶ S)
     {ι : Type u} (U : ι → X.Opens) :
     X.Modules ⥤ CochainComplex (ModuleCat.{u} Γ(S, (⊤ : S.Opens))) ℕ :=
   baseModulePresheafFunctor π ⋙ cechComplexFunctor U
 
 @[simp]
-private theorem baseCechComplexFunctor_obj {X S : Scheme.{u}} (π : X ⟶ S)
+theorem baseCechComplexFunctor_obj {X S : Scheme.{u}} (π : X ⟶ S)
     {ι : Type u} (U : ι → X.Opens) (M : X.Modules) :
     (baseCechComplexFunctor π U).obj M = baseCechComplex π M U :=
   rfl
@@ -294,7 +294,7 @@ private instance moduleCatCechComplexFunctor_preservesZeroMorphisms
     rw [Pi.map_π, comp_zero]
     exact zero_comp.symm
 
-private instance baseCechComplexFunctor_preservesZeroMorphisms
+instance baseCechComplexFunctor_preservesZeroMorphisms
     {X S : Scheme.{u}} (π : X ⟶ S) {ι : Type u} (U : ι → X.Opens) :
     (baseCechComplexFunctor π U).PreservesZeroMorphisms := by
   dsimp only [baseCechComplexFunctor]

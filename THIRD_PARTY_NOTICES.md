@@ -67,12 +67,19 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSheaf.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCohomologyExact.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/FormalCoproductAdditive.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteHomologySequence.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/BaseChangeKerCoker.lean`
+    (`Module.Finite.of_exact_of_finite` only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechBasic.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCech.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechExact.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechFlat.lean`
     (two core declarations only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCech.lean`
     (the core before the flatness tail only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechFunctor.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechExact.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechLowDegreeFinite.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechComparison.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean`
@@ -107,6 +114,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
     (degree-one comparison only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechHomology.lean`
     (homology isomorphisms only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSupport.lean`
+    (closed-stalk support rank core only)
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
 - License evidence: the audited source commit has no root `LICENSE`. Selected
   files retain their per-file Apache-2.0 notices where present. Exact
