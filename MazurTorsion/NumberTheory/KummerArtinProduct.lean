@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.CyclotomicKummer
+import MazurTorsion.NumberTheory.CyclotomicPseudoUnitReciprocity
 
 /-!
 # Kummer coordinates for the finite-prime Artin product
@@ -326,6 +326,21 @@ def KummerPresentation.HasPDivisibleFiniteDivisor
         (nonZeroDivisors
           (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
         P.radicand)
+
+/-- The pseudo-unit divisor hypothesis already kills the principal ideal of
+the radicand itself under the canonical Kummer symbol.  One-sided
+reciprocity is the additional assertion for an arbitrary principal
+denominator. -/
+theorem KummerPresentation.fractionalKummerSymbol_principalRadicand_eq_one
+    (E : InverseExtension p L)
+    (hdiv : E.kummerPresentation.HasPDivisibleFiniteDivisor E) :
+    E.kummerPresentation.fractionalKummerSymbol E
+      (toPrincipalIdeal
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (PrimeCyclotomicField p)
+        (Units.mk0 E.kummerPresentation.radicand
+          (E.kummerPresentation.radicand_ne_zero E))) = 1 := by
+  exact E.rawKummerSymbol_principalRadicand_eq_one_of_dvd_counts hdiv
 
 /-- The local-primary condition used by one-sided Kummer reciprocity: the
 radicand is a `p`-th power in the cyclotomic-prime completion. -/
