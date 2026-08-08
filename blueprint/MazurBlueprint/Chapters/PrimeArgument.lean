@@ -124,11 +124,13 @@ finite order at most four. Residue translation, exact short normalization,
 and honest one-factor cusp-chart identities now compile. In the first
 coefficient-depth branch every local point has nonsingular reduction, so the
 prime-order consumer rules it out and forces `a₆ ∈ 𝔪²` on the same selected
-model. Canonical subgroup membership and marked multiples transport through
-the integral unit normalization. The remaining weighted valuation branches
-and affine group-law cases proving the marked-class bound remain open, as does
-genuine identity-component identification; no full component-cardinality
-claim is used here.
+model. The next tangent branch puts `2 • P` in that subgroup and forces
+`a₄ ∈ 𝔪²`; the following tangent--secant branch puts `3 • P` there and forces
+`a₆ ∈ 𝔪³`. Canonical subgroup membership and marked multiples transport
+through the integral unit normalization. The exceptional star-cubic
+repeated-root analysis and deeper weighted cases proving the marked-class
+bound remain open, as does genuine identity-component identification; no full
+component-cardinality claim is used here.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")

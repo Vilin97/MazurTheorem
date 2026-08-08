@@ -157,13 +157,16 @@ fibre `Y² = X³`. Honest one-factor total-transform quotients at the closed
 cusp now drive the complete first coefficient-depth case: nonzero exceptional
 `b₆` puts every local point in canonical nonsingular reduction, and the
 selected torsion consumers therefore force `a₆ ∈ 𝔪²` at both auxiliary
-primes. The canonical reduction predicate, subgroup, and marked multiples now
-transport through the integral unit normalization, with an order-one consumer
-carrying `12 • P` back to the original model. No strict-transform, chart-
-coverage, Kodaira-symbol, or component-cardinality claim is made. The remaining
-two-factor and weighted valuation branches, marked affine group-law case split,
-genuine Néron identity-component comparison, and marked-class bound remain
-open, so this node remains blocked.
+primes. In the next branch, nonzero exceptional `b₄` puts the marked double in
+canonical nonsingular reduction and forces `a₄ ∈ 𝔪²`. In the exact-depth-two
+`a₆` branch, the checked affine tangent--secant split puts the marked triple in
+the subgroup and forces `a₆ ∈ 𝔪³`. The canonical reduction predicate,
+subgroup, and marked multiples transport through the integral unit
+normalization, with an order-one consumer carrying `12 • P` back to the
+original model. No strict-transform, chart-coverage, Kodaira-symbol, or
+component-cardinality claim is made. The exceptional star-cubic repeated-root
+analysis, deeper weighted branches, genuine Néron identity-component
+comparison, and marked-class bound remain open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
