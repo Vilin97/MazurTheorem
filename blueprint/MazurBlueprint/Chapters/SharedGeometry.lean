@@ -889,8 +889,12 @@ sections on the terminal open. Its global-functions action is transported as
 an explicit opt-in module structure; actual H0 functor maps become linear and
 retain exactly their native underlying functions. For an affine tilde module
 the comparison is linear over the coefficient ring and transfers finite
-generation. Coherence, affine acyclicity, proper finite-dimensionality, H1,
-and higher vanishing remain open.
+generation. On an affine spectrum, an epimorphism of actual quasicoherent
+modules induces an epimorphism and elementwise surjection on global sections;
+the genuine Ext-based H0 comparison gives a surjective H0 map as a downstream
+consumer. Positive-degree affine acyclicity and the required quasicoherent
+closure lemmas remain open, as do proper finite-dimensionality, H1, and higher
+vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -926,6 +930,15 @@ and higher vanishing remain open.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZero_finite`
   Transfer finite generation from the affine coefficient module to its H0.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecGlobalSections_epi_of_epi`
+  Reflect affine quasicoherent epimorphisms to epimorphisms on global sections.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecGlobalSections_surjective_of_epi`
+  Turn the affine global-sections epimorphism into elementwise surjectivity.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHZero_surjective_of_epi`
+  Consume the genuine H0/global-sections square in affine H0 right exactness.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

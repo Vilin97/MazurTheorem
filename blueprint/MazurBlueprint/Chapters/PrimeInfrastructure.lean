@@ -944,6 +944,16 @@ subgroup.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage_hasConstantOrder`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitSubgroupCoordinatePointHom_injective`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum_ofRationalCyclicSubgroup`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalDatumOfSplitGammaZeroDatum_ofRationalDatum`
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion`
 
 The generated split rational subgroup and raw datum compile. Admissible
 Weierstrass changes transport both the curve and subgroup, and checked code
@@ -961,7 +971,12 @@ the existing carrier. More generally, every supplied split rational cyclic
 subgroup directly produces such a finite-flat datum: its intrinsic carrier is
 the constant source, its point homomorphism is exactly subgroup inclusion, and
 choice of a cyclic generator occurs only in the splitness isomorphism. Raw
-rational Γ₀ data is a checked downstream consumer with exact point range. A genuine Tau Ceti abelian variety plus a comparison of
+rational Γ₀ data is a checked downstream consumer with exact point range.
+Conversely, the rational-point image of a represented split finite-flat
+subgroup is cyclic of exact order `N`; the canonical construction round-trips
+both its carrier and the full raw datum, with exact order 49 as a downstream
+consumer. This does not construct `E/C` or the coarse classifying point. A
+genuine Tau Ceti abelian variety plus a comparison of
 its rational points with Mathlib's projective Weierstrass points now supplies
 that interface and feeds the same consumer. The homogeneous cubic now also
 defines an actual reduced closed subscheme of projective two-space, with

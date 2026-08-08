@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1504008,
-    "integrated_lean_modules": 818,
+    "integrated_lean_lines": 1504300,
+    "integrated_lean_modules": 819,
     "remaining_composite_orders": [
       18,
       25,
@@ -620,7 +620,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. The low-level quotient, point-transport, and norm API now sits below XOneEighteenDescent, so the immutable Challenge has no downstream FourScalar import cycle. A fixed genus-two Jacobian rank-zero certificate or an equivalent checked descent is still required; the Challenge remains open.",
+      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Mobius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. Projection from the rational norm-conic point now gives canonical coprime integral parameters p,q; noncuspidality excludes the tangent and forces p nonzero. Eliminating the square coordinate yields one explicit bihomogeneous (3,2) equation in r,s,p,q, with an exact-order-18 consumer. The low-level quotient, point-transport, norm, and conic-parametrization API sits below XOneEighteenDescent, so the immutable Challenge has no downstream FourScalar import cycle. Classification of the fixed bihomogeneous curve, equivalently a genus-two Jacobian rank-zero certificate or another complete descent, is still required; the Challenge remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -684,6 +684,34 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase",
           "description": "Transport every rational point of the original order-eighteen sextic to a nonexceptional anti-diagonal point, including ordinate scaling and the inverse abscissa identity."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.exists_primitive_parameter_of_int_quadraticNorm",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Parametrize every integral A^2+2B^2=C^2 solution away from the tangent by canonical coprime integral coordinates p,q and retain all three cleared identities."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametricBidegreeForm",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Define the fixed bihomogeneous (3,2) form obtained by eliminating the square coordinate from the parametrized norm conic."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_orderEighteen_noncuspidal_point",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Use noncuspidal cusp geometry to exclude the tangent and place every rational order-eighteen curve point on the primitive four-variable bihomogeneous system."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_exact_order_eighteen",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Consume an actual exact-order-18 elliptic point in the global primitive conic-parametrization and fixed bihomogeneous equation."
         }
       ],
       "depends_on": [

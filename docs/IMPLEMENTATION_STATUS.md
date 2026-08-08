@@ -215,7 +215,11 @@ Current machine-checked results include:
   elimination remains open;
 * the order-eighteen reduction from its simultaneous order-nine and
   two-division equations through a rational parameterization to the
-  explicit genus-two `X₁(18)` sextic, with every denominator retained;
+  explicit genus-two `X₁(18)` sextic, with every denominator retained. Its
+  anti-diagonal norm conic is globally parametrized by coprime integers
+  `p,q`; noncuspidality excludes the tangent, and every exact-order-18 point
+  reaches one fixed bihomogeneous `(3,2)` equation in four primitive
+  variables. Classifying that curve remains open;
 * an exact order-fourteen certificate, with checked formulas through `7P`,
   every recurrence denominator proved nonzero, and an explicit
   Tate-parameter equation for the genus-one `X₁(14)` boundary;

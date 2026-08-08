@@ -243,6 +243,16 @@ in the downstream aggregate (`ee6e5ad`). The immutable Challenge therefore
 has no transitive CubeCorrespondence import cycle, and all 37 public names are
 preserved.
 
+The anti-diagonal norm conic now has a global integral parametrization.
+Projection from its rational point produces canonical coprime integers `p,q`;
+the noncuspidal cusp equations exclude the tangent and force `p != 0`. The
+three cleared conic identities eliminate the square coordinate and place
+every original noncuspidal point, and then every exact-order-18 elliptic point,
+on one explicit bihomogeneous `(3,2)` equation in `r,s,p,q` (`52bd297`,
+`d7ff0c0`, reviewed from contributor `35608a6`). This is a genuine global
+four-variable leaf, but its rational-point classification or Jacobian
+rank-zero proof remains open, so no Challenge or node is closed.
+
 The current content boundary also constructs the geometric multiplicative
 Kummer boundary required by the finite-flat rank-zero lane. Laurent-coordinate
 `G_m` points are identified naturally with units; adjoining an `n`th root of a
@@ -300,7 +310,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 818 Lean modules and 1,504,008 Lean lines.
+exact quality baseline is 819 Lean modules and 1,504,300 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -366,6 +376,9 @@ X1(13) Pell-allocation target rebuilds 1,999 jobs, and all nine audited
 endpoints have that same axiom closure. The affine quasicoherent H0-exactness
 target rebuilds 2,765 jobs; its three audited declarations likewise use only
 the standard axioms.
+The X1(18) norm-parametrization target rebuilds all 2,381 jobs. Its nine public
+definitions and theorems, including the exact-order consumer and eliminated
+bihomogeneous equation, use only the same three standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -1655,8 +1668,12 @@ or accounting shortcut.
   identifies a Möbius-related genus-two sextic, packages its homogeneous
   equation as `A² + 2*B²` with primitive coefficient gcd one or eight, and
   transports every original rational point with the exact ordinate scaling
-  and inverse abscissa. The active route is the fixed curve's genuine Jacobian
-  rank-zero certificate or an equivalent complete descent. The Challenge
+  and inverse abscissa. The norm conic is now globally parametrized by
+  coprime `p,q`; cusp geometry excludes the tangent, and eliminating the
+  square coordinate gives one fixed bihomogeneous `(3,2)` equation in
+  `r,s,p,q` for every exact-order-18 point. The active route is the fixed
+  curve's genuine Jacobian rank-zero certificate or a complete classification
+  of this four-variable system. The Challenge
   remains open until that classification is proved. The low-level transport
   is now below its immutable destination module, with the downstream
   FourScalar consumers retained in the aggregate.

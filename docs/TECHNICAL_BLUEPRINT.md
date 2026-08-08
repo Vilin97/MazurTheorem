@@ -778,6 +778,27 @@ unit cases are not yet discharged. Consequently the
 four integral families and the immutable `XOneEighteenNoncusp` Challenge
 remain open; no rational-point classification is claimed.
 
+An independent global leaf now starts from the checked anti-diagonal norm
+factorization
+
+\[
+A(r,s)^2+2B(r,s)^2=c^2.
+\]
+
+Noncuspidality proves `B != 0` and excludes the tangent `c+A=0`. Projection
+from the rational conic point `(-1,0)` therefore gives canonical coprime
+integers `p,q` with `q>0` and `p != 0`, together with all three cleared
+parametrization identities. Eliminating `c` yields the fixed equation
+
+\[
+A(r,s)pq+2r(r^2-s^2)(q^2-2p^2)=0. \tag{X18-global}
+\]
+
+This bihomogeneous `(3,2)` equation is consumed first by every noncuspidal
+point of the sextic and then by an actual exact-order-eighteen elliptic point.
+It is not a local certificate and it does not classify the curve: the next
+step is a complete descent or rank-zero/Jacobian proof for (X18-global).
+
 This is the full elementary/local input to the classical `π=3+ω` descent,
 not its global Jacobian conclusion.  Completion may prove the displayed
 primitive obstruction directly, or may still use the order-three

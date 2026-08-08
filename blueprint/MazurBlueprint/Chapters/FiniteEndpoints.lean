@@ -73,6 +73,23 @@ and exact root/parameter symmetries reduce both signs to the single chamber
 `PositiveSplitCyclicCubicObstruction` has a real exact-order-thirteen consumer;
 that genuine Mazur--Tate Jacobian/rank-zero chamber, and therefore the
 Challenge, remains open.
+
+The positive chamber now also reaches the integral Pell-factor boundary:
+
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.positive_split_rational_curve_point`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.homogeneous_pell_identity`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.odd_prime_pell_factor_allocation`
+* `definition` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.PositivePellAllocatedFactorObstruction`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellAllocatedFactor`
+
+The two positive factors multiply to `4*b^38`, have no common odd prime, and
+allocate each odd prime divisor of `b` to exactly one factor. The global
+38th-power/divisor-class elimination remains open.
 :::
 
 :::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -100,6 +117,14 @@ challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
   `MazurTorsion.XOneEighteenDescent.exists_primitive_quadraticNormDatum_of_fourScalarCorrespondence`
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.exists_antiDiagonal_point_of_orderEighteen_point`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.exists_primitive_parameter_of_int_quadraticNorm`
+* `definition` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametricBidegreeForm`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_orderEighteen_noncuspidal_point`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_exact_order_eighteen`
 
 The proposed proof finishes the Eisenstein-integer descent already exposed by
 the module. The checked split-cubic calculation now compares all three
@@ -123,6 +148,11 @@ model includes the ordinate scaling, inverse abscissa, and exclusion of the
 exceptional value $`x=-1`. The fixed Jacobian rank-zero certificate or an
 equivalent complete descent remains open. The low-level quotient, point
 transport, and norm API now lies below `XOneEighteenDescent`; the immutable
+Challenge has no downstream FourScalar import cycle. Projection from the
+rational point of the norm conic now gives coprime integral parameters
+`p,q`; noncuspidality excludes its tangent, and eliminating the square
+coordinate forces one fixed bihomogeneous `(3,2)` equation in `r,s,p,q`.
+Classifying that curve remains open. The immutable
 destination therefore no longer imports the downstream FourScalar
 correspondence transitively.
 :::
@@ -303,6 +333,8 @@ target identification remains the open Challenge.
 
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap`
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion`
 :::
 
 :::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")
