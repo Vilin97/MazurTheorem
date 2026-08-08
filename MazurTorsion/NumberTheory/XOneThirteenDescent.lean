@@ -560,6 +560,15 @@ theorem sixthRootNorm_mul (z w : ℤ × ℤ) :
   simp only [sixthRootNorm, sixthRootMul]
   ring
 
+/-- The two coordinates of a cube in the sixth-root order.  These are
+exactly the three root factors and trace form occurring in the split
+cyclic cubic. -/
+theorem sixthRootCube_coordinates (a b : ℤ) :
+    sixthRootMul (sixthRootMul (a, b) (a, b)) (a, b) =
+      (a ^ 3 - 3 * a * b ^ 2 - b ^ 3,
+        3 * (a * b * (a + b))) := by
+  ext <;> simp only [sixthRootMul] <;> ring
+
 /-- Conjugation sends `ρ` to `1-ρ`. -/
 def sixthRootConj (z : ℤ × ℤ) : ℤ × ℤ :=
   (z.1 + z.2, -z.2)
@@ -652,6 +661,22 @@ theorem sixthRootPiConjDivides_iff (a b : ℤ) :
     · simp only [sixthRootMul]
       nlinarith
 
+private lemma sixthRootPiConjDivides_mul_right
+    (z w : ℤ × ℤ) (hz : SixthRootPiConjDivides z) :
+    SixthRootPiConjDivides (sixthRootMul z w) := by
+  obtain ⟨u, hu⟩ := hz
+  refine ⟨sixthRootMul u w, ?_⟩
+  calc
+    sixthRootMul (sixthRootConj sixthRootPi)
+        (sixthRootMul u w) =
+      sixthRootMul
+        (sixthRootMul (sixthRootConj sixthRootPi) u) w := by
+          rcases u with ⟨c, d⟩
+          rcases w with ⟨e, f⟩
+          ext <;> simp only [sixthRootMul, sixthRootConj,
+            sixthRootPi] <;> ring
+    _ = sixthRootMul z w := by rw [hu]
+
 /-- A factor of `π` forces a factor of `19` in the norm. -/
 theorem nineteen_dvd_sixthRootNorm_of_piDivides
     (z : ℤ × ℤ) (hz : SixthRootPiDivides z) :
@@ -742,6 +767,50 @@ private lemma parameter_both_branches_mod_nineteen :
           2 * (3 * (n ^ 2 - m ^ 2)) = 0 →
       m = 0 ∧ n = 0 := by
   decide
+
+private lemma parameter_conjugate_branch_mod_nineteen :
+    ∀ m n : ZMod 19,
+      3 * (m ^ 2 + 4 * m * n - n ^ 2) -
+          2 * (3 * (n ^ 2 - m ^ 2)) = 0 →
+      m = 0 ∧ n = 0 := by
+  decide
+
+/-- The primitive parameter norm is oriented away from `conj(π)`, not
+merely away from simultaneous divisibility by the two primes over `19`.
+The conjugate branch is an anisotropic binary quadratic form modulo `19`. -/
+theorem primitive_parameter_not_piConj_factor
+    (m n : ℤ) (hcoprime : IsCoprime m n) :
+    ¬SixthRootPiConjDivides (parameterNormCoordinates m n) := by
+  intro hpibar
+  have hpibarDvd :
+      (19 : ℤ) ∣
+        3 * (m ^ 2 + 4 * m * n - n ^ 2) -
+          2 * (3 * (n ^ 2 - m ^ 2)) := by
+    simpa [parameterNormCoordinates] using
+      (sixthRootPiConjDivides_iff
+        (m ^ 2 + 4 * m * n - n ^ 2)
+        (3 * (n ^ 2 - m ^ 2))).mp hpibar
+  have hpibarMod :
+      3 * ((m : ZMod 19) ^ 2 +
+            4 * (m : ZMod 19) * (n : ZMod 19) -
+            (n : ZMod 19) ^ 2) -
+          2 * (3 * ((n : ZMod 19) ^ 2 -
+            (m : ZMod 19) ^ 2)) = 0 := by
+    have hcast :=
+      (ZMod.intCast_zmod_eq_zero_iff_dvd
+        (3 * (m ^ 2 + 4 * m * n - n ^ 2) -
+          2 * (3 * (n ^ 2 - m ^ 2))) 19).2 hpibarDvd
+    simpa using hcast
+  obtain ⟨hmMod, hnMod⟩ :=
+    parameter_conjugate_branch_mod_nineteen
+      (m : ZMod 19) (n : ZMod 19) hpibarMod
+  have hm : (19 : ℤ) ∣ m :=
+    (ZMod.intCast_zmod_eq_zero_iff_dvd m 19).mp hmMod
+  have hn : (19 : ℤ) ∣ n :=
+    (ZMod.intCast_zmod_eq_zero_iff_dvd n 19).mp hnMod
+  have hunit : IsUnit (19 : ℤ) :=
+    hcoprime.isUnit_of_dvd' hm hn
+  norm_num [Int.isUnit_iff] at hunit
 
 /-- For primitive integer parameters, the discriminant norm coordinate
 cannot be divisible by both primes above `19`. -/
@@ -1044,6 +1113,39 @@ theorem root_split_coefficient_identities
   exact ⟨hfirst, by
     linear_combination -hfirst - 3 * hk
     ⟩
+
+/-- In any primitive split fiber, the root coordinate is oriented away
+from the conjugate prime above `19`.  Cubing preserves conjugate-prime
+divisibility, while the two coefficient identities identify that cube,
+up to the rational integer `k`, with the primitive parameter norm. -/
+theorem split_root_not_piConj_factor
+    (m n a b k : ℤ) (hmn : IsCoprime m n)
+    (hk : n ^ 2 - m ^ 2 = k * (a * b * (a + b)))
+    (htrace :
+      m ^ 2 + 4 * m * n - n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 - b ^ 3)) :
+    ¬SixthRootPiConjDivides (a, b) := by
+  intro hab
+  have hsquare :
+      SixthRootPiConjDivides (sixthRootMul (a, b) (a, b)) :=
+    sixthRootPiConjDivides_mul_right (a, b) (a, b) hab
+  have hcube : SixthRootPiConjDivides
+      (sixthRootMul (sixthRootMul (a, b) (a, b)) (a, b)) :=
+    sixthRootPiConjDivides_mul_right
+      (sixthRootMul (a, b) (a, b)) (a, b) hsquare
+  have hscaled : SixthRootPiConjDivides
+      (sixthRootMul
+        (sixthRootMul (sixthRootMul (a, b) (a, b)) (a, b))
+        (k, 0)) :=
+    sixthRootPiConjDivides_mul_right _ (k, 0) hcube
+  apply primitive_parameter_not_piConj_factor m n hmn
+  convert hscaled using 1
+  rw [sixthRootCube_coordinates]
+  ext
+  · simp only [parameterNormCoordinates, sixthRootMul]
+    linear_combination htrace
+  · simp only [parameterNormCoordinates, sixthRootMul]
+    linear_combination 3 * hk
 
 private lemma primitive_split_mod_two :
     ∀ m n a b k : ZMod 2,
@@ -1465,6 +1567,186 @@ def FiniteSplitCyclicCubicObstruction : Prop :=
       SixthRootPiConjDivides (parameterNormCoordinates m n)) →
     False
 
+/-- A one-sign, one-chamber form of the split-cubic boundary.  Both root
+coordinates are positive, the quotient is `4`, and the root coordinate is
+oriented away from the conjugate prime over `19`.  The diamond orbit has a
+unique positive rational abscissa, so no noncuspidal root is lost.  The final
+parameter split-prime condition from `FiniteSplitCyclicCubicObstruction` is
+omitted because it already follows from primitivity of `m,n`. -/
+def PositiveSplitCyclicCubicObstruction : Prop :=
+  ∀ m n a b : ℤ,
+    0 < n →
+    0 < a →
+    0 < b →
+    IsCoprime m n →
+    IsCoprime a b →
+    Odd m →
+    Odd n →
+    -n < m ∧ m < n →
+    n ^ 2 - m ^ 2 = 4 * (a * b * (a + b)) →
+    m ^ 2 + 4 * m * n - n ^ 2 =
+      4 * (a ^ 3 - 3 * a * b ^ 2 - b ^ 3) →
+    2 * m ^ 2 - 4 * m * n - 2 * n ^ 2 =
+      4 * (-a ^ 3 - 3 * a ^ 2 * b + b ^ 3) →
+    ¬SixthRootPiConjDivides (a, b) →
+    integerHomogeneousDiscriminant m n =
+      4 ^ 2 * (a ^ 2 + a * b + b ^ 2) ^ 3 →
+    False
+
+private lemma integerHomogeneousDiscriminant_neg_swap
+    (m n : ℤ) :
+    integerHomogeneousDiscriminant (-n) m =
+      integerHomogeneousDiscriminant m n := by
+  simp only [integerHomogeneousDiscriminant]
+  ring
+
+private lemma integerHomogeneousDiscriminant_swap_neg
+    (m n : ℤ) :
+    integerHomogeneousDiscriminant n (-m) =
+      integerHomogeneousDiscriminant m n := by
+  simp only [integerHomogeneousDiscriminant]
+  ring
+
+private lemma parameter_between_of_positive_split
+    (m n a b : ℤ) (hn : 0 < n) (ha : 0 < a) (hb : 0 < b)
+    (hk : n ^ 2 - m ^ 2 = 4 * (a * b * (a + b))) :
+    -n < m ∧ m < n := by
+  have hproduct : 0 < a * b * (a + b) :=
+    mul_pos (mul_pos ha hb) (add_pos ha hb)
+  constructor <;> nlinarith [sq_nonneg (m + n), sq_nonneg (m - n)]
+
+private lemma apply_positiveSplitCyclicCubicObstruction
+    (hpositive : PositiveSplitCyclicCubicObstruction)
+    (m n a b : ℤ) (hn : 0 < n) (hb : 0 < b)
+    (hmn : IsCoprime m n) (hab : IsCoprime a b)
+    (ha : a ≠ 0) (hasum : a + b ≠ 0)
+    (hmOdd : Odd m) (hnOdd : Odd n)
+    (hk : n ^ 2 - m ^ 2 = 4 * (a * b * (a + b)))
+    (htrace : m ^ 2 + 4 * m * n - n ^ 2 =
+      4 * (a ^ 3 - 3 * a * b ^ 2 - b ^ 3))
+    (hpair : 2 * m ^ 2 - 4 * m * n - 2 * n ^ 2 =
+      4 * (-a ^ 3 - 3 * a ^ 2 * b + b ^ 3))
+    (hnorm : integerHomogeneousDiscriminant m n =
+      4 ^ 2 * (a ^ 2 + a * b + b ^ 2) ^ 3) :
+    False := by
+  by_cases haPos : 0 < a
+  · exact hpositive m n a b hn haPos hb hmn hab hmOdd hnOdd
+      (parameter_between_of_positive_split m n a b hn haPos hb hk) hk
+      htrace hpair
+      (split_root_not_piConj_factor m n a b 4 hmn hk htrace) hnorm
+  · have haNeg : a < 0 :=
+      lt_of_le_of_ne (le_of_not_gt haPos) ha
+    by_cases hasumPos : 0 < a + b
+    · have hab' : IsCoprime (a + b) (-a) := by
+        have h := (hab.symm.add_mul_left_left (1 : ℤ)).neg_right
+        simpa [add_comm] using h
+      have hmNe : m ≠ 0 := by
+        intro hm
+        subst m
+        simp at hmOdd
+      by_cases hmPos : 0 < m
+      · apply hpositive (-n) m (a + b) (-a) hmPos hasumPos
+          (neg_pos.mpr haNeg) hmn.symm.neg_left hab' hnOdd.neg hmOdd
+          (parameter_between_of_positive_split (-n) m (a + b) (-a)
+            hmPos hasumPos (neg_pos.mpr haNeg) (by
+              linear_combination -hk))
+        · linear_combination -hk
+        · linear_combination -htrace
+        · linear_combination -hpair
+        · apply split_root_not_piConj_factor
+            (-n) m (a + b) (-a) 4 hmn.symm.neg_left
+          · linear_combination -hk
+          · linear_combination -htrace
+        · rw [integerHomogeneousDiscriminant_neg_swap]
+          calc
+            integerHomogeneousDiscriminant m n =
+                4 ^ 2 * (a ^ 2 + a * b + b ^ 2) ^ 3 := hnorm
+            _ = 4 ^ 2 *
+                ((a + b) ^ 2 + (a + b) * (-a) + (-a) ^ 2) ^ 3 := by
+              ring
+      · have hmNeg : m < 0 :=
+          lt_of_le_of_ne (le_of_not_gt hmPos) hmNe
+        apply hpositive n (-m) (a + b) (-a) (neg_pos.mpr hmNeg)
+          hasumPos (neg_pos.mpr haNeg) hmn.symm.neg_right hab' hnOdd
+          hmOdd.neg
+          (parameter_between_of_positive_split n (-m) (a + b) (-a)
+            (neg_pos.mpr hmNeg) hasumPos (neg_pos.mpr haNeg) (by
+              linear_combination -hk))
+        · linear_combination -hk
+        · linear_combination -htrace
+        · linear_combination -hpair
+        · apply split_root_not_piConj_factor
+            n (-m) (a + b) (-a) 4 hmn.symm.neg_right
+          · linear_combination -hk
+          · linear_combination -htrace
+        · rw [integerHomogeneousDiscriminant_swap_neg]
+          calc
+            integerHomogeneousDiscriminant m n =
+                4 ^ 2 * (a ^ 2 + a * b + b ^ 2) ^ 3 := hnorm
+            _ = 4 ^ 2 *
+                ((a + b) ^ 2 + (a + b) * (-a) + (-a) ^ 2) ^ 3 := by
+              ring
+    · have hasumNeg : a + b < 0 :=
+        lt_of_le_of_ne (le_of_not_gt hasumPos) hasum
+      have hab' : IsCoprime b (-(a + b)) := by
+        have h := (hab.symm.add_mul_left_right (1 : ℤ)).neg_right
+        simpa [add_comm] using h
+      apply hpositive m n b (-(a + b)) hn hb (neg_pos.mpr hasumNeg)
+        hmn hab' hmOdd hnOdd
+        (parameter_between_of_positive_split m n b (-(a + b)) hn hb
+          (neg_pos.mpr hasumNeg) (by linear_combination hk))
+      · linear_combination hk
+      · linear_combination htrace
+      · linear_combination hpair
+      · apply split_root_not_piConj_factor
+          m n b (-(a + b)) 4 hmn
+        · linear_combination hk
+        · linear_combination htrace
+      · calc
+          integerHomogeneousDiscriminant m n =
+              4 ^ 2 * (a ^ 2 + a * b + b ^ 2) ^ 3 := hnorm
+          _ = 4 ^ 2 *
+              (b ^ 2 + b * (-(a + b)) + (-(a + b)) ^ 2) ^ 3 := by
+            ring
+
+/-- It suffices to discharge the `k=4` split-cubic family.  For `k=-4`,
+oddness makes `m` nonzero, and one of `(-n,m)` or `(n,-m)` has positive
+second coordinate.  Both substitutions negate all three quadratic
+coefficients and preserve the quartic discriminant. -/
+theorem finiteSplitCyclicCubicObstruction_of_positiveSplit
+    (hpositive : PositiveSplitCyclicCubicObstruction) :
+    FiniteSplitCyclicCubicObstruction := by
+  intro m n a b k hn hb hmn hab ha hasum hmOdd hnOdd hk htrace
+    hpair hkCases hnorm _hsplit
+  rcases hkCases with hkNeg | hkPos
+  · subst k
+    have hmNe : m ≠ 0 := by
+      intro hm
+      subst m
+      simp at hmOdd
+    by_cases hmPos : 0 < m
+    · apply apply_positiveSplitCyclicCubicObstruction hpositive
+        (-n) m a b hmPos hb hmn.symm.neg_left hab ha hasum hnOdd.neg
+        hmOdd
+      · linear_combination -hk
+      · linear_combination -htrace
+      · linear_combination -hpair
+      · rw [integerHomogeneousDiscriminant_neg_swap]
+        simpa using hnorm
+    · have hmNeg : m < 0 :=
+        lt_of_le_of_ne (le_of_not_gt hmPos) hmNe
+      apply apply_positiveSplitCyclicCubicObstruction hpositive
+        n (-m) a b (neg_pos.mpr hmNeg) hb hmn.symm.neg_right hab ha
+        hasum hnOdd hmOdd.neg
+      · linear_combination -hk
+      · linear_combination -htrace
+      · linear_combination -hpair
+      · rw [integerHomogeneousDiscriminant_swap_neg]
+        simpa using hnorm
+  · subst k
+    exact apply_positiveSplitCyclicCubicObstruction hpositive m n a b hn
+      hb hmn hab ha hasum hmOdd hnOdd hk htrace hpair hnorm
+
 /-- The finite split-coefficient boundary implies the primitive
 rational-root obstruction. -/
 theorem primitiveCyclicCubicObstruction_of_finiteSplit
@@ -1520,6 +1802,16 @@ theorem rationalPoint_addOrderOf_ne_thirteen_of_finiteSplitCyclicCubicObstructio
     addOrderOf Q ≠ 13 :=
   rationalPoint_addOrderOf_ne_thirteen_of_primitiveCyclicCubicObstruction
     (primitiveCyclicCubicObstruction_of_finiteSplit hfinite) E Q
+
+/-- The normalized one-sign split obstruction is already a complete
+downstream input for excluding exact rational order thirteen. -/
+theorem rationalPoint_addOrderOf_ne_thirteen_of_positiveSplitCyclicCubicObstruction
+    (hpositive : PositiveSplitCyclicCubicObstruction)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : (E⁄ℚ).Point) :
+    addOrderOf Q ≠ 13 :=
+  rationalPoint_addOrderOf_ne_thirteen_of_finiteSplitCyclicCubicObstruction
+    (finiteSplitCyclicCubicObstruction_of_positiveSplit hpositive) E Q
 
 /-! ## A degree-`19` polynomial Pell certificate -/
 
