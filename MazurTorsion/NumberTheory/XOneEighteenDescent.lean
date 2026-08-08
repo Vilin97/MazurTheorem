@@ -511,6 +511,45 @@ theorem pi_parameter_coordinates (m n : ℤ) :
   · simp [eisensteinMul, eisensteinPi]
     ring
 
+/-- The cube of `a+bω` in integral Eisenstein coordinates. -/
+theorem eisenstein_cube_coordinates (a b : ℤ) :
+    eisensteinMul (eisensteinMul (a, b) (a, b)) (a, b) =
+      (a ^ 3 - 3 * a * b ^ 2 + b ^ 3,
+        3 * (a * b * (a - b))) := by
+  ext <;> simp only [eisensteinMul] <;> ring
+
+/-- Up to multiplication by `ω`, the two norm arguments multiply to the
+pair formed by the trace coefficient and three times the leading
+coefficient of the split cubic. -/
+theorem parameter_eisenstein_product (m n : ℤ) :
+    eisensteinMul (0, 1)
+        (eisensteinMul (m + n, 2 * n)
+          (eisensteinConj (3 * m + n, m - n))) =
+      (m ^ 2 - 6 * m * n - 3 * n ^ 2,
+        3 * (m ^ 2 - n ^ 2)) := by
+  ext <;> simp only [eisensteinMul, eisensteinConj] <;> ring
+
+/-- The two split-coefficient identities package as a scalar-times-cube
+factorization in integral Eisenstein coordinates.  This is the direct input
+for the remaining unique-factorization argument. -/
+theorem split_parameter_eisenstein_product_eq_scalar_cube
+    (m n a b k : ℤ)
+    (hk : m ^ 2 - n ^ 2 = k * (a * b * (a - b)))
+    (htrace :
+      m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+        k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3)) :
+    eisensteinMul (0, 1)
+        (eisensteinMul (m + n, 2 * n)
+          (eisensteinConj (3 * m + n, m - n))) =
+      eisensteinMul (k, 0)
+        (eisensteinMul (eisensteinMul (a, b) (a, b)) (a, b)) := by
+  rw [parameter_eisenstein_product, eisenstein_cube_coordinates]
+  ext
+  · simpa [eisensteinMul] using htrace
+  · simp only [eisensteinMul, sub_zero, zero_mul]
+    rw [hk]
+    ring
+
 /-- The second norm argument is divisible by `π` exactly when the
 denominator parameter is divisible by `7`. -/
 theorem piDivides_second_parameter_iff (m n : ℤ) :
@@ -1154,6 +1193,136 @@ theorem split_quotient_eq_neg_eight_or_neg_four_or_four_or_eight
     · left
       omega
 
+private lemma odd_parameter_product_zero_mod_thirtyTwo_of_eq_mod_four :
+    ∀ m n : ZMod 32,
+      (ZMod.cast m : ZMod 2) = 1 →
+      (ZMod.cast n : ZMod 2) = 1 →
+      (ZMod.cast m : ZMod 4) = ZMod.cast n →
+      (m ^ 2 + 3 * n ^ 2) *
+        (7 * m ^ 2 + 6 * m * n + 3 * n ^ 2) = 0 := by
+  decide
+
+private lemma primitive_norm_cube_mul_sixteen_mod_thirtyTwo :
+    ∀ a b : ZMod 32,
+      ((ZMod.cast a : ZMod 2) ≠ 0 ∨
+        (ZMod.cast b : ZMod 2) ≠ 0) →
+      16 * (a ^ 2 - a * b + b ^ 2) ^ 3 = 16 := by
+  decide
+
+private lemma odd_parameter_product_eq_sixteen_mod_thirtyTwo_of_ne_mod_four :
+    ∀ m n : ZMod 32,
+      (ZMod.cast m : ZMod 2) = 1 →
+      (ZMod.cast n : ZMod 2) = 1 →
+      (ZMod.cast m : ZMod 4) ≠ ZMod.cast n →
+      (m ^ 2 + 3 * n ^ 2) *
+        (7 * m ^ 2 + 6 * m * n + 3 * n ^ 2) = 16 := by
+  decide
+
+private theorem split_parameters_mod_four_of_quotient_case
+    (m n a b k : ℤ) (hab : IsCoprime a b)
+    (hm : Odd m) (hn : Odd n)
+    (hnorm :
+      firstParameterForm m n * piParameterForm m n =
+        k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3) :
+    ((k = -4 ∨ k = 4) → (m : ZMod 4) ≠ (n : ZMod 4)) ∧
+      ((k = -8 ∨ k = 8) → (m : ZMod 4) = (n : ZMod 4)) := by
+  have hm32 : (ZMod.cast (m : ZMod 32) : ZMod 2) = 1 := by
+    rw [ZMod.cast_intCast (R := ZMod 2) (by norm_num : 2 ∣ 32) m]
+    exact odd_intCast_mod_two_eq_one m hm
+  have hn32 : (ZMod.cast (n : ZMod 32) : ZMod 2) = 1 := by
+    rw [ZMod.cast_intCast (R := ZMod 2) (by norm_num : 2 ∣ 32) n]
+    exact odd_intCast_mod_two_eq_one n hn
+  have habMod : IsCoprime (a : ZMod 2) (b : ZMod 2) := hab.intCast
+  have hab32 :
+      (ZMod.cast (a : ZMod 32) : ZMod 2) ≠ 0 ∨
+        (ZMod.cast (b : ZMod 32) : ZMod 2) ≠ 0 := by
+    rw [ZMod.cast_intCast (R := ZMod 2) (by norm_num : 2 ∣ 32) a,
+      ZMod.cast_intCast (R := ZMod 2) (by norm_num : 2 ∣ 32) b]
+    exact habMod.ne_zero_or_ne_zero
+  constructor
+  · intro hkFour hmnFour
+    have hleft :
+        ((m : ZMod 32) ^ 2 + 3 * (n : ZMod 32) ^ 2) *
+          (7 * (m : ZMod 32) ^ 2 +
+            6 * (m : ZMod 32) * (n : ZMod 32) +
+            3 * (n : ZMod 32) ^ 2) = 0 :=
+      odd_parameter_product_zero_mod_thirtyTwo_of_eq_mod_four
+        (m : ZMod 32) (n : ZMod 32) hm32 hn32 (by
+          rw [ZMod.cast_intCast (R := ZMod 4) (by norm_num : 4 ∣ 32) m,
+            ZMod.cast_intCast (R := ZMod 4) (by norm_num : 4 ∣ 32) n]
+          exact hmnFour)
+    have hright :
+        16 * ((a : ZMod 32) ^ 2 - (a : ZMod 32) * (b : ZMod 32) +
+          (b : ZMod 32) ^ 2) ^ 3 = 16 :=
+      primitive_norm_cube_mul_sixteen_mod_thirtyTwo
+        (a : ZMod 32) (b : ZMod 32) hab32
+    rcases hkFour with rfl | rfl
+    · have hnorm32 := congrArg (fun z : ℤ ↦ (z : ZMod 32)) hnorm
+      simp only [firstParameterForm, piParameterForm, Int.cast_mul,
+        Int.cast_add, Int.cast_sub, Int.cast_pow, Int.cast_ofNat,
+        Int.cast_neg] at hnorm32
+      norm_num at hnorm32
+      rw [hleft, hright] at hnorm32
+      exact (by decide : (0 : ZMod 32) ≠ 16) hnorm32
+    · have hnorm32 := congrArg (fun z : ℤ ↦ (z : ZMod 32)) hnorm
+      simp only [firstParameterForm, piParameterForm, Int.cast_mul,
+        Int.cast_add, Int.cast_sub, Int.cast_pow, Int.cast_ofNat] at hnorm32
+      norm_num at hnorm32
+      rw [hleft, hright] at hnorm32
+      exact (by decide : (0 : ZMod 32) ≠ 16) hnorm32
+  · intro hkEight
+    by_contra hmnFour
+    have hleft :
+        ((m : ZMod 32) ^ 2 + 3 * (n : ZMod 32) ^ 2) *
+          (7 * (m : ZMod 32) ^ 2 +
+            6 * (m : ZMod 32) * (n : ZMod 32) +
+            3 * (n : ZMod 32) ^ 2) = 16 :=
+      odd_parameter_product_eq_sixteen_mod_thirtyTwo_of_ne_mod_four
+        (m : ZMod 32) (n : ZMod 32) hm32 hn32 (by
+          rw [ZMod.cast_intCast (R := ZMod 4) (by norm_num : 4 ∣ 32) m,
+            ZMod.cast_intCast (R := ZMod 4) (by norm_num : 4 ∣ 32) n]
+          exact hmnFour)
+    rcases hkEight with rfl | rfl
+    · have hnorm32 := congrArg (fun z : ℤ ↦ (z : ZMod 32)) hnorm
+      simp only [firstParameterForm, piParameterForm, Int.cast_mul,
+        Int.cast_add, Int.cast_sub, Int.cast_pow, Int.cast_ofNat,
+        Int.cast_neg] at hnorm32
+      norm_num at hnorm32
+      rw [hleft] at hnorm32
+      have h64 : (64 : ZMod 32) = 0 := by decide
+      rw [h64, zero_mul] at hnorm32
+      exact (by decide : (16 : ZMod 32) ≠ 0) hnorm32
+    · have hnorm32 := congrArg (fun z : ℤ ↦ (z : ZMod 32)) hnorm
+      simp only [firstParameterForm, piParameterForm, Int.cast_mul,
+        Int.cast_add, Int.cast_sub, Int.cast_pow, Int.cast_ofNat] at hnorm32
+      norm_num at hnorm32
+      rw [hleft] at hnorm32
+      have h64 : (64 : ZMod 32) = 0 := by decide
+      rw [h64, zero_mul] at hnorm32
+      exact (by decide : (16 : ZMod 32) ≠ 0) hnorm32
+
+/-- Modulo four, the primitive norm identity separates the four possible
+quotients into two pairs: the parameters agree for quotient `±8` and differ
+for quotient `±4`. -/
+theorem split_quotient_mod_four_cases
+    (m n a b k : ℤ) (hab : IsCoprime a b)
+    (hm : Odd m) (hn : Odd n)
+    (hnorm :
+      firstParameterForm m n * piParameterForm m n =
+        k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3)
+    (hk : k = -8 ∨ k = -4 ∨ k = 4 ∨ k = 8) :
+    (k = -8 ∧ (m : ZMod 4) = (n : ZMod 4)) ∨
+      (k = -4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 8 ∧ (m : ZMod 4) = (n : ZMod 4)) := by
+  obtain ⟨hfour, height⟩ :=
+    split_parameters_mod_four_of_quotient_case m n a b k hab hm hn hnorm
+  rcases hk with rfl | rfl | rfl | rfl
+  · exact Or.inl ⟨rfl, height (Or.inl rfl)⟩
+  · exact Or.inr (Or.inl ⟨rfl, hfour (Or.inl rfl)⟩)
+  · exact Or.inr (Or.inr (Or.inl ⟨rfl, hfour (Or.inr rfl)⟩))
+  · exact Or.inr (Or.inr (Or.inr ⟨rfl, height (Or.inr rfl)⟩))
+
 /-- The complete elementary descent package obtained here from a
 noncuspidal rational point.  Besides primitive quotient and root
 coordinates, it supplies the exact quotient of the cubic's leading
@@ -1277,6 +1446,56 @@ def FiniteSplitCyclicCubicObstruction : Prop :=
       (7 : ℤ) ∣ piParameterForm m n) →
     False
 
+/-- The refined finite boundary also exposes the scalar-times-cube
+Eisenstein product and the modulo-four distinction between quotient `±4`
+and quotient `±8`. -/
+def RefinedFiniteSplitCyclicCubicObstruction : Prop :=
+  ∀ m n a b k : ℤ,
+    0 < n →
+    0 < b →
+    IsCoprime m n →
+    IsCoprime a b →
+    a ≠ 0 →
+    a ≠ b →
+    Odd m →
+    Odd n →
+    m ^ 2 - n ^ 2 = k * (a * b * (a - b)) →
+    m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+      k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) →
+    -2 * m ^ 2 - 6 * m * n =
+      k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3) →
+    eisensteinMul (0, 1)
+        (eisensteinMul (m + n, 2 * n)
+          (eisensteinConj (3 * m + n, m - n))) =
+      eisensteinMul (k, 0)
+        (eisensteinMul (eisensteinMul (a, b) (a, b)) (a, b)) →
+    ((k = -8 ∧ (m : ZMod 4) = (n : ZMod 4)) ∨
+      (k = -4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 8 ∧ (m : ZMod 4) = (n : ZMod 4))) →
+    firstParameterForm m n * piParameterForm m n =
+      k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 →
+    ¬((7 : ℤ) ∣ firstParameterForm m n ∧
+      (7 : ℤ) ∣ piParameterForm m n) →
+    False
+
+/-- The refined finite boundary implies the original four-case boundary.
+Both extra certificates are derived from the old hypotheses, so existing
+consumers retain their public types. -/
+theorem finiteSplitCyclicCubicObstruction_of_refined
+    (hrefined : RefinedFiniteSplitCyclicCubicObstruction) :
+    FiniteSplitCyclicCubicObstruction := by
+  intro m n a b k hn hb hmn hab ha habne hmOdd hnOdd hk htrace hpair
+    hkCases hnorm hseven
+  have heisenstein :=
+    split_parameter_eisenstein_product_eq_scalar_cube
+      m n a b k hk htrace
+  have hmodFourCases :=
+    split_quotient_mod_four_cases
+      m n a b k hab hmOdd hnOdd hnorm hkCases
+  exact hrefined m n a b k hn hb hmn hab ha habne hmOdd hnOdd hk
+    htrace hpair heisenstein hmodFourCases hnorm hseven
+
 /-- The finite split-coefficient boundary implies the earlier primitive
 rational-root obstruction. -/
 theorem primitiveCyclicCubicObstruction_of_finiteSplit
@@ -1294,6 +1513,14 @@ theorem primitiveCyclicCubicObstruction_of_finiteSplit
       m n a b k hmn hab hk htrace hpair
   exact hfinite m n a b k hn hb hmn hab ha habne hmOdd hnOdd hk
     htrace hpair hkCases hnorm hseven
+
+/-- The refined finite split boundary implies the primitive rational-root
+obstruction through the compatibility-preserving four-case interface. -/
+theorem primitiveCyclicCubicObstruction_of_refinedFiniteSplit
+    (hrefined : RefinedFiniteSplitCyclicCubicObstruction) :
+    PrimitiveCyclicCubicObstruction :=
+  primitiveCyclicCubicObstruction_of_finiteSplit
+    (finiteSplitCyclicCubicObstruction_of_refined hrefined)
 
 /-- The primitive cyclic-cubic obstruction consumes the complete descent
 package and rules out a noncuspidal rational point on the `X₁(18)` model. -/
@@ -1335,5 +1562,16 @@ theorem rationalPoint_addOrderOf_ne_eighteen_of_finiteSplitCyclicCubicObstructio
     addOrderOf Q ≠ 18 :=
   rationalPoint_addOrderOf_ne_eighteen_of_primitiveCyclicCubicObstruction
     (primitiveCyclicCubicObstruction_of_finiteSplit hfinite) E Q
+
+/-- The scalar-cube and modulo-four refined finite boundary excludes exact
+rational order eighteen through the compatibility-preserving conversion. -/
+theorem
+    rationalPoint_addOrderOf_ne_eighteen_of_refinedFiniteSplitCyclicCubicObstruction
+    (hrefined : RefinedFiniteSplitCyclicCubicObstruction)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : E.toAffine.Point) :
+    addOrderOf Q ≠ 18 :=
+  rationalPoint_addOrderOf_ne_eighteen_of_finiteSplitCyclicCubicObstruction
+    (finiteSplitCyclicCubicObstruction_of_refined hrefined) E Q
 
 end MazurTorsion.XOneEighteenDescent
