@@ -138,9 +138,11 @@ marked root using the original chart uniformizer. A nonzero repeated root
 either sends the double into canonical reduction or gives `2P` the simple
 root `-2r`; hence `4P` enters the subgroup. The arithmetic consumer forces
 `r=0` and derives `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴` on the same model. The
-exact-depth-four and later weighted cases proving the marked-class bound
-remain open, as does genuine identity-component identification; no full
-component-cardinality or Kodaira claim is used here.
+next pointwise tangent--secant calculation puts `3 • P` in the subgroup when
+`a₆ ∉ 𝔪⁵`; the actual prime-order consumer therefore forces `a₆ ∈ 𝔪⁵` while
+retaining fourth depth on the same model. The later weighted case and final
+minimality contradiction remain open, as does genuine identity-component
+identification; no full component-cardinality or Kodaira claim is used here.
 :::
 
 :::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")

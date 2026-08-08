@@ -141,9 +141,17 @@ following remain on the theorem's critical path:
   derivative is `9r²`; the simple-root theorem applied to `2P` therefore puts
   `4P` and then `12P` in the subgroup. The arithmetic consumers force `r=0`
   and consequently `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` on the same model and
-  uniformizer, still without a Kodaira or component-incidence claim. The
-  exact-depth-four and later weighted branches and component incidence are
-  still required. The
+  uniformizer, still without a Kodaira or component-incidence claim. The next
+  pointwise calculation does not take fourth depth as an independent premise:
+  the point equation and `a₆ ∉ 𝔪⁵` force the ordinate to have exact depth two.
+  Its tangent keeps the double at the cusp, and the following secant either
+  has a pole and enters the formal kernel or has unit slope and reduces the
+  triple away from the cusp; the equal-abscissa cases are checked separately.
+  Thus `3P`, hence `12P`, lies in canonical nonsingular reduction, and the
+  actual five- and eleven-adic consumers force `a₆ ∈ 𝔪⁵` while retaining the
+  already checked fourth-depth conclusion on the identical model. The later
+  weighted `a₄` branch and the final minimality contradiction are still
+  required. The
   canonical reduction predicate, subgroup, and marked multiples now transport
   through the integral unit normalization, so each future normalized-case
   conclusion can be carried back to the original selected equation without a
@@ -198,13 +206,19 @@ A principal localized cusp maximal ideal with generator `q` surviving modulo
 its square now supplies the exact degree-one cotangent dimension. A concrete
 localized first-order identity with unit `q` coefficient constructs the
 detected vector and reaches formal immersion of the genuine `Spec.map`.
+Surjectivity of the ambient localized residue-field map now descends through
+the compatible special-fibre quotients and is transported across the
+localization/quotient equivalences, so the fibre residue map is no longer a
+second premise. Moreover, a nonzero simultaneous Hecke eigen-expansion in an
+actual completed-local power-series coordinate constructs the detected
+cotangent vector without an asserted linear coefficient.
 At both selected auxiliary primes, checked consumers identify that affine
 point with the same integral cusp specialization used by the collision and
 carry the resulting formal immersion through the marked
 component-exponent-twelve arithmetic endpoint. What remains is the represented
 modular affine presentation and sections, its cusp prime and parameter proofs,
-both residue surjections, the quotient collision, and the optimal-quotient
-q-expansion identity.
+the ambient residue surjection, the quotient collision, and the
+optimal-quotient Hecke/q-expansion identity.
 
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an
 identification of all of `A(ℚ)` with the cuspidal subgroup, or local

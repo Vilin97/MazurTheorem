@@ -760,9 +760,16 @@ The two norm arguments also satisfy the exact coordinate factorization
 
 These certificates live in the separately named
 `RefinedFiniteSplitCyclicCubicObstruction`; its conversion preserves the old
-four-case public API and reaches a new exact-order consumer. The four integral
-families are not yet eliminated, so the immutable `XOneEighteenNoncusp`
-Challenge remains open and no rational-point classification is claimed.
+four-case public API and reaches a new exact-order consumer. The coordinate
+identity is now also interpreted multiplicatively in the ring of integers of
+an arbitrary number field containing a primitive third root of unity, and in
+particular in the canonical third cyclotomic field. The resulting
+`EisensteinIntegerFiniteSplitCyclicCubicObstruction` retains every primitive,
+four-case, congruence, and exact factorization hypothesis and has a compiled
+exact-order-eighteen consumer. Unique-factorization support, the primes above
+two and seven, and the unit cases are not yet discharged. Consequently the
+four integral families and the immutable `XOneEighteenNoncusp` Challenge
+remain open; no rational-point classification is claimed.
 
 This is the full elementary/local input to the classical `π=3+ω` descent,
 not its global Jacobian conclusion.  Completion may prove the displayed
@@ -1890,6 +1897,19 @@ reach the marked component-exponent-twelve exclusions. What remains at this
 boundary is the actual integral cusp model, its modular sections and collision,
 and the q-expansion certificate, not generic local algebra.
 
+The remaining residue bookkeeping is narrower still. Surjectivity for an
+ambient local-ring map descends through compatible proper local quotients and
+then transports through the canonical affine-fibre localization equivalences.
+Thus an ambient residue surjection supplies the fibre residue surjection. A
+completed-local power-series coordinate and a nonzero simultaneous Hecke
+eigen-expansion now construct the detected cotangent vector directly: a
+vanishing pullback class would lie in the square of the cusp maximal ideal and
+have zero first coefficient, contradicting the checked Hecke recursion. The
+resulting genuine `Spec.map` theorem has real prime-five and order-35
+consumers. The represented modular chart, ambient residue calculation,
+sections/collision, and the actual optimal-quotient Hecke expansion remain
+geometric inputs; no completion credit is inferred.
+
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
 coefficient.  It must not import Kamienny's symmetric-power linear-
@@ -2009,9 +2029,16 @@ Its derivative is `9r²`, so the simple-root theorem applied to `2P` puts
 `4 • P`, hence `12 • P`, in the subgroup. The actual arithmetic consumers
 therefore force `r=0`, and the repeated-root equations give
 `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` without changing the model or uniformizer.
-The exact-depth-four and later weighted branches, together with genuine
-identity-component comparison, remain open; no Kodaira or
-component-incidence statement and no node credit is claimed.
+If `a₆ ∉ 𝔪⁵`, the same point equation makes the ordinate have exact depth two.
+The tangent leaves the double at the cusp, and the secant for the triple has
+either a pole (hence formal-kernel reduction) or a unit slope (hence
+nonsingular reduction away from the cusp); equal-abscissa and vertical cases
+are handled explicitly. Therefore `3 • P`, and then `12 • P`, belongs to the
+canonical subgroup. The selected five- and eleven-adic exact-order consumers
+force `a₆ ∈ 𝔪⁵` while retaining all earlier data on the same equation. The
+weighted `a₄` branch, final scaling/minimality contradiction, and genuine
+identity-component comparison remain open; no Kodaira or component-incidence
+statement and no node credit is claimed.
 
 The proof sequence is:
 

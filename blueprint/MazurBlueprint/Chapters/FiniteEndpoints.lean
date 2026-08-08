@@ -90,8 +90,10 @@ resultant-sixteen certificate to reduce the quotient to
 and an explicit Eisenstein-coordinate identity packages the two norm factors
 as a scalar times a cube. The compatibility-preserving
 `RefinedFiniteSplitCyclicCubicObstruction` has a real exact-order-eighteen
-consumer; the four integral families, and therefore the Challenge, remain
-open.
+consumer. The identity now lifts multiplicatively to the ring of integers of
+the third cyclotomic field, and the resulting finite Eisenstein-integer
+obstruction also has a real exact-order consumer. Its prime-support and unit
+analysis, the four integral families, and therefore the Challenge remain open.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")

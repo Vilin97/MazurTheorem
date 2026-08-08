@@ -50,6 +50,25 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The current content boundary adds three independently reviewed ranges without
+changing roadmap credit. First, the order-18 scalar-cube identity is realized
+in the ring of integers of a third cyclotomic field and reaches a real
+exact-order consumer; prime support and unit elimination remain open
+(`b64f55c`). Second, compatible local quotients and affine-fibre localization
+transport derive the fibre residue surjection from the ambient one, while a
+nonzero completed-local Hecke eigen-expansion supplies the detected cotangent
+vector. Genuine `Spec.map` consumers reach both the prime-five and order-35
+arithmetic endpoints (`64d82b6`). Third, the marked exceptional branch now
+forces `a₆ ∈ 𝔪⁵` at both selected primes: when fifth depth fails, an exact
+tangent--secant calculation puts `3P`, hence `12P`, in canonical nonsingular
+reduction. The selected endpoints retain the same change of variables,
+uniformizer, marked point, and fourth-depth proof (`c0ad6c9`, `64cf1d6`). The
+five Néron targets and all four affine-cusp targets rebuild serially; direct
+source elaboration, independent API review, and declaration audits use only
+`propext`, `Classical.choice`, and `Quot.sound`. The exact quality baseline at
+this boundary is 796 Lean modules and 1,490,698 Lean lines. No Challenge or
+public node status changes.
+
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
@@ -256,6 +275,15 @@ also reaches the exact-order theorem (`e2340e2`). The remaining X1(13) leaf is
 the genuine Mazur--Tate Jacobian/rank-zero step, and all four X1(18) families
 remain open. No node credit is claimed.
 
+The order-18 scalar-cube identity now lives multiplicatively in the ring of
+integers of an arbitrary number field containing a primitive third root of
+unity, with the canonical third cyclotomic field as a downstream
+specialization. The resulting finite Eisenstein-integer obstruction preserves
+the four scalar cases, primitive hypotheses, congruence separation, and exact
+factorization and reaches the exact-order theorem (`b64f55c`). The UFD
+prime-support calculation, primes above two and seven, and unit cases remain
+open; no Challenge or node credit changes.
+
 The repeated exceptional-root branch is now checked on the same normalized
 model and uniformizer (`f8fa442`). A repeated nonzero root `r` either sends the
 double directly into canonical nonsingular reduction or produces the simple
@@ -263,8 +291,13 @@ root `-2r` for `2P`, whose derivative is `9r²`; the reviewed simple-root
 theorem then puts `4P`, hence `12P`, in the subgroup. Actual prime-five and
 order-35 consumers force `r=0`, and the residue equations give
 `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴`. This remains pointwise chart algebra, not a
-Kodaira, regular-model, or component-cardinality theorem. The active local
-lane is the exact-depth-four `a₆` branch on this same data.
+Kodaira, regular-model, or component-cardinality theorem. The next checked
+branch derives rather than assumes fourth depth: if `a₆ ∉ 𝔪⁵`, the point
+equation gives exact ordinate depth two, and the tangent--secant split puts
+`3P` in canonical nonsingular reduction. Actual five- and eleven-adic
+consumers therefore force `a₆ ∈ 𝔪⁵` and retain both fourth and fifth depth on
+the same data (`c0ad6c9`, `64cf1d6`). The active local lane is the later
+weighted `a₄` branch and final minimality contradiction.
 
 The level-35 rank-zero model now reaches the abelian-variety side of the
 planned quotient seam. A generic theorem transports finiteness of affine
@@ -380,19 +413,24 @@ detected cotangent vector and proves formal immersion of the actual
 `Spec.map`. Independent review checked source/target variance, the separate
 fibre and ambient residue maps, unit cancellation, and the nonfield argument.
 The 2,797-job focused build and four-declaration axiom audit pass with only
-standard axioms (`e1fc301`). The represented modular chart, cusp prime,
-generator and non-square proofs, two residue surjections, and genuine
-optimal-quotient first-order identity remain open; no node credit is claimed.
+standard axioms (`e1fc301`). Compatible proper local quotients now transport
+ambient residue-field surjectivity to the affine special fibre, and a nonzero
+simultaneous Hecke eigen-expansion in the completed q-coordinate constructs
+the detected vector without an asserted linear coefficient. The resulting
+actual `Spec.map` theorem has prime-five and order-35 consumers (`64d82b6`).
+The represented modular chart, cusp prime, generator and non-square proofs,
+ambient residue surjection, and genuine optimal-quotient Hecke expansion
+remain open; no node credit is claimed.
 
 The selected affine arithmetic consumers now specialize that exact handoff to
 the five- and eleven-adic integer rings. They require the real integral
 modular and cusp sections, identify the affine prime with the same closed cusp
-point used by the collision, and retain both residue surjections and the full
-localized q-calculation as premises. The resulting formal immersion is the
+point used by the collision, and retain the ambient residue surjection and
+full localized Hecke/q-calculation as premises. The resulting formal immersion is the
 genuine contravariant `Spec.map`, and it reaches the uniform prime-order and
 order-35 marked component-exponent-twelve exclusions. Independent review
 accepted both map orientations and confirmed only standard axioms in the two
-endpoints; the 8,720-job focused owner build passes (`1b2947b`). Constructing
+endpoints; the current 8,746-job focused owner build passes (`64d82b6`). Constructing
 the represented modular chart, sections, cusp prime, residue maps, quotient
 collision, q-identity, and component statement remains open, so no node credit
 is claimed.
@@ -1288,14 +1326,16 @@ or accounting shortcut.
   proposition-wrapper bulk is allowed.
 - `codex/mt-tate-star-depth-four`: the repeated-root branch is reviewed and
   integrated through the same-model conclusion `r=0`, `x ∈ 𝔪²`,
-  `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴`. The active lane treats
-  `a₆ ∈ 𝔪⁴ \ 𝔪⁵` pointwise and must return a small marked multiple in
-  canonical nonsingular reduction, with real five- and eleven-adic consumers
-  and no Kodaira or component-graph assertion.
+  `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`, and now `a₆ ∈ 𝔪⁵`. The fifth-depth step has real
+  five- and eleven-adic consumers and no Kodaira or component-graph assertion.
+  The active lane is proving `a₄ ∈ 𝔪⁴`, then `a₆ ∈ 𝔪⁶`, and connecting those
+  exact weighted depths to the selected model's checked minimality.
 - `MT-X18-NONCUSP`: the primitive obstruction is reduced to the four signed
   quotients `-8,-4,4,8`, now separated modulo four and exposed as an explicit
-  scalar-cube product in Eisenstein coordinates. The next proof must lift that
-  identity into the Eisenstein UFD and eliminate the four integral families.
+  scalar-cube product in Eisenstein coordinates. The identity is now lifted
+  into the actual third-cyclotomic ring of integers; the next proof must carry
+  out its UFD prime-support and unit analysis and eliminate the four integral
+  families.
   Any further public reduction needs a compiled exact-order-eighteen consumer;
   the Challenge remains open until the obstruction itself is proved.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the

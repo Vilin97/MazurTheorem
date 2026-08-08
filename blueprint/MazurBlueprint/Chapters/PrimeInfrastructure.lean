@@ -182,9 +182,12 @@ canonical reduction or yields the simple root `-2r` for `2P`; this puts `4P`
 in the subgroup and forces `r=0`. The same equations give
 `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` on the unchanged model. No
 strict-transform, chart-coverage, Kodaira-symbol, or component-cardinality
-claim is made. The exact-depth-four and later weighted branches, genuine
-Néron identity-component comparison, and marked-class bound remain open, so
-this node remains blocked.
+claim is made. If `a₆ ∉ 𝔪⁵`, the equation forces ordinate depth two and a
+checked tangent--secant split puts `3P`, hence `12P`, in the subgroup. The
+selected five- and eleven-adic endpoints consequently retain the same data
+and force `a₆ ∈ 𝔪⁵`. The later weighted branch, final minimality contradiction,
+genuine Néron identity-component comparison, and marked-class bound remain
+open, so this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
@@ -1065,8 +1068,10 @@ A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
 equal quotient image. The integral cusp model, its quotient-ideal/stalk
 identification, modular affine presentation, non-generic section, generator
-and non-square proofs, both residue surjections, and the actual modular
-q-expansion remain open, so this node receives no completion credit.
+and non-square proofs, the ambient residue surjection, and the actual modular
+q-expansion remain open. Compatible special-fibre quotients now derive the
+fibre residue surjection from the ambient one, so this node receives no
+completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
