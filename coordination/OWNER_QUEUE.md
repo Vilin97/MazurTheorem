@@ -52,7 +52,16 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The current content boundary closes the pointwise local arithmetic branch at
+The current content boundary also constructs the geometric multiplicative
+Kummer boundary required by the finite-flat rank-zero lane. Laurent-coordinate
+`G_m` points are identified naturally with units; adjoining an `n`th root of a
+unit supplies an actual finite-free faithfully-flat singleton cover and local
+lift through the power map; the checked Cech connecting class then factors
+through `Rˣ/(Rˣ)^n`. The quotient comparison is consumed by the geometric
+boundary of every global `G_m` point (`ab2f729`). This uses no asserted
+surjectivity or abstract Kummer comparison and claims no roadmap-node credit.
+
+The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
 the exact `a₄`-depth case, forces `a₄ ∈ 𝔪⁴`, and derives `a₆ ∈ 𝔪⁶`; a further
 weighted scaling contradicts minimality (`9a8d959`). The stable public
@@ -78,7 +87,7 @@ support and reaches a narrower exact-order consumer (`a8d104b`). The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 799 Lean modules and 1,493,301 Lean lines.
+exact quality baseline is 800 Lean modules and 1,493,750 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -91,6 +100,10 @@ The X₀ section and generic finite-flat `Γ₀(N)` consumer rebuild 3,159
 jobs after two stale cached payloads were quarantined and regenerated; their
 hashes then match the isolated review build. All audited declarations retain
 the standard axiom closure.
+The geometric Kummer module and its affine/global-section foundations rebuild
+in focused single-thread targets; direct declaration audits of the root cover,
+local lift, connecting homomorphism, quotient boundary, and downstream
+comparison report only `propext`, `Classical.choice`, and `Quot.sound`.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -98,8 +111,9 @@ target builds 8,788 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The next
 workers are pursuing A3 chosen-line-bundle pullback naturality and the genuine
-X₀ scheme group law/Picard comparison, while the X₁(18) lane allocates
-the remaining primes above two and unit cases.
+X₀ scheme group law/Picard comparison. The X₁(18) lane has kernel-checked the
+unit cases down to two explicit pure-integer cubic systems and is eliminating
+those final arithmetic cases.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
