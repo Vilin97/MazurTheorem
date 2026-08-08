@@ -383,6 +383,19 @@ private theorem injectiveCokernelSequence_shortExact
   exact ShortComplex.ShortExact.mk
     (ShortComplex.exact_cokernel (Injective.ι F))
 
+/-- The exact affine section-surjectivity data needed for a finite number of
+injective-cokernel dimension shifts. -/
+inductive AffineSyzygyAppSurjective {R : CommRingCat.{u}} :
+    AbSheaf (Spec R) → ℕ → Prop
+  | zero (F) : AffineSyzygyAppSurjective F 0
+  | succ {F : AbSheaf (Spec R)} {n : ℕ}
+      (head : ∀ (W : (Spec R).Opens), IsAffineOpen W →
+        Function.Surjective
+          ((cokernel.π (Injective.ι F)).hom.app (op W)))
+      (tail : AffineSyzygyAppSurjective
+        (cokernel (Injective.ι F)) n) :
+      AffineSyzygyAppSurjective F (n + 1)
+
 private noncomputable abbrev openInjectiveCokernelSequence
     {X : Scheme.{u}} (U : X.Opens)
     (F : AbSheaf X) :
@@ -702,37 +715,31 @@ private theorem exists_affineOpen_HTwo_killing_of_affine_cokernel_app_surjective
     openRestrictionPushforwardUnit_HSucc_eq_zero_of_cokernel_killed
       c q hq U hqU⟩
 
-private theorem exists_affineOpen_HThree_killing_of_affine_cokernel_app_surjective
-    {R : CommRingCat.{u}} (M : (Spec R).Modules) (c : H M 3)
-    (hfirst : ∀ (W : (Spec R).Opens), IsAffineOpen W →
-      Function.Surjective
-        ((cokernel.π (Injective.ι
-          ((SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M))).hom.app
-            (op W)))
-    (hsecond : ∀ (W : (Spec R).Opens), IsAffineOpen W →
-      Function.Surjective
-        ((cokernel.π (Injective.ι (cokernel (Injective.ι
-          ((SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M))))).hom.app
-            (op W)))
+private theorem exists_affineOpen_H_succ_killing_of_affine_syzygy_app_surjective
+    {R : CommRingCat.{u}} {F : AbSheaf (Spec R)} (n : ℕ)
+    (c : ExtH F (n + 1))
+    (hsurjective : AffineSyzygyAppSurjective F n)
     (x : Spec R) :
     ∃ U : (Spec R).Opens, IsAffineOpen U ∧ x ∈ U ∧
-      (zariskiFunctor (Spec R) 3).map
-        ((Scheme.Modules.restrictAdjunction U.ι).unit.app M) c = 0 := by
-  let F := (SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M
-  let C := cokernel (Injective.ι F)
-  obtain ⟨q, hq⟩ := exists_injectiveCokernel_class (F := F) c
-  obtain ⟨r, hr⟩ := exists_injectiveCokernel_class (F := C) q
-  obtain ⟨U, hU, hxU, hqU⟩ :=
-    exists_affineOpen_HTwo_killing_of_affine_cokernel_app_surjective
-      q r hr hsecond x
-  letI : IsIso (cokernelComparison (Injective.ι F)
-      (openRestrictionPushforward U)) :=
-    openRestrictionPushforward_cokernelComparison_isIso_of_affine_app_surjective
-      U hU (Injective.ι F) hfirst
-  refine ⟨U, hU, hxU, ?_⟩
-  exact zariskiFunctor_map_restrictAdjunction_unit_eq_zero U M c
-    (openRestrictionPushforwardUnit_HSucc_eq_zero_of_cokernel_killed
-      c q hq U hqU)
+      (c.comp (Abelian.Ext.mk₀
+        ((openRestrictionPushforwardUnit U).app F)) rfl :
+          ExtH ((openRestrictionPushforward U).obj F) (n + 1)) = 0 := by
+  induction n generalizing F with
+  | zero =>
+      obtain ⟨q, hq⟩ := exists_injectiveCokernel_class (F := F) c
+      exact exists_affineOpen_HOne_killing c q hq x
+  | succ n ih =>
+      cases hsurjective with
+      | succ hfirst htail =>
+          obtain ⟨q, hq⟩ := exists_injectiveCokernel_class (F := F) c
+          obtain ⟨U, hU, hxU, hqU⟩ := ih q htail
+          letI : IsIso (cokernelComparison (Injective.ι F)
+              (openRestrictionPushforward U)) :=
+            openRestrictionPushforward_cokernelComparison_isIso_of_affine_app_surjective
+              U hU (Injective.ι F) hfirst
+          exact ⟨U, hU, hxU,
+            openRestrictionPushforwardUnit_HSucc_eq_zero_of_cokernel_killed
+              c q hq U hqU⟩
 
 private theorem zariskiFunctor_map_toAffineCoverModule_eq_zero
     {R : CommRingCat.{u}} {I : Type u} [Finite I]
@@ -758,6 +765,44 @@ private theorem zariskiFunctor_map_toAffineCoverModule_eq_zero
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp,
     limit.lift_π, Fan.mk_π_app, hc i]
   simp
+
+/-- A positive-degree class is killed on a finite affine cover from the
+section-surjectivity data for the preceding injective syzygies. -/
+theorem schemeHSucc_finiteAffineKillingCover_of_affine_syzygy_app_surjective
+    {R : CommRingCat.{u}} (M : (Spec R).Modules) (n : ℕ)
+    (c : H M (n + 1))
+    (hsurjective : AffineSyzygyAppSurjective
+      ((SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M) n) :
+    ∃ (I : Type u) (U : I → (Spec R).Opens),
+      Finite I ∧
+      IsOpenCover U ∧
+      (∀ i, IsAffine (U i)) ∧
+      (∀ i, (zariskiFunctor (Spec R) (n + 1)).map
+        ((Scheme.Modules.restrictAdjunction (U i).ι).unit.app M) c = 0) ∧
+      (zariskiFunctor (Spec R) (n + 1)).map
+        (toAffineCoverModule M U) c = 0 := by
+  let F := (SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M
+  choose U hUaffine hxU hUkills using fun x : Spec R ↦
+    exists_affineOpen_H_succ_killing_of_affine_syzygy_app_surjective
+      n c hsurjective x
+  have hUcover : IsOpenCover U := by
+    apply IsOpenCover.mk
+    apply le_antisymm le_top
+    rw [← SetLike.coe_subset_coe]
+    intro x hx
+    rw [Opens.coe_iSup]
+    exact Set.mem_iUnion.2 ⟨x, hxU x⟩
+  obtain ⟨s, hs⟩ := hUcover.exists_finite_of_compactSpace
+  let V : s → (Spec R).Opens := fun i ↦ U i.1
+  have hVkills (i : s) :
+      (zariskiFunctor (Spec R) (n + 1)).map
+        ((Scheme.Modules.restrictAdjunction (V i).ι).unit.app M) c = 0 := by
+    exact zariskiFunctor_map_restrictAdjunction_unit_eq_zero
+      (V i) M c (hUkills i.1)
+  letI : Finite s := inferInstance
+  refine ⟨s, V, inferInstance, hs, fun i ↦ hUaffine i.1,
+    hVkills, ?_⟩
+  exact zariskiFunctor_map_toAffineCoverModule_eq_zero M V c hVkills
 
 /-- Every degree-one Zariski cohomology class on an affine spectrum is
 killed by restriction to the members of a finite affine open cover.  The
@@ -857,25 +902,10 @@ theorem schemeHThree_finiteAffineKillingCover_of_affine_cokernel_app_surjective
       (∀ i, (zariskiFunctor (Spec R) 3).map
         ((Scheme.Modules.restrictAdjunction (U i).ι).unit.app M) c = 0) ∧
       (zariskiFunctor (Spec R) 3).map (toAffineCoverModule M U) c = 0 := by
-  choose U hUaffine hxU hUkills using fun x : Spec R ↦
-    exists_affineOpen_HThree_killing_of_affine_cokernel_app_surjective
-      M c hfirst hsecond x
-  have hUcover : IsOpenCover U := by
-    apply IsOpenCover.mk
-    apply le_antisymm le_top
-    rw [← SetLike.coe_subset_coe]
-    intro x hx
-    rw [Opens.coe_iSup]
-    exact Set.mem_iUnion.2 ⟨x, hxU x⟩
-  obtain ⟨s, hs⟩ := hUcover.exists_finite_of_compactSpace
-  let V : s → (Spec R).Opens := fun i ↦ U i.1
-  have hVkills (i : s) :
-      (zariskiFunctor (Spec R) 3).map
-        ((Scheme.Modules.restrictAdjunction (V i).ι).unit.app M) c = 0 := by
-    exact hUkills i.1
-  letI : Finite s := inferInstance
-  refine ⟨s, V, inferInstance, hs, fun i ↦ hUaffine i.1,
-    hVkills, ?_⟩
-  exact zariskiFunctor_map_toAffineCoverModule_eq_zero M V c hVkills
+  apply schemeHSucc_finiteAffineKillingCover_of_affine_syzygy_app_surjective
+    M 2 c
+  exact AffineSyzygyAppSurjective.succ hfirst
+    (AffineSyzygyAppSurjective.succ hsecond
+      (AffineSyzygyAppSurjective.zero _))
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling
