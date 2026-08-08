@@ -12,9 +12,10 @@ import MazurTorsion.Upstream.CurveLineBundleDescent
 
 This file constructs the canonical compatible-family object attached to module descent data on
 one scheme open cover.  The construction is an equalizer of the two overlap-restriction maps.
-Its restriction to every member of the cover is identified with the specified local module.  To
-obtain effective descent, the resulting pointwise isomorphisms must additionally be shown to
-commute with the descent maps after arbitrary base change.
+Its restriction to every member of the cover is identified with the specified local module, and
+the resulting isomorphisms are proved to commute with the descent maps after arbitrary base
+change.  This packages the equalizer as an `EffectiveModule` for every descent datum on an
+`OpenCover.{0}`.
 -/
 
 noncomputable section
@@ -1825,9 +1826,9 @@ theorem compatibleFamilyRestrictionHom_comp_inverse
 
 /-- The compatible-family equalizer restricts to the prescribed module on each chart.
 
-This is the pointwise restriction-isomorphism boundary of the construction.  An isomorphism of
-the full descent data additionally requires compatibility with `DescentData.hom` after arbitrary
-base change; that coherence is not part of this definition. -/
+This is the pointwise restriction isomorphism used below to construct the full descent-data
+isomorphism.  Its compatibility with `DescentData.hom` after arbitrary base change is supplied by
+`compatibleFamilyDescentIso`. -/
 noncomputable def compatibleFamilyRestrictionIso
     {X : Scheme.{u}} {cov : X.OpenCover.{0}}
     (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
@@ -2317,5 +2318,92 @@ private theorem compatibleFamilyRestrictionHom_comm_overlap
     _ = (A ≫ s) ≫ Q₂.map rj :=
       congrArg (fun z ↦ z ≫ Q₂.map rj) hsource.symm
     _ = A ≫ (s ≫ Q₂.map rj) := Category.assoc A s (Q₂.map rj)
+
+private theorem compatibleFamilyRestrictionHom_comm_chosenOverlap
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
+    let P := overlap cov i j
+    (modulesPseudofunctor.map P.p₁.op.toLoc).toFunctor.map
+          (compatibleFamilyRestrictionHom D i) ≫
+        D.hom P.p P.p₁ P.p₂ P.hp₁ P.hp₂ =
+      ((modulesPseudofunctor.toDescentData cov.f).obj
+          (compatibleFamilyModule D)).hom P.p P.p₁ P.p₂ P.hp₁ P.hp₂ ≫
+        (modulesPseudofunctor.map P.p₂.op.toLoc).toFunctor.map
+          (compatibleFamilyRestrictionHom D j) := by
+  let P := overlap cov i j
+  change (Scheme.Modules.pullback P.p₁).map
+        (compatibleFamilyRestrictionHom D i) ≫
+      D.hom P.p P.p₁ P.p₂ P.hp₁ P.hp₂ =
+    ((modulesPseudofunctor.toDescentData cov.f).obj
+        (compatibleFamilyModule D)).hom P.p P.p₁ P.p₂ P.hp₁ P.hp₂ ≫
+      (Scheme.Modules.pullback P.p₂).map
+        (compatibleFamilyRestrictionHom D j)
+  cases P.hp₁
+  exact compatibleFamilyRestrictionHom_comm_overlap D i j
+
+private noncomputable def compatibleFamilyDescentDataPrimeIso
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) :
+    Pseudofunctor.DescentData'.ofDescentData
+          (overlap cov) (tripleOverlap cov)
+          ((modulesPseudofunctor.toDescentData cov.f).obj
+            (compatibleFamilyModule D)) ≅
+      Pseudofunctor.DescentData'.ofDescentData
+        (overlap cov) (tripleOverlap cov) D :=
+  Pseudofunctor.DescentData'.isoMk
+    (compatibleFamilyRestrictionIso D)
+    (compatibleFamilyRestrictionHom_comm_chosenOverlap D)
+
+/-- The equalizer of a compatible family induces the original full descent datum.
+
+The commutativity field of this isomorphism is the full `DescentData.Hom.comm`: it holds after
+pullback along every common base change, not only on the chosen pairwise overlaps.  The current
+construction retains the honest `OpenCover.{0}` restriction needed by the product-preservation
+argument used to build `compatibleFamilyModule`. -/
+noncomputable def compatibleFamilyDescentIso
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) :
+    (modulesPseudofunctor.toDescentData cov.f).obj
+        (compatibleFamilyModule D) ≅ D := by
+  let prime := compatibleFamilyDescentDataPrimeIso D
+  exact Pseudofunctor.DescentData.isoMk
+    (compatibleFamilyRestrictionIso D)
+    (fun {Y} q {i₁ i₂} f₁ f₂ hf₁ hf₂ ↦ by
+      have h := Pseudofunctor.DescentData'.comm
+        prime.hom q f₁ f₂ hf₁ hf₂
+      have hprime (k : cov.I₀) : prime.hom.hom k =
+          (compatibleFamilyRestrictionIso D k).hom := by
+        rfl
+      rw [hprime i₁, hprime i₂] at h
+      rw [Pseudofunctor.DescentData'.pullHom'_ofDescentData_hom,
+        Pseudofunctor.DescentData'.pullHom'_ofDescentData_hom] at h
+      change (modulesPseudofunctor.map f₁.op.toLoc).toFunctor.map
+            (compatibleFamilyRestrictionIso D i₁).hom ≫
+          D.hom q f₁ f₂ hf₁ hf₂ =
+        ((modulesPseudofunctor.toDescentData cov.f).obj
+            (compatibleFamilyModule D)).hom q f₁ f₂ hf₁ hf₂ ≫
+          (modulesPseudofunctor.map f₂.op.toLoc).toFunctor.map
+            (compatibleFamilyRestrictionIso D i₂).hom at h
+      exact h)
+
+@[simp]
+theorem compatibleFamilyDescentIso_hom_hom
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) (i : cov.I₀) :
+    (compatibleFamilyDescentIso D).hom.hom i =
+      compatibleFamilyRestrictionHom D i := by
+  rfl
+
+/-- The compatible-family equalizer is an object-specific effective module for the original
+descent datum. -/
+theorem compatibleFamilyEffectiveModule
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (D : modulesPseudofunctor.DescentData cov.f) : EffectiveModule cov D :=
+  ⟨compatibleFamilyModule D, ⟨compatibleFamilyDescentIso D⟩⟩
+
+/-- Module descent data on a universe-zero-indexed scheme open cover are effective. -/
+theorem moduleEffectiveDescentForOpenCover
+    {X : Scheme.{u}} (cov : X.OpenCover.{0}) : ModuleEffectiveDescentFor cov :=
+  fun D ↦ compatibleFamilyEffectiveModule D
 
 end MazurTorsion.AlgebraicGeometry.LineBundleDescent
