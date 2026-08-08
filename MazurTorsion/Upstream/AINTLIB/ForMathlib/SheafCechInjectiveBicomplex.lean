@@ -6,14 +6,13 @@ Authors: Chris Birkbeck
 import Mathlib.Algebra.Homology.HomologicalBicomplex
 import Mathlib.CategoryTheory.Abelian.Injective.Resolution
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechFlasqueHOne
-import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechZero
 
 /-!
 # The Cech bicomplex of an injective resolution
 
 Apply mathlib's native Cech complex degreewise to an injective resolution. The resulting
-bicomplex has exact augmented rows in degree zero and exact rows in degree one. These are
-the horizontal inputs for the degree-one total-complex comparison.
+bicomplex has exact rows in degree one. This is the horizontal input for the degree-one
+total-complex comparison.
 -/
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace
@@ -91,19 +90,6 @@ theorem cechInjectiveResolutionBicomplex_d_f
       ((cechComplexFunctor U).map
         ((injectiveResolution (toSiteSheaf F)).cocomplex.d q q').hom).f p :=
   rfl
-
-/-- The augmented degree-zero row of the injective-resolution Cech bicomplex. -/
-noncomputable def cechInjectiveResolutionRowZeroShortComplex
-    (F : Sheaf AddCommGrpCat.{u} X) (q : ℕ) :
-    ShortComplex AddCommGrpCat.{u} :=
-  cechZeroShortComplex
-    ((injectiveResolution (toSiteSheaf F)).cocomplex.X q) U
-
-/-- Every augmented row is exact at Cech degree zero by the sheaf condition. -/
-theorem cechInjectiveResolutionBicomplex_row_zero_exact
-    (F : Sheaf AddCommGrpCat.{u} X) (q : ℕ) :
-    (cechInjectiveResolutionRowZeroShortComplex (U := U) F q).Exact :=
-  cechZeroShortComplex_exact _ _
 
 /-- Every row of the injective-resolution Cech bicomplex is exact in degree one for
 an actual open cover. -/

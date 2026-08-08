@@ -3,7 +3,7 @@ Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Chris Birkbeck
 -/
-import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCohomologyFiniteProducts
+import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechSheafResolution
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafDerivedGlobalSections
 
 /-!
