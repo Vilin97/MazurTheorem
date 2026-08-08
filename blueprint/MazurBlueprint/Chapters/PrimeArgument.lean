@@ -183,8 +183,10 @@ and Mathlib's exhaustive reduction trichotomy give good reduction. The same
 rational point is transported through the selected minimal variable change
 with unchanged exact order and then reduced into the exhaustively enumerated
 `𝔽₅` group. The resulting local contradiction is consumed by both the
-formal-immersion endpoint and the affine Hecke/q-expansion retraction endpoint.
-Represented modular/cusp data remain in their upstream nodes.
+formal-immersion endpoint and the affine Hecke/q-expansion endpoint. The latter
+packages an actual affine structural section through the selected fibre point
+and derives its coordinate-ring retraction contravariantly. Represented
+modular/cusp data remain in their upstream nodes.
 :::
 
 :::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")

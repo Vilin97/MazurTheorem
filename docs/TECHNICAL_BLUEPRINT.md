@@ -1909,9 +1909,11 @@ eigen-expansion now construct the detected cotangent vector directly: a
 vanishing pullback class would lie in the square of the cusp maximal ideal and
 have zero first coefficient, contradicting the checked Hecke recursion. The
 resulting genuine `Spec.map` theorem has real prime-five and order-35
-consumers. The represented modular chart, ambient residue calculation,
-sections/collision, and the actual optimal-quotient Hecke expansion remain
-geometric inputs; no completion credit is inferred.
+consumers. A checked affine-section structure now binds the section law to the
+selected fibre point and derives the ambient algebra retraction and residue
+surjection. The represented modular chart, an inhabitant of that section
+structure, the collision, and the actual optimal-quotient Hecke expansion
+remain geometric inputs; no completion credit is inferred.
 
 The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
 that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier

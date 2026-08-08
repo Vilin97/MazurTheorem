@@ -1024,6 +1024,14 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspQExpansionAtFive_of_componentExponentTwelve`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspQExpansionAtEleven_of_componentExponentTwelve`
+* `structure` (`contract`):
+  `Ideal.Fiber.AffineSectionAtFiberPoint`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_section`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_section`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -1066,12 +1074,13 @@ retracts it and proves the source residue field is the base field, and the
 over-base quotient equation proves the image residue field is also the base.
 A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
-equal quotient image. The integral cusp model, its quotient-ideal/stalk
-identification, modular affine presentation, non-generic section, generator
-and non-square proofs, the ambient residue surjection, and the actual modular
-q-expansion remain open. Compatible special-fibre quotients now derive the
-fibre residue surjection from the ambient one, so this node receives no
-completion credit.
+equal quotient image. A checked affine-section structure binds its section
+law to the selected fibre point; contravariance of `Spec` derives the algebra
+retraction, prime-comap equality, and both residue surjections, with final
+consumers at five and eleven. The integral cusp model, its quotient-ideal/stalk
+identification, modular affine presentation, inhabitant of that section
+structure, generator and non-square proofs, and the actual modular q-expansion
+remain open. This node receives no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

@@ -212,13 +212,16 @@ localization/quotient equivalences, so the fibre residue map is no longer a
 second premise. Moreover, a nonzero simultaneous Hecke eigen-expansion in an
 actual completed-local power-series coordinate constructs the detected
 cotangent vector without an asserted linear coefficient.
+The stronger affine handoff packages a structural section, its section law,
+and its value at the selected fibre prime. Contravariance of `Spec` derives
+the coordinate-ring retraction and proves the required prime-comap equality,
+so ambient residue surjectivity is no longer independent geometric data.
 At both selected auxiliary primes, checked consumers identify that affine
 point with the same integral cusp specialization used by the collision and
 carry the resulting formal immersion through the unconditional weighted-depth
 arithmetic endpoint. What remains is the represented
 modular affine presentation and sections, its cusp prime and parameter proofs,
-the ambient residue surjection, the quotient collision, and the
-optimal-quotient Hecke/q-expansion identity.
+the quotient collision, and the optimal-quotient Hecke/q-expansion identity.
 
 The theorem also does **not** consume the exact order of `[0]-[∞]`, an
 identification of all of `A(ℚ)` with the cuspidal subgroup, or local
