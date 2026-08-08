@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1504300,
+    "integrated_lean_lines": 1504505,
     "integrated_lean_modules": 819,
     "remaining_composite_orders": [
       18,
@@ -620,7 +620,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Mobius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. Projection from the rational norm-conic point now gives canonical coprime integral parameters p,q; noncuspidality excludes the tangent and forces p nonzero. Eliminating the square coordinate yields one explicit bihomogeneous (3,2) equation in r,s,p,q, with an exact-order-18 consumer. The low-level quotient, point-transport, norm, and conic-parametrization API sits below XOneEighteenDescent, so the immutable Challenge has no downstream FourScalar import cycle. Classification of the fixed bihomogeneous curve, equivalently a genus-two Jacobian rank-zero certificate or another complete descent, is still required; the Challenge remains open.",
+      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Mobius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. Projection from the rational norm-conic point now gives canonical coprime integral parameters p,q; noncuspidality excludes the tangent and forces p nonzero. Eliminating the square coordinate yields one explicit bihomogeneous (3,2) equation in r,s,p,q, with an exact-order-18 consumer. In the gcd-one norm branch, the real coefficient divides q^2-2p^2 and the cubic factor r(r^2-s^2) splits as coprime divisors d1*d2 with d1 dividing p and d2 dividing q. In the gcd-eight branch, exact division by 8 gives coprime normalized coefficients a,b, identifies r(r^2-s^2)=-2b, proves a divides q^2-2p^2, and splits b between 2p and q with overlap dividing 2. The low-level quotient, point-transport, norm, and conic-parametrization API sits below XOneEighteenDescent, so the immutable Challenge has no downstream FourScalar import cycle. Classification of these two explicit split covers, equivalently a genus-two Jacobian rank-zero certificate or another complete descent, is still required; the Challenge remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -712,6 +712,27 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
           "description": "Consume an actual exact-order-18 elliptic point in the global primitive conic-parametrization and fixed bihomogeneous equation."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_support",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "In the gcd-one branch, allocate the fixed bihomogeneous equation to divisibility of the Pell factor and of p*q by the cubic coefficient."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_cover",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Split r*(r^2-s^2) into coprime factors supported separately on the coprime conic parameters p and q."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_eight_cover",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization",
+          "description": "Normalize the gcd-eight branch and split its cubic coefficient between 2*p and q with common support restricted to the prime two."
         }
       ],
       "depends_on": [

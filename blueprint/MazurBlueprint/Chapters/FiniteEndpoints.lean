@@ -125,6 +125,12 @@ challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
   `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_orderEighteen_noncuspidal_point`
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_exact_order_eighteen`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_support`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_cover`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_eight_cover`
 
 The proposed proof finishes the Eisenstein-integer descent already exposed by
 the module. The checked split-cubic calculation now compares all three
@@ -152,7 +158,11 @@ Challenge has no downstream FourScalar import cycle. Projection from the
 rational point of the norm conic now gives coprime integral parameters
 `p,q`; noncuspidality excludes its tangent, and eliminating the square
 coordinate forces one fixed bihomogeneous `(3,2)` equation in `r,s,p,q`.
-Classifying that curve remains open. The immutable
+In the gcd-one branch, its two summands are allocated globally and
+`r*(r^2-s^2)` splits into coprime divisors supported separately on `p` and
+`q`. The gcd-eight branch is normalized to coprime coefficients as well; its
+cubic coefficient splits between `2*p` and `q`, with overlap restricted to
+two. Classifying these two explicit covers remains open. The immutable
 destination therefore no longer imports the downstream FourScalar
 correspondence transitively.
 :::

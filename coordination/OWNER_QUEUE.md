@@ -250,8 +250,15 @@ three cleared conic identities eliminate the square coordinate and place
 every original noncuspidal point, and then every exact-order-18 elliptic point,
 on one explicit bihomogeneous `(3,2)` equation in `r,s,p,q` (`52bd297`,
 `d7ff0c0`, reviewed from contributor `35608a6`). This is a genuine global
-four-variable leaf, but its rational-point classification or Jacobian
-rank-zero proof remains open, so no Challenge or node is closed.
+four-variable leaf. In its gcd-one norm branch, the equation now allocates the
+real coefficient to `q^2-2*p^2` and splits `r*(r^2-s^2)` into coprime factors
+supported separately on `p` and `q` (`7b5885a`, reviewed from contributor
+`33e9cb6`). The gcd-eight branch now divides the norm coefficients by their
+exact common factor, proves the normalized pair coprime, and splits the cubic
+coefficient between `2*p` and `q` with overlap dividing two (`bc5dc85`,
+reviewed from contributor `b1654f4`). Classifying these two explicit covers,
+or proving the Jacobian rank-zero result, remains open, so no Challenge or
+node is closed.
 
 The current content boundary also constructs the geometric multiplicative
 Kummer boundary required by the finite-flat rank-zero lane. Laurent-coordinate
@@ -310,7 +317,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 819 Lean modules and 1,504,300 Lean lines.
+exact quality baseline is 819 Lean modules and 1,504,505 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -376,7 +383,7 @@ X1(13) Pell-allocation target rebuilds 1,999 jobs, and all nine audited
 endpoints have that same axiom closure. The affine quasicoherent H0-exactness
 target rebuilds 2,765 jobs; its three audited declarations likewise use only
 the standard axioms.
-The X1(18) norm-parametrization target rebuilds all 2,381 jobs. Its nine public
+The X1(18) norm-parametrization target rebuilds all 2,381 jobs. Its twelve public
 definitions and theorems, including the exact-order consumer and eliminated
 bihomogeneous equation, use only the same three standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
@@ -1671,9 +1678,12 @@ or accounting shortcut.
   and inverse abscissa. The norm conic is now globally parametrized by
   coprime `p,q`; cusp geometry excludes the tangent, and eliminating the
   square coordinate gives one fixed bihomogeneous `(3,2)` equation in
-  `r,s,p,q` for every exact-order-18 point. The active route is the fixed
+  `r,s,p,q` for every exact-order-18 point. In the gcd-one branch, its cubic
+  factor now splits into coprime divisors supported separately on `p` and
+  `q`; the gcd-eight branch is normalized to a coprime pair and split between
+  `2*p` and `q` with overlap restricted to two. The active route is the fixed
   curve's genuine Jacobian rank-zero certificate or a complete classification
-  of this four-variable system. The Challenge
+  of these two explicit covers. The Challenge
   remains open until that classification is proved. The low-level transport
   is now below its immutable destination module, with the downstream
   FourScalar consumers retained in the aggregate.

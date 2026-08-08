@@ -796,8 +796,14 @@ A(r,s)pq+2r(r^2-s^2)(q^2-2p^2)=0. \tag{X18-global}
 
 This bihomogeneous `(3,2)` equation is consumed first by every noncuspidal
 point of the sextic and then by an actual exact-order-eighteen elliptic point.
-It is not a local certificate and it does not classify the curve: the next
-step is a complete descent or rank-zero/Jacobian proof for (X18-global).
+In the branch `gcd(A,B)=1`, coprimality allocates its terms further:
+`A(r,s)` divides `q^2-2p^2`, while `r(r^2-s^2)` divides `pq` and splits as
+`d1*d2` with coprime `d1,d2`, `d1 | p`, and `d2 | q`. It is not a local
+certificate. The branch `gcd(A,B)=8` is also normalized globally: `A=8a` and
+`B=8b` with coprime `a,b`, `r(r^2-s^2)=-2b`, and `a` divides
+`q^2-2p^2`; writing `b=d1*d2` gives `d1 | 2p`, `d2 | q`, and
+`gcd(d1,d2) | 2`. These covers do not classify the curve. The next step is to
+analyze them completely or prove rank zero for the Jacobian of (X18-global).
 
 This is the full elementary/local input to the classical `π=3+ω` descent,
 not its global Jacobian conclusion.  Completion may prove the displayed
