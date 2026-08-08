@@ -69,7 +69,10 @@ exact sequence and exact additive forgetful functor are now retained; their
 real affine-cover consumer proves the injective dimension-shift step from the
 still-explicit cokernel-vanishing hypothesis (`44cc236`). A clean-room finite
 affine local-killing cover and the preceding-degree surjectivity consumer now
-prove genuine affine quasicoherent H1 vanishing (`45833b3`, `c059ed1`), but
+prove genuine affine quasicoherent H1 vanishing (`45833b3`, `c059ed1`).
+the degree-two Kempf construction now also gives a finite affine killing cover
+under the explicit affine-basis surjectivity premise for the chosen
+injective-cokernel projection (`0fa93f7`), but discharging that premise and
 higher positive degrees remain open. The actual supported
 constant-flat cokernel sections, inclusion-induced global `H¹` map, and
 localization exactness boundary are now a typed handoff; both factor orderings
@@ -87,6 +90,20 @@ weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
+
+The coherent-cohomology lane now has the first genuine higher-degree Kempf
+consumer. For a degree-two class, affine-basis surjectivity of the selected
+injective-cokernel projection makes the restriction-pushforward cokernel
+comparison both monic and epic and therefore an isomorphism. The checked
+comparison, Ext postcomposition cancellation, and finite compactness argument
+produce an actual finite affine cover killing that H2 class (`0fa93f7`,
+reviewed from contributor checkpoint `abd49b8`). The focused source and public
+H1 builds pass serially (2,825 and 2,832 jobs), and the H2 and H1 endpoint
+axiom audits use only `propext`, `Classical.choice`, and `Quot.sound`.
+Affine H1 vanishing has not yet been used to discharge the explicit basis
+surjectivity premise, so neither all-positive affine acyclicity nor B1 is
+complete and no node credit is awarded. The exact quality baseline is now
+842 Lean modules and 1,511,780 Lean lines.
 
 The mandatory cyclotomic release lane now retains the genuine equivariant
 Hilbert--94 conclusion. Extension of ideal classes defines an actual
@@ -1466,10 +1483,13 @@ within each lane follows the listed order.
    construction now produces a finite affine local-killing cover for every
    degree-one class, and affine H0 right exactness proves the corresponding
    cover map injective on H1. Thus affine quasicoherent H1 vanishing is
-   checked. Next extend local killing inductively to every positive degree and
-   combine it with the existing dimension-shift injection to prove full
-   positive-degree affine acyclicity; then construct proper-curve
-   finite-dimensionality. Do not count this H1 checkpoint as B1 completion.
+   checked. Degree-two local killing is now checked under affine-basis
+   surjectivity of the chosen injective-cokernel projection. Next derive that
+   premise from affine H1 vanishing, extend the construction inductively to
+   every positive degree, and combine it with the existing dimension-shift
+   injection to prove full positive-degree affine acyclicity; then construct
+   proper-curve finite-dimensionality. Do not count these partial checkpoints
+   as B1 completion.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
@@ -1915,12 +1935,11 @@ or accounting shortcut.
   object-specific `EffectiveModule`; object separation, rational
   normalization, and Picard surjectivity then remain for the unchanged A3
   Challenge.
-- `codex/mt-cleanroom-affine-local-killing` independently derives the actual
-  affine `H¹` local-killing cover using only licensed pinned APIs. The earlier
-  technically sound contribution is rejected because its adapted AINTLIB
-  sources lack an explicit compatible license. The clean-room endpoint must
-  retain the exact scheme-module unit consumed by the held affine-`H¹`
-  vanishing theorem.
+- `codex/mt-cleanroom-affine-local-killing` has supplied the reviewed
+  conditional degree-two checkpoint (`abd49b8`, integrated as `0fa93f7`). It
+  is now eliminating the affine-basis surjectivity premise through the checked
+  affine H1 theorem and the restriction long exact sequence, while preserving
+  the same concrete restriction-pushforward and injective-cokernel consumer.
 - `weighted local arithmetic`: the five- and eleven-adic depth chains are
   independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
   the selected model's checked minimality contradiction. Preserve the older

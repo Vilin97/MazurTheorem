@@ -938,8 +938,13 @@ cover inclusion injective on degree `n + 1` cohomology. A clean-room
 Ext/sheaf argument now kills every degree-one class on a finite affine open
 cover of an affine spectrum, including under the actual product cover map.
 Affine H0 right exactness makes that product map injective on H1, proving
-genuine affine quasicoherent H1 vanishing. Local killing in degrees at least
-two and all-positive-degree affine acyclicity remain open, as do proper
+genuine affine quasicoherent H1 vanishing. The next Kempf step is now checked
+conditionally in degree two: affine-basis surjectivity of the chosen
+injective-cokernel projection makes its open restriction-pushforward cokernel
+comparison both monic and epic, hence an isomorphism, and yields a finite
+affine cover killing every supplied H2 class. Deriving that premise from
+affine H1 vanishing, extending local killing through all positive degrees, and
+all-positive-degree affine acyclicity remain open, as do proper
 finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
@@ -1027,6 +1032,10 @@ finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHOne_finiteAffineKillingCover`
   Construct a finite affine cover whose genuine restriction-pushforward maps
   and product cover map kill a supplied Ext-based H1 class.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHTwo_finiteAffineKillingCover_of_affine_cokernel_app_surjective`
+  Construct a finite affine cover killing a supplied Ext-based H2 class under
+  affine-basis surjectivity of the chosen injective-cokernel projection.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_previous_surjective`
   Derive degree-`n + 1` injectivity from surjectivity in the preceding degree.
