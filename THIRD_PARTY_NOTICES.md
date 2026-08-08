@@ -61,6 +61,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 - Upstream author identified from repository authorship/history: Chris Birkbeck
 - Source: https://github.com/CBirkbeck/AINTLIB
 - Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
+- Canonical-support audit commit:
+  `6b879658fe916b5db2afcddebbed35a9dc10aa61`
 - Source paths:
   - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
@@ -115,8 +117,37 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechHomology.lean`
     (homology isomorphisms only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSupport.lean`
-    (closed-stalk support rank core only)
+    (split between the closed-stalk rank core and the remaining support API)
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SpecBasicOpenAway.lean`
+    (`specBasicOpen` only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleRestrictLimits.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleRestrictPushforward.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleQuasicoherent.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafModuleFiniteTypeQuotient.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleComparisonCoherent.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleSupportDrop.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleComparisonSupport.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteModuleSupportAnnihilation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteFamilySupportAnnihilation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteAffineSupportAnnihilation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/IdealSheafPowerSubscheme.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOpenCoverIso.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AdjunctionUnitIsoTransport.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SurjectiveRestrictionScalars.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AffineModuleBaseChange.lean`
+    (affine-tilde unit slice)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AffineIdealQuotientPullbackUnit.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModulePullbackUnitComposition.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/IdealSheafAffineChartPullbackUnit.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/IdealSheafSubschemeAffineChart.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/IdealSheafSubschemeRestrictPullbackUnit.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteSupportIdealSheafPullbackUnit.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOpenUnitIso.lean`
+  - `projects/ModularCurves/ModularCurves/Picard/DualPullback/OpenAdjunction.lean`
+    (private explicit-square/mate slice in the preceding local module)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportThickening.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportFull.lean`
 - License evidence: the audited source commit has no root `LICENSE`. Selected
   files retain their per-file Apache-2.0 notices where present. Exact
   repository-level evidence is AINTLIB `origin/main` commit
@@ -138,7 +169,9 @@ The retained Cech lane excludes the unused flat/Picard and properness cones,
 replaces the option-dependent flasque-cohomology proof with existing checked
 project theorems, drops three unconsumed intermediate modules and the unused
 packaged acyclic-resolution tail, and keeps only the degree-one affine and
-base-homology comparisons. No other AINTLIB geometry source is included.
+base-homology comparisons. The separate canonical-support extension stops at
+the canonical thickening/full-support model and strict support-drop API; it
+does not retain or claim the Chow/projective producer or properness endpoint.
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
