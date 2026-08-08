@@ -184,6 +184,7 @@ import MazurTorsion.NumberTheory.RatNorthcott
 import MazurTorsion.NumberTheory.RationalRootsOfUnity
 import MazurTorsion.NumberTheory.XOneEighteenFiniteField
 import MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase
+import MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization
 import MazurTorsion.NumberTheory.XOneEighteenDescent
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinIntegers
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinAllocation
