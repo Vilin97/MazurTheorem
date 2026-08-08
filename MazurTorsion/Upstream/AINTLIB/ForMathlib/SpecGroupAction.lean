@@ -84,8 +84,8 @@ sends a prime `p` to `g⁻¹ • p`. -/
 theorem specSMul_apply_asIdeal (g : G) (p : Spec (CommRingCat.of B)) :
     (specSMul g p).asIdeal = g⁻¹ • p.asIdeal := by
   ext b
-  rw [specSMul_apply, PrimeSpectrum.comap_asIdeal, Ideal.mem_comap,
-    Ideal.mem_inv_pointwise_smul_iff]
+  change (MulSemiringAction.toRingHom G B g) b ∈ p.asIdeal ↔ b ∈ g⁻¹ • p.asIdeal
+  rw [Ideal.mem_inv_pointwise_smul_iff]
   rfl
 
 end SpecSMul
@@ -135,6 +135,8 @@ theorem invariantsπ_apply_eq_iff [Finite G] (x y : Spec (CommRingCat.of B)) :
     invariantsπ G B R x = invariantsπ G B R y ↔ ∃ g : G, specSMul g x = y := by
   constructor
   · intro hxy
+    letI : x.asIdeal.IsPrime := x.isPrime
+    letI : y.asIdeal.IsPrime := y.isPrime
     have h : x.asIdeal.under (FixedPoints.subalgebra R B G) =
         y.asIdeal.under (FixedPoints.subalgebra R B G) :=
       congrArg PrimeSpectrum.asIdeal hxy
