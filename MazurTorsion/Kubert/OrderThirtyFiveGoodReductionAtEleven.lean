@@ -687,7 +687,7 @@ theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFiv
   have ha₆five :=
     markedExceptionalCubic_a₆_mem_fifth_of_orderThirtyFiveAtEleven
       hmap residueAtEleven_two_ne_zero residueAtEleven_three_ne_zero hspecial
-      D hxsq ha₄cube ha₆four especial horder'
+      D hxsq ha₄cube especial horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩

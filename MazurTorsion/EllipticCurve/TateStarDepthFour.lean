@@ -10,8 +10,8 @@ import MazurTorsion.EllipticCurve.TateStarRepeatedRoot
 # Exact depth four on the marked exceptional branch
 
 On the marked exceptional-cubic branch, suppose the same integral point and short equation have
-`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴ \ 𝔪⁵`.  This file proves that the triple of that marked point
-has canonical nonsingular reduction.
+`x,y ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∉ 𝔪⁵`.  The equation forces `a₆ ∈ 𝔪⁴`, and this file proves that
+the triple of that marked point has canonical nonsingular reduction.
 
 The proof is entirely on the selected Weierstrass equation.  It follows the tangent and secant
 formulas, separates slopes with a pole from integral-unit slopes, and handles equal-abscissa and
@@ -412,9 +412,9 @@ private theorem three_nsmul_mem_nonsingularReductionSubgroup_of_coordinate_depth
       rw [hpoint]
       exact hred₃
 
-/-- In the exact depth-four `a₆` branch, the triple of the marked exceptional-cubic point has
-canonical nonsingular reduction. -/
-theorem three_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
+/-- If the marked point has `x,y ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∉ 𝔪⁵`, then its triple has
+canonical nonsingular reduction.  The equation itself forces `a₆ ∈ 𝔪⁴`; it is not a premise. -/
+theorem three_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₆_not_fifth
     {R : Type u} [CommRing R] [IsDedekindDomain R]
     {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
     [CharZero K]
@@ -432,7 +432,6 @@ theorem three_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
     (D : MarkedExceptionalCubicData W₀ W P)
     (hxsq : D.x ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 2)
     (ha₄cube : W₀.a₄ ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 3)
-    (_ha₆four : W₀.a₆ ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 4)
     (ha₆notfive : W₀.a₆ ∉ maximalIdeal (v.adicCompletionIntegers K) ^ 5) :
     3 • P ∈ nonsingularReductionSubgroup hW
       (nonsingularReduction_isAdditive hW) := by
@@ -520,9 +519,9 @@ theorem three_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
       (by simpa [x₀] using hxsq) (by simpa [y₀] using hysq)
       ha₄cube hyval hyne
 
-/-- The exact depth-four marked branch supplies the exponent twelve used by the arithmetic
+/-- The marked branch outside `𝔪⁵` supplies the exponent twelve used by the arithmetic
 specializations: it is four times the checked triple. -/
-theorem twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
+theorem twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₆_not_fifth
     {R : Type u} [CommRing R] [IsDedekindDomain R]
     {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
     [CharZero K]
@@ -540,13 +539,12 @@ theorem twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
     (D : MarkedExceptionalCubicData W₀ W P)
     (hxsq : D.x ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 2)
     (ha₄cube : W₀.a₄ ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 3)
-    (ha₆four : W₀.a₆ ∈ maximalIdeal (v.adicCompletionIntegers K) ^ 4)
     (ha₆notfive : W₀.a₆ ∉ maximalIdeal (v.adicCompletionIntegers K) ^ 5) :
     12 • P ∈ nonsingularReductionSubgroup hW
       (nonsingularReduction_isAdditive hW) := by
   have hthree :=
-    three_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
-      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+    three_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₆_not_fifth
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive
   have hfour := (nonsingularReductionSubgroup hW
     (nonsingularReduction_isAdditive hW)).nsmul_mem hthree 4
   rw [← mul_nsmul] at hfour

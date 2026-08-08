@@ -697,7 +697,7 @@ theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
   have ha₆five :=
     markedExceptionalCubic_a₆_mem_fifth_of_primeOrderAtFive
       hmap residueAtFive_two_ne_zero residueAtFive_three_ne_zero hspecial
-      D hxsq ha₄cube ha₆four especial N hprime hN horder'
+      D hxsq ha₄cube especial N hprime hN horder'
   exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩
