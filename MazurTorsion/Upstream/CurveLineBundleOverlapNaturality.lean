@@ -36,8 +36,7 @@ noncomputable def pullbackOverlapHomOfModel
       (Scheme.Modules.pullback p₂).obj M₂) :
     (Scheme.Modules.pullback (pullback.fst f₁ f₂)).obj M₁ ⟶
       (Scheme.Modules.pullback (pullback.snd f₁ f₂)).obj M₂ :=
-  pullHom (F := modulesPseudofunctor) e.hom hpb.isoPullback.inv
-    (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
+  (pullbackOverlapIsoOfModel f₁ f₂ p₁ p₂ hpb M₁ M₂ e).hom
 
 /-- The forward map of the transported overlap isomorphism is the canonical `pullHom`
 transition. Keeping both presentations definitionally aligned prevents later triple-overlap
@@ -76,6 +75,7 @@ theorem pullHom_pullbackOverlapHomOfModel
         (q ≫ hpb.isoPullback.inv) q₁ q₂
         (by rw [Category.assoc, hpb.isoPullback_inv_fst, hq₁])
         (by rw [Category.assoc, hpb.isoPullback_inv_snd, hq₂]) := by
+  unfold pullbackOverlapHomOfModel pullbackOverlapIsoOfModel
   change pullHom (F := modulesPseudofunctor)
       (pullHom (F := modulesPseudofunctor) e.hom hpb.isoPullback.inv
         (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)) q q₁ q₂ = _
