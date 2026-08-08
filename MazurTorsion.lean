@@ -111,6 +111,7 @@ import MazurTorsion.ModularCurve.HeckeFirstCoefficient
 import MazurTorsion.ModularCurve.AffineCuspQExpansion
 import MazurTorsion.ModularCurve.AffineCuspResidueRetraction
 import MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers
+import MazurTorsion.ModularCurve.AffineCuspPolynomialChart
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli
