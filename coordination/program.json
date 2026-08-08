@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1531644,
-    "integrated_lean_modules": 905,
+    "integrated_lean_lines": 1536045,
+    "integrated_lean_modules": 931,
     "remaining_composite_orders": [
       18,
       25,
@@ -49,7 +49,7 @@
       "mathlib_commit": "3edb3c0658f69f197b1e501b1f7623f3f7b3898c",
       "license": "Mixed branch status: curated files carry Apache-2.0 headers, but this branch has no root LICENSE",
       "role": "Audited prior art and selective porting source for Picard, cohomology, finite-group-scheme, isogeny, and open Y_0(N) infrastructure",
-      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Forty-four local placeholder-free modules are selectively retained from thirty-seven whole sources and nine option-free source slices, including the monoidal sheaf, additive-sheaf and sheaf-Cech cohomology, Picard, Cartier-duality, ordered/native base-Cech foundations, and the low-degree closed-support induction core. Per-file Apache-2.0 notices are preserved; for every headerless retained source, the exact source blob is also present at the divergent AINTLIB main commit 1c1c74664e40071c2c2165bc55ca2616a67ccd6b carrying the root Apache-2.0 LICENSE, as recorded in PORTING.md and THIRD_PARTY_NOTICES.md. The canonical-support Chow producer, larger relative-Picard and all-degree proper-cohomology cones, and MuN remain excluded by the option, placeholder, and dependency gates.",
+      "compatibility": "The Lean compiler matches, while AINTLIB's mathlib pin is 266 commits newer. Seventy local placeholder-free modules are selectively retained, including the monoidal sheaf, additive-sheaf and sheaf-Cech cohomology, Picard, Cartier-duality, ordered/native base-Cech foundations, the low-degree closed-support induction core, and the canonical closed-thickening/full-support substrate. Per-file Apache-2.0 notices are preserved; every newly retained source blob is byte-identical at the selected commit, audited head 6b879658, and the divergent AINTLIB main commit 1c1c74664e40071c2c2165bc55ca2616a67ccd6b carrying the root Apache-2.0 LICENSE, as recorded in PORTING.md and THIRD_PARTY_NOTICES.md. The Chow/projective comodel producer, larger relative-Picard and all-degree proper-cohomology cones, and MuN remain excluded by the option, placeholder, dependency, and compiled-consumer gates.",
       "roadmap_impact": {
         "bankable_effort_points": {
           "min": 50,

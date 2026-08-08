@@ -145,7 +145,7 @@ instance baseModulePresheafFunctor_additive
 
 /-- Base-linear sections of a restricted module agree with the corresponding sections on the
 image open. -/
-private noncomputable def baseModulePresheafRestrictAppIso
+noncomputable def baseModulePresheafRestrictAppIso
     {Y S Z : Scheme.{u}} (π : Y ⟶ S) (f : Z ⟶ Y) [IsOpenImmersion f]
     (M : Y.Modules) (U : Z.Opens) :
     (baseModulePresheaf (f ≫ π) (M.restrict f)).obj (op U) ≅
@@ -200,7 +200,7 @@ private noncomputable def baseModulePresheafRestrictAppIso
   exact (hrestrict (π.appTop r)).symm
 
 /-- Naturality of the base-linear section isomorphism for restriction along an open immersion. -/
-private theorem baseModulePresheafRestrictAppIso_hom_naturality
+theorem baseModulePresheafRestrictAppIso_hom_naturality
     {Y S Z : Scheme.{u}} (π : Y ⟶ S) (f : Z ⟶ Y) [IsOpenImmersion f]
     (M : Y.Modules) {U V : Z.Opens} (i : op V ⟶ op U) :
     (baseModulePresheaf (f ≫ π) (M.restrict f)).map i ≫
