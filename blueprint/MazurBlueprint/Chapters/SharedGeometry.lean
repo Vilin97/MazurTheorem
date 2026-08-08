@@ -137,11 +137,12 @@ hold unconditionally after every further pullback. The canonical triple-intersec
 now also satisfies all three direct chart-projection equations, and a checked proper-smooth
 consumer derives the six pairwise composites from only those three equations. The three
 pairwise-model/direct-projection comparisons are now isolated in separate opaque declarations,
-so they compile without unfolding all faces simultaneously. Off the diagonal, the normalized
-transition is the raw chosen-overlap morphism, and this identification survives arbitrary
-further pullback; on the diagonal it is the canonical coherent self-overlap. What remains at
-this boundary is simultaneous assembly of those three imported comparisons with the direct
-cocycle, followed by full arbitrary-divisor descent effectivity, object separation, rational
+so they compile without unfolding all faces simultaneously. Those opaque faces now assemble into
+the direct and raw chosen-overlap cocycles, including the fully expanded `pullHom` statement used
+by descent. Off the diagonal, the normalized transition is the raw chosen-overlap morphism, and
+the normalized triple cocycle is checked for pairwise-distinct indices; on the diagonal it is the
+canonical coherent self-overlap. What remains at this boundary is diagonal normalized-cocycle
+assembly, followed by full arbitrary-divisor descent effectivity, object separation, rational
 normalization, and Picard surjectivity.
 
 *Checked pairwise-naturality deliverables (no node credit):*
@@ -184,7 +185,10 @@ normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve_eq_model`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_hom_of_ne`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_of_ne`;
-* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_self`.
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_self`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleDirectTransition_cocycle`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne`.
 
 The API also
 characterizes existence of the full affine scheme-level

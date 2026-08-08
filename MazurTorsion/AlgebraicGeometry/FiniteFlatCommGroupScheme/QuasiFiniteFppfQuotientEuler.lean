@@ -4,7 +4,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import Mathlib.GroupTheory.QuotientGroup.Finite
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientEuler
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfConnecting
 
@@ -37,24 +36,13 @@ namespace FppfQuotientPresentation
 
 variable {G : QuasiFiniteFlatCommGroupScheme S}
 
-/-- Exactness between finite endpoint groups forces finiteness of the middle group. -/
-private theorem finite_middle_of_mulExact
-    {A B C : Type*} [Group A] [Group B] [Group C]
-    [Finite A] [Finite C]
-    (i : A →* B) (q : B →* C) (h : Function.MulExact i q) :
-    Finite B := by
-  letI : Fintype A := Fintype.ofFinite A
-  letI : Fintype C := Fintype.ofFinite C
-  letI : Fintype B := Group.fintypeOfKerEqRange i q h.monoidHom_ker_eq
-  infer_instance
-
 /-- Finiteness of kernel and quotient `H¹` propagates across a genuine quasi-finite fppf
 quotient presentation. -/
 theorem middleFppfHOne_finite (D : FppfQuotientPresentation G)
     [Finite D.kernelPresentation.kernel.FppfHOne.{u}]
     [Finite D.quotient.FppfHOne.{u}] :
     Finite G.FppfHOne.{u} :=
-  finite_middle_of_mulExact
+  FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact
     (fppfHOneMap D.kernelPresentation.inclusion)
     (fppfHOneMap D.project)
     D.exact_fppfHOneMap_inclusion_project
@@ -159,8 +147,8 @@ theorem fppfHOne_natCard_le_pow_ofFppfQuotientPresentation
     (pow_pos hp.pos (kernelHZeroData.length + quotientHZeroData.length))
 
 /-- A finite-flat fppf quotient consumes the quasi-finite Euler theorem through the checked
-adapter.  Unlike the original finite-flat cardinal theorem, no middle-`H¹` finiteness premise
-is required. -/
+adapter.  This compatibility theorem agrees with the repaired finite-flat cardinal API: neither
+interface requires a middle-`H¹` finiteness premise. -/
 theorem finiteFlat_fppfHOne_natCard_le_pow_viaQuasiFinite
     {p : ℕ} {G : _root_.AlgebraicGeometry.FiniteFlatCommGroupScheme S}
     (D : FiniteFlatCommGroupScheme.FppfQuotientPresentation G)

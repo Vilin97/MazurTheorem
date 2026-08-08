@@ -630,6 +630,22 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
+* `structure` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable.exact_fppfHOneMap_inclusion_f`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project_via_ambient`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.coverwiseLocallyLiftable`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.middleFppfHOne_finite`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finiteFlat_fppfHOne_natCard_le_pow_viaQuasiFinite`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
 * `theorem` (`contract`):
@@ -674,7 +690,14 @@ accepts no exactness hypotheses. A checked downstream consumer now applies the
 exact maps directly: five endpoint finite-cardinality certificates imply the
 middle global `H¹` cardinal bound, while exactness derives its finiteness from
 the two neighboring finite `H¹` groups. It no longer assumes either finiteness
-or the exact cardinal of the group being bounded. The two elementary
+or the exact cardinal of the group being bounded. For ambient group schemes,
+the required hypothesis is now stated honestly as coverwise local lifting of
+every zero-cochain, not merely local lifting of base sections. This proves
+middle-`H¹` exactness by a common-refinement gauge argument. Genuine
+quasi-finite fppf quotient presentations construct that coverwise input by
+pullback, supply the complete low-degree exactness chain, derive middle-`H¹`
+finiteness from finite endpoints, and feed a five-endpoint Euler bound. The
+finite-flat adapter is a checked compatibility consumer. The two elementary
 `H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
 constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
 odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
@@ -726,8 +749,8 @@ and `FppfHOne.class_pullback` identifies the resulting global classes. This is o
 singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
 cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
 vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
-quasi-finite admissible-filtration exact sequences, the constant-factor global `H¹`
-calculation, and focused rank-zero specialization are still absent, so no node credit is
+the iterated quasi-finite admissible-filtration specialization, the constant-factor global
+`H¹` calculation, and focused rank-zero specialization are still absent, so no node credit is
 claimed.
 :::
 

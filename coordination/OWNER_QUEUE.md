@@ -52,7 +52,10 @@ power split (`034eaac`), the denominator-checked and fraction-free X1(25)
 recurrences (`600422d`, `350024a`), and the represented polynomial cusp chart
 with five- and eleven-adic consumers (`b838e9d`), now transported across a
 genuine affine coordinate equivalence with full cusp-local algebra and the same
-two arithmetic consumers (`2825aee`). The ledger still has
+two arithmetic consumers (`2825aee`), the raw A3 triple-transition cocycle and
+normalized pairwise-distinct consumer (`510e177`), and coverwise quasi-finite
+middle-`H¹` exactness with its five-endpoint Euler bound (`d9cf93c`, `31cc4b9`).
+The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
@@ -68,9 +71,12 @@ the same `pullHom` term and rebuilds without options. The three `12`, `23`,
 and `13` pairwise-model comparisons are separately opaque, every
 off-diagonal normalized transition is the raw chosen transition even after
 further pullback, and a diagonal transition is the canonical coherent
-self-overlap (`9188250`, repaired by `be75c7d`). Combining all three imported
-comparisons with the direct common-affine cocycle in one declaration still
-hits deterministic `whnf`; no such theorem is claimed, so A3 remains open.
+self-overlap (`9188250`, repaired by `be75c7d`). Opaque named face maps now
+assemble the direct and raw chosen-overlap cocycles, including the fully
+expanded `pullHom` consumer, and the normalized cocycle holds for all
+pairwise-distinct indices (`510e177`). The remaining coherence obligation is
+the normalized diagonal case, followed by arbitrary-divisor descent
+effectivity; A3 therefore remains open.
 
 The multiplicative descent lane now constructs the honest one-way refinement
 available for a finite affine fppf family. The original components refine the
@@ -329,6 +335,18 @@ middle-`H1` finiteness premise. The Eisenstein quotient's Kummer injection,
 endpoint constant and multiplicative `H1` certificates, and p-torsion cardinality
 equality remain open. No Raynaud theorem or node completion is claimed.
 
+The quasi-finite closure lane now distinguishes global-section lifting from
+the stronger coverwise lifting actually required at middle `H¹`. A genuine
+fppf quotient constructs simultaneous gauge lifts by pulling its projection
+back over every cover member; the ambient common-refinement proof then gives
+kernel-middle-quotient `H¹` exactness. Together with the already checked
+degree-zero and kernel-`H¹` terms, this supplies the full low-degree Euler
+bound for a quasi-finite quotient from five endpoint certificates, deriving
+middle-`H¹` finiteness internally (`d9cf93c`, `31cc4b9`). A finite-flat
+adapter compiles as a carrier-preserving consumer. The remaining step is to
+attach the actual constant-flat/multiplicative-flat bad-level filtration and
+its arithmetic endpoint `H¹` certificates; no rank-zero conclusion is claimed.
+
 The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
 the exact `a₄`-depth case, forces `a₄ ∈ 𝔪⁴`, and derives `a₆ ∈ 𝔪⁶`; a further
@@ -452,14 +470,18 @@ consumer declarations again use only those three standard axioms.
 The affine-presentation transport rebuilds all 8,752 jobs; its contravariant
 `Spec` isomorphism, transported section/fibre/q geometry, generic formal
 immersion, and consumers at five and eleven have the same axiom closure.
+The named A3 triple-cocycle module and its `Geometry` consumer rebuild all
+3,490 jobs. The ambient/quasi-finite middle-`H¹` modules and quasi-finite Euler
+consumer rebuild their focused closures through 3,031 jobs. Every audited new
+declaration in both lanes uses only the same three standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the A3 named cocycle, a tractable cleared order-25 model,
-and quasi-finite middle-`H¹` exactness. The reviewed A3 lower comparisons, finite-family
+workers are pursuing the A3 diagonal normalized cocycle, a tractable cleared order-25 model,
+and specialization of the quasi-finite Euler theorem to the actual bad-level factors. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
 rational-section non-genericity, split finite-flat inverse datum, affine H0
 right exactness, and X1(13) Pell allocation are integrated;
@@ -1184,8 +1206,11 @@ and the Fermat specialization is a concrete consumer. At odd coefficient its
 integral global sections are trivial; distinct prime coefficient and level
 give a checked `p^0` certificate, and the low-degree Euler package consumes
 the resulting zero-length endpoint. The fppf connecting construction itself
-is now finiteness-free, with quasi-finite and finite-flat compatibility
-consumers. The represented additive point maps now have actual
+is finiteness-free. Its new coverwise local-lifting interface is stronger than
+base-section lifting and proves middle-`H¹` exactness; actual quasi-finite and
+finite-flat fppf quotients construct that interface by pullback. The
+quasi-finite five-endpoint Euler bound and finite-flat compatibility theorem
+are checked consumers. The represented additive point maps now have actual
 pointwise categorical cokernel presheaves, objectwise-surjective projections,
 and exact short complexes, with both typed bad-level inclusions as downstream
 consumers. Their universe-lifted `AddCommGrp` fppf sheafifications now give the
@@ -1195,7 +1220,8 @@ surjective and epic, and both typed inclusions consume the sheaf-level exact
 interface. Open-immersion lifts now prove point-map surjectivity and objectwise
 cokernel vanishing above `D(level)`. Continuous site restriction and the
 sheafification comparison then prove that both actual fppf quotient sheaves
-restrict to zero there. The supported localization sequences, the quasi-finite admissible-filtration exact sequences,
+restrict to zero there. The supported localization sequences, the iterated quasi-finite
+admissible-filtration specialization,
 the remaining bad-level `H¹` certificates and rank-zero specialization remain,
 followed by the unramified Raynaud uniqueness
 input.

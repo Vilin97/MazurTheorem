@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1506281,
-    "integrated_lean_modules": 823,
+    "integrated_lean_lines": 1507660,
+    "integrated_lean_modules": 826,
     "remaining_composite_orders": [
       18,
       25,
@@ -1542,7 +1542,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there, and the raw cocycle is equivalent to the model-Hom cocycle. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence now prove that every pairwise model pulls back to the direct common-affine model. The resulting equality and full pairwise-model cocycle hold unconditionally after every further pullback; a direct-projection consumer derives all six pairwise composite equations from only the three chart projections. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is to compare the checked model cocycle with the normalized transition and then establish full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle, and the normalized transitions satisfy the cocycle for pairwise-distinct indices. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is coherent diagonal normalized self-overlap assembly, followed by full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2967,6 +2967,27 @@
           "state": "contract",
           "description": "Identify the diagonal normalized transition with the canonical coherent self-overlap isomorphism.",
           "module": "MazurTorsion.Upstream.CurveLineBundleNormalizedTransition"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleDirectTransition_cocycle",
+          "state": "contract",
+          "description": "Assemble the three opaque common-affine face transitions into their checked triple-overlap cocycle.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle",
+          "state": "contract",
+          "description": "Expose the raw chosen-overlap cocycle in the fully expanded pullHom API consumed by line-bundle descent.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne",
+          "state": "contract",
+          "description": "Transfer the raw cocycle to normalized transitions whenever all three overlap faces are off the diagonal.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle"
         }
       ],
       "depends_on": [
@@ -4917,6 +4938,62 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
           "description": "Lift a quotient-valued trivializing gauge on a genuine fppf refinement and use certified kernel uniqueness to prove exactness at middle-valued H1."
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfMiddleExact",
+          "description": "Require simultaneous local lifts of every target-valued zero-cochain on every fppf cover, the precise sheaf-local input needed at middle H1."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable.exact_fppfHOneMap_inclusion_f",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemeFppfMiddleExact",
+          "description": "Prove ambient kernel-middle-target H1 exactness by lifting a trivializing gauge on a genuine common refinement."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project_via_ambient",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientConnecting",
+          "description": "Recover the finite-flat middle-H1 exactness theorem through the coverwise ambient interface with the original maps unchanged."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.coverwiseLocallyLiftable",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfConnecting",
+          "description": "Pull the certified quasi-finite fppf projection back along arbitrary cover-level gauge entries to construct simultaneous source lifts."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfConnecting",
+          "description": "Consume the coverwise pullback construction to prove middle-H1 exactness for every genuine quasi-finite fppf quotient presentation."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.middleFppfHOne_finite",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler",
+          "description": "Derive finite middle H1 from finite kernel and quotient H1 across the genuine quasi-finite exact pair."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler",
+          "description": "Use five endpoint certificates and every checked quasi-finite low-degree exactness map to bound the middle H1 without separate finiteness or exactness premises."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finiteFlat_fppfHOne_natCard_le_pow_viaQuasiFinite",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler",
+          "description": "Check that the finite-flat adapter consumes the quasi-finite Euler theorem with unchanged endpoint carriers and no middle-H1 premise."
         },
         {
           "kind": "theorem",
