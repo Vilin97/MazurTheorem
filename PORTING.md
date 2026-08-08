@@ -377,12 +377,16 @@ The separate checked boundary
 now identifies the additive group underlying native base-Cech degree-one
 homology with genuine sheaf `H¹` on an affine open cover. Its elementwise
 consumer `exists_nativeBaseCechHOne_class_of_sheafHOne_class` verifies that
-the comparison is actually usable. This is only an additive-group
-isomorphism: it does not assert compatibility with the scalar action of
-global functions, finite generation, properness, base change, or
-semicontinuity. The remaining seams therefore include base-linear Ext
-transport, the proper ordered input, low-degree Chow/properness input, proper
-`H¹` finiteness, and the curve facade.
+the comparison is actually usable. The project-facing module
+`SchemeModuleBaseCechHOneModule` transports the global-functions action from
+native base-Cech homology to genuine sheaf `H¹` without registering a global
+instance, and exposes a linear equivalence for that explicit action. Its named
+downstream consumer
+`genuineSheafHOne_finite_of_ordered_affineOpenCover` transfers ordered Cech
+finite generation through both the ordered/native and native/sheaf
+comparisons. The remaining seams include the proper ordered input, low-degree
+Chow/properness input, proper `H¹` finiteness, and the curve facade; the
+transport alone asserts no properness, base change, or semicontinuity.
 
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,
@@ -398,6 +402,9 @@ for the two sheaf-cohomology ports. The named boundary for the ordered/native
 Cech lane is `MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite`.
 The named boundary for the native-Cech/sheaf-cohomology comparison is
 `MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison`.
+The named boundary for its explicit global-functions action is
+`MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule`, consumed by the
+ordered-H¹ finiteness boundary.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.
