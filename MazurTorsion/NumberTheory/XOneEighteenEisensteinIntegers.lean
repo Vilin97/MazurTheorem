@@ -233,7 +233,9 @@ private theorem splitEisensteinCoords_zero [CharZero K]
   norm_num at hnormZ
   exact ⟨hnormZ, rfl⟩
 
-private theorem splitEisensteinCoords_injective [CharZero K]
+/-- Equality of Eisenstein integers in the integral basis `(1, ζ₃)` is
+coordinatewise. -/
+theorem splitEisensteinCoords_injective [CharZero K]
     {a b c d : ℤ}
     (h : (a : 𝓞 K) + b * hζ.toInteger =
       (c : 𝓞 K) + d * hζ.toInteger) :
@@ -246,7 +248,8 @@ private theorem splitEisensteinCoords_injective [CharZero K]
     splitEisensteinCoords_zero (a := a - c) (b := b - d) hζ hzero
   exact ⟨sub_eq_zero.mp hac, sub_eq_zero.mp hbd⟩
 
-private theorem exists_splitEisensteinCoords
+/-- Every integer of a third cyclotomic field has Eisenstein coordinates. -/
+theorem exists_splitEisensteinCoords
     [NumberField K] [IsCyclotomicExtension {3} ℚ K]
     (z : 𝓞 K) :
     ∃ a b : ℤ, z = a + b * hζ.toInteger := by
@@ -296,26 +299,28 @@ theorem splitEisensteinThreePrime_sq_associated :
   exact associated_mul_unit_left _ _
     ((hζ.toInteger_isPrimitiveRoot.isUnit (by decide)).neg)
 
-private theorem three_dvd_coords_of_three_dvd_eisensteinInteger
+/-- Divisibility by a rational integer in the Eisenstein ring implies
+coordinatewise integer divisibility. -/
+theorem int_dvd_splitEisensteinCoords
     [NumberField K] [IsCyclotomicExtension {3} ℚ K]
-    (a b : ℤ)
-    (hdiv : (3 : 𝓞 K) ∣ (a : 𝓞 K) + b * hζ.toInteger) :
-    (3 : ℤ) ∣ a ∧ (3 : ℤ) ∣ b := by
+    (q a b : ℤ)
+    (hdiv : (q : 𝓞 K) ∣ (a : 𝓞 K) + b * hζ.toInteger) :
+    q ∣ a ∧ q ∣ b := by
   obtain ⟨z, hz⟩ := hdiv
   obtain ⟨c, d, hcd⟩ := exists_splitEisensteinCoords hζ z
   have hcoords :
       ((a : ℤ) : 𝓞 K) + b * hζ.toInteger =
-        ((3 * c : ℤ) : 𝓞 K) + (3 * d) * hζ.toInteger := by
+        ((q * c : ℤ) : 𝓞 K) + (q * d) * hζ.toInteger := by
     rw [hz, hcd]
     push_cast
     ring
   have hcoords' :
       ((a : ℤ) : 𝓞 K) + (b : 𝓞 K) * hζ.toInteger =
-        ((3 * c : ℤ) : 𝓞 K) +
-          ((3 * d : ℤ) : 𝓞 K) * hζ.toInteger := by
-    simpa only [Int.cast_mul, Int.cast_ofNat] using hcoords
+        ((q * c : ℤ) : 𝓞 K) +
+          ((q * d : ℤ) : 𝓞 K) * hζ.toInteger := by
+    simpa only [Int.cast_mul] using hcoords
   obtain ⟨ha, hb⟩ := splitEisensteinCoords_injective
-    (a := a) (b := b) (c := 3 * c) (d := 3 * d) hζ hcoords'
+    (a := a) (b := b) (c := q * c) (d := q * d) hζ hcoords'
   exact ⟨⟨c, ha⟩, ⟨d, hb⟩⟩
 
 /-- Primitivity of `(m,n)` bounds the ramified-prime depth of the first
@@ -330,8 +335,7 @@ theorem splitFirstEisensteinFactor_threePrime_sq_not_dvd
     (splitEisensteinThreePrime_sq_associated hζ).dvd_iff_dvd_left.mp hsq
   have hcoords :
       (3 : ℤ) ∣ m + n ∧ (3 : ℤ) ∣ 2 * n := by
-    apply three_dvd_coords_of_three_dvd_eisensteinInteger
-      hζ (m + n) (2 * n)
+    apply int_dvd_splitEisensteinCoords hζ 3 (m + n) (2 * n)
     simpa only [splitFirstEisensteinFactor, Int.cast_mul,
       Int.cast_ofNat] using hthree
   obtain ⟨u, hu⟩ := hcoords.1
@@ -358,12 +362,13 @@ theorem splitSecondEisensteinFactor_threePrime_sq_not_dvd
     (splitEisensteinThreePrime_sq_associated hζ).dvd_iff_dvd_left.mp hsq
   have hcoords :
       (3 : ℤ) ∣ 2 * (m + n) ∧ (3 : ℤ) ∣ n - m := by
-    apply three_dvd_coords_of_three_dvd_eisensteinInteger
-      hζ (2 * (m + n)) (n - m)
+    apply int_dvd_splitEisensteinCoords
+      hζ 3 (2 * (m + n)) (n - m)
     convert hthree using 1
-    simp only [splitSecondEisensteinFactor]
-    push_cast
-    ring
+    · norm_num
+    · simp only [splitSecondEisensteinFactor]
+      push_cast
+      ring
   obtain ⟨u, hu⟩ := hcoords.1
   obtain ⟨v, hv⟩ := hcoords.2
   have hsum : (3 : ℤ) ∣ m + n := by
