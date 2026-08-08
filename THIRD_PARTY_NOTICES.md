@@ -204,10 +204,12 @@ support-only pushforward/pullback result; it omits the all-degree and
 tensor/invertible tails.
 
 The thirteen finite-action quotient files retain the upstream statements and
-proof bodies; local changes are limited to internal import repointing, blank
-line normalization, and removal of source-level compatibility options and
-linter suppressions forbidden by this repository.
-
+namespaces. Besides internal import repointing, formatting, and removal of
+source-level compatibility options and linter suppressions forbidden by this
+repository, `SpecGroupAction` has explicit coercion and primality witnesses
+and `BaseChangeAlongCompat` explicitly selects existing Mathlib locality,
+stability, descent, and multiplicativity instances needed at the immutable
+pin. No statement is weakened.
 Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
