@@ -188,6 +188,9 @@ normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_self`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleDirectTransition_cocycle`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle_prime`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamily_cocycle_prime`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne`.
 
 The API also
@@ -214,7 +217,11 @@ transports the exact principal kernel, injective class descent, and range equiva
 subscheme. The resulting Picard equivalence is proved independent of the chosen monoidal
 structure and its inverse is identified with pullback along the inverse scheme isomorphism. The
 pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
-uses source-level options forbidden in this task. The descent API now packages specified
+uses source-level options forbidden in this task. The concrete raw overlap-isomorphism family
+now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
+indices. The generic idempotent-isomorphism normalization lemma was reviewed but held out of the
+integrated API because its concrete specialization does not compile at the default elaboration
+budget. The descent API now packages specified
 pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
 descent data. It separates object effectivity, cover-wide module effectivity, essential
 injectivity on objects, and fully faithful module descent instead of asserting a stack theorem.

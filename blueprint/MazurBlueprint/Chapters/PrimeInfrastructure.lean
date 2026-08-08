@@ -670,6 +670,18 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberCokernelProjection`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberAmbientHZeroMulEquiv`
+* `structure` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl.boundedData`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized_closedFiber`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized_closedFiber`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
 * `theorem` (`contract`):
@@ -781,7 +793,12 @@ pair. The constant-flat localization interface fixes the terminal sections of th
 supported cokernel sheaf and the actual inclusion-induced global `H¹` map. Given its boundary
 and exactness, a supported-`H⁰` bound, and an ambient constant-group `H¹` bound, both bad-level
 factor orderings feed the Euler estimate without a global constant-flat `H¹` certificate. The
-boundary, exactness, and endpoint bounds are not manufactured. An open-sheaf equivalence and
+actual represented ambient constant sheaf is now evaluated on `Spec (ZMod level)` and identified
+with the length-one base-changed constant point group. Closed-fibre control requires a section of
+the genuine evaluated ambient-to-cokernel projection and injectivity of canonical restriction as
+separate geometric laws; together they derive the supported-`H⁰` bound and feed both localized
+factor orderings. Neither law, the localization boundary, exactness, nor the remaining endpoint
+bounds are manufactured. An open-sheaf equivalence and
 global cohomological localization sequence are still absent. The rank-zero route must construct
 those localization inputs, the actual bad-level extension presentation, and the remaining
 multiplicative-flat endpoint bound. Focused rank-zero specialization therefore remains open, and

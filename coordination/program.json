@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1509805,
-    "integrated_lean_modules": 835,
+    "integrated_lean_lines": 1510450,
+    "integrated_lean_modules": 837,
     "remaining_composite_orders": [
       18,
       25,
@@ -1563,7 +1563,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle, and the normalized transitions satisfy the cocycle for pairwise-distinct indices. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is coherent diagonal normalized self-overlap assembly, followed by full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The generic theorem that an invertible cocycle forces diagonal normalization was reviewed but deliberately not integrated because its concrete specialization does not compile at the default elaboration budget. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. What remains at this boundary is a compiled diagonal-normalization consumer connecting the raw all-index cocycle to `LineBundleCocycle`, followed by full arbitrary-divisor descent effectivity, object separation, rational normalization, and Picard surjectivity.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3002,6 +3002,27 @@
           "state": "contract",
           "description": "Expose the raw chosen-overlap cocycle in the fully expanded pullHom API consumed by line-bundle descent.",
           "module": "MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHom_raw_cocycle_prime",
+          "state": "contract",
+          "description": "Transport the named raw face cocycle into Mathlib's exact `DescentData'.pullHom'` presentation for all triples, including repeated indices.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Expose the concrete chosen overlap isomorphisms as one opaque family with the exact module-pseudofunctor type needed by descent.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRawOverlapIsoFamily_cocycle_prime",
+          "state": "contract",
+          "description": "Compile the full all-index cocycle for the opaque raw overlap-isomorphism family as a real consumer of the named triple transition proof.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime"
         },
         {
           "kind": "theorem",
@@ -4580,7 +4601,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. Exactness at middle H1 propagates finiteness from finite kernel and quotient H1 groups, and the finite-flat Euler and rank-zero consumers no longer ask callers for middle-H1 finiteness. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The same prime localization is now proved principal; its ring Picard group is trivial, and every invertible module is explicitly equivalent to the trivial rank-one module. A normalized tensor-unit cocycle on a faithfully flat affine cover now gives a genuine coalgebra for the extension/restriction comonad, descends effectively to a rank-one module, and becomes the trivial line over Z[1/ell]. Evaluation of an actual represented multiplicative OneCocycle on a singleton affine family now supplies that normalized tensor-unit cocycle: naturality proves normalization and the three overlap pullbacks, while the represented cocycle law proves the tensor identity. Its effective descended module and prime-away trivialization are direct consumers. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. A typed quasi-finite extension presentation now fixes the actual constant-flat and multiplicative-flat factors as kernel and quotient. Their checked trivial integral sections force the middle section group to be trivial, so both factor orders feed the complete quasi-finite Euler theorem without caller-supplied H0, exactness, or middle-H1 finiteness. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Refining arbitrary multi-object fppf covers to singleton affine presentations and comparing gauges remains open. For the rank-zero consumer, one must still construct the actual bad-level extension presentation and prove global constant-flat and multiplicative-flat H1 endpoint certificates and their length bound.",
+      "summary": "The exact iterated constant-or-multiplicative filtration, arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group low-degree Euler estimate compile. Global relative fppf H1 is a genuine common-refinement quotient with its canonical commutative group law and functorial coefficient homomorphisms. Its represented coefficient construction, morphism-level H1 functoriality, and local-lift connecting homomorphism apply to every ambient commutative group scheme. The canonical kernel and finiteness-free geometric kernel presentation yield represented-point exactness, with finite-flat and quasi-finite adapters. A supplied quasi-finite fppf quotient packages its fppf projection and geometric kernel. An actual finite-flat fppf quotient supplies tautological local lifts; common-refinement descent proves all low-degree exactness terms. For every locally liftable ambient morphism, exactness now also holds at global target sections and at kernel-valued H1. Exactness at middle H1 propagates finiteness from finite kernel and quotient H1 groups, and the finite-flat Euler and rank-zero consumers no longer ask callers for middle-H1 finiteness. The geometric Kummer boundary identifies units modulo p-th powers with the actual kernel of H1(mu_p) to H1(G_m). Over Z[1/ell], prime localization units are classified explicitly, the inverted-prime class has exact order p for odd prime p, and both the quotient and the genuine geometric kernel receive length-one finite-p-group certificates. The same prime localization is now proved principal; its ring Picard group is trivial, and every invertible module is explicitly equivalent to the trivial rank-one module. A normalized tensor-unit cocycle on a faithfully flat affine cover now gives a genuine coalgebra for the extension/restriction comonad, descends effectively to a rank-one module, and becomes the trivial line over Z[1/ell]. Evaluation of an actual represented multiplicative OneCocycle on a singleton affine family now supplies that normalized tensor-unit cocycle: naturality proves normalization and the three overlap pullbacks, while the represented cocycle law proves the tensor identity. Its effective descended module and prime-away trivialization are direct consumers. The constant and multiplicative bad-level Hopf localizations, typed inclusions, exact ranges, and integral H0 certificates compile. Their represented-point cokernel presheaves and fppf sheafifications form exact short complexes and vanish after restriction to D(level). The closed fibre Spec(R/(level)) is identified with the complement of D(level); the cokernel sheaves form the corresponding Serre class of supported fppf sheaves. Mathlib's Serre localization constructs the actual abelian quotient and its exact canonical functor. The mapped point-cokernel sequence remains short exact, its supported third term becomes zero, and this exact-sequence argument proves that both actual constant-flat and multiplicative-flat inclusions become isomorphisms in the quotient. An isomorphism of commutative coefficient presheaves now induces an equivalence on the checked global H1, so support gives concrete constant-flat and multiplicative-flat H1 equivalences on D(level) for the universe-lifted additive represented sheaves. Explicit cochain-, cocycle-, cover-, and common-refinement-level universe invariance, together with the multiplicative pullback-adjunction comparison for represented points, identifies this spelling with the original represented group-scheme H1 of the canonical base changes; the constant-flat and multiplicative-flat models are checked downstream consumers. Explicit cover-level and global H1 transport along equivalences of bases now compiles, is compatible with refinements, and combines with represented-point base change. The named basicOpenIsoSpecAway consumer identifies represented H1 on D(level) with the direct Spec(Localization.Away level) model; constant-flat and multiplicative-flat supported comparisons are concrete downstream consumers. Genuine finite-p-group cardinal certificates for the ambient constant or mu_p H1 now transport across those equivalences to the actual bad-level factors, preserving the specified carriers, lengths, and exact cardinal equalities; no arithmetic certificate is manufactured. A typed quasi-finite extension presentation now fixes the actual constant-flat and multiplicative-flat factors as kernel and quotient. Their checked trivial integral sections force the middle section group to be trivial, so both factor orders feed the complete quasi-finite Euler theorem without caller-supplied H0, exactness, or middle-H1 finiteness. The actual represented ambient constant sheaf is now evaluated on the bad fibre `Spec (ZMod level)` and identified, through the checked ULift/Over/base-change equivalence, with the length-one constant point group. A closed-fibre control requires a section of the genuine evaluated ambient-to-cokernel projection and injectivity of the canonical restriction map separately; these laws derive the supported-H0 bound used by both localized factor orderings. Neither geometric law is asserted or replaced by an arbitrary finite-carrier injection. No equivalence with sheaves on the open, recollement, global cohomological localization sequence, or closed-fibre pushforward is asserted. Refining arbitrary multi-object fppf covers to singleton affine presentations and comparing gauges remains open. For the rank-zero consumer, one must still construct the actual bad-level extension presentation, prove the closed-fibre section and restriction-injectivity laws, and prove global constant-flat and multiplicative-flat H1 endpoint certificates and their length bound.",
       "artifacts": [
         {
           "kind": "structure",
@@ -5183,6 +5204,48 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
           "description": "Provide the reverse factor-order localized Euler consumer with the same actual supported-sheaf handoff."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberCokernelProjection",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatBadFiberHZero",
+          "description": "Evaluate the genuine represented-point-to-cokernel fppf projection on the bad-fibre test object `Spec (ZMod level)` over `Spec Z`."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberAmbientHZeroMulEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatBadFiberHZero",
+          "description": "Identify the actual ULifted represented-sheaf evaluation with points of the base-changed constant group through canonical Over and base-change equivalences."
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatBadFiberHZero",
+          "description": "Require a section of the actual evaluated cokernel projection and, separately, injectivity of canonical restriction from global supported sections."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl.boundedData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatBadFiberHZero",
+          "description": "Derive the length-one supported-H0 bound from the section law and canonical restriction injectivity, without accepting source finiteness."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized_closedFiber",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
+          "description": "Consume genuine closed-fibre control in the constant-kernel localized Euler ordering."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized_closedFiber",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
+          "description": "Consume the same genuine closed-fibre control in the reverse localized Euler ordering."
         },
         {
           "kind": "theorem",

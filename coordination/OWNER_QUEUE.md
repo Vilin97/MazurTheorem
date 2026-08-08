@@ -53,7 +53,9 @@ recurrences (`600422d`, `350024a`), and the represented polynomial cusp chart
 with five- and eleven-adic consumers (`b838e9d`), now transported across a
 genuine affine coordinate equivalence with full cusp-local algebra and the same
 two arithmetic consumers (`2825aee`), the raw A3 triple-transition cocycle and
-normalized pairwise-distinct consumer (`510e177`), and coverwise quasi-finite
+normalized pairwise-distinct consumer (`510e177`), its exact all-index
+`DescentData'.pullHom'` raw-isomorphism consumer (`866b14d`), and coverwise
+quasi-finite
 middle-`H¹` exactness with its five-endpoint Euler bound (`d9cf93c`, `31cc4b9`),
 affine quasicoherent cokernel closure with its genuine Ext-`H⁰` consumer
 (`07b3ad6`), the two actual bad-level factor-order Euler specializations
@@ -70,6 +72,11 @@ constant-flat cokernel sections, inclusion-induced global `H¹` map, and
 localization exactness boundary are now a typed handoff; both factor orderings
 consume it through carrier-preserving endpoint bounds (`6eb0919`, API-repaired
 by `48331ad`). Neither the boundary nor its endpoint bounds are asserted.
+The actual represented constant sheaf is now evaluated on the bad fibre and
+identified with the length-one constant point group. A closed-fibre control
+must split the genuine evaluated ambient-to-cokernel projection and must prove
+canonical restriction injective separately; these laws feed both localized
+Euler orderings (`0dde293`, API-repaired by `dfb771f`). Neither law is asserted.
 The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
@@ -89,9 +96,15 @@ further pullback, and a diagonal transition is the canonical coherent
 self-overlap (`9188250`, repaired by `be75c7d`). Opaque named face maps now
 assemble the direct and raw chosen-overlap cocycles, including the fully
 expanded `pullHom` consumer, and the normalized cocycle holds for all
-pairwise-distinct indices (`510e177`). The remaining coherence obligation is
-the normalized diagonal case, followed by arbitrary-divisor descent
-effectivity; A3 therefore remains open.
+pairwise-distinct indices (`510e177`). The raw overlap-isomorphism family now
+satisfies the exact all-index `DescentData'.pullHom'` cocycle, including
+repeated indices, and is part of the public Geometry closure (`866b14d`).
+Independent review rejected the accompanying generic forced-normalization API
+because it had no compiled concrete consumer; direct specialization also
+exceeded the default elaboration budget. The remaining coherence obligation is
+a compiled diagonal-normalization consumer packaging the raw family as
+`LineBundleCocycle`, followed by arbitrary-divisor descent effectivity; A3
+therefore remains open.
 
 The multiplicative descent lane now constructs the honest one-way refinement
 available for a finite affine fppf family. The original components refine the
@@ -527,6 +540,12 @@ The two retained AINTLIB sheaf-cohomology targets and their local
 dimension-shift consumer rebuild a 2,775-job focused closure. Both new public
 injectivity declarations use only `propext`, `Classical.choice`, and
 `Quot.sound`.
+The repaired closed-fibre constant-flat target and both localized Euler
+consumers rebuild a 3,138-job focused closure. The actual evaluated projection,
+ULift/Over/base-change equivalence, derived injections, supported-H0 bound, and
+both factor orderings have only the same standard axiom closure. The all-index
+raw A3 cocycle and its public Geometry consumer rebuild a 3,491-job closure;
+all four new declarations likewise use only those three axioms.
 The recovered `codex/mt-cuspidal-finite` and
 `codex/mt-fiber-stalk-naturality` worktrees are clean and pushed. Their unique
 commits are patch-equivalent to the already integrated `6e1a994` and
@@ -537,10 +556,11 @@ contracts, and the exact source baseline above. Challenge immutability against
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the A3 diagonal normalized cocycle and the next
-positive-degree affine local-killing boundary. A closed-fibre restriction
-worker has a compiled constant-flat branch awaiting owner review; construction
-of its actual comparison map and injectivity proof remains explicit. The
+workers are pursuing a concrete A3 raw-cocycle normalization consumer, review
+of the positive-degree affine local-killing proof, and the resulting affine-H1
+vanishing theorem. The closed-fibre control API is integrated after independent
+review; construction of its actual projection section and canonical
+restriction-injectivity proof remains explicit. The
 normalized order-25 model and both quasi-finite bad-level Euler
 specializations are integrated. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
@@ -1551,9 +1571,12 @@ within each lane follows the listed order.
    constant-flat cokernel sections and genuine inclusion-induced `H¹` map;
    both factor orders consume its boundary/exactness plus supported and
    ambient endpoint bounds, with no global constant-flat `H¹` certificate.
-   Constructing that boundary and exactness, bounding its actual supported
-   `H⁰`, and bounding the ambient constant-group `H¹` remain, as do the actual
-   bad-level extension presentation and multiplicative endpoint. The numerical
+   The supported `H⁰` bound now follows from a section of the genuine evaluated
+   bad-fibre cokernel projection plus injectivity of canonical restriction;
+   proving those two geometric laws remains. Constructing the localization
+   boundary and exactness and bounding the ambient constant-group `H¹` also
+   remain, as do the actual bad-level extension presentation and multiplicative
+   endpoint. The numerical
    Kummer rank-zero theorem and its actual
    represented-`H1` two-factor admissible-filtration consumers now compile.
    Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
