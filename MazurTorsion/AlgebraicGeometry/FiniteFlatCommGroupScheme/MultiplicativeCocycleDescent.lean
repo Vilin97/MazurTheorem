@@ -50,14 +50,25 @@ noncomputable def descendedModule (hf : f.FaithfullyFlat)
   let K := Comonad.comparison (comonadicAdjunction (extendScalars f))
   exact K.objPreimage D
 
+/-- Effective faithfully-flat descent supplies an isomorphism of descent coalgebras, not only
+an isomorphism of their underlying modules.  Keeping this stronger comparison available is
+what lets a trivialization of the descended line produce an actual Cech gauge. -/
+noncomputable def baseChangeCoalgebraIso (hf : f.FaithfullyFlat)
+    (D : DescentCoalgebra f hf) :
+    letI : ComonadicLeftAdjoint (extendScalars f) := comonadicExtendScalars hf
+    (Comonad.comparison (comonadicAdjunction (extendScalars f))).obj
+        (descendedModule f hf D) ≅ D := by
+  letI : ComonadicLeftAdjoint (extendScalars f) := comonadicExtendScalars hf
+  let K := Comonad.comparison (comonadicAdjunction (extendScalars f))
+  exact K.objObjPreimageIso D
+
 /-- Base-changing the recovered module gives the underlying module of the descent coalgebra. -/
 noncomputable def baseChangeIso (hf : f.FaithfullyFlat)
     (D : DescentCoalgebra f hf) :
     (extendScalars f).obj (descendedModule f hf D) ≅ D.A := by
   letI : ComonadicLeftAdjoint (extendScalars f) := comonadicExtendScalars hf
   let adj := comonadicAdjunction (extendScalars f)
-  let K := Comonad.comparison adj
-  exact (Comonad.forget adj.toComonad).mapIso (K.objObjPreimageIso D)
+  exact (Comonad.forget adj.toComonad).mapIso (baseChangeCoalgebraIso f hf D)
 
 private noncomputable def localTrivialization (hf : f.FaithfullyFlat)
     (D : DescentCoalgebra f hf) (e : D.A ≅ ModuleCat.of B B) :
@@ -515,6 +526,130 @@ noncomputable def MultiplicativeUnitCocycle.descendedModuleLinearEquivBase
     c.descendedModule hf ≃ₗ[A] A :=
   ComonadicRankOneDescent.descendedModuleLinearEquivBase
     (algebraMap A B) hf c.toCoalgebra (Iso.refl _)
+
+private noncomputable def baseChangedLinearEquiv
+    (M : ModuleCat A) (e : M ≃ₗ[A] A) :
+    (extendScalars (algebraMap A B)).obj M ≃ₗ[B] B := by
+  let N := (restrictScalars (algebraMap A B)).obj (ModuleCat.of B B)
+  letI : IsScalarTower A B N := IsScalarTower.of_compHom A B N
+  letI : SMulCommClass A B N :=
+    ModuleCat.sMulCommClass_mk (algebraMap A B) B
+  exact (TensorProduct.AlgebraTensorModule.congr
+      (restrictedRegularToRegularLinearEquiv (A := A) (B := B)) e).trans
+    (TensorProduct.AlgebraTensorModule.rid A B B)
+
+private noncomputable def linearAutomorphismUnit (e : B ≃ₗ[B] B) : Bˣ where
+  val := e 1
+  inv := e.symm 1
+  val_inv := by
+    change e 1 * e.symm 1 = 1
+    calc
+      e 1 * e.symm 1 = e.symm (e 1) := by
+        simpa [smul_eq_mul] using (e.symm.map_smul (e 1) 1).symm
+      _ = 1 := e.symm_apply_apply 1
+  inv_val := by
+    change e.symm 1 * e 1 = 1
+    calc
+      e.symm 1 * e 1 = e (e.symm 1) := by
+        simpa [smul_eq_mul] using (e.map_smul (e.symm 1) 1).symm
+      _ = 1 := e.apply_symm_apply 1
+
+@[simp]
+private theorem baseChangedLinearEquiv_symm_one
+    (M : ModuleCat A) (e : M ≃ₗ[A] A) :
+    (baseChangedLinearEquiv (B := B) M e).symm 1 =
+      ((show (restrictScalars (algebraMap A B)).obj (ModuleCat.of B B) from (1 : B)) ⊗ₜ[A]
+        e.symm 1 : (extendScalars (algebraMap A B)).obj M) := by
+  simp only [baseChangedLinearEquiv]
+  rfl
+
+private theorem comonadPairIso_hom_comparison_map_tmul
+    (hf : (algebraMap A B).FaithfullyFlat) (M : ModuleCat A)
+    (q : (extendScalars (algebraMap A B)).obj M ⟶ ModuleCat.of B B) (m : M) :
+    letI : ComonadicLeftAdjoint (extendScalars (algebraMap A B)) :=
+      comonadicExtendScalars hf
+    (comonadPairIso (A := A) (B := B)).hom
+        ((descentComonad (A := A) (B := B)).map q
+          (((Comonad.comparison
+            (comonadicAdjunction (extendScalars (algebraMap A B)))).obj M).a
+              ((show (restrictScalars (algebraMap A B)).obj (ModuleCat.of B B) from (1 : B))
+                ⊗ₜ[A] m))) =
+      (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B)
+        (q ((show (restrictScalars (algebraMap A B)).obj (ModuleCat.of B B) from (1 : B))
+          ⊗ₜ[A] m)) := by
+  letI : ComonadicLeftAdjoint (extendScalars (algebraMap A B)) :=
+    comonadicExtendScalars hf
+  rfl
+
+/-- A trivialization of the effective descent of a multiplicative tensor cocycle gives the
+actual Cech gauge.  This is the missing compatibility step between rank-one module descent and
+the represented `G_m` cocycle: the two pullbacks of `u` differ by precisely the cocycle unit. -/
+theorem MultiplicativeUnitCocycle.exists_coboundaryUnit
+    (c : MultiplicativeUnitCocycle (A := A) (B := B))
+    (hf : (algebraMap A B).FaithfullyFlat) [Nontrivial B] [IsDomain A]
+    [IsPrincipalIdealRing A] :
+    ∃ u : Bˣ,
+      Units.map (Algebra.TensorProduct.includeLeft : B →ₐ[A] B ⊗[A] B).toMonoidHom u *
+          c.unit =
+        Units.map (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B).toMonoidHom u := by
+  let M := c.descendedModule hf
+  let e : M ≃ₗ[A] A := c.descendedModuleLinearEquivBase hf
+  let t : (extendScalars (algebraMap A B)).obj M ≃ₗ[B] B :=
+    baseChangedLinearEquiv (B := B) M e
+  let q : (extendScalars (algebraMap A B)).obj M ≃ₗ[B] B :=
+    c.baseChangeIso hf |>.toLinearEquiv
+  let a : B ≃ₗ[B] B := t.symm.trans q
+  let u : Bˣ := linearAutomorphismUnit a
+  refine ⟨u, ?_⟩
+  letI : ComonadicLeftAdjoint (extendScalars (algebraMap A B)) :=
+    comonadicExtendScalars hf
+  let qCoalgebra := ComonadicRankOneDescent.baseChangeCoalgebraIso
+    (algebraMap A B) hf c.toCoalgebra
+  let v : (extendScalars (algebraMap A B)).obj M :=
+    (show (restrictScalars (algebraMap A B)).obj (ModuleCat.of B B) from (1 : B)) ⊗ₜ[A]
+      e.symm 1
+  have hu : (u : B) = q v := by
+    change a 1 = q v
+    rw [show a = t.symm.trans q by rfl]
+    change q (t.symm 1) = q v
+    rw [show t = baseChangedLinearEquiv (B := B) M e by rfl,
+      baseChangedLinearEquiv_symm_one]
+  have hcoal := qCoalgebra.hom.h
+  have hv := congrArg (fun k ↦ k v) hcoal
+  have hv' := congrArg (fun z ↦
+    (comonadPairIso (A := A) (B := B)).hom z) hv
+  change (comonadPairIso (A := A) (B := B)).hom
+      ((descentComonad (A := A) (B := B)).map qCoalgebra.hom.f
+        (((Comonad.comparison
+          (comonadicAdjunction (extendScalars (algebraMap A B)))).obj M).a v)) =
+    (comonadPairIso (A := A) (B := B)).hom
+      (structureMap c.unit (qCoalgebra.hom.f v)) at hv'
+  have hv'' : (comonadPairIso (A := A) (B := B)).hom
+      ((descentComonad (A := A) (B := B)).map qCoalgebra.hom.f
+        (((Comonad.comparison
+          (comonadicAdjunction (extendScalars (algebraMap A B)))).obj M).a v)) =
+      leftOverlapMap (show B from qCoalgebra.hom.f v) * (c.unit : B ⊗[A] B) :=
+    hv'.trans (comonadPairIso_hom_structureMap_apply (A := A) (B := B)
+      c.unit (show B from qCoalgebra.hom.f v))
+  have hqv : qCoalgebra.hom.f v = (u : B) := by
+    exact hu.symm
+  rw [hqv] at hv''
+  have hleft : (comonadPairIso (A := A) (B := B)).hom
+      ((descentComonad (A := A) (B := B)).map qCoalgebra.hom.f
+        (((Comonad.comparison
+          (comonadicAdjunction (extendScalars (algebraMap A B)))).obj M).a v)) =
+      (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B) (u : B) := by
+    calc
+      _ = (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B)
+          (qCoalgebra.hom.f v) := by
+        convert (comonadPairIso_hom_comparison_map_tmul (A := A) (B := B) hf M
+          qCoalgebra.hom.f (e.symm 1)) using 1 <;> rfl
+      _ = _ := by rw [hqv]
+  apply Units.ext
+  change (Algebra.TensorProduct.includeLeft : B →ₐ[A] B ⊗[A] B) (u : B) *
+      (c.unit : B ⊗[A] B) =
+    (Algebra.TensorProduct.includeRight : B →ₐ[A] B ⊗[A] B) (u : B)
+  simpa only [leftOverlapMap] using hv''.symm.trans hleft
 
 private theorem primeAway_nontrivial (ℓ : ℕ) (hℓ : ℓ.Prime) :
     Nontrivial (Localization.Away (ℓ : ℤ)) :=
