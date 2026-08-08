@@ -827,6 +827,19 @@ theorem minimalCompletionAtFive_not_hasAdditiveReduction_of_primeOrder
       hmap D.uniformizer D.uniformizer_irreducible ha₄four ha₆six)
       hAdditive.toIsMinimal
 
+/-- Stable prime-route endpoint: a marked point of exact prime order at least
+eleven excludes additive reduction on the selected five-adic minimal model. -/
+theorem not_additiveReductionAtFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    ¬(minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ) :=
+  minimalCompletionAtFive_not_hasAdditiveReduction_of_primeOrder
+    E P N hprime hN horder
+
 /-- Integral `j` and a marked prime-order point force good reduction on
 Mathlib's selected five-adic minimal equation.  The additive branch is now
 closed by the checked marked-point depth and minimality argument. -/
@@ -845,9 +858,25 @@ theorem minimalCompletionAtFive_hasGoodReduction_of_valuation_j_le_one_of_primeO
   exact hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction
     hj P N
       (fun hA horder' ↦
-        (minimalCompletionAtFive_not_hasAdditiveReduction_of_primeOrder
-          E P N hprime hN horder') hA)
+        (not_additiveReductionAtFive E P N hprime hN horder') hA)
       horder
+
+/-- Stable prime-route endpoint: integral `j` and a marked point of exact
+prime order at least eleven force good reduction at five. -/
+theorem goodReductionAtFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hj : valuation (atFive.adicCompletion ℚ)
+      (IsDiscreteValuationRing.maximalIdeal
+        (atFive.adicCompletionIntegers ℚ))
+      (minimalCompletionAtFive E).j ≤ 1)
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    (minimalCompletionAtFive E).HasGoodReduction
+      (atFive.adicCompletionIntegers ℚ) :=
+  minimalCompletionAtFive_hasGoodReduction_of_valuation_j_le_one_of_primeOrder
+    E hj P N hprime hN horder
 
 /-- The `j`-invariant of the selected minimal completion is the image of the original rational
 `j`-invariant.  Both coefficient extension and the chosen admissible variable change are made
@@ -1000,8 +1029,7 @@ theorem rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_oneAtFive
     rw [valuation_minimalCompletionAtFive_j]
     exact hj
   have hgood :=
-    minimalCompletionAtFive_hasGoodReduction_of_valuation_j_le_one_of_primeOrder
-      E hj' P' N hprime hN horder'
+    goodReductionAtFive E hj' P' N hprime hN horder'
   exact completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive
     hgood P' N hN horder'
 
