@@ -577,22 +577,28 @@ The strongest concrete reuse candidates are:
   The option-free long exact sequence and exact additive-sheaf forgetful
   functor are now retained as attributed ports. A checked local consumer
   proves that an affine-cover inclusion is injective on `H^(n + 1)` whenever
-  `H^n` of its actual cokernel vanishes. The full affine-vanishing result is
-  not claimed: constructing the local-killing cover and proving that
-  cokernel hypothesis remain open. The option-free base-Cech and ordered
-  degree-one comparison slices are also retained. The checked project
+  `H^n` of its actual cokernel vanishes; the project now discharges the
+  resulting affine-acyclicity induction independently. The option-free
+  base-Cech and ordered degree-one comparison slices are also retained. The
+  checked project
   consumer `nativeBaseCechHOne_finite_of_ordered` transfers `Module.Finite`
   from ordered degree-one homology to native all-tuples degree-one homology.
   The separately checked comparison
   `nativeBaseCechHOneForgetIso_of_affineOpenCover` identifies the underlying
   additive group of native base-Cech `H¹` with genuine Ext-based sheaf `H¹`;
-  its elementwise preimage theorem is a compiled downstream consumer. This
-  closes the option-free degree-one sheaf-Cech comparison, but it does not
-  supply scalar compatibility and therefore does not by itself transport
-  `Module.Finite` to sheaf cohomology. The source's properness cone, the
-  base-linear Ext transport, proper ordered input, and final curve `H¹`
-  facade remain open. Nor does this prior art provide relative base change or
-  semicontinuity APIs required by the roadmap.
+  its elementwise preimage theorem is a compiled downstream consumer. The
+  global-functions action is now transported explicitly to genuine sheaf
+  `H¹`, and a checked linear equivalence carries `Module.Finite` through the
+  comparison. The canonical-support extension has also been ported through
+  finite affine support annihilation, ideal-power reconstruction, the
+  open-local pullback unit, full support of the canonical model, and strict
+  support decrease of comparison residuals. This is still only the input to
+  the Chow/projective low-degree comodel. An audit of historical AINTLIB
+  commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
+  degree-zero/degree-one support induction before the later all-degree
+  rewrite; that is the route being ported. The proper ordered input and final
+  proper-curve `H¹` facade remain open. Nor does this prior art provide the
+  relative base-change or semicontinuity APIs required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).

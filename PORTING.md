@@ -203,12 +203,11 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Forty-four local Apache-2.0 modules were selected from the AINTLIB
+Seventy local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. Thirty-seven upstream files are retained
-whole; nine additional source files contribute the narrow option-free slices
-recorded below:
+`MazurTorsion/Upstream/AINTLIB/`. The first forty-four modules comprise the
+whole files and narrow option-free slices in the following table:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
 |---|---|
@@ -258,6 +257,41 @@ recorded below:
 | `ForMathlib/SheafCechInjectiveComparison.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechInjectiveComparison.lean` |
 | `ForMathlib/AcyclicAffineCechComparison.lean` (degree-one comparison only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/AcyclicAffineCechComparison.lean` |
 | `ForMathlib/SchemeModuleBaseCechHomology.lean` (homology isomorphisms only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechHomology.lean` |
+
+The canonical-support extension adds twenty-six local modules. It draws on
+the following twenty-seven source files because the open-unit module embeds
+only the required mate-comparison slice of `OpenAdjunction`, while the support
+source is split between the earlier rank core and the remaining support API:
+
+| Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination or retained slice |
+|---|---|
+| `ForMathlib/SpecBasicOpenAway.lean` | `ForMathlib/SpecBasicOpen.lean` (`specBasicOpen` only) |
+| `ForMathlib/SchemeModuleRestrictLimits.lean` | same basename |
+| `ForMathlib/SchemeModuleRestrictPushforward.lean` | same basename |
+| `ForMathlib/SchemeModuleQuasicoherent.lean` | same basename |
+| `ForMathlib/SheafModuleFiniteTypeQuotient.lean` | same basename |
+| `ForMathlib/SchemeModuleSupport.lean` | `SchemeModuleSupport.lean` (after the separately retained rank core) |
+| `ForMathlib/SchemeModuleComparisonCoherent.lean` | same basename |
+| `ForMathlib/SchemeModuleSupportDrop.lean` | same basename |
+| `ForMathlib/SchemeModuleComparisonSupport.lean` | same basename |
+| `ForMathlib/FiniteModuleSupportAnnihilation.lean` | same basename |
+| `ForMathlib/FiniteFamilySupportAnnihilation.lean` | same basename |
+| `ForMathlib/FiniteAffineSupportAnnihilation.lean` | same basename |
+| `ForMathlib/IdealSheafPowerSubscheme.lean` | same basename |
+| `ForMathlib/SchemeModuleOpenCoverIso.lean` | same basename |
+| `ForMathlib/AdjunctionUnitIsoTransport.lean` | same basename |
+| `ForMathlib/SurjectiveRestrictionScalars.lean` | same basename |
+| `ForMathlib/AffineModuleBaseChange.lean` | same basename (affine-tilde unit slice) |
+| `ForMathlib/AffineIdealQuotientPullbackUnit.lean` | same basename |
+| `ForMathlib/SchemeModulePullbackUnitComposition.lean` | same basename |
+| `ForMathlib/IdealSheafAffineChartPullbackUnit.lean` | same basename |
+| `ForMathlib/IdealSheafSubschemeAffineChart.lean` | same basename |
+| `ForMathlib/IdealSheafSubschemeRestrictPullbackUnit.lean` | same basename |
+| `ForMathlib/FiniteSupportIdealSheafPullbackUnit.lean` | same basename |
+| `ForMathlib/SchemeModuleOpenUnitIso.lean` | same basename |
+| `Picard/DualPullback/OpenAdjunction.lean` | private comparison slice in `SchemeModuleOpenUnitIso.lean` |
+| `ForMathlib/SchemeModuleCanonicalSupportThickening.lean` | same basename |
+| `ForMathlib/SchemeModuleCanonicalSupportFull.lean` | same basename |
 
 The audited `dev/modular-curves` snapshot has no root `LICENSE` file. The
 selected sources preserve their per-file Apache-2.0 headers and authorship
@@ -386,6 +420,63 @@ Every newly selected source blob is byte-identical at those commits:
 `SchemeModuleSupport` `05e468b4ebf3d416878f813a51f3d9b09e91e07a`,
 and `BaseChangeKerCoker` `a3f9de90ecf592ea374d40bd30dccb1ab207fd38`.
 All carry per-file Apache-2.0 headers.
+
+The canonical-support extension was checked at the selected snapshot, AINTLIB
+head `6b879658fe916b5db2afcddebbed35a9dc10aa61`, and the license-bearing main
+commit `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`. Every source blob below is
+byte-identical at all three commits:
+
+```text
+SpecBasicOpenAway                         e095f85c410aaf1f801fa56f487d76c554406d54
+SchemeModuleRestrictLimits                4fe7c7bfca56a2c998e605626abfe2ece9b415ec
+SchemeModuleRestrictPushforward           ea28c07e0ef7b10b88289f1553033ceaa8e1e606
+SchemeModuleQuasicoherent                 057755cb6d2bf099a37c7a6cd5a6a22e5379205a
+SheafModuleFiniteTypeQuotient             b8f4a381af4a1e065dd5902dc8540d2b96b8e86a
+SchemeModuleSupport                       05e468b4ebf3d416878f813a51f3d9b09e91e07a
+SchemeModuleComparisonCoherent            317261046fcf79bcfe62814d2418cb16630f1900
+SchemeModuleSupportDrop                   d9d5b1e42f7ed8430cc4be63ee8c8da8abcf6da0
+SchemeModuleComparisonSupport             ae86e35866a3598a2f07390c9c0a9b3b5d459813
+FiniteModuleSupportAnnihilation           875f3cfcd0abd5c439ba3da82f80d8a711abbbfe
+FiniteFamilySupportAnnihilation           4bef8777d1a0b3cf3f85fbe61da5fa9c7b3c6427
+FiniteAffineSupportAnnihilation           f85d62d009d257f27e35a2362103d4756eb62fb8
+IdealSheafPowerSubscheme                  f9952c7efea956f34d9c994e6653102ebb316849
+SchemeModuleOpenCoverIso                  d465c770c8e1ce2df4385af6e2c59a83e1e68b18
+AdjunctionUnitIsoTransport                fd2abc869c3f903765fe3ecf911904d2c4d2d122
+SurjectiveRestrictionScalars              23273f3b313ee2ce7ad9d104f81abb34782136ee
+AffineModuleBaseChange                    bf22627acabeed6cb8e1d6f67d413b5b69f030dc
+AffineIdealQuotientPullbackUnit           9fcc28f9acb8992d1f38cab69f60bc0ed1921e36
+SchemeModulePullbackUnitComposition       fd04f9660e2580a0f94c7a393890460284497ae0
+IdealSheafAffineChartPullbackUnit         62c309c86671c759805fcbd425960c437ad6c140
+IdealSheafSubschemeAffineChart            bd2070312717e39dbbc481a3eeff1a7ae23bed21
+IdealSheafSubschemeRestrictPullbackUnit   226d1f541c164c20051e90922157dd9baa7e2c51
+FiniteSupportIdealSheafPullbackUnit       bda3f5b8cb5626982f4f4382270beaf78125b618
+SchemeModuleOpenUnitIso                   8dd3b6b404de1f0bd74b8239684ab600f4bbb7ab
+Picard/DualPullback/OpenAdjunction        82b26b00fe5e8b57f9c3ec98d6db0971ecb99be1
+SchemeModuleCanonicalSupportThickening    2bbf06a913a5f6bb55570a8929a131f7f7201e78
+SchemeModuleCanonicalSupportFull          ff3b65392ba91c12e5f250c9dde9dd1640850efd
+```
+
+The extension is adapted to the immutable older Mathlib pin without options.
+`SpecBasicOpen` stops before the source compatibility tail. The full support
+module imports the already retained rank core and omits only duplicate
+declarations. The affine-base-change module retains exactly the tilde-unit
+comparison consumed by the affine ideal-quotient theorem; quasicoherence of
+its pullback is transported across that same comparison. The open-unit module
+keeps its public localization theorem but makes the required explicit-square
+and conjugate-equivalence calculation private, avoiding the unrelated Picard
+dependency cone. The generated long-name colimit instance in the
+quasicoherent source is expanded to its source proof body for the style gate,
+and the older-pin finite-module call is supplied explicitly. The two
+base-presheaf restriction comparison declarations are public only because
+`SchemeModuleQuasicoherent` is their compiled downstream consumer.
+
+This checkpoint proves that every finite-type quasicoherent module on a
+Noetherian scheme has a canonical closed thickening model whose
+pullback--pushforward unit is invertible, and that the model has full closed
+stalk support. It also retains the finite-type/quasicoherent comparison
+residuals and their strict support decrease. These are inputs to, not a
+substitute for, the Chow/projective low-degree comodel. No properness or
+cohomology-finiteness conclusion is claimed at this checkpoint.
 
 This low-degree cone does not import the 1,956-line
 `SchemeModuleQuasicoherent` module or AINTLIB's all-degree properness cone.
