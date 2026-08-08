@@ -485,6 +485,21 @@ def eisensteinCubeReal (x y : ℤ) : ℤ :=
 def eisensteinCubeEta (x y : ℤ) : ℤ :=
   3 * (x * y * (x - y))
 
+private theorem eisensteinCubeEta_zero_mod_six :
+    ∀ x y : ZMod 6, 3 * (x * y * (x - y)) = 0 := by
+  decide
+
+/-- The `ζ₃` coordinate of every integral Eisenstein cube is divisible by
+six.  This retains both the forced factor three and the parity of the product
+of the three cusp factors. -/
+theorem eisensteinCubeEta_six_dvd (x y : ℤ) :
+    (6 : ℤ) ∣ eisensteinCubeEta x y := by
+  have hzero :=
+    eisensteinCubeEta_zero_mod_six (x : ZMod 6) (y : ZMod 6)
+  apply (ZMod.intCast_zmod_eq_zero_iff_dvd
+    (eisensteinCubeEta x y) 6).mp
+  simpa [eisensteinCubeEta] using hzero
+
 /-- The integral coordinates of a literal Eisenstein cube. -/
 theorem eisensteinCube_eq_coords (x y : ℤ) :
     (((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3 =
@@ -882,6 +897,109 @@ theorem seven_dvd_eisensteinCubeEta_of_eightScalar_survivor
   exact (ZMod.intCast_zmod_eq_zero_iff_dvd
     (eisensteinCubeEta x y) 7).mp hetaZero
 
+/-! ## The single primitive cubic correspondence -/
+
+/-- The exact cubic-coordinate correspondence in the surviving `k = ±4`
+unit class. -/
+def FourScalarEisensteinCubeCorrespondence
+    (x y u v : ℤ) : Prop :=
+  eisensteinCubeEta u v = 2 * eisensteinCubeEta x y ∧
+    eisensteinCubeReal u v =
+      eisensteinCubeReal x y + 2 * eisensteinCubeEta x y
+
+/-- The surviving `k = ±8` relation is the same cubic correspondence with
+the two roots exchanged and one root negated.  Thus the two scalar branches
+do not leave independent global Diophantine problems. -/
+theorem eightScalar_iff_fourScalar_swapped_negated
+    (x y u v : ℤ) :
+    (eisensteinCubeReal u v =
+          eisensteinCubeEta x y - eisensteinCubeReal x y ∧
+        2 * eisensteinCubeEta u v = -eisensteinCubeEta x y) ↔
+      FourScalarEisensteinCubeCorrespondence u v (-x) (-y) := by
+  simp only [FourScalarEisensteinCubeCorrespondence,
+    eisensteinCubeReal, eisensteinCubeEta]
+  constructor
+  · rintro ⟨hreal, heta⟩
+    constructor
+    · ring_nf at *
+      omega
+    · ring_nf at *
+      omega
+  · rintro ⟨heta, hreal⟩
+    constructor
+    · ring_nf at *
+      omega
+    · ring_nf at *
+      omega
+
+private theorem seven_dvd_of_seven_dvd_two_mul
+    {z : ℤ} (hseven : (7 : ℤ) ∣ 2 * z) :
+    (7 : ℤ) ∣ z := by
+  have hprime : Prime (7 : ℤ) :=
+    (Int.prime_iff_natAbs_prime).2 (by decide)
+  rcases hprime.dvd_mul.mp hseven with htwo | hz
+  · norm_num at htwo
+  · exact hz
+
+private theorem seven_dvd_second_eta_of_eightScalar
+    {x y u v : ℤ}
+    (hseven : (7 : ℤ) ∣ eisensteinCubeEta x y)
+    (heta : 2 * eisensteinCubeEta u v =
+      -eisensteinCubeEta x y) :
+    (7 : ℤ) ∣ eisensteinCubeEta u v := by
+  apply seven_dvd_of_seven_dvd_two_mul
+  rw [heta]
+  exact dvd_neg.mpr hseven
+
+private theorem isCoprime_cubeCoords_of_four_parameters
+    {m n r e : ℤ} (hmn : IsCoprime m n)
+    (hm : m = -r - e) (hn : n = r - e) :
+    IsCoprime r e := by
+  obtain ⟨c, d, hbezout⟩ := hmn
+  refine ⟨d - c, -c - d, ?_⟩
+  rw [hm, hn] at hbezout
+  linear_combination hbezout
+
+private theorem isCoprime_cubeCoords_of_eight_parameters
+    {m n r e : ℤ} (hmn : IsCoprime m n)
+    (hm : m = 2 * e - r) (hn : n = -r) :
+    IsCoprime r e := by
+  obtain ⟨c, d, hbezout⟩ := hmn
+  refine ⟨-c - d, 2 * c, ?_⟩
+  rw [hm, hn] at hbezout
+  linear_combination hbezout
+
+private theorem isCoprime_four_second_cubeCoords
+    {r e r' e' : ℤ}
+    (hcoprime : IsCoprime r e) (hrodd : Odd r)
+    (heta : e' = 2 * e) (hreal : r' = r + 2 * e) :
+    IsCoprime r' e' := by
+  have hrealEta : IsCoprime (r + 2 * e) e := by
+    simpa [mul_comm] using hcoprime.add_mul_left_left (2 : ℤ)
+  have hrealTwo : IsCoprime (r + 2 * e) 2 := by
+    apply Int.isCoprime_two_right.mpr
+    obtain ⟨q, hq⟩ := hrodd
+    exact ⟨q + e, by omega⟩
+  rw [heta, hreal]
+  exact hrealTwo.mul_right hrealEta
+
+private theorem isCoprime_eight_second_cubeCoords
+    {r e r' e' : ℤ}
+    (hcoprime : IsCoprime r e)
+    (hreal : r' = e - r) (heta : 2 * e' = -e) :
+    IsCoprime r' e' := by
+  obtain ⟨c, d, hbezout⟩ := hcoprime
+  refine ⟨-c, -2 * c - 2 * d, ?_⟩
+  rw [hreal]
+  linear_combination hbezout - (c + d) * heta
+
+private theorem fortyTwo_dvd_of_six_dvd_of_seven_dvd
+    {z : ℤ} (hsix : (6 : ℤ) ∣ z) (hseven : (7 : ℤ) ∣ z) :
+    (42 : ℤ) ∣ z := by
+  have hcoprime : IsCoprime (6 : ℤ) 7 :=
+    ⟨-1, 1, by norm_num⟩
+  simpa using hcoprime.mul_dvd hsix hseven
+
 private theorem splitHalfFirstFactor_cubeUnitCoords
     [NumberField K] [IsCyclotomicExtension {3} ℚ K]
     {m n : ℤ}
@@ -943,6 +1061,17 @@ def SurvivingEisensteinCubeSystems (m n k : ℤ) : Prop :=
         eisensteinCubeEta x y - eisensteinCubeReal x y ∧
       2 * eisensteinCubeEta u v = -eisensteinCubeEta x y ∧
       (7 : ℤ) ∣ m - n)
+
+/-- The single global arithmetic statement left by both normalized scalar
+branches.  It says that a primitive integral point of the surviving cubic
+correspondence, in the forced `42 ∣ eta` residue class, is cuspidal. -/
+def PrimitiveFourScalarEisensteinCubeDegeneracy : Prop :=
+  ∀ x y u v : ℤ,
+    IsCoprime (eisensteinCubeReal x y) (eisensteinCubeEta x y) →
+    IsCoprime (eisensteinCubeReal u v) (eisensteinCubeEta u v) →
+    (42 : ℤ) ∣ eisensteinCubeEta x y →
+    FourScalarEisensteinCubeCorrespondence x y u v →
+    eisensteinCubeEta x y = 0
 
 /-! ## The cube-allocated finite boundary -/
 
@@ -1205,6 +1334,119 @@ theorem threeUnitClassEisensteinIntegerObstruction_of_survivingSystems
   exact hobs m n a b k hn hb hmn hab ha habne hm hnodd hleading htrace
     hpair hmodFour' hnorm hseven hsurviving
 
+/-- Degeneracy of the single primitive four-scalar correspondence excludes
+both explicit surviving scalar systems. -/
+theorem survivingEisensteinCubeSystemObstruction_of_primitiveFourScalarDegeneracy
+    (hdegeneracy : PrimitiveFourScalarEisensteinCubeDegeneracy) :
+    SurvivingEisensteinCubeSystemFiniteSplitCyclicCubicObstruction := by
+  intro m n a b k hn hb hmn hab ha habne hm hnodd hleading _htrace
+    _hpair _hmodFour _hnorm _hseven hsurviving
+  rcases hsurviving with
+    ⟨hk, x, y, u, v, hfirstReal, hfirstEta, hsecondEta,
+      hsecondReal, hsevenEta⟩ |
+    ⟨hk, x, y, u, v, hfirstReal, hfirstEta, hsecondReal,
+      hsecondEta, hsevenEta⟩
+  · have hsum : 2 * ((m + n) / 2) = m + n := by
+      obtain ⟨r, hr⟩ := hm
+      obtain ⟨s, hs⟩ := hnodd
+      omega
+    have hmCoords : m =
+        -eisensteinCubeReal x y - eisensteinCubeEta x y := by
+      omega
+    have hcoprimeFirst :=
+      isCoprime_cubeCoords_of_four_parameters hmn
+        hmCoords hfirstEta
+    have hsixEta := eisensteinCubeEta_six_dvd x y
+    have hrealOdd : Odd (eisensteinCubeReal x y) := by
+      obtain ⟨q, hq⟩ := hsixEta
+      obtain ⟨r, hr⟩ := hnodd
+      refine ⟨r + 3 * q, ?_⟩
+      omega
+    have hcoprimeSecond :=
+      isCoprime_four_second_cubeCoords hcoprimeFirst hrealOdd
+        hsecondEta hsecondReal
+    have hsevenFirstEta :
+        (7 : ℤ) ∣ eisensteinCubeEta x y := by
+      apply seven_dvd_of_seven_dvd_two_mul
+      obtain ⟨q, hq⟩ := hsevenEta
+      refine ⟨-q, ?_⟩
+      omega
+    have hfortyTwo :=
+      fortyTwo_dvd_of_six_dvd_of_seven_dvd hsixEta hsevenFirstEta
+    have hetaZero := hdegeneracy x y u v hcoprimeFirst
+      hcoprimeSecond hfortyTwo ⟨hsecondEta, hsecondReal⟩
+    have hleftZero : m ^ 2 - n ^ 2 = 0 := by
+      rw [hmCoords, hfirstEta, hetaZero]
+      ring
+    have hkne : k ≠ 0 := by
+      rcases hk with hk | hk <;> omega
+    have hproduct : a * b * (a - b) ≠ 0 :=
+      mul_ne_zero (mul_ne_zero ha (ne_of_gt hb))
+        (sub_ne_zero.mpr habne)
+    exact (mul_ne_zero hkne hproduct) (by
+      calc
+        k * (a * b * (a - b)) = m ^ 2 - n ^ 2 := hleading.symm
+        _ = 0 := hleftZero)
+  · have hsum : 2 * ((m + n) / 2) = m + n := by
+      obtain ⟨r, hr⟩ := hm
+      obtain ⟨s, hs⟩ := hnodd
+      omega
+    have hmCoords : m =
+        2 * eisensteinCubeEta x y - eisensteinCubeReal x y := by
+      omega
+    have hcoprimeFirst :=
+      isCoprime_cubeCoords_of_eight_parameters hmn
+        hmCoords hfirstEta
+    have hcoprimeSecond :=
+      isCoprime_eight_second_cubeCoords hcoprimeFirst
+        hsecondReal hsecondEta
+    have hsixSecond := eisensteinCubeEta_six_dvd u v
+    have hsevenFirstEta :
+        (7 : ℤ) ∣ eisensteinCubeEta x y := by
+      apply seven_dvd_of_seven_dvd_two_mul
+      obtain ⟨q, hq⟩ := hsevenEta
+      refine ⟨q, ?_⟩
+      omega
+    have hsevenSecond :=
+      seven_dvd_second_eta_of_eightScalar
+        hsevenFirstEta hsecondEta
+    have hfortyTwoSecond :=
+      fortyTwo_dvd_of_six_dvd_of_seven_dvd
+        hsixSecond hsevenSecond
+    have hrelation :
+        FourScalarEisensteinCubeCorrespondence u v (-x) (-y) :=
+      (eightScalar_iff_fourScalar_swapped_negated x y u v).mp
+        ⟨hsecondReal, hsecondEta⟩
+    have hcoprimeNeg :
+        IsCoprime (eisensteinCubeReal (-x) (-y))
+          (eisensteinCubeEta (-x) (-y)) := by
+      have hrealNeg : eisensteinCubeReal (-x) (-y) =
+          -eisensteinCubeReal x y := by
+        simp only [eisensteinCubeReal]
+        ring
+      have hetaNeg : eisensteinCubeEta (-x) (-y) =
+          -eisensteinCubeEta x y := by
+        simp only [eisensteinCubeEta]
+        ring
+      rw [hrealNeg, hetaNeg]
+      exact hcoprimeFirst.neg_left.neg_right
+    have hsecondEtaZero := hdegeneracy u v (-x) (-y)
+      hcoprimeSecond hcoprimeNeg hfortyTwoSecond hrelation
+    have hfirstEtaZero : eisensteinCubeEta x y = 0 := by
+      omega
+    have hleftZero : m ^ 2 - n ^ 2 = 0 := by
+      rw [hmCoords, hfirstEta, hfirstEtaZero]
+      ring
+    have hkne : k ≠ 0 := by
+      rcases hk with hk | hk <;> omega
+    have hproduct : a * b * (a - b) ≠ 0 :=
+      mul_ne_zero (mul_ne_zero ha (ne_of_gt hb))
+        (sub_ne_zero.mpr habne)
+    exact (mul_ne_zero hkne hproduct) (by
+      calc
+        k * (a * b * (a - b)) = m ^ 2 - n ^ 2 := hleading.symm
+        _ = 0 := hleftZero)
+
 /-- Removing the exact powers of `2` and allocating coprime factors to
 cubes turns the cube-allocated boundary into the earlier support-only-over-
 `2` boundary. -/
@@ -1281,5 +1523,16 @@ theorem rationalPoint_addOrderOf_ne_eighteen_of_survivingEisensteinCubeSystemObs
   rationalPoint_addOrderOf_ne_eighteen_of_threeUnitClassEisensteinIntegerObstruction
     (threeUnitClassEisensteinIntegerObstruction_of_survivingSystems hobs)
       E Q
+
+/-- Degeneracy of the single primitive cubic correspondence excludes exact
+rational order eighteen through the complete checked descent chain. -/
+theorem rationalPoint_addOrderOf_ne_eighteen_of_primitiveFourScalarDegeneracy
+    (hdegeneracy : PrimitiveFourScalarEisensteinCubeDegeneracy)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : E.toAffine.Point) :
+    addOrderOf Q ≠ 18 :=
+  rationalPoint_addOrderOf_ne_eighteen_of_survivingEisensteinCubeSystemObstruction
+    (survivingEisensteinCubeSystemObstruction_of_primitiveFourScalarDegeneracy
+      hdegeneracy) E Q
 
 end MazurTorsion.XOneEighteenDescent
