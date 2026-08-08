@@ -6,7 +6,7 @@ metadata, and completion; this file records dependency-critical ordering,
 handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
-Snapshot: 2026-08-07, route revision `formal-immersion-at-five-v1`, through
+Snapshot: 2026-08-08, route revision `formal-immersion-at-five-v1`, through
 the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`) and
 the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
 the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
@@ -41,6 +41,9 @@ their explicit universe/base-change comparison with represented group-scheme
 fppf-`H¹`, canonical constant/`μ` base-change consumers, explicit Čech
 transport under base isomorphisms with direct-localization consumers, and carrier-preserving
 finite-p-group certificate transport for both bad-level factors,
+the exact length-one geometric Kummer kernel over every integer prime
+localization at odd prime coefficient, unconditional pairwise divisor-line-
+bundle pullback compatibility and its full common-affine cocycle,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, unconditional order-35 model finiteness, the terminal
 weighted-depth/minimality contradictions at five and eleven, and the
@@ -51,6 +54,30 @@ weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
 and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
+
+The newest arithmetic boundary computes the previously abstract Kummer input
+over `Z[1/ell]`. Every localization unit is an integral sign times an integral
+power of the localized prime. For odd prime coefficient `p`, the sign dies
+modulo `p`th powers, the localized-prime class generates the quotient, and its
+`ell`-adic valuation proves exact order `p`. Thus the unit Kummer quotient has
+exact cardinality `p` and receives `FinitePGroup.CertifiedData` of length one.
+The checked geometric Kummer equivalence transports this certificate to the
+actual kernel of `H¹(mu_p) -> H¹(G_m)` (`e23b431`). This is a genuine
+downstream consumer, but it does not prove `H¹(G_m)=0`; the Picard calculation
+over the good open and the constant-factor `H¹` calculation remain open.
+
+The newest A3 boundary proves the lower coherence that the prior checkpoint
+had isolated. Extension of inverse fractional ideals through a flat ring
+epimorphism is compatible with scalar towers; the tilde/pullback adjunction
+comparison is coherent under composition; and the chosen overlap comparison
+is natural under further affine restriction. Proper-smooth-curve consumers
+therefore discharge `PairwiseCommonAffinePullbackCompatibility`, identify the
+pairwise and direct pullback Homs without hypotheses, and prove the full
+pairwise-model cocycle unconditionally (`c1e5c2c`, reviewed from contributor
+`77b533e`). This closes the pairwise/direct naturality gate, not the A3
+Challenge: normalized-transition comparison, full descent effectivity, object
+separation, rational normalization, Picard surjectivity, and the complete
+dictionary remain open.
 
 The current content boundary also constructs the geometric multiplicative
 Kummer boundary required by the finite-flat rank-zero lane. Laurent-coordinate
@@ -108,7 +135,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 802 Lean modules and 1,495,822 Lean lines.
+exact quality baseline is 803 Lean modules and 1,498,748 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -130,6 +157,11 @@ injectivity, and range equivalence have the same audited axiom closure and
 compile through the finite-flat quotient and elementary-global-section
 consumers. Generic exactness at kernel-valued `H¹` and the concrete Kummer
 kernel equivalence also compile in the 3,029-job focused dependency closure.
+The prime-localization Kummer calculation rebuilds in a 3,032-job focused
+target, and all fourteen audited arithmetic and geometric-kernel declarations
+use only the three standard axioms. The A3 affine and curve consumers rebuild
+3,079 and 3,463 jobs at the default heartbeat; all eleven new public
+declarations have the same standard axiom closure.
 The X₁(18) branch-unification and seven-scaled normalization modules rebuild
 3,578 and 3,579 jobs respectively; their audited public declarations use only
 the standard axioms.
@@ -139,9 +171,11 @@ contracts, and the exact source baseline above. Challenge immutability against
 target builds 8,788 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The next
-workers are pursuing A3 chosen-line-bundle pullback naturality and the genuine
-X₀ scheme group law/Picard comparison. The X₁(18) lane is eliminating the two
-final pure-integer cubic systems.
+workers are pursuing the A3 normalized-transition/effectivity seam, the
+genuine X₀ scheme group law/Picard comparison, and a global Jacobian or
+explicit genus-two elimination of the final X₁(18) cubic leaf. The finite-flat
+lane next needs the Picard-zero consequence for `H¹(G_m)` on the localized
+base and the independent constant-factor global `H¹` calculation.
 
 The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
@@ -1383,29 +1417,26 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-a3-coherence-api`: the reviewed transition-pullback and conditional
-  arbitrary-pullback cocycle checkpoints are integrated. A historical
-  2,600-line aggregate was rejected and removed after reproducibly exhausting
-  the default deterministic budget at the chosen-line-bundle pullback
-  comparison. The active lane is redesigning precisely that equality from the
-  lower tensor/inverse-ideal naturality API. Acceptance still requires the real
-  `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise curve
-  compatibility, and unconditional cocycle consumer; no raised heartbeat or
-  proposition-wrapper bulk is allowed.
+- `codex/mt-a3-coherence-api`: the lower tensor/inverse-ideal naturality proof,
+  real `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise
+  curve compatibility, and unconditional cocycle consumer are independently
+  reviewed and integrated at the default heartbeat. The lane now moves to the
+  normalized-transition comparison, cover-wide descent effectivity, object
+  separation, rational normalization, and Picard surjectivity required by the
+  unchanged A3 Challenge.
 - `weighted local arithmetic`: the five- and eleven-adic depth chains are
   independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
   the selected model's checked minimality contradiction. Preserve the older
   component APIs for the separate toric/rank-zero consumer, but do not put a
   component premise back into the closed pointwise arithmetic endpoint.
-- `MT-X18-NONCUSP`: the primitive obstruction is reduced to the four signed
-  quotients `-8,-4,4,8`, separated modulo four and exposed as an explicit
-  scalar-cube product in the actual Eisenstein integer ring. A focused
-  checkpoint excludes the ramified prime above three from simultaneous split-
-  factor support and narrows the remaining boundary to primes above two. Its
-  exact-order-eighteen consumer is independently reviewed and integrated as
-  `a8d104b`. The remaining proof must allocate the primes above two, use the
-  distinguished seven constraint, and eliminate the unit cases. The Challenge
-  remains open until the obstruction itself is proved.
+- `MT-X18-NONCUSP`: the primitive obstruction passes through the four signed
+  quotients and the Eisenstein prime-allocation analysis to two symmetric
+  integer cubic systems. Root exchange and sign unify those systems, primitive
+  cube coordinates force `42 ∣ eta`, and the seven-scaled deck chart leaves
+  one explicit four-variable cubic leaf. Local seven-adic descent is
+  demonstrably insufficient because all normalized residue branches Hensel
+  lift. The active route is a genuine global Jacobian or explicit genus-two
+  descent. The Challenge remains open until that obstruction is proved.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. The remaining proof is the genuine Mazur--Tate
@@ -1429,8 +1460,10 @@ or accounting shortcut.
   consumers. Carrier-preserving finite-p-group certificate transport is also
   reviewed and integrated. Explicit H¹ transport under base-scheme
   isomorphisms and its `basicOpenIsoSpecAway` direct-localization consumer are
-  now independently reviewed and integrated; the ambient constant/Kummer calculations and
-  middle-`H¹` finiteness remain open.
+  now independently reviewed and integrated. The arithmetic Kummer quotient
+  and its actual geometric kernel over every `Z[1/ell]` have exact length-one
+  certificates. Ambient `H¹(G_m)`/Picard vanishing, the constant-factor global
+  `H¹` calculation, and middle-`H¹` finiteness remain open.
 - `formal immersion at five`: the reviewed completed-ring collision and its
   rational-point/F₅ consumer are integrated. The quotient/special-fibre
   cotangent lift and mapped-ideal scheme consumer are also independently

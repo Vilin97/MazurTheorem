@@ -266,7 +266,14 @@ class becomes trivial in the middle group, a common-refinement zero-cochain
 has compatible quotient images; gluing those images and reusing the
 zero-cochain as local lifts proves exactness at kernel `H¹`. A quotient-valued
 trivializing gauge also lifts on a genuine refinement, proving the reverse
-inclusion at middle `H¹`. Over `Spec ℤ`, the constant order-`p` factor has `p`
+inclusion at middle `H¹`. The same descent argument now proves exactness at
+global target sections and kernel-valued `H¹` for every locally liftable
+ambient morphism. Its multiplicative Kummer consumer identifies units modulo
+`p`th powers with the actual kernel of `H¹(mu_p) -> H¹(G_m)`. Over
+`Spec Z[1/ell]`, every unit is a sign times a power of the localized prime; for
+odd prime `p` the quotient and the actual geometric kernel both have exact
+cardinality `p` and certified finite-`p` length one. Over `Spec ℤ`, the
+constant order-`p` factor has `p`
 global sections and the odd multiplicative factor has one; these checked
 cardinal certificates feed a reusable quotient bound with one admissible
 elementary kernel, and the two-elementary-factor step consumes that recursive
@@ -340,8 +347,9 @@ commutes with refinements and combines with represented-point base change. The n
 comparisons are concrete downstream consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
 `mu_p` cohomology now transport across these equivalences to the genuine bad-level carriers,
 preserving both their lengths and exact cardinal equalities; this transport proves no arithmetic
-certificate by itself. The quasi-finite admissible-filtration exact sequences, both ambient
-good-open `H¹` calculations, and middle-`H¹` finiteness remain open. The supported bad-fibre
+certificate by itself. The quasi-finite admissible-filtration exact sequences,
+ambient `H¹(G_m)` vanishing on the good open, the constant-factor global `H¹`
+calculation, and middle-`H¹` finiteness remain open. The supported bad-fibre
 quotients are not being represented as quasi-finite flat group schemes.
 
 * `structure` (`contract`):
@@ -544,6 +552,20 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData_length`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAway_natCard_eq_pow`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.exact_mapPoint_boundaryHom`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.exact_boundaryHom_fppfHOneMap`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryMulEquivKernel`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.exists_eq_intUnit_mul_awayGeneratorUnit_zpow`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClasses_natCard_primeAway`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClassesCertifiedDataPrimeAway`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryKernelCertifiedDataPrimeAway`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
