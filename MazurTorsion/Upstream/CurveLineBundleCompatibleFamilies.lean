@@ -661,7 +661,7 @@ noncomputable def compatibleFamilyChartComponent
 
 /-- Untransposing a chart component across open base change recovers the specified overlap
 transition. -/
-theorem compatibleFamilyChartComponent_adjunct
+private theorem compatibleFamilyChartComponent_adjunct
     {X : Scheme.{u}} {cov : X.OpenCover}
     (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
     let P := overlap cov i j
