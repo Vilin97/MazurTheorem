@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection
 import MazurTorsion.ModularCurve.QExpansionFirstCoefficient
 
 /-!
@@ -86,6 +87,41 @@ theorem isFormalImmersionAt_of_heckeEigen_qExpansion
   rw [hqExpansion]
   exact HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector
     Q hQ T eigenvalue hfirst heigen
+
+/-- A represented rational section discharges the non-genericity input in
+the degree-one Hecke criterion. The section law and relative-dimension-one
+geometry prove that its image cannot be the generic point; the remaining
+inputs are the genuine completed-local-ring and Hecke calculations. -/
+theorem isFormalImmersionAt_of_rationalSection_heckeEigen_qExpansion
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (π : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 π]
+    (Y : Scheme.{u}) [IsLocallyNoetherian Y]
+    (f : X ⟶ Y)
+    (x : MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection K X π)
+    [IsIso (X.descResidueField (Scheme.stalkClosedPointTo x.hom))]
+    [IsIso (Y.descResidueField
+      (Scheme.stalkClosedPointTo (x.hom ≫ f)))]
+    (qCoordinate :
+      Scheme.CompletedStalk X
+        (x.hom (IsLocalRing.closedPoint K)) ≃+* PowerSeries K)
+    (targetParameter : IsLocalRing.maximalIdeal
+      (Y.presheaf.stalk (f (x.hom (IsLocalRing.closedPoint K)))))
+    (Q : PowerSeries K)
+    (hqExpansion :
+      qCoordinate (algebraMap
+        (X.presheaf.stalk (x.hom (IsLocalRing.closedPoint K)))
+        (Scheme.CompletedStalk X (x.hom (IsLocalRing.closedPoint K)))
+        ((f.stalkMap
+          (x.hom (IsLocalRing.closedPoint K))).hom targetParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (T : ℕ → Module.End K (PowerSeries K)) (eigenvalue : ℕ → K)
+    (hfirst : ∀ n, PowerSeries.coeff 1 (T n Q) = PowerSeries.coeff n Q)
+    (heigen : ∀ n, T n Q = eigenvalue n • Q) :
+    AlgebraicGeometry.IsFormalImmersionAt f
+      (x.hom (IsLocalRing.closedPoint K)) :=
+  isFormalImmersionAt_of_heckeEigen_qExpansion K X π Y f x.hom
+    x.ne_generic qCoordinate targetParameter Q hqExpansion hQ T eigenvalue
+      hfirst heigen
 
 end DegreeOneCotangentCertificate
 
