@@ -158,7 +158,7 @@ private theorem evalOpForgetIso_hom_π
 
 /-- Forgetting the base module structure degreewise in the Cech cosimplicial
 object recovers the cosimplicial object of the underlying sheaf. -/
-noncomputable def baseCechCosimplicialIso
+private noncomputable def baseCechCosimplicialIso
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) :
     ((FormalCoproduct.cosimplicialObjectFunctor
@@ -238,7 +238,7 @@ noncomputable def baseCechComplexForgetIso
       exact baseCechCosimplicialIso_comm_d π M U i)
 
 @[simp]
-theorem baseCechComplexForgetIso_hom_f
+private theorem baseCechComplexForgetIso_hom_f
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) (n : ℕ) :
     (baseCechComplexForgetIso π M U).hom.f n =
