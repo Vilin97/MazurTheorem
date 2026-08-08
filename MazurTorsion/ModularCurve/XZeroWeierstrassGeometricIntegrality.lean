@@ -524,23 +524,40 @@ noncomputable def toAbelianVarietyOfStandardChartComparison
     exact geometricallyIntegral_of_standardChartComparison W hcomparison
   exact toAbelianVariety W
 
-/-- Group-law compatibility of the canonical coordinate-to-scheme point map,
+/-- Addition compatibility of the canonical coordinate-to-scheme point map,
 phrased independently of a named geometric-integrality instance.
 
 The quantification over the (proof-irrelevant) instance lets the chart
-criterion install geometric integrality internally.  This packages only the
-genuine remaining group-law equations; point-set bijectivity is already
-checked in the projective-point comparison module. -/
+criterion install geometric integrality internally.  Preservation of the
+identity is not a separate premise: it follows by cancellation from
+`f(0) = f(0 + 0) = f(0) * f(0)`.  Thus this packages only the genuine
+remaining addition formula; point-set bijectivity is already checked in the
+projective-point comparison module. -/
 structure CanonicalPointGroupLawCompatibility
     (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
     [GrpObj (toOver W)] : Prop where
-  map_zero : ∀ [GeometricallyIntegral (toOver W).hom],
-    projectivePointToAbelianVarietyRationalPoint W 0 = 1
   map_add : ∀ [GeometricallyIntegral (toOver W).hom]
     (P Q : W.toProjective.Point),
     projectivePointToAbelianVarietyRationalPoint W (P + Q) =
       projectivePointToAbelianVarietyRationalPoint W P *
         projectivePointToAbelianVarietyRationalPoint W Q
+
+/-- An addition-preserving map from the coordinate group to the scheme-valued
+point group automatically preserves the identity.  This removes a redundant
+premise from the finite-flat `Gamma_0` handoff. -/
+theorem CanonicalPointGroupLawCompatibility.map_zero
+    (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
+    [GrpObj (toOver W)]
+    (D : CanonicalPointGroupLawCompatibility W) :
+    ∀ [GeometricallyIntegral (toOver W).hom],
+      projectivePointToAbelianVarietyRationalPoint W 0 = 1 := by
+  intro
+  have h := D.map_add 0 0
+  rw [zero_add] at h
+  exact mul_left_cancel
+    (a := projectivePointToAbelianVarietyRationalPoint W 0)
+    (b := projectivePointToAbelianVarietyRationalPoint W 0) (c := 1) (by
+      simpa using h.symm)
 
 /-- A dependent package recording that the standard-chart criterion has
 reached the finite-flat `Gamma_0(N)` consumer.  The comparison field exposes
