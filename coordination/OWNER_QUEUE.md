@@ -92,6 +92,31 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The initial owner audit distinguishes the public base from this integration
+line. `origin/main` is `cf85e1a` with 50 / 1,000 points credited; the owner
+branch is a strict 382-commit descendant with 157 / 1,000 points credited.
+The current DAG remains 48 nodes / 1,000 points, with 39 unfinished nodes and
+exactly eight open `:= sorry` contracts among the eleven registered
+Challenges. The graph is acyclic, every dependency edge is reciprocal, and
+the blueprint topology matches the canonical ledger.
+
+The three requested contributor checkpoints require no wholesale merge.
+The permanent Lean core of `codex/mt-ffgs-basic` was retained byte-for-byte;
+its scope-reducing roadmap and immutability changes remain rejected.
+`codex/mt-tc-a3-divisor-line-bundle` is already ancestral and has since been
+extended. `codex/mt-cyclotomic-unramified-cft` is patch-equivalent to owner
+commit `8fadf90`. A patch-identity and declaration audit of every remaining
+remote ref found only two dependency-critical candidates not already retained:
+the open-pullback base-change/chart-component patch `29cc4ed`, and the
+normalization package `22f750e`, which still requires a concrete raw-divisor
+cocycle consumer before acceptance. The order-49 Tate package `9dad18d`
+remains a fallback without a consumer and therefore is not integrated.
+
+The generated site ledger had remained at the preceding 137-point snapshot.
+It is now synchronized with the canonical 157-point ledger, and the quality
+script enforces byte identity so that future mathematical checkpoints cannot
+silently publish stale accounting.
+
 The coherent-cohomology lane now proves genuine affine quasicoherent H2
 acyclicity. Degree-one affine vanishing is transported from a spectrum across
 the canonical affine scheme isomorphism. Exact open pullback of the

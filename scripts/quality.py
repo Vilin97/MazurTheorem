@@ -14,6 +14,7 @@ from typing import Any
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 PROGRAM_PATH = REPOSITORY_ROOT / "coordination" / "program.json"
+GENERATED_PROGRAM_PATH = REPOSITORY_ROOT / "site" / "generated" / "program.json"
 CHALLENGE_ROOTS = (
     REPOSITORY_ROOT / "Challenge",
     REPOSITORY_ROOT / "upstream" / "tauceti" / "MazurTauCetiChallenge",
@@ -166,6 +167,21 @@ def read_program(validator: Validator) -> dict[str, Any]:
         raise AssertionError("unreachable")
     validator.require(isinstance(program, dict), "program.json must contain a JSON object")
     return program
+
+
+def validate_generated_program(validator: Validator) -> None:
+    """Require the public site projection to match the canonical ledger byte-for-byte."""
+    try:
+        canonical = PROGRAM_PATH.read_bytes()
+        generated = GENERATED_PROGRAM_PATH.read_bytes()
+    except OSError as error:
+        validator.errors.append(f"cannot read generated programme ledger: {error}")
+        return
+    validator.require(
+        generated == canonical,
+        "site/generated/program.json must be byte-identical to "
+        "coordination/program.json",
+    )
 
 
 def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
@@ -1456,6 +1472,7 @@ def main() -> None:
     """Run all quality checks."""
     validator = Validator()
     program = read_program(validator)
+    validate_generated_program(validator)
     validate_pins(validator, program)
     stage_by_id, node_by_id = validate_program_shape(validator, program)
     validate_node_artifacts(validator, node_by_id)
