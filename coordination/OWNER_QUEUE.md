@@ -88,6 +88,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The mandatory cyclotomic release lane now retains the genuine equivariant
+Hilbert--94 conclusion. Extension of ideal classes defines an actual
+capitulation homomorphism; lifted cyclotomic automorphisms commute with it,
+its kernel is stable under the full cyclotomic Galois action, and Hilbert 94
+produces a nontrivial kernel element killed by the prime extension degree.
+The existing division-field unramifiedness datum is a compiled downstream
+consumer (`8fadf90`, reviewed from contributor checkpoint `274f11e`). Both
+focused builds and the seven-declaration axiom audit pass with only
+`propext`, `Classical.choice`, and `Quot.sound`. This does not identify an
+inverse-character quotient and does not prove the locally-primary pseudo-unit
+reciprocity contract, so `MT-CYCLOTOMIC-UNRAMIFIED` remains open with no node
+credit. The lane remains outside the theorem-critical formal-immersion cone.
+The exact quality baseline is now 842 Lean modules and 1,511,561 Lean lines.
+
 The coherent-cohomology lane now proves genuine affine quasicoherent
 degree-one acyclicity. A source-clean construction embeds the underlying
 abelian sheaf into an injective, uses local surjectivity of the cokernel map
@@ -1376,7 +1390,7 @@ collision at `5` and a ten-point finite-field bound.
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
-| `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary | Keep it as an independent release obligation. It is not a premise of the formal-immersion theorem. |
+| `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary; the recovered `274f11e` checkpoint adds an actual equivariant capitulation map, nontrivial Galois-stable exponent-`p` kernel, and division-field consumer | Integrated as `8fadf90`. Keep the unresolved reciprocity contract as an independent release obligation; this lane is not a premise of the formal-immersion theorem. |
 | `codex/owner-o49-tower` | Checked level-seven correspondence and explicit Vélu work; reusable Tate normalization is isolated at `9dad18d` | Retain as useful library work, but pivot the endpoint to the direct rational cyclic-subgroup map into the already classified two-cusp `X₀(49)`. Do not require Vélu additivity or a nonbacktracking tower. |
 | `codex/owner-x11-selmer` | Checked isogeny kernels and an empty-support fifth-power Selmer factor at `be3f2b7` | Freeze as a fallback and release-API check. Further Selmer work is not theorem-critical after the uniform order-eleven theorem. |
 

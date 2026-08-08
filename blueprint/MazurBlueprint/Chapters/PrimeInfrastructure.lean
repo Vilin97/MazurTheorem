@@ -1418,6 +1418,13 @@ release, but no theorem arrow runs from it into the formal-immersion proof.
 
 *Status:* `research_open`; *scope:* the immutable compiled Challenge.
 
+The checked Hilbert--94 layer now exposes the genuine class-group
+capitulation homomorphism, proves its equivariance under the lifted
+cyclotomic action, and produces a nontrivial Galois-stable kernel killed by
+the prime extension degree. A division-field theorem is a compiled consumer.
+This is strictly weaker than identifying an inverse-cyclotomic eigenspace, so
+the reciprocity Challenge and this roadmap node remain open.
+
 * `definition` (`proposed`):
   `NumberTheory.CyclotomicCharacter.inverseExtension`
 * `theorem` (`proposed`):
@@ -1426,4 +1433,12 @@ release, but no theorem arrow runs from it into the formal-immersion proof.
   `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
 * `theorem` (`contract`):
   `NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple`
+* `definition` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom_equivariant`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.exists_nontrivial_p_torsion_capitulating_orbit`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.divisionField_exists_nontrivial_p_torsion_capitulating_orbit`
 :::

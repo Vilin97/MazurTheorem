@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1511295,
-    "integrated_lean_modules": 841,
+    "integrated_lean_lines": 1511561,
+    "integrated_lean_modules": 842,
     "remaining_composite_orders": [
       18,
       25,
@@ -7503,7 +7503,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Close the inherited locally-primary pseudo-unit reciprocity Challenge and preserve the checked cyclotomic infrastructure as an independent release obligation. The chosen proof of Mazur's theorem does not consume this result.",
+      "summary": "Close the inherited locally-primary pseudo-unit reciprocity Challenge and preserve the checked cyclotomic infrastructure as an independent release obligation. The checked Hilbert-94 layer now exposes the actual capitulation map, proves equivariance under the lifted cyclotomic action, constructs a nontrivial Galois-stable exponent-p capitulation kernel, and supplies a division-field consumer. This does not identify an inverse-character quotient or solve the immutable reciprocity contract. The chosen proof of Mazur's theorem does not consume this result.",
       "artifacts": [
         {
           "kind": "definition",
@@ -7528,6 +7528,34 @@
           "name": "NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple",
           "state": "contract",
           "description": "Prove integral one-sided Kummer reciprocity for locally-primary pseudo-units; checked comparison and normalization reductions then supply the inverse-character class-group quotient."
+        },
+        {
+          "kind": "definition",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicCapitulation",
+          "description": "Extend ideal classes from the prime cyclotomic field to a supplied inverse extension through the genuine class-group extended-ideal homomorphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom_equivariant",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicCapitulation",
+          "description": "Prove that capitulation commutes with the cyclotomic action on the base class group and the chosen lifted action on the extension class group."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.exists_nontrivial_p_torsion_capitulating_orbit",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicCapitulation",
+          "description": "Use Hilbert 94 to produce a nontrivial exponent-p ideal class whose full cyclotomic Galois orbit capitulates in every finite-place-unramified inverse extension."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.divisionField_exists_nontrivial_p_torsion_capitulating_orbit",
+          "state": "contract",
+          "module": "MazurTorsion.PrimeOrder.CyclotomicObstruction",
+          "description": "Consume the actual division-field unramifiedness datum in the equivariant exponent-p capitulation theorem without asserting the missing inverse-character quotient."
         }
       ],
       "depends_on": [
