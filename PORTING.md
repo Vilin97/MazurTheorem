@@ -145,6 +145,51 @@ the new `Filter.TendstoCofinite` instance expected by `Northcott.comp_of_finite_
 
 No proof-strengthening option is used.
 
+## LeanPool Grothendieck vanishing
+
+The 15 modules below are derived from the Apache-2.0 LeanPool development at
+`4eef1ffb3b643d606665e3b5585aa69454e137d1`. That source used Lean
+`v4.32.0-rc1` and Mathlib commit
+`360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`. The upstream migration at
+`cc54a3adb51cb00b78cbe025818a24b676aeada7` was used as the reference for
+Lean `v4.33.0-rc1` and the repository's exact Mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`.
+
+| Upstream source below `LeanPool/GrothendieckVanishing/` | Local destination below `MazurTorsion/Upstream/LeanPool/GrothendieckVanishing/` |
+|---|---|
+| `ClosedImmersion.lean` | `ClosedImmersion.lean` |
+| `ClosedImmersionCohomology.lean` | `ClosedImmersionCohomology.lean` |
+| `CohomologyAPI.lean` | `CohomologyAPI.lean` |
+| `ConstantSheafFlasque.lean` | `ConstantSheafFlasque.lean` |
+| `FinitelyGeneratedVanishing.lean` | `FinitelyGeneratedVanishing.lean` |
+| `FlasqueVanishing.lean` | `FlasqueVanishing.lean` |
+| `GeneratedSubsheaf.lean` | `GeneratedSubsheaf.lean` |
+| `GrothendieckVanishing.lean` | `GrothendieckVanishing.lean` |
+| `GrothendieckVanishingOverview.lean` | `GrothendieckVanishingOverview.lean` |
+| `IrreducibleStep.lean` | `IrreducibleStep.lean` |
+| `PresheafFilteredColimit.lean` | `PresheafFilteredColimit.lean` |
+| `PresheafFilteredColimitCore.lean` | `PresheafFilteredColimitCore.lean` |
+| `PresheafFilteredColimitGeneral.lean` | `PresheafFilteredColimitGeneral.lean` |
+| `TopologicalKrullDim.lean` | `TopologicalKrullDim.lean` |
+| `ZeroOutside.lean` | `ZeroOutside.lean` |
+
+The mathematical decomposition and public theorem statements are retained.
+Imports are repointed into the project namespace. Exact-pin elaboration
+repairs name the opaque `TopCat.Sheaf` objects used at categorical boundaries,
+use the canonical abelian image `kernel (cokernel.π f)` and its factorization,
+and keep sheaf-cohomology targets as bundled `sheafCohomologyFunctor` objects.
+Filtered-colimit quotient naturality and its universal property are proved
+through explicit typed morphisms. The upstream `implicit_reducible` commands
+are not retained; the one class-valued constructor carries Lean's supported
+`instance_reducible` API annotation.
+
+`MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing` is the named
+downstream consumer. It combines Tau Ceti's codimension-one theorem for a
+smooth integral relative curve with properness and smooth finite type to prove
+Noetherianity, then applies `GrothendieckVanishing` to the actual underlying
+additive sheaf of a scheme module. It proves vanishing in every degree at least
+two; it deliberately makes no finite-dimensionality or coherence claim.
+
 ## Mathlib Dedekind-zeta finite-fibre adaptation
 
 `MazurTorsion/NumberTheory/WeakChebotarev.lean` adapts the finite-fibre
