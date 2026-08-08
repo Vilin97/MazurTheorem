@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+import Mathlib.Tactic.NormNum.IsSquare
 import MazurTorsion.NumberTheory.XOneEighteenCubeCorrespondence
 
 /-!
@@ -392,8 +393,8 @@ theorem antiDiagonalZ_sq_of_fourScalarCorrespondence
     ((x : ℚ) / (y : ℚ)) ((u : ℚ) / (v : ℚ))
     hp0 hp1 hq0 hq1 hden hrelation
 
-/-- The anti-diagonal model is birational to the order-eighteen sextic
-already used by the Tate-normal-form consumer. -/
+/-- The polynomial covariance identity underlying the Möbius comparison with
+the order-eighteen sextic already used by the Tate-normal-form consumer. -/
 theorem antiDiagonalSextic_birational_identity (w : ℚ)
     (hw : w ≠ 1) :
     (1 - w) ^ 6 *
@@ -405,6 +406,106 @@ theorem antiDiagonalSextic_birational_identity (w : ℚ)
   have hden : 1 - w ≠ 0 := sub_ne_zero.mpr (Ne.symm hw)
   field_simp [hden]
   ring
+
+/-! ## Rational-point transport from the order-eighteen model -/
+
+/-- The Möbius coordinate carrying the order-eighteen sextic to the
+anti-diagonal model. -/
+def orderEighteenToAntiDiagonalW (x : ℚ) : ℚ :=
+  (x - 1) / (x + 1)
+
+/-- The corresponding ordinate scaling on the order-eighteen sextic. -/
+def orderEighteenToAntiDiagonalZ (x y : ℚ) : ℚ :=
+  8 * y / (x + 1) ^ 3
+
+/-- The exceptional abscissa `x = -1` cannot occur on the rational
+order-eighteen sextic. -/
+theorem orderEighteen_abscissa_ne_neg_one_of_point
+    (x y : ℚ)
+    (hcurve : y ^ 2 =
+      MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
+    x ≠ -1 := by
+  intro hx
+  rw [hx] at hcurve
+  norm_num [MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial]
+    at hcurve
+  have hnot : ¬IsSquare (33 : ℚ) := by norm_num
+  apply hnot
+  exact ⟨y, by simpa [pow_two] using hcurve.symm⟩
+
+/-- The forward Möbius coordinate has the displayed rational inverse away
+from the exceptional abscissa. -/
+theorem orderEighteenToAntiDiagonalW_inverse
+    (x : ℚ) (hx : x ≠ -1) :
+    (1 + orderEighteenToAntiDiagonalW x) /
+        (1 - orderEighteenToAntiDiagonalW x) = x := by
+  have hxDen : x + 1 ≠ 0 := by
+    intro h
+    apply hx
+    linear_combination h
+  simp only [orderEighteenToAntiDiagonalW]
+  field_simp [hxDen]
+  ring
+
+/-- The inverse-coordinate spelling of the sextic covariance identity. -/
+theorem orderEighteenToAntiDiagonal_covariance
+    (x : ℚ) (hx : x ≠ -1) :
+    (x + 1) ^ 6 * antiDiagonalSextic
+        (orderEighteenToAntiDiagonalW x) =
+      64 * MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x := by
+  have hxDen : x + 1 ≠ 0 := by
+    intro h
+    apply hx
+    linear_combination h
+  simp only [orderEighteenToAntiDiagonalW, antiDiagonalSextic,
+    MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial]
+  field_simp [hxDen]
+  ring
+
+/-- Every rational point on the order-eighteen sextic maps, with the checked
+ordinate scaling, to a rational point on the anti-diagonal sextic. -/
+theorem orderEighteenToAntiDiagonalZ_sq
+    (x y : ℚ)
+    (hcurve : y ^ 2 =
+      MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
+    orderEighteenToAntiDiagonalZ x y ^ 2 =
+      antiDiagonalSextic (orderEighteenToAntiDiagonalW x) := by
+  have hx := orderEighteen_abscissa_ne_neg_one_of_point x y hcurve
+  have hxDen : x + 1 ≠ 0 := by
+    intro h
+    apply hx
+    linear_combination h
+  have hcovariance := orderEighteenToAntiDiagonal_covariance x hx
+  simp only [orderEighteenToAntiDiagonalZ]
+  field_simp [hxDen]
+  rw [hcurve]
+  norm_num
+  simpa only [mul_comm] using hcovariance.symm
+
+/-- A rational point on the original order-eighteen model supplies a
+nonexceptional anti-diagonal point together with the checked inverse abscissa.
+This is the point-level consumer of both Möbius identities. -/
+theorem exists_antiDiagonal_point_of_orderEighteen_point
+    (x y : ℚ)
+    (hcurve : y ^ 2 =
+      MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
+    ∃ w z : ℚ,
+      w ≠ 1 ∧
+      z ^ 2 = antiDiagonalSextic w ∧
+      (1 + w) / (1 - w) = x := by
+  have hx := orderEighteen_abscissa_ne_neg_one_of_point x y hcurve
+  have hxDen : x + 1 ≠ 0 := by
+    intro h
+    apply hx
+    linear_combination h
+  refine ⟨orderEighteenToAntiDiagonalW x,
+    orderEighteenToAntiDiagonalZ x y, ?_,
+    orderEighteenToAntiDiagonalZ_sq x y hcurve,
+    orderEighteenToAntiDiagonalW_inverse x hx⟩
+  intro hw
+  simp only [orderEighteenToAntiDiagonalW] at hw
+  field_simp [hxDen] at hw
+  linarith
 
 /-- The exact norm identity over `ℤ[√-2]`. -/
 theorem antiDiagonal_quadraticNorm_identity (r s : ℤ) :
