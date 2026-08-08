@@ -906,6 +906,45 @@ theorem plus direct evaluation at `±1` checks that the monic degree-five
 eliminant has no rational root.  The reverse round trip, every denominator,
 the Tate discriminant, and the exact-order consumer are all kernel-checked.
 
+For order twenty-five, Sutherland's separate
+[`X₁(N)` raw-equation index](https://math.mit.edu/~drew/X1_rawcurves.html)
+identifies its entries as plane equations `F(r,s)=0` in the Tate parameters
+used in *Constructing elliptic curves over finite fields with prescribed
+torsion*.  The exact coefficient source used here is the public
+[`F25.txt`](https://math.mit.edu/~drew/F25.txt), retrieved 2026-08-08 with
+SHA256
+`37bf29e86705adba268493d8967670327f4c97975e65436b3139899c36b42db0`.
+The coefficients are retained only in private staged definitions.  Lean
+checks, in six denominator-clearing pieces, that the substitution
+`r=b/c`, `s=c²/(b-c)` gives the existing degree-40 normalized collision
+factor; the table is therefore a specification and coefficient source, not
+a trusted computer-algebra proof.
+
+The modular-unit convention was checked against three primary sources.
+Odile Lecacheux's
+[*Unités d'une famille de corps liés à la courbe X₁(25)*](https://doi.org/10.5802/aif.1212),
+especially pp. 239--243, gives the division-value cross-ratios and the
+diamond action.  Its public NUMDAM PDF was retrieved 2026-08-08 with SHA256
+`f8d247188a9f272335c46e15305025d157a855263c6ce916f8a6582e07f74ccc`.
+Henri Darmon's
+[*Note on a polynomial of Emma Lehmer*](https://www.math.mcgill.ca/darmon/pub/Articles/Research/03.Lehmer/paper.pdf),
+pp. 4--5, records the Klein-form products and their leading signs; that PDF
+was retrieved 2026-08-08 with SHA256
+`a560e9a795cbc0cf20342fa6eead478f9de3f362d7ee7e003cc40b9c5af7a0a3`.
+Finally, François Brunault's
+[*On the Mahler measure associated to X₁(13)*](https://perso.ens-lyon.fr/francois.brunault/recherche/m13.pdf),
+§6.3, prints the `N=25` product expansions and the genus-four polynomial;
+that PDF was retrieved 2026-08-08 with SHA256
+`87ab945c1d43e722d92280f1a07f7d597add089babaac301cdd8b74daa376d04`.
+Together these fix the signs used by the local bridge:
+`u = y₄ y₇` and `v = -(y₉ y₃)`.  Exact-order separation proves
+all six denominators and both coordinates nonzero.  The characteristic-zero
+polynomial identity remains a kernel-checked algebraic step; no `q`-expansion
+or external symbolic remainder is imported as proof.  In particular,
+nonzero rational modular units do not by themselves have nonzero reduction
+modulo three: a later rational-point exclusion still needs an integral,
+valuation-zero specialization theorem for the open chart.
+
 William Stein and Andrew Snowden's public
 [`X₁(N)` lecture notes](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L23.html)
 also identify the remaining arithmetic character of these cases:

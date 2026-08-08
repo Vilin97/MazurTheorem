@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentyFive
+import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 
 /-!
 # A normalized affine model for the order-twenty-five recurrence
@@ -374,6 +374,310 @@ def orderTwentyFiveNoncuspidalFactor (b c : ℚ) : ℚ :=
     orderTwentyFiveNoncuspidalFactorChunk3 b c +
     orderTwentyFiveNoncuspidalFactorChunk4 b c +
     orderTwentyFiveNoncuspidalFactorChunk5 b c
+
+/- The raw `X₁(25)` equation tabulated as `F25` in Andrew Sutherland's
+database.  It is kept private: the checked consumer below immediately
+identifies its noncuspidal Tate substitution with the public degree-40
+factor.  The durable source, retrieval date, and content hash are recorded
+in `docs/PRIOR_ART.md`.  The displayed identity is independently checked by
+Lean's ring normalizer. -/
+private def orderTwentyFiveRawSutherlandPolynomialChunk0 (r s : ℚ) : ℚ :=
+  r ^ 10 - r ^ 9 * s ^ 10 + 17 * r ^ 9 * s ^ 9 - 123 * r ^ 9 * s ^ 8 +
+    494 * r ^ 9 * s ^ 7 - 1205 * r ^ 9 * s ^ 6 + 1836 * r ^ 9 * s ^ 5 -
+    1732 * r ^ 9 * s ^ 4 + 968 * r ^ 9 * s ^ 3 - 294 * r ^ 9 * s ^ 2 +
+    35 * r ^ 9 * s - 5 * r ^ 9 - 6 * r ^ 8 * s ^ 10 +
+    74 * r ^ 8 * s ^ 9 - 345 * r ^ 8 * s ^ 8 + 690 * r ^ 8 * s ^ 7 -
+    185 * r ^ 8 * s ^ 6 - 1659 * r ^ 8 * s ^ 5 + 3051 * r ^ 8 * s ^ 4 -
+    2320 * r ^ 8 * s ^ 3 + 840 * r ^ 8 * s ^ 2 - 105 * r ^ 8 * s +
+    10 * r ^ 8
+
+private def orderTwentyFiveRawSutherlandPolynomialChunk1 (r s : ℚ) : ℚ :=
+  -21 * r ^ 7 * s ^ 10 + 161 * r ^ 7 * s ^ 9 -
+    351 * r ^ 7 * s ^ 8 - 144 * r ^ 7 * s ^ 7 + 1289 * r ^ 7 * s ^ 6 -
+    789 * r ^ 7 * s ^ 5 - 1551 * r ^ 7 * s ^ 4 + 2166 * r ^ 7 * s ^ 3 -
+    996 * r ^ 7 * s ^ 2 + 126 * r ^ 7 * s - 10 * r ^ 7 +
+    r ^ 6 * s ^ 15 - 18 * r ^ 6 * s ^ 14 + 151 * r ^ 6 * s ^ 13 -
+    770 * r ^ 6 * s ^ 12 + 2655 * r ^ 6 * s ^ 11 - 6558 * r ^ 6 * s ^ 10 +
+    11834 * r ^ 6 * s ^ 9 - 15408 * r ^ 6 * s ^ 8 +
+    14630 * r ^ 6 * s ^ 7 - 11195 * r ^ 6 * s ^ 6 +
+    7227 * r ^ 6 * s ^ 5 - 2441 * r ^ 6 * s ^ 4 - 388 * r ^ 6 * s ^ 3 +
+    555 * r ^ 6 * s ^ 2 - 70 * r ^ 6 * s + 5 * r ^ 6
+
+private def orderTwentyFiveRawSutherlandPolynomialChunk2 (r s : ℚ) : ℚ :=
+  r ^ 5 * s ^ 15 - 15 * r ^ 5 * s ^ 14 + 90 * r ^ 5 * s ^ 13 -
+    245 * r ^ 5 * s ^ 12 + 90 * r ^ 5 * s ^ 11 + 1587 * r ^ 5 * s ^ 10 -
+    6145 * r ^ 5 * s ^ 9 + 12270 * r ^ 5 * s ^ 8 -
+    15060 * r ^ 5 * s ^ 7 + 12520 * r ^ 5 * s ^ 6 -
+    8214 * r ^ 5 * s ^ 5 + 3660 * r ^ 5 * s ^ 4 - 685 * r ^ 5 * s ^ 3 -
+    120 * r ^ 5 * s ^ 2 + 15 * r ^ 5 * s - r ^ 5
+
+private def orderTwentyFiveRawSutherlandPolynomialChunk3 (r s : ℚ) : ℚ :=
+  r ^ 4 * s ^ 15 - 12 * r ^ 4 * s ^ 14 + 48 * r ^ 4 * s ^ 13 -
+    49 * r ^ 4 * s ^ 12 -
+    165 * r ^ 4 * s ^ 11 + 609 * r ^ 4 * s ^ 10 - 433 * r ^ 4 * s ^ 9 -
+    1623 * r ^ 4 * s ^ 8 + 4299 * r ^ 4 * s ^ 7 -
+    4615 * r ^ 4 * s ^ 6 + 3435 * r ^ 4 * s ^ 5 -
+    1740 * r ^ 4 * s ^ 4 + 455 * r ^ 4 * s ^ 3
+
+private def orderTwentyFiveRawSutherlandPolynomialChunk4 (r s : ℚ) : ℚ :=
+  r ^ 3 * s ^ 15 - 9 * r ^ 3 * s ^ 14 + 25 * r ^ 3 * s ^ 13 -
+    35 * r ^ 3 * s ^ 12 +
+    45 * r ^ 3 * s ^ 11 - 181 * r ^ 3 * s ^ 10 + 569 * r ^ 3 * s ^ 9 -
+    705 * r ^ 3 * s ^ 8 + 5 * r ^ 3 * s ^ 7 + 470 * r ^ 3 * s ^ 6 -
+    540 * r ^ 3 * s ^ 5 + 340 * r ^ 3 * s ^ 4 - 105 * r ^ 3 * s ^ 3 +
+    r ^ 2 * s ^ 15 - 6 * r ^ 2 * s ^ 14 + 21 * r ^ 2 * s ^ 13 -
+    56 * r ^ 2 * s ^ 12 + 126 * r ^ 2 * s ^ 11 - 231 * r ^ 2 * s ^ 10 +
+    266 * r ^ 2 * s ^ 9 - 126 * r ^ 2 * s ^ 8 + 96 * r ^ 2 * s ^ 7 -
+    91 * r ^ 2 * s ^ 6 + 75 * r ^ 2 * s ^ 5 - 45 * r ^ 2 * s ^ 4 +
+    15 * r ^ 2 * s ^ 3
+
+private def orderTwentyFiveRawSutherlandPolynomialChunk5 (r s : ℚ) : ℚ :=
+  6 * r * s ^ 10 - 28 * r * s ^ 9 +
+    21 * r * s ^ 8 - 15 * r * s ^ 7 + 10 * r * s ^ 6 - 6 * r * s ^ 5 +
+    3 * r * s ^ 4 - r * s ^ 3 + s ^ 10
+
+private def orderTwentyFiveRawSutherlandPolynomial (r s : ℚ) : ℚ :=
+  orderTwentyFiveRawSutherlandPolynomialChunk0 r s +
+    orderTwentyFiveRawSutherlandPolynomialChunk1 r s +
+    orderTwentyFiveRawSutherlandPolynomialChunk2 r s +
+    orderTwentyFiveRawSutherlandPolynomialChunk3 r s +
+    orderTwentyFiveRawSutherlandPolynomialChunk4 r s +
+    orderTwentyFiveRawSutherlandPolynomialChunk5 r s
+
+private def orderTwentyFiveRawClearedChunk0 (b c : ℚ) : ℚ :=
+  b ^ 10 * (b - c) ^ 15 - b ^ 9 * c ^ 21 * (b - c) ^ 5 +
+    17 * b ^ 9 * c ^ 19 * (b - c) ^ 6 -
+    123 * b ^ 9 * c ^ 17 * (b - c) ^ 7 +
+    494 * b ^ 9 * c ^ 15 * (b - c) ^ 8 -
+    1205 * b ^ 9 * c ^ 13 * (b - c) ^ 9 +
+    1836 * b ^ 9 * c ^ 11 * (b - c) ^ 10 -
+    1732 * b ^ 9 * c ^ 9 * (b - c) ^ 11 +
+    968 * b ^ 9 * c ^ 7 * (b - c) ^ 12 -
+    294 * b ^ 9 * c ^ 5 * (b - c) ^ 13 +
+    35 * b ^ 9 * c ^ 3 * (b - c) ^ 14 -
+    5 * b ^ 9 * c * (b - c) ^ 15 -
+    6 * b ^ 8 * c ^ 22 * (b - c) ^ 5 +
+    74 * b ^ 8 * c ^ 20 * (b - c) ^ 6 -
+    345 * b ^ 8 * c ^ 18 * (b - c) ^ 7 +
+    690 * b ^ 8 * c ^ 16 * (b - c) ^ 8 -
+    185 * b ^ 8 * c ^ 14 * (b - c) ^ 9 -
+    1659 * b ^ 8 * c ^ 12 * (b - c) ^ 10 +
+    3051 * b ^ 8 * c ^ 10 * (b - c) ^ 11 -
+    2320 * b ^ 8 * c ^ 8 * (b - c) ^ 12 +
+    840 * b ^ 8 * c ^ 6 * (b - c) ^ 13 -
+    105 * b ^ 8 * c ^ 4 * (b - c) ^ 14 +
+    10 * b ^ 8 * c ^ 2 * (b - c) ^ 15
+
+private def orderTwentyFiveRawClearedChunk1 (b c : ℚ) : ℚ :=
+  -21 * b ^ 7 * c ^ 23 * (b - c) ^ 5 +
+    161 * b ^ 7 * c ^ 21 * (b - c) ^ 6 -
+    351 * b ^ 7 * c ^ 19 * (b - c) ^ 7 -
+    144 * b ^ 7 * c ^ 17 * (b - c) ^ 8 +
+    1289 * b ^ 7 * c ^ 15 * (b - c) ^ 9 -
+    789 * b ^ 7 * c ^ 13 * (b - c) ^ 10 -
+    1551 * b ^ 7 * c ^ 11 * (b - c) ^ 11 +
+    2166 * b ^ 7 * c ^ 9 * (b - c) ^ 12 -
+    996 * b ^ 7 * c ^ 7 * (b - c) ^ 13 +
+    126 * b ^ 7 * c ^ 5 * (b - c) ^ 14 -
+    10 * b ^ 7 * c ^ 3 * (b - c) ^ 15 +
+    b ^ 6 * c ^ 34 - 18 * b ^ 6 * c ^ 32 * (b - c) +
+    151 * b ^ 6 * c ^ 30 * (b - c) ^ 2 -
+    770 * b ^ 6 * c ^ 28 * (b - c) ^ 3 +
+    2655 * b ^ 6 * c ^ 26 * (b - c) ^ 4 -
+    6558 * b ^ 6 * c ^ 24 * (b - c) ^ 5 +
+    11834 * b ^ 6 * c ^ 22 * (b - c) ^ 6 -
+    15408 * b ^ 6 * c ^ 20 * (b - c) ^ 7 +
+    14630 * b ^ 6 * c ^ 18 * (b - c) ^ 8 -
+    11195 * b ^ 6 * c ^ 16 * (b - c) ^ 9 +
+    7227 * b ^ 6 * c ^ 14 * (b - c) ^ 10 -
+    2441 * b ^ 6 * c ^ 12 * (b - c) ^ 11 -
+    388 * b ^ 6 * c ^ 10 * (b - c) ^ 12 +
+    555 * b ^ 6 * c ^ 8 * (b - c) ^ 13 -
+    70 * b ^ 6 * c ^ 6 * (b - c) ^ 14 +
+    5 * b ^ 6 * c ^ 4 * (b - c) ^ 15
+
+private def orderTwentyFiveRawClearedChunk2 (b c : ℚ) : ℚ :=
+  b ^ 5 * c ^ 35 - 15 * b ^ 5 * c ^ 33 * (b - c) +
+    90 * b ^ 5 * c ^ 31 * (b - c) ^ 2 -
+    245 * b ^ 5 * c ^ 29 * (b - c) ^ 3 +
+    90 * b ^ 5 * c ^ 27 * (b - c) ^ 4 +
+    1587 * b ^ 5 * c ^ 25 * (b - c) ^ 5 -
+    6145 * b ^ 5 * c ^ 23 * (b - c) ^ 6 +
+    12270 * b ^ 5 * c ^ 21 * (b - c) ^ 7 -
+    15060 * b ^ 5 * c ^ 19 * (b - c) ^ 8 +
+    12520 * b ^ 5 * c ^ 17 * (b - c) ^ 9 -
+    8214 * b ^ 5 * c ^ 15 * (b - c) ^ 10 +
+    3660 * b ^ 5 * c ^ 13 * (b - c) ^ 11 -
+    685 * b ^ 5 * c ^ 11 * (b - c) ^ 12 -
+    120 * b ^ 5 * c ^ 9 * (b - c) ^ 13 +
+    15 * b ^ 5 * c ^ 7 * (b - c) ^ 14 -
+    b ^ 5 * c ^ 5 * (b - c) ^ 15
+
+private def orderTwentyFiveRawClearedChunk3 (b c : ℚ) : ℚ :=
+  b ^ 4 * c ^ 36 - 12 * b ^ 4 * c ^ 34 * (b - c) +
+    48 * b ^ 4 * c ^ 32 * (b - c) ^ 2 -
+    49 * b ^ 4 * c ^ 30 * (b - c) ^ 3 -
+    165 * b ^ 4 * c ^ 28 * (b - c) ^ 4 +
+    609 * b ^ 4 * c ^ 26 * (b - c) ^ 5 -
+    433 * b ^ 4 * c ^ 24 * (b - c) ^ 6 -
+    1623 * b ^ 4 * c ^ 22 * (b - c) ^ 7 +
+    4299 * b ^ 4 * c ^ 20 * (b - c) ^ 8 -
+    4615 * b ^ 4 * c ^ 18 * (b - c) ^ 9 +
+    3435 * b ^ 4 * c ^ 16 * (b - c) ^ 10 -
+    1740 * b ^ 4 * c ^ 14 * (b - c) ^ 11 +
+    455 * b ^ 4 * c ^ 12 * (b - c) ^ 12
+
+private def orderTwentyFiveRawClearedChunk4 (b c : ℚ) : ℚ :=
+  b ^ 3 * c ^ 37 - 9 * b ^ 3 * c ^ 35 * (b - c) +
+    25 * b ^ 3 * c ^ 33 * (b - c) ^ 2 -
+    35 * b ^ 3 * c ^ 31 * (b - c) ^ 3 +
+    45 * b ^ 3 * c ^ 29 * (b - c) ^ 4 -
+    181 * b ^ 3 * c ^ 27 * (b - c) ^ 5 +
+    569 * b ^ 3 * c ^ 25 * (b - c) ^ 6 -
+    705 * b ^ 3 * c ^ 23 * (b - c) ^ 7 +
+    5 * b ^ 3 * c ^ 21 * (b - c) ^ 8 +
+    470 * b ^ 3 * c ^ 19 * (b - c) ^ 9 -
+    540 * b ^ 3 * c ^ 17 * (b - c) ^ 10 +
+    340 * b ^ 3 * c ^ 15 * (b - c) ^ 11 -
+    105 * b ^ 3 * c ^ 13 * (b - c) ^ 12 +
+    b ^ 2 * c ^ 38 - 6 * b ^ 2 * c ^ 36 * (b - c) +
+    21 * b ^ 2 * c ^ 34 * (b - c) ^ 2 -
+    56 * b ^ 2 * c ^ 32 * (b - c) ^ 3 +
+    126 * b ^ 2 * c ^ 30 * (b - c) ^ 4 -
+    231 * b ^ 2 * c ^ 28 * (b - c) ^ 5 +
+    266 * b ^ 2 * c ^ 26 * (b - c) ^ 6 -
+    126 * b ^ 2 * c ^ 24 * (b - c) ^ 7 +
+    96 * b ^ 2 * c ^ 22 * (b - c) ^ 8 -
+    91 * b ^ 2 * c ^ 20 * (b - c) ^ 9 +
+    75 * b ^ 2 * c ^ 18 * (b - c) ^ 10 -
+    45 * b ^ 2 * c ^ 16 * (b - c) ^ 11 +
+    15 * b ^ 2 * c ^ 14 * (b - c) ^ 12
+
+private def orderTwentyFiveRawClearedChunk5 (b c : ℚ) : ℚ :=
+  6 * b * c ^ 29 * (b - c) ^ 5 -
+    28 * b * c ^ 27 * (b - c) ^ 6 +
+    21 * b * c ^ 25 * (b - c) ^ 7 -
+    15 * b * c ^ 23 * (b - c) ^ 8 +
+    10 * b * c ^ 21 * (b - c) ^ 9 -
+    6 * b * c ^ 19 * (b - c) ^ 10 +
+    3 * b * c ^ 17 * (b - c) ^ 11 -
+    b * c ^ 15 * (b - c) ^ 12 + c ^ 30 * (b - c) ^ 5
+
+private def orderTwentyFiveRawClearedPolynomial (b c : ℚ) : ℚ :=
+  orderTwentyFiveRawClearedChunk0 b c +
+    orderTwentyFiveRawClearedChunk1 b c +
+    orderTwentyFiveRawClearedChunk2 b c +
+    orderTwentyFiveRawClearedChunk3 b c +
+    orderTwentyFiveRawClearedChunk4 b c +
+    orderTwentyFiveRawClearedChunk5 b c
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk0_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk0
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk0 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk0,
+    orderTwentyFiveRawClearedChunk0]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk1
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk1 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk1,
+    orderTwentyFiveRawClearedChunk1]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk2
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk2 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk2,
+    orderTwentyFiveRawClearedChunk2]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk3_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk3
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk3 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk3,
+    orderTwentyFiveRawClearedChunk3]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk4_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk4
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk4 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk4,
+    orderTwentyFiveRawClearedChunk4]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomialChunk5
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedChunk5 b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomialChunk5,
+    orderTwentyFiveRawClearedChunk5]
+  field_simp [hc, sub_ne_zero.mpr hbc]
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_cleared_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    (c ^ 10 * (b - c) ^ 15) *
+        orderTwentyFiveRawSutherlandPolynomial
+          (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveRawClearedPolynomial b c := by
+  simp only [orderTwentyFiveRawSutherlandPolynomial,
+    orderTwentyFiveRawClearedPolynomial, mul_add,
+    orderTwentyFiveRawSutherlandPolynomial_chunk0_substitution b c hc hbc,
+    orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution b c hc hbc,
+    orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution b c hc hbc,
+    orderTwentyFiveRawSutherlandPolynomial_chunk3_substitution b c hc hbc,
+    orderTwentyFiveRawSutherlandPolynomial_chunk4_substitution b c hc hbc,
+    orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution b c hc hbc]
+
+private theorem orderTwentyFiveRawClearedPolynomial_eq_noncuspidalFactor
+    (b c : ℚ) :
+    orderTwentyFiveRawClearedPolynomial b c =
+      orderTwentyFiveNoncuspidalFactor b c := by
+  simp only [orderTwentyFiveRawClearedPolynomial,
+    orderTwentyFiveRawClearedChunk0, orderTwentyFiveRawClearedChunk1,
+    orderTwentyFiveRawClearedChunk2, orderTwentyFiveRawClearedChunk3,
+    orderTwentyFiveRawClearedChunk4, orderTwentyFiveRawClearedChunk5,
+    orderTwentyFiveNoncuspidalFactor,
+    orderTwentyFiveNoncuspidalFactorChunk0,
+    orderTwentyFiveNoncuspidalFactorChunk1,
+    orderTwentyFiveNoncuspidalFactorChunk2,
+    orderTwentyFiveNoncuspidalFactorChunk3,
+    orderTwentyFiveNoncuspidalFactorChunk4,
+    orderTwentyFiveNoncuspidalFactorChunk5]
+  ring
+
+/- The exact change of variables `r=b/c`, `s=c²/(b-c)` sends Sutherland's
+raw equation to the normalized noncuspidal factor.  Six separately checked
+denominator-clearing identities keep the final ring normalization small. -/
+private theorem orderTwentyFiveRawSutherlandPolynomial_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    orderTwentyFiveRawSutherlandPolynomial (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveNoncuspidalFactor b c /
+        (c ^ 10 * (b - c) ^ 15) := by
+  have hden : c ^ 10 * (b - c) ^ 15 ≠ 0 :=
+    mul_ne_zero (pow_ne_zero 10 hc)
+      (pow_ne_zero 15 (sub_ne_zero.mpr hbc))
+  apply (eq_div_iff hden).mpr
+  rw [← orderTwentyFiveRawClearedPolynomial_eq_noncuspidalFactor]
+  simpa [mul_comm] using
+    orderTwentyFiveRawSutherlandPolynomial_cleared_substitution b c hc hbc
 
 /-- The integral cross-product of the normalized abscissas of `13P` and
 `12P`, before removing its cuspidal factor. -/
