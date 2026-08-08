@@ -101,6 +101,7 @@ import MazurTorsion.Kubert.OrderSixteenReduction
 import MazurTorsion.Kubert.OrderThirteenModel
 import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.OrderTwentyFive
+import MazurTorsion.Kubert.OrderTwentyFiveNormalizedModel
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
 import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
