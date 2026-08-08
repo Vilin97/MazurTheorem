@@ -1314,6 +1314,28 @@ end GeometricBaseChange
 def testObject (B : Type u) [CommRing B] [Algebra R B] : Over (Spec (.of R)) :=
   Over.mk (Spec.map (CommRingCat.ofHom (algebraMap R B)))
 
+/-- An algebra map induces the corresponding contravariant morphism of affine test objects. -/
+def testObjectMap {A B : Type u} [CommRing A] [CommRing B]
+    [Algebra R A] [Algebra R B] (f : A →ₐ[R] B) :
+    testObject (R := R) B ⟶ testObject (R := R) A :=
+  Over.homMk (Spec.map (CommRingCat.ofHom f.toRingHom)) (by
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
+    rw [← Spec.map_comp, Spec.map_inj]
+    ext r
+    exact f.commutes r)
+
+/-- The identity object over `Spec R` is canonically the affine self-test object.  Keeping this
+at the affine interface avoids rebuilding the same comparison in each global-section
+calculation. -/
+noncomputable def baseIsoSelfTestObject (R : Type u) [CommRing R] :
+    Over.mk (𝟙 (Spec (.of R))) ≅ testObject (R := R) R :=
+  Over.isoMk (Iso.refl _) (by
+    change (𝟙 (Spec (.of R))) ≫
+      Spec.map (CommRingCat.ofHom (algebraMap R R)) = 𝟙 (Spec (.of R))
+    rw [Category.id_comp, ← Spec.map_id, Spec.map_injective.eq_iff]
+    ext r
+    exact Algebra.algebraMap_self_apply r)
+
 /-- The affine test-scheme points of `G`, expressed geometrically as morphisms over `Spec R`. -/
 abbrev Point (G : AffineCommGroupScheme R) (B : Type u) [CommRing B] [Algebra R B] :=
   testObject (R := R) B ⟶ G.toCommGroupScheme.X
@@ -1339,6 +1361,19 @@ def pointToAlgHom (G : AffineCommGroupScheme R) (B : Type u) [CommRing B] [Algeb
       rw [Spec.preimage_comp] at h
       simpa [structureMap, testObject, xleft] using
         congrArg (fun f : CommRingCat.of R ⟶ CommRingCat.of B ↦ f.hom r) h }
+
+/-- Reading coordinates commutes with restriction along a morphism of affine test objects. -/
+theorem pointToAlgHom_testObjectMap {A B : Type u} [CommRing A] [CommRing B]
+    [Algebra R A] [Algebra R B] (G : AffineCommGroupScheme R) (f : A →ₐ[R] B)
+    (x : G.Point A) :
+    G.pointToAlgHom B (testObjectMap f ≫ x) = f.comp (G.pointToAlgHom A x) := by
+  apply AlgHom.ext
+  intro a
+  let xleft : Spec (.of A) ⟶ Spec (.of G.coordinates) := x.left
+  change (Spec.preimage (Spec.map (CommRingCat.ofHom f.toRingHom) ≫ xleft)).hom a =
+    f ((Spec.preimage xleft).hom a)
+  rw [Spec.preimage_comp, Spec.preimage_map]
+  rfl
 
 /-- Turn a coordinate `R`-algebra map into a morphism of affine schemes over `Spec R`. -/
 def pointOfAlgHom (G : AffineCommGroupScheme R) (B : Type u) [CommRing B] [Algebra R B]

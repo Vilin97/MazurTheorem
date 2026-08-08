@@ -33,27 +33,14 @@ universe u v
 This bridges the global-section and affine-Hopf point APIs. -/
 noncomputable def baseObjectIsoTestObject (R : Type u) [CommRing R] :
     baseObject (Spec (.of R)) ≅ AffineCommGroupScheme.testObject (R := R) R :=
-  Over.isoMk (Iso.refl _) (by
-    change (𝟙 (Spec (.of R))) ≫
-      Spec.map (CommRingCat.ofHom (algebraMap R R)) = 𝟙 (Spec (.of R))
-    rw [Category.id_comp, ← Spec.map_id, Spec.map_injective.eq_iff]
-    ext r
-    exact Algebra.algebraMap_self_apply r)
+  AffineCommGroupScheme.baseIsoSelfTestObject R
 
 /-- Pullback along an isomorphism of test objects is a multiplicative equivalence on represented
 points. -/
 noncomputable def pointMulEquivOfTestIso {S : Scheme.{u}}
     (G : FiniteFlatCommGroupScheme S) {T U : Over S} (e : T ≅ U) :
-    G.Point T ≃* G.Point U where
-  toFun := pullPoint G e.inv
-  invFun := pullPoint G e.hom
-  left_inv x := by
-    change e.hom ≫ e.inv ≫ x = x
-    simp
-  right_inv x := by
-    change e.inv ≫ e.hom ≫ x = x
-    simp
-  map_mul' x y := map_mul (pullPoint G e.inv) x y
+    G.Point T ≃* G.Point U :=
+  CommGroupScheme.pointMulEquivOfOverIso G.toCommGroupScheme e
 
 /-- Global sections of a constant finite group scheme over an integral domain are exactly its
 indexing group. -/

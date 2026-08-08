@@ -97,6 +97,20 @@ theorem pullPoint_comp (G : CommGroupScheme S) {T U V : Over S}
   change (g ≫ h) ≫ x = g ≫ h ≫ x
   exact Category.assoc _ _ _
 
+/-- Pullback along an isomorphism of test objects is an equivalence on the represented
+commutative groups. -/
+def pointMulEquivOfOverIso (G : CommGroupScheme S) {T U : Over S} (e : T ≅ U) :
+    G.Point T ≃* G.Point U where
+  toFun := pullPoint G e.inv
+  invFun := pullPoint G e.hom
+  left_inv x := by
+    change e.hom ≫ e.inv ≫ x = x
+    simp
+  right_inv x := by
+    change e.inv ≫ e.hom ≫ x = x
+    simp
+  map_mul' := (pullPoint G e.inv).map_mul
+
 /-- Postcomposition by a group-scheme morphism commutes with restriction of points. -/
 theorem mapPoint_pullPoint (f : G ⟶ H) {T U : Over S} (g : T ⟶ U)
     (x : G.Point U) :
