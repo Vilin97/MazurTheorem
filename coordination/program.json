@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1499723,
-    "integrated_lean_modules": 804,
+    "integrated_lean_lines": 1499752,
+    "integrated_lean_modules": 805,
     "remaining_composite_orders": [
       18,
       25,
@@ -583,7 +583,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. A fixed genus-two Jacobian rank-zero certificate or an equivalent checked descent is still required; the Challenge remains open, and final installation requires resolving the downstream import cycle.",
+      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. A checked mod-32 certificate further proves m=n mod 4 for k=+/-8 and m!=n mod 4 for k=+/-4. The two Eisenstein norm arguments now multiply, up to omega, to k times the explicit cube of a+b*omega. In the actual Eisenstein integer ring, common prime support first lies over 2 or at the ramified prime over 3. The ramified case is excluded by exact depth: primitivity prevents square divisibility of either factor, whereas the scalar-times-cube identity would force cube depth. A narrower support-only-over-2 obstruction and its exact-order-18 consumer compile. Independently, every surviving four-scalar cube correspondence maps through a denominator-safe anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous equation is an explicit norm A^2+2B^2, and primitive coordinates force gcd(A,B) to be exactly one or eight. Checked point transport from the original model includes the exceptional-abscissa exclusion, ordinate scaling, and inverse abscissa. The low-level quotient, point-transport, and norm API now sits below XOneEighteenDescent, so the immutable Challenge has no downstream FourScalar import cycle. A fixed genus-two Jacobian rank-zero certificate or an equivalent checked descent is still required; the Challenge remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -610,7 +610,7 @@
           "kind": "theorem",
           "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalExceptionalPolynomial_ne_zero",
           "state": "contract",
-          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase",
           "description": "Remove the exceptional denominator of the anti-diagonal quotient by complete projective enumeration modulo five."
         },
         {
@@ -624,14 +624,14 @@
           "kind": "theorem",
           "name": "MazurTorsion.XOneEighteenDescent.antiDiagonalSextic_birational_identity",
           "state": "contract",
-          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase",
           "description": "Prove the polynomial covariance identity underlying the Möbius comparison with the existing order-eighteen model."
         },
         {
           "kind": "theorem",
           "name": "MazurTorsion.XOneEighteenDescent.gcd_antiDiagonalNorm_eq_one_or_eight",
           "state": "contract",
-          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase",
           "description": "Prove that the two integral coefficients in the quadratic norm factorization have gcd exactly one or eight on primitive coordinates."
         },
         {
@@ -645,7 +645,7 @@
           "kind": "theorem",
           "name": "MazurTorsion.XOneEighteenDescent.exists_antiDiagonal_point_of_orderEighteen_point",
           "state": "contract",
-          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase",
           "description": "Transport every rational point of the original order-eighteen sextic to a nonexceptional anti-diagonal point, including ordinate scaling and the inverse abscissa identity."
         }
       ],
@@ -674,7 +674,7 @@
           "MazurTorsion.NumberTheory.XOneEighteenDescent"
         ],
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
-        "recommended_route": "Formalize a fixed genus-two Jacobian rank-zero certificate for the checked anti-diagonal sextic, or finish an equivalent complete descent. Before installing the immutable destination, split the low-level point transport below XOneEighteenDescent to avoid the current downstream import cycle.",
+        "recommended_route": "Formalize a fixed genus-two Jacobian rank-zero certificate for the checked anti-diagonal sextic, or finish an equivalent complete descent. The low-level point transport is already below XOneEighteenDescent, so the final theorem may be installed without importing the downstream FourScalar correspondence through the immutable Challenge.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
@@ -3239,7 +3239,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus.",
+      "summary": "Construct the Abel-Jacobi morphism, prove its universal property and base-change compatibility, and prove it is a closed immersion in positive genus. The checked absolute scheme-Picard adapter now also transports the exact weighted basepoint-change laws for both points and divisors from the pinned Tau Ceti divisor-class API. A real effective divisor-cocycle/global-principal-boundary consumer reaches the same normalization law. These are class-level normalization results, not a represented morphism, universal property, base-change theorem, or closed immersion.",
       "artifacts": [
         {
           "kind": "definition",
@@ -3264,6 +3264,48 @@
           "name": "TauCeti.AlgebraicGeometry.Jacobian.abelJacobi_closedImmersion",
           "state": "proposed",
           "description": "Prove that Abel-Jacobi is a closed immersion for curves of positive genus."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedBasepointChangeClass",
+          "state": "contract",
+          "description": "Transport the weighted divisor class [x0]-[y0] into the actual scheme Picard degree-zero subgroup.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.coe_weightedBasepointChangeClass",
+          "state": "contract",
+          "description": "Identify the underlying scheme-Picard class of the transported basepoint-change class.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiClass_change_base",
+          "state": "contract",
+          "description": "Prove the exact translation formula for the scheme-Picard point class under a change of weight-one basepoint.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiClass_oldBase_eq_weightedBasepointChangeClass",
+          "state": "contract",
+          "description": "Normalize the old basepoint in the new-basepoint Abel-Jacobi map to the transported translation class.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_change_base",
+          "state": "contract",
+          "description": "Prove the exact weighted-degree translation formula for the scheme-Picard divisor Abel class.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary_change_base",
+          "state": "contract",
+          "description": "Consume the point basepoint-change formula through the effective divisor-cocycle and global-principal-boundary construction.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardAbelJacobi"
         }
       ],
       "depends_on": [

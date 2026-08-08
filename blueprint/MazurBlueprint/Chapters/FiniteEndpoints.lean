@@ -121,9 +121,10 @@ equation is the norm $`A^2+2B^2`, and primitive coordinates force the exact
 alternative $`\gcd(A,B)=1` or $`8`. Checked point transport from the original
 model includes the ordinate scaling, inverse abscissa, and exclusion of the
 exceptional value $`x=-1`. The fixed Jacobian rank-zero certificate or an
-equivalent complete descent remains open. Installing the final result in the
-immutable destination also requires splitting the low-level transport below
-`XOneEighteenDescent` to avoid the current downstream import cycle.
+equivalent complete descent remains open. The low-level quotient, point
+transport, and norm API now lies below `XOneEighteenDescent`; the immutable
+destination therefore no longer imports the downstream FourScalar
+correspondence transitively.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
