@@ -184,6 +184,83 @@ theorem antiDiagonalNormParametric_coprime_cover
   exact ⟨hPell, d₁, d₂, hd₁, hd₂, hsplit,
     hpq.mono hd₁ hd₂⟩
 
+private theorem gcd_dvd_two_of_two_mul_split
+    {p q d₁ d₂ : ℤ} (hpq : IsCoprime p q)
+    (hd₁ : d₁ ∣ 2 * p) (hd₂ : d₂ ∣ q) :
+    (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2 := by
+  let g : ℤ := GCDMonoid.gcd d₁ d₂
+  obtain ⟨e, he⟩ := (GCDMonoid.gcd_dvd_left d₁ d₂).trans hd₁
+  obtain ⟨f, hf⟩ := (GCDMonoid.gcd_dvd_right d₁ d₂).trans hd₂
+  obtain ⟨a, b, hab⟩ := hpq
+  change 2 * p = g * e at he
+  change q = g * f at hf
+  refine ⟨a * e + 2 * b * f, ?_⟩
+  change 2 = g * (a * e + 2 * b * f)
+  calc
+    2 = 2 * (a * p + b * q) := by rw [hab]; ring
+    _ = a * (2 * p) + 2 * b * q := by ring
+    _ = g * (a * e + 2 * b * f) := by rw [he, hf]; ring
+
+/-- In the gcd-eight branch, removing the exact common factor gives
+coprime normalized coefficients `a,b`, with
+`A = 8a` and `r(r²-s²) = -2b`.  The normalized bidegree equation allocates
+`a` to the Pell-type factor and splits `b` between `2p` and `q`; the two
+pieces can overlap only at the prime two. -/
+theorem antiDiagonalNormParametric_eight_cover
+    (r s p q : ℤ) (hpq : IsCoprime p q)
+    (hgcd : (GCDMonoid.gcd (antiDiagonalNormReal r s)
+      (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 8)
+    (hform : antiDiagonalNormParametricBidegreeForm r s p q = 0) :
+    ∃ a b d₁ d₂ : ℤ,
+      antiDiagonalNormReal r s = 8 * a ∧
+      antiDiagonalNormSqrtNegTwo r s = 8 * b ∧
+      IsCoprime a b ∧
+      r * (r ^ 2 - s ^ 2) = -2 * b ∧
+      a ∣ q ^ 2 - 2 * p ^ 2 ∧
+      d₁ ∣ 2 * p ∧
+      d₂ ∣ q ∧
+      b = d₁ * d₂ ∧
+      (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2 := by
+  let A := antiDiagonalNormReal r s
+  let B := antiDiagonalNormSqrtNegTwo r s
+  let D := r * (r ^ 2 - s ^ 2)
+  obtain ⟨a, b, hA, hB, hunit⟩ := extract_gcd A B
+  rw [hgcd] at hA hB
+  have hgcdABNat : Int.gcd a b = 1 := by
+    have h := Int.isUnit_iff_natAbs_eq.mp hunit
+    simpa only [Int.natAbs_gcd] using h
+  have hab : IsCoprime a b :=
+    Int.isCoprime_iff_gcd_eq_one.mpr hgcdABNat
+  have hD : D = -2 * b := by
+    have hB' : -4 * D = 8 * b := by
+      simpa only [B, D, antiDiagonalNormSqrtNegTwo,
+        neg_mul, mul_assoc] using hB
+    omega
+  have hraw : A * p * q + 2 * D * (q ^ 2 - 2 * p ^ 2) = 0 := by
+    simpa only [A, D, antiDiagonalNormParametricBidegreeForm,
+      mul_assoc] using hform
+  rw [hA, hD] at hraw
+  have hnormalized :
+      2 * a * p * q - b * (q ^ 2 - 2 * p ^ 2) = 0 := by
+    apply mul_left_cancel₀ (by norm_num : (4 : ℤ) ≠ 0)
+    simp only [mul_zero]
+    linear_combination hraw
+  have haPell : a ∣ q ^ 2 - 2 * p ^ 2 := by
+    apply hab.dvd_of_dvd_mul_left
+    refine ⟨2 * p * q, ?_⟩
+    linear_combination -hnormalized
+  have hbTwoPQ : b ∣ (2 * p) * q := by
+    apply hab.symm.dvd_of_dvd_mul_left
+    refine ⟨q ^ 2 - 2 * p ^ 2, ?_⟩
+    linear_combination hnormalized
+  obtain ⟨d₁, d₂, hd₁, hd₂, hsplit⟩ :=
+    exists_dvd_and_dvd_of_dvd_mul hbTwoPQ
+  have hcommon : (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2 :=
+    gcd_dvd_two_of_two_mul_split hpq hd₁ hd₂
+  exact ⟨a, b, d₁, d₂, by simpa only [A] using hA,
+    by simpa only [B] using hB, hab, by simpa only [D] using hD,
+    haPell, hd₁, hd₂, hsplit, hcommon⟩
+
 /-! ## Excluding the tangent and consuming an order-eighteen point -/
 
 /-- The imaginary norm coefficient cannot vanish on the primitive
@@ -286,7 +363,19 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
           d₁ ∣ p ∧
           d₂ ∣ q ∧
           r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
-          IsCoprime d₁ d₂) := by
+          IsCoprime d₁ d₂) ∧
+      ((GCDMonoid.gcd (antiDiagonalNormReal r s)
+          (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 8 →
+        ∃ a b d₁ d₂ : ℤ,
+          antiDiagonalNormReal r s = 8 * a ∧
+          antiDiagonalNormSqrtNegTwo r s = 8 * b ∧
+          IsCoprime a b ∧
+          r * (r ^ 2 - s ^ 2) = -2 * b ∧
+          a ∣ q ^ 2 - 2 * p ^ 2 ∧
+          d₁ ∣ 2 * p ∧
+          d₂ ∣ q ∧
+          b = d₁ * d₂ ∧
+          (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2) := by
   obtain ⟨w, z, hw1, hanti, hinverse⟩ :=
     exists_antiDiagonal_point_of_orderEighteen_point x y hcurve
   obtain ⟨r, s, c, hs, hrs, hw, hc, hnorm, hgcd⟩ :=
@@ -320,9 +409,24 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
           IsCoprime d₁ d₂ := fun hgcdOne ↦
     antiDiagonalNormParametric_coprime_cover
       r s p q hpq hgcdOne hform
+  have height :
+      (GCDMonoid.gcd (antiDiagonalNormReal r s)
+          (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 8 →
+        ∃ a b d₁ d₂ : ℤ,
+          antiDiagonalNormReal r s = 8 * a ∧
+          antiDiagonalNormSqrtNegTwo r s = 8 * b ∧
+          IsCoprime a b ∧
+          r * (r ^ 2 - s ^ 2) = -2 * b ∧
+          a ∣ q ^ 2 - 2 * p ^ 2 ∧
+          d₁ ∣ 2 * p ∧
+          d₂ ∣ q ∧
+          b = d₁ * d₂ ∧
+          (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2 := fun hgcdEight ↦
+    antiDiagonalNormParametric_eight_cover
+      r s p q hpq hgcdEight hform
   refine ⟨r, s, c, p, q, hs, hrs, ?_, hc, hnorm, hgcd,
     himag, htangent, hq, hp0, hpq, hlinear, hfirst, hsecond, hform,
-    hsupport⟩
+    hsupport, height⟩
   rw [← hw]
   exact hinverse
 
@@ -366,7 +470,19 @@ theorem exists_primitive_normParameter_of_exact_order_eighteen
             d₁ ∣ p ∧
             d₂ ∣ q ∧
             r * (r ^ 2 - s ^ 2) = d₁ * d₂ ∧
-            IsCoprime d₁ d₂) := by
+            IsCoprime d₁ d₂) ∧
+        ((GCDMonoid.gcd (antiDiagonalNormReal r s)
+            (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 8 →
+          ∃ a b d₁ d₂ : ℤ,
+            antiDiagonalNormReal r s = 8 * a ∧
+            antiDiagonalNormSqrtNegTwo r s = 8 * b ∧
+            IsCoprime a b ∧
+            r * (r ^ 2 - s ^ 2) = -2 * b ∧
+            a ∣ q ^ 2 - 2 * p ^ 2 ∧
+            d₁ ∣ 2 * p ∧
+            d₂ ∣ q ∧
+            b = d₁ * d₂ ∧
+            (GCDMonoid.gcd d₁ d₂ : ℤ) ∣ 2) := by
   obtain ⟨b, c₀, u, r₀, d, t, _hu, _hb, _hc, _hbc, _hr,
     _hdEq, _hd0, _hd1, _hcparam, _hbparam, _htEq, _hnine, _htwo,
     _haux, _hden, hx0, hx1, hcurve, _hdisc⟩ :=
