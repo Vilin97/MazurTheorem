@@ -40,6 +40,20 @@ The retained `TwoTorsion.lean`, `ThreeTorsion.lean`, and
 `FullFourTorsion.lean` files preserve their source headers. The exact-pin
 audit and local changes are recorded in `docs/PRIOR_ART.md`.
 
+## Lean Pool Grothendieck vanishing
+
+- Authors and copyright holders recorded in source: Vasily Ilin and Brian Nugent
+- Source: https://github.com/Vilin97/lean-pool/tree/4eef1ffb3b643d606665e3b5585aa69454e137d1/LeanPool/GrothendieckVanishing
+- Source commit: `4eef1ffb3b643d606665e3b5585aa69454e137d1`
+- Upstream Lean 4.33 migration reference: `cc54a3adb51cb00b78cbe025818a24b676aeada7`
+- License: Apache License 2.0; see `LICENSE`
+
+The 15 retained modules are stored under
+`MazurTorsion/Upstream/LeanPool/GrothendieckVanishing/` with their original
+headers. They prove Grothendieck vanishing for abelian sheaves on Noetherian
+topological spaces. The local exact-pin adaptations and the named smooth
+proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
+
 ## AINTLIB geometry foundations
 
 - Upstream author identified from repository authorship/history: Chris Birkbeck

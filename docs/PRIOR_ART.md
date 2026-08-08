@@ -39,6 +39,35 @@ LeanPool's solution comparator permits only the usual foundational axioms
 or hiding an assumption behind another declaration is therefore not a valid
 solution.
 
+### LeanPool Grothendieck-vanishing development
+
+LeanPool's separate Apache-2.0 `GrothendieckVanishing` project was inspected
+at source commit
+[`4eef1ffb3b643d606665e3b5585aa69454e137d1`](https://github.com/Vilin97/lean-pool/commit/4eef1ffb3b643d606665e3b5585aa69454e137d1)
+and at its upstream Lean 4.33 migration
+[`cc54a3adb51cb00b78cbe025818a24b676aeada7`](https://github.com/Vilin97/lean-pool/commit/cc54a3adb51cb00b78cbe025818a24b676aeada7).
+The source headers name Vasily Ilin and Brian Nugent. Its 15-module proof
+formalizes Hartshorne III.2.7: closed-immersion cohomology, flasque
+acyclicity, filtered-colimit compatibility, reduction to finitely generated
+subsheaves, the irreducible positive-dimensional step, and the final
+Noetherian-space induction.
+
+All 15 modules are retained locally with their source headers. The exact-pin
+port removes the upstream `implicit_reducible` commands, uses canonical
+abelian images, and names opaque sheaf objects at categorical boundaries. The public
+endpoint `GrothendieckVanishing` and the main intermediate declarations audit
+to only `propext`, `Classical.choice`, and `Quot.sound`.
+
+The named downstream consumer
+`SchemeModuleCohomology.smoothProperCurve_H_subsingleton` applies the theorem
+to the actual underlying additive sheaf of a scheme module. Tau Ceti's
+codimension-one result gives the dimension bound for a smooth integral
+relative curve, while smooth finite type and proper quasi-compactness give
+the Noetherian hypothesis. This closes vanishing in degrees at least two.
+It does not prove proper coherent cohomology finite-dimensional or finite in
+degree one; those remain separate requirements of roadmap node
+`MT-TC-B1-COHERENT-COHOMOLOGY`.
+
 ## 2. mathlib at the exact challenge pin
 
 ### Reusable now
