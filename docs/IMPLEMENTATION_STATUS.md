@@ -297,10 +297,14 @@ Current machine-checked results include:
   direct localization base changes over `Spec(Localization.Away level)`.
   Supplied finite-p-group certificates transport to those exact bad-level
   carriers with their lengths and cardinal equalities unchanged; the missing
-  arithmetic certificates are not inferred.
+  arithmetic certificates are not inferred. A checked Kummer endpoint now
+  proves rank zero and finiteness for a finitely generated abelian group from
+  an injection of `A/pA` into the actual represented finite-flat `H¹`, using
+  the two-factor admissible-filtration cardinal bound. The Eisenstein
+  quotient's injection and endpoint certificates remain open.
   Quasi-finite admissible-filtration exact sequences, the two global bad-level
   `H¹` calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the
-  Eisenstein rank-zero consumer remain open; and
+  Eisenstein quotient specialization remain open; and
 * explicit total Vélu and dual point maps for `X₁(11)` whose composition is
   multiplication by five; this is retained as a release-obligation fallback,
   not a prerequisite of the uniform order-eleven theorem.

@@ -277,6 +277,18 @@ actual kernel of `H¹(powerKernel) → H¹(G_m)` for every commutative base ring
 (`d5dfa3f`). This still makes no Picard-vanishing assertion. No roadmap-node
 credit or Challenge change is claimed.
 
+The finite-flat rank-zero lane now has its numerical endpoint and a genuine
+geometric consumer. For a finitely generated abelian group, an injective
+Kummer map from `A/pA` into a finite group no larger than `A[p]` forces rank
+zero by the checked finite-index formula and then finiteness. The specialized
+theorems target the actual represented finite-flat `FppfHOne` and derive its
+cardinal bound from the checked two-factor admissible filtration and
+low-degree exact sequence (`4b137af`, reviewed from contributor `fc0b7f6`).
+The Eisenstein quotient's Kummer injection, endpoint constant and
+multiplicative `H1` certificates, middle-`H1` finiteness, and p-torsion
+cardinality equality remain open. No Raynaud theorem or node completion is
+claimed.
+
 The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
 the exact `a₄`-depth case, forces `a₄ ∈ 𝔪⁴`, and derives `a₆ ∈ 𝔪⁶`; a further
@@ -317,7 +329,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 819 Lean modules and 1,504,505 Lean lines.
+exact quality baseline is 820 Lean modules and 1,504,670 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -386,15 +398,17 @@ the standard axioms.
 The X1(18) norm-parametrization target rebuilds all 2,381 jobs. Its twelve public
 definitions and theorems, including the exact-order consumer and eliminated
 bihomogeneous equation, use only the same three standard axioms.
+The finite-flat Kummer rank-zero target rebuilds all 3,086 jobs. Its two
+numerical theorems and two actual represented-`H1` admissible-filtration
+consumers use only the standard three axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
-only warnings are inherited from the pinned Verso dependencies. The active
-worker is pursuing the global four-variable/Jacobian leaf for X1(18); the next
-owner dispatches target the represented integral cusp and the focused
-finite-flat rank-zero path. The reviewed A3 lower comparisons, finite-family
+only warnings are inherited from the pinned Verso dependencies. Active
+workers are pursuing the represented integral cusp geometry at five and
+eleven and the global X1(13) allocated-Pell-factor leaf. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
 rational-section non-genericity, split finite-flat inverse datum, affine H0
 right exactness, and X1(13) Pell allocation are integrated;
@@ -1387,9 +1401,11 @@ within each lane follows the listed order.
    localization sequence remain absent, as do the quasi-finite
    admissible-filtration exact sequences and the
    ambient constant/Kummer `H¹` calculations and middle-`H¹` finiteness
-   remain absent. Next finish
-   `MT-FFGS-CONNECTED-ETALE` (20) with those inputs and the focused finite
-   rank-zero specialization. Then finish
+   remain absent. The numerical Kummer rank-zero theorem and its actual
+   represented-`H1` two-factor admissible-filtration consumers now compile.
+   Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
+   cohomology certificates, middle-`H1` finiteness, and the torsion-cardinality
+   equality. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
    Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.

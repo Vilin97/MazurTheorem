@@ -1934,8 +1934,15 @@ the direct `Spec(Localization.Away level)` base changes. Supplied
 finite-p-group certificates transport across these equivalences without
 manufacturing the ambient constant or Kummer arithmetic. The quasi-finite
 admissible-filtration exact sequences, both ambient bad-level `H¹`
-calculations, middle-`H¹` finiteness, Raynaud uniqueness, and the focused
-rank-zero specialization remain open. The supported quotient terms are not
+calculations, middle-`H¹` finiteness, and Raynaud uniqueness remain open. The
+numerical rank-zero endpoint now compiles: for finitely generated `A`, an
+injective Kummer map from `A/pA` into a finite group whose cardinality is at
+most `#A[p]` forces rank zero by the checked index formula and then finiteness.
+Its geometric consumers use the actual represented finite-flat `FppfHOne`
+and obtain the bound from the two-factor admissible-filtration exact sequence.
+Constructing the Eisenstein quotient's Mordell--Weil Kummer injection,
+endpoint certificates, middle-`H¹` finiteness, and p-torsion cardinality is
+the remaining focused specialization. The supported quotient terms are not
 represented as quasi-finite flat group schemes.
 
 For the multiplicative coefficient, evaluation of an actual represented

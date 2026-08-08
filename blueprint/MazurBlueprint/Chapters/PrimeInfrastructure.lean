@@ -735,6 +735,22 @@ the bounded Kummer cohomology calculation to the modular quotient.
   `AlgebraicGeometry.Raynaud.primeOrder_uniqueness_unramified`
 * `theorem` (`proposed`):
   `AbelianVariety.rank_eq_zero_of_admissible_torsion`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_eq_zero_of_injective_kummer_of_card_le_torsion`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.finite_of_injective_kummer_of_card_le_torsion`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finrank_eq_zero_of_fppfKummer_int`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finite_of_fppfKummer_int`
+
+The checked finite-index formula now supplies the numerical endpoint: an
+injective map from `A/pA` into a finite group no larger than `A[p]` forces a
+finitely generated abelian group to have rank zero and hence be finite. The
+geometric consumers use the actual represented finite-flat `FppfHOne` target
+and derive its bound from the checked two-factor admissible filtration. The
+Eisenstein Kummer injection, endpoint certificates, middle-H1 finiteness,
+torsion-cardinality equality, and unramified Raynaud input remain open.
 :::
 
 :::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")

@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1504505,
-    "integrated_lean_modules": 819,
+    "integrated_lean_lines": 1504670,
+    "integrated_lean_modules": 820,
     "remaining_composite_orders": [
       18,
       25,
@@ -5462,7 +5462,7 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero.",
+      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero. The numerical endpoint now compiles: an injective Kummer map from A/pA into a finite group whose cardinality is bounded by the cardinality of A[p] forces a finitely generated abelian group A to have rank zero and hence be finite. Actual downstream consumers take the repository's represented finite-flat FppfHOne target and derive its bound from a checked two-factor admissible filtration and low-degree exact sequence. The Eisenstein quotient's genuine Mordell-Weil Kummer injection, endpoint cohomology certificates, middle-H1 finiteness, torsion-cardinality equality, and unramified Raynaud input remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -5475,6 +5475,34 @@
           "name": "AbelianVariety.rank_eq_zero_of_admissible_torsion",
           "state": "proposed",
           "description": "Deduce rank zero from good reduction away from the level, toric level reduction, and admissible p-torsion."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_eq_zero_of_injective_kummer_of_card_le_torsion",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfKummerRankZero",
+          "description": "Use the checked finitely generated index formula to force rank zero from an injective Kummer quotient and a cohomological cardinal bound by the p-torsion."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.finite_of_injective_kummer_of_card_le_torsion",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfKummerRankZero",
+          "description": "Upgrade the numerical Kummer rank-zero conclusion to finiteness for the finitely generated abelian group."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finrank_eq_zero_of_fppfKummer_int",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfKummerRankZero",
+          "description": "Consume the actual represented finite-flat H1 and its checked two-factor admissible-filtration bound in the Kummer rank-zero criterion over Spec Z."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finite_of_fppfKummer_int",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfKummerRankZero",
+          "description": "Derive actual finiteness of the Mordell-Weil input from the same represented finite-flat H1 consumer."
         }
       ],
       "depends_on": [
