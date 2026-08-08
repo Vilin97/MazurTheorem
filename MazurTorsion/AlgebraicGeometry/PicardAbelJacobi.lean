@@ -33,10 +33,7 @@ open TauCeti.AlgebraicGeometry.WeilDivisor
 open CategoryTheory
 open CategoryTheory.MonoidalCategory
 
-noncomputable local instance picardAbelJacobiSchemeModulesMonoidal
-    (X : Scheme.{u}) :
-    CategoryTheory.MonoidalCategory X.Modules :=
-  Scheme.Modules.monoidalCategory X
+attribute [local instance] schemeModulesMonoidal
 
 namespace PicardGroup
 
