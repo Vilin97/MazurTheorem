@@ -92,6 +92,28 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The B1 lane now identifies degree-one native base-Cech homology on every
+affine open cover with genuine Ext-based sheaf cohomology after forgetting
+the base-module structure
+(`MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`,
+integrated through `d7491e5`, `90e5279`, and the review repair `4fcb0a5`).
+The elementwise theorem
+`exists_nativeBaseCechHOne_class_of_sheafHOne_class` is the checked consumer.
+Independent review rejected the first checkpoint despite a green proof build:
+twenty-one recorded AINTLIB blob hashes were false, three whole modules and a
+private resolution tail were dead, and the provenance counts were overstated.
+The repaired closure records Git-verified blob identities, retains exactly 38
+local modules from 32 whole sources and seven source slices, and removes all
+of that dead material.  The 2,924-job focused serial build and endpoint axiom
+audits pass with only `propext`, `Classical.choice`, and `Quot.sound`.  The
+comparison is additive only: it asserts no scalar compatibility, finite
+generation, properness, base change, or semicontinuity.  The remaining B1
+seams are base-linear transport, the proper ordered input and its low-degree
+Chow construction, proper `H¹` finiteness, and the final curve facade.  B1
+remains open with no credit.  Together with the already integrated A3
+pointwise restriction work, the exact quality baseline is now 897 Lean
+modules and 1,529,807 Lean lines.
+
 The B1 coherent-cohomology lane now retains an attributed, option-free slice
 of AINTLIB's ordered and native base-linear Cech complexes and proves that
 finite generation of ordered degree-one homology transfers to the native
