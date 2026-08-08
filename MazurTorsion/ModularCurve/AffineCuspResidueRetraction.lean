@@ -188,7 +188,7 @@ variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
 
 /-- A unit first `q`-coefficient proves formal immersion at a rational affine
-cusp without assuming ambient residue-field surjectivity.
+cusp without assuming either residue-field surjectivity.
 
 The retraction `cuspRetraction` is the coordinate-ring form of the affine
 cusp section.  `hcuspClosedPoint` ensures that it passes through the same
@@ -198,8 +198,6 @@ theorem isFormalImmersionAtSpecMap_of_unit_qExpansion_of_retraction
     (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
     [IsNoetherianRing S] [IsNoetherianRing T]
     [IsNoetherianRing (p.Fiber T)]
-    (hresidueFiber : Function.Surjective
-      (IsLocalRing.ResidueField.map (localizedRingMap p g q)))
     (qParameter : Localization.AtPrime q)
     (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
       Ideal.span {qParameter})
@@ -219,10 +217,65 @@ theorem isFormalImmersionAtSpecMap_of_unit_qExpansion_of_retraction
     (hcuspClosedPoint : targetBasePrime p q =
       p.comap cuspRetraction.toRingHom) :
     IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
-      (targetSpecPoint p q) :=
-  isFormalImmersionAtSpecMap_of_unit_qExpansion p g q hresidueFiber
+      (targetSpecPoint p q) := by
+  have hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q)) :=
+    ambientResidue_surjective_of_retraction p g q cuspRetraction
+      hcuspClosedPoint
+  have hresidueFiber : Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)) :=
+    localizedResidueFieldMap_surjective_of_ambient p g q hresidueAmbient
+  exact isFormalImmersionAtSpecMap_of_unit_qExpansion p g q hresidueFiber
     qParameter hmaximal hqLinear sourceParameter hsourceMem unitCoefficient
-    remainder hunit hremainder hfirstOrder
+    remainder hunit hremainder hfirstOrder hresidueAmbient
+
+/-- A nonzero Hecke eigen-expansion proves formal immersion at a rational
+affine cusp without independent residue-field hypotheses.
+
+The affine cusp retraction supplies ambient residue-field surjectivity.  The
+checked affine-fibre quotient comparison then supplies the special-fibre
+surjectivity used by the degree-one cotangent argument. -/
+theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_retraction
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (cuspRetraction : T →ₐ[R] R)
+    (hcuspClosedPoint : targetBasePrime p q =
+      p.comap cuspRetraction.toRingHom) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) :=
+  isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion p g q qParameter
+    hmaximal hqLinear sourceParameter hsourceMem qCoordinate Q hqExpansion
+    hQ hecke eigenvalue hfirst heigen
     (ambientResidue_surjective_of_retraction p g q cuspRetraction
       hcuspClosedPoint)
 
