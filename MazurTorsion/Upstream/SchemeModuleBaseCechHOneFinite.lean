@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleOrderedBaseCechHOneFinite
 import MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule
+import MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport
 
 /-!
 # Finite generation of native base-Cech degree-one homology
@@ -64,5 +65,29 @@ theorem genuineSheafHOne_finite_of_ordered_affineOpenCover
   exact Module.Finite.equiv
     (genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover
       π M U hU hUaff).symm
+
+/-- A coherent support-decreasing comodel construction supplies finite
+generation of genuine sheaf `H¹` through low-degree support induction, the
+ordered/native comparison, and the explicit transported base action. -/
+theorem genuineSheafHOne_finite_of_coherentSupportComodels
+    {X S : Scheme.{u}} (π : X ⟶ S)
+    [X.IsSeparated] [NoetherianSpace X]
+    [IsNoetherianRing Γ(S, (⊤ : S.Opens))]
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent]
+    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens)
+    (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i))
+    (hcomodel : ∀ (N : X.Modules),
+      N.IsFiniteType → N.IsQuasicoherent →
+        ∃ (E : X.Modules) (f : N ⟶ E),
+          IsCoherentLowDegreeSupportComodel π U N E f) :
+    letI := genuineSheafHOneBaseModule_of_affineOpenCover
+      π M U hU hUaff
+    Module.Finite Γ(S, (⊤ : S.Opens)) (GenuineSheafHOne M) := by
+  have hordered : Module.Finite Γ(S, (⊤ : S.Opens))
+      ((Scheme.Modules.orderedBaseCechComplex π M U).homology 1) :=
+    orderedBaseCechHOne_finite_of_coherentSupportComodels
+      π U hUaff hcomodel M
+  exact genuineSheafHOne_finite_of_ordered_affineOpenCover
+    π M U hU hUaff hordered
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology

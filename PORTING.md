@@ -203,11 +203,11 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Thirty-eight local Apache-2.0 modules were selected from the AINTLIB
+Forty-four local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. Thirty-two upstream files are retained
-whole; seven additional source files contribute the narrow option-free slices
+`MazurTorsion/Upstream/AINTLIB/`. Thirty-seven upstream files are retained
+whole; nine additional source files contribute the narrow option-free slices
 recorded below:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
@@ -218,15 +218,22 @@ recorded below:
 | `ForMathlib/SheafCohomologyExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyExact.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 | `ForMathlib/FormalCoproductAdditive.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FormalCoproductAdditive.lean` |
+| `ForMathlib/FiniteHomologySequence.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FiniteHomologySequence.lean` |
+| `ForMathlib/BaseChangeKerCoker.lean` (only `Module.Finite.of_exact_of_finite`) | moved into `FiniteHomologySequence.lean` |
 | `ForMathlib/SchemeModuleBaseCechBasic.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechBasic.lean` |
 | `ForMathlib/SchemeModuleBaseCech.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCech.lean` |
+| `ForMathlib/SchemeModuleBaseCechExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechExact.lean` |
 | `ForMathlib/SchemeModuleBaseCechFlat.lean` (only `baseCechFactor` and `baseCechXIsoPi`) | moved into the preceding two core modules |
 | `ForMathlib/SchemeModuleOrderedBaseCech.lean` (lines 1–310, before the flatness tail) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechBasic.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechFunctor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechFunctor.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechExact.lean` |
+| `ForMathlib/SchemeModuleOrderedBaseCechLowDegreeFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechLowDegreeFinite.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechComparison.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechAlternating.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOne.lean` |
 | `ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleOrderedBaseCechHOneFinite.lean` |
-| `ForMathlib/SheafCechCochains.lean` (generic product/cochain equivalences; affine-vanishing tail omitted) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechCochains.lean` |
+| `ForMathlib/SchemeModuleSupport.lean` (closed-stalk support rank core only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleClosedStalkSupport.lean` |
+| `ForMathlib/SheafCechCochains.lean` (generic product/cochain equivalences and separated affine-intersection lemma; affine-vanishing tail omitted) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechCochains.lean` |
 | `ForMathlib/SheafCechDifferential.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechDifferential.lean` |
 | `ForMathlib/TopCatSheafRestrict.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TopCatSheafRestrict.lean` |
 | `ForMathlib/SheafCechSheafTerms.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCechSheafTerms.lean` |
@@ -360,10 +367,43 @@ Picard-specific tail. Its only compatibility change is supplying the pivot
 argument to `Fin.succAbove_right_injective`, eliminating two current style
 warnings. No proof option, source placeholder, affine-comparison module,
 flat/Picard module, or properness cone is imported.
-Declarations used only as same-file proof machinery are private in the local
-port, and the unused exact-retract helper and its sole downstream proof are
-omitted. The public comparison spine and the source theorem statements used
-by later modules are unchanged.
+Declarations used only as same-file proof machinery remain private in the
+local port, and the unused exact-retract helper and its sole downstream proof
+are omitted. The base-presheaf and base-Cech functors are now public because
+the exactness and low-degree modules below are compiled consumers.
+
+The low-degree finiteness extension was audited both at the selected pin and
+at AINTLIB head `6b879658fe916b5db2afcddebbed35a9dc10aa61` (2026-08-08).
+Every newly selected source blob is byte-identical at those commits:
+`FiniteHomologySequence` `3fe42c878286f9ef96898a29dc9ff2a3d19d4f47`,
+`SchemeModuleBaseCechExact` `cba942a282cb96812f71c9df1245193724baef28`,
+`SchemeModuleOrderedBaseCechFunctor`
+`8e848e5fd9cc80bba786e9ae7f1043b1c45fa7e2`,
+`SchemeModuleOrderedBaseCechExact`
+`3178e4d70a15754557cfe03eb17e73f519a70915`,
+`SchemeModuleOrderedBaseCechLowDegreeFinite`
+`cf75b285fa7296c58ee07acbbe97cd01fadbc5c2`,
+`SchemeModuleSupport` `05e468b4ebf3d416878f813a51f3d9b09e91e07a`,
+and `BaseChangeKerCoker` `a3f9de90ecf592ea374d40bd30dccb1ab207fd38`.
+All carry per-file Apache-2.0 headers.
+
+This low-degree cone does not import the 1,956-line
+`SchemeModuleQuasicoherent` module or AINTLIB's all-degree properness cone.
+Affine-open exactness instead reuses the project's checked affine
+quasicoherent section-surjectivity theorem, transported through the affine
+spectrum isomorphism. The one Noetherian exact-pair lemma needed by the long
+homology sequence is retained as the named `BaseChangeKerCoker` slice. The
+zero-object case is proved directly in degrees zero and one, and the support
+induction takes quasicoherence of the comparison image as an explicit
+comodel witness. The source exactness declarations receive shorter local
+names to satisfy the repository's style gate.
+
+The project-facing `IsCoherentLowDegreeSupportComodel` packages the remaining
+producer boundary. Its closed-support induction consumer proves ordered
+degree-one finiteness, which feeds
+`genuineSheafHOne_finite_of_coherentSupportComodels`. This is a checked
+low-degree reduction, not a properness theorem: the canonical-support Chow
+construction producing such comodels remains the next open seam.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
