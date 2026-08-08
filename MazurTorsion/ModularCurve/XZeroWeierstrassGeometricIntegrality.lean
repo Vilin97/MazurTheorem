@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.ModularCurve.XZeroWeierstrassProjectivePointComparison
+import MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveInfinity
 import Mathlib.AlgebraicGeometry.Geometrically.Integral
 import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
 
@@ -542,10 +542,7 @@ structure CanonicalPointGroupLawCompatibility
       projectivePointToAbelianVarietyRationalPoint W P *
         projectivePointToAbelianVarietyRationalPoint W Q
 
-/-- An addition-preserving map from the coordinate group to the scheme-valued
-point group automatically preserves the identity.  This removes a redundant
-premise from the finite-flat `Gamma_0` handoff. -/
-theorem CanonicalPointGroupLawCompatibility.map_zero
+private theorem CanonicalPointGroupLawCompatibility.map_zero_on_selfTestObject
     (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
     [GrpObj (toOver W)]
     (D : CanonicalPointGroupLawCompatibility W) :
@@ -558,6 +555,43 @@ theorem CanonicalPointGroupLawCompatibility.map_zero
     (a := projectivePointToAbelianVarietyRationalPoint W 0)
     (b := projectivePointToAbelianVarietyRationalPoint W 0) (c := 1) (by
       simpa using h.symm)
+
+/-- Addition compatibility forces the abstract group-object unit to be the concrete section at
+infinity.  This identifies an actual scheme morphism, not merely the value of a point function. -/
+theorem CanonicalPointGroupLawCompatibility.unit_eq_infinitySectionOver
+    (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
+    [GrpObj (toOver W)] [GeometricallyIntegral (toOver W).hom]
+    (D : CanonicalPointGroupLawCompatibility W) :
+    η[toOver W] = infinitySectionOver W := by
+  have hzero := D.map_zero_on_selfTestObject W
+  change projectivePointOverMorphism W 0 =
+    (1 : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) at hzero
+  calc
+    η[toOver W] = (tensorUnitIsoSelfTestObject (K := K)).hom ≫
+        (1 : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W) := by
+      simp [CategoryTheory.Hom.one_def]
+    _ = (tensorUnitIsoSelfTestObject (K := K)).hom ≫
+        projectivePointOverMorphism W 0 := by rw [hzero]
+    _ = infinitySectionOver W :=
+      tensorUnitIsoSelfTestObject_hom_comp_projectivePointOverMorphism_zero W
+
+/-- An addition-preserving map from the coordinate group to the scheme-valued point group
+automatically preserves the identity.  The proof now factors through the scheme-level equality
+between the abstract unit and the concrete section at infinity; the finite-flat `Gamma_0`
+construction below is the downstream consumer. -/
+theorem CanonicalPointGroupLawCompatibility.map_zero
+    (W : WeierstrassCurve K) [DecidableEq K] [W.IsElliptic]
+    [GrpObj (toOver W)]
+    (D : CanonicalPointGroupLawCompatibility W) :
+    ∀ [GeometricallyIntegral (toOver W).hom],
+      projectivePointToAbelianVarietyRationalPoint W 0 = 1 := by
+  intro
+  change projectivePointOverMorphism W 0 =
+    (1 : AffineCommGroupScheme.testObject (R := K) K ⟶ toOver W)
+  apply (cancel_epi (tensorUnitIsoSelfTestObject (K := K)).hom).1
+  rw [tensorUnitIsoSelfTestObject_hom_comp_projectivePointOverMorphism_zero]
+  rw [← D.unit_eq_infinitySectionOver W]
+  simp [CategoryTheory.Hom.one_def]
 
 /-- A dependent package recording that the standard-chart criterion has
 reached the finite-flat `Gamma_0(N)` consumer.  The comparison field exposes

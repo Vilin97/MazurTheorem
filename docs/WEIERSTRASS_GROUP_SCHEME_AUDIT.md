@@ -1,6 +1,6 @@
 # Weierstrass group-scheme dependency audit
 
-Date: 2026-08-03
+Date: 2026-08-08
 
 This audit records the checked dependency boundary for constructing
 `WeierstrassGroupSchemeInterface` in
@@ -157,21 +157,49 @@ affine Weierstrass polynomial.  Mathlib's checked irreducibility theorem makes
 the resulting principal ideal prime over every field extension, so the
 quotient scheme representing this `Z != 0` equation is integral.
 
-`StandardChartBaseChangeWitness` isolates the remaining geometric comparison:
-an open immersion from that checked integral quotient into each field
-base-change of the concrete reduced cubic, density of its range, and
-reducedness of the target pullback.  The theorem
-`geometricallyIntegral_of_standardChartBaseChangeWitness` proves geometric
-integrality from precisely these data.  Its proof transports irreducibility
-from the integral chart across the dense range and combines it with target
-reducedness.  The consumers
-`toAbelianVarietyOfStandardChartBaseChangeWitness` and
-`standardChartSplitGammaZeroPackage` install the resulting instance
-internally and reach, respectively, Tau Ceti's abelian-variety constructor and
-the finite-flat split `Gamma₀(N)` datum.  The theorem
-`standardChartSplitGammaZeroPackage_hasConstantOrder` checks the latter all
-the way through the constant geometric-order conclusion.  Thus no caller of
-this interface supplies a freestanding geometric-integrality instance.
+The standard-chart comparison is now unconditional.
+`canonicalStandardChartComparison` identifies the checked quotient with the
+canonical `Z != 0` open after every field extension and proves its range
+dense.  Consequently `structureMap_geometricallyIntegral` installs geometric
+integrality for every concrete reduced projective Weierstrass cubic.  The
+consumers `toAbelianVarietyOfCanonicalStandardChart` and
+`canonicalStandardChartSplitGammaZeroPackage` reach Tau Ceti's
+abelian-variety constructor and the finite-flat split `Gamma₀(N)` datum,
+respectively, without a chart or geometric-integrality premise at the call
+site.
+
+## Scheme-law follow-up audit
+
+The remaining multiplication cannot be obtained by reinterpreting Mathlib's
+point formula as one homogeneous-coordinate morphism.  At the pinned Mathlib
+revision, `WeierstrassCurve.Projective.add` in
+`AlgebraicGeometry/EllipticCurve/Projective/Point.lean` is a field-point case
+split: it uses `dblXYZ` when the two representatives are equivalent and
+`addXYZ` otherwise.  The polynomial triple `addXYZ` has the entire diagonal
+as a base locus, as witnessed by the checked theorem `addXYZ_self`.  Thus it
+does not define a map to projective space on the product cubic.  The equality
+test used by `Projective.add` is not a regular-function construction that can
+be promoted to a scheme morphism.
+
+The alternative pointed-Picard route is also genuinely unfinished in the
+pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
+work before the Picard scheme exists; the occurrence of `JacobianVariety` in
+`AbelianVariety.Basic` is prospective documentation, not a declaration.
+The AINTLIB ports provide the absolute Picard group and finite-flat group
+schemes but no relative Picard representability or genus-one Abel--Jacobi
+isomorphism.  An honest next construction must therefore either glue regular
+addition laws on a cover of the product cubic or formalize the pointed
+Picard/Jacobian representability theorem.
+
+The scheme-level identity and inverse candidates are no longer part of that
+gap.  `infinitySectionOver` realizes `[0 : 1 : 0]` with source the tensor unit
+of `Over (Spec K)`, and `infinitySectionOver_comp_negationOver` proves that the
+already checked homogeneous negation fixes this section.
+`CanonicalPointGroupLawCompatibility.unit_eq_infinitySectionOver` proves that
+any compatible future group object has exactly this unit morphism.  Its
+`map_zero` theorem factors through that scheme equality, and the canonical
+standard-chart `Gamma₀(N)` constructor consumes `map_zero`; this prevents the
+new pointed interface from being an unused restatement.
 
 ## Remaining mathematical boundary
 
@@ -179,14 +207,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. multiplication, identity, and inverse as scheme morphisms on the concrete
-   reduced cubic, together with the group laws;
-2. construction of `StandardChartBaseChangeWitness` for every field
-   extension: identify the checked integral quotient with the `Z != 0` open
-   of the pullback of the concrete reduced cubic, prove that open dense, and
-   prove reducedness after base change.  Properness and the algebraic
-   irreducibility/integrality of the chart are checked;
-3. compatibility of the canonical forward coordinate-point map with the
+1. a multiplication morphism on the concrete reduced cubic and the group
+   laws, using the checked section at infinity and homogeneous negation as
+   the identity and inverse candidates;
+2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:
    for a singular Weierstrass equation the reduced cubic may have rational
@@ -195,5 +219,6 @@ field:
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 
-No searched dependency supplies these declarations at the pinned revisions.
-They remain formalization work rather than external blockers.
+No searched dependency supplies the missing multiplication or pointed
+Picard/Jacobian comparison at the pinned revisions.  They remain
+formalization work rather than external blockers.
