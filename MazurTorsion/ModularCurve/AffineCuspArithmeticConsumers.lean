@@ -130,6 +130,101 @@ theorem
     (Spec.map (CommRingCat.ofHom g.toRingHom)) modularSection cuspSection
     hformalAtCusp hne hspecializes hquotient P hcomponentExponent N hprime hN
 
+/-- A nonzero Hecke eigen-expansion on the actual characteristic-five affine
+cusp reaches the uniform prime-order exclusion.
+
+This is the arithmetic consumer of
+`isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion`: the Hecke recursion is
+performed in the completed localization at the same fibre prime identified
+with the integral cusp section by `hcuspPoint`. -/
+theorem
+    rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_componentExponentTwelve
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    {S T : Type} [CommRing S] [CommRing T]
+    [Algebra (atFive.adicCompletionIntegers ℚ) S]
+    [Algebra (atFive.adicCompletionIntegers ℚ) T]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    (g : S →ₐ[atFive.adicCompletionIntegers ℚ] T)
+    (q : Ideal (affineCuspSpecialFiberIdealAtFive.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing (affineCuspSpecialFiberIdealAtFive.Fiber T)]
+    (modularSection cuspSection :
+      Spec (.of (atFive.adicCompletionIntegers ℚ)) ⟶ Spec (.of T))
+    (hcuspPoint :
+      cuspSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)) =
+        targetSpecPoint affineCuspSpecialFiberIdealAtFive q)
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter : Localization.AtPrime
+      (q.comap (Ideal.Fiber.map affineCuspSpecialFiberIdealAtFive g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime
+        (q.comap (Ideal.Fiber.map affineCuspSpecialFiberIdealAtFive g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap affineCuspSpecialFiberIdealAtFive g q
+              sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map
+        (ambientLocalizedMap affineCuspSpecialFiberIdealAtFive g q)))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)) =
+        cuspSection (IsLocalRing.closedPoint
+          (atFive.adicCompletionIntegers ℚ)))
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ Spec.map (CommRingCat.ofHom g.toRingHom) =
+        cuspSection ≫ Spec.map (CommRingCat.ofHom g.toRingHom))
+    (P : E.toAffine.Point)
+    (hcomponentExponent : ∀ (_hA :
+      (minimalCompletionAtFive E).HasAdditiveReduction
+        (atFive.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtFive E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtFive_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtFive_map E)))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  have hformalAtTarget : IsFormalImmersionAt
+      (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint affineCuspSpecialFiberIdealAtFive q) :=
+    AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion
+      affineCuspSpecialFiberIdealAtFive g q qParameter hmaximal hqLinear
+      sourceParameter hsourceMem qCoordinate Q hqExpansion hQ hecke
+      eigenvalue hfirst heigen hresidueAmbient
+  have hformalAtCusp : IsFormalImmersionAt
+      (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (cuspSection (IsLocalRing.closedPoint
+        (atFive.adicCompletionIntegers ℚ))) := by
+    rw [hcuspPoint]
+    exact hformalAtTarget
+  exact
+    rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve
+      (Spec.map (CommRingCat.ofHom g.toRingHom)) modularSection cuspSection
+      hformalAtCusp hne hspecializes hquotient P hcomponentExponent N hprime hN
+
 end MazurTorsion.PrimeOrder
 
 namespace MazurTorsion.OrderThirtyFive
@@ -218,6 +313,105 @@ theorem
       affineCuspSpecialFiberIdealAtEleven g q hresidueFiber qParameter
       hmaximal hqLinear sourceParameter hsourceMem unitCoefficient remainder
       hunit hremainder hfirstOrder hresidueAmbient
+  have hformalAtCusp : IsFormalImmersionAt f
+      (cuspSection (IsLocalRing.closedPoint
+        (atEleven.adicCompletionIntegers ℚ))) := by
+    rw [hcuspPoint]
+    exact hformalAtTarget
+  have hj : atEleven.valuation ℚ E.j ≤ 1 := by
+    by_contra hj
+    apply hne
+    have hpoint := hspecializes hj
+    have hformalAtModular : IsFormalImmersionAt f
+        (modularSection (IsLocalRing.closedPoint
+          (atEleven.adicCompletionIntegers ℚ))) := by
+      simpa only [hpoint] using hformalAtCusp
+    exact hformalAtModular.spec_ext_of_comp_eq_of_isNoetherian
+      modularSection cuspSection hpoint (hquotient hj)
+  exact
+    rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven
+      hj P hcomponentExponent
+
+/-- The same completed-local Hecke criterion at the characteristic-eleven
+cusp reaches the order-35 exclusion.  This is the squarefree-level consumer
+of the shared affine-fibre formal-immersion engine. -/
+theorem
+    rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_componentExponentTwelve
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    {S T : Type} [CommRing S] [CommRing T]
+    [Algebra (atEleven.adicCompletionIntegers ℚ) S]
+    [Algebra (atEleven.adicCompletionIntegers ℚ) T]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    (g : S →ₐ[atEleven.adicCompletionIntegers ℚ] T)
+    (q : Ideal (affineCuspSpecialFiberIdealAtEleven.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing (affineCuspSpecialFiberIdealAtEleven.Fiber T)]
+    (modularSection cuspSection :
+      Spec (.of (atEleven.adicCompletionIntegers ℚ)) ⟶ Spec (.of T))
+    (hcuspPoint :
+      cuspSection (IsLocalRing.closedPoint
+          (atEleven.adicCompletionIntegers ℚ)) =
+        targetSpecPoint affineCuspSpecialFiberIdealAtEleven q)
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter : Localization.AtPrime
+      (q.comap (Ideal.Fiber.map affineCuspSpecialFiberIdealAtEleven g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime
+        (q.comap (Ideal.Fiber.map affineCuspSpecialFiberIdealAtEleven g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap affineCuspSpecialFiberIdealAtEleven g q
+              sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map
+        (ambientLocalizedMap affineCuspSpecialFiberIdealAtEleven g q)))
+    (hne : modularSection ≠ cuspSection)
+    (hspecializes : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection (IsLocalRing.closedPoint
+          (atEleven.adicCompletionIntegers ℚ)) =
+        cuspSection (IsLocalRing.closedPoint
+          (atEleven.adicCompletionIntegers ℚ)))
+    (hquotient : ¬ atEleven.valuation ℚ E.j ≤ 1 →
+      modularSection ≫ Spec.map (CommRingCat.ofHom g.toRingHom) =
+        cuspSection ≫ Spec.map (CommRingCat.ofHom g.toRingHom))
+    (P : E.toAffine.Point)
+    (hcomponentExponent : ∀ (_hA :
+      (minimalCompletionAtEleven E).HasAdditiveReduction
+        (atEleven.adicCompletionIntegers ℚ)),
+      12 • minimalCompletionPointAtEleven E P ∈
+        nonsingularReductionSubgroup
+          (minimalCompletionIntegralModelAtEleven_map E)
+          (nonsingularReduction_isAdditive
+            (minimalCompletionIntegralModelAtEleven_map E))) :
+    addOrderOf P ≠ 35 := by
+  let f : Spec (.of T) ⟶ Spec (.of S) :=
+    Spec.map (CommRingCat.ofHom g.toRingHom)
+  have hformalAtTarget : IsFormalImmersionAt f
+      (targetSpecPoint affineCuspSpecialFiberIdealAtEleven q) :=
+    AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion
+      affineCuspSpecialFiberIdealAtEleven g q qParameter hmaximal hqLinear
+      sourceParameter hsourceMem qCoordinate Q hqExpansion hQ hecke
+      eigenvalue hfirst heigen hresidueAmbient
   have hformalAtCusp : IsFormalImmersionAt f
       (cuspSection (IsLocalRing.closedPoint
         (atEleven.adicCompletionIntegers ℚ))) := by

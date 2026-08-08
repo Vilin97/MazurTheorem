@@ -109,6 +109,87 @@ private theorem quotientMap_isLocalHom
   change Ideal.Quotient.mk J (f a) ∈ maximalIdeal (B ⧸ J)
   exact map_nonunit (Ideal.Quotient.mk J) (f a) (map_nonunit f a ha)
 
+/-- Surjectivity on residue fields descends through compatible proper local
+quotients.
+
+The quotient maps themselves induce surjections on residue fields.  The
+commuting square with the induced quotient homomorphism therefore transports
+surjectivity of the original local homomorphism.  This records explicitly
+that passing to a special fibre does not create a second independent
+residue-field hypothesis. -/
+theorem residueFieldMap_quotient_surjective
+    (f : A →+* B) [IsLocalHom f]
+    (I : Ideal A) (J : Ideal B)
+    (hI : I ≤ maximalIdeal A) (hJ : J ≤ maximalIdeal B)
+    (hIJ : I.map f ≤ J)
+    (hf : Function.Surjective (ResidueField.map f)) :
+    letI : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr
+      (hI.trans_lt (maximalIdeal.isMaximal A).lt_top).ne
+    letI : IsLocalRing (A ⧸ I) :=
+      IsLocalRing.of_surjective' (Ideal.Quotient.mk I)
+        Ideal.Quotient.mk_surjective
+    letI : IsLocalHom (Ideal.Quotient.mk I) :=
+      IsLocalHom.of_surjective (Ideal.Quotient.mk I)
+        Ideal.Quotient.mk_surjective
+    letI : Nontrivial (B ⧸ J) := Ideal.Quotient.nontrivial_iff.mpr
+      (hJ.trans_lt (maximalIdeal.isMaximal B).lt_top).ne
+    letI : IsLocalRing (B ⧸ J) :=
+      IsLocalRing.of_surjective' (Ideal.Quotient.mk J)
+        Ideal.Quotient.mk_surjective
+    letI : IsLocalHom (Ideal.Quotient.mk J) :=
+      IsLocalHom.of_surjective (Ideal.Quotient.mk J)
+        Ideal.Quotient.mk_surjective
+    let fbar : A ⧸ I →+* B ⧸ J :=
+      Ideal.quotientMap J f (Ideal.map_le_iff_le_comap.mp hIJ)
+    letI : IsLocalHom fbar := quotientMap_isLocalHom f I J hIJ
+    Function.Surjective (ResidueField.map fbar) := by
+  letI : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr
+    (hI.trans_lt (maximalIdeal.isMaximal A).lt_top).ne
+  letI : IsLocalRing (A ⧸ I) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk I)
+      Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk I) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk I)
+      Ideal.Quotient.mk_surjective
+  letI : Nontrivial (B ⧸ J) := Ideal.Quotient.nontrivial_iff.mpr
+    (hJ.trans_lt (maximalIdeal.isMaximal B).lt_top).ne
+  letI : IsLocalRing (B ⧸ J) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk J)
+      Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk J) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk J)
+      Ideal.Quotient.mk_surjective
+  let fbar : A ⧸ I →+* B ⧸ J :=
+    Ideal.quotientMap J f (Ideal.map_le_iff_le_comap.mp hIJ)
+  letI : IsLocalHom fbar := quotientMap_isLocalHom f I J hIJ
+  change Function.Surjective (ResidueField.map fbar)
+  have hquotientTarget : Function.Surjective
+      (ResidueField.map (Ideal.Quotient.mk J)) := by
+    intro y
+    obtain ⟨y, rfl⟩ := residue_surjective y
+    obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
+    exact ⟨residue B b, rfl⟩
+  intro y
+  obtain ⟨yb, rfl⟩ := hquotientTarget y
+  obtain ⟨xa, hxa⟩ := hf yb
+  refine ⟨ResidueField.map (Ideal.Quotient.mk I) xa, ?_⟩
+  have hresidueSquare :
+      (ResidueField.map fbar).comp
+          (ResidueField.map (Ideal.Quotient.mk I)) =
+        (ResidueField.map (Ideal.Quotient.mk J)).comp
+          (ResidueField.map f) := by
+    apply RingHom.ext
+    intro z
+    obtain ⟨a, rfl⟩ := residue_surjective z
+    rfl
+  calc
+    ResidueField.map fbar
+        (ResidueField.map (Ideal.Quotient.mk I) xa) =
+        ResidueField.map (Ideal.Quotient.mk J)
+          (ResidueField.map f xa) :=
+      DFunLike.congr_fun hresidueSquare xa
+    _ = ResidueField.map (Ideal.Quotient.mk J) yb := congrArg _ hxa
+
 /-- Surjectivity of the cotangent map induced on two compatible local-ring
 quotients. This predicate hides the canonical local structures on proper
 quotients, so a special-fibre calculation does not expose instance plumbing. -/

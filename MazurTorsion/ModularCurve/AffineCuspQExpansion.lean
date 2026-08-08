@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec
+import MazurTorsion.ModularCurve.HeckeFirstCoefficient
 
 /-!
 # An affine cusp uniformizer feeds the `Spec.map` formal-immersion criterion
@@ -33,6 +34,7 @@ structure.
 -/
 
 open Algebra TensorProduct AlgebraicGeometry
+open MazurTorsion.ModularCurve
 
 namespace Ideal.Fiber
 
@@ -40,6 +42,16 @@ universe u
 
 variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
+
+/-- The canonical map into a local ring's maximal-ideal-adic completion.
+
+Naming this map keeps the completion algebra instance stable when the local
+ring is itself a dependent localization such as `Localization.AtPrime q`.
+The four affine-cusp Hecke consumers below are its downstream users. -/
+noncomputable def completionRingHom
+    (A : Type u) [CommRing A] [IsLocalRing A] :
+    A →+* LocalCompletion.Ring A :=
+  algebraMap A (LocalCompletion.Ring A)
 
 /-- The cotangent class of an explicitly supplied maximal-ideal element.
 This helper keeps the localization ring instances coherent when the element
@@ -100,6 +112,66 @@ theorem exists_detectedVector_of_unit_qExpansion
   exact hqLinear
     ((IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2).unit_mul_mem_iff_mem
       hunit |>.mp hunitQ)
+
+/-- A nonzero simultaneous Hecke eigen-expansion detects an actual source
+cotangent vector on the localized affine fibre.
+
+Unlike `exists_detectedVector_of_unit_qExpansion`, this criterion does not
+ask the caller to exhibit the linear coefficient directly.  The completed
+local ring is identified with power series over its residue field, and the
+degree-one Hecke recursion proves that the first coefficient is nonzero.  If
+the pulled-back cotangent class vanished, its representative would lie in
+the square of the cusp maximal ideal, whose completed `q`-expansion has zero
+first coefficient. -/
+theorem exists_detectedVector_of_heckeEigen_qExpansion
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing (p.Fiber T)]
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q) :
+    ∃ detectedVector : IsLocalRing.CotangentSpace
+        (Localization.AtPrime (q.comap (map p g))),
+      IsLocalRing.cotangentMapAtResidue (localizedRingMap p g q)
+        detectedVector ≠ 0 := by
+  let detectedVector : IsLocalRing.CotangentSpace
+      (Localization.AtPrime (q.comap (map p g))) :=
+    cotangentClass sourceParameter hsourceMem
+  refine ⟨detectedVector, ?_⟩
+  intro hzero
+  rw [IsLocalRing.cotangentMapAtResidue_apply] at hzero
+  dsimp [detectedVector, cotangentClass] at hzero
+  have hpullbackSquare : localizedMap p g q sourceParameter ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2 := by
+    rwa [Ideal.toCotangent_eq_zero] at hzero
+  have hcoeffZero : PowerSeries.coeff 1 Q = 0 := by
+    rw [← hqExpansion]
+    simpa only [completionRingHom] using
+      QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq
+        qCoordinate hpullbackSquare
+  exact
+    (HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector
+        Q hQ hecke eigenvalue hfirst heigen) hcoeffZero
 
 /-- A genuine uniformizer on the localized target affine fibre supplies the
 one-dimensional part of the affine-fibre cotangent certificate.
@@ -258,6 +330,60 @@ theorem isFormalImmersionAtSpecMap_of_unit_qExpansion
     exists_detectedVector_of_unit_qExpansion p g q qParameter hqLinear
       sourceParameter hsourceMem unitCoefficient remainder hunit
       hremainder hfirstOrder
+  exact isFormalImmersionAtSpecMap_of_qParameter p g q hresidueFiber
+    qParameter hmaximal hqLinear detectedVector hdetected hresidueAmbient
+
+/-- A Hecke eigen-expansion on the completed local ring of the represented
+affine cusp proves formal immersion for the genuine `Spec.map` morphism.
+
+The principal-uniformizer hypotheses establish that the source curve has a
+one-dimensional cotangent space.  Nonvanishing and the first-coefficient
+Hecke recursion then supply the detected quotient-side vector, so the
+existing affine-fibre-to-ambient completion comparison applies without a
+separate asserted linear coefficient. -/
+theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q))) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) := by
+  have hresidueFiber : Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)) :=
+    localizedResidueFieldMap_surjective_of_ambient p g q hresidueAmbient
+  obtain ⟨detectedVector, hdetected⟩ :=
+    exists_detectedVector_of_heckeEigen_qExpansion p g q sourceParameter
+      hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
   exact isFormalImmersionAtSpecMap_of_qParameter p g q hresidueFiber
     qParameter hmaximal hqLinear detectedVector hdetected hresidueAmbient
 

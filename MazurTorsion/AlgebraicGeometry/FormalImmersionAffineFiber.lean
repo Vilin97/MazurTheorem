@@ -398,6 +398,49 @@ private instance localizedRingMap_isLocalHom
   refine ⟨fun x hx ↦ hlocal.map_nonunit x ?_⟩
   exact hx
 
+private theorem residueFieldMap_surjective_of_ringEquiv_square
+    {A B C D : Type*}
+    [CommRing A] [CommRing B] [CommRing C] [CommRing D]
+    [IsLocalRing A] [IsLocalRing B] [IsLocalRing C] [IsLocalRing D]
+    (g : C →+* D) [IsLocalHom g]
+    (f : A →+* B) [IsLocalHom f]
+    (eC : C ≃+* A) (eD : D ≃+* B)
+    (hsquare : eD.toRingHom.comp g = f.comp eC.toRingHom)
+    (hf : Function.Surjective (IsLocalRing.ResidueField.map f)) :
+    Function.Surjective (IsLocalRing.ResidueField.map g) := by
+  letI : IsLocalHom eC.toRingHom :=
+    ⟨fun x hx ↦ (isLocalHom_equiv eC).map_nonunit x hx⟩
+  letI : IsLocalHom eD.toRingHom :=
+    ⟨fun x hx ↦ (isLocalHom_equiv eD).map_nonunit x hx⟩
+  let EC := IsLocalRing.ResidueField.mapEquiv eC
+  let ED := IsLocalRing.ResidueField.mapEquiv eD
+  have hresidueSquare :
+      (IsLocalRing.ResidueField.map eD.toRingHom).comp
+          (IsLocalRing.ResidueField.map g) =
+        (IsLocalRing.ResidueField.map f).comp
+          (IsLocalRing.ResidueField.map eC.toRingHom) := by
+    apply RingHom.ext
+    intro z
+    obtain ⟨c, rfl⟩ := IsLocalRing.residue_surjective z
+    change IsLocalRing.residue B (eD (g c)) =
+      IsLocalRing.residue B (f (eC c))
+    have hc := DFunLike.congr_fun hsquare c
+    change eD (g c) = f (eC c) at hc
+    exact congrArg (IsLocalRing.residue B) hc
+  intro y
+  obtain ⟨xa, hxa⟩ := hf (ED y)
+  refine ⟨EC.symm xa, ?_⟩
+  apply ED.injective
+  calc
+    ED (IsLocalRing.ResidueField.map g (EC.symm xa)) =
+        IsLocalRing.ResidueField.map f
+          (IsLocalRing.ResidueField.map eC.toRingHom (EC.symm xa)) :=
+      DFunLike.congr_fun hresidueSquare (EC.symm xa)
+    _ = IsLocalRing.ResidueField.map f xa := by
+      change IsLocalRing.ResidueField.map f (EC (EC.symm xa)) = _
+      rw [EC.apply_symm_apply]
+    _ = ED y := hxa
+
 /-- Degree-one cotangent data on the local ring map of an actual affine
 special fibre. -/
 def IsAffineFiberDegreeOneCotangent
@@ -658,6 +701,91 @@ theorem sourceSpecialFiberIdeal_map (p : Ideal R) [p.IsPrime]
       (g (algebraMap R S x)) = _
   rw [g.commutes, ← IsScalarTower.algebraMap_apply R T
     (Localization.AtPrime (targetBasePrime p q))]
+
+/-- Surjectivity of the ambient localized residue-field map implies
+surjectivity for the corresponding map on the affine special fibre.
+
+The ambient local rings are first quotiented by the extended base prime.
+Their residue fields do not change under these proper local quotients.  The
+canonical localization/quotient equivalences then transport the resulting
+surjection to `localizedRingMap`. -/
+theorem localizedResidueFieldMap_surjective_of_ambient
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (hambient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q))) :
+    Function.Surjective
+      (IsLocalRing.ResidueField.map (localizedRingMap p g q)) := by
+  letI : (sourceBasePrime p g q).IsPrime := sourceBasePrime_isPrime p g q
+  letI : (targetBasePrime p q).IsPrime := targetBasePrime_isPrime p q
+  letI : (sourceBasePrime p g q).LiesOver p :=
+    sourceBasePrime_liesOver p g q
+  letI : (targetBasePrime p q).LiesOver p :=
+    targetBasePrime_liesOver p q
+  let qS := q.comap (map p g)
+  let rS := sourceBasePrime p g q
+  let rT := targetBasePrime p q
+  letI : Algebra (Localization.AtPrime p) (Localization.AtPrime rS) :=
+    Localization.AtPrime.algebraOfLiesOver p rS
+  letI : Algebra (Localization.AtPrime p) (Localization.AtPrime rT) :=
+    Localization.AtPrime.algebraOfLiesOver p rT
+  let gLoc := ambientLocalizedMap p g q
+  let I := sourceSpecialFiberIdeal p g q
+  let J := targetSpecialFiberIdeal p q
+  let hI := sourceSpecialFiberIdeal_le p g q
+  let hJ := targetSpecialFiberIdeal_le p q
+  let hIJ : I.map gLoc ≤ J := (sourceSpecialFiberIdeal_map p g q).le
+  letI : Nontrivial (Localization.AtPrime rS ⧸ I) :=
+    Ideal.Quotient.nontrivial_iff.mpr
+      (hI.trans_lt (IsLocalRing.maximalIdeal.isMaximal _).lt_top).ne
+  letI : IsLocalRing (Localization.AtPrime rS ⧸ I) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk I)
+      Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk I) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk I)
+      Ideal.Quotient.mk_surjective
+  letI : Nontrivial (Localization.AtPrime rT ⧸ J) :=
+    Ideal.Quotient.nontrivial_iff.mpr
+      (hJ.trans_lt (IsLocalRing.maximalIdeal.isMaximal _).lt_top).ne
+  letI : IsLocalRing (Localization.AtPrime rT ⧸ J) :=
+    IsLocalRing.of_surjective' (Ideal.Quotient.mk J)
+      Ideal.Quotient.mk_surjective
+  letI : IsLocalHom (Ideal.Quotient.mk J) :=
+    IsLocalHom.of_surjective (Ideal.Quotient.mk J)
+      Ideal.Quotient.mk_surjective
+  let fbar : Localization.AtPrime rS ⧸ I →+*
+      Localization.AtPrime rT ⧸ J :=
+    Ideal.quotientMap J gLoc (Ideal.map_le_iff_le_comap.mp hIJ)
+  letI : IsLocalHom fbar := quotientMap_isLocalHom' gLoc I J hIJ
+  have hbar : Function.Surjective
+      (IsLocalRing.ResidueField.map fbar) :=
+    IsLocalRing.residueFieldMap_quotient_surjective
+      gLoc I J hI hJ hIJ hambient
+  letI : Algebra (Localization.AtPrime p)
+      (Localization.AtPrime
+        (qS.comap Algebra.TensorProduct.includeRight)) :=
+    Localization.AtPrime.algebraOfLiesOver p
+      (qS.comap Algebra.TensorProduct.includeRight)
+  letI : Algebra (Localization.AtPrime p)
+      (Localization.AtPrime
+        (q.comap Algebra.TensorProduct.includeRight)) :=
+    Localization.AtPrime.algebraOfLiesOver p
+      (q.comap Algebra.TensorProduct.includeRight)
+  let eS := localizationAlgEquivQuotient p qS
+  let eT := localizationAlgEquivQuotient p q
+  have hqmap : (localizedQuotientMapAlg p g q).toRingHom = fbar := by
+    rfl
+  have hnatAlg := localizationAlgEquivQuotient_naturality p g q
+  have hsquare : eT.toRingEquiv.toRingHom.comp
+      (localizedRingMap p g q) =
+      fbar.comp eS.toRingEquiv.toRingHom := by
+    ext x
+    change eT (localizedMap p g q x) = fbar (eS x)
+    rw [← hqmap]
+    exact DFunLike.congr_fun hnatAlg x
+  exact residueFieldMap_surjective_of_ringEquiv_square
+    (localizedRingMap p g q) fbar eS.toRingEquiv eT.toRingEquiv
+      hsquare hbar
 
 /-- The exact ambient quotient-cotangent conclusion transported from an
 affine-fibre calculation. -/
