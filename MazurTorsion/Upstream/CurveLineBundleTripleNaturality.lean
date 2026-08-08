@@ -193,17 +193,8 @@ theorem pullHom_localLineBundleChosenOverlapHom_eq_pairwiseModelOnTripleIntersec
         (coordinateCover U hcover hU) a b).p₂ :=
       congrArg (fun z ↦ q ≫ z) hp₂
     exact hassoc.trans (hcomp.trans hq₂)
-  change pullHom (F := LineBundleDescent.modulesPseudofunctor)
-      (LineBundleDescent.pullbackOverlapHomOfModel
-        (hU a).fromSpec (hU b).fromSpec
-        (CommonExtension.extensionMap Γ(X, U a) Γ(X, U a ⊓ U b))
-        (CommonExtension.extensionMap Γ(X, U b) Γ(X, U a ⊓ U b))
-        hpb
-        (localLineBundles X U hnonempty hcover hU h D a).obj
-        (localLineBundles X U hnonempty hcover hU h D b).obj
-        (localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
-          K X f U hnonempty hcover hU h D a b))
-      q q₁ q₂ hq₁ hq₂ = _
+  rw [localLineBundleChosenOverlapHomOnProperSmoothCurve_eq_model
+    K X f U hnonempty hcover hU h D a b]
   unfold localLineBundlePairwiseModelHomOnTripleIntersection
   calc
     _ = pullHom (F := LineBundleDescent.modulesPseudofunctor)

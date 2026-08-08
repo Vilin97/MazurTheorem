@@ -366,6 +366,69 @@ theorem normalizeOverlapDiagonal_normalization
   simpa only [Pseudofunctor.DescentData'.pullHom'] using
     monoSelfOverlapIso_normalization (cov.f i) (L i).obj (overlap cov i i)
 
+universe u' v v'
+
+open CategoryTheory.Pseudofunctor.LocallyDiscreteOpToCat
+
+private theorem pullHom_comp_same_map
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {X₁ X₂ X₃ Y Y' : C}
+    {M₁ : F.obj (.mk (.op X₁))} {M₂ : F.obj (.mk (.op X₂))}
+    {M₃ : F.obj (.mk (.op X₃))}
+    {f₁ : Y ⟶ X₁} {f₂ : Y ⟶ X₂} {f₃ : Y ⟶ X₃}
+    (e₁₂ : (F.map f₁.op.toLoc).toFunctor.obj M₁ ⟶
+      (F.map f₂.op.toLoc).toFunctor.obj M₂)
+    (e₂₃ : (F.map f₂.op.toLoc).toFunctor.obj M₂ ⟶
+      (F.map f₃.op.toLoc).toFunctor.obj M₃)
+    (g : Y' ⟶ Y) (gf₁ : Y' ⟶ X₁) (gf₂ : Y' ⟶ X₂)
+    (gf₃ : Y' ⟶ X₃)
+    (hgf₁ : g ≫ f₁ = gf₁) (hgf₂ : g ≫ f₂ = gf₂)
+    (hgf₃ : g ≫ f₃ = gf₃) :
+    pullHom e₁₂ g gf₁ gf₂ hgf₁ hgf₂ ≫
+      pullHom e₂₃ g gf₂ gf₃ hgf₂ hgf₃ =
+      pullHom (e₁₂ ≫ e₂₃) g gf₁ gf₃ hgf₁ hgf₃ := by
+  subst gf₁
+  subst gf₂
+  subst gf₃
+  simp [pullHom, Functor.map_comp]
+
+private theorem pullHom_id_same_map
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {X Y Y' : C} {M : F.obj (.mk (.op X))}
+    {f : Y ⟶ X} (g : Y' ⟶ Y) (gf : Y' ⟶ X)
+    (hgf : g ≫ f = gf) :
+    pullHom (F := F) (𝟙 ((F.map f.op.toLoc).toFunctor.obj M))
+        g gf gf hgf hgf =
+      𝟙 ((F.map gf.op.toLoc).toFunctor.obj M) := by
+  subst gf
+  simp [pullHom]
+
+/-- Pull an isomorphism along a further map using the pseudofunctor's canonical comparison
+maps. The underlying forward morphism is definitionally `pullHom`, so later naturality theorems
+do not have to unfold a separately assembled composite isomorphism. -/
+noncomputable def pullIso
+    {C : Type u} [Category.{v} C]
+    {F : Pseudofunctor (LocallyDiscrete Cᵒᵖ) Cat.{v', u'}}
+    {X₁ X₂ Y Y' : C}
+    {M₁ : F.obj (.mk (.op X₁))} {M₂ : F.obj (.mk (.op X₂))}
+    {f₁ : Y ⟶ X₁} {f₂ : Y ⟶ X₂}
+    (e : (F.map f₁.op.toLoc).toFunctor.obj M₁ ≅
+      (F.map f₂.op.toLoc).toFunctor.obj M₂)
+    (g : Y' ⟶ Y) (gf₁ : Y' ⟶ X₁) (gf₂ : Y' ⟶ X₂)
+    (hgf₁ : g ≫ f₁ = gf₁) (hgf₂ : g ≫ f₂ = gf₂) :
+    (F.map gf₁.op.toLoc).toFunctor.obj M₁ ≅
+      (F.map gf₂.op.toLoc).toFunctor.obj M₂ where
+  hom := pullHom e.hom g gf₁ gf₂ hgf₁ hgf₂
+  inv := pullHom e.inv g gf₂ gf₁ hgf₂ hgf₁
+  hom_inv_id := by
+    rw [pullHom_comp_same_map, e.hom_inv_id]
+    exact pullHom_id_same_map g gf₁ hgf₁
+  inv_hom_id := by
+    rw [pullHom_comp_same_map, e.inv_hom_id]
+    exact pullHom_id_same_map g gf₂ hgf₂
+
 /-- Transport a module isomorphism from any explicit model of a fibre product to the standard
 chosen pullback. The comparison uses only the pullback universal property, pullback
 composition, and congruence along the two projection equations. -/
@@ -379,11 +442,9 @@ noncomputable def pullbackOverlapIsoOfModel
       (Scheme.Modules.pullback p₂).obj M₂) :
     (Scheme.Modules.pullback (pullback.fst f₁ f₂)).obj M₁ ≅
       (Scheme.Modules.pullback (pullback.snd f₁ f₂)).obj M₂ :=
-  ((Scheme.Modules.pullbackCongr hpb.isoPullback_inv_fst).app M₁).symm ≪≫
-    ((Scheme.Modules.pullbackComp hpb.isoPullback.inv p₁).app M₁).symm ≪≫
-    (Scheme.Modules.pullback hpb.isoPullback.inv).mapIso e ≪≫
-    (Scheme.Modules.pullbackComp hpb.isoPullback.inv p₂).app M₂ ≪≫
-    (Scheme.Modules.pullbackCongr hpb.isoPullback_inv_snd).app M₂
+  pullIso (F := modulesPseudofunctor) e hpb.isoPullback.inv
+    (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
+    hpb.isoPullback_inv_fst hpb.isoPullback_inv_snd
 
 /-- Pullback of the globally trivial line bundle along an open immersion is the trivial line
 bundle on the source. This concrete comparison is used by the principal-divisor cocycle. -/

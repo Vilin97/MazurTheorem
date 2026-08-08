@@ -1051,13 +1051,62 @@ noncomputable def localLineBundleChosenOverlapHomOnProperSmoothCurve
         (localLineBundles X U hnonempty hcover hU h D i).obj ⟶
       (Scheme.Modules.pullback
         (LineBundleDescent.overlap (coordinateCover U hcover hU) i j).p₂).obj
-        (localLineBundles X U hnonempty hcover hU h D j).obj := by
+        (localLineBundles X U hnonempty hcover hU h D j).obj :=
+  (localLineBundleChosenOverlapIsoOnProperSmoothCurve
+    K X f U hnonempty hcover hU h D i j).hom
+
+/-- The separately named chosen-overlap morphism is the forward map of the transported
+isomorphism. -/
+@[simp]
+theorem localLineBundleChosenOverlapIsoOnProperSmoothCurve_hom
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : (coordinateCover U hcover hU).I₀) :
+    (localLineBundleChosenOverlapIsoOnProperSmoothCurve
+      K X f U hnonempty hcover hU h D i j).hom =
+      localLineBundleChosenOverlapHomOnProperSmoothCurve
+        K X f U hnonempty hcover hU h D i j :=
+  rfl
+
+/-- The chosen-overlap morphism unfolds through a small checked equality to the canonical
+`pullHom` transport of the explicit pairwise model.  Keeping this comparison opaque avoids
+re-normalizing the entire chosen pullback cone in triple-overlap consumers. -/
+theorem localLineBundleChosenOverlapHomOnProperSmoothCurve_eq_model
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X))
+    (i j : (coordinateCover U hcover hU).I₀) :
+    letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
+    letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
+    localLineBundleChosenOverlapHomOnProperSmoothCurve
+        K X f U hnonempty hcover hU h D i j =
+      LineBundleDescent.pullbackOverlapHomOfModel
+        (hU i).fromSpec (hU j).fromSpec
+        (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))
+        (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))
+        (properCurveIntersectionSpectrumIsPullback
+          K X f (U i) (U j) (hU i) (hU j))
+        (localLineBundles X U hnonempty hcover hU h D i).obj
+        (localLineBundles X U hnonempty hcover hU h D j).obj
+        (localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
+          K X f U hnonempty hcover hU h D i j) := by
   letI : IsSeparated (terminal.from X) := by
     rw [← terminal.comp_from f]
     infer_instance
   letI := restrictionAlgebra X (U i) (U i ⊓ U j) inf_le_left
   letI := restrictionAlgebra X (U j) (U i ⊓ U j) inf_le_right
-  exact LineBundleDescent.pullbackOverlapHomOfModel
+  unfold localLineBundleChosenOverlapHomOnProperSmoothCurve
+  unfold localLineBundleChosenOverlapIsoOnProperSmoothCurve
+  exact LineBundleDescent.pullbackOverlapIsoOfModel_hom
     (hU i).fromSpec (hU j).fromSpec
     (CommonExtension.extensionMap Γ(X, U i) Γ(X, U i ⊓ U j))
     (CommonExtension.extensionMap Γ(X, U j) Γ(X, U i ⊓ U j))

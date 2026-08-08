@@ -167,7 +167,9 @@ theorem tripleOverlapComparisonToIntersection_comp_projections
     tripleOverlapComparisonToIntersection_comp_third
       K X f U hcover hU i j k⟩
 
-private theorem pairwiseCompositeLeftEqOfDirect
+/-- A direct projection equation to the left chart implies the corresponding equation through
+the pairwise intersection, by functoriality of restriction maps. -/
+theorem pairwiseCompositeLeftEqOfDirect
     (X : Scheme.{u}) (U₁ U₂ W : X.Opens)
     (hW₁₂ : W ≤ U₁ ⊓ U₂)
     {Y : Scheme.{u}} (g : Y ⟶ Spec (.of Γ(X, W)))
@@ -191,7 +193,9 @@ private theorem pairwiseCompositeLeftEqOfDirect
       inf_le_left hW₁₂ hW₁]
   exact hg₁
 
-private theorem pairwiseCompositeRightEqOfDirect
+/-- A direct projection equation to the right chart implies the corresponding equation through
+the pairwise intersection, by functoriality of restriction maps. -/
+theorem pairwiseCompositeRightEqOfDirect
     (X : Scheme.{u}) (U₁ U₂ W : X.Opens)
     (hW₁₂ : W ≤ U₁ ⊓ U₂)
     {Y : Scheme.{u}} (g : Y ⟶ Spec (.of Γ(X, W)))
@@ -296,5 +300,56 @@ theorem pairwiseModelPullHom_cocycle_of_directProjections
       (pairwiseCompositeRightEqOfDirect X (U b) (U c) W hWbc g q_c hg_c)
       (pairwiseCompositeLeftEqOfDirect X (U a) (U c) W hWac g qₐ hgₐ)
       (pairwiseCompositeRightEqOfDirect X (U a) (U c) W hWac g q_c hg_c)
+
+/-- A pairwise model on the actual triple intersection is the direct-projection formulation
+used by the checked common-affine cocycle. This one-transition boundary stays below the chosen
+pullback normalization bottleneck. -/
+theorem localLineBundlePairwiseModelHomOnTripleIntersection_eq_directProjections
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D : WeilDivisor (CodimensionOnePoint X)) (i j k a b : I)
+    (hsub : (U i ⊓ U j) ⊓ U k ≤ U a ⊓ U b)
+    (qₐ : (LineBundleDescent.tripleOverlap
+      (coordinateCover U hcover hU) i j k).pullback ⟶
+        (coordinateCover U hcover hU).X a)
+    (q_b : (LineBundleDescent.tripleOverlap
+      (coordinateCover U hcover hU) i j k).pullback ⟶
+        (coordinateCover U hcover hU).X b)
+    (hqₐ :
+      let W := (U i ⊓ U j) ⊓ U k
+      let hWa : W ≤ U a := hsub.trans inf_le_left
+      letI := restrictionAlgebra X (U a) W hWa
+      tripleOverlapComparisonToIntersection K X f U hcover hU i j k ≫
+        extensionMap Γ(X, U a) Γ(X, W) = qₐ)
+    (hq_b :
+      let W := (U i ⊓ U j) ⊓ U k
+      let hWb : W ≤ U b := hsub.trans inf_le_right
+      letI := restrictionAlgebra X (U b) W hWb
+      tripleOverlapComparisonToIntersection K X f U hcover hU i j k ≫
+        extensionMap Γ(X, U b) Γ(X, W) = q_b) :
+    let W := (U i ⊓ U j) ⊓ U k
+    let hWa : W ≤ U a := hsub.trans inf_le_left
+    let hWb : W ≤ U b := hsub.trans inf_le_right
+    let g := tripleOverlapComparisonToIntersection K X f U hcover hU i j k
+    letI := restrictionAlgebra X (U a) (U a ⊓ U b) inf_le_left
+    letI := restrictionAlgebra X (U b) (U a ⊓ U b) inf_le_right
+    letI := restrictionAlgebra X (U a ⊓ U b) W hsub
+    letI := restrictionAlgebra X (U a) W hWa
+    letI := restrictionAlgebra X (U b) W hWb
+    localLineBundlePairwiseModelHomOnTripleIntersection
+        K X f U hnonempty hcover hU h D i j k a b hsub qₐ q_b
+        (pairwiseCompositeLeftEqOfDirect X (U a) (U b) W hsub g qₐ hqₐ)
+        (pairwiseCompositeRightEqOfDirect X (U a) (U b) W hsub g q_b hq_b) =
+      pullHom (F := LineBundleDescent.modulesPseudofunctor)
+        (localLineBundlePairwiseOverlapModelIsoOnProperSmoothCurve
+          K X f U hnonempty hcover hU h D a b).hom
+        (g ≫ extensionMap Γ(X, U a ⊓ U b) Γ(X, W)) qₐ q_b
+        (pairwiseCompositeLeftEqOfDirect X (U a) (U b) W hsub g qₐ hqₐ)
+        (pairwiseCompositeRightEqOfDirect X (U a) (U b) W hsub g q_b hq_b) := by
+  rfl
 
 end MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
