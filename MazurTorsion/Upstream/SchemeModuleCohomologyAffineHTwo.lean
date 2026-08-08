@@ -138,7 +138,8 @@ private noncomputable def pushforwardConstantIso
     (isTerminalTop : IsTerminal (⊤ : Opens X))).symm.app
       (AddCommGrpCat.of (ULift ℤ))
 
-private theorem sheafH_subsingleton_of_iso
+/-- Cohomology subsingletonness transports back across a scheme isomorphism. -/
+theorem sheafH_subsingleton_of_iso
     {X Y : Scheme.{u}} (e : X ≅ Y) (F : AbSheaf X) (n : ℕ)
     [Subsingleton (CategoryTheory.Sheaf.H
       ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} e.hom.base).obj F) n)] :
@@ -227,7 +228,9 @@ private theorem injectiveCokernelSequence_shortExact
   exact ShortComplex.ShortExact.mk
     (ShortComplex.exact_cokernel (Injective.ι F))
 
-private theorem injectiveCokernel_app_surjective_of_isAffineOpen
+/-- For a quasicoherent module, the projection from an injective sheaf to
+its cokernel is surjective on sections of every affine open. -/
+theorem injectiveCokernel_app_surjective_of_isAffineOpen
     {X : Scheme.{u}} (M : X.Modules) [M.IsQuasicoherent]
     (U : X.Opens) (hU : IsAffineOpen U) :
     Function.Surjective
