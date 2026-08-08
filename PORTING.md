@@ -260,7 +260,8 @@ omitted. Their exact upstream blobs, in the table order from
 `08c2bdb598a75f6f8ab7aed7100616e732a6ee64`,
 `11ccd932de1300067c26118dc277d8adaceb5aa6`, and
 `722ec41c6ec7da27031c1cc2e4d664fe87b1c57f`. Each exact blob has an explicit
-Apache-2.0 file header. Three proof-level elaboration repairs were required at this repository's
+Apache-2.0 file header. Four proof-level elaboration repairs were required at
+this repository's
 immutable pin. In `SpecGroupAction`, the prime-ideal membership proof now
 states the scheme/prime-spectrum coercion explicitly and installs the two
 available `IsPrime` witnesses locally. In `BaseChangeAlongCompat`, the finite
@@ -275,7 +276,11 @@ blob `754666351a96d06b20f2d755c23e39601f590178` (Christian Merten); both are
 Apache-2.0. In `SchemeQuotient`, affine-open naturality uses the current
 `IsAffineOpen.isoSpec_hom` and `Scheme.Opens.toSpecΓ_SpecMap_appLE` API, the
 now-redundant closing `rfl` is removed, and diagonal composition is expressed
-through an explicitly named morphism property. No statement is weakened. The modules construct the
+through an explicitly named morphism property. In `QuotientTorsor`, the
+affine torsor comparison names its correctly typed invariance witness and
+normalizes the two pullback legs and final symmetry to explicit `Spec.map`
+representatives, so the existing componentwise isomorphism instances apply.
+No statement is weakened. The modules construct the
 quotient of a scheme by a finite action from a stable affine atlas, prove the
 quotient projection finite, and in the free-action case prove it finite
 étale, surjective, and a torsor after arbitrary base change. The new local

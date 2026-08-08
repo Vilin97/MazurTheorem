@@ -102,10 +102,12 @@ source-level compatibility options and linter suppressions forbidden by this
 repository, `SpecGroupAction` has explicit coercion and primality witnesses
 and `BaseChangeAlongCompat` uses the pinned Mathlib finite-affine and
 fpqc-to-fppf proof APIs explicitly. `SchemeQuotient` uses current affine-open
-naturality and diagonal-composition APIs. No statement is weakened. The
-additional translation proof adaptation and its exact-blob license evidence
-are described above. No other AINTLIB geometry source is included or adapted.
-Details are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
+naturality and diagonal-composition APIs. `QuotientTorsor` makes the affine
+action invariance and pullback representatives explicit. No statement is
+weakened. The additional translation proof adaptation and its exact-blob
+license evidence are described above. No other AINTLIB geometry source is
+included or adapted. Details are recorded in `PORTING.md` and
+`docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 
