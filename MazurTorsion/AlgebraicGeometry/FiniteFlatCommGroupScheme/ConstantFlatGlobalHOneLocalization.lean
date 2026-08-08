@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfCardinalityBound
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfHOneCertifiedData
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.SupportedFppfCokernel
 
 /-!
 # The global bad-fibre localization handoff for the constant-flat factor

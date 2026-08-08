@@ -24,7 +24,7 @@ noncomputable section
 
 namespace AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup
 
-universe v u
+universe w v u
 
 /-- Finiteness and a certified upper bound for an already specified commutative group. -/
 structure BoundedData (p : ℕ) (A : Type u) [CommGroup A] where
@@ -71,7 +71,7 @@ theorem congr_length {p : ℕ} {A : Type u} {B : Type v}
   rfl
 
 /-- Two finite endpoint bounds propagate to the middle of an exact pair. -/
-def middleOfMulExact {p : ℕ} {A : Type u} {B : Type v} {C : Type u}
+def middleOfMulExact {p : ℕ} {A : Type u} {B : Type v} {C : Type w}
     [CommGroup A] [CommGroup B] [CommGroup C]
     (left : BoundedData p A) (right : BoundedData p C)
     (f : A →* B) (g : B →* C) (h : Function.MulExact f g) :
@@ -100,7 +100,7 @@ def middleOfMulExact {p : ℕ} {A : Type u} {B : Type v} {C : Type u}
           _ = p ^ (left.length + right.length) := (pow_add _ _ _).symm }
 
 @[simp]
-theorem middleOfMulExact_length {p : ℕ} {A : Type u} {B : Type v} {C : Type u}
+theorem middleOfMulExact_length {p : ℕ} {A : Type u} {B : Type v} {C : Type w}
     [CommGroup A] [CommGroup B] [CommGroup C]
     (left : BoundedData p A) (right : BoundedData p C)
     (f : A →* B) (g : B →* C) (h : Function.MulExact f g) :
