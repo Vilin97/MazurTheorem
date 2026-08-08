@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.NumberTheory.CyclotomicKummerResidueSymbol
 import MazurTorsion.NumberTheory.CyclotomicPseudoUnitNormalization
-import MazurTorsion.NumberTheory.KummerArtinProduct
+import MazurTorsion.NumberTheory.CyclotomicKummerFrobeniusCoordinate
 
 /-!
 # Finite residue products for normalized cyclotomic pseudo-units
