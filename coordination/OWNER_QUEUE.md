@@ -92,6 +92,23 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The B1 coherent-cohomology lane now retains an attributed, option-free slice
+of AINTLIB's ordered and native base-linear Cech complexes and proves that
+finite generation of ordered degree-one homology transfers to the native
+all-tuples degree-one homology (`42b1414`, release-repaired by `0829443`).
+The source pin itself has no root license; the provenance audit records the
+divergent AINTLIB main license commit and the identical Git blobs for every
+headerless retained source.  Dead exactness machinery was removed and
+same-file helpers were made private.  Independent review, the 2,638-job
+serial endpoint build, and seven axiom audits pass with only `propext`,
+`Classical.choice`, and `Quot.sound`.  This is a conditional Cech comparison:
+it proves neither the ordered properness input nor identification with
+Ext/sheaf cohomology.  The remaining B1 seams are the option-free
+sheaf-Cech degree-one comparison, base-linear transport, cover-relative Ext
+scalar transfer, low-degree Chow/properness input, proper `H¹` finiteness,
+and the final curve facade.  B1 remains open with no credit.  The exact
+quality baseline is now 871 Lean modules and 1,524,339 Lean lines.
+
 The A3 compatible-family lane now constructs, on each fixed chart, the
 genuine family of overlap-transition components inside the restricted product
 of direct images.  Triple-overlap coherence reduces to the descent datum's
@@ -116,10 +133,9 @@ upstream migration's co-author credits (`6a6af26`, `758a25c`).  Independent
 review, the 3,725-job serial Geometry build, and endpoint axiom audits pass.
 This closes only higher vanishing: proper coherent `H¹` finiteness and its
 field-linear finite-dimensional facade remain open, so B1 receives no credit.
-The next worker is splitting an option-free ordered-to-native Čech `H¹`
-finite-generation bridge from the audited AINTLIB source; the 428-module
-proper cone, its unrelated open proofs, and proof options remain excluded.
-The exact quality baseline is now 862 Lean modules and 1,521,363 Lean lines.
+The subsequent ordered-to-native Cech bridge is recorded above; the
+428-module proper cone, its unrelated open proofs, and proof options remain
+excluded.
 
 The compatible-family effectivity lane now has the exact open base-change seam.
 For a cartesian square of open immersions, the induced equivalence of open
