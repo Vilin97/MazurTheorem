@@ -592,7 +592,12 @@ The strongest concrete reuse candidates are:
   comparison. The canonical-support extension has also been ported through
   finite affine support annihilation, ideal-power reconstruction, the
   open-local pullback unit, full support of the canonical model, and strict
-  support decrease of comparison residuals. This is still only the input to
+  support decrease of comparison residuals. The inverse-image-cover
+  pushforward comparison is now checked for both native and ordered Čech
+  complexes, and its degree-zero/degree-one finiteness equivalence has a
+  finite-morphism consumer: finite pushforward preserves finite-type
+  quasicoherence, so any target-side coherent low-degree theorem descends.
+  This is still only the input to
   the Chow/projective low-degree comodel. An audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree

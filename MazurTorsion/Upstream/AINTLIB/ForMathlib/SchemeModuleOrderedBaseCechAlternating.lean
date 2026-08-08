@@ -1125,6 +1125,18 @@ private theorem orderedToBaseCechAlternating_f
       orderedToBaseCechAlternatingF π M U n :=
   rfl
 
+/-- Alternating extension is a left inverse to projection onto strictly
+increasing Cech indices. -/
+theorem orderedToBaseCechAlternating_comp_baseCechToOrdered
+    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
+    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens) :
+    orderedToBaseCechAlternating π M U ≫ baseCechToOrdered π M U =
+      𝟙 (orderedBaseCechComplex π M U) := by
+  apply HomologicalComplex.hom_ext
+  intro n
+  exact orderedToBaseCechAlternatingF_comp_baseCechToOrderedF
+    π M U n
+
 end
 
 end AlgebraicGeometry.Scheme.Modules

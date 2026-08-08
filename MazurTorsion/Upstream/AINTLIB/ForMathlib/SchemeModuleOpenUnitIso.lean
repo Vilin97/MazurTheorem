@@ -32,7 +32,9 @@ private noncomputable def openPushforwardSquareIsoT
     pushforwardCongr (morphismRestrict_ι f U) ≪≫
     (pushforwardComp (f ⁻¹ᵁ U).ι f).symm
 
-private noncomputable def openPullbackSquareExplicitIsoT
+/-- Pullback followed by restriction over an open is canonically isomorphic
+to restriction followed by pullback along the restricted morphism. -/
+noncomputable def openPullbackSquareExplicitIsoT
     {X Y : Scheme.{u}} (f : Y ⟶ X) (U : X.Opens) :
     restrictFunctor U.ι ⋙ pullback (f ∣_ U) ≅
       pullback f ⋙ restrictFunctor (f ⁻¹ᵁ U).ι :=
