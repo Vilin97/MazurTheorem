@@ -85,7 +85,7 @@ private theorem cechTermFactorRestriction_sections_mapIso {A B : Opens X}
 
 /-- On sections over `V`, `cechTermFactorRestriction` is the usual restriction
 `F(V ∩ B) → F(V ∩ A)`. -/
-theorem cechTermFactorRestriction_apply {A B : Opens X} (h : A ≤ B) (V : Opens X)
+private theorem cechTermFactorRestriction_apply {A B : Opens X} (h : A ≤ B) (V : Opens X)
     (x : ((restrict AddCommGrpCat B.isOpenEmbedding ⋙
       pushforward AddCommGrpCat B.inclusion').obj F).obj.obj (op V)) :
     ((eqToIso (by rw [toRestrict_obj_obj_obj, Opens.functor_map_eq_inf])) :

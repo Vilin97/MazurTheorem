@@ -583,10 +583,16 @@ The strongest concrete reuse candidates are:
   degree-one comparison slices are also retained. The checked project
   consumer `nativeBaseCechHOne_finite_of_ordered` transfers `Module.Finite`
   from ordered degree-one homology to native all-tuples degree-one homology.
-  This intentionally stops before the source's properness cone: the
-  sheaf-Cech comparison, base-linear Ext transport, proper ordered input,
-  and final curve H1 facade remain open. Nor does this prior art provide
-  relative base change or semicontinuity APIs required by the roadmap.
+  The separately checked comparison
+  `nativeBaseCechHOneForgetIso_of_affineOpenCover` identifies the underlying
+  additive group of native base-Cech `H¹` with genuine Ext-based sheaf `H¹`;
+  its elementwise preimage theorem is a compiled downstream consumer. This
+  closes the option-free degree-one sheaf-Cech comparison, but it does not
+  supply scalar compatibility and therefore does not by itself transport
+  `Module.Finite` to sheaf cohomology. The source's properness cone, the
+  base-linear Ext transport, proper ordered input, and final curve `H¹`
+  facade remain open. Nor does this prior art provide relative base change or
+  semicontinuity APIs required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).

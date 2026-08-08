@@ -84,6 +84,31 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafTerms.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafDifferential.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafComplex.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafAugmentation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafZeroExact.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafLocalContraction.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafPositiveExact.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechSheafResolution.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCohomologyFiniteProducts.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/FlasqueCohomology.lean`
+    (notation and two consumed instances only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafDerivedGlobalSections.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechGlobalSections.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechFlasqueTerms.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechFlasqueHOne.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechZero.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechInjectiveBicomplex.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNat.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNatLowDegrees.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNatHorizontalEdge.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNatHorizontalEdgeHOne.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TotalComplexUpNatVerticalEdge.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechInjectiveAugmentation.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SheafCechInjectiveComparison.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/AcyclicAffineCechComparison.lean`
+    (degree-one comparison only)
+  - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleBaseCechHomology.lean`
+    (homology isomorphisms only)
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
 - License evidence: the audited source commit has no root `LICENSE`. Selected
   files retain their per-file Apache-2.0 notices where present. Exact
@@ -97,15 +122,16 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   headers or a root license.
 
 The selected source and slices are stored under
-`MazurTorsion/Upstream/AINTLIB/`. The two
-sheaf-cohomology files preserve the upstream declarations and proofs, with
-only attribution, documentation, and formatting changes. The other files
-have the import and exact-pin compatibility adjustments recorded in
+`MazurTorsion/Upstream/AINTLIB/`. The exact-sequence sheaf-cohomology files
+preserve the upstream declarations and proofs, with only attribution,
+documentation, and formatting changes. The other files have the import,
+API-narrowing, and exact-pin compatibility adjustments recorded in
 `PORTING.md`; source-level option commands and linter findings were removed.
-The base-Cech slice excludes the unused affine-comparison dependency and
-splits the ordered core before the flat/Picard tail. No other AINTLIB
-geometry source is included. Details are recorded in `PORTING.md` and
-`docs/PRIOR_ART.md`.
+The retained Cech lane excludes the unused flat/Picard and properness cones,
+replaces the option-dependent flasque-cohomology proof with existing checked
+project theorems, and keeps only the degree-one affine and base-homology
+comparisons. No other AINTLIB geometry source is included. Details are
+recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 
