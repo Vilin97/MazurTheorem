@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderThirtyFiveFiniteFieldOrder
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
-import MazurTorsion.EllipticCurve.TateStarDepthFour
+import MazurTorsion.EllipticCurve.TateStarDepthSix
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 
 /-!
@@ -474,5 +474,78 @@ theorem markedExceptionalCubic_a₆_mem_fifth_of_orderThirtyFiveAtEleven
   exact
     (addOrderOf_ne_thirtyFive_of_marked_a₆_not_fifthAtEleven
       hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive especial) horder
+
+/-- Exact depth three of `a₄` on the selected marked branch puts `12P` in
+canonical nonsingular reduction, contradicting exact order thirty-five. -/
+theorem addOrderOf_ne_thirtyFive_of_marked_a₄_not_fourthAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hxsq : D.x ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2)
+    (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 3)
+    (ha₄notfour : W₀.a₄ ∉ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 4)
+    (ha₆five : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 5)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :
+    addOrderOf P ≠ 35 := by
+  apply
+    addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
+      hW especial P
+  exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₄_not_fourth
+    hW h2 h3 hspecial D hxsq ha₄cube ha₄notfour ha₆five
+
+/-- An order-35 marked point forces `a₄` to weighted depth four on the same
+selected eleven-adic short model. -/
+theorem markedExceptionalCubic_a₄_mem_fourth_of_orderThirtyFiveAtEleven
+    {W : Affine (atEleven.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atEleven.adicCompletionIntegers ℚ)
+        (atEleven.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atEleven.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atEleven.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atEleven.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hxsq : D.x ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 2)
+    (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 3)
+    (ha₆five : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 5)
+    (especial : (adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
+    (horder : addOrderOf P = 35) :
+    W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atEleven.adicCompletionIntegers ℚ) ^ 4 := by
+  by_contra ha₄notfour
+  exact
+    (addOrderOf_ne_thirtyFive_of_marked_a₄_not_fourthAtEleven
+      hW h2 h3 hspecial D hxsq ha₄cube ha₄notfour ha₆five especial) horder
 
 end MazurTorsion.OrderThirtyFive
