@@ -34,7 +34,10 @@ level) or `3` (which is a wild small characteristic).  The level is
 squarefree, the quotient `X₀(35)/w₅` is the rank-zero elliptic curve
 `y²+y=x³+x²+9x+1`, and `#E(𝔽₁₁)≤18<35`.  Thus the incremental work is one
 explicit optimal quotient and its checked rank-zero certificate; the generic
-formal-immersion, cusp, and tame Néron APIs are reused.
+formal-immersion, cusp, and tame Néron APIs are reused. Finiteness of the
+checked explicit model now transports to any supplied abelian variety through
+a genuine scheme isomorphism. Constructing that isomorphism from the modular
+quotient remains part of the route rather than an inferred identification.
 
 This is a route migration, not a progress claim.  All 48 public node IDs, the
 1,000-point denominator, every completion flag, and every registered
@@ -120,12 +123,17 @@ following remain on the theorem's critical path:
   now checked without asserting strict-transform or chart-coverage geometry.
   Their first coefficient-depth branch proves every local point has canonical
   nonsingular reduction; the prime-order and order-35 consumers exclude that
-  branch and force `a₆ ∈ 𝔪²` on the same exact model. The remaining two-factor
-  and weighted valuation branches, affine group-law case split, and component
-  incidence are still required. The canonical reduction predicate, subgroup,
-  and marked multiples now transport through the integral unit normalization,
-  so each future normalized-case conclusion can be carried back to the
-  original selected equation without a new geometric assumption.
+  branch and force `a₆ ∈ 𝔪²` on the same exact model. In the next `a₄/ϖ`
+  branch, a checked tangent calculation puts the marked double in canonical
+  nonsingular reduction and the same consumers force `a₄ ∈ 𝔪²`. The proof
+  splits by ordinate depth: a tangent-slope pole enters the formal kernel, a
+  unit slope reduces the double away from the cusp, and the anti-diagonal case
+  doubles to zero. The remaining `a₆/ϖ²` and deeper weighted branches, their
+  affine secant cases, and component incidence are still required. The
+  canonical reduction predicate, subgroup, and marked multiples now transport
+  through the integral unit normalization, so each future normalized-case
+  conclusion can be carried back to the original selected equation without a
+  new geometric assumption.
 
 The point-group shadow of the cyclic quotient is now checked: quotienting by
 the supplied rational cyclic subgroup has the exact kernel, multiplication by

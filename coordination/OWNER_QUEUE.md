@@ -6,7 +6,7 @@ metadata, and completion; this file records dependency-critical ordering,
 handoff policy, and the next checked acceptance boundaries. It awards no
 progress independently.
 
-Snapshot: 2026-08-03, route revision `formal-immersion-at-five-v1`, through
+Snapshot: 2026-08-07, route revision `formal-immersion-at-five-v1`, through
 the rational-to-minimal-completion local reduction/F₅ join (`bcdbe51`) and
 the explicit formal-immersion collision-to-rational-`j` consumer (`ca695f1`),
 the canonical five- and eleven-adic tame-reduction handoff (`855439f`),
@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `d0025fd` contains reviewed acceptance
+The combined owner history through `58ded2e` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -189,6 +189,48 @@ already integrated under reviewed owner commits `6e1a994`/`04644fa` and
 must not be cherry-picked again. The recovered A3 transition-cocycle branch is
 also retained at `48e9cb0` but remains unintegrated because it has no public
 naturality or curve-level consumer.
+
+The next reviewed tame coefficient branch proves a pointwise statement on
+the exact normalized short equation. If the residue of `a₄/ϖ` is nonzero,
+doubling a cusp-specializing point either enters the formal kernel through a
+tangent-slope pole, reduces away from the cusp through a unit slope, or is
+zero in the anti-diagonal case. Hence `2 • P`, and therefore the downstream
+uniform multiple `12 • P`, belongs to canonical nonsingular reduction. The
+selected five- and eleven-adic marked consumers exclude this branch and force
+`a₄ ∈ 𝔪²` (`12f3f36`). This is not a type-III, regular-model, component-count,
+or identity-component theorem, and it earns no node credit.
+
+The order-18 elementary descent now clears the complete orbit denominator.
+For primitive integral parameters it produces an integer quotient `k`, the
+exact identity `m²-n² = k*a*b*(a-b)`, and the square-times-cube Eisenstein norm
+equation. The narrower `PrimitiveCyclicCubicObstruction` consumes every
+arithmetic field of that package and has compiled noncuspidal and exact-order
+eighteen consumers (`5254975`, `cd3d2a1`). Independent review accepted the
+denominator orientations, reconstruction boundary, API use, focused builds,
+and standard axiom closure. The obstruction itself remains unproved, the
+Challenge remains open, and no node credit is claimed.
+
+The level-35 rank-zero model now reaches the abelian-variety side of the
+planned quotient seam. A generic theorem transports finiteness of affine
+Weierstrass points to rational points of an abelian variety across a supplied
+scheme isomorphism of the projective cubic, and the level-35 specialization
+consumes the unconditional `optimalQuotientModel_finite` (`58ded2e`). Review
+checked the morphism variance and inverse cancellation. The modular quotient,
+its abelian variety, and the required scheme isomorphism remain geometric
+obligations; this transfer earns no node credit.
+
+Checkpoint verification at this boundary rebuilt the X1(18) descent and its
+Challenge bridge, the full marked `a₄/ϖ` consumer range at five and eleven,
+and both order-35 abelian-variety transfer modules with
+`LEAN_NUM_THREADS=1`. The 48-node/1,000-point graph, 11-contract registry,
+immutable-contract comparison and mutation self-test, official blueprint
+build/check, source/provenance policy, and 790-module/1,484,990-line quality
+baseline pass. The Challenge root emits only the eight registered open
+`sorry` warnings, and the lifecycle audit accepts all nine root-workspace
+contracts. Every new public declaration was separately kernel-audited to the
+three standard axioms. The global library/consumer axiom executable remains a
+final-build check because running it first requires the explicitly deferred
+full `MazurTorsion` root build.
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -1161,6 +1203,16 @@ or accounting shortcut.
   active worker is proving the isolated pairwise/direct compatibility from the
   lower tensor and inverse-ideal base-change coherence, with an unconditional
   cocycle as the required consumer.
+- `codex/mt-tate-typeiv-marked`: prove the next pointwise normalized branch
+  where `a₆/ϖ²` has nonzero residue, including the doubling/secant valuation
+  split and actual marked consumers at five and eleven. It must conclude only
+  the required multiple in canonical nonsingular reduction and the next
+  coefficient depth, without importing a Kodaira label or component graph.
+- `codex/mt-x118-primitive-obstruction`: attack the newly isolated primitive
+  square-times-cube obstruction directly through Eisenstein UFD, valuation,
+  parity, and finite congruence arguments. Any further public reduction must
+  have a compiled exact-order-eighteen consumer; the Challenge remains open
+  until the obstruction itself is proved.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The next

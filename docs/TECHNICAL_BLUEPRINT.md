@@ -701,15 +701,33 @@ norm, proves `7=(3+ω)(2-ω)`, and proves the exact lattice criterion
 For primitive `m,n`, the two norm factors cannot both be divisible by
 seven.  The capstone theorem packages these coprime integer parameters,
 the homogeneous cubic root, the quotient coordinates, and the local
-seven-adic exclusion from any noncuspidal rational point.
+seven-adic exclusion from any noncuspidal rational point.  Clearing the
+three cusp factors now also produces an integer `k` with
+
+\[
+m^2-n^2=k\,ab(a-b)
+\]
+
+and the exact square-times-cube identity
+
+\[
+(m^2+3n^2)(7m^2+6mn+3n^2)
+  =k^2(a^2-ab+b^2)^3.
+\]
+
+The public `PrimitiveCyclicCubicObstruction` is the resulting narrower
+integral boundary.  It has compiled consumers first at the noncuspidal
+curve statement and then at the exact-order-eighteen endpoint, so none of
+the new quotient data is a terminal interface.
 
 This is the full elementary/local input to the classical `π=3+ω` descent,
-not its global Jacobian conclusion.  Completion still requires the
-order-three automorphism on `J₁(18)`, the induced `ℤ[ω]` action and
-`π`-endomorphism, Kubert's global `π`-surjectivity on rational Jacobian
-points, the rational torsion computation (classically `C₂₁`), and the
-intersection of the Abel--Jacobi image with that torsion.  None of those
-claims is inferred from the compiled norm identities.
+not its global Jacobian conclusion.  Completion may prove the displayed
+primitive obstruction directly, or may still use the order-three
+automorphism on `J₁(18)`, the induced `ℤ[ω]` action and `π`-endomorphism,
+Kubert's global `π`-surjectivity on rational Jacobian points, the rational
+torsion computation (classically `C₂₁`), and the intersection of the
+Abel--Jacobi image with that torsion.  None of those claims is inferred from
+the compiled norm identities.
 
 `Kubert/OrderFourteenReduction.lean` now carries the even genus-one case
 through `7P`.  Put
@@ -1551,6 +1569,11 @@ integer factors has gcd supported to exponent at most one at `7`. The
 Eisenstein integer factorization and ideal-support calculation now prove the
 remaining associated-cube input without hypotheses. Consequently the fixed
 explicit model has checked rank zero and a finite rational point group. Its
+projective cubic now also has a checked generic finiteness transfer: a supplied
+scheme isomorphism from that cubic to the underlying scheme of an abelian
+variety makes the latter's rational-point type finite. The level-35
+specialization is a compiled consumer of the unconditional model finiteness;
+it does not construct the abelian variety or the scheme isomorphism. Its
 selected eleven-adic minimal model, exact-order transport, reduction-type
 trichotomy, good-reduction specialization, and cusp-stalk quotient-cotangent
 collision now compile through the `F₁₁` contradiction. The actual modular
@@ -1858,10 +1881,17 @@ chart-coverage, Kodaira-symbol, or component-cardinality theorems. A separate
 checked invariance theorem treats the formal-kernel gate and affine residue
 coordinates explicitly and proves that the canonical reduction subgroup and
 every marked multiple transport through the integral unit change. Its
-order-one consumer carries `12 • P` back from the normalized equation. The
-remaining two-factor and weighted valuation branches, marked affine group-law
-case split, and genuine identity-component comparison remain open; no node
-credit is claimed for this partial handoff.
+order-one consumer carries `12 • P` back from the normalized equation. In the
+next coefficient branch, nonzero residue of `a₄/ϖ` gives a checked tangent
+case split for every point specializing to the cusp. If its ordinate has
+depth at least two, the tangent slope has a pole and the double is in the
+formal kernel; at exact depth one the slope is a unit and the double reduces
+away from the cusp; the anti-diagonal case doubles to zero. Thus `2 • P`, and
+hence `12 • P`, lies in canonical nonsingular reduction. The actual marked
+prime-five and order-35 consumers exclude this branch and force `a₄ ∈ 𝔪²` on
+the same normalized model. The remaining `a₆/ϖ²` and deeper weighted
+branches, their marked affine secant cases, and genuine identity-component
+comparison remain open; no node credit is claimed for this partial handoff.
 
 The proof sequence is:
 

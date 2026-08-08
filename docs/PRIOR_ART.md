@@ -944,7 +944,12 @@ first checked coefficient-depth branch proves that nonzero exceptional `b₆`
 puts every local point in canonical nonsingular reduction. The selected
 five- and eleven-adic consumers then rule out that branch for the marked
 torsion point and force `a₆` into the square of the maximal ideal. The later
-weighted branches and affine group-law case split remain separate work.
+`b₄` branch is also checked pointwise: the tangent-slope valuation split puts
+the marked double in canonical nonsingular reduction, and the two selected
+consumers force `a₄` into the square of the maximal ideal. The formalization
+does not import Tate's component labels from the paper and still makes no
+strict-transform, regular-model, Kodaira-symbol, or component-incidence
+claim. The `a₆/ϖ²` and deeper weighted branches remain separate work.
 
 ## 16. Global code search
 
