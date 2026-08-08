@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
-import MazurTorsion.EllipticCurve.TateStarSimpleRoot
+import MazurTorsion.EllipticCurve.TateStarRepeatedRoot
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
@@ -684,6 +684,84 @@ theorem addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_simpleRootAtFive
         hW h2 h3 hspecial D hsimple
   · exact hprime
   · exact hN
+
+/-- A nonzero repeated marked root of the exceptional cubic at five forces the marked twelfth
+multiple into canonical nonsingular reduction, excluding every prime order at least eleven. -/
+theorem
+    addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_repeatedNonzeroRootAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hrepeated : D.derivativeResidue = 0)
+    (hroot_ne : IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.X ≠ 0)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  apply
+    addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+      hW especial P
+  · exact
+      twelve_nsmul_mem_nonsingularReductionSubgroup_of_repeatedExceptionalRoot_ne_zero
+        hW h2 h3 hspecial D hrepeated hroot_ne
+  · exact hprime
+  · exact hN
+
+/-- For a prime-order point on the selected five-adic short equation, a repeated marked
+exceptional root must be zero.  The marked abscissa and both coefficients consequently gain one
+power of the same bundled uniformizer. -/
+theorem markedExceptionalCubic_zeroRoot_and_deeperDepths_of_primeOrderAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hrepeated : D.derivativeResidue = 0)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.X = 0 ∧
+      IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.A = 0 ∧
+      IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.B = 0 ∧
+      D.x ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ^ 2 ∧
+      W₀.a₄ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ^ 3 ∧
+      W₀.a₆ ∈ IsLocalRing.maximalIdeal (atFive.adicCompletionIntegers ℚ) ^ 4 := by
+  have hroot : IsLocalRing.residue (atFive.adicCompletionIntegers ℚ) D.X = 0 := by
+    by_contra hroot_ne
+    exact
+      (addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_repeatedNonzeroRootAtFive
+        hW h2 h3 hspecial D hrepeated hroot_ne especial N hprime hN) horder
+  have hdepth :=
+    markedExceptionalCubic_deeper_depths_of_derivative_eq_zero_of_root_eq_zero
+      D hrepeated hroot
+  exact ⟨hroot, hdepth⟩
 
 /-- Integral `j`, the actual tame additive Néron filtration, and a marked prime-order point
 upgrade a minimal equation to good reduction.  The proof uses Mathlib's exhaustive
