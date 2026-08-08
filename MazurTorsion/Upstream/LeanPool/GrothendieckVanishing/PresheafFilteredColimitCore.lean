@@ -6,7 +6,7 @@ Authors: Vasily Ilin, Brian Nugent
 
 import Mathlib.Topology.NoetherianSpace
 import MazurTorsion.Upstream.LeanPool.GrothendieckVanishing.PresheafFilteredColimitGeneral
-import MazurTorsion.Upstream.LeanPool.GrothendieckVanishing.ClosedImmersionCohomology
+import MazurTorsion.Upstream.LeanPool.GrothendieckVanishing.FlasqueVanishing
 
 /-!
 # Noetherian filtered-colimit infrastructure for sheaf cohomology
@@ -220,13 +220,44 @@ noncomputable def sheafHFilteredColimitSuccQuotient :
     map_id := fun j ↦ by aesop_cat
     map_comp := fun {j j' j''} f g ↦ by ext; simp [cokernel.map, Functor.map_comp] }
 
+/-- The objectwise cokernel projection, with its target expressed through the quotient
+diagram rather than by unfolding that diagram. -/
+private noncomputable def sheafHFilteredColimitSuccQuotientPi (j : J') :
+    (sheafHFilteredColimitSuccInj Y').obj j ⟶
+      (sheafHFilteredColimitSuccQuotient Y').obj j :=
+  cokernel.π ((sheafHFilteredColimitSuccEta Y').app j)
+
+omit [IsFiltered J'] in
+private theorem sheafH_filtered_colimit_succ_quotientPi_naturality
+    {j j' : J'} (f : j ⟶ j') :
+    sheafHFilteredColimitSuccQuotientPi Y' j ≫
+        (sheafHFilteredColimitSuccQuotient Y').map f =
+      (sheafHFilteredColimitSuccInj Y').map f ≫
+        sheafHFilteredColimitSuccQuotientPi Y' j' := by
+  dsimp only [sheafHFilteredColimitSuccQuotientPi,
+    sheafHFilteredColimitSuccQuotient]
+  simp [cokernel.map]
+
+omit [IsFiltered J'] in
+private noncomputable instance sheafH_filtered_colimit_succ_quotientPi_epi (j : J') :
+    Epi (sheafHFilteredColimitSuccQuotientPi Y' j) := by
+  dsimp only [sheafHFilteredColimitSuccQuotientPi]
+  change Epi (coequalizer.π _ _)
+  infer_instance
+
+omit [IsFiltered J'] in
+private theorem sheafH_filtered_colimit_succ_eta_quotientPi (j : J') :
+    (sheafHFilteredColimitSuccEta Y').app j ≫
+        sheafHFilteredColimitSuccQuotientPi Y' j = 0 := by
+  dsimp only [sheafHFilteredColimitSuccQuotientPi]
+  exact cokernel.condition _
+
 /-- The quotient cocone on the cokernel diagram induced by the colimit short exact sequence. -/
 noncomputable def sheafHFilteredColimitSuccQuotientCocone
     (c' : Cocone Y') (hc' : IsColimit c') :
     Cocone (sheafHFilteredColimitSuccQuotient Y') :=
   let ι' := sheafHFilteredColimitSuccIota Y' c' hc'
-  let S := sheafHFilteredColimitSuccShortComplex Y' c' hc'
-  Cocone.mk S.X₃
+  Cocone.mk (cokernel ι')
     { app := fun j ↦
         cokernel.map ((sheafHFilteredColimitSuccEta Y').app j) ι'
           (c'.ι.app j) ((sheafHFilteredColimitSuccInjCocone Y').ι.app j)
@@ -237,44 +268,35 @@ noncomputable def sheafHFilteredColimitSuccQuotientCocone
           simp [sheafHFilteredColimitSuccQuotient, cokernel.map, Category.assoc]
         conv_rhs =>
           simp [sheafHFilteredColimitSuccQuotient, cokernel.map, Category.assoc]
-        change
-          (sheafHFilteredColimitSuccInj Y').map f ≫
-              (cokernel.π ((sheafHFilteredColimitSuccEta Y').app j') ≫
-                cokernel.desc ((sheafHFilteredColimitSuccEta Y').app j')
-                  (((sheafHFilteredColimitSuccInjCocone Y').ι.app j') ≫
-                    cokernel.π ι') _) =
-            cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫
-              cokernel.desc ((sheafHFilteredColimitSuccEta Y').app j)
-                (((sheafHFilteredColimitSuccInjCocone Y').ι.app j) ≫
-                  cokernel.π ι') _
-        rw [cokernel.π_desc]
-        rw [cokernel.π_desc]
-        exact congrArg (fun t ↦ t ≫ cokernel.π ι')
-          ((sheafHFilteredColimitSuccInjCocone Y').w f) }
+        }
 
 private noncomputable def sheafH_filtered_colimit_succ_liftedCocone
     (s : Cocone (sheafHFilteredColimitSuccQuotient Y')) :
     Cocone (sheafHFilteredColimitSuccInj Y') :=
   Cocone.mk s.pt
     { app := fun j ↦
-        cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j
+        sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j
       naturality := fun j j' a ↦ by
-        have hdesc :
-            cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫
-                (sheafHFilteredColimitSuccQuotient Y').map a =
-            (sheafHFilteredColimitSuccInj Y').map a ≫
-                cokernel.π ((sheafHFilteredColimitSuccEta Y').app j') := by
-          simp [sheafHFilteredColimitSuccQuotient]
-        rw [← Category.assoc, ← hdesc]
+        rw [← Category.assoc,
+          ← sheafH_filtered_colimit_succ_quotientPi_naturality]
         exact congrArg (fun t ↦
-          cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ t) (s.w a) }
+          sheafHFilteredColimitSuccQuotientPi Y' j ≫ t) (s.w a) }
 
 omit [IsFiltered J'] in
 @[simp]
 private theorem sheafH_filtered_colimit_succ_liftedCocone_ι_app
     (s : Cocone (sheafHFilteredColimitSuccQuotient Y')) (j : J') :
     (sheafH_filtered_colimit_succ_liftedCocone Y' s).ι.app j =
-      cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j := rfl
+      sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j := rfl
+
+omit [IsFiltered J'] in
+private theorem sheafH_filtered_colimit_succ_eta_liftedCocone_ι_app
+    (s : Cocone (sheafHFilteredColimitSuccQuotient Y')) (j : J') :
+    (sheafHFilteredColimitSuccEta Y').app j ≫
+        (sheafH_filtered_colimit_succ_liftedCocone Y' s).ι.app j = 0 := by
+  dsimp only [sheafH_filtered_colimit_succ_liftedCocone]
+  rw [← Category.assoc, sheafH_filtered_colimit_succ_eta_quotientPi, zero_comp]
+  rfl
 
 /-- The quotient cocone obtained from the stagewise injective replacements is colimiting. -/
 noncomputable def sheafHFilteredColimitSuccQuotientCoconeIsColimit
@@ -284,101 +306,84 @@ noncomputable def sheafHFilteredColimitSuccQuotientCoconeIsColimit
   let injCocone := sheafHFilteredColimitSuccInjCocone Y'
   let qCocone := sheafHFilteredColimitSuccQuotientCocone Y' c' hc'
   let ι' := sheafHFilteredColimitSuccIota Y' c' hc'
-  let injColim := colimit.isColimit Inj
-  have hπ (j) : cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ qCocone.ι.app j =
+  let injColim : IsColimit (sheafHFilteredColimitSuccInjCocone Y') := by
+    dsimp [injCocone, sheafHFilteredColimitSuccInjCocone]
+    exact colimit.isColimit Inj
+  have hπ (j) : sheafHFilteredColimitSuccQuotientPi Y' j ≫ qCocone.ι.app j =
       injCocone.ι.app j ≫ cokernel.π ι' := cokernel.π_desc _ _ _
+  have hι (s : Cocone (sheafHFilteredColimitSuccQuotient Y')) :
+      ι' ≫ injColim.desc (sheafH_filtered_colimit_succ_liftedCocone Y' s) = 0 := by
+    apply hc'.hom_ext
+    intro j
+    let lifted := sheafH_filtered_colimit_succ_liftedCocone Y' s
+    change (c'.ι.app j ≫ ι') ≫ injColim.desc lifted = c'.ι.app j ≫ 0
+    calc
+      (c'.ι.app j ≫ ι') ≫ injColim.desc lifted =
+          ((sheafHFilteredColimitSuccEta Y').app j ≫
+            injCocone.ι.app j) ≫ injColim.desc lifted :=
+        congrArg (fun t ↦ t ≫ injColim.desc lifted)
+          (sheafH_filtered_colimit_succ_iota_fac Y' c' hc' j)
+      _ = (sheafHFilteredColimitSuccEta Y').app j ≫
+          (injCocone.ι.app j ≫ injColim.desc lifted) := Category.assoc _ _ _
+      _ = (sheafHFilteredColimitSuccEta Y').app j ≫ lifted.ι.app j :=
+        congrArg (fun t ↦ (sheafHFilteredColimitSuccEta Y').app j ≫ t)
+          (injColim.fac lifted j)
+      _ = 0 := sheafH_filtered_colimit_succ_eta_liftedCocone_ι_app Y' s j
+      _ = c'.ι.app j ≫ 0 := by simp
   exact
   { desc := fun s ↦
       let lifted := sheafH_filtered_colimit_succ_liftedCocone Y' s
-      cokernel.desc ι' (injColim.desc lifted) (hc'.hom_ext fun j ↦ by
-        have hfac_lifted :
-            injCocone.ι.app j ≫ injColim.desc lifted =
-              cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j := by
-          simpa [lifted, sheafH_filtered_colimit_succ_liftedCocone, injCocone,
-            sheafHFilteredColimitSuccInjCocone] using injColim.fac lifted j
-        change c'.ι.app j ≫ sheafHFilteredColimitSuccIota Y' c' hc' ≫
-            injColim.desc lifted = c'.ι.app j ≫ 0
-        rw [← Category.assoc, sheafH_filtered_colimit_succ_iota_fac Y' c' hc' j]
-        have hzero :
-            (sheafHFilteredColimitSuccEta Y').app j ≫
-                ((sheafHFilteredColimitSuccInjCocone Y').ι.app j ≫
-                  injColim.desc lifted) =
-              c'.ι.app j ≫ 0 := by
-          rw [hfac_lifted]
-          change
-            (((sheafHFilteredColimitSuccEta Y').app j ≫
-                cokernel.π ((sheafHFilteredColimitSuccEta Y').app j)) ≫
-              s.ι.app j) = c'.ι.app j ≫ 0
-          rw [cokernel.condition, zero_comp, comp_zero]
-        exact hzero)
-    fac := fun s j ↦ (cancel_epi (cokernel.π ((sheafHFilteredColimitSuccEta Y').app j))).mp (by
+      cokernel.desc ι' (injColim.desc lifted) (hι s)
+    fac := fun s j ↦
+      (cancel_epi (sheafHFilteredColimitSuccQuotientPi Y' j)).mp (by
       let lifted := sheafH_filtered_colimit_succ_liftedCocone Y' s
       have hfac_lifted :
           injCocone.ι.app j ≫ injColim.desc lifted =
-            cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j := by
-        simpa [lifted, sheafH_filtered_colimit_succ_liftedCocone, injCocone,
-          sheafHFilteredColimitSuccInjCocone] using injColim.fac lifted j
-      have hι : ι' ≫ injColim.desc lifted = 0 :=
-        hc'.hom_ext fun k ↦ by
-          have hfac_lifted_k :
-              injCocone.ι.app k ≫ injColim.desc lifted =
-                cokernel.π ((sheafHFilteredColimitSuccEta Y').app k) ≫ s.ι.app k := by
-            simpa [lifted, sheafH_filtered_colimit_succ_liftedCocone, injCocone,
-              sheafHFilteredColimitSuccInjCocone] using injColim.fac lifted k
-          change c'.ι.app k ≫ sheafHFilteredColimitSuccIota Y' c' hc' ≫
-              injColim.desc lifted = c'.ι.app k ≫ 0
-          rw [← Category.assoc, sheafH_filtered_colimit_succ_iota_fac Y' c' hc' k]
-          have hzero :
-              (sheafHFilteredColimitSuccEta Y').app k ≫
-                  ((sheafHFilteredColimitSuccInjCocone Y').ι.app k ≫
-                    injColim.desc lifted) =
-                c'.ι.app k ≫ 0 := by
-            rw [hfac_lifted_k]
-            change
-              (((sheafHFilteredColimitSuccEta Y').app k ≫
-                  cokernel.π ((sheafHFilteredColimitSuccEta Y').app k)) ≫
-                s.ι.app k) = c'.ι.app k ≫ 0
-            rw [cokernel.condition, zero_comp, comp_zero]
-          exact hzero
-      change (cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫
-          qCocone.ι.app j) ≫ cokernel.desc ι' (injColim.desc lifted) _ =
-        cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j
+            sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j :=
+        (injColim.fac lifted j).trans
+          (sheafH_filtered_colimit_succ_liftedCocone_ι_app Y' s j)
+      change (sheafHFilteredColimitSuccQuotientPi Y' j ≫
+          qCocone.ι.app j) ≫ cokernel.desc ι' (injColim.desc lifted) (hι s) =
+        sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j
       rw [hπ j]
       change (injCocone.ι.app j ≫ cokernel.π ι') ≫
-          cokernel.desc ι' (injColim.desc lifted) hι =
-        cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j
+          cokernel.desc ι' (injColim.desc lifted) (hι s) =
+        sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j
       have hdesc :
-          cokernel.π ι' ≫ cokernel.desc ι' (injColim.desc lifted) hι =
+          cokernel.π ι' ≫ cokernel.desc ι' (injColim.desc lifted) (hι s) =
             injColim.desc lifted := by
         rw [cokernel.π_desc]
       exact (congrArg (fun t ↦ injCocone.ι.app j ≫ t) hdesc).trans hfac_lifted)
-    uniq := fun s m hm ↦ (cancel_epi (cokernel.π ι')).mp (by
-      rw [cokernel.π_desc]
+    uniq := fun s m hm ↦ by
       let lifted := sheafH_filtered_colimit_succ_liftedCocone Y' s
-      exact injColim.hom_ext fun j ↦ by
-        have hπ' :
-            (colimit.cocone Inj).ι.app j ≫ cokernel.π ι' =
-              cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ qCocone.ι.app j := by
-          change injCocone.ι.app j ≫ cokernel.π ι' =
-            cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ qCocone.ι.app j
-          exact (hπ j).symm
-        have hfac_lifted' :
-            (colimit.cocone Inj).ι.app j ≫ injColim.desc lifted =
-              cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ s.ι.app j := by
-          simpa [lifted] using injColim.fac lifted j
-        change ((colimit.cocone Inj).ι.app j ≫ cokernel.π ι') ≫ m =
-          (colimit.cocone Inj).ι.app j ≫ injColim.desc lifted
-        rw [hπ']
-        have hmq : qCocone.ι.app j ≫ m = s.ι.app j := by
-          simpa [qCocone] using hm j
-        have htarget :
-            cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫
-                (qCocone.ι.app j ≫ m) =
-              (colimit.cocone Inj).ι.app j ≫ injColim.desc lifted :=
-          (congrArg
-            (fun t ↦ cokernel.π ((sheafHFilteredColimitSuccEta Y').app j) ≫ t)
-            hmq).trans hfac_lifted'.symm
-        exact htarget) }
+      apply (cancel_epi (cokernel.π ι')).mp
+      change cokernel.π ι' ≫ m =
+        cokernel.π ι' ≫ cokernel.desc ι' (injColim.desc lifted) (hι s)
+      rw [cokernel.π_desc]
+      apply injColim.hom_ext
+      intro j
+      have hπ' :
+          injCocone.ι.app j ≫ cokernel.π ι' =
+            sheafHFilteredColimitSuccQuotientPi Y' j ≫ qCocone.ι.app j := by
+        exact (hπ j).symm
+      have hfac_lifted' :
+          injCocone.ι.app j ≫ injColim.desc lifted =
+            sheafHFilteredColimitSuccQuotientPi Y' j ≫ s.ι.app j :=
+        (injColim.fac lifted j).trans
+          (sheafH_filtered_colimit_succ_liftedCocone_ι_app Y' s j)
+      change (injCocone.ι.app j ≫ cokernel.π ι') ≫ m =
+        injCocone.ι.app j ≫ injColim.desc lifted
+      rw [hπ']
+      have hmq : qCocone.ι.app j ≫ m = s.ι.app j := by
+        simpa [qCocone] using hm j
+      have htarget :
+          sheafHFilteredColimitSuccQuotientPi Y' j ≫
+              (qCocone.ι.app j ≫ m) =
+            injCocone.ι.app j ≫ injColim.desc lifted :=
+        (congrArg
+          (fun t ↦ sheafHFilteredColimitSuccQuotientPi Y' j ≫ t)
+          hmq).trans hfac_lifted'.symm
+      exact htarget }
 
 omit [IsFiltered J'] in
 theorem sheafH_filtered_colimit_succ_stage_shortExact (j : J') :
@@ -474,9 +479,9 @@ noncomputable def sheafHFilteredColimitSuccShiftCodomainIso
       Subsingleton (Sheaf.H (sheafHFilteredColimitSuccInjCocone Y').pt n))
     (h_colim_succ :
       Subsingleton (Sheaf.H (sheafHFilteredColimitSuccInjCocone Y').pt (n + 1))) :
-    AddCommGrpCat.of
-        (Sheaf.H (sheafHFilteredColimitSuccQuotientCocone Y' c' hc').pt n) ≅
-      AddCommGrpCat.of (Sheaf.H c'.pt (n + 1)) :=
+    (sheafCohomologyFunctor X n).obj
+        (sheafHFilteredColimitSuccQuotientCocone Y' c' hc').pt ≅
+      (sheafCohomologyFunctor X (n + 1)).obj c'.pt :=
   sheafHSuccIsoOfSubsingletonMiddle
     (sheafH_filtered_colimit_succ_shortExact Y' c' hc') n h_colim_n h_colim_succ
 
@@ -508,7 +513,8 @@ noncomputable def sheafHFilteredColimitComparison
     {J' : Type u} [SmallCategory J']
     (Y' : J' ⥤ TopCat.Sheaf AddCommGrpCat.{u} X)
     (n : ℕ) (c' : Cocone Y') :
-    colimit (Y' ⋙ sheafCohomologyFunctor X n) ⟶ AddCommGrpCat.of (Sheaf.H c'.pt n) :=
+    colimit (Y' ⋙ sheafCohomologyFunctor X n) ⟶
+      (sheafCohomologyFunctor X n).obj c'.pt :=
   colimit.desc _ ((sheafCohomologyFunctor X n).mapCocone c')
 
 @[simp] theorem colimit_ι_sheafH_filtered_colimit_comparison
@@ -568,8 +574,7 @@ theorem sheafH_filtered_colimit_comparison_succ_compatibility
       (sheafHFilteredColimitSuccShiftCodomainIso Ysh csh hcsh n
         h_colim_n h_colim_succ).hom from by
     rw [← Category.assoc]
-    rw [colimit_ι_sheafH_filtered_colimit_comparison]
-    rfl]
+    rw [colimit_ι_sheafH_filtered_colimit_comparison]]
   change
     (sheafHSuccIsoOfSubsingletonMiddle
         (sheafH_filtered_colimit_succ_stage_shortExact (Y' := Ysh) j) n
