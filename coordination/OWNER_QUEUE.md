@@ -55,6 +55,40 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 overlap transport now has a source-clean, definitionally aligned
+forward map. Owner review quarantined a stale cached payload and rejected the
+first contributed spelling because it timed out at the default heartbeat;
+aliasing the named Hom to the transported Iso's actual forward map preserves
+the same `pullHom` term and rebuilds without options. The three `12`, `23`,
+and `13` pairwise-model comparisons are separately opaque, every
+off-diagonal normalized transition is the raw chosen transition even after
+further pullback, and a diagonal transition is the canonical coherent
+self-overlap (`9188250`, repaired by `be75c7d`). Combining all three imported
+comparisons with the direct common-affine cocycle in one declaration still
+hits deterministic `whnf`; no such theorem is claimed, so A3 remains open.
+
+The multiplicative descent lane now constructs the honest one-way refinement
+available for a finite affine fppf family. The original components refine the
+singleton spectrum of their product algebra through the evaluation maps; the
+singleton is promoted to a genuine fppf cover by the finite sigma/product
+comparison. A represented singleton `G_m` cocycle pulls back to the component
+cover with an explicit evaluator, and the actual
+`FppfHOne.class_pullback` theorem proves equality of their global classes
+(`04128e3`, reviewed from contributor `b9e7a6b`). This does not transport an
+arbitrary component-family cocycle in the reverse direction: that still
+requires gauge compatibility or effective sheaf gluing, so no
+`H¹(G_m)=0` claim or node credit is made.
+
+The coherent-cohomology lane now starts from actual `Scheme.Modules`, not a
+parallel placeholder. Mathlib's Ext-based sheaf cohomology on the Zariski
+opens site gives the functor `SchemeModuleCohomology.zariskiFunctor`; its
+degree zero is naturally equivalent to genuine sections at the terminal
+open. An affine tilde sheaf recovers its coefficient module additively as a
+compiled consumer (`4b896ec`, reviewed from contributor `4f8f366`). This is
+only the honest H0 foundation. Scalar-linearity, coherence, affine
+acyclicity, proper finite-dimensionality, and higher vanishing remain open,
+so MT-TC-B1 receives no completion credit.
+
 The rational-section boundary no longer asks callers to prove that a section
 misses the generic point. A section of an integral smooth relative curve is a
 closed immersion; if its image were generic, the curve and its structure map
@@ -238,7 +272,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 810 Lean modules and 1,502,139 Lean lines.
+exact quality baseline is 815 Lean modules and 1,502,976 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -287,17 +321,24 @@ codimension-one point, Picard class, and Hecke formal-immersion consumer use
 only those same three standard axioms. The represented finite-flat point quotient rebuilds in a
 combined 3,609-job owner target, and its thirteen contributor-audited theorem
 endpoints have the same axiom closure.
+After quarantining the stale `CurveLineBundleDescent` payload, its source
+rebuild passes 2,627 jobs and the repaired eight-target A3 closure passes
+3,489 jobs at the default heartbeat. All fifteen audited transported,
+pairwise, and normalized declarations use only the three standard axioms.
+The finite-affine product-cover target and the two scheme-module H0 targets
+build together through 3,342 jobs; twelve audited public endpoints again have
+only the standard axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
-workers are pursuing the A3 normalized-transition/effectivity seam, the
-honest arbitrary-cover refinement/gauge step beyond the now-integrated
-singleton represented multiplicative cocycle, and the first actual
-scheme-module cohomology/H-zero boundary with a global-sections consumer. The
-reviewed represented point-quotient comparison and derived rational-section
+workers are pursuing the positive split-cubic/Jacobian leaf for X₁(13), the
+next scalar-linear/coherent layer above actual scheme-module H0, and the
+direct cyclic-subgroup moduli datum needed by the reviewed X₀ route. The
+reviewed A3 lower comparisons, finite-family one-way fppf refinement,
+represented point-quotient comparison, and derived rational-section
 non-genericity are integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
 open. The represented integral cusp chart remains queued for the prime-five

@@ -135,9 +135,14 @@ extension-of-scalars and inverse-ideal base-change coherence now prove that pred
 common affine subopen. The pairwise/direct equality and full pairwise-model cocycle therefore
 hold unconditionally after every further pullback. The canonical triple-intersection comparison
 now also satisfies all three direct chart-projection equations, and a checked proper-smooth
-consumer derives the six pairwise composites from only those three equations. What remains at
-this boundary is comparison with the normalized chosen transition, followed by full arbitrary-divisor descent effectivity,
-object separation, rational normalization, and Picard surjectivity.
+consumer derives the six pairwise composites from only those three equations. The three
+pairwise-model/direct-projection comparisons are now isolated in separate opaque declarations,
+so they compile without unfolding all faces simultaneously. Off the diagonal, the normalized
+transition is the raw chosen-overlap morphism, and this identification survives arbitrary
+further pullback; on the diagonal it is the canonical coherent self-overlap. What remains at
+this boundary is simultaneous assembly of those three imported comparisons with the direct
+cocycle, followed by full arbitrary-divisor descent effectivity, object separation, rational
+normalization, and Picard surjectivity.
 
 *Checked pairwise-naturality deliverables (no node credit):*
 
@@ -172,7 +177,14 @@ object separation, rational normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_second`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_third`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.tripleOverlapComparisonToIntersection_comp_projections`;
-* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_directProjections`.
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_directProjections`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelOnTripleIntersection_eq_direct₁₂`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelOnTripleIntersection_eq_direct₂₃`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelOnTripleIntersection_eq_direct₁₃`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve_eq_model`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_hom_of_ne`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_of_ne`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_self`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -870,7 +882,13 @@ inhabited or that A3 is solved.
 *Coherent cohomology of proper curves.* Build finite-dimensional coherent
 cohomology, affine acyclicity, and vanishing above degree one.
 
-*Status:* `blocked`.
+*Status:* `blocked`. The first native boundary now compiles: actual
+`Scheme.Modules` are sent through Mathlib's underlying-abelian-sheaf functor
+to its Ext-based Zariski cohomology; degree zero is naturally equivalent to
+sections on the terminal open. For an affine tilde module this recovers the
+coefficient module additively as a real downstream consumer. Scalar
+linearity, coherence, affine acyclicity, proper finite-dimensionality, and
+higher vanishing remain open.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -879,6 +897,18 @@ cohomology, affine acyclicity, and vanishing above degree one.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Prove finite dimensionality, affine acyclicity, and vanishing above degree one in
   the required scope.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
+  Apply native sheaf cohomology to the underlying abelian sheaf of an actual scheme module.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroEquivGlobalSections`
+  Identify H0 with genuine global sections at the top open.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroEquivGlobalSections_naturality`
+  Prove naturality for actual scheme-module morphisms.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroEquiv`
+  Recover an affine tilde module's coefficients additively as the H0 consumer.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

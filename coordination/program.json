@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1502139,
-    "integrated_lean_modules": 810,
+    "integrated_lean_lines": 1502976,
+    "integrated_lean_modules": 815,
     "remaining_composite_orders": [
       18,
       25,
@@ -2774,6 +2774,34 @@
           "state": "contract",
           "description": "Derive all six scalar-tower pairwise composites and the proper-smooth pairwise model cocycle from three direct projections to one common affine model.",
           "module": "MazurTorsion.Upstream.CurveLineBundleTripleProjectionCocycle"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleChosenOverlapHomOnProperSmoothCurve_eq_model",
+          "state": "contract",
+          "description": "Expose the chosen-overlap forward map through one opaque equality to the canonical pullHom transport of its explicit pairwise model.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_hom_of_ne",
+          "state": "contract",
+          "description": "Identify every off-diagonal normalized transition with the checked raw chosen-overlap morphism.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNormalizedTransition"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_of_ne",
+          "state": "contract",
+          "description": "Preserve the normalized-to-raw identification after arbitrary further pullback, the exact form needed by distinct-index cocycle assembly.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNormalizedTransition"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedOverlapIsoOnProperSmoothCurve_self",
+          "state": "contract",
+          "description": "Identify the diagonal normalized transition with the canonical coherent self-overlap isomorphism.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleNormalizedTransition"
         }
       ],
       "depends_on": [
@@ -2833,7 +2861,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build finite-dimensional coherent cohomology on proper curves, including affine acyclicity and vanishing above degree one.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open, and an affine tilde module has H0 additively equivalent to its coefficient module as a compiled consumer. Scalar-linearity, coherence, affine acyclicity, proper finite-dimensionality, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2868,6 +2896,34 @@
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
           "description": "Prove finite dimensionality, affine acyclicity, and vanishing above degree one in the required scope."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor",
+          "state": "contract",
+          "description": "Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an actual scheme module on the Zariski opens site.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroEquivGlobalSections",
+          "state": "contract",
+          "description": "Identify degree-zero cohomology with actual global sections at the top open through Mathlib's terminal-object theorem.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroEquivGlobalSections_naturality",
+          "state": "contract",
+          "description": "Prove naturality of the H0/global-sections equivalence for genuine module morphisms.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineTildeHZeroEquiv",
+          "state": "contract",
+          "description": "Consume the H0 boundary and Mathlib's affine tilde global-sections equivalence to recover the original coefficient module additively.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffine"
         }
       ],
       "depends_on": [
@@ -5192,6 +5248,41 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeCocycleDescent",
           "description": "Trivialize the actual descended module of a represented singleton-family multiplicative cocycle over Z[1/ell]."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentToProductRefinement",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily",
+          "description": "Refine a finite affine component family by the singleton spectrum of its product algebra through the canonical component projections."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCover",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily",
+          "description": "Promote the singleton product spectrum to a genuine fppf cover by comparison with the finite disjoint-union cover."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.coverRefinementToRepresentedSingleton_map",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily",
+          "description": "Identify every component of the composite genuine-cover/represented-singleton refinement with the corresponding product evaluation map."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentCoverCocycle_ev",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily",
+          "description": "Evaluate the pulled-back represented multiplicative cocycle on the actual component cover through the product projections."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCoverCocycle_globalClass_pullback",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily",
+          "description": "Consume the genuine cover refinement in FppfHOne.class_pullback, proving equality of the singleton-product and component-cover global classes in the valid direction."
         }
       ],
       "depends_on": [

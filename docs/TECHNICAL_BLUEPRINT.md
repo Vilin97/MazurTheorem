@@ -1734,6 +1734,23 @@ transports this theorem to any order system with the same geometric orders,
 and `DivisorPicard.Dictionary.properCurveDegreeZero` consumes it in the actual
 scheme Picard group.
 
+The divisor-line-bundle descent boundary now keeps the chosen overlap Iso and
+its forward `pullHom` definitionally aligned. On the chosen triple overlap,
+the `12`, `23`, and `13` inverse-ideal comparisons are compiled as separate
+opaque theorems. Each off-diagonal normalized transition is the raw chosen
+transition after arbitrary further pullback, while the diagonal is the
+canonical coherent self-overlap. This is not yet the cover-wide cocycle:
+assembling all three comparisons with the direct common-affine cocycle still
+requires a reduction-stable proof boundary, followed by effectivity and the
+global Picard steps.
+
+The coherent-cohomology lane now uses Mathlib's actual Ext-based cohomology of
+the underlying abelian sheaf of a `Scheme.Modules` object on the Zariski
+opens site. Its degree-zero group is naturally equivalent to genuine global
+sections, and the affine tilde consumer recovers the coefficient module
+additively. A scalar-linear formulation, coherence, affine acyclicity, proper
+finite-dimensionality, and positive-degree vanishing remain open.
+
 The checked absolute precursor
 `AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted
 point and divisor Abel--Jacobi classes through the divisor-class/Picard
@@ -1867,8 +1884,13 @@ the represented cocycle law gives the correctly oriented tensor identity.
 The extracted cocycle has the genuine comonadic descended module, base-change
 isomorphism, and explicit prime-away linear trivialization as compiled
 consumers. This comparison is only for singleton affine presentations.
-Refinement of arbitrary multi-object fppf covers and the associated gauge
-comparison remain open, so this does not assert global `H¹(G_m)` vanishing.
+For a finite affine fppf family, the component cover now genuinely refines
+the singleton spectrum of the product algebra through its evaluation maps.
+The finite sigma/product comparison proves that singleton is fppf, and
+`FppfHOne.class_pullback` identifies the singleton and pulled-back component
+classes. The reverse passage from an arbitrary component cocycle to a
+singleton cocycle still requires gauge compatibility or effective sheaf
+gluing, so this does not assert global `H¹(G_m)` vanishing.
 
 Tau Ceti's Jacobian work and later mathlib developments should still be
 monitored before independently building every generic algebraic-geometric

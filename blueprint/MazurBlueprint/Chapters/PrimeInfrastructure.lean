@@ -589,6 +589,16 @@ quotients are not being represented as quasi-finite flat group schemes.
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.primeAwayLinearEquivBase`
 * `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentToProductRefinement`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCover`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.coverRefinementToRepresentedSingleton_map`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentCoverCocycle_ev`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCoverCocycle_globalClass_pullback`
+* `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
@@ -702,9 +712,13 @@ effectively to a rank-one module, and is explicitly trivial over `Z[1/ell]`. Eva
 actual represented multiplicative cocycle on a singleton affine family now produces exactly
 that normalized tensor-unit model: naturality proves normalization and the three overlap
 pullbacks, and the represented cocycle law proves the tensor identity. Effective descent and
-the prime-away linear trivialization are direct consumers. Refinement of arbitrary multi-object
-fppf covers to singleton affine presentations and gauge comparison remain open, so no ambient
-`H¹(G_m)` vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
+the prime-away linear trivialization are direct consumers. For a finite affine fppf family, the
+component cover now genuinely refines the singleton spectrum of the product algebra; its maps
+are the product evaluations, the singleton is proved fppf through the finite sigma comparison,
+and `FppfHOne.class_pullback` identifies the resulting global classes. This is only the valid
+singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
+cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
+vanishing is claimed. An open-sheaf equivalence, global cohomological localization sequence,
 quasi-finite admissible-filtration exact sequences, the constant-factor global
 `H¹` calculation, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.
