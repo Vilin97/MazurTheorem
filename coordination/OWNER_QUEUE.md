@@ -64,7 +64,10 @@ actual `n`th power. Consequently the quotient boundary is injective and gives
 a multiplicative equivalence from `Rˣ/(Rˣ)^n` onto its actual geometric
 fppf-`H¹` range (`97c7fc7`). This does not assert that the range is all of
 `H¹`; vanishing of the ambient `G_m` class is still required for that
-surjectivity. No roadmap-node credit or Challenge change is claimed.
+surjectivity. Exactness one degree higher now identifies the quotient with the
+actual kernel of `H¹(powerKernel) → H¹(G_m)` for every commutative base ring
+(`d5dfa3f`). This still makes no Picard-vanishing assertion. No roadmap-node
+credit or Challenge change is claimed.
 
 The preceding content boundary closes the pointwise local arithmetic branch at
 both selected primes. The terminal calculation derives `y ∈ 𝔪³`, separates
@@ -92,11 +95,20 @@ support, proves that `2` is inert, removes the exact forced powers of two,
 allocates the coprime normalized factors to cubes, and eliminates eight of the
 nine unit-class pairs in each scalar branch. Exactly two explicit integer
 cubic systems survive, with their distinguished-prime-seven consequences
-retained in the exact-order consumer (`a8d104b`, `da3c238`, `a013f50`). The concrete
+retained in the exact-order consumer (`a8d104b`, `da3c238`, `a013f50`). Those
+branches are now proved equivalent under root exchange and sign, primitive
+cube coordinates force `42 ∣ eta`, and the distinguished-seven deck chart
+reduces the remaining leaf to two explicit four-variable cubic equations
+(`6fa4c0d`, `a249c37`). A pointwise seven-adic infinite descent is rejected:
+the exact factor has norm three, rational seven-divisibility supplies both
+conjugate primes, and all three normalized residue branches admit deep Hensel
+lifts. The lane has therefore pivoted to a genuine global Jacobian or explicit
+genus-two descent rather than treating local valuation exhaustion as a proof.
+The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 801 Lean modules and 1,495,203 Lean lines.
+exact quality baseline is 802 Lean modules and 1,495,822 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -116,7 +128,11 @@ comparison report only `propext`, `Classical.choice`, and `Quot.sound`.
 The generic global-section exactness, Kummer kernel characterization, quotient
 injectivity, and range equivalence have the same audited axiom closure and
 compile through the finite-flat quotient and elementary-global-section
-consumers.
+consumers. Generic exactness at kernel-valued `H¹` and the concrete Kummer
+kernel equivalence also compile in the 3,029-job focused dependency closure.
+The X₁(18) branch-unification and seven-scaled normalization modules rebuild
+3,578 and 3,579 jobs respectively; their audited public declarations use only
+the standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
