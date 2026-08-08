@@ -7,7 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.EllipticCurve.NonsingularReductionAdditive
 import MazurTorsion.EllipticCurve.CuspidalReduction
 import MazurTorsion.EllipticCurve.MinimalModelScaling
-import MazurTorsion.EllipticCurve.TateStarRepeatedRoot
+import MazurTorsion.EllipticCurve.TateStarDepthFour
 import MazurTorsion.EllipticCurve.TateResidueTranslation
 import MazurTorsion.EllipticCurve.TameAdditiveFiltration
 import Mathlib.AlgebraicGeometry.EllipticCurve.Reduction
@@ -762,6 +762,84 @@ theorem markedExceptionalCubic_zeroRoot_and_deeperDepths_of_primeOrderAtFive
     markedExceptionalCubic_deeper_depths_of_derivative_eq_zero_of_root_eq_zero
       D hrepeated hroot
   exact ⟨hroot, hdepth⟩
+
+/-- Exact depth four of `a₆` on the selected marked exceptional branch puts `12P` in canonical
+nonsingular reduction, contradicting prime order at least eleven over the five-adic field. -/
+theorem addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hxsq : D.x ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 2)
+    (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 3)
+    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 4)
+    (ha₆notfive : W₀.a₆ ∉ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 5)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N) :
+    addOrderOf P ≠ N := by
+  apply
+    addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
+      hW especial P
+  · exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+  · exact hprime
+  · exact hN
+
+/-- A marked prime-order point forces `a₆` to gain the fifth power of the maximal ideal on the
+same selected five-adic short model. -/
+theorem markedExceptionalCubic_a₆_mem_fifth_of_primeOrderAtFive
+    {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
+    {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
+    {P : W.Point}
+    (hW : W₀.map
+      (algebraMap (atFive.adicCompletionIntegers ℚ)
+        (atFive.adicCompletion ℚ)) = W)
+    [W.IsElliptic] [DecidableEq (atFive.adicCompletion ℚ)]
+    [W₀.IsShortNF]
+    (h2 : (2 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (h3 : (3 : IsLocalRing.ResidueField
+      (atFive.adicCompletionIntegers ℚ)) ≠ 0)
+    (hspecial : W₀.map
+      (IsLocalRing.residue (atFive.adicCompletionIntegers ℚ)) =
+        cuspidalShortCurve
+          (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)))
+    (D : MarkedExceptionalCubicData W₀ W P)
+    (hxsq : D.x ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 2)
+    (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 3)
+    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 4)
+    (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
+      IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) :
+    W₀.a₆ ∈ IsLocalRing.maximalIdeal
+      (atFive.adicCompletionIntegers ℚ) ^ 5 := by
+  by_contra ha₆notfive
+  exact
+    (addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+      especial N hprime hN) horder
 
 /-- Integral `j`, the actual tame additive Néron filtration, and a marked prime-order point
 upgrade a minimal equation to good reduction.  The proof uses Mathlib's exhaustive
