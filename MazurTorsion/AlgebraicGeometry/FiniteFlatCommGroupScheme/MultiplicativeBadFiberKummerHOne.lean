@@ -149,10 +149,31 @@ noncomputable def powerKernelFppfHOne_zmod_prime_boundedData
         rw [pow_zero]
         exact (Finite.card_le_one_iff_subsingleton).mpr inferInstance }
 
+/-- In the characteristic-equals-exponent case, the trivial fppf `H¹` has exact cardinality
+`p ^ 0`. -/
+noncomputable def powerKernelFppfHOne_zmod_prime_certifiedData
+    (p : ℕ) (hp : p.Prime) :
+    FinitePGroup.CertifiedData p (powerKernel (ZMod p) p).FppfHOne.{0} := by
+  letI : Subsingleton (powerKernel (ZMod p) p).FppfHOne.{0} :=
+    powerKernelFppfHOne_zmod_prime_subsingleton p hp
+  letI : Finite (powerKernel (ZMod p) p).FppfHOne.{0} := Finite.of_subsingleton
+  exact
+    { finite := inferInstance
+      length := 0
+      card_eq := by
+        rw [pow_zero]
+        exact Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩ }
+
 @[simp]
 theorem powerKernelFppfHOne_zmod_prime_boundedData_length
     (p : ℕ) (hp : p.Prime) :
     (powerKernelFppfHOne_zmod_prime_boundedData p hp).length = 0 :=
+  rfl
+
+@[simp]
+theorem powerKernelFppfHOne_zmod_prime_certifiedData_length
+    (p : ℕ) (hp : p.Prime) :
+    (powerKernelFppfHOne_zmod_prime_certifiedData p hp).length = 0 :=
   rfl
 
 end AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer
