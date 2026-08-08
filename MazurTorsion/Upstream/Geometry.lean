@@ -17,6 +17,7 @@ import MazurTorsion.Upstream.CurveLineBundleTripleIntersection
 import MazurTorsion.Upstream.CurveLineBundleTripleNaturality
 import MazurTorsion.Upstream.CurveLineBundleTripleTower
 import MazurTorsion.Upstream.CurveLineBundleTransitionCocycle
+import MazurTorsion.Upstream.CurveLineBundleTripleProjectionCocycle
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 
