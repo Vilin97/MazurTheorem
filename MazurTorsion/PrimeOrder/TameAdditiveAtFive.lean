@@ -763,9 +763,9 @@ theorem markedExceptionalCubic_zeroRoot_and_deeperDepths_of_primeOrderAtFive
       D hrepeated hroot
   exact ⟨hroot, hdepth⟩
 
-/-- Exact depth four of `a₆` on the selected marked exceptional branch puts `12P` in canonical
-nonsingular reduction, contradicting prime order at least eleven over the five-adic field. -/
-theorem addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
+/-- On the selected marked branch, `a₆ ∉ 𝔪⁵` puts `12P` in canonical nonsingular reduction,
+contradicting prime order at least eleven over the five-adic field. -/
+theorem addOrderOf_ne_prime_ge_eleven_of_marked_a₆_not_fifthAtFive
     {W : WeierstrassCurve.Affine (atFive.adicCompletion ℚ)}
     {W₀ : WeierstrassCurve (atFive.adicCompletionIntegers ℚ)}
     {P : W.Point}
@@ -787,8 +787,6 @@ theorem addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
       (atFive.adicCompletionIntegers ℚ) ^ 2)
     (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
       (atFive.adicCompletionIntegers ℚ) ^ 3)
-    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
-      (atFive.adicCompletionIntegers ℚ) ^ 4)
     (ha₆notfive : W₀.a₆ ∉ IsLocalRing.maximalIdeal
       (atFive.adicCompletionIntegers ℚ) ^ 5)
     (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
@@ -798,8 +796,8 @@ theorem addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
   apply
     addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive
       hW especial P
-  · exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
-      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+  · exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₆_not_fifth
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive
   · exact hprime
   · exact hN
 
@@ -827,8 +825,6 @@ theorem markedExceptionalCubic_a₆_mem_fifth_of_primeOrderAtFive
       (atFive.adicCompletionIntegers ℚ) ^ 2)
     (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
       (atFive.adicCompletionIntegers ℚ) ^ 3)
-    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
-      (atFive.adicCompletionIntegers ℚ) ^ 4)
     (especial : (WeierstrassCurve.Affine.adicRedCurve W₀).Point ≃+
       IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ))
     (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
@@ -837,8 +833,8 @@ theorem markedExceptionalCubic_a₆_mem_fifth_of_primeOrderAtFive
       (atFive.adicCompletionIntegers ℚ) ^ 5 := by
   by_contra ha₆notfive
   exact
-    (addOrderOf_ne_prime_ge_eleven_of_marked_depth_fourAtFive
-      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+    (addOrderOf_ne_prime_ge_eleven_of_marked_a₆_not_fifthAtFive
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive
       especial N hprime hN) horder
 
 /-- Integral `j`, the actual tame additive Néron filtration, and a marked prime-order point

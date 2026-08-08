@@ -407,9 +407,9 @@ theorem markedExceptionalCubic_zeroRoot_and_deeperDepths_of_orderThirtyFiveAtEle
       D hrepeated hroot
   exact ⟨hroot, hdepth⟩
 
-/-- Exact depth four of `a₆` on the selected marked exceptional branch puts `12P` in canonical
-nonsingular reduction, contradicting exact order thirty-five over the eleven-adic field. -/
-theorem addOrderOf_ne_thirtyFive_of_marked_depth_fourAtEleven
+/-- On the selected marked branch, `a₆ ∉ 𝔪⁵` puts `12P` in canonical nonsingular reduction,
+contradicting exact order thirty-five over the eleven-adic field. -/
+theorem addOrderOf_ne_thirtyFive_of_marked_a₆_not_fifthAtEleven
     {W : Affine (atEleven.adicCompletion ℚ)}
     {W₀ : WeierstrassCurve (atEleven.adicCompletionIntegers ℚ)}
     {P : W.Point}
@@ -431,8 +431,6 @@ theorem addOrderOf_ne_thirtyFive_of_marked_depth_fourAtEleven
       (atEleven.adicCompletionIntegers ℚ) ^ 2)
     (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
       (atEleven.adicCompletionIntegers ℚ) ^ 3)
-    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
-      (atEleven.adicCompletionIntegers ℚ) ^ 4)
     (ha₆notfive : W₀.a₆ ∉ IsLocalRing.maximalIdeal
       (atEleven.adicCompletionIntegers ℚ) ^ 5)
     (especial : (adicRedCurve W₀).Point ≃+
@@ -440,8 +438,8 @@ theorem addOrderOf_ne_thirtyFive_of_marked_depth_fourAtEleven
     addOrderOf P ≠ 35 := by
   apply addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven
     hW especial P
-  exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_depth_four
-    hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive
+  exact twelve_nsmul_mem_nonsingularReductionSubgroup_of_marked_a₆_not_fifth
+    hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive
 
 /-- An order-35 marked point forces `a₆` to gain the fifth power of the maximal ideal on the
 same selected eleven-adic short model. -/
@@ -467,8 +465,6 @@ theorem markedExceptionalCubic_a₆_mem_fifth_of_orderThirtyFiveAtEleven
       (atEleven.adicCompletionIntegers ℚ) ^ 2)
     (ha₄cube : W₀.a₄ ∈ IsLocalRing.maximalIdeal
       (atEleven.adicCompletionIntegers ℚ) ^ 3)
-    (ha₆four : W₀.a₆ ∈ IsLocalRing.maximalIdeal
-      (atEleven.adicCompletionIntegers ℚ) ^ 4)
     (especial : (adicRedCurve W₀).Point ≃+
       IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ))
     (horder : addOrderOf P = 35) :
@@ -476,7 +472,7 @@ theorem markedExceptionalCubic_a₆_mem_fifth_of_orderThirtyFiveAtEleven
       (atEleven.adicCompletionIntegers ℚ) ^ 5 := by
   by_contra ha₆notfive
   exact
-    (addOrderOf_ne_thirtyFive_of_marked_depth_fourAtEleven
-      hW h2 h3 hspecial D hxsq ha₄cube ha₆four ha₆notfive especial) horder
+    (addOrderOf_ne_thirtyFive_of_marked_a₆_not_fifthAtEleven
+      hW h2 h3 hspecial D hxsq ha₄cube ha₆notfive especial) horder
 
 end MazurTorsion.OrderThirtyFive
