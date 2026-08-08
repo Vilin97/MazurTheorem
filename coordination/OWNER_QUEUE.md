@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `58ded2e` contains reviewed acceptance
+The combined owner history through `53e3aa1` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -200,6 +200,17 @@ selected five- and eleven-adic marked consumers exclude this branch and force
 `a₄ ∈ 𝔪²` (`12f3f36`). This is not a type-III, regular-model, component-count,
 or identity-component theorem, and it earns no node credit.
 
+The exact-depth-two `a₆` branch is now closed by another pointwise affine
+calculation. For a point at the cusp, `a₄,a₆ ∈ 𝔪²` and `a₆ ∉ 𝔪³` force the
+ordinate to have exact depth one. Its tangent leaves the double at the cusp;
+the following secant either has a pole and enters the formal kernel, has unit
+slope and reduces the triple away from the cusp, or is one of the separately
+checked equal-abscissa cases. Hence `3 • P` and `12 • P` belong to canonical
+nonsingular reduction. The selected five- and eleven-adic consumers force
+`a₆ ∈ 𝔪³` on the same normalized model (`53e3aa1`). Independent review rebuilt
+all six modules and checked the seven public declarations. This is not a
+type-IV, component, or regular-model theorem and earns no node credit.
+
 The order-18 elementary descent now clears the complete orbit denominator.
 For primitive integral parameters it produces an integer quotient `k`, the
 exact identity `m²-n² = k*a*b*(a-b)`, and the square-times-cube Eisenstein norm
@@ -231,6 +242,13 @@ contracts. Every new public declaration was separately kernel-audited to the
 three standard axioms. The global library/consumer axiom executable remains a
 final-build check because running it first requires the explicitly deferred
 full `MazurTorsion` root build.
+
+The immediately following type-IV checkpoint adds one module and 762 net Lean
+lines, for an exact 791-module/1,485,752-line baseline. Its six focused serial
+targets, independent group-law/valuation review, standard-axiom audit,
+forbidden-source scan, and immutable-Challenge check pass. The next local
+boundary is the marked repeated root of the exceptional star cubic, not a
+premature component classification.
 
 The reviewed finite cuspidal range, based on contributor commit `dbf34d0`,
 now discharges that special-fibre equivalence at both selected primes. An
@@ -1203,11 +1221,11 @@ or accounting shortcut.
   active worker is proving the isolated pairwise/direct compatibility from the
   lower tensor and inverse-ideal base-change coherence, with an unconditional
   cocycle as the required consumer.
-- `codex/mt-tate-typeiv-marked`: prove the next pointwise normalized branch
-  where `a₆/ϖ²` has nonzero residue, including the doubling/secant valuation
-  split and actual marked consumers at five and eleven. It must conclude only
-  the required multiple in canonical nonsingular reduction and the next
-  coefficient depth, without importing a Kodaira label or component graph.
+- `codex/mt-tate-star-simple-root`: use the checked `a₄ ∈ 𝔪²`, `a₆ ∈ 𝔪³`
+  model and coordinate-depth lemma to expose the marked root of the exceptional
+  cubic. The simple-root tangent branch must have real five- and eleven-adic
+  consumers; their accepted output is the precise repeated-root datum for the
+  marked point, not a Kodaira label or a global component graph.
 - `codex/mt-x118-primitive-obstruction`: attack the newly isolated primitive
   square-times-cube obstruction directly through Eisenstein UFD, valuation,
   parity, and finite congruence arguments. Any further public reduction must

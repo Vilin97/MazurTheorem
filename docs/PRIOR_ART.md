@@ -949,7 +949,11 @@ the marked double in canonical nonsingular reduction, and the two selected
 consumers force `a₄` into the square of the maximal ideal. The formalization
 does not import Tate's component labels from the paper and still makes no
 strict-transform, regular-model, Kodaira-symbol, or component-incidence
-claim. The `a₆/ϖ²` and deeper weighted branches remain separate work.
+claim. The exact-depth-two `a₆` branch now likewise follows only the affine
+tangent and secant formulas: it puts the marked triple in canonical
+nonsingular reduction, so the selected consumers force `a₆` into the cube of
+the maximal ideal. The exceptional star cubic and deeper weighted branches
+remain separate work.
 
 ## 16. Global code search
 

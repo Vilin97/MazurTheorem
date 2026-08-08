@@ -128,12 +128,16 @@ following remain on the theorem's critical path:
   nonsingular reduction and the same consumers force `a₄ ∈ 𝔪²`. The proof
   splits by ordinate depth: a tangent-slope pole enters the formal kernel, a
   unit slope reduces the double away from the cusp, and the anti-diagonal case
-  doubles to zero. The remaining `a₆/ϖ²` and deeper weighted branches, their
-  affine secant cases, and component incidence are still required. The
-  canonical reduction predicate, subgroup, and marked multiples now transport
-  through the integral unit normalization, so each future normalized-case
-  conclusion can be carried back to the original selected equation without a
-  new geometric assumption.
+  doubles to zero. The next exact-depth-two `a₆` branch is also pointwise:
+  after doubling stays at the cusp, the secant for the triple either has a
+  pole and enters the formal kernel or is a unit and reduces away from the
+  cusp. Real marked consumers therefore force `a₆ ∈ 𝔪³` at five and eleven.
+  The exceptional star-cubic repeated-root analysis, deeper weighted
+  branches, and component incidence are still required. The canonical
+  reduction predicate, subgroup, and marked multiples now transport through
+  the integral unit normalization, so each future normalized-case conclusion
+  can be carried back to the original selected equation without a new
+  geometric assumption.
 
 The point-group shadow of the cyclic quotient is now checked: quotienting by
 the supplied rational cyclic subgroup has the exact kernel, multiplication by

@@ -1889,9 +1889,16 @@ formal kernel; at exact depth one the slope is a unit and the double reduces
 away from the cusp; the anti-diagonal case doubles to zero. Thus `2 • P`, and
 hence `12 • P`, lies in canonical nonsingular reduction. The actual marked
 prime-five and order-35 consumers exclude this branch and force `a₄ ∈ 𝔪²` on
-the same normalized model. The remaining `a₆/ϖ²` and deeper weighted
-branches, their marked affine secant cases, and genuine identity-component
-comparison remain open; no node credit is claimed for this partial handoff.
+the same normalized model. In the exact-depth-two `a₆` branch, the equation
+first makes the ordinate have exact depth one. The tangent then keeps `2 • P`
+at the cusp, while the secant for `P + 2 • P` either has a pole and enters the
+formal kernel or is a unit and reduces the triple away from the cusp; the
+equal-abscissa cases are handled separately. Thus `3 • P`, and hence
+`12 • P`, lies in canonical nonsingular reduction. The selected consumers
+exclude this branch and force `a₆ ∈ 𝔪³` on the same normalized model. The
+exceptional star-cubic repeated-root analysis and its deeper weighted
+branches, together with genuine identity-component comparison, remain open;
+no node credit is claimed for this partial handoff.
 
 The proof sequence is:
 
