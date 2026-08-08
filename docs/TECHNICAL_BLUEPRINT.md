@@ -740,9 +740,29 @@ k\in\{-8,-4,4,8\}.
 
 `FiniteSplitCyclicCubicObstruction` is the remaining four-case integral
 statement.  Its conversion to `PrimitiveCyclicCubicObstruction` and its
-exact-order-eighteen consumer both compile.  The four integral families are
-not yet eliminated, so the immutable `XOneEighteenNoncusp` Challenge remains
-open and no rational-point classification is claimed.
+exact-order-eighteen consumer both compile. A further exhaustive calculation
+modulo 32 proves
+
+\[
+\begin{array}{c|c}
+k=\pm8&m\equiv n\pmod4,\\
+k=\pm4&m\not\equiv n\pmod4.
+\end{array}
+\]
+
+The two norm arguments also satisfy the exact coordinate factorization
+
+\[
+\omega\,(m+n+2n\omega)\,
+  \overline{(3m+n)+(m-n)\omega}
+   =k(a+b\omega)^3.
+\]
+
+These certificates live in the separately named
+`RefinedFiniteSplitCyclicCubicObstruction`; its conversion preserves the old
+four-case public API and reaches a new exact-order consumer. The four integral
+families are not yet eliminated, so the immutable `XOneEighteenNoncusp`
+Challenge remains open and no rational-point classification is claimed.
 
 This is the full elementary/local input to the classical `π=3+ω` descent,
 not its global Jacobian conclusion.  Completion may prove the displayed
@@ -1346,8 +1366,9 @@ index-19 lattice criteria
 \end{aligned}
 \]
 
-the converse split-norm theorem, and a modulo-19 certificate showing that
-primitive `(m,n)` cannot lie in both branches.
+the converse split-norm theorem, and a stronger modulo-19 anisotropy
+certificate showing that primitive `(m,n)` cannot lie in the conjugate branch
+at all.
 
 The rational root is now cleared through all three cusp factors as well.
 For primitive root coordinates `a,b`, Lean obtains an integer `k` with
@@ -1374,12 +1395,20 @@ m^2+4mn-n^2&=k(a^3-3ab^2-b^3),\\
 
 A complete modulo-two calculation forces `m,n` odd.  Explicit
 resultant-four identities imply `k\mid4`, while the first coefficient has
-exact two-adic valuation two; hence `k=-4` or `k=4`.  The strengthened
-descent theorem retains every positivity, primitivity, denominator and cusp
-side condition, while the earlier public descent theorem is preserved as a
-checked projection for API compatibility.  The resulting
-`FiniteSplitCyclicCubicObstruction` has compiled noncuspidal and
-exact-order-thirteen consumers.
+exact two-adic valuation two; hence `k=-4` or `k=4`.  Exact transformations
+of the three root factors and the conic parameters preserve the discriminant
+and all primitive/odd side conditions while moving both signs to the single
+chamber
+
+\[
+k=4,\qquad a>0,\quad b>0,\quad -n<m<n.
+\]
+
+The strengthened descent theorem retains every positivity, primitivity,
+denominator and cusp side condition, while the earlier public descent theorem
+is preserved as a checked projection for API compatibility. The resulting
+`PositiveSplitCyclicCubicObstruction` converts to the old finite boundary and
+has a compiled exact-order-thirteen consumer.
 
 The same file also contains a polynomial Pell certificate.  Independently
 computed polynomials `H` and `K` of degrees `19` and `16`, respectively,
@@ -1403,8 +1432,8 @@ polynomial continued-fraction computation and are independently
 kernel-checked by Lean's `ring`; no external coefficient table or
 unlicensed source was copied.
 
-These calculations still do not classify the rational points: the two
-integral `k` families in `FiniteSplitCyclicCubicObstruction` have not been
+These calculations still do not classify the rational points: the one
+positive chamber in `PositiveSplitCyclicCubicObstruction` has not been
 eliminated, and the immutable Challenge remains open.  Pinned
 mathlib has no genus-two hyperelliptic divisor/Picard/Jacobian
 implementation, so the first missing bridge is to interpret (X13-Pell) as
@@ -1974,9 +2003,15 @@ double reduce away from the cusp; the anti-diagonal case again doubles to
 zero. Thus the simple-root branch puts `2 • P`, hence `12 • P`, in canonical
 nonsingular reduction. Real five- and eleven-adic exact-order consumers rule
 out that branch and return derivative zero for the marked root on the same
-model and uniformizer. The repeated-root analysis and its deeper weighted
-branches, together with genuine identity-component comparison, remain open;
-no Kodaira or component-incidence statement and no node credit is claimed.
+model and uniformizer. At a repeated nonzero root `r`, the double either
+already lies in canonical reduction or remains at the cusp with root `-2r`.
+Its derivative is `9r²`, so the simple-root theorem applied to `2P` puts
+`4 • P`, hence `12 • P`, in the subgroup. The actual arithmetic consumers
+therefore force `r=0`, and the repeated-root equations give
+`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` without changing the model or uniformizer.
+The exact-depth-four and later weighted branches, together with genuine
+identity-component comparison, remain open; no Kodaira or
+component-incidence statement and no node credit is claimed.
 
 The proof sequence is:
 

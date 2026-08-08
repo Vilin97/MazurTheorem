@@ -177,10 +177,14 @@ original model. On that same model and chart uniformizer, the marked
 exceptional-cubic package proves the residue root equation. A simple marked
 root puts the double, hence the twelfth multiple, in the subgroup; the actual
 five- and eleven-adic exact-order consumers therefore force the marked
-derivative to vanish. No strict-transform, chart-coverage, Kodaira-symbol, or
-component-cardinality claim is made. The repeated-root analysis, deeper
-weighted branches, genuine Néron identity-component comparison, and
-marked-class bound remain open, so this node remains blocked.
+derivative to vanish. If the repeated root is nonzero, doubling either enters
+canonical reduction or yields the simple root `-2r` for `2P`; this puts `4P`
+in the subgroup and forces `r=0`. The same equations give
+`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` on the unchanged model. No
+strict-transform, chart-coverage, Kodaira-symbol, or component-cardinality
+claim is made. The exact-depth-four and later weighted branches, genuine
+Néron identity-component comparison, and marked-class bound remain open, so
+this node remains blocked.
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")

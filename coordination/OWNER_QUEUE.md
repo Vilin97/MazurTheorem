@@ -50,7 +50,7 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The combined owner history through `a74668d` contains reviewed acceptance
+The combined owner history through `e2340e2` contains reviewed acceptance
 boundaries. The newest A3 range proves two-stage pullback coherence for the
 pairwise inverse-ideal model, exposes the independently constructed direct
 common-affine comparison, isolates their exact compatibility predicate, and
@@ -241,6 +241,30 @@ repaired the public surface by retaining the stronger theorem under
 consumer compile with standard axioms only. The two integral families and the
 immutable Challenge remain open; no rational-point classification or node
 credit is claimed.
+
+The latest finite-endpoint range narrows both retained genus-two boundaries
+without changing either immutable Challenge or any existing public consumer.
+For order 18, exhaustive mod-32 certificates distinguish the `±4` and `±8`
+families by whether `m` and `n` agree modulo four, while an explicit
+Eisenstein-coordinate identity packages the two norm arguments as `ω` times
+a scalar cube. A separately named refined obstruction converts through the
+byte-preserved four-case API and reaches a real exact-order consumer
+(`1bcb6b1`). For order 13, a mod-19 anisotropy calculation excludes the
+conjugate prime branch, and checked root/parameter symmetries reduce both
+signs to the single chamber `k=4`, `a,b>0`, `-n<m<n`; its positive obstruction
+also reaches the exact-order theorem (`e2340e2`). The remaining X1(13) leaf is
+the genuine Mazur--Tate Jacobian/rank-zero step, and all four X1(18) families
+remain open. No node credit is claimed.
+
+The repeated exceptional-root branch is now checked on the same normalized
+model and uniformizer (`f8fa442`). A repeated nonzero root `r` either sends the
+double directly into canonical nonsingular reduction or produces the simple
+root `-2r` for `2P`, whose derivative is `9r²`; the reviewed simple-root
+theorem then puts `4P`, hence `12P`, in the subgroup. Actual prime-five and
+order-35 consumers force `r=0`, and the residue equations give
+`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴`. This remains pointwise chart algebra, not a
+Kodaira, regular-model, or component-cardinality theorem. The active local
+lane is the exact-depth-four `a₆` branch on this same data.
 
 The level-35 rank-zero model now reaches the abelian-variety side of the
 planned quotient seam. A generic theorem transports finiteness of affine
@@ -1262,22 +1286,23 @@ or accounting shortcut.
   `chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`, pairwise curve
   compatibility, and unconditional cocycle consumer; no raised heartbeat or
   proposition-wrapper bulk is allowed.
-- `codex/mt-tate-star-repeated-root`: the marked root package and simple-root
-  branch are reviewed and integrated. The active lane uses the two repeated-root
-  equations to analyze the nonzero root through the doubled cusp point and the
-  simple root `-2r`; its accepted output is the same-model conclusion `r=0`
-  and coefficient depths `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`, with real five- and
-  eleven-adic consumers and no Kodaira or component-graph assertion.
+- `codex/mt-tate-star-depth-four`: the repeated-root branch is reviewed and
+  integrated through the same-model conclusion `r=0`, `x ∈ 𝔪²`,
+  `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴`. The active lane treats
+  `a₆ ∈ 𝔪⁴ \ 𝔪⁵` pointwise and must return a small marked multiple in
+  canonical nonsingular reduction, with real five- and eleven-adic consumers
+  and no Kodaira or component-graph assertion.
 - `MT-X18-NONCUSP`: the primitive obstruction is reduced to the four signed
-  quotients `-8,-4,4,8`. The next proof must eliminate those integral families
-  through Eisenstein UFD, valuation, congruence, or another checked descent.
+  quotients `-8,-4,4,8`, now separated modulo four and exposed as an explicit
+  scalar-cube product in Eisenstein coordinates. The next proof must lift that
+  identity into the Eisenstein UFD and eliminate the four integral families.
   Any further public reduction needs a compiled exact-order-eighteen consumer;
   the Challenge remains open until the obstruction itself is proved.
-- `MT-X13-NONCUSP`: the primitive obstruction is reduced to `k=-4` and `k=4`.
-  The next proof must eliminate both retained integral families (or complete
-  the independently prepared Jacobian/Pell route) and compile the exact-order-13
-  consumer. The immutable Challenge remains open until that conclusion is
-  unconditional.
+- `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
+  single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
+  conjugate prime above 19. The remaining proof is the genuine Mazur--Tate
+  Jacobian/rank-zero or an equivalent checked elimination of this chamber.
+  The immutable Challenge remains open until that conclusion is unconditional.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The next

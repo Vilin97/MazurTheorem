@@ -66,9 +66,13 @@ The prepared nouns are the Kubert sextic, Pell certificate, and genus-two
 descent data in `MazurTorsion.NumberTheory.XOneThirteenDescent`. The checked
 split-cubic calculation now clears all cusp factors, compares all three
 coefficients, forces the primitive conic parameters odd, and uses a
-resultant-four certificate to reduce the quotient to `k=-4` or `k=4`.
-`FiniteSplitCyclicCubicObstruction` has a real exact-order-thirteen consumer;
-the two integral families, and therefore the Challenge, remain open.
+resultant-four certificate to reduce the quotient to `k=-4` or `k=4`. A
+mod-19 anisotropy certificate excludes the conjugate split-prime orientation,
+and exact root/parameter symmetries reduce both signs to the single chamber
+`k=4`, `a,b>0`, `-n<m<n`.
+`PositiveSplitCyclicCubicObstruction` has a real exact-order-thirteen consumer;
+that genuine Mazur--Tate Jacobian/rank-zero chamber, and therefore the
+Challenge, remains open.
 :::
 
 :::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -82,9 +86,12 @@ The proposed proof finishes the Eisenstein-integer descent already exposed by
 the module. The checked split-cubic calculation now compares all three
 coefficients, forces the primitive conic parameters odd, and uses a
 resultant-sixteen certificate to reduce the quotient to
-`k ∈ {-8,-4,4,8}`. `FiniteSplitCyclicCubicObstruction` has a real
-exact-order-eighteen consumer; the four integral families, and therefore the
-Challenge, remain open.
+`k ∈ {-8,-4,4,8}`. Modulo 32 separates the `±4` and `±8` parameter residues,
+and an explicit Eisenstein-coordinate identity packages the two norm factors
+as a scalar times a cube. The compatibility-preserving
+`RefinedFiniteSplitCyclicCubicObstruction` has a real exact-order-eighteen
+consumer; the four integral families, and therefore the Challenge, remain
+open.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -231,9 +238,12 @@ order at most four, from which the checked bridge derives `12 • P ∈ E₀`.
 On the exact normalized model, the marked exceptional cubic and its chosen
 uniformizer now compile; a simple marked root forces the twelfth multiple
 into `E₀`. The exact order-35 consumer therefore returns a repeated marked
-root on that same model. Its repeated-root and deeper coefficient analysis,
-the genuine Néron identity-component comparison, and the tame Tate--Kodaira
-proof of this marked-class bound remain geometric inputs.
+root on that same model. A nonzero repeated root makes `2P` either enter
+canonical reduction directly or acquire the simple exceptional root `-2r`;
+the resulting `4P` argument forces `r=0` and the same-model depths
+`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`. The exact-depth-four and later weighted
+branches, the genuine Néron identity-component comparison, and the tame
+Tate--Kodaira proof of this marked-class bound remain geometric inputs.
 The model's identification with
 the actual modular quotient, the classifying map, formal immersion, and the
 geometric bad-fibre specialization remain open, so this is not node

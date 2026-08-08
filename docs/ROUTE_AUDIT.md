@@ -135,9 +135,15 @@ following remain on the theorem's critical path:
   A same-model marked exceptional-cubic package now derives its residue root
   equation. The checked tangent split puts the marked double in canonical
   nonsingular reduction whenever that root is simple, so real five- and
-  eleven-adic exact-order consumers force the marked derivative to vanish
-  without a Kodaira or component-incidence claim. The repeated-root analysis,
-  deeper weighted branches, and component incidence are still required. The
+  eleven-adic exact-order consumers force the marked derivative to vanish.
+  For a repeated nonzero root, the doubled cusp point either already enters
+  canonical nonsingular reduction or has exceptional root `-2r`, whose
+  derivative is `9r²`; the simple-root theorem applied to `2P` therefore puts
+  `4P` and then `12P` in the subgroup. The arithmetic consumers force `r=0`
+  and consequently `x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` on the same model and
+  uniformizer, still without a Kodaira or component-incidence claim. The
+  exact-depth-four and later weighted branches and component incidence are
+  still required. The
   canonical reduction predicate, subgroup, and marked multiples now transport
   through the integral unit normalization, so each future normalized-case
   conclusion can be carried back to the original selected equation without a
