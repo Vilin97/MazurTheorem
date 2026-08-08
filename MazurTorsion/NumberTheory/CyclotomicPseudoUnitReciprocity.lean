@@ -122,4 +122,79 @@ theorem unramifiedRadicandIdealRoot_pow_eq_of_dvd_counts
           (PrimeCyclotomicField p) v exps hexps]
   exact Int.mul_ediv_cancel' (hdiv v)
 
+/-- Unit-valued form of the pseudo-unit divisor-root identity. -/
+theorem unramifiedRadicandRootIdeal_pow_eq_of_dvd_counts
+    (E : InverseExtension p L)
+    (hdiv : ∀ v : FinitePrime (PrimeCyclotomicField p),
+      (p : ℤ) ∣ FractionalIdeal.count (PrimeCyclotomicField p) v
+        (FractionalIdeal.spanSingleton
+          (nonZeroDivisors
+            (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+          E.kummerPresentation.radicand)) :
+    E.unramifiedRadicandRootIdeal ^ p =
+      toPrincipalIdeal
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (PrimeCyclotomicField p)
+        (Units.mk0 E.kummerPresentation.radicand
+          (E.kummerPresentation.radicand_ne_zero E)) := by
+  apply Units.ext
+  simpa only [unramifiedRadicandRootIdeal, Units.val_pow_eq_pow_val,
+    Units.val_mk0, coe_toPrincipalIdeal] using
+    E.unramifiedRadicandIdealRoot_pow_eq_of_dvd_counts hdiv
+
+/-- Every value of the raw canonical Kummer/Frobenius symbol has exponent
+dividing `p`, because its target is the group of `p`-th roots of unity. -/
+theorem rawKummerSymbol_pow_eq_one (E : InverseExtension p L)
+    (I : (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ) :
+    (NumberTheory.UnramifiedArtin.fractionalIdealHom
+      (fun v =>
+        (E.galEquiv.symm.trans (E.kummerPresentation.pairing E))
+          (E.artinSymbol v)) I) ^ p = 1 := by
+  apply Subtype.ext
+  exact (NumberTheory.UnramifiedArtin.fractionalIdealHom
+    (fun v =>
+      (E.galEquiv.symm.trans (E.kummerPresentation.pairing E))
+        (E.artinSymbol v)) I).2
+
+/-- Consequently, the raw canonical Kummer/Frobenius symbol kills every
+`p`-th power in the fractional-ideal group. -/
+theorem rawKummerSymbol_pow_ideal_eq_one (E : InverseExtension p L)
+    (I : (FractionalIdeal
+      (nonZeroDivisors
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+      (PrimeCyclotomicField p))ˣ) :
+    NumberTheory.UnramifiedArtin.fractionalIdealHom
+        (fun v =>
+          (E.galEquiv.symm.trans (E.kummerPresentation.pairing E))
+            (E.artinSymbol v)) (I ^ p) = 1 := by
+  rw [map_pow]
+  exact E.rawKummerSymbol_pow_eq_one I
+
+/-- The pseudo-unit divisor condition alone makes the raw symbol vanish on
+the principal fractional ideal of the canonical radicand.  The missing
+one-sided reciprocity theorem is the distinct assertion with an arbitrary
+principal ideal in the denominator slot. -/
+theorem rawKummerSymbol_principalRadicand_eq_one_of_dvd_counts
+    (E : InverseExtension p L)
+    (hdiv : ∀ v : FinitePrime (PrimeCyclotomicField p),
+      (p : ℤ) ∣ FractionalIdeal.count (PrimeCyclotomicField p) v
+        (FractionalIdeal.spanSingleton
+          (nonZeroDivisors
+            (NumberField.RingOfIntegers (PrimeCyclotomicField p)))
+          E.kummerPresentation.radicand)) :
+    NumberTheory.UnramifiedArtin.fractionalIdealHom
+        (fun v =>
+          (E.galEquiv.symm.trans (E.kummerPresentation.pairing E))
+            (E.artinSymbol v))
+      (toPrincipalIdeal
+        (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+        (PrimeCyclotomicField p)
+        (Units.mk0 E.kummerPresentation.radicand
+          (E.kummerPresentation.radicand_ne_zero E))) = 1 := by
+  rw [← E.unramifiedRadicandRootIdeal_pow_eq_of_dvd_counts hdiv]
+  exact E.rawKummerSymbol_pow_ideal_eq_one E.unramifiedRadicandRootIdeal
+
 end NumberTheory.CyclotomicCharacter.InverseExtension
