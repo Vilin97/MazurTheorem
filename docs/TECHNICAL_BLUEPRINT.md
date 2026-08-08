@@ -1446,9 +1446,26 @@ polynomial continued-fraction computation and are independently
 kernel-checked by Lean's `ring`; no external coefficient table or
 unlicensed source was copied.
 
-These calculations still do not classify the rational points: the one
-positive chamber in `PositiveSplitCyclicCubicObstruction` has not been
-eliminated, and the immutable Challenge remains open.  Pinned
+The positive chamber now has an integral companion to this function-field
+identity. Lean constructs
+
+\[
+c=(m^2+n^2)/2>0
+\]
+
+and checks the homogeneous sextic equation, the dehomogenized rational curve
+point, and coprimality of `c` with the primitive root ordinate. Homogenized
+versions of `H` and `K` give two positive factors whose product is
+`4*b^38`. No odd prime divides both factors, and every odd prime divisor of
+`b` divides exactly one. This is packaged as
+`PositivePellAllocatedFactorObstruction` and reaches the exact-order-thirteen
+consumer. It is a genuine global narrowing, not the missing conclusion:
+turning the prime allocation into the required 38th-power or divisor-class
+statement remains open.
+
+These calculations still do not classify the rational points: the allocated
+Pell factors in the one positive chamber have not been globally eliminated,
+and the immutable Challenge remains open. Pinned
 mathlib has no genus-two hyperelliptic divisor/Picard/Jacobian
 implementation, so the first missing bridge is to interpret (X13-Pell) as
 the displayed principal-divisor identity and construct the Abel--Jacobi
@@ -1751,8 +1768,14 @@ sections. The global-functions action is transported back explicitly rather
 than registered as a global typeclass instance; native H0 functor maps are
 linear for this action and keep the same underlying function. The affine
 tilde consumer is linear over the coefficient ring and transfers finite
-generation. Coherence, affine acyclicity, proper finite-dimensionality, H1,
-and positive-degree vanishing remain open.
+generation. On `Spec R`, tilde full faithfulness now reflects an epimorphism of
+actual quasicoherent modules to an epimorphism and hence a surjection on
+global sections. Naturality of the genuine H0 comparison makes the induced
+Ext-based H0 map surjective as a compiled downstream consumer. This is H0
+right exactness, not positive-degree affine acyclicity. The finite-cover and
+cokernel quasicoherent closure lemmas, local killing or an equivalent
+acyclicity proof, proper finite-dimensionality, H1, and higher vanishing remain
+open.
 
 The checked absolute precursor
 `AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted
@@ -1806,6 +1829,15 @@ quotient, kills the genuine subgroup point map, and intertwines both
 descended multiplication-by-`N` maps. This does not construct the quotient
 scheme or identify its rational points with `E(K)/C(K)`; that latter step
 also requires control of the fppf connecting class.
+
+The reverse classifying-data direction now compiles as well. The closed
+immersion makes the map from a represented split subgroup injective on
+`K`-points; its coordinate image is cyclic of exact order `N` and therefore
+defines the existing raw rational subgroup and `RationalDatum`. Applied to the
+canonical split finite-flat construction, recovery returns the original
+carrier and the full datum. Exact order 49 is an actual downstream consumer.
+This round trip deliberately stops below `E/C`, coarse representability, and
+the proof that the resulting modular point is noncuspidal.
 
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic

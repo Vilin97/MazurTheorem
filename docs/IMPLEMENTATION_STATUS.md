@@ -36,8 +36,11 @@ Current machine-checked results include:
   orders at least eleven;
 * a checked raw rational cyclic-subgroup datum, exact-order generator
   construction, and a direct conditional order-49 consumer of the two-cusp
-  `X₀(49)(ℚ)` classification; the actual coarse classifying map and
-  explicit-model identification remain open;
+  `X₀(49)(ℚ)` classification. A represented split finite-flat subgroup now
+  recovers a rational cyclic subgroup of exact order `N`, and the canonical
+  construction round-trips the full raw datum with exact order 49 as a
+  consumer; the actual quotient `E/C`, coarse classifying map, noncuspidality,
+  and explicit-model identification remain open;
 * a second checked finite normalization/enumeration over `F₁₁`, proving
   `#E(F₁₁) ≤ 18` for every elliptic Weierstrass equation and supplying
   the exact-order-35 reduction-fibre contradiction;
@@ -141,6 +144,11 @@ Current machine-checked results include:
   class. This is an absolute group-valued precursor, not the relative Picard
   functor, Jacobian variety, or Abel--Jacobi scheme morphism, so no D1, E1, or
   F1 credit is claimed;
+* genuine Ext-based H0 for actual `Scheme.Modules`, naturally and linearly
+  identified with global sections. On an affine spectrum, epimorphisms of
+  quasicoherent modules induce surjections on global sections and H0. The
+  positive-degree affine-acyclicity, coherence, and proper finiteness layers
+  remain open, so no coherent-cohomology credit is claimed;
 * `#E[2](F) ≤ 4`, `#E[4](F) ≤ 16`, and `#E[3](ℚ) ≤ 9`;
 * non-embedding of `(ℤ/2ℤ)^3`, `(ℤ/3ℤ)^2`, and `(ℤ/4ℤ)^2` into the
   relevant rational point groups;
@@ -201,7 +209,10 @@ Current machine-checked results include:
   genus-two sextic, its order-six symmetry and conic quotient, the complete
   primitive split-`19` norm data, and an independently derived
   degree-`(19,16)` polynomial Pell certificate for the difference of the
-  two infinity branches;
+  two infinity branches. Integral homogenization now gives two positive Pell
+  factors with product `4*b^38`, no common odd prime, and exact allocation of
+  every odd prime divisor of `b`; the global 38th-power/divisor-class
+  elimination remains open;
 * the order-eighteen reduction from its simultaneous order-nine and
   two-division equations through a rational parameterization to the
   explicit genus-two `X₁(18)` sextic, with every denominator retained;

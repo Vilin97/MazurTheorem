@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1503103,
-    "integrated_lean_modules": 815,
+    "integrated_lean_lines": 1504008,
+    "integrated_lean_modules": 818,
     "remaining_composite_orders": [
       18,
       25,
@@ -532,7 +532,44 @@
       "weight_points": 26,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-13 model has no rational affine point with x different from 0 and -1. The checked primitive split descent clears all three cusp factors, derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -4 or 4. A mod-19 anisotropy certificate orients every primitive root away from the conjugate prime above 19. Exact diamond/root and conic-parameter symmetries then reduce both signs to one positive chamber with k=4, a,b>0, and -n<m<n. This positive obstruction has a compiled exact-order-13 consumer; its genuine Mazur--Tate Jacobian/rank-zero elimination remains open.",
+      "summary": "Show that the explicit genus-two order-13 model has no rational affine point with x different from 0 and -1. The checked primitive split descent clears all three cusp factors, derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -4 or 4. A mod-19 anisotropy certificate orients every primitive root away from the conjugate prime above 19. Exact diamond/root and conic-parameter symmetries then reduce both signs to one positive chamber with k=4, a,b>0, and -n<m<n. In that chamber, integral homogenization constructs a positive ordinate c=(m^2+n^2)/2, proves the homogeneous Pell identity, factors its product as 4*b^38, excludes common odd-prime support, and allocates every odd prime divisor of b to exactly one factor. The resulting allocated-factor obstruction has a compiled exact-order-13 consumer. Its global 38th-power/divisor-class elimination, and hence the genuine Mazur--Tate Jacobian/rank-zero conclusion, remain open.",
+      "artifacts": [
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.positive_split_rational_curve_point",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
+          "description": "Dehomogenize every positive primitive split datum to an actual rational point on the order-thirteen sextic with its canonical positive integral ordinate."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.homogeneous_pell_identity",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
+          "description": "Check the degree-38 homogeneous Pell identity for the explicit degree-19 and degree-16 certificates."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.odd_prime_pell_factor_allocation",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
+          "description": "Prove that the two positive Pell factors have no common odd prime and allocate each odd prime divisor of b to exactly one factor."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.XOneThirteenDescent.PositivePellAllocatedFactorObstruction",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
+          "description": "Name the remaining global allocated-factor obstruction without claiming the unproved divisor-class elimination."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellAllocatedFactor",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
+          "description": "Carry the honest allocated-factor boundary through the existing descent to the exact-order-thirteen consumer."
+        }
+      ],
       "depends_on": [
         "MT-BASE-INTEGRATED"
       ],
@@ -1107,7 +1144,7 @@
       "weight_points": 10,
       "risk": "high",
       "backend": "mazur",
-      "summary": "Use the shared cyclic-subgroup moduli bridge: an exact order-49 point gives a noncuspidal X_0(49)(Q) point, contradicting the already checked two-cusp classification. No additivity proof for the explicit Velu point function is needed.",
+      "summary": "Use the shared cyclic-subgroup moduli bridge: exact order 49 now constructs a genuine represented split finite-flat source whose recovered rational datum is the original cyclic-subgroup datum. The remaining map from that datum to a noncuspidal X_0(49)(Q) point will contradict the already checked two-cusp classification. No additivity proof for the explicit Velu point function is needed.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -1115,6 +1152,13 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
           "description": "Consume a noncuspidal classifying map from presentation-independent rational cyclic-subgroup data to the checked two-cusp X_0(49) model."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
+          "description": "Construct the represented split finite-flat source from exact order 49 and prove that forgetting it recovers the original raw rational Gamma_0 datum."
         }
       ],
       "depends_on": [
@@ -2861,7 +2905,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. Coherence, affine acyclicity, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, an epimorphism now induces an epimorphism and hence a surjection on global sections; a genuine Ext-based H0 consumer proves the corresponding H0 map surjective. Coherence, positive-degree affine acyclicity, the quasicoherent finite-cover/cokernel closure needed by a Cech or Kempf proof, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2959,6 +3003,27 @@
           "state": "contract",
           "description": "Transfer finite generation from an affine coefficient module to its actual Ext-based degree-zero cohomology.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffine"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecGlobalSections_epi_of_epi",
+          "state": "contract",
+          "description": "Reflect an epimorphism of actual quasicoherent modules on Spec R through tilde full faithfulness to an epimorphism on coefficient modules and global sections.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecGlobalSections_surjective_of_epi",
+          "state": "contract",
+          "description": "Obtain elementwise surjectivity on affine global sections from the checked categorical epimorphism result.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHZero_surjective_of_epi",
+          "state": "contract",
+          "description": "Consume the genuine Ext-based H0/global-sections naturality square to prove affine H0 surjective on epimorphisms of quasicoherent modules.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineExact"
         }
       ],
       "depends_on": [
@@ -5392,7 +5457,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion compile; every split rational cyclic subgroup supplies the constant finite-flat carrier with exact point range. The concrete reduced proper projective cubic has a checked bijective comparison with Mathlib projective points and an integral standard affine chart. Three coordinate charts prove the ambient projective-plane field square is a pullback. The affine and infinity equation charts are prime over every field extension, form an actual open cover with nonempty overlap, and commute with scalar extension by checked pullback/pushout squares. Thus the cubic is integral even in the singular case; every field pullback is reduced and integral, the structure map is geometrically integral, and the canonical reduction map and ambient-compatible mapped-cubic comparison are unconditional. The mapped standard chart has exactly the canonical D_+(Z) range, yielding a canonical chart isomorphism, dense range, and an unconditional StandardChartComparison with Tau Ceti and finite-flat Gamma_0 consumers. Homogeneous Weierstrass negation defines an involutive automorphism over Spec K and agrees with Mathlib point negation. The actual infinity section [0:1:0] is fixed by that involution; for any supplied compatible group object, addition and cancellation identify its abstract unit morphism with this concrete section, and the generic finite-flat Gamma_0 consumer uses that equality. A genuine multiplication law is not constructed. A pointed Picard/Jacobian isomorphism and its multiplicative point comparison must still supply the group object and point-map compatibility. E/C and the coarse X_0 classifying point remain absent.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer. Genuine finite-locally-free closed subgroup schemes, base change, constant cyclic order, and a split Gamma_0 datum from exact torsion compile; every split rational cyclic subgroup supplies the constant finite-flat carrier with exact point range. Conversely, the image on rational points of an arbitrary represented split finite-flat subgroup is now a rational cyclic subgroup of exact order N, and the finite-flat construction followed by this recovery returns the original raw RationalDatum. The order-49 transfer consumes the actual exact-torsion finite-flat source and recovers its original rational datum. The concrete reduced proper projective cubic has a checked bijective comparison with Mathlib projective points and an integral standard affine chart. Three coordinate charts prove the ambient projective-plane field square is a pullback. The affine and infinity equation charts are prime over every field extension, form an actual open cover with nonempty overlap, and commute with scalar extension by checked pullback/pushout squares. Thus the cubic is integral even in the singular case; every field pullback is reduced and integral, the structure map is geometrically integral, and the canonical reduction map and ambient-compatible mapped-cubic comparison are unconditional. The mapped standard chart has exactly the canonical D_+(Z) range, yielding a canonical chart isomorphism, dense range, and an unconditional StandardChartComparison with Tau Ceti and finite-flat Gamma_0 consumers. Homogeneous Weierstrass negation defines an involutive automorphism over Spec K and agrees with Mathlib point negation. The actual infinity section [0:1:0] is fixed by that involution; for any supplied compatible group object, addition and cancellation identify its abstract unit morphism with this concrete section, and the generic finite-flat Gamma_0 consumer uses that equality. A genuine multiplication law is not constructed. A pointed Picard/Jacobian isomorphism and its multiplicative point comparison must still supply the group object and point-map compatibility. E/C and the coarse X_0 classifying point remain absent.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -6113,6 +6178,41 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCubicChartDensity",
           "description": "Verify constant order for the finite-flat subgroup produced by the canonical chart consumer."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData",
+          "description": "Recover a rational cyclic subgroup of exact order N as the image on rational points of an actual represented split finite-flat closed subgroup."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitSubgroupCoordinatePointHom_injective",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData",
+          "description": "Use the genuine closed immersion to prove that the represented subgroup map is injective on rational points."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum_ofRationalCyclicSubgroup",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData",
+          "description": "Prove that the canonical finite-flat construction followed by rational-point recovery returns the original cyclic subgroup."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalDatumOfSplitGammaZeroDatum_ofRationalDatum",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData",
+          "description": "Prove the full raw RationalDatum round trip for the represented split finite-flat construction."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
+          "description": "Consume exact rational order 49, construct its represented split finite-flat source, and recover the original rational classifying datum."
         }
       ],
       "depends_on": [

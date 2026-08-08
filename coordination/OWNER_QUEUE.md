@@ -90,9 +90,32 @@ linear with unchanged underlying functions, and the affine comparison is
 linear over the coefficient ring and transfers finite generation (`f623e29`,
 reviewed from contributor `d5b5749`, instance-scope repaired by `972f425`).
 The transported actions are reducible named definitions, not global
-instances. This is still only the honest H0 foundation: coherence, affine
-acyclicity, proper finite-dimensionality, H1, and higher vanishing remain
-open, so MT-TC-B1 receives no completion credit.
+instances. On `Spec R`, an epimorphism of actual quasicoherent modules now
+induces an epimorphism and an elementwise surjection on global sections by
+tilde full faithfulness; naturality of the genuine Ext H0 comparison gives a
+compiled H0-surjectivity consumer (`74a7383`, reviewed from contributor
+`99c1dc5`). This is still only the honest H0 and right-exact boundary:
+positive-degree affine acyclicity, the required quasicoherent closure lemmas,
+proper finite-dimensionality, H1, and higher vanishing remain open, so
+MT-TC-B1 receives no completion credit.
+
+The split finite-flat X0 lane now has the inverse point-level handoff below
+coarse representability. The image of the genuine closed immersion on
+rational points is a cyclic subgroup of exact order `N`; for the canonical
+finite-flat subgroup, both its carrier and the full raw `RationalDatum` recover
+the original input. Exact order 49 is a downstream consumer through an actual
+represented finite-flat source (`9c6628f`, reviewed from contributor
+`8a403ce`). This does not construct `E/C`, a coarse `X_0(N)` point, or prove
+noncuspidality, so neither MT-X0-MODULI nor MT-O49-TOWER receives credit.
+
+The positive X1(13) chamber now dehomogenizes to the rational sextic using the
+canonical positive integral ordinate, checks the homogeneous Pell identity,
+factors it as a product equal to `4*b^38`, excludes common odd-prime support,
+and allocates every odd prime divisor of `b` to exactly one positive factor.
+The named allocated-factor obstruction reaches the actual exact-order-13
+consumer (`30667fb`, reviewed from contributor `f182a07`). The global
+38th-power/divisor-class elimination remains open, so no Challenge or node is
+closed.
 
 The rational-section boundary no longer asks callers to prove that a section
 misses the generic point. A section of an integral smooth relative curve is a
@@ -277,7 +300,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 815 Lean modules and 1,503,103 Lean lines.
+exact quality baseline is 818 Lean modules and 1,504,008 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -336,18 +359,25 @@ only the standard axiom closure.
 The repaired scalar-linear H0 and affine finite-generation targets rebuild
 through 2,765 jobs with no warnings; all ten new public declarations have the
 same standard axiom closure.
+The represented finite-flat inverse classifying-data target and its order-49
+consumer rebuild through 2,823 and 8,720 jobs respectively; the four audited
+round-trip declarations use only the three standard axioms. The positive
+X1(13) Pell-allocation target rebuilds 1,999 jobs, and all nine audited
+endpoints have that same axiom closure. The affine quasicoherent H0-exactness
+target rebuilds 2,765 jobs; its three audited declarations likewise use only
+the standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
-workers are pursuing the positive split-cubic/Jacobian leaf for X₁(13), the
-next scalar-linear/coherent layer above actual scheme-module H0, and the
-direct cyclic-subgroup moduli datum needed by the reviewed X₀ route. The
-reviewed A3 lower comparisons, finite-family one-way fppf refinement,
-represented point-quotient comparison, and derived rational-section
-non-genericity are integrated;
+worker is pursuing the global four-variable/Jacobian leaf for X1(18); the next
+owner dispatches target the represented integral cusp and the focused
+finite-flat rank-zero path. The reviewed A3 lower comparisons, finite-family
+one-way fppf refinement, represented point-quotient comparison, derived
+rational-section non-genericity, split finite-flat inverse datum, affine H0
+right exactness, and X1(13) Pell allocation are integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
 open. The represented integral cusp chart remains queued for the prime-five
 and level-35 consumers. The finite-flat lane still also needs the independent
@@ -1178,6 +1208,10 @@ within each lane follows the listed order.
    tensor-additivity, and Picard surjectivity; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
+   Actual affine quasicoherent epimorphisms now give surjections on global
+   sections and on Ext-based H0. Next prove the quasicoherent closure needed
+   for the finite affine cover/cokernel construction and the positive-degree
+   local-killing step; do not count H0 right exactness as affine acyclicity.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
@@ -1357,7 +1391,11 @@ within each lane follows the listed order.
    constructs this finite-flat datum directly from its intrinsic carrier; its
    point homomorphism is subgroup inclusion with exact range, while generator
    choice is confined to the constant-`ZMod` splitness isomorphism. Raw rational
-   Γ₀ data is a concrete consumer. A genuine Tau Ceti abelian variety plus a comparison
+   Γ₀ data is a concrete consumer. Conversely, every represented split datum
+   now recovers a rational cyclic subgroup of exact order `N`; the canonical
+   construction round-trips both that subgroup and the full raw
+   `RationalDatum`, with exact order 49 as a compiled consumer. A genuine Tau
+   Ceti abelian variety plus a comparison
    of its scheme-valued rational points with Mathlib's projective Weierstrass
    points now supplies the interface and compiles in the exact-torsion
    consumer. The actual homogeneous projective cubic now exists as a reduced
@@ -1624,8 +1662,12 @@ or accounting shortcut.
   FourScalar consumers retained in the aggregate.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
-  conjugate prime above 19. The remaining proof is the genuine Mazur--Tate
-  Jacobian/rank-zero or an equivalent checked elimination of this chamber.
+  conjugate prime above 19. Integral homogenization now supplies the positive
+  ordinate, checks the degree-38 Pell factorization, proves its two factors
+  share no odd prime, and allocates each odd prime divisor of `b` to exactly
+  one factor. The remaining proof is the global 38th-power/divisor-class
+  elimination, hence the genuine Mazur--Tate Jacobian/rank-zero result or an
+  equivalent checked elimination of this chamber.
   The immutable Challenge remains open until that conclusion is unconditional.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
