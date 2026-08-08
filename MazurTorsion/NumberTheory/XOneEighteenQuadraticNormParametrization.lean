@@ -99,6 +99,30 @@ theorem exists_primitive_parameter_of_int_quadraticNorm
     exact_mod_cast slope.den_pos
   · simpa only [p, q] using Rat.isCoprime_num_den slope
 
+/-- The fixed bihomogeneous `(3,2)` form left after eliminating the square
+coordinate from the parametrized quadratic norm.  Its zero locus in
+`ℙ¹ × ℙ¹` is the explicit genus-two leaf for the next global descent. -/
+def antiDiagonalNormParametricBidegreeForm (r s p q : ℤ) : ℤ :=
+  antiDiagonalNormReal r s * p * q +
+    2 * r * (r ^ 2 - s ^ 2) * (q ^ 2 - 2 * p ^ 2)
+
+/-- The two conic-projection identities eliminate `c` and force the fixed
+bihomogeneous equation. -/
+theorem antiDiagonalNormParametricBidegreeForm_eq_zero
+    (r s c p q : ℤ) (hq : q ≠ 0)
+    (hlinear : antiDiagonalNormSqrtNegTwo r s * q =
+      p * (c + antiDiagonalNormReal r s))
+    (hfirst : 2 * antiDiagonalNormReal r s * q ^ 2 =
+      (c + antiDiagonalNormReal r s) * (q ^ 2 - 2 * p ^ 2)) :
+    antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
+  simp only [antiDiagonalNormSqrtNegTwo] at hlinear
+  have htwice : 2 * antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
+    apply mul_right_cancel₀ hq
+    simp only [antiDiagonalNormParametricBidegreeForm]
+    linear_combination
+      p * hfirst - (q ^ 2 - 2 * p ^ 2) * hlinear
+  linarith
+
 /-! ## Excluding the tangent and consuming an order-eighteen point -/
 
 /-- The imaginary norm coefficient cannot vanish on the primitive
@@ -192,7 +216,8 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
       2 * antiDiagonalNormReal r s * q ^ 2 =
         (c + antiDiagonalNormReal r s) * (q ^ 2 - 2 * p ^ 2) ∧
       2 * c * q ^ 2 =
-        (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) := by
+          (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) ∧
+      antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
   obtain ⟨w, z, hw1, hanti, hinverse⟩ :=
     exists_antiDiagonal_point_of_orderEighteen_point x y hcurve
   obtain ⟨r, s, c, hs, hrs, hw, hc, hnorm, hgcd⟩ :=
@@ -212,8 +237,11 @@ theorem exists_primitive_normParameter_of_orderEighteen_noncuspidal_point
     intro hp
     rw [hp, zero_mul] at hlinear
     exact himag ((mul_eq_zero.mp hlinear).resolve_right (ne_of_gt hq))
+  have hform : antiDiagonalNormParametricBidegreeForm r s p q = 0 :=
+    antiDiagonalNormParametricBidegreeForm_eq_zero
+      r s c p q (ne_of_gt hq) hlinear hfirst
   refine ⟨r, s, c, p, q, hs, hrs, ?_, hc, hnorm, hgcd,
-    himag, htangent, hq, hp0, hpq, hlinear, hfirst, hsecond⟩
+    himag, htangent, hq, hp0, hpq, hlinear, hfirst, hsecond, hform⟩
   rw [← hw]
   exact hinverse
 
@@ -248,7 +276,8 @@ theorem exists_primitive_normParameter_of_exact_order_eighteen
         2 * antiDiagonalNormReal r s * q ^ 2 =
           (c + antiDiagonalNormReal r s) * (q ^ 2 - 2 * p ^ 2) ∧
         2 * c * q ^ 2 =
-          (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) := by
+            (c + antiDiagonalNormReal r s) * (q ^ 2 + 2 * p ^ 2) ∧
+        antiDiagonalNormParametricBidegreeForm r s p q = 0 := by
   obtain ⟨b, c₀, u, r₀, d, t, _hu, _hb, _hc, _hbc, _hr,
     _hdEq, _hd0, _hd1, _hcparam, _hbparam, _htEq, _hnine, _htwo,
     _haux, _hden, hx0, hx1, hcurve, _hdisc⟩ :=
