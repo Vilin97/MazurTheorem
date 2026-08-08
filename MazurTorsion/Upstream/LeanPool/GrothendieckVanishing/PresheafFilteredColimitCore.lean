@@ -48,7 +48,7 @@ theorem isSheaf_of_isColimit_of_isSheaf
 
 /-- On a Noetherian space, `sheafToPresheaf` creates filtered colimits of sheaves by
     applying `isSheaf_of_isColimit_of_isSheaf` to the underlying presheaf diagram. -/
-@[implicit_reducible]
+@[instance_reducible]
 noncomputable def createsFilteredColimit
     {X : TopCat.{u}} [NoetherianSpace X]
     {J' : Type u} [SmallCategory J'] [IsFiltered J']
