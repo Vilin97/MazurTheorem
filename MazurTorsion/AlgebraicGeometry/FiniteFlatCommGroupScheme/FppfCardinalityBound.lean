@@ -53,6 +53,25 @@ end CertifiedData
 
 namespace BoundedData
 
+/-- Pull a finite cardinal upper bound back along an injective homomorphism.  The source carrier
+is not assumed finite separately. -/
+def ofInjective {p : ℕ} {A : Type u} {B : Type v} [CommGroup A] [CommGroup B]
+    (target : BoundedData p B) (f : A →* B) (hf : Function.Injective f) :
+    BoundedData p A := by
+  letI : Finite B := target.finite
+  letI : Finite A := Finite.of_injective f hf
+  exact
+    { finite := inferInstance
+      length := target.length
+      card_le := (Nat.card_le_card_of_injective f hf).trans target.card_le }
+
+@[simp]
+theorem ofInjective_length {p : ℕ} {A : Type u} {B : Type v}
+    [CommGroup A] [CommGroup B] (target : BoundedData p B)
+    (f : A →* B) (hf : Function.Injective f) :
+    (target.ofInjective f hf).length = target.length :=
+  rfl
+
 /-- Transport a finite cardinal upper bound across a multiplicative equivalence. -/
 def congr {p : ℕ} {A : Type u} {B : Type v} [CommGroup A] [CommGroup B]
     (D : BoundedData p A) (e : A ≃* B) : BoundedData p B := by

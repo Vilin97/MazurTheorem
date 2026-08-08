@@ -4,8 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalSections
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatBadFiberHZero
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalSections
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFlatGlobalSections
 import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler
 
@@ -320,6 +321,58 @@ theorem fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized
     hprime bound
   simpa [hconstantLength, hmuLength, Nat.add_assoc,
     Nat.add_left_comm, Nat.add_comm] using hbound
+
+/-- In the constant-kernel ordering, actual closed-fibre control replaces the caller-supplied
+cardinality bound on supported cokernel sections.  The only numerical cost is the checked
+length-one ambient constant group on the prime level fibre. -/
+theorem
+    fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized_closedFiber
+    (hprime : coeffPrime.Prime) (hprime2 : coeffPrime ≠ 2)
+    (hlevel : level.Prime) (datum : MuFlatDatum coeffPrime level)
+    (D : FppfExtensionPresentation
+      (mazurConstantFlat coeffPrime level) G (muFlat coeffPrime level datum))
+    (localizationData :
+      MazurConstantFlatHOneLocalizationData coeffPrime level)
+    (closedFiberControl :
+      MazurConstantFlatBadFiberClosedFiberControl coeffPrime level)
+    (ambientConstantHOneData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantAmbientFppfHOne coeffPrime))
+    (quotientHOneData : FinitePGroup.BoundedData coeffPrime
+      (muFlat coeffPrime level datum).FppfHOne.{0})
+    (bound : ℕ)
+    (hbound : 1 + ambientConstantHOneData.length +
+      quotientHOneData.length ≤ bound) :
+    Nat.card G.FppfHOne.{0} ≤ coeffPrime ^ bound := by
+  apply fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized
+    hprime hprime2 hlevel datum D localizationData
+    (closedFiberControl.boundedData hlevel) ambientConstantHOneData
+    quotientHOneData bound
+  simpa using hbound
+
+/-- The reverse factor ordering consumes the same actual closed-fibre comparison and likewise
+removes a free cardinality certificate for the supported cokernel section group. -/
+theorem
+    fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized_closedFiber
+    (hprime : coeffPrime.Prime) (hprime2 : coeffPrime ≠ 2)
+    (hlevel : level.Prime) (datum : MuFlatDatum coeffPrime level)
+    (D : FppfExtensionPresentation
+      (muFlat coeffPrime level datum) G (mazurConstantFlat coeffPrime level))
+    (kernelHOneData : FinitePGroup.BoundedData coeffPrime
+      (muFlat coeffPrime level datum).FppfHOne.{0})
+    (localizationData :
+      MazurConstantFlatHOneLocalizationData coeffPrime level)
+    (closedFiberControl :
+      MazurConstantFlatBadFiberClosedFiberControl coeffPrime level)
+    (ambientConstantHOneData : FinitePGroup.BoundedData coeffPrime
+      (MazurConstantAmbientFppfHOne coeffPrime))
+    (bound : ℕ)
+    (hbound : kernelHOneData.length + 1 +
+      ambientConstantHOneData.length ≤ bound) :
+    Nat.card G.FppfHOne.{0} ≤ coeffPrime ^ bound := by
+  apply fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized
+    hprime hprime2 hlevel datum D kernelHOneData localizationData
+    (closedFiberControl.boundedData hlevel) ambientConstantHOneData bound
+  simpa using hbound
 
 end FppfLowDegreeExactSequence
 
