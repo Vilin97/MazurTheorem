@@ -60,7 +60,13 @@ affine quasicoherent cokernel closure with its genuine Ext-`H⁰` consumer
 (`6641d79`), and the normalized order-25 degree-40 endpoint (`689655d`).
 The finite affine restriction-pushforward cover module and its quasicoherent
 cokernel now compile (`bde0414`); this is the structural cover handoff for
-Kempf dimension shifting, not affine acyclicity.
+Kempf dimension shifting, not affine acyclicity. The sheaf condition now proves
+the cover map monic for every actual open cover, and its canonical cokernel
+complex is short exact (`37a30f5`). The actual supported constant-flat
+cokernel sections, inclusion-induced global `H¹` map, and localization
+exactness boundary are now a typed handoff; both factor orderings consume it
+through carrier-preserving endpoint bounds (`6eb0919`, API-repaired by
+`48331ad`). Neither the boundary nor its endpoint bounds are asserted.
 The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
@@ -117,10 +123,11 @@ quasicoherence; the canonical cokernel projection is a compiled Ext-`H⁰`
 surjectivity consumer (`07b3ad6`). Finite products on an affine spectrum and
 pushforwards between affine schemes preserve quasicoherence. Consequently the
 actual finite product of affine restriction-pushforwards is quasicoherent, as
-is the cokernel of its adjunction-unit map (`bde0414`). Monicity of that map,
-positive-degree local killing and affine acyclicity, proper
-finite-dimensionality, H1, and higher vanishing remain open, so MT-TC-B1
-receives no completion credit.
+is the cokernel of its adjunction-unit map (`bde0414`). The sheaf condition on
+an actual open cover proves that map monic, and the cover-module/cokernel
+complex is short exact (`37a30f5`). Positive-degree local killing and affine
+acyclicity, proper finite-dimensionality, H1, and higher vanishing remain open,
+so MT-TC-B1 receives no completion credit.
 
 The split finite-flat X0 lane now has the inverse point-level handoff below
 coarse representability. The image of the genuine closed immersion on
@@ -505,15 +512,26 @@ all 1,987 jobs from source in 156 seconds; its explicit factorization,
 marked-order endpoint, and arbitrary-curve consumer again use only those
 axioms. The finite affine-cover target rebuilds all 2,770 jobs. Its
 finite-product, affine-pushforward, cover-module, and cover-cokernel
-declarations use only the same standard axiom closure.
+declarations use only the same standard axiom closure. The cover-map mono
+target rebuilds all 2,771 jobs; both its monicity theorem and canonical
+short-exact consumer have that closure. The localized bad-level Euler target
+rebuilds all 3,110 jobs after owner review decoupled the endpoint universes and
+narrowed the localization module's imports. Six audited localization,
+bounded-cardinality, and factor-order consumers use only the standard closure.
+The recovered `codex/mt-cuspidal-finite` and
+`codex/mt-fiber-stalk-naturality` worktrees are clean and pushed. Their unique
+commits are patch-equivalent to the already integrated `6e1a994` and
+`7d0b653`, respectively, so no orphaned local change remains to merge.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the A3 diagonal normalized cocycle and an honest global
-bad-fibre localization boundary for the constant-flat `H¹` endpoint. The
+workers are pursuing the A3 diagonal normalized cocycle and the next
+positive-degree affine local-killing boundary. The constant-flat localization
+boundary and its two actual endpoints are now precisely typed, but remain to
+be constructed and bounded. The
 normalized order-25 model and both quasi-finite bad-level Euler
 specializations are integrated. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
@@ -1359,9 +1377,10 @@ within each lane follows the listed order.
    sections and on Ext-based H0. Ambient cokernels of quasicoherent morphisms
    are now quasicoherent, with the canonical cokernel projection as a checked
    Ext-H0 consumer. The finite affine restriction-pushforward cover object and
-   its cokernel are now genuine quasicoherent modules. Next prove the cover map
-   is mono from the sheaf condition, then construct the positive-degree
-   local-killing step; do not count this structural cover construction as
+   its cokernel are now genuine quasicoherent modules. The sheaf condition now
+   proves the cover map mono and yields the canonical short exact complex.
+   Next construct the positive-degree local-killing map and perform the
+   dimension shift; do not count the structural short exact sequence as
    affine acyclicity.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
@@ -1517,9 +1536,15 @@ within each lane follows the listed order.
    equivalence with sheaves on the open, recollement, and a cohomological
    localization sequence remain absent. The typed two-factor quasi-finite
    Euler consumers now discharge all `H⁰`, exactness, and middle-finiteness
-   inputs in both factor orders. The actual bad-level extension presentation
-   and ambient/global constant and multiplicative `H¹` endpoint calculations
-   remain. The numerical Kummer rank-zero theorem and its actual
+   inputs in both factor orders. Carrier-preserving upper bounds now propagate
+   through exact pairs. A typed localization datum fixes the actual supported
+   constant-flat cokernel sections and genuine inclusion-induced `H¹` map;
+   both factor orders consume its boundary/exactness plus supported and
+   ambient endpoint bounds, with no global constant-flat `H¹` certificate.
+   Constructing that boundary and exactness, bounding its actual supported
+   `H⁰`, and bounding the ambient constant-group `H¹` remain, as do the actual
+   bad-level extension presentation and multiplicative endpoint. The numerical
+   Kummer rank-zero theorem and its actual
    represented-`H1` two-factor admissible-filtration consumers now compile.
    Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
    cohomology certificates, and the torsion-cardinality equality. Then finish

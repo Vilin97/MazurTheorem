@@ -903,9 +903,11 @@ projection is surjective on genuine Ext-based H0. Positive-degree affine
 acyclicity remains open. Finite products of quasicoherent modules on an affine
 spectrum and pushforwards between affine schemes are now quasicoherent. Hence
 the actual finite product of affine restriction-pushforwards, and the cokernel
-of its adjunction-unit map, are quasicoherent. Monicity of that map and local
-killing of positive-degree classes remain open, as do proper
-finite-dimensionality, H1, and higher vanishing.
+of its adjunction-unit map, are quasicoherent. For every actual open cover,
+the sheaf condition proves that this adjunction-unit map is monic; the
+resulting canonical cokernel complex is short exact. Local killing of
+positive-degree classes remains open, as do proper finite-dimensionality, H1,
+and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -974,6 +976,12 @@ finite-dimensionality, H1, and higher vanishing.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_isQuasicoherent`
   Consume affine cokernel closure for the actual cover-map cokernel.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_mono`
+  Prove cover-map monicity sectionwise from the actual sheaf condition.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_shortExact`
+  Form the canonical short exact cover-module/cokernel sequence.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

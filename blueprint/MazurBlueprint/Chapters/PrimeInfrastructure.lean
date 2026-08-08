@@ -654,6 +654,22 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient`
 * `theorem` (`contract`):
   `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient`
+* `structure` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData`
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData.middleOfMulExact`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberHZero`
+* `structure` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData`
+* `definition` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData.globalHOneBoundedData`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
 * `theorem` (`contract`):
@@ -760,11 +776,16 @@ are the product evaluations, the singleton is proved fppf through the finite sig
 and `FppfHOne.class_pullback` identifies the resulting global classes. This is only the valid
 singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
 cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
-vanishing is claimed. An open-sheaf equivalence and global cohomological localization sequence
-are still absent. The rank-zero route must construct the actual bad-level extension
-presentation and prove the global constant-flat and multiplicative-flat `H¹` endpoint
-certificates and their length bound. Focused rank-zero specialization therefore remains open,
-and no node credit is claimed.
+vanishing is claimed. Carrier-preserving upper cardinal bounds now propagate across an exact
+pair. The constant-flat localization interface fixes the terminal sections of the actual
+supported cokernel sheaf and the actual inclusion-induced global `H¹` map. Given its boundary
+and exactness, a supported-`H⁰` bound, and an ambient constant-group `H¹` bound, both bad-level
+factor orderings feed the Euler estimate without a global constant-flat `H¹` certificate. The
+boundary, exactness, and endpoint bounds are not manufactured. An open-sheaf equivalence and
+global cohomological localization sequence are still absent. The rank-zero route must construct
+those localization inputs, the actual bad-level extension presentation, and the remaining
+multiplicative-flat endpoint bound. Focused rank-zero specialization therefore remains open, and
+no node credit is claimed.
 :::
 
 :::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")

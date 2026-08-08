@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1508970,
-    "integrated_lean_modules": 829,
+    "integrated_lean_lines": 1509451,
+    "integrated_lean_modules": 832,
     "remaining_composite_orders": [
       18,
       25,
@@ -3068,7 +3068,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. Coherence, positive-degree affine acyclicity, monicity of the cover map, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. Coherence, positive-degree affine acyclicity, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3243,6 +3243,20 @@
           "state": "contract",
           "description": "Consume affine cokernel closure to prove quasicoherence of the cokernel of the actual finite-cover map.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_mono",
+          "state": "contract",
+          "description": "Use the sheaf condition on an actual open cover to prove that the restriction-adjunction cover map is monic.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCoverMono"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.affineCoverCokernel_shortExact",
+          "state": "contract",
+          "description": "Consume cover-map monicity in the canonical short exact sequence from a scheme module to its cover module and cokernel.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineCoverMono"
         }
       ],
       "depends_on": [
@@ -5099,6 +5113,62 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
           "description": "Provide the reverse factor-order specialization with the same checked p^0 endpoint and middle point certificates."
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfCardinalityBound",
+          "description": "Package finiteness and an upper p-power cardinal bound while preserving the actual commutative-group carrier."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData.middleOfMulExact",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfCardinalityBound",
+          "description": "Propagate two endpoint cardinal bounds across an exact pair, with independent carrier universes."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteFppfQuotientEuler",
+          "description": "Run the genuine quasi-finite Euler estimate from endpoint upper bounds rather than exact endpoint cardinalities."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberHZero",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization",
+          "description": "Fix the terminal-section carrier of the actual supported constant-flat fppf cokernel sheaf."
+        },
+        {
+          "kind": "structure",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization",
+          "description": "Record exactly a boundary from actual supported cokernel sections and exactness against the genuine constant-flat inclusion map on global H1."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData.globalHOneBoundedData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.ConstantFlatGlobalHOneLocalization",
+          "description": "Derive the global constant-flat H1 bound from the actual localization exact pair and its two endpoint bounds."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
+          "description": "Replace the global constant-flat H1 certificate in the constant-kernel Euler consumer by the actual localization datum and endpoint bounds."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.QuasiFiniteBadLevelEuler",
+          "description": "Provide the reverse factor-order localized Euler consumer with the same actual supported-sheaf handoff."
         },
         {
           "kind": "theorem",
