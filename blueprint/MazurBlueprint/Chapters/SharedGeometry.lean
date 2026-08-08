@@ -1051,8 +1051,11 @@ effective divisor-cocycle/global-principal-boundary construction is a compiled d
 consumer of the same translation law. For the chosen divisor line bundles, changing basepoint
 is now an actual isomorphism to the old bundle tensored with the explicit weighted
 point-difference correction bundle, and a second theorem consumes that isomorphism in scheme
-Picard. These are normalization inputs for the future morphism, not a morphism of schemes and
-not a proof of the universal property, base change, or closed immersion.
+Picard. An actual rational section of a smooth integral curve now constructs its codimension-one
+point, derives residue-degree weight one from the section law, and feeds directly to this
+group-valued Abel--Jacobi normalization. These are normalization inputs for the future morphism,
+not a morphism of schemes and not a proof of the universal property, base change, or closed
+immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1089,6 +1092,18 @@ not a proof of the universal property, base change, or closed immersion.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.weightedAbelJacobiLineBundle_toPic_change_base`
   Consume the bundle isomorphism in the exact scheme-Picard translation equality.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection`
+  Package a represented rational section with its section law and non-generic image.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection.toCodimensionOnePoint`
+  Construct the section's codimension-one point and derive residue-degree weight one.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiClass`
+  Feed represented rational sections to the checked absolute scheme-Picard normalization.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiClass_sub_coe`
+  Identify the class difference with the Picard image of the point-difference divisor.
 :::
 
 :::definition "MT-EC-ISOGENY-WEIL" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, mathlib") (priority := "high") (effort := "large")
@@ -1115,6 +1130,14 @@ prerequisites of the prime theorem.
   `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.dualMap_ker`
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.variableChangePointQuotientEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.finiteFlatSubgroupPointRange_eq_map`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.representedPointQuotientMap_comp_finiteFlatSubgroupPointHom`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.representedPointQuotientEquiv`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.representedPointQuotientEquiv_dualMap`
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
 * `theorem` (`proposed`):
@@ -1124,7 +1147,12 @@ The abstract rational point-group quotient now has the exact supplied kernel.
 Multiplication by the level descends to a dual map, both composites are level
 multiplication, and the dual kernel is the image of the full level-torsion
 kernel. These maps are natural under point-group isomorphisms, with an actual
-admissible Weierstrass variable-change consumer. Representability by an
-elliptic quotient scheme and its base-change law remain open, so this node
-receives no completion credit.
+admissible Weierstrass variable-change consumer. For the genuine split
+finite-flat subgroup in a supplied represented Weierstrass group scheme, its
+rational-point image is now exactly the transported coordinate subgroup; the
+resulting point quotients and descended multiplication maps agree.
+Representability by an elliptic quotient scheme, its geometric kernel, and
+its base-change law remain open. In particular this does not identify the
+rational points of a quotient scheme with the quotient of rational points,
+so this node receives no completion credit.
 :::

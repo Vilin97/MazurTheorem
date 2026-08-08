@@ -1742,6 +1742,14 @@ base-point, collision, difference, point-divisor, and principal-divisor
 normalizations and has a chosen line-bundle consumer from the exact divisor
 dictionary. It deliberately does not construct the relative Picard functor,
 representing scheme, Jacobian variety, or Abel--Jacobi scheme morphism.
+`AlgebraicGeometry/PicardRationalSectionAbelJacobi.lean` removes the abstract
+weight-one premise at the rational-point boundary: an actual section of a
+smooth integral relative curve, together with its non-genericity, constructs
+the associated codimension-one point, and the section law proves its residue
+degree is one. Two such represented sections feed directly to the absolute
+scheme-Picard Abel--Jacobi class; its basepoint, difference-divisor, and
+collision/linear-equivalence laws are checked. This remains a group-valued
+shadow, not a represented Abel--Jacobi morphism.
 
 The split `X₀` lane now has a concrete reduced proper projective Weierstrass
 cubic. Homogeneous evaluation gives an injective map from Mathlib projective
@@ -1767,6 +1775,14 @@ standard chart with the canonical dense `D₊(Z)` open. The resulting
 unconditional chart comparison reaches actual Tau Ceti and finite-flat
 split-`Γ₀` consumers. The genuine group object, point-map multiplicativity,
 the cyclic quotient `E/C`, and the coarse modular point remain open.
+For any supplied Weierstrass group-scheme comparison, the actual split
+finite-flat cyclic subgroup's `K`-points are now proved to have exactly the
+transported coordinate subgroup as their image. Quotienting represented
+source points by that image agrees with the existing coordinate point
+quotient, kills the genuine subgroup point map, and intertwines both
+descended multiplication-by-`N` maps. This does not construct the quotient
+scheme or identify its rational points with `E(K)/C(K)`; that latter step
+also requires control of the fppf connecting class.
 
 The finite-flat files are retained for the finite-Mordell--Weil proof of the
 Eisenstein quotient, not for global semistability of the source elliptic

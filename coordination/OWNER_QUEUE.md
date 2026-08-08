@@ -55,6 +55,27 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The shared Picard handoff now accepts actual rational sections rather than
+only abstract codimension-one points with caller-supplied weight equations.
+Smooth relative dimension one turns each explicitly non-generic section image
+into a codimension-one point, and the section law proves residue degree one.
+The resulting section-level Abel--Jacobi class reaches basepoint-zero,
+point-difference, and collision/linear-equivalence consumers in the actual
+scheme Picard group (`9796266`). This remains group-valued and does not
+represent `Pic⁰`, construct a Jacobian, or produce an Abel--Jacobi scheme
+morphism.
+
+The cyclic-quotient lane now compares the genuine split finite-flat subgroup
+inside a supplied Weierstrass group scheme with the existing coordinate
+point-group quotient (`39bedf1`, reviewed from contributor `0569d36`). Its
+actual `K`-point image is exactly the transported rational cyclic subgroup;
+the represented point quotient kills the subgroup point map, is canonically
+equivalent to the coordinate quotient, and carries the same descended
+multiplication-by-the-level map. This is deliberately not a quotient scheme.
+The elliptic quotient, geometric kernel and base-change law remain open, and
+no identification `(E/C)(K) = E(K)/C(K)` is made without controlling the
+connecting `H¹(K,C)` class.
+
 The affine cusp handoff now begins with only a represented structural section.
 After base change to the residue field, its retraction is surjective; the
 kernel therefore gives a canonical maximal and closed point of the special
@@ -192,7 +213,7 @@ The concrete
 projective cubic now has its actual infinity section; negation fixes it, and
 any supplied compatible group object's unit is forced to equal it
 (`99a722e`). Neither checkpoint completes its node. No Challenge changed. The
-exact quality baseline is 807 Lean modules and 1,501,073 Lean lines.
+exact quality baseline is 809 Lean modules and 1,501,607 Lean lines.
 
 Checkpoint verification rebuilds `PrimeOrder.GoodReductionAtFive`, the
 canonical X₀ cubic chart/Gamma₀ consumer, and the order-35 abelian-variety
@@ -232,6 +253,11 @@ The import-layer repair independently rebuilds the new 2,380-job base, the
 The scheme-Picard Abel--Jacobi adapter rebuilds its 3,545-job closure; its six
 class-level and two bundle-level basepoint-transport declarations use only
 `propext`, `Classical.choice`, and `Quot.sound`.
+The rational-section Picard adapter rebuilds its 3,547-job closure; all seven
+audited construction and consumer declarations use only those same three
+standard axioms. The represented finite-flat point quotient rebuilds in a
+combined 3,609-job owner target, and its thirteen contributor-audited theorem
+endpoints have the same axiom closure.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
@@ -239,9 +265,11 @@ target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. The active
 workers are pursuing the A3 normalized-transition/effectivity seam, the honest
-represented-fppf-to-tensor-unit cocycle comparison, and the
-represented elliptic quotient/dual seam needed by the coarse `X₀` moduli
-point. The represented integral cusp chart remains queued for the prime-five
+represented-fppf-to-tensor-unit cocycle comparison, and the removal of the
+explicit non-genericity premise from rational sections of proper smooth
+curves. The reviewed represented point-quotient comparison is integrated;
+the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
+open. The represented integral cusp chart remains queued for the prime-five
 and level-35 consumers. The finite-flat lane still also needs the independent
 constant-factor global `H¹` calculation, while X₁(18) now returns to its fixed
 genus-two Jacobian or complete-descent leaf.
