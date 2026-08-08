@@ -86,10 +86,21 @@ The positive chamber now also reaches the integral Pell-factor boundary:
   `MazurTorsion.XOneThirteenDescent.PositivePellAllocatedFactorObstruction`
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellAllocatedFactor`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.positive_pell_half_factors_isCoprime`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.positive_pell_factor_power_split`
+* `definition` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.PositivePellPowerSplitObstruction`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellPowerSplit`
 
 The two positive factors multiply to `4*b^38`, have no common odd prime, and
-allocate each odd prime divisor of `b` to exactly one factor. The global
-38th-power/divisor-class elimination remains open.
+allocate each odd prime divisor of `b` to exactly one factor. Removing the
+forced scalar two makes the two halves coprime at every prime, so unique
+factorization produces positive coprime `r,s` with factors `2*r^38` and
+`2*s^38` and with `b=r*s`. The fixed degree-38 cover's global rational-point
+elimination remains open.
 :::
 
 :::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
@@ -175,6 +186,31 @@ over $`\mathbb{Q}` has exact additive order 25.
 destination theorem is
 `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_twentyFive`, bridged by
 `MazurTheorem.Challenge.no_rational_point_of_order_twentyFive`.
+
+The checked forward reduction now exposes:
+
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.nsmul_origin_eq_successiveCoordinates`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.tateSuccessiveX_ne_zero_of_marked_order_twentyFive`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.tateClearedCoordinates_spec`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveClearedEquation_eq_zero_of_marked_order`
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.exists_tateOrderTwentyFive_recurrence_certificate`
+
+Index `n` in the reusable recurrence is `(n+2)P`. Exact order 25 proves all
+abscissas at indices at most ten nonzero, which is exactly the denominator
+input needed to compare `12P` and `13P`; their sum is zero, so their
+abscissas agree. A parallel numerator-denominator recurrence contains no
+division, has proved nonzero denominators, and cross-multiplies this collision
+to a fixed polynomial expression. The arbitrary-curve consumer retains both
+equations, the denominator certificates, and the twelfth-power discriminant
+scale. A tractable reduced or birational model and its complete rational-point
+classification remain open.
 :::
 
 :::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-X0-MODULI, MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-COMPONENTS, MT-NERON-SPECIALIZATION") (tags := "proof, research-open, compiled, mazur, formal-immersion") (priority := "high") (effort := "medium")

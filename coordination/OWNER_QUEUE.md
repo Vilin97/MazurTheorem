@@ -47,7 +47,10 @@ bundle pullback compatibility and its full common-affine cocycle,
 structural-section Hecke-eigen complete-DVR formal immersion, split level-35
 degeneracy bridge, unconditional order-35 model finiteness, the terminal
 weighted-depth/minimality contradictions at five and eleven, and the
-no-component formal-immersion arithmetic consumers. The ledger still has
+no-component formal-immersion arithmetic consumers, the global X1(13) Pell
+power split (`034eaac`), the denominator-checked and fraction-free X1(25)
+recurrences (`600422d`, `350024a`), and the represented polynomial cusp chart
+with five- and eleven-adic consumers (`b838e9d`). The ledger still has
 48 nodes / 1,000 points: nine completed nodes worth 157 points and 39
 unfinished nodes. No
 weight, public node ID, or Challenge was removed; the reviewed Tau Ceti A1
@@ -116,6 +119,40 @@ The named allocated-factor obstruction reaches the actual exact-order-13
 consumer (`30667fb`, reviewed from contributor `f182a07`). The global
 38th-power/divisor-class elimination remains open, so no Challenge or node is
 closed.
+
+That X1(13) factor boundary is now global rather than prime-by-prime. The
+forced scalar two is removed from both positive factors; their halves are
+proved coprime, including a separate prime-two argument, and integer unique
+factorization gives positive coprime `r,s` with factors `2*r^38`, `2*s^38`
+and `b=r*s`. The resulting fixed-cover obstruction reaches the actual
+exact-order-13 consumer (`034eaac`, reviewed from contributor `774e8a7`).
+The global nonexistence of rational points on those two fixed degree-38
+equations remains open, so the immutable Challenge and node credit are
+unchanged.
+
+The previously empty order-25 destination now contains a checked forward
+Tate-normal-form reduction. A reusable recurrence identifies index `n` with
+`(n+2)P`; exact order 25 proves all abscissas through index ten nonzero, which
+are precisely the secant denominators required to construct `12P` and `13P`.
+The relation `13P=-12P` then gives a rational-function equation, and an actual
+arbitrary-curve consumer retains the denominator certificate and twelfth-power
+discriminant scale (`600422d`, independently reviewed). A subsequent
+fraction-free recurrence proves its own denominator specification and
+cross-multiplies the collision to a fixed polynomial expression without any
+division. Reducing that expression to a tractable birational model and
+classifying its noncuspidal rational points remain open, so
+`MT-O25-EXCLUDE` receives no completion credit.
+
+The integral-cusp lane now constructs the actual represented polynomial chart
+`Spec R[t]` and its zero structural section. In every prime fibre the selected
+cusp prime is `(t)`; after localization the parameter `q` generates the
+maximal ideal, is nonzero, and does not lie in its square. The resulting
+geometry feeds a genuine `Spec.map` Hecke/q-expansion formal-immersion theorem
+and both the prime-five and order-35-at-eleven arithmetic endpoints
+(`b838e9d`, reviewed from contributor `40ca630`). This chart is not yet an
+open neighbourhood on integral `X₀(N)`: the modular chart comparison,
+infinity-section identification, quotient collision, and nontrivial optimal-
+quotient q-expansion remain open. No node credit is claimed.
 
 The rational-section boundary no longer asks callers to prove that a section
 misses the generic point. A section of an integral smooth relative curve is a
@@ -401,20 +438,30 @@ bihomogeneous equation, use only the same three standard axioms.
 The finite-flat Kummer rank-zero target rebuilds all 3,086 jobs. Its two
 numerical theorems and two actual represented-`H1` admissible-filtration
 consumers use only the standard three axioms.
+The global X1(13) power-split target rebuilds all 2,001 jobs, and its audited
+factor-coprimality, unique-factorization, fixed-cover, and exact-order
+declarations use only the standard three axioms. The order-25 target rebuilds
+all 1,986 jobs; the rational and fraction-free recurrence specifications,
+cleared collision, and arbitrary-curve certificate have the same axiom
+closure. The represented polynomial cusp chart rebuilds all 8,751 jobs; nine
+audited section, fibre-prime, q-parameter, formal-immersion, and arithmetic
+consumer declarations again use only those three standard axioms.
 `scripts/quality.py` passes with 48 nodes, 1,000 points, 11 registered
 contracts, and the exact source baseline above. Challenge immutability against
 `origin/main` and its mutation self-test pass. The aggregate `Challenge`
 target builds 8,789 jobs with exactly the eight registered open `:= sorry`
 warnings. The official Verso blueprint build and topology check pass; their
 only warnings are inherited from the pinned Verso dependencies. Active
-workers are pursuing the represented integral cusp geometry at five and
-eleven and the global X1(13) allocated-Pell-factor leaf. The reviewed A3 lower comparisons, finite-family
+workers are pursuing the A3 named cocycle, a tractable cleared order-25
+model, and transport of the polynomial cusp chart across a genuine affine
+coordinate equivalence. The reviewed A3 lower comparisons, finite-family
 one-way fppf refinement, represented point-quotient comparison, derived
 rational-section non-genericity, split finite-flat inverse datum, affine H0
 right exactness, and X1(13) Pell allocation are integrated;
 the elliptic quotient scheme needed by the coarse `X₀` moduli point remains
-open. The represented integral cusp chart remains queued for the prime-five
-and level-35 consumers. The finite-flat lane still also needs the independent
+open. The represented polynomial cusp chart and its prime-five and level-35
+consumers are integrated, but its identification with the integral modular
+curve remains open. The finite-flat lane still also needs the independent
 constant-factor global `H¹` calculation, while X₁(18) now returns to its fixed
 genus-two Jacobian or complete-descent leaf.
 
@@ -1706,12 +1753,20 @@ or accounting shortcut.
 - `MT-X13-NONCUSP`: exact symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. Integral homogenization now supplies the positive
-  ordinate, checks the degree-38 Pell factorization, proves its two factors
-  share no odd prime, and allocates each odd prime divisor of `b` to exactly
-  one factor. The remaining proof is the global 38th-power/divisor-class
-  elimination, hence the genuine Mazur--Tate Jacobian/rank-zero result or an
-  equivalent checked elimination of this chamber.
+  ordinate and checks the degree-38 Pell factorization. The forced scalar two
+  is removed from both factors, their halves are coprime at every prime, and
+  unique factorization produces the fixed cover
+  `H+cK=2*r^38`, `cK-H=2*s^38`, `b=r*s` with positive coprime roots. The
+  remaining proof is the global nonexistence of this fixed cover, hence the
+  genuine Mazur--Tate Jacobian/rank-zero result or an equivalent checked
+  elimination of this chamber.
   The immutable Challenge remains open until that conclusion is unconditional.
+- `MT-O25-EXCLUDE`: exact order now reaches the denominator-checked Tate
+  recurrence equation `x(13P)=x(12P)` and its fraction-free cross-multiplied
+  expression with a real arbitrary-curve consumer. Normalize or factor that
+  fixed expression into a tractable birational model, retain all noncuspidal
+  denominator conditions, and complete its rational-point classification.
+  The recursive equation is a forward reduction, not the endpoint theorem.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The actual
@@ -1743,9 +1798,12 @@ or accounting shortcut.
   the actual prime-five cusp collision and the order-35 eleven-adic local
   endpoint. The mapped degree-one interface now narrows the remaining input to
   the quotient residue map, one-dimensional cotangent target, and one detected
-  vector, with full five- and eleven-adic consumers. The owner is driving the
-  actual modular special-fibre stalk identification, q-expansion calculation,
-  represented modular/cusp specialization, and optimal-quotient equality.
+  vector, with full five- and eleven-adic consumers. The represented
+  polynomial cusp chart now constructs the principal q-ideal and its nonzero
+  cotangent class and reaches both arithmetic endpoints. The owner is driving
+  its identification with the actual modular special-fibre stalk, the
+  q-expansion calculation, represented modular/cusp specialization, and
+  optimal-quotient equality.
 - `codex/mt-neron-additivity`: the canonical component/residue/formal
   boundary and both checked downstream consumers are integrated. The actual
   nonsingular-reduction domain, coordinate map, negation closure, exact formal

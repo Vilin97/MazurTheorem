@@ -1152,6 +1152,20 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_structuralSection`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_structuralSection`
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.zeroSection`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.fiberPrime_eq_span`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.maximalIdeal_eq_span_qParameter`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.qParameter_not_mem_maximalIdeal_sq`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_polynomialCuspAtFive`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_polynomialCuspAtEleven`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -1201,7 +1215,13 @@ algebra retraction, prime-comap equality, and both residue surjections, with
 final consumers at five and eleven. The integral cusp model, its quotient-ideal/stalk
 identification, modular affine presentation, inhabitant of that section
 structure, generator and non-square proofs, and the actual modular q-expansion
-remain open. This node receives no completion credit.
+remain open. Independently, the represented polynomial chart `Spec R[t]` now
+constructs its zero section, identifies the fibre prime and localized maximal
+ideal with the coordinate, proves the coordinate survives modulo the square,
+and reaches the actual prime-five and order-35-at-eleven arithmetic consumers.
+It is not identified with an integral modular-curve neighbourhood; that
+comparison and the optimal-quotient q-expansion remain open. This node receives
+no completion credit.
 :::
 
 :::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")

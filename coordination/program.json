@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1504670,
-    "integrated_lean_modules": 820,
+    "integrated_lean_lines": 1505759,
+    "integrated_lean_modules": 822,
     "remaining_composite_orders": [
       18,
       25,
@@ -532,7 +532,7 @@
       "weight_points": 26,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-13 model has no rational affine point with x different from 0 and -1. The checked primitive split descent clears all three cusp factors, derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -4 or 4. A mod-19 anisotropy certificate orients every primitive root away from the conjugate prime above 19. Exact diamond/root and conic-parameter symmetries then reduce both signs to one positive chamber with k=4, a,b>0, and -n<m<n. In that chamber, integral homogenization constructs a positive ordinate c=(m^2+n^2)/2, proves the homogeneous Pell identity, factors its product as 4*b^38, excludes common odd-prime support, and allocates every odd prime divisor of b to exactly one factor. The resulting allocated-factor obstruction has a compiled exact-order-13 consumer. Its global 38th-power/divisor-class elimination, and hence the genuine Mazur--Tate Jacobian/rank-zero conclusion, remain open.",
+      "summary": "Show that the explicit genus-two order-13 model has no rational affine point with x different from 0 and -1. The checked primitive split descent clears all three cusp factors, derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -4 or 4. A mod-19 anisotropy certificate orients every primitive root away from the conjugate prime above 19. Exact diamond/root and conic-parameter symmetries then reduce both signs to one positive chamber with k=4, a,b>0, and -n<m<n. In that chamber, integral homogenization constructs a positive ordinate c=(m^2+n^2)/2 and proves the homogeneous Pell identity. After removing the forced scalar two, the two positive factors are coprime even at the prime two; unique factorization therefore gives H+cK=2*r^38, cK-H=2*s^38, and b=r*s for positive coprime r,s. The resulting fixed-cover obstruction has a compiled exact-order-13 consumer. Its global rational-point elimination, and hence the genuine Mazur--Tate Jacobian/rank-zero conclusion, remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -568,6 +568,34 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneThirteenPositivePell",
           "description": "Carry the honest allocated-factor boundary through the existing descent to the exact-order-thirteen consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.positive_pell_half_factors_isCoprime",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit",
+          "description": "Remove the forced scalar two and prove the resulting positive Pell factors coprime, including at the prime two."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.positive_pell_factor_power_split",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit",
+          "description": "Use integer unique factorization to express the two halves as positive coprime thirty-eighth powers whose roots multiply to b."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.XOneThirteenDescent.PositivePellPowerSplitObstruction",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit",
+          "description": "Name the fixed two-equation power-split cover left by the global Pell factorization."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellPowerSplit",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit",
+          "description": "Consume the fixed-cover obstruction in the actual exact-order-thirteen exclusion path."
         }
       ],
       "depends_on": [
@@ -785,7 +813,51 @@
       "weight_points": 16,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25.",
+      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence now computes (n+2)P from index n, proves every secant denominator through 13P nonzero from exact order 25, and derives x(13P)=x(12P). A fraction-free recurrence then cross-multiplies that collision to a fixed polynomial expression, with a discriminant-scaled arbitrary-curve consumer. Reducing this expression to a tractable birational Diophantine model and classifying its noncuspidal rational points remain open.",
+      "artifacts": [
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.nsmul_origin_eq_successiveCoordinates",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.TateNormalFormMultiples",
+          "description": "Compute (n+2)P by a reusable Tate recurrence under exactly the preceding nonzero abscissa hypotheses."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.tateSuccessiveX_ne_zero_of_marked_order_twentyFive",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFive",
+          "description": "Deduce every secant denominator needed through 13P from exact order 25."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.tateClearedCoordinates_spec",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.TateNormalFormMultiples",
+          "description": "Represent the rational Tate recurrence by a division-free numerator-denominator recurrence with proved nonzero denominators."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFive",
+          "description": "Derive the explicit rational-function collision x(13P)=x(12P) on Tate normal form."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFiveClearedEquation_eq_zero_of_marked_order",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFive",
+          "description": "Cross-multiply the 12P/13P collision to the fixed fraction-free X_1(25) recurrence expression."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.exists_tateOrderTwentyFive_recurrence_certificate",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFive",
+          "description": "Normalize an arbitrary exact-order-25 rational point to the recurrence locus while retaining all denominators and discriminant scale."
+        }
+      ],
       "depends_on": [
         "MT-BASE-INTEGRATED"
       ],
@@ -6320,7 +6392,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. A checked affine structural section derives its coordinate-ring retraction, canonically selects the special-fibre prime as the kernel of the residue-field base change, proves that point maximal and closed, and supplies both residue surjections. Its arithmetic consumers at five and eleven carry the formal immersion through the unconditional weighted-depth endpoints without a caller-chosen fibre point. The actual integral modular cusp section and affine presentation, its generator and non-square proofs, the represented quotient collision, and the genuine optimal-quotient q-expansion identity remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Quotient Nakayama, affine-fibre localization naturality, canonical Spec stalk maps, a principal q-generated cusp ideal, and a localized first-order identity now prove formal immersion of a genuine Spec.map. The represented polynomial chart Spec R[t] constructs its zero section, identifies every fibre cusp prime with (t), proves the localized maximal ideal is generated by q with q not in its square, and supplies prime-5 and order-35-at-11 arithmetic consumers. Identifying an actual integral X_0(N) infinity neighbourhood with this chart, and proving the represented quotient collision and genuine optimal-quotient q-expansion identity, remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -6635,6 +6707,55 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers",
           "description": "Use the canonical fibre point of a characteristic-eleven structural cusp section in the unconditional order-35 endpoint."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.zeroSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Represent evaluation at zero on the polynomial cusp coordinate as an actual affine structural section."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.fiberPrime_eq_span",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Identify the canonical special-fibre point selected by the zero section with the principal coordinate ideal."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.maximalIdeal_eq_span_qParameter",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Prove that the localized special-fibre maximal ideal is generated by the constructed q-parameter."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.qParameter_not_mem_maximalIdeal_sq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Prove directly that the polynomial q-parameter has a nonzero cotangent class."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Consume the constructed cusp geometry and a quotient-side Hecke eigen-expansion in a genuine Spec.map formal-immersion theorem."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_polynomialCuspAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Feed the represented polynomial cusp geometry into the prime-order arithmetic endpoint at five."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_polynomialCuspAtEleven",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Feed the same represented cusp geometry into the order-35 arithmetic endpoint at eleven."
         },
         {
           "kind": "theorem",
