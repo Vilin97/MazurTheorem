@@ -545,9 +545,14 @@ The strongest concrete reuse candidates are:
 * [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
   Cech comparison machinery, exact sequences, and
   [`orderedBaseCechHomologyFinite_of_isProper`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149).
-  These cover meaningful parts of coherent cohomology but not the packaged
-  proper-curve finite-dimensionality, vanishing-above-one, relative base
-  change, or semicontinuity APIs required by the roadmap.
+  The option-free long exact sequence and exact additive-sheaf forgetful
+  functor are now retained as attributed ports. A checked local consumer
+  proves that an affine-cover inclusion is injective on `H^(n + 1)` whenever
+  `H^n` of its actual cokernel vanishes. The full affine-vanishing result is
+  not claimed: constructing the local-killing cover and proving that
+  cokernel hypothesis remain open. Nor does this prior art provide the
+  packaged proper-curve finite-dimensionality, vanishing-above-one, relative
+  base change, or semicontinuity APIs required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).

@@ -156,7 +156,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Three file-level Apache-2.0 modules were selected from the AINTLIB
+Five file-level Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`:
@@ -165,14 +165,27 @@ Three file-level Apache-2.0 modules were selected from the AINTLIB
 |---|---|
 | `ForMathlib/CartierDual.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/CartierDual.lean` |
 | `ForMathlib/SheafOfModulesMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafOfModulesMonoidal.lean` |
+| `ForMathlib/SchemeModuleSheaf.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleSheaf.lean` |
+| `ForMathlib/SheafCohomologyExact.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SheafCohomologyExact.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 
-Each file retains Chris Birkbeck's copyright, authorship, and Apache-2.0
-header. The port preserves declarations and namespaces. Local changes are
-limited to repointing the one internal import, removing source-level
-`set_option` commands, replacing linter-reported goal conversions with
-`change`, explicitly omitting unused section variables, and using `erw` at
-one semireducible sheaf-map rewrite required by the immutable Mathlib pin.
+Each file carries Chris Birkbeck's copyright, authorship, and Apache-2.0
+attribution. The port preserves declarations and namespaces. The
+`SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
+source-preserving modulo formatting and syntax modernization; they compile
+directly at the immutable pin. Changes to the other three files are limited
+to repointing the one internal import, removing source-level `set_option`
+commands, replacing linter-reported goal conversions with `change`,
+explicitly omitting unused section variables, and using `erw` at one
+semireducible sheaf-map rewrite required by the immutable Mathlib pin.
+
+The retained exact-sequence core and exact additive-sheaf forgetful functor
+are consumed by
+`MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module
+proves the injective long-exact-sequence step for the actual affine-cover
+short exact sequence. It does not import AINTLIB's full affine-vanishing
+proof: the local-killing and cokernel-vanishing argument remains a separate
+checked dependency.
 
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,
@@ -181,9 +194,12 @@ audited file lacks an explicit license header. Files with placeholders or an
 unclean transitive cone remain prior art only. This is why AINTLIB is a
 selective attributed port rather than a Lake dependency.
 
-`MazurTorsion.Upstream.Geometry` is the reviewed boundary and
-`MazurTorsion.lean` is its named checked consumer. It also imports Tau Ceti's
-line-bundle and Abel--Jacobi layers from the root package's exact dependency.
+`MazurTorsion.Upstream.Geometry` is the reviewed boundary for the Picard and
+Cartier-duality ports;
+`MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift` is the boundary
+for the two sheaf-cohomology ports. `MazurTorsion.lean` is their named checked
+consumer. The geometry boundary also imports Tau Ceti's line-bundle and
+Abel--Jacobi layers from the root package's exact dependency.
 
 ## AINTLIB Hilbert 92 and Hilbert 94
 
