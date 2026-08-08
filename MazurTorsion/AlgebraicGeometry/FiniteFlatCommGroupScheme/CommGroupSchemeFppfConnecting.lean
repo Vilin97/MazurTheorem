@@ -702,6 +702,153 @@ theorem exact_mapPoint_boundaryHom :
     Function.MulExact (mapPoint f (baseObject S)) E.boundaryHom :=
   fun q ↦ E.boundaryHom_eq_one_iff_exists_source q
 
+/-- A kernel-valued cocycle whose extension to the source group is trivial is the boundary of a
+global target section.  A zero-cochain on a common refinement supplies source-group points;
+their target images agree and glue by subcanonical fppf descent. -/
+private theorem exists_boundary_of_class
+    (𝒰 : Scheme.Cover.{v} Scheme.fppfPrecoverage S)
+    (c : OneCocycle
+      (toGroups (commPointPresheaf P.kernel)) 𝒰.overFamily)
+    (hc : fppfHOneMap P.inclusion
+      (fppfHOneClass P.kernel 𝒰 c.class) = 1) :
+    ∃ q : BasePoint H,
+      E.boundaryHom q = fppfHOneClass P.kernel 𝒰 c.class := by
+  let coeffMap := commPointPresheafMap P.inclusion
+  change Scheme.FppfHOne.mk 𝒰
+      (NatTrans.mapOneCocycle coeffMap c).class = 1 at hc
+  have hc' : Scheme.FppfHOne.mk 𝒰
+      (NatTrans.mapOneCocycle coeffMap c).class =
+      Scheme.FppfHOne.mk (Scheme.FppfHOne.identityCover S) 1 := by
+    rw [Scheme.FppfHOne.mk_one]
+    exact hc
+  obtain ⟨𝒲, r, _s, hrs⟩ :=
+    (Scheme.FppfHOne.class_eq_iff 𝒰
+      (Scheme.FppfHOne.identityCover S)
+      (NatTrans.mapOneCocycle coeffMap c).class 1).mp hc'
+  let ρ := Scheme.Cover.Hom.toOverFamilyRefinement r
+  let c𝒲 := ρ.pullbackOneCocycle c
+  have hrs' :
+      (ρ.pullbackOneCocycle (NatTrans.mapOneCocycle coeffMap c)).class = 1 := by
+    simpa only [Scheme.Cover.Hom.pullbackHOne,
+      FamilyRefinement.pullbackHOne_class,
+      FamilyRefinement.pullbackHOne_one] using hrs
+  have hmapped : (NatTrans.mapOneCocycle coeffMap c𝒲).class = 1 := by
+    change
+      (NatTrans.mapOneCocycle coeffMap (ρ.pullbackOneCocycle c)).class = 1
+    rw [NatTrans.mapOneCocycle_pullback]
+    exact hrs'
+  obtain ⟨b, hb⟩ :=
+    (OneCocycle.class_eq_iff (NatTrans.mapOneCocycle coeffMap c𝒲) 1).mp hmapped
+  let liftLocal (i : 𝒲.I₀) : G.Point (𝒲.overFamily i) := b i
+  let qLocal (i : 𝒲.I₀) : H.Point (𝒲.overFamily i) :=
+    mapPoint f (𝒲.overFamily i) (liftLocal i)
+  have hqLocal (i j : 𝒲.I₀) :
+      pullback.fst (𝒲.f i) (𝒲.f j) ≫ (qLocal i).left =
+        pullback.snd (𝒲.f i) (𝒲.f j) ≫ (qLocal j).left := by
+    let T : Over S := Over.mk (pullback.fst (𝒲.f i) (𝒲.f j) ≫ 𝒲.f i)
+    let a : T ⟶ 𝒲.overFamily i :=
+      Over.homMk (pullback.fst (𝒲.f i) (𝒲.f j)) rfl
+    let d : T ⟶ 𝒲.overFamily j :=
+      Over.homMk (pullback.snd (𝒲.f i) (𝒲.f j)) pullback.condition.symm
+    let kOverlap : P.kernel.Point T := c𝒲.ev i j a d
+    have hrel := hb i j a d
+    change pullPoint G a (liftLocal i) *
+        mapPoint P.inclusion T kOverlap =
+      1 * pullPoint G d (liftLocal j) at hrel
+    have hp := congrArg (mapPoint f T) hrel
+    rw [map_mul, map_mul, map_one, one_mul,
+      mapPoint_pullPoint, mapPoint_pullPoint,
+      P.mapPoint_inclusion_eq_one T kOverlap, mul_one] at hp
+    change (a ≫ qLocal i).left = (d ≫ qLocal j).left
+    exact congrArg Over.Hom.left hp
+  let qleft : S ⟶ H.X.left :=
+    Precoverage.ZeroHypercover.glueMorphisms 𝒲
+      (fun i ↦ (qLocal i).left) hqLocal
+  have hqleft : qleft ≫ H.X.hom = 𝟙 S := by
+    apply Precoverage.ZeroHypercover.hom_ext 𝒲
+    intro i
+    have hglue : 𝒲.f i ≫ qleft = (qLocal i).left := by
+      simpa only [qleft] using
+        Precoverage.ZeroHypercover.f_glueMorphisms 𝒲
+          (fun i ↦ (qLocal i).left) hqLocal i
+    rw [← Category.assoc, hglue, Category.comp_id]
+    exact (qLocal i).w
+  let q : BasePoint H := Over.homMk qleft hqleft
+  have hqrestrict (i : 𝒲.I₀) :
+      pullPoint H (coverToBase 𝒲 i) q = qLocal i := by
+    apply Over.OverMorphism.ext
+    change 𝒲.f i ≫ qleft = (qLocal i).left
+    simpa only [qleft] using
+      Precoverage.ZeroHypercover.f_glueMorphisms 𝒲
+        (fun i ↦ (qLocal i).left) hqLocal i
+  let L : P.LocalLift.{v} q :=
+    { cover := 𝒲
+      lift := liftLocal
+      maps_to := fun i ↦ by
+        change qLocal i = restrictBasePoint H 𝒲 i q
+        exact (hqrestrict i).symm }
+  have hLc : L.cocycle = c𝒲 := by
+    apply PresheafOfCommGroups.OneCocycle.ext
+    apply PresheafOfGroups.OneCochain.ext
+    funext i j T a d
+    apply P.inclusion_point_injective T
+    change mapPoint P.inclusion T
+        (P.liftPoint (L.difference i j a d)
+          (L.mapPoint_difference_eq_one i j a d)) =
+      mapPoint P.inclusion T (c𝒲.ev i j a d)
+    rw [P.mapPoint_liftPoint]
+    have hrel := hb i j a d
+    change pullPoint G a (liftLocal i) *
+        mapPoint P.inclusion T (c𝒲.ev i j a d) =
+      1 * pullPoint G d (liftLocal j) at hrel
+    dsimp only [LocalLift.difference]
+    change (pullPoint G a (liftLocal i))⁻¹ *
+        pullPoint G d (liftLocal j) =
+      mapPoint P.inclusion T (c𝒲.ev i j a d)
+    rw [one_mul] at hrel
+    rw [← hrel]
+    group
+  refine ⟨q, ?_⟩
+  calc
+    E.boundaryHom q = (E.localLift q).boundaryClass := rfl
+    _ = L.boundaryClass := (E.localLift q).boundaryClass_eq L
+    _ = fppfHOneClass P.kernel 𝒲 c𝒲.class := by
+      rw [LocalLift.boundaryClass, hLc]
+    _ = fppfHOneClass P.kernel 𝒰 c.class := by
+      change Scheme.FppfHOne.mk 𝒲 c𝒲.class =
+        Scheme.FppfHOne.mk 𝒰 c.class
+      dsimp only [c𝒲]
+      simpa only [Scheme.Cover.Hom.pullbackHOne,
+        FamilyRefinement.pullbackHOne_class] using
+        Scheme.FppfHOne.class_pullback 𝒰 𝒲 r c.class
+
+/-- Every global kernel `H¹` class killed by extension to the source group is represented by a
+boundary of a global target section. -/
+theorem exists_boundary_of_fppfHOneMap_eq_one
+    (z : P.kernel.FppfHOne.{v})
+    (hz : fppfHOneMap P.inclusion z = 1) :
+    ∃ q : BasePoint H, E.boundaryHom q = z := by
+  induction z using Quot.inductionOn with
+  | _ a =>
+    rcases a with ⟨𝒰, x⟩
+    induction x using Quot.inductionOn with
+    | _ c => exact E.exists_boundary_of_class 𝒰 c hz
+
+/-- A kernel `H¹` class dies in source-group `H¹` exactly when it is a connecting class. -/
+theorem fppfHOneMap_eq_one_iff_exists_boundaryHom
+    (z : P.kernel.FppfHOne.{v}) :
+    fppfHOneMap P.inclusion z = 1 ↔
+      ∃ q : BasePoint H, E.boundaryHom q = z := by
+  constructor
+  · exact E.exists_boundary_of_fppfHOneMap_eq_one z
+  · rintro ⟨q, rfl⟩
+    exact E.fppfHOneMap_boundaryHom q
+
+/-- Exactness at kernel-valued `H¹` for every locally liftable ambient group-scheme morphism. -/
+theorem exact_boundaryHom_fppfHOneMap :
+    Function.MulExact E.boundaryHom (fppfHOneMap P.inclusion) :=
+  fun z ↦ E.fppfHOneMap_eq_one_iff_exists_boundaryHom z
+
 end LocallyLiftable
 
 end KernelPresentation

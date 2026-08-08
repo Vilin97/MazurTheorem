@@ -443,6 +443,58 @@ noncomputable def unitKummerBoundaryMulEquivRange [Nontrivial R]
         (congrArg Subtype.val hxy),
       MonoidHom.rangeRestrict_surjective (unitKummerBoundaryHom R n hn)⟩
 
+/-- Extending a unit Kummer class along the scheme-theoretic power-kernel inclusion gives the
+trivial ambient `G_m` torsor. -/
+@[simp]
+theorem fppfHOneMap_unitKummerBoundaryHom [Nontrivial R]
+    (n : ℕ) (hn : n ≠ 0)
+    (z : FiniteFlatCommGroupScheme.UnitKummerClasses R n) :
+    fppfHOneMap (powerKernelPresentation R n).inclusion
+        (unitKummerBoundaryHom R n hn z) = 1 := by
+  obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective
+    (powMonoidHom n : Rˣ →* Rˣ).range z
+  rw [unitKummerBoundaryHom_mk]
+  exact (locallyLiftable R n hn).fppfHOneMap_boundaryHom
+    ((AffineCommGroupScheme.multiplicativeBasePointMulEquiv R).symm u)
+
+/-- The geometric Kummer boundary, with codomain restricted to the actual kernel of extension
+from the power-kernel `H¹` to `G_m`-valued `H¹`. -/
+noncomputable def unitKummerBoundaryKernelHom [Nontrivial R]
+    (n : ℕ) (hn : n ≠ 0) :
+    FiniteFlatCommGroupScheme.UnitKummerClasses R n →*
+      (fppfHOneMap (powerKernelPresentation R n).inclusion).ker :=
+  (unitKummerBoundaryHom R n hn).codRestrict
+    (fppfHOneMap (powerKernelPresentation R n).inclusion).ker
+    (fun z ↦ MonoidHom.mem_ker.mpr
+      (fppfHOneMap_unitKummerBoundaryHom R n hn z))
+
+/-- The full checked Kummer exactness statement: units modulo `n`th powers are exactly the
+kernel of `H¹(powerKernel) → H¹(G_m)`.  This does not assume or conclude that ambient
+`G_m`-valued `H¹` vanishes. -/
+noncomputable def unitKummerBoundaryMulEquivKernel [Nontrivial R]
+    (n : ℕ) (hn : n ≠ 0) :
+    FiniteFlatCommGroupScheme.UnitKummerClasses R n ≃*
+      (fppfHOneMap (powerKernelPresentation R n).inclusion).ker := by
+  apply MulEquiv.ofBijective (unitKummerBoundaryKernelHom R n hn)
+  constructor
+  · intro x y hxy
+    apply unitKummerBoundaryHom_injective R n hn
+    exact congrArg Subtype.val hxy
+  · intro z
+    have hz : fppfHOneMap (powerKernelPresentation R n).inclusion z.1 = 1 :=
+      MonoidHom.mem_ker.mp z.2
+    obtain ⟨q, hq⟩ :=
+      (locallyLiftable R n hn).exists_boundary_of_fppfHOneMap_eq_one z.1 hz
+    let u := AffineCommGroupScheme.multiplicativeBasePointMulEquiv R q
+    refine ⟨QuotientGroup.mk' (powMonoidHom n : Rˣ →* Rˣ).range u, ?_⟩
+    apply Subtype.ext
+    change unitKummerBoundaryHom R n hn
+        (QuotientGroup.mk' (powMonoidHom n : Rˣ →* Rˣ).range u) = z.1
+    rw [unitKummerBoundaryHom_mk]
+    change (locallyLiftable R n hn).boundaryHom
+      ((AffineCommGroupScheme.multiplicativeBasePointMulEquiv R).symm u) = z.1
+    simpa only [u, MulEquiv.symm_apply_apply] using hq
+
 /-- Every geometric Kummer class is the quotient boundary of the unit attached to its global
 `G_m` point.  This is the downstream consumer linking the explicit unit quotient to the actual
 Čech boundary. -/
