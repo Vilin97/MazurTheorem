@@ -8,6 +8,7 @@ import Mathlib.Topology.Sheaves.LocallySurjective
 import Mathlib.Topology.Sheaves.Limits
 import Mathlib.Topology.Sheaves.Functors
 import Mathlib.CategoryTheory.Limits.Preserves.FunctorCategory
+import Mathlib.AlgebraicGeometry.Morphisms.Affine
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover
 
 /-!
@@ -244,13 +245,13 @@ private theorem toSheaf_restrictAdjunction_unit
         ((SheafOfModules.toSheaf X.ringCatSheaf).obj M) := rfl
 
 private theorem zariskiFunctor_map_restrictAdjunction_unit_eq_zero
-    {X : Scheme.{u}} (U : X.Opens) (M : X.Modules) (c : H M 1)
+    {X : Scheme.{u}} {n : ℕ} (U : X.Opens) (M : X.Modules) (c : H M n)
     (hc : (c.comp (Abelian.Ext.mk₀
       ((openRestrictionPushforwardUnit U).app
         ((SheafOfModules.toSheaf X.ringCatSheaf).obj M))) rfl :
           ExtH ((openRestrictionPushforward U).obj
-            ((SheafOfModules.toSheaf X.ringCatSheaf).obj M)) 1) = 0) :
-    (zariskiFunctor X 1).map
+            ((SheafOfModules.toSheaf X.ringCatSheaf).obj M)) n) = 0) :
+    (zariskiFunctor X n).map
       ((Scheme.Modules.restrictAdjunction U.ι).unit.app M) c = 0 := by
   exact hc
 
@@ -268,6 +269,36 @@ private theorem openRestrictionPushforward_map_mono {X : Scheme.{u}}
       infer_instance
   exact Functor.mono_of_mono_map
     (sheafToPresheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}) hmono
+
+private theorem openRestrictionPushforward_map_epi_of_affine_app_surjective
+    {R : CommRingCat.{u}} (U : (Spec R).Opens) (hU : IsAffineOpen U)
+    {F G : AbSheaf (Spec R)} (f : F ⟶ G)
+    (hf : ∀ (W : (Spec R).Opens), IsAffineOpen W →
+      Function.Surjective (f.hom.app (op W))) :
+    Epi ((openRestrictionPushforward U).map f) := by
+  apply (TopCat.Sheaf.isLocallySurjective_iff_epi
+    ((openRestrictionPushforward U).map f)).1
+  rw [TopCat.Presheaf.isLocallySurjective_iff]
+  intro W t x hxW
+  obtain ⟨V, hV, hxV, hVW⟩ := exists_isAffineOpen_mem_and_subset hxW
+  let A := U.ι.isOpenEmbedding.functor.obj
+    ((Opens.map U.ι.base).obj V)
+  have hA : A = U ⊓ V := by
+    ext y
+    change (∃ z : U, z.1 ∈ V ∧ z.1 = y) ↔ y ∈ U ∧ y ∈ V
+    constructor
+    · rintro ⟨z, hzV, rfl⟩
+      exact ⟨z.2, hzV⟩
+    · rintro ⟨hyU, hyV⟩
+      exact ⟨⟨y, hyU⟩, hyV, rfl⟩
+  have hAaffine : IsAffineOpen A := by
+    rw [hA]
+    exact hU.inf hV
+  let tV := ((openRestrictionPushforward U).obj G).1.map
+    (homOfLE hVW).op t
+  obtain ⟨s, hs⟩ := hf A hAaffine tV
+  refine ⟨V, hVW, ⟨s, ?_⟩, hxV⟩
+  exact hs
 
 private theorem openRestrictionPushforward_cokernelComparison_mono
     {X : Scheme.{u}} (U : X.Opens)
@@ -297,6 +328,42 @@ private theorem openRestrictionPushforward_cokernelComparison_mono
     rw [← Category.assoc, he_fac, image.fac]
   rw [he]
   infer_instance
+
+private theorem openRestrictionPushforward_cokernelComparison_isIso_of_affine_app_surjective
+    {R : CommRingCat.{u}} (U : (Spec R).Opens) (hU : IsAffineOpen U)
+    {F G : AbSheaf (Spec R)} (f : F ⟶ G) [Mono f]
+    (hf : ∀ (W : (Spec R).Opens), IsAffineOpen W →
+      Function.Surjective ((cokernel.π f).hom.app (op W))) :
+    IsIso (cokernelComparison f (openRestrictionPushforward U)) := by
+  let E := openRestrictionPushforward U
+  let μ := cokernelComparison f E
+  letI : Mono μ := by
+    dsimp [μ, E]
+    exact openRestrictionPushforward_cokernelComparison_mono U f
+  letI : Epi (E.map (cokernel.π f)) := by
+    dsimp [E]
+    exact openRestrictionPushforward_map_epi_of_affine_app_surjective
+      U hU (cokernel.π f) hf
+  letI : Epi μ := by
+    exact epi_of_epi_fac (π_comp_cokernelComparison f E)
+  exact isIso_of_mono_of_epi μ
+
+private theorem ext_postcomp_mk₀_injective_of_isIso
+    {X : Scheme.{u}} (L : AbSheaf X) {M N : AbSheaf X}
+    (f : M ⟶ N) [IsIso f] (n : ℕ) :
+    Function.Injective
+      ((Abelian.Ext.mk₀ f).postcomp L (add_zero n)) := by
+  intro x y hxy
+  have hxy' := congrArg
+    (fun z ↦ z.comp (Abelian.Ext.mk₀ (inv f)) rfl) hxy
+  change
+    (x.comp (Abelian.Ext.mk₀ f) rfl).comp
+        (Abelian.Ext.mk₀ (inv f)) rfl =
+      (y.comp (Abelian.Ext.mk₀ f) rfl).comp
+        (Abelian.Ext.mk₀ (inv f)) rfl at hxy'
+  simpa only [Abelian.Ext.comp_assoc_of_third_deg_zero,
+    Abelian.Ext.mk₀_comp_mk₀, IsIso.hom_inv_id,
+    Abelian.Ext.comp_mk₀_id] using hxy'
 
 private noncomputable abbrev injectiveCokernelSequence
     {X : Scheme.{u}} (F : AbSheaf X) :
@@ -366,6 +433,93 @@ private noncomputable def injectiveCokernelSequenceToOpen
   comm₂₃ := by
     simp [injectiveCokernelSequence, openInjectiveCokernelSequence,
       openInjectiveCokernelMap]
+
+private theorem openInjectiveCokernelMap_comp_cokernelComparison
+    {X : Scheme.{u}} (U : X.Opens) (F : AbSheaf X) :
+    openInjectiveCokernelMap U F ≫
+        cokernelComparison (Injective.ι F)
+          (openRestrictionPushforward U) =
+      (openRestrictionPushforwardUnit U).app
+        (cokernel (Injective.ι F)) := by
+  let E := openRestrictionPushforward U
+  let η := openRestrictionPushforwardUnit U
+  let i := Injective.ι F
+  let π := cokernel.π i
+  let ζ := openInjectiveCokernelMap U F
+  let μ := cokernelComparison i E
+  have hπζ : cokernel.π i ≫ ζ =
+      η.app (Injective.under F) ≫ cokernel.π (E.map i) := by
+    dsimp [ζ, η, E, i, openInjectiveCokernelMap]
+    apply cokernel.π_desc
+  rw [← cancel_epi (cokernel.π i)]
+  calc
+    cokernel.π i ≫ (ζ ≫ μ) =
+        (cokernel.π i ≫ ζ) ≫ μ := Category.assoc _ _ _ |>.symm
+    _ = (η.app (Injective.under F) ≫
+        cokernel.π (E.map i)) ≫ μ := by rw [hπζ]
+    _ = η.app (Injective.under F) ≫
+        (cokernel.π (E.map i) ≫ μ) := Category.assoc _ _ _
+    _ = η.app (Injective.under F) ≫ E.map π := by
+      rw [π_comp_cokernelComparison]
+    _ = cokernel.π i ≫ η.app (cokernel i) :=
+      (η.naturality (cokernel.π i)).symm
+
+private theorem openRestrictionPushforwardUnit_HSucc_eq_zero_of_cokernel_killed
+    {X : Scheme.{u}} {F : AbSheaf X} {n : ℕ}
+    (c : ExtH F (n + 1))
+    (q : ExtH (cokernel (Injective.ι F)) n)
+    (hq : q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c)
+    (U : X.Opens)
+    (hqU : q.comp (Abelian.Ext.mk₀
+      ((openRestrictionPushforwardUnit U).app
+        (cokernel (Injective.ι F)))) rfl = 0)
+    [IsIso (cokernelComparison (Injective.ι F)
+      (openRestrictionPushforward U))] :
+    (c.comp (Abelian.Ext.mk₀
+      ((openRestrictionPushforwardUnit U).app F)) rfl :
+        ExtH ((openRestrictionPushforward U).obj F) (n + 1)) = 0 := by
+  let E := openRestrictionPushforward U
+  let η := openRestrictionPushforwardUnit U
+  let i := Injective.ι F
+  let ζ := openInjectiveCokernelMap U F
+  let μ := cokernelComparison i E
+  have hT := openInjectiveCokernelSequence_shortExact U F
+  change (ShortComplex.mk (E.map i) (cokernel.π (E.map i)) _).ShortExact at hT
+  have hζμ : ζ ≫ μ = η.app (cokernel i) := by
+    exact openInjectiveCokernelMap_comp_cokernelComparison U F
+  have hqζμ :
+      (q.comp (Abelian.Ext.mk₀ ζ) rfl).comp
+          (Abelian.Ext.mk₀ μ) rfl = 0 := by
+    rw [Abelian.Ext.comp_assoc_of_third_deg_zero,
+      Abelian.Ext.mk₀_comp_mk₀, hζμ]
+    exact hqU
+  have hqζ : q.comp (Abelian.Ext.mk₀ ζ) rfl = 0 := by
+    apply ext_postcomp_mk₀_injective_of_isIso
+      ((CategoryTheory.constantSheaf
+        (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
+          (AddCommGrpCat.of (ULift ℤ))) μ n
+    change
+      (q.comp (Abelian.Ext.mk₀ ζ) rfl).comp
+          (Abelian.Ext.mk₀ μ) rfl =
+        (0 : ExtH (cokernel (E.map i)) n).comp
+          (Abelian.Ext.mk₀ μ) rfl
+    simpa using hqζμ
+  calc
+    c.comp (Abelian.Ext.mk₀ (η.app F)) rfl =
+        (q.comp (injectiveCokernelSequence_shortExact F).extClass rfl).comp
+          (Abelian.Ext.mk₀ (η.app F)) rfl := by rw [hq]
+    _ = q.comp
+        ((injectiveCokernelSequence_shortExact F).extClass.comp
+          (Abelian.Ext.mk₀ (η.app F)) rfl) rfl := by
+      rw [Abelian.Ext.comp_assoc_of_third_deg_zero]
+    _ = q.comp ((Abelian.Ext.mk₀ ζ).comp hT.extClass rfl) rfl := by
+      exact congrArg (fun x ↦ q.comp x rfl)
+        ((injectiveCokernelSequence_shortExact F).extClass_naturality
+          hT (injectiveCokernelSequenceToOpen U F))
+    _ = (q.comp (Abelian.Ext.mk₀ ζ) rfl).comp hT.extClass rfl := by
+      simpa only using (Abelian.Ext.comp_assoc q
+        (Abelian.Ext.mk₀ ζ) hT.extClass rfl rfl rfl).symm
+    _ = 0 := by rw [hqζ]; simp
 
 private theorem openRestrictionPushforwardUnit_HOne_eq_zero_of_lift
     {X : Scheme.{u}} {F : AbSheaf X}
@@ -474,8 +628,8 @@ private theorem openRestrictionPushforwardUnit_HOne_eq_zero_of_section_lift
     (openRestrictionPushforwardHZeroOfSection U (cokernel (Injective.ι F))) ht
 
 private theorem exists_injectiveCokernel_class
-    {X : Scheme.{u}} {F : AbSheaf X} (c : ExtH F 1) :
-    ∃ q : ExtH (cokernel (Injective.ι F)) 0,
+    {X : Scheme.{u}} {F : AbSheaf X} {n : ℕ} (c : ExtH F (n + 1)) :
+    ∃ q : ExtH (cokernel (Injective.ι F)) n,
       q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c := by
   let Z := (CategoryTheory.constantSheaf
     (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
@@ -524,26 +678,50 @@ private theorem exists_affineOpen_HOne_killing
   exact openRestrictionPushforwardUnit_HOne_eq_zero_of_section_lift
     c q hq U tU htU
 
+private theorem exists_affineOpen_HTwo_killing_of_affine_cokernel_app_surjective
+    {R : CommRingCat.{u}} {F : AbSheaf (Spec R)}
+    (c : ExtH F 2)
+    (q : ExtH (cokernel (Injective.ι F)) 1)
+    (hq : q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c)
+    (hsurjective : ∀ (W : (Spec R).Opens), IsAffineOpen W →
+      Function.Surjective
+        ((cokernel.π (Injective.ι F)).hom.app (op W)))
+    (x : Spec R) :
+    ∃ U : (Spec R).Opens, IsAffineOpen U ∧ x ∈ U ∧
+      (c.comp (Abelian.Ext.mk₀
+        ((openRestrictionPushforwardUnit U).app F)) rfl :
+          ExtH ((openRestrictionPushforward U).obj F) 2) = 0 := by
+  obtain ⟨r, hr⟩ := exists_injectiveCokernel_class q
+  obtain ⟨U, hU, hxU, hqU⟩ :=
+    exists_affineOpen_HOne_killing q r hr x
+  letI : IsIso (cokernelComparison (Injective.ι F)
+      (openRestrictionPushforward U)) :=
+    openRestrictionPushforward_cokernelComparison_isIso_of_affine_app_surjective
+      U hU (Injective.ι F) hsurjective
+  exact ⟨U, hU, hxU,
+    openRestrictionPushforwardUnit_HSucc_eq_zero_of_cokernel_killed
+      c q hq U hqU⟩
+
 private theorem zariskiFunctor_map_toAffineCoverModule_eq_zero
     {R : CommRingCat.{u}} {I : Type u} [Finite I]
-    (M : (Spec R).Modules) (U : I → (Spec R).Opens) (c : H M 1)
-    (hc : ∀ i, (zariskiFunctor (Spec R) 1).map
+    {n : ℕ} (M : (Spec R).Modules) (U : I → (Spec R).Opens) (c : H M n)
+    (hc : ∀ i, (zariskiFunctor (Spec R) n).map
       ((Scheme.Modules.restrictAdjunction (U i).ι).unit.app M) c = 0) :
-    (zariskiFunctor (Spec R) 1).map (toAffineCoverModule M U) c = 0 := by
-  letI : PreservesFiniteProducts (zariskiFunctor (Spec R) 1) := by
+    (zariskiFunctor (Spec R) n).map (toAffineCoverModule M U) c = 0 := by
+  letI : PreservesFiniteProducts (zariskiFunctor (Spec R) n) := by
     letI : (CategoryTheory.Sheaf.functorH
-        (Opens.grothendieckTopology (Spec R)) 1).Additive := by
+        (Opens.grothendieckTopology (Spec R)) n).Additive := by
       infer_instance
     change PreservesFiniteProducts
       (SheafOfModules.toSheaf (Spec R).ringCatSheaf ⋙
         CategoryTheory.Sheaf.functorH
-          (Opens.grothendieckTopology (Spec R)) 1)
+          (Opens.grothendieckTopology (Spec R)) n)
     exact comp_preservesFiniteProducts _ _
   unfold toAffineCoverModule affineCoverModule
   apply Concrete.Pi.map_ext
     (fun i ↦ (Scheme.Modules.restrictFunctor (U i).ι ⋙
       Scheme.Modules.pushforward (U i).ι).obj M)
-    (zariskiFunctor (Spec R) 1)
+    (zariskiFunctor (Spec R) n)
   intro i
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp,
     limit.lift_π, Fan.mk_π_app, hc i]
@@ -577,6 +755,47 @@ theorem schemeHOne_finiteAffineKillingCover
   let V : s → (Spec R).Opens := fun i ↦ U i.1
   have hVkills (i : s) :
       (zariskiFunctor (Spec R) 1).map
+        ((Scheme.Modules.restrictAdjunction (V i).ι).unit.app M) c = 0 := by
+    exact zariskiFunctor_map_restrictAdjunction_unit_eq_zero
+      (V i) M c (hUkills i.1)
+  letI : Finite s := inferInstance
+  refine ⟨s, V, inferInstance, hs, fun i ↦ hUaffine i.1,
+    hVkills, ?_⟩
+  exact zariskiFunctor_map_toAffineCoverModule_eq_zero M V c hVkills
+
+/-- A degree-two class is killed on a finite affine cover when the
+injective-cokernel projection is surjective on the affine basis.  This is
+the first higher-degree consumer of the cokernel-comparison isomorphism. -/
+theorem schemeHTwo_finiteAffineKillingCover_of_affine_cokernel_app_surjective
+    {R : CommRingCat.{u}} (M : (Spec R).Modules) (c : H M 2)
+    (hsurjective : ∀ (W : (Spec R).Opens), IsAffineOpen W →
+      Function.Surjective
+        ((cokernel.π (Injective.ι
+          ((SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M))).hom.app
+            (op W))) :
+    ∃ (I : Type u) (U : I → (Spec R).Opens),
+      Finite I ∧
+      IsOpenCover U ∧
+      (∀ i, IsAffine (U i)) ∧
+      (∀ i, (zariskiFunctor (Spec R) 2).map
+        ((Scheme.Modules.restrictAdjunction (U i).ι).unit.app M) c = 0) ∧
+      (zariskiFunctor (Spec R) 2).map (toAffineCoverModule M U) c = 0 := by
+  let F := (SheafOfModules.toSheaf (Spec R).ringCatSheaf).obj M
+  obtain ⟨q, hq⟩ := exists_injectiveCokernel_class (F := F) c
+  choose U hUaffine hxU hUkills using fun x : Spec R ↦
+    exists_affineOpen_HTwo_killing_of_affine_cokernel_app_surjective
+      c q hq hsurjective x
+  have hUcover : IsOpenCover U := by
+    apply IsOpenCover.mk
+    apply le_antisymm le_top
+    rw [← SetLike.coe_subset_coe]
+    intro x hx
+    rw [Opens.coe_iSup]
+    exact Set.mem_iUnion.2 ⟨x, hxU x⟩
+  obtain ⟨s, hs⟩ := hUcover.exists_finite_of_compactSpace
+  let V : s → (Spec R).Opens := fun i ↦ U i.1
+  have hVkills (i : s) :
+      (zariskiFunctor (Spec R) 2).map
         ((Scheme.Modules.restrictAdjunction (V i).ι).unit.app M) c = 0 := by
     exact zariskiFunctor_map_restrictAdjunction_unit_eq_zero
       (V i) M c (hUkills i.1)
