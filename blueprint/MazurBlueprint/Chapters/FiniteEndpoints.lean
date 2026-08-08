@@ -88,6 +88,18 @@ challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
   `MazurTorsion.XOneEighteenDescent.TwoPrimeSupportedEisensteinIntegerFiniteSplitCyclicCubicObstruction`
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.rationalPoint_addOrderOf_ne_eighteen_of_twoPrimeSupportedEisensteinIntegerObstruction`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalExceptionalPolynomial_ne_zero`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalZ_sq_of_fourScalarCorrespondence`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.antiDiagonalSextic_birational_identity`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.gcd_antiDiagonalNorm_eq_one_or_eight`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.exists_primitive_quadraticNormDatum_of_fourScalarCorrespondence`
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenDescent.exists_antiDiagonal_point_of_orderEighteen_point`
 
 The proposed proof finishes the Eisenstein-integer descent already exposed by
 the module. The checked split-cubic calculation now compares all three
@@ -102,7 +114,17 @@ the third cyclotomic field. Common support lies over two or at the ramified
 prime over three; exact-depth arguments now exclude the ramified case. The
 resulting support-only-over-two obstruction has a real exact-order consumer.
 Prime allocation above two, the distinguished seven constraint, the unit
-cases, and therefore the Challenge remain open.
+cases, and therefore the Challenge remain open. A second checked route sends
+the surviving four-scalar correspondence through a denominator-safe
+anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous
+equation is the norm $`A^2+2B^2`, and primitive coordinates force the exact
+alternative $`\gcd(A,B)=1` or $`8`. Checked point transport from the original
+model includes the ordinate scaling, inverse abscissa, and exclusion of the
+exceptional value $`x=-1`. The fixed Jacobian rank-zero certificate or an
+equivalent complete descent remains open. The low-level quotient, point
+transport, and norm API now lies below `XOneEighteenDescent`; the immutable
+destination therefore no longer imports the downstream FourScalar
+correspondence transitively.
 :::
 
 :::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")

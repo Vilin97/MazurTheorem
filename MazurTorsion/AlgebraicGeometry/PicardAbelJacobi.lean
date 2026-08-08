@@ -6,8 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.LinearSystem
-import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Sum.Basic
-import TauCeti.AlgebraicGeometry.WeilDivisor.BasepointChange
+import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Sum.BasepointChange
 
 /-!
 # Abel--Jacobi classes in the scheme Picard group
@@ -31,6 +30,10 @@ universe u v
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
+open CategoryTheory
+open CategoryTheory.MonoidalCategory
+
+attribute [local instance] schemeModulesMonoidal
 
 namespace PicardGroup
 
@@ -68,6 +71,64 @@ lemma weightedAbelJacobiClass_base
     weightedAbelJacobiClass S w h e hx₀ x₀ = 0 := by
   rw [weightedAbelJacobiClass, S.weightedAbelJacobiClass_base]
   exact map_zero (picZeroEquiv S w h e)
+
+/-- The degree-zero Picard class `[x₀] - [y₀]` that translates between
+two Abel--Jacobi normalizations. -/
+noncomputable def weightedBasepointChangeClass
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ y₀ : Y} (hxy : w x₀ = w y₀) :
+    degreeZero S w h e :=
+  picZeroEquiv S w h e (S.weightedBasepointChangeClass w h hxy)
+
+/-- The underlying scheme-Picard class of a basepoint translation is the
+image of the point-difference divisor. -/
+@[simp]
+lemma coe_weightedBasepointChangeClass
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ y₀ : Y} (hxy : w x₀ = w y₀) :
+    (weightedBasepointChangeClass S w h e hxy : PicardGroup X) =
+      e (S.divisorClass (pointDifference x₀ y₀)) :=
+  rfl
+
+/-- Changing the weight-one basepoint translates the scheme-Picard
+Abel--Jacobi class by the point's weight times `[x₀] - [y₀]`. -/
+lemma weightedAbelJacobiClass_change_base
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : Y) :
+    weightedAbelJacobiClass S w h e hy₀ x =
+      weightedAbelJacobiClass S w h e hx₀ x +
+        w x • weightedBasepointChangeClass S w h e
+          (hx₀.trans hy₀.symm) := by
+  change picZeroEquiv S w h e (S.weightedAbelJacobiClass w h hy₀ x) =
+    picZeroEquiv S w h e (S.weightedAbelJacobiClass w h hx₀ x) +
+      w x • picZeroEquiv S w h e
+        (S.weightedBasepointChangeClass w h (hx₀.trans hy₀.symm))
+  rw [S.weightedAbelJacobiClass_change_base, map_add, map_zsmul]
+
+/-- The old basepoint, viewed with the new normalization, is exactly the
+basepoint-translation class in the scheme Picard group. -/
+lemma weightedAbelJacobiClass_oldBase_eq_weightedBasepointChangeClass
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1) :
+    weightedAbelJacobiClass S w h e hy₀ x₀ =
+      weightedBasepointChangeClass S w h e
+        (hx₀.trans hy₀.symm) := by
+  change picZeroEquiv S w h e
+      (S.weightedAbelJacobiClass w h hy₀ x₀) =
+    picZeroEquiv S w h e
+      (S.weightedBasepointChangeClass w h (hx₀.trans hy₀.symm))
+  exact congrArg (picZeroEquiv S w h e)
+    (S.weightedAbelJacobiClass_oldBase_eq_basepointChangeClass
+      w h hx₀ hy₀)
 
 /-- Collision of two transported Abel--Jacobi point classes is exactly linear equivalence of
 their degree-corrected point divisors. -/
@@ -149,6 +210,26 @@ lemma weightedAbelJacobiDivisorClass_principalDivisor
   change picZeroEquiv S w h e
       (S.weightedAbelJacobiDivisorClass w h hx₀ (S.principalDivisor g)) = 0
   rw [S.weightedAbelJacobiDivisorClass_principalDivisor, map_zero]
+
+/-- Changing the basepoint of the scheme-Picard Abel map on divisors adds
+the weighted degree times the same point-difference translation class. -/
+lemma weightedAbelJacobiDivisorClass_change_base
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (D : WeilDivisor Y) :
+    weightedAbelJacobiDivisorClass S w h e hy₀ D =
+      weightedAbelJacobiDivisorClass S w h e hx₀ D +
+        weightedDegree w D • weightedBasepointChangeClass S w h e
+          (hx₀.trans hy₀.symm) := by
+  change picZeroEquiv S w h e
+      (S.weightedAbelJacobiDivisorClass w h hy₀ D) =
+    picZeroEquiv S w h e
+        (S.weightedAbelJacobiDivisorClass w h hx₀ D) +
+      weightedDegree w D • picZeroEquiv S w h e
+        (S.weightedBasepointChangeClass w h (hx₀.trans hy₀.symm))
+  rw [S.weightedAbelJacobiDivisorClass_change_base, map_add, map_zsmul]
 
 /-! ### Fixed-degree fibers in the scheme Picard group -/
 
@@ -255,6 +336,88 @@ lemma weightedAbelJacobiLineBundle_toPic
     PicardGroup.coe_weightedAbelJacobiClass,
     d.classEquivalence_divisorClass]
 
+/-- Changing the basepoint of the chosen Abel--Jacobi line bundle tensors it
+with the chosen bundle of the exact weighted point-difference correction.
+This is the line-bundle-level normalization consumed by a future Poincare
+bundle construction. -/
+theorem nonempty_weightedAbelJacobiLineBundle_change_base
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (x₀ y₀ x : Y) :
+    Nonempty
+      ((d.weightedAbelJacobiLineBundle w (x₀ := y₀) x).obj ≅
+        (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x).obj ⊗
+          (d.lineBundle (w x • pointDifference x₀ y₀)).obj) := by
+  change Nonempty
+    ((d.lineBundle (weightedPointBaseDifference w y₀ x)).obj ≅
+      (d.lineBundle (weightedPointBaseDifference w x₀ x)).obj ⊗
+        (d.lineBundle (w x • pointDifference x₀ y₀)).obj)
+  rw [weightedPointBaseDifference_change_base]
+  exact d.lineBundle_add_iso (weightedPointBaseDifference w x₀ x)
+    (w x • pointDifference x₀ y₀)
+
+/-- The chosen line-bundle representatives recover the exact scheme-Picard
+basepoint-translation law. This is the compiled downstream consumer of the
+bundle-level normalization. -/
+theorem weightedAbelJacobiLineBundle_toPic_change_base
+    (d : DivisorPicard.Dictionary S X)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : Y) :
+    Additive.ofMul
+        (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)) =
+      Additive.ofMul
+          (d.comparison.toPic
+            (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)) +
+        w x • (PicardGroup.weightedBasepointChangeClass
+          S w h d.classEquivalence (hx₀.trans hy₀.symm) : PicardGroup X) := by
+  have hskeleton :
+      toSkeleton
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x).obj =
+        toSkeleton
+          ((d.weightedAbelJacobiLineBundle w (x₀ := x₀) x).obj ⊗
+            (d.lineBundle (w x • pointDifference x₀ y₀)).obj) :=
+    toSkeleton_eq_toSkeleton_iff.mpr
+      (d.nonempty_weightedAbelJacobiLineBundle_change_base w x₀ y₀ x)
+  have hpic :
+      d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x) =
+        d.comparison.toPic
+            (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x) *
+          d.comparison.toPic
+            (d.lineBundle (w x • pointDifference x₀ y₀)) := by
+    apply Units.ext
+    change (d.comparison.toPic
+        (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)).val =
+      (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)).val *
+        (d.comparison.toPic
+          (d.lineBundle (w x • pointDifference x₀ y₀))).val
+    rw [d.comparison.toPic_val, d.comparison.toPic_val,
+      d.comparison.toPic_val, ← Skeleton.toSkeleton_tensorObj]
+    exact hskeleton
+  have hadd := congrArg Additive.ofMul hpic
+  change Additive.ofMul
+      (d.comparison.toPic
+        (d.weightedAbelJacobiLineBundle w (x₀ := y₀) x)) =
+    Additive.ofMul
+        (d.comparison.toPic
+          (d.weightedAbelJacobiLineBundle w (x₀ := x₀) x)) +
+      Additive.ofMul
+        (d.comparison.toPic
+          (d.lineBundle (w x • pointDifference x₀ y₀))) at hadd
+  have hcorrection :
+      Additive.ofMul
+          (d.comparison.toPic
+            (d.lineBundle (w x • pointDifference x₀ y₀))) =
+        w x • (PicardGroup.weightedBasepointChangeClass
+          S w h d.classEquivalence
+            (hx₀.trans hy₀.symm) : PicardGroup X) := by
+    rw [d.lineBundle_toPic, map_zsmul,
+      ← d.classEquivalence_divisorClass,
+      ← PicardGroup.coe_weightedBasepointChangeClass]
+  exact hadd.trans (congrArg _ hcorrection)
+
 /-- Two chosen Abel--Jacobi line bundles are isomorphic exactly when the corresponding
 degree-corrected point divisors are linearly equivalent. -/
 theorem nonempty_weightedAbelJacobiLineBundle_iso_iff_linearlyEquivalent
@@ -335,6 +498,48 @@ theorem weightedAbelJacobiClassOfGlobalPrincipalBoundary_base
   PicardGroup.weightedAbelJacobiClass_base S w hdegree
     (classEquivPicardOfGlobalPrincipalBoundary
       X U hnonempty hcover hU h S C heffective hadd b hsurjective) hx₀
+
+/-- The effective divisor-cocycle construction respects a change of
+weight-one Abel--Jacobi basepoint.  This is the concrete descent consumer of
+the scheme-Picard normalization law. -/
+theorem weightedAbelJacobiClassOfGlobalPrincipalBoundary_change_base
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)
+        (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem
+      X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective)
+    (hsurjective : Function.Surjective
+      (divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b))
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X) :
+    weightedAbelJacobiClassOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b hsurjective
+          w hdegree hy₀ x =
+      weightedAbelJacobiClassOfGlobalPrincipalBoundary
+          X U hnonempty hcover hU h S C heffective hadd b hsurjective
+            w hdegree hx₀ x +
+        w x • PicardGroup.weightedBasepointChangeClass S w hdegree
+          (classEquivPicardOfGlobalPrincipalBoundary
+            X U hnonempty hcover hU h S C heffective hadd b hsurjective)
+          (hx₀.trans hy₀.symm) :=
+  PicardGroup.weightedAbelJacobiClass_change_base S w hdegree
+    (classEquivPicardOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b hsurjective)
+    hx₀ hy₀ x
 
 end CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
 

@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.XOneEighteenFiniteField
+import MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!

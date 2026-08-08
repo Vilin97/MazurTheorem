@@ -1038,9 +1038,14 @@ it is a closed immersion in positive genus.
 
 The checked `PicardAbelJacobi` adapter supplies the absolute group-valued point and divisor
 classes, including the base-point, linear-equivalence collision, point-difference, chosen
-line-bundle, fixed-degree fiber, and formal symmetric-power fiber formulas. It is a normalization
-consumer for the future morphism, not a morphism of schemes and not a proof of the universal
-property, base change, or closed immersion.
+line-bundle, fixed-degree fiber, and formal symmetric-power fiber formulas. It also transports
+the exact weighted basepoint-change laws for point and divisor classes into scheme `Pic⁰`; the
+effective divisor-cocycle/global-principal-boundary construction is a compiled downstream
+consumer of the same translation law. For the chosen divisor line bundles, changing basepoint
+is now an actual isomorphism to the old bundle tensored with the explicit weighted
+point-difference correction bundle, and a second theorem consumes that isomorphism in scheme
+Picard. These are normalization inputs for the future morphism, not a morphism of schemes and
+not a proof of the universal property, base change, or closed immersion.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1053,6 +1058,30 @@ property, base change, or closed immersion.
   Prove compatibility of the Abel-Jacobi construction with base change.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.Jacobian.abelJacobi_closedImmersion`
   Prove that Abel-Jacobi is a closed immersion for curves of positive genus.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedBasepointChangeClass`
+  Transport the weighted divisor difference between two basepoints into scheme `Pic⁰`.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.coe_weightedBasepointChangeClass`
+  Identify the underlying scheme-Picard class of the transported translation class.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiClass_change_base`
+  Give the exact basepoint-translation formula for weighted point classes.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiClass_oldBase_eq_weightedBasepointChangeClass`
+  Identify the old basepoint's class after changing the normalization.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.weightedAbelJacobiDivisorClass_change_base`
+  Give the weighted-degree translation formula for divisor classes.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse.weightedAbelJacobiClassOfGlobalPrincipalBoundary_change_base`
+  Consume the translation formula through the effective divisor-cocycle construction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.nonempty_weightedAbelJacobiLineBundle_change_base`
+  Identify the new-basepoint bundle with the old bundle tensored by the correction bundle.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.weightedAbelJacobiLineBundle_toPic_change_base`
+  Consume the bundle isomorphism in the exact scheme-Picard translation equality.
 :::
 
 :::definition "MT-EC-ISOGENY-WEIL" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, mathlib") (priority := "high") (effort := "large")

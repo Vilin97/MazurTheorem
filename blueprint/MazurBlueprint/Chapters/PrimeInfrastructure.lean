@@ -566,6 +566,12 @@ quotients are not being represented as quasi-finite flat group schemes.
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClassesCertifiedDataPrimeAway`
 * `definition` (`contract`):
   `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryKernelCertifiedDataPrimeAway`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.away_isPrincipalIdealRing`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayPic_eq_one`
+* `definition` (`contract`):
+  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayInvertibleModuleLinearEquiv`
 * `definition` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
 * `theorem` (`contract`):
@@ -669,11 +675,16 @@ presheaf comparison, now identifies that spelling with the original represented 
 downstream consumers. Explicit cover-level and global `H¹` transport along base equivalences now
 commutes with refinements and combines with represented-point base change. The
 `basicOpenIsoSpecAway` consumer transports both supported comparisons to the direct
-`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group certificates now transport to the exact
-constant-flat and multiplicative-flat carriers with unchanged lengths and p-power cardinalities;
-no constant-group or Kummer arithmetic is inferred. An open-sheaf equivalence, global
-cohomological localization sequence, quasi-finite admissible-filtration exact sequences, the
-two global bad-level `H¹` calculations, middle-`H¹` finiteness proof,
+`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group
+certificates now transport to the exact constant-flat and multiplicative-flat
+carriers with unchanged lengths and p-power cardinalities;
+the multiplicative Kummer kernel over every prime localization now has an actual length-one
+certificate. The localization is a principal ideal ring, its ring Picard group is trivial, and
+every invertible module is explicitly trivialized. The missing comparison is from a represented
+multiplicative fppf cocycle to its descended invertible module; no ambient `H¹(G_m)` vanishing is
+claimed. An open-sheaf equivalence, global cohomological localization sequence,
+quasi-finite admissible-filtration exact sequences, the constant-factor global
+`H¹` calculation, middle-`H¹` finiteness proof,
 and focused rank-zero specialization are still absent, so no node credit is claimed.
 :::
 
@@ -1058,12 +1069,22 @@ toric reduction of the modular Jacobian.
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspQExpansionAtEleven_of_componentExponentTwelve`
 * `structure` (`contract`):
   `Ideal.Fiber.AffineSectionAtFiberPoint`
+* `structure` (`contract`):
+  `Ideal.Fiber.AffineStructuralSection`
+* `theorem` (`contract`):
+  `Ideal.Fiber.AffineStructuralSection.isClosed_fiberPoint`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section`
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_structuralSection`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_section`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_section`
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_structuralSection`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_structuralSection`
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
 
@@ -1106,10 +1127,11 @@ retracts it and proves the source residue field is the base field, and the
 over-base quotient equation proves the image residue field is also the base.
 A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
 immersion predicate and separates arbitrary Noetherian local sections with
-equal quotient image. A checked affine-section structure binds its section
-law to the selected fibre point; contravariance of `Spec` derives the algebra
-retraction, prime-comap equality, and both residue surjections, with final
-consumers at five and eleven. The integral cusp model, its quotient-ideal/stalk
+equal quotient image. A checked affine structural section now derives its
+special-fibre point as the kernel of a surjective residue-field retraction and
+proves that point maximal and closed. Contravariance of `Spec` derives the
+algebra retraction, prime-comap equality, and both residue surjections, with
+final consumers at five and eleven. The integral cusp model, its quotient-ideal/stalk
 identification, modular affine presentation, inhabitant of that section
 structure, generator and non-square proofs, and the actual modular q-expansion
 remain open. This node receives no completion credit.
