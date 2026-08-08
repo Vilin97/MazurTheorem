@@ -22,13 +22,14 @@ fields.  Naturality of localization along the represented affine morphism
 then gives the required surjectivity for `Ideal.Fiber.ambientLocalizedMap`.
 
 The final theorem is a genuine `Spec.map` formal-immersion consumer.  It
-replaces the former ambient residue-field hypothesis by the rational affine
-section and the exact closed-point equality.  The checked compatible-quotient
-comparison then derives the special-fibre residue surjection from that
-ambient result, so neither residue map remains an independent premise.
+packages the rational affine section, its section law, and its exact fibre
+point in one object.  The resulting retraction supplies ambient residue-field
+surjectivity, and the checked compatible-quotient comparison derives the
+special-fibre residue surjection, so neither residue map remains an
+independent premise.
 -/
 
-open Algebra TensorProduct AlgebraicGeometry
+open Algebra TensorProduct AlgebraicGeometry CategoryTheory
 
 namespace IsLocalRing
 
@@ -63,6 +64,61 @@ universe u
 
 variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
+
+/-- A section of an affine structural morphism that meets a specified point
+of the special fibre.
+
+The two compatibility fields prevent the geometric section and the selected
+fibre prime from being supplied independently.  Contravariance of `Spec`
+then produces the coordinate-ring retraction used by the residue-field
+argument below. -/
+structure AffineSectionAtFiberPoint
+    (p : Ideal R) [p.IsPrime]
+    (q : Ideal (p.Fiber T)) [q.IsPrime] where
+  toSpec : Spec (.of R) ⟶ Spec (.of T)
+  isSection :
+    toSpec ≫ Spec.map (CommRingCat.ofHom (algebraMap R T)) = 𝟙 _
+  atPrime :
+    toSpec (show Spec (.of R) from ⟨p, inferInstance⟩) =
+      targetSpecPoint p q
+
+namespace AffineSectionAtFiberPoint
+
+/-- The algebra retraction contravariantly represented by an affine
+section. -/
+noncomputable def retraction
+    (p : Ideal R) [p.IsPrime]
+    (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (C : AffineSectionAtFiberPoint p q) : T →ₐ[R] R where
+  toRingHom := (Spec.preimage C.toSpec).hom
+  commutes' r := by
+    change (Spec.preimage C.toSpec).hom (algebraMap R T r) = r
+    have hcomp :
+        (CommRingCat.ofHom (algebraMap R T)) ≫
+          Spec.preimage C.toSpec = 𝟙 _ := by
+      rw [← Spec.preimage_map
+        (φ := CommRingCat.ofHom (algebraMap R T))]
+      rw [← Spec.preimage_comp, C.isSection, Spec.preimage_id]
+    exact DFunLike.congr_fun (congrArg CommRingCat.Hom.hom hcomp) r
+
+/-- The retraction extracted from the section meets precisely the ambient
+prime underlying the selected special-fibre point. -/
+theorem targetBasePrime_eq_comap_retraction
+    (p : Ideal R) [p.IsPrime]
+    (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (C : AffineSectionAtFiberPoint p q) :
+    targetBasePrime p q = p.comap (C.retraction p q).toRingHom := by
+  have hmap : Spec.map (Spec.preimage C.toSpec) = C.toSpec :=
+    Spec.map_preimage C.toSpec
+  have hpoint :
+      (Spec.map (Spec.preimage C.toSpec))
+        (show Spec (.of R) from ⟨p, inferInstance⟩) =
+        targetSpecPoint p q := by
+    rw [hmap]
+    exact C.atPrime
+  exact (congrArg PrimeSpectrum.asIdeal hpoint).symm
+
+end AffineSectionAtFiberPoint
 
 /-- An `R`-algebra retraction at the selected closed point makes the
 localized structural map surjective on residue fields.
@@ -176,6 +232,19 @@ theorem ambientResidue_surjective_of_retraction
   rw [IsLocalRing.ResidueField.map_map]
   exact (DFunLike.congr_fun hbaseResidue x).trans hx
 
+/-- A genuine affine section through the selected fibre point supplies the
+ambient residue-field surjection.  Unlike the retraction-level adapter, this
+theorem requires the section law and point compatibility in one geometric
+object. -/
+theorem ambientResidue_surjective_of_section
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (C : AffineSectionAtFiberPoint p q) :
+    Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q)) :=
+  ambientResidue_surjective_of_retraction p g q (C.retraction p q)
+    (C.targetBasePrime_eq_comap_retraction p q)
+
 end Ideal.Fiber
 
 namespace MazurTorsion.ModularCurve.AffineCuspQExpansion
@@ -278,5 +347,53 @@ theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_retraction
     hQ hecke eigenvalue hfirst heigen
     (ambientResidue_surjective_of_retraction p g q cuspRetraction
       hcuspClosedPoint)
+
+/-- A nonzero Hecke eigen-expansion proves formal immersion at the point of
+a genuine affine section.
+
+The section law canonically determines the coordinate-ring retraction, and
+the point field identifies its inverse image of the base prime.  Thus the
+caller cannot mix a geometric cusp section with an unrelated algebra
+retraction. -/
+theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    (qParameter : Localization.AtPrime q)
+    (hmaximal : IsLocalRing.maximalIdeal (Localization.AtPrime q) =
+      Ideal.span {qParameter})
+    (hqLinear : qParameter ∉
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (C : AffineSectionAtFiberPoint p q) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) :=
+  isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion p g q qParameter
+    hmaximal hqLinear sourceParameter hsourceMem qCoordinate Q hqExpansion
+    hQ hecke eigenvalue hfirst heigen
+    (ambientResidue_surjective_of_section p g q C)
 
 end MazurTorsion.ModularCurve.AffineCuspQExpansion
