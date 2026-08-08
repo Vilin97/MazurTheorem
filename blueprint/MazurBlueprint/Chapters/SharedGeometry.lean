@@ -194,7 +194,10 @@ normalization, and Picard surjectivity.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne`.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyModule`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom`;
-* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`.
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackOpensIso`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackRestrictPushforwardIso`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -499,6 +502,18 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionHom_adjunct`
   Identify the adjunct of each chart restriction map with the corresponding equalizer
   projection.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackOpensIso`
+  Identify opens across a cartesian square of open immersions, supplying the pointwise
+  base-change comparison.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackRestrictPushforwardIso`
+  Prove the exact restriction-of-pushforward base-change isomorphism for a cartesian square
+  of open immersions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent`
+  Consume open base change and the descent transition to map one local chart object into the
+  restriction of every pushed-forward chart object.
 * `structure` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle`
   Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple
@@ -945,8 +960,14 @@ discharge the section-surjectivity premise and give an unconditional finite
 affine cover killing every supplied H2 class. The cover's actual cokernel is
 quasicoherent and has vanishing affine H1, so the dimension-shift map is
 injective on H2; genuine quasicoherent H2 therefore vanishes on every affine
-scheme. Extending local killing through all positive degrees and
-all-positive-degree affine acyclicity remain open, as do proper
+scheme. Injective abelian sheaves are now proved flasque by extension from
+free abelian representables, and an injective-cokernel induction proves
+flasque acyclicity in every positive degree. On an affine open, this and H2
+vanishing give the second-syzygy section-surjectivity needed for degree-three
+local killing. The same genuine cover dimension shift proves quasicoherent H3
+vanishing on every affine spectrum and every affine scheme. Extending this
+syzygy argument through all positive degrees and proving all-positive-degree
+affine acyclicity remain open, as do proper
 finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
@@ -1067,6 +1088,23 @@ finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHOne_eq_zero`
   State the elementwise zero consequence for affine quasicoherent H1.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.injectiveSheaf_isFlasque`
+  Prove injective abelian sheaves flasque by extension from free abelian
+  representable sheaves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.flasqueSheaf_H_succ_subsingleton`
+  Prove every positive-degree cohomology group of a flasque sheaf
+  subsingleton through injective-cokernel dimension shifting.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHThree_finiteAffineKillingCover_of_affine_cokernel_app_surjective`
+  Construct a finite affine cover killing a supplied H3 class from
+  section-surjectivity of the first two injective-cokernel projections.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHThree_subsingleton`
+  Combine unconditional degree-three local killing with the actual cover
+  dimension shift and transport affine quasicoherent H3 vanishing to every
+  affine scheme.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

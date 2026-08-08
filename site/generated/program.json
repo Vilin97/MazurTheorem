@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1512132,
-    "integrated_lean_modules": 843,
+    "integrated_lean_lines": 1512675,
+    "integrated_lean_modules": 844,
     "remaining_composite_orders": [
       18,
       25,
@@ -1563,7 +1563,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The generic theorem that an invertible cocycle forces diagonal normalization was reviewed but deliberately not integrated because its concrete specialization did not compile at the default elaboration budget; an active narrower consumer avoids the expensive pullback/map conversion. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. For arbitrary module descent data, the actual product of direct images, both transition-compatible overlap maps, their equalizer, and the adjoint chart-restriction morphism now compile. This is the global compatible-family candidate, not effectivity: the chart morphism is not yet proved invertible. What remains is the raw diagonal-normalization consumer, the open-pullback restriction/pushforward comparison, construction of inverse chart maps and the resulting descent-data isomorphism, followed by object separation, rational normalization, and Picard surjectivity.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The generic theorem that an invertible cocycle forces diagonal normalization remains under concrete compile review and is not yet integrated. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. For arbitrary module descent data, the actual product of direct images, both transition-compatible overlap maps, their equalizer, and the adjoint chart-restriction morphism compile. The cartesian square of two open immersions now gives the exact restriction-of-pushforward base-change isomorphism, and a concrete chart component consumes it by mapping each local object into the restriction of every pushed-forward chart object. This is still a compatible-family candidate, not effectivity: the chart components must be assembled through the ambient product and equalizer and proved inverse to the existing restriction morphism. What remains is the raw diagonal-normalization consumer, that equalizer factorization and inverse proof, the resulting descent-data isomorphism, followed by object separation, rational normalization, and Picard surjectivity.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3046,6 +3046,27 @@
           "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackOpensIso",
+          "state": "contract",
+          "description": "Identify opens across a cartesian square of open immersions, supplying the pointwise base-change comparison.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.openPullbackRestrictPushforwardIso",
+          "state": "contract",
+          "description": "Prove the exact restriction-of-pushforward base-change isomorphism for a cartesian square of open immersions.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyChartComponent",
+          "state": "contract",
+          "description": "Consume open base change and the descent transition to map one local chart object into the restriction of every pushed-forward chart object.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies"
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleNormalizedTransition_cocycle_of_pairwise_ne",
           "state": "contract",
@@ -3110,7 +3131,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. A clean-room Ext/sheaf argument now kills every genuine degree-one class on a finite affine open cover of Spec R; affine H0 right exactness makes that cover map injective on H1, so affine quasicoherent H1 vanishes. Transport across the canonical affine-scheme isomorphism supplies this theorem on every affine open. Exact open pullback of the injective-cokernel sequence and its long exact sequence then discharge the section-surjectivity premise in degree two. Every genuine quasicoherent H2 class is killed by a finite affine cover, while affine H1 vanishing for the actual quasicoherent cover cokernel makes that map injective on H2. Thus genuine quasicoherent H2 vanishes on every affine scheme. Extending local killing and affine acyclicity to every positive degree, proper finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. Clean-room Ext/sheaf arguments prove genuine affine quasicoherent H1 and H2 vanishing. Injective abelian sheaves are now proved flasque from free abelian representable sheaves, and every positive-degree cohomology group of a flasque sheaf is subsingleton by an actual injective-cokernel induction. On an affine open, restricted flasque H1 together with affine quasicoherent H2 vanishing makes the second injective-cokernel projection surjective on sections. This supplies finite local killing in degree three; the genuine affine-cover dimension shift then proves quasicoherent H3 vanishing on every affine spectrum and, by scheme-isomorphism transport, every affine scheme. The H3 theorem is a checked milestone, not the all-positive result. Generalizing the syzygy/local-killing argument to every positive degree, proper finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3120,7 +3141,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only the exact-sequence core is retained from AINTLIB. Degree-one local killing and affine H1 acyclicity are independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. The same clean-room proof now transports affine H1 vanishing across affine scheme isomorphisms, removes the injective-cokernel section-surjectivity premise, and proves both finite local killing and affine acyclicity in degree two. General higher local killing, all-positive-degree affine acyclicity, and the required packaged proper-curve finite-dimensionality and vanishing-above-one API remain absent.",
+          "boundary": "Only the exact-sequence core is retained from AINTLIB. Degree-one local killing and affine H1 acyclicity are independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. The same clean-room line proves finite local killing and affine acyclicity in degrees two and three; the H3 proof derives flasque acyclicity and the second-syzygy section-surjectivity directly from pinned Mathlib. General all-positive-degree affine acyclicity and the required packaged proper-curve finite-dimensionality and vanishing-above-one API remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3383,6 +3404,34 @@
           "state": "contract",
           "description": "Give the elementwise zero theorem for every genuine Ext-based H1 class of a quasicoherent module on an affine spectrum.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHOne"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.injectiveSheaf_isFlasque",
+          "state": "contract",
+          "description": "Prove that every injective abelian sheaf is flasque by extending maps from free abelian representable sheaves.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.flasqueSheaf_H_succ_subsingleton",
+          "state": "contract",
+          "description": "Prove flasque sheaves acyclic in every positive degree through actual injective-cokernel sequences.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHThree_finiteAffineKillingCover_of_affine_cokernel_app_surjective",
+          "state": "contract",
+          "description": "Extend finite affine local killing to degree three from section-surjectivity of the first two injective-cokernel projections; the unconditional H3 cover theorem is its compiled consumer.",
+          "module": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHThree_subsingleton",
+          "state": "contract",
+          "description": "Combine the second-syzygy section-surjectivity, finite local killing, and genuine cover dimension shift to prove quasicoherent H3 vanishing on every affine scheme.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree"
         }
       ],
       "depends_on": [

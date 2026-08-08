@@ -92,6 +92,31 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The compatible-family effectivity lane now has the exact open base-change seam.
+For a cartesian square of open immersions, the induced equivalence of open
+sets gives a checked restriction-of-pushforward isomorphism.  The actual
+descent transition consumes it to map a fixed chart object into the
+restriction of every pushed-forward chart object (`ea6dd19`).  The focused
+2,629-job serial build and all three endpoint axiom audits pass with only
+`propext`, `Classical.choice`, and `Quot.sound`.  This does not yet
+assemble the chart components through the ambient product or equalizer and
+does not prove them inverse to `compatibleFamilyRestrictionHom`; A3 remains
+open with no credit.
+
+The coherent-cohomology lane now proves genuine affine quasicoherent H3
+acyclicity (`f383d58`, reviewed from contributor `6434f7b`).  Injective
+abelian sheaves are flasque by extension from free abelian representables,
+and an actual injective-cokernel induction proves every positive-degree
+cohomology group of a flasque sheaf subsingleton.  On affine opens, this and
+the checked H2 theorem supply second-syzygy section surjectivity.  The
+existing finite local-killing and cover dimension-shift machinery then kills
+every H3 class on an affine spectrum and transports the result to every
+affine scheme.  Both owner focused builds and all ten endpoint axiom audits
+pass; the proof is option-free and records its clean-room provenance.  This
+is an H3 milestone, not all-positive affine acyclicity, so B1 remains open
+with no credit.  The exact quality baseline is now 844 Lean modules and
+1,512,675 Lean lines.
+
 The initial owner audit distinguishes the public base from this integration
 line. `origin/main` is `cf85e1a` with 50 / 1,000 points credited; the owner
 branch is a strict 382-commit descendant with 157 / 1,000 points credited.
