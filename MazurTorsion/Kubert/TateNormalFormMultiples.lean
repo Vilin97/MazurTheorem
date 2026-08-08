@@ -133,6 +133,100 @@ theorem nsmul_origin_eq_successiveCoordinates
           one_nsmul, hncoord, hsucccoord]
         rfl
 
+/-- Fraction-free numerator and denominator data for one pair of Tate
+recurrence coordinates. -/
+structure TateClearedCoordinateDatum where
+  xNum : ℚ
+  xDen : ℚ
+  yNum : ℚ
+  yDen : ℚ
+
+/-- One fraction-free step of the Tate recurrence.  No division occurs in
+this definition; its specification theorem records the nonzero inputs needed
+to recover `tateNextX` and `tateNextY`. -/
+def tateClearedNext (b c : ℚ)
+    (Q : TateClearedCoordinateDatum) : TateClearedCoordinateDatum :=
+  let rNum := Q.yNum * Q.xDen
+  let rDen := Q.yDen * Q.xNum
+  let nextXNum :=
+    rNum ^ 2 * Q.xDen +
+      (1 - c) * rNum * rDen * Q.xDen +
+      b * rDen ^ 2 * Q.xDen - Q.xNum * rDen ^ 2
+  let nextXDen := rDen ^ 2 * Q.xDen
+  let nextYNum :=
+    -rNum * (nextXNum * Q.xDen - Q.xNum * nextXDen) * Q.yDen -
+      Q.yNum * rDen * nextXDen * Q.xDen -
+      (1 - c) * nextXNum * rDen * Q.xDen * Q.yDen +
+      b * rDen * nextXDen * Q.xDen * Q.yDen
+  let nextYDen := rDen * nextXDen * Q.xDen * Q.yDen
+  ⟨nextXNum, nextXDen, nextYNum, nextYDen⟩
+
+/-- Fraction-free coordinates corresponding to `tateSuccessiveCoordinates`.
+Index zero is the cleared presentation `(b/1, bc/1)` of `2P`. -/
+def tateClearedCoordinates (b c : ℚ) : ℕ → TateClearedCoordinateDatum
+  | 0 => ⟨b, 1, b * c, 1⟩
+  | n + 1 => tateClearedNext b c (tateClearedCoordinates b c n)
+
+private lemma tateClearedNext_spec
+    (b c : ℚ) (Q : TateClearedCoordinateDatum)
+    (hxNum : Q.xNum ≠ 0) (hxDen : Q.xDen ≠ 0)
+    (hyDen : Q.yDen ≠ 0) :
+    let next := tateClearedNext b c Q
+    next.xDen ≠ 0 ∧ next.yDen ≠ 0 ∧
+      tateNextX b c (Q.xNum / Q.xDen) (Q.yNum / Q.yDen) =
+        next.xNum / next.xDen ∧
+      tateNextY b c (Q.xNum / Q.xDen) (Q.yNum / Q.yDen) =
+        next.yNum / next.yDen := by
+  dsimp only [tateClearedNext]
+  have hrDen : Q.yDen * Q.xNum ≠ 0 := mul_ne_zero hyDen hxNum
+  constructor
+  · exact mul_ne_zero (pow_ne_zero 2 hrDen) hxDen
+  constructor
+  · exact mul_ne_zero
+      (mul_ne_zero
+        (mul_ne_zero hrDen
+          (mul_ne_zero (pow_ne_zero 2 hrDen) hxDen))
+        hxDen)
+      hyDen
+  constructor
+  · simp only [tateNextX]
+    field_simp [hxNum, hxDen, hyDen]
+  · simp only [tateNextY, tateNextX]
+    field_simp [hxNum, hxDen, hyDen]
+    ring
+
+/-- The fraction-free recurrence represents the rational Tate recurrence,
+and all its denominators are nonzero whenever the abscissas used as secants
+are nonzero. -/
+theorem tateClearedCoordinates_spec
+    (b c : ℚ) (n : ℕ)
+    (hx : ∀ k < n, tateSuccessiveX b c k ≠ 0) :
+    let Q := tateClearedCoordinates b c n
+    Q.xDen ≠ 0 ∧ Q.yDen ≠ 0 ∧
+      tateSuccessiveX b c n = Q.xNum / Q.xDen ∧
+      tateSuccessiveY b c n = Q.yNum / Q.yDen := by
+  induction n with
+  | zero =>
+      simp [tateClearedCoordinates]
+  | succ n ih =>
+      have hx' : ∀ k < n, tateSuccessiveX b c k ≠ 0 := by
+        intro k hk
+        exact hx k (Nat.lt_succ_of_lt hk)
+      obtain ⟨hxDen, hyDen, hxEq, hyEq⟩ := ih hx'
+      let Q := tateClearedCoordinates b c n
+      have hxNum : Q.xNum ≠ 0 := by
+        intro hxNum
+        apply hx n (Nat.lt_succ_self n)
+        rw [hxEq, hxNum]
+        simp
+      obtain ⟨hnextXDen, hnextYDen, hnextX, hnextY⟩ :=
+        tateClearedNext_spec b c Q hxNum hxDen hyDen
+      refine ⟨hnextXDen, hnextYDen, ?_, ?_⟩
+      · rw [tateSuccessiveX_succ, hxEq, hyEq]
+        exact hnextX
+      · rw [tateSuccessiveY_succ, hxEq, hyEq]
+        exact hnextY
+
 /-- The `X`-coordinate of `5P` in Tate normal form. -/
 def tateFiveX (b c : ℚ) : ℚ :=
   b * c * (c ^ 2 + c - b) / (b - c) ^ 2

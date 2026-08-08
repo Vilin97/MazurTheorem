@@ -12,11 +12,14 @@ import MazurTorsion.Kubert.TateNormalFormMultiples
 An exact order-25 point is put in Tate normal form.  The checked rational
 recurrence computes `12P` and `13P`, with every nonzero secant denominator
 deduced from exact order.  Since `13P = -12P`, their abscissas agree.  This
-gives an explicit rational-function equation on `X₁(25)` while preserving the
-discriminant scaling from the original elliptic curve.
+gives an explicit rational-function equation on `X₁(25)`.  A second checked
+recurrence carries numerator and denominator data without division and
+cross-multiplies the collision to a fixed polynomial expression, while
+preserving the discriminant scaling from the original elliptic curve.
 
-This is a forward reduction, not yet the Diophantine exclusion of all
-noncuspidal rational points on the resulting curve.
+This is a forward reduction, not yet a tractable birational model or the
+Diophantine exclusion of all noncuspidal rational points on the resulting
+curve.
 -/
 
 open scoped WeierstrassCurve.Affine
@@ -27,6 +30,14 @@ namespace MazurTorsion.Kubert
 the denominator-checked Tate recurrence. -/
 def orderTwentyFiveRecurrenceEquation (b c : ℚ) : ℚ :=
   tateSuccessiveX b c 11 - tateSuccessiveX b c 10
+
+/-- The fraction-free cross-multiplied form of the `12P/13P` collision.  It
+is a fixed expression involving only addition and multiplication in `b,c`;
+the recurrence specification proves that no extraneous denominator is used. -/
+def orderTwentyFiveClearedEquation (b c : ℚ) : ℚ :=
+  let Q₁₂ := tateClearedCoordinates b c 10
+  let Q₁₃ := tateClearedCoordinates b c 11
+  Q₁₃.xNum * Q₁₂.xDen - Q₁₂.xNum * Q₁₃.xDen
 
 private theorem nsmul_ne_zero_of_marked_order_twentyFive
     {G : Type*} [AddCommGroup G] (P : G)
@@ -131,6 +142,38 @@ theorem orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order
   simp only [orderTwentyFiveRecurrenceEquation]
   exact sub_eq_zero.mpr hxEqual
 
+/-- Exact order 25 forces the fraction-free `X₁(25)` recurrence equation.
+The proof obtains both denominator certificates before cross-multiplying. -/
+theorem orderTwentyFiveClearedEquation_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveClearedEquation b c = 0 := by
+  let Q₁₂ := tateClearedCoordinates b c 10
+  let Q₁₃ := tateClearedCoordinates b c 11
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive
+      b c hb h00 horder
+  obtain ⟨hxDen₁₂, -, hxEq₁₂, -⟩ :=
+    tateClearedCoordinates_spec b c 10
+      (fun k hk => hx k (by omega))
+  obtain ⟨hxDen₁₃, -, hxEq₁₃, -⟩ :=
+    tateClearedCoordinates_spec b c 11
+      (fun k hk => hx k (by omega))
+  have hcollision :=
+    orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order
+      b c hb h00 horder
+  have hxRational :
+      tateSuccessiveX b c 11 = tateSuccessiveX b c 10 :=
+    sub_eq_zero.mp hcollision
+  rw [hxEq₁₃, hxEq₁₂] at hxRational
+  change Q₁₃.xNum * Q₁₂.xDen - Q₁₂.xNum * Q₁₃.xDen = 0
+  exact sub_eq_zero.mpr
+    ((div_eq_div_iff hxDen₁₃ hxDen₁₂).mp hxRational)
+
 /-- A rational point of exact order 25 supplies a denominator-checked point
 on the explicit Tate recurrence locus, retaining the twelfth-power
 discriminant scale of the original curve. -/
@@ -141,6 +184,7 @@ theorem exists_tateOrderTwentyFive_recurrence_certificate
       u ≠ 0 ∧ b ≠ 0 ∧
       (∀ n ≤ 10, tateSuccessiveX b c n ≠ 0) ∧
       orderTwentyFiveRecurrenceEquation b c = 0 ∧
+      orderTwentyFiveClearedEquation b c = 0 ∧
       u ^ 12 * E.Δ = (tateNormalCurve b c).Δ := by
   haveI : (E⁄ℚ).IsElliptic :=
     inferInstanceAs (E.map (algebraMap ℚ ℚ)).IsElliptic
@@ -171,10 +215,13 @@ theorem exists_tateOrderTwentyFive_recurrence_certificate
   have hequation :=
     orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order
       b c hb h00 hmarked
+  have hcleared :=
+    orderTwentyFiveClearedEquation_eq_zero_of_marked_order
+      b c hb h00 hmarked
   have hdenominators :=
     tateSuccessiveX_ne_zero_of_marked_order_twentyFive
       b c hb h00 hmarked
-  refine ⟨b, c, u, hu, hb, hdenominators, hequation, ?_⟩
+  refine ⟨b, c, u, hu, hb, hdenominators, hequation, hcleared, ?_⟩
   have hbase : (E⁄ℚ).Δ = E.Δ := by
     simp [WeierstrassCurve.baseChange]
   rwa [← hbase]
