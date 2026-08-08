@@ -107,19 +107,21 @@ Ext/sheaf cohomology.  The remaining B1 seams are the option-free
 sheaf-Cech degree-one comparison, base-linear transport, cover-relative Ext
 scalar transfer, low-degree Chow/properness input, proper `H¹` finiteness,
 and the final curve facade.  B1 remains open with no credit.  The exact
-quality baseline is now 871 Lean modules and 1,524,339 Lean lines.
+quality baseline is now 871 Lean modules and 1,524,801 Lean lines.
 
-The A3 compatible-family lane now constructs, on each fixed chart, the
-genuine family of overlap-transition components inside the restricted product
-of direct images.  Triple-overlap coherence reduces to the descent datum's
-actual `D.hom_comp`; the family satisfies both restricted compatibility maps
-and therefore factors through their actual equalizer
-(`1b27f52`, API-narrowed by `bb5a8a3`).  The factorization projection is a
-checked consumer.  Independent review and the serial touched-module and
-3,493-job Geometry builds pass, and the public endpoints use only `propext`,
-`Classical.choice`, and `Quot.sound`.  This does not yet identify the
-restricted global equalizer with the local chart object or prove effective
-descent, so A3 remains open with no credit.
+The A3 compatible-family lane now proves that open restriction preserves the
+actual equalizer of compatible families and identifies its restriction on
+each chart with the specified local module (`c920ec2`, independently reviewed
+from `30eea8d`).  The construction gives an explicit inverse to
+`compatibleFamilyRestrictionHom`; one law uses the diagonal chart component
+and counit, while the other is checked componentwise after the preserved
+product comparison and then cancels the preserved equalizer inclusion.  The
+2,629-job focused build, 3,725-job Geometry build, and ten endpoint axiom
+audits pass with only `propext`, `Classical.choice`, and `Quot.sound`.  This is
+only a pointwise pullback isomorphism: no `DescentData.Hom` has yet been built,
+and compatibility after arbitrary base change is still required before a
+genuine `EffectiveModule` consumer.  The construction also retains its
+visible small-index `OpenCover.{0}` boundary.  A3 remains open with no credit.
 
 The B1 lane now retains the complete attributed LeanPool proof of
 Grothendieck vanishing and applies it to the underlying additive sheaf of an
