@@ -475,6 +475,475 @@ theorem eq_cube_or_zeta_mul_cube_or_zeta_sq_mul_cube_of_associated
     rw [Odd.neg_pow (by decide : Odd 3)]
     simpa using hfactor
 
+/-! ## Integral coordinates for the three unit classes -/
+
+/-- The real coordinate of the cube of `x+yζ₃`. -/
+def eisensteinCubeReal (x y : ℤ) : ℤ :=
+  x ^ 3 - 3 * x * y ^ 2 + y ^ 3
+
+/-- The `ζ₃` coordinate of the cube of `x+yζ₃`. -/
+def eisensteinCubeEta (x y : ℤ) : ℤ :=
+  3 * (x * y * (x - y))
+
+/-- The integral coordinates of a literal Eisenstein cube. -/
+theorem eisensteinCube_eq_coords (x y : ℤ) :
+    (((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3 =
+      ((eisensteinCubeReal x y : ℤ) : 𝓞 K) +
+        eisensteinCubeEta x y * hζ.toInteger := by
+  have hroot := hζ.toInteger_isPrimitiveRoot.isRoot_cyclotomic
+    (by norm_num)
+  rw [Polynomial.cyclotomic_three] at hroot
+  norm_num [Polynomial.IsRoot] at hroot
+  have hcube := hζ.toInteger_isPrimitiveRoot.pow_eq_one
+  simp only [eisensteinCubeReal, eisensteinCubeEta]
+  push_cast
+  ring_nf
+  linear_combination
+    (3 * (x : 𝓞 K) * (y : 𝓞 K) ^ 2) * hroot +
+      (y : 𝓞 K) ^ 3 * hcube
+
+/-- Coordinates of a cube in the `ζ₃` unit class. -/
+theorem zeta_mul_eisensteinCube_eq_coords (x y : ℤ) :
+    hζ.toInteger *
+        ((((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3) =
+      ((-eisensteinCubeEta x y : ℤ) : 𝓞 K) +
+        (eisensteinCubeReal x y - eisensteinCubeEta x y) *
+          hζ.toInteger := by
+  rw [eisensteinCube_eq_coords]
+  have hroot := hζ.toInteger_isPrimitiveRoot.isRoot_cyclotomic
+    (by norm_num)
+  rw [Polynomial.cyclotomic_three] at hroot
+  norm_num [Polynomial.IsRoot] at hroot
+  push_cast
+  linear_combination (eisensteinCubeEta x y : 𝓞 K) * hroot
+
+/-- Coordinates of a cube in the `ζ₃²` unit class. -/
+theorem zeta_sq_mul_eisensteinCube_eq_coords (x y : ℤ) :
+    hζ.toInteger ^ 2 *
+        ((((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3) =
+      ((eisensteinCubeEta x y - eisensteinCubeReal x y : ℤ) :
+          𝓞 K) +
+        (-eisensteinCubeReal x y) * hζ.toInteger := by
+  rw [eisensteinCube_eq_coords]
+  have hroot := hζ.toInteger_isPrimitiveRoot.isRoot_cyclotomic
+    (by norm_num)
+  rw [Polynomial.cyclotomic_three] at hroot
+  norm_num [Polynomial.IsRoot] at hroot
+  have hcube := hζ.toInteger_isPrimitiveRoot.pow_eq_one
+  push_cast
+  linear_combination
+    (eisensteinCubeReal x y : 𝓞 K) * hroot +
+      (eisensteinCubeEta x y : 𝓞 K) * hcube
+
+/-- The three sign-free Eisenstein cube-unit classes. -/
+inductive EisensteinCubeUnitIndex
+  | one
+  | zeta
+  | zetaSq
+  deriving DecidableEq
+
+/-- Integral coordinates of a cube after multiplication by the indicated
+unit-class representative. -/
+def eisensteinCubeUnitCoords {R : Type*} [CommRing R]
+    (j : EisensteinCubeUnitIndex) (x y : R) : R × R :=
+  let real := x ^ 3 - 3 * x * y ^ 2 + y ^ 3
+  let eta := 3 * (x * y * (x - y))
+  match j with
+  | .one => (real, eta)
+  | .zeta => (-eta, real - eta)
+  | .zetaSq => (eta - real, -real)
+
+/-- A ring element presented in integral coordinates in one of the three
+cube-unit classes. -/
+def EisensteinCubeCoordinateClass (A : 𝓞 K) : Prop :=
+  ∃ (j : EisensteinCubeUnitIndex) (x y : ℤ),
+    A = ((eisensteinCubeUnitCoords j x y).1 : ℤ) +
+      (eisensteinCubeUnitCoords j x y).2 * hζ.toInteger
+
+/-- The abstract three-unit-class certificate has an integral-coordinate
+presentation. -/
+theorem eisensteinCubeCoordinateClass_of_unitClass
+    [NumberField K] [IsCyclotomicExtension {3} ℚ K]
+    {A : 𝓞 K} (hclass : EisensteinCubeUnitClass hζ A) :
+    EisensteinCubeCoordinateClass hζ A := by
+  obtain ⟨z, h | h | h⟩ := hclass
+  all_goals
+    obtain ⟨x, y, hxy⟩ := exists_splitEisensteinCoords hζ z
+  · refine ⟨EisensteinCubeUnitIndex.one, x, y, ?_⟩
+    calc
+      A = z ^ 3 := h
+      _ = (((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3 := by rw [hxy]
+      _ = _ := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using eisensteinCube_eq_coords hζ x y
+  · refine ⟨EisensteinCubeUnitIndex.zeta, x, y, ?_⟩
+    calc
+      A = hζ.toInteger * z ^ 3 := h
+      _ = hζ.toInteger *
+          ((((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3) := by rw [hxy]
+      _ = _ := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using
+            zeta_mul_eisensteinCube_eq_coords hζ x y
+  · refine ⟨EisensteinCubeUnitIndex.zetaSq, x, y, ?_⟩
+    calc
+      A = hζ.toInteger ^ 2 * z ^ 3 := h
+      _ = hζ.toInteger ^ 2 *
+          ((((x : ℤ) : 𝓞 K) + y * hζ.toInteger) ^ 3) := by rw [hxy]
+      _ = _ := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using
+            zeta_sq_mul_eisensteinCube_eq_coords hζ x y
+
+private def fourScalarSecondCoords {R : Type*} [CommRing R]
+    (z : R × R) : R × R :=
+  (2 * z.1, z.2 - z.1)
+
+private def eightScalarSecondDoubledCoords {R : Type*} [CommRing R]
+    (z : R × R) : R × R :=
+  (z.1, z.2 - z.1)
+
+private def doubleSecondCoord {R : Type*} [CommRing R]
+    (z : R × R) : R × R :=
+  (z.1, 2 * z.2)
+
+private theorem false_of_first_cubeCoords_zero_mod
+    (p : ℕ) (hp : p.Prime)
+    {m n x y : ℤ} {j : EisensteinCubeUnitIndex}
+    (hmn : IsCoprime m n) (hm : Odd m) (hn : Odd n)
+    (hfirst : ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y)
+    (hzero : eisensteinCubeUnitCoords j (x : ZMod p) (y : ZMod p) =
+      (0, 0)) :
+    False := by
+  have hfirstMod :
+      ((((m + n) / 2 : ℤ) : ZMod p), (n : ZMod p)) =
+        eisensteinCubeUnitCoords j (x : ZMod p) (y : ZMod p) := by
+    have hcast := congrArg
+      (fun z : ℤ × ℤ ↦ ((z.1 : ZMod p), (z.2 : ZMod p))) hfirst
+    cases j <;> simpa [eisensteinCubeUnitCoords] using hcast
+  rw [hzero] at hfirstMod
+  have hr : (((m + n) / 2 : ℤ) : ZMod p) = 0 := by
+    simpa using congrArg Prod.fst hfirstMod
+  have hnzero : (n : ZMod p) = 0 := by
+    simpa using congrArg Prod.snd hfirstMod
+  obtain ⟨r, hrm⟩ := hm
+  obtain ⟨s, hsn⟩ := hn
+  have hsum : 2 * ((m + n) / 2) = m + n := by omega
+  have hsumMod := congrArg (fun z : ℤ ↦ (z : ZMod p)) hsum
+  push_cast at hsumMod
+  have hmzero : (m : ZMod p) = 0 := by
+    rw [hr, hnzero] at hsumMod
+    simpa using hsumMod.symm
+  have hpm : (p : ℤ) ∣ m := by
+    simpa using
+      (ZMod.intCast_eq_intCast_iff_dvd_sub 0 m p).mp (by
+        simpa only [Int.cast_zero] using hmzero.symm)
+  have hpn : (p : ℤ) ∣ n := by
+    simpa using
+      (ZMod.intCast_eq_intCast_iff_dvd_sub 0 n p).mp (by
+        simpa only [Int.cast_zero] using hnzero.symm)
+  have hunit : IsUnit (p : ℤ) := hmn.isUnit_of_dvd' hpm hpn
+  rw [Int.isUnit_iff] at hunit
+  have hpge : (2 : ℤ) ≤ p := by exact_mod_cast hp.two_le
+  rcases hunit with hunit | hunit <;> omega
+
+private theorem cast_fourScalar_relation
+    (p : ℕ) {x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hrel : fourScalarSecondCoords (eisensteinCubeUnitCoords j x y) =
+      eisensteinCubeUnitCoords l u v) :
+    fourScalarSecondCoords
+        (eisensteinCubeUnitCoords j (x : ZMod p) (y : ZMod p)) =
+      eisensteinCubeUnitCoords l (u : ZMod p) (v : ZMod p) := by
+  have hcast := congrArg
+    (fun z : ℤ × ℤ ↦ ((z.1 : ZMod p), (z.2 : ZMod p))) hrel
+  cases j <;> cases l <;>
+    simpa [fourScalarSecondCoords, eisensteinCubeUnitCoords] using hcast
+
+private theorem cast_eightScalar_relation
+    (p : ℕ) {x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hrel : eightScalarSecondDoubledCoords
+        (eisensteinCubeUnitCoords j x y) =
+      doubleSecondCoord (eisensteinCubeUnitCoords l u v)) :
+    eightScalarSecondDoubledCoords
+        (eisensteinCubeUnitCoords j (x : ZMod p) (y : ZMod p)) =
+      doubleSecondCoord
+        (eisensteinCubeUnitCoords l (u : ZMod p) (v : ZMod p)) := by
+  have hcast := congrArg
+    (fun z : ℤ × ℤ ↦ ((z.1 : ZMod p), (z.2 : ZMod p))) hrel
+  cases j <;> cases l <;>
+    simpa [eightScalarSecondDoubledCoords, doubleSecondCoord,
+      eisensteinCubeUnitCoords] using hcast
+
+private theorem fourScalar_bad_unit_indices_local
+    (j l : EisensteinCubeUnitIndex)
+    (hbad : (j, l) ≠
+      (EisensteinCubeUnitIndex.zeta, EisensteinCubeUnitIndex.zeta)) :
+    ∃ p : ℕ, p.Prime ∧
+      ∀ x y u v : ZMod p,
+        fourScalarSecondCoords (eisensteinCubeUnitCoords j x y) =
+            eisensteinCubeUnitCoords l u v →
+          eisensteinCubeUnitCoords j x y = (0, 0) := by
+  cases j <;> cases l
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨5, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact False.elim (hbad rfl)
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨7, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+
+private theorem eightScalar_bad_unit_indices_local
+    (j l : EisensteinCubeUnitIndex)
+    (hbad : (j, l) ≠
+      (EisensteinCubeUnitIndex.zetaSq, EisensteinCubeUnitIndex.one)) :
+    ∃ p : ℕ, p.Prime ∧
+      ∀ x y u v : ZMod p,
+        eightScalarSecondDoubledCoords
+            (eisensteinCubeUnitCoords j x y) =
+          doubleSecondCoord (eisensteinCubeUnitCoords l u v) →
+        eisensteinCubeUnitCoords j x y = (0, 0) := by
+  cases j <;> cases l
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨5, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨7, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+  · exact False.elim (hbad rfl)
+  · exact ⟨3, by decide, by decide⟩
+  · exact ⟨3, by decide, by decide⟩
+
+private theorem fourScalar_cubeCoords_relation
+    {m n x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hm : Odd m) (hn : Odd n)
+    (hfirst : ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y)
+    (hsecond : (m + n, (n - m) / 2) =
+      eisensteinCubeUnitCoords l u v) :
+    fourScalarSecondCoords (eisensteinCubeUnitCoords j x y) =
+      eisensteinCubeUnitCoords l u v := by
+  obtain ⟨r, hr⟩ := hm
+  obtain ⟨s, hs⟩ := hn
+  rw [← hfirst, ← hsecond]
+  ext <;> simp only [fourScalarSecondCoords]
+  all_goals omega
+
+private theorem eightScalar_cubeCoords_relation
+    {m n x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hm : Odd m) (hn : Odd n)
+    (hmod : (m : ZMod 4) = (n : ZMod 4))
+    (hfirst : ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y)
+    (hsecond : ((m + n) / 2, (n - m) / 4) =
+      eisensteinCubeUnitCoords l u v) :
+    eightScalarSecondDoubledCoords
+        (eisensteinCubeUnitCoords j x y) =
+      doubleSecondCoord (eisensteinCubeUnitCoords l u v) := by
+  have hfour : (4 : ℤ) ∣ n - m :=
+    (ZMod.intCast_eq_intCast_iff_dvd_sub m n 4).mp hmod
+  obtain ⟨r, hr⟩ := hm
+  obtain ⟨s, hs⟩ := hn
+  obtain ⟨t, ht⟩ := hfour
+  rw [← hfirst, ← hsecond]
+  ext <;>
+    simp only [eightScalarSecondDoubledCoords, doubleSecondCoord]
+  all_goals omega
+
+/-- In a `k = ±4` branch, local checks modulo `3`, `5`, and `7` eliminate
+eight of the nine pairs of cube-unit classes.  Only `(ζ₃,ζ₃)` is
+compatible with primitive odd parameters. -/
+theorem fourScalar_unit_indices_eq
+    {m n x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hmn : IsCoprime m n) (hm : Odd m) (hn : Odd n)
+    (hfirst : ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y)
+    (hsecond : (m + n, (n - m) / 2) =
+      eisensteinCubeUnitCoords l u v) :
+    j = EisensteinCubeUnitIndex.zeta ∧
+      l = EisensteinCubeUnitIndex.zeta := by
+  have hrel := fourScalar_cubeCoords_relation hm hn hfirst hsecond
+  have hpair : (j, l) =
+      (EisensteinCubeUnitIndex.zeta,
+        EisensteinCubeUnitIndex.zeta) := by
+    by_contra hbad
+    obtain ⟨p, hp, hlocal⟩ :=
+      fourScalar_bad_unit_indices_local j l hbad
+    have hrelMod := cast_fourScalar_relation p hrel
+    have hzero := hlocal (x : ZMod p) (y : ZMod p)
+      (u : ZMod p) (v : ZMod p) hrelMod
+    exact false_of_first_cubeCoords_zero_mod
+      p hp hmn hm hn hfirst hzero
+  exact ⟨congrArg Prod.fst hpair, congrArg Prod.snd hpair⟩
+
+/-- In a `k = ±8` branch, local checks modulo `3`, `5`, and `7` eliminate
+eight of the nine pairs of cube-unit classes.  Only `(ζ₃²,1)` is
+compatible with primitive odd parameters. -/
+theorem eightScalar_unit_indices_eq
+    {m n x y u v : ℤ} {j l : EisensteinCubeUnitIndex}
+    (hmn : IsCoprime m n) (hm : Odd m) (hn : Odd n)
+    (hmod : (m : ZMod 4) = (n : ZMod 4))
+    (hfirst : ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y)
+    (hsecond : ((m + n) / 2, (n - m) / 4) =
+      eisensteinCubeUnitCoords l u v) :
+    j = EisensteinCubeUnitIndex.zetaSq ∧
+      l = EisensteinCubeUnitIndex.one := by
+  have hrel :=
+    eightScalar_cubeCoords_relation hm hn hmod hfirst hsecond
+  have hpair : (j, l) =
+      (EisensteinCubeUnitIndex.zetaSq,
+        EisensteinCubeUnitIndex.one) := by
+    by_contra hbad
+    obtain ⟨p, hp, hlocal⟩ :=
+      eightScalar_bad_unit_indices_local j l hbad
+    have hrelMod := cast_eightScalar_relation p hrel
+    have hzero := hlocal (x : ZMod p) (y : ZMod p)
+      (u : ZMod p) (v : ZMod p) hrelMod
+    exact false_of_first_cubeCoords_zero_mod
+      p hp hmn hm hn hfirst hzero
+  exact ⟨congrArg Prod.fst hpair, congrArg Prod.snd hpair⟩
+
+private theorem fourScalar_survivor_eta_zero_mod_seven :
+    ∀ x y u v : ZMod 7,
+      fourScalarSecondCoords
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zeta x y) =
+        eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zeta u v →
+      (eisensteinCubeUnitCoords
+        EisensteinCubeUnitIndex.zeta x y).1 = 0 := by
+  decide
+
+private theorem eightScalar_survivor_eta_zero_mod_seven :
+    ∀ x y u v : ZMod 7,
+      eightScalarSecondDoubledCoords
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zetaSq x y) =
+        doubleSecondCoord
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.one u v) →
+      (eisensteinCubeUnitCoords
+        EisensteinCubeUnitIndex.zetaSq x y).1 =
+          (eisensteinCubeUnitCoords
+            EisensteinCubeUnitIndex.zetaSq x y).2 := by
+  decide
+
+/-- The surviving `(ζ₃,ζ₃)` cubic system forces its first cube's
+`ζ₃` coordinate to be divisible by the distinguished rational prime
+`7`. -/
+theorem seven_dvd_eisensteinCubeEta_of_fourScalar_survivor
+    {x y u v : ℤ}
+    (heta : eisensteinCubeEta u v = 2 * eisensteinCubeEta x y)
+    (hreal : eisensteinCubeReal u v =
+      eisensteinCubeReal x y + 2 * eisensteinCubeEta x y) :
+    (7 : ℤ) ∣ eisensteinCubeEta x y := by
+  have hrel :
+      fourScalarSecondCoords
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zeta x y) =
+        eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zeta u v := by
+    change
+      (2 * (-eisensteinCubeEta x y),
+        (eisensteinCubeReal x y - eisensteinCubeEta x y) -
+          (-eisensteinCubeEta x y)) =
+      (-eisensteinCubeEta u v,
+        eisensteinCubeReal u v - eisensteinCubeEta u v)
+    ext
+    all_goals omega
+  have hrelMod := cast_fourScalar_relation 7 hrel
+  have hzero := fourScalar_survivor_eta_zero_mod_seven
+    (x : ZMod 7) (y : ZMod 7) (u : ZMod 7) (v : ZMod 7) hrelMod
+  have hetaZero : ((eisensteinCubeEta x y : ℤ) : ZMod 7) = 0 := by
+    simpa [eisensteinCubeUnitCoords, eisensteinCubeEta] using hzero
+  exact (ZMod.intCast_zmod_eq_zero_iff_dvd
+    (eisensteinCubeEta x y) 7).mp hetaZero
+
+/-- The surviving `(ζ₃²,1)` cubic system likewise forces the first
+cube's `ζ₃` coordinate to be divisible by `7`. -/
+theorem seven_dvd_eisensteinCubeEta_of_eightScalar_survivor
+    {x y u v : ℤ}
+    (hreal : eisensteinCubeReal u v =
+      eisensteinCubeEta x y - eisensteinCubeReal x y)
+    (heta : 2 * eisensteinCubeEta u v = -eisensteinCubeEta x y) :
+    (7 : ℤ) ∣ eisensteinCubeEta x y := by
+  have hrel :
+      eightScalarSecondDoubledCoords
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.zetaSq x y) =
+        doubleSecondCoord
+          (eisensteinCubeUnitCoords EisensteinCubeUnitIndex.one u v) := by
+    change
+      (eisensteinCubeEta x y - eisensteinCubeReal x y,
+        -eisensteinCubeReal x y -
+          (eisensteinCubeEta x y - eisensteinCubeReal x y)) =
+      (eisensteinCubeReal u v, 2 * eisensteinCubeEta u v)
+    ext
+    all_goals omega
+  have hrelMod := cast_eightScalar_relation 7 hrel
+  have hzero := eightScalar_survivor_eta_zero_mod_seven
+    (x : ZMod 7) (y : ZMod 7) (u : ZMod 7) (v : ZMod 7) hrelMod
+  have hetaZero : ((eisensteinCubeEta x y : ℤ) : ZMod 7) = 0 := by
+    simp only [eisensteinCubeUnitCoords] at hzero
+    simp only [eisensteinCubeEta]
+    push_cast
+    linear_combination hzero
+  exact (ZMod.intCast_zmod_eq_zero_iff_dvd
+    (eisensteinCubeEta x y) 7).mp hetaZero
+
+private theorem splitHalfFirstFactor_cubeUnitCoords
+    [NumberField K] [IsCyclotomicExtension {3} ℚ K]
+    {m n : ℤ}
+    (hclass : EisensteinCubeUnitClass hζ
+      (splitHalfFirstFactor hζ m n)) :
+    ∃ (j : EisensteinCubeUnitIndex) (x y : ℤ),
+      ((m + n) / 2, n) = eisensteinCubeUnitCoords j x y := by
+  obtain ⟨j, x, y, hring⟩ :=
+    eisensteinCubeCoordinateClass_of_unitClass hζ hclass
+  have hcoords := splitEisensteinCoords_injective hζ (by
+    simpa only [splitHalfFirstFactor] using hring)
+  exact ⟨j, x, y, Prod.ext hcoords.1 hcoords.2⟩
+
+private theorem splitHalfSecondFactor_cubeUnitCoords
+    [NumberField K] [IsCyclotomicExtension {3} ℚ K]
+    {m n : ℤ}
+    (hclass : EisensteinCubeUnitClass hζ
+      (splitHalfSecondFactor hζ m n)) :
+    ∃ (j : EisensteinCubeUnitIndex) (x y : ℤ),
+      (m + n, (n - m) / 2) = eisensteinCubeUnitCoords j x y := by
+  obtain ⟨j, x, y, hring⟩ :=
+    eisensteinCubeCoordinateClass_of_unitClass hζ hclass
+  have hcoords := splitEisensteinCoords_injective hζ (by
+    simpa only [splitHalfSecondFactor] using hring)
+  exact ⟨j, x, y, Prod.ext hcoords.1 hcoords.2⟩
+
+private theorem splitQuarterSecondFactor_cubeUnitCoords
+    [NumberField K] [IsCyclotomicExtension {3} ℚ K]
+    {m n : ℤ}
+    (hclass : EisensteinCubeUnitClass hζ
+      (splitQuarterSecondFactor hζ m n)) :
+    ∃ (j : EisensteinCubeUnitIndex) (x y : ℤ),
+      ((m + n) / 2, (n - m) / 4) =
+        eisensteinCubeUnitCoords j x y := by
+  obtain ⟨j, x, y, hring⟩ :=
+    eisensteinCubeCoordinateClass_of_unitClass hζ hclass
+  have hcoords := splitEisensteinCoords_injective hζ (by
+    simpa only [splitQuarterSecondFactor] using hring)
+  exact ⟨j, x, y, Prod.ext hcoords.1 hcoords.2⟩
+
+/-- The two cubic systems left after exact two-adic normalization and all
+finite cube-unit-class exclusions.  The `±4` branch retains only the
+`(ζ₃,ζ₃)` pair, and the `±8` branch only `(ζ₃²,1)`. -/
+def SurvivingEisensteinCubeSystems (m n k : ℤ) : Prop :=
+  ((k = -4 ∨ k = 4) ∧
+    ∃ x y u v : ℤ,
+      (m + n) / 2 = -eisensteinCubeEta x y ∧
+      n = eisensteinCubeReal x y - eisensteinCubeEta x y ∧
+      eisensteinCubeEta u v = 2 * eisensteinCubeEta x y ∧
+      eisensteinCubeReal u v =
+        eisensteinCubeReal x y + 2 * eisensteinCubeEta x y ∧
+      (7 : ℤ) ∣ m + n) ∨
+  ((k = -8 ∨ k = 8) ∧
+    ∃ x y u v : ℤ,
+      (m + n) / 2 =
+        eisensteinCubeEta x y - eisensteinCubeReal x y ∧
+      n = -eisensteinCubeReal x y ∧
+      eisensteinCubeReal u v =
+        eisensteinCubeEta x y - eisensteinCubeReal x y ∧
+      2 * eisensteinCubeEta u v = -eisensteinCubeEta x y ∧
+      (7 : ℤ) ∣ m - n)
+
 /-! ## The cube-allocated finite boundary -/
 
 /-- The finite `X₁(18)` Eisenstein boundary after the powers of `2` have
@@ -561,6 +1030,36 @@ def ThreeUnitClassEisensteinIntegerFiniteSplitCyclicCubicObstruction : Prop :=
           (splitQuarterSecondFactor hζ m n))) →
     False
 
+/-- The final explicit integer boundary after all two-adic allocation and
+finite cube-unit-class checks.  A proof now needs to exclude exactly the two
+systems in `SurvivingEisensteinCubeSystems`, with the distinguished-prime-
+above-`7` information retained. -/
+def SurvivingEisensteinCubeSystemFiniteSplitCyclicCubicObstruction : Prop :=
+  ∀ (m n a b k : ℤ),
+    0 < n →
+    0 < b →
+    IsCoprime m n →
+    IsCoprime a b →
+    a ≠ 0 →
+    a ≠ b →
+    Odd m →
+    Odd n →
+    m ^ 2 - n ^ 2 = k * (a * b * (a - b)) →
+    m ^ 2 - 6 * m * n - 3 * n ^ 2 =
+      k * (a ^ 3 - 3 * a * b ^ 2 + b ^ 3) →
+    -2 * m ^ 2 - 6 * m * n =
+      k * (a ^ 3 - 3 * a ^ 2 * b + b ^ 3) →
+    ((k = -8 ∧ (m : ZMod 4) = (n : ZMod 4)) ∨
+      (k = -4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 4 ∧ (m : ZMod 4) ≠ (n : ZMod 4)) ∨
+      (k = 8 ∧ (m : ZMod 4) = (n : ZMod 4))) →
+    firstParameterForm m n * piParameterForm m n =
+      k ^ 2 * (a ^ 2 - a * b + b ^ 2) ^ 3 →
+    ¬((7 : ℤ) ∣ firstParameterForm m n ∧
+      (7 : ℤ) ∣ piParameterForm m n) →
+    SurvivingEisensteinCubeSystems m n k →
+    False
+
 /-- Classifying the six units into three sign-free classes turns the
 three-unit-class boundary into the cube-allocated boundary. -/
 theorem cubeAllocatedEisensteinIntegerObstruction_of_threeUnitClass
@@ -587,6 +1086,124 @@ theorem cubeAllocatedEisensteinIntegerObstruction_of_threeUnitClass
         eq_cube_or_zeta_mul_cube_or_zeta_sq_mul_cube_of_associated hζ hy⟩
   exact hobs K hζ m n a b k hn hb hmn hab ha habne hm hnodd hleading
     htrace hpair hfactor hmodFour hnorm hseven hunitAllocated
+
+/-- The finite local unit-index checks reduce the three-unit-class boundary
+to the two explicit surviving integer systems. -/
+theorem threeUnitClassEisensteinIntegerObstruction_of_survivingSystems
+    (hobs :
+      SurvivingEisensteinCubeSystemFiniteSplitCyclicCubicObstruction) :
+    ThreeUnitClassEisensteinIntegerFiniteSplitCyclicCubicObstruction := by
+  intro K _ _ _ ζ hζ m n a b k hn hb hmn hab ha habne hm hnodd
+    hleading htrace hpair _hfactor hmodFour hnorm hseven hunitAllocated
+  have hmodFour' := hmodFour
+  have hsurviving : SurvivingEisensteinCubeSystems m n k := by
+    rcases hunitAllocated with
+      ⟨hk, hfirstClass, hsecondClass⟩ |
+        ⟨hk, hfirstClass, hsecondClass⟩
+    · obtain ⟨j, x, y, hfirstCoords⟩ :=
+        splitHalfFirstFactor_cubeUnitCoords hζ hfirstClass
+      obtain ⟨l, u, v, hsecondCoords⟩ :=
+        splitHalfSecondFactor_cubeUnitCoords hζ hsecondClass
+      obtain ⟨hj, hl⟩ :=
+        fourScalar_unit_indices_eq hmn hm hnodd
+          hfirstCoords hsecondCoords
+      subst j
+      subst l
+      have hfirstReal :
+          (m + n) / 2 = -eisensteinCubeEta x y := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeEta] using
+          congrArg Prod.fst hfirstCoords
+      have hfirstEta :
+          n = eisensteinCubeReal x y - eisensteinCubeEta x y := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using congrArg Prod.snd hfirstCoords
+      have hsecondReal :
+          m + n = -eisensteinCubeEta u v := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeEta] using
+          congrArg Prod.fst hsecondCoords
+      have hsecondEta :
+          (n - m) / 2 =
+            eisensteinCubeReal u v - eisensteinCubeEta u v := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using congrArg Prod.snd hsecondCoords
+      obtain ⟨r, hr⟩ := hm
+      obtain ⟨s, hs⟩ := hnodd
+      have hsum : 2 * ((m + n) / 2) = m + n := by omega
+      have hdiff : 2 * ((n - m) / 2) = n - m := by omega
+      have hsecondCubeEta :
+          eisensteinCubeEta u v = 2 * eisensteinCubeEta x y := by
+        omega
+      have hsecondCubeReal :
+          eisensteinCubeReal u v =
+            eisensteinCubeReal x y + 2 * eisensteinCubeEta x y := by
+        omega
+      have hsevenEta :=
+        seven_dvd_eisensteinCubeEta_of_fourScalar_survivor
+          hsecondCubeEta hsecondCubeReal
+      obtain ⟨q, hq⟩ := hsevenEta
+      have hsevenSum : (7 : ℤ) ∣ m + n := by
+        refine ⟨-2 * q, ?_⟩
+        omega
+      exact Or.inl ⟨hk, x, y, u, v, hfirstReal, hfirstEta,
+        hsecondCubeEta, hsecondCubeReal, hsevenSum⟩
+    · have hmod : (m : ZMod 4) = (n : ZMod 4) := by
+        rcases hmodFour with hnegEight | hnegFour | hfour | height
+        · exact hnegEight.2
+        · exfalso
+          rcases hk with hk | hk <;> omega
+        · exfalso
+          rcases hk with hk | hk <;> omega
+        · exact height.2
+      obtain ⟨j, x, y, hfirstCoords⟩ :=
+        splitHalfFirstFactor_cubeUnitCoords hζ hfirstClass
+      obtain ⟨l, u, v, hsecondCoords⟩ :=
+        splitQuarterSecondFactor_cubeUnitCoords hζ hsecondClass
+      obtain ⟨hj, hl⟩ :=
+        eightScalar_unit_indices_eq hmn hm hnodd hmod
+          hfirstCoords hsecondCoords
+      subst j
+      subst l
+      have hfirstReal :
+          (m + n) / 2 =
+            eisensteinCubeEta x y - eisensteinCubeReal x y := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal,
+          eisensteinCubeEta] using congrArg Prod.fst hfirstCoords
+      have hfirstEta : n = -eisensteinCubeReal x y := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal] using
+          congrArg Prod.snd hfirstCoords
+      have hsecondReal :
+          (m + n) / 2 = eisensteinCubeReal u v := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeReal] using
+          congrArg Prod.fst hsecondCoords
+      have hsecondEta :
+          (n - m) / 4 = eisensteinCubeEta u v := by
+        simpa [eisensteinCubeUnitCoords, eisensteinCubeEta] using
+          congrArg Prod.snd hsecondCoords
+      have hfour : (4 : ℤ) ∣ n - m :=
+        (ZMod.intCast_eq_intCast_iff_dvd_sub m n 4).mp hmod
+      obtain ⟨r, hr⟩ := hm
+      obtain ⟨s, hs⟩ := hnodd
+      obtain ⟨t, ht⟩ := hfour
+      have hsum : 2 * ((m + n) / 2) = m + n := by omega
+      have hdiff : 4 * ((n - m) / 4) = n - m := by omega
+      have hsecondCubeReal :
+          eisensteinCubeReal u v =
+            eisensteinCubeEta x y - eisensteinCubeReal x y := by
+        omega
+      have hsecondCubeEta :
+          2 * eisensteinCubeEta u v = -eisensteinCubeEta x y := by
+        omega
+      have hsevenEta :=
+        seven_dvd_eisensteinCubeEta_of_eightScalar_survivor
+          hsecondCubeReal hsecondCubeEta
+      obtain ⟨q, hq⟩ := hsevenEta
+      have hsevenDifference : (7 : ℤ) ∣ m - n := by
+        refine ⟨2 * q, ?_⟩
+        omega
+      exact Or.inr ⟨hk, x, y, u, v, hfirstReal, hfirstEta,
+        hsecondCubeReal, hsecondCubeEta, hsevenDifference⟩
+  exact hobs m n a b k hn hb hmn hab ha habne hm hnodd hleading htrace
+    hpair hmodFour' hnorm hseven hsurviving
 
 /-- Removing the exact powers of `2` and allocating coprime factors to
 cubes turns the cube-allocated boundary into the earlier support-only-over-
@@ -652,5 +1269,17 @@ theorem rationalPoint_addOrderOf_ne_eighteen_of_threeUnitClassEisensteinIntegerO
     addOrderOf Q ≠ 18 :=
   rationalPoint_addOrderOf_ne_eighteen_of_cubeAllocatedEisensteinIntegerObstruction
     (cubeAllocatedEisensteinIntegerObstruction_of_threeUnitClass hobs) E Q
+
+/-- Excluding the two explicit surviving cubic systems excludes exact
+rational order eighteen. -/
+theorem rationalPoint_addOrderOf_ne_eighteen_of_survivingEisensteinCubeSystemObstruction
+    (hobs :
+      SurvivingEisensteinCubeSystemFiniteSplitCyclicCubicObstruction)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (Q : E.toAffine.Point) :
+    addOrderOf Q ≠ 18 :=
+  rationalPoint_addOrderOf_ne_eighteen_of_threeUnitClassEisensteinIntegerObstruction
+    (threeUnitClassEisensteinIntegerObstruction_of_survivingSystems hobs)
+      E Q
 
 end MazurTorsion.XOneEighteenDescent
