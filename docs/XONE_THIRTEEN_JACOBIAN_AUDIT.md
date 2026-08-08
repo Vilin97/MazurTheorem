@@ -131,6 +131,22 @@ Lean packages these as
 `19`.  These are deliberately combinatorial types, not definitions of a
 Picard group or Jacobian.
 
+There is also an explicit perfect coordinate set in `ZMod 19`:
+
+\[
+\{1,-1,7,-7,8,-8\}.
+\]
+
+The three opposite pairs are exactly the rational hyperelliptic pairs; the
+other eighteen unordered pair sums give every nonzero residue exactly once.
+Quadratic hyperelliptic fibers receive coordinate zero.  Lean checks that
+this coordinate is a bijection from either reduced certificate to
+`ZMod 19`, and transports the cyclic group law along it.  The resulting
+`reducedDegreeTwoClassAddEquivZModF3` and
+`reducedDegreeTwoClassAddEquivZModF5` are group structures on the
+*combinatorial certificates*.  They still do not identify those groups with
+geometric Picard groups.
+
 For a smooth projective genus-two curve, Riemann--Roch identifies this
 calculation with the familiar formula
 
@@ -141,8 +157,10 @@ calculation with the familiar formula
 That geometric identification is not yet available in the pinned
 libraries.  The named consumer
 `finitePicard_cards_eq_nineteen_of_reducedDegreeTwoEquiv` requires actual
-equivalences from finite Picard/Jacobian point types to the certificate
-types.  It does not assume them silently.
+additive equivalences from finite Picard/Jacobian point groups to the
+certificate groups.  It does not assume them silently.  The two
+`finitePicard_addEquiv_zmodNineteen_of_*Certificate` consumers then produce
+the corresponding genuine cyclic presentations of those Picard groups.
 
 ## Exact remaining boundary
 
@@ -160,6 +178,15 @@ then `#JQ=19`.  The first two hypotheses are exactly what good reduction
 with possible residue-characteristic primary kernels should supply; the
 last should come from the nonzero order-`19` infinity-divisor class encoded
 by the Pell identity.
+
+The stronger named consumer
+`rationalJacobian_card_eq_nineteen_of_reduction_homs` takes the expected
+reduction homomorphisms themselves.  If their kernel cardinalities are
+`3ᵃ` and `5ᵇ`, Lagrange's theorem derives the two divisibility bounds from
+the additive finite-Picard certificate equivalences, and the same conclusion
+follows.  This leaves no hidden injectivity assumption: proving those
+primary-kernel statements is precisely the outstanding good-reduction
+theorem.
 
 The dependency-critical missing steps are:
 

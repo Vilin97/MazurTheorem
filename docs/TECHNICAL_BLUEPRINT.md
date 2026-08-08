@@ -1347,17 +1347,24 @@ twenty-four over `𝔽₅`; collapsing the four- or six-member
 hyperelliptic pencil leaves a nineteen-element reduced class certificate at
 either prime.  These remain explicit combinatorial certificates, not
 definitions of a projective curve, Picard group, Jacobian, or rational
-reduction map.
+reduction map.  The perfect coordinate set
+`{1,-1,7,-7,8,-8} ⊂ ZMod 19` sends the three conjugate rational pairs
+and every quadratic hyperelliptic fiber to zero, while the other eighteen
+pair sums enumerate the nonzero residues.  This supplies a checked bijection
+and a transported cyclic group law on each combinatorial certificate.
 
 `XOneThirteenDescent` has named consumers for the missing geometric bridge.
-A genuine equivalence from each finite Picard/Jacobian point type to its
-reduced degree-two certificate forces both finite orders to be `19`.
+A genuine additive equivalence from each finite Picard/Jacobian point group
+to its reduced degree-two certificate identifies it with `ZMod 19` and in
+particular forces both finite orders to be `19`.
 Moreover, if a finite rational Jacobian has cardinality dividing
 `19·3ᵃ` and `19·5ᵇ`, while the Pell divisor supplies a subgroup of
 order `19`, the two-prime boundary theorem forces its cardinality to be
-exactly `19`.  Constructing those Picard equivalences, proving the reduction
-kernel bounds and rank zero, and checking the Abel--Jacobi cusp intersection
-remain genuine global obligations.  See
+exactly `19`.  A stronger consumer accepts actual reduction homomorphisms
+with kernels of cardinality `3ᵃ` and `5ᵇ` and derives those divisibilities
+by Lagrange's theorem.  Constructing the Picard equivalences, proving the
+reduction-kernel bounds and rank zero, and checking the Abel--Jacobi cusp
+intersection remain genuine global obligations.  See
 `docs/XONE_THIRTEEN_JACOBIAN_AUDIT.md` for the route audit.
 
 `XOneThirteenDescent` exposes much more of the classical `19`-isogeny

@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.NumberTheory.XOneThirteenFiniteField
+import Mathlib.GroupTheory.Index
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -1976,17 +1977,36 @@ This theorem is deliberately an interface boundary: it consumes genuine
 equivalences, rather than treating the combinatorial certificates as
 Jacobians. -/
 theorem finitePicard_cards_eq_nineteen_of_reducedDegreeTwoEquiv
-    {J3 J5 : Type*} [Fintype J3] [Fintype J5]
-    (e3 : J3 ≃
+    {J3 J5 : Type*} [AddCommGroup J3] [AddCommGroup J5]
+    [Fintype J3] [Fintype J5]
+    (e3 : J3 ≃+
       XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3)
-    (e5 : J5 ≃
+    (e5 : J5 ≃+
       XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5) :
     Fintype.card J3 = 19 ∧ Fintype.card J5 = 19 := by
   constructor
-  · rw [Fintype.card_congr e3,
+  · rw [Fintype.card_congr e3.toEquiv,
       XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF3]
-  · rw [Fintype.card_congr e5,
+  · rw [Fintype.card_congr e5.toEquiv,
       XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF5]
+
+/-- A genuine additive identification of a finite Picard group with the
+reduced `𝔽₃` divisor certificate immediately gives its cyclic
+`ZMod 19` presentation. -/
+noncomputable def finitePicard_addEquiv_zmodNineteen_of_F3Certificate
+    {J3 : Type*} [AddCommGroup J3]
+    (e3 : J3 ≃+
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3) :
+    J3 ≃+ ZMod 19 :=
+  e3.trans XOneThirteenFiniteField.reducedDegreeTwoClassAddEquivZModF3
+
+/-- The corresponding cyclic presentation from the `𝔽₅` certificate. -/
+noncomputable def finitePicard_addEquiv_zmodNineteen_of_F5Certificate
+    {J5 : Type*} [AddCommGroup J5]
+    (e5 : J5 ≃+
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5) :
+    J5 ≃+ ZMod 19 :=
+  e5.trans XOneThirteenFiniteField.reducedDegreeTwoClassAddEquivZModF5
 
 /-- The arithmetic endpoint of the two-good-reduction argument for the
 rational Jacobian.
@@ -2025,6 +2045,74 @@ theorem rationalJacobian_card_eq_nineteen_of_two_reduction_bounds
     rw [Nat.gcd_mul_left, hcoprime.gcd_eq_one, mul_one]
   rw [hgcd] at hdivGcd
   exact Nat.dvd_antisymm hdivGcd h19
+
+private theorem natCard_dvd_card_ker_mul_card_target
+    {A B : Type*} [AddCommGroup A] [AddCommGroup B]
+    (f : A →+ B) :
+    Nat.card A ∣ Nat.card f.ker * Nat.card B := by
+  rw [← f.ker.card_mul_index, AddSubgroup.index_ker]
+  exact Nat.mul_dvd_mul_left (Nat.card f.ker)
+    f.range.card_addSubgroup_dvd_card
+
+/-- The same rational-Jacobian endpoint, now in the form directly consumed
+by geometric reduction maps.  The hypotheses require additive
+identifications of both finite Picard groups with the checked certificates
+and reduction homomorphisms whose kernels have `3`-power and `5`-power
+cardinality.  Together with the Pell-supplied order-`19` subgroup, these data
+force the rational Jacobian to have cardinality `19`; cyclicity then follows
+from the standard prime-order group theorem. -/
+theorem rationalJacobian_card_eq_nineteen_of_reduction_homs
+    {JQ J3 J5 : Type*}
+    [AddCommGroup JQ] [AddCommGroup J3] [AddCommGroup J5]
+    [Fintype JQ]
+    (e3 : J3 ≃+
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3)
+    (e5 : J5 ≃+
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5)
+    (red3 : JQ →+ J3) (red5 : JQ →+ J5)
+    (a b : ℕ)
+    (hker3 : Nat.card red3.ker = 3 ^ a)
+    (hker5 : Nat.card red5.ker = 5 ^ b)
+    (h19 : 19 ∣ Fintype.card JQ) :
+    Fintype.card JQ = 19 := by
+  have hJ3 : Nat.card J3 = 19 := by
+    calc
+      Nat.card J3 = Nat.card
+          XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3 :=
+        Nat.card_congr e3.toEquiv
+      _ = Fintype.card
+          XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3 :=
+        Nat.card_eq_fintype_card
+      _ = 19 :=
+        XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF3
+  have hJ5 : Nat.card J5 = 19 := by
+    calc
+      Nat.card J5 = Nat.card
+          XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5 :=
+        Nat.card_congr e5.toEquiv
+      _ = Fintype.card
+          XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5 :=
+        Nat.card_eq_fintype_card
+      _ = 19 :=
+        XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF5
+  have h3raw := natCard_dvd_card_ker_mul_card_target red3
+  rw [hker3, hJ3] at h3raw
+  have h3 : Fintype.card JQ ∣
+      Fintype.card
+        XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3 *
+          3 ^ a := by
+    rw [XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF3]
+    simpa only [Nat.card_eq_fintype_card, mul_comm] using h3raw
+  have h5raw := natCard_dvd_card_ker_mul_card_target red5
+  rw [hker5, hJ5] at h5raw
+  have h5 : Fintype.card JQ ∣
+      Fintype.card
+        XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5 *
+          5 ^ b := by
+    rw [XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF5]
+    simpa only [Nat.card_eq_fintype_card, mul_comm] using h5raw
+  exact rationalJacobian_card_eq_nineteen_of_two_reduction_bounds
+    a b h3 h5 h19
 
 /-- Once a divisor implementation turns the Pell identity into
 `19 • D = 0`, distinctness of the two infinity branches is the only
