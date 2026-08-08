@@ -1966,6 +1966,66 @@ theorem infinity_pell_boundary_values :
     infinityPellH 0 - (-1) * infinityPellK 0 = 2 := by
   norm_num [infinitySextic, infinityPellH, infinityPellK]
 
+/-! ## The exact two-prime Jacobian boundary -/
+
+/-- An equivalence from actual finite Picard/Jacobian point types to the
+checked reduced degree-two certificates would identify both finite groups as
+having order `19`.
+
+This theorem is deliberately an interface boundary: it consumes genuine
+equivalences, rather than treating the combinatorial certificates as
+Jacobians. -/
+theorem finitePicard_cards_eq_nineteen_of_reducedDegreeTwoEquiv
+    {J3 J5 : Type*} [Fintype J3] [Fintype J5]
+    (e3 : J3 ≃
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3)
+    (e5 : J5 ≃
+      XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5) :
+    Fintype.card J3 = 19 ∧ Fintype.card J5 = 19 := by
+  constructor
+  · rw [Fintype.card_congr e3,
+      XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF3]
+  · rw [Fintype.card_congr e5,
+      XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF5]
+
+/-- The arithmetic endpoint of the two-good-reduction argument for the
+rational Jacobian.
+
+For a finite rational Jacobian `JQ`, good reduction at `3` and `5` should
+produce the first two divisibilities: their extra factors are precisely the
+possible primary kernels at the residue characteristics.  A nonzero divisor
+class of exact order `19`, obtained from the Pell certificate, produces the
+last divisibility.  The checked finite-field class certificates then force
+`#JQ = 19`.
+
+What remains outside this theorem is geometric and global: constructing the
+smooth proper genus-two curve and its Picard/Jacobian, identifying its finite
+Picard groups with the two certificate types, proving Mordell--Weil rank zero,
+and proving the two reduction-kernel bounds. -/
+theorem rationalJacobian_card_eq_nineteen_of_two_reduction_bounds
+    {JQ : Type*} [Fintype JQ] (a b : ℕ)
+    (h3 : Fintype.card JQ ∣
+      Fintype.card
+        XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF3 *
+          3 ^ a)
+    (h5 : Fintype.card JQ ∣
+      Fintype.card
+        XOneThirteenFiniteField.ReducedDegreeTwoClassCertificateF5 *
+          5 ^ b)
+    (h19 : 19 ∣ Fintype.card JQ) :
+    Fintype.card JQ = 19 := by
+  rw [XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF3] at h3
+  rw [XOneThirteenFiniteField.card_reducedDegreeTwoClassCertificateF5] at h5
+  have hdivGcd :
+      Fintype.card JQ ∣ Nat.gcd (19 * 3 ^ a) (19 * 5 ^ b) :=
+    Nat.dvd_gcd h3 h5
+  have hcoprime : Nat.Coprime (3 ^ a) (5 ^ b) :=
+    (show Nat.Coprime 3 5 by decide).pow a b
+  have hgcd : Nat.gcd (19 * 3 ^ a) (19 * 5 ^ b) = 19 := by
+    rw [Nat.gcd_mul_left, hcoprime.gcd_eq_one, mul_one]
+  rw [hgcd] at hdivGcd
+  exact Nat.dvd_antisymm hdivGcd h19
+
 /-- Once a divisor implementation turns the Pell identity into
 `19 • D = 0`, distinctness of the two infinity branches is the only
 remaining group-theoretic input needed to certify exact order `19`. -/
