@@ -34,34 +34,55 @@ private theorem isIso_torsorCompare_spec {G : Type u} [Group G] [Finite G]
     (hbij : Function.Bijective (MulSemiringAction.torsorMul G ℤ B)) :
     IsIso (ModularCurves.torsorCompare (invariantsπ G B ℤ) (SchemeAction.spec G B)
       (fun g => specSMul_invariantsπ G B ℤ g)) := by
+  let hover : ∀ g, (SchemeAction.spec G B).hom g ≫ invariantsπ G B ℤ = invariantsπ G B ℤ :=
+    fun g => by simpa only [SchemeAction.spec_hom] using specSMul_invariantsπ G B ℤ g
+  change IsIso (ModularCurves.torsorCompare (invariantsπ G B ℤ) (SchemeAction.spec G B) hover)
   haveI hbijIso : IsIso (CommRingCat.ofHom (MulSemiringAction.torsorMul G ℤ B).toRingHom) := by
     rw [ConcreteCategory.isIso_iff_bijective]; exact hbij
   haveI : IsIso (Spec.map (CommRingCat.ofHom (MulSemiringAction.torsorMul G ℤ B).toRingHom)) :=
     inferInstance
-  have hkey : ModularCurves.torsorCompare (invariantsπ G B ℤ) (SchemeAction.spec G B)
-        (fun g => specSMul_invariantsπ G B ℤ g)
+  have hkey : ModularCurves.torsorCompare (invariantsπ G B ℤ) (SchemeAction.spec G B) hover
       = sigmaSpec (fun _ : G => CommRingCat.of B)
           ≫ Spec.map (CommRingCat.ofHom (MulSemiringAction.torsorMul G ℤ B).toRingHom)
           ≫ (pullbackSpecIso (FixedPoints.subalgebra ℤ B G) B B).inv
           ≫ (pullbackSymmetry (invariantsπ G B ℤ) (invariantsπ G B ℤ)).hom := by
     refine Sigma.hom_ext _ _ (fun γ => ?_)
-    rw [← Category.assoc, ModularCurves.ι_torsorCompare]
-    simp only [invariantsπ]
+    rw [← Category.assoc, ModularCurves.ι_torsorCompare, ι_sigmaSpec]
+    have hγ : specSMul γ ≫
+        Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)) =
+          𝟙 _ ≫ Spec.map
+            (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)) := by
+      rw [Category.id_comp]
+      simpa only [invariantsπ] using specSMul_invariantsπ G B ℤ γ
+    change pullback.lift (specSMul γ) (𝟙 _) hγ =
+      Spec.map (CommRingCat.ofHom (Pi.evalRingHom (fun _ : G => B) γ)) ≫
+        Spec.map (CommRingCat.ofHom (MulSemiringAction.torsorMul G ℤ B).toRingHom) ≫
+          (pullbackSpecIso (FixedPoints.subalgebra ℤ B G) B B).inv ≫
+            (pullbackSymmetry
+              (Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))
+              (Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))).hom
     apply pullback.hom_ext
-    · simp only [Category.assoc, SchemeAction.spec_hom, pullback.lift_fst, ι_sigmaSpec,
+      (f := Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))
+      (g := Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))
+    · simp only [Category.assoc, pullback.lift_fst,
         pullbackSymmetry_hom_comp_fst, pullbackSpecIso_inv_snd, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp, specSMul]
-      congr 1
+      rw [Spec.map_injective.eq_iff]
       ext y
       simp [MulSemiringAction.torsorMul_tmul]
-    · simp only [Category.assoc, pullback.lift_snd, ι_sigmaSpec,
+    · simp only [Category.assoc, pullback.lift_snd,
         pullbackSymmetry_hom_comp_snd, pullbackSpecIso_inv_fst, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp]
-      rw [← Spec.map_id, ← CommRingCat.ofHom_id]
-      congr 1
+      rw [← Spec.map_id, ← CommRingCat.ofHom_id, Spec.map_injective.eq_iff]
       ext x
       simp [MulSemiringAction.torsorMul_tmul]
   rw [hkey]
+  change IsIso (sigmaSpec (fun _ : G => CommRingCat.of B) ≫
+    Spec.map (CommRingCat.ofHom (MulSemiringAction.torsorMul G ℤ B).toRingHom) ≫
+      (pullbackSpecIso (FixedPoints.subalgebra ℤ B G) B B).inv ≫
+        (pullbackSymmetry
+          (Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))
+          (Spec.map (CommRingCat.ofHom (algebraMap (FixedPoints.subalgebra ℤ B G) B)))).hom)
   infer_instance
 
 /-- **Transport of the torsor property** across compatible isos of total space and base:
@@ -142,14 +163,17 @@ private theorem isPullback_torsorCompare_baseChange {S S' W : Scheme.{u}} {G : T
         simp [pullback.map, pullback.lift_fst, pullback.lift_snd,
           pullback.lift_fst_assoc, pullback.lift_snd_assoc]
   exact IsUniversalColimit.isPullback_of_isColimit_right
-    (hau := FinitaryPreExtensive.isUniversal_finiteCoproducts (coproductIsCoproduct (fun _ : G => W)))
+    (hau := FinitaryPreExtensive.isUniversal_finiteCoproducts
+      (coproductIsCoproduct (fun _ : G => W)))
     (f := fun i => Sigma.ι (fun _ : G => W) i ≫ torsorCompare fW σW hWover)
     (u := torsorCompare fW σW hWover)
     (v := pullback.map (pullback.snd fW f₀) (pullback.snd fW f₀) fW fW (pullback.fst fW f₀)
       (pullback.fst fW f₀) f₀ hq hq)
     (q₁ := fun _ => pullback.fst fW f₀)
     (q₂ := fun γ => pullback.lift ((pullbackTorsorAction σW hWover f₀).hom γ)
-      (𝟙 (pullback fW f₀)) (by rw [Category.id_comp]; exact pullbackTorsorAction_over σW hWover f₀ γ))
+      (𝟙 (pullback fW f₀)) (by
+        rw [Category.id_comp]
+        exact pullbackTorsorAction_over σW hWover f₀ γ))
     (hP := fun γ => (hsq γ).flip)
     (hd := coproductIsCoproduct (fun _ : G => pullback fW f₀))
 
