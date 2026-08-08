@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleOrderedBaseCechHOneFinite
+import MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule
 
 /-!
 # Finite generation of native base-Cech degree-one homology
@@ -14,8 +15,9 @@ comparison port. It accepts finite generation of the degree-one homology of
 the ordered Cech complex for a linearly ordered cover and concludes finite
 generation for the native all-tuples base-linear Cech complex.
 
-It does not assert properness or identify Cech homology with derived
-cohomology. Those are later comparison seams.
+It also consumes the affine-cover comparison to equip genuine sheaf `H¹` with
+the transported global-functions action and transfer finite generation to
+that module. It does not establish the ordered input from properness.
 -/
 
 noncomputable section
@@ -40,5 +42,27 @@ theorem nativeBaseCechHOne_finite_of_ordered
   exact
     baseCechComplex_homology_one_module_finite_of_orderedBaseCechComplex
       π M U
+
+/-- Finite generation of ordered degree-one Cech homology transfers to
+genuine Ext-based sheaf `H¹`, equipped with the explicit global-functions
+action transported through the affine-cover comparison. -/
+theorem genuineSheafHOne_finite_of_ordered_affineOpenCover
+    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
+    [M.IsQuasicoherent] {ι : Type u} [LinearOrder ι]
+    (U : ι → X.Opens) (hU : IsOpenCover U)
+    (hUaff : ∀ i, IsAffineOpen (U i))
+    (hordered : Module.Finite Γ(S, (⊤ : S.Opens))
+      ((Scheme.Modules.orderedBaseCechComplex π M U).homology 1)) :
+    letI := genuineSheafHOneBaseModule_of_affineOpenCover
+      π M U hU hUaff
+    Module.Finite Γ(S, (⊤ : S.Opens)) (GenuineSheafHOne M) := by
+  letI : Module.Finite Γ(S, (⊤ : S.Opens))
+      ((Scheme.Modules.baseCechComplex π M U).homology 1) :=
+    nativeBaseCechHOne_finite_of_ordered π M U hordered
+  letI := genuineSheafHOneBaseModule_of_affineOpenCover
+    π M U hU hUaff
+  exact Module.Finite.equiv
+    (genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover
+      π M U hU hUaff).symm
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
