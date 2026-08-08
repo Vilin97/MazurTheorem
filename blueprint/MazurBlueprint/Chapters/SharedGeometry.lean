@@ -934,9 +934,13 @@ the sheaf condition proves that this adjunction-unit map is monic; the
 resulting canonical cokernel complex is short exact. The retained long exact
 sequence and exact additive-sheaf forgetful functor prove the structural
 dimension-shift step: degree-`n` vanishing for that actual cokernel makes the
-cover inclusion injective on degree `n + 1` cohomology. Local killing and
-positive-degree affine acyclicity remain open, as do proper
-finite-dimensionality, H1, and higher vanishing.
+cover inclusion injective on degree `n + 1` cohomology. A clean-room
+Ext/sheaf argument now kills every degree-one class on a finite affine open
+cover of an affine spectrum, including under the actual product cover map.
+Affine H0 right exactness makes that product map injective on H1, proving
+genuine affine quasicoherent H1 vanishing. Local killing in degrees at least
+two and all-positive-degree affine acyclicity remain open, as do proper
+finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
 
 *Canonical deliverables — these names are authoritative for this node:*
 
@@ -1019,6 +1023,23 @@ finite-dimensionality, H1, and higher vanishing.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_H_succ_injective_of_cokernel_subsingleton`
   Consume the actual affine-cover short exact sequence in the structural
   dimension shift.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHOne_finiteAffineKillingCover`
+  Construct a finite affine cover whose genuine restriction-pushforward maps
+  and product cover map kill a supplied Ext-based H1 class.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_previous_surjective`
+  Derive degree-`n + 1` injectivity from surjectivity in the preceding degree.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_HOne_injective`
+  Prove injectivity of the actual finite affine-cover map on genuine H1.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHOne_subsingleton`
+  Combine local killing and cover-map injectivity to prove affine
+  quasicoherent H1 is subsingleton.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHOne_eq_zero`
+  State the elementwise zero consequence for affine quasicoherent H1.
 :::
 
 :::theorem "MT-TC-B2-RR-SERRE" (parent := "shared_geometry") (uses := "MT-TC-B1-COHERENT-COHOMOLOGY") (tags := "upstream, blocked, nouns-missing, tau-ceti") (priority := "high") (effort := "large")

@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1510591,
-    "integrated_lean_modules": 838,
+    "integrated_lean_lines": 1511295,
+    "integrated_lean_modules": 841,
     "remaining_composite_orders": [
       18,
       25,
@@ -3110,7 +3110,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor now prove the structural dimension-shift step: vanishing of degree n cohomology of the actual cokernel makes the cover inclusion injective in degree n+1. Coherence, positive-degree affine acyclicity, local killing of positive-degree classes, proper finite-dimensionality, H1, and vanishing above degree one remain open.",
+      "summary": "Mathlib's native Ext-based cohomology of abelian sheaves now applies to actual Scheme.Modules on the Zariski opens site. Degree zero is identified naturally with genuine global sections at the terminal open. The global-functions action is transported explicitly rather than registered as a competing global instance; actual H0 functor maps are linear and agree with their native underlying maps. On an affine tilde module the comparison is linear over the coefficient ring and transfers finite generation. For actual quasicoherent modules on Spec R, epimorphisms induce surjections on global sections and genuine Ext-based H0. The affine tilde equivalence proves that ambient scheme-module cokernels of quasicoherent morphisms remain quasicoherent. Finite products of quasicoherent modules on Spec R and pushforwards between affine schemes are now quasicoherent, so the finite product of affine restriction-pushforwards and the cokernel of its adjunction-unit map are genuine quasicoherent scheme modules. For every actual open cover, the sheaf condition proves that the adjunction-unit cover map is monic, and its canonical cokernel complex is short exact. The retained long exact sequence and exact additive-sheaf forgetful functor prove the structural dimension-shift step. A clean-room Ext/sheaf argument now kills every genuine degree-one class on a finite affine open cover of Spec R; the induced finite-cover map kills the class as well. Affine H0 right exactness makes that same map injective on H1, so genuine Ext-based H1 of every quasicoherent module on an affine spectrum is subsingleton. Local killing in degrees at least two, all-positive-degree affine acyclicity, proper finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree one remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3120,7 +3120,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only the exact-sequence core is retained. Local killing, the required packaged proper-curve finite-dimensionality and vanishing-above-one API are absent, and source-clean endpoints do not by themselves certify a placeholder-free import cone.",
+          "boundary": "Only the exact-sequence core is retained from AINTLIB. Degree-one local killing and affine H1 acyclicity are now independently derived from pinned Mathlib without consulting the rejected unlicensed implementation. Higher local killing, all-positive-degree affine acyclicity, and the required packaged proper-curve finite-dimensionality and vanishing-above-one API remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -3313,6 +3313,41 @@
           "state": "contract",
           "description": "Consume the genuine affine-cover short exact sequence in the checked structural dimension-shift step.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHOne_finiteAffineKillingCover",
+          "state": "contract",
+          "description": "Construct a finite affine open cover of an affine spectrum whose genuine restriction-pushforward units, and their actual finite product map, kill a supplied Ext-based H1 class.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineLocalKilling"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_previous_surjective",
+          "state": "contract",
+          "description": "Use the genuine long exact sequence to derive degree-(n+1) injectivity from surjectivity of the preceding degree-n map.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.toAffineCoverModule_HOne_injective",
+          "state": "contract",
+          "description": "Apply affine H0 right exactness to prove that the actual finite affine-cover map is injective on genuine H1.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHOne"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHOne_subsingleton",
+          "state": "contract",
+          "description": "Combine finite affine local killing with cover-map injectivity to prove affine quasicoherent H1 is subsingleton.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHOne"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHOne_eq_zero",
+          "state": "contract",
+          "description": "Give the elementwise zero theorem for every genuine Ext-based H1 class of a quasicoherent module on an affine spectrum.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyAffineHOne"
         }
       ],
       "depends_on": [

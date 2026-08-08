@@ -67,7 +67,10 @@ the cover map monic for every actual open cover, and its canonical cokernel
 complex is short exact (`37a30f5`). The attributed, option-free sheaf long
 exact sequence and exact additive forgetful functor are now retained; their
 real affine-cover consumer proves the injective dimension-shift step from the
-still-explicit cokernel-vanishing hypothesis (`44cc236`). The actual supported
+still-explicit cokernel-vanishing hypothesis (`44cc236`). A clean-room finite
+affine local-killing cover and the preceding-degree surjectivity consumer now
+prove genuine affine quasicoherent H1 vanishing (`45833b3`, `c059ed1`), but
+higher positive degrees remain open. The actual supported
 constant-flat cokernel sections, inclusion-induced global `H¹` map, and
 localization exactness boundary are now a typed handoff; both factor orderings
 consume it through carrier-preserving endpoint bounds (`6eb0919`, API-repaired
@@ -85,6 +88,22 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The coherent-cohomology lane now proves genuine affine quasicoherent
+degree-one acyclicity. A source-clean construction embeds the underlying
+abelian sheaf into an injective, uses local surjectivity of the cokernel map
+to kill each Ext-`H¹` class on an affine neighbourhood, refines to affine
+opens, and extracts a finite cover by compactness. The same proof kills the
+class under the actual finite product of restriction-pushforwards. Affine
+`H⁰` right exactness makes that cover map injective on `H¹`, so every genuine
+Ext-based `H¹` class of a quasicoherent module on `Spec R` is zero
+(`45833b3`, `c059ed1`). Both focused builds and the five endpoint axiom
+audits pass with only `propext`, `Classical.choice`, and `Quot.sound`. The
+implementation was independently derived from pinned Mathlib; the rejected
+unlicensed local-killing source and commit were not consulted. Higher-degree
+local killing, all-positive affine acyclicity, and proper-curve finiteness
+remain open, so MT-TC-B1 receives no completion credit. The exact quality
+baseline is now 841 Lean modules and 1,511,295 Lean lines.
+
 The arbitrary-module effectivity lane now has its genuine global candidate.
 For one coherent module descent datum, the product of all direct images and
 the product over pairwise overlaps are connected by the two actual
@@ -98,7 +117,7 @@ two theorem declarations use only `propext`, `Classical.choice`, and
 checked inverses. The next exact seam is open-pullback base change, followed
 by the cocycle-defined inverse family and a descent-data isomorphism. A3
 remains open and receives no completion credit. The exact quality baseline is
-now 838 Lean modules and 1,510,591 Lean lines.
+recorded above.
 
 The A3 overlap transport now has a source-clean, definitionally aligned
 forward map. Owner review quarantined a stale cached payload and rejected the
@@ -158,9 +177,14 @@ is the cokernel of its adjunction-unit map (`bde0414`). The sheaf condition on
 an actual open cover proves that map monic, and the cover-module/cokernel
 complex is short exact (`37a30f5`). The checked long exact sequence now turns
 degree-`n` vanishing for that actual cokernel into injectivity of the cover map
-on degree `n + 1` cohomology (`44cc236`). Positive-degree local killing and
-affine acyclicity, proper finite-dimensionality, H1, and higher vanishing
-remain open, so MT-TC-B1 receives no completion credit.
+on degree `n + 1` cohomology (`44cc236`). A clean-room Ext/sheaf construction
+now produces a finite affine cover killing any supplied degree-one class, and
+the actual finite product cover map kills it as well (`45833b3`). Affine H0
+right exactness makes that map injective on H1, proving affine quasicoherent
+H1 vanishing (`c059ed1`). Local killing in degrees at least two,
+all-positive affine acyclicity, proper finite-dimensionality, proper-curve H1
+finiteness, and higher vanishing remain open, so MT-TC-B1 receives no
+completion credit.
 
 The split finite-flat X0 lane now has the inverse point-level handoff below
 coarse representability. The image of the genuine closed immersion on
@@ -1424,9 +1448,14 @@ within each lane follows the listed order.
    its cokernel are now genuine quasicoherent modules. The sheaf condition now
    proves the cover map mono and yields the canonical short exact complex.
    The real long exact sequence now performs the injective dimension-shift
-   step under degree-`n` vanishing of the actual cokernel. Next construct the
-   positive-degree local-killing cover and prove that cokernel vanishing; do
-   not count the structural step as affine acyclicity.
+   step under degree-`n` vanishing of the actual cokernel. A clean-room Ext
+   construction now produces a finite affine local-killing cover for every
+   degree-one class, and affine H0 right exactness proves the corresponding
+   cover map injective on H1. Thus affine quasicoherent H1 vanishing is
+   checked. Next extend local killing inductively to every positive degree and
+   combine it with the existing dimension-shift injection to prove full
+   positive-degree affine acyclicity; then construct proper-curve
+   finite-dimensionality. Do not count this H1 checkpoint as B1 completion.
 3. Build `MT-TC-C2-SYMMETRIC-POWERS` (15) and
    `MT-TC-D1-PICARD-FUNCTOR` (35), then
    `MT-TC-D2-PICARD-REPRESENTABILITY` (45).
