@@ -7,6 +7,7 @@ import Mathlib.Algebra.Category.Grp.Abelian
 import Mathlib.Algebra.Category.Grp.Biproducts
 import Mathlib.Algebra.Category.Grp.Limits
 import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
+import Mathlib.AlgebraicGeometry.Morphisms.Separated
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleBaseCechBasic
 
 /-!
@@ -80,4 +81,30 @@ theorem cechCochainAddEquiv_symm_apply_component
         ((cechCochainAddEquiv F U n).symm x) = x i :=
   AddCommGrpCat.productIsoPi_inv_apply _ _ _
 
+private noncomputable def Opens.piObjIsoIInf
+    {κ : Type v} (V : κ → Opens T) :
+    ∏ᶜ V ≅ ⨅ k, V k :=
+  IsLimit.conePointUniqueUpToIso
+    (limit.isLimit _) (Preorder.isLimitIInf V)
+
+theorem Opens.piObj_eq_iInf {κ : Type v} (V : κ → Opens T) :
+    (∏ᶜ V) = ⨅ k, V k :=
+  (Opens.piObjIsoIInf V).to_eq
+
 end TopologicalSpace
+
+namespace AlgebraicGeometry
+
+/-- In a separated scheme, the product open attached to a Cech tuple of
+affine opens is affine. -/
+theorem IsAffineOpen.cechIntersection
+    {X : Scheme.{u}} [X.IsSeparated] {ι : Type u}
+    (U : ι → X.Opens) (hU : ∀ i, IsAffineOpen (U i)) (n : ℕ)
+    (i : Fin (n + 1) → ι) :
+    IsAffineOpen (∏ᶜ fun k : Fin (n + 1) ↦ U (i k)) := by
+  rw [show (∏ᶜ fun k : Fin (n + 1) ↦ U (i k)) =
+      ⨅ k : Fin (n + 1), U (i k) from
+    TopologicalSpace.Opens.piObj_eq_iInf _]
+  exact IsAffineOpen.iInf (fun k ↦ hU (i k))
+
+end AlgebraicGeometry
