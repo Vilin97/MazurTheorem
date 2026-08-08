@@ -153,7 +153,9 @@ The 15 modules below are derived from the Apache-2.0 LeanPool development at
 `360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`. The upstream migration at
 `cc54a3adb51cb00b78cbe025818a24b676aeada7` was used as the reference for
 Lean `v4.33.0-rc1` and the repository's exact Mathlib commit
-`79d0395a1825a6264ad5d269e35e60537518955e`.
+`79d0395a1825a6264ad5d269e35e60537518955e`. The local provenance commit
+retains the migration commit's `github-actions[bot]`, Vasily Ilin, and Claude
+Opus 5 co-author credits.
 
 | Upstream source below `LeanPool/GrothendieckVanishing/` | Local destination below `MazurTorsion/Upstream/LeanPool/GrothendieckVanishing/` |
 |---|---|
