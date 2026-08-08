@@ -938,12 +938,14 @@ cover inclusion injective on degree `n + 1` cohomology. A clean-room
 Ext/sheaf argument now kills every degree-one class on a finite affine open
 cover of an affine spectrum, including under the actual product cover map.
 Affine H0 right exactness makes that product map injective on H1, proving
-genuine affine quasicoherent H1 vanishing. The next Kempf step is now checked
-conditionally in degree two: affine-basis surjectivity of the chosen
-injective-cokernel projection makes its open restriction-pushforward cokernel
-comparison both monic and epic, hence an isomorphism, and yields a finite
-affine cover killing every supplied H2 class. Deriving that premise from
-affine H1 vanishing, extending local killing through all positive degrees, and
+genuine affine quasicoherent H1 vanishing. Transport across the canonical
+affine scheme isomorphism applies that result to every affine open. Exact open
+pullback of the injective-cokernel sequence and its long exact sequence then
+discharge the section-surjectivity premise and give an unconditional finite
+affine cover killing every supplied H2 class. The cover's actual cokernel is
+quasicoherent and has vanishing affine H1, so the dimension-shift map is
+injective on H2; genuine quasicoherent H2 therefore vanishes on every affine
+scheme. Extending local killing through all positive degrees and
 all-positive-degree affine acyclicity remain open, as do proper
 finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
 
@@ -1036,6 +1038,22 @@ finite-dimensionality, proper-curve H1 finiteness, and higher vanishing.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHTwo_finiteAffineKillingCover_of_affine_cokernel_app_surjective`
   Construct a finite affine cover killing a supplied Ext-based H2 class under
   affine-basis surjectivity of the chosen injective-cokernel projection.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHOne_subsingleton`
+  Transport affine quasicoherent H1 vanishing across the canonical affine
+  scheme isomorphism.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHTwo_finiteAffineKillingCover`
+  Discharge the injective-cokernel section-surjectivity premise and kill every
+  genuine quasicoherent H2 class on a finite affine cover.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHTwo_subsingleton`
+  Combine finite local killing with the actual cover-map dimension shift to
+  prove H2 vanishing on an affine spectrum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHTwo_subsingleton`
+  Transport genuine quasicoherent H2 vanishing to every affine scheme; its
+  elementwise zero theorem is the checked downstream consumer.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomology_succ_map_injective_of_previous_surjective`
   Derive degree-`n + 1` injectivity from surjectivity in the preceding degree.

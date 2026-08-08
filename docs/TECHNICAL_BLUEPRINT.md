@@ -1791,18 +1791,32 @@ global Picard steps.
 The coherent-cohomology lane now uses Mathlib's actual Ext-based cohomology of
 the underlying abelian sheaf of a `Scheme.Modules` object on the Zariski
 opens site. Its degree-zero group is naturally equivalent to genuine global
-sections. The global-functions action is transported back explicitly rather
-than registered as a global typeclass instance; native H0 functor maps are
-linear for this action and keep the same underlying function. The affine
-tilde consumer is linear over the coefficient ring and transfers finite
-generation. On `Spec R`, tilde full faithfulness now reflects an epimorphism of
-actual quasicoherent modules to an epimorphism and hence a surjection on
-global sections. Naturality of the genuine H0 comparison makes the induced
-Ext-based H0 map surjective as a compiled downstream consumer. This is H0
-right exactness, not positive-degree affine acyclicity. The finite-cover and
-cokernel quasicoherent closure lemmas, local killing or an equivalent
-acyclicity proof, proper finite-dimensionality, H1, and higher vanishing remain
-open.
+sections, and the transported global-functions action gives the required
+linear and finite-generation consumers. On `Spec R`, tilde full faithfulness
+proves H0 right exactness for actual quasicoherent modules. The sheaf condition
+then makes the finite affine restriction-pushforward cover map monic, its
+cokernel is quasicoherent, and the retained long exact sequence supplies the
+dimension-shift injection. A clean-room local-surjectivity argument kills
+every H1 class on such a finite cover, proving affine quasicoherent H1
+vanishing. Transport across the canonical affine scheme isomorphism applies
+that result on every affine open. Exact pullback of the injective-cokernel
+sequence and its long exact sequence therefore remove the prior sectionwise
+surjectivity premise and kill every H2 class on a finite affine cover. The
+actual cover cokernel has vanishing affine H1, so the cover map is injective on
+H2 and genuine quasicoherent H2 vanishes on every affine scheme. General
+higher local killing, all-positive affine acyclicity, proper
+finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree
+one remain open.
+
+The checked degree-one transport, unconditional degree-two local killing, and
+its two affine-acyclicity consumers are exposed as:
+
+```lean
+MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHOne_subsingleton
+MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHTwo_finiteAffineKillingCover
+MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHTwo_subsingleton
+MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHTwo_subsingleton
+```
 
 The checked absolute precursor
 `AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted

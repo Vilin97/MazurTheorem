@@ -70,10 +70,11 @@ real affine-cover consumer proves the injective dimension-shift step from the
 still-explicit cokernel-vanishing hypothesis (`44cc236`). A clean-room finite
 affine local-killing cover and the preceding-degree surjectivity consumer now
 prove genuine affine quasicoherent H1 vanishing (`45833b3`, `c059ed1`).
-the degree-two Kempf construction now also gives a finite affine killing cover
-under the explicit affine-basis surjectivity premise for the chosen
-injective-cokernel projection (`0fa93f7`), but discharging that premise and
-higher positive degrees remain open. The actual supported
+Transport across affine scheme isomorphisms and exact open pullback now
+discharge the injective-cokernel section-surjectivity premise in degree two;
+the resulting finite killing cover and H1 vanishing for its actual
+quasicoherent cokernel prove genuine affine quasicoherent H2 vanishing
+(`7558fca`, `72baf3f`). Higher positive degrees remain open. The actual supported
 constant-flat cokernel sections, inclusion-induced global `H¹` map, and
 localization exactness boundary are now a typed handoff; both factor orderings
 consume it through carrier-preserving endpoint bounds (`6eb0919`, API-repaired
@@ -91,19 +92,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
-The coherent-cohomology lane now has the first genuine higher-degree Kempf
-consumer. For a degree-two class, affine-basis surjectivity of the selected
-injective-cokernel projection makes the restriction-pushforward cokernel
-comparison both monic and epic and therefore an isomorphism. The checked
-comparison, Ext postcomposition cancellation, and finite compactness argument
-produce an actual finite affine cover killing that H2 class (`0fa93f7`,
-reviewed from contributor checkpoint `abd49b8`). The focused source and public
-H1 builds pass serially (2,825 and 2,832 jobs), and the H2 and H1 endpoint
-axiom audits use only `propext`, `Classical.choice`, and `Quot.sound`.
-Affine H1 vanishing has not yet been used to discharge the explicit basis
-surjectivity premise, so neither all-positive affine acyclicity nor B1 is
-complete and no node credit is awarded. The exact quality baseline is now
-842 Lean modules and 1,511,780 Lean lines.
+The coherent-cohomology lane now proves genuine affine quasicoherent H2
+acyclicity. Degree-one affine vanishing is transported from a spectrum across
+the canonical affine scheme isomorphism. Exact open pullback of the
+injective-cokernel short exact sequence and its long exact sequence then prove
+the formerly explicit section-surjectivity premise on every affine open. This
+gives an unconditional finite affine cover killing a supplied H2 class
+(`7558fca`, reviewed from contributor `c772075`). The cover's actual cokernel
+is quasicoherent, its affine H1 vanishes, and dimension shifting makes the same
+cover map injective on H2; hence H2 vanishes on every affine spectrum and,
+after isomorphism transport, on every affine scheme (`72baf3f`). The focused
+2,848-job serial build passes without warnings, and all six public endpoint
+axiom audits use only `propext`, `Classical.choice`, and `Quot.sound`. General
+higher local killing, all-positive affine acyclicity, and the proper-curve
+finiteness/vanishing package remain open, so B1 receives no node credit. The
+exact quality baseline is now 843 Lean modules and 1,512,132 Lean lines.
 
 The mandatory cyclotomic release lane now retains the genuine equivariant
 Hilbert--94 conclusion. Extension of ideal classes defines an actual
@@ -1922,11 +1925,13 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- `codex/mt-a3-raw-normalization-consumer` is reducing the checked all-index
-  raw cocycle to a concrete normalized `LineBundleCocycle` and full descent
-  datum without raising elaboration limits. Direct specialization and a
-  pullback/map-typed factory timed out reproducibly; the active route packages
-  the diagonal pullback as an explicit `Iso` and cancels its idempotent Hom.
+- `codex/mt-a3-raw-normalization-consumer` has a pruned research checkpoint
+  for generic exact normalization and an abstract owned-package consumer
+  (`22f750e`), but it is deliberately not integrated because forming that
+  package from the concrete raw A3 cocycle exceeds the default elaboration
+  budget and no real raw consumer compiles. The active repair moves the short
+  bundled `obj/sq/sq₃/overlapIso` value to the raw-cocycle source boundary;
+  downstream dependent-wrapper variants are closed.
 - `codex/mt-open-pullback-basechange` starts from the reviewed compatible-family
   equalizer at `078132e`. It is proving the one cartesian-open comparison
   `f_j,* ; f_i^* ≅ p_1,* ; p_2^*` and must compile the actual chart-family
@@ -1935,11 +1940,11 @@ or accounting shortcut.
   object-specific `EffectiveModule`; object separation, rational
   normalization, and Picard surjectivity then remain for the unchanged A3
   Challenge.
-- `codex/mt-cleanroom-affine-local-killing` has supplied the reviewed
-  conditional degree-two checkpoint (`abd49b8`, integrated as `0fa93f7`). It
-  is now eliminating the affine-basis surjectivity premise through the checked
-  affine H1 theorem and the restriction long exact sequence, while preserving
-  the same concrete restriction-pushforward and injective-cokernel consumer.
+- `MT-TC-B1-COHERENT-COHOMOLOGY` now has affine quasicoherent H1 and H2
+  acyclicity with real finite-cover consumers. The next research seam is a
+  reduction-stable induction for local killing in every positive degree,
+  followed by proper finite-dimensionality and the dimension-one vanishing
+  consumer; do not infer those claims from the two checked base degrees.
 - `weighted local arithmetic`: the five- and eleven-adic depth chains are
   independently reviewed and integrated through `a₄ ∈ 𝔪⁴`, `a₆ ∈ 𝔪⁶`, and
   the selected model's checked minimality contradiction. Preserve the older
