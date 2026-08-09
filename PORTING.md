@@ -203,10 +203,11 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Nineteen file-level Apache-2.0 modules were selected from the AINTLIB
-`dev/modular-curves` snapshot at
-`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`:
+Twenty-one file-level Apache-2.0 modules were selected from audited AINTLIB
+history and placed below `MazurTorsion/Upstream/AINTLIB/`. Nineteen come from
+the `dev/modular-curves` snapshot at
+`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the two additional fine-`Y₁`
+prerequisite leaves and their exact provenance are recorded below.
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
 |---|---|
@@ -219,6 +220,8 @@ Nineteen file-level Apache-2.0 modules were selected from the AINTLIB
 | `ForMathlib/InvariantBaseChange.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantBaseChange.lean` |
 | `ForMathlib/InvariantLocalization.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantLocalization.lean` |
 | `ForMathlib/RepresentableAut.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/RepresentableAut.lean` |
+| `ForMathlib/ProjFromGlobalSectionsMap.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/ProjFromGlobalSectionsMap.lean` |
+| `ForMathlib/TateNormalForm.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TateNormalForm.lean` |
 | `ForMathlib/SpecGroupAction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SpecGroupAction.lean` |
 | `ForMathlib/PullbackLocalAtTarget.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PullbackLocalAtTarget.lean` |
 | `ForMathlib/InvariantTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantTorsor.lean` |
@@ -298,6 +301,24 @@ scheme. The file is also byte-identical at AINTLIB commit
 `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, whose root Apache-2.0 license has
 blob `8dada3edaf50dbc082c9a125058f25def75e625a`.
 
+`ProjFromGlobalSectionsMap.lean` is taken from the clean AINTLIB history at
+commit `4b93c0d423dd009ecb6f4bb8497bfa3f0df655e5`, exact source blob
+`7bab020b5a677bd1d6c6d63c1d28e007158767c0`. Its explicit Chris Birkbeck
+Apache-2.0 header is retained. The only exact-pin proof adaptation replaces a
+goal-shape `show` by `change` in the final naturality proof; declarations and
+statements are unchanged. This leaf supplies the scheme-level naturality of
+`Proj.fromOfGlobalSections` under a homogeneous coordinate map.
+
+`TateNormalForm.lean` is retained byte-for-byte from AINTLIB exact blob
+`6955ff2b550043b1a430433348067ef7b7ec416e`, which is identical at the
+licensed default-branch commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`. Its header records the original
+Mathlib PR #25218 source by Kenny Lau, branch `kckennylau/tatenf`, commit
+`8b7741e0d12ae7a6e8eb998bfbcff29a4f2470c8`, together with the subsequent
+AINTLIB additions. The file has only two Mathlib imports and supplies the
+Tate coordinate change, uniqueness, and division-polynomial bridges needed by
+the fine-`Y₁` route.
+
 That consumer also adapts proof skeletons from AINTLIB
 `GroupScheme/TranslationBySection.lean`, exact blob
 `6223d2904bc6f2162d4ee4e77ed684a40396ef18`. The file at the audited
@@ -309,7 +330,23 @@ commit is retained for Chris Birkbeck and co-author Claude Opus 4.8. Only the
 constant-section, translation, and elementary composition proof skeletons are
 adapted; the tensor equivariance, inverse conjugation, action, quotient
 descent, and group-object construction are new local proofs. This adapted
-source is not counted among the nineteen vendored modules above.
+source is not counted among the twenty-one vendored modules above.
+
+`MazurTorsion/ModularCurve/XZeroGammaOneTateBase.lean` additionally adapts
+only the ring-level Tate-normalization and relative affine-base formulas from
+AINTLIB `Moduli/Representability.lean` and `ModularCurve/YOneAssembly.lean`.
+The required prefix of `Representability.lean` is byte-identical in the
+licensed default-branch file, blob
+`efd838f8a7702725bcbe974b9e7141e683eee644`; its license basis is that
+commit's root Apache-2.0 license blob
+`8dada3edaf50dbc082c9a125058f25def75e625a`. `YOneAssembly.lean` has exact
+blob `7732e39a206a348ca7c6d59ecdb9b8359abccc33`, byte-identical at the same
+licensed commit, and retains an explicit Apache-2.0 file header. The local
+leaf also adapts the elementary proper-divisor lemma from that source. It
+constructs `Spec R[A,B][Δ⁻¹]` and its Tate equation but deliberately makes no
+representability, classifying-map, or modular-curve claim. Its header preserves
+the Vasily Ilin and Chris Birkbeck copyrights and credits Kenny Lau, Claude
+Fable 5, and Claude Opus 4.8 for the adapted source work.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by

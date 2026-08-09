@@ -288,6 +288,27 @@ representative, its rational generator/section dictionary, the units action
 on the moduli functor, and presentation compatibility—not another generic
 scheme-quotient construction.
 
+The first two declaration-sliced fine-`Y₁` prerequisites have since been
+isolated and compiled at the immutable pin. The retained
+`ForMathlib/TateNormalForm.lean` supplies the Tate coordinate change,
+division-polynomial bridge, and uniqueness theorem with a standard-only axiom
+closure. `XZeroGammaOneTateBase.lean` then constructs the canonical
+ring-equivalence for `ℤ[A,B][Δ⁻¹]`, the relative affine base
+`Spec R[A,B][Δ⁻¹]`, and its elliptic Tate equation. The independent
+`ForMathlib/ProjFromGlobalSectionsMap.lean` leaf supplies the homogeneous
+coordinate naturality required for scheme sections. These leaves make no
+representability claim.
+
+A declaration-level audit identifies the next semantic boundary as the
+projective universal family and explicit marked section, followed by the
+killed loci. The literal AINTLIB route reaches option-dependent projective
+model/group-law declarations before it can define that family; the full
+classifier additionally reaches the large `YOneAtlasClassify` cone. Defining
+the bare locus from the explicit `tateMarkedPoint`, rather than upstream's
+opaque choice `tatePoint := choose exists_tatePoint`, avoids dragging that
+classifier into the scheme construction. A separate audit is testing whether
+the repository's checked projective-cubic API can realize this smaller route.
+
 The alternative `YOneFine` route would first need an isomorphism between
 `gammaOneNaiveProblem` and `semiBorelQPD.prob`, a morphism
 `YOneFine ⟶ YZeroCoarse`, and compatibility of that morphism with
@@ -390,10 +411,12 @@ For the smallest identified split-`Y_1` route, the core classifying-point
 boundary requires steps 1 through 5 below rather than a new conditional
 wrapper:
 
-1. Port or reconstruct the minimum exact-pin `yOneEllObj` representative and
-   model/section dictionary over `Spec ℚ`, where `N` is invertible, then prove
-   that the generator of a `RationalDatum ℚ N` defines an `IsNaiveGammaOne`
-   section. Treat levels 2 and 3 separately.
+1. Starting from the now-checked Tate-normal-form and relative-affine-base
+   leaves, construct the universal projective Tate family, its zero and
+   explicit `(0,0)` marked sections, and the minimum killed/open loci needed
+   for the exact-pin `yOneEllObj` representative over `Spec ℚ`, where `N` is
+   invertible. Then prove that the generator of a `RationalDatum ℚ N` defines
+   an `IsNaiveGammaOne` section. Treat levels 2 and 3 separately.
 2. Construct the `(ZMod N)ˣ` action, its relative-invariant quotient, and the
    projection's units-invariance. Prove the geometric orbit theorem that gives
    this target its coarse Gamma-zero modular interpretation. Then construct

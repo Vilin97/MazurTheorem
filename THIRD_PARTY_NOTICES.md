@@ -59,9 +59,12 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 ## AINTLIB geometry foundations
 
 - Upstream authorship retained from the selected file headers: Chris
-  Birkbeck and the AINTLIB ModularCurves contributors
+  Birkbeck, Kenny Lau, Claude Fable 5, Claude Opus 4.8, and the AINTLIB
+  ModularCurves contributors
 - Source: https://github.com/CBirkbeck/AINTLIB
-- Source commit: `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`
+- Primary source snapshot:
+  `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the two later prerequisite
+  leaves and their exact revisions are identified below
 - Source paths:
   - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SheafOfModulesMonoidal.lean`
@@ -72,6 +75,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantBaseChange.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantLocalization.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/RepresentableAut.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/ProjFromGlobalSectionsMap.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/TateNormalForm.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecGroupAction.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackLocalAtTarget.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantTorsor.lean`
@@ -82,15 +87,24 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/TorsorMap.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
-- Additional adapted proof source, not vendored as a module:
+- Additional adapted proof sources, not vendored as modules:
   - `projects/ModularCurves/ModularCurves/GroupScheme/TranslationBySection.lean`
     (blob `6223d2904bc6f2162d4ee4e77ed684a40396ef18`; Chris Birkbeck and
     Claude Opus 4.8)
-- License: Apache License 2.0 as explicitly stated in every selected file
-  header. The adapted `TranslationBySection` blob had no header at the audited
-  commit, but is byte-identical at AINTLIB commit
+  - `projects/ModularCurves/ModularCurves/Moduli/Representability.lean`
+    (licensed default-branch blob
+    `efd838f8a7702725bcbe974b9e7141e683eee644`)
+  - `projects/ModularCurves/ModularCurves/ModularCurve/YOneAssembly.lean`
+    (blob `7732e39a206a348ca7c6d59ecdb9b8359abccc33`)
+- License: Apache License 2.0 as explicitly stated in the selected file
+  headers or, where noted, under the audited repository-wide license. The
+  adapted `TranslationBySection` blob had no header at the primary snapshot,
+  but is byte-identical at AINTLIB commit
   `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, under root Apache-2.0 license
-  blob `8dada3edaf50dbc082c9a125058f25def75e625a`. See `docs/PRIOR_ART.md`.
+  blob `8dada3edaf50dbc082c9a125058f25def75e625a`. The needed
+  `Representability.lean` prefix occurs in the licensed default-branch blob
+  listed above; `YOneAssembly.lean` is byte-identical there and has an
+  explicit Apache-2.0 header. See `docs/PRIOR_ART.md`.
 
 The selected files are stored under `MazurTorsion/Upstream/AINTLIB/`. The two
 sheaf-cohomology files preserve the upstream declarations and proofs, with
@@ -105,15 +119,29 @@ and `BaseChangeAlongCompat` uses the pinned Mathlib finite-affine and
 fpqc-to-fppf proof APIs explicitly. `SchemeQuotient` uses current affine-open
 naturality and diagonal-composition APIs. `QuotientTorsor` makes the affine
 action invariance and pullback representatives explicit. No statement is
-weakened. The additional translation proof adaptation and its exact-blob
-license evidence are described above. No other AINTLIB geometry source is
-included or adapted. Details are recorded in `PORTING.md` and
-`docs/PRIOR_ART.md`.
+weakened. The additional adapted proof sources and their exact-blob license
+evidence are described above. No AINTLIB geometry source beyond the listed
+vendored or adapted files is included. Details are recorded in `PORTING.md`
+and `docs/PRIOR_ART.md`.
 
 `RepresentableAut.lean` is an unchanged, Mathlib-only Yoneda transport leaf,
 with exact upstream blob `de1c89486034c2a167d7bb0200360148662091d0`. Its
 explicit Apache-2.0 file header is retained; the identical blob also occurs at
 the licensed default-branch commit named above.
+
+`ProjFromGlobalSectionsMap.lean` comes from AINTLIB commit
+`4b93c0d423dd009ecb6f4bb8497bfa3f0df655e5`, exact source blob
+`7bab020b5a677bd1d6c6d63c1d28e007158767c0`, with its explicit Chris
+Birkbeck Apache-2.0 header. Its only local exact-pin change is a proof-level
+`show`-to-`change` elaboration repair. `TateNormalForm.lean` is unchanged from
+AINTLIB blob `6955ff2b550043b1a430433348067ef7b7ec416e`, identical at the licensed
+default-branch commit; its retained header attributes the original Mathlib PR
+#25218 implementation to Kenny Lau and distinguishes AINTLIB's additions.
+
+The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
+relative ring/base formulas, and proper-divisor lemma from the two listed
+sources. It does not port or claim their fine-moduli representability or
+classifying constructions.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 
