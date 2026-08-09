@@ -92,6 +92,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The Néron realization layer is integrated at `e13274e`.  An explicit
+`NeronModel` interface now packages the generic-fibre identification and
+mapping property, derives the equivalence between integral base points and
+rational points of the prescribed generic fibre, and transports the checked
+finite-flat power-Kummer rank-zero theorem across that equivalence.  An exact
+owner-context build of `NeronModel.PowerKummerRankZero` passes in 3,364 jobs;
+six representative public declarations audit to only `propext`,
+`Classical.choice`, and `Quot.sound`, and the new sources pass the forbidden-
+construct and diff checks.  This is an honest realization consumer, not a
+construction of the Néron model or verification of multiplication hypotheses
+for a modular Jacobian, so it earns no roadmap credit.  Those existence and
+arithmetic inputs remain on the FFGS/Néron critical path.  Source accounting is
+now 989 integrated Lean modules / 1,562,716 lines.
+
 The intrinsic cusp-local adapter is integrated at `e89b8ef`.  In the
 localized special fibre, an irreducible element of an actual DVR now
 generates the maximal ideal and survives modulo its square; this removes two
