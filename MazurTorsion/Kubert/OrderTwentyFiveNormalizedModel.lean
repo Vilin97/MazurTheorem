@@ -1832,6 +1832,266 @@ private theorem orderTwentyFiveBrunault_secondary_coordinates_eq_raw
       tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc,
       tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc]
 
+/-- The public raw Lécacheux coordinates specialize to Brunault's two
+coordinates on an exact-order-25 marked Tate curve.  Every conversion from a
+single quotient to a product of cross-ratios uses a denominator certificate
+coming from exact-order abscissa separation. -/
+theorem orderTwentyFiveBrunault_coordinates_eq_rawOrbit_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveBrunaultU b c =
+        orderTwentyFiveRawOrbitXZero (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultV b c =
+        -orderTwentyFiveRawOrbitXTwo (b / c) (c ^ 2 / (b - c)) := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder
+  have hfourSpec := twentyFiveNormalizedDatum_spec b c hx 2 (by omega)
+  have hfiveSpec := twentyFiveNormalizedDatum_spec b c hx 3 (by omega)
+  have hc : c ≠ 0 := by
+    simpa [twentyFiveNormalizedDatum] using hfourSpec.1
+  have hbc : b ≠ c := by
+    exact sub_ne_zero.mp (by
+      simpa [twentyFiveNormalizedDatum] using hfiveSpec.1)
+  have h2 : tateSuccessiveX b c 0 =
+      orderTwentyFiveRawOrbitAbscissaTwo r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaTwo,
+      orderTwentyFiveRawXTwo] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have h3 : tateSuccessiveX b c 1 =
+      orderTwentyFiveRawOrbitAbscissaThree r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaThree,
+      orderTwentyFiveRawXThree] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have h4 : tateSuccessiveX b c 2 =
+      orderTwentyFiveRawOrbitAbscissaFour r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaFour,
+      orderTwentyFiveRawXFour] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have h6 : tateSuccessiveX b c 4 =
+      orderTwentyFiveRawOrbitAbscissaSix r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaSix,
+      orderTwentyFiveRawXSix] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have h7 : tateSuccessiveX b c 5 =
+      orderTwentyFiveRawOrbitAbscissaSeven r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaSeven,
+      orderTwentyFiveRawXSeven] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have h8 : tateSuccessiveX b c 6 =
+      orderTwentyFiveRawOrbitAbscissaEight r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaEight,
+      orderTwentyFiveRawXEight] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have h9 : tateSuccessiveX b c 7 =
+      orderTwentyFiveRawOrbitAbscissaNine r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaNine,
+      orderTwentyFiveRawXNine] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have h11 : tateSuccessiveX b c 9 =
+      orderTwentyFiveRawOrbitAbscissaEleven r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaEleven,
+      orderTwentyFiveRawXEleven] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have h12 : tateSuccessiveX b c 10 =
+      orderTwentyFiveRawOrbitAbscissaTwelve r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaTwelve,
+      orderTwentyFiveRawXTwelve] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  obtain ⟨hd13, hd74, hd4twelve, hd39, hd92, hd12eleven⟩ :=
+    orderTwentyFiveBrunault_denominators_ne_zero b c hb h00 horder
+  have hyOneDen : orderTwentyFiveRawOrbitYOneDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYOneDenominator, ← h7, ← h4, ← h3]
+    exact mul_ne_zero hd74 hd13
+  have hyFourDen : orderTwentyFiveRawOrbitYFourDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYFourDenominator, ← h4, ← h12,
+      ← h3, ← h9]
+    exact mul_ne_zero hd4twelve hd39
+  have hyNineDen : orderTwentyFiveRawOrbitYNineDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYNineDenominator, ← h9, ← h2,
+      ← h12, ← h11]
+    exact mul_ne_zero hd92 hd12eleven
+  constructor
+  · rw [orderTwentyFiveRawOrbitXZero,
+      orderTwentyFiveRawOrbitYOne_eq_crossRatios r s hyOneDen,
+      orderTwentyFiveRawOrbitYFour_eq_crossRatios r s hyFourDen]
+    simp only [orderTwentyFiveBrunaultU, orderTwentyFiveBrunaultYFour,
+      orderTwentyFiveBrunaultYSeven, h2, h3, h4, h7, h9, h11, h12]
+    ring
+  · rw [orderTwentyFiveRawOrbitXTwo,
+      orderTwentyFiveRawOrbitYFour_eq_crossRatios r s hyFourDen,
+      orderTwentyFiveRawOrbitYNine_eq_crossRatios r s hyNineDen]
+    simp only [orderTwentyFiveBrunaultV, orderTwentyFiveBrunaultYNine,
+      orderTwentyFiveBrunaultYThree, h2, h3, h4, h6, h8, h9, h11, h12]
+    ring
+
+/-- The complete open-chart certificate needed by the raw Lécacheux orbit
+identities.  The eight polynomial factors are exactly the denominators in the
+raw abscissas; the five remaining conditions certify the cross-ratios. -/
+structure OrderTwentyFiveRawOrbitOpenCertificate (r s : ℚ) : Prop where
+  r_ne_zero : r ≠ 0
+  s_ne_zero : s ≠ 0
+  r_sub_s_ne_zero : r - s ≠ 0
+  s_sub_one_ne_zero : s - 1 ≠ 0
+  seven_factor_ne_zero : r * s - 2 * r + 1 ≠ 0
+  eight_factor_ne_zero : r - s ^ 2 + s - 1 ≠ 0
+  eleven_factor_ne_zero :
+    r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0
+  twelve_factor_ne_zero :
+    r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0
+  yOne_denominator_ne_zero :
+    orderTwentyFiveRawOrbitYOneDenominator r s ≠ 0
+  yTwo_denominator_ne_zero :
+    orderTwentyFiveRawOrbitYTwoDenominator r s ≠ 0
+  yFour_denominator_ne_zero :
+    orderTwentyFiveRawOrbitYFourDenominator r s ≠ 0
+  yEight_denominator_ne_zero :
+    orderTwentyFiveRawOrbitYEightDenominator r s ≠ 0
+  yNine_denominator_ne_zero :
+    orderTwentyFiveRawOrbitYNineDenominator r s ≠ 0
+  sutherland_eq_zero : orderTwentyFiveRawSutherlandF r s = 0
+
+/-- Internal assembly of the raw open-chart data after the normalized
+noncuspidal equation has been established. -/
+private theorem orderTwentyFiveRawOrbit_openCertificate_of_marked_order_and_factor
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25)
+    (hc : c ≠ 0) (hbc : b ≠ c)
+    (hfactor : orderTwentyFiveNoncuspidalFactor b c = 0) :
+    OrderTwentyFiveRawOrbitOpenCertificate
+      (b / c) (c ^ 2 / (b - c)) := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder
+  have hxy :=
+    tateSuccessiveX_ne_of_marked_order_twentyFive b c hb h00 horder
+  have h2 : tateSuccessiveX b c 0 =
+      orderTwentyFiveRawOrbitAbscissaTwo r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaTwo,
+      orderTwentyFiveRawXTwo] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have h3 : tateSuccessiveX b c 1 =
+      orderTwentyFiveRawOrbitAbscissaThree r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaThree,
+      orderTwentyFiveRawXThree] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have h4 : tateSuccessiveX b c 2 =
+      orderTwentyFiveRawOrbitAbscissaFour r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaFour,
+      orderTwentyFiveRawXFour] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have h6 : tateSuccessiveX b c 4 =
+      orderTwentyFiveRawOrbitAbscissaSix r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaSix,
+      orderTwentyFiveRawXSix] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have h7 : tateSuccessiveX b c 5 =
+      orderTwentyFiveRawOrbitAbscissaSeven r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaSeven,
+      orderTwentyFiveRawXSeven] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have h8 : tateSuccessiveX b c 6 =
+      orderTwentyFiveRawOrbitAbscissaEight r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaEight,
+      orderTwentyFiveRawXEight] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have h9 : tateSuccessiveX b c 7 =
+      orderTwentyFiveRawOrbitAbscissaNine r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaNine,
+      orderTwentyFiveRawXNine] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have h11 : tateSuccessiveX b c 9 =
+      orderTwentyFiveRawOrbitAbscissaEleven r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaEleven,
+      orderTwentyFiveRawXEleven] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have h12 : tateSuccessiveX b c 10 =
+      orderTwentyFiveRawOrbitAbscissaTwelve r s := by
+    simpa only [r, s, orderTwentyFiveRawOrbitAbscissaTwelve,
+      orderTwentyFiveRawXTwelve] using
+        tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  have hr : r ≠ 0 := by
+    dsimp [r]
+    exact div_ne_zero hb hc
+  have hs : s ≠ 0 := by
+    dsimp [s]
+    exact div_ne_zero (pow_ne_zero 2 hc) (sub_ne_zero.mpr hbc)
+  have hA : r - s ≠ 0 := by
+    intro hA
+    apply hx 4 (by omega)
+    rw [h6, orderTwentyFiveRawOrbitAbscissaSix, hA]
+    simp
+  have hB : s - 1 ≠ 0 := by
+    intro hB
+    apply hx 5 (by omega)
+    rw [h7, orderTwentyFiveRawOrbitAbscissaSeven, hB]
+    simp
+  have hC : r * s - 2 * r + 1 ≠ 0 := by
+    intro hC
+    apply hx 5 (by omega)
+    rw [h7, orderTwentyFiveRawOrbitAbscissaSeven, hC]
+    simp
+  have hK : r - s ^ 2 + s - 1 ≠ 0 := by
+    intro hK
+    apply hx 6 (by omega)
+    rw [h8, orderTwentyFiveRawOrbitAbscissaEight, hK]
+    simp
+  have hD :
+      r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0 := by
+    intro hD
+    apply hx 9 (by omega)
+    rw [h11, orderTwentyFiveRawOrbitAbscissaEleven, hD]
+    simp
+  have hE :
+      r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0 := by
+    intro hE
+    apply hx 10 (by omega)
+    rw [h12, orderTwentyFiveRawOrbitAbscissaTwelve, hE]
+    simp
+  have hyOne : orderTwentyFiveRawOrbitYOneDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYOneDenominator, ← h7, ← h4, ← h3]
+    exact mul_ne_zero
+      (sub_ne_zero.mpr (hxy 5 2 (by omega) (by omega) (by omega)))
+      (sub_ne_zero.mpr (hx 1 (by omega)).symm)
+  have hyTwo : orderTwentyFiveRawOrbitYTwoDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYTwoDenominator, ← h2, ← h6,
+      ← h11, ← h8]
+    exact mul_ne_zero
+      (sub_ne_zero.mpr (hxy 0 4 (by omega) (by omega) (by omega)))
+      (sub_ne_zero.mpr (hxy 9 6 (by omega) (by omega) (by omega)))
+  have hyFour : orderTwentyFiveRawOrbitYFourDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYFourDenominator, ← h4, ← h12,
+      ← h3, ← h9]
+    exact mul_ne_zero
+      (sub_ne_zero.mpr (hxy 2 10 (by omega) (by omega) (by omega)))
+      (sub_ne_zero.mpr (hxy 1 7 (by omega) (by omega) (by omega)))
+  have hyEight : orderTwentyFiveRawOrbitYEightDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYEightDenominator, ← h8, ← h6, ← h7]
+    exact mul_ne_zero (hx 6 (by omega))
+      (sub_ne_zero.mpr (hxy 4 5 (by omega) (by omega) (by omega)))
+  have hyNine : orderTwentyFiveRawOrbitYNineDenominator r s ≠ 0 := by
+    rw [orderTwentyFiveRawOrbitYNineDenominator, ← h9, ← h2,
+      ← h12, ← h11]
+    exact mul_ne_zero
+      (sub_ne_zero.mpr (hxy 7 0 (by omega) (by omega) (by omega)))
+      (sub_ne_zero.mpr (hxy 10 9 (by omega) (by omega) (by omega)))
+  have hF : orderTwentyFiveRawSutherlandF r s = 0 := by
+    dsimp [r, s]
+    rw [orderTwentyFiveRawSutherlandF_substitution b c hc hbc, hfactor]
+    simp
+  exact ⟨hr, hs, hA, hB, hC, hK, hD, hE,
+    hyOne, hyTwo, hyFour, hyEight, hyNine, hF⟩
+
 /-- The normalized collision is exactly the cusp factor `b-c` times the
 degree-40 factor, with no unrecorded scalar. -/
 theorem orderTwentyFive_normalized_collision_factorization (b c : ℚ) :
@@ -1894,6 +2154,26 @@ theorem orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
   exact orderTwentyFiveNoncuspidalFactor_eq_zero_of_recurrence b c
     (tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder)
     (orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order b c hb h00 horder)
+
+/-- Exact order of the marked Tate point supplies every nonvanishing and
+equation hypothesis used by the checked raw-orbit certificates.  Keeping the
+bundle here lets downstream certificate leaves consume a public interface
+without exposing the normalized recurrence implementation. -/
+theorem orderTwentyFiveRawOrbit_openCertificate_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    OrderTwentyFiveRawOrbitOpenCertificate
+      (b / c) (c ^ 2 / (b - c)) := by
+  obtain ⟨hc, hbc, hfactor⟩ :=
+    orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
+      b c hb h00 horder
+  exact
+    orderTwentyFiveRawOrbit_openCertificate_of_marked_order_and_factor
+      b c hb h00 horder hc hbc hfactor
 
 /-- The first Brunault modular-unit coordinate of an exact-order-25 marked
 Tate point avoids the exceptional diagonal value `1`.  This is the public
