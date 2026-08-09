@@ -329,7 +329,7 @@ private theorem v3Right_length :
   decide
 
 -- Exact bidegree bound (45, 66); no row or column is discarded.
-theorem v3Data_spec :
+private theorem v3Data_spec :
     rectangularize 46 67 (Two.mul VData V2Data) =
       rectangularize 46 67 V3Data := by
   apply List.ext_getElem (v3Left_length.trans v3Right_length.symm)

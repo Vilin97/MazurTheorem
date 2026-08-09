@@ -290,7 +290,7 @@ private theorem x3Right_length :
   decide
 
 -- Exact bidegree bound (39, 54); no row or column is discarded.
-theorem x3Data_spec :
+private theorem x3Data_spec :
     rectangularize 40 55 (Two.mul XData X2Data) =
       rectangularize 40 55 X3Data := by
   apply List.ext_getElem (x3Left_length.trans x3Right_length.symm)

@@ -28,25 +28,25 @@ open OrderTwentyFiveRelationZeroCertificate.Dense
 open OrderTwentyFiveDensePolynomialRectangular
 
 -- Exact bidegree bound (40, 54).
-theorem x4RData_spec :
+private theorem x4RData_spec :
     rectangularize 41 55 (Two.mul RData X3Data) =
       rectangularize 41 55 X4RData := by
   decide
 
 -- Exact bidegree bound (41, 56).
-theorem x4K1Data_spec :
+private theorem x4K1Data_spec :
     rectangularize 42 57 (Two.mul KData X4RData) =
       rectangularize 42 57 X4K1Data := by
   decide
 
 -- Exact bidegree bound (42, 58).
-theorem x4K2Data_spec :
+private theorem x4K2Data_spec :
     rectangularize 43 59 (Two.mul KData X4K1Data) =
       rectangularize 43 59 X4K2Data := by
   decide
 
 -- Exact bidegree bound (43, 60).
-theorem x4K3Data_spec :
+private theorem x4K3Data_spec :
     rectangularize 44 61 (Two.mul KData X4K2Data) =
       rectangularize 44 61 X4K3Data := by
   decide
@@ -371,7 +371,7 @@ private theorem x4MRight_length :
   decide
 
 -- Exact bidegree bound (47, 65); no row or column is discarded.
-theorem x4MData_spec :
+private theorem x4MData_spec :
     rectangularize 48 66 (Two.mul MData X4K3Data) =
       rectangularize 48 66 X4MData := by
   apply List.ext_getElem (x4MLeft_length.trans x4MRight_length.symm)
