@@ -92,6 +92,26 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The projective-line lane now computes the exact two-chart ordered Čech
+differential as the infinity restriction minus the standard restriction and
+proves its principal-parts cokernel finite over the base field.  The checked
+comparison then gives finite genuine sheaf `H¹` for every finite-type
+quasicoherent module on `P¹`, and the named finite-morphism consumer
+`genuineSheafHOne_finite_of_finite_to_projectiveLine` transports the result to
+every scheme equipped with a finite map to `P¹` (`6779fb3`, reviewed from
+`830d52b`).  The 3,343-job serial endpoint build, all four public axiom audits,
+Tau Ceti private-chart provenance review, and `scripts/quality.py` pass.  The
+axiom closure is exactly `propext`, `Classical.choice`, and `Quot.sound`; the
+quality baseline is 943 Lean modules / 1,540,959 Lean lines.  The genuine
+X1(13) finite map is the intended next compiled consumer, but remains gated on
+removal of every nondefault transparency option from its construction.  A
+stash-restore accident had briefly committed two unused generic A3
+normalization experiments (`94f0891`); corrective commit `63945e4` removes
+them from integration because they lack the concrete divisor consumer and
+their specialization follows the recorded elaboration blow-up.  They remain
+recoverable in the owner stash for redesign.  No roadmap node or Challenge
+receives credit.
+
 The B1 proper-cohomology lane now retains the canonical closed-support
 thickening construction and proves that its finite-type quasicoherent model
 has full closed stalk support (`7f96dd1`, reviewed from `afd79fa`).  A separate
