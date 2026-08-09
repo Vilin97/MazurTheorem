@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The residual level-seven quotient point is integrated at `1281e54`.  From an
+actual rational cyclic subgroup of order 49, the checked point-group quotient
+by its intrinsic order-seven subgroup carries the generator to an element of
+exact order seven.  The reviewed finite-translation quotient transports this
+class to a genuine point of the constructed quotient scheme; the concrete
+level-49 consumer uses the repository's existing canonical projective-point
+group-law compatibility interface.  The focused 3,225-job build, three public
+endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
+`propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
+coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
+no roadmap credit.  Source accounting is now 990 integrated Lean modules /
+1,562,928 lines.
+
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
 mapping property, derives the equivalence between integral base points and
