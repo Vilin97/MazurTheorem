@@ -122,8 +122,84 @@ theorem finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData
     kernelHOneData kernelHZeroData.length
       (nsmulKernel_natCard_eq_of_powerKernelCertifiedData G kernelHZeroData) hbound
 
-/-- Genuine five-adic rank-zero endpoint: actual degree-zero and degree-one data on the
-scheme-theoretic `[5]`-kernel supply the Kummer and torsion inputs. -/
+/-- Transport the actual power-Kummer theorem to an intended Mordell--Weil carrier through an
+explicit additive equivalence with global base points.  This is the precise Néron/global-section
+comparison still missing from the project; it is kept as a premise rather than inferred from a
+local model. -/
+theorem finrank_eq_zero_of_powerKummer_kernelData_of_basePointEquiv
+    {S : Scheme.{u}} {p : ℕ} (hp : p.Prime)
+    (G : CommGroupScheme S)
+    {A : Type u} [AddCommGroup A] [AddGroup.FG A]
+    (mordellWeilEquiv : A ≃+ Additive (CommGroupScheme.BasePoint G))
+    (hflat : Flat (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G p)))
+    (hsurjective : Surjective (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G p)))
+    (hlfp : LocallyOfFinitePresentation (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G p)))
+    (kernelHZeroData : FinitePGroup.CertifiedData p
+      (CommGroupScheme.BasePoint
+        (CommGroupScheme.kernel (CommGroupScheme.powerEnd G p))))
+    (kernelHOneData : FinitePGroup.BoundedData p
+      (CommGroupScheme.kernel (CommGroupScheme.powerEnd G p)).FppfHOne.{u})
+    (hbound : kernelHOneData.length ≤ kernelHZeroData.length) :
+    Module.finrank ℤ A = 0 := by
+  letI : AddGroup.FG (Additive (CommGroupScheme.BasePoint G)) :=
+    AddGroup.fg_of_surjective (f := mordellWeilEquiv.toAddMonoidHom)
+      mordellWeilEquiv.surjective
+  rw [mordellWeilEquiv.toIntLinearEquiv.finrank_eq]
+  exact finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData
+    hp G hflat hsurjective hlfp kernelHZeroData kernelHOneData hbound
+
+/-- Integral coefficient-five Mordell--Weil consumer.  The comparison with global represented
+sections remains an explicit Néron premise; the Kummer injection and torsion-cardinality law do
+not. -/
+theorem finrank_eq_zero_of_powerKummer_kernelData_mordellWeilIntAtFive
+    (G : CommGroupScheme (Spec (.of ℤ)))
+    {A : Type} [AddCommGroup A] [AddGroup.FG A]
+    (mordellWeilEquiv : A ≃+ Additive (CommGroupScheme.BasePoint G))
+    (hflat : Flat (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 5)))
+    (hsurjective : Surjective (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 5)))
+    (hlfp : LocallyOfFinitePresentation (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 5)))
+    (kernelHZeroData : FinitePGroup.CertifiedData 5
+      (CommGroupScheme.BasePoint
+        (CommGroupScheme.kernel (CommGroupScheme.powerEnd G 5))))
+    (kernelHOneData : FinitePGroup.BoundedData 5
+      (CommGroupScheme.kernel (CommGroupScheme.powerEnd G 5)).FppfHOne.{0})
+    (hbound : kernelHOneData.length ≤ kernelHZeroData.length) :
+    Module.finrank ℤ A = 0 :=
+  finrank_eq_zero_of_powerKummer_kernelData_of_basePointEquiv
+    (by decide) G mordellWeilEquiv hflat hsurjective hlfp kernelHZeroData
+      kernelHOneData hbound
+
+/-- Integral coefficient-eleven counterpart with the same explicit global-section comparison. -/
+theorem finrank_eq_zero_of_powerKummer_kernelData_mordellWeilIntAtEleven
+    (G : CommGroupScheme (Spec (.of ℤ)))
+    {A : Type} [AddCommGroup A] [AddGroup.FG A]
+    (mordellWeilEquiv : A ≃+ Additive (CommGroupScheme.BasePoint G))
+    (hflat : Flat (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 11)))
+    (hsurjective : Surjective (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 11)))
+    (hlfp : LocallyOfFinitePresentation (CommGroupScheme.underlyingHom
+      (CommGroupScheme.powerEnd G 11)))
+    (kernelHZeroData : FinitePGroup.CertifiedData 11
+      (CommGroupScheme.BasePoint
+        (CommGroupScheme.kernel (CommGroupScheme.powerEnd G 11))))
+    (kernelHOneData : FinitePGroup.BoundedData 11
+      (CommGroupScheme.kernel (CommGroupScheme.powerEnd G 11)).FppfHOne.{0})
+    (hbound : kernelHOneData.length ≤ kernelHZeroData.length) :
+    Module.finrank ℤ A = 0 :=
+  finrank_eq_zero_of_powerKummer_kernelData_of_basePointEquiv
+    (by decide) G mordellWeilEquiv hflat hsurjective hlfp kernelHZeroData
+      kernelHOneData hbound
+
+/-- Five-adic local-base-point endpoint: actual degree-zero and degree-one data on the
+scheme-theoretic `[5]`-kernel supply the Kummer and torsion inputs.  These base points are local
+points, not the global Mordell--Weil group. -/
 theorem finrank_additive_basePoint_eq_zero_of_powerKummer_kernelDataAtFive
     (G : CommGroupScheme
       (Spec (.of (atFive.adicCompletionIntegers ℚ))))
@@ -144,7 +220,7 @@ theorem finrank_additive_basePoint_eq_zero_of_powerKummer_kernelDataAtFive
   finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData
     (by decide) G hflat hsurjective hlfp kernelHZeroData kernelHOneData hbound
 
-/-- Genuine eleven-adic counterpart of the actual-kernel Kummer endpoint. -/
+/-- Eleven-adic local-base-point counterpart of the actual-kernel Kummer endpoint. -/
 theorem finrank_additive_basePoint_eq_zero_of_powerKummer_kernelDataAtEleven
     (G : CommGroupScheme
       (Spec (.of (atEleven.adicCompletionIntegers ℚ))))
