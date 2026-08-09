@@ -781,6 +781,19 @@ theorem _root_.AlgebraicGeometry.isAffineHom_diagonal_terminalFrom_of_isAffineHo
     IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from Z)) := by
   rw [← Limits.terminal.comp_from f]
   let P : MorphismProperty Scheme := @IsAffineHom
+  letI : P.IsStableUnderComposition := ⟨fun f g hf hg ↦ by
+      dsimp only [P] at hf hg ⊢
+      letI : IsAffineHom f := hf
+      letI : IsAffineHom g := hg
+      infer_instance⟩
+  letI : P.RespectsIso :=
+    MorphismProperty.respectsIso_of_isStableUnderComposition
+      (fun _ _ f (_ : IsIso f) ↦ by
+        dsimp only [P]
+        infer_instance)
+  letI : P.IsStableUnderBaseChange := by
+    dsimp only [P]
+    infer_instance
   have h₁ : P.diagonal f := by
     change IsAffineHom (Limits.pullback.diagonal f)
     haveI : IsSeparated f := .of_isAffineHom f
