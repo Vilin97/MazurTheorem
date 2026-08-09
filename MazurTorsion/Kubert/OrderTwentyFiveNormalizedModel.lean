@@ -504,6 +504,18 @@ private def orderTwentyFiveRawYNine (r s : ℚ) : ℚ :=
     ((orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXSix r s) /
       (orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s))
 
+private def orderTwentyFiveRawYTwo (r s : ℚ) : ℚ :=
+  ((orderTwentyFiveRawXTwo r s - 0) /
+      (orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s)) *
+    ((orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXSeven r s) /
+      (orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s))
+
+private def orderTwentyFiveRawYEight (r s : ℚ) : ℚ :=
+  ((orderTwentyFiveRawXEight r s - orderTwentyFiveRawXFour r s) /
+      (orderTwentyFiveRawXEight r s - 0)) *
+    ((orderTwentyFiveRawXSix r s - orderTwentyFiveRawXThree r s) /
+      (orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s))
+
 private def orderTwentyFiveRawYThree (r s : ℚ) : ℚ :=
   ((orderTwentyFiveRawXThree r s - orderTwentyFiveRawXEleven r s) /
       (orderTwentyFiveRawXThree r s - orderTwentyFiveRawXNine r s)) *
@@ -1769,6 +1781,31 @@ private theorem orderTwentyFiveBrunault_coordinates_eq_raw
     orderTwentyFiveRawYNine, orderTwentyFiveRawYThree,
     h2, h3, h4, h6, h7, h8, h9, h11, h12]
   exact ⟨trivial, trivial⟩
+
+/- The two remaining Lécacheux units use the same checked abscissa
+normalization as the Brunault coordinates above. -/
+private theorem orderTwentyFiveBrunault_secondary_coordinates_eq_raw
+    (b c : ℚ) (hx : ∀ k ≤ 10, tateSuccessiveX b c k ≠ 0)
+    (hc : c ≠ 0) (hbc : b ≠ c) :
+    orderTwentyFiveBrunaultYTwo b c =
+        orderTwentyFiveRawYTwo (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYEight b c =
+        orderTwentyFiveRawYEight (b / c) (c ^ 2 / (b - c)) := by
+  constructor
+  · unfold orderTwentyFiveBrunaultYTwo orderTwentyFiveRawYTwo
+    rw [
+      tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc]
+  · unfold orderTwentyFiveBrunaultYEight orderTwentyFiveRawYEight
+    rw [
+      tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc,
+      tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc]
 
 /-- The normalized collision is exactly the cusp factor `b-c` times the
 degree-40 factor, with no unrecorded scalar. -/
