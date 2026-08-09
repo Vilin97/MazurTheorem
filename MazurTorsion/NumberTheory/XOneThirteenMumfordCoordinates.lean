@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit
+import MazurTorsion.NumberTheory.XOneThirteenMumford
 
 /-!
 # Affine Mumford coordinates for the `X₁(13)` sextic
@@ -20,22 +20,17 @@ that every such record determines a point of a Jacobian.  The checked
 operation below is hyperelliptic conjugation `(u, v) ↦ (u, -v)`.
 -/
 
-namespace MazurTorsion.XOneThirteenDescent
+namespace MazurTorsion.XOneThirteenMumford
 
 open Polynomial
 
 noncomputable section
 
-/-- The `X₁(13)` sextic as a polynomial over `ℚ`. -/
-def mumfordSextic : ℚ[X] :=
-  X ^ 6 + C 2 * X ^ 5 + X ^ 4 + C 2 * X ^ 3 +
-    C 6 * X ^ 2 + C 4 * X + 1
-
 @[simp]
-theorem eval_mumfordSextic (x : ℚ) :
-    mumfordSextic.eval x =
+theorem eval_sexticPolynomial (x : ℚ) :
+    sexticPolynomial.eval x =
       MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x := by
-  simp [mumfordSextic,
+  simp [sexticPolynomial,
     MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial]
 
 /-- Affine Mumford polynomial coordinates of support degree at most two.
@@ -53,7 +48,7 @@ structure AffineMumford where
   u_monic : u.Monic
   u_natDegree_le : u.natDegree ≤ 2
   v_degree_lt : v.degree < u.degree
-  equation_mod_u : u ∣ mumfordSextic - v ^ 2
+  equation_mod_u : u ∣ sexticPolynomial - v ^ 2
 
 namespace AffineMumford
 
@@ -106,7 +101,7 @@ def ofPoint (x y : ℚ)
     exact degree_C_le.trans_lt (by norm_num)
   equation_mod_u := by
     rw [dvd_iff_isRoot, IsRoot, eval_sub, eval_pow, eval_C,
-      eval_mumfordSextic, hcurve]
+      eval_sexticPolynomial, hcurve]
     ring
 
 @[simp]
@@ -129,4 +124,4 @@ end AffineMumford
 
 end
 
-end MazurTorsion.XOneThirteenDescent
+end MazurTorsion.XOneThirteenMumford
