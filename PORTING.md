@@ -526,16 +526,19 @@ predicate. Public helper declarations in the existing Čech and open-unit
 modules now each have one of these checked comparison/support modules as a
 downstream consumer.
 
-This low-degree cone does not import the 1,956-line
-`SchemeModuleQuasicoherent` module or AINTLIB's all-degree properness cone.
-Affine-open exactness instead reuses the project's checked affine
-quasicoherent section-surjectivity theorem, transported through the affine
-spectrum isomorphism. The one Noetherian exact-pair lemma needed by the long
-homology sequence is retained as the named `BaseChangeKerCoker` slice. The
-zero-object case is proved directly in degrees zero and one, and the support
-induction takes quasicoherence of the comparison image as an explicit
-comodel witness. The source exactness declarations receive shorter local
-names to satisfy the repository's style gate.
+The support-induction slice described immediately above does not import the
+1,956-line `SchemeModuleQuasicoherent` module or AINTLIB's all-degree
+properness cone. Affine-open exactness instead reuses the project's checked
+affine quasicoherent section-surjectivity theorem, transported through the
+affine spectrum isomorphism. The one Noetherian exact-pair lemma needed by
+the long homology sequence is retained as the named `BaseChangeKerCoker`
+slice. The zero-object case is proved directly in degrees zero and one, and
+the support induction takes quasicoherence of the comparison image as an
+explicit comodel witness. The source exactness declarations receive shorter
+local names to satisfy the repository's style gate. The separate
+finite-pushforward/projective-line extension intentionally imports the
+reviewed local `SchemeModuleQuasicoherent` module to obtain finite-type chart
+sections and their localization maps for coherent modules.
 
 The project-facing `IsCoherentLowDegreeSupportComodel` packages the remaining
 producer boundary. Its closed-support induction consumer proves ordered
@@ -567,6 +570,20 @@ comparisons. The remaining seams include the proper ordered input, low-degree
 Chow/properness input, proper `H¹` finiteness, and the curve facade; the
 transport alone asserts no properness, base change, or semicontinuity.
 
+`MazurTorsion.Upstream.ProjectiveLineCechHOneFinite` supplies a distinct
+checked ordered input for the two standard affine charts of `P¹`. Its
+principal-parts calculation identifies the degree-zero differential, after
+the explicit overlap equivalence, as the infinity restriction minus the
+standard restriction. Finite generation of the resulting cokernel gives
+ordered Cech `H¹` finiteness and hence genuine sheaf `H¹` finiteness for every
+finite-type quasicoherent module on `P¹`. The finite-pushforward comparison
+then transports this result along any finite morphism to `P¹`. This generic
+checkpoint is intentionally ordered before its concrete projective
+order-thirteen-curve specialization, which remains in the dependent
+hyperelliptic-map checkpoint until that file passes the repository's
+default-transparency policy. No modular-curve rational-point classification
+or Mazur torsion conclusion is claimed here.
+
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,
 which this repository forbids. `MuN.lean` was also not copied because the
@@ -584,6 +601,9 @@ The named boundary for the native-Cech/sheaf-cohomology comparison is
 The named boundary for its explicit global-functions action is
 `MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule`, consumed by the
 ordered-H¹ finiteness boundary.
+The named boundary for the projective-line principal-parts and finite-map
+specialization is
+`MazurTorsion.Upstream.ProjectiveLineCechHOneFinite`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

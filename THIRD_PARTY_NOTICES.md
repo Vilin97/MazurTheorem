@@ -230,6 +230,16 @@ the projective line and proves the residue-degree product formula for smooth
 proper integral curves, with a checked Picard-zero quotient consumer. Its
 commits retain Tau Ceti's repository-wide license and contributor attribution.
 
+`MazurTorsion/Upstream/ProjectiveLineCechHOneFinite.lean` repeats and adapts
+the private standard-chart coordinate computations from
+`TauCeti/AlgebraicGeometry/ProjectiveLine/Basic.lean` at the exact dependency
+commit above. Those declarations are private upstream, so the local checked
+cohomology consumer cannot import them by name. The local file retains this
+source attribution in its header documentation. Its principal-parts
+calculation, exact Cech differential, and assembly with the separately
+attributed finite-pushforward and sheaf-cohomology infrastructure are new
+project work.
+
 ## Mathlib Dedekind-zeta finite-fibre argument
 
 - Author and copyright holder: Xavier Roblot
