@@ -324,6 +324,12 @@ destination theorem is
   `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientMorphism`
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientRValue_inv_eq_two_mul_quotientZ_add_one`
+* `definition` (`contract`):
+  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.quotientMorphism`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.openQuotientW_sub_one`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.cuspSection_isSection`
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 
@@ -349,8 +355,11 @@ package; this does not construct `w₅` or identify the modular quotient.
 The finite-x quotient formulas now factor through both explicit hypersurface
 coordinate rings and define a genuine `Spec` morphism on `D(x²+x-1)`; a
 ring-generic polynomial identity and rational-coordinate comparison are
-checked. This is not the integral infinity chart or its characteristic-eleven
-cotangent calculation.
+checked.  Independently, the reciprocal integral chart now defines a genuine
+`Spec` morphism over every commutative base, represents the cusp `(t,s)=(0,1)`
+as an affine structural section, and proves `W-1=(-7/d)t` in its actual
+coordinate ring.  The characteristic-eleven cusp local-ring calculation and
+transport through the localized map remain open.
 Exhaustive normalization of all 121 short models over
 `F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
 the exact order-35 endpoint, and a good-reduction specialization consumer.

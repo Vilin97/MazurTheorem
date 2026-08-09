@@ -139,6 +139,17 @@ by the eleven-adic tangent calculation.  Constructing that separate chart,
 its characteristic-eleven fibre cotangent calculation, and the represented
 modular comparison remain critical and no node receives credit.
 
+The separate integral infinity chart is now represented over every
+commutative base.  Its quotient coordinates factor through the actual source
+and target coordinate rings, define a genuine `Spec` morphism, and retain the
+integral cusp `(t,s)=(0,1)` as an affine structural section.  In the source
+ring the exact identity `W-1=(-7/d)t` supplies the desired unit linear term at
+eleven.  The special-fibre cusp local-ring generator calculation, transport
+through `Ideal.Fiber.localizedMap`, and modular-chart identification remain
+open, so the order-35 node still receives no credit.  The rejected worker
+completion-series adapter is not integrated because it assumes the decisive
+completed-map equality and an unconstructed global Eisenstein differential.
+
 The Picard lane now retains the reviewed option-free AINTLIB pullback and
 all-degree relative-functor slice.  `Scheme.Pic.map` has checked identity and
 composition laws; `Scheme.Modules.picRelFunctor` implements the
@@ -160,7 +171,7 @@ points to rational points of the prescribed generic fibre.  The exact model,
 flat and surjective multiplication, its `H⁰`/`H¹` certificates,
 Mordell--Weil finite generation, and the Raynaud construction all remain
 explicit inputs, so neither Néron nor FFGS receives node credit.
-Exact source accounting is 1,029 Lean modules / 1,577,854 Lean lines.
+Exact source accounting is 1,030 Lean modules / 1,578,207 Lean lines.
 
 The degree-one Hecke handoff is repaired through `e4e8a95`.  Positive Hecke
 operators are now indexed by `ℕ+`, while cuspidality supplies the separate
@@ -308,7 +319,7 @@ Arbitrary-denominator one-sided reciprocity and the immutable cyclotomic
 Challenge therefore remain open; no node or Challenge receives credit.  On
 the combined owner tree, graph/contract accounting and `scripts/quality.py`
 must retain 48 nodes, 1,000 points, and 11 unchanged Challenge contracts; the
-current exact source baseline is 1,029 Lean modules / 1,577,854 Lean lines.
+current exact source baseline is 1,030 Lean modules / 1,578,207 Lean lines.
 Accepted consumer endpoints use only `propext`, `Classical.choice`, and
 `Quot.sound`.
 
@@ -2373,8 +2384,11 @@ genus-zero `X₀` quotients do not support the selected argument.
   kernel and additivity checked. The degree-one quotient-fibre consumer is now
   the narrow q-expansion handoff, and finite normalization discharges its
   cuspidal nonsingular-locus classification. The local arithmetic endpoint no
-  longer needs component geometry. The represented modular quotient/classifying
-  map and Atkin--Lehner bad-fibre specialization remain open. No order-35
+  longer needs component geometry. The integral infinity-chart `Spec` map,
+  cusp section, and exact first-order quotient identity now compile. The
+  characteristic-eleven local-ring generator calculation, represented modular
+  quotient/classifying map, and Atkin--Lehner bad-fibre specialization remain
+  open. No order-35
   node credit is claimed
   until those modular consumers compile. Once good reduction at
   eleven is supplied, the joined theorem

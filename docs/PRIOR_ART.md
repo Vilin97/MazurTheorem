@@ -785,6 +785,12 @@ finite quotient model, and consumes its three-point classification to show
 that the displayed hyperelliptic affine model has exactly `(0,1)` and
 `(0,-1)` as rational points.  This is an equation-level quotient consumer,
 not a represented modular-curve identification.
+`OrderThirtyFiveInfinityChartScheme` makes the reciprocal substitution in
+the checked source equation, verifies the quotient identity again over an
+arbitrary commutative ring, and constructs the resulting affine `Spec` map,
+integral cusp section, and first-order coordinate identity.  No additional
+literature formula is imported by that construction; the quotient coordinate
+remains the one already derived from the audited Cais invariant formulas.
 
 The local checked declarations also verify arithmetic on the fixed equation, its
 rational torsion, the equation landing and zero fibre of a Vélu
