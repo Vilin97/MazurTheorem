@@ -755,8 +755,19 @@ that proves the rank assertion.  The
 [LMFDB isogeny class 35.a](https://www.lmfdb.org/EllipticCurve/Q/35/a/)
 records `[0,1,1,9,1]` as the Γ₀(35)-optimal curve 35.a3 and
 `[0,1,1,-131,-650]` as the torsion-free curve 35.a1 in the same isogeny
-class.  These sources are used only as specification and provenance.  The
-local checked declarations verify arithmetic on the fixed equation, its
+class.  Cais also records on pp. 8--10 the degree-eight hyperelliptic model,
+the formulas `(x,y) ↦ (-1/x,y/x⁴)` for `w₅`, the invariant coordinates
+`u=x-1/x` and `v=y(1+1/x⁴)`, and the birational change to the displayed
+elliptic quotient.  These sources are used only as specification and
+provenance; the Lean polynomial identities and denominator arguments are
+proved locally.  `OrderThirtyFiveQuotientMap` checks the involution and
+invariant equation, constructs an actual affine point on the already proved
+finite quotient model, and consumes its three-point classification to show
+that the displayed hyperelliptic affine model has exactly `(0,1)` and
+`(0,-1)` as rational points.  This is an equation-level quotient consumer,
+not a represented modular-curve identification.
+
+The local checked declarations also verify arithmetic on the fixed equation, its
 rational torsion, the equation landing and zero fibre of a Vélu
 point-function candidate, trivial torsion on the candidate target, a total
 opposite candidate, and the composite identity with multiplication by three.

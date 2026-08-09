@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The explicit order-35 quotient calculation is integrated through `9ceecf9`.
+`OrderThirtyFiveQuotientMap` checks the degree-eight hyperelliptic equation,
+the displayed `w₅` involution and its invariant coordinates, every rational
+denominator in the birational change, and the landing equation on the
+already proved finite model `y²+y=x³+x²+9x+1`.  Its real downstream consumer
+uses the checked three-point quotient classification to prove that the
+affine source has exactly the rational points `(0,1)` and `(0,-1)`.  The
+exact owner build passes in 8,706 jobs, and six representative endpoints use
+only `propext`, `Classical.choice`, and `Quot.sound`.  Identifying a
+represented `X₀(35)` and its `w₅` quotient with these equations, and feeding
+the resulting modular map to the eleven-adic formal-immersion consumer,
+remain open; therefore the order-35 node receives no credit.
+
 The degree-one Hecke handoff is repaired through `e4e8a95`.  Positive Hecke
 operators are now indexed by `ℕ+`, while cuspidality supplies the separate
 zero constant coefficient; injectivity of the q-expansion therefore detects
@@ -154,8 +167,8 @@ group-law compatibility interface.  The focused 3,225-job build, three public
 endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
 `propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
 coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
-no roadmap credit.  Source accounting for these checkpoints is 1,005 integrated
-Lean modules / 1,569,730 lines.
+no roadmap credit.  Source accounting for these checkpoints is 1,006 integrated
+Lean modules / 1,569,976 lines.
 
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
