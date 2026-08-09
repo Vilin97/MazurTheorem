@@ -126,6 +126,31 @@ represented `X₀(35)` and its `w₅` quotient with these equations, and feeding
 the resulting modular map to the eleven-adic formal-immersion consumer,
 remain open; therefore the order-35 node receives no credit.
 
+The same quotient calculation now has a represented finite-affine upgrade.
+`OrderThirtyFiveQuotientScheme.quotientValues_equation` proves the simplified
+coordinate identity over an arbitrary commutative ring, and the induced
+coordinate homomorphism factors through both hypersurface equations before
+being consumed by the genuine `QuotientScheme.quotientMorphism : Spec _ ⟶
+Spec _`.  Two checked comparison theorems recover the earlier rational
+coordinates on their original function-field domain.  The focused owner build
+passes in 8,707 jobs.  This morphism lives on the finite-x principal open
+`D(x²+x-1)` over `ℚ`; it is not the integral infinity chart at the cusp used
+by the eleven-adic tangent calculation.  Constructing that separate chart,
+its characteristic-eleven fibre cotangent calculation, and the represented
+modular comparison remain critical and no node receives credit.
+
+The Picard lane now retains the reviewed option-free AINTLIB pullback and
+all-degree relative-functor slice.  `Scheme.Pic.map` has checked identity and
+composition laws; `Scheme.Modules.picRelFunctor` implements the
+zero-section-kernel model, and `picRelFunctor_map_picRelProj` is a real
+downstream consumer proving normalization commutes with arbitrary base
+change through the functor map.  The 2,599-job focused owner rebuild is green,
+and representative endpoints use only `propext`, `Classical.choice`, and
+`Quot.sound`.  Fppf sheafification, the degree-zero relative subfunctor,
+Poincare bundle, representability, and the missing Cartier-divisor/
+ideal-module bridge to section-divisor naturality remain open, so
+`MT-TC-D1-PICARD-FUNCTOR` receives no credit.
+
 The degree-one Hecke handoff is repaired through `e4e8a95`.  Positive Hecke
 operators are now indexed by `ℕ+`, while cuspidality supplies the separate
 zero constant coefficient; injectivity of the q-expansion therefore detects
@@ -272,7 +297,7 @@ Arbitrary-denominator one-sided reciprocity and the immutable cyclotomic
 Challenge therefore remain open; no node or Challenge receives credit.  On
 the combined owner tree, graph/contract accounting and `scripts/quality.py`
 must retain 48 nodes, 1,000 points, and 11 unchanged Challenge contracts; the
-current exact source baseline is 1,024 Lean modules / 1,575,224 Lean lines.
+current exact source baseline is 1,027 Lean modules / 1,577,607 Lean lines.
 Accepted consumer endpoints use only `propext`, `Classical.choice`, and
 `Quot.sound`.
 

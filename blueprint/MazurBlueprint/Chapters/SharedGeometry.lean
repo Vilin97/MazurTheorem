@@ -1302,6 +1302,13 @@ classes into this subgroup, proves its normalization and collision formulas, and
 dictionary line-bundle consumer. These declarations fix the point-level formulas that the
 future relative functor must represent; they do not change this node's blocked status.
 
+An attributed option-free AINTLIB slice now constructs the genuine contravariant
+`Scheme.Pic.map`, its identity and composition laws, and the all-degree
+zero-section-kernel `Scheme.Modules.picRelFunctor`. The checked theorem
+`picRelFunctor_map_picRelProj` consumes the actual functor map to prove
+normalization commutes with arbitrary base change. Fppf sheafification, degree zero,
+the Poincaré bundle, representability, and the Cartier-divisor/ideal-module bridge remain open.
+
 *Canonical deliverables — these names are authoritative for this node:*
 
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.RelativePicardFunctor`
@@ -1310,6 +1317,13 @@ future relative functor must represent; they do not change this node's blocked s
   Define the degree-zero subfunctor used to construct the relative Jacobian.
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PoincareBundle`
   Package the normalized universal line bundle on the curve times its Picard space.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Pic.map`
+  Construct pullback on absolute Picard groups from the general pullback--tensor comparison.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.picRelFunctor`
+  Construct the all-degree zero-section-kernel relative Picard group functor.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.picRelFunctor_map_picRelProj`
+  Prove zero-section normalization commutes with base change through the actual functor map.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero`
   Transport weighted degree-zero divisor classes to the absolute scheme Picard group.

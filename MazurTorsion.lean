@@ -197,6 +197,7 @@ import MazurTorsion.NumberTheory.OrderThirtyFiveThreeIsogeny
 import MazurTorsion.NumberTheory.OrderThirtyFiveThreeIsogenyDual
 import MazurTorsion.NumberTheory.OrderThirtyFiveRankBoundary
 import MazurTorsion.NumberTheory.OrderThirtyFiveQuotientMap
+import MazurTorsion.NumberTheory.OrderThirtyFiveQuotientScheme
 import MazurTorsion.NumberTheory.OrderThirtyFiveThreeDescent
 import MazurTorsion.NumberTheory.OrderThirtyFiveTargetCubic
 import MazurTorsion.NumberTheory.OrderThirtyFiveEisensteinDescent
@@ -263,3 +264,4 @@ import MazurTorsion.Upstream.SchemeModuleCohomologyHZero
 import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
 import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
+import MazurTorsion.Upstream.AINTLIB.Picard.RelativePic

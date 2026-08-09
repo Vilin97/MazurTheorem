@@ -319,6 +319,12 @@ destination theorem is
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.optimalQuotientModel_finite`
 * `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientValues_equation`
+* `definition` (`contract`):
+  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientMorphism`
+* `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientRValue_inv_eq_two_mul_quotientZ_add_one`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
@@ -340,6 +346,11 @@ checked rank zero and a finite rational point group. On the split rational
 source locus, canonical order-five and order-seven divisor subgroups now
 reconstruct the order-35 carrier and feed the checked split finite-flat `Γ₀`
 package; this does not construct `w₅` or identify the modular quotient.
+The finite-x quotient formulas now factor through both explicit hypersurface
+coordinate rings and define a genuine `Spec` morphism on `D(x²+x-1)`; a
+ring-generic polynomial identity and rational-coordinate comparison are
+checked. This is not the integral infinity chart or its characteristic-eleven
+cotangent calculation.
 Exhaustive normalization of all 121 short models over
 `F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
 the exact order-35 endpoint, and a good-reduction specialization consumer.
