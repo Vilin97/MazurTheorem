@@ -92,6 +92,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The degree-one Hecke handoff is repaired through `e4e8a95`.  Positive Hecke
+operators are now indexed by `ℕ+`, while cuspidality supplies the separate
+zero constant coefficient; injectivity of the q-expansion therefore detects
+a nonzero first coefficient without a fictitious `T₀`, an eigenvector, or a
+splitting premise.  Its real consumer acts on the actual target-stalk
+cotangent, lifts the detected class through `Ideal.toCotangent_surjective`,
+compares it with the completed stalk pullback, and concludes the genuine
+`IsFormalImmersionAt` predicate.  Exact owner builds of the repaired module
+(3,084 jobs) and the five-/eleven-adic affine-cusp consumer cone (8,750 jobs)
+pass; both new endpoint audits use only `propext`, `Classical.choice`, and
+`Quot.sound`.  Constructing the modular Hecke operators, the injective
+cuspidal q-expansion on the optimal quotient cotangent, and the completed
+pullback compatibility remain open, so no node receives credit.
+
 The Néron section-specialization bridge is integrated through `aeb1292`.
 It constructs specialization by the checked Néron mapping property, proves
 that equal closed-fibre restrictions plus torsion and injectivity force two
@@ -141,7 +155,7 @@ endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
 `propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
 coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
 no roadmap credit.  Source accounting for these checkpoints is 1,005 integrated
-Lean modules / 1,569,618 lines.
+Lean modules / 1,569,730 lines.
 
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
