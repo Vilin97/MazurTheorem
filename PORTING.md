@@ -526,11 +526,13 @@ predicate. Public helper declarations in the existing Čech and open-unit
 modules now each have one of these checked comparison/support modules as a
 downstream consumer.
 
-This low-degree cone does not import the 1,956-line
-`SchemeModuleQuasicoherent` module or AINTLIB's all-degree properness cone.
-Affine-open exactness instead reuses the project's checked affine
-quasicoherent section-surjectivity theorem, transported through the affine
-spectrum isomorphism. The one Noetherian exact-pair lemma needed by the long
+The original closed-support induction slice does not import the 1,956-line
+`SchemeModuleQuasicoherent` module; the later canonical-support and
+finite-pushforward extensions intentionally do. None of these retained slices
+imports AINTLIB's all-degree properness cone. Affine-open exactness reuses the
+project's checked affine quasicoherent section-surjectivity theorem,
+transported through the affine spectrum isomorphism. The one Noetherian
+exact-pair lemma needed by the long
 homology sequence is retained as the named `BaseChangeKerCoker` slice. The
 zero-object case is proved directly in degrees zero and one, and the support
 induction takes quasicoherence of the comparison image as an explicit

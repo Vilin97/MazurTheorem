@@ -92,6 +92,29 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The B1 proper-cohomology lane now retains the canonical closed-support
+thickening construction and proves that its finite-type quasicoherent model
+has full closed stalk support (`7f96dd1`, reviewed from `afd79fa`).  A separate
+project-owned theorem proves that finite pushforward preserves finite type,
+and the named consumer
+`OrderedBaseCechLowDegreeFinite.of_finite_pushforward` transports the checked
+degree-zero/degree-one Čech predicate along every finite morphism (`145e90c`,
+reviewed from `39102f61`).  The serial builds of
+`SchemeModuleCanonicalSupportFull` and `SchemeModuleFinitePushforwardCech`,
+the three exported-endpoint axiom audits, provenance review, and
+`scripts/quality.py` pass.  Their axiom closure is exactly `propext`,
+`Classical.choice`, and `Quot.sound`; the exact quality baseline is 942 Lean
+modules / 1,539,102 Lean lines.  This proves neither the missing projective
+comodel producer nor proper coherent `H¹` finiteness.  The B1 worker is
+separating its generic two-chart/P¹ finite-cokernel theorem from a later X1(13)
+consumer, while the X1(13) worker removes every nondefault transparency option
+from the genuine glued hyperelliptic curve and finite-map construction before
+review.  In parallel, the order-25 lane has integrated only the checked
+Brunault-unit/raw-model and diagonal-exclusion reductions (`b92c7a7`,
+`4ab55ee`, `c0d60d6`) and is still proving the actual polynomial and valuation
+endpoint; the owner is returning to the concrete A3 divisor-cocycle
+normalization/effectivity seam.  No roadmap node or Challenge receives credit.
+
 The B1 lane now has a genuinely low-degree-only exactness and support-induction
 cone.  The attributed AINTLIB slices prove degreewise exactness of ordered
 base-Cech complexes on affine intersections and propagate finite generation in
