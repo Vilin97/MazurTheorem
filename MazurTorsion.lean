@@ -52,6 +52,7 @@ import MazurTorsion.AlgebraicGeometry.FormalImmersionCollision
 import MazurTorsion.AlgebraicGeometry.FormalImmersionIdentity
 import MazurTorsion.AlgebraicGeometry.FormalImmersionSpecialFiber
 import MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection
+import MazurTorsion.AlgebraicGeometry.XOneThirteenCohomology
 import MazurTorsion.Arithmetic.LowTorsionObstructions
 import MazurTorsion.Arithmetic.CardinalityReduction
 import MazurTorsion.Arithmetic.ExceptionalProducts
