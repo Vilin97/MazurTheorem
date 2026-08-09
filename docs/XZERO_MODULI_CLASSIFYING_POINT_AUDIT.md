@@ -288,7 +288,7 @@ representative, its rational generator/section dictionary, the units action
 on the moduli functor, and presentation compatibility—not another generic
 scheme-quotient construction.
 
-The first two declaration-sliced fine-`Y₁` prerequisites have since been
+The first declaration-sliced fine-`Y₁` prerequisites have since been
 isolated and compiled at the immutable pin. The retained
 `ForMathlib/TateNormalForm.lean` supplies the Tate coordinate change,
 division-polynomial bridge, and uniqueness theorem with a standard-only axiom
@@ -296,18 +296,52 @@ closure. `XZeroGammaOneTateBase.lean` then constructs the canonical
 ring-equivalence for `ℤ[A,B][Δ⁻¹]`, the relative affine base
 `Spec R[A,B][Δ⁻¹]`, and its elliptic Tate equation. The independent
 `ForMathlib/ProjFromGlobalSectionsMap.lean` leaf supplies the homogeneous
-coordinate naturality required for scheme sections. These leaves make no
-representability claim.
+coordinate naturality required for scheme sections. The exact
+`ForMathlib/GradedQuotient.lean` leaf supplies the grading on a homogeneous
+quotient. These leaves make no representability claim.
 
-A declaration-level audit identifies the next semantic boundary as the
-projective universal family and explicit marked section, followed by the
-killed loci. The literal AINTLIB route reaches option-dependent projective
-model/group-law declarations before it can define that family; the full
-classifier additionally reaches the large `YOneAtlasClassify` cone. Defining
-the bare locus from the explicit `tateMarkedPoint`, rather than upstream's
-opaque choice `tatePoint := choose exists_tatePoint`, avoids dragging that
-classifier into the scheme construction. A separate audit is testing whether
-the repository's checked projective-cubic API can realize this smaller route.
+`XZeroGammaOneTateProjectiveFamily.lean` now implements the honest smaller
+route: `Proj` of the homogeneous quotient by the Weierstrass equation, with
+normalized coordinate evaluations for the `[0:1:0]` zero section and
+`[0:0:1]` marked section. It retains nilpotent base structure and works over
+arbitrary commutative rings. The two sections and their structure-map
+identities compile with a standard-only axiom closure. The companion
+`XZeroGammaOneTateProjectiveBaseChange.lean` constructs their categorical
+pullback along every scheme morphism and pins the pullback square and both
+pulled-back section identities. It does not assert the stronger identification
+with `Proj` after coefficient extension, for which the exact Mathlib pin has
+no general scalar-extension theorem.
+
+The repository's older projective-cubic API could not supply this family: it
+is restricted to fields and constructs the reduced induced closed subscheme
+of projective space. Extending that object to `tateRingOver R` would discard
+nilpotent base structure. The next semantic boundary is now the genuine
+projective group law and integer-multiplication morphisms, which must precede
+the killed loci. The literal AINTLIB multiplication route traverses the large,
+option-dependent chart-globalization and group-law-axiom cones. Defining the
+eventual bare locus from the explicit marked section, rather than upstream's
+opaque choice `tatePoint := choose exists_tatePoint`, still avoids dragging
+the separate `YOneAtlasClassify` cone into the scheme construction, but it
+cannot avoid the multiplication theorem itself.
+
+The post-fine coarse audit also sharpens the quotient step. Since the intended
+fine `Y₁` base is affine, its split-`Γ₀` target should be the direct affine
+quotient of the stable top open,
+`Spec (Γ(Y₁, ⊤)^((ZMod N)ˣ))`, rather than the general glued quotient. The
+latter's affineness theorem unnecessarily asks for a point of `Y₁`; the direct
+`localQuotient` construction has a categorical invariant-map universal
+property without that assumption. The represented action has an inverse
+variance convention: a functor automorphism scaling `P` by `u` is transported
+by `SchemeAction.ofAut` to the base action classifying `u⁻¹P`. Any classifier
+compatibility theorem must pin this inverse explicitly.
+
+This affine quotient is only a split-`Γ₀` coarse candidate until two semantic
+obligations are proved: algebraically closed field-valued morphisms have equal
+quotient composites exactly when their fine objects differ by a unit, and
+those orbits identify with cyclic-subgroup isomorphism classes. The existing
+prime-spectrum orbit theorem does not establish either statement for
+`Spec k` morphisms. Coarse quotient formation is likewise not claimed to
+commute with arbitrary base change.
 
 The alternative `YOneFine` route would first need an isomorphism between
 `gammaOneNaiveProblem` and `semiBorelQPD.prob`, a morphism

@@ -203,10 +203,10 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Twenty-one file-level Apache-2.0 modules were selected from audited AINTLIB
+Twenty-two file-level Apache-2.0 modules were selected from audited AINTLIB
 history and placed below `MazurTorsion/Upstream/AINTLIB/`. Nineteen come from
 the `dev/modular-curves` snapshot at
-`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the two additional fine-`Y₁`
+`7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the three additional fine-`Y₁`
 prerequisite leaves and their exact provenance are recorded below.
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
@@ -220,6 +220,7 @@ prerequisite leaves and their exact provenance are recorded below.
 | `ForMathlib/InvariantBaseChange.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantBaseChange.lean` |
 | `ForMathlib/InvariantLocalization.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantLocalization.lean` |
 | `ForMathlib/RepresentableAut.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/RepresentableAut.lean` |
+| `ForMathlib/GradedQuotient.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/GradedQuotient.lean` |
 | `ForMathlib/ProjFromGlobalSectionsMap.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/ProjFromGlobalSectionsMap.lean` |
 | `ForMathlib/TateNormalForm.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TateNormalForm.lean` |
 | `ForMathlib/SpecGroupAction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SpecGroupAction.lean` |
@@ -309,6 +310,16 @@ goal-shape `show` by `change` in the final naturality proof; declarations and
 statements are unchanged. This leaf supplies the scheme-level naturality of
 `Proj.fromOfGlobalSections` under a homogeneous coordinate map.
 
+`GradedQuotient.lean` is retained from AINTLIB exact blob
+`4ddeb0cda0187baa7c7f785e9e4ca6cc007625ec`, byte-identical at the licensed
+default-branch commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`. Its explicit AINTLIB
+contributors Apache-2.0 header is retained. It constructs the grading on the
+quotient by a homogeneous ideal, its graded-algebra instance, the degree-zero
+base map, and the functorial quotient graded homomorphism. This is the clean
+scheme-theoretic prerequisite for forming `Proj (A[X,Y,Z]/(F))`; it contains
+no source options or placeholders.
+
 `TateNormalForm.lean` is retained byte-for-byte from AINTLIB exact blob
 `6955ff2b550043b1a430433348067ef7b7ec416e`, which is identical at the
 licensed default-branch commit
@@ -330,7 +341,7 @@ commit is retained for Chris Birkbeck and co-author Claude Opus 4.8. Only the
 constant-section, translation, and elementary composition proof skeletons are
 adapted; the tensor equivariance, inverse conjugation, action, quotient
 descent, and group-object construction are new local proofs. This adapted
-source is not counted among the twenty-one vendored modules above.
+source is not counted among the twenty-two vendored modules above.
 
 `MazurTorsion/ModularCurve/XZeroGammaOneTateBase.lean` additionally adapts
 only the ring-level Tate-normalization and relative affine-base formulas from
@@ -347,6 +358,25 @@ constructs `Spec R[A,B][Δ⁻¹]` and its Tate equation but deliberately makes n
 representability, classifying-map, or modular-curve claim. Its header preserves
 the Vasily Ilin and Chris Birkbeck copyrights and credits Kenny Lau, Claude
 Fable 5, and Claude Opus 4.8 for the adapted source work.
+
+`MazurTorsion/ModularCurve/XZeroGammaOneTateProjectiveFamily.lean` adapts the
+option-free projective-model prefix from AINTLIB
+`EllipticCurve/WeierstrassModel.lean`, exact licensed-default blob
+`0cea4fbbcd8f0976b8cb0949755ecacec6e58b26`, and the affine-section prefix
+from `EllipticCurve/AffinePointSection.lean`, exact blob
+`c64a5935d8b886faf3a912447e37a20a6c1fa480`. Both files have explicit Chris
+Birkbeck Apache-2.0 headers and occur at the licensed default-branch commit
+above. The local extraction replaces the source transparency-option proof of
+coordinate-class irrelevance by the direct positive-degree lemma and factors
+the two coordinate evaluations through one generic normalized-section
+construction. It constructs the actual homogeneous quotient `Proj`, its
+projection, and the `[0:1:0]` and `[0:0:1]` sections over arbitrary
+commutative bases. It does not port the option-tainted model comparison,
+smoothness, base-change, group-law, killed-locus, or representability tails.
+The companion `XZeroGammaOneTateProjectiveBaseChange.lean` is new local
+categorical work: it forms the chosen pullback along an arbitrary scheme
+morphism and pulls back both sections. It does not adapt AINTLIB's stronger
+affine coefficient-`Proj` comparison.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by

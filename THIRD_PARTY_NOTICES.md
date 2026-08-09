@@ -63,7 +63,7 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   ModularCurves contributors
 - Source: https://github.com/CBirkbeck/AINTLIB
 - Primary source snapshot:
-  `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the two later prerequisite
+  `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`; the three later prerequisite
   leaves and their exact revisions are identified below
 - Source paths:
   - `projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean`
@@ -75,6 +75,7 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantBaseChange.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantLocalization.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/RepresentableAut.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/GradedQuotient.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/ProjFromGlobalSectionsMap.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/TateNormalForm.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecGroupAction.lean`
@@ -96,6 +97,11 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
     `efd838f8a7702725bcbe974b9e7141e683eee644`)
   - `projects/ModularCurves/ModularCurves/ModularCurve/YOneAssembly.lean`
     (blob `7732e39a206a348ca7c6d59ecdb9b8359abccc33`)
+  - `projects/ModularCurves/ModularCurves/EllipticCurve/WeierstrassModel.lean`
+    (licensed default-branch blob
+    `0cea4fbbcd8f0976b8cb0949755ecacec6e58b26`)
+  - `projects/ModularCurves/ModularCurves/EllipticCurve/AffinePointSection.lean`
+    (blob `c64a5935d8b886faf3a912447e37a20a6c1fa480`)
 - License: Apache License 2.0 as explicitly stated in the selected file
   headers or, where noted, under the audited repository-wide license. The
   adapted `TranslationBySection` blob had no header at the primary snapshot,
@@ -138,10 +144,22 @@ AINTLIB blob `6955ff2b550043b1a430433348067ef7b7ec416e`, identical at the licens
 default-branch commit; its retained header attributes the original Mathlib PR
 #25218 implementation to Kenny Lau and distinguishes AINTLIB's additions.
 
+`GradedQuotient.lean` is unchanged from AINTLIB blob
+`4ddeb0cda0187baa7c7f785e9e4ca6cc007625ec`, identical at the licensed
+default-branch commit, and retains its explicit AINTLIB contributors
+Apache-2.0 header.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or
 classifying constructions.
+
+The local `XZeroGammaOneTateProjectiveFamily.lean` adapts only the clean
+homogeneous-quotient `Proj`, structure-map, infinity-section, and affine-origin
+section prefixes from the two listed elliptic-model sources. Their explicit
+Chris Birkbeck Apache-2.0 headers and exact licensed blobs are preserved in the
+record above. The local proof removes the source transparency-option
+dependency and makes no smoothness, group-law, killed-locus, or moduli claim.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 

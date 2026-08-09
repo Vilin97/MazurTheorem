@@ -644,8 +644,22 @@ skeletons come from `GroupScheme/TranslationBySection.lean`, exact blob
 `6223d2904bc6f2162d4ee4e77ed684a40396ef18`; because the audited branch copy
 has no header, the license evidence is the identical blob at commit
 `1c1c74664e40071c2c2165bc55ca2616a67ccd6b` under that commit's root
-Apache-2.0 license. The whole AINTLIB project is neither vendored nor treated
-as a Lean Pool-ready dependency.
+Apache-2.0 license.
+
+A later declaration-sliced audit of the fine-`Y₁` route found three additional
+source-clean prerequisites: the Yoneda automorphism transport,
+Tate-normal-form, and homogeneous-quotient grading leaves. These are now
+selectively retained together with an exact-pin `Proj` naturality lemma. Local
+attributed extractions construct the relative Tate parameter ring and the
+actual projective homogeneous quotient with its infinity and `(0:0:1)`
+sections. This does not import AINTLIB's full model or classifier: the next
+group-law, base-change, killed-locus, and representability cones contain many
+source transparency options and require separate option-free proofs. Exact
+blobs and licensed-default evidence for the retained and adapted files are in
+`PORTING.md` and `THIRD_PARTY_NOTICES.md`.
+
+The whole AINTLIB project is neither vendored nor treated as a Lean Pool-ready
+dependency.
 
 ## 11. Route-specific formal-immersion API audit
 
