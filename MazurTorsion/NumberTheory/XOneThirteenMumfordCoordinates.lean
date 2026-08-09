@@ -120,6 +120,22 @@ theorem neg_ofPoint (x y : ℚ)
       ofPoint x (-y) (by simpa using hcurve) := by
   apply AffineMumford.ext <;> simp
 
+/-- The degree-one Mumford record remembers both affine coordinates.  This is
+the coordinate-level injectivity needed before passing to divisor classes. -/
+theorem ofPoint_injective
+    {x y x' y' : ℚ}
+    {hcurve : y ^ 2 =
+      MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x}
+    {hcurve' : y' ^ 2 =
+      MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x'}
+    (h : ofPoint x y hcurve = ofPoint x' y' hcurve') :
+    x = x' ∧ y = y' := by
+  have hu := congrArg (fun D : AffineMumford => D.u.eval 0) h
+  have hv := congrArg (fun D : AffineMumford => D.v.eval 0) h
+  constructor
+  · simpa using hu
+  · simpa using hv
+
 end AffineMumford
 
 end
