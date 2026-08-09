@@ -92,6 +92,25 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The intrinsic cusp-local adapter is integrated at `e89b8ef`.  In the
+localized special fibre, an irreducible element of an actual DVR now
+generates the maximal ideal and survives modulo its square; this removes two
+formerly asserted cotangent hypotheses from the genuine `Spec.map`
+formal-immersion criterion.  A structural cusp section supplies both residue
+comparisons, and named consumers reach the prime-five and order-35/prime-
+eleven arithmetic exclusions.  The q-coordinate, nonzero Hecke eigen-
+expansion, section specialization, and quotient collision remain explicit
+geometric obligations, so this checkpoint neither manufactures an integral
+modular curve nor earns node credit.  The exact 8,750-job owner rebuild and
+all four endpoint axiom audits pass; the latter use only `propext`,
+`Classical.choice`, and `Quot.sound`.  Together with the pointed proper-curve
+`H¹` checkpoint below, graph/contract accounting and `scripts/quality.py`
+pass at 48 nodes, 1,000 points, 11 unchanged Challenge contracts, and 987
+Lean modules / 1,562,449 Lean lines.  Independent work now continues on raw
+divisor-cocycle effectivity, the honest Néron generic-fibre section
+equivalence and power-Kummer consumer, and the direct `X₀(49)` classifying-
+map construction.
+
 The pointed B1 consumer is integrated at `38199c2`.  At every supplied
 codimension-one point of a smooth proper integral curve, the inverse of a
 private DVR uniformizer has order `-1`, cannot be a global function, and
