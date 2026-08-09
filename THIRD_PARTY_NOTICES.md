@@ -135,6 +135,10 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/TorsorMap.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean`
+  - `projects/ModularCurves/ModularCurves/Picard/InvertibleSheaf.lean`
+    (`sheafifyValIso` only)
+  - `projects/ModularCurves/ModularCurves/Picard/RelativePic.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecBasicOpenAway.lean`
     (`specBasicOpen` only)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleRestrictLimits.lean`
