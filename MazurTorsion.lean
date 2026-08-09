@@ -213,6 +213,7 @@ import MazurTorsion.NumberTheory.XOneThirteenFiniteField
 import MazurTorsion.NumberTheory.XOneThirteenPositivePell
 import MazurTorsion.NumberTheory.XOneThirteenPellPowerSplit
 import MazurTorsion.NumberTheory.SevenAdicCertificates
+import MazurTorsion.NumberTheory.XZeroFortyNineEllipticQuotient
 import MazurTorsion.NumberTheory.XZeroFortyNineDescent
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.NumberTheory.XZeroFortyNineTransfer
