@@ -4,7 +4,7 @@
 
 ## Provenance and license
 
-The 29 retained implementation files identified as “upstream” below are derived from Michael Stoll’s
+The 31 retained implementation files identified as “upstream” below are derived from Michael Stoll’s
 [`EllipticCurves`](https://github.com/MichaelStollBayreuth/EllipticCurves) repository at the
 immutable commit
 `3f8c39c0fc4c0fd0a40e693aa2a9bbda08d9ee1f`.
@@ -55,7 +55,9 @@ remove that prefix to obtain the current repository path.
 | `EllipticCurves/Mathlib/Chabauty/PadicValNat.lean` | `mazur-torsion/EllipticCurves/Mathlib/Chabauty/PadicValNat.lean` | unchanged |
 | `EllipticCurves/Mathlib/EllipticCurvePoint.lean` | `mazur-torsion/EllipticCurves/Mathlib/EllipticCurvePoint.lean` | modified |
 | `EllipticCurves/ReductionAtPrime.lean` | `mazur-torsion/EllipticCurves/ReductionAtPrime.lean` | modified |
+| `EllipticCurves/SelmerGroup.lean` | `EllipticCurves/X18SelmerLocal.lean` | selected local X18 slice, modified |
 | `EllipticCurves/VariableChange.lean` | `mazur-torsion/EllipticCurves/VariableChange.lean` | compatibility import |
+| `EllipticCurves/WeakMordellWeil.lean` | `EllipticCurves/X18WeakMordellWeil.lean` | selected Steps 1--6, modified |
 | `EllipticCurves/WeierstrassFormalGroup/Chord.lean` | `mazur-torsion/EllipticCurves/WeierstrassFormalGroup/Chord.lean` | modified |
 | `EllipticCurves/WeierstrassFormalGroup/Eval.lean` | `mazur-torsion/EllipticCurves/WeierstrassFormalGroup/Eval.lean` | unchanged |
 | `EllipticCurves/WeierstrassFormalGroup/Filtration.lean` | `mazur-torsion/EllipticCurves/WeierstrassFormalGroup/Filtration.lean` | modified |
@@ -69,6 +71,14 @@ The new harness is deliberately self-contained. The project-level bridge
 `MazurTorsion/NumberTheory/ExceptionalCubicReduction.lean`, outside this 31-file cone, identifies
 its model with `MazurTorsion.ExceptionalCubic.curve.toAffine` and supplies
 `MazurTorsion.ExceptionalCubic.point_finite` to its final cardinality theorem.
+
+The two `X18`-named files are narrow exact-pin ports for the explicit
+`X₁(18)` two-descent. `X18WeakMordellWeil.lean` retains the global `x-T` map,
+its exact kernel, norm condition, and the image-in-Selmer proof through Step 6;
+the generic class-group/unit-group finiteness Step 7 is intentionally omitted.
+`X18SelmerLocal.lean` retains only base change of that map and the local finite
+place image-cardinality theorem. Their X18 arithmetic inputs are separately
+verified downstream rather than inherited as assumptions from the source.
 
 `MazurTorsion/EllipticCurve/NonsingularReduction.lean` is new downstream
 project code rather than a retained port. Its pointwise reduction, exact-kernel,
@@ -111,6 +121,11 @@ five- and eleven-adic constructors in that file are new downstream consumers.
 - `Mathlib/EllipticCurvePoint.lean:51–108`: moved the narrow curve-equality and field
   base-change point-map API out of the unrelated Selmer module and exposed an explicit
   nonsingularity transport to the canonical base-changed affine curve.
+- `X18WeakMordellWeil.lean`: selected the pinned proof through Step 6, updated the
+  ramification-index API for the exact pin, and omitted the unused generic Step 7.
+- `X18SelmerLocal.lean`: selected the point-base-change and finite-place
+  image-cardinality slice of the pinned `SelmerGroup.lean`; reused the point-map
+  declarations already housed in `Mathlib/EllipticCurvePoint.lean`.
 - `ReductionAtPrime.lean:10–11,246–297,395–458`: replaced the transitive Selmer import with the
   narrow point helper; split one expensive residue-compatibility proof into three lemmas so it
   elaborates within default heartbeat limits; removed two proof-only residue-field
@@ -371,7 +386,8 @@ For aggregate integration, the package has a local `lean_lib` named `EllipticCur
 `["EllipticCurves", "EllipticCurves.+"]`; the existing `MazurTorsion` library imports these modules without
 introducing a second mathlib version.
 
-The selected production cone is 31 Lean files and 14,142 lines. On the current pin,
+The reduction production cone remains 31 Lean files and 14,142 lines; the two
+X18-specific descent slices form a separate extension of that cone. On the current pin,
 `MazurTorsion.Arithmetic.CardinalityReduction` builds successfully across 8,713 jobs and the
 standalone challenge library builds successfully across 8,725 jobs.
 
