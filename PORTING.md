@@ -393,6 +393,16 @@ omits the source's option-dependent scheme closed-immersion proof and its
 unused projective-chart import, and uses a private copy of the elementary
 localization-value ring hom rather than importing that larger chart file.
 
+`ForMathlib/StandardSmoothHypersurface.lean` adapts AINTLIB exact blob
+`a1640ea5835d14050eea045a8ce3bacdb0504659`, which has Chris Birkbeck's
+explicit Apache-2.0 header and is also byte-identical at the licensed
+default-branch commit above. The local blob is
+`7349274e42eaddd346b9d1b793b2cbae714a158c`: it removes the source's sole
+backward-definitional-equality option, factors the finite relation-to-variable
+injectivity proof through an explicitly typed private lemma, and applies only
+the pinned linter's mechanical `show`-to-`change` conversions. The localized
+hypersurface standard-smooth theorem and its formulas are unchanged.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module

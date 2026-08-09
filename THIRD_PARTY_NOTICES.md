@@ -155,6 +155,13 @@ exact blob `7713fc7254aadc94b713028a74178b0ec439e1f6`, identical at the licensed
 default-branch commit. The option-dependent scheme closed-immersion theorem
 is not included.
 
+`StandardSmoothHypersurface.lean` adapts AINTLIB blob
+`a1640ea5835d14050eea045a8ce3bacdb0504659`, identical at the licensed
+default-branch commit and carrying Chris Birkbeck's explicit Apache-2.0
+header. Its sole source transparency option is replaced by an explicitly
+typed injectivity helper; the mathematical declarations and formulas are
+retained.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or

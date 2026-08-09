@@ -653,7 +653,8 @@ selectively retained together with an exact-pin `Proj` naturality lemma. Local
 attributed extractions construct the relative Tate parameter ring and the
 actual projective homogeneous quotient with its infinity and `(0:0:1)`
 sections, prove its projection proper, and isolate the option-free
-homogeneous-quotient away-map/kernel algebra needed by the smoothness charts.
+homogeneous-quotient away-map/kernel algebra and localized-hypersurface
+standard-smooth engine needed by the smoothness charts.
 This does not import AINTLIB's full model or classifier: the next group-law,
 strong coefficient-base-change, killed-locus, and representability cones
 contain many source transparency options and require separate option-free

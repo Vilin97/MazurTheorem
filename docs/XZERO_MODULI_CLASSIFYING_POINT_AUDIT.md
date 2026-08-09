@@ -318,12 +318,15 @@ axioms.
 The chartwise surjectivity and principal-kernel facts for the homogeneous
 quotient are now isolated in `ForMathlib/ProjQuotientAway.lean`; the public
 endpoints compile with the same standard-only axiom closure. This slice omits
-the source's option-dependent closed-immersion theorem. A separate attempted
-shortcut through Mathlib's division polynomials does not yet remove the group
-law boundary: at the immutable pin those files define and control the
-polynomials, but expose no checked theorem identifying their vanishing at a
-nonsingular point with `n • P = 0`. Consequently no exact-level locus or
-generic-prime classifier is inferred from polynomial vanishing alone.
+the source's option-dependent closed-immersion theorem. The independent
+`ForMathlib/StandardSmoothHypersurface.lean` leaf now gives the localized
+hypersurface standard-smooth calculation under default options, also with a
+standard-only axiom closure. A separate attempted shortcut through Mathlib's
+division polynomials does not yet remove the group law boundary: at the
+immutable pin those files define and control the polynomials, but expose no
+checked theorem identifying their vanishing at a nonsingular point with
+`n • P = 0`. Consequently no exact-level locus or generic-prime classifier is
+inferred from polynomial vanishing alone.
 
 The repository's older projective-cubic API could not supply this family: it
 is restricted to fields and constructs the reduced induced closed subscheme
