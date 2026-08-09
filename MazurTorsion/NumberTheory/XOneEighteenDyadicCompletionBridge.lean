@@ -5,6 +5,7 @@ Authors: Vasily Ilin, OpenAI
 -/
 
 import MazurTorsion.NumberTheory.XOneEighteenDyadicLocalImage
+import MazurTorsion.NumberTheory.XOneEighteenMinimalTwoDescentModel
 import MazurTorsion.NumberTheory.XOneEighteenTwoDivisionSmallPrimes
 
 /-!
@@ -34,6 +35,8 @@ open NumberField Ideal RingOfIntegers UniqueFactorizationMonoid
 open MazurTorsion.XOneEighteenRealCubicQuotient
 open MazurTorsion.XOneEighteenTwoDivisionArithmetic
 open MazurTorsion.XOneEighteenTwoDivisionSmallPrimes
+open MazurTorsion.XOneEighteenQuotientTwoDescentModel
+open MazurTorsion.XOneEighteenMinimalTwoDescentModel
 
 private instance : Fact (Nat.Prime 2) := ⟨by norm_num⟩
 
@@ -1084,6 +1087,18 @@ theorem normalized_integral_curve_isSquare
 /-- The selected dyadic completion of the coefficient field. -/
 abbrev CoefficientCompletion := coefficientPrimeTwo.adicCompletion Q.K
 
+private theorem coefficientCompletion_two_ne_zero :
+    (2 : CoefficientCompletion) ≠ 0 := by
+  simpa only [map_ofNat] using
+    (_root_.map_ne_zero (algebraMap Q.K CoefficientCompletion)).mpr
+      (by norm_num : (2 : Q.K) ≠ 0)
+
+private theorem coefficientCompletion_four_ne_zero :
+    (4 : CoefficientCompletion) ≠ 0 := by
+  simpa only [map_ofNat] using
+    (_root_.map_ne_zero (algebraMap Q.K CoefficientCompletion)).mpr
+      (by norm_num : (4 : Q.K) ≠ 0)
+
 private theorem field_isSquare_of_integer_isSquare
     (x : CoefficientCompletionIntegers) (hx : IsSquare x) :
     IsSquare (x : CoefficientCompletion) := by
@@ -1345,6 +1360,207 @@ theorem normalized_local_curve_isSquare
   by_cases hx : Valued.v x ≤ (1 : ℤᵐ⁰)
   · exact normalized_curve_isSquare_of_integral_abscissa x y hx hcurve
   · exact normalized_curve_isSquare_of_pole x y (lt_of_not_ge hx) hcurve
+
+/-! ## Projection of the genuine relative descent algebra -/
+
+private theorem localTwoDivisionRoot_cubic_field :
+    (localTwoDivisionRoot : CoefficientCompletion) ^ 3 -
+        3 * localTwoDivisionRoot - 10 = 0 := by
+  have hroot : localTwoDivisionRoot ^ 3 -
+      3 * localTwoDivisionRoot - 10 = 0 := by
+    simpa only [Polynomial.IsRoot, localTwoDivisionPolynomial,
+      eval_sub, eval_pow, eval_X, eval_mul, eval_ofNat] using
+      localTwoDivisionRoot_isRoot
+  exact congrArg Subtype.val hroot
+
+/-- Evaluation at the selected Hensel root is the actual `K`-algebra
+projection from the relative cubic two-division field to the chosen
+coefficient-field completion. -/
+noncomputable def localRelativeProjection :
+    M →ₐ[Q.K] CoefficientCompletion :=
+  AdjoinRoot.liftAlgHom relativePolynomial
+    (Algebra.ofId Q.K CoefficientCompletion)
+    (localTwoDivisionRoot : CoefficientCompletion) (by
+      rw [Algebra.toRingHom_ofId, ← aeval_def]
+      simp only [relativePolynomial, map_sub, map_pow, aeval_X,
+        map_mul, map_ofNat]
+      exact localTwoDivisionRoot_cubic_field)
+
+@[simp] theorem localRelativeProjection_s :
+    localRelativeProjection s =
+      (localTwoDivisionRoot : CoefficientCompletion) := by
+  exact AdjoinRoot.liftAlgHom_root relativePolynomial _ _ _
+
+/-- The selected root of the rational-coefficient descent cubic in the
+coefficient completion. -/
+def localProjectedDescentRoot : CoefficientCompletion :=
+  (3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+      6 * localTwoDivisionRoot - 5) / 4
+
+/-- The genuine algebra projection sends the explicit compositum root to
+the selected local two-torsion abscissa. -/
+@[simp] theorem localRelativeProjection_descentRootInM :
+    localRelativeProjection descentRootInM =
+      localProjectedDescentRoot := by
+  simp only [descentRootInM, relativeTwoDivisionZ, map_mul, map_sub,
+    map_pow, map_div₀, map_one, map_ofNat,
+    localRelativeProjection_s,
+    localProjectedDescentRoot]
+  ring
+
+private theorem localProjectedDescentRoot_scaled_cubic :
+    4 * localProjectedDescentRoot ^ 3 -
+        3 * localProjectedDescentRoot ^ 2 +
+      102 * localProjectedDescentRoot + 5 = 0 := by
+  let z : CoefficientCompletion :=
+    3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+      6 * localTwoDivisionRoot - 5
+  have hz : z ^ 3 - 3 * z ^ 2 + 408 * z + 80 = 0 := by
+    dsimp only [z]
+    linear_combination
+      (27 * (localTwoDivisionRoot : CoefficientCompletion) ^ 3 -
+          162 * localTwoDivisionRoot ^ 2 +
+          243 * localTwoDivisionRoot + 216) *
+        localTwoDivisionRoot_cubic_field
+  change 4 * (z / 4) ^ 3 - 3 * (z / 4) ^ 2 +
+      102 * (z / 4) + 5 = 0
+  field_simp [coefficientCompletion_four_ne_zero]
+  linear_combination hz
+
+/-- The projected element is a root of the completed rational descent
+cubic over the coefficient completion. -/
+theorem localProjectedDescentRoot_isRoot :
+    localProjectedDescentRoot ^ 3 -
+        (3 / 4 : CoefficientCompletion) * localProjectedDescentRoot ^ 2 +
+      (51 / 2 : CoefficientCompletion) * localProjectedDescentRoot +
+        (5 / 4 : CoefficientCompletion) = 0 := by
+  field_simp [coefficientCompletion_two_ne_zero,
+    coefficientCompletion_four_ne_zero]
+  linear_combination 2 * localProjectedDescentRoot_scaled_cubic
+
+private theorem localNormalizedA_eq_projectedRoot :
+    (localNormalizedA : CoefficientCompletion) =
+      12 * localProjectedDescentRoot - 3 := by
+  dsimp only [localNormalizedA, localProjectedDescentRoot]
+  change 9 * ((localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+      2 * localTwoDivisionRoot - 2) =
+    12 * ((3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+      6 * localTwoDivisionRoot - 5) / 4) - 3
+  field_simp [coefficientCompletion_four_ne_zero]
+  ring
+
+private theorem localNormalizedB_eq_projectedDerivative :
+    (localNormalizedB : CoefficientCompletion) =
+      16 * (3 * localProjectedDescentRoot ^ 2 -
+        (3 / 2) * localProjectedDescentRoot + 51 / 2) := by
+  let z : CoefficientCompletion :=
+    3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+      6 * localTwoDivisionRoot - 5
+  have hBz : (localNormalizedB : CoefficientCompletion) =
+      3 * z ^ 2 - 6 * z + 408 := by
+    dsimp only [localNormalizedB, z]
+    change 81 * ((localTwoDivisionRoot : CoefficientCompletion) ^ 2 +
+        2 * localTwoDivisionRoot - 7) =
+      3 * (3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+          6 * localTwoDivisionRoot - 5) ^ 2 -
+        6 * (3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
+          6 * localTwoDivisionRoot - 5) + 408
+    linear_combination
+      -27 * ((localTwoDivisionRoot : CoefficientCompletion) - 4) *
+        localTwoDivisionRoot_cubic_field
+  rw [hBz]
+  change 3 * z ^ 2 - 6 * z + 408 =
+    16 * (3 * (z / 4) ^ 2 - (3 / 2) * (z / 4) + 51 / 2)
+  field_simp [coefficientCompletion_two_ne_zero,
+    coefficientCompletion_four_ne_zero]
+  ring
+
+/-- Every local point on the rational-coefficient completed-square model
+has square `x`-difference from the selected projected two-torsion root. -/
+theorem projected_descent_curve_isSquare
+    (x y : CoefficientCompletion)
+    (hcurve : y ^ 2 = x ^ 3 - (3 / 4) * x ^ 2 +
+      (51 / 2) * x + 5 / 4) :
+    IsSquare (x - localProjectedDescentRoot) := by
+  let Xn : CoefficientCompletion := 4 * (x - localProjectedDescentRoot)
+  let Yn : CoefficientCompletion := 8 * y
+  have hnormalized : Yn ^ 2 = Xn *
+      (Xn ^ 2 + (localNormalizedA : CoefficientCompletion) * Xn +
+        localNormalizedB) := by
+    dsimp only [Xn, Yn]
+    calc
+      (8 * y) ^ 2 = 64 * y ^ 2 := by ring
+      _ = 64 * (x ^ 3 - (3 / 4) * x ^ 2 +
+          (51 / 2) * x + 5 / 4) := by rw [hcurve]
+      _ = 4 * (x - localProjectedDescentRoot) *
+          ((4 * (x - localProjectedDescentRoot)) ^ 2 +
+            (localNormalizedA : CoefficientCompletion) *
+              (4 * (x - localProjectedDescentRoot)) +
+            localNormalizedB) := by
+        rw [localNormalizedA_eq_projectedRoot,
+          localNormalizedB_eq_projectedDerivative]
+        let cofactor : CoefficientCompletion :=
+          x ^ 2 + (localProjectedDescentRoot - 3 / 4) * x +
+            (localProjectedDescentRoot ^ 2 -
+              (3 / 4) * localProjectedDescentRoot + 51 / 2)
+        have hfactor :
+            x ^ 3 - (3 / 4) * x ^ 2 + (51 / 2) * x + 5 / 4 =
+              (x - localProjectedDescentRoot) * cofactor := by
+          calc
+            x ^ 3 - (3 / 4) * x ^ 2 + (51 / 2) * x + 5 / 4 =
+                (x ^ 3 - (3 / 4) * x ^ 2 +
+                    (51 / 2) * x + 5 / 4) - 0 := by ring
+            _ = (x ^ 3 - (3 / 4) * x ^ 2 +
+                    (51 / 2) * x + 5 / 4) -
+                (localProjectedDescentRoot ^ 3 -
+                    (3 / 4) * localProjectedDescentRoot ^ 2 +
+                  (51 / 2) * localProjectedDescentRoot + 5 / 4) := by
+              rw [localProjectedDescentRoot_isRoot]
+            _ = (x - localProjectedDescentRoot) * cofactor := by
+              dsimp only [cofactor]
+              field_simp [coefficientCompletion_two_ne_zero,
+                coefficientCompletion_four_ne_zero]
+              ring
+        have hquadratic :
+            (4 * (x - localProjectedDescentRoot)) ^ 2 +
+                (12 * localProjectedDescentRoot - 3) *
+                  (4 * (x - localProjectedDescentRoot)) +
+              16 * (3 * localProjectedDescentRoot ^ 2 -
+                (3 / 2) * localProjectedDescentRoot + 51 / 2) =
+            16 * cofactor := by
+          dsimp only [cofactor]
+          field_simp [coefficientCompletion_two_ne_zero,
+            coefficientCompletion_four_ne_zero]
+          ring
+        rw [hquadratic]
+        rw [hfactor]
+        ring
+  obtain ⟨z, hz⟩ := normalized_local_curve_isSquare Xn Yn hnormalized
+  refine ⟨z / 2, ?_⟩
+  dsimp only [Xn] at hz
+  calc
+    x - localProjectedDescentRoot =
+        (4 * (x - localProjectedDescentRoot)) / 4 := by
+          field_simp [coefficientCompletion_four_ne_zero]
+    _ = (z * z) / 4 := by rw [hz]
+    _ = (z / 2) * (z / 2) := by
+      field_simp [coefficientCompletion_two_ne_zero,
+        coefficientCompletion_four_ne_zero]
+      norm_num
+
+/-- The corresponding selected root on the minimal dyadic-support model. -/
+def localProjectedMinimalRoot : CoefficientCompletion :=
+  (localProjectedDescentRoot -
+      algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation) / 9
+
+/-- Projection is compatible with the explicit change from the rational
+descent algebra to the minimal descent algebra. -/
+@[simp] theorem localRelativeProjection_minimalDescentRootInM :
+    localRelativeProjection minimalDescentRootInM =
+      localProjectedMinimalRoot := by
+  simp only [minimalDescentRootInM, map_div₀, map_sub,
+    map_ofNat, AlgHom.commutes, localRelativeProjection_descentRootInM,
+    localProjectedMinimalRoot]
 
 end
 
