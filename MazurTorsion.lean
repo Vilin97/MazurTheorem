@@ -124,6 +124,7 @@ import MazurTorsion.Kubert.ThreeNormalForm
 import MazurTorsion.ModularCurve.DegreeOneCotangent
 import MazurTorsion.ModularCurve.QExpansionFirstCoefficient
 import MazurTorsion.ModularCurve.HeckeFirstCoefficient
+import MazurTorsion.ModularCurve.NeronSectionSpecialization
 import MazurTorsion.ModularCurve.AffineCuspQExpansion
 import MazurTorsion.ModularCurve.AffineCuspResidueRetraction
 import MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers
