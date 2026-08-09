@@ -447,8 +447,26 @@ arbitrary scheme base change.
 field-point/chart slice of `WeierstrassModel.lean`.  It reuses the chart
 algebra above, proves that every field-valued point factors through a
 coordinate chart, and identifies chart points with compatible ring maps and
-dehomogenized solutions.  It deliberately stops before chart transitions or
-the global pointed field-points dictionary.
+dehomogenized solutions.  The companion
+`XZeroGammaOneTateProjectiveChartTransition.lean`, local blob
+`4e5b99a99d61950286c1633e7282ec0c751e287d`, adapts the next overlap slice:
+it identifies the coordinate readout `X_j / X_i` and characterizes
+factorization through the second chart by its nonvanishing.  The source's
+backward-definitional-equality option is replaced by two explicitly typed
+basic-open membership lemmas and an explicit quotient-grading-hom
+normalization.  These two leaves still stop before the global pointed
+field-points dictionary.
+
+`ForMathlib/WeierstrassSecondAdditionLaw.lean`, local blob
+`4b24e35e355735bb0afb20b2b056db258506d061`, selectively adapts the second
+Bosma--Lenstra bidegree-`(2,2)` addition law from AINTLIB
+`EllipticCurve/AdditionLaw.lean`, exact source blob
+`c6ea88db42629fd166902494bb5617d4511e309b`.  The source has Chris
+Birkbeck's explicit Apache-2.0 header and occurs at the licensed default
+commit above.  The local algebraic leaf retains the three coordinate
+polynomials, their bihomogeneity, their six zero-left/zero-right formulas,
+and their four diagonal identities.  It does not by itself assert coverage,
+construct a morphism, or install a group object.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by

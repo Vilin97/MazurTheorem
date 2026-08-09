@@ -178,9 +178,18 @@ header.  The local projective Tate chart-algebra, Jacobian, smoothness, and
 chart-points leaves selectively adapt the corresponding chart and field-point
 slices of that same blob.  The smoothness leaf replaces the source's two
 transparency-option wrappers by explicitly typed default-pin proofs; the
-chart-points extraction stops before the source's option-wrapped transition
-theorem and global point dictionary.  Each local file retains Chris Birkbeck
-and the AINTLIB contributors in its copyright/authorship header.
+chart-transition extraction replaces the source's option-wrapped overlap
+theorem by explicitly typed basic-open membership lemmas and stops before the
+global point dictionary.  Each local file retains Chris Birkbeck and the
+AINTLIB contributors in its copyright/authorship header.
+
+`WeierstrassSecondAdditionLaw.lean` selectively adapts the second
+Bosma--Lenstra addition-law formulas and their elementary algebraic identities
+from AINTLIB `EllipticCurve/AdditionLaw.lean`, exact blob
+`c6ea88db42629fd166902494bb5617d4511e309b`, at the licensed default-branch
+commit.  The source's explicit Chris Birkbeck Apache-2.0 header is retained.
+This leaf is polynomial substrate only and makes no coverage, morphism, or
+group-object claim.
 
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed

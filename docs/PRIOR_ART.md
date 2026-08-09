@@ -663,17 +663,22 @@ been extracted at the exact pin.  The resulting actual projective Tate family
 is proper and smooth of relative dimension one, and these properties survive
 arbitrary scheme base change.  The first field-point leaf identifies each
 coordinate chart with its dehomogenized solutions and proves that every
-field-valued point lies in some chart.  It does not conflate this homogeneous
-quotient `Proj` with the older reduced vanishing-ideal cubic.
+field-valued point lies in some chart; a second leaf proves the exact
+coordinate readout and nonvanishing criterion on chart overlaps without the
+source transparency option.  It does not conflate this homogeneous quotient
+`Proj` with the older reduced vanishing-ideal cubic.
 
 This still does not import AINTLIB's full model or classifier: the chart
-transition/global pointed dictionary, scheme group law, strong coefficient-
+global pointed dictionary, scheme group law, strong coefficient-
 base-change, exact-order locus, and represented/coarse moduli cones remain
 separate option-free work.  The audited honest group-object route begins with
 Bosma--Lenstra's two complete bidegree-`(2,2)` addition laws and then passes
 through AINTLIB's chart gluing and group-law axioms; uniqueness theorems for a
-supplied group object are not substitutes for that construction. Exact blobs
-and licensed-default evidence for the retained and adapted files are in
+supplied group object are not substitutes for that construction.  The second
+law's coordinate polynomials, bihomogeneity, zero behavior, and diagonal
+identities are now retained as an attributed algebraic leaf; coverage and
+scheme-level gluing remain distinct checked steps. Exact blobs and
+licensed-default evidence for the retained and adapted files are in
 `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
 
 The whole AINTLIB project is neither vendored nor treated as a Lean Pool-ready
