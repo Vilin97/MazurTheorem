@@ -26,7 +26,7 @@ theorem rationalPoint_addOrderOf_ne_twentyFive_of_marked_exclusion
     (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (P : (E⁄ℚ).Point)
     (hMarkedExclusion :
-      ∀ (b c : ℚ) (hb : b ≠ 0)
+      ∀ (b c : ℚ) (_hb : b ≠ 0)
         (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0),
         addOrderOf
           (WeierstrassCurve.Affine.Point.some 0 0 h00 :
