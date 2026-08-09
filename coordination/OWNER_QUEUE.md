@@ -92,6 +92,18 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The target side of the direct `X_0(49)` route is integrated through
+`3984909`.  `XZeroFortyNineEtaModel` checks the literature eta-coordinate
+change to the already classified elliptic curve, proves its denominator is
+nonzero, and shows that its affine open has no rational points.  This remains
+an honest target-side result: the coarse classifying map from a rational
+cyclic subgroup of order 49, its noncuspidality, and the final order-49
+contradiction are still missing.  The Picard checkpoint `bf36e14` separately
+exposes degree-zero divisor classes through the proved image of the divisor
+map and supplies weighted and rational-section Abel--Jacobi consumers without
+assuming surjectivity onto an abstract Picard kernel.  It does not complete
+the global divisor--line-bundle equivalence or construct the Jacobian.
+
 The residual level-seven quotient point is integrated at `1281e54`.  From an
 actual rational cyclic subgroup of order 49, the checked point-group quotient
 by its intrinsic order-seven subgroup carries the generator to an element of
@@ -102,8 +114,8 @@ group-law compatibility interface.  The focused 3,225-job build, three public
 endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
 `propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
 coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
-no roadmap credit.  Source accounting is now 990 integrated Lean modules /
-1,562,928 lines.
+no roadmap credit.  Source accounting for these checkpoints is 991 integrated
+Lean modules / 1,563,540 lines.
 
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
