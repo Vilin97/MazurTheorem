@@ -316,20 +316,20 @@ theorem cuspRetraction_openS : cuspRetraction R (openS R) = 1 := by
   simp [openS]
 
 @[simp]
+theorem cuspRetraction_denominatorInverse :
+    cuspRetraction R (denominatorInverse R) = 1 := by
+  simpa [quotientDenominator] using
+    congrArg (cuspRetraction R) (denominatorInverse_mul R)
+
+@[simp]
 theorem cuspRetraction_openQuotientW :
     cuspRetraction R (openQuotientW R) = 1 := by
-  have hinverse : cuspRetraction R (denominatorInverse R) = 1 := by
-    simpa [quotientDenominator] using
-      congrArg (cuspRetraction R) (denominatorInverse_mul R)
-  simp [openQuotientW, quotientWValue, quotientWNumerator, hinverse]
+  simp [openQuotientW, quotientWValue, quotientWNumerator]
 
 @[simp]
 theorem cuspRetraction_openQuotientR :
     cuspRetraction R (openQuotientR R) = 7 := by
-  have hinverse : cuspRetraction R (denominatorInverse R) = 1 := by
-    simpa [quotientDenominator] using
-      congrArg (cuspRetraction R) (denominatorInverse_mul R)
-  simp [openQuotientR, quotientRValue, hinverse, map_ofNat]
+  simp [openQuotientR, quotientRValue, map_ofNat]
 
 /-- The integral cusp as an actual section of the affine structural
 morphism. -/

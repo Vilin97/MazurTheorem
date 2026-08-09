@@ -132,6 +132,7 @@ import MazurTorsion.ModularCurve.AffineCuspResidueRetraction
 import MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers
 import MazurTorsion.ModularCurve.AffineCuspPolynomialChart
 import MazurTorsion.ModularCurve.AffineCuspChartTransport
+import MazurTorsion.ModularCurve.OrderThirtyFiveInfinityChartFirstOrder
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.XZeroModuli

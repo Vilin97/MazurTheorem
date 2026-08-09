@@ -331,6 +331,8 @@ destination theorem is
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.InfinityChartScheme.cuspSection_isSection`
 * `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.InfinityChartFirstOrder.localizedMap_targetParameter_eq_unit_mul_cuspParameter`
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
 
 The fixed equation, its rational torsion subgroup, an equation-checked Vélu
@@ -358,8 +360,10 @@ ring-generic polynomial identity and rational-coordinate comparison are
 checked.  Independently, the reciprocal integral chart now defines a genuine
 `Spec` morphism over every commutative base, represents the cusp `(t,s)=(0,1)`
 as an affine structural section, and proves `W-1=(-7/d)t` in its actual
-coordinate ring.  The characteristic-eleven cusp local-ring calculation and
-transport through the localized map remain open.
+coordinate ring.  The checked generator-localization lemma transports this
+identity through the actual special-fibre local map with zero remainder.  The
+characteristic-eleven cusp local-ring generator and coefficient-unit
+calculations remain open.
 Exhaustive normalization of all 121 short models over
 `F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
 the exact order-35 endpoint, and a good-reduction specialization consumer.

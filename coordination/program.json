@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1578207,
-    "integrated_lean_modules": 1030,
+    "integrated_lean_lines": 1578321,
+    "integrated_lean_modules": 1031,
     "remaining_composite_orders": [
       18,
       25,
@@ -929,7 +929,7 @@
       "weight_points": 14,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. The checked marked tangent--secant and weighted-depth chain excludes additive reduction on the selected minimal equation without a component premise, so the eleven-adic formal-immersion collision now reaches the finite enumeration directly. Both the finite-x and integral infinity quotient formulas now define genuine affine-scheme morphisms to the denominator-free quotient model. The infinity chart retains the actual integral cusp section and the exact first-order identity W-1=(-7/d)t. The represented modular classifying map and chart identification, the characteristic-eleven cusp local-ring calculation and localized-map consumer, the abelian-variety identification, and Atkin--Lehner specialization inputs remain open.",
+      "summary": "Use the explicit optimal elliptic quotient X_0(35)/w_5 and Mazur's squarefree-level formal-immersion criterion at auxiliary prime 11. The source three-descent and Eisenstein ideal-support calculations prove the fixed explicit curve model has rank zero and finite rational point group. Split level-5 and level-7 carriers reconstruct the order-35 subgroup, while exhaustive F_11 enumeration proves the eighteen-point bound. The checked marked tangent--secant and weighted-depth chain excludes additive reduction on the selected minimal equation without a component premise, so the eleven-adic formal-immersion collision now reaches the finite enumeration directly. Both the finite-x and integral infinity quotient formulas now define genuine affine-scheme morphisms to the denominator-free quotient model. The infinity chart retains the actual integral cusp section and the exact first-order identity W-1=(-7/d)t, now transported through the genuine localized special-fibre map with zero remainder. The represented modular classifying map and chart identification, the characteristic-eleven cusp local-ring generator and unit calculation, the abelian-variety identification, and Atkin--Lehner specialization inputs remain open.",
       "depends_on": [
         "MT-X0-MODULI",
         "MT-X0-CUSPS",
@@ -1298,6 +1298,13 @@
           "state": "contract",
           "description": "Represent the integral cusp (t,s)=(0,1) as a genuine affine section of the infinity chart over the base.",
           "module": "MazurTorsion.NumberTheory.OrderThirtyFiveInfinityChartScheme"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.OrderThirtyFive.InfinityChartFirstOrder.localizedMap_targetParameter_eq_unit_mul_cuspParameter",
+          "state": "contract",
+          "description": "Transport W-1=(-7/d)t through the actual localized special-fibre map used by the affine formal-immersion criterion, with zero remainder.",
+          "module": "MazurTorsion.ModularCurve.OrderThirtyFiveInfinityChartFirstOrder"
         },
         {
           "kind": "theorem",

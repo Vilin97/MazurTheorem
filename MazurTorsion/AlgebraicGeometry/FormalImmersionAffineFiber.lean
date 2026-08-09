@@ -154,6 +154,32 @@ noncomputable def localizedMap (p : Ideal R) [p.IsPrime]
       Localization.AtPrime q :=
   Localization.localAlgHom' p (q.comap (map p g)) q (map p g) rfl
 
+/-- The local affine-fibre map sends a localized ambient generator to the
+localized image of that generator.  This is the direct calculation used by
+represented cusp-coordinate consumers. -/
+@[simp]
+theorem localizedMap_algebraMap_includeRight
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    (s : S) :
+    localizedMap p g q
+        (algebraMap (p.Fiber S)
+          (Localization.AtPrime (q.comap (map p g)))
+          (Algebra.TensorProduct.includeRight s)) =
+      algebraMap (p.Fiber T) (Localization.AtPrime q)
+        (Algebra.TensorProduct.includeRight (g s)) := by
+  change
+    Localization.localAlgHom (q.comap (map p g)) q (map p g) rfl
+        (algebraMap (p.Fiber S)
+          (Localization.AtPrime (q.comap (map p g)))
+          (Algebra.TensorProduct.includeRight s)) = _
+  rw [Localization.localAlgHom_apply]
+  exact (Localization.localRingHom_to_map
+      (q.comap (map p g)) q (map p g).toRingHom rfl
+        (Algebra.TensorProduct.includeRight s)).trans
+    (congrArg (algebraMap (p.Fiber T) (Localization.AtPrime q))
+      (map_includeRight p g s))
+
 /-- The underlying ring map of `localizedMap`, re-bundled against the ring
 instances used by local-ring cotangent constructions. -/
 noncomputable def localizedRingMap (p : Ideal R) [p.IsPrime]
