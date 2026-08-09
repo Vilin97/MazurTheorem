@@ -403,6 +403,21 @@ injectivity proof through an explicitly typed private lemma, and applies only
 the pinned linter's mechanical `show`-to-`change` conversions. The localized
 hypersurface standard-smooth theorem and its formulas are unchanged.
 
+`ForMathlib/ProjectiveSpaceChart.lean` selectively adapts AINTLIB exact blob
+`b987dd389601b36b17803e93e680afde78d6dd51`, byte-identical at the licensed
+default-branch commit above and carrying the explicit AINTLIB-contributors
+Apache-2.0 header. The local blob is
+`0cdf68289e8279b3d021a905b9e8e13565ed9e00`. It retains the dehomogenization,
+homogenization, and projective chart ring equivalence, omits independent map
+naturality/nonzerodivisor declarations and the resulting `AwayCongr` import,
+and applies six mechanical `show`-to-`change` linter conversions.
+
+`XZeroGammaOneTateProjectiveChartCover.lean` adapts the clean coordinate-cover
+slice of the licensed `WeierstrassModel.lean` blob recorded above. It proves
+that the three degree-one quotient coordinate classes generate the irrelevant
+ideal and that their `Proj` basic opens cover the model. It adds no chart-point
+dictionary or field-point identification.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module

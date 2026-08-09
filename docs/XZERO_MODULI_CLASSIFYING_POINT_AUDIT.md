@@ -328,6 +328,15 @@ checked theorem identifying their vanishing at a nonsingular point with
 `n • P = 0`. Consequently no exact-level locus or generic-prime classifier is
 inferred from polynomial vanishing alone.
 
+The exact-pin `ForMathlib/ProjectiveSpaceChart.lean` slice now identifies a
+projective-space away chart with the polynomial ring in the other variables,
+without importing the independent `AwayCongr` cone. The local
+`XZeroGammaOneTateProjectiveChartCover.lean` leaf proves that the three
+coordinate basic opens cover the homogeneous quotient model. Both public
+boundaries have standard-only axiom closure. They still do not identify the
+quotient chart with the dehomogenized hypersurface quotient or construct the
+scheme/affine-point dictionary.
+
 The repository's older projective-cubic API could not supply this family: it
 is restricted to fields and constructs the reduced induced closed subscheme
 of projective space. Extending that object to `tateRingOver R` would discard

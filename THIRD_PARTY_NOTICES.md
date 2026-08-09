@@ -162,6 +162,14 @@ header. Its sole source transparency option is replaced by an explicitly
 typed injectivity helper; the mathematical declarations and formulas are
 retained.
 
+`ProjectiveSpaceChart.lean` selectively adapts AINTLIB blob
+`b987dd389601b36b17803e93e680afde78d6dd51`, identical at the licensed
+default-branch commit and carrying the explicit AINTLIB-contributors
+Apache-2.0 header. Independent coefficient-map naturality declarations and
+their `AwayCongr` dependency are omitted. The local projective chart-cover
+leaf separately adapts the clean cover prefix of the already recorded
+`WeierstrassModel.lean` blob.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or
