@@ -1346,8 +1346,10 @@ fibers.  There are twenty-two degree-two divisor labels over `𝔽₃` and
 twenty-four over `𝔽₅`; collapsing the four- or six-member
 hyperelliptic pencil leaves a nineteen-element reduced class certificate at
 either prime.  These remain explicit combinatorial certificates, not
-definitions of a projective curve, Picard group, Jacobian, or rational
-reduction map.  The perfect coordinate set
+definitions of a Picard group, Jacobian, or rational reduction map.  The
+base-field point certificates are now identified with literal points of the
+proper glued projective curve; the quadratic-extension rows and the reduced
+degree-two quotient are not yet geometrically identified.  The perfect coordinate set
 `{1,-1,7,-7,8,-8} ⊂ ZMod 19` sends the three conjugate rational pairs
 and every quadratic hyperelliptic fiber to zero, while the other eighteen
 pair sums enumerate the nonzero residues.  This supplies a checked bijection

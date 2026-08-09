@@ -91,7 +91,7 @@ argument).
 
 ## Checked two-prime finite data
 
-`MazurTorsion.NumberTheory.XOneThirteenFiniteField` now checks all of the
+`MazurTorsion.NumberTheory.XOneThirteenFiniteField` checks all of the
 following by kernel-reduced finite enumeration and explicit Bézout
 identities:
 
@@ -107,6 +107,20 @@ Lean checks that `2` is nonsquare in each base field, that every nonzero
 pair has a multiplicative inverse, and that Frobenius is pair conjugation.
 The non-base points form one conjugate fiber over `𝔽₃` and three over
 `𝔽₅`.
+
+The base-field rows are now also geometric statements about the actual
+two-chart scheme.  The checked internal chart decomposition proves that
+every morphism from the spectrum of a field to the glued curve factors
+either through the ordinary chart or through the reciprocal boundary.  The
+checked overlap identity says that this boundary is exactly `z = 0`, whose
+equation reduces to `w² = 1`.  Consequently
+`pointCertificateEquivSchemePointF3` and
+`pointCertificateEquivSchemePointF5` identify the old six-element
+certificates with literal points of the glued projective scheme.  In
+particular, `card_schemePoint_F3` and `card_schemePoint_F5` prove actual
+scheme-point counts of six.  The `𝔽₉` and `𝔽₂₅` rows remain transparent
+quadratic-pair certificates; they have not yet been identified with points
+of a field-valued base change of the glued scheme.
 
 The degree-two enumeration is therefore
 
@@ -188,12 +202,29 @@ follows.  This leaves no hidden injectivity assumption: proving those
 primary-kernel statements is precisely the outstanding good-reduction
 theorem.
 
+The glued curve itself is no longer only a chartwise candidate for a proper
+model.  The chart computations
+`ordinaryChartToProjectiveLine_structureMap` and
+`reciprocalChartToProjectiveLine_structureMap` give the checked identity
+
+`curveToBase = hyperellipticMap ≫ ProjectiveLine.structureMap`.
+
+Since the hyperelliptic map is finite and projective line is proper, Lean
+now supplies `curveToBase_isProper`.  The same finite map gives local
+Noetherianity and properness gives compactness, yielding the actual
+`curveScheme_isNoetherian` instance.  This discharges the properness and
+Noetherianity portions of the geometric setup; it does not assert
+smoothness, integrality, genus, or Picard representability.
+
 The dependency-critical missing steps are:
 
-1. construct the smooth proper genus-two curve attached to the sextic and
-   its good integral models at `3` and `5`;
-2. construct its degree-zero Picard group/Jacobian and identify the two
-   finite reductions with the checked reduced degree-two certificates;
+1. prove that the now-proper glued curve is integral, smooth of relative
+   dimension one, and genus two, and construct its good integral models at
+   `3` and `5`;
+2. identify the quadratic-extension point certificates with actual
+   `𝔽₉`- and `𝔽₂₅`-points, construct the degree-zero Picard
+   group/Jacobian, and identify the two finite reductions with the checked
+   reduced degree-two certificates;
 3. prove the good-reduction kernel bounds on rational torsion;
 4. prove `J(ℚ)` has rank zero (or formalize the Mazur--Tate
    `19`-isogeny-surjectivity descent that implies finiteness);

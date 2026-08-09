@@ -71,6 +71,37 @@ theorem reciprocalSolutionToAlgHom_w
   simp [reciprocalSolutionToAlgHom,
     XOneThirteenProjectiveCurve.wCoordinate]
 
+/-- An algebra point of the reciprocal chart recovers its two
+coordinates. -/
+noncomputable def algHomToReciprocalSolution
+    (φ : XOneThirteenProjectiveCurve.ReciprocalRing K →ₐ[K] A) :
+    ReciprocalSolution K A :=
+  ⟨(φ (XOneThirteenProjectiveCurve.zCoordinate K),
+      φ (XOneThirteenProjectiveCurve.wCoordinate K)), by
+    rw [← map_pow, XOneThirteenProjectiveCurve.wCoordinate_sq]
+    simp [XOneThirteenProjectiveCurve.zCoordinate,
+      Polynomial.aeval_def]⟩
+
+/-- The reciprocal equation and the reciprocal chart's algebra-valued
+points are canonically equivalent. -/
+noncomputable def reciprocalSolutionEquivAlgHom :
+    ReciprocalSolution K A ≃
+      (XOneThirteenProjectiveCurve.ReciprocalRing K →ₐ[K] A) where
+  toFun := reciprocalSolutionToAlgHom A
+  invFun := algHomToReciprocalSolution A
+  left_inv p := by
+    apply Subtype.ext
+    ext <;> simp [algHomToReciprocalSolution]
+  right_inv φ := by
+    apply AdjoinRoot.algHom_ext'
+    · apply Polynomial.algHom_ext
+      simp [reciprocalSolutionToAlgHom,
+        algHomToReciprocalSolution,
+        XOneThirteenProjectiveCurve.zCoordinate]
+    · simp [reciprocalSolutionToAlgHom,
+        algHomToReciprocalSolution,
+        XOneThirteenProjectiveCurve.wCoordinate]
+
 variable (K : Type u) [CommRing K]
 
 /-- A reciprocal-chart point over a ring with a unique endomorphism. -/
@@ -79,6 +110,54 @@ noncomputable def reciprocalSolutionToSchemePoint
     Spec (.of K) ⟶ XOneThirteenProjectiveCurve.reciprocalScheme K :=
   Spec.map (CommRingCat.ofHom
     (reciprocalSolutionToAlgHom K p).toRingHom)
+
+private noncomputable def reciprocalRingHomToAlgHom
+    [Subsingleton (K →+* K)]
+    (φ : XOneThirteenProjectiveCurve.ReciprocalRing K →+* K) :
+    XOneThirteenProjectiveCurve.ReciprocalRing K →ₐ[K] K where
+  __ := φ
+  commutes' r := by
+    change (φ.comp (algebraMap K
+      (XOneThirteenProjectiveCurve.ReciprocalRing K))) r =
+        (RingHom.id K) r
+    exact DFunLike.congr_fun (Subsingleton.elim _ _) r
+
+private noncomputable def reciprocalAlgHomEquivRingHom
+    [Subsingleton (K →+* K)] :
+    (XOneThirteenProjectiveCurve.ReciprocalRing K →ₐ[K] K) ≃
+      (XOneThirteenProjectiveCurve.ReciprocalRing K →+* K) where
+  toFun φ := φ.toRingHom
+  invFun := reciprocalRingHomToAlgHom K
+  left_inv φ := by
+    apply AlgHom.coe_ringHom_injective
+    rfl
+  right_inv φ := rfl
+
+private noncomputable def reciprocalRingHomEquivCommRingCatHom :
+    (XOneThirteenProjectiveCurve.ReciprocalRing K →+* K) ≃
+      (CommRingCat.of
+          (XOneThirteenProjectiveCurve.ReciprocalRing K) ⟶
+        CommRingCat.of K) where
+  toFun := CommRingCat.ofHom
+  invFun φ := φ.hom
+  left_inv φ := rfl
+  right_inv φ := by
+    apply CommRingCat.hom_ext
+    rfl
+
+/-- Over a ring with a unique endomorphism, reciprocal solutions are
+literal points of the reciprocal affine chart. -/
+noncomputable def reciprocalSolutionEquivSchemePoint
+    [Subsingleton (K →+* K)] :
+    ReciprocalSolution K K ≃
+      (Spec (.of K) ⟶
+        XOneThirteenProjectiveCurve.reciprocalScheme K) :=
+  (reciprocalSolutionEquivAlgHom K).trans <|
+    (reciprocalAlgHomEquivRingHom K).trans <|
+      (reciprocalRingHomEquivCommRingCatHom K).trans <|
+        (Spec.homEquiv
+          (R := .of (XOneThirteenProjectiveCurve.ReciprocalRing K))
+          (S := .of K)).symm
 
 @[simp, reassoc]
 theorem reciprocalSolutionToSchemePoint_toBase
