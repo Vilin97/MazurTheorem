@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Vasily Ilin
+Authors: Vasily Ilin, OpenAI
 -/
 
 import MazurTorsion.NumberTheory.XOneEighteenTwoDivisionPrimitive
@@ -40,6 +40,340 @@ theorem normalizedPolynomial_natDegree :
     normalizedPolynomial.natDegree = 9 := by
   simp only [normalizedPolynomial]
   compute_degree!
+
+private def discrP₀ : Polynomial ℚ := normalizedPolynomial
+
+private def discrP₁ : Polynomial ℚ :=
+  9 * X ^ 8 - 24 * X ^ 7 + 42 * X ^ 5 - 15 * X ^ 4 -
+    36 * X ^ 3 + 9 * X ^ 2 + 12 * X
+
+private def discrP₂ : Polynomial ℚ :=
+  8 * X ^ 7 - 21 * X ^ 6 - 2 * X ^ 5 + 50 * X ^ 4 -
+    6 * X ^ 3 - 45 * X ^ 2 - 4 * X + 9
+
+private def discrP₃ : Polynomial ℚ :=
+  3 * X ^ 6 - 34 * X ^ 5 - 14 * X ^ 4 + 34 * X ^ 3 +
+    27 * X ^ 2 + 4 * X + 1
+
+private def discrP₄ : Polynomial ℚ :=
+  58 * X ^ 5 + 20 * X ^ 4 - 61 * X ^ 3 - 48 * X ^ 2 - 7 * X - 1
+
+private def discrP₅ : Polynomial ℚ :=
+  231 * X ^ 4 - 68 * X ^ 3 - 305 * X ^ 2 - 33 * X + 74
+
+private def discrP₆ : Polynomial ℚ :=
+  1681 * X ^ 3 + 586 * X ^ 2 - 1287 * X - 817
+
+private def discrP₇ : Polynomial ℚ :=
+  337 * X ^ 2 + 152 * X - 8
+
+private def discrP₈ : Polynomial ℚ := 47 * X + 33
+
+private def discrP₉ : Polynomial ℚ := 1
+
+private theorem discrP₀_degree : discrP₀.natDegree = 9 := by
+  simpa only [discrP₀] using normalizedPolynomial_natDegree
+
+private theorem discrP₁_degree : discrP₁.natDegree = 8 := by
+  simp only [discrP₁]
+  compute_degree!
+
+private theorem discrP₂_degree : discrP₂.natDegree = 7 := by
+  simp only [discrP₂]
+  compute_degree!
+
+private theorem discrP₃_degree : discrP₃.natDegree = 6 := by
+  simp only [discrP₃]
+  compute_degree!
+
+private theorem discrP₄_degree : discrP₄.natDegree = 5 := by
+  simp only [discrP₄]
+  compute_degree!
+
+private theorem discrP₅_degree : discrP₅.natDegree = 4 := by
+  simp only [discrP₅]
+  compute_degree!
+
+private theorem discrP₆_degree : discrP₆.natDegree = 3 := by
+  simp only [discrP₆]
+  compute_degree!
+
+private theorem discrP₇_degree : discrP₇.natDegree = 2 := by
+  simp only [discrP₇]
+  compute_degree!
+
+private theorem discrP₈_degree : discrP₈.natDegree = 1 := by
+  simp only [discrP₈]
+  compute_degree!
+
+private theorem discrP₉_degree : discrP₉.natDegree = 0 := by
+  simp only [discrP₉, natDegree_one]
+
+private theorem discrP₁_leadingCoeff : discrP₁.leadingCoeff = 9 := by
+  rw [← coeff_natDegree, discrP₁_degree]
+  norm_num [discrP₁]
+  simp only [coeff_X]
+  norm_num
+
+private theorem discrP₂_leadingCoeff : discrP₂.leadingCoeff = 8 := by
+  rw [← coeff_natDegree, discrP₂_degree]
+  norm_num [discrP₂]
+  simp only [coeff_X]
+  norm_num
+
+private theorem discrP₃_leadingCoeff : discrP₃.leadingCoeff = 3 := by
+  rw [← coeff_natDegree, discrP₃_degree]
+  norm_num [discrP₃]
+  simp only [coeff_X, coeff_one]
+  norm_num
+
+private theorem discrP₄_leadingCoeff : discrP₄.leadingCoeff = 58 := by
+  rw [← coeff_natDegree, discrP₄_degree]
+  norm_num [discrP₄]
+  simp only [coeff_X, coeff_one]
+  norm_num
+
+private theorem discrP₅_leadingCoeff : discrP₅.leadingCoeff = 231 := by
+  rw [← coeff_natDegree, discrP₅_degree]
+  norm_num [discrP₅]
+  simp only [coeff_X]
+  norm_num
+
+private theorem discrP₆_leadingCoeff : discrP₆.leadingCoeff = 1681 := by
+  rw [← coeff_natDegree, discrP₆_degree]
+  norm_num [discrP₆]
+  simp only [coeff_X]
+  norm_num
+
+private theorem discrP₇_leadingCoeff : discrP₇.leadingCoeff = 337 := by
+  rw [← coeff_natDegree, discrP₇_degree]
+  norm_num [discrP₇]
+  simp only [coeff_X]
+  norm_num
+
+private theorem discrP₈_leadingCoeff : discrP₈.leadingCoeff = 47 := by
+  rw [← coeff_natDegree, discrP₈_degree]
+  norm_num [discrP₈]
+
+private theorem resultant_step {f g r q : Polynomial ℚ} {c : ℚ} {k : ℕ}
+    (hf : f.natDegree = k + 2) (hg : g.natDegree = k + 1)
+    (hr : r.natDegree = k) (hq : q.natDegree ≤ 1)
+    (hrel : f = C c * r + g * q) :
+    f.resultant g =
+      g.leadingCoeff ^ 2 * c ^ (k + 1) * g.resultant r := by
+  change resultant f g f.natDegree g.natDegree = _
+  rw [hf, hg, hrel]
+  rw [resultant_add_mul_left (f := C c * r) (g := g) (p := q)
+    (m := k + 2) (n := k + 1)]
+  · rw [show k + 2 = k + 2 by rfl]
+    rw [resultant_add_left_deg (f := C c * r) (g := g)
+      (m := k) (n := k + 1) (k := 2)]
+    · rw [resultant_C_mul_left, resultant_comm]
+      rw [Even.neg_one_pow (⟨k + 1, by omega⟩),
+        Even.neg_one_pow (Nat.even_mul_succ_self k)]
+      rw [← hg, coeff_natDegree]
+      rw [← hr]
+      simp only [one_mul]
+      ring
+    · exact (natDegree_C_mul_le c r).trans_eq hr
+  · omega
+  · omega
+
+private theorem resultant_step_scaled {f g r q : Polynomial ℚ}
+    {c d : ℚ} {k : ℕ}
+    (hf : f.natDegree = k + 2) (hg : g.natDegree = k + 1)
+    (hr : r.natDegree = k) (hq : q.natDegree ≤ 1)
+    (hrel : C d * f = C c * r + g * q) (hd : d ≠ 0) :
+    f.resultant g =
+      g.leadingCoeff ^ 2 * (c / d) ^ (k + 1) * g.resultant r := by
+  have hscaledDegree : (C d * f).natDegree = k + 2 := by
+    rw [natDegree_C_mul hd, hf]
+  have hstep := resultant_step hscaledDegree hg hr hq hrel
+  have hscaleResultant :
+      (C d * f).resultant g = d ^ (k + 1) * f.resultant g := by
+    change resultant (C d * f) g (C d * f).natDegree g.natDegree = _
+    rw [natDegree_C_mul hd, hf, hg, resultant_C_mul_left]
+  rw [hscaleResultant] at hstep
+  apply mul_left_cancel₀ (pow_ne_zero (k + 1) hd)
+  calc
+    d ^ (k + 1) * f.resultant g =
+        g.leadingCoeff ^ 2 * c ^ (k + 1) * g.resultant r := hstep
+    _ = d ^ (k + 1) *
+        (g.leadingCoeff ^ 2 * (c / d) ^ (k + 1) *
+          g.resultant r) := by
+      rw [div_pow]
+      field_simp [pow_ne_zero (k + 1) hd]
+
+private theorem discrP₀_resultant_discrP₁ :
+    discrP₀.resultant discrP₁ =
+      discrP₁.leadingCoeff ^ 2 * ((-3 : ℚ) / 27) ^ 8 *
+        discrP₁.resultant discrP₂ := by
+  apply resultant_step_scaled
+    (q := 3 * X - 1) (c := -3) (d := 27) (k := 7)
+  · simpa using discrP₀_degree
+  · simpa using discrP₁_degree
+  · simpa using discrP₂_degree
+  · compute_degree!
+  · simp only [discrP₀, discrP₁, discrP₂,
+      normalizedPolynomial]
+    simp only [map_neg, Polynomial.C_ofNat]
+    ring
+  · norm_num
+
+private theorem discrP₁_resultant_discrP₂ :
+    discrP₁.resultant discrP₂ =
+      discrP₂.leadingCoeff ^ 2 * ((27 : ℚ) / 64) ^ 7 *
+        discrP₂.resultant discrP₃ := by
+  apply resultant_step_scaled
+    (q := 72 * X - 3) (c := 27) (d := 64) (k := 6)
+  · simpa using discrP₁_degree
+  · simpa using discrP₂_degree
+  · simpa using discrP₃_degree
+  · compute_degree!
+  · simp only [discrP₁, discrP₂, discrP₃]
+    simp only [Polynomial.C_ofNat]
+    ring
+  · norm_num
+
+private theorem discrP₂_resultant_discrP₃ :
+    discrP₂.resultant discrP₃ =
+      discrP₃.leadingCoeff ^ 2 * ((128 : ℚ) / 9) ^ 6 *
+        discrP₃.resultant discrP₄ := by
+  apply resultant_step_scaled
+    (q := 24 * X + 209) (c := 128) (d := 9) (k := 5)
+  · simpa using discrP₂_degree
+  · simpa using discrP₃_degree
+  · simpa using discrP₄_degree
+  · compute_degree!
+  · simp only [discrP₂, discrP₃, discrP₄]
+    simp only [Polynomial.C_ofNat]
+    ring
+  · norm_num
+
+private theorem discrP₃_resultant_discrP₄ :
+    discrP₃.resultant discrP₄ =
+      discrP₄.leadingCoeff ^ 2 * ((9 : ℚ) / 1682) ^ 5 *
+        discrP₄.resultant discrP₅ := by
+  apply resultant_step_scaled
+    (q := 87 * X - 1016) (c := 9) (d := 1682) (k := 4)
+  · simpa using discrP₃_degree
+  · simpa using discrP₄_degree
+  · simpa using discrP₅_degree
+  · compute_degree!
+  · simp only [discrP₃, discrP₄, discrP₅]
+    simp only [Polynomial.C_ofNat]
+    ring
+  · norm_num
+
+private theorem discrP₄_resultant_discrP₅ :
+    discrP₄.resultant discrP₅ =
+      discrP₅.leadingCoeff ^ 2 * ((841 : ℚ) / 53361) ^ 4 *
+        discrP₅.resultant discrP₆ := by
+  apply resultant_step_scaled
+    (q := 13398 * X + 8564) (c := 841) (d := 53361) (k := 3)
+  · simpa using discrP₄_degree
+  · simpa using discrP₅_degree
+  · simpa using discrP₆_degree
+  · compute_degree!
+  · simp only [discrP₄, discrP₅, discrP₆]
+    simp only [Polynomial.C_ofNat]
+    ring
+  · norm_num
+
+private theorem discrP₅_resultant_discrP₆ :
+    discrP₅.resultant discrP₆ =
+      discrP₆.leadingCoeff ^ 2 * ((-640332 : ℚ) / 2825761) ^ 3 *
+        discrP₆.resultant discrP₇ := by
+  apply resultant_step_scaled
+    (q := 388311 * X - 249674) (c := -640332) (d := 2825761)
+      (k := 2)
+  · simpa using discrP₅_degree
+  · simpa using discrP₆_degree
+  · simpa using discrP₇_degree
+  · compute_degree!
+  · simp only [discrP₅, discrP₆, discrP₇]
+    simp only [map_neg, Polynomial.C_ofNat]
+    norm_num
+    ring
+  · norm_num
+
+private theorem discrP₆_resultant_discrP₇ :
+    discrP₆.resultant discrP₇ =
+      discrP₇.leadingCoeff ^ 2 * ((-2825761 : ℚ) / 113569) ^ 2 *
+        discrP₇.resultant discrP₈ := by
+  apply resultant_step_scaled
+    (q := 566497 * X - 58030) (c := -2825761) (d := 113569)
+      (k := 1)
+  · simpa using discrP₆_degree
+  · simpa using discrP₇_degree
+  · simpa using discrP₈_degree
+  · compute_degree!
+  · simp only [discrP₆, discrP₇, discrP₈]
+    simp only [map_neg, Polynomial.C_ofNat]
+    norm_num
+    ring
+  · norm_num
+
+private theorem discrP₇_resultant_discrP₈ :
+    discrP₇.resultant discrP₈ =
+      discrP₈.leadingCoeff ^ 2 * ((113569 : ℚ) / 2209) ^ 1 *
+        discrP₈.resultant discrP₉ := by
+  apply resultant_step_scaled
+    (q := 15839 * X - 3977) (c := 113569) (d := 2209) (k := 0)
+  · simpa using discrP₇_degree
+  · simpa using discrP₈_degree
+  · simpa using discrP₉_degree
+  · compute_degree!
+  · simp only [discrP₇, discrP₈, discrP₉]
+    simp only [Polynomial.C_ofNat]
+    norm_num
+    ring
+  · norm_num
+
+private theorem normalizedPolynomial_derivative :
+    normalizedPolynomial.derivative = discrP₁ := by
+  simp only [normalizedPolynomial, discrP₁, derivative_add, derivative_sub,
+    derivative_mul, derivative_pow, derivative_X, derivative_ofNat,
+    Nat.cast_ofNat, mul_one, zero_mul]
+  simp only [Polynomial.C_ofNat]
+  norm_num
+  ring
+
+private theorem discrP₀_resultant_discrP₁_exact :
+    discrP₀.resultant discrP₁ = -272097792 := by
+  rw [discrP₀_resultant_discrP₁, discrP₁_resultant_discrP₂,
+    discrP₂_resultant_discrP₃, discrP₃_resultant_discrP₄,
+    discrP₄_resultant_discrP₅, discrP₅_resultant_discrP₆,
+    discrP₆_resultant_discrP₇, discrP₇_resultant_discrP₈]
+  rw [discrP₁_leadingCoeff, discrP₂_leadingCoeff,
+    discrP₃_leadingCoeff, discrP₄_leadingCoeff,
+    discrP₅_leadingCoeff, discrP₆_leadingCoeff,
+    discrP₇_leadingCoeff, discrP₈_leadingCoeff]
+  norm_num [discrP₉, resultant_C_right, discrP₈_degree]
+
+/-- The exact discriminant of the normalized rational power basis.  Its
+factorization is `-2⁹·3¹²`. -/
+theorem normalizedPolynomial_discr :
+    normalizedPolynomial.discr = -272097792 := by
+  have hdegree : 0 < normalizedPolynomial.degree :=
+    natDegree_pos_iff_degree_pos.mp
+      (by rw [normalizedPolynomial_natDegree]; norm_num)
+  have hres := Polynomial.resultant_deriv
+    (f := normalizedPolynomial) hdegree
+  rw [normalizedPolynomial_natDegree,
+    normalizedPolynomial_monic.leadingCoeff] at hres
+  norm_num at hres
+  rw [← hres, normalizedPolynomial_derivative]
+  have hexact := discrP₀_resultant_discrP₁_exact
+  change resultant discrP₀ discrP₁ discrP₀.natDegree
+    discrP₁.natDegree = -272097792 at hexact
+  rw [discrP₀_degree, discrP₁_degree] at hexact
+  simpa only [discrP₀] using hexact
+
+theorem normalizedPolynomial_discr_neg :
+    normalizedPolynomial.discr < 0 := by
+  rw [normalizedPolynomial_discr]
+  norm_num
 
 private def forwardNumerator : Polynomial ℚ :=
   X ^ 8 - 12 * X ^ 7 - 15 * X ^ 6 + 261 * X ^ 5 -
