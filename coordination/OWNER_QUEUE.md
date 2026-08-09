@@ -92,6 +92,30 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The repaired X1(13) finite hyperelliptic map now has a concrete cohomological
+consumer.  For every finite-type quasicoherent module on the actual glued
+curve, `genuineSheafHOne_finite_of_hyperellipticMap` applies the finite-map-to-
+`P¹` theorem and proves that genuine degree-one sheaf cohomology is finite over
+the base field (`369d5af`, reviewed from `864553a`).  In the independent
+order-25 lane, exact order supplies five nonzero Lécacheux orbit units
+(`e7523e2`), denominator-cleared arithmetic proves that three-integral Lehmer
+roots are three-adic units and therefore cannot lie on the checked Brunault
+curve (`39cacb0`, `f8c280d`), and a generic ring-normalized elimination
+certificate forces Brunault's polynomial from the six cyclic orbit relations
+(`fc91e7f`).  The named downstream composition
+`no_orderTwentyFiveBrunaultOrbit_of_threeIntegral_lehmerRoots` consumes both
+leaves and derives the contradiction with every geometric premise explicit
+(`3a62f9a`).  The 3,347-job X1(13) consumer build and the 2,999/3,000-job
+order-25 builds pass; all audited endpoints use exactly `propext`,
+`Classical.choice`, and `Quot.sound`.  The public raw Sutherland chart commit
+`af79ff7` was deliberately held out: it exposed coefficient-source tables
+that `docs/PRIOR_ART.md` requires to remain private, reversed the intended
+dependency edge, and had no relation-level consumer.  `scripts/quality.py`
+passes at 952 Lean modules / 1,545,541 Lean lines.  The X1(13) Jacobian/rational-
+point classification and the derivation of the order-25 orbit, Lehmer-root,
+and three-integrality premises from an actual marked curve remain open; no
+roadmap node or Challenge receives credit.
+
 The X1(13) lane now constructs the actual two-chart scheme obtained by gluing
 the affine sextic `y² = f(x)` to its reciprocal chart under
 `x = z⁻¹`, `y = w z⁻³`.  The structural map, six explicit rational sections,
@@ -2216,7 +2240,10 @@ or accounting shortcut.
   remains open until that classification is proved. The low-level transport
   is now below its immutable destination module, with the downstream
   FourScalar consumers retained in the aggregate.
-- `codex/owner-x13-noncusp` is the active `MT-X13-NONCUSP` lane. Exact
+- `codex/owner-x13-noncusp` is the `MT-X13-NONCUSP` lane.  Its actual finite
+  hyperelliptic map now consumes the genuine `P¹` sheaf-`H¹` theorem, but this
+  supplies only coherent-cohomology finiteness, not the required Jacobian
+  rank computation. Exact
   symmetries reduce the primitive obstruction to the
   single positive chamber `k=4`, `a,b>0`, `-n<m<n`, oriented away from the
   conjugate prime above 19. Integral homogenization now supplies the positive
@@ -2231,14 +2258,18 @@ or accounting shortcut.
 - `codex/owner-o25-brunault-bridge` is the active `MT-O25-EXCLUDE` lane.
   Exact order now reaches the denominator-checked Tate
   recurrence equation `x(13P)=x(12P)` and its fraction-free cross-multiplied
-  expression with a real arbitrary-curve consumer. A research checkpoint also
-  computes the Brunault modular units, their nonzero denominator conditions,
-  and a staged raw Sutherland relation, but its 306-line private algebra is
-  not integration-ready until a public characteristic-zero
-  `orderTwentyFiveBrunaultPolynomial U V = 0` consumer reaches it. Normalize
-  or factor the fixed expression into a tractable birational model, retain all
-  noncuspidal conditions, and complete the rational-point classification.
-  Neither the recursive equation nor an unused raw certificate is the endpoint.
+  expression with a real arbitrary-curve consumer.  The five public
+  Lécacheux units, their exact-order nonvanishing, the six generic orbit
+  relations, the characteristic-zero Brunault certificate, Lehmer-root
+  three-adic integrality, and their final arithmetic contradiction are now
+  integrated.  The remaining bridge must prove those six orbit relations,
+  the two Lehmer-root equations, a three-integral choice of parameter, and the
+  nonexceptional condition from the actual Tate recurrence.  Raw coefficient
+  tables and algebraic factor shards must remain private beneath that named
+  theorem-level consumer.  Then normalize or factor the resulting fixed model,
+  retain every noncuspidal condition, and complete the rational-point
+  classification.  Neither the recurrence nor a conditional orbit certificate
+  is the endpoint.
 - `canonical cubic chart`: the independently reviewed standard-chart
   isomorphism, dense-range theorem, geometric-integrality endpoint, Tau Ceti
   consumer, and finite-flat constant-order consumer are integrated. The actual
