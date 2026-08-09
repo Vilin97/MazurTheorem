@@ -131,6 +131,7 @@ import MazurTorsion.ModularCurve.AffineCuspQExpansion
 import MazurTorsion.ModularCurve.AffineCuspResidueRetraction
 import MazurTorsion.ModularCurve.AffineCuspArithmeticConsumers
 import MazurTorsion.ModularCurve.AffineCuspPolynomialChart
+import MazurTorsion.ModularCurve.AffineCuspPicardSectionBaseChange
 import MazurTorsion.ModularCurve.AffineCuspChartTransport
 import MazurTorsion.ModularCurve.OrderThirtyFiveInfinityChartFirstOrder
 import MazurTorsion.ModularCurve.CompleteDVRCoordinate
@@ -269,3 +270,4 @@ import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
 import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
 import MazurTorsion.Upstream.AINTLIB.Picard.RelativePic
+import MazurTorsion.Upstream.AINTLIB.Picard.SectionBaseChange
