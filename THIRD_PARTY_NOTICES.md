@@ -10,6 +10,13 @@
 The retained modules have been modified for Lean `4.33.0-rc1` and mathlib
 `79d0395a1825a6264ad5d269e35e60537518955e`. The modifications and exact
 production-file manifest are recorded in `PORTING.md`.
+The exact-pin X18 descent slices are:
+
+- `EllipticCurves/X18WeakMordellWeil.lean`, selected from upstream
+  `EllipticCurves/WeakMordellWeil.lean` through Step 6;
+- `EllipticCurves/X18SelmerLocal.lean`, selected from the local finite-place
+  portion of upstream `EllipticCurves/SelmerGroup.lean`.
+
 `MazurTorsion/EllipticCurve/NonsingularReduction.lean` and
 `MazurTorsion/EllipticCurve/NonsingularReductionAdditive.lean` are downstream
 singular-fibre adaptations of the pinned good-reduction construction and

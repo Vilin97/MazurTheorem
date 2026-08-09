@@ -413,6 +413,17 @@ is separately ported as `GroupTheory/IndexNSmulFG.lean`. Both ports compile
 at the challenge pin and their public endpoints depend only on `propext`,
 `Classical.choice`, and `Quot.sound`.
 
+For the `X₁(18)` lane, two further slices are now retained at the same
+immutable commit. `EllipticCurves/X18WeakMordellWeil.lean` stops honestly
+after Step 6: it proves the `x-T` map is a homomorphism, identifies its kernel
+with doubling, and puts its image in the explicit Selmer group. It does not
+import or claim the generic Step-7 finiteness theorem.
+`EllipticCurves/X18SelmerLocal.lean` retains only base change and the
+finite-place local-image cardinality calculation from upstream
+`SelmerGroup.lean`. The remaining class-number, square-class, and
+dyadic-intersection facts for the concrete degree-nine algebra are required
+as kernel-checked X18 certificates downstream.
+
 Together with the local explicit two-descent, these ports now prove rank
 zero and finiteness for the selected `X₀(24)` cubic.  A provenance-marked,
 31-file dependency cone from Stoll's reduction stack has now also been
