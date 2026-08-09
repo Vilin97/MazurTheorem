@@ -202,7 +202,15 @@ theorem orderTwentyFiveBrunaultPolynomial_ne_zero_of_orbit_integral
   obtain ⟨haUnit, hcUnit⟩ :=
     orderTwentyFiveBrunaultPair_threeUnits_of_orbit_integral
       a b c d e ha hb hc hd he hnorm
-  exact orderTwentyFiveBrunaultPolynomial_ne_zero_of_three_units
-    a (-c) haUnit hcUnit
+  obtain ⟨haReduction, -, -, -, -⟩ :=
+    orderTwentyFiveBrunaultOrbit_reductions_ne_zero_of_integral
+      a b c d e ha hb hc hd he hnorm
+  intro hpoly
+  have hred := orderTwentyFiveBrunaultPolynomial_reduction_eq_zero
+    a (-c) haUnit hcUnit hpoly
+  exact orderTwentyFiveBrunaultPolynomial_f3_ne_zero_of_open
+    (orderTwentyFiveRatReduction a)
+    (orderTwentyFiveRatReduction (-c))
+    ⟨haReduction, orderTwentyFiveRatReduction_ne_zero hcUnit⟩ hred
 
 end MazurTorsion.Kubert
