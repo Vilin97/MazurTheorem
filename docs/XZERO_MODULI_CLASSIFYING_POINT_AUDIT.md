@@ -310,7 +310,10 @@ identities compile with a standard-only axiom closure. The companion
 pullback along every scheme morphism and pins the pullback square and both
 pulled-back section identities. It does not assert the stronger identification
 with `Proj` after coefficient extension, for which the exact Mathlib pin has
-no general scalar-extension theorem.
+no general scalar-extension theorem. The clean degree-zero argument in
+`XZeroGammaOneTateProjectiveProper.lean` also identifies the base ring and
+proves the universal family projection proper, again with standard-only
+axioms.
 
 The repository's older projective-cubic API could not supply this family: it
 is restricted to fields and constructs the reduced induced closed subscheme

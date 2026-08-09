@@ -377,6 +377,11 @@ The companion `XZeroGammaOneTateProjectiveBaseChange.lean` is new local
 categorical work: it forms the chosen pullback along an arbitrary scheme
 morphism and pulls back both sections. It does not adapt AINTLIB's stronger
 affine coefficient-`Proj` comparison.
+`XZeroGammaOneTateProjectiveProper.lean` adapts the subsequent clean
+degree-zero/properness prefix of the same `WeierstrassModel.lean` blob. The
+generic homogeneous-quotient surjectivity theorem and evaluation at infinity
+identify the degree-zero ring with the coefficient ring; Mathlib's properness
+of `Proj.toSpecZero` then proves the universal family projection proper.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by

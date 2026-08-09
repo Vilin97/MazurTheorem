@@ -159,7 +159,9 @@ homogeneous-quotient `Proj`, structure-map, infinity-section, and affine-origin
 section prefixes from the two listed elliptic-model sources. Their explicit
 Chris Birkbeck Apache-2.0 headers and exact licensed blobs are preserved in the
 record above. The local proof removes the source transparency-option
-dependency and makes no smoothness, group-law, killed-locus, or moduli claim.
+dependency. A separate local leaf adapts the clean degree-zero and properness
+prefix from the same `WeierstrassModel` blob. These files make no smoothness,
+group-law, killed-locus, or moduli claim.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 
