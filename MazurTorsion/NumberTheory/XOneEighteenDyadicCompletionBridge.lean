@@ -272,6 +272,236 @@ noncomputable def completionQuotientEquiv
 
 end CompletionQuotient
 
+/-! ## The coefficient completion modulo `2⁷` -/
+
+open MazurTorsion.XOneEighteenDyadicLocalImage
+
+/-- The seventh-power quotient at the genuine dyadic prime. -/
+abbrev CoefficientDyadicQuotient :=
+  𝓞 Q.K ⧸ coefficientPrimeTwo.asIdeal ^ 7
+
+theorem coefficientPrimeTwo_pow_seven :
+    coefficientPrimeTwo.asIdeal ^ 7 = Ideal.span {(128 : 𝓞 Q.K)} := by
+  rw [coefficientPrimeTwo_span, Ideal.span_singleton_pow]
+  norm_num
+
+private theorem span_one_twenty_eight_le_comap :
+    Ideal.span {(128 : ℤ)} ≤
+      Ideal.comap (algebraMap ℤ (𝓞 Q.K))
+        (coefficientPrimeTwo.asIdeal ^ 7) := by
+  rw [Ideal.span_singleton_le_iff_mem, Ideal.mem_comap,
+    coefficientPrimeTwo_pow_seven]
+  exact Ideal.subset_span (Set.mem_singleton 128)
+
+/-- The canonical scalar map from `ZMod 128` into the global dyadic
+quotient. -/
+def coefficientBaseMod128 : ZMod 128 →+* CoefficientDyadicQuotient :=
+  (Ideal.quotientMap (coefficientPrimeTwo.asIdeal ^ 7)
+      (algebraMap ℤ (𝓞 Q.K)) span_one_twenty_eight_le_comap).comp
+    ((Int.quotientSpanNatEquivZMod 128).symm :
+      ZMod 128 →+* ℤ ⧸ Ideal.span {(128 : ℤ)})
+
+@[simp] theorem coefficientBaseMod128_intCast (z : ℤ) :
+    coefficientBaseMod128 (z : ZMod 128) =
+      Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)
+        (algebraMap ℤ (𝓞 Q.K) z) := by
+  change
+    (Ideal.quotientMap (coefficientPrimeTwo.asIdeal ^ 7)
+        (algebraMap ℤ (𝓞 Q.K)) span_one_twenty_eight_le_comap)
+      ((Int.quotientSpanNatEquivZMod 128).symm (z : ZMod 128)) = _
+  have hz := congrArg
+    (fun f : ℤ →+* ℤ ⧸ Ideal.span {(128 : ℤ)} ↦ f z)
+    (Int.quotientSpanNatEquivZMod_comp_castRingHom 128)
+  simp only [RingHom.comp_apply] at hz
+  change
+    (Ideal.quotientMap (coefficientPrimeTwo.asIdeal ^ 7)
+        (algebraMap ℤ (𝓞 Q.K)) span_one_twenty_eight_le_comap)
+      ((Int.quotientSpanNatEquivZMod 128).symm
+        ((Int.castRingHom (ZMod 128)) z)) = _
+  calc
+    _ = (Ideal.quotientMap (coefficientPrimeTwo.asIdeal ^ 7)
+          (algebraMap ℤ (𝓞 Q.K)) span_one_twenty_eight_le_comap)
+        (Ideal.Quotient.mk (Ideal.span {(128 : ℤ)}) z) :=
+      congrArg _ hz
+    _ = _ := Ideal.quotientMap_mk
+
+private theorem coefficientBaseMod128_comp_intCast :
+    coefficientBaseMod128.comp (Int.castRingHom (ZMod 128)) =
+      (Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)).comp
+        (algebraMap ℤ (𝓞 Q.K)) := by
+  ext z
+  exact coefficientBaseMod128_intCast z
+
+/-- The image of the coefficient-field generator in the dyadic quotient. -/
+def coefficientTauMod128 : CoefficientDyadicQuotient :=
+  Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7) coefficientInteger
+
+private theorem coefficientInteger_cubic :
+    coefficientInteger ^ 3 - 3 * coefficientInteger - 1 = 0 := by
+  have hmin := minpoly.aeval ℤ coefficientInteger
+  rw [coefficientInteger_minpoly] at hmin
+  simpa only [coefficientPolynomialInt, map_sub, map_pow, aeval_X,
+    map_mul, map_ofNat, map_one] using hmin
+
+theorem coefficientTauMod128_cubic :
+    coefficientTauMod128 ^ 3 - 3 * coefficientTauMod128 - 1 = 0 := by
+  simp only [coefficientTauMod128]
+  rw [← map_pow, ← map_ofNat
+      (Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)) 3,
+    ← map_mul, ← map_one
+      (Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)),
+    ← map_sub, ← map_sub, coefficientInteger_cubic, map_zero]
+
+private theorem cubicPolynomial128_eval₂_coefficientTau :
+    cubicPolynomial128.eval₂ coefficientBaseMod128 coefficientTauMod128 = 0 := by
+  simp only [cubicPolynomial128, eval₂_sub, eval₂_pow, eval₂_X,
+    eval₂_mul, eval₂_ofNat, eval₂_one]
+  exact coefficientTauMod128_cubic
+
+/-- Evaluation of the monogenic cubic order in the global dyadic
+quotient. -/
+def cubicToGlobalDyadic : CubicResidue128 →+* CoefficientDyadicQuotient :=
+  AdjoinRoot.lift coefficientBaseMod128 coefficientTauMod128
+    cubicPolynomial128_eval₂_coefficientTau
+
+@[simp] theorem cubicToGlobalDyadic_root :
+    cubicToGlobalDyadic (AdjoinRoot.root cubicPolynomial128) =
+      coefficientTauMod128 := by
+  exact AdjoinRoot.lift_root cubicPolynomial128_eval₂_coefficientTau
+
+theorem cubicToGlobalDyadic_mk_map_int
+    (p : Polynomial ℤ) :
+    cubicToGlobalDyadic
+        (AdjoinRoot.mk cubicPolynomial128
+          (p.map (Int.castRingHom (ZMod 128)))) =
+      Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)
+        (Polynomial.aeval coefficientInteger p) := by
+  rw [cubicToGlobalDyadic, AdjoinRoot.lift_mk, Polynomial.eval₂_map,
+    coefficientBaseMod128_comp_intCast]
+  exact (Polynomial.hom_eval₂ p
+    (algebraMap ℤ (𝓞 Q.K))
+    (Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7))
+    coefficientInteger).symm
+
+theorem cubicToGlobalDyadic_surjective :
+    Function.Surjective cubicToGlobalDyadic := by
+  intro y
+  obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective y
+  have h81x : (81 : 𝓞 Q.K) * x ∈
+      Algebra.adjoin ℤ {coefficientInteger} :=
+    (mem_conductor_iff.mp coefficient_discriminant_mem_conductor) x
+  obtain ⟨p, hp⟩ :=
+    Algebra.adjoin_mem_exists_aeval ℤ coefficientInteger h81x
+  refine ⟨AdjoinRoot.mk cubicPolynomial128
+    ((C (49 : ℤ) * p).map (Int.castRingHom (ZMod 128))), ?_⟩
+  rw [cubicToGlobalDyadic_mk_map_int]
+  apply Ideal.Quotient.eq.mpr
+  rw [coefficientPrimeTwo_pow_seven, Ideal.mem_span_singleton]
+  refine ⟨31 * x, ?_⟩
+  simp only [aeval_mul, aeval_C, hp]
+  norm_num
+  ring
+
+private theorem cubicPolynomial128_monic' : cubicPolynomial128.Monic := by
+  simp only [cubicPolynomial128]
+  monicity <;> norm_num
+
+private theorem cubicPolynomial128_natDegree' :
+    cubicPolynomial128.natDegree = 3 := by
+  simp only [cubicPolynomial128]
+  compute_degree!
+
+private def cubicResiduePowerBasis : PowerBasis (ZMod 128) CubicResidue128 :=
+  AdjoinRoot.powerBasis' cubicPolynomial128_monic'
+
+theorem cubicResidue128_card : Nat.card CubicResidue128 = 128 ^ 3 := by
+  calc
+    Nat.card CubicResidue128 =
+        Nat.card (Fin cubicResiduePowerBasis.dim →₀ ZMod 128) :=
+      Nat.card_congr cubicResiduePowerBasis.basis.repr.toEquiv
+    _ = 128 ^ 3 := by
+      simp only [cubicResiduePowerBasis, AdjoinRoot.powerBasis'_dim,
+        cubicPolynomial128_natDegree']
+      simp
+
+noncomputable instance cubicResidue128_finite : Finite CubicResidue128 :=
+  Nat.finite_of_card_ne_zero (by rw [cubicResidue128_card]; norm_num)
+
+theorem coefficientDyadicQuotient_card :
+    Nat.card CoefficientDyadicQuotient = 128 ^ 3 := by
+  rw [← Submodule.cardQuot_apply, ← Ideal.absNorm_apply,
+    coefficientPrimeTwo_pow_seven]
+  calc
+    Ideal.absNorm (Ideal.span {(128 : 𝓞 Q.K)}) =
+        128 ^ Module.finrank ℤ (𝓞 Q.K) :=
+      Ideal.absNorm_span_natCast 128
+    _ = 128 ^ 3 := by
+      rw [RingOfIntegers.rank, coefficientPowerBasis.finrank,
+        coefficientPowerBasis_dim]
+
+noncomputable instance coefficientDyadicQuotient_finite :
+    Finite CoefficientDyadicQuotient :=
+  Nat.finite_of_card_ne_zero (by
+    rw [coefficientDyadicQuotient_card]
+    norm_num)
+
+theorem cubicToGlobalDyadic_bijective :
+    Function.Bijective cubicToGlobalDyadic :=
+  (Nat.bijective_iff_surjective_and_card cubicToGlobalDyadic).2
+    ⟨cubicToGlobalDyadic_surjective, by
+      rw [cubicResidue128_card, coefficientDyadicQuotient_card]⟩
+
+/-- The actual seventh-power quotient of the coefficient field is the
+explicit cubic residue ring used by the finite local certificate. -/
+noncomputable def cubicResidue128EquivGlobal :
+    CubicResidue128 ≃+* CoefficientDyadicQuotient :=
+  RingEquiv.ofBijective cubicToGlobalDyadic cubicToGlobalDyadic_bijective
+
+@[simp] theorem cubicResidue128EquivGlobal_root :
+    cubicResidue128EquivGlobal (AdjoinRoot.root cubicPolynomial128) =
+      coefficientTauMod128 := by
+  exact cubicToGlobalDyadic_root
+
+/-- Genuine reduction from the integer ring of the coefficient-field
+completion to the explicit cubic ring modulo `2⁷`. -/
+noncomputable def completionReduction :
+    coefficientPrimeTwo.adicCompletionIntegers Q.K →+* CubicResidue128 :=
+  cubicResidue128EquivGlobal.symm.toRingHom.comp
+    ((completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm.toRingHom.comp
+      (Ideal.Quotient.mk
+        (IsLocalRing.maximalIdeal
+          (coefficientPrimeTwo.adicCompletionIntegers Q.K) ^ 7)))
+
+theorem completionReduction_coefficientInteger :
+    completionReduction
+        (algebraMap (𝓞 Q.K)
+          (coefficientPrimeTwo.adicCompletionIntegers Q.K)
+          coefficientInteger) =
+      AdjoinRoot.root cubicPolynomial128 := by
+  apply cubicResidue128EquivGlobal.injective
+  rw [cubicResidue128EquivGlobal_root]
+  calc
+    cubicResidue128EquivGlobal
+        (completionReduction
+          (algebraMap (𝓞 Q.K)
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K)
+            coefficientInteger)) =
+      (completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm
+        (Ideal.Quotient.mk
+          (IsLocalRing.maximalIdeal
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K) ^ 7)
+          (algebraMap (𝓞 Q.K)
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K)
+            coefficientInteger)) := by
+        change cubicResidue128EquivGlobal
+          (cubicResidue128EquivGlobal.symm _) = _
+        exact RingEquiv.apply_symm_apply _ _
+    _ = Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7)
+        coefficientInteger := by
+      rw [← completionQuotientEquiv_mk]
+      exact RingEquiv.symm_apply_apply _ _
+    _ = coefficientTauMod128 := rfl
+
 end
 
 end MazurTorsion.XOneEighteenDyadicCompletionBridge
