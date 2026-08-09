@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The reviewed finite-flat/fppf cohomology cone is integrated through
+`b3f2189`.  Thirteen new modules prove additive and multiplicative fppf
+effectivity, the actual power-map and Artin--Schreier quotient boundaries,
+constant prime `H¹` bounds, short-exact `H¹` injectivity, and concrete
+five-/eleven-adic multiplicative and closed-fibre rank-zero consumers.  The
+exact owner-context build of the five root consumers passes in 3,411 jobs;
+fifteen representative endpoints use only `propext`, `Classical.choice`, and
+`Quot.sound`.  This still assumes the relevant admissible factors and does not
+construct the Eisenstein quotient's filtration, prove the full
+Oort--Tate/Raynaud classification, construct its Néron model, or discharge the
+Mordell--Weil Kummer hypotheses.  Therefore the FFGS roadmap nodes remain
+open with no new score credit.
+
 The target side of the direct `X_0(49)` route is integrated through
 `3984909`.  `XZeroFortyNineEtaModel` checks the literature eta-coordinate
 change to the already classified elliptic curve, proves its denominator is
@@ -114,8 +127,8 @@ group-law compatibility interface.  The focused 3,225-job build, three public
 endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
 `propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
 coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
-no roadmap credit.  Source accounting for these checkpoints is 991 integrated
-Lean modules / 1,563,540 lines.
+no roadmap credit.  Source accounting for these checkpoints is 1,004 integrated
+Lean modules / 1,569,335 lines.
 
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
