@@ -92,6 +92,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The pointed B1 consumer is integrated at `38199c2`.  At every supplied
+codimension-one point of a smooth proper integral curve, the inverse of a
+private DVR uniformizer has order `-1`, cannot be a global function, and
+therefore gives Tau Ceti's actual finite morphism to `P¹`.  The checked
+finite-map/Čech comparison now proves finite-dimensional genuine Ext-`H¹`
+for every finite-type quasicoherent module; a rational section constructs
+the required codimension-one point and is the modular-cusp-facing consumer.
+The 3,536-job focused build, 3,880-job `Upstream.Geometry` build, and eight
+endpoint axiom audits pass with only `propext`, `Classical.choice`, and
+`Quot.sound`.  The arbitrary unpointed-curve facade remains open, so the
+general B1 node receives no credit.  The former B1 worker is now auditing the
+focused Néron/Mordell--Weil realization boundary while A3 and the local-DVR
+cusp-uniformizer worker continue independently.
+
 Owner integration now retains three reviewed, consumer-backed dependency
 cones at `8350e8c`.  The finite-flat cone constructs represented
 multiplicative `H¹`, identifies `mu_p` with the actual power kernel, descends
