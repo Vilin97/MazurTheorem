@@ -31,8 +31,7 @@ namespace CommGroupScheme.MultiplicativeKummer
 variable (R : Type) [CommRing R]
 
 /-- The additive-to-multiplicative algebra equivalence preserves the standard basis. -/
-@[simp]
-theorem toMultiplicativeAlgEquiv_single (M : Type) [AddCommMonoid M]
+private theorem toMultiplicativeAlgEquiv_single (M : Type) [AddCommMonoid M]
     (m : M) (r : R) :
     AddMonoidAlgebra.toMultiplicativeAlgEquiv (R := R) R M
         (AddMonoidAlgebra.single m r) =
@@ -44,13 +43,12 @@ theorem toMultiplicativeAlgEquiv_single (M : Type) [AddCommMonoid M]
 
 /-- The coordinate algebra map sending the Laurent generator to the standard cyclic
 group-algebra generator. -/
-noncomputable def muToMultiplicativeAlgHom (n : ℕ) :
+private noncomputable def muToMultiplicativeAlgHom (n : ℕ) :
     R[T;T⁻¹] →ₐ[R] MonoidAlgebra R (Multiplicative (ZMod n)) :=
   (AddMonoidAlgebra.toMultiplicativeAlgEquiv (R := R) R (ZMod n)).toAlgHom.comp
     (AddMonoidAlgebra.mapDomainAlgHom R R (Int.castAddHom (ZMod n)))
 
-@[simp]
-theorem muToMultiplicativeAlgHom_T (n : ℕ) (k : ℤ) :
+private theorem muToMultiplicativeAlgHom_T (n : ℕ) (k : ℤ) :
     muToMultiplicativeAlgHom R n (LaurentPolynomial.T k) =
       MonoidAlgebra.single (Multiplicative.ofAdd (k : ZMod n)) 1 := by
   simp only [muToMultiplicativeAlgHom, AlgHom.comp_apply,
@@ -129,7 +127,7 @@ noncomputable def muInclusion (n : ℕ) [NeZero n] :
 
 /-- Mapping an affine geometric point is contravariant composition with the corresponding
 Hopf-coordinate map. -/
-theorem pointToAlgHom_map_realizationFunctor
+private theorem pointToAlgHom_map_realizationFunctor
     {G H : AffineCommGroupScheme R} (f : G ⟶ H)
     (B : Type) [CommRing B] [Algebra R B]
     (x : G.Point B) :
@@ -148,7 +146,7 @@ theorem pointToAlgHom_map_realizationFunctor
 
 /-- The coordinate algebra map of a `mu_n` point, with the concrete cyclic group algebra
 exposed despite the finite-free wrapper. -/
-def muPointToConcreteAlgHom
+private def muPointToConcreteAlgHom
     (n : ℕ) [NeZero n]
     (B : Type) [CommRing B] [Algebra R B]
     (x : (FiniteFlatCommGroupScheme.mu R n).obj.Point B) :
@@ -157,7 +155,7 @@ def muPointToConcreteAlgHom
   exact (FiniteFlatCommGroupScheme.mu R n).obj.pointToAlgHom B x
 
 /-- A concrete cyclic coordinate map gives the corresponding geometric `mu_n` point. -/
-def muPointOfConcreteAlgHom
+private def muPointOfConcreteAlgHom
     (n : ℕ) [NeZero n]
     (B : Type) [CommRing B] [Algebra R B]
     (f : MonoidAlgebra R (Multiplicative (ZMod n)) →ₐ[R] B) :
@@ -166,8 +164,7 @@ def muPointOfConcreteAlgHom
   change MonoidAlgebra R (Multiplicative (ZMod n)) →ₐ[R] B
   exact f
 
-@[simp]
-theorem muPointToConcreteAlgHom_pointOfConcreteAlgHom
+private theorem muPointToConcreteAlgHom_pointOfConcreteAlgHom
     (n : ℕ) [NeZero n]
     (B : Type) [CommRing B] [Algebra R B]
     (f : MonoidAlgebra R (Multiplicative (ZMod n)) →ₐ[R] B) :
@@ -180,8 +177,7 @@ theorem muPointToConcreteAlgHom_pointOfConcreteAlgHom
 
 /-- On affine points, the Hopf-coordinate inclusion is the ordinary inclusion of roots of
 unity into the unit group. -/
-@[simp]
-theorem multiplicativePointMulEquiv_mapPoint_muInclusion
+private theorem multiplicativePointMulEquiv_mapPoint_muInclusion
     (n : ℕ) [NeZero n]
     (B : Type) [CommRing B] [Algebra R B]
     (x : (FiniteFlatCommGroupScheme.mu R n).obj.Point B) :
