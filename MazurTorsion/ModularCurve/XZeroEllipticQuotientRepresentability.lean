@@ -536,7 +536,8 @@ noncomputable instance concreteScheme_diagonal_isAffine
     (x : RationalDatum ℚ N)
     [GrpObj (toOver x.curve)] :
     IsAffineHom (pullback.diagonal (terminal.from (E x).X.left)) := by
-  infer_instance
+  change IsAffineHom (pullback.diagonal (terminal.from (scheme x.curve)))
+  exact isAffineHom_diagonal_terminalFrom_of_isAffineHom (inclusion x.curve)
 
 /-- The concrete point-indexed stable affine atlas for the translation action. -/
 noncomputable def quotientAtlas
