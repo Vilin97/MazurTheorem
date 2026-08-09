@@ -172,7 +172,7 @@ theorem KummerPresentation.integralPrincipalProduct_eq_one_of_faithfulJacobi
 orbit-coprime pseudo-unit normalization for which the integral Kummer product
 is reduced to the faithful-prime Jacobi-symbol values displayed explicitly
 in the implication below. -/
-theorem KummerPresentation.exists_orbitCoprime_normalization_reducing_integralProduct_to_faithfulJacobi
+theorem KummerPresentation.exists_orbitCoprime_normalization_reducing_to_faithfulJacobi
     (hp5 : 5 ≤ p) (E : InverseExtension p L)
     (hdiv : ∀ v : FinitePrime K,
       (p : ℤ) ∣ FractionalIdeal.count K v
