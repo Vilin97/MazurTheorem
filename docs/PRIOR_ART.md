@@ -598,12 +598,14 @@ The strongest concrete reuse candidates are:
   [`picRelFunctor`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/Picard/RelativePic.lean#L203).
   The seven-module, 3,507-line transitive cone for these declarations was
   compiled manually against this project's exact Lean and mathlib pin. The
-  option-free monoidal-sheaf foundation and `Scheme.Pic` are now retained as
-  attributed local ports. The relative-Picard portion was not retained because
-  it depends essentially on source-level backward elaborator options forbidden
-  by this repository. The source explicitly
-  defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle,
-  and Abel's isomorphism.
+  option-free monoidal-sheaf foundation, `Scheme.Pic`, general pullback map,
+  and all-degree `picRelFunctor` are now retained as attributed local ports.
+  The option-dependent proof obligations in the latter two files were replaced
+  by explicit mapped-open comparisons and default-budget calculations. A
+  checked downstream theorem proves zero-section normalization natural under
+  the actual functor map. The source explicitly defers fppf sheafification,
+  the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism; the
+  local port does not claim any of those endpoints.
 * [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
   Cech comparison machinery, exact sequences, and
   [`orderedBaseCechHomologyFinite_of_isProper`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149).

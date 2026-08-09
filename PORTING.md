@@ -203,7 +203,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Ninety local Apache-2.0 modules were selected from the AINTLIB
+Ninety-two local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`. The original forty-four-module foundation
@@ -230,6 +230,9 @@ narrow option-free slices in the following table:
 | `ForMathlib/TorsorMap.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/TorsorMap.lean` |
 | `ForMathlib/QuotientTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/QuotientTorsor.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
+| `ForMathlib/PullbackTensorGeneral.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` (option-free pullback/Picard-map slice) |
+| `Picard/InvertibleSheaf.lean` (`sheafifyValIso` only) | moved into `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` |
+| `Picard/RelativePic.lean` (all-degree kernel and functor slice) | `MazurTorsion/Upstream/AINTLIB/Picard/RelativePic.lean` |
 | `ForMathlib/FormalCoproductAdditive.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FormalCoproductAdditive.lean` |
 | `ForMathlib/FiniteHomologySequence.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FiniteHomologySequence.lean` |
 | `ForMathlib/BaseChangeKerCoker.lean` (only `Module.Finite.of_exact_of_finite`) | moved into `FiniteHomologySequence.lean` |
@@ -380,6 +383,23 @@ internal import, removing source-level `set_option` commands, replacing
 linter-reported goal conversions with `change`, explicitly omitting unused
 section variables, and using `erw` at one semireducible sheaf-map rewrite
 required by the immutable Mathlib pin.
+
+The relative-Picard extension selectively retains the general pullback--tensor
+construction, the induced contravariant `Pic.map`, and AINTLIB's all-degree
+zero-section kernel model. Its exact source blobs are
+`2109baa39323f36fa3496a779469fabd9b8db14f`
+(`ForMathlib/PullbackTensorGeneral.lean`),
+`397f7dcbcf1c8473aff0caf1fe034e93497dee85`
+(`Picard/InvertibleSheaf.lean`), and
+`c4d7416f79f23934e4b60db3bcbf365fb327b6a3`
+(`Picard/RelativePic.lean`). All three carry Chris Birkbeck's Apache-2.0
+header. The port removes backward-elaboration and linter-suppression options,
+omits the unused monoidal closure, makes the mapped fiber-product inclusions
+explicit, and splits the free-Yoneda tensor calculation to fit the project's
+default proof budget. A project-owned theorem proves zero-section
+normalization natural under base change and is consumed through
+`picRelFunctor`. This extension makes no claim about fppf sheafification,
+degree zero, representability, a Poincare bundle, or Abel's isomorphism.
 
 The sheaf-Cech foundation removes the source import of
 `AcyclicAffineOpenCover` from `SheafCechCochains` and omits that file's affine
