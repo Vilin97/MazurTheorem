@@ -491,6 +491,15 @@ attribution.  The public endpoint proves that both triples lie on an elliptic
 curve and cannot vanish simultaneously over field-valued nonsingular inputs;
 it still makes no scheme-morphism or group-object claim.
 
+`ForMathlib/AffineGeometricOrbit.lean`, local blob
+`ceb746d32b33fb751c59a9950b9e7517a5033c1b`, is a one-declaration slice of
+AINTLIB `Moduli/GammaHRepresentability.lean`, exact source blob
+`dcd6e523ba797116398a1566ffa596f0e412e8e8` at the licensed default commit.
+Its explicit AINTLIB-contributors Apache-2.0 header is retained.  The theorem
+says that two algebra maps to an algebraically closed field which agree on
+all invariants differ by the finite group action.  No `GammaH` moduli cone,
+option wrapper, or conditional representability theorem is imported.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module

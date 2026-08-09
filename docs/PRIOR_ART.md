@@ -612,6 +612,12 @@ already supplied `NIsogModuli` record and does not construct that record.
 Thus none of these names supplies the checked rational `Y₀(N)` classifying
 map needed by the direct order-49 consumer.
 
+The exact geometric-orbit lemma needed for a new direct affine quotient has
+nevertheless been isolated cleanly: over an algebraically closed field, two
+algebra maps agreeing on every invariant differ by a finite-group translate.
+This checks the future quotient's geometric-fibre semantics; it does not by
+itself construct the `Y₁(N)` units action or a rational `Y₀(N)` point.
+
 The central gates remain open. `NIsogeny.lean` leaves the quotient's
 smoothness, properness, Weierstrass structure, finiteness, flatness, degree,
 and Gamma-zero classifying space as proof holes. `WeilPairing/Basic.lean`

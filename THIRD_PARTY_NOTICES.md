@@ -203,6 +203,14 @@ licensed default commit and carry the AINTLIB Apache-2.0 attribution.  The
 local endpoint is field-valued algebraic coverage only; scheme gluing remains
 downstream.
 
+`AffineGeometricOrbit.lean` retains only
+`AlgebraicGeometry.exists_smul_algHom_eq` from AINTLIB
+`Moduli/GammaHRepresentability.lean`, exact blob
+`dcd6e523ba797116398a1566ffa596f0e412e8e8`, at the licensed default commit.
+The source's explicit AINTLIB-contributors Apache-2.0 header is retained.  It
+imports only Mathlib invariant theory and algebraic-closure basics; none of
+the source file's option-dependent or unfinished moduli cone is included.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or
