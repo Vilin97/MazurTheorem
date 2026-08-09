@@ -635,4 +635,63 @@ theorem
     (ambientResidue_surjective_of_section p g (C.fiberPrime p)
       (C.atFiberPoint p))
 
+/-- An explicitly computed nonzero linear q-coefficient proves formal
+immersion at a structural cusp with DVR local ring.
+
+The structural section supplies both residue-field surjections, while the
+DVR uniformizer supplies the one-dimensional source cotangent space.  The
+only quotient-side calculation is the displayed completed expansion and its
+computed degree-one coefficient. -/
+theorem
+    isFormalImmersionAtSpecMap_of_explicit_qExpansion_of_structuralSection_dvr
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T)
+    (C : AffineStructuralSection (R := R) (T := T))
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    [IsDomain (Localization.AtPrime (C.fiberPrime p))]
+    [IsDiscreteValuationRing
+      (Localization.AtPrime (C.fiberPrime p))]
+    (qParameter : Localization.AtPrime (C.fiberPrime p))
+    (hqParameter : Irreducible qParameter)
+    (sourceParameter : Localization.AtPrime
+      ((C.fiberPrime p).comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime ((C.fiberPrime p).comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring
+          (Localization.AtPrime (C.fiberPrime p)) ≃+*
+        PowerSeries
+          (IsLocalRing.ResidueField
+            (Localization.AtPrime (C.fiberPrime p))))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p))))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom
+            (Localization.AtPrime (C.fiberPrime p))
+            (localizedMap p g (C.fiberPrime p) sourceParameter)) = Q)
+    (hcoeff : PowerSeries.coeff 1 Q ≠ 0) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p (C.fiberPrime p)) := by
+  have hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map
+        (ambientLocalizedMap p g (C.fiberPrime p))) :=
+    ambientResidue_surjective_of_section p g (C.fiberPrime p)
+      (C.atFiberPoint p)
+  have hresidueFiber : Function.Surjective
+      (IsLocalRing.ResidueField.map
+        (localizedRingMap p g (C.fiberPrime p))) :=
+    localizedResidueFieldMap_surjective_of_ambient p g (C.fiberPrime p)
+      hresidueAmbient
+  obtain ⟨detectedVector, hdetected⟩ :=
+    exists_detectedVector_of_qExpansion_coeff_one_ne_zero p g
+      (C.fiberPrime p) sourceParameter hsourceMem qCoordinate Q hqExpansion
+      hcoeff
+  exact isFormalImmersionAtSpecMap_of_qParameter p g (C.fiberPrime p)
+    hresidueFiber qParameter hqParameter.maximalIdeal_eq
+    (irreducible_not_mem_maximalIdeal_sq hqParameter) detectedVector hdetected
+    hresidueAmbient
+
 end MazurTorsion.ModularCurve.AffineCuspQExpansion
