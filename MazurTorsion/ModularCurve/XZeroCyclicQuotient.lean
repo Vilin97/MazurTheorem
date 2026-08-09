@@ -103,6 +103,42 @@ theorem dualMap_ker (C : RationalCyclicSubgroup A N) :
   exact QuotientAddGroup.ker_lift
     (N := C.carrier) (nsmulAddMonoidHom N) C.carrier_le_nsmul_ker
 
+/-- Modulo the intrinsic subgroup of order `d`, a generator of a cyclic
+subgroup of order `N` has exact order `N / d`.
+
+The upper bound follows because `(N / d) • C.generator` generates the
+divisor subgroup.  For the reverse divisibility, the descended dual map
+sends the quotient class to `d • C.generator`, which already has order
+`N / d`. -/
+theorem addOrderOf_divisorSubgroup_quotientMap_generator
+    (C : RationalCyclicSubgroup A N)
+    (d : ℕ) [NeZero d] (hd : d ∣ N) :
+    addOrderOf
+        ((C.divisorSubgroup d hd).quotientMap (C.generator : A)) =
+      N / d := by
+  let D := C.divisorSubgroup d hd
+  let P : A := C.generator
+  have hupper : addOrderOf (D.quotientMap P) ∣ N / d := by
+    rw [addOrderOf_dvd_iff_nsmul_eq_zero]
+    rw [← map_nsmul]
+    apply AddMonoidHom.mem_ker.mp
+    rw [D.quotientMap_ker]
+    change (N / d) • P ∈ (C.divisorSubgroup d hd).carrier
+    rw [C.divisorSubgroup_generator_carrier d hd]
+    exact AddSubgroup.mem_zmultiples_iff.mpr ⟨1, by simp [P]⟩
+  have hdOrder : d ∣ addOrderOf P := by
+    simpa only [P, C.addOrderOf_generator] using hd
+  have hscaledOrder : addOrderOf (d • P) = N / d := by
+    calc
+      addOrderOf (d • P) = addOrderOf P / d :=
+        addOrderOf_nsmul_of_dvd (NeZero.ne d) hdOrder
+      _ = N / d := by
+        rw [show P = (C.generator : A) by rfl, C.addOrderOf_generator]
+  have hlower : N / d ∣ addOrderOf (D.quotientMap P) := by
+    rw [← hscaledOrder, ← D.dualMap_mk P]
+    exact addOrderOf_map_dvd D.dualMap (D.quotientMap P)
+  exact Nat.dvd_antisymm hupper hlower
+
 /-- Transport the point-group quotient along an isomorphism of ambient point
 groups. -/
 def mapPointQuotient (C : RationalCyclicSubgroup A N)
