@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.XOneThirteenPositivePell
+import MazurTorsion.NumberTheory.XOneThirteenCoprimePowerAllocation
 
 /-!
 # Global power splitting of the positive `X₁(13)` Pell factors
@@ -168,77 +168,38 @@ theorem positive_pell_factor_power_split
       positivePellFactor a b c = 2 * r ^ 38 ∧
       negativePellFactorMagnitude a b c = 2 * s ^ 38 ∧
       b = r * s := by
-  let u : ℤ := positivePellFactor a b c / 2
-  let v : ℤ := negativePellFactorMagnitude a b c / 2
   have heven := positive_pell_factors_even a b c hab hcurve
-  have huScale : 2 * u = positivePellFactor a b c := by
-    exact Int.two_mul_ediv_two_of_even heven.1
-  have hvScale : 2 * v = negativePellFactorMagnitude a b c := by
-    exact Int.two_mul_ediv_two_of_even heven.2
-  have huPos : 0 < u :=
-    Int.ediv_pos_of_pos_of_dvd hplus (by norm_num)
-      (even_iff_two_dvd.mp heven.1)
-  have hvPos : 0 < v :=
-    Int.ediv_pos_of_pos_of_dvd hminus (by norm_num)
-      (even_iff_two_dvd.mp heven.2)
-  have huv : u * v = b ^ 38 := by
-    apply Int.eq_of_mul_eq_mul_left (by norm_num : (4 : ℤ) ≠ 0)
-    calc
-      4 * (u * v) = (2 * u) * (2 * v) := by ring
-      _ = positivePellFactor a b c *
-          negativePellFactorMagnitude a b c := by rw [huScale, hvScale]
-      _ = 4 * b ^ 38 := positive_pell_factorization a b c hcurve
-  have hcopInt : IsCoprime u v := by
-    exact positive_pell_half_factors_isCoprime a b c hab hcurve
-  have hcopNat : u.natAbs.Coprime v.natAbs :=
-    Int.isCoprime_iff_nat_coprime.mp hcopInt
-  have huvNat : u.natAbs * v.natAbs = b.natAbs ^ 38 := by
-    simpa only [Int.natAbs_mul, Int.natAbs_pow] using congrArg Int.natAbs huv
-  have hunitGcd : IsUnit (GCDMonoid.gcd u.natAbs v.natAbs) := by
-    rw [show GCDMonoid.gcd u.natAbs v.natAbs = 1 from hcopNat.gcd_eq_one]
-    exact isUnit_one
-  obtain ⟨r, hr⟩ := exists_eq_pow_of_mul_eq_pow hunitGcd huvNat
-  have hunitGcd' : IsUnit (GCDMonoid.gcd v.natAbs u.natAbs) := by
-    rw [gcd_comm, show GCDMonoid.gcd u.natAbs v.natAbs = 1 from hcopNat.gcd_eq_one]
-    exact isUnit_one
-  obtain ⟨s, hs⟩ :=
-    exists_eq_pow_of_mul_eq_pow hunitGcd' (mul_comm v.natAbs u.natAbs ▸ huvNat)
-  have hrPos : 0 < r := by
-    by_contra hrZero
-    have : r = 0 := Nat.eq_zero_of_not_pos hrZero
-    rw [this, zero_pow (by norm_num : (38 : ℕ) ≠ 0)] at hr
-    exact (Int.natAbs_ne_zero.mpr (ne_of_gt huPos)) hr
-  have hsPos : 0 < s := by
-    by_contra hsZero
-    have : s = 0 := Nat.eq_zero_of_not_pos hsZero
-    rw [this, zero_pow (by norm_num : (38 : ℕ) ≠ 0)] at hs
-    exact (Int.natAbs_ne_zero.mpr (ne_of_gt hvPos)) hs
-  have hrsNat : r.Coprime s := by
-    have hpowers : (r ^ 38).Coprime (s ^ 38) := by
-      simpa only [← hr, ← hs] using hcopNat
-    have hleft : r.Coprime (s ^ 38) :=
-      (Nat.coprime_pow_left_iff (by norm_num : 0 < 38) r (s ^ 38)).mp
-        hpowers
-    exact (Nat.coprime_pow_right_iff (by norm_num : 0 < 38) r s).mp hleft
-  have hrs : IsCoprime (r : ℤ) (s : ℤ) := by
-    apply Int.isCoprime_iff_nat_coprime.mpr
-    simpa using hrsNat
-  have hrsEq : r * s = b.natAbs := by
-    apply Nat.pow_left_injective (by norm_num : (38 : ℕ) ≠ 0)
-    change (r * s) ^ 38 = b.natAbs ^ 38
-    rw [mul_pow, ← hr, ← hs, huvNat]
-  refine ⟨r, s, by exact_mod_cast hrPos, by exact_mod_cast hsPos, hrs, ?_, ?_, ?_⟩
-  · rw [← huScale]
-    have huCast : (u.natAbs : ℤ) = u := Int.natAbs_of_nonneg huPos.le
-    rw [← huCast, hr]
-    norm_num
-  · rw [← hvScale]
-    have hvCast : (v.natAbs : ℤ) = v := Int.natAbs_of_nonneg hvPos.le
-    rw [← hvCast, hs]
-    norm_num
-  · have hbCast : (b.natAbs : ℤ) = b := Int.natAbs_of_nonneg hb.le
-    rw [← hbCast, ← hrsEq]
-    norm_num
+  have hhalfCoprime :=
+    positive_pell_half_factors_isCoprime a b c hab hcurve
+  apply thirtyEightPower_factor_allocation
+    (positivePellFactor a b c) (negativePellFactorMagnitude a b c) b
+    hplus hminus hb heven.1 heven.2
+    (positive_pell_factorization a b c hcurve)
+  · intro p hp hpOdd
+    apply odd_prime_not_common_pell_factor
+      a b c p hab (Nat.prime_iff_prime_int.mp hp)
+    · intro hpTwo
+      have hpTwoNat : p ∣ 2 := by exact_mod_cast hpTwo
+      rcases (Nat.dvd_prime Nat.prime_two).mp hpTwoNat with hpOne | rfl
+      · exact hp.ne_one hpOne
+      · exact Nat.not_even_iff_odd.mpr hpOdd (by decide)
+    · exact hcurve
+  · rintro ⟨hfourPlus, hfourMinus⟩
+    have htwoPlus : (2 : ℤ) ∣ positivePellFactor a b c / 2 := by
+      rcases hfourPlus with ⟨k, hk⟩
+      refine ⟨k, ?_⟩
+      apply Int.eq_of_mul_eq_mul_left (by norm_num : (2 : ℤ) ≠ 0)
+      rw [Int.two_mul_ediv_two_of_even heven.1, hk]
+      ring
+    have htwoMinus : (2 : ℤ) ∣
+        negativePellFactorMagnitude a b c / 2 := by
+      rcases hfourMinus with ⟨k, hk⟩
+      refine ⟨k, ?_⟩
+      apply Int.eq_of_mul_eq_mul_left (by norm_num : (2 : ℤ) ≠ 0)
+      rw [Int.two_mul_ediv_two_of_even heven.2, hk]
+      ring
+    exact Int.prime_two.not_unit
+      (hhalfCoprime.isUnit_of_dvd' htwoPlus htwoMinus)
 
 /-- The remaining arithmetic after global Pell factor splitting.  It is the
 fixed two-equation thirty-eighth-power cover, not the earlier collection of
