@@ -4,9 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, OpenAI
 -/
 
+import EllipticCurves.X18SelmerLocal
+import MazurTorsion.NumberTheory.XOneEighteenDyadicGeneratorCertificate
 import MazurTorsion.NumberTheory.XOneEighteenDyadicLocalImage
 import MazurTorsion.NumberTheory.XOneEighteenMinimalTwoDescentModel
+import MazurTorsion.NumberTheory.XOneEighteenTwoDivisionIntegralElements
 import MazurTorsion.NumberTheory.XOneEighteenTwoDivisionSmallPrimes
+import MazurTorsion.NumberTheory.XOneEighteenTwoDivisionTriadicLift
 
 /-!
 # The dyadic completion behind the `X₁(18)` local certificate
@@ -25,7 +29,8 @@ of the two-division cubic, and treat both integral and nonintegral local
 points.
 -/
 
-open Polynomial IsDedekindDomain WithZero
+open Polynomial IsDedekindDomain WithZero WeierstrassCurve
+open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.XOneEighteenDyadicCompletionBridge
 
@@ -37,6 +42,10 @@ open MazurTorsion.XOneEighteenTwoDivisionArithmetic
 open MazurTorsion.XOneEighteenTwoDivisionSmallPrimes
 open MazurTorsion.XOneEighteenQuotientTwoDescentModel
 open MazurTorsion.XOneEighteenMinimalTwoDescentModel
+open MazurTorsion.XOneEighteenTwoDivisionIntegralElements
+open MazurTorsion.XOneEighteenTwoDivisionIntegralModel
+open MazurTorsion.XOneEighteenTwoDivisionSmallDiscriminant
+open MazurTorsion.XOneEighteenTwoDivisionTriadicLift
 
 private instance : Fact (Nat.Prime 2) := ⟨by norm_num⟩
 
@@ -1099,6 +1108,12 @@ private theorem coefficientCompletion_four_ne_zero :
     (_root_.map_ne_zero (algebraMap Q.K CoefficientCompletion)).mpr
       (by norm_num : (4 : Q.K) ≠ 0)
 
+private theorem coefficientCompletion_natCast_ne_zero
+    {n : ℕ} (hn : n ≠ 0) : (n : CoefficientCompletion) ≠ 0 := by
+  simpa only [map_natCast] using
+    (_root_.map_ne_zero (algebraMap Q.K CoefficientCompletion)).mpr
+      (Nat.cast_ne_zero.mpr hn : (n : Q.K) ≠ 0)
+
 private theorem field_isSquare_of_integer_isSquare
     (x : CoefficientCompletionIntegers) (hx : IsSquare x) :
     IsSquare (x : CoefficientCompletion) := by
@@ -1408,25 +1423,6 @@ the selected local two-torsion abscissa. -/
     localProjectedDescentRoot]
   ring
 
-private theorem localProjectedDescentRoot_scaled_cubic :
-    4 * localProjectedDescentRoot ^ 3 -
-        3 * localProjectedDescentRoot ^ 2 +
-      102 * localProjectedDescentRoot + 5 = 0 := by
-  let z : CoefficientCompletion :=
-    3 * (localTwoDivisionRoot : CoefficientCompletion) ^ 2 -
-      6 * localTwoDivisionRoot - 5
-  have hz : z ^ 3 - 3 * z ^ 2 + 408 * z + 80 = 0 := by
-    dsimp only [z]
-    linear_combination
-      (27 * (localTwoDivisionRoot : CoefficientCompletion) ^ 3 -
-          162 * localTwoDivisionRoot ^ 2 +
-          243 * localTwoDivisionRoot + 216) *
-        localTwoDivisionRoot_cubic_field
-  change 4 * (z / 4) ^ 3 - 3 * (z / 4) ^ 2 +
-      102 * (z / 4) + 5 = 0
-  field_simp [coefficientCompletion_four_ne_zero]
-  linear_combination hz
-
 /-- The projected element is a root of the completed rational descent
 cubic over the coefficient completion. -/
 theorem localProjectedDescentRoot_isRoot :
@@ -1434,9 +1430,16 @@ theorem localProjectedDescentRoot_isRoot :
         (3 / 4 : CoefficientCompletion) * localProjectedDescentRoot ^ 2 +
       (51 / 2 : CoefficientCompletion) * localProjectedDescentRoot +
         (5 / 4 : CoefficientCompletion) = 0 := by
-  field_simp [coefficientCompletion_two_ne_zero,
-    coefficientCompletion_four_ne_zero]
-  linear_combination 2 * localProjectedDescentRoot_scaled_cubic
+  have hroot := descentRootInM_isRoot
+  rw [Polynomial.IsRoot, descentCurve_f,
+    Polynomial.eval_map_algebraMap] at hroot
+  simp only [aeval_add, aeval_sub, aeval_mul, map_pow, aeval_X,
+    aeval_C] at hroot
+  have hlocal := congrArg localRelativeProjection hroot
+  have hlocal' := hlocal.trans (map_zero localRelativeProjection)
+  simpa only [map_sub, map_add, map_mul, map_pow, map_div₀, map_one,
+    map_ofNat, AlgHom.commutes,
+    localRelativeProjection_descentRootInM] using hlocal'
 
 private theorem localNormalizedA_eq_projectedRoot :
     (localNormalizedA : CoefficientCompletion) =
@@ -1561,6 +1564,405 @@ descent algebra to the minimal descent algebra. -/
   simp only [minimalDescentRootInM, map_div₀, map_sub,
     map_ofNat, AlgHom.commutes, localRelativeProjection_descentRootInM,
     localProjectedMinimalRoot]
+
+/-! ## The selected factor of the base-changed minimal descent algebra -/
+
+/-- The minimal descent curve after base change to the selected dyadic
+coefficient completion. -/
+abbrev LocalMinimalDescentCurve :=
+  (minimalDescentCurve⁄CoefficientCompletion).toAffine
+
+private theorem localProjectedMinimalRoot_isRoot :
+    LocalMinimalDescentCurve.f.IsRoot localProjectedMinimalRoot := by
+  have hglobal : Polynomial.aeval minimalDescentRootInM
+      minimalDescentCurve.toAffine.f = 0 := by
+    rw [← Polynomial.eval_map_algebraMap]
+    exact minimalDescentRootInM_isRoot
+  have hlocal := congrArg localRelativeProjection hglobal
+  have haeval : Polynomial.aeval localProjectedMinimalRoot
+      minimalDescentCurve.toAffine.f = 0 := by
+    rw [← localRelativeProjection_minimalDescentRootInM]
+    rw [Polynomial.aeval_algHom_apply]
+    exact hlocal.trans (map_zero localRelativeProjection)
+  rw [Polynomial.IsRoot]
+  rw [minimalDescentCurve.toAffine.baseChange_f,
+    Polynomial.eval_map_algebraMap]
+  exact haeval
+
+/-- Evaluation at the selected minimal root is the actual factor
+projection of the base-changed generic descent algebra. -/
+noncomputable def localMinimalProjection :
+    LocalMinimalDescentCurve.A →ₐ[CoefficientCompletion]
+      CoefficientCompletion :=
+  AdjoinRoot.liftAlgHom LocalMinimalDescentCurve.f
+    (Algebra.ofId CoefficientCompletion CoefficientCompletion)
+    localProjectedMinimalRoot (by
+      rw [Algebra.toRingHom_ofId, ← aeval_def]
+      exact localProjectedMinimalRoot_isRoot)
+
+@[simp] theorem localMinimalProjection_genericRoot :
+    localMinimalProjection
+        (AdjoinRoot.root LocalMinimalDescentCurve.f) =
+      localProjectedMinimalRoot := by
+  exact AdjoinRoot.liftAlgHom_root LocalMinimalDescentCurve.f _ _ _
+
+/-- Base change followed by the selected local factor agrees with the
+global compositum equivalence followed by `localRelativeProjection`. -/
+theorem localMinimalProjection_comp_mapA :
+    localMinimalProjection.toRingHom.comp
+        (minimalDescentCurve.toAffine.mapA CoefficientCompletion) =
+      localRelativeProjection.toRingHom.comp
+        minimalDescentAlgebraEquiv.toRingHom := by
+  apply AdjoinRoot.ringHom_ext
+  · apply DFunLike.ext _ _
+    intro x
+    change localMinimalProjection
+        (minimalDescentCurve.toAffine.mapA CoefficientCompletion
+          ((AdjoinRoot.of minimalDescentCurve.toAffine.f) x)) =
+      localRelativeProjection
+        (minimalDescentAlgebraEquiv
+          ((AdjoinRoot.of minimalDescentCurve.toAffine.f) x))
+    simp only [WeierstrassCurve.Affine.mapA, AdjoinRoot.map_of]
+    rw [← AdjoinRoot.algebraMap_eq,
+      localMinimalProjection.commutes,
+      ← AdjoinRoot.algebraMap_eq,
+      minimalDescentAlgebraEquiv.commutes,
+      localRelativeProjection.commutes]
+    simp only [Algebra.algebraMap_self, RingHom.id_apply]
+  · change localMinimalProjection
+        (minimalDescentCurve.toAffine.mapA CoefficientCompletion
+          minimalGenericRoot) =
+      localRelativeProjection
+        (minimalDescentAlgebraEquiv minimalGenericRoot)
+    rw [minimalDescentAlgebraEquiv_genericRoot,
+      localRelativeProjection_minimalDescentRootInM]
+    simp [minimalGenericRoot, WeierstrassCurve.Affine.mapA]
+
+/-! ## The local image of the minimal descent map -/
+
+private theorem localTau_cubic :
+    (algebraMap Q.K CoefficientCompletion Q.tau) ^ 3 -
+        3 * algebraMap Q.K CoefficientCompletion Q.tau - 1 = 0 := by
+  have h := congrArg (algebraMap Q.K CoefficientCompletion) Q.tau_cubic
+  simp only [map_pow, map_add, map_mul, map_ofNat, map_one] at h
+  linear_combination h
+
+private theorem localMinimalDescentCurve_a₂ :
+    LocalMinimalDescentCurve.a₂ =
+      algebraMap Q.K CoefficientCompletion
+        (Q.tau ^ 2 + Q.tau - (11 : Q.K) / 4) := by
+  change algebraMap Q.K CoefficientCompletion minimalDescentCurve.a₂ = _
+  rw [minimalDescentCurve_eq]
+
+private theorem localMinimalDescentCurve_a₄ :
+    LocalMinimalDescentCurve.a₄ =
+      algebraMap Q.K CoefficientCompletion
+        ((-Q.tau ^ 2 + Q.tau + 7) / 2) := by
+  change algebraMap Q.K CoefficientCompletion minimalDescentCurve.a₄ = _
+  rw [minimalDescentCurve_eq]
+
+private theorem localProjectedDescentRoot_eq_minimal :
+    localProjectedDescentRoot =
+      9 * localProjectedMinimalRoot +
+        algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation := by
+  dsimp only [localProjectedMinimalRoot]
+  have h9 : (9 : CoefficientCompletion) ≠ 0 :=
+    coefficientCompletion_natCast_ne_zero (by norm_num)
+  rw [div_eq_mul_inv]
+  symm
+  calc
+    9 * ((localProjectedDescentRoot -
+          algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation) *
+          (9 : CoefficientCompletion)⁻¹) +
+        algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation =
+      (localProjectedDescentRoot -
+          algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation) *
+          ((9 : CoefficientCompletion)⁻¹ * 9) +
+        algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation := by
+          ring
+    _ = localProjectedDescentRoot -
+          algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation +
+        algebraMap Q.K CoefficientCompletion rationalAbscissaTranslation := by
+          rw [inv_mul_cancel₀ h9, mul_one]
+    _ = localProjectedDescentRoot := by ring
+
+private theorem localNormalizedA_eq_minimalDerivativeCoefficient :
+    (localNormalizedA : CoefficientCompletion) =
+      36 * (3 * localProjectedMinimalRoot +
+        LocalMinimalDescentCurve.a₂) := by
+  rw [localNormalizedA_eq_projectedRoot,
+    localProjectedDescentRoot_eq_minimal,
+    localMinimalDescentCurve_a₂]
+  simp only [rationalAbscissaTranslation, map_add, map_sub, map_mul,
+    map_pow, map_ofNat, map_div₀]
+  field_simp [coefficientCompletion_four_ne_zero]
+  ring
+
+private theorem localNormalizedB_eq_minimalDerivative :
+    (localNormalizedB : CoefficientCompletion) =
+      1296 * (3 * localProjectedMinimalRoot ^ 2 +
+        2 * LocalMinimalDescentCurve.a₂ * localProjectedMinimalRoot +
+        LocalMinimalDescentCurve.a₄) := by
+  rw [localNormalizedB_eq_projectedDerivative,
+    localProjectedDescentRoot_eq_minimal,
+    localMinimalDescentCurve_a₂,
+    localMinimalDescentCurve_a₄]
+  simp only [rationalAbscissaTranslation, map_add, map_sub, map_mul,
+    map_pow, map_neg, map_ofNat, map_div₀]
+  field_simp [coefficientCompletion_two_ne_zero,
+    coefficientCompletion_four_ne_zero]
+  linear_combination
+    3456 * (algebraMap Q.K CoefficientCompletion Q.tau + 2) *
+      localTau_cubic
+
+private theorem localMinimalDerivative_isSquare :
+    IsSquare (3 * localProjectedMinimalRoot ^ 2 +
+      2 * LocalMinimalDescentCurve.a₂ * localProjectedMinimalRoot +
+      LocalMinimalDescentCurve.a₄) := by
+  have hB : IsSquare (localNormalizedB : CoefficientCompletion) :=
+    field_isSquare_of_integer_isSquare localNormalizedB
+      localNormalizedB_isSquare
+  obtain ⟨z, hz⟩ := hB
+  refine ⟨z / 36, ?_⟩
+  calc
+    3 * localProjectedMinimalRoot ^ 2 +
+          2 * LocalMinimalDescentCurve.a₂ * localProjectedMinimalRoot +
+          LocalMinimalDescentCurve.a₄ =
+        (localNormalizedB : CoefficientCompletion) / 1296 := by
+          rw [localNormalizedB_eq_minimalDerivative]
+          have h1296 : (1296 : CoefficientCompletion) ≠ 0 :=
+            coefficientCompletion_natCast_ne_zero (by norm_num)
+          rw [div_eq_mul_inv]
+          symm
+          calc
+            1296 * (3 * localProjectedMinimalRoot ^ 2 +
+                2 * LocalMinimalDescentCurve.a₂ *
+                  localProjectedMinimalRoot +
+                LocalMinimalDescentCurve.a₄) *
+                (1296 : CoefficientCompletion)⁻¹ =
+              (3 * localProjectedMinimalRoot ^ 2 +
+                2 * LocalMinimalDescentCurve.a₂ *
+                  localProjectedMinimalRoot +
+                LocalMinimalDescentCurve.a₄) *
+                ((1296 : CoefficientCompletion) * 1296⁻¹) := by ring
+            _ = 3 * localProjectedMinimalRoot ^ 2 +
+                2 * LocalMinimalDescentCurve.a₂ *
+                  localProjectedMinimalRoot +
+                LocalMinimalDescentCurve.a₄ := by
+              rw [mul_inv_cancel₀ h1296, mul_one]
+    _ = (z * z) / 1296 := by rw [hz]
+    _ = (z / 36) * (z / 36) := by
+      field_simp [coefficientCompletion_natCast_ne_zero
+        (by norm_num : (36 : ℕ) ≠ 0),
+        coefficientCompletion_natCast_ne_zero
+          (by norm_num : (1296 : ℕ) ≠ 0)]
+      ring
+
+/-- Every point of the base-changed minimal descent curve has square
+difference from the selected dyadic two-torsion abscissa. -/
+theorem localMinimal_curve_isSquare
+    (x y : CoefficientCompletion)
+    (hcurve : y ^ 2 = LocalMinimalDescentCurve.f.eval x) :
+    IsSquare (x - localProjectedMinimalRoot) := by
+  have hroot := localProjectedMinimalRoot_isRoot
+  rw [Polynomial.IsRoot, LocalMinimalDescentCurve.eval_f] at hroot
+  have hcurve' : y ^ 2 =
+      x ^ 3 + LocalMinimalDescentCurve.a₂ * x ^ 2 +
+        LocalMinimalDescentCurve.a₄ * x +
+          LocalMinimalDescentCurve.a₆ := by
+    simpa only [LocalMinimalDescentCurve.eval_f] using hcurve
+  let Xn : CoefficientCompletion :=
+    36 * (x - localProjectedMinimalRoot)
+  let Yn : CoefficientCompletion := 216 * y
+  have hnormalized : Yn ^ 2 = Xn *
+      (Xn ^ 2 + (localNormalizedA : CoefficientCompletion) * Xn +
+        localNormalizedB) := by
+    dsimp only [Xn, Yn]
+    rw [localNormalizedA_eq_minimalDerivativeCoefficient,
+      localNormalizedB_eq_minimalDerivative]
+    calc
+      (216 * y) ^ 2 = 46656 * y ^ 2 := by ring
+      _ = 46656 *
+          (x ^ 3 + LocalMinimalDescentCurve.a₂ * x ^ 2 +
+            LocalMinimalDescentCurve.a₄ * x +
+              LocalMinimalDescentCurve.a₆) := by rw [hcurve']
+      _ = 36 * (x - localProjectedMinimalRoot) *
+          ((36 * (x - localProjectedMinimalRoot)) ^ 2 +
+            36 * (3 * localProjectedMinimalRoot +
+              LocalMinimalDescentCurve.a₂) *
+                (36 * (x - localProjectedMinimalRoot)) +
+            1296 * (3 * localProjectedMinimalRoot ^ 2 +
+              2 * LocalMinimalDescentCurve.a₂ *
+                localProjectedMinimalRoot +
+              LocalMinimalDescentCurve.a₄)) := by
+        linear_combination 46656 * hroot
+  obtain ⟨z, hz⟩ :=
+    normalized_local_curve_isSquare Xn Yn hnormalized
+  refine ⟨z / 6, ?_⟩
+  dsimp only [Xn] at hz
+  calc
+    x - localProjectedMinimalRoot =
+        (36 * (x - localProjectedMinimalRoot)) / 36 := by
+          have h36 : (36 : CoefficientCompletion) ≠ 0 :=
+            coefficientCompletion_natCast_ne_zero (by norm_num)
+          rw [div_eq_mul_inv]
+          symm
+          calc
+            36 * (x - localProjectedMinimalRoot) *
+                (36 : CoefficientCompletion)⁻¹ =
+              (x - localProjectedMinimalRoot) *
+                ((36 : CoefficientCompletion) * 36⁻¹) := by ring
+            _ = x - localProjectedMinimalRoot := by
+              rw [mul_inv_cancel₀ h36, mul_one]
+    _ = (z * z) / 36 := by rw [hz]
+    _ = (z / 6) * (z / 6) := by
+      field_simp [coefficientCompletion_natCast_ne_zero
+        (by norm_num : (6 : ℕ) ≠ 0),
+        coefficientCompletion_natCast_ne_zero
+          (by norm_num : (36 : ℕ) ≠ 0)]
+      ring
+
+private theorem localMinimalProjection_mk (p : Polynomial CoefficientCompletion) :
+    localMinimalProjection (AdjoinRoot.mk LocalMinimalDescentCurve.f p) =
+      p.eval localProjectedMinimalRoot := by
+  simp only [localMinimalProjection, AdjoinRoot.liftAlgHom_mk,
+    Algebra.toRingHom_ofId, Algebra.algebraMap_self,
+    Polynomial.eval₂_id]
+
+private theorem localMinimalProjection_sub_genericRoot
+    (x : CoefficientCompletion) :
+    localMinimalProjection
+        (AdjoinRoot.mk LocalMinimalDescentCurve.f (C x - X)) =
+      x - localProjectedMinimalRoot := by
+  rw [localMinimalProjection_mk]
+  simp only [eval_sub, eval_C, eval_X]
+
+private theorem localMinimalProjection_adjusted
+    (x : CoefficientCompletion) :
+    localMinimalProjection
+        (AdjoinRoot.mk LocalMinimalDescentCurve.f
+          (C x - X + LocalMinimalDescentCurve.fCofactor x)) =
+      x - localProjectedMinimalRoot +
+        (LocalMinimalDescentCurve.fCofactor x).eval
+          localProjectedMinimalRoot := by
+  rw [localMinimalProjection_mk]
+  simp only [eval_add, eval_sub, eval_C, eval_X]
+
+private theorem localMinimal_fCofactor_eval_root_eq_zero
+    {x : CoefficientCompletion}
+    (hx : LocalMinimalDescentCurve.f.eval x = 0)
+    (hne : x ≠ localProjectedMinimalRoot) :
+    (LocalMinimalDescentCurve.fCofactor x).eval
+        localProjectedMinimalRoot = 0 := by
+  have hfactor := congrArg (Polynomial.eval localProjectedMinimalRoot)
+    (LocalMinimalDescentCurve.f_eq_mul_of_eval_eq_zero hx)
+  have hrootEval : LocalMinimalDescentCurve.f.eval
+      localProjectedMinimalRoot = 0 := localProjectedMinimalRoot_isRoot
+  rw [hrootEval, eval_mul, eval_sub, eval_X, eval_C] at hfactor
+  exact (mul_eq_zero.mp hfactor.symm).resolve_right
+    (sub_ne_zero.mpr hne.symm)
+
+/-- Square-class projection induced by the selected dyadic factor of the
+base-changed minimal descent algebra. -/
+noncomputable def localMinimalSquareclassProjection :
+    Units.modPow LocalMinimalDescentCurve.A 2 →*
+      Units.modPow CoefficientCompletion 2 :=
+  Units.modPow.map localMinimalProjection.toMonoidHom 2
+
+private noncomputable instance coefficientCompletion_decidableEq :
+    DecidableEq CoefficientCompletion := Classical.decEq _
+
+/-- Square-class projection directly from the explicit degree-nine
+compositum to the selected dyadic factor. -/
+noncomputable def localRelativeSquareclassProjection :
+    Units.modPow M 2 →* Units.modPow CoefficientCompletion 2 :=
+  Units.modPow.map localRelativeProjection.toMonoidHom 2
+
+/-- The generic base-change projection and the explicit compositum
+projection induce the same map on square classes. -/
+theorem localMinimalSquareclassProjection_comp_localRes :
+    localMinimalSquareclassProjection.comp
+        (minimalDescentCurve.toAffine.localRes CoefficientCompletion) =
+      localRelativeSquareclassProjection.comp
+        minimalDescentSquareclassEquiv := by
+  apply MonoidHom.ext
+  intro q
+  induction q using QuotientGroup.induction_on with
+  | H u =>
+      simp only [MonoidHom.comp_apply, localMinimalSquareclassProjection,
+        localRelativeSquareclassProjection,
+        WeierstrassCurve.Affine.localRes, minimalDescentSquareclassEquiv,
+        Units.modPow.map_mk, Units.modPow.congr,
+        QuotientGroup.congrRangePowMonoidHom]
+      apply congrArg QuotientGroup.mk
+      apply Units.ext
+      exact DFunLike.congr_fun localMinimalProjection_comp_mapA (u :
+        minimalDescentCurve.toAffine.A)
+
+private theorem localMinimalSquareclassProjection_unit_eq_one
+    {a : LocalMinimalDescentCurve.A} (ha : IsUnit a)
+    (hsquare : IsSquare (localMinimalProjection a)) :
+    localMinimalSquareclassProjection
+        (ha.unit : Units.modPow LocalMinimalDescentCurve.A 2) = 1 := by
+  rw [localMinimalSquareclassProjection, Units.modPow.map_unit,
+    Units.modPow.unit_eq_one_iff]
+  obtain ⟨z, hz⟩ := hsquare
+  refine ⟨z, ?_⟩
+  change z ^ 2 = localMinimalProjection a
+  simpa only [pow_two] using hz.symm
+
+/-- The selected dyadic factor kills the local `x - T` descent image on
+the minimal model, including the adjusted value at two-torsion points. -/
+theorem localMinimalSquareclassProjection_μ_eq_one
+    (P : LocalMinimalDescentCurve.Point) :
+    localMinimalSquareclassProjection
+        ((WeierstrassCurve.Affine.μ (W := LocalMinimalDescentCurve))
+          (.ofAdd P)) = 1 := by
+  classical
+  rw [WeierstrassCurve.Affine.μ_apply]
+  cases P with
+  | zero =>
+      change localMinimalSquareclassProjection 1 = 1
+      exact map_one localMinimalSquareclassProjection
+  | some x y hP =>
+      rw [WeierstrassCurve.Affine.μ₀_some]
+      have hcurve : y ^ 2 = LocalMinimalDescentCurve.f.eval x :=
+        (LocalMinimalDescentCurve.equation_iff_eval_f_eq_sq x y).mp hP.1 |>.symm
+      have hxySquare := localMinimal_curve_isSquare x y hcurve
+      by_cases hx : LocalMinimalDescentCurve.f.eval x = 0
+      · rw [WeierstrassCurve.Affine.μX_of_eval_f_eq_zero hx]
+        apply localMinimalSquareclassProjection_unit_eq_one
+        by_cases hxa : x = localProjectedMinimalRoot
+        · subst x
+          rw [localMinimalProjection_adjusted, sub_self, zero_add,
+            LocalMinimalDescentCurve.eval_fCofactor_self]
+          exact localMinimalDerivative_isSquare
+        · rw [localMinimalProjection_adjusted,
+            localMinimal_fCofactor_eval_root_eq_zero hx hxa, add_zero]
+          exact hxySquare
+      · rw [WeierstrassCurve.Affine.μX_of_eval_f_ne_zero hx]
+        apply localMinimalSquareclassProjection_unit_eq_one
+        rw [localMinimalProjection_sub_genericRoot]
+        exact hxySquare
+
+/-- The restriction of every global minimal-model descent class is killed
+by the selected dyadic factor projection. -/
+theorem localMinimalSquareclassProjection_localRes_μ_eq_one
+    (P : minimalDescentCurve.toAffine.Point) :
+    localMinimalSquareclassProjection
+        (minimalDescentCurve.toAffine.localRes CoefficientCompletion
+          ((WeierstrassCurve.Affine.μ
+            (W := minimalDescentCurve.toAffine)) (.ofAdd P))) = 1 := by
+  classical
+  have hnatural := congrArg
+    (fun f : Multiplicative minimalDescentCurve.toAffine.Point →*
+        Units.modPow LocalMinimalDescentCurve.A 2 => f (.ofAdd P))
+    (minimalDescentCurve.toAffine.localRes_comp_μ CoefficientCompletion)
+  simp only [MonoidHom.comp_apply,
+    AddMonoidHom.toMultiplicative_apply_apply, toAdd_ofAdd] at hnatural
+  rw [hnatural]
+  exact localMinimalSquareclassProjection_μ_eq_one
+    (minimalDescentCurve.toAffine.pointMap CoefficientCompletion P)
 
 end
 
