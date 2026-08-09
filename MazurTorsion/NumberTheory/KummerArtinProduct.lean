@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.NumberTheory.CyclotomicNormalizedLocalPrimary
+import MazurTorsion.NumberTheory.CyclotomicJacobiReciprocityReduction
 
 /-!
 # Kummer coordinates for the finite-prime Artin product

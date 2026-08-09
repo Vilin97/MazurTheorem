@@ -565,6 +565,23 @@ denominator requires the weighted orbit operator, and vanishing for that
 operator is precisely the remaining one-sided reciprocity theorem rather than
 a consequence of the available norm formulas.
 
+The integrated local cone now sharpens that boundary substantially. Its
+finite-field power-residue exponent and multiplicative-character packaging
+are attributed adaptations of AINTLIB's Apache-2.0 `ResidueSymbol/Basic.lean`
+and `Furtwaengler/Character.lean` at
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`; exact source blobs and the local
+port are recorded in `THIRD_PARTY_NOTICES.md` and `PORTING.md`. The diagonal
+Jacobi sum then specializes Mathlib's Apache-2.0
+`NumberTheory.JacobiSum.Basic` implementation by Michael Stoll, following
+Ireland--Rosen, Section 8.3. New checked proofs establish Galois covariance,
+the corrected `b = 2` Stickelberger scalar, the faithful-orbit ideal
+factorization of the conjugate Jacobi sum, and triviality on nonfaithful prime
+orbits. The final consumer reduces the integral Kummer product to one explicit
+power-residue-symbol value on that principal Jacobi ideal at every faithful
+denominator prime. It deliberately retains the assertion that those values
+equal one as a pointwise hypothesis: that assertion is the remaining
+reciprocity theorem, not an imported or hidden assumption.
+
 This is substantial prior art: 827 Lean files and 360,084 lines under
 `projects/ModularCurves/ModularCurves`. It is not a completed dependency.
 A source scan found 212 `sorry` tokens in 72 files, including roughly 100

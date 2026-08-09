@@ -742,6 +742,34 @@ LEAN_NUM_THREADS=1 lake build MazurTorsion.NumberTheory.CyclotomicHilbert94
 `#print axioms dvd_card_classGroup_of_unramified_isCyclic` reports exactly
 `[propext, Classical.choice, Quot.sound]`.
 
+## AINTLIB power-residue character adaptation
+
+`MazurTorsion/NumberTheory/CyclotomicJacobiCharacter.lean` selectively adapts
+the finite-field power-residue exponent and `MulChar` bridge from these
+Apache-2.0 AINTLIB sources at
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`:
+
+| Upstream source below `projects/FltRegularBernoulli/BernoulliRegular/Reflection/ResidueSymbol/` | Exact source blob | Local destination |
+|---|---|---|
+| `Basic.lean` | `7b5f3eb9e9fc05c78f08343b2e7e5bd26f7b0f36` | `MazurTorsion/NumberTheory/CyclotomicJacobiCharacter.lean` |
+| `Furtwaengler/Character.lean` | `3b0a7103f366944dec6ce6dd10e5fc9438c02a09` | `MazurTorsion/NumberTheory/CyclotomicJacobiCharacter.lean` |
+
+The local derivative removes the upstream package/module syntax, targets the
+older immutable Mathlib API, and specializes the character to the residue
+field of a prime in `Q(zeta_p)`. It adds the canonical integral root of unity,
+exact character order, Galois covariance, and the binomial-sum vanishing
+needed by the diagonal Jacobi-sum consumer. The source header retains Chris
+Birkbeck as co-author; no source-level options, linter suppressions, or
+placeholders are retained.
+
+The checked downstream chain is `CyclotomicJacobiSumTwo` ->
+`CyclotomicJacobiIdealFaithful` ->
+`CyclotomicJacobiReciprocityReduction`. Mathlib's Apache-2.0
+`NumberTheory.JacobiSum.Basic` supplies the generic Jacobi/Gauss-sum
+identities; the cyclotomic specialization and ideal factorization are local
+proofs. The chain does not import or assume AINTLIB's unfinished one-sided
+reciprocity theorem.
+
 ## Build and audit
 
 From this standalone package:

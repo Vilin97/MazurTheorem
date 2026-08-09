@@ -245,6 +245,28 @@ proof details were adapted to the immutable Mathlib pin, including an
 option-free universe-shrinking bridge for Hilbert 90. Details are recorded in
 `PORTING.md` and `docs/PRIOR_ART.md`.
 
+## AINTLIB power-residue character adaptation
+
+- Upstream author retained in the local file header: Chris Birkbeck
+- Source: https://github.com/CBirkbeck/AINTLIB
+- Source commit: `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`
+- Source paths and exact Git blob identifiers:
+  - `projects/FltRegularBernoulli/BernoulliRegular/Reflection/ResidueSymbol/Basic.lean`
+    (`7b5f3eb9e9fc05c78f08343b2e7e5bd26f7b0f36`)
+  - `projects/FltRegularBernoulli/BernoulliRegular/Reflection/ResidueSymbol/Furtwaengler/Character.lean`
+    (`3b0a7103f366944dec6ce6dd10e5fc9438c02a09`)
+- Local derivative:
+  `MazurTorsion/NumberTheory/CyclotomicJacobiCharacter.lean`
+- License: Apache License 2.0 under the upstream repository-wide license; see
+  `LICENSE`.
+
+The local file selectively adapts the finite-field power-residue exponent
+and its multiplicative-character packaging to the immutable Mazur pin, then
+adds the cyclotomic specialization, Galois covariance, exact-order proof, and
+the finite-field binomial-sum consumer. Its header credits both Vasily Ilin
+and Chris Birkbeck. The later Jacobi-sum and ideal-factorization modules are
+new project consumers of this attributed bridge.
+
 ## Tau Ceti
 
 - Upstream source: https://github.com/TauCetiProject/TauCeti

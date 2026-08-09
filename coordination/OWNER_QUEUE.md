@@ -92,6 +92,27 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The cyclotomic release lane is integrated through the faithful-Jacobi
+reduction consumer.  The checked cone now proves pseudo-unit unramifiedness
+both away from and at the cyclotomic prime, orbit-coprime integral
+normalization, power-residue covariance and numerator algebra, the corrected
+Stickelberger-two scalar identity, diagonal Jacobi-sum identities, exact
+faithful-orbit ideal factorization, and vanishing of nonfaithful orbits.  The
+terminal theorem
+`KummerPresentation.exists_orbitCoprime_normalization_reducing_to_faithfulJacobi`
+feeds this infrastructure into the actual integral principal Kummer product
+and leaves one explicit pointwise Jacobi-symbol value for each faithful
+denominator-prime orbit.  The owner-tree focused build passes in 3,836 jobs;
+twelve representative and terminal declarations audit to only `propext`,
+`Classical.choice`, and `Quot.sound`.  Those faithful-prime values are the
+remaining one-sided reciprocity theorem, so the immutable Challenge and node
+remain open with zero credit.
+
+`KummerArtinProduct` now imports that reduction, preserving the immutable
+Challenge's one-module handoff.  The destination and open Challenge rebuild
+in 3,839 and 3,840 jobs respectively; the latter still emits exactly its
+registered `sorry` warning and is not counted as a solved contract.
+
 The explicit order-35 quotient calculation is integrated through `9ceecf9`.
 `OrderThirtyFiveQuotientMap` checks the degree-eight hyperelliptic equation,
 the displayed `w₅` involution and its invariant coordinates, every rational
@@ -242,23 +263,18 @@ credit.  The provenance merge preserves all seventy-seven previously
 audited AINTLIB geometry modules and adds the thirteen exact finite-quotient
 modules, for ninety documented local AINTLIB modules in total.
 
-The cyclotomic owner cutoff integrates only the pseudo-unit ideal-power
-chain through the genuine cross-module theorem
-`KummerPresentation.fractionalKummerSymbol_principalRadicand_eq_one`.  The
-later residue-product, unramifiedness, and finite-primary commits remain held
-because their advertised downstream builds are import-only.  Arbitrary-
-denominator one-sided reciprocity and the immutable cyclotomic Challenge
-remain open; no node or Challenge receives credit.  On the combined owner
-tree, graph/contract accounting and `scripts/quality.py` pass at 48 nodes,
-1,000 points, 11 unchanged Challenge contracts, and 986 Lean modules / 1,561,826
-Lean lines.  Exact contributor builds and axiom audits for the accepted
-consumer endpoints use only `propext`, `Classical.choice`, and `Quot.sound`;
-the owner verified that the integrated Lean blobs match those reviewed trees
-and will rerun the combined consumer roots with the next proof handoffs.  The A3
-worker is compiling raw divisor-cocycle effectivity, the B1 worker is
-compiling rational-section proper-curve `H¹` finiteness, and the third owner
-worker is implementing the newly audited local-DVR cusp-uniformizer consumer
-for the auxiliary-prime-five route.
+The cyclotomic owner cutoff now reaches the compiled faithful-Jacobi
+reduction described in the latest checkpoint.  This is a real consumer of
+the residue-product, unramifiedness, finite-primary, covariance,
+Stickelberger, and Jacobi-factorization layers, not an import-only endpoint.
+It does not assert the remaining pointwise faithful-prime residue values.
+Arbitrary-denominator one-sided reciprocity and the immutable cyclotomic
+Challenge therefore remain open; no node or Challenge receives credit.  On
+the combined owner tree, graph/contract accounting and `scripts/quality.py`
+must retain 48 nodes, 1,000 points, and 11 unchanged Challenge contracts; the
+current exact source baseline is 1,024 Lean modules / 1,575,224 Lean lines.
+Accepted consumer endpoints use only `propext`, `Classical.choice`, and
+`Quot.sound`.
 
 The repaired X1(13) finite hyperelliptic map now has a concrete cohomological
 consumer.  For every finite-type quasicoherent module on the actual glued
@@ -544,19 +560,17 @@ higher local killing, all-positive affine acyclicity, and the proper-curve
 finiteness/vanishing package remain open, so B1 receives no node credit. The
 exact quality baseline is now 843 Lean modules and 1,512,132 Lean lines.
 
-The mandatory cyclotomic release lane now retains the genuine equivariant
-Hilbert--94 conclusion. Extension of ideal classes defines an actual
-capitulation homomorphism; lifted cyclotomic automorphisms commute with it,
-its kernel is stable under the full cyclotomic Galois action, and Hilbert 94
-produces a nontrivial kernel element killed by the prime extension degree.
-The existing division-field unramifiedness datum is a compiled downstream
-consumer (`8fadf90`, reviewed from contributor checkpoint `274f11e`). Both
-focused builds and the seven-declaration axiom audit pass with only
-`propext`, `Classical.choice`, and `Quot.sound`. This does not identify an
-inverse-character quotient and does not prove the locally-primary pseudo-unit
-reciprocity contract, so `MT-CYCLOTOMIC-UNRAMIFIED` remains open with no node
-credit. The lane remains outside the theorem-critical formal-immersion cone.
-The exact quality baseline is now 842 Lean modules and 1,511,561 Lean lines.
+The mandatory cyclotomic release lane retains both the genuine equivariant
+Hilbert--94 conclusion and the faithful-Jacobi reduction recorded above.
+Extension of ideal classes defines an actual capitulation homomorphism;
+lifted cyclotomic automorphisms commute with it, its kernel is stable under
+the full cyclotomic Galois action, and Hilbert 94 produces a nontrivial kernel
+element killed by the prime extension degree.  The independent Kummer cone
+now reduces the integral product to explicit faithful-prime Jacobi-symbol
+values, but does not prove those values are one.  Consequently it still does
+not identify the required inverse-character quotient or prove the immutable
+locally-primary pseudo-unit reciprocity contract.  The node remains open with
+no credit and outside the theorem-critical formal-immersion cone.
 
 The coherent-cohomology lane now proves genuine affine quasicoherent
 degree-one acyclicity. A source-clean construction embeds the underlying
@@ -1846,7 +1860,7 @@ collision at `5` and a ten-point finite-field bound.
 | `codex/mt-a2-product-formula` | A2 is integrated through reviewed Tau Ceti descendant `a74dfee7`: a nonconstant function gives a finite flat map to `P¹`, its zero/infinity fibres prove the weighted product formula, and both divisor-quotient and scheme-Picard consumers compile | Preserve the exact endpoint, published `Scheme.Degree` facade, and checked Challenge bridge. A2 now unlocks A3 and earns its 15 points; no further product-formula work is on the critical path. |
 | `codex/mt-ffgs-basic` | Checked finite-flat/Affine substrate, exact supplied fppf quotient presentation, certified arbitrary kernel/quotient base change, named constant/`μ_p` factor base change, and the base-changed admissible-step `p²` exponent consumer | Integrated and complete as `MT-FFGS-BASIC`. Continue with iterated admissible filtrations and the focused fppf-cohomology estimate; do not reopen general quotient representability without a new consumer. |
 | `codex/mt-tc-a3-divisor-line-bundle` | Divisor/line-bundle cocycle and descent substrate | Preserve it as the lower Picard/Jacobian path. Review transport, normalization, cocycle, restriction, and a real downstream `DivisorCocycle` consumer before freezing the API. |
-| `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary; the recovered `274f11e` checkpoint adds an actual equivariant capitulation map, nontrivial Galois-stable exponent-`p` kernel, and division-field consumer | Integrated as `8fadf90`. Keep the unresolved reciprocity contract as an independent release obligation; this lane is not a premise of the formal-immersion theorem. |
+| `codex/mt-cyclotomic-unramified-cft` | Checked Kummer--Artin and Hilbert-94 infrastructure plus an honest isolated reciprocity boundary; the later residue, Stickelberger, and Jacobi cone reaches a real integral-product reduction consumer | Integrated through the faithful-Jacobi reduction with zero node credit. Prove the remaining pointwise faithful-prime Jacobi-symbol values and close the immutable reciprocity contract; this lane is not a premise of the formal-immersion theorem. |
 | `codex/owner-o49-tower` | Checked level-seven correspondence and explicit Vélu work; reusable Tate normalization is isolated at `9dad18d` | Retain as useful library work, but pivot the endpoint to the direct rational cyclic-subgroup map into the already classified two-cusp `X₀(49)`. Do not require Vélu additivity or a nonbacktracking tower. |
 | `codex/owner-x11-selmer` | Checked isogeny kernels and an empty-support fifth-power Selmer factor at `be3f2b7` | Freeze as a fallback and release-API check. Further Selmer work is not theorem-critical after the uniform order-eleven theorem. |
 
@@ -2352,9 +2366,12 @@ genus-zero `X₀` quotients do not support the selected argument.
 
 ## Noncritical but mandatory release obligations
 
-- `MT-CYCLOTOMIC-UNRAMIFIED` (20): solve the immutable locally-primary
-  pseudo-unit Kummer reciprocity Challenge and compile its Kummer--Artin
-  consumer. It no longer unlocks a prime-theorem node.
+- `MT-CYCLOTOMIC-UNRAMIFIED` (20): prove that the explicit faithful-prime
+  diagonal-Jacobi residue symbols isolated by
+  `exists_orbitCoprime_normalization_reducing_to_faithfulJacobi` are one,
+  feed that theorem through the checked Kummer--Artin consumer, and solve the
+  immutable locally-primary pseudo-unit reciprocity Challenge. It no longer
+  unlocks a prime-theorem node.
 - `MT-X11-COSET` (12): feed the uniform order-eleven theorem to the checked
   reverse-bridge consumer `fiveCosetBound_of_no_order_eleven`, expose the
   unconditional destination, and solve the immutable five-coset Challenge.

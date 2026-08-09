@@ -1441,4 +1441,14 @@ the reciprocity Challenge and this roadmap node remain open.
   `NumberTheory.CyclotomicCharacter.InverseExtension.exists_nontrivial_p_torsion_capitulating_orbit`
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.divisionField_exists_nontrivial_p_torsion_capitulating_orbit`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.isUnramifiedAtFinitePlaces_of_pseudoUnit_locallyPrimary`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.fractionalKummerSymbol_integralPrincipal_eq_residueProduct`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.toPrincipalIdeal_cyclotomicJacobiSumTwo_complexConj_eq_stickelbergerTwoPrimeIdeal`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.integralPrincipalProduct_eq_one_of_faithfulJacobi`
+* `theorem` (`contract`):
+  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.exists_orbitCoprime_normalization_reducing_to_faithfulJacobi`
 :::

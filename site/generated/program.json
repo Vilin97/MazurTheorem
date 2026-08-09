@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1569976,
-    "integrated_lean_modules": 1006,
+    "integrated_lean_lines": 1575224,
+    "integrated_lean_modules": 1024,
     "remaining_composite_orders": [
       18,
       25,
@@ -7720,7 +7720,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Close the inherited locally-primary pseudo-unit reciprocity Challenge and preserve the checked cyclotomic infrastructure as an independent release obligation. The checked Hilbert-94 layer now exposes the actual capitulation map, proves equivariance under the lifted cyclotomic action, constructs a nontrivial Galois-stable exponent-p capitulation kernel, and supplies a division-field consumer. This does not identify an inverse-character quotient or solve the immutable reciprocity contract. The chosen proof of Mazur's theorem does not consume this result.",
+      "summary": "Close the inherited locally-primary pseudo-unit reciprocity Challenge and preserve the checked cyclotomic infrastructure as an independent release obligation. The checked Hilbert-94 layer exposes the actual equivariant capitulation map, a nontrivial Galois-stable exponent-p kernel, and a division-field consumer. Independently, the Kummer-residue cone now proves away-from-p and cyclotomic-prime unramifiedness, orbit-coprime integral normalization, residue-symbol covariance and numerator algebra, the corrected Stickelberger-two scalar identity, the canonical diagonal Jacobi-sum identities and faithful-orbit ideal factorization, and vanishing on nonfaithful prime orbits. Its compiled terminal consumer reduces every integral principal Kummer product to one explicit Jacobi-symbol value at each faithful denominator prime. Proving those pointwise values is precisely the remaining one-sided reciprocity input; the immutable Challenge is not solved. The chosen proof of Mazur's theorem does not consume this result.",
       "artifacts": [
         {
           "kind": "definition",
@@ -7773,6 +7773,41 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.CyclotomicObstruction",
           "description": "Consume the actual division-field unramifiedness datum in the equivariant exponent-p capitulation theorem without asserting the missing inverse-character quotient."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.isUnramifiedAtFinitePlaces_of_pseudoUnit_locallyPrimary",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicPseudoUnitUnramified",
+          "description": "Prove finite-place unramifiedness from the pseudo-unit divisor condition and an actual local p-th root at the cyclotomic prime."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.fractionalKummerSymbol_integralPrincipal_eq_residueProduct",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicKummerResidueProduct",
+          "description": "Identify the genuine integral principal Kummer/Frobenius product with the finite product of checked power-residue symbols."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.toPrincipalIdeal_cyclotomicJacobiSumTwo_complexConj_eq_stickelbergerTwoPrimeIdeal",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicJacobiIdealFaithful",
+          "description": "Prove the faithful-orbit fractional-ideal factorization of the conjugate diagonal Jacobi sum."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.integralPrincipalProduct_eq_one_of_faithfulJacobi",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicJacobiReciprocityReduction",
+          "description": "Reduce the integral Kummer product to explicit pointwise Jacobi-symbol values on faithful denominator-prime orbits."
+        },
+        {
+          "kind": "theorem",
+          "name": "NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.exists_orbitCoprime_normalization_reducing_to_faithfulJacobi",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.CyclotomicJacobiReciprocityReduction",
+          "description": "Produce the orbit-coprime pseudo-unit normalization consumed by the faithful-Jacobi reduction."
         }
       ],
       "depends_on": [
