@@ -223,6 +223,68 @@ theorem minimalDescentPolynomial_irreducible :
   rw [heq]
   exact minpoly.irreducible hint
 
+private instance minimalDescentPolynomial_irreducibleFact :
+    Fact (Irreducible minimalDescentCurve.toAffine.f) :=
+  ⟨minimalDescentPolynomial_irreducible⟩
+
+/-- The distinguished root in the generic minimal descent algebra. -/
+def minimalGenericRoot : minimalDescentCurve.toAffine.A :=
+  AdjoinRoot.root minimalDescentCurve.toAffine.f
+
+/-- The canonical map from the generic minimal descent algebra to the
+explicit degree-nine compositum. -/
+def minimalToCompositumHom : minimalDescentCurve.toAffine.A →ₐ[K] M :=
+  AdjoinRoot.liftAlgHom minimalDescentCurve.toAffine.f (Algebra.ofId K M)
+    minimalDescentRootInM (by
+      rw [Algebra.toRingHom_ofId, ← aeval_def]
+      rw [← Polynomial.eval_map_algebraMap]
+      exact minimalDescentRootInM_isRoot)
+
+@[simp]
+theorem minimalToCompositumHom_genericRoot :
+    minimalToCompositumHom minimalGenericRoot = minimalDescentRootInM := by
+  exact AdjoinRoot.liftAlgHom_root minimalDescentCurve.toAffine.f _ _ _
+
+private theorem minimalToCompositumHom_bijective :
+    Function.Bijective minimalToCompositumHom := by
+  letI : Module.Finite K minimalDescentCurve.toAffine.A :=
+    (AdjoinRoot.powerBasis minimalDescentCurve.toAffine.f_ne_zero).finite
+  have hinjective : Function.Injective minimalToCompositumHom :=
+    minimalToCompositumHom.toRingHom.injective
+  have hfinrank :
+      Module.finrank K minimalDescentCurve.toAffine.A =
+        Module.finrank K M := by
+    rw [minimalDescentCurve.toAffine.finrank_A, finrank_M_over_K]
+  have hsurjective : Function.Surjective minimalToCompositumHom :=
+    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
+      (f := minimalToCompositumHom.toLinearMap) hfinrank).mp hinjective
+  exact ⟨hinjective, hsurjective⟩
+
+/-- The minimal dyadic-support descent algebra is the explicit degree-nine
+compositum, as a `K`-algebra. -/
+def minimalDescentAlgebraEquiv :
+    minimalDescentCurve.toAffine.A ≃ₐ[K] M :=
+  AlgEquiv.ofBijective minimalToCompositumHom
+    minimalToCompositumHom_bijective
+
+@[simp]
+theorem minimalDescentAlgebraEquiv_genericRoot :
+    minimalDescentAlgebraEquiv minimalGenericRoot =
+      minimalDescentRootInM := by
+  exact minimalToCompositumHom_genericRoot
+
+/-- The induced equivalence on square classes. -/
+def minimalDescentSquareclassEquiv :
+    minimalDescentCurve.toAffine.M ≃* Units.modPow M 2 :=
+  Units.modPow.congr minimalDescentAlgebraEquiv.toMulEquiv 2
+
+/-- The explicit algebra identification preserves the relative norm. -/
+theorem norm_minimalDescentAlgebraEquiv
+    (x : minimalDescentCurve.toAffine.A) :
+    Algebra.norm K (minimalDescentAlgebraEquiv x) =
+      Algebra.norm K x :=
+  Algebra.norm_eq_of_algEquiv minimalDescentAlgebraEquiv x
+
 end
 
 end MazurTorsion.XOneEighteenMinimalTwoDescentModel
