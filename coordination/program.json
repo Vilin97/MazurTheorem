@@ -6,8 +6,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1577607,
-    "integrated_lean_modules": 1027,
+    "integrated_lean_lines": 1577854,
+    "integrated_lean_modules": 1029,
     "remaining_composite_orders": [
       18,
       25,
@@ -4752,7 +4752,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the quotient section and the marked elliptic point at 5.",
+      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the quotient section and the marked elliptic point at 5. A checked NeronModel consumer now transports rank zero from integral model points to the prescribed generic-fibre rational points using the actual scheme-theoretic multiplication kernel, but it does not construct the model or prove any specialization theorem.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -4771,6 +4771,13 @@
           "name": "AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt",
           "state": "proposed",
           "description": "Kill a torsion section in the formal kernel when e < p - 1, including the unramified prime-five and prime-eleven cases."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.NeronModel.finrank_genericBasePoint_eq_zero_of_powerKummer_kernelData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.PowerKernelKummerRankZero",
+          "description": "Transport the actual-kernel power-Kummer rank-zero theorem from integral model points to rational points of the supplied generic fibre through the checked Neron mapping-property equivalence."
         }
       ],
       "depends_on": [
@@ -6192,7 +6199,7 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero. The numerical endpoint now compiles: an injective Kummer map from A/pA into a finite group whose cardinality is bounded by the cardinality of A[p] forces a finitely generated abelian group A to have rank zero and hence be finite. Actual downstream consumers take the repository's represented finite-flat FppfHOne target and derive its bound from a checked two-factor admissible filtration and low-degree exact sequence. Exactness now derives finite middle H1 from the finite kernel and quotient certificates. The Eisenstein quotient's genuine Mordell-Weil Kummer injection, endpoint cohomology certificates, torsion-cardinality equality, and unramified Raynaud input remain open.",
+      "summary": "Prove the unramified order-p uniqueness theorem needed to extend admissible Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces the Eisenstein quotient to have Mordell-Weil rank zero. The numerical endpoint now compiles: an injective Kummer map from A/pA into a finite group whose cardinality is bounded by the cardinality of A[p] forces a finitely generated abelian group A to have rank zero and hence be finite. Actual downstream consumers take the repository's represented finite-flat FppfHOne target and derive its bound from a checked two-factor admissible filtration and low-degree exact sequence. Exactness now derives finite middle H1 from the finite kernel and quotient certificates. The actual scheme-theoretic multiplication kernel now supplies the torsion-cardinality equality from its certified H0 cardinality, and a NeronModel consumer transports the resulting rank-zero statement to generic-fibre rational points. The Eisenstein quotient's actual kernel H0/H1 certificates, multiplication flatness and surjectivity, Mordell-Weil finite generation, Neron-model construction, and unramified Raynaud input remain open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -6233,6 +6240,13 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfKummerRankZero",
           "description": "Derive actual finiteness of the Mordell-Weil input from the same represented finite-flat H1 consumer."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.CommGroupSchemePowerKummerTorsionRankZero",
+          "description": "Derive the p-torsion cardinality internally from certified base points of the actual scheme-theoretic multiplication kernel, then consume it in the represented power-Kummer rank-zero theorem."
         }
       ],
       "depends_on": [

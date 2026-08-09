@@ -202,8 +202,13 @@ sequence, prime-to-residue injection, and the $`e<p-1` formal-kernel lemma.
   `AlgebraicGeometry.NeronModel.primeToResidue_torsion_injective`
 * `theorem` (`proposed`):
   `AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.NeronModel.finrank_genericBasePoint_eq_zero_of_powerKummer_kernelData`
 
-The checked partial boundary
+The actual-kernel rank-zero consumer transports a proved integral-model result
+to the prescribed generic fibre through the checked Néron base-point
+equivalence.  It still assumes the model, multiplication geometry, finite
+generation, and both kernel cohomology certificates.  The checked partial boundary
 `MazurTorsion.EllipticCurve.TameAdditiveFiltrationData` records the two finite
 targets and torsion-free formal kernel needed after the geometric maps exist.
 Its separate characteristic-five and order-35 consumers compile, but it
@@ -824,15 +829,20 @@ the bounded Kummer cohomology calculation to the modular quotient.
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finrank_eq_zero_of_fppfKummer_int`
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finite_of_fppfKummer_int`
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData`
 
 The checked finite-index formula now supplies the numerical endpoint: an
 injective map from `A/pA` into a finite group no larger than `A[p]` forces a
 finitely generated abelian group to have rank zero and hence be finite. The
 geometric consumers use the actual represented finite-flat `FppfHOne` target
 and derive its bound from the checked two-factor admissible filtration. Exactness derives
-finiteness of the middle `FppfHOne` from finite endpoint certificates. The Eisenstein Kummer
-injection, endpoint certificates, torsion-cardinality equality, and unramified Raynaud input
-remain open.
+finiteness of the middle `FppfHOne` from finite endpoint certificates. Certified base points of
+the actual scheme-theoretic multiplication kernel now supply the torsion-cardinality equality,
+and the Néron-model consumer transports the resulting rank-zero statement to the generic fibre.
+Constructing the Eisenstein quotient's actual kernel certificates, proving multiplication
+flatness and surjectivity and Mordell--Weil finite generation, constructing its Néron model, and
+the unramified Raynaud input remain open.
 :::
 
 :::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")

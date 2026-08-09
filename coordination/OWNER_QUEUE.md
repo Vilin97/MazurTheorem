@@ -151,6 +151,17 @@ Poincare bundle, representability, and the missing Cartier-divisor/
 ideal-module bridge to section-divisor naturality remain open, so
 `MT-TC-D1-PICARD-FUNCTOR` receives no credit.
 
+The finite-flat/Néron handoff now consumes the actual scheme-theoretic
+multiplication kernel.  Its certified base-point cardinality is transported
+to the additive `p`-torsion kernel, removing the separately restated
+torsion-cardinality equality from the checked power-Kummer criterion.  A
+genuine `NeronModel` consumer then transports rank zero from integral model
+points to rational points of the prescribed generic fibre.  The exact model,
+flat and surjective multiplication, its `H⁰`/`H¹` certificates,
+Mordell--Weil finite generation, and the Raynaud construction all remain
+explicit inputs, so neither Néron nor FFGS receives node credit.
+Exact source accounting is 1,029 Lean modules / 1,577,854 Lean lines.
+
 The degree-one Hecke handoff is repaired through `e4e8a95`.  Positive Hecke
 operators are now indexed by `ℕ+`, while cuspidality supplies the separate
 zero constant coefficient; injectivity of the q-expansion therefore detects
@@ -297,7 +308,7 @@ Arbitrary-denominator one-sided reciprocity and the immutable cyclotomic
 Challenge therefore remain open; no node or Challenge receives credit.  On
 the combined owner tree, graph/contract accounting and `scripts/quality.py`
 must retain 48 nodes, 1,000 points, and 11 unchanged Challenge contracts; the
-current exact source baseline is 1,027 Lean modules / 1,577,607 Lean lines.
+current exact source baseline is 1,029 Lean modules / 1,577,854 Lean lines.
 Accepted consumer endpoints use only `propext`, `Classical.choice`, and
 `Quot.sound`.
 
@@ -2138,8 +2149,10 @@ within each lane follows the listed order.
    endpoint. The numerical
    Kummer rank-zero theorem and its actual
    represented-`H1` two-factor admissible-filtration consumers now compile.
-   Next construct the Eisenstein Mordell--Weil Kummer injection, the endpoint
-   cohomology certificates, and the torsion-cardinality equality. Then finish
+   The actual multiplication kernel now derives the torsion-cardinality law
+   from its certified base points. Next construct the Eisenstein quotient's
+   kernel certificates, multiplication geometry, Néron realization, and
+   Mordell--Weil finite-generation input. Then finish
    `MT-FFGS-OORT-RAYNAUD` (40) with unramified
    Raynaud uniqueness and the
    rank-zero criterion. Do not build unconsumed classification generality.
