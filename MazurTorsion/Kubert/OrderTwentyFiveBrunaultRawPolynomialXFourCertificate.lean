@@ -7785,7 +7785,7 @@ private theorem x4SubRight_length :
   decide
 
 -- Exact bidegree bound (52, 72); no row or column is discarded.
-theorem x4SubData_spec :
+private theorem x4SubData_spec :
     rectangularize 53 73 (Two.add X4NLK3Data (Two.mul NegData X4NRGData)) =
       rectangularize 53 73 X4Data := by
   apply List.ext_getElem (x4SubLeft_length.trans x4SubRight_length.symm)

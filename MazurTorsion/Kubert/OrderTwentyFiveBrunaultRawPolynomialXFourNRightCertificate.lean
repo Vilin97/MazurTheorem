@@ -344,7 +344,7 @@ private theorem x4NRSRight_length :
   decide
 
 -- Exact bidegree bound (47, 66); no row or column is discarded.
-theorem x4NRSData_spec :
+private theorem x4NRSData_spec :
     rectangularize 48 67 (Two.mul SData X4MData) =
       rectangularize 48 67 X4NRSData := by
   apply List.ext_getElem (x4NRSLeft_length.trans x4NRSRight_length.symm)
@@ -680,7 +680,7 @@ private theorem x4NRC1Right_length :
   decide
 
 -- Exact bidegree bound (48, 67); no row or column is discarded.
-theorem x4NRC1Data_spec :
+private theorem x4NRC1Data_spec :
     rectangularize 49 68 (Two.mul CData X4NRSData) =
       rectangularize 49 68 X4NRC1Data := by
   apply List.ext_getElem (x4NRC1Left_length.trans x4NRC1Right_length.symm)
@@ -1022,7 +1022,7 @@ private theorem x4NRC2Right_length :
   decide
 
 -- Exact bidegree bound (49, 68); no row or column is discarded.
-theorem x4NRC2Data_spec :
+private theorem x4NRC2Data_spec :
     rectangularize 50 69 (Two.mul CData X4NRC1Data) =
       rectangularize 50 69 X4NRC2Data := by
   apply List.ext_getElem (x4NRC2Left_length.trans x4NRC2Right_length.symm)
@@ -1371,7 +1371,7 @@ private theorem x4NRC3Right_length :
   decide
 
 -- Exact bidegree bound (50, 69); no row or column is discarded.
-theorem x4NRC3Data_spec :
+private theorem x4NRC3Data_spec :
     rectangularize 51 70 (Two.mul CData X4NRC2Data) =
       rectangularize 51 70 X4NRC3Data := by
   apply List.ext_getElem (x4NRC3Left_length.trans x4NRC3Right_length.symm)
@@ -6206,7 +6206,7 @@ private theorem x4NRGRight_length :
   decide
 
 -- Exact bidegree bound (51, 71); no row or column is discarded.
-theorem x4NRGData_spec :
+private theorem x4NRGData_spec :
     rectangularize 52 72 (Two.mul GData X4NRC3Data) =
       rectangularize 52 72 X4NRGData := by
   apply List.ext_getElem (x4NRGLeft_length.trans x4NRGRight_length.symm)
