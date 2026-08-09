@@ -692,8 +692,12 @@ distinct checked steps.  A third, deliberately narrow leaf promotes both
 on-curve equations to reduced Jacobson rings by residue-field evaluation and
 reduced-Jacobson vanishing.  It supplies the algebraic input for addition
 chart rings but neither supplies their hypotheses nor identifies a scheme
-fibre product. Exact blobs and licensed-default evidence for the retained and
-adapted files are in
+fibre product.  The next retained leaf now gives the explicit polynomial
+presentations of the one-factor and two-factor charts, their tautological
+points, and both evaluated addition triples.  It deliberately stops before
+identifying those presentations with scheme fibre products or gluing a
+multiplication morphism. Exact blobs and licensed-default evidence for the
+retained and adapted files are in
 `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
 
 The whole AINTLIB project is neither vendored nor treated as a Lean Pool-ready

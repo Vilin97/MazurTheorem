@@ -211,6 +211,14 @@ the licensed default commit and retain the Chris Birkbeck/AINTLIB Apache-2.0
 attribution.  Only the two on-curve theorems are public; chart construction
 and group-law gluing are not claimed by this extraction.
 
+`WeierstrassAdditionChartRing.lean`, local blob
+`3370bab18288d1b89b462ef29b172afc4076d3ae`, adapts AINTLIB
+`EllipticCurve/AdditionChartRing.lean`, exact blob
+`3d20f1bf04ca4e17618f896a044b77bb836e5ae2`, from the licensed default
+commit.  Chris Birkbeck's explicit Apache-2.0 header is retained.  The only
+local content change is a documentation correction; the checked declarations
+present the chart rings and addition triples but do not claim scheme gluing.
+
 `AffineGeometricOrbit.lean` retains only
 `AlgebraicGeometry.exists_smul_algHom_eq` from AINTLIB
 `Moduli/GammaHRepresentability.lean`, exact blob

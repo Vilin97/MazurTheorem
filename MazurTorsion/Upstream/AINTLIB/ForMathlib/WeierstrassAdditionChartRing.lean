@@ -26,7 +26,7 @@ polynomial algebra — no schemes:
   `E ×_R E` (a 4-variable polynomial ring modulo the two dehomogenised cubics), with its
   two tautological points;
 * the two Bosma–Lenstra triples evaluated at those points, and their **on-curve**
-  statements `equation_dblAddXYZ_biChart` / `equation_addXYZ_biChart`, discharged from the
+  statements `equation_lawTwoTriple` / `equation_lawOneTriple`, discharged from the
   c5α theorems whenever the chart-product ring is reduced and Jacobson (which the universal
   instantiation supplies — β2b; the scheme layer identifies `Spec (biChartRing …)` with the
   chart-products of the pullback — β1/β3).

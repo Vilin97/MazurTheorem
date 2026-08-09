@@ -502,6 +502,17 @@ reduced Jacobson ring with invertible discriminant.  The leaf does not define
 addition charts, prove that their coordinate rings are reduced or Jacobson,
 or construct a global group law.
 
+`ForMathlib/WeierstrassAdditionChartRing.lean`, local blob
+`3370bab18288d1b89b462ef29b172afc4076d3ae`, adapts AINTLIB
+`EllipticCurve/AdditionChartRing.lean`, exact source blob
+`3d20f1bf04ca4e17618f896a044b77bb836e5ae2`, at the licensed default
+commit.  It retains Chris Birkbeck's explicit Apache-2.0 header and presents
+the single-chart and bi-chart quotient rings, their tautological curve points,
+and the two on-curve addition triples.  The local-only change corrects two
+stale declaration names in the module documentation.  A bi-chart ring is
+still only a polynomial presentation here: no scheme fibre-product
+identification, chart-domain cover, or global multiplication is asserted.
+
 `ForMathlib/AffineGeometricOrbit.lean`, local blob
 `ceb746d32b33fb751c59a9950b9e7517a5033c1b`, is a one-declaration slice of
 AINTLIB `Moduli/GammaHRepresentability.lean`, exact source blob
