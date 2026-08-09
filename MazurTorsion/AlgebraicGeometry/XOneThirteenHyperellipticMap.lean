@@ -618,6 +618,103 @@ noncomputable def reciprocalChartToProjectiveLine :
       (MvPolynomial.X (0 : Fin 2))
       (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one
 
+private theorem ordinaryChartToProjectiveLine_toSpecZero :
+    ordinaryChartToProjectiveLine K ≫
+        Proj.toSpecZero (ProjectiveLine.homogeneousPieces K) =
+      Spec.map (CommRingCat.ofHom
+        ((algebraMap K (XOneThirteenAffineCurve.CoordinateRing K)).comp
+          (ProjectiveLine.degreeZeroRingEquiv K).symm.toRingHom)) := by
+  rw [ordinaryChartToProjectiveLine, Category.assoc,
+    Proj.awayι_toSpecZero, ← Spec.map_comp]
+  congr 1
+  ext p
+  obtain ⟨r, rfl⟩ := (ProjectiveLine.degreeZeroRingEquiv K).surjective p
+  simp only [CommRingCat.ofHom_comp, CommRingCat.hom_comp,
+    ConcreteCategory.hom_ofHom, RingHom.coe_comp, Function.comp_apply,
+    RingEquiv.toRingHom_eq_coe, RingHom.coe_coe,
+    RingEquiv.symm_apply_apply]
+  change standardChartRingHom K
+      (XOneThirteenAffineCurve.CoordinateRing K)
+      (XOneThirteenAffineCurve.xCoordinate K)
+      (HomogeneousLocalization.fromZeroRingHom
+        (ProjectiveLine.homogeneousPieces K)
+        (Submonoid.powers (MvPolynomial.X (1 : Fin 2)))
+        (ProjectiveLine.degreeZeroRingEquiv K r)) =
+    algebraMap K (XOneThirteenAffineCurve.CoordinateRing K) r
+  simp only [standardChartRingHom, RingHom.comp_apply,
+    HomogeneousLocalization.algebraMap_apply,
+    HomogeneousLocalization.fromZeroRingHom]
+  have h := Localization.awayLift_mk
+    (standardCoordinatePolynomialHom K
+      (XOneThirteenAffineCurve.CoordinateRing K)
+      (XOneThirteenAffineCurve.xCoordinate K))
+    (MvPolynomial.X (1 : Fin 2)) (MvPolynomial.C r) 1
+    (by rw [standardCoordinatePolynomialHom_X_one]; simp) 0
+  convert h using 1
+  · congr 1
+  · simp [standardCoordinatePolynomialHom]
+
+private theorem reciprocalChartToProjectiveLine_toSpecZero :
+    reciprocalChartToProjectiveLine K ≫
+        Proj.toSpecZero (ProjectiveLine.homogeneousPieces K) =
+      Spec.map (CommRingCat.ofHom
+        ((algebraMap K
+            (XOneThirteenProjectiveCurve.ReciprocalRing K)).comp
+          (ProjectiveLine.degreeZeroRingEquiv K).symm.toRingHom)) := by
+  rw [reciprocalChartToProjectiveLine, Category.assoc,
+    Proj.awayι_toSpecZero, ← Spec.map_comp]
+  congr 1
+  ext p
+  obtain ⟨r, rfl⟩ := (ProjectiveLine.degreeZeroRingEquiv K).surjective p
+  simp only [CommRingCat.ofHom_comp, CommRingCat.hom_comp,
+    ConcreteCategory.hom_ofHom, RingHom.coe_comp, Function.comp_apply,
+    RingEquiv.toRingHom_eq_coe, RingHom.coe_coe,
+    RingEquiv.symm_apply_apply]
+  change infinityChartRingHom K
+      (XOneThirteenProjectiveCurve.ReciprocalRing K)
+      (XOneThirteenProjectiveCurve.zCoordinate K)
+      (HomogeneousLocalization.fromZeroRingHom
+        (ProjectiveLine.homogeneousPieces K)
+        (Submonoid.powers (MvPolynomial.X (0 : Fin 2)))
+        (ProjectiveLine.degreeZeroRingEquiv K r)) =
+    algebraMap K (XOneThirteenProjectiveCurve.ReciprocalRing K) r
+  simp only [infinityChartRingHom, RingHom.comp_apply,
+    HomogeneousLocalization.algebraMap_apply,
+    HomogeneousLocalization.fromZeroRingHom]
+  have h := Localization.awayLift_mk
+    (inverseCoordinatePolynomialHom K
+      (XOneThirteenProjectiveCurve.ReciprocalRing K)
+      (XOneThirteenProjectiveCurve.zCoordinate K))
+    (MvPolynomial.X (0 : Fin 2)) (MvPolynomial.C r) 1
+    (by rw [inverseCoordinatePolynomialHom_X_zero]; simp) 0
+  convert h using 1
+  · congr 1
+  · simp [inverseCoordinatePolynomialHom]
+
+@[simp, reassoc]
+theorem ordinaryChartToProjectiveLine_structureMap :
+    ordinaryChartToProjectiveLine K ≫ ProjectiveLine.structureMap K =
+      XOneThirteenProjectiveCurve.ordinaryChartToBase K := by
+  rw [ProjectiveLine.structureMap, ← Category.assoc,
+    ordinaryChartToProjectiveLine_toSpecZero, ← Spec.map_comp]
+  unfold XOneThirteenProjectiveCurve.ordinaryChartToBase
+  rw [Spec.map_inj]
+  apply CommRingCat.hom_ext
+  ext r
+  simp
+
+@[simp, reassoc]
+theorem reciprocalChartToProjectiveLine_structureMap :
+    reciprocalChartToProjectiveLine K ≫ ProjectiveLine.structureMap K =
+      XOneThirteenProjectiveCurve.reciprocalChartToBase K := by
+  rw [ProjectiveLine.structureMap, ← Category.assoc,
+    reciprocalChartToProjectiveLine_toSpecZero, ← Spec.map_comp]
+  unfold XOneThirteenProjectiveCurve.reciprocalChartToBase
+  rw [Spec.map_inj]
+  apply CommRingCat.hom_ext
+  ext r
+  simp
+
 theorem ordinaryChartToProjectiveLine_preimage_standardAffineOpen :
     ordinaryChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.standardAffineOpen K = ⊤ := by
@@ -884,6 +981,16 @@ private theorem reciprocalOverlapOpen_eq_chartMap_preimage :
   (reciprocalGlueOverlap_opensRange K).symm.trans
     (reciprocalChartMap_preimage_ordinaryChartMap_opensRange K).symm
 
+/-- On the reciprocal chart, the overlap with the ordinary chart is exactly
+the principal open where the reciprocal coordinate `z` is nonzero. -/
+@[simp]
+theorem reciprocalChartMap_preimage_ordinaryChartMap_opensRange_eq_basicOpen :
+    XOneThirteenProjectiveCurve.reciprocalChartMap K ⁻¹ᵁ
+        (XOneThirteenProjectiveCurve.ordinaryChartMap K).opensRange =
+      PrimeSpectrum.basicOpen
+        (XOneThirteenProjectiveCurve.zCoordinate K) := by
+  exact (reciprocalOverlapOpen_eq_chartMap_preimage K).symm
+
 private instance ordinaryOverlapInclusion_isOpenImmersion :
     IsOpenImmersion
       (XOneThirteenProjectiveCurve.overlapInclusion K
@@ -997,6 +1104,16 @@ private theorem ordinaryOverlapOpen_eq_chartMap_preimage :
         (XOneThirteenProjectiveCurve.reciprocalChartMap K).opensRange :=
   (ordinaryGlueOverlap_opensRange K).symm.trans
     (ordinaryChartMap_preimage_reciprocalChartMap_opensRange K).symm
+
+/-- On the ordinary chart, the overlap with the reciprocal chart is exactly
+the principal open where `x` is nonzero. -/
+@[simp]
+theorem ordinaryChartMap_preimage_reciprocalChartMap_opensRange_eq_basicOpen :
+    XOneThirteenProjectiveCurve.ordinaryChartMap K ⁻¹ᵁ
+        (XOneThirteenProjectiveCurve.reciprocalChartMap K).opensRange =
+      PrimeSpectrum.basicOpen
+        (XOneThirteenAffineCurve.xCoordinate K) := by
+  exact (ordinaryOverlapOpen_eq_chartMap_preimage K).symm
 
 private theorem ordinary_reciprocal_hyperelliptic_compatible :
     XOneThirteenProjectiveCurve.overlapInclusion K
@@ -1598,5 +1715,43 @@ theorem hyperellipticMap_preimage_infinityAffineOpen :
 noncomputable instance hyperellipticMap_isFinite :
     IsFinite (hyperellipticMap K) :=
   XOneThirteenHyperellipticMap.gluedHyperellipticMap_isFinite K
+
+/-- The structure morphism obtained by gluing the affine algebra maps is the
+finite hyperelliptic map followed by the structure morphism of projective
+line. -/
+theorem curveToBase_eq_hyperellipticMap_comp_structureMap :
+    curveToBase K =
+      hyperellipticMap K ≫ ProjectiveLine.structureMap K := by
+  letI := Scheme.GlueData.instHasMulticoequalizerDiagram (glueData K)
+  apply Limits.Multicoequalizer.hom_ext
+  intro i
+  rcases i with (_ | _)
+  · change ordinaryChartMap K ≫ curveToBase K =
+      ordinaryChartMap K ≫ hyperellipticMap K ≫
+        ProjectiveLine.structureMap K
+    rw [ordinaryChartMap_curveToBase,
+      ordinaryChartMap_hyperellipticMap_assoc,
+      XOneThirteenHyperellipticMap.ordinaryChartToProjectiveLine_structureMap]
+  · change reciprocalChartMap K ≫ curveToBase K =
+      reciprocalChartMap K ≫ hyperellipticMap K ≫
+        ProjectiveLine.structureMap K
+    rw [reciprocalChartMap_curveToBase,
+      reciprocalChartMap_hyperellipticMap_assoc,
+      XOneThirteenHyperellipticMap.reciprocalChartToProjectiveLine_structureMap]
+
+/-- The actual glued order-thirteen curve is proper over its coefficient
+field.  This is the first downstream consumer of the structural-morphism
+comparison above. -/
+noncomputable instance curveToBase_isProper : IsProper (curveToBase K) := by
+  rw [curveToBase_eq_hyperellipticMap_comp_structureMap]
+  infer_instance
+
+/-- The actual glued order-thirteen curve is Noetherian.  Local
+Noetherianity descends along the finite hyperelliptic map, while compactness
+comes from the proper structure morphism. -/
+noncomputable instance curveScheme_isNoetherian : IsNoetherian (curveScheme K) where
+  toIsLocallyNoetherian :=
+    LocallyOfFiniteType.isLocallyNoetherian (hyperellipticMap K)
+  toCompactSpace := compactSpace_of_universallyClosed (curveToBase K)
 
 end MazurTorsion.XOneThirteenProjectiveCurve

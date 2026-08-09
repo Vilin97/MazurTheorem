@@ -980,8 +980,10 @@ five-isogeny descent), while the genus-two levels require Jacobian descent
 rather than finite-field point counts alone.  The local modules follow that
 boundary strictly.  Their mod-three certificate for level thirteen and
 mod-five certificate for level eighteen prove separability and enumerate
-six reduced point directions, but explicitly make no projective,
-Jacobian-rank, or rational-reduction claim.
+six reduced point directions.  Subsequent checked chart-gluing work now
+identifies the level-thirteen base-field certificate with literal points of
+the proper glued projective scheme, but still makes no Jacobian-rank or
+rational-reduction claim.
 
 The local `X₁(13)` descent identities were independently derived rather
 than copied from a repository or coefficient table.  In particular, the
