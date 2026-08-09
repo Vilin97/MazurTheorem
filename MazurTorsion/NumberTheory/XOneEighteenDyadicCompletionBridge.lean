@@ -472,6 +472,31 @@ noncomputable def completionReduction :
         (IsLocalRing.maximalIdeal
           (coefficientPrimeTwo.adicCompletionIntegers Q.K) ^ 7)))
 
+theorem cubicResidue128EquivGlobal_completionReduction_algebraMap
+    (r : 𝓞 Q.K) :
+    cubicResidue128EquivGlobal
+        (completionReduction
+          (algebraMap (𝓞 Q.K)
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K) r)) =
+      Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7) r := by
+  calc
+    cubicResidue128EquivGlobal
+        (completionReduction
+          (algebraMap (𝓞 Q.K)
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K) r)) =
+      (completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm
+        (Ideal.Quotient.mk
+          (IsLocalRing.maximalIdeal
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K) ^ 7)
+          (algebraMap (𝓞 Q.K)
+            (coefficientPrimeTwo.adicCompletionIntegers Q.K) r)) := by
+        change cubicResidue128EquivGlobal
+          (cubicResidue128EquivGlobal.symm _) = _
+        exact RingEquiv.apply_symm_apply _ _
+    _ = Ideal.Quotient.mk (coefficientPrimeTwo.asIdeal ^ 7) r := by
+      rw [← completionQuotientEquiv_mk]
+      exact RingEquiv.symm_apply_apply _ _
+
 theorem completionReduction_coefficientInteger :
     completionReduction
         (algebraMap (𝓞 Q.K)
@@ -501,6 +526,211 @@ theorem completionReduction_coefficientInteger :
       rw [← completionQuotientEquiv_mk]
       exact RingEquiv.symm_apply_apply _ _
     _ = coefficientTauMod128 := rfl
+
+/-! ## The selected simple root of the local two-division cubic -/
+
+abbrev CoefficientCompletionIntegers :=
+  coefficientPrimeTwo.adicCompletionIntegers Q.K
+
+/-- The two-division cubic over the integers of the coefficient
+completion. -/
+def localTwoDivisionPolynomial : Polynomial CoefficientCompletionIntegers :=
+  X ^ 3 - 3 * X - 10
+
+private theorem localTwoDivisionPolynomial_monic :
+    localTwoDivisionPolynomial.Monic := by
+  simp only [localTwoDivisionPolynomial]
+  monicity <;> norm_num
+
+private theorem ten_mem_coefficientPrimeTwo :
+    (10 : 𝓞 Q.K) ∈ coefficientPrimeTwo.asIdeal := by
+  rw [coefficientPrimeTwo_span, Ideal.mem_span_singleton]
+  exact ⟨5, by norm_num⟩
+
+private theorem three_not_mem_coefficientPrimeTwo :
+    (3 : 𝓞 Q.K) ∉ coefficientPrimeTwo.asIdeal := by
+  intro hthree
+  have hthree' : algebraMap ℤ (𝓞 Q.K) (3 : ℤ) ∈
+      coefficientPrimeTwoIdeal := by
+    simpa only [coefficientPrimeTwo_asIdeal, map_ofNat] using hthree
+  have hz : (3 : ℤ) ∈ Ideal.span {(2 : ℤ)} := by
+    exact (Ideal.mem_of_liesOver (P := coefficientPrimeTwoIdeal)
+      (p := Ideal.span {(2 : ℤ)}) 3).2 hthree'
+  rw [Ideal.mem_span_singleton] at hz
+  obtain ⟨a, ha⟩ := hz
+  omega
+
+private theorem ten_mem_completionMaximalIdeal :
+    (10 : CoefficientCompletionIntegers) ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers := by
+  have h := (coefficientPrimeTwo.algebraMap_mem_maximalIdeal_pow_iff
+    (K := Q.K) (r := (10 : 𝓞 Q.K)) (n := 1)).2 (by
+      simpa only [pow_one] using ten_mem_coefficientPrimeTwo)
+  simpa only [pow_one, map_ofNat] using h
+
+private theorem three_not_mem_completionMaximalIdeal :
+    (3 : CoefficientCompletionIntegers) ∉
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers := by
+  intro hthree
+  have h := (coefficientPrimeTwo.algebraMap_mem_maximalIdeal_pow_iff
+    (K := Q.K) (r := (3 : 𝓞 Q.K)) (n := 1)).1 (by
+      simpa only [pow_one, map_ofNat] using hthree)
+  exact three_not_mem_coefficientPrimeTwo (by
+    simpa only [pow_one] using h)
+
+private theorem exists_localTwoDivisionRoot_aux :
+    ∃ sHat : CoefficientCompletionIntegers,
+      localTwoDivisionPolynomial.IsRoot sHat ∧
+        sHat ∈ IsLocalRing.maximalIdeal CoefficientCompletionIntegers := by
+  have hvalue : localTwoDivisionPolynomial.eval 0 ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers := by
+    have heval : localTwoDivisionPolynomial.eval 0 =
+        (-10 : CoefficientCompletionIntegers) := by
+      norm_num [localTwoDivisionPolynomial]
+    rw [heval]
+    exact (IsLocalRing.maximalIdeal CoefficientCompletionIntegers).neg_mem
+      ten_mem_completionMaximalIdeal
+  have hderivative :
+      IsUnit (localTwoDivisionPolynomial.derivative.eval 0) := by
+    have hthreeUnit : IsUnit (3 : CoefficientCompletionIntegers) :=
+      IsLocalRing.notMem_maximalIdeal.mp
+        three_not_mem_completionMaximalIdeal
+    have hderiv : localTwoDivisionPolynomial.derivative.eval 0 =
+        (-3 : CoefficientCompletionIntegers) := by
+      norm_num [localTwoDivisionPolynomial]
+    rw [hderiv]
+    exact hthreeUnit.neg
+  obtain ⟨sHat, hsHat, hsHatmem⟩ :=
+    HenselianLocalRing.is_henselian localTwoDivisionPolynomial
+      localTwoDivisionPolynomial_monic 0 hvalue hderivative
+  exact ⟨sHat, hsHat, by simpa only [sub_zero] using hsHatmem⟩
+
+/-- The Hensel lift of the simple root `0` modulo the dyadic maximal
+ideal. -/
+noncomputable def localTwoDivisionRoot : CoefficientCompletionIntegers :=
+  Classical.choose exists_localTwoDivisionRoot_aux
+
+theorem localTwoDivisionRoot_isRoot :
+    localTwoDivisionPolynomial.IsRoot localTwoDivisionRoot :=
+  (Classical.choose_spec exists_localTwoDivisionRoot_aux).1
+
+theorem localTwoDivisionRoot_mem_maximalIdeal :
+    localTwoDivisionRoot ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers :=
+  (Classical.choose_spec exists_localTwoDivisionRoot_aux).2
+
+private theorem seventyFour_mem_completionMaximalIdeal :
+    (74 : CoefficientCompletionIntegers) ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers := by
+  have hglobal : (74 : 𝓞 Q.K) ∈ coefficientPrimeTwo.asIdeal := by
+    rw [coefficientPrimeTwo_span, Ideal.mem_span_singleton]
+    exact ⟨37, by norm_num⟩
+  have h := (coefficientPrimeTwo.algebraMap_mem_maximalIdeal_pow_iff
+    (K := Q.K) (r := (74 : 𝓞 Q.K)) (n := 1)).2 (by
+      simpa only [pow_one] using hglobal)
+  simpa only [pow_one, map_ofNat] using h
+
+private def localTwoDivisionRootCofactor : CoefficientCompletionIntegers :=
+  localTwoDivisionRoot ^ 2 + 74 * localTwoDivisionRoot + 74 ^ 2 - 3
+
+private theorem localTwoDivisionRootCofactor_isUnit :
+    IsUnit localTwoDivisionRootCofactor := by
+  let I := IsLocalRing.maximalIdeal CoefficientCompletionIntegers
+  have hrest : localTwoDivisionRoot ^ 2 +
+      74 * localTwoDivisionRoot + 74 ^ 2 ∈ I := by
+    apply I.add_mem
+    · apply I.add_mem
+      · simpa only [pow_two] using
+          I.mul_mem_left localTwoDivisionRoot
+            localTwoDivisionRoot_mem_maximalIdeal
+      · exact I.mul_mem_left 74 localTwoDivisionRoot_mem_maximalIdeal
+    · simpa only [pow_two] using
+        I.mul_mem_left 74 seventyFour_mem_completionMaximalIdeal
+  apply IsLocalRing.notMem_maximalIdeal.mp
+  intro hcofactor
+  have hnegthree : (-3 : CoefficientCompletionIntegers) ∈ I := by
+    have hsub := I.sub_mem hcofactor hrest
+    change localTwoDivisionRootCofactor -
+      (localTwoDivisionRoot ^ 2 + 74 * localTwoDivisionRoot + 74 ^ 2) ∈ I at hsub
+    have heq : localTwoDivisionRootCofactor -
+        (localTwoDivisionRoot ^ 2 + 74 * localTwoDivisionRoot + 74 ^ 2) =
+          (-3 : CoefficientCompletionIntegers) := by
+      simp only [localTwoDivisionRootCofactor]
+      ring
+    rw [heq] at hsub
+    exact hsub
+  have hthree : (3 : CoefficientCompletionIntegers) ∈ I := by
+    simpa only [neg_neg] using I.neg_mem hnegthree
+  exact three_not_mem_completionMaximalIdeal hthree
+
+private theorem oneTwentyEight_mem_completionMaximalIdeal_pow_seven :
+    (128 : CoefficientCompletionIntegers) ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers ^ 7 := by
+  have hglobal : (128 : 𝓞 Q.K) ∈ coefficientPrimeTwo.asIdeal ^ 7 := by
+    rw [coefficientPrimeTwo_pow_seven]
+    exact Ideal.subset_span (Set.mem_singleton 128)
+  have h := (coefficientPrimeTwo.algebraMap_mem_maximalIdeal_pow_iff
+    (K := Q.K) (r := (128 : 𝓞 Q.K)) (n := 7)).2 hglobal
+  simpa only [map_ofNat] using h
+
+/-- The chosen Hensel root has the certified residue `74` modulo `2⁷`.
+The proof uses the exact factorization of the difference of the two cubic
+values and cancellation of a unit, rather than uniqueness as an oracle. -/
+theorem localTwoDivisionRoot_sub_seventyFour_mem_pow_seven :
+    localTwoDivisionRoot - 74 ∈
+      IsLocalRing.maximalIdeal CoefficientCompletionIntegers ^ 7 := by
+  let I := IsLocalRing.maximalIdeal CoefficientCompletionIntegers ^ 7
+  have hroot : localTwoDivisionRoot ^ 3 -
+      3 * localTwoDivisionRoot - 10 = 0 := by
+    simpa only [Polynomial.IsRoot, localTwoDivisionPolynomial,
+      eval_sub, eval_pow, eval_X, eval_mul, eval_ofNat] using
+      localTwoDivisionRoot_isRoot
+  have hfactor :
+      (localTwoDivisionRoot - 74) * localTwoDivisionRootCofactor =
+        -(128 * 3164) := by
+    simp only [localTwoDivisionRootCofactor]
+    linear_combination hroot
+  have hrhs : (-(128 * 3164) : CoefficientCompletionIntegers) ∈ I := by
+    exact I.neg_mem
+      (I.mul_mem_right 3164
+        oneTwentyEight_mem_completionMaximalIdeal_pow_seven)
+  have hproduct :
+      (localTwoDivisionRoot - 74) * localTwoDivisionRootCofactor ∈ I := by
+    rw [hfactor]
+    exact hrhs
+  exact (I.mul_unit_mem_iff_mem
+    localTwoDivisionRootCofactor_isUnit).mp hproduct
+
+private theorem completionReduction_seventyFour :
+    completionReduction (74 : CoefficientCompletionIntegers) =
+      (74 : CubicResidue128) := by
+  apply cubicResidue128EquivGlobal.injective
+  have hseventyFour : (74 : CoefficientCompletionIntegers) =
+      algebraMap (𝓞 Q.K) CoefficientCompletionIntegers (74 : 𝓞 Q.K) := by
+    simp only [map_ofNat]
+  rw [hseventyFour,
+    cubicResidue128EquivGlobal_completionReduction_algebraMap]
+  simp only [map_ofNat]
+
+/-- Under the genuine completion reduction, the Hensel-lifted
+two-division root specializes to the checked scalar root `74`. -/
+theorem completionReduction_localTwoDivisionRoot :
+    completionReduction localTwoDivisionRoot = 74 := by
+  rw [← completionReduction_seventyFour]
+  change
+    cubicResidue128EquivGlobal.symm
+        ((completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm
+          (Ideal.Quotient.mk
+            (IsLocalRing.maximalIdeal CoefficientCompletionIntegers ^ 7)
+            localTwoDivisionRoot)) =
+      cubicResidue128EquivGlobal.symm
+        ((completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm
+          (Ideal.Quotient.mk
+            (IsLocalRing.maximalIdeal CoefficientCompletionIntegers ^ 7) 74))
+  apply congrArg (fun q ↦ cubicResidue128EquivGlobal.symm
+    ((completionQuotientEquiv (K := Q.K) coefficientPrimeTwo 7).symm q))
+  exact Ideal.Quotient.eq.mpr
+    localTwoDivisionRoot_sub_seventyFour_mem_pow_seven
 
 end
 
