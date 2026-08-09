@@ -36,6 +36,40 @@ namespace PicardGroup
 variable {X : Scheme.{u}}
 variable {Y : Type*} {G : Type v} [AddCommGroup G]
 
+/-- The image in the scheme Picard group of the weighted degree-zero divisor
+classes under a supplied additive homomorphism.
+
+Unlike `degreeZero`, this construction neither assumes nor asserts that every
+Picard class is represented by a divisor.  In particular, it is an image
+subgroup, not a representability statement about a relative Picard functor. -/
+noncomputable def degreeZeroImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X) :
+    AddSubgroup (PicardGroup X) :=
+  (S.picZero w h).map φ
+
+/-- Restrict a divisor-class-to-Picard homomorphism to its actual
+weighted-degree-zero image. -/
+noncomputable def picZeroToDegreeZeroImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X) :
+    S.picZero w h →+ degreeZeroImage S w h φ where
+  toFun c := ⟨φ c.1, ⟨c.1, c.2, rfl⟩⟩
+  map_zero' := Subtype.ext (map_zero φ)
+  map_add' c d := Subtype.ext (map_add φ c.1 d.1)
+
+/-- The restricted map has the supplied class-to-Picard homomorphism as its
+underlying Picard-valued function. -/
+@[simp]
+lemma coe_picZeroToDegreeZeroImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X) (c : S.picZero w h) :
+    (picZeroToDegreeZeroImage S w h φ c : PicardGroup X) = φ c.1 :=
+  rfl
+
 /-- The degree-zero subgroup of the scheme Picard group transported from divisor classes. -/
 noncomputable def degreeZero
     (S : WeilDivisor.OrderSystem Y G)
@@ -171,6 +205,77 @@ namespace CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
 
 open TopologicalSpace
 open TauCeti.AlgebraicGeometry.WeilDivisor
+
+/-- Descend the divisor-to-Picard map supplied by an exact global principal
+boundary to divisor classes.  This construction needs principal triviality,
+but no surjectivity onto the full scheme Picard group. -/
+noncomputable def classToPicOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective) :
+    S.ClassGroup →+ PicardGroup X :=
+  DivisorPicard.classToPic S
+    (divisorToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b)
+    (divisorToPicOfGlobalPrincipalBoundary_principalTrivial
+      X U hnonempty hcover hU h S C heffective hadd b)
+
+/-- On a divisor representative, the descended class map is the actual
+line-bundle Picard class constructed from the global principal boundary. -/
+@[simp]
+lemma classToPicOfGlobalPrincipalBoundary_divisorClass
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (D : WeilDivisor (TauCeti.AlgebraicGeometry.CodimensionOnePoint X)) :
+    classToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b (S.divisorClass D) =
+      divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b D :=
+  DivisorPicard.classToPic_divisorClass S
+    (divisorToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b)
+    (divisorToPicOfGlobalPrincipalBoundary_principalTrivial
+      X U hnonempty hcover hU h S C heffective hadd b) D
+
+/-- The weighted degree-zero divisor-class image supplied by the global
+principal boundary, without a Picard-surjectivity hypothesis. -/
+noncomputable def degreeZeroImageOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w) : AddSubgroup (PicardGroup X) :=
+  PicardGroup.degreeZeroImage S w hdegree
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b)
 
 /-- The explicit-inverse curve descent route supplies the absolute degree-zero Picard subgroup
 without first constructing the stronger all-invertible-sheaves dictionary. This is a direct
