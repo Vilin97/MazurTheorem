@@ -457,6 +457,16 @@ basic-open membership lemmas and an explicit quotient-grading-hom
 normalization.  These two leaves still stop before the global pointed
 field-points dictionary.
 
+`XZeroGammaOneTateProjectivePoints.lean`, local blob
+`d2234805dd3cb9fa634fc8221f9e4fd2029bab50`, selectively adapts that global
+field-point dictionary from the same licensed `WeierstrassModel.lean` blob.
+It constructs the generic infinity section `[0:1:0]`, proves it is the unique
+point outside the `Z`-chart, and gives an explicit pointed equivalence between
+scheme-valued field points and Mathlib's affine Weierstrass points.  The local
+proof reuses the separately checked chart equivalences and overlap criterion;
+it omits the source's choice-normalized wrapper, group-law compatibility, and
+`Over` equivalence.
+
 `ForMathlib/WeierstrassSecondAdditionLaw.lean`, local blob
 `4b24e35e355735bb0afb20b2b056db258506d061`, selectively adapts the second
 Bosma--Lenstra bidegree-`(2,2)` addition law from AINTLIB

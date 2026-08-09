@@ -665,13 +665,16 @@ arbitrary scheme base change.  The first field-point leaf identifies each
 coordinate chart with its dehomogenized solutions and proves that every
 field-valued point lies in some chart; a second leaf proves the exact
 coordinate readout and nonvanishing criterion on chart overlaps without the
-source transparency option.  It does not conflate this homogeneous quotient
-`Proj` with the older reduced vanishing-ideal cubic.
+source transparency option.  The resulting global dictionary constructs the
+point at infinity, proves it is the unique point off the `Z`-chart, and
+identifies field-valued scheme points with Mathlib's affine Weierstrass
+points.  It does not conflate this homogeneous quotient `Proj` with the older
+reduced vanishing-ideal cubic.
 
-This still does not import AINTLIB's full model or classifier: the chart
-global pointed dictionary, scheme group law, strong coefficient-
-base-change, exact-order locus, and represented/coarse moduli cones remain
-separate option-free work.  The audited honest group-object route begins with
+This still does not import AINTLIB's full model or classifier: the scheme
+group law, strong coefficient-base-change, exact-order locus, and
+represented/coarse moduli cones remain separate option-free work.  The
+audited honest group-object route begins with
 Bosma--Lenstra's two complete bidegree-`(2,2)` addition laws and then passes
 through AINTLIB's chart gluing and group-law axioms; uniqueness theorems for a
 supplied group object are not substitutes for that construction.  The second

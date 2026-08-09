@@ -179,9 +179,11 @@ chart-points leaves selectively adapt the corresponding chart and field-point
 slices of that same blob.  The smoothness leaf replaces the source's two
 transparency-option wrappers by explicitly typed default-pin proofs; the
 chart-transition extraction replaces the source's option-wrapped overlap
-theorem by explicitly typed basic-open membership lemmas and stops before the
-global point dictionary.  Each local file retains Chris Birkbeck and the
-AINTLIB contributors in its copyright/authorship header.
+theorem by explicitly typed basic-open membership lemmas.  A further local
+leaf adapts the global field-point dichotomy and pointed affine-point
+equivalence while omitting the choice-normalized, group-law, and `Over`
+wrappers.  Each local file retains Chris Birkbeck and the AINTLIB contributors
+in its copyright/authorship header.
 
 `WeierstrassSecondAdditionLaw.lean` selectively adapts the second
 Bosma--Lenstra addition-law formulas and their elementary algebraic identities
