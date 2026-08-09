@@ -679,9 +679,11 @@ Bosma--Lenstra's two complete bidegree-`(2,2)` addition laws and then passes
 through AINTLIB's chart gluing and group-law axioms; uniqueness theorems for a
 supplied group object are not substitutes for that construction.  The second
 law's coordinate polynomials, bihomogeneity, zero behavior, and diagonal
-identities are now retained as an attributed algebraic leaf; coverage and
-scheme-level gluing remain distinct checked steps. Exact blobs and
-licensed-default evidence for the retained and adapted files are in
+identities are now retained as an attributed algebraic leaf.  A second leaf
+proves that the two triples are on-curve and jointly cover every pair of
+nonsingular field points; scheme-level chart morphisms and gluing remain
+distinct checked steps. Exact blobs and licensed-default evidence for the
+retained and adapted files are in
 `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
 
 The whole AINTLIB project is neither vendored nor treated as a Lean Pool-ready

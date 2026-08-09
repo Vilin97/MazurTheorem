@@ -193,6 +193,16 @@ commit.  The source's explicit Chris Birkbeck Apache-2.0 header is retained.
 This leaf is polynomial substrate only and makes no coverage, morphism, or
 group-object claim.
 
+`WeierstrassSecondAdditionCoverage.lean` selectively adapts the corresponding
+cross-minor, field-coverage, and first-law on-curve declarations from the
+same `AdditionLaw.lean` blob and AINTLIB `AdditionLawField.lean`/
+`AdditionLawOnCurve.lean`, exact blobs
+`2d2dedf5639d707f9dda0a0e26a25a123b842c0d` and
+`6cdd1aa98921c9fbf607b855e3243de316fdca6d`.  The source files occur at the
+licensed default commit and carry the AINTLIB Apache-2.0 attribution.  The
+local endpoint is field-valued algebraic coverage only; scheme gluing remains
+downstream.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or

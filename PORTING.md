@@ -478,6 +478,19 @@ polynomials, their bihomogeneity, their six zero-left/zero-right formulas,
 and their four diagonal identities.  It does not by itself assert coverage,
 construct a morphism, or install a group object.
 
+`ForMathlib/WeierstrassSecondAdditionCoverage.lean`, local blob
+`896d90689047adfd003294843bbf96dd7470a00d`, is the next declaration slice.
+It combines the three exact cross-minor certificates from the same
+`AdditionLaw.lean` blob with the field proportionality/coverage proofs from
+`AdditionLawField.lean`, exact blob
+`2d2dedf5639d707f9dda0a0e26a25a123b842c0d`, and the minimum first-law
+on-curve/scaling slice from `AdditionLawOnCurve.lean`, exact blob
+`6cdd1aa98921c9fbf607b855e3243de316fdca6d`.  All three source blobs occur at
+the licensed default commit and carry the recorded AINTLIB Apache-2.0
+attribution.  The public endpoint proves that both triples lie on an elliptic
+curve and cannot vanish simultaneously over field-valued nonsingular inputs;
+it still makes no scheme-morphism or group-object claim.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module
