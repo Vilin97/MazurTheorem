@@ -255,17 +255,3 @@ theorem finrank_eq_zero_of_fppfKummer_finiteEtaleQuotientInt_eleven
 end FppfQuotientPresentation
 
 end AlgebraicGeometry.FiniteFlatCommGroupScheme
-
-namespace AlgebraicGeometry.FiniteFlatCommGroupScheme
-
-#print axioms finiteEtaleBasePointEquivFin
-#print axioms finiteEtaleBasePointCertifiedDataInt
-
-namespace FppfQuotientPresentation
-
-#print axioms finrank_eq_zero_of_fppfKummer_finiteEtaleQuotientInt
-#print axioms finrank_eq_zero_of_fppfKummer_finiteEtaleQuotientInt_five
-#print axioms finrank_eq_zero_of_fppfKummer_finiteEtaleQuotientInt_eleven
-
-end FppfQuotientPresentation
-end AlgebraicGeometry.FiniteFlatCommGroupScheme
