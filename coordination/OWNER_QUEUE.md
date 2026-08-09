@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The Néron section-specialization bridge is integrated through `aeb1292`.
+It constructs specialization by the checked Néron mapping property, proves
+that equal closed-fibre restrictions plus torsion and injectivity force two
+integral quotient sections to agree, and supplies genuine theorem-level
+consumers for the prime route at five and order 35 at eleven.  The exact
+8,727-job owner-context build and all four representative endpoint axiom
+audits pass; the endpoints use only `propext`, `Classical.choice`, and
+`Quot.sound`.  The bridge deliberately leaves the modular quotient map,
+formal immersion, generic torsion, and torsion-specialization injectivity as
+explicit premises, so it earns no roadmap credit.  The next critical
+consumer must obtain those inputs from the actual Eisenstein quotient and
+its Néron model.
+
 The reviewed finite-flat/fppf cohomology cone is integrated through
 `b3f2189`.  Thirteen new modules prove additive and multiplicative fppf
 effectivity, the actual power-map and Artin--Schreier quotient boundaries,
@@ -127,8 +140,8 @@ group-law compatibility interface.  The focused 3,225-job build, three public
 endpoint axiom audits, and diff/forbidden scans pass; the endpoints use only
 `propext`, `Classical.choice`, and `Quot.sound`.  This does not construct the
 coarse `X_0(49)` classifying map or prove the final contradiction, so it earns
-no roadmap credit.  Source accounting for these checkpoints is 1,004 integrated
-Lean modules / 1,569,335 lines.
+no roadmap credit.  Source accounting for these checkpoints is 1,005 integrated
+Lean modules / 1,569,618 lines.
 
 The Néron realization layer is integrated at `e13274e`.  An explicit
 `NeronModel` interface now packages the generic-fibre identification and
