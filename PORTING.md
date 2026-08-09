@@ -383,6 +383,16 @@ generic homogeneous-quotient surjectivity theorem and evaluation at infinity
 identify the degree-zero ring with the coefficient ring; Mathlib's properness
 of `Proj.toSpecZero` then proves the universal family projection proper.
 
+`ForMathlib/ProjQuotientAway.lean` is a declaration-sliced adaptation of
+AINTLIB `ForMathlib/ProjClosedImmersion.lean`, exact blob
+`7713fc7254aadc94b713028a74178b0ec439e1f6`. The blob is byte-identical at the
+licensed default-branch commit above, whose root Apache-2.0 license has blob
+`8dada3edaf50dbc082c9a125058f25def75e625a`. The local leaf retains only the
+away-map surjectivity theorem and the principal chart-kernel computation. It
+omits the source's option-dependent scheme closed-immersion proof and its
+unused projective-chart import, and uses a private copy of the elementary
+localization-value ring hom rather than importing that larger chart file.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module

@@ -149,6 +149,12 @@ default-branch commit; its retained header attributes the original Mathlib PR
 default-branch commit, and retains its explicit AINTLIB contributors
 Apache-2.0 header.
 
+`ProjQuotientAway.lean` selectively adapts the away-map surjectivity and
+principal chart-kernel declarations from AINTLIB `ProjClosedImmersion.lean`,
+exact blob `7713fc7254aadc94b713028a74178b0ec439e1f6`, identical at the licensed
+default-branch commit. The option-dependent scheme closed-immersion theorem
+is not included.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or
