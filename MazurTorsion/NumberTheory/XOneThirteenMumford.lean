@@ -100,6 +100,25 @@ theorem cuspPair_isMumfordPair :
   apply isMumfordPair_of_remainders_eq_zero <;>
     norm_num [mumfordRemainderConstant, mumfordRemainderLinear]
 
+/-! ## Affine points as degree-one Mumford data -/
+
+/-- Divisibility certificate attached to an affine point. -/
+def IsAffineMumfordPoint (x y : ℚ) : Prop :=
+  X - C x ∣ sexticPolynomial - C y ^ 2
+
+/-- A degree-one Mumford certificate is exactly the fixed affine curve
+equation.  This is the bridge used by the later curve-to-class map. -/
+theorem isAffineMumfordPoint_iff (x y : ℚ) :
+    IsAffineMumfordPoint x y ↔
+      y ^ 2 =
+        MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial x := by
+  rw [IsAffineMumfordPoint, dvd_iff_isRoot]
+  simp only [IsRoot, eval_sub, eval_pow, eval_C]
+  simp only [sexticPolynomial,
+    MazurTorsion.Kubert.orderThirteenHyperellipticPolynomial,
+    eval_add, eval_mul, eval_pow, eval_X, eval_ofNat, eval_one]
+  constructor <;> intro h <;> linarith
+
 end
 
 end MazurTorsion.XOneThirteenMumford
