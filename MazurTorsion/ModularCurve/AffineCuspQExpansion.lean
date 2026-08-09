@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.AlgebraicGeometry.FormalImmersionAffineFiberSpec
 import MazurTorsion.ModularCurve.HeckeFirstCoefficient
+import Mathlib.RingTheory.DiscreteValuationRing.Basic
 
 /-!
 # An affine cusp uniformizer feeds the `Spec.map` formal-immersion criterion
@@ -13,17 +14,17 @@ import MazurTorsion.ModularCurve.HeckeFirstCoefficient
 This file narrows the remaining handoff from an explicit modular affine chart
 to the checked affine-fibre formal-immersion machinery.  For an affine map
 `Spec T → Spec S`, a prime `q` of the special fibre of `T` is the proposed
-cusp.  The geometric chart calculation is asked to prove that an element
-called `qParameter`:
+cusp.  The explicit criterion records that an element called `qParameter`:
 
 * generates the maximal ideal of the localized special fibre at `q`; and
 * does not lie in its square.
 
-Those two concrete equalities imply that the source cotangent space has
-dimension one.  Thus a nonzero first-`q`-coefficient of one pulled-back
-cotangent vector supplies `Ideal.Fiber.IsAffineFiberDegreeOneCotangent`, and
-the existing stalk comparison proves formal immersion for the genuine map
-`Spec.map g`.
+Those two concrete facts imply that the source cotangent space has dimension
+one.  The final adapter derives both from an honest DVR instance and an
+irreducible `qParameter`.  Thus a nonzero first-`q`-coefficient of one
+pulled-back cotangent vector supplies
+`Ideal.Fiber.IsAffineFiberDegreeOneCotangent`, and the existing stalk
+comparison proves formal immersion for the genuine map `Spec.map g`.
 
 No integral `X₀(N)` is manufactured here.  An application to the Mazur route
 must still construct the represented modular chart, identify its cusp prime
@@ -293,6 +294,26 @@ universe u
 variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
 
+/-- An irreducible element of a DVR survives modulo the square of its
+maximal ideal.
+
+This is kept as an implementation lemma for the uniformizer adapter below:
+the public interface asks for the intrinsic DVR and irreducibility data,
+rather than exposing the two ideal-theoretic consequences as premises. -/
+private theorem irreducible_not_mem_maximalIdeal_sq
+    {A : Type*} [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A]
+    {qParameter : A} (hqParameter : Irreducible qParameter) :
+    qParameter ∉ IsLocalRing.maximalIdeal A ^ 2 := by
+  intro hsq
+  rw [hqParameter.maximalIdeal_eq, Ideal.span_singleton_pow] at hsq
+  obtain ⟨c, hc⟩ := Ideal.mem_span_singleton.mp hsq
+  have hcancel : (1 : A) = qParameter * c := by
+    apply mul_left_cancel₀ hqParameter.ne_zero
+    simpa [pow_two, mul_assoc] using hc
+  exact hqParameter.not_isUnit
+    (isUnit_iff_exists_inv.mpr ⟨c, hcancel.symm⟩)
+
 /-- The named downstream handoff for a represented modular affine cusp chart.
 
 It consumes an actual first-order identity in the localized special-fibre
@@ -386,5 +407,55 @@ theorem isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion
       hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
   exact isFormalImmersionAtSpecMap_of_qParameter p g q hresidueFiber
     qParameter hmaximal hqLinear detectedVector hdetected hresidueAmbient
+
+/-- A DVR uniformizer and a nonzero Hecke eigen-expansion prove formal
+immersion for the genuine affine `Spec.map` morphism.
+
+The local geometry is expressed intrinsically: the localized special-fibre
+ring is a DVR and `qParameter` is irreducible.  The DVR uniformizer theorem
+then derives both generation of the maximal ideal and survival modulo its
+square, so callers do not separately assert either conclusion. -/
+theorem
+    isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_dvrUniformizer
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    [IsDomain (Localization.AtPrime q)]
+    [IsDiscreteValuationRing (Localization.AtPrime q)]
+    (qParameter : Localization.AtPrime q)
+    (hqParameter : Irreducible qParameter)
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField (Localization.AtPrime q))
+      (PowerSeries
+        (IsLocalRing.ResidueField (Localization.AtPrime q))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField (Localization.AtPrime q))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q)
+    (hresidueAmbient : Function.Surjective
+      (IsLocalRing.ResidueField.map (ambientLocalizedMap p g q))) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p q) :=
+  isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion p g q qParameter
+    hqParameter.maximalIdeal_eq
+    (irreducible_not_mem_maximalIdeal_sq hqParameter) sourceParameter
+    hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
+    hresidueAmbient
 
 end MazurTorsion.ModularCurve.AffineCuspQExpansion

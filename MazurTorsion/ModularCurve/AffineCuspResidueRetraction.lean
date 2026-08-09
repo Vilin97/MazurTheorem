@@ -577,4 +577,62 @@ theorem
     hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
     (C.atFiberPoint p)
 
+/-- A structural cusp section and an intrinsic DVR uniformizer prove formal
+immersion at the canonically selected special-fibre point.
+
+The section constructs the fibre prime and both residue-field comparisons.
+The DVR and irreducibility hypotheses derive the maximal-ideal generator and
+nonzero cotangent class, so neither ideal-theoretic conclusion is part of the
+public input. -/
+theorem
+    isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_dvrUniformizer_of_structuralSection
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T)
+    (C : AffineStructuralSection (R := R) (T := T))
+    [IsNoetherianRing S] [IsNoetherianRing T]
+    [IsNoetherianRing (p.Fiber T)]
+    [IsDomain (Localization.AtPrime (C.fiberPrime p))]
+    [IsDiscreteValuationRing
+      (Localization.AtPrime (C.fiberPrime p))]
+    (qParameter : Localization.AtPrime (C.fiberPrime p))
+    (hqParameter : Irreducible qParameter)
+    (sourceParameter : Localization.AtPrime
+      ((C.fiberPrime p).comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime ((C.fiberPrime p).comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring
+          (Localization.AtPrime (C.fiberPrime p)) ≃+*
+        PowerSeries
+          (IsLocalRing.ResidueField
+            (Localization.AtPrime (C.fiberPrime p))))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p))))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom
+            (Localization.AtPrime (C.fiberPrime p))
+            (localizedMap p g (C.fiberPrime p) sourceParameter)) = Q)
+    (hQ : Q ≠ 0)
+    (hecke : ℕ → Module.End
+      (IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p)))
+      (PowerSeries
+        (IsLocalRing.ResidueField
+          (Localization.AtPrime (C.fiberPrime p)))))
+    (eigenvalue : ℕ →
+      IsLocalRing.ResidueField
+        (Localization.AtPrime (C.fiberPrime p)))
+    (hfirst : ∀ n, PowerSeries.coeff 1 (hecke n Q) =
+      PowerSeries.coeff n Q)
+    (heigen : ∀ n, hecke n Q = eigenvalue n • Q) :
+    IsFormalImmersionAt (Spec.map (CommRingCat.ofHom g.toRingHom))
+      (targetSpecPoint p (C.fiberPrime p)) :=
+  isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_dvrUniformizer
+    p g (C.fiberPrime p) qParameter hqParameter sourceParameter
+    hsourceMem qCoordinate Q hqExpansion hQ hecke eigenvalue hfirst heigen
+    (ambientResidue_surjective_of_section p g (C.fiberPrime p)
+      (C.atFiberPoint p))
+
 end MazurTorsion.ModularCurve.AffineCuspQExpansion
