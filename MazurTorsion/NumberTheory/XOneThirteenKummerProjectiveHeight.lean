@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import Mathlib.Algebra.GCDMonoid.Finset
 import Mathlib.Data.Int.Interval
 import Mathlib.LinearAlgebra.Projectivization.Basic
+import Mathlib.RingTheory.PrincipalIdealDomain
 import MazurTorsion.NumberTheory.XOneThirteenAbstractHalvingDescent
 
 /-!
@@ -157,6 +158,20 @@ theorem signNormalize_neg (v : IntegralFour) (hv : v ≠ 0) :
 def content (v : IntegralFour) : ℕ :=
   Finset.univ.gcd fun i => (v i).natAbs
 
+/-- The normalized integer gcd of a finite family is the natural gcd of its
+absolute values, cast back to `ℤ`. -/
+private theorem int_finset_gcd_eq_natAbs_finset_gcd
+    {ι : Type*} (s : Finset ι) (f : ι → ℤ) :
+    s.gcd f = ((s.gcd (fun i => (f i).natAbs) : ℕ) : ℤ) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => simp
+  | @insert a s ha ih =>
+      rw [Finset.gcd_insert, Finset.gcd_insert, ih, ← Int.coe_gcd,
+        Int.gcd_eq_natAbs]
+      simp
+      rfl
+
 @[simp]
 theorem content_neg (v : IntegralFour) : content (-v) = content v := by
   simp [content]
@@ -257,6 +272,88 @@ integral record. -/
 def toProjectivePoint (P : NormalizedPrimitiveFour) :
     Projectivization ℚ (Fin 4 → ℚ) :=
   Projectivization.mk ℚ P.rationalCoordinates P.rationalCoordinates_ne_zero
+
+/-- The four primitive coordinates generate the unit ideal over `ℤ`. -/
+private theorem exists_bezout_coefficients (P : NormalizedPrimitiveFour) :
+    ∃ c : Fin 4 → ℤ, 1 = ∑ i, P.coords i * c i := by
+  have hgcd : Finset.univ.gcd P.coords = (1 : ℤ) := by
+    rw [int_finset_gcd_eq_natAbs_finset_gcd]
+    change (content P.coords : ℤ) = 1
+    simp [P.content_eq_one]
+  obtain ⟨c, hc⟩ := Finset.gcd_eq_sum_mul Finset.univ P.coords
+  refine ⟨c, ?_⟩
+  simpa [hgcd] using hc
+
+/-- If a rational scalar sends a primitive integral vector to another
+integral vector, then that scalar is an integer. -/
+private theorem scalar_eq_intCast_of_smul_rationalCoordinates
+    (P Q : NormalizedPrimitiveFour) (a : ℚ)
+    (h : a • Q.rationalCoordinates = P.rationalCoordinates) :
+    ∃ k : ℤ, a = (k : ℚ) := by
+  obtain ⟨c, hc⟩ := exists_bezout_coefficients Q
+  let k : ℤ := ∑ i, P.coords i * c i
+  refine ⟨k, ?_⟩
+  have hcoord (i : Fin 4) :
+      a * (Q.coords i : ℚ) = (P.coords i : ℚ) := by
+    have hi := congrFun h i
+    simpa [rationalCoordinates, rationalCoordinatesOf, smul_eq_mul] using hi
+  have hcQ : ∑ i, (Q.coords i : ℚ) * (c i : ℚ) = 1 := by
+    exact_mod_cast hc.symm
+  calc
+    a = a * 1 := by simp
+    _ = a * ∑ i, (Q.coords i : ℚ) * (c i : ℚ) := by rw [hcQ]
+    _ = ∑ i, (a * (Q.coords i : ℚ)) * (c i : ℚ) := by
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro i hi
+      ring
+    _ = ∑ i, (P.coords i : ℚ) * (c i : ℚ) := by
+      apply Finset.sum_congr rfl
+      intro i hi
+      rw [hcoord]
+    _ = (k : ℚ) := by
+      simp only [k]
+      norm_cast
+
+/-- A normalized primitive integral representative is the unique such
+representative of its rational projective point. -/
+theorem toProjectivePoint_injective :
+    Function.Injective toProjectivePoint := by
+  intro P Q hPQ
+  obtain ⟨a, ha⟩ :=
+    (Projectivization.mk_eq_mk_iff' ℚ _ _ _ _).1 hPQ
+  have ha0 : a ≠ 0 := by
+    intro hzero
+    apply P.rationalCoordinates_ne_zero
+    rw [← ha, hzero, zero_smul]
+  obtain ⟨k, hak⟩ :=
+    scalar_eq_intCast_of_smul_rationalCoordinates P Q a ha
+  have hreverse : a⁻¹ • P.rationalCoordinates = Q.rationalCoordinates := by
+    rw [← ha, ← mul_smul, inv_mul_cancel₀ ha0, one_smul]
+  obtain ⟨l, hal⟩ :=
+    scalar_eq_intCast_of_smul_rationalCoordinates Q P a⁻¹ hreverse
+  have hkl_rat : (k : ℚ) * (l : ℚ) = 1 := by
+    rw [← hak, ← hal, mul_inv_cancel₀ ha0]
+  have hkl : k * l = 1 := by
+    exact_mod_cast hkl_rat
+  rcases Int.eq_one_or_neg_one_of_mul_eq_one hkl with hk | hk
+  · apply rationalCoordinates_injective
+    calc
+      P.rationalCoordinates = a • Q.rationalCoordinates := ha.symm
+      _ = Q.rationalCoordinates := by simp [hak, hk]
+  · have hcoords : P.coords = -Q.coords := by
+      funext i
+      have hi := congrFun ha i
+      change a * (Q.coords i : ℚ) = (P.coords i : ℚ) at hi
+      rw [hak, hk] at hi
+      norm_num at hi
+      have hiZ : P.coords i = -Q.coords i := by
+        exact_mod_cast hi.symm
+      simpa using hiZ
+    have hnegNormalized : IsSignNormalized (-Q.coords) := by
+      rw [← hcoords]
+      exact P.sign_normalized
+    exact (not_isSignNormalized_neg Q.coords Q.sign_normalized hnegNormalized).elim
 
 /-- Sign-normalizing a primitive integral vector preserves its rational
 projective point. -/
