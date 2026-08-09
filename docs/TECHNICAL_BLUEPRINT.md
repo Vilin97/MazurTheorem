@@ -1348,8 +1348,12 @@ hyperelliptic pencil leaves a nineteen-element reduced class certificate at
 either prime.  These remain explicit combinatorial certificates, not
 definitions of a Picard group, Jacobian, or rational reduction map.  The
 base-field point certificates are now identified with literal points of the
-proper glued projective curve; the quadratic-extension rows and the reduced
-degree-two quotient are not yet geometrically identified.  The perfect coordinate set
+proper glued projective curve.  The quadratic-pair rows are likewise
+identified with genuine sections of the glued family instantiated over the
+checked fields `𝔽₉` and `𝔽₂₅`, giving actual counts of eight and twelve.
+The categorical comparison with base changes of the `𝔽₃` and `𝔽₅` models,
+and the identification of the reduced degree-two quotient with a Picard
+group, remain open.  The perfect coordinate set
 `{1,-1,7,-7,8,-8} ⊂ ZMod 19` sends the three conjugate rational pairs
 and every quadratic hyperelliptic fiber to zero, while the other eighteen
 pair sums enumerate the nonzero residues.  This supplies a checked bijection

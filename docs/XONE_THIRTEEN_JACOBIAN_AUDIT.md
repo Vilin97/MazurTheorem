@@ -108,8 +108,8 @@ pair has a multiplicative inverse, and that Frobenius is pair conjugation.
 The non-base points form one conjugate fiber over `𝔽₃` and three over
 `𝔽₅`.
 
-The base-field rows are now also geometric statements about the actual
-two-chart scheme.  The checked internal chart decomposition proves that
+The base-field rows are geometric statements about the actual two-chart
+scheme.  The checked internal chart decomposition proves that
 every morphism from the spectrum of a field to the glued curve factors
 either through the ordinary chart or through the reciprocal boundary.  The
 checked overlap identity says that this boundary is exactly `z = 0`, whose
@@ -118,9 +118,20 @@ equation reduces to `w² = 1`.  Consequently
 `pointCertificateEquivSchemePointF5` identify the old six-element
 certificates with literal points of the glued projective scheme.  In
 particular, `card_schemePoint_F3` and `card_schemePoint_F5` prove actual
-scheme-point counts of six.  The `𝔽₉` and `𝔽₂₅` rows remain transparent
-quadratic-pair certificates; they have not yet been identified with points
-of a field-valued base change of the glued scheme.
+scheme-point counts of six.  For the extension fields, `F9` and `F25` are
+the actual quadratic algebras obtained by adjoining a root of `T² - 2`;
+the checked nonsquare certificates supply their field structures.  Here a
+rational point is correctly expressed as a section of the curve structure
+morphism: arbitrary scheme morphisms also include Frobenius-twisted maps.
+The equivalences `pointCertificateEquivCurveSectionF9` and
+`pointCertificateEquivCurveSectionF25` transport the transparent pair
+enumerations to these genuine rational points.  Thus
+`card_curveSection_F9` and `card_curveSection_F25` prove actual point counts
+of eight and twelve for the glued family instantiated over those fields.
+What is not yet checked is the categorical comparison identifying these
+instantiations with base changes of the particular `𝔽₃`- and `𝔽₅`-models;
+that compatibility is still required before using the four counts in a
+zeta-function or Jacobian-reduction argument.
 
 The degree-two enumeration is therefore
 
@@ -221,10 +232,10 @@ The dependency-critical missing steps are:
 1. prove that the now-proper glued curve is integral, smooth of relative
    dimension one, and genus two, and construct its good integral models at
    `3` and `5`;
-2. identify the quadratic-extension point certificates with actual
-   `𝔽₉`- and `𝔽₂₅`-points, construct the degree-zero Picard
-   group/Jacobian, and identify the two finite reductions with the checked
-   reduced degree-two certificates;
+2. prove the coefficient/base-change comparisons from the `𝔽₃` and `𝔽₅`
+   models to the checked `𝔽₉` and `𝔽₂₅` instantiations, construct the
+   degree-zero Picard group/Jacobian, and identify the two finite reductions
+   with the checked reduced degree-two certificates;
 3. prove the good-reduction kernel bounds on rational torsion;
 4. prove `J(ℚ)` has rank zero (or formalize the Mazur--Tate
    `19`-isogeny-surjectivity descent that implies finiteness);
