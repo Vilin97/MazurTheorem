@@ -332,6 +332,21 @@ Tau Ceti contract. Larger roadmap nodes build from
 Tau Ceti's existing divisor-class and Abel-Jacobi scaffolding but receive no
 theorem-completion credit until their contracts are proved and consumed.
 
+The local
+`MazurTorsion/Upstream/ProjectiveLineCechHOneFinite.lean` proof reuses the
+standard-chart API from this exact dependency and repeats/adapts several
+private coordinate calculations from
+`TauCeti/AlgebraicGeometry/ProjectiveLine/Basic.lean`. In particular, these
+calculations identify the affine and inverse affine coordinates under the
+two `Proj` chart isomorphisms and their overlap relation. They are recorded
+locally because private upstream theorems cannot be referenced across the
+package boundary. The subsequent coherent principal-parts argument, exact
+two-chart Cech differential, and assembly with the separately attributed
+finite-pushforward and sheaf-cohomology comparisons are local formalization
+work. Their intended concrete specialization is the finite hyperelliptic map
+on the projective order-thirteen curve; that dependent consumer is tracked
+separately from this upstream-facing checkpoint.
+
 Its present value is therefore both concrete and prospective: it supplies
 usable lower layers, but it does not yet discharge a finite-order obstruction
 or the prime-level argument.
