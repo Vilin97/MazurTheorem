@@ -71,6 +71,7 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/BaseChangeAlongCompat.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantBaseChange.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantLocalization.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/RepresentableAut.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecGroupAction.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackLocalAtTarget.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/InvariantTorsor.lean`
@@ -108,6 +109,11 @@ weakened. The additional translation proof adaptation and its exact-blob
 license evidence are described above. No other AINTLIB geometry source is
 included or adapted. Details are recorded in `PORTING.md` and
 `docs/PRIOR_ART.md`.
+
+`RepresentableAut.lean` is an unchanged, Mathlib-only Yoneda transport leaf,
+with exact upstream blob `de1c89486034c2a167d7bb0200360148662091d0`. Its
+explicit Apache-2.0 file header is retained; the identical blob also occurs at
+the licensed default-branch commit named above.
 
 ## AINTLIB Hilbert 92 and Hilbert 94 foundations
 

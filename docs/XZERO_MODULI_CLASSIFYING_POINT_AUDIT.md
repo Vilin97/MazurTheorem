@@ -219,6 +219,20 @@ no `YOneFine -> YZeroCoarse` morphism or quotient universal property for
 full-level-to-Gamma-one leg `Y(N) ⟶ Y_1(N)`; there is no descent or universal
 property producing the required Gamma-one-to-Gamma-zero morphism.
 
+A later history audit found an important refinement. AINTLIB commit
+`4887bb8224d8affd4b127a3827a065514c54197e` reports the direct theorem
+`gammaOneNaive_representable` with axiom closure exactly `propext`,
+`Classical.choice`, and `Quot.sound`. Commit
+`4b93c0d423dd009ecb6f4bb8497bfa3f0df655e5` then moves that tree to Lean
+`v4.33.0-rc1` and Mathlib `a5b963235893...`; the Mazur Mathlib revision
+`79d0395a1825a6264ad5d269e35e60537518955e` is only three Mathlib commits
+earlier. This makes a declaration-sliced exact-pin port materially more
+plausible than the latest-revision gap suggested. It does not make a wholesale
+source port admissible: `YOneTatePoint.lean` still imports a broad tree with
+unrelated open declarations and forbidden source options, so the clean
+headline axiom audit must be preserved by extracting only its actual theorem
+cone.
+
 Current AINTLIB supplies the concrete model-and-point infrastructure for the
 first conversion steps. `EllipticCurve/ModelRecord.lean:73` defines
 `modelEllipticCurve` from a Weierstrass model; only the routine `EllObj` record
@@ -262,6 +276,17 @@ is in the exact-pin local graph. Invariance of the quotient projection under
 the units action would prove independence of the chosen generator; the
 geometric orbit theorem is the separate obligation that gives the quotient
 its intended coarse modular interpretation.
+
+The Mathlib-only Yoneda part of that route is now isolated locally as the
+byte-identical AINTLIB leaf `ForMathlib/RepresentableAut.lean` (exact blob
+`de1c89486034c2a167d7bb0200360148662091d0`). Once the fine representative is
+available, no additional coarse-space framework is required: transport the
+units automorphisms with `RepresentableBy.autMulHom`, project them to the base
+scheme, and apply the already integrated affine quotient engine to the top
+affine open of `yOne`. The remaining hard work is consequently the fine
+representative, its rational generator/section dictionary, the units action
+on the moduli functor, and presentation compatibility—not another generic
+scheme-quotient construction.
 
 The alternative `YOneFine` route would first need an isomorphism between
 `gammaOneNaiveProblem` and `semiBorelQPD.prob`, a morphism

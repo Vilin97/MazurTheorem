@@ -203,7 +203,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Eighteen file-level Apache-2.0 modules were selected from the AINTLIB
+Nineteen file-level Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`:
@@ -218,6 +218,7 @@ Eighteen file-level Apache-2.0 modules were selected from the AINTLIB
 | `ForMathlib/BaseChangeAlongCompat.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/BaseChangeAlongCompat.lean` |
 | `ForMathlib/InvariantBaseChange.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantBaseChange.lean` |
 | `ForMathlib/InvariantLocalization.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantLocalization.lean` |
+| `ForMathlib/RepresentableAut.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/RepresentableAut.lean` |
 | `ForMathlib/SpecGroupAction.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SpecGroupAction.lean` |
 | `ForMathlib/PullbackLocalAtTarget.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PullbackLocalAtTarget.lean` |
 | `ForMathlib/InvariantTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/InvariantTorsor.lean` |
@@ -287,6 +288,16 @@ quotient projection finite, and in the free-action case prove it finite
 translation-quotient consumer descends the commutative group law through that
 checked universal property.
 
+`RepresentableAut.lean` is retained byte-for-byte from the same snapshot
+(exact blob `de1c89486034c2a167d7bb0200360148662091d0`). It has a two-module
+Mathlib-only import cone, no source options or placeholders, and compiles at
+the immutable pin without adaptation. Its `transportHom` and `autMulHom`
+definitions are the Yoneda transport needed to turn the units action on a
+future fine `Gamma₁` moduli functor into an action on its representing
+scheme. The file is also byte-identical at AINTLIB commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`, whose root Apache-2.0 license has
+blob `8dada3edaf50dbc082c9a125058f25def75e625a`.
+
 That consumer also adapts proof skeletons from AINTLIB
 `GroupScheme/TranslationBySection.lean`, exact blob
 `6223d2904bc6f2162d4ee4e77ed684a40396ef18`. The file at the audited
@@ -298,7 +309,7 @@ commit is retained for Chris Birkbeck and co-author Claude Opus 4.8. Only the
 constant-section, translation, and elementary composition proof skeletons are
 adapted; the tensor equivariance, inverse conjugation, action, quotient
 descent, and group-object construction are new local proofs. This adapted
-source is not counted among the eighteen vendored modules above.
+source is not counted among the nineteen vendored modules above.
 
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
