@@ -35,6 +35,7 @@ open MazurTorsion.XOneEighteenRealCubicQuotient
 open MazurTorsion.XOneEighteenQuotientTwoDescentModel
 open MazurTorsion.XOneEighteenTwoDivisionArithmetic
 open MazurTorsion.XOneEighteenTwoDivisionClassNumber
+open MazurTorsion.XOneEighteenDescentAlgebraEquiv
 
 abbrev K := MazurTorsion.XOneEighteenRealCubicQuotient.K
 
@@ -123,6 +124,104 @@ theorem descentRootInM_eq_minimal :
   simp only [minimalDescentRootInM]
   field_simp
   ring
+
+/-- The displayed element is a root of the minimal completed-square cubic. -/
+theorem minimalDescentRootInM_isRoot :
+    Polynomial.IsRoot
+      (minimalDescentCurve.toAffine.f.map (algebraMap K M))
+        minimalDescentRootInM := by
+  have hz :
+      4 * descentRootInM ^ 3 - 3 * descentRootInM ^ 2 +
+          102 * descentRootInM + 5 = 0 := by
+    have h := congrArg descentAlgebraEquiv genericRoot_cubic
+    simpa only [map_sub, map_add, map_mul, map_pow, map_ofNat,
+      descentAlgebraEquiv_genericRoot, map_zero] using h
+  have ht4 : t ^ 4 = 3 * t ^ 2 + t := by
+    calc
+      t ^ 4 = t * t ^ 3 := by ring
+      _ = 3 * t ^ 2 + t := by rw [t_cubic]; ring
+  have ht5 : t ^ 5 = t ^ 2 + 9 * t + 3 := by
+    calc
+      t ^ 5 = t * t ^ 4 := by ring
+      _ = 3 * t ^ 3 + t ^ 2 := by rw [ht4]; ring
+      _ = t ^ 2 + 9 * t + 3 := by rw [t_cubic]; ring
+  have ht6 : t ^ 6 = 9 * t ^ 2 + 6 * t + 1 := by
+    calc
+      t ^ 6 = t * t ^ 5 := by ring
+      _ = t ^ 3 + 9 * t ^ 2 + 3 * t := by rw [ht5]; ring
+      _ = 9 * t ^ 2 + 6 * t + 1 := by rw [t_cubic]; ring
+  rw [Polynomial.IsRoot, minimalDescentCurve_f,
+    Polynomial.eval_map_algebraMap]
+  simp only [map_add, map_mul, map_pow, aeval_X, aeval_C]
+  simp only [minimalDescentRootInM, rationalAbscissaTranslation,
+    map_sub, map_add, map_mul, map_pow, map_ofNat, map_neg,
+    map_div₀,
+    show algebraMap K M tau = t by rfl]
+  field_simp
+  ring_nf
+  rw [ht6, ht5, ht4, t_cubic]
+  ring_nf
+  ring_nf at hz
+  linear_combination 2 * hz
+
+private theorem minimalDescentRootInM_adjoin_eq_top :
+    IntermediateField.adjoin K {minimalDescentRootInM} = ⊤ := by
+  let L : IntermediateField K M :=
+    IntermediateField.adjoin K {minimalDescentRootInM}
+  have hw : minimalDescentRootInM ∈ L :=
+    IntermediateField.mem_adjoin_simple_self K minimalDescentRootInM
+  have hz : descentRootInM ∈ L := by
+    rw [descentRootInM_eq_minimal]
+    exact L.add_mem
+      (L.mul_mem (L.natCast_mem 9) hw)
+      (L.algebraMap_mem rationalAbscissaTranslation)
+  have hs : s ∈ L := by
+    rw [← recover_s_in_compositum]
+    exact L.div_mem
+      (L.add_mem
+        (L.sub_mem
+          (L.mul_mem (L.natCast_mem 4) (L.pow_mem hz 2))
+          (L.mul_mem (L.natCast_mem 11) hz))
+        (L.natCast_mem 70))
+      (L.natCast_mem 27)
+  apply top_unique
+  intro x _hx
+  have hadjoin :
+      Algebra.adjoin K ({s} : Set M) ≤ L.toSubalgebra :=
+    Algebra.adjoin_le (Set.singleton_subset_iff.mpr hs)
+  have hsTop : Algebra.adjoin K ({s} : Set M) = ⊤ := by
+    change Algebra.adjoin K
+      ({AdjoinRoot.root relativePolynomial} : Set M) = ⊤
+    exact AdjoinRoot.adjoinRoot_eq_top
+  rw [hsTop] at hadjoin
+  exact hadjoin (show x ∈ (⊤ : Subalgebra K M) from trivial)
+
+/-- The minimal completed-square cubic is irreducible over the real cubic
+coefficient field. -/
+theorem minimalDescentPolynomial_irreducible :
+    Irreducible minimalDescentCurve.toAffine.f := by
+  have hroot :
+      Polynomial.aeval minimalDescentRootInM
+        minimalDescentCurve.toAffine.f = 0 := by
+    rw [← Polynomial.eval_map_algebraMap]
+    exact minimalDescentRootInM_isRoot
+  have hdegree : (minpoly K minimalDescentRootInM).natDegree = 3 := by
+    have h :=
+      (Field.primitive_element_iff_minpoly_natDegree_eq
+        K minimalDescentRootInM).mp minimalDescentRootInM_adjoin_eq_top
+    simpa only [finrank_M_over_K] using h
+  have hint : IsIntegral K minimalDescentRootInM :=
+    IsIntegral.of_finite K minimalDescentRootInM
+  have hdvd : minpoly K minimalDescentRootInM ∣
+      minimalDescentCurve.toAffine.f :=
+    minpoly.dvd K minimalDescentRootInM hroot
+  have heq : minimalDescentCurve.toAffine.f =
+      minpoly K minimalDescentRootInM :=
+    Polynomial.eq_of_monic_of_dvd_of_natDegree_le
+      (minpoly.monic hint) minimalDescentCurve.toAffine.monic_f hdvd (by
+        rw [hdegree, minimalDescentCurve.toAffine.natDegree_f])
+  rw [heq]
+  exact minpoly.irreducible hint
 
 end
 
