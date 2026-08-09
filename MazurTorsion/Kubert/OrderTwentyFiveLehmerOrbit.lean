@@ -117,4 +117,27 @@ theorem orderTwentyFiveLehmerPolynomial_ne_zero_of_three_integral
     (orderTwentyFiveRatReduction n)
     (orderTwentyFiveRatReduction x) hred
 
+/-- A rational Lehmer root forces the parameter into the nonintegral side of
+the scalar Fricke dichotomy: `n` is nonzero and nonintegral at three, while
+`5 / n` is integral at three.  This is only a statement about the two rational
+parameters; it does not assert that Fricke gives a rational self-map of the
+same genus-four model or transports the chosen Lehmer root. -/
+theorem orderTwentyFiveLehmer_root_fricke_three_integral
+    (n x : ℚ)
+    (hroot : orderTwentyFiveLehmerPolynomial n x = 0) :
+    n ≠ 0 ∧
+      ¬ orderTwentyFiveRatIsThreeIntegral n ∧
+      orderTwentyFiveRatIsThreeIntegral (5 / n) := by
+  have hnNotIntegral : ¬ orderTwentyFiveRatIsThreeIntegral n := by
+    intro hn
+    exact orderTwentyFiveLehmerPolynomial_ne_zero_of_three_integral
+      n x hn hroot
+  have hn0 : n ≠ 0 := by
+    intro hn
+    apply hnNotIntegral
+    subst n
+    norm_num [orderTwentyFiveRatIsThreeIntegral]
+  have hfricke := orderTwentyFive_frickeParameter_three_integral n hn0
+  exact ⟨hn0, hnNotIntegral, hfricke.resolve_left hnNotIntegral⟩
+
 end MazurTorsion.Kubert
