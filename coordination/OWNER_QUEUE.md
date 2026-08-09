@@ -92,6 +92,28 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The X1(13) lane now constructs the actual two-chart scheme obtained by gluing
+the affine sextic `y² = f(x)` to its reciprocal chart under
+`x = z⁻¹`, `y = w z⁻³`.  The structural map, six explicit rational sections,
+and the coordinate map to Tau Ceti's concrete `P¹` are scheme morphisms.  The
+map is finite and its inverse images of the standard and infinity affine
+charts are exactly the two glued chart ranges (`8e3ab3c`, integrating the
+final tree of `fc888c2` repaired by `a49a6e5`).  The rejected intermediate's
+twenty-three transparency overrides were not retained in this combined owner
+commit.  The actual affine curve schemes over `𝔽₃` and `𝔽₅` each have four
+checked points.  The separate two-prime reduced-degree-two certificate and
+cyclic-coordinate layers (`a4e60a1`, `0bca200`, reviewed from `d763418`,
+`83733b5`) remain honest conditional interfaces: they do not identify the
+finite certificate types with a scheme Picard group or construct the rational
+Jacobian.  Three serial focused targets and the separate projective-point
+target pass, all nine audited endpoints use exactly `propext`,
+`Classical.choice`, and `Quot.sound`, the X1(13) source option scan is empty,
+and `scripts/quality.py` passes at 948 Lean modules / 1,544,800 Lean lines.
+The active worker is now compiling the finite-map `H¹` theorem against this
+exact hyperelliptic map; the global rational-point/Jacobian classification and
+immutable X13 Challenge remain open.  No roadmap node or Challenge receives
+credit.
+
 The projective-line lane now computes the exact two-chart ordered Čech
 differential as the infinity restriction minus the standard restriction and
 proves its principal-parts cokernel finite over the base field.  The checked
