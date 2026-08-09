@@ -7,12 +7,13 @@ Authors: Vasily Ilin
 import MazurTorsion.ModularCurve.AffineCuspDifferentialArithmeticConsumers
 
 /-!
-# Prime-five arithmetic consumer of an affine eigen-differential
+# Prime-five arithmetic consumer of the explicit Eisenstein differential
 
 This file is the prime-order companion to the order-35 differential consumer.
 The modular level is bundled as a positive natural number and is definitionally
-the order excluded by the arithmetic endpoint.  Thus the Hecke eigen-expansion
-cannot be supplied at a level unrelated to the torsion order.
+the order excluded by the arithmetic endpoint.  The simultaneous Hecke
+eigen-expansion is constructed from restricted divisor sums; the caller supplies
+only its geometric realization as the quotient differential.
 
 As at eleven, the represented cusp chart constructs the completed coordinate
 and its cotangent generator.  An affine open in the Néron model transfers the
@@ -39,11 +40,11 @@ private abbrev FiveBase := atFive.adicCompletionIntegers ℚ
 private abbrev FivePrime : Ideal FiveBase :=
   affineCuspSpecialFiberIdealAtFive
 
-/-- A represented cusp q-coordinate and an eigen-differential at the same
-prime level excluded by the conclusion reach the uniform prime-order endpoint
-through Néron specialization at five. -/
+/-- A represented cusp q-coordinate and the explicit Eisenstein differential at
+the same prime level excluded by the conclusion reach the uniform prime-order
+endpoint through Néron specialization at five. -/
 theorem
-    rationalPoint_primeOrder_ne_of_affineEigenDifferentialNeronSpecializationAtFive
+    rationalPoint_primeOrder_ne_of_affineEisensteinDifferentialNeronSpecializationAtFive
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
     {A : CommGroupScheme (Spec (.of (atFive.adicCompletion ℚ)))}
     (Ner : NeronModel FiveBase (atFive.adicCompletion ℚ) A)
@@ -67,23 +68,19 @@ theorem
       (Localization.AtPrime
         ((C.zeroSection.fiberPrime FivePrime).comap
           (Ideal.Fiber.map FivePrime g))))
-    (F Omega U : PowerSeries FivePrime.ResidueField)
+    (level : {N : ℕ // 0 < N})
+    (F U : PowerSeries FivePrime.ResidueField)
     (hqExpansion :
       C.qCoordinate FivePrime
           (completionRingHom (C.CuspLocalRing FivePrime)
             (localizedMap FivePrime g
               (C.zeroSection.fiberPrime FivePrime) sourceParameter)) = F)
-    (hDifferential : Omega =
-      U * HeckeDifferentialQExpansion.logarithmicDerivativeExpansion F)
+    (hDifferential :
+      EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion level =
+        U * HeckeDifferentialQExpansion.logarithmicDerivativeExpansion F)
     (hunitConstant : PowerSeries.coeff 0 U ≠ 0)
-    (hOmega : Omega ≠ 0)
-    (level : {N : ℕ // 0 < N})
     (hprime : level.1.Prime)
     (hlevel : 11 ≤ level.1)
-    (eigenvalue : {n : ℕ // 0 < n} → FivePrime.ResidueField)
-    (heigen : ∀ n,
-      HeckeDifferentialQExpansion.weightTwoHeckeQExpansion level n Omega =
-        eigenvalue n • Omega)
     (hgeneric_ne :
       fractionSpecMap FiveBase (atFive.adicCompletion ℚ) ≫
           modularSection.left ≠
@@ -107,10 +104,9 @@ theorem
   have hformalTarget : IsFormalImmersionAt quotientMap.left
       (targetSpecPoint FivePrime
         (C.zeroSection.fiberPrime FivePrime)) :=
-    C.isFormalImmersionAt_of_affineOpen_weightTwoHeckeEigenDifferential_qExpansion
+    C.isFormalImmersionAt_of_affineOpen_eisensteinDifferential_qExpansion
       FivePrime g targetOpen quotientMap.left hfactor sourceParameter
-      hsourceMem F Omega U hqExpansion hDifferential hunitConstant hOmega
-      level eigenvalue heigen
+      hsourceMem level F U hqExpansion hDifferential hunitConstant
   have hcuspPoint :
       C.zeroSectionOver.left (IsLocalRing.closedPoint FiveBase) =
         targetSpecPoint FivePrime

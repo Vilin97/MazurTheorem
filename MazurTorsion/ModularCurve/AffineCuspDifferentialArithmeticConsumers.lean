@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.ModularCurve.AffineCuspDifferentialQExpansion
 import MazurTorsion.ModularCurve.AffineCuspPolynomialQCoordinate
+import MazurTorsion.ModularCurve.EisensteinDifferentialQExpansion
 import MazurTorsion.ModularCurve.NeronSectionSpecialization
 
 /-!
@@ -225,6 +226,43 @@ theorem isFormalImmersionAt_of_affineOpen_weightTwoHeckeEigenDifferential_qExpan
   rw [hfactor] at hcomposite
   exact hcomposite
 
+/-- The canonical restricted-divisor-sum Eisenstein differential removes every abstract
+eigenvector premise from the affine-open criterion.  The remaining differential equality is
+precisely the geometric q-expansion realization that a modular quotient must supply. -/
+theorem isFormalImmersionAt_of_affineOpen_eisensteinDifferential_qExpansion
+    {Y : Scheme.{u}} [IsNoetherianRing R] [IsNoetherianRing S]
+    (C : AffinePresentation R T) (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T)
+    (targetOpen : Spec (.of S) ⟶ Y) [IsOpenImmersion targetOpen]
+    (quotientMap : Spec (.of T) ⟶ Y)
+    (hfactor : Spec.map (CommRingCat.ofHom g.toRingHom) ≫ targetOpen =
+      quotientMap)
+    (sourceParameter : Localization.AtPrime
+      ((C.zeroSection.fiberPrime p).comap (Ideal.Fiber.map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime
+        ((C.zeroSection.fiberPrime p).comap (Ideal.Fiber.map p g))))
+    (level : {n : ℕ // 0 < n})
+    (F U : PowerSeries p.ResidueField)
+    (hqExpansion :
+      C.qCoordinate p
+          (completionRingHom (C.CuspLocalRing p)
+            (localizedMap p g (C.zeroSection.fiberPrime p)
+              sourceParameter)) = F)
+    (hDifferential :
+      EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion level =
+        U * HeckeDifferentialQExpansion.logarithmicDerivativeExpansion F)
+    (hunitConstant : PowerSeries.coeff 0 U ≠ 0) :
+    IsFormalImmersionAt quotientMap
+      (targetSpecPoint p (C.zeroSection.fiberPrime p)) := by
+  exact C.isFormalImmersionAt_of_affineOpen_weightTwoHeckeEigenDifferential_qExpansion
+    p g targetOpen quotientMap hfactor sourceParameter hsourceMem
+    F (EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion level) U
+    hqExpansion hDifferential hunitConstant
+    (EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion_ne_zero level)
+    level (EisensteinDifferentialQExpansion.eisensteinHeckeEigenvalue level)
+    (EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion_simultaneousEigen level)
+
 end AffinePresentation
 end MazurTorsion.ModularCurve.AffineCuspPolynomialChart
 
@@ -245,16 +283,18 @@ private abbrev ElevenPrime : Ideal ElevenBase :=
 private def thirtyFiveLevel : {n : ℕ // 0 < n} :=
   ⟨35, by norm_num⟩
 
-/-- The constructed q-coordinate and a genuine level-35 eigen-differential reach the order-35
-exclusion through an affine target neighbourhood and Néron specialization.
+/-- The constructed q-coordinate and the explicit level-35 restricted-divisor-sum
+eigen-differential reach the order-35 exclusion through an affine target neighbourhood and Néron
+specialization.
 
 Unlike the older affine consumer, this theorem does not take a completion coordinate, cusp DVR,
-formal immersion, distinct integral sections, or equality after the quotient.  The affine
-presentation constructs the first three; generic distinctness gives integral distinctness; and
-the Néron torsion argument derives equality after the quotient from residue-fibre specialization.
+abstract eigenvector, eigenvalue family, eigen proof, formal immersion, distinct integral sections,
+or equality after the quotient.  The affine calculation constructs the local data and formal
+immersion; generic distinctness gives integral distinctness; and the Néron torsion argument derives
+equality after the quotient from residue-fibre specialization.
 -/
 theorem
-    rationalPoint_orderThirtyFive_ne_of_affineEigenDifferentialNeronSpecializationAtEleven
+    rationalPoint_orderThirtyFive_ne_of_affineEisensteinDifferentialNeronSpecializationAtEleven
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
     {A : CommGroupScheme (Spec (.of (atEleven.adicCompletion ℚ)))}
     (Ner : NeronModel ElevenBase (atEleven.adicCompletion ℚ) A)
@@ -277,21 +317,17 @@ theorem
       (Localization.AtPrime
         ((C.zeroSection.fiberPrime ElevenPrime).comap
           (Ideal.Fiber.map ElevenPrime g))))
-    (F Omega U : PowerSeries ElevenPrime.ResidueField)
+    (F U : PowerSeries ElevenPrime.ResidueField)
     (hqExpansion :
       C.qCoordinate ElevenPrime
           (completionRingHom (C.CuspLocalRing ElevenPrime)
             (localizedMap ElevenPrime g
               (C.zeroSection.fiberPrime ElevenPrime) sourceParameter)) = F)
-    (hDifferential : Omega =
-      U * HeckeDifferentialQExpansion.logarithmicDerivativeExpansion F)
+    (hDifferential :
+      EisensteinDifferentialQExpansion.eisensteinDifferentialExpansion
+          thirtyFiveLevel =
+        U * HeckeDifferentialQExpansion.logarithmicDerivativeExpansion F)
     (hunitConstant : PowerSeries.coeff 0 U ≠ 0)
-    (hOmega : Omega ≠ 0)
-    (eigenvalue : {n : ℕ // 0 < n} → ElevenPrime.ResidueField)
-    (heigen : ∀ n,
-      HeckeDifferentialQExpansion.weightTwoHeckeQExpansion
-          thirtyFiveLevel n Omega =
-        eigenvalue n • Omega)
     (hgeneric_ne :
       fractionSpecMap ElevenBase (atEleven.adicCompletion ℚ) ≫
           modularSection.left ≠
@@ -315,10 +351,9 @@ theorem
   have hformalTarget : IsFormalImmersionAt quotientMap.left
       (targetSpecPoint ElevenPrime
         (C.zeroSection.fiberPrime ElevenPrime)) :=
-    C.isFormalImmersionAt_of_affineOpen_weightTwoHeckeEigenDifferential_qExpansion
+    C.isFormalImmersionAt_of_affineOpen_eisensteinDifferential_qExpansion
       ElevenPrime g targetOpen quotientMap.left hfactor sourceParameter
-      hsourceMem F Omega U hqExpansion hDifferential hunitConstant hOmega
-      thirtyFiveLevel eigenvalue heigen
+      hsourceMem thirtyFiveLevel F U hqExpansion hDifferential hunitConstant
   have hcuspPoint :
       closedFiberPointAtEleven C.zeroSectionOver.left =
         targetSpecPoint ElevenPrime
