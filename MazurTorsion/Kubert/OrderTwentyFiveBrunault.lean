@@ -5,7 +5,6 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Kubert.OrderTwentyFive
-import MazurTorsion.Kubert.OrderTwentyFiveBrunaultFiniteField
 
 /-!
 # Brunault modular units for order twenty-five
@@ -143,6 +142,23 @@ theorem orderTwentyFiveBrunault_denominators_ne_zero
   refine ⟨sub_ne_zero.mpr (hxy 7 0 (by omega) (by omega) (by omega)), ?_⟩
   exact sub_ne_zero.mpr (hxy 10 9 (by omega) (by omega) (by omega))
 
+/-- Lécacheux's modular unit `y₁`, written in terms of the checked Tate
+abscissas `x(kP)`.  Multiplication by the diamond operator `7` fixes this
+unit, which is why the pre-existing coordinate `y₇` agrees with it. -/
+def orderTwentyFiveBrunaultYOne (b c : ℚ) : ℚ :=
+  ((tateSuccessiveX b c 5 - tateSuccessiveX b c 7) /
+      (tateSuccessiveX b c 5 - tateSuccessiveX b c 2)) *
+    ((0 - tateSuccessiveX b c 10) /
+      (0 - tateSuccessiveX b c 1))
+
+/-- Lécacheux's modular unit `y₂`, the first diamond translate of
+`y₁`, written as two abscissa cross-ratios. -/
+def orderTwentyFiveBrunaultYTwo (b c : ℚ) : ℚ :=
+  ((tateSuccessiveX b c 0 - 0) /
+      (tateSuccessiveX b c 0 - tateSuccessiveX b c 4)) *
+    ((tateSuccessiveX b c 9 - tateSuccessiveX b c 5) /
+      (tateSuccessiveX b c 9 - tateSuccessiveX b c 6))
+
 /-- Brunault's modular unit `y₄`, written in terms of the checked Tate
 abscissas `x(kP)`. -/
 def orderTwentyFiveBrunaultYFour (b c : ℚ) : ℚ :=
@@ -158,6 +174,14 @@ def orderTwentyFiveBrunaultYSeven (b c : ℚ) : ℚ :=
       (tateSuccessiveX b c 5 - tateSuccessiveX b c 2)) *
     ((0 - tateSuccessiveX b c 10) /
       (0 - tateSuccessiveX b c 1))
+
+/-- Lécacheux's modular unit `y₈`, the third diamond translate of
+`y₁`, written as two abscissa cross-ratios. -/
+def orderTwentyFiveBrunaultYEight (b c : ℚ) : ℚ :=
+  ((tateSuccessiveX b c 6 - tateSuccessiveX b c 2) /
+      (tateSuccessiveX b c 6 - 0)) *
+    ((tateSuccessiveX b c 4 - tateSuccessiveX b c 1) /
+      (tateSuccessiveX b c 4 - tateSuccessiveX b c 5))
 
 /-- Brunault's modular unit `y₉`, written in terms of the checked Tate
 abscissas `x(kP)`. -/
@@ -175,6 +199,21 @@ def orderTwentyFiveBrunaultYThree (b c : ℚ) : ℚ :=
     ((tateSuccessiveX b c 2 - tateSuccessiveX b c 0) /
       (tateSuccessiveX b c 2 - tateSuccessiveX b c 10))
 
+/-- The quotient diamond action identifies Lécacheux's `y₇` with
+`y₁`. -/
+theorem orderTwentyFiveBrunaultYSeven_eq_yOne (b c : ℚ) :
+    orderTwentyFiveBrunaultYSeven b c =
+      orderTwentyFiveBrunaultYOne b c :=
+  rfl
+
+/-- The quotient diamond action identifies Lécacheux's `y₃` with
+`y₄`. -/
+theorem orderTwentyFiveBrunaultYThree_eq_yFour (b c : ℚ) :
+    orderTwentyFiveBrunaultYThree b c =
+      orderTwentyFiveBrunaultYFour b c := by
+  unfold orderTwentyFiveBrunaultYThree orderTwentyFiveBrunaultYFour
+  ring
+
 /-- Brunault's corrected first coordinate: `u = y₄ y₇`. -/
 def orderTwentyFiveBrunaultU (b c : ℚ) : ℚ :=
   orderTwentyFiveBrunaultYFour b c * orderTwentyFiveBrunaultYSeven b c
@@ -182,6 +221,43 @@ def orderTwentyFiveBrunaultU (b c : ℚ) : ℚ :=
 /-- Brunault's corrected second coordinate: `v = -(y₉ y₃)`. -/
 def orderTwentyFiveBrunaultV (b c : ℚ) : ℚ :=
   -(orderTwentyFiveBrunaultYNine b c * orderTwentyFiveBrunaultYThree b c)
+
+/-- Lécacheux's first orbit unit `x₀ = y₁y₄`. -/
+def orderTwentyFiveBrunaultXZero (b c : ℚ) : ℚ :=
+  orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYFour b c
+
+/-- Lécacheux's second orbit unit `x₁ = y₂y₈`. -/
+def orderTwentyFiveBrunaultXOne (b c : ℚ) : ℚ :=
+  orderTwentyFiveBrunaultYTwo b c * orderTwentyFiveBrunaultYEight b c
+
+/-- Lécacheux's third orbit unit `x₂ = y₄y₉`. -/
+def orderTwentyFiveBrunaultXTwo (b c : ℚ) : ℚ :=
+  orderTwentyFiveBrunaultYFour b c * orderTwentyFiveBrunaultYNine b c
+
+/-- Lécacheux's fourth orbit unit `x₃ = y₈y₁`. -/
+def orderTwentyFiveBrunaultXThree (b c : ℚ) : ℚ :=
+  orderTwentyFiveBrunaultYEight b c * orderTwentyFiveBrunaultYOne b c
+
+/-- Lécacheux's fifth orbit unit `x₄ = y₉y₂`. -/
+def orderTwentyFiveBrunaultXFour (b c : ℚ) : ℚ :=
+  orderTwentyFiveBrunaultYNine b c * orderTwentyFiveBrunaultYTwo b c
+
+/-- Brunault's first coordinate is Lécacheux's orbit unit `x₀`. -/
+theorem orderTwentyFiveBrunaultXZero_eq_U (b c : ℚ) :
+    orderTwentyFiveBrunaultXZero b c =
+      orderTwentyFiveBrunaultU b c := by
+  rw [orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultU,
+    orderTwentyFiveBrunaultYSeven_eq_yOne]
+  ring
+
+/-- The negative of Brunault's second coordinate is Lécacheux's orbit
+unit `x₂`. -/
+theorem orderTwentyFiveBrunaultXTwo_eq_neg_V (b c : ℚ) :
+    orderTwentyFiveBrunaultXTwo b c =
+      -orderTwentyFiveBrunaultV b c := by
+  rw [orderTwentyFiveBrunaultXTwo, orderTwentyFiveBrunaultV,
+    orderTwentyFiveBrunaultYThree_eq_yFour]
+  ring
 
 private theorem orderTwentyFiveBrunault_numerators_ne_zero
     (b c : ℚ) (hb : b ≠ 0)
@@ -231,5 +307,67 @@ theorem orderTwentyFiveBrunault_units_ne_zero
   · exact neg_ne_zero.mpr <| mul_ne_zero
       (mul_ne_zero (div_ne_zero hn98 hd92) (div_ne_zero hn126 hd12eleven))
       (mul_ne_zero (div_ne_zero hn3eleven hd39) (div_ne_zero hn42 hd4twelve))
+
+/-- On an exact-order-25 marked Tate curve, all five Lécacheux orbit
+units lie in the nonzero modular-unit chart.  The two new cross-ratios use
+only the same exact-order abscissa separation as the original Brunault
+coordinates. -/
+theorem orderTwentyFiveBrunault_orbit_units_ne_zero
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveBrunaultXZero b c ≠ 0 ∧
+      orderTwentyFiveBrunaultXOne b c ≠ 0 ∧
+      orderTwentyFiveBrunaultXTwo b c ≠ 0 ∧
+      orderTwentyFiveBrunaultXThree b c ≠ 0 ∧
+      orderTwentyFiveBrunaultXFour b c ≠ 0 := by
+  have hx0 :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive
+      b c hb h00 horder
+  have hxy :=
+    tateSuccessiveX_ne_of_marked_order_twentyFive
+      b c hb h00 horder
+  have hyTwo : orderTwentyFiveBrunaultYTwo b c ≠ 0 := by
+    unfold orderTwentyFiveBrunaultYTwo
+    exact mul_ne_zero
+      (div_ne_zero
+        (sub_ne_zero.mpr (hx0 0 (by omega)))
+        (sub_ne_zero.mpr (hxy 0 4 (by omega) (by omega) (by omega))))
+      (div_ne_zero
+        (sub_ne_zero.mpr (hxy 9 5 (by omega) (by omega) (by omega)))
+        (sub_ne_zero.mpr (hxy 9 6 (by omega) (by omega) (by omega))))
+  have hyEight : orderTwentyFiveBrunaultYEight b c ≠ 0 := by
+    unfold orderTwentyFiveBrunaultYEight
+    exact mul_ne_zero
+      (div_ne_zero
+        (sub_ne_zero.mpr (hxy 6 2 (by omega) (by omega) (by omega)))
+        (sub_ne_zero.mpr (hx0 6 (by omega))))
+      (div_ne_zero
+        (sub_ne_zero.mpr (hxy 4 1 (by omega) (by omega) (by omega)))
+        (sub_ne_zero.mpr (hxy 4 5 (by omega) (by omega) (by omega))))
+  obtain ⟨hU, hV⟩ :=
+    orderTwentyFiveBrunault_units_ne_zero b c hb h00 horder
+  have hyOne : orderTwentyFiveBrunaultYOne b c ≠ 0 := by
+    intro hyOne
+    apply hU
+    simp [orderTwentyFiveBrunaultU,
+      orderTwentyFiveBrunaultYSeven_eq_yOne, hyOne]
+  have hyFour : orderTwentyFiveBrunaultYFour b c ≠ 0 := by
+    intro hyFour
+    apply hU
+    simp [orderTwentyFiveBrunaultU, hyFour]
+  have hyNine : orderTwentyFiveBrunaultYNine b c ≠ 0 := by
+    intro hyNine
+    apply hV
+    simp [orderTwentyFiveBrunaultV, hyNine]
+  exact ⟨
+    mul_ne_zero hyOne hyFour,
+    mul_ne_zero hyTwo hyEight,
+    mul_ne_zero hyFour hyNine,
+    mul_ne_zero hyEight hyOne,
+    mul_ne_zero hyNine hyTwo⟩
 
 end MazurTorsion.Kubert
