@@ -174,6 +174,52 @@ theorem exists_detectedVector_of_heckeEigen_qExpansion
     (HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector
         Q hQ hecke eigenvalue hfirst heigen) hcoeffZero
 
+/-- A completed local expansion with nonzero linear coefficient detects an
+actual source cotangent vector.
+
+This is the direct form of the q-expansion principle used for explicit
+quotient coordinates.  Unlike the Hecke-eigen adapter above, it does not
+reconstruct nonvanishing of the first coefficient from an abstract operator:
+the coefficient is computed in the displayed power series itself. -/
+theorem exists_detectedVector_of_qExpansion_coeff_one_ne_zero
+    (p : Ideal R) [p.IsPrime]
+    (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
+    [IsNoetherianRing (p.Fiber T)]
+    (sourceParameter :
+      Localization.AtPrime (q.comap (map p g)))
+    (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
+      (Localization.AtPrime (q.comap (map p g))))
+    (qCoordinate :
+      LocalCompletion.Ring (Localization.AtPrime q) ≃+*
+        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (Q : PowerSeries
+      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+    (hqExpansion :
+      qCoordinate
+          (completionRingHom (Localization.AtPrime q)
+            (localizedMap p g q sourceParameter)) = Q)
+    (hcoeff : PowerSeries.coeff 1 Q ≠ 0) :
+    ∃ detectedVector : IsLocalRing.CotangentSpace
+        (Localization.AtPrime (q.comap (map p g))),
+      IsLocalRing.cotangentMapAtResidue (localizedRingMap p g q)
+        detectedVector ≠ 0 := by
+  let detectedVector : IsLocalRing.CotangentSpace
+      (Localization.AtPrime (q.comap (map p g))) :=
+    cotangentClass sourceParameter hsourceMem
+  refine ⟨detectedVector, ?_⟩
+  intro hzero
+  rw [IsLocalRing.cotangentMapAtResidue_apply] at hzero
+  dsimp [detectedVector, cotangentClass] at hzero
+  have hpullbackSquare : localizedMap p g q sourceParameter ∈
+      IsLocalRing.maximalIdeal (Localization.AtPrime q) ^ 2 := by
+    rwa [Ideal.toCotangent_eq_zero] at hzero
+  have hcoeffZero : PowerSeries.coeff 1 Q = 0 := by
+    rw [← hqExpansion]
+    simpa only [completionRingHom] using
+      QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq
+        qCoordinate hpullbackSquare
+  exact hcoeff hcoeffZero
+
 /-- A genuine uniformizer on the localized target affine fibre supplies the
 one-dimensional part of the affine-fibre cotangent certificate.
 
@@ -294,13 +340,8 @@ universe u
 variable {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
   [Algebra R S] [Algebra R T]
 
-/-- An irreducible element of a DVR survives modulo the square of its
-maximal ideal.
-
-This is kept as an implementation lemma for the uniformizer adapter below:
-the public interface asks for the intrinsic DVR and irreducibility data,
-rather than exposing the two ideal-theoretic consequences as premises. -/
-private theorem irreducible_not_mem_maximalIdeal_sq
+/-- An irreducible uniformizer of a DVR survives in its cotangent space. -/
+theorem irreducible_not_mem_maximalIdeal_sq
     {A : Type*} [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A]
     {qParameter : A} (hqParameter : Irreducible qParameter) :
