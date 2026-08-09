@@ -11,7 +11,8 @@ import MazurTorsion.NumberTheory.XOneThirteenPellPowerBounds
 
 This file records the complete integer two-adic split of the homogeneous Pell
 factor halves and feeds the canonical power-split witnesses into the strict
-fixed-cover bounds.
+fixed-cover bounds.  It also reparametrizes the strict split by the positive
+gap `d = r - s`, exposing finite fibers for the original positive coordinate.
 -/
 
 namespace MazurTorsion.XOneThirteenDescent
@@ -110,5 +111,52 @@ theorem positive_pell_factor_allocation_strict_bounds
     a b c r s ha hb hr hs hfactorPlus hfactorMinus hbSplit
   exact ⟨r, s, hr, hs, hrs, hfactorPlus, hfactorMinus, hbSplit,
     hbounds.1, hbounds.2.1, hbounds.2.2⟩
+
+/-- Gap-coordinate form of the positive Pell allocation.  Writing
+`d = r - s` preserves coprimality, rewrites `b = r * (r - d)`, and turns the
+upper strict bound into `r * d < a`.  The additional deficit inequalities
+`0 < r² - a < b` make the finite `a`-fiber explicit; this is a cover
+reparametrization, not a global nonexistence claim. -/
+theorem positive_pell_factor_allocation_gap_cover
+    (a b c : ℤ) (hab : IsCoprime a b)
+    (ha : 0 < a) (hb : 0 < b)
+    (hcurve : c ^ 2 = integerSexticHomogeneous a b)
+    (hplus : 0 < positivePellFactor a b c)
+    (hminus : 0 < negativePellFactorMagnitude a b c) :
+    ∃ r d : ℤ,
+      0 < r ∧ 0 < d ∧ d < r ∧ IsCoprime r d ∧
+      positivePellFactor a b c = 2 * r ^ 38 ∧
+      negativePellFactorMagnitude a b c = 2 * (r - d) ^ 38 ∧
+      b = r * (r - d) ∧
+      r * d < a ∧ a < r ^ 2 ∧
+      0 < r ^ 2 - a ∧ r ^ 2 - a < b := by
+  obtain ⟨r, s, hr, hs, hrs, hfactorPlus, hfactorMinus, hbSplit,
+      hsr, har, hupper⟩ :=
+    positive_pell_factor_allocation_strict_bounds
+      a b c hab ha hb hcurve hplus hminus
+  have hdPos : 0 < r - s := sub_pos.mpr hsr
+  have hdLt : r - s < r := by linarith
+  have hrd : IsCoprime r (r - s) := by
+    obtain ⟨x, y, hxy⟩ := hrs
+    refine ⟨x + y, -y, ?_⟩
+    calc
+      (x + y) * r + -y * (r - s) = x * r + y * s := by ring
+      _ = 1 := hxy
+  have hrecover : r - (r - s) = s := by ring
+  have hfactorMinusGap :
+      negativePellFactorMagnitude a b c =
+        2 * (r - (r - s)) ^ 38 := by
+    rw [hrecover]
+    exact hfactorMinus
+  have hbGap : b = r * (r - (r - s)) := by
+    rw [hrecover]
+    exact hbSplit
+  have hgap : r * (r - s) < a := by
+    rw [hbSplit] at hupper
+    nlinarith
+  have hdeficitPos : 0 < r ^ 2 - a := sub_pos.mpr har
+  have hdeficitLt : r ^ 2 - a < b := by linarith
+  exact ⟨r, r - s, hr, hdPos, hdLt, hrd, hfactorPlus,
+    hfactorMinusGap, hbGap, hgap, har, hdeficitPos, hdeficitLt⟩
 
 end MazurTorsion.XOneThirteenDescent
