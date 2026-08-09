@@ -14,7 +14,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.Flat
 import Mathlib.AlgebraicGeometry.Morphisms.Affine
 
 /-!
-# Descent of strict relative dimension through a finite étale cover
+# Descent of strict relative dimension through an affine étale cover
 
 The existing smoothness API descends smoothness, but the natural-number-valued relative-dimension
 predicate needs an additional rank argument.  This file computes the rank of the module of Kähler
