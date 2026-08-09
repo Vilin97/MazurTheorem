@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.CyclotomicKummerResidueProduct
+import MazurTorsion.NumberTheory.CyclotomicNormalizedLocalPrimary
 
 /-!
 # Kummer coordinates for the finite-prime Artin product
@@ -271,6 +271,33 @@ def KummerPresentation.IsPthPowerAtCyclotomicPrime
   ∃ y : (cyclotomicPrime p).adicCompletion (PrimeCyclotomicField p),
     y ^ p = algebraMap (PrimeCyclotomicField p)
       ((cyclotomicPrime p).adicCompletion (PrimeCyclotomicField p)) P.radicand
+
+/-- A normalized integral numerator produced from a locally primary Kummer
+radicand is finite-primary whenever the normalization is coprime to the
+cyclotomic prime.  This is the form in which the local congruence enters the
+one-sided reciprocity argument. -/
+theorem KummerPresentation.isFinitePrimaryAtCyclotomicPrime_of_normalization_coprime
+    (E : InverseExtension p L) (P : KummerPresentation E)
+    (hlocal : P.IsPthPowerAtCyclotomicPrime E)
+    (η : NumberField.RingOfIntegers (PrimeCyclotomicField p))
+    (c : (PrimeCyclotomicField p)ˣ)
+    (hη : algebraMap
+      (NumberField.RingOfIntegers (PrimeCyclotomicField p))
+      (PrimeCyclotomicField p) η =
+        P.radicand * (c : PrimeCyclotomicField p) ^ p)
+    (hcoprimeηPrime :
+      IsCoprime (Ideal.span {η}) (cyclotomicPrime p).asIdeal) :
+    IsFinitePrimaryAtCyclotomicPrime η := by
+  apply P.isFinitePrimaryAtCyclotomicPrime_of_localRoot_normalization
+    E hlocal η c hη
+  intro hηPrime
+  apply (cyclotomicPrime p).isPrime.ne_top
+  apply top_unique
+  rw [← hcoprimeηPrime.sup_eq]
+  exact sup_le
+    ((Ideal.span_singleton_le_iff_mem
+      (cyclotomicPrime p).asIdeal).mpr hηPrime)
+    le_rfl
 
 /-- Mathlib's prime-complement denominator theorem clears a
 prime-to-cyclotomic fractional generator using integral numerator and
