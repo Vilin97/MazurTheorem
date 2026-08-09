@@ -568,8 +568,9 @@ downstream consumer
 `genuineSheafHOne_finite_of_ordered_affineOpenCover` transfers ordered Cech
 finite generation through both the ordered/native and native/sheaf
 comparisons. The remaining seams include the proper ordered input, low-degree
-Chow/properness input, proper `H¹` finiteness, and the curve facade; the
-transport alone asserts no properness, base change, or semicontinuity.
+Chow/properness input, general proper-curve `H¹` finiteness, and the complete
+curve facade; the transport alone asserts no properness, base change, or
+semicontinuity.
 
 `MazurTorsion.Upstream.ProjectiveLineCechHOneFinite` supplies a distinct
 checked ordered input for the two standard affine charts of `P¹`. Its
@@ -578,12 +579,17 @@ the explicit overlap equivalence, as the infinity restriction minus the
 standard restriction. Finite generation of the resulting cokernel gives
 ordered Cech `H¹` finiteness and hence genuine sheaf `H¹` finiteness for every
 finite-type quasicoherent module on `P¹`. The finite-pushforward comparison
-then transports this result along any finite morphism to `P¹`. This generic
-checkpoint is intentionally ordered before its concrete projective
-order-thirteen-curve specialization, which remains in the dependent
-hyperelliptic-map checkpoint until that file passes the repository's
-default-transparency policy. No modular-curve rational-point classification
-or Mazur torsion conclusion is claimed here.
+then transports this result along any finite morphism to `P¹`. Restricting the
+explicit global-functions action through the canonical isomorphism
+`K ≃ Γ(Spec K, ⊤)` gives a checked `K`-module structure and finite-dimensional
+`H¹`. The named consumers
+`hyperellipticMap_genuineSheafHOne_finite` and
+`hyperellipticMap_genuineSheafHOne_finiteDimensional` apply these results to
+the default-transparency finite hyperelliptic map from the projective
+order-thirteen curve. The generic theorem keeps that finite map as an
+explicit hypothesis: it does not construct a finite map to `P¹` for every
+proper curve, classify modular-curve rational points, or prove Mazur's
+torsion theorem.
 
 The larger relative-Picard cone was tested but not retained: at this pin its
 essential elaboration depends on source-level backward-compatibility options,

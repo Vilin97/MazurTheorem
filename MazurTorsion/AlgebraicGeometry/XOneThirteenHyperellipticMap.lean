@@ -1,10 +1,11 @@
 /-
 Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Vasily Ilin
+Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.XOneThirteenProjectiveCurve
+import MazurTorsion.Upstream.ProjectiveLineCechHOneFinite
 import TauCeti.AlgebraicGeometry.ProjectiveLine.Smooth
 import Mathlib.AlgebraicGeometry.Morphisms.Finite
 
@@ -1560,6 +1561,8 @@ namespace MazurTorsion.XOneThirteenProjectiveCurve
 open CategoryTheory
 open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
+open _root_.MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology
+open _root_.MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
 
 universe u
 
@@ -1598,5 +1601,33 @@ theorem hyperellipticMap_preimage_infinityAffineOpen :
 noncomputable instance hyperellipticMap_isFinite :
     IsFinite (hyperellipticMap K) :=
   XOneThirteenHyperellipticMap.gluedHyperellipticMap_isFinite K
+
+/-- Coherent degree-one sheaf cohomology on the projective order-thirteen
+curve is finite over the global functions of the ground-field spectrum, via
+the checked finite hyperelliptic map to the projective line. -/
+theorem hyperellipticMap_genuineSheafHOne_finite
+    (M : (curveScheme K).Modules)
+    [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI :=
+      genuineSheafHOneBaseModuleOfFiniteToProjectiveLine
+        K (hyperellipticMap K) M
+    Module.Finite Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
+      (GenuineSheafHOne M) := by
+  exact
+    genuineSheafHOne_finite_of_finite_to_projectiveLine
+      K (hyperellipticMap K) M
+
+/-- Coherent degree-one sheaf cohomology on the projective order-thirteen
+curve is finite-dimensional over the ground field. -/
+theorem hyperellipticMap_genuineSheafHOne_finiteDimensional
+    (M : (curveScheme K).Modules)
+    [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI :=
+      genuineSheafHOneFieldModuleOfFiniteToProjectiveLine
+        K (hyperellipticMap K) M
+    FiniteDimensional K (GenuineSheafHOne M) := by
+  exact
+    genuineSheafHOne_finiteDimensional_of_finite_to_projectiveLine
+      K (hyperellipticMap K) M
 
 end MazurTorsion.XOneThirteenProjectiveCurve

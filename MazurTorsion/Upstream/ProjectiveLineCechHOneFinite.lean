@@ -1854,4 +1854,45 @@ theorem genuineSheafHOne_finite_of_finite_to_projectiveLine
     (preimage_standardCover_isAffineOpen K f)
     (ordered_homology_one_finite_of_finite_to_projectiveLine K f M)
 
+/-- The ground-field action on genuine `H¹` for a module on a scheme finite
+over `P¹`.  It is the restriction of the explicit global-functions action
+along the canonical map from the field to the global functions of its
+spectrum. -/
+@[instance_reducible]
+noncomputable def genuineSheafHOneFieldModuleOfFiniteToProjectiveLine
+    {X : Scheme.{u}} (K : Type u) [Field K]
+    (f : X ⟶ scheme K) [IsFinite f] (M : X.Modules)
+    [M.IsQuasicoherent] :
+    Module K (GenuineSheafHOne M) := by
+  letI := genuineSheafHOneBaseModuleOfFiniteToProjectiveLine K f M
+  exact Module.compHom (GenuineSheafHOne M)
+    (Scheme.ΓSpecIso (.of K)).inv.hom
+
+/-- Genuine degree-one sheaf cohomology of a coherent module on a scheme
+finite over `P¹` is finite-dimensional over the ground field.  The finite
+map is an explicit hypothesis; this theorem does not assert that an arbitrary
+proper curve has already been equipped with one. -/
+theorem genuineSheafHOne_finiteDimensional_of_finite_to_projectiveLine
+    {X : Scheme.{u}} (K : Type u) [Field K]
+    (f : X ⟶ scheme K) [IsFinite f] (M : X.Modules)
+    [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI := genuineSheafHOneFieldModuleOfFiniteToProjectiveLine K f M
+    FiniteDimensional K (GenuineSheafHOne M) := by
+  let R := Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
+  letI : Algebra K R := (Scheme.ΓSpecIso (.of K)).inv.hom.toAlgebra
+  letI : Module R (GenuineSheafHOne M) :=
+    genuineSheafHOneBaseModuleOfFiniteToProjectiveLine K f M
+  letI : Module K (GenuineSheafHOne M) :=
+    genuineSheafHOneFieldModuleOfFiniteToProjectiveLine K f M
+  letI : IsScalarTower K R (GenuineSheafHOne M) :=
+    IsScalarTower.of_compHom K R (GenuineSheafHOne M)
+  have hR : RingHom.Finite (algebraMap K R) := by
+    change RingHom.Finite (Scheme.ΓSpecIso (.of K)).inv.hom
+    exact
+      (Scheme.ΓSpecIso (.of K)).symm.commRingCatIsoToRingEquiv.finite
+  letI : Module.Finite K R := RingHom.finite_algebraMap.mp hR
+  letI : Module.Finite R (GenuineSheafHOne M) :=
+    genuineSheafHOne_finite_of_finite_to_projectiveLine K f M
+  exact Module.Finite.trans R (GenuineSheafHOne M)
+
 end MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology
