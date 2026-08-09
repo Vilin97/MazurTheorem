@@ -909,6 +909,17 @@ parameterization gives the equivalent reciprocal-and-sign-changed sextic
 `Y²=X⁶-4X⁵+10X⁴-10X³+5X²-2X+1` and stops honestly before the genus-two
 rational-point classification.
 
+For the direct `X₀(49)` route, Kilford and McMurdy,
+[*Slopes of the U7 operator acting on a space of overconvergent modular
+forms*](https://doi.org/10.1112/S1461157012000095), §2, supply the affine
+eta-quotient equation used as the target specification.  The local module
+`XZeroFortyNineEtaModel.lean` independently checks the displayed coordinate
+change to `Y² = X(X² + 21X + 112)`, proves its rational denominator is
+nonzero, and consumes the checked two-cusp classification to empty the open
+rational eta locus.  No source code or computer-algebra transcript is
+imported.  This target-side calculation does not construct the still-missing
+coarse classifying map from a rational cyclic subgroup of order `49`.
+
 Andrew Sutherland's public
 [`X₁(m,n)` equation tables](https://math.mit.edu/~drew/X1mn.html)
 were used as a specification check for the low-level modular curves.  In

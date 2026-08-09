@@ -221,6 +221,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineEllipticQuotient
 import MazurTorsion.NumberTheory.XZeroFortyNineLevelSevenQuotient
 import MazurTorsion.NumberTheory.XZeroFortyNineDescent
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
+import MazurTorsion.NumberTheory.XZeroFortyNineEtaModel
 import MazurTorsion.NumberTheory.XZeroFortyNineTransfer
 import MazurTorsion.NumberTheory.XZeroTwentySevenClassification
 import MazurTorsion.NumberTheory.XZeroTwentyOneDescent
