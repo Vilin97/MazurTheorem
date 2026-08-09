@@ -335,4 +335,51 @@ theorem antiDiagonalNormParametric_coprime_signedPellCover_compressed
       hε, hfirst.2.2.2⟩
   · exact ⟨d₁, d₂, ε, hd₁d₂, hsplit, hε, hsecond.2.2.2⟩
 
+/-- The signed Pell packaging reconstructs the original sextic square
+exactly.  Thus the compressed cover is an exact reformulation of the
+remaining genus-two equation, rather than a local obstruction by itself. -/
+theorem antiDiagonalSexticHom_eq_sq_of_signedPellDatum
+    (r s a b ε : ℤ)
+    (hproduct : r * (r ^ 2 - s ^ 2) = a * b)
+    (hε : ε = -1 ∨ ε = 1)
+    (hPell : a ^ 2 - 8 * b ^ 2 = ε * antiDiagonalNormReal r s) :
+    antiDiagonalSexticHom r s = (a ^ 2 + 8 * b ^ 2) ^ 2 := by
+  rw [← antiDiagonal_quadraticNorm_identity]
+  simp only [antiDiagonalNormSqrtNegTwo]
+  rcases hε with rfl | rfl
+  · norm_num at hPell
+    have hreal :
+        antiDiagonalNormReal r s = -(a ^ 2 - 8 * b ^ 2) := by
+      linarith
+    rw [hreal, show -4 * r * (r ^ 2 - s ^ 2) = -4 * (a * b) by
+      rw [← hproduct]
+      ring]
+    ring
+  · norm_num at hPell
+    rw [← hPell, show -4 * r * (r ^ 2 - s ^ 2) = -4 * (a * b) by
+      rw [← hproduct]
+      ring]
+    ring
+
+/-- Every gcd-one signed Pell datum supplied by the conic parameters comes
+with the canonical square root `a² + 8b²` of the anti-diagonal sextic. -/
+theorem antiDiagonalNormParametric_coprime_signedPellCover_withSquare
+    (r s p q : ℤ) (hpq : IsCoprime p q)
+    (hgcd : (GCDMonoid.gcd (antiDiagonalNormReal r s)
+      (antiDiagonalNormSqrtNegTwo r s) : ℤ) = 1)
+    (hform : antiDiagonalNormParametricBidegreeForm r s p q = 0)
+    (hD : r * (r ^ 2 - s ^ 2) ≠ 0) :
+    ∃ a b ε : ℤ,
+      IsCoprime a b ∧
+      r * (r ^ 2 - s ^ 2) = a * b ∧
+      (ε = -1 ∨ ε = 1) ∧
+      a ^ 2 - 8 * b ^ 2 = ε * antiDiagonalNormReal r s ∧
+      antiDiagonalSexticHom r s = (a ^ 2 + 8 * b ^ 2) ^ 2 := by
+  obtain ⟨a, b, ε, hab, hproduct, hε, hPell⟩ :=
+    antiDiagonalNormParametric_coprime_signedPellCover_compressed
+      r s p q hpq hgcd hform hD
+  exact ⟨a, b, ε, hab, hproduct, hε, hPell,
+    antiDiagonalSexticHom_eq_sq_of_signedPellDatum
+      r s a b ε hproduct hε hPell⟩
+
 end MazurTorsion.XOneEighteenDescent
