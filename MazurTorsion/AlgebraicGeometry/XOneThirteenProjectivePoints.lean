@@ -80,15 +80,15 @@ noncomputable def reciprocalSolutionToSchemePoint
   Spec.map (CommRingCat.ofHom
     (reciprocalSolutionToAlgHom K p).toRingHom)
 
-set_option backward.isDefEq.respectTransparency false in
 @[simp, reassoc]
 theorem reciprocalSolutionToSchemePoint_toBase
     [Subsingleton (K →+* K)] (p : ReciprocalSolution K K) :
     reciprocalSolutionToSchemePoint K p ≫
         XOneThirteenProjectiveCurve.reciprocalChartToBase K =
       𝟙 (Spec (.of K)) := by
-  simp only [reciprocalSolutionToSchemePoint,
-    XOneThirteenProjectiveCurve.reciprocalChartToBase]
+  unfold reciprocalSolutionToSchemePoint
+    XOneThirteenProjectiveCurve.reciprocalChartToBase
+    XOneThirteenProjectiveCurve.reciprocalScheme
   rw [← Spec.map_comp, ← Spec.map_id, Spec.map_inj]
   apply CommRingCat.hom_ext
   exact Subsingleton.elim _ _

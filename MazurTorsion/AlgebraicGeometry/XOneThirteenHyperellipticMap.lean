@@ -618,7 +618,6 @@ noncomputable def reciprocalChartToProjectiveLine :
       (MvPolynomial.X (0 : Fin 2))
       (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one
 
-set_option backward.isDefEq.respectTransparency false in
 theorem ordinaryChartToProjectiveLine_preimage_standardAffineOpen :
     ordinaryChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.standardAffineOpen K = ⊤ := by
@@ -628,7 +627,7 @@ theorem ordinaryChartToProjectiveLine_preimage_standardAffineOpen :
         (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one).opensRange by
     exact (Proj.opensRange_awayι _ _
       (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one).symm]
-  unfold ordinaryChartToProjectiveLine
+  unfold ordinaryChartToProjectiveLine XOneThirteenAffineCurve.scheme
   rw [Scheme.Hom.comp_preimage, Scheme.Hom.preimage_opensRange]
   simp
 
@@ -640,13 +639,13 @@ private theorem inverseAffineCoordinateAway_eq_isLocalizationElem :
   simp [ProjectiveLine.inverseAffineCoordinateAway,
     HomogeneousLocalization.Away.isLocalizationElem]
 
-set_option backward.isDefEq.respectTransparency false in
 theorem reciprocalChartToProjectiveLine_preimage_standardAffineOpen :
     reciprocalChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.standardAffineOpen K =
       PrimeSpectrum.basicOpen
         (XOneThirteenProjectiveCurve.zCoordinate K) := by
   unfold reciprocalChartToProjectiveLine
+    XOneThirteenProjectiveCurve.reciprocalScheme
   change (Spec.map (CommRingCat.ofHom
       (infinityChartRingHom K
         (XOneThirteenProjectiveCurve.ReciprocalRing K)
@@ -668,7 +667,6 @@ theorem reciprocalChartToProjectiveLine_preimage_standardAffineOpen :
     (XOneThirteenProjectiveCurve.ReciprocalRing K)
     (XOneThirteenProjectiveCurve.zCoordinate K)
 
-set_option backward.isDefEq.respectTransparency false in
 theorem reciprocalChartToProjectiveLine_preimage_infinityAffineOpen :
     reciprocalChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.infinityAffineOpen K = ⊤ := by
@@ -679,6 +677,7 @@ theorem reciprocalChartToProjectiveLine_preimage_infinityAffineOpen :
     exact (Proj.opensRange_awayι _ _
       (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one).symm]
   unfold reciprocalChartToProjectiveLine
+    XOneThirteenProjectiveCurve.reciprocalScheme
   rw [Scheme.Hom.comp_preimage, Scheme.Hom.preimage_opensRange]
   simp
 
@@ -690,7 +689,6 @@ private theorem affineCoordinateAway_eq_isLocalizationElem :
   simp [ProjectiveLine.affineCoordinateAway,
     HomogeneousLocalization.Away.isLocalizationElem]
 
-set_option backward.isDefEq.respectTransparency false in
 theorem ordinaryChartToProjectiveLine_preimage_infinityAffineOpen :
     ordinaryChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.infinityAffineOpen K =
@@ -732,6 +730,46 @@ private theorem reciprocal_ne_ordinary :
   intro h
   cases h
 
+private theorem ordinaryReciprocalOverlapInclusion_eq :
+    XOneThirteenProjectiveCurve.overlapInclusion K
+        (XOneThirteenProjectiveCurve.Chart.ordinary :
+          XOneThirteenProjectiveCurve.Chart.{u})
+        (XOneThirteenProjectiveCurve.Chart.reciprocal :
+          XOneThirteenProjectiveCurve.Chart.{u}) ordinary_ne_reciprocal =
+      Spec.map (CommRingCat.ofHom
+        (algebraMap (XOneThirteenAffineCurve.CoordinateRing K)
+          (XOneThirteenProjectiveCurve.OrdinaryOverlapRing K))) := by
+  rfl
+
+private theorem reciprocalOrdinaryOverlapInclusion_eq :
+    XOneThirteenProjectiveCurve.overlapInclusion K
+        (XOneThirteenProjectiveCurve.Chart.reciprocal :
+          XOneThirteenProjectiveCurve.Chart.{u})
+        (XOneThirteenProjectiveCurve.Chart.ordinary :
+          XOneThirteenProjectiveCurve.Chart.{u}) reciprocal_ne_ordinary =
+      Spec.map (CommRingCat.ofHom
+        (algebraMap (XOneThirteenProjectiveCurve.ReciprocalRing K)
+          (XOneThirteenProjectiveCurve.ReciprocalOverlapRing K))) := by
+  rfl
+
+private theorem ordinaryReciprocalOverlapTransition_eq :
+    XOneThirteenProjectiveCurve.overlapTransition K
+        (XOneThirteenProjectiveCurve.Chart.ordinary :
+          XOneThirteenProjectiveCurve.Chart.{u})
+        (XOneThirteenProjectiveCurve.Chart.reciprocal :
+          XOneThirteenProjectiveCurve.Chart.{u}) ordinary_ne_reciprocal =
+      (XOneThirteenProjectiveCurve.overlapSchemeIso K).hom := by
+  rfl
+
+private theorem reciprocalOrdinaryOverlapTransition_eq :
+    XOneThirteenProjectiveCurve.overlapTransition K
+        (XOneThirteenProjectiveCurve.Chart.reciprocal :
+          XOneThirteenProjectiveCurve.Chart.{u})
+        (XOneThirteenProjectiveCurve.Chart.ordinary :
+          XOneThirteenProjectiveCurve.Chart.{u}) reciprocal_ne_ordinary =
+      (XOneThirteenProjectiveCurve.overlapSchemeIso K).inv := by
+  rfl
+
 private instance reciprocalOverlapInclusion_isOpenImmersion :
     IsOpenImmersion
       (XOneThirteenProjectiveCurve.overlapInclusion K
@@ -740,11 +778,16 @@ private instance reciprocalOverlapInclusion_isOpenImmersion :
         (XOneThirteenProjectiveCurve.Chart.ordinary :
           XOneThirteenProjectiveCurve.Chart.{u})
         reciprocal_ne_ordinary) := by
-  dsimp [XOneThirteenProjectiveCurve.overlapInclusion]
+  rw [reciprocalOrdinaryOverlapInclusion_eq]
   exact IsOpenImmersion.of_isLocalization
     (XOneThirteenProjectiveCurve.zCoordinate K)
 
-set_option backward.isDefEq.respectTransparency false in
+private noncomputable abbrev reciprocalOverlapOpen :
+    (XOneThirteenProjectiveCurve.chartScheme K
+      (XOneThirteenProjectiveCurve.Chart.reciprocal :
+        XOneThirteenProjectiveCurve.Chart.{u})).Opens :=
+  PrimeSpectrum.basicOpen (XOneThirteenProjectiveCurve.zCoordinate K)
+
 private theorem reciprocalOverlapInclusion_opensRange :
     (XOneThirteenProjectiveCurve.overlapInclusion K
       (XOneThirteenProjectiveCurve.Chart.reciprocal :
@@ -752,9 +795,7 @@ private theorem reciprocalOverlapInclusion_opensRange :
       (XOneThirteenProjectiveCurve.Chart.ordinary :
         XOneThirteenProjectiveCurve.Chart.{u})
       reciprocal_ne_ordinary).opensRange =
-        PrimeSpectrum.basicOpen
-          (XOneThirteenProjectiveCurve.zCoordinate K) := by
-  dsimp [XOneThirteenProjectiveCurve.overlapInclusion]
+        reciprocalOverlapOpen K := by
   rw [SetLike.ext'_iff]
   exact PrimeSpectrum.localization_away_comap_range
     (XOneThirteenProjectiveCurve.ReciprocalOverlapRing K)
@@ -769,42 +810,28 @@ private instance reciprocalGlueOverlap_isOpenImmersion :
           XOneThirteenProjectiveCurve.Chart.{u})) :=
   (XOneThirteenProjectiveCurve.glueData K).f_open _ _
 
-set_option backward.isDefEq.respectTransparency false in
-private theorem reciprocalChartToProjectiveLine_preimage_standardAffineOpen_eq_overlapRange :
+private theorem reciprocalChartToProjectiveLine_preimage_standardAffineOpen_eq_overlapOpen :
     reciprocalChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.standardAffineOpen K =
-      ((XOneThirteenProjectiveCurve.glueData K).f
-        (XOneThirteenProjectiveCurve.Chart.reciprocal :
-          XOneThirteenProjectiveCurve.Chart.{u})
-        (XOneThirteenProjectiveCurve.Chart.ordinary :
-          XOneThirteenProjectiveCurve.Chart.{u})).opensRange := by
-  calc
-    reciprocalChartToProjectiveLine K ⁻¹ᵁ
-          ProjectiveLine.standardAffineOpen K =
-        (XOneThirteenProjectiveCurve.overlapInclusion K
-          (XOneThirteenProjectiveCurve.Chart.reciprocal :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          (XOneThirteenProjectiveCurve.Chart.ordinary :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          reciprocal_ne_ordinary).opensRange := by
-      rw [reciprocalChartToProjectiveLine_preimage_standardAffineOpen K,
-        reciprocalOverlapInclusion_opensRange K]
-    _ = ((XOneThirteenProjectiveCurve.glueData K).f
-          (XOneThirteenProjectiveCurve.Chart.reciprocal :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          (XOneThirteenProjectiveCurve.Chart.ordinary :
-            XOneThirteenProjectiveCurve.Chart.{u})).opensRange := by
-      symm
-      dsimp [XOneThirteenProjectiveCurve.glueData,
-        XOneThirteenProjectiveCurve.categoricalGlueData,
-        CategoryTheory.GlueData.ofGlueData',
-        CategoryTheory.GlueData'.f',
-        XOneThirteenProjectiveCurve.overlapInclusion,
-        ordinary_ne_reciprocal, reciprocal_ne_ordinary]
-      simp only [dif_neg reciprocal_ne_ordinary]
-      rw [Scheme.Hom.opensRange_comp_of_isIso]
+      reciprocalOverlapOpen K := by
+  exact reciprocalChartToProjectiveLine_preimage_standardAffineOpen K
 
-set_option backward.isDefEq.respectTransparency false in
+private theorem reciprocalGlueOverlap_opensRange :
+    ((XOneThirteenProjectiveCurve.glueData K).f
+      (XOneThirteenProjectiveCurve.Chart.reciprocal :
+        XOneThirteenProjectiveCurve.Chart.{u})
+      (XOneThirteenProjectiveCurve.Chart.ordinary :
+        XOneThirteenProjectiveCurve.Chart.{u})).opensRange =
+      reciprocalOverlapOpen K := by
+  dsimp [XOneThirteenProjectiveCurve.glueData,
+    XOneThirteenProjectiveCurve.categoricalGlueData,
+    CategoryTheory.GlueData.ofGlueData',
+    CategoryTheory.GlueData'.f',
+    ordinary_ne_reciprocal, reciprocal_ne_ordinary]
+  simp only [dif_neg reciprocal_ne_ordinary]
+  rw [Scheme.Hom.opensRange_comp_of_isIso]
+  exact reciprocalOverlapInclusion_opensRange K
+
 private theorem reciprocalChartMap_preimage_ordinaryChartMap_opensRange :
     XOneThirteenProjectiveCurve.reciprocalChartMap K ⁻¹ᵁ
         (XOneThirteenProjectiveCurve.ordinaryChartMap K).opensRange =
@@ -850,6 +877,13 @@ private theorem reciprocalChartMap_preimage_ordinaryChartMap_opensRange :
         (XOneThirteenProjectiveCurve.Chart.ordinary :
           XOneThirteenProjectiveCurve.Chart.{u}))
 
+private theorem reciprocalOverlapOpen_eq_chartMap_preimage :
+    reciprocalOverlapOpen K =
+      XOneThirteenProjectiveCurve.reciprocalChartMap K ⁻¹ᵁ
+        (XOneThirteenProjectiveCurve.ordinaryChartMap K).opensRange :=
+  (reciprocalGlueOverlap_opensRange K).symm.trans
+    (reciprocalChartMap_preimage_ordinaryChartMap_opensRange K).symm
+
 private instance ordinaryOverlapInclusion_isOpenImmersion :
     IsOpenImmersion
       (XOneThirteenProjectiveCurve.overlapInclusion K
@@ -858,11 +892,16 @@ private instance ordinaryOverlapInclusion_isOpenImmersion :
         (XOneThirteenProjectiveCurve.Chart.reciprocal :
           XOneThirteenProjectiveCurve.Chart.{u})
         ordinary_ne_reciprocal) := by
-  dsimp [XOneThirteenProjectiveCurve.overlapInclusion]
+  rw [ordinaryReciprocalOverlapInclusion_eq]
   exact IsOpenImmersion.of_isLocalization
     (XOneThirteenAffineCurve.xCoordinate K)
 
-set_option backward.isDefEq.respectTransparency false in
+private noncomputable abbrev ordinaryOverlapOpen :
+    (XOneThirteenProjectiveCurve.chartScheme K
+      (XOneThirteenProjectiveCurve.Chart.ordinary :
+        XOneThirteenProjectiveCurve.Chart.{u})).Opens :=
+  PrimeSpectrum.basicOpen (XOneThirteenAffineCurve.xCoordinate K)
+
 private theorem ordinaryOverlapInclusion_opensRange :
     (XOneThirteenProjectiveCurve.overlapInclusion K
       (XOneThirteenProjectiveCurve.Chart.ordinary :
@@ -870,9 +909,7 @@ private theorem ordinaryOverlapInclusion_opensRange :
       (XOneThirteenProjectiveCurve.Chart.reciprocal :
         XOneThirteenProjectiveCurve.Chart.{u})
       ordinary_ne_reciprocal).opensRange =
-        PrimeSpectrum.basicOpen
-          (XOneThirteenAffineCurve.xCoordinate K) := by
-  dsimp [XOneThirteenProjectiveCurve.overlapInclusion]
+        ordinaryOverlapOpen K := by
   rw [SetLike.ext'_iff]
   exact PrimeSpectrum.localization_away_comap_range
     (XOneThirteenProjectiveCurve.OrdinaryOverlapRing K)
@@ -887,42 +924,28 @@ private instance ordinaryGlueOverlap_isOpenImmersion :
           XOneThirteenProjectiveCurve.Chart.{u})) :=
   (XOneThirteenProjectiveCurve.glueData K).f_open _ _
 
-set_option backward.isDefEq.respectTransparency false in
-private theorem ordinaryChartToProjectiveLine_preimage_infinityAffineOpen_eq_overlapRange :
+private theorem ordinaryChartToProjectiveLine_preimage_infinityAffineOpen_eq_overlapOpen :
     ordinaryChartToProjectiveLine K ⁻¹ᵁ
         ProjectiveLine.infinityAffineOpen K =
-      ((XOneThirteenProjectiveCurve.glueData K).f
-        (XOneThirteenProjectiveCurve.Chart.ordinary :
-          XOneThirteenProjectiveCurve.Chart.{u})
-        (XOneThirteenProjectiveCurve.Chart.reciprocal :
-          XOneThirteenProjectiveCurve.Chart.{u})).opensRange := by
-  calc
-    ordinaryChartToProjectiveLine K ⁻¹ᵁ
-          ProjectiveLine.infinityAffineOpen K =
-        (XOneThirteenProjectiveCurve.overlapInclusion K
-          (XOneThirteenProjectiveCurve.Chart.ordinary :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          (XOneThirteenProjectiveCurve.Chart.reciprocal :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          ordinary_ne_reciprocal).opensRange := by
-      rw [ordinaryChartToProjectiveLine_preimage_infinityAffineOpen K,
-        ordinaryOverlapInclusion_opensRange K]
-    _ = ((XOneThirteenProjectiveCurve.glueData K).f
-          (XOneThirteenProjectiveCurve.Chart.ordinary :
-            XOneThirteenProjectiveCurve.Chart.{u})
-          (XOneThirteenProjectiveCurve.Chart.reciprocal :
-            XOneThirteenProjectiveCurve.Chart.{u})).opensRange := by
-      symm
-      dsimp [XOneThirteenProjectiveCurve.glueData,
-        XOneThirteenProjectiveCurve.categoricalGlueData,
-        CategoryTheory.GlueData.ofGlueData',
-        CategoryTheory.GlueData'.f',
-        XOneThirteenProjectiveCurve.overlapInclusion,
-        ordinary_ne_reciprocal, reciprocal_ne_ordinary]
-      simp only [dif_neg ordinary_ne_reciprocal]
-      rw [Scheme.Hom.opensRange_comp_of_isIso]
+      ordinaryOverlapOpen K := by
+  exact ordinaryChartToProjectiveLine_preimage_infinityAffineOpen K
 
-set_option backward.isDefEq.respectTransparency false in
+private theorem ordinaryGlueOverlap_opensRange :
+    ((XOneThirteenProjectiveCurve.glueData K).f
+      (XOneThirteenProjectiveCurve.Chart.ordinary :
+        XOneThirteenProjectiveCurve.Chart.{u})
+      (XOneThirteenProjectiveCurve.Chart.reciprocal :
+        XOneThirteenProjectiveCurve.Chart.{u})).opensRange =
+      ordinaryOverlapOpen K := by
+  dsimp [XOneThirteenProjectiveCurve.glueData,
+    XOneThirteenProjectiveCurve.categoricalGlueData,
+    CategoryTheory.GlueData.ofGlueData',
+    CategoryTheory.GlueData'.f',
+    ordinary_ne_reciprocal, reciprocal_ne_ordinary]
+  simp only [dif_neg ordinary_ne_reciprocal]
+  rw [Scheme.Hom.opensRange_comp_of_isIso]
+  exact ordinaryOverlapInclusion_opensRange K
+
 private theorem ordinaryChartMap_preimage_reciprocalChartMap_opensRange :
     XOneThirteenProjectiveCurve.ordinaryChartMap K ⁻¹ᵁ
         (XOneThirteenProjectiveCurve.reciprocalChartMap K).opensRange =
@@ -968,7 +991,13 @@ private theorem ordinaryChartMap_preimage_reciprocalChartMap_opensRange :
         (XOneThirteenProjectiveCurve.Chart.reciprocal :
           XOneThirteenProjectiveCurve.Chart.{u}))
 
-set_option backward.isDefEq.respectTransparency false in
+private theorem ordinaryOverlapOpen_eq_chartMap_preimage :
+    ordinaryOverlapOpen K =
+      XOneThirteenProjectiveCurve.ordinaryChartMap K ⁻¹ᵁ
+        (XOneThirteenProjectiveCurve.reciprocalChartMap K).opensRange :=
+  (ordinaryGlueOverlap_opensRange K).symm.trans
+    (ordinaryChartMap_preimage_reciprocalChartMap_opensRange K).symm
+
 private theorem ordinary_reciprocal_hyperelliptic_compatible :
     XOneThirteenProjectiveCurve.overlapInclusion K
           (XOneThirteenProjectiveCurve.Chart.ordinary :
@@ -1025,8 +1054,19 @@ private theorem ordinary_reciprocal_hyperelliptic_compatible :
         Proj.awayι (ProjectiveLine.homogeneousPieces K)
           (MvPolynomial.X (1 : Fin 2))
           (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one := by
-      dsimp [XOneThirteenProjectiveCurve.overlapInclusion,
-        ordinaryChartToProjectiveLine]
+      rw [ordinaryReciprocalOverlapInclusion_eq]
+      unfold ordinaryChartToProjectiveLine XOneThirteenAffineCurve.scheme
+      change Spec.map (CommRingCat.ofHom (algebraMap A LA)) ≫
+          (Spec.map (CommRingCat.ofHom
+            (standardChartRingHom K A
+              (XOneThirteenAffineCurve.xCoordinate K))) ≫
+            Proj.awayι (ProjectiveLine.homogeneousPieces K)
+              (MvPolynomial.X (1 : Fin 2))
+              (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one) =
+        Spec.map (CommRingCat.ofHom (standardChartRingHom K LA x)) ≫
+          Proj.awayι (ProjectiveLine.homogeneousPieces K)
+            (MvPolynomial.X (1 : Fin 2))
+            (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one
       rw [← Category.assoc, ← Spec.map_comp]
       congr 2
       apply CommRingCat.hom_ext
@@ -1047,17 +1087,31 @@ private theorem ordinary_reciprocal_hyperelliptic_compatible :
           (XOneThirteenProjectiveCurve.Chart.ordinary :
             XOneThirteenProjectiveCurve.Chart.{u}) reciprocal_ne_ordinary ≫
         reciprocalChartToProjectiveLine K := by
-      dsimp [XOneThirteenProjectiveCurve.overlapTransition,
-        XOneThirteenProjectiveCurve.overlapInclusion,
-        reciprocalChartToProjectiveLine]
-      rw [XOneThirteenProjectiveCurve.overlapSchemeIso_hom]
+      rw [ordinaryReciprocalOverlapTransition_eq,
+        XOneThirteenProjectiveCurve.overlapSchemeIso_hom,
+        reciprocalOrdinaryOverlapInclusion_eq]
+      unfold reciprocalChartToProjectiveLine
+        XOneThirteenProjectiveCurve.reciprocalScheme
+      change Spec.map (CommRingCat.ofHom (infinityChartRingHom K LA z)) ≫
+          Proj.awayι (ProjectiveLine.homogeneousPieces K)
+            (MvPolynomial.X (0 : Fin 2))
+            (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one =
+        Spec.map (CommRingCat.ofHom
+          (XOneThirteenProjectiveCurve.reciprocalToOrdinary K).toRingHom) ≫
+          Spec.map (CommRingCat.ofHom (algebraMap B LB)) ≫
+          (Spec.map (CommRingCat.ofHom
+            (infinityChartRingHom K B
+              (XOneThirteenProjectiveCurve.zCoordinate K))) ≫
+            Proj.awayι (ProjectiveLine.homogeneousPieces K)
+              (MvPolynomial.X (0 : Fin 2))
+              (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one)
+      symm
       rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp,
         ← Spec.map_comp]
       congr 2
       apply CommRingCat.hom_ext
-      exact hreciprocal.symm
+      exact hreciprocal
 
-set_option backward.isDefEq.respectTransparency false in
 private theorem reciprocal_ordinary_hyperelliptic_compatible :
     XOneThirteenProjectiveCurve.overlapInclusion K
           (XOneThirteenProjectiveCurve.Chart.reciprocal :
@@ -1106,7 +1160,7 @@ private theorem reciprocal_ordinary_hyperelliptic_compatible :
           (XOneThirteenProjectiveCurve.Chart.reciprocal :
             XOneThirteenProjectiveCurve.Chart.{u}) ordinary_ne_reciprocal ≫
         ordinaryChartToProjectiveLine K := by
-      rfl
+      rw [reciprocalOrdinaryOverlapTransition_eq]
 
 /-- The chartwise hyperelliptic maps before descent through the gluing. -/
 noncomputable def chartToProjectiveLine :
@@ -1116,7 +1170,6 @@ noncomputable def chartToProjectiveLine :
   | .ordinary => ordinaryChartToProjectiveLine K
   | .reciprocal => reciprocalChartToProjectiveLine K
 
-set_option backward.isDefEq.respectTransparency false in
 /-- The hyperelliptic map descended from the two checked chart maps. -/
 noncomputable def gluedHyperellipticMap :
     XOneThirteenProjectiveCurve.curveScheme K ⟶
@@ -1140,8 +1193,6 @@ noncomputable def gluedHyperellipticMap :
           XOneThirteenProjectiveCurve.categoricalGlueData,
           CategoryTheory.GlueData.ofGlueData',
           CategoryTheory.GlueData'.f', chartToProjectiveLine,
-          XOneThirteenProjectiveCurve.overlapInclusion,
-          XOneThirteenProjectiveCurve.overlapTransition,
           ordinary_ne_reciprocal, reciprocal_ne_ordinary,
           Limits.MultispanShape.prod]
         simp only [dif_neg ordinary_ne_reciprocal,
@@ -1154,8 +1205,6 @@ noncomputable def gluedHyperellipticMap :
           XOneThirteenProjectiveCurve.categoricalGlueData,
           CategoryTheory.GlueData.ofGlueData',
           CategoryTheory.GlueData'.f', chartToProjectiveLine,
-          XOneThirteenProjectiveCurve.overlapInclusion,
-          XOneThirteenProjectiveCurve.overlapTransition,
           ordinary_ne_reciprocal, reciprocal_ne_ordinary,
           Limits.MultispanShape.prod]
         simp only [dif_neg ordinary_ne_reciprocal,
@@ -1193,7 +1242,6 @@ theorem reciprocalChartMap_gluedHyperellipticMap :
     gluedHyperellipticMap
   apply Limits.Multicoequalizer.π_desc
 
-set_option backward.isDefEq.respectTransparency false in
 theorem gluedHyperellipticMap_preimage_standardAffineOpen :
     gluedHyperellipticMap K ⁻¹ᵁ
         ProjectiveLine.standardAffineOpen K =
@@ -1234,15 +1282,11 @@ theorem gluedHyperellipticMap_preimage_standardAffineOpen :
       _ = reciprocalChartToProjectiveLine K ⁻¹ᵁ
             ProjectiveLine.standardAffineOpen K := by
           rw [reciprocalChartMap_gluedHyperellipticMap]
-      _ = ((XOneThirteenProjectiveCurve.glueData K).f
-            (XOneThirteenProjectiveCurve.Chart.reciprocal :
-              XOneThirteenProjectiveCurve.Chart.{u})
-            (XOneThirteenProjectiveCurve.Chart.ordinary :
-              XOneThirteenProjectiveCurve.Chart.{u})).opensRange :=
-        reciprocalChartToProjectiveLine_preimage_standardAffineOpen_eq_overlapRange K
+      _ = reciprocalOverlapOpen K :=
+        reciprocalChartToProjectiveLine_preimage_standardAffineOpen_eq_overlapOpen K
       _ = XOneThirteenProjectiveCurve.reciprocalChartMap K ⁻¹ᵁ
           (XOneThirteenProjectiveCurve.ordinaryChartMap K).opensRange :=
-        (reciprocalChartMap_preimage_ordinaryChartMap_opensRange K).symm
+        reciprocalOverlapOpen_eq_chartMap_preimage K
   apply TopologicalSpace.Opens.ext
   ext p
   obtain ⟨i, q, rfl⟩ :=
@@ -1251,7 +1295,6 @@ theorem gluedHyperellipticMap_preimage_standardAffineOpen :
   · exact SetLike.ext_iff.mp hordinary q
   · exact SetLike.ext_iff.mp hreciprocal q
 
-set_option backward.isDefEq.respectTransparency false in
 theorem gluedHyperellipticMap_preimage_infinityAffineOpen :
     gluedHyperellipticMap K ⁻¹ᵁ
         ProjectiveLine.infinityAffineOpen K =
@@ -1272,15 +1315,11 @@ theorem gluedHyperellipticMap_preimage_infinityAffineOpen :
       _ = ordinaryChartToProjectiveLine K ⁻¹ᵁ
             ProjectiveLine.infinityAffineOpen K := by
           rw [ordinaryChartMap_gluedHyperellipticMap]
-      _ = ((XOneThirteenProjectiveCurve.glueData K).f
-            (XOneThirteenProjectiveCurve.Chart.ordinary :
-              XOneThirteenProjectiveCurve.Chart.{u})
-            (XOneThirteenProjectiveCurve.Chart.reciprocal :
-              XOneThirteenProjectiveCurve.Chart.{u})).opensRange :=
-        ordinaryChartToProjectiveLine_preimage_infinityAffineOpen_eq_overlapRange K
+      _ = ordinaryOverlapOpen K :=
+        ordinaryChartToProjectiveLine_preimage_infinityAffineOpen_eq_overlapOpen K
       _ = XOneThirteenProjectiveCurve.ordinaryChartMap K ⁻¹ᵁ
           (XOneThirteenProjectiveCurve.reciprocalChartMap K).opensRange :=
-        (ordinaryChartMap_preimage_reciprocalChartMap_opensRange K).symm
+        ordinaryOverlapOpen_eq_chartMap_preimage K
   have hreciprocal :
       XOneThirteenProjectiveCurve.reciprocalChartMap K ⁻¹ᵁ
           gluedHyperellipticMap K ⁻¹ᵁ
@@ -1309,7 +1348,7 @@ theorem gluedHyperellipticMap_preimage_infinityAffineOpen :
   · exact SetLike.ext_iff.mp hordinary q
   · exact SetLike.ext_iff.mp hreciprocal q
 
-private noncomputable def projectiveLineChartScheme :
+private noncomputable abbrev projectiveLineChartScheme :
     XOneThirteenProjectiveCurve.Chart.{u} → Scheme
   | .ordinary => Spec (.of <|
       HomogeneousLocalization.Away (ProjectiveLine.homogeneousPieces K)
@@ -1328,7 +1367,39 @@ private noncomputable def projectiveLineChartMap :
       (MvPolynomial.X (0 : Fin 2))
       (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one
 
-set_option backward.isDefEq.respectTransparency false in
+private instance projectiveLineChartMap_isOpenImmersion
+    (i : XOneThirteenProjectiveCurve.Chart.{u}) :
+    IsOpenImmersion (projectiveLineChartMap K i) := by
+  rcases i with (_ | _)
+  · change IsOpenImmersion
+      (Proj.awayι (ProjectiveLine.homogeneousPieces K)
+        (MvPolynomial.X (1 : Fin 2))
+        (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one)
+    infer_instance
+  · change IsOpenImmersion
+      (Proj.awayι (ProjectiveLine.homogeneousPieces K)
+        (MvPolynomial.X (0 : Fin 2))
+        (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one)
+    infer_instance
+
+private theorem projectiveLineChartMap_ordinary_opensRange :
+    (projectiveLineChartMap K
+      (XOneThirteenProjectiveCurve.Chart.ordinary :
+        XOneThirteenProjectiveCurve.Chart.{u})).opensRange =
+      ProjectiveLine.standardAffineOpen K := by
+  exact Proj.opensRange_awayι (ProjectiveLine.homogeneousPieces K)
+    (MvPolynomial.X (1 : Fin 2))
+    (ProjectiveLine.X_one_mem_degree_one K) zero_lt_one
+
+private theorem projectiveLineChartMap_reciprocal_opensRange :
+    (projectiveLineChartMap K
+      (XOneThirteenProjectiveCurve.Chart.reciprocal :
+        XOneThirteenProjectiveCurve.Chart.{u})).opensRange =
+      ProjectiveLine.infinityAffineOpen K := by
+  exact Proj.opensRange_awayι (ProjectiveLine.homogeneousPieces K)
+    (MvPolynomial.X (0 : Fin 2))
+    (ProjectiveLine.X_zero_mem_degree_one K) zero_lt_one
+
 private noncomputable def projectiveLineChartCover :
     (ProjectiveLine.scheme K).OpenCover where
   I₀ := XOneThirteenProjectiveCurve.Chart.{u}
@@ -1360,8 +1431,7 @@ private noncomputable def projectiveLineChartCover :
         rw [Proj.opensRange_awayι]
         exact hp
     · intro i
-      rcases i with (_ | _) <;> dsimp [projectiveLineChartMap] <;>
-        infer_instance
+      exact projectiveLineChartMap_isOpenImmersion K i
 
 private noncomputable def ordinaryChartFiniteMap :
     XOneThirteenAffineCurve.scheme K ⟶
@@ -1383,7 +1453,6 @@ private noncomputable def reciprocalChartFiniteMap :
       (XOneThirteenProjectiveCurve.ReciprocalRing K)
       (XOneThirteenProjectiveCurve.zCoordinate K)))
 
-set_option backward.isDefEq.respectTransparency false in
 private theorem ordinaryChartSquare_isPullback :
     IsPullback (ordinaryChartFiniteMap K)
       (XOneThirteenProjectiveCurve.ordinaryChartMap K)
@@ -1394,17 +1463,14 @@ private theorem ordinaryChartSquare_isPullback :
   letI : IsOpenImmersion
       (projectiveLineChartMap K
         (XOneThirteenProjectiveCurve.Chart.ordinary :
-          XOneThirteenProjectiveCurve.Chart.{u})) := by
-    dsimp [projectiveLineChartMap]
-    infer_instance
+          XOneThirteenProjectiveCurve.Chart.{u})) :=
+    projectiveLineChartMap_isOpenImmersion K _
   apply IsOpenImmersion.isPullback
-  · simp [ordinaryChartFiniteMap, projectiveLineChartMap,
-      ordinaryChartToProjectiveLine]
-  · dsimp [projectiveLineChartMap]
-    rw [Proj.opensRange_awayι,
-      gluedHyperellipticMap_preimage_standardAffineOpen K]
+  · rw [ordinaryChartMap_gluedHyperellipticMap]
+    rfl
+  · rw [projectiveLineChartMap_ordinary_opensRange]
+    exact gluedHyperellipticMap_preimage_standardAffineOpen K
 
-set_option backward.isDefEq.respectTransparency false in
 private theorem reciprocalChartSquare_isPullback :
     IsPullback (reciprocalChartFiniteMap K)
       (XOneThirteenProjectiveCurve.reciprocalChartMap K)
@@ -1415,29 +1481,39 @@ private theorem reciprocalChartSquare_isPullback :
   letI : IsOpenImmersion
       (projectiveLineChartMap K
         (XOneThirteenProjectiveCurve.Chart.reciprocal :
-          XOneThirteenProjectiveCurve.Chart.{u})) := by
-    dsimp [projectiveLineChartMap]
-    infer_instance
+          XOneThirteenProjectiveCurve.Chart.{u})) :=
+    projectiveLineChartMap_isOpenImmersion K _
   apply IsOpenImmersion.isPullback
-  · simp [reciprocalChartFiniteMap, projectiveLineChartMap,
-      reciprocalChartToProjectiveLine]
-  · dsimp [projectiveLineChartMap]
-    rw [Proj.opensRange_awayι,
-      gluedHyperellipticMap_preimage_infinityAffineOpen K]
+  · rw [reciprocalChartMap_gluedHyperellipticMap]
+    rfl
+  · rw [projectiveLineChartMap_reciprocal_opensRange]
+    exact gluedHyperellipticMap_preimage_infinityAffineOpen K
 
-set_option backward.isDefEq.respectTransparency false in
+/-- The morphism property underlying `IsFinite`, named explicitly so that
+Mathlib's affine-local framework can elaborate it at the default transparency
+setting. -/
+private abbrev finiteMorphismProperty : MorphismProperty Scheme :=
+  fun {_ _} f => IsFinite f
+
+private instance finiteMorphismProperty_hasAffineProperty :
+    HasAffineProperty finiteMorphismProperty (affineAnd RingHom.Finite) := by
+  rw [HasAffineProperty.affineAnd_iff _ RingHom.finite_respectsIso
+    RingHom.finite_localizationPreserves.away
+    RingHom.finite_ofLocalizationSpan]
+  simp [finiteMorphismProperty, isFinite_iff]
+
 private theorem ordinaryCoverPullbackHom_isFinite :
     IsFinite ((projectiveLineChartCover K).pullbackHom
       (gluedHyperellipticMap K)
       (XOneThirteenProjectiveCurve.Chart.ordinary :
         XOneThirteenProjectiveCurve.Chart.{u})) := by
   let h := ordinaryChartSquare_isPullback K
-  change IsFinite (Limits.pullback.snd (gluedHyperellipticMap K)
+  change finiteMorphismProperty (Limits.pullback.snd (gluedHyperellipticMap K)
     (projectiveLineChartMap K
       (XOneThirteenProjectiveCurve.Chart.ordinary :
         XOneThirteenProjectiveCurve.Chart.{u})))
   rw [← MorphismProperty.cancel_left_of_respectsIso
-      (P := @IsFinite) h.flip.isoPullback.hom,
+      (P := finiteMorphismProperty) h.flip.isoPullback.hom,
     h.flip.isoPullback_hom_snd]
   change IsFinite (Spec.map (CommRingCat.ofHom
     (standardChartRingHom K
@@ -1446,19 +1522,18 @@ private theorem ordinaryCoverPullbackHom_isFinite :
   rw [IsFinite.SpecMap_iff]
   exact standardChartRingHom_finite K
 
-set_option backward.isDefEq.respectTransparency false in
 private theorem reciprocalCoverPullbackHom_isFinite :
     IsFinite ((projectiveLineChartCover K).pullbackHom
       (gluedHyperellipticMap K)
       (XOneThirteenProjectiveCurve.Chart.reciprocal :
         XOneThirteenProjectiveCurve.Chart.{u})) := by
   let h := reciprocalChartSquare_isPullback K
-  change IsFinite (Limits.pullback.snd (gluedHyperellipticMap K)
+  change finiteMorphismProperty (Limits.pullback.snd (gluedHyperellipticMap K)
     (projectiveLineChartMap K
       (XOneThirteenProjectiveCurve.Chart.reciprocal :
         XOneThirteenProjectiveCurve.Chart.{u})))
   rw [← MorphismProperty.cancel_left_of_respectsIso
-      (P := @IsFinite) h.flip.isoPullback.hom,
+      (P := finiteMorphismProperty) h.flip.isoPullback.hom,
     h.flip.isoPullback_hom_snd]
   change IsFinite (Spec.map (CommRingCat.ofHom
     (infinityChartRingHom K
@@ -1467,11 +1542,10 @@ private theorem reciprocalCoverPullbackHom_isFinite :
   rw [IsFinite.SpecMap_iff]
   exact infinityChartRingHom_finite K
 
-set_option backward.isDefEq.respectTransparency false in
 noncomputable instance gluedHyperellipticMap_isFinite :
     IsFinite (gluedHyperellipticMap K) := by
   apply IsZariskiLocalAtTarget.of_openCover
-    (P := @IsFinite) (projectiveLineChartCover K)
+    (P := finiteMorphismProperty) (projectiveLineChartCover K)
   intro i
   rcases i with (_ | _)
   · exact ordinaryCoverPullbackHom_isFinite K

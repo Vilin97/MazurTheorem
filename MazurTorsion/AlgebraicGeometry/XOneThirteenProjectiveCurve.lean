@@ -77,7 +77,7 @@ theorem wCoordinate_sq :
   simp [reciprocalEquation]
 
 /-- The reciprocal affine chart. -/
-noncomputable def reciprocalScheme : Scheme :=
+noncomputable abbrev reciprocalScheme : Scheme :=
   Spec (.of (ReciprocalRing K))
 
 /-- The punctured ordinary chart, obtained by inverting `x`. -/
@@ -698,7 +698,17 @@ private theorem reciprocal_ordinary_base_compatible :
     (ReciprocalRing K) (ReciprocalOverlapRing K)]
   simp
 
-set_option backward.isDefEq.respectTransparency false in
+private theorem chartToBase_transition_compatible
+    (i j : Chart) (h : i ≠ j) :
+    overlapInclusion K i j h ≫ chartToBase K i =
+      overlapTransition K i j h ≫
+        overlapInclusion K j i h.symm ≫ chartToBase K j := by
+  rcases i with (_ | _) <;> rcases j with (_ | _)
+  · exact (h rfl).elim
+  · exact ordinary_reciprocal_base_compatible K
+  · exact reciprocal_ordinary_base_compatible K
+  · exact (h rfl).elim
+
 /-- The structure morphism obtained by gluing the two affine algebra
 structures. -/
 noncomputable def curveToBase : curveScheme K ⟶ Spec (.of K) :=
@@ -718,7 +728,6 @@ noncomputable def curveToBase : curveScheme K ⟶ Spec (.of K) :=
       · dsimp [glueData, categoricalGlueData,
           CategoryTheory.GlueData.ofGlueData',
           CategoryTheory.GlueData'.f', chartToBase,
-          overlapInclusion, overlapTransition,
           ordinary_ne_reciprocal, reciprocal_ne_ordinary,
           Limits.MultispanShape.prod]
         simp only [dif_neg ordinary_ne_reciprocal,
@@ -726,11 +735,11 @@ noncomputable def curveToBase : curveScheme K ⟶ Spec (.of K) :=
         simp only [CategoryTheory.eqToHom_trans_assoc,
           CategoryTheory.eqToHom_refl, Category.id_comp]
         rw [CategoryTheory.cancel_epi]
-        exact ordinary_reciprocal_base_compatible K
+        exact chartToBase_transition_compatible K _ _
+          ordinary_ne_reciprocal
       · dsimp [glueData, categoricalGlueData,
           CategoryTheory.GlueData.ofGlueData',
           CategoryTheory.GlueData'.f', chartToBase,
-          overlapInclusion, overlapTransition,
           ordinary_ne_reciprocal, reciprocal_ne_ordinary,
           Limits.MultispanShape.prod]
         simp only [dif_neg ordinary_ne_reciprocal,
@@ -738,7 +747,8 @@ noncomputable def curveToBase : curveScheme K ⟶ Spec (.of K) :=
         simp only [CategoryTheory.eqToHom_trans_assoc,
           CategoryTheory.eqToHom_refl, Category.id_comp]
         rw [CategoryTheory.cancel_epi]
-        exact reciprocal_ordinary_base_compatible K
+        exact chartToBase_transition_compatible K _ _
+          reciprocal_ne_ordinary
       · dsimp [glueData, categoricalGlueData,
           CategoryTheory.GlueData.ofGlueData',
           CategoryTheory.GlueData'.f', chartToBase,

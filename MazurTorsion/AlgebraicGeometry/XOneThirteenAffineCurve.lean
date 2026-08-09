@@ -78,7 +78,7 @@ theorem yCoordinate_sq :
   simp [affineEquation]
 
 /-- The affine curve as an actual affine scheme. -/
-noncomputable def scheme : Scheme :=
+noncomputable abbrev scheme : Scheme :=
   Spec (.of (CoordinateRing K))
 
 /-- Elementary affine solutions over a `K`-algebra `A`. -/
