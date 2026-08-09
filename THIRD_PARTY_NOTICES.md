@@ -170,6 +170,18 @@ their `AwayCongr` dependency are omitted. The local projective chart-cover
 leaf separately adapts the clean cover prefix of the already recorded
 `WeierstrassModel.lean` blob.
 
+`ProjPrincipalQuotientChart.lean` generalizes the principal homogeneous
+quotient-chart construction from AINTLIB `WeierstrassModel.lean`, exact blob
+`0cea4fbbcd8f0976b8cb0949755ecacec6e58b26`, identical at the licensed
+default-branch commit and carrying Chris Birkbeck's explicit Apache-2.0
+header.  The local projective Tate chart-algebra, Jacobian, smoothness, and
+chart-points leaves selectively adapt the corresponding chart and field-point
+slices of that same blob.  The smoothness leaf replaces the source's two
+transparency-option wrappers by explicitly typed default-pin proofs; the
+chart-points extraction stops before the source's option-wrapped transition
+theorem and global point dictionary.  Each local file retains Chris Birkbeck
+and the AINTLIB contributors in its copyright/authorship header.
+
 The local `XZeroGammaOneTateBase.lean` adapts only the Tate normalization,
 relative ring/base formulas, and proper-divisor lemma from the two listed
 sources. It does not port or claim their fine-moduli representability or

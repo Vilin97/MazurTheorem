@@ -418,6 +418,38 @@ that the three degree-one quotient coordinate classes generate the irrelevant
 ideal and that their `Proj` basic opens cover the model. It adds no chart-point
 dictionary or field-point identification.
 
+`ForMathlib/ProjPrincipalQuotientChart.lean` is a declaration-generalized
+adaptation of the principal chart equivalences in the same licensed
+`WeierstrassModel.lean` blob.  Its local blob is
+`59ca4c8b1c07244727e4db56e649770b13ffd1c9`.  It combines the separately
+audited projective-space chart and quotient-away APIs and makes no scheme or
+point assertion.  `XZeroGammaOneTateProjectiveChartAlgebra.lean`, local blob
+`df98d4fd5733b68c63051e93918364a39546f8f6`, specializes that generic theorem
+to a Weierstrass cubic and adapts the source's coefficient-map compatibility
+formulas.
+
+`XZeroGammaOneTateProjectiveJacobian.lean`, local blob
+`1addf5c465365a2c5dd37805edbebab857aa943e`, selectively adapts the three-chart
+Jacobian-comaximality slice of `WeierstrassModel.lean`.  The intermediate
+evaluation and singularity formulas are private; its three public theorems
+say exactly that the dehomogenized cubic and its two partial derivatives span
+the unit ideal on each chart.  `XZeroGammaOneTateProjectiveSmooth.lean`, local
+blob `16099929e72b1e7e50dbc55af6f71cb6a252956e`, adapts the subsequent
+standard-smooth chart argument.  Instead of the source's two backward-
+definitional-equality option wrappers, it installs the precisely typed
+ring-hom property instances, normalizes the quotient-coordinate spelling,
+and glues directly for the projection to `Spec A`.  It proves relative
+dimension one for the generic model, the universal Tate family, and every
+arbitrary scheme base change.
+
+`XZeroGammaOneTateProjectiveChartPoints.lean`, local blob
+`e662a79fe8bb4bde093ff2539fe8d23d8aa00113`, selectively adapts the first
+field-point/chart slice of `WeierstrassModel.lean`.  It reuses the chart
+algebra above, proves that every field-valued point factors through a
+coordinate chart, and identifies chart points with compatible ring maps and
+dehomogenized solutions.  It deliberately stops before chart transitions or
+the global pointed field-points dictionary.
+
 The retained exact-sequence core and exact additive-sheaf forgetful functor
 are consumed by
 `MazurTorsion.Upstream.SchemeModuleCohomologyDimensionShift`. That module
