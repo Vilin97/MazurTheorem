@@ -80,6 +80,84 @@ theorem positive_pell_factors_even
   · have hcK : Even (c * pellKHomogeneous a b) := heven.2.mul_left c
     exact ⟨heven.1.add hcK, hcK.sub heven.1⟩
 
+/-- After removing the forced scalar two, the two Pell factors have product
+exactly `b ^ 38`. -/
+theorem positive_pell_half_factor_product
+    (a b c : ℤ) (hab : IsCoprime a b)
+    (hcurve : c ^ 2 = integerSexticHomogeneous a b) :
+    (positivePellFactor a b c / 2) *
+        (negativePellFactorMagnitude a b c / 2) = b ^ 38 := by
+  have heven := positive_pell_factors_even a b c hab hcurve
+  have huScale :
+      2 * (positivePellFactor a b c / 2) = positivePellFactor a b c := by
+    exact Int.two_mul_ediv_two_of_even heven.1
+  have hvScale :
+      2 * (negativePellFactorMagnitude a b c / 2) =
+        negativePellFactorMagnitude a b c := by
+    exact Int.two_mul_ediv_two_of_even heven.2
+  apply Int.eq_of_mul_eq_mul_left (by norm_num : (4 : ℤ) ≠ 0)
+  calc
+    4 * ((positivePellFactor a b c / 2) *
+        (negativePellFactorMagnitude a b c / 2)) =
+        (2 * (positivePellFactor a b c / 2)) *
+          (2 * (negativePellFactorMagnitude a b c / 2)) := by ring
+    _ = positivePellFactor a b c * negativePellFactorMagnitude a b c := by
+      rw [huScale, hvScale]
+    _ = 4 * b ^ 38 := positive_pell_factorization a b c hcurve
+
+/-- Complete parity split after removing the forced scalar two from the Pell
+factors.  If `b` is odd, both halves are odd.  If `b` is even, exactly one
+half is even.  Together with `positive_pell_half_factor_product`, the latter
+says that the entire two-primary part of `b ^ 38` occurs in exactly one
+half; the hypotheses do not select which half. -/
+theorem positive_pell_half_factors_two_adic_split
+    (a b c : ℤ) (hab : IsCoprime a b)
+    (hcurve : c ^ 2 = integerSexticHomogeneous a b) :
+    (Odd b ∧ Odd (positivePellFactor a b c / 2) ∧
+        Odd (negativePellFactorMagnitude a b c / 2)) ∨
+      (Even b ∧
+        ((Even (positivePellFactor a b c / 2) ∧
+            Odd (negativePellFactorMagnitude a b c / 2)) ∨
+          (Odd (positivePellFactor a b c / 2) ∧
+            Even (negativePellFactorMagnitude a b c / 2)))) := by
+  let u : ℤ := positivePellFactor a b c / 2
+  let v : ℤ := negativePellFactorMagnitude a b c / 2
+  have heven := positive_pell_factors_even a b c hab hcurve
+  have huScale : 2 * u = positivePellFactor a b c := by
+    exact Int.two_mul_ediv_two_of_even heven.1
+  have hvScale : 2 * v = negativePellFactorMagnitude a b c := by
+    exact Int.two_mul_ediv_two_of_even heven.2
+  have huv : u * v = b ^ 38 := by
+    simpa only [u, v] using
+      positive_pell_half_factor_product a b c hab hcurve
+  rcases Int.even_or_odd b with hbEven | hbOdd
+  · right
+    refine ⟨hbEven, ?_⟩
+    have haOdd : Odd a := odd_of_isCoprime_of_even_right hab hbEven
+    have hcOdd : Odd c := ordinate_odd a b c hab hcurve
+    have hKOdd : Odd (pellKHomogeneous a b) := by
+      simp +decide [pellKHomogeneous, haOdd, hbEven, parity_simps]
+    have huvAdd : u + v = c * pellKHomogeneous a b := by
+      apply Int.eq_of_mul_eq_mul_left (by norm_num : (2 : ℤ) ≠ 0)
+      calc
+        2 * (u + v) = 2 * u + 2 * v := by ring
+        _ = positivePellFactor a b c +
+            negativePellFactorMagnitude a b c := by rw [huScale, hvScale]
+        _ = 2 * (c * pellKHomogeneous a b) := by
+          simp only [positivePellFactor, negativePellFactorMagnitude]
+          ring
+    have huvAddOdd : Odd (u + v) := by
+      rw [huvAdd]
+      exact hcOdd.mul hKOdd
+    rcases Int.even_or_odd u with huEven | huOdd
+    · exact Or.inl ⟨huEven, (Int.odd_add'.mp huvAddOdd).mpr huEven⟩
+    · exact Or.inr ⟨huOdd, (Int.odd_add.mp huvAddOdd).mp huOdd⟩
+  · left
+    have huvOdd : Odd (u * v) := by
+      rw [huv]
+      exact hbOdd.pow
+    exact ⟨hbOdd, (Int.odd_mul.mp huvOdd).1, (Int.odd_mul.mp huvOdd).2⟩
+
 /-- The two halves of the positive Pell factors are coprime.  The odd primes
 are separated by `odd_prime_not_common_pell_factor`; at two, primitivity and
 the explicit parities of `H` and `K` rule out simultaneous divisibility. -/
@@ -95,41 +173,20 @@ theorem positive_pell_half_factors_isCoprime
     exact Int.two_mul_ediv_two_of_even heven.1
   have hvScale : 2 * v = negativePellFactorMagnitude a b c := by
     exact Int.two_mul_ediv_two_of_even heven.2
-  have huv : u * v = b ^ 38 := by
-    apply Int.eq_of_mul_eq_mul_left (by norm_num : (4 : ℤ) ≠ 0)
-    calc
-      4 * (u * v) = (2 * u) * (2 * v) := by ring
-      _ = positivePellFactor a b c *
-          negativePellFactorMagnitude a b c := by rw [huScale, hvScale]
-      _ = 4 * b ^ 38 := positive_pell_factorization a b c hcurve
   have htwoNotCommon : ¬((2 : ℤ) ∣ u ∧ (2 : ℤ) ∣ v) := by
     rintro ⟨htwoU, htwoV⟩
-    have htwoBpow : (2 : ℤ) ∣ b ^ 38 := by
-      rw [← huv]
-      exact dvd_mul_of_dvd_left htwoU v
-    have htwoB : (2 : ℤ) ∣ b :=
-      Int.prime_two.dvd_of_dvd_pow htwoBpow
-    have hbEven : Even b := even_iff_two_dvd.mpr htwoB
-    have haOdd : Odd a := odd_of_isCoprime_of_even_right hab hbEven
-    have hcOdd : Odd c := ordinate_odd a b c hab hcurve
-    have hHOdd : Odd (pellHHomogeneous a b) := by
-      simp +decide [pellHHomogeneous, haOdd, hbEven, parity_simps]
-    have hKOdd : Odd (pellKHomogeneous a b) := by
-      simp +decide [pellKHomogeneous, haOdd, hbEven, parity_simps]
-    have hcKOdd : Odd (c * pellKHomogeneous a b) := hcOdd.mul hKOdd
-    have huvAdd : u + v = c * pellKHomogeneous a b := by
-      apply Int.eq_of_mul_eq_mul_left (by norm_num : (2 : ℤ) ≠ 0)
-      calc
-        2 * (u + v) = 2 * u + 2 * v := by ring
-        _ = positivePellFactor a b c +
-            negativePellFactorMagnitude a b c := by rw [huScale, hvScale]
-        _ = 2 * (c * pellKHomogeneous a b) := by
-          simp only [positivePellFactor, negativePellFactorMagnitude]
-          ring
-    have huvEven : Even (u + v) :=
-      (even_iff_two_dvd.mpr htwoU).add (even_iff_two_dvd.mpr htwoV)
-    rw [huvAdd] at huvEven
-    exact Int.not_even_iff_odd.mpr hcKOdd huvEven
+    have huEven : Even u := even_iff_two_dvd.mpr htwoU
+    have hvEven : Even v := even_iff_two_dvd.mpr htwoV
+    have hsplit :=
+      positive_pell_half_factors_two_adic_split a b c hab hcurve
+    change
+      (Odd b ∧ Odd u ∧ Odd v) ∨
+        (Even b ∧ ((Even u ∧ Odd v) ∨ (Odd u ∧ Even v))) at hsplit
+    rcases hsplit with ⟨_, huOdd, _⟩ | ⟨_, huvParity⟩
+    · exact Int.not_even_iff_odd.mpr huOdd huEven
+    · rcases huvParity with ⟨_, hvOdd⟩ | ⟨huOdd, _⟩
+      · exact Int.not_even_iff_odd.mpr hvOdd hvEven
+      · exact Int.not_even_iff_odd.mpr huOdd huEven
   have hcopNat : u.natAbs.Coprime v.natAbs := by
     apply Nat.coprime_of_dvd
     intro p hp hpU hpV
@@ -182,12 +239,8 @@ theorem positive_pell_factor_power_split
     Int.ediv_pos_of_pos_of_dvd hminus (by norm_num)
       (even_iff_two_dvd.mp heven.2)
   have huv : u * v = b ^ 38 := by
-    apply Int.eq_of_mul_eq_mul_left (by norm_num : (4 : ℤ) ≠ 0)
-    calc
-      4 * (u * v) = (2 * u) * (2 * v) := by ring
-      _ = positivePellFactor a b c *
-          negativePellFactorMagnitude a b c := by rw [huScale, hvScale]
-      _ = 4 * b ^ 38 := positive_pell_factorization a b c hcurve
+    simpa only [u, v] using
+      positive_pell_half_factor_product a b c hab hcurve
   have hcopInt : IsCoprime u v := by
     exact positive_pell_half_factors_isCoprime a b c hab hcurve
   have hcopNat : u.natAbs.Coprime v.natAbs :=
