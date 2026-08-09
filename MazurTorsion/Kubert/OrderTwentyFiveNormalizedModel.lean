@@ -1931,8 +1931,10 @@ theorem orderTwentyFiveBrunault_coordinates_eq_rawOrbit_of_marked_order
     ring
 
 /-- The complete open-chart certificate needed by the raw Lécacheux orbit
-identities.  The eight polynomial factors are exactly the denominators in the
-raw abscissas; the five remaining conditions certify the cross-ratios. -/
+identities.  The eight polynomial factors are the basic nonvanishing
+conditions used by the factored raw-orbit identities; five further fields
+certify the cross-ratio denominators, and the final field records Sutherland's
+equation. -/
 structure OrderTwentyFiveRawOrbitOpenCertificate (r s : ℚ) : Prop where
   r_ne_zero : r ≠ 0
   s_ne_zero : s ≠ 0
