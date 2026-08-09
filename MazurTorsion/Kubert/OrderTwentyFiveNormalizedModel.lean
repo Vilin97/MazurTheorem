@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentyFiveBrunault
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultRawOrbit
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -1271,6 +1271,31 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_substitution
   rw [← orderTwentyFiveRawClearedPolynomial_eq_noncuspidalFactor]
   simpa [mul_comm] using
     orderTwentyFiveRawSutherlandPolynomial_cleared_substitution b c hc hbc
+
+private theorem orderTwentyFiveRawSutherlandF_eq_chunked (r s : ℚ) :
+    orderTwentyFiveRawSutherlandF r s =
+      orderTwentyFiveRawSutherlandPolynomial r s := by
+  simp only [orderTwentyFiveRawSutherlandF,
+    orderTwentyFiveRawSutherlandPolynomial,
+    orderTwentyFiveRawSutherlandPolynomialChunk0,
+    orderTwentyFiveRawSutherlandPolynomialChunk1,
+    orderTwentyFiveRawSutherlandPolynomialChunk2,
+    orderTwentyFiveRawSutherlandPolynomialChunk3,
+    orderTwentyFiveRawSutherlandPolynomialChunk4,
+    orderTwentyFiveRawSutherlandPolynomialChunk5]
+  ring
+
+/-- The public raw Sutherland polynomial used by the Lécacheux orbit
+certificates has the same checked Tate substitution as the original
+chunked implementation in this module.  This theorem is the public source
+bridge from the degree-40 normalized model to those certificates. -/
+theorem orderTwentyFiveRawSutherlandF_substitution
+    (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
+    orderTwentyFiveRawSutherlandF (b / c) (c ^ 2 / (b - c)) =
+      orderTwentyFiveNoncuspidalFactor b c /
+        (c ^ 10 * (b - c) ^ 15) := by
+  rw [orderTwentyFiveRawSutherlandF_eq_chunked]
+  exact orderTwentyFiveRawSutherlandPolynomial_substitution b c hc hbc
 
 /-- The integral cross-product of the normalized abscissas of `13P` and
 `12P`, before removing its cuspidal factor. -/
