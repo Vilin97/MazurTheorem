@@ -688,8 +688,12 @@ law's coordinate polynomials, bihomogeneity, zero behavior, and diagonal
 identities are now retained as an attributed algebraic leaf.  A second leaf
 proves that the two triples are on-curve and jointly cover every pair of
 nonsingular field points; scheme-level chart morphisms and gluing remain
-distinct checked steps. Exact blobs and licensed-default evidence for the
-retained and adapted files are in
+distinct checked steps.  A third, deliberately narrow leaf promotes both
+on-curve equations to reduced Jacobson rings by residue-field evaluation and
+reduced-Jacobson vanishing.  It supplies the algebraic input for addition
+chart rings but neither supplies their hypotheses nor identifies a scheme
+fibre product. Exact blobs and licensed-default evidence for the retained and
+adapted files are in
 `PORTING.md` and `THIRD_PARTY_NOTICES.md`.
 
 The whole AINTLIB project is neither vendored nor treated as a Lean Pool-ready

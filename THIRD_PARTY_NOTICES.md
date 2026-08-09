@@ -203,6 +203,14 @@ licensed default commit and carry the AINTLIB Apache-2.0 attribution.  The
 local endpoint is field-valued algebraic coverage only; scheme gluing remains
 downstream.
 
+`WeierstrassAdditionJacobson.lean` selectively adapts the reduced-Jacobson
+ring promotion from the same `AdditionLawOnCurve.lean` blob, with a private
+vanishing helper from the `AdditionLaw.lean` blob listed above.  Its local
+blob is `8dccefe9964b42907718d5a4ff166654dd750cc8`.  Both exact sources occur at
+the licensed default commit and retain the Chris Birkbeck/AINTLIB Apache-2.0
+attribution.  Only the two on-curve theorems are public; chart construction
+and group-law gluing are not claimed by this extraction.
+
 `AffineGeometricOrbit.lean` retains only
 `AlgebraicGeometry.exists_smul_algHom_eq` from AINTLIB
 `Moduli/GammaHRepresentability.lean`, exact blob

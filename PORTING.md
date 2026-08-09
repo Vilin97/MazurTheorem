@@ -491,6 +491,17 @@ attribution.  The public endpoint proves that both triples lie on an elliptic
 curve and cannot vanish simultaneously over field-valued nonsingular inputs;
 it still makes no scheme-morphism or group-object claim.
 
+`ForMathlib/WeierstrassAdditionJacobson.lean`, local blob
+`8dccefe9964b42907718d5a4ff166654dd750cc8`, selectively adapts the
+reduced-Jacobson promotion from the same `AdditionLawOnCurve.lean` blob.  Its
+private radical/Jacobson vanishing helper comes from the `AdditionLaw.lean`
+blob recorded above.  Both sources occur at the licensed default commit and
+carry the recorded Apache-2.0 attribution.  Exactly two declarations are
+exported: each Bosma--Lenstra triple satisfies the curve equation over a
+reduced Jacobson ring with invertible discriminant.  The leaf does not define
+addition charts, prove that their coordinate rings are reduced or Jacobson,
+or construct a global group law.
+
 `ForMathlib/AffineGeometricOrbit.lean`, local blob
 `ceb746d32b33fb751c59a9950b9e7517a5033c1b`, is a one-declaration slice of
 AINTLIB `Moduli/GammaHRepresentability.lean`, exact source blob
