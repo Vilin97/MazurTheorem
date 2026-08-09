@@ -40,6 +40,89 @@ namespace PicardGroup
 variable {X : Scheme.{u}}
 variable {Y : Type*} {G : Type v} [AddCommGroup G]
 
+/-- The weighted Abel--Jacobi class in the actual image of a supplied
+divisor-class-to-Picard homomorphism.  No surjectivity onto all Picard classes
+is required. -/
+noncomputable def weightedAbelJacobiClassImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ : Y} (hx₀ : w x₀ = 1) (x : Y) :
+    degreeZeroImage S w h φ :=
+  picZeroToDegreeZeroImage S w h φ
+    (S.weightedAbelJacobiClass w h hx₀ x)
+
+/-- The underlying Picard value of the image-valued Abel--Jacobi class is
+the supplied homomorphism applied to its degree-corrected divisor class. -/
+@[simp]
+lemma coe_weightedAbelJacobiClassImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ : Y} (hx₀ : w x₀ = 1) (x : Y) :
+    (weightedAbelJacobiClassImage S w h φ hx₀ x : PicardGroup X) =
+      φ (S.divisorClass (weightedPointBaseDifference w x₀ x)) :=
+  coe_picZeroToDegreeZeroImage S w h φ
+    (S.weightedAbelJacobiClass w h hx₀ x)
+
+/-- The basepoint maps to zero in the degree-zero image. -/
+@[simp]
+lemma weightedAbelJacobiClassImage_base
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ : Y} (hx₀ : w x₀ = 1) :
+    weightedAbelJacobiClassImage S w h φ hx₀ x₀ = 0 := by
+  rw [weightedAbelJacobiClassImage,
+    S.weightedAbelJacobiClass_base, map_zero]
+
+/-- The degree-zero image class `[x₀] - [y₀]` translating between two
+weighted Abel--Jacobi normalizations. -/
+noncomputable def weightedBasepointChangeClassImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ y₀ : Y} (hxy : w x₀ = w y₀) :
+    degreeZeroImage S w h φ :=
+  picZeroToDegreeZeroImage S w h φ
+    (S.weightedBasepointChangeClass w h hxy)
+
+/-- The underlying Picard value of the image-valued basepoint correction is
+the image of the corresponding point-difference class. -/
+@[simp]
+lemma coe_weightedBasepointChangeClassImage
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ y₀ : Y} (hxy : w x₀ = w y₀) :
+    (weightedBasepointChangeClassImage S w h φ hxy : PicardGroup X) =
+      φ (S.divisorClass (pointDifference x₀ y₀)) :=
+  coe_picZeroToDegreeZeroImage S w h φ
+    (S.weightedBasepointChangeClass w h hxy)
+
+/-- Changing a weight-one basepoint translates the image-valued
+Abel--Jacobi class by the point's weight times `[x₀] - [y₀]`.
+
+This is an algebraic basepoint-change law; it makes no claim about geometric
+base change of schemes or Picard functors. -/
+lemma weightedAbelJacobiClassImage_change_base
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (φ : S.ClassGroup →+ PicardGroup X)
+    {x₀ y₀ : Y} (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : Y) :
+    weightedAbelJacobiClassImage S w h φ hy₀ x =
+      weightedAbelJacobiClassImage S w h φ hx₀ x +
+        w x • weightedBasepointChangeClassImage S w h φ
+          (hx₀.trans hy₀.symm) := by
+  change picZeroToDegreeZeroImage S w h φ
+      (S.weightedAbelJacobiClass w h hy₀ x) =
+    picZeroToDegreeZeroImage S w h φ
+        (S.weightedAbelJacobiClass w h hx₀ x) +
+      w x • picZeroToDegreeZeroImage S w h φ
+        (S.weightedBasepointChangeClass w h (hx₀.trans hy₀.symm))
+  rw [S.weightedAbelJacobiClass_change_base, map_add, map_zsmul]
+
 /-- The weighted Abel--Jacobi class of a point, transported to the degree-zero subgroup of the
 scheme Picard group. -/
 noncomputable def weightedAbelJacobiClass
@@ -438,6 +521,180 @@ namespace CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
 
 open TopologicalSpace
 open TauCeti.AlgebraicGeometry.WeilDivisor
+
+/-- The weighted Abel--Jacobi class in the degree-zero Picard image supplied
+by a global principal boundary.  This narrower adapter avoids the unrelated
+claim that the divisor construction is surjective onto every Picard class. -/
+noncomputable def weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X} (hx₀ : w x₀ = 1)
+    (x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X) :
+    degreeZeroImageOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b w hdegree :=
+  PicardGroup.weightedAbelJacobiClassImage S w hdegree
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b) hx₀ x
+
+/-- The underlying Picard value is the descended line-bundle class of the
+degree-corrected point divisor. -/
+@[simp]
+theorem coe_weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X} (hx₀ : w x₀ = 1)
+    (x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X) :
+    (weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b
+          w hdegree hx₀ x : PicardGroup X) =
+      divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b
+          (weightedPointBaseDifference w x₀ x) := by
+  change classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b
+        (S.divisorClass (weightedPointBaseDifference w x₀ x)) = _
+  exact classToPicOfGlobalPrincipalBoundary_divisorClass
+    X U hnonempty hcover hU h S C heffective hadd b _
+
+/-- The global-principal-boundary image adapter retains the checked
+basepoint normalization without a Picard-surjectivity premise. -/
+@[simp]
+theorem weightedAbelJacobiClassImageOfGlobalPrincipalBoundary_base
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X} (hx₀ : w x₀ = 1) :
+    weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b
+        w hdegree hx₀ x₀ = 0 :=
+  PicardGroup.weightedAbelJacobiClassImage_base S w hdegree
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b) hx₀
+
+/-- The image-valued correction class for changing weighted Abel--Jacobi
+basepoints under a global principal boundary. -/
+noncomputable def weightedBasepointChangeClassImageOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hxy : w x₀ = w y₀) :
+    degreeZeroImageOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b w hdegree :=
+  PicardGroup.weightedBasepointChangeClassImage S w hdegree
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b) hxy
+
+/-- The underlying correction is the descended Picard class of the honest
+point-difference divisor. -/
+@[simp]
+theorem coe_weightedBasepointChangeClassImageOfGlobalPrincipalBoundary
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hxy : w x₀ = w y₀) :
+    (weightedBasepointChangeClassImageOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b
+          w hdegree hxy : PicardGroup X) =
+      divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b
+          (pointDifference x₀ y₀) := by
+  change classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b
+        (S.divisorClass (pointDifference x₀ y₀)) = _
+  exact classToPicOfGlobalPrincipalBoundary_divisorClass
+    X U hnonempty hcover hU h S C heffective hadd b _
+
+/-- Changing a weight-one basepoint obeys the same translation law in the
+actual degree-zero Picard image, with no ambient surjectivity hypothesis. -/
+theorem weightedAbelJacobiClassImageOfGlobalPrincipalBoundary_change_base
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (S : WeilDivisor.OrderSystem
+      (TauCeti.AlgebraicGeometry.CodimensionOnePoint X) (Additive X.functionFieldˣ))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h S C heffective)
+    (w : TauCeti.AlgebraicGeometry.CodimensionOnePoint X → ℤ)
+    (hdegree : S.IsWeightedDegreeZero w)
+    {x₀ y₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hx₀ : w x₀ = 1) (hy₀ : w y₀ = 1)
+    (x : TauCeti.AlgebraicGeometry.CodimensionOnePoint X) :
+    weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h S C heffective hadd b
+          w hdegree hy₀ x =
+      weightedAbelJacobiClassImageOfGlobalPrincipalBoundary
+          X U hnonempty hcover hU h S C heffective hadd b
+            w hdegree hx₀ x +
+        w x • weightedBasepointChangeClassImageOfGlobalPrincipalBoundary
+          X U hnonempty hcover hU h S C heffective hadd b
+            w hdegree (hx₀.trans hy₀.symm) :=
+  PicardGroup.weightedAbelJacobiClassImage_change_base S w hdegree
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h S C heffective hadd b) hx₀ hy₀ x
 
 /-- The pointwise Abel--Jacobi class obtained directly from the exact global principal boundary
 for descended divisor bundles. This is a downstream consumer of

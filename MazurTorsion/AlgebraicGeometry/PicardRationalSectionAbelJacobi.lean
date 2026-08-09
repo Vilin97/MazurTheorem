@@ -34,7 +34,7 @@ scheme morphism.
 
 namespace MazurTorsion.AlgebraicGeometry
 
-universe u
+universe u v
 
 open _root_.AlgebraicGeometry
 open CategoryTheory
@@ -102,6 +102,35 @@ private theorem curveWeight_isWeightedDegreeZero :
       (curveWeight pi) :=
   SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi
 
+/-- The Abel--Jacobi class of a rational section in the actual degree-zero
+image of a supplied divisor-class-to-Picard homomorphism. -/
+noncomputable def rationalSectionAbelJacobiClassImage
+    (φ : (curveOrderSystem (X := X)).ClassGroup →+ PicardGroup X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    degreeZeroImage (curveOrderSystem (X := X)) (curveWeight pi)
+      (curveWeight_isWeightedDegreeZero pi) φ :=
+  weightedAbelJacobiClassImage
+    (curveOrderSystem (X := X)) (curveWeight pi)
+    (curveWeight_isWeightedDegreeZero pi) φ
+    x0.residueDegree_int_toCodimensionOnePoint x.toCodimensionOnePoint
+
+/-- The underlying Picard value of a rational-section Abel--Jacobi image is
+the image of the honest point-difference divisor class. -/
+@[simp]
+theorem coe_rationalSectionAbelJacobiClassImage
+    (φ : (curveOrderSystem (X := X)).ClassGroup →+ PicardGroup X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    (rationalSectionAbelJacobiClassImage pi φ x0 x : PicardGroup X) =
+      φ ((curveOrderSystem (X := X)).divisorClass
+        (pointDifference x.toCodimensionOnePoint
+          x0.toCodimensionOnePoint)) := by
+  rw [rationalSectionAbelJacobiClassImage,
+    coe_weightedAbelJacobiClassImage,
+    weightedPointBaseDifference_eq_pointDifference_of_weight_eq_one
+      (w := curveWeight pi) (x₀ := x0.toCodimensionOnePoint)
+      (x := x.toCodimensionOnePoint)
+      x.residueDegree_int_toCodimensionOnePoint]
+
 /-- The scheme-Picard Abel--Jacobi class of an actual rational section,
 normalized at another actual rational section.
 
@@ -168,5 +197,69 @@ theorem rationalSectionAbelJacobiClass_eq_iff_linearlyEquivalent
     x0.residueDegree_int_toCodimensionOnePoint
 
 end PicardGroup
+
+namespace CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
+
+open TopologicalSpace
+
+variable {K : Type u} [Field K]
+variable {X : Scheme.{u}} [IsIntegral X] [IsNoetherian X]
+variable (pi : X ⟶ Spec (.of K)) [IsProper pi]
+  [SmoothOfRelativeDimension 1 pi]
+
+/-- A rational section valued in the degree-zero Picard image arising from
+the actual global-principal-boundary divisor construction.  This is a
+compiled section-level consumer of the no-surjectivity image interface. -/
+noncomputable def
+    rationalSectionAbelJacobiClassImageOfGlobalPrincipalBoundary
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h
+      (SchemeWeilDivisor.orderSystem X) C heffective)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    degreeZeroImageOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h (SchemeWeilDivisor.orderSystem X)
+        C heffective hadd b (fun z ↦ (pi.residueDegree z.1 : ℤ))
+        (SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi) :=
+  PicardGroup.rationalSectionAbelJacobiClassImage pi
+    (classToPicOfGlobalPrincipalBoundary
+      X U hnonempty hcover hU h (SchemeWeilDivisor.orderSystem X)
+        C heffective hadd b) x0 x
+
+/-- The underlying value of the rational-section image class is exactly the
+Picard class of the descended point-difference line bundle. -/
+@[simp]
+theorem
+    coe_rationalSectionAbelJacobiClassImageOfGlobalPrincipalBoundary
+    {I : Type v} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (C : CurveDivisorDescent.DivisorCocycleSystem X U hnonempty hcover hU h)
+    (heffective : CurveDivisorDescent.EffectiveDivisorCocycleSystem
+      X U hnonempty hcover hU h C)
+    (hadd : CurveDivisorDescent.DescendedTensorAdditive
+      X U hnonempty hcover hU h C heffective)
+    (b : GlobalPrincipalBoundary X U hnonempty hcover hU h
+      (SchemeWeilDivisor.orderSystem X) C heffective)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    (rationalSectionAbelJacobiClassImageOfGlobalPrincipalBoundary
+        pi U hnonempty hcover hU h C heffective hadd b x0 x :
+      PicardGroup X) =
+      divisorToPicOfGlobalPrincipalBoundary
+        X U hnonempty hcover hU h (SchemeWeilDivisor.orderSystem X)
+          C heffective hadd b
+          (pointDifference x.toCodimensionOnePoint
+            x0.toCodimensionOnePoint) := by
+  rw [rationalSectionAbelJacobiClassImageOfGlobalPrincipalBoundary,
+    PicardGroup.coe_rationalSectionAbelJacobiClassImage,
+    classToPicOfGlobalPrincipalBoundary_divisorClass]
+
+end CurveDivisorDescent.DivisorCocycleSystem.ExplicitInverse
 
 end MazurTorsion.AlgebraicGeometry
