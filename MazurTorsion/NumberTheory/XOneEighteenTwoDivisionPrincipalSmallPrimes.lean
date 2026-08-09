@@ -263,7 +263,7 @@ private theorem coefficient_exponent_not_dvd_two :
   exact ((Ideal.isCoprime_span_singleton_iff (81 : ℤ) (2 : ℤ)).mpr
     (by norm_num)).codisjoint.mono_left hspan
 
-private theorem coefficient_inertiaDeg_eq_three_at_two
+theorem coefficient_inertiaDeg_eq_three_at_two
     (P : Ideal (NumberField.RingOfIntegers Q.K))
     (hP : P ∈ Ideal.primesOver (Ideal.span {(2 : ℤ)})
       (NumberField.RingOfIntegers Q.K)) :
