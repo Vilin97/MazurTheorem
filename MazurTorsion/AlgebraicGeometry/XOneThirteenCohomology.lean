@@ -25,19 +25,35 @@ namespace MazurTorsion.XOneThirteenProjectiveCurve
 universe u
 
 open _root_.MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
+open _root_.MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology
 
 /-- Genuine degree-one sheaf cohomology of a finite-type quasicoherent module
-on the glued order-thirteen curve is finite over the base field. -/
+on the glued order-thirteen curve is finite over the global functions of the
+ground-field spectrum. -/
 theorem genuineSheafHOne_finite_of_hyperellipticMap
     (K : Type u) [Field K] (M : (curveScheme K).Modules)
     [M.IsQuasicoherent] [M.IsFiniteType] :
     letI :=
-      AlgebraicGeometry.ProjectiveLineCohomology.genuineSheafHOneBaseModuleOfFiniteToProjectiveLine
+      genuineSheafHOneBaseModuleOfFiniteToProjectiveLine
         K (hyperellipticMap K) M
     Module.Finite Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
       (GenuineSheafHOne M) := by
   exact
-    AlgebraicGeometry.ProjectiveLineCohomology.genuineSheafHOne_finite_of_finite_to_projectiveLine
+    genuineSheafHOne_finite_of_finite_to_projectiveLine
+      K (hyperellipticMap K) M
+
+/-- Genuine degree-one sheaf cohomology of a finite-type quasicoherent module
+on the glued order-thirteen curve is finite-dimensional over the ground
+field. -/
+theorem genuineSheafHOne_finiteDimensional_of_hyperellipticMap
+    (K : Type u) [Field K] (M : (curveScheme K).Modules)
+    [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI :=
+      genuineSheafHOneFieldModuleOfFiniteToProjectiveLine
+        K (hyperellipticMap K) M
+    FiniteDimensional K (GenuineSheafHOne M) := by
+  exact
+    genuineSheafHOne_finiteDimensional_of_finite_to_projectiveLine
       K (hyperellipticMap K) M
 
 end MazurTorsion.XOneThirteenProjectiveCurve

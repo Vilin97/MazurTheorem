@@ -343,9 +343,10 @@ locally because private upstream theorems cannot be referenced across the
 package boundary. The subsequent coherent principal-parts argument, exact
 two-chart Cech differential, and assembly with the separately attributed
 finite-pushforward and sheaf-cohomology comparisons are local formalization
-work. Their intended concrete specialization is the finite hyperelliptic map
-on the projective order-thirteen curve; that dependent consumer is tracked
-separately from this upstream-facing checkpoint.
+work. The finite hyperelliptic map on the projective order-thirteen curve is
+now a checked consumer, both for finite generation over the global functions
+of `Spec K` and, after restriction through the canonical affine-spectrum
+isomorphism, for finite dimensionality over `K`.
 
 Its present value is therefore both concrete and prospective: it supplies
 usable lower layers, but it does not yet discharge a finite-order obstruction
