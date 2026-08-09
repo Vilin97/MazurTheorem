@@ -23,6 +23,7 @@ import MazurTorsion.Upstream.CurveLineBundleNormalizedTransition
 import MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle
 import MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime
 import MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies
+import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
 
@@ -38,4 +39,7 @@ descent bridges; and the Hopf-algebraic form of Deligne's order theorem. Tau Cet
 maintained line-bundle and abstract Abel--Jacobi APIs on the project's exact
 Lean/Mathlib pin. The LeanPool Grothendieck-vanishing port is consumed through
 the actual underlying additive sheaf of a smooth proper integral curve module.
+For degree one, a private DVR uniformizer at a supplied codimension-one point
+constructs the finite map to `P¹` consumed by the genuine sheaf-cohomology
+finite-dimensionality theorem.
 -/
