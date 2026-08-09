@@ -92,6 +92,49 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+Owner integration now retains three reviewed, consumer-backed dependency
+cones at `8350e8c`.  The finite-flat cone constructs represented
+multiplicative `H¹`, identifies `mu_p` with the actual power kernel, descends
+the genuine multiplication boundary to an injective Kummer map, and reaches
+named rank-zero consumers over `ZMod 5` and `ZMod 11`.  Its independent
+constant/connected-etale cone reaches the existing bad-fibre rank-zero
+consumer.  The bundled but externally unused
+`AffineGenericFiberFaithfulness` API is deliberately absent from the owner
+tree; it remains recoverable on the FFGS branch and may return only with its
+later Raynaud consumer.  These results do not construct the Néron model,
+Raynaud classification, Mordell--Weil realization, or torsion-cardinality
+law, so no FFGS node receives credit.
+
+The EC cone now contains the attributed finite-action quotient substrate,
+the descended proper geometrically integral commutative quotient of a
+Weierstrass curve by a rational cyclic subgroup, relative dimension one, its
+actual abelian variety, exact kernel, fppf projection, and arbitrary-base-
+change presentation.  The named level-49 consumer constructs this quotient
+and its point-boundary exactness.  It still does not construct the direct
+cyclic-subgroup moduli map to `X_0(49)` or invoke the checked two-cusp
+classification, so neither order 49 nor the EC quotient node receives
+credit.  The provenance merge preserves all seventy-seven previously
+audited AINTLIB geometry modules and adds the thirteen exact finite-quotient
+modules, for ninety documented local AINTLIB modules in total.
+
+The cyclotomic owner cutoff integrates only the pseudo-unit ideal-power
+chain through the genuine cross-module theorem
+`KummerPresentation.fractionalKummerSymbol_principalRadicand_eq_one`.  The
+later residue-product, unramifiedness, and finite-primary commits remain held
+because their advertised downstream builds are import-only.  Arbitrary-
+denominator one-sided reciprocity and the immutable cyclotomic Challenge
+remain open; no node or Challenge receives credit.  On the combined owner
+tree, graph/contract accounting and `scripts/quality.py` pass at 48 nodes,
+1,000 points, 11 unchanged Challenge contracts, and 986 Lean modules / 1,561,826
+Lean lines.  Exact contributor builds and axiom audits for the accepted
+consumer endpoints use only `propext`, `Classical.choice`, and `Quot.sound`;
+the owner verified that the integrated Lean blobs match those reviewed trees
+and will rerun the combined consumer roots with the next proof handoffs.  The A3
+worker is compiling raw divisor-cocycle effectivity, the B1 worker is
+compiling rational-section proper-curve `H¹` finiteness, and the third owner
+worker is implementing the newly audited local-DVR cusp-uniformizer consumer
+for the auxiliary-prime-five route.
+
 The repaired X1(13) finite hyperelliptic map now has a concrete cohomological
 consumer.  For every finite-type quasicoherent module on the actual glued
 curve, `genuineSheafHOne_finite_of_hyperellipticMap` applies the finite-map-to-
