@@ -14,7 +14,7 @@ import Mathlib.RingTheory.Ideal.Maximal
 
 This file proves directly from the two explicit affine charts that the structure morphism of a
 smooth projective Weierstrass cubic over a field has relative dimension one.  Each chart is a
-plane hypersurface.  Its two partial derivatives generate the unit ideal because geometric
+plane hypersurface.  Its two coordinate derivatives generate the unit ideal because geometric
 nonsingularity rules out a common zero over every residue-field extension.  Localizing at either
 derivative gives an explicit standard-smooth presentation of relative dimension one, and the two
 chart calculations glue over the canonical covering open cover.
@@ -164,7 +164,15 @@ private lemma affineChartMvEquation_geometrically_nonsingular
   · refine ⟨1, ?_⟩
     simp only [WeierstrassCurve.map_a₁, WeierstrassCurve.map_a₂,
       WeierstrassCurve.map_a₄] at hx
-    simp [affineChartMvEquation]
+    simp only [Fin.isValue, affineChartMvEquation, map_sub, map_add,
+      Derivation.leibniz_pow, Nat.add_one_sub_one, pow_one,
+      MvPolynomial.pderiv_X, ne_eq, zero_ne_one, not_false_eq_true,
+      Pi.single_eq_of_ne, smul_eq_mul, mul_zero, Derivation.leibniz,
+      Pi.single_eq_same, mul_one, MvPolynomial.derivation_C, add_zero,
+      zero_add, nsmul_eq_mul, Nat.cast_ofNat, MvPolynomial.eval₂_sub,
+      MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X, MvPolynomial.eval₂_C,
+      MvPolynomial.eval₂_add, MvPolynomial.eval₂_ofNat,
+      MvPolynomial.eval₂_pow]
     intro hzero
     apply hx
     linear_combination hzero
@@ -214,8 +222,17 @@ private lemma infinityChartMvEquation_geometrically_nonsingular
     simp only [WeierstrassCurve.Projective.eval_polynomialX] at hx
     simp only [WeierstrassCurve.map_a₁, WeierstrassCurve.map_a₂,
       WeierstrassCurve.map_a₄] at hx
-    simp [infinityChartMvEquation]
-    simp [P] at hx
+    simp only [Fin.isValue, infinityChartMvEquation, map_sub, map_add,
+      MvPolynomial.pderiv_X, ne_eq, zero_ne_one, not_false_eq_true,
+      Pi.single_eq_of_ne, Derivation.leibniz, smul_eq_mul, mul_zero,
+      Pi.single_eq_same, mul_one, MvPolynomial.derivation_C, add_zero,
+      zero_add, Derivation.leibniz_pow, Nat.add_one_sub_one, pow_one,
+      nsmul_eq_mul, Nat.cast_ofNat, MvPolynomial.eval₂_sub,
+      MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X, MvPolynomial.eval₂_C,
+      MvPolynomial.eval₂_add, MvPolynomial.eval₂_ofNat,
+      MvPolynomial.eval₂_pow]
+    simp only [Fin.isValue, Matrix.cons_val_one, Matrix.cons_val_zero,
+      mul_one, Matrix.cons_val, ne_eq, P] at hx
     intro hzero
     apply hx
     linear_combination hzero
@@ -225,8 +242,18 @@ private lemma infinityChartMvEquation_geometrically_nonsingular
     simp only [WeierstrassCurve.map_a₁, WeierstrassCurve.map_a₂,
       WeierstrassCurve.map_a₃, WeierstrassCurve.map_a₄,
       WeierstrassCurve.map_a₆] at hz
-    simp [infinityChartMvEquation]
-    simp [P] at hz
+    simp only [Fin.isValue, infinityChartMvEquation, map_sub, map_add,
+      MvPolynomial.pderiv_X, Pi.single_eq_same, Derivation.leibniz,
+      smul_eq_mul, mul_one, ne_eq, one_ne_zero, not_false_eq_true,
+      Pi.single_eq_of_ne, mul_zero, MvPolynomial.derivation_C, add_zero,
+      Derivation.leibniz_pow, Nat.add_one_sub_one, pow_one, nsmul_eq_mul,
+      Nat.cast_ofNat, zero_add, MvPolynomial.eval₂_sub,
+      MvPolynomial.eval₂_add, MvPolynomial.eval₂_one,
+      MvPolynomial.eval₂_mul, MvPolynomial.eval₂_C,
+      MvPolynomial.eval₂_X, MvPolynomial.eval₂_ofNat,
+      MvPolynomial.eval₂_pow]
+    simp only [Fin.isValue, Matrix.cons_val_one, Matrix.cons_val_zero,
+      one_pow, mul_one, Matrix.cons_val, ne_eq, P] at hz
     intro hzero
     apply hz
     linear_combination hzero
