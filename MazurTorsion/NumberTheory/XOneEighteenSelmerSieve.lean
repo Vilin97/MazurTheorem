@@ -4,7 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, OpenAI
 -/
 
-import Mathlib.Algebra.Group.Subgroup.Basic
+import Mathlib.GroupTheory.Index
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Order
 
 /-!
 # The final finite sieve for the `X₁(18)` two-descent
@@ -45,5 +47,50 @@ theorem subgroup_eq_bot_of_sixteen_representatives
   have hxOne : x = 1 := by
     simpa only [Subgroup.coe_one] using congrArg Subtype.val hi.symm
   simpa only [Subgroup.mem_bot] using hxOne
+
+/-! ## Cardinality from opposing injections -/
+
+/-- If a group of cardinality `256` maps to an arbitrary group, an
+injected sixteen-element subgroup of its image and sixteen injected
+elements of its kernel force those kernel elements to be exhaustive.
+
+This formulation is useful for relative norms: the codomain itself need
+not be finite, and the norm need not be restricted to a supported
+codomain. -/
+theorem kernel_representatives_bijective_of_card_256
+    {G H A : Type*} [Group G] [Group H] [Group A]
+    (N : G →* H)
+    (representative : Fin 16 → N.ker)
+    (rangeWitness : A → N.range)
+    (hG : Nat.card G = 256)
+    (hA : Nat.card A = 16)
+    (hRepresentative : Function.Injective representative)
+    (hRangeWitness : Function.Injective rangeWitness) :
+    Function.Bijective representative := by
+  letI : Finite G :=
+    Nat.finite_of_card_ne_zero (hG.trans_ne (by norm_num))
+  letI : Finite N.ker :=
+    Finite.of_injective (fun x : N.ker ↦ (x : G)) Subtype.val_injective
+  letI : Finite N.range :=
+    Finite.of_surjective N.rangeRestrict N.rangeRestrict_surjective
+  letI : Finite A :=
+    Nat.finite_of_card_ne_zero (hA.trans_ne (by norm_num))
+  have hkernelRange : Nat.card N.ker * Nat.card N.range = 256 := by
+    rw [← Subgroup.index_ker N, N.ker.card_mul_index, hG]
+  have hkernelLower : 16 ≤ Nat.card N.ker := by
+    simpa only [Nat.card_fin] using
+      Nat.card_le_card_of_injective representative hRepresentative
+  have hrangeLower : 16 ≤ Nat.card N.range := by
+    rw [← hA]
+    exact Nat.card_le_card_of_injective rangeWitness hRangeWitness
+  have hscaled : 16 * Nat.card N.ker ≤ 256 := by
+    calc
+      16 * Nat.card N.ker ≤ Nat.card N.range * Nat.card N.ker :=
+        Nat.mul_le_mul_right (Nat.card N.ker) hrangeLower
+      _ = Nat.card N.ker * Nat.card N.range := Nat.mul_comm _ _
+      _ = 256 := hkernelRange
+  have hkernelCard : Nat.card N.ker = 16 := by omega
+  exact (Nat.bijective_iff_injective_and_card representative).2
+    ⟨hRepresentative, by simpa only [Nat.card_fin] using hkernelCard.symm⟩
 
 end MazurTorsion.XOneEighteenSelmerSieve
