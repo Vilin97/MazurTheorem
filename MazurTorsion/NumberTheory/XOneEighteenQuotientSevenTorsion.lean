@@ -259,6 +259,36 @@ theorem seven_nsmul_generator : (7 : ℕ) • generator = 0 := by
       rw [four_nsmul_generator, three_nsmul_generator]
     _ = 0 := by rw [pointFour_eq_neg_pointThree]; exact neg_add_cancel _
 
+/-- The displayed point `pointTwo` is twice the visible generator. -/
+theorem two_nsmul_generator_eq_pointTwo :
+    (2 : ℕ) • generator = pointTwo :=
+  two_nsmul_generator
+
+/-- The displayed point `pointThree` is three times the visible generator. -/
+theorem three_nsmul_generator_eq_pointThree :
+    (3 : ℕ) • generator = pointThree :=
+  three_nsmul_generator
+
+/-- The displayed point `pointFour` is four times the visible generator. -/
+theorem four_nsmul_generator_eq_pointFour :
+    (4 : ℕ) • generator = pointFour :=
+  four_nsmul_generator
+
+/-- The fifth multiple is the negative of the displayed double. -/
+theorem five_nsmul_generator_eq_neg_pointTwo :
+    (5 : ℕ) • generator = -pointTwo := by
+  apply eq_neg_of_add_eq_zero_left
+  rw [← two_nsmul_generator, ← add_nsmul]
+  norm_num
+
+/-- The sixth multiple is the negative of the visible generator. -/
+theorem six_nsmul_generator_eq_neg_generator :
+    (6 : ℕ) • generator = -generator := by
+  apply eq_neg_of_add_eq_zero_left
+  change (6 : ℕ) • generator + (1 : ℕ) • generator = 0
+  rw [← add_nsmul]
+  norm_num
+
 /-- The visible generator has exact additive order seven. -/
 theorem addOrderOf_generator : addOrderOf generator = 7 := by
   haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩

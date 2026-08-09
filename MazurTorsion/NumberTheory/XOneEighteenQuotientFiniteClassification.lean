@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.NumberTheory.XOneEighteenQuotientSevenTorsion
 import MazurTorsion.NumberTheory.XOneEighteenQuotientThreeTorsion
+import MazurTorsion.NumberTheory.XOneEighteenFinalQuotientFibers
 
 /-!
 # Finite-group classification of the `X₁(18)` elliptic quotient
@@ -25,6 +26,7 @@ noncomputable section
 open MazurTorsion.XOneEighteenRealCubicQuotient
 open MazurTorsion.XOneEighteenQuotientSevenTorsion
 open MazurTorsion.XOneEighteenQuotientThreeTorsion
+open MazurTorsion.XOneEighteenFinalQuotientFibers
 
 /-- If the finite quotient point group has cardinality dividing `21`, then
 the visible seven-torsion subgroup is the whole group. -/
@@ -76,6 +78,73 @@ theorem generatorMultiples_bijective
     exact Nat.ModEq.eq_of_lt_of_lt hij i.isLt j.isLt
   apply hinj.bijective_of_nat_card_le
   rw [Nat.card_fin, point_card_eq_seven hcard]
+
+/-- Under the same finite reduction hypothesis, every point is one of the
+seven explicitly displayed multiples of the visible generator. -/
+theorem point_eq_visible_multiple
+    [Finite quotientCurve.toAffine.Point]
+    (hcard : Nat.card quotientCurve.toAffine.Point ∣ 21)
+    (P : quotientCurve.toAffine.Point) :
+    P = 0 ∨ P = generator ∨ P = pointTwo ∨ P = pointThree ∨
+      P = pointFour ∨ P = -pointTwo ∨ P = -generator := by
+  obtain ⟨i, rfl⟩ := (generatorMultiples_bijective hcard).2 P
+  fin_cases i <;>
+    simp [two_nsmul_generator_eq_pointTwo,
+      three_nsmul_generator_eq_pointThree,
+      four_nsmul_generator_eq_pointFour,
+      five_nsmul_generator_eq_neg_pointTwo,
+      six_nsmul_generator_eq_neg_generator]
+
+/-- The finite-cardinality conclusion supplied by good reduction is already
+enough to exclude a noncuspidal rational point on the sextic. -/
+theorem no_noncuspidal_point_of_point_card_dvd_twentyOne
+    [Finite quotientCurve.toAffine.Point]
+    (hcard : Nat.card quotientCurve.toAffine.Point ∣ 21)
+    (x y : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1)
+    (hcurve :
+      y ^ 2 = MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
+    False := by
+  have havoid := quotientX_not_mem_torsion_abscissas x hx0 hx1
+  have hcases := point_eq_visible_multiple hcard (quotientPoint x y hcurve)
+  rcases hcases with hzero | hgen | htwo | hthree | hfour | hfive | hsix
+  · exact WeierstrassCurve.Affine.Point.some_ne_zero _ hzero
+  · apply havoid.1
+    have hcoords : quotientX x = (1 : K) ∧ quotientY x y = 0 := by
+      simpa only [quotientPoint, generator,
+        WeierstrassCurve.Affine.Point.some.injEq] using hgen
+    exact hcoords.1
+  · apply havoid.2.1
+    have hcoords :
+        quotientX x = 3 - tau ^ 2 ∧ quotientY x y = 2 - tau ^ 2 := by
+      simpa only [quotientPoint, pointTwo,
+        WeierstrassCurve.Affine.Point.some.injEq] using htwo
+    exact hcoords.1
+  · apply havoid.2.2
+    have hcoords :
+        quotientX x = 1 - tau ∧ quotientY x y = -tau ^ 2 + tau := by
+      simpa only [quotientPoint, pointThree,
+        WeierstrassCurve.Affine.Point.some.injEq] using hthree
+    exact hcoords.1
+  · apply havoid.2.2
+    have hcoords : quotientX x = 1 - tau ∧ quotientY x y = -tau := by
+      simpa only [quotientPoint, pointFour,
+        WeierstrassCurve.Affine.Point.some.injEq] using hfour
+    exact hcoords.1
+  · apply havoid.2.1
+    have hcoords : quotientX x = 3 - tau ^ 2 ∧
+        quotientY x y = quotientCurve.toAffine.negY
+          (3 - tau ^ 2) (2 - tau ^ 2) := by
+      simpa only [quotientPoint, pointTwo,
+        WeierstrassCurve.Affine.Point.neg_some,
+        WeierstrassCurve.Affine.Point.some.injEq] using hfive
+    exact hcoords.1
+  · apply havoid.1
+    have hcoords : quotientX x = (1 : K) ∧
+        quotientY x y = quotientCurve.toAffine.negY 1 0 := by
+      simpa only [quotientPoint, generator,
+        WeierstrassCurve.Affine.Point.neg_some,
+        WeierstrassCurve.Affine.Point.some.injEq] using hsix
+    exact hcoords.1
 
 end
 
