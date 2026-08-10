@@ -32,10 +32,17 @@ chartwise consumer `CurveDivisorDescent.localLineBundleAddIso` identifies `O(D +
 `CommonExtension.extendedInverseIdealTensorAddEquiv` and its `_tmul` theorem identify tensor
 addition with multiplication in the common fraction field. The `_baseChange_tmul` and
 `_baseChange` theorems prove that multiplication-direction equivalence commutes with a further
-flat epimorphic scalar extension through `AlgebraTensorModule.distribBaseChange`. This does not
-compare the raw extended ideals with the fixed chosen-module addition map or transport that
-comparison through tilde and sheaf restriction. Naturality of the fixed chartwise maps under
-restriction or overlap base change is therefore not claimed. On a same-chart principal open,
+flat epimorphic scalar extension through `AlgebraTensorModule.distribBaseChange`. The fixed
+chosen-module comparison is now exposed by
+`CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal` and its `_tmul` theorem,
+and `lineBundleModuleTensorAddEquiv_baseChange` proves the corresponding tensor-to-sum square.
+The genuine curve consumer
+`CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen` derives
+the restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data for one canonical
+affine restriction leg. Thus the fixed chosen-module tensor-to-sum map is natural on that raw
+module-level leg. Monoidal transport through tilde and sheaf restriction, compatibility between
+distinct charts, and assembly into a morphism of descent data are not claimed. On a same-chart
+principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -80,7 +87,8 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-naturality of the fixed chartwise addition maps needed to descend those maps remains open, and no
+naturality still needed to descend the fixed chartwise addition maps begins with tilde/sheaf
+monoidal transport and cross-chart compatibility; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.

@@ -90,9 +90,15 @@ chart. At the raw common-extension level,
 `CommonExtension.extendedInverseIdealTensorAddEquiv` and its `_tmul` theorem identify tensor
 addition with multiplication in the common fraction field. The `_baseChange_tmul` theorem and
 exact `_baseChange` square prove compatibility with a further flat epimorphic scalar extension
-through `AlgebraTensorModule.distribBaseChange`. This does not compare the raw extended ideals
-with the chosen-module addition equivalence or transport that comparison through tilde and sheaf
-restriction. Restriction/overlap base-change naturality of the fixed chartwise maps is not proved.
+through `AlgebraTensorModule.distribBaseChange`. The fixed chosen-module comparison is now
+exposed by `CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal` and its `_tmul`
+theorem, while `lineBundleModuleTensorAddEquiv_baseChange` proves the exact tensor-to-sum square.
+The curve-level theorem
+`CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen` derives
+the canonical restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data for
+one affine restriction leg. This is raw module-level naturality only: monoidal transport through
+tilde and sheaf restriction, compatibility between distinct charts, and assembly into a morphism
+of descent data are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -162,9 +168,10 @@ all-index cocycle, and `LineBundleCocycle.normalization` is its structure-level 
 cocycle, with no independent normalization field. The checked raw arbitrary-divisor family and
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
-landed. Restriction/overlap base-change naturality of the fixed chartwise addition maps needed to
-descend those maps is also absent, and no `CurveDivisorDescent.DescendedTensorAdditive` witness is
-supplied. Principal coherence, object separation, rational normalization and principal detection,
+landed. The remaining naturality needed to descend the fixed chartwise addition maps includes
+tilde/sheaf monoidal transport and cross-chart compatibility; no descent-data morphism or
+`CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
+separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 
 *Checked A3 route deliverables (no node credit):*
@@ -193,6 +200,10 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_tmul`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange_tmul`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleTensorAddEquiv_baseChange`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -875,6 +886,22 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange`
   Prove the exact distributive square making raw extended-inverse-ideal multiplication natural
   under a further flat epimorphic scalar extension.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal`
+  Compare flat-epimorphic scalar extension of the fixed chosen affine line-bundle module with
+  the extended inverse ideal in the common fraction field.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul`
+  Compute the fixed chosen-module comparison on a pure tensor as the corresponding scalar
+  multiple in the common fraction field.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleTensorAddEquiv_baseChange`
+  Prove the exact distributive tensor-to-sum square for the fixed chosen affine modules under
+  flat epimorphic scalar extension.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen`
+  Specialize fixed chosen-module tensor-addition naturality to one canonical affine restriction
+  leg, deriving its restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

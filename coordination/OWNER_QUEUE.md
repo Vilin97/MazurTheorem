@@ -92,6 +92,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 fixed chosen-module tensor base-change checkpoint is integrated at
+`1697c8f`.  `CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal`
+and its `_tmul` theorem give the fixed comparison from scalar extension of the
+chosen affine line-bundle module to the extended inverse ideal, including its
+pure-tensor computation.  `lineBundleModuleTensorAddEquiv_baseChange` proves
+that the chosen tensor-to-sum map commutes with flat epimorphic scalar extension.
+The genuine curve consumer
+`CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen`
+derives the restriction algebra, flat-epimorphism, fraction-field, and
+scalar-tower data for one canonical affine restriction leg.  This remains a raw
+module-level result: tilde/sheaf monoidal transport, cross-chart compatibility,
+a morphism of descent data, and `DescendedTensorAdditive` are open.  A3 stays
+`research_open` at weight 18 with zero credit.  Source accounting is 1,037
+integrated Lean modules / 1,579,229 lines.
+
 The A3 raw tensor base-change checkpoint is integrated at `87959e5`.
 `CommonExtension.extendedInverseIdealTensorAddEquiv` identifies the tensor of
 two extended inverse ideals with the ideal of the divisor sum by multiplication
