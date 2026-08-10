@@ -92,6 +92,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 equality-induced raw tilde tensor/addition checkpoint is integrated at
+`86b5460`, on top of the legacy restriction tensor/addition checkpoint at
+`1d2fbe7`. `Boundary.overlapInverseIdealExtensionEq_add` proves that overlap
+equality of extended inverse ideals is closed under divisor addition, and
+`CommonExtension.extendedInverseIdealAddIso_naturality` proves the resulting
+cross-chart sum-to-tensor square for the raw extended-ideal tilde sheaves. The
+genuine curve consumer
+`CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection`
+obtains both factorwise equalities through the pairwise chart intersection.
+The chosen restriction-line-bundle cross-chart tensor square, its assembly
+into a morphism of descent data, and `DescendedTensorAdditive` remain open.
+A3 stays `research_open` at weight 18 with zero credit. Source accounting is
+1,045 integrated Lean modules / 1,584,087 lines.
+
 The A3 legacy restriction tensor/addition checkpoint is integrated at `1d2fbe7`,
 on top of the affine tensor-pullback coherence checkpoint at `77ae1a5`.
 `CommonExtension.lineBundleTensorRestrictionIsoViaPullback` transports the

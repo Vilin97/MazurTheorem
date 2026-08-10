@@ -125,9 +125,15 @@ comparison gives `CommonExtension.lineBundleTensorRestrictionIsoViaPullback`. Th
 `CommonExtension.lineBundleAddIso_restrict_viaPullback` proves the deterministic tensor/addition
 square for the legacy restriction comparisons, and
 `CurveDivisorDescent.localLineBundleAddIso_restrictViaPullbackOnCommonAffineOpen` is its genuine
-curve specialization on that same fixed leg. Equality-induced cross-chart multiplication
-naturality, assembly into a morphism of descent data, and a
-`CurveDivisorDescent.DescendedTensorAdditive` witness are not proved.
+curve specialization on that same fixed leg. Equality-induced multiplication of raw extended
+inverse-ideal tilde sheaves is now natural across two chart rings:
+`Boundary.overlapInverseIdealExtensionEq_add` derives the comparison for a divisor sum,
+`CommonExtension.extendedInverseIdealAddIso_naturality` proves the resulting sum-to-tensor
+square, and
+`CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection` is the
+proper-smooth curve consumer whose factorwise equalities come through the pairwise intersection.
+The chosen restriction-line-bundle cross-chart tensor square, its assembly into a morphism of
+descent data, and a `CurveDivisorDescent.DescendedTensorAdditive` witness are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -197,9 +203,10 @@ all-index cocycle, and `LineBundleCocycle.normalization` is its structure-level 
 cocycle, with no independent normalization field. The checked raw arbitrary-divisor family and
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
-landed. The remaining naturality needed to descend the fixed chartwise addition maps includes
-equality-induced cross-chart multiplication naturality beyond the checked legacy restriction
-tensor/addition square on one fixed common-affine leg; no descent-data morphism or
+landed. The remaining naturality needed to descend the fixed chartwise addition maps is the
+chosen restriction-line-bundle cross-chart tensor square beyond the checked raw extended-ideal
+tilde square and the checked legacy restriction tensor/addition square on one fixed common-affine
+leg; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
@@ -261,6 +268,9 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorRestrictionIsoViaPullback`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_restrict_viaPullback`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullbackOnCommonAffineOpen`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_add`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealAddIso_naturality`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -330,8 +340,10 @@ structure and its inverse is identified with pullback along the inverse scheme i
 option-free selective AINTLIB pullback-monoidal cone and tensor-section evaluator now compile in
 a separate companion. The direct divisor comparator is now identified with the
 canonical/factorwise path on one fixed common-affine restriction leg, and the transported legacy
-restriction comparisons satisfy the tensor/addition square there. Equality-induced cross-chart
-multiplication naturality and descent-data compatibility are not claimed. The concrete raw
+restriction comparisons satisfy the tensor/addition square there. Equality-induced raw
+extended-ideal tilde multiplication naturality is checked, with a pairwise-intersection curve
+consumer. The chosen restriction-line-bundle cross-chart tensor square and descent-data
+compatibility are not claimed. The concrete raw
 overlap-isomorphism family
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
 indices. The pruned generic `normalization_of_iso_cocycle` theorem derives the diagonal law from
@@ -357,8 +369,10 @@ actual affine `O(D)` line bundle on every chart, and supplies the fixed
 module equivalence has a checked pure-tensor rule. The chart API also proves local triviality for
 principal divisors. On a single chart, ambient coefficient equality on a principal open now
 constructs the actual restriction isomorphism between two such bundles. The fixed addition maps
-now satisfy the transported legacy restriction tensor/addition square on one common-affine leg.
-Equality-induced multiplication naturality between distinct charts remains open.
+now satisfy the transported legacy restriction tensor/addition square on one common-affine leg,
+and the raw extended-ideal tilde addition maps satisfy equality-induced naturality between
+distinct charts. The corresponding chosen restriction-line-bundle cross-chart tensor square
+remains open.
 The raw inverse-ideal overlap family and its pointwise all-index cocycle are checked separately.
 Packaging them as a `CurveDivisorDescent.DivisorCocycle`, choosing that cocycle for every divisor,
 and applying generic `OpenCover.{0}` module effectivity to obtain the corresponding global
@@ -394,8 +408,8 @@ full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
 retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
 cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
-equality-induced cross-chart multiplication naturality beyond the checked fixed one-leg
-common-affine square or resulting `DescendedTensorAdditive` witness, coherent principal
+chosen restriction-line-bundle cross-chart tensor square, descent-data morphism, or resulting
+`DescendedTensorAdditive` witness, coherent principal
 triviality, prestack/object-separation,
 rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
 surjectivity, or global tensor-inverse comparison is claimed. Thus the remaining packaging,
@@ -1065,6 +1079,18 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullbackOnCommonAffineOpen`
   Specialize the legacy restriction tensor/addition square to one genuine fixed common-affine
   restriction leg, deriving the algebraic instances canonically.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.Boundary.overlapInverseIdealExtensionEq_add`
+  Prove that equality of two extended inverse ideals on an overlap is closed under divisor
+  addition.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealAddIso_naturality`
+  Prove the equality-induced cross-chart sum-to-tensor square for raw extended inverse-ideal
+  tilde sheaves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection`
+  Specialize raw tilde multiplication naturality to a common affine subopen using factorwise
+  equalities obtained through the pairwise chart intersection.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal
