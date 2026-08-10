@@ -52,8 +52,8 @@ resulting deterministic sum-to-tensor square, and
 `CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
 specializes it to one genuine affine restriction leg.
 `CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
-identifies the overlap tower's specified single-factor restriction mate with the
-restriction-to-pullback comparison followed by `ViaExtendScalars`, and
+identifies the legacy single-factor restriction mate with the restriction-to-pullback
+comparison followed by `ViaExtendScalars`, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
 is its genuine affine-open consumer. This is still only the direct
 `ViaExtendScalars`/raw-ideal tilde square: factorization through the two factorwise pullbacks and
@@ -104,8 +104,9 @@ with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
 coherence still needed to descend the fixed chartwise addition maps begins with the canonical
-pullback-tensorator/factorwise comparison and cross-chart compatibility; no descent-data morphism or
-`CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
+pullback-tensorator/factorwise comparison and cross-chart compatibility; no descent-data
+morphism or `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence,
+object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
 The

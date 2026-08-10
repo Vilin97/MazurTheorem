@@ -106,8 +106,8 @@ the resulting deterministic sum-to-tensor square, and
 `CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
 specializes it to one affine restriction leg.
 `CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
-identifies the overlap tower's specified single-factor restriction mate with the
-restriction-to-pullback comparison followed by `ViaExtendScalars`, and
+identifies the legacy single-factor restriction mate with the restriction-to-pullback
+comparison followed by `ViaExtendScalars`, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
 is its genuine affine-open consumer. This proves only the direct
 `ViaExtendScalars`/raw-ideal tilde square: factorization through factorwise pullbacks and the
@@ -938,8 +938,8 @@ inhabited or that A3 is solved.
   ideal through affine extension of scalars.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
-  Identify the overlap tower's specified open-immersion single-factor restriction comparison
-  with restriction-to-pullback followed by the public affine extension-of-scalars comparison.
+  Identify the legacy open-immersion single-factor restriction mate with
+  restriction-to-pullback followed by the public affine extension-of-scalars comparison.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars`
   Compare pullback of the tensor of two fixed chosen line bundles directly with the tensor of
@@ -954,8 +954,8 @@ inhabited or that A3 is solved.
   restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
-  Specialize the single-factor restriction-mate identification to one genuine affine restriction
-  leg with canonically derived algebraic data.
+  Specialize the legacy single-factor restriction-mate identification to one genuine affine
+  restriction leg with canonically derived algebraic data.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

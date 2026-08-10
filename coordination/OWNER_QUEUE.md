@@ -105,8 +105,8 @@ sum-to-tensor square.  The genuine curve consumer
 `CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
 derives the canonical data for one affine restriction leg.
 `CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
-identifies the overlap tower's specified single-factor restriction mate with
-restriction-to-pullback followed by the public scalar-extension comparison, and
+identifies the legacy single-factor restriction mate with restriction-to-pullback
+followed by the public scalar-extension comparison, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
 is its genuine affine-open consumer.  This is still only the direct
 `ViaExtendScalars`/raw-ideal tilde square: the canonical pullback tensorator and
