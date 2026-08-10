@@ -50,11 +50,15 @@ from the pulled-back fixed bundle and pulled-back fixed tensor to the correspond
 extended-ideal tilde sheaves. The theorem `lineBundleAddIso_pullback_viaExtendScalars` proves the
 resulting deterministic sum-to-tensor square, and
 `CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
-specializes it to one genuine affine restriction leg. This is only the direct
+specializes it to one genuine affine restriction leg.
+`CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
+identifies the overlap tower's specified single-factor restriction mate with the
+restriction-to-pullback comparison followed by `ViaExtendScalars`, and
+`CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
+is its genuine affine-open consumer. This is still only the direct
 `ViaExtendScalars`/raw-ideal tilde square: factorization through the two factorwise pullbacks and
-the canonical pullback tensorator, comparison with the legacy private overlap mate,
-compatibility between distinct charts, and assembly into a morphism of descent data are not
-claimed. On a same-chart principal open,
+the canonical pullback tensorator, compatibility between distinct charts, and assembly into a
+morphism of descent data are not claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -100,8 +104,7 @@ with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
 coherence still needed to descend the fixed chartwise addition maps begins with the canonical
-pullback-tensorator/factorwise comparison, identification with the legacy overlap mate, and
-cross-chart compatibility; no descent-data morphism or
+pullback-tensorator/factorwise comparison and cross-chart compatibility; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.

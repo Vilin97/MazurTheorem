@@ -104,10 +104,15 @@ through tilde, while `lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`
 and fixed-tensor comparisons. The theorem `lineBundleAddIso_pullback_viaExtendScalars` proves
 the resulting deterministic sum-to-tensor square, and
 `CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
-specializes it to one affine restriction leg. This proves only the direct
+specializes it to one affine restriction leg.
+`CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
+identifies the overlap tower's specified single-factor restriction mate with the
+restriction-to-pullback comparison followed by `ViaExtendScalars`, and
+`CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
+is its genuine affine-open consumer. This proves only the direct
 `ViaExtendScalars`/raw-ideal tilde square: factorization through factorwise pullbacks and the
-canonical pullback tensorator, comparison with the legacy private overlap mate, cross-chart
-compatibility, and assembly into a morphism of descent data are not proved.
+canonical pullback tensorator, cross-chart compatibility, and assembly into a morphism of
+descent data are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -178,8 +183,8 @@ cocycle, with no independent normalization field. The checked raw arbitrary-divi
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
 landed. The remaining naturality needed to descend the fixed chartwise addition maps includes
-the canonical pullback-tensorator/factorwise comparison, identification with the legacy overlap
-mate, and cross-chart compatibility; no descent-data morphism or
+the canonical pullback-tensorator/factorwise comparison and cross-chart compatibility; no
+descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
@@ -217,9 +222,11 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `AlgebraicGeometry.Scheme.Modules.tildePullbackIsoExtendScalars`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealAddIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_pullback_viaExtendScalars`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -929,6 +936,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`
   Compare pullback of one fixed chosen divisor line bundle with tilde of its extended inverse
   ideal through affine extension of scalars.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars`
+  Identify the overlap tower's specified open-immersion single-factor restriction comparison
+  with restriction-to-pullback followed by the public affine extension-of-scalars comparison.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars`
   Compare pullback of the tensor of two fixed chosen line bundles directly with the tensor of
@@ -941,6 +952,10 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
   Specialize the direct tilde-level square to one canonical affine restriction leg, deriving its
   restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
+  Specialize the single-factor restriction-mate identification to one genuine affine restriction
+  leg with canonically derived algebraic data.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal
