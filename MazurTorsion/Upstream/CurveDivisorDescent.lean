@@ -191,6 +191,50 @@ noncomputable def localLineBundle
   exact AffineDedekind.lineBundle Γ(X, U) X.functionField
     (localDivisor X U hU h D)
 
+/-- The proof-defined local divisor line bundle, transported to its coordinate-divisor
+presentation. -/
+noncomputable def localLineBundleCoordinateIso
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D : WeilDivisor (CodimensionOnePoint X)) :
+    letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+    letI : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    (localLineBundle X U hU h D).obj ≅
+      (AffineDedekind.lineBundle Γ(X, U) X.functionField
+        (localDivisor X U hU h D)).obj := by
+  letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  let hL : localLineBundle X U hU h D =
+      AffineDedekind.lineBundle Γ(X, U) X.functionField
+        (localDivisor X U hU h D) := by
+    rw [localLineBundle]
+  exact eqToIso (congrArg
+    (fun L : InvertibleSheaf (Spec (.of Γ(X, U))) ↦ L.obj) hL)
+
+/-- The source of the proof-defined local addition map, transported to the line bundle of the
+sum of its two coordinate divisors. -/
+noncomputable def localLineBundleAddSourceCoordinateIso
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D E : WeilDivisor (CodimensionOnePoint X)) :
+    letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+    letI : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    (localLineBundle X U hU h (D + E)).obj ≅
+      (AffineDedekind.lineBundle Γ(X, U) X.functionField
+        (localDivisor X U hU h D + localDivisor X U hU h E)).obj := by
+  letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  exact localLineBundleCoordinateIso X U hU h (D + E) ≪≫
+    eqToIso (congrArg
+      (fun Δ ↦ (AffineDedekind.lineBundle Γ(X, U) X.functionField Δ).obj)
+      (localDivisor_add X U hU h D E))
+
 /-- If the two affine-coordinate maps from a common overlap induce the same map to the ambient
 curve, contraction of an overlap height-one prime through either coordinate ring gives the same
 ambient codimension-one point. -/
@@ -824,7 +868,8 @@ noncomputable def localLineBundleRestrictIsoOfCoeffEq
   exact hcoeff v hfv
 
 /-- The deterministic chartwise addition isomorphism induced by multiplication of the explicit
-inverse divisor ideals. -/
+inverse divisor ideals, with the proof-defined local bundles transported explicitly to their
+coordinate presentations. -/
 noncomputable def localLineBundleAddIso
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
@@ -836,9 +881,13 @@ noncomputable def localLineBundleAddIso
   letI := h.isDedekindDomain
   letI : IsFractionRing Γ(X, U) X.functionField :=
     functionField_isFractionRing_of_isAffineOpen X U hU
-  rw [localLineBundle, localDivisor_add X U hU h D E]
-  exact AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso
-    Γ(X, U) X.functionField _ _
+  let d := localDivisor X U hU h D
+  let e := localDivisor X U hU h E
+  exact localLineBundleAddSourceCoordinateIso X U hU h D E ≪≫
+    AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso
+      Γ(X, U) X.functionField d e ≪≫
+    ((localLineBundleCoordinateIso X U hU h D).symm ⊗ᵢ
+      (localLineBundleCoordinateIso X U hU h E).symm)
 
 /-- The chartwise construction carries addition of global divisors to tensor product of the
 actual affine line bundles. -/
