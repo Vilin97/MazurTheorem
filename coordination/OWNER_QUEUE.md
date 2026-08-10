@@ -92,6 +92,20 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 fixed affine tensor-addition checkpoint is integrated at `576d86f`.
+Relative to the chosen comparisons with explicit inverse ideals, multiplication
+defines `ExplicitIdeal.lineBundleModuleTensorAddEquiv`; its pure-tensor theorem
+fixes the computation in the fraction field, `lineBundleModuleAddEquiv` supplies
+the consumer orientation, and `lineBundleAddIso` lifts it to the actual affine
+tilde line bundles.  `CurveDivisorDescent.localLineBundleAddIso` is the named
+chartwise consumer, while `localLineBundle_add_iso` remains an API-compatible
+`Nonempty` wrapper.  This is a chartwise result only: no restriction/overlap
+base-change naturality or `DescendedTensorAdditive` witness is claimed.
+Cocycle packaging and effectivity, tensor and principal coherence, object
+separation, rational principal detection, exactness, Picard surjectivity, and
+the global arbitrary-sheaf tensor-inverse comparison remain.  A3 receives no
+credit.  Source accounting is 1,034 integrated Lean modules / 1,578,757 lines.
+
 The A3 normalization checkpoint is integrated at `b80ea34` and keeps only the generic
 `normalization_of_iso_cocycle` theorem and its derived structure-level consumer
 `LineBundleCocycle.normalization`.  `LineBundleCocycle` stores

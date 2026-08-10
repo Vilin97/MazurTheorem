@@ -23,7 +23,13 @@ into an objectwise tilde tensor-product isomorphism. This gives a canonical inje
 module-Picard to scheme-Picard map. For affine Dedekind domains, the divisor map has exactly the
 principal divisors as kernel, divisor classes are equivalent to its range, and the chosen tilde
 line bundles are tensor-additive. The chosen Picard representative is now identified with the
-explicit inverse fractional ideal attached to the divisor. On a same-chart principal open,
+explicit inverse fractional ideal attached to the divisor. Relative to these fixed comparisons,
+multiplication of explicit inverse ideals now determines named tensor/addition equivalences for
+the chosen affine modules, with a checked pure-tensor formula in the fraction field. Tilde
+transports this to `AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`, and the named
+chartwise consumer `CurveDivisorDescent.localLineBundleAddIso` identifies `O(D + E)` with
+`O(D) ⊗ O(E)` on every compatible affine chart. Naturality of these maps under chart
+restriction or overlap base change is not claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -67,9 +73,11 @@ range. `AffineTilde.tildeReflectsInvertibility` now discharges the former affine
 predicate and supplies the forward tensor-inverse comparison. The remaining A3 boundary begins
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
-applying ordinary module effectivity to that concrete datum. Tensor and principal coherence,
-object separation, rational normalization and principal detection, exactness, Picard
-surjectivity, and the stronger global comparison for arbitrary invertible sheaves then remain.
+applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
+naturality of the fixed chartwise addition maps needed to descend those maps remains open, and no
+`CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
+separation, rational normalization and principal detection, exactness, Picard surjectivity, and
+the stronger global comparison for arbitrary invertible sheaves also remain.
 The
 residue-degree product formula remains the separately registered A2 prerequisite in the roadmap;
 the affine and local A3 modules here do not import it.
@@ -115,7 +123,8 @@ tensor-inverse comparison. Such a comparison is still required only by the stron
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. Chosen-pullback
 transport and the raw all-index overlap equation are checked, but no arbitrary-divisor
 `DivisorCocycle` or divisor cocycle system, concrete Type-0 effectivity application, global
-divisor-line-bundle family, tensor-additivity, coherent principal triviality,
+divisor-line-bundle family, overlap-compatible global tensor-additivity (in particular, no
+`CurveDivisorDescent.DescendedTensorAdditive` witness), coherent principal triviality,
 prestack/object-separation, rationally normalized cocycle data, geometric principal detection,
 exact kernel, Picard surjectivity, or global tensor-inverse comparison is asserted. No additional
 localization Challenge is needed; the weighted product formula remains the separate A2

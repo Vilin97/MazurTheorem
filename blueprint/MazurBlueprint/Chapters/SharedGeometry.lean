@@ -81,8 +81,13 @@ injective module-Picard/scheme-Picard homomorphism. Consequently, the affine Ded
 has exactly the principal divisors as kernel, descends to divisor classes, and gives an
 unconditional equivalence from those classes to its scheme-Picard range; the actual tilde line
 bundles are tensor-additive. The chosen Picard representative is moreover linearly equivalent
-to the explicit inverse fractional ideal attached to the divisor. On a same-chart principal
-open, coefficient equality on `D(f)` now proves equality of the localized inverse ideals,
+to the explicit inverse fractional ideal attached to the divisor. Relative to these fixed
+comparisons, multiplication of explicit inverse ideals now determines named tensor/addition
+equivalences for the chosen affine modules, with a checked pure-tensor rule in the fraction field.
+Tilde gives `AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`, and
+`CurveDivisorDescent.localLineBundleAddIso` is its named consumer on every compatible affine
+chart. Restriction/overlap base-change naturality of these maps is not proved. On a same-chart
+principal open, coefficient equality on `D(f)` now proves equality of the localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
 chosen restricted tilde bundles. For two charts mapping to a common affine overlap,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
@@ -150,9 +155,10 @@ all-index cocycle, and `LineBundleCocycle.normalization` is its structure-level 
 cocycle, with no independent normalization field. The checked raw arbitrary-divisor family and
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
-landed. They are followed by tensor and principal coherence, object separation, rational
-normalization and principal detection, exactness, Picard surjectivity, and the global
-tensor-inverse comparison.
+landed. Restriction/overlap base-change naturality of the fixed chartwise addition maps needed to
+descend those maps is also absent, and no `CurveDivisorDescent.DescendedTensorAdditive` witness is
+supplied. Principal coherence, object separation, rational normalization and principal detection,
+exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 
 *Checked A3 route deliverables (no node credit):*
 
@@ -212,7 +218,12 @@ tensor-inverse comparison.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyEffectiveModule`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.normalization_of_iso_cocycle`;
-* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.normalization`.
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.normalization`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv_tmul`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleAddEquiv`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -258,9 +269,12 @@ effectivity alone globalizes locally invertible descent data. A checked bridge c
 scheme-module prestack instance to produce fully faithful descent and hence the exact
 object-separation property, while the current dependency graph supplies no such instance. On a
 canonical coordinate cover, the curve-divisor API restricts a global divisor, constructs the
-actual affine `O(D)` line bundle on every chart, preserves addition, and proves local triviality
-for principal divisors. On a single chart, ambient coefficient equality on a principal open now
-constructs the actual restriction isomorphism between two such bundles.
+actual affine `O(D)` line bundle on every chart, and supplies the fixed
+`localLineBundleAddIso` induced by multiplication of explicit inverse ideals. Its underlying
+module equivalence has a checked pure-tensor rule. The chart API also proves local triviality for
+principal divisors. On a single chart, ambient coefficient equality on a principal open now
+constructs the actual restriction isomorphism between two such bundles. Naturality of the fixed
+addition maps under those restrictions and under overlap base change remains open.
 The raw inverse-ideal overlap family and its pointwise all-index cocycle are checked separately.
 Packaging them as a `CurveDivisorDescent.DivisorCocycle`, choosing that cocycle for every divisor,
 and applying generic `OpenCover.{0}` module effectivity to obtain the corresponding global
@@ -296,7 +310,8 @@ full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
 retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
 cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
-chosen-cocycle tensor compatibility, coherent principal triviality, prestack/object-separation,
+restriction/overlap naturality for the fixed chartwise addition maps or resulting
+`DescendedTensorAdditive` witness, coherent principal triviality, prestack/object-separation,
 rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
 surjectivity, or global tensor-inverse comparison is claimed. Thus the remaining packaging,
 global compatibility, and divisor-class/Picard equivalence results stay open.
@@ -594,6 +609,10 @@ inhabited or that A3 is solved.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundle`
   Construct the actual affine `O(D)` from the restriction of a global curve divisor.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso`
+  Consume explicit-ideal addition on a compatible curve chart to give a named fixed
+  `O(D + E) ≅ O(D) ⊗ O(E)` relative to the chosen explicit-ideal comparisons.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalTransportEffectiveInvertible`
   Exhibit the global trivial line bundle as an effective witness for the directly transported
@@ -814,6 +833,21 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal`
   Identify the chosen affine Picard representative with the explicit inverse fractional ideal
   attached to the divisor.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv`
+  Use multiplication of explicit inverse ideals to give a fixed equivalence
+  `O(D) ⊗ O(E) ≃ O(D + E)` for the chosen affine modules.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv_tmul`
+  Identify a pure tensor, after the fixed explicit-ideal comparisons, with multiplication in the
+  canonical fraction field.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleAddEquiv`
+  Expose the inverse equivalence in the sum-to-tensor orientation used by line-bundle consumers.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`
+  Lift the fixed module equivalence through tilde and the tilde tensor comparison to the actual
+  affine divisor line bundles.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

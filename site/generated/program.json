@@ -6,7 +6,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1578658,
+    "integrated_lean_lines": 1578757,
     "integrated_lean_modules": 1034,
     "remaining_composite_orders": [
       18,
@@ -1612,7 +1612,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. For arbitrary module descent data on a universe-zero-indexed open cover, the actual product of direct images, both overlap maps, their equalizer, explicit inverse chart restrictions, and chosen-overlap compatibility compile. Mathlib's generic descent-data commutativity upgrades the chosen-overlap equation to every common base change, so `compatibleFamilyDescentIso` identifies the equalizer's full descent datum with the input and `moduleEffectiveDescentForOpenCover` proves ordinary module effectivity for every `OpenCover.{0}`. The generic `normalization_of_iso_cocycle` theorem derives diagonal normalization from an isomorphism-valued all-index cocycle, and `LineBundleCocycle.normalization` is its checked structure-level consumer. `LineBundleCocycle` stores exact-pseudofunctor-map overlap isomorphisms and the pointwise all-index cocycle, with no independent normalization field. The raw arbitrary-divisor family and its all-index cocycle are checked separately from generic `OpenCover.{0}` module effectivity. What remains is to package that raw family as the required `DivisorCocycle`, select or supply a universe-zero affine coordinate cover, and apply module effectivity and locality to obtain the global divisor line bundles; object separation, rational normalization and principal detection, tensor and principal coherence, exactness, Picard surjectivity, and the global tensor-inverse comparison then remain.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. Canonical pseudofunctor transport from an explicit pairwise model to Mathlib's chosen pullback, its further-pullback naturality, and a real arbitrary-divisor consumer compile. The chosen triple overlap maps canonically to the actual affine triple chart intersection and its three pairwise faces, and now also to each of the three chart projections directly. Each pulled chosen-overlap Hom is identified with the corresponding inverse-ideal model Hom there. Inverse-ideal extension commutes with scalar towers; pairwise-via-intersection restriction is equal to the direct common-affine comparison, the associated pullback Homs satisfy transitivity, and an actual triple common-model cocycle consumes these results. Extension-of-scalars and inverse-ideal base-change coherence prove that every pairwise model pulls back to the direct common-affine model. Opaque face declarations now assemble the three raw chosen-overlap transitions into the actual pullHom cocycle. The raw chosen isomorphisms satisfy the exact all-index `DescentData'.pullHom'` cocycle, including repeated indices, and are imported through the shared Geometry boundary; the separately normalized transitions satisfy the cocycle for pairwise-distinct indices. The chosen-overlap/full-descent comparison also makes the reconstructed principal cocycle effective with the global trivial line bundle. For arbitrary module descent data on a universe-zero-indexed open cover, the actual product of direct images, both overlap maps, their equalizer, explicit inverse chart restrictions, and chosen-overlap compatibility compile. Mathlib's generic descent-data commutativity upgrades the chosen-overlap equation to every common base change, so `compatibleFamilyDescentIso` identifies the equalizer's full descent datum with the input and `moduleEffectiveDescentForOpenCover` proves ordinary module effectivity for every `OpenCover.{0}`. The generic `normalization_of_iso_cocycle` theorem derives diagonal normalization from an isomorphism-valued all-index cocycle, and `LineBundleCocycle.normalization` is its checked structure-level consumer. `LineBundleCocycle` stores exact-pseudofunctor-map overlap isomorphisms and the pointwise all-index cocycle, with no independent normalization field. Relative to the fixed comparisons between chosen Picard representatives and explicit inverse ideals, multiplication now supplies named affine module and tilde-sheaf addition equivalences with a checked pure-tensor computation, and `CurveDivisorDescent.localLineBundleAddIso` is their named compatible-chart consumer. The raw arbitrary-divisor family and its all-index cocycle are checked separately from generic `OpenCover.{0}` module effectivity. What remains is to package that raw family as the required `DivisorCocycle`, select or supply a universe-zero affine coordinate cover, and apply module effectivity and locality to obtain the global divisor line bundles; restriction/overlap base-change naturality for the fixed chartwise addition maps, a `CurveDivisorDescent.DescendedTensorAdditive` witness, principal coherence, object separation, rational normalization and principal detection, exactness, Picard surjectivity, and the global tensor-inverse comparison then remain.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2157,6 +2157,13 @@
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso",
+          "state": "contract",
+          "description": "Consume explicit-ideal addition on a compatible curve chart to give a named fixed O(D + E) ≅ O(D) ⊗ O(E), relative to the chosen explicit-ideal comparisons.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.principalTransportEffectiveInvertible",
           "state": "contract",
@@ -2469,6 +2476,34 @@
           "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleEquivInverseIdeal",
           "state": "contract",
           "description": "Identify the chosen affine Picard representative with the explicit inverse fractional ideal attached to the divisor.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv",
+          "state": "contract",
+          "description": "Use multiplication of explicit inverse ideals to give a fixed equivalence O(D) ⊗ O(E) ≃ O(D + E) for the chosen affine modules.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleTensorAddEquiv_tmul",
+          "state": "contract",
+          "description": "Identify a pure tensor, after the fixed explicit-ideal comparisons, with multiplication in the canonical fraction field.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleModuleAddEquiv",
+          "state": "contract",
+          "description": "Expose the inverse equivalence in the sum-to-tensor orientation used by line-bundle consumers.",
+          "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso",
+          "state": "contract",
+          "description": "Lift the fixed module equivalence through tilde and the tilde tensor comparison to the actual affine divisor line bundles.",
           "module": "MazurTorsion.Upstream.AffineDivisorLocalization"
         },
         {
