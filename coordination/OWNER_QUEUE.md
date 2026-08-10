@@ -92,6 +92,25 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 normalization checkpoint is integrated at `b80ea34` and keeps only the generic
+`normalization_of_iso_cocycle` theorem and its derived structure-level consumer
+`LineBundleCocycle.normalization`.  `LineBundleCocycle` stores
+exact-pseudofunctor-map overlap isomorphisms and a pointwise all-index cocycle;
+normalization is not an independently supplied field.  The focused core and
+`CurveDivisorPicardDescent` builds pass at default limits, and both new public
+theorems audit to only `propext`, `Classical.choice`, and `Quot.sound`.  This
+retains the small useful normalization kernel reviewed from `22f750e`, while the transient
+main experiment `94f0891`, removed by `63945e4`, remains historical provenance
+rather than an abstract wrapper to restore.  The checked raw arbitrary-divisor
+cocycle `866b14d` and generic module effectivity `0731ac2` remain separate:
+no arbitrary-divisor `DivisorCocycle`, Type-0 effectivity application, global
+divisor-line-bundle family, or chart-restriction package is claimed.  Source
+accounting is 1,034 integrated Lean modules / 1,578,658 lines.  Packaging and
+effectivity are followed by tensor and principal
+coherence, object separation, rational principal detection, exactness, Picard
+surjectivity, and the global arbitrary-sheaf tensor-inverse comparison.  A3
+therefore receives no credit.
+
 The relative-Picard lane now includes the section-level base-change API from
 `f075805`.  For a section of `E ×_S T`, `baseChangeSection` constructs its
 pullback to every further test scheme, proves the section law, and identifies
@@ -1981,11 +2000,16 @@ within each lane follows the listed order.
    pullback. Extension-of-scalars and inverse-ideal base-change coherence now
    supply that pairwise/direct equality, and the compatible-family equalizer
    proves ordinary module effectivity for every `OpenCover.{0}` descent datum.
-   The remaining A3 construction is to package the concrete arbitrary-divisor
-   raw overlap family as the normalized line-bundle cocycle consumed by that
-   effectivity theorem, then prove object separation, rational normalization
-   and principal detection, tensor additivity, Picard surjectivity, and the
-   global tensor-inverse comparison; no A3 credit is claimed.
+   Generic repeated-index normalization is now derived from the all-index
+   isomorphism cocycle and consumed by `LineBundleCocycle.normalization`, but
+   the raw arbitrary-divisor family has not been packaged as the required
+   `DivisorCocycle`.  The remaining A3 construction begins with that packaging,
+   selection or supply of a universe-zero nonempty affine coordinate cover, and
+   application of ordinary module effectivity and locality.  It then requires
+   canonical tensor compatibility and coherent principal triviality, object
+   separation, overlap-compatible rational normalization and principal
+   detection, the exact principal kernel, Picard surjectivity, and separately
+   the global tensor-inverse comparison; no A3 credit is claimed.
 2. From A3, build `MT-TC-B1-COHERENT-COHOMOLOGY` (35), then in parallel
    `MT-TC-B2-RR-SERRE` (25) and `MT-TC-C1-RELATIVE-COHOMOLOGY` (30).
    Actual affine quasicoherent epimorphisms now give surjections on global
@@ -2447,13 +2471,15 @@ or accounting shortcut.
 
 ## Active critical assignments
 
-- A3 ordinary module effectivity is integrated through `0731ac2`.  The next
-  A3 coding lane must package the already checked concrete raw arbitrary-
-  divisor overlap family as the normalized `LineBundleCocycle` consumed by
-  `moduleEffectiveDescentForOpenCover`.  The older generic normalization
-  experiment `22f750e` remains held out because its concrete specialization
-  exceeded the default elaboration budget; do not revive an abstract wrapper
-  without the real divisor consumer.
+- A3 ordinary module effectivity is integrated through `0731ac2`, while the
+  source-frozen normalization checkpoint derives `LineBundleCocycle.normalization`
+  generically from its pointwise all-index cocycle.  The next coding lane must
+  package the checked raw arbitrary-divisor family as `DivisorCocycle`, select
+  or supply a universe-zero nonempty affine coordinate cover, and apply module
+  effectivity plus locality.  Tensor/principal coherence and cover-specific
+  fully faithful descent follow.  Retain only the small generic normalization
+  kernel reviewed from `22f750e`; do not restore the unused wrappers or the
+  removed experiment `94f0891`/`63945e4`.
 - `codex/owner-b1-proper-hone` has pushed scalar transport checkpoint
   `3048167`: genuine Ext-based sheaf `H¹` carries an explicit cover-dependent
   base action and is finite whenever ordered base-Cech `H¹` is finite.  The

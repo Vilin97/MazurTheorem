@@ -143,12 +143,18 @@ by descent. Off the diagonal, the normalized transition is the raw chosen-overla
 the normalized triple cocycle is checked for pairwise-distinct indices; on the diagonal it is the
 canonical coherent self-overlap. Independently, the compatible-family equalizer now restricts
 isomorphically to every chart, those isomorphisms commute after arbitrary common base change,
-and ordinary module descent is effective on every `OpenCover.{0}`. What remains at this boundary
-is diagonal normalized-cocycle assembly for the concrete arbitrary-divisor family, followed by
-object separation, rational normalization and principal detection, tensor additivity, Picard
-surjectivity, and the global tensor-inverse comparison.
+and ordinary module descent is effective on every `OpenCover.{0}`. The generic
+`normalization_of_iso_cocycle` theorem derives diagonal normalization from an isomorphism-valued
+all-index cocycle, and `LineBundleCocycle.normalization` is its structure-level consumer.
+`LineBundleCocycle` stores exact-pseudofunctor-map overlap isomorphisms and the pointwise all-index
+cocycle, with no independent normalization field. The checked raw arbitrary-divisor family and
+generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
+but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
+landed. They are followed by tensor and principal coherence, object separation, rational
+normalization and principal detection, exactness, Picard surjectivity, and the global
+tensor-inverse comparison.
 
-*Checked pairwise-naturality deliverables (no node credit):*
+*Checked A3 route deliverables (no node credit):*
 
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapHomOfModel`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullHom_pullbackOverlapHomOfModel`;
@@ -204,7 +210,9 @@ surjectivity, and the global tensor-inverse comparison.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyRestrictionIso`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyDescentIso`;
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.compatibleFamilyEffectiveModule`;
-* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`.
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.normalization_of_iso_cocycle`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.normalization`.
 
 The API also
 characterizes existence of the full affine scheme-level
@@ -232,15 +240,17 @@ structure and its inverse is identified with pullback along the inverse scheme i
 pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
 uses source-level options forbidden in this task. The concrete raw overlap-isomorphism family
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
-indices. The generic idempotent-isomorphism normalization lemma was reviewed but held out of the
-integrated API because its concrete specialization does not compile at the default elaboration
-budget. Independently, the checked compatible-family equalizer is the kernel of the two overlap
+indices. The pruned generic `normalization_of_iso_cocycle` theorem derives the diagonal law from
+invertibility and the repeated-index cocycle; `LineBundleCocycle.normalization` is its checked
+structure-level consumer.
+Independently, the checked compatible-family equalizer is the kernel of the two overlap
 maps, its chart projection is transposed through the pullback--pushforward adjunction, and the
 resulting chart maps are explicit isomorphisms. Their chosen-overlap commutativity upgrades to
 arbitrary common base changes, giving an isomorphism of full descent data and ordinary module
-effectivity on every `OpenCover.{0}`. The descent API also packages specified
-pairwise overlap isomorphisms, diagonal normalization, and the triple cocycle as Mathlib module
-descent data. It separates object effectivity, cover-wide module effectivity, essential
+effectivity on every `OpenCover.{0}`. `LineBundleCocycle` stores exact-pseudofunctor-map pairwise
+overlap isomorphisms and the pointwise all-index triple cocycle; diagonal normalization is derived
+rather than stored as a second field. The descent API separates object effectivity, cover-wide
+module effectivity, essential
 injectivity on objects, and fully faithful module descent instead of asserting a stack theorem.
 The companion locality module refines chartwise rank-one trivialization atlases and proves that
 Tau Ceti invertibility is local on every scheme open cover. Consequently ordinary module
@@ -251,10 +261,10 @@ canonical coordinate cover, the curve-divisor API restricts a global divisor, co
 actual affine `O(D)` line bundle on every chart, preserves addition, and proves local triviality
 for principal divisors. On a single chart, ambient coefficient equality on a principal open now
 constructs the actual restriction isomorphism between two such bundles.
-`CurveDivisorDescent.DivisorCocycle` is the exact remaining cross-chart overlap input for these
-specified line bundles. Object-specific effective invertible descent then constructs a global
-line bundle
-with a checked isomorphism from each restriction to the corresponding `O(D)`. The companion
+The raw inverse-ideal overlap family and its pointwise all-index cocycle are checked separately.
+Packaging them as a `CurveDivisorDescent.DivisorCocycle`, choosing that cocycle for every divisor,
+and applying generic `OpenCover.{0}` module effectivity to obtain the corresponding global
+invertible sheaves remain open. The companion
 `CurveDivisorPicardDescent` API packages a divisor-indexed family of such cocycles. Its principal
 boundary datum is now the actual reconstructed normalized cocycle; a checked descent-data
 isomorphism compares it with the directly transported datum, and the trivial global line bundle
@@ -283,24 +293,21 @@ this condition is exactly one global rational witness and constructs the global 
 boundary and a Dictionary consumer from it. Constructing that compatible normalization from
 the actual line-bundle cocycle and trivialization remains absent. Surjectivity then gives the
 full divisor-class/Picard equivalence. Only
-the stronger dictionary package, which compares every
-invertible sheaf with a Picard unit, retains the global tensor-inverse hypothesis. No inhabitant
-of the arbitrary-divisor cocycle system, normalized cover-wide coherent overlap system,
-chosen-cocycle coherent-principal-triviality,
-prestack/object-separation, rationally normalized cocycle data,
-geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
-claimed. Thus global
-proper-curve gluing and Picard surjectivity remain open.
-`AffineTilde.TildeReflectsInvertibility` and the cover-wide
-`CurveDivisorDescent.DivisorCocycle` and invertible-effectivity packages are precise
-compiled conditional boundaries subsumed by the unchanged registered A3 Challenge rather than
-separately registered Challenge declarations. Ordinary module effectivity on `OpenCover.{0}` is
-now checked; constructing the concrete normalized divisor cocycle and the remaining global
-Picard inputs remains part of that Challenge.
+the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
+retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
+cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
+chosen-cocycle tensor compatibility, coherent principal triviality, prestack/object-separation,
+rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
+surjectivity, or global tensor-inverse comparison is claimed. Thus the remaining packaging,
+global compatibility, and divisor-class/Picard equivalence results stay open.
+`AffineTilde.tildeReflectsInvertibility`, field-base smooth-curve chart compatibility, the raw
+all-index overlap cocycle, generic repeated-index normalization, and ordinary module effectivity
+on `OpenCover.{0}` are checked route inputs subsumed by the unchanged registered A3 Challenge,
+not separate open Challenges.
 No additional localization Challenge is needed. The weighted product formula remains the
 separately registered A2 prerequisite in the roadmap; the affine and local A3 modules here do not
 import it. Artifact state
-`contract` records a compiled conditional API and does not assert that these predicates are
+`contract` records a compiled route API and does not assert that the remaining predicates are
 inhabited or that A3 is solved.
 
 *Canonical deliverables — these names are authoritative for this node:*
@@ -360,8 +367,10 @@ inhabited or that A3 is solved.
   tensor-unit/local-rank-one comparison.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineTilde.TildeReflectsInvertibility`
-  Isolate the missing localization reflection from an invertible tilde sheaf to an invertible
-  module.
+  State localization reflection from an invertible tilde sheaf to an invertible module.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineTilde.tildeReflectsInvertibility`
+  Prove the affine localization-reflection predicate.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineTilde.tensorInverseComparison_of_tildeReflectsInvertibility`
   Consume the localization reflection to construct tensor inverses for arbitrary affine
@@ -441,7 +450,7 @@ inhabited or that A3 is solved.
   and prove the affine chart is integrally closed.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveNormality`
-  Isolate integral closedness as the exact remaining field-base chart-ring condition.
+  Retain the historical normality-only presentation of the now-solved field-base chart condition.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineChart.smoothRelativeCurveRingConditions_iff_normality_of_field`
   Identify the two-part smooth curve ring boundary with the normality-only boundary over a
@@ -537,10 +546,16 @@ inhabited or that A3 is solved.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleEffectiveDescentForOpenCover`
   Prove ordinary module effectivity for every descent datum on an `OpenCover.{0}`.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.normalization_of_iso_cocycle`
+  Derive diagonal normalization from invertibility and the repeated-index cocycle equation.
 * `structure` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle`
-  Package specified pairwise overlap isomorphisms, diagonal normalization, and the triple
-  cocycle for actual local invertible sheaves.
+  Store exact-pseudofunctor-map overlap isomorphisms and the pointwise all-index cocycle for
+  actual local invertible sheaves, with no independent normalization field.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.normalization`
+  Derive diagonal normalization from the stored overlap isomorphisms and all-index cocycle.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleCocycle.toDescentData`
   Convert the chosen-overlap cocycle into Mathlib coherent module descent data.
