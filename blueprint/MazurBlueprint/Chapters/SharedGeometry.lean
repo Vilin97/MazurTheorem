@@ -136,8 +136,13 @@ The chosen coordinate-divisor restriction comparisons now satisfy the correspond
 tensor/addition square: `CommonExtension.lineBundleAddIso_restrict_viaPullback_naturality`
 proves the generic square, and
 `CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection`
-is its proper-smooth pairwise-intersection consumer. Alignment with the separately proof-defined
-global transition family, assembly into a morphism of descent data, and a
+is its proper-smooth pairwise-intersection consumer. The named transports
+`CurveDivisorDescent.localLineBundleCoordinateIso` and
+`CurveDivisorDescent.localLineBundleAddSourceCoordinateIso` expose the proof-defined global-divisor
+bundles in those coordinate presentations, and
+`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`
+aligns the square with the actual proof-defined local addition maps and pairwise-intersection
+transitions. Assembly into a morphism of descent data and a
 `CurveDivisorDescent.DescendedTensorAdditive` witness are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
@@ -208,9 +213,9 @@ all-index cocycle, and `LineBundleCocycle.normalization` is its structure-level 
 cocycle, with no independent normalization field. The checked raw arbitrary-divisor family and
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
-landed. The remaining naturality needed to descend the fixed chartwise addition maps begins with
-aligning the checked coordinate-divisor restriction square with the separately proof-defined
-global transition family; no descent-data morphism or
+landed. The remaining boundary for descending the fixed chartwise addition maps begins with
+assembling the checked proof-defined global-divisor local squares into a descent-data morphism;
+no such morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
@@ -277,6 +282,9 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_restrict_viaPullback_naturality`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleCoordinateIso`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddSourceCoordinateIso`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -349,9 +357,9 @@ canonical/factorwise path on one fixed common-affine restriction leg, and the tr
 restriction comparisons satisfy the tensor/addition square there. Equality-induced raw
 extended-ideal tilde multiplication naturality is checked, with a pairwise-intersection curve
 consumer. The chosen coordinate-divisor restriction comparisons satisfy the corresponding
-cross-chart tensor/addition square, with a pairwise-intersection curve consumer. Alignment with
-the separately proof-defined global transition family and descent-data compatibility are not
-claimed. The concrete raw
+cross-chart tensor/addition square, with a pairwise-intersection curve consumer. Named coordinate
+transports align that square with the proof-defined global-divisor local addition maps and
+pairwise-intersection transitions. Descent-data compatibility is not claimed. The concrete raw
 overlap-isomorphism family
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
 indices. The pruned generic `normalization_of_iso_cocycle` theorem derives the diagonal law from
@@ -380,8 +388,8 @@ constructs the actual restriction isomorphism between two such bundles. The fixe
 now satisfy the transported legacy restriction tensor/addition square on one common-affine leg,
 and the raw extended-ideal tilde addition maps satisfy equality-induced naturality between
 distinct charts. The chosen coordinate-divisor restriction comparisons satisfy the corresponding
-cross-chart tensor/addition square. Aligning it with the separately proof-defined global
-transition family remains open.
+cross-chart tensor/addition square, and named coordinate transports align it with the
+proof-defined global-divisor local addition maps and pairwise-intersection transition family.
 The raw inverse-ideal overlap family and its pointwise all-index cocycle are checked separately.
 Packaging them as a `CurveDivisorDescent.DivisorCocycle`, choosing that cocycle for every divisor,
 and applying generic `OpenCover.{0}` module effectivity to obtain the corresponding global
@@ -417,9 +425,7 @@ full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
 retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
 cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
-alignment of the checked coordinate-divisor restriction square with the separately proof-defined
-global transition family, descent-data morphism, or resulting `DescendedTensorAdditive` witness,
-coherent principal
+descent-data morphism, or resulting `DescendedTensorAdditive` witness, coherent principal
 triviality, prestack/object-separation,
 rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
 surjectivity, or global tensor-inverse comparison is claimed. Thus the remaining packaging,
@@ -1109,6 +1115,17 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection`
   Specialize the chosen coordinate-divisor restriction square using factorwise overlap
   equalities obtained through the pairwise chart intersection.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleCoordinateIso`
+  Transport a proof-defined local divisor line bundle to its coordinate-divisor presentation.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddSourceCoordinateIso`
+  Transport the proof-defined local addition source to the line bundle of the sum of its two
+  coordinate divisors.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`
+  Prove that the proof-defined global-divisor local addition maps commute with the proof-defined
+  pairwise-intersection transitions for the two factors and their sum.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal
