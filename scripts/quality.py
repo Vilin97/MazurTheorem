@@ -255,6 +255,7 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
         if isinstance(package, dict)
     }
     doc_mathlib = doc_packages.get("mathlib", {})
+    doc_tau = doc_packages.get("TauCeti", {})
     root_mathlib_requirement = root_requirements.get("mathlib", {})
     root_tau_requirement = root_requirements.get("TauCeti", {})
     mathlib_source = source_by_id.get("mathlib", {})
@@ -299,6 +300,22 @@ def validate_pins(validator: Validator, program: dict[str, Any]) -> None:
     validator.require(
         root_tau_requirement.get("rev") == root_tau.get("inputRev"),
         "root Tau Ceti requirement must match the manifest input revision",
+    )
+    validator.require(
+        root_tau.get("rev") == doc_tau.get("rev"),
+        "docbuild manifest must inherit the root Tau Ceti revision",
+    )
+    validator.require(
+        root_tau.get("url") == doc_tau.get("url"),
+        "docbuild manifest must inherit the root Tau Ceti source",
+    )
+    validator.require(
+        root_tau.get("inputRev") == doc_tau.get("inputRev"),
+        "docbuild Tau Ceti input revision must match the root manifest",
+    )
+    validator.require(
+        doc_tau.get("inherited") is True,
+        "docbuild Tau Ceti dependency must be inherited through mazur-torsion",
     )
     validator.require(
         tau_source.get("mathlib_commit") == root_mathlib.get("rev"),
