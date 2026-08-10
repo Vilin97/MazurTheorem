@@ -86,8 +86,15 @@ comparisons, multiplication of explicit inverse ideals now determines named tens
 equivalences for the chosen affine modules, with a checked pure-tensor rule in the fraction field.
 Tilde gives `AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`, and
 `CurveDivisorDescent.localLineBundleAddIso` is its named consumer on every compatible affine
-chart. Restriction/overlap base-change naturality of these maps is not proved. On a same-chart
-principal open, coefficient equality on `D(f)` now proves equality of the localized inverse ideals,
+chart. At the raw common-extension level,
+`CommonExtension.extendedInverseIdealTensorAddEquiv` and its `_tmul` theorem identify tensor
+addition with multiplication in the common fraction field. The `_baseChange_tmul` theorem and
+exact `_baseChange` square prove compatibility with a further flat epimorphic scalar extension
+through `AlgebraTensorModule.distribBaseChange`. This does not compare the raw extended ideals
+with the chosen-module addition equivalence or transport that comparison through tilde and sheaf
+restriction. Restriction/overlap base-change naturality of the fixed chartwise maps is not proved.
+On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
+localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
 chosen restricted tilde bundles. For two charts mapping to a common affine overlap,
 `AffineDivisorLocalization.Boundary.OverlapInverseIdealExtensionEq` isolates equality of the two
@@ -182,6 +189,10 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_eq_directPullHom_of_compatibility`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pullHom_localLineBundlePullbackIsoViaPairwiseIntersection_hom_trans`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.pairwiseModelPullHom_cocycle_of_compatibilities`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_tmul`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange_tmul`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -848,6 +859,22 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`
   Lift the fixed module equivalence through tilde and the tilde tensor comparison to the actual
   affine divisor line bundles.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv`
+  Identify the tensor product of two raw extended inverse ideals with the extended inverse ideal
+  of the divisor sum by multiplication in the common fraction field.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_tmul`
+  Compute the raw extended-ideal tensor/addition equivalence on a pure tensor as multiplication
+  in the common fraction field.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange_tmul`
+  Compute scalar extension of raw inverse-ideal multiplication on nested pure tensors under a
+  further flat epimorphic base change.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealTensorAddEquiv_baseChange`
+  Prove the exact distributive square making raw extended-inverse-ideal multiplication natural
+  under a further flat epimorphic scalar extension.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

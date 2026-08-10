@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 raw tensor base-change checkpoint is integrated at `87959e5`.
+`CommonExtension.extendedInverseIdealTensorAddEquiv` identifies the tensor of
+two extended inverse ideals with the ideal of the divisor sum by multiplication
+in the common fraction field, and its `_tmul` theorem fixes that computation.
+The `_baseChange_tmul` theorem and exact `_baseChange` square show compatibility
+with a further flat epimorphic scalar extension through
+`AlgebraTensorModule.distribBaseChange`.  This is deliberately a raw
+extended-ideal result: comparison with the chosen-module addition equivalence,
+transport through tilde and sheaf restriction, and any
+`DescendedTensorAdditive` witness remain open.  A3 stays `research_open` at
+weight 18 with zero credit.  Source accounting is 1,036 integrated Lean modules
+/ 1,579,015 lines.
+
 The A3 fixed affine tensor-addition checkpoint is integrated at `576d86f`.
 Relative to the chosen comparisons with explicit inverse ideals, multiplication
 defines `ExplicitIdeal.lineBundleModuleTensorAddEquiv`; its pure-tensor theorem

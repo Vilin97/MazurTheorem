@@ -28,8 +28,14 @@ multiplication of explicit inverse ideals now determines named tensor/addition e
 the chosen affine modules, with a checked pure-tensor formula in the fraction field. Tilde
 transports this to `AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso`, and the named
 chartwise consumer `CurveDivisorDescent.localLineBundleAddIso` identifies `O(D + E)` with
-`O(D) ⊗ O(E)` on every compatible affine chart. Naturality of these maps under chart
-restriction or overlap base change is not claimed. On a same-chart principal open,
+`O(D) ⊗ O(E)` on every compatible affine chart. At the raw common-extension level,
+`CommonExtension.extendedInverseIdealTensorAddEquiv` and its `_tmul` theorem identify tensor
+addition with multiplication in the common fraction field. The `_baseChange_tmul` and
+`_baseChange` theorems prove that multiplication-direction equivalence commutes with a further
+flat epimorphic scalar extension through `AlgebraTensorModule.distribBaseChange`. This does not
+compare the raw extended ideals with the fixed chosen-module addition map or transport that
+comparison through tilde and sheaf restriction. Naturality of the fixed chartwise maps under
+restriction or overlap base change is therefore not claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
