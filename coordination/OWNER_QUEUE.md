@@ -92,6 +92,17 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 chosen coordinate-divisor restriction cross-chart tensor/addition checkpoint is integrated
+at `736b281`, on top of the raw tilde tensor/addition checkpoint at `86b5460`.
+`CommonExtension.lineBundleAddIso_restrict_viaPullback_naturality` proves the generic square for
+the chosen coordinate-divisor restriction comparisons, and
+`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection`
+is its proper-smooth curve consumer with factorwise equalities obtained through the pairwise
+intersection. Alignment with the separately proof-defined global transition family, assembly
+into a descent-data morphism, and `DescendedTensorAdditive` remain open. A3 stays `research_open`
+at weight 18 with zero credit. Source accounting is 1,046 integrated Lean modules / 1,584,381
+lines.
+
 The A3 equality-induced raw tilde tensor/addition checkpoint is integrated at
 `86b5460`, on top of the legacy restriction tensor/addition checkpoint at
 `1d2fbe7`. `Boundary.overlapInverseIdealExtensionEq_add` proves that overlap

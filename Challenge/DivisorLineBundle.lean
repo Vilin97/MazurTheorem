@@ -78,9 +78,14 @@ inverse-ideal tilde sheaves is now natural across two chart rings:
 square, and
 `CurveDivisorDescent.localExtendedInverseIdealAddIso_naturalityViaPairwiseIntersection` is the
 proper-smooth curve consumer whose factorwise equalities come through the pairwise intersection.
-The chosen restriction-line-bundle cross-chart tensor square, its assembly into a morphism of
-descent data, and a `CurveDivisorDescent.DescendedTensorAdditive` witness are not claimed. On a
-same-chart principal open,
+The chosen coordinate-divisor restriction comparisons now satisfy the corresponding cross-chart
+tensor/addition square: `CommonExtension.lineBundleAddIso_restrict_viaPullback_naturality`
+proves the generic square, and
+`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection`
+is its proper-smooth pairwise-intersection consumer. Alignment with the separately proof-defined
+global transition family, assembly into a morphism of descent data, and a
+`CurveDivisorDescent.DescendedTensorAdditive` witness are not claimed. On a same-chart principal
+open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -125,10 +130,9 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-coherence still needed to descend the fixed chartwise addition maps begins with the chosen
-restriction-line-bundle cross-chart tensor square beyond the checked raw extended-ideal tilde
-square and the checked legacy restriction tensor/addition square on one fixed common-affine leg;
-no descent-data morphism or
+coherence still needed to descend the fixed chartwise addition maps begins with aligning the
+checked coordinate-divisor restriction square with the separately proof-defined global transition
+family; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
@@ -177,9 +181,9 @@ tensor-inverse comparison. Such a comparison is still required only by the stron
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. Chosen-pullback
 transport and the raw all-index overlap equation are checked, but no arbitrary-divisor
 `DivisorCocycle` or divisor cocycle system, concrete Type-0 effectivity application, global
-divisor-line-bundle family, chosen restriction-line-bundle cross-chart tensor square,
-descent-data morphism, `CurveDivisorDescent.DescendedTensorAdditive` witness, coherent principal
-triviality,
+divisor-line-bundle family, alignment of the checked coordinate-divisor restriction square with
+the separately proof-defined global transition family, descent-data morphism,
+`CurveDivisorDescent.DescendedTensorAdditive` witness, coherent principal triviality,
 prestack/object-separation, rationally normalized cocycle data, geometric principal detection,
 exact kernel, Picard surjectivity, or global tensor-inverse comparison is asserted. No additional
 localization Challenge is needed; the weighted product formula remains the separate A2
