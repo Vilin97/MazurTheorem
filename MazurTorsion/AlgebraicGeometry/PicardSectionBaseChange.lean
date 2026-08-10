@@ -20,7 +20,7 @@ closed subscheme: such a statement needs a flatness or Tor-independence
 hypothesis.  For section divisors on a smooth relative curve, that later
 comparison must use the relative effective Cartier divisor structure.
 
-The declarations below are original downstream glue over the exact-pin
+The declarations below are repository-local glue over the exact-pin
 `RelativePic` API; they are not copied from AINTLIB.
 -/
 

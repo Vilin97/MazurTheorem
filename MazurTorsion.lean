@@ -270,4 +270,4 @@ import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
 import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
 import MazurTorsion.Upstream.AINTLIB.Picard.RelativePic
-import MazurTorsion.Upstream.AINTLIB.Picard.SectionBaseChange
+import MazurTorsion.AlgebraicGeometry.PicardSectionBaseChange

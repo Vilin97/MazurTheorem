@@ -92,6 +92,17 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The relative-Picard lane now includes the section-level base-change API from
+`f075805`.  For a section of `E ×_S T`, `baseChangeSection` constructs its
+pullback to every further test scheme, proves the section law, and identifies
+its composite with the canonical base-change map.  The represented integral
+polynomial cusp chart supplies concrete consumers over `ZMod 5` and
+`ZMod 11`, including comparison with direct base change of the zero section.
+The exact consumer build passes in 8,757 jobs, and repository quality passes
+at 1,033 Lean modules / 1,578,547 lines.  This is only the categorical
+section boundary: the relative effective-Cartier ideal-module comparison and
+`sectionToPicRel` naturality remain open, so no roadmap node receives credit.
+
 The cyclotomic release lane is integrated through the faithful-Jacobi
 reduction consumer.  The checked cone now proves pseudo-unit unramifiedness
 both away from and at the cyclotomic prime, orbit-coprime integral

@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.ModularCurve.AffineCuspPolynomialChart
-import MazurTorsion.Upstream.AINTLIB.Picard.SectionBaseChange
+import MazurTorsion.AlgebraicGeometry.PicardSectionBaseChange
 
 /-!
 # Base change of the represented affine cusp section
