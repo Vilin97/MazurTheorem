@@ -92,6 +92,23 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 affine tensor-pullback coherence checkpoint is integrated at `77ae1a5`,
+on top of the canonical tensor-section checkpoint at `066db56`.
+`Scheme.Modules.tildePullbackGenerator` and its two evaluator theorems expose
+the transported top-section generator used by affine tilde base change.
+`AffineTilde.tildeTensorIso_hom_naturality` and
+`tildeTensorIso_inv_naturality` prove two-sided module naturality, while
+`tildeTensorIso_hom_tensorSection_toOpen_top` and
+`tildePullbackIsoExtendScalars_tensor_hom` supply the top-section evaluator and
+the generic tensor/base-change square.  The divisor-level hom factorization
+`CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_eq_factorwise`
+promotes to equality with the canonical/factorwise isomorphism, and
+`CurveDivisorDescent.localLineBundleTensorPullbackIsoViaExtendScalars_eq_viaCanonicalTensoratorOnCommonAffineOpen`
+specializes that equality to one fixed common-affine restriction leg.  No
+cross-chart compatibility, descent-data morphism, or `DescendedTensorAdditive`
+witness is supplied.  A3 stays `research_open` at weight 18 with zero credit.
+Source accounting is 1,043 integrated Lean modules / 1,583,522 lines.
+
 The A3 canonical pullback tensor-section checkpoint is integrated at `066db56`,
 on top of the affine restriction-mate checkpoint at `e000046`.
 `ModularCurves.tensorSection`, `tensorSection_map`, and

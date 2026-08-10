@@ -55,17 +55,19 @@ specializes it to one genuine affine restriction leg.
 identifies the legacy single-factor restriction mate with the restriction-to-pullback
 comparison followed by `ViaExtendScalars`, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
-is its genuine affine-open consumer. Separately, `ModularCurves.tensorSection` and
-`ModularCurves.tensorSection_map` give functorial pure tensor sections, while
-`ModularCurves.pullback_δ_unit_tensorSection` evaluates the canonical pullback cotensorator on
-sections coming from the pullback unit. The comparison
+is its genuine affine-open consumer. The project-original
+`Scheme.Modules.tildePullbackGenerator` API exposes the top-section pullback generator, identifies
+it with the transported pullback-unit section, and evaluates the affine tilde/base-change
+comparison on it. Naturality of the affine tilde tensor comparison is checked in both hom and
+inverse orientations, and its top-section evaluator computes pure tensor sections. Together with
+`ModularCurves.pullback_δ_unit_tensorSection`, these formulas prove the generic
+`AffineTilde.tildePullbackIsoExtendScalars_tensor_hom` base-change square. The comparison
 `CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`
 factors through that canonical cotensorator and the two factorwise scalar-extension
-comparisons. Its section evaluator and
-the genuine top-open curve evaluator prove only the resulting canonical/factorwise path formula
-on pullback-unit pure tensor sections. Equality with the direct `ViaExtendScalars` tensor
-comparator, tensor compatibility with the legacy mate, compatibility between distinct charts,
-and assembly into a morphism of descent data are not claimed. On a same-chart principal open,
+comparisons. The direct comparison has the same hom, hence is the same isomorphism, and the
+genuine curve specialization proves this equality on one fixed common-affine restriction leg.
+Tensor compatibility with the legacy mate, compatibility between distinct charts, and assembly
+into a morphism of descent data are not claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -110,9 +112,9 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-coherence still needed to descend the fixed chartwise addition maps begins with equality of the
-direct `ViaExtendScalars` comparator and the evaluated canonical/factorwise path, followed by
-legacy-mate tensor compatibility and cross-chart compatibility; no descent-data morphism or
+coherence still needed to descend the fixed chartwise addition maps begins with legacy-mate
+tensor compatibility and cross-chart compatibility beyond the checked fixed common-affine leg;
+no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
