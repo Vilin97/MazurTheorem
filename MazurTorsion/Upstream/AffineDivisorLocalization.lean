@@ -55,7 +55,7 @@ with that restriction tower, and module effectivity, remain open.
 
 namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
 
-open CategoryTheory
+open CategoryTheory MonoidalCategory
 open _root_.AlgebraicGeometry
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
@@ -74,13 +74,29 @@ noncomputable def divisorFractionalIdeal
     (D : WeilDivisor (HeightOneSpectrum R)) : (FractionalIdeal R⁰ K)ˣ :=
   Additive.toMul ((fractionalIdealDivisorAddEquiv R K).symm D)
 
+/-- The canonical fractional ideal construction carries divisor addition to multiplication. -/
+@[simp]
+lemma divisorFractionalIdeal_add (D E : WeilDivisor (HeightOneSpectrum R)) :
+    divisorFractionalIdeal R K (D + E) =
+      divisorFractionalIdeal R K D * divisorFractionalIdeal R K E := by
+  change Additive.toMul ((fractionalIdealDivisorAddEquiv R K).symm (D + E)) =
+    Additive.toMul ((fractionalIdealDivisorAddEquiv R K).symm D) *
+      Additive.toMul ((fractionalIdealDivisorAddEquiv R K).symm E)
+  rw [map_add]
+  rfl
+
+/-- The inverse divisor ideal as an invertible submodule of Mathlib's canonical fraction field. -/
+noncomputable abbrev inverseIdealUnit
+    (D : WeilDivisor (HeightOneSpectrum R)) : (Submodule R (FractionRing R))ˣ :=
+  FractionalIdeal.unitsMulEquivSubmodule
+    (Units.map (FractionalIdeal.canonicalEquiv R⁰ K (FractionRing R)).toMonoidHom
+      (divisorFractionalIdeal R K D)⁻¹)
+
 /-- The inverse divisor ideal, transported to Mathlib's canonical fraction field and regarded
 as an `R`-module. -/
 noncomputable abbrev inverseIdeal
     (D : WeilDivisor (HeightOneSpectrum R)) : Submodule R (FractionRing R) :=
-  FractionalIdeal.unitsMulEquivSubmodule
-    (Units.map (FractionalIdeal.canonicalEquiv R⁰ K (FractionRing R)).toMonoidHom
-      (divisorFractionalIdeal R K D)⁻¹)
+  inverseIdealUnit R K D
 
 private lemma equivPic_mk_fractionalIdeal (I : (FractionalIdeal R⁰ K)ˣ) :
     ClassGroup.equivPic R (ClassGroup.mk K I) =
@@ -125,6 +141,77 @@ noncomputable def lineBundleModuleEquivInverseIdeal
       lineBundleClass_eq_mk_inverseIdeal] :
     Nonempty (AffineDedekind.lineBundleModule R K D ≃ₗ[R]
       inverseIdeal R K D)).some
+
+/-- The unit-valued inverse ideal construction carries divisor addition to multiplication. -/
+@[simp]
+lemma inverseIdealUnit_add (D E : WeilDivisor (HeightOneSpectrum R)) :
+    inverseIdealUnit R K (D + E) =
+      inverseIdealUnit R K D * inverseIdealUnit R K E := by
+  simp only [inverseIdealUnit, divisorFractionalIdeal_add, mul_inv_rev, map_mul]
+  exact mul_comm _ _
+
+/-- The explicit inverse ideal of a sum is the product of the two explicit inverse ideals. -/
+@[simp]
+lemma inverseIdeal_add (D E : WeilDivisor (HeightOneSpectrum R)) :
+    inverseIdeal R K (D + E) = inverseIdeal R K D * inverseIdeal R K E := by
+  simpa only [inverseIdeal, Units.val_mul] using
+    congrArg Units.val (inverseIdealUnit_add R K D E)
+
+/-- Multiplication gives the canonical addition equivalence for the chosen affine line-bundle
+modules, relative to their fixed comparisons with the explicit inverse ideals. -/
+noncomputable def lineBundleModuleTensorAddEquiv
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    (AffineDedekind.lineBundleModule R K D ⊗[R]
+        AffineDedekind.lineBundleModule R K E) ≃ₗ[R]
+      AffineDedekind.lineBundleModule R K (D + E) :=
+  (TensorProduct.congr
+      (lineBundleModuleEquivInverseIdeal R K D)
+      (lineBundleModuleEquivInverseIdeal R K E)).trans <|
+    (Submodule.tensorEquivMul
+      (inverseIdealUnit R K D) (inverseIdealUnit R K E)).trans <|
+      (LinearEquiv.ofEq _ _ (inverseIdeal_add R K D E).symm).trans
+        (lineBundleModuleEquivInverseIdeal R K (D + E)).symm
+
+/-- On pure tensors, the canonical addition equivalence is multiplication inside the fraction
+field after applying the fixed explicit-ideal comparisons. -/
+@[simp]
+theorem lineBundleModuleTensorAddEquiv_tmul
+    (D E : WeilDivisor (HeightOneSpectrum R))
+    (x : AffineDedekind.lineBundleModule R K D)
+    (y : AffineDedekind.lineBundleModule R K E) :
+    ((lineBundleModuleEquivInverseIdeal R K (D + E))
+        (lineBundleModuleTensorAddEquiv R K D E (x ⊗ₜ[R] y)) : FractionRing R) =
+      ((lineBundleModuleEquivInverseIdeal R K D x : inverseIdeal R K D) : FractionRing R) *
+        ((lineBundleModuleEquivInverseIdeal R K E y : inverseIdeal R K E) :
+          FractionRing R) := by
+  simp only [lineBundleModuleTensorAddEquiv, LinearEquiv.trans_apply,
+    TensorProduct.congr_tmul, LinearEquiv.apply_symm_apply, LinearEquiv.coe_ofEq_apply]
+  exact Submodule.val_mulMap'_tmul _ _
+
+/-- The addition equivalence in the sum-to-tensor orientation used by line-bundle consumers. -/
+noncomputable def lineBundleModuleAddEquiv
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    AffineDedekind.lineBundleModule R K (D + E) ≃ₗ[R]
+      (AffineDedekind.lineBundleModule R K D ⊗[R]
+        AffineDedekind.lineBundleModule R K E) :=
+  (lineBundleModuleTensorAddEquiv R K D E).symm
+
+noncomputable local instance : MonoidalCategory
+    (_root_.AlgebraicGeometry.Spec (CommRingCat.of R)).Modules :=
+  Scheme.Modules.monoidalCategory _
+
+/-- The deterministic affine line-bundle addition isomorphism induced by multiplication of the
+explicit inverse ideals. -/
+noncomputable def lineBundleAddIso
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    (AffineDedekind.lineBundle R K (D + E)).obj ≅
+      (AffineDedekind.lineBundle R K D).obj ⊗
+        (AffineDedekind.lineBundle R K E).obj :=
+  (_root_.AlgebraicGeometry.tilde.functor (CommRingCat.of R)).mapIso
+      (lineBundleModuleAddEquiv R K D E).toModuleIso ≪≫
+    (AffineTilde.tildeTensorIso R
+      (AffineDedekind.lineBundleModule R K D)
+      (AffineDedekind.lineBundleModule R K E)).symm
 
 end ExplicitIdeal
 

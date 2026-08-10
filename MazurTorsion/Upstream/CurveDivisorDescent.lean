@@ -823,6 +823,23 @@ noncomputable def localLineBundleRestrictIsoOfCoeffEq
     localDivisor_coeff X U hU h E v]
   exact hcoeff v hfv
 
+/-- The deterministic chartwise addition isomorphism induced by multiplication of the explicit
+inverse divisor ideals. -/
+noncomputable def localLineBundleAddIso
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D E : WeilDivisor (CodimensionOnePoint X)) :
+    (localLineBundle X U hU h (D + E)).obj ≅
+      (localLineBundle X U hU h D).obj ⊗
+        (localLineBundle X U hU h E).obj := by
+  letI := h.isDedekindDomain
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  rw [localLineBundle, localDivisor_add X U hU h D E]
+  exact AffineDivisorLocalization.ExplicitIdeal.lineBundleAddIso
+    Γ(X, U) X.functionField _ _
+
 /-- The chartwise construction carries addition of global divisors to tensor product of the
 actual affine line bundles. -/
 lemma localLineBundle_add_iso
@@ -833,13 +850,8 @@ lemma localLineBundle_add_iso
     Nonempty
       ((localLineBundle X U hU h (D + E)).obj ≅
         (localLineBundle X U hU h D).obj ⊗
-          (localLineBundle X U hU h E).obj) := by
-  letI := h.isDedekindDomain
-  letI : IsFractionRing Γ(X, U) X.functionField :=
-    functionField_isFractionRing_of_isAffineOpen X U hU
-  rw [localLineBundle, localDivisor_add X U hU h D E]
-  exact AffineDedekind.nonempty_lineBundle_add_iso
-    Γ(X, U) X.functionField _ _
+          (localLineBundle X U hU h E).obj) :=
+  ⟨localLineBundleAddIso X U hU h D E⟩
 
 /-- On every compatible affine chart, the line bundle of a global principal divisor is
 isomorphic to the trivial line bundle. -/
