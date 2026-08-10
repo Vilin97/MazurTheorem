@@ -300,7 +300,7 @@ source is split between the earlier rank core and the remaining support API:
 | `ForMathlib/SchemeModuleOpenCoverIso.lean` | same basename |
 | `ForMathlib/AdjunctionUnitIsoTransport.lean` | same basename |
 | `ForMathlib/SurjectiveRestrictionScalars.lean` | same basename |
-| `ForMathlib/AffineModuleBaseChange.lean` | same basename (affine-tilde unit slice) |
+| `ForMathlib/AffineModuleBaseChange.lean` | same basename + project additions |
 | `ForMathlib/AffineIdealQuotientPullbackUnit.lean` | same basename |
 | `ForMathlib/SchemeModulePullbackUnitComposition.lean` | same basename |
 | `ForMathlib/IdealSheafAffineChartPullbackUnit.lean` | same basename |
@@ -574,17 +574,24 @@ SchemeModuleCanonicalSupportFull          ff3b65392ba91c12e5f250c9dde9dd1640850e
 The extension is adapted to the immutable older Mathlib pin without options.
 `SpecBasicOpen` stops before the source compatibility tail. The full support
 module imports the already retained rank core and omits only duplicate
-declarations. The affine-base-change module retains exactly the tilde-unit
-comparison consumed by the affine ideal-quotient theorem; quasicoherence of
-its pullback is transported across that same comparison. The open-unit module
-keeps its public localization theorem and the explicit pullback-square
-comparison consumed by the pushforward/pullback support theorem, while its
-conjugate-equivalence calculation remains private; this avoids the unrelated
-Picard dependency cone. The generated long-name colimit instance in the
-quasicoherent source is expanded to its source proof body for the style gate,
-and the older-pin finite-module call is supplied explicitly. The two
-base-presheaf restriction comparison declarations are public only because
-`SchemeModuleQuasicoherent` is their compiled downstream consumer.
+declarations. The affine-base-change module retains the tilde-unit comparison
+consumed by the affine ideal-quotient theorem; quasicoherence of its pullback
+is transported across that same comparison. Its project-original
+`tildePullbackGenerator`,
+`tildePullbackGenerator_eq_pullbackUnit_toOpen_top`, and
+`tildePullbackIsoExtendScalars_hom_generator` respectively package the
+top-section generator, identify it with the transported pullback-unit section,
+and evaluate the affine tilde/base-change comparison on it; the underlying
+global-sections mate and inverse-mate factoring theorem remain private. The
+open-unit module keeps its public localization
+theorem and the explicit pullback-square comparison consumed by the
+pushforward/pullback support theorem, while its conjugate-equivalence
+calculation remains private; this avoids the unrelated Picard dependency cone.
+The generated long-name colimit instance in the quasicoherent source is
+expanded to its source proof body for the style gate, and the older-pin
+finite-module call is supplied explicitly. The two base-presheaf restriction
+comparison declarations are public only because `SchemeModuleQuasicoherent`
+is their compiled downstream consumer.
 
 This checkpoint proves that every finite-type quasicoherent module on a
 Noetherian scheme has a canonical closed thickening model whose

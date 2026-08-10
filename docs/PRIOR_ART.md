@@ -613,6 +613,14 @@ The strongest concrete reuse candidates are:
   retains the pure tensor-section constructor, its two-factor map theorem,
   and the canonical pullback-cotensorator evaluator. Its comparison machinery
   remains private, and no separate sheafified tensor-object API is restored.
+  The retained
+  [`AffineModuleBaseChange.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineModuleBaseChange.lean)
+  supplies the private global-sections mate and affine tilde/base-change
+  isomorphism. The named `tildePullbackGenerator`,
+  `tildePullbackGenerator_eq_pullbackUnit_toOpen_top`, and
+  `tildePullbackIsoExtendScalars_hom_generator` are project-original
+  packaging, pullback-unit transport, and evaluation specializations of that
+  mate at top-section generators.
 * [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
   Cech comparison machinery, exact sequences, and
   [`orderedBaseCechHomologyFinite_of_isProper`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149).

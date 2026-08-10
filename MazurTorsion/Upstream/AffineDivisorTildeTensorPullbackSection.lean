@@ -14,9 +14,8 @@ The canonical inverse tensorator for pullback is followed by the two factorwise 
 tilde/extension-of-scalars comparisons.  The resulting isomorphism is evaluated on pure tensor
 sections coming from the pullback adjunction unit.
 
-No equality with the direct `ViaExtendScalars` tensor comparison is asserted here.  In
-particular, this file does not identify the new factorwise path with the legacy restriction
-comparison, nor does it assert cross-chart or descent-data compatibility.
+The direct `ViaExtendScalars` tensor comparison is proved equal to this canonical factorwise
+path on the affine base-change leg.  No cross-chart or descent-data compatibility is asserted.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry
@@ -86,6 +85,30 @@ private theorem
         R B K D E).hom =
       Functor.OplaxMonoidal.δ PB LD LE ≫ (cD.hom ⊗ₘ cE.hom) := by
   rfl
+
+/-- The direct affine tilde/scalar-extension comparison is exactly the comparison through the
+canonical pullback tensorator and the two factorwise affine comparisons. -/
+theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_eq_viaCanonicalTensorator
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars R B K D E =
+      lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator R B K D E := by
+  apply Iso.ext
+  have hdirect :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_eq_factorwise
+      R B K D E
+  have hcanonical :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator_hom
+      R B K D E
+  dsimp only at hdirect hcanonical
+  exact hdirect.trans hcanonical.symm
 
 /-- The canonical-tensorator/factorwise affine divisor comparison sends the pullback-unit image
 of a pure tensor section to the pure tensor section of the two factorwise images. -/

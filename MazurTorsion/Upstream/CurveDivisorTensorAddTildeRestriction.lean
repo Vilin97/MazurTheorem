@@ -15,12 +15,10 @@ genuine restriction from a compatible Dedekind affine chart to a nonempty affine
 algebra, flat-epimorphism, fraction-field, and scalar-tower data are the canonical data induced by
 restriction of sections.
 
-The direct comparison still lands in the tensor of the two raw extended inverse-ideal tilde
-sheaves.  A separate canonical-tensorator/factorwise path is evaluated on pullback-unit pure
-tensor sections, but no equality between those two tensor comparisons is asserted.  The
-per-divisor comparison is identified with the specified restriction comparison used by the
-overlap tower, but no compatibility between that legacy comparison and the factorwise tensor
-path, and no cross-chart or descent-data compatibility, is asserted.
+The direct comparison is proved equal to the canonical-tensorator/factorwise path on this affine
+restriction, and that path is evaluated on pullback-unit pure tensor sections.  The per-divisor
+comparison is identified with the specified restriction comparison used by the overlap tower.
+No cross-chart or descent-data compatibility is asserted.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -154,12 +152,67 @@ theorem localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen
   exact CommonExtension.lineBundleAddIso_pullback_viaExtendScalars
     Γ(X, U) Γ(X, W) X.functionField d e
 
+/-- On a genuine common affine restriction, the direct tensor/base-change comparison is the
+canonical pullback tensorator followed by the two factorwise affine comparisons. -/
+theorem
+    localLineBundleTensorPullbackIsoViaExtendScalars_eq_viaCanonicalTensoratorOnCommonAffineOpen
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U W : X.Opens) [Nonempty U] [Nonempty W]
+    (hU : IsAffineOpen U) (hW : IsAffineOpen W) (hWU : W ≤ U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D E : WeilDivisor (CodimensionOnePoint X)) :
+    letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+    letI := restrictionAlgebra X U W hWU
+    letI : Module.IsTorsionFree Γ(X, U) Γ(X, W) :=
+      restrictionTorsionFree X U W hWU
+    letI : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    letI : IsFractionRing Γ(X, W) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X W hW
+    letI : IsScalarTower Γ(X, U) Γ(X, W) X.functionField :=
+      restrictionFunctionFieldTower X U W hWU
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U) Γ(X, W)) :=
+      restrictionExtensionMapIsOpenImmersion X U W hU hW hWU
+    letI : Algebra.IsEpi Γ(X, U) Γ(X, W) :=
+      CommonExtension.algebraIsEpiOfOpenImmersion Γ(X, U) Γ(X, W)
+    letI : Module.Flat Γ(X, U) Γ(X, W) :=
+      CommonExtension.moduleFlatOfOpenImmersion Γ(X, U) Γ(X, W)
+    let d := localDivisor X U hU h D
+    let e := localDivisor X U hU h E
+    CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars
+        Γ(X, U) Γ(X, W) X.functionField d e =
+      CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator
+        Γ(X, U) Γ(X, W) X.functionField d e := by
+  letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+  letI := restrictionAlgebra X U W hWU
+  letI : Module.IsTorsionFree Γ(X, U) Γ(X, W) :=
+    restrictionTorsionFree X U W hWU
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  letI : IsFractionRing Γ(X, W) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X W hW
+  letI : IsScalarTower Γ(X, U) Γ(X, W) X.functionField :=
+    restrictionFunctionFieldTower X U W hWU
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U) Γ(X, W)) :=
+    restrictionExtensionMapIsOpenImmersion X U W hU hW hWU
+  letI : Algebra.IsEpi Γ(X, U) Γ(X, W) :=
+    CommonExtension.algebraIsEpiOfOpenImmersion Γ(X, U) Γ(X, W)
+  letI : Module.Flat Γ(X, U) Γ(X, W) :=
+    CommonExtension.moduleFlatOfOpenImmersion Γ(X, U) Γ(X, W)
+  let d := localDivisor X U hU h D
+  let e := localDivisor X U hU h E
+  exact
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_eq_viaCanonicalTensorator
+      Γ(X, U) Γ(X, W) X.functionField d e
+
 /-- On the full spectrum of a compatible Dedekind affine chart, the canonical inverse pullback
 tensorator followed by the two factorwise affine tilde/scalar-extension comparisons sends a
 pullback-unit pure tensor section to the pure tensor section of the factorwise images.
 
-This does not identify the factorwise comparison with the direct `ViaExtendScalars` tensor
-comparison, the legacy restriction mate, or any cross-chart descent datum. -/
+The factorwise comparison equals the direct `ViaExtendScalars` comparison on this affine leg.
+No cross-chart or descent-data compatibility is asserted. -/
 theorem
     localLineBundleTensorPullbackIsoViaCanonicalTensorator_hom_unit_tensorSectionOnCommonAffineOpen
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]

@@ -6,14 +6,15 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.AffineModuleBaseChange
 import MazurTorsion.Upstream.AffineDivisorTensorBaseChange
+import MazurTorsion.Upstream.AffineTildeTensorPullbackCoherence
 
 /-!
 # Affine tilde base change for divisor tensor addition
 
 The fixed tensor-addition comparison for affine divisor modules is transported through the
 canonical affine comparison between pullback of a tilde sheaf and tilde of extension of scalars.
-The resulting tensor comparison is relative to that affine tilde comparison.  Its identification
-with the monoidal tensorator of sheaf pullback is deliberately left to a later coherence result.
+The resulting direct tensor comparison is identified with the canonical inverse pullback
+tensorator followed by the two factorwise affine tilde comparisons.
 The single-factor comparison is now identified with the specified open-immersion restriction
 comparison used by the overlap-descent chain.
 -/
@@ -33,6 +34,36 @@ universe u
 noncomputable local instance schemeModulesMonoidalForTildeBaseChange (X : Scheme.{u}) :
     MonoidalCategory X.Modules :=
   Scheme.Modules.monoidalCategory X
+
+/-- Cancel the inverse tail of an explicitly factored morphism after postcomposition. -/
+private theorem comp_inv_hom_cancel
+    {C : Type*} [Category C] {A B C₁ D E : C}
+    (d : A ⟶ E) (x : A ⟶ B) (y : B ⟶ C₁) (z : C₁ ⟶ D)
+    (e : E ≅ D) (hd : d = x ≫ ((y ≫ z) ≫ e.inv)) :
+    d ≫ e.hom = (x ≫ y) ≫ z := by
+  have hpost := congrArg (fun q ↦ q ≫ e.hom) hd
+  have htail₁ : ((y ≫ z) ≫ e.inv) ≫ e.hom =
+      (y ≫ z) ≫ (e.inv ≫ e.hom) := Category.assoc _ _ _
+  have htail₂ : (y ≫ z) ≫ (e.inv ≫ e.hom) = (y ≫ z) ≫ 𝟙 _ :=
+    congrArg (fun q ↦ (y ≫ z) ≫ q) e.inv_hom_id
+  have htail₃ : (y ≫ z) ≫ 𝟙 _ = y ≫ z := Category.comp_id _
+  have htail := htail₁.trans (htail₂.trans htail₃)
+  have houter₁ : (x ≫ ((y ≫ z) ≫ e.inv)) ≫ e.hom =
+      x ≫ (((y ≫ z) ≫ e.inv) ≫ e.hom) := Category.assoc _ _ _
+  have houter₂ : x ≫ (((y ≫ z) ≫ e.inv) ≫ e.hom) = x ≫ (y ≫ z) :=
+    congrArg (fun q ↦ x ≫ q) htail
+  have houter₃ : x ≫ (y ≫ z) = (x ≫ y) ≫ z := (Category.assoc _ _ _).symm
+  exact hpost.trans (houter₁.trans (houter₂.trans houter₃))
+
+/-- Precomposition carries a two-step factorization to the corresponding associated path. -/
+private theorem comp_eq_comp_comp_of_eq
+    {C : Type*} [Category C] {A B D E : C}
+    (x : A ⟶ B) (f : B ⟶ E) (g : B ⟶ D) (h : D ⟶ E)
+    (hfg : f = g ≫ h) :
+    x ≫ f = (x ≫ g) ≫ h := by
+  have hpre : x ≫ f = x ≫ (g ≫ h) :=
+    congrArg (fun q ↦ x ≫ q) hfg
+  exact hpre.trans (Category.assoc x g h).symm
 
 /-- Reinterpret the carrier of Mathlib's extension-of-scalars object as the usual algebra tensor
 product, and then apply a supplied linear equivalence. -/
@@ -64,6 +95,36 @@ private lemma extendScalarsCarrierEquiv_apply_tmul
       (LinearEquiv.refl B B) (LinearEquiv.refl R M)).trans e)
       (b ⊗ₜ[R] m) = e (b ⊗ₜ[R] m)
   simp
+
+/-- The carrier bridge on Mathlib's bundled extension-of-scalars generator. -/
+private lemma extendScalarsCarrierEquiv_apply_changeOfRings_tmul
+    (R B M N : Type u) [CommRing R] [CommRing B]
+    [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module B N]
+    [Algebra R B]
+    (e : B ⊗[R] M ≃ₗ[B] N) (b : B) (m : M) :
+    extendScalarsCarrierEquiv R B M N e
+        (b ⊗ₜ[R, algebraMap R B] m) = e (b ⊗ₜ[R] m) := by
+  letI : IsScalarTower R B
+      ((ModuleCat.restrictScalars (algebraMap R B)).obj (ModuleCat.of B B)) :=
+    IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+  let eB : ((ModuleCat.restrictScalars (algebraMap R B)).obj
+      (ModuleCat.of B B)) ≃ₗ[B] B := LinearEquiv.refl B B
+  let eM : ModuleCat.of R M ≃ₗ[R] M := LinearEquiv.refl R M
+  change ((TensorProduct.AlgebraTensorModule.congr
+      eB eM).trans e)
+      (b ⊗ₜ[R, algebraMap R B] m) = e (b ⊗ₜ[R] m)
+  change e (TensorProduct.AlgebraTensorModule.congr eB eM
+    (b ⊗ₜ[R, algebraMap R B] m)) = e (b ⊗ₜ[R] m)
+  have hcongr :
+      TensorProduct.AlgebraTensorModule.congr eB eM
+          (b ⊗ₜ[R, algebraMap R B] m) = eB b ⊗ₜ[R] eM m :=
+    TensorProduct.AlgebraTensorModule.congr_tmul eB eM b m
+  have hb : eB b = b := rfl
+  have hm : eM m = m := rfl
+  have hpure : eB b ⊗ₜ[R] eM m = b ⊗ₜ[R] m :=
+    congrArg₂ (fun x y ↦ x ⊗ₜ[R] y) hb hm
+  exact congrArg e (hcongr.trans hpure)
 
 /-- The carrier bridge is natural in the source module. -/
 private theorem extendScalarsCarrierEquiv_naturality
@@ -102,6 +163,115 @@ private theorem extendScalarsCarrierEquiv_trans_hom
     extendScalarsCarrierEquiv R B M P (e.trans f) ((1 : B) ⊗ₜ[R] m)
   rw [extendScalarsCarrierEquiv_apply_tmul, extendScalarsCarrierEquiv_apply_tmul]
   rfl
+
+/-- The carrier bridge for a distributed tensor extension is the extension-of-scalars
+cotensorator followed by the tensor of the two carrier bridges. -/
+private theorem extendScalarsCarrierEquiv_tensor
+    (R B M N P Q : Type u) [CommRing R] [CommRing B]
+    [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module R N]
+    [AddCommGroup P] [Module B P]
+    [AddCommGroup Q] [Module B Q]
+    [Algebra R B]
+    (eM : B ⊗[R] M ≃ₗ[B] P) (eN : B ⊗[R] N ≃ₗ[B] Q) :
+    let ES := ModuleCat.extendScalars (algebraMap R B)
+    let MR := ModuleCat.of R M
+    let NR := ModuleCat.of R N
+    let qM := (extendScalarsCarrierEquiv R B M P eM).toModuleIso.hom
+    let qN := (extendScalarsCarrierEquiv R B N Q eN).toModuleIso.hom
+    (extendScalarsCarrierEquiv R B (M ⊗[R] N) (P ⊗[B] Q)
+        ((TensorProduct.AlgebraTensorModule.distribBaseChange R B M N).trans
+          (TensorProduct.congr eM eN))).toModuleIso.hom =
+      Functor.OplaxMonoidal.δ ES MR NR ≫ (qM ⊗ₘ qN) := by
+  dsimp only
+  let ES := ModuleCat.extendScalars (algebraMap R B)
+  let MR := ModuleCat.of R M
+  let NR := ModuleCat.of R N
+  let qT := (extendScalarsCarrierEquiv R B (M ⊗[R] N) (P ⊗[B] Q)
+    ((TensorProduct.AlgebraTensorModule.distribBaseChange R B M N).trans
+      (TensorProduct.congr eM eN))).toModuleIso.hom
+  let qM := (extendScalarsCarrierEquiv R B M P eM).toModuleIso.hom
+  let qN := (extendScalarsCarrierEquiv R B N Q eN).toModuleIso.hom
+  let δ := Functor.OplaxMonoidal.δ ES MR NR
+  let L := qT
+  let G := δ ≫ (qM ⊗ₘ qN)
+  change L = G
+  apply ModuleCat.ExtendScalars.hom_ext
+  intro z
+  change L ((1 : B) ⊗ₜ[R, algebraMap R B] z) =
+    G ((1 : B) ⊗ₜ[R, algebraMap R B] z)
+  induction z using TensorProduct.induction_on with
+  | zero =>
+      have hz :
+          ((1 : B) ⊗ₜ[R, algebraMap R B] (0 : M ⊗[R] N) :
+            ES.obj (MR ⊗ NR)) = 0 :=
+        @TensorProduct.tmul_zero R _ B (M ⊗[R] N) _ _
+          (Module.compHom B (algebraMap R B)) _ (1 : B)
+      have hLzero : L (0 : ES.obj (MR ⊗ NR)) = 0 := L.hom.map_zero
+      have hGzero : G (0 : ES.obj (MR ⊗ NR)) = 0 := G.hom.map_zero
+      exact (congrArg L.hom hz).trans
+        (hLzero.trans (hGzero.symm.trans (congrArg G.hom hz.symm)))
+  | tmul m n =>
+      let z : ES.obj (MR ⊗ NR) :=
+        (1 : B) ⊗ₜ[R, algebraMap R B] (m ⊗ₜ[R] n)
+      let zm : ES.obj MR := (1 : B) ⊗ₜ[R, algebraMap R B] m
+      let zn : ES.obj NR := (1 : B) ⊗ₜ[R, algebraMap R B] n
+      let rm : B ⊗[R] M := (1 : B) ⊗ₜ[R] m
+      let rn : B ⊗[R] N := (1 : B) ⊗ₜ[R] n
+      let rt : B ⊗[R] (M ⊗[R] N) := (1 : B) ⊗ₜ[R] (m ⊗ₜ[R] n)
+      let target : P ⊗[B] Q := eM rm ⊗ₜ[B] eN rn
+      have hqT := extendScalarsCarrierEquiv_apply_changeOfRings_tmul R B
+        (M ⊗[R] N) (P ⊗[B] Q)
+        ((TensorProduct.AlgebraTensorModule.distribBaseChange R B M N).trans
+          (TensorProduct.congr eM eN)) (1 : B) (m ⊗ₜ[R] n)
+      change L z =
+        ((TensorProduct.AlgebraTensorModule.distribBaseChange R B M N).trans
+          (TensorProduct.congr eM eN)) rt at hqT
+      have heval :
+          ((TensorProduct.AlgebraTensorModule.distribBaseChange R B M N).trans
+            (TensorProduct.congr eM eN)) rt = target := by
+        dsimp only [rt, target, rm, rn]
+        rw [LinearEquiv.trans_apply,
+          TensorProduct.AlgebraTensorModule.distribBaseChange_tmul,
+          TensorProduct.congr_tmul]
+      have hleft : L z = target := hqT.trans heval
+      have hδ := ModuleCat.extendScalars_δ_tmul
+        (algebraMap R B) MR NR m n
+      change δ z = zm ⊗ₜ[B] zn at hδ
+      have hpair := ModuleCat.MonoidalCategory.tensorHom_tmul qM qN zm zn
+      change (qM ⊗ₘ qN) (zm ⊗ₜ[B] zn) = qM zm ⊗ₜ[B] qN zn at hpair
+      have hqM := extendScalarsCarrierEquiv_apply_changeOfRings_tmul
+        R B M P eM (1 : B) m
+      change qM zm = eM rm at hqM
+      have hqN := extendScalarsCarrierEquiv_apply_changeOfRings_tmul
+        R B N Q eN (1 : B) n
+      change qN zn = eN rn at hqN
+      have hright₁ := congrArg (qM ⊗ₘ qN).hom hδ
+      have hright₂ := hright₁.trans hpair
+      have hright₃ : qM zm ⊗ₜ[B] qN zn = target :=
+        congrArg₂ (fun a b ↦ a ⊗ₜ[B] b) hqM hqN
+      have hright : G z = target := hright₂.trans hright₃
+      exact hleft.trans hright.symm
+  | add x y hx hy =>
+      have ha :
+          ((1 : B) ⊗ₜ[R, algebraMap R B] (x + y) : ES.obj (MR ⊗ NR)) =
+            ((1 : B) ⊗ₜ[R, algebraMap R B] x) +
+              ((1 : B) ⊗ₜ[R, algebraMap R B] y) :=
+        @TensorProduct.tmul_add R _ B (M ⊗[R] N) _ _
+          (Module.compHom B (algebraMap R B)) _ (1 : B) x y
+      have hLadd : L (((1 : B) ⊗ₜ[R, algebraMap R B] x) +
+            ((1 : B) ⊗ₜ[R, algebraMap R B] y)) =
+          L ((1 : B) ⊗ₜ[R, algebraMap R B] x) +
+            L ((1 : B) ⊗ₜ[R, algebraMap R B] y) :=
+        L.hom.map_add _ _
+      have hGadd : G (((1 : B) ⊗ₜ[R, algebraMap R B] x) +
+            ((1 : B) ⊗ₜ[R, algebraMap R B] y)) =
+          G ((1 : B) ⊗ₜ[R, algebraMap R B] x) +
+            G ((1 : B) ⊗ₜ[R, algebraMap R B] y) :=
+        G.hom.map_add _ _
+      exact (congrArg L.hom ha).trans
+        (hLadd.trans ((congrArg₂ (fun a b ↦ a + b) hx hy).trans
+          (hGadd.symm.trans (congrArg G.hom ha.symm))))
 
 namespace AffineTilde
 
@@ -426,8 +596,9 @@ theorem restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars
 of the two extended inverse-ideal tilde sheaves.  The comparison runs through the affine
 tilde/extension-of-scalars isomorphism and the module-level distributivity equivalence.
 
-No identification with the tensor of the two factorwise pullbacks, or with the canonical
-monoidal tensorator of pullback, is asserted here. -/
+Its hom is factored through the canonical pullback cotensorator and the two factorwise affine
+comparisons by
+`lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_eq_factorwise`. -/
 noncomputable def lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
@@ -562,6 +733,408 @@ private theorem lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars
       (pulledTensor ≫ tail) ≫ τB.inv = pulledTensor ≫ (tail ≫ τB.inv) :=
     Category.assoc pulledTensor tail τB.inv
   exact houter.trans (hcore.trans hassoc)
+
+/-- Cancelling the final inverse tilde-tensor comparison exposes the direct affine
+extension-of-scalars carrier path. -/
+private theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_post_tildeTensor
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let MD := AffineDedekind.lineBundleModule R K D
+    let ME := AffineDedekind.lineBundleModule R K E
+    let MR := ModuleCat.of R MD
+    let ER := ModuleCat.of R ME
+    let ID := extendedInverseIdeal R B K D
+    let IE := extendedInverseIdeal R B K E
+    let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+    let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+    let A := Scheme.Modules.tildePullbackIsoExtendScalars
+      (CommRingCat.ofHom (algebraMap R B))
+    let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+    let qT := (extendScalarsCarrierEquiv R B (MD ⊗[R] ME) (ID ⊗[B] IE)
+      ((TensorProduct.AlgebraTensorModule.distribBaseChange R B MD ME).trans
+        (TensorProduct.congr eD eE))).toModuleIso.hom
+    let τR := AffineTilde.tildeTensorIso R MD ME
+    let τB := AffineTilde.tildeTensorIso B ID IE
+    (lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars
+        R B K D E).hom ≫ τB.hom =
+      (PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)) ≫ TB.map qT := by
+  dsimp only
+  let PB := Scheme.Modules.pullback (extensionMap R B)
+  let MD := AffineDedekind.lineBundleModule R K D
+  let ME := AffineDedekind.lineBundleModule R K E
+  let MR := ModuleCat.of R MD
+  let ER := ModuleCat.of R ME
+  let ID := extendedInverseIdeal R B K D
+  let IE := extendedInverseIdeal R B K E
+  let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+  let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+  let A := Scheme.Modules.tildePullbackIsoExtendScalars
+    (CommRingCat.ofHom (algebraMap R B))
+  let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+  let qT := (extendScalarsCarrierEquiv R B (MD ⊗[R] ME) (ID ⊗[B] IE)
+    ((TensorProduct.AlgebraTensorModule.distribBaseChange R B MD ME).trans
+      (TensorProduct.congr eD eE))).toModuleIso.hom
+  let τR := AffineTilde.tildeTensorIso R MD ME
+  let τB := AffineTilde.tildeTensorIso B ID IE
+  let direct :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars R B K D E
+  have hdirect :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_normalized
+      R B K D E
+  change direct.hom = PB.map τR.hom ≫
+    ((A.hom.app (MR ⊗ ER) ≫ TB.map qT) ≫ τB.inv) at hdirect
+  exact comp_inv_hom_cancel direct.hom (PB.map τR.hom)
+    (A.hom.app (MR ⊗ ER)) (TB.map qT) τB hdirect
+
+/-- Mapping the distributed carrier factorization through affine tilde gives the carrier half
+of the direct tensor comparison path. -/
+private theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_mapped_carrier_path
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let ES := ModuleCat.extendScalars (algebraMap R B)
+    let MD := AffineDedekind.lineBundleModule R K D
+    let ME := AffineDedekind.lineBundleModule R K E
+    let MR := ModuleCat.of R MD
+    let ER := ModuleCat.of R ME
+    let ID := extendedInverseIdeal R B K D
+    let IE := extendedInverseIdeal R B K E
+    let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+    let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+    let A := Scheme.Modules.tildePullbackIsoExtendScalars
+      (CommRingCat.ofHom (algebraMap R B))
+    let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+    let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+    let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+    let qT := (extendScalarsCarrierEquiv R B (MD ⊗[R] ME) (ID ⊗[B] IE)
+      ((TensorProduct.AlgebraTensorModule.distribBaseChange R B MD ME).trans
+        (TensorProduct.congr eD eE))).toModuleIso.hom
+    let δES := Functor.OplaxMonoidal.δ ES MR ER
+    let τR := AffineTilde.tildeTensorIso R MD ME
+    (PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)) ≫ TB.map qT =
+      ((PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)) ≫ TB.map δES) ≫
+        TB.map (qD ⊗ₘ qE) := by
+  dsimp only
+  let PB := Scheme.Modules.pullback (extensionMap R B)
+  let ES := ModuleCat.extendScalars (algebraMap R B)
+  let MD := AffineDedekind.lineBundleModule R K D
+  let ME := AffineDedekind.lineBundleModule R K E
+  let MR := ModuleCat.of R MD
+  let ER := ModuleCat.of R ME
+  let ID := extendedInverseIdeal R B K D
+  let IE := extendedInverseIdeal R B K E
+  let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+  let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+  let A := Scheme.Modules.tildePullbackIsoExtendScalars
+    (CommRingCat.ofHom (algebraMap R B))
+  let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+  let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+  let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+  let qT := (extendScalarsCarrierEquiv R B (MD ⊗[R] ME) (ID ⊗[B] IE)
+    ((TensorProduct.AlgebraTensorModule.distribBaseChange R B MD ME).trans
+      (TensorProduct.congr eD eE))).toModuleIso.hom
+  let δES := Functor.OplaxMonoidal.δ ES MR ER
+  let τR := AffineTilde.tildeTensorIso R MD ME
+  let X := PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)
+  let qPair := qD ⊗ₘ qE
+  have hcarrier := extendScalarsCarrierEquiv_tensor R B MD ME ID IE eD eE
+  dsimp only at hcarrier
+  change qT = δES ≫ qPair at hcarrier
+  have hcarrierMap : TB.map qT = TB.map δES ≫ TB.map qPair := by
+    rw [hcarrier]
+    exact TB.map_comp δES qPair
+  exact comp_eq_comp_comp_of_eq X (TB.map qT) (TB.map δES)
+    (TB.map qPair) hcarrierMap
+
+/-- The generic affine tilde/base-change coherence square remains equal after postcomposition
+by the mapped tensor of the two divisor carrier maps. -/
+private theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_generic_coherence_post
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let φ := CommRingCat.ofHom (algebraMap R B)
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let ES := ModuleCat.extendScalars (algebraMap R B)
+    let MD := AffineDedekind.lineBundleModule R K D
+    let ME := AffineDedekind.lineBundleModule R K E
+    let MR := ModuleCat.of R MD
+    let ER := ModuleCat.of R ME
+    let ID := extendedInverseIdeal R B K D
+    let IE := extendedInverseIdeal R B K E
+    let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+    let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+    let A := Scheme.Modules.tildePullbackIsoExtendScalars φ
+    let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+    let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+    let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+    let δES := Functor.OplaxMonoidal.δ ES MR ER
+    let τR := AffineTilde.tildeTensorIso R MD ME
+    let τES := AffineTilde.tildeTensorIso B (ES.obj MR) (ES.obj ER)
+    let aD := A.hom.app MR
+    let aE := A.hom.app ER
+    letI : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+    let δPB := Functor.OplaxMonoidal.δ PB
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) MR)
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) ER)
+    ((PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)) ≫ TB.map δES) ≫
+        TB.map (qD ⊗ₘ qE) =
+      ((δPB ≫ (aD ⊗ₘ aE)) ≫ τES.hom) ≫ TB.map (qD ⊗ₘ qE) := by
+  dsimp only
+  let φ := CommRingCat.ofHom (algebraMap R B)
+  let PB := Scheme.Modules.pullback (extensionMap R B)
+  let ES := ModuleCat.extendScalars (algebraMap R B)
+  let MD := AffineDedekind.lineBundleModule R K D
+  let ME := AffineDedekind.lineBundleModule R K E
+  let MR := ModuleCat.of R MD
+  let ER := ModuleCat.of R ME
+  let ID := extendedInverseIdeal R B K D
+  let IE := extendedInverseIdeal R B K E
+  let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+  let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+  let A := Scheme.Modules.tildePullbackIsoExtendScalars φ
+  let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+  let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+  let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+  let δES := Functor.OplaxMonoidal.δ ES MR ER
+  let τR := AffineTilde.tildeTensorIso R MD ME
+  let τES := AffineTilde.tildeTensorIso B (ES.obj MR) (ES.obj ER)
+  let aD := A.hom.app MR
+  let aE := A.hom.app ER
+  letI pbMonoidal : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+  let δPB := Functor.OplaxMonoidal.δ PB
+    (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) MR)
+    (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) ER)
+  let X := PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)
+  let qPair := qD ⊗ₘ qE
+  let H := δPB ≫ (aD ⊗ₘ aE)
+  have hcoherence :=
+    AffineTilde.tildePullbackIsoExtendScalars_tensor_hom φ MR ER
+  dsimp only at hcoherence
+  change X ≫ TB.map δES = H ≫ τES.hom at hcoherence
+  exact congrArg (fun q ↦ q ≫ TB.map qPair) hcoherence
+
+/-- The distributed carrier path for the direct comparison is the generic affine
+tilde/base-change coherence path, postcomposed by the tensor of the two carrier maps. -/
+private theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_carrier_coherence
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let φ := CommRingCat.ofHom (algebraMap R B)
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let ES := ModuleCat.extendScalars (algebraMap R B)
+    let MD := AffineDedekind.lineBundleModule R K D
+    let ME := AffineDedekind.lineBundleModule R K E
+    let MR := ModuleCat.of R MD
+    let ER := ModuleCat.of R ME
+    let ID := extendedInverseIdeal R B K D
+    let IE := extendedInverseIdeal R B K E
+    let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+    let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+    let A := Scheme.Modules.tildePullbackIsoExtendScalars φ
+    let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+    let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+    let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+    let qT := (extendScalarsCarrierEquiv R B (MD ⊗[R] ME) (ID ⊗[B] IE)
+      ((TensorProduct.AlgebraTensorModule.distribBaseChange R B MD ME).trans
+        (TensorProduct.congr eD eE))).toModuleIso.hom
+    let τR := AffineTilde.tildeTensorIso R MD ME
+    let τES := AffineTilde.tildeTensorIso B (ES.obj MR) (ES.obj ER)
+    let aD := A.hom.app MR
+    let aE := A.hom.app ER
+    letI : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+    let δPB := Functor.OplaxMonoidal.δ PB
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) MR)
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) ER)
+    (PB.map τR.hom ≫ A.hom.app (MR ⊗ ER)) ≫ TB.map qT =
+      ((δPB ≫ (aD ⊗ₘ aE)) ≫ τES.hom) ≫ TB.map (qD ⊗ₘ qE) := by
+  dsimp only
+  have hcarrierPath :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_mapped_carrier_path
+      R B K D E
+  dsimp only at hcarrierPath
+  have hcoherencePost :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_generic_coherence_post
+      R B K D E
+  dsimp only at hcoherencePost
+  exact hcarrierPath.trans hcoherencePost
+
+/-- Naturality of the affine tilde tensor comparison converts the generic factorwise carrier
+path into the tensor of the two chosen single-factor divisor comparisons. -/
+private theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_factorwise_naturality
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let φ := CommRingCat.ofHom (algebraMap R B)
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let ES := ModuleCat.extendScalars (algebraMap R B)
+    let MD := AffineDedekind.lineBundleModule R K D
+    let ME := AffineDedekind.lineBundleModule R K E
+    let MR := ModuleCat.of R MD
+    let ER := ModuleCat.of R ME
+    let ID := extendedInverseIdeal R B K D
+    let IE := extendedInverseIdeal R B K E
+    let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+    let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+    let A := Scheme.Modules.tildePullbackIsoExtendScalars φ
+    let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+    let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+    let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+    let τES := AffineTilde.tildeTensorIso B (ES.obj MR) (ES.obj ER)
+    let τB := AffineTilde.tildeTensorIso B ID IE
+    let aD := A.hom.app MR
+    let aE := A.hom.app ER
+    let cD := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K D
+    let cE := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K E
+    letI : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+    let δPB := Functor.OplaxMonoidal.δ PB
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) MR)
+      (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) ER)
+    ((δPB ≫ (aD ⊗ₘ aE)) ≫ τES.hom) ≫ TB.map (qD ⊗ₘ qE) =
+      (δPB ≫ (cD.hom ⊗ₘ cE.hom)) ≫ τB.hom := by
+  dsimp only
+  let φ := CommRingCat.ofHom (algebraMap R B)
+  let PB := Scheme.Modules.pullback (extensionMap R B)
+  let ES := ModuleCat.extendScalars (algebraMap R B)
+  let MD := AffineDedekind.lineBundleModule R K D
+  let ME := AffineDedekind.lineBundleModule R K E
+  let MR := ModuleCat.of R MD
+  let ER := ModuleCat.of R ME
+  let ID := extendedInverseIdeal R B K D
+  let IE := extendedInverseIdeal R B K E
+  let eD := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
+  let eE := lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E
+  let A := Scheme.Modules.tildePullbackIsoExtendScalars φ
+  let TB := _root_.AlgebraicGeometry.tilde.functor (CommRingCat.of B)
+  let qD := (extendScalarsCarrierEquiv R B MD ID eD).toModuleIso.hom
+  let qE := (extendScalarsCarrierEquiv R B ME IE eE).toModuleIso.hom
+  let τES := AffineTilde.tildeTensorIso B (ES.obj MR) (ES.obj ER)
+  let τB := AffineTilde.tildeTensorIso B ID IE
+  let aD := A.hom.app MR
+  let aE := A.hom.app ER
+  let tD := TB.map qD
+  let tE := TB.map qE
+  let cD := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K D
+  let cE := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K E
+  letI pbMonoidal : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+  let δPB := Functor.OplaxMonoidal.δ PB
+    (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) MR)
+    (_root_.AlgebraicGeometry.tilde (R := CommRingCat.of R) ER)
+  let qPair := qD ⊗ₘ qE
+  let tPair := tD ⊗ₘ tE
+  let aPair := aD ⊗ₘ aE
+  let H := δPB ≫ aPair
+  have hτnat := AffineTilde.tildeTensorIso_hom_naturality B qD qE
+  change tPair ≫ τB.hom = τES.hom ≫ TB.map qPair at hτnat
+  have hcD := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars_hom R B K D
+  change cD.hom = aD ≫ tD at hcD
+  have hcE := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars_hom R B K E
+  change cE.hom = aE ≫ tE at hcE
+  have hnatPath : (H ≫ τES.hom) ≫ TB.map qPair =
+      (H ≫ tPair) ≫ τB.hom := by
+    have h₁ : (H ≫ τES.hom) ≫ TB.map qPair =
+        H ≫ (τES.hom ≫ TB.map qPair) := Category.assoc _ _ _
+    have h₂ : H ≫ (τES.hom ≫ TB.map qPair) =
+        H ≫ (tPair ≫ τB.hom) :=
+      congrArg (fun q ↦ H ≫ q) hτnat.symm
+    have h₃ : H ≫ (tPair ≫ τB.hom) =
+        (H ≫ tPair) ≫ τB.hom := (Category.assoc _ _ _).symm
+    exact h₁.trans (h₂.trans h₃)
+  have htensor := MonoidalCategory.tensorHom_comp_tensorHom aD aE tD tE
+  change aPair ≫ tPair = ((aD ≫ tD) ⊗ₘ (aE ≫ tE)) at htensor
+  have hcompCore : H ≫ tPair =
+      δPB ≫ ((aD ≫ tD) ⊗ₘ (aE ≫ tE)) := by
+    have h₁ : (δPB ≫ aPair) ≫ tPair = δPB ≫ (aPair ≫ tPair) :=
+      Category.assoc _ _ _
+    have h₂ : δPB ≫ (aPair ≫ tPair) =
+        δPB ≫ ((aD ≫ tD) ⊗ₘ (aE ≫ tE)) :=
+      congrArg (fun q ↦ δPB ≫ q) htensor
+    exact h₁.trans h₂
+  have hcompPath : (H ≫ tPair) ≫ τB.hom =
+      (δPB ≫ ((aD ≫ tD) ⊗ₘ (aE ≫ tE))) ≫ τB.hom :=
+    congrArg (fun q ↦ q ≫ τB.hom) hcompCore
+  have hfactor : ((aD ≫ tD) ⊗ₘ (aE ≫ tE)) =
+      (cD.hom ⊗ₘ cE.hom) :=
+    congrArg₂ (fun q r ↦ q ⊗ₘ r) hcD.symm hcE.symm
+  have hfactorPath :
+      (δPB ≫ ((aD ≫ tD) ⊗ₘ (aE ≫ tE))) ≫ τB.hom =
+        (δPB ≫ (cD.hom ⊗ₘ cE.hom)) ≫ τB.hom :=
+    congrArg (fun q ↦ (δPB ≫ q) ≫ τB.hom) hfactor
+  exact hnatPath.trans (hcompPath.trans hfactorPath)
+
+/-- The direct affine tensor/base-change comparison is the canonical pullback cotensorator
+followed by the two factorwise affine tilde/base-change comparisons. -/
+theorem
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_eq_factorwise
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    let PB := Scheme.Modules.pullback (extensionMap R B)
+    let LD := (AffineDedekind.lineBundle R K D).obj
+    let LE := (AffineDedekind.lineBundle R K E).obj
+    let cD := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K D
+    let cE := lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K E
+    letI : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+    (lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars R B K D E).hom =
+      Functor.OplaxMonoidal.δ PB LD LE ≫ (cD.hom ⊗ₘ cE.hom) := by
+  dsimp only
+  let PB := Scheme.Modules.pullback (extensionMap R B)
+  let ID := extendedInverseIdeal R B K D
+  let IE := extendedInverseIdeal R B K E
+  let τB := AffineTilde.tildeTensorIso B ID IE
+  letI pbMonoidal : PB.Monoidal := Scheme.Modules.pullbackMonoidal (extensionMap R B)
+  have hdirectPost :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_post_tildeTensor
+      R B K D E
+  dsimp only at hdirectPost
+  have hcarrierCoherence :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_carrier_coherence
+      R B K D E
+  dsimp only at hcarrierCoherence
+  have hfactorwiseNaturality :=
+    lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_factorwise_naturality
+      R B K D E
+  dsimp only at hfactorwiseNaturality
+  apply (cancel_mono τB.hom).1
+  exact hdirectPost.trans
+    (hcarrierCoherence.trans hfactorwiseNaturality)
 
 /-- The affine tilde/extension-of-scalars arrow for the tensor of the two fixed modules. -/
 private noncomputable def lineBundleTensorPullbackAINTArrow
@@ -1073,9 +1646,10 @@ private theorem lineBundleAddIso_pullback_viaExtendScalars_rhs_hom
 affine pullback/base-change leg, relative to the canonical affine tilde/extension-of-scalars
 comparison.
 
-The codomain is the tensor of the two raw extended inverse-ideal tilde sheaves.  Factoring this
-comparison through factorwise pulled-back line bundles and the canonical pullback tensorator is
-a separate coherence statement. -/
+The codomain is the tensor of the two raw extended inverse-ideal tilde sheaves.  Its comparison
+through factorwise pulled-back line bundles and the canonical pullback tensorator is supplied by
+`lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars_hom_eq_factorwise`.  No
+cross-chart or descent-data compatibility is asserted here. -/
 theorem lineBundleAddIso_pullback_viaExtendScalars
     (R B K : Type u) [CommRing R] [IsDedekindDomain R]
     [CommRing B] [IsDomain B] [Field K]
