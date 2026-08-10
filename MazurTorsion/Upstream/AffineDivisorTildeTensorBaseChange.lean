@@ -13,8 +13,9 @@ import MazurTorsion.Upstream.AffineDivisorTensorBaseChange
 The fixed tensor-addition comparison for affine divisor modules is transported through the
 canonical affine comparison between pullback of a tilde sheaf and tilde of extension of scalars.
 The resulting tensor comparison is relative to that affine tilde comparison.  Its identification
-with the monoidal tensorator of sheaf pullback, and its identification with the older private
-comparison used by the overlap-descent chain, are deliberately left to later coherence results.
+with the monoidal tensorator of sheaf pullback is deliberately left to a later coherence result.
+The single-factor comparison is now identified with the specified open-immersion restriction
+comparison used by the overlap-descent chain.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry
@@ -398,6 +399,27 @@ private theorem lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars_hom
             (AffineDedekind.lineBundleModule R K D)
             (extendedInverseIdeal R B K D)
             (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D)).toModuleIso.hom :=
+  rfl
+
+/-- The open-immersion restriction comparison used by the overlap tower is the restriction-to-
+pullback comparison followed by the public affine tilde/extension-of-scalars comparison.  This
+identifies the legacy restriction API with the fixed scalar-extension path used below. -/
+theorem restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [IsOpenImmersion (extensionMap R B)]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    restrictionIsoExtendedInverseIdealOfIsOpenImmersion R B K D =
+      (Scheme.Modules.restrictFunctorIsoPullback
+          (extensionMap R B)).app
+            (AffineDedekind.lineBundle R K D).obj ≪≫
+        lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars R B K D := by
+  apply Iso.ext
   rfl
 
 /-- Pullback of the tensor of the two fixed line bundles is identified directly with the tensor

@@ -16,8 +16,9 @@ algebra, flat-epimorphism, fraction-field, and scalar-tower data are the canonic
 restriction of sections.
 
 The comparison still lands in the tensor of the two raw extended inverse-ideal tilde sheaves.  It
-does not identify the affine comparison with the canonical pullback tensorator or with the legacy
-overlap comparison, and it does not assert cross-chart or descent-data compatibility.
+does not identify the affine comparison with the canonical pullback tensorator.  The per-divisor
+comparison is identified with the specified restriction comparison used by the overlap tower,
+but no cross-chart or descent-data compatibility is asserted.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
@@ -36,6 +37,60 @@ open scoped AlgebraicGeometry TensorProduct
 noncomputable local instance schemeModulesMonoidalForTildeRestriction (Y : Scheme.{u}) :
     MonoidalCategory Y.Modules :=
   Scheme.Modules.monoidalCategory Y
+
+/-- On a genuine affine restriction, the overlap tower's specified restriction comparison is the
+restriction-to-pullback comparison followed by the public affine tilde/scalar-extension path. -/
+theorem localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (U W : X.Opens) [Nonempty U] [Nonempty W]
+    (hU : IsAffineOpen U) (hW : IsAffineOpen W) (hWU : W ≤ U)
+    (h : AffineChart.DedekindOrderCompatibility X U hU)
+    (D : WeilDivisor (CodimensionOnePoint X)) :
+    letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+    letI := restrictionAlgebra X U W hWU
+    letI : Module.IsTorsionFree Γ(X, U) Γ(X, W) :=
+      restrictionTorsionFree X U W hWU
+    letI : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    letI : IsFractionRing Γ(X, W) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X W hW
+    letI : IsScalarTower Γ(X, U) Γ(X, W) X.functionField :=
+      restrictionFunctionFieldTower X U W hWU
+    letI : IsOpenImmersion
+        (CommonExtension.extensionMap Γ(X, U) Γ(X, W)) :=
+      restrictionExtensionMapIsOpenImmersion X U W hU hW hWU
+    letI : Algebra.IsEpi Γ(X, U) Γ(X, W) :=
+      CommonExtension.algebraIsEpiOfOpenImmersion Γ(X, U) Γ(X, W)
+    letI : Module.Flat Γ(X, U) Γ(X, W) :=
+      CommonExtension.moduleFlatOfOpenImmersion Γ(X, U) Γ(X, W)
+    let d := localDivisor X U hU h D
+    CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion
+          Γ(X, U) Γ(X, W) X.functionField d =
+      (Scheme.Modules.restrictFunctorIsoPullback
+          (CommonExtension.extensionMap Γ(X, U) Γ(X, W))).app
+            (AffineDedekind.lineBundle Γ(X, U) X.functionField d).obj ≪≫
+        CommonExtension.lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars
+          Γ(X, U) Γ(X, W) X.functionField d := by
+  letI : IsDedekindDomain Γ(X, U) := h.isDedekindDomain
+  letI := restrictionAlgebra X U W hWU
+  letI : Module.IsTorsionFree Γ(X, U) Γ(X, W) :=
+    restrictionTorsionFree X U W hWU
+  letI : IsFractionRing Γ(X, U) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X U hU
+  letI : IsFractionRing Γ(X, W) X.functionField :=
+    functionField_isFractionRing_of_isAffineOpen X W hW
+  letI : IsScalarTower Γ(X, U) Γ(X, W) X.functionField :=
+    restrictionFunctionFieldTower X U W hWU
+  letI : IsOpenImmersion
+      (CommonExtension.extensionMap Γ(X, U) Γ(X, W)) :=
+    restrictionExtensionMapIsOpenImmersion X U W hU hW hWU
+  letI : Algebra.IsEpi Γ(X, U) Γ(X, W) :=
+    CommonExtension.algebraIsEpiOfOpenImmersion Γ(X, U) Γ(X, W)
+  letI : Module.Flat Γ(X, U) Γ(X, W) :=
+    CommonExtension.moduleFlatOfOpenImmersion Γ(X, U) Γ(X, W)
+  let d := localDivisor X U hU h D
+  exact CommonExtension.restrictionIsoExtendedInverseIdealOfIsOpenImmersion_eq_viaExtendScalars
+    Γ(X, U) Γ(X, W) X.functionField d
 
 /-- On a genuine affine restriction `U → W`, pullback of deterministic divisor addition agrees
 with addition of the two raw extended inverse-ideal tilde sheaves, relative to the canonical
