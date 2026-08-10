@@ -66,8 +66,15 @@ inverse orientations, and its top-section evaluator computes pure tensor section
 factors through that canonical cotensorator and the two factorwise scalar-extension
 comparisons. The direct comparison has the same hom, hence is the same isomorphism, and the
 genuine curve specialization proves this equality on one fixed common-affine restriction leg.
-Tensor compatibility with the legacy mate, compatibility between distinct charts, and assembly
-into a morphism of descent data are not claimed. On a same-chart principal open,
+Transporting the inverse pullback tensorator through the legacy restriction-to-pullback
+comparison gives `CommonExtension.lineBundleTensorRestrictionIsoViaPullback`. The theorem
+`CommonExtension.lineBundleAddIso_restrict_viaPullback` proves the deterministic tensor/addition
+square for the legacy restriction comparisons, and
+`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullbackOnCommonAffineOpen` is its genuine
+curve specialization on that same fixed leg. Equality-induced cross-chart multiplication
+naturality, assembly into a morphism of descent data, and a
+`CurveDivisorDescent.DescendedTensorAdditive` witness are not claimed. On a same-chart principal
+open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -112,9 +119,9 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-coherence still needed to descend the fixed chartwise addition maps begins with legacy-mate
-tensor compatibility and cross-chart compatibility beyond the checked fixed common-affine leg;
-no descent-data morphism or
+coherence still needed to descend the fixed chartwise addition maps begins with equality-induced
+cross-chart multiplication naturality beyond the checked legacy restriction tensor/addition
+square on one fixed common-affine leg; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.

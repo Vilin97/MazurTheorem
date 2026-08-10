@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 legacy restriction tensor/addition checkpoint is integrated at `1d2fbe7`,
+on top of the affine tensor-pullback coherence checkpoint at `77ae1a5`.
+`CommonExtension.lineBundleTensorRestrictionIsoViaPullback` transports the
+inverse pullback tensorator through the restriction-to-pullback comparison,
+and `lineBundleAddIso_restrict_viaPullback` proves the resulting deterministic
+tensor/addition square for the legacy restriction comparisons.
+`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullbackOnCommonAffineOpen`
+specializes the square to one fixed common-affine restriction leg.  No
+equality-induced cross-chart multiplication naturality, descent-data morphism,
+or `DescendedTensorAdditive` witness is supplied.  A3 stays `research_open` at
+weight 18 with zero credit.  Source accounting is 1,043 integrated Lean
+modules / 1,583,769 lines.
+
 The A3 affine tensor-pullback coherence checkpoint is integrated at `77ae1a5`,
 on top of the canonical tensor-section checkpoint at `066db56`.
 `Scheme.Modules.tildePullbackGenerator` and its two evaluator theorems expose
