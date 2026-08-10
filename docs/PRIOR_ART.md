@@ -606,6 +606,13 @@ The strongest concrete reuse candidates are:
   the actual functor map. The source explicitly defers fppf sheafification,
   the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism; the
   local port does not claim any of those endpoints.
+  A further 836-line selective port from
+  [`PoleSheaf.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/PoleSheaf.lean)
+  and
+  [`PullbackTensorSection.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/PullbackTensorSection.lean)
+  retains the pure tensor-section constructor, its two-factor map theorem,
+  and the canonical pullback-cotensorator evaluator. Its comparison machinery
+  remains private, and no separate sheafified tensor-object API is restored.
 * [`affine_subsingleton_H`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/AffineVanishing.lean#L307),
   Cech comparison machinery, exact sequences, and
   [`orderedBaseCechHomologyFinite_of_isProper`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleProperLowDegreeCechFinite.lean#L149).

@@ -203,7 +203,7 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Ninety-two local Apache-2.0 modules were selected from the AINTLIB
+Ninety-three local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
 `MazurTorsion/Upstream/AINTLIB/`. The original forty-four-module foundation
@@ -232,6 +232,8 @@ narrow option-free slices in the following table:
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 | `ForMathlib/PullbackTensorGeneral.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` (option-free pullback/Picard-map slice) |
 | `Picard/InvertibleSheaf.lean` (`sheafifyValIso` only) | moved into `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` |
+| `EllipticCurve/PoleSheaf.lean` (generic tensor-section kernel only) | `MazurTorsion/Upstream/AINTLIB/Picard/PullbackTensorSection.lean` |
+| `EllipticCurve/PullbackTensorSection.lean` (canonical pullback evaluator only) | `MazurTorsion/Upstream/AINTLIB/Picard/PullbackTensorSection.lean` |
 | `Picard/RelativePic.lean` (all-degree kernel and functor slice) | `MazurTorsion/Upstream/AINTLIB/Picard/RelativePic.lean` |
 | `ForMathlib/FormalCoproductAdditive.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FormalCoproductAdditive.lean` |
 | `ForMathlib/FiniteHomologySequence.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/FiniteHomologySequence.lean` |

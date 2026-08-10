@@ -138,6 +138,10 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean`
   - `projects/ModularCurves/ModularCurves/Picard/InvertibleSheaf.lean`
     (`sheafifyValIso` only)
+  - `projects/ModularCurves/ModularCurves/EllipticCurve/PoleSheaf.lean`
+    (generic tensor-section kernel only)
+  - `projects/ModularCurves/ModularCurves/EllipticCurve/PullbackTensorSection.lean`
+    (canonical pullback evaluator only)
   - `projects/ModularCurves/ModularCurves/Picard/RelativePic.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SpecBasicOpenAway.lean`
     (`specBasicOpen` only)
