@@ -92,11 +92,29 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 canonical pullback tensor-section checkpoint is integrated at `066db56`,
+on top of the affine restriction-mate checkpoint at `e000046`.
+`ModularCurves.tensorSection`, `tensorSection_map`, and
+`pullback_δ_unit_tensorSection` supply functorial pure tensor sections and
+evaluate the canonical pullback cotensorator on sections coming from the
+pullback unit.
+`CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`
+factors pullback of the fixed tensor through that cotensorator and the two
+single-factor scalar-extension comparisons.  Its public section evaluator and
+`CurveDivisorDescent.localLineBundleTensorPullbackIsoViaCanonicalTensorator_hom_unit_tensorSectionOnCommonAffineOpen`
+specialize only this canonical/factorwise path formula to pullback-unit pure
+tensor sections, including the top open of one genuine common affine restriction
+leg.  Equality with the direct `ViaExtendScalars` tensor comparator, tensor
+compatibility with the legacy mate, cross-chart and descent-data compatibility,
+and `DescendedTensorAdditive` remain open.  A3 stays `research_open` at weight 18
+with zero credit.  Source accounting is 1,041 integrated Lean modules /
+1,581,560 lines.
+
 The A3 affine restriction-mate checkpoint is integrated at `e000046`, on top of
 the affine tilde tensor-addition pullback checkpoint at `402d696`.  The generic
-`Scheme.Modules.tildePullbackIsoExtendScalars`
-comparison identifies affine pullback of a tilde module with tilde of its
-extension of scalars.  `CommonExtension.extendedInverseIdealAddIso`,
+`Scheme.Modules.tildePullbackIsoExtendScalars` comparison identifies affine
+pullback of a tilde module with tilde of its extension of scalars.
+`CommonExtension.extendedInverseIdealAddIso`,
 `lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`, and
 `lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars` supply the
 raw-ideal addition and direct fixed-bundle comparisons, while
@@ -110,8 +128,8 @@ followed by the public scalar-extension comparison, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
 is its genuine affine-open consumer.  This is still only the direct
 `ViaExtendScalars`/raw-ideal tilde square: the canonical pullback tensorator and
-factorwise comparison, cross-chart compatibility, a morphism of descent data, and
-`DescendedTensorAdditive` remain open.  A3 stays `research_open` at weight 18
+factorwise comparison, cross-chart compatibility, a morphism of descent data,
+and `DescendedTensorAdditive` remain open.  A3 stays `research_open` at weight 18
 with zero credit.  Source accounting is 1,039 integrated Lean modules /
 1,580,484 lines.
 

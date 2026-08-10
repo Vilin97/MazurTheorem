@@ -55,10 +55,17 @@ specializes it to one genuine affine restriction leg.
 identifies the legacy single-factor restriction mate with the restriction-to-pullback
 comparison followed by `ViaExtendScalars`, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
-is its genuine affine-open consumer. This is still only the direct
-`ViaExtendScalars`/raw-ideal tilde square: factorization through the two factorwise pullbacks and
-the canonical pullback tensorator, compatibility between distinct charts, and assembly into a
-morphism of descent data are not claimed. On a same-chart principal open,
+is its genuine affine-open consumer. Separately, `ModularCurves.tensorSection` and
+`ModularCurves.tensorSection_map` give functorial pure tensor sections, while
+`ModularCurves.pullback_δ_unit_tensorSection` evaluates the canonical pullback cotensorator on
+sections coming from the pullback unit. The comparison
+`CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`
+factors through that canonical cotensorator and the two factorwise scalar-extension
+comparisons. Its section evaluator and
+the genuine top-open curve evaluator prove only the resulting canonical/factorwise path formula
+on pullback-unit pure tensor sections. Equality with the direct `ViaExtendScalars` tensor
+comparator, tensor compatibility with the legacy mate, compatibility between distinct charts,
+and assembly into a morphism of descent data are not claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -103,10 +110,10 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-coherence still needed to descend the fixed chartwise addition maps begins with the canonical
-pullback-tensorator/factorwise comparison and cross-chart compatibility; no descent-data
-morphism or `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence,
-object
+coherence still needed to descend the fixed chartwise addition maps begins with equality of the
+direct `ViaExtendScalars` comparator and the evaluated canonical/factorwise path, followed by
+legacy-mate tensor compatibility and cross-chart compatibility; no descent-data morphism or
+`CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
 The
@@ -115,9 +122,9 @@ the affine and local A3 modules here do not import it.
 The companion module `CurveAffineChart` isolates the upstream-compatible sufficient input
 `PicardIso.PullbackMonoidalData`: given strong monoidality of sheaf pullback, checked code
 transports the divisor and class maps to `Pic(U)` while preserving the exact principal kernel
-and range equivalence. The pinned upstream AINTLIB source proves general pullback monoidality,
-but that cone is not in the current checked import graph and cannot be copied here under this
-task's no-`set_option` constraint. For gluing, the separately importable companion modules
+and range equivalence. The option-free selective AINTLIB pullback-monoidal cone and its
+tensor-section evaluator now enter the A3 route through a separate companion module; the
+Challenge itself does not import that larger cone. For gluing, the separately importable modules
 `AffineDivisorLocalization`, `CurveLineBundleDescent`, `CurveLineBundleLocality`,
 `CurveDivisorDescent`, `CurveDivisorPicardDescent`, `CurveLineBundleCompatibleFamilies`,
 and `CurveLineBundleCocycleForcesNormalization` construct the actual affine `O(D)` on a coordinate

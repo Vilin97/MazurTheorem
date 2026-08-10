@@ -109,10 +109,16 @@ specializes it to one affine restriction leg.
 identifies the legacy single-factor restriction mate with the restriction-to-pullback
 comparison followed by `ViaExtendScalars`, and
 `CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
-is its genuine affine-open consumer. This proves only the direct
-`ViaExtendScalars`/raw-ideal tilde square: factorization through factorwise pullbacks and the
-canonical pullback tensorator, cross-chart compatibility, and assembly into a morphism of
-descent data are not proved.
+is its genuine affine-open consumer. Separately, `ModularCurves.tensorSection` and
+`ModularCurves.tensorSection_map` give functorial pure tensor sections, while
+`ModularCurves.pullback_δ_unit_tensorSection` evaluates the canonical pullback cotensorator on
+sections coming from the pullback unit. The comparison
+`CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`
+factors through that canonical cotensorator and the two factorwise scalar-extension
+comparisons. Its section evaluator and the genuine top-open curve specialization prove only the
+canonical/factorwise path formula on pullback-unit pure tensor sections. Equality with the direct
+`ViaExtendScalars` tensor comparator, tensor compatibility with the legacy mate, cross-chart
+compatibility, and assembly into a morphism of descent data are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -183,8 +189,8 @@ cocycle, with no independent normalization field. The checked raw arbitrary-divi
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
 landed. The remaining naturality needed to descend the fixed chartwise addition maps includes
-the canonical pullback-tensorator/factorwise comparison and cross-chart compatibility; no
-descent-data morphism or
+equality of the direct `ViaExtendScalars` comparator with the evaluated canonical/factorwise
+path, legacy-mate tensor compatibility, and cross-chart compatibility; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
@@ -227,6 +233,12 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_pullback_viaExtendScalars`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`;
+* `ModularCurves.tensorSection`;
+* `ModularCurves.tensorSection_map`;
+* `ModularCurves.pullback_δ_unit_tensorSection`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator_hom_unit_tensorSection`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTensorPullbackIsoViaCanonicalTensorator_hom_unit_tensorSectionOnCommonAffineOpen`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -293,8 +305,9 @@ upstream-compatible sufficient datum, it constructs `Pic(Spec Γ(X, U)) ≃ Pic(
 transports the exact principal kernel, injective class descent, and range equivalence to the open
 subscheme. The resulting Picard equivalence is proved independent of the chosen monoidal
 structure and its inverse is identified with pullback along the inverse scheme isomorphism. The
-pinned upstream AINTLIB source proves monoidality for general pullback, but its unported cone
-uses source-level options forbidden in this task. The concrete raw overlap-isomorphism family
+option-free selective AINTLIB pullback-monoidal cone and tensor-section evaluator now compile in
+a separate companion. Their current divisor consumer evaluates only the canonical/factorwise
+path on pullback-unit pure tensor sections. The concrete raw overlap-isomorphism family
 now satisfies Mathlib's exact all-index `DescentData'.pullHom'` cocycle, including repeated
 indices. The pruned generic `normalization_of_iso_cocycle` theorem derives the diagonal law from
 invertibility and the repeated-index cocycle; `LineBundleCocycle.normalization` is its checked
@@ -956,6 +969,27 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localRestrictionIsoExtendedInverseIdeal_eq_viaExtendScalarsOnCommonAffineOpen`
   Specialize the legacy single-factor restriction-mate identification to one genuine affine
   restriction leg with canonically derived algebraic data.
+* `definition` (`contract`):
+  `ModularCurves.tensorSection`
+  Form the canonical pure tensor section of two sheaf-module sections over the same open.
+* `theorem` (`contract`):
+  `ModularCurves.tensorSection_map`
+  Prove that canonical pure tensor sections commute with morphisms in both module factors.
+* `theorem` (`contract`):
+  `ModularCurves.pullback_δ_unit_tensorSection`
+  Evaluate the canonical pullback cotensorator on the pullback-unit image of a pure tensor
+  section as the pure tensor section of the two factorwise pullback-unit images.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator`
+  Factor pullback of a fixed divisor-line-bundle tensor through the canonical inverse pullback
+  tensorator and the two single-factor affine scalar-extension comparisons.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaCanonicalTensorator_hom_unit_tensorSection`
+  Evaluate the canonical/factorwise divisor comparison on pullback-unit pure tensor sections.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTensorPullbackIsoViaCanonicalTensorator_hom_unit_tensorSectionOnCommonAffineOpen`
+  Specialize that evaluation to the top open for one genuine common affine restriction leg,
+  deriving all algebraic instances canonically.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal
