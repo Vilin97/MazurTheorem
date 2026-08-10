@@ -3,6 +3,11 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const siteRoot = new URL("../", import.meta.url);
+const leanNameSegment = String.raw`[_\p{L}][\p{L}\p{N}_']*`;
+const qualifiedLeanNamePattern = new RegExp(
+  `^(?:${leanNameSegment})(?:\\.(?:${leanNameSegment}))+$`,
+  "u",
+);
 
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -154,6 +159,16 @@ test("the site data is byte-identical to the canonical ledger", async () => {
   assert.deepEqual(generated, canonical);
 });
 
+test("qualified Lean names support Unicode letters but not numeric starts", () => {
+  assert.match(
+    "ModularCurves.pullback_δ_unit_tensorSection",
+    qualifiedLeanNamePattern,
+  );
+  assert.doesNotMatch("ModularCurves.₁bad", qualifiedLeanNamePattern);
+  assert.doesNotMatch("ModularCurves.²bad", qualifiedLeanNamePattern);
+  assert.doesNotMatch("ModularCurves.Ⅻbad", qualifiedLeanNamePattern);
+});
+
 test("every roadmap node exposes concrete artifacts or an exact challenge", async () => {
   const source = await readFile(
     new URL("../../coordination/program.json", import.meta.url),
@@ -170,7 +185,7 @@ test("every roadmap node exposes concrete artifacts or an exact challenge", asyn
     for (const artifact of node.artifacts ?? []) {
       assert.match(
         artifact.name,
-        /^[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+$/,
+        qualifiedLeanNamePattern,
         `${node.id} has a non-qualified artifact name`,
       );
       assert.ok(
