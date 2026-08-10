@@ -99,7 +99,8 @@ private noncomputable def moduleSpecPushforwardΓIso
       moduleSpecΓFunctor ⋙ ModuleCat.restrictScalars φ.hom :=
   moduleSpecPushforwardΓIso₁ φ ≪≫ moduleSpecPushforwardΓIso₂ φ
 
-private noncomputable def tildePullbackIsoExtendScalars
+/-- Pullback of a tilde module along a map of affine spectra agrees with extension of scalars. -/
+noncomputable def tildePullbackIsoExtendScalars
     {R S : CommRingCat.{u}} (φ : R ⟶ S) :
     tilde.functor R ⋙ pullback (Spec.map φ) ≅
       ModuleCat.extendScalars φ.hom ⋙ tilde.functor S := by
