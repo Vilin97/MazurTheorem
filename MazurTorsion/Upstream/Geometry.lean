@@ -6,7 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.CartierDual
 import MazurTorsion.Upstream.AINTLIB.Picard.Pic
-import MazurTorsion.Upstream.AffineDivisorLocalization
+import MazurTorsion.Upstream.AffineDivisorTensorBaseChange
 import MazurTorsion.Upstream.CurveAffineChart
 import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.CurveDivisorDescent
