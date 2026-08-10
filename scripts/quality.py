@@ -43,29 +43,31 @@ BLUEPRINT_TOP_LEVEL = (
 )
 
 IDENTIFIER_PATTERN = re.compile(r"^MT-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+LEAN_IDENTIFIER_SEGMENT = r"(?:[^\W\d]|_)[\w']*"
+LEAN_IDENTIFIER = rf"{LEAN_IDENTIFIER_SEGMENT}(?:\.{LEAN_IDENTIFIER_SEGMENT})*"
 IMPORT_PATTERN = re.compile(
     r"^[ \t]*(?:public[ \t]+)?import[ \t]+([A-Za-z0-9_'.]+)[ \t]*$",
     re.MULTILINE,
 )
 DECLARATION_PATTERN = re.compile(
-    r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)"
+    rf"\b(?:theorem|lemma)\s+({LEAN_IDENTIFIER_SEGMENT})"
 )
 LOCAL_DECLARATION_PATTERN = re.compile(
     r"^[ \t]*(?:(?:noncomputable|private|protected|public)[ \t]+)*"
     r"(?:theorem|lemma|def|abbrev|instance)[ \t]+"
-    r"([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)",
+    rf"({LEAN_IDENTIFIER})",
     re.MULTILINE,
 )
 NAMESPACE_PATTERN = re.compile(
     r"^[ \t]*namespace[ \t]+"
-    r"([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)[ \t]*$"
+    rf"({LEAN_IDENTIFIER})[ \t]*$"
 )
 SECTION_PATTERN = re.compile(
-    r"^[ \t]*(?:(?:public|private)[ \t]+)?section(?:[ \t]+[A-Za-z0-9_']+)?[ \t]*$"
+    rf"^[ \t]*(?:(?:public|private)[ \t]+)?section"
+    rf"(?:[ \t]+{LEAN_IDENTIFIER_SEGMENT})?[ \t]*$"
 )
-END_PATTERN = re.compile(r"^[ \t]*end(?:[ \t]+[A-Za-z0-9_'.]+)?[ \t]*$")
-QUALIFIED_NAME_PATTERN = re.compile(
-    r"^[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+$"
+END_PATTERN = re.compile(
+    rf"^[ \t]*end(?:[ \t]+{LEAN_IDENTIFIER})?[ \t]*$"
 )
 SORRY_PATTERN = re.compile(r"\bsorry\b")
 SOURCE_PROHIBITIONS = {
@@ -88,6 +90,27 @@ SOURCE_PROHIBITIONS = {
     ),
     "nolint attribute": re.compile(r"@\[\s*nolint\b|@nolint\b"),
 }
+
+
+def is_lean_identifier_segment(value: object) -> bool:
+    """Recognize the Unicode letter/underscore start used by ordinary Lean names."""
+    if not isinstance(value, str) or not value:
+        return False
+    if value[0] != "_" and not value[0].isalpha():
+        return False
+    return bool(re.fullmatch(r"[\w']*", value[1:]))
+
+
+def is_qualified_lean_name(value: object) -> bool:
+    """Recognize a dot-qualified ordinary Lean name, including Unicode letters."""
+    if not isinstance(value, str):
+        return False
+    segments = value.split(".")
+    return len(segments) > 1 and all(
+        is_lean_identifier_segment(segment) for segment in segments
+    )
+
+
 ALLOWED_STATUSES = {"blocked", "done", "open", "planned", "research_open"}
 ALLOWED_READINESS = {"compiled", "integrated", "nouns_missing", "statement_only"}
 ALLOWED_KINDS = {"infrastructure", "integration", "milestone", "proof", "upstream"}
@@ -1017,9 +1040,7 @@ def validate_node_artifacts(
             if not isinstance(artifact, dict):
                 continue
             name = artifact.get("name")
-            valid_name = isinstance(name, str) and bool(
-                QUALIFIED_NAME_PATTERN.fullmatch(name)
-            )
+            valid_name = is_qualified_lean_name(name)
             validator.require(
                 valid_name,
                 f"{prefix} name must be a qualified Lean-style identifier",
@@ -1047,8 +1068,7 @@ def validate_node_artifacts(
             module = artifact.get("module")
             if module is not None:
                 validator.require(
-                    isinstance(module, str)
-                    and bool(QUALIFIED_NAME_PATTERN.fullmatch(module)),
+                    is_qualified_lean_name(module),
                     f"{prefix} module must be a qualified Lean module name",
                 )
             if state == "integrated" and isinstance(name, str):
@@ -1113,7 +1133,7 @@ def validate_challenge_metadata(
     ):
         value = challenge.get(field)
         validator.require(
-            isinstance(value, str) and bool(QUALIFIED_NAME_PATTERN.fullmatch(value)),
+            is_qualified_lean_name(value),
             f"{node_id}: challenge.{field} must be a qualified Lean name",
         )
     destination_module = challenge.get("destination_module")
@@ -1180,10 +1200,7 @@ def validate_challenge_lists(
     validator.require(
         isinstance(imports, list)
         and bool(imports)
-        and all(
-            isinstance(item, str) and bool(QUALIFIED_NAME_PATTERN.fullmatch(item))
-            for item in imports
-        ),
+        and all(is_qualified_lean_name(item) for item in imports),
         f"{node_id}: challenge.imports must be qualified Lean module names",
     )
     skills = challenge.get("skills")
@@ -1212,9 +1229,7 @@ def validate_challenge_lists(
     if not isinstance(consumers, list):
         return
     for consumer in consumers:
-        valid_name = isinstance(consumer, str) and bool(
-            QUALIFIED_NAME_PATTERN.fullmatch(consumer)
-        )
+        valid_name = is_qualified_lean_name(consumer)
         validator.require(
             valid_name,
             f"{node_id}: consumer {consumer!r} must be a qualified Lean declaration",
