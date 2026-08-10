@@ -40,9 +40,21 @@ The genuine curve consumer
 `CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen` derives
 the restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data for one canonical
 affine restriction leg. Thus the fixed chosen-module tensor-to-sum map is natural on that raw
-module-level leg. Monoidal transport through tilde and sheaf restriction, compatibility between
-distinct charts, and assembly into a morphism of descent data are not claimed. On a same-chart
-principal open,
+module-level leg. The generic
+`Scheme.Modules.tildePullbackIsoExtendScalars` comparison identifies affine pullback of a tilde
+module with tilde of its extension of scalars. At the common-extension level,
+`extendedInverseIdealAddIso` lifts raw inverse-ideal addition through tilde, while
+`lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars` and
+`lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars` give the direct comparisons
+from the pulled-back fixed bundle and pulled-back fixed tensor to the corresponding raw
+extended-ideal tilde sheaves. The theorem `lineBundleAddIso_pullback_viaExtendScalars` proves the
+resulting deterministic sum-to-tensor square, and
+`CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
+specializes it to one genuine affine restriction leg. This is only the direct
+`ViaExtendScalars`/raw-ideal tilde square: factorization through the two factorwise pullbacks and
+the canonical pullback tensorator, comparison with the legacy private overlap mate,
+compatibility between distinct charts, and assembly into a morphism of descent data are not
+claimed. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -87,8 +99,9 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. Restriction/overlap base-change
-naturality still needed to descend the fixed chartwise addition maps begins with tilde/sheaf
-monoidal transport and cross-chart compatibility; no descent-data morphism or
+coherence still needed to descend the fixed chartwise addition maps begins with the canonical
+pullback-tensorator/factorwise comparison, identification with the legacy overlap mate, and
+cross-chart compatibility; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.

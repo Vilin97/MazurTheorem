@@ -92,6 +92,24 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 affine tilde tensor-addition pullback checkpoint is integrated at
+`402d696`.  The generic `Scheme.Modules.tildePullbackIsoExtendScalars`
+comparison identifies affine pullback of a tilde module with tilde of its
+extension of scalars.  `CommonExtension.extendedInverseIdealAddIso`,
+`lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`, and
+`lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars` supply the
+raw-ideal addition and direct fixed-bundle comparisons, while
+`lineBundleAddIso_pullback_viaExtendScalars` proves the resulting deterministic
+sum-to-tensor square.  The genuine curve consumer
+`CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
+derives the canonical data for one affine restriction leg.  This is only the
+direct `ViaExtendScalars`/raw-ideal tilde square: the canonical pullback
+tensorator and factorwise comparison, the legacy private overlap mate,
+cross-chart compatibility, a morphism of descent data, and
+`DescendedTensorAdditive` remain open.  A3 stays `research_open` at weight 18
+with zero credit.  Source accounting is 1,039 integrated Lean modules /
+1,580,407 lines.
+
 The A3 fixed chosen-module tensor base-change checkpoint is integrated at
 `1697c8f`.  `CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal`
 and its `_tmul` theorem give the fixed comparison from scalar extension of the

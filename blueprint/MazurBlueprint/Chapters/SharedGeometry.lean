@@ -96,9 +96,18 @@ theorem, while `lineBundleModuleTensorAddEquiv_baseChange` proves the exact tens
 The curve-level theorem
 `CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen` derives
 the canonical restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data for
-one affine restriction leg. This is raw module-level naturality only: monoidal transport through
-tilde and sheaf restriction, compatibility between distinct charts, and assembly into a morphism
-of descent data are not proved.
+one affine restriction leg. The generic `Scheme.Modules.tildePullbackIsoExtendScalars`
+comparison identifies affine pullback of a tilde module with tilde of its extension of scalars.
+At the common-extension level, `extendedInverseIdealAddIso` lifts raw inverse-ideal addition
+through tilde, while `lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars` and
+`lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars` supply the direct fixed-bundle
+and fixed-tensor comparisons. The theorem `lineBundleAddIso_pullback_viaExtendScalars` proves
+the resulting deterministic sum-to-tensor square, and
+`CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
+specializes it to one affine restriction leg. This proves only the direct
+`ViaExtendScalars`/raw-ideal tilde square: factorization through factorwise pullbacks and the
+canonical pullback tensorator, comparison with the legacy private overlap mate, cross-chart
+compatibility, and assembly into a morphism of descent data are not proved.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -169,7 +178,8 @@ cocycle, with no independent normalization field. The checked raw arbitrary-divi
 generic `OpenCover.{0}` module effectivity therefore supply the two sides of the next boundary,
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
 landed. The remaining naturality needed to descend the fixed chartwise addition maps includes
-tilde/sheaf monoidal transport and cross-chart compatibility; no descent-data morphism or
+the canonical pullback-tensorator/factorwise comparison, identification with the legacy overlap
+mate, and cross-chart compatibility; no descent-data morphism or
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
@@ -204,6 +214,12 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleModuleTensorAddEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen`;
+* `AlgebraicGeometry.Scheme.Modules.tildePullbackIsoExtendScalars`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealAddIso`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars`;
+* `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_pullback_viaExtendScalars`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -902,6 +918,29 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleModuleTensorAddEquiv_baseChangeOnCommonAffineOpen`
   Specialize fixed chosen-module tensor-addition naturality to one canonical affine restriction
   leg, deriving its restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data.
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.tildePullbackIsoExtendScalars`
+  Identify pullback of a tilde module along a map of affine spectra with tilde of its Mathlib
+  extension of scalars.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealAddIso`
+  Lift raw extended-inverse-ideal addition through tilde in the sum-to-tensor orientation.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundlePullbackIsoExtendedInverseIdealViaExtendScalars`
+  Compare pullback of one fixed chosen divisor line bundle with tilde of its extended inverse
+  ideal through affine extension of scalars.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleTensorPullbackIsoExtendedInverseIdealsViaExtendScalars`
+  Compare pullback of the tensor of two fixed chosen line bundles directly with the tensor of
+  the corresponding raw extended-inverse-ideal tilde sheaves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.lineBundleAddIso_pullback_viaExtendScalars`
+  Prove the direct deterministic sum-to-tensor square under flat epimorphic affine base change,
+  relative to the affine tilde/extension-of-scalars comparison.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_pullbackViaExtendScalarsOnCommonAffineOpen`
+  Specialize the direct tilde-level square to one canonical affine restriction leg, deriving its
+  restriction algebra, flat-epimorphism, fraction-field, and scalar-tower data.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal
