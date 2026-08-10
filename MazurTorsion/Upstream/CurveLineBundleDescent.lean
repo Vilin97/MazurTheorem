@@ -7,16 +7,17 @@ Authors: Vasily Ilin
 import Mathlib.AlgebraicGeometry.Pullbacks
 import Mathlib.AlgebraicGeometry.Sites.BigZariski
 import Mathlib.CategoryTheory.Sites.Descent.DescentDataPrime
+import MazurTorsion.Upstream.CurveLineBundleCocycleForcesNormalization
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 
 /-!
 # Effective descent boundary for curve line bundles
 
 Mathlib provides the pseudofunctor of sheaves of modules and the category of coherent descent
-data for a family of scheme morphisms. The current dependency graph does not yet prove that
-these descent data are effective for a Zariski cover. The companion module
-`CurveLineBundleLocality` proves that an effective global module assembled from invertible local
-objects is globally invertible.
+data for a family of scheme morphisms. This foundational module treats effectivity as an input;
+the downstream `CurveLineBundleCompatibleFamilies` module discharges it for
+universe-zero-indexed open covers. The companion module `CurveLineBundleLocality` proves that an
+effective global module assembled from invertible local objects is globally invertible.
 
 This file packages a coherent module descent datum whose local objects are actual Tau Ceti
 invertible sheaves. It also separates the two logical existence inputs: `EffectiveModule`
@@ -24,10 +25,10 @@ asks only for a global module representing the datum, while `InvertibilityIsLoca
 invertibility on this open cover detect global invertibility. Checked code combines those inputs
 into `EffectiveInvertible`, whose consumers recover the chosen global line bundle, the descent
 isomorphism, and every chart restriction isomorphism; the companion locality theorem discharges
-the second input on every scheme open cover. It also packages specified overlap
-isomorphisms, normalization, and the triple cocycle as Mathlib descent data. The file does not
-construct divisor-specific overlap isomorphisms, prove their effectivity, or assert that the
-module pseudofunctor is a stack.
+the second input on every scheme open cover. It also packages specified overlap isomorphisms and
+their all-index triple cocycle as Mathlib descent data; diagonal normalization is derived from
+those two inputs. The file does not construct divisor-specific overlap isomorphisms, prove their
+effectivity, or assert that the module pseudofunctor is a stack.
 -/
 
 open CategoryTheory Bicategory CategoryTheory.Limits
@@ -525,9 +526,11 @@ noncomputable def ofLineBundlesLocalLineBundleIso
 
 end InvertibleDescentData
 
-/-- Normalized coherent overlap isomorphisms for a specified family of local line bundles.
-This is the concrete gluing input: one isomorphism on each chosen pairwise overlap, identity
-after pullback along the diagonal, and the cocycle equation on each chosen triple overlap. -/
+/-- Coherent overlap isomorphisms for a specified family of local line bundles.
+This is the concrete gluing input: one isomorphism on each chosen pairwise overlap and the
+cocycle equation on every chosen triple overlap, including repeated indices. Diagonal
+normalization is forced by invertibility and the repeated-index cocycle, so it is derived below
+rather than stored as a potentially inconsistent extra field. -/
 structure LineBundleCocycle
     {X : Scheme.{u}} (cov : X.OpenCover)
     (sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j))
@@ -535,34 +538,42 @@ structure LineBundleCocycle
     (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i)) where
   /-- The specified isomorphism between the two restrictions on each pairwise overlap. -/
   overlapIso (i j : cov.I₀) :
-    (Scheme.Modules.pullback (sq i j).p₁).obj (L i).obj ≅
-      (Scheme.Modules.pullback (sq i j).p₂).obj (L j).obj
-  /-- The transition isomorphism restricts to the identity on each diagonal. -/
-  normalization (i : cov.I₀) :
-    Pseudofunctor.DescentData'.pullHom'
-      (F := modulesPseudofunctor)
-      (sq := sq)
-      (fun i j ↦ (overlapIso i j).hom)
-      (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _
+    (modulesPseudofunctor.map (sq i j).p₁.op.toLoc).toFunctor.obj (L i).obj ≅
+      (modulesPseudofunctor.map (sq i j).p₂.op.toLoc).toFunctor.obj (L j).obj
   /-- The two composites of transition maps agree on every triple overlap. -/
   cocycle (i j k : cov.I₀) :
     Pseudofunctor.DescentData'.pullHom'
-        (F := modulesPseudofunctor)
-        (sq := sq)
+        (F := modulesPseudofunctor) (sq := sq)
         (fun i j ↦ (overlapIso i j).hom)
         (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₂ ≫
       Pseudofunctor.DescentData'.pullHom'
-        (F := modulesPseudofunctor)
-        (sq := sq)
+        (F := modulesPseudofunctor) (sq := sq)
         (fun i j ↦ (overlapIso i j).hom)
         (sq₃ i j k).p (sq₃ i j k).p₂ (sq₃ i j k).p₃ =
       Pseudofunctor.DescentData'.pullHom'
-        (F := modulesPseudofunctor)
-        (sq := sq)
+        (F := modulesPseudofunctor) (sq := sq)
         (fun i j ↦ (overlapIso i j).hom)
         (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃
 
 namespace LineBundleCocycle
+
+/-- Every isomorphism-valued all-index line-bundle cocycle is normalized on the diagonal.
+The triple cocycle with three equal indices makes the diagonal transition idempotent, and an
+invertible idempotent is the identity. -/
+theorem normalization
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    {L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i)}
+    (C : LineBundleCocycle cov sq sq₃ L) (i : cov.I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+      (F := modulesPseudofunctor) (sq := sq)
+      (fun i j ↦ (C.overlapIso i j).hom)
+      (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _ := by
+  exact normalization_of_iso_cocycle
+    (F := modulesPseudofunctor) (Y := cov.X) (g := cov.f)
+    (sq := sq) (sq₃ := sq₃) (obj := fun i ↦ (L i).obj)
+    C.overlapIso C.cocycle i
 
 /-- Chosen-overlap descent data after transporting every local object across a specified
 isomorphism. Naming this intermediate object keeps its coherence proofs opaque to later
@@ -588,15 +599,17 @@ noncomputable def overlapIsoOfDescentDataObjectIso
     (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
     (D : modulesPseudofunctor.DescentData cov.f)
     (e : ∀ i, D.obj i ≅ (L i).obj) (i j : cov.I₀) :
-    (Scheme.Modules.pullback (sq i j).p₁).obj (L i).obj ≅
-      (Scheme.Modules.pullback (sq i j).p₂).obj (L j).obj := by
+    (modulesPseudofunctor.map (sq i j).p₁.op.toLoc).toFunctor.obj (L i).obj ≅
+      (modulesPseudofunctor.map (sq i j).p₂.op.toLoc).toFunctor.obj (L j).obj := by
   let D' := descentDataPrimeOfObjectIso sq sq₃ L D e
   let hIso : IsIso (D'.hom i j) := by
     rw [← D'.pullHom'_eq_hom i j]
     infer_instance
   exact @asIso _ _ _ _ (D'.hom i j) hIso
 
-/-- Objectwise transport preserves diagonal normalization on chosen overlaps. -/
+/-- Objectwise transport preserves diagonal normalization on chosen overlaps. This specialized
+comparison remains useful independently of the fact that normalization is forced for every
+`LineBundleCocycle`. -/
 theorem overlapIsoOfDescentDataObjectIso_normalization
     {X : Scheme.{u}} {cov : X.OpenCover}
     {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
@@ -660,8 +673,8 @@ theorem overlapIsoOfDescentDataObjectIso_cocycle
     (descentDataPrimeOfObjectIso sq sq₃ L D e) i j k
 
 /-- A coherent descent datum whose local objects are isomorphic to specified line bundles
-induces a normalized line-bundle cocycle. Object transport inherits diagonal normalization and
-the triple cocycle from the original datum. -/
+induces a line-bundle cocycle. Object transport inherits the triple cocycle from the original
+datum, and diagonal normalization then follows automatically. -/
 noncomputable def ofDescentDataObjectIso
     {X : Scheme.{u}} {cov : X.OpenCover}
     {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
@@ -672,8 +685,6 @@ noncomputable def ofDescentDataObjectIso
     LineBundleCocycle cov sq sq₃ L where
   overlapIso :=
     overlapIsoOfDescentDataObjectIso (sq := sq) (sq₃ := sq₃) L D e
-  normalization :=
-    overlapIsoOfDescentDataObjectIso_normalization (sq := sq) (sq₃ := sq₃) L D e
   cocycle :=
     overlapIsoOfDescentDataObjectIso_cocycle (sq := sq) (sq₃ := sq₃) L D e
 
