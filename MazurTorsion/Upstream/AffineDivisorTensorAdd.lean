@@ -14,7 +14,7 @@ tensor/addition equivalence.  The construction is multiplication inside the spec
 fraction field, and its pure-tensor formula is recorded explicitly for base-change consumers.
 -/
 
-namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+namespace MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization
 
 open Module IsDedekindDomain IsDedekindDomain.HeightOneSpectrum
 open TauCeti.AlgebraicGeometry
@@ -22,6 +22,32 @@ open TauCeti.AlgebraicGeometry.WeilDivisor
 open scoped nonZeroDivisors TensorProduct
 
 universe u
+
+namespace Boundary
+
+/-- Equality of extended inverse ideals is closed under divisor addition. -/
+theorem overlapInverseIdealExtensionEq_add
+    (R₁ R₂ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra B K] [IsFractionRing B K]
+    (D₁ E₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ E₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (hD : OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂)
+    (hE : OverlapInverseIdealExtensionEq R₁ R₂ B K E₁ E₂) :
+    OverlapInverseIdealExtensionEq R₁ R₂ B K (D₁ + E₁) (D₂ + E₂) := by
+  refine ⟨hD.1, hD.2.1, ?_⟩
+  simpa only [ExplicitIdeal.divisorFractionalIdeal_add, mul_inv_rev, map_mul]
+    using congrArg₂ (fun x y ↦ x * y) hE.2.2 hD.2.2
+
+end Boundary
+
+namespace CommonExtension
 
 /-- The extended inverse divisor ideal as an invertible `B`-submodule of the common fraction
 field `K`. -/
@@ -119,4 +145,5 @@ theorem extendedInverseIdealTensorAddEquiv_tmul
   simp only [extendedInverseIdealTensorAddEquiv]
   exact Submodule.val_mulMap'_tmul _ _
 
-end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
+end CommonExtension
+end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization

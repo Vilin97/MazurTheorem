@@ -13,6 +13,7 @@ import MazurTorsion.Upstream.CurveDivisorDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
 import MazurTorsion.Upstream.CurveDivisorTensorAddRestriction
+import MazurTorsion.Upstream.CurveDivisorTensorAddOverlap
 import MazurTorsion.Upstream.CurveDivisorTensorAddTildeRestriction
 import MazurTorsion.Upstream.CurveLineBundleDescent
 import MazurTorsion.Upstream.CurveLineBundleLocality
