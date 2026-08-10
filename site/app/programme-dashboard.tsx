@@ -1368,7 +1368,10 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
               ≠
             </div>
             <div>
-              <h3>What 5% does—and does not—mean</h3>
+              <h3>
+                What {percentage(programme.progress.percent)} does—and does
+                not—mean
+              </h3>
               <p>
                 It is an effort-weighted planning estimate, not a theorem of
                 project management. The denominator is uncertain because

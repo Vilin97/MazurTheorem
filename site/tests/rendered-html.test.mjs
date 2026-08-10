@@ -25,6 +25,24 @@ async function render() {
 }
 
 test("server-renders the coordination dashboard", async () => {
+  const programme = JSON.parse(
+    await readFile(
+      new URL("../../coordination/program.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const challengeNodes = programme.nodes.filter(
+    (node) => node.challenge?.claimable === true,
+  );
+  const ordinaryChallengeCount = challengeNodes.filter(
+    (node) => node.status === "open",
+  ).length;
+  const researchChallengeCount = challengeNodes.filter(
+    (node) => node.status === "research_open",
+  ).length;
+  const openChallengeCount = ordinaryChallengeCount + researchChallengeCount;
+  const integratedPercent = Math.round(programme.progress.percent);
+
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -36,9 +54,14 @@ test("server-renders the coordination dashboard", async () => {
   );
   assert.match(html, /Mazur’s theorem/);
   assert.match(html, /Evidence-weighted ledger/);
-  assert.match(html, />5%<\/span>/);
+  assert.match(html, new RegExp(`>${integratedPercent}%<\\/span>`));
   assert.match(html, /Ecosystem-ready estimate/);
-  assert.match(html, />12(?:<!-- -->)?%<\/strong>/);
+  assert.match(
+    html,
+    new RegExp(
+      `>${programme.progress.ecosystem_ready_estimate_percent}(?:<!-- -->)?%<\\/strong>`,
+    ),
+  );
   assert.match(html, /The weighted roadmap/);
   assert.equal((html.match(/class="stage-card"/g) ?? []).length, 6);
   assert.equal((html.match(/aria-controls="stage-details-/g) ?? []).length, 6);
@@ -48,7 +71,7 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /All (?:<!-- -->)?1(?:<!-- -->)? dependency nodes?/);
   assert.match(html, /Interactive dependency graph/);
   assert.match(html, /Every node, edge, and hand-off/);
-  assert.match(html, /All 48 nodes/);
+  assert.match(html, new RegExp(`All ${programme.nodes.length} nodes`));
   assert.match(
     html,
     /aria-label="Focus graph on stage 3: Shared algebraic geometry and isogenies"/,
@@ -65,12 +88,40 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /Claim this challenge/);
   assert.match(html, /Register an approach/);
   assert.match(html, /Open contracts/);
-  assert.match(html, /8(?:<!-- -->)? boundaries/);
-  assert.match(html, /113(?:<!-- -->)? pts/);
-  assert.match(html, /4(?:<!-- -->)? ordinary claims worth(?:<!-- -->)? /);
-  assert.match(html, /39(?:<!-- -->)? points/);
-  assert.match(html, /4(?:<!-- -->)? nonexclusive research intentions worth/);
-  assert.match(html, /74(?:<!-- -->)? points/);
+  assert.match(
+    html,
+    new RegExp(`${openChallengeCount}(?:<!-- -->)? boundaries`),
+  );
+  assert.match(
+    html,
+    new RegExp(
+      `${programme.progress.claimable_open_points}(?:<!-- -->)? pts`,
+    ),
+  );
+  assert.match(
+    html,
+    new RegExp(
+      `${ordinaryChallengeCount}(?:<!-- -->)? ordinary claims worth(?:<!-- -->)? `,
+    ),
+  );
+  assert.match(
+    html,
+    new RegExp(
+      `${programme.progress.ordinary_claimable_points}(?:<!-- -->)? points`,
+    ),
+  );
+  assert.match(
+    html,
+    new RegExp(
+      `${researchChallengeCount}(?:<!-- -->)? nonexclusive research intentions worth`,
+    ),
+  );
+  assert.match(
+    html,
+    new RegExp(
+      `${programme.progress.research_open_points}(?:<!-- -->)? points`,
+    ),
+  );
   assert.match(html, /template=claim\.yml(?:&amp;|&)title=%5BClaim%5D/);
   assert.match(
     html,

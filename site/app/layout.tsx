@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
+import programData from "../generated/program.json";
 import "./globals.css";
 
 const FALLBACK_SITE_ORIGIN =
@@ -8,6 +9,10 @@ const DESCRIPTION =
   "An open, weighted roadmap for the exact Lean Pool cardinality consequence of Mazur’s torsion theorem.";
 const SOCIAL_DESCRIPTION =
   "One verified dependency at a time: roadmap, exact Lean challenges, and evidence-weighted progress.";
+const INTEGRATED_PERCENT = Math.max(
+  0,
+  Math.min(100, Math.round(programData.progress.percent)),
+);
 
 function normalizedOrigin(origin: string) {
   return origin.endsWith("/") ? origin : `${origin}/`;
@@ -84,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: image,
           width: 1200,
           height: 630,
-          alt: "Mazur Theorem formalization programme — 5% integrated",
+          alt: `Mazur Theorem formalization programme — ${INTEGRATED_PERCENT}% integrated`,
         },
       ],
     },
