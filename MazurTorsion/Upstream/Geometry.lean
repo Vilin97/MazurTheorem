@@ -12,6 +12,7 @@ import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.CurveDivisorDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
+import MazurTorsion.Upstream.CurveDivisorTensorAddRestriction
 import MazurTorsion.Upstream.CurveLineBundleDescent
 import MazurTorsion.Upstream.CurveLineBundleLocality
 import MazurTorsion.Upstream.CurveLineBundleTripleIntersection

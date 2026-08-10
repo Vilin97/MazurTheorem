@@ -314,6 +314,37 @@ noncomputable abbrev extensionMap
   _root_.AlgebraicGeometry.Spec.map
     (CommRingCat.ofHom (algebraMap R B))
 
+/-- An affine algebra whose map on spectra is an open immersion is an epimorphism of
+commutative algebras.  This is kept as a lemma rather than an instance so callers control when
+the categorical consequence participates in typeclass search. -/
+lemma algebraIsEpiOfOpenImmersion
+    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
+    [IsOpenImmersion (extensionMap R B)] : Algebra.IsEpi R B := by
+  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+    CommRingCat.ofHom (algebraMap R B)
+  letI : Mono (Scheme.Spec.map f.op) := by
+    change Mono (Spec.map f)
+    infer_instance
+  letI : Mono f.op := Scheme.Spec.mono_of_mono_map inferInstance
+  letI : Epi f := by
+    change Epi f.op.unop
+    infer_instance
+  exact CommRingCat.epi_iff_epi.mp (inferInstanceAs (Epi f))
+
+/-- An affine algebra whose map on spectra is an open immersion is flat.  This is exposed as a
+plain lemma, not a global instance, to avoid introducing a broad geometric typeclass search
+path into algebraic consumers. -/
+lemma moduleFlatOfOpenImmersion
+    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
+    [IsOpenImmersion (extensionMap R B)] : Module.Flat R B := by
+  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
+    CommRingCat.ofHom (algebraMap R B)
+  have hs : _root_.AlgebraicGeometry.Flat (Spec.map f) := by
+    change _root_.AlgebraicGeometry.Flat (extensionMap R B)
+    infer_instance
+  exact RingHom.flat_algebraMap_iff.mp
+    (_root_.AlgebraicGeometry.Flat.SpecMap_iff.mp hs)
+
 /-- The second exact cross-chart input: restriction of the chosen affine divisor line bundle to
 the common affine overlap agrees with tilde of the extended inverse divisor ideal. Flat
 epimorphic base change below discharges this input on every affine open immersion; it is also
@@ -1253,6 +1284,47 @@ private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_flat_ep
     simpa [P] using (extendedInverseIdeal_eq_span R B K D).symm
   exact (P.tensorEquivSpan B).trans (LinearEquiv.ofEq _ _ hP)
 
+/-- Scalar extension of the fixed affine line-bundle module agrees with the inverse divisor
+ideal extended inside the specified common fraction field.  The comparison is algebraic: a
+flat epimorphism is enough, while geometric restriction maps obtain these hypotheses from their
+open immersion on spectra. -/
+noncomputable def lineBundleModuleBaseChangeEquivExtendedInverseIdeal
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D : WeilDivisor (HeightOneSpectrum R)) :
+    B ⊗[R] AffineDedekind.lineBundleModule R K D ≃ₗ[B]
+      extendedInverseIdeal R B K D :=
+  ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
+    (originalInverseIdealBaseChangeEquivExtended_of_flat_epi R B K D)
+
+/-- On a pure tensor, the fixed line-bundle-module comparison is scalar multiplication after
+transporting the chosen module element through its explicit inverse-ideal comparison. -/
+theorem lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D : WeilDivisor (HeightOneSpectrum R)) (b : B)
+    (m : AffineDedekind.lineBundleModule R K D) :
+    ((lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D)
+        (b ⊗ₜ[R] m) : K) =
+      b • (FractionRing.algEquiv R K)
+        ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D m :
+          ExplicitIdeal.inverseIdeal R K D) : FractionRing R) := by
+  simp only [lineBundleModuleBaseChangeEquivExtendedInverseIdeal,
+    originalInverseIdealBaseChangeEquivExtended_of_flat_epi,
+    LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
+  change b • (chosenModuleEquivOriginalInverseIdeal R K D m : K) = _
+  rfl
+
 /-- Extension of an inverse divisor ideal through a flat epimorphic scalar tower agrees with
 the inverse divisor ideal obtained by extending directly to the top ring. -/
 noncomputable def extendedInverseIdealBaseChangeEquiv
@@ -1331,31 +1403,6 @@ theorem extendedInverseIdealEquiv_baseChange
       rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
-private noncomputable def originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion
-    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
-    [CommRing B] [IsDomain B] [Field K]
-    [Algebra R K] [IsFractionRing R K]
-    [Algebra R B] [IsTorsionFree R B]
-    [Algebra B K] [IsFractionRing B K]
-    [IsScalarTower R B K]
-    [IsOpenImmersion (extensionMap R B)]
-    (D : WeilDivisor (HeightOneSpectrum R)) :
-    B ⊗[R] originalInverseIdeal R K D ≃ₗ[B]
-      extendedInverseIdeal R B K D := by
-  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
-    CommRingCat.ofHom (algebraMap R B)
-  letI : Mono (Scheme.Spec.map f.op) := by
-    change Mono (Spec.map f)
-    infer_instance
-  letI : Mono f.op := Scheme.Spec.mono_of_mono_map inferInstance
-  letI : Epi f := by
-    change Epi f.op.unop
-    infer_instance
-  letI : Algebra.IsEpi R B :=
-    CommRingCat.epi_iff_epi.mp (inferInstanceAs (Epi f))
-  letI : Module.Flat R B := inferInstance
-  exact originalInverseIdealBaseChangeEquivExtended_of_flat_epi R B K D
-
 private noncomputable def extendScalarsCarrierEquiv
     (R B M N : Type u) [CommRing R] [CommRing B]
     [AddCommGroup M] [Module R M]
@@ -1401,11 +1448,12 @@ private noncomputable def chosenModuleBaseChangeEquivExtended_of_isOpenImmersion
     (D : WeilDivisor (HeightOneSpectrum R)) :
     (ModuleCat.extendScalars (algebraMap R B)).obj (chosenModule R K D) ≃ₗ[B]
       extendedInverseIdeal R B K D := by
+  letI := algebraIsEpiOfOpenImmersion R B
+  letI := moduleFlatOfOpenImmersion R B
   exact extendScalarsCarrierEquiv R B
     (AffineDedekind.lineBundleModule R K D)
     (extendedInverseIdeal R B K D) <|
-      ((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
-        (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)
+      lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D
 
 private lemma extendScalarsCarrierEquiv_apply_tmul
     (R B M N : Type u) [CommRing R] [CommRing B]
@@ -1526,18 +1574,22 @@ private lemma chosenModuleBaseChangeEquivExtended_apply_one_tmul
     ((chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D)
         ((1 : B) ⊗ₜ[R] m) : K) =
       (chosenModuleEquivOriginalInverseIdeal R K D m : K) := by
+  letI := algebraIsEpiOfOpenImmersion R B
+  letI := moduleFlatOfOpenImmersion R B
   rw [show chosenModuleBaseChangeEquivExtended_of_isOpenImmersion R B K D =
       extendScalarsCarrierEquiv R B
         (AffineDedekind.lineBundleModule R K D)
         (extendedInverseIdeal R B K D)
-        (((chosenModuleEquivOriginalInverseIdeal R K D).baseChange R B).trans
-          (originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion R B K D)) from rfl]
-  rw [extendScalarsCarrierEquiv_apply_tmul]
-  simp only [originalInverseIdealBaseChangeEquivExtended_of_isOpenImmersion,
-    originalInverseIdealBaseChangeEquivExtended_of_flat_epi,
-    LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
-  change (1 : B) • (chosenModuleEquivOriginalInverseIdeal R K D m : K) = _
-  rw [one_smul]
+        (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D) from rfl]
+  rw [extendScalarsCarrierEquiv_apply_tmul,
+    lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul, one_smul]
+  change (FractionRing.algEquiv R K)
+      ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D m :
+        ExplicitIdeal.inverseIdeal R K D) : FractionRing R) =
+    (fractionEquiv R K)
+      ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D m :
+        ExplicitIdeal.inverseIdeal R K D) : FractionRing R)
+  rfl
 
 private lemma extendScalarsCongr_inv_app_one_tmul
     {R₁ R₂ R₃ : Type u} [CommRing R₁] [CommRing R₂] [CommRing R₃]
@@ -3660,31 +3712,6 @@ private lemma divisorFractionalIdeal_coe_eq_prod
   rw [fractionalIdealDivisorAddEquiv_symm_apply]
   rfl
 
-private lemma algebraIsEpiOfOpenImmersion
-    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
-    [IsOpenImmersion (CommonExtension.extensionMap R B)] : Algebra.IsEpi R B := by
-  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
-    CommRingCat.ofHom (algebraMap R B)
-  letI : Mono (Scheme.Spec.map f.op) := by
-    change Mono (Spec.map f)
-    infer_instance
-  letI : Mono f.op := Scheme.Spec.mono_of_mono_map inferInstance
-  letI : Epi f := by
-    change Epi f.op.unop
-    infer_instance
-  exact CommRingCat.epi_iff_epi.mp (inferInstanceAs (Epi f))
-
-private lemma moduleFlatOfOpenImmersion
-    (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
-    [IsOpenImmersion (CommonExtension.extensionMap R B)] : Module.Flat R B := by
-  let f : CommRingCat.of R ⟶ CommRingCat.of B :=
-    CommRingCat.ofHom (algebraMap R B)
-  have hs : _root_.AlgebraicGeometry.Flat (Spec.map f) := by
-    change _root_.AlgebraicGeometry.Flat (CommonExtension.extensionMap R B)
-    infer_instance
-  exact RingHom.flat_algebraMap_iff.mp
-    (_root_.AlgebraicGeometry.Flat.SpecMap_iff.mp hs)
-
 private lemma idealMapComapEqOfFlatEpi
     (R B : Type u) [CommRing R] [CommRing B] [Algebra R B]
     [Algebra.IsEpi R B] [Module.Flat R B] (J : Ideal B) :
@@ -3745,8 +3772,8 @@ def underHeightOneOpenImmersion
   asIdeal := q.asIdeal.comap (algebraMap R B)
   isPrime := Ideal.IsPrime.comap (algebraMap R B)
   ne_bot := by
-    letI := algebraIsEpiOfOpenImmersion R B
-    letI := moduleFlatOfOpenImmersion R B
+    letI := CommonExtension.algebraIsEpiOfOpenImmersion R B
+    letI := CommonExtension.moduleFlatOfOpenImmersion R B
     intro hbot
     have hmap := idealMapComapEqOfFlatEpi R B q.asIdeal
     rw [hbot] at hmap
@@ -3762,8 +3789,8 @@ lemma map_underHeightOneOpenImmersion
     (q : HeightOneSpectrum B) :
     Ideal.map (algebraMap R B)
         (underHeightOneOpenImmersion R B q).asIdeal = q.asIdeal := by
-  letI := algebraIsEpiOfOpenImmersion R B
-  letI := moduleFlatOfOpenImmersion R B
+  letI := CommonExtension.algebraIsEpiOfOpenImmersion R B
+  letI := CommonExtension.moduleFlatOfOpenImmersion R B
   exact idealMapComapEqOfFlatEpi R B q.asIdeal
 
 private lemma map_heightOne_eq_top_or_heightOne_of_isOpenImmersion
@@ -3775,8 +3802,8 @@ private lemma map_heightOne_eq_top_or_heightOne_of_isOpenImmersion
     Ideal.map (algebraMap R B) v.asIdeal = ⊤ ∨
       ∃ w : HeightOneSpectrum B,
         Ideal.map (algebraMap R B) v.asIdeal = w.asIdeal := by
-  letI := algebraIsEpiOfOpenImmersion R B
-  letI := moduleFlatOfOpenImmersion R B
+  letI := CommonExtension.algebraIsEpiOfOpenImmersion R B
+  letI := CommonExtension.moduleFlatOfOpenImmersion R B
   let J := Ideal.map (algebraMap R B) v.asIdeal
   by_cases htop : J = ⊤
   · exact Or.inl htop

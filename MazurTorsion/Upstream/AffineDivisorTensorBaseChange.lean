@@ -133,4 +133,93 @@ theorem extendedInverseIdealTensorAddEquiv_baseChange
       (extendedInverseIdealTensorAddEquiv_baseChange_rhs_tmul
         R B C K D E c x y).symm
 
+/-- The path that first multiplies the fixed chosen line-bundle modules and then compares with
+the extended inverse ideal has the expected value on nested pure tensors. -/
+private theorem lineBundleModuleTensorAddEquiv_baseChange_lhs_tmul
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) (b : B)
+    (x : AffineDedekind.lineBundleModule R K D)
+    (y : AffineDedekind.lineBundleModule R K E) :
+    (((ExplicitIdeal.lineBundleModuleTensorAddEquiv R K D E).baseChange R B |>.trans
+        (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K (D + E)))
+        (b ⊗ₜ[R] (x ⊗ₜ[R] y)) : K) =
+      b • ((FractionRing.algEquiv R K)
+          ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D x :
+            ExplicitIdeal.inverseIdeal R K D) : FractionRing R) *
+        (FractionRing.algEquiv R K)
+          ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K E y :
+            ExplicitIdeal.inverseIdeal R K E) : FractionRing R)) := by
+  simp only [LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul,
+    lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul,
+    ExplicitIdeal.lineBundleModuleTensorAddEquiv_tmul, map_mul]
+
+/-- The path that first distributes scalar extension, compares each chosen module with its
+extended inverse ideal, and then multiplies has the same value on nested pure tensors. -/
+private theorem lineBundleModuleTensorAddEquiv_baseChange_rhs_tmul
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) (b : B)
+    (x : AffineDedekind.lineBundleModule R K D)
+    (y : AffineDedekind.lineBundleModule R K E) :
+    (((TensorProduct.AlgebraTensorModule.distribBaseChange R B
+          (AffineDedekind.lineBundleModule R K D)
+          (AffineDedekind.lineBundleModule R K E)).trans
+        ((TensorProduct.congr
+            (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D)
+            (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E)).trans
+          (extendedInverseIdealTensorAddEquiv R B K D E)))
+        (b ⊗ₜ[R] (x ⊗ₜ[R] y)) : K) =
+      b • ((FractionRing.algEquiv R K)
+          ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K D x :
+            ExplicitIdeal.inverseIdeal R K D) : FractionRing R) *
+        (FractionRing.algEquiv R K)
+          ((ExplicitIdeal.lineBundleModuleEquivInverseIdeal R K E y :
+            ExplicitIdeal.inverseIdeal R K E) : FractionRing R)) := by
+  simp only [LinearEquiv.trans_apply,
+    TensorProduct.AlgebraTensorModule.distribBaseChange_tmul,
+    TensorProduct.congr_tmul,
+    lineBundleModuleBaseChangeEquivExtendedInverseIdeal_tmul,
+    extendedInverseIdealTensorAddEquiv_tmul, one_smul,
+    Algebra.smul_mul_assoc]
+
+/-- The deterministic tensor-to-sum equivalence for the fixed affine line-bundle modules is
+natural under flat epimorphic scalar extension.  The lower path distributes scalar extension,
+compares both factors with their extended inverse ideals, and multiplies there. -/
+theorem lineBundleModuleTensorAddEquiv_baseChange
+    (R B K : Type u) [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsScalarTower R B K]
+    [Algebra.IsEpi R B] [Module.Flat R B]
+    (D E : WeilDivisor (HeightOneSpectrum R)) :
+    ((ExplicitIdeal.lineBundleModuleTensorAddEquiv R K D E).baseChange R B).trans
+        (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K (D + E)) =
+      (TensorProduct.AlgebraTensorModule.distribBaseChange R B
+          (AffineDedekind.lineBundleModule R K D)
+          (AffineDedekind.lineBundleModule R K E)).trans
+        ((TensorProduct.congr
+            (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K D)
+            (lineBundleModuleBaseChangeEquivExtendedInverseIdeal R B K E)).trans
+          (extendedInverseIdealTensorAddEquiv R B K D E)) := by
+  apply nestedTensorLinearEquiv_ext
+  intro b x y
+  apply Subtype.ext
+  exact (lineBundleModuleTensorAddEquiv_baseChange_lhs_tmul
+    R B K D E b x y).trans
+      (lineBundleModuleTensorAddEquiv_baseChange_rhs_tmul
+        R B K D E b x y).symm
+
 end MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension
