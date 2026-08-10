@@ -45,7 +45,7 @@ jobs:
           requirement = next(
               item for item in configuration["require"] if item["name"] == "TauCeti"
           )
-          assert requirement["rev"] == "10cb4c41fc7a663ea55f54f30c9db489e906b357"
+          assert requirement["rev"] == "a74dfee78f800df63f085a19006f7d502eee365e"
           assert packages["TauCeti"]["rev"] == requirement["rev"]
           assert packages["mathlib"]["rev"] == \
               "79d0395a1825a6264ad5d269e35e60537518955e"
