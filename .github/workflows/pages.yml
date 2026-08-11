@@ -487,7 +487,33 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Restore the exact API documentation
+        id: api-docs-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: docbuild/.lake/build/doc
+          key: >-
+            ApiDocsFinal-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lakefile.toml',
+            'lake-manifest.json',
+            'docbuild/**',
+            'MazurTorsion.lean',
+            'MazurTorsion/**/*.lean',
+            'EllipticCurves.lean',
+            'EllipticCurves/**/*.lean',
+            'Challenge.lean',
+            'Challenge/**/*.lean',
+            'upstream/tauceti/lean-toolchain',
+            'upstream/tauceti/lake-manifest.json'
+            ) }}
+
       - name: Reclaim runner disk for the complete Lean environment
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         with:
           android: true
@@ -498,20 +524,8 @@ jobs:
           tool-cache: true
           swap-storage: false
 
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Restore documentation cache
-        # Keep this restore-only: a per-commit doc-gen snapshot would compete
-        # with the multi-gigabyte checked-proof caches for the 10 GB quota.
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
-        with:
-          path: docbuild/.lake/build
-          key: Docs-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'docbuild/lean-toolchain', 'docbuild/lake-manifest.json') }}-${{ github.sha }}
-          restore-keys: |
-            Docs-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'docbuild/lean-toolchain', 'docbuild/lake-manifest.json') }}-
-
       - name: Install Lean
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           auto-config: false
@@ -519,6 +533,7 @@ jobs:
           use-mathlib-cache: false
 
       - name: Install the Mathlib cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         run: |
           if [ ! -d .lake/packages/mathlib ]; then
             scripts/get-mathlib-cache.sh
@@ -528,6 +543,7 @@ jobs:
       # documentation package depends on the root package through `../`, so a
       # doc build otherwise recompiles the full theorem library.
       - name: Restore the Tau Ceti build cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: tau-ceti-build-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -540,6 +556,7 @@ jobs:
             }}
 
       - name: Restore the order-25 build cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: order-twenty-five-build-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -559,6 +576,7 @@ jobs:
             OrderTwentyFive-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
 
       - name: Plan the regular Lean caches
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: regular-plan
         run: |
           set -euo pipefail
@@ -582,6 +600,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Restore the regular Lean base cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: regular-lean-base-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -595,6 +614,7 @@ jobs:
             LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
 
       - name: Restore the regular Lean downstream cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: regular-lean-downstream-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -614,20 +634,25 @@ jobs:
             LeanRegularDownstream-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
 
       - name: Complete the Tau Ceti dependency cache
-        if: steps.tau-ceti-build-cache.outputs.cache-hit != 'true'
+        if: >-
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
+          steps.tau-ceti-build-cache.outputs.cache-hit != 'true'
         run: lake build TauCeti
 
       - name: Install ORAS
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d
         with:
           version: 1.3.3
 
       - name: Log in to the generated-proof cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
       - name: Restore the generated Order Seven shards
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           df -h .
@@ -639,6 +664,7 @@ jobs:
           df -h .
 
       - name: Restore the final Order Seven bridge cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         id: order-seven-bridge-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -674,6 +700,7 @@ jobs:
             ) }}
 
       - name: Restore the generated certificate cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
@@ -703,6 +730,7 @@ jobs:
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Restore the certificate prerequisite cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
@@ -748,6 +776,7 @@ jobs:
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Restore the final certificate cache
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
@@ -795,7 +824,9 @@ jobs:
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Verify the generated certificate caches
-        if: github.ref == 'refs/heads/main'
+        if: >-
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
+          github.ref == 'refs/heads/main'
         run: |
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.olean
@@ -823,6 +854,7 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.olean
 
       - name: Build doc-gen4 site
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           cd docbuild
@@ -831,11 +863,66 @@ jobs:
           test -s .lake/build/doc/MazurTorsion.html
           test -s .lake/build/doc/EllipticCurves.html
           test -s .lake/build/doc/Challenge.html
-          printf '%s\n' "$GITHUB_SHA" > .lake/build/doc/SOURCE_SHA
+
+      - name: Record API documentation cache integrity
+        if: steps.api-docs-cache.outputs.cache-hit != 'true'
+        env:
+          API_DOCS_CACHE_KEY: ${{ steps.api-docs-cache.outputs.cache-primary-key }}
+        run: |
+          set -euo pipefail
+          cd docbuild/.lake/build/doc
+          if find . -mindepth 1 ! -type d ! -type f -print -quit | grep -q .; then
+            echo "::error::The generated documentation contains a non-regular entry."
+            exit 1
+          fi
+          printf '%s\n' "$API_DOCS_CACHE_KEY" > API_DOCS_CACHE_KEY
+          rm -f API_DOCS_MANIFEST.sha256
+          manifest_tmp=$(mktemp)
+          trap 'rm -f "$manifest_tmp"' EXIT
+          find . -type f \
+              ! -name SOURCE_SHA \
+              ! -name API_DOCS_MANIFEST.sha256 \
+              -print0 \
+            | LC_ALL=C sort -z \
+            | xargs -0 -r sha256sum > "$manifest_tmp"
+          mv "$manifest_tmp" API_DOCS_MANIFEST.sha256
+          trap - EXIT
+
+      - name: Validate and stamp API documentation
+        env:
+          API_DOCS_CACHE_KEY: ${{ steps.api-docs-cache.outputs.cache-primary-key }}
+        run: |
+          set -euo pipefail
+          cd docbuild/.lake/build/doc
+          if find . -mindepth 1 ! -type d ! -type f -print -quit | grep -q .; then
+            echo "::error::The cached documentation contains a non-regular entry."
+            exit 1
+          fi
+          test "$(cat API_DOCS_CACHE_KEY)" = "$API_DOCS_CACHE_KEY"
+          test -s API_DOCS_MANIFEST.sha256
+          sha256sum --check --strict API_DOCS_MANIFEST.sha256
+          test -s index.html
+          test -s MazurTorsion.html
+          test -s EllipticCurves.html
+          test -s Challenge.html
+          test -s declarations/declaration-data.bmp
+          find . -type f -name '*.css' -print -quit | grep -q .
+          find . -type f -name '*.js' -print -quit | grep -q .
+          printf '%s\n' "$GITHUB_SHA" > SOURCE_SHA
+
+      - name: Save the exact API documentation
+        if: >-
+          github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.api-docs-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: docbuild/.lake/build/doc
+          key: ${{ steps.api-docs-cache.outputs.cache-primary-key }}
 
       - name: Save the Tau Ceti build cache
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
           steps.tau-ceti-build-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -847,6 +934,7 @@ jobs:
       - name: Save the order-25 build cache
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
           steps.order-twenty-five-build-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -858,6 +946,7 @@ jobs:
       - name: Save the final Order Seven bridge cache
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
           steps.order-seven-bridge-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -879,6 +968,7 @@ jobs:
       - name: Save the regular Lean downstream cache
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.api-docs-cache.outputs.cache-hit != 'true' &&
           steps.regular-lean-downstream-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
