@@ -27,6 +27,22 @@ open OrderTwentyFiveDensePolynomial
 def HasInnerSupport (inner : ℕ) (p : Two) : Prop :=
   ∀ row ∈ p, row.length ≤ inner
 
+/-- A computable check for the row-width predicate.  It inspects only list
+spines and row lengths; coefficient values are never normalized. -/
+def hasInnerSupportCheck (inner : ℕ) (p : Two) : Bool :=
+  p.all fun row => decide (row.length ≤ inner)
+
+/-- A successful structural check proves the corresponding support
+predicate.  This is the small kernel-checked entry point for literal input
+tables. -/
+theorem hasInnerSupport_of_check {inner : ℕ} {p : Two}
+    (h : hasInnerSupportCheck inner p = true) :
+    HasInnerSupport inner p := by
+  intro row hrow
+  have hall : ∀ q ∈ p, decide (q.length ≤ inner) = true := by
+    simpa only [hasInnerSupportCheck, List.all_eq_true] using h
+  exact of_decide_eq_true (hall row hrow)
+
 private theorem length_addWith (add : α → α → α) : ∀ p q : List α,
     (addWith add p q).length = max p.length q.length := by
   intro p
