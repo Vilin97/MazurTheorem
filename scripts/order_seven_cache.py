@@ -285,8 +285,8 @@ SHARDS.update(
         ),
         "r2-scalars-5": recurrence_shard(
             2,
-            targets=("Scalar2Exceptional", "Scalar3Exceptional", "Scalar2Left"),
-            artifacts=("Scalar2Exceptional*", "Scalar3Exceptional*", "Scalar2Left*"),
+            targets=("Scalar2Exceptional",),
+            artifacts=("Scalar2Exceptional*",),
             predecessors=("r2-base-a", "r2-base-b", "r2-base-c", "r2-products-a", "r2-products-b"),
         ),
         "r2-scalars-6": recurrence_shard(
@@ -295,10 +295,16 @@ SHARDS.update(
             artifacts=("Scalar2Main*", "Scalar2Shift*", "Scalar4Main*"),
             predecessors=("r2-base-a", "r2-base-b", "r2-base-c", "r2-products-a", "r2-products-b"),
         ),
+        "r2-scalars-7": recurrence_shard(
+            2,
+            targets=("Scalar3Exceptional", "Scalar2Left"),
+            artifacts=("Scalar3Exceptional*", "Scalar2Left*"),
+            predecessors=("r2-base-a", "r2-base-b", "r2-base-c", "r2-products-a", "r2-products-b"),
+        ),
         "r4-scalars-0": recurrence_shard(
             4,
-            targets=("Scalar2Left", "Scalar2Exceptional"),
-            artifacts=("Scalar2Left*", "Scalar2Exceptional*"),
+            targets=("Scalar2Left",),
+            artifacts=("Scalar2Left*",),
             predecessors=("r4-base-a", "r4-base-b", "r4-base-c", "r4-products-a", "r4-products-b"),
         ),
         "r4-scalars-1": recurrence_shard(
@@ -355,10 +361,16 @@ SHARDS.update(
             artifacts=("Scalar2Second*",),
             predecessors=("r4-base-a", "r4-base-b", "r4-base-c", "r4-products-a", "r4-products-b"),
         ),
+        "r4-scalars-10": recurrence_shard(
+            4,
+            targets=("Scalar2Exceptional",),
+            artifacts=("Scalar2Exceptional*",),
+            predecessors=("r4-base-a", "r4-base-b", "r4-base-c", "r4-products-a", "r4-products-b"),
+        ),
         "r5-scalars-0": recurrence_shard(
             5,
-            targets=("Scalar0Main", "Scalar1Exceptional"),
-            artifacts=("Scalar0Main*", "Scalar1Exceptional*"),
+            targets=("Scalar0Main",),
+            artifacts=("Scalar0Main*",),
             predecessors=("r5-base-a", "r5-base-b", "r5-base-c", "r5-products-a", "r5-products-b"),
         ),
         "r5-scalars-1": recurrence_shard(
@@ -379,23 +391,29 @@ SHARDS.update(
             artifacts=("Scalar1First*",),
             predecessors=("r5-base-a", "r5-base-b", "r5-base-c", "r5-products-a", "r5-products-b"),
         ),
+        "r5-scalars-4": recurrence_shard(
+            5,
+            targets=("Scalar1Exceptional",),
+            artifacts=("Scalar1Exceptional*",),
+            predecessors=("r5-base-a", "r5-base-b", "r5-base-c", "r5-products-a", "r5-products-b"),
+        ),
         "r2-final": recurrence_shard(
             2,
             targets=("",),
             artifacts=("ScalarResidual*", ""),
-            predecessors=tuple(f"r2-scalars-{index}" for index in range(7)),
+            predecessors=tuple(f"r2-scalars-{index}" for index in range(8)),
         ),
         "r4-final": recurrence_shard(
             4,
             targets=("",),
             artifacts=("Scalar", ""),
-            predecessors=tuple(f"r4-scalars-{index}" for index in range(10)),
+            predecessors=tuple(f"r4-scalars-{index}" for index in range(11)),
         ),
         "r5-final": recurrence_shard(
             5,
             targets=("",),
             artifacts=("Scalar", ""),
-            predecessors=tuple(f"r5-scalars-{index}" for index in range(4)),
+            predecessors=tuple(f"r5-scalars-{index}" for index in range(5)),
         ),
     }
 )
