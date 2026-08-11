@@ -24,6 +24,7 @@ open OrderTwentyFiveRelationFourCertificate.Internal
 
 
 def NegData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.NegData
+def RData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.RData
 def SData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.SData
 def AData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.AData
 def BData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.BData
@@ -41,6 +42,10 @@ def TData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.TData
 theorem eval_NegData (r s : ℚ) :
     Two.eval NegData r s = (-1 : ℚ) := by
   rw [NegData, OrderTwentyFiveRelationZeroCertificate.Dense.eval_NegData]
+
+theorem eval_RData (r s : ℚ) :
+    Two.eval RData r s = r := by
+  rw [RData, OrderTwentyFiveRelationZeroCertificate.Dense.eval_RData]
 
 theorem eval_SData (r s : ℚ) :
     Two.eval SData r s = s := by
