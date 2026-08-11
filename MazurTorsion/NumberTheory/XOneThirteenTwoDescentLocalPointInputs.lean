@@ -4,8 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.XOneThirteenTwoDescentSextic
+import MazurTorsion.NumberTheory.XOneThirteenTwoDescentMagmaBridge
+import Mathlib.Algebra.Polynomial.SpecificDegree
 import Mathlib.NumberTheory.Padics.Hensel
+import Mathlib.Tactic.FinCases
 
 /-!
 # Concrete `Q_2` point inputs for the `X_1(13)` two-descent
@@ -19,11 +21,16 @@ square roots in `Q_2` are constructed using Mathlib's checked Hensel lemma.
 The final declaration records only the elementary arithmetic common to the
 two possible factor patterns of the sextic over `Q_2`.  It does not assert
 Stoll's Jacobian-dimension formula or any local Kummer-image theorem.
+
+The repeated-factor input itself is also checked here: the alternate sextic
+used for the descent is the square of the irreducible cubic
+`X^3 + X^2 + 1` modulo `2`.
 -/
 
 namespace MazurTorsion.XOneThirteenTwoDescentLocalPointInputs
 
 open Polynomial
+open XOneThirteenTwoDescentMagmaBridge
 
 noncomputable section
 
@@ -49,6 +56,45 @@ theorem threeHundredThirteen_mod_eight : 313 % 8 = 1 := by
 
 theorem oneHundredNinetyThree_mod_eight : 193 % 8 = 1 := by
   norm_num
+
+/-! ## The repeated cubic factor modulo two -/
+
+/-- The sole distinct factor of the alternate sextic modulo `2`. -/
+def phi : (ZMod 2)[X] := X ^ 3 + X ^ 2 + 1
+
+theorem phi_natDegree : phi.natDegree = 3 := by
+  simp only [phi]
+  compute_degree!
+
+theorem phi_monic : phi.Monic := by
+  simp only [phi]
+  monicity!
+
+/-- The cubic has no root in `ZMod 2`, so it is irreducible. -/
+theorem phi_irreducible : Irreducible phi := by
+  apply Polynomial.irreducible_of_degree_le_three_of_not_isRoot
+  · rw [phi_natDegree]
+    norm_num
+  · intro x
+    unfold Polynomial.IsRoot
+    simp only [phi, eval_add, eval_pow, eval_X, eval_one]
+    fin_cases x <;> decide
+
+/-- Exact repeated-factor identity for the alternate descent polynomial. -/
+theorem magmaSexticModTwo_eq_phi_sq : magmaSexticModTwo = phi ^ 2 := by
+  rw [magmaSexticModTwo_eq]
+  simp only [phi]
+  ring_nf
+  reduce_mod_char
+
+/-- The complete polynomial input behind the local factor pattern: there is
+one displayed irreducible monic factor, of degree three, and the sextic is
+its square.  No Jacobian-dimension formula is included. -/
+theorem magmaSexticModTwo_singleFactorData :
+    phi.Monic ∧ Irreducible phi ∧ phi.natDegree = 3 ∧
+      magmaSexticModTwo = phi ^ 2 := by
+  exact ⟨phi_monic, phi_irreducible, phi_natDegree,
+    magmaSexticModTwo_eq_phi_sq⟩
 
 /-- The concrete `1 mod 8` Hensel step.  It is kept private because the
 downstream descent only needs the two displayed instances below. -/
