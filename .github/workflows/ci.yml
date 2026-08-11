@@ -370,17 +370,16 @@ jobs:
       contents: read
       packages: read
     steps:
-      - name: Maximize runner disk for the complete Lean environment
-        uses: easimon/maximize-build-space@c28619d8999a147d5e09c1199f84ff6af6ad5794
+      - name: Reclaim runner disk for the complete Lean environment
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         with:
-          root-reserve-mb: 4096
-          temp-reserve-mb: 200
-          swap-size-mb: 4096
-          remove-dotnet: true
-          remove-android: true
-          remove-haskell: true
-          remove-codeql: true
-          remove-docker-images: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          tool-cache: true
+          swap-storage: false
 
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
