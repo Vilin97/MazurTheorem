@@ -11,7 +11,7 @@ jobs:
     name: Prebuild the regular Lean cache
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     concurrency:
       # Core and Pages use the same immutable keys.  On a miss, let one build
       # finish before the other probes again instead of duplicating the cold
@@ -28,6 +28,8 @@ jobs:
         id: regular-plan
         run: |
           set -euo pipefail
+          python3 scripts/lean_regular_cache.py check
+          python3 scripts/lean_audit_cache.py check
           {
             echo "schema=$(python3 scripts/lean_regular_cache.py schema)"
             echo "digest=$(python3 scripts/lean_regular_cache.py digest)"
@@ -42,6 +44,11 @@ jobs:
             echo "paths<<LEAN_CACHE_PATHS"
             python3 scripts/lean_regular_cache.py paths
             echo "LEAN_CACHE_PATHS"
+            echo "audit-schema=$(python3 scripts/lean_audit_cache.py schema)"
+            echo "audit-digest=$(python3 scripts/lean_audit_cache.py digest)"
+            echo "audit-paths<<LEAN_AUDIT_CACHE_PATHS"
+            python3 scripts/lean_audit_cache.py paths
+            echo "LEAN_AUDIT_CACHE_PATHS"
           } >> "$GITHUB_OUTPUT"
 
       # Probe first.  A fully warm producer must not download the same
@@ -57,6 +64,17 @@ jobs:
             runner.os }}-${{ runner.arch }}-${{
             steps.regular-plan.outputs.config }}-${{
             steps.regular-plan.outputs.digest }}
+          lookup-only: true
+
+      - name: Probe the exhaustive-audit module cache
+        id: audit-modules-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.audit-paths }}
+          key: >-
+            LeanAuditModules-v${{ steps.regular-plan.outputs.audit-schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.audit-digest }}
           lookup-only: true
 
       - name: Probe the Tau Ceti build cache
@@ -93,6 +111,7 @@ jobs:
       - name: Restore the regular base cache
         if: >-
           steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
         id: regular-lean-base-cache
@@ -106,6 +125,17 @@ jobs:
             steps.regular-plan.outputs.digest }}
           restore-keys: |
             LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
+
+      - name: Restore the exhaustive-audit module cache
+        if: steps.audit-modules-probe.outputs.cache-hit != 'true'
+        id: audit-modules-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.audit-paths }}
+          key: >-
+            LeanAuditModules-v${{ steps.regular-plan.outputs.audit-schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.audit-digest }}
 
       - name: Restore the Tau Ceti build cache
         if: >-
@@ -149,6 +179,7 @@ jobs:
       - name: Reclaim runner disk on a cache miss
         if: >-
           steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
@@ -164,6 +195,7 @@ jobs:
       - name: Install Lean
         if: >-
           steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
@@ -175,6 +207,7 @@ jobs:
       - name: Install the Mathlib cache
         if: >-
           steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
         run: scripts/get-mathlib-cache.sh
@@ -192,6 +225,18 @@ jobs:
             2>&1 | tee regular-lean-base.log
           if grep -nE '(^|: )warning:' regular-lean-base.log; then
             echo "::error::The regular Lean base emitted warnings."
+            exit 1
+          fi
+
+      - name: Build the exhaustive-audit modules
+        if: steps.audit-modules-probe.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mapfile -t targets < <(python3 scripts/lean_audit_cache.py targets)
+          /usr/bin/time -v lake build "${targets[@]}" \
+            2>&1 | tee lean-audit-modules.log
+          if grep -nE '(^|: )warning:' lean-audit-modules.log; then
+            echo "::error::The exhaustive-audit modules emitted warnings."
             exit 1
           fi
 
@@ -214,6 +259,13 @@ jobs:
         with:
           path: ${{ steps.regular-plan.outputs.paths }}
           key: ${{ steps.regular-lean-base-cache.outputs.cache-primary-key }}
+
+      - name: Save the exhaustive-audit module cache
+        if: success() && steps.audit-modules-probe.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.audit-paths }}
+          key: ${{ steps.audit-modules-cache.outputs.cache-primary-key }}
 
       - name: Save the Tau Ceti build cache
         if: success() && steps.tau-ceti-probe.outputs.cache-hit != 'true'

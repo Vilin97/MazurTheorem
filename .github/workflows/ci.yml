@@ -79,8 +79,10 @@ jobs:
       - name: Validate the Order Seven cache manifest
         run: python3 scripts/order_seven_cache.py check
 
-      - name: Validate the regular Lean cache manifest
-        run: python3 scripts/lean_regular_cache.py check
+      - name: Validate the regular Lean cache manifests
+        run: |
+          python3 scripts/lean_regular_cache.py check
+          python3 scripts/lean_audit_cache.py check
 
       - name: Protect immutable challenge contracts
         if: github.event_name == 'pull_request'
@@ -631,6 +633,11 @@ jobs:
             echo "downstream-paths<<LEAN_DOWNSTREAM_PATHS"
             python3 scripts/lean_regular_cache.py downstream-paths
             echo "LEAN_DOWNSTREAM_PATHS"
+            echo "audit-schema=$(python3 scripts/lean_audit_cache.py schema)"
+            echo "audit-digest=$(python3 scripts/lean_audit_cache.py digest)"
+            echo "audit-paths<<LEAN_AUDIT_CACHE_PATHS"
+            python3 scripts/lean_audit_cache.py paths
+            echo "LEAN_AUDIT_CACHE_PATHS"
           } >> "$GITHUB_OUTPUT"
 
       - name: Restore the regular Lean base cache
@@ -664,6 +671,16 @@ jobs:
             ) }}
           restore-keys: |
             LeanRegularDownstream-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
+
+      - name: Restore the exhaustive-audit module cache
+        id: audit-modules-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.audit-paths }}
+          key: >-
+            LeanAuditModules-v${{ steps.regular-plan.outputs.audit-schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.audit-digest }}
 
       - name: Restore the exact validation attestation
         id: lean-validation-cache
@@ -902,7 +919,9 @@ jobs:
       - name: Build every checked Lean library
         run: |
           set -euo pipefail
-          lake build MazurTorsion EllipticCurves 2>&1 | tee lean-build.log
+          mapfile -t audit_targets < <(python3 scripts/lean_audit_cache.py targets)
+          lake build MazurTorsion EllipticCurves "${audit_targets[@]}" \
+            2>&1 | tee lean-build.log
 
       - name: Save the Tau Ceti build cache
         if: >-
