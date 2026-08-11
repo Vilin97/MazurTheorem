@@ -1,0 +1,178 @@
+name: Cache the generated Order Seven proof
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  LEAN_NUM_THREADS: "1"
+
+jobs:
+  order-seven-seed:
+    name: Seed the generated order-7 cache
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    concurrency:
+      group: order-seven-seed-${{ github.sha }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Validate the shard manifest
+        run: python3 scripts/order_seven_cache.py check
+
+      - name: Install ORAS
+        uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d
+        with:
+          version: 1.3.3
+
+      - name: Log in to the generated-proof cache
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+      - name: Check for an exact seed cache
+        id: cache
+        run: |
+          if scripts/order-seven-cache.sh probe seed; then
+            echo "hit=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hit=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Lean
+        if: steps.cache.outputs.hit != 'true'
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        if: steps.cache.outputs.hit != 'true'
+        run: lake exe cache get
+
+      - name: Build the shared Order Seven seed
+        if: steps.cache.outputs.hit != 'true'
+        run: |
+          set -euo pipefail
+          lake build \
+            MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData6 \
+            2>&1 | tee order-seven-seed.log
+          if grep -nE '(^|: )warning:' order-seven-seed.log; then
+            echo "::error::The Order Seven seed build emitted warnings."
+            exit 1
+          fi
+
+      - name: Publish the shared Order Seven seed
+        if: steps.cache.outputs.hit != 'true'
+        run: scripts/order-seven-cache.sh push seed
+
+  order-seven-shards:
+    name: Build generated order-7 shard (${{ matrix.shard }})
+    needs: order-seven-seed
+    if: github.ref == 'refs/heads/main' && needs.order-seven-seed.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    concurrency:
+      group: order-seven-${{ matrix.shard }}-${{ github.sha }}
+      cancel-in-progress: false
+    env:
+      # The producer lanes are independent and run only on exact cache misses.
+      # Two workers keep the cold seed bounded without putting
+      # the largest generated modules under four-way memory pressure.
+      LEAN_NUM_THREADS: "2"
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - factor
+          - auxiliary
+          - r0
+          - r1
+          - r2
+          - r4
+          - r5
+          - r6
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Install ORAS
+        uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d
+        with:
+          version: 1.3.3
+
+      - name: Log in to the generated-proof cache
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+      - name: Check for an exact shard cache
+        id: cache
+        run: |
+          if scripts/order-seven-cache.sh probe "${{ matrix.shard }}"; then
+            echo "hit=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hit=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Reclaim runner disk for generated artifacts
+        if: steps.cache.outputs.hit != 'true'
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          # ORAS was installed in the hosted tool cache before the hit probe.
+          tool-cache: false
+          swap-storage: false
+
+      - name: Install Lean
+        if: steps.cache.outputs.hit != 'true'
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        if: steps.cache.outputs.hit != 'true'
+        run: lake exe cache get
+
+      - name: Restore the shared Order Seven seed
+        if: steps.cache.outputs.hit != 'true'
+        run: scripts/order-seven-cache.sh pull seed
+
+      - name: Build the Order Seven shard
+        if: steps.cache.outputs.hit != 'true'
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          {
+            while IFS= read -r target; do
+              lake build "$target"
+            done < <(python3 scripts/order_seven_cache.py targets "$SHARD")
+          } 2>&1 | tee "order-seven-${SHARD}.log"
+          if grep -nE '(^|: )warning:' "order-seven-${SHARD}.log"; then
+            echo "::error::The Order Seven $SHARD build emitted warnings."
+            exit 1
+          fi
+
+      - name: Publish the Order Seven shard
+        if: steps.cache.outputs.hit != 'true'
+        run: scripts/order-seven-cache.sh push "${{ matrix.shard }}"
