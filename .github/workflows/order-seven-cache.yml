@@ -211,13 +211,23 @@ jobs:
           - r2-scalars-1
           - r2-scalars-2
           - r2-scalars-3
+          - r2-scalars-4
+          - r2-scalars-5
+          - r2-scalars-6
           - r4-scalars-0
           - r4-scalars-1
           - r4-scalars-2
           - r4-scalars-3
+          - r4-scalars-4
+          - r4-scalars-5
+          - r4-scalars-6
+          - r4-scalars-7
+          - r4-scalars-8
+          - r4-scalars-9
           - r5-scalars-0
           - r5-scalars-1
           - r5-scalars-2
+          - r5-scalars-3
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
