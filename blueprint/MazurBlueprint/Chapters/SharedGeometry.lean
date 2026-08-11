@@ -6,6 +6,7 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
+set_option maxRecDepth 10000
 #doc (Manual) "03 — Shared algebraic geometry and isogenies" =>
 
 :::group "shared_geometry"
