@@ -644,6 +644,7 @@ only quotient-side calculation is the displayed completed expansion and its
 computed degree-one coefficient. -/
 theorem
     isFormalImmersionAtSpecMap_of_explicit_qExpansion_of_structuralSection_dvr
+    {K : Type u} [Field K]
     (p : Ideal R) [p.IsPrime]
     (g : S →ₐ[R] T)
     (C : AffineStructuralSection (R := R) (T := T))
@@ -661,12 +662,8 @@ theorem
     (qCoordinate :
       LocalCompletion.Ring
           (Localization.AtPrime (C.fiberPrime p)) ≃+*
-        PowerSeries
-          (IsLocalRing.ResidueField
-            (Localization.AtPrime (C.fiberPrime p))))
-    (Q : PowerSeries
-      (IsLocalRing.ResidueField
-        (Localization.AtPrime (C.fiberPrime p))))
+        PowerSeries K)
+    (Q : PowerSeries K)
     (hqExpansion :
       qCoordinate
           (completionRingHom

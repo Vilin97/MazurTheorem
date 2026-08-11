@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.ModularCurve.AffineCuspDifferentialArithmeticConsumers
+import MazurTorsion.ModularCurve.AffineStructuralSectionQCoordinate
 import MazurTorsion.ModularCurve.OrderThirtyFiveQuotientQExpansion
 
 /-!
@@ -74,6 +75,56 @@ private abbrev ElevenBase := atEleven.adicCompletionIntegers ℚ
 private abbrev ElevenPrime : Ideal ElevenBase :=
   affineCuspSpecialFiberIdealAtEleven
 
+/-- The denominator-cleared local identity already determines the complete
+level-35 quotient expansion in the coordinate constructed from the section.
+
+This is the bridge expected from an explicit hyperelliptic chart: it only
+asks the chart comparison to prove the algebraic identity
+`(W - 1)(1 + q - q²) = -7q`.  The power-series inverse and every coefficient
+calculation are then derived here. -/
+theorem qExpansion_eq_quotientParameterExpansion_of_cleared_localFormula
+    {R T : Type u} [CommRing R] [CommRing T] [Algebra R T]
+    (p : Ideal R) [p.IsPrime]
+    (C : AffineStructuralSection (R := R) (T := T))
+    [IsDomain (C.FiberLocalRing p)]
+    [IsDiscreteValuationRing (C.FiberLocalRing p)]
+    (q : C.FiberLocalRing p) (hq : Irreducible q)
+    (pulledBackParameter : C.FiberLocalRing p)
+    (hcleared :
+      pulledBackParameter * (1 + q - q ^ 2) =
+        algebraMap p.ResidueField (C.FiberLocalRing p) (-7) * q) :
+    C.qCoordinate p q hq
+        (completionRingHom (C.FiberLocalRing p) pulledBackParameter) =
+      quotientParameterExpansion := by
+  have hseries := congrArg
+    (fun z => C.qCoordinate p q hq
+      (completionRingHom (C.FiberLocalRing p) z)) hcleared
+  have hseriesCleared :
+      C.qCoordinate p q hq
+          (completionRingHom (C.FiberLocalRing p) pulledBackParameter) *
+          denominator =
+        PowerSeries.C (-7 : p.ResidueField) * PowerSeries.X := by
+    simpa only [map_mul, map_add, map_one, map_sub, map_pow,
+      C.qCoordinate_uniformizer p q hq,
+      C.qCoordinate_algebraMap p q hq, denominator] using hseries
+  have hquotientCleared :
+      quotientParameterExpansion (K := p.ResidueField) * denominator =
+        PowerSeries.C (-7 : p.ResidueField) * PowerSeries.X := by
+    rw [quotientParameterExpansion_eq, Algebra.smul_def]
+    have hinv : (denominator (K := p.ResidueField))⁻¹ * denominator = 1 := by
+      rw [mul_comm]
+      exact PowerSeries.mul_inv_cancel denominator (by simp)
+    calc
+      PowerSeries.C (-7 : p.ResidueField) *
+            (PowerSeries.X * denominator⁻¹) * denominator =
+          PowerSeries.C (-7 : p.ResidueField) * PowerSeries.X *
+            (denominator⁻¹ * denominator) := by ring
+      _ = PowerSeries.C (-7 : p.ResidueField) * PowerSeries.X := by
+        rw [hinv]
+        exact _root_.mul_one _
+  apply mul_right_cancel₀ (denominator_ne_zero (K := p.ResidueField))
+  exact hseriesCleared.trans hquotientCleared.symm
+
 /-- The explicit quotient parameter proves formal immersion through any
 affine open of the quotient model containing the cusp image. -/
 theorem isFormalImmersionAt_of_affineOpen_explicitQuotientQExpansion
@@ -98,34 +149,30 @@ theorem isFormalImmersionAt_of_affineOpen_explicitQuotientQExpansion
       ((C.fiberPrime p).comap (map p g)))
     (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
       (Localization.AtPrime ((C.fiberPrime p).comap (map p g))))
-    (qCoordinate :
-      LocalCompletion.Ring
-          (Localization.AtPrime (C.fiberPrime p)) ≃+*
-        PowerSeries
-          (IsLocalRing.ResidueField
-            (Localization.AtPrime (C.fiberPrime p))))
-    (hqExpansion :
-      qCoordinate
-          (completionRingHom
-            (Localization.AtPrime (C.fiberPrime p))
-            (localizedMap p g (C.fiberPrime p) sourceParameter)) =
-        quotientParameterExpansion)
-    (hseven :
-      (7 : IsLocalRing.ResidueField
-        (Localization.AtPrime (C.fiberPrime p))) ≠ 0) :
+    (hclearedLocalFormula :
+      localizedMap p g (C.fiberPrime p) sourceParameter *
+          (1 + qParameter - qParameter ^ 2) =
+        algebraMap p.ResidueField
+          (Localization.AtPrime (C.fiberPrime p)) (-7) * qParameter)
+    (hseven : (7 : p.ResidueField) ≠ 0) :
     IsFormalImmersionAt quotientMap
       (targetSpecPoint p (C.fiberPrime p)) := by
   have hcoeff : PowerSeries.coeff 1
-      (quotientParameterExpansion (K := IsLocalRing.ResidueField
-        (Localization.AtPrime (C.fiberPrime p)))) ≠ 0 := by
+      (quotientParameterExpansion (K := p.ResidueField)) ≠ 0 := by
     rw [coeff_one_quotientParameterExpansion]
     exact neg_ne_zero.mpr hseven
+  have hqExpansion :=
+    qExpansion_eq_quotientParameterExpansion_of_cleared_localFormula
+      p C qParameter hqParameter
+      (localizedMap p g (C.fiberPrime p) sourceParameter)
+      hclearedLocalFormula
   have hlocal : IsFormalImmersionAt
       (Spec.map (CommRingCat.ofHom g.toRingHom))
       (targetSpecPoint p (C.fiberPrime p)) :=
     isFormalImmersionAtSpecMap_of_explicit_qExpansion_of_structuralSection_dvr
-      p g C qParameter hqParameter sourceParameter hsourceMem qCoordinate
-      quotientParameterExpansion hqExpansion hcoeff
+      p g C qParameter hqParameter sourceParameter hsourceMem
+      (C.qCoordinate p qParameter hqParameter) quotientParameterExpansion
+      hqExpansion hcoeff
   have hopen := isFormalImmersionAt_of_isOpenImmersion targetOpen
     ((Spec.map (CommRingCat.ofHom g.toRingHom))
       (targetSpecPoint p (C.fiberPrime p)))
@@ -227,18 +274,13 @@ theorem
     (hsourceMem : sourceParameter ∈ IsLocalRing.maximalIdeal
       (Localization.AtPrime
         ((C.fiberPrime ElevenPrime).comap (map ElevenPrime g))))
-    (qCoordinate :
-      LocalCompletion.Ring
-          (Localization.AtPrime (C.fiberPrime ElevenPrime)) ≃+*
-        PowerSeries
-          (IsLocalRing.ResidueField
-            (Localization.AtPrime (C.fiberPrime ElevenPrime))))
-    (hqExpansion :
-      qCoordinate
-          (completionRingHom
-            (Localization.AtPrime (C.fiberPrime ElevenPrime))
-            (localizedMap ElevenPrime g (C.fiberPrime ElevenPrime)
-              sourceParameter)) = quotientParameterExpansion)
+    (hclearedLocalFormula :
+      localizedMap ElevenPrime g (C.fiberPrime ElevenPrime)
+            sourceParameter *
+          (1 + qParameter - qParameter ^ 2) =
+        algebraMap ElevenPrime.ResidueField
+          (Localization.AtPrime (C.fiberPrime ElevenPrime)) (-7) *
+            qParameter)
     (hgeneric_ne :
       fractionSpecMap ElevenBase (atEleven.adicCompletion ℚ) ≫
           modularSection.left ≠
@@ -263,8 +305,8 @@ theorem
       (targetSpecPoint ElevenPrime (C.fiberPrime ElevenPrime)) :=
     isFormalImmersionAt_of_affineOpen_explicitQuotientQExpansion ElevenPrime
       C g targetOpen quotientMap.left hfactor qParameter hqParameter
-      sourceParameter hsourceMem qCoordinate hqExpansion
-      (seven_ne_zero_in_affineCuspResidueAtEleven C)
+      sourceParameter hsourceMem hclearedLocalFormula
+      elevenPrimeResidue_seven_ne_zero
   have hcuspPoint :
       closedFiberPointAtEleven C.overSection.left =
         targetSpecPoint ElevenPrime (C.fiberPrime ElevenPrime) := by
