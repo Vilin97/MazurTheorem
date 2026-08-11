@@ -1,0 +1,528 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitRelationFourCertificateDenseTermOneC15
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitRelationFourCertificateTermOneData
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+
+/-! # Final dense multiplication and coefficient checks for RelationFour term one -/
+
+namespace MazurTorsion.Kubert.OrderTwentyFiveRelationFourCertificate.Dense
+
+open OrderTwentyFiveDensePolynomial
+open OrderTwentyFiveRelationFourCertificate.Internal
+
+private def termOneStage16C0 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -2, 3, -4, 3, -2, 1]
+
+private def termOneStage16C1 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -5, 15, -37, -1, 92, -220, 394, -469,
+   451, -373, 241, -137, 70, -30, 10, -2]
+
+private def termOneStage16C2 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -70, 406, -1371, 3710, -5589, 5544, -3090,
+   -3264, 10320, -15298, 17522, -16170, 12793, -9084, 5834, -3380, 1748, -800, 330, -120, 36,
+   -8, 1]
+
+private def termOneStage16C3 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, -22, 132, -575, 2032, -3760, 572, 20564, -92125,
+   206301, -326623, 422085, -427865, 340602, -209828, 73776, 23920, -68832, 76245, -64417,
+   46290, -29026, 15808, -7613, 3303, -1270, 410, -100, 15, -1]
+
+private def termOneStage16C4 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, -74, 1019, -6650, 30604, -113510, 308169, -621676,
+   924396, -616706, -717347, 2914054, -5636009, 7852194, -8662564, 8069478, -6442980, 4443674,
+   -2705081, 1476172, -719437, 300926, -95697, 15902, 4948, -6760, 4728, -2608, 1105, -316, 53,
+   -4]
+
+private def termOneStage16C5 : One :=
+  [0, 0, 0, 0, 0, 0, 0, 1, -17, 153, -969, 5010, -19439, 53291, -86744, -51853, 1073494,
+   -4418716, 11819873, -24262047, 36594202, -40404455, 31394736, -7932636, -23623861, 50724202,
+   -65539711, 66137750, -55623982, 40479939, -26272976, 15554623, -8486247, 4218603, -1884094,
+   763877, -289201, 102524, -31440, 6728, -481, -189, 57, -5]
+
+private def termOneStage16C6 : One :=
+  [0, 0, 0, 0, 0, 0, -2, -6, 364, -3987, 27170, -145191, 610278, -2023474, 5361748, -11079778,
+   14517014, -321565, -58512360, 197539655, -408072108, 618158133, -751811586, 742048991,
+   -572156300, 312888530, -59312042, -120784913, 200862904, -198452543, 153723696, -101777379,
+   60410536, -32713874, 15973066, -6922863, 2684352, -973097, 346120, -115681, 31604, -6075,
+   698, -35, 0]
+
+private def termOneStage16C7 : One :=
+  [0, 0, 0, 0, 0, 1, 64, -434, -1664, 40296, -323800, 1866407, -8336047, 29648267, -86718251,
+   212010290, -417408684, 631517559, -650026168, 76727173, 1361121466, -3415883086, 5527006038,
+   -7007930510, 7277605959, -6317026275, 4613993411, -2779354488, 1293454200, -366959093,
+   -56535868, 166893542, -146185930, 97680324, -56360824, 28162614, -11819892, 4094547,
+   -1235767, 382285, -129589, 39671, -8967, 1337, -119, 5]
+
+private def termOneStage16C8 : One :=
+  [0, 0, 0, 0, 0, -42, -872, 10261, -32554, -125521, 1940464, -13420330, 65932282, -250640600,
+   779295660, -2052657936, 4535040952, -8323196064, 12651300114, -14999235018, 12036613594,
+   -2747042391, -11017027048, 25485879458, -35894817026, 39147228353, -35489414176, 27489041903,
+   -18326990354, 10497522353, -5139990428, 2151428758, -776582696, 236624568, -46684262,
+   -9818781, 16795140, -9734892, 3399052, -725258, 98282, -24015, 12544, -4193, 800, -85, 4]
+
+private def termOneStage16C9 : One :=
+  [0, 0, 0, 0, 1, 825, 5893, -114500, 628101, -1399659, -3025010, 51823504, -320145687,
+   1355555081, -4510566954, 12622102729, -29924848836, 60038630750, -103129800083, 149506924500,
+   -178204951518, 171576718434, -126489477675, 53663450079, 24795177482, -84866450954,
+   113544942536, -112154116808, 91084600909, -62944328181, 37456865847, -19338036154,
+   8806585907, -3654340050, 1429087590, -522884380, 164440900, -36939681, 3064846, 1219080,
+   -421106, 46, 28799, -7211, 555, 69, -17, 1]
+
+private def termOneStage16C10 : One :=
+  [0, 0, 0, 0, -36, -10159, -6742, 783143, -5628594, 21190258, -48429238, -16177441, 819062480,
+   -4627761002, 17369491358, -52527187904, 133318437456, -286107007650, 529712374094,
+   -846565660356, 1152292803556, -1334805524589, 1324356633148, -1117665454204, 776588896828,
+   -406166332657, 102901595422, 85565675791, -162591068464, 161485219024, -122105843656,
+   75787925299, -39654904474, 17880785235, -7205536216, 2737958994, -1016110572, 354535694,
+   -104778342, 22948607, -2961630, 10531, 63326, -4803, -2002, 539, -54, 2]
+
+private def termOneStage16C11 : One :=
+  [0, 0, 0, 0, 626, 88420, -274960, -3338268, 32638998, -150061508, 497125029, -1127472040,
+   664411245, 7330393284, -41033927094, 145522525533, -408610056661, 945899510400,
+   -1873196644003, 3223018491277, -4779609837911, 6097160276035, -6760892621006, 6580052772830,
+   -5629629363467, 4214492306715, -2732501107306, 1497108248197, -646354134839, 163829812690,
+   47404966074, -98744396643, 79877508507, -46124526115, 21016649333, -7938823209, 2666259299,
+   -885717507, 307004837, -101693926, 28052415, -5783829, 791779, -50482, -3776, 1119, -95, 3]
+
+private def termOneStage16C12 : One :=
+  [0, 0, 0, 0, -7004, -580152, 3274366, 6170472, -130911882, 707776871, -2701478646, 8057761633,
+   -16923327914, 18194324610, 25606130338, -219654691212, 802658124264, -2126156811801,
+   4600619702182, -8562135530892, 13752054225936, -18983830654159, 22720619888228,
+   -23912701225575, 22350268933792, -18633373755211, 13884300918882, -9256478135020,
+   5515201001764, -2914537632344, 1335310761944, -501074717850, 130553598726, -4410629782,
+   -18878256100, 12787302327, -5167521444, 1476995153, -328950224, 76547656, -25848222, 9450332,
+   -2708626, 557297, -79932, 7651, -444, 12]
+
+private def termOneStage16C13 : One :=
+  [0, 0, 0, 0, 56670, 2982137, -22616057, 28799288, 343788056, -2392616996, 10131547916,
+   -34048418014, 88503850105, -171229531348, 240782359200, -141972757640, -590251376173,
+   2734103804788, -7258949057915, 15329360517070, -27352747880805, 41394368100212,
+   -53553321729751, 60252474617665, -59915806442821, 53205491100775, -42432234220346,
+   30514533520968, -19870176013230, 11766403446902, -6348431846741, 3105695291458,
+   -1355708512770, 511885680118, -158203105396, 35594923347, -3620338348, -1077095667,
+   606493512, -121786503, -1213574, 7574328, -2179175, 296750, -8596, -4105, 765, -61, 2]
+
+private def termOneStage16C14 : One :=
+  [0, 0, 0, -2, -353256, -12287984, 114198646, -325177738, -330180718, 5671705887, -27744263490,
+   102446071634, -296860319496, 667354150666, -1236725576064, 1935133923312, -2154772449294,
+   597600120047, 4305100304956, -14873320495706, 33717287725098, -60005338700235,
+   87287873368998, -107018972055637, 113662610536722, -106663885392411, 89488694412188,
+   -67552548896266, 46080064834650, -28547010022614, 16172486379022, -8439773593250,
+   4072058894768, -1807959629761, 727063325874, -257752438871, 77522839812, -18700966780,
+   3249571208, -274101586, -42051710, 19550587, -3109116, 102256, 57458, -13146, 1422, -82, 2]
+
+private def termOneStage16C15 : One :=
+  [0, 0, 0, 58, 1764161, 41043236, -453978439, 1740301330, -2073815920, -7365834549,
+   53829837756, -227394169660, 729022025736, -1784047332914, 3592180051592, -6451070546934,
+   10000143889079, -12493702433313, 12076340747843, -6296680667140, -10369323802714,
+   42493966784686, -85362202612709, 125236283772177, -148798400208173, 150700551559129,
+   -133941703951925, 106120150470380, -75490683532039, 48370427789860, -28006055462211,
+   14745076518269, -7134014750335, 3212854699259, -1359583706857, 539688906014, -197648763465,
+   64939065081, -18525584137, 4434155369, -856103097, 125684121, -12274181, 379311, 105217,
+   -20764, 1904, -94, 2]
+
+private def termOneStage16C16 : One :=
+  [0, 0, 0, -804, -7242730, -110983229, 1470183422, -6712071869, 14380395220, -8527460327,
+   -57178385582, 352794975089, -1334541385404, 3587199243794, -7565062391608, 14149532695596,
+   -23879619435142, 34640431975486, -43936885531656, 51456788358726, -52558870722560,
+   35194184020034, 7113164819536, -63350839808683, 111972195893188, -136993923664835,
+   135803637134106, -115800121888795, 87328573453394, -58901771555468, 35602647620000,
+   -19250797719954, 9301082800838, -4028429451477, 1581960405304, -575851490424, 199876698090,
+   -67309236831, 21735136178, -6482947954, 1710289168, -384886624, 71825892, -10838777, 1286104,
+   -115539, 7404, -303, 6]
+
+private def termOneStage16C17 : One :=
+  [0, 0, 0, 7089, 24875006, 237935996, -3944806010, 20525166789, -55204232680, 86548443707,
+   -58487128097, -259262778645, 1681590191545, -5441269840970, 12250671309961, -23293409333149,
+   40609229534627, -62071521863315, 81999357927742, -101314681438084, 124091784051464,
+   -140225741205384, 128221661407356, -80434671545984, 14661317929855, 41530729226099,
+   -71584322209960, 75850773603623, -64215279434258, 46964079198519, -30592299585118,
+   17892958429963, -9358920808145, 4334875779381, -1756670490799, 615179777370, -184273539225,
+   47121335463, -10525339826, 2221525649, -502952222, 126477184, -31266490, 6671208, -1145420,
+   152287, -15115, 1059, -47, 1]
+
+private def termOneStage16C18 : One :=
+  [0, 0, 0, -44628, -72310118, -377087415, 8824535806, -51662349830, 158979022584,
+   -314994267644, 479424041482, -479260893837, -798951954666, 5593365884319, -15034811452276,
+   29588391926064, -52649094373096, 84119447244670, -112764460565696, 131639920425890,
+   -153090747004016, 187482556035472, -217189027833864, 211741293888521, -162892488995378,
+   92620956335743, -31055132275576, -5626977462434, 18900242923954, -18602573536249,
+   13626249241440, -8611547991940, 4946754246976, -2611299154528, 1252183882866, -534295687729,
+   198426100680, -62748505008, 16486388758, -3474397200, 548209368, -52240784, -1231864,
+   1572965, -330056, 41508, -3400, 170, -4]
+
+private def termOneStage16C19 : One :=
+  [0, 0, 1, 213388, 179228196, 324160537, -16399392801, 108783272082, -371017863402,
+   822124708510, -1457216991182, 2363307878112, -2536491607698, -1456932398332, 11961543827736,
+   -27601508255201, 50954866272374, -87549950807156, 126257288504894, -143016003859583,
+   137890729007571, -141613246038590, 171949020690838, -206580347140592, 209910544265075,
+   -171470993837471, 110880931576062, -55333049730746, 19613481524356, -3245145738680,
+   -1446370551792, 1548526949503, -791088932518, 303251617134, -114356983095, 55507671200,
+   -31518465513, 16355224814, -7008090648, 2434249521, -685808191, 156791204, -28960128,
+   4273194, -493500, 43094, -2681, 106, -2]
+
+private def termOneStage16C20 : One :=
+  [0, 0, -22, -804399, -380226988, 360691033, 24893346776, -192478259585, 722383774806,
+   -1728820506287, 3213727584848, -5645181776924, 8884919186304, -8820640180544, 413079165956,
+   13774735891587, -30954440437878, 61340709560795, -108281447505410, 142389420281426,
+   -130956523251860, 87467998848360, -59687892347260, 72493003330357, -105412593138320,
+   123035934484439, -110235740613432, 77170320399633, -42452364104274, 17872180810661,
+   -5131545367114, 427106286952, 534528441038, -376077369619, 133421718942, -18762590615,
+   -9433639358, 8393467998, -3748908234, 1201683160, -298568196, 58800531, -9183122, 1120962,
+   -103710, 6873, -292, 6]
+
+private def termOneStage16C21 : One :=
+  [0, 0, 227, 2447671, 690853927, -2250471829, -29518319732, 284675656873, -1184922980657,
+   3046423756959, -5797543999313, 10053689444262, -17165964380627, 23997762036640,
+   -21976609850869, 10731642266456, -935585773321, -10840036170467, 46005686023638,
+   -101275841814099, 131858246403261, -103169519845096, 36751117339930, 14937434301477,
+   -23341402695396, 662777260052, 24730915076262, -35424406946437, 31268072663489,
+   -20580274822893, 10648216463704, -4334388564715, 1301125587298, -202179203024, -61046724344,
+   67489835138, -34072785229, 12541037396, -3674786646, 880564441, -173602364, 28024903,
+   -3655594, 376572, -29521, 1655, -59, 1]
+
+private def termOneStage16C22 : One :=
+  [0, 0, -1458, -6101077, -1072354204, 5646465683, 23857485880, -345894803989, 1633779239206,
+   -4553238220066, 8930754897560, -14864557140208, 24826074218426, -38798918667069,
+   46789468712282, -40210463040817, 30725475559896, -33235156786434, 31631027592630,
+   4294753571621, -66393455552812, 106276574668951, -90919478779982, 36642369755201,
+   15126112706804, -38245590590150, 34414219573952, -19300700373468, 5976915865838,
+   984019916066, -2846660420908, 2349177038914, -1371663585278, 646735287913, -257830359190,
+   88548998336, -26349891212, 6782379134, -1500200046, 282247268, -44543710, 5788184, -603546,
+   48619, -2846, 108, -2]
+
+private def termOneStage16C23 : One :=
+  [0, 0, 6522, 12561295, 1413406102, -10026733903, -4371991736, 331823844890, -1868438382342,
+   5752716557414, -11890166959680, 19208305586841, -29566102927228, 46634718185478,
+   -64279524637424, 66442969424616, -52290215295832, 45889388603888, -60637084245554,
+   71429751816246, -45862419478926, -10128703832008, 58063861444699, -69679884336867,
+   49237437522123, -19374781289713, -1958851544991, 10299576716952, -9939984977272,
+   6531571876330, -3398122725977, 1480448383552, -557162723266, 185022686861, -54990816100,
+   14714937244, -3532232518, 751253617, -138976162, 21870168, -2853927, 299467, -24249, 1423,
+   -54, 1]
+
+private def termOneStage16C24 : One :=
+  [0, 0, -21530, -21428822, -1565339070, 13873366907, -24628889520, -226559862763,
+   1721844074694, -6045812486448, 13564151324288, -22136014295577, 30993992993562,
+   -44849594702167, 65303051337468, -78711260301020, 68913898689688, -44930057304170,
+   36047942947574, -53118805910935, 72903541829440, -67780379097662, 36792530193820,
+   -1126049000573, -20375643003104, 24355806399846, -18197445624632, 10151475548409,
+   -4395732739938, 1446740611995, -318396272768, 13750602250, 26156136504, -14791839326,
+   5072266200, -1290623564, 255899416, -39901996, 4838728, -442941, 28916, -1203, 24, 0]
+
+private def termOneStage16C25 : One :=
+  [0, 0, 54197, 30245370, 1432242887, -15359367502, 50933346325, 66645828242, -1202005915340,
+   5122246473021, -12923993653573, 22460087588652, -30039986516417, 37232105201189,
+   -50570641764801, 68043821218540, -73209529720379, 54298665861504, -23952386064610,
+   7560143737514, -14606606421407, 31350973389800, -39569275655731, 33838499399352,
+   -20793511463029, 8866007366285, -1844183740487, -823299480629, 1166399076280, -773737403218,
+   376448321789, -147055828304, 47566865876, -12880119460, 2924409934, -554374292, 86915049,
+   -11095964, 1126126, -87509, 4892, -175, 3]
+
+private def termOneStage16C26 : One :=
+  [0, 0, -105950, -35104821, -1053052836, 13624666808, -61836401438, 74435510613, 532372394414,
+   -3295979619355, 9849329806786, -19211479600931, 26828935166808, -29689654583584,
+   32126303592996, -40804235905583, 52507176455426, -53969880685579, 37694725546304,
+   -12450154381304, -5859190060140, 9822406886297, -4122516953316, -2665722831078,
+   5834649574552, -5511447870355, 3721854700496, -2011744716820, 911971324066, -354523686105,
+   119286201588, -34779529450, 8751551472, -1886302446, 344714864, -52710273, 6627132, -668583,
+   52186, -2969, 110, -2]
+
+private def termOneStage16C27 : One :=
+  [0, 0, 162175, 33126127, 591708925, -9541188383, 53718982895, -137943811103, -11061359043,
+   1391288755171, -5573029117496, 12926932924815, -20507908213779, 23545758196398,
+   -21044327960014, 18346763542783, -21133758325157, 27699121543043, -30348282718055,
+   24299625595939, -12528709177363, 1767499207505, 3866081145635, -4742824417154, 3371696100265,
+   -1788181298573, 764401954006, -274601738334, 85527924997, -23680583475, 5913923345,
+   -1329903760, 264470303, -45207420, 6427338, -732694, 63984, -4002, 159, -3]
+
+private def termOneStage16C28 : One :=
+  [0, 0, -194340, -24951785, -226550280, 5104579943, -34444878304, 121476407119, -205261734856,
+   -156748336327, 1967245624562, -6129481768766, 11877804399608, -16122355017032,
+   15703911186580, -10933122993808, 5907493287334, -4499394788278, 6647368608528,
+   -9151368839501, 9332262887604, -7120901801629, 4138787021030, -1815201516200, 559804387232,
+   -83297936465, -26617610948, 25620671276, -11195423374, 3450278951, -817721402, 152978902,
+   -22666492, 2628985, -232022, 14747, -604, 12, 0]
+
+private def termOneStage16C29 : One :=
+  [0, 0, 180774, 14576594, 35950327, -1956217663, 15940090259, -69185689501, 181861250785,
+   -250428315567, -121990021566, 1561939022370, -4334022523066, 7582507744526, -9457193967965,
+   8527154933668, -5195974615384, 1462960222270, 787607110106, -1132504300695, 420644205428,
+   316155469196, -608594872395, 529876655307, -325056901814, 155187803704, -59943660817,
+   19071262842, -5037337597, 1106795661, -201810139, 30340363, -3718339, 364536, -27693, 1540,
+   -56, 1]
+
+private def termOneStage16C30 : One :=
+  [0, 0, -128116, -6301078, 17657866, 461448823, -4948448550, 25703483945, -85245123186,
+   190931166419, -268677405844, 110698932620, 537370081138, -1715317117708, 3036813997234,
+   -3839285614504, 3665409694684, -2628752429963, 1298568678930, -249774864477, -278152089720,
+   381468792704, -283479714926, 155638744284, -68065733516, 24384453014, -7232787610,
+   1779177140, -361254262, 59913694, -7978638, 831236, -65104, 3593, -124, 2]
+
+private def termOneStage16C31 : One :=
+  [0, 0, 66912, 1849520, -13860932, -31550828, 849849877, -5560975023, 22165765359,
+   -62501734289, 130873794291, -203626654008, 220225682897, -112473676020, -135063962509,
+   447895270283, -696555131199, 782222252819, -697074802181, 511855392308, -315621743810,
+   165164264853, -73776253936, 28202564867, -9225947401, 2576185532, -610819497, 121945437,
+   -20245531, 2745406, -296264, 24464, -1451, 55, -1]
+
+private def termOneStage16C32 : One :=
+  [0, 0, -24288, -300448, 3990232, -13948684, -23581824, 449872269, -2383136116, 8187880461,
+   -21078112634, 43050651387, -71832236662, 99589741056, -115956582352, 114191196268,
+   -95564366622, 68173648147, -41524091648, 21600385106, -9585369432, 3619001533, -1157408590,
+   311507254, -69908432, 12915210, -1929268, 227111, -20272, 1289, -52, 1]
+
+private def termOneStage16C33 : One :=
+  [0, 0, 5472, 6624, -424544, 2973968, -11685730, 31325370, -61661451, 92528735, -108255604,
+   100189683, -74019460, 43862565, -20865054, 7941525, -2399397, 567530, -102774, 13750, -1280,
+   74, -2]
+
+private def termOneStage16C34 : One :=
+  [0, 0, -576, 4128, -12928, 23456, -27492, 21922, -12166, 4709, -1248, 216, -22, 1]
+
+def TermOneStage16 : Two :=
+  [termOneStage16C0, termOneStage16C1, termOneStage16C2, termOneStage16C3,
+    termOneStage16C4, termOneStage16C5, termOneStage16C6, termOneStage16C7,
+    termOneStage16C8, termOneStage16C9, termOneStage16C10, termOneStage16C11,
+    termOneStage16C12, termOneStage16C13, termOneStage16C14, termOneStage16C15,
+    termOneStage16C16, termOneStage16C17, termOneStage16C18, termOneStage16C19,
+    termOneStage16C20, termOneStage16C21, termOneStage16C22, termOneStage16C23,
+    termOneStage16C24, termOneStage16C25, termOneStage16C26, termOneStage16C27,
+    termOneStage16C28, termOneStage16C29, termOneStage16C30, termOneStage16C31,
+    termOneStage16C32, termOneStage16C33, termOneStage16C34]
+
+theorem termOne_stage16_spec :
+    Two.mul TermOneStage15 SData = TermOneStage16 := by
+  decide
+
+private theorem termOne_stage16_coefficient_0 (s : ℚ) :
+    One.eval termOneStage16C0 s = termOneCoefficient 0 s := by
+  norm_num [One.eval, evalWith, termOneStage16C0, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_1 (s : ℚ) :
+    One.eval termOneStage16C1 s = termOneCoefficient 1 s := by
+  norm_num [One.eval, evalWith, termOneStage16C1, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_2 (s : ℚ) :
+    One.eval termOneStage16C2 s = termOneCoefficient 2 s := by
+  norm_num [One.eval, evalWith, termOneStage16C2, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_3 (s : ℚ) :
+    One.eval termOneStage16C3 s = termOneCoefficient 3 s := by
+  norm_num [One.eval, evalWith, termOneStage16C3, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_4 (s : ℚ) :
+    One.eval termOneStage16C4 s = termOneCoefficient 4 s := by
+  norm_num [One.eval, evalWith, termOneStage16C4, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_5 (s : ℚ) :
+    One.eval termOneStage16C5 s = termOneCoefficient 5 s := by
+  norm_num [One.eval, evalWith, termOneStage16C5, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_6 (s : ℚ) :
+    One.eval termOneStage16C6 s = termOneCoefficient 6 s := by
+  norm_num [One.eval, evalWith, termOneStage16C6, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_7 (s : ℚ) :
+    One.eval termOneStage16C7 s = termOneCoefficient 7 s := by
+  norm_num [One.eval, evalWith, termOneStage16C7, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_8 (s : ℚ) :
+    One.eval termOneStage16C8 s = termOneCoefficient 8 s := by
+  norm_num [One.eval, evalWith, termOneStage16C8, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_9 (s : ℚ) :
+    One.eval termOneStage16C9 s = termOneCoefficient 9 s := by
+  norm_num [One.eval, evalWith, termOneStage16C9, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_10 (s : ℚ) :
+    One.eval termOneStage16C10 s = termOneCoefficient 10 s := by
+  norm_num [One.eval, evalWith, termOneStage16C10, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_11 (s : ℚ) :
+    One.eval termOneStage16C11 s = termOneCoefficient 11 s := by
+  norm_num [One.eval, evalWith, termOneStage16C11, termOneCoefficient,
+    termOneCoefficientLow] ; ring
+
+private theorem termOne_stage16_coefficient_12 (s : ℚ) :
+    One.eval termOneStage16C12 s = termOneCoefficient 12 s := by
+  norm_num [One.eval, evalWith, termOneStage16C12, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_13 (s : ℚ) :
+    One.eval termOneStage16C13 s = termOneCoefficient 13 s := by
+  norm_num [One.eval, evalWith, termOneStage16C13, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_14 (s : ℚ) :
+    One.eval termOneStage16C14 s = termOneCoefficient 14 s := by
+  norm_num [One.eval, evalWith, termOneStage16C14, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_15 (s : ℚ) :
+    One.eval termOneStage16C15 s = termOneCoefficient 15 s := by
+  norm_num [One.eval, evalWith, termOneStage16C15, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_16 (s : ℚ) :
+    One.eval termOneStage16C16 s = termOneCoefficient 16 s := by
+  norm_num [One.eval, evalWith, termOneStage16C16, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_17 (s : ℚ) :
+    One.eval termOneStage16C17 s = termOneCoefficient 17 s := by
+  norm_num [One.eval, evalWith, termOneStage16C17, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_18 (s : ℚ) :
+    One.eval termOneStage16C18 s = termOneCoefficient 18 s := by
+  norm_num [One.eval, evalWith, termOneStage16C18, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_19 (s : ℚ) :
+    One.eval termOneStage16C19 s = termOneCoefficient 19 s := by
+  norm_num [One.eval, evalWith, termOneStage16C19, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_20 (s : ℚ) :
+    One.eval termOneStage16C20 s = termOneCoefficient 20 s := by
+  norm_num [One.eval, evalWith, termOneStage16C20, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_21 (s : ℚ) :
+    One.eval termOneStage16C21 s = termOneCoefficient 21 s := by
+  norm_num [One.eval, evalWith, termOneStage16C21, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_22 (s : ℚ) :
+    One.eval termOneStage16C22 s = termOneCoefficient 22 s := by
+  norm_num [One.eval, evalWith, termOneStage16C22, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_23 (s : ℚ) :
+    One.eval termOneStage16C23 s = termOneCoefficient 23 s := by
+  norm_num [One.eval, evalWith, termOneStage16C23, termOneCoefficient,
+    termOneCoefficientMid] ; ring
+
+private theorem termOne_stage16_coefficient_24 (s : ℚ) :
+    One.eval termOneStage16C24 s = termOneCoefficient 24 s := by
+  norm_num [One.eval, evalWith, termOneStage16C24, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_25 (s : ℚ) :
+    One.eval termOneStage16C25 s = termOneCoefficient 25 s := by
+  norm_num [One.eval, evalWith, termOneStage16C25, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_26 (s : ℚ) :
+    One.eval termOneStage16C26 s = termOneCoefficient 26 s := by
+  norm_num [One.eval, evalWith, termOneStage16C26, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_27 (s : ℚ) :
+    One.eval termOneStage16C27 s = termOneCoefficient 27 s := by
+  norm_num [One.eval, evalWith, termOneStage16C27, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_28 (s : ℚ) :
+    One.eval termOneStage16C28 s = termOneCoefficient 28 s := by
+  norm_num [One.eval, evalWith, termOneStage16C28, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_29 (s : ℚ) :
+    One.eval termOneStage16C29 s = termOneCoefficient 29 s := by
+  norm_num [One.eval, evalWith, termOneStage16C29, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_30 (s : ℚ) :
+    One.eval termOneStage16C30 s = termOneCoefficient 30 s := by
+  norm_num [One.eval, evalWith, termOneStage16C30, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_31 (s : ℚ) :
+    One.eval termOneStage16C31 s = termOneCoefficient 31 s := by
+  norm_num [One.eval, evalWith, termOneStage16C31, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_32 (s : ℚ) :
+    One.eval termOneStage16C32 s = termOneCoefficient 32 s := by
+  norm_num [One.eval, evalWith, termOneStage16C32, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_33 (s : ℚ) :
+    One.eval termOneStage16C33 s = termOneCoefficient 33 s := by
+  norm_num [One.eval, evalWith, termOneStage16C33, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+private theorem termOne_stage16_coefficient_34 (s : ℚ) :
+    One.eval termOneStage16C34 s = termOneCoefficient 34 s := by
+  norm_num [One.eval, evalWith, termOneStage16C34, termOneCoefficient,
+    termOneCoefficientHigh] ; ring
+
+theorem eval_TermOneStage16_eq_term1 (r s : ℚ) :
+    Two.eval TermOneStage16 r s = term1 r s := by
+  rw [← termOne_stage16_spec, Two.eval_mul, eval_SData,
+    ← termOne_stage15_spec, Two.eval_mul, eval_SData,
+    ← termOne_stage14_spec, Two.eval_mul, eval_P9Data,
+    ← termOne_stage13_spec, Two.eval_mul, eval_P9Data,
+    ← termOne_stage12_spec, Two.eval_mul, eval_JData,
+    ← termOne_stage11_spec, Two.eval_mul, eval_EData,
+    ← termOne_stage10_spec, Two.eval_mul, eval_EData,
+    ← termOne_stage9_spec, Two.eval_mul, eval_DData,
+    ← termOne_stage8_spec, Two.eval_mul, eval_CData,
+    ← termOne_stage7_spec, Two.eval_mul, eval_CData,
+    ← termOne_stage6_spec, Two.eval_mul, eval_CData,
+    ← termOne_stage5_spec, Two.eval_mul, eval_CData,
+    ← termOne_stage4_spec, Two.eval_mul, eval_CData,
+    ← termOne_stage3_spec, Two.eval_mul, eval_BData,
+    ← termOne_stage2_spec, Two.eval_mul, eval_BData,
+    ← termOne_stage1_spec, Two.eval_mul, eval_AData]
+  simp only [term1]
+  ring
+
+theorem eval_TermOneStage16_eq_evalThirtyFive (r s : ℚ) :
+    Two.eval TermOneStage16 r s =
+      evalThirtyFive (fun n => termOneCoefficient n s) r := by
+  simp only [Two.eval, TermOneStage16, evalWith,
+    termOne_stage16_coefficient_0, termOne_stage16_coefficient_1,
+    termOne_stage16_coefficient_2, termOne_stage16_coefficient_3,
+    termOne_stage16_coefficient_4, termOne_stage16_coefficient_5,
+    termOne_stage16_coefficient_6, termOne_stage16_coefficient_7,
+    termOne_stage16_coefficient_8, termOne_stage16_coefficient_9,
+    termOne_stage16_coefficient_10, termOne_stage16_coefficient_11,
+    termOne_stage16_coefficient_12, termOne_stage16_coefficient_13,
+    termOne_stage16_coefficient_14, termOne_stage16_coefficient_15,
+    termOne_stage16_coefficient_16, termOne_stage16_coefficient_17,
+    termOne_stage16_coefficient_18, termOne_stage16_coefficient_19,
+    termOne_stage16_coefficient_20, termOne_stage16_coefficient_21,
+    termOne_stage16_coefficient_22, termOne_stage16_coefficient_23,
+    termOne_stage16_coefficient_24, termOne_stage16_coefficient_25,
+    termOne_stage16_coefficient_26, termOne_stage16_coefficient_27,
+    termOne_stage16_coefficient_28, termOne_stage16_coefficient_29,
+    termOne_stage16_coefficient_30, termOne_stage16_coefficient_31,
+    termOne_stage16_coefficient_32, termOne_stage16_coefficient_33,
+    termOne_stage16_coefficient_34, evalThirtyFive]
+  ring
+
+theorem termOne_dense_expansion (r s : ℚ) :
+    term1 r s = evalThirtyFive (fun n => termOneCoefficient n s) r := by
+  rw [← eval_TermOneStage16_eq_term1, eval_TermOneStage16_eq_evalThirtyFive]
+
+end MazurTorsion.Kubert.OrderTwentyFiveRelationFourCertificate.Dense
