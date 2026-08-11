@@ -88,10 +88,9 @@ SOURCE_PROHIBITIONS = {
     "source-level set_option": re.compile(
         r"^[ \t]*set_option\b", re.MULTILINE
     ),
-    "nolint attribute": re.compile(
-        r"@\[\s*nolint\b|@nolint\b|^\s*attribute\s*\[\s*nolint\b",
-        re.MULTILINE,
-    ),
+    # Comments and strings are masked before these patterns run. Rejecting the
+    # token also catches nolint later in a multi-attribute list.
+    "nolint attribute": re.compile(r"\bnolint\b"),
 }
 
 

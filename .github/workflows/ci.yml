@@ -56,11 +56,9 @@ jobs:
                   "local option override",
               ),
               (
-                  re.compile(
-                      r"@\[\s*nolint\b|@nolint\b|"
-                      r"^\s*attribute\s*\[\s*nolint\b",
-                      re.MULTILINE,
-                  ),
+                  # Comments and strings are already masked, so this also
+                  # catches nolint later in a multi-attribute list.
+                  re.compile(r"\bnolint\b"),
                   "linter suppression",
               ),
           )
