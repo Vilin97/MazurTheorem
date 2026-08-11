@@ -10,17 +10,17 @@ import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
 # Recovering the second order-twenty-five orbit relation
 
 Four of Lécacheux's cyclic equations and the norm-one equation imply the
-remaining cyclic equation as soon as the first orbit coordinate is nonzero.
-This small identity lets the raw certificate bridge avoid a fifth large
-generated calculation.
+remaining cyclic equation.  The norm-one equation itself supplies the
+nonvanishing needed for cancellation.  This small identity lets the raw
+certificate bridge avoid a fifth large generated calculation.
 -/
 
 namespace MazurTorsion.Kubert
 
 /-- The first, third, fourth, and fifth cyclic orbit relations, together with
-the norm-one relation and `a ≠ 0`, imply the second cyclic relation. -/
+the norm-one relation, imply the second cyclic relation. -/
 theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_other_relations
-    (a b c d e : ℚ) (ha : a ≠ 0)
+    (a b c d e : ℚ)
     (h₀ : orderTwentyFiveOrbitRelationZero a b c d e = 0)
     (h₂ : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
     (h₃ : orderTwentyFiveOrbitRelationThree a b c d e = 0)
@@ -42,6 +42,10 @@ theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_other_relations
   have h₅' : a * b * c * d * e = 1 :=
     sub_eq_zero.mp (by
       simpa only [orderTwentyFiveOrbitRelationFive] using h₅)
+  have ha : a ≠ 0 := by
+    intro ha0
+    rw [ha0] at h₅'
+    norm_num at h₅'
   have hmul : a * orderTwentyFiveOrbitRelationOne a b c d e = 0 := by
     simp only [orderTwentyFiveOrbitRelationOne]
     calc
