@@ -92,6 +92,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 conditional transported-tensor descent checkpoint is integrated at `e0de772`, on top of
+the whole-model chosen-overlap checkpoint at `fc219d6`. Conditional on an already supplied sum
+cocycle `CDE`,
+`CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData` constructs the full
+`changeObjects` target on the chartwise tensor objects, and
+`CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel` gives its full
+`DescentData` isomorphism with the source. Effectivity transfers from a supplied sum-cocycle
+witness, and
+`CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData_hom_on_chosenOverlap`
+identifies the target's chosen transition with the whole transported tensor model under exact
+raw-Hom alignment. Construction of the raw arbitrary-divisor cocycle, factorwise
+chosen-transition tensor coherence, unconditional effectivity, and `DescendedTensorAdditive`
+remain open. A3 stays `research_open` at weight 18 with zero credit. Source accounting is 1,048
+integrated Lean modules / 1,586,889 lines.
+
 The A3 whole-model chosen-overlap tensor/addition checkpoint is integrated at `fc219d6`, on top
 of the proof-defined global-divisor restriction checkpoint at `d13d128`.
 `CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModelOnProperSmoothCurve`

@@ -93,11 +93,20 @@ transitions. The definition
 transports the whole pairwise-intersection tensor model to Mathlib's chosen pullback, and
 `CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaTransportedTensorModel` proves
 that the proof-defined local addition maps commute there with this whole transported tensor
-transition and the raw sum transition. It does not identify the whole transported tensor
-transition with the tensor of the two separately transported chosen transitions. That
-identification, assembly into a morphism of descent data, and a
-`CurveDivisorDescent.DescendedTensorAdditive` witness are not claimed. On a same-chart principal
-open,
+transition and the raw sum transition. Conditional on an already supplied divisor cocycle `CDE`
+for `D + E`, `CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData` constructs the
+full `changeObjects` target on the chartwise tensor objects, and
+`CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel` gives its full
+`DescentData` isomorphism with the source sum cocycle. The theorem
+`CurveDivisorDescent.localLineBundleTransportedTensorModelEffective_of_sumCocycleEffective`
+transfers an already supplied effectivity witness, while
+`CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData_hom_on_chosenOverlap`
+identifies the chosen transition with the whole transported tensor model under exact per-overlap
+alignment of `CDE`'s Homs with the raw sum family. These conditional consumers do not construct
+the raw arbitrary-divisor cocycle, do not identify that whole transition with the tensor of the
+two separately transported chosen transitions, and do not prove unconditional effectivity.
+Factorwise chosen-transition tensor coherence and a
+`CurveDivisorDescent.DescendedTensorAdditive` witness remain open. On a same-chart principal open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
 equality after common-field extension, and constructs an isomorphism of the chosen restricted
 tilde bundles. Meanwhile,
@@ -142,11 +151,13 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. The remaining boundary for
-descending the fixed chartwise addition maps begins with identifying the checked whole-model
-chosen-pullback tensor transition with the tensor of the separately transported chosen
-transitions, then assembling the resulting local squares into a descent-data morphism; no such
-identification or morphism, and no
-`CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
+descending the fixed chartwise addition maps now has the full transported tensor-object descent
+datum, its `DescentData` isomorphism with an already supplied sum cocycle, conditional transfer of
+effectivity, and its chosen transition under raw-Hom alignment. Identifying that whole transition
+with the tensor of the separately transported chosen factor transitions, assembling the
+corresponding factorwise descent-data morphism, proving effectivity without a supplied sum-cocycle
+witness, and constructing a `CurveDivisorDescent.DescendedTensorAdditive` witness remain open.
+Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
 The
@@ -192,11 +203,13 @@ and
 adding surjectivity gives the full divisor-class/Picard equivalence without a global
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. Chosen-pullback
-transport and the raw all-index overlap equation are checked, but no arbitrary-divisor
-`DivisorCocycle` or divisor cocycle system, concrete Type-0 effectivity application, global
-divisor-line-bundle family, identification of the whole transported chosen-overlap tensor
-transition with the tensor of the separately transported chosen transitions, descent-data
-morphism,
+transport and the raw all-index overlap equation are checked. Conditional on an already supplied
+sum cocycle, the full transported tensor-object descent datum, its change-of-objects
+`DescentData` isomorphism, transfer of a supplied effectivity witness, and chosen-transition
+identification under raw-Hom alignment are also checked. No arbitrary-divisor `DivisorCocycle`
+or divisor cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle
+family, factorwise chosen-transition tensor coherence, unconditional effectivity, factorwise
+descent-data morphism,
 `CurveDivisorDescent.DescendedTensorAdditive` witness, coherent principal triviality,
 prestack/object-separation, rationally normalized cocycle data, geometric principal detection,
 exact kernel, Picard surjectivity, or global tensor-inverse comparison is asserted. No additional
