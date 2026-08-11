@@ -86,7 +86,7 @@ is its proper-smooth pairwise-intersection consumer. The named transports
 `CurveDivisorDescent.localLineBundleCoordinateIso` and
 `CurveDivisorDescent.localLineBundleAddSourceCoordinateIso` expose the proof-defined global-divisor
 bundles in those coordinate presentations, and
-`CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`
+`localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`
 aligns the square with the actual proof-defined local addition maps and pairwise-intersection
 transitions. The definition
 `CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModelOnProperSmoothCurve`
@@ -107,12 +107,12 @@ composition is now checked first for presheaves of modules and then for scheme m
 `LineBundleDescent.pullbackOverlapIsoOfModel_tensor` identifies transport of a tensor transition
 through the exact-pseudofunctor comparison with the cotensorator-conjugated tensor of the two
 factor transports. The curve-level theorem
-`CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
+`localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
 specializes this to the two raw divisor transitions, and
 `CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor` proves the
 resulting local-add Hom square. Conditional on supplied divisor cocycles for `D`, `E`, and `D + E`
 whose chosen-overlap Homs equal the raw geometric transitions,
-`CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`
+`localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`
 proves that the local components of the existing full addition `DescentData` isomorphism satisfy
 this factorwise chosen-overlap square. This is a chosen-overlap presentation of the existing full
 isomorphism, not a standalone factorwise equality for the target Hom, an arbitrary-refinement
