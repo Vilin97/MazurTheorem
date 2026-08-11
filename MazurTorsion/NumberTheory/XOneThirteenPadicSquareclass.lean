@@ -90,6 +90,19 @@ private theorem zmodEight_bitGenerators_sq (e g : Bool) :
     rw [ZMod.intCast_eq_intCast_iff_dvd_sub]
     norm_num
 
+/-- The square of every dyadic integral unit is `1` modulo `8`. -/
+theorem padicIntUnit_square_mod_eight (U : ℤ_[2]ˣ) :
+    PadicInt.toZModPow 3 ((U : ℤ_[2]) ^ 2) = 1 := by
+  let r : ZMod 8 := PadicInt.toZModPow 3 (U : ℤ_[2])
+  have hrUnit : IsUnit r := U.isUnit.map (PadicInt.toZModPow 3)
+  obtain ⟨e, g, hr⟩ := zmodEight_unit_normalForm r hrUnit
+  calc
+    PadicInt.toZModPow 3 ((U : ℤ_[2]) ^ 2) = r ^ 2 := by
+      exact map_pow (PadicInt.toZModPow 3) (U : ℤ_[2]) 2
+    _ = (bitPow (-1 : ZMod 8) e *
+        bitPow ((5 : ℕ) : ZMod 8) g) ^ 2 := by rw [hr]
+    _ = 1 := zmodEight_bitGenerators_sq e g
+
 /-- A dyadic integer congruent to one modulo eight has a square root. -/
 private theorem exists_padicInt_sq_eq_of_mod_eight_eq_one
     (u : ℤ_[2])
