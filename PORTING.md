@@ -203,12 +203,13 @@ zeta-square domination, and nonsplitting theorem are new local work.
 
 ## AINTLIB geometry substrate
 
-Ninety-three local Apache-2.0 modules were selected from the AINTLIB
+Ninety-five local Apache-2.0 modules were selected from the AINTLIB
 `dev/modular-curves` snapshot at
 `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684` and placed below
-`MazurTorsion/Upstream/AINTLIB/`. The original forty-four-module foundation
-and the thirteen finite-action quotient modules comprise the whole files and
-narrow option-free slices in the following table:
+`MazurTorsion/Upstream/AINTLIB/`. The original forty-four-module foundation,
+the two pullback-composition modules, and the thirteen finite-action quotient
+modules comprise the whole files and narrow option-free slices in the
+following table:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination |
 |---|---|
@@ -231,6 +232,8 @@ narrow option-free slices in the following table:
 | `ForMathlib/QuotientTorsor.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/QuotientTorsor.lean` |
 | `Picard/Pic.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pic.lean` |
 | `ForMathlib/PullbackTensorGeneral.lean` | `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` (option-free pullback/Picard-map slice) |
+| `ForMathlib/PresheafPullbackCompMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PresheafPullbackCompMonoidal.lean` |
+| `ForMathlib/PullbackCompMonoidal.lean` | `MazurTorsion/Upstream/AINTLIB/ForMathlib/PullbackCompMonoidal.lean` |
 | `Picard/InvertibleSheaf.lean` (`sheafifyValIso` only) | moved into `MazurTorsion/Upstream/AINTLIB/Picard/Pullback.lean` |
 | `EllipticCurve/PoleSheaf.lean` (generic tensor-section kernel only) | `MazurTorsion/Upstream/AINTLIB/Picard/PullbackTensorSection.lean` |
 | `EllipticCurve/PullbackTensorSection.lean` (canonical pullback evaluator only) | `MazurTorsion/Upstream/AINTLIB/Picard/PullbackTensorSection.lean` |
@@ -278,9 +281,11 @@ narrow option-free slices in the following table:
 | `ForMathlib/SchemeModuleBaseCechHomology.lean` (homology isomorphisms only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechHomology.lean` |
 
 The canonical-support extension adds twenty-six local modules. It draws on
-the following twenty-seven source files because the open-unit module embeds
-only the required mate-comparison slice of `OpenAdjunction`, while the support
-source is split between the earlier rank core and the remaining support API:
+the following twenty-eight source files because the open-unit module embeds
+only the required explicit-square slice of `OpenAdjunction` and the private
+pullback-composition mate proof from its `RestrictComp` dependency, while the
+support source is split between the earlier rank core and the remaining
+support API:
 
 | Upstream source below `projects/ModularCurves/ModularCurves/` | Local destination or retained slice |
 |---|---|
@@ -309,6 +314,7 @@ source is split between the earlier rank core and the remaining support API:
 | `ForMathlib/FiniteSupportIdealSheafPullbackUnit.lean` | same basename |
 | `ForMathlib/SchemeModuleOpenUnitIso.lean` | same basename |
 | `Picard/DualPullback/OpenAdjunction.lean` | private comparison slice in `SchemeModuleOpenUnitIso.lean` |
+| `Picard/DualPullback/RestrictComp.lean` (`conjugateEquiv_pullbackComp_hom` only) | private proof in `SchemeModuleOpenUnitIso.lean` and `PullbackCompMonoidal.lean` |
 | `ForMathlib/SchemeModuleCanonicalSupportThickening.lean` | same basename |
 | `ForMathlib/SchemeModuleCanonicalSupportFull.lean` | same basename |
 
@@ -371,10 +377,13 @@ commit. The exact Git blob identities are:
 | `ForMathlib/SheafCechInjectiveComparison.lean` | `335e363809ef308c61d920e13f1e74d7fbab72ac` |
 | `ForMathlib/AcyclicAffineCechComparison.lean` | `8d75511490b1de235f7eb18bccb4b3182111afd7` |
 | `ForMathlib/SchemeModuleBaseCechHomology.lean` | `12d8d3ba48e121d543cc3cc065d9fa56ced92801` |
+| `Picard/DualPullback/RestrictComp.lean` | `a32b6e89c0bb810b29c5c9bd68f8205f2c7347ca` |
 
-Their local headers use that exact licensed-blob evidence together with Chris
-Birkbeck's repository authorship/history; they were not present in the dev
-source files.
+The local headers for whole-file ports in this table use that exact
+licensed-blob evidence together with Chris Birkbeck's repository
+authorship/history; those headers were not present in the dev source files.
+The retained `RestrictComp` proof is instead identified by its exact source
+comment and the adaptation record below.
 `SchemeModuleOrderedBaseCechHOneFinite.lean` retains its broader AINTLIB
 contributors header. The port preserves declarations and namespaces. The
 `SchemeModuleSheaf` and `SheafCohomologyExact` declarations and proofs are
@@ -402,6 +411,22 @@ default proof budget. A project-owned theorem proves zero-section
 normalization natural under base change and is consumed through
 `picRelFunctor`. This extension makes no claim about fppf sheafification,
 degree zero, representability, a Poincare bundle, or Abel's isomorphism.
+
+The pullback-composition monoidality extension retains AINTLIB's exact
+`ForMathlib/PresheafPullbackCompMonoidal.lean` blob
+`4a87e9e44c9819a7cd28b80db459ca6a49ebdfbf` and
+`ForMathlib/PullbackCompMonoidal.lean` blob
+`d55c5e8cce230d08569a579d6a31997d1ed23948`. Both carry Chris Birkbeck's
+Apache-2.0 header. Their imports are redirected to the retained option-free
+pullback foundation. The sheaf-level file adds two local monoidal instances
+needed for elaboration at the immutable pin and inlines the private
+`conjugateEquiv_pullbackComp_hom` proof from
+`Picard/DualPullback/RestrictComp.lean`, exact blob
+`a32b6e89c0bb810b29c5c9bd68f8205f2c7347ca`, rather than importing its
+unrelated dual-pullback cone. That headerless blob is byte-identical at the
+license-bearing AINTLIB `origin/main` commit above. The same private proof was
+already retained in `SchemeModuleOpenUnitIso.lean`; both local copies now
+have their exact source recorded. No public upstream statement is altered.
 
 The sheaf-Cech foundation removes the source import of
 `AcyclicAffineOpenCover` from `SheafCechCochains` and omits that file's affine
@@ -567,6 +592,7 @@ IdealSheafSubschemeRestrictPullbackUnit   226d1f541c164c20051e90922157dd9baa7e2c
 FiniteSupportIdealSheafPullbackUnit       bda3f5b8cb5626982f4f4382270beaf78125b618
 SchemeModuleOpenUnitIso                   8dd3b6b404de1f0bd74b8239684ab600f4bbb7ab
 Picard/DualPullback/OpenAdjunction        82b26b00fe5e8b57f9c3ec98d6db0971ecb99be1
+Picard/DualPullback/RestrictComp          a32b6e89c0bb810b29c5c9bd68f8205f2c7347ca
 SchemeModuleCanonicalSupportThickening    2bbf06a913a5f6bb55570a8929a131f7f7201e78
 SchemeModuleCanonicalSupportFull          ff3b65392ba91c12e5f250c9dde9dd1640850efd
 ```

@@ -136,6 +136,8 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/QuotientTorsor.lean`
   - `projects/ModularCurves/ModularCurves/Picard/Pic.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackTensorGeneral.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/PresheafPullbackCompMonoidal.lean`
+  - `projects/ModularCurves/ModularCurves/ForMathlib/PullbackCompMonoidal.lean`
   - `projects/ModularCurves/ModularCurves/Picard/InvertibleSheaf.lean`
     (`sheafifyValIso` only)
   - `projects/ModularCurves/ModularCurves/EllipticCurve/PoleSheaf.lean`
@@ -169,7 +171,11 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   - `projects/ModularCurves/ModularCurves/ForMathlib/FiniteSupportIdealSheafPullbackUnit.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleOpenUnitIso.lean`
   - `projects/ModularCurves/ModularCurves/Picard/DualPullback/OpenAdjunction.lean`
-    (private explicit-square/mate slice in the preceding local module)
+    (private explicit-square slice in the preceding local module)
+  - `projects/ModularCurves/ModularCurves/Picard/DualPullback/RestrictComp.lean`
+    (`conjugateEquiv_pullbackComp_hom` proof retained privately in
+    `SchemeModuleOpenUnitIso.lean` and `PullbackCompMonoidal.lean`; exact blob
+    `a32b6e89c0bb810b29c5c9bd68f8205f2c7347ca`)
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportThickening.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeModuleCanonicalSupportFull.lean`
   - `projects/ModularCurves/ModularCurves/ForMathlib/SchemeInducingOpenLift.lean`
@@ -189,9 +195,10 @@ proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
   Apache License 2.0. The source and license-evidence commits are divergent;
   neither is an ancestor of the other. Every headerless selected source is
   byte-identical at both commits; `PORTING.md` records every exact Git blob.
-  Their local headers record Chris Birkbeck's authorship/history on those
-  exact licensed blobs rather than claiming that the dev source supplied
-  headers or a root license.
+  For whole-file headerless ports, local headers record Chris Birkbeck's
+  authorship/history on those exact licensed blobs rather than claiming that
+  the dev source supplied headers or a root license. Retained proof slices
+  identify their exact source inline and in `PORTING.md`.
 - Additional adapted proof source, not vendored as a module:
   - `projects/ModularCurves/ModularCurves/GroupScheme/TranslationBySection.lean`
     (blob `6223d2904bc6f2162d4ee4e77ed684a40396ef18`; Chris Birkbeck and

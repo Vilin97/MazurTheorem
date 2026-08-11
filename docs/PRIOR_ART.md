@@ -606,6 +606,18 @@ The strongest concrete reuse candidates are:
   the actual functor map. The source explicitly defers fppf sheafification,
   the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism; the
   local port does not claim any of those endpoints.
+  The same exact snapshot contains
+  [`PresheafPullbackCompMonoidal.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/PresheafPullbackCompMonoidal.lean)
+  and
+  [`PullbackCompMonoidal.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/PullbackCompMonoidal.lean),
+  which prove that the canonical pullback-composition comparisons are
+  monoidal first for presheaves of modules and then for scheme modules. Their
+  exact-pin local ports redirect imports to the retained pullback foundation,
+  add only local elaboration instances, and inline one private mate proof from
+  the exact `Picard/DualPullback/RestrictComp.lean` blob recorded in
+  `PORTING.md`. They are infrastructure for a checked local overlap-tensor
+  comparison consumer; by themselves they neither construct descent data nor
+  identify the tensor product of separately descended factor cocycles.
   A further 836-line selective port from
   [`PoleSheaf.lean`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/EllipticCurve/PoleSheaf.lean)
   and
