@@ -31,6 +31,16 @@ theorem windowCoeff_eq_getD (p : Two) (i j : ℕ) :
     windowCoeff p i j = (p.getD i []).getD j 0 := by
   simp only [windowCoeff, getD_drop_window, Nat.add_zero]
 
+/-- Expose a bounded scalar window through rectangular padding. -/
+theorem windowCoeff_rectangularize_window (outer inner : ℕ) (p : Two)
+    (n d k : ℕ) (hn : n < outer) (hdk : d + k < inner) :
+    windowCoeff (rectangularize outer inner p) n (d + k) =
+      ((p.getD n []).drop d).getD k 0 := by
+  rw [windowCoeff_eq_getD,
+    getD_rectangularize outer inner p n hn,
+    getD_padOne inner (p.getD n []) (d + k) hdk,
+    ← getD_drop_window]
+
 private theorem oneAdd_nil (p : One) : One.add p [] = p := by
   cases p <;> rfl
 
@@ -161,6 +171,41 @@ theorem mulCoeffTwo_dropInner_window (p q : Two) (n d k : ℕ)
               rw [getD_dropInner,
                 mulCoeff_drop_window a ((b :: q).getD (n + 1) []) d k ha,
                 ih (q := b :: q) (n := n) hp]
+
+/-- Split a sufficiently early outer prefix into a separate scalar sum. -/
+theorem mulCoeffTwo_append_outer_split : ∀ (p₁ p₂ q : Two) (n j : ℕ),
+    p₁.length ≤ n →
+      mulCoeffTwo (p₁ ++ p₂) q n j =
+        mulCoeffTwo p₁ q n j +
+          mulCoeffTwo p₂ q (n - p₁.length) j
+  | [], p₂, q, n, j, _h => by simp [mulCoeffTwo]
+  | _a :: _as, _p₂, _q, 0, _j, h => by
+      simp only [List.length_cons] at h
+      omega
+  | a :: as, p₂, q, n + 1, j, h => by
+      cases q with
+      | nil => cases p₂ <;> simp [mulCoeffTwo]
+      | cons b q =>
+          have has : as.length ≤ n := by
+            simp only [List.length_cons] at h
+            omega
+          simp only [List.cons_append, mulCoeffTwo, List.length_cons]
+          rw [mulCoeffTwo_append_outer_split as p₂ (b :: q) n j has]
+          simp only [Nat.add_sub_add_right, add_assoc]
+
+/-- Split one scalar outer convolution at an exact `take`/`drop` boundary. -/
+theorem mulCoeffTwo_take_drop_outer_split (p q : Two) (m n j : ℕ)
+    (hp : m ≤ p.length) (hn : m ≤ n) :
+    mulCoeffTwo p q n j =
+      mulCoeffTwo (p.take m) q n j +
+        mulCoeffTwo (p.drop m) q (n - m) j := by
+  have hLength : (p.take m).length = m := by
+    simp only [List.length_take, Nat.min_eq_left hp]
+  conv_lhs =>
+    rw [show p = p.take m ++ p.drop m by
+      exact (List.take_append_drop m p).symm]
+  rw [mulCoeffTwo_append_outer_split _ _ _ n j (by simpa [hLength] using hn),
+    hLength]
 
 /-- Expose a bounded outer convolution window at a fixed inner coefficient. -/
 theorem mulCoeffTwo_outerDrop_window (p q : Two)
