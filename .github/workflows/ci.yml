@@ -55,7 +55,14 @@ jobs:
                   re.compile(r"^\s*set_option\b", re.MULTILINE),
                   "local option override",
               ),
-              (re.compile(r"@\[\s*nolint\b"), "linter suppression"),
+              (
+                  re.compile(
+                      r"@\[\s*nolint\b|@nolint\b|"
+                      r"^\s*attribute\s*\[\s*nolint\b",
+                      re.MULTILINE,
+                  ),
+                  "linter suppression",
+              ),
           )
           failures = []
           root = Path.cwd()
@@ -83,6 +90,9 @@ jobs:
         run: |
           python3 scripts/lean_regular_cache.py check
           python3 scripts/lean_audit_cache.py check
+
+      - name: Validate the MazurTorsion linter ratchet
+        run: python3 scripts/lint_changed_lean.py check
 
       - name: Protect immutable challenge contracts
         if: github.event_name == 'pull_request'
@@ -551,6 +561,9 @@ jobs:
       # The generated families are restored before this job. Use all hosted
       # runner CPUs for the small downstream build and validation tools.
       LEAN_NUM_THREADS: "4"
+      # Cache-planning imports must not create runner-specific pyc files before
+      # the exact validation key is computed.
+      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - name: Reclaim runner disk for the complete Lean environment
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
@@ -565,6 +578,19 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          # The linter ratchet must see every path touched after its fixed
+          # cutoff, including files later reverted to their cutoff contents.
+          fetch-depth: 0
+
+      - name: Plan the MazurTorsion linter ratchet
+        id: linter-ratchet
+        run: |
+          set -euo pipefail
+          {
+            echo "digest=$(python3 scripts/lint_changed_lean.py digest)"
+            echo "scripts=$(git ls-files --stage -z -- scripts | sha256sum | cut -d' ' -f1)"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Install Lean
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
@@ -688,7 +714,9 @@ jobs:
         with:
           path: .ci/lean-validation
           key: >-
-            LeanValidation-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            LeanValidation-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            steps.linter-ratchet.outputs.digest }}-${{
+            steps.linter-ratchet.outputs.scripts }}-${{
             hashFiles(
             'lean-toolchain',
             'lake-manifest.json',
@@ -699,7 +727,6 @@ jobs:
             'EllipticCurves/**/*.lean',
             'Challenge.lean',
             'Challenge/**/*.lean',
-            'scripts/**',
             'coordination/program.json',
             'upstream/tauceti/lean-toolchain',
             'upstream/tauceti/lake-manifest.json',
@@ -1043,12 +1070,20 @@ jobs:
           )
           lake exe contractAxioms "${targets[@]}"
 
-      - name: Run Mathlib linters
+      - name: Run Mathlib linter ratchet and clean-library linters
         if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: |
-          lake exe runLinter MazurTorsion
-          lake exe runLinter EllipticCurves
-          lake exe runLinter Challenge
+          set -euo pipefail
+          lint_cutoff="$(python3 scripts/lint_changed_lean.py cutoff)"
+          if ! git cat-file -e "${lint_cutoff}^{commit}" 2>/dev/null; then
+            git fetch --no-tags --depth=1 origin "${lint_cutoff}"
+          fi
+          # This fixed cutoff explicitly grandfathers findings in never-touched
+          # files. All default linters still run after a source change, every
+          # touched file must be clean, and no nolint waiver is used.
+          python3 scripts/lint_changed_lean.py enforce
+          lake exe runLinter --no-build EllipticCurves
+          lake exe runLinter --no-build Challenge
 
       - name: Run Mathlib style checks
         if: steps.lean-validation-cache.outputs.cache-hit != 'true'
