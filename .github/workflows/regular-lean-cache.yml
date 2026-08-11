@@ -177,7 +177,7 @@ jobs:
           steps.regular-base-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
-        run: lake exe cache get
+        run: scripts/get-mathlib-cache.sh
 
       - name: Build Tau Ceti
         if: steps.tau-ceti-probe.outputs.cache-hit != 'true'

@@ -15,6 +15,7 @@ on:
       - "coordination/**"
       - "scripts/quality.py"
       - "scripts/build-order-twenty-seven-stages.sh"
+      - "scripts/get-mathlib-cache.sh"
       - "scripts/lean_regular_cache.py"
       - "scripts/order-seven-cache.sh"
       - "scripts/restore-order-seven-cache.sh"
@@ -275,7 +276,7 @@ jobs:
           steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
-        run: lake exe cache get
+        run: scripts/get-mathlib-cache.sh
 
       - name: Build the generated certificate
         if: >-
@@ -520,7 +521,7 @@ jobs:
       - name: Install the Mathlib cache
         run: |
           if [ ! -d .lake/packages/mathlib ]; then
-            lake exe cache get
+            scripts/get-mathlib-cache.sh
           fi
 
       # Share the content-addressed root build caches with Core CI. The

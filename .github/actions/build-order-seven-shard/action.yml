@@ -64,7 +64,7 @@ runs:
     - name: Install the Mathlib cache
       if: steps.cache.outputs.hit != 'true'
       shell: bash
-      run: lake exe cache get
+      run: scripts/get-mathlib-cache.sh
 
     - name: Restore predecessor shards
       if: steps.cache.outputs.hit != 'true'

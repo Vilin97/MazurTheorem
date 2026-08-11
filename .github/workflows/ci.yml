@@ -335,7 +335,7 @@ jobs:
           steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
-        run: lake exe cache get
+        run: scripts/get-mathlib-cache.sh
 
       - name: Build the generated certificate
         if: >-
@@ -572,7 +572,7 @@ jobs:
           use-mathlib-cache: false
 
       - name: Install the Mathlib cache
-        run: lake exe cache get
+        run: scripts/get-mathlib-cache.sh
 
       # Do not use lean-action's whole-.lake cache here. This repository's
       # generated artifacts are larger than GitHub's repository cache quota,
