@@ -4,12 +4,15 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, OpenAI Codex
 -/
 
-import MazurTorsion.ModularCurve.XZeroThirtyFiveLocalQuotientAtEleven
+import MazurTorsion.ModularCurve.XZeroThirtyFiveSourceDomainAtEleven
 import MazurTorsion.ModularCurve.CompleteDVRStalk
 import MazurTorsion.ModularCurve.OrderThirtyFiveQuotientQExpansion
 import Mathlib.RingTheory.DualNumber
 import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+import Mathlib.RingTheory.Ideal.Quotient.Noetherian
+import Mathlib.RingTheory.Localization.Submodule
 import Mathlib.RingTheory.MvPolynomial.Ideal
+import Mathlib.RingTheory.Polynomial.Basic
 import Mathlib.Tactic.FinCases
 
 /-!
@@ -288,14 +291,18 @@ theorem ordinatePlusOne_isUnit :
 the q-parameter. -/
 theorem qParameter_dvd_ordinateDifference :
     qParameter ∣ ordinateDifference := by
-  have hrelation := congrArg (algebraMap SourceChart CuspLocalRing)
-    ordinate_factorization
+  have hrelation :
+      algebraMap SourceChart CuspLocalRing (y - 1) *
+          algebraMap SourceChart CuspLocalRing (y + 1) =
+        algebraMap SourceChart CuspLocalRing t *
+          algebraMap SourceChart CuspLocalRing (sourcePolynomialTail t) := by
+    simpa only [map_mul] using
+      congrArg (algebraMap SourceChart CuspLocalRing) ordinate_factorization
   have ht : algebraMap SourceChart CuspLocalRing t = -qParameter := by
     simp [qParameter, cuspParameter]
   have hdiv : qParameter ∣
       ordinateDifference *
         algebraMap SourceChart CuspLocalRing (y + 1) := by
-    rw [map_mul, map_sub, map_one, map_add, map_one] at hrelation
     refine ⟨-algebraMap SourceChart CuspLocalRing
       (sourcePolynomialTail t), ?_⟩
     calc
@@ -303,7 +310,7 @@ theorem qParameter_dvd_ordinateDifference :
           algebraMap SourceChart CuspLocalRing (y + 1) =
           algebraMap SourceChart CuspLocalRing t *
             algebraMap SourceChart CuspLocalRing (sourcePolynomialTail t) :=
-        hrelation
+        by simpa [ordinateDifference] using hrelation
       _ = qParameter *
           (-algebraMap SourceChart CuspLocalRing
             (sourcePolynomialTail t)) := by
@@ -529,7 +536,7 @@ theorem chartCuspTangent_isUnit_of_not_mem_cuspPrime
 
 /-- The dual-number tangent extends to the actual cusp local ring. -/
 def cuspLocalTangent : CuspLocalRing →+* DualNumber ResidueField :=
-  IsLocalization.lift (S := CuspLocalRing)
+  IsLocalization.lift (S := CuspLocalRing) (g := chartCuspTangent)
     (fun a : cuspPrime.primeCompl ↦
       chartCuspTangent_isUnit_of_not_mem_cuspPrime a.property)
 

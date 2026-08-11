@@ -31,6 +31,8 @@ open MazurTorsion.ModularCurve.AffineCuspQExpansion
 
 namespace MazurTorsion.ModularCurve.XZeroThirtyFiveLocalQuotientAtEleven
 
+local instance primeEleven : Fact (Nat.Prime 11) := ⟨by decide⟩
+
 /-- Evaluation coordinates for the target cusp `(W,Z) = (1,3)`. -/
 def targetCuspCoordinates : Fin 2 → ResidueField :=
   Fin.cases 1 (Fin.cases 3 Fin.elim0)
@@ -263,7 +265,9 @@ theorem sourceParameter_mem_maximalIdeal
     (comparison : LocalComparison C g) :
     comparison.sourceParameter ∈
       IsLocalRing.maximalIdeal (RepresentedTargetLocalRing C g) := by
-  letI : IsLocalHom comparison.targetLocalEquiv.toRingHom := inferInstance
+  letI : IsLocalHom comparison.targetLocalEquiv.toRingHom :=
+    ⟨fun a ha ↦
+      (isLocalHom_equiv comparison.targetLocalEquiv).map_nonunit a ha⟩
   exact map_nonunit comparison.targetLocalEquiv.toRingHom targetParameter
     targetParameter_mem_maximalIdeal
 
@@ -280,7 +284,7 @@ theorem rationalPoint_orderThirtyFive_ne_of_explicitCuspLocalComparison
     {E : WeierstrassCurve ℚ} [E.IsElliptic]
     {A : CommGroupScheme (Spec (.of (atEleven.adicCompletion ℚ)))}
     (Ner : NeronModel ElevenBase (atEleven.adicCompletion ℚ) A)
-    {S T : Type*} [CommRing S] [CommRing T]
+    {S T : Type} [CommRing S] [CommRing T]
     [Algebra ElevenBase S] [Algebra ElevenBase T]
     [IsNoetherianRing S] [IsNoetherianRing T]
     (C : AffineStructuralSection (R := ElevenBase) (T := T))
