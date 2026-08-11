@@ -75,14 +75,35 @@ jobs:
           use-github-cache: false
           use-mathlib-cache: false
 
+      - name: Restore the Verso dependency cache
+        id: verso-dependency-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: blueprint/.lake/packages
+          key: >-
+            VersoBlueprintDependencies-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'blueprint/lean-toolchain',
+            'blueprint/lakefile.lean',
+            'blueprint/lake-manifest.json'
+            ) }}
+
       - name: Validate canonical programme data
         run: python scripts/quality.py
 
       - name: Build and check the official Verso blueprint
-        working-directory: blueprint
-        run: |
-          LEAN_NUM_THREADS=1 lake exe vbp build
-          LEAN_NUM_THREADS=1 lake exe vbp check
+        run: blueprint/scripts/ci-pages.sh
+
+      - name: Save the Verso dependency cache
+        if: >-
+          success() &&
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main' &&
+          steps.verso-dependency-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: blueprint/.lake/packages
+          key: ${{ steps.verso-dependency-cache.outputs.cache-primary-key }}
 
       - name: Generate exposition
         env:

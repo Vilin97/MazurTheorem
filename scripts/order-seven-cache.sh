@@ -26,6 +26,8 @@ case "$command_name" in
     cache_dir=$(mktemp -d "${RUNNER_TEMP:?}/order-seven-${shard}.XXXXXX")
     trap 'rm -rf "$cache_dir"' EXIT
     manifest="$cache_dir/manifest.json"
+    staging_root="$cache_dir/staging"
+    mkdir "$staging_root"
     if ! oras manifest fetch "$reference" > "$manifest" 2>/dev/null; then
       exit 1
     fi
@@ -37,7 +39,9 @@ case "$command_name" in
     }
     fetch_layers \
       | zstd --decompress --stdout \
-      | tar --extract --file - --no-same-owner --no-same-permissions
+      | tar --extract --file - --directory "$staging_root" \
+          --no-same-owner --no-same-permissions
+    python3 scripts/order_seven_cache.py install "$shard" "$staging_root"
     python3 scripts/order_seven_cache.py paths "$shard" >/dev/null
     ;;
   push)
@@ -48,7 +52,7 @@ case "$command_name" in
     # GHCR limits each layer to 10 GB and each layer upload to ten minutes.
     # Stream fixed 512 MiB pieces so every upload stays comfortably bounded
     # without materializing a second full archive on the runner.
-    tar --create --file - --files-from "$manifest" \
+    tar --create --file - --files-from "$manifest" --hard-dereference \
         --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner \
       | zstd --compress --stdout -3 \
       | split --bytes=512M --numeric-suffixes=0 --suffix-length=4 - \

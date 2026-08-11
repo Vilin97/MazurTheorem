@@ -75,7 +75,7 @@ theorem isFreeAlgebraAction_of_free {U : X.Opens} (hU : σ.IsStableOpen U)
     exact hcon a
   have hspec : Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ specSMul γ =
       Spec.map (CommRingCat.ofHom φ.toRingHom) := by
-    show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (MulSemiringAction.toRingHom G (↑Γ(X, U)) γ)) = _
     rw [← Spec.map_comp, hring]
   -- the resulting point of `X` is `γ`-fixed
@@ -224,10 +224,10 @@ theorem gamma_appLE_invariant (hover : ∀ γ : G, σ.hom γ ≫ f = f)
       f.appLE U V hle := by
     rw [Scheme.Hom.appLE_comp_appLE]
     exact key (hover g) _ _
-  show ((σ.hom g).appLE V V (hVst.le_preimage g)).hom ((f.appLE U V hle).hom r) = _
+  change ((σ.hom g).appLE V V (hVst.le_preimage g)).hom ((f.appLE U V hle).hom r) = _
   rw [← CommRingCat.comp_apply, hcomp]
 
-omit [IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from X))] in
+omit [Finite G] [IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from X))] in
 /-- The descended chart ring map `Γ(S, W) ⟶ Γ(X, f⁻¹W)ᴳ` of an invariant morphism: the
 corestriction of `f.appLE` to the invariants of the section-ring action. -/
 noncomputable def quotientDescRing (hover : ∀ γ : G, σ.hom γ ≫ f = f) (W : S.Opens)
@@ -238,7 +238,7 @@ noncomputable def quotientDescRing (hover : ∀ γ : G, σ.hom γ ≫ f = f) (W 
   (f.appLE W (f ⁻¹ᵁ W) le_rfl).hom.invariantsCorestrict (R₀ := ℤ)
     (fun g r => σ.gamma_appLE_invariant f hover hVst le_rfl g r)
 
-omit [IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from X))] in
+omit [Finite G] [IsAffineHom (Limits.pullback.diagonal (Limits.terminal.from X))] in
 /-- The composition of the descended chart ring map with the invariants inclusion is the
 chart ring map itself. -/
 theorem ofHom_quotientDescRing_algebraMap (hover : ∀ γ : G, σ.hom γ ≫ f = f) (W : S.Opens)
@@ -278,7 +278,7 @@ theorem quotient_desc_preimage_eq_chart (US : X → S.Opens)
     have hz : z ∈ f ⁻¹ᵁ US x := by
       rw [← quotientπ_preimage_quotientChart σ (fun x => f ⁻¹ᵁ US x) hVs hVa hVmem x]
       exact hq
-    show f₀ (σ.quotientπ (fun x => f ⁻¹ᵁ US x) hVs hVa hVmem z) ∈ US x
+    change f₀ (σ.quotientπ (fun x => f ⁻¹ᵁ US x) hVs hVa hVmem z) ∈ US x
     rw [hπf₀ z]
     exact hz
 
@@ -423,7 +423,7 @@ theorem quotient_desc_finite_etale {Z₀ : Scheme.{u}}
     exact ⟨Wo, hWo, hmem⟩
   choose US hUSa hUSmem using hcov
   have hVs : ∀ x, σ.IsStableOpen (f ⁻¹ᵁ US x) := fun x g => by
-    show (σ.hom g ≫ f) ⁻¹ᵁ US x = f ⁻¹ᵁ US x
+    change (σ.hom g ≫ f) ⁻¹ᵁ US x = f ⁻¹ᵁ US x
     rw [hover g]
   have hVa : ∀ x, IsAffineOpen (f ⁻¹ᵁ US x) := fun x => (hUSa x).preimage f
   have hVmem : ∀ x, x ∈ f ⁻¹ᵁ US x := fun x => hUSmem x

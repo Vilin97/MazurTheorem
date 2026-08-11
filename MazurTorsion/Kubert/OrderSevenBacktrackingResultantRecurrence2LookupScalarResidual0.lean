@@ -1207,8 +1207,8 @@ theorem scalarResidual2Coefficient0 :
   by_cases h : n ≤ 387
   · interval_cases n <;> norm_num [Polynomial.coeff_add,
       recurrence2Scalar0Left_coeff_high]
-  ·
-    rw [recurrence2Scalar0Left_coeff_high n (by omega)]
+  · rw [recurrence2Scalar0Left_coeff_high n (by omega)]
+
     simp only [Polynomial.coeff_add]
     rw [recurrence2Scalar0Main_coeff_high n (by omega)]
     rw [recurrence2Scalar0Exceptional_coeff_high n (by omega)]

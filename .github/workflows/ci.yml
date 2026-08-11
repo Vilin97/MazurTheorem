@@ -79,6 +79,9 @@ jobs:
       - name: Validate the Order Seven cache manifest
         run: python3 scripts/order_seven_cache.py check
 
+      - name: Validate the regular Lean cache manifest
+        run: python3 scripts/lean_regular_cache.py check
+
       - name: Protect immutable challenge contracts
         if: github.event_name == 'pull_request'
         run: >-
@@ -110,7 +113,133 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
+      # Metadata-only probes keep an exact warm producer from downloading the
+      # same 2.9 GB that the checked build consumes immediately afterwards.
+      # These path lists deliberately match the payload restores byte-for-byte:
+      # actions/cache includes them in its cache-version calculation.
+      - name: Probe the final certificate cache
+        id: final-certificate-cache-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Zero.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/MNum*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/KernelCubic.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/DenominatorNonzero.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Zero.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/MNum*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/KernelCubic.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/DenominatorNonzero.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesC.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesD/**
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
+          key: >-
+            OrderTwentySevenFinal-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'scripts/build-order-twenty-seven-stages.sh',
+            'MazurTorsion/Kubert/OrderTwentySeven*.lean',
+            'MazurTorsion/Kubert/OrderTwentySeven*/**/*.lean',
+            'MazurTorsion/EllipticCurve/VariableChange.lean',
+            'MazurTorsion/Foundations/NaiveHeightDescent.lean',
+            'MazurTorsion/Kubert/OrderEighteenModel.lean',
+            'MazurTorsion/Kubert/OrderEighteenReduction.lean',
+            'MazurTorsion/Kubert/OrderNineReduction.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean',
+            'MazurTorsion/NumberTheory/FermatCubicClassification.lean',
+            'MazurTorsion/NumberTheory/XZeroTwentySevenClassification.lean'
+            ) }}
+          lookup-only: true
+
+      - name: Probe the generated certificate cache
+        id: generated-certificate-cache-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+          key: >-
+            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'scripts/build-order-twenty-seven-stages.sh',
+            'MazurTorsion/EllipticCurve/VariableChange.lean',
+            'MazurTorsion/Foundations/NaiveHeightDescent.lean',
+            'MazurTorsion/Kubert/OrderEighteenModel.lean',
+            'MazurTorsion/Kubert/OrderEighteenReduction.lean',
+            'MazurTorsion/Kubert/OrderNineReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean'
+            ) }}
+          lookup-only: true
+
+      - name: Probe the certificate prerequisite cache
+        id: certificate-prerequisite-cache-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.*
+          key: >-
+            OrderTwentySevenPrerequisites-v3-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'scripts/build-order-twenty-seven-stages.sh',
+            'MazurTorsion/EllipticCurve/VariableChange.lean',
+            'MazurTorsion/Foundations/NaiveHeightDescent.lean',
+            'MazurTorsion/Kubert/OrderEighteenModel.lean',
+            'MazurTorsion/Kubert/OrderEighteenReduction.lean',
+            'MazurTorsion/Kubert/OrderNineReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesA.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesA/**/*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/T*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/W*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Bands*.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegStagesB/Scalars.lean'
+            ) }}
+          lookup-only: true
+
       - name: Restore the final certificate cache
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         id: final-certificate-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -156,9 +285,12 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenFinal-v2-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenFinal-v1-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Restore the generated certificate cache
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         id: generated-certificate-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -186,9 +318,12 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenLegChunks-${{ runner.os }}-
 
       - name: Install Lean
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           auto-config: false
@@ -196,10 +331,18 @@ jobs:
           use-mathlib-cache: false
 
       - name: Install the Mathlib cache
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         run: lake exe cache get
 
       - name: Build the generated certificate
-        if: steps.generated-certificate-cache.outputs.cache-hit != 'true'
+        if: >-
+          (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
+          steps.generated-certificate-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           lake build MazurTorsion.Kubert.OrderTwentySevenLegChunks \
@@ -214,6 +357,10 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.trace
 
       - name: Restore the certificate prerequisite cache
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         id: certificate-prerequisite-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -257,11 +404,13 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenPrerequisites-v3-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenPrerequisites-v2-${{ runner.os }}-
-            OrderTwentySevenPrerequisites-v1-${{ runner.os }}-
 
       - name: Build the certificate prerequisites serially
-        if: steps.certificate-prerequisite-cache.outputs.cache-hit != 'true'
+        if: >-
+          (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
+          steps.certificate-prerequisite-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           scripts/build-order-twenty-seven-stages.sh stage-a \
@@ -276,7 +425,11 @@ jobs:
           fi
 
       - name: Save the certificate prerequisite cache
-        if: steps.certificate-prerequisite-cache.outputs.cache-hit != 'true'
+        if: >-
+          (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
+          steps.certificate-prerequisite-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
@@ -295,7 +448,11 @@ jobs:
           key: ${{ steps.certificate-prerequisite-cache.outputs.cache-primary-key }}
 
       - name: Build the final certificate stages serially
-        if: steps.final-certificate-cache.outputs.cache-hit != 'true'
+        if: >-
+          (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
+          steps.final-certificate-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           scripts/build-order-twenty-seven-stages.sh final \
@@ -306,6 +463,10 @@ jobs:
           fi
 
       - name: Verify the final certificate cache
+        if: >-
+          steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
         run: |
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStagesD.olean
@@ -323,7 +484,11 @@ jobs:
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.olean
 
       - name: Save the final certificate cache
-        if: steps.final-certificate-cache.outputs.cache-hit != 'true'
+        if: >-
+          (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
+          steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
+          steps.final-certificate-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
@@ -349,6 +514,14 @@ jobs:
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
           key: ${{ steps.final-certificate-cache.outputs.cache-primary-key }}
 
+  regular-cache:
+    name: Cache the regular Lean library
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: source-policy
+    uses: ./.github/workflows/regular-lean-cache.yml
+    permissions:
+      contents: read
+
   build:
     name: Build and lint Lean
     if: >-
@@ -357,11 +530,14 @@ jobs:
       (needs.heavy-certificate.result == 'success' ||
       needs.heavy-certificate.result == 'skipped') &&
       (needs.order-seven-cache.result == 'success' ||
-      needs.order-seven-cache.result == 'skipped')
+      needs.order-seven-cache.result == 'skipped') &&
+      (needs.regular-cache.result == 'success' ||
+      needs.regular-cache.result == 'skipped')
     needs:
       - source-policy
       - heavy-certificate
       - order-seven-cache
+      - regular-cache
     runs-on: ubuntu-latest
     # A first cache-seeding build is intentionally allowed to finish. Warm
     # builds should be much shorter.
@@ -369,6 +545,10 @@ jobs:
     permissions:
       contents: read
       packages: read
+    env:
+      # The generated families are restored before this job. Use all hosted
+      # runner CPUs for the small downstream build and validation tools.
+      LEAN_NUM_THREADS: "4"
     steps:
       - name: Reclaim runner disk for the complete Lean environment
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
@@ -430,37 +610,51 @@ jobs:
           restore-keys: |
             OrderTwentyFive-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
 
-      - name: Restore the regular Lean build cache
-        id: regular-lean-build-cache
+      - name: Plan the regular Lean caches
+        id: regular-plan
+        run: |
+          set -euo pipefail
+          {
+            echo "schema=$(python3 scripts/lean_regular_cache.py schema)"
+            echo "digest=$(python3 scripts/lean_regular_cache.py digest)"
+            echo "config=${{ hashFiles(
+              'lean-toolchain',
+              'lake-manifest.json',
+              'lakefile.toml',
+              'upstream/tauceti/lean-toolchain',
+              'upstream/tauceti/lake-manifest.json',
+              'scripts/lean_regular_cache.py'
+              ) }}"
+            echo "paths<<LEAN_CACHE_PATHS"
+            python3 scripts/lean_regular_cache.py paths
+            echo "LEAN_CACHE_PATHS"
+            echo "downstream-paths<<LEAN_DOWNSTREAM_PATHS"
+            python3 scripts/lean_regular_cache.py downstream-paths
+            echo "LEAN_DOWNSTREAM_PATHS"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Restore the regular Lean base cache
+        id: regular-lean-base-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
-          path: |
-            .lake/build/lib/lean/MazurTorsion.*
-            .lake/build/lib/lean/MazurTorsion/**
-            .lake/build/ir/MazurTorsion.*
-            .lake/build/ir/MazurTorsion/**
-            .lake/build/lib/lean/EllipticCurves.*
-            .lake/build/lib/lean/EllipticCurves/**
-            .lake/build/ir/EllipticCurves.*
-            .lake/build/ir/EllipticCurves/**
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderSeven*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderSeven*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentyFive*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentyFive*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStages*.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStages*/**
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStages*.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStages*/**
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
+          path: ${{ steps.regular-plan.outputs.paths }}
           key: >-
-            LeanRegular-v1-${{ runner.os }}-${{ runner.arch }}-${{
-            hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml')
-            }}-${{ hashFiles(
+            LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.config }}-${{
+            steps.regular-plan.outputs.digest }}
+          restore-keys: |
+            LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
+
+      - name: Restore the regular Lean downstream cache
+        id: regular-lean-downstream-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.downstream-paths }}
+          key: >-
+            LeanRegularDownstream-v${{ steps.regular-plan.outputs.schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.config }}-${{ hashFiles(
             'MazurTorsion.lean',
             'MazurTorsion/**/*.lean',
             'EllipticCurves.lean',
@@ -469,7 +663,31 @@ jobs:
             'upstream/tauceti/lake-manifest.json'
             ) }}
           restore-keys: |
-            LeanRegular-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+            LeanRegularDownstream-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
+
+      - name: Restore the exact validation attestation
+        id: lean-validation-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: .ci/lean-validation
+          key: >-
+            LeanValidation-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles(
+            'lean-toolchain',
+            'lake-manifest.json',
+            'lakefile.toml',
+            'MazurTorsion.lean',
+            'MazurTorsion/**/*.lean',
+            'EllipticCurves.lean',
+            'EllipticCurves/**/*.lean',
+            'Challenge.lean',
+            'Challenge/**/*.lean',
+            'scripts/**',
+            'coordination/program.json',
+            'upstream/tauceti/lean-toolchain',
+            'upstream/tauceti/lake-manifest.json',
+            '.github/workflows/ci.yml'
+            ) }}
 
       - name: Complete the Tau Ceti dependency cache
         if: steps.tau-ceti-build-cache.outputs.cache-hit != 'true'
@@ -489,17 +707,12 @@ jobs:
         run: |
           set -euo pipefail
           df -h .
-          while IFS= read -r shard; do
-            if scripts/order-seven-cache.sh pull "$shard"; then
-              echo "Restored Order Seven shard: $shard"
-            elif [[ "$GITHUB_EVENT_NAME" == "push" &&
-                    "$GITHUB_REF" == "refs/heads/main" ]]; then
-              echo "::error::The main cache producer did not publish shard $shard."
-              exit 1
-            else
-              echo "::notice::No exact Order Seven cache for $shard; Lake will rebuild it."
-            fi
-          done < <(python3 scripts/order_seven_cache.py lanes)
+          restore_args=()
+          if [[ "$GITHUB_EVENT_NAME" == "push" &&
+                "$GITHUB_REF" == "refs/heads/main" ]]; then
+            restore_args+=(--require-all)
+          fi
+          scripts/restore-order-seven-cache.sh "${restore_args[@]}"
           df -h .
 
       - name: Restore the final Order Seven bridge cache
@@ -564,7 +777,6 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenLegChunks-${{ runner.os }}-
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Restore the certificate prerequisite cache
@@ -610,7 +822,6 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenPrerequisites-v3-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenPrerequisites-v2-${{ runner.os }}-
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Restore the final certificate cache
@@ -658,7 +869,6 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenFinal-v2-${{ runner.os }}-${{ runner.arch }}-
-            OrderTwentySevenFinal-v1-${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Verify the generated certificate caches
@@ -737,36 +947,14 @@ jobs:
             .lake/build/ir/MazurTorsion/Kubert/OrderSevenBacktrackingSymmetry.*
           key: ${{ steps.order-seven-bridge-cache.outputs.cache-primary-key }}
 
-      - name: Save the regular Lean build cache
+      - name: Save the regular Lean downstream cache
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
-          steps.regular-lean-build-cache.outputs.cache-hit != 'true'
+          steps.regular-lean-downstream-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
-          path: |
-            .lake/build/lib/lean/MazurTorsion.*
-            .lake/build/lib/lean/MazurTorsion/**
-            .lake/build/ir/MazurTorsion.*
-            .lake/build/ir/MazurTorsion/**
-            .lake/build/lib/lean/EllipticCurves.*
-            .lake/build/lib/lean/EllipticCurves/**
-            .lake/build/ir/EllipticCurves.*
-            .lake/build/ir/EllipticCurves/**
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderSeven*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderSeven*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentyFive*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentyFive*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStages*.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegStages*/**
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
-            !.lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySeven.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStages*.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegStages*/**
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenThirdLeg.*
-            !.lake/build/ir/MazurTorsion/Kubert/OrderTwentySeven.*
-          key: ${{ steps.regular-lean-build-cache.outputs.cache-primary-key }}
+          path: ${{ steps.regular-plan.outputs.downstream-paths }}
+          key: ${{ steps.regular-lean-downstream-cache.outputs.cache-primary-key }}
 
       - name: Reject warnings from the checked Lean build
         run: |
@@ -777,6 +965,7 @@ jobs:
           fi
 
       - name: Build registered challenges with exact expected notices
+        if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           lake build Challenge 2>&1 | tee challenge-build.log
@@ -806,9 +995,11 @@ jobs:
           fi
 
       - name: Audit kernel axiom dependencies
+        if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: lake exe axioms
 
       - name: Audit open and completed challenge contracts
+        if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           mapfile -t targets < <(python3 - <<'PY'
@@ -834,13 +1025,32 @@ jobs:
           lake exe contractAxioms "${targets[@]}"
 
       - name: Run Mathlib linters
+        if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: |
           lake exe runLinter MazurTorsion
           lake exe runLinter EllipticCurves
           lake exe runLinter Challenge
 
       - name: Run Mathlib style checks
+        if: steps.lean-validation-cache.outputs.cache-hit != 'true'
         run: |
           lake exe lint-style MazurTorsion
           lake exe lint-style EllipticCurves
           lake exe lint-style Challenge
+
+      - name: Record successful Lean validation
+        if: >-
+          github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.lean-validation-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .ci/lean-validation
+          printf '%s\n' "$GITHUB_SHA" > .ci/lean-validation/SOURCE_SHA
+
+      - name: Save the exact validation attestation
+        if: >-
+          github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          steps.lean-validation-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: .ci/lean-validation
+          key: ${{ steps.lean-validation-cache.outputs.cache-primary-key }}

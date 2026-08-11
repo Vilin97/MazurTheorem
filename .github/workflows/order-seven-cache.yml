@@ -8,16 +8,18 @@ permissions:
   packages: write
 
 env:
-  LEAN_NUM_THREADS: "1"
+  LEAN_NUM_THREADS: "2"
 
 jobs:
   order-seven-seed:
     name: Seed the generated order-7 cache
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 60
     concurrency:
-      group: order-seven-seed-${{ github.sha }}
+      # Content keys keep old and new source revisions distinct. Serializing
+      # the producer prevents Core and Pages from compiling the same cold seed.
+      group: order-seven-seed
       cancel-in-progress: false
     permissions:
       contents: read
@@ -29,82 +31,24 @@ jobs:
       - name: Validate the shard manifest
         run: python3 scripts/order_seven_cache.py check
 
-      - name: Install ORAS
-        uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d
+      - name: Build or restore the seed
+        id: seed-cache
+        uses: ./.github/actions/build-order-seven-shard
         with:
-          version: 1.3.3
+          shard: seed
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Log in to the generated-proof cache
-        env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-
-      - name: Check for an exact seed cache
-        id: cache
-        run: |
-          if scripts/order-seven-cache.sh probe seed; then
-            echo "hit=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "hit=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Install Lean
-        if: steps.cache.outputs.hit != 'true'
-        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
-        with:
-          auto-config: false
-          use-github-cache: false
-          use-mathlib-cache: false
-
-      - name: Install the Mathlib cache
-        if: steps.cache.outputs.hit != 'true'
-        run: lake exe cache get
-
-      - name: Build the shared Order Seven seed
-        if: steps.cache.outputs.hit != 'true'
-        run: |
-          set -euo pipefail
-          lake build \
-            MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData6 \
-            2>&1 | tee order-seven-seed.log
-          if grep -nE '(^|: )warning:' order-seven-seed.log; then
-            echo "::error::The Order Seven seed build emitted warnings."
-            exit 1
-          fi
-
-      - name: Publish the shared Order Seven seed
-        if: steps.cache.outputs.hit != 'true'
-        run: scripts/order-seven-cache.sh push seed
-
-  order-seven-shards:
-    name: Build generated order-7 shard (${{ matrix.shard }})
+  order-seven-plan:
+    name: Plan generated order-7 cache work
     needs: order-seven-seed
     if: github.ref == 'refs/heads/main' && needs.order-seven-seed.result == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 360
-    concurrency:
-      group: order-seven-${{ matrix.shard }}-${{ github.sha }}
-      cancel-in-progress: false
-    env:
-      # The producer lanes are independent and run only on exact cache misses.
-      # Two workers keep the cold seed bounded without putting
-      # the largest generated modules under four-way memory pressure.
-      LEAN_NUM_THREADS: "2"
+    timeout-minutes: 10
+    outputs:
+      all-hit: ${{ steps.plan.outputs.all-hit }}
     permissions:
       contents: read
-      packages: write
-    strategy:
-      fail-fast: false
-      matrix:
-        shard:
-          - factor
-          - auxiliary
-          - r0
-          - r1
-          - r2
-          - r4
-          - r5
-          - r6
+      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -119,60 +63,201 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
-      - name: Check for an exact shard cache
-        id: cache
-        run: |
-          if scripts/order-seven-cache.sh probe "${{ matrix.shard }}"; then
-            echo "hit=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "hit=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Reclaim runner disk for generated artifacts
-        if: steps.cache.outputs.hit != 'true'
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
-        with:
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: false
-          docker-images: true
-          # ORAS was installed in the hosted tool cache before the hit probe.
-          tool-cache: false
-          swap-storage: false
-
-      - name: Install Lean
-        if: steps.cache.outputs.hit != 'true'
-        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
-        with:
-          auto-config: false
-          use-github-cache: false
-          use-mathlib-cache: false
-
-      - name: Install the Mathlib cache
-        if: steps.cache.outputs.hit != 'true'
-        run: lake exe cache get
-
-      - name: Restore the shared Order Seven seed
-        if: steps.cache.outputs.hit != 'true'
-        run: scripts/order-seven-cache.sh pull seed
-
-      - name: Build the Order Seven shard
-        if: steps.cache.outputs.hit != 'true'
-        env:
-          SHARD: ${{ matrix.shard }}
+      - name: Probe the recurrence shards
+        id: plan
         run: |
           set -euo pipefail
-          {
-            while IFS= read -r target; do
-              lake build "$target"
-            done < <(python3 scripts/order_seven_cache.py targets "$SHARD")
-          } 2>&1 | tee "order-seven-${SHARD}.log"
-          if grep -nE '(^|: )warning:' "order-seven-${SHARD}.log"; then
-            echo "::error::The Order Seven $SHARD build emitted warnings."
-            exit 1
-          fi
+          all_hit=true
+          while IFS= read -r shard; do
+            if [[ "$shard" != "seed" ]] &&
+                ! scripts/order-seven-cache.sh probe "$shard"; then
+              echo "Cold Order Seven shard: $shard"
+              all_hit=false
+            fi
+          done < <(python3 scripts/order_seven_cache.py lanes)
+          echo "all-hit=$all_hit" >> "$GITHUB_OUTPUT"
 
-      - name: Publish the Order Seven shard
-        if: steps.cache.outputs.hit != 'true'
-        run: scripts/order-seven-cache.sh push "${{ matrix.shard }}"
+  order-seven-small-shards:
+    name: Build generated order-7 shard (${{ matrix.shard }})
+    needs: order-seven-plan
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.order-seven-plan.result == 'success' &&
+      needs.order-seven-plan.outputs.all-hit != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: order-seven-${{ matrix.shard }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - factor
+          - auxiliary
+          - r0
+          - r1
+          - r6
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Build or restore the shard
+        uses: ./.github/actions/build-order-seven-shard
+        with:
+          shard: ${{ matrix.shard }}
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}
+
+  order-seven-bases:
+    name: Build generated order-7 base (${{ matrix.shard }})
+    needs: order-seven-plan
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.order-seven-plan.result == 'success' &&
+      needs.order-seven-plan.outputs.all-hit != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: order-seven-${{ matrix.shard }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - r2-base-a
+          - r2-base-b
+          - r2-base-c
+          - r4-base-a
+          - r4-base-b
+          - r4-base-c
+          - r5-base-a
+          - r5-base-b
+          - r5-base-c
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Build or restore the base
+        uses: ./.github/actions/build-order-seven-shard
+        with:
+          shard: ${{ matrix.shard }}
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}
+
+  order-seven-products:
+    name: Build generated order-7 products (${{ matrix.shard }})
+    needs:
+      - order-seven-plan
+      - order-seven-bases
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.order-seven-plan.outputs.all-hit != 'true' &&
+      needs.order-seven-bases.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: order-seven-${{ matrix.shard }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - r2-products-a
+          - r2-products-b
+          - r4-products-a
+          - r4-products-b
+          - r5-products-a
+          - r5-products-b
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Build or restore the products
+        uses: ./.github/actions/build-order-seven-shard
+        with:
+          shard: ${{ matrix.shard }}
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}
+
+  order-seven-scalars:
+    name: Build generated order-7 scalars (${{ matrix.shard }})
+    needs:
+      - order-seven-plan
+      - order-seven-products
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.order-seven-plan.outputs.all-hit != 'true' &&
+      needs.order-seven-products.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    concurrency:
+      group: order-seven-${{ matrix.shard }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - r2-scalars-0
+          - r2-scalars-1
+          - r2-scalars-2
+          - r2-scalars-3
+          - r4-scalars-0
+          - r4-scalars-1
+          - r4-scalars-2
+          - r4-scalars-3
+          - r5-scalars-0
+          - r5-scalars-1
+          - r5-scalars-2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Build or restore the scalars
+        uses: ./.github/actions/build-order-seven-shard
+        with:
+          shard: ${{ matrix.shard }}
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}
+
+  order-seven-finals:
+    name: Finish generated order-7 recurrence (${{ matrix.shard }})
+    needs:
+      - order-seven-plan
+      - order-seven-scalars
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.order-seven-plan.outputs.all-hit != 'true' &&
+      needs.order-seven-scalars.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: order-seven-${{ matrix.shard }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - r2-final
+          - r4-final
+          - r5-final
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Build or restore the final recurrence shard
+        uses: ./.github/actions/build-order-seven-shard
+        with:
+          shard: ${{ matrix.shard }}
+          ghcr-token: ${{ secrets.GITHUB_TOKEN }}

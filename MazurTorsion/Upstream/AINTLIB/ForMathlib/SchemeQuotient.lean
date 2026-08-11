@@ -142,7 +142,7 @@ noncomputable def gammaMulSemiringAction {U : X.Opens} (hU : σ.IsStableOpen U) 
     MulSemiringAction G ↑Γ(X, U) where
   smul g s := ((σ.hom g).appLE U U (hU.le_preimage g)).hom s
   one_smul s := by
-    show ((σ.hom 1).appLE U U (hU.le_preimage 1)).hom s = s
+    change ((σ.hom 1).appLE U U (hU.le_preimage 1)).hom s = s
     simp only [σ.hom_one]
     rw [Scheme.Hom.appLE, Scheme.Hom.id_app]
     have h1 : (homOfLE (show U ≤ (𝟙 X : X ⟶ X) ⁻¹ᵁ U from σ.hom_one ▸
@@ -151,7 +151,7 @@ noncomputable def gammaMulSemiringAction {U : X.Opens} (hU : σ.IsStableOpen U) 
     erw [X.presheaf.map_id]
     rfl
   mul_smul g h s := by
-    show ((σ.hom (g * h)).appLE U U (hU.le_preimage (g * h))).hom s =
+    change ((σ.hom (g * h)).appLE U U (hU.le_preimage (g * h))).hom s =
       ((σ.hom g).appLE U U (hU.le_preimage g)).hom
         (((σ.hom h).appLE U U (hU.le_preimage h)).hom s)
     simp only [σ.hom_mul]
@@ -197,7 +197,7 @@ theorem exists_isStableOpen_isAffineOpen [Finite G]
     exact (Equiv.mulLeft g).surjective.iInter_comp
       (fun k => (↑(σ.hom k ⁻¹ᵁ U) : Set X))
   · exact IsAffineOpen.iInf (fun g => hU.preimage_of_isIso (σ.hom g))
-  · show x ∈ (↑(⨅ g : G, (σ.hom g) ⁻¹ᵁ U) : Set X)
+  · change x ∈ (↑(⨅ g : G, (σ.hom g) ⁻¹ᵁ U) : Set X)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr (fun g => horbit g)
 
@@ -248,7 +248,7 @@ theorem resLE_localQuotientπ {V : X.Opens} (hV : σ.IsStableOpen V)
       σ.localQuotientπ hV hVa := by
   letI := σ.gammaMulSemiringAction hV
   have h1 := resLE_isoSpec_hom σ hV hVa g
-  show (σ.hom g).resLE V V (hV.le_preimage g) ≫ hVa.isoSpec.hom ≫
+  change (σ.hom g).resLE V V (hV.le_preimage g) ≫ hVa.isoSpec.hom ≫
       invariantsπ G ↑Γ(X, V) ℤ = hVa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, V) ℤ
   rw [← Category.assoc, h1, Category.assoc, specSMul_invariantsπ]
 
@@ -317,7 +317,7 @@ theorem localQuotientπ_localQuotientMap {W V : X.Opens} (hW : σ.IsStableOpen W
       X.homOfLE hWV ≫ σ.localQuotientπ hV hVa := by
   letI := σ.gammaMulSemiringAction hW
   have h1 := σ.invariantsπ_localQuotientMap hW hWa hV hVa hWV
-  show (hWa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, W) ℤ) ≫
+  change (hWa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, W) ℤ) ≫
       σ.localQuotientMap hW hWa hV hVa hWV = _
   rw [Category.assoc, h1, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
 
@@ -345,7 +345,7 @@ private theorem resLE_windowHom (hWV : W ≤ V) (hVa : IsAffineOpen V)
     (σ.hom g).resLE W W (hW.le_preimage g) ≫ windowHom hWV hVa =
       windowHom hWV hVa ≫ specSMul g := by
   letI := σ.gammaMulSemiringAction hV
-  show (σ.hom g).resLE W W (hW.le_preimage g) ≫ X.homOfLE hWV ≫ hVa.isoSpec.hom =
+  change (σ.hom g).resLE W W (hW.le_preimage g) ≫ X.homOfLE hWV ≫ hVa.isoSpec.hom =
     (X.homOfLE hWV ≫ hVa.isoSpec.hom) ≫ specSMul g
   rw [← Category.assoc, resLE_homOfLE σ hW hV hWV g, Category.assoc,
     resLE_isoSpec_hom σ hV hVa g, Category.assoc]
@@ -391,7 +391,7 @@ private theorem range_fst_imageOpens (hWV : W ≤ V) (hVa : IsAffineOpen V)
     rw [← hg]
     exact specSMul_mem_range_windowHom σ hWV hVa hW hV g t ht
   · intro hx
-    show invariantsπ G ↑Γ(X, V) ℤ x ∈
+    change invariantsπ G ↑Γ(X, V) ℤ x ∈
       (imageOpens σ hWV hVa hW hV : Set (σ.localQuotient hV))
     exact ⟨x, hx, rfl⟩
 
@@ -474,11 +474,11 @@ instance isOpenImmersion_localQuotientMap (hW : σ.IsStableOpen W)
     rintro _ ⟨t, rfl⟩
     obtain ⟨w, rfl⟩ := localQuotientπ_surjective σ hW hWa t
     rw [Scheme.Opens.range_ι]
-    show (σ.localQuotientπ hW hWa ≫ σ.localQuotientMap hW hWa hV hVa hWV) w ∈
+    change (σ.localQuotientπ hW hWa ≫ σ.localQuotientMap hW hWa hV hVa hWV) w ∈
       (imageOpens σ hWV hVa hW hV : Set (σ.localQuotient hV))
     rw [localQuotientπ_localQuotientMap σ hW hWa hV hVa hWV]
     refine ⟨windowHom (X := X) hWV hVa w, ⟨w, rfl⟩, ?_⟩
-    show invariantsπ G ↑Γ(X, V) ℤ (windowHom (X := X) hWV hVa w) =
+    change invariantsπ G ↑Γ(X, V) ℤ (windowHom (X := X) hWV hVa w) =
       (X.homOfLE hWV ≫ σ.localQuotientπ hV hVa) w
     rw [Scheme.Hom.comp_apply, localQuotientπ_def, Scheme.Hom.comp_apply]
     rfl
@@ -492,7 +492,7 @@ instance isOpenImmersion_localQuotientMap (hW : σ.IsStableOpen W)
     rw [← cancel_mono (imageOpens σ hWV hVa hW hV).ι, Category.assoc, hm₀,
       localQuotientπ_localQuotientMap σ hW hWa hV hVa hWV, Category.assoc,
       ← pullback.condition, ← Category.assoc, windowIso_hom_fst σ hWV hVa hW hV]
-    show X.homOfLE hWV ≫ σ.localQuotientπ hV hVa =
+    change X.homOfLE hWV ≫ σ.localQuotientπ hV hVa =
       (X.homOfLE hWV ≫ hVa.isoSpec.hom) ≫ invariantsπ G ↑Γ(X, V) ℤ
     rw [localQuotientπ_def, Category.assoc]
   -- the projection expressed through the local quotient map
@@ -566,11 +566,11 @@ private theorem range_localQuotientMap (hWV : W ≤ V) (hVa : IsAffineOpen V)
   apply Set.Subset.antisymm
   · rintro _ ⟨t, rfl⟩
     obtain ⟨w, rfl⟩ := localQuotientπ_surjective σ hW hWa t
-    show (σ.localQuotientπ hW hWa ≫ σ.localQuotientMap hW hWa hV hVa hWV) w ∈
+    change (σ.localQuotientπ hW hWa ≫ σ.localQuotientMap hW hWa hV hVa hWV) w ∈
       (imageOpens σ hWV hVa hW hV : Set (σ.localQuotient hV))
     rw [localQuotientπ_localQuotientMap σ hW hWa hV hVa hWV]
     refine ⟨windowHom (X := X) hWV hVa w, ⟨w, rfl⟩, ?_⟩
-    show invariantsπ G ↑Γ(X, V) ℤ (windowHom (X := X) hWV hVa w) =
+    change invariantsπ G ↑Γ(X, V) ℤ (windowHom (X := X) hWV hVa w) =
       (X.homOfLE hWV ≫ σ.localQuotientπ hV hVa) w
     rw [Scheme.Hom.comp_apply, localQuotientπ_def, Scheme.Hom.comp_apply]
     rfl
@@ -578,7 +578,7 @@ private theorem range_localQuotientMap (hWV : W ≤ V) (hVa : IsAffineOpen V)
     -- π(window w) = map (π^W w)
     refine ⟨σ.localQuotientπ hW hWa w, ?_⟩
     rw [← Scheme.Hom.comp_apply, localQuotientπ_localQuotientMap σ hW hWa hV hVa hWV]
-    show (X.homOfLE hWV ≫ σ.localQuotientπ hV hVa) w =
+    change (X.homOfLE hWV ≫ σ.localQuotientπ hV hVa) w =
       invariantsπ G ↑Γ(X, V) ℤ (windowHom (X := X) hWV hVa w)
     rw [Scheme.Hom.comp_apply, localQuotientπ_def, Scheme.Hom.comp_apply]
     rfl
@@ -587,7 +587,7 @@ omit [Finite G] in
 private theorem range_windowHom (hWV : W ≤ V) (hVa : IsAffineOpen V) :
     Set.range ⇑(windowHom (X := X) hWV hVa) =
       ⇑hVa.isoSpec.hom '' ↑(V.ι ⁻¹ᵁ W) := by
-  show Set.range (⇑hVa.isoSpec.hom ∘ ⇑(X.homOfLE hWV)) = _
+  change Set.range (⇑hVa.isoSpec.hom ∘ ⇑(X.homOfLE hWV)) = _
   rw [Set.range_comp]
   congr 1
   have h70 := Scheme.opensRange_homOfLE (X := X) hWV
@@ -642,7 +642,7 @@ private theorem imageOpens_inf {W₁ W₂ : X.Opens} (hW₁V : W₁ ≤ V) (hW�
       imageOpens σ (inf_le_left.trans hW₁V) hVa (hW₁.inf hW₂) hV := by
   letI := σ.gammaMulSemiringAction hV
   refine TopologicalSpace.Opens.ext ?_
-  show (imageOpens σ hW₁V hVa hW₁ hV : Set (σ.localQuotient hV)) ∩
+  change (imageOpens σ hW₁V hVa hW₁ hV : Set (σ.localQuotient hV)) ∩
       (imageOpens σ hW₂V hVa hW₂ hV : Set (σ.localQuotient hV)) = _
   apply Set.Subset.antisymm
   · rintro p ⟨⟨a, haA, ha⟩, ⟨b, hbB, hb⟩⟩
@@ -862,7 +862,7 @@ private theorem glueT'_fac (i j k : X) :
 private theorem glueT'_cocycle (i j k : X) :
     glueT' σ V hVs hVa i j k ≫ glueT' σ V hVs hVa j k i ≫
       glueT' σ V hVs hVa k i j = 𝟙 _ := by
-  show ((σ.tripleIso _ _ _ _ _ _ _ _ _).inv ≫ _ ≫ (σ.tripleIso _ _ _ _ _ _ _ _ _).hom) ≫
+  change ((σ.tripleIso _ _ _ _ _ _ _ _ _).inv ≫ _ ≫ (σ.tripleIso _ _ _ _ _ _ _ _ _).hom) ≫
     ((σ.tripleIso _ _ _ _ _ _ _ _ _).inv ≫ _ ≫ (σ.tripleIso _ _ _ _ _ _ _ _ _).hom) ≫
     ((σ.tripleIso _ _ _ _ _ _ _ _ _).inv ≫ _ ≫ (σ.tripleIso _ _ _ _ _ _ _ _ _).hom) = 𝟙 _
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
@@ -917,7 +917,7 @@ private theorem chartCompat (i j : X) :
     Category.assoc, Category.assoc]
   congr 1
   have h90 := (quotientGlueData σ V hVs hVa).glue_condition i j
-  show σ.localQuotientMap _ _ _ _ _ ≫ (quotientGlueData σ V hVs hVa).ι i =
+  change σ.localQuotientMap _ _ _ _ _ ≫ (quotientGlueData σ V hVs hVa).ι i =
     σ.localQuotientMap _ _ _ _ _ ≫ (quotientGlueData σ V hVs hVa).ι j
   rw [← h90, ← Category.assoc]
   congr 1
@@ -948,7 +948,7 @@ private theorem quotientπCompat (x y : X) :
       (σ.localQuotientπ (hVs y) (hVa y) ≫ (quotientGlueData σ V hVs hVa).ι y) := by
   have htop : (V y).ι ⁻¹ᵁ (V y) = ⊤ := by
     refine TopologicalSpace.Opens.ext (Set.eq_univ_of_forall fun v => ?_)
-    show (V y).ι v ∈ (V y : Set X)
+    change (V y).ι v ∈ (V y : Set X)
     rw [← Scheme.Opens.range_ι]
     exact ⟨v, rfl⟩
   have H := IsOpenImmersion.isPullback (X.homOfLE (inf_le_left : V x ⊓ V y ≤ V x))
@@ -1063,7 +1063,7 @@ private theorem qx_overlap_comm {Y : Scheme.{u}} (F : X ⟶ Y)
   refine invariantsπ_hom_ext G ↑Γ(X, V i ⊓ V j) ℤ _ _ ?_
   rw [hπ', Category.assoc, Category.assoc]
   congr 1
-  show σ.localQuotientπ ((hVs i).inf (hVs j)) ((hVa i).inf (hVa j)) ≫
+  change σ.localQuotientπ ((hVs i).inf (hVs j)) ((hVa i).inf (hVa j)) ≫
       σ.localQuotientMap ((hVs i).inf (hVs j)) ((hVa i).inf (hVa j))
         (hVs i) (hVa i) inf_le_left ≫ qx i =
     σ.localQuotientπ ((hVs i).inf (hVs j)) ((hVa i).inf (hVa j)) ≫
@@ -1280,7 +1280,7 @@ theorem localQuotientπ_quotientChartIso (x : X) :
     σ.localQuotientπ (hVs x) (hVa x) ≫ (σ.quotientChartIso V hVs hVa x).hom ≫
         (σ.quotientChart V hVs hVa x).ι =
       (V x).ι ≫ σ.quotientπ V hVs hVa hVmem := by
-  show σ.localQuotientπ (hVs x) (hVa x) ≫
+  change σ.localQuotientπ (hVs x) (hVa x) ≫
       (glueChartIso (quotientGlueData σ V hVs hVa) x).hom ≫
         (chartOpens (quotientGlueData σ V hVs hVa) x).ι = _
   rw [glueChartIso_hom_ι (quotientGlueData σ V hVs hVa) x,
@@ -1816,14 +1816,14 @@ theorem exists_quotientπ_lift_baseChange {W Y : Scheme.{u}}
           (Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j)
           (Limits.pullback.fst j (σ.quotientChart V hVs hVa x).ι)) := by
         rw [IsOpenImmersion.range_pullbackFst]
-        show (Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j) e ∈
+        change (Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j) e ∈
           Set.range ⇑(Limits.pullback.fst j (σ.quotientChart V hVs hVa x).ι)
         rw [IsOpenImmersion.range_pullbackFst]
         exact ⟨⟨j ((Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j) e), hx⟩, rfl⟩
       obtain ⟨y', hy'⟩ := h2
       exact ⟨x, y', hy'⟩)
     (fun x => inferInstance)) _ _ fun x : X => ?_
-  show Limits.pullback.fst (Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j)
+  change Limits.pullback.fst (Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j)
       (Limits.pullback.fst j (σ.quotientChart V hVs hVa x).ι) ≫
       Limits.pullback.snd (σ.quotientπ V hVs hVa hVmem) j ≫
         (σ.chartCover V hVs hVa j).glueMorphisms qx hcompat =

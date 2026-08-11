@@ -175,10 +175,11 @@ private theorem piLeft_rTensor_invariantsDelta [Fintype G] [DecidableEq G]
     rw [invariantsDelta_apply, TensorProduct.sub_tmul,
       MulSemiringAction.smul_tmul_baseChange]
 
-private theorem rTensor_invariantsDelta_eq_zero_of_fixed [Fintype G] [DecidableEq G]
+private theorem rTensor_invariantsDelta_eq_zero_of_fixed [Finite G]
     (z : A ⊗[R] R') (hz : ∀ g : G, g • z = z) :
     LinearMap.rTensor R' (invariantsDelta G R A) z = 0 := by
   classical
+  letI := Fintype.ofFinite G
   apply (TensorProduct.piLeft (R := R) (M := fun _ : G => A) (N := R')).injective
   funext g
   rw [piLeft_rTensor_invariantsDelta, map_zero, Pi.zero_apply, sub_eq_zero]
@@ -212,7 +213,7 @@ omit [SMulCommClass R G A] in
 private theorem dividedTrace_mem_fixedPoints [Fintype G] (c : R) (x : A) :
     dividedTrace (G := G) (R := R) (A := A) c x ∈ FixedPoints.subalgebra R A G := by
   intro g₀
-  show g₀ • dividedTrace (G := G) c x = dividedTrace (G := G) c x
+  change g₀ • dividedTrace (G := G) c x = dividedTrace (G := G) c x
   rw [dividedTrace_apply, smul_comm g₀, Finset.smul_sum]
   congr 1
   exact Fintype.sum_equiv (Equiv.mulLeft g₀) _ _ fun g => by

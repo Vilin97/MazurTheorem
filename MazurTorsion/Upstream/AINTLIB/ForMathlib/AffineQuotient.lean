@@ -82,7 +82,7 @@ theorem existsUnique_factor_fixedPoints_away {C : Type u} [CommRing C]
   have hfac : ∀ c : C,
       inclMap (e.symm.toRingHom.comp (φ.codRestrict inclMap.range hrange) c) = φ c := by
     intro c
-    show inclMap (e.symm (φ.codRestrict inclMap.range hrange c)) = φ c
+    change inclMap (e.symm (φ.codRestrict inclMap.range hrange c)) = φ c
     rw [he, RingEquiv.ofLeftInverse_symm_apply]
     exact Function.invFun_eq (RingHom.mem_range.mp (hrange c))
   refine ⟨e.symm.toRingHom.comp (φ.codRestrict inclMap.range hrange), ?_, ?_⟩
@@ -159,7 +159,7 @@ theorem invariantsπ_hom_ext_of_isOpenImmersion [Finite G] {W Y : Scheme.{u}}
       intro v
       have h5 : j (ℓ v) ∈ j.base '' T := by
         refine hsO ?_
-        show j (ℓ v) ∈ (↑(PrimeSpectrum.basicOpen a) :
+        change j (ℓ v) ∈ (↑(PrimeSpectrum.basicOpen a) :
           Set (PrimeSpectrum (FixedPoints.subalgebra R B G)))
         rw [← hκrange]
         exact ⟨v, by rw [← hℓj, Scheme.Hom.comp_apply]⟩
@@ -377,7 +377,7 @@ private theorem exists_chart_descent [Finite G] {Y : Scheme.{u}}
   have hfibU : ∀ x', invariantsπ G B R x' = p → x' ∈ U := by
     intro x' hx'
     have h4 : f x' = f x := hconst x' x (by rw [hx', hx])
-    show f x' ∈ Set.range ⇑ι
+    change f x' ∈ Set.range ⇑ι
     rw [h4]
     exact ⟨y₀, hy₀⟩
   have hpZ : p ∉ (invariantsπ G B R).base '' Uᶜ := by
@@ -398,7 +398,7 @@ private theorem exists_chart_descent [Finite G] {Y : Scheme.{u}}
       have h9 : chartA R a z ∈ Set.range ⇑(chartA R a) := ⟨z, rfl⟩
       exact chartA_opensRange R a ▸ h9
     refine hsZ ?_ ⟨chartB R a v, hvU, rfl⟩
-    show invariantsπ G B R (chartB R a v) ∈
+    change invariantsπ G B R (chartB R a v) ∈
       (↑(PrimeSpectrum.basicOpen a) :
         Set (PrimeSpectrum (FixedPoints.subalgebra R B G)))
     rw [← Scheme.Hom.comp_apply, chart_square G B R a, Scheme.Hom.comp_apply]
@@ -501,7 +501,7 @@ theorem exists_invariantsπ_lift [Finite G] {Y : Scheme.{u}}
       (fun x => ⟨x, hcoverB x⟩)
       (fun x => inferInstance) : (Spec (CommRingCat.of B)).OpenCover))
     _ _ (fun x => ?_)
-  show chartB R (a (invariantsπ G B R x)) ≫ invariantsπ G B R ≫
+  change chartB R (a (invariantsπ G B R x)) ≫ invariantsπ G B R ≫
       𝒰.glueMorphisms (fun p => qa p) hcompat =
     chartB R (a (invariantsπ G B R x)) ≫ f
   rw [← Category.assoc, chart_square G B R, Category.assoc]
@@ -562,7 +562,7 @@ theorem exists_mem_basicOpen_subset_of_stable [Finite G]
   · intro y hy
     by_contra hyU
     refine hsZ ?_ ⟨y, hyU, rfl⟩
-    show invariantsπ G B R y ∈
+    change invariantsπ G B R y ∈
       (↑(PrimeSpectrum.basicOpen a) :
         Set (PrimeSpectrum (FixedPoints.subalgebra R B G)))
     exact hy
@@ -710,7 +710,7 @@ private theorem exists_relative_chart_descent [Finite G] {Q' Y : Scheme.{u}}
         x' ∈ U → specSMul g x' ∈ U := by
       rintro g _ ⟨z', hz', rfl⟩
       refine ⟨pullbackSpecSMul G B R j g z', ?_, ?_⟩
-      · show f _ ∈ Set.range ⇑ι
+      · change f _ ∈ Set.range ⇑ι
         rw [← Scheme.Hom.comp_apply, hf g]
         exact hz'
       · rw [← Scheme.Hom.comp_apply, pullbackSpecSMul_fst, Scheme.Hom.comp_apply]
@@ -856,7 +856,7 @@ theorem exists_invariantsπ_lift_of_isOpenImmersion [Finite G] {Q' Y : Scheme.{u
       Set.range ⇑(pullback.fst (invariantsπ G B R) j) := by
     intro p t ht
     rw [IsOpenImmersion.range_pullbackFst]
-    show invariantsπ G B R t ∈ j.opensRange
+    change invariantsπ G B R t ∈ j.opensRange
     obtain ⟨v, rfl⟩ := ht
     have h20 : invariantsπ G B R (chartB R (a p) v) =
         chartA R (a p) (chartπ R (a p) v) := by
@@ -916,7 +916,7 @@ theorem exists_invariantsπ_lift_of_isOpenImmersion [Finite G] {Q' Y : Scheme.{u
     have h30 : pullback.fst (invariantsπ G B R) j w ∈
         (chartB R (a (pullback.snd (invariantsπ G B R) j w))).opensRange := by
       rw [chartB_opensRange]
-      show invariantsπ G B R (pullback.fst (invariantsπ G B R) j w) ∈
+      change invariantsπ G B R (pullback.fst (invariantsπ G B R) j w) ∈
         PrimeSpectrum.basicOpen (a (pullback.snd (invariantsπ G B R) j w))
       rw [h31]
       exact hmem _
@@ -1097,7 +1097,7 @@ private theorem exists_invariantsπ_lift_baseChange_spec [Finite G] {Y : Scheme.
       rw [specSMul, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
       congr 2
       ext c
-      show (1 : B) ⊗ₜ[↥(FixedPoints.subalgebra R B G)] c =
+      change (1 : B) ⊗ₜ[↥(FixedPoints.subalgebra R B G)] c =
         g • ((1 : B) ⊗ₜ[↥(FixedPoints.subalgebra R B G)] c)
       rw [MulSemiringAction.smul_tmul_baseChange, smul_one]
     refine pullback.hom_ext ?_ ?_
@@ -1132,7 +1132,7 @@ private theorem exists_invariantsπ_lift_baseChange_spec [Finite G] {Y : Scheme.
         (B ⊗[↥(FixedPoints.subalgebra R B G)] C)) := by
     congr 1
     ext x
-    show (1 : B) ⊗ₜ[↥(FixedPoints.subalgebra R B G)] (χe.symm x : C) = (x :
+    change (1 : B) ⊗ₜ[↥(FixedPoints.subalgebra R B G)] (χe.symm x : C) = (x :
       B ⊗[↥(FixedPoints.subalgebra R B G)] C)
     rw [← includeRightFixedPoints_coe (G := G) (R := R) (A := B) C (χe.symm x)]
     exact congrArg Subtype.val (χe.apply_symm_apply x)
@@ -1297,7 +1297,7 @@ theorem exists_invariantsπ_lift_baseChange_of_free [Finite G] {Q' Y : Scheme.{u
   -- verify the factorization on the pullback cover of the global base change
   refine Scheme.Cover.hom_ext
     (Q'.affineCover.pullback₁ (pullback.snd (invariantsπ G B R) j)) _ _ fun x => ?_
-  show pullback.fst (pullback.snd (invariantsπ G B R) j) (Q'.affineCover.f x) ≫
+  change pullback.fst (pullback.snd (invariantsπ G B R) j) (Q'.affineCover.f x) ≫
       pullback.snd (invariantsπ G B R) j ≫ Q'.affineCover.glueMorphisms qx hcompat =
     pullback.fst (pullback.snd (invariantsπ G B R) j) (Q'.affineCover.f x) ≫ f
   have hcond : pullback.fst (pullback.snd (invariantsπ G B R) j) (Q'.affineCover.f x) ≫
@@ -1328,3 +1328,6 @@ theorem exists_invariantsπ_lift_baseChange_of_free [Finite G] {Q' Y : Scheme.{u
     · rw [Category.assoc, pullbackRes_fst, hθ, pullback.lift_fst]
     · rw [Category.assoc, pullbackRes_snd, ← Category.assoc, hθsnd, hcond]
   rw [← hθsnd, Category.assoc, hqx x, ← Category.assoc, hθρ]
+
+end UniversalProperty
+end AlgebraicGeometry

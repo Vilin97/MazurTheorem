@@ -102,7 +102,7 @@ theorem isPullback_of_iSup_eq_top {A B C D : Scheme.{u}} {f : A ⟶ B} {g : A �
       have hmiso : IsIso m := (H i).flip.isIso_of_isPullback pasted m hm₁ hm₂
       have hrestrict : u ∣_ (q₁ ⁻¹ᵁ U i) = (A.isoOfEq hpre).hom ≫ m := by
         rw [hm, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
-      show IsIso (u ∣_ (q₁ ⁻¹ᵁ U i))
+      change IsIso (u ∣_ (q₁ ⁻¹ᵁ U i))
       rw [hrestrict]
       infer_instance
     exact hloc

@@ -1,0 +1,236 @@
+name: Regular Lean cache
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  regular-cache:
+    name: Prebuild the regular Lean cache
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      # Core and Pages use the same immutable keys.  On a miss, let one build
+      # finish before the other probes again instead of duplicating the cold
+      # 483-module base build.
+      group: lean-regular-base-cache
+      cancel-in-progress: false
+    env:
+      LEAN_NUM_THREADS: "4"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Plan the regular caches
+        id: regular-plan
+        run: |
+          set -euo pipefail
+          {
+            echo "schema=$(python3 scripts/lean_regular_cache.py schema)"
+            echo "digest=$(python3 scripts/lean_regular_cache.py digest)"
+            echo "config=${{ hashFiles(
+              'lean-toolchain',
+              'lake-manifest.json',
+              'lakefile.toml',
+              'upstream/tauceti/lean-toolchain',
+              'upstream/tauceti/lake-manifest.json',
+              'scripts/lean_regular_cache.py'
+              ) }}"
+            echo "paths<<LEAN_CACHE_PATHS"
+            python3 scripts/lean_regular_cache.py paths
+            echo "LEAN_CACHE_PATHS"
+          } >> "$GITHUB_OUTPUT"
+
+      # Probe first.  A fully warm producer must not download the same
+      # multi-gigabyte payloads that Core/Pages will consume immediately
+      # afterwards.
+      - name: Probe the regular base cache
+        id: regular-base-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.paths }}
+          key: >-
+            LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.config }}-${{
+            steps.regular-plan.outputs.digest }}
+          lookup-only: true
+
+      - name: Probe the Tau Ceti build cache
+        id: tau-ceti-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/packages/TauCeti/.lake/build/lib/lean
+            .lake/packages/TauCeti/.lake/build/ir
+          key: >-
+            TauCetiBuild-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml')
+            }}
+          lookup-only: true
+
+      - name: Probe the order-25 build cache
+        id: order-twenty-five-probe
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentyFive*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentyFive*
+          key: >-
+            OrderTwentyFive-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml')
+            }}-${{ hashFiles(
+            'MazurTorsion/Kubert/OrderTwentyFive*.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean',
+            'MazurTorsion/EllipticCurve/VariableChange.lean'
+            ) }}
+          lookup-only: true
+
+      - name: Restore the regular base cache
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        id: regular-lean-base-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.paths }}
+          key: >-
+            LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{
+            runner.os }}-${{ runner.arch }}-${{
+            steps.regular-plan.outputs.config }}-${{
+            steps.regular-plan.outputs.digest }}
+          restore-keys: |
+            LeanRegularBase-v${{ steps.regular-plan.outputs.schema }}-${{ runner.os }}-${{ runner.arch }}-${{ steps.regular-plan.outputs.config }}-
+
+      - name: Restore the Tau Ceti build cache
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        id: tau-ceti-build-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/packages/TauCeti/.lake/build/lib/lean
+            .lake/packages/TauCeti/.lake/build/ir
+          key: >-
+            TauCetiBuild-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml')
+            }}
+
+      - name: Restore the order-25 build cache
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        id: order-twenty-five-build-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentyFive*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentyFive*
+          key: >-
+            OrderTwentyFive-v1-${{ runner.os }}-${{ runner.arch }}-${{
+            hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml')
+            }}-${{ hashFiles(
+            'MazurTorsion/Kubert/OrderTwentyFive*.lean',
+            'MazurTorsion/Kubert/TateNormalForm.lean',
+            'MazurTorsion/Kubert/TateNormalFormMultiples.lean',
+            'MazurTorsion/EllipticCurve/VariableChange.lean'
+            ) }}
+          restore-keys: |
+            OrderTwentyFive-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+
+      - name: Reclaim runner disk on a cache miss
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          tool-cache: true
+          swap-storage: false
+
+      - name: Install Lean
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          use-github-cache: false
+          use-mathlib-cache: false
+
+      - name: Install the Mathlib cache
+        if: >-
+          steps.regular-base-probe.outputs.cache-hit != 'true' ||
+          steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        run: lake exe cache get
+
+      - name: Build Tau Ceti
+        if: steps.tau-ceti-probe.outputs.cache-hit != 'true'
+        run: lake build TauCeti
+
+      - name: Build the regular Lean base
+        if: steps.regular-base-probe.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mapfile -t targets < <(python3 scripts/lean_regular_cache.py targets)
+          /usr/bin/time -v lake build "${targets[@]}" \
+            2>&1 | tee regular-lean-base.log
+          if grep -nE '(^|: )warning:' regular-lean-base.log; then
+            echo "::error::The regular Lean base emitted warnings."
+            exit 1
+          fi
+
+      - name: Build order 25
+        if: steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v lake build \
+            MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion \
+            MazurTorsion.Kubert.OrderTwentyFiveNormalizedModel \
+            2>&1 | tee order-twenty-five.log
+          if grep -nE '(^|: )warning:' order-twenty-five.log; then
+            echo "::error::The order-25 build emitted warnings."
+            exit 1
+          fi
+
+      - name: Save the regular base cache
+        if: success() && steps.regular-base-probe.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.regular-plan.outputs.paths }}
+          key: ${{ steps.regular-lean-base-cache.outputs.cache-primary-key }}
+
+      - name: Save the Tau Ceti build cache
+        if: success() && steps.tau-ceti-probe.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/packages/TauCeti/.lake/build/lib/lean
+            .lake/packages/TauCeti/.lake/build/ir
+          key: ${{ steps.tau-ceti-build-cache.outputs.cache-primary-key }}
+
+      - name: Save the order-25 build cache
+        if: >-
+          success() &&
+          steps.order-twenty-five-probe.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentyFive*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentyFive*
+          key: ${{ steps.order-twenty-five-build-cache.outputs.cache-primary-key }}

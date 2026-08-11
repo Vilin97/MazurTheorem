@@ -46,7 +46,7 @@ theorem powers_le_comap_toRingHom (hfix : ∀ g : G, g • h = h) (g : G) :
     Submonoid.powers h ≤ (Submonoid.powers h).comap (toRingHom G B g) := by
   rintro x ⟨n, rfl⟩
   refine Submonoid.mem_comap.mpr ⟨n, ?_⟩
-  show h ^ n = g • h ^ n
+  change h ^ n = g • h ^ n
   rw [smul_pow', hfix]
 
 private theorem mk'_congr {a a' : B} {s s' : Submonoid.powers h} (ha : a = a')
@@ -84,7 +84,7 @@ theorem awayHom_mk'_pow (hfix : ∀ g : G, g • h = h) (g : G) (b : B) (n : ℕ
       IsLocalization.mk' (Localization.Away h) (g • b)
         (⟨h ^ n, n, rfl⟩ : Submonoid.powers h) := by
   rw [awayHom_mk']
-  exact mk'_congr rfl (by show g • h ^ n = h ^ n; rw [smul_pow', hfix])
+  exact mk'_congr rfl (by change g • h ^ n = h ^ n; rw [smul_pow', hfix])
 
 theorem awayHom_one (hfix : ∀ g : G, g • h = h) (x : Localization.Away h) :
     awayHom hfix (1 : G) x = x := by
@@ -194,10 +194,10 @@ theorem mem_range_fixedPoints_awayMap_iff [Finite G]
     obtain ⟨sv, n, rfl⟩ := s
     rw [IsLocalization.map_mk', MulSemiringAction.awayHom_mk']
     refine MulSemiringAction.mk'_congr (a.2 g) ?_
-    show g • algebraMap (FixedPoints.subalgebra R B G) B (h ^ n)
+    change g • algebraMap (FixedPoints.subalgebra R B G) B (h ^ n)
       = algebraMap (FixedPoints.subalgebra R B G) B (h ^ n)
     rw [map_pow]
-    show g • ((h : B)) ^ n = ((h : B)) ^ n
+    change g • ((h : B)) ^ n = ((h : B)) ^ n
     rw [smul_pow', h.2 g]
   · intro hx
     obtain ⟨b, n, hb, hbx⟩ :=
@@ -206,7 +206,7 @@ theorem mem_range_fixedPoints_awayMap_iff [Finite G]
       FixedPoints.subalgebra R B G) (⟨h ^ n, n, rfl⟩ : Submonoid.powers h), ?_⟩
     rw [IsLocalization.map_mk']
     refine (MulSemiringAction.mk'_congr rfl ?_).trans hbx
-    show algebraMap (FixedPoints.subalgebra R B G) B (h ^ n) = (h : B) ^ n
+    change algebraMap (FixedPoints.subalgebra R B G) B (h ^ n) = (h : B) ^ n
     rw [map_pow]
     rfl
 

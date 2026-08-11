@@ -119,6 +119,7 @@ variable (G : Type*) [Group G] [_root_.Finite G] (R₀ : Type v) (A : Type u) [C
   [CommRing A] [Algebra R₀ A] [MulSemiringAction G A] [SMulCommClass G R₀ A]
   [SMulCommClass R₀ G A]
 
+omit [SMulCommClass R₀ G A] in
 /-- The trace retraction `a ↦ tr(c·a)` of the invariants inclusion `Aᴳ ↪ A` of a free
 action, where `tr(c) = 1` (`exists_traceInvariants_eq_one`). -/
 theorem exists_retract_invariants (hfree : IsFreeAlgebraAction G R₀ A) :
@@ -129,7 +130,7 @@ theorem exists_retract_invariants (hfree : IsFreeAlgebraAction G R₀ A) :
   refine ⟨(traceLinear G R₀ A).comp
     (LinearMap.mulLeft (FixedPoints.subalgebra R₀ A G) c), ?_⟩
   refine LinearMap.ext fun b => ?_
-  show traceLinear G R₀ A (c * algebraMap (FixedPoints.subalgebra R₀ A G) A b) = b
+  change traceLinear G R₀ A (c * algebraMap (FixedPoints.subalgebra R₀ A G) A b) = b
   have hsm : c * algebraMap (FixedPoints.subalgebra R₀ A G) A b = b • c := by
     rw [Algebra.smul_def, mul_comm]
   rw [hsm, map_smul, hc, smul_eq_mul, mul_one]
@@ -144,6 +145,7 @@ def RingHom.invariantsCorestrict {R : Type*} [CommRing R] (φ : R →+* A)
 
 variable {R : Type u} [CommRing R] (φ : R →+* A) (hφ : ∀ (g : G) (r : R), g • φ r = φ r)
 
+omit [SMulCommClass R₀ G A] in
 /-- **[GHB6-RING], finiteness of the invariants base** — if `R → A` is module-finite and the
 `G`-action is free, the corestriction `R → Aᴳ` is module-finite. -/
 theorem RingHom.invariantsCorestrict_finite
@@ -157,6 +159,7 @@ theorem RingHom.invariantsCorestrict_finite
   obtain ⟨ρ, hρ⟩ := exists_retract_invariants G R₀ A hfree
   exact Module.Finite.of_comp_of_retract ρ hρ
 
+omit [SMulCommClass R₀ G A] in
 /-- **[GHB6-RING], étaleness of the invariants base** — if `R → A` is finite étale and the
 `G`-action is free, the corestriction `R → Aᴳ` is étale. -/
 theorem RingHom.invariantsCorestrict_etale

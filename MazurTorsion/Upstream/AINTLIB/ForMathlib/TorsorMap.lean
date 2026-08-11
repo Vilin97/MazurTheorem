@@ -45,7 +45,7 @@ theorem ι_torsorCompare {S Z : Scheme.{u}} {G : Type u} [Group G]
     (fZ : Z ⟶ S) (σZ : SchemeAction G Z) (hover : ∀ γ, σZ.hom γ ≫ fZ = fZ) (γ : G) :
     Sigma.ι (fun _ : G => Z) γ ≫ torsorCompare fZ σZ hover =
       pullback.lift (σZ.hom γ) (𝟙 Z) (by rw [Category.id_comp]; exact hover γ) := by
-  simp [torsorCompare, Sigma.ι_desc]
+  simp [torsorCompare]
 
 /-- The `G`-action on `pullback fW f₀` pulled back from an action on `fW : W ⟶ S'` over `S'`,
 acting on the `W`-factor. -/
@@ -88,7 +88,7 @@ theorem isIso_sigmaDesc_of_isPullback {G : Type u} [Finite G] {X Y Q Q' : Scheme
         (Cofan.mk (∐ fun _ : G => Y) (Sigma.ι fun _ : G => Y)).ι =
       (Cofan.mk Q' ι').ι ≫ (Functor.const (Discrete G)).map (q ≫ inv κ) := by
     ext ⟨γ⟩
-    show v ≫ Sigma.ι (fun _ : G => Y) γ = ι' γ ≫ (q ≫ inv κ)
+    change v ≫ Sigma.ι (fun _ : G => Y) γ = ι' γ ≫ (q ≫ inv κ)
     rw [← Category.assoc, (h γ).w]
     simp
   have hsq : ∀ j : Discrete G,

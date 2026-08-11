@@ -1,0 +1,109 @@
+name: Build an Order Seven cache shard
+description: Restore a shard's proof dependencies and publish an exact OCI cache
+
+inputs:
+  shard:
+    description: Shard name from scripts/order_seven_cache.py
+    required: true
+  ghcr-token:
+    description: Token with read/write access to the repository's GHCR package
+    required: true
+
+outputs:
+  cache-hit:
+    description: Whether the exact shard already existed
+    value: ${{ steps.cache.outputs.hit }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install ORAS
+      uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d
+      with:
+        version: 1.3.3
+
+    - name: Log in to the generated-proof cache
+      shell: bash
+      env:
+        GHCR_TOKEN: ${{ inputs.ghcr-token }}
+      run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+    - name: Check for an exact shard cache
+      id: cache
+      shell: bash
+      env:
+        SHARD: ${{ inputs.shard }}
+      run: |
+        if scripts/order-seven-cache.sh probe "$SHARD"; then
+          echo "hit=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "hit=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Reclaim runner disk for generated artifacts
+      if: steps.cache.outputs.hit != 'true'
+      uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+      with:
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: false
+        docker-images: true
+        # ORAS was installed in the hosted tool cache before the hit probe.
+        tool-cache: false
+        swap-storage: false
+
+    - name: Install Lean
+      if: steps.cache.outputs.hit != 'true'
+      uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+      with:
+        auto-config: false
+        use-github-cache: false
+        use-mathlib-cache: false
+
+    - name: Install the Mathlib cache
+      if: steps.cache.outputs.hit != 'true'
+      shell: bash
+      run: lake exe cache get
+
+    - name: Restore predecessor shards
+      if: steps.cache.outputs.hit != 'true'
+      shell: bash
+      env:
+        SHARD: ${{ inputs.shard }}
+      run: |
+        set -euo pipefail
+        while IFS= read -r predecessor; do
+          if [[ -n "$predecessor" ]]; then
+            scripts/order-seven-cache.sh pull "$predecessor"
+          fi
+        done < <(python3 scripts/order_seven_cache.py dependencies "$SHARD")
+
+    - name: Build the shard
+      if: steps.cache.outputs.hit != 'true'
+      shell: bash
+      env:
+        SHARD: ${{ inputs.shard }}
+      run: |
+        set -euo pipefail
+        mapfile -t targets < <(python3 scripts/order_seven_cache.py targets "$SHARD")
+        started=$SECONDS
+        /usr/bin/time -v lake build "${targets[@]}" \
+          2>&1 | tee "order-seven-${SHARD}.log"
+        elapsed=$((SECONDS - started))
+        if grep -nE '(^|: )warning:' "order-seven-${SHARD}.log"; then
+          echo "::error::The Order Seven $SHARD build emitted warnings."
+          exit 1
+        fi
+        {
+          echo "### Order Seven shard: $SHARD"
+          echo
+          echo "Cold build: ${elapsed}s with LEAN_NUM_THREADS=${LEAN_NUM_THREADS:-unset}."
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Publish the shard
+      if: steps.cache.outputs.hit != 'true'
+      shell: bash
+      env:
+        SHARD: ${{ inputs.shard }}
+      run: scripts/order-seven-cache.sh push "$SHARD"
