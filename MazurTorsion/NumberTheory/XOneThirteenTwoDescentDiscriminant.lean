@@ -281,6 +281,83 @@ theorem magmaFieldPowerBasis_basis_isIntegral
   rw [magmaFieldPowerBasis.basis_eq_pow]
   exact magmaFieldPowerBasis_gen_isIntegral.pow _
 
+/-- The discriminant of the maximal order divides the discriminant of any
+integral rational basis.  This is the precise order-index statement needed
+below; it does not assert that the supplied basis is an integral basis. -/
+theorem numberField_discr_dvd_discr_of_integral_basis
+    {K : Type*} [Field K] [NumberField K]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Basis ι ℚ K) (hb : ∀ i, IsIntegral ℤ (b i))
+    {d : ℤ} (hd : Algebra.discr ℚ b = algebraMap ℤ ℚ d) :
+    NumberField.discr K ∣ d := by
+  let e := b.indexEquiv (NumberField.integralBasis K)
+  let b' := b.reindex e
+  let P := (NumberField.integralBasis K).toMatrix b'
+  have hb' (j : Module.Free.ChooseBasisIndex ℤ
+      (NumberField.RingOfIntegers K)) :
+      IsIntegral ℤ (b' j) := by
+    simpa [b', e] using hb (e.symm j)
+  have hP : ∀ i j, IsIntegral ℤ (P i j) := by
+    intro i j
+    let z : NumberField.RingOfIntegers K := ⟨b' j, hb' j⟩
+    have hz : algebraMap (NumberField.RingOfIntegers K) K z = b' j := rfl
+    change IsIntegral ℤ
+      ((NumberField.integralBasis K).repr (b' j) i)
+    rw [← hz,
+      NumberField.integralBasis_repr_apply]
+    exact isIntegral_algebraMap
+  have hdet : IsIntegral ℤ P.det := IsIntegral.det hP
+  obtain ⟨q, hq⟩ := IsIntegrallyClosed.isIntegral_iff.1 hdet
+  have hb'disc : Algebra.discr ℚ b' = Algebra.discr ℚ b := by
+    change Algebra.discr ℚ (b.reindex e) = Algebra.discr ℚ b
+    rw [Basis.coe_reindex, Algebra.discr_reindex]
+  have hchange :
+      Algebra.discr ℚ b' =
+        P.det ^ 2 * Algebra.discr ℚ (NumberField.integralBasis K) := by
+    calc
+      Algebra.discr ℚ b' = Algebra.discr ℚ
+          (Matrix.vecMul (NumberField.integralBasis K)
+            (((NumberField.integralBasis K).toMatrix b').map
+              (algebraMap ℚ K))) :=
+        congrArg (Algebra.discr ℚ)
+          ((NumberField.integralBasis K).toMatrix_map_vecMul b').symm
+      _ = ((NumberField.integralBasis K).toMatrix b').det ^ 2 *
+          Algebra.discr ℚ (NumberField.integralBasis K) :=
+        Algebra.discr_of_matrix_vecMul (NumberField.integralBasis K)
+          ((NumberField.integralBasis K).toMatrix b')
+  have hcast :
+      algebraMap ℤ ℚ d =
+        algebraMap ℤ ℚ (q ^ 2 * NumberField.discr K) := by
+    calc
+      algebraMap ℤ ℚ d = Algebra.discr ℚ b := hd.symm
+      _ = Algebra.discr ℚ b' := hb'disc.symm
+      _ = P.det ^ 2 * Algebra.discr ℚ (NumberField.integralBasis K) := hchange
+      _ = algebraMap ℤ ℚ (q ^ 2 * NumberField.discr K) := by
+        rw [← hq, ← NumberField.coe_discr]
+        simp
+  have hdq : d = q ^ 2 * NumberField.discr K :=
+    Rat.intCast_injective hcast
+  exact ⟨q ^ 2, by simpa [mul_comm] using hdq⟩
+
+/-- The maximal-order discriminant divides the checked power-basis
+discriminant. -/
+theorem sexticField_discr_dvd :
+    NumberField.discr SexticField ∣ (-10816 : ℤ) := by
+  apply numberField_discr_dvd_discr_of_integral_basis
+    magmaFieldPowerBasis.basis magmaFieldPowerBasis_basis_isIntegral
+  simpa using magmaFieldPowerBasis_discr
+
+theorem sexticField_discr_natAbs_le :
+    (NumberField.discr SexticField).natAbs ≤ 10816 := by
+  exact Int.natAbs_le_of_dvd_ne_zero sexticField_discr_dvd (by norm_num)
+
+/-- The actual field discriminant has absolute value at most `10816`.
+No maximal-order identification is used. -/
+theorem sexticField_discr_abs_le :
+    |NumberField.discr SexticField| ≤ 10816 := by
+  rw [Int.abs_eq_natAbs]
+  exact_mod_cast sexticField_discr_natAbs_le
+
 end
 
 
