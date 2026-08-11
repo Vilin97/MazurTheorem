@@ -30,9 +30,12 @@ universe u
 
 variable {R : Type u} [CommRing R] (G : AffineFiniteFreeCommGroupScheme R)
 
-local instance : Coalgebra R G.coordinates := Bialgebra.toCoalgebra
-local instance : Module.Free R G.coordinates := G.property.1
-local instance : Module.Finite R G.coordinates := G.property.2
+local instance doubleDualCoordinatesCoalgebra : Coalgebra R G.coordinates :=
+  Bialgebra.toCoalgebra
+local instance doubleDualCoordinatesFree : Module.Free R G.coordinates :=
+  G.property.1
+local instance doubleDualCoordinatesFinite : Module.Finite R G.coordinates :=
+  G.property.2
 
 /-- The exact coordinate type stored in the bundled Cartier dual. -/
 abbrev BundledDualCoordinates :=
