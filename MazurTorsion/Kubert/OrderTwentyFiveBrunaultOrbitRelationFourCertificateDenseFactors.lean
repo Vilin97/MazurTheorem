@@ -36,6 +36,7 @@ def LData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.LData
 def MData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.MData
 def NData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.NData
 def P9Data : Two := OrderTwentyFiveRelationZeroCertificate.Dense.P9Data
+def TData : Two := OrderTwentyFiveRelationZeroCertificate.Dense.TData
 
 theorem eval_NegData (r s : ℚ) :
     Two.eval NegData r s = (-1 : ℚ) := by
@@ -99,6 +100,11 @@ theorem eval_P9Data (r s : ℚ) :
     Two.eval P9Data r s = P9 r s := by
   rw [P9Data, OrderTwentyFiveRelationZeroCertificate.Dense.eval_P9Data,
     OrderTwentyFiveRelationZeroCertificate.Internal.P9_eq_factor]
+  rfl
+
+theorem eval_TData (r s : ℚ) :
+    Two.eval TData r s = T r s := by
+  rw [TData, OrderTwentyFiveRelationZeroCertificate.Dense.eval_TData]
   rfl
 
 end MazurTorsion.Kubert.OrderTwentyFiveRelationFourCertificate.Dense
