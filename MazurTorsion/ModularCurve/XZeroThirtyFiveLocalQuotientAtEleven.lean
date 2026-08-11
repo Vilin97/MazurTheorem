@@ -113,6 +113,10 @@ def t : SourceChart := sourceChartMap sourceX
 /-- The source ordinate on the local chart. -/
 def y : SourceChart := sourceChartMap sourceY
 
+/-- The parameter compatible with the infinity-chart convention
+`1 + q - q²`; it is the negative of the affine abscissa. -/
+def cuspParameter : SourceChart := -t
+
 /-- The denominator on the local chart. -/
 def D : SourceChart := sourceChartMap sourceDenominator
 
@@ -324,5 +328,19 @@ theorem quotientCoordinateMap_targetW_sub_one :
       (cotangentScaleUnit : SourceChart) * t := by
   rw [map_sub, quotientCoordinateMap_targetW, map_one,
     quotientW_sub_one_eq_unit_mul_t]
+
+/-- In the parameter `q = -t`, the explicit ring map satisfies exactly the
+denominator-cleared identity consumed by the level-35 q-expansion theorem. -/
+theorem quotientCoordinateMap_targetW_sub_one_cleared :
+    quotientCoordinateMap (targetW - 1) *
+        (1 + cuspParameter - cuspParameter ^ 2) =
+      (-7 : SourceChart) * cuspParameter := by
+  rw [quotientCoordinateMap_targetW_sub_one, cotangentScaleUnit_val]
+  simp only [cuspParameter]
+  rw [show 1 + -t - (-t) ^ 2 = -D by rw [D_eq]; ring]
+  rw [show (-7 * denominatorInverse) * t * -D =
+      7 * t * (D * denominatorInverse) by ring]
+  rw [denominator_mul_inverse]
+  ring
 
 end MazurTorsion.ModularCurve.XZeroThirtyFiveLocalQuotientAtEleven
