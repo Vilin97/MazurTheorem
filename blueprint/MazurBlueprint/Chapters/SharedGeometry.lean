@@ -153,9 +153,16 @@ full `changeObjects` target on the chartwise tensor objects, and
 `CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel` gives its full
 `DescentData` isomorphism with the source sum cocycle. Effectivity transfers only from an already
 supplied effectivity witness, and the target's chosen transition is identified with the whole
-transported tensor model only under exact raw-Hom alignment for `CDE`. The raw arbitrary-divisor
-cocycle, factorwise chosen-transition tensor coherence, unconditional effectivity, and a
-`CurveDivisorDescent.DescendedTensorAdditive` witness remain open.
+transported tensor model only under exact raw-Hom alignment for `CDE`. Strong monoidality of
+pullback composition is now checked at both the presheaf and scheme-module levels.
+`LineBundleDescent.pullbackOverlapIsoOfModel_tensor` proves factorwise tensor coherence for the
+exact-pseudofunctor transport, while
+`CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
+specializes it to the two raw divisor transitions. The corresponding factorwise local-add Hom
+square is checked by
+`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`. Constructing
+the required raw arbitrary-divisor cocycle, unconditional effectivity, the full factorwise
+descent-data morphism, and a `CurveDivisorDescent.DescendedTensorAdditive` witness remain open.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -305,6 +312,11 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTransportedTensorModelEffective_of_sumCocycleEffective`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData_hom_on_chosenOverlap`;
+* `PresheafOfModules.pullbackComp_hom_isMonoidal`;
+* `AlgebraicGeometry.Scheme.Modules.pullbackComp_hom_isMonoidal`;
+* `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapIsoOfModel_tensor`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -414,9 +426,10 @@ distinct charts. The chosen coordinate-divisor restriction comparisons satisfy t
 cross-chart tensor/addition square, and named coordinate transports align it with the
 proof-defined global-divisor local addition maps and pairwise-intersection transition family.
 The whole pairwise tensor model now transports to the chosen pullback with a checked
-tensor/addition commutativity equation against the raw sum transition. Identifying that whole
-transported transition with the tensor of the two separately transported chosen transitions
-remains open. Conditional on an already supplied sum cocycle `CDE`, the full `changeObjects`
+tensor/addition commutativity equation against the raw sum transition. Strong monoidality of
+pullback composition identifies that whole transition with the cotensorator-conjugated tensor of
+the two separately transported raw factor transitions, and the resulting factorwise local-add Hom
+square is checked. Conditional on an already supplied sum cocycle `CDE`, the full `changeObjects`
 target on the chartwise tensor objects and its full `DescentData` isomorphism with `CDE` now
 compile. A supplied effectivity witness transfers across that isomorphism, and exact raw-Hom
 alignment identifies the target's chosen transition with the whole transported tensor model.
@@ -455,8 +468,7 @@ full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
 retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
 cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
-factorwise chosen-transition tensor coherence, unconditional effectivity, factorwise
-descent-data morphism, or resulting
+unconditional effectivity, full factorwise descent-data morphism, or resulting
 `DescendedTensorAdditive` witness, coherent principal
 triviality, prestack/object-separation,
 rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
@@ -1182,6 +1194,22 @@ inhabited or that A3 is solved.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTransportedTensorModelDescentData_hom_on_chosenOverlap`
   Identify the transported datum's chosen-overlap Hom with the whole transported pairwise
   tensor-model transition under exact raw-Hom alignment for the supplied sum cocycle.
+* `theorem` (`contract`): `PresheafOfModules.pullbackComp_hom_isMonoidal`
+  Prove strong monoidality of the presheaf-of-modules pullback-composition comparison.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.pullbackComp_hom_isMonoidal`
+  Lift strong monoidality of the pullback-composition comparison to scheme modules.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapIsoOfModel_tensor`
+  Identify transport of a tensor transition through exact-pseudofunctor pullback composition with
+  the cotensorator-conjugated tensor of the separately transported factor transitions.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
+  Identify the whole transported pairwise tensor transition on a chosen overlap with the
+  cotensorator-conjugated tensor of the two raw divisor transitions.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`
+  Prove the chosen-overlap local-add Hom square through the factorwise raw tensor transition.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

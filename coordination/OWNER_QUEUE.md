@@ -92,6 +92,21 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 factorwise chosen-overlap tensor checkpoint is integrated at `de729c1`, on top of the
+conditional transported-tensor descent checkpoint at `e0de772`.
+`PresheafOfModules.pullbackComp_hom_isMonoidal` and
+`Scheme.Modules.pullbackComp_hom_isMonoidal` establish strong monoidality of the pullback-
+composition comparison at the presheaf and scheme-module levels.
+`LineBundleDescent.pullbackOverlapIsoOfModel_tensor` then proves factorwise tensor coherence for
+exact-pseudofunctor overlap transport,
+`CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
+specializes it to the two raw divisor transitions, and
+`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor` proves the
+resulting local-add Hom square. Construction of the required raw arbitrary-divisor cocycle,
+unconditional effectivity, the full factorwise descent-data morphism, and
+`DescendedTensorAdditive` remain open. A3 stays `research_open` at weight 18 with zero credit.
+Source accounting is 1,051 integrated Lean modules / 1,588,748 lines.
+
 The A3 conditional transported-tensor descent checkpoint is integrated at `e0de772`, on top of
 the whole-model chosen-overlap checkpoint at `fc219d6`. Conditional on an already supplied sum
 cocycle `CDE`,
