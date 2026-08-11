@@ -160,9 +160,17 @@ exact-pseudofunctor transport, while
 `CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`
 specializes it to the two raw divisor transitions. The corresponding factorwise local-add Hom
 square is checked by
-`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`. Constructing
-the required raw arbitrary-divisor cocycle, unconditional effectivity, the full factorwise
-descent-data morphism, and a `CurveDivisorDescent.DescendedTensorAdditive` witness remain open.
+`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`. Conditional
+on supplied divisor cocycles for `D`, `E`, and `D + E` whose chosen-overlap Homs equal the raw
+geometric transitions,
+`CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`
+proves that the local components of the existing full addition `DescentData` isomorphism satisfy
+this factorwise chosen-overlap square. This is only a chosen-overlap presentation of that existing
+full isomorphism; it is not a standalone factorwise target-Hom equality, an arbitrary-refinement
+factorwise formula, or an independent tensor descent datum or morphism. Constructing the required
+raw arbitrary-divisor cocycles, unconditional effectivity, an independent factorwise tensor
+descent datum and its descent-data morphism, and a `CurveDivisorDescent.DescendedTensorAdditive`
+witness remain open.
 On a same-chart principal open, coefficient equality on `D(f)` now proves equality of the
 localized inverse ideals,
 equivalently equality after common-field extension, and yields a checked isomorphism of the
@@ -234,10 +242,15 @@ generic `OpenCover.{0}` module effectivity therefore supply the two sides of the
 but the concrete `DivisorCocycle` packaging and its Type-0 effectivity application have not
 landed. For an already supplied sum cocycle, the full transported tensor-object descent datum,
 its `DescentData` isomorphism with the source, conditional transfer of effectivity, and its chosen
-transition under raw-Hom alignment are checked. Identifying that whole transition with the tensor
-of the separately transported chosen factor transitions, assembling the corresponding factorwise
-descent-data morphism, proving effectivity without a supplied sum-cocycle witness, and constructing
-a `CurveDivisorDescent.DescendedTensorAdditive` witness remain open. Principal coherence, object
+transition under raw-Hom alignment are checked. Strong monoidality identifies that whole
+transition with the tensor of the separately transported chosen factor transitions, and the
+corresponding local-add Hom square is checked. Under supplied factor and sum cocycles with exact
+raw-Hom alignment, the local components of the existing full addition `DescentData` isomorphism
+also satisfy that chosen-overlap square. This does not give a standalone factorwise target-Hom
+equality, an arbitrary-refinement factorwise formula, or an independently assembled tensor
+descent datum or descent-data morphism. Constructing the required raw cocycles, proving
+effectivity without a supplied sum-cocycle witness, and constructing a
+`CurveDivisorDescent.DescendedTensorAdditive` witness remain open. Principal coherence, object
 separation, rational normalization and principal detection,
 exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 
@@ -317,6 +330,7 @@ exactness, Picard surjectivity, and the global tensor-inverse comparison remain.
 * `MazurTorsion.AlgebraicGeometry.LineBundleDescent.pullbackOverlapIsoOfModel_tensor`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModel_eq_tensorRawOverlapIsoFamily`;
 * `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`;
+* `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.extendedInverseIdealEquiv_baseChange`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackCompIso`;
 * `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.CommonExtension.chosenLineBundlePullbackIsoOfOverlapExtensionEq_naturality`;
@@ -468,7 +482,9 @@ full divisor-class/Picard equivalence. Only
 the stronger dictionary package, which compares every invertible sheaf with a Picard unit,
 retains the global tensor-inverse hypothesis. No arbitrary-divisor `DivisorCocycle` or divisor
 cocycle system, concrete Type-0 effectivity application, global divisor-line-bundle family,
-unconditional effectivity, full factorwise descent-data morphism, or resulting
+unconditional effectivity, standalone factorwise target-Hom equality, arbitrary-refinement
+factorwise formula, independent factorwise tensor descent datum or descent-data morphism, or
+resulting
 `DescendedTensorAdditive` witness, coherent principal
 triviality, prestack/object-separation,
 rationally normalized cocycle data, geometric principal detection, exact kernel, Picard
@@ -1210,6 +1226,11 @@ inhabited or that A3 is solved.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaFactorwiseRawTensor`
   Prove the chosen-overlap local-add Hom square through the factorwise raw tensor transition.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`
+  Under supplied cocycles for `D`, `E`, and `D + E` whose chosen-overlap Homs are the raw
+  geometric transitions, prove that the local components of the existing full addition
+  `DescentData` isomorphism satisfy the factorwise chosen-overlap square.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.AffineDivisorLocalization.ExplicitIdeal.divisorFractionalIdeal_principalDivisor`
   Identify the explicit ideal of a principal divisor with the corresponding principal

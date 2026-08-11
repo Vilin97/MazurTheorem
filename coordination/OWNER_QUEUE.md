@@ -92,6 +92,19 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 conditional factorwise descent-isomorphism component checkpoint is integrated at
+`900249f`, on top of the factorwise chosen-overlap tensor checkpoint at `de729c1`. Conditional on
+supplied divisor cocycles for `D`, `E`, and `D + E` whose chosen-overlap Homs equal the raw
+geometric transitions,
+`CurveDivisorDescent.localLineBundleAddDescentDataIsoViaTransportedTensorModel_hom_commViaFactorwiseCocycleOverlaps`
+proves that the local components of the existing full addition `DescentData` isomorphism satisfy
+the factorwise chosen-overlap square. This is a chosen-overlap presentation of the existing full
+isomorphism; it does not give a standalone factorwise target-Hom equality, an arbitrary-refinement
+factorwise formula, an independent tensor descent datum or descent-data morphism, raw cocycle
+construction, unconditional effectivity, or `DescendedTensorAdditive`. A3 stays `research_open`
+at weight 18 with zero credit. Source accounting is 1,052 integrated Lean modules / 1,588,867
+lines.
+
 The A3 factorwise chosen-overlap tensor checkpoint is integrated at `de729c1`, on top of the
 conditional transported-tensor descent checkpoint at `e0de772`.
 `PresheafOfModules.pullbackComp_hom_isMonoidal` and
