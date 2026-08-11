@@ -88,7 +88,14 @@ is its proper-smooth pairwise-intersection consumer. The named transports
 bundles in those coordinate presentations, and
 `CurveDivisorDescent.localLineBundleAddIso_restrictViaPullback_naturalityViaPairwiseIntersection_global`
 aligns the square with the actual proof-defined local addition maps and pairwise-intersection
-transitions. Assembly into a morphism of descent data and a
+transitions. The definition
+`CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModelOnProperSmoothCurve`
+transports the whole pairwise-intersection tensor model to Mathlib's chosen pullback, and
+`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaTransportedTensorModel` proves
+that the proof-defined local addition maps commute there with this whole transported tensor
+transition and the raw sum transition. It does not identify the whole transported tensor
+transition with the tensor of the two separately transported chosen transitions. That
+identification, assembly into a morphism of descent data, and a
 `CurveDivisorDescent.DescendedTensorAdditive` witness are not claimed. On a same-chart principal
 open,
 equality of divisor coefficients proves equality of the localized inverse ideals, equivalently
@@ -135,8 +142,10 @@ predicate and supplies the forward tensor-inverse comparison. The remaining A3 b
 with packaging the checked raw arbitrary-divisor overlap family as the required
 `DivisorCocycle`, selecting or supplying a universe-zero nonempty affine coordinate cover, and
 applying ordinary module effectivity to that concrete datum. The remaining boundary for
-descending the fixed chartwise addition maps begins with assembling the checked proof-defined
-global-divisor local squares into a descent-data morphism; no such morphism or
+descending the fixed chartwise addition maps begins with identifying the checked whole-model
+chosen-pullback tensor transition with the tensor of the separately transported chosen
+transitions, then assembling the resulting local squares into a descent-data morphism; no such
+identification or morphism, and no
 `CurveDivisorDescent.DescendedTensorAdditive` witness is supplied. Principal coherence, object
 separation, rational normalization and principal detection, exactness, Picard surjectivity, and
 the stronger global comparison for arbitrary invertible sheaves also remain.
@@ -185,7 +194,9 @@ tensor-inverse comparison. Such a comparison is still required only by the stron
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. Chosen-pullback
 transport and the raw all-index overlap equation are checked, but no arbitrary-divisor
 `DivisorCocycle` or divisor cocycle system, concrete Type-0 effectivity application, global
-divisor-line-bundle family, descent-data morphism,
+divisor-line-bundle family, identification of the whole transported chosen-overlap tensor
+transition with the tensor of the separately transported chosen transitions, descent-data
+morphism,
 `CurveDivisorDescent.DescendedTensorAdditive` witness, coherent principal triviality,
 prestack/object-separation, rationally normalized cocycle data, geometric principal detection,
 exact kernel, Picard surjectivity, or global tensor-inverse comparison is asserted. No additional

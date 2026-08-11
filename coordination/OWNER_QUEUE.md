@@ -92,6 +92,17 @@ and product-dimension results and exact-pin completion remain credited.
 
 ## Latest owner checkpoint
 
+The A3 whole-model chosen-overlap tensor/addition checkpoint is integrated at `fc219d6`, on top
+of the proof-defined global-divisor restriction checkpoint at `d13d128`.
+`CurveDivisorDescent.localLineBundleTensorChosenOverlapIsoOfPairwiseModelOnProperSmoothCurve`
+transports the whole pairwise-intersection tensor model to Mathlib's chosen pullback, and
+`CurveDivisorDescent.localLineBundleAddIso_chosenOverlap_commViaTransportedTensorModel` proves
+that the local addition maps commute there with this transported tensor transition and the raw
+sum transition. Identification with the tensor of the two separately transported chosen
+transitions, assembly into a descent-data morphism, and `DescendedTensorAdditive` remain open.
+A3 stays `research_open` at weight 18 with zero credit. Source accounting is 1,047 integrated
+Lean modules / 1,586,695 lines.
+
 The A3 proof-defined global-divisor restriction tensor/addition checkpoint is integrated at
 `d13d128`, on top of the chosen coordinate-divisor checkpoint at `736b281`.
 `CurveDivisorDescent.localLineBundleCoordinateIso` and
