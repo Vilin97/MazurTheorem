@@ -1569,7 +1569,6 @@ theorem scalarResidual2Coefficient2 :
   · interval_cases n <;> norm_num [Polynomial.coeff_add,
       recurrence2Scalar2Left_coeff_high]
   · rw [recurrence2Scalar2Left_coeff_high n (by omega)]
-
     simp only [Polynomial.coeff_add]
     rw [recurrence2Scalar2Shift_coeff_high n (by omega)]
     rw [recurrence2Scalar2Main_coeff_high n (by omega)]
