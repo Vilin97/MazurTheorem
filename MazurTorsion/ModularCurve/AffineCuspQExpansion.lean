@@ -182,6 +182,7 @@ quotient coordinates.  Unlike the Hecke-eigen adapter above, it does not
 reconstruct nonvanishing of the first coefficient from an abstract operator:
 the coefficient is computed in the displayed power series itself. -/
 theorem exists_detectedVector_of_qExpansion_coeff_one_ne_zero
+    {K : Type u} [Field K]
     (p : Ideal R) [p.IsPrime]
     (g : S →ₐ[R] T) (q : Ideal (p.Fiber T)) [q.IsPrime]
     [IsNoetherianRing (p.Fiber T)]
@@ -191,9 +192,8 @@ theorem exists_detectedVector_of_qExpansion_coeff_one_ne_zero
       (Localization.AtPrime (q.comap (map p g))))
     (qCoordinate :
       LocalCompletion.Ring (Localization.AtPrime q) ≃+*
-        PowerSeries (IsLocalRing.ResidueField (Localization.AtPrime q)))
-    (Q : PowerSeries
-      (IsLocalRing.ResidueField (Localization.AtPrime q)))
+        PowerSeries K)
+    (Q : PowerSeries K)
     (hqExpansion :
       qCoordinate
           (completionRingHom (Localization.AtPrime q)
