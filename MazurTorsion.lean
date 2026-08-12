@@ -80,6 +80,7 @@ import MazurTorsion.Kubert.OrderTwentySevenThirdLeg
 import MazurTorsion.Kubert.OrderTwentySeven
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
+import MazurTorsion.NumberTheory.CyclotomicUnramified
 import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
 import MazurTorsion.NumberTheory.ExceptionalQuarticDescent
@@ -105,4 +106,5 @@ import MazurTorsion.NumberTheory.XOneFifteenDescent
 import MazurTorsion.NumberTheory.XOneFifteenReduction
 import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
+import MazurTorsion.PrimeOrder.CyclotomicObstruction
 import MazurTorsion.Upstream.Geometry

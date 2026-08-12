@@ -7,6 +7,10 @@ Authors: Vasily Ilin
 import Challenge.OrderFortyNine
 import Challenge.OrderThirtyFive
 import Challenge.OrderTwentyFive
+import Challenge.CyclotomicClassFieldTheory
 import Challenge.XOneEighteenNoncusp
 import Challenge.XOneElevenCoset
 import Challenge.XOneThirteenNoncusp
+import Challenge.FFGSAffineRealization
+import Challenge.FFGSFiniteLocallyFreeOrder
+import Challenge.FFGSKernelPresentation
