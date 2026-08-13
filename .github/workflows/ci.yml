@@ -945,8 +945,17 @@ jobs:
         run: |
           set -euo pipefail
           mapfile -t audit_targets < <(python3 scripts/lean_audit_cache.py targets)
-          lake build MazurTorsion EllipticCurves "${audit_targets[@]}" \
-            2>&1 | tee lean-build.log
+          {
+            if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+              # PRs can only restore an older main-branch certificate cache.
+              # Finish its parallel-friendly data shards first, then use the
+              # established serial builder for modules whose elaboration can
+              # consume most of a standard hosted runner's memory by itself.
+              lake build MazurTorsion.Kubert.OrderTwentySevenLegChunks
+              scripts/build-order-twenty-seven-stages.sh all
+            fi
+            lake build MazurTorsion EllipticCurves "${audit_targets[@]}"
+          } 2>&1 | tee lean-build.log
 
       - name: Save the Tau Ceti build cache
         if: >-
