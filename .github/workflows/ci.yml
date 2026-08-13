@@ -533,7 +533,12 @@ jobs:
 
   regular-cache:
     name: Cache the regular Lean library
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Trusted branch dispatches seed the regular base and order-25 artifacts
+    # beside the two generated-certificate producers. Ordinary PRs remain
+    # read-only and consume only already-published caches.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
     needs: source-policy
     uses: ./.github/workflows/regular-lean-cache.yml
     permissions:
