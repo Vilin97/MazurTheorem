@@ -74,7 +74,7 @@ noncomputable def openPullbackRestrictPushforwardIso
     rw [← Functor.map_comp, ← op_comp]
     rfl)
 
-@[simp]
+-- Pointwise form; the function-level lemma below is the canonical simp rule.
 private theorem openPullbackRestrictPushforwardIso_hom_app_apply
     {X₁ X₂ Y P : Scheme.{u}}
     (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
@@ -98,7 +98,7 @@ private theorem openPullbackRestrictPushforwardIso_hom_app
         (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W)).op := by
   rfl
 
-@[simp]
+-- This alias is intentionally omitted from the simp set as redundant.
 private theorem openPullbackRestrictPushforwardIso_app_hom_app
     {X₁ X₂ Y P : Scheme.{u}}
     (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
@@ -109,7 +109,7 @@ private theorem openPullbackRestrictPushforwardIso_app_hom_app
         (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W)).op := by
   rfl
 
-@[simp]
+-- Pointwise form; the function-level lemma below is the canonical simp rule.
 private theorem openPullbackRestrictPushforwardIso_inv_app_apply
     {X₁ X₂ Y P : Scheme.{u}}
     (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
@@ -132,7 +132,7 @@ private theorem openPullbackRestrictPushforwardIso_inv_app
         (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W).symm).op := by
   rfl
 
-@[simp]
+-- This alias is intentionally omitted from the simp set as redundant.
 private theorem openPullbackRestrictPushforwardIso_app_inv_app
     {X₁ X₂ Y P : Scheme.{u}}
     (p₁ : P ⟶ X₁) (p₂ : P ⟶ X₂) (f₁ : X₁ ⟶ Y) (f₂ : X₂ ⟶ Y)
@@ -143,7 +143,7 @@ private theorem openPullbackRestrictPushforwardIso_app_inv_app
         (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W).symm).op := by
   rfl
 
-@[simp]
+-- Pointwise form; the function-level lemma below is the canonical simp rule.
 private theorem restrictFunctor_map_app_apply
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f]
     {M N : Y.Modules} (phi : M ⟶ N) (U : X.Opens)
