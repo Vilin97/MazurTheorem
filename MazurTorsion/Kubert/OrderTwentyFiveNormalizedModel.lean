@@ -1704,7 +1704,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk0_substitution
     orderTwentyFiveRawSutherlandCoefficient9,
     orderTwentyFiveRawSutherlandCoefficient10,
     orderTwentyFiveRawClearedChunk0]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1716,7 +1716,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution
     orderTwentyFiveRawSutherlandCoefficient6,
     orderTwentyFiveRawSutherlandCoefficient7,
     orderTwentyFiveRawClearedChunk1]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1727,7 +1727,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk2,
     orderTwentyFiveRawSutherlandCoefficient5,
     orderTwentyFiveRawClearedChunk2]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk3_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1738,7 +1738,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk3_substitution
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk3,
     orderTwentyFiveRawSutherlandCoefficient4,
     orderTwentyFiveRawClearedChunk3]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk4_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1750,7 +1750,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk4_substitution
     orderTwentyFiveRawSutherlandCoefficient2,
     orderTwentyFiveRawSutherlandCoefficient3,
     orderTwentyFiveRawClearedChunk4]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1762,7 +1762,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution
     orderTwentyFiveRawSutherlandCoefficient0,
     orderTwentyFiveRawSutherlandCoefficient1,
     orderTwentyFiveRawClearedChunk5]
-  field_simp [hc, sub_ne_zero.mpr hbc] <;> ring
+  field_simp [hc, sub_ne_zero.mpr hbc]
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_cleared_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
