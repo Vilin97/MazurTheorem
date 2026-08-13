@@ -26,7 +26,19 @@ runs:
       shell: bash
       env:
         GHCR_TOKEN: ${{ inputs.ghcr-token }}
-      run: echo "$GHCR_TOKEN" | oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      run: |
+        set -euo pipefail
+        for attempt in 1 2 3; do
+          if echo "$GHCR_TOKEN" |
+              oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin; then
+            exit 0
+          fi
+          if [[ $attempt -lt 3 ]]; then
+            echo "::warning::Retrying the generated-proof cache login."
+            sleep $((attempt * 5 + RANDOM % 5))
+          fi
+        done
+        exit 1
 
     - name: Check for an exact shard cache
       id: cache
