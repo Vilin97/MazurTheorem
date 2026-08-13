@@ -360,6 +360,11 @@ jobs:
           steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true') &&
           steps.generated-certificate-cache.outputs.cache-hit != 'true'
+        # The 24 leaf chunks fit four-at-a-time on a hosted runner. Keep the
+        # downstream stage builders below serial: those are the memory-heavy
+        # modules that cannot safely overlap.
+        env:
+          LEAN_NUM_THREADS: "4"
         run: |
           set -euo pipefail
           lake build MazurTorsion.Kubert.OrderTwentySevenLegChunks \
