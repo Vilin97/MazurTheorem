@@ -3,9 +3,10 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupB3
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupB3
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupLeadingSquarePart1Simp
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 
@@ -15,7 +16,7 @@ import Lean.Elab.Tactic.Omega
 This is a checked coefficient-lookup shard for the fourth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -190,7 +191,7 @@ theorem recurrence4LeadingSquare_coeff_217 :
   rw [recurrence4LeadingSquare_coeff_217_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_217_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_218_prefix_zero :
     (∑ x ∈ Finset.range 54,
@@ -243,7 +244,7 @@ theorem recurrence4LeadingSquare_coeff_218 :
   rw [recurrence4LeadingSquare_coeff_218_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_218_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_219_prefix_zero :
     (∑ x ∈ Finset.range 55,
@@ -296,7 +297,7 @@ theorem recurrence4LeadingSquare_coeff_219 :
   rw [recurrence4LeadingSquare_coeff_219_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_219_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_220_prefix_zero :
     (∑ x ∈ Finset.range 56,
@@ -349,7 +350,7 @@ theorem recurrence4LeadingSquare_coeff_220 :
   rw [recurrence4LeadingSquare_coeff_220_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_220_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_221_prefix_zero :
     (∑ x ∈ Finset.range 57,
@@ -402,7 +403,7 @@ theorem recurrence4LeadingSquare_coeff_221 :
   rw [recurrence4LeadingSquare_coeff_221_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_221_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_222_prefix_zero :
     (∑ x ∈ Finset.range 58,
@@ -455,7 +456,7 @@ theorem recurrence4LeadingSquare_coeff_222 :
   rw [recurrence4LeadingSquare_coeff_222_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_222_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_223_prefix_zero :
     (∑ x ∈ Finset.range 59,
@@ -508,7 +509,7 @@ theorem recurrence4LeadingSquare_coeff_223 :
   rw [recurrence4LeadingSquare_coeff_223_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_223_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_224_prefix_zero :
     (∑ x ∈ Finset.range 60,
@@ -561,7 +562,7 @@ theorem recurrence4LeadingSquare_coeff_224 :
   rw [recurrence4LeadingSquare_coeff_224_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_224_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_225_prefix_zero :
     (∑ x ∈ Finset.range 61,
@@ -614,7 +615,7 @@ theorem recurrence4LeadingSquare_coeff_225 :
   rw [recurrence4LeadingSquare_coeff_225_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_225_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_226_prefix_zero :
     (∑ x ∈ Finset.range 62,
@@ -667,7 +668,7 @@ theorem recurrence4LeadingSquare_coeff_226 :
   rw [recurrence4LeadingSquare_coeff_226_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_226_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_227_prefix_zero :
     (∑ x ∈ Finset.range 63,
@@ -720,7 +721,7 @@ theorem recurrence4LeadingSquare_coeff_227 :
   rw [recurrence4LeadingSquare_coeff_227_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_227_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_228_prefix_zero :
     (∑ x ∈ Finset.range 64,
@@ -773,7 +774,7 @@ theorem recurrence4LeadingSquare_coeff_228 :
   rw [recurrence4LeadingSquare_coeff_228_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_228_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_229_prefix_zero :
     (∑ x ∈ Finset.range 65,
@@ -826,7 +827,7 @@ theorem recurrence4LeadingSquare_coeff_229 :
   rw [recurrence4LeadingSquare_coeff_229_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_229_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_230_prefix_zero :
     (∑ x ∈ Finset.range 66,
@@ -879,7 +880,7 @@ theorem recurrence4LeadingSquare_coeff_230 :
   rw [recurrence4LeadingSquare_coeff_230_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_230_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_231_prefix_zero :
     (∑ x ∈ Finset.range 67,
@@ -932,7 +933,7 @@ theorem recurrence4LeadingSquare_coeff_231 :
   rw [recurrence4LeadingSquare_coeff_231_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_231_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_232_prefix_zero :
     (∑ x ∈ Finset.range 68,
@@ -985,7 +986,7 @@ theorem recurrence4LeadingSquare_coeff_232 :
   rw [recurrence4LeadingSquare_coeff_232_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_232_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_233_prefix_zero :
     (∑ x ∈ Finset.range 69,
@@ -1035,7 +1036,7 @@ theorem recurrence4LeadingSquare_coeff_233 :
   rw [recurrence4LeadingSquare_coeff_233_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_233_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_234_prefix_zero :
     (∑ x ∈ Finset.range 70,
@@ -1085,7 +1086,7 @@ theorem recurrence4LeadingSquare_coeff_234 :
   rw [recurrence4LeadingSquare_coeff_234_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_234_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_235_prefix_zero :
     (∑ x ∈ Finset.range 71,
@@ -1135,7 +1136,7 @@ theorem recurrence4LeadingSquare_coeff_235 :
   rw [recurrence4LeadingSquare_coeff_235_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_235_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_236_prefix_zero :
     (∑ x ∈ Finset.range 72,
@@ -1185,7 +1186,7 @@ theorem recurrence4LeadingSquare_coeff_236 :
   rw [recurrence4LeadingSquare_coeff_236_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_236_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_237_prefix_zero :
     (∑ x ∈ Finset.range 73,
@@ -1235,7 +1236,7 @@ theorem recurrence4LeadingSquare_coeff_237 :
   rw [recurrence4LeadingSquare_coeff_237_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_237_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_238_prefix_zero :
     (∑ x ∈ Finset.range 74,
@@ -1285,7 +1286,7 @@ theorem recurrence4LeadingSquare_coeff_238 :
   rw [recurrence4LeadingSquare_coeff_238_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_238_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_239_prefix_zero :
     (∑ x ∈ Finset.range 75,
@@ -1335,7 +1336,7 @@ theorem recurrence4LeadingSquare_coeff_239 :
   rw [recurrence4LeadingSquare_coeff_239_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_239_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_240_prefix_zero :
     (∑ x ∈ Finset.range 76,
@@ -1385,7 +1386,7 @@ theorem recurrence4LeadingSquare_coeff_240 :
   rw [recurrence4LeadingSquare_coeff_240_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_240_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_241_prefix_zero :
     (∑ x ∈ Finset.range 77,
@@ -1435,7 +1436,7 @@ theorem recurrence4LeadingSquare_coeff_241 :
   rw [recurrence4LeadingSquare_coeff_241_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_241_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_242_prefix_zero :
     (∑ x ∈ Finset.range 78,
@@ -1485,7 +1486,7 @@ theorem recurrence4LeadingSquare_coeff_242 :
   rw [recurrence4LeadingSquare_coeff_242_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_242_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_243_prefix_zero :
     (∑ x ∈ Finset.range 79,
@@ -1535,7 +1536,7 @@ theorem recurrence4LeadingSquare_coeff_243 :
   rw [recurrence4LeadingSquare_coeff_243_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_243_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_244_prefix_zero :
     (∑ x ∈ Finset.range 80,
@@ -1585,7 +1586,7 @@ theorem recurrence4LeadingSquare_coeff_244 :
   rw [recurrence4LeadingSquare_coeff_244_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_244_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_245_prefix_zero :
     (∑ x ∈ Finset.range 81,
@@ -1635,7 +1636,7 @@ theorem recurrence4LeadingSquare_coeff_245 :
   rw [recurrence4LeadingSquare_coeff_245_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_245_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_246_prefix_zero :
     (∑ x ∈ Finset.range 82,
@@ -1685,7 +1686,7 @@ theorem recurrence4LeadingSquare_coeff_246 :
   rw [recurrence4LeadingSquare_coeff_246_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_246_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_247_prefix_zero :
     (∑ x ∈ Finset.range 83,
@@ -1735,7 +1736,7 @@ theorem recurrence4LeadingSquare_coeff_247 :
   rw [recurrence4LeadingSquare_coeff_247_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_247_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_248_prefix_zero :
     (∑ x ∈ Finset.range 84,
@@ -1785,7 +1786,7 @@ theorem recurrence4LeadingSquare_coeff_248 :
   rw [recurrence4LeadingSquare_coeff_248_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_248_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_249_prefix_zero :
     (∑ x ∈ Finset.range 85,
@@ -1835,7 +1836,7 @@ theorem recurrence4LeadingSquare_coeff_249 :
   rw [recurrence4LeadingSquare_coeff_249_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_249_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_250_prefix_zero :
     (∑ x ∈ Finset.range 86,
@@ -1885,7 +1886,7 @@ theorem recurrence4LeadingSquare_coeff_250 :
   rw [recurrence4LeadingSquare_coeff_250_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_250_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_251_prefix_zero :
     (∑ x ∈ Finset.range 87,
@@ -1935,7 +1936,7 @@ theorem recurrence4LeadingSquare_coeff_251 :
   rw [recurrence4LeadingSquare_coeff_251_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_251_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_252_prefix_zero :
     (∑ x ∈ Finset.range 88,
@@ -1985,7 +1986,7 @@ theorem recurrence4LeadingSquare_coeff_252 :
   rw [recurrence4LeadingSquare_coeff_252_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_252_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_253_prefix_zero :
     (∑ x ∈ Finset.range 89,
@@ -2035,7 +2036,7 @@ theorem recurrence4LeadingSquare_coeff_253 :
   rw [recurrence4LeadingSquare_coeff_253_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_253_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_254_prefix_zero :
     (∑ x ∈ Finset.range 90,
@@ -2085,7 +2086,7 @@ theorem recurrence4LeadingSquare_coeff_254 :
   rw [recurrence4LeadingSquare_coeff_254_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_254_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_255_prefix_zero :
     (∑ x ∈ Finset.range 91,
@@ -2135,7 +2136,7 @@ theorem recurrence4LeadingSquare_coeff_255 :
   rw [recurrence4LeadingSquare_coeff_255_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_255_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_256_prefix_zero :
     (∑ x ∈ Finset.range 92,
@@ -2185,7 +2186,7 @@ theorem recurrence4LeadingSquare_coeff_256 :
   rw [recurrence4LeadingSquare_coeff_256_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_256_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_257_prefix_zero :
     (∑ x ∈ Finset.range 93,
@@ -2235,7 +2236,7 @@ theorem recurrence4LeadingSquare_coeff_257 :
   rw [recurrence4LeadingSquare_coeff_257_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_257_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_258_prefix_zero :
     (∑ x ∈ Finset.range 94,
@@ -2285,7 +2286,7 @@ theorem recurrence4LeadingSquare_coeff_258 :
   rw [recurrence4LeadingSquare_coeff_258_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_258_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_259_prefix_zero :
     (∑ x ∈ Finset.range 95,
@@ -2335,7 +2336,7 @@ theorem recurrence4LeadingSquare_coeff_259 :
   rw [recurrence4LeadingSquare_coeff_259_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_259_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_260_prefix_zero :
     (∑ x ∈ Finset.range 96,
@@ -2385,7 +2386,7 @@ theorem recurrence4LeadingSquare_coeff_260 :
   rw [recurrence4LeadingSquare_coeff_260_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_260_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_261_prefix_zero :
     (∑ x ∈ Finset.range 97,
@@ -2435,7 +2436,7 @@ theorem recurrence4LeadingSquare_coeff_261 :
   rw [recurrence4LeadingSquare_coeff_261_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_261_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_262_prefix_zero :
     (∑ x ∈ Finset.range 98,
@@ -2485,7 +2486,7 @@ theorem recurrence4LeadingSquare_coeff_262 :
   rw [recurrence4LeadingSquare_coeff_262_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_262_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_263_prefix_zero :
     (∑ x ∈ Finset.range 99,
@@ -2535,7 +2536,7 @@ theorem recurrence4LeadingSquare_coeff_263 :
   rw [recurrence4LeadingSquare_coeff_263_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_263_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_264_prefix_zero :
     (∑ x ∈ Finset.range 100,
@@ -2585,7 +2586,7 @@ theorem recurrence4LeadingSquare_coeff_264 :
   rw [recurrence4LeadingSquare_coeff_264_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_264_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_265_prefix_zero :
     (∑ x ∈ Finset.range 101,
@@ -2632,7 +2633,7 @@ theorem recurrence4LeadingSquare_coeff_265 :
   rw [recurrence4LeadingSquare_coeff_265_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_265_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_266_prefix_zero :
     (∑ x ∈ Finset.range 102,
@@ -2679,7 +2680,7 @@ theorem recurrence4LeadingSquare_coeff_266 :
   rw [recurrence4LeadingSquare_coeff_266_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_266_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_267_prefix_zero :
     (∑ x ∈ Finset.range 103,
@@ -2726,7 +2727,7 @@ theorem recurrence4LeadingSquare_coeff_267 :
   rw [recurrence4LeadingSquare_coeff_267_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_267_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_268_prefix_zero :
     (∑ x ∈ Finset.range 104,
@@ -2773,7 +2774,7 @@ theorem recurrence4LeadingSquare_coeff_268 :
   rw [recurrence4LeadingSquare_coeff_268_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_268_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_269_prefix_zero :
     (∑ x ∈ Finset.range 105,
@@ -2820,7 +2821,7 @@ theorem recurrence4LeadingSquare_coeff_269 :
   rw [recurrence4LeadingSquare_coeff_269_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_269_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_270_prefix_zero :
     (∑ x ∈ Finset.range 106,
@@ -2867,7 +2868,7 @@ theorem recurrence4LeadingSquare_coeff_270 :
   rw [recurrence4LeadingSquare_coeff_270_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_270_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_271_prefix_zero :
     (∑ x ∈ Finset.range 107,
@@ -2914,7 +2915,7 @@ theorem recurrence4LeadingSquare_coeff_271 :
   rw [recurrence4LeadingSquare_coeff_271_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_271_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_272_prefix_zero :
     (∑ x ∈ Finset.range 108,
@@ -2961,7 +2962,7 @@ theorem recurrence4LeadingSquare_coeff_272 :
   rw [recurrence4LeadingSquare_coeff_272_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_272_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_273_prefix_zero :
     (∑ x ∈ Finset.range 109,
@@ -3008,7 +3009,7 @@ theorem recurrence4LeadingSquare_coeff_273 :
   rw [recurrence4LeadingSquare_coeff_273_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_273_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_274_prefix_zero :
     (∑ x ∈ Finset.range 110,
@@ -3055,7 +3056,7 @@ theorem recurrence4LeadingSquare_coeff_274 :
   rw [recurrence4LeadingSquare_coeff_274_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_274_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_275_prefix_zero :
     (∑ x ∈ Finset.range 111,
@@ -3102,7 +3103,7 @@ theorem recurrence4LeadingSquare_coeff_275 :
   rw [recurrence4LeadingSquare_coeff_275_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_275_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_276_prefix_zero :
     (∑ x ∈ Finset.range 112,
@@ -3149,7 +3150,7 @@ theorem recurrence4LeadingSquare_coeff_276 :
   rw [recurrence4LeadingSquare_coeff_276_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_276_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_277_prefix_zero :
     (∑ x ∈ Finset.range 113,
@@ -3196,7 +3197,7 @@ theorem recurrence4LeadingSquare_coeff_277 :
   rw [recurrence4LeadingSquare_coeff_277_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_277_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_278_prefix_zero :
     (∑ x ∈ Finset.range 114,
@@ -3243,7 +3244,7 @@ theorem recurrence4LeadingSquare_coeff_278 :
   rw [recurrence4LeadingSquare_coeff_278_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_278_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_279_prefix_zero :
     (∑ x ∈ Finset.range 115,
@@ -3290,7 +3291,7 @@ theorem recurrence4LeadingSquare_coeff_279 :
   rw [recurrence4LeadingSquare_coeff_279_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_279_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_280_prefix_zero :
     (∑ x ∈ Finset.range 116,
@@ -3337,7 +3338,7 @@ theorem recurrence4LeadingSquare_coeff_280 :
   rw [recurrence4LeadingSquare_coeff_280_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_280_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_281_prefix_zero :
     (∑ x ∈ Finset.range 117,
@@ -3384,7 +3385,7 @@ theorem recurrence4LeadingSquare_coeff_281 :
   rw [recurrence4LeadingSquare_coeff_281_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_281_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_282_prefix_zero :
     (∑ x ∈ Finset.range 118,
@@ -3431,7 +3432,7 @@ theorem recurrence4LeadingSquare_coeff_282 :
   rw [recurrence4LeadingSquare_coeff_282_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_282_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_283_prefix_zero :
     (∑ x ∈ Finset.range 119,
@@ -3478,7 +3479,7 @@ theorem recurrence4LeadingSquare_coeff_283 :
   rw [recurrence4LeadingSquare_coeff_283_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_283_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_284_prefix_zero :
     (∑ x ∈ Finset.range 120,
@@ -3525,7 +3526,7 @@ theorem recurrence4LeadingSquare_coeff_284 :
   rw [recurrence4LeadingSquare_coeff_284_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_284_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_285_prefix_zero :
     (∑ x ∈ Finset.range 121,
@@ -3572,7 +3573,7 @@ theorem recurrence4LeadingSquare_coeff_285 :
   rw [recurrence4LeadingSquare_coeff_285_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_285_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_286_prefix_zero :
     (∑ x ∈ Finset.range 122,
@@ -3619,7 +3620,7 @@ theorem recurrence4LeadingSquare_coeff_286 :
   rw [recurrence4LeadingSquare_coeff_286_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_286_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_287_prefix_zero :
     (∑ x ∈ Finset.range 123,
@@ -3666,7 +3667,7 @@ theorem recurrence4LeadingSquare_coeff_287 :
   rw [recurrence4LeadingSquare_coeff_287_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_287_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_288_prefix_zero :
     (∑ x ∈ Finset.range 124,
@@ -3713,7 +3714,7 @@ theorem recurrence4LeadingSquare_coeff_288 :
   rw [recurrence4LeadingSquare_coeff_288_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_288_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_289_prefix_zero :
     (∑ x ∈ Finset.range 125,
@@ -3760,7 +3761,7 @@ theorem recurrence4LeadingSquare_coeff_289 :
   rw [recurrence4LeadingSquare_coeff_289_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_289_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_290_prefix_zero :
     (∑ x ∈ Finset.range 126,
@@ -3807,7 +3808,7 @@ theorem recurrence4LeadingSquare_coeff_290 :
   rw [recurrence4LeadingSquare_coeff_290_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_290_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_291_prefix_zero :
     (∑ x ∈ Finset.range 127,
@@ -3854,7 +3855,7 @@ theorem recurrence4LeadingSquare_coeff_291 :
   rw [recurrence4LeadingSquare_coeff_291_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_291_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_292_prefix_zero :
     (∑ x ∈ Finset.range 128,
@@ -3901,7 +3902,7 @@ theorem recurrence4LeadingSquare_coeff_292 :
   rw [recurrence4LeadingSquare_coeff_292_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_292_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_293_prefix_zero :
     (∑ x ∈ Finset.range 129,
@@ -3948,7 +3949,7 @@ theorem recurrence4LeadingSquare_coeff_293 :
   rw [recurrence4LeadingSquare_coeff_293_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_293_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_294_prefix_zero :
     (∑ x ∈ Finset.range 130,
@@ -3995,7 +3996,7 @@ theorem recurrence4LeadingSquare_coeff_294 :
   rw [recurrence4LeadingSquare_coeff_294_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_294_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_295_prefix_zero :
     (∑ x ∈ Finset.range 131,
@@ -4042,7 +4043,7 @@ theorem recurrence4LeadingSquare_coeff_295 :
   rw [recurrence4LeadingSquare_coeff_295_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_295_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_296_prefix_zero :
     (∑ x ∈ Finset.range 132,
@@ -4089,7 +4090,7 @@ theorem recurrence4LeadingSquare_coeff_296 :
   rw [recurrence4LeadingSquare_coeff_296_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_296_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_297_prefix_zero :
     (∑ x ∈ Finset.range 133,
@@ -4133,7 +4134,7 @@ theorem recurrence4LeadingSquare_coeff_297 :
   rw [recurrence4LeadingSquare_coeff_297_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_297_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_298_prefix_zero :
     (∑ x ∈ Finset.range 134,
@@ -4177,7 +4178,7 @@ theorem recurrence4LeadingSquare_coeff_298 :
   rw [recurrence4LeadingSquare_coeff_298_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_298_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_299_prefix_zero :
     (∑ x ∈ Finset.range 135,
@@ -4221,7 +4222,7 @@ theorem recurrence4LeadingSquare_coeff_299 :
   rw [recurrence4LeadingSquare_coeff_299_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_299_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_300_prefix_zero :
     (∑ x ∈ Finset.range 136,
@@ -4265,7 +4266,7 @@ theorem recurrence4LeadingSquare_coeff_300 :
   rw [recurrence4LeadingSquare_coeff_300_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_300_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_301_prefix_zero :
     (∑ x ∈ Finset.range 137,
@@ -4309,7 +4310,7 @@ theorem recurrence4LeadingSquare_coeff_301 :
   rw [recurrence4LeadingSquare_coeff_301_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_301_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_302_prefix_zero :
     (∑ x ∈ Finset.range 138,
@@ -4353,7 +4354,7 @@ theorem recurrence4LeadingSquare_coeff_302 :
   rw [recurrence4LeadingSquare_coeff_302_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_302_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_303_prefix_zero :
     (∑ x ∈ Finset.range 139,
@@ -4397,7 +4398,7 @@ theorem recurrence4LeadingSquare_coeff_303 :
   rw [recurrence4LeadingSquare_coeff_303_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_303_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_304_prefix_zero :
     (∑ x ∈ Finset.range 140,
@@ -4441,7 +4442,7 @@ theorem recurrence4LeadingSquare_coeff_304 :
   rw [recurrence4LeadingSquare_coeff_304_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_304_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_305_prefix_zero :
     (∑ x ∈ Finset.range 141,
@@ -4485,7 +4486,7 @@ theorem recurrence4LeadingSquare_coeff_305 :
   rw [recurrence4LeadingSquare_coeff_305_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_305_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_306_prefix_zero :
     (∑ x ∈ Finset.range 142,
@@ -4528,7 +4529,7 @@ theorem recurrence4LeadingSquare_coeff_306 :
   rw [recurrence4LeadingSquare_coeff_306_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_306_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_307_prefix_zero :
     (∑ x ∈ Finset.range 143,
@@ -4571,7 +4572,7 @@ theorem recurrence4LeadingSquare_coeff_307 :
   rw [recurrence4LeadingSquare_coeff_307_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_307_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_308_prefix_zero :
     (∑ x ∈ Finset.range 144,
@@ -4614,7 +4615,7 @@ theorem recurrence4LeadingSquare_coeff_308 :
   rw [recurrence4LeadingSquare_coeff_308_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_308_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_309_prefix_zero :
     (∑ x ∈ Finset.range 145,
@@ -4657,7 +4658,7 @@ theorem recurrence4LeadingSquare_coeff_309 :
   rw [recurrence4LeadingSquare_coeff_309_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_309_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_310_prefix_zero :
     (∑ x ∈ Finset.range 146,
@@ -4700,7 +4701,7 @@ theorem recurrence4LeadingSquare_coeff_310 :
   rw [recurrence4LeadingSquare_coeff_310_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_310_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_311_prefix_zero :
     (∑ x ∈ Finset.range 147,
@@ -4743,7 +4744,7 @@ theorem recurrence4LeadingSquare_coeff_311 :
   rw [recurrence4LeadingSquare_coeff_311_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_311_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_312_prefix_zero :
     (∑ x ∈ Finset.range 148,
@@ -4786,7 +4787,7 @@ theorem recurrence4LeadingSquare_coeff_312 :
   rw [recurrence4LeadingSquare_coeff_312_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_312_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_313_prefix_zero :
     (∑ x ∈ Finset.range 149,
@@ -4829,7 +4830,7 @@ theorem recurrence4LeadingSquare_coeff_313 :
   rw [recurrence4LeadingSquare_coeff_313_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_313_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_314_prefix_zero :
     (∑ x ∈ Finset.range 150,
@@ -4872,7 +4873,7 @@ theorem recurrence4LeadingSquare_coeff_314 :
   rw [recurrence4LeadingSquare_coeff_314_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_314_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_315_prefix_zero :
     (∑ x ∈ Finset.range 151,
@@ -4915,7 +4916,7 @@ theorem recurrence4LeadingSquare_coeff_315 :
   rw [recurrence4LeadingSquare_coeff_315_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_315_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_316_prefix_zero :
     (∑ x ∈ Finset.range 152,
@@ -4958,7 +4959,7 @@ theorem recurrence4LeadingSquare_coeff_316 :
   rw [recurrence4LeadingSquare_coeff_316_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_316_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_317_prefix_zero :
     (∑ x ∈ Finset.range 153,
@@ -5001,7 +5002,7 @@ theorem recurrence4LeadingSquare_coeff_317 :
   rw [recurrence4LeadingSquare_coeff_317_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_317_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_318_prefix_zero :
     (∑ x ∈ Finset.range 154,
@@ -5044,7 +5045,7 @@ theorem recurrence4LeadingSquare_coeff_318 :
   rw [recurrence4LeadingSquare_coeff_318_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_318_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_319_prefix_zero :
     (∑ x ∈ Finset.range 155,
@@ -5087,7 +5088,7 @@ theorem recurrence4LeadingSquare_coeff_319 :
   rw [recurrence4LeadingSquare_coeff_319_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_319_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_320_prefix_zero :
     (∑ x ∈ Finset.range 156,
@@ -5130,7 +5131,7 @@ theorem recurrence4LeadingSquare_coeff_320 :
   rw [recurrence4LeadingSquare_coeff_320_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_320_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_321_prefix_zero :
     (∑ x ∈ Finset.range 157,
@@ -5173,7 +5174,7 @@ theorem recurrence4LeadingSquare_coeff_321 :
   rw [recurrence4LeadingSquare_coeff_321_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_321_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_322_prefix_zero :
     (∑ x ∈ Finset.range 158,
@@ -5216,7 +5217,7 @@ theorem recurrence4LeadingSquare_coeff_322 :
   rw [recurrence4LeadingSquare_coeff_322_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_322_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_323_prefix_zero :
     (∑ x ∈ Finset.range 159,
@@ -5259,7 +5260,7 @@ theorem recurrence4LeadingSquare_coeff_323 :
   rw [recurrence4LeadingSquare_coeff_323_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_323_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_324_prefix_zero :
     (∑ x ∈ Finset.range 160,
@@ -5302,7 +5303,7 @@ theorem recurrence4LeadingSquare_coeff_324 :
   rw [recurrence4LeadingSquare_coeff_324_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_324_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_325_prefix_zero :
     (∑ x ∈ Finset.range 161,
@@ -5345,7 +5346,7 @@ theorem recurrence4LeadingSquare_coeff_325 :
   rw [recurrence4LeadingSquare_coeff_325_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_325_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_326_prefix_zero :
     (∑ x ∈ Finset.range 162,
@@ -5387,7 +5388,7 @@ theorem recurrence4LeadingSquare_coeff_326 :
   rw [recurrence4LeadingSquare_coeff_326_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_326_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_327_prefix_zero :
     (∑ x ∈ Finset.range 163,
@@ -5429,7 +5430,7 @@ theorem recurrence4LeadingSquare_coeff_327 :
   rw [recurrence4LeadingSquare_coeff_327_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_327_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence4LeadingSquare_coeff_328_prefix_zero :
     (∑ x ∈ Finset.range 164,
@@ -5471,7 +5472,7 @@ theorem recurrence4LeadingSquare_coeff_328 :
   rw [recurrence4LeadingSquare_coeff_328_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence4LeadingSquare_coeff_328_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 end
 

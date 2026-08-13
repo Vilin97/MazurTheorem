@@ -1522,6 +1522,41 @@ private theorem twentyFiveNormalizedDatum_next_spec_8
     try unfold twentyFiveJ
     ring
 
+private theorem twentyFiveNormalizedDatum_next_spec_9_x
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 9).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 10).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 9
+    let next := twentyFiveNormalizedDatum b c 10
+    tateNextX b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.xNum / next.den ^ 2 := by
+  simp only [twentyFiveNormalizedDatum, tateNextX] at _hxNum _hden _hnextDen ⊢
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+  unfold twentyFiveA twentyFiveE twentyFiveF twentyFiveG twentyFiveH
+  ring
+
+private theorem twentyFiveNormalizedDatum_next_spec_9_y
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 9).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 10).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 9
+    let next := twentyFiveNormalizedDatum b c 10
+    tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.yNum / next.den ^ 3 := by
+  have hxNext :=
+    twentyFiveNormalizedDatum_next_spec_9_x b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hxNext ⊢
+  simp only [tateNextY]
+  rw [hxNext]
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+  unfold twentyFiveA twentyFiveB twentyFiveE twentyFiveF twentyFiveG
+    twentyFiveH twentyFiveI
+  ring
+
 private theorem twentyFiveNormalizedDatum_next_spec_9
     (b c : ℚ)
     (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
@@ -1533,21 +1568,8 @@ private theorem twentyFiveNormalizedDatum_next_spec_9
         next.xNum / next.den ^ 2 ∧
       tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
         next.yNum / next.den ^ 3 := by
-  simp only [twentyFiveNormalizedDatum, tateNextX, tateNextY] at _hxNum _hden _hnextDen ⊢
-  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
-  constructor <;> field_simp [_hxNum, _hden, _hnextDen]
-  all_goals
-    try unfold twentyFiveA
-    try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
-    ring
+  exact ⟨twentyFiveNormalizedDatum_next_spec_9_x b c _hxNum _hden _hnextDen,
+    twentyFiveNormalizedDatum_next_spec_9_y b c _hxNum _hden _hnextDen⟩
 
 private theorem twentyFiveNormalizedDatum_next_spec_10_x
     (b c : ℚ)
@@ -1573,7 +1595,11 @@ private theorem twentyFiveNormalizedDatum_next_spec_10_y
     let next := twentyFiveNormalizedDatum b c 11
     tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
       next.yNum / next.den ^ 3 := by
-  simp only [twentyFiveNormalizedDatum, tateNextX, tateNextY] at _hxNum _hden _hnextDen ⊢
+  have hxNext :=
+    twentyFiveNormalizedDatum_next_spec_10_x b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hxNext ⊢
+  simp only [tateNextY]
+  rw [hxNext]
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   field_simp [_hxNum, _hden, _hnextDen]
   unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH

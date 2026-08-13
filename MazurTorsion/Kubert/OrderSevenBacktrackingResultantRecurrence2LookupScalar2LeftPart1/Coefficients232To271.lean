@@ -1,0 +1,1997 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupLeadingSquare
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupA2
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar2LeftPart1Simp
+import Mathlib.Tactic.NormNum
+import Lean.Elab.Tactic.Omega
+
+/-!
+# Recurrence 2 lookup certificate: Scalar2Left coefficient convolution
+
+This is a checked coefficient-lookup shard for the second
+pseudo-division recurrence in the order-seven certificate.
+-/
+public section
+open Polynomial
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+noncomputable section
+
+attribute [local simp]
+  recurrence2LeadingSquare_coeff_0
+  recurrence2LeadingSquare_coeff_1
+  recurrence2LeadingSquare_coeff_2
+  recurrence2LeadingSquare_coeff_3
+  recurrence2LeadingSquare_coeff_4
+  recurrence2LeadingSquare_coeff_5
+  recurrence2LeadingSquare_coeff_6
+  recurrence2LeadingSquare_coeff_7
+  recurrence2LeadingSquare_coeff_8
+  recurrence2LeadingSquare_coeff_9
+  recurrence2LeadingSquare_coeff_10
+  recurrence2LeadingSquare_coeff_11
+  recurrence2LeadingSquare_coeff_12
+  recurrence2LeadingSquare_coeff_13
+  recurrence2LeadingSquare_coeff_14
+  recurrence2LeadingSquare_coeff_15
+  recurrence2LeadingSquare_coeff_16
+  recurrence2LeadingSquare_coeff_17
+  recurrence2LeadingSquare_coeff_18
+  recurrence2LeadingSquare_coeff_19
+  recurrence2LeadingSquare_coeff_20
+  recurrence2LeadingSquare_coeff_21
+  recurrence2LeadingSquare_coeff_22
+  recurrence2LeadingSquare_coeff_23
+  recurrence2LeadingSquare_coeff_24
+  recurrence2LeadingSquare_coeff_25
+  recurrence2LeadingSquare_coeff_26
+  recurrence2LeadingSquare_coeff_27
+  recurrence2LeadingSquare_coeff_28
+  recurrence2LeadingSquare_coeff_29
+  recurrence2LeadingSquare_coeff_30
+  recurrence2LeadingSquare_coeff_31
+  recurrence2LeadingSquare_coeff_32
+  recurrence2LeadingSquare_coeff_33
+  recurrence2LeadingSquare_coeff_34
+  recurrence2LeadingSquare_coeff_35
+  recurrence2LeadingSquare_coeff_36
+  recurrence2LeadingSquare_coeff_37
+  recurrence2LeadingSquare_coeff_38
+  recurrence2LeadingSquare_coeff_39
+  recurrence2LeadingSquare_coeff_40
+  recurrence2LeadingSquare_coeff_41
+  recurrence2LeadingSquare_coeff_42
+  recurrence2LeadingSquare_coeff_43
+  recurrence2LeadingSquare_coeff_44
+  recurrence2LeadingSquare_coeff_45
+  recurrence2LeadingSquare_coeff_46
+  recurrence2LeadingSquare_coeff_47
+  recurrence2LeadingSquare_coeff_48
+  recurrence2LeadingSquare_coeff_49
+  recurrence2LeadingSquare_coeff_50
+  recurrence2LeadingSquare_coeff_51
+  recurrence2LeadingSquare_coeff_52
+  recurrence2LeadingSquare_coeff_53
+  recurrence2LeadingSquare_coeff_54
+  recurrence2LeadingSquare_coeff_55
+  recurrence2LeadingSquare_coeff_56
+  recurrence2LeadingSquare_coeff_57
+  recurrence2LeadingSquare_coeff_58
+  recurrence2LeadingSquare_coeff_59
+  recurrence2LeadingSquare_coeff_60
+  recurrence2LeadingSquare_coeff_61
+  recurrence2LeadingSquare_coeff_62
+  recurrence2LeadingSquare_coeff_63
+  recurrence2LeadingSquare_coeff_64
+  recurrence2LeadingSquare_coeff_65
+  recurrence2LeadingSquare_coeff_66
+  recurrence2LeadingSquare_coeff_67
+  recurrence2LeadingSquare_coeff_68
+  recurrence2LeadingSquare_coeff_69
+  recurrence2LeadingSquare_coeff_70
+  recurrence2LeadingSquare_coeff_71
+  recurrence2LeadingSquare_coeff_72
+  recurrence2LeadingSquare_coeff_73
+  recurrence2LeadingSquare_coeff_74
+  recurrence2LeadingSquare_coeff_75
+  recurrence2LeadingSquare_coeff_76
+  recurrence2LeadingSquare_coeff_77
+  recurrence2LeadingSquare_coeff_78
+  recurrence2LeadingSquare_coeff_79
+  recurrence2LeadingSquare_coeff_80
+  recurrence2LeadingSquare_coeff_81
+  recurrence2LeadingSquare_coeff_82
+  recurrence2LeadingSquare_coeff_83
+  recurrence2LeadingSquare_coeff_84
+  recurrence2LeadingSquare_coeff_85
+  recurrence2LeadingSquare_coeff_86
+  recurrence2LeadingSquare_coeff_87
+  recurrence2LeadingSquare_coeff_88
+  recurrence2LeadingSquare_coeff_89
+  recurrence2LeadingSquare_coeff_90
+  recurrence2LeadingSquare_coeff_91
+  recurrence2LeadingSquare_coeff_92
+  recurrence2LeadingSquare_coeff_93
+  recurrence2LeadingSquare_coeff_94
+  recurrence2LeadingSquare_coeff_95
+  recurrence2LeadingSquare_coeff_96
+  recurrence2LeadingSquare_coeff_97
+  recurrence2LeadingSquare_coeff_98
+  recurrence2LeadingSquare_coeff_99
+  recurrence2LeadingSquare_coeff_100
+  recurrence2LeadingSquare_coeff_101
+  recurrence2LeadingSquare_coeff_102
+  recurrence2LeadingSquare_coeff_103
+  recurrence2LeadingSquare_coeff_104
+  recurrence2LeadingSquare_coeff_105
+  recurrence2LeadingSquare_coeff_106
+  recurrence2LeadingSquare_coeff_107
+  recurrence2LeadingSquare_coeff_108
+  recurrence2LeadingSquare_coeff_109
+  recurrence2LeadingSquare_coeff_110
+  recurrence2LeadingSquare_coeff_111
+  recurrence2LeadingSquare_coeff_112
+  recurrence2LeadingSquare_coeff_113
+  recurrence2LeadingSquare_coeff_114
+  recurrence2LeadingSquare_coeff_115
+  recurrence2LeadingSquare_coeff_116
+  recurrence2LeadingSquare_coeff_117
+  recurrence2LeadingSquare_coeff_118
+  recurrence2LeadingSquare_coeff_119
+  recurrence2LeadingSquare_coeff_120
+  recurrence2LeadingSquare_coeff_121
+  recurrence2LeadingSquare_coeff_122
+  recurrence2LeadingSquare_coeff_123
+  recurrence2LeadingSquare_coeff_124
+  recurrence2LeadingSquare_coeff_125
+  recurrence2LeadingSquare_coeff_126
+  recurrence2LeadingSquare_coeff_127
+  recurrence2LeadingSquare_coeff_128
+  recurrence2LeadingSquare_coeff_129
+  recurrence2LeadingSquare_coeff_130
+  recurrence2LeadingSquare_coeff_131
+  recurrence2LeadingSquare_coeff_132
+  recurrence2LeadingSquare_coeff_133
+  recurrence2LeadingSquare_coeff_134
+  recurrence2LeadingSquare_coeff_135
+  recurrence2LeadingSquare_coeff_136
+  recurrence2LeadingSquare_coeff_137
+  recurrence2LeadingSquare_coeff_138
+  recurrence2LeadingSquare_coeff_139
+  recurrence2LeadingSquare_coeff_140
+  recurrence2LeadingSquare_coeff_141
+  recurrence2LeadingSquare_coeff_142
+  recurrence2LeadingSquare_coeff_143
+  recurrence2LeadingSquare_coeff_144
+  recurrence2LeadingSquare_coeff_145
+  recurrence2LeadingSquare_coeff_146
+  recurrence2LeadingSquare_coeff_147
+  recurrence2LeadingSquare_coeff_148
+  recurrence2LeadingSquare_coeff_149
+  recurrence2LeadingSquare_coeff_150
+  recurrence2LeadingSquare_coeff_151
+  recurrence2LeadingSquare_coeff_152
+  recurrence2LeadingSquare_coeff_153
+  recurrence2LeadingSquare_coeff_154
+  recurrence2LeadingSquare_coeff_155
+  recurrence2LeadingSquare_coeff_156
+  recurrence2LeadingSquare_coeff_157
+  recurrence2LeadingSquare_coeff_158
+  recurrence2LeadingSquare_coeff_159
+  recurrence2LeadingSquare_coeff_160
+  recurrence2LeadingSquare_coeff_161
+  recurrence2LeadingSquare_coeff_162
+  recurrence2LeadingSquare_coeff_163
+  recurrence2LeadingSquare_coeff_164
+  recurrence2LeadingSquare_coeff_165
+  recurrence2LeadingSquare_coeff_166
+  recurrence2LeadingSquare_coeff_167
+  recurrence2LeadingSquare_coeff_168
+  recurrence2LeadingSquare_coeff_169
+  recurrence2LeadingSquare_coeff_170
+  recurrence2LeadingSquare_coeff_171
+  recurrence2LeadingSquare_coeff_172
+  recurrence2LeadingSquare_coeff_173
+  recurrence2LeadingSquare_coeff_174
+  recurrence2LeadingSquare_coeff_175
+  recurrence2LeadingSquare_coeff_176
+  recurrence2LeadingSquare_coeff_177
+  recurrence2LeadingSquare_coeff_178
+  recurrence2LeadingSquare_coeff_179
+  recurrence2LeadingSquare_coeff_180
+  recurrence2LeadingSquare_coeff_181
+  recurrence2LeadingSquare_coeff_182
+  recurrence2LeadingSquare_coeff_183
+  recurrence2LeadingSquare_coeff_184
+  recurrence2LeadingSquare_coeff_185
+  recurrence2LeadingSquare_coeff_186
+  recurrence2LeadingSquare_coeff_187
+  recurrence2LeadingSquare_coeff_188
+  recurrence2LeadingSquare_coeff_189
+  recurrence2LeadingSquare_coeff_190
+  recurrence2LeadingSquare_coeff_191
+  recurrence2LeadingSquare_coeff_192
+  recurrence2LeadingSquare_coeff_193
+  recurrence2LeadingSquare_coeff_194
+  recurrence2LeadingSquare_coeff_195
+  recurrence2LeadingSquare_coeff_196
+  recurrence2LeadingSquare_coeff_197
+  recurrence2LeadingSquare_coeff_198
+  recurrence2LeadingSquare_coeff_199
+  recurrence2LeadingSquare_coeff_200
+  recurrence2LeadingSquare_coeff_201
+  recurrence2LeadingSquare_coeff_202
+  recurrence2LeadingSquare_coeff_203
+  recurrence2LeadingSquare_coeff_204
+  recurrence2LeadingSquare_coeff_205
+  recurrence2LeadingSquare_coeff_206
+  recurrence2LeadingSquare_coeff_207
+  recurrence2LeadingSquare_coeff_208
+  recurrence2LeadingSquare_coeff_209
+  recurrence2LeadingSquare_coeff_210
+  recurrence2LeadingSquare_coeff_211
+  recurrence2LeadingSquare_coeff_212
+  recurrence2LeadingSquare_coeff_213
+  recurrence2LeadingSquare_coeff_214
+  recurrence2LeadingSquare_coeff_215
+  recurrence2LeadingSquare_coeff_216
+  recurrence2LeadingSquare_coeff_217
+  recurrence2LeadingSquare_coeff_218
+  recurrence2LeadingSquare_coeff_219
+  recurrence2LeadingSquare_coeff_220
+  recurrence2LeadingSquare_coeff_221
+  recurrence2LeadingSquare_coeff_222
+  recurrence2LeadingSquare_coeff_223
+  recurrence2LeadingSquare_coeff_224
+  recurrence2LeadingSquare_coeff_225
+  recurrence2LeadingSquare_coeff_226
+  recurrence2LeadingSquare_coeff_227
+  recurrence2LeadingSquare_coeff_228
+  recurrence2LeadingSquare_coeff_229
+  recurrence2LeadingSquare_coeff_230
+  recurrence2LeadingSquare_coeff_231
+  recurrence2LeadingSquare_coeff_232
+  recurrence2LeadingSquare_coeff_233
+  recurrence2LeadingSquare_coeff_234
+  recurrence2LeadingSquare_coeff_235
+  recurrence2LeadingSquare_coeff_236
+  recurrence2LeadingSquare_coeff_237
+  recurrence2LeadingSquare_coeff_238
+  recurrence2LeadingSquare_coeff_239
+  recurrence2LeadingSquare_coeff_240
+  recurrence2LeadingSquare_coeff_241
+  recurrence2LeadingSquare_coeff_242
+  recurrence2LeadingSquare_coeff_243
+  recurrence2LeadingSquare_coeff_244
+  recurrence2LeadingSquare_coeff_245
+  recurrence2LeadingSquare_coeff_246
+  recurrence2LeadingSquare_coeff_247
+  recurrence2LeadingSquare_coeff_248
+  recurrence2LeadingSquare_coeff_249
+  recurrence2LeadingSquare_coeff_250
+  recurrence2LeadingSquare_coeff_251
+  recurrence2LeadingSquare_coeff_252
+  recurrence2LeadingSquare_coeff_253
+  recurrence2LeadingSquare_coeff_254
+  recurrence2LeadingSquare_coeff_255
+  recurrence2LeadingSquare_coeff_256
+  recurrence2LeadingSquare_coeff_257
+  recurrence2LeadingSquare_coeff_258
+  recurrence2LeadingSquare_coeff_259
+  recurrence2LeadingSquare_coeff_260
+  recurrence2LeadingSquare_coeff_261
+  recurrence2LeadingSquare_coeff_262
+  recurrence2LeadingSquare_coeff_263
+  recurrence2LeadingSquare_coeff_264
+  recurrence2LeadingSquare_coeff_265
+  recurrence2LeadingSquare_coeff_266
+  recurrence2LeadingSquare_coeff_267
+  recurrence2LeadingSquare_coeff_268
+  recurrence2A2_coeff_0
+  recurrence2A2_coeff_1
+  recurrence2A2_coeff_2
+  recurrence2A2_coeff_3
+  recurrence2A2_coeff_4
+  recurrence2A2_coeff_5
+  recurrence2A2_coeff_6
+  recurrence2A2_coeff_7
+  recurrence2A2_coeff_8
+  recurrence2A2_coeff_9
+  recurrence2A2_coeff_10
+  recurrence2A2_coeff_11
+  recurrence2A2_coeff_12
+  recurrence2A2_coeff_13
+  recurrence2A2_coeff_14
+  recurrence2A2_coeff_15
+  recurrence2A2_coeff_16
+  recurrence2A2_coeff_17
+  recurrence2A2_coeff_18
+  recurrence2A2_coeff_19
+  recurrence2A2_coeff_20
+  recurrence2A2_coeff_21
+  recurrence2A2_coeff_22
+  recurrence2A2_coeff_23
+  recurrence2A2_coeff_24
+  recurrence2A2_coeff_25
+  recurrence2A2_coeff_26
+  recurrence2A2_coeff_27
+  recurrence2A2_coeff_28
+  recurrence2A2_coeff_29
+  recurrence2A2_coeff_30
+  recurrence2A2_coeff_31
+  recurrence2A2_coeff_32
+  recurrence2A2_coeff_33
+  recurrence2A2_coeff_34
+  recurrence2A2_coeff_35
+  recurrence2A2_coeff_36
+  recurrence2A2_coeff_37
+  recurrence2A2_coeff_38
+  recurrence2A2_coeff_39
+  recurrence2A2_coeff_40
+  recurrence2A2_coeff_41
+  recurrence2A2_coeff_42
+  recurrence2A2_coeff_43
+  recurrence2A2_coeff_44
+  recurrence2A2_coeff_45
+  recurrence2A2_coeff_46
+  recurrence2A2_coeff_47
+  recurrence2A2_coeff_48
+  recurrence2A2_coeff_49
+  recurrence2A2_coeff_50
+  recurrence2A2_coeff_51
+  recurrence2A2_coeff_52
+  recurrence2A2_coeff_53
+  recurrence2A2_coeff_54
+  recurrence2A2_coeff_55
+  recurrence2A2_coeff_56
+  recurrence2A2_coeff_57
+  recurrence2A2_coeff_58
+  recurrence2A2_coeff_59
+  recurrence2A2_coeff_60
+  recurrence2A2_coeff_61
+  recurrence2A2_coeff_62
+  recurrence2A2_coeff_63
+  recurrence2A2_coeff_64
+  recurrence2A2_coeff_65
+  recurrence2A2_coeff_66
+  recurrence2A2_coeff_67
+  recurrence2A2_coeff_68
+  recurrence2A2_coeff_69
+  recurrence2A2_coeff_70
+  recurrence2A2_coeff_71
+  recurrence2A2_coeff_72
+  recurrence2A2_coeff_73
+  recurrence2A2_coeff_74
+  recurrence2A2_coeff_75
+  recurrence2A2_coeff_76
+  recurrence2A2_coeff_77
+  recurrence2A2_coeff_78
+  recurrence2A2_coeff_79
+  recurrence2A2_coeff_80
+  recurrence2A2_coeff_81
+  recurrence2A2_coeff_82
+  recurrence2A2_coeff_83
+  recurrence2A2_coeff_84
+  recurrence2A2_coeff_85
+  recurrence2A2_coeff_86
+  recurrence2A2_coeff_87
+  recurrence2A2_coeff_88
+  recurrence2A2_coeff_89
+  recurrence2A2_coeff_90
+  recurrence2A2_coeff_91
+  recurrence2A2_coeff_92
+  recurrence2A2_coeff_93
+  recurrence2A2_coeff_94
+  recurrence2A2_coeff_95
+  recurrence2A2_coeff_96
+  recurrence2A2_coeff_97
+  recurrence2A2_coeff_98
+  recurrence2A2_coeff_99
+  recurrence2A2_coeff_100
+  recurrence2A2_coeff_101
+  recurrence2A2_coeff_102
+  recurrence2A2_coeff_103
+  recurrence2A2_coeff_104
+  recurrence2A2_coeff_105
+  recurrence2A2_coeff_106
+  recurrence2A2_coeff_107
+  recurrence2A2_coeff_108
+  recurrence2A2_coeff_109
+  recurrence2A2_coeff_110
+
+private theorem recurrence2Scalar2Left_coeff_232_prefix_zero :
+    (∑ x ∈ Finset.range 122,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (232 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (232 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_232 :
+    recurrence2Scalar2Left.coeff 232 =
+      ((((707 * 10 ^ 70 +
+        6216855858318014245454344527010657955337193215628393408047137716515448) * 10 ^ 70 +
+        5919273010645087380419093525246198151569207675882550749084247013781087) * 10 ^ 70 +
+        7509813582020489598165468407832011793933376082224160887934815893332960) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 233 = 122 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_232_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_233_prefix_zero :
+    (∑ x ∈ Finset.range 123,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (233 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (233 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_233 :
+    recurrence2Scalar2Left.coeff 233 =
+      -((((818 * 10 ^ 70 +
+        2831347473891299341104224473357997804587088636227556439163648767006216) * 10 ^ 70 +
+        3149199279409813974517750380146328981353441253468407555914293686229358) * 10 ^ 70 +
+        7311920038781796105177302879600440896121559886472137621559325925875716) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 234 = 123 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_233_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_234_prefix_zero :
+    (∑ x ∈ Finset.range 124,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (234 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (234 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_234 :
+    recurrence2Scalar2Left.coeff 234 =
+      ((((896 * 10 ^ 70 +
+        7735849924601860883621610956743010493283058924391251167703209916834535) * 10 ^ 70 +
+        4326534962643606793292885130086074002713793968323020139682519113024588) * 10 ^ 70 +
+        7172368009243558030935559259490582835220548729909382108067109984631103) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 235 = 124 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_234_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_235_prefix_zero :
+    (∑ x ∈ Finset.range 125,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (235 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (235 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_235 :
+    recurrence2Scalar2Left.coeff 235 =
+      -((((930 * 10 ^ 70 +
+        5123644934059907459991784031075247992496313217236708123707793861867431) * 10 ^ 70 +
+        8651674472499384689084840574041593567313500822830439715677425520680637) * 10 ^ 70 +
+        9339880251828361586409491233840434956378697693993932909468052904507200) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 236 = 125 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_235_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_236_prefix_zero :
+    (∑ x ∈ Finset.range 126,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (236 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (236 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_236 :
+    recurrence2Scalar2Left.coeff 236 =
+      ((((911 * 10 ^ 70 +
+        4126951390186967175014952324489902053793190795187362676968421761346861) * 10 ^ 70 +
+        9429521900342347182445299732219313687271610904607349970024865682265123) * 10 ^ 70 +
+        1417284838161901518993380121226864877333957857057226565426296658484980) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 237 = 126 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_236_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_237_prefix_zero :
+    (∑ x ∈ Finset.range 127,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (237 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (237 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_237 :
+    recurrence2Scalar2Left.coeff 237 =
+      -((((837 * 10 ^ 70 +
+        6440707964725779203409430846268263234560584870639510055338859571399890) * 10 ^ 70 +
+        2901508055324625081823243776313207870760603515625000830540634619417050) * 10 ^ 70 +
+        4102086007694665047494584426426452646116331595301472002747107762170715) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 238 = 127 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_237_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_238_prefix_zero :
+    (∑ x ∈ Finset.range 128,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (238 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (238 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_238 :
+    recurrence2Scalar2Left.coeff 238 =
+      ((((714 * 10 ^ 70 +
+        3352902129585637134536448280395576007931141638455647531998765446238162) * 10 ^ 70 +
+        7912529231973220982350211739851623555255851419001882272305352773108562) * 10 ^ 70 +
+        3713399345270676312916181811420607794276238037926461387283773297584792) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 239 = 128 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_238_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_239_prefix_zero :
+    (∑ x ∈ Finset.range 129,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (239 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (239 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_239 :
+    recurrence2Scalar2Left.coeff 239 =
+      -((((553 * 10 ^ 70 +
+        0055851771296978269638774316900083964511895972748156383849418346662835) * 10 ^ 70 +
+        0252192300612653076837587045287345203004254855661310413345594945487528) * 10 ^ 70 +
+        7316839836033375386070272378036676996010484948268339583523374967692162) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 240 = 129 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_239_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_240_prefix_zero :
+    (∑ x ∈ Finset.range 130,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (240 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (240 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_240 :
+    recurrence2Scalar2Left.coeff 240 =
+      ((((369 * 10 ^ 70 +
+        8089969617650017046199236547290634137556178912104414124075932423351657) * 10 ^ 70 +
+        6626186115803195210500100524258846293098107773302645912400190454687322) * 10 ^ 70 +
+        0715765187245527617084331929027649119254145570274382859327864983134247) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 241 = 130 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_240_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_241_prefix_zero :
+    (∑ x ∈ Finset.range 131,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (241 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (241 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_241 :
+    recurrence2Scalar2Left.coeff 241 =
+      -((((182 * 10 ^ 70 +
+        9588892528764874056733938450537833435533784298808151018037181366090419) * 10 ^ 70 +
+        2545911235934012525770277696977072394940790794056747663296083435039942) * 10 ^ 70 +
+        0396284884694433064599319553295497199887934196587670707002614830044760) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 242 = 131 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_241_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_242_prefix_zero :
+    (∑ x ∈ Finset.range 132,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (242 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (242 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_242 :
+    recurrence2Scalar2Left.coeff 242 =
+      ((((9 * 10 ^ 70 +
+        8846925522795970319256102706395146390072675598446524771823818316079002) * 10 ^ 70 +
+        8518625171816803155150233051474042942841772595536792982520152228215067) * 10 ^ 70 +
+        1950959799905002200237332077842468627911930450081609491987347265720001) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 243 = 132 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_242_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_243_prefix_zero :
+    (∑ x ∈ Finset.range 133,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (243 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (243 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_243 :
+    recurrence2Scalar2Left.coeff 243 =
+      ((((135 * 10 ^ 70 +
+        2885151205296943290087016165633711972567520799055385250713662951323942) * 10 ^ 70 +
+        1858530065700817089024009864986106561938399176561912683560999746865359) * 10 ^ 70 +
+        8867347309623698109829715697367842981242062527488054988023809031079333) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 244 = 133 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_243_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_244_prefix_zero :
+    (∑ x ∈ Finset.range 134,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (244 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (244 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_244 :
+    recurrence2Scalar2Left.coeff 244 =
+      -((((243 * 10 ^ 70 +
+        4592773425098446371864201349044091981205829389233152055465496044291744) * 10 ^ 70 +
+        6822113950085355872685269516813439128910371592689921738054632706763576) * 10 ^ 70 +
+        8457608557678409146537154059080299192794488663772302464992156680655445) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 245 = 134 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_244_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_245_prefix_zero :
+    (∑ x ∈ Finset.range 135,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (245 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (245 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_245 :
+    recurrence2Scalar2Left.coeff 245 =
+      ((((311 * 10 ^ 70 +
+        2115818301128332975580652587795291558672144565244314364182729761447124) * 10 ^ 70 +
+        1488501829344193858469759864430357952018915932901813006243953635381448) * 10 ^ 70 +
+        4458062869934174850923440723652361090653282737154196696169716686726401) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 246 = 135 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_245_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_246_prefix_zero :
+    (∑ x ∈ Finset.range 136,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (246 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (246 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_246 :
+    recurrence2Scalar2Left.coeff 246 =
+      -((((340 * 10 ^ 70 +
+        4247193071684830204098077960588860242610951533885135842402654068079848) * 10 ^ 70 +
+        9713661776132951489517004752849917874996809710315353093167591009810898) * 10 ^ 70 +
+        7996514281673380660114188125291835737203606314331683375071546718971873) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 247 = 136 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_246_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_247_prefix_zero :
+    (∑ x ∈ Finset.range 137,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (247 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (247 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_247 :
+    recurrence2Scalar2Left.coeff 247 =
+      ((((337 * 10 ^ 70 +
+        0640232498929278261198149520381116626670696546478275747297495465992903) * 10 ^ 70 +
+        9478597549978449743216992895224419088322715204301516020954776469950151) * 10 ^ 70 +
+        2186681896261356297644728082273610388923078356170820411213554206677769) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 248 = 137 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_247_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_248_prefix_zero :
+    (∑ x ∈ Finset.range 138,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (248 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (248 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_248 :
+    recurrence2Scalar2Left.coeff 248 =
+      -((((309 * 10 ^ 70 +
+        5233541682131469026757296408923810255732219208107036763271300929527967) * 10 ^ 70 +
+        1312324149673052689506196461410397231562139627753990559745578646903678) * 10 ^ 70 +
+        6468181035738780882231636975647515196955954900741964759939172972574826) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 249 = 138 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_248_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_249_prefix_zero :
+    (∑ x ∈ Finset.range 139,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (249 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (249 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_249 :
+    recurrence2Scalar2Left.coeff 249 =
+      ((((266 * 10 ^ 70 +
+        9173442251042823002757456087340592617420935294372840415268937800570394) * 10 ^ 70 +
+        1953437019939001661172578613722536825328532472788463050034540015149348) * 10 ^ 70 +
+        6152957171071596453114522525224786226808270121542126814577878137232189) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 250 = 139 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_249_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_250_prefix_zero :
+    (∑ x ∈ Finset.range 140,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (250 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (250 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_250 :
+    recurrence2Scalar2Left.coeff 250 =
+      -((((217 * 10 ^ 70 +
+        6507742346138792599588935267704129440730713358972694068198244627059149) * 10 ^ 70 +
+        4388435367468583683531493032780239150706640173985051516969860961481935) * 10 ^ 70 +
+        0594769488944696833627173144620746706449452300912411086965483234076156) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 251 = 140 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_250_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_251_prefix_zero :
+    (∑ x ∈ Finset.range 141,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (251 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (251 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_251 :
+    recurrence2Scalar2Left.coeff 251 =
+      ((((168 * 10 ^ 70 +
+        4615708005646508854683956369455766085180634204878873105894266406692658) * 10 ^ 70 +
+        4694739831065046999032060412578293088379917010776802659882153209352425) * 10 ^ 70 +
+        7004293656903475975280525123364570802266061571756096564955964862642200) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 252 = 141 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_251_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_252_prefix_zero :
+    (∑ x ∈ Finset.range 142,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (252 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (252 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_252 :
+    recurrence2Scalar2Left.coeff 252 =
+      -((((123 * 10 ^ 70 +
+        9888606592551475842501282448611459808170876100112615106619790667056895) * 10 ^ 70 +
+        7023755140452956011394160071608491751035238510691557442739381173137726) * 10 ^ 70 +
+        7540437189841617549105690433998308323105751132167092345724719941822850) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 253 = 142 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_252_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_253_prefix_zero :
+    (∑ x ∈ Finset.range 143,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (253 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (253 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_253 :
+    recurrence2Scalar2Left.coeff 253 =
+      ((((86 * 10 ^ 70 +
+        7975909115502718323735150582540500639600380590883826141041999110584241) * 10 ^ 70 +
+        1603216626899535252846513871315545574110749685828009724947508426607371) * 10 ^ 70 +
+        7571292366133713056170061680014745471339147934211327927085384451515769) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 254 = 143 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_253_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_254_prefix_zero :
+    (∑ x ∈ Finset.range 144,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (254 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (254 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_254 :
+    recurrence2Scalar2Left.coeff 254 =
+      -((((57 * 10 ^ 70 +
+        7192096561526626215574210573240904494007619217630943951867326490526826) * 10 ^ 70 +
+        9612662217792026033124510680195482787775641856061454718663016835719532) * 10 ^ 70 +
+        3341209582269306544069717479408147679608242681121271902862555957867700) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 255 = 144 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_254_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_255_prefix_zero :
+    (∑ x ∈ Finset.range 145,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (255 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (255 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_255 :
+    recurrence2Scalar2Left.coeff 255 =
+      ((((36 * 10 ^ 70 +
+        3478407511413250978805583271471664074830929434613500488850333207658030) * 10 ^ 70 +
+        7321719806239119634878991580368443108822066650281730710305254117021742) * 10 ^ 70 +
+        6547799918175716424178499222542528073091252479185826552433499609634854) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 256 = 145 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_255_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_256_prefix_zero :
+    (∑ x ∈ Finset.range 146,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (256 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (256 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_256 :
+    recurrence2Scalar2Left.coeff 256 =
+      -((((21 * 10 ^ 70 +
+        5525977439031593701793761186585230879347234863853872232923134596656281) * 10 ^ 70 +
+        4708336595815191968121090694195738116236691462517884883099468747288763) * 10 ^ 70 +
+        3092882163933329774529546953016610134125443934053845204723656821810822) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 257 = 146 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_256_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_257_prefix_zero :
+    (∑ x ∈ Finset.range 147,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (257 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (257 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_257 :
+    recurrence2Scalar2Left.coeff 257 =
+      ((((11 * 10 ^ 70 +
+        9110740918429555808983547629048078302984426169478293085821419456383804) * 10 ^ 70 +
+        5448359736474738176289964166034116541326402516094857890945736017091219) * 10 ^ 70 +
+        5646024925479844565057637605179853587083305868914549880926305480948155) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 258 = 147 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_257_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_258_prefix_zero :
+    (∑ x ∈ Finset.range 148,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (258 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (258 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_258 :
+    recurrence2Scalar2Left.coeff 258 =
+      -((((6 * 10 ^ 70 +
+        0184318090360912529771826557365303943720995083795346553647204307788395) * 10 ^ 70 +
+        7852298125443617341977717214179243026948713960829893071976187852163757) * 10 ^ 70 +
+        2350640768046178923283015469383268219998009345597797853172796832970013) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 259 = 148 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_258_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_259_prefix_zero :
+    (∑ x ∈ Finset.range 149,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (259 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (259 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_259 :
+    recurrence2Scalar2Left.coeff 259 =
+      ((((2 * 10 ^ 70 +
+        6676191412994856814676684403853409338003468122683818884788887563579257) * 10 ^ 70 +
+        7355463411600293872734880162714102261326612017199760831827169959384126) * 10 ^ 70 +
+        6178857617164934492716727408715862704782952810589646266219280857572659) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 260 = 149 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_259_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_260_prefix_zero :
+    (∑ x ∈ Finset.range 150,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (260 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (260 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_260 :
+    recurrence2Scalar2Left.coeff 260 =
+      -(((9226289848534045411367412444498603073485021889740050772879841892701539 * 10 ^ 70 +
+        8146723740080976230182670591546072281779198618733974129781215632859297) * 10 ^ 70 +
+        4489819260951418715728671353893359716009753576130545082725810485915614) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 261 = 150 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_260_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_261_prefix_zero :
+    (∑ x ∈ Finset.range 151,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (261 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (261 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_261 :
+    recurrence2Scalar2Left.coeff 261 =
+      (((1179938556631329913667670067215509498253066421172227942079941164259786 * 10 ^ 70 +
+        2209238678124513642300093346081909445186432677784208872108573229097753) * 10 ^ 70 +
+        2532137118565724888716246483018567512867152615892181062922584347918690) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 262 = 151 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_261_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_262_prefix_zero :
+    (∑ x ∈ Finset.range 152,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (262 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (262 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_262 :
+    recurrence2Scalar2Left.coeff 262 =
+      (((1825946445550394214574994608664965807212487909807002276917450394729272 * 10 ^ 70 +
+        6509367500204365899452077596248037426528040603506370861011435456234133) * 10 ^ 70 +
+        2535442877194922994198382129373744700236205250158339562662663632002460) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 263 = 152 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_262_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_263_prefix_zero :
+    (∑ x ∈ Finset.range 153,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (263 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (263 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_263 :
+    recurrence2Scalar2Left.coeff 263 =
+      -(((2426318286019167090641999366597444765680580312495723884799694149234662 * 10 ^ 70 +
+        7149633149415097514862429154631731032781321106297657374340810312109165) * 10 ^ 70 +
+        4352152362414664152746284443911441325517343873418422642823394057524765) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 264 = 153 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_263_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_264_prefix_zero :
+    (∑ x ∈ Finset.range 154,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (264 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (264 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_264 :
+    recurrence2Scalar2Left.coeff 264 =
+      (((2073838463389261960144987655478877502151519439135150910865889654388252 * 10 ^ 70 +
+        3997107017838538754394870435087716688721044338893404999384207261721724) * 10 ^ 70 +
+        9663253053531678283196862557249203621112538998357806228231989893661760) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 265 = 154 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_264_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_265_prefix_zero :
+    (∑ x ∈ Finset.range 155,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (265 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (265 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_265 :
+    recurrence2Scalar2Left.coeff 265 =
+      -(((1483275939187590590436563444884331439240988811231250347404559267395527 * 10 ^ 70 +
+        5369378510863095263258045115618758454918739594271519885200279250320031) * 10 ^ 70 +
+        3835332664086046177764095953729293481964894704154742555195118647309537) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 266 = 155 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_265_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_266_prefix_zero :
+    (∑ x ∈ Finset.range 156,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (266 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (266 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_266 :
+    recurrence2Scalar2Left.coeff 266 =
+      (((951124978647613712317658052634494464672792891447421961509321625939871 * 10 ^ 70 +
+        8875655298986093469910578922881153347423501366186165220952937291271721) * 10 ^ 70 +
+        8624877191686012976065494955325625883379216412823898880847638310038988) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 267 = 156 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_266_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_267_prefix_zero :
+    (∑ x ∈ Finset.range 157,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (267 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (267 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_267 :
+    recurrence2Scalar2Left.coeff 267 =
+      -(((562323015784705464575325676745148016118947683616473896011592856790021 * 10 ^ 70 +
+        4225245689276427312196469804640386087233969951586116376184289075228926) * 10 ^ 70 +
+        3387696686324152607586331412925899803730204743370368845972006104172935) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 268 = 157 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_267_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_268_prefix_zero :
+    (∑ x ∈ Finset.range 158,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (268 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (268 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_268 :
+    recurrence2Scalar2Left.coeff 268 =
+      (((310731400301363768568156639435452971856804394003809205985284268195278 * 10 ^ 70 +
+        0267856902615270556903121518189854743872586353042014277102132199048612) * 10 ^ 70 +
+        9546818401325363430852045964125126760822411781764257710316630875886536) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 269 = 158 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 15 +
+      0 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_268_prefix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_269_prefix_zero :
+    (∑ x ∈ Finset.range 159,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (269 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (269 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+private theorem recurrence2Scalar2Left_coeff_269_suffix_zero :
+    (∑ x ∈ Finset.range 1,
+      recurrence2LeadingSquare.coeff (269 + x) *
+        remainder2Coefficient2.coeff (269 - (269 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2LeadingSquare_coeff_high (269 + x) (by omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_269 :
+    recurrence2Scalar2Left.coeff 269 =
+      -(((161619670603504264624253083893428384438013212509274924972848550173731 * 10 ^ 70 +
+        2931400290597055661725747786423910649719249419456465065628345282034806) * 10 ^ 70 +
+        8825454731282498201366144424794767011722384601099808789917963119128269) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 270 = 159 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 14 +
+      1 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_269_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence2Scalar2Left_coeff_269_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_270_prefix_zero :
+    (∑ x ∈ Finset.range 160,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (270 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (270 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+private theorem recurrence2Scalar2Left_coeff_270_suffix_zero :
+    (∑ x ∈ Finset.range 2,
+      recurrence2LeadingSquare.coeff (269 + x) *
+        remainder2Coefficient2.coeff (270 - (269 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2LeadingSquare_coeff_high (269 + x) (by omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_270 :
+    recurrence2Scalar2Left.coeff 270 =
+      (((79390195993102113735721336963346318721172865558635416490829980452213 * 10 ^ 70 +
+        6521372385887028724964570880987614617816116419708793690095224995426477) * 10 ^ 70 +
+        2972093392864795644386006740632815178062791520085387346818378683065405) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 271 = 160 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 13 +
+      2 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_270_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence2Scalar2Left_coeff_270_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence2Scalar2Left_coeff_271_prefix_zero :
+    (∑ x ∈ Finset.range 161,
+      recurrence2LeadingSquare.coeff x * remainder2Coefficient2.coeff (271 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2A2_coeff_high (271 - x) (by
+    simp only [Finset.mem_range] at hx
+    omega)]
+  norm_num
+
+private theorem recurrence2Scalar2Left_coeff_271_suffix_zero :
+    (∑ x ∈ Finset.range 3,
+      recurrence2LeadingSquare.coeff (269 + x) *
+        remainder2Coefficient2.coeff (271 - (269 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  rw [recurrence2LeadingSquare_coeff_high (269 + x) (by omega)]
+  norm_num
+
+theorem recurrence2Scalar2Left_coeff_271 :
+    recurrence2Scalar2Left.coeff 271 =
+      -(((36859021970255785540198358948806023717936605463095648747275197215060 * 10 ^ 70 +
+        3832767985845740166526134630778420410368063214850904912485042049125590) * 10 ^ 70 +
+        9006655480480181118755635247642585361312552903071165066333462390256449) : ℚ) := by
+  unfold recurrence2Scalar2Left
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  norm_num only [Nat.succ_eq_add_one]
+  rw [show 272 = 161 +
+    111 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 111 = 32 +
+      79 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 79 = 32 +
+      47 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 47 = 32 +
+      15 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 15 = 12 +
+      3 by norm_num, Finset.sum_range_add]
+  rw [recurrence2Scalar2Left_coeff_271_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence2Scalar2Left_coeff_271_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+end
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

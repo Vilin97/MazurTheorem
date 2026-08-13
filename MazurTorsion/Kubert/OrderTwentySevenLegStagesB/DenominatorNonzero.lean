@@ -4,13 +4,22 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
 
 /-!
 # Nonvanishing of the trisection denominator
 
 The independent nonvanishing steps and their denominator consequence.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -87,3 +96,5 @@ lemma tl_d_ne {f ξ : ℚ} (hf0 : f ≠ 0) (hf1 : f ≠ 1)
 
 
 end MazurTorsion.Kubert
+
+end

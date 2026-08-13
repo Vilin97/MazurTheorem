@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar
 import Mathlib.Tactic.LinearCombination
 
 /-!
@@ -13,7 +13,7 @@ import Mathlib.Tactic.LinearCombination
 This is a checked coefficient-lookup shard for the fifth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

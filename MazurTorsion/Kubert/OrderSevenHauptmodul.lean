@@ -3,9 +3,9 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenParametrization
-import MazurTorsion.Kubert.OrderSevenCorrespondence
+module
+public import MazurTorsion.Kubert.OrderSevenParametrization
+public import MazurTorsion.Kubert.OrderSevenCorrespondence
 
 /-!
 # The Hauptmodul attached to an exact order-seven point
@@ -15,7 +15,7 @@ level-seven Hauptmodul.  This file retains the cleared `j`-identity against
 the original Weierstrass curve, so consumers need not expose the auxiliary
 normal-form coordinate change.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert

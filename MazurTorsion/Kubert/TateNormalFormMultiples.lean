@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.TateNormalForm
+module
+public import MazurTorsion.Kubert.TateNormalForm
 
 /-!
 # Further multiples on Tate normal form
@@ -18,7 +18,7 @@ The central lemma is a small recurrence: if `Q = (x, y)` and `x ≠ 0`, it compu
 The formulas for `5P` and `6P` are then consequences of the already checked formula for `4P`.
 Every denominator used below has a corresponding explicit nonvanishing hypothesis.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert

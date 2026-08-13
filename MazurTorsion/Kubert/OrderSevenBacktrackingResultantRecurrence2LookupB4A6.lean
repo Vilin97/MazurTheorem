@@ -3,9 +3,9 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB4A6Part0
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB4A6Part1
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB4A6Part0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB4A6Part1
 
 /-!
 # Recurrence 2 lookup certificate: B4A6 degree bound
@@ -13,7 +13,7 @@ import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB4A6P
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

@@ -4,14 +4,21 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps0To1
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps2To4
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps0To1
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoXSteps2To4
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The second-weight value
 
 The aggregate second-weight identity.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -88,3 +95,5 @@ lemma tlWTwoX_val {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3
 
 
 end MazurTorsion.Kubert
+
+end

@@ -1,0 +1,195 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+module
+public import MazurTorsion.Kubert.OrderSevenCoefficientSimp
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupA3
+
+/-!
+# Bounded coefficient simplification rules
+
+This internal rule packet is consumed by the checked coefficient shards for
+`OrderSevenBacktrackingResultantRecurrence5LookupA3SquarePart0`.
+It keeps generated convolution proofs on their bounded simp set.
+-/
+public section
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+attribute [orderSevenCoefficient]
+  recurrence5A3_coeff_0
+  recurrence5A3_coeff_1
+  recurrence5A3_coeff_2
+  recurrence5A3_coeff_3
+  recurrence5A3_coeff_4
+  recurrence5A3_coeff_5
+  recurrence5A3_coeff_6
+  recurrence5A3_coeff_7
+  recurrence5A3_coeff_8
+  recurrence5A3_coeff_9
+  recurrence5A3_coeff_10
+  recurrence5A3_coeff_11
+  recurrence5A3_coeff_12
+  recurrence5A3_coeff_13
+  recurrence5A3_coeff_14
+  recurrence5A3_coeff_15
+  recurrence5A3_coeff_16
+  recurrence5A3_coeff_17
+  recurrence5A3_coeff_18
+  recurrence5A3_coeff_19
+  recurrence5A3_coeff_20
+  recurrence5A3_coeff_21
+  recurrence5A3_coeff_22
+  recurrence5A3_coeff_23
+  recurrence5A3_coeff_24
+  recurrence5A3_coeff_25
+  recurrence5A3_coeff_26
+  recurrence5A3_coeff_27
+  recurrence5A3_coeff_28
+  recurrence5A3_coeff_29
+  recurrence5A3_coeff_30
+  recurrence5A3_coeff_31
+  recurrence5A3_coeff_32
+  recurrence5A3_coeff_33
+  recurrence5A3_coeff_34
+  recurrence5A3_coeff_35
+  recurrence5A3_coeff_36
+  recurrence5A3_coeff_37
+  recurrence5A3_coeff_38
+  recurrence5A3_coeff_39
+  recurrence5A3_coeff_40
+  recurrence5A3_coeff_41
+  recurrence5A3_coeff_42
+  recurrence5A3_coeff_43
+  recurrence5A3_coeff_44
+  recurrence5A3_coeff_45
+  recurrence5A3_coeff_46
+  recurrence5A3_coeff_47
+  recurrence5A3_coeff_48
+  recurrence5A3_coeff_49
+  recurrence5A3_coeff_50
+  recurrence5A3_coeff_51
+  recurrence5A3_coeff_52
+  recurrence5A3_coeff_53
+  recurrence5A3_coeff_54
+  recurrence5A3_coeff_55
+  recurrence5A3_coeff_56
+  recurrence5A3_coeff_57
+  recurrence5A3_coeff_58
+  recurrence5A3_coeff_59
+  recurrence5A3_coeff_60
+  recurrence5A3_coeff_61
+  recurrence5A3_coeff_62
+  recurrence5A3_coeff_63
+
+attribute [orderSevenCoefficient]
+  recurrence5A3_coeff_64
+  recurrence5A3_coeff_65
+  recurrence5A3_coeff_66
+  recurrence5A3_coeff_67
+  recurrence5A3_coeff_68
+  recurrence5A3_coeff_69
+  recurrence5A3_coeff_70
+  recurrence5A3_coeff_71
+  recurrence5A3_coeff_72
+  recurrence5A3_coeff_73
+  recurrence5A3_coeff_74
+  recurrence5A3_coeff_75
+  recurrence5A3_coeff_76
+  recurrence5A3_coeff_77
+  recurrence5A3_coeff_78
+  recurrence5A3_coeff_79
+  recurrence5A3_coeff_80
+  recurrence5A3_coeff_81
+  recurrence5A3_coeff_82
+  recurrence5A3_coeff_83
+  recurrence5A3_coeff_84
+  recurrence5A3_coeff_85
+  recurrence5A3_coeff_86
+  recurrence5A3_coeff_87
+  recurrence5A3_coeff_88
+  recurrence5A3_coeff_89
+  recurrence5A3_coeff_90
+  recurrence5A3_coeff_91
+  recurrence5A3_coeff_92
+  recurrence5A3_coeff_93
+  recurrence5A3_coeff_94
+  recurrence5A3_coeff_95
+  recurrence5A3_coeff_96
+  recurrence5A3_coeff_97
+  recurrence5A3_coeff_98
+  recurrence5A3_coeff_99
+  recurrence5A3_coeff_100
+  recurrence5A3_coeff_101
+  recurrence5A3_coeff_102
+  recurrence5A3_coeff_103
+  recurrence5A3_coeff_104
+  recurrence5A3_coeff_105
+  recurrence5A3_coeff_106
+  recurrence5A3_coeff_107
+  recurrence5A3_coeff_108
+  recurrence5A3_coeff_109
+  recurrence5A3_coeff_110
+  recurrence5A3_coeff_111
+  recurrence5A3_coeff_112
+  recurrence5A3_coeff_113
+  recurrence5A3_coeff_114
+  recurrence5A3_coeff_115
+  recurrence5A3_coeff_116
+  recurrence5A3_coeff_117
+  recurrence5A3_coeff_118
+  recurrence5A3_coeff_119
+  recurrence5A3_coeff_120
+  recurrence5A3_coeff_121
+  recurrence5A3_coeff_122
+  recurrence5A3_coeff_123
+  recurrence5A3_coeff_124
+  recurrence5A3_coeff_125
+  recurrence5A3_coeff_126
+  recurrence5A3_coeff_127
+
+attribute [orderSevenCoefficient]
+  recurrence5A3_coeff_128
+  recurrence5A3_coeff_129
+  recurrence5A3_coeff_130
+  recurrence5A3_coeff_131
+  recurrence5A3_coeff_132
+  recurrence5A3_coeff_133
+  recurrence5A3_coeff_134
+  recurrence5A3_coeff_135
+  recurrence5A3_coeff_136
+  recurrence5A3_coeff_137
+  recurrence5A3_coeff_138
+  recurrence5A3_coeff_139
+  recurrence5A3_coeff_140
+  recurrence5A3_coeff_141
+  recurrence5A3_coeff_142
+  recurrence5A3_coeff_143
+  recurrence5A3_coeff_144
+  recurrence5A3_coeff_145
+  recurrence5A3_coeff_146
+  recurrence5A3_coeff_147
+  recurrence5A3_coeff_148
+  recurrence5A3_coeff_149
+  recurrence5A3_coeff_150
+  recurrence5A3_coeff_151
+  recurrence5A3_coeff_152
+  recurrence5A3_coeff_153
+  recurrence5A3_coeff_154
+  recurrence5A3_coeff_155
+  recurrence5A3_coeff_156
+  recurrence5A3_coeff_157
+  recurrence5A3_coeff_158
+  recurrence5A3_coeff_159
+  recurrence5A3_coeff_160
+  recurrence5A3_coeff_161
+  recurrence5A3_coeff_162
+  recurrence5A3_coeff_163
+  recurrence5A3_coeff_164
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

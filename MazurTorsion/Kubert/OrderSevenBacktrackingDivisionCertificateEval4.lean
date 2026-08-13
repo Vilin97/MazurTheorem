@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingDivisionCertificateEval3
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingDivisionCertificateEval3
 import Mathlib.Tactic.Ring
 
 /-!
@@ -445,7 +445,7 @@ private lemma eval_24 (d : ℚ) :
         WeierstrassCurve.b₈]
   ring
 
-theorem divisionEvalBlock4 (d : ℚ) (i : Fin 5) :
+public theorem divisionEvalBlock4 (d : ℚ) (i : Fin 5) :
     DivisionEvalCertificate d ((i : ℚ) + 20) := by
   fin_cases i
   · (convert eval_20 d using 1; norm_num)

@@ -4,7 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part23
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.Ring
 
 /-!
 # Third-leg weighted zero sum
@@ -12,6 +15,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The expanded weighted certificate terms sum to zero before the final staged
 combination.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -39,3 +46,5 @@ lemma zl_zeroZ (f Z : ℚ) :
   ring1
 
 end MazurTorsion.Kubert
+
+end

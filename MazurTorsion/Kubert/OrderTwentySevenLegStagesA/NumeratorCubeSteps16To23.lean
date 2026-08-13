@@ -4,13 +4,24 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part04
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part05
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part06
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Numerator-cube identities 16 through 23
 
 The third independent numerator-cube coefficient identities.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -139,3 +150,5 @@ lemma tlNCb_s23 {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 f
 
 
 end MazurTorsion.Kubert
+
+end

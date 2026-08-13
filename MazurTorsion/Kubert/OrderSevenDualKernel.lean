@@ -3,9 +3,9 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenIsogeny
-import Mathlib.RingTheory.Polynomial.RationalRoot
+module
+public import MazurTorsion.Kubert.OrderSevenIsogeny
+public import Mathlib.RingTheory.Polynomial.RationalRoot
 import Mathlib.Tactic.ComputeDegree
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Tactic.NormNum
@@ -24,7 +24,7 @@ The proof makes the fixed real-cyclotomic cubic
 `z³ + z² - 2z - 1` appear by an explicit rational change of primitive
 element.  That cubic has no rational root by the rational-root theorem.
 -/
-
+@[expose] public section
 namespace MazurTorsion.Kubert
 
 private noncomputable def sevenCyclotomicCubic : Polynomial ℤ :=
