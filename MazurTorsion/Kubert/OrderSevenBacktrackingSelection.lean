@@ -3,10 +3,10 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.EllipticCurve.DoublingCoordinates
-import MazurTorsion.Kubert.OrderSevenHauptmodulClearing
-import MazurTorsion.Kubert.OrderSevenIsogeny
+module
+public import MazurTorsion.EllipticCurve.DoublingCoordinates
+public import MazurTorsion.Kubert.OrderSevenHauptmodulClearing
+public import MazurTorsion.Kubert.OrderSevenIsogeny
 import Mathlib.Tactic.Ring
 
 /-!
@@ -23,7 +23,7 @@ Vélu image of such a point is not a kernel pole, lies on the quotient, and
 its abscissa satisfies the selection polynomial whenever the two
 Hauptmodul parameters agree.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert

@@ -382,60 +382,80 @@ identifies its noncuspidal Tate substitution with the public degree-40
 factor.  The durable source, retrieval date, and content hash are recorded
 in `docs/PRIOR_ART.md`.  The displayed identity is independently checked by
 Lean's ring normalizer. -/
+private def orderTwentyFiveRawSutherlandCoefficient0 (s : ℚ) : ℚ :=
+  s ^ 10
+
+private def orderTwentyFiveRawSutherlandCoefficient1 (s : ℚ) : ℚ :=
+  6 * s ^ 10 - 28 * s ^ 9 + 21 * s ^ 8 - 15 * s ^ 7 +
+    10 * s ^ 6 - 6 * s ^ 5 + 3 * s ^ 4 - s ^ 3
+
+private def orderTwentyFiveRawSutherlandCoefficient2 (s : ℚ) : ℚ :=
+  s ^ 15 - 6 * s ^ 14 + 21 * s ^ 13 - 56 * s ^ 12 + 126 * s ^ 11 -
+    231 * s ^ 10 + 266 * s ^ 9 - 126 * s ^ 8 + 96 * s ^ 7 -
+    91 * s ^ 6 + 75 * s ^ 5 - 45 * s ^ 4 + 15 * s ^ 3
+
+private def orderTwentyFiveRawSutherlandCoefficient3 (s : ℚ) : ℚ :=
+  s ^ 15 - 9 * s ^ 14 + 25 * s ^ 13 - 35 * s ^ 12 + 45 * s ^ 11 -
+    181 * s ^ 10 + 569 * s ^ 9 - 705 * s ^ 8 + 5 * s ^ 7 +
+    470 * s ^ 6 - 540 * s ^ 5 + 340 * s ^ 4 - 105 * s ^ 3
+
+private def orderTwentyFiveRawSutherlandCoefficient4 (s : ℚ) : ℚ :=
+  s ^ 15 - 12 * s ^ 14 + 48 * s ^ 13 - 49 * s ^ 12 - 165 * s ^ 11 +
+    609 * s ^ 10 - 433 * s ^ 9 - 1623 * s ^ 8 + 4299 * s ^ 7 -
+    4615 * s ^ 6 + 3435 * s ^ 5 - 1740 * s ^ 4 + 455 * s ^ 3
+
+private def orderTwentyFiveRawSutherlandCoefficient5 (s : ℚ) : ℚ :=
+  s ^ 15 - 15 * s ^ 14 + 90 * s ^ 13 - 245 * s ^ 12 + 90 * s ^ 11 +
+    1587 * s ^ 10 - 6145 * s ^ 9 + 12270 * s ^ 8 - 15060 * s ^ 7 +
+    12520 * s ^ 6 - 8214 * s ^ 5 + 3660 * s ^ 4 - 685 * s ^ 3 -
+    120 * s ^ 2 + 15 * s - 1
+
+private def orderTwentyFiveRawSutherlandCoefficient6 (s : ℚ) : ℚ :=
+  s ^ 15 - 18 * s ^ 14 + 151 * s ^ 13 - 770 * s ^ 12 + 2655 * s ^ 11 -
+    6558 * s ^ 10 + 11834 * s ^ 9 - 15408 * s ^ 8 + 14630 * s ^ 7 -
+    11195 * s ^ 6 + 7227 * s ^ 5 - 2441 * s ^ 4 - 388 * s ^ 3 +
+    555 * s ^ 2 - 70 * s + 5
+
+private def orderTwentyFiveRawSutherlandCoefficient7 (s : ℚ) : ℚ :=
+  -21 * s ^ 10 + 161 * s ^ 9 - 351 * s ^ 8 - 144 * s ^ 7 +
+    1289 * s ^ 6 - 789 * s ^ 5 - 1551 * s ^ 4 + 2166 * s ^ 3 -
+    996 * s ^ 2 + 126 * s - 10
+
+private def orderTwentyFiveRawSutherlandCoefficient8 (s : ℚ) : ℚ :=
+  -6 * s ^ 10 + 74 * s ^ 9 - 345 * s ^ 8 + 690 * s ^ 7 -
+    185 * s ^ 6 - 1659 * s ^ 5 + 3051 * s ^ 4 - 2320 * s ^ 3 +
+    840 * s ^ 2 - 105 * s + 10
+
+private def orderTwentyFiveRawSutherlandCoefficient9 (s : ℚ) : ℚ :=
+  -s ^ 10 + 17 * s ^ 9 - 123 * s ^ 8 + 494 * s ^ 7 - 1205 * s ^ 6 +
+    1836 * s ^ 5 - 1732 * s ^ 4 + 968 * s ^ 3 - 294 * s ^ 2 +
+    35 * s - 5
+
+private def orderTwentyFiveRawSutherlandCoefficient10 (_s : ℚ) : ℚ :=
+  1
+
 private def orderTwentyFiveRawSutherlandPolynomialChunk0 (r s : ℚ) : ℚ :=
-  r ^ 10 - r ^ 9 * s ^ 10 + 17 * r ^ 9 * s ^ 9 - 123 * r ^ 9 * s ^ 8 +
-    494 * r ^ 9 * s ^ 7 - 1205 * r ^ 9 * s ^ 6 + 1836 * r ^ 9 * s ^ 5 -
-    1732 * r ^ 9 * s ^ 4 + 968 * r ^ 9 * s ^ 3 - 294 * r ^ 9 * s ^ 2 +
-    35 * r ^ 9 * s - 5 * r ^ 9 - 6 * r ^ 8 * s ^ 10 +
-    74 * r ^ 8 * s ^ 9 - 345 * r ^ 8 * s ^ 8 + 690 * r ^ 8 * s ^ 7 -
-    185 * r ^ 8 * s ^ 6 - 1659 * r ^ 8 * s ^ 5 + 3051 * r ^ 8 * s ^ 4 -
-    2320 * r ^ 8 * s ^ 3 + 840 * r ^ 8 * s ^ 2 - 105 * r ^ 8 * s +
-    10 * r ^ 8
+  orderTwentyFiveRawSutherlandCoefficient10 s * r ^ 10 +
+    orderTwentyFiveRawSutherlandCoefficient9 s * r ^ 9 +
+    orderTwentyFiveRawSutherlandCoefficient8 s * r ^ 8
 
 private def orderTwentyFiveRawSutherlandPolynomialChunk1 (r s : ℚ) : ℚ :=
-  -21 * r ^ 7 * s ^ 10 + 161 * r ^ 7 * s ^ 9 -
-    351 * r ^ 7 * s ^ 8 - 144 * r ^ 7 * s ^ 7 + 1289 * r ^ 7 * s ^ 6 -
-    789 * r ^ 7 * s ^ 5 - 1551 * r ^ 7 * s ^ 4 + 2166 * r ^ 7 * s ^ 3 -
-    996 * r ^ 7 * s ^ 2 + 126 * r ^ 7 * s - 10 * r ^ 7 +
-    r ^ 6 * s ^ 15 - 18 * r ^ 6 * s ^ 14 + 151 * r ^ 6 * s ^ 13 -
-    770 * r ^ 6 * s ^ 12 + 2655 * r ^ 6 * s ^ 11 - 6558 * r ^ 6 * s ^ 10 +
-    11834 * r ^ 6 * s ^ 9 - 15408 * r ^ 6 * s ^ 8 +
-    14630 * r ^ 6 * s ^ 7 - 11195 * r ^ 6 * s ^ 6 +
-    7227 * r ^ 6 * s ^ 5 - 2441 * r ^ 6 * s ^ 4 - 388 * r ^ 6 * s ^ 3 +
-    555 * r ^ 6 * s ^ 2 - 70 * r ^ 6 * s + 5 * r ^ 6
+  orderTwentyFiveRawSutherlandCoefficient7 s * r ^ 7 +
+    orderTwentyFiveRawSutherlandCoefficient6 s * r ^ 6
 
 private def orderTwentyFiveRawSutherlandPolynomialChunk2 (r s : ℚ) : ℚ :=
-  r ^ 5 * s ^ 15 - 15 * r ^ 5 * s ^ 14 + 90 * r ^ 5 * s ^ 13 -
-    245 * r ^ 5 * s ^ 12 + 90 * r ^ 5 * s ^ 11 + 1587 * r ^ 5 * s ^ 10 -
-    6145 * r ^ 5 * s ^ 9 + 12270 * r ^ 5 * s ^ 8 -
-    15060 * r ^ 5 * s ^ 7 + 12520 * r ^ 5 * s ^ 6 -
-    8214 * r ^ 5 * s ^ 5 + 3660 * r ^ 5 * s ^ 4 - 685 * r ^ 5 * s ^ 3 -
-    120 * r ^ 5 * s ^ 2 + 15 * r ^ 5 * s - r ^ 5
+  orderTwentyFiveRawSutherlandCoefficient5 s * r ^ 5
 
 private def orderTwentyFiveRawSutherlandPolynomialChunk3 (r s : ℚ) : ℚ :=
-  r ^ 4 * s ^ 15 - 12 * r ^ 4 * s ^ 14 + 48 * r ^ 4 * s ^ 13 -
-    49 * r ^ 4 * s ^ 12 -
-    165 * r ^ 4 * s ^ 11 + 609 * r ^ 4 * s ^ 10 - 433 * r ^ 4 * s ^ 9 -
-    1623 * r ^ 4 * s ^ 8 + 4299 * r ^ 4 * s ^ 7 -
-    4615 * r ^ 4 * s ^ 6 + 3435 * r ^ 4 * s ^ 5 -
-    1740 * r ^ 4 * s ^ 4 + 455 * r ^ 4 * s ^ 3
+  orderTwentyFiveRawSutherlandCoefficient4 s * r ^ 4
 
 private def orderTwentyFiveRawSutherlandPolynomialChunk4 (r s : ℚ) : ℚ :=
-  r ^ 3 * s ^ 15 - 9 * r ^ 3 * s ^ 14 + 25 * r ^ 3 * s ^ 13 -
-    35 * r ^ 3 * s ^ 12 +
-    45 * r ^ 3 * s ^ 11 - 181 * r ^ 3 * s ^ 10 + 569 * r ^ 3 * s ^ 9 -
-    705 * r ^ 3 * s ^ 8 + 5 * r ^ 3 * s ^ 7 + 470 * r ^ 3 * s ^ 6 -
-    540 * r ^ 3 * s ^ 5 + 340 * r ^ 3 * s ^ 4 - 105 * r ^ 3 * s ^ 3 +
-    r ^ 2 * s ^ 15 - 6 * r ^ 2 * s ^ 14 + 21 * r ^ 2 * s ^ 13 -
-    56 * r ^ 2 * s ^ 12 + 126 * r ^ 2 * s ^ 11 - 231 * r ^ 2 * s ^ 10 +
-    266 * r ^ 2 * s ^ 9 - 126 * r ^ 2 * s ^ 8 + 96 * r ^ 2 * s ^ 7 -
-    91 * r ^ 2 * s ^ 6 + 75 * r ^ 2 * s ^ 5 - 45 * r ^ 2 * s ^ 4 +
-    15 * r ^ 2 * s ^ 3
+  orderTwentyFiveRawSutherlandCoefficient3 s * r ^ 3 +
+    orderTwentyFiveRawSutherlandCoefficient2 s * r ^ 2
 
 private def orderTwentyFiveRawSutherlandPolynomialChunk5 (r s : ℚ) : ℚ :=
-  6 * r * s ^ 10 - 28 * r * s ^ 9 +
-    21 * r * s ^ 8 - 15 * r * s ^ 7 + 10 * r * s ^ 6 - 6 * r * s ^ 5 +
-    3 * r * s ^ 4 - r * s ^ 3 + s ^ 10
+  orderTwentyFiveRawSutherlandCoefficient1 s * r +
+    orderTwentyFiveRawSutherlandCoefficient0 s
 
 private def orderTwentyFiveRawSutherlandPolynomial (r s : ℚ) : ℚ :=
   orderTwentyFiveRawSutherlandPolynomialChunk0 r s +
@@ -518,18 +538,40 @@ private def orderTwentyFiveRawBrunaultV (r s : ℚ) : ℚ :=
 
 /- The numerator left by the exceptional diagonal `u = 1` on the raw
 Sutherland chart.  The generated Bézout identity is checked below by `ring`. -/
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient0 (s : ℚ) : ℚ :=
+  -s ^ 4 + s ^ 3 - s ^ 2
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient1 (s : ℚ) : ℚ :=
+  -s ^ 8 + s ^ 7 + 2 * s ^ 6 - 10 * s ^ 5 + 21 * s ^ 4 -
+    19 * s ^ 3 + 12 * s ^ 2
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient2 (s : ℚ) : ℚ :=
+  s ^ 9 - 8 * s ^ 8 + 33 * s ^ 7 - 72 * s ^ 6 + 119 * s ^ 5 -
+    144 * s ^ 4 + 108 * s ^ 3 - 50 * s ^ 2 - 2 * s
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient3 (s : ℚ) : ℚ :=
+  -s ^ 9 + 7 * s ^ 8 - 26 * s ^ 7 + 69 * s ^ 6 - 154 * s ^ 5 +
+    204 * s ^ 4 - 146 * s ^ 3 + 45 * s ^ 2 + 23 * s - 1
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient4 (s : ℚ) : ℚ :=
+  -s ^ 8 + 12 * s ^ 7 - 53 * s ^ 6 + 114 * s ^ 5 - 106 * s ^ 4 +
+    23 * s ^ 3 + 48 * s ^ 2 - 54 * s + 2
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient5 (s : ℚ) : ℚ :=
+  s ^ 7 - 10 * s ^ 6 + 42 * s ^ 5 - 94 * s ^ 4 + 117 * s ^ 3 -
+    94 * s ^ 2 + 44 * s
+
+private def orderTwentyFiveRawDiagonalNumeratorCoefficient6 (s : ℚ) : ℚ :=
+  -s ^ 3 + 4 * s ^ 2 - 2 * s - 2
+
 private def orderTwentyFiveRawDiagonalNumerator (r s : ℚ) : ℚ :=
-  (-s ^ 3 + 4 * s ^ 2 - 2 * s - 2) * r ^ 6 +
-    (s ^ 7 - 10 * s ^ 6 + 42 * s ^ 5 - 94 * s ^ 4 + 117 * s ^ 3 -
-      94 * s ^ 2 + 44 * s) * r ^ 5 +
-    (-s ^ 8 + 12 * s ^ 7 - 53 * s ^ 6 + 114 * s ^ 5 - 106 * s ^ 4 +
-      23 * s ^ 3 + 48 * s ^ 2 - 54 * s + 2) * r ^ 4 +
-    (-s ^ 9 + 7 * s ^ 8 - 26 * s ^ 7 + 69 * s ^ 6 - 154 * s ^ 5 +
-      204 * s ^ 4 - 146 * s ^ 3 + 45 * s ^ 2 + 23 * s - 1) * r ^ 3 +
-    (s ^ 9 - 8 * s ^ 8 + 33 * s ^ 7 - 72 * s ^ 6 + 119 * s ^ 5 -
-      144 * s ^ 4 + 108 * s ^ 3 - 50 * s ^ 2 - 2 * s) * r ^ 2 +
-    (-s ^ 8 + s ^ 7 + 2 * s ^ 6 - 10 * s ^ 5 + 21 * s ^ 4 -
-      19 * s ^ 3 + 12 * s ^ 2) * r - s ^ 4 + s ^ 3 - s ^ 2
+  orderTwentyFiveRawDiagonalNumeratorCoefficient6 s * r ^ 6 +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient5 s * r ^ 5 +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient4 s * r ^ 4 +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient3 s * r ^ 3 +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient2 s * r ^ 2 +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient1 s * r +
+    orderTwentyFiveRawDiagonalNumeratorCoefficient0 s
 
 private def orderTwentyFiveRawDiagonalEliminant (s : ℚ) : ℚ :=
   5 * s ^ 8 + 5 * s ^ 7 - 40 * s ^ 6 + 55 * s ^ 5 - 19 * s ^ 4 -
@@ -862,30 +904,518 @@ private def orderTwentyFiveRawDiagonalB (r s : ℚ) : ℚ :=
     + orderTwentyFiveRawDiagonalB1 s * r
     + orderTwentyFiveRawDiagonalB0 s
 
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_0 (s : ℚ) :
+    s ^ 4 * (s - 1) ^ 53 * orderTwentyFiveRawDiagonalEliminant s =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalEliminant,
+      orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_1 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_2 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_3 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_4 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_5 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient0 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient0,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_6 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient1 s
+      + orderTwentyFiveRawDiagonalB0 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient1,
+      orderTwentyFiveRawDiagonalB0,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_7 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient2 s
+      + orderTwentyFiveRawDiagonalB1 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient2,
+      orderTwentyFiveRawDiagonalB1,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_8 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient3 s
+      + orderTwentyFiveRawDiagonalB2 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient3,
+      orderTwentyFiveRawDiagonalB2,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_9 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient4 s
+      + orderTwentyFiveRawDiagonalB3 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient0 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient4,
+      orderTwentyFiveRawDiagonalB3,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient0]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_10 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA0 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient5 s
+      + orderTwentyFiveRawDiagonalB4 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient1 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA0,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient5,
+      orderTwentyFiveRawDiagonalB4,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient1]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_11 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA1 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient6 s
+      + orderTwentyFiveRawDiagonalB5 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient2 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA1,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient6,
+      orderTwentyFiveRawDiagonalB5,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient2]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_12 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA2 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient7 s
+      + orderTwentyFiveRawDiagonalB6 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient3 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA2,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient7,
+      orderTwentyFiveRawDiagonalB6,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient3]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_13 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA3 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient8 s
+      + orderTwentyFiveRawDiagonalB7 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient4 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA3,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient8,
+      orderTwentyFiveRawDiagonalB7,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient4]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_14 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA4 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient9 s
+      + orderTwentyFiveRawDiagonalB8 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient5 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA4,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient9,
+      orderTwentyFiveRawDiagonalB8,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient5]
+  ring
+
+private theorem orderTwentyFiveRawDiagonal_certificate_coefficient_15 (s : ℚ) :
+    0 =
+      orderTwentyFiveRawDiagonalA5 s * orderTwentyFiveRawSutherlandCoefficient10 s
+      + orderTwentyFiveRawDiagonalB9 s * orderTwentyFiveRawDiagonalNumeratorCoefficient6 s := by
+  simp only [
+    orderTwentyFiveRawDiagonalA5,
+      orderTwentyFiveRawSutherlandCoefficient10,
+      orderTwentyFiveRawDiagonalB9,
+      orderTwentyFiveRawDiagonalNumeratorCoefficient6]
+  ring
+
 private theorem orderTwentyFiveRawDiagonal_certificate (r s : ℚ) :
     s ^ 4 * (s - 1) ^ 53 * orderTwentyFiveRawDiagonalEliminant s =
       orderTwentyFiveRawDiagonalA r s * orderTwentyFiveRawSutherlandPolynomial r s +
         orderTwentyFiveRawDiagonalB r s * orderTwentyFiveRawDiagonalNumerator r s := by
+  have h0 := orderTwentyFiveRawDiagonal_certificate_coefficient_0 s
+  have h1 := orderTwentyFiveRawDiagonal_certificate_coefficient_1 s
+  have h2 := orderTwentyFiveRawDiagonal_certificate_coefficient_2 s
+  have h3 := orderTwentyFiveRawDiagonal_certificate_coefficient_3 s
+  have h4 := orderTwentyFiveRawDiagonal_certificate_coefficient_4 s
+  have h5 := orderTwentyFiveRawDiagonal_certificate_coefficient_5 s
+  have h6 := orderTwentyFiveRawDiagonal_certificate_coefficient_6 s
+  have h7 := orderTwentyFiveRawDiagonal_certificate_coefficient_7 s
+  have h8 := orderTwentyFiveRawDiagonal_certificate_coefficient_8 s
+  have h9 := orderTwentyFiveRawDiagonal_certificate_coefficient_9 s
+  have h10 := orderTwentyFiveRawDiagonal_certificate_coefficient_10 s
+  have h11 := orderTwentyFiveRawDiagonal_certificate_coefficient_11 s
+  have h12 := orderTwentyFiveRawDiagonal_certificate_coefficient_12 s
+  have h13 := orderTwentyFiveRawDiagonal_certificate_coefficient_13 s
+  have h14 := orderTwentyFiveRawDiagonal_certificate_coefficient_14 s
+  have h15 := orderTwentyFiveRawDiagonal_certificate_coefficient_15 s
   simp only [orderTwentyFiveRawDiagonalNumerator,
-    orderTwentyFiveRawDiagonalEliminant,
     orderTwentyFiveRawDiagonalA,
     orderTwentyFiveRawDiagonalB,
-    orderTwentyFiveRawDiagonalA0,
-    orderTwentyFiveRawDiagonalA1,
-    orderTwentyFiveRawDiagonalA2,
-    orderTwentyFiveRawDiagonalA3,
-    orderTwentyFiveRawDiagonalA4,
-    orderTwentyFiveRawDiagonalA5,
-    orderTwentyFiveRawDiagonalB0,
-    orderTwentyFiveRawDiagonalB1,
-    orderTwentyFiveRawDiagonalB2,
-    orderTwentyFiveRawDiagonalB3,
-    orderTwentyFiveRawDiagonalB4,
-    orderTwentyFiveRawDiagonalB5,
-    orderTwentyFiveRawDiagonalB6,
-    orderTwentyFiveRawDiagonalB7,
-    orderTwentyFiveRawDiagonalB8,
-    orderTwentyFiveRawDiagonalB9,
     orderTwentyFiveRawSutherlandPolynomial,
     orderTwentyFiveRawSutherlandPolynomialChunk0,
     orderTwentyFiveRawSutherlandPolynomialChunk1,
@@ -893,7 +1423,11 @@ private theorem orderTwentyFiveRawDiagonal_certificate (r s : ℚ) :
     orderTwentyFiveRawSutherlandPolynomialChunk3,
     orderTwentyFiveRawSutherlandPolynomialChunk4,
     orderTwentyFiveRawSutherlandPolynomialChunk5]
-  ring
+  linear_combination
+    h0 + r ^ 1 * h1 + r ^ 2 * h2 + r ^ 3 * h3 +
+    r ^ 4 * h4 + r ^ 5 * h5 + r ^ 6 * h6 + r ^ 7 * h7 +
+    r ^ 8 * h8 + r ^ 9 * h9 + r ^ 10 * h10 + r ^ 11 * h11 +
+    r ^ 12 * h12 + r ^ 13 * h13 + r ^ 14 * h14 + r ^ 15 * h15
 
 private noncomputable def orderTwentyFiveRawDiagonalIntegralPolynomial :
     Polynomial ℤ :=
@@ -999,6 +1533,13 @@ private theorem orderTwentyFiveRawBrunaultU_sub_one
     orderTwentyFiveRawXNine orderTwentyFiveRawXEleven
     orderTwentyFiveRawXTwelve
   unfold orderTwentyFiveRawDiagonalNumerator
+    orderTwentyFiveRawDiagonalNumeratorCoefficient0
+    orderTwentyFiveRawDiagonalNumeratorCoefficient1
+    orderTwentyFiveRawDiagonalNumeratorCoefficient2
+    orderTwentyFiveRawDiagonalNumeratorCoefficient3
+    orderTwentyFiveRawDiagonalNumeratorCoefficient4
+    orderTwentyFiveRawDiagonalNumeratorCoefficient5
+    orderTwentyFiveRawDiagonalNumeratorCoefficient6
     orderTwentyFiveRawDiagonalDenominator
   have hD' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
     intro h
@@ -1159,8 +1700,11 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk0_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk0 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk0,
+    orderTwentyFiveRawSutherlandCoefficient8,
+    orderTwentyFiveRawSutherlandCoefficient9,
+    orderTwentyFiveRawSutherlandCoefficient10,
     orderTwentyFiveRawClearedChunk0]
-  field_simp [hc, sub_ne_zero.mpr hbc]
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1169,8 +1713,10 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk1_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk1 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk1,
+    orderTwentyFiveRawSutherlandCoefficient6,
+    orderTwentyFiveRawSutherlandCoefficient7,
     orderTwentyFiveRawClearedChunk1]
-  field_simp [hc, sub_ne_zero.mpr hbc]
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1179,6 +1725,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk2_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk2 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk2,
+    orderTwentyFiveRawSutherlandCoefficient5,
     orderTwentyFiveRawClearedChunk2]
   field_simp [hc, sub_ne_zero.mpr hbc]
 
@@ -1189,6 +1736,7 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk3_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk3 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk3,
+    orderTwentyFiveRawSutherlandCoefficient4,
     orderTwentyFiveRawClearedChunk3]
   field_simp [hc, sub_ne_zero.mpr hbc]
 
@@ -1199,8 +1747,10 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk4_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk4 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk4,
+    orderTwentyFiveRawSutherlandCoefficient2,
+    orderTwentyFiveRawSutherlandCoefficient3,
     orderTwentyFiveRawClearedChunk4]
-  field_simp [hc, sub_ne_zero.mpr hbc]
+  field_simp [hc, sub_ne_zero.mpr hbc]; ring
 
 private theorem orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution
     (b c : ℚ) (hc : c ≠ 0) (hbc : b ≠ c) :
@@ -1209,6 +1759,8 @@ private theorem orderTwentyFiveRawSutherlandPolynomial_chunk5_substitution
           (b / c) (c ^ 2 / (b - c)) =
       orderTwentyFiveRawClearedChunk5 b c := by
   simp only [orderTwentyFiveRawSutherlandPolynomialChunk5,
+    orderTwentyFiveRawSutherlandCoefficient0,
+    orderTwentyFiveRawSutherlandCoefficient1,
     orderTwentyFiveRawClearedChunk5]
   field_simp [hc, sub_ne_zero.mpr hbc]
 
@@ -1294,16 +1846,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_0
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   constructor <;> field_simp [_hxNum, _hden, _hnextDen]
   all_goals
-    try unfold twentyFiveA
-    try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
     ring
 
 private theorem twentyFiveNormalizedDatum_next_spec_1
@@ -1323,14 +1865,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_1
   all_goals
     try unfold twentyFiveA
     try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
     ring
 
 private theorem twentyFiveNormalizedDatum_next_spec_2
@@ -1350,8 +1884,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_2
   all_goals
     try unfold twentyFiveA
     try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
     try unfold twentyFiveE
     try unfold twentyFiveF
     try unfold twentyFiveG
@@ -1495,6 +2027,60 @@ private theorem twentyFiveNormalizedDatum_next_spec_7
     try unfold twentyFiveJ
     ring
 
+private theorem twentyFiveNormalizedDatum_next_spec_8_slope
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 8).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 8).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 9).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 8
+    (Q.yNum / Q.den ^ 3) / (Q.xNum / Q.den ^ 2) =
+      c * twentyFiveA b c * twentyFiveG b c * b * twentyFiveD b c /
+        ((b - c) * twentyFiveE b c * twentyFiveF b c) := by
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen ⊢
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+
+private theorem twentyFiveNormalizedDatum_next_spec_8_x
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 8).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 8).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 9).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 8
+    let next := twentyFiveNormalizedDatum b c 9
+    tateNextX b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.xNum / next.den ^ 2 := by
+  have hslope :=
+    twentyFiveNormalizedDatum_next_spec_8_slope b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hslope ⊢
+  simp only [tateNextX]
+  rw [hslope]
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+  unfold twentyFiveA twentyFiveD twentyFiveE twentyFiveF twentyFiveG
+  ring
+
+private theorem twentyFiveNormalizedDatum_next_spec_8_y
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 8).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 8).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 9).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 8
+    let next := twentyFiveNormalizedDatum b c 9
+    tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.yNum / next.den ^ 3 := by
+  have hxNext :=
+    twentyFiveNormalizedDatum_next_spec_8_x b c _hxNum _hden _hnextDen
+  have hslope :=
+    twentyFiveNormalizedDatum_next_spec_8_slope b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hxNext hslope ⊢
+  simp only [tateNextY]
+  rw [hslope, hxNext]
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+  unfold twentyFiveA twentyFiveD twentyFiveE twentyFiveF twentyFiveG
+    twentyFiveH
+  ring
+
 private theorem twentyFiveNormalizedDatum_next_spec_8
     (b c : ℚ)
     (_hxNum : (twentyFiveNormalizedDatum b c 8).xNum ≠ 0)
@@ -1506,21 +2092,51 @@ private theorem twentyFiveNormalizedDatum_next_spec_8
         next.xNum / next.den ^ 2 ∧
       tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
         next.yNum / next.den ^ 3 := by
-  simp only [twentyFiveNormalizedDatum, tateNextX, tateNextY] at _hxNum _hden _hnextDen ⊢
+  exact ⟨twentyFiveNormalizedDatum_next_spec_8_x b c _hxNum _hden _hnextDen,
+    twentyFiveNormalizedDatum_next_spec_8_y b c _hxNum _hden _hnextDen⟩
+
+private theorem twentyFiveNormalizedDatum_next_spec_9_x
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 9).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 10).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 9
+    let next := twentyFiveNormalizedDatum b c 10
+    tateNextX b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.xNum / next.den ^ 2 := by
+  simp only [twentyFiveNormalizedDatum, tateNextX] at _hxNum _hden _hnextDen ⊢
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
-  constructor <;> field_simp [_hxNum, _hden, _hnextDen]
-  all_goals
-    try unfold twentyFiveA
-    try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
-    ring
+  field_simp [_hxNum, _hden, _hnextDen]
+  unfold twentyFiveA twentyFiveE twentyFiveF twentyFiveG twentyFiveH
+  ring
+
+private theorem twentyFiveI_recurrence (b c : ℚ) :
+    twentyFiveB b c * twentyFiveI b c * twentyFiveF b c ^ 2 +
+        b * (c * twentyFiveA b c * twentyFiveG b c) ^ 3 =
+      (b - c) * twentyFiveE b c * twentyFiveH b c ^ 2 +
+        (1 - c) * twentyFiveF b c * twentyFiveH b c *
+          (c * twentyFiveA b c * twentyFiveG b c) := by
+  unfold twentyFiveA twentyFiveB twentyFiveE twentyFiveF twentyFiveG
+    twentyFiveH twentyFiveI
+  ring
+
+private theorem twentyFiveNormalizedDatum_next_spec_9_y
+    (b c : ℚ)
+    (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
+    (_hden : (twentyFiveNormalizedDatum b c 9).den ≠ 0)
+    (_hnextDen : (twentyFiveNormalizedDatum b c 10).den ≠ 0) :
+    let Q := twentyFiveNormalizedDatum b c 9
+    let next := twentyFiveNormalizedDatum b c 10
+    tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
+      next.yNum / next.den ^ 3 := by
+  have hxNext :=
+    twentyFiveNormalizedDatum_next_spec_9_x b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hxNext ⊢
+  simp only [tateNextY]
+  rw [hxNext]
+  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
+  field_simp [_hxNum, _hden, _hnextDen]
+  linear_combination twentyFiveF b c ^ 3 * twentyFiveI_recurrence b c
 
 private theorem twentyFiveNormalizedDatum_next_spec_9
     (b c : ℚ)
@@ -1533,21 +2149,8 @@ private theorem twentyFiveNormalizedDatum_next_spec_9
         next.xNum / next.den ^ 2 ∧
       tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
         next.yNum / next.den ^ 3 := by
-  simp only [twentyFiveNormalizedDatum, tateNextX, tateNextY] at _hxNum _hden _hnextDen ⊢
-  try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
-  constructor <;> field_simp [_hxNum, _hden, _hnextDen]
-  all_goals
-    try unfold twentyFiveA
-    try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
-    ring
+  exact ⟨twentyFiveNormalizedDatum_next_spec_9_x b c _hxNum _hden _hnextDen,
+    twentyFiveNormalizedDatum_next_spec_9_y b c _hxNum _hden _hnextDen⟩
 
 private theorem twentyFiveNormalizedDatum_next_spec_10_x
     (b c : ℚ)
@@ -1564,6 +2167,18 @@ private theorem twentyFiveNormalizedDatum_next_spec_10_x
   unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH twentyFiveI
   ring
 
+private theorem twentyFiveJ_recurrence (b c : ℚ) :
+    -(twentyFiveB b c) ^ 2 * twentyFiveI b c ^ 2 * twentyFiveF b c +
+        twentyFiveB b c * twentyFiveI b c *
+          (c * twentyFiveA b c * twentyFiveG b c) * (1 - c) *
+          twentyFiveH b c +
+        twentyFiveH b c ^ 3 =
+      (b - c) * twentyFiveJ b c * b *
+        (c * twentyFiveA b c * twentyFiveG b c) ^ 2 := by
+  unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH
+    twentyFiveI twentyFiveJ
+  ring
+
 private theorem twentyFiveNormalizedDatum_next_spec_10_y
     (b c : ℚ)
     (_hxNum : (twentyFiveNormalizedDatum b c 10).xNum ≠ 0)
@@ -1573,12 +2188,16 @@ private theorem twentyFiveNormalizedDatum_next_spec_10_y
     let next := twentyFiveNormalizedDatum b c 11
     tateNextY b c (Q.xNum / Q.den ^ 2) (Q.yNum / Q.den ^ 3) =
       next.yNum / next.den ^ 3 := by
-  simp only [twentyFiveNormalizedDatum, tateNextX, tateNextY] at _hxNum _hden _hnextDen ⊢
+  have hxNext :=
+    twentyFiveNormalizedDatum_next_spec_10_x b c _hxNum _hden _hnextDen
+  simp only [twentyFiveNormalizedDatum] at _hxNum _hden _hnextDen hxNext ⊢
+  simp only [tateNextY]
+  rw [hxNext]
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   field_simp [_hxNum, _hden, _hnextDen]
-  unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH
-    twentyFiveI twentyFiveJ
-  ring
+  linear_combination
+    b * (c * twentyFiveA b c * twentyFiveG b c) ^ 3 *
+      twentyFiveJ_recurrence b c
 
 private theorem twentyFiveNormalizedDatum_next_spec_10
     (b c : ℚ)

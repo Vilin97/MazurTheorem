@@ -35,7 +35,7 @@ open MazurTorsion.IntegerPrimeSpecialization
 open MazurTorsion.PrimeOrder
 open WeierstrassCurve.Affine
 
-local instance : DecidableEq
+/-- Residue-field equality used in finite computations. -/ local instance : DecidableEq
     (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
@@ -608,15 +608,10 @@ theorem
   exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative, hdepth⟩
 
-/-- The selected eleven-adic model, chart, marked point, and uniformizer from the preceding
-endpoint also satisfy `a₆ ∈ 𝔪⁵`; all earlier depth data are retained on that same equation. -/
-theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFive
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+private abbrev FifthCoefficientDepthAtEleven
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
-    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
-      (atEleven.adicCompletionIntegers ℚ))
-    (P : (minimalCompletionAtEleven E).toAffine.Point)
-    (horder : addOrderOf P = 35) :
+    (P : (minimalCompletionAtEleven E).toAffine.Point) : Prop :=
     ∃ C : WeierstrassCurve.VariableChange
         (atEleven.adicCompletionIntegers ℚ),
       let W' := C • (minimalCompletionAtEleven E).integralModel
@@ -654,7 +649,17 @@ theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFiv
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
                     (atEleven.adicCompletionIntegers ℚ) ^ 4 ∧
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
-                    (atEleven.adicCompletionIntegers ℚ) ^ 5 := by
+                    (atEleven.adicCompletionIntegers ℚ) ^ 5
+
+/-- The selected eleven-adic model, chart, marked point, and uniformizer from the preceding
+endpoint also satisfy `a₆ ∈ 𝔪⁵`; all earlier depth data are retained on that same equation. -/
+theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) : FifthCoefficientDepthAtEleven E P := by
   obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
       ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
       hroot, hAres, hBres, hxsq, ha₄cube, ha₆four⟩ :=
@@ -692,15 +697,10 @@ theorem minimalCompletionAtEleven_exists_fifthCoefficientDepth_of_orderThirtyFiv
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩
 
-/-- The same selected eleven-adic short model reaches the terminal weighted
-depths: the marked ordinate lies in `𝔪³`, `a₄` in `𝔪⁴`, and `a₆` in `𝔪⁶`. -/
-theorem minimalCompletionAtEleven_exists_sixthCoefficientDepth_of_orderThirtyFive
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+private abbrev SixthCoefficientDepthAtEleven
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
-    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
-      (atEleven.adicCompletionIntegers ℚ))
-    (P : (minimalCompletionAtEleven E).toAffine.Point)
-    (horder : addOrderOf P = 35) :
+    (P : (minimalCompletionAtEleven E).toAffine.Point) : Prop :=
     ∃ C : WeierstrassCurve.VariableChange
         (atEleven.adicCompletionIntegers ℚ),
       let W' := C • (minimalCompletionAtEleven E).integralModel
@@ -747,7 +747,17 @@ theorem minimalCompletionAtEleven_exists_sixthCoefficientDepth_of_orderThirtyFiv
                 W'.a₄ ∈ IsLocalRing.maximalIdeal
                     (atEleven.adicCompletionIntegers ℚ) ^ 4 ∧
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
-                    (atEleven.adicCompletionIntegers ℚ) ^ 6 := by
+                    (atEleven.adicCompletionIntegers ℚ) ^ 6
+
+/-- The same selected eleven-adic short model reaches the terminal weighted
+depths: the marked ordinate lies in `𝔪³`, `a₄` in `𝔪⁴`, and `a₆` in `𝔪⁶`. -/
+theorem minimalCompletionAtEleven_exists_sixthCoefficientDepth_of_orderThirtyFive
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atEleven.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtEleven E).HasAdditiveReduction
+      (atEleven.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtEleven E).toAffine.Point)
+    (horder : addOrderOf P = 35) : SixthCoefficientDepthAtEleven E P := by
   obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
       ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
       hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩ :=
@@ -864,7 +874,7 @@ theorem valuation_minimalCompletionAtEleven_j
 
 /-- Transport a rational point to the selected minimal eleven-adic equation. -/
 noncomputable def minimalCompletionPointAtEleven
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     (minimalCompletionAtEleven E).toAffine.Point :=
@@ -875,7 +885,7 @@ noncomputable def minimalCompletionPointAtEleven
 /-- Completion and the selected variable change preserve the marked point's
 exact additive order. -/
 theorem minimalCompletionPointAtEleven_addOrderOf
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     addOrderOf (minimalCompletionPointAtEleven E P) = addOrderOf P := by

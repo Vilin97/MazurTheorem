@@ -4,14 +4,21 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCube
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCube
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The first kernel numerator term
 
 The first independently elaborated numerator term.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -170,3 +177,5 @@ lemma tl_mnum₁ {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 
 
 
 end MazurTorsion.Kubert
+
+end

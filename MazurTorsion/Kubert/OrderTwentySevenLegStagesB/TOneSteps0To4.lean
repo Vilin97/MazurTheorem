@@ -4,13 +4,24 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part10
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part15
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part16
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # First-power product identities 0 through 4
 
 The first independent identities for the first-power product.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -83,3 +94,5 @@ lemma tlTOne_s4 {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 f
 
 
 end MazurTorsion.Kubert
+
+end

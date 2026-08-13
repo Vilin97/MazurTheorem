@@ -4,7 +4,14 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part22
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part23
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Third-leg denominator powers
@@ -12,6 +19,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The square and cube certificates for the third-leg denominator, reduced against the
 kernel cubic.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -67,3 +78,5 @@ lemma zlTDCb_val {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
     (zlTDCb_s0 hM) + (zlTDCb_s1 hM)
 
 end MazurTorsion.Kubert
+
+end

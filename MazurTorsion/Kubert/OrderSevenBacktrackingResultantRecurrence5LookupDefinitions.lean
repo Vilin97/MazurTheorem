@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData5
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData5
 
 /-!
 # Recurrence 5 lookup certificate: named intermediate consumers
@@ -12,7 +12,7 @@ import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData5
 This is a checked coefficient-lookup shard for the fifth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -20,46 +20,46 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence5LeadingSquare : Coefficient :=
+/-- Internal datum. -/ def recurrence5LeadingSquare : Coefficient :=
   remainder6Coefficient2 * remainder6Coefficient2
 
-def recurrence5B2A2 : Coefficient :=
+/-- Internal datum. -/ def recurrence5B2A2 : Coefficient :=
   remainder6Coefficient2 * remainder5Coefficient2
 
-def recurrence5B1A3 : Coefficient :=
+/-- Internal datum. -/ def recurrence5B1A3 : Coefficient :=
   remainder6Coefficient1 * remainder5Coefficient3
 
-def recurrence5QuotientConstant : Coefficient :=
+/-- Internal datum. -/ def recurrence5QuotientConstant : Coefficient :=
   recurrence5B2A2 - recurrence5B1A3
 
-def recurrence5A3Square : Coefficient :=
+/-- Internal datum. -/ def recurrence5A3Square : Coefficient :=
   remainder5Coefficient3 * remainder5Coefficient3
 
-def recurrence5ExceptionalProduct : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalProduct : Coefficient :=
   recurrence5A3Square * exceptional5
 
-def recurrence5B2A3 : Coefficient :=
+/-- Internal datum. -/ def recurrence5B2A3 : Coefficient :=
   remainder6Coefficient2 * remainder5Coefficient3
 
-def recurrence5Scalar0Left : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar0Left : Coefficient :=
   recurrence5LeadingSquare * remainder5Coefficient0
 
-def recurrence5Scalar0Main : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar0Main : Coefficient :=
   remainder6Coefficient0 * recurrence5QuotientConstant
 
-def recurrence5Scalar0Exceptional : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar0Exceptional : Coefficient :=
   recurrence5ExceptionalProduct * remainder7Coefficient0
 
-def recurrence5Scalar1Left : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar1Left : Coefficient :=
   recurrence5LeadingSquare * remainder5Coefficient1
 
-def recurrence5Scalar1First : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar1First : Coefficient :=
   remainder6Coefficient0 * recurrence5B2A3
 
-def recurrence5Scalar1Second : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar1Second : Coefficient :=
   remainder6Coefficient1 * recurrence5QuotientConstant
 
-def recurrence5Scalar1Exceptional : Coefficient :=
+/-- Internal datum. -/ def recurrence5Scalar1Exceptional : Coefficient :=
   recurrence5ExceptionalProduct * remainder7Coefficient1
 
 end

@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
+module
+public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
 import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.LinearCombination
 
@@ -21,7 +21,7 @@ The total coordinate evaluators below assign zero to the point at infinity.
 This convention is convenient for finite kernel-orbit sums; the paired
 identities themselves only evaluate affine sums guaranteed by `x ≠ r`.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Velu

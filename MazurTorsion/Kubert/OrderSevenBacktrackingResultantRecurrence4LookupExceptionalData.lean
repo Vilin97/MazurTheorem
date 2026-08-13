@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData4
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData4
 import Mathlib.Tactic.Ring
 
 /-!
@@ -13,7 +13,7 @@ import Mathlib.Tactic.Ring
 This is a checked coefficient-lookup shard for the fourth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -21,7 +21,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 0 (
     (-1 : ℚ)) +
   coefficientTerm 1 (
@@ -41,7 +41,7 @@ def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 8 (
     (-19802 : ℚ))
 
-def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 9 (
     (10514 : ℚ)) +
   coefficientTerm 10 (
@@ -53,7 +53,7 @@ def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 13 (
     (1 : ℚ))
 
-def recurrence4ExceptionalNormalized : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalized : Coefficient :=
   recurrence4ExceptionalNormalizedBlock0 +
   recurrence4ExceptionalNormalizedBlock1
 

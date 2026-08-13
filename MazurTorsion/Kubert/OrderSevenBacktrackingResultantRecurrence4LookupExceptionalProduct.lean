@@ -3,9 +3,9 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProductPart0
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProductPart1
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProductPart0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProductPart1
 
 /-!
 # Recurrence 4 lookup certificate: ExceptionalProduct degree bound
@@ -13,7 +13,7 @@ import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExcep
 This is a checked coefficient-lookup shard for the fourth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

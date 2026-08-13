@@ -3,10 +3,11 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupA4Square
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptional
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupA4Square
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptional
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProductPart0Simp
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 
@@ -16,7 +17,7 @@ import Lean.Elab.Tactic.Omega
 This is a checked coefficient-lookup shard for the fourth
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -282,7 +283,7 @@ theorem recurrence4ExceptionalProduct_coeff_0 :
     rw [show 1 = 1 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_1 :
     recurrence4ExceptionalProduct.coeff 1 =
@@ -302,7 +303,7 @@ theorem recurrence4ExceptionalProduct_coeff_1 :
     rw [show 2 = 2 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_2 :
     recurrence4ExceptionalProduct.coeff 2 =
@@ -322,7 +323,7 @@ theorem recurrence4ExceptionalProduct_coeff_2 :
     rw [show 3 = 3 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_3 :
     recurrence4ExceptionalProduct.coeff 3 =
@@ -342,7 +343,7 @@ theorem recurrence4ExceptionalProduct_coeff_3 :
     rw [show 4 = 4 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_4 :
     recurrence4ExceptionalProduct.coeff 4 =
@@ -362,7 +363,7 @@ theorem recurrence4ExceptionalProduct_coeff_4 :
     rw [show 5 = 5 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_5 :
     recurrence4ExceptionalProduct.coeff 5 =
@@ -382,7 +383,7 @@ theorem recurrence4ExceptionalProduct_coeff_5 :
     rw [show 6 = 6 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_6 :
     recurrence4ExceptionalProduct.coeff 6 =
@@ -402,7 +403,7 @@ theorem recurrence4ExceptionalProduct_coeff_6 :
     rw [show 7 = 7 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_7 :
     recurrence4ExceptionalProduct.coeff 7 =
@@ -422,7 +423,7 @@ theorem recurrence4ExceptionalProduct_coeff_7 :
     rw [show 8 = 8 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_8 :
     recurrence4ExceptionalProduct.coeff 8 =
@@ -442,7 +443,7 @@ theorem recurrence4ExceptionalProduct_coeff_8 :
     rw [show 9 = 9 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_9 :
     recurrence4ExceptionalProduct.coeff 9 =
@@ -462,7 +463,7 @@ theorem recurrence4ExceptionalProduct_coeff_9 :
     rw [show 10 = 10 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_10 :
     recurrence4ExceptionalProduct.coeff 10 =
@@ -482,7 +483,7 @@ theorem recurrence4ExceptionalProduct_coeff_10 :
     rw [show 11 = 11 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_11 :
     recurrence4ExceptionalProduct.coeff 11 =
@@ -502,7 +503,7 @@ theorem recurrence4ExceptionalProduct_coeff_11 :
     rw [show 12 = 12 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_12 :
     recurrence4ExceptionalProduct.coeff 12 =
@@ -522,7 +523,7 @@ theorem recurrence4ExceptionalProduct_coeff_12 :
     rw [show 13 = 13 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 theorem recurrence4ExceptionalProduct_coeff_13 :
     recurrence4ExceptionalProduct.coeff 13 =
@@ -542,7 +543,7 @@ theorem recurrence4ExceptionalProduct_coeff_13 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   norm_num only [Finset.sum_range_zero, zero_add]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_14_prefix_zero :
     (∑ x ∈ Finset.range 1,
@@ -573,7 +574,7 @@ theorem recurrence4ExceptionalProduct_coeff_14 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_14_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_15_prefix_zero :
     (∑ x ∈ Finset.range 2,
@@ -604,7 +605,7 @@ theorem recurrence4ExceptionalProduct_coeff_15 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_15_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_16_prefix_zero :
     (∑ x ∈ Finset.range 3,
@@ -635,7 +636,7 @@ theorem recurrence4ExceptionalProduct_coeff_16 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_16_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_17_prefix_zero :
     (∑ x ∈ Finset.range 4,
@@ -666,7 +667,7 @@ theorem recurrence4ExceptionalProduct_coeff_17 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_17_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_18_prefix_zero :
     (∑ x ∈ Finset.range 5,
@@ -697,7 +698,7 @@ theorem recurrence4ExceptionalProduct_coeff_18 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_18_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_19_prefix_zero :
     (∑ x ∈ Finset.range 6,
@@ -728,7 +729,7 @@ theorem recurrence4ExceptionalProduct_coeff_19 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_19_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_20_prefix_zero :
     (∑ x ∈ Finset.range 7,
@@ -759,7 +760,7 @@ theorem recurrence4ExceptionalProduct_coeff_20 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_20_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_21_prefix_zero :
     (∑ x ∈ Finset.range 8,
@@ -790,7 +791,7 @@ theorem recurrence4ExceptionalProduct_coeff_21 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_21_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_22_prefix_zero :
     (∑ x ∈ Finset.range 9,
@@ -821,7 +822,7 @@ theorem recurrence4ExceptionalProduct_coeff_22 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_22_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_23_prefix_zero :
     (∑ x ∈ Finset.range 10,
@@ -852,7 +853,7 @@ theorem recurrence4ExceptionalProduct_coeff_23 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_23_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_24_prefix_zero :
     (∑ x ∈ Finset.range 11,
@@ -884,7 +885,7 @@ theorem recurrence4ExceptionalProduct_coeff_24 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_24_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_25_prefix_zero :
     (∑ x ∈ Finset.range 12,
@@ -916,7 +917,7 @@ theorem recurrence4ExceptionalProduct_coeff_25 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_25_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_26_prefix_zero :
     (∑ x ∈ Finset.range 13,
@@ -948,7 +949,7 @@ theorem recurrence4ExceptionalProduct_coeff_26 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_26_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_27_prefix_zero :
     (∑ x ∈ Finset.range 14,
@@ -980,7 +981,7 @@ theorem recurrence4ExceptionalProduct_coeff_27 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_27_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_28_prefix_zero :
     (∑ x ∈ Finset.range 15,
@@ -1012,7 +1013,7 @@ theorem recurrence4ExceptionalProduct_coeff_28 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_28_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_29_prefix_zero :
     (∑ x ∈ Finset.range 16,
@@ -1044,7 +1045,7 @@ theorem recurrence4ExceptionalProduct_coeff_29 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_29_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_30_prefix_zero :
     (∑ x ∈ Finset.range 17,
@@ -1076,7 +1077,7 @@ theorem recurrence4ExceptionalProduct_coeff_30 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_30_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_31_prefix_zero :
     (∑ x ∈ Finset.range 18,
@@ -1108,7 +1109,7 @@ theorem recurrence4ExceptionalProduct_coeff_31 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_31_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_32_prefix_zero :
     (∑ x ∈ Finset.range 19,
@@ -1140,7 +1141,7 @@ theorem recurrence4ExceptionalProduct_coeff_32 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_32_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_33_prefix_zero :
     (∑ x ∈ Finset.range 20,
@@ -1172,7 +1173,7 @@ theorem recurrence4ExceptionalProduct_coeff_33 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_33_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_34_prefix_zero :
     (∑ x ∈ Finset.range 21,
@@ -1204,7 +1205,7 @@ theorem recurrence4ExceptionalProduct_coeff_34 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_34_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_35_prefix_zero :
     (∑ x ∈ Finset.range 22,
@@ -1236,7 +1237,7 @@ theorem recurrence4ExceptionalProduct_coeff_35 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_35_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_36_prefix_zero :
     (∑ x ∈ Finset.range 23,
@@ -1268,7 +1269,7 @@ theorem recurrence4ExceptionalProduct_coeff_36 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_36_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_37_prefix_zero :
     (∑ x ∈ Finset.range 24,
@@ -1300,7 +1301,7 @@ theorem recurrence4ExceptionalProduct_coeff_37 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_37_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_38_prefix_zero :
     (∑ x ∈ Finset.range 25,
@@ -1332,7 +1333,7 @@ theorem recurrence4ExceptionalProduct_coeff_38 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_38_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_39_prefix_zero :
     (∑ x ∈ Finset.range 26,
@@ -1364,7 +1365,7 @@ theorem recurrence4ExceptionalProduct_coeff_39 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_39_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_40_prefix_zero :
     (∑ x ∈ Finset.range 27,
@@ -1396,7 +1397,7 @@ theorem recurrence4ExceptionalProduct_coeff_40 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_40_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_41_prefix_zero :
     (∑ x ∈ Finset.range 28,
@@ -1428,7 +1429,7 @@ theorem recurrence4ExceptionalProduct_coeff_41 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_41_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_42_prefix_zero :
     (∑ x ∈ Finset.range 29,
@@ -1460,7 +1461,7 @@ theorem recurrence4ExceptionalProduct_coeff_42 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_42_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_43_prefix_zero :
     (∑ x ∈ Finset.range 30,
@@ -1492,7 +1493,7 @@ theorem recurrence4ExceptionalProduct_coeff_43 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_43_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_44_prefix_zero :
     (∑ x ∈ Finset.range 31,
@@ -1524,7 +1525,7 @@ theorem recurrence4ExceptionalProduct_coeff_44 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_44_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_45_prefix_zero :
     (∑ x ∈ Finset.range 32,
@@ -1556,7 +1557,7 @@ theorem recurrence4ExceptionalProduct_coeff_45 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_45_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_46_prefix_zero :
     (∑ x ∈ Finset.range 33,
@@ -1588,7 +1589,7 @@ theorem recurrence4ExceptionalProduct_coeff_46 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_46_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_47_prefix_zero :
     (∑ x ∈ Finset.range 34,
@@ -1620,7 +1621,7 @@ theorem recurrence4ExceptionalProduct_coeff_47 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_47_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_48_prefix_zero :
     (∑ x ∈ Finset.range 35,
@@ -1652,7 +1653,7 @@ theorem recurrence4ExceptionalProduct_coeff_48 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_48_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_49_prefix_zero :
     (∑ x ∈ Finset.range 36,
@@ -1684,7 +1685,7 @@ theorem recurrence4ExceptionalProduct_coeff_49 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_49_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_50_prefix_zero :
     (∑ x ∈ Finset.range 37,
@@ -1716,7 +1717,7 @@ theorem recurrence4ExceptionalProduct_coeff_50 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_50_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_51_prefix_zero :
     (∑ x ∈ Finset.range 38,
@@ -1748,7 +1749,7 @@ theorem recurrence4ExceptionalProduct_coeff_51 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_51_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_52_prefix_zero :
     (∑ x ∈ Finset.range 39,
@@ -1780,7 +1781,7 @@ theorem recurrence4ExceptionalProduct_coeff_52 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_52_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_53_prefix_zero :
     (∑ x ∈ Finset.range 40,
@@ -1812,7 +1813,7 @@ theorem recurrence4ExceptionalProduct_coeff_53 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_53_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_54_prefix_zero :
     (∑ x ∈ Finset.range 41,
@@ -1844,7 +1845,7 @@ theorem recurrence4ExceptionalProduct_coeff_54 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_54_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_55_prefix_zero :
     (∑ x ∈ Finset.range 42,
@@ -1876,7 +1877,7 @@ theorem recurrence4ExceptionalProduct_coeff_55 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_55_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_56_prefix_zero :
     (∑ x ∈ Finset.range 43,
@@ -1908,7 +1909,7 @@ theorem recurrence4ExceptionalProduct_coeff_56 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_56_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_57_prefix_zero :
     (∑ x ∈ Finset.range 44,
@@ -1940,7 +1941,7 @@ theorem recurrence4ExceptionalProduct_coeff_57 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_57_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_58_prefix_zero :
     (∑ x ∈ Finset.range 45,
@@ -1972,7 +1973,7 @@ theorem recurrence4ExceptionalProduct_coeff_58 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_58_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_59_prefix_zero :
     (∑ x ∈ Finset.range 46,
@@ -2004,7 +2005,7 @@ theorem recurrence4ExceptionalProduct_coeff_59 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_59_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_60_prefix_zero :
     (∑ x ∈ Finset.range 47,
@@ -2036,7 +2037,7 @@ theorem recurrence4ExceptionalProduct_coeff_60 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_60_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_61_prefix_zero :
     (∑ x ∈ Finset.range 48,
@@ -2068,7 +2069,7 @@ theorem recurrence4ExceptionalProduct_coeff_61 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_61_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_62_prefix_zero :
     (∑ x ∈ Finset.range 49,
@@ -2100,7 +2101,7 @@ theorem recurrence4ExceptionalProduct_coeff_62 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_62_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_63_prefix_zero :
     (∑ x ∈ Finset.range 50,
@@ -2132,7 +2133,7 @@ theorem recurrence4ExceptionalProduct_coeff_63 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_63_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_64_prefix_zero :
     (∑ x ∈ Finset.range 51,
@@ -2164,7 +2165,7 @@ theorem recurrence4ExceptionalProduct_coeff_64 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_64_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_65_prefix_zero :
     (∑ x ∈ Finset.range 52,
@@ -2196,7 +2197,7 @@ theorem recurrence4ExceptionalProduct_coeff_65 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_65_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_66_prefix_zero :
     (∑ x ∈ Finset.range 53,
@@ -2228,7 +2229,7 @@ theorem recurrence4ExceptionalProduct_coeff_66 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_66_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_67_prefix_zero :
     (∑ x ∈ Finset.range 54,
@@ -2260,7 +2261,7 @@ theorem recurrence4ExceptionalProduct_coeff_67 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_67_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_68_prefix_zero :
     (∑ x ∈ Finset.range 55,
@@ -2292,7 +2293,7 @@ theorem recurrence4ExceptionalProduct_coeff_68 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_68_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_69_prefix_zero :
     (∑ x ∈ Finset.range 56,
@@ -2324,7 +2325,7 @@ theorem recurrence4ExceptionalProduct_coeff_69 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_69_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_70_prefix_zero :
     (∑ x ∈ Finset.range 57,
@@ -2356,7 +2357,7 @@ theorem recurrence4ExceptionalProduct_coeff_70 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_70_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_71_prefix_zero :
     (∑ x ∈ Finset.range 58,
@@ -2389,7 +2390,7 @@ theorem recurrence4ExceptionalProduct_coeff_71 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_71_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_72_prefix_zero :
     (∑ x ∈ Finset.range 59,
@@ -2422,7 +2423,7 @@ theorem recurrence4ExceptionalProduct_coeff_72 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_72_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_73_prefix_zero :
     (∑ x ∈ Finset.range 60,
@@ -2455,7 +2456,7 @@ theorem recurrence4ExceptionalProduct_coeff_73 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_73_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_74_prefix_zero :
     (∑ x ∈ Finset.range 61,
@@ -2488,7 +2489,7 @@ theorem recurrence4ExceptionalProduct_coeff_74 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_74_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_75_prefix_zero :
     (∑ x ∈ Finset.range 62,
@@ -2521,7 +2522,7 @@ theorem recurrence4ExceptionalProduct_coeff_75 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_75_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_76_prefix_zero :
     (∑ x ∈ Finset.range 63,
@@ -2554,7 +2555,7 @@ theorem recurrence4ExceptionalProduct_coeff_76 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_76_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_77_prefix_zero :
     (∑ x ∈ Finset.range 64,
@@ -2587,7 +2588,7 @@ theorem recurrence4ExceptionalProduct_coeff_77 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_77_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_78_prefix_zero :
     (∑ x ∈ Finset.range 65,
@@ -2620,7 +2621,7 @@ theorem recurrence4ExceptionalProduct_coeff_78 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_78_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_79_prefix_zero :
     (∑ x ∈ Finset.range 66,
@@ -2653,7 +2654,7 @@ theorem recurrence4ExceptionalProduct_coeff_79 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_79_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_80_prefix_zero :
     (∑ x ∈ Finset.range 67,
@@ -2686,7 +2687,7 @@ theorem recurrence4ExceptionalProduct_coeff_80 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_80_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_81_prefix_zero :
     (∑ x ∈ Finset.range 68,
@@ -2719,7 +2720,7 @@ theorem recurrence4ExceptionalProduct_coeff_81 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_81_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_82_prefix_zero :
     (∑ x ∈ Finset.range 69,
@@ -2752,7 +2753,7 @@ theorem recurrence4ExceptionalProduct_coeff_82 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_82_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_83_prefix_zero :
     (∑ x ∈ Finset.range 70,
@@ -2785,7 +2786,7 @@ theorem recurrence4ExceptionalProduct_coeff_83 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_83_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_84_prefix_zero :
     (∑ x ∈ Finset.range 71,
@@ -2818,7 +2819,7 @@ theorem recurrence4ExceptionalProduct_coeff_84 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_84_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_85_prefix_zero :
     (∑ x ∈ Finset.range 72,
@@ -2851,7 +2852,7 @@ theorem recurrence4ExceptionalProduct_coeff_85 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_85_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_86_prefix_zero :
     (∑ x ∈ Finset.range 73,
@@ -2884,7 +2885,7 @@ theorem recurrence4ExceptionalProduct_coeff_86 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_86_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_87_prefix_zero :
     (∑ x ∈ Finset.range 74,
@@ -2917,7 +2918,7 @@ theorem recurrence4ExceptionalProduct_coeff_87 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_87_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_88_prefix_zero :
     (∑ x ∈ Finset.range 75,
@@ -2950,7 +2951,7 @@ theorem recurrence4ExceptionalProduct_coeff_88 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_88_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_89_prefix_zero :
     (∑ x ∈ Finset.range 76,
@@ -2983,7 +2984,7 @@ theorem recurrence4ExceptionalProduct_coeff_89 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_89_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_90_prefix_zero :
     (∑ x ∈ Finset.range 77,
@@ -3016,7 +3017,7 @@ theorem recurrence4ExceptionalProduct_coeff_90 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_90_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_91_prefix_zero :
     (∑ x ∈ Finset.range 78,
@@ -3049,7 +3050,7 @@ theorem recurrence4ExceptionalProduct_coeff_91 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_91_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_92_prefix_zero :
     (∑ x ∈ Finset.range 79,
@@ -3082,7 +3083,7 @@ theorem recurrence4ExceptionalProduct_coeff_92 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_92_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_93_prefix_zero :
     (∑ x ∈ Finset.range 80,
@@ -3115,7 +3116,7 @@ theorem recurrence4ExceptionalProduct_coeff_93 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_93_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_94_prefix_zero :
     (∑ x ∈ Finset.range 81,
@@ -3148,7 +3149,7 @@ theorem recurrence4ExceptionalProduct_coeff_94 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_94_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_95_prefix_zero :
     (∑ x ∈ Finset.range 82,
@@ -3181,7 +3182,7 @@ theorem recurrence4ExceptionalProduct_coeff_95 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_95_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_96_prefix_zero :
     (∑ x ∈ Finset.range 83,
@@ -3214,7 +3215,7 @@ theorem recurrence4ExceptionalProduct_coeff_96 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_96_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_97_prefix_zero :
     (∑ x ∈ Finset.range 84,
@@ -3247,7 +3248,7 @@ theorem recurrence4ExceptionalProduct_coeff_97 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_97_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_98_prefix_zero :
     (∑ x ∈ Finset.range 85,
@@ -3280,7 +3281,7 @@ theorem recurrence4ExceptionalProduct_coeff_98 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_98_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_99_prefix_zero :
     (∑ x ∈ Finset.range 86,
@@ -3313,7 +3314,7 @@ theorem recurrence4ExceptionalProduct_coeff_99 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_99_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_100_prefix_zero :
     (∑ x ∈ Finset.range 87,
@@ -3346,7 +3347,7 @@ theorem recurrence4ExceptionalProduct_coeff_100 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_100_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_101_prefix_zero :
     (∑ x ∈ Finset.range 88,
@@ -3379,7 +3380,7 @@ theorem recurrence4ExceptionalProduct_coeff_101 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_101_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_102_prefix_zero :
     (∑ x ∈ Finset.range 89,
@@ -3412,7 +3413,7 @@ theorem recurrence4ExceptionalProduct_coeff_102 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_102_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_103_prefix_zero :
     (∑ x ∈ Finset.range 90,
@@ -3445,7 +3446,7 @@ theorem recurrence4ExceptionalProduct_coeff_103 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_103_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_104_prefix_zero :
     (∑ x ∈ Finset.range 91,
@@ -3478,7 +3479,7 @@ theorem recurrence4ExceptionalProduct_coeff_104 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_104_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_105_prefix_zero :
     (∑ x ∈ Finset.range 92,
@@ -3511,7 +3512,7 @@ theorem recurrence4ExceptionalProduct_coeff_105 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_105_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_106_prefix_zero :
     (∑ x ∈ Finset.range 93,
@@ -3544,7 +3545,7 @@ theorem recurrence4ExceptionalProduct_coeff_106 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_106_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_107_prefix_zero :
     (∑ x ∈ Finset.range 94,
@@ -3577,7 +3578,7 @@ theorem recurrence4ExceptionalProduct_coeff_107 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_107_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_108_prefix_zero :
     (∑ x ∈ Finset.range 95,
@@ -3610,7 +3611,7 @@ theorem recurrence4ExceptionalProduct_coeff_108 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_108_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_109_prefix_zero :
     (∑ x ∈ Finset.range 96,
@@ -3643,7 +3644,7 @@ theorem recurrence4ExceptionalProduct_coeff_109 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_109_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_110_prefix_zero :
     (∑ x ∈ Finset.range 97,
@@ -3676,7 +3677,7 @@ theorem recurrence4ExceptionalProduct_coeff_110 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_110_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_111_prefix_zero :
     (∑ x ∈ Finset.range 98,
@@ -3709,7 +3710,7 @@ theorem recurrence4ExceptionalProduct_coeff_111 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_111_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_112_prefix_zero :
     (∑ x ∈ Finset.range 99,
@@ -3742,7 +3743,7 @@ theorem recurrence4ExceptionalProduct_coeff_112 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_112_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_113_prefix_zero :
     (∑ x ∈ Finset.range 100,
@@ -3775,7 +3776,7 @@ theorem recurrence4ExceptionalProduct_coeff_113 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_113_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_114_prefix_zero :
     (∑ x ∈ Finset.range 101,
@@ -3808,7 +3809,7 @@ theorem recurrence4ExceptionalProduct_coeff_114 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_114_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_115_prefix_zero :
     (∑ x ∈ Finset.range 102,
@@ -3841,7 +3842,7 @@ theorem recurrence4ExceptionalProduct_coeff_115 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_115_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_116_prefix_zero :
     (∑ x ∈ Finset.range 103,
@@ -3874,7 +3875,7 @@ theorem recurrence4ExceptionalProduct_coeff_116 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_116_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_117_prefix_zero :
     (∑ x ∈ Finset.range 104,
@@ -3907,7 +3908,7 @@ theorem recurrence4ExceptionalProduct_coeff_117 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_117_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_118_prefix_zero :
     (∑ x ∈ Finset.range 105,
@@ -3940,7 +3941,7 @@ theorem recurrence4ExceptionalProduct_coeff_118 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_118_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_119_prefix_zero :
     (∑ x ∈ Finset.range 106,
@@ -3973,7 +3974,7 @@ theorem recurrence4ExceptionalProduct_coeff_119 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_119_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_120_prefix_zero :
     (∑ x ∈ Finset.range 107,
@@ -4006,7 +4007,7 @@ theorem recurrence4ExceptionalProduct_coeff_120 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_120_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_121_prefix_zero :
     (∑ x ∈ Finset.range 108,
@@ -4039,7 +4040,7 @@ theorem recurrence4ExceptionalProduct_coeff_121 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_121_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_122_prefix_zero :
     (∑ x ∈ Finset.range 109,
@@ -4072,7 +4073,7 @@ theorem recurrence4ExceptionalProduct_coeff_122 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_122_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_123_prefix_zero :
     (∑ x ∈ Finset.range 110,
@@ -4105,7 +4106,7 @@ theorem recurrence4ExceptionalProduct_coeff_123 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_123_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_124_prefix_zero :
     (∑ x ∈ Finset.range 111,
@@ -4138,7 +4139,7 @@ theorem recurrence4ExceptionalProduct_coeff_124 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_124_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_125_prefix_zero :
     (∑ x ∈ Finset.range 112,
@@ -4171,7 +4172,7 @@ theorem recurrence4ExceptionalProduct_coeff_125 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_125_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_126_prefix_zero :
     (∑ x ∈ Finset.range 113,
@@ -4204,7 +4205,7 @@ theorem recurrence4ExceptionalProduct_coeff_126 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_126_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_127_prefix_zero :
     (∑ x ∈ Finset.range 114,
@@ -4237,7 +4238,7 @@ theorem recurrence4ExceptionalProduct_coeff_127 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_127_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_128_prefix_zero :
     (∑ x ∈ Finset.range 115,
@@ -4270,7 +4271,7 @@ theorem recurrence4ExceptionalProduct_coeff_128 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_128_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_129_prefix_zero :
     (∑ x ∈ Finset.range 116,
@@ -4303,7 +4304,7 @@ theorem recurrence4ExceptionalProduct_coeff_129 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_129_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_130_prefix_zero :
     (∑ x ∈ Finset.range 117,
@@ -4336,7 +4337,7 @@ theorem recurrence4ExceptionalProduct_coeff_130 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_130_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_131_prefix_zero :
     (∑ x ∈ Finset.range 118,
@@ -4369,7 +4370,7 @@ theorem recurrence4ExceptionalProduct_coeff_131 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_131_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_132_prefix_zero :
     (∑ x ∈ Finset.range 119,
@@ -4402,7 +4403,7 @@ theorem recurrence4ExceptionalProduct_coeff_132 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_132_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_133_prefix_zero :
     (∑ x ∈ Finset.range 120,
@@ -4435,7 +4436,7 @@ theorem recurrence4ExceptionalProduct_coeff_133 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_133_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_134_prefix_zero :
     (∑ x ∈ Finset.range 121,
@@ -4468,7 +4469,7 @@ theorem recurrence4ExceptionalProduct_coeff_134 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_134_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_135_prefix_zero :
     (∑ x ∈ Finset.range 122,
@@ -4501,7 +4502,7 @@ theorem recurrence4ExceptionalProduct_coeff_135 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_135_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_136_prefix_zero :
     (∑ x ∈ Finset.range 123,
@@ -4534,7 +4535,7 @@ theorem recurrence4ExceptionalProduct_coeff_136 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_136_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_137_prefix_zero :
     (∑ x ∈ Finset.range 124,
@@ -4567,7 +4568,7 @@ theorem recurrence4ExceptionalProduct_coeff_137 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_137_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_138_prefix_zero :
     (∑ x ∈ Finset.range 125,
@@ -4600,7 +4601,7 @@ theorem recurrence4ExceptionalProduct_coeff_138 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_138_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_139_prefix_zero :
     (∑ x ∈ Finset.range 126,
@@ -4633,7 +4634,7 @@ theorem recurrence4ExceptionalProduct_coeff_139 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_139_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_140_prefix_zero :
     (∑ x ∈ Finset.range 127,
@@ -4666,7 +4667,7 @@ theorem recurrence4ExceptionalProduct_coeff_140 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_140_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_141_prefix_zero :
     (∑ x ∈ Finset.range 128,
@@ -4699,7 +4700,7 @@ theorem recurrence4ExceptionalProduct_coeff_141 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_141_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_142_prefix_zero :
     (∑ x ∈ Finset.range 129,
@@ -4732,7 +4733,7 @@ theorem recurrence4ExceptionalProduct_coeff_142 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_142_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_143_prefix_zero :
     (∑ x ∈ Finset.range 130,
@@ -4765,7 +4766,7 @@ theorem recurrence4ExceptionalProduct_coeff_143 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_143_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_144_prefix_zero :
     (∑ x ∈ Finset.range 131,
@@ -4798,7 +4799,7 @@ theorem recurrence4ExceptionalProduct_coeff_144 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_144_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_145_prefix_zero :
     (∑ x ∈ Finset.range 132,
@@ -4831,7 +4832,7 @@ theorem recurrence4ExceptionalProduct_coeff_145 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_145_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_146_prefix_zero :
     (∑ x ∈ Finset.range 133,
@@ -4864,7 +4865,7 @@ theorem recurrence4ExceptionalProduct_coeff_146 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_146_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_147_prefix_zero :
     (∑ x ∈ Finset.range 134,
@@ -4897,7 +4898,7 @@ theorem recurrence4ExceptionalProduct_coeff_147 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_147_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_148_prefix_zero :
     (∑ x ∈ Finset.range 135,
@@ -4930,7 +4931,7 @@ theorem recurrence4ExceptionalProduct_coeff_148 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_148_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_149_prefix_zero :
     (∑ x ∈ Finset.range 136,
@@ -4963,7 +4964,7 @@ theorem recurrence4ExceptionalProduct_coeff_149 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_149_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_150_prefix_zero :
     (∑ x ∈ Finset.range 137,
@@ -4996,7 +4997,7 @@ theorem recurrence4ExceptionalProduct_coeff_150 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_150_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_151_prefix_zero :
     (∑ x ∈ Finset.range 138,
@@ -5029,7 +5030,7 @@ theorem recurrence4ExceptionalProduct_coeff_151 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_151_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_152_prefix_zero :
     (∑ x ∈ Finset.range 139,
@@ -5062,7 +5063,7 @@ theorem recurrence4ExceptionalProduct_coeff_152 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_152_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_153_prefix_zero :
     (∑ x ∈ Finset.range 140,
@@ -5095,7 +5096,7 @@ theorem recurrence4ExceptionalProduct_coeff_153 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_153_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_154_prefix_zero :
     (∑ x ∈ Finset.range 141,
@@ -5128,7 +5129,7 @@ theorem recurrence4ExceptionalProduct_coeff_154 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_154_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_155_prefix_zero :
     (∑ x ∈ Finset.range 142,
@@ -5161,7 +5162,7 @@ theorem recurrence4ExceptionalProduct_coeff_155 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_155_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_156_prefix_zero :
     (∑ x ∈ Finset.range 143,
@@ -5194,7 +5195,7 @@ theorem recurrence4ExceptionalProduct_coeff_156 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_156_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_157_prefix_zero :
     (∑ x ∈ Finset.range 144,
@@ -5227,7 +5228,7 @@ theorem recurrence4ExceptionalProduct_coeff_157 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_157_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_158_prefix_zero :
     (∑ x ∈ Finset.range 145,
@@ -5260,7 +5261,7 @@ theorem recurrence4ExceptionalProduct_coeff_158 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_158_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_159_prefix_zero :
     (∑ x ∈ Finset.range 146,
@@ -5293,7 +5294,7 @@ theorem recurrence4ExceptionalProduct_coeff_159 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_159_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_160_prefix_zero :
     (∑ x ∈ Finset.range 147,
@@ -5326,7 +5327,7 @@ theorem recurrence4ExceptionalProduct_coeff_160 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_160_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_161_prefix_zero :
     (∑ x ∈ Finset.range 148,
@@ -5359,7 +5360,7 @@ theorem recurrence4ExceptionalProduct_coeff_161 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_161_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_162_prefix_zero :
     (∑ x ∈ Finset.range 149,
@@ -5392,7 +5393,7 @@ theorem recurrence4ExceptionalProduct_coeff_162 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_162_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_163_prefix_zero :
     (∑ x ∈ Finset.range 150,
@@ -5425,7 +5426,7 @@ theorem recurrence4ExceptionalProduct_coeff_163 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_163_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_164_prefix_zero :
     (∑ x ∈ Finset.range 151,
@@ -5458,7 +5459,7 @@ theorem recurrence4ExceptionalProduct_coeff_164 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_164_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_165_prefix_zero :
     (∑ x ∈ Finset.range 152,
@@ -5491,7 +5492,7 @@ theorem recurrence4ExceptionalProduct_coeff_165 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_165_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_166_prefix_zero :
     (∑ x ∈ Finset.range 153,
@@ -5524,7 +5525,7 @@ theorem recurrence4ExceptionalProduct_coeff_166 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_166_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_167_prefix_zero :
     (∑ x ∈ Finset.range 154,
@@ -5557,7 +5558,7 @@ theorem recurrence4ExceptionalProduct_coeff_167 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_167_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_168_prefix_zero :
     (∑ x ∈ Finset.range 155,
@@ -5590,7 +5591,7 @@ theorem recurrence4ExceptionalProduct_coeff_168 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_168_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_169_prefix_zero :
     (∑ x ∈ Finset.range 156,
@@ -5623,7 +5624,7 @@ theorem recurrence4ExceptionalProduct_coeff_169 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_169_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_170_prefix_zero :
     (∑ x ∈ Finset.range 157,
@@ -5656,7 +5657,7 @@ theorem recurrence4ExceptionalProduct_coeff_170 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_170_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_171_prefix_zero :
     (∑ x ∈ Finset.range 158,
@@ -5689,7 +5690,7 @@ theorem recurrence4ExceptionalProduct_coeff_171 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_171_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_172_prefix_zero :
     (∑ x ∈ Finset.range 159,
@@ -5722,7 +5723,7 @@ theorem recurrence4ExceptionalProduct_coeff_172 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_172_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_173_prefix_zero :
     (∑ x ∈ Finset.range 160,
@@ -5755,7 +5756,7 @@ theorem recurrence4ExceptionalProduct_coeff_173 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_173_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_174_prefix_zero :
     (∑ x ∈ Finset.range 161,
@@ -5788,7 +5789,7 @@ theorem recurrence4ExceptionalProduct_coeff_174 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_174_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_175_prefix_zero :
     (∑ x ∈ Finset.range 162,
@@ -5821,7 +5822,7 @@ theorem recurrence4ExceptionalProduct_coeff_175 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_175_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_176_prefix_zero :
     (∑ x ∈ Finset.range 163,
@@ -5854,7 +5855,7 @@ theorem recurrence4ExceptionalProduct_coeff_176 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_176_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_177_prefix_zero :
     (∑ x ∈ Finset.range 164,
@@ -5887,7 +5888,7 @@ theorem recurrence4ExceptionalProduct_coeff_177 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_177_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_178_prefix_zero :
     (∑ x ∈ Finset.range 165,
@@ -5920,7 +5921,7 @@ theorem recurrence4ExceptionalProduct_coeff_178 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_178_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_179_prefix_zero :
     (∑ x ∈ Finset.range 166,
@@ -5953,7 +5954,7 @@ theorem recurrence4ExceptionalProduct_coeff_179 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_179_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_180_prefix_zero :
     (∑ x ∈ Finset.range 167,
@@ -5986,7 +5987,7 @@ theorem recurrence4ExceptionalProduct_coeff_180 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_180_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_181_prefix_zero :
     (∑ x ∈ Finset.range 168,
@@ -6019,7 +6020,7 @@ theorem recurrence4ExceptionalProduct_coeff_181 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_181_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_182_prefix_zero :
     (∑ x ∈ Finset.range 169,
@@ -6052,7 +6053,7 @@ theorem recurrence4ExceptionalProduct_coeff_182 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_182_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_183_prefix_zero :
     (∑ x ∈ Finset.range 170,
@@ -6085,7 +6086,7 @@ theorem recurrence4ExceptionalProduct_coeff_183 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_183_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_184_prefix_zero :
     (∑ x ∈ Finset.range 171,
@@ -6118,7 +6119,7 @@ theorem recurrence4ExceptionalProduct_coeff_184 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_184_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_185_prefix_zero :
     (∑ x ∈ Finset.range 172,
@@ -6151,7 +6152,7 @@ theorem recurrence4ExceptionalProduct_coeff_185 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_185_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_186_prefix_zero :
     (∑ x ∈ Finset.range 173,
@@ -6184,7 +6185,7 @@ theorem recurrence4ExceptionalProduct_coeff_186 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_186_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_187_prefix_zero :
     (∑ x ∈ Finset.range 174,
@@ -6217,7 +6218,7 @@ theorem recurrence4ExceptionalProduct_coeff_187 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_187_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_188_prefix_zero :
     (∑ x ∈ Finset.range 175,
@@ -6250,7 +6251,7 @@ theorem recurrence4ExceptionalProduct_coeff_188 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_188_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_189_prefix_zero :
     (∑ x ∈ Finset.range 176,
@@ -6283,7 +6284,7 @@ theorem recurrence4ExceptionalProduct_coeff_189 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_189_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_190_prefix_zero :
     (∑ x ∈ Finset.range 177,
@@ -6316,7 +6317,7 @@ theorem recurrence4ExceptionalProduct_coeff_190 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_190_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_191_prefix_zero :
     (∑ x ∈ Finset.range 178,
@@ -6349,7 +6350,7 @@ theorem recurrence4ExceptionalProduct_coeff_191 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_191_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_192_prefix_zero :
     (∑ x ∈ Finset.range 179,
@@ -6382,7 +6383,7 @@ theorem recurrence4ExceptionalProduct_coeff_192 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_192_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_193_prefix_zero :
     (∑ x ∈ Finset.range 180,
@@ -6415,7 +6416,7 @@ theorem recurrence4ExceptionalProduct_coeff_193 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_193_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_194_prefix_zero :
     (∑ x ∈ Finset.range 181,
@@ -6448,7 +6449,7 @@ theorem recurrence4ExceptionalProduct_coeff_194 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_194_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_195_prefix_zero :
     (∑ x ∈ Finset.range 182,
@@ -6481,7 +6482,7 @@ theorem recurrence4ExceptionalProduct_coeff_195 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_195_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_196_prefix_zero :
     (∑ x ∈ Finset.range 183,
@@ -6514,7 +6515,7 @@ theorem recurrence4ExceptionalProduct_coeff_196 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_196_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_197_prefix_zero :
     (∑ x ∈ Finset.range 184,
@@ -6547,7 +6548,7 @@ theorem recurrence4ExceptionalProduct_coeff_197 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_197_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_198_prefix_zero :
     (∑ x ∈ Finset.range 185,
@@ -6580,7 +6581,7 @@ theorem recurrence4ExceptionalProduct_coeff_198 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_198_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_199_prefix_zero :
     (∑ x ∈ Finset.range 186,
@@ -6613,7 +6614,7 @@ theorem recurrence4ExceptionalProduct_coeff_199 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_199_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_200_prefix_zero :
     (∑ x ∈ Finset.range 187,
@@ -6646,7 +6647,7 @@ theorem recurrence4ExceptionalProduct_coeff_200 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_200_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_201_prefix_zero :
     (∑ x ∈ Finset.range 188,
@@ -6679,7 +6680,7 @@ theorem recurrence4ExceptionalProduct_coeff_201 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_201_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_202_prefix_zero :
     (∑ x ∈ Finset.range 189,
@@ -6712,7 +6713,7 @@ theorem recurrence4ExceptionalProduct_coeff_202 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_202_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_203_prefix_zero :
     (∑ x ∈ Finset.range 190,
@@ -6745,7 +6746,7 @@ theorem recurrence4ExceptionalProduct_coeff_203 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_203_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_204_prefix_zero :
     (∑ x ∈ Finset.range 191,
@@ -6778,7 +6779,7 @@ theorem recurrence4ExceptionalProduct_coeff_204 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_204_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_205_prefix_zero :
     (∑ x ∈ Finset.range 192,
@@ -6811,7 +6812,7 @@ theorem recurrence4ExceptionalProduct_coeff_205 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_205_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_206_prefix_zero :
     (∑ x ∈ Finset.range 193,
@@ -6844,7 +6845,7 @@ theorem recurrence4ExceptionalProduct_coeff_206 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_206_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_207_prefix_zero :
     (∑ x ∈ Finset.range 194,
@@ -6877,7 +6878,7 @@ theorem recurrence4ExceptionalProduct_coeff_207 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_207_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_208_prefix_zero :
     (∑ x ∈ Finset.range 195,
@@ -6910,7 +6911,7 @@ theorem recurrence4ExceptionalProduct_coeff_208 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_208_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_209_prefix_zero :
     (∑ x ∈ Finset.range 196,
@@ -6943,7 +6944,7 @@ theorem recurrence4ExceptionalProduct_coeff_209 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_209_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_210_prefix_zero :
     (∑ x ∈ Finset.range 197,
@@ -6976,7 +6977,7 @@ theorem recurrence4ExceptionalProduct_coeff_210 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_210_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_211_prefix_zero :
     (∑ x ∈ Finset.range 198,
@@ -7009,7 +7010,7 @@ theorem recurrence4ExceptionalProduct_coeff_211 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_211_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_212_prefix_zero :
     (∑ x ∈ Finset.range 199,
@@ -7042,7 +7043,7 @@ theorem recurrence4ExceptionalProduct_coeff_212 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_212_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_213_prefix_zero :
     (∑ x ∈ Finset.range 200,
@@ -7075,7 +7076,7 @@ theorem recurrence4ExceptionalProduct_coeff_213 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_213_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_214_prefix_zero :
     (∑ x ∈ Finset.range 201,
@@ -7108,7 +7109,7 @@ theorem recurrence4ExceptionalProduct_coeff_214 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_214_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_215_prefix_zero :
     (∑ x ∈ Finset.range 202,
@@ -7141,7 +7142,7 @@ theorem recurrence4ExceptionalProduct_coeff_215 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_215_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_216_prefix_zero :
     (∑ x ∈ Finset.range 203,
@@ -7174,7 +7175,7 @@ theorem recurrence4ExceptionalProduct_coeff_216 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_216_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 private theorem recurrence4ExceptionalProduct_coeff_217_prefix_zero :
     (∑ x ∈ Finset.range 204,
@@ -7207,7 +7208,7 @@ theorem recurrence4ExceptionalProduct_coeff_217 :
     rw [show 14 = 14 +
       0 by norm_num, Finset.sum_range_add]
   rw [recurrence4ExceptionalProduct_coeff_217_prefix_zero]
-  norm_num [Finset.sum_range_succ]
+  simp only [Finset.sum_range_succ, orderSevenCoefficient]; norm_num
 
 end
 

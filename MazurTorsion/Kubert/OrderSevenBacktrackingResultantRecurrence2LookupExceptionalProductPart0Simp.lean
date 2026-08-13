@@ -1,0 +1,222 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+module
+public import MazurTorsion.Kubert.OrderSevenCoefficientSimp
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupA6Square
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupExceptional
+
+/-!
+# Bounded coefficient simplification rules
+
+This internal rule packet is consumed by the checked coefficient shards for
+`OrderSevenBacktrackingResultantRecurrence2LookupExceptionalProductPart0`.
+It keeps generated convolution proofs on their bounded simp set.
+-/
+public section
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+attribute [orderSevenCoefficient]
+  recurrence2A6Square_coeff_0
+  recurrence2A6Square_coeff_1
+  recurrence2A6Square_coeff_2
+  recurrence2A6Square_coeff_3
+  recurrence2A6Square_coeff_4
+  recurrence2A6Square_coeff_5
+  recurrence2A6Square_coeff_6
+  recurrence2A6Square_coeff_7
+  recurrence2A6Square_coeff_8
+  recurrence2A6Square_coeff_9
+  recurrence2A6Square_coeff_10
+  recurrence2A6Square_coeff_11
+  recurrence2A6Square_coeff_12
+  recurrence2A6Square_coeff_13
+  recurrence2A6Square_coeff_14
+  recurrence2A6Square_coeff_15
+  recurrence2A6Square_coeff_16
+  recurrence2A6Square_coeff_17
+  recurrence2A6Square_coeff_18
+  recurrence2A6Square_coeff_19
+  recurrence2A6Square_coeff_20
+  recurrence2A6Square_coeff_21
+  recurrence2A6Square_coeff_22
+  recurrence2A6Square_coeff_23
+  recurrence2A6Square_coeff_24
+  recurrence2A6Square_coeff_25
+  recurrence2A6Square_coeff_26
+  recurrence2A6Square_coeff_27
+  recurrence2A6Square_coeff_28
+  recurrence2A6Square_coeff_29
+  recurrence2A6Square_coeff_30
+  recurrence2A6Square_coeff_31
+  recurrence2A6Square_coeff_32
+  recurrence2A6Square_coeff_33
+  recurrence2A6Square_coeff_34
+  recurrence2A6Square_coeff_35
+  recurrence2A6Square_coeff_36
+  recurrence2A6Square_coeff_37
+  recurrence2A6Square_coeff_38
+  recurrence2A6Square_coeff_39
+  recurrence2A6Square_coeff_40
+  recurrence2A6Square_coeff_41
+  recurrence2A6Square_coeff_42
+  recurrence2A6Square_coeff_43
+  recurrence2A6Square_coeff_44
+  recurrence2A6Square_coeff_45
+  recurrence2A6Square_coeff_46
+  recurrence2A6Square_coeff_47
+  recurrence2A6Square_coeff_48
+  recurrence2A6Square_coeff_49
+  recurrence2A6Square_coeff_50
+  recurrence2A6Square_coeff_51
+  recurrence2A6Square_coeff_52
+  recurrence2A6Square_coeff_53
+  recurrence2A6Square_coeff_54
+  recurrence2A6Square_coeff_55
+  recurrence2A6Square_coeff_56
+  recurrence2A6Square_coeff_57
+  recurrence2A6Square_coeff_58
+  recurrence2A6Square_coeff_59
+  recurrence2A6Square_coeff_60
+  recurrence2A6Square_coeff_61
+  recurrence2A6Square_coeff_62
+  recurrence2A6Square_coeff_63
+  recurrence2A6Square_coeff_64
+  recurrence2A6Square_coeff_65
+  recurrence2A6Square_coeff_66
+  recurrence2A6Square_coeff_67
+  recurrence2A6Square_coeff_68
+  recurrence2A6Square_coeff_69
+  recurrence2A6Square_coeff_70
+  recurrence2A6Square_coeff_71
+  recurrence2A6Square_coeff_72
+  recurrence2A6Square_coeff_73
+  recurrence2A6Square_coeff_74
+  recurrence2A6Square_coeff_75
+  recurrence2A6Square_coeff_76
+  recurrence2A6Square_coeff_77
+  recurrence2A6Square_coeff_78
+  recurrence2A6Square_coeff_79
+  recurrence2A6Square_coeff_80
+  recurrence2A6Square_coeff_81
+  recurrence2A6Square_coeff_82
+  recurrence2A6Square_coeff_83
+  recurrence2A6Square_coeff_84
+  recurrence2A6Square_coeff_85
+  recurrence2A6Square_coeff_86
+  recurrence2A6Square_coeff_87
+  recurrence2A6Square_coeff_88
+  recurrence2A6Square_coeff_89
+  recurrence2A6Square_coeff_90
+  recurrence2A6Square_coeff_91
+  recurrence2A6Square_coeff_92
+  recurrence2A6Square_coeff_93
+  recurrence2A6Square_coeff_94
+  recurrence2A6Square_coeff_95
+  recurrence2A6Square_coeff_96
+  recurrence2A6Square_coeff_97
+  recurrence2A6Square_coeff_98
+  recurrence2A6Square_coeff_99
+  recurrence2A6Square_coeff_100
+  recurrence2A6Square_coeff_101
+  recurrence2A6Square_coeff_102
+  recurrence2A6Square_coeff_103
+  recurrence2A6Square_coeff_104
+  recurrence2A6Square_coeff_105
+  recurrence2A6Square_coeff_106
+  recurrence2A6Square_coeff_107
+  recurrence2A6Square_coeff_108
+  recurrence2A6Square_coeff_109
+  recurrence2A6Square_coeff_110
+  recurrence2A6Square_coeff_111
+  recurrence2A6Square_coeff_112
+  recurrence2A6Square_coeff_113
+  recurrence2A6Square_coeff_114
+  recurrence2A6Square_coeff_115
+  recurrence2A6Square_coeff_116
+  recurrence2A6Square_coeff_117
+  recurrence2A6Square_coeff_118
+  recurrence2A6Square_coeff_119
+  recurrence2A6Square_coeff_120
+  recurrence2A6Square_coeff_121
+  recurrence2A6Square_coeff_122
+  recurrence2A6Square_coeff_123
+  recurrence2A6Square_coeff_124
+  recurrence2A6Square_coeff_125
+  recurrence2A6Square_coeff_126
+  recurrence2A6Square_coeff_127
+  recurrence2A6Square_coeff_128
+  recurrence2A6Square_coeff_129
+  recurrence2A6Square_coeff_130
+  recurrence2A6Square_coeff_131
+  recurrence2A6Square_coeff_132
+  recurrence2A6Square_coeff_133
+  recurrence2A6Square_coeff_134
+  recurrence2A6Square_coeff_135
+  recurrence2A6Square_coeff_136
+  recurrence2A6Square_coeff_137
+  recurrence2A6Square_coeff_138
+  recurrence2A6Square_coeff_139
+  recurrence2A6Square_coeff_140
+  recurrence2A6Square_coeff_141
+  recurrence2A6Square_coeff_142
+  recurrence2A6Square_coeff_143
+  recurrence2A6Square_coeff_144
+  recurrence2A6Square_coeff_145
+  recurrence2A6Square_coeff_146
+  recurrence2A6Square_coeff_147
+  recurrence2A6Square_coeff_148
+  recurrence2A6Square_coeff_149
+  recurrence2A6Square_coeff_150
+  recurrence2A6Square_coeff_151
+  recurrence2A6Square_coeff_152
+  recurrence2A6Square_coeff_153
+  recurrence2A6Square_coeff_154
+  recurrence2A6Square_coeff_155
+  recurrence2A6Square_coeff_156
+  recurrence2A6Square_coeff_157
+  recurrence2A6Square_coeff_158
+  recurrence2A6Square_coeff_159
+  recurrence2A6Square_coeff_160
+  recurrence2A6Square_coeff_161
+  recurrence2A6Square_coeff_162
+  recurrence2A6Square_coeff_163
+  recurrence2A6Square_coeff_164
+  recurrence2A6Square_coeff_165
+  recurrence2A6Square_coeff_166
+  recurrence2A6Square_coeff_167
+  recurrence2A6Square_coeff_168
+  recurrence2A6Square_coeff_169
+  recurrence2A6Square_coeff_170
+  recurrence2A6Square_coeff_171
+  recurrence2A6Square_coeff_172
+  recurrence2A6Square_coeff_173
+  recurrence2A6Square_coeff_174
+  recurrence2A6Square_coeff_175
+  recurrence2A6Square_coeff_176
+  recurrence2A6Square_coeff_177
+  recurrence2A6Square_coeff_178
+  recurrence2A6Square_coeff_179
+  recurrence2A6Square_coeff_180
+  recurrence2A6Square_coeff_181
+  recurrence2A6Square_coeff_182
+  recurrence2A6Square_coeff_183
+  recurrence2A6Square_coeff_184
+  recurrence2A6Square_coeff_185
+  recurrence2A6Square_coeff_186
+  recurrence2A6Square_coeff_187
+  recurrence2A6Square_coeff_188
+  recurrence2A6Square_coeff_189
+  recurrence2A6Square_coeff_190
+  recurrence2Exceptional_coeff_0
+  recurrence2Exceptional_coeff_1
+  recurrence2Exceptional_coeff_2
+  recurrence2Exceptional_coeff_3
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

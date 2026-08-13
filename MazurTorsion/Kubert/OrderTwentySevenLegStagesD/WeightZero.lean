@@ -4,7 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part22
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part23
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Constant weighted third-leg identity
@@ -12,6 +18,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The constant coefficient-weighted identity used in the final Fricke-twisted
 correspondence certificate.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -49,3 +59,5 @@ lemma zlWZero_val {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
     (zlWZero_s0 hM) + (zlWZero_s1 hM)
 
 end MazurTorsion.Kubert
+
+end

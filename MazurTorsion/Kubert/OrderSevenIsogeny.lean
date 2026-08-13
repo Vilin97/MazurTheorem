@@ -3,9 +3,9 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenHauptmodul
-import MazurTorsion.EllipticCurve.VeluPair
+module
+public import MazurTorsion.Kubert.OrderSevenHauptmodul
+public import MazurTorsion.EllipticCurve.VeluPair
 import Mathlib.Tactic.FieldSimp
 
 /-!
@@ -27,18 +27,18 @@ open scoped WeierstrassCurve.Affine
 namespace MazurTorsion.Kubert
 
 /-- The `b` parameter of the order-seven Tate family. -/
-@[simp] def orderSevenB (d : ℚ) : ℚ := d ^ 3 - d ^ 2
+@[simp, expose] public def orderSevenB (d : ℚ) : ℚ := d ^ 3 - d ^ 2
 
 /-- The `c` parameter of the order-seven Tate family. -/
-@[simp] def orderSevenC (d : ℚ) : ℚ := d ^ 2 - d
+@[simp, expose] public def orderSevenC (d : ℚ) : ℚ := d ^ 2 - d
 
 /-- The order-seven Tate family, with marked point `(0,0)`. -/
-def orderSevenFamily (d : ℚ) : WeierstrassCurve ℚ :=
+@[expose] public def orderSevenFamily (d : ℚ) : WeierstrassCurve ℚ :=
   tateNormalCurve (orderSevenB d) (orderSevenC d)
 
 /-- The normalized coefficient model produced by Vélu's formula for the
 quotient by the marked order-seven subgroup. -/
-def orderSevenQuotient (d : ℚ) : WeierstrassCurve ℚ :=
+@[expose] public def orderSevenQuotient (d : ℚ) : WeierstrassCurve ℚ :=
   ⟨1 - orderSevenC d,
     -orderSevenB d,
     -orderSevenB d,
@@ -50,7 +50,7 @@ def orderSevenQuotient (d : ℚ) : WeierstrassCurve ℚ :=
         76 * d ^ 2 - 18 * d + 1)⟩
 
 /-- The discriminant of the source order-seven family. -/
-theorem orderSevenFamily_Δ (d : ℚ) :
+public theorem orderSevenFamily_Δ (d : ℚ) :
     (orderSevenFamily d).Δ =
       d ^ 7 * (d - 1) ^ 7 *
         (d ^ 3 - 8 * d ^ 2 + 5 * d + 1) := by
@@ -58,7 +58,7 @@ theorem orderSevenFamily_Δ (d : ℚ) :
     orderSeven_Δ d
 
 /-- The discriminant of the marked order-seven quotient model. -/
-theorem orderSevenQuotient_Δ (d : ℚ) :
+public theorem orderSevenQuotient_Δ (d : ℚ) :
     (orderSevenQuotient d).Δ =
       d * (d - 1) * (d ^ 3 - 8 * d ^ 2 + 5 * d + 1) ^ 7 := by
   simp only [WeierstrassCurve.Δ, WeierstrassCurve.b₂,
@@ -68,7 +68,7 @@ theorem orderSevenQuotient_Δ (d : ℚ) :
   ring
 
 /-- The `c₄` invariant of the marked order-seven quotient model. -/
-theorem orderSevenQuotient_c₄ (d : ℚ) :
+public theorem orderSevenQuotient_c₄ (d : ℚ) :
     (orderSevenQuotient d).c₄ =
       (d ^ 2 - d + 1) *
         (d ^ 6 + 229 * d ^ 5 + 270 * d ^ 4 - 1695 * d ^ 3 +
@@ -80,12 +80,12 @@ theorem orderSevenQuotient_c₄ (d : ℚ) :
 
 /-- The Fricke/backtracking Hauptmodul on the quotient family.  It is
 `49 / t₇` for the source-family Hauptmodul. -/
-def orderSevenFrickeParameter (d : ℚ) : ℚ :=
+@[expose] public def orderSevenFrickeParameter (d : ℚ) : ℚ :=
   (d ^ 3 - 8 * d ^ 2 + 5 * d + 1) / (d * (d - 1))
 
 /-- The quotient invariants satisfy the level-seven Hauptmodul identity
 for the Fricke/backtracking parameter. -/
-theorem orderSevenQuotient_hauptmodul_identity
+public theorem orderSevenQuotient_hauptmodul_identity
     (d : ℚ) (hd0 : d ≠ 0) (hd1 : d ≠ 1) :
     orderSevenJNumerator (orderSevenFrickeParameter d) *
         (orderSevenQuotient d).Δ =
@@ -98,7 +98,7 @@ theorem orderSevenQuotient_hauptmodul_identity
 
 /-- Nonsingularity of the source family implies nonsingularity of its
 explicit order-seven quotient model. -/
-noncomputable instance orderSevenQuotient_isElliptic
+public noncomputable instance orderSevenQuotient_isElliptic
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     (orderSevenQuotient d).IsElliptic := by
   rw [WeierstrassCurve.isElliptic_iff, isUnit_iff_ne_zero,
@@ -140,27 +140,32 @@ private def veluSevenTC (d : ℚ) : ℚ :=
 
 private def veluSevenUC (d : ℚ) : ℚ :=
   d ^ 2 * (d - 1) ^ 6
-
 /-- The abscissa of the explicit Vélu map away from its three kernel
 abscissae. -/
-def orderSevenVeluX (d x : ℚ) : ℚ :=
-  x + veluSevenT0 d / x + veluSevenU0 d / x ^ 2 +
-    veluSevenTB d / (x - orderSevenB d) +
-    veluSevenUB d / (x - orderSevenB d) ^ 2 +
-    veluSevenTC d / (x - orderSevenC d) +
-    veluSevenUC d / (x - orderSevenC d) ^ 2
+@[expose] public def orderSevenVeluX (d x : ℚ) : ℚ :=
+  x + (d ^ 2 * (d - 1) * (d ^ 2 - d - 1)) / x +
+    (d ^ 4 * (d - 1) ^ 2) / x ^ 2 +
+    (d ^ 3 * (d - 1) ^ 2 * (d ^ 2 + d - 1)) /
+      (x - orderSevenB d) +
+    (d ^ 6 * (d - 1) ^ 4) / (x - orderSevenB d) ^ 2 +
+    (d * (d - 1) ^ 3 * (d ^ 2 - 3 * d + 1)) /
+      (x - orderSevenC d) +
+    (d ^ 2 * (d - 1) ^ 6) / (x - orderSevenC d) ^ 2
 
 /-- The rational differential factor of the explicit Vélu abscissa. -/
-def orderSevenVeluDifferential (d x : ℚ) : ℚ :=
-  1 - veluSevenT0 d / x ^ 2 - 2 * veluSevenU0 d / x ^ 3 -
-    veluSevenTB d / (x - orderSevenB d) ^ 2 -
-    2 * veluSevenUB d / (x - orderSevenB d) ^ 3 -
-    veluSevenTC d / (x - orderSevenC d) ^ 2 -
-    2 * veluSevenUC d / (x - orderSevenC d) ^ 3
+@[expose] public def orderSevenVeluDifferential (d x : ℚ) : ℚ :=
+  1 - (d ^ 2 * (d - 1) * (d ^ 2 - d - 1)) / x ^ 2 -
+    2 * (d ^ 4 * (d - 1) ^ 2) / x ^ 3 -
+    (d ^ 3 * (d - 1) ^ 2 * (d ^ 2 + d - 1)) /
+      (x - orderSevenB d) ^ 2 -
+    2 * (d ^ 6 * (d - 1) ^ 4) / (x - orderSevenB d) ^ 3 -
+    (d * (d - 1) ^ 3 * (d ^ 2 - 3 * d + 1)) /
+      (x - orderSevenC d) ^ 2 -
+    2 * (d ^ 2 * (d - 1) ^ 6) / (x - orderSevenC d) ^ 3
 
 /-- The ordinate of the explicit Vélu map, normalized to preserve the
 invariant differential. -/
-def orderSevenVeluY (d x y : ℚ) : ℚ :=
+@[expose] public def orderSevenVeluY (d x y : ℚ) : ℚ :=
   (orderSevenVeluDifferential d x *
         (2 * y + (1 - orderSevenC d) * x - orderSevenB d) -
       (1 - orderSevenC d) * orderSevenVeluX d x +
@@ -168,7 +173,7 @@ def orderSevenVeluY (d x y : ℚ) : ℚ :=
 
 /-- The completed ordinate of the Vélu image is the source completed
 ordinate multiplied by the explicit differential factor. -/
-theorem orderSevenVelu_completedY (d x y : ℚ) :
+public theorem orderSevenVelu_completedY (d x y : ℚ) :
     2 * orderSevenVeluY d x y +
         (orderSevenQuotient d).a₁ * orderSevenVeluX d x +
         (orderSevenQuotient d).a₃ =
@@ -181,18 +186,18 @@ theorem orderSevenVelu_completedY (d x y : ℚ) :
 
 /-- The residual level-seven Hauptmodul obtained by applying explicit Tate
 normalization to the Vélu image of an affine source point. -/
-def orderSevenResidualHauptmodul (d x y : ℚ) : ℚ :=
+@[expose] public def orderSevenResidualHauptmodul (d x y : ℚ) : ℚ :=
   orderSevenHauptmodulAt (orderSevenQuotient d)
     (orderSevenVeluX d x) (orderSevenVeluY d x y)
 
 /-- The kernel polynomial whose roots are the three affine pole
 abscissae. -/
-def orderSevenKernelPolynomial (d x : ℚ) : ℚ :=
+@[expose] public def orderSevenKernelPolynomial (d x : ℚ) : ℚ :=
   x * (x - orderSevenB d) * (x - orderSevenC d)
 
 /-- The cleared numerator of `orderSevenVeluX`; its denominator is the
 square of `orderSevenKernelPolynomial`. -/
-def orderSevenVeluXNumerator (d x : ℚ) : ℚ :=
+@[expose] public def orderSevenVeluXNumerator (d x : ℚ) : ℚ :=
   x ^ 7 - 2 * d * (d - 1) * (d + 1) * x ^ 6 +
     d * (d - 1) *
       (d ^ 5 + 2 * d ^ 4 - 3 * d ^ 3 + 5 * d ^ 2 - 7 * d + 1) *
@@ -208,7 +213,7 @@ def orderSevenVeluXNumerator (d x : ℚ) : ℚ :=
 
 /-- The cleared numerator of `orderSevenVeluDifferential`; its denominator
 is the cube of `orderSevenKernelPolynomial`. -/
-def orderSevenVeluDifferentialNumerator (d x : ℚ) : ℚ :=
+@[expose] public def orderSevenVeluDifferentialNumerator (d x : ℚ) : ℚ :=
   x ^ 9 - 3 * d * (d - 1) * (d + 1) * x ^ 8 -
     d * (d - 1) *
       (d ^ 5 - 2 * d ^ 4 - 12 * d ^ 3 + 14 * d ^ 2 - 3 * d + 1) *
@@ -231,7 +236,7 @@ def orderSevenVeluDifferentialNumerator (d x : ℚ) : ℚ :=
 
 /-- Away from the kernel abscissae, the explicit Vélu abscissa is the
 cleared numerator divided by the square of the kernel polynomial. -/
-theorem orderSevenVeluX_eq_div
+public theorem orderSevenVeluX_eq_div
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
@@ -239,15 +244,14 @@ theorem orderSevenVeluX_eq_div
       orderSevenVeluXNumerator d x /
         orderSevenKernelPolynomial d x ^ 2 := by
   simp only [orderSevenVeluX, orderSevenVeluXNumerator,
-    orderSevenKernelPolynomial, veluSevenT0, veluSevenU0,
-    veluSevenTB, veluSevenUB, veluSevenTC, veluSevenUC]
+    orderSevenKernelPolynomial]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
   ring
 
 /-- Away from the kernel abscissae, the explicit Vélu differential is the
 cleared numerator divided by the cube of the kernel polynomial. -/
-theorem orderSevenVeluDifferential_eq_div
+public theorem orderSevenVeluDifferential_eq_div
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
@@ -255,9 +259,7 @@ theorem orderSevenVeluDifferential_eq_div
       orderSevenVeluDifferentialNumerator d x /
         orderSevenKernelPolynomial d x ^ 3 := by
   simp only [orderSevenVeluDifferential,
-    orderSevenVeluDifferentialNumerator, orderSevenKernelPolynomial,
-    veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
-    veluSevenTC, veluSevenUC]
+    orderSevenVeluDifferentialNumerator, orderSevenKernelPolynomial]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
   ring
@@ -273,8 +275,7 @@ private theorem orderSevenVeluX_eq_pairCorrections
       Velu.pairXCorrection (orderSevenFamily d) x
         (orderSevenC d) (orderSevenB d - orderSevenC d) := by
   simp only [orderSevenVeluX, Velu.pairXCorrection,
-    veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
-    veluSevenTC, veluSevenUC, orderSevenFamily, tateNormalCurve,
+    orderSevenFamily, tateNormalCurve,
     WeierstrassCurve.b₂, WeierstrassCurve.b₄]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
@@ -292,8 +293,7 @@ private theorem orderSevenVeluDifferential_eq_pairCorrections
         (orderSevenC d) (orderSevenB d - orderSevenC d) := by
   simp only [orderSevenVeluDifferential,
     Velu.pairDifferentialCorrection,
-    veluSevenT0, veluSevenU0, veluSevenTB, veluSevenUB,
-    veluSevenTC, veluSevenUC, orderSevenFamily, tateNormalCurve,
+    orderSevenFamily, tateNormalCurve,
     WeierstrassCurve.b₂, WeierstrassCurve.b₄]
   field_simp [hx0, sub_ne_zero.mpr hxb, sub_ne_zero.mpr hxc]
   simp only [orderSevenB, orderSevenC]
@@ -326,7 +326,7 @@ private theorem sevenOrbitCorrection_add
   ring
 
 /-- The completed-square cubic identity behind the explicit Vélu map. -/
-theorem orderSevenVelu_completedSquare
+public theorem orderSevenVelu_completedSquare
     {d x : ℚ} (hx0 : x ≠ 0)
     (hxb : x ≠ orderSevenB d)
     (hxc : x ≠ orderSevenC d) :
@@ -368,7 +368,7 @@ private theorem equation_iff_completedSquare
 
 /-- Away from the three kernel abscissae, the explicit Vélu functions
 carry the source affine equation to the quotient affine equation. -/
-theorem orderSevenVelu_equation
+public theorem orderSevenVelu_equation
     {d x y : ℚ}
     (hcurve : (orderSevenFamily d).toAffine.Equation x y)
     (hx0 : x ≠ 0) (hxb : x ≠ orderSevenB d)
@@ -415,17 +415,17 @@ private theorem orderSeven_tateNextY
     (-orderSevenB d + orderSevenC d * x - x - y) * hcurve
 
 /-- The three affine pole abscissae of the order-seven Vélu map. -/
-def OrderSevenKernelX (d x : ℚ) : Prop :=
+@[expose] public def OrderSevenKernelX (d x : ℚ) : Prop :=
   x = 0 ∨ x = orderSevenB d ∨ x = orderSevenC d
 
-instance orderSevenKernelX_decidable (d x : ℚ) :
+public instance orderSevenKernelXDecidable (d x : ℚ) :
     Decidable (OrderSevenKernelX d x) := by
   unfold OrderSevenKernelX
   infer_instance
 
 /-- The marked origin is nonsingular on every nonsingular member of the
 order-seven family. -/
-theorem orderSevenOrigin_nonsingular
+public theorem orderSevenOrigin_nonsingular
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     (orderSevenFamily d).toAffine.Nonsingular 0 0 := by
   apply (orderSevenFamily d).toAffine.equation_iff_nonsingular.mp
@@ -433,14 +433,14 @@ theorem orderSevenOrigin_nonsingular
   simp [orderSevenFamily, tateNormalCurve]
 
 /-- The marked order-seven point `(0,0)` on the source family. -/
-noncomputable def orderSevenOrigin
+@[expose] public noncomputable def orderSevenOrigin
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     (orderSevenFamily d).toAffine.Point :=
   .some 0 0 (orderSevenOrigin_nonsingular d)
 
 /-- Nonsingularity excludes the three bad parameters of the order-seven
 family. -/
-theorem orderSevenFamily_parameters_ne
+public theorem orderSevenFamily_parameters_ne
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     d ≠ 0 ∧ d ≠ 1 ∧
       d ^ 3 - 8 * d ^ 2 + 5 * d + 1 ≠ 0 := by
@@ -462,7 +462,7 @@ theorem orderSevenFamily_parameters_ne
 
 /-- The Fricke/backtracking Hauptmodul is nonzero on every nonsingular
 member of the source family. -/
-theorem orderSevenFrickeParameter_ne_zero
+public theorem orderSevenFrickeParameter_ne_zero
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     orderSevenFrickeParameter d ≠ 0 := by
   obtain ⟨hd0, hd1, hK⟩ := orderSevenFamily_parameters_ne d
@@ -489,7 +489,7 @@ private theorem orderSevenC_ne_zero
 
 /-- The marked origin is killed by seven on the parametrized family. -/
 @[simp]
-theorem seven_nsmul_orderSevenOrigin
+public theorem seven_nsmul_orderSevenOrigin
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     (7 : ℕ) • orderSevenOrigin d = 0 := by
   let b := orderSevenB d
@@ -538,7 +538,7 @@ theorem seven_nsmul_orderSevenOrigin
     _ = 0 := by rw [hfour_neg]; exact neg_add_cancel _
 
 /-- The marked origin has exact additive order seven. -/
-theorem addOrderOf_orderSevenOrigin
+public theorem addOrderOf_orderSevenOrigin
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     addOrderOf (orderSevenOrigin d) = 7 := by
   haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
@@ -652,7 +652,7 @@ private theorem orderSevenVelu_orbitFormulas
     linear_combination -hpairZ0 - hpairZB - hpairZC
 
 /-- The denominator-safe affine value of the explicit Vélu map. -/
-noncomputable def orderSevenVeluPoint
+@[expose] public noncomputable def orderSevenVeluPoint
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (hx0 : x ≠ 0) (hxb : x ≠ orderSevenB d)
@@ -664,7 +664,7 @@ noncomputable def orderSevenVeluPoint
 
 /-- Away from the kernel poles, the explicit Vélu point is invariant under
 translation by the marked order-seven point. -/
-theorem orderSevenVeluPoint_add_origin
+public theorem orderSevenVeluPoint_add_origin
     {d x y x' y' : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (hP' : (orderSevenFamily d).toAffine.Nonsingular x' y')
@@ -741,7 +741,7 @@ theorem orderSevenVeluPoint_add_origin
 
 /-- The total explicit Vélu point function.  The point at infinity and
 the six affine kernel points are sent to infinity. -/
-noncomputable def orderSevenPointMap
+@[expose] public noncomputable def orderSevenPointMap
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     (orderSevenFamily d).toAffine.Point →
       (orderSevenQuotient d).toAffine.Point
@@ -754,13 +754,13 @@ noncomputable def orderSevenPointMap
         (fun h ↦ hx (Or.inr (Or.inr h)))
 
 @[simp]
-theorem orderSevenPointMap_zero
+public theorem orderSevenPointMap_zero
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     orderSevenPointMap d 0 = 0 :=
   rfl
 
 /-- Evaluation of the total point map away from the kernel poles. -/
-theorem orderSevenPointMap_some_of_not_kernelX
+public theorem orderSevenPointMap_some_of_not_kernelX
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (hx : ¬OrderSevenKernelX d x) :
@@ -773,7 +773,7 @@ theorem orderSevenPointMap_some_of_not_kernelX
 
 /-- An affine point maps to infinity exactly at one of the three kernel
 abscissae. -/
-theorem orderSevenPointMap_some_eq_zero_iff
+public theorem orderSevenPointMap_some_eq_zero_iff
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y) :
     orderSevenPointMap d (.some x y hP) = 0 ↔
@@ -785,7 +785,7 @@ theorem orderSevenPointMap_some_eq_zero_iff
       fun h ↦ (hx h).elim⟩
 
 @[simp]
-theorem orderSevenPointMap_origin
+public theorem orderSevenPointMap_origin
     (d : ℚ) [(orderSevenFamily d).IsElliptic] :
     orderSevenPointMap d (orderSevenOrigin d) = 0 := by
   apply (orderSevenPointMap_some_eq_zero_iff
@@ -969,7 +969,7 @@ private theorem addOrderOf_add_nsmul_orderSevenOrigin
 
 /-- Translation invariance at exact order `49`, stated for an arbitrary
 source point. -/
-theorem orderSevenPointMap_add_origin_of_order_fortyNine
+public theorem orderSevenPointMap_add_origin_of_order_fortyNine
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {Q : (orderSevenFamily d).toAffine.Point}
     (hQ : addOrderOf Q = 49) :
@@ -988,7 +988,7 @@ theorem orderSevenPointMap_add_origin_of_order_fortyNine
 
 /-- Repeated translation by the marked kernel point does not change the
 explicit image of an exact-order-`49` point. -/
-theorem orderSevenPointMap_add_nsmul_origin_of_order_fortyNine
+public theorem orderSevenPointMap_add_nsmul_origin_of_order_fortyNine
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {Q : (orderSevenFamily d).toAffine.Point}
     (hQ : addOrderOf Q = 49) (n : ℕ) :
@@ -1012,7 +1012,7 @@ theorem orderSevenPointMap_add_nsmul_origin_of_order_fortyNine
 
 /-- Every point in the zero fiber is one of the seven multiples of the
 marked kernel generator. -/
-theorem exists_eq_nsmul_orderSevenOrigin_of_pointMap_eq_zero
+public theorem exists_eq_nsmul_orderSevenOrigin_of_pointMap_eq_zero
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {R : (orderSevenFamily d).toAffine.Point}
     (hR : orderSevenPointMap d R = 0) :
@@ -1116,7 +1116,7 @@ theorem exists_eq_nsmul_orderSevenOrigin_of_pointMap_eq_zero
 
 /-- Every point in the zero fiber of the explicit Vélu function is killed
 by seven. -/
-theorem orderSevenPointMap_kernel_killed_by_seven
+public theorem orderSevenPointMap_kernel_killed_by_seven
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {P : (orderSevenFamily d).toAffine.Point}
     (hP : orderSevenPointMap d P = 0) :
@@ -1129,7 +1129,7 @@ theorem orderSevenPointMap_kernel_killed_by_seven
 
 /-- An affine point of exact order `49` cannot lie in the marked
 order-seven kernel. -/
-theorem not_orderSevenKernelX_of_order_fortyNine
+public theorem not_orderSevenKernelX_of_order_fortyNine
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (horder : addOrderOf
@@ -1149,7 +1149,7 @@ theorem not_orderSevenKernelX_of_order_fortyNine
 /-- The exact-order consequence needed at the first stage of the order-`49`
 tower.  Full additivity of the explicit point function is unnecessary here:
 it suffices to know compatibility with the single multiple `7 • Q`. -/
-theorem addOrderOf_orderSevenPointMap_of_order_fortyNine
+public theorem addOrderOf_orderSevenPointMap_of_order_fortyNine
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {Q : (orderSevenFamily d).toAffine.Point}
     (hQ : addOrderOf Q = 49)
@@ -1172,7 +1172,7 @@ theorem addOrderOf_orderSevenPointMap_of_order_fortyNine
 /-- The order-`49` image supplies the residual nonzero level-seven
 Hauptmodul on the quotient.  This is the downstream consumer of the generic
 exact-order-seven normalization theorem. -/
-theorem exists_orderSevenHauptmodul_of_order_fortyNine_image
+public theorem exists_orderSevenHauptmodul_of_order_fortyNine_image
     {d : ℚ} [(orderSevenFamily d).IsElliptic]
     {Q : (orderSevenFamily d).toAffine.Point}
     (hQ : addOrderOf Q = 49)
@@ -1189,7 +1189,7 @@ theorem exists_orderSevenHauptmodul_of_order_fortyNine_image
 
 /-- For an affine order-`49` point, the residual Hauptmodul is the explicit
 Tate-normalization expression evaluated at its Vélu image. -/
-theorem orderSevenResidualHauptmodul_spec_of_order_fortyNine
+public theorem orderSevenResidualHauptmodul_spec_of_order_fortyNine
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (hQ : addOrderOf
@@ -1235,7 +1235,7 @@ theorem orderSevenResidualHauptmodul_spec_of_order_fortyNine
 a point on the level-`49` correspondence.  This packages the cancellation
 of the nonzero quotient discriminant; constructing `B` and proving that it
 differs from the Fricke/backtracking parameter remain separate tasks. -/
-theorem orderSevenG7F_eq_zero_of_quotient_hauptmodul
+public theorem orderSevenG7F_eq_zero_of_quotient_hauptmodul
     {d B : ℚ} [(orderSevenFamily d).IsElliptic]
     (hoff : orderSevenFrickeParameter d ≠ B)
     (hB : orderSevenJNumerator B * (orderSevenQuotient d).Δ =
@@ -1263,7 +1263,7 @@ theorem orderSevenG7F_eq_zero_of_quotient_hauptmodul
 /-- The explicit residual Hauptmodul attached to an affine order-`49`
 point lies on the level-`49` correspondence whenever it is not the
 Fricke/backtracking parameter. -/
-theorem orderSevenG7F_residual_eq_zero_of_order_fortyNine
+public theorem orderSevenG7F_residual_eq_zero_of_order_fortyNine
     {d x y : ℚ} [(orderSevenFamily d).IsElliptic]
     (hP : (orderSevenFamily d).toAffine.Nonsingular x y)
     (hQ : addOrderOf

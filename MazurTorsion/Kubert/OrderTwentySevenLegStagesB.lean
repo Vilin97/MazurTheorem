@@ -4,9 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.DenominatorNonzero
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.KernelCubic
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.DenominatorNonzero
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.KernelCubic
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
 
 /-!
 # Second-stage identities for the order-twenty-seven certificate

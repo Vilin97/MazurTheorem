@@ -4,13 +4,21 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNum
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNum
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.FieldSimp
 
 /-!
 # The kernel cubic identity
 
 The cubic identity obtained from the combined numerator certificate.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -25,3 +33,5 @@ lemma kernel_cubic_at {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + 
 
 
 end MazurTorsion.Kubert
+
+end

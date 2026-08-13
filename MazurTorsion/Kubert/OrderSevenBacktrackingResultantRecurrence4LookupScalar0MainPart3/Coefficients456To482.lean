@@ -1,0 +1,1704 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupB0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupQuotientConstant
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupScalar0MainPart3Simp
+import Mathlib.Tactic.NormNum
+import Lean.Elab.Tactic.Omega
+
+/-!
+# Recurrence 4 lookup certificate: Scalar0Main coefficient convolution
+
+This is a checked coefficient-lookup shard for the fourth
+pseudo-division recurrence in the order-seven certificate.
+-/
+public section
+open Polynomial
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+noncomputable section
+
+attribute [local simp]
+  recurrence4B0_coeff_100
+  recurrence4B0_coeff_101
+  recurrence4B0_coeff_102
+  recurrence4B0_coeff_103
+  recurrence4B0_coeff_104
+  recurrence4B0_coeff_105
+  recurrence4B0_coeff_106
+  recurrence4B0_coeff_107
+  recurrence4B0_coeff_108
+  recurrence4B0_coeff_109
+  recurrence4B0_coeff_110
+  recurrence4B0_coeff_111
+  recurrence4B0_coeff_112
+  recurrence4B0_coeff_113
+  recurrence4B0_coeff_114
+  recurrence4B0_coeff_115
+  recurrence4B0_coeff_116
+  recurrence4B0_coeff_117
+  recurrence4B0_coeff_118
+  recurrence4B0_coeff_119
+  recurrence4B0_coeff_120
+  recurrence4B0_coeff_121
+  recurrence4B0_coeff_122
+  recurrence4B0_coeff_123
+  recurrence4B0_coeff_124
+  recurrence4B0_coeff_125
+  recurrence4B0_coeff_126
+  recurrence4B0_coeff_127
+  recurrence4B0_coeff_128
+  recurrence4B0_coeff_129
+  recurrence4B0_coeff_130
+  recurrence4B0_coeff_131
+  recurrence4B0_coeff_132
+  recurrence4B0_coeff_133
+  recurrence4B0_coeff_134
+  recurrence4B0_coeff_135
+  recurrence4B0_coeff_136
+  recurrence4B0_coeff_137
+  recurrence4B0_coeff_138
+  recurrence4B0_coeff_139
+  recurrence4B0_coeff_140
+  recurrence4B0_coeff_141
+  recurrence4B0_coeff_142
+  recurrence4B0_coeff_143
+  recurrence4B0_coeff_144
+  recurrence4B0_coeff_145
+  recurrence4B0_coeff_146
+  recurrence4B0_coeff_147
+  recurrence4B0_coeff_148
+  recurrence4B0_coeff_149
+  recurrence4B0_coeff_150
+  recurrence4B0_coeff_151
+  recurrence4B0_coeff_152
+  recurrence4B0_coeff_153
+  recurrence4B0_coeff_154
+  recurrence4B0_coeff_155
+  recurrence4B0_coeff_156
+  recurrence4B0_coeff_157
+  recurrence4B0_coeff_158
+  recurrence4B0_coeff_159
+  recurrence4B0_coeff_160
+  recurrence4B0_coeff_161
+  recurrence4B0_coeff_162
+  recurrence4B0_coeff_163
+
+attribute [local simp]
+  recurrence4B0_coeff_164
+  recurrence4B0_coeff_165
+  recurrence4B0_coeff_166
+  recurrence4B0_coeff_167
+  recurrence4B0_coeff_168
+  recurrence4B0_coeff_169
+  recurrence4B0_coeff_170
+  recurrence4B0_coeff_171
+  recurrence4B0_coeff_172
+  recurrence4B0_coeff_173
+  recurrence4B0_coeff_174
+  recurrence4B0_coeff_175
+  recurrence4B0_coeff_176
+  recurrence4B0_coeff_37
+  recurrence4B0_coeff_38
+  recurrence4B0_coeff_39
+  recurrence4B0_coeff_40
+  recurrence4B0_coeff_41
+  recurrence4B0_coeff_42
+  recurrence4B0_coeff_43
+  recurrence4B0_coeff_44
+  recurrence4B0_coeff_45
+  recurrence4B0_coeff_46
+  recurrence4B0_coeff_47
+  recurrence4B0_coeff_48
+  recurrence4B0_coeff_49
+  recurrence4B0_coeff_50
+  recurrence4B0_coeff_51
+  recurrence4B0_coeff_52
+  recurrence4B0_coeff_53
+  recurrence4B0_coeff_54
+  recurrence4B0_coeff_55
+  recurrence4B0_coeff_56
+  recurrence4B0_coeff_57
+  recurrence4B0_coeff_58
+  recurrence4B0_coeff_59
+  recurrence4B0_coeff_60
+  recurrence4B0_coeff_61
+  recurrence4B0_coeff_62
+  recurrence4B0_coeff_63
+  recurrence4B0_coeff_64
+  recurrence4B0_coeff_65
+  recurrence4B0_coeff_66
+  recurrence4B0_coeff_67
+  recurrence4B0_coeff_68
+  recurrence4B0_coeff_69
+  recurrence4B0_coeff_70
+  recurrence4B0_coeff_71
+  recurrence4B0_coeff_72
+  recurrence4B0_coeff_73
+  recurrence4B0_coeff_74
+  recurrence4B0_coeff_75
+  recurrence4B0_coeff_76
+  recurrence4B0_coeff_77
+  recurrence4B0_coeff_78
+  recurrence4B0_coeff_79
+  recurrence4B0_coeff_80
+  recurrence4B0_coeff_81
+  recurrence4B0_coeff_82
+  recurrence4B0_coeff_83
+  recurrence4B0_coeff_84
+  recurrence4B0_coeff_85
+  recurrence4B0_coeff_86
+  recurrence4B0_coeff_87
+
+attribute [local simp]
+  recurrence4B0_coeff_88
+  recurrence4B0_coeff_89
+  recurrence4B0_coeff_90
+  recurrence4B0_coeff_91
+  recurrence4B0_coeff_92
+  recurrence4B0_coeff_93
+  recurrence4B0_coeff_94
+  recurrence4B0_coeff_95
+  recurrence4B0_coeff_96
+  recurrence4B0_coeff_97
+  recurrence4B0_coeff_98
+  recurrence4B0_coeff_99
+  recurrence4QuotientConstant_coeff_207
+  recurrence4QuotientConstant_coeff_208
+  recurrence4QuotientConstant_coeff_209
+  recurrence4QuotientConstant_coeff_210
+  recurrence4QuotientConstant_coeff_211
+  recurrence4QuotientConstant_coeff_212
+  recurrence4QuotientConstant_coeff_213
+  recurrence4QuotientConstant_coeff_214
+  recurrence4QuotientConstant_coeff_215
+  recurrence4QuotientConstant_coeff_216
+  recurrence4QuotientConstant_coeff_217
+  recurrence4QuotientConstant_coeff_218
+  recurrence4QuotientConstant_coeff_219
+  recurrence4QuotientConstant_coeff_220
+  recurrence4QuotientConstant_coeff_221
+  recurrence4QuotientConstant_coeff_222
+  recurrence4QuotientConstant_coeff_223
+  recurrence4QuotientConstant_coeff_224
+  recurrence4QuotientConstant_coeff_225
+  recurrence4QuotientConstant_coeff_226
+  recurrence4QuotientConstant_coeff_227
+  recurrence4QuotientConstant_coeff_228
+  recurrence4QuotientConstant_coeff_229
+  recurrence4QuotientConstant_coeff_230
+  recurrence4QuotientConstant_coeff_231
+  recurrence4QuotientConstant_coeff_232
+  recurrence4QuotientConstant_coeff_233
+  recurrence4QuotientConstant_coeff_234
+  recurrence4QuotientConstant_coeff_235
+  recurrence4QuotientConstant_coeff_236
+  recurrence4QuotientConstant_coeff_237
+  recurrence4QuotientConstant_coeff_238
+  recurrence4QuotientConstant_coeff_239
+  recurrence4QuotientConstant_coeff_240
+  recurrence4QuotientConstant_coeff_241
+  recurrence4QuotientConstant_coeff_242
+  recurrence4QuotientConstant_coeff_243
+  recurrence4QuotientConstant_coeff_244
+  recurrence4QuotientConstant_coeff_245
+  recurrence4QuotientConstant_coeff_246
+  recurrence4QuotientConstant_coeff_247
+  recurrence4QuotientConstant_coeff_248
+  recurrence4QuotientConstant_coeff_249
+  recurrence4QuotientConstant_coeff_250
+  recurrence4QuotientConstant_coeff_251
+  recurrence4QuotientConstant_coeff_252
+  recurrence4QuotientConstant_coeff_253
+  recurrence4QuotientConstant_coeff_254
+  recurrence4QuotientConstant_coeff_255
+  recurrence4QuotientConstant_coeff_256
+  recurrence4QuotientConstant_coeff_257
+  recurrence4QuotientConstant_coeff_258
+
+attribute [local simp]
+  recurrence4QuotientConstant_coeff_259
+  recurrence4QuotientConstant_coeff_260
+  recurrence4QuotientConstant_coeff_261
+  recurrence4QuotientConstant_coeff_262
+  recurrence4QuotientConstant_coeff_263
+  recurrence4QuotientConstant_coeff_264
+  recurrence4QuotientConstant_coeff_265
+  recurrence4QuotientConstant_coeff_266
+  recurrence4QuotientConstant_coeff_267
+  recurrence4QuotientConstant_coeff_268
+  recurrence4QuotientConstant_coeff_269
+  recurrence4QuotientConstant_coeff_270
+  recurrence4QuotientConstant_coeff_271
+  recurrence4QuotientConstant_coeff_272
+  recurrence4QuotientConstant_coeff_273
+  recurrence4QuotientConstant_coeff_274
+  recurrence4QuotientConstant_coeff_275
+  recurrence4QuotientConstant_coeff_276
+  recurrence4QuotientConstant_coeff_277
+  recurrence4QuotientConstant_coeff_278
+  recurrence4QuotientConstant_coeff_279
+  recurrence4QuotientConstant_coeff_280
+  recurrence4QuotientConstant_coeff_281
+  recurrence4QuotientConstant_coeff_282
+  recurrence4QuotientConstant_coeff_283
+  recurrence4QuotientConstant_coeff_284
+  recurrence4QuotientConstant_coeff_285
+  recurrence4QuotientConstant_coeff_286
+  recurrence4QuotientConstant_coeff_287
+  recurrence4QuotientConstant_coeff_288
+  recurrence4QuotientConstant_coeff_289
+  recurrence4QuotientConstant_coeff_290
+  recurrence4QuotientConstant_coeff_291
+  recurrence4QuotientConstant_coeff_292
+  recurrence4QuotientConstant_coeff_293
+  recurrence4QuotientConstant_coeff_294
+  recurrence4QuotientConstant_coeff_295
+  recurrence4QuotientConstant_coeff_296
+  recurrence4QuotientConstant_coeff_297
+  recurrence4QuotientConstant_coeff_298
+  recurrence4QuotientConstant_coeff_299
+  recurrence4QuotientConstant_coeff_300
+  recurrence4QuotientConstant_coeff_301
+  recurrence4QuotientConstant_coeff_302
+  recurrence4QuotientConstant_coeff_303
+  recurrence4QuotientConstant_coeff_304
+  recurrence4QuotientConstant_coeff_305
+  recurrence4QuotientConstant_coeff_306
+  recurrence4QuotientConstant_coeff_307
+  recurrence4QuotientConstant_coeff_308
+  recurrence4QuotientConstant_coeff_309
+  recurrence4QuotientConstant_coeff_310
+  recurrence4QuotientConstant_coeff_311
+  recurrence4QuotientConstant_coeff_312
+  recurrence4QuotientConstant_coeff_313
+  recurrence4QuotientConstant_coeff_314
+  recurrence4QuotientConstant_coeff_315
+  recurrence4QuotientConstant_coeff_316
+  recurrence4QuotientConstant_coeff_317
+  recurrence4QuotientConstant_coeff_318
+  recurrence4QuotientConstant_coeff_319
+  recurrence4QuotientConstant_coeff_320
+  recurrence4QuotientConstant_coeff_321
+  recurrence4QuotientConstant_coeff_322
+
+attribute [local simp]
+  recurrence4QuotientConstant_coeff_323
+  recurrence4QuotientConstant_coeff_324
+  recurrence4QuotientConstant_coeff_325
+  recurrence4QuotientConstant_coeff_326
+  recurrence4QuotientConstant_coeff_327
+  recurrence4QuotientConstant_coeff_328
+  recurrence4QuotientConstant_coeff_329
+  recurrence4QuotientConstant_coeff_330
+  recurrence4QuotientConstant_coeff_331
+  recurrence4QuotientConstant_coeff_332
+  recurrence4QuotientConstant_coeff_333
+  recurrence4QuotientConstant_coeff_334
+  recurrence4QuotientConstant_coeff_335
+  recurrence4QuotientConstant_coeff_336
+  recurrence4QuotientConstant_coeff_337
+  recurrence4QuotientConstant_coeff_338
+  recurrence4QuotientConstant_coeff_339
+  recurrence4QuotientConstant_coeff_340
+  recurrence4QuotientConstant_coeff_341
+  recurrence4QuotientConstant_coeff_342
+  recurrence4QuotientConstant_coeff_343
+  recurrence4QuotientConstant_coeff_344
+  recurrence4QuotientConstant_coeff_345
+  recurrence4QuotientConstant_coeff_346
+
+private theorem recurrence4Scalar0Main_coeff_456_prefix_zero :
+    (∑ x ∈ Finset.range 110,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (456 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (456 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_456_suffix_zero :
+    (∑ x ∈ Finset.range 280,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (456 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_456 :
+    recurrence4Scalar0Main.coeff 456 =
+      -((((170231733573006247089029800 * 10 ^ 70 +
+        3696051216029656810014358597161066763460293089619645279986648288980246) * 10 ^ 70 +
+        7946138177248065982852556830357488088406145222300183830125663327198612) * 10 ^ 70 +
+        4699778996573228113516428393272066511956795935823587602111971179183140) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 457,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (456 - x)) = _
+  rw [show 457 = 110 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 32 +
+      283 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 283 = 3 +
+      280 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_456_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_456_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_457_prefix_zero :
+    (∑ x ∈ Finset.range 111,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (457 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (457 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_457_suffix_zero :
+    (∑ x ∈ Finset.range 281,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (457 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_457 :
+    recurrence4Scalar0Main.coeff 457 =
+      -((((806043343693466965665193 * 10 ^ 70 +
+        6492278904669174897688294666440296609701138419323146090194310561912045) * 10 ^ 70 +
+        6612460421304115546069018394267615199642195508373630832180430280659712) * 10 ^ 70 +
+        9543704895034832665409455866535795766187263358942774384649801790261655) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 458,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (457 - x)) = _
+  rw [show 458 = 111 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 32 +
+      283 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 283 = 2 +
+      281 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_457_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_457_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_458_prefix_zero :
+    (∑ x ∈ Finset.range 112,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (458 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (458 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_458_suffix_zero :
+    (∑ x ∈ Finset.range 282,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (458 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_458 :
+    recurrence4Scalar0Main.coeff 458 =
+      ((((2971370154782735670998825 * 10 ^ 70 +
+        1911534641334231007332653604248460283188016364379232882805027305080565) * 10 ^ 70 +
+        8027118230024138520085115162342854023404829768389477402036441974352590) * 10 ^ 70 +
+        7310018152995722278149512180504772185440936865736085633053584535298950) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 459,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (458 - x)) = _
+  rw [show 459 = 112 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 32 +
+      283 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 283 = 1 +
+      282 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_458_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_458_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_459_prefix_zero :
+    (∑ x ∈ Finset.range 113,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (459 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (459 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_459_suffix_zero :
+    (∑ x ∈ Finset.range 283,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (459 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_459 :
+    recurrence4Scalar0Main.coeff 459 =
+      -((((684744383798048010432897 * 10 ^ 70 +
+        3335568731615560137904410477337550030991472318321149391713356392599126) * 10 ^ 70 +
+        9444570453512920762627404634394821524585008487630533177897763094266631) * 10 ^ 70 +
+        1258615551173633612601032064329570480260968524141584823800759224399911) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 460,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (459 - x)) = _
+  rw [show 460 = 113 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 32 +
+      283 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_459_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_459_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_460_prefix_zero :
+    (∑ x ∈ Finset.range 114,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (460 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (460 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_460_suffix_zero :
+    (∑ x ∈ Finset.range 284,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (460 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_460 :
+    recurrence4Scalar0Main.coeff 460 =
+      ((((112374557587881713329699 * 10 ^ 70 +
+        7167465066042683403253818193239042738477654399364862331152408287987237) * 10 ^ 70 +
+        3425606858418167646878059057783170176176407858078900780844226675974688) * 10 ^ 70 +
+        0925173751708707446260979901407874662508630649369935894808927495382272) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 461,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (460 - x)) = _
+  rw [show 461 = 114 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 31 +
+      284 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_460_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_460_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_461_prefix_zero :
+    (∑ x ∈ Finset.range 115,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (461 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (461 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_461_suffix_zero :
+    (∑ x ∈ Finset.range 285,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (461 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_461 :
+    recurrence4Scalar0Main.coeff 461 =
+      -((((15315278010106342086861 * 10 ^ 70 +
+        3979795806247003658740536378885329265843974899918775432640566071037251) * 10 ^ 70 +
+        8593397029531917240611114085211708747233550537130394808152275199441559) * 10 ^ 70 +
+        5970676538866071459052764821750068666303110015973633139025364584773978) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 462,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (461 - x)) = _
+  rw [show 462 = 115 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 30 +
+      285 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_461_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_461_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_462_prefix_zero :
+    (∑ x ∈ Finset.range 116,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (462 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (462 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_462_suffix_zero :
+    (∑ x ∈ Finset.range 286,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (462 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_462 :
+    recurrence4Scalar0Main.coeff 462 =
+      ((((1803555289147661013658 * 10 ^ 70 +
+        0040383441561599164596403598297346031592278409168784632215936134838609) * 10 ^ 70 +
+        7896466829421102705732128980008069330197356164913302237624618022882294) * 10 ^ 70 +
+        0018543350952833105229137911886116805011388265313669559871062422726743) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 463,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (462 - x)) = _
+  rw [show 463 = 116 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 29 +
+      286 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_462_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_462_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_463_prefix_zero :
+    (∑ x ∈ Finset.range 117,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (463 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (463 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_463_suffix_zero :
+    (∑ x ∈ Finset.range 287,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (463 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_463 :
+    recurrence4Scalar0Main.coeff 463 =
+      -((((184267806378409273237 * 10 ^ 70 +
+        4146048942801928957054398722635427683364025254317745169299889175535923) * 10 ^ 70 +
+        1323395440532558494644666531874998371474224654792125124898990991129642) * 10 ^ 70 +
+        0798667710262277874540470591762563447729454088531704207199151279964604) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 464,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (463 - x)) = _
+  rw [show 464 = 117 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 28 +
+      287 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_463_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_463_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_464_prefix_zero :
+    (∑ x ∈ Finset.range 118,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (464 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (464 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_464_suffix_zero :
+    (∑ x ∈ Finset.range 288,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (464 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_464 :
+    recurrence4Scalar0Main.coeff 464 =
+      ((((15981881971703218453 * 10 ^ 70 +
+        9928528461095699744059485283411167929843889107094019588969220177951745) * 10 ^ 70 +
+        9734765434217898808504511428083318178572167854942853177171978847732785) * 10 ^ 70 +
+        2162859405055143744043892981875127938977500585399786849929496895822733) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 465,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (464 - x)) = _
+  rw [show 465 = 118 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 27 +
+      288 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_464_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_464_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_465_prefix_zero :
+    (∑ x ∈ Finset.range 119,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (465 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (465 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_465_suffix_zero :
+    (∑ x ∈ Finset.range 289,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (465 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_465 :
+    recurrence4Scalar0Main.coeff 465 =
+      -((((1099331096759095143 * 10 ^ 70 +
+        5810345137825601306460739264071024394839529367390742231672920637276567) * 10 ^ 70 +
+        9324276096827542627258383637424300771222454514961657973263365675072497) * 10 ^ 70 +
+        8301096960851404888628406702405247970724431912123723919299636556395022) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 466,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (465 - x)) = _
+  rw [show 466 = 119 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 26 +
+      289 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_465_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_465_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_466_prefix_zero :
+    (∑ x ∈ Finset.range 120,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (466 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (466 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_466_suffix_zero :
+    (∑ x ∈ Finset.range 290,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (466 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_466 :
+    recurrence4Scalar0Main.coeff 466 =
+      ((((46292120440690189 * 10 ^ 70 +
+        8613469626113734904127475813798053236618219987447631077489072109336884) * 10 ^ 70 +
+        5734809595272735119239529793211628740926228199780770485753667230380244) * 10 ^ 70 +
+        8131670906978234815730901550513961493960870383920095938561028795087928) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 467,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (466 - x)) = _
+  rw [show 467 = 120 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 25 +
+      290 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_466_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_466_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_467_prefix_zero :
+    (∑ x ∈ Finset.range 121,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (467 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (467 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_467_suffix_zero :
+    (∑ x ∈ Finset.range 291,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (467 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_467 :
+    recurrence4Scalar0Main.coeff 467 =
+      ((((1388769626578250 * 10 ^ 70 +
+        1011798355852013203754043382243926897224042401976187595492916596508696) * 10 ^ 70 +
+        6586004071220032321159716870216431704028385046481292864648922880181595) * 10 ^ 70 +
+        4547131690175513481167367106504317192371101821499170647264057707068010) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 468,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (467 - x)) = _
+  rw [show 468 = 121 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 24 +
+      291 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_467_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_467_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_468_prefix_zero :
+    (∑ x ∈ Finset.range 122,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (468 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (468 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_468_suffix_zero :
+    (∑ x ∈ Finset.range 292,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (468 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_468 :
+    recurrence4Scalar0Main.coeff 468 =
+      -((((544577938373236 * 10 ^ 70 +
+        4372516811767061420995805097881001047749969166266307516954400015237299) * 10 ^ 70 +
+        2353812996057445813107662744629052084551568499455678760907811750044180) * 10 ^ 70 +
+        9162059976556249267172008625146278058156345065749252315741866604869739) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 469,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (468 - x)) = _
+  rw [show 469 = 122 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 23 +
+      292 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_468_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_468_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_469_prefix_zero :
+    (∑ x ∈ Finset.range 123,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (469 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (469 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_469_suffix_zero :
+    (∑ x ∈ Finset.range 293,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (469 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_469 :
+    recurrence4Scalar0Main.coeff 469 =
+      ((((67298481011466 * 10 ^ 70 +
+        7061457207290755229250995917734690512760644802693587790861401987088321) * 10 ^ 70 +
+        3006227418657722162013262621312714404886118300738363808992863675109962) * 10 ^ 70 +
+        8084370107293208194427485149697459304693433125245869435447948140051673) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 470,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (469 - x)) = _
+  rw [show 470 = 123 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 22 +
+      293 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_469_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_469_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_470_prefix_zero :
+    (∑ x ∈ Finset.range 124,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (470 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (470 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_470_suffix_zero :
+    (∑ x ∈ Finset.range 294,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (470 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_470 :
+    recurrence4Scalar0Main.coeff 470 =
+      -((((5561478756777 * 10 ^ 70 +
+        3130438983502631423221146469515860868947327154917594950159699145778790) * 10 ^ 70 +
+        9774336595630537325217530840309588924027564275053442327419150042075047) * 10 ^ 70 +
+        5508918063305284852011114577961831450543192931543273171186574506574990) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 471,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (470 - x)) = _
+  rw [show 471 = 124 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 21 +
+      294 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_470_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_470_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_471_prefix_zero :
+    (∑ x ∈ Finset.range 125,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (471 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (471 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_471_suffix_zero :
+    (∑ x ∈ Finset.range 295,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (471 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_471 :
+    recurrence4Scalar0Main.coeff 471 =
+      ((((313141107871 * 10 ^ 70 +
+        6246826471090763492616104097035878610205813112246909881593421431144414) * 10 ^ 70 +
+        7988381993626039395988932603514582323588844724078358989304771465210146) * 10 ^ 70 +
+        0277497319102539861207697431895533251488367266895035395263006922345209) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 472,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (471 - x)) = _
+  rw [show 472 = 125 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 20 +
+      295 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_471_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_471_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_472_prefix_zero :
+    (∑ x ∈ Finset.range 126,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (472 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (472 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_472_suffix_zero :
+    (∑ x ∈ Finset.range 296,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (472 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_472 :
+    recurrence4Scalar0Main.coeff 472 =
+      -((((8008228878 * 10 ^ 70 +
+        5139237849449807776035532201256738566219940853274079763731464435612239) * 10 ^ 70 +
+        9409926457313277013560814643682487142014085316113494247670944397851510) * 10 ^ 70 +
+        7273090257934228953023387896728919246419078989534673833608572469080139) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 473,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (472 - x)) = _
+  rw [show 473 = 126 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 19 +
+      296 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_472_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_472_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_473_prefix_zero :
+    (∑ x ∈ Finset.range 127,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (473 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (473 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_473_suffix_zero :
+    (∑ x ∈ Finset.range 297,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (473 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_473 :
+    recurrence4Scalar0Main.coeff 473 =
+      -((((581220740 * 10 ^ 70 +
+        3729181883637076657918643807343836992841755681204792357677378640810987) * 10 ^ 70 +
+        0706646926971155672583065696337229645744183779671317726233101831485461) * 10 ^ 70 +
+        7854809125754047422964500471615590150183065637387410067301246536394379) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 474,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (473 - x)) = _
+  rw [show 474 = 127 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 18 +
+      297 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_473_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_473_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_474_prefix_zero :
+    (∑ x ∈ Finset.range 128,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (474 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (474 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_474_suffix_zero :
+    (∑ x ∈ Finset.range 298,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (474 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_474 :
+    recurrence4Scalar0Main.coeff 474 =
+      ((((92687418 * 10 ^ 70 +
+        3348625672996026649786103705755333169303091665243239489193929487587252) * 10 ^ 70 +
+        9614298246680270037287502466156205669849376794621336302706549315337080) * 10 ^ 70 +
+        3847719220142698642326327241980901202105089697544587259721818440396165) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 475,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (474 - x)) = _
+  rw [show 475 = 128 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 17 +
+      298 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_474_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_474_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_475_prefix_zero :
+    (∑ x ∈ Finset.range 129,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (475 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (475 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_475_suffix_zero :
+    (∑ x ∈ Finset.range 299,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (475 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_475 :
+    recurrence4Scalar0Main.coeff 475 =
+      -((((6626450 * 10 ^ 70 +
+        0288891045067980274437115447898376011824375501055900453853627036269983) * 10 ^ 70 +
+        9180206745933309083169299537767952324208192142275285660562487456288795) * 10 ^ 70 +
+        4222405274367133071392179746471440653182624577348093168667813648277220) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 476,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (475 - x)) = _
+  rw [show 476 = 129 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 16 +
+      299 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_475_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_475_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_476_prefix_zero :
+    (∑ x ∈ Finset.range 130,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (476 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (476 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_476_suffix_zero :
+    (∑ x ∈ Finset.range 300,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (476 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_476 :
+    recurrence4Scalar0Main.coeff 476 =
+      ((((280745 * 10 ^ 70 +
+        0903755418426663812809286231528537986796332149104574158417154484310828) * 10 ^ 70 +
+        3098312289428297069590471733799901641680080368366256744133262879867023) * 10 ^ 70 +
+        2582763297348300643143659054823005371163642555379960318595946643767768) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 477,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (476 - x)) = _
+  rw [show 477 = 130 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 15 +
+      300 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_476_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_476_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_477_prefix_zero :
+    (∑ x ∈ Finset.range 131,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (477 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (477 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_477_suffix_zero :
+    (∑ x ∈ Finset.range 301,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (477 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_477 :
+    recurrence4Scalar0Main.coeff 477 =
+      -((((4386 * 10 ^ 70 +
+        6986894439439350507717852600221242526119781266098507159541750982167870) * 10 ^ 70 +
+        3285352545774884096137705827301740375897009777773026452573351842601126) * 10 ^ 70 +
+        3695224277931200314523597568459313984525902224230637938786430067678477) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 478,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (477 - x)) = _
+  rw [show 478 = 131 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 14 +
+      301 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_477_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_477_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_478_prefix_zero :
+    (∑ x ∈ Finset.range 132,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (478 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (478 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_478_suffix_zero :
+    (∑ x ∈ Finset.range 302,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (478 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_478 :
+    recurrence4Scalar0Main.coeff 478 =
+      -((((297 * 10 ^ 70 +
+        4619282470231940777162015307655939963962290220553150595420185739561399) * 10 ^ 70 +
+        4231705032065520407224187244848985921275047161409531277862945122735646) * 10 ^ 70 +
+        0286874049729618784201683804171660816643178621795004714805920962706274) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 479,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (478 - x)) = _
+  rw [show 479 = 132 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 13 +
+      302 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_478_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_478_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_479_prefix_zero :
+    (∑ x ∈ Finset.range 133,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (479 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (479 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_479_suffix_zero :
+    (∑ x ∈ Finset.range 303,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (479 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_479 :
+    recurrence4Scalar0Main.coeff 479 =
+      ((((24 * 10 ^ 70 +
+        5459066014848571018537617497827237632103376745418035009099243465866203) * 10 ^ 70 +
+        3259201250266495152695709966303048287576795161094500789652897624708950) * 10 ^ 70 +
+        8250676378707330425596499131742244969409690721787078251083796994548990) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 480,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (479 - x)) = _
+  rw [show 480 = 133 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 12 +
+      303 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_479_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_479_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_480_prefix_zero :
+    (∑ x ∈ Finset.range 134,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (480 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (480 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_480_suffix_zero :
+    (∑ x ∈ Finset.range 304,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (480 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_480 :
+    recurrence4Scalar0Main.coeff 480 =
+      -(((7854790626573982776313279137526109674116439361434720953438541493218984 * 10 ^ 70 +
+        5133994675719522147601111820973507171059378273630771248390899141734327) * 10 ^ 70 +
+        3013455851842096768681327448301242493381195961180801546716450501076621) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 481,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (480 - x)) = _
+  rw [show 481 = 134 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 11 +
+      304 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_480_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_480_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_481_prefix_zero :
+    (∑ x ∈ Finset.range 135,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (481 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (481 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_481_suffix_zero :
+    (∑ x ∈ Finset.range 305,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (481 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_481 :
+    recurrence4Scalar0Main.coeff 481 =
+      (((50668416491761280224966116601522809941182874119282088317712351281129 * 10 ^ 70 +
+        3138016614799549486539977075708001574780638618004654043149284774797529) * 10 ^ 70 +
+        0400219732541572695688319737568884791535781187695663678754799492171153) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 482,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (481 - x)) = _
+  rw [show 482 = 135 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 10 +
+      305 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_481_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_481_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+private theorem recurrence4Scalar0Main_coeff_482_prefix_zero :
+    (∑ x ∈ Finset.range 136,
+      remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (482 - x)) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  by_cases hleft : x < 1
+  · rw [recurrence4B0_coeff_low x hleft]
+    norm_num
+  · rw [recurrence4QuotientConstant_coeff_high (482 - x) (by
+      omega)]
+    norm_num
+
+private theorem recurrence4Scalar0Main_coeff_482_suffix_zero :
+    (∑ x ∈ Finset.range 306,
+      remainder5Coefficient0.coeff (177 + x) *
+        recurrence4QuotientConstant.coeff (482 - (177 + x))) =
+      0 := by
+  apply Finset.sum_eq_zero
+  intro x hx
+  simp only [Finset.mem_range] at hx
+  rw [recurrence4B0_coeff_high (177 + x) (by
+    omega)]
+  norm_num
+
+theorem recurrence4Scalar0Main_coeff_482 :
+    recurrence4Scalar0Main.coeff 482 =
+      (((4903951331915762569058023903611514921628156633158295547057328042609 * 10 ^ 70 +
+        9613876126610327122903462774880797896047889645982126146739505018293457) * 10 ^ 70 +
+        5723502283094917811734390534635313653991820431532688219576089014030768) : ℚ) := by
+  unfold recurrence4Scalar0Main
+  rw [Polynomial.coeff_mul]
+  rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  change (∑ x ∈ Finset.range 483,
+    remainder5Coefficient0.coeff x * recurrence4QuotientConstant.coeff (482 - x)) = _
+  rw [show 483 = 136 +
+    347 by norm_num, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show 347 = 32 +
+      315 by norm_num, Finset.sum_range_add]
+    rhs
+    rw [show 315 = 9 +
+      306 by norm_num, Finset.sum_range_add]
+  rw [recurrence4Scalar0Main_coeff_482_prefix_zero]
+  norm_num only [← Nat.add_assoc]
+  rw [recurrence4Scalar0Main_coeff_482_suffix_zero]
+  order_seven_normalize_coefficient_sum
+
+end
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

@@ -2,6 +2,7 @@ name: Regular Lean cache
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -9,7 +10,7 @@ permissions:
 jobs:
   regular-cache:
     name: Prebuild the regular Lean cache
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     concurrency:

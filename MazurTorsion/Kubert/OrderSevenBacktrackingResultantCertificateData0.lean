@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingCertificateData
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingCertificateData
 
 /-!
 # Initial data for the order-seven branch-zero resultant PRS
@@ -16,17 +16,17 @@ division cofactor. Each generated remainder is grouped by its outer
 the later linear quotients are forced by the leading two coefficients.
 Lean recurrence certificates check the untrusted generating computation.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate
 
 noncomputable section
 
-abbrev Coefficient := Polynomial ℚ
-abbrev Bivariate := Polynomial Coefficient
+/-- Internal datum. -/ abbrev Coefficient := Polynomial ℚ
+/-- Internal datum. -/ abbrev Bivariate := Polynomial Coefficient
 
-def coefficientTerm
+/-- Internal datum. -/ def coefficientTerm
     (degree : ℕ) (coefficient : ℚ) : Coefficient :=
   monomial degree coefficient
 
@@ -36,11 +36,11 @@ theorem coefficientTerm_eq_C_mul_X_pow
       C coefficient * X ^ degree := by
   exact C_mul_X_pow_eq_monomial.symm
 
-def outerTerm
+/-- Internal datum. -/ def outerTerm
     (degree : ℕ) (coefficient : Coefficient) : Bivariate :=
   C coefficient * X ^ degree
 
-def linearPseudoQuotient
+/-- Internal datum. -/ def linearPseudoQuotient
     (dividend divisor : Bivariate)
     (dividendDegree divisorDegree : ℕ) : Bivariate :=
   outerTerm 1
@@ -52,17 +52,17 @@ def linearPseudoQuotient
         divisor.coeff (divisorDegree - 1) *
           dividend.coeff dividendDegree)
 
-def parameter : Coefficient := X
+/-- Internal datum. -/ def parameter : Coefficient := X
 
-def discriminantFactor : Coefficient :=
+/-- Internal datum. -/ def discriminantFactor : Coefficient :=
   parameter ^ 3 - 8 * parameter ^ 2 + 5 * parameter + 1
 
-def cmSix : Coefficient :=
+/-- Internal datum. -/ def cmSix : Coefficient :=
   parameter ^ 6 + 229 * parameter ^ 5 + 270 * parameter ^ 4 -
     1695 * parameter ^ 3 + 1430 * parameter ^ 2 -
     235 * parameter + 1
 
-def cmTwelve : Coefficient :=
+/-- Internal datum. -/ def cmTwelve : Coefficient :=
   parameter ^ 12 - 522 * parameter ^ 11 -
     8955 * parameter ^ 10 + 37950 * parameter ^ 9 -
     70998 * parameter ^ 8 + 131562 * parameter ^ 7 -
@@ -70,11 +70,11 @@ def cmTwelve : Coefficient :=
     218058 * parameter ^ 4 + 80090 * parameter ^ 3 -
     14631 * parameter ^ 2 + 510 * parameter + 1
 
-def remainder0 : Bivariate := selectionCofactorData
+/-- Internal datum. -/ def remainder0 : Bivariate := selectionCofactorData
 
-def remainder1 : Bivariate := divisionCofactorData0
+/-- Internal datum. -/ def remainder1 : Bivariate := divisionCofactorData0
 
-def remainder2Coefficient0Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk0 : Coefficient :=
   coefficientTerm 118
     (-((57 : ℚ))) +
   coefficientTerm 117
@@ -92,7 +92,7 @@ def remainder2Coefficient0Chunk0 : Coefficient :=
   coefficientTerm 111
     (843753345028747037362040919139 : ℚ)
 
-def remainder2Coefficient0Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk1 : Coefficient :=
   coefficientTerm 110
     (165026199140154693898992949889670 : ℚ) +
   coefficientTerm 109
@@ -115,7 +115,7 @@ def remainder2Coefficient0Chunk1 : Coefficient :=
     ((107596 : ℚ) * 10 ^ 36 +
       482591299095251211202323863114511740)
 
-def remainder2Coefficient0Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk2 : Coefficient :=
   coefficientTerm 102
     ((1560530 : ℚ) * 10 ^ 36 +
       508013868545100650132777578578566977) +
@@ -141,7 +141,7 @@ def remainder2Coefficient0Chunk2 : Coefficient :=
     ((594888352697 : ℚ) * 10 ^ 36 +
       172539251946829237087330057928808919)
 
-def remainder2Coefficient0Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk3 : Coefficient :=
   coefficientTerm 94
     (-(((1609474925545 : ℚ) * 10 ^ 36 +
       182656633135617398099675121374668988))) +
@@ -167,7 +167,7 @@ def remainder2Coefficient0Chunk3 : Coefficient :=
     ((27180003515099636 : ℚ) * 10 ^ 36 +
       736288757639539073556892684559618223)
 
-def remainder2Coefficient0Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk4 : Coefficient :=
   coefficientTerm 86
     (-(((23045195150113390 : ℚ) * 10 ^ 36 +
       851533850503264632732698437216591192))) +
@@ -193,7 +193,7 @@ def remainder2Coefficient0Chunk4 : Coefficient :=
     ((5142430892918680930 : ℚ) * 10 ^ 36 +
       903256032716510315963633132641078831)
 
-def remainder2Coefficient0Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk5 : Coefficient :=
   coefficientTerm 78
     (-(((8171004906960062150 : ℚ) * 10 ^ 36 +
       958281833795327043585118995535503793))) +
@@ -219,7 +219,7 @@ def remainder2Coefficient0Chunk5 : Coefficient :=
     ((14915691153763092973 : ℚ) * 10 ^ 36 +
       853852477020507767130725417493824916)
 
-def remainder2Coefficient0Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk6 : Coefficient :=
   coefficientTerm 70
     ((22622649723594544532 : ℚ) * 10 ^ 36 +
       826141549412266534983169558561402188) +
@@ -245,7 +245,7 @@ def remainder2Coefficient0Chunk6 : Coefficient :=
     ((18090386868971818456 : ℚ) * 10 ^ 36 +
       858662029614161681345717082226652170)
 
-def remainder2Coefficient0Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk7 : Coefficient :=
   coefficientTerm 62
     (-(((11110284307128431035 : ℚ) * 10 ^ 36 +
       158933978291100334801954980947472146))) +
@@ -271,7 +271,7 @@ def remainder2Coefficient0Chunk7 : Coefficient :=
     ((66681838947911016 : ℚ) * 10 ^ 36 +
       521021237852219792660730576150126032)
 
-def remainder2Coefficient0Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk8 : Coefficient :=
   coefficientTerm 54
     (-(((18687086537014865 : ℚ) * 10 ^ 36 +
       119121801645888755694124474167125176))) +
@@ -297,7 +297,7 @@ def remainder2Coefficient0Chunk8 : Coefficient :=
     (-(((10475530471061 : ℚ) * 10 ^ 36 +
       913847079100899254638337734396287104)))
 
-def remainder2Coefficient0Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk9 : Coefficient :=
   coefficientTerm 46
     ((6947902940277 : ℚ) * 10 ^ 36 +
       472273331017092804828544810974028139) +
@@ -323,7 +323,7 @@ def remainder2Coefficient0Chunk9 : Coefficient :=
     ((854731750 : ℚ) * 10 ^ 36 +
       744759183117612048451503577686718350)
 
-def remainder2Coefficient0Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk10 : Coefficient :=
   coefficientTerm 38
     (-(((170616046 : ℚ) * 10 ^ 36 +
       135731321807523659719437449607831382))) +
@@ -349,7 +349,7 @@ def remainder2Coefficient0Chunk10 : Coefficient :=
     (-(((1165 : ℚ) * 10 ^ 36 +
       280355746439384243786350455420790049)))
 
-def remainder2Coefficient0Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk11 : Coefficient :=
   coefficientTerm 30
     (-(((1037 : ℚ) * 10 ^ 36 +
       909449069702050995790634079279527234))) +
@@ -371,7 +371,7 @@ def remainder2Coefficient0Chunk11 : Coefficient :=
   coefficientTerm 23
     (-((54189002951574352392486001446389 : ℚ)))
 
-def remainder2Coefficient0Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk12 : Coefficient :=
   coefficientTerm 22
     (-((325902109613993235482591511158062 : ℚ))) +
   coefficientTerm 21
@@ -389,7 +389,7 @@ def remainder2Coefficient0Chunk12 : Coefficient :=
   coefficientTerm 15
     (22027542795128115872321226 : ℚ)
 
-def remainder2Coefficient0Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk13 : Coefficient :=
   coefficientTerm 14
     (409155522983929358223454 : ℚ) +
   coefficientTerm 13
@@ -407,7 +407,7 @@ def remainder2Coefficient0Chunk13 : Coefficient :=
   coefficientTerm 7
     (10898850087779 : ℚ)
 
-def remainder2Coefficient0Chunk14 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Chunk14 : Coefficient :=
   coefficientTerm 6
     (887174420015 : ℚ) +
   coefficientTerm 5
@@ -419,7 +419,7 @@ def remainder2Coefficient0Chunk14 : Coefficient :=
   coefficientTerm 2
     (1 : ℚ)
 
-def remainder2Coefficient0Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Block0 : Coefficient :=
   remainder2Coefficient0Chunk0 +
   remainder2Coefficient0Chunk1 +
   remainder2Coefficient0Chunk2 +
@@ -433,16 +433,16 @@ def remainder2Coefficient0Block0 : Coefficient :=
   remainder2Coefficient0Chunk10 +
   remainder2Coefficient0Chunk11
 
-def remainder2Coefficient0Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0Block1 : Coefficient :=
   remainder2Coefficient0Chunk12 +
   remainder2Coefficient0Chunk13 +
   remainder2Coefficient0Chunk14
 
-def remainder2Coefficient0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient0 : Coefficient :=
   remainder2Coefficient0Block0 +
   remainder2Coefficient0Block1
 
-def remainder2Coefficient1Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk0 : Coefficient :=
   coefficientTerm 114
     (-((2329 : ℚ))) +
   coefficientTerm 113
@@ -460,7 +460,7 @@ def remainder2Coefficient1Chunk0 : Coefficient :=
   coefficientTerm 107
     (12298617856096924713735520959259 : ℚ)
 
-def remainder2Coefficient1Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk1 : Coefficient :=
   coefficientTerm 106
     (2347813443240803839127253112182995 : ℚ) +
   coefficientTerm 105
@@ -484,7 +484,7 @@ def remainder2Coefficient1Chunk1 : Coefficient :=
     ((1821472 : ℚ) * 10 ^ 36 +
       109026745853271440556631226373021314)
 
-def remainder2Coefficient1Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk2 : Coefficient :=
   coefficientTerm 98
     ((12289823 : ℚ) * 10 ^ 36 +
       024352319415238577752859155764127964) +
@@ -510,7 +510,7 @@ def remainder2Coefficient1Chunk2 : Coefficient :=
     (-(((607134815894 : ℚ) * 10 ^ 36 +
       910500975852149592281370663107412836)))
 
-def remainder2Coefficient1Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk3 : Coefficient :=
   coefficientTerm 90
     (-(((7861858706611 : ℚ) * 10 ^ 36 +
       913241008138397025016936982623538323))) +
@@ -536,7 +536,7 @@ def remainder2Coefficient1Chunk3 : Coefficient :=
     ((22403057824211929 : ℚ) * 10 ^ 36 +
       525907520032123867309614792448565037)
 
-def remainder2Coefficient1Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk4 : Coefficient :=
   coefficientTerm 82
     (-(((73602963982873250 : ℚ) * 10 ^ 36 +
       007940517693601404642619624498649232))) +
@@ -562,7 +562,7 @@ def remainder2Coefficient1Chunk4 : Coefficient :=
     (-(((576856191188187954 : ℚ) * 10 ^ 36 +
       714640719003699400531614494547848943)))
 
-def remainder2Coefficient1Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk5 : Coefficient :=
   coefficientTerm 74
     (-(((7829781767072193790 : ℚ) * 10 ^ 36 +
       940614855451749192419440213868793672))) +
@@ -588,7 +588,7 @@ def remainder2Coefficient1Chunk5 : Coefficient :=
     (-(((52531240047776006889 : ℚ) * 10 ^ 36 +
       528378892265661634330595770235940584)))
 
-def remainder2Coefficient1Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk6 : Coefficient :=
   coefficientTerm 66
     ((48304516639352681316 : ℚ) * 10 ^ 36 +
       629944664412575412448947881980741219) +
@@ -614,7 +614,7 @@ def remainder2Coefficient1Chunk6 : Coefficient :=
     (-(((51871866980317366 : ℚ) * 10 ^ 36 +
       272367580474309106861221427576714072)))
 
-def remainder2Coefficient1Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk7 : Coefficient :=
   coefficientTerm 58
     ((908998126415325120 : ℚ) * 10 ^ 36 +
       637565211799562731984882044711349612) +
@@ -640,7 +640,7 @@ def remainder2Coefficient1Chunk7 : Coefficient :=
     (-(((3146619741164609 : ℚ) * 10 ^ 36 +
       779553998395203135504539567542823798)))
 
-def remainder2Coefficient1Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk8 : Coefficient :=
   coefficientTerm 50
     ((1064558347078202 : ℚ) * 10 ^ 36 +
       935519998281089920262378412868830515) +
@@ -666,7 +666,7 @@ def remainder2Coefficient1Chunk8 : Coefficient :=
     ((432112768142 : ℚ) * 10 ^ 36 +
       442353814148894616481470942321809786)
 
-def remainder2Coefficient1Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk9 : Coefficient :=
   coefficientTerm 42
     (-(((139165872516 : ℚ) * 10 ^ 36 +
       838418896158854667393896510709872301))) +
@@ -692,7 +692,7 @@ def remainder2Coefficient1Chunk9 : Coefficient :=
     (-(((10178800 : ℚ) * 10 ^ 36 +
       343993652398732960755834833985355521)))
 
-def remainder2Coefficient1Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk10 : Coefficient :=
   coefficientTerm 34
     (-(((866296 : ℚ) * 10 ^ 36 +
       460575465796670455267867388753669369))) +
@@ -718,7 +718,7 @@ def remainder2Coefficient1Chunk10 : Coefficient :=
     (-(((22 : ℚ) * 10 ^ 36 +
       337226396841398490007237712497405760)))
 
-def remainder2Coefficient1Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk11 : Coefficient :=
   coefficientTerm 26
     (268943619019748947580124367300453358 : ℚ) +
   coefficientTerm 25
@@ -736,7 +736,7 @@ def remainder2Coefficient1Chunk11 : Coefficient :=
   coefficientTerm 19
     (-((1476675698552842302366816083544 : ℚ)))
 
-def remainder2Coefficient1Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk12 : Coefficient :=
   coefficientTerm 18
     (-((152159977597680694262199235725 : ℚ))) +
   coefficientTerm 17
@@ -754,7 +754,7 @@ def remainder2Coefficient1Chunk12 : Coefficient :=
   coefficientTerm 11
     (1057485838428164119588 : ℚ)
 
-def remainder2Coefficient1Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk13 : Coefficient :=
   coefficientTerm 10
     (-((1401006467656754001 : ℚ))) +
   coefficientTerm 9
@@ -772,11 +772,11 @@ def remainder2Coefficient1Chunk13 : Coefficient :=
   coefficientTerm 3
     (991446 : ℚ)
 
-def remainder2Coefficient1Chunk14 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Chunk14 : Coefficient :=
   coefficientTerm 2
     (-((23 : ℚ)))
 
-def remainder2Coefficient1Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Block0 : Coefficient :=
   remainder2Coefficient1Chunk0 +
   remainder2Coefficient1Chunk1 +
   remainder2Coefficient1Chunk2 +
@@ -790,16 +790,16 @@ def remainder2Coefficient1Block0 : Coefficient :=
   remainder2Coefficient1Chunk10 +
   remainder2Coefficient1Chunk11
 
-def remainder2Coefficient1Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1Block1 : Coefficient :=
   remainder2Coefficient1Chunk12 +
   remainder2Coefficient1Chunk13 +
   remainder2Coefficient1Chunk14
 
-def remainder2Coefficient1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient1 : Coefficient :=
   remainder2Coefficient1Block0 +
   remainder2Coefficient1Block1
 
-def remainder2Coefficient2Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk0 : Coefficient :=
   coefficientTerm 110
     (-((51573 : ℚ))) +
   coefficientTerm 109
@@ -817,7 +817,7 @@ def remainder2Coefficient2Chunk0 : Coefficient :=
   coefficientTerm 103
     (72409407582781145483944263813939 : ℚ)
 
-def remainder2Coefficient2Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk1 : Coefficient :=
   coefficientTerm 102
     (13434993855594595313200186766745995 : ℚ) +
   coefficientTerm 101
@@ -842,7 +842,7 @@ def remainder2Coefficient2Chunk1 : Coefficient :=
     ((9544487 : ℚ) * 10 ^ 36 +
       399330554757158676424051318793601079)
 
-def remainder2Coefficient2Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk2 : Coefficient :=
   coefficientTerm 94
     ((24059355 : ℚ) * 10 ^ 36 +
       725455180799042198705904480461043314) +
@@ -868,7 +868,7 @@ def remainder2Coefficient2Chunk2 : Coefficient :=
     (-(((7166161881916 : ℚ) * 10 ^ 36 +
       544493302082240165449128387975205734)))
 
-def remainder2Coefficient2Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk3 : Coefficient :=
   coefficientTerm 86
     ((13102113428101 : ℚ) * 10 ^ 36 +
       739796171669897021044885004664461850) +
@@ -894,7 +894,7 @@ def remainder2Coefficient2Chunk3 : Coefficient :=
     (-(((6678185887679113 : ℚ) * 10 ^ 36 +
       978879893779456996358285735532600831)))
 
-def remainder2Coefficient2Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk4 : Coefficient :=
   coefficientTerm 78
     ((45386360278023680 : ℚ) * 10 ^ 36 +
       013645700893079549808710348930548432) +
@@ -920,7 +920,7 @@ def remainder2Coefficient2Chunk4 : Coefficient :=
     ((5705497207972873863 : ℚ) * 10 ^ 36 +
       741156262146288455918503051039592232)
 
-def remainder2Coefficient2Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk5 : Coefficient :=
   coefficientTerm 70
     (-(((7326604306273382998 : ℚ) * 10 ^ 36 +
       540856475689939289657453030792291754))) +
@@ -946,7 +946,7 @@ def remainder2Coefficient2Chunk5 : Coefficient :=
     (-(((2955020422515185124 : ℚ) * 10 ^ 36 +
       782343060600033722414367750058355978)))
 
-def remainder2Coefficient2Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk6 : Coefficient :=
   coefficientTerm 62
     (-(((960911468360702951 : ℚ) * 10 ^ 36 +
       128952679877965771978837619685617985))) +
@@ -972,7 +972,7 @@ def remainder2Coefficient2Chunk6 : Coefficient :=
     (-(((55264383613182431 : ℚ) * 10 ^ 36 +
       624803628335662273260436933996676443)))
 
-def remainder2Coefficient2Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk7 : Coefficient :=
   coefficientTerm 54
     (-(((3359642529712813 : ℚ) * 10 ^ 36 +
       552784602758031437157300360833007150))) +
@@ -998,7 +998,7 @@ def remainder2Coefficient2Chunk7 : Coefficient :=
     ((42291960744969 : ℚ) * 10 ^ 36 +
       586573911774792841144736581005599284)
 
-def remainder2Coefficient2Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk8 : Coefficient :=
   coefficientTerm 46
     (-(((13522380586587 : ℚ) * 10 ^ 36 +
       904137675170102049123376972642598255))) +
@@ -1024,7 +1024,7 @@ def remainder2Coefficient2Chunk8 : Coefficient :=
     (-(((3579749608 : ℚ) * 10 ^ 36 +
       066737552394659611752271346887827974)))
 
-def remainder2Coefficient2Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk9 : Coefficient :=
   coefficientTerm 38
     ((378998640 : ℚ) * 10 ^ 36 +
       258419723632070884120051362325277745) +
@@ -1050,7 +1050,7 @@ def remainder2Coefficient2Chunk9 : Coefficient :=
     ((1277 : ℚ) * 10 ^ 36 +
       630644490436651545302781724918563567)
 
-def remainder2Coefficient2Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk10 : Coefficient :=
   coefficientTerm 30
     ((5594 : ℚ) * 10 ^ 36 +
       738952022077263553172674468414526285) +
@@ -1073,7 +1073,7 @@ def remainder2Coefficient2Chunk10 : Coefficient :=
   coefficientTerm 23
     (7168047773872259887036010762730379 : ℚ)
 
-def remainder2Coefficient2Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk11 : Coefficient :=
   coefficientTerm 22
     (1998385302311546909527456011604480 : ℚ) +
   coefficientTerm 21
@@ -1091,7 +1091,7 @@ def remainder2Coefficient2Chunk11 : Coefficient :=
   coefficientTerm 15
     (-((100565161540304756843088699 : ℚ)))
 
-def remainder2Coefficient2Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk12 : Coefficient :=
   coefficientTerm 14
     (15998025457352783001220174 : ℚ) +
   coefficientTerm 13
@@ -1109,7 +1109,7 @@ def remainder2Coefficient2Chunk12 : Coefficient :=
   coefficientTerm 7
     (-((1634796781931808 : ℚ)))
 
-def remainder2Coefficient2Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Chunk13 : Coefficient :=
   coefficientTerm 6
     (64443948614929 : ℚ) +
   coefficientTerm 5
@@ -1121,7 +1121,7 @@ def remainder2Coefficient2Chunk13 : Coefficient :=
   coefficientTerm 2
     (-((4313 : ℚ)))
 
-def remainder2Coefficient2Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Block0 : Coefficient :=
   remainder2Coefficient2Chunk0 +
   remainder2Coefficient2Chunk1 +
   remainder2Coefficient2Chunk2 +
@@ -1135,15 +1135,15 @@ def remainder2Coefficient2Block0 : Coefficient :=
   remainder2Coefficient2Chunk10 +
   remainder2Coefficient2Chunk11
 
-def remainder2Coefficient2Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2Block1 : Coefficient :=
   remainder2Coefficient2Chunk12 +
   remainder2Coefficient2Chunk13
 
-def remainder2Coefficient2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient2 : Coefficient :=
   remainder2Coefficient2Block0 +
   remainder2Coefficient2Block1
 
-def remainder2Coefficient3Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk0 : Coefficient :=
   coefficientTerm 106
     (-((794294 : ℚ))) +
   coefficientTerm 105
@@ -1161,7 +1161,7 @@ def remainder2Coefficient3Chunk0 : Coefficient :=
   coefficientTerm 99
     (222522177019934397987749429416808 : ℚ)
 
-def remainder2Coefficient3Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk1 : Coefficient :=
   coefficientTerm 98
     (39742507950836905779404512839757906 : ℚ) +
   coefficientTerm 97
@@ -1186,7 +1186,7 @@ def remainder2Coefficient3Chunk1 : Coefficient :=
     ((22019885 : ℚ) * 10 ^ 36 +
       059282066352198371338729758987417033)
 
-def remainder2Coefficient3Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk2 : Coefficient :=
   coefficientTerm 90
     ((11753883 : ℚ) * 10 ^ 36 +
       545940184043689853651614097074310681) +
@@ -1212,7 +1212,7 @@ def remainder2Coefficient3Chunk2 : Coefficient :=
     (-(((8747969004708 : ℚ) * 10 ^ 36 +
       684199605992861862970138447612526507)))
 
-def remainder2Coefficient3Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk3 : Coefficient :=
   coefficientTerm 82
     ((24851537352247 : ℚ) * 10 ^ 36 +
       083860767221184131530805323720822241) +
@@ -1238,7 +1238,7 @@ def remainder2Coefficient3Chunk3 : Coefficient :=
     (-(((23922300774913644 : ℚ) * 10 ^ 36 +
       624801096610556066181099864130444627)))
 
-def remainder2Coefficient3Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk4 : Coefficient :=
   coefficientTerm 74
     ((49212362666451763 : ℚ) * 10 ^ 36 +
       724724451742959451554558004333520726) +
@@ -1264,7 +1264,7 @@ def remainder2Coefficient3Chunk4 : Coefficient :=
     ((307039001341708743 : ℚ) * 10 ^ 36 +
       292866630993907577620549133022106270)
 
-def remainder2Coefficient3Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk5 : Coefficient :=
   coefficientTerm 66
     ((128285820961084225 : ℚ) * 10 ^ 36 +
       455490897714271781640264571770333288) +
@@ -1290,7 +1290,7 @@ def remainder2Coefficient3Chunk5 : Coefficient :=
     ((162413156184027760 : ℚ) * 10 ^ 36 +
       713153186952743394367606631091432890)
 
-def remainder2Coefficient3Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk6 : Coefficient :=
   coefficientTerm 58
     (-(((100248785764461368 : ℚ) * 10 ^ 36 +
       577107612512630767697897557742058640))) +
@@ -1316,7 +1316,7 @@ def remainder2Coefficient3Chunk6 : Coefficient :=
     ((592882251057240 : ℚ) * 10 ^ 36 +
       725870784756053567465215899867346951)
 
-def remainder2Coefficient3Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk7 : Coefficient :=
   coefficientTerm 50
     (-(((129417700013243 : ℚ) * 10 ^ 36 +
       732828864495397861779997637217283505))) +
@@ -1342,7 +1342,7 @@ def remainder2Coefficient3Chunk7 : Coefficient :=
     (-(((134953349921 : ℚ) * 10 ^ 36 +
       645771473991539178865612758973748641)))
 
-def remainder2Coefficient3Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk8 : Coefficient :=
   coefficientTerm 42
     ((51990963322 : ℚ) * 10 ^ 36 +
       906723698998517920121619253352666777) +
@@ -1368,7 +1368,7 @@ def remainder2Coefficient3Chunk8 : Coefficient :=
     ((7636922 : ℚ) * 10 ^ 36 +
       589519785821039428126710304963391474)
 
-def remainder2Coefficient3Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk9 : Coefficient :=
   coefficientTerm 34
     (-(((429472 : ℚ) * 10 ^ 36 +
       406512399769223982788343766418493177))) +
@@ -1394,7 +1394,7 @@ def remainder2Coefficient3Chunk9 : Coefficient :=
     ((19 : ℚ) * 10 ^ 36 +
       364984958319004293618854497598764168)
 
-def remainder2Coefficient3Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk10 : Coefficient :=
   coefficientTerm 26
     (-(((5 : ℚ) * 10 ^ 36 +
       891690741671953724981053994148980820))) +
@@ -1413,7 +1413,7 @@ def remainder2Coefficient3Chunk10 : Coefficient :=
   coefficientTerm 19
     (9227650503192677672918781534744 : ℚ)
 
-def remainder2Coefficient3Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk11 : Coefficient :=
   coefficientTerm 18
     (-((650549405351974257520118427995 : ℚ))) +
   coefficientTerm 17
@@ -1431,7 +1431,7 @@ def remainder2Coefficient3Chunk11 : Coefficient :=
   coefficientTerm 11
     (14495384085042601774868 : ℚ)
 
-def remainder2Coefficient3Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk12 : Coefficient :=
   coefficientTerm 10
     (1186110264949517701774 : ℚ) +
   coefficientTerm 9
@@ -1449,13 +1449,13 @@ def remainder2Coefficient3Chunk12 : Coefficient :=
   coefficientTerm 3
     (337210200 : ℚ)
 
-def remainder2Coefficient3Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Chunk13 : Coefficient :=
   coefficientTerm 2
     (144992 : ℚ) +
   coefficientTerm 1
     (-((60 : ℚ)))
 
-def remainder2Coefficient3Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Block0 : Coefficient :=
   remainder2Coefficient3Chunk0 +
   remainder2Coefficient3Chunk1 +
   remainder2Coefficient3Chunk2 +
@@ -1469,15 +1469,15 @@ def remainder2Coefficient3Block0 : Coefficient :=
   remainder2Coefficient3Chunk10 +
   remainder2Coefficient3Chunk11
 
-def remainder2Coefficient3Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3Block1 : Coefficient :=
   remainder2Coefficient3Chunk12 +
   remainder2Coefficient3Chunk13
 
-def remainder2Coefficient3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient3 : Coefficient :=
   remainder2Coefficient3Block0 +
   remainder2Coefficient3Block1
 
-def remainder2Coefficient4Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk0 : Coefficient :=
   coefficientTerm 102
     (-((9250026 : ℚ))) +
   coefficientTerm 101
@@ -1495,7 +1495,7 @@ def remainder2Coefficient4Chunk0 : Coefficient :=
   coefficientTerm 95
     (390118339111116952445252584220795 : ℚ)
 
-def remainder2Coefficient4Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk1 : Coefficient :=
   coefficientTerm 94
     (65698345123983352604138413107212789 : ℚ) +
   coefficientTerm 93
@@ -1520,7 +1520,7 @@ def remainder2Coefficient4Chunk1 : Coefficient :=
     ((28253243 : ℚ) * 10 ^ 36 +
       546566767172168785893940385861585496)
 
-def remainder2Coefficient4Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk2 : Coefficient :=
   coefficientTerm 86
     ((1168967 : ℚ) * 10 ^ 36 +
       674723539927797550980063930000826216) +
@@ -1546,7 +1546,7 @@ def remainder2Coefficient4Chunk2 : Coefficient :=
     (-(((4470227893646 : ℚ) * 10 ^ 36 +
       445815672202856041563204717756135371)))
 
-def remainder2Coefficient4Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk3 : Coefficient :=
   coefficientTerm 78
     ((16873132029904 : ℚ) * 10 ^ 36 +
       715975144283624084105259274856352785) +
@@ -1572,7 +1572,7 @@ def remainder2Coefficient4Chunk3 : Coefficient :=
     (-(((355308909916774 : ℚ) * 10 ^ 36 +
       060665370153856512577405243427200776)))
 
-def remainder2Coefficient4Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk4 : Coefficient :=
   coefficientTerm 70
     ((3219440258276007 : ℚ) * 10 ^ 36 +
       637241900872819713062091450575441678) +
@@ -1598,7 +1598,7 @@ def remainder2Coefficient4Chunk4 : Coefficient :=
     ((26214602613453567 : ℚ) * 10 ^ 36 +
       649132125504002244590507094605348433)
 
-def remainder2Coefficient4Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk5 : Coefficient :=
   coefficientTerm 62
     (-(((24260889690025450 : ℚ) * 10 ^ 36 +
       128779071629645492560555871074703942))) +
@@ -1624,7 +1624,7 @@ def remainder2Coefficient4Chunk5 : Coefficient :=
     ((1057521205019777 : ℚ) * 10 ^ 36 +
       592525830018825566490236496451057365)
 
-def remainder2Coefficient4Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk6 : Coefficient :=
   coefficientTerm 54
     (-(((966410230161405 : ℚ) * 10 ^ 36 +
       973775927755796471384338588517172481))) +
@@ -1650,7 +1650,7 @@ def remainder2Coefficient4Chunk6 : Coefficient :=
     ((2318639987710 : ℚ) * 10 ^ 36 +
       616732879835244395478339063614734231)
 
-def remainder2Coefficient4Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk7 : Coefficient :=
   coefficientTerm 46
     ((535034283561 : ℚ) * 10 ^ 36 +
       283993430861041226970857196747060306) +
@@ -1676,7 +1676,7 @@ def remainder2Coefficient4Chunk7 : Coefficient :=
     (-(((159946346 : ℚ) * 10 ^ 36 +
       627034111492081833052243935085826347)))
 
-def remainder2Coefficient4Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk8 : Coefficient :=
   coefficientTerm 38
     (-(((158956189 : ℚ) * 10 ^ 36 +
       353983597640140225968330405329202570))) +
@@ -1702,7 +1702,7 @@ def remainder2Coefficient4Chunk8 : Coefficient :=
     (-(((11573 : ℚ) * 10 ^ 36 +
       839367349732358281411554026148918924)))
 
-def remainder2Coefficient4Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk9 : Coefficient :=
   coefficientTerm 30
     (-(((117 : ℚ) * 10 ^ 36 +
       040313349008727634316589506249842791))) +
@@ -1723,7 +1723,7 @@ def remainder2Coefficient4Chunk9 : Coefficient :=
   coefficientTerm 23
     (-((15850906589950836393883262015590003 : ℚ)))
 
-def remainder2Coefficient4Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk10 : Coefficient :=
   coefficientTerm 22
     (-((995548660916269458131140851756424 : ℚ))) +
   coefficientTerm 21
@@ -1741,7 +1741,7 @@ def remainder2Coefficient4Chunk10 : Coefficient :=
   coefficientTerm 15
     (245658066250066217208463354 : ℚ)
 
-def remainder2Coefficient4Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk11 : Coefficient :=
   coefficientTerm 14
     (-((87249910341251524126232233 : ℚ))) +
   coefficientTerm 13
@@ -1759,7 +1759,7 @@ def remainder2Coefficient4Chunk11 : Coefficient :=
   coefficientTerm 7
     (75891265047055987 : ℚ)
 
-def remainder2Coefficient4Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Chunk12 : Coefficient :=
   coefficientTerm 6
     (1782788153023498 : ℚ) +
   coefficientTerm 5
@@ -1773,7 +1773,7 @@ def remainder2Coefficient4Chunk12 : Coefficient :=
   coefficientTerm 1
     (-((4484 : ℚ)))
 
-def remainder2Coefficient4Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Block0 : Coefficient :=
   remainder2Coefficient4Chunk0 +
   remainder2Coefficient4Chunk1 +
   remainder2Coefficient4Chunk2 +
@@ -1787,14 +1787,14 @@ def remainder2Coefficient4Block0 : Coefficient :=
   remainder2Coefficient4Chunk10 +
   remainder2Coefficient4Chunk11
 
-def remainder2Coefficient4Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4Block1 : Coefficient :=
   remainder2Coefficient4Chunk12
 
-def remainder2Coefficient4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient4 : Coefficient :=
   remainder2Coefficient4Block0 +
   remainder2Coefficient4Block1
 
-def remainder2Coefficient5Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk0 : Coefficient :=
   coefficientTerm 98
     (-((84879584 : ℚ))) +
   coefficientTerm 97
@@ -1812,7 +1812,7 @@ def remainder2Coefficient5Chunk0 : Coefficient :=
   coefficientTerm 91
     (418819725802625644021293199369765 : ℚ)
 
-def remainder2Coefficient5Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk1 : Coefficient :=
   coefficientTerm 90
     (63506625011524370119277185841139399 : ℚ) +
   coefficientTerm 89
@@ -1837,7 +1837,7 @@ def remainder2Coefficient5Chunk1 : Coefficient :=
     ((19844078 : ℚ) * 10 ^ 36 +
       368367647479805269940340036920130269)
 
-def remainder2Coefficient5Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk2 : Coefficient :=
   coefficientTerm 82
     (-(((3671711 : ℚ) * 10 ^ 36 +
       776486332869099310649452547803580870))) +
@@ -1863,7 +1863,7 @@ def remainder2Coefficient5Chunk2 : Coefficient :=
     (-(((2776079750871 : ℚ) * 10 ^ 36 +
       447450040554150772889836624742403460)))
 
-def remainder2Coefficient5Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk3 : Coefficient :=
   coefficientTerm 74
     ((10467065061107 : ℚ) * 10 ^ 36 +
       254327435430760433350574226355396713) +
@@ -1889,7 +1889,7 @@ def remainder2Coefficient5Chunk3 : Coefficient :=
     (-(((782020535002471 : ℚ) * 10 ^ 36 +
       299227450895820569521667112384018964)))
 
-def remainder2Coefficient5Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk4 : Coefficient :=
   coefficientTerm 66
     ((2229408024555610 : ℚ) * 10 ^ 36 +
       605875320579090371052347830568858257) +
@@ -1915,7 +1915,7 @@ def remainder2Coefficient5Chunk4 : Coefficient :=
     ((2355888510834570 : ℚ) * 10 ^ 36 +
       221982904312471436476951726541414062)
 
-def remainder2Coefficient5Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk5 : Coefficient :=
   coefficientTerm 58
     (-(((214009112868664 : ℚ) * 10 ^ 36 +
       380275346632408479348707168575965346))) +
@@ -1941,7 +1941,7 @@ def remainder2Coefficient5Chunk5 : Coefficient :=
     ((30849558643173 : ℚ) * 10 ^ 36 +
       766701288435074088248503281094991097)
 
-def remainder2Coefficient5Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk6 : Coefficient :=
   coefficientTerm 50
     ((4536997018687 : ℚ) * 10 ^ 36 +
       278322071825226880515848890525143295) +
@@ -1967,7 +1967,7 @@ def remainder2Coefficient5Chunk6 : Coefficient :=
     (-(((31726243031 : ℚ) * 10 ^ 36 +
       577828134638573492632902354471093984)))
 
-def remainder2Coefficient5Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk7 : Coefficient :=
   coefficientTerm 42
     ((5210269669 : ℚ) * 10 ^ 36 +
       951627349681283239449495527787077121) +
@@ -1993,7 +1993,7 @@ def remainder2Coefficient5Chunk7 : Coefficient :=
     ((2069187 : ℚ) * 10 ^ 36 +
       720024328570227264006657291355787421)
 
-def remainder2Coefficient5Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk8 : Coefficient :=
   coefficientTerm 34
     ((252102 : ℚ) * 10 ^ 36 +
       819302740101766946367034325092681392) +
@@ -2019,7 +2019,7 @@ def remainder2Coefficient5Chunk8 : Coefficient :=
     ((19 : ℚ) * 10 ^ 36 +
       132701444277355709761164775195411393)
 
-def remainder2Coefficient5Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk9 : Coefficient :=
   coefficientTerm 26
     (-(((1 : ℚ) * 10 ^ 36 +
       590442759177347388958151340464345290))) +
@@ -2038,7 +2038,7 @@ def remainder2Coefficient5Chunk9 : Coefficient :=
   coefficientTerm 19
     (10589490421697306581022864221125 : ℚ)
 
-def remainder2Coefficient5Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk10 : Coefficient :=
   coefficientTerm 18
     (215558598921243747288171008522 : ℚ) +
   coefficientTerm 17
@@ -2056,7 +2056,7 @@ def remainder2Coefficient5Chunk10 : Coefficient :=
   coefficientTerm 11
     (-((11117019750973116692969 : ℚ)))
 
-def remainder2Coefficient5Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk11 : Coefficient :=
   coefficientTerm 10
     (2708132833691499223520 : ℚ) +
   coefficientTerm 9
@@ -2074,7 +2074,7 @@ def remainder2Coefficient5Chunk11 : Coefficient :=
   coefficientTerm 3
     (-((13173586573 : ℚ)))
 
-def remainder2Coefficient5Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Chunk12 : Coefficient :=
   coefficientTerm 2
     (58202904 : ℚ) +
   coefficientTerm 1
@@ -2082,7 +2082,7 @@ def remainder2Coefficient5Chunk12 : Coefficient :=
   coefficientTerm 0
     (-((8 : ℚ)))
 
-def remainder2Coefficient5Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Block0 : Coefficient :=
   remainder2Coefficient5Chunk0 +
   remainder2Coefficient5Chunk1 +
   remainder2Coefficient5Chunk2 +
@@ -2096,14 +2096,14 @@ def remainder2Coefficient5Block0 : Coefficient :=
   remainder2Coefficient5Chunk10 +
   remainder2Coefficient5Chunk11
 
-def remainder2Coefficient5Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5Block1 : Coefficient :=
   remainder2Coefficient5Chunk12
 
-def remainder2Coefficient5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient5 : Coefficient :=
   remainder2Coefficient5Block0 +
   remainder2Coefficient5Block1
 
-def remainder2Coefficient6Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk0 : Coefficient :=
   coefficientTerm 95
     (-((1 : ℚ))) +
   coefficientTerm 94
@@ -2121,7 +2121,7 @@ def remainder2Coefficient6Chunk0 : Coefficient :=
   coefficientTerm 88
     (1089413395938381807202776494154 : ℚ)
 
-def remainder2Coefficient6Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk1 : Coefficient :=
   coefficientTerm 87
     (286363027698652162782785744858111 : ℚ) +
   coefficientTerm 86
@@ -2145,7 +2145,7 @@ def remainder2Coefficient6Chunk1 : Coefficient :=
     (-(((130364 : ℚ) * 10 ^ 36 +
       068837196412915331835983767607389036)))
 
-def remainder2Coefficient6Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk2 : Coefficient :=
   coefficientTerm 79
     ((4212045 : ℚ) * 10 ^ 36 +
       223053116439059613323987782256717639) +
@@ -2171,7 +2171,7 @@ def remainder2Coefficient6Chunk2 : Coefficient :=
     (-(((5743205394 : ℚ) * 10 ^ 36 +
       693217441326578355115890903196243276)))
 
-def remainder2Coefficient6Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk3 : Coefficient :=
   coefficientTerm 71
     (-(((259796156938 : ℚ) * 10 ^ 36 +
       576126935931880575940133496455929373))) +
@@ -2197,7 +2197,7 @@ def remainder2Coefficient6Chunk3 : Coefficient :=
     ((1760996210278 : ℚ) * 10 ^ 36 +
       097879640123794600894772440302289074)
 
-def remainder2Coefficient6Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk4 : Coefficient :=
   coefficientTerm 63
     (-(((46171373163504 : ℚ) * 10 ^ 36 +
       543158557914214045685537226653625329))) +
@@ -2223,7 +2223,7 @@ def remainder2Coefficient6Chunk4 : Coefficient :=
     (-(((41253678474640 : ℚ) * 10 ^ 36 +
       061179888179619384622750096492600682)))
 
-def remainder2Coefficient6Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk5 : Coefficient :=
   coefficientTerm 55
     (-(((6727489552838 : ℚ) * 10 ^ 36 +
       408179719537274002341989653780935383))) +
@@ -2249,7 +2249,7 @@ def remainder2Coefficient6Chunk5 : Coefficient :=
     ((159166271221 : ℚ) * 10 ^ 36 +
       174898678323869034613115263357675153)
 
-def remainder2Coefficient6Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk6 : Coefficient :=
   coefficientTerm 47
     (-(((317667961885 : ℚ) * 10 ^ 36 +
       729755212373371552547149669387921084))) +
@@ -2275,7 +2275,7 @@ def remainder2Coefficient6Chunk6 : Coefficient :=
     (-(((14699805 : ℚ) * 10 ^ 36 +
       210117737208311297643153352365036420)))
 
-def remainder2Coefficient6Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk7 : Coefficient :=
   coefficientTerm 39
     ((134638847 : ℚ) * 10 ^ 36 +
       786245837888592364557673177253229780) +
@@ -2301,7 +2301,7 @@ def remainder2Coefficient6Chunk7 : Coefficient :=
     ((22303 : ℚ) * 10 ^ 36 +
       221764783494685504179773267006285479)
 
-def remainder2Coefficient6Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk8 : Coefficient :=
   coefficientTerm 31
     (-(((1140 : ℚ) * 10 ^ 36 +
       152263465682044046210616394825658004))) +
@@ -2325,7 +2325,7 @@ def remainder2Coefficient6Chunk8 : Coefficient :=
   coefficientTerm 24
     (90957482947576568207820968873219052 : ℚ)
 
-def remainder2Coefficient6Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk9 : Coefficient :=
   coefficientTerm 23
     (-((4973479925282740496115957637429406 : ℚ))) +
   coefficientTerm 22
@@ -2343,7 +2343,7 @@ def remainder2Coefficient6Chunk9 : Coefficient :=
   coefficientTerm 16
     (11931824111968927302483079140 : ℚ)
 
-def remainder2Coefficient6Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk10 : Coefficient :=
   coefficientTerm 15
     (1557412099701861736209197599 : ℚ) +
   coefficientTerm 14
@@ -2361,7 +2361,7 @@ def remainder2Coefficient6Chunk10 : Coefficient :=
   coefficientTerm 8
     (-((15092317899760440692 : ℚ)))
 
-def remainder2Coefficient6Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Chunk11 : Coefficient :=
   coefficientTerm 7
     (-((60757622243990768 : ℚ))) +
   coefficientTerm 6
@@ -2379,7 +2379,7 @@ def remainder2Coefficient6Chunk11 : Coefficient :=
   coefficientTerm 0
     (-((606 : ℚ)))
 
-def remainder2Coefficient6Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6Block0 : Coefficient :=
   remainder2Coefficient6Chunk0 +
   remainder2Coefficient6Chunk1 +
   remainder2Coefficient6Chunk2 +
@@ -2393,10 +2393,10 @@ def remainder2Coefficient6Block0 : Coefficient :=
   remainder2Coefficient6Chunk10 +
   remainder2Coefficient6Chunk11
 
-def remainder2Coefficient6 : Coefficient :=
+/-- Internal datum. -/ def remainder2Coefficient6 : Coefficient :=
   remainder2Coefficient6Block0
 
-def remainder2 : Bivariate :=
+/-- Internal datum. -/ def remainder2 : Bivariate :=
   outerTerm 0 remainder2Coefficient0 +
   outerTerm 1 remainder2Coefficient1 +
   outerTerm 2 remainder2Coefficient2 +
@@ -2405,7 +2405,7 @@ def remainder2 : Bivariate :=
   outerTerm 5 remainder2Coefficient5 +
   outerTerm 6 remainder2Coefficient6
 
-def quotient0Coefficient0Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk0 : Coefficient :=
   coefficientTerm 104
     (-((57 : ℚ))) +
   coefficientTerm 103
@@ -2423,7 +2423,7 @@ def quotient0Coefficient0Chunk0 : Coefficient :=
   coefficientTerm 97
     (826166890267273732990563553819 : ℚ)
 
-def quotient0Coefficient0Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk1 : Coefficient :=
   coefficientTerm 96
     (156012893817345338591694801923432 : ℚ) +
   coefficientTerm 95
@@ -2446,7 +2446,7 @@ def quotient0Coefficient0Chunk1 : Coefficient :=
     ((95269 : ℚ) * 10 ^ 36 +
       015246636957457351986796813433257888)
 
-def quotient0Coefficient0Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk2 : Coefficient :=
   coefficientTerm 88
     (-(((99881 : ℚ) * 10 ^ 36 +
       647275966607940553618323962817830189))) +
@@ -2472,7 +2472,7 @@ def quotient0Coefficient0Chunk2 : Coefficient :=
     (-(((15203943609 : ℚ) * 10 ^ 36 +
       941285531610228887628241295954851843)))
 
-def quotient0Coefficient0Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk3 : Coefficient :=
   coefficientTerm 80
     ((81365404028 : ℚ) * 10 ^ 36 +
       609359486030024536122951045118208972) +
@@ -2498,7 +2498,7 @@ def quotient0Coefficient0Chunk3 : Coefficient :=
     (-(((2181820204593 : ℚ) * 10 ^ 36 +
       295797906213045874303473715555540824)))
 
-def quotient0Coefficient0Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk4 : Coefficient :=
   coefficientTerm 72
     ((21062062706562 : ℚ) * 10 ^ 36 +
       445200809480287904284491592933277538) +
@@ -2524,7 +2524,7 @@ def quotient0Coefficient0Chunk4 : Coefficient :=
     ((70299822644477 : ℚ) * 10 ^ 36 +
       667941452127959338915293618752830183)
 
-def quotient0Coefficient0Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk5 : Coefficient :=
   coefficientTerm 64
     (-(((34538013985636 : ℚ) * 10 ^ 36 +
       064667206143319544546755854928713846))) +
@@ -2550,7 +2550,7 @@ def quotient0Coefficient0Chunk5 : Coefficient :=
     ((1662073346899 : ℚ) * 10 ^ 36 +
       705557441354765904480445308356704039)
 
-def quotient0Coefficient0Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk6 : Coefficient :=
   coefficientTerm 56
     (-(((496857512888 : ℚ) * 10 ^ 36 +
       182157778393749836888571626516520834))) +
@@ -2576,7 +2576,7 @@ def quotient0Coefficient0Chunk6 : Coefficient :=
     (-(((552254000 : ℚ) * 10 ^ 36 +
       654569021336979613432730637573065685)))
 
-def quotient0Coefficient0Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk7 : Coefficient :=
   coefficientTerm 48
     ((552360270 : ℚ) * 10 ^ 36 +
       398818319353145489782353749547768392) +
@@ -2602,7 +2602,7 @@ def quotient0Coefficient0Chunk7 : Coefficient :=
     ((117352 : ℚ) * 10 ^ 36 +
       377668326104205605237262843048477766)
 
-def quotient0Coefficient0Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk8 : Coefficient :=
   coefficientTerm 40
     (-(((32103 : ℚ) * 10 ^ 36 +
       660145362354445103781428166011131493))) +
@@ -2627,7 +2627,7 @@ def quotient0Coefficient0Chunk8 : Coefficient :=
   coefficientTerm 33
     (-((423131389177557560428397844609842056 : ℚ)))
 
-def quotient0Coefficient0Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk9 : Coefficient :=
   coefficientTerm 32
     (-((279389140688565796632021279627337453 : ℚ))) +
   coefficientTerm 31
@@ -2645,7 +2645,7 @@ def quotient0Coefficient0Chunk9 : Coefficient :=
   coefficientTerm 25
     (-((111611684894280328313118668572 : ℚ)))
 
-def quotient0Coefficient0Chunk10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk10 : Coefficient :=
   coefficientTerm 24
     (-((119091945645922091095772206765 : ℚ))) +
   coefficientTerm 23
@@ -2663,7 +2663,7 @@ def quotient0Coefficient0Chunk10 : Coefficient :=
   coefficientTerm 17
     (8595427171361775791882 : ℚ)
 
-def quotient0Coefficient0Chunk11 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk11 : Coefficient :=
   coefficientTerm 16
     (34837264144506240089 : ℚ) +
   coefficientTerm 15
@@ -2681,13 +2681,13 @@ def quotient0Coefficient0Chunk11 : Coefficient :=
   coefficientTerm 9
     (6366265563 : ℚ)
 
-def quotient0Coefficient0Chunk12 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Chunk12 : Coefficient :=
   coefficientTerm 8
     (-((2864498 : ℚ))) +
   coefficientTerm 7
     (-((21582 : ℚ)))
 
-def quotient0Coefficient0Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Block0 : Coefficient :=
   quotient0Coefficient0Chunk0 +
   quotient0Coefficient0Chunk1 +
   quotient0Coefficient0Chunk2 +
@@ -2701,14 +2701,14 @@ def quotient0Coefficient0Block0 : Coefficient :=
   quotient0Coefficient0Chunk10 +
   quotient0Coefficient0Chunk11
 
-def quotient0Coefficient0Block1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0Block1 : Coefficient :=
   quotient0Coefficient0Chunk12
 
-def quotient0Coefficient0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient0 : Coefficient :=
   quotient0Coefficient0Block0 +
   quotient0Coefficient0Block1
 
-def quotient0Coefficient1Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk0 : Coefficient :=
   coefficientTerm 100
     (-((1531 : ℚ))) +
   coefficientTerm 99
@@ -2726,7 +2726,7 @@ def quotient0Coefficient1Chunk0 : Coefficient :=
   coefficientTerm 93
     (557252100670274443417011605672 : ℚ)
 
-def quotient0Coefficient1Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk1 : Coefficient :=
   coefficientTerm 92
     (77539676403259514938207129980570 : ℚ) +
   coefficientTerm 91
@@ -2749,7 +2749,7 @@ def quotient0Coefficient1Chunk1 : Coefficient :=
     ((8792 : ℚ) * 10 ^ 36 +
       855151120065358686591897330090534643)
 
-def quotient0Coefficient1Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk2 : Coefficient :=
   coefficientTerm 84
     (-(((76315 : ℚ) * 10 ^ 36 +
       488999635155158751168372949589777694))) +
@@ -2775,7 +2775,7 @@ def quotient0Coefficient1Chunk2 : Coefficient :=
     ((1218543360 : ℚ) * 10 ^ 36 +
       987616250085822477038126829345378970)
 
-def quotient0Coefficient1Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk3 : Coefficient :=
   coefficientTerm 76
     ((217969810 : ℚ) * 10 ^ 36 +
       151095599808106734488297548209016277) +
@@ -2801,7 +2801,7 @@ def quotient0Coefficient1Chunk3 : Coefficient :=
     ((613658221721 : ℚ) * 10 ^ 36 +
       192935025510985209643722882871353918)
 
-def quotient0Coefficient1Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk4 : Coefficient :=
   coefficientTerm 68
     (-(((638832428835 : ℚ) * 10 ^ 36 +
       754843603677749060080200565223838833))) +
@@ -2827,7 +2827,7 @@ def quotient0Coefficient1Chunk4 : Coefficient :=
     ((300535025710 : ℚ) * 10 ^ 36 +
       172943165400570469078287748786305190)
 
-def quotient0Coefficient1Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk5 : Coefficient :=
   coefficientTerm 60
     (-(((527184883530 : ℚ) * 10 ^ 36 +
       608894932288955386670071957906729292))) +
@@ -2853,7 +2853,7 @@ def quotient0Coefficient1Chunk5 : Coefficient :=
     ((4158248618 : ℚ) * 10 ^ 36 +
       228302285003712110516417796043393319)
 
-def quotient0Coefficient1Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk6 : Coefficient :=
   coefficientTerm 52
     (-(((3550939024 : ℚ) * 10 ^ 36 +
       861251564120809240554925628481570702))) +
@@ -2879,7 +2879,7 @@ def quotient0Coefficient1Chunk6 : Coefficient :=
     ((518431 : ℚ) * 10 ^ 36 +
       993223087537975526771010941342927537)
 
-def quotient0Coefficient1Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk7 : Coefficient :=
   coefficientTerm 44
     ((1231453 : ℚ) * 10 ^ 36 +
       999702133079997255344828642389852440) +
@@ -2905,7 +2905,7 @@ def quotient0Coefficient1Chunk7 : Coefficient :=
     ((169 : ℚ) * 10 ^ 36 +
       021921197898676958225179248914576926)
 
-def quotient0Coefficient1Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk8 : Coefficient :=
   coefficientTerm 36
     (-(((42 : ℚ) * 10 ^ 36 +
       064902512836031203023118672944784137))) +
@@ -2926,7 +2926,7 @@ def quotient0Coefficient1Chunk8 : Coefficient :=
   coefficientTerm 29
     (153461612694452264741837511467568 : ℚ)
 
-def quotient0Coefficient1Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk9 : Coefficient :=
   coefficientTerm 28
     (-((175632861210694561491084918729304 : ℚ))) +
   coefficientTerm 27
@@ -2944,7 +2944,7 @@ def quotient0Coefficient1Chunk9 : Coefficient :=
   coefficientTerm 21
     (133042470506134468666792555 : ℚ)
 
-def quotient0Coefficient1Chunk10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk10 : Coefficient :=
   coefficientTerm 20
     (-((10697048678883217194921494 : ℚ))) +
   coefficientTerm 19
@@ -2962,7 +2962,7 @@ def quotient0Coefficient1Chunk10 : Coefficient :=
   coefficientTerm 13
     (112132100318902326 : ℚ)
 
-def quotient0Coefficient1Chunk11 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Chunk11 : Coefficient :=
   coefficientTerm 12
     (4966335493743703 : ℚ) +
   coefficientTerm 11
@@ -2978,7 +2978,7 @@ def quotient0Coefficient1Chunk11 : Coefficient :=
   coefficientTerm 6
     (-((4 : ℚ)))
 
-def quotient0Coefficient1Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1Block0 : Coefficient :=
   quotient0Coefficient1Chunk0 +
   quotient0Coefficient1Chunk1 +
   quotient0Coefficient1Chunk2 +
@@ -2992,10 +2992,10 @@ def quotient0Coefficient1Block0 : Coefficient :=
   quotient0Coefficient1Chunk10 +
   quotient0Coefficient1Chunk11
 
-def quotient0Coefficient1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient1 : Coefficient :=
   quotient0Coefficient1Block0
 
-def quotient0Coefficient2Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk0 : Coefficient :=
   coefficientTerm 96
     (-((25750 : ℚ))) +
   coefficientTerm 95
@@ -3013,7 +3013,7 @@ def quotient0Coefficient2Chunk0 : Coefficient :=
   coefficientTerm 89
     (333590014353568038002713312800 : ℚ)
 
-def quotient0Coefficient2Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk1 : Coefficient :=
   coefficientTerm 88
     (34076089071682545795084507109160 : ℚ) +
   coefficientTerm 87
@@ -3035,7 +3035,7 @@ def quotient0Coefficient2Chunk1 : Coefficient :=
     (-(((403 : ℚ) * 10 ^ 36 +
       877296097042371714864795310056041463)))
 
-def quotient0Coefficient2Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk2 : Coefficient :=
   coefficientTerm 80
     (-(((7565 : ℚ) * 10 ^ 36 +
       870317897577405308877748748840565596))) +
@@ -3061,7 +3061,7 @@ def quotient0Coefficient2Chunk2 : Coefficient :=
     ((95488502 : ℚ) * 10 ^ 36 +
       063443278800189890533710173637177223)
 
-def quotient0Coefficient2Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk3 : Coefficient :=
   coefficientTerm 72
     (-(((281320180 : ℚ) * 10 ^ 36 +
       782127282391738270639125710999606746))) +
@@ -3087,7 +3087,7 @@ def quotient0Coefficient2Chunk3 : Coefficient :=
     ((2124329905 : ℚ) * 10 ^ 36 +
       774056417215774494366549192936610425)
 
-def quotient0Coefficient2Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk4 : Coefficient :=
   coefficientTerm 64
     (-(((14214019389 : ℚ) * 10 ^ 36 +
       949760884844494838235439664788953854))) +
@@ -3113,7 +3113,7 @@ def quotient0Coefficient2Chunk4 : Coefficient :=
     (-(((7513258259 : ℚ) * 10 ^ 36 +
       749288085114841966547564756093355776)))
 
-def quotient0Coefficient2Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk5 : Coefficient :=
   coefficientTerm 56
     ((2024407506 : ℚ) * 10 ^ 36 +
       965143815856935604990559397813411111) +
@@ -3139,7 +3139,7 @@ def quotient0Coefficient2Chunk5 : Coefficient :=
     (-(((10328207 : ℚ) * 10 ^ 36 +
       991786207632563429664530944041926224)))
 
-def quotient0Coefficient2Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk6 : Coefficient :=
   coefficientTerm 48
     (-(((9322995 : ℚ) * 10 ^ 36 +
       504676213823968966801065503466658954))) +
@@ -3165,7 +3165,7 @@ def quotient0Coefficient2Chunk6 : Coefficient :=
     ((4397 : ℚ) * 10 ^ 36 +
       994144722095879900956813914064183152)
 
-def quotient0Coefficient2Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk7 : Coefficient :=
   coefficientTerm 40
     ((2151 : ℚ) * 10 ^ 36 +
       028308744458506206653516302777951945) +
@@ -3189,7 +3189,7 @@ def quotient0Coefficient2Chunk7 : Coefficient :=
   coefficientTerm 33
     (223011096413205337712537800511282733 : ℚ)
 
-def quotient0Coefficient2Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk8 : Coefficient :=
   coefficientTerm 32
     (-((37875590857859039451231678432041034 : ℚ))) +
   coefficientTerm 31
@@ -3207,7 +3207,7 @@ def quotient0Coefficient2Chunk8 : Coefficient :=
   coefficientTerm 25
     (338330489343888433544541654419 : ℚ)
 
-def quotient0Coefficient2Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk9 : Coefficient :=
   coefficientTerm 24
     (-((50521217924705503559856096052 : ℚ))) +
   coefficientTerm 23
@@ -3225,7 +3225,7 @@ def quotient0Coefficient2Chunk9 : Coefficient :=
   coefficientTerm 17
     (19630502355127126742444 : ℚ)
 
-def quotient0Coefficient2Chunk10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk10 : Coefficient :=
   coefficientTerm 16
     (779947681495430720669 : ℚ) +
   coefficientTerm 15
@@ -3243,7 +3243,7 @@ def quotient0Coefficient2Chunk10 : Coefficient :=
   coefficientTerm 9
     (307611992394 : ℚ)
 
-def quotient0Coefficient2Chunk11 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Chunk11 : Coefficient :=
   coefficientTerm 8
     (311204553 : ℚ) +
   coefficientTerm 7
@@ -3251,7 +3251,7 @@ def quotient0Coefficient2Chunk11 : Coefficient :=
   coefficientTerm 6
     (-((86 : ℚ)))
 
-def quotient0Coefficient2Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2Block0 : Coefficient :=
   quotient0Coefficient2Chunk0 +
   quotient0Coefficient2Chunk1 +
   quotient0Coefficient2Chunk2 +
@@ -3265,10 +3265,10 @@ def quotient0Coefficient2Block0 : Coefficient :=
   quotient0Coefficient2Chunk10 +
   quotient0Coefficient2Chunk11
 
-def quotient0Coefficient2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient2 : Coefficient :=
   quotient0Coefficient2Block0
 
-def quotient0Coefficient3Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk0 : Coefficient :=
   coefficientTerm 92
     (-((303937 : ℚ))) +
   coefficientTerm 91
@@ -3286,7 +3286,7 @@ def quotient0Coefficient3Chunk0 : Coefficient :=
   coefficientTerm 85
     (176795165309804489456799201484 : ℚ)
 
-def quotient0Coefficient3Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk1 : Coefficient :=
   coefficientTerm 84
     (13077827931658811054836738952827 : ℚ) +
   coefficientTerm 83
@@ -3307,7 +3307,7 @@ def quotient0Coefficient3Chunk1 : Coefficient :=
     (-(((186 : ℚ) * 10 ^ 36 +
       492008686107144904218481279792905257)))
 
-def quotient0Coefficient3Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk2 : Coefficient :=
   coefficientTerm 76
     ((211 : ℚ) * 10 ^ 36 +
       316084501257639321926025247393117590) +
@@ -3333,7 +3333,7 @@ def quotient0Coefficient3Chunk2 : Coefficient :=
     (-(((2412929 : ℚ) * 10 ^ 36 +
       954105070612473940457164809933378343)))
 
-def quotient0Coefficient3Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk3 : Coefficient :=
   coefficientTerm 68
     (-(((4643589 : ℚ) * 10 ^ 36 +
       979530424671489526055936295545168041))) +
@@ -3359,7 +3359,7 @@ def quotient0Coefficient3Chunk3 : Coefficient :=
     (-(((387984421 : ℚ) * 10 ^ 36 +
       154417778534136612196003371884477224)))
 
-def quotient0Coefficient3Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk4 : Coefficient :=
   coefficientTerm 60
     ((327132586 : ℚ) * 10 ^ 36 +
       223969798904673831183731123848618258) +
@@ -3385,7 +3385,7 @@ def quotient0Coefficient3Chunk4 : Coefficient :=
     (-(((35884329 : ℚ) * 10 ^ 36 +
       092808484384448150339914163779861737)))
 
-def quotient0Coefficient3Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk5 : Coefficient :=
   coefficientTerm 52
     ((32358974 : ℚ) * 10 ^ 36 +
       218785347309114475844694618188947554) +
@@ -3411,7 +3411,7 @@ def quotient0Coefficient3Chunk5 : Coefficient :=
     (-(((103599 : ℚ) * 10 ^ 36 +
       515142569286875433230663989124308728)))
 
-def quotient0Coefficient3Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk6 : Coefficient :=
   coefficientTerm 44
     (-(((4547 : ℚ) * 10 ^ 36 +
       377160161093026418128027062905576185))) +
@@ -3437,7 +3437,7 @@ def quotient0Coefficient3Chunk6 : Coefficient :=
     ((11 : ℚ) * 10 ^ 36 +
       826283318045360302995529039207955467)
 
-def quotient0Coefficient3Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk7 : Coefficient :=
   coefficientTerm 36
     ((3 : ℚ) * 10 ^ 36 +
       346611202976544139280840460921882630) +
@@ -3457,7 +3457,7 @@ def quotient0Coefficient3Chunk7 : Coefficient :=
   coefficientTerm 29
     (241293585624076651740512094972086 : ℚ)
 
-def quotient0Coefficient3Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk8 : Coefficient :=
   coefficientTerm 28
     (-((16698691657524772577779134235397 : ℚ))) +
   coefficientTerm 27
@@ -3475,7 +3475,7 @@ def quotient0Coefficient3Chunk8 : Coefficient :=
   coefficientTerm 21
     (159764303715713423965685533 : ℚ)
 
-def quotient0Coefficient3Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk9 : Coefficient :=
   coefficientTerm 20
     (1857309441223727914260021 : ℚ) +
   coefficientTerm 19
@@ -3493,7 +3493,7 @@ def quotient0Coefficient3Chunk9 : Coefficient :=
   coefficientTerm 13
     (502131862979834019 : ℚ)
 
-def quotient0Coefficient3Chunk10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Chunk10 : Coefficient :=
   coefficientTerm 12
     (24671122866508415 : ℚ) +
   coefficientTerm 11
@@ -3511,7 +3511,7 @@ def quotient0Coefficient3Chunk10 : Coefficient :=
   coefficientTerm 5
     (5 : ℚ)
 
-def quotient0Coefficient3Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3Block0 : Coefficient :=
   quotient0Coefficient3Chunk0 +
   quotient0Coefficient3Chunk1 +
   quotient0Coefficient3Chunk2 +
@@ -3524,10 +3524,10 @@ def quotient0Coefficient3Block0 : Coefficient :=
   quotient0Coefficient3Chunk9 +
   quotient0Coefficient3Chunk10
 
-def quotient0Coefficient3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient3 : Coefficient :=
   quotient0Coefficient3Block0
 
-def quotient0Coefficient4Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk0 : Coefficient :=
   coefficientTerm 88
     (-((2673890 : ℚ))) +
   coefficientTerm 87
@@ -3545,7 +3545,7 @@ def quotient0Coefficient4Chunk0 : Coefficient :=
   coefficientTerm 81
     (82332278229449477571423288247 : ℚ)
 
-def quotient0Coefficient4Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk1 : Coefficient :=
   coefficientTerm 80
     (4303279813658084927069419704961 : ℚ) +
   coefficientTerm 79
@@ -3565,7 +3565,7 @@ def quotient0Coefficient4Chunk1 : Coefficient :=
     (-(((14 : ℚ) * 10 ^ 36 +
       583696151451930748933399335484815969)))
 
-def quotient0Coefficient4Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk2 : Coefficient :=
   coefficientTerm 72
     ((103 : ℚ) * 10 ^ 36 +
       020208422500000329824929067014354859) +
@@ -3591,7 +3591,7 @@ def quotient0Coefficient4Chunk2 : Coefficient :=
     (-(((304332 : ℚ) * 10 ^ 36 +
       985635104404056333898578194110853610)))
 
-def quotient0Coefficient4Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk3 : Coefficient :=
   coefficientTerm 64
     ((602834 : ℚ) * 10 ^ 36 +
       214772172596365659433694671067329909) +
@@ -3617,7 +3617,7 @@ def quotient0Coefficient4Chunk3 : Coefficient :=
     (-(((570250 : ℚ) * 10 ^ 36 +
       920296818323722843488705139242755281)))
 
-def quotient0Coefficient4Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk4 : Coefficient :=
   coefficientTerm 56
     ((4518808 : ℚ) * 10 ^ 36 +
       505203460785693029669526305906852427) +
@@ -3643,7 +3643,7 @@ def quotient0Coefficient4Chunk4 : Coefficient :=
     ((184969 : ℚ) * 10 ^ 36 +
       719964274822014649751611234792750845)
 
-def quotient0Coefficient4Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk5 : Coefficient :=
   coefficientTerm 48
     ((66219 : ℚ) * 10 ^ 36 +
       801284159977537914401348468437333673) +
@@ -3669,7 +3669,7 @@ def quotient0Coefficient4Chunk5 : Coefficient :=
     (-(((377 : ℚ) * 10 ^ 36 +
       393676370318348440472729680346650399)))
 
-def quotient0Coefficient4Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk6 : Coefficient :=
   coefficientTerm 40
     ((51 : ℚ) * 10 ^ 36 +
       389310909927136535857423488950998657) +
@@ -3691,7 +3691,7 @@ def quotient0Coefficient4Chunk6 : Coefficient :=
   coefficientTerm 33
     (20385543555790384530631025904009301 : ℚ)
 
-def quotient0Coefficient4Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk7 : Coefficient :=
   coefficientTerm 32
     (5116372813695732464445141599498466 : ℚ) +
   coefficientTerm 31
@@ -3709,7 +3709,7 @@ def quotient0Coefficient4Chunk7 : Coefficient :=
   coefficientTerm 25
     (176917188219470759863880584344 : ℚ)
 
-def quotient0Coefficient4Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk8 : Coefficient :=
   coefficientTerm 24
     (5668017982424196080524238677 : ℚ) +
   coefficientTerm 23
@@ -3727,7 +3727,7 @@ def quotient0Coefficient4Chunk8 : Coefficient :=
   coefficientTerm 17
     (25745932755290118181680 : ℚ)
 
-def quotient0Coefficient4Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk9 : Coefficient :=
   coefficientTerm 16
     (1608102169988115365171 : ℚ) +
   coefficientTerm 15
@@ -3745,7 +3745,7 @@ def quotient0Coefficient4Chunk9 : Coefficient :=
   coefficientTerm 9
     (4700543123429 : ℚ)
 
-def quotient0Coefficient4Chunk10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Chunk10 : Coefficient :=
   coefficientTerm 8
     (70744071279 : ℚ) +
   coefficientTerm 7
@@ -3755,7 +3755,7 @@ def quotient0Coefficient4Chunk10 : Coefficient :=
   coefficientTerm 5
     (447 : ℚ)
 
-def quotient0Coefficient4Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4Block0 : Coefficient :=
   quotient0Coefficient4Chunk0 +
   quotient0Coefficient4Chunk1 +
   quotient0Coefficient4Chunk2 +
@@ -3768,10 +3768,10 @@ def quotient0Coefficient4Block0 : Coefficient :=
   quotient0Coefficient4Chunk9 +
   quotient0Coefficient4Chunk10
 
-def quotient0Coefficient4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient4 : Coefficient :=
   quotient0Coefficient4Block0
 
-def quotient0Coefficient5Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk0 : Coefficient :=
   coefficientTerm 84
     (-((18172790 : ℚ))) +
   coefficientTerm 83
@@ -3789,7 +3789,7 @@ def quotient0Coefficient5Chunk0 : Coefficient :=
   coefficientTerm 77
     (33272956336166072105177852323 : ℚ)
 
-def quotient0Coefficient5Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk1 : Coefficient :=
   coefficientTerm 76
     (1179929095570195433409983478718 : ℚ) +
   coefficientTerm 75
@@ -3807,7 +3807,7 @@ def quotient0Coefficient5Chunk1 : Coefficient :=
   coefficientTerm 69
     (859685981268844531402829791241112310 : ℚ)
 
-def quotient0Coefficient5Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk2 : Coefficient :=
   coefficientTerm 68
     ((5 : ℚ) * 10 ^ 36 +
       401341098695920951870555161393956126) +
@@ -3833,7 +3833,7 @@ def quotient0Coefficient5Chunk2 : Coefficient :=
     ((2662 : ℚ) * 10 ^ 36 +
       328884328778632350327435073333949630)
 
-def quotient0Coefficient5Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk3 : Coefficient :=
   coefficientTerm 60
     ((11835 : ℚ) * 10 ^ 36 +
       132264545174501991259742714141677773) +
@@ -3859,7 +3859,7 @@ def quotient0Coefficient5Chunk3 : Coefficient :=
     ((115368 : ℚ) * 10 ^ 36 +
       522873478347148060778916378148792141)
 
-def quotient0Coefficient5Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk4 : Coefficient :=
   coefficientTerm 52
     (-(((73608 : ℚ) * 10 ^ 36 +
       853374116620776271042360542189273595))) +
@@ -3885,7 +3885,7 @@ def quotient0Coefficient5Chunk4 : Coefficient :=
     ((1843 : ℚ) * 10 ^ 36 +
       633365605491117655945097149061072270)
 
-def quotient0Coefficient5Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk5 : Coefficient :=
   coefficientTerm 44
     (-(((432 : ℚ) * 10 ^ 36 +
       478511147513082610114886620476674225))) +
@@ -3909,7 +3909,7 @@ def quotient0Coefficient5Chunk5 : Coefficient :=
   coefficientTerm 37
     (-((918289105320866357623717135258683398 : ℚ)))
 
-def quotient0Coefficient5Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk6 : Coefficient :=
   coefficientTerm 36
     (219456391203069055732897905934964318 : ℚ) +
   coefficientTerm 35
@@ -3927,7 +3927,7 @@ def quotient0Coefficient5Chunk6 : Coefficient :=
   coefficientTerm 29
     (23108647651715198218873805266691 : ℚ)
 
-def quotient0Coefficient5Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk7 : Coefficient :=
   coefficientTerm 28
     (7343881952910678415893607501227 : ℚ) +
   coefficientTerm 27
@@ -3945,7 +3945,7 @@ def quotient0Coefficient5Chunk7 : Coefficient :=
   coefficientTerm 21
     (71839931249992601846909184 : ℚ)
 
-def quotient0Coefficient5Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk8 : Coefficient :=
   coefficientTerm 20
     (7858491969148126336058950 : ℚ) +
   coefficientTerm 19
@@ -3963,7 +3963,7 @@ def quotient0Coefficient5Chunk8 : Coefficient :=
   coefficientTerm 13
     (3840723934632384010 : ℚ)
 
-def quotient0Coefficient5Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Chunk9 : Coefficient :=
   coefficientTerm 12
     (-((183682841725198734 : ℚ))) +
   coefficientTerm 11
@@ -3981,7 +3981,7 @@ def quotient0Coefficient5Chunk9 : Coefficient :=
   coefficientTerm 5
     (15313 : ℚ)
 
-def quotient0Coefficient5Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5Block0 : Coefficient :=
   quotient0Coefficient5Chunk0 +
   quotient0Coefficient5Chunk1 +
   quotient0Coefficient5Chunk2 +
@@ -3993,10 +3993,10 @@ def quotient0Coefficient5Block0 : Coefficient :=
   quotient0Coefficient5Chunk8 +
   quotient0Coefficient5Chunk9
 
-def quotient0Coefficient5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient5 : Coefficient :=
   quotient0Coefficient5Block0
 
-def quotient0Coefficient6Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk0 : Coefficient :=
   coefficientTerm 81
     (-((1 : ℚ))) +
   coefficientTerm 80
@@ -4014,7 +4014,7 @@ def quotient0Coefficient6Chunk0 : Coefficient :=
   coefficientTerm 74
     (195020638397294814686802379 : ℚ)
 
-def quotient0Coefficient6Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk1 : Coefficient :=
   coefficientTerm 73
     (11450436569085763108743288466 : ℚ) +
   coefficientTerm 72
@@ -4032,7 +4032,7 @@ def quotient0Coefficient6Chunk1 : Coefficient :=
   coefficientTerm 66
     (-((24706242248721125396113437178438076 : ℚ)))
 
-def quotient0Coefficient6Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk2 : Coefficient :=
   coefficientTerm 65
     (210798886427101452376082992232889082 : ℚ) +
   coefficientTerm 64
@@ -4055,7 +4055,7 @@ def quotient0Coefficient6Chunk2 : Coefficient :=
     (-(((210 : ℚ) * 10 ^ 36 +
       248376039189960005190809071640437697)))
 
-def quotient0Coefficient6Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk3 : Coefficient :=
   coefficientTerm 57
     ((540 : ℚ) * 10 ^ 36 +
       616379353376639775096911599261311018) +
@@ -4081,7 +4081,7 @@ def quotient0Coefficient6Chunk3 : Coefficient :=
     ((984 : ℚ) * 10 ^ 36 +
       488879150759898792696538388614004018)
 
-def quotient0Coefficient6Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk4 : Coefficient :=
   coefficientTerm 49
     ((77 : ℚ) * 10 ^ 36 +
       515950338811536372073128793021933263) +
@@ -4107,7 +4107,7 @@ def quotient0Coefficient6Chunk4 : Coefficient :=
     ((5 : ℚ) * 10 ^ 36 +
       110887608705158139083365945572970131)
 
-def quotient0Coefficient6Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk5 : Coefficient :=
   coefficientTerm 41
     ((5 : ℚ) * 10 ^ 36 +
       525660295922360344913444727713875447) +
@@ -4127,7 +4127,7 @@ def quotient0Coefficient6Chunk5 : Coefficient :=
   coefficientTerm 34
     (-((2794325699465810853254425485129652 : ℚ)))
 
-def quotient0Coefficient6Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk6 : Coefficient :=
   coefficientTerm 33
     (-((1786341224624752423746346975408639 : ℚ))) +
   coefficientTerm 32
@@ -4145,7 +4145,7 @@ def quotient0Coefficient6Chunk6 : Coefficient :=
   coefficientTerm 26
     (-((190604790782476691186670687635 : ℚ)))
 
-def quotient0Coefficient6Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk7 : Coefficient :=
   coefficientTerm 25
     (13643425459374195935648264278 : ℚ) +
   coefficientTerm 24
@@ -4163,7 +4163,7 @@ def quotient0Coefficient6Chunk7 : Coefficient :=
   coefficientTerm 18
     (-((396621712348203407148353 : ℚ)))
 
-def quotient0Coefficient6Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk8 : Coefficient :=
   coefficientTerm 17
     (34864162851813120801175 : ℚ) +
   coefficientTerm 16
@@ -4181,7 +4181,7 @@ def quotient0Coefficient6Chunk8 : Coefficient :=
   coefficientTerm 10
     (-((2224373241547435 : ℚ)))
 
-def quotient0Coefficient6Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Chunk9 : Coefficient :=
   coefficientTerm 9
     (-((38564589883913 : ℚ))) +
   coefficientTerm 8
@@ -4195,7 +4195,7 @@ def quotient0Coefficient6Chunk9 : Coefficient :=
   coefficientTerm 4
     (32 : ℚ)
 
-def quotient0Coefficient6Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6Block0 : Coefficient :=
   quotient0Coefficient6Chunk0 +
   quotient0Coefficient6Chunk1 +
   quotient0Coefficient6Chunk2 +
@@ -4207,10 +4207,10 @@ def quotient0Coefficient6Block0 : Coefficient :=
   quotient0Coefficient6Chunk8 +
   quotient0Coefficient6Chunk9
 
-def quotient0Coefficient6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient6 : Coefficient :=
   quotient0Coefficient6Block0
 
-def quotient0Coefficient7Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk0 : Coefficient :=
   coefficientTerm 77
     (-((43 : ℚ))) +
   coefficientTerm 76
@@ -4228,7 +4228,7 @@ def quotient0Coefficient7Chunk0 : Coefficient :=
   coefficientTerm 70
     (83635391946776520830357994 : ℚ)
 
-def quotient0Coefficient7Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk1 : Coefficient :=
   coefficientTerm 69
     (3258293082213397858191266080 : ℚ) +
   coefficientTerm 68
@@ -4246,7 +4246,7 @@ def quotient0Coefficient7Chunk1 : Coefficient :=
   coefficientTerm 62
     (2626230744660991436800741384796602 : ℚ)
 
-def quotient0Coefficient7Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk2 : Coefficient :=
   coefficientTerm 61
     (5593336951671834263309807309306030 : ℚ) +
   coefficientTerm 60
@@ -4267,7 +4267,7 @@ def quotient0Coefficient7Chunk2 : Coefficient :=
     ((7 : ℚ) * 10 ^ 36 +
       784858089638462342984197594472022006)
 
-def quotient0Coefficient7Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk3 : Coefficient :=
   coefficientTerm 53
     (-(((2 : ℚ) * 10 ^ 36 +
       264959973111221416061274971320189478))) +
@@ -4293,7 +4293,7 @@ def quotient0Coefficient7Chunk3 : Coefficient :=
     ((16 : ℚ) * 10 ^ 36 +
       277664941190342204989207282149580322)
 
-def quotient0Coefficient7Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk4 : Coefficient :=
   coefficientTerm 45
     (-(((11 : ℚ) * 10 ^ 36 +
       823415230716139070104336818703405160))) +
@@ -4314,7 +4314,7 @@ def quotient0Coefficient7Chunk4 : Coefficient :=
   coefficientTerm 38
     (63040554902159098530428415838255374 : ℚ)
 
-def quotient0Coefficient7Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk5 : Coefficient :=
   coefficientTerm 37
     (3234269370485591183751189122325329 : ℚ) +
   coefficientTerm 36
@@ -4332,7 +4332,7 @@ def quotient0Coefficient7Chunk5 : Coefficient :=
   coefficientTerm 30
     (-((7633385138039147411040833047368 : ℚ)))
 
-def quotient0Coefficient7Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk6 : Coefficient :=
   coefficientTerm 29
     (-((3109779768004375275896025051696 : ℚ))) +
   coefficientTerm 28
@@ -4350,7 +4350,7 @@ def quotient0Coefficient7Chunk6 : Coefficient :=
   coefficientTerm 22
     (-((200740678648083753522232703 : ℚ)))
 
-def quotient0Coefficient7Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk7 : Coefficient :=
   coefficientTerm 21
     (6581630101489075287103271 : ℚ) +
   coefficientTerm 20
@@ -4368,7 +4368,7 @@ def quotient0Coefficient7Chunk7 : Coefficient :=
   coefficientTerm 14
     (-((188317122673899942244 : ℚ)))
 
-def quotient0Coefficient7Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk8 : Coefficient :=
   coefficientTerm 13
     (12248835066627578624 : ℚ) +
   coefficientTerm 12
@@ -4386,13 +4386,13 @@ def quotient0Coefficient7Chunk8 : Coefficient :=
   coefficientTerm 6
     (-((920903373 : ℚ)))
 
-def quotient0Coefficient7Chunk9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Chunk9 : Coefficient :=
   coefficientTerm 5
     (3410229 : ℚ) +
   coefficientTerm 4
     (1644 : ℚ)
 
-def quotient0Coefficient7Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7Block0 : Coefficient :=
   quotient0Coefficient7Chunk0 +
   quotient0Coefficient7Chunk1 +
   quotient0Coefficient7Chunk2 +
@@ -4404,10 +4404,10 @@ def quotient0Coefficient7Block0 : Coefficient :=
   quotient0Coefficient7Chunk8 +
   quotient0Coefficient7Chunk9
 
-def quotient0Coefficient7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient7 : Coefficient :=
   quotient0Coefficient7Block0
 
-def quotient0Coefficient8Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk0 : Coefficient :=
   coefficientTerm 73
     (-((852 : ℚ))) +
   coefficientTerm 72
@@ -4425,7 +4425,7 @@ def quotient0Coefficient8Chunk0 : Coefficient :=
   coefficientTerm 66
     (30294800302565346054839590 : ℚ)
 
-def quotient0Coefficient8Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk1 : Coefficient :=
   coefficientTerm 65
     (728361831618794492200511603 : ℚ) +
   coefficientTerm 64
@@ -4443,7 +4443,7 @@ def quotient0Coefficient8Chunk1 : Coefficient :=
   coefficientTerm 58
     (382764825272279994431815280573605 : ℚ)
 
-def quotient0Coefficient8Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk2 : Coefficient :=
   coefficientTerm 57
     (-((1199791635297922843311864669380425 : ℚ))) +
   coefficientTerm 56
@@ -4461,7 +4461,7 @@ def quotient0Coefficient8Chunk2 : Coefficient :=
   coefficientTerm 50
     (266186985321203410557079171577321922 : ℚ)
 
-def quotient0Coefficient8Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk3 : Coefficient :=
   coefficientTerm 49
     (-((492581451950127320797754982604813709 : ℚ))) +
   coefficientTerm 48
@@ -4479,7 +4479,7 @@ def quotient0Coefficient8Chunk3 : Coefficient :=
   coefficientTerm 42
     (-((52800782639252176430879433718023564 : ℚ)))
 
-def quotient0Coefficient8Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk4 : Coefficient :=
   coefficientTerm 41
     (-((35431065459366661946094630854757297 : ℚ))) +
   coefficientTerm 40
@@ -4497,7 +4497,7 @@ def quotient0Coefficient8Chunk4 : Coefficient :=
   coefficientTerm 34
     (256821087510000707377830956529832 : ℚ)
 
-def quotient0Coefficient8Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk5 : Coefficient :=
   coefficientTerm 33
     (-((34321226694834443375596922175576 : ℚ))) +
   coefficientTerm 32
@@ -4515,7 +4515,7 @@ def quotient0Coefficient8Chunk5 : Coefficient :=
   coefficientTerm 26
     (-((12260400059314508821828899772 : ℚ)))
 
-def quotient0Coefficient8Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk6 : Coefficient :=
   coefficientTerm 25
     (-((4781357090083847127616771247 : ℚ))) +
   coefficientTerm 24
@@ -4533,7 +4533,7 @@ def quotient0Coefficient8Chunk6 : Coefficient :=
   coefficientTerm 18
     (-((225492025207686686720108 : ℚ)))
 
-def quotient0Coefficient8Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk7 : Coefficient :=
   coefficientTerm 17
     (22024953494934696563767 : ℚ) +
   coefficientTerm 16
@@ -4551,7 +4551,7 @@ def quotient0Coefficient8Chunk7 : Coefficient :=
   coefficientTerm 10
     (10077784604731897 : ℚ)
 
-def quotient0Coefficient8Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Chunk8 : Coefficient :=
   coefficientTerm 9
     (-((1091736602958074 : ℚ))) +
   coefficientTerm 8
@@ -4567,7 +4567,7 @@ def quotient0Coefficient8Chunk8 : Coefficient :=
   coefficientTerm 3
     (1 : ℚ)
 
-def quotient0Coefficient8Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8Block0 : Coefficient :=
   quotient0Coefficient8Chunk0 +
   quotient0Coefficient8Chunk1 +
   quotient0Coefficient8Chunk2 +
@@ -4578,10 +4578,10 @@ def quotient0Coefficient8Block0 : Coefficient :=
   quotient0Coefficient8Chunk7 +
   quotient0Coefficient8Chunk8
 
-def quotient0Coefficient8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient8 : Coefficient :=
   quotient0Coefficient8Block0
 
-def quotient0Coefficient9Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk0 : Coefficient :=
   coefficientTerm 69
     (-((10301 : ℚ))) +
   coefficientTerm 68
@@ -4599,7 +4599,7 @@ def quotient0Coefficient9Chunk0 : Coefficient :=
   coefficientTerm 62
     (8988557453323120297335401 : ℚ)
 
-def quotient0Coefficient9Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk1 : Coefficient :=
   coefficientTerm 61
     (114136116226209934315437346 : ℚ) +
   coefficientTerm 60
@@ -4617,7 +4617,7 @@ def quotient0Coefficient9Chunk1 : Coefficient :=
   coefficientTerm 54
     (-((43265463788500026363855093423 : ℚ)))
 
-def quotient0Coefficient9Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk2 : Coefficient :=
   coefficientTerm 53
     (-((74151556052975730968199312651026 : ℚ))) +
   coefficientTerm 52
@@ -4635,7 +4635,7 @@ def quotient0Coefficient9Chunk2 : Coefficient :=
   coefficientTerm 46
     (-((6625083768176088999373564739682741 : ℚ)))
 
-def quotient0Coefficient9Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk3 : Coefficient :=
   coefficientTerm 45
     (1974341241833030964144251161264113 : ℚ) +
   coefficientTerm 44
@@ -4653,7 +4653,7 @@ def quotient0Coefficient9Chunk3 : Coefficient :=
   coefficientTerm 38
     (-((841818618028512884793990517583394 : ℚ)))
 
-def quotient0Coefficient9Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk4 : Coefficient :=
   coefficientTerm 37
     (200713309499726259783647933461027 : ℚ) +
   coefficientTerm 36
@@ -4671,7 +4671,7 @@ def quotient0Coefficient9Chunk4 : Coefficient :=
   coefficientTerm 30
     (693396939967700311118140910731 : ℚ)
 
-def quotient0Coefficient9Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk5 : Coefficient :=
   coefficientTerm 29
     (-((158045238662527392259774895818 : ℚ))) +
   coefficientTerm 28
@@ -4689,7 +4689,7 @@ def quotient0Coefficient9Chunk5 : Coefficient :=
   coefficientTerm 22
     (-((12936970655015005892742359 : ℚ)))
 
-def quotient0Coefficient9Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk6 : Coefficient :=
   coefficientTerm 21
     (-((4673299109620291527237733 : ℚ))) +
   coefficientTerm 20
@@ -4707,7 +4707,7 @@ def quotient0Coefficient9Chunk6 : Coefficient :=
   coefficientTerm 14
     (-((5688032574213871920 : ℚ)))
 
-def quotient0Coefficient9Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk7 : Coefficient :=
   coefficientTerm 13
     (-((11736491938324185188 : ℚ))) +
   coefficientTerm 12
@@ -4725,7 +4725,7 @@ def quotient0Coefficient9Chunk7 : Coefficient :=
   coefficientTerm 6
     (-((38099958375 : ℚ)))
 
-def quotient0Coefficient9Chunk8 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Chunk8 : Coefficient :=
   coefficientTerm 5
     (126565857 : ℚ) +
   coefficientTerm 4
@@ -4733,7 +4733,7 @@ def quotient0Coefficient9Chunk8 : Coefficient :=
   coefficientTerm 3
     (62 : ℚ)
 
-def quotient0Coefficient9Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9Block0 : Coefficient :=
   quotient0Coefficient9Chunk0 +
   quotient0Coefficient9Chunk1 +
   quotient0Coefficient9Chunk2 +
@@ -4744,10 +4744,10 @@ def quotient0Coefficient9Block0 : Coefficient :=
   quotient0Coefficient9Chunk7 +
   quotient0Coefficient9Chunk8
 
-def quotient0Coefficient9 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient9 : Coefficient :=
   quotient0Coefficient9Block0
 
-def quotient0Coefficient10Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk0 : Coefficient :=
   coefficientTerm 65
     (-((84795 : ℚ))) +
   coefficientTerm 64
@@ -4765,7 +4765,7 @@ def quotient0Coefficient10Chunk0 : Coefficient :=
   coefficientTerm 58
     (2071460432327377445916385 : ℚ)
 
-def quotient0Coefficient10Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk1 : Coefficient :=
   coefficientTerm 57
     (7792924832715496911205179 : ℚ) +
   coefficientTerm 56
@@ -4783,7 +4783,7 @@ def quotient0Coefficient10Chunk1 : Coefficient :=
   coefficientTerm 50
     (-((2196118772006503543983081679520 : ℚ)))
 
-def quotient0Coefficient10Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk2 : Coefficient :=
   coefficientTerm 49
     (3430858265552132386489949626593 : ℚ) +
   coefficientTerm 48
@@ -4801,7 +4801,7 @@ def quotient0Coefficient10Chunk2 : Coefficient :=
   coefficientTerm 42
     (-((132862117486622853909863967272945 : ℚ)))
 
-def quotient0Coefficient10Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk3 : Coefficient :=
   coefficientTerm 41
     (180439592547701337189809680331009 : ℚ) +
   coefficientTerm 40
@@ -4819,7 +4819,7 @@ def quotient0Coefficient10Chunk3 : Coefficient :=
   coefficientTerm 34
     (-((3116641904907914921780192778750 : ℚ)))
 
-def quotient0Coefficient10Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk4 : Coefficient :=
   coefficientTerm 33
     (1907346498956432283565885337033 : ℚ) +
   coefficientTerm 32
@@ -4837,7 +4837,7 @@ def quotient0Coefficient10Chunk4 : Coefficient :=
   coefficientTerm 26
     (1469357234716721234973888442 : ℚ)
 
-def quotient0Coefficient10Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk5 : Coefficient :=
   coefficientTerm 25
     (-((382015301682906618321088862 : ℚ))) +
   coefficientTerm 24
@@ -4855,7 +4855,7 @@ def quotient0Coefficient10Chunk5 : Coefficient :=
   coefficientTerm 18
     (16047247793994515121458 : ℚ)
 
-def quotient0Coefficient10Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk6 : Coefficient :=
   coefficientTerm 17
     (-((9998516435698062310921 : ℚ))) +
   coefficientTerm 16
@@ -4873,7 +4873,7 @@ def quotient0Coefficient10Chunk6 : Coefficient :=
   coefficientTerm 10
     (61606937238503783 : ℚ)
 
-def quotient0Coefficient10Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Chunk7 : Coefficient :=
   coefficientTerm 9
     (-((3688324040838516 : ℚ))) +
   coefficientTerm 8
@@ -4889,7 +4889,7 @@ def quotient0Coefficient10Chunk7 : Coefficient :=
   coefficientTerm 3
     (1748 : ℚ)
 
-def quotient0Coefficient10Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10Block0 : Coefficient :=
   quotient0Coefficient10Chunk0 +
   quotient0Coefficient10Chunk1 +
   quotient0Coefficient10Chunk2 +
@@ -4899,10 +4899,10 @@ def quotient0Coefficient10Block0 : Coefficient :=
   quotient0Coefficient10Chunk6 +
   quotient0Coefficient10Chunk7
 
-def quotient0Coefficient10 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient10 : Coefficient :=
   quotient0Coefficient10Block0
 
-def quotient0Coefficient11Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk0 : Coefficient :=
   coefficientTerm 61
     (-((501818 : ℚ))) +
   coefficientTerm 60
@@ -4920,7 +4920,7 @@ def quotient0Coefficient11Chunk0 : Coefficient :=
   coefficientTerm 54
     (329889455686482806942765 : ℚ)
 
-def quotient0Coefficient11Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk1 : Coefficient :=
   coefficientTerm 53
     (-((1476162313969364619948234 : ℚ))) +
   coefficientTerm 52
@@ -4938,7 +4938,7 @@ def quotient0Coefficient11Chunk1 : Coefficient :=
   coefficientTerm 46
     (-((54554327489096876110646225957 : ℚ)))
 
-def quotient0Coefficient11Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk2 : Coefficient :=
   coefficientTerm 45
     (302437983490671753385184821371 : ℚ) +
   coefficientTerm 44
@@ -4956,7 +4956,7 @@ def quotient0Coefficient11Chunk2 : Coefficient :=
   coefficientTerm 38
     (2251960069131348400398878321759 : ℚ)
 
-def quotient0Coefficient11Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk3 : Coefficient :=
   coefficientTerm 37
     (-((541558378114969116741493083647 : ℚ))) +
   coefficientTerm 36
@@ -4974,7 +4974,7 @@ def quotient0Coefficient11Chunk3 : Coefficient :=
   coefficientTerm 30
     (-((1381055724409934993490254708 : ℚ)))
 
-def quotient0Coefficient11Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk4 : Coefficient :=
   coefficientTerm 29
     (7317346199079732225666281749 : ℚ) +
   coefficientTerm 28
@@ -4992,7 +4992,7 @@ def quotient0Coefficient11Chunk4 : Coefficient :=
   coefficientTerm 22
     (3128738468077742080096935 : ℚ)
 
-def quotient0Coefficient11Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk5 : Coefficient :=
   coefficientTerm 21
     (-((734321797444887057492544 : ℚ))) +
   coefficientTerm 20
@@ -5010,7 +5010,7 @@ def quotient0Coefficient11Chunk5 : Coefficient :=
   coefficientTerm 14
     (164697430602016305351 : ℚ)
 
-def quotient0Coefficient11Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk6 : Coefficient :=
   coefficientTerm 13
     (-((33158678525841141640 : ℚ))) +
   coefficientTerm 12
@@ -5028,7 +5028,7 @@ def quotient0Coefficient11Chunk6 : Coefficient :=
   coefficientTerm 6
     (-((389846614917 : ℚ)))
 
-def quotient0Coefficient11Chunk7 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Chunk7 : Coefficient :=
   coefficientTerm 5
     (-((952024095 : ℚ))) +
   coefficientTerm 4
@@ -5036,7 +5036,7 @@ def quotient0Coefficient11Chunk7 : Coefficient :=
   coefficientTerm 3
     (29184 : ℚ)
 
-def quotient0Coefficient11Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11Block0 : Coefficient :=
   quotient0Coefficient11Chunk0 +
   quotient0Coefficient11Chunk1 +
   quotient0Coefficient11Chunk2 +
@@ -5046,10 +5046,10 @@ def quotient0Coefficient11Block0 : Coefficient :=
   quotient0Coefficient11Chunk6 +
   quotient0Coefficient11Chunk7
 
-def quotient0Coefficient11 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient11 : Coefficient :=
   quotient0Coefficient11Block0
 
-def quotient0Coefficient12Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk0 : Coefficient :=
   coefficientTerm 57
     (-((2195661 : ℚ))) +
   coefficientTerm 56
@@ -5067,7 +5067,7 @@ def quotient0Coefficient12Chunk0 : Coefficient :=
   coefficientTerm 50
     (22393953155770363663429 : ℚ)
 
-def quotient0Coefficient12Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk1 : Coefficient :=
   coefficientTerm 49
     (-((498912581478782964653898 : ℚ))) +
   coefficientTerm 48
@@ -5085,7 +5085,7 @@ def quotient0Coefficient12Chunk1 : Coefficient :=
   coefficientTerm 42
     (6431794761693208604977956171 : ℚ)
 
-def quotient0Coefficient12Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk2 : Coefficient :=
   coefficientTerm 41
     (-((5708350900633672912445104511 : ℚ))) +
   coefficientTerm 40
@@ -5103,7 +5103,7 @@ def quotient0Coefficient12Chunk2 : Coefficient :=
   coefficientTerm 34
     (19632027477976652056129835279 : ℚ)
 
-def quotient0Coefficient12Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk3 : Coefficient :=
   coefficientTerm 33
     (-((16805880525115481474131613661 : ℚ))) +
   coefficientTerm 32
@@ -5121,7 +5121,7 @@ def quotient0Coefficient12Chunk3 : Coefficient :=
   coefficientTerm 26
     (27853378694708192345507643 : ℚ)
 
-def quotient0Coefficient12Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk4 : Coefficient :=
   coefficientTerm 25
     (17615978420859251959727711 : ℚ) +
   coefficientTerm 24
@@ -5139,7 +5139,7 @@ def quotient0Coefficient12Chunk4 : Coefficient :=
   coefficientTerm 18
     (11936273872571427223595 : ℚ)
 
-def quotient0Coefficient12Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk5 : Coefficient :=
   coefficientTerm 17
     (-((3182350477080941759504 : ℚ))) +
   coefficientTerm 16
@@ -5157,7 +5157,7 @@ def quotient0Coefficient12Chunk5 : Coefficient :=
   coefficientTerm 10
     (8152253468501147 : ℚ)
 
-def quotient0Coefficient12Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Chunk6 : Coefficient :=
   coefficientTerm 9
     (3453307670997838 : ℚ) +
   coefficientTerm 8
@@ -5175,7 +5175,7 @@ def quotient0Coefficient12Chunk6 : Coefficient :=
   coefficientTerm 2
     (8 : ℚ)
 
-def quotient0Coefficient12Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12Block0 : Coefficient :=
   quotient0Coefficient12Chunk0 +
   quotient0Coefficient12Chunk1 +
   quotient0Coefficient12Chunk2 +
@@ -5184,10 +5184,10 @@ def quotient0Coefficient12Block0 : Coefficient :=
   quotient0Coefficient12Chunk5 +
   quotient0Coefficient12Chunk6
 
-def quotient0Coefficient12 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient12 : Coefficient :=
   quotient0Coefficient12Block0
 
-def quotient0Coefficient13Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk0 : Coefficient :=
   coefficientTerm 54
     (-((1 : ℚ))) +
   coefficientTerm 53
@@ -5205,7 +5205,7 @@ def quotient0Coefficient13Chunk0 : Coefficient :=
   coefficientTerm 47
     (953082616966753097393 : ℚ)
 
-def quotient0Coefficient13Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk1 : Coefficient :=
   coefficientTerm 46
     (-((4197182608729005384075 : ℚ))) +
   coefficientTerm 45
@@ -5223,7 +5223,7 @@ def quotient0Coefficient13Chunk1 : Coefficient :=
   coefficientTerm 39
     (13626789182461782237274215 : ℚ)
 
-def quotient0Coefficient13Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk2 : Coefficient :=
   coefficientTerm 38
     (176514448340067182606276648 : ℚ) +
   coefficientTerm 37
@@ -5241,7 +5241,7 @@ def quotient0Coefficient13Chunk2 : Coefficient :=
   coefficientTerm 31
     (366362708947199340960316368 : ℚ)
 
-def quotient0Coefficient13Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk3 : Coefficient :=
   coefficientTerm 30
     (-((97284823240084124980570954 : ℚ))) +
   coefficientTerm 29
@@ -5259,7 +5259,7 @@ def quotient0Coefficient13Chunk3 : Coefficient :=
   coefficientTerm 23
     (-((490416828071177553105860 : ℚ)))
 
-def quotient0Coefficient13Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk4 : Coefficient :=
   coefficientTerm 22
     (111730526731491397938215 : ℚ) +
   coefficientTerm 21
@@ -5277,7 +5277,7 @@ def quotient0Coefficient13Chunk4 : Coefficient :=
   coefficientTerm 15
     (-((46812441580534401884 : ℚ)))
 
-def quotient0Coefficient13Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk5 : Coefficient :=
   coefficientTerm 14
     (15534931781885497098 : ℚ) +
   coefficientTerm 13
@@ -5295,7 +5295,7 @@ def quotient0Coefficient13Chunk5 : Coefficient :=
   coefficientTerm 7
     (46142861827888 : ℚ)
 
-def quotient0Coefficient13Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Chunk6 : Coefficient :=
   coefficientTerm 6
     (-((60666968444 : ℚ))) +
   coefficientTerm 5
@@ -5307,7 +5307,7 @@ def quotient0Coefficient13Chunk6 : Coefficient :=
   coefficientTerm 2
     (289 : ℚ)
 
-def quotient0Coefficient13Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13Block0 : Coefficient :=
   quotient0Coefficient13Chunk0 +
   quotient0Coefficient13Chunk1 +
   quotient0Coefficient13Chunk2 +
@@ -5316,10 +5316,10 @@ def quotient0Coefficient13Block0 : Coefficient :=
   quotient0Coefficient13Chunk5 +
   quotient0Coefficient13Chunk6
 
-def quotient0Coefficient13 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient13 : Coefficient :=
   quotient0Coefficient13Block0
 
-def quotient0Coefficient14Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk0 : Coefficient :=
   coefficientTerm 50
     (-((29 : ℚ))) +
   coefficientTerm 49
@@ -5337,7 +5337,7 @@ def quotient0Coefficient14Chunk0 : Coefficient :=
   coefficientTerm 43
     (62729149179243979184 : ℚ)
 
-def quotient0Coefficient14Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk1 : Coefficient :=
   coefficientTerm 42
     (-((1322685005900862757313 : ℚ))) +
   coefficientTerm 41
@@ -5355,7 +5355,7 @@ def quotient0Coefficient14Chunk1 : Coefficient :=
   coefficientTerm 35
     (6957101651011232791890480 : ℚ)
 
-def quotient0Coefficient14Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk2 : Coefficient :=
   coefficientTerm 34
     (-((9567500485915753035919861 : ℚ))) +
   coefficientTerm 33
@@ -5373,7 +5373,7 @@ def quotient0Coefficient14Chunk2 : Coefficient :=
   coefficientTerm 27
     (1327166964249170885684188 : ℚ)
 
-def quotient0Coefficient14Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk3 : Coefficient :=
   coefficientTerm 26
     (-((1041808488457915567765942 : ℚ))) +
   coefficientTerm 25
@@ -5391,7 +5391,7 @@ def quotient0Coefficient14Chunk3 : Coefficient :=
   coefficientTerm 19
     (-((1184198311556213921062 : ℚ)))
 
-def quotient0Coefficient14Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk4 : Coefficient :=
   coefficientTerm 18
     (131569642072347395502 : ℚ) +
   coefficientTerm 17
@@ -5409,7 +5409,7 @@ def quotient0Coefficient14Chunk4 : Coefficient :=
   coefficientTerm 11
     (277652635773537723 : ℚ)
 
-def quotient0Coefficient14Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk5 : Coefficient :=
   coefficientTerm 10
     (-((56360337997859376 : ℚ))) +
   coefficientTerm 9
@@ -5427,11 +5427,11 @@ def quotient0Coefficient14Chunk5 : Coefficient :=
   coefficientTerm 3
     (13652670 : ℚ)
 
-def quotient0Coefficient14Chunk6 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Chunk6 : Coefficient :=
   coefficientTerm 2
     (4848 : ℚ)
 
-def quotient0Coefficient14Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14Block0 : Coefficient :=
   quotient0Coefficient14Chunk0 +
   quotient0Coefficient14Chunk1 +
   quotient0Coefficient14Chunk2 +
@@ -5440,10 +5440,10 @@ def quotient0Coefficient14Block0 : Coefficient :=
   quotient0Coefficient14Chunk5 +
   quotient0Coefficient14Chunk6
 
-def quotient0Coefficient14 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient14 : Coefficient :=
   quotient0Coefficient14Block0
 
-def quotient0Coefficient15Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk0 : Coefficient :=
   coefficientTerm 46
     (-((369 : ℚ))) +
   coefficientTerm 45
@@ -5461,7 +5461,7 @@ def quotient0Coefficient15Chunk0 : Coefficient :=
   coefficientTerm 39
     (-((12193476717412802535 : ℚ)))
 
-def quotient0Coefficient15Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk1 : Coefficient :=
   coefficientTerm 38
     (-((115987666876457304197 : ℚ))) +
   coefficientTerm 37
@@ -5479,7 +5479,7 @@ def quotient0Coefficient15Chunk1 : Coefficient :=
   coefficientTerm 31
     (-((13679841171756579591568 : ℚ)))
 
-def quotient0Coefficient15Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk2 : Coefficient :=
   coefficientTerm 30
     (-((145822389272030724322735 : ℚ))) +
   coefficientTerm 29
@@ -5497,7 +5497,7 @@ def quotient0Coefficient15Chunk2 : Coefficient :=
   coefficientTerm 23
     (-((146551671411373026540 : ℚ)))
 
-def quotient0Coefficient15Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk3 : Coefficient :=
   coefficientTerm 22
     (-((4162937276300030813851 : ℚ))) +
   coefficientTerm 21
@@ -5515,7 +5515,7 @@ def quotient0Coefficient15Chunk3 : Coefficient :=
   coefficientTerm 15
     (4670206276739316303 : ℚ)
 
-def quotient0Coefficient15Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk4 : Coefficient :=
   coefficientTerm 14
     (-((3279408256597215555 : ℚ))) +
   coefficientTerm 13
@@ -5533,7 +5533,7 @@ def quotient0Coefficient15Chunk4 : Coefficient :=
   coefficientTerm 7
     (-((36824439833440 : ℚ)))
 
-def quotient0Coefficient15Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Chunk5 : Coefficient :=
   coefficientTerm 6
     (5347371624212 : ℚ) +
   coefficientTerm 5
@@ -5545,7 +5545,7 @@ def quotient0Coefficient15Chunk5 : Coefficient :=
   coefficientTerm 2
     (49508 : ℚ)
 
-def quotient0Coefficient15Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15Block0 : Coefficient :=
   quotient0Coefficient15Chunk0 +
   quotient0Coefficient15Chunk1 +
   quotient0Coefficient15Chunk2 +
@@ -5553,10 +5553,10 @@ def quotient0Coefficient15Block0 : Coefficient :=
   quotient0Coefficient15Chunk4 +
   quotient0Coefficient15Chunk5
 
-def quotient0Coefficient15 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient15 : Coefficient :=
   quotient0Coefficient15Block0
 
-def quotient0Coefficient16Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk0 : Coefficient :=
   coefficientTerm 42
     (-((2692 : ℚ))) +
   coefficientTerm 41
@@ -5574,7 +5574,7 @@ def quotient0Coefficient16Chunk0 : Coefficient :=
   coefficientTerm 35
     (-((3431399731603605027 : ℚ)))
 
-def quotient0Coefficient16Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk1 : Coefficient :=
   coefficientTerm 34
     (6874443080525448522 : ℚ) +
   coefficientTerm 33
@@ -5592,7 +5592,7 @@ def quotient0Coefficient16Chunk1 : Coefficient :=
   coefficientTerm 27
     (-((5461853209957969805167 : ℚ)))
 
-def quotient0Coefficient16Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk2 : Coefficient :=
   coefficientTerm 26
     (4787027289994418917741 : ℚ) +
   coefficientTerm 25
@@ -5610,7 +5610,7 @@ def quotient0Coefficient16Chunk2 : Coefficient :=
   coefficientTerm 19
     (-((13213170061102186971 : ℚ)))
 
-def quotient0Coefficient16Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk3 : Coefficient :=
   coefficientTerm 18
     (-((18447315457914187695 : ℚ))) +
   coefficientTerm 17
@@ -5628,7 +5628,7 @@ def quotient0Coefficient16Chunk3 : Coefficient :=
   coefficientTerm 11
     (12781126177031031 : ℚ)
 
-def quotient0Coefficient16Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk4 : Coefficient :=
   coefficientTerm 10
     (-((1060954593347493 : ℚ))) +
   coefficientTerm 9
@@ -5646,13 +5646,13 @@ def quotient0Coefficient16Chunk4 : Coefficient :=
   coefficientTerm 3
     (154051674 : ℚ)
 
-def quotient0Coefficient16Chunk5 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Chunk5 : Coefficient :=
   coefficientTerm 2
     (338857 : ℚ) +
   coefficientTerm 1
     (5 : ℚ)
 
-def quotient0Coefficient16Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16Block0 : Coefficient :=
   quotient0Coefficient16Chunk0 +
   quotient0Coefficient16Chunk1 +
   quotient0Coefficient16Chunk2 +
@@ -5660,10 +5660,10 @@ def quotient0Coefficient16Block0 : Coefficient :=
   quotient0Coefficient16Chunk4 +
   quotient0Coefficient16Chunk5
 
-def quotient0Coefficient16 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient16 : Coefficient :=
   quotient0Coefficient16Block0
 
-def quotient0Coefficient17Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Chunk0 : Coefficient :=
   coefficientTerm 38
     (-((12310 : ℚ))) +
   coefficientTerm 37
@@ -5681,7 +5681,7 @@ def quotient0Coefficient17Chunk0 : Coefficient :=
   coefficientTerm 31
     (-((225513213789617737 : ℚ)))
 
-def quotient0Coefficient17Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Chunk1 : Coefficient :=
   coefficientTerm 30
     (1824761305246903941 : ℚ) +
   coefficientTerm 29
@@ -5699,7 +5699,7 @@ def quotient0Coefficient17Chunk1 : Coefficient :=
   coefficientTerm 23
     (20521717079671044262 : ℚ)
 
-def quotient0Coefficient17Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Chunk2 : Coefficient :=
   coefficientTerm 22
     (17119513875229255863 : ℚ) +
   coefficientTerm 21
@@ -5717,7 +5717,7 @@ def quotient0Coefficient17Chunk2 : Coefficient :=
   coefficientTerm 15
     (-((183233617458378572 : ℚ)))
 
-def quotient0Coefficient17Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Chunk3 : Coefficient :=
   coefficientTerm 14
     (-((6079915546131253 : ℚ))) +
   coefficientTerm 13
@@ -5735,7 +5735,7 @@ def quotient0Coefficient17Chunk3 : Coefficient :=
   coefficientTerm 7
     (-((50735319849219 : ℚ)))
 
-def quotient0Coefficient17Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Chunk4 : Coefficient :=
   coefficientTerm 6
     (3713918130463 : ℚ) +
   coefficientTerm 5
@@ -5749,17 +5749,17 @@ def quotient0Coefficient17Chunk4 : Coefficient :=
   coefficientTerm 1
     (137 : ℚ)
 
-def quotient0Coefficient17Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17Block0 : Coefficient :=
   quotient0Coefficient17Chunk0 +
   quotient0Coefficient17Chunk1 +
   quotient0Coefficient17Chunk2 +
   quotient0Coefficient17Chunk3 +
   quotient0Coefficient17Chunk4
 
-def quotient0Coefficient17 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient17 : Coefficient :=
   quotient0Coefficient17Block0
 
-def quotient0Coefficient18Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Chunk0 : Coefficient :=
   coefficientTerm 34
     (-((35975 : ℚ))) +
   coefficientTerm 33
@@ -5777,7 +5777,7 @@ def quotient0Coefficient18Chunk0 : Coefficient :=
   coefficientTerm 27
     (23149085084243428 : ℚ)
 
-def quotient0Coefficient18Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Chunk1 : Coefficient :=
   coefficientTerm 26
     (32823577603344808 : ℚ) +
   coefficientTerm 25
@@ -5795,7 +5795,7 @@ def quotient0Coefficient18Chunk1 : Coefficient :=
   coefficientTerm 19
     (497025196539271613 : ℚ)
 
-def quotient0Coefficient18Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Chunk2 : Coefficient :=
   coefficientTerm 18
     (-((58250729807311673 : ℚ))) +
   coefficientTerm 17
@@ -5813,7 +5813,7 @@ def quotient0Coefficient18Chunk2 : Coefficient :=
   coefficientTerm 11
     (-((2641217914971899 : ℚ)))
 
-def quotient0Coefficient18Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Chunk3 : Coefficient :=
   coefficientTerm 10
     (1078410176930895 : ℚ) +
   coefficientTerm 9
@@ -5831,23 +5831,23 @@ def quotient0Coefficient18Chunk3 : Coefficient :=
   coefficientTerm 3
     (326977378 : ℚ)
 
-def quotient0Coefficient18Chunk4 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Chunk4 : Coefficient :=
   coefficientTerm 2
     (5453316 : ℚ) +
   coefficientTerm 1
     (1626 : ℚ)
 
-def quotient0Coefficient18Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18Block0 : Coefficient :=
   quotient0Coefficient18Chunk0 +
   quotient0Coefficient18Chunk1 +
   quotient0Coefficient18Chunk2 +
   quotient0Coefficient18Chunk3 +
   quotient0Coefficient18Chunk4
 
-def quotient0Coefficient18 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient18 : Coefficient :=
   quotient0Coefficient18Block0
 
-def quotient0Coefficient19Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19Chunk0 : Coefficient :=
   coefficientTerm 30
     (-((64421 : ℚ))) +
   coefficientTerm 29
@@ -5865,7 +5865,7 @@ def quotient0Coefficient19Chunk0 : Coefficient :=
   coefficientTerm 23
     (3105863898373986 : ℚ)
 
-def quotient0Coefficient19Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19Chunk1 : Coefficient :=
   coefficientTerm 22
     (-((8484101667678119 : ℚ))) +
   coefficientTerm 21
@@ -5883,7 +5883,7 @@ def quotient0Coefficient19Chunk1 : Coefficient :=
   coefficientTerm 15
     (3318562917322478 : ℚ)
 
-def quotient0Coefficient19Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19Chunk2 : Coefficient :=
   coefficientTerm 14
     (-((1736661492509241 : ℚ))) +
   coefficientTerm 13
@@ -5901,7 +5901,7 @@ def quotient0Coefficient19Chunk2 : Coefficient :=
   coefficientTerm 7
     (3559636132488 : ℚ)
 
-def quotient0Coefficient19Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19Chunk3 : Coefficient :=
   coefficientTerm 6
     (-((1525594366595 : ℚ))) +
   coefficientTerm 5
@@ -5915,16 +5915,16 @@ def quotient0Coefficient19Chunk3 : Coefficient :=
   coefficientTerm 1
     (11116 : ℚ)
 
-def quotient0Coefficient19Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19Block0 : Coefficient :=
   quotient0Coefficient19Chunk0 +
   quotient0Coefficient19Chunk1 +
   quotient0Coefficient19Chunk2 +
   quotient0Coefficient19Chunk3
 
-def quotient0Coefficient19 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient19 : Coefficient :=
   quotient0Coefficient19Block0
 
-def quotient0Coefficient20Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20Chunk0 : Coefficient :=
   coefficientTerm 27
     (-((1 : ℚ))) +
   coefficientTerm 26
@@ -5942,7 +5942,7 @@ def quotient0Coefficient20Chunk0 : Coefficient :=
   coefficientTerm 20
     (61774352853746 : ℚ)
 
-def quotient0Coefficient20Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20Chunk1 : Coefficient :=
   coefficientTerm 19
     (-((50329163617114 : ℚ))) +
   coefficientTerm 18
@@ -5960,7 +5960,7 @@ def quotient0Coefficient20Chunk1 : Coefficient :=
   coefficientTerm 12
     (29129781550225 : ℚ)
 
-def quotient0Coefficient20Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20Chunk2 : Coefficient :=
   coefficientTerm 11
     (6713175810924 : ℚ) +
   coefficientTerm 10
@@ -5978,7 +5978,7 @@ def quotient0Coefficient20Chunk2 : Coefficient :=
   coefficientTerm 4
     (-((3693477677 : ℚ)))
 
-def quotient0Coefficient20Chunk3 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20Chunk3 : Coefficient :=
   coefficientTerm 3
     (-((414312942 : ℚ))) +
   coefficientTerm 2
@@ -5988,16 +5988,16 @@ def quotient0Coefficient20Chunk3 : Coefficient :=
   coefficientTerm 0
     (-((1 : ℚ)))
 
-def quotient0Coefficient20Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20Block0 : Coefficient :=
   quotient0Coefficient20Chunk0 +
   quotient0Coefficient20Chunk1 +
   quotient0Coefficient20Chunk2 +
   quotient0Coefficient20Chunk3
 
-def quotient0Coefficient20 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient20 : Coefficient :=
   quotient0Coefficient20Block0
 
-def quotient0Coefficient21Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient21Chunk0 : Coefficient :=
   coefficientTerm 23
     (-((15 : ℚ))) +
   coefficientTerm 22
@@ -6015,7 +6015,7 @@ def quotient0Coefficient21Chunk0 : Coefficient :=
   coefficientTerm 16
     (3190137344449 : ℚ)
 
-def quotient0Coefficient21Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient21Chunk1 : Coefficient :=
   coefficientTerm 15
     (-((8479457071746 : ℚ))) +
   coefficientTerm 14
@@ -6033,7 +6033,7 @@ def quotient0Coefficient21Chunk1 : Coefficient :=
   coefficientTerm 8
     (-((548482783406 : ℚ)))
 
-def quotient0Coefficient21Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient21Chunk2 : Coefficient :=
   coefficientTerm 7
     (335294671523 : ℚ) +
   coefficientTerm 6
@@ -6051,15 +6051,15 @@ def quotient0Coefficient21Chunk2 : Coefficient :=
   coefficientTerm 0
     (-((15 : ℚ)))
 
-def quotient0Coefficient21Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient21Block0 : Coefficient :=
   quotient0Coefficient21Chunk0 +
   quotient0Coefficient21Chunk1 +
   quotient0Coefficient21Chunk2
 
-def quotient0Coefficient21 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient21 : Coefficient :=
   quotient0Coefficient21Block0
 
-def quotient0Coefficient22Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient22Chunk0 : Coefficient :=
   coefficientTerm 19
     (-((82 : ℚ))) +
   coefficientTerm 18
@@ -6077,7 +6077,7 @@ def quotient0Coefficient22Chunk0 : Coefficient :=
   coefficientTerm 12
     (-((155199725195 : ℚ)))
 
-def quotient0Coefficient22Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient22Chunk1 : Coefficient :=
   coefficientTerm 11
     (100151151507 : ℚ) +
   coefficientTerm 10
@@ -6095,7 +6095,7 @@ def quotient0Coefficient22Chunk1 : Coefficient :=
   coefficientTerm 4
     (2549608631 : ℚ)
 
-def quotient0Coefficient22Chunk2 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient22Chunk2 : Coefficient :=
   coefficientTerm 3
     (-((294506047 : ℚ))) +
   coefficientTerm 2
@@ -6105,15 +6105,15 @@ def quotient0Coefficient22Chunk2 : Coefficient :=
   coefficientTerm 0
     (-((82 : ℚ)))
 
-def quotient0Coefficient22Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient22Block0 : Coefficient :=
   quotient0Coefficient22Chunk0 +
   quotient0Coefficient22Chunk1 +
   quotient0Coefficient22Chunk2
 
-def quotient0Coefficient22 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient22 : Coefficient :=
   quotient0Coefficient22Block0
 
-def quotient0Coefficient23Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient23Chunk0 : Coefficient :=
   coefficientTerm 15
     (-((174 : ℚ))) +
   coefficientTerm 14
@@ -6131,7 +6131,7 @@ def quotient0Coefficient23Chunk0 : Coefficient :=
   coefficientTerm 8
     (-((454855379 : ℚ)))
 
-def quotient0Coefficient23Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient23Chunk1 : Coefficient :=
   coefficientTerm 7
     (-((481845806 : ℚ))) +
   coefficientTerm 6
@@ -6149,14 +6149,14 @@ def quotient0Coefficient23Chunk1 : Coefficient :=
   coefficientTerm 0
     (-((174 : ℚ)))
 
-def quotient0Coefficient23Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient23Block0 : Coefficient :=
   quotient0Coefficient23Chunk0 +
   quotient0Coefficient23Chunk1
 
-def quotient0Coefficient23 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient23 : Coefficient :=
   quotient0Coefficient23Block0
 
-def quotient0Coefficient24Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient24Chunk0 : Coefficient :=
   coefficientTerm 11
     (21 : ℚ) +
   coefficientTerm 10
@@ -6174,7 +6174,7 @@ def quotient0Coefficient24Chunk0 : Coefficient :=
   coefficientTerm 4
     (-((14379666 : ℚ)))
 
-def quotient0Coefficient24Chunk1 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient24Chunk1 : Coefficient :=
   coefficientTerm 3
     (17501554 : ℚ) +
   coefficientTerm 2
@@ -6184,14 +6184,14 @@ def quotient0Coefficient24Chunk1 : Coefficient :=
   coefficientTerm 0
     (21 : ℚ)
 
-def quotient0Coefficient24Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient24Block0 : Coefficient :=
   quotient0Coefficient24Chunk0 +
   quotient0Coefficient24Chunk1
 
-def quotient0Coefficient24 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient24 : Coefficient :=
   quotient0Coefficient24Block0
 
-def quotient0Coefficient25Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient25Chunk0 : Coefficient :=
   coefficientTerm 7
     (581 : ℚ) +
   coefficientTerm 6
@@ -6209,13 +6209,13 @@ def quotient0Coefficient25Chunk0 : Coefficient :=
   coefficientTerm 0
     (581 : ℚ)
 
-def quotient0Coefficient25Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient25Block0 : Coefficient :=
   quotient0Coefficient25Chunk0
 
-def quotient0Coefficient25 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient25 : Coefficient :=
   quotient0Coefficient25Block0
 
-def quotient0Coefficient26Chunk0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient26Chunk0 : Coefficient :=
   coefficientTerm 3
     (581 : ℚ) +
   coefficientTerm 2
@@ -6225,13 +6225,13 @@ def quotient0Coefficient26Chunk0 : Coefficient :=
   coefficientTerm 0
     (581 : ℚ)
 
-def quotient0Coefficient26Block0 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient26Block0 : Coefficient :=
   quotient0Coefficient26Chunk0
 
-def quotient0Coefficient26 : Coefficient :=
+/-- Internal datum. -/ def quotient0Coefficient26 : Coefficient :=
   quotient0Coefficient26Block0
 
-def quotient0 : Bivariate :=
+/-- Internal datum. -/ def quotient0 : Bivariate :=
   outerTerm 0 quotient0Coefficient0 +
   outerTerm 1 quotient0Coefficient1 +
   outerTerm 2 quotient0Coefficient2 +
@@ -6260,16 +6260,16 @@ def quotient0 : Bivariate :=
   outerTerm 25 quotient0Coefficient25 +
   outerTerm 26 quotient0Coefficient26
 
-def exceptionalUnit0 : Coefficient :=
+/-- Internal datum. -/ def exceptionalUnit0 : Coefficient :=
   C
     (1 : ℚ)
 
-def exceptional0 : Coefficient :=
+/-- Internal datum. -/ def exceptional0 : Coefficient :=
   exceptionalUnit0 *
   (parameter - 1) ^ 6 *
   (parameter) ^ 7
 
-def recurrence0 : Prop :=
+/-- Internal datum. -/ def recurrence0 : Prop :=
   C ((remainder1.coeff 7) ^ 27) * remainder0 =
     remainder1 * quotient0 + C exceptional0 * remainder2
 

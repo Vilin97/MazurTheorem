@@ -13,7 +13,7 @@ env:
 jobs:
   order-seven-seed:
     name: Seed the generated order-7 cache
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     concurrency:
@@ -41,7 +41,10 @@ jobs:
   order-seven-plan:
     name: Plan generated order-7 cache work
     needs: order-seven-seed
-    if: github.ref == 'refs/heads/main' && needs.order-seven-seed.result == 'success'
+    if: >-
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
+      needs.order-seven-seed.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -81,7 +84,8 @@ jobs:
     name: Build generated order-7 shard (${{ matrix.shard }})
     needs: order-seven-plan
     if: >-
-      github.ref == 'refs/heads/main' &&
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
       needs.order-seven-plan.result == 'success' &&
       needs.order-seven-plan.outputs.all-hit != 'true'
     runs-on: ubuntu-latest
@@ -115,7 +119,8 @@ jobs:
     name: Build generated order-7 base (${{ matrix.shard }})
     needs: order-seven-plan
     if: >-
-      github.ref == 'refs/heads/main' &&
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
       needs.order-seven-plan.result == 'success' &&
       needs.order-seven-plan.outputs.all-hit != 'true'
     runs-on: ubuntu-latest
@@ -155,7 +160,8 @@ jobs:
       - order-seven-plan
       - order-seven-bases
     if: >-
-      github.ref == 'refs/heads/main' &&
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
       needs.order-seven-plan.outputs.all-hit != 'true' &&
       needs.order-seven-bases.result == 'success'
     runs-on: ubuntu-latest
@@ -192,7 +198,8 @@ jobs:
       - order-seven-plan
       - order-seven-products
     if: >-
-      github.ref == 'refs/heads/main' &&
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
       needs.order-seven-plan.outputs.all-hit != 'true' &&
       needs.order-seven-products.result == 'success'
     runs-on: ubuntu-latest
@@ -247,7 +254,8 @@ jobs:
       - order-seven-plan
       - order-seven-scalars
     if: >-
-      github.ref == 'refs/heads/main' &&
+      (github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch') &&
       needs.order-seven-plan.outputs.all-hit != 'true' &&
       needs.order-seven-scalars.result == 'success'
     runs-on: ubuntu-latest
