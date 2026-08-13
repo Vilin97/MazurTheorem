@@ -28,7 +28,7 @@ open MazurTorsion.IntegerPrimeSpecialization
 open IsDiscreteValuationRing
 open IsDedekindDomain.HeightOneSpectrum
 
-noncomputable local instance : DecidableEq
+/-- Residue equality for finite computations. -/ noncomputable local instance : DecidableEq
     (IsLocalRing.ResidueField (atFive.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
@@ -914,7 +914,7 @@ theorem valuation_minimalCompletionAtFive_j
 /-- Transport a rational point first into the five-adic completion and then through the inverse
 of the admissible variable change defining Mathlib's selected minimal equation. -/
 noncomputable def minimalCompletionPointAtFive
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atFive.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     (minimalCompletionAtFive E).toAffine.Point :=
@@ -925,7 +925,7 @@ noncomputable def minimalCompletionPointAtFive
 /-- Base change to the five-adic completion and passage to the selected minimal equation preserve
 the exact additive order of the marked rational point. -/
 theorem minimalCompletionPointAtFive_addOrderOf
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atFive.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     addOrderOf (minimalCompletionPointAtFive E P) = addOrderOf P := by

@@ -418,7 +418,7 @@ private theorem orderSeven_tateNextY
 @[expose] public def OrderSevenKernelX (d x : ℚ) : Prop :=
   x = 0 ∨ x = orderSevenB d ∨ x = orderSevenC d
 
-public instance orderSevenKernelX_decidable (d x : ℚ) :
+public instance orderSevenKernelXDecidable (d x : ℚ) :
     Decidable (OrderSevenKernelX d x) := by
   unfold OrderSevenKernelX
   infer_instance

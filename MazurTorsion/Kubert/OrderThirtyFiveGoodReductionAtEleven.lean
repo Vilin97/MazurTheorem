@@ -35,7 +35,7 @@ open MazurTorsion.IntegerPrimeSpecialization
 open MazurTorsion.PrimeOrder
 open WeierstrassCurve.Affine
 
-local instance : DecidableEq
+/-- Residue-field equality used in finite computations. -/ local instance : DecidableEq
     (IsLocalRing.ResidueField (atEleven.adicCompletionIntegers ℚ)) :=
   Classical.decEq _
 
@@ -874,7 +874,7 @@ theorem valuation_minimalCompletionAtEleven_j
 
 /-- Transport a rational point to the selected minimal eleven-adic equation. -/
 noncomputable def minimalCompletionPointAtEleven
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     (minimalCompletionAtEleven E).toAffine.Point :=
@@ -885,7 +885,7 @@ noncomputable def minimalCompletionPointAtEleven
 /-- Completion and the selected variable change preserve the marked point's
 exact additive order. -/
 theorem minimalCompletionPointAtEleven_addOrderOf
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atEleven.adicCompletion ℚ)]
     (P : E.toAffine.Point) :
     addOrderOf (minimalCompletionPointAtEleven E P) = addOrderOf P := by

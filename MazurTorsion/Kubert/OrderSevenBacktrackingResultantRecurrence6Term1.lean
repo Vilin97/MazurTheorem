@@ -26,7 +26,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6Term1Rows : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Rows : Coefficient :=
   recurrence6Term1Row0 +
   recurrence6Term1Row1 +
   recurrence6Term1Row2 +
@@ -46,7 +46,7 @@ def recurrence6Term1Rows : Coefficient :=
   recurrence6Term1Row16 +
   recurrence6Term1Row17
 
-def recurrence6Term1Bands : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Bands : Coefficient :=
   recurrence6Term1Band0 +
   recurrence6Term1Band1 +
   recurrence6Term1Band2 +

@@ -25,7 +25,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6Term2Band24 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band24 : Coefficient :=
   recurrence6Term2Row0Band24 +
   recurrence6Term2Row1Band24 +
   recurrence6Term2Row2Band24 +
@@ -45,7 +45,7 @@ theorem recurrence6Term2Band24_eq :
   unfold recurrence6Term2Row8Band24 recurrence6Term2Row9Band24 normalizedResidual6Term2Block24
   ring
 
-def recurrence6Term2Band25 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band25 : Coefficient :=
   recurrence6Term2Row0Band25 +
   recurrence6Term2Row1Band25 +
   recurrence6Term2Row2Band25 +
@@ -65,7 +65,7 @@ theorem recurrence6Term2Band25_eq :
   unfold recurrence6Term2Row8Band25 recurrence6Term2Row9Band25 normalizedResidual6Term2Block25
   ring
 
-def recurrence6Term2Band26 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band26 : Coefficient :=
   recurrence6Term2Row0Band26 +
   recurrence6Term2Row1Band26 +
   recurrence6Term2Row2Band26 +
@@ -85,7 +85,7 @@ theorem recurrence6Term2Band26_eq :
   unfold recurrence6Term2Row8Band26 recurrence6Term2Row9Band26 normalizedResidual6Term2Block26
   ring
 
-def recurrence6Term2Band27 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band27 : Coefficient :=
   recurrence6Term2Row1Band27 +
   recurrence6Term2Row2Band27 +
   recurrence6Term2Row3Band27 +
@@ -104,7 +104,7 @@ theorem recurrence6Term2Band27_eq :
   unfold recurrence6Term2Row9Band27 normalizedResidual6Term2Block27
   ring
 
-def recurrence6Term2Band28 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band28 : Coefficient :=
   recurrence6Term2Row2Band28 +
   recurrence6Term2Row3Band28 +
   recurrence6Term2Row4Band28 +
@@ -122,7 +122,7 @@ theorem recurrence6Term2Band28_eq :
   unfold normalizedResidual6Term2Block28
   ring
 
-def recurrence6Term2Band29 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term2Band29 : Coefficient :=
   recurrence6Term2Row3Band29 +
   recurrence6Term2Row4Band29 +
   recurrence6Term2Row5Band29 +

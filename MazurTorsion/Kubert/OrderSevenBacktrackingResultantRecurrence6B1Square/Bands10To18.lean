@@ -26,7 +26,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6B1SquareBand10 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand10 : Coefficient :=
   recurrence6B1SquareRow0Band10 +
   recurrence6B1SquareRow1Band10 +
   recurrence6B1SquareRow2Band10 +
@@ -47,7 +47,7 @@ theorem recurrence6B1SquareBand10_eq :
   unfold remainder7Coefficient1SquareBlock10
   ring
 
-def recurrence6B1SquareBand11 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand11 : Coefficient :=
   recurrence6B1SquareRow1Band11 +
   recurrence6B1SquareRow2Band11 +
   recurrence6B1SquareRow3Band11 +
@@ -66,7 +66,7 @@ theorem recurrence6B1SquareBand11_eq :
   unfold recurrence6B1SquareRow9Band11 remainder7Coefficient1SquareBlock11
   ring
 
-def recurrence6B1SquareBand12 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand12 : Coefficient :=
   recurrence6B1SquareRow2Band12 +
   recurrence6B1SquareRow3Band12 +
   recurrence6B1SquareRow4Band12 +
@@ -84,7 +84,7 @@ theorem recurrence6B1SquareBand12_eq :
   unfold remainder7Coefficient1SquareBlock12
   ring
 
-def recurrence6B1SquareBand13 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand13 : Coefficient :=
   recurrence6B1SquareRow3Band13 +
   recurrence6B1SquareRow4Band13 +
   recurrence6B1SquareRow5Band13 +
@@ -101,7 +101,7 @@ theorem recurrence6B1SquareBand13_eq :
   unfold remainder7Coefficient1SquareBlock13
   ring
 
-def recurrence6B1SquareBand14 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand14 : Coefficient :=
   recurrence6B1SquareRow4Band14 +
   recurrence6B1SquareRow5Band14 +
   recurrence6B1SquareRow6Band14 +
@@ -116,7 +116,7 @@ theorem recurrence6B1SquareBand14_eq :
   unfold recurrence6B1SquareRow9Band14 remainder7Coefficient1SquareBlock14
   ring
 
-def recurrence6B1SquareBand15 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand15 : Coefficient :=
   recurrence6B1SquareRow5Band15 +
   recurrence6B1SquareRow6Band15 +
   recurrence6B1SquareRow7Band15 +
@@ -130,7 +130,7 @@ theorem recurrence6B1SquareBand15_eq :
   unfold remainder7Coefficient1SquareBlock15
   ring
 
-def recurrence6B1SquareBand16 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand16 : Coefficient :=
   recurrence6B1SquareRow6Band16 +
   recurrence6B1SquareRow7Band16 +
   recurrence6B1SquareRow8Band16 +
@@ -143,7 +143,7 @@ theorem recurrence6B1SquareBand16_eq :
   unfold remainder7Coefficient1SquareBlock16
   ring
 
-def recurrence6B1SquareBand17 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand17 : Coefficient :=
   recurrence6B1SquareRow7Band17 +
   recurrence6B1SquareRow8Band17 +
   recurrence6B1SquareRow9Band17
@@ -154,7 +154,7 @@ theorem recurrence6B1SquareBand17_eq :
   unfold recurrence6B1SquareRow9Band17 remainder7Coefficient1SquareBlock17
   ring
 
-def recurrence6B1SquareBand18 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B1SquareBand18 : Coefficient :=
   recurrence6B1SquareRow8Band18 +
   recurrence6B1SquareRow9Band18
 

@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6Term3Band24 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band24 : Coefficient :=
   recurrence6Term3Row0Band24 +
   recurrence6Term3Row1Band24 +
   recurrence6Term3Row2Band24 +
@@ -36,7 +36,7 @@ theorem recurrence6Term3Band24_eq :
   unfold recurrence6Term3Row2Band24 recurrence6Term3Row3Band24 normalizedResidual6Term3Block24
   ring
 
-def recurrence6Term3Band25 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band25 : Coefficient :=
   recurrence6Term3Row0Band25 +
   recurrence6Term3Row1Band25 +
   recurrence6Term3Row2Band25 +
@@ -48,7 +48,7 @@ theorem recurrence6Term3Band25_eq :
   unfold recurrence6Term3Row2Band25 recurrence6Term3Row3Band25 normalizedResidual6Term3Block25
   ring
 
-def recurrence6Term3Band26 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band26 : Coefficient :=
   recurrence6Term3Row0Band26 +
   recurrence6Term3Row1Band26 +
   recurrence6Term3Row2Band26 +
@@ -60,7 +60,7 @@ theorem recurrence6Term3Band26_eq :
   unfold recurrence6Term3Row2Band26 recurrence6Term3Row3Band26 normalizedResidual6Term3Block26
   ring
 
-def recurrence6Term3Band27 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band27 : Coefficient :=
   recurrence6Term3Row0Band27 +
   recurrence6Term3Row1Band27 +
   recurrence6Term3Row2Band27 +
@@ -72,7 +72,7 @@ theorem recurrence6Term3Band27_eq :
   unfold recurrence6Term3Row2Band27 recurrence6Term3Row3Band27 normalizedResidual6Term3Block27
   ring
 
-def recurrence6Term3Band28 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band28 : Coefficient :=
   recurrence6Term3Row0Band28 +
   recurrence6Term3Row1Band28 +
   recurrence6Term3Row2Band28 +
@@ -84,7 +84,7 @@ theorem recurrence6Term3Band28_eq :
   unfold recurrence6Term3Row2Band28 recurrence6Term3Row3Band28 normalizedResidual6Term3Block28
   ring
 
-def recurrence6Term3Band29 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band29 : Coefficient :=
   recurrence6Term3Row0Band29 +
   recurrence6Term3Row1Band29 +
   recurrence6Term3Row2Band29 +

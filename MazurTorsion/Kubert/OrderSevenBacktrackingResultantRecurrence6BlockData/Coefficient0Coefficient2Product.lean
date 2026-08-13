@@ -20,7 +20,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block0 : Coefficient :=
   X ^ 0 * (
     (-512) +
     (631648) * X ^ 1 +
@@ -33,7 +33,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block0 : Coefficient :=
     (3741275310273838527909181204) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block1 : Coefficient :=
   X ^ 9 * (
     (19016770438230395310125368148680) +
     (-14837746826778567484470615580153688) * X ^ 1 +
@@ -46,7 +46,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block1 : Coefficient :=
     (-8025188207485226400193799744240423759323489707051037) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block2 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block2 : Coefficient :=
   X ^ 18 * (
     (1351794718157078832666790671898425414085202095697834851) +
     (-191227813959328968144927587357127959460095449021318759974) * X ^ 1 +
@@ -59,7 +59,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block2 : Coefficient :=
     (4324198318576873415980539835177778527014082886621851491603248931049029) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block3 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block3 : Coefficient :=
   X ^ 27 * (
     (-217833788176794644793024858656604614659020637188669826639887935718304451) +
     (9895450038260143589241920868404637734387127811365890807978330770837419414) * X ^ 1 +
@@ -77,7 +77,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block3 : Coefficient :=
       54989778583006428738169018405937783309784262360591126179430039566059334807628)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block4 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block4 : Coefficient :=
   X ^ 36 * (
     ((64005042 * 10 ^ 77 +
       01429438475556277962584041101128596133938084585759977818533488445037421906694)) +
@@ -99,7 +99,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block4 : Coefficient :=
       57063459113704838185040986639148186241577090681047076090607442106537724816848)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block5 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block5 : Coefficient :=
   X ^ 45 * (
     -((3082964768229057948 * 10 ^ 77 +
       97287743817159933321928659294607682954756423216457598660004292711278426048337)) +
@@ -121,7 +121,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block5 : Coefficient :=
       59224050343405424161461655626724583267687633727136831692764471750152390444051)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block6 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block6 : Coefficient :=
   X ^ 54 * (
     ((844204566133532162319765159 * 10 ^ 77 +
       64536351175384232458685392852937814285795563450376656245923114291715020316671)) +
@@ -143,7 +143,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block6 : Coefficient :=
       12184074768443246899733364072945427844922320212490361353131701889680697045871)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block7 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block7 : Coefficient :=
   X ^ 63 * (
     -((3122943190843411376256413360321985 * 10 ^ 77 +
       03216745452505388060722415140120076692383320070621359181674562554902470746397)) +
@@ -165,7 +165,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block7 : Coefficient :=
       60110381559043040603491774563376046280688414775048813834302249282877306485433)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block8 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block8 : Coefficient :=
   X ^ 72 * (
     ((294429077605879617622242955581536003008 * 10 ^ 77 +
       54028148767327850230537546342874160077381649279918696541269559468638274150682)) +
@@ -187,7 +187,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block8 : Coefficient :=
       07375538223598724514711248499487600687554742323590746353714405891060623395039)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block9 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block9 : Coefficient :=
   X ^ 81 * (
     -((1111519564183811715102589517087766563773688 * 10 ^ 77 +
       51612088032644167363657937738834733761092366336033354002350500055350626974300)) +
@@ -209,7 +209,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block9 : Coefficient :=
       13336566555587198771875773022763578534067200065755128670009656346136632360920)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block10 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block10 : Coefficient :=
   X ^ 90 * (
     ((225070778637901833545844030909598298293993786 * 10 ^ 77 +
       96297309035310481641353915383571198735713481285024724051687324938560275013996)) +
@@ -231,7 +231,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block10 : Coefficient :=
       55729335602117863655292209269804849189844636931923987321426254174717363467351)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block11 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block11 : Coefficient :=
   X ^ 99 * (
     -((2873120458462143350503100910611990372177091842 * 10 ^ 77 +
       57091234885481319852099682801817665409911438197904274442420923744645197918039)) +
@@ -253,7 +253,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block11 : Coefficient :=
       29443713736244634076057381850845457838776949475009182137230359018469763995791)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block12 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block12 : Coefficient :=
   X ^ 108 * (
     ((2448406680913259947692963520473329794653637841 * 10 ^ 77 +
       32426044749266594090623298282847828375127194487052179278161701593817101555665)) +
@@ -275,7 +275,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block12 : Coefficient :=
       54389215978132654221834661292634965259890110748274804344611068954956756755518)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block13 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block13 : Coefficient :=
   X ^ 117 * (
     -((117136423798746928548498675303614200562825086 * 10 ^ 77 +
       29702626450953960331287742056161020163758922858307855335214310365353176741114)) +
@@ -297,7 +297,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block13 : Coefficient :=
       29082007429627945354014708872984501180290220341173750874635952221169429178775)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block14 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block14 : Coefficient :=
   X ^ 126 * (
     -((441458384507647917212464206582575823699611 * 10 ^ 77 +
       48025244466048282023127249936738216232630012928931035733242329711825658060573)) +
@@ -319,7 +319,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block14 : Coefficient :=
       04395361360578996746400229005249069320077543167472128461513492892472723520364)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block15 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block15 : Coefficient :=
   X ^ 135 * (
     -((41495841676457733589947275966256734336958 * 10 ^ 77 +
       48454617765905035460417498033756738824994118206138965446169906104101547739708)) +
@@ -341,7 +341,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block15 : Coefficient :=
       53986148806349987344573926918702837301350767619511622650641198516547066072149)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block16 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block16 : Coefficient :=
   X ^ 144 * (
     -((21242209796210193828584183665758865835 * 10 ^ 77 +
       22540323973207233534251468112672065314607979039018135649892915053801842418290)) +
@@ -363,7 +363,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block16 : Coefficient :=
       78007059949155302618444875893055550194127809402476852318853814238043551043822)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block17 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block17 : Coefficient :=
   X ^ 153 * (
     -((280130883523233605280750879871551122 * 10 ^ 77 +
       55045580242286171014687104233337590894486015033500404362226342295002138929193)) +
@@ -385,7 +385,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block17 : Coefficient :=
       96006236507093215221068808859511542875645953545402353589550917000764924892888)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block18 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block18 : Coefficient :=
   X ^ 162 * (
     -((40850387246400964690713965637474 * 10 ^ 77 +
       01033407317488082457675721423898351423629755225876827492038052850493420963921)) +
@@ -407,7 +407,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block18 : Coefficient :=
       63790146129159207868034957600636795929021995127927271941088204450771925692527)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block19 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block19 : Coefficient :=
   X ^ 171 * (
     -((194637682393754341402010569846 * 10 ^ 77 +
       03184521967855787602985975684908471468130725961674420303583565690337148218784)) +
@@ -429,7 +429,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block19 : Coefficient :=
       07800252429532687698042550781882379425016569086369013175883110539244765691575)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block20 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block20 : Coefficient :=
   X ^ 180 * (
     -((7682776175176801085169445 * 10 ^ 77 +
       84688221746073804281947352223519231446860794197581881772507074108790967934703)) +
@@ -451,7 +451,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block20 : Coefficient :=
       87141105443166437411832989197587026264979659616749162196249282828190926498839)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block21 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block21 : Coefficient :=
   X ^ 189 * (
     ((337832759751590621483 * 10 ^ 77 +
       34602428725530068290930167815531939654941970917959913066070873241192648765813)) +
@@ -473,7 +473,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block21 : Coefficient :=
       83276009223783517373128778815618901718468644907763952638721615659509548527572)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block22 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block22 : Coefficient :=
   X ^ 198 * (
     ((840819409617346 * 10 ^ 77 +
       31287624753751019675561350292837589041371491155630035248776825013945913701111)) +
@@ -495,7 +495,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block22 : Coefficient :=
       13310203328756083911516308706076160323769320090985675109466545612763214480625)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block23 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block23 : Coefficient :=
   X ^ 207 * (
     ((71827834 * 10 ^ 77 +
       03545753601036977061832567069333359780191893440016951908651596874000489668157)) +
@@ -517,7 +517,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block23 : Coefficient :=
       14385802651272271503110174413017358852786596366672303697564970354360329761433)) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block24 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block24 : Coefficient :=
   X ^ 216 * (
     (16431324355573547514621771593008952101116938600585251629930130725502370758650) +
     (984971322133744643687649989385370038803169248082226896534169838744492719454) * X ^ 1 +
@@ -530,7 +530,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block24 : Coefficient :=
     (8310365901118157963150855053033394943141364891744939630682) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2Block25 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2Block25 : Coefficient :=
   X ^ 225 * (
     (-211798978836616663953112072186501270675930162057948700821) +
     (-33977892679059903122081144325673006150693983530905385) * X ^ 1 +
@@ -543,7 +543,7 @@ def remainder7Coefficient0TimesRemainder6Coefficient2Block25 : Coefficient :=
     (433842226440153999) * X ^ 8
   )
 
-def remainder7Coefficient0TimesRemainder6Coefficient2 : Coefficient :=
+/-- Internal datum. -/ def remainder7Coefficient0TimesRemainder6Coefficient2 : Coefficient :=
   remainder7Coefficient0TimesRemainder6Coefficient2Block0 +
   remainder7Coefficient0TimesRemainder6Coefficient2Block1 +
   remainder7Coefficient0TimesRemainder6Coefficient2Block2 +

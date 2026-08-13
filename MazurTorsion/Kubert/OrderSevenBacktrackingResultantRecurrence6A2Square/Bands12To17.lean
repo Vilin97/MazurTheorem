@@ -26,7 +26,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6A2SquareBand12 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand12 : Coefficient :=
   recurrence6A2SquareRow0Band12 +
   recurrence6A2SquareRow1Band12 +
   recurrence6A2SquareRow2Band12 +
@@ -51,7 +51,7 @@ theorem recurrence6A2SquareBand12_eq :
   unfold remainder6Coefficient2SquareBlock12
   ring
 
-def recurrence6A2SquareBand13 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand13 : Coefficient :=
   recurrence6A2SquareRow0Band13 +
   recurrence6A2SquareRow1Band13 +
   recurrence6A2SquareRow2Band13 +
@@ -77,7 +77,7 @@ theorem recurrence6A2SquareBand13_eq :
   unfold recurrence6A2SquareRow13Band13 remainder6Coefficient2SquareBlock13
   ring
 
-def recurrence6A2SquareBand14 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand14 : Coefficient :=
   recurrence6A2SquareRow0Band14 +
   recurrence6A2SquareRow1Band14 +
   recurrence6A2SquareRow2Band14 +
@@ -105,7 +105,7 @@ theorem recurrence6A2SquareBand14_eq :
   unfold remainder6Coefficient2SquareBlock14
   ring
 
-def recurrence6A2SquareBand15 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand15 : Coefficient :=
   recurrence6A2SquareRow0Band15 +
   recurrence6A2SquareRow1Band15 +
   recurrence6A2SquareRow2Band15 +
@@ -134,7 +134,7 @@ theorem recurrence6A2SquareBand15_eq :
   unfold recurrence6A2SquareRow15Band15 remainder6Coefficient2SquareBlock15
   ring
 
-def recurrence6A2SquareBand16 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand16 : Coefficient :=
   recurrence6A2SquareRow0Band16 +
   recurrence6A2SquareRow1Band16 +
   recurrence6A2SquareRow2Band16 +
@@ -165,7 +165,7 @@ theorem recurrence6A2SquareBand16_eq :
   unfold remainder6Coefficient2SquareBlock16
   ring
 
-def recurrence6A2SquareBand17 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand17 : Coefficient :=
   recurrence6A2SquareRow0Band17 +
   recurrence6A2SquareRow1Band17 +
   recurrence6A2SquareRow2Band17 +

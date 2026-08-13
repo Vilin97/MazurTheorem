@@ -20,7 +20,7 @@ namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal.Resulta
 
 noncomputable section
 
-def remainder6Coefficient0Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk0 : Coefficient :=
   coefficientTerm 153
     (-(((171910651576204265134294 : ℚ) * 10 ^ 36 +
       769707019620352195984168302791988841))) +
@@ -52,7 +52,7 @@ def remainder6Coefficient0Chunk0 : Coefficient :=
       152048737118836413229904856003565272) * 10 ^ 36 +
       708847469289715773194168251441321905)
 
-def remainder6Coefficient0Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk1 : Coefficient :=
   coefficientTerm 145
     (((696387138481592903329 : ℚ) * 10 ^ 36 +
       885256352181862514777629143291461659) * 10 ^ 36 +
@@ -86,7 +86,7 @@ def remainder6Coefficient0Chunk1 : Coefficient :=
       288836238854677877943778292131885808) * 10 ^ 36 +
       325594775847709219297747434078292101)
 
-def remainder6Coefficient0Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk2 : Coefficient :=
   coefficientTerm 137
     (-((((37786710618459746044619280189040 : ℚ) * 10 ^ 36 +
       933968237711826787559552597079095542) * 10 ^ 36 +
@@ -121,7 +121,7 @@ def remainder6Coefficient0Chunk2 : Coefficient :=
       691768573984238015380432358636623602) * 10 ^ 36 +
       580985636285318427265574829401381504)
 
-def remainder6Coefficient0Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk3 : Coefficient :=
   coefficientTerm 129
     (-(((((9 : ℚ) * 10 ^ 36 +
       486770494353548027673621089350988735) * 10 ^ 36 +
@@ -163,7 +163,7 @@ def remainder6Coefficient0Chunk3 : Coefficient :=
       949592482600848854722217487376355921) * 10 ^ 36 +
       725819018577597776341972626623371089)))
 
-def remainder6Coefficient0Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk4 : Coefficient :=
   coefficientTerm 121
     ((((432689 : ℚ) * 10 ^ 36 +
       770257595197482883123635543347788404) * 10 ^ 36 +
@@ -205,7 +205,7 @@ def remainder6Coefficient0Chunk4 : Coefficient :=
       254006512125638428183550763839931918) * 10 ^ 36 +
       472153006616894798284417918609786656)))
 
-def remainder6Coefficient0Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk5 : Coefficient :=
   coefficientTerm 113
     ((((2112705066 : ℚ) * 10 ^ 36 +
       474903651022027765541665829055639348) * 10 ^ 36 +
@@ -247,7 +247,7 @@ def remainder6Coefficient0Chunk5 : Coefficient :=
       663209288152537895866030161708310333) * 10 ^ 36 +
       421510860702364351093398028318234773)))
 
-def remainder6Coefficient0Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk6 : Coefficient :=
   coefficientTerm 105
     ((((920624040396 : ℚ) * 10 ^ 36 +
       088773910746074166089574160732824073) * 10 ^ 36 +
@@ -289,7 +289,7 @@ def remainder6Coefficient0Chunk6 : Coefficient :=
       497622066940179618517221483878505286) * 10 ^ 36 +
       441804448298752021993656324545677445)
 
-def remainder6Coefficient0Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk7 : Coefficient :=
   coefficientTerm 97
     (-(((((988773035940593 : ℚ) * 10 ^ 36 +
       570796543378013414818912253499380770) * 10 ^ 36 +
@@ -331,7 +331,7 @@ def remainder6Coefficient0Chunk7 : Coefficient :=
       209679752911728599431888913748031939) * 10 ^ 36 +
       071272384583807382228126579703821542)
 
-def remainder6Coefficient0Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk8 : Coefficient :=
   coefficientTerm 89
     (-(((((166803572327063792 : ℚ) * 10 ^ 36 +
       376139493225632726616955186611053864) * 10 ^ 36 +
@@ -373,7 +373,7 @@ def remainder6Coefficient0Chunk8 : Coefficient :=
       400195208401942724262159009016291365) * 10 ^ 36 +
       177289078252152567385059530948831621)))
 
-def remainder6Coefficient0Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk9 : Coefficient :=
   coefficientTerm 81
     ((((6856293887714140915 : ℚ) * 10 ^ 36 +
       826679194187127327716420000301837303) * 10 ^ 36 +
@@ -415,7 +415,7 @@ def remainder6Coefficient0Chunk9 : Coefficient :=
       859508231025612557990516607202946264) * 10 ^ 36 +
       332913274580351629223084415517685539)))
 
-def remainder6Coefficient0Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk10 : Coefficient :=
   coefficientTerm 73
     ((((291082472204525573884 : ℚ) * 10 ^ 36 +
       021502093368387732487885036367291561) * 10 ^ 36 +
@@ -457,7 +457,7 @@ def remainder6Coefficient0Chunk10 : Coefficient :=
       632343163429511969530432868773489010) * 10 ^ 36 +
       352300335645425274109489009444455215)))
 
-def remainder6Coefficient0Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk11 : Coefficient :=
   coefficientTerm 65
     ((((459458354854290185009 : ℚ) * 10 ^ 36 +
       231796715119105569438012860325585132) * 10 ^ 36 +
@@ -499,7 +499,7 @@ def remainder6Coefficient0Chunk11 : Coefficient :=
       560888156035517640583271204212049257) * 10 ^ 36 +
       055063965642106582039835035567240407)))
 
-def remainder6Coefficient0Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk12 : Coefficient :=
   coefficientTerm 57
     ((((29273185877496513708 : ℚ) * 10 ^ 36 +
       203893145549912435857951564913884776) * 10 ^ 36 +
@@ -541,7 +541,7 @@ def remainder6Coefficient0Chunk12 : Coefficient :=
       034726895225994420667242962821833788) * 10 ^ 36 +
       580525654613741576401193847726379253)))
 
-def remainder6Coefficient0Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk13 : Coefficient :=
   coefficientTerm 49
     ((((60922910921809395 : ℚ) * 10 ^ 36 +
       612371429646390583833478130104648970) * 10 ^ 36 +
@@ -583,7 +583,7 @@ def remainder6Coefficient0Chunk13 : Coefficient :=
       100061031238938825167801785140375468) * 10 ^ 36 +
       348230673435316460331073289893977336)))
 
-def remainder6Coefficient0Chunk14 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk14 : Coefficient :=
   coefficientTerm 41
     ((((2765551708532 : ℚ) * 10 ^ 36 +
       687614742034323566662118012158580622) * 10 ^ 36 +
@@ -625,7 +625,7 @@ def remainder6Coefficient0Chunk14 : Coefficient :=
       629249816556911618780137751150344622) * 10 ^ 36 +
       105747713032056832494328680893724375)))
 
-def remainder6Coefficient0Chunk15 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk15 : Coefficient :=
   coefficientTerm 33
     ((((1384478 : ℚ) * 10 ^ 36 +
       744945170868705045125846797737115037) * 10 ^ 36 +
@@ -665,7 +665,7 @@ def remainder6Coefficient0Chunk15 : Coefficient :=
       899285427697532575575615275148468634) * 10 ^ 36 +
       920389378194814212393083993881258738)))
 
-def remainder6Coefficient0Chunk16 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk16 : Coefficient :=
   coefficientTerm 25
     (((2532979823390367237988588322808645 : ℚ) * 10 ^ 36 +
       273053178507724970526050176072605684) * 10 ^ 36 +
@@ -699,7 +699,7 @@ def remainder6Coefficient0Chunk16 : Coefficient :=
       815926482804119502765804811675323779) * 10 ^ 36 +
       991412346679447558223496521297727794)))
 
-def remainder6Coefficient0Chunk17 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk17 : Coefficient :=
   coefficientTerm 17
     (((2770495303489701737862 : ℚ) * 10 ^ 36 +
       435453996303939614111453261332885984) * 10 ^ 36 +
@@ -733,7 +733,7 @@ def remainder6Coefficient0Chunk17 : Coefficient :=
       164899023900173584288936110753850005) * 10 ^ 36 +
       465656501899420217746474963038856273)))
 
-def remainder6Coefficient0Chunk18 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk18 : Coefficient :=
   coefficientTerm 9
     (((39323 : ℚ) * 10 ^ 36 +
       564113575521817346909319047115999489) * 10 ^ 36 +
@@ -761,12 +761,12 @@ def remainder6Coefficient0Chunk18 : Coefficient :=
     ((246845433310606475862 : ℚ) * 10 ^ 36 +
       989082822077983955717706626661394428)
 
-def remainder6Coefficient0Chunk19 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Chunk19 : Coefficient :=
   coefficientTerm 1
     ((81587636298033060 : ℚ) * 10 ^ 36 +
       663187077555821876849709622834602720)
 
-def remainder6Coefficient0Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Block0 : Coefficient :=
   remainder6Coefficient0Chunk0 +
   remainder6Coefficient0Chunk1 +
   remainder6Coefficient0Chunk2 +
@@ -780,7 +780,7 @@ def remainder6Coefficient0Block0 : Coefficient :=
   remainder6Coefficient0Chunk10 +
   remainder6Coefficient0Chunk11
 
-def remainder6Coefficient0Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0Block1 : Coefficient :=
   remainder6Coefficient0Chunk12 +
   remainder6Coefficient0Chunk13 +
   remainder6Coefficient0Chunk14 +
@@ -790,11 +790,11 @@ def remainder6Coefficient0Block1 : Coefficient :=
   remainder6Coefficient0Chunk18 +
   remainder6Coefficient0Chunk19
 
-def remainder6Coefficient0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient0 : Coefficient :=
   remainder6Coefficient0Block0 +
   remainder6Coefficient0Block1
 
-def remainder6Coefficient1Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk0 : Coefficient :=
   coefficientTerm 149
     (-(((5549041120153585801193546 : ℚ) * 10 ^ 36 +
       258062638078959319258914876744495111))) +
@@ -826,7 +826,7 @@ def remainder6Coefficient1Chunk0 : Coefficient :=
       871444325639159976235328633735367031) * 10 ^ 36 +
       516640743348334029435914711762575098)
 
-def remainder6Coefficient1Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk1 : Coefficient :=
   coefficientTerm 141
     (((5940441527617293386538 : ℚ) * 10 ^ 36 +
       324371135481404641225337611082632591) * 10 ^ 36 +
@@ -860,7 +860,7 @@ def remainder6Coefficient1Chunk1 : Coefficient :=
       636824324470241418691656332934992540) * 10 ^ 36 +
       780638057708493036788398301245774498)))
 
-def remainder6Coefficient1Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk2 : Coefficient :=
   coefficientTerm 133
     (-((((93487897026280014806474166046837 : ℚ) * 10 ^ 36 +
       779444390926672611701935644295781567) * 10 ^ 36 +
@@ -896,7 +896,7 @@ def remainder6Coefficient1Chunk2 : Coefficient :=
       378875949908525472987729943373481909) * 10 ^ 36 +
       178798087368626360203546765828519209)))
 
-def remainder6Coefficient1Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk3 : Coefficient :=
   coefficientTerm 125
     (-(((((6 : ℚ) * 10 ^ 36 +
       254352605187579216638230080806395135) * 10 ^ 36 +
@@ -938,7 +938,7 @@ def remainder6Coefficient1Chunk3 : Coefficient :=
       509515118826107479429670551686426644) * 10 ^ 36 +
       008769938849642702727679857334338009)
 
-def remainder6Coefficient1Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk4 : Coefficient :=
   coefficientTerm 117
     (-(((((219635 : ℚ) * 10 ^ 36 +
       190641964858827105503304130106335719) * 10 ^ 36 +
@@ -980,7 +980,7 @@ def remainder6Coefficient1Chunk4 : Coefficient :=
       601087674379796182774433257309732693) * 10 ^ 36 +
       786320075501608038098368433791310852)
 
-def remainder6Coefficient1Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk5 : Coefficient :=
   coefficientTerm 109
     ((((231477627 : ℚ) * 10 ^ 36 +
       692130858092479757369953327199655305) * 10 ^ 36 +
@@ -1022,7 +1022,7 @@ def remainder6Coefficient1Chunk5 : Coefficient :=
       848387939097642168060588106532302817) * 10 ^ 36 +
       644806049355702180708867847820770227)
 
-def remainder6Coefficient1Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk6 : Coefficient :=
   coefficientTerm 101
     (-(((((625617881235 : ℚ) * 10 ^ 36 +
       453975808630850530851151445282918866) * 10 ^ 36 +
@@ -1064,7 +1064,7 @@ def remainder6Coefficient1Chunk6 : Coefficient :=
       670497072084678631616465205603676911) * 10 ^ 36 +
       176232033248192861835494761690819946)))
 
-def remainder6Coefficient1Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk7 : Coefficient :=
   coefficientTerm 93
     ((((1809907386873345 : ℚ) * 10 ^ 36 +
       262898484570600272814447542209577187) * 10 ^ 36 +
@@ -1106,7 +1106,7 @@ def remainder6Coefficient1Chunk7 : Coefficient :=
       771418270584347836848963074795133974) * 10 ^ 36 +
       247163280379909193401196975470087158)
 
-def remainder6Coefficient1Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk8 : Coefficient :=
   coefficientTerm 85
     (-(((((59028039155611758 : ℚ) * 10 ^ 36 +
       600925509359302972557342461128154915) * 10 ^ 36 +
@@ -1148,7 +1148,7 @@ def remainder6Coefficient1Chunk8 : Coefficient :=
       704287461742402222948841988301923513) * 10 ^ 36 +
       652137343768067080730446228358525468)))
 
-def remainder6Coefficient1Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk9 : Coefficient :=
   coefficientTerm 77
     ((((3789201023707719173 : ℚ) * 10 ^ 36 +
       451335526488128283435698522940954212) * 10 ^ 36 +
@@ -1190,7 +1190,7 @@ def remainder6Coefficient1Chunk9 : Coefficient :=
       815668999416980582697884491162324931) * 10 ^ 36 +
       627635130608374234126371309022192419)))
 
-def remainder6Coefficient1Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk10 : Coefficient :=
   coefficientTerm 69
     ((((80842486344945914480 : ℚ) * 10 ^ 36 +
       852439514295599953056380019199735578) * 10 ^ 36 +
@@ -1232,7 +1232,7 @@ def remainder6Coefficient1Chunk10 : Coefficient :=
       258101109070824340195824457041000119) * 10 ^ 36 +
       823421397708304988476574931313645945)))
 
-def remainder6Coefficient1Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk11 : Coefficient :=
   coefficientTerm 61
     ((((58725437021923940947 : ℚ) * 10 ^ 36 +
       626599525287445384062183884340608056) * 10 ^ 36 +
@@ -1274,7 +1274,7 @@ def remainder6Coefficient1Chunk11 : Coefficient :=
       061091467306736611695039122258070373) * 10 ^ 36 +
       352650395515867508890188170870036841)))
 
-def remainder6Coefficient1Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk12 : Coefficient :=
   coefficientTerm 53
     ((((1422481989515773991 : ℚ) * 10 ^ 36 +
       117036539878468921523146310703256920) * 10 ^ 36 +
@@ -1316,7 +1316,7 @@ def remainder6Coefficient1Chunk12 : Coefficient :=
       790459266026265512871836960111605788) * 10 ^ 36 +
       578029668104834895462958592241572978)))
 
-def remainder6Coefficient1Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk13 : Coefficient :=
   coefficientTerm 45
     ((((866163546423184 : ℚ) * 10 ^ 36 +
       660267702249833707109718319494294511) * 10 ^ 36 +
@@ -1358,7 +1358,7 @@ def remainder6Coefficient1Chunk13 : Coefficient :=
       733293339585758327277151470528523801) * 10 ^ 36 +
       517312459480586604975736235973870024)))
 
-def remainder6Coefficient1Chunk14 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk14 : Coefficient :=
   coefficientTerm 37
     ((((7937216043 : ℚ) * 10 ^ 36 +
       088804514765525850073370518098443674) * 10 ^ 36 +
@@ -1400,7 +1400,7 @@ def remainder6Coefficient1Chunk14 : Coefficient :=
       284882820664840591175214941319435311) * 10 ^ 36 +
       044004337483909544896059950141642078)))
 
-def remainder6Coefficient1Chunk15 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk15 : Coefficient :=
   coefficientTerm 29
     ((((471 : ℚ) * 10 ^ 36 +
       556206263299224335041025545375521842) * 10 ^ 36 +
@@ -1437,7 +1437,7 @@ def remainder6Coefficient1Chunk15 : Coefficient :=
       420806566608881613151358362728367788) * 10 ^ 36 +
       036266126878159628141428300185454211)))
 
-def remainder6Coefficient1Chunk16 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk16 : Coefficient :=
   coefficientTerm 21
     (((47384144239389043535707230339 : ℚ) * 10 ^ 36 +
       118840028082255829733664764917730899) * 10 ^ 36 +
@@ -1471,7 +1471,7 @@ def remainder6Coefficient1Chunk16 : Coefficient :=
       475259406380494149283076746162989331) * 10 ^ 36 +
       840632969328668587715125391904926548)))
 
-def remainder6Coefficient1Chunk17 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk17 : Coefficient :=
   coefficientTerm 13
     (((777409878995211 : ℚ) * 10 ^ 36 +
       337664768157963552539462686683878731) * 10 ^ 36 +
@@ -1504,7 +1504,7 @@ def remainder6Coefficient1Chunk17 : Coefficient :=
     ((2495818431381336910434728763862007 : ℚ) * 10 ^ 36 +
       606140075504143986383890946992684898)
 
-def remainder6Coefficient1Chunk18 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Chunk18 : Coefficient :=
   coefficientTerm 5
     (-(((13598299462801716925139003155686 : ℚ) * 10 ^ 36 +
       688002700325639797923034409490767794))) +
@@ -1521,7 +1521,7 @@ def remainder6Coefficient1Chunk18 : Coefficient :=
     (-(((1233333102038599767 : ℚ) * 10 ^ 36 +
       025177989052174038378110465183077784)))
 
-def remainder6Coefficient1Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Block0 : Coefficient :=
   remainder6Coefficient1Chunk0 +
   remainder6Coefficient1Chunk1 +
   remainder6Coefficient1Chunk2 +
@@ -1535,7 +1535,7 @@ def remainder6Coefficient1Block0 : Coefficient :=
   remainder6Coefficient1Chunk10 +
   remainder6Coefficient1Chunk11
 
-def remainder6Coefficient1Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1Block1 : Coefficient :=
   remainder6Coefficient1Chunk12 +
   remainder6Coefficient1Chunk13 +
   remainder6Coefficient1Chunk14 +
@@ -1544,11 +1544,11 @@ def remainder6Coefficient1Block1 : Coefficient :=
   remainder6Coefficient1Chunk17 +
   remainder6Coefficient1Chunk18
 
-def remainder6Coefficient1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient1 : Coefficient :=
   remainder6Coefficient1Block0 +
   remainder6Coefficient1Block1
 
-def remainder6Coefficient2Chunk0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk0 : Coefficient :=
   coefficientTerm 145
     (-(((53701746906274322922389292 : ℚ) * 10 ^ 36 +
       413329009090012362832185396756764943))) +
@@ -1580,7 +1580,7 @@ def remainder6Coefficient2Chunk0 : Coefficient :=
       198241085134339655761307908030158948) * 10 ^ 36 +
       097556378745720782085669403465197870)
 
-def remainder6Coefficient2Chunk1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk1 : Coefficient :=
   coefficientTerm 137
     (((12842343833671474909580 : ℚ) * 10 ^ 36 +
       640756450501637377222403159914278633) * 10 ^ 36 +
@@ -1614,7 +1614,7 @@ def remainder6Coefficient2Chunk1 : Coefficient :=
       322252766533771398151928465748226828) * 10 ^ 36 +
       800037319996136864810452534986708490)))
 
-def remainder6Coefficient2Chunk2 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk2 : Coefficient :=
   coefficientTerm 129
     (((146444422284879387486537307410228 : ℚ) * 10 ^ 36 +
       050008953866221741351187004318210086) * 10 ^ 36 +
@@ -1649,7 +1649,7 @@ def remainder6Coefficient2Chunk2 : Coefficient :=
       179206699247658406749071494415663732) * 10 ^ 36 +
       629202462030222233829358287818707945)))
 
-def remainder6Coefficient2Chunk3 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk3 : Coefficient :=
   coefficientTerm 121
     ((((26 : ℚ) * 10 ^ 36 +
       678476425457198949259327092198884575) * 10 ^ 36 +
@@ -1691,7 +1691,7 @@ def remainder6Coefficient2Chunk3 : Coefficient :=
       180914677220420011443245008815867549) * 10 ^ 36 +
       438214188852598827284101714563387729)))
 
-def remainder6Coefficient2Chunk4 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk4 : Coefficient :=
   coefficientTerm 113
     ((((1689737 : ℚ) * 10 ^ 36 +
       461156046364579067903926728274682805) * 10 ^ 36 +
@@ -1733,7 +1733,7 @@ def remainder6Coefficient2Chunk4 : Coefficient :=
       807781338982346163278205785688954714) * 10 ^ 36 +
       462411888037977053689643044829371261)))
 
-def remainder6Coefficient2Chunk5 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk5 : Coefficient :=
   coefficientTerm 105
     ((((2775343892 : ℚ) * 10 ^ 36 +
       141838533941346897591510478949153016) * 10 ^ 36 +
@@ -1775,7 +1775,7 @@ def remainder6Coefficient2Chunk5 : Coefficient :=
       855493615368495639035871378045746365) * 10 ^ 36 +
       029251162330126000071403202457113178)
 
-def remainder6Coefficient2Chunk6 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk6 : Coefficient :=
   coefficientTerm 97
     (-(((((377388686286 : ℚ) * 10 ^ 36 +
       176138507238550004959038699179096258) * 10 ^ 36 +
@@ -1817,7 +1817,7 @@ def remainder6Coefficient2Chunk6 : Coefficient :=
       118993968811764216243406136169217122) * 10 ^ 36 +
       142633848396370306612387525190292024)))
 
-def remainder6Coefficient2Chunk7 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk7 : Coefficient :=
   coefficientTerm 89
     ((((501507631953217 : ℚ) * 10 ^ 36 +
       757910317604747921879225587124879976) * 10 ^ 36 +
@@ -1859,7 +1859,7 @@ def remainder6Coefficient2Chunk7 : Coefficient :=
       932337408219657196281306875636377553) * 10 ^ 36 +
       562365438390806971843075216462224687)
 
-def remainder6Coefficient2Chunk8 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk8 : Coefficient :=
   coefficientTerm 81
     (-(((((7473515690068627 : ℚ) * 10 ^ 36 +
       327138201883778949560855298078454071) * 10 ^ 36 +
@@ -1901,7 +1901,7 @@ def remainder6Coefficient2Chunk8 : Coefficient :=
       392978036119455528956287613452640247) * 10 ^ 36 +
       909313221393529923750860147507638142)))
 
-def remainder6Coefficient2Chunk9 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk9 : Coefficient :=
   coefficientTerm 73
     ((((485996852313037911 : ℚ) * 10 ^ 36 +
       675400177968546554732351542983915115) * 10 ^ 36 +
@@ -1943,7 +1943,7 @@ def remainder6Coefficient2Chunk9 : Coefficient :=
       983578193177700784472317566913875403) * 10 ^ 36 +
       756165673984158467524638574835520305)))
 
-def remainder6Coefficient2Chunk10 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk10 : Coefficient :=
   coefficientTerm 65
     ((((4837266749938700137 : ℚ) * 10 ^ 36 +
       387693077540772432556290429569584947) * 10 ^ 36 +
@@ -1985,7 +1985,7 @@ def remainder6Coefficient2Chunk10 : Coefficient :=
       504154142511534423737937416260198726) * 10 ^ 36 +
       165103961868893331538071563051752208)))
 
-def remainder6Coefficient2Chunk11 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk11 : Coefficient :=
   coefficientTerm 57
     ((((1474556417084391647 : ℚ) * 10 ^ 36 +
       236659484397179169663207440472243911) * 10 ^ 36 +
@@ -2027,7 +2027,7 @@ def remainder6Coefficient2Chunk11 : Coefficient :=
       429363253596572643771030821959144764) * 10 ^ 36 +
       513204297233297482293922234565416143)))
 
-def remainder6Coefficient2Chunk12 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk12 : Coefficient :=
   coefficientTerm 49
     ((((12049221983313637 : ℚ) * 10 ^ 36 +
       973616799338827924732987884502283588) * 10 ^ 36 +
@@ -2069,7 +2069,7 @@ def remainder6Coefficient2Chunk12 : Coefficient :=
       995194072200053459078713521014567853) * 10 ^ 36 +
       374916980334960182620272811336787141)))
 
-def remainder6Coefficient2Chunk13 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk13 : Coefficient :=
   coefficientTerm 41
     ((((1807671455951 : ℚ) * 10 ^ 36 +
       809266510746689253774220387401034012) * 10 ^ 36 +
@@ -2111,7 +2111,7 @@ def remainder6Coefficient2Chunk13 : Coefficient :=
       380723291537983818190080652521736510) * 10 ^ 36 +
       114315086183984160323284386395380246)))
 
-def remainder6Coefficient2Chunk14 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk14 : Coefficient :=
   coefficientTerm 33
     ((((2613513 : ℚ) * 10 ^ 36 +
       414969802611704471375631774318619411) * 10 ^ 36 +
@@ -2152,7 +2152,7 @@ def remainder6Coefficient2Chunk14 : Coefficient :=
       764810909968013210370410502914086410) * 10 ^ 36 +
       662038157087910080400130345322186282)))
 
-def remainder6Coefficient2Chunk15 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk15 : Coefficient :=
   coefficientTerm 25
     (((13114038914589390853791067760052621 : ℚ) * 10 ^ 36 +
       796340809680441341301998185868622819) * 10 ^ 36 +
@@ -2186,7 +2186,7 @@ def remainder6Coefficient2Chunk15 : Coefficient :=
       917512709950776024256178072524918098) * 10 ^ 36 +
       638880757842298961056435139961326406)))
 
-def remainder6Coefficient2Chunk16 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk16 : Coefficient :=
   coefficientTerm 17
     (((44028784217852058124298 : ℚ) * 10 ^ 36 +
       842696024149721061531120565129471767) * 10 ^ 36 +
@@ -2220,7 +2220,7 @@ def remainder6Coefficient2Chunk16 : Coefficient :=
       947805813663707450362693122194832085) * 10 ^ 36 +
       081342896498022313692988813938027377)))
 
-def remainder6Coefficient2Chunk17 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk17 : Coefficient :=
   coefficientTerm 9
     (((3571269 : ℚ) * 10 ^ 36 +
       525926949597517542172431891005196238) * 10 ^ 36 +
@@ -2249,7 +2249,7 @@ def remainder6Coefficient2Chunk17 : Coefficient :=
     ((104679408795859278082331 : ℚ) * 10 ^ 36 +
       609546010429769197018550786987934060)
 
-def remainder6Coefficient2Chunk18 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Chunk18 : Coefficient :=
   coefficientTerm 1
     ((8575540471892424951 : ℚ) * 10 ^ 36 +
       206488410096511105878228940107034228) +
@@ -2257,7 +2257,7 @@ def remainder6Coefficient2Chunk18 : Coefficient :=
     ((10878351506404408 : ℚ) * 10 ^ 36 +
       088424943674109583579961283044613696)
 
-def remainder6Coefficient2Block0 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Block0 : Coefficient :=
   remainder6Coefficient2Chunk0 +
   remainder6Coefficient2Chunk1 +
   remainder6Coefficient2Chunk2 +
@@ -2271,7 +2271,7 @@ def remainder6Coefficient2Block0 : Coefficient :=
   remainder6Coefficient2Chunk10 +
   remainder6Coefficient2Chunk11
 
-def remainder6Coefficient2Block1 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2Block1 : Coefficient :=
   remainder6Coefficient2Chunk12 +
   remainder6Coefficient2Chunk13 +
   remainder6Coefficient2Chunk14 +
@@ -2280,31 +2280,31 @@ def remainder6Coefficient2Block1 : Coefficient :=
   remainder6Coefficient2Chunk17 +
   remainder6Coefficient2Chunk18
 
-def remainder6Coefficient2 : Coefficient :=
+/-- Internal datum. -/ def remainder6Coefficient2 : Coefficient :=
   remainder6Coefficient2Block0 +
   remainder6Coefficient2Block1
 
-def remainder6 : Bivariate :=
+/-- Internal datum. -/ def remainder6 : Bivariate :=
   outerTerm 0 remainder6Coefficient0 +
   outerTerm 1 remainder6Coefficient1 +
   outerTerm 2 remainder6Coefficient2
 
-def quotient4 : Bivariate :=
+/-- Internal datum. -/ def quotient4 : Bivariate :=
   linearPseudoQuotient
     remainder4 remainder5
     4 3
 
-def exceptionalUnit4 : Coefficient :=
+/-- Internal datum. -/ def exceptionalUnit4 : Coefficient :=
   C
     ((1 : ℚ) /
       (23215239933528791584969 : ℚ))
 
-def exceptional4 : Coefficient :=
+/-- Internal datum. -/ def exceptional4 : Coefficient :=
   exceptionalUnit4 *
   (parameter - 1) ^ 1 *
   (discriminantFactor) ^ 4
 
-def recurrence4 : Prop :=
+/-- Internal datum. -/ def recurrence4 : Prop :=
   C ((remainder5.coeff 3) ^ 2) *
       remainder4 =
     remainder5 * quotient4 +

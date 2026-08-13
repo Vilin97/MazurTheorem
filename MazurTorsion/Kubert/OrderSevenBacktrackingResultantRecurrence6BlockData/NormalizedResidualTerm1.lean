@@ -20,7 +20,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def normalizedResidual6Term1Block0 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block0 : Coefficient :=
   X ^ 0 * (
     (12597120) * X ^ 1 +
     (132990054768) * X ^ 2 +
@@ -32,7 +32,7 @@ def normalizedResidual6Term1Block0 : Coefficient :=
     (11094702389179578638472921928044) * X ^ 8
   )
 
-def normalizedResidual6Term1Block1 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block1 : Coefficient :=
   X ^ 9 * (
     (-6975329667893832241327039757780308) +
     (-188812857035022534274541788089495972) * X ^ 1 +
@@ -45,7 +45,7 @@ def normalizedResidual6Term1Block1 : Coefficient :=
     (-50202485224263028320029233466205850112694571444800143805) * X ^ 8
   )
 
-def normalizedResidual6Term1Block2 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block2 : Coefficient :=
   X ^ 18 * (
     (-817323631787337320972576543315449730732500738334560549165) +
     (7106960125434143264405929134757161034099333535673186362399957) * X ^ 1 +
@@ -59,7 +59,7 @@ def normalizedResidual6Term1Block2 : Coefficient :=
       47595538694055584154091959040545525421972866682069842943898490787570532606077)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block3 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block3 : Coefficient :=
   X ^ 27 * (
     ((439 * 10 ^ 77 +
       23788702225206931402710389785069094123513655077860426968106490816918745305575)) +
@@ -81,7 +81,7 @@ def normalizedResidual6Term1Block3 : Coefficient :=
       16094573826948186176272375094629399392626897614119135238718068571260759559479)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block4 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block4 : Coefficient :=
   X ^ 36 * (
     -((39480280336139773250 * 10 ^ 77 +
       14463892181664168672853429368756387136033054845737547849438396763051843766823)) +
@@ -103,7 +103,7 @@ def normalizedResidual6Term1Block4 : Coefficient :=
       55348161920617546863047729804663625808438625555337615410586939350417722318716)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block5 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block5 : Coefficient :=
   X ^ 45 * (
     ((5469159484657362254297002215234164 * 10 ^ 77 +
       80115541076196228453885830415277633521887478353183410831006179664904260881451)) +
@@ -125,7 +125,7 @@ def normalizedResidual6Term1Block5 : Coefficient :=
       47374130828857441864453189478003533717270570305958326169297775451558996560051)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block6 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block6 : Coefficient :=
   X ^ 54 * (
     -((4515757336510973108451422414129793768040657311 * 10 ^ 77 +
       26450826683090575748595001770838577375925281285321405602421972665132623452768)) +
@@ -147,7 +147,7 @@ def normalizedResidual6Term1Block6 : Coefficient :=
       46351614713838839665734350739661910762522699126087282019301946635852427141751)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block7 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block7 : Coefficient :=
   X ^ 63 * (
     ((51078771701179524301015739947586300118817673001136351939 * 10 ^ 77 +
       43855166385114475010666561517273521761758776356488376346445987647567163979356)) +
@@ -169,7 +169,7 @@ def normalizedResidual6Term1Block7 : Coefficient :=
       34357703470413787400389497696809988699804338267030583275249930644797678635370)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block8 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block8 : Coefficient :=
   X ^ 72 * (
     -((14521053358533738988473376835956277748408396743291756725166522954 * 10 ^ 77 +
       36052703926295120756550585517283052734286274306839210763604740260842982796115)) +
@@ -191,7 +191,7 @@ def normalizedResidual6Term1Block8 : Coefficient :=
       40104902567653679759153896477127939496893459510961957578619005590594620393406)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block9 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block9 : Coefficient :=
   X ^ 81 * (
     ((167489085184776919273220946767831774214109477078349840504690446668063333 * 10 ^ 77 +
       52011900525391501520176711315892266193076817577326573715588915787372999972104)) +
@@ -213,7 +213,7 @@ def normalizedResidual6Term1Block9 : Coefficient :=
       28045429179199849189683893729419512473419842558425034705438125013650721611528)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block10 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block10 : Coefficient :=
   X ^ 90 * (
     -(((1 * 10 ^ 77 +
       15460631056596413337833554886229162869146230108368039054031329442167728837377) * 10 ^ 77 +
@@ -244,7 +244,7 @@ def normalizedResidual6Term1Block10 : Coefficient :=
       40909689064250570927730885835395170365309874747926052964037698540452261762155)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block11 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block11 : Coefficient :=
   X ^ 99 * (
     (((64742 * 10 ^ 77 +
       36516483260363422827890817828615436366992541111295604432126686369659982991483) * 10 ^ 77 +
@@ -275,7 +275,7 @@ def normalizedResidual6Term1Block11 : Coefficient :=
       98979141694120269935583197689191184576423548326410767571612406268525289255403)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block12 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block12 : Coefficient :=
   X ^ 108 * (
     -(((372373667 * 10 ^ 77 +
       56414326400358187126271559695135245291105450980271184802723087434935416764116) * 10 ^ 77 +
@@ -306,7 +306,7 @@ def normalizedResidual6Term1Block12 : Coefficient :=
       47576698402779640282870286922506066048955957804453561414571293942185890272947)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block13 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block13 : Coefficient :=
   X ^ 117 * (
     (((257532364477 * 10 ^ 77 +
       37036104192258354980281969808765213208660676321397479128680309526630351843600) * 10 ^ 77 +
@@ -337,7 +337,7 @@ def normalizedResidual6Term1Block13 : Coefficient :=
       52325426909823463318694626115616473893906783837241754625535894790350757217475)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block14 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block14 : Coefficient :=
   X ^ 126 * (
     -(((23560086148725 * 10 ^ 77 +
       57274099699774837346529764131428266342387226758227100302065677669810364874526) * 10 ^ 77 +
@@ -368,7 +368,7 @@ def normalizedResidual6Term1Block14 : Coefficient :=
       16325034546287861944584856373822018403159164205934024992633292166237662656821)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block15 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block15 : Coefficient :=
   X ^ 135 * (
     (((298249426828093 * 10 ^ 77 +
       35566185235858211863000344369356438333335255465427178980541156832031554208509) * 10 ^ 77 +
@@ -399,7 +399,7 @@ def normalizedResidual6Term1Block15 : Coefficient :=
       21934899848097519628194780968637893030563387236837247748132545047678875739054)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block16 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block16 : Coefficient :=
   X ^ 144 * (
     -(((523309263137182 * 10 ^ 77 +
       40557836336570039815866486598580199575398038684162236640596630314996171529982) * 10 ^ 77 +
@@ -430,7 +430,7 @@ def normalizedResidual6Term1Block16 : Coefficient :=
       59123702192187149913663141926586903275993412908823383355802896246718055780004)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block17 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block17 : Coefficient :=
   X ^ 153 * (
     (((119517830652258 * 10 ^ 77 +
       46475039584237133869095735975292023242881234981113543726703060065888998248790) * 10 ^ 77 +
@@ -461,7 +461,7 @@ def normalizedResidual6Term1Block17 : Coefficient :=
       45473846019698059125274773748377197012803593224645573425304297376063843812241)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block18 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block18 : Coefficient :=
   X ^ 162 * (
     -(((2493927257800 * 10 ^ 77 +
       32780907577598078871515999553122455044584022202314146895561022357744680312975) * 10 ^ 77 +
@@ -492,7 +492,7 @@ def normalizedResidual6Term1Block18 : Coefficient :=
       31064944776313567763655244868274795345975506646781736102432954654206582301032)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block19 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block19 : Coefficient :=
   X ^ 171 * (
     -(((26611079535 * 10 ^ 77 +
       31489224315641702004784117266894167480355092603632219335217673450955306798080) * 10 ^ 77 +
@@ -523,7 +523,7 @@ def normalizedResidual6Term1Block19 : Coefficient :=
       62656243673858444963090450757156730485917329063353252940372469855657042765657)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block20 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block20 : Coefficient :=
   X ^ 180 * (
     (((168118619 * 10 ^ 77 +
       30115518705215386211545583880581236717938578891096788128643408950506078199408) * 10 ^ 77 +
@@ -554,7 +554,7 @@ def normalizedResidual6Term1Block20 : Coefficient :=
       80283044993226758604527083147273592610748413551571211611538213093563816130980)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block21 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block21 : Coefficient :=
   X ^ 189 * (
     -(((475969 * 10 ^ 77 +
       76442780506088829755787382966882184382558445779617458659240361584170296678378) * 10 ^ 77 +
@@ -585,7 +585,7 @@ def normalizedResidual6Term1Block21 : Coefficient :=
       86399571629221006014182057827531385197704470978425515586811457127828472050489)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block22 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block22 : Coefficient :=
   X ^ 198 * (
     -(((5293 * 10 ^ 77 +
       30916527948422538151254898780997914550553363692115755377475310374089249076141) * 10 ^ 77 +
@@ -615,7 +615,7 @@ def normalizedResidual6Term1Block22 : Coefficient :=
       32057357386823757892150299774494298728356771024689726036942495877192587904855)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block23 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block23 : Coefficient :=
   X ^ 207 * (
     ((3785519221824135280894002337134950527990711922060496162732415169896594580854 * 10 ^ 77 +
       09883339168254192917308858658937102024479098488804166295543782000191417736040)) +
@@ -639,7 +639,7 @@ def normalizedResidual6Term1Block23 : Coefficient :=
       07510569379385122140003430388388156124947616937248705630283449417134251498328)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block24 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block24 : Coefficient :=
   X ^ 216 * (
     ((1125987782596637066915373942772681951991731177386700676617910816940034639139 * 10 ^ 77 +
       59447737311268923246123746015434763379311827105157714205019067704032971956655)) +
@@ -661,7 +661,7 @@ def normalizedResidual6Term1Block24 : Coefficient :=
       02271905722369539642215080192886459509853205275316181388276434794834800258238)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block25 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block25 : Coefficient :=
   X ^ 225 * (
     -((2165574956540280586979993132450694315983493595731573963173946155959507495 * 10 ^ 77 +
       91182679874111368110996687968212390338170575988061856994021882584040128842791)) +
@@ -683,7 +683,7 @@ def normalizedResidual6Term1Block25 : Coefficient :=
       48442964044341477531182568711697339320312583060804090536594434033336504334546)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block26 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block26 : Coefficient :=
   X ^ 234 * (
     -((813258435691858988255931627002713885037089269706648633327350267777458 * 10 ^ 77 +
       88127065748751502482286161667710484612515843572729010588519782833637165896234)) +
@@ -705,7 +705,7 @@ def normalizedResidual6Term1Block26 : Coefficient :=
       01976132122845280922901393403396814042198657220331654957727490136660302550458)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block27 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block27 : Coefficient :=
   X ^ 243 * (
     ((1358987448379637622059605005798798993273464349277768673498294985463 * 10 ^ 77 +
       82481688346841532773852796677472921145110787633975402761138666543330604974201)) +
@@ -727,7 +727,7 @@ def normalizedResidual6Term1Block27 : Coefficient :=
       80068692095375470306987992510960722628469142250014045855640702771293111970686)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block28 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block28 : Coefficient :=
   X ^ 252 * (
     -((13918550981027984256354136565689546263719927682355210756355219 * 10 ^ 77 +
       42582079154289972132043529172528180576923325521801112235469148244015878907429)) +
@@ -749,7 +749,7 @@ def normalizedResidual6Term1Block28 : Coefficient :=
       81367435502284877310389266642078956863889850002115168930563735174374085600976)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block29 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block29 : Coefficient :=
   X ^ 261 * (
     -((40755658632573825394413278092241258727834240348318896250 * 10 ^ 77 +
       25028575798897009521811687399506565822980201151636159170999042977925002894184)) +
@@ -771,7 +771,7 @@ def normalizedResidual6Term1Block29 : Coefficient :=
       64105987601128026764367584426798513920714272451254734377435578250379855249766)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block30 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block30 : Coefficient :=
   X ^ 270 * (
     ((1033513248458396715808817290290311591926215926263218 * 10 ^ 77 +
       42463841643293414158701214808689000388336160399439697990542803905315659308445)) +
@@ -793,7 +793,7 @@ def normalizedResidual6Term1Block30 : Coefficient :=
       76777180734053858833583699968055706268333550362630857102646934623489572649842)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block31 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block31 : Coefficient :=
   X ^ 279 * (
     -((166819880032790612766855395010100537299170258 * 10 ^ 77 +
       92061844131002358101936365302395638904467394031375956006972422272864927732830)) +
@@ -815,7 +815,7 @@ def normalizedResidual6Term1Block31 : Coefficient :=
       38481838050693447544879048033936813835909874389060305135101844655473176403421)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block32 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block32 : Coefficient :=
   X ^ 288 * (
     ((2320791719072464090832536364977010345 * 10 ^ 77 +
       19999012362204232268175394570048932690158469479357805676793652194056370114247)) +
@@ -837,7 +837,7 @@ def normalizedResidual6Term1Block32 : Coefficient :=
       81195588292465430782417419460151215693463983984535527899153848941926017375739)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block33 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block33 : Coefficient :=
   X ^ 297 * (
     -((10094260553673283194826226472 * 10 ^ 77 +
       74134375883895589190855110695051952883829534413761863835656788704722557722532)) +
@@ -859,7 +859,7 @@ def normalizedResidual6Term1Block33 : Coefficient :=
       67891913432055067401634172725943689762037793681448796354093468043945377047259)) * X ^ 8
   )
 
-def normalizedResidual6Term1Block34 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block34 : Coefficient :=
   X ^ 306 * (
     -((46156391876 * 10 ^ 77 +
       64680078801845062267634492025545964932836379427969164840212455385205017811705)) +
@@ -876,7 +876,7 @@ def normalizedResidual6Term1Block34 : Coefficient :=
     (-2160983553000323221385007889706091185076041542708537944445859462) * X ^ 8
   )
 
-def normalizedResidual6Term1Block35 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1Block35 : Coefficient :=
   X ^ 315 * (
     (314975594196097809229377821002600186361854972664598087946709) +
     (-3467262012105734481563320957797577953069945305930191475) * X ^ 1 +
@@ -887,7 +887,7 @@ def normalizedResidual6Term1Block35 : Coefficient :=
     (-538250917247981377421969) * X ^ 6
   )
 
-def normalizedResidual6Term1 : Coefficient :=
+/-- Internal datum. -/ def normalizedResidual6Term1 : Coefficient :=
   normalizedResidual6Term1Block0 +
   normalizedResidual6Term1Block1 +
   normalizedResidual6Term1Block2 +

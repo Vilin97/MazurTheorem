@@ -23,7 +23,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6Term1Band0 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band0 : Coefficient :=
   recurrence6Term1Row0Band0
 
 theorem recurrence6Term1Band0_eq :
@@ -31,7 +31,7 @@ theorem recurrence6Term1Band0_eq :
   unfold recurrence6Term1Band0 recurrence6Term1Row0Band0 normalizedResidual6Term1Block0
   ring
 
-def recurrence6Term1Band1 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band1 : Coefficient :=
   recurrence6Term1Row0Band1 +
   recurrence6Term1Row1Band1
 
@@ -41,7 +41,7 @@ theorem recurrence6Term1Band1_eq :
   unfold normalizedResidual6Term1Block1
   ring
 
-def recurrence6Term1Band2 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band2 : Coefficient :=
   recurrence6Term1Row0Band2 +
   recurrence6Term1Row1Band2 +
   recurrence6Term1Row2Band2
@@ -52,7 +52,7 @@ theorem recurrence6Term1Band2_eq :
   unfold recurrence6Term1Row2Band2 normalizedResidual6Term1Block2
   ring
 
-def recurrence6Term1Band3 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band3 : Coefficient :=
   recurrence6Term1Row0Band3 +
   recurrence6Term1Row1Band3 +
   recurrence6Term1Row2Band3 +
@@ -64,7 +64,7 @@ theorem recurrence6Term1Band3_eq :
   unfold recurrence6Term1Row2Band3 recurrence6Term1Row3Band3 normalizedResidual6Term1Block3
   ring
 
-def recurrence6Term1Band4 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band4 : Coefficient :=
   recurrence6Term1Row0Band4 +
   recurrence6Term1Row1Band4 +
   recurrence6Term1Row2Band4 +
@@ -78,7 +78,7 @@ theorem recurrence6Term1Band4_eq :
   unfold normalizedResidual6Term1Block4
   ring
 
-def recurrence6Term1Band5 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term1Band5 : Coefficient :=
   recurrence6Term1Row0Band5 +
   recurrence6Term1Row1Band5 +
   recurrence6Term1Row2Band5 +

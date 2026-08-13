@@ -29,7 +29,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1ExceptionalTerm1Band12 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band12 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band12 +
   recurrence1ExceptionalTerm1Row1Band12 +
   recurrence1ExceptionalTerm1Row2Band12 +
@@ -48,7 +48,7 @@ theorem recurrence1ExceptionalTerm1Band12_eq :
   unfold recurrence1ExceptionalTerm1Row7Band12 recurrence1ExceptionalTerm1Block12
   ring
 
-def recurrence1ExceptionalTerm1Band13 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band13 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band13 +
   recurrence1ExceptionalTerm1Row1Band13 +
   recurrence1ExceptionalTerm1Row2Band13 +
@@ -67,7 +67,7 @@ theorem recurrence1ExceptionalTerm1Band13_eq :
   unfold recurrence1ExceptionalTerm1Row7Band13 recurrence1ExceptionalTerm1Block13
   ring
 
-def recurrence1ExceptionalTerm1Band14 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band14 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band14 +
   recurrence1ExceptionalTerm1Row1Band14 +
   recurrence1ExceptionalTerm1Row2Band14 +
@@ -86,7 +86,7 @@ theorem recurrence1ExceptionalTerm1Band14_eq :
   unfold recurrence1ExceptionalTerm1Row7Band14 recurrence1ExceptionalTerm1Block14
   ring
 
-def recurrence1ExceptionalTerm1Band15 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band15 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band15 +
   recurrence1ExceptionalTerm1Row1Band15 +
   recurrence1ExceptionalTerm1Row2Band15 +
@@ -105,7 +105,7 @@ theorem recurrence1ExceptionalTerm1Band15_eq :
   unfold recurrence1ExceptionalTerm1Row7Band15 recurrence1ExceptionalTerm1Block15
   ring
 
-def recurrence1ExceptionalTerm1Band16 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band16 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band16 +
   recurrence1ExceptionalTerm1Row1Band16 +
   recurrence1ExceptionalTerm1Row2Band16 +
@@ -124,7 +124,7 @@ theorem recurrence1ExceptionalTerm1Band16_eq :
   unfold recurrence1ExceptionalTerm1Row7Band16 recurrence1ExceptionalTerm1Block16
   ring
 
-def recurrence1ExceptionalTerm1Band17 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band17 : Coefficient :=
   recurrence1ExceptionalTerm1Row0Band17 +
   recurrence1ExceptionalTerm1Row1Band17 +
   recurrence1ExceptionalTerm1Row2Band17 +
@@ -143,7 +143,7 @@ theorem recurrence1ExceptionalTerm1Band17_eq :
   unfold recurrence1ExceptionalTerm1Row7Band17 recurrence1ExceptionalTerm1Block17
   ring
 
-def recurrence1ExceptionalTerm1Band18 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band18 : Coefficient :=
   recurrence1ExceptionalTerm1Row1Band18 +
   recurrence1ExceptionalTerm1Row2Band18 +
   recurrence1ExceptionalTerm1Row3Band18 +
@@ -161,7 +161,7 @@ theorem recurrence1ExceptionalTerm1Band18_eq :
   unfold recurrence1ExceptionalTerm1Block18
   ring
 
-def recurrence1ExceptionalTerm1Band19 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band19 : Coefficient :=
   recurrence1ExceptionalTerm1Row2Band19 +
   recurrence1ExceptionalTerm1Row3Band19 +
   recurrence1ExceptionalTerm1Row4Band19 +
@@ -177,7 +177,7 @@ theorem recurrence1ExceptionalTerm1Band19_eq :
   unfold recurrence1ExceptionalTerm1Row7Band19 recurrence1ExceptionalTerm1Block19
   ring
 
-def recurrence1ExceptionalTerm1Band20 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band20 : Coefficient :=
   recurrence1ExceptionalTerm1Row3Band20 +
   recurrence1ExceptionalTerm1Row4Band20 +
   recurrence1ExceptionalTerm1Row5Band20 +
@@ -192,7 +192,7 @@ theorem recurrence1ExceptionalTerm1Band20_eq :
   unfold recurrence1ExceptionalTerm1Block20
   ring
 
-def recurrence1ExceptionalTerm1Band21 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band21 : Coefficient :=
   recurrence1ExceptionalTerm1Row4Band21 +
   recurrence1ExceptionalTerm1Row5Band21 +
   recurrence1ExceptionalTerm1Row6Band21 +
@@ -205,7 +205,7 @@ theorem recurrence1ExceptionalTerm1Band21_eq :
   unfold recurrence1ExceptionalTerm1Row7Band21 recurrence1ExceptionalTerm1Block21
   ring
 
-def recurrence1ExceptionalTerm1Band22 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band22 : Coefficient :=
   recurrence1ExceptionalTerm1Row5Band22 +
   recurrence1ExceptionalTerm1Row6Band22 +
   recurrence1ExceptionalTerm1Row7Band22
@@ -217,7 +217,7 @@ theorem recurrence1ExceptionalTerm1Band22_eq :
   unfold recurrence1ExceptionalTerm1Block22
   ring
 
-def recurrence1ExceptionalTerm1Band23 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ExceptionalTerm1Band23 : Coefficient :=
   recurrence1ExceptionalTerm1Row6Band23 +
   recurrence1ExceptionalTerm1Row7Band23
 

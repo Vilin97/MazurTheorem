@@ -26,7 +26,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6A2SquareBand18 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand18 : Coefficient :=
   recurrence6A2SquareRow1Band18 +
   recurrence6A2SquareRow2Band18 +
   recurrence6A2SquareRow3Band18 +
@@ -55,7 +55,7 @@ theorem recurrence6A2SquareBand18_eq :
   unfold recurrence6A2SquareRow16Band18 remainder6Coefficient2SquareBlock18
   ring
 
-def recurrence6A2SquareBand19 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand19 : Coefficient :=
   recurrence6A2SquareRow2Band19 +
   recurrence6A2SquareRow3Band19 +
   recurrence6A2SquareRow4Band19 +
@@ -83,7 +83,7 @@ theorem recurrence6A2SquareBand19_eq :
   unfold recurrence6A2SquareRow16Band19 remainder6Coefficient2SquareBlock19
   ring
 
-def recurrence6A2SquareBand20 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand20 : Coefficient :=
   recurrence6A2SquareRow3Band20 +
   recurrence6A2SquareRow4Band20 +
   recurrence6A2SquareRow5Band20 +
@@ -110,7 +110,7 @@ theorem recurrence6A2SquareBand20_eq :
   unfold remainder6Coefficient2SquareBlock20
   ring
 
-def recurrence6A2SquareBand21 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand21 : Coefficient :=
   recurrence6A2SquareRow4Band21 +
   recurrence6A2SquareRow5Band21 +
   recurrence6A2SquareRow6Band21 +
@@ -135,7 +135,7 @@ theorem recurrence6A2SquareBand21_eq :
   unfold recurrence6A2SquareRow16Band21 remainder6Coefficient2SquareBlock21
   ring
 
-def recurrence6A2SquareBand22 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand22 : Coefficient :=
   recurrence6A2SquareRow5Band22 +
   recurrence6A2SquareRow6Band22 +
   recurrence6A2SquareRow7Band22 +
@@ -159,7 +159,7 @@ theorem recurrence6A2SquareBand22_eq :
   unfold recurrence6A2SquareRow16Band22 remainder6Coefficient2SquareBlock22
   ring
 
-def recurrence6A2SquareBand23 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand23 : Coefficient :=
   recurrence6A2SquareRow6Band23 +
   recurrence6A2SquareRow7Band23 +
   recurrence6A2SquareRow8Band23 +

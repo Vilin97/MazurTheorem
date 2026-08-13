@@ -27,7 +27,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1QuotientTerm0Rows : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Rows : Coefficient :=
   recurrence1QuotientTerm0Row0 +
   recurrence1QuotientTerm0Row1 +
   recurrence1QuotientTerm0Row2 +
@@ -40,7 +40,7 @@ def recurrence1QuotientTerm0Rows : Coefficient :=
   recurrence1QuotientTerm0Row9 +
   recurrence1QuotientTerm0Row10
 
-def recurrence1QuotientTerm0Bands : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Bands : Coefficient :=
   recurrence1QuotientTerm0Band0 +
   recurrence1QuotientTerm0Band1 +
   recurrence1QuotientTerm0Band2 +

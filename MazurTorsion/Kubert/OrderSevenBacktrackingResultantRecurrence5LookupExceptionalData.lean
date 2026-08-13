@@ -21,7 +21,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence5ExceptionalNormalizedBlock0 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 2 (
     (1 : ℚ)) +
   coefficientTerm 3 (
@@ -37,7 +37,7 @@ def recurrence5ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 8 (
     (-83007371 : ℚ))
 
-def recurrence5ExceptionalNormalizedBlock1 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 9 (
     (1461586220 : ℚ)) +
   coefficientTerm 10 (
@@ -57,7 +57,7 @@ def recurrence5ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 17 (
     (-165270662414299 : ℚ))
 
-def recurrence5ExceptionalNormalizedBlock2 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock2 : Coefficient :=
   coefficientTerm 18 (
     (330344346226122 : ℚ)) +
   coefficientTerm 19 (
@@ -77,7 +77,7 @@ def recurrence5ExceptionalNormalizedBlock2 : Coefficient :=
   coefficientTerm 26 (
     (-154750981476043511 : ℚ))
 
-def recurrence5ExceptionalNormalizedBlock3 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock3 : Coefficient :=
   coefficientTerm 27 (
     (-619630231440505233 : ℚ)) +
   coefficientTerm 28 (
@@ -97,7 +97,7 @@ def recurrence5ExceptionalNormalizedBlock3 : Coefficient :=
   coefficientTerm 35 (
     (-67117380579095351 : ℚ))
 
-def recurrence5ExceptionalNormalizedBlock4 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock4 : Coefficient :=
   coefficientTerm 36 (
     (8839460863068784 : ℚ)) +
   coefficientTerm 37 (
@@ -117,7 +117,7 @@ def recurrence5ExceptionalNormalizedBlock4 : Coefficient :=
   coefficientTerm 44 (
     (-14865856326 : ℚ))
 
-def recurrence5ExceptionalNormalizedBlock5 : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalizedBlock5 : Coefficient :=
   coefficientTerm 45 (
     (880700012 : ℚ)) +
   coefficientTerm 46 (
@@ -131,7 +131,7 @@ def recurrence5ExceptionalNormalizedBlock5 : Coefficient :=
   coefficientTerm 50 (
     (1 : ℚ))
 
-def recurrence5ExceptionalNormalized : Coefficient :=
+/-- Internal datum. -/ def recurrence5ExceptionalNormalized : Coefficient :=
   recurrence5ExceptionalNormalizedBlock0 +
   recurrence5ExceptionalNormalizedBlock1 +
   recurrence5ExceptionalNormalizedBlock2 +

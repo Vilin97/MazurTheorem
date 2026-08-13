@@ -79,7 +79,7 @@ lemma three_nsmul_origin_eq_zero
 /-- Tate normalization retaining the discriminant and `c₄` scaling
 parameters. -/
 theorem exists_tateNormalCurve_scaled
-    (W : WeierstrassCurve ℚ) [W.IsElliptic]
+    (W : WeierstrassCurve ℚ)
     (P : W.toAffine.Point) (hP2 : P + P ≠ 0) (hP3 : P + P + P ≠ 0) :
     ∃ (b c u : ℚ) (_ : u ≠ 0) (_ : b ≠ 0)
       (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)

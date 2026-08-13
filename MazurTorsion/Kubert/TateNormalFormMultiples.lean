@@ -136,10 +136,10 @@ theorem nsmul_origin_eq_successiveCoordinates
 /-- Fraction-free numerator and denominator data for one pair of Tate
 recurrence coordinates. -/
 structure TateClearedCoordinateDatum where
-  xNum : ℚ
-  xDen : ℚ
-  yNum : ℚ
-  yDen : ℚ
+  /-- Numerator of the x-coordinate. -/ xNum : ℚ
+  /-- Denominator of the x-coordinate. -/ xDen : ℚ
+  /-- Numerator of the y-coordinate. -/ yNum : ℚ
+  /-- Denominator of the y-coordinate. -/ yDen : ℚ
 
 /-- One fraction-free step of the Tate recurrence.  No division occurs in
 this definition; its specification theorem records the nonzero inputs needed

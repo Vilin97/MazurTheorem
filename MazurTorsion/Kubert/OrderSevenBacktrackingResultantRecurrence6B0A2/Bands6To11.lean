@@ -25,7 +25,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6B0A2Band6 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band6 : Coefficient :=
   recurrence6B0A2Row0Band6 +
   recurrence6B0A2Row1Band6 +
   recurrence6B0A2Row2Band6 +
@@ -42,7 +42,7 @@ theorem recurrence6B0A2Band6_eq :
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block6
   ring
 
-def recurrence6B0A2Band7 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band7 : Coefficient :=
   recurrence6B0A2Row0Band7 +
   recurrence6B0A2Row1Band7 +
   recurrence6B0A2Row2Band7 +
@@ -60,7 +60,7 @@ theorem recurrence6B0A2Band7_eq :
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block7
   ring
 
-def recurrence6B0A2Band8 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band8 : Coefficient :=
   recurrence6B0A2Row0Band8 +
   recurrence6B0A2Row1Band8 +
   recurrence6B0A2Row2Band8 +
@@ -79,7 +79,7 @@ theorem recurrence6B0A2Band8_eq :
   unfold recurrence6B0A2Row8Band8 remainder7Coefficient0TimesRemainder6Coefficient2Block8
   ring
 
-def recurrence6B0A2Band9 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band9 : Coefficient :=
   recurrence6B0A2Row0Band9 +
   recurrence6B0A2Row1Band9 +
   recurrence6B0A2Row2Band9 +
@@ -100,7 +100,7 @@ theorem recurrence6B0A2Band9_eq :
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block9
   ring
 
-def recurrence6B0A2Band10 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band10 : Coefficient :=
   recurrence6B0A2Row0Band10 +
   recurrence6B0A2Row1Band10 +
   recurrence6B0A2Row2Band10 +
@@ -121,7 +121,7 @@ theorem recurrence6B0A2Band10_eq :
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block10
   ring
 
-def recurrence6B0A2Band11 : Coefficient :=
+/-- Internal datum. -/ def recurrence6B0A2Band11 : Coefficient :=
   recurrence6B0A2Row0Band11 +
   recurrence6B0A2Row1Band11 +
   recurrence6B0A2Row2Band11 +

@@ -29,7 +29,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1QuotientTerm1Band12 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band12 : Coefficient :=
   recurrence1QuotientTerm1Row0Band12 +
   recurrence1QuotientTerm1Row1Band12 +
   recurrence1QuotientTerm1Row2Band12 +
@@ -53,7 +53,7 @@ theorem recurrence1QuotientTerm1Band12_eq :
   unfold recurrence1QuotientTerm1Block12
   ring
 
-def recurrence1QuotientTerm1Band13 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band13 : Coefficient :=
   recurrence1QuotientTerm1Row0Band13 +
   recurrence1QuotientTerm1Row1Band13 +
   recurrence1QuotientTerm1Row2Band13 +
@@ -77,7 +77,7 @@ theorem recurrence1QuotientTerm1Band13_eq :
   unfold recurrence1QuotientTerm1Block13
   ring
 
-def recurrence1QuotientTerm1Band14 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band14 : Coefficient :=
   recurrence1QuotientTerm1Row1Band14 +
   recurrence1QuotientTerm1Row2Band14 +
   recurrence1QuotientTerm1Row3Band14 +
@@ -99,7 +99,7 @@ theorem recurrence1QuotientTerm1Band14_eq :
   unfold recurrence1QuotientTerm1Row10Band14 recurrence1QuotientTerm1Block14
   ring
 
-def recurrence1QuotientTerm1Band15 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band15 : Coefficient :=
   recurrence1QuotientTerm1Row2Band15 +
   recurrence1QuotientTerm1Row3Band15 +
   recurrence1QuotientTerm1Row4Band15 +
@@ -120,7 +120,7 @@ theorem recurrence1QuotientTerm1Band15_eq :
   unfold recurrence1QuotientTerm1Block15
   ring
 
-def recurrence1QuotientTerm1Band16 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band16 : Coefficient :=
   recurrence1QuotientTerm1Row3Band16 +
   recurrence1QuotientTerm1Row4Band16 +
   recurrence1QuotientTerm1Row5Band16 +
@@ -139,7 +139,7 @@ theorem recurrence1QuotientTerm1Band16_eq :
   unfold recurrence1QuotientTerm1Row10Band16 recurrence1QuotientTerm1Block16
   ring
 
-def recurrence1QuotientTerm1Band17 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band17 : Coefficient :=
   recurrence1QuotientTerm1Row4Band17 +
   recurrence1QuotientTerm1Row5Band17 +
   recurrence1QuotientTerm1Row6Band17 +
@@ -157,7 +157,7 @@ theorem recurrence1QuotientTerm1Band17_eq :
   unfold recurrence1QuotientTerm1Block17
   ring
 
-def recurrence1QuotientTerm1Band18 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band18 : Coefficient :=
   recurrence1QuotientTerm1Row5Band18 +
   recurrence1QuotientTerm1Row6Band18 +
   recurrence1QuotientTerm1Row7Band18 +
@@ -173,7 +173,7 @@ theorem recurrence1QuotientTerm1Band18_eq :
   unfold recurrence1QuotientTerm1Row10Band18 recurrence1QuotientTerm1Block18
   ring
 
-def recurrence1QuotientTerm1Band19 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band19 : Coefficient :=
   recurrence1QuotientTerm1Row6Band19 +
   recurrence1QuotientTerm1Row7Band19 +
   recurrence1QuotientTerm1Row8Band19 +
@@ -188,7 +188,7 @@ theorem recurrence1QuotientTerm1Band19_eq :
   unfold recurrence1QuotientTerm1Block19
   ring
 
-def recurrence1QuotientTerm1Band20 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band20 : Coefficient :=
   recurrence1QuotientTerm1Row7Band20 +
   recurrence1QuotientTerm1Row8Band20 +
   recurrence1QuotientTerm1Row9Band20 +
@@ -201,7 +201,7 @@ theorem recurrence1QuotientTerm1Band20_eq :
   unfold recurrence1QuotientTerm1Row10Band20 recurrence1QuotientTerm1Block20
   ring
 
-def recurrence1QuotientTerm1Band21 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band21 : Coefficient :=
   recurrence1QuotientTerm1Row8Band21 +
   recurrence1QuotientTerm1Row9Band21 +
   recurrence1QuotientTerm1Row10Band21
@@ -213,7 +213,7 @@ theorem recurrence1QuotientTerm1Band21_eq :
   unfold recurrence1QuotientTerm1Block21
   ring
 
-def recurrence1QuotientTerm1Band22 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band22 : Coefficient :=
   recurrence1QuotientTerm1Row9Band22 +
   recurrence1QuotientTerm1Row10Band22
 
@@ -223,7 +223,7 @@ theorem recurrence1QuotientTerm1Band22_eq :
   unfold recurrence1QuotientTerm1Row10Band22 recurrence1QuotientTerm1Block22
   ring
 
-def recurrence1QuotientTerm1Band23 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm1Band23 : Coefficient :=
   recurrence1QuotientTerm1Row10Band23
 
 theorem recurrence1QuotientTerm1Band23_eq :

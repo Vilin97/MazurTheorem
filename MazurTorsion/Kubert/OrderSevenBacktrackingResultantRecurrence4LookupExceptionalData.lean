@@ -21,7 +21,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 0 (
     (-1 : ℚ)) +
   coefficientTerm 1 (
@@ -41,7 +41,7 @@ def recurrence4ExceptionalNormalizedBlock0 : Coefficient :=
   coefficientTerm 8 (
     (-19802 : ℚ))
 
-def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 9 (
     (10514 : ℚ)) +
   coefficientTerm 10 (
@@ -53,7 +53,7 @@ def recurrence4ExceptionalNormalizedBlock1 : Coefficient :=
   coefficientTerm 13 (
     (1 : ℚ))
 
-def recurrence4ExceptionalNormalized : Coefficient :=
+/-- Internal datum. -/ def recurrence4ExceptionalNormalized : Coefficient :=
   recurrence4ExceptionalNormalizedBlock0 +
   recurrence4ExceptionalNormalizedBlock1
 

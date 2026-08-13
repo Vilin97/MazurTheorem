@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1QuotientTerm0Row6Band6 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band6 : Coefficient :=
   X ^ 54 * (
     (375694634511453033876416487803714570720578878726089) * X ^ 2 +
     (8263576392314176647461410208195253939634996837359692161) * X ^ 3 +
@@ -35,7 +35,7 @@ def recurrence1QuotientTerm0Row6Band6 : Coefficient :=
     (-1603445439472700111960758068703392233924449809077851278182173438682) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band7 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band7 : Coefficient :=
   X ^ 63 * (
     (661081012161359845479247492496286454888333498754172616462483548894) +
     (2223278384286746163274058838047175573581441499346225783108369870546851) * X ^ 1 +
@@ -49,7 +49,7 @@ def recurrence1QuotientTerm0Row6Band7 : Coefficient :=
       66310899982465031514038730387805576344291231398055849659231225184450807591401)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band8 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band8 : Coefficient :=
   X ^ 72 * (
     -((80 * 10 ^ 77 +
       05492196296597980874593841482081057024952761801245744068831265944107783830745)) +
@@ -71,7 +71,7 @@ def recurrence1QuotientTerm0Row6Band8 : Coefficient :=
       81960746561336596908696043836969236996023414620539354651939157530003821917461)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band9 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band9 : Coefficient :=
   X ^ 81 * (
     ((2399539850 * 10 ^ 77 +
       44611913095753600330123090075770397383564566299823385370288681057397621078357)) +
@@ -93,7 +93,7 @@ def recurrence1QuotientTerm0Row6Band9 : Coefficient :=
       74166579877227532271153121565881632624460191884159744311747790964243768762962)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band10 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band10 : Coefficient :=
   X ^ 90 * (
     ((33115962906051428 * 10 ^ 77 +
       33971677059074473744528505590085553193079224508118996831115333132538466735371)) +
@@ -115,7 +115,7 @@ def recurrence1QuotientTerm0Row6Band10 : Coefficient :=
       00313289634291214117271398450090190730178033988330230783846460102092693452161)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band11 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band11 : Coefficient :=
   X ^ 99 * (
     ((4708140671463346948261 * 10 ^ 77 +
       56411882170732845158423424614890542356248261915106503182476357983413476824149)) +
@@ -137,7 +137,7 @@ def recurrence1QuotientTerm0Row6Band11 : Coefficient :=
       85498055704339868380665339326280456957695857209145301338496054151567734984842)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band12 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band12 : Coefficient :=
   X ^ 108 * (
     ((7577618172142391555801401 * 10 ^ 77 +
       16381024243013588090177635574445540743882981847665867684972923135913394492674)) +
@@ -159,7 +159,7 @@ def recurrence1QuotientTerm0Row6Band12 : Coefficient :=
       33700506567690279164287520412654215501780745835739475219526038498614452007303)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band13 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band13 : Coefficient :=
   X ^ 117 * (
     ((293645569111017979299356312436 * 10 ^ 77 +
       35116939169845952835241424811824994253079085748110894343562096790717603611156)) +
@@ -181,7 +181,7 @@ def recurrence1QuotientTerm0Row6Band13 : Coefficient :=
       99004539518779608003563388312617283083717831645467909045999346505977812783659)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band14 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band14 : Coefficient :=
   X ^ 126 * (
     -((7997503883841636947591620934692 * 10 ^ 77 +
       46977809929637739958763424522220858754318334268527223315518119120984885386114)) +
@@ -203,7 +203,7 @@ def recurrence1QuotientTerm0Row6Band14 : Coefficient :=
       75210180132998088772434378669325719972007771978898105279436664123687087521773)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band15 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band15 : Coefficient :=
   X ^ 135 * (
     ((48310483858510438328589226144 * 10 ^ 77 +
       67405490595073512216260255575952894269880777108165813144161853109996637687533)) +
@@ -225,7 +225,7 @@ def recurrence1QuotientTerm0Row6Band15 : Coefficient :=
       21073925992887284406143629750359014250970674559101398693317242770191108756410)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band16 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band16 : Coefficient :=
   X ^ 144 * (
     ((26337926277099985560029995521 * 10 ^ 77 +
       74481224177145710795292300199766828228855314869351317250374099788604175832001)) +
@@ -247,7 +247,7 @@ def recurrence1QuotientTerm0Row6Band16 : Coefficient :=
       94811842496722155747138564314046165191432508545049355164662706456515667469901)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band17 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band17 : Coefficient :=
   X ^ 153 * (
     -((8448458432551716700533773 * 10 ^ 77 +
       53689943275847128718700648282343695112265168406059779148244973668313139180046)) +
@@ -269,7 +269,7 @@ def recurrence1QuotientTerm0Row6Band17 : Coefficient :=
       55573057805001424534781031300485624137972940368421647842422295475913155603154)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band18 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band18 : Coefficient :=
   X ^ 162 * (
     -((2457160708027895739 * 10 ^ 77 +
       41460099847281727595441077270282302699122842173244009030905735513732744578414)) +
@@ -291,7 +291,7 @@ def recurrence1QuotientTerm0Row6Band18 : Coefficient :=
       09510570003515972166051357923186744713130523155167278966948424630746575767132)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band19 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band19 : Coefficient :=
   X ^ 171 * (
     ((614477270 * 10 ^ 77 +
       77923784428478799646424901518660549702601624984028156408674123259841161299263)) +
@@ -308,12 +308,12 @@ def recurrence1QuotientTerm0Row6Band19 : Coefficient :=
     (-15145258753292435952832710854180313334152803004519923521317232) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row6Band20 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6Band20 : Coefficient :=
   X ^ 180 * (
     (-224749329538410247831413723503307093784308104069528781)
   )
 
-def recurrence1QuotientTerm0Row6 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row6 : Coefficient :=
   recurrence1QuotientTerm0Row6Band6 +
   recurrence1QuotientTerm0Row6Band7 +
   recurrence1QuotientTerm0Row6Band8 +
@@ -349,7 +349,7 @@ theorem recurrence1QuotientTerm0Row6_eq :
   unfold recurrence1QuotientTerm0Row6Band20
   ring
 
-def recurrence1QuotientTerm0Row7Band7 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band7 : Coefficient :=
   X ^ 63 * (
     (-6371521745023138116146337227512796702426340140950702) * X ^ 2 +
     (-140155404711381025113400089249627100078522143762458618824) * X ^ 3 +
@@ -360,7 +360,7 @@ def recurrence1QuotientTerm0Row7Band7 : Coefficient :=
     (27087903431841408687023179031457647387314722584407809244966217580397) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band8 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band8 : Coefficient :=
   X ^ 72 * (
     (34989984401082923327428198501946527944936650750067566772788108272992) +
     (-37668685210364414092271409379406410596140131760292051468955668580218359) * X ^ 1 +
@@ -376,7 +376,7 @@ def recurrence1QuotientTerm0Row7Band8 : Coefficient :=
       67609785656749556661654751524493817126443197351781787121562137720859931464684)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band9 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band9 : Coefficient :=
   X ^ 81 * (
     ((1720 * 10 ^ 77 +
       60345608488905986520270677500840458183601366492629180615108521701295070958640)) +
@@ -398,7 +398,7 @@ def recurrence1QuotientTerm0Row7Band9 : Coefficient :=
       63967363032908644096045540356693855385599818890556681853220611563561473814430)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band10 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band10 : Coefficient :=
   X ^ 90 * (
     ((56762929447 * 10 ^ 77 +
       24729995138881622481201581038462176745773309352963551124709544561332602657318)) +
@@ -420,7 +420,7 @@ def recurrence1QuotientTerm0Row7Band10 : Coefficient :=
       00681112879180540389437100645027573539946993387253337825637365193536909134271)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band11 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band11 : Coefficient :=
   X ^ 99 * (
     -((756607753438796535 * 10 ^ 77 +
       29540472046022451042291751377323388394469158016389947180400502872689626615772)) +
@@ -442,7 +442,7 @@ def recurrence1QuotientTerm0Row7Band11 : Coefficient :=
       81085475713618188752056674301101635399635174313659925168969788548730718683221)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band12 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band12 : Coefficient :=
   X ^ 108 * (
     ((6751739540662468271151 * 10 ^ 77 +
       43844577750510584448529741870603781675059375405058479406539287785032486354559)) +
@@ -464,7 +464,7 @@ def recurrence1QuotientTerm0Row7Band12 : Coefficient :=
       30587034638249362326912880676024582204839801376484535683300168294001897358227)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band13 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band13 : Coefficient :=
   X ^ 117 * (
     ((959709098164993449435300790 * 10 ^ 77 +
       74025622060701012538734641476968226736037195060164606880485237357385162223541)) +
@@ -486,7 +486,7 @@ def recurrence1QuotientTerm0Row7Band13 : Coefficient :=
       29710156096162787406407084698288252394839802604614260780957516283525970874386)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band14 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band14 : Coefficient :=
   X ^ 126 * (
     -((1861812586083909592079230594306 * 10 ^ 77 +
       16389351402753692243929740754197216042004948592986137606993459778836414197974)) +
@@ -508,7 +508,7 @@ def recurrence1QuotientTerm0Row7Band14 : Coefficient :=
       99729493421428163517564499206770495174467030261969870624435084433882490996698)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band15 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band15 : Coefficient :=
   X ^ 135 * (
     ((5743930622934624018525855672635 * 10 ^ 77 +
       62365606156903955944850849877586356176640829945761212529983923434483403869398)) +
@@ -530,7 +530,7 @@ def recurrence1QuotientTerm0Row7Band15 : Coefficient :=
       13617856910524306249200314565875474074599632666815047874353045453742045369283)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band16 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band16 : Coefficient :=
   X ^ 144 * (
     ((226355160263763880982751237807 * 10 ^ 77 +
       32183939289089585420596279946677707641591090115263121107076244114682601839442)) +
@@ -552,7 +552,7 @@ def recurrence1QuotientTerm0Row7Band16 : Coefficient :=
       57633517448313211194347140386899336695793061271437199051004850722648716274430)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band17 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band17 : Coefficient :=
   X ^ 153 * (
     ((1141829179689574749573310964 * 10 ^ 77 +
       18775664150824097274950277132362124333074588508408184043725768531775967701112)) +
@@ -574,7 +574,7 @@ def recurrence1QuotientTerm0Row7Band17 : Coefficient :=
       35998486526150713649541897817064867962198752383219801036177141294943201116597)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band18 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band18 : Coefficient :=
   X ^ 162 * (
     ((366651966700774460688811 * 10 ^ 77 +
       43612156753614325129125744747468229586711410827695877170786052556419613197427)) +
@@ -596,7 +596,7 @@ def recurrence1QuotientTerm0Row7Band18 : Coefficient :=
       99860501278392576816051620541330725155024019927500229151105433281245339416211)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band19 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band19 : Coefficient :=
   X ^ 171 * (
     ((102269931906437320 * 10 ^ 77 +
       37773531616609052569174208588793536080819820500733883230878517843035425678456)) +
@@ -618,7 +618,7 @@ def recurrence1QuotientTerm0Row7Band19 : Coefficient :=
       54621078288732193149036925167787208936414512541277422319033664625926737870806)) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band20 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band20 : Coefficient :=
   X ^ 180 * (
     -((24891144 * 10 ^ 77 +
       23237743971524678059422512086952013397435444532232053769089828088417158216761)) +
@@ -635,12 +635,12 @@ def recurrence1QuotientTerm0Row7Band20 : Coefficient :=
     (614817332381061798302923459768159309195170817920869709187890) * X ^ 8
   )
 
-def recurrence1QuotientTerm0Row7Band21 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7Band21 : Coefficient :=
   X ^ 189 * (
     (9123633070883423400028623975805666177072525999065228)
   )
 
-def recurrence1QuotientTerm0Row7 : Coefficient :=
+/-- Internal datum. -/ def recurrence1QuotientTerm0Row7 : Coefficient :=
   recurrence1QuotientTerm0Row7Band7 +
   recurrence1QuotientTerm0Row7Band8 +
   recurrence1QuotientTerm0Row7Band9 +

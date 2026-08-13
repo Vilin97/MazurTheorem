@@ -28,7 +28,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1ShiftTerm1Band12 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band12 : Coefficient :=
   recurrence1ShiftTerm1Row0Band12 +
   recurrence1ShiftTerm1Row1Band12 +
   recurrence1ShiftTerm1Row2Band12 +
@@ -51,7 +51,7 @@ theorem recurrence1ShiftTerm1Band12_eq :
   unfold recurrence1ShiftTerm1Row10Band12 recurrence1ShiftTerm1Block12
   ring
 
-def recurrence1ShiftTerm1Band13 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band13 : Coefficient :=
   recurrence1ShiftTerm1Row0Band13 +
   recurrence1ShiftTerm1Row1Band13 +
   recurrence1ShiftTerm1Row2Band13 +
@@ -74,7 +74,7 @@ theorem recurrence1ShiftTerm1Band13_eq :
   unfold recurrence1ShiftTerm1Row10Band13 recurrence1ShiftTerm1Block13
   ring
 
-def recurrence1ShiftTerm1Band14 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band14 : Coefficient :=
   recurrence1ShiftTerm1Row0Band14 +
   recurrence1ShiftTerm1Row1Band14 +
   recurrence1ShiftTerm1Row2Band14 +
@@ -97,7 +97,7 @@ theorem recurrence1ShiftTerm1Band14_eq :
   unfold recurrence1ShiftTerm1Row10Band14 recurrence1ShiftTerm1Block14
   ring
 
-def recurrence1ShiftTerm1Band15 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band15 : Coefficient :=
   recurrence1ShiftTerm1Row1Band15 +
   recurrence1ShiftTerm1Row2Band15 +
   recurrence1ShiftTerm1Row3Band15 +
@@ -119,7 +119,7 @@ theorem recurrence1ShiftTerm1Band15_eq :
   unfold recurrence1ShiftTerm1Block15
   ring
 
-def recurrence1ShiftTerm1Band16 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band16 : Coefficient :=
   recurrence1ShiftTerm1Row2Band16 +
   recurrence1ShiftTerm1Row3Band16 +
   recurrence1ShiftTerm1Row4Band16 +
@@ -139,7 +139,7 @@ theorem recurrence1ShiftTerm1Band16_eq :
   unfold recurrence1ShiftTerm1Row10Band16 recurrence1ShiftTerm1Block16
   ring
 
-def recurrence1ShiftTerm1Band17 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band17 : Coefficient :=
   recurrence1ShiftTerm1Row3Band17 +
   recurrence1ShiftTerm1Row4Band17 +
   recurrence1ShiftTerm1Row5Band17 +
@@ -158,7 +158,7 @@ theorem recurrence1ShiftTerm1Band17_eq :
   unfold recurrence1ShiftTerm1Block17
   ring
 
-def recurrence1ShiftTerm1Band18 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band18 : Coefficient :=
   recurrence1ShiftTerm1Row4Band18 +
   recurrence1ShiftTerm1Row5Band18 +
   recurrence1ShiftTerm1Row6Band18 +
@@ -175,7 +175,7 @@ theorem recurrence1ShiftTerm1Band18_eq :
   unfold recurrence1ShiftTerm1Row10Band18 recurrence1ShiftTerm1Block18
   ring
 
-def recurrence1ShiftTerm1Band19 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band19 : Coefficient :=
   recurrence1ShiftTerm1Row5Band19 +
   recurrence1ShiftTerm1Row6Band19 +
   recurrence1ShiftTerm1Row7Band19 +
@@ -191,7 +191,7 @@ theorem recurrence1ShiftTerm1Band19_eq :
   unfold recurrence1ShiftTerm1Block19
   ring
 
-def recurrence1ShiftTerm1Band20 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band20 : Coefficient :=
   recurrence1ShiftTerm1Row6Band20 +
   recurrence1ShiftTerm1Row7Band20 +
   recurrence1ShiftTerm1Row8Band20 +
@@ -205,7 +205,7 @@ theorem recurrence1ShiftTerm1Band20_eq :
   unfold recurrence1ShiftTerm1Row10Band20 recurrence1ShiftTerm1Block20
   ring
 
-def recurrence1ShiftTerm1Band21 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band21 : Coefficient :=
   recurrence1ShiftTerm1Row7Band21 +
   recurrence1ShiftTerm1Row8Band21 +
   recurrence1ShiftTerm1Row9Band21 +
@@ -218,7 +218,7 @@ theorem recurrence1ShiftTerm1Band21_eq :
   unfold recurrence1ShiftTerm1Block21
   ring
 
-def recurrence1ShiftTerm1Band22 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band22 : Coefficient :=
   recurrence1ShiftTerm1Row8Band22 +
   recurrence1ShiftTerm1Row9Band22 +
   recurrence1ShiftTerm1Row10Band22
@@ -229,7 +229,7 @@ theorem recurrence1ShiftTerm1Band22_eq :
   unfold recurrence1ShiftTerm1Row10Band22 recurrence1ShiftTerm1Block22
   ring
 
-def recurrence1ShiftTerm1Band23 : Coefficient :=
+/-- Internal datum. -/ def recurrence1ShiftTerm1Band23 : Coefficient :=
   recurrence1ShiftTerm1Row9Band23 +
   recurrence1ShiftTerm1Row10Band23
 

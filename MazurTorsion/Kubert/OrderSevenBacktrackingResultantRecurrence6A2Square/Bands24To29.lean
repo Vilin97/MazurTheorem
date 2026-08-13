@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6A2SquareBand24 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand24 : Coefficient :=
   recurrence6A2SquareRow7Band24 +
   recurrence6A2SquareRow8Band24 +
   recurrence6A2SquareRow9Band24 +
@@ -45,7 +45,7 @@ theorem recurrence6A2SquareBand24_eq :
   unfold recurrence6A2SquareRow16Band24 remainder6Coefficient2SquareBlock24
   ring
 
-def recurrence6A2SquareBand25 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand25 : Coefficient :=
   recurrence6A2SquareRow8Band25 +
   recurrence6A2SquareRow9Band25 +
   recurrence6A2SquareRow10Band25 +
@@ -65,7 +65,7 @@ theorem recurrence6A2SquareBand25_eq :
   unfold recurrence6A2SquareRow16Band25 remainder6Coefficient2SquareBlock25
   ring
 
-def recurrence6A2SquareBand26 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand26 : Coefficient :=
   recurrence6A2SquareRow9Band26 +
   recurrence6A2SquareRow10Band26 +
   recurrence6A2SquareRow11Band26 +
@@ -84,7 +84,7 @@ theorem recurrence6A2SquareBand26_eq :
   unfold remainder6Coefficient2SquareBlock26
   ring
 
-def recurrence6A2SquareBand27 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand27 : Coefficient :=
   recurrence6A2SquareRow10Band27 +
   recurrence6A2SquareRow11Band27 +
   recurrence6A2SquareRow12Band27 +
@@ -101,7 +101,7 @@ theorem recurrence6A2SquareBand27_eq :
   unfold recurrence6A2SquareRow16Band27 remainder6Coefficient2SquareBlock27
   ring
 
-def recurrence6A2SquareBand28 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand28 : Coefficient :=
   recurrence6A2SquareRow11Band28 +
   recurrence6A2SquareRow12Band28 +
   recurrence6A2SquareRow13Band28 +
@@ -117,7 +117,7 @@ theorem recurrence6A2SquareBand28_eq :
   unfold remainder6Coefficient2SquareBlock28
   ring
 
-def recurrence6A2SquareBand29 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand29 : Coefficient :=
   recurrence6A2SquareRow12Band29 +
   recurrence6A2SquareRow13Band29 +
   recurrence6A2SquareRow14Band29 +

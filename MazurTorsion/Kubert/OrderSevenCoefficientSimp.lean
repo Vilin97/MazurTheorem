@@ -16,10 +16,10 @@ order-seven coefficient certificates.
 
 public meta section
 
-register_simp_attr orderSevenCoefficient
+/-- Simplifier for order-seven coefficient expressions. -/ register_simp_attr orderSevenCoefficient
 
 /-- Normalize the bounded convolution blocks used by order-seven coefficient certificates. -/
-macro "order_seven_normalize_coefficient_sum" : tactic =>
+macro (name := orderSevenNormalizeCoeffSum) "order_seven_normalize_coefficient_sum" : tactic =>
   do
     let stx ← `(tactic|
       (first

@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6Term3Band6 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band6 : Coefficient :=
   recurrence6Term3Row0Band6 +
   recurrence6Term3Row1Band6 +
   recurrence6Term3Row2Band6 +
@@ -36,7 +36,7 @@ theorem recurrence6Term3Band6_eq :
   unfold recurrence6Term3Row2Band6 recurrence6Term3Row3Band6 normalizedResidual6Term3Block6
   ring
 
-def recurrence6Term3Band7 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band7 : Coefficient :=
   recurrence6Term3Row0Band7 +
   recurrence6Term3Row1Band7 +
   recurrence6Term3Row2Band7 +
@@ -48,7 +48,7 @@ theorem recurrence6Term3Band7_eq :
   unfold recurrence6Term3Row2Band7 recurrence6Term3Row3Band7 normalizedResidual6Term3Block7
   ring
 
-def recurrence6Term3Band8 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band8 : Coefficient :=
   recurrence6Term3Row0Band8 +
   recurrence6Term3Row1Band8 +
   recurrence6Term3Row2Band8 +
@@ -60,7 +60,7 @@ theorem recurrence6Term3Band8_eq :
   unfold recurrence6Term3Row2Band8 recurrence6Term3Row3Band8 normalizedResidual6Term3Block8
   ring
 
-def recurrence6Term3Band9 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band9 : Coefficient :=
   recurrence6Term3Row0Band9 +
   recurrence6Term3Row1Band9 +
   recurrence6Term3Row2Band9 +
@@ -72,7 +72,7 @@ theorem recurrence6Term3Band9_eq :
   unfold recurrence6Term3Row2Band9 recurrence6Term3Row3Band9 normalizedResidual6Term3Block9
   ring
 
-def recurrence6Term3Band10 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band10 : Coefficient :=
   recurrence6Term3Row0Band10 +
   recurrence6Term3Row1Band10 +
   recurrence6Term3Row2Band10 +
@@ -84,7 +84,7 @@ theorem recurrence6Term3Band10_eq :
   unfold recurrence6Term3Row2Band10 recurrence6Term3Row3Band10 normalizedResidual6Term3Block10
   ring
 
-def recurrence6Term3Band11 : Coefficient :=
+/-- Internal datum. -/ def recurrence6Term3Band11 : Coefficient :=
   recurrence6Term3Row0Band11 +
   recurrence6Term3Row1Band11 +
   recurrence6Term3Row2Band11 +

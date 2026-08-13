@@ -22,7 +22,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6A2SquareBand30 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand30 : Coefficient :=
   recurrence6A2SquareRow13Band30 +
   recurrence6A2SquareRow14Band30 +
   recurrence6A2SquareRow15Band30 +
@@ -35,7 +35,7 @@ theorem recurrence6A2SquareBand30_eq :
   unfold remainder6Coefficient2SquareBlock30
   ring
 
-def recurrence6A2SquareBand31 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand31 : Coefficient :=
   recurrence6A2SquareRow14Band31 +
   recurrence6A2SquareRow15Band31 +
   recurrence6A2SquareRow16Band31
@@ -46,7 +46,7 @@ theorem recurrence6A2SquareBand31_eq :
   unfold recurrence6A2SquareRow16Band31 remainder6Coefficient2SquareBlock31
   ring
 
-def recurrence6A2SquareBand32 : Coefficient :=
+/-- Internal datum. -/ def recurrence6A2SquareBand32 : Coefficient :=
   recurrence6A2SquareRow15Band32 +
   recurrence6A2SquareRow16Band32
 
