@@ -24,732 +24,725 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
+local macro "rat% " t:term:max : term => do
+  return ⟨← t.raw.rewriteBottomUpM fun stx => do
+    match stx with
+    | `($a + $b) => `(HAdd.hAdd (self := @instHAdd ℚ Rat.instAdd) $a $b)
+    | `($a - $b) => `(HSub.hSub (self := @instHSub ℚ Rat.instSub) $a $b)
+    | `($a * $b) => `(HMul.hMul (self := @instHMul ℚ Rat.instMul) $a $b)
+    | `($a ^ $b) => `(HPow.hPow (self := @instHPow ℚ ℕ Rat.instPowNat) $a $b)
+    | `(-$a) => `(Neg.neg (self := Rat.instNeg) $a)
+    | _ => pure stx⟩
+
+local macro "ratC% " t:term:max : term => `(C (rat% $t))
+
 def recurrence6Content6 : Coefficient :=
-  C (
+  ratC% (
     (169974242287568876381639744907962243436895047572089)
   )
 
 def recurrence6Content7 : Coefficient :=
-  C (
+  ratC% (
     ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
       76164207728007698297318822544326745362653178990742192636567850547586675788100))
   )
 
 def remainder6Coefficient0AlignedChunk0 : Coefficient :=
-  C (
+  ratC% (
     (-1011392369)
   ) * X ^ 153 +
-  C (
+  ratC% (
     (-40522055413147560)
   ) * X ^ 152 +
-  C (
+  ratC% (
     (-43357899036499587396088)
   ) * X ^ 151 +
-  C (
+  ratC% (
     (-2933260314236696862010807052)
   ) * X ^ 150 +
-  C (
+  ratC% (
     (-25060547349737891843516424822013)
   ) * X ^ 149 +
-  C (
+  ratC% (
     (-37303409421719864169581552912054227)
   ) * X ^ 148 +
-  C (
+  ratC% (
     (-6664154253035422565434310513723014473)
   ) * X ^ 147 +
-  C (
+  ratC% (
     (8134043698377643468887670751448365521145)
   ) * X ^ 146
 
 theorem remainder6Coefficient0Chunk0_normalized :
     remainder6Coefficient0Chunk0 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk0 := by
   unfold remainder6Coefficient0Chunk0 remainder6Coefficient0AlignedChunk0
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk1 : Coefficient :=
-  C (
+  ratC% (
     (4097015695492371739826329824989209203367262)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (720497376836365789771706356156031624629128769)
   ) * X ^ 144 +
-  C (
+  ratC% (
     (51180106368914433882879910916647390729071029891)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (1124513794129348728267163654844646077985631241883)
   ) * X ^ 142 +
-  C (
+  ratC% (
     (-5936880140781240810156398491591308405122099790362)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (-225637739201328317741010866003929708465314470308722)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (1640763020833435260328793390724491197677689490448216)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (13830510745960661250169911443628707195581541111929709)
   ) * X ^ 138
 
 theorem remainder6Coefficient0Chunk1_normalized :
     remainder6Coefficient0Chunk1 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk1 := by
   unfold remainder6Coefficient0Chunk1 remainder6Coefficient0AlignedChunk1
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk2 : Coefficient :=
-  C (
+  ratC% (
     (-222308451621338922645283676695166015302402257964224032)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (816990963221813020303938577140743131751025606122261243)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (4026282148141467705170099569081456097602533694427138661)
   ) * X ^ 135 +
-  C (
+  ratC% (
     (-57552519342706272011320757210885952062399753522898777293)
   ) * X ^ 134 +
-  C (
+  ratC% (
     (283068179503719821855505984060517063926743570210527486177)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (-577831655991145443155503224347531013768994337594877967975)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (-1340676479236975758305973107443056024481803453846874024787)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (14737496869073084554441130110488277083264282977945034116736)
   ) * X ^ 130
 
 theorem remainder6Coefficient0Chunk2_normalized :
     remainder6Coefficient0Chunk2 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk2 := by
   unfold remainder6Coefficient0Chunk2 remainder6Coefficient0AlignedChunk2
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk3 : Coefficient :=
-  C (
+  ratC% (
     (-55812988878064651281148901532524626925833772159512955627475)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (101287261705211680714786891227418204256889070569152114806074)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (130982579903240765417375702458498174726941234716845798435143)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (-1945003450859942963112730481004571549088919809472086871202644)
   ) * X ^ 126 +
-  C (
+  ratC% (
     (10347453433811738528846818765759791952152581534393754863127527)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (-44347179746999303988880195852121399298887756271258345800035365)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (177107049544246693846855416600967564066668496291718172982442749)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (-683948145007249207480741614259191587024219461518624069201391001)
   ) * X ^ 122
 
 theorem remainder6Coefficient0Chunk3_normalized :
     remainder6Coefficient0Chunk3 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk3 := by
   unfold remainder6Coefficient0Chunk3 remainder6Coefficient0AlignedChunk3
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk4 : Coefficient :=
-  C (
+  ratC% (
     (2545619644684482349778253624086694121572974399965599769903315289)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (-9024028921481459143513157150260613552446104273247394921552753269)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (30230164930986946515501580891314415596147578805994315261142346551)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (-95475758097507866726704886158097911054010900026621961356474800657)
   ) * X ^ 118 +
-  C (
+  ratC% (
     (284572048520790161747867067653159683583605123803668615266361278282)
   ) * X ^ 117 +
-  C (
+  ratC% (
     (-801736654814831697663473731435640246076164991577064501458818322033)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (2134009579672437968266076458952013278406161261156561478352677566381)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (-5340313645384165522578420825538151081303016019270165657699620124704)
   ) * X ^ 114
 
 theorem remainder6Coefficient0Chunk4_normalized :
     remainder6Coefficient0Chunk4 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk4 := by
   unfold remainder6Coefficient0Chunk4 remainder6Coefficient0AlignedChunk4
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk5 : Coefficient :=
-  C (
+  ratC% (
     (12429560138297595750618316871422846498970026649655343782777785410577)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (-26439403366827283330035126193717411602605103063506899647247522966940)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (50135793353567503772334682367151217445778386018634869405431073906627)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (-82116010063530562431376667223111858093587101561054837957666844741538)
   ) * X ^ 110 +
-  C (
+  ratC% (
     (113784340466023931159372435942159119116782709064237669047174751434782)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-151378794284688977786346268658924635999399999001512239530092701999652)
   ) * X ^ 108 +
-  C (
+  ratC% (
     (341926636285394821656590124076347399751475109665602989075348866655918)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (-1377013538023343304701099922666635574441870442577548381106663394191357)
   ) * X ^ 106
 
 theorem remainder6Coefficient0Chunk5_normalized :
     remainder6Coefficient0Chunk5 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk5 := by
   unfold remainder6Coefficient0Chunk5 remainder6Coefficient0AlignedChunk5
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk6 : Coefficient :=
-  C (
+  ratC% (
     (5416256180972067931054502273201765896117706856094036839943958091349572)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (-17545452742618046214240102261457447190819626087925101084449011155586183)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (46625939257369784804709730759269726034927452396474106929056969223221053)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (-101216207450908943062709031002806485938451641746790532254608755438213005)
   ) * X ^ 102 +
-  C (
+  ratC% (
     (169787803235078759965615472022962309416701331772858821337714508908805445)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (-164172175371069243083946798858660354620943731868351609635849480710691304)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (-207198676461531209722605302324841454664279495368127177600761149689819128)
   ) * X ^ 99 +
-  C (
+  ratC% (
     (1678597925521666946770423760483295141388284533947356612541857443563953005)
   ) * X ^ 98
 
 theorem remainder6Coefficient0Chunk6_normalized :
     remainder6Coefficient0Chunk6 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk6 := by
   unfold remainder6Coefficient0Chunk6 remainder6Coefficient0AlignedChunk6
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk7 : Coefficient :=
-  C (
+  ratC% (
     (-5817193373733355484634679073060368933508223937618997455437257022202046937)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (15575183430254181180266840763854538349123695565673787040826472501300325175)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (-35958743799361079271860315284927414366121322246179992776404506055968021188)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (74686854708838169491962329458287166626421791383227845204643700470818831188)
   ) * X ^ 94 +
-  C (
+  ratC% (
     (-142613186365378194328407917696411683613162442336129519185594713455470654074)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (253556602755365319437975646475871630463966601757880207770742267625765463172)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (-422964667520188572793516394408187459784374000947925428135008496849169275837)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (664348043991404757737751759341033420931671374205909294849306566472229667478)
   ) * X ^ 90
 
 theorem remainder6Coefficient0Chunk7_normalized :
     remainder6Coefficient0Chunk7 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk7 := by
   unfold remainder6Coefficient0Chunk7 remainder6Coefficient0AlignedChunk7
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk8 : Coefficient :=
-  C (
+  ratC% (
     (-981346173880035163281013596250976630638245593758250177364979492027874338528)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (1351109114410062472798262768549720862576457823721927412513916267262759157234)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (-1690763163937098425353747003911103313706818481378191876129035947782545590108)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (1792536932681484400828428421739275411415961378474689229100469000513173574081)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (-1204917400611311440410714435017694629183255039111578284576236897573238542372)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (-970686679352772456859953502598346683265853006798066131213438854300546633280)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (6399821759815699892919438927619779919695880663357279901817760188396095132030)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (-17967953562319479056600332328567053971138009773559803690769998534029800801389)
   ) * X ^ 82
 
 theorem remainder6Coefficient0Chunk8_normalized :
     remainder6Coefficient0Chunk8 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk8 := by
   unfold remainder6Coefficient0Chunk8 remainder6Coefficient0AlignedChunk8
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk9 : Coefficient :=
-  C (
+  ratC% (
     (40337252253282015571674701187933301311140663621872424808515871928112022548988)
   ) * X ^ 81 +
-  C (
+  ratC% (
     (-80492923210909132715322554862368536014003821208897369311846451120968998318110)
   ) * X ^ 80 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       48048283923981963418198740441041830233461475782619199143134761952340004213071))
   ) * X ^ 79 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       54966723212355820275169911415431778893476694309027362591224234808773830967451))
   ) * X ^ 78 +
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       14322567044375904598794105651654387396470324235213132502861736855910763987521))
   ) * X ^ 77 +
-  C (
+  ratC% (
     -((6 * 10 ^ 77 +
       37845643585976983903940363733681304594372800680303068027352189921163156936848))
   ) * X ^ 76 +
-  C (
+  ratC% (
     ((9 * 10 ^ 77 +
       32330309775517323513619269626911780219861871638903341293518326419523549703156))
   ) * X ^ 75 +
-  C (
+  ratC% (
     -((12 * 10 ^ 77 +
       95506327055469324669707620172626555351388010166514906357964981876760610781051))
   ) * X ^ 74
 
 theorem remainder6Coefficient0Chunk9_normalized :
     remainder6Coefficient0Chunk9 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk9 := by
   unfold remainder6Coefficient0Chunk9 remainder6Coefficient0AlignedChunk9
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk10 : Coefficient :=
-  C (
+  ratC% (
     ((17 * 10 ^ 77 +
       12509308981423174148559045734317620336699095849059871863975476063725189414819))
   ) * X ^ 73 +
-  C (
+  ratC% (
     -((21 * 10 ^ 77 +
       54393515148750513758319881802771527392867530812501680289049294341475767428977))
   ) * X ^ 72 +
-  C (
+  ratC% (
     ((25 * 10 ^ 77 +
       79940045186505490211634798756486209374068017172104549890913891523742426461907))
   ) * X ^ 71 +
-  C (
+  ratC% (
     -((29 * 10 ^ 77 +
       41220707790031495418525014537673251371166115301400130882612784234467806042798))
   ) * X ^ 70 +
-  C (
+  ratC% (
     ((31 * 10 ^ 77 +
       92147060485488360062351476665113970451975793922961423828860052581891608874441))
   ) * X ^ 69 +
-  C (
+  ratC% (
     -((32 * 10 ^ 77 +
       98003847329494159213609899689437300272166935870430565047032091661324257183532))
   ) * X ^ 68 +
-  C (
+  ratC% (
     ((32 * 10 ^ 77 +
       43285237983489714435455849905839076149500773140475032255741232123509975260325))
   ) * X ^ 67 +
-  C (
+  ratC% (
     -((30 * 10 ^ 77 +
       35411663882540188911277372933463928291555825671112130220410811610445562568935))
   ) * X ^ 66
 
 theorem remainder6Coefficient0Chunk10_normalized :
     remainder6Coefficient0Chunk10 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk10 := by
   unfold remainder6Coefficient0Chunk10 remainder6Coefficient0AlignedChunk10
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk11 : Coefficient :=
-  C (
+  ratC% (
     ((27 * 10 ^ 77 +
       03105768678533635523535841399460155729451026608005577779122340748460062607032))
   ) * X ^ 65 +
-  C (
+  ratC% (
     -((22 * 10 ^ 77 +
       89911919515664900278569550335607414159947655140561197842631959681397740739861))
   ) * X ^ 64 +
-  C (
+  ratC% (
     ((18 * 10 ^ 77 +
       44868666275354091857720188415860894135868244701147366964087241202479965634477))
   ) * X ^ 63 +
-  C (
+  ratC% (
     -((14 * 10 ^ 77 +
       13081697674865031621327483674899470569511318626878716269964689502101852645569))
   ) * X ^ 62 +
-  C (
+  ratC% (
     ((10 * 10 ^ 77 +
       28660334170862935799631389057289175919127757056111761750980854515928970840693))
   ) * X ^ 61 +
-  C (
+  ratC% (
     -((7 * 10 ^ 77 +
       11394961114763764127838948606762174978698276344646419092041176614967080652490))
   ) * X ^ 60 +
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       67194691280881093107602188921976763386503147027234077372335317183313066735825))
   ) * X ^ 59 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       91226071424822681438978993491642365713211383776578996141797291061722346829263))
   ) * X ^ 58
 
 theorem remainder6Coefficient0Chunk11_normalized :
     remainder6Coefficient0Chunk11 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk11 := by
   unfold remainder6Coefficient0Chunk11 remainder6Coefficient0AlignedChunk11
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk12 : Coefficient :=
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       72221305319726187974004423635930436081142334473715014951658805093295584912203))
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-96566898707070892918891992480230488538373209191162881713133448413301144674808)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (51309255971084979629236552066002526165259121981968793745455403122078625136121)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-25817269702525381050170855115721590876743208575406070748456327894812777284085)
   ) * X ^ 54 +
-  C (
+  ratC% (
     (12293404263488571815399245720967100396380869661207232141785311018865734956175)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-5535531165148300764096941087556367478395977897521314034829050134243956751268)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (2355193328929799673796823469373243375245270396160727785727254900653899353937)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-946028875683670870702756021917817705294566717197833637548353323792240675677)
   ) * X ^ 50
 
 theorem remainder6Coefficient0Chunk12_normalized :
     remainder6Coefficient0Chunk12 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk12 := by
   unfold remainder6Coefficient0Chunk12 remainder6Coefficient0AlignedChunk12
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk13 : Coefficient :=
-  C (
+  ratC% (
     (358424371257014941723911027203263248698377030210445814107859814426165650040)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-127962769290676924112499727689249735910659015306852475584421051166851636813)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (43004288180271341127781531973045370762557115370986631387207685626250791575)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-13589418326705664794241746609157525387101983280059762419346260406432588599)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (4033091602968277891973759826873793594893764947604035786087347057513839932)
   ) * X ^ 45 +
-  C (
+  ratC% (
     (-1122734406218109102926369065616969290156733609125655144332612777271598742)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (292776335160758944506414138344481132322015103371606168441371704504445113)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-71416065383264343368784881041854645515379822727547348101512025031984824)
   ) * X ^ 42
 
 theorem remainder6Coefficient0Chunk13_normalized :
     remainder6Coefficient0Chunk13 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk13 := by
   unfold remainder6Coefficient0Chunk13 remainder6Coefficient0AlignedChunk13
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk14 : Coefficient :=
-  C (
+  ratC% (
     (16270416454357962288785922171328893684810718871206659392540577260356521)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-3456564908724007688151225542452292332956752565415598341475749344857011)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (683582777734139380785549907815406681760868218662011826554399673825441)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-125617229248398279602004320980136554273041496827869743064360102562866)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (21408305798650414593324049329374355372457082749990166919483809054562)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-3376782671986707868145283738173274303862985995308034390078626962660)
   ) * X ^ 36 +
-  C (
+  ratC% (
     (491893566350154056575952694430099216205781056310392829330682352156)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-66022168831533641230051983962421643804472664761487135445260519375)
   ) * X ^ 34
 
 theorem remainder6Coefficient0Chunk14_normalized :
     remainder6Coefficient0Chunk14 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk14 := by
   unfold remainder6Coefficient0Chunk14 remainder6Coefficient0AlignedChunk14
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk15 : Coefficient :=
-  C (
+  ratC% (
     (8145226749138008596512827903128558287898774635124438721879583999)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-921282234232247460799432372736253975681094662966765982475846657)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (95273695130322564619808664047253327548653705043216432159319013)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-8982299732649508300989123416635049631840125791291956356512941)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (769667573263612926854462469914690568294789857216115017140278)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-59745342497206739184820193505940909158550055465170941317012)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (4186816932242205040061182381405043904676182712005050670654)
   ) * X ^ 27 +
-  C (
+  ratC% (
     (-263898818659800466225069243678802303589547994627753879042)
   ) * X ^ 26
 
 theorem remainder6Coefficient0Chunk15_normalized :
     remainder6Coefficient0Chunk15 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk15 := by
   unfold remainder6Coefficient0Chunk15 remainder6Coefficient0AlignedChunk15
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk16 : Coefficient :=
-  C (
+  ratC% (
     (14902139225924453924652503724757246239788645524329052263)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-750719505693191518043412629990182270715893739614035997)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (33584915373189065549564478828989276060604387390088798)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-1327719794323561787071268469332807908676569902174062)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (46135476621855436814613621857964695522467044407161)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-1400815277015298383202224868350239387343808368079)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (36926109438316001477129459784970316197183426354)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-839011611373832404078412294574305045468065346)
   ) * X ^ 18
 
 theorem remainder6Coefficient0Chunk16_normalized :
     remainder6Coefficient0Chunk16 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk16 := by
   unfold remainder6Coefficient0Chunk16 remainder6Coefficient0AlignedChunk16
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk17 : Coefficient :=
-  C (
+  ratC% (
     (16299500831440522606851699139527807858372826)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-268264554521812999415646039918351343842324)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (3701122614041489319460178511942838449989)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-42274215138012683952710880708186173698)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (393789389195779512177444395511601179)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-2935784199256090713462122508704900)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (17084171716312780372985117783572)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-74811294898350680014206984857)
   ) * X ^ 10
 
 theorem remainder6Coefficient0Chunk17_normalized :
     remainder6Coefficient0Chunk17 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk17 := by
   unfold remainder6Coefficient0Chunk17 remainder6Coefficient0AlignedChunk17
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk18 : Coefficient :=
-  C (
+  ratC% (
     (231350136257977388614570781)
   ) * X ^ 9 +
-  C (
+  ratC% (
     (-433883948126915203233533)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (186192598190668968923)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (1312767065522736660)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (-3533679013856316)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (4055313827456)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-2004000396)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (1452252)
   ) * X ^ 2
 
 theorem remainder6Coefficient0Chunk18_normalized :
     remainder6Coefficient0Chunk18 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk18 := by
   unfold remainder6Coefficient0Chunk18 remainder6Coefficient0AlignedChunk18
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient0AlignedChunk19 : Coefficient :=
-  C (
+  ratC% (
     (480)
   ) * X ^ 1
 
 theorem remainder6Coefficient0Chunk19_normalized :
     remainder6Coefficient0Chunk19 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0AlignedChunk19 := by
   unfold remainder6Coefficient0Chunk19 remainder6Coefficient0AlignedChunk19
@@ -780,30 +773,30 @@ def remainder6Coefficient0Aligned : Coefficient :=
   remainder6Coefficient0AlignedChunk19
 
 def remainder6Coefficient0AlignedChunk0Band16 : Coefficient :=
-  C (
+  ratC% (
     (-40522055413147560)
   ) * X ^ 152 +
-  C (
+  ratC% (
     (-43357899036499587396088)
   ) * X ^ 151 +
-  C (
+  ratC% (
     (-2933260314236696862010807052)
   ) * X ^ 150 +
-  C (
+  ratC% (
     (-25060547349737891843516424822013)
   ) * X ^ 149 +
-  C (
+  ratC% (
     (-37303409421719864169581552912054227)
   ) * X ^ 148 +
-  C (
+  ratC% (
     (-6664154253035422565434310513723014473)
   ) * X ^ 147 +
-  C (
+  ratC% (
     (8134043698377643468887670751448365521145)
   ) * X ^ 146
 
 def remainder6Coefficient0AlignedChunk0Band17 : Coefficient :=
-  C (
+  ratC% (
     (-1011392369)
   ) * X ^ 153
 
@@ -817,30 +810,30 @@ theorem remainder6Coefficient0AlignedChunk0_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk1Band15 : Coefficient :=
-  C (
+  ratC% (
     (51180106368914433882879910916647390729071029891)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (1124513794129348728267163654844646077985631241883)
   ) * X ^ 142 +
-  C (
+  ratC% (
     (-5936880140781240810156398491591308405122099790362)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (-225637739201328317741010866003929708465314470308722)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (1640763020833435260328793390724491197677689490448216)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (13830510745960661250169911443628707195581541111929709)
   ) * X ^ 138
 
 def remainder6Coefficient0AlignedChunk1Band16 : Coefficient :=
-  C (
+  ratC% (
     (4097015695492371739826329824989209203367262)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (720497376836365789771706356156031624629128769)
   ) * X ^ 144
 
@@ -854,30 +847,30 @@ theorem remainder6Coefficient0AlignedChunk1_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk2Band14 : Coefficient :=
-  C (
+  ratC% (
     (-57552519342706272011320757210885952062399753522898777293)
   ) * X ^ 134 +
-  C (
+  ratC% (
     (283068179503719821855505984060517063926743570210527486177)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (-577831655991145443155503224347531013768994337594877967975)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (-1340676479236975758305973107443056024481803453846874024787)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (14737496869073084554441130110488277083264282977945034116736)
   ) * X ^ 130
 
 def remainder6Coefficient0AlignedChunk2Band15 : Coefficient :=
-  C (
+  ratC% (
     (-222308451621338922645283676695166015302402257964224032)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (816990963221813020303938577140743131751025606122261243)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (4026282148141467705170099569081456097602533694427138661)
   ) * X ^ 135
 
@@ -891,30 +884,30 @@ theorem remainder6Coefficient0AlignedChunk2_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk3Band13 : Coefficient :=
-  C (
+  ratC% (
     (10347453433811738528846818765759791952152581534393754863127527)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (-44347179746999303988880195852121399298887756271258345800035365)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (177107049544246693846855416600967564066668496291718172982442749)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (-683948145007249207480741614259191587024219461518624069201391001)
   ) * X ^ 122
 
 def remainder6Coefficient0AlignedChunk3Band14 : Coefficient :=
-  C (
+  ratC% (
     (-55812988878064651281148901532524626925833772159512955627475)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (101287261705211680714786891227418204256889070569152114806074)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (130982579903240765417375702458498174726941234716845798435143)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (-1945003450859942963112730481004571549088919809472086871202644)
   ) * X ^ 126
 
@@ -928,30 +921,30 @@ theorem remainder6Coefficient0AlignedChunk3_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk4Band12 : Coefficient :=
-  C (
+  ratC% (
     (-801736654814831697663473731435640246076164991577064501458818322033)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (2134009579672437968266076458952013278406161261156561478352677566381)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (-5340313645384165522578420825538151081303016019270165657699620124704)
   ) * X ^ 114
 
 def remainder6Coefficient0AlignedChunk4Band13 : Coefficient :=
-  C (
+  ratC% (
     (2545619644684482349778253624086694121572974399965599769903315289)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (-9024028921481459143513157150260613552446104273247394921552753269)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (30230164930986946515501580891314415596147578805994315261142346551)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (-95475758097507866726704886158097911054010900026621961356474800657)
   ) * X ^ 118 +
-  C (
+  ratC% (
     (284572048520790161747867067653159683583605123803668615266361278282)
   ) * X ^ 117
 
@@ -965,30 +958,30 @@ theorem remainder6Coefficient0AlignedChunk4_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk5Band11 : Coefficient :=
-  C (
+  ratC% (
     (341926636285394821656590124076347399751475109665602989075348866655918)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (-1377013538023343304701099922666635574441870442577548381106663394191357)
   ) * X ^ 106
 
 def remainder6Coefficient0AlignedChunk5Band12 : Coefficient :=
-  C (
+  ratC% (
     (12429560138297595750618316871422846498970026649655343782777785410577)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (-26439403366827283330035126193717411602605103063506899647247522966940)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (50135793353567503772334682367151217445778386018634869405431073906627)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (-82116010063530562431376667223111858093587101561054837957666844741538)
   ) * X ^ 110 +
-  C (
+  ratC% (
     (113784340466023931159372435942159119116782709064237669047174751434782)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-151378794284688977786346268658924635999399999001512239530092701999652)
   ) * X ^ 108
 
@@ -1002,30 +995,30 @@ theorem remainder6Coefficient0AlignedChunk5_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk6Band10 : Coefficient :=
-  C (
+  ratC% (
     (1678597925521666946770423760483295141388284533947356612541857443563953005)
   ) * X ^ 98
 
 def remainder6Coefficient0AlignedChunk6Band11 : Coefficient :=
-  C (
+  ratC% (
     (5416256180972067931054502273201765896117706856094036839943958091349572)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (-17545452742618046214240102261457447190819626087925101084449011155586183)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (46625939257369784804709730759269726034927452396474106929056969223221053)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (-101216207450908943062709031002806485938451641746790532254608755438213005)
   ) * X ^ 102 +
-  C (
+  ratC% (
     (169787803235078759965615472022962309416701331772858821337714508908805445)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (-164172175371069243083946798858660354620943731868351609635849480710691304)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (-207198676461531209722605302324841454664279495368127177600761149689819128)
   ) * X ^ 99
 
@@ -1039,28 +1032,28 @@ theorem remainder6Coefficient0AlignedChunk6_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk7Band10 : Coefficient :=
-  C (
+  ratC% (
     (-5817193373733355484634679073060368933508223937618997455437257022202046937)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (15575183430254181180266840763854538349123695565673787040826472501300325175)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (-35958743799361079271860315284927414366121322246179992776404506055968021188)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (74686854708838169491962329458287166626421791383227845204643700470818831188)
   ) * X ^ 94 +
-  C (
+  ratC% (
     (-142613186365378194328407917696411683613162442336129519185594713455470654074)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (253556602755365319437975646475871630463966601757880207770742267625765463172)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (-422964667520188572793516394408187459784374000947925428135008496849169275837)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (664348043991404757737751759341033420931671374205909294849306566472229667478)
   ) * X ^ 90
 
@@ -1072,28 +1065,28 @@ theorem remainder6Coefficient0AlignedChunk7_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk8Band9 : Coefficient :=
-  C (
+  ratC% (
     (-981346173880035163281013596250976630638245593758250177364979492027874338528)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (1351109114410062472798262768549720862576457823721927412513916267262759157234)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (-1690763163937098425353747003911103313706818481378191876129035947782545590108)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (1792536932681484400828428421739275411415961378474689229100469000513173574081)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (-1204917400611311440410714435017694629183255039111578284576236897573238542372)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (-970686679352772456859953502598346683265853006798066131213438854300546633280)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (6399821759815699892919438927619779919695880663357279901817760188396095132030)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (-17967953562319479056600332328567053971138009773559803690769998534029800801389)
   ) * X ^ 82
 
@@ -1105,36 +1098,36 @@ theorem remainder6Coefficient0AlignedChunk8_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk9Band8 : Coefficient :=
-  C (
+  ratC% (
     (-80492923210909132715322554862368536014003821208897369311846451120968998318110)
   ) * X ^ 80 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       48048283923981963418198740441041830233461475782619199143134761952340004213071))
   ) * X ^ 79 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       54966723212355820275169911415431778893476694309027362591224234808773830967451))
   ) * X ^ 78 +
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       14322567044375904598794105651654387396470324235213132502861736855910763987521))
   ) * X ^ 77 +
-  C (
+  ratC% (
     -((6 * 10 ^ 77 +
       37845643585976983903940363733681304594372800680303068027352189921163156936848))
   ) * X ^ 76 +
-  C (
+  ratC% (
     ((9 * 10 ^ 77 +
       32330309775517323513619269626911780219861871638903341293518326419523549703156))
   ) * X ^ 75 +
-  C (
+  ratC% (
     -((12 * 10 ^ 77 +
       95506327055469324669707620172626555351388010166514906357964981876760610781051))
   ) * X ^ 74
 
 def remainder6Coefficient0AlignedChunk9Band9 : Coefficient :=
-  C (
+  ratC% (
     (40337252253282015571674701187933301311140663621872424808515871928112022548988)
   ) * X ^ 81
 
@@ -1148,37 +1141,37 @@ theorem remainder6Coefficient0AlignedChunk9_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk10Band7 : Coefficient :=
-  C (
+  ratC% (
     ((25 * 10 ^ 77 +
       79940045186505490211634798756486209374068017172104549890913891523742426461907))
   ) * X ^ 71 +
-  C (
+  ratC% (
     -((29 * 10 ^ 77 +
       41220707790031495418525014537673251371166115301400130882612784234467806042798))
   ) * X ^ 70 +
-  C (
+  ratC% (
     ((31 * 10 ^ 77 +
       92147060485488360062351476665113970451975793922961423828860052581891608874441))
   ) * X ^ 69 +
-  C (
+  ratC% (
     -((32 * 10 ^ 77 +
       98003847329494159213609899689437300272166935870430565047032091661324257183532))
   ) * X ^ 68 +
-  C (
+  ratC% (
     ((32 * 10 ^ 77 +
       43285237983489714435455849905839076149500773140475032255741232123509975260325))
   ) * X ^ 67 +
-  C (
+  ratC% (
     -((30 * 10 ^ 77 +
       35411663882540188911277372933463928291555825671112130220410811610445562568935))
   ) * X ^ 66
 
 def remainder6Coefficient0AlignedChunk10Band8 : Coefficient :=
-  C (
+  ratC% (
     ((17 * 10 ^ 77 +
       12509308981423174148559045734317620336699095849059871863975476063725189414819))
   ) * X ^ 73 +
-  C (
+  ratC% (
     -((21 * 10 ^ 77 +
       54393515148750513758319881802771527392867530812501680289049294341475767428977))
   ) * X ^ 72
@@ -1193,37 +1186,37 @@ theorem remainder6Coefficient0AlignedChunk10_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk11Band6 : Coefficient :=
-  C (
+  ratC% (
     -((14 * 10 ^ 77 +
       13081697674865031621327483674899470569511318626878716269964689502101852645569))
   ) * X ^ 62 +
-  C (
+  ratC% (
     ((10 * 10 ^ 77 +
       28660334170862935799631389057289175919127757056111761750980854515928970840693))
   ) * X ^ 61 +
-  C (
+  ratC% (
     -((7 * 10 ^ 77 +
       11394961114763764127838948606762174978698276344646419092041176614967080652490))
   ) * X ^ 60 +
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       67194691280881093107602188921976763386503147027234077372335317183313066735825))
   ) * X ^ 59 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       91226071424822681438978993491642365713211383776578996141797291061722346829263))
   ) * X ^ 58
 
 def remainder6Coefficient0AlignedChunk11Band7 : Coefficient :=
-  C (
+  ratC% (
     ((27 * 10 ^ 77 +
       03105768678533635523535841399460155729451026608005577779122340748460062607032))
   ) * X ^ 65 +
-  C (
+  ratC% (
     -((22 * 10 ^ 77 +
       89911919515664900278569550335607414159947655140561197842631959681397740739861))
   ) * X ^ 64 +
-  C (
+  ratC% (
     ((18 * 10 ^ 77 +
       44868666275354091857720188415860894135868244701147366964087241202479965634477))
   ) * X ^ 63
@@ -1238,31 +1231,31 @@ theorem remainder6Coefficient0AlignedChunk11_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk12Band5 : Coefficient :=
-  C (
+  ratC% (
     (12293404263488571815399245720967100396380869661207232141785311018865734956175)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-5535531165148300764096941087556367478395977897521314034829050134243956751268)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (2355193328929799673796823469373243375245270396160727785727254900653899353937)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-946028875683670870702756021917817705294566717197833637548353323792240675677)
   ) * X ^ 50
 
 def remainder6Coefficient0AlignedChunk12Band6 : Coefficient :=
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       72221305319726187974004423635930436081142334473715014951658805093295584912203))
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-96566898707070892918891992480230488538373209191162881713133448413301144674808)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (51309255971084979629236552066002526165259121981968793745455403122078625136121)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-25817269702525381050170855115721590876743208575406070748456327894812777284085)
   ) * X ^ 54
 
@@ -1276,30 +1269,30 @@ theorem remainder6Coefficient0AlignedChunk12_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk13Band4 : Coefficient :=
-  C (
+  ratC% (
     (-1122734406218109102926369065616969290156733609125655144332612777271598742)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (292776335160758944506414138344481132322015103371606168441371704504445113)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-71416065383264343368784881041854645515379822727547348101512025031984824)
   ) * X ^ 42
 
 def remainder6Coefficient0AlignedChunk13Band5 : Coefficient :=
-  C (
+  ratC% (
     (358424371257014941723911027203263248698377030210445814107859814426165650040)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-127962769290676924112499727689249735910659015306852475584421051166851636813)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (43004288180271341127781531973045370762557115370986631387207685626250791575)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-13589418326705664794241746609157525387101983280059762419346260406432588599)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (4033091602968277891973759826873793594893764947604035786087347057513839932)
   ) * X ^ 45
 
@@ -1313,30 +1306,30 @@ theorem remainder6Coefficient0AlignedChunk13_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk14Band3 : Coefficient :=
-  C (
+  ratC% (
     (491893566350154056575952694430099216205781056310392829330682352156)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-66022168831533641230051983962421643804472664761487135445260519375)
   ) * X ^ 34
 
 def remainder6Coefficient0AlignedChunk14Band4 : Coefficient :=
-  C (
+  ratC% (
     (16270416454357962288785922171328893684810718871206659392540577260356521)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-3456564908724007688151225542452292332956752565415598341475749344857011)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (683582777734139380785549907815406681760868218662011826554399673825441)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-125617229248398279602004320980136554273041496827869743064360102562866)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (21408305798650414593324049329374355372457082749990166919483809054562)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-3376782671986707868145283738173274303862985995308034390078626962660)
   ) * X ^ 36
 
@@ -1350,30 +1343,30 @@ theorem remainder6Coefficient0AlignedChunk14_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk15Band2 : Coefficient :=
-  C (
+  ratC% (
     (-263898818659800466225069243678802303589547994627753879042)
   ) * X ^ 26
 
 def remainder6Coefficient0AlignedChunk15Band3 : Coefficient :=
-  C (
+  ratC% (
     (8145226749138008596512827903128558287898774635124438721879583999)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-921282234232247460799432372736253975681094662966765982475846657)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (95273695130322564619808664047253327548653705043216432159319013)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-8982299732649508300989123416635049631840125791291956356512941)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (769667573263612926854462469914690568294789857216115017140278)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-59745342497206739184820193505940909158550055465170941317012)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (4186816932242205040061182381405043904676182712005050670654)
   ) * X ^ 27
 
@@ -1387,28 +1380,28 @@ theorem remainder6Coefficient0AlignedChunk15_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk16Band2 : Coefficient :=
-  C (
+  ratC% (
     (14902139225924453924652503724757246239788645524329052263)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-750719505693191518043412629990182270715893739614035997)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (33584915373189065549564478828989276060604387390088798)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-1327719794323561787071268469332807908676569902174062)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (46135476621855436814613621857964695522467044407161)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-1400815277015298383202224868350239387343808368079)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (36926109438316001477129459784970316197183426354)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-839011611373832404078412294574305045468065346)
   ) * X ^ 18
 
@@ -1420,28 +1413,28 @@ theorem remainder6Coefficient0AlignedChunk16_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk17Band1 : Coefficient :=
-  C (
+  ratC% (
     (16299500831440522606851699139527807858372826)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-268264554521812999415646039918351343842324)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (3701122614041489319460178511942838449989)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-42274215138012683952710880708186173698)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (393789389195779512177444395511601179)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-2935784199256090713462122508704900)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (17084171716312780372985117783572)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-74811294898350680014206984857)
   ) * X ^ 10
 
@@ -1453,30 +1446,30 @@ theorem remainder6Coefficient0AlignedChunk17_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk18Band0 : Coefficient :=
-  C (
+  ratC% (
     (-433883948126915203233533)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (186192598190668968923)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (1312767065522736660)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (-3533679013856316)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (4055313827456)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-2004000396)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (1452252)
   ) * X ^ 2
 
 def remainder6Coefficient0AlignedChunk18Band1 : Coefficient :=
-  C (
+  ratC% (
     (231350136257977388614570781)
   ) * X ^ 9
 
@@ -1490,7 +1483,7 @@ theorem remainder6Coefficient0AlignedChunk18_pieces :
   ring
 
 def remainder6Coefficient0AlignedChunk19Band0 : Coefficient :=
-  C (
+  ratC% (
     (480)
   ) * X ^ 1
 
@@ -1724,7 +1717,7 @@ theorem remainder6Coefficient0Aligned_eq :
 
 theorem remainder6Coefficient0_eq_normalized :
     remainder6Coefficient0 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient0Normalized := by
   unfold remainder6Coefficient0 remainder6Coefficient0Block0 remainder6Coefficient0Block1
@@ -1753,695 +1746,676 @@ theorem remainder6Coefficient0_eq_normalized :
   ring
 
 def remainder6Coefficient1AlignedChunk0 : Coefficient :=
-  C (
+  ratC% (
     (-32646364799)
   ) * X ^ 149 +
-  C (
+  ratC% (
     (-829291943502580567)
   ) * X ^ 148 +
-  C (
+  ratC% (
     (-628604454920783810227725)
   ) * X ^ 147 +
-  C (
+  ratC% (
     (-34615682827583525581641673048)
   ) * X ^ 146 +
-  C (
+  ratC% (
     (-255407535557399504723708573446909)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (-337816829558560164731485066764570870)
   ) * X ^ 144 +
-  C (
+  ratC% (
     (-42784289162313052366077575615132899364)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (77084809344741549843247386578211442014282)
   ) * X ^ 142
 
 theorem remainder6Coefficient1Chunk0_normalized :
     remainder6Coefficient1Chunk0 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk0 := by
   unfold remainder6Coefficient1Chunk0 remainder6Coefficient1AlignedChunk0
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk1 : Coefficient :=
-  C (
+  ratC% (
     (34949069033454074023778121133192842625763867)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (5657430280123554890146698443878643800128661481)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (353831302943268531855241498453338113093049086118)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (5295141873444018010528034933196118339963209523560)
   ) * X ^ 138 +
-  C (
+  ratC% (
     (-87349397999608465201590647724288903422050929669497)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (-688749478297181782627572843413758934012754816881756)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (15345184409244925588514528848807055958775804758572292)
   ) * X ^ 135 +
-  C (
+  ratC% (
     (-54949067767501893960984114471359101552623944378328882)
   ) * X ^ 134
 
 theorem remainder6Coefficient1Chunk1_normalized :
     remainder6Coefficient1Chunk1 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk1 := by
   unfold remainder6Coefficient1Chunk1 remainder6Coefficient1AlignedChunk1
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk2 : Coefficient :=
-  C (
+  ratC% (
     (-550012141652107742509116564062696719661341522188387546)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (6820900389471520015141789453874300271257889393955115823)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (-29975870781557738367952396965788291429074763707262194573)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (15227511935352454413795665070520310916743161734788593665)
   ) * X ^ 130 +
-  C (
+  ratC% (
     (560220059289602656379710811202092389133057700183853101979)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (-3578794873675906688169008207442118323281076638174100131586)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (11619791320327420063395181493202615583647006197132931072613)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (-16847669313701150440380224201114550344122965770374520620081)
   ) * X ^ 126
 
 theorem remainder6Coefficient1Chunk2_normalized :
     remainder6Coefficient1Chunk2 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk2 := by
   unfold remainder6Coefficient1Chunk2 remainder6Coefficient1AlignedChunk2
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk3 : Coefficient :=
-  C (
+  ratC% (
     (-36795884605893568421107838325663973923189645334593183163561)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (320703290100936593595979067606184122213518382925609025953687)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (-1167392838856886266590968474642159876945825779253025125452961)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (3058300018192459208124641338740551528082892728782222545872794)
   ) * X ^ 122 +
-  C (
+  ratC% (
     (-7158405833160305959124086944040792396505498010888790998181469)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (20064259046021939233201158419951357449863234790687973388714563)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (-76811717942789493762969731613441022103512933807660763449852796)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (325781642331751289198860219147812876921388281463088345184029281)
   ) * X ^ 118
 
 theorem remainder6Coefficient1Chunk3_normalized :
     remainder6Coefficient1Chunk3 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk3 := by
   unfold remainder6Coefficient1Chunk3 remainder6Coefficient1AlignedChunk3
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk4 : Coefficient :=
-  C (
+  ratC% (
     (-1292167493651053931930417523074880279040239280035567209685386183)
   ) * X ^ 117 +
-  C (
+  ratC% (
     (4586391485975044371173360845666909512293425014692696647491108446)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (-14525957674526859027049516783135707089573085687685440039344631743)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (40972032536222324135246421266859106956992220589587034604395230794)
   ) * X ^ 114 +
-  C (
+  ratC% (
     (-101208137235814392737782240456237161437126591617167346795810708727)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (208299135501040602931989347713131733754535134262297933140788073248)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (-306317708056453712416430157790503340029530587330436762208453096027)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (79066895090843790771810602430748116062234014103793327778390719268)
   ) * X ^ 110
 
 theorem remainder6Coefficient1Chunk4_normalized :
     remainder6Coefficient1Chunk4 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk4 := by
   unfold remainder6Coefficient1Chunk4 remainder6Coefficient1AlignedChunk4
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk5 : Coefficient :=
-  C (
+  ratC% (
     (1361839444475994305256684761856258907366832517461470347540034770523)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-5266628262613552467751701931599097804853507812602951022137077532246)
   ) * X ^ 108 +
-  C (
+  ratC% (
     (9679782543230701849534536280061816149344457715815040165936710410879)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (5078562991219035694412459571489722304882424194536298956753495328949)
   ) * X ^ 106 +
-  C (
+  ratC% (
     (-114296699021103594561170706790928474782581762972760749760195352466294)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (510962782062498120438050847624515628640164354450215912698356180077116)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (-1514258174521396413243747486690349085094461830833368890466131151267297)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (3192699187012670083136030675801181043266131311313232109270171160853643)
   ) * X ^ 102
 
 theorem remainder6Coefficient1Chunk5_normalized :
     remainder6Coefficient1Chunk5 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk5 := by
   unfold remainder6Coefficient1Chunk5 remainder6Coefficient1AlignedChunk5
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk6 : Coefficient :=
-  C (
+  ratC% (
     (-3680662862888424541338312046612503014550617679450964928522812502833969)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (-5767212949237432423750797818634281511982432144698592691236840862804664)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (52188785806971160040365933102123305324874396735897714817956942976590820)
   ) * X ^ 99 +
-  C (
+  ratC% (
     (-202406453838347613755062476461338090241680518876739817079789698403347205)
   ) * X ^ 98 +
-  C (
+  ratC% (
     (595414155467326252149412440520095318971452175379082518914143415725485847)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (-1476956683205358756515243135524802883776096838285262203533692269792350404)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (3208368793046764133270132699287388779655531164347764414141194511135167914)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (-6194188420304178967976399679870947335293403491515397350939159891405856314)
   ) * X ^ 94
 
 theorem remainder6Coefficient1Chunk6_normalized :
     remainder6Coefficient1Chunk6 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk6 := by
   unfold remainder6Coefficient1Chunk6 remainder6Coefficient1AlignedChunk6
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk7 : Coefficient :=
-  C (
+  ratC% (
     (10648127401628743433040622866630128366972237867115528095669957273940608455)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (-16118315776932703342985654798249282756581745036276230917139746518460391012)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (20752340592239391289171629893765927190583484320972108170334078416283250957)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (-20425123301791903508084023287307768952044757984571641977496110172681710774)
   ) * X ^ 90 +
-  C (
+  ratC% (
     (8072102445789057794764730166899922617448999921899400473984438581641551506)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (26184561133108978782685726633962502193815495576303107693435569395861044647)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (-93334208560511380242369054037508321606940968655584380427987897636070224386)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (201304539349675641512158042538733780844999176589046936969183686054556470822)
   ) * X ^ 86
 
 theorem remainder6Coefficient1Chunk7_normalized :
     remainder6Coefficient1Chunk7 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk7 := by
   unfold remainder6Coefficient1Chunk7 remainder6Coefficient1AlignedChunk7
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk8 : Coefficient :=
-  C (
+  ratC% (
     (-347276377651067159257707635441236811435629855018596152612894362953739285405)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (504961395290265913355211704472768898607591895503985383009870893225150926585)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-604111191378376555965203799092787763338440432357669357553365294022881408014)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (497516681623659343481162060557099257388171759656874674308977979595009607081)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (91246490511293030876261308691543357744702656490978704395707013799069138165)
   ) * X ^ 81 +
-  C (
+  ratC% (
     (-1645868888744962279039938270406952810535730737155107401659299406109508450510)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (4961829106475810091830405638018925185649708851756873794402126220222392758041)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (-11263158740395500032971760536186077534702568417686380943454146040458065263612)
   ) * X ^ 78
 
 theorem remainder6Coefficient1Chunk8_normalized :
     remainder6Coefficient1Chunk8 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk8 := by
   unfold remainder6Coefficient1Chunk8 remainder6Coefficient1AlignedChunk8
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk9 : Coefficient :=
-  C (
+  ratC% (
     (22292795500726545495650622561731256977009194742684949932744295944202436541354)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-40309742970330971594224055758703850739190216794408059888847006869392685825135)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (67908540117832763268077164550841107146559375432026411755103928077605177950537)
   ) * X ^ 75 +
-  C (
+  ratC% (
     -((1 * 10 ^ 77 +
       07589168603139865655688742267818826830033825579883803410398850845647593330054))
   ) * X ^ 74 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       61065349015230913098066109961856557698126639322772003005328983998638313605711))
   ) * X ^ 73 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       28406292696161748032539526604229462632624739479461906214693181681686189108618))
   ) * X ^ 72 +
-  C (
+  ratC% (
     ((3 * 10 ^ 77 +
       07233067522820703296322519912028089389638087912173019133488292540718835322894))
   ) * X ^ 71 +
-  C (
+  ratC% (
     -((3 * 10 ^ 77 +
       92279629173000675191914937585966021658258688416609549337162695153908502446971))
   ) * X ^ 70
 
 theorem remainder6Coefficient1Chunk9_normalized :
     remainder6Coefficient1Chunk9 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk9 := by
   unfold remainder6Coefficient1Chunk9 remainder6Coefficient1AlignedChunk9
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk10 : Coefficient :=
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       75616100751156912344550906524715535752936527176209405420405130688849497285240))
   ) * X ^ 69 +
-  C (
+  ratC% (
     -((5 * 10 ^ 77 +
       47681347692086270200453896149500023441935170606155287187213250852618245463016))
   ) * X ^ 68 +
-  C (
+  ratC% (
     ((5 * 10 ^ 77 +
       99007526771983622024961041933915911771397927643746673326268953484884302582286))
   ) * X ^ 67 +
-  C (
+  ratC% (
     -((6 * 10 ^ 77 +
       22233801090290864506752235931225966878422570340865785942839186123450095481502))
   ) * X ^ 66 +
-  C (
+  ratC% (
     ((6 * 10 ^ 77 +
       13828247482595396108180681635662466319376220268531706400037507829754795026160))
   ) * X ^ 65 +
-  C (
+  ratC% (
     -((5 * 10 ^ 77 +
       74967002780227207653441635486140364429502612670087192369412177004107996437651))
   ) * X ^ 64 +
-  C (
+  ratC% (
     ((5 * 10 ^ 77 +
       11271018973226403084610152716471651023882845672525092523337251433164613472134))
   ) * X ^ 63 +
-  C (
+  ratC% (
     -((4 * 10 ^ 77 +
       31480460952442785738727149776611962491416978088718780656676911574972820469505))
   ) * X ^ 62
 
 theorem remainder6Coefficient1Chunk10_normalized :
     remainder6Coefficient1Chunk10 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk10 := by
   unfold remainder6Coefficient1Chunk10 remainder6Coefficient1AlignedChunk10
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk11 : Coefficient :=
-  C (
+  ratC% (
     ((3 * 10 ^ 77 +
       45496095358789815994917357654442111080116949740623572010968033682030448701773))
   ) * X ^ 61 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       62390877255729292069734956317813131383914643905288376187845000126644970771387))
   ) * X ^ 60 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       88934231556768969666288601567887177442548881947838227624041174300786609885302))
   ) * X ^ 59 +
-  C (
+  ratC% (
     -((1 * 10 ^ 77 +
       28926658191238374402982674492799646460971807484734212775272012237975629511571))
   ) * X ^ 58 +
-  C (
+  ratC% (
     (83337319728219309353643709160132439581903449184925822360356202401648277586365)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-51000676833058058847830888650529857441731564106454302984740150060668386548203)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (29532933062310640398559105041362012812279013283098162628070558176406046372994)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-16172052832881799815811386572291649978653870364345077102585740015073912224369)
   ) * X ^ 54
 
 theorem remainder6Coefficient1Chunk11_normalized :
     remainder6Coefficient1Chunk11 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk11 := by
   unfold remainder6Coefficient1Chunk11 remainder6Coefficient1AlignedChunk11
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk12 : Coefficient :=
-  C (
+  ratC% (
     (8368809122909134402785809926929710898277317876890997314008582369321799855095)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-4089701237372603393942115697413109871407476089294002478996340396255361965250)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (1885883645306065345407734368248235176392763118022379681753891716901473739523)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-819926761071557491986684525143537722436650270723188189798615064990178876392)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (335805587962875496779215631487887125521203974641673770671045382165563378343)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-129432242807956872685946883712150135121504532736337488536363020096864747409)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (46902894713552276776052343106383943913544634619089326315424396567118706858)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-15962131725836457790242810983832890091298454344481989735046647367116899202)
   ) * X ^ 46
 
 theorem remainder6Coefficient1Chunk12_normalized :
     remainder6Coefficient1Chunk12 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk12 := by
   unfold remainder6Coefficient1Chunk12 remainder6Coefficient1AlignedChunk12
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk13 : Coefficient :=
-  C (
+  ratC% (
     (5095851787694845478251494884234271688780572292005832692277220333991379951)
   ) * X ^ 45 +
-  C (
+  ratC% (
     (-1524212555728526308411052904731082188282472256986120069587052004500756912)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (426590673955389292953077613175553826683975608599631076782262583982886926)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-111561116078604215175217757404884963949565948743368649753898161356194783)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (27221449081976767004247883582769350178570635018704977554298927581867886)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-6187690045191682851887943566660818296162879904499330805342986730320337)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (1308114267436696918172142435212814692538146167470957147386344421877266)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-256744046667862068846674877548849556955561278081750059859069979729416)
   ) * X ^ 38
 
 theorem remainder6Coefficient1Chunk13_normalized :
     remainder6Coefficient1Chunk13 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk13 := by
   unfold remainder6Coefficient1Chunk13 remainder6Coefficient1AlignedChunk13
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk14 : Coefficient :=
-  C (
+  ratC% (
     (46696581412966801563821061078959037032378265543083741355001841208071)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-7854971716047596331840317568446269343944541014517362983168032009836)
   ) * X ^ 36 +
-  C (
+  ratC% (
     (1219477313588973843646241530545233572499228465774236050691984357830)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-174346932582108762891968048727212785377842539175139539224841479002)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (22900897877104644196077073265838987871672546090864259256652998994)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-2756863799354424063565863604580708006505044319002548471425329438)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (303365904414424253444528813714061121114166275681051234455363332)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-30430118864130425748703910565756316113335609827206507214801102)
   ) * X ^ 30
 
 theorem remainder6Coefficient1Chunk14_normalized :
     remainder6Coefficient1Chunk14 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk14 := by
   unfold remainder6Coefficient1Chunk14 remainder6Coefficient1AlignedChunk14
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk15 : Coefficient :=
-  C (
+  ratC% (
     (2774280384586168834757757415451387202835509943822045435320506)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-229167447164589387170273929889102413618684761215622480147728)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (17095112018455109258051668393162863828761984749719538924471)
   ) * X ^ 27 +
-  C (
+  ratC% (
     (-1147556166996901742301857460789324836050067004988125662529)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (69059116807592080504075449248445120103923356823058379852)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-3710719600962041005883293073209742318481852818671524723)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (177254644824833186419455642547377542466564273550239548)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-7492037580113858564025716984583179466893737124276699)
   ) * X ^ 22
 
 theorem remainder6Coefficient1Chunk15_normalized :
     remainder6Coefficient1Chunk15 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk15 := by
   unfold remainder6Coefficient1Chunk15 remainder6Coefficient1AlignedChunk15
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk16 : Coefficient :=
-  C (
+  ratC% (
     (278772498713203553010397733936946226452121600310440)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-9080860764762484244413752157954192816831801335856)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (257375873092856585517599096584639078635147703574)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-6304031064275710298920670199834042939195399665)
   ) * X ^ 18 +
-  C (
+  ratC% (
     (132425533854943997858641366080658058464271265)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-2365296933549129088286913765011294686806132)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (35568751424021237027745312927425496360840)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-445160742552088933159288853832453337332)
   ) * X ^ 14
 
 theorem remainder6Coefficient1Chunk16_normalized :
     remainder6Coefficient1Chunk16 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk16 := by
   unfold remainder6Coefficient1Chunk16 remainder6Coefficient1AlignedChunk16
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk17 : Coefficient :=
-  C (
+  ratC% (
     (4573692275562316018834947468906919588)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-37930404038831438701292987496857940)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (248440952223035694061850285297952)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-1246737004206718197903556045010)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (4566186685707920356612547512)
   ) * X ^ 9 +
-  C (
+  ratC% (
     (-11060624912306014584153124)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (12641698329565160961087)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (14683509676476842482)
   ) * X ^ 6
 
 theorem remainder6Coefficient1Chunk17_normalized :
     remainder6Coefficient1Chunk17 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk17 := by
   unfold remainder6Coefficient1Chunk17 remainder6Coefficient1AlignedChunk17
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1AlignedChunk18 : Coefficient :=
-  C (
+  ratC% (
     (-80002118437425346)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (127461111936338)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-100865550084)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (39681278)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (-7256)
   ) * X ^ 1
 
 theorem remainder6Coefficient1Chunk18_normalized :
     remainder6Coefficient1Chunk18 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1AlignedChunk18 := by
   unfold remainder6Coefficient1Chunk18 remainder6Coefficient1AlignedChunk18
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient1Aligned : Coefficient :=
@@ -2466,30 +2440,30 @@ def remainder6Coefficient1Aligned : Coefficient :=
   remainder6Coefficient1AlignedChunk18
 
 def remainder6Coefficient1AlignedChunk0Band15 : Coefficient :=
-  C (
+  ratC% (
     (-42784289162313052366077575615132899364)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (77084809344741549843247386578211442014282)
   ) * X ^ 142
 
 def remainder6Coefficient1AlignedChunk0Band16 : Coefficient :=
-  C (
+  ratC% (
     (-32646364799)
   ) * X ^ 149 +
-  C (
+  ratC% (
     (-829291943502580567)
   ) * X ^ 148 +
-  C (
+  ratC% (
     (-628604454920783810227725)
   ) * X ^ 147 +
-  C (
+  ratC% (
     (-34615682827583525581641673048)
   ) * X ^ 146 +
-  C (
+  ratC% (
     (-255407535557399504723708573446909)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (-337816829558560164731485066764570870)
   ) * X ^ 144
 
@@ -2503,30 +2477,30 @@ theorem remainder6Coefficient1AlignedChunk0_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk1Band14 : Coefficient :=
-  C (
+  ratC% (
     (-54949067767501893960984114471359101552623944378328882)
   ) * X ^ 134
 
 def remainder6Coefficient1AlignedChunk1Band15 : Coefficient :=
-  C (
+  ratC% (
     (34949069033454074023778121133192842625763867)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (5657430280123554890146698443878643800128661481)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (353831302943268531855241498453338113093049086118)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (5295141873444018010528034933196118339963209523560)
   ) * X ^ 138 +
-  C (
+  ratC% (
     (-87349397999608465201590647724288903422050929669497)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (-688749478297181782627572843413758934012754816881756)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (15345184409244925588514528848807055958775804758572292)
   ) * X ^ 135
 
@@ -2540,28 +2514,28 @@ theorem remainder6Coefficient1AlignedChunk1_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk2Band14 : Coefficient :=
-  C (
+  ratC% (
     (-550012141652107742509116564062696719661341522188387546)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (6820900389471520015141789453874300271257889393955115823)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (-29975870781557738367952396965788291429074763707262194573)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (15227511935352454413795665070520310916743161734788593665)
   ) * X ^ 130 +
-  C (
+  ratC% (
     (560220059289602656379710811202092389133057700183853101979)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (-3578794873675906688169008207442118323281076638174100131586)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (11619791320327420063395181493202615583647006197132931072613)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (-16847669313701150440380224201114550344122965770374520620081)
   ) * X ^ 126
 
@@ -2573,28 +2547,28 @@ theorem remainder6Coefficient1AlignedChunk2_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk3Band13 : Coefficient :=
-  C (
+  ratC% (
     (-36795884605893568421107838325663973923189645334593183163561)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (320703290100936593595979067606184122213518382925609025953687)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (-1167392838856886266590968474642159876945825779253025125452961)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (3058300018192459208124641338740551528082892728782222545872794)
   ) * X ^ 122 +
-  C (
+  ratC% (
     (-7158405833160305959124086944040792396505498010888790998181469)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (20064259046021939233201158419951357449863234790687973388714563)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (-76811717942789493762969731613441022103512933807660763449852796)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (325781642331751289198860219147812876921388281463088345184029281)
   ) * X ^ 118
 
@@ -2606,30 +2580,30 @@ theorem remainder6Coefficient1AlignedChunk3_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk4Band12 : Coefficient :=
-  C (
+  ratC% (
     (4586391485975044371173360845666909512293425014692696647491108446)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (-14525957674526859027049516783135707089573085687685440039344631743)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (40972032536222324135246421266859106956992220589587034604395230794)
   ) * X ^ 114 +
-  C (
+  ratC% (
     (-101208137235814392737782240456237161437126591617167346795810708727)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (208299135501040602931989347713131733754535134262297933140788073248)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (-306317708056453712416430157790503340029530587330436762208453096027)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (79066895090843790771810602430748116062234014103793327778390719268)
   ) * X ^ 110
 
 def remainder6Coefficient1AlignedChunk4Band13 : Coefficient :=
-  C (
+  ratC% (
     (-1292167493651053931930417523074880279040239280035567209685386183)
   ) * X ^ 117
 
@@ -2643,30 +2617,30 @@ theorem remainder6Coefficient1AlignedChunk4_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk5Band11 : Coefficient :=
-  C (
+  ratC% (
     (9679782543230701849534536280061816149344457715815040165936710410879)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (5078562991219035694412459571489722304882424194536298956753495328949)
   ) * X ^ 106 +
-  C (
+  ratC% (
     (-114296699021103594561170706790928474782581762972760749760195352466294)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (510962782062498120438050847624515628640164354450215912698356180077116)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (-1514258174521396413243747486690349085094461830833368890466131151267297)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (3192699187012670083136030675801181043266131311313232109270171160853643)
   ) * X ^ 102
 
 def remainder6Coefficient1AlignedChunk5Band12 : Coefficient :=
-  C (
+  ratC% (
     (1361839444475994305256684761856258907366832517461470347540034770523)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-5266628262613552467751701931599097804853507812602951022137077532246)
   ) * X ^ 108
 
@@ -2680,30 +2654,30 @@ theorem remainder6Coefficient1AlignedChunk5_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk6Band10 : Coefficient :=
-  C (
+  ratC% (
     (-202406453838347613755062476461338090241680518876739817079789698403347205)
   ) * X ^ 98 +
-  C (
+  ratC% (
     (595414155467326252149412440520095318971452175379082518914143415725485847)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (-1476956683205358756515243135524802883776096838285262203533692269792350404)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (3208368793046764133270132699287388779655531164347764414141194511135167914)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (-6194188420304178967976399679870947335293403491515397350939159891405856314)
   ) * X ^ 94
 
 def remainder6Coefficient1AlignedChunk6Band11 : Coefficient :=
-  C (
+  ratC% (
     (-3680662862888424541338312046612503014550617679450964928522812502833969)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (-5767212949237432423750797818634281511982432144698592691236840862804664)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (52188785806971160040365933102123305324874396735897714817956942976590820)
   ) * X ^ 99
 
@@ -2717,30 +2691,30 @@ theorem remainder6Coefficient1AlignedChunk6_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk7Band9 : Coefficient :=
-  C (
+  ratC% (
     (8072102445789057794764730166899922617448999921899400473984438581641551506)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (26184561133108978782685726633962502193815495576303107693435569395861044647)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (-93334208560511380242369054037508321606940968655584380427987897636070224386)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (201304539349675641512158042538733780844999176589046936969183686054556470822)
   ) * X ^ 86
 
 def remainder6Coefficient1AlignedChunk7Band10 : Coefficient :=
-  C (
+  ratC% (
     (10648127401628743433040622866630128366972237867115528095669957273940608455)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (-16118315776932703342985654798249282756581745036276230917139746518460391012)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (20752340592239391289171629893765927190583484320972108170334078416283250957)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (-20425123301791903508084023287307768952044757984571641977496110172681710774)
   ) * X ^ 90
 
@@ -2754,30 +2728,30 @@ theorem remainder6Coefficient1AlignedChunk7_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk8Band8 : Coefficient :=
-  C (
+  ratC% (
     (-1645868888744962279039938270406952810535730737155107401659299406109508450510)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (4961829106475810091830405638018925185649708851756873794402126220222392758041)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (-11263158740395500032971760536186077534702568417686380943454146040458065263612)
   ) * X ^ 78
 
 def remainder6Coefficient1AlignedChunk8Band9 : Coefficient :=
-  C (
+  ratC% (
     (-347276377651067159257707635441236811435629855018596152612894362953739285405)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (504961395290265913355211704472768898607591895503985383009870893225150926585)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-604111191378376555965203799092787763338440432357669357553365294022881408014)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (497516681623659343481162060557099257388171759656874674308977979595009607081)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (91246490511293030876261308691543357744702656490978704395707013799069138165)
   ) * X ^ 81
 
@@ -2791,34 +2765,34 @@ theorem remainder6Coefficient1AlignedChunk8_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk9Band7 : Coefficient :=
-  C (
+  ratC% (
     ((3 * 10 ^ 77 +
       07233067522820703296322519912028089389638087912173019133488292540718835322894))
   ) * X ^ 71 +
-  C (
+  ratC% (
     -((3 * 10 ^ 77 +
       92279629173000675191914937585966021658258688416609549337162695153908502446971))
   ) * X ^ 70
 
 def remainder6Coefficient1AlignedChunk9Band8 : Coefficient :=
-  C (
+  ratC% (
     (22292795500726545495650622561731256977009194742684949932744295944202436541354)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-40309742970330971594224055758703850739190216794408059888847006869392685825135)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (67908540117832763268077164550841107146559375432026411755103928077605177950537)
   ) * X ^ 75 +
-  C (
+  ratC% (
     -((1 * 10 ^ 77 +
       07589168603139865655688742267818826830033825579883803410398850845647593330054))
   ) * X ^ 74 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       61065349015230913098066109961856557698126639322772003005328983998638313605711))
   ) * X ^ 73 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       28406292696161748032539526604229462632624739479461906214693181681686189108618))
   ) * X ^ 72
@@ -2833,37 +2807,37 @@ theorem remainder6Coefficient1AlignedChunk9_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk10Band6 : Coefficient :=
-  C (
+  ratC% (
     -((4 * 10 ^ 77 +
       31480460952442785738727149776611962491416978088718780656676911574972820469505))
   ) * X ^ 62
 
 def remainder6Coefficient1AlignedChunk10Band7 : Coefficient :=
-  C (
+  ratC% (
     ((4 * 10 ^ 77 +
       75616100751156912344550906524715535752936527176209405420405130688849497285240))
   ) * X ^ 69 +
-  C (
+  ratC% (
     -((5 * 10 ^ 77 +
       47681347692086270200453896149500023441935170606155287187213250852618245463016))
   ) * X ^ 68 +
-  C (
+  ratC% (
     ((5 * 10 ^ 77 +
       99007526771983622024961041933915911771397927643746673326268953484884302582286))
   ) * X ^ 67 +
-  C (
+  ratC% (
     -((6 * 10 ^ 77 +
       22233801090290864506752235931225966878422570340865785942839186123450095481502))
   ) * X ^ 66 +
-  C (
+  ratC% (
     ((6 * 10 ^ 77 +
       13828247482595396108180681635662466319376220268531706400037507829754795026160))
   ) * X ^ 65 +
-  C (
+  ratC% (
     -((5 * 10 ^ 77 +
       74967002780227207653441635486140364429502612670087192369412177004107996437651))
   ) * X ^ 64 +
-  C (
+  ratC% (
     ((5 * 10 ^ 77 +
       11271018973226403084610152716471651023882845672525092523337251433164613472134))
   ) * X ^ 63
@@ -2878,32 +2852,32 @@ theorem remainder6Coefficient1AlignedChunk10_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk11Band6 : Coefficient :=
-  C (
+  ratC% (
     ((3 * 10 ^ 77 +
       45496095358789815994917357654442111080116949740623572010968033682030448701773))
   ) * X ^ 61 +
-  C (
+  ratC% (
     -((2 * 10 ^ 77 +
       62390877255729292069734956317813131383914643905288376187845000126644970771387))
   ) * X ^ 60 +
-  C (
+  ratC% (
     ((1 * 10 ^ 77 +
       88934231556768969666288601567887177442548881947838227624041174300786609885302))
   ) * X ^ 59 +
-  C (
+  ratC% (
     -((1 * 10 ^ 77 +
       28926658191238374402982674492799646460971807484734212775272012237975629511571))
   ) * X ^ 58 +
-  C (
+  ratC% (
     (83337319728219309353643709160132439581903449184925822360356202401648277586365)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-51000676833058058847830888650529857441731564106454302984740150060668386548203)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (29532933062310640398559105041362012812279013283098162628070558176406046372994)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-16172052832881799815811386572291649978653870364345077102585740015073912224369)
   ) * X ^ 54
 
@@ -2915,28 +2889,28 @@ theorem remainder6Coefficient1AlignedChunk11_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk12Band5 : Coefficient :=
-  C (
+  ratC% (
     (8368809122909134402785809926929710898277317876890997314008582369321799855095)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-4089701237372603393942115697413109871407476089294002478996340396255361965250)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (1885883645306065345407734368248235176392763118022379681753891716901473739523)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-819926761071557491986684525143537722436650270723188189798615064990178876392)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (335805587962875496779215631487887125521203974641673770671045382165563378343)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-129432242807956872685946883712150135121504532736337488536363020096864747409)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (46902894713552276776052343106383943913544634619089326315424396567118706858)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-15962131725836457790242810983832890091298454344481989735046647367116899202)
   ) * X ^ 46
 
@@ -2948,30 +2922,30 @@ theorem remainder6Coefficient1AlignedChunk12_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk13Band4 : Coefficient :=
-  C (
+  ratC% (
     (-1524212555728526308411052904731082188282472256986120069587052004500756912)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (426590673955389292953077613175553826683975608599631076782262583982886926)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-111561116078604215175217757404884963949565948743368649753898161356194783)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (27221449081976767004247883582769350178570635018704977554298927581867886)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-6187690045191682851887943566660818296162879904499330805342986730320337)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (1308114267436696918172142435212814692538146167470957147386344421877266)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-256744046667862068846674877548849556955561278081750059859069979729416)
   ) * X ^ 38
 
 def remainder6Coefficient1AlignedChunk13Band5 : Coefficient :=
-  C (
+  ratC% (
     (5095851787694845478251494884234271688780572292005832692277220333991379951)
   ) * X ^ 45
 
@@ -2985,30 +2959,30 @@ theorem remainder6Coefficient1AlignedChunk13_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk14Band3 : Coefficient :=
-  C (
+  ratC% (
     (1219477313588973843646241530545233572499228465774236050691984357830)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-174346932582108762891968048727212785377842539175139539224841479002)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (22900897877104644196077073265838987871672546090864259256652998994)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-2756863799354424063565863604580708006505044319002548471425329438)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (303365904414424253444528813714061121114166275681051234455363332)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-30430118864130425748703910565756316113335609827206507214801102)
   ) * X ^ 30
 
 def remainder6Coefficient1AlignedChunk14Band4 : Coefficient :=
-  C (
+  ratC% (
     (46696581412966801563821061078959037032378265543083741355001841208071)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-7854971716047596331840317568446269343944541014517362983168032009836)
   ) * X ^ 36
 
@@ -3022,30 +2996,30 @@ theorem remainder6Coefficient1AlignedChunk14_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk15Band2 : Coefficient :=
-  C (
+  ratC% (
     (-1147556166996901742301857460789324836050067004988125662529)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (69059116807592080504075449248445120103923356823058379852)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-3710719600962041005883293073209742318481852818671524723)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (177254644824833186419455642547377542466564273550239548)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-7492037580113858564025716984583179466893737124276699)
   ) * X ^ 22
 
 def remainder6Coefficient1AlignedChunk15Band3 : Coefficient :=
-  C (
+  ratC% (
     (2774280384586168834757757415451387202835509943822045435320506)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-229167447164589387170273929889102413618684761215622480147728)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (17095112018455109258051668393162863828761984749719538924471)
   ) * X ^ 27
 
@@ -3059,30 +3033,30 @@ theorem remainder6Coefficient1AlignedChunk15_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk16Band1 : Coefficient :=
-  C (
+  ratC% (
     (132425533854943997858641366080658058464271265)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-2365296933549129088286913765011294686806132)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (35568751424021237027745312927425496360840)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-445160742552088933159288853832453337332)
   ) * X ^ 14
 
 def remainder6Coefficient1AlignedChunk16Band2 : Coefficient :=
-  C (
+  ratC% (
     (278772498713203553010397733936946226452121600310440)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-9080860764762484244413752157954192816831801335856)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (257375873092856585517599096584639078635147703574)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-6304031064275710298920670199834042939195399665)
   ) * X ^ 18
 
@@ -3096,30 +3070,30 @@ theorem remainder6Coefficient1AlignedChunk16_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk17Band0 : Coefficient :=
-  C (
+  ratC% (
     (-11060624912306014584153124)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (12641698329565160961087)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (14683509676476842482)
   ) * X ^ 6
 
 def remainder6Coefficient1AlignedChunk17Band1 : Coefficient :=
-  C (
+  ratC% (
     (4573692275562316018834947468906919588)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-37930404038831438701292987496857940)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (248440952223035694061850285297952)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-1246737004206718197903556045010)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (4566186685707920356612547512)
   ) * X ^ 9
 
@@ -3133,19 +3107,19 @@ theorem remainder6Coefficient1AlignedChunk17_pieces :
   ring
 
 def remainder6Coefficient1AlignedChunk18Band0 : Coefficient :=
-  C (
+  ratC% (
     (-80002118437425346)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (127461111936338)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-100865550084)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (39681278)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (-7256)
   ) * X ^ 1
 
@@ -3367,7 +3341,7 @@ theorem remainder6Coefficient1Aligned_eq :
 
 theorem remainder6Coefficient1_eq_normalized :
     remainder6Coefficient1 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient1Normalized := by
   unfold remainder6Coefficient1 remainder6Coefficient1Block0 remainder6Coefficient1Block1
@@ -3395,669 +3369,650 @@ theorem remainder6Coefficient1_eq_normalized :
   ring
 
 def remainder6Coefficient2AlignedChunk0 : Coefficient :=
-  C (
+  ratC% (
     (-315940498887)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (-4546261986553142511)
   ) * X ^ 144 +
-  C (
+  ratC% (
     (-2461177433625470012366301)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (-108446004021335705563995602593)
   ) * X ^ 142 +
-  C (
+  ratC% (
     (-679622836647796301925103373653272)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (-781997401037853628110156674924513602)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (-51222721668122847810043521100620447938)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (187346906381980229194703126609479794476830)
   ) * X ^ 138
 
 theorem remainder6Coefficient2Chunk0_normalized :
     remainder6Coefficient2Chunk0 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk0 := by
   unfold remainder6Coefficient2Chunk0 remainder6Coefficient2AlignedChunk0
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk1 : Coefficient :=
-  C (
+  ratC% (
     (75554646756090902505803659677007006176780048)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (11083058231813325753534541998899310552463098843)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (591008386365947537000114344954823635360971745906)
   ) * X ^ 135 +
-  C (
+  ratC% (
     (4331405697715076878606821875174121432228690553959)
   ) * X ^ 134 +
-  C (
+  ratC% (
     (-184173494402039652927556577787312030154064443690921)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (533503248610561927308547472040764598809311788260629)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (16492777912746110872253767570361497450564016602383889)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (-195594830294760904912883832037913859582322201300968410)
   ) * X ^ 130
 
 theorem remainder6Coefficient2Chunk1_normalized :
     remainder6Coefficient2Chunk1 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk1 := by
   unfold remainder6Coefficient2Chunk1 remainder6Coefficient2AlignedChunk1
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk2 : Coefficient :=
-  C (
+  ratC% (
     (861568319493486277313581758166988781134493166589879363)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (323528728657827882997252662855770962975995612972083350)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (-25483034877747311987278361252673057010092628005243118701)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (155684269321619547732468191234796906329716308101652097255)
   ) * X ^ 126 +
-  C (
+  ratC% (
     (-476000959642518193691194899440321029398768605889796046632)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (324088692659975022719056641484161964385641286947987974525)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (4882484666422195286022942314032170123073413014156033421842)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (-33892399271717625504990669656689046133811256075925855627505)
   ) * X ^ 122
 
 theorem remainder6Coefficient2Chunk2_normalized :
     remainder6Coefficient2Chunk2 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk2 := by
   unfold remainder6Coefficient2Chunk2 remainder6Coefficient2AlignedChunk2
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk3 : Coefficient :=
-  C (
+  ratC% (
     (156955995605037260008826373638773287299386205296625576137480)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (-667454621193513040472930650973150052062507424938546363984603)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (2902231953813294269257723383065309943415760342747389261453518)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (-12842189377860157420475819125854223848043326262653085184513954)
   ) * X ^ 118 +
-  C (
+  ratC% (
     (55337461318206169427991435619705519513791299960550277448332040)
   ) * X ^ 117 +
-  C (
+  ratC% (
     (-225116790240450019253437471817001522749965274226119911148709071)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (854247556660789637063204143460183268851029218501962502844716050)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (-3017820519501414118979390700298643824719871727421466764431652761)
   ) * X ^ 114
 
 theorem remainder6Coefficient2Chunk3_normalized :
     remainder6Coefficient2Chunk3 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk3 := by
   unfold remainder6Coefficient2Chunk3 remainder6Coefficient2AlignedChunk3
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk4 : Coefficient :=
-  C (
+  ratC% (
     (9941138365525315152460231980761724687042321112559789013783990483)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (-30611049352049747174288255916170790582375922413099782945674908933)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (88341769269098873646246177622815759794873943768880528264728932084)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (-239687225839803095964234683858511192865317528750830970591142136266)
   ) * X ^ 110 +
-  C (
+  ratC% (
     (613907926807779137977175922695974937659896561790087831945649856214)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-1492387759583358590386188782019477671298160995931872813895358122239)
   ) * X ^ 108 +
-  C (
+  ratC% (
     (3463341911687113218033152743936869691101937426647141264887846855107)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (-7698641985646935195079739978106428239633764916984276272068174170149)
   ) * X ^ 106
 
 theorem remainder6Coefficient2Chunk4_normalized :
     remainder6Coefficient2Chunk4 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk4 := by
   unfold remainder6Coefficient2Chunk4 remainder6Coefficient2AlignedChunk4
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk5 : Coefficient :=
-  C (
+  ratC% (
     (16328026263217025364926310372318107168234568138178910588114092993850)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (-32467338422691874874010847322591943856934239447269368175295467391668)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (58147785621425925683947656961169717573141616918159838155382090441528)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (-85750182884605883896009055211771807732494622146578579745434189102691)
   ) * X ^ 102 +
-  C (
+  ratC% (
     (76153292683654570027564573922069393111938251628575806345614229896770)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (76973016944077055984976897757854942749547457638069850579673058183832)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (-560213934976663414978907941119988428069349063298299953694111138970854)
   ) * X ^ 99 +
-  C (
+  ratC% (
     (1487241384429296246696038225936419695519235592122859474472320612921002)
   ) * X ^ 98
 
 theorem remainder6Coefficient2Chunk5_normalized :
     remainder6Coefficient2Chunk5 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk5 := by
   unfold remainder6Coefficient2Chunk5 remainder6Coefficient2AlignedChunk5
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk6 : Coefficient :=
-  C (
+  ratC% (
     (-2220269855050717808326966892800118966461589840112900617253334441222671)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (-495869070092099641915349928922168288575164704499595254492954208327568)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (16450152573856272387602165629460215596539851426757448495407429891942018)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (-68433066731608761332151397480507741270876208164133060229712850018568164)
   ) * X ^ 94 +
-  C (
+  ratC% (
     (200136743417203466127334624978217097053950573006438870897819104415145047)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (-480956459637295324109250327805953128650527621201512889047877740050288996)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (998415945677749997639863635497783625642074473958794969581875682915641887)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (-1825283987394403183884872310673072778685610687146927466659745189705127416)
   ) * X ^ 90
 
 theorem remainder6Coefficient2Chunk6_normalized :
     remainder6Coefficient2Chunk6 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk6 := by
   unfold remainder6Coefficient2Chunk6 remainder6Coefficient2AlignedChunk6
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk7 : Coefficient :=
-  C (
+  ratC% (
     (2950491940447942140683992315334703316536083324643928795604318672950054368)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (-4175765985388794432504656581484234535746304996690838243731278970162782513)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (5004971590320248884444499447598341324018933932496148922329168908181607965)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (-4584043912235803898008078956160506560023475113036811842445110238847670521)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (1770891393350891870186191864565556017000328190282521112358949835688384152)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (4589664670545191450873431699137664140769364216555794468410806049205706641)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-15143919020181494216803740374423506366019157086434133427155517853363743887)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (29255683232251168203546379794185426658245505766998288030485726460522711783)
   ) * X ^ 82
 
 theorem remainder6Coefficient2Chunk7_normalized :
     remainder6Coefficient2Chunk7 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk7 := by
   unfold remainder6Coefficient2Chunk7 remainder6Coefficient2AlignedChunk7
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk8 : Coefficient :=
-  C (
+  ratC% (
     (-43968518932560674349333910310572830855198132345908480291712859680761145307)
   ) * X ^ 81 +
-  C (
+  ratC% (
     (52592014038040954003608254688107041146295446128908741878873888305215715229)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (-42619020380078390045819363755105148219805220934440147514267642092666631148)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (-7469556728112728725583485882770756593674562588566738924510467412024134139)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (132853107833967934326103755267337125216460561350639073810705259135347337857)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-388201367839280427496471342738371531989009666953097516787830518430691395936)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (853167342105014044078973953975308899665692045132777983805033284208897376507)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (-1634359348729489030969588443518164653677146083727512516502833661070409296878)
   ) * X ^ 74
 
 theorem remainder6Coefficient2Chunk8_normalized :
     remainder6Coefficient2Chunk8 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk8 := by
   unfold remainder6Coefficient2Chunk8 remainder6Coefficient2AlignedChunk8
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk9 : Coefficient :=
-  C (
+  ratC% (
     (2859238233819039389913178039209596898909553016190601118377305297208156819561)
   ) * X ^ 73 +
-  C (
+  ratC% (
     (-4657442894716196302657454051225033621427287388144250440198514632378232453960)
   ) * X ^ 72 +
-  C (
+  ratC% (
     (7127645942880844599409401305160067789519433704582581116148394750134666963171)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (-10293507352399904282059322437428419604148188605194679171943904769462898729333)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (14059393426463223593946685355881517519492524745381709284215536828663355312756)
   ) * X ^ 69 +
-  C (
+  ratC% (
     (-18182286858062303297531215528681962920312875927551206358193759174834869303099)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (22276946618089426743022302029602904238112159287537176023224590353675742996271)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (-25864283673987277749290170335716698911724476290632260662688609329163680026745)
   ) * X ^ 66
 
 theorem remainder6Coefficient2Chunk9_normalized :
     remainder6Coefficient2Chunk9 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk9 := by
   unfold remainder6Coefficient2Chunk9 remainder6Coefficient2AlignedChunk9
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk10 : Coefficient :=
-  C (
+  ratC% (
     (28458822259403448889074882196128810791341505266416173864177944440580777910068)
   ) * X ^ 65 +
-  C (
+  ratC% (
     (-29674867557679708289501470268489174245505588238427534941011092212695608481365)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (29319980919626898249757570126203368952748775669186620640859415396292356902696)
   ) * X ^ 63 +
-  C (
+  ratC% (
     (-27444825910053106174479504451124321216424730876989066265821741605865438145137)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (24331738207822110104164850114798909252323725290252525291505755297054919685905)
   ) * X ^ 61 +
-  C (
+  ratC% (
     (-20425500377864597864614178964109596003719179330282793286198023975018841536826)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (16229621549011680347638872947077081162324862855567208237257559283324442725894)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-12201354402513224268443248908035922952801640966348517011976295820834004496272)
   ) * X ^ 58
 
 theorem remainder6Coefficient2Chunk10_normalized :
     remainder6Coefficient2Chunk10 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk10 := by
   unfold remainder6Coefficient2Chunk10 remainder6Coefficient2AlignedChunk10
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk11 : Coefficient :=
-  C (
+  ratC% (
     (8675175704502810005056451020992564158793676595192802876134472101780120505581)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-5830481717436139188317407431750895890290170664608816231867081357236807638081)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (3702118370506027212413184046033707581927114714099211294382890382098601865447)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-2219513121535030164270397780679264356970392489509421053042722075040153528177)
   ) * X ^ 54 +
-  C (
+  ratC% (
     (1255584941527704452746120684107279804519088262460645735236845129919743970239)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-669748603999325958464597097086970924093349062038484944347254406246608352273)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (336610382954046870247800430609973056814614100156783614251088171941839303403)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-159272680085665554005412039868340008540313742102294464018272462502083319687)
   ) * X ^ 50
 
 theorem remainder6Coefficient2Chunk11_normalized :
     remainder6Coefficient2Chunk11 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk11 := by
   unfold remainder6Coefficient2Chunk11 remainder6Coefficient2AlignedChunk11
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk12 : Coefficient :=
-  C (
+  ratC% (
     (70888517113836029101576065940369409531584445615282962939146396016145781328)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-29650206849699537964032698507245513296851606331347863252387776115847583316)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (11643025766926562122844406228154118105804936001207007154181082690380887666)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-4287764319632802774818404967705164533580476016140897841109412721486110451)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (1479223768525695267592548312069830549695338278071574379291993015701877127)
   ) * X ^ 45 +
-  C (
+  ratC% (
     (-477479700939294940512691747416735765410275055349521383765613870503638413)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (144026353634990108295950572197513651797712126200702663275366921671474518)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-40542392880417114577827595217658727606296695805101361776225317999217069)
   ) * X ^ 42
 
 theorem remainder6Coefficient2Chunk12_normalized :
     remainder6Coefficient2Chunk12 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk12 := by
   unfold remainder6Coefficient2Chunk12 remainder6Coefficient2AlignedChunk12
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk13 : Coefficient :=
-  C (
+  ratC% (
     (10634972873675307031983824481469065295138060418731329479412671695351331)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-2595765894942786989133718632757646669187271864081570841784158142739798)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (588573769496079445172517403154243371285995384632417134578830221752204)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-123767440340893257820464894377312306375992236174199351256584600826497)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (24093711764446404639083968795437264738722231948853016334347723344608)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-4333812672091614152071693198914448727981015618394225383520385030545)
   ) * X ^ 36 +
-  C (
+  ratC% (
     (718846789678887512634375406703198906074033426219391471364325124452)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-109719477140794198875804753073087276758841812036497929336081139014)
   ) * X ^ 34
 
 theorem remainder6Coefficient2Chunk13_normalized :
     remainder6Coefficient2Chunk13 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk13 := by
   unfold remainder6Coefficient2Chunk13 remainder6Coefficient2AlignedChunk13
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk14 : Coefficient :=
-  C (
+  ratC% (
     (15375938023292737443314781690066611953593395774740798451247935996)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-1973712993822071474949706404738701900439752945304094416663486397)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (231486617206828337106932024113874406982323652912997734728976640)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-24741106940614472916780882365929799271623350295582017599970463)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (2402965298590593182281477972401731407270671244975704494283858)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-211456483156951782480574431898617407886197741043647614921858)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (16806182195916905765842794014671909484794622698826126455197)
   ) * X ^ 27 +
-  C (
+  ratC% (
     (-1202354195785995779654082890523225913149444782850165542138)
   ) * X ^ 26
 
 theorem remainder6Coefficient2Chunk14_normalized :
     remainder6Coefficient2Chunk14 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk14 := by
   unfold remainder6Coefficient2Chunk14 remainder6Coefficient2AlignedChunk14
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk15 : Coefficient :=
-  C (
+  ratC% (
     (77153095304890737077668942243599703935246104175737125136)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-4423477744390859918217499644647603281157049011995581072)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (225668609643543268674369015601646240443689114451262043)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-10198589028139998496331355912344511811566429595809490)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (406322822601229085427412664995322862376622971469458)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-14196253238687956318636993602484934021750025160256)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (432445741976415113013625151760023859974380847594)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-11411972561018474511482830968748711674910782454)
   ) * X ^ 18
 
 theorem remainder6Coefficient2Chunk15_normalized :
     remainder6Coefficient2Chunk15 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk15 := by
   unfold remainder6Coefficient2Chunk15 remainder6Coefficient2AlignedChunk15
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk16 : Coefficient :=
-  C (
+  ratC% (
     (259032095835806047471680291963523258316846281)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-5016571911267970568378770056010879664388722)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (82134255318488324259813898544644342782820)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-1124806688485678268671566174938350959972)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (12723539027204902930750785028377793824)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-117085969791173174953432256005946158)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (859911591767474862236853619189470)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-4912615674644929106442104887993)
   ) * X ^ 10
 
 theorem remainder6Coefficient2Chunk16_normalized :
     remainder6Coefficient2Chunk16 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk16 := by
   unfold remainder6Coefficient2Chunk16 remainder6Coefficient2AlignedChunk16
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk17 : Coefficient :=
-  C (
+  ratC% (
     (21010651248469401769408684890)
   ) * X ^ 9 +
-  C (
+  ratC% (
     (-62791036209878831071617902)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (110032602948153855002974)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-23402482118936566492)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (-380092333559739692)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (895631651061428)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-952873933548)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (615854540)
   ) * X ^ 2
 
 theorem remainder6Coefficient2Chunk17_normalized :
     remainder6Coefficient2Chunk17 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk17 := by
   unfold remainder6Coefficient2Chunk17 remainder6Coefficient2AlignedChunk17
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2AlignedChunk18 : Coefficient :=
-  C (
+  ratC% (
     (50452)
   ) * X ^ 1 +
-  C (
+  ratC% (
     (64)
   ) * X ^ 0
 
 theorem remainder6Coefficient2Chunk18_normalized :
     remainder6Coefficient2Chunk18 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2AlignedChunk18 := by
   unfold remainder6Coefficient2Chunk18 remainder6Coefficient2AlignedChunk18
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder6Coefficient2Aligned : Coefficient :=
@@ -4082,30 +4037,30 @@ def remainder6Coefficient2Aligned : Coefficient :=
   remainder6Coefficient2AlignedChunk18
 
 def remainder6Coefficient2AlignedChunk0Band15 : Coefficient :=
-  C (
+  ratC% (
     (-2461177433625470012366301)
   ) * X ^ 143 +
-  C (
+  ratC% (
     (-108446004021335705563995602593)
   ) * X ^ 142 +
-  C (
+  ratC% (
     (-679622836647796301925103373653272)
   ) * X ^ 141 +
-  C (
+  ratC% (
     (-781997401037853628110156674924513602)
   ) * X ^ 140 +
-  C (
+  ratC% (
     (-51222721668122847810043521100620447938)
   ) * X ^ 139 +
-  C (
+  ratC% (
     (187346906381980229194703126609479794476830)
   ) * X ^ 138
 
 def remainder6Coefficient2AlignedChunk0Band16 : Coefficient :=
-  C (
+  ratC% (
     (-315940498887)
   ) * X ^ 145 +
-  C (
+  ratC% (
     (-4546261986553142511)
   ) * X ^ 144
 
@@ -4119,30 +4074,30 @@ theorem remainder6Coefficient2AlignedChunk0_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk1Band14 : Coefficient :=
-  C (
+  ratC% (
     (4331405697715076878606821875174121432228690553959)
   ) * X ^ 134 +
-  C (
+  ratC% (
     (-184173494402039652927556577787312030154064443690921)
   ) * X ^ 133 +
-  C (
+  ratC% (
     (533503248610561927308547472040764598809311788260629)
   ) * X ^ 132 +
-  C (
+  ratC% (
     (16492777912746110872253767570361497450564016602383889)
   ) * X ^ 131 +
-  C (
+  ratC% (
     (-195594830294760904912883832037913859582322201300968410)
   ) * X ^ 130
 
 def remainder6Coefficient2AlignedChunk1Band15 : Coefficient :=
-  C (
+  ratC% (
     (75554646756090902505803659677007006176780048)
   ) * X ^ 137 +
-  C (
+  ratC% (
     (11083058231813325753534541998899310552463098843)
   ) * X ^ 136 +
-  C (
+  ratC% (
     (591008386365947537000114344954823635360971745906)
   ) * X ^ 135
 
@@ -4156,30 +4111,30 @@ theorem remainder6Coefficient2AlignedChunk1_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk2Band13 : Coefficient :=
-  C (
+  ratC% (
     (-476000959642518193691194899440321029398768605889796046632)
   ) * X ^ 125 +
-  C (
+  ratC% (
     (324088692659975022719056641484161964385641286947987974525)
   ) * X ^ 124 +
-  C (
+  ratC% (
     (4882484666422195286022942314032170123073413014156033421842)
   ) * X ^ 123 +
-  C (
+  ratC% (
     (-33892399271717625504990669656689046133811256075925855627505)
   ) * X ^ 122
 
 def remainder6Coefficient2AlignedChunk2Band14 : Coefficient :=
-  C (
+  ratC% (
     (861568319493486277313581758166988781134493166589879363)
   ) * X ^ 129 +
-  C (
+  ratC% (
     (323528728657827882997252662855770962975995612972083350)
   ) * X ^ 128 +
-  C (
+  ratC% (
     (-25483034877747311987278361252673057010092628005243118701)
   ) * X ^ 127 +
-  C (
+  ratC% (
     (155684269321619547732468191234796906329716308101652097255)
   ) * X ^ 126
 
@@ -4193,30 +4148,30 @@ theorem remainder6Coefficient2AlignedChunk2_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk3Band12 : Coefficient :=
-  C (
+  ratC% (
     (-225116790240450019253437471817001522749965274226119911148709071)
   ) * X ^ 116 +
-  C (
+  ratC% (
     (854247556660789637063204143460183268851029218501962502844716050)
   ) * X ^ 115 +
-  C (
+  ratC% (
     (-3017820519501414118979390700298643824719871727421466764431652761)
   ) * X ^ 114
 
 def remainder6Coefficient2AlignedChunk3Band13 : Coefficient :=
-  C (
+  ratC% (
     (156955995605037260008826373638773287299386205296625576137480)
   ) * X ^ 121 +
-  C (
+  ratC% (
     (-667454621193513040472930650973150052062507424938546363984603)
   ) * X ^ 120 +
-  C (
+  ratC% (
     (2902231953813294269257723383065309943415760342747389261453518)
   ) * X ^ 119 +
-  C (
+  ratC% (
     (-12842189377860157420475819125854223848043326262653085184513954)
   ) * X ^ 118 +
-  C (
+  ratC% (
     (55337461318206169427991435619705519513791299960550277448332040)
   ) * X ^ 117
 
@@ -4230,30 +4185,30 @@ theorem remainder6Coefficient2AlignedChunk3_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk4Band11 : Coefficient :=
-  C (
+  ratC% (
     (3463341911687113218033152743936869691101937426647141264887846855107)
   ) * X ^ 107 +
-  C (
+  ratC% (
     (-7698641985646935195079739978106428239633764916984276272068174170149)
   ) * X ^ 106
 
 def remainder6Coefficient2AlignedChunk4Band12 : Coefficient :=
-  C (
+  ratC% (
     (9941138365525315152460231980761724687042321112559789013783990483)
   ) * X ^ 113 +
-  C (
+  ratC% (
     (-30611049352049747174288255916170790582375922413099782945674908933)
   ) * X ^ 112 +
-  C (
+  ratC% (
     (88341769269098873646246177622815759794873943768880528264728932084)
   ) * X ^ 111 +
-  C (
+  ratC% (
     (-239687225839803095964234683858511192865317528750830970591142136266)
   ) * X ^ 110 +
-  C (
+  ratC% (
     (613907926807779137977175922695974937659896561790087831945649856214)
   ) * X ^ 109 +
-  C (
+  ratC% (
     (-1492387759583358590386188782019477671298160995931872813895358122239)
   ) * X ^ 108
 
@@ -4267,30 +4222,30 @@ theorem remainder6Coefficient2AlignedChunk4_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk5Band10 : Coefficient :=
-  C (
+  ratC% (
     (1487241384429296246696038225936419695519235592122859474472320612921002)
   ) * X ^ 98
 
 def remainder6Coefficient2AlignedChunk5Band11 : Coefficient :=
-  C (
+  ratC% (
     (16328026263217025364926310372318107168234568138178910588114092993850)
   ) * X ^ 105 +
-  C (
+  ratC% (
     (-32467338422691874874010847322591943856934239447269368175295467391668)
   ) * X ^ 104 +
-  C (
+  ratC% (
     (58147785621425925683947656961169717573141616918159838155382090441528)
   ) * X ^ 103 +
-  C (
+  ratC% (
     (-85750182884605883896009055211771807732494622146578579745434189102691)
   ) * X ^ 102 +
-  C (
+  ratC% (
     (76153292683654570027564573922069393111938251628575806345614229896770)
   ) * X ^ 101 +
-  C (
+  ratC% (
     (76973016944077055984976897757854942749547457638069850579673058183832)
   ) * X ^ 100 +
-  C (
+  ratC% (
     (-560213934976663414978907941119988428069349063298299953694111138970854)
   ) * X ^ 99
 
@@ -4304,28 +4259,28 @@ theorem remainder6Coefficient2AlignedChunk5_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk6Band10 : Coefficient :=
-  C (
+  ratC% (
     (-2220269855050717808326966892800118966461589840112900617253334441222671)
   ) * X ^ 97 +
-  C (
+  ratC% (
     (-495869070092099641915349928922168288575164704499595254492954208327568)
   ) * X ^ 96 +
-  C (
+  ratC% (
     (16450152573856272387602165629460215596539851426757448495407429891942018)
   ) * X ^ 95 +
-  C (
+  ratC% (
     (-68433066731608761332151397480507741270876208164133060229712850018568164)
   ) * X ^ 94 +
-  C (
+  ratC% (
     (200136743417203466127334624978217097053950573006438870897819104415145047)
   ) * X ^ 93 +
-  C (
+  ratC% (
     (-480956459637295324109250327805953128650527621201512889047877740050288996)
   ) * X ^ 92 +
-  C (
+  ratC% (
     (998415945677749997639863635497783625642074473958794969581875682915641887)
   ) * X ^ 91 +
-  C (
+  ratC% (
     (-1825283987394403183884872310673072778685610687146927466659745189705127416)
   ) * X ^ 90
 
@@ -4337,28 +4292,28 @@ theorem remainder6Coefficient2AlignedChunk6_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk7Band9 : Coefficient :=
-  C (
+  ratC% (
     (2950491940447942140683992315334703316536083324643928795604318672950054368)
   ) * X ^ 89 +
-  C (
+  ratC% (
     (-4175765985388794432504656581484234535746304996690838243731278970162782513)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (5004971590320248884444499447598341324018933932496148922329168908181607965)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (-4584043912235803898008078956160506560023475113036811842445110238847670521)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (1770891393350891870186191864565556017000328190282521112358949835688384152)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (4589664670545191450873431699137664140769364216555794468410806049205706641)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-15143919020181494216803740374423506366019157086434133427155517853363743887)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (29255683232251168203546379794185426658245505766998288030485726460522711783)
   ) * X ^ 82
 
@@ -4370,30 +4325,30 @@ theorem remainder6Coefficient2AlignedChunk7_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk8Band8 : Coefficient :=
-  C (
+  ratC% (
     (52592014038040954003608254688107041146295446128908741878873888305215715229)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (-42619020380078390045819363755105148219805220934440147514267642092666631148)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (-7469556728112728725583485882770756593674562588566738924510467412024134139)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (132853107833967934326103755267337125216460561350639073810705259135347337857)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-388201367839280427496471342738371531989009666953097516787830518430691395936)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (853167342105014044078973953975308899665692045132777983805033284208897376507)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (-1634359348729489030969588443518164653677146083727512516502833661070409296878)
   ) * X ^ 74
 
 def remainder6Coefficient2AlignedChunk8Band9 : Coefficient :=
-  C (
+  ratC% (
     (-43968518932560674349333910310572830855198132345908480291712859680761145307)
   ) * X ^ 81
 
@@ -4407,30 +4362,30 @@ theorem remainder6Coefficient2AlignedChunk8_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk9Band7 : Coefficient :=
-  C (
+  ratC% (
     (7127645942880844599409401305160067789519433704582581116148394750134666963171)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (-10293507352399904282059322437428419604148188605194679171943904769462898729333)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (14059393426463223593946685355881517519492524745381709284215536828663355312756)
   ) * X ^ 69 +
-  C (
+  ratC% (
     (-18182286858062303297531215528681962920312875927551206358193759174834869303099)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (22276946618089426743022302029602904238112159287537176023224590353675742996271)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (-25864283673987277749290170335716698911724476290632260662688609329163680026745)
   ) * X ^ 66
 
 def remainder6Coefficient2AlignedChunk9Band8 : Coefficient :=
-  C (
+  ratC% (
     (2859238233819039389913178039209596898909553016190601118377305297208156819561)
   ) * X ^ 73 +
-  C (
+  ratC% (
     (-4657442894716196302657454051225033621427287388144250440198514632378232453960)
   ) * X ^ 72
 
@@ -4444,30 +4399,30 @@ theorem remainder6Coefficient2AlignedChunk9_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk10Band6 : Coefficient :=
-  C (
+  ratC% (
     (-27444825910053106174479504451124321216424730876989066265821741605865438145137)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (24331738207822110104164850114798909252323725290252525291505755297054919685905)
   ) * X ^ 61 +
-  C (
+  ratC% (
     (-20425500377864597864614178964109596003719179330282793286198023975018841536826)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (16229621549011680347638872947077081162324862855567208237257559283324442725894)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-12201354402513224268443248908035922952801640966348517011976295820834004496272)
   ) * X ^ 58
 
 def remainder6Coefficient2AlignedChunk10Band7 : Coefficient :=
-  C (
+  ratC% (
     (28458822259403448889074882196128810791341505266416173864177944440580777910068)
   ) * X ^ 65 +
-  C (
+  ratC% (
     (-29674867557679708289501470268489174245505588238427534941011092212695608481365)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (29319980919626898249757570126203368952748775669186620640859415396292356902696)
   ) * X ^ 63
 
@@ -4481,30 +4436,30 @@ theorem remainder6Coefficient2AlignedChunk10_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk11Band5 : Coefficient :=
-  C (
+  ratC% (
     (1255584941527704452746120684107279804519088262460645735236845129919743970239)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (-669748603999325958464597097086970924093349062038484944347254406246608352273)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (336610382954046870247800430609973056814614100156783614251088171941839303403)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-159272680085665554005412039868340008540313742102294464018272462502083319687)
   ) * X ^ 50
 
 def remainder6Coefficient2AlignedChunk11Band6 : Coefficient :=
-  C (
+  ratC% (
     (8675175704502810005056451020992564158793676595192802876134472101780120505581)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-5830481717436139188317407431750895890290170664608816231867081357236807638081)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (3702118370506027212413184046033707581927114714099211294382890382098601865447)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-2219513121535030164270397780679264356970392489509421053042722075040153528177)
   ) * X ^ 54
 
@@ -4518,30 +4473,30 @@ theorem remainder6Coefficient2AlignedChunk11_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk12Band4 : Coefficient :=
-  C (
+  ratC% (
     (-477479700939294940512691747416735765410275055349521383765613870503638413)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (144026353634990108295950572197513651797712126200702663275366921671474518)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-40542392880417114577827595217658727606296695805101361776225317999217069)
   ) * X ^ 42
 
 def remainder6Coefficient2AlignedChunk12Band5 : Coefficient :=
-  C (
+  ratC% (
     (70888517113836029101576065940369409531584445615282962939146396016145781328)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (-29650206849699537964032698507245513296851606331347863252387776115847583316)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (11643025766926562122844406228154118105804936001207007154181082690380887666)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-4287764319632802774818404967705164533580476016140897841109412721486110451)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (1479223768525695267592548312069830549695338278071574379291993015701877127)
   ) * X ^ 45
 
@@ -4555,30 +4510,30 @@ theorem remainder6Coefficient2AlignedChunk12_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk13Band3 : Coefficient :=
-  C (
+  ratC% (
     (718846789678887512634375406703198906074033426219391471364325124452)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-109719477140794198875804753073087276758841812036497929336081139014)
   ) * X ^ 34
 
 def remainder6Coefficient2AlignedChunk13Band4 : Coefficient :=
-  C (
+  ratC% (
     (10634972873675307031983824481469065295138060418731329479412671695351331)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-2595765894942786989133718632757646669187271864081570841784158142739798)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (588573769496079445172517403154243371285995384632417134578830221752204)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-123767440340893257820464894377312306375992236174199351256584600826497)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (24093711764446404639083968795437264738722231948853016334347723344608)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-4333812672091614152071693198914448727981015618394225383520385030545)
   ) * X ^ 36
 
@@ -4592,30 +4547,30 @@ theorem remainder6Coefficient2AlignedChunk13_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk14Band2 : Coefficient :=
-  C (
+  ratC% (
     (-1202354195785995779654082890523225913149444782850165542138)
   ) * X ^ 26
 
 def remainder6Coefficient2AlignedChunk14Band3 : Coefficient :=
-  C (
+  ratC% (
     (15375938023292737443314781690066611953593395774740798451247935996)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-1973712993822071474949706404738701900439752945304094416663486397)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (231486617206828337106932024113874406982323652912997734728976640)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-24741106940614472916780882365929799271623350295582017599970463)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (2402965298590593182281477972401731407270671244975704494283858)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-211456483156951782480574431898617407886197741043647614921858)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (16806182195916905765842794014671909484794622698826126455197)
   ) * X ^ 27
 
@@ -4629,28 +4584,28 @@ theorem remainder6Coefficient2AlignedChunk14_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk15Band2 : Coefficient :=
-  C (
+  ratC% (
     (77153095304890737077668942243599703935246104175737125136)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-4423477744390859918217499644647603281157049011995581072)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (225668609643543268674369015601646240443689114451262043)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-10198589028139998496331355912344511811566429595809490)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (406322822601229085427412664995322862376622971469458)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-14196253238687956318636993602484934021750025160256)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (432445741976415113013625151760023859974380847594)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-11411972561018474511482830968748711674910782454)
   ) * X ^ 18
 
@@ -4662,28 +4617,28 @@ theorem remainder6Coefficient2AlignedChunk15_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk16Band1 : Coefficient :=
-  C (
+  ratC% (
     (259032095835806047471680291963523258316846281)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-5016571911267970568378770056010879664388722)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (82134255318488324259813898544644342782820)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-1124806688485678268671566174938350959972)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (12723539027204902930750785028377793824)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-117085969791173174953432256005946158)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (859911591767474862236853619189470)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-4912615674644929106442104887993)
   ) * X ^ 10
 
@@ -4695,30 +4650,30 @@ theorem remainder6Coefficient2AlignedChunk16_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk17Band0 : Coefficient :=
-  C (
+  ratC% (
     (-62791036209878831071617902)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (110032602948153855002974)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-23402482118936566492)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (-380092333559739692)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (895631651061428)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-952873933548)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (615854540)
   ) * X ^ 2
 
 def remainder6Coefficient2AlignedChunk17Band1 : Coefficient :=
-  C (
+  ratC% (
     (21010651248469401769408684890)
   ) * X ^ 9
 
@@ -4732,10 +4687,10 @@ theorem remainder6Coefficient2AlignedChunk17_pieces :
   ring
 
 def remainder6Coefficient2AlignedChunk18Band0 : Coefficient :=
-  C (
+  ratC% (
     (50452)
   ) * X ^ 1 +
-  C (
+  ratC% (
     (64)
   ) * X ^ 0
 
@@ -4957,7 +4912,7 @@ theorem remainder6Coefficient2Aligned_eq :
 
 theorem remainder6Coefficient2_eq_normalized :
     remainder6Coefficient2 =
-      C (
+      ratC% (
         (169974242287568876381639744907962243436895047572089)
       ) * remainder6Coefficient2Normalized := by
   unfold remainder6Coefficient2 remainder6Coefficient2Block0 remainder6Coefficient2Block1
@@ -4985,420 +4940,409 @@ theorem remainder6Coefficient2_eq_normalized :
   ring
 
 def remainder7Coefficient0AlignedChunk0 : Coefficient :=
-  C (
+  ratC% (
     (-1373177)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (7716019197590)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (-254122828595791380)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (352825297716938520389)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (-68322672811486813538134)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-29670803770937401458178037)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (1695634561545085828928429959)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (10477660306845060360644614411)
   ) * X ^ 81
 
 theorem remainder7Coefficient0Chunk0_normalized :
     remainder7Coefficient0Chunk0 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk0 := by
   unfold remainder7Coefficient0Chunk0 remainder7Coefficient0AlignedChunk0
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk1 : Coefficient :=
-  C (
+  ratC% (
     (-233809468652868163119944421292)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (678489421943766528502281920693)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (2800596961661308463725888014538)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (-1690461676274005694192406860044)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-226517164352505937025888890648132)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (1485737405210102463359773355253829)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (-2086994444234866319936135987406512)
   ) * X ^ 74 +
-  C (
+  ratC% (
     (-26000289674995471447788103119901955)
   ) * X ^ 73
 
 theorem remainder7Coefficient0Chunk1_normalized :
     remainder7Coefficient0Chunk1 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk1 := by
   unfold remainder7Coefficient0Chunk1 remainder7Coefficient0AlignedChunk1
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk2 : Coefficient :=
-  C (
+  ratC% (
     (218894204664051951539040184986346788)
   ) * X ^ 72 +
-  C (
+  ratC% (
     (-961466319519087161260232994674903056)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (2830930383432473315760941870986302161)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (-5427576367215037642541262805143958935)
   ) * X ^ 69 +
-  C (
+  ratC% (
     (3211794323129787088548195310230896362)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (24153677813389305383296276003473599084)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (-128629631816552098080409543822463733076)
   ) * X ^ 66 +
-  C (
+  ratC% (
     (416068241098783298139826059772715972545)
   ) * X ^ 65
 
 theorem remainder7Coefficient0Chunk2_normalized :
     remainder7Coefficient0Chunk2 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk2 := by
   unfold remainder7Coefficient0Chunk2 remainder7Coefficient0AlignedChunk2
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk3 : Coefficient :=
-  C (
+  ratC% (
     (-1066037352037016856178458863183107205926)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (2335831244776793483990325240761008323748)
   ) * X ^ 63 +
-  C (
+  ratC% (
     (-4540210251637860205418195208535959220457)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (8020728833161320862272448650228520526353)
   ) * X ^ 61 +
-  C (
+  ratC% (
     (-13125585342895065323015505974155898743873)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (20081815084119263569869152713467142627251)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-28116807336188339469274532844730261231727)
   ) * X ^ 58 +
-  C (
+  ratC% (
     (32151263824530259001168664020939017680127)
   ) * X ^ 57
 
 theorem remainder7Coefficient0Chunk3_normalized :
     remainder7Coefficient0Chunk3 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk3 := by
   unfold remainder7Coefficient0Chunk3 remainder7Coefficient0AlignedChunk3
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk4 : Coefficient :=
-  C (
+  ratC% (
     (-14612706868881853986394265337600927556755)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (-67380991694742094705117483305623591789028)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (285882514703211166069038330824051165490866)
   ) * X ^ 54 +
-  C (
+  ratC% (
     (-689805149901965499466416196598290020166421)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (1092170484437400110960352058629148818138479)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (-534143116053057852097455352543494165083863)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-3729824296188067750273254807062069436215272)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (17700169061522660189499102186315044486474827)
   ) * X ^ 49
 
 theorem remainder7Coefficient0Chunk4_normalized :
     remainder7Coefficient0Chunk4 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk4 := by
   unfold remainder7Coefficient0Chunk4 remainder7Coefficient0AlignedChunk4
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk5 : Coefficient :=
-  C (
+  ratC% (
     (-52086281024110934641435460965761482450406920)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (122652044579047292743206731445877024903400454)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-247931127489997908271728783701994098558255119)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (443215089295371384649849220586239071917610698)
   ) * X ^ 45 +
-  C (
+  ratC% (
     (-711478550793202947751427266058338063067197463)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (1034595796885930676778990985442042308045175966)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-1370160821449111692312275718228845931926790368)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (1658321517687828179764713747902787094831125137)
   ) * X ^ 41
 
 theorem remainder7Coefficient0Chunk5_normalized :
     remainder7Coefficient0Chunk5 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk5 := by
   unfold remainder7Coefficient0Chunk5 remainder7Coefficient0AlignedChunk5
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk6 : Coefficient :=
-  C (
+  ratC% (
     (-1838543763697284624542406371963205519213556988)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (1870211159854321962625418178664357635797851048)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-1747508005908918766412712216686078774424424543)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (1501124952938616812848246064742538914564641382)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-1186122364197847931683150194684841344610647396)
   ) * X ^ 36 +
-  C (
+  ratC% (
     (862391488846560387333515684369669044341536458)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-577018899215940779803918682841427827021671298)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (355242326417656138647222508446703098349275513)
   ) * X ^ 33
 
 theorem remainder7Coefficient0Chunk6_normalized :
     remainder7Coefficient0Chunk6 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk6 := by
   unfold remainder7Coefficient0Chunk6 remainder7Coefficient0AlignedChunk6
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk7 : Coefficient :=
-  C (
+  ratC% (
     (-201149336333637983269308633595075627200536031)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (104671779285539508841465109229183895024140162)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-49996156526202268267729366709162218100152069)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (21883304069025970813438678085572738889797357)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-8757940462674464428902157135441901655258855)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (3195937483586069513045331428253808319854892)
   ) * X ^ 27 +
-  C (
+  ratC% (
     (-1059821813351123995437782690938017621994262)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (318100514287678210266838214311394262596857)
   ) * X ^ 25
 
 theorem remainder7Coefficient0Chunk7_normalized :
     remainder7Coefficient0Chunk7 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk7 := by
   unfold remainder7Coefficient0Chunk7 remainder7Coefficient0AlignedChunk7
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk8 : Coefficient :=
-  C (
+  ratC% (
     (-86014820568180252736039213140083924088236)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (20842873986610681140892828902007118034755)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-4499126544234494083041051537115487295346)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (859414478191869075907985295334854659472)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-144210532219628122684973806217761779988)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (21087030829891853780743217513687964908)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-2663411680601368953497104489708664294)
   ) * X ^ 18 +
-  C (
+  ratC% (
     (287810023914401096857118184919994725)
   ) * X ^ 17
 
 theorem remainder7Coefficient0Chunk8_normalized :
     remainder7Coefficient0Chunk8 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk8 := by
   unfold remainder7Coefficient0Chunk8 remainder7Coefficient0AlignedChunk8
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk9 : Coefficient :=
-  C (
+  ratC% (
     (-26332671950695705534455714527045079)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (2016873124552149953013235502507296)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-127719584918819410375213819410722)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (6595392129393813821923055995899)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-273429978220577115661169958211)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (8936687611683702163442626373)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-225263605566952659060625772)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (4259153362292864437123282)
   ) * X ^ 9
 
 theorem remainder7Coefficient0Chunk9_normalized :
     remainder7Coefficient0Chunk9 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk9 := by
   unfold remainder7Coefficient0Chunk9 remainder7Coefficient0AlignedChunk9
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk10 : Coefficient :=
-  C (
+  ratC% (
     (-58196452614666749655173)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (544320982080656937619)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-3182605184356885091)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (9485918923583347)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (-3343254232256)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-43971211448)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (54890212)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (16176)
   ) * X ^ 1
 
 theorem remainder7Coefficient0Chunk10_normalized :
     remainder7Coefficient0Chunk10 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk10 := by
   unfold remainder7Coefficient0Chunk10 remainder7Coefficient0AlignedChunk10
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient0AlignedChunk11 : Coefficient :=
-  C (
+  ratC% (
     (-8)
   ) * X ^ 0
 
 theorem remainder7Coefficient0Chunk11_normalized :
     remainder7Coefficient0Chunk11 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0AlignedChunk11 := by
@@ -5422,28 +5366,28 @@ def remainder7Coefficient0Aligned : Coefficient :=
   remainder7Coefficient0AlignedChunk11
 
 def remainder7Coefficient0AlignedChunk0Band9 : Coefficient :=
-  C (
+  ratC% (
     (-1373177)
   ) * X ^ 88 +
-  C (
+  ratC% (
     (7716019197590)
   ) * X ^ 87 +
-  C (
+  ratC% (
     (-254122828595791380)
   ) * X ^ 86 +
-  C (
+  ratC% (
     (352825297716938520389)
   ) * X ^ 85 +
-  C (
+  ratC% (
     (-68322672811486813538134)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (-29670803770937401458178037)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (1695634561545085828928429959)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (10477660306845060360644614411)
   ) * X ^ 81
 
@@ -5455,28 +5399,28 @@ theorem remainder7Coefficient0AlignedChunk0_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk1Band8 : Coefficient :=
-  C (
+  ratC% (
     (-233809468652868163119944421292)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (678489421943766528502281920693)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (2800596961661308463725888014538)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (-1690461676274005694192406860044)
   ) * X ^ 77 +
-  C (
+  ratC% (
     (-226517164352505937025888890648132)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (1485737405210102463359773355253829)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (-2086994444234866319936135987406512)
   ) * X ^ 74 +
-  C (
+  ratC% (
     (-26000289674995471447788103119901955)
   ) * X ^ 73
 
@@ -5488,30 +5432,30 @@ theorem remainder7Coefficient0AlignedChunk1_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk2Band7 : Coefficient :=
-  C (
+  ratC% (
     (-961466319519087161260232994674903056)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (2830930383432473315760941870986302161)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (-5427576367215037642541262805143958935)
   ) * X ^ 69 +
-  C (
+  ratC% (
     (3211794323129787088548195310230896362)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (24153677813389305383296276003473599084)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (-128629631816552098080409543822463733076)
   ) * X ^ 66 +
-  C (
+  ratC% (
     (416068241098783298139826059772715972545)
   ) * X ^ 65
 
 def remainder7Coefficient0AlignedChunk2Band8 : Coefficient :=
-  C (
+  ratC% (
     (218894204664051951539040184986346788)
   ) * X ^ 72
 
@@ -5525,30 +5469,30 @@ theorem remainder7Coefficient0AlignedChunk2_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk3Band6 : Coefficient :=
-  C (
+  ratC% (
     (-4540210251637860205418195208535959220457)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (8020728833161320862272448650228520526353)
   ) * X ^ 61 +
-  C (
+  ratC% (
     (-13125585342895065323015505974155898743873)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (20081815084119263569869152713467142627251)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-28116807336188339469274532844730261231727)
   ) * X ^ 58 +
-  C (
+  ratC% (
     (32151263824530259001168664020939017680127)
   ) * X ^ 57
 
 def remainder7Coefficient0AlignedChunk3Band7 : Coefficient :=
-  C (
+  ratC% (
     (-1066037352037016856178458863183107205926)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (2335831244776793483990325240761008323748)
   ) * X ^ 63
 
@@ -5562,30 +5506,30 @@ theorem remainder7Coefficient0AlignedChunk3_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk4Band5 : Coefficient :=
-  C (
+  ratC% (
     (-689805149901965499466416196598290020166421)
   ) * X ^ 53 +
-  C (
+  ratC% (
     (1092170484437400110960352058629148818138479)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (-534143116053057852097455352543494165083863)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (-3729824296188067750273254807062069436215272)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (17700169061522660189499102186315044486474827)
   ) * X ^ 49
 
 def remainder7Coefficient0AlignedChunk4Band6 : Coefficient :=
-  C (
+  ratC% (
     (-14612706868881853986394265337600927556755)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (-67380991694742094705117483305623591789028)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (285882514703211166069038330824051165490866)
   ) * X ^ 54
 
@@ -5599,30 +5543,30 @@ theorem remainder7Coefficient0AlignedChunk4_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk5Band4 : Coefficient :=
-  C (
+  ratC% (
     (-711478550793202947751427266058338063067197463)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (1034595796885930676778990985442042308045175966)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-1370160821449111692312275718228845931926790368)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (1658321517687828179764713747902787094831125137)
   ) * X ^ 41
 
 def remainder7Coefficient0AlignedChunk5Band5 : Coefficient :=
-  C (
+  ratC% (
     (-52086281024110934641435460965761482450406920)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (122652044579047292743206731445877024903400454)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-247931127489997908271728783701994098558255119)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (443215089295371384649849220586239071917610698)
   ) * X ^ 45
 
@@ -5636,30 +5580,30 @@ theorem remainder7Coefficient0AlignedChunk5_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk6Band3 : Coefficient :=
-  C (
+  ratC% (
     (862391488846560387333515684369669044341536458)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-577018899215940779803918682841427827021671298)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (355242326417656138647222508446703098349275513)
   ) * X ^ 33
 
 def remainder7Coefficient0AlignedChunk6Band4 : Coefficient :=
-  C (
+  ratC% (
     (-1838543763697284624542406371963205519213556988)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (1870211159854321962625418178664357635797851048)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-1747508005908918766412712216686078774424424543)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (1501124952938616812848246064742538914564641382)
   ) * X ^ 37 +
-  C (
+  ratC% (
     (-1186122364197847931683150194684841344610647396)
   ) * X ^ 36
 
@@ -5673,30 +5617,30 @@ theorem remainder7Coefficient0AlignedChunk6_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk7Band2 : Coefficient :=
-  C (
+  ratC% (
     (-1059821813351123995437782690938017621994262)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (318100514287678210266838214311394262596857)
   ) * X ^ 25
 
 def remainder7Coefficient0AlignedChunk7Band3 : Coefficient :=
-  C (
+  ratC% (
     (-201149336333637983269308633595075627200536031)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (104671779285539508841465109229183895024140162)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-49996156526202268267729366709162218100152069)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (21883304069025970813438678085572738889797357)
   ) * X ^ 29 +
-  C (
+  ratC% (
     (-8757940462674464428902157135441901655258855)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (3195937483586069513045331428253808319854892)
   ) * X ^ 27
 
@@ -5710,30 +5654,30 @@ theorem remainder7Coefficient0AlignedChunk7_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk8Band1 : Coefficient :=
-  C (
+  ratC% (
     (287810023914401096857118184919994725)
   ) * X ^ 17
 
 def remainder7Coefficient0AlignedChunk8Band2 : Coefficient :=
-  C (
+  ratC% (
     (-86014820568180252736039213140083924088236)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (20842873986610681140892828902007118034755)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-4499126544234494083041051537115487295346)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (859414478191869075907985295334854659472)
   ) * X ^ 21 +
-  C (
+  ratC% (
     (-144210532219628122684973806217761779988)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (21087030829891853780743217513687964908)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-2663411680601368953497104489708664294)
   ) * X ^ 18
 
@@ -5747,28 +5691,28 @@ theorem remainder7Coefficient0AlignedChunk8_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk9Band1 : Coefficient :=
-  C (
+  ratC% (
     (-26332671950695705534455714527045079)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (2016873124552149953013235502507296)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-127719584918819410375213819410722)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (6595392129393813821923055995899)
   ) * X ^ 13 +
-  C (
+  ratC% (
     (-273429978220577115661169958211)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (8936687611683702163442626373)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-225263605566952659060625772)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (4259153362292864437123282)
   ) * X ^ 9
 
@@ -5780,28 +5724,28 @@ theorem remainder7Coefficient0AlignedChunk9_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk10Band0 : Coefficient :=
-  C (
+  ratC% (
     (-58196452614666749655173)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (544320982080656937619)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-3182605184356885091)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (9485918923583347)
   ) * X ^ 5 +
-  C (
+  ratC% (
     (-3343254232256)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-43971211448)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (54890212)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (16176)
   ) * X ^ 1
 
@@ -5813,7 +5757,7 @@ theorem remainder7Coefficient0AlignedChunk10_pieces :
   ring
 
 def remainder7Coefficient0AlignedChunk11Band0 : Coefficient :=
-  C (
+  ratC% (
     (-8)
   ) * X ^ 0
 
@@ -5951,7 +5895,7 @@ theorem remainder7Coefficient0Aligned_eq :
 
 theorem remainder7Coefficient0_eq_normalized :
     remainder7Coefficient0 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient0Normalized := by
@@ -5973,401 +5917,390 @@ theorem remainder7Coefficient0_eq_normalized :
   ring
 
 def remainder7Coefficient1AlignedChunk0 : Coefficient :=
-  C (
+  ratC% (
     (-23069201)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (60434660344933)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (-1422671437485610522)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (1722235163684153982521)
   ) * X ^ 81 +
-  C (
+  ratC% (
     (-302783529996476591247136)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (-135442515618776769100312909)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (8810638856519263889915976312)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (-61061238808946806887114581598)
   ) * X ^ 77
 
 theorem remainder7Coefficient1Chunk0_normalized :
     remainder7Coefficient1Chunk0 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk0 := by
   unfold remainder7Coefficient1Chunk0 remainder7Coefficient1AlignedChunk0
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk1 : Coefficient :=
-  C (
+  ratC% (
     (33942948959254832851312831621)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (78149547963546810914228595719)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (8685744567638681761977985259999)
   ) * X ^ 74 +
-  C (
+  ratC% (
     (-41678446269648527140240647875527)
   ) * X ^ 73 +
-  C (
+  ratC% (
     (-290372329273266516382793506938769)
   ) * X ^ 72 +
-  C (
+  ratC% (
     (4205829835287603026790095705715890)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (-23129876039104876349323575018325935)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (66597629994619763482877138294655478)
   ) * X ^ 69
 
 theorem remainder7Coefficient1Chunk1_normalized :
     remainder7Coefficient1Chunk1 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk1 := by
   unfold remainder7Coefficient1Chunk1 remainder7Coefficient1AlignedChunk1
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk2 : Coefficient :=
-  C (
+  ratC% (
     (-19293026016932959831329131870517654)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (-861302495575760332906857829397951750)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (5245346440092702796340378825396793093)
   ) * X ^ 66 +
-  C (
+  ratC% (
     (-19984618290499381694085505393715780836)
   ) * X ^ 65 +
-  C (
+  ratC% (
     (58169030201845705727183658342487534134)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (-137122462938061019838569480925074865927)
   ) * X ^ 63 +
-  C (
+  ratC% (
     (265162405627102369754603044478660081853)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (-409069424531728695369242869347868646592)
   ) * X ^ 61
 
 theorem remainder7Coefficient1Chunk2_normalized :
     remainder7Coefficient1Chunk2 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk2 := by
   unfold remainder7Coefficient1Chunk2 remainder7Coefficient1AlignedChunk2
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk3 : Coefficient :=
-  C (
+  ratC% (
     (441267654667535139226336832475525937427)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (-85297241202895640412928933320271771895)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-1095046781367419033580458345411011854478)
   ) * X ^ 58 +
-  C (
+  ratC% (
     (3604527182103299750262699003099223771651)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-7780572314545453402533430076013474646184)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (13365891959528995592400118133160125995040)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-18690156317740598066882556613479625683765)
   ) * X ^ 54 +
-  C (
+  ratC% (
     (18948338326664669416447986691408775563783)
   ) * X ^ 53
 
 theorem remainder7Coefficient1Chunk3_normalized :
     remainder7Coefficient1Chunk3 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk3 := by
   unfold remainder7Coefficient1Chunk3 remainder7Coefficient1AlignedChunk3
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk4 : Coefficient :=
-  C (
+  ratC% (
     (-3183164955044598188900414638539451069461)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (-48258477529684853584267152176622849273146)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (157758354464495298707407299484365794205630)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (-317379579889177341877310517777175984739678)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (400899584896082079353056310883427517412232)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (842385070206877486124388258873514039217)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-1801985321585168664951411670207289045350036)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (6596233663718766255287405909531948942448862)
   ) * X ^ 45
 
 theorem remainder7Coefficient1Chunk4_normalized :
     remainder7Coefficient1Chunk4 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk4 := by
   unfold remainder7Coefficient1Chunk4 remainder7Coefficient1AlignedChunk4
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk5 : Coefficient :=
-  C (
+  ratC% (
     (-16579401828389686175687769990216490386209878)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (33992832408098864847723980280590744802922121)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-60031730907139204563095458788837091686442275)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (93547455212030670858945867809704833952184577)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-130270630852449759796793911534770749359429299)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (163319836424486826436349768091178753810746930)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-185198533512948406699887817129641801833325653)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (190548789932272551877113293102639206050270627)
   ) * X ^ 37
 
 theorem remainder7Coefficient1Chunk5_normalized :
     remainder7Coefficient1Chunk5 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk5 := by
   unfold remainder7Coefficient1Chunk5 remainder7Coefficient1AlignedChunk5
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk6 : Coefficient :=
-  C (
+  ratC% (
     (-178284183352468228350319260024924123447536435)
   ) * X ^ 36 +
-  C (
+  ratC% (
     (151940831112277194585874105988525813057754994)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-118096225473730937043268933728327429094289687)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (83793063668450327637674888512066894217449835)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-54309708888104016005869256155969876910376868)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (32165859683349457881910730456527621430660781)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-17407864508940912780454862049081434273349626)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (8604011895338556065047395906268863454417173)
   ) * X ^ 29
 
 theorem remainder7Coefficient1Chunk6_normalized :
     remainder7Coefficient1Chunk6 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk6 := by
   unfold remainder7Coefficient1Chunk6 remainder7Coefficient1AlignedChunk6
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk7 : Coefficient :=
-  C (
+  ratC% (
     (-3879436806341771398220567072621557175369320)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (1592709349472522201624669920675552838076693)
   ) * X ^ 27 +
-  C (
+  ratC% (
     (-593785809130706467161180491816849481863710)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (200301943056479705189493465483568561358680)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-60861991253592234860817619555346074612845)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (16568327233659725644781306213084896713306)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-4016053336107501738211620485829251303910)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (860815052805763151334678044354436287402)
   ) * X ^ 21
 
 theorem remainder7Coefficient1Chunk7_normalized :
     remainder7Coefficient1Chunk7 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk7 := by
   unfold remainder7Coefficient1Chunk7 remainder7Coefficient1AlignedChunk7
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk8 : Coefficient :=
-  C (
+  ratC% (
     (-161929648721431238160211112427866448281)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (26515741044666563914745264416591392341)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-3746683934624751590852631585434030611)
   ) * X ^ 18 +
-  C (
+  ratC% (
     (452596528051799217191983711368623270)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-46279213770323558467791143457614008)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (3963334997760617625464647263051635)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-281035522793071061852521976273989)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (16294558509994103603448409777580)
   ) * X ^ 13
 
 theorem remainder7Coefficient1Chunk8_normalized :
     remainder7Coefficient1Chunk8 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk8 := by
   unfold remainder7Coefficient1Chunk8 remainder7Coefficient1AlignedChunk8
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk9 : Coefficient :=
-  C (
+  ratC% (
     (-761762485869081095031692575950)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (28255259898427147151787211123)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-815765723095046917914520128)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (17902635620459510523959055)
   ) * X ^ 9 +
-  C (
+  ratC% (
     (-289572258578312944342472)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (3307638793991226591408)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-24994504970363441478)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (110878040446702865)
   ) * X ^ 5
 
 theorem remainder7Coefficient1Chunk9_normalized :
     remainder7Coefficient1Chunk9 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk9 := by
   unfold remainder7Coefficient1Chunk9 remainder7Coefficient1AlignedChunk9
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1AlignedChunk10 : Coefficient :=
-  C (
+  ratC% (
     (-205237286886744)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-215435605770)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (1129274370)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (-610064)
   ) * X ^ 1 +
-  C (
+  ratC% (
     (-162)
   ) * X ^ 0
 
 theorem remainder7Coefficient1Chunk10_normalized :
     remainder7Coefficient1Chunk10 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1AlignedChunk10 := by
   unfold remainder7Coefficient1Chunk10 remainder7Coefficient1AlignedChunk10
-  simp only [coefficientTerm_eq_C_mul_X_pow]
-  simp only [mul_add, ← mul_assoc, ← C_mul]
+  simp only [coefficientTerm_eq_C_mul_X_pow, mul_add, ← mul_assoc, ← C_mul]
   norm_num
 
 def remainder7Coefficient1Aligned : Coefficient :=
@@ -6384,30 +6317,30 @@ def remainder7Coefficient1Aligned : Coefficient :=
   remainder7Coefficient1AlignedChunk10
 
 def remainder7Coefficient1AlignedChunk0Band8 : Coefficient :=
-  C (
+  ratC% (
     (-302783529996476591247136)
   ) * X ^ 80 +
-  C (
+  ratC% (
     (-135442515618776769100312909)
   ) * X ^ 79 +
-  C (
+  ratC% (
     (8810638856519263889915976312)
   ) * X ^ 78 +
-  C (
+  ratC% (
     (-61061238808946806887114581598)
   ) * X ^ 77
 
 def remainder7Coefficient1AlignedChunk0Band9 : Coefficient :=
-  C (
+  ratC% (
     (-23069201)
   ) * X ^ 84 +
-  C (
+  ratC% (
     (60434660344933)
   ) * X ^ 83 +
-  C (
+  ratC% (
     (-1422671437485610522)
   ) * X ^ 82 +
-  C (
+  ratC% (
     (1722235163684153982521)
   ) * X ^ 81
 
@@ -6421,30 +6354,30 @@ theorem remainder7Coefficient1AlignedChunk0_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk1Band7 : Coefficient :=
-  C (
+  ratC% (
     (4205829835287603026790095705715890)
   ) * X ^ 71 +
-  C (
+  ratC% (
     (-23129876039104876349323575018325935)
   ) * X ^ 70 +
-  C (
+  ratC% (
     (66597629994619763482877138294655478)
   ) * X ^ 69
 
 def remainder7Coefficient1AlignedChunk1Band8 : Coefficient :=
-  C (
+  ratC% (
     (33942948959254832851312831621)
   ) * X ^ 76 +
-  C (
+  ratC% (
     (78149547963546810914228595719)
   ) * X ^ 75 +
-  C (
+  ratC% (
     (8685744567638681761977985259999)
   ) * X ^ 74 +
-  C (
+  ratC% (
     (-41678446269648527140240647875527)
   ) * X ^ 73 +
-  C (
+  ratC% (
     (-290372329273266516382793506938769)
   ) * X ^ 72
 
@@ -6458,30 +6391,30 @@ theorem remainder7Coefficient1AlignedChunk1_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk2Band6 : Coefficient :=
-  C (
+  ratC% (
     (265162405627102369754603044478660081853)
   ) * X ^ 62 +
-  C (
+  ratC% (
     (-409069424531728695369242869347868646592)
   ) * X ^ 61
 
 def remainder7Coefficient1AlignedChunk2Band7 : Coefficient :=
-  C (
+  ratC% (
     (-19293026016932959831329131870517654)
   ) * X ^ 68 +
-  C (
+  ratC% (
     (-861302495575760332906857829397951750)
   ) * X ^ 67 +
-  C (
+  ratC% (
     (5245346440092702796340378825396793093)
   ) * X ^ 66 +
-  C (
+  ratC% (
     (-19984618290499381694085505393715780836)
   ) * X ^ 65 +
-  C (
+  ratC% (
     (58169030201845705727183658342487534134)
   ) * X ^ 64 +
-  C (
+  ratC% (
     (-137122462938061019838569480925074865927)
   ) * X ^ 63
 
@@ -6495,30 +6428,30 @@ theorem remainder7Coefficient1AlignedChunk2_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk3Band5 : Coefficient :=
-  C (
+  ratC% (
     (18948338326664669416447986691408775563783)
   ) * X ^ 53
 
 def remainder7Coefficient1AlignedChunk3Band6 : Coefficient :=
-  C (
+  ratC% (
     (441267654667535139226336832475525937427)
   ) * X ^ 60 +
-  C (
+  ratC% (
     (-85297241202895640412928933320271771895)
   ) * X ^ 59 +
-  C (
+  ratC% (
     (-1095046781367419033580458345411011854478)
   ) * X ^ 58 +
-  C (
+  ratC% (
     (3604527182103299750262699003099223771651)
   ) * X ^ 57 +
-  C (
+  ratC% (
     (-7780572314545453402533430076013474646184)
   ) * X ^ 56 +
-  C (
+  ratC% (
     (13365891959528995592400118133160125995040)
   ) * X ^ 55 +
-  C (
+  ratC% (
     (-18690156317740598066882556613479625683765)
   ) * X ^ 54
 
@@ -6532,28 +6465,28 @@ theorem remainder7Coefficient1AlignedChunk3_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk4Band5 : Coefficient :=
-  C (
+  ratC% (
     (-3183164955044598188900414638539451069461)
   ) * X ^ 52 +
-  C (
+  ratC% (
     (-48258477529684853584267152176622849273146)
   ) * X ^ 51 +
-  C (
+  ratC% (
     (157758354464495298707407299484365794205630)
   ) * X ^ 50 +
-  C (
+  ratC% (
     (-317379579889177341877310517777175984739678)
   ) * X ^ 49 +
-  C (
+  ratC% (
     (400899584896082079353056310883427517412232)
   ) * X ^ 48 +
-  C (
+  ratC% (
     (842385070206877486124388258873514039217)
   ) * X ^ 47 +
-  C (
+  ratC% (
     (-1801985321585168664951411670207289045350036)
   ) * X ^ 46 +
-  C (
+  ratC% (
     (6596233663718766255287405909531948942448862)
   ) * X ^ 45
 
@@ -6565,28 +6498,28 @@ theorem remainder7Coefficient1AlignedChunk4_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk5Band4 : Coefficient :=
-  C (
+  ratC% (
     (-16579401828389686175687769990216490386209878)
   ) * X ^ 44 +
-  C (
+  ratC% (
     (33992832408098864847723980280590744802922121)
   ) * X ^ 43 +
-  C (
+  ratC% (
     (-60031730907139204563095458788837091686442275)
   ) * X ^ 42 +
-  C (
+  ratC% (
     (93547455212030670858945867809704833952184577)
   ) * X ^ 41 +
-  C (
+  ratC% (
     (-130270630852449759796793911534770749359429299)
   ) * X ^ 40 +
-  C (
+  ratC% (
     (163319836424486826436349768091178753810746930)
   ) * X ^ 39 +
-  C (
+  ratC% (
     (-185198533512948406699887817129641801833325653)
   ) * X ^ 38 +
-  C (
+  ratC% (
     (190548789932272551877113293102639206050270627)
   ) * X ^ 37
 
@@ -6598,30 +6531,30 @@ theorem remainder7Coefficient1AlignedChunk5_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk6Band3 : Coefficient :=
-  C (
+  ratC% (
     (151940831112277194585874105988525813057754994)
   ) * X ^ 35 +
-  C (
+  ratC% (
     (-118096225473730937043268933728327429094289687)
   ) * X ^ 34 +
-  C (
+  ratC% (
     (83793063668450327637674888512066894217449835)
   ) * X ^ 33 +
-  C (
+  ratC% (
     (-54309708888104016005869256155969876910376868)
   ) * X ^ 32 +
-  C (
+  ratC% (
     (32165859683349457881910730456527621430660781)
   ) * X ^ 31 +
-  C (
+  ratC% (
     (-17407864508940912780454862049081434273349626)
   ) * X ^ 30 +
-  C (
+  ratC% (
     (8604011895338556065047395906268863454417173)
   ) * X ^ 29
 
 def remainder7Coefficient1AlignedChunk6Band4 : Coefficient :=
-  C (
+  ratC% (
     (-178284183352468228350319260024924123447536435)
   ) * X ^ 36
 
@@ -6635,30 +6568,30 @@ theorem remainder7Coefficient1AlignedChunk6_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk7Band2 : Coefficient :=
-  C (
+  ratC% (
     (-593785809130706467161180491816849481863710)
   ) * X ^ 26 +
-  C (
+  ratC% (
     (200301943056479705189493465483568561358680)
   ) * X ^ 25 +
-  C (
+  ratC% (
     (-60861991253592234860817619555346074612845)
   ) * X ^ 24 +
-  C (
+  ratC% (
     (16568327233659725644781306213084896713306)
   ) * X ^ 23 +
-  C (
+  ratC% (
     (-4016053336107501738211620485829251303910)
   ) * X ^ 22 +
-  C (
+  ratC% (
     (860815052805763151334678044354436287402)
   ) * X ^ 21
 
 def remainder7Coefficient1AlignedChunk7Band3 : Coefficient :=
-  C (
+  ratC% (
     (-3879436806341771398220567072621557175369320)
   ) * X ^ 28 +
-  C (
+  ratC% (
     (1592709349472522201624669920675552838076693)
   ) * X ^ 27
 
@@ -6672,30 +6605,30 @@ theorem remainder7Coefficient1AlignedChunk7_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk8Band1 : Coefficient :=
-  C (
+  ratC% (
     (452596528051799217191983711368623270)
   ) * X ^ 17 +
-  C (
+  ratC% (
     (-46279213770323558467791143457614008)
   ) * X ^ 16 +
-  C (
+  ratC% (
     (3963334997760617625464647263051635)
   ) * X ^ 15 +
-  C (
+  ratC% (
     (-281035522793071061852521976273989)
   ) * X ^ 14 +
-  C (
+  ratC% (
     (16294558509994103603448409777580)
   ) * X ^ 13
 
 def remainder7Coefficient1AlignedChunk8Band2 : Coefficient :=
-  C (
+  ratC% (
     (-161929648721431238160211112427866448281)
   ) * X ^ 20 +
-  C (
+  ratC% (
     (26515741044666563914745264416591392341)
   ) * X ^ 19 +
-  C (
+  ratC% (
     (-3746683934624751590852631585434030611)
   ) * X ^ 18
 
@@ -6709,30 +6642,30 @@ theorem remainder7Coefficient1AlignedChunk8_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk9Band0 : Coefficient :=
-  C (
+  ratC% (
     (-289572258578312944342472)
   ) * X ^ 8 +
-  C (
+  ratC% (
     (3307638793991226591408)
   ) * X ^ 7 +
-  C (
+  ratC% (
     (-24994504970363441478)
   ) * X ^ 6 +
-  C (
+  ratC% (
     (110878040446702865)
   ) * X ^ 5
 
 def remainder7Coefficient1AlignedChunk9Band1 : Coefficient :=
-  C (
+  ratC% (
     (-761762485869081095031692575950)
   ) * X ^ 12 +
-  C (
+  ratC% (
     (28255259898427147151787211123)
   ) * X ^ 11 +
-  C (
+  ratC% (
     (-815765723095046917914520128)
   ) * X ^ 10 +
-  C (
+  ratC% (
     (17902635620459510523959055)
   ) * X ^ 9
 
@@ -6746,19 +6679,19 @@ theorem remainder7Coefficient1AlignedChunk9_pieces :
   ring
 
 def remainder7Coefficient1AlignedChunk10Band0 : Coefficient :=
-  C (
+  ratC% (
     (-205237286886744)
   ) * X ^ 4 +
-  C (
+  ratC% (
     (-215435605770)
   ) * X ^ 3 +
-  C (
+  ratC% (
     (1129274370)
   ) * X ^ 2 +
-  C (
+  ratC% (
     (-610064)
   ) * X ^ 1 +
-  C (
+  ratC% (
     (-162)
   ) * X ^ 0
 
@@ -6895,7 +6828,7 @@ theorem remainder7Coefficient1Aligned_eq :
 
 theorem remainder7Coefficient1_eq_normalized :
     remainder7Coefficient1 =
-      C (
+      ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
           76164207728007698297318822544326745362653178990742192636567850547586675788100))
       ) * remainder7Coefficient1Normalized := by

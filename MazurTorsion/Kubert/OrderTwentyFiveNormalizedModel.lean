@@ -1846,16 +1846,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_0
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   constructor <;> field_simp [_hxNum, _hden, _hnextDen]
   all_goals
-    try unfold twentyFiveA
-    try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
     ring
 
 private theorem twentyFiveNormalizedDatum_next_spec_1
@@ -1875,14 +1865,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_1
   all_goals
     try unfold twentyFiveA
     try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
-    try unfold twentyFiveE
-    try unfold twentyFiveF
-    try unfold twentyFiveG
-    try unfold twentyFiveH
-    try unfold twentyFiveI
-    try unfold twentyFiveJ
     ring
 
 private theorem twentyFiveNormalizedDatum_next_spec_2
@@ -1902,8 +1884,6 @@ private theorem twentyFiveNormalizedDatum_next_spec_2
   all_goals
     try unfold twentyFiveA
     try unfold twentyFiveB
-    try unfold twentyFiveC
-    try unfold twentyFiveD
     try unfold twentyFiveE
     try unfold twentyFiveF
     try unfold twentyFiveG
@@ -2130,6 +2110,16 @@ private theorem twentyFiveNormalizedDatum_next_spec_9_x
   unfold twentyFiveA twentyFiveE twentyFiveF twentyFiveG twentyFiveH
   ring
 
+private theorem twentyFiveI_recurrence (b c : ℚ) :
+    twentyFiveB b c * twentyFiveI b c * twentyFiveF b c ^ 2 +
+        b * (c * twentyFiveA b c * twentyFiveG b c) ^ 3 =
+      (b - c) * twentyFiveE b c * twentyFiveH b c ^ 2 +
+        (1 - c) * twentyFiveF b c * twentyFiveH b c *
+          (c * twentyFiveA b c * twentyFiveG b c) := by
+  unfold twentyFiveA twentyFiveB twentyFiveE twentyFiveF twentyFiveG
+    twentyFiveH twentyFiveI
+  ring
+
 private theorem twentyFiveNormalizedDatum_next_spec_9_y
     (b c : ℚ)
     (_hxNum : (twentyFiveNormalizedDatum b c 9).xNum ≠ 0)
@@ -2146,9 +2136,7 @@ private theorem twentyFiveNormalizedDatum_next_spec_9_y
   rw [hxNext]
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   field_simp [_hxNum, _hden, _hnextDen]
-  unfold twentyFiveA twentyFiveB twentyFiveE twentyFiveF twentyFiveG
-    twentyFiveH twentyFiveI
-  ring
+  linear_combination twentyFiveF b c ^ 3 * twentyFiveI_recurrence b c
 
 private theorem twentyFiveNormalizedDatum_next_spec_9
     (b c : ℚ)
@@ -2179,6 +2167,18 @@ private theorem twentyFiveNormalizedDatum_next_spec_10_x
   unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH twentyFiveI
   ring
 
+private theorem twentyFiveJ_recurrence (b c : ℚ) :
+    -(twentyFiveB b c) ^ 2 * twentyFiveI b c ^ 2 * twentyFiveF b c +
+        twentyFiveB b c * twentyFiveI b c *
+          (c * twentyFiveA b c * twentyFiveG b c) * (1 - c) *
+          twentyFiveH b c +
+        twentyFiveH b c ^ 3 =
+      (b - c) * twentyFiveJ b c * b *
+        (c * twentyFiveA b c * twentyFiveG b c) ^ 2 := by
+  unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH
+    twentyFiveI twentyFiveJ
+  ring
+
 private theorem twentyFiveNormalizedDatum_next_spec_10_y
     (b c : ℚ)
     (_hxNum : (twentyFiveNormalizedDatum b c 10).xNum ≠ 0)
@@ -2195,9 +2195,9 @@ private theorem twentyFiveNormalizedDatum_next_spec_10_y
   rw [hxNext]
   try simp only [mul_ne_zero_iff] at _hxNum _hden _hnextDen
   field_simp [_hxNum, _hden, _hnextDen]
-  unfold twentyFiveA twentyFiveB twentyFiveF twentyFiveG twentyFiveH
-    twentyFiveI twentyFiveJ
-  ring
+  linear_combination
+    b * (c * twentyFiveA b c * twentyFiveG b c) ^ 3 *
+      twentyFiveJ_recurrence b c
 
 private theorem twentyFiveNormalizedDatum_next_spec_10
     (b c : ℚ)

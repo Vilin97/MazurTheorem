@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 
 module
-public import Mathlib.Algebra.Ring.Rat
+public import MazurTorsion.Kubert.OrderTwentySevenTrisectionData
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.SuppressCompilation
 
@@ -15,6 +15,8 @@ import Mathlib.Tactic.SuppressCompilation
 
 This file is one load-balanced shard of the generated polynomial data used by
 the order-27 third-leg certificate.
+The `order27_rat%` wrapper fixes rational-operation instances during
+elaboration while retaining the standard rational expressions after reduction.
 -/
 
 suppress_compilation
@@ -28,7 +30,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
   nlinarith [sq_nonneg (2 * f - 1)]
 
 /-- The kernel cubic of the third story of the tower. -/
-@[irreducible] def kernelCubicM (f Z : ℚ) : ℚ :=
+@[irreducible] def kernelCubicM (f Z : ℚ) : ℚ := order27_rat%
   Z ^ 3 + -(3 * f * (f - 1) ^ 2 * (f ^ 2 + f - 1)) * Z ^ 2 + -(3 * f * (f - 1) * (3 * f ^ 9 - f ^
     8 - 26 * f ^ 7 + 94 * f ^ 6 - 168 * f ^ 5 + 187 * f ^ 4 - 145 * f ^ 3 + 76 * f ^ 2 - 26 * f +
     3)) * Z + -(f * (f - 1) * (f ^ 15 + 24 * f ^ 14 - 191 * f ^ 13 + 768 * f ^ 12 - 2105 * f ^ 11
@@ -36,7 +38,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     2713 * f ^ 4 - 1020 * f ^ 3 + 259 * f ^ 2 - 39 * f + 1))
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlT0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlT0 (f ξ : ℚ) : ℚ := order27_rat%
   f ^ 33 - 13 * f ^ 32 + 3 * f ^ 31 * ξ + 84 * f ^ 31 - 39 * f ^ 30 * ξ - 358 * f ^ 30
     + 3 * f ^ 29 * ξ ^ 2 + 249 * f ^ 29 * ξ + 1126 * f ^ 29 - 45 * f ^ 28 * ξ ^ 2
     - 1044 * f ^ 28 * ξ - 2772 * f ^ 28 + f ^ 27 * ξ ^ 3 + 309 * f ^ 27 * ξ ^ 2
@@ -49,7 +51,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 44478 * f ^ 21 * ξ ^ 2 + 44046 * f ^ 21 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlT1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlT1 (f ξ : ℚ) : ℚ := order27_rat%
   9143 * f ^ 21 - 144 * f ^ 20 * ξ ^ 4 - 23955 * f ^ 20 * ξ ^ 3 - 52374 * f ^ 20 * ξ ^ 2
     - 38838 * f ^ 20 * ξ - 5531 * f ^ 20 + 756 * f ^ 19 * ξ ^ 4 + 35022 * f ^ 19 * ξ ^ 3
     + 53328 * f ^ 19 * ξ ^ 2 + 29313 * f ^ 19 * ξ + 2772 * f ^ 19 - 2487 * f ^ 18 * ξ ^ 4
@@ -62,7 +64,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 19699 * f ^ 14 * ξ ^ 3 - 6549 * f ^ 14 * ξ ^ 2 - 399 * f ^ 14 * ξ - f ^ 14
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlT2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlT2 (f ξ : ℚ) : ℚ := order27_rat%
   9 * f ^ 13 * ξ ^ 6 + 1164 * f ^ 13 * ξ ^ 5 + 14922 * f ^ 13 * ξ ^ 4 + 10962 * f ^ 13 * ξ ^ 3
     + 2520 * f ^ 13 * ξ ^ 2 + 69 * f ^ 13 * ξ - 31 * f ^ 12 * ξ ^ 6 - 2166 * f ^ 12 * ξ ^ 5
     - 10818 * f ^ 12 * ξ ^ 4 - 5227 * f ^ 12 * ξ ^ 3 - 738 * f ^ 12 * ξ ^ 2 - 6 * f ^ 12 * ξ
@@ -75,13 +77,13 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 243 * f ^ 6 * ξ ^ 6 - 114 * f ^ 6 * ξ ^ 5 - 15 * f ^ 6 * ξ ^ 4 + 24 * f ^ 5 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlT3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlT3 (f ξ : ℚ) : ℚ := order27_rat%
   122 * f ^ 5 * ξ ^ 6 + 24 * f ^ 5 * ξ ^ 5 - 18 * f ^ 4 * ξ ^ 7 - 33 * f ^ 4 * ξ ^ 6
     - 6 * f ^ 4 * ξ ^ 5 + 12 * f ^ 3 * ξ ^ 7 + 2 * f ^ 3 * ξ ^ 6 - 6 * f ^ 2 * ξ ^ 7
     - f ^ 2 * ξ ^ 6 + ξ ^ 9
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlN0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlN0 (f ξ : ℚ) : ℚ := order27_rat%
   f ^ 34 - 14 * f ^ 33 + f ^ 32 * ξ + 97 * f ^ 32 - 15 * f ^ 31 * ξ - 442 * f ^ 31
     + 107 * f ^ 30 * ξ + 1484 * f ^ 30 - 3 * f ^ 29 * ξ ^ 2 - 493 * f ^ 29 * ξ - 3898 * f ^ 29
     + 35 * f ^ 28 * ξ ^ 2 + 1665 * f ^ 28 * ξ + 8303 * f ^ 28 + f ^ 27 * ξ ^ 3
@@ -94,7 +96,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 21839 * f ^ 22
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlN1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlN1 (f ξ : ℚ) : ℚ := order27_rat%
   -267 * f ^ 21 * ξ ^ 4 - 472 * f ^ 21 * ξ ^ 3 - 18978 * f ^ 21 * ξ ^ 2 - 42560 * f ^ 21 * ξ
     - 14674 * f ^ 21 + f ^ 20 * ξ ^ 5 + 892 * f ^ 20 * ξ ^ 4 + 1455 * f ^ 20 * ξ ^ 3
     + 22364 * f ^ 20 * ξ ^ 2 + 37169 * f ^ 20 * ξ + 8303 * f ^ 20 - 6 * f ^ 19 * ξ ^ 5
@@ -108,7 +110,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 7605 * f ^ 15 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlN2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlN2 (f ξ : ℚ) : ℚ := order27_rat%
   -1412 * f ^ 15 * ξ - 14 * f ^ 15 + 34 * f ^ 14 * ξ ^ 6 + 3773 * f ^ 14 * ξ ^ 5
     + 8732 * f ^ 14 * ξ ^ 4 + 2827 * f ^ 14 * ξ ^ 3 + 3872 * f ^ 14 * ξ ^ 2 + 358 * f ^ 14 * ξ
     + f ^ 14 - 117 * f ^ 13 * ξ ^ 6 - 5565 * f ^ 13 * ξ ^ 5 - 6085 * f ^ 13 * ξ ^ 4
@@ -121,7 +123,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 72 * f ^ 9 * ξ ^ 3 + 30 * f ^ 8 * ξ ^ 7 + 1318 * f ^ 8 * ξ ^ 6 + 834 * f ^ 8 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlN3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlN3 (f ξ : ℚ) : ℚ := order27_rat%
   36 * f ^ 8 * ξ ^ 4 + 10 * f ^ 8 * ξ ^ 3 - 62 * f ^ 7 * ξ ^ 7 - 946 * f ^ 7 * ξ ^ 6
     - 201 * f ^ 7 * ξ ^ 5 - 19 * f ^ 7 * ξ ^ 4 + 89 * f ^ 6 * ξ ^ 7 + 489 * f ^ 6 * ξ ^ 6
     + 19 * f ^ 6 * ξ ^ 5 + 5 * f ^ 6 * ξ ^ 4 - 2 * f ^ 5 * ξ ^ 8 - 94 * f ^ 5 * ξ ^ 7
@@ -130,7 +132,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 11 * f ^ 2 * ξ ^ 7 + 2 * f * ξ ^ 8 - f * ξ ^ 7 + ξ ^ 9
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlD0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlD0 (f ξ : ℚ) : ℚ := order27_rat%
   f ^ 24 * ξ ^ 2 - 10 * f ^ 23 * ξ ^ 2 + 49 * f ^ 22 * ξ ^ 2 - 2 * f ^ 21 * ξ ^ 3
     - 156 * f ^ 21 * ξ ^ 2 + 16 * f ^ 20 * ξ ^ 3 + 360 * f ^ 20 * ξ ^ 2 - 66 * f ^ 19 * ξ ^ 3
     - 636 * f ^ 19 * ξ ^ 2 + f ^ 18 * ξ ^ 4 + 186 * f ^ 18 * ξ ^ 3 + 886 * f ^ 18 * ξ ^ 2
@@ -143,7 +145,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 10 * f ^ 11 * ξ ^ 2 + f ^ 10 * ξ ^ 6 - 70 * f ^ 10 * ξ ^ 5 + 213 * f ^ 10 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlD1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlD1 (f ξ : ℚ) : ℚ := order27_rat%
   126 * f ^ 10 * ξ ^ 3 + f ^ 10 * ξ ^ 2 + 78 * f ^ 9 * ξ ^ 5 - 168 * f ^ 9 * ξ ^ 4
     - 32 * f ^ 9 * ξ ^ 3 - 3 * f ^ 8 * ξ ^ 6 - 58 * f ^ 8 * ξ ^ 5 + 94 * f ^ 8 * ξ ^ 4
     + 4 * f ^ 8 * ξ ^ 3 + 10 * f ^ 7 * ξ ^ 6 + 22 * f ^ 7 * ξ ^ 5 - 34 * f ^ 7 * ξ ^ 4
@@ -153,7 +155,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c0 (f ξ : ℚ) : ℚ := order27_rat%
   6 * f ^ 76 - 139 * f ^ 75 + 18 * f ^ 74 * ξ + 1576 * f ^ 74 - 417 * f ^ 73 * ξ - 14504 * f ^ 73
     + 18 * f ^ 72 * ξ ^ 2 + 4710 * f ^ 72 * ξ + 121165 * f ^ 72 - 453 * f ^ 71 * ξ ^ 2
     - 43186 * f ^ 71 * ξ - 860792 * f ^ 71 + 6 * f ^ 70 * ξ ^ 3 + 5436 * f ^ 70 * ξ ^ 2
@@ -167,7 +169,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 1286 * f ^ 64 * ξ ^ 4 + 8982958 * f ^ 64 * ξ ^ 3 + 348949648 * f ^ 64 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c1 (f ξ : ℚ) : ℚ := order27_rat%
   2535551341 * f ^ 64 * ξ + 4774473141 * f ^ 64 - 19547 * f ^ 63 * ξ ^ 4
     - 45849895 * f ^ 63 * ξ ^ 3 - 1162298715 * f ^ 63 * ξ ^ 2 - 6289423328 * f ^ 63 * ξ
     - 9371812492 * f ^ 63 + 181009 * f ^ 62 * ξ ^ 4 + 192580500 * f ^ 62 * ξ ^ 3
@@ -184,7 +186,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 25042760553 * f ^ 57 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c2 (f ξ : ℚ) : ℚ := order27_rat%
   -100906152545 * f ^ 57 * ξ ^ 2 - 165616262404 * f ^ 57 * ξ - 99000463624 * f ^ 57
     + 115 * f ^ 56 * ξ ^ 6 + 1105419 * f ^ 56 * ξ ^ 5 + 1206969358 * f ^ 56 * ξ ^ 4
     + 45894992945 * f ^ 56 * ξ ^ 3 + 151054737614 * f ^ 56 * ξ ^ 2 + 223642143666 * f ^ 56 * ξ
@@ -201,7 +203,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 917 * f ^ 51 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c3 (f ξ : ℚ) : ℚ := order27_rat%
   -2647681 * f ^ 51 * ξ ^ 6 - 899335171 * f ^ 51 * ξ ^ 5 - 38948097780 * f ^ 51 * ξ ^ 4
     - 293854122880 * f ^ 51 * ξ ^ 3 - 580907270735 * f ^ 51 * ξ ^ 2 - 604798357602 * f ^ 51 * ξ
     - 203216059937 * f ^ 51 + 9288 * f ^ 50 * ξ ^ 7 + 11026355 * f ^ 50 * ξ ^ 6
@@ -218,7 +220,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 759691654582 * f ^ 47 * ξ ^ 2 - 438278028591 * f ^ 47 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c4 (f ξ : ℚ) : ℚ := order27_rat%
   -63569818678 * f ^ 47 - 391 * f ^ 46 * ξ ^ 8 + 3617740 * f ^ 46 * ξ ^ 7
     + 507417936 * f ^ 46 * ξ ^ 6 + 14029059413 * f ^ 46 * ξ ^ 5 + 146774132931 * f ^ 46 * ξ ^ 4
     + 648811500803 * f ^ 46 * ξ ^ 3 + 674422939310 * f ^ 46 * ξ ^ 2 + 320358407766 * f ^ 46 * ξ
@@ -235,7 +237,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 2647029265 * f ^ 42 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c5 (f ξ : ℚ) : ℚ := order27_rat%
   29711961676 * f ^ 42 * ξ ^ 5 + 223282017596 * f ^ 42 * ξ ^ 4 + 337431741117 * f ^ 42 * ξ ^ 3
     + 164632071246 * f ^ 42 * ξ ^ 2 + 29518425003 * f ^ 42 * ξ + 1081636677 * f ^ 42
     - 1754800 * f ^ 41 * ξ ^ 8 - 157155556 * f ^ 41 * ξ ^ 7 - 3211840163 * f ^ 41 * ξ ^ 6
@@ -252,7 +254,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 6359668375 * f ^ 38 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c6 (f ξ : ℚ) : ℚ := order27_rat%
   332620338 * f ^ 38 * ξ + 4021104 * f ^ 38 - 15810349 * f ^ 37 * ξ ^ 8
     - 471215810 * f ^ 37 * ξ ^ 7 - 5532862959 * f ^ 37 * ξ ^ 6 - 32398207133 * f ^ 37 * ξ ^ 5
     - 40301252435 * f ^ 37 * ξ ^ 4 - 14480162395 * f ^ 37 * ξ ^ 3 - 1959075772 * f ^ 37 * ξ ^ 2
@@ -269,7 +271,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3396302010 * f ^ 33 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c7 (f ξ : ℚ) : ℚ := order27_rat%
   -923673626 * f ^ 33 * ξ ^ 4 - 100899075 * f ^ 33 * ξ ^ 3 - 4987535 * f ^ 33 * ξ ^ 2
     + 54167208 * f ^ 32 * ξ ^ 8 + 595331006 * f ^ 32 * ξ ^ 7 + 1899927618 * f ^ 32 * ξ ^ 6
     + 1244658560 * f ^ 32 * ξ ^ 5 + 249151258 * f ^ 32 * ξ ^ 4 + 21228805 * f ^ 32 * ξ ^ 3
@@ -286,13 +288,13 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 152873 * f ^ 26 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP0c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP0c8 (f ξ : ℚ) : ℚ := order27_rat%
   -2406876 * f ^ 25 * ξ ^ 8 - 1195388 * f ^ 25 * ξ ^ 7 - 22897 * f ^ 25 * ξ ^ 6
     + 711824 * f ^ 24 * ξ ^ 8 + 441053 * f ^ 24 * ξ ^ 7 + 21839 * f ^ 24 * ξ ^ 6
     + 1516 * f ^ 23 * ξ ^ 8 - 21839 * f ^ 23 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ0c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ0c0 (f ξ : ℚ) : ℚ := order27_rat%
   -6 * f ^ 43 + 61 * f ^ 42 - 279 * f ^ 41 + 3605 * f ^ 40 - 22270 * f ^ 39 + 37 * f ^ 38 * ξ
     + 83262 * f ^ 38 - 548 * f ^ 37 * ξ - 221908 * f ^ 37 + 2777 * f ^ 36 * ξ + 444604 * f ^ 36
     - 9904 * f ^ 35 * ξ - 699727 * f ^ 35 - 6 * f ^ 34 * ξ ^ 2 + 25782 * f ^ 34 * ξ
@@ -305,7 +307,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 114 * f ^ 26 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ0c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ0c1 (f ξ : ℚ) : ℚ := order27_rat%
   5537 * f ^ 26 * ξ ^ 2 + 46865 * f ^ 26 * ξ + 1837241 * f ^ 26 - 78 * f ^ 25 * ξ ^ 3
     - 4895 * f ^ 25 * ξ ^ 2 - 33165 * f ^ 25 * ξ - 849235 * f ^ 25 - 92 * f ^ 24 * ξ ^ 3
     + 6032 * f ^ 24 * ξ ^ 2 + 8928 * f ^ 24 * ξ + 205649 * f ^ 24 - 6 * f ^ 23 * ξ ^ 4
@@ -314,7 +316,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 21839 * f ^ 22
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c0 (f ξ : ℚ) : ℚ := order27_rat%
   -f ^ 78 - 8 * f ^ 77 - 3 * f ^ 76 * ξ + 684 * f ^ 76 - 24 * f ^ 75 * ξ - 11777 * f ^ 75
     - 3 * f ^ 74 * ξ ^ 2 + 2055 * f ^ 74 * ξ + 122583 * f ^ 74 - 18 * f ^ 73 * ξ ^ 2
     - 35293 * f ^ 73 * ξ - 956853 * f ^ 73 - f ^ 72 * ξ ^ 3 + 2121 * f ^ 72 * ξ ^ 2
@@ -328,7 +330,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 148 * f ^ 66 * ξ ^ 4 + 10273541 * f ^ 66 * ξ ^ 3 + 642917972 * f ^ 66 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c1 (f ξ : ℚ) : ℚ := order27_rat%
   9793912297 * f ^ 66 * ξ + 42288933538 * f ^ 66 + 1232 * f ^ 65 * ξ ^ 4
     - 60646920 * f ^ 65 * ξ ^ 3 - 2963564290 * f ^ 65 * ξ ^ 2 - 36499275156 * f ^ 65 * ξ
     - 129174658886 * f ^ 65 + 5212 * f ^ 64 * ξ ^ 4 + 319219343 * f ^ 64 * ξ ^ 3
@@ -345,7 +347,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3358526208494 * f ^ 59 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c2 (f ξ : ℚ) : ℚ := order27_rat%
   -12544574025429 * f ^ 59 * ξ - 15047380148618 * f ^ 59 + 11 * f ^ 58 * ξ ^ 6
     + 436139 * f ^ 58 * ξ ^ 5 + 2517889882 * f ^ 58 * ξ ^ 4 + 811263661849 * f ^ 58 * ξ ^ 3
     + 7716852319855 * f ^ 58 * ξ ^ 2 + 24270920954349 * f ^ 58 * ξ + 24730364055182 * f ^ 58
@@ -363,7 +365,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3381289 * f ^ 53 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c3 (f ξ : ℚ) : ℚ := order27_rat%
   -2774125284 * f ^ 53 * ξ ^ 5 - 1028544424675 * f ^ 53 * ξ ^ 4 - 40211978514790 * f ^ 53 * ξ ^ 3
     - 139541158087381 * f ^ 53 * ξ ^ 2 - 202377781720657 * f ^ 53 * ξ - 93832712300979 * f ^ 53
     - 371 * f ^ 52 * ξ ^ 7 + 17902743 * f ^ 52 * ξ ^ 6 + 10323328926 * f ^ 52 * ξ ^ 5
@@ -381,7 +383,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 290835037683296 * f ^ 49 * ξ - 70932592914454 * f ^ 49 + 161 * f ^ 48 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c4 (f ξ : ℚ) : ℚ := order27_rat%
   4150138 * f ^ 48 * ξ ^ 7 + 4639142090 * f ^ 48 * ξ ^ 6 + 679081951283 * f ^ 48 * ξ ^ 5
     + 33360004348265 * f ^ 48 * ξ ^ 4 + 255766077690291 * f ^ 48 * ξ ^ 3
     + 377191591606614 * f ^ 48 * ξ ^ 2 + 265404701064105 * f ^ 48 * ξ + 54704675809933 * f ^ 48
@@ -400,7 +402,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 108090436600230 * f ^ 44 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c5 (f ξ : ℚ) : ℚ := order27_rat%
   289550344807465 * f ^ 44 * ξ ^ 3 + 230534255887589 * f ^ 44 * ξ ^ 2
     + 86797343274116 * f ^ 44 * ξ + 8731839850338 * f ^ 44 - 4172858 * f ^ 43 * ξ ^ 8
     - 3337960944 * f ^ 43 * ξ ^ 7 - 399268352729 * f ^ 43 * ξ ^ 6
@@ -421,7 +423,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 7927215408649 * f ^ 40 * ξ + 365207395758 * f ^ 40
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c6 (f ξ : ℚ) : ℚ := order27_rat%
   -520838479 * f ^ 39 * ξ ^ 8 - 79319113687 * f ^ 39 * ξ ^ 7 - 2362417674463 * f ^ 39 * ξ ^ 6
     - 23964100073126 * f ^ 39 * ξ ^ 5 - 71719950196972 * f ^ 39 * ξ ^ 4
     - 63029354576346 * f ^ 39 * ξ ^ 3 - 23322415777469 * f ^ 39 * ξ ^ 2
@@ -441,7 +443,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 10459979549151 * f ^ 35 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c7 (f ξ : ℚ) : ℚ := order27_rat%
   -11123291134878 * f ^ 35 * ξ ^ 4 - 4578364031983 * f ^ 35 * ξ ^ 3
     - 846365953634 * f ^ 35 * ξ ^ 2 - 55317438366 * f ^ 35 * ξ - 784418487 * f ^ 35
     + 13316282691 * f ^ 34 * ξ ^ 8 + 348423849890 * f ^ 34 * ξ ^ 7
@@ -461,7 +463,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 6541548424 * f ^ 31 * ξ ^ 2 - 123666520 * f ^ 31 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c8 (f ξ : ℚ) : ℚ := order27_rat%
   -239627 * f ^ 31 + 21048088126 * f ^ 30 * ξ ^ 8 + 174966018382 * f ^ 30 * ξ ^ 7
     + 453891833239 * f ^ 30 * ξ ^ 6 + 407908035846 * f ^ 30 * ξ ^ 5
     + 148728487863 * f ^ 30 * ξ ^ 4 + 24359855203 * f ^ 30 * ξ ^ 3 + 1398693208 * f ^ 30 * ξ ^ 2
@@ -478,7 +480,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 793401265 * f ^ 26 * ξ ^ 4 + 38472955 * f ^ 26 * ξ ^ 3 + 116500 * f ^ 26 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP1c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP1c9 (f ξ : ℚ) : ℚ := order27_rat%
   -2551576016 * f ^ 25 * ξ ^ 8 - 5465760351 * f ^ 25 * ξ ^ 7 - 4163567344 * f ^ 25 * ξ ^ 6
     - 1240751203 * f ^ 25 * ξ ^ 5 - 151065590 * f ^ 25 * ξ ^ 4 - 3990042 * f ^ 25 * ξ ^ 3
     + 1126436206 * f ^ 24 * ξ ^ 8 + 1836065828 * f ^ 24 * ξ ^ 7 + 1155625080 * f ^ 24 * ξ ^ 6
@@ -494,7 +496,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 11536 * f ^ 17 * ξ ^ 8 - 97 * f ^ 17 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ1c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ1c0 (f ξ : ℚ) : ℚ := order27_rat%
   f ^ 45 + 21 * f ^ 44 - 495 * f ^ 43 + 3936 * f ^ 42 - 23443 * f ^ 41 - 5 * f ^ 40 * ξ
     + 123386 * f ^ 40 + 46 * f ^ 39 * ξ - 592861 * f ^ 39 + 208 * f ^ 38 * ξ + 2553195 * f ^ 38
     - 3358 * f ^ 37 * ξ - 9425089 * f ^ 37 + 22230 * f ^ 36 * ξ + 29477445 * f ^ 36
@@ -507,7 +509,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 700 * f ^ 28 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ1c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ1c1 (f ξ : ℚ) : ℚ := order27_rat%
   953631 * f ^ 28 * ξ ^ 2 + 69883084 * f ^ 28 * ξ + 1381750192 * f ^ 28 - 2184 * f ^ 27 * ξ ^ 3
     - 2070444 * f ^ 27 * ξ ^ 2 - 90337771 * f ^ 27 * ξ - 1228050510 * f ^ 27 - 6 * f ^ 26 * ξ ^ 4
     + 7184 * f ^ 26 * ξ ^ 3 + 3702626 * f ^ 26 * ξ ^ 2 + 99928575 * f ^ 26 * ξ
@@ -521,7 +523,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 29227024 * f ^ 21 + 13 * f ^ 20 * ξ ^ 5 + 7482 * f ^ 20 * ξ ^ 4 + 359469 * f ^ 20 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ1c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ1c2 (f ξ : ℚ) : ℚ := order27_rat%
   2992381 * f ^ 20 * ξ ^ 2 + 5213840 * f ^ 20 * ξ + 10075781 * f ^ 20 - 18 * f ^ 19 * ξ ^ 5
     - 8148 * f ^ 19 * ξ ^ 4 - 238466 * f ^ 19 * ξ ^ 3 - 1513035 * f ^ 19 * ξ ^ 2
     - 1222101 * f ^ 19 * ξ - 2890482 * f ^ 19 + 52 * f ^ 18 * ξ ^ 5 + 8254 * f ^ 18 * ξ ^ 4
@@ -533,7 +535,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3777 * f ^ 15 * ξ ^ 3 - 7605 * f ^ 15 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c0 (f ξ : ℚ) : ℚ := order27_rat%
   -f ^ 78 + 18 * f ^ 77 - 3 * f ^ 76 * ξ + 54 * f ^ 76 + 54 * f ^ 75 * ξ - 5182 * f ^ 75
     - 3 * f ^ 74 * ξ ^ 2 + 165 * f ^ 74 * ξ + 84299 * f ^ 74 + 60 * f ^ 73 * ξ ^ 2
     - 15585 * f ^ 73 * ξ - 866767 * f ^ 73 - f ^ 72 * ξ ^ 3 + 75 * f ^ 72 * ξ ^ 2
@@ -547,7 +549,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 249 * f ^ 66 * ξ ^ 4 + 10642894 * f ^ 66 * ξ ^ 3 + 957490715 * f ^ 66 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c1 (f ξ : ℚ) : ℚ := order27_rat%
   18612822430 * f ^ 66 * ξ + 98987205427 * f ^ 66 + 4425 * f ^ 65 * ξ ^ 4
     - 74758271 * f ^ 65 * ξ ^ 3 - 4985553705 * f ^ 65 * ξ ^ 2 - 77094496308 * f ^ 65 * ξ
     - 336810966699 * f ^ 65 - 43579 * f ^ 64 * ξ ^ 4 + 454887150 * f ^ 64 * ξ ^ 3
@@ -564,7 +566,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 705309260093 * f ^ 59 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c2 (f ξ : ℚ) : ℚ := order27_rat%
   -11007075752314 * f ^ 59 * ξ ^ 2 - 52939763819178 * f ^ 59 * ξ - 83289950287836 * f ^ 59
     - 15 * f ^ 58 * ξ ^ 6 - 277957 * f ^ 58 * ξ ^ 5 + 3885827736 * f ^ 58 * ξ ^ 4
     + 2264695268378 * f ^ 58 * ξ ^ 3 + 28614639316097 * f ^ 58 * ξ ^ 2
@@ -582,7 +584,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 195 * f ^ 53 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c3 (f ξ : ℚ) : ℚ := order27_rat%
   -3964100 * f ^ 53 * ξ ^ 6 - 3891515379 * f ^ 53 * ξ ^ 5 - 3058877350519 * f ^ 53 * ξ ^ 4
     - 210656856391996 * f ^ 53 * ξ ^ 3 - 1034899220321024 * f ^ 53 * ξ ^ 2
     - 2040707209718566 * f ^ 53 * ξ - 1350721239051493 * f ^ 53 - 2616 * f ^ 52 * ξ ^ 7
@@ -601,7 +603,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 5029040946374056 * f ^ 49 * ξ ^ 2 - 5857946832644842 * f ^ 49 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c4 (f ξ : ℚ) : ℚ := order27_rat%
   -2202843183720513 * f ^ 49 + 101 * f ^ 48 * ξ ^ 8 + 3532915 * f ^ 48 * ξ ^ 7
     + 10455402131 * f ^ 48 * ξ ^ 6 + 2193746083551 * f ^ 48 * ξ ^ 5
     + 201279943477220 * f ^ 48 * ξ ^ 4 + 2896084417924067 * f ^ 48 * ξ ^ 3
@@ -622,7 +624,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 769217156109 * f ^ 44 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c5 (f ξ : ℚ) : ℚ := order27_rat%
   51968868917544 * f ^ 44 * ξ ^ 5 + 1321973017328992 * f ^ 44 * ξ ^ 4
     + 6776527108926828 * f ^ 44 * ξ ^ 3 + 8224465409609911 * f ^ 44 * ξ ^ 2
     + 4928847280918942 * f ^ 44 * ξ + 868901760831223 * f ^ 44 - 2486501 * f ^ 43 * ξ ^ 8
@@ -643,7 +645,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 5399346911765964 * f ^ 40 * ξ ^ 3 + 3750030866085667 * f ^ 40 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c6 (f ξ : ℚ) : ℚ := order27_rat%
   1236611598953658 * f ^ 40 * ξ + 109044059597699 * f ^ 40 - 1415577519 * f ^ 39 * ξ ^ 8
     - 398178942950 * f ^ 39 * ξ ^ 7 - 20694498729335 * f ^ 39 * ξ ^ 6
     - 396602682243277 * f ^ 39 * ξ ^ 5 - 2558391144946841 * f ^ 39 * ξ ^ 4
@@ -664,7 +666,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3547419127215 * f ^ 35 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c7 (f ξ : ℚ) : ℚ := order27_rat%
   -64172277542398 * f ^ 35 * ξ ^ 6 - 471150555605206 * f ^ 35 * ξ ^ 5
     - 1121270177485085 * f ^ 35 * ξ ^ 4 - 855791994057410 * f ^ 35 * ξ ^ 3
     - 284611605238979 * f ^ 35 * ξ ^ 2 - 37370533452890 * f ^ 35 * ξ - 1148939098097 * f ^ 35
@@ -685,7 +687,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 136987900283166 * f ^ 31 * ξ ^ 4 - 50132179153602 * f ^ 31 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c8 (f ξ : ℚ) : ℚ := order27_rat%
   -7930029265855 * f ^ 31 * ξ ^ 2 - 393651872628 * f ^ 31 * ξ - 3728569138 * f ^ 31
     + 414473969002 * f ^ 30 * ξ ^ 8 + 7096843391762 * f ^ 30 * ξ ^ 7
     + 40629546719023 * f ^ 30 * ξ ^ 6 + 88900678126715 * f ^ 30 * ξ ^ 5
@@ -706,7 +708,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 362944713816 * f ^ 26 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c9 (f ξ : ℚ) : ℚ := order27_rat%
   2371796748865 * f ^ 26 * ξ ^ 7 + 5444941675539 * f ^ 26 * ξ ^ 6 + 4324375047513 * f ^ 26 * ξ ^ 5
     + 1324679716876 * f ^ 26 * ξ ^ 4 + 167842143112 * f ^ 26 * ξ ^ 3 + 6044774564 * f ^ 26 * ξ ^ 2
     + 37046533 * f ^ 26 * ξ + 36515 * f ^ 26 - 270921185339 * f ^ 25 * ξ ^ 8
@@ -724,7 +726,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 504189 * f ^ 22 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c10 (f ξ : ℚ) : ℚ := order27_rat%
   -26972057898 * f ^ 21 * ξ ^ 8 - 55995481118 * f ^ 21 * ξ ^ 7 - 35059394433 * f ^ 21 * ξ ^ 6
     - 7713544720 * f ^ 21 * ξ ^ 5 - 595029053 * f ^ 21 * ξ ^ 4 - 7751773 * f ^ 21 * ξ ^ 3
     - 13740 * f ^ 21 * ξ ^ 2 + 11075070221 * f ^ 20 * ξ ^ 8 + 17919898938 * f ^ 20 * ξ ^ 7
@@ -741,12 +743,12 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 26871 * f ^ 14 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP2c11 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP2c11 (f ξ : ℚ) : ℚ := order27_rat%
   -46798 * f ^ 13 * ξ ^ 8 - 11852 * f ^ 13 * ξ ^ 7 - 916 * f ^ 13 * ξ ^ 6 + 1226 * f ^ 12 * ξ ^ 8
     + 72 * f ^ 12 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ2c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ2c0 (f ξ : ℚ) : ℚ := order27_rat%
   f ^ 45 - 5 * f ^ 44 - 203 * f ^ 43 + 3321 * f ^ 42 - 26990 * f ^ 41 - 6 * f ^ 40 * ξ
     + 172661 * f ^ 40 + 129 * f ^ 39 * ξ - 974447 * f ^ 39 - 1038 * f ^ 38 * ξ + 4776906 * f ^ 38
     + 3139 * f ^ 37 * ξ - 20189873 * f ^ 37 + f ^ 36 * ξ ^ 2 + 6688 * f ^ 36 * ξ
@@ -759,7 +761,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 213424796 * f ^ 29 * ξ - 16419986599 * f ^ 29
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ2c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ2c1 (f ξ : ℚ) : ℚ := order27_rat%
   1620 * f ^ 28 * ξ ^ 3 + 1927881 * f ^ 28 * ξ ^ 2 + 421368484 * f ^ 28 * ξ + 22429574468 * f ^ 28
     - 9725 * f ^ 27 * ξ ^ 3 - 5724533 * f ^ 27 * ξ ^ 2 - 731268542 * f ^ 27 * ξ
     - 27482195915 * f ^ 27 - 6 * f ^ 26 * ξ ^ 4 + 44153 * f ^ 26 * ξ ^ 3
@@ -775,7 +777,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 8563823762 * f ^ 21 - 16 * f ^ 20 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ2c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ2c2 (f ξ : ℚ) : ℚ := order27_rat%
   44714 * f ^ 20 * ξ ^ 4 + 6718290 * f ^ 20 * ξ ^ 3 + 127582366 * f ^ 20 * ξ ^ 2
     + 1038915921 * f ^ 20 * ξ + 4531551575 * f ^ 20 - 2 * f ^ 19 * ξ ^ 5 - 113904 * f ^ 19 * ξ ^ 4
     - 8898403 * f ^ 19 * ξ ^ 3 - 109128624 * f ^ 19 * ξ ^ 2 - 649809126 * f ^ 19 * ξ
@@ -790,7 +792,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 16333645 * f ^ 15 + 48 * f ^ 14 * ξ ^ 6 + 14038 * f ^ 14 * ξ ^ 5 + 482845 * f ^ 14 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ2c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ2c3 (f ξ : ℚ) : ℚ := order27_rat%
   2472010 * f ^ 14 * ξ ^ 3 + 3947729 * f ^ 14 * ξ ^ 2 + 4113359 * f ^ 14 * ξ + 2474687 * f ^ 14
     - 193 * f ^ 13 * ξ ^ 6 - 16686 * f ^ 13 * ξ ^ 5 - 347953 * f ^ 13 * ξ ^ 4
     - 989852 * f ^ 13 * ξ ^ 3 - 1100932 * f ^ 13 * ξ ^ 2 - 791176 * f ^ 13 * ξ - 155585 * f ^ 13
@@ -804,7 +806,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 30 * f ^ 8 * ξ ^ 7 + 1318 * f ^ 8 * ξ ^ 6 + 834 * f ^ 8 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c0 (f ξ : ℚ) : ℚ := order27_rat%
   2 * f ^ 77 - 60 * f ^ 76 + 6 * f ^ 75 * ξ + 639 * f ^ 75 - 180 * f ^ 74 * ξ - 448 * f ^ 74
     + 6 * f ^ 73 * ξ ^ 2 + 1911 * f ^ 73 * ξ - 70601 * f ^ 73 - 192 * f ^ 72 * ξ ^ 2
     - 1181 * f ^ 72 * ξ + 1082518 * f ^ 72 + 2 * f ^ 71 * ξ ^ 3 + 2235 * f ^ 71 * ξ ^ 2
@@ -818,7 +820,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 13 * f ^ 65 * ξ ^ 4 - 15189348 * f ^ 65 * ξ ^ 3 - 1568332700 * f ^ 65 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c1 (f ξ : ℚ) : ℚ := order27_rat%
   -30011875043 * f ^ 65 * ξ - 154443323644 * f ^ 65 - 723 * f ^ 64 * ξ ^ 4
     + 117782558 * f ^ 64 * ξ ^ 3 + 8167408407 * f ^ 64 * ξ ^ 2 + 122282378775 * f ^ 64 * ξ
     + 517717615887 * f ^ 64 + 5208 * f ^ 63 * ξ ^ 4 - 744982658 * f ^ 63 * ξ ^ 3
@@ -835,7 +837,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 16523131748106 * f ^ 58 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c2 (f ξ : ℚ) : ℚ := order27_rat%
   78147698137697 * f ^ 58 * ξ + 121960288127967 * f ^ 58 + 54 * f ^ 57 * ξ ^ 6
     - 606922 * f ^ 57 * ξ ^ 5 - 6978467128 * f ^ 57 * ξ ^ 4 - 3457694427573 * f ^ 57 * ξ ^ 3
     - 42553585304595 * f ^ 57 * ξ ^ 2 - 171710402493748 * f ^ 57 * ξ - 231630826675896 * f ^ 57
@@ -853,7 +855,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 6822608 * f ^ 52 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c3 (f ξ : ℚ) : ℚ := order27_rat%
   7375630745 * f ^ 52 * ξ ^ 5 + 4654245956099 * f ^ 52 * ξ ^ 4 + 308802364863933 * f ^ 52 * ξ ^ 3
     + 1519285212802625 * f ^ 52 * ξ ^ 2 + 3039116032296846 * f ^ 52 * ξ
     + 2071744552394467 * f ^ 52 + 326 * f ^ 51 * ξ ^ 7 - 42412215 * f ^ 51 * ξ ^ 6
@@ -873,7 +875,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 3780935580427109 * f ^ 48 - 343 * f ^ 47 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c4 (f ξ : ℚ) : ℚ := order27_rat%
   -9001780 * f ^ 47 * ξ ^ 7 - 16283892648 * f ^ 47 * ξ ^ 6 - 3285063225988 * f ^ 47 * ξ ^ 5
     - 294447004019226 * f ^ 47 * ξ ^ 4 - 4349374850518127 * f ^ 47 * ξ ^ 3
     - 9894940071448680 * f ^ 47 * ξ ^ 2 - 10668766068236412 * f ^ 47 * ξ
@@ -894,7 +896,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 1995320147563339 * f ^ 43 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c5 (f ξ : ℚ) : ℚ := order27_rat%
   -11121091865785260 * f ^ 43 * ξ ^ 3 - 14605063189358122 * f ^ 43 * ξ ^ 2
     - 9629643521433701 * f ^ 43 * ξ - 1948700897672900 * f ^ 43 + 8954549 * f ^ 42 * ξ ^ 8
     + 14008643803 * f ^ 42 * ξ ^ 7 + 2547170427118 * f ^ 42 * ξ ^ 6
@@ -915,7 +917,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3171942832370025 * f ^ 39 * ξ - 348964710627945 * f ^ 39
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c6 (f ξ : ℚ) : ℚ := order27_rat%
   2267033415 * f ^ 38 * ξ ^ 8 + 568587660381 * f ^ 38 * ξ ^ 7 + 29999676647132 * f ^ 38 * ξ ^ 6
     + 615755121207163 * f ^ 38 * ξ ^ 5 + 4495133805230631 * f ^ 38 * ξ ^ 4
     + 8834558217903016 * f ^ 38 * ξ ^ 3 + 6081953486359969 * f ^ 38 * ξ ^ 2
@@ -936,7 +938,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 861115674867633 * f ^ 34 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c7 (f ξ : ℚ) : ℚ := order27_rat%
   2504503551370647 * f ^ 34 * ξ ^ 4 + 2353498718918391 * f ^ 34 * ξ ^ 3
     + 954222856730610 * f ^ 34 * ξ ^ 2 + 168761470935857 * f ^ 34 * ξ + 7747070130671 * f ^ 34
     - 136791317595 * f ^ 33 * ξ ^ 8 - 7223854993991 * f ^ 33 * ξ ^ 7
@@ -957,7 +959,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 47298006296741 * f ^ 30 * ξ ^ 2 + 3928393901697 * f ^ 30 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c8 (f ξ : ℚ) : ℚ := order27_rat%
   77727211425 * f ^ 30 - 630224762485 * f ^ 29 * ξ ^ 8 - 12463001089282 * f ^ 29 * ξ ^ 7
     - 85897099084842 * f ^ 29 * ξ ^ 6 - 242190820324937 * f ^ 29 * ξ ^ 5
     - 240887631672919 * f ^ 29 * ξ ^ 4 - 97871429326542 * f ^ 29 * ξ ^ 3
@@ -978,7 +980,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 17672931192006 * f ^ 25 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c9 (f ξ : ℚ) : ℚ := order27_rat%
   -20427077230355 * f ^ 25 * ξ ^ 5 - 9246336481349 * f ^ 25 * ξ ^ 4
     - 1898526138142 * f ^ 25 * ξ ^ 3 - 155459218202 * f ^ 25 * ξ ^ 2 - 3582299545 * f ^ 25 * ξ
     - 15599412 * f ^ 25 + 575086803332 * f ^ 24 * ξ ^ 8 + 3873278558553 * f ^ 24 * ξ ^ 7
@@ -997,7 +999,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 7242175768 * f ^ 21 * ξ ^ 3 - 166196370 * f ^ 21 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c10 (f ξ : ℚ) : ℚ := order27_rat%
   -987352 * f ^ 21 * ξ - 547 * f ^ 21 + 99670160488 * f ^ 20 * ξ ^ 8
     + 299620568865 * f ^ 20 * ξ ^ 7 + 308143735523 * f ^ 20 * ξ ^ 6
     + 121599228556 * f ^ 20 * ξ ^ 5 + 20673068120 * f ^ 20 * ξ ^ 4 + 1261768088 * f ^ 20 * ξ ^ 3
@@ -1014,7 +1016,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 226299 * f ^ 16 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqP3c11 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqP3c11 (f ξ : ℚ) : ℚ := order27_rat%
   135 * f ^ 16 * ξ ^ 2 - 950729771 * f ^ 15 * ξ ^ 8 - 1037711729 * f ^ 15 * ξ ^ 7
     - 331329746 * f ^ 15 * ξ ^ 6 - 42171436 * f ^ 15 * ξ ^ 5 - 1566623 * f ^ 15 * ξ ^ 4
     - 10061 * f ^ 15 * ξ ^ 3 + 247660253 * f ^ 14 * ξ ^ 8 + 224522455 * f ^ 14 * ξ ^ 7
@@ -1030,7 +1032,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 2 * f ^ 7 * ξ ^ 7 + f ^ 6 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c0 (f ξ : ℚ) : ℚ := order27_rat%
   -2 * f ^ 44 + 34 * f ^ 43 - 29 * f ^ 42 - 3501 * f ^ 41 + 41948 * f ^ 40 - f ^ 39 * ξ
     - 297320 * f ^ 39 - 7 * f ^ 38 * ξ + 1650827 * f ^ 38 + 45 * f ^ 37 * ξ - 7798297 * f ^ 37
     + 2625 * f ^ 36 * ξ + 31876309 * f ^ 36 - 38043 * f ^ 35 * ξ - 113141163 * f ^ 35
@@ -1043,7 +1045,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 311489170 * f ^ 28 * ξ + 24127846921 * f ^ 28 - 1577 * f ^ 27 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c1 (f ξ : ℚ) : ℚ := order27_rat%
   -3030517 * f ^ 27 * ξ ^ 2 - 609953503 * f ^ 27 * ξ - 33667977349 * f ^ 27
     + 9291 * f ^ 26 * ξ ^ 3 + 8440035 * f ^ 26 * ξ ^ 2 + 1061877763 * f ^ 26 * ξ
     + 42612328718 * f ^ 26 - f ^ 25 * ξ ^ 4 - 41537 * f ^ 25 * ξ ^ 3 - 19961812 * f ^ 25 * ξ ^ 2
@@ -1059,7 +1061,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 22240693098 * f ^ 20 - 84 * f ^ 19 * ξ ^ 5 - 93358 * f ^ 19 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c2 (f ξ : ℚ) : ℚ := order27_rat%
   -7891881 * f ^ 19 * ξ ^ 3 - 207968260 * f ^ 19 * ξ ^ 2 - 2348655890 * f ^ 19 * ξ
     - 13841431918 * f ^ 19 + 338 * f ^ 18 * ξ ^ 5 + 212128 * f ^ 18 * ξ ^ 4
     + 10959770 * f ^ 18 * ξ ^ 3 + 199350603 * f ^ 18 * ξ ^ 2 + 1688405584 * f ^ 18 * ξ
@@ -1074,7 +1076,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 210600007 * f ^ 14 - 226 * f ^ 13 * ξ ^ 6 - 40294 * f ^ 13 * ξ ^ 5 - 959791 * f ^ 13 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c3 (f ξ : ℚ) : ℚ := order27_rat%
   -6420178 * f ^ 13 * ξ ^ 3 - 22119996 * f ^ 13 * ξ ^ 2 - 44696067 * f ^ 13 * ξ
     - 61590113 * f ^ 13 + 763 * f ^ 12 * ξ ^ 6 + 55309 * f ^ 12 * ξ ^ 5 + 815230 * f ^ 12 * ξ ^ 4
     + 3513689 * f ^ 12 * ξ ^ 3 + 9373765 * f ^ 12 * ξ ^ 2 + 13365294 * f ^ 12 * ξ
@@ -1089,7 +1091,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 50649 * f ^ 8 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c4 (f ξ : ℚ) : ℚ := order27_rat%
   29917 * f ^ 8 * ξ ^ 2 + 23279 * f ^ 8 * ξ + 7539 * f ^ 8 - 150 * f ^ 7 * ξ ^ 7
     - 2349 * f ^ 7 * ξ ^ 6 - 10042 * f ^ 7 * ξ ^ 5 - 13284 * f ^ 7 * ξ ^ 4 - 13492 * f ^ 7 * ξ ^ 3
     - 2378 * f ^ 7 * ξ ^ 2 - 1012 * f ^ 7 * ξ - 430 * f ^ 7 + 198 * f ^ 6 * ξ ^ 7
@@ -1102,11 +1104,11 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 30 * f ^ 3 * ξ ^ 5 - 2 * f ^ 3 * ξ ^ 4 + 32 * f ^ 2 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNSqQ3c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNSqQ3c5 (f ξ : ℚ) : ℚ := order27_rat%
   -3 * f ^ 2 * ξ ^ 6 + f ^ 2 * ξ ^ 5 + 4 * f * ξ ^ 8 - 2 * f * ξ ^ 7 + ξ ^ 9
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c0 (f ξ : ℚ) : ℚ := order27_rat%
   73 * f ^ 118 - 3533 * f ^ 117 + 219 * f ^ 116 * ξ + 64021 * f ^ 116 - 10599 * f ^ 115 * ξ
     - 858871 * f ^ 115 + 219 * f ^ 114 * ξ ^ 2 + 191838 * f ^ 114 * ξ + 9667017 * f ^ 114
     - 11037 * f ^ 113 * ξ ^ 2 - 2566646 * f ^ 113 * ξ - 93337495 * f ^ 113 + 73 * f ^ 112 * ξ ^ 3
@@ -1114,7 +1116,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 3898 * f ^ 111 * ξ ^ 3 - 2889099 * f ^ 111 * ξ ^ 2 - 278091210 * f ^ 111 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c1 (f ξ : ℚ) : ℚ := order27_rat%
   -5657824565 * f ^ 111 + 81303 * f ^ 110 * ξ ^ 3 + 32955861 * f ^ 110 * ξ ^ 2
     + 2344944025 * f ^ 110 * ξ + 33735432268 * f ^ 110 - 1160397 * f ^ 109 * ξ ^ 3
     - 322539272 * f ^ 109 * ξ ^ 2 - 16775461944 * f ^ 109 * ξ - 167446694694 * f ^ 109
@@ -1128,7 +1130,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 57641469569 * f ^ 104 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c2 (f ξ : ℚ) : ℚ := order27_rat%
   2577220083976 * f ^ 104 * ξ ^ 2 + 22425777956213 * f ^ 104 * ξ + 51894821352048 * f ^ 104
     + 37 * f ^ 103 * ξ ^ 5 - 18234425 * f ^ 103 * ξ ^ 4 - 304165360903 * f ^ 103 * ξ ^ 3
     - 9255698705025 * f ^ 103 * ξ ^ 2 - 61034519202897 * f ^ 103 * ξ - 114168186647254 * f ^ 103
@@ -1143,7 +1145,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 419173773041516 * f ^ 99 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c3 (f ξ : ℚ) : ℚ := order27_rat%
   -1210326170395572 * f ^ 99 * ξ - 1151909521551230 * f ^ 99 + 3241 * f ^ 98 * ξ ^ 6
     + 16869239 * f ^ 98 * ξ ^ 5 + 324270380986 * f ^ 98 * ξ ^ 4 + 120771737746118 * f ^ 98 * ξ ^ 3
     + 839895166598216 * f ^ 98 * ξ ^ 2 + 2075986138887038 * f ^ 98 * ξ + 1703829845653790 * f ^ 98
@@ -1159,7 +1161,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 57241069 * f ^ 94 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c4 (f ξ : ℚ) : ℚ := order27_rat%
   37501045551 * f ^ 94 * ξ ^ 5 + 51926013120919 * f ^ 94 * ξ ^ 4
     + 1918878988786271 * f ^ 94 * ξ ^ 3 + 6244055436068541 * f ^ 94 * ξ ^ 2
     + 8649510313605127 * f ^ 94 * ξ + 3724913608615206 * f ^ 94 - 7583 * f ^ 93 * ξ ^ 7
@@ -1177,7 +1179,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 56095539761 * f ^ 90 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c5 (f ξ : ℚ) : ℚ := order27_rat%
   10944534245973 * f ^ 90 * ξ ^ 5 + 873297628627557 * f ^ 90 * ξ ^ 4
     + 8645171513276488 * f ^ 90 * ξ ^ 3 + 13768246589604009 * f ^ 90 * ξ ^ 2
     + 9936093021850162 * f ^ 90 * ξ + 1953119770065705 * f ^ 90 + 1438 * f ^ 89 * ξ ^ 8
@@ -1196,7 +1198,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 3553838027136 * f ^ 86 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c6 (f ξ : ℚ) : ℚ := order27_rat%
   199327490286352 * f ^ 86 * ξ ^ 5 + 3487684208696149 * f ^ 86 * ξ ^ 4
     + 10356479075782064 * f ^ 86 * ξ ^ 3 + 7750548626154901 * f ^ 86 * ξ ^ 2
     + 2560105158179479 * f ^ 86 * ξ + 204539507722530 * f ^ 86 - 7186460 * f ^ 85 * ξ ^ 8
@@ -1215,7 +1217,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 856465095238 * f ^ 82 * ξ ^ 7 + 42425633537793 * f ^ 82 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c7 (f ξ : ℚ) : ℚ := order27_rat%
   702011560778462 * f ^ 82 * ξ ^ 5 + 3054483310116276 * f ^ 82 * ξ ^ 4
     + 2697309196301918 * f ^ 82 * ξ ^ 3 + 941932493178476 * f ^ 82 * ξ ^ 2
     + 117743428830474 * f ^ 82 * ξ + 2636329748029 * f ^ 82 - 6126097071 * f ^ 81 * ξ ^ 8
@@ -1234,7 +1236,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 7832404913796 * f ^ 78 * ξ ^ 7 + 100720888928033 * f ^ 78 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c8 (f ξ : ℚ) : ℚ := order27_rat%
   442760012966798 * f ^ 78 * ξ ^ 5 + 420481096520767 * f ^ 78 * ξ ^ 4
     + 132529330296306 * f ^ 78 * ξ ^ 3 + 17094817965042 * f ^ 78 * ξ ^ 2
     + 339216364751 * f ^ 78 * ξ - 254769402881 * f ^ 77 * ξ ^ 8 - 10405803790570 * f ^ 77 * ξ ^ 7
@@ -1251,7 +1253,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 10288431573110 * f ^ 74 * ξ ^ 7 + 34436109540977 * f ^ 74 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c9 (f ξ : ℚ) : ℚ := order27_rat%
   31140746218483 * f ^ 74 * ξ ^ 5 + 6948961487855 * f ^ 74 * ξ ^ 4 + 668057013072 * f ^ 74 * ξ ^ 3
     - 949586218525 * f ^ 73 * ξ ^ 8 - 7439015810393 * f ^ 73 * ξ ^ 7
     - 18502309174128 * f ^ 73 * ξ ^ 6 - 10560786287262 * f ^ 73 * ξ ^ 5
@@ -1264,7 +1266,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 1093742353396 * f ^ 70 * ξ ^ 7 + 962276733425 * f ^ 70 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP0c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP0c10 (f ξ : ℚ) : ℚ := order27_rat%
   89874888415 * f ^ 70 * ξ ^ 5 - 197273817583 * f ^ 69 * ξ ^ 8 - 433440300450 * f ^ 69 * ξ ^ 7
     - 187112509638 * f ^ 69 * ξ ^ 6 - 17292330078 * f ^ 69 * ξ ^ 5 + 63885467930 * f ^ 68 * ξ ^ 8
     + 146473389709 * f ^ 68 * ξ ^ 7 + 12326553375 * f ^ 68 * ξ ^ 6 - 10694234691 * f ^ 67 * ξ ^ 8
@@ -1272,7 +1274,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 2171233170 * f ^ 66 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbQ0c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbQ0c0 (f ξ : ℚ) : ℚ := order27_rat%
   -73 * f ^ 85 + 2584 * f ^ 84 - 24297 * f ^ 83 + 299820 * f ^ 82 + 6 * f ^ 81 * ξ
     - 2721139 * f ^ 81 + 53 * f ^ 80 * ξ + 20967542 * f ^ 80 - 6818 * f ^ 79 * ξ
     - 145235440 * f ^ 79 + 29950 * f ^ 78 * ξ + 614414408 * f ^ 78 - 28366 * f ^ 77 * ξ
@@ -1287,7 +1289,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 54355601176 * f ^ 69
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbQ0c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbQ0c1 (f ξ : ℚ) : ℚ := order27_rat%
   4887 * f ^ 68 * ξ ^ 3 + 21318961 * f ^ 68 * ξ ^ 2 + 1713984547 * f ^ 68 * ξ
     + 36055695516 * f ^ 68 - 24306 * f ^ 67 * ξ ^ 3 - 20744591 * f ^ 67 * ξ ^ 2
     - 1159449557 * f ^ 67 * ξ - 16903983600 * f ^ 67 + 187949 * f ^ 66 * ξ ^ 3
@@ -1297,7 +1299,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 8982958 * f ^ 64 * ξ ^ 3 + 348949648 * f ^ 64 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c0 (f ξ : ℚ) : ℚ := order27_rat%
   -42 * f ^ 119 + 1333 * f ^ 118 - 126 * f ^ 117 * ξ - 20418 * f ^ 117 + 3999 * f ^ 116 * ξ
     + 211645 * f ^ 116 - 126 * f ^ 115 * ξ ^ 2 - 61122 * f ^ 115 * ξ - 1521821 * f ^ 115
     + 4251 * f ^ 114 * ξ ^ 2 + 631176 * f ^ 114 * ξ + 8583690 * f ^ 114 - 42 * f ^ 113 * ξ ^ 3
@@ -1307,7 +1309,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 183191961 * f ^ 111 * ξ
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c1 (f ξ : ℚ) : ℚ := order27_rat%
   -6864531912 * f ^ 111 + 306158 * f ^ 110 * ξ ^ 3 + 31110450 * f ^ 110 * ξ ^ 2
     + 1962552613 * f ^ 110 * ξ + 59806996991 * f ^ 110 + 6 * f ^ 109 * ξ ^ 4
     - 2461622 * f ^ 109 * ξ ^ 3 - 212827500 * f ^ 109 * ξ ^ 2 - 20518665151 * f ^ 109 * ξ
@@ -1321,7 +1323,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 6 * f ^ 104 * ξ ^ 5 + 6079315 * f ^ 104 * ξ ^ 4 + 92357129301 * f ^ 104 * ξ ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c2 (f ξ : ℚ) : ℚ := order27_rat%
   9655870636302 * f ^ 104 * ξ ^ 2 + 198065225313580 * f ^ 104 * ξ + 1046523517262738 * f ^ 104
     - 12 * f ^ 103 * ξ ^ 5 - 80764722 * f ^ 103 * ξ ^ 4 - 708809385804 * f ^ 103 * ξ ^ 3
     - 52214412621386 * f ^ 103 * ξ ^ 2 - 824387291845254 * f ^ 103 * ξ
@@ -1338,7 +1340,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     - 13032406879062303 * f ^ 99 * ξ ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c3 (f ξ : ℚ) : ℚ := order27_rat%
   -81933833743060607 * f ^ 99 * ξ - 157826284908105456 * f ^ 99 + 16209 * f ^ 98 * ξ ^ 6
     - 20201871 * f ^ 98 * ξ ^ 5 + 2266716453203 * f ^ 98 * ξ ^ 4
     + 2152183485359456 * f ^ 98 * ξ ^ 3 + 39103542776424083 * f ^ 98 * ξ ^ 2
@@ -1355,7 +1357,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 27856562 * f ^ 94 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c4 (f ξ : ℚ) : ℚ := order27_rat%
   325809339166 * f ^ 94 * ξ ^ 5 + 982631553269682 * f ^ 94 * ξ ^ 4
     + 166035613082395043 * f ^ 94 * ξ ^ 3 + 1208060079127608113 * f ^ 94 * ξ ^ 2
     + 3109758656993408279 * f ^ 94 * ξ + 2598359582884220635 * f ^ 94 - 2981 * f ^ 93 * ξ ^ 7
@@ -1373,7 +1375,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 242355646621 * f ^ 90 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c5 (f ξ : ℚ) : ℚ := order27_rat%
   220505592651786 * f ^ 90 * ξ ^ 5 + 78337387141474643 * f ^ 90 * ξ ^ 4
     + 2881734992608237438 * f ^ 90 * ξ ^ 3 + 9569343231522863022 * f ^ 90 * ξ ^ 2
     + 13194968676464773945 * f ^ 90 * ξ + 5607419798401710065 * f ^ 90 + 1494 * f ^ 89 * ξ ^ 8
@@ -1392,7 +1394,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 90779038543 * f ^ 86 * ξ ^ 7 + 102579043456350 * f ^ 86 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c6 (f ξ : ℚ) : ℚ := order27_rat%
   19113682866444645 * f ^ 86 * ξ ^ 5 + 1363518555250006254 * f ^ 86 * ξ ^ 4
     + 13385193733878371975 * f ^ 86 * ξ ^ 3 + 21232825062874272449 * f ^ 86 * ξ ^ 2
     + 15345503170027897425 * f ^ 86 * ξ + 3030860533709032466 * f ^ 86 - 1035643 * f ^ 85 * ξ ^ 8
@@ -1412,7 +1414,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 5886336819921296 * f ^ 82 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c7 (f ξ : ℚ) : ℚ := order27_rat%
   321886190869040058 * f ^ 82 * ξ ^ 5 + 5684525641686006170 * f ^ 82 * ξ ^ 4
     + 16559851863295813194 * f ^ 82 * ξ ^ 3 + 12795321313304207369 * f ^ 82 * ξ ^ 2
     + 4327432727495742319 * f ^ 82 * ξ + 335314831498926357 * f ^ 82
@@ -1433,7 +1435,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 1276068452967144 * f ^ 78 * ξ ^ 7 + 65589139956669593 * f ^ 78 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c8 (f ξ : ℚ) : ℚ := order27_rat%
   1198536181133721123 * f ^ 78 * ξ ^ 5 + 5206150852398937632 * f ^ 78 * ξ ^ 4
     + 4971099199983551941 * f ^ 78 * ξ ^ 3 + 1797691300215668285 * f ^ 78 * ξ ^ 2
     + 220552767434946118 * f ^ 78 * ξ + 5372395373359707 * f ^ 78
@@ -1453,7 +1455,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 10625110430457525 * f ^ 74 * ξ ^ 7 + 164353014217882360 * f ^ 74 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c9 (f ξ : ℚ) : ℚ := order27_rat%
   804527398540847911 * f ^ 74 * ξ ^ 5 + 868917137222726835 * f ^ 74 * ξ ^ 4
     + 301793895051297601 * f ^ 74 * ξ ^ 3 + 38387288613233002 * f ^ 74 * ξ ^ 2
     + 1352553408646414 * f ^ 74 * ξ + 14161771081991 * f ^ 74 - 298190845529638 * f ^ 73 * ξ ^ 8
@@ -1472,7 +1474,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 14924974117901679 * f ^ 70 * ξ ^ 7 + 65996983370214670 * f ^ 70 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c10 (f ξ : ℚ) : ℚ := order27_rat%
   68871501665995969 * f ^ 70 * ξ ^ 5 + 20285378266089611 * f ^ 70 * ξ ^ 4
     + 2152477741496207 * f ^ 70 * ξ ^ 3 + 98151369944197 * f ^ 70 * ξ ^ 2
     + 834798628114 * f ^ 70 * ξ - 1087374105239499 * f ^ 69 * ξ ^ 8
@@ -1489,7 +1491,7 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 2560602167298730 * f ^ 66 * ξ ^ 7 + 2260928570584155 * f ^ 66 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c11 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c11 (f ξ : ℚ) : ℚ := order27_rat%
   523561653554609 * f ^ 66 * ξ ^ 5 + 37624821117054 * f ^ 66 * ξ ^ 4
     + 2276723531220 * f ^ 66 * ξ ^ 3 - 365158941068538 * f ^ 65 * ξ ^ 8
     - 1104700662005671 * f ^ 65 * ξ ^ 7 - 605177101878194 * f ^ 65 * ξ ^ 6
@@ -1502,14 +1504,14 @@ lemma quad_ne (f : ℚ) : f ^ 2 - f + 1 ≠ 0 := by
     + 23308470021230 * f ^ 62 * ξ ^ 7 + 6701047560074 * f ^ 62 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbP1c12 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbP1c12 (f ξ : ℚ) : ℚ := order27_rat%
   531235490618 * f ^ 62 * ξ ^ 5 - 9178937826935 * f ^ 61 * ξ ^ 8 - 4326496962373 * f ^ 61 * ξ ^ 7
     - 137308686023 * f ^ 61 * ξ ^ 6 + 2119774168692 * f ^ 60 * ξ ^ 8
     + 1488753154457 * f ^ 60 * ξ ^ 7 + 75890784374 * f ^ 60 * ξ ^ 6 + 34628900232 * f ^ 59 * ξ ^ 8
     - 75890784374 * f ^ 59 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlNCbQ1c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlNCbQ1c0 (f ξ : ℚ) : ℚ := order27_rat%
   42 * f ^ 86 - 787 * f ^ 85 + 6659 * f ^ 84 - 43934 * f ^ 83 - 6 * f ^ 82 * ξ + 62285 * f ^ 82
     + 60 * f ^ 81 * ξ - 697021 * f ^ 81 - 61 * f ^ 80 * ξ + 22062817 * f ^ 80 - 590 * f ^ 79 * ξ
     - 217536460 * f ^ 79 + 122548 * f ^ 78 * ξ + 1697270126 * f ^ 78 - 6 * f ^ 77 * ξ ^ 2

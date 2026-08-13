@@ -1972,6 +1972,30 @@ private theorem compatibleFamilyRestrictionHom_comp_chartComponent
         Pi.π (fun k ↦ (Scheme.Modules.pushforward (cov.f k)).obj (D.obj k)) j)
   exact compatibleFamilyRestrictedProjection_comp_component D i j
 
+/-
+This is the central overlap-coherence calculation for the compatible-family
+construction.  The local notation separates the restrictions, pushforwards,
+adjunctions, and base-change comparison that occur in the square.
+
+The proof reduces the comparison to three naturality statements:
+
+* `hAdj` identifies the chart transition with the adjoint of its component;
+* `hBC` moves the restricted projection through open base change;
+* `hunit` identifies the adjoint of the unit with the restriction comparison.
+
+The two projection equations connect those statements to the compatible-family
+equalizer.  Naturality of the adjunction equivalence then transports the left
+projection into the overlap and the right projection back out of it.
+
+Once these ingredients are in place, the desired equality is only reassociation
+and rewriting.  Keeping that final argument as directed rewrites shares the
+large categorical expressions instead of restating every intermediate morphism
+as a separate equality in a calculation chain.
+
+This formulation is also easier to audit: every rewrite below corresponds to
+one of the named coherence facts above, and no additional categorical identity
+is hidden in broad simplification.
+-/
 private theorem compatibleFamilyRestrictionHom_comm_restriction
     {X : Scheme.{u}} {cov : X.OpenCover.{0}}
     (D : modulesPseudofunctor.DescentData cov.f) (i j : cov.I₀) :
@@ -2061,36 +2085,12 @@ private theorem compatibleFamilyRestrictionHom_comm_restriction
   change B.hom.app (Rj.obj M) ≫ S₁.map (R₂.map hj) =
     Ri.map (Sj.map hj) ≫ B.hom.app Dj at hBC
   change R₁.map hi ≫ T = K ≫ R₂.map hj
-  calc
-    R₁.map hi ≫ T =
-        R₁.map hi ≫ A.symm (cij ≫ B.hom.app Dj) := by rw [hAdj]
-    _ = Ah.symm (hi ≫ (cij ≫ B.hom.app Dj)) :=
-      (A₁.homEquiv_naturality_left_symm hi
-        (cij ≫ B.hom.app Dj)).symm
-    _ = Ah.symm ((hi ≫ cij) ≫ B.hom.app Dj) := by
-      simp only [hi, Category.assoc]
-    _ = Ah.symm (Ri.map (compatibleFamilyProjection D j) ≫
-        B.hom.app Dj) := by rw [hhi]
-    _ = Ah.symm (Ri.map (Aj.homEquiv M Dj hj) ≫ B.hom.app Dj) := by
-      rw [hhj]
-    _ = Ah.symm (Ri.map (Aj.unit.app M ≫ Sj.map hj) ≫
-        B.hom.app Dj) := by
-      rw [Adjunction.homEquiv_apply]
-    _ = Ah.symm ((Ri.map (Aj.unit.app M) ≫ Ri.map (Sj.map hj)) ≫
-        B.hom.app Dj) := by rw [Ri.map_comp]
-    _ = Ah.symm (Ri.map (Aj.unit.app M) ≫
-        (Ri.map (Sj.map hj) ≫ B.hom.app Dj)) := by
-      rw [Category.assoc]
-    _ = Ah.symm (Ri.map (Aj.unit.app M) ≫
-        (B.hom.app (Rj.obj M) ≫ S₁.map (R₂.map hj))) := by
-      rw [hBC]
-    _ = Ah.symm ((Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) ≫
-        S₁.map (R₂.map hj)) := by rw [Category.assoc]
-    _ = Au.symm (Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) ≫
-        R₂.map hj :=
-      A₁.homEquiv_naturality_right_symm
-        (Ri.map (Aj.unit.app M) ≫ B.hom.app (Rj.obj M)) (R₂.map hj)
-    _ = K ≫ R₂.map hj := by rw [hunit]
+  rw [← hAdj]
+  rw [(A₁.homEquiv_naturality_left_symm hi
+    (cij ≫ B.hom.app Dj)).symm]
+  rw [← Category.assoc, hhi, ← hhj, Adjunction.homEquiv_apply,
+    Ri.map_comp, Category.assoc, ← hBC, ← Category.assoc]
+  rw [A₁.homEquiv_naturality_right_symm, hunit]
 
 private theorem compatibleFamilyOfObjTransition_from_restriction
     {X : Scheme.{u}} {cov : X.OpenCover.{0}}

@@ -14,8 +14,41 @@ The two public rational polynomials used by the checked trisection proof and
 its downstream third-leg certificate.
 -/
 
-@[expose] public section
+public meta section
+/--
+Elaborate generated order-27 rational polynomials with fixed operation
+instances.
 
+The leaf chunks contain thousands of explicit additions, subtractions,
+multiplications, negations, and natural powers over `ℚ`. Replacing those
+operators bottom-up with locally bound standard projections avoids repeating
+the same typeclass search at every node.
+
+The generated term still reduces to the ordinary `Rat` instances. This keeps
+unfolding compatible with downstream `ring` proofs while making elaboration
+linear in the size of each chunk.
+
+The syntax is exported because Lean macros must cross the module boundary to
+serve the 24 generated `Part` modules. Its order-27-specific name and fixed
+result type keep that interface narrow. Consumers should use it only for
+generated order-27 polynomial definitions.
+It deliberately introduces no notation for ordinary source terms.
+-/
+macro:0 "order27_rat% " body:term:0 : term => do
+      let body : Lean.TSyntax `term := ⟨← body.raw.rewriteBottomUpM fun stx => do
+        match stx with
+        | `($a + $b) => `(ratAdd $a $b) | `($a - $b) => `(ratSub $a $b)
+        | `($a * $b) => `(ratMul $a $b) | `($a ^ $b) => `(ratPow $a $b)
+        | `(-$a) => `(ratNeg $a) | _ => pure stx⟩
+      `(let ratAdd : ℚ → ℚ → ℚ := HAdd.hAdd (self := @instHAdd ℚ Rat.instAdd)
+        let ratSub : ℚ → ℚ → ℚ := HSub.hSub (self := @instHSub ℚ Rat.instSub)
+        let ratMul : ℚ → ℚ → ℚ := HMul.hMul (self := @instHMul ℚ Rat.instMul)
+        let ratPow : ℚ → ℕ → ℚ := HPow.hPow (self := @instHPow ℚ ℕ Rat.instPowNat)
+        let ratNeg : ℚ → ℚ := Neg.neg (self := Rat.instNeg)
+        $body)
+end
+
+@[expose] public section
 namespace MazurTorsion.Kubert
 
 /-- The two-division value `4ξ³ + b₂ξ² + 2b₄ξ + b₆` of the family. -/

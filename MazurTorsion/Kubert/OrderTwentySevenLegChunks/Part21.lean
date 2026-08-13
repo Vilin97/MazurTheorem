@@ -5,15 +5,16 @@ Authors: Vasily Ilin
 -/
 
 module
-public import Mathlib.Algebra.Ring.Rat
+public import MazurTorsion.Kubert.OrderTwentySevenTrisectionData
 import Mathlib.Tactic.SuppressCompilation
-
 
 /-!
 # Generated third-leg chunks
 
 This file is one load-balanced shard of the generated polynomial data used by
 the order-27 third-leg certificate.
+The `order27_rat%` wrapper fixes rational-operation instances during
+elaboration while retaining the standard rational expressions after reduction.
 -/
 
 suppress_compilation
@@ -23,7 +24,7 @@ suppress_compilation
 namespace MazurTorsion.Kubert
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c9 (f ξ : ℚ) : ℚ := order27_rat%
   -59554368759807741868021076 * f ^ 62 * ξ ^ 5 - 337003370697425423438297173 * f ^ 62 * ξ ^ 4
     - 684151518938167346589461784 * f ^ 62 * ξ ^ 3 - 537870463514574157545406490 * f ^ 62 * ξ ^ 2
     - 230524373337484434336527677 * f ^ 62 * ξ - 32564050368501946612153789 * f ^ 62
@@ -44,7 +45,7 @@ namespace MazurTorsion.Kubert
     - 661000407364906571423323 * f ^ 58 * ξ ^ 7 - 8746680604893674719294323 * f ^ 58 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c10 (f ξ : ℚ) : ℚ := order27_rat%
   -62512419856019045416136284 * f ^ 58 * ξ ^ 5 - 203940845203091134689189753 * f ^ 58 * ξ ^ 4
     - 259614300444976988756695401 * f ^ 58 * ξ ^ 3 - 146879294644846624373719242 * f ^ 58 * ξ ^ 2
     - 43793967608787156334102968 * f ^ 58 * ξ - 4158194352607239122905065 * f ^ 58
@@ -65,7 +66,7 @@ namespace MazurTorsion.Kubert
     - 929769807813250757166728 * f ^ 54 * ξ ^ 7 - 7527817594043171934855878 * f ^ 54 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c11 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c11 (f ξ : ℚ) : ℚ := order27_rat%
   -32267977436041180193910657 * f ^ 54 * ξ ^ 5 - 62414050252331545082889364 * f ^ 54 * ξ ^ 4
     - 51249570686765159723765486 * f ^ 54 * ξ ^ 3 - 20577909324485514329175227 * f ^ 54 * ξ ^ 2
     - 4107264096450405759093788 * f ^ 54 * ξ - 250906570168147435914745 * f ^ 54
@@ -86,7 +87,7 @@ namespace MazurTorsion.Kubert
     - 616564210842413737657512 * f ^ 50 * ξ ^ 7 - 3127976436503279919835416 * f ^ 50 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c12 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c12 (f ξ : ℚ) : ℚ := order27_rat%
   -8085326983129634202607780 * f ^ 50 * ξ ^ 5 - 9456388753887370083155005 * f ^ 50 * ξ ^ 4
     - 5077218387295157343916267 * f ^ 50 * ξ ^ 3 - 1394480404806342998825788 * f ^ 50 * ξ ^ 2
     - 175305277511326913937660 * f ^ 50 * ξ - 6426258694902440542403 * f ^ 50
@@ -107,7 +108,7 @@ namespace MazurTorsion.Kubert
     - 191653058580775966701516 * f ^ 46 * ξ ^ 7 - 611692483880828683471158 * f ^ 46 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c13 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c13 (f ξ : ℚ) : ℚ := order27_rat%
   -950561587166251555318536 * f ^ 46 * ξ ^ 5 - 676402572105563577709357 * f ^ 46 * ξ ^ 4
     - 235124151608743394127576 * f ^ 46 * ξ ^ 3 - 41174570161529500023541 * f ^ 46 * ξ ^ 2
     - 2975583639524979208433 * f ^ 46 * ξ - 59065607927666981770 * f ^ 46
@@ -128,7 +129,7 @@ namespace MazurTorsion.Kubert
     - 26936906635380603022740 * f ^ 42 * ξ ^ 7 - 53316212828078216227840 * f ^ 42 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c14 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c14 (f ξ : ℚ) : ℚ := order27_rat%
   -48846846815982353292876 * f ^ 42 * ξ ^ 5 - 20920121773591444009708 * f ^ 42 * ξ ^ 4
     - 4493992695669158780564 * f ^ 42 * ξ ^ 3 - 447267099645549147006 * f ^ 42 * ξ ^ 2
     - 16243787087883641695 * f ^ 42 * ξ - 146403905608062276 * f ^ 42
@@ -149,7 +150,7 @@ namespace MazurTorsion.Kubert
     - 1580199433978971679725 * f ^ 38 * ξ ^ 7 - 1862019207049541537264 * f ^ 38 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c15 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c15 (f ξ : ℚ) : ℚ := order27_rat%
   -970272666991285625684 * f ^ 38 * ξ ^ 5 - 242328920359972887461 * f ^ 38 * ξ ^ 4
     - 28798670082809883396 * f ^ 38 * ξ ^ 3 - 1347393043322681721 * f ^ 38 * ξ ^ 2
     - 18950742413918968 * f ^ 38 * ξ - 55611707547348 * f ^ 38
@@ -169,7 +170,7 @@ namespace MazurTorsion.Kubert
     - 21750681188632026287 * f ^ 34 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c16 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c16 (f ξ : ℚ) : ℚ := order27_rat%
   -6201653253044495391 * f ^ 34 * ξ ^ 5 - 817333561936569587 * f ^ 34 * ξ ^ 4
     - 41517234819506979 * f ^ 34 * ξ ^ 3 - 624761768657427 * f ^ 34 * ξ ^ 2
     - 2251357171191 * f ^ 34 * ξ - 295951279 * f ^ 34 + 6728272433559144770 * f ^ 33 * ξ ^ 8
@@ -188,7 +189,7 @@ namespace MazurTorsion.Kubert
     - 64529480263452330 * f ^ 30 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c17 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c17 (f ξ : ℚ) : ℚ := order27_rat%
   -9145380649648867 * f ^ 30 * ξ ^ 5 - 452958184188651 * f ^ 30 * ξ ^ 4
     - 6234042966710 * f ^ 30 * ξ ^ 3 - 4010168934 * f ^ 30 * ξ ^ 2 - 2238426 * f ^ 30 * ξ
     + 46713544445570223 * f ^ 29 * ξ ^ 8 + 41008688621962071 * f ^ 29 * ξ ^ 7
@@ -204,7 +205,7 @@ namespace MazurTorsion.Kubert
     - 29854483678782 * f ^ 26 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c18 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c18 (f ξ : ℚ) : ℚ := order27_rat%
   -1487302166292 * f ^ 26 * ξ ^ 5 - 3624519899 * f ^ 26 * ξ ^ 4 - 7452200 * f ^ 26 * ξ ^ 3
     + 51675736526902 * f ^ 25 * ξ ^ 8 + 20561913726248 * f ^ 25 * ξ ^ 7
     + 2917825233287 * f ^ 25 * ξ ^ 6 + 107516621165 * f ^ 25 * ξ ^ 5 + 116665910 * f ^ 25 * ξ ^ 4
@@ -215,14 +216,14 @@ namespace MazurTorsion.Kubert
     - 3305349071 * f ^ 22 * ξ ^ 7 - 249636874 * f ^ 22 * ξ ^ 6 - 2232186 * f ^ 22 * ξ ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP2c19 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP2c19 (f ξ : ℚ) : ℚ := order27_rat%
   3114110971 * f ^ 21 * ξ ^ 8 + 257496874 * f ^ 21 * ξ ^ 7 + 6189684 * f ^ 21 * ξ ^ 6
     + 720 * f ^ 21 * ξ ^ 5 - 63317420 * f ^ 20 * ξ ^ 8 - 7976628 * f ^ 20 * ξ ^ 7
     - 371581 * f ^ 20 * ξ ^ 6 - 262758 * f ^ 19 * ξ ^ 8 - 21179 * f ^ 19 * ξ ^ 7
     + 120 * f ^ 19 * ξ ^ 6 - 10306 * f ^ 18 * ξ ^ 8 + 60 * f ^ 18 * ξ ^ 7
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c0 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c0 (f ξ : ℚ) : ℚ := order27_rat%
   1784507256839556014 * f ^ 78 * ξ ^ 2 + 4587106304313361406 * f ^ 78 * ξ
     + 3889516325762671438 * f ^ 78 - 464612029 * f ^ 77 * ξ ^ 6 - 1920461827515 * f ^ 77 * ξ ^ 5
     - 5215400353400319 * f ^ 77 * ξ ^ 4 - 573114552272565409 * f ^ 77 * ξ ^ 3
@@ -237,7 +238,7 @@ namespace MazurTorsion.Kubert
     + 5055378075956779281705 * f ^ 75 - 3179381178191 * f ^ 74 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c1 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c1 (f ξ : ℚ) : ℚ := order27_rat%
   -6142044239652552 * f ^ 74 * ξ ^ 5 - 9525819216596541063 * f ^ 74 * ξ ^ 4
     - 861770195357672183504 * f ^ 74 * ξ ^ 3 - 9842120384963835593166 * f ^ 74 * ξ ^ 2
     - 23096520853824209250729 * f ^ 74 * ξ - 18111657990907116495082 * f ^ 74
@@ -256,7 +257,7 @@ namespace MazurTorsion.Kubert
     - 73109222079 * f ^ 70 * ξ ^ 7 - 7486994357752551 * f ^ 70 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c2 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c2 (f ξ : ℚ) : ℚ := order27_rat%
   -4053507560640037382 * f ^ 70 * ξ ^ 5 - 1356256988741803200199 * f ^ 70 * ξ ^ 4
     - 60188007802230445617606 * f ^ 70 * ξ ^ 3 - 283456120434611032285796 * f ^ 70 * ξ ^ 2
     - 526390471825962651026976 * f ^ 70 * ξ - 336585833064803721705378 * f ^ 70
@@ -277,7 +278,7 @@ namespace MazurTorsion.Kubert
     - 1725682118865126 * f ^ 66 * ξ ^ 7 - 1936844135176788914 * f ^ 66 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c3 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c3 (f ξ : ℚ) : ℚ := order27_rat%
   -365589812439264661458 * f ^ 66 * ξ ^ 5 - 32984144087813080218814 * f ^ 66 * ξ ^ 4
     - 575550557567939392030346 * f ^ 66 * ξ ^ 3 - 1536118085054959194195311 * f ^ 66 * ξ ^ 2
     - 1957448888820262084836759 * f ^ 66 * ξ - 861160190132791295873591 * f ^ 66
@@ -298,7 +299,7 @@ namespace MazurTorsion.Kubert
     - 520282151826932577 * f ^ 62 * ξ ^ 7 - 121269609585333773717 * f ^ 62 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c4 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c4 (f ξ : ℚ) : ℚ := order27_rat%
   -8584648690642310611908 * f ^ 62 * ξ ^ 5 - 269327780749773164916405 * f ^ 62 * ξ ^ 4
     - 2000771113045589700096860 * f ^ 62 * ξ ^ 3 - 3294538948112356770968988 * f ^ 62 * ξ ^ 2
     - 2779335838180261577850222 * f ^ 62 * ξ - 779075024104281696524243 * f ^ 62
@@ -319,7 +320,7 @@ namespace MazurTorsion.Kubert
     - 28286057187291862052 * f ^ 58 * ξ ^ 7 - 2162442445060334381566 * f ^ 58 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c5 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c5 (f ξ : ℚ) : ℚ := order27_rat%
   -65289902505136503633818 * f ^ 58 * ξ ^ 5 - 837254751207808347717120 * f ^ 58 * ξ ^ 4
     - 2953746453113457611326742 * f ^ 58 * ξ ^ 3 - 3110178793936160860342909 * f ^ 58 * ξ ^ 2
     - 1716443543957083768746771 * f ^ 58 * ξ - 300046860615421159226880 * f ^ 58
@@ -340,7 +341,7 @@ namespace MazurTorsion.Kubert
     - 413051404158500919210 * f ^ 54 * ξ ^ 7 - 12733643244293966885169 * f ^ 54 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c6 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c6 (f ξ : ℚ) : ℚ := order27_rat%
   -180481595941863376637773 * f ^ 54 * ξ ^ 5 - 1043044877271213538494708 * f ^ 54 * ξ ^ 4
     - 1890062477879863972428974 * f ^ 54 * ξ ^ 3 - 1296801643969587635347768 * f ^ 54 * ξ ^ 2
     - 455167562826717726940620 * f ^ 54 * ξ - 48410154649676580473058 * f ^ 54
@@ -361,7 +362,7 @@ namespace MazurTorsion.Kubert
     - 1885566386172436637456 * f ^ 50 * ξ ^ 7 - 27215537803431898827636 * f ^ 50 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c7 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c7 (f ξ : ℚ) : ℚ := order27_rat%
   -190571929088237902660489 * f ^ 50 * ξ ^ 5 - 525859195332207935760844 * f ^ 50 * ξ ^ 4
     - 523076664963229410513981 * f ^ 50 * ξ ^ 3 - 233877624751968453362886 * f ^ 50 * ξ ^ 2
     - 50253655883160037087852 * f ^ 50 * ξ - 3149053172330772961088 * f ^ 50
@@ -382,7 +383,7 @@ namespace MazurTorsion.Kubert
     - 2939438458170920923481 * f ^ 46 * ξ ^ 7 - 21905438488146134273730 * f ^ 46 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c8 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c8 (f ξ : ℚ) : ℚ := order27_rat%
   -76593265652308196478797 * f ^ 46 * ξ ^ 5 - 106302209107029070925001 * f ^ 46 * ξ ^ 4
     - 61528479018182156115311 * f ^ 46 * ξ ^ 3 - 17460491503145301085245 * f ^ 46 * ξ ^ 2
     - 2178636536383431324631 * f ^ 46 * ξ - 75887211745763606666 * f ^ 46
@@ -403,7 +404,7 @@ namespace MazurTorsion.Kubert
     - 1631627229303221376699 * f ^ 42 * ξ ^ 7 - 6485640960476617941829 * f ^ 42 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c9 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c9 (f ξ : ℚ) : ℚ := order27_rat%
   -11429990421808944123262 * f ^ 42 * ξ ^ 5 - 8470228527405695256923 * f ^ 42 * ξ ^ 4
     - 2932659392802121634661 * f ^ 42 * ξ ^ 3 - 495124191622831985429 * f ^ 42 * ξ ^ 2
     - 33017538388094953613 * f ^ 42 * ξ - 590277638754271125 * f ^ 42
@@ -424,7 +425,7 @@ namespace MazurTorsion.Kubert
     - 317282282549270381303 * f ^ 38 * ξ ^ 7 - 670328855064006256557 * f ^ 38 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c10 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c10 (f ξ : ℚ) : ℚ := order27_rat%
   -614366678319194166810 * f ^ 38 * ξ ^ 5 - 252615061127277020335 * f ^ 38 * ξ ^ 4
     - 50916031758779042753 * f ^ 38 * ξ ^ 3 - 4592404786206678156 * f ^ 38 * ξ ^ 2
     - 149513839296411005 * f ^ 38 * ξ - 1247174533329844 * f ^ 38
@@ -445,7 +446,7 @@ namespace MazurTorsion.Kubert
     - 22772200064766161340 * f ^ 34 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c11 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c11 (f ξ : ℚ) : ℚ := order27_rat%
   -10999638704818615962 * f ^ 34 * ξ ^ 5 - 2523698661037063204 * f ^ 34 * ξ ^ 4
     - 270988564398284403 * f ^ 34 * ξ ^ 3 - 11589150889392156 * f ^ 34 * ξ ^ 2
     - 158128909931460 * f ^ 34 * ξ - 526371893804 * f ^ 34 + 3349565119038415351 * f ^ 33 * ξ ^ 8
@@ -464,7 +465,7 @@ namespace MazurTorsion.Kubert
     - 377298130769206551 * f ^ 30 * ξ ^ 7 - 223655880634503662 * f ^ 30 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c12 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c12 (f ξ : ℚ) : ℚ := order27_rat%
   -58400238298574954 * f ^ 30 * ξ ^ 5 - 7101665314049742 * f ^ 30 * ξ ^ 4
     - 345240127806037 * f ^ 30 * ξ ^ 3 - 5649490977429 * f ^ 30 * ξ ^ 2 - 31315943526 * f ^ 30 * ξ
     - 11984084 * f ^ 30 + 78466821440377563 * f ^ 29 * ξ ^ 8 + 112991213799059931 * f ^ 29 * ξ ^ 7
@@ -483,7 +484,7 @@ namespace MazurTorsion.Kubert
     - 552450875931906 * f ^ 26 * ξ ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c13 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c13 (f ξ : ℚ) : ℚ := order27_rat%
   -76238980043796 * f ^ 26 * ξ ^ 5 - 3970546244776 * f ^ 26 * ξ ^ 4 - 81083917170 * f ^ 26 * ξ ^ 3
     - 152339601 * f ^ 26 * ξ ^ 2 - 1258494 * f ^ 26 * ξ + 137 * f ^ 26
     + 432861725163602 * f ^ 25 * ξ ^ 8 + 353198455939381 * f ^ 25 * ξ ^ 7
@@ -500,7 +501,7 @@ namespace MazurTorsion.Kubert
     - 17860273788 * f ^ 22 * ξ ^ 5 - 174382185 * f ^ 22 * ξ ^ 4
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c14 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c14 (f ξ : ℚ) : ℚ := order27_rat%
   -4133498 * f ^ 22 * ξ ^ 3 + 2103 * f ^ 22 * ξ ^ 2 + 425588946824 * f ^ 21 * ξ ^ 8
     + 179753466167 * f ^ 21 * ξ ^ 7 + 30763474649 * f ^ 21 * ξ ^ 6 + 1826349942 * f ^ 21 * ξ ^ 5
     - 5883918 * f ^ 21 * ξ ^ 4 + 20786 * f ^ 21 * ξ ^ 3 + 15 * f ^ 21 * ξ ^ 2
@@ -515,13 +516,13 @@ namespace MazurTorsion.Kubert
     - 191579 * f ^ 16 * ξ ^ 6 + 876 * f ^ 16 * ξ ^ 5 - 407598 * f ^ 15 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def tlWZeroXP3c15 (f ξ : ℚ) : ℚ :=
+@[irreducible] def tlWZeroXP3c15 (f ξ : ℚ) : ℚ := order27_rat%
   -16974 * f ^ 15 * ξ ^ 7 + 2167 * f ^ 15 * ξ ^ 6 + 6 * f ^ 15 * ξ ^ 5 - 8904 * f ^ 14 * ξ ^ 8
     + 1416 * f ^ 14 * ξ ^ 7 + 148 * f ^ 14 * ξ ^ 6 + 735 * f ^ 13 * ξ ^ 8 + 51 * f ^ 13 * ξ ^ 7
     + f ^ 13 * ξ ^ 6 + 6 * f ^ 12 * ξ ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlE0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlE0 (f Z : ℚ) : ℚ := order27_rat%
   -4 * f ^ 17 - 28 * f ^ 16 + 252 * f ^ 15 - 920 * f ^ 14 + 2564 * f ^ 13 - 6556 * f ^ 12
     - 20 * f ^ 11 * Z + 14764 * f ^ 11 + 20 * f ^ 10 * Z - 26827 * f ^ 10 + 160 * f ^ 9 * Z
     + 37696 * f ^ 9 - 658 * f ^ 8 * Z - 40688 * f ^ 8 + 1434 * f ^ 7 * Z + 33814 * f ^ 7
@@ -531,7 +532,7 @@ namespace MazurTorsion.Kubert
     + 20 * f * Z + 4 * f + 4 * Z ^ 3 + Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTN0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTN0 (f Z : ℚ) : ℚ := order27_rat%
   -432 * f ^ 34 - 7048 * f ^ 33 + 36264 * f ^ 32 + 203304 * f ^ 31 - 2697524 * f ^ 30
     + 15224532 * f ^ 29 - 4020 * f ^ 28 * Z - 63547860 * f ^ 28 - 28320 * f ^ 27 * Z
     + 226567574 * f ^ 27 + 338760 * f ^ 26 * Z - 718087362 * f ^ 26 - 1122828 * f ^ 25 * Z
@@ -545,7 +546,7 @@ namespace MazurTorsion.Kubert
     + 167232646536 * f ^ 17 + 1143 * f ^ 16 * Z ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTN1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTN1 (f Z : ℚ) : ℚ := order27_rat%
   -5735736 * f ^ 16 * Z ^ 2 - 9965770887 * f ^ 16 * Z - 168830608716 * f ^ 16
     - 49962 * f ^ 15 * Z ^ 3 + 33549399 * f ^ 15 * Z ^ 2 + 13446748614 * f ^ 15 * Z
     + 149177064431 * f ^ 15 + 244881 * f ^ 14 * Z ^ 3 - 88684017 * f ^ 14 * Z ^ 2
@@ -562,7 +563,7 @@ namespace MazurTorsion.Kubert
     - 950607312 * f ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTN2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTN2 (f Z : ℚ) : ℚ := order27_rat%
   -230040 * f ^ 7 * Z ^ 4 - 8711028 * f ^ 7 * Z ^ 3 + 68422923 * f ^ 7 * Z ^ 2
     + 343891758 * f ^ 7 * Z + 219663180 * f ^ 7 - 108 * f ^ 6 * Z ^ 5 + 346734 * f ^ 6 * Z ^ 4
     + 5406099 * f ^ 6 * Z ^ 3 - 25947558 * f ^ 6 * Z ^ 2 - 85772568 * f ^ 6 * Z - 39135087 * f ^ 6
@@ -576,11 +577,11 @@ namespace MazurTorsion.Kubert
     - 216 * Z ^ 6 - 108 * Z ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTN3 (Z : ℚ) : ℚ :=
+@[irreducible] def zlTN3 (Z : ℚ) : ℚ := order27_rat%
   -9 * Z ^ 4 + Z ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTDP0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTDP0c0 (f Z : ℚ) : ℚ := order27_rat%
   35 * f ^ 34 + 974 * f ^ 33 - 206 * f ^ 32 - 97367 * f ^ 31 + 922009 * f ^ 30 + f ^ 29 * Z
     - 5058073 * f ^ 29 + 350 * f ^ 28 * Z + 20702817 * f ^ 28 + 3240 * f ^ 27 * Z
     - 70082847 * f ^ 27 - 34704 * f ^ 26 * Z + 206608320 * f ^ 26 + 103302 * f ^ 25 * Z
@@ -594,7 +595,7 @@ namespace MazurTorsion.Kubert
     + 1150335 * f ^ 16 * Z ^ 2 + 1050646788 * f ^ 16 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTDP0c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTDP0c1 (f Z : ℚ) : ℚ := order27_rat%
   24215065386 * f ^ 16 - 3688740 * f ^ 15 * Z ^ 2 - 1402608915 * f ^ 15 * Z - 20540284887 * f ^ 15
     + 8485227 * f ^ 14 * Z ^ 2 + 1592768673 * f ^ 14 * Z + 15335535540 * f ^ 14
     - 15295977 * f ^ 13 * Z ^ 2 - 1540518723 * f ^ 13 * Z - 10028941017 * f ^ 13
@@ -609,11 +610,11 @@ namespace MazurTorsion.Kubert
     - 14256 * f ^ 3 * Z ^ 2 - 13464 * f ^ 3 * Z - 2165 * f ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTDP0c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTDP0c2 (f Z : ℚ) : ℚ := order27_rat%
   792 * f ^ 2 * Z ^ 2 + 379 * f ^ 2 * Z + 35 * f ^ 2 - 9 * f * Z ^ 2 - f * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTDQ0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTDQ0c0 (f Z : ℚ) : ℚ := order27_rat%
   19 * f ^ 17 + 313 * f ^ 16 - 2088 * f ^ 15 + 6483 * f ^ 14 - 16112 * f ^ 13 + f ^ 12 * Z
     + 40331 * f ^ 12 - 4 * f ^ 11 * Z - 94506 * f ^ 11 - 2 * f ^ 10 * Z + 179671 * f ^ 10
     - 24 * f ^ 9 * Z - 261201 * f ^ 9 + 181 * f ^ 8 * Z + 288908 * f ^ 8 - 420 * f ^ 7 * Z
@@ -623,7 +624,7 @@ namespace MazurTorsion.Kubert
     - 48 * f * Z ^ 2 - 8 * f * Z - 19 * f + 16 * Z ^ 3 + 8 * Z ^ 2 + Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP0c0 (f Z : ℚ) : ℚ := order27_rat%
   f ^ 70 + 1099 * f ^ 69 - 35660 * f ^ 68 - 241448 * f ^ 67 + 34681804 * f ^ 66
     - 944974142 * f ^ 65 + 9 * f ^ 64 * Z + 15307081191 * f ^ 64 + 9540 * f ^ 63 * Z
     - 176121359700 * f ^ 63 - 606564 * f ^ 62 * Z + 1556625848427 * f ^ 62 + 17697132 * f ^ 61 * Z
@@ -638,7 +639,7 @@ namespace MazurTorsion.Kubert
     - 29601401106732 * f ^ 52 * Z + 2218375047423426175 * f ^ 52 + 62224989948 * f ^ 51 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP0c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP0c1 (f Z : ℚ) : ℚ := order27_rat%
   -1196255352640992 * f ^ 51 * Z - 5988666701053350179 * f ^ 51 - 843074602875 * f ^ 50 * Z ^ 2
     + 8799790952601801 * f ^ 50 * Z + 15143699374628758574 * f ^ 50
     + 6863838959691 * f ^ 49 * Z ^ 2 - 42516981313478031 * f ^ 49 * Z
@@ -661,7 +662,7 @@ namespace MazurTorsion.Kubert
     + 36254167218645447285 * f ^ 38 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP0c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP0c2 (f Z : ℚ) : ℚ := order27_rat%
   1135066920188927069923 * f ^ 38 + 9961255260891594 * f ^ 37 * Z ^ 2
     - 18937495152665911179 * f ^ 37 * Z - 503291038186069721664 * f ^ 37
     - 1408237876334898 * f ^ 36 * Z ^ 2 + 4171785374549925459 * f ^ 36 * Z
@@ -683,7 +684,7 @@ namespace MazurTorsion.Kubert
     - 11204003569121729 * f ^ 25
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP0c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP0c3 (f Z : ℚ) : ℚ := order27_rat%
   160945288587 * f ^ 24 * Z ^ 2 - 325413524456529 * f ^ 24 * Z - 8858096864581589 * f ^ 24
     - 14291945658 * f ^ 23 * Z ^ 2 + 42437058761871 * f ^ 23 * Z + 920699981962544 * f ^ 23
     - 11035446579 * f ^ 22 * Z ^ 2 + 23646788890179 * f ^ 22 * Z + 624150368503704 * f ^ 22
@@ -693,7 +694,7 @@ namespace MazurTorsion.Kubert
     + 2917071 * f ^ 18 * Z ^ 2 - 6301621053 * f ^ 18 * Z - 167232645393 * f ^ 18
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ0c0 (f Z : ℚ) : ℚ := order27_rat%
   f ^ 53 + 1076 * f ^ 52 - 246817 * f ^ 51 - 423748 * f ^ 50 - 28008866 * f ^ 49
     + 534738361 * f ^ 48 - 4103428004 * f ^ 47 - 132 * f ^ 46 * Z + 20856951302 * f ^ 46
     - 1842468 * f ^ 45 * Z - 84678885361 * f ^ 45 - 20156616 * f ^ 44 * Z + 289338324306 * f ^ 44
@@ -708,7 +709,7 @@ namespace MazurTorsion.Kubert
     - 4962928896 * f ^ 35 * Z ^ 2 + 10922285145438 * f ^ 35 * Z + 5889382133057916 * f ^ 35
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ0c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ0c1 (f Z : ℚ) : ℚ := order27_rat%
   1355445 * f ^ 34 * Z ^ 3 + 45126578961 * f ^ 34 * Z ^ 2 - 48281713596300 * f ^ 34 * Z
     - 15728148450984630 * f ^ 34 - 3042021 * f ^ 33 * Z ^ 3 - 169246057842 * f ^ 33 * Z ^ 2
     + 184325505828105 * f ^ 33 * Z + 38237640130270861 * f ^ 33 - 50674905 * f ^ 32 * Z ^ 3
@@ -726,7 +727,7 @@ namespace MazurTorsion.Kubert
     - 57258893682330363 * f ^ 26 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ0c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ0c2 (f Z : ℚ) : ℚ := order27_rat%
   -1174982381303334851 * f ^ 26 + 406205118 * f ^ 25 * Z ^ 4 - 1313028966285 * f ^ 25 * Z ^ 3
     + 585992531080170 * f ^ 25 * Z ^ 2 + 70577959905428538 * f ^ 25 * Z
     + 1081339916468699255 * f ^ 25 - 108 * f ^ 24 * Z ^ 5 - 622945593 * f ^ 24 * Z ^ 4
@@ -746,7 +747,7 @@ namespace MazurTorsion.Kubert
     - 471749411835267 * f ^ 19 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ0c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ0c3 (f Z : ℚ) : ℚ := order27_rat%
   1900511016678555 * f ^ 19 * Z + 1199125525799000 * f ^ 19 - 216 * f ^ 18 * Z ^ 6
     - 646648380 * f ^ 18 * Z ^ 5 + 731451461427 * f ^ 18 * Z ^ 4 + 35850905621290 * f ^ 18 * Z ^ 3
     + 117972121350879 * f ^ 18 * Z ^ 2 - 163570588839453 * f ^ 18 * Z - 61854206832239 * f ^ 18
@@ -756,7 +757,7 @@ namespace MazurTorsion.Kubert
     - 123444 * f ^ 16 * Z ^ 5 - 10287 * f ^ 16 * Z ^ 4 + 1143 * f ^ 16 * Z ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP1c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP1c0 (f Z : ℚ) : ℚ := order27_rat%
   -27 * f ^ 69 + 11016 * f ^ 68 - 423588 * f ^ 67 + 1998168 * f ^ 66 + 252513984 * f ^ 65
     - 9 * f ^ 64 * Z - 8939815419 * f ^ 64 + 3420 * f ^ 63 * Z + 169879380240 * f ^ 63
     - 15840 * f ^ 62 * Z - 2237638487385 * f ^ 62 - 6523020 * f ^ 61 * Z + 22381615561001 * f ^ 61
@@ -771,7 +772,7 @@ namespace MazurTorsion.Kubert
     - 18304812022466776970 * f ^ 52 + 234683871066 * f ^ 51 * Z ^ 2 + 769022521154196 * f ^ 51 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP1c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP1c1 (f Z : ℚ) : ℚ := order27_rat%
   50582373555699223051 * f ^ 51 + 45167800167 * f ^ 50 * Z ^ 2 - 23750420722229583 * f ^ 50 * Z
     - 128742620616468528916 * f ^ 50 - 8171374304475 * f ^ 49 * Z ^ 2
     + 138612700863823791 * f ^ 49 * Z + 301126726673078603619 * f ^ 49
@@ -794,7 +795,7 @@ namespace MazurTorsion.Kubert
     - 5826463918890972969842 * f ^ 38
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP1c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP1c2 (f Z : ℚ) : ℚ := order27_rat%
   287113959697612194 * f ^ 37 * Z ^ 2 + 320282440070717501304 * f ^ 37 * Z
     + 3204364036900424742526 * f ^ 37 - 21308357140722675 * f ^ 36 * Z ^ 2
     - 235406287906862901354 * f ^ 36 * Z - 1099429521610081594014 * f ^ 36
@@ -817,7 +818,7 @@ namespace MazurTorsion.Kubert
     - 237358825212641582 * f ^ 25 - 26349411143745981 * f ^ 24 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP1c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP1c3 (f Z : ℚ) : ℚ := order27_rat%
   64679206528870062 * f ^ 24 * Z + 417794182028729059 * f ^ 24
     - 10685618561910762 * f ^ 23 * Z ^ 2 - 194306302072989729 * f ^ 23 * Z
     - 173802648043875937 * f ^ 23 + 10744028296995186 * f ^ 22 * Z ^ 2
@@ -836,13 +837,13 @@ namespace MazurTorsion.Kubert
     + 19477035513 * f ^ 11 * Z ^ 2 + 128054825577 * f ^ 11 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP1c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP1c4 (f Z : ℚ) : ℚ := order27_rat%
   96051958063 * f ^ 11 + 2991083355 * f ^ 10 * Z ^ 2 + 21962175468 * f ^ 10 * Z
     + 18585924145 * f ^ 10 + 138156723 * f ^ 9 * Z ^ 2 + 1065288114 * f ^ 9 * Z
     + 950607312 * f ^ 9
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ1c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ1c0 (f Z : ℚ) : ℚ := order27_rat%
   -27 * f ^ 52 + 11637 * f ^ 51 - 697044 * f ^ 50 + 20558028 * f ^ 49 - 381422574 * f ^ 48
     - 9 * f ^ 47 * Z + 4954952142 * f ^ 47 + 3870 * f ^ 46 * Z - 47883447279 * f ^ 46
     - 211842 * f ^ 45 * Z + 358468644978 * f ^ 45 + 5601042 * f ^ 44 * Z - 2146347475117 * f ^ 44
@@ -857,7 +858,7 @@ namespace MazurTorsion.Kubert
     + 115497611533069022 * f ^ 33 - 17291781 * f ^ 32 * Z ^ 3 + 7454181864 * f ^ 32 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ1c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ1c1 (f Z : ℚ) : ℚ := order27_rat%
   -364429565564982 * f ^ 32 * Z - 141831960964045119 * f ^ 32 + 48290085 * f ^ 31 * Z ^ 3
     + 16477158075 * f ^ 31 * Z ^ 2 + 562552723791249 * f ^ 31 * Z + 146454516805320756 * f ^ 31
     - 9 * f ^ 30 * Z ^ 4 + 102639264 * f ^ 30 * Z ^ 3 - 101536153089 * f ^ 30 * Z ^ 2
@@ -875,7 +876,7 @@ namespace MazurTorsion.Kubert
     - 663490215700623 * f ^ 24 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ1c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ1c2 (f Z : ℚ) : ℚ := order27_rat%
   -81928774017128019 * f ^ 24 * Z - 891164620067961683 * f ^ 24 - 39852 * f ^ 23 * Z ^ 5
     - 1207667718 * f ^ 23 * Z ^ 4 - 137361214998 * f ^ 23 * Z ^ 3
     + 1839768988632810 * f ^ 23 * Z ^ 2 + 130681199567733720 * f ^ 23 * Z
@@ -895,7 +896,7 @@ namespace MazurTorsion.Kubert
     - 272372425403311400 * f ^ 18 - 361584 * f ^ 17 * Z ^ 6
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ1c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ1c3 (f Z : ℚ) : ℚ := order27_rat%
   315590904 * f ^ 17 * Z ^ 5 - 2461385525922 * f ^ 17 * Z ^ 4 - 55008209138751 * f ^ 17 * Z ^ 3
     + 6496701497278623 * f ^ 17 * Z ^ 2 + 75103224750333927 * f ^ 17 * Z
     + 139331686320228248 * f ^ 17 + 405324 * f ^ 16 * Z ^ 6 + 1760599395 * f ^ 16 * Z ^ 5
@@ -915,7 +916,7 @@ namespace MazurTorsion.Kubert
     - 255980573865771 * f ^ 12 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ1c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ1c4 (f Z : ℚ) : ℚ := order27_rat%
   -809592661930293 * f ^ 12 * Z - 523750157801391 * f ^ 12 - 723168 * f ^ 11 * Z ^ 7
     + 1277291592 * f ^ 11 * Z ^ 6 - 9139079664 * f ^ 11 * Z ^ 5 - 3587827392000 * f ^ 11 * Z ^ 4
     - 11400057900630 * f ^ 11 * Z ^ 3 + 63693189442899 * f ^ 11 * Z ^ 2
@@ -930,7 +931,7 @@ namespace MazurTorsion.Kubert
     + 112115025999 * f ^ 8 * Z ^ 2 + 7490177694 * f ^ 8 * Z - 950607312 * f ^ 8
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP2c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP2c0 (f Z : ℚ) : ℚ := order27_rat%
   -1188 * f ^ 69 + 31104 * f ^ 68 + 435024 * f ^ 67 - 30796416 * f ^ 66 + 577275660 * f ^ 65
     - 4571714628 * f ^ 64 - 12960 * f ^ 63 * Z - 16652773962 * f ^ 63 + 622404 * f ^ 62 * Z
     + 924463506024 * f ^ 62 - 11174112 * f ^ 61 * Z - 13485608111106 * f ^ 61
@@ -946,7 +947,7 @@ namespace MazurTorsion.Kubert
     - 48601104321321735770 * f ^ 51
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP2c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP2c1 (f Z : ℚ) : ℚ := order27_rat%
   797906802708 * f ^ 50 * Z ^ 2 + 14950629769627782 * f ^ 50 * Z + 122280656307542631587 * f ^ 50
     + 1307535344784 * f ^ 49 * Z ^ 2 - 96095719550345760 * f ^ 49 * Z
     - 282110869647813644052 * f ^ 49 - 26156308119606 * f ^ 48 * Z ^ 2
@@ -969,7 +970,7 @@ namespace MazurTorsion.Kubert
     - 297075214958503788 * f ^ 37 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP2c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP2c2 (f Z : ℚ) : ℚ := order27_rat%
   -301344944918051590125 * f ^ 37 * Z - 2696822856732438014206 * f ^ 37
     + 22716595017057573 * f ^ 36 * Z ^ 2 + 231234502532312975895 * f ^ 36 * Z
     + 1042276868136283245759 * f ^ 36 + 487955898479709495 * f ^ 35 * Z ^ 2
@@ -992,7 +993,7 @@ namespace MazurTorsion.Kubert
     + 26349250198457394 * f ^ 24 * Z ^ 2 - 64353793004413533 * f ^ 24 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP2c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP2c3 (f Z : ℚ) : ℚ := order27_rat%
   -409218811747487795 * f ^ 24 + 10685632853856420 * f ^ 23 * Z ^ 2
     + 194263865014227858 * f ^ 23 * Z + 172810075958586905 * f ^ 23
     - 10744017261548607 * f ^ 22 * Z ^ 2 - 78360272808252831 * f ^ 22 * Z
@@ -1011,13 +1012,13 @@ namespace MazurTorsion.Kubert
     - 128054825577 * f ^ 11 * Z - 95961055983 * f ^ 11
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqP2c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqP2c4 (f Z : ℚ) : ℚ := order27_rat%
   -2991083355 * f ^ 10 * Z ^ 2 - 21962175468 * f ^ 10 * Z - 18553868065 * f ^ 10
     - 138156723 * f ^ 9 * Z ^ 2 - 1065288114 * f ^ 9 * Z - 952150914 * f ^ 9 - 1562889 * f ^ 8
     - 143924 * f ^ 7 + 27823 * f ^ 6 + 8128 * f ^ 5 + 871 * f ^ 4 + 46 * f ^ 3 + f ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c0 (f Z : ℚ) : ℚ := order27_rat%
   -1188 * f ^ 52 + 58428 * f ^ 51 - 1164240 * f ^ 50 + 9682416 * f ^ 49 + 44822916 * f ^ 48
     - 2228894604 * f ^ 47 - 2268 * f ^ 46 * Z + 31228318530 * f ^ 46 + 134460 * f ^ 45 * Z
     - 279980739054 * f ^ 45 - 3664116 * f ^ 44 * Z + 1857733521426 * f ^ 44
@@ -1033,7 +1034,7 @@ namespace MazurTorsion.Kubert
     + 8369958096 * f ^ 34 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c1 (f Z : ℚ) : ℚ := order27_rat%
   28300205963826 * f ^ 34 * Z + 70267638111728135 * f ^ 34 - 334368 * f ^ 33 * Z ^ 3
     - 35675447868 * f ^ 33 * Z ^ 2 - 46929628375290 * f ^ 33 * Z - 97764227872658874 * f ^ 33
     + 5447952 * f ^ 32 * Z ^ 3 + 131483939688 * f ^ 32 * Z ^ 2 + 21634489514934 * f ^ 32 * Z
@@ -1050,7 +1051,7 @@ namespace MazurTorsion.Kubert
     + 997978024058421 * f ^ 25 * Z + 10234790878940304 * f ^ 25 - 108 * f ^ 24 * Z ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c2 (f Z : ℚ) : ℚ := order27_rat%
   -80397306 * f ^ 24 * Z ^ 4 + 600052287975 * f ^ 24 * Z ^ 3 + 25837627323519 * f ^ 24 * Z ^ 2
     - 499937475828306 * f ^ 24 * Z - 1819470468576600 * f ^ 24 - 37260 * f ^ 23 * Z ^ 5
     - 48432762 * f ^ 23 * Z ^ 4 - 884743592517 * f ^ 23 * Z ^ 3 - 20675058487896 * f ^ 23 * Z ^ 2
@@ -1067,7 +1068,7 @@ namespace MazurTorsion.Kubert
     + 3241035619336 * f ^ 18 * Z ^ 3 - 25657848456948 * f ^ 18 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c3 (f Z : ℚ) : ℚ := order27_rat%
   -128175439264281 * f ^ 18 * Z - 95129396792544 * f ^ 18 - 198288 * f ^ 17 * Z ^ 6
     + 589344984 * f ^ 17 * Z ^ 5 - 358257014829 * f ^ 17 * Z ^ 4 - 11212782866343 * f ^ 17 * Z ^ 3
     + 81770230262151 * f ^ 17 * Z ^ 2 + 398339799243516 * f ^ 17 * Z + 240173740205373 * f ^ 17
@@ -1086,7 +1087,7 @@ namespace MazurTorsion.Kubert
     - 145513584 * f ^ 12 * Z ^ 6 + 93423173607 * f ^ 12 * Z ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c4 (f Z : ℚ) : ℚ := order27_rat%
   4508342569521 * f ^ 12 * Z ^ 4 + 14478669707760 * f ^ 12 * Z ^ 3
     - 175179250342014 * f ^ 12 * Z ^ 2 - 513842449976622 * f ^ 12 * Z - 266918070385672 * f ^ 12
     - 303264 * f ^ 11 * Z ^ 7 + 388074888 * f ^ 11 * Z ^ 6 - 112001164344 * f ^ 11 * Z ^ 5
@@ -1104,7 +1105,7 @@ namespace MazurTorsion.Kubert
     + 4506580800 * f ^ 7 * Z ^ 6 - 28741793112 * f ^ 7 * Z ^ 5
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c5 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c5 (f Z : ℚ) : ℚ := order27_rat%
   -287312782428 * f ^ 7 * Z ^ 4 - 172359697320 * f ^ 7 * Z ^ 3 + 442339913484 * f ^ 7 * Z ^ 2
     + 401252724282 * f ^ 7 * Z + 81300046820 * f ^ 7 + 46656 * f ^ 6 * Z ^ 8
     - 92752128 * f ^ 6 * Z ^ 7 - 2906708328 * f ^ 6 * Z ^ 6 + 10947760524 * f ^ 6 * Z ^ 5
@@ -1120,7 +1121,7 @@ namespace MazurTorsion.Kubert
     - 42973980 * f ^ 3 * Z ^ 3 + 402711 * f ^ 3 * Z ^ 2 + 1861803 * f ^ 3 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqQ2c6 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqQ2c6 (f Z : ℚ) : ℚ := order27_rat%
   182611 * f ^ 3 + 699840 * f ^ 2 * Z ^ 8 - 8771328 * f ^ 2 * Z ^ 7 - 14132880 * f ^ 2 * Z ^ 6
     - 1122984 * f ^ 2 * Z ^ 5 + 3656853 * f ^ 2 * Z ^ 4 + 1369476 * f ^ 2 * Z ^ 3
     + 149193 * f ^ 2 * Z ^ 2 + 1047 * f ^ 2 * Z - 86 * f ^ 2 - 139968 * f * Z ^ 8
@@ -1129,7 +1130,7 @@ namespace MazurTorsion.Kubert
     + 15552 * Z ^ 7 + 1512 * Z ^ 6 - 135 * Z ^ 5 - 18 * Z ^ 4 + Z ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbP0c0 (f : ℚ) : ℚ :=
+@[irreducible] def zlTNCbP0c0 (f : ℚ) : ℚ := order27_rat%
   f ^ 105 - 174 * f ^ 104 + 14736 * f ^ 103 - 809482 * f ^ 102 + 32430834 * f ^ 101
     - 1010255535 * f ^ 100 + 25475479704 * f ^ 99 - 534601701225 * f ^ 98 + 9525156923817 * f ^ 97
     - 146301128429953 * f ^ 96 + 1960249361628576 * f ^ 95 - 23130588350196462 * f ^ 94
@@ -1149,7 +1150,7 @@ namespace MazurTorsion.Kubert
     - 1248441673526624480117164234935 * f ^ 66
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbP0c1 (f : ℚ) : ℚ :=
+@[irreducible] def zlTNCbP0c1 (f : ℚ) : ℚ := order27_rat%
   1084430972221005550981564741500 * f ^ 65 - 815989294368712674750672296289 * f ^ 64
     + 506212638040599571763183671704 * f ^ 63 - 226275138049391571390709040532 * f ^ 62
     + 28721135067406058491383479256 * f ^ 61 + 69502347985083981319506775359 * f ^ 60
@@ -1172,7 +1173,7 @@ namespace MazurTorsion.Kubert
     - 495091415473784091 * f ^ 26
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbP0c2 (f : ℚ) : ℚ :=
+@[irreducible] def zlTNCbP0c2 (f : ℚ) : ℚ := order27_rat%
   -104598326410018650 * f ^ 25 + 54102662046105139 * f ^ 24 + 7597575534608070 * f ^ 23
     - 4869012078635838 * f ^ 22 - 593508358454188 * f ^ 21 + 367424177508711 * f ^ 20
     + 51677020815093 * f ^ 19 - 22500037194966 * f ^ 18 - 4412380944159 * f ^ 17
@@ -1181,7 +1182,7 @@ namespace MazurTorsion.Kubert
     - 1820025 * f ^ 8 - 366012 * f ^ 7 - 36158 * f ^ 6 - 2100 * f ^ 5 - 69 * f ^ 4 - f ^ 3
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c0 (f Z : ℚ) : ℚ := order27_rat%
   f ^ 88 + 235 * f ^ 87 - 33518 * f ^ 86 + 1947886 * f ^ 85 - 69631190 * f ^ 84
     + 1755456760 * f ^ 83 - 9 * f ^ 82 * Z - 33429281409 * f ^ 82 + 2124 * f ^ 81 * Z
     + 500800706478 * f ^ 81 - 184230 * f ^ 80 * Z - 6058028902491 * f ^ 80 + 9131976 * f ^ 79 * Z
@@ -1197,7 +1198,7 @@ namespace MazurTorsion.Kubert
     + 47382161264999894943 * f ^ 70
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c1 (f Z : ℚ) : ℚ := order27_rat%
   25056 * f ^ 69 * Z ^ 3 + 2524532865696 * f ^ 69 * Z ^ 2 + 574119506823256008 * f ^ 69 * Z
     - 325818795096582575688 * f ^ 69 - 1395360 * f ^ 68 * Z ^ 3 - 27163530503640 * f ^ 68 * Z ^ 2
     - 2425176040358572974 * f ^ 68 * Z + 1771872976574592808113 * f ^ 68
@@ -1219,7 +1220,7 @@ namespace MazurTorsion.Kubert
     + 139756992282899209550556 * f ^ 60 * Z + 28957127634200568755165160 * f ^ 60
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c2 (f Z : ℚ) : ℚ := order27_rat%
   24199911871054560 * f ^ 59 * Z ^ 3 + 126926471610889073928 * f ^ 59 * Z ^ 2
     - 382806228920868086777622 * f ^ 59 * Z - 60803211482867943508253874 * f ^ 59
     - 139785012457889904 * f ^ 58 * Z ^ 3 - 416267521052273366832 * f ^ 58 * Z ^ 2
@@ -1242,7 +1243,7 @@ namespace MazurTorsion.Kubert
     + 29603832083768467252091808 * f ^ 50 * Z + 547792135141467126182113512 * f ^ 50
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c3 (f Z : ℚ) : ℚ := order27_rat%
   3620098991322039205152 * f ^ 49 * Z ^ 3 + 305354437244463996185040 * f ^ 49 * Z ^ 2
     - 28462948899060503304387180 * f ^ 49 * Z - 390603884973032944327316544 * f ^ 49
     - 6221535400534268210688 * f ^ 48 * Z ^ 3 - 381725174328855940096200 * f ^ 48 * Z ^ 2
@@ -1265,7 +1266,7 @@ namespace MazurTorsion.Kubert
     - 218220639164959366333377 * f ^ 40 * Z + 1540715751243831298499496 * f ^ 40
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c4 (f Z : ℚ) : ℚ := order27_rat%
   -630169210329472429920 * f ^ 39 * Z ^ 3 - 18528797909584355041872 * f ^ 39 * Z ^ 2
     - 34952452344244341911970 * f ^ 39 * Z - 962647730637154520694147 * f ^ 39
     + 1275133829411424900888 * f ^ 38 * Z ^ 3 + 6329364497061512733468 * f ^ 38 * Z ^ 2
@@ -1288,7 +1289,7 @@ namespace MazurTorsion.Kubert
     + 150573944393884773261 * f ^ 30 * Z - 532934944121042394405 * f ^ 30
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c5 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c5 (f Z : ℚ) : ℚ := order27_rat%
   -1403610060762230256 * f ^ 29 * Z ^ 3 + 17268423707527391016 * f ^ 29 * Z ^ 2
     + 32513091695799366240 * f ^ 29 * Z + 171359363740229792724 * f ^ 29
     - 1824346568537540856 * f ^ 28 * Z ^ 3 - 2128805538985831896 * f ^ 28 * Z ^ 2
@@ -1311,7 +1312,7 @@ namespace MazurTorsion.Kubert
     + 8004781096922043 * f ^ 20 * Z - 7944193130443677 * f ^ 20
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c6 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c6 (f Z : ℚ) : ℚ := order27_rat%
   -304984021701744 * f ^ 19 * Z ^ 3 + 787815251324928 * f ^ 19 * Z ^ 2
     + 689810394865518 * f ^ 19 * Z + 2165976649248516 * f ^ 19 - 173129569111800 * f ^ 18 * Z ^ 3
     - 3689338738392 * f ^ 18 * Z ^ 2 - 786958408173960 * f ^ 18 * Z + 372536966871144 * f ^ 18
@@ -1328,7 +1329,7 @@ namespace MazurTorsion.Kubert
     - 762374592 * f ^ 10 * Z ^ 2 - 7775048745 * f ^ 10 * Z + 414462213 * f ^ 10
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNCbQ0c7 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNCbQ0c7 (f Z : ℚ) : ℚ := order27_rat%
   333418032 * f ^ 9 * Z ^ 3 - 409523040 * f ^ 9 * Z ^ 2 - 435808170 * f ^ 9 * Z
     - 413250606 * f ^ 9 + 337584024 * f ^ 8 * Z ^ 3 + 22441860 * f ^ 8 * Z ^ 2
     + 192588885 * f ^ 8 * Z - 20138085 * f ^ 8 + 31087584 * f ^ 7 * Z ^ 3
@@ -1340,7 +1341,7 @@ namespace MazurTorsion.Kubert
     - 108 * f ^ 2 * Z ^ 2 - 9 * f ^ 2 * Z + f ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c0 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c0 (f Z : ℚ) : ℚ := order27_rat%
   35 * f ^ 104 - 3086 * f ^ 103 + 112910 * f ^ 102 - 1831851 * f ^ 101 - 7221407 * f ^ 100
     + f ^ 99 * Z + 1005506649 * f ^ 99 + 234 * f ^ 98 * Z - 21598227719 * f ^ 98
     - 30900 * f ^ 97 * Z + 151194358715 * f ^ 97 + 1620444 * f ^ 96 * Z + 3796761482656 * f ^ 96
@@ -1357,7 +1358,7 @@ namespace MazurTorsion.Kubert
     - 900194009572891302 * f ^ 86 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c1 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c1 (f Z : ℚ) : ℚ := order27_rat%
   61166736005516095138086 * f ^ 86 - 11358101291562 * f ^ 85 * Z ^ 2
     + 6022376502643174338 * f ^ 85 * Z - 292162900897198587137455 * f ^ 85
     + 119407838876235 * f ^ 84 * Z ^ 2 - 34037031855850123834 * f ^ 84 * Z
@@ -1380,7 +1381,7 @@ namespace MazurTorsion.Kubert
     - 177754559635531254136257261 * f ^ 73 * Z - 126097383873440192613205580871 * f ^ 73
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c2 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c2 (f Z : ℚ) : ℚ := order27_rat%
   -1736624155508858724093 * f ^ 72 * Z ^ 2 + 501852035946644483126602197 * f ^ 72 * Z
     + 248836343073139625033132645166 * f ^ 72 - 57251224785324722692023 * f ^ 71 * Z ^ 2
     - 1308429100182982991823895986 * f ^ 71 * Z - 463772518028973172945214975625 * f ^ 71
@@ -1403,7 +1404,7 @@ namespace MazurTorsion.Kubert
     + 8002824864175571102971682272923 * f ^ 60 - 4243204070476338682492408485 * f ^ 59 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c3 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c3 (f Z : ℚ) : ℚ := order27_rat%
   -507114355522822651583324859114 * f ^ 59 * Z - 6867331451699365194536201233059 * f ^ 59
     + 5656770968977738239201394749 * f ^ 58 * Z ^ 2 + 516706867645152065882351551044 * f ^ 58 * Z
     + 5403960901807291507264327989393 * f ^ 58 - 6932005448301051615842955786 * f ^ 57 * Z ^ 2
@@ -1426,7 +1427,7 @@ namespace MazurTorsion.Kubert
     - 143019208686306904032062556 * f ^ 46 * Z ^ 2 - 889659985271393815703043426 * f ^ 46 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c4 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c4 (f Z : ℚ) : ℚ := order27_rat%
   2032796304479498848153215564 * f ^ 46 + 82433415916705367698552044 * f ^ 45 * Z ^ 2
     - 53324061684607893226771896 * f ^ 45 * Z - 1376518536094822176417597243 * f ^ 45
     - 26543059937044067087166015 * f ^ 44 * Z ^ 2 + 257156044723157659528143762 * f ^ 44 * Z
@@ -1449,7 +1450,7 @@ namespace MazurTorsion.Kubert
     + 28037722073193811089036 * f ^ 33 * Z + 6890664694028885557986 * f ^ 33
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c5 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c5 (f Z : ℚ) : ℚ := order27_rat%
   -1781514076198742295687 * f ^ 32 * Z ^ 2 - 7846417407980606697054 * f ^ 32 * Z
     + 7106000733048265798410 * f ^ 32 + 1052026280093551539888 * f ^ 31 * Z ^ 2
     - 1004114112285927781341 * f ^ 31 * Z - 3274780509645594540051 * f ^ 31
@@ -1472,7 +1473,7 @@ namespace MazurTorsion.Kubert
     + 2965582508038731 * f ^ 20 - 756692214732144 * f ^ 19 * Z ^ 2
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c6 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c6 (f Z : ℚ) : ℚ := order27_rat%
   -1717282346374872 * f ^ 19 * Z + 604293940404562 * f ^ 19 + 247530977288820 * f ^ 18 * Z ^ 2
     - 265254844287824 * f ^ 18 * Z - 229395759651693 * f ^ 18 + 26879247823482 * f ^ 17 * Z ^ 2
     + 118718164084068 * f ^ 17 * Z - 10235681160335 * f ^ 17 - 15884207181549 * f ^ 16 * Z ^ 2
@@ -1488,7 +1489,7 @@ namespace MazurTorsion.Kubert
     - 107013 * f ^ 6 * Z
 
 /-- A generated polynomial chunk in the third-leg order-27 certificate. -/
-@[irreducible] def zlTNSqTDP0c7 (f Z : ℚ) : ℚ :=
+@[irreducible] def zlTNSqTDP0c7 (f Z : ℚ) : ℚ := order27_rat%
   -17153 * f ^ 6 + 14337 * f ^ 5 * Z ^ 2 + 3099 * f ^ 5 * Z - 555 * f ^ 5 + 378 * f ^ 4 * Z ^ 2
     + 333 * f ^ 4 * Z + 35 * f ^ 4 - 9 * f ^ 3 * Z ^ 2 - f ^ 3 * Z
 
