@@ -617,16 +617,10 @@ theorem
   exact ⟨C, hAdditive, hmap, hshort, hspecial, B,
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative, hdepth⟩
 
-/-- The selected five-adic model, chart, marked point, and uniformizer from the preceding endpoint
-also satisfy `a₆ ∈ 𝔪⁵`.  No coordinate choice is replaced while gaining this depth. -/
-theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+private abbrev FifthCoefficientDepthAtFive
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atFive.adicCompletion ℚ)]
-    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
-      (atFive.adicCompletionIntegers ℚ))
-    (P : (minimalCompletionAtFive E).toAffine.Point)
-    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
-    (horder : addOrderOf P = N) :
+    (P : (minimalCompletionAtFive E).toAffine.Point) : Prop :=
     ∃ C : WeierstrassCurve.VariableChange
         (atFive.adicCompletionIntegers ℚ),
       let W' := C • (minimalCompletionAtFive E).integralModel
@@ -664,7 +658,18 @@ theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
                     (atFive.adicCompletionIntegers ℚ) ^ 4 ∧
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
-                    (atFive.adicCompletionIntegers ℚ) ^ 5 := by
+                    (atFive.adicCompletionIntegers ℚ) ^ 5
+
+/-- The selected five-adic model, chart, marked point, and uniformizer from the preceding endpoint
+also satisfy `a₆ ∈ 𝔪⁵`.  No coordinate choice is replaced while gaining this depth. -/
+theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) : FifthCoefficientDepthAtFive E P := by
   obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
       ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
       hroot, hAres, hBres, hxsq, ha₄cube, ha₆four⟩ :=
@@ -702,17 +707,10 @@ theorem minimalCompletionAtFive_exists_fifthCoefficientDepth_of_primeOrder
     ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
     hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩
 
-/-- The same selected five-adic short model reaches the terminal weighted
-depths.  In particular the marked ordinate lies in `𝔪³`, `a₄` lies in
-`𝔪⁴`, and the equation then puts `a₆` in `𝔪⁶`. -/
-theorem minimalCompletionAtFive_exists_sixthCoefficientDepth_of_primeOrder
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+private abbrev SixthCoefficientDepthAtFive
+    (E : WeierstrassCurve ℚ)
     [DecidableEq (atFive.adicCompletion ℚ)]
-    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
-      (atFive.adicCompletionIntegers ℚ))
-    (P : (minimalCompletionAtFive E).toAffine.Point)
-    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
-    (horder : addOrderOf P = N) :
+    (P : (minimalCompletionAtFive E).toAffine.Point) : Prop :=
     ∃ C : WeierstrassCurve.VariableChange
         (atFive.adicCompletionIntegers ℚ),
       let W' := C • (minimalCompletionAtFive E).integralModel
@@ -756,7 +754,19 @@ theorem minimalCompletionAtFive_exists_sixthCoefficientDepth_of_primeOrder
                 W'.a₄ ∈ IsLocalRing.maximalIdeal
                     (atFive.adicCompletionIntegers ℚ) ^ 4 ∧
                 W'.a₆ ∈ IsLocalRing.maximalIdeal
-                    (atFive.adicCompletionIntegers ℚ) ^ 6 := by
+                    (atFive.adicCompletionIntegers ℚ) ^ 6
+
+/-- The same selected five-adic short model reaches the terminal weighted
+depths.  In particular the marked ordinate lies in `𝔪³`, `a₄` lies in
+`𝔪⁴`, and the equation then puts `a₆` in `𝔪⁶`. -/
+theorem minimalCompletionAtFive_exists_sixthCoefficientDepth_of_primeOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    [DecidableEq (atFive.adicCompletion ℚ)]
+    (hA : (minimalCompletionAtFive E).HasAdditiveReduction
+      (atFive.adicCompletionIntegers ℚ))
+    (P : (minimalCompletionAtFive E).toAffine.Point)
+    (N : ℕ) (hprime : N.Prime) (hN : 11 ≤ N)
+    (horder : addOrderOf P = N) : SixthCoefficientDepthAtFive E P := by
   obtain ⟨C, hAdditive, hmap, hshort, hspecial, B,
       ha₆, ha₄, ha₆cube, D, hDuniformizer, hderivative,
       hroot, hAres, hBres, hxsq, ha₄cube, ha₆four, ha₆five⟩ :=
