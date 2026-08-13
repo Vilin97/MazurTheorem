@@ -100,7 +100,12 @@ jobs:
 
   order-seven-cache:
     name: Cache the generated order-7 proof
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Package writes stay disabled for ordinary pull-request events. A trusted
+    # maintainer can dispatch a branch build to seed an exact cache before the
+    # checked build, which is essential for unusually large generated changes.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
     needs: source-policy
     uses: ./.github/workflows/order-seven-cache.yml
     permissions:
@@ -112,7 +117,9 @@ jobs:
     # Multi-gigabyte caches written from pull-request merge refs cannot be
     # reused by main or by other PRs. Let PR builds restore main's cache and
     # have Lake validate/rebuild any changed modules locally instead.
-    if: github.ref == 'refs/heads/main'
+    # A trusted branch dispatch also needs this producer so Order Seven and
+    # Order Twenty Seven can warm concurrently on separate runners.
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     needs: source-policy
     runs-on: ubuntu-latest
     timeout-minutes: 240
@@ -750,8 +757,9 @@ jobs:
           set -euo pipefail
           df -h .
           restore_args=()
-          if [[ "$GITHUB_EVENT_NAME" == "push" &&
-                "$GITHUB_REF" == "refs/heads/main" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ||
+                ("$GITHUB_EVENT_NAME" == "push" &&
+                 "$GITHUB_REF" == "refs/heads/main") ]]; then
             restore_args+=(--require-all)
           fi
           scripts/restore-order-seven-cache.sh "${restore_args[@]}"
@@ -819,7 +827,9 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-
-          fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
+          fail-on-cache-miss: >-
+            ${{ github.ref == 'refs/heads/main' ||
+            github.event_name == 'workflow_dispatch' }}
 
       - name: Restore the certificate prerequisite cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -864,7 +874,9 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenPrerequisites-v3-${{ runner.os }}-${{ runner.arch }}-
-          fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
+          fail-on-cache-miss: >-
+            ${{ github.ref == 'refs/heads/main' ||
+            github.event_name == 'workflow_dispatch' }}
 
       - name: Restore the final certificate cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -911,10 +923,12 @@ jobs:
             ) }}
           restore-keys: |
             OrderTwentySevenFinal-v2-${{ runner.os }}-${{ runner.arch }}-
-          fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
+          fail-on-cache-miss: >-
+            ${{ github.ref == 'refs/heads/main' ||
+            github.event_name == 'workflow_dispatch' }}
 
       - name: Verify the generated certificate caches
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         run: |
           test -s \
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.olean
@@ -946,11 +960,12 @@ jobs:
           set -euo pipefail
           mapfile -t audit_targets < <(python3 scripts/lean_audit_cache.py targets)
           {
-            if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-              # PRs can only restore an older main-branch certificate cache.
-              # Finish its parallel-friendly data shards first, then use the
-              # established serial builder for modules whose elaboration can
-              # consume most of a standard hosted runner's memory by itself.
+            if [[ "$GITHUB_EVENT_NAME" == "pull_request" ||
+                  "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+              # Non-main validation runs may only have an older certificate
+              # cache. Finish its parallel-friendly data shards first, then
+              # use the established serial builder for modules whose
+              # elaboration can consume most of a hosted runner's memory.
               lake build MazurTorsion.Kubert.OrderTwentySevenLegChunks
               scripts/build-order-twenty-seven-stages.sh all
             fi
