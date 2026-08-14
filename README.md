@@ -82,7 +82,7 @@ for the theorem dependency graph. Both are projections of the same ledger.
 - [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
 - [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction infrastructure;
 - [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — reviewed upstream geometry ports and adapters;
-- [`Challenge/`](Challenge/) — immutable open theorem contracts;
+- [`Challenge/`](Challenge/) — immutable contracts and checked solved bridges;
 - [`coordination/program.json`](coordination/program.json) — canonical roadmap and execution data;
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — canonical/provisional object boundaries;
 - [`docs/TECHNICAL_BLUEPRINT.md`](docs/TECHNICAL_BLUEPRINT.md) — compact declaration-level design;
