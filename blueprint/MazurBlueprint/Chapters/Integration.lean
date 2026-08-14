@@ -9,19 +9,21 @@ open Informal
 #doc (Manual) "06 — Integration and hardening" =>
 
 :::group "integration"
-Pin convergence, stable APIs, final assembly, kernel audit, and exposition.
-Stage weight: 50 points.
+Assemble allowed point orders with Mordell–Weil finiteness and finite-abelian shape to
+prove the full fifteen-group classification, then derive the ncard challenge and audit
+the release. Stage weight: 50 points.
 :::
 
-:::theorem "MT-PIN-MIGRATION" (parent := "integration") (uses := "MT-BASE-INTEGRATED") (tags := "integration, done, integrated, release") (priority := "high") (effort := "medium")
-*Converge on a shared Mathlib and Tau Ceti pin.* The imported baseline and the
-Tau Ceti contract workspace use one exact Lean toolchain and complete resolved
-package-revision graph. The downstream aggregator builds under the contract-axiom,
-Mathlib-linter, style, and repository source-policy gates.
+:::theorem "MT-PIN-MIGRATION" (parent := "integration") (uses := "MT-BASE-INTEGRATED") (tags := "integration, done, integrated, mixed")
+*Converge on a shared Mathlib and Tau Ceti pin.*
 
-*Status:* `done`.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `integration`; *backend:* `mixed`;
+*risk:* `high`; *weight:* 20 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* The root and Tau Ceti contract workspaces use one exact Lean toolchain and
+complete resolved package-revision graph.
+
+*Canonical artifacts:*
 
 * `integration` (`integrated`): `MazurTheorem.Release.sharedDependencyGraph`
   Embed the exact root and Tau Ceti toolchains and manifests whose complete resolved
@@ -29,45 +31,63 @@ Mathlib-linter, style, and repository source-policy gates.
 * `integration` (`integrated`): `MazurTheorem.Release.tauCetiConsumerBuild`
   Record the exact Tau Ceti downstream build and audit commands exercised by the
   permanent quality and CI gates.
+
 :::
 
-:::theorem "MT-API-INTEGRATION" (parent := "integration") (uses := "MT-FINITE-JOIN, MT-PRIME-ISOGENY-CHAIN, MT-PIN-MIGRATION") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")
-*Integrate finite and formal-immersion prime APIs.* Expose one unconditional
-statement saying that every rational torsion point has one of Mazur's allowed
-orders, using the prime-five proof for order 11 and all primes at least 17.
+:::theorem "MT-API-INTEGRATION" (parent := "integration") (uses := "MT-FINITE-JOIN, MT-PRIME-ISOGENY-CHAIN, MT-PIN-MIGRATION") (tags := "integration, blocked, statement-only, mazur")
+*Integrate finite and formal-immersion prime APIs.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `statement_only`; *kind:* `integration`; *backend:*
+`mazur`; *risk:* `medium`; *weight:* 10 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* Expose one unconditional theorem that every rational torsion point has an
+allowed order, using the formal-immersion theorem for 11 and primes at least 17.
+
+*Canonical artifacts:*
 
 * `theorem` (`proposed`): `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders`
-  Combine all finite endpoints and the prime-order theorem into an unconditional
-  allowed-order result.
+  Combine the exceptional finite endpoints and the formal-immersion prime theorem.
+
 :::
 
-:::theorem "MT-FINAL-ASSEMBLY" (parent := "integration") (uses := "MT-API-INTEGRATION") (tags := "integration, blocked, compiled, mazur") (priority := "high") (effort := "medium")
-*Kernel-check Mazur's torsion bound.* Feed the unconditional point-order
-theorem to the compiled cardinality reduction and prove that rational torsion
-has cardinality at most 16.
+:::theorem "MT-FINAL-ASSEMBLY" (parent := "integration") (uses := "MT-API-INTEGRATION") (tags := "integration, blocked, compiled, mazur")
+*Kernel-check Mazur's full torsion classification.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `compiled`; *kind:* `integration`; *backend:* `mazur`;
+*risk:* `low`; *weight:* 15 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* Prove rational torsion finite, obtain its rank-two invariant-factor
+presentation, combine that input with the unconditional point-order theorem and the
+checked forbidden subgroup results, and conclude the fifteen-group classification.
 
+*Canonical artifacts:*
+
+* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_finite`
+  Supply the Mordell–Weil finiteness input deliberately omitted from the literal ncard
+  challenge.
+* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_hasRankTwoPresentation`
+  Put the finite rational torsion group into the two-invariant-factor form used by the
+  checked classification theorem.
+* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_hasMazurClassification`
+  Classify the rational torsion subgroup up to group isomorphism as one of Mazur's
+  fifteen groups.
 * `theorem` (`proposed`): `Challenge.Mazur.torsion_ncard_le`
-  Prove the exact Lean Pool challenge statement that the rational torsion set has
-  ncard at most 16.
+  Derive the immutable Lean Pool ncard-at-most-16 statement from the full
+  classification.
+
 :::
 
-:::theorem "MT-EXPOSITION-AUDIT" (parent := "integration") (uses := "MT-FINAL-ASSEMBLY, MT-X11-COSET, MT-CYCLOTOMIC-UNRAMIFIED") (tags := "integration, blocked, statement-only, audit") (priority := "high") (effort := "medium")
-*Final Challenge, exposition, provenance, and reproducibility audit.* Verify
-every Blueprint arrow, close every retained Challenge (including the two
-noncritical contracts named in the dependency metadata), reproduce the clean
-build, and publish source and axiom reports.
+:::theorem "MT-EXPOSITION-AUDIT" (parent := "integration") (uses := "MT-FINAL-ASSEMBLY, MT-X11-COSET, MT-CYCLOTOMIC-UNRAMIFIED") (tags := "integration, blocked, statement-only, mixed")
+*Final challenge, exposition, provenance, and reproducibility audit.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `statement_only`; *kind:* `integration`; *backend:*
+`mixed`; *risk:* `low`; *weight:* 5 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* Verify every blueprint edge, close every retained Challenge including the
+now-noncritical X\_1(11) and cyclotomic contracts, reproduce the clean build, and
+publish the final axiom and source audit.
+
+*Canonical artifacts:*
 
 * `audit` (`proposed`): `MazurTheorem.Release.kernelAndProvenanceAudit`
   Record the final axiom report, exact source pins, declaration provenance, and
@@ -75,6 +95,6 @@ build, and publish source and axiom reports.
 * `integration` (`proposed`): `MazurTheorem.Release.allChallengesClosed`
   Verify that every registered Challenge is a checked bridge with no open contract.
 * `integration` (`proposed`): `MazurTheorem.Release.versoBlueprint`
-  Publish a Verso blueprint whose labels and mathematical dependency edges exactly
-  match the canonical programme.
+  Publish a Verso blueprint exactly matching the formal-immersion dependency graph.
+
 :::

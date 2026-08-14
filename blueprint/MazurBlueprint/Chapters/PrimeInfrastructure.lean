@@ -9,1456 +9,483 @@ open Informal
 #doc (Manual) "04 — Prime-level infrastructure" =>
 
 :::group "prime_infrastructure"
-The minimal Néron, finite-flat, modular-Jacobian, Hecke, Eisenstein rank-zero,
-and formal-immersion infrastructure needed at auxiliary prime five, with the
-same squarefree-level interfaces reused at eleven for level thirty-five.
-The inherited cyclotomic contract remains a release obligation but is not an
-input to the theorem. Stage weight: 400 points.
+Integral X₀(N), its Jacobian and Hecke action, a private Eisenstein witness constructor,
+and the exact Néron/finite-flat specialization needed at 5. Stage weight: 400 points.
 :::
 
-:::definition "MT-NERON-BASE" (parent := "prime_infrastructure") (uses := "MT-TC-E1-JACOBIAN-VARIETY, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Néron models for the two surviving consumers.* Build only the generality
-used by the Eisenstein rank-zero criterion and elliptic reduction at five.
+:::theorem "MT-NERON-BASE" (parent := "prime_infrastructure") (uses := "MT-TC-E1-JACOBIAN-VARIETY, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Neron models for the two surviving consumers.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 40 points.
+
+*Summary:* Construct Neron models and their mapping property in the exact generality
+used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.
+
+*Canonical artifacts:*
 
 * `structure` (`proposed`): `AlgebraicGeometry.NeronModel`
+  Package a smooth separated model with generic-fibre recovery and the Neron mapping
+  property.
 * `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.sectionExtension`
+  Extend the rational sections used by the rank-zero and prime-five consumers.
+
 :::
 
-:::definition "MT-NERON-COMPONENTS" (parent := "prime_infrastructure") (uses := "MT-NERON-BASE") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Identity components and tame elliptic fibres.* Supply the toric level fibre
-used by rank zero and the additive component bound used at five.
+:::theorem "MT-NERON-COMPONENTS" (parent := "prime_infrastructure") (uses := "MT-NERON-BASE") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Identity components and tame elliptic fibres.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 30 points.
+
+*Summary:* Define genuine Neron identity components and component groups and prove
+completely toric reduction at the modular level for the Eisenstein rank-zero criterion.
+
+*Canonical artifacts:*
 
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.identityComponent`
+  Define the fibrewise identity component used in both surviving consumers.
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.componentGroup`
+  Define the component quotient and its specialization map.
 * `theorem` (`proposed`):
   `EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three`
-* `structure` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionData`
-* `structure` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive`
+  Bound the additive component group in the tame residue characteristics five and
+  eleven.
+* `structure` (`contract`): `MazurTorsion.EllipticCurve.TameAdditiveReductionData`
+  Package the canonical component quotient, identity-component reduction map, and exact
+  formal-kernel comparison, with a compiled conversion to the algebraic torsion
+  filtration.
+* `structure` (`contract`): `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive`
+  Fix the reduction target to the actual five-adic residue field and derive component
+  finiteness and formal-kernel torsion from checked exact-pin theorems.
 * `structure` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven`
-* `definition` (`contract`):
-  `WeierstrassCurve.Affine.HasNonsingularReduction`
-* `definition` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReduction`
-* `definition` (`contract`):
-  `WeierstrassCurve.Affine.NonsingularReductionIsAdditive`
-* `definition` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReductionSubgroup`
-* `definition` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReductionHom`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReductionHom_ker`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.sub_mem_filtration_of_nonsingularReduction_eq`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReduction_add_of_mem_filtration_left`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.nonsingularReduction_isAdditive`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.variableChange_nonsingular`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.natCard_point_eq_five_of_cuspidal`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.natCard_point_eq_eleven_of_cuspidal`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.specialFiberPointAddEquivAtFiveOfCuspidal`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.specialFiberPointAddEquivAtElevenOfCuspidal`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.point_eq_zero_of_coprime_component_exponent`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.MarkedComponentOrderAtMost`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.markedComponentOrderAtMost_iff_exists_nsmul_mem`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_of_quotient_card_le_four`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.valuation_c₄_pow_three_le_valuation_Δ_of_valuation_j_le_one`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.not_valuation_Δ_lt_of_isMinimal_of_isIntegral_variableChange`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.not_isIntegral_scale_of_isMinimal`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.isMinimal_variableChange_of_isIntegral_of_valuation_u_eq_one`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.not_isIntegral_variableChange_of_isMinimal_of_valuation_u_lt_one`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.TranslatedWeightedCoefficientsIntegralAfterScale`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.tateAlgorithm_minimalityTranslatedCoefficientObstruction`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.exists_affine_singular_of_cuspidal`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueTranslation_of_hasAdditiveReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_residueShortNormalization_of_hasAdditiveReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_residueShortNormalization`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_residueShortNormalization`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_integralShortNormalization_of_hasAdditiveReduction`
-* `structure` (`contract`):
-  `MazurTorsion.EllipticCurve.FirstBlowupEquationCharts`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.tateAlgorithm_exists_firstBlowupEquationCharts_of_hasAdditiveReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_firstBlowupEquationCharts_of_primeOrder`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_tateAlgorithm_exists_firstBlowupEquationCharts_of_orderThirtyFive`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.hasNonsingularReduction_equivVariableChange_iff`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.equivVariableChange_mem_nonsingularReductionSubgroup_iff`
-* `theorem` (`contract`):
-  `WeierstrassCurve.Affine.nsmul_equivVariableChange_symm_mem_nonsingularReductionSubgroup_iff`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_nonsingularReductionSubgroup_of_integralVariableChange_firstBlowup`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.WeightedCoefficientsIntegralAfterScale`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.tateAlgorithm_minimalityCoefficientObstruction`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofNonsingularReduction`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofNonsingularReduction`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.ofCanonicalNonsingularReduction`
-* `definition` (`contract`):
-  `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtEleven.ofCanonicalNonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.y_mem_maximalIdeal_sq_of_short_equation_of_coefficient_divisibility`
-* `structure` (`contract`):
-  `MazurTorsion.EllipticCurve.MarkedExceptionalCubicData`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.exists_markedExceptionalCubicData_of_not_hasNonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.two_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot`
-* `theorem` (`contract`):
-  `MazurTorsion.EllipticCurve.twelve_nsmul_mem_nonsingularReductionSubgroup_of_markedExceptionalCubic_simpleRoot`
-* `theorem` (`proposed`):
-  `ModularCurve.Jacobian.completelyToricReductionAtLevel`
+  Provide the analogous canonical eleven-adic handoff consumed by the order-35 route.
+* `definition` (`contract`): `WeierstrassCurve.Affine.HasNonsingularReduction`
+  Define the canonical domain: formal-kernel points reduce to infinity, while other
+  local points have integral coordinates reducing to the nonsingular locus.
+* `definition` (`contract`): `WeierstrassCurve.Affine.nonsingularReduction`
+  Construct actual coordinatewise reduction from the canonical domain to nonsingular
+  points of the reduced Weierstrass cubic.
+* `theorem` (`proposed`): `ModularCurve.Jacobian.completelyToricReductionAtLevel`
+  Supply the toric special-fibre hypothesis for the Eisenstein rank-zero criterion.
 
-The canonical nonsingular-reduction subgroup, its additive map, and its exact
-formal kernel compile. Singular-cubic variable-change transport plus finite
-normalization and enumeration identify the additive special cubics at five
-and eleven with their actual residue additive groups. The marked torsion
-endpoints now use the actual quotient class through
-`MarkedComponentOrderAtMost`; its pointwise bounded-multiple characterization
-derives `12 • P` in the subgroup from order at most four. A cardinality bound
-for the full component quotient is retained only as a stronger fallback.
-The integral-`j` valuation inequality, stability under integral
-valuation-unit coordinate changes, and the obstruction to every translated
-scaling of valuation below one are now checked. Additive reduction constructs
-its singular residue point and an exact integral short model with special
-fibre `Y² = X³`. Honest one-factor total-transform quotients at the closed
-cusp now drive the complete first coefficient-depth case: nonzero exceptional
-`b₆` puts every local point in canonical nonsingular reduction, and the
-selected torsion consumers therefore force `a₆ ∈ 𝔪²` at both auxiliary
-primes. In the next branch, nonzero exceptional `b₄` puts the marked double in
-canonical nonsingular reduction and forces `a₄ ∈ 𝔪²`. In the exact-depth-two
-`a₆` branch, the checked affine tangent--secant split puts the marked triple in
-the subgroup and forces `a₆ ∈ 𝔪³`. The canonical reduction predicate,
-subgroup, and marked multiples transport through the integral unit
-normalization, with an order-one consumer carrying `12 • P` back to the
-original model. On that same model and chart uniformizer, the marked
-exceptional-cubic package proves the residue root equation. A simple marked
-root puts the double, hence the twelfth multiple, in the subgroup; the actual
-five- and eleven-adic exact-order consumers therefore force the marked
-derivative to vanish. If the repeated root is nonzero, doubling either enters
-canonical reduction or yields the simple root `-2r` for `2P`; this puts `4P`
-in the subgroup and forces `r=0`. The same equations give
-`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` on the unchanged model. No
-strict-transform, chart-coverage, Kodaira-symbol, or component-cardinality
-claim is made. If `a₆ ∉ 𝔪⁵`, the equation forces ordinate depth two and a
-checked tangent--secant split puts `3P`, hence `12P`, in the subgroup. The
-selected five- and eleven-adic endpoints consequently retain the same data
-and force `a₆ ∈ 𝔪⁵`. The later weighted branch, final minimality contradiction,
-genuine Néron identity-component comparison, and marked-class bound remain
-open, so this node remains blocked.
 :::
 
-:::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, neron") (priority := "high") (effort := "large")
-*Torsion specialization for the quotient and prime five.* Expose the exact
-sequence, prime-to-residue injection, and the $`e<p-1` formal-kernel lemma.
+:::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Torsion specialization at the Eisenstein quotient and at five.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 30 points.
 
-* `theorem` (`proposed`):
-  `AlgebraicGeometry.NeronModel.torsionSpecialization_exact`
+*Summary:* Prove the specialization exact sequence, prime-to-residue torsion injection,
+and the unramified e \< p-1 kernel lemma; exercise them on the quotient section and the
+marked elliptic point at 5.
+
+*Canonical artifacts:*
+
+* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.torsionSpecialization_exact`
+  Give the torsion specialization sequence through the identity component and formal
+  kernel.
 * `theorem` (`proposed`):
   `AlgebraicGeometry.NeronModel.primeToResidue_torsion_injective`
+  Inject torsion of order prime to the residue characteristic.
 * `theorem` (`proposed`):
   `AlgebraicGeometry.NeronModel.torsion_eq_zero_of_specializes_zero_of_ramification_lt`
+  Kill a torsion section in the formal kernel when e \< p - 1, including the unramified
+  prime-five and prime-eleven cases.
 * `theorem` (`contract`):
   `AlgebraicGeometry.NeronModel.finrank_genericBasePoint_eq_zero_of_powerKummer_kernelData`
+  Transport the actual-kernel power-Kummer rank-zero theorem from integral model points
+  to rational points of the supplied generic fibre through the checked Neron
+  mapping-property equivalence.
 
-The actual-kernel rank-zero consumer transports a proved integral-model result
-to the prescribed generic fibre through the checked Néron base-point
-equivalence.  It still assumes the model, multiplication geometry, finite
-generation, and both kernel cohomology certificates.  The checked partial boundary
-`MazurTorsion.EllipticCurve.TameAdditiveFiltrationData` records the two finite
-targets and torsion-free formal kernel needed after the geometric maps exist.
-Its separate characteristic-five and order-35 consumers compile, but it
-neither constructs a Néron model nor changes this node's blocked status.
 :::
 
-:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "large")
-*Finite-flat commutative group schemes for Eisenstein rank zero.* The checked
-category, honest kernel presentations, affine Hopf realization,
-constant/diagonalizable examples, $`\mu_n` multiplication kernel,
-constant-rank point-exponent consumer, and constant-group quotients are now
-joined to an exact supplied fppf quotient interface. Certified kernels,
-quotient presentations, and the named constant/multiplicative factors commute
-with arbitrary base change.
+:::theorem "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, mixed")
+*Finite-flat commutative group schemes for Eisenstein rank zero.*
 
-*Status:* `done`; the base-changed admissible-filtration $`p^2`-exponent
-consumer compiles.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 20 points.
+
+*Summary:* The checked substrate packages finite-flat commutative group schemes,
+certified scheme-theoretic kernels, affine Hopf realizations, constant and
+diagonalizable examples, mu\_n multiplication kernels, constant-group quotients, and an
+exact supplied fppf quotient presentation.
+
+*Canonical artifacts:*
 
 * `structure` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
+  The checked finite-flat commutative group-scheme category over an arbitrary scheme
+  base.
 * `theorem` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
+  Package inherited scheme-theoretic kernels under explicit finite-flat hypotheses.
 * `theorem` (`integrated`):
   `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
-* `definition` (`integrated`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
+  The checked Deligne-style point-exponent theorem is a real consumer of the affine
+  finite-flat substrate.
+* `definition` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernel`
+  Construct the inherited scheme-theoretic kernel under the exact finite and flat
+  hypotheses required over an arbitrary base.
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation`
+  Package exactly the supplied finite-flat quotient, fppf projection, and certified
+  scheme-theoretic kernel used by admissible filtrations; no unconsumed general quotient
+  representability theorem is asserted.
 * `definition` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.baseChange`
+  Construct the certified scheme-theoretic kernel of a pulled-back homomorphism and
+  prove that both its scheme and inclusion are the geometric pullbacks of the original
+  kernel data.
 * `definition` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.baseChangePresentation`
+  Pull the exact quotient presentation back along an arbitrary base morphism, using
+  geometric stability of fppf morphisms and certified kernel base change.
 * `definition` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.baseChange`
+  Transport the named constant Z/p and mu\_p factor presentations across scalar
+  extension.
 * `theorem` (`integrated`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.baseChange_point_pow_sq_eq_one`
+  Compile the downstream rank-zero-oriented consumer: every affine point in a
+  base-changed exact two-factor filtration step is killed by p^2.
+
 :::
 
-:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, planned, compiled, group-schemes") (priority := "high") (effort := "large")
-*Admissible filtrations and fppf cohomology.* Formalize the exact filtration
-and cohomology estimate used in Mazur's rank-zero proof, rather than an
-unconsumed general connected--étale library.
+:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, planned, compiled, mixed")
+*Admissible filtrations and fppf cohomology.*
 
-*Status:* `planned`; the completed finite-flat exact-presentation layer now
-supports honest recursive admissible filtrations, their base-change exponent
-bound, and the elementary low-degree finite-group estimate. Genuine relative
-global fppf `H¹` over `Scheme.Over X` now compiles as a common-refinement
-quotient. Pointwise commutative Čech cocycle operations descend to its
-canonical group law; refinement pullback is multiplicative, products can be
-computed on any common refinement, and the representable finite-flat
-specialization feeds the existing finite-p-group consumer. Natural
-transformations of commutative coefficients now induce global homomorphisms,
-and actual finite-flat group-scheme maps consume this functoriality. Certified
-kernels are exact on test-scheme points. Genuine supplied local lifts produce
-a kernel-valued Čech boundary class independent of the lifts and cover. An
-actual checked fppf quotient now supplies its tautological local lifts and
-connecting homomorphism. If that boundary vanishes, a common-refinement gauge
-makes the lifts compatible and subcanonical descent glues them globally, so
-exactness at quotient-valued global sections is checked. If a kernel `H¹`
-class becomes trivial in the middle group, a common-refinement zero-cochain
-has compatible quotient images; gluing those images and reusing the
-zero-cochain as local lifts proves exactness at kernel `H¹`. A quotient-valued
-trivializing gauge also lifts on a genuine refinement, proving the reverse
-inclusion at middle `H¹`. The same descent argument now proves exactness at
-global target sections and kernel-valued `H¹` for every locally liftable
-ambient morphism. Its multiplicative Kummer consumer identifies units modulo
-`p`th powers with the actual kernel of `H¹(mu_p) -> H¹(G_m)`. Over
-`Spec Z[1/ell]`, every unit is a sign times a power of the localized prime; for
-odd prime `p` the quotient and the actual geometric kernel both have exact
-cardinality `p` and certified finite-`p` length one. Over `Spec ℤ`, the
-constant order-`p` factor has `p`
-global sections and the odd multiplicative factor has one; these checked
-cardinal certificates feed a reusable quotient bound with one admissible
-elementary kernel, and the two-elementary-factor step consumes that recursive
-interface. This finite-flat API does not yet represent Mazur's two quasi-finite
-closures at the primes dividing the level. The represented coefficient and
-global `H¹` construction now extends to every ambient commutative group scheme.
-Ambient group-scheme morphisms induce canonical maps on represented points and
-`H¹` with checked identity and composition laws. Their canonical kernel is
-constructed as the pullback against the identity in internal groups, identified
-with the scheme-theoretic pullback, and proved to represent the pointwise kernel
-on every test scheme. A checked wrapper packages the flat, quasi-finite,
-separated, finite-presentation case, consumes those maps and the ambient kernel,
-and agrees definitionally with the finite-flat coefficient, morphism, and
-canonical-kernel APIs. The next
-kernel boundary is now explicit: a quasi-finite presentation supplies an
-actual quasi-finite flat group scheme together with its group-scheme
-identification with the ambient kernel, yielding pointwise exactness. The
-canonical finite-flat kernel is a checked adapter, and every certified
-finite-flat kernel has a geometric adapter that preserves its chosen
-inclusion. The common proof is now factored through a finiteness-free ambient
-kernel presentation with a compatible chosen inclusion, unique point lifts,
-and represented-point exactness. A supplied quasi-finite fppf quotient now records its fppf
-projection and geometric kernel, proves represented-point exactness, and
-embeds the checked finite-flat quotient presentations compatibly. A reusable
-principal-open Hopf localization now constructs the actual bad-level constant
-factor `(Z/pZ)^flat` with coefficient `p` separate from level `N`; its realized
-typed inclusion has the advertised componentwise principal-open range and
-contains the full constant family over `D(N)`. Every integral global section
-at a nonunit level is now proved to be the identity, and a prime-level
-specialization packages this as cardinality `1 = p^0`. The connecting-class
-construction now also lives over arbitrary ambient commutative group schemes;
-its quasi-finite wrapper and the finite-flat quotient layer are compiled
-consumers. The multiplicative-flat factor is now constructed by an explicit
-Hopf localization, packaged as a quasi-finite flat commutative group scheme,
-and included into `mu_p` by a typed open immersion whose exact range contains
-the whole model over `D(N)`. The Fermat specialization is a concrete consumer.
-At odd coefficient every integral global section is the identity; a
-distinct-prime-level specialization packages this as cardinality `1 = p^0`,
-and the low-degree Euler length bound consumes the endpoint.
-Actual pointwise categorical cokernel presheaves now compile for represented
-additive point maps, with objectwise-surjective projections and exact short
-complexes. Universe lifting to `AddCommGrp` and fppf sheafification now supply
-the actual cokernel terms in categorically exact short complexes. The
-canonical projections from the represented ambient point sheaves are genuinely
-fppf-locally surjective and hence epic; both typed bad-level inclusions are
-downstream consumers. Open-immersion factorization now proves point-map
-surjectivity and objectwise cokernel vanishing on every test scheme over
-`D(level)`. Continuous restriction of the relative fppf site is compared with
-sheafification, so both actual bad-level cokernel sheaves restrict to zero over
-`D(level)`. They are therefore honestly supported on the bad fibre, without
-any representability claim. The closed fibre `Spec(R/(level))` is now identified with the
-complement of `D(level)`, and the actual cokernel sheaves are packaged in the corresponding
-supported full subcategory. Restriction preserves finite colimits, hence the point-cokernel
-sequences remain exact and short exact on the open; both constant-flat and multiplicative-flat
-inclusions become isomorphisms there. Sheaves supported on the closed complement form a Serre
-class, and a sheaf morphism is an isomorphism modulo this class exactly when its open restriction
-is an isomorphism; both bad-level inclusions are checked consumers. Mathlib's Serre localization
-now forms the actual abelian quotient and its exact canonical functor. The mapped represented-point
-cokernel sequence remains short exact, its supported third term becomes zero, and both actual
-bad-level inclusions are inverted through this exact-sequence consumer. No equivalence with sheaves
-on the open, recollement, cohomological localization sequence, or closed-fibre pushforward is
-claimed. Coefficient-isomorphism invariance first gives supported constant-flat and
-multiplicative-flat `H¹` equivalences for the universe-lifted additive represented sheaves on
-`D(level)`. Explicit cocycle/common-refinement universe invariance and the multiplicative
-pullback-adjunction comparison for represented points then identify those equivalences with the
-original represented group-scheme `H¹` of the canonical base changes; both bad-level models are
-compiled consumers. Explicit cover-level and global `H¹` transport along equivalences of bases
-commutes with refinements and combines with represented-point base change. The named
-`basicOpenIsoSpecAway` consumer identifies represented `H¹` on `D(level)` with the direct
-`Spec(Localization.Away level)` model; the constant-flat and multiplicative-flat supported
-comparisons are concrete downstream consumers. Supplied finite-p-group cardinal certificates for the ambient constant or
-`mu_p` cohomology now transport across these equivalences to the genuine bad-level carriers,
-preserving both their lengths and exact cardinal equalities; this transport proves no arithmetic
-certificate by itself. Exactness of the checked finite-flat kernel-middle-quotient `H¹` pair now
-propagates finiteness from its two endpoints; the Euler estimate and both Kummer rank-zero
-consumers no longer require a separate middle-`H¹` finiteness premise. The quasi-finite
-admissible-filtration exact sequences, ambient `H¹(G_m)` vanishing on the good open, and the
-constant-factor global `H¹` calculation remain open. The supported bad-fibre
-quotients are not being represented as quasi-finite flat group schemes.
+*Status:* `planned`; *readiness:* `compiled`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 20 points.
+
+*Summary:* The exact iterated constant-or-multiplicative filtration,
+arbitrary-base-change exponent consumer, unit Kummer quotient, and finite-p-group
+low-degree Euler estimate compile.
+
+*Canonical artifacts:*
 
 * `structure` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiniteFlatGroup`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointPresheaf_isFppfSheaf`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.FppfHOne`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfHOneMap`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointKernelMulEquiv`
-* `structure` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.mapPoint_eq_one_iff_exists_kernelPoint`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMulEquivOfFiniteFlat`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fppfHOneMap_ofFiniteFlat_eq`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.canonicalAmbientKernel_pointMulEquiv`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.canonicalKernel_point_mulExact`
-* `structure` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.pointKernelMulEquiv`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.point_mulExact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.ofFiniteFlatCanonical_inclusion`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.commGroupSchemeKernelIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.ofFiniteFlat_inclusion`
-* `structure` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.ofFiniteFlat_kernel_inclusion`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.project_point_eq_one_iff`
-* `definition` (`contract`):
-  `HopfLocalizationAway.hopfAlgebra`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlat`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_hom`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_opensRange`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatInclusionMap_contains_levelOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlat`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatBasePoint_eq_one`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatBasePointCertifiedDataOfPrimeLevel`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatBasePoint_eq_one`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatBasePointCertifiedDataOfPrimeLevel`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.middleHOne_length_le_of_fermatMuFlatKernelHZero`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.KernelPresentation.LocallyLiftable.boundaryHom_mapPoint`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlat`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusionMap`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_opensRange`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.fermatMuFlatInclusion_contains_levelOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelPresheaf`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelProjection_app_surjective`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelSequence_exact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelSequence_exact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelSequence_exact`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheaf`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_isLocallySurjective`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.representedPointCokernelFppfProjection_epi`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequence_exact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSequence_exact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSequence_exact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.mapPoint_surjective_of_base_preimage_eq_top`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelPresheaf_obj_isZero_of_base_preimage_eq_top`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSheafOverOpen_isZero`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatPointCokernelFppfSheafAway_isZero`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatPointCokernelFppfSheafAway_isZero`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequenceOverOpen_shortExact_of_mono`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfMapOverOpen_isIso_of_supported`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMapAway_isIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMapAway_isIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedOnClosedComplementProperty_isSerreClass`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.isoModSupported_iff_openRestriction_isIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMap_isoModSupported`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMap_isoModSupported`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedQuotientExactFunctor`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfSheafSupportedQuotientFunctor_map_isIso_iff_openRestriction_isIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.pointCokernelFppfSequenceSupportedQuotient_shortExact_of_mono`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfMap_supportedQuotient_isIso_of_supported`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfMap_supportedQuotient_isIso`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfMap_supportedQuotient_isIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne.mulEquivOfIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafOverOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.AddPointFppfHOneOverOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfCommPresheafIsoOverOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquivOfIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.addPointFppfHOneOverOpenMulEquiv_of_supported`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatAddPointFppfHOneAwayMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatAddPointFppfHOneAwayMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne.mulEquivUlift`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.baseChangePointMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.baseChangeCommPointPresheafIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.baseChangeAddPointFppfCommPresheafIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.baseChangeFppfHOneMulEquivAddPointFppfHOneOverOpen`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayMulEquiv`
-* `definition` (`contract`):
-  `CategoryTheory.PresheafOfCommGroups.BaseEquivalence.hOneMulEquiv`
-* `theorem` (`contract`):
-  `CategoryTheory.PresheafOfCommGroups.BaseEquivalence.hOneMulEquiv_pullback`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne.baseIsoMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfHOneMulEquivOfIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.fppfHOneMulEquivBaseIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.basicOpenBaseChangeIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.basicOpenFppfHOneMulEquivSpecAway`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneSpecAwayMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneSpecAwayMulEquiv`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAwayCertifiedData_length`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.constantFlatFppfHOneAway_natCard_eq_pow`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAwayCertifiedData_length`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.muFlatFppfHOneAway_natCard_eq_pow`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.exact_mapPoint_boundaryHom`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.LocallyLiftable.exact_boundaryHom_fppfHOneMap`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryMulEquivKernel`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.exists_eq_intUnit_mul_awayGeneratorUnit_zpow`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClasses_natCard_primeAway`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerClassesCertifiedDataPrimeAway`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.unitKummerBoundaryKernelCertifiedDataPrimeAway`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.away_isPrincipalIdealRing`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayPic_eq_one`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeKummer.awayInvertibleModuleLinearEquiv`
-* `structure` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle.toCoalgebra`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle.descendedModule`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle.baseChangeIso`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.MultiplicativeUnitCocycle.primeAwayLinearEquivBase`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.toMultiplicativeUnitCocycle`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.descendedModule`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.RepresentedMultiplicativeOneCocycle.primeAwayLinearEquivBase`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentToProductRefinement`
-* `definition` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCover`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.coverRefinementToRepresentedSingleton_map`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.componentCoverCocycle_ev`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily.productCoverCocycle_globalClass_pullback`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfHOne`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_pullback`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne.commGroup`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneClass_mul_of_commonRefinement`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.ofFiniteFlatFppfHOne`
-* `definition` (`contract`):
-  `AlgebraicGeometry.Scheme.FppfHOne.mapHom`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.fppfHOneMap`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.point_mulExact`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.KernelPresentation.LocalLift.boundaryClass_eq`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.locallyLiftable`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.boundaryHom`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_project_boundaryHom`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_boundaryHom_fppfHOneMap`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
-* `structure` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.CommGroupScheme.KernelPresentation.CoverwiseLocallyLiftable.exact_fppfHOneMap_inclusion_f`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project_via_ambient`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.coverwiseLocallyLiftable`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.exact_fppfHOneMap_inclusion_project`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfQuotientPresentation.middleFppfHOne_finite`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finiteFlat_fppfHOne_natCard_le_pow_viaQuasiFinite`
-* `structure` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfExtensionPresentation`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfExtensionPresentation.middleBasePointCertifiedData`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient`
-* `structure` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FinitePGroup.BoundedData.middleOfMulExact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation_bounded`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberHZero`
-* `structure` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatHOneLocalizationData.globalHOneBoundedData`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberCokernelProjection`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.mazurConstantFlatClosedFiberAmbientHZeroMulEquiv`
-* `structure` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl`
-* `definition` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.MazurConstantFlatBadFiberClosedFiberControl.boundedData`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_constantFlatKernel_muFlatQuotient_localized_closedFiber`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.QuasiFiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_of_muFlatKernel_constantFlatQuotient_localized_closedFiber`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.finite_middle_of_mulExact`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.finite_fppfHOne_of_kernel_quotient`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.ofFppfQuotientPresentation`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.fppfHOne_natCard_le_pow_ofFppfQuotientPresentation`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.constantBasePointCertifiedDataInt`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.muBasePointCertifiedDataIntOfOdd`
-* `definition` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleSimpleFactor.basePointCertifiedDataInt`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfQuotientPresentation.fppfHOne_natCard_le_pow_of_admissibleKernelInt`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.fppfHOne_natCard_le_pow_int`
+  Package an honest recursive exact filtration whose graded kernels are the checked
+  constant Z/p or multiplicative mu\_p factors.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.FppfHOne`
+  Globalize relative cover-level nonabelian H1 over genuine fppf covers by the
+  common-refinement quotient in Scheme.Over X.
+* `theorem` (`contract`): `AlgebraicGeometry.CommGroupScheme.pointPresheaf_isFppfSheaf`
+  Apply subcanonicity to the represented point presheaf of an arbitrary ambient
+  commutative group scheme, without a finiteness hypothesis.
+* `definition` (`contract`): `AlgebraicGeometry.CommGroupScheme.FppfHOne`
+  Instantiate the checked common-refinement fppf H1 construction for an arbitrary
+  represented commutative group-scheme coefficient.
+* `definition` (`contract`): `AlgebraicGeometry.CommGroupScheme.fppfHOneMap`
+  Apply an arbitrary ambient commutative group-scheme morphism to global fppf H1 by the
+  represented point-presheaf natural transformation, with checked identity and
+  composition laws.
 * `theorem` (`proposed`):
   `AlgebraicGeometry.AdmissibleFiniteFlatGroup.hOne_sub_hZero_le`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltration.baseChange_point_pow_eq_one`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.UnitKummerClasses.pow_eq_one`
-* `structure` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.FiniteFlatCommGroupScheme.FppfLowDegreeExactSequence.middleHOne_natCard_le_pow`
+  Prove Mazur's filtration estimate by reduction to the elementary graded pieces.
 
-The exact-sequence certificate exposes all six finite p-groups, five maps,
-left injectivity, and four exactness proofs. It therefore cannot be populated
-by a cardinal bound alone. The repository now supplies the fixed-universe
-global colimit over actual relative fppf covers, including refinement-choice
-independence, a type-level eliminator, its canonical commutative group law,
-functorial coefficient maps, and a choice-independent local-lift connecting
-class. The quotient-derived lifts and boundary homomorphism now compile.
-Independent common-refinement arguments prove exactness at quotient `H⁰`,
-kernel `H¹`, and middle `H¹`: quotient gauges are lifted on genuine fppf
-refinements, and certified kernel uniqueness produces the required kernel
-cocycle. All three proofs feed the concrete low-degree constructor, which
-accepts no exactness hypotheses. A checked downstream consumer now applies the
-exact maps directly: five endpoint finite-cardinality certificates imply the
-middle global `H¹` cardinal bound, while exactness derives its finiteness from
-the two neighboring finite `H¹` groups. It no longer assumes either finiteness
-or the exact cardinal of the group being bounded. For ambient group schemes,
-the required hypothesis is now stated honestly as coverwise local lifting of
-every zero-cochain, not merely local lifting of base sections. This proves
-middle-`H¹` exactness by a common-refinement gauge argument. Genuine
-quasi-finite fppf quotient presentations construct that coverwise input by
-pullback, supply the complete low-degree exactness chain, derive middle-`H¹`
-finiteness from finite endpoints, and feed a five-endpoint Euler bound. The
-finite-flat adapter is a checked compatibility consumer. A typed extension
-presentation now fixes the actual constant-flat and multiplicative-flat
-factors as kernel and quotient. Their trivial integral point groups force the
-middle point group to be trivial, so both factor orders feed the Euler bound
-without caller-supplied H0, exactness, or middle-H1 finiteness. The two elementary
-`H⁰` endpoint certificates in a one-step admissible quotient are now concrete:
-constant global sections are indexed by `Z/pZ`, while `mu_p(ℤ)` is trivial for
-odd `p`. A one-elementary-kernel quotient theorem leaves quotient certificates
-explicit for recursive finite-flat use, and the actual two-factor theorem is
-its compiled consumer. Ambient commutative-group-scheme `H¹` and the structural
-quasi-finite wrapper now compile and agree definitionally with the finite-flat
-API. Geometric kernel and fppf quotient presentations now extend this
-compatibility to arbitrary certified finite-flat kernels and quotient
-projections, including their chosen inclusions. The actual bad-level
-constant-flat factor now compiles as a principal-open Hopf localization with
-distinct coefficient and level parameters, a typed realized range and
-level-open consumer, and certified trivial integral global sections. The
-multiplicative-flat factor and its typed inclusion now compile, as do the raw
-point-cokernel presheaves and concrete bad-level consumers. Their point maps
-are surjective above `D(level)`, their point-cokernel presheaves vanish there,
-and continuous site restriction carries this through sheafification to zero of
-the actual fppf cokernel sheaves. The multiplicative factor's trivial
-odd-coefficient `H⁰` and the low-degree Euler endpoint consumer also compile. The actual closed
-fibre and supported-sheaf full subcategory now compile; restriction preserves the exact and
-short-exact point-cokernel sequences, and the two bad-level inclusions are isomorphisms over
-`D(level)`. Closed-complement support is a checked Serre class, and isomorphism modulo support is
-equivalent to isomorphism after open restriction, with both bad-level inclusions as consumers.
-The global Serre quotient and its exact canonical functor now compile: the supported cokernel
-sequence becomes a short exact sequence with zero third term, and both concrete inclusions are
-isomorphisms in the quotient. Isomorphism invariance of the checked global `H¹` also turns the
-actual open-restriction isomorphisms into constant-flat and multiplicative-flat equivalences for
-the universe-lifted additive represented sheaves on `D(level)`. Explicit universe invariance at
-the cocycle and common-refinement levels, together with the multiplicative base-change point
-presheaf comparison, now identifies that spelling with the original represented group-scheme
-`H¹` of the canonical base changes; constant-flat and multiplicative-flat declarations are real
-downstream consumers. Explicit cover-level and global `H¹` transport along base equivalences now
-commutes with refinements and combines with represented-point base change. The
-`basicOpenIsoSpecAway` consumer transports both supported comparisons to the direct
-`Spec(Localization.Away level)` base changes. Genuine supplied finite-p-group
-certificates now transport to the exact constant-flat and multiplicative-flat
-carriers with unchanged lengths and p-power cardinalities;
-the multiplicative Kummer kernel over every prime localization now has an actual length-one
-certificate. The localization is a principal ideal ring, its ring Picard group is trivial, and
-every invertible module is explicitly trivialized. A normalized tensor-unit cocycle on a
-faithfully flat affine cover now defines the actual descent-comonad coalgebra, descends
-effectively to a rank-one module, and is explicitly trivial over `Z[1/ell]`. Evaluating an
-actual represented multiplicative cocycle on a singleton affine family now produces exactly
-that normalized tensor-unit model: naturality proves normalization and the three overlap
-pullbacks, and the represented cocycle law proves the tensor identity. Effective descent and
-the prime-away linear trivialization are direct consumers. For a finite affine fppf family, the
-component cover now genuinely refines the singleton spectrum of the product algebra; its maps
-are the product evaluations, the singleton is proved fppf through the finite sigma comparison,
-and `FppfHOne.class_pullback` identifies the resulting global classes. This is only the valid
-singleton-to-component direction. Turning an arbitrary component cocycle into a singleton
-cocycle still needs a compatible gauge or effective sheaf gluing, so no ambient `H¹(G_m)`
-vanishing is claimed. Carrier-preserving upper cardinal bounds now propagate across an exact
-pair. The constant-flat localization interface fixes the terminal sections of the actual
-supported cokernel sheaf and the actual inclusion-induced global `H¹` map. Given its boundary
-and exactness, a supported-`H⁰` bound, and an ambient constant-group `H¹` bound, both bad-level
-factor orderings feed the Euler estimate without a global constant-flat `H¹` certificate. The
-actual represented ambient constant sheaf is now evaluated on `Spec (ZMod level)` and identified
-with the length-one base-changed constant point group. Closed-fibre control requires a section of
-the genuine evaluated ambient-to-cokernel projection and injectivity of canonical restriction as
-separate geometric laws; together they derive the supported-`H⁰` bound and feed both localized
-factor orderings. Neither law, the localization boundary, exactness, nor the remaining endpoint
-bounds are manufactured. An open-sheaf equivalence and
-global cohomological localization sequence are still absent. The rank-zero route must construct
-those localization inputs, the actual bad-level extension presentation, and the remaining
-multiplicative-flat endpoint bound. Focused rank-zero specialization therefore remains open, and
-no node credit is claimed.
 :::
 
-:::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
-*Raynaud uniqueness and the Eisenstein rank-zero criterion.* Extend the
-constant and multiplicative constituents over an unramified DVR, then apply
-the bounded Kummer cohomology calculation to the modular quotient.
+:::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE, MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Raynaud uniqueness and the Eisenstein rank-zero criterion.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 40 points.
 
-* `theorem` (`proposed`):
-  `AlgebraicGeometry.Raynaud.primeOrder_uniqueness_unramified`
-* `theorem` (`proposed`):
-  `AbelianVariety.rank_eq_zero_of_admissible_torsion`
+*Summary:* Prove the unramified order-p uniqueness theorem needed to extend admissible
+Galois constituents, then assemble the bounded-Kummer-cohomology criterion that forces
+the Eisenstein quotient to have Mordell-Weil rank zero.
+
+*Canonical artifacts:*
+
+* `theorem` (`proposed`): `AlgebraicGeometry.Raynaud.primeOrder_uniqueness_unramified`
+  Extend constant and multiplicative generic fibres uniquely over an unramified DVR.
+* `theorem` (`proposed`): `AbelianVariety.rank_eq_zero_of_admissible_torsion`
+  Deduce rank zero from good reduction away from the level, toric level reduction, and
+  admissible p-torsion.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_eq_zero_of_injective_kummer_of_card_le_torsion`
+  Use the checked finitely generated index formula to force rank zero from an injective
+  Kummer quotient and a cohomological cardinal bound by the p-torsion.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.finite_of_injective_kummer_of_card_le_torsion`
+  Upgrade the numerical Kummer rank-zero conclusion to finiteness for the finitely
+  generated abelian group.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finrank_eq_zero_of_fppfKummer_int`
+  Consume the actual represented finite-flat H1 and its checked two-factor
+  admissible-filtration bound in the Kummer rank-zero criterion over Spec Z.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.AdmissibleFiltrationStep.finite_of_fppfKummer_int`
+  Derive actual finiteness of the Mordell-Weil input from the same represented
+  finite-flat H1 consumer.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteFlatCommGroupScheme.finrank_additive_basePoint_eq_zero_of_powerKummer_kernelData`
+  Derive the p-torsion cardinality internally from certified base points of the actual
+  scheme-theoretic multiplication kernel, then consume it in the represented
+  power-Kummer rank-zero theorem.
 
-The checked finite-index formula now supplies the numerical endpoint: an
-injective map from `A/pA` into a finite group no larger than `A[p]` forces a
-finitely generated abelian group to have rank zero and hence be finite. The
-geometric consumers use the actual represented finite-flat `FppfHOne` target
-and derive its bound from the checked two-factor admissible filtration. Exactness derives
-finiteness of the middle `FppfHOne` from finite endpoint certificates. Certified base points of
-the actual scheme-theoretic multiplication kernel now supply the torsion-cardinality equality,
-and the Néron-model consumer transports the resulting rank-zero statement to the generic fibre.
-Constructing the Eisenstein quotient's actual kernel certificates, proving multiplication
-flatness and surjectivity and Mordell--Weil finite generation, constructing its Néron model, and
-the unramified Raynaud input remain open.
 :::
 
-:::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*The $`X_0(N)` point attached to rational prime torsion.* Define the
-$`\Gamma_0` moduli problem and its classifying point from a rational cyclic
-subgroup.
+:::theorem "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, planned, nouns-missing, mixed")
+*The X\_0(N) moduli point attached to rational prime torsion.*
 
-*Status:* `planned`.
+*Status:* `planned`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 30 points.
+
+*Summary:* Construct the split rational cyclic subgroup generated by a torsion point,
+its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data
+by checked admissible variable changes.
+
+*Canonical artifacts:*
 
 * `definition` (`proposed`): `ModularCurve.XZeroModuli`
-* `theorem` (`proposed`):
-  `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`
-
+  Define elliptic curves with a finite locally free cyclic subgroup of level N.
+* `theorem` (`proposed`): `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`
+  Construct the X\_0(N)(Q) point consumed by the prime argument.
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup`
+  Package a finite rational cyclic subgroup of exact level N and construct it from a
+  rational point of exact additive order N.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.variableChange`
+  Transport a raw elliptic curve and cyclic-subgroup datum through a checked admissible
+  Weierstrass variable change.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass`
+  Quotient raw rational Gamma\_0 data by the equivalence relation generated by
+  admissible changes of Weierstrass presentation.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.lift`
+  Descend every presentation-invariant function on raw cyclic-subgroup data to the
+  checked variable-change quotient.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.divisorSubgroup`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroModuli.RationalDatum.VariableChangeClass.forgetToDivisor`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.divisorSubgroup_sup_of_coprime_mul`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.FiniteLocallyFreeSubgroup`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.SplitCyclicSubgroup`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitGammaZeroDatumOfTorsion`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.splitGammaZeroDatumOfRationalCyclicSubgroup`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.rationalDatumPointHom_range`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.ofProjectivePointEquiv`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumOfProjectivePointComparison`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassAbelianVarietyComparison.splitGammaZeroDatumPointHom_range`
-* `definition` (`contract`):
-  `MazurTorsion.AlgebraicGeometry.ReducedClosedSubscheme.lift`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.polynomial_isHomogeneous`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isReduced`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.range_inclusion`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.pointOfNonsingularRepresentative`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.ambientPoint_comp_projectivePlaneStructureMap`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_isProper`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVariety`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointToAbelianVarietyRationalPoint_injective`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartLiftOfOverPoint_fac`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateRepresentativeOfOverPoint_chartIndex`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.eval_coordinateRepresentativeOfOverPoint_polynomial_eq_zero`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOfOverPoint`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.chartRingHom_ext`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.recoveredPointOverMorphism_eq`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_surjective`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_bijective`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquivOfGroupLaw`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalProjectivePointEquiv`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfProjectiveCubic`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.splitGammaZeroDatumOfCanonicalProjectiveCubic`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartRingEquiv`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartIdeal_isPrime`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartScheme_isIntegral`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartBaseChangeWitness`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartBaseChangeWitness`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackage_hasConstantOrder`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affineEquationToStandardChartRingEquiv`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardOpenMap_opensRange_eq_preimage_basicOpen`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.geometricallyIntegral_of_standardChartComparison`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfStandardChartComparison`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveGradedCoefficientMap_irrelevant_le`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlaneBaseChangeProjection`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAway_comp_projectivePlaneBaseChangeProjection`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveSpectrum_comap_mem_weierstrassZeroLocus_iff`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.IsAmbientCompatible`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.StandardChartComparison.canonicalStandardOpenMap_opensRange_eq_preimage_mapped`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlaneBaseChange_isPullback`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePlanePullbackIso_mem_mappedWeierstrassZeroLocus_iff`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_isIso_iff_isReduced`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.fieldBaseChangeIsoMappedCubic`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartComparisonOfReducedFieldBaseChange`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negation`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negation_comp_structureMap`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.negationOver_involutive`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePointOverMorphism_neg`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_comp_negationOver`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.CanonicalPointGroupLawCompatibility.unit_eq_infinitySectionOver`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.fieldBaseChange_isReduced`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartComparisonOfFieldBaseChange`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.grpObjOfAbelianVarietyIso`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalPointGroupLawCompatibility_of_abelianVarietyIso`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSplitGammaZeroPackageOfAbelianVarietyIso_hasConstantOrder`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinityChartPolynomial_not_dvd_innerX`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coordinateChartRatio_one_two_not_mem_infinityChartIdeal`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartRanges_inter_nonempty`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartRanges_union_eq_univ`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_irreducibleSpace`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.scheme_isIntegral`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap_isOpenImmersion`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_comp_fieldBaseChangeAmbientMap`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedCubicReductionMap_preimage_canonicalStandardOpen`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.mappedStandardChartMap_opensRange`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartIsoCanonicalStandardOpen`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardAffineChartIsoCanonicalStandardOpen_hom_comp`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardOpenMap_denseRange`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartComparison`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartComparison_isAmbientCompatible`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.structureMap_geometricallyIntegral`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.toAbelianVarietyOfCanonicalStandardChart`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalStandardChartSplitGammaZeroPackage_hasConstantOrder`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.splitSubgroupCoordinatePointHom_injective`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalCyclicSubgroupOfSplitGammaZeroDatum_ofRationalCyclicSubgroup`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassGroupSchemeInterface.rationalDatumOfSplitGammaZeroDatum_ofRationalDatum`
-* `theorem` (`contract`):
-  `MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion`
+  Construct the intrinsic order-d subgroup C\[d\] of a split rational cyclic subgroup of
+  order N for d dividing N, with transport, nesting, and generator formulas.
 
-The generated split rational subgroup and raw datum compile. Admissible
-Weierstrass changes transport both the curve and subgroup, and checked code
-quotients by the generated equivalence and descends every
-presentation-invariant function. Intrinsic divisor subgroups and split
-divisor-level degeneracy maps compile. A general integral Bézout argument
-shows that coprime divisor subgroups whose orders multiply to the ambient
-level recover the full carrier; reconstruction from the order-five and
-order-seven carriers at level 35 is its checked consumer. The scheme layer packages an
-actual finite-locally-free closed subgroup, arbitrary base change, and an
-identification with the constant cyclic group. Exact rational torsion gives a
-genuine split Γ₀ source datum relative to a narrow Weierstrass group-scheme
-interface, and a checked consumer identifies its rational point range with
-the existing carrier. More generally, every supplied split rational cyclic
-subgroup directly produces such a finite-flat datum: its intrinsic carrier is
-the constant source, its point homomorphism is exactly subgroup inclusion, and
-choice of a cyclic generator occurs only in the splitness isomorphism. Raw
-rational Γ₀ data is a checked downstream consumer with exact point range.
-Conversely, the rational-point image of a represented split finite-flat
-subgroup is cyclic of exact order `N`; the canonical construction round-trips
-both its carrier and the full raw datum, with exact order 49 as a downstream
-consumer. This does not construct `E/C` or the coarse classifying point. A
-genuine Tau Ceti abelian variety plus a comparison of
-its rational points with Mathlib's projective Weierstrass points now supplies
-that interface and feeds the same consumer. The homogeneous cubic now also
-defines an actual reduced closed subscheme of projective two-space, with
-reducedness checked affine-locally from its radical vanishing ideals, its closed
-immersion, exact zero-locus range, and proper structure map. Nonsingular
-coordinate triples now give actual morphisms from `Spec K` to the cubic, and
-the canonical affine normalization gives a forward map from Mathlib projective
-points to cubic `K`-points. Homogeneous linear vanishing equations recover the
-normalized coordinates, proving this forward map injective. The compiled
-canonical finite-flat consumer therefore reduces point comparison to the group-law
-compatibility of this explicit map. In the reverse direction,
-the coordinate basic opens now give an actual affine-chart factor for every
-scheme-valued cubic point; the induced homogeneous-localization ring map
-extracts a normalized nonzero coordinate triple, fixes base-field constants,
-and evaluates every homogeneous fraction through those ratios. The extracted
-triple now satisfies the cubic equation and, under ellipticity, is proved
-nonsingular, yielding an actual Mathlib projective point and a compiled forward
-recovered-point morphism. Chart-ring extensionality and invariance of the ambient
-closed point under affine normalization prove that this recovered morphism equals
-the original. The canonical projective-point map is therefore surjective and,
-together with the earlier injectivity proof, bijective. The standard `Z ≠ 0`
-homogeneous localization is explicitly equivalent to the affine bivariate
-polynomial ring; the localized cubic becomes the affine Weierstrass
-polynomial, its equation ideal is prime, and the quotient chart is integral. A
-second equivalence identifies the affine equation quotient with that localized
-homogeneous chart. For every field extension, the canonical standard open of
-the actual pullback is constructed by pulling back `Proj.awayι`; it is an open
-immersion whose range is exactly the inverse image of `D₊(Z)`. Graded coefficient extension
-now constructs the ambient map `P²_L ⟶ P²_K`; the required irrelevant-ideal
-inclusion is proved from the coordinate generators. This map fixes the three
-coordinates, carries the cubic polynomial to the mapped equation, has the
-checked `D₊(Z)` away-chart square, and preserves the cubic zero locus on
-projective-spectrum points. An explicit ambient-compatibility predicate for the
-still-open target isomorphism has a compiled consumer identifying the actual
-pullback's canonical-open range with the mapped cubic's coordinate open. The
-three normalized affine coordinate charts are now proved to be pullbacks and
-glued over their open cover, so the complete ambient projective-plane square is
-a pullback. Its canonical isomorphism with `P²_L` satisfies both projection
-laws, and a cubic zero-locus consumer identifies the mapped equation with the
-inverse image of the original equation. Restriction of the projection to the
-pulled cubic is now a surjective closed immersion with exact mapped carrier and radical kernel.
-Its canonical reduction map is an isomorphism exactly when the field pullback is reduced; under
-that hypothesis the ambient-compatible cubic isomorphism and standard-chart consumer compile.
-Homogeneous Weierstrass negation also restricts to an involutive automorphism of the reduced cubic
-over `Spec K`, and the canonical Mathlib-projective-point comparison intertwines point negation
-with this scheme involution, including the point at infinity. The infinity point is now an actual
-section from the tensor unit, fixed by scheme negation. For any supplied compatible group object,
-addition preservation and cancellation identify its abstract unit with that concrete section; the
-generic finite-flat `Γ₀(N)` package consumes the resulting zero compatibility. This does not
-construct multiplication. The affine and infinity equation
-charts are now prime over every field extension, form an actual open cover with nonempty
-intersection, and commute with scalar extension. Thus every cubic and every field pullback is
-integral, the structure map is geometrically integral, and the reduction-map isomorphism and
-ambient-compatible mapped-cubic comparison are unconditional. The mapped integral quotient chart
-has exactly the canonical `D₊(Z)` range, so the chart/open isomorphism, dense-range theorem, and
-unconditional `StandardChartComparison` now compile and feed Tau Ceti and finite-flat consumers.
-A genuine isomorphism to an abelian variety now transports the group object; compatibility with a
-multiplicative Abel--Jacobi point map then supplies the exact group-law equations and reaches the
-constant-order finite-flat `Γ₀` consumer. The genuine pointed Picard/Jacobian group object and
-multiplicative point comparison, `E/C`, the coarse modular point,
-and the required Atkin--Lehner geometry remain open, so this node receives no completion credit.
 :::
 
-:::definition "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*Integral $`X_0(N)`, cusp completions, and auxiliary q-parameters.* Build the
-smooth cusp neighbourhood at the prime-to-level auxiliary characteristics
-five and eleven, and only the additional level-$`N` geometry consumed by
-toric reduction of the modular Jacobian.
+:::theorem "MT-X0-INTEGRAL" (parent := "prime_infrastructure") (uses := "MT-X0-MODULI") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Integral X\_0(N), cusp completions, and auxiliary q-parameters.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 30 points.
+
+*Summary:* Compactify X\_0(N), identify the smooth cusp neighbourhood, and expose its
+completed local ring and q-parameter at auxiliary primes 5 and 11.
+
+*Canonical artifacts:*
 
 * `structure` (`proposed`): `ModularCurve.IntegralXZero`
+  Construct the compactified integral model with generic fibre X\_0(N).
 * `definition` (`contract`): `AlgebraicGeometry.IsFormalImmersionAt`
-* `structure` (`contract`):
-  `IsLocalRing.QuotientCotangentCertificate`
+  Define formal immersion by surjectivity on the functorial completed-stalk map; on
+  locally Noetherian schemes, the checked residue-field and cotangent criterion implies
+  this predicate.
+* `structure` (`contract`): `IsLocalRing.QuotientCotangentCertificate`
+  Package compatible source and target quotient ideals, target quotient maximal-ideal
+  finiteness, the containment needed to lift quotient equality, and surjectivity of the
+  induced quotient cotangent map.
 * `theorem` (`contract`):
   `IsLocalRing.cotangentMap_surjective_of_quotientCotangentCertificate`
+  Lift quotient cotangent surjectivity and a surjective residue-field map to
+  surjectivity of the total local cotangent map.
 * `theorem` (`contract`):
   `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate`
+  Consume a quotient cotangent certificate on the actual stalk map and a residue-field
+  isomorphism to prove completed-stalk formal immersion.
 * `theorem` (`contract`):
   `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_quotientCotangentCertificate_of_isLocallyNoetherian`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealCotangentSurjective_of_isLocallyNoetherian`
-* `theorem` (`contract`):
-  `IsLocalRing.cotangentMap_surjective_of_degreeOne_of_apply_ne_zero`
-* `definition` (`contract`):
-  `IsLocalRing.IsMappedIdealDegreeOneCotangent`
-* `theorem` (`contract`):
-  `IsLocalRing.IsMappedIdealDegreeOneCotangent.isMappedIdealCotangentSurjective`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.Scheme.Hom.isFormalImmersionAt_of_mappedIdealDegreeOneCotangent_of_isLocallyNoetherian`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.sourceFinrank_eq_one_of_smoothRelativeCurve`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.residueFieldMap_isIso_at_rationalPoint`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.QExpansionFirstCoefficient.coeff_one_completion_eq_zero_of_mem_maximalIdeal_sq`
-* `theorem` (`contract`):
-  `AlgebraicGeometry.IsFormalImmersionAt.spec_ext_of_stalkClosedPointTo`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRCoordinate.ringEquiv`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRStalk.rationalSectionStalkCompletionRingEquiv`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRStalk.descResidueField_isIso_of_rationalSection_comp`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRStalk.isFormalImmersionAt_of_rationalSection_overBaseStalkDVR_heckeEigenQExpansion`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.CompleteDVRStalk.spec_eq_of_rationalSectionStalkDVR_normalizedQExpansion_of_comp_eq`
-* `theorem` (`contract`):
-  `Ideal.Fiber.localizationAlgEquivQuotient_naturality`
-* `definition` (`contract`):
-  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent`
-* `definition` (`contract`):
-  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.quotientCotangentCertificate`
-* `theorem` (`contract`):
-  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.ambientCompletionMapSurjective`
-* `theorem` (`contract`):
-  `Ideal.Fiber.specMap_stalkMap_eq_ambientLocalizedMap`
-* `theorem` (`contract`):
-  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap`
-* `theorem` (`contract`):
-  `Ideal.Fiber.IsAffineFiberDegreeOneCotangent.isFormalImmersionAtSpecMap_of_isNoetherian`
-* `theorem` (`contract`):
-  `Ideal.Fiber.exists_detectedVector_of_unit_qExpansion`
-* `theorem` (`contract`):
-  `Ideal.Fiber.isAffineFiberDegreeOneCotangent_of_qParameter`
-* `theorem` (`contract`):
-  `Ideal.Fiber.isFormalImmersionAtSpecMap_of_qParameter`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_unit_qExpansion`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspQExpansionAtFive_of_componentExponentTwelve`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspQExpansionAtEleven_of_componentExponentTwelve`
-* `structure` (`contract`):
-  `Ideal.Fiber.AffineSectionAtFiberPoint`
-* `structure` (`contract`):
-  `Ideal.Fiber.AffineStructuralSection`
-* `theorem` (`contract`):
-  `Ideal.Fiber.AffineStructuralSection.isClosed_fiberPoint`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_section`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspQExpansion.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion_of_structuralSection`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_section`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_section`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_affineCuspHeckeQExpansionAtFive_of_structuralSection`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_affineCuspHeckeQExpansionAtEleven_of_structuralSection`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.zeroSection`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.fiberPrime_eq_span`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.maximalIdeal_eq_span_qParameter`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.qParameter_not_mem_maximalIdeal_sq`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_polynomialCuspAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_polynomialCuspAtEleven`
-* `structure` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation`
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.specIso`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.AffinePresentation.isFormalImmersionAtSpecMap_of_heckeEigen_qExpansion`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_primeOrder_ne_of_affinePresentationAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.AffineCuspPolynomialChart.rationalPoint_orderThirtyFive_ne_of_affinePresentationAtEleven`
+  Specialize the lift to quotienting the target stalk by one ideal and the source stalk
+  by its extension, giving the characteristic-five special-fibre consumer.
 * `theorem` (`proposed`):
   `ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime`
+  Identify the odd prime-to-level cusp completion with the q-power-series ring.
 
-The functorial completed-stalk map and the actual formal-immersion predicate
-now compile with identity and composition consumers. The canonical
-stalk-cotangent map and its residue-honest first-order criterion also compile.
-The finite-maximal-ideal Nakayama consequence and surjectivity modulo the
-square compile with a modular degree-one consumer. The residue/cotangent
-criterion now implies surjectivity on completed stalks under finite maximal
-ideals, and locally Noetherian schemes supply those finiteness instances. A
-quotient certificate additionally lifts a special-fibre cotangent calculation
-through quotient Nakayama and residue surjectivity to completed-stalk formal
-immersion; its mapped-ideal endpoint is the characteristic-five consumer, and
-local Noetherianity discharges the total-stalk finiteness instances. On a
-concrete affine fibre, localization is now proved natural with the quotient of
-the ambient local ring, including the non-definitional quotient transport. Its
-degree-one cotangent data therefore produces the ambient certificate and a
-compiled completed-local-map consumer while leaving residue surjectivity and
-finiteness explicit. Canonical affine stalk equivalences now identify that
-ambient map with the actual stalk map of `Spec.map`; the same degree-one data
-therefore proves formal immersion of a genuine affine-scheme morphism, with a
-Noetherian endpoint discharging both maximal-ideal finiteness inputs. A chosen
-affine cusp parameter which generates the localized maximal ideal and survives
-modulo its square now proves the cotangent dimension is exactly one. A concrete
-localized identity whose linear q coefficient is a unit constructs the
-detected cotangent vector and reaches the actual `Spec.map` formal immersion.
-Selected arithmetic consumers at five and eleven now identify that affine
-point with the integral cusp specialization and carry the actual `Spec.map`
-formal immersion through the collision and marked component-exponent-twelve
-endpoints. At a
-non-generic point of a smooth integral relative curve, the checked DVR theorem
-supplies cotangent dimension one; literal rationality of the point and its
-image supplies the residue-field isomorphism. A genuine completed-stalk
-power-series coordinate now transports membership in the square of the stalk
-maximal ideal to vanishing of the first q-coefficient. A complete domain DVR
-with a coefficient field and irreducible uniformizer now constructs the
-coordinate in the opposite direction. For an actual rational section, the
-structural map now supplies the coefficient algebra, the section equation
-retracts it and proves the source residue field is the base field, and the
-over-base quotient equation proves the image residue field is also the base.
-A nonzero simultaneous Hecke eigen-expansion now feeds the actual formal
-immersion predicate and separates arbitrary Noetherian local sections with
-equal quotient image. A checked affine structural section now derives its
-special-fibre point as the kernel of a surjective residue-field retraction and
-proves that point maximal and closed. Contravariance of `Spec` derives the
-algebra retraction, prime-comap equality, and both residue surjections, with
-final consumers at five and eleven. The integral cusp model, its quotient-ideal/stalk
-identification, modular affine presentation, inhabitant of that section
-structure, generator and non-square proofs, and the actual modular q-expansion
-remain open. Independently, the represented polynomial chart `Spec R[t]` now
-constructs its zero section, identifies the fibre prime and localized maximal
-ideal with the coordinate, proves the coordinate survives modulo the square,
-and reaches the actual prime-five and order-35-at-eleven arithmetic consumers.
-A genuine affine algebra equivalence with this polynomial chart now transports
-the contravariant `Spec` isomorphism, structural section, fibre prime,
-q-generator, nonzero cotangent class, and Noetherianity. Generic formal
-immersion and both arithmetic endpoints consume the transported geometry. It
-is not identified with an integral modular-curve neighbourhood; constructing
-that equivalence and the optimal-quotient q-expansion remain open. This node
-receives no completion credit.
 :::
 
-:::definition "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*Cusps, Atkin--Lehner transport, and reduction type.* Move a squarefree-level
-cusp to infinity and identify cusp specialization with potentially
-multiplicative reduction at a prime-to-level auxiliary prime.
+:::theorem "MT-X0-CUSPS" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Cusps, Atkin-Lehner transport, and reduction type.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 20 points.
+
+*Summary:* Construct the rational cusp sections, transport formal immersion between them
+by Atkin-Lehner, and prove that potentially multiplicative reduction at a prime-to-level
+auxiliary prime sends the classifying point to a cusp.
+
+*Canonical artifacts:*
 
 * `definition` (`proposed`): `ModularCurve.XZero.infinityCusp`
+  Construct the rational cusp used to normalize Abel-Jacobi.
 * `definition` (`proposed`): `ModularCurve.XZero.atkinLehner`
+  Transport either prime-level cusp to infinity.
 * `theorem` (`proposed`):
   `ModularCurve.XZero.specializesToCusp_iff_potentiallyMultiplicative`
+  Relate cusp specialization at an auxiliary prime to potentially multiplicative
+  elliptic reduction.
+
 :::
 
-:::definition "MT-X0-JACOBIAN" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL, MT-TC-E1-JACOBIAN-VARIETY, MT-TC-F1-ABEL-JACOBI") (tags := "infrastructure, blocked, nouns-missing, modular-curves") (priority := "high") (effort := "large")
-*The modular Jacobian and cusp-based Abel--Jacobi map.* Normalize the map by
-$`x\mapsto[x]-[\infty]` and expose the base-change interface used downstream.
+:::theorem "MT-X0-JACOBIAN" (parent := "prime_infrastructure") (uses := "MT-X0-INTEGRAL, MT-TC-E1-JACOBIAN-VARIETY, MT-TC-F1-ABEL-JACOBI") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*The modular Jacobian and cusp-based Abel-Jacobi map.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 20 points.
+
+*Summary:* Construct J\_0(N) and the Abel-Jacobi morphism x |-\> \[x\]-\[infinity\],
+with the base-change and Neron-model interfaces used by the quotient and local proof.
+
+*Canonical artifacts:*
 
 * `structure` (`proposed`): `ModularCurve.ModularJacobian`
+  Specialize the generic Jacobian API to X\_0(N).
 * `definition` (`proposed`): `ModularCurve.XZero.abelJacobiAtInfinity`
+  Map x to the divisor class \[x\]-\[infinity\].
+
 :::
 
-:::definition "MT-X0-HECKE" (parent := "prime_infrastructure") (uses := "MT-X0-JACOBIAN, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, hecke") (priority := "high") (effort := "large")
-*Hecke action and cotangent q-expansions.* The Hecke recursions make the first
-Fourier coefficient detect every nonzero simultaneous eigenvector in the
-cotangent space of a nontrivial quotient.
+:::theorem "MT-X0-HECKE" (parent := "prime_infrastructure") (uses := "MT-X0-JACOBIAN, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Hecke action and cotangent q-expansions.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
+`mixed`; *risk:* `extreme`; *weight:* 30 points.
+
+*Summary:* Construct the Hecke action on J\_0(N) and prove its q-expansion recursion.
+
+*Canonical artifacts:*
 
 * `definition` (`proposed`): `ModularCurve.HeckeOperator`
+  Construct prime-to-level Hecke correspondences and the level operator on J\_0(N).
 * `theorem` (`proposed`):
   `ModularCurve.HeckeOperator.qExpansion_firstCoefficient_ne_zero`
+  Use the Hecke recursions and q-expansion principle to detect a nonzero cotangent
+  vector at infinity.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_smoothRelativeCurve_rationalPoint_of_normalizedQExpansion`
+  Conclude actual completed-stalk formal immersion from a target local parameter whose
+  pullback has normalized expansion c q plus q squared times a series with c nonzero.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_normalizedQExpansion`
+  Use a normalized first q-coefficient to cancel canonical local-spectrum points through
+  the resulting formal immersion.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.specMap_fromStalk_eq_of_completeDVR_normalizedQExpansion`
+  Construct the complete-DVR coordinate, prove the normalized-q formal immersion, and
+  cancel its actual canonical local-spectrum points in one checked consumer.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.HeckeFirstCoefficient.coeff_one_ne_zero_of_simultaneousEigenvector`
+  Use the first-coefficient Hecke recursion to prove that a nonzero simultaneous
+  eigen-expansion cannot have zero q coefficient in degree one.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_heckeEigen_qExpansion`
+  Feed the detected first q coefficient to the real completed-stalk formal-immersion
+  predicate as a named downstream consumer.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate.isFormalImmersionAt_of_rationalSection_heckeEigen_qExpansion`
+  Apply the Hecke first-coefficient criterion to an actual rational section, using its
+  derived non-genericity instead of a caller hypothesis.
 
-The checked `MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` is the
-provisional target for this calculation: it requires a residue-field
-isomorphism, dimension one over the actual source residue field, and one
-vector detected by the canonical semilinear cotangent map. A target local
-parameter whose completed pullback is `c*q + q^2*F`, with `c` nonzero, now
-instantiates that certificate and proves actual completed-stalk formal
-immersion. Named consumers carry both a supplied coordinate and the constructed
-complete-DVR coordinate through to equality of canonical local-spectrum maps.
-The abstract first-coefficient argument now proves that a nonzero simultaneous
-eigen-expansion has nonzero coefficient in degree one and feeds that result to
-the real completed-stalk formal-immersion theorem. An actual rational section
-is a compiled consumer whose section law derives the formerly explicit
-non-genericity premise. The missing Hecke work is the modular/Jacobian action
-and its checked expansion identity at auxiliary characteristics five and
-eleven.
 :::
 
-:::definition "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, formal-immersion") (priority := "high") (effort := "large")
-*Optimal quotients and formal immersion at the cusp.* Prove Mazur's
-Proposition 3.1 away from characteristic two.  The prime proof consumes its
-characteristic-five instance and the order-35 endpoint consumes eleven.
+:::theorem "MT-X0-EISENSTEIN-ALGEBRA" (parent := "prime_infrastructure") (uses := "MT-X0-HECKE, MT-X0-INTEGRAL") (tags := "proof, blocked, nouns-missing, mixed")
+*Optimal quotients and formal immersion at the cusp.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mixed`;
+*risk:* `extreme`; *weight:* 30 points.
+
+*Summary:* Define Hecke-stable optimal quotients of the new modular Jacobian and prove
+Mazur's Proposition 3.1 away from characteristic two, with consumers at 5 and 11.
+
+*Canonical artifacts:*
 
 * `structure` (`proposed`): `ModularCurve.OptimalNewQuotient`
+  Package a connected-kernel quotient of the new part of J\_0(N) with its induced Hecke
+  action.
 * `theorem` (`proposed`):
   `ModularCurve.OptimalNewQuotient.formalImmersionAtInfinity_of_residueChar_ne_two`
+  Prove the cusp Abel-Jacobi projection is a formal immersion in every residue
+  characteristic other than two whenever the quotient is nontrivial.
+
 :::
 
-:::theorem "MT-X0-EISENSTEIN-QUOTIENT" (parent := "prime_infrastructure") (uses := "MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-SPECIALIZATION, MT-FFGS-OORT-RAYNAUD") (tags := "proof, blocked, nouns-missing, eisenstein") (priority := "high") (effort := "large")
-*A nontrivial rank-zero Eisenstein quotient.* Construct it for $`N=11` or
-prime $`N\ge17`, prove finite rational points, and instantiate the formal-
-immersion theorem.  Exact cusp order is intentionally not an acceptance API.
+:::theorem "MT-X0-EISENSTEIN-QUOTIENT" (parent := "prime_infrastructure") (uses := "MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-SPECIALIZATION, MT-FFGS-OORT-RAYNAUD") (tags := "proof, blocked, nouns-missing, mixed")
+*A nontrivial rank-zero Eisenstein quotient.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mixed`;
+*risk:* `extreme`; *weight:* 40 points.
 
+*Summary:* Construct an optimal Eisenstein quotient for N=11 or prime N at least 17,
+prove that it is nontrivial and that its rational Mordell-Weil group is finite, and feed
+it directly to the characteristic-five formal-immersion theorem.
+
+*Canonical artifacts:*
+
+* `structure` (`proposed`): `MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness`
+  Package only the normalized modular map, formal immersion at infinity modulo 5, and
+  torsion of the particular image used by the collision theorem.
+* `definition` (`proposed`):
+  `ModularCurve.EisensteinQuotient.toDegreeOneFormalImmersionWitness`
+  Construct the route-neutral witness privately from the nontrivial optimal Eisenstein
+  quotient and its specialized finite-Mordell–Weil theorem.
 * `structure` (`proposed`): `ModularCurve.EisensteinQuotient`
+  Construct the nontrivial optimal quotient in exactly the levels used by the torsion
+  theorem.
 * `theorem` (`proposed`):
   `ModularCurve.EisensteinQuotient.nontrivial_of_level_eleven_or_ge_seventeen`
-* `theorem` (`proposed`):
-  `ModularCurve.EisensteinQuotient.mordellWeil_finite`
+  Prove that the quotient is nonzero for N=11 and prime N at least 17.
+* `theorem` (`proposed`): `ModularCurve.EisensteinQuotient.mordellWeil_finite`
+  Apply the admissible finite-flat rank-zero criterion and Mordell-Weil finite
+  generation.
 * `theorem` (`proposed`):
   `ModularCurve.EisensteinQuotient.formalImmersionAtInfinity_modFive`
+  Instantiate the optimal-quotient formal-immersion theorem at the quotient used
+  downstream.
+
 :::
 
-:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, number-theory, release-obligation") (priority := "high") (effort := "large")
-*Inherited cyclotomic Challenge closure.* Finish the checked Kummer--Artin
-pipeline as an independent reusable result. It remains mandatory for project
-release, but no theorem arrow runs from it into the formal-immersion proof.
+:::theorem "MT-CYCLOTOMIC-UNRAMIFIED" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "proof, paused, compiled, mathlib")
+*Cyclotomic unramified character extensions.*
 
-*Status:* `research_open`; *scope:* the immutable compiled Challenge.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mathlib`;
+*risk:* `extreme`; *weight:* 20 points.
 
-The checked Hilbert--94 layer now exposes the genuine class-group
-capitulation homomorphism, proves its equivariance under the lifted
-cyclotomic action, and produces a nontrivial Galois-stable kernel killed by
-the prime extension degree. A division-field theorem is a compiled consumer.
-This is strictly weaker than identifying an inverse-cyclotomic eigenspace, so
-the reciprocity Challenge and this roadmap node remain open.
+*Summary:* Close the inherited locally-primary pseudo-unit reciprocity Challenge and
+preserve the checked cyclotomic infrastructure as an independent release obligation.
 
-* `definition` (`proposed`):
-  `NumberTheory.CyclotomicCharacter.inverseExtension`
-* `theorem` (`proposed`):
-  `NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces`
-* `theorem` (`proposed`):
-  `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
+*Canonical artifacts:*
+
+* `definition` (`proposed`): `NumberTheory.CyclotomicCharacter.inverseExtension`
+  Package the inverse-cyclotomic character extension over the p-th cyclotomic field.
+* `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.unramifiedAtFinitePlaces`
+  Give the local criterion showing that the relevant extension is unramified at every
+  finite place.
+* `theorem` (`proposed`): `NumberTheory.CyclotomicCharacter.noEverywhereUnramified`
+  Exclude an everywhere-unramified inverse-cyclotomic extension using the required
+  class-field input.
 * `theorem` (`contract`):
   `NumberTheory.CyclotomicCharacter.locallyPrimaryPseudoUnitKummerReciprocityPrinciple`
+  Prove integral one-sided Kummer reciprocity for locally-primary pseudo-units; checked
+  comparison and normalization reductions then supply the inverse-character class-group
+  quotient.
 * `definition` (`contract`):
   `NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom`
+  Extend ideal classes from the prime cyclotomic field to a supplied inverse extension
+  through the genuine class-group extended-ideal homomorphism.
 * `theorem` (`contract`):
   `NumberTheory.CyclotomicCharacter.InverseExtension.capitulationHom_equivariant`
+  Prove that capitulation commutes with the cyclotomic action on the base class group
+  and the chosen lifted action on the extension class group.
 * `theorem` (`contract`):
   `NumberTheory.CyclotomicCharacter.InverseExtension.exists_nontrivial_p_torsion_capitulating_orbit`
+  Use Hilbert 94 to produce a nontrivial exponent-p ideal class whose full cyclotomic
+  Galois orbit capitulates in every finite-place-unramified inverse extension.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.divisionField_exists_nontrivial_p_torsion_capitulating_orbit`
-* `theorem` (`contract`):
-  `NumberTheory.CyclotomicCharacter.InverseExtension.isUnramifiedAtFinitePlaces_of_pseudoUnit_locallyPrimary`
-* `theorem` (`contract`):
-  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.fractionalKummerSymbol_integralPrincipal_eq_residueProduct`
-* `theorem` (`contract`):
-  `NumberTheory.CyclotomicCharacter.InverseExtension.toPrincipalIdeal_cyclotomicJacobiSumTwo_complexConj_eq_stickelbergerTwoPrimeIdeal`
-* `theorem` (`contract`):
-  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.integralPrincipalProduct_eq_one_of_faithfulJacobi`
-* `theorem` (`contract`):
-  `NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.exists_orbitCoprime_normalization_reducing_to_faithfulJacobi`
+  Consume the actual division-field unramifiedness datum in the equivariant exponent-p
+  capitulation theorem without asserting the missing inverse-character quotient.
+
 :::

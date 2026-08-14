@@ -9,422 +9,270 @@ open Informal
 #doc (Manual) "02 — Finite-level endpoints" =>
 
 :::group "finite_endpoints"
-Close level 13 and orders 18, 25, 35, and 49. Order 11 comes from the
-uniform formal-immersion theorem; the inherited five-coset Challenge is then
-discharged from the resulting cusp classification. Stage weight: 100 points.
+Close level 13 and orders 18, 25, 35, and 49; obtain order 11 from the uniform
+formal-immersion route, reuse the same engine for squarefree level 35, and reduce order
+49 directly to the checked X\_0(49) cusp classification. Stage weight: 100 points.
 :::
 
-:::theorem "MT-X11-COSET" (parent := "finite_endpoints") (uses := "MT-X11-JOIN") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "medium")
-*The five-coset bound on $`X_1(11)`.* Every rational point on
-$`y^2+y=x^3-x^2` differs from one of the five multiples of $`(0,0)` by five
-times a rational point.
+:::theorem "MT-X11-COSET" (parent := "finite_endpoints") (uses := "MT-X11-JOIN") (tags := "proof, paused, compiled, mazur")
+*The five-coset bound on X\_1(11).*
 
-*Status:* `open`; *scope:* exact compiled challenge contract. The target
-declaration is `MazurTorsion.XOneEleven.fiveCosetBound`, with challenge bridge
-`MazurTheorem.Challenge.xOneEleven_fiveCosetBound`; the existing consumer is
-`MazurTorsion.XOneEleven.five_point_classification_of_cosetBound`.  The
-reverse $`X_1(11)` model bridge now compiles through an actual elliptic Tate
-curve with an exact order-eleven marked point; its nonzero discriminant is
-proved by a checked resultant and monic rational-root certificate.  The
-compiled theorem `fiveCosetBound_of_no_order_eleven` consumes a uniform
-order-eleven exclusion, enumerates the four affine cusp points plus infinity,
-and takes $`Q=0` in the coset statement.  Thus the preferred route now lacks
-only `MT-X11-JOIN` and the unconditional destination/Challenge bridge.  The
-prepared five-isogeny fallback has checked zero-fibre and empty-support Selmer
-factors, but still lacks the local Kummer comparison and ramified factor.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `high`; *weight:* 12 points.
 
-*Checked partial deliverables (no node credit):*
+*Summary:* The reverse X\_1(11) model-to-Tate bridge, its discriminant certificate, the
+conditional cusp classification, and the conditional five-coset proof with Q=0 are
+checked.
 
-* `MazurTorsion.Kubert.orderElevenModelOfRaw_inverse`;
-* `MazurTorsion.Kubert.exists_elliptic_tate_marked_order_eleven_of_model`;
-* `MazurTorsion.Kubert.model_abscissa_eq_zero_or_one_of_no_order_eleven`;
-* `MazurTorsion.XOneEleven.fiveCosetBound_of_no_order_eleven`;
-* `MazurTorsion.XOneEleven.veluFiveMap_eq_zero_iff_five_nsmul`;
-* `MazurTorsion.XOneEleven.exists_fifthPower_of_emptyFiveSelmer`.
+*Canonical artifacts:*
+
+* `theorem` (`contract`): `MazurTorsion.Kubert.orderElevenModelOfRaw_inverse`
+  The denominator-safe reverse rational functions are a checked inverse to the forward
+  X\_1(11) model map on the noncusp locus.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.exists_elliptic_tate_marked_order_eleven_of_model`
+  A noncusp model point reconstructs an actual elliptic Tate curve with a rational point
+  of exact order eleven; nonzero discriminant follows from the checked degree-five
+  resultant certificate.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.model_abscissa_eq_zero_or_one_of_no_order_eleven`
+  Real consumer reducing rational X\_1(11) points to the two cusp abscissae from any
+  uniform exact-order-eleven exclusion.
+* `theorem` (`contract`): `MazurTorsion.XOneEleven.fiveCosetBound_of_no_order_eleven`
+  The preferred route consumer enumerates the four affine cusp points plus infinity and
+  proves FiveCosetBound with quotient point Q=0.
+* `theorem` (`contract`): `MazurTorsion.XOneEleven.veluFiveMap_eq_zero_iff_five_nsmul`
+  Fallback five-isogeny infrastructure: the candidate Velu point function has zero fibre
+  exactly the points killed by five; no additivity or packaged isogeny is claimed.
+* `theorem` (`contract`): `MazurTorsion.XOneEleven.exists_fifthPower_of_emptyFiveSelmer`
+  Fallback arithmetic consumer: a rational unit with all finite valuation residues
+  trivial modulo five is a fifth power; the local Kummer comparison and ramified factor
+  remain open.
+
 :::
 
-:::theorem "MT-X11-JOIN" (parent := "finite_endpoints") (uses := "MT-PRIME-ISOGENY-CHAIN") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "small")
-*Expose the order-11 endpoint from the prime theorem.* Adapt the uniform
-formal-immersion result to the namespace expected by PointOrder.
+:::theorem "MT-X11-JOIN" (parent := "finite_endpoints") (uses := "MT-PRIME-ISOGENY-CHAIN") (tags := "integration, blocked, statement-only, mazur")
+*Expose the order-11 endpoint from the prime theorem.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `statement_only`; *kind:* `integration`; *backend:*
+`mazur`; *risk:* `low`; *weight:* 2 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* Adapt the formal-immersion order-11 theorem to the existing PointOrder
+callback; the explicit X\_1(11) descent is no longer a logical prerequisite.
+
+*Canonical artifacts:*
 
 * `theorem` (`proposed`): `MazurTorsion.XOneEleven.rationalPoint_addOrderOf_ne_eleven`
-  Expose the formal-immersion order-eleven theorem through the existing endpoint API.
+  Expose the uniform order-eleven result under the finite-endpoint namespace expected by
+  PointOrder.
+
 :::
 
-:::theorem "MT-X13-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
-*Classify the noncuspidal rational points on $`X_1(13)`.* If rational
-$`x,y` satisfy the explicit order-13 sextic equation, then $`x=0` or $`x=-1`.
+:::theorem "MT-X13-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, paused, compiled, mazur")
+*Classify the noncuspidal rational points on X\_1(13).*
 
-*Status:* `research_open`; *scope:* exact compiled challenge contract. The
-destination is `MazurTorsion.XOneThirteenDescent.no_noncuspidal_point`; the
-challenge name is `MazurTheorem.Challenge.xOneThirteen_no_noncuspidal_point`.
-The prepared nouns are the Kubert sextic, Pell certificate, and genus-two
-descent data in `MazurTorsion.NumberTheory.XOneThirteenDescent`. The checked
-split-cubic calculation now clears all cusp factors, compares all three
-coefficients, forces the primitive conic parameters odd, and uses a
-resultant-four certificate to reduce the quotient to `k=-4` or `k=4`. A
-mod-19 anisotropy certificate excludes the conjugate split-prime orientation,
-and exact root/parameter symmetries reduce both signs to the single chamber
-`k=4`, `a,b>0`, `-n<m<n`.
-`PositiveSplitCyclicCubicObstruction` has a real exact-order-thirteen consumer;
-that genuine Mazur--Tate Jacobian/rank-zero chamber, and therefore the
-Challenge, remains open.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 26 points.
 
-The positive chamber now also reaches the integral Pell-factor boundary:
+*Summary:* Show that the explicit genus-two order-13 model has no rational affine point
+with x different from 0 and -1.
+
+*Canonical artifacts:*
 
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.positive_split_rational_curve_point`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneThirteenDescent.homogeneous_pell_identity`
+  Dehomogenize every positive primitive split datum to an actual rational point on the
+  order-thirteen sextic with its canonical positive integral ordinate.
+* `theorem` (`contract`): `MazurTorsion.XOneThirteenDescent.homogeneous_pell_identity`
+  Check the degree-38 homogeneous Pell identity for the explicit degree-19 and degree-16
+  certificates.
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.odd_prime_pell_factor_allocation`
+  Prove that the two positive Pell factors have no common odd prime and allocate each
+  odd prime divisor of b to exactly one factor.
 * `definition` (`contract`):
   `MazurTorsion.XOneThirteenDescent.PositivePellAllocatedFactorObstruction`
+  Name the remaining global allocated-factor obstruction without claiming the unproved
+  divisor-class elimination.
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellAllocatedFactor`
+  Carry the honest allocated-factor boundary through the existing descent to the
+  exact-order-thirteen consumer.
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.positive_pell_half_factors_isCoprime`
+  Remove the forced scalar two and prove the resulting positive Pell factors coprime,
+  including at the prime two.
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.positive_pell_factor_power_split`
+  Use integer unique factorization to express the two halves as positive coprime
+  thirty-eighth powers whose roots multiply to b.
 * `definition` (`contract`):
   `MazurTorsion.XOneThirteenDescent.PositivePellPowerSplitObstruction`
+  Name the fixed two-equation power-split cover left by the global Pell factorization.
 * `theorem` (`contract`):
   `MazurTorsion.XOneThirteenDescent.rationalPoint_addOrderOf_ne_thirteen_of_positivePellPowerSplit`
+  Consume the fixed-cover obstruction in the actual exact-order-thirteen exclusion path.
 
-The two positive factors multiply to `4*b^38`, have no common odd prime, and
-allocate each odd prime divisor of `b` to exactly one factor. Removing the
-forced scalar two makes the two halves coprime at every prime, so unique
-factorization produces positive coprime `r,s` with factors `2*r^38` and
-`2*s^38` and with `b=r*s`. The fixed degree-38 cover's global rational-point
-elimination remains open.
 :::
 
-:::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
-*Classify the noncuspidal rational points on the order-18 curve.* If rational
-$`x,y` satisfy the explicit order-18 sextic equation, then $`x=0` or $`x=1`.
+:::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, paused, compiled, mazur")
+*Classify the noncuspidal rational points on the order-18 curve.*
 
-*Status:* `research_open`; *scope:* exact compiled challenge contract. The
-destination is `MazurTorsion.XOneEighteenDescent.no_noncuspidal_point`; the
-challenge name is `MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point`.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 18 points.
+
+*Summary:* Show that the explicit genus-two order-18 model has no rational point with x
+different from 0 and 1.
+
+*Canonical artifacts:*
+
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.splitEisensteinThreePrime_not_common`
+  Exclude simultaneous divisibility of the two split factors by the ramified prime above
+  three using exact depth and the scalar-times-cube identity.
 * `definition` (`contract`):
   `MazurTorsion.XOneEighteenDescent.TwoPrimeSupportedEisensteinIntegerFiniteSplitCyclicCubicObstruction`
+  Expose the remaining finite Eisenstein obstruction after every common prime has been
+  restricted to support above two.
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.rationalPoint_addOrderOf_ne_eighteen_of_twoPrimeSupportedEisensteinIntegerObstruction`
+  Carry the narrowed support-only-over-two obstruction through the checked descent to
+  the exact-order-18 exclusion.
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.antiDiagonalExceptionalPolynomial_ne_zero`
+  Remove the exceptional denominator of the anti-diagonal quotient by complete
+  projective enumeration modulo five.
 * `theorem` (`contract`):
   `MazurTorsion.XOneEighteenDescent.antiDiagonalZ_sq_of_fourScalarCorrespondence`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.antiDiagonalSextic_birational_identity`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.gcd_antiDiagonalNorm_eq_one_or_eight`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.exists_primitive_quadraticNormDatum_of_fourScalarCorrespondence`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.exists_antiDiagonal_point_of_orderEighteen_point`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.exists_primitive_parameter_of_int_quadraticNorm`
-* `definition` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametricBidegreeForm`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_orderEighteen_noncuspidal_point`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.exists_primitive_normParameter_of_exact_order_eighteen`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_support`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_coprime_cover`
-* `theorem` (`contract`):
-  `MazurTorsion.XOneEighteenDescent.antiDiagonalNormParametric_eight_cover`
+  Map every surviving nondegenerate four-scalar cube correspondence to the explicit
+  anti-diagonal genus-two curve.
 
-The proposed proof finishes the Eisenstein-integer descent already exposed by
-the module. The checked split-cubic calculation now compares all three
-coefficients, forces the primitive conic parameters odd, and uses a
-resultant-sixteen certificate to reduce the quotient to
-`k ∈ {-8,-4,4,8}`. Modulo 32 separates the `±4` and `±8` parameter residues,
-and an explicit Eisenstein-coordinate identity packages the two norm factors
-as a scalar times a cube. The compatibility-preserving
-`RefinedFiniteSplitCyclicCubicObstruction` has a real exact-order-eighteen
-consumer. The identity now lifts multiplicatively to the ring of integers of
-the third cyclotomic field. Common support lies over two or at the ramified
-prime over three; exact-depth arguments now exclude the ramified case. The
-resulting support-only-over-two obstruction has a real exact-order consumer.
-Prime allocation above two, the distinguished seven constraint, the unit
-cases, and therefore the Challenge remain open. A second checked route sends
-the surviving four-scalar correspondence through a denominator-safe
-anti-diagonal quotient to a Möbius-related genus-two sextic. Its homogeneous
-equation is the norm $`A^2+2B^2`, and primitive coordinates force the exact
-alternative $`\gcd(A,B)=1` or $`8`. Checked point transport from the original
-model includes the ordinate scaling, inverse abscissa, and exclusion of the
-exceptional value $`x=-1`. The fixed Jacobian rank-zero certificate or an
-equivalent complete descent remains open. The low-level quotient, point
-transport, and norm API now lies below `XOneEighteenDescent`; the immutable
-Challenge has no downstream FourScalar import cycle. Projection from the
-rational point of the norm conic now gives coprime integral parameters
-`p,q`; noncuspidality excludes its tangent, and eliminating the square
-coordinate forces one fixed bihomogeneous `(3,2)` equation in `r,s,p,q`.
-In the gcd-one branch, its two summands are allocated globally and
-`r*(r^2-s^2)` splits into coprime divisors supported separately on `p` and
-`q`. The gcd-eight branch is normalized to coprime coefficients as well; its
-cubic coefficient splits between `2*p` and `q`, with overlap restricted to
-two. Classifying these two explicit covers remains open. The immutable
-destination therefore no longer imports the downstream FourScalar
-correspondence transitively.
 :::
 
-:::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, research-open, compiled, mazur") (priority := "high") (effort := "large")
-*Exclude exact rational order 25.* No rational point on an elliptic curve
-over $`\mathbb{Q}` has exact additive order 25.
+:::theorem "MT-O25-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, paused, compiled, mathlib")
+*Exclude exact rational order 25.*
 
-*Status:* `research_open`; *scope:* exact compiled challenge contract. The
-destination theorem is
-`MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_twentyFive`, bridged by
-`MazurTheorem.Challenge.no_rational_point_of_order_twentyFive`.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mathlib`;
+*risk:* `extreme`; *weight:* 16 points.
 
-The checked forward reduction now exposes:
+*Summary:* Prove that no rational point on an elliptic curve over Q has exact additive
+order 25.
 
-* `theorem` (`contract`):
-  `MazurTorsion.Kubert.nsmul_origin_eq_successiveCoordinates`
+*Canonical artifacts:*
+
+* `theorem` (`contract`): `MazurTorsion.Kubert.nsmul_origin_eq_successiveCoordinates`
+  Compute (n+2)P by a reusable Tate recurrence under exactly the preceding nonzero
+  abscissa hypotheses.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.tateSuccessiveX_ne_zero_of_marked_order_twentyFive`
-* `theorem` (`contract`):
-  `MazurTorsion.Kubert.tateClearedCoordinates_spec`
+  Deduce every secant denominator needed through 13P from exact order 25.
+* `theorem` (`contract`): `MazurTorsion.Kubert.tateClearedCoordinates_spec`
+  Represent the rational Tate recurrence by a division-free numerator-denominator
+  recurrence with proved nonzero denominators.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFiveRecurrenceEquation_eq_zero_of_marked_order`
+  Derive the explicit rational-function collision x(13P)=x(12P) on Tate normal form.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFiveClearedEquation_eq_zero_of_marked_order`
+  Cross-multiply the 12P/13P collision to the fixed fraction-free X\_1(25) recurrence
+  expression.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.exists_tateOrderTwentyFive_recurrence_certificate`
+  Normalize an arbitrary exact-order-25 rational point to the recurrence locus while
+  retaining all denominators and discriminant scale.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFive_normalized_collision_factorization`
+  Factor the fully normalized 12P/13P collision exactly as minus the cusp factor b-c
+  times the explicit degree-40 noncuspidal polynomial.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order`
+  Use exact marked order 25 and every checked denominator to reach the explicit
+  noncuspidal factor with c and b-c nonzero.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.exists_tateOrderTwentyFive_noncuspidal_certificate`
+  Send an arbitrary exact-order-25 rational point to the fixed degree-40 model while
+  retaining b, c, b-c, and the Tate-normalization discriminant scale.
 
-Index `n` in the reusable recurrence is `(n+2)P`. Exact order 25 proves all
-abscissas at indices at most ten nonzero, which is exactly the denominator
-input needed to compare `12P` and `13P`; their sum is zero, so their
-abscissas agree. A parallel numerator-denominator recurrence contains no
-division, has proved nonzero denominators, and cross-multiplies this collision.
-Explicit square/cube normalized coordinates through `13P` factor that collision
-as the cusp component `b-c` times one fixed 234-term polynomial of total degree
-40. The arbitrary-curve consumer retains `b`, `c`, and `b-c` nonzero together
-with the twelfth-power discriminant scale. A complete rational-point
-classification of this explicit noncuspidal factor, directly or after a
-checked birational reduction, remains open.
 :::
 
-:::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-X0-MODULI, MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-COMPONENTS, MT-NERON-SPECIALIZATION") (tags := "proof, research-open, compiled, mazur, formal-immersion") (priority := "high") (effort := "medium")
-*Exclude exact order 35 with the shared formal-immersion engine.* Use the
-rank-zero optimal quotient $`X_0(35)/w_5` at auxiliary prime eleven.  Tame
-specialization and $`\#E(\mathbb F_{11})\le18` then contradict exact order
-35.
+:::theorem "MT-O35-EXCLUDE" (parent := "finite_endpoints") (uses := "MT-X0-MODULI, MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-SPECIALIZATION") (tags := "proof, paused, compiled, mathlib")
+*Exclude exact order 35 with the shared formal-immersion engine.*
 
-*Status:* `research_open`; *scope:* exact compiled challenge contract. The
-destination theorem is
-`MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`, bridged by
-`MazurTheorem.Challenge.no_rational_point_of_order_thirtyFive`.
+*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mathlib`;
+*risk:* `extreme`; *weight:* 14 points.
 
-* `definition` (`proposed`):
-  `MazurTorsion.OrderThirtyFive.optimalQuotient`
+*Summary:* Use the explicit optimal elliptic quotient X\_0(35)/w\_5 and Mazur's
+squarefree-level formal-immersion criterion at auxiliary prime 11.
+
+*Canonical artifacts:*
+
+* `definition` (`proposed`): `MazurTorsion.OrderThirtyFive.optimalQuotient`
+  Construct the explicit optimal quotient X\_0(35)/w\_5 with model y^2+y=x^3+x^2+9x+1.
 * `theorem` (`proposed`):
   `MazurTorsion.OrderThirtyFive.optimalQuotient_mordellWeil_finite`
+  Prove the quotient has rank zero and rational torsion Z/3 by a checked descent.
 * `theorem` (`proposed`):
   `MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven`
+  Instantiate the shared optimal-quotient formal immersion in characteristic eleven.
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
+  Normalize to short form and verify the 121 coefficient pairs over F\_11.
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_le_eighteen`
+  Turn the enumerated short-model cardinality bound into a point-order bound.
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.shortCurveEleven_addOrderOf_ne_of_nineteen_le`
+  Exclude every exact point order at least nineteen on an elliptic short model over
+  F\_11.
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_le_eighteen`
+  Consume short-Weierstrass normalization to bound point order on every elliptic curve
+  over F\_11.
 * `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_of_nineteen_le`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.zmod_eleven_addOrderOf_ne_thirtyFive`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.reductionAtEleven_addOrderOf_ne_thirtyFive`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_goodReductionAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReductionAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_componentExponentTwelveAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_nonsingularReduction_of_componentExponentTwelveAtEleven`
-* `definition` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_addOrderOf`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_hasGoodReductionAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_nonsingularReductionAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.completionPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelve`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_valuation_j_le_one_of_componentExponentTwelveAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.completionPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_componentExponentTwelveAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionPointAtEleven_twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_quotientCotangentCertificateAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_quotientCotangentAtEleven_of_nonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealCotangentAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_mappedCotangentAtEleven_of_nonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_addOrderOf_ne_thirtyFive_of_degreeOneCotangentAtEleven_of_nonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.rationalPoint_orderThirtyFive_ne_of_degreeOneCotangentAtEleven_of_componentExponentTwelve`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.addOrderOf_ne_thirtyFive_of_markedExceptionalCubic_simpleRootAtEleven`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.minimalCompletionAtEleven_exists_markedExceptionalCubic_repeatedRoot_of_orderThirtyFive`
-* `theorem` (`proposed`):
-  `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.targetCubicFibreRoots_iff_targetThreeCandidateSurjective`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.targetEisensteinUnitCover_no_nonzero_integer_solution`
-* `definition` (`contract`):
-  `MazurTorsion.OrderThirtyFive.TargetEisensteinAssociatedCube`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero_of_associatedCube`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.targetEisensteinAssociatedCube`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_rank_zero`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.optimalQuotientModel_finite`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientValues_equation`
-* `definition` (`contract`):
-  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientMorphism`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.QuotientScheme.quotientRValue_inv_eq_two_mul_quotientZ_add_one`
-* `definition` (`contract`):
-  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.quotientMorphism`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.openQuotientW_sub_one`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.InfinityChartScheme.cuspSection_isSection`
-* `theorem` (`contract`):
-  `MazurTorsion.OrderThirtyFive.InfinityChartFirstOrder.localizedMap_targetParameter_eq_unit_mul_cuspParameter`
-* `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroThirtyFive.subgroup_five_sup_seven`
+  Uniformly exclude every exact order at least nineteen after arbitrary-model
+  normalization.
+* `theorem` (`proposed`): `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_thirtyFive`
+  Feed the local-at-eleven collision and finite-field bound to the published endpoint.
 
-The fixed equation, its rational torsion subgroup, an equation-checked Vélu
-point-function candidate and its zero fibre, and trivial torsion on the
-candidate target are checked. The opposite point-function candidate is total
-on rational points, and its composite with the first candidate is checked to
-be multiplication by three. The rational three-cover and visible-coset
-translations compile through conditional rank-zero and finiteness consumers.
-The source cube-class bound is now checked by a reduced
-numerator-denominator and gcd-at-seven calculation. The target cyclic cubic
-fibre is proved equivalent to surjectivity. Denominator clearing, the
-Eisenstein norm factorization, all six unit classes, both nontrivial
-mod-seven infinite descents, and the trivial-unit rational fibre root now
-feed a compiled end-to-end rank-zero consumer. The associated-cube boundary is
-now the existential normalized integral-data witness actually used by that
-consumer, and the nonsplit common-prime ideal-support calculation at `2`, `3`,
-and `5` supplies it unconditionally. Thus the fixed explicit curve model has
-checked rank zero and a finite rational point group. On the split rational
-source locus, canonical order-five and order-seven divisor subgroups now
-reconstruct the order-35 carrier and feed the checked split finite-flat `Γ₀`
-package; this does not construct `w₅` or identify the modular quotient.
-The finite-x quotient formulas now factor through both explicit hypersurface
-coordinate rings and define a genuine `Spec` morphism on `D(x²+x-1)`; a
-ring-generic polynomial identity and rational-coordinate comparison are
-checked.  Independently, the reciprocal integral chart now defines a genuine
-`Spec` morphism over every commutative base, represents the cusp `(t,s)=(0,1)`
-as an affine structural section, and proves `W-1=(-7/d)t` in its actual
-coordinate ring.  The checked generator-localization lemma transports this
-identity through the actual special-fibre local map with zero remainder.  The
-characteristic-eleven cusp local-ring generator and coefficient-unit
-calculations remain open.
-Exhaustive normalization of all 121 short models over
-`F₁₁` now supplies the eighteen-point bound, uniform point-order exclusion,
-the exact order-35 endpoint, and a good-reduction specialization consumer.
-The canonical eleven-adic reduction-data consumer also reaches the additive
-fibre endpoint while deriving component finiteness and formal-kernel torsion.
-The canonical nonsingular-reduction consumer fixes the coordinate domain/map
-and exact formal kernel, and its additivity is checked. Finite normalization
-classifies the actual cuspidal nonsingular group at eleven; new local,
-rational, and degree-one formal-immersion consumers avoid any cardinality
-bound for the full component quotient. The newest rational consumer instead
-uses the exact pointwise statement that the marked quotient class has finite
-order at most four, from which the checked bridge derives `12 • P ∈ E₀`.
-On the exact normalized model, the marked exceptional cubic and its chosen
-uniformizer now compile; a simple marked root forces the twelfth multiple
-into `E₀`. The exact order-35 consumer therefore returns a repeated marked
-root on that same model. A nonzero repeated root makes `2P` either enter
-canonical reduction directly or acquire the simple exceptional root `-2r`;
-the resulting `4P` argument forces `r=0` and the same-model depths
-`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, `a₆ ∈ 𝔪⁴`. The exact-depth-four and later weighted
-branches, the genuine Néron identity-component comparison, and the tame
-Tate--Kodaira proof of this marked-class bound remain geometric inputs.
-The model's identification with
-the actual modular quotient, the classifying map, formal immersion, and the
-geometric bad-fibre specialization remain open, so this is not node
-completion.
 :::
 
-:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur") (priority := "high") (effort := "small")
-*Bridge exact order 49 directly to the classified $`X_0(49)` curve.* The
-generated cyclic subgroup gives a noncuspidal rational modular point, while
-the checked rank-zero model has only its two cusps.
+:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur")
+*Bridge order 49 directly to the classified X\_0(49) curve.*
 
-*Status:* `open`; *scope:* exact compiled challenge contract. The
-destination is
-`MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`, bridged by
-`MazurTheorem.Challenge.no_rational_point_of_order_fortyNine`. The public
-$`X_0(49)` two-cusp classification already compiles.  The preferred bridge
-uses the generic cyclic-subgroup moduli point and does not require additivity
-of the explicit Vélu point function or a nonbacktracking isogeny tower. The
-raw datum is now quotiented by checked admissible Weierstrass changes, and the
-presentation-independent endpoint
-`MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap`
-compiles. Constructing the coarse classifying map, its noncuspidality, and the
-target identification remains the open Challenge.
+*Status:* `open`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`; *risk:*
+`high`; *weight:* 10 points.
+
+*Summary:* Use the shared cyclic-subgroup moduli bridge: exact order 49 now constructs a
+genuine represented split finite-flat source whose recovered rational datum is the
+original cyclic-subgroup datum.
+
+*Canonical artifacts:*
 
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine_of_variableChangeClassifyingMap`
+  Consume a noncuspidal classifying map from presentation-independent rational
+  cyclic-subgroup data to the checked two-cusp X\_0(49) model.
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion`
+  Construct the represented split finite-flat source from exact order 49 and prove that
+  forgetting it recovers the original raw rational Gamma\_0 datum.
+
 :::
 
-:::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur") (priority := "high") (effort := "medium")
-*Assemble the genuinely exceptional finite levels.* Remove the level-13 and
-four composite callbacks; order 11 has already been supplied by the prime
-route.
+:::theorem "MT-FINITE-JOIN" (parent := "finite_endpoints") (uses := "MT-X11-JOIN, MT-X13-NONCUSP, MT-X18-NONCUSP, MT-O25-EXCLUDE, MT-O35-EXCLUDE, MT-O49-TOWER") (tags := "integration, blocked, statement-only, mazur")
+*Assemble the genuinely exceptional finite levels.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `statement_only`; *kind:* `integration`; *backend:*
+`mazur`; *risk:* `low`; *weight:* 2 points.
 
-*Canonical deliverables — these names are authoritative for this node:*
+*Summary:* Remove the level-13 and exact-order 18, 25, 35, and 49 callbacks; order 11 is
+already supplied by the uniform formal-immersion theorem.
 
-* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_finite_endpoints`
-  Combine order 11 from the prime route with level 13 and the four composite
-  exclusions.
+*Canonical artifacts:*
+
+* `theorem` (`proposed`):
+  `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_finite_endpoints`
+  Combine order 11 from the prime route with level 13 and the four composite exclusions.
+
 :::

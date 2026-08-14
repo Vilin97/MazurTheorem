@@ -38,6 +38,21 @@ export type ProgrammeArtifact = {
   signature?: string;
 };
 
+export type WorkPackage = {
+  id: string;
+  title: string;
+  weight_points: number;
+  status: "active" | "blocked" | "integrated" | "next" | "paused";
+  depends_on: string[];
+  exit_criterion: string;
+};
+
+export type NodeEvidence = {
+  recorded_artifact_count: number;
+  canonical_artifact_count: number;
+  policy: string;
+};
+
 export type ExternalReuseDeclaration = {
   name: string;
   url: string;
@@ -70,6 +85,8 @@ export type ProgrammeNode = {
   unlocks: string[];
   completion: Completion;
   artifacts?: ProgrammeArtifact[];
+  work_packages?: WorkPackage[];
+  evidence?: NodeEvidence;
   external_reuse?: ExternalReuse[];
   challenge?: Challenge;
 };
@@ -82,10 +99,60 @@ export type ProgrammeStage = {
   deliverables?: ProgrammeArtifact[];
 };
 
+export type ProgrammeEndpoint = {
+  name: string;
+  signature: string;
+  meaning?: string;
+  note?: string;
+};
+
+export type ActiveLane = {
+  id: string;
+  title: string;
+  node_ids: string[];
+  current_work_package: string;
+  exit_criterion: string;
+};
+
+export type ProgrammeExecution = {
+  revision: {
+    id: string;
+    date: string;
+    summary: string;
+  };
+  canonical_target: ProgrammeEndpoint;
+  challenge_corollary: ProgrammeEndpoint;
+  proof_route: {
+    id: string;
+    public_boundary: string;
+    private_constructor: string;
+    decision: string;
+  };
+  work_in_progress_limit: number;
+  active_lanes: ActiveLane[];
+  paused_node_ids: string[];
+  paused_policy: string;
+};
+
+export type ReleaseEndpoint = {
+  id: string;
+  owner_node: string;
+  declaration: string;
+  state: "integrated" | "proposed";
+  depends_on: string[];
+  role: "canonical" | "challenge_corollary";
+};
+
 export type Programme = {
   schema_version: number | string;
   title: string;
-  baseline: Record<string, unknown>;
+  execution: ProgrammeExecution;
+  release_endpoints: ReleaseEndpoint[];
+  baseline: {
+    integrated_lean_lines: number;
+    integrated_lean_modules: number;
+    [key: string]: unknown;
+  };
   sources: unknown;
   progress: {
     total_points: number;

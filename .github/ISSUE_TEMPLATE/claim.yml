@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Claims avoid duplicated effort. Pick a small deliverable with explicit dependencies and a verifiable finish line.
+        Claims avoid duplicated effort. Pick a small deliverable with explicit dependencies and a verifiable finish line. The roadmap node must currently be `open` with `claimable: true`; paused contracts are preserved but unavailable.
   - type: input
     id: work_package
     attributes:
@@ -57,6 +57,8 @@ body:
     attributes:
       label: Claim agreement
       options:
+        - label: I verified in `coordination/program.json` that this contract is currently claimable.
+          required: true
         - label: I will post progress or release this claim if I cannot continue.
           required: true
         - label: I will not weaken statements or adjust roadmap weights to make progress appear larger.
