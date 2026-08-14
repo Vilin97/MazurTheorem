@@ -8,11 +8,15 @@ public import MazurTorsion.Kubert.OrderSevenCoefficientSimp
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupLeadingSquare
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupA0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupB0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupQuotientConstant
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupExceptionalProduct
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupC0
 
 /-!
 # Bounded coefficient simplification rules
 
-This internal rule packet is consumed by the checked coefficient shards for
+This internal rule packet is consumed by the bounded convolution proof in
 `OrderSevenBacktrackingResultantRecurrence4LookupScalar0LeftPart4`.
 It keeps generated convolution proofs on their bounded simp set.
 -/
@@ -76,6 +80,118 @@ attribute [orderSevenCoefficient]
   recurrence4LeadingSquare_coeff_326
   recurrence4LeadingSquare_coeff_327
   recurrence4LeadingSquare_coeff_328
+
+attribute [orderSevenCoefficient]
+  recurrence4B0_coeff_150
+  recurrence4B0_coeff_151
+  recurrence4B0_coeff_152
+  recurrence4B0_coeff_153
+  recurrence4B0_coeff_154
+  recurrence4B0_coeff_155
+  recurrence4B0_coeff_156
+  recurrence4B0_coeff_157
+  recurrence4B0_coeff_158
+  recurrence4B0_coeff_159
+  recurrence4B0_coeff_160
+  recurrence4B0_coeff_161
+  recurrence4B0_coeff_162
+  recurrence4B0_coeff_163
+  recurrence4B0_coeff_164
+  recurrence4B0_coeff_165
+  recurrence4B0_coeff_166
+  recurrence4B0_coeff_167
+  recurrence4B0_coeff_168
+  recurrence4B0_coeff_169
+  recurrence4B0_coeff_170
+  recurrence4B0_coeff_171
+  recurrence4B0_coeff_172
+  recurrence4B0_coeff_173
+  recurrence4B0_coeff_174
+  recurrence4B0_coeff_175
+  recurrence4B0_coeff_176
+  recurrence4QuotientConstant_coeff_320
+  recurrence4QuotientConstant_coeff_321
+  recurrence4QuotientConstant_coeff_322
+  recurrence4QuotientConstant_coeff_323
+  recurrence4QuotientConstant_coeff_324
+  recurrence4QuotientConstant_coeff_325
+  recurrence4QuotientConstant_coeff_326
+  recurrence4QuotientConstant_coeff_327
+  recurrence4QuotientConstant_coeff_328
+  recurrence4QuotientConstant_coeff_329
+  recurrence4QuotientConstant_coeff_330
+  recurrence4QuotientConstant_coeff_331
+  recurrence4QuotientConstant_coeff_332
+  recurrence4QuotientConstant_coeff_333
+  recurrence4QuotientConstant_coeff_334
+  recurrence4QuotientConstant_coeff_335
+  recurrence4QuotientConstant_coeff_336
+  recurrence4QuotientConstant_coeff_337
+  recurrence4QuotientConstant_coeff_338
+  recurrence4QuotientConstant_coeff_339
+  recurrence4QuotientConstant_coeff_340
+  recurrence4QuotientConstant_coeff_341
+  recurrence4QuotientConstant_coeff_342
+  recurrence4QuotientConstant_coeff_343
+  recurrence4QuotientConstant_coeff_344
+  recurrence4QuotientConstant_coeff_345
+  recurrence4QuotientConstant_coeff_346
+
+attribute [orderSevenCoefficient]
+  recurrence4C0_coeff_127
+  recurrence4C0_coeff_128
+  recurrence4C0_coeff_129
+  recurrence4C0_coeff_130
+  recurrence4C0_coeff_131
+  recurrence4C0_coeff_132
+  recurrence4C0_coeff_133
+  recurrence4C0_coeff_134
+  recurrence4C0_coeff_135
+  recurrence4C0_coeff_136
+  recurrence4C0_coeff_137
+  recurrence4C0_coeff_138
+  recurrence4C0_coeff_139
+  recurrence4C0_coeff_140
+  recurrence4C0_coeff_141
+  recurrence4C0_coeff_142
+  recurrence4C0_coeff_143
+  recurrence4C0_coeff_144
+  recurrence4C0_coeff_145
+  recurrence4C0_coeff_146
+  recurrence4C0_coeff_147
+  recurrence4C0_coeff_148
+  recurrence4C0_coeff_149
+  recurrence4C0_coeff_150
+  recurrence4C0_coeff_151
+  recurrence4C0_coeff_152
+  recurrence4C0_coeff_153
+  recurrence4ExceptionalProduct_coeff_343
+  recurrence4ExceptionalProduct_coeff_344
+  recurrence4ExceptionalProduct_coeff_345
+  recurrence4ExceptionalProduct_coeff_346
+  recurrence4ExceptionalProduct_coeff_347
+  recurrence4ExceptionalProduct_coeff_348
+  recurrence4ExceptionalProduct_coeff_349
+  recurrence4ExceptionalProduct_coeff_350
+  recurrence4ExceptionalProduct_coeff_351
+  recurrence4ExceptionalProduct_coeff_352
+  recurrence4ExceptionalProduct_coeff_353
+  recurrence4ExceptionalProduct_coeff_354
+  recurrence4ExceptionalProduct_coeff_355
+  recurrence4ExceptionalProduct_coeff_356
+  recurrence4ExceptionalProduct_coeff_357
+  recurrence4ExceptionalProduct_coeff_358
+  recurrence4ExceptionalProduct_coeff_359
+  recurrence4ExceptionalProduct_coeff_360
+  recurrence4ExceptionalProduct_coeff_361
+  recurrence4ExceptionalProduct_coeff_362
+  recurrence4ExceptionalProduct_coeff_363
+  recurrence4ExceptionalProduct_coeff_364
+  recurrence4ExceptionalProduct_coeff_365
+  recurrence4ExceptionalProduct_coeff_366
+  recurrence4ExceptionalProduct_coeff_367
+  recurrence4ExceptionalProduct_coeff_368
+  recurrence4ExceptionalProduct_coeff_369
 
 end Internal.ResultantCertificate
 end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
