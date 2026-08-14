@@ -17,8 +17,8 @@ finite/infinite split, but it does not replace the full classification.
 
 ## Ledger-derived snapshot
 
-- Integrated completion is **15.7%**: 157 of the fixed 1,000 points.
-- Ecosystem readiness is **16%**.
+- Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
+- Ecosystem readiness is **18%**.
 - The audited baseline contains **1,868 Lean modules** and **1,787,288 Lean
   lines**.
 
@@ -26,9 +26,10 @@ Module and line counts describe the checked source surface; they are not
 progress credit. The current credited foundation includes the imported Mazur
 baseline, curve order support and product formula, product dimension for
 abelian varieties, the finite-flat group-scheme base, the local prime-at-five
-reduction chain, the ten-point enumeration over `F_5`, and the shared-pin
-migration. Many later nodes already contain substantial checked infrastructure
-without yet satisfying their named integration consumer.
+reduction chain, exact-order specialization at good reduction, the ten-point
+enumeration over `F_5`, and the shared-pin migration. Many later nodes already
+contain substantial checked infrastructure without yet satisfying their named
+integration consumer.
 
 ## Current execution
 

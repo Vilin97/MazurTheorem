@@ -290,13 +290,16 @@ The specialization layer owns:
 - the generic equal-image/formal-collision lemma;
 - prime-to-residue torsion specialization once its hypotheses are proved.
 
-The existing prime-five theorem is the named consumer. Separate work packages
-must still construct Néron models for the source elliptic curve and for the
-modular quotient; a generic theorem over a supplied model is not an existence
-proof. The supplied mapping-property package and generic exact/iterated
-admissible-filtration API are integrated. Instantiation on the actual
-Eisenstein quotient is blocked until that quotient and its Néron model exist,
-so no package from this lane is currently selected.
+The marked point's exact-order specialization at good reduction over `F_5` is
+already integrated through the concrete reduction homomorphism; it does not
+require a source elliptic Néron model. The remaining existence work is instead
+the generic abelian-variety Néron substrate at the required arithmetic DVRs,
+followed by its realization on the actual optimal Eisenstein quotient. A
+generic theorem over a supplied model is not an existence proof. The supplied
+mapping-property package and generic exact/iterated admissible-filtration API
+are integrated. Instantiation on the actual Eisenstein quotient is blocked
+until that quotient and its Néron realization exist, so no package from this
+lane is currently selected.
 
 General component-group classification is unnecessary for the checked local
 additive-reduction contradiction. The remaining component work is only the
