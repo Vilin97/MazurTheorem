@@ -22,7 +22,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-theorem recurrence1Residual1Band0 :
+private theorem recurrence1Residual1Band0 :
     recurrence1ShiftTerm1Block0 +
     recurrence1QuotientTerm1Block0 +
     recurrence1ExceptionalTerm1Block0 =
@@ -31,7 +31,7 @@ theorem recurrence1Residual1Band0 :
   unfold recurrence1ExceptionalTerm1Block0
   ring
 
-theorem recurrence1Residual1Band1 :
+private theorem recurrence1Residual1Band1 :
     recurrence1ShiftTerm1Block1 +
     recurrence1QuotientTerm1Block1 +
     recurrence1ExceptionalTerm1Block1 =
@@ -40,7 +40,7 @@ theorem recurrence1Residual1Band1 :
   unfold recurrence1ExceptionalTerm1Block1
   ring
 
-theorem recurrence1Residual1Band2 :
+private theorem recurrence1Residual1Band2 :
     recurrence1ShiftTerm1Block2 +
     recurrence1QuotientTerm1Block2 +
     recurrence1ExceptionalTerm1Block2 =
@@ -49,7 +49,7 @@ theorem recurrence1Residual1Band2 :
   unfold recurrence1ExceptionalTerm1Block2
   ring
 
-theorem recurrence1Residual1Band3 :
+private theorem recurrence1Residual1Band3 :
     recurrence1ShiftTerm1Block3 +
     recurrence1QuotientTerm1Block3 +
     recurrence1ExceptionalTerm1Block3 =
@@ -58,7 +58,7 @@ theorem recurrence1Residual1Band3 :
   unfold recurrence1ExceptionalTerm1Block3
   ring
 
-theorem recurrence1Residual1Band4 :
+private theorem recurrence1Residual1Band4 :
     recurrence1ShiftTerm1Block4 +
     recurrence1QuotientTerm1Block4 +
     recurrence1ExceptionalTerm1Block4 =
@@ -67,7 +67,7 @@ theorem recurrence1Residual1Band4 :
   unfold recurrence1ExceptionalTerm1Block4
   ring
 
-theorem recurrence1Residual1Band5 :
+private theorem recurrence1Residual1Band5 :
     recurrence1ShiftTerm1Block5 +
     recurrence1QuotientTerm1Block5 +
     recurrence1ExceptionalTerm1Block5 =
@@ -76,7 +76,7 @@ theorem recurrence1Residual1Band5 :
   unfold recurrence1ExceptionalTerm1Block5
   ring
 
-theorem recurrence1Residual1Band6 :
+private theorem recurrence1Residual1Band6 :
     recurrence1ShiftTerm1Block6 +
     recurrence1QuotientTerm1Block6 +
     recurrence1ExceptionalTerm1Block6 =
@@ -85,7 +85,7 @@ theorem recurrence1Residual1Band6 :
   unfold recurrence1ExceptionalTerm1Block6
   ring
 
-theorem recurrence1Residual1Band7 :
+private theorem recurrence1Residual1Band7 :
     recurrence1ShiftTerm1Block7 +
     recurrence1QuotientTerm1Block7 +
     recurrence1ExceptionalTerm1Block7 =
@@ -94,7 +94,7 @@ theorem recurrence1Residual1Band7 :
   unfold recurrence1ExceptionalTerm1Block7
   ring
 
-theorem recurrence1Residual1Band8 :
+private theorem recurrence1Residual1Band8 :
     recurrence1ShiftTerm1Block8 +
     recurrence1QuotientTerm1Block8 +
     recurrence1ExceptionalTerm1Block8 =
@@ -103,7 +103,7 @@ theorem recurrence1Residual1Band8 :
   unfold recurrence1ExceptionalTerm1Block8
   ring
 
-theorem recurrence1Residual1Band9 :
+private theorem recurrence1Residual1Band9 :
     recurrence1ShiftTerm1Block9 +
     recurrence1QuotientTerm1Block9 +
     recurrence1ExceptionalTerm1Block9 =
@@ -112,7 +112,7 @@ theorem recurrence1Residual1Band9 :
   unfold recurrence1ExceptionalTerm1Block9
   ring
 
-theorem recurrence1Residual1Band10 :
+private theorem recurrence1Residual1Band10 :
     recurrence1ShiftTerm1Block10 +
     recurrence1QuotientTerm1Block10 +
     recurrence1ExceptionalTerm1Block10 =
@@ -121,7 +121,7 @@ theorem recurrence1Residual1Band10 :
   unfold recurrence1ExceptionalTerm1Block10
   ring
 
-theorem recurrence1Residual1Band11 :
+private theorem recurrence1Residual1Band11 :
     recurrence1ShiftTerm1Block11 +
     recurrence1QuotientTerm1Block11 +
     recurrence1ExceptionalTerm1Block11 =
@@ -130,7 +130,7 @@ theorem recurrence1Residual1Band11 :
   unfold recurrence1ExceptionalTerm1Block11
   ring
 
-theorem recurrence1Residual1Band12 :
+private theorem recurrence1Residual1Band12 :
     recurrence1ShiftTerm1Block12 +
     recurrence1QuotientTerm1Block12 +
     recurrence1ExceptionalTerm1Block12 =
@@ -139,7 +139,7 @@ theorem recurrence1Residual1Band12 :
   unfold recurrence1ExceptionalTerm1Block12
   ring
 
-theorem recurrence1Residual1Band13 :
+private theorem recurrence1Residual1Band13 :
     recurrence1ShiftTerm1Block13 +
     recurrence1QuotientTerm1Block13 +
     recurrence1ExceptionalTerm1Block13 =
@@ -148,7 +148,7 @@ theorem recurrence1Residual1Band13 :
   unfold recurrence1ExceptionalTerm1Block13
   ring
 
-theorem recurrence1Residual1Band14 :
+private theorem recurrence1Residual1Band14 :
     recurrence1ShiftTerm1Block14 +
     recurrence1QuotientTerm1Block14 +
     recurrence1ExceptionalTerm1Block14 =
@@ -157,7 +157,7 @@ theorem recurrence1Residual1Band14 :
   unfold recurrence1ExceptionalTerm1Block14
   ring
 
-theorem recurrence1Residual1Band15 :
+private theorem recurrence1Residual1Band15 :
     recurrence1ShiftTerm1Block15 +
     recurrence1QuotientTerm1Block15 +
     recurrence1ExceptionalTerm1Block15 =
@@ -166,7 +166,7 @@ theorem recurrence1Residual1Band15 :
   unfold recurrence1ExceptionalTerm1Block15
   ring
 
-theorem recurrence1Residual1Band16 :
+private theorem recurrence1Residual1Band16 :
     recurrence1ShiftTerm1Block16 +
     recurrence1QuotientTerm1Block16 +
     recurrence1ExceptionalTerm1Block16 =
@@ -175,7 +175,7 @@ theorem recurrence1Residual1Band16 :
   unfold recurrence1ExceptionalTerm1Block16
   ring
 
-theorem recurrence1Residual1Band17 :
+private theorem recurrence1Residual1Band17 :
     recurrence1ShiftTerm1Block17 +
     recurrence1QuotientTerm1Block17 +
     recurrence1ExceptionalTerm1Block17 =
@@ -184,7 +184,7 @@ theorem recurrence1Residual1Band17 :
   unfold recurrence1ExceptionalTerm1Block17
   ring
 
-theorem recurrence1Residual1Band18 :
+private theorem recurrence1Residual1Band18 :
     recurrence1ShiftTerm1Block18 +
     recurrence1QuotientTerm1Block18 +
     recurrence1ExceptionalTerm1Block18 =
@@ -193,7 +193,7 @@ theorem recurrence1Residual1Band18 :
   unfold recurrence1ExceptionalTerm1Block18
   ring
 
-theorem recurrence1Residual1Band19 :
+private theorem recurrence1Residual1Band19 :
     recurrence1ShiftTerm1Block19 +
     recurrence1QuotientTerm1Block19 +
     recurrence1ExceptionalTerm1Block19 =
@@ -202,7 +202,7 @@ theorem recurrence1Residual1Band19 :
   unfold recurrence1ExceptionalTerm1Block19
   ring
 
-theorem recurrence1Residual1Band20 :
+private theorem recurrence1Residual1Band20 :
     recurrence1ShiftTerm1Block20 +
     recurrence1QuotientTerm1Block20 +
     recurrence1ExceptionalTerm1Block20 =
@@ -211,7 +211,7 @@ theorem recurrence1Residual1Band20 :
   unfold recurrence1ExceptionalTerm1Block20
   ring
 
-theorem recurrence1Residual1Band21 :
+private theorem recurrence1Residual1Band21 :
     recurrence1ShiftTerm1Block21 +
     recurrence1QuotientTerm1Block21 +
     recurrence1ExceptionalTerm1Block21 =
@@ -220,7 +220,7 @@ theorem recurrence1Residual1Band21 :
   unfold recurrence1ExceptionalTerm1Block21
   ring
 
-theorem recurrence1Residual1Band22 :
+private theorem recurrence1Residual1Band22 :
     recurrence1ShiftTerm1Block22 +
     recurrence1QuotientTerm1Block22 +
     recurrence1ExceptionalTerm1Block22 =
@@ -229,7 +229,7 @@ theorem recurrence1Residual1Band22 :
   unfold recurrence1ExceptionalTerm1Block22
   ring
 
-theorem recurrence1Residual1Band23 :
+private theorem recurrence1Residual1Band23 :
     recurrence1ShiftTerm1Block23 +
     recurrence1QuotientTerm1Block23 +
     recurrence1ExceptionalTerm1Block23 =

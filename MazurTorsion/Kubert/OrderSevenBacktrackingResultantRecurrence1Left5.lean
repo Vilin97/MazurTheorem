@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1Left5Row0Band0 : Coefficient :=
+private def recurrence1Left5Row0Band0 : Coefficient :=
   X ^ 0 * (
     (2570652) * X ^ 1 +
     (2263599072) * X ^ 2 +
@@ -36,7 +36,7 @@ def recurrence1Left5Row0Band0 : Coefficient :=
     (6488391289793667384180456) * X ^ 8
   )
 
-def recurrence1Left5Row0Band1 : Coefficient :=
+private def recurrence1Left5Row0Band1 : Coefficient :=
   X ^ 9 * (
     (515770112541250400739280347) +
     (-34471909188876798927140148464) * X ^ 1 +
@@ -49,7 +49,7 @@ def recurrence1Left5Row0Band1 : Coefficient :=
     (3161351902685020584513602965822214606836) * X ^ 8
   )
 
-def recurrence1Left5Row0Band2 : Coefficient :=
+private def recurrence1Left5Row0Band2 : Coefficient :=
   X ^ 18 * (
     (67513655080740858007976670073465683016312) +
     (-761835665158715907843076968934986133032058) * X ^ 1 +
@@ -62,7 +62,7 @@ def recurrence1Left5Row0Band2 : Coefficient :=
     (-21305106228622370687461199535961349607069830952818) * X ^ 8
   )
 
-def recurrence1Left5Row0Band3 : Coefficient :=
+private def recurrence1Left5Row0Band3 : Coefficient :=
   X ^ 27 * (
     (6565795302972316736344597220853116219113940984092234) +
     (45450877916157395308146104095980594980068769454260438) * X ^ 1 +
@@ -75,7 +75,7 @@ def recurrence1Left5Row0Band3 : Coefficient :=
     (-511761947654496659489615293095327897094658752945067606260866) * X ^ 8
   )
 
-def recurrence1Left5Row0Band4 : Coefficient :=
+private def recurrence1Left5Row0Band4 : Coefficient :=
   X ^ 36 * (
     (5338770898371938294611601437150788862809449691207559458426823) +
     (53082630815936273169563301176580378800702242900317328887836173) * X ^ 1 +
@@ -88,7 +88,7 @@ def recurrence1Left5Row0Band4 : Coefficient :=
     (-26261701404173589086545774107783486164023860509330355573771083274107) * X ^ 8
   )
 
-def recurrence1Left5Row0Band5 : Coefficient :=
+private def recurrence1Left5Row0Band5 : Coefficient :=
   X ^ 45 * (
     (421401402449409497231963550459806341061698948296070576148741878853783) +
     (1562973587945276379321433100143041452153013894033416644578131686183297) * X ^ 1 +
@@ -101,7 +101,7 @@ def recurrence1Left5Row0Band5 : Coefficient :=
     (414247394119730285629693099705761016213227918553395919347659788464486110139) * X ^ 8
   )
 
-def recurrence1Left5Row0Band6 : Coefficient :=
+private def recurrence1Left5Row0Band6 : Coefficient :=
   X ^ 54 * (
     (2370912236424323520199007205950716787009785177192544237779740828707216975256) +
     (-11257529405972950691485659974716069521643547506525441135291989359717774805487) * X ^ 1 +
@@ -120,7 +120,7 @@ def recurrence1Left5Row0Band6 : Coefficient :=
       17744546028612304754803972589549663499185375674447568809027879984638870947082)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band7 : Coefficient :=
+private def recurrence1Left5Row0Band7 : Coefficient :=
   X ^ 63 * (
     -((34010 * 10 ^ 77 +
       76988471850294603395119745553017049836943934646112112029170896978423241549345)) +
@@ -142,7 +142,7 @@ def recurrence1Left5Row0Band7 : Coefficient :=
       15411470841538813041020112929595454991983838893298069650832191909793443846562)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band8 : Coefficient :=
+private def recurrence1Left5Row0Band8 : Coefficient :=
   X ^ 72 * (
     ((7163810963 * 10 ^ 77 +
       32588342489848215526090731737466937064530318109442316537825033446037900912312)) +
@@ -164,7 +164,7 @@ def recurrence1Left5Row0Band8 : Coefficient :=
       39634635457782700883078808244769161340281768859287404874010434552918841659860)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band9 : Coefficient :=
+private def recurrence1Left5Row0Band9 : Coefficient :=
   X ^ 81 * (
     -((417879873709293 * 10 ^ 77 +
       07591443570049302038461389450536389821623458513863158893808469756037892068837)) +
@@ -186,7 +186,7 @@ def recurrence1Left5Row0Band9 : Coefficient :=
       95458909234223997079486167133362724393318599824111698897024266671998075340293)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band10 : Coefficient :=
+private def recurrence1Left5Row0Band10 : Coefficient :=
   X ^ 90 * (
     -((1870787146614827157 * 10 ^ 77 +
       43947052206600372530480836186538470595850198248392530308475717041578042589491)) +
@@ -208,7 +208,7 @@ def recurrence1Left5Row0Band10 : Coefficient :=
       00118020389754489386495627012963295967890036504000935158149885961859848856276)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band11 : Coefficient :=
+private def recurrence1Left5Row0Band11 : Coefficient :=
   X ^ 99 * (
     ((95444405785180516194 * 10 ^ 77 +
       22845022176138395395635258090427938477725074632485971047064092123767287132690)) +
@@ -230,7 +230,7 @@ def recurrence1Left5Row0Band11 : Coefficient :=
       64372596005804725459193746935146050689425987331015981296621676595523621361122)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band12 : Coefficient :=
+private def recurrence1Left5Row0Band12 : Coefficient :=
   X ^ 108 * (
     -((6148437617497036635666623 * 10 ^ 77 +
       66229385182015201793128042004693612702707636901047281149270849904557465181146)) +
@@ -252,7 +252,7 @@ def recurrence1Left5Row0Band12 : Coefficient :=
       55030071077906672801521052604626970245629728833269530159462499562593215113351)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band13 : Coefficient :=
+private def recurrence1Left5Row0Band13 : Coefficient :=
   X ^ 117 * (
     ((24937756911554389165667518 * 10 ^ 77 +
       01747177725267402678185160859668476041353629662736202527203915089212860060544)) +
@@ -274,7 +274,7 @@ def recurrence1Left5Row0Band13 : Coefficient :=
       66318507716698174675608381777248002288177281038174723956349692010218158779326)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band14 : Coefficient :=
+private def recurrence1Left5Row0Band14 : Coefficient :=
   X ^ 126 * (
     -((194587271760392677702746951 * 10 ^ 77 +
       79005759552552863673822506632841105007332460734889217447873053088487809283912)) +
@@ -296,7 +296,7 @@ def recurrence1Left5Row0Band14 : Coefficient :=
       35032463706907925686476845179523728547257655992839926620335531285130070650618)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band15 : Coefficient :=
+private def recurrence1Left5Row0Band15 : Coefficient :=
   X ^ 135 * (
     ((30293897730313515382249533 * 10 ^ 77 +
       05423655582171311591614251183160795717310176380796514069224748619216251994708)) +
@@ -318,7 +318,7 @@ def recurrence1Left5Row0Band15 : Coefficient :=
       19323833714718711954231787264275587638271754599087138366473334968410827946887)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band16 : Coefficient :=
+private def recurrence1Left5Row0Band16 : Coefficient :=
   X ^ 144 * (
     -((8277530749882515281769 * 10 ^ 77 +
       66452367298975816830924551782163341372840232725636876480758694726154707789584)) +
@@ -340,7 +340,7 @@ def recurrence1Left5Row0Band16 : Coefficient :=
       59825581447626939089154047324053628826393173787873036993271880424101996636726)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band17 : Coefficient :=
+private def recurrence1Left5Row0Band17 : Coefficient :=
   X ^ 153 * (
     -((14691248983720173271 * 10 ^ 77 +
       24585444362295771248044065430012922137744261627259199754644394556363584504570)) +
@@ -362,7 +362,7 @@ def recurrence1Left5Row0Band17 : Coefficient :=
       86781689001457451006018309665164323279766379860986685790308071929442544434174)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band18 : Coefficient :=
+private def recurrence1Left5Row0Band18 : Coefficient :=
   X ^ 162 * (
     -((21299937889535 * 10 ^ 77 +
       82884479854778119218721401938154974031925423683008268778626001738825216362823)) +
@@ -384,7 +384,7 @@ def recurrence1Left5Row0Band18 : Coefficient :=
       04825236363356650356226238285738117672006756776430611097879250437678904616069)) * X ^ 8
   )
 
-def recurrence1Left5Row0Band19 : Coefficient :=
+private def recurrence1Left5Row0Band19 : Coefficient :=
   X ^ 171 * (
     ((217505 * 10 ^ 77 +
       65530984537055837063758936379794920586617845746028425917509755241746025784336)) +
@@ -402,7 +402,7 @@ def recurrence1Left5Row0Band19 : Coefficient :=
     (-511403728284353160214655582650899580339058492178954308249617913997403760) * X ^ 8
   )
 
-def recurrence1Left5Row0Band20 : Coefficient :=
+private def recurrence1Left5Row0Band20 : Coefficient :=
   X ^ 180 * (
     (-4924843346254478489454659039085114083693886935070657530674719074032281) +
     (-32444470461194971575494880343442653729621477050398624582740278037129) * X ^ 1 +
@@ -415,7 +415,7 @@ def recurrence1Left5Row0Band20 : Coefficient :=
     (-8127640852117529442014165019530426539310487479171) * X ^ 8
   )
 
-def recurrence1Left5Row0Band21 : Coefficient :=
+private def recurrence1Left5Row0Band21 : Coefficient :=
   X ^ 189 * (
     (-14617164575359867753789076283618145240173553203) +
     (-9334475094053599304976846439515397378252581) * X ^ 1 +
@@ -428,7 +428,7 @@ def recurrence1Left5Row0Band21 : Coefficient :=
     (-203) * X ^ 8
   )
 
-def recurrence1Left5Row0 : Coefficient :=
+private def recurrence1Left5Row0 : Coefficient :=
   recurrence1Left5Row0Band0 +
   recurrence1Left5Row0Band1 +
   recurrence1Left5Row0Band2 +
@@ -452,7 +452,7 @@ def recurrence1Left5Row0 : Coefficient :=
   recurrence1Left5Row0Band20 +
   recurrence1Left5Row0Band21
 
-theorem recurrence1Left5Row0_eq :
+private theorem recurrence1Left5Row0_eq :
     recurrence1Source5Block0 * recurrence1B6Square =
       recurrence1Left5Row0 := by
   unfold recurrence1Source5Block0 recurrence1B6Square recurrence1B6SquareBlock0
@@ -473,186 +473,186 @@ theorem recurrence1Left5Row0_eq :
   unfold recurrence1Left5Row0Band20 recurrence1Left5Row0Band21
   ring
 
-def recurrence1Left5Band0 : Coefficient :=
+private def recurrence1Left5Band0 : Coefficient :=
   recurrence1Left5Row0Band0
 
-theorem recurrence1Left5Band0_eq :
+private theorem recurrence1Left5Band0_eq :
     recurrence1Left5Band0 = recurrence1Left5Block0 := by
   unfold recurrence1Left5Band0 recurrence1Left5Row0Band0 recurrence1Left5Block0
   ring
 
-def recurrence1Left5Band1 : Coefficient :=
+private def recurrence1Left5Band1 : Coefficient :=
   recurrence1Left5Row0Band1
 
-theorem recurrence1Left5Band1_eq :
+private theorem recurrence1Left5Band1_eq :
     recurrence1Left5Band1 = recurrence1Left5Block1 := by
   unfold recurrence1Left5Band1 recurrence1Left5Row0Band1 recurrence1Left5Block1
   ring
 
-def recurrence1Left5Band2 : Coefficient :=
+private def recurrence1Left5Band2 : Coefficient :=
   recurrence1Left5Row0Band2
 
-theorem recurrence1Left5Band2_eq :
+private theorem recurrence1Left5Band2_eq :
     recurrence1Left5Band2 = recurrence1Left5Block2 := by
   unfold recurrence1Left5Band2 recurrence1Left5Row0Band2 recurrence1Left5Block2
   ring
 
-def recurrence1Left5Band3 : Coefficient :=
+private def recurrence1Left5Band3 : Coefficient :=
   recurrence1Left5Row0Band3
 
-theorem recurrence1Left5Band3_eq :
+private theorem recurrence1Left5Band3_eq :
     recurrence1Left5Band3 = recurrence1Left5Block3 := by
   unfold recurrence1Left5Band3 recurrence1Left5Row0Band3 recurrence1Left5Block3
   ring
 
-def recurrence1Left5Band4 : Coefficient :=
+private def recurrence1Left5Band4 : Coefficient :=
   recurrence1Left5Row0Band4
 
-theorem recurrence1Left5Band4_eq :
+private theorem recurrence1Left5Band4_eq :
     recurrence1Left5Band4 = recurrence1Left5Block4 := by
   unfold recurrence1Left5Band4 recurrence1Left5Row0Band4 recurrence1Left5Block4
   ring
 
-def recurrence1Left5Band5 : Coefficient :=
+private def recurrence1Left5Band5 : Coefficient :=
   recurrence1Left5Row0Band5
 
-theorem recurrence1Left5Band5_eq :
+private theorem recurrence1Left5Band5_eq :
     recurrence1Left5Band5 = recurrence1Left5Block5 := by
   unfold recurrence1Left5Band5 recurrence1Left5Row0Band5 recurrence1Left5Block5
   ring
 
-def recurrence1Left5Band6 : Coefficient :=
+private def recurrence1Left5Band6 : Coefficient :=
   recurrence1Left5Row0Band6
 
-theorem recurrence1Left5Band6_eq :
+private theorem recurrence1Left5Band6_eq :
     recurrence1Left5Band6 = recurrence1Left5Block6 := by
   unfold recurrence1Left5Band6 recurrence1Left5Row0Band6 recurrence1Left5Block6
   ring
 
-def recurrence1Left5Band7 : Coefficient :=
+private def recurrence1Left5Band7 : Coefficient :=
   recurrence1Left5Row0Band7
 
-theorem recurrence1Left5Band7_eq :
+private theorem recurrence1Left5Band7_eq :
     recurrence1Left5Band7 = recurrence1Left5Block7 := by
   unfold recurrence1Left5Band7 recurrence1Left5Row0Band7 recurrence1Left5Block7
   ring
 
-def recurrence1Left5Band8 : Coefficient :=
+private def recurrence1Left5Band8 : Coefficient :=
   recurrence1Left5Row0Band8
 
-theorem recurrence1Left5Band8_eq :
+private theorem recurrence1Left5Band8_eq :
     recurrence1Left5Band8 = recurrence1Left5Block8 := by
   unfold recurrence1Left5Band8 recurrence1Left5Row0Band8 recurrence1Left5Block8
   ring
 
-def recurrence1Left5Band9 : Coefficient :=
+private def recurrence1Left5Band9 : Coefficient :=
   recurrence1Left5Row0Band9
 
-theorem recurrence1Left5Band9_eq :
+private theorem recurrence1Left5Band9_eq :
     recurrence1Left5Band9 = recurrence1Left5Block9 := by
   unfold recurrence1Left5Band9 recurrence1Left5Row0Band9 recurrence1Left5Block9
   ring
 
-def recurrence1Left5Band10 : Coefficient :=
+private def recurrence1Left5Band10 : Coefficient :=
   recurrence1Left5Row0Band10
 
-theorem recurrence1Left5Band10_eq :
+private theorem recurrence1Left5Band10_eq :
     recurrence1Left5Band10 = recurrence1Left5Block10 := by
   unfold recurrence1Left5Band10 recurrence1Left5Row0Band10 recurrence1Left5Block10
   ring
 
-def recurrence1Left5Band11 : Coefficient :=
+private def recurrence1Left5Band11 : Coefficient :=
   recurrence1Left5Row0Band11
 
-theorem recurrence1Left5Band11_eq :
+private theorem recurrence1Left5Band11_eq :
     recurrence1Left5Band11 = recurrence1Left5Block11 := by
   unfold recurrence1Left5Band11 recurrence1Left5Row0Band11 recurrence1Left5Block11
   ring
 
-def recurrence1Left5Band12 : Coefficient :=
+private def recurrence1Left5Band12 : Coefficient :=
   recurrence1Left5Row0Band12
 
-theorem recurrence1Left5Band12_eq :
+private theorem recurrence1Left5Band12_eq :
     recurrence1Left5Band12 = recurrence1Left5Block12 := by
   unfold recurrence1Left5Band12 recurrence1Left5Row0Band12 recurrence1Left5Block12
   ring
 
-def recurrence1Left5Band13 : Coefficient :=
+private def recurrence1Left5Band13 : Coefficient :=
   recurrence1Left5Row0Band13
 
-theorem recurrence1Left5Band13_eq :
+private theorem recurrence1Left5Band13_eq :
     recurrence1Left5Band13 = recurrence1Left5Block13 := by
   unfold recurrence1Left5Band13 recurrence1Left5Row0Band13 recurrence1Left5Block13
   ring
 
-def recurrence1Left5Band14 : Coefficient :=
+private def recurrence1Left5Band14 : Coefficient :=
   recurrence1Left5Row0Band14
 
-theorem recurrence1Left5Band14_eq :
+private theorem recurrence1Left5Band14_eq :
     recurrence1Left5Band14 = recurrence1Left5Block14 := by
   unfold recurrence1Left5Band14 recurrence1Left5Row0Band14 recurrence1Left5Block14
   ring
 
-def recurrence1Left5Band15 : Coefficient :=
+private def recurrence1Left5Band15 : Coefficient :=
   recurrence1Left5Row0Band15
 
-theorem recurrence1Left5Band15_eq :
+private theorem recurrence1Left5Band15_eq :
     recurrence1Left5Band15 = recurrence1Left5Block15 := by
   unfold recurrence1Left5Band15 recurrence1Left5Row0Band15 recurrence1Left5Block15
   ring
 
-def recurrence1Left5Band16 : Coefficient :=
+private def recurrence1Left5Band16 : Coefficient :=
   recurrence1Left5Row0Band16
 
-theorem recurrence1Left5Band16_eq :
+private theorem recurrence1Left5Band16_eq :
     recurrence1Left5Band16 = recurrence1Left5Block16 := by
   unfold recurrence1Left5Band16 recurrence1Left5Row0Band16 recurrence1Left5Block16
   ring
 
-def recurrence1Left5Band17 : Coefficient :=
+private def recurrence1Left5Band17 : Coefficient :=
   recurrence1Left5Row0Band17
 
-theorem recurrence1Left5Band17_eq :
+private theorem recurrence1Left5Band17_eq :
     recurrence1Left5Band17 = recurrence1Left5Block17 := by
   unfold recurrence1Left5Band17 recurrence1Left5Row0Band17 recurrence1Left5Block17
   ring
 
-def recurrence1Left5Band18 : Coefficient :=
+private def recurrence1Left5Band18 : Coefficient :=
   recurrence1Left5Row0Band18
 
-theorem recurrence1Left5Band18_eq :
+private theorem recurrence1Left5Band18_eq :
     recurrence1Left5Band18 = recurrence1Left5Block18 := by
   unfold recurrence1Left5Band18 recurrence1Left5Row0Band18 recurrence1Left5Block18
   ring
 
-def recurrence1Left5Band19 : Coefficient :=
+private def recurrence1Left5Band19 : Coefficient :=
   recurrence1Left5Row0Band19
 
-theorem recurrence1Left5Band19_eq :
+private theorem recurrence1Left5Band19_eq :
     recurrence1Left5Band19 = recurrence1Left5Block19 := by
   unfold recurrence1Left5Band19 recurrence1Left5Row0Band19 recurrence1Left5Block19
   ring
 
-def recurrence1Left5Band20 : Coefficient :=
+private def recurrence1Left5Band20 : Coefficient :=
   recurrence1Left5Row0Band20
 
-theorem recurrence1Left5Band20_eq :
+private theorem recurrence1Left5Band20_eq :
     recurrence1Left5Band20 = recurrence1Left5Block20 := by
   unfold recurrence1Left5Band20 recurrence1Left5Row0Band20 recurrence1Left5Block20
   ring
 
-def recurrence1Left5Band21 : Coefficient :=
+private def recurrence1Left5Band21 : Coefficient :=
   recurrence1Left5Row0Band21
 
-theorem recurrence1Left5Band21_eq :
+private theorem recurrence1Left5Band21_eq :
     recurrence1Left5Band21 = recurrence1Left5Block21 := by
   unfold recurrence1Left5Band21 recurrence1Left5Row0Band21 recurrence1Left5Block21
   ring
 
-def recurrence1Left5Rows : Coefficient :=
+private def recurrence1Left5Rows : Coefficient :=
   recurrence1Left5Row0
 
-def recurrence1Left5Bands : Coefficient :=
+private def recurrence1Left5Bands : Coefficient :=
   recurrence1Left5Band0 +
   recurrence1Left5Band1 +
   recurrence1Left5Band2 +

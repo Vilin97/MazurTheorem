@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1B6A6Row0Band0 : Coefficient :=
+private def recurrence1B6A6Row0Band0 : Coefficient :=
   X ^ 0 * (
     (8484) * X ^ 1 +
     (3671682) * X ^ 2 +
@@ -36,7 +36,7 @@ def recurrence1B6A6Row0Band0 : Coefficient :=
     (1715574246147851740) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band1 : Coefficient :=
+private def recurrence1B6A6Row0Band1 : Coefficient :=
   X ^ 9 * (
     (207691546925597653086) +
     (980959202292051114300) * X ^ 1 +
@@ -49,7 +49,7 @@ def recurrence1B6A6Row0Band1 : Coefficient :=
     (-88579597633732793392886613014) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band2 : Coefficient :=
+private def recurrence1B6A6Row0Band2 : Coefficient :=
   X ^ 18 * (
     (1574762679268093824533389602923) +
     (11997936874083945948003176748258) * X ^ 1 +
@@ -62,7 +62,7 @@ def recurrence1B6A6Row0Band2 : Coefficient :=
     (1686561617655121304252072902781671714) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band3 : Coefficient :=
+private def recurrence1B6A6Row0Band3 : Coefficient :=
   X ^ 27 * (
     (42396002131028183084541112526632162976) +
     (-50788610745832040295800696326456416953) * X ^ 1 +
@@ -75,7 +75,7 @@ def recurrence1B6A6Row0Band3 : Coefficient :=
     (3567149954365069330077352501779931384428815) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band4 : Coefficient :=
+private def recurrence1B6A6Row0Band4 : Coefficient :=
   X ^ 36 * (
     (-21581638222522430968346367701685267099414998) +
     (-16483270108699398456514912132901375385009529) * X ^ 1 +
@@ -88,7 +88,7 @@ def recurrence1B6A6Row0Band4 : Coefficient :=
     (86366103800273731444841359650615285916315319366) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band5 : Coefficient :=
+private def recurrence1B6A6Row0Band5 : Coefficient :=
   X ^ 45 * (
     (470062718956366989427806146638920131582306396627) +
     (-1587582274617349013536644148895546229804380104967) * X ^ 1 +
@@ -101,7 +101,7 @@ def recurrence1B6A6Row0Band5 : Coefficient :=
     (148227743911672832861683999325718278780151974086496) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band6 : Coefficient :=
+private def recurrence1B6A6Row0Band6 : Coefficient :=
   X ^ 54 * (
     (468859465294201443527833257555215355284684660505240) +
     (-1532804951305445335321233617437064683664243478998688) * X ^ 1 +
@@ -114,7 +114,7 @@ def recurrence1B6A6Row0Band6 : Coefficient :=
     (1516408636212559699437743423638809380276164971279661) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band7 : Coefficient :=
+private def recurrence1B6A6Row0Band7 : Coefficient :=
   X ^ 63 * (
     (-6919400896601197974073248666092316792830382088767620) +
     (8126365700980417900809930804055636371460433296697099) * X ^ 1 +
@@ -127,7 +127,7 @@ def recurrence1B6A6Row0Band7 : Coefficient :=
     (-41772328228868440582078964452237175011164580429184) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band8 : Coefficient :=
+private def recurrence1B6A6Row0Band8 : Coefficient :=
   X ^ 72 * (
     (92157701578416064868942053948860311256460161934756) +
     (-44396458011961923716236124677088666808302430492473) * X ^ 1 +
@@ -140,7 +140,7 @@ def recurrence1B6A6Row0Band8 : Coefficient :=
     (3794593982886724534649159119939231281744806182) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band9 : Coefficient :=
+private def recurrence1B6A6Row0Band9 : Coefficient :=
   X ^ 81 * (
     (371212006316039779670170528180506877406092520) +
     (-152691443512804633703894434097619355823499137) * X ^ 1 +
@@ -153,7 +153,7 @@ def recurrence1B6A6Row0Band9 : Coefficient :=
     (-1209048704973416601808452595554131507) * X ^ 8
   )
 
-def recurrence1B6A6Row0Band10 : Coefficient :=
+private def recurrence1B6A6Row0Band10 : Coefficient :=
   X ^ 90 * (
     (-9969340216355267902600652130301545) +
     (-38075161201267936972537803474661) * X ^ 1 +
@@ -166,7 +166,7 @@ def recurrence1B6A6Row0Band10 : Coefficient :=
     (35) * X ^ 8
   )
 
-def recurrence1B6A6Row0 : Coefficient :=
+private def recurrence1B6A6Row0 : Coefficient :=
   recurrence1B6A6Row0Band0 +
   recurrence1B6A6Row0Band1 +
   recurrence1B6A6Row0Band2 +
@@ -179,7 +179,7 @@ def recurrence1B6A6Row0 : Coefficient :=
   recurrence1B6A6Row0Band9 +
   recurrence1B6A6Row0Band10
 
-theorem recurrence1B6A6Row0_eq :
+private theorem recurrence1B6A6Row0_eq :
     recurrence1Source6Block0 * recurrence1Remainder26 =
       recurrence1B6A6Row0 := by
   unfold recurrence1Source6Block0 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -193,98 +193,98 @@ theorem recurrence1B6A6Row0_eq :
   unfold recurrence1B6A6Row0Band10
   ring
 
-def recurrence1B6A6Band0 : Coefficient :=
+private def recurrence1B6A6Band0 : Coefficient :=
   recurrence1B6A6Row0Band0
 
-theorem recurrence1B6A6Band0_eq :
+private theorem recurrence1B6A6Band0_eq :
     recurrence1B6A6Band0 = recurrence1B6A6Block0 := by
   unfold recurrence1B6A6Band0 recurrence1B6A6Row0Band0 recurrence1B6A6Block0
   ring
 
-def recurrence1B6A6Band1 : Coefficient :=
+private def recurrence1B6A6Band1 : Coefficient :=
   recurrence1B6A6Row0Band1
 
-theorem recurrence1B6A6Band1_eq :
+private theorem recurrence1B6A6Band1_eq :
     recurrence1B6A6Band1 = recurrence1B6A6Block1 := by
   unfold recurrence1B6A6Band1 recurrence1B6A6Row0Band1 recurrence1B6A6Block1
   ring
 
-def recurrence1B6A6Band2 : Coefficient :=
+private def recurrence1B6A6Band2 : Coefficient :=
   recurrence1B6A6Row0Band2
 
-theorem recurrence1B6A6Band2_eq :
+private theorem recurrence1B6A6Band2_eq :
     recurrence1B6A6Band2 = recurrence1B6A6Block2 := by
   unfold recurrence1B6A6Band2 recurrence1B6A6Row0Band2 recurrence1B6A6Block2
   ring
 
-def recurrence1B6A6Band3 : Coefficient :=
+private def recurrence1B6A6Band3 : Coefficient :=
   recurrence1B6A6Row0Band3
 
-theorem recurrence1B6A6Band3_eq :
+private theorem recurrence1B6A6Band3_eq :
     recurrence1B6A6Band3 = recurrence1B6A6Block3 := by
   unfold recurrence1B6A6Band3 recurrence1B6A6Row0Band3 recurrence1B6A6Block3
   ring
 
-def recurrence1B6A6Band4 : Coefficient :=
+private def recurrence1B6A6Band4 : Coefficient :=
   recurrence1B6A6Row0Band4
 
-theorem recurrence1B6A6Band4_eq :
+private theorem recurrence1B6A6Band4_eq :
     recurrence1B6A6Band4 = recurrence1B6A6Block4 := by
   unfold recurrence1B6A6Band4 recurrence1B6A6Row0Band4 recurrence1B6A6Block4
   ring
 
-def recurrence1B6A6Band5 : Coefficient :=
+private def recurrence1B6A6Band5 : Coefficient :=
   recurrence1B6A6Row0Band5
 
-theorem recurrence1B6A6Band5_eq :
+private theorem recurrence1B6A6Band5_eq :
     recurrence1B6A6Band5 = recurrence1B6A6Block5 := by
   unfold recurrence1B6A6Band5 recurrence1B6A6Row0Band5 recurrence1B6A6Block5
   ring
 
-def recurrence1B6A6Band6 : Coefficient :=
+private def recurrence1B6A6Band6 : Coefficient :=
   recurrence1B6A6Row0Band6
 
-theorem recurrence1B6A6Band6_eq :
+private theorem recurrence1B6A6Band6_eq :
     recurrence1B6A6Band6 = recurrence1B6A6Block6 := by
   unfold recurrence1B6A6Band6 recurrence1B6A6Row0Band6 recurrence1B6A6Block6
   ring
 
-def recurrence1B6A6Band7 : Coefficient :=
+private def recurrence1B6A6Band7 : Coefficient :=
   recurrence1B6A6Row0Band7
 
-theorem recurrence1B6A6Band7_eq :
+private theorem recurrence1B6A6Band7_eq :
     recurrence1B6A6Band7 = recurrence1B6A6Block7 := by
   unfold recurrence1B6A6Band7 recurrence1B6A6Row0Band7 recurrence1B6A6Block7
   ring
 
-def recurrence1B6A6Band8 : Coefficient :=
+private def recurrence1B6A6Band8 : Coefficient :=
   recurrence1B6A6Row0Band8
 
-theorem recurrence1B6A6Band8_eq :
+private theorem recurrence1B6A6Band8_eq :
     recurrence1B6A6Band8 = recurrence1B6A6Block8 := by
   unfold recurrence1B6A6Band8 recurrence1B6A6Row0Band8 recurrence1B6A6Block8
   ring
 
-def recurrence1B6A6Band9 : Coefficient :=
+private def recurrence1B6A6Band9 : Coefficient :=
   recurrence1B6A6Row0Band9
 
-theorem recurrence1B6A6Band9_eq :
+private theorem recurrence1B6A6Band9_eq :
     recurrence1B6A6Band9 = recurrence1B6A6Block9 := by
   unfold recurrence1B6A6Band9 recurrence1B6A6Row0Band9 recurrence1B6A6Block9
   ring
 
-def recurrence1B6A6Band10 : Coefficient :=
+private def recurrence1B6A6Band10 : Coefficient :=
   recurrence1B6A6Row0Band10
 
-theorem recurrence1B6A6Band10_eq :
+private theorem recurrence1B6A6Band10_eq :
     recurrence1B6A6Band10 = recurrence1B6A6Block10 := by
   unfold recurrence1B6A6Band10 recurrence1B6A6Row0Band10 recurrence1B6A6Block10
   ring
 
-def recurrence1B6A6Rows : Coefficient :=
+private def recurrence1B6A6Rows : Coefficient :=
   recurrence1B6A6Row0
 
-def recurrence1B6A6Bands : Coefficient :=
+private def recurrence1B6A6Bands : Coefficient :=
   recurrence1B6A6Band0 +
   recurrence1B6A6Band1 +
   recurrence1B6A6Band2 +

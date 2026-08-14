@@ -24,7 +24,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1ExceptionalTerm2Row0Band0 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band0 : Coefficient :=
   X ^ 0 * (
     (20566) * X ^ 2 +
     (469611932) * X ^ 3 +
@@ -35,7 +35,7 @@ def recurrence1ExceptionalTerm2Row0Band0 : Coefficient :=
     (-3342735344345005094947) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band1 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band1 : Coefficient :=
   X ^ 9 * (
     (241726537143179910616090) +
     (-7056589804308032671081912) * X ^ 1 +
@@ -48,7 +48,7 @@ def recurrence1ExceptionalTerm2Row0Band1 : Coefficient :=
     (-161635251180394216169461347147408313) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band2 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band2 : Coefficient :=
   X ^ 18 * (
     (3349308535249648119999066601944462541) +
     (-107847959882795768338590246683415715356) * X ^ 1 +
@@ -61,7 +61,7 @@ def recurrence1ExceptionalTerm2Row0Band2 : Coefficient :=
     (112679127490709078598564551526025372600059154791) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band3 : Coefficient :=
   X ^ 27 * (
     (-2484458454809637181206209732540189716862426602310) +
     (65036841182621847492079143551671816298961834238929) * X ^ 1 +
@@ -74,7 +74,7 @@ def recurrence1ExceptionalTerm2Row0Band3 : Coefficient :=
     (31975661513958898978126098588298687222989880564251266709335) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band4 : Coefficient :=
   X ^ 36 * (
     (-199020376427288881214934183409870977656296624079767511028572) +
     (-1015879703906931409819285622061358140623958883770546542904938) * X ^ 1 +
@@ -87,7 +87,7 @@ def recurrence1ExceptionalTerm2Row0Band4 : Coefficient :=
     (55711248104426887774605224987962624236043389119876290058583636839056) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band5 : Coefficient :=
   X ^ 45 * (
     (-335382614705373400391856404547522575038440021393134590565460217173805) +
     (1805694487594860505857918135093468812124816091110201826700021244878533) * X ^ 1 +
@@ -100,7 +100,7 @@ def recurrence1ExceptionalTerm2Row0Band5 : Coefficient :=
     (-5549661284395442123650901997721242371703737921932675876983796307762447055) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band6 : Coefficient :=
   X ^ 54 * (
     (-2446851782007317651110637070688826541463592385585039032483921211440287334) +
     (64185243135614688376532802060605803893161184507508932677051095851027728202) * X ^ 1 +
@@ -113,7 +113,7 @@ def recurrence1ExceptionalTerm2Row0Band6 : Coefficient :=
     (-44185948234569798412476774021114915130111589103689750644724585765434760985882) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band7 : Coefficient :=
   X ^ 63 * (
     -((1 * 10 ^ 77 +
       79090273592582897087343398498271261492237709196486623178991084926918200739494)) +
@@ -135,7 +135,7 @@ def recurrence1ExceptionalTerm2Row0Band7 : Coefficient :=
       19392395014434870400998466606821991082181871531737531058115065220563251100068)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band8 : Coefficient :=
   X ^ 72 * (
     -((235172 * 10 ^ 77 +
       91642189642035054867028429627692651372061612708329967928462109662545754802712)) +
@@ -157,7 +157,7 @@ def recurrence1ExceptionalTerm2Row0Band8 : Coefficient :=
       15452170025799983617313500132791992777630135649921271577657711081328388856364)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band9 : Coefficient :=
   X ^ 81 * (
     ((8656421637 * 10 ^ 77 +
       89651868096413829321825070435828112381123946679846400547114924100903151980507)) +
@@ -179,7 +179,7 @@ def recurrence1ExceptionalTerm2Row0Band9 : Coefficient :=
       80393444596975213276832754629825944588707231578253016014508516917439400147556)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band10 : Coefficient :=
   X ^ 90 * (
     ((41077431758963 * 10 ^ 77 +
       79499324737837562461713212827957763624107781957422318704883924165403464427121)) +
@@ -201,7 +201,7 @@ def recurrence1ExceptionalTerm2Row0Band10 : Coefficient :=
       00909261225794364221466307263006866227082960710849296107971580316794277880226)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band11 : Coefficient :=
   X ^ 99 * (
     -((582890972694662 * 10 ^ 77 +
       42318861735149457244595688049063150778063255669950393575859689743637115557868)) +
@@ -223,7 +223,7 @@ def recurrence1ExceptionalTerm2Row0Band11 : Coefficient :=
       82787576777006472882220506639089639257513133792639280261078729323598402758544)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band12 : Coefficient :=
   X ^ 108 * (
     ((50135684298515 * 10 ^ 77 +
       26555533476503800002641188424058291070338275218510037535227675541885858845424)) +
@@ -245,7 +245,7 @@ def recurrence1ExceptionalTerm2Row0Band12 : Coefficient :=
       46699183552067208693404747943769628972299590475107335867540499365861565297067)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band13 : Coefficient :=
   X ^ 117 * (
     -((41636900149 * 10 ^ 77 +
       73244100547016021998862563752786516595491730076551759530194310570229429924705)) +
@@ -267,7 +267,7 @@ def recurrence1ExceptionalTerm2Row0Band13 : Coefficient :=
       22171689064339150826144525306730120882977553311232711977804163851326905101110)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band14 : Coefficient :=
   X ^ 126 * (
     ((140205 * 10 ^ 77 +
       69548503680490736507584332086980043434286398374583568582203791284086810188180)) +
@@ -286,7 +286,7 @@ def recurrence1ExceptionalTerm2Row0Band14 : Coefficient :=
     (-803680494810776507535475407052493187897603096704612327437796030365013382319) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band15 : Coefficient :=
   X ^ 135 * (
     (66135476866648856176223421064238984823597015562489806721417225377829630565) +
     (-4224576568346282736946128332753273760728146248397042308470166104064050110) * X ^ 1 +
@@ -299,7 +299,7 @@ def recurrence1ExceptionalTerm2Row0Band15 : Coefficient :=
     (-860129259510629795835106187921304190186185281208996762835552) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band16 : Coefficient :=
   X ^ 144 * (
     (4482224919171755041752626162685062052328797924340315135252) +
     (825993254397289758111166227488386806767335049273962946) * X ^ 1 +
@@ -312,13 +312,13 @@ def recurrence1ExceptionalTerm2Row0Band16 : Coefficient :=
     (-155537578258876642992329500605) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row0Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0Band17 : Coefficient :=
   X ^ 153 * (
     (22902836572210055054190) +
     (-20104155948240) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row0 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row0 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band0 +
   recurrence1ExceptionalTerm2Row0Band1 +
   recurrence1ExceptionalTerm2Row0Band2 +
@@ -338,7 +338,7 @@ def recurrence1ExceptionalTerm2Row0 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band16 +
   recurrence1ExceptionalTerm2Row0Band17
 
-theorem recurrence1ExceptionalTerm2Row0_eq :
+private theorem recurrence1ExceptionalTerm2Row0_eq :
     recurrence1ExceptionalBlock0 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row0 := by
   unfold recurrence1ExceptionalBlock0 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -359,7 +359,7 @@ theorem recurrence1ExceptionalTerm2Row0_eq :
   unfold recurrence1ExceptionalTerm2Row0Band16 recurrence1ExceptionalTerm2Row0Band17
   ring
 
-def recurrence1ExceptionalTerm2Row1Band1 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band1 : Coefficient :=
   X ^ 9 * (
     (-345520453723900) * X ^ 2 +
     (-7859919317169784172) * X ^ 3 +
@@ -370,7 +370,7 @@ def recurrence1ExceptionalTerm2Row1Band1 : Coefficient :=
     (105410217341423779685772242361737) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band2 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band2 : Coefficient :=
   X ^ 18 * (
     (-11099425504418159895623080346586713) +
     (768108931582315482491600325020091966) * X ^ 1 +
@@ -383,7 +383,7 @@ def recurrence1ExceptionalTerm2Row1Band2 : Coefficient :=
     (-109769795758642102148683468506314024607459206909) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band3 : Coefficient :=
   X ^ 27 * (
     (3159826232522564049102475656830375775392653473804) +
     (-70176389710659866870127213045439183131034411713989) * X ^ 1 +
@@ -396,7 +396,7 @@ def recurrence1ExceptionalTerm2Row1Band3 : Coefficient :=
     (-32022082978604225263219147285795872455103012875891843376797) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band4 : Coefficient :=
   X ^ 36 * (
     (199474905650881636242220813555564391071548166772939244021323) +
     (1016646934758172983125009333806651974873928117827353915507247) * X ^ 1 +
@@ -409,7 +409,7 @@ def recurrence1ExceptionalTerm2Row1Band4 : Coefficient :=
     (-55832604581666528474460629573439383439224977101103021041900259146744) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band5 : Coefficient :=
   X ^ 45 * (
     (337394295103911504571023373877570791039619585966337498486531514326303) +
     (-1834223524245871731148053881109199731689391048775557278892523537865061) * X ^ 1 +
@@ -422,7 +422,7 @@ def recurrence1ExceptionalTerm2Row1Band5 : Coefficient :=
     (93042127085225628891818221676350631946833329320883738129460125670116841154) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band6 : Coefficient :=
   X ^ 54 * (
     (-477675301881700054687730295772807909439660701771636583705520564171493187407) +
     (2315734446538166021122771007700138118075769412383792817216059917605858656178) * X ^ 1 +
@@ -440,7 +440,7 @@ def recurrence1ExceptionalTerm2Row1Band6 : Coefficient :=
       05337207667391725985171200840517200236052544725442053240292022714340162975567)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band7 : Coefficient :=
   X ^ 63 * (
     -((136 * 10 ^ 77 +
       38267051936150154233760897192688201638398647474002713532148755552830647042970)) +
@@ -462,7 +462,7 @@ def recurrence1ExceptionalTerm2Row1Band7 : Coefficient :=
       25112943589710541504867681468727766226164873655732829763673539658687307622526)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band8 : Coefficient :=
   X ^ 72 * (
     -((1921759 * 10 ^ 77 +
       81819715398012380690603024230505659962030403458369614813534993863004351958369)) +
@@ -484,7 +484,7 @@ def recurrence1ExceptionalTerm2Row1Band8 : Coefficient :=
       91021780309155748495048183434093096642087162198018548934503759272791355248488)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band9 : Coefficient :=
   X ^ 81 * (
     -((364123777575 * 10 ^ 77 +
       00915820269931338373036182252866042875809165533348419904256263618501505379730)) +
@@ -506,7 +506,7 @@ def recurrence1ExceptionalTerm2Row1Band9 : Coefficient :=
       49220759017108221424148357170119466605837420906458923123499804098466959395842)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band10 : Coefficient :=
   X ^ 90 * (
     ((8418925873346807 * 10 ^ 77 +
       96126842654407759473476405359401635979067187819174409639505966677137175555873)) +
@@ -528,7 +528,7 @@ def recurrence1ExceptionalTerm2Row1Band10 : Coefficient :=
       91254211567443750875970015298545644661015256260035656113924203415426413461292)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band11 : Coefficient :=
   X ^ 99 * (
     ((29715096342945311760 * 10 ^ 77 +
       09561944917346310433827646081371648269786904426126483370985656317779691169934)) +
@@ -550,7 +550,7 @@ def recurrence1ExceptionalTerm2Row1Band11 : Coefficient :=
       24242284517550204347815732388660138737997622876633648138242064428273414341960)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band12 : Coefficient :=
   X ^ 108 * (
     -((308483463288454735197 * 10 ^ 77 +
       65446636453911260367507741180057189790323928206503836924624238800654378697525)) +
@@ -572,7 +572,7 @@ def recurrence1ExceptionalTerm2Row1Band12 : Coefficient :=
       13423221703891490244756237407303620570220275280922898220408248196438563661163)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band13 : Coefficient :=
   X ^ 117 * (
     ((21990720808318611207 * 10 ^ 77 +
       84977894878184234773490360628519683365536052827436839344765396461542852199673)) +
@@ -594,7 +594,7 @@ def recurrence1ExceptionalTerm2Row1Band13 : Coefficient :=
       98853038076443882758443906387061367172904855701379268447540586107561829085942)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band14 : Coefficient :=
   X ^ 126 * (
     -((16024421686212374 * 10 ^ 77 +
       43136669232493267915755795796694764900338610163481671634066763583950592033080)) +
@@ -616,7 +616,7 @@ def recurrence1ExceptionalTerm2Row1Band14 : Coefficient :=
       49942568509649071370315247999050941364609420461000139164057348968980665949763)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band15 : Coefficient :=
   X ^ 135 * (
     ((47790005249 * 10 ^ 77 +
       27424026019143481875344477119100574667266356706114785583369708401429113230693)) +
@@ -638,7 +638,7 @@ def recurrence1ExceptionalTerm2Row1Band15 : Coefficient :=
       74136569958372941681098605964468860278690693368312169880492072983436954143696)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band16 : Coefficient :=
   X ^ 144 * (
     ((213 * 10 ^ 77 +
       51883214175785575330883986522738760807612882447580730769487395258192648444661)) +
@@ -653,7 +653,7 @@ def recurrence1ExceptionalTerm2Row1Band16 : Coefficient :=
     (-266468652236900760302875256525024054944220384414583316983726504458) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band17 : Coefficient :=
   X ^ 153 * (
     (1383235552785197748480191783705129736400292251688060421329533718) +
     (265346401019606838221901958586222657700419022430434069603220) * X ^ 1 +
@@ -666,13 +666,13 @@ def recurrence1ExceptionalTerm2Row1Band17 : Coefficient :=
     (-48006006426363467935833716713590990) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row1Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1Band18 : Coefficient :=
   X ^ 162 * (
     (7068861534324909984917428995) +
     (-6205060850210819478) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row1 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row1 : Coefficient :=
   recurrence1ExceptionalTerm2Row1Band1 +
   recurrence1ExceptionalTerm2Row1Band2 +
   recurrence1ExceptionalTerm2Row1Band3 +
@@ -692,7 +692,7 @@ def recurrence1ExceptionalTerm2Row1 : Coefficient :=
   recurrence1ExceptionalTerm2Row1Band17 +
   recurrence1ExceptionalTerm2Row1Band18
 
-theorem recurrence1ExceptionalTerm2Row1_eq :
+private theorem recurrence1ExceptionalTerm2Row1_eq :
     recurrence1ExceptionalBlock1 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row1 := by
   unfold recurrence1ExceptionalBlock1 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -713,7 +713,7 @@ theorem recurrence1ExceptionalTerm2Row1_eq :
   unfold recurrence1ExceptionalTerm2Row1Band17 recurrence1ExceptionalTerm2Row1Band18
   ring
 
-def recurrence1ExceptionalTerm2Row2Band2 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band2 : Coefficient :=
   X ^ 18 * (
     (293857180818818089564) * X ^ 2 +
     (6678812240756609344364078) * X ^ 3 +
@@ -724,7 +724,7 @@ def recurrence1ExceptionalTerm2Row2Band2 : Coefficient :=
     (-101515911944666021904416893098254479767) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band3 : Coefficient :=
   X ^ 27 * (
     (11405296066051627318244937024684456269898) +
     (-870720377271219001817905776004387354450556) * X ^ 1 +
@@ -737,7 +737,7 @@ def recurrence1ExceptionalTerm2Row2Band3 : Coefficient :=
     (160031021824227900349117027648328449404869776603407407) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band4 : Coefficient :=
   X ^ 36 * (
     (-5520589969074564523553018250307162838584988949968864692) +
     (154292287043417671529856633502770612769700774975067514807) * X ^ 1 +
@@ -750,7 +750,7 @@ def recurrence1ExceptionalTerm2Row2Band4 : Coefficient :=
     (119509882415468959841216740345995142132414176037480575884957936719) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band5 : Coefficient :=
   X ^ 45 * (
     (-2032897806918838971584824690410371247866592060630229343728357867580) +
     (28659055252940984985768136999562502743770417201123941686504649286023) * X ^ 1 +
@@ -763,7 +763,7 @@ def recurrence1ExceptionalTerm2Row2Band5 : Coefficient :=
     (-87506258563983899349038568419578369203455135649569046136175514381252251483) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band6 : Coefficient :=
   X ^ 54 * (
     (480100422781149197102834240810153316910347311371399299200036165296908700004) +
     (-2379029246649425725643908638624893095082308889865569799021288125637401345011) * X ^ 1 +
@@ -781,7 +781,7 @@ def recurrence1ExceptionalTerm2Row2Band6 : Coefficient :=
       28421015808742089024445949293360357659300872033765046397183729825767195887797)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band7 : Coefficient :=
   X ^ 63 * (
     ((171 * 10 ^ 77 +
       26956890221544433743776713288003877929233529287623360267785049035583680947039)) +
@@ -803,7 +803,7 @@ def recurrence1ExceptionalTerm2Row2Band7 : Coefficient :=
       57224793059235654654456266691586176238124809103797065234133801361668430889806)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band8 : Coefficient :=
   X ^ 72 * (
     ((4299260 * 10 ^ 77 +
       24066943947760009505265524134123472560598054920119956216451563426804807293977)) +
@@ -825,7 +825,7 @@ def recurrence1ExceptionalTerm2Row2Band8 : Coefficient :=
       98001977802295357418426713474911593096632629831303383455579188990532700744243)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band9 : Coefficient :=
   X ^ 81 * (
     ((457010332390 * 10 ^ 77 +
       18472738649742506470077343719658093333319266041735929232566046192543967657404)) +
@@ -847,7 +847,7 @@ def recurrence1ExceptionalTerm2Row2Band9 : Coefficient :=
       45691745144366575603254869177684297934373519648388462458341504724127423639261)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band10 : Coefficient :=
   X ^ 90 * (
     -((2914542317839077 * 10 ^ 77 +
       95145640685132154810957469644280193500001530283101973227418110424011532171855)) +
@@ -869,7 +869,7 @@ def recurrence1ExceptionalTerm2Row2Band10 : Coefficient :=
       54489655797597058669085829878771301224576735468838462597218158733848084328986)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band11 : Coefficient :=
   X ^ 99 * (
     -((102275234734569329812 * 10 ^ 77 +
       08868043676323517500267218465988589779790017629020137497885326592315898913947)) +
@@ -891,7 +891,7 @@ def recurrence1ExceptionalTerm2Row2Band11 : Coefficient :=
       55851690753889625924755572466900116924364068629758387215735357622537749948314)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band12 : Coefficient :=
   X ^ 108 * (
     -((114976540425839660374236 * 10 ^ 77 +
       26628325615238952635829871347768585806935666219474710413363852828080216390464)) +
@@ -913,7 +913,7 @@ def recurrence1ExceptionalTerm2Row2Band12 : Coefficient :=
       78563160844932902660649295756778631081753431062444431088339439037848089864556)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band13 : Coefficient :=
   X ^ 117 * (
     -((161199253050484094982021 * 10 ^ 77 +
       14562388316395994507616262050387080641561659028070695965083305941914744074484)) +
@@ -935,7 +935,7 @@ def recurrence1ExceptionalTerm2Row2Band13 : Coefficient :=
       79051977950875975604948336126741692455606886058493825033542598185726243881848)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band14 : Coefficient :=
   X ^ 126 * (
     ((69457698233671114840825 * 10 ^ 77 +
       12561719067358225238554407350419849268575904963676073734252627940762802012216)) +
@@ -957,7 +957,7 @@ def recurrence1ExceptionalTerm2Row2Band14 : Coefficient :=
       11630483378739582659441082779945382462574095695753439850736425653358065117583)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band15 : Coefficient :=
   X ^ 135 * (
     -((79019008812417737903 * 10 ^ 77 +
       13587092357663531965935249859483304721842504282522471928610528506551082761201)) +
@@ -979,7 +979,7 @@ def recurrence1ExceptionalTerm2Row2Band15 : Coefficient :=
       00510720894182325932118710208183400180126097311089853161414976875560672798207)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band16 : Coefficient :=
   X ^ 144 * (
     ((312381678161257 * 10 ^ 77 +
       08067744399722363552668112149905599932808340806080991268633396286884344207992)) +
@@ -1001,7 +1001,7 @@ def recurrence1ExceptionalTerm2Row2Band16 : Coefficient :=
       33554338832616123789353688290309422390919170526764593497144879428666576264218)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band17 : Coefficient :=
   X ^ 153 * (
     ((1545020 * 10 ^ 77 +
       69490679304309717581329660859898488197990560922240237734985722667870991308313)) +
@@ -1019,7 +1019,7 @@ def recurrence1ExceptionalTerm2Row2Band17 : Coefficient :=
     (-2069853843801607668104912844949753612524114293251192758595991169685006) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band18 : Coefficient :=
   X ^ 162 * (
     (10813697778445928041953486374541591649907432412236991198546940108444) +
     (1939233449388790575400121639115280140183389019833026226789025758) * X ^ 1 +
@@ -1032,13 +1032,13 @@ def recurrence1ExceptionalTerm2Row2Band18 : Coefficient :=
     (-375211364821745950669764504825683567910) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row2Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2Band19 : Coefficient :=
   X ^ 171 * (
     (55249704000128919895636750933716) +
     (-48498301171947045000960) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row2 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row2 : Coefficient :=
   recurrence1ExceptionalTerm2Row2Band2 +
   recurrence1ExceptionalTerm2Row2Band3 +
   recurrence1ExceptionalTerm2Row2Band4 +
@@ -1058,7 +1058,7 @@ def recurrence1ExceptionalTerm2Row2 : Coefficient :=
   recurrence1ExceptionalTerm2Row2Band18 +
   recurrence1ExceptionalTerm2Row2Band19
 
-theorem recurrence1ExceptionalTerm2Row2_eq :
+private theorem recurrence1ExceptionalTerm2Row2_eq :
     recurrence1ExceptionalBlock2 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row2 := by
   unfold recurrence1ExceptionalBlock2 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -1079,7 +1079,7 @@ theorem recurrence1ExceptionalTerm2Row2_eq :
   unfold recurrence1ExceptionalTerm2Row2Band18 recurrence1ExceptionalTerm2Row2Band19
   ring
 
-def recurrence1ExceptionalTerm2Row3Band3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band3 : Coefficient :=
   X ^ 27 * (
     (-2191590140180618834492472) * X ^ 2 +
     (-49812602999185950975096663870) * X ^ 3 +
@@ -1090,7 +1090,7 @@ def recurrence1ExceptionalTerm2Row3Band3 : Coefficient :=
     (753211177108095732382434001363341462487206) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band4 : Coefficient :=
   X ^ 36 * (
     (-84420129196144983974498903906881005922549479) +
     (6423592409076487164603849787960362330979290519) * X ^ 1 +
@@ -1103,7 +1103,7 @@ def recurrence1ExceptionalTerm2Row3Band4 : Coefficient :=
     (-1172637223356335200307260960354584707409207401679007751229) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band5 : Coefficient :=
   X ^ 45 * (
     (40299444539965149030800259784086722170624063356965378537427) +
     (-1122206639019923511801830874783879983998539495393780480527907) * X ^ 1 +
@@ -1116,7 +1116,7 @@ def recurrence1ExceptionalTerm2Row3Band5 : Coefficient :=
     (-863326259862937609663184923498374907616820489865808887280474282961255) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band6 : Coefficient :=
   X ^ 54 * (
     (14639376292548684847973547553929258649205649889655357428626384394023522) +
     (-206013412701187824162422373762656951126076266497970301521201232603642270) * X ^ 1 +
@@ -1131,7 +1131,7 @@ def recurrence1ExceptionalTerm2Row3Band6 : Coefficient :=
       37812580771818356793701277015556209684961153604528032748025393522892707216027)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band7 : Coefficient :=
   X ^ 63 * (
     -((35 * 10 ^ 77 +
       16263376801759703110910699017679374150440865190085917391652491602987380234573)) +
@@ -1153,7 +1153,7 @@ def recurrence1ExceptionalTerm2Row3Band7 : Coefficient :=
       99676720056322167485058314992873638721993826497925738749857976098556090147388)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band8 : Coefficient :=
   X ^ 72 * (
     -((1565196 * 10 ^ 77 +
       39481003083726061706699712954260446557557215304467912664644327926190639109655)) +
@@ -1175,7 +1175,7 @@ def recurrence1ExceptionalTerm2Row3Band8 : Coefficient :=
       79908149960292536617815812348870626725227381355558634380110626219426711612897)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band9 : Coefficient :=
   X ^ 81 * (
     -((24529172024 * 10 ^ 77 +
       17434142748857638169059689964026399507684311203310441289330366837716235937435)) +
@@ -1197,7 +1197,7 @@ def recurrence1ExceptionalTerm2Row3Band9 : Coefficient :=
       86957923478812831331133232099189151710208935827046724185424791173662979324387)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band10 : Coefficient :=
   X ^ 90 * (
     -((2903124866829032 * 10 ^ 77 +
       25598490440251609346514404776694557060581580840634098695094989137060270527897)) +
@@ -1219,7 +1219,7 @@ def recurrence1ExceptionalTerm2Row3Band10 : Coefficient :=
       46621412598480749088309232230185942737941524788094112532329093735624657862936)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band11 : Coefficient :=
   X ^ 99 * (
     ((102881640792638391045 * 10 ^ 77 +
       10224062131841932467784627527431590625502591877165056475653624300508106048859)) +
@@ -1241,7 +1241,7 @@ def recurrence1ExceptionalTerm2Row3Band11 : Coefficient :=
       55084818169139452020386726177533722086521439196348844386754533411261175523059)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band12 : Coefficient :=
   X ^ 108 * (
     -((38989728129297348289523 * 10 ^ 77 +
       16278617080519836191041172485519646565530897232956063060976919511428673182060)) +
@@ -1263,7 +1263,7 @@ def recurrence1ExceptionalTerm2Row3Band12 : Coefficient :=
       48443896495376705604003757162620919605050683473709846444687891841281555690378)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band13 : Coefficient :=
   X ^ 117 * (
     -((139421487488865381778721751 * 10 ^ 77 +
       46969127776171568888918432445897105496514575869160676942678630683896694255155)) +
@@ -1285,7 +1285,7 @@ def recurrence1ExceptionalTerm2Row3Band13 : Coefficient :=
       61013013888930454879124567012484799792277932890533650436333968328980419441544)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band14 : Coefficient :=
   X ^ 126 * (
     -((43440654904728365648441226 * 10 ^ 77 +
       63632296820182897122347436486867139795122848929664421471950519207216161872132)) +
@@ -1307,7 +1307,7 @@ def recurrence1ExceptionalTerm2Row3Band14 : Coefficient :=
       79400171568947655036056888950217591972821777791924332600361657863940833481842)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band15 : Coefficient :=
   X ^ 135 * (
     ((42911747023785501937402248 * 10 ^ 77 +
       27282016646431019698554752314096917284043313291223764281278363633971446627486)) +
@@ -1329,7 +1329,7 @@ def recurrence1ExceptionalTerm2Row3Band15 : Coefficient :=
       24976652830703298065424220435416538225565459052356176688446349920540329342634)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band16 : Coefficient :=
   X ^ 144 * (
     -((44893266415819670423716 * 10 ^ 77 +
       30564720098837083652670622360046197701973166312811791417958325208457500337710)) +
@@ -1351,7 +1351,7 @@ def recurrence1ExceptionalTerm2Row3Band16 : Coefficient :=
       35154599108331112354562084901393647408154049897873771538117036990489826901793)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band17 : Coefficient :=
   X ^ 153 * (
     ((162092350353002139 * 10 ^ 77 +
       26701643388384622788171082802466449730673046385096538267824203013410845079574)) +
@@ -1373,7 +1373,7 @@ def recurrence1ExceptionalTerm2Row3Band17 : Coefficient :=
       60782721206319559007491437881520710589099349443551606889639283787245003670627)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band18 : Coefficient :=
   X ^ 162 * (
     ((769909353 * 10 ^ 77 +
       25737463949982048152079161222611660909920481610413590463492987957639972349280)) +
@@ -1392,7 +1392,7 @@ def recurrence1ExceptionalTerm2Row3Band18 : Coefficient :=
     (-1001439064117858959897495934355571048671034533060874714017517008189519052) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band19 : Coefficient :=
   X ^ 171 * (
     (5217727113039492406223239218163196297825420116494161888463910166463069) +
     (963220118264899485695023998047332381353914051584980680353421612886) * X ^ 1 +
@@ -1405,13 +1405,13 @@ def recurrence1ExceptionalTerm2Row3Band19 : Coefficient :=
     (-181060100392155564835883660684055947014374) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row3Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3Band20 : Coefficient :=
   X ^ 180 * (
     (26661016044098761163974378641765990) +
     (-23403093437092441321493748) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row3 : Coefficient :=
   recurrence1ExceptionalTerm2Row3Band3 +
   recurrence1ExceptionalTerm2Row3Band4 +
   recurrence1ExceptionalTerm2Row3Band5 +
@@ -1431,7 +1431,7 @@ def recurrence1ExceptionalTerm2Row3 : Coefficient :=
   recurrence1ExceptionalTerm2Row3Band19 +
   recurrence1ExceptionalTerm2Row3Band20
 
-theorem recurrence1ExceptionalTerm2Row3_eq :
+private theorem recurrence1ExceptionalTerm2Row3_eq :
     recurrence1ExceptionalBlock3 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row3 := by
   unfold recurrence1ExceptionalBlock3 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -1452,7 +1452,7 @@ theorem recurrence1ExceptionalTerm2Row3_eq :
   unfold recurrence1ExceptionalTerm2Row3Band19 recurrence1ExceptionalTerm2Row3Band20
   ring
 
-def recurrence1ExceptionalTerm2Row4Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band4 : Coefficient :=
   X ^ 36 * (
     (-585517183168582075147707880) * X ^ 2 +
     (-13307517551923517354208922801544) * X ^ 3 +
@@ -1463,7 +1463,7 @@ def recurrence1ExceptionalTerm2Row4Band4 : Coefficient :=
     (202670769905849769674736964317796371576079480) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band5 : Coefficient :=
   X ^ 45 * (
     (-22797396279151879943380436395472127495834802684) +
     (1743782088810729814586053099184142062728209383800) * X ^ 1 +
@@ -1476,7 +1476,7 @@ def recurrence1ExceptionalTerm2Row4Band5 : Coefficient :=
     (-322529475677080165407916955102782302376119639857337496828394) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band6 : Coefficient :=
   X ^ 54 * (
     (11174909739718328901716877990820621520652608292838153686571784) +
     (-314219030615937409886968403262920366969624889955451744444626098) * X ^ 1 +
@@ -1489,7 +1489,7 @@ def recurrence1ExceptionalTerm2Row4Band6 : Coefficient :=
     (-244154840551925057803149024071993968297656702067827912757645852073542668) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band7 : Coefficient :=
   X ^ 63 * (
     (4240053513842230012748682978767082924473531776961693021703177591908450798) +
     (-60981617653690351040873065179483102032000756481211414766807221973660864796) * X ^ 1 +
@@ -1506,7 +1506,7 @@ def recurrence1ExceptionalTerm2Row4Band7 : Coefficient :=
       62079098448611226925196642419224057679701126439620658353148643791234470287754)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band8 : Coefficient :=
   X ^ 72 * (
     -((13532 * 10 ^ 77 +
       26646569157900697151447104301955459235399457908356071519358728808646547716874)) +
@@ -1528,7 +1528,7 @@ def recurrence1ExceptionalTerm2Row4Band8 : Coefficient :=
       55928189379460160332437009371153597265646620230119475762327435274395442681452)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band9 : Coefficient :=
   X ^ 81 * (
     ((502304155 * 10 ^ 77 +
       36253347117202110577888596299523988822150722032510053532210689734084313878270)) +
@@ -1550,7 +1550,7 @@ def recurrence1ExceptionalTerm2Row4Band9 : Coefficient :=
       81809951555031215005832889441600540307279526288492368735036485942485497732440)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band10 : Coefficient :=
   X ^ 90 * (
     ((7216950765282 * 10 ^ 77 +
       83800576545919396016423539954480679010166187483189837659359816696845749183352)) +
@@ -1572,7 +1572,7 @@ def recurrence1ExceptionalTerm2Row4Band10 : Coefficient :=
       58278907646791482621073676168760176018205937456363025658106305091063211049936)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band11 : Coefficient :=
   X ^ 99 * (
     -((172046014076666161 * 10 ^ 77 +
       62968447545046427898773043867387282011675353591700761978919757229442222355960)) +
@@ -1594,7 +1594,7 @@ def recurrence1ExceptionalTerm2Row4Band11 : Coefficient :=
       77002906077646640952030754765298381316512865615731044973728966497377963739970)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band12 : Coefficient :=
   X ^ 108 * (
     ((21119441663624463076054 * 10 ^ 77 +
       87636475542629277596265056615287644276347396406791824848023540452452654542942)) +
@@ -1616,7 +1616,7 @@ def recurrence1ExceptionalTerm2Row4Band12 : Coefficient :=
       35369309498369413782071905599036573420687975066905677550430598293449246944056)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band13 : Coefficient :=
   X ^ 117 * (
     ((284074608285019488284926868 * 10 ^ 77 +
       91706376216308035887699766128809347774184918080225326810079120637159713375752)) +
@@ -1638,7 +1638,7 @@ def recurrence1ExceptionalTerm2Row4Band13 : Coefficient :=
       42746815438776446267680942543932498064065532280047584190632980156070624710228)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band14 : Coefficient :=
   X ^ 126 * (
     -((16304838887545629309738533236 * 10 ^ 77 +
       58884401687522096681526162318536469254354212311323250818100628514539476159028)) +
@@ -1660,7 +1660,7 @@ def recurrence1ExceptionalTerm2Row4Band14 : Coefficient :=
       71943056173733817281124354649151848589829788159293023510165458405554789551480)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band15 : Coefficient :=
   X ^ 135 * (
     ((9312814811317175386788191424 * 10 ^ 77 +
       53024571038569957570412189248854061491077226912606468979547491171887154764000)) +
@@ -1682,7 +1682,7 @@ def recurrence1ExceptionalTerm2Row4Band15 : Coefficient :=
       09412891063255879646847646135218549994783128170188822875087564877298771881090)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band16 : Coefficient :=
   X ^ 144 * (
     -((119732681786481018892603949 * 10 ^ 77 +
       29758226151146391731012242799738960022026353173400004795787810418308470658816)) +
@@ -1704,7 +1704,7 @@ def recurrence1ExceptionalTerm2Row4Band16 : Coefficient :=
       01957087981529049682680144612502545591935556479323828370799725574514932857638)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band17 : Coefficient :=
   X ^ 153 * (
     ((33012583825334379139675 * 10 ^ 77 +
       53903198985567357781873233857454772871548389278459310128180643594117971495470)) +
@@ -1726,7 +1726,7 @@ def recurrence1ExceptionalTerm2Row4Band17 : Coefficient :=
       19232847200896298743185887055180932944924194250296771150203468653773099893818)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band18 : Coefficient :=
   X ^ 162 * (
     -((51350690978965272 * 10 ^ 77 +
       62330003874066369592266930799127242362160032283067648285831131326965275321680)) +
@@ -1748,7 +1748,7 @@ def recurrence1ExceptionalTerm2Row4Band18 : Coefficient :=
       11158624659355419963485205434100344070176739105831363674299771202321331356324)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band19 : Coefficient :=
   X ^ 171 * (
     -((188837615 * 10 ^ 77 +
       58529977637583734458075103282157795655563642797235551423336969226257407920528)) +
@@ -1767,7 +1767,7 @@ def recurrence1ExceptionalTerm2Row4Band19 : Coefficient :=
     (206610030889276925118441108865555115253312862039237169104170827592330382) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band20 : Coefficient :=
   X ^ 180 * (
     (-1060060398146829197262812956393105569312700514578462668572813484064642) +
     (-227741606678241926751066109069809544643495663600602649252698613876) * X ^ 1 +
@@ -1780,13 +1780,13 @@ def recurrence1ExceptionalTerm2Row4Band20 : Coefficient :=
     (36807298524015779640835727513165307834630) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row4Band21 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4Band21 : Coefficient :=
   X ^ 189 * (
     (-5419855417394890694515373017020510) +
     (4757559960236189727588660) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row4 : Coefficient :=
   recurrence1ExceptionalTerm2Row4Band4 +
   recurrence1ExceptionalTerm2Row4Band5 +
   recurrence1ExceptionalTerm2Row4Band6 +
@@ -1806,7 +1806,7 @@ def recurrence1ExceptionalTerm2Row4 : Coefficient :=
   recurrence1ExceptionalTerm2Row4Band20 +
   recurrence1ExceptionalTerm2Row4Band21
 
-theorem recurrence1ExceptionalTerm2Row4_eq :
+private theorem recurrence1ExceptionalTerm2Row4_eq :
     recurrence1ExceptionalBlock4 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row4 := by
   unfold recurrence1ExceptionalBlock4 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -1827,7 +1827,7 @@ theorem recurrence1ExceptionalTerm2Row4_eq :
   unfold recurrence1ExceptionalTerm2Row4Band20 recurrence1ExceptionalTerm2Row4Band21
   ring
 
-def recurrence1ExceptionalTerm2Row5Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band5 : Coefficient :=
   X ^ 45 * (
     (13601380324663877635165276) * X ^ 2 +
     (309147046952761696025133118892) * X ^ 3 +
@@ -1838,7 +1838,7 @@ def recurrence1ExceptionalTerm2Row5Band5 : Coefficient :=
     (-4671719301445491327778785603992292000128729) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band6 : Coefficient :=
   X ^ 54 * (
     (523495403056418473941074625958943458251834941) +
     (-39823968496477395834222189386701091231812595988) * X ^ 1 +
@@ -1851,7 +1851,7 @@ def recurrence1ExceptionalTerm2Row5Band6 : Coefficient :=
     (7271051630031573603882552082605715368819472891245807598325) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band7 : Coefficient :=
   X ^ 63 * (
     (-249951633905263335498903837702236626825601608408129586049762) +
     (6965754861231826245590323191437272853874521369595992232999071) * X ^ 1 +
@@ -1864,7 +1864,7 @@ def recurrence1ExceptionalTerm2Row5Band7 : Coefficient :=
     (5352862088257187878847522414668357673407730723459892613813770534571487) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band8 : Coefficient :=
   X ^ 72 * (
     (-91235536314243746773030452439582002794859297299905872699521169159104729) +
     (1290962277814339894494401314941574453866886983625566235601189935959131091) * X ^ 1 +
@@ -1880,7 +1880,7 @@ def recurrence1ExceptionalTerm2Row5Band8 : Coefficient :=
       63751400878929376408671143211578102272530916468670476491075869966254445569628)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band9 : Coefficient :=
   X ^ 81 * (
     ((247 * 10 ^ 77 +
       04130665515265829725866850475618672579974470731494077971499109693712997292805)) +
@@ -1902,7 +1902,7 @@ def recurrence1ExceptionalTerm2Row5Band9 : Coefficient :=
       26525522366306444680855067580186709975689851625019713696588365274400018645926)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band10 : Coefficient :=
   X ^ 90 * (
     -((1213872 * 10 ^ 77 +
       44340499968740008033450200683330715119718797344274830813424247573417890578367)) +
@@ -1924,7 +1924,7 @@ def recurrence1ExceptionalTerm2Row5Band10 : Coefficient :=
       07212724598511354475501019988510379901412304716663065334628546762658132688141)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band11 : Coefficient :=
   X ^ 99 * (
     -((5343958079 * 10 ^ 77 +
       32094399834923430744496914108491412976697479057821111416812886792351683291198)) +
@@ -1946,7 +1946,7 @@ def recurrence1ExceptionalTerm2Row5Band11 : Coefficient :=
       63467707006117993759091049178333633701465192978716873819128314922008778061514)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band12 : Coefficient :=
   X ^ 108 * (
     ((8932204017657636 * 10 ^ 77 +
       55579696182081341060731833568722685677688502074588320196159596209815174746835)) +
@@ -1968,7 +1968,7 @@ def recurrence1ExceptionalTerm2Row5Band12 : Coefficient :=
       99401079857297540509357345365536883889166894579971201693962705581563339364358)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band13 : Coefficient :=
   X ^ 117 * (
     -((469318953539320952777 * 10 ^ 77 +
       74684063833013391334954342194580798340676339700889935598652750824517773066114)) +
@@ -1990,7 +1990,7 @@ def recurrence1ExceptionalTerm2Row5Band13 : Coefficient :=
       40451770271604374978461293488874978428340414811544738933162878676361398975158)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band14 : Coefficient :=
   X ^ 126 * (
     -((3383595462261656965053252 * 10 ^ 77 +
       60852911014066094081628646067846248107085826982874250826172708914619431830075)) +
@@ -2012,7 +2012,7 @@ def recurrence1ExceptionalTerm2Row5Band14 : Coefficient :=
       69563141480744621329418538250682225268365132127109539991533162324967119036198)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band15 : Coefficient :=
   X ^ 135 * (
     ((82595615496398008340095306 * 10 ^ 77 +
       02724625329178316099966039973877594075558399796710845216822999044404883310108)) +
@@ -2034,7 +2034,7 @@ def recurrence1ExceptionalTerm2Row5Band15 : Coefficient :=
       46981281018193566760437643444802244883780902546767828579629318115626911219598)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band16 : Coefficient :=
   X ^ 144 * (
     -((13412207776651919627207283 * 10 ^ 77 +
       14264247988218456665370928448440704824713448380455071260657742644680590426353)) +
@@ -2056,7 +2056,7 @@ def recurrence1ExceptionalTerm2Row5Band16 : Coefficient :=
       03840992251545273891894688619166718942314034882012923694210805483307109631811)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band17 : Coefficient :=
   X ^ 153 * (
     ((26948020361215102246458 * 10 ^ 77 +
       38124652681481456672554915370489790351303699913295494641668698417507950358741)) +
@@ -2078,7 +2078,7 @@ def recurrence1ExceptionalTerm2Row5Band17 : Coefficient :=
       20387229117334263037260691604766887124535880820497488530743552249766256957992)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band18 : Coefficient :=
   X ^ 162 * (
     -((622269533501562273 * 10 ^ 77 +
       39475088688152765147162134595136235095413847078317290481994878602793999282484)) +
@@ -2100,7 +2100,7 @@ def recurrence1ExceptionalTerm2Row5Band18 : Coefficient :=
       05632427612313863721103054810246863478287591460554589603832966637364327640223)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band19 : Coefficient :=
   X ^ 171 * (
     ((40748039494 * 10 ^ 77 +
       31871115030250773242267801920919541757514758121214017274382224578189888265867)) +
@@ -2122,7 +2122,7 @@ def recurrence1ExceptionalTerm2Row5Band19 : Coefficient :=
       09852847209478809997413929725284356994224197828283622285597518679324905966030)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band20 : Coefficient :=
   X ^ 180 * (
     ((97 * 10 ^ 77 +
       13775298816707145862775352057434618027068265994947417702599950846217853618231)) +
@@ -2137,7 +2137,7 @@ def recurrence1ExceptionalTerm2Row5Band20 : Coefficient :=
     (-68735232575840533362285411948550554079971105700293381322424320030) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band21 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band21 : Coefficient :=
   X ^ 189 * (
     (340186237594287302697998156824659861631313899364083127107023700) +
     (97948755878664404027533860703621672844397548731133201970740) * X ^ 1 +
@@ -2150,13 +2150,13 @@ def recurrence1ExceptionalTerm2Row5Band21 : Coefficient :=
     (-11835687461949895462163863913050308) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row5Band22 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5Band22 : Coefficient :=
   X ^ 198 * (
     (1742797052192664317227894257) +
     (-1529830740233474154) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row5 : Coefficient :=
   recurrence1ExceptionalTerm2Row5Band5 +
   recurrence1ExceptionalTerm2Row5Band6 +
   recurrence1ExceptionalTerm2Row5Band7 +
@@ -2176,7 +2176,7 @@ def recurrence1ExceptionalTerm2Row5 : Coefficient :=
   recurrence1ExceptionalTerm2Row5Band21 +
   recurrence1ExceptionalTerm2Row5Band22
 
-theorem recurrence1ExceptionalTerm2Row5_eq :
+private theorem recurrence1ExceptionalTerm2Row5_eq :
     recurrence1ExceptionalBlock5 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row5 := by
   unfold recurrence1ExceptionalBlock5 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -2197,7 +2197,7 @@ theorem recurrence1ExceptionalTerm2Row5_eq :
   unfold recurrence1ExceptionalTerm2Row5Band21 recurrence1ExceptionalTerm2Row5Band22
   ring
 
-def recurrence1ExceptionalTerm2Row6Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band6 : Coefficient :=
   X ^ 54 * (
     (-1199889597972019500) * X ^ 2 +
     (-27272657224557937956162) * X ^ 3 +
@@ -2208,7 +2208,7 @@ def recurrence1ExceptionalTerm2Row6Band6 : Coefficient :=
     (411608800695428712495576281419246214) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band7 : Coefficient :=
   X ^ 63 * (
     (-46094506527361856824946327151951752834) +
     (3503413251473040991702488989488085198719) * X ^ 1 +
@@ -2221,7 +2221,7 @@ def recurrence1ExceptionalTerm2Row6Band7 : Coefficient :=
     (-638304252384778529924782304610607719578320686246405) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band8 : Coefficient :=
   X ^ 72 * (
     (21914302376776133696517543383452402275468287307243773) +
     (-609830954820981215659664979462147905868068917313322040) * X ^ 1 +
@@ -2234,7 +2234,7 @@ def recurrence1ExceptionalTerm2Row6Band8 : Coefficient :=
     (-467725366413609536471241332337004623313263913055173394461860958) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band9 : Coefficient :=
   X ^ 81 * (
     (7948459214798719279844160923999225754950845451764124645595716073) +
     (-112178249582114306417602940417232554471798695788144767710991897307) * X ^ 1 +
@@ -2247,7 +2247,7 @@ def recurrence1ExceptionalTerm2Row6Band9 : Coefficient :=
     (371819838246230283306273478572951661353156681189451379753365304905055800) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band10 : Coefficient :=
   X ^ 90 * (
     (-2097415312757214750463854954346451790162904375698920583807311430134209303) +
     (10752664616577993929959321884083782871617824103913949314717849787689643209) * X ^ 1 +
@@ -2260,7 +2260,7 @@ def recurrence1ExceptionalTerm2Row6Band10 : Coefficient :=
     (-34085937834938117860310134355035271118075517861666509773276927177471554213060) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band11 : Coefficient :=
   X ^ 99 * (
     (2382058082053039192228409218624941777531813168946632862512224947890978585743) +
     ((3 * 10 ^ 77 +
@@ -2281,7 +2281,7 @@ def recurrence1ExceptionalTerm2Row6Band11 : Coefficient :=
       86816770766272570210049491610835255305576496487567544973074048059564130513136)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band12 : Coefficient :=
   X ^ 108 * (
     -((661 * 10 ^ 77 +
       15716726842910951214908038002270379405278788967924559843012575239515451849820)) +
@@ -2303,7 +2303,7 @@ def recurrence1ExceptionalTerm2Row6Band12 : Coefficient :=
       83644387313178068093484209339014462787705251538927504793482130004518042425272)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band13 : Coefficient :=
   X ^ 117 * (
     -((825121943 * 10 ^ 77 +
       17498717061715054793655185399714475698990998877959377825326291519820767678863)) +
@@ -2325,7 +2325,7 @@ def recurrence1ExceptionalTerm2Row6Band13 : Coefficient :=
       20050428150461861236967849539571859973045878909809228157959459607729127573999)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band14 : Coefficient :=
   X ^ 126 * (
     ((40259254330265 * 10 ^ 77 +
       35264179415590822529209723678516967389968317675183500414679117781052870637592)) +
@@ -2347,7 +2347,7 @@ def recurrence1ExceptionalTerm2Row6Band14 : Coefficient :=
       09678900813549368466586030357713838198131303090172269938065956090770175690245)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band15 : Coefficient :=
   X ^ 135 * (
     ((268766296165048566 * 10 ^ 77 +
       52383257851578489900755302062966398080634185966681865262277803213397999042323)) +
@@ -2369,7 +2369,7 @@ def recurrence1ExceptionalTerm2Row6Band15 : Coefficient :=
       17262308997840198363606766525100407499063557466996857411202799233566686909082)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band16 : Coefficient :=
   X ^ 144 * (
     -((5841004402143445202 * 10 ^ 77 +
       24268801217007487976682868100309999148360469264008749185252677732037892593220)) +
@@ -2391,7 +2391,7 @@ def recurrence1ExceptionalTerm2Row6Band16 : Coefficient :=
       33311528183228871206784628379518544209354658254066844847623276756379047487707)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band17 : Coefficient :=
   X ^ 153 * (
     ((790935272978509749 * 10 ^ 77 +
       07418132875263597833733067219952014709935267143310694519164037317469213144936)) +
@@ -2413,7 +2413,7 @@ def recurrence1ExceptionalTerm2Row6Band17 : Coefficient :=
       69550698654285121465642346502418928254323749955615017472346647701771556363627)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band18 : Coefficient :=
   X ^ 162 * (
     -((1121584504544572 * 10 ^ 77 +
       18435908667306600827292661603373936902871497248939663947133967493405515227732)) +
@@ -2435,7 +2435,7 @@ def recurrence1ExceptionalTerm2Row6Band18 : Coefficient :=
       46112497434273765329566586356114730482928786702529838371917275686962227300117)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band19 : Coefficient :=
   X ^ 171 * (
     ((9741239399 * 10 ^ 77 +
       95006656990763895040608048304753514452374164113784941739250627886074665192082)) +
@@ -2457,7 +2457,7 @@ def recurrence1ExceptionalTerm2Row6Band19 : Coefficient :=
       58996897067669337906906839507491770318689802783400375137296494339218369774950)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band20 : Coefficient :=
   X ^ 180 * (
     ((123 * 10 ^ 77 +
       06498153232682232361341109727825905435639709572998577893654045666040620736387)) +
@@ -2473,7 +2473,7 @@ def recurrence1ExceptionalTerm2Row6Band20 : Coefficient :=
     (2252904003822244587831491524029989842038645496594813484639710040217659) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band21 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band21 : Coefficient :=
   X ^ 189 * (
     (-71290493585883305693714618553140229710456654439712587349844585019335) +
     (1916000637209354413940284794565479070566270908678038752608900455606) * X ^ 1 +
@@ -2486,7 +2486,7 @@ def recurrence1ExceptionalTerm2Row6Band21 : Coefficient :=
     (24361899435782252181041832857544509193830070253833864) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band22 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band22 : Coefficient :=
   X ^ 198 * (
     (-84493841539174450933902247709327620309006798516770) +
     (-102153458709203437377492648662757550977869357193) * X ^ 1 +
@@ -2499,13 +2499,13 @@ def recurrence1ExceptionalTerm2Row6Band22 : Coefficient :=
     (3127228162114493647035) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row6Band23 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6Band23 : Coefficient :=
   X ^ 207 * (
     (-460477447881150) +
     (404208) * X ^ 1
   )
 
-def recurrence1ExceptionalTerm2Row6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row6 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band6 +
   recurrence1ExceptionalTerm2Row6Band7 +
   recurrence1ExceptionalTerm2Row6Band8 +
@@ -2525,7 +2525,7 @@ def recurrence1ExceptionalTerm2Row6 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band22 +
   recurrence1ExceptionalTerm2Row6Band23
 
-theorem recurrence1ExceptionalTerm2Row6_eq :
+private theorem recurrence1ExceptionalTerm2Row6_eq :
     recurrence1ExceptionalBlock6 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row6 := by
   unfold recurrence1ExceptionalBlock6 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -2546,7 +2546,7 @@ theorem recurrence1ExceptionalTerm2Row6_eq :
   unfold recurrence1ExceptionalTerm2Row6Band22 recurrence1ExceptionalTerm2Row6Band23
   ring
 
-def recurrence1ExceptionalTerm2Row7Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band7 : Coefficient :=
   X ^ 63 * (
     (20566) * X ^ 2 +
     (467452502) * X ^ 3 +
@@ -2557,7 +2557,7 @@ def recurrence1ExceptionalTerm2Row7Band7 : Coefficient :=
     (-7051644585908704055280) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band8 : Coefficient :=
   X ^ 72 * (
     (789505055030491628391075) +
     (-59986525779113592452228114) * X ^ 1 +
@@ -2570,7 +2570,7 @@ def recurrence1ExceptionalTerm2Row7Band8 : Coefficient :=
     (10920773607153928613786783012238872921) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band9 : Coefficient :=
   X ^ 81 * (
     (-374755433938771058464397696038142186056) +
     (10423139299556869835388904607584062679111) * X ^ 1 +
@@ -2583,7 +2583,7 @@ def recurrence1ExceptionalTerm2Row7Band9 : Coefficient :=
     (7988566775046323816950452536667043821428643273571) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band10 : Coefficient :=
   X ^ 90 * (
     (-135610457529676213927524080412967938276908000989499) +
     (1912098641510585058099084468722416136697822198628623) * X ^ 1 +
@@ -2596,7 +2596,7 @@ def recurrence1ExceptionalTerm2Row7Band10 : Coefficient :=
     (-6293016267641226930816983777632313952601640526445380151277) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band11 : Coefficient :=
   X ^ 99 * (
     (35453047198090537082304117523098262290953781713141305831790) +
     (-181499756823876778304060593417382305756426614026496891389935) * X ^ 1 +
@@ -2609,7 +2609,7 @@ def recurrence1ExceptionalTerm2Row7Band11 : Coefficient :=
     (557924028055441474238630776968822342538856427701636338978197629) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band12 : Coefficient :=
   X ^ 108 * (
     (4443215559487839326439914202816308765887547512828767566577894) +
     (-5190470250224262508551271917117761513256090003934359515937713572) * X ^ 1 +
@@ -2622,7 +2622,7 @@ def recurrence1ExceptionalTerm2Row7Band12 : Coefficient :=
     (7209866222568054868512328548494855815959045172876543998169252113244) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band13 : Coefficient :=
   X ^ 117 * (
     (1724737831226548170000465792846091900982352387032329614998427719216) +
     (-13372367869848666839347703572120985123394727185653966147681404955432) * X ^ 1 +
@@ -2635,7 +2635,7 @@ def recurrence1ExceptionalTerm2Row7Band13 : Coefficient :=
     (230619480194053390530218647033603763596156082753043918233161797927318675) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band14 : Coefficient :=
   X ^ 126 * (
     (1433322050784409541498630282889013093835565987124507123047930319437077533) +
     (-9005447893521413281801840670945787098264834803571205293176637274299607663) * X ^ 1 +
@@ -2648,7 +2648,7 @@ def recurrence1ExceptionalTerm2Row7Band14 : Coefficient :=
     (10299600007772281310642717885390182951937129250880590873228342112801682245293) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band15 : Coefficient :=
   X ^ 135 * (
     (-68214330578893228553685928493216088652583932457539998082710688173398952810092) +
     ((2 * 10 ^ 77 +
@@ -2669,7 +2669,7 @@ def recurrence1ExceptionalTerm2Row7Band15 : Coefficient :=
       84150859919551749454457773268112361470632809987902168684317820942572855625756)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band16 : Coefficient :=
   X ^ 144 * (
     -((4438 * 10 ^ 77 +
       13185349991263522080593701675830045279755086470509237212549004952614599067836)) +
@@ -2691,7 +2691,7 @@ def recurrence1ExceptionalTerm2Row7Band16 : Coefficient :=
       60169749247515814676320711805214435858709310274527504992268040365030782945048)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band17 : Coefficient :=
   X ^ 153 * (
     ((92915 * 10 ^ 77 +
       04956220607486260275725415665031661219655566975464158435763998554034408554480)) +
@@ -2713,7 +2713,7 @@ def recurrence1ExceptionalTerm2Row7Band17 : Coefficient :=
       16403729949346202045504220818498858162623313256366101561117504765028790497700)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band18 : Coefficient :=
   X ^ 162 * (
     -((11929 * 10 ^ 77 +
       73960328987229107472584980350730821716258482294929301075098159562646123036503)) +
@@ -2735,7 +2735,7 @@ def recurrence1ExceptionalTerm2Row7Band18 : Coefficient :=
       69179436436706490024028444350089890583884145684810998237906683449509258064080)) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band19 : Coefficient :=
   X ^ 171 * (
     ((15 * 10 ^ 77 +
       45604664960767846161518367809748171508613227035233358423742338650833991643039)) +
@@ -2751,7 +2751,7 @@ def recurrence1ExceptionalTerm2Row7Band19 : Coefficient :=
     (56098287185765485529213994082243262581584135657387543776870949233940638251) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band20 : Coefficient :=
   X ^ 180 * (
     (-10549445995579726899352496198976701305591064216596749616103919801888854209) +
     (1753428219162708042442929021584283905383289737567132038310659234492806248) * X ^ 1 +
@@ -2764,7 +2764,7 @@ def recurrence1ExceptionalTerm2Row7Band20 : Coefficient :=
     (934681107860434837000953261878398686818274156008261289171673950871) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band21 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band21 : Coefficient :=
   X ^ 189 * (
     (-98631113392338475087316148944972009748966393538867971507679983646) +
     (8070972681488537876096594324281849283907104357091359639643098128) * X ^ 1 +
@@ -2777,7 +2777,7 @@ def recurrence1ExceptionalTerm2Row7Band21 : Coefficient :=
     (-3984496954486262589407169793306672512000502855155540) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band22 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band22 : Coefficient :=
   X ^ 198 * (
     (-103101870016126360746150005911720546492853629670543) +
     (536387544838059037062928334334550440874733909731) * X ^ 1 +
@@ -2790,14 +2790,14 @@ def recurrence1ExceptionalTerm2Row7Band22 : Coefficient :=
     (6373118709373069341699962) * X ^ 8
   )
 
-def recurrence1ExceptionalTerm2Row7Band23 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7Band23 : Coefficient :=
   X ^ 207 * (
     (-18614232357864327257) +
     (2740936995785) * X ^ 1 +
     (-2406) * X ^ 2
   )
 
-def recurrence1ExceptionalTerm2Row7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Row7 : Coefficient :=
   recurrence1ExceptionalTerm2Row7Band7 +
   recurrence1ExceptionalTerm2Row7Band8 +
   recurrence1ExceptionalTerm2Row7Band9 +
@@ -2816,7 +2816,7 @@ def recurrence1ExceptionalTerm2Row7 : Coefficient :=
   recurrence1ExceptionalTerm2Row7Band22 +
   recurrence1ExceptionalTerm2Row7Band23
 
-theorem recurrence1ExceptionalTerm2Row7_eq :
+private theorem recurrence1ExceptionalTerm2Row7_eq :
     recurrence1ExceptionalBlock7 * recurrence1Remainder32 =
       recurrence1ExceptionalTerm2Row7 := by
   unfold recurrence1ExceptionalBlock7 recurrence1Remainder32 recurrence1Remainder32Block0
@@ -2837,58 +2837,58 @@ theorem recurrence1ExceptionalTerm2Row7_eq :
   unfold recurrence1ExceptionalTerm2Row7Band23
   ring
 
-def recurrence1ExceptionalTerm2Band0 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band0 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band0
 
-theorem recurrence1ExceptionalTerm2Band0_eq :
+private theorem recurrence1ExceptionalTerm2Band0_eq :
     recurrence1ExceptionalTerm2Band0 = recurrence1ExceptionalTerm2Block0 := by
   unfold recurrence1ExceptionalTerm2Band0 recurrence1ExceptionalTerm2Row0Band0
   unfold recurrence1ExceptionalTerm2Block0
   ring
 
-def recurrence1ExceptionalTerm2Band1 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band1 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band1 +
   recurrence1ExceptionalTerm2Row1Band1
 
-theorem recurrence1ExceptionalTerm2Band1_eq :
+private theorem recurrence1ExceptionalTerm2Band1_eq :
     recurrence1ExceptionalTerm2Band1 = recurrence1ExceptionalTerm2Block1 := by
   unfold recurrence1ExceptionalTerm2Band1 recurrence1ExceptionalTerm2Row0Band1
   unfold recurrence1ExceptionalTerm2Row1Band1 recurrence1ExceptionalTerm2Block1
   ring
 
-def recurrence1ExceptionalTerm2Band2 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band2 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band2 +
   recurrence1ExceptionalTerm2Row1Band2 +
   recurrence1ExceptionalTerm2Row2Band2
 
-theorem recurrence1ExceptionalTerm2Band2_eq :
+private theorem recurrence1ExceptionalTerm2Band2_eq :
     recurrence1ExceptionalTerm2Band2 = recurrence1ExceptionalTerm2Block2 := by
   unfold recurrence1ExceptionalTerm2Band2 recurrence1ExceptionalTerm2Row0Band2
   unfold recurrence1ExceptionalTerm2Row1Band2 recurrence1ExceptionalTerm2Row2Band2
   unfold recurrence1ExceptionalTerm2Block2
   ring
 
-def recurrence1ExceptionalTerm2Band3 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band3 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band3 +
   recurrence1ExceptionalTerm2Row1Band3 +
   recurrence1ExceptionalTerm2Row2Band3 +
   recurrence1ExceptionalTerm2Row3Band3
 
-theorem recurrence1ExceptionalTerm2Band3_eq :
+private theorem recurrence1ExceptionalTerm2Band3_eq :
     recurrence1ExceptionalTerm2Band3 = recurrence1ExceptionalTerm2Block3 := by
   unfold recurrence1ExceptionalTerm2Band3 recurrence1ExceptionalTerm2Row0Band3
   unfold recurrence1ExceptionalTerm2Row1Band3 recurrence1ExceptionalTerm2Row2Band3
   unfold recurrence1ExceptionalTerm2Row3Band3 recurrence1ExceptionalTerm2Block3
   ring
 
-def recurrence1ExceptionalTerm2Band4 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band4 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band4 +
   recurrence1ExceptionalTerm2Row1Band4 +
   recurrence1ExceptionalTerm2Row2Band4 +
   recurrence1ExceptionalTerm2Row3Band4 +
   recurrence1ExceptionalTerm2Row4Band4
 
-theorem recurrence1ExceptionalTerm2Band4_eq :
+private theorem recurrence1ExceptionalTerm2Band4_eq :
     recurrence1ExceptionalTerm2Band4 = recurrence1ExceptionalTerm2Block4 := by
   unfold recurrence1ExceptionalTerm2Band4 recurrence1ExceptionalTerm2Row0Band4
   unfold recurrence1ExceptionalTerm2Row1Band4 recurrence1ExceptionalTerm2Row2Band4
@@ -2896,7 +2896,7 @@ theorem recurrence1ExceptionalTerm2Band4_eq :
   unfold recurrence1ExceptionalTerm2Block4
   ring
 
-def recurrence1ExceptionalTerm2Band5 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band5 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band5 +
   recurrence1ExceptionalTerm2Row1Band5 +
   recurrence1ExceptionalTerm2Row2Band5 +
@@ -2904,7 +2904,7 @@ def recurrence1ExceptionalTerm2Band5 : Coefficient :=
   recurrence1ExceptionalTerm2Row4Band5 +
   recurrence1ExceptionalTerm2Row5Band5
 
-theorem recurrence1ExceptionalTerm2Band5_eq :
+private theorem recurrence1ExceptionalTerm2Band5_eq :
     recurrence1ExceptionalTerm2Band5 = recurrence1ExceptionalTerm2Block5 := by
   unfold recurrence1ExceptionalTerm2Band5 recurrence1ExceptionalTerm2Row0Band5
   unfold recurrence1ExceptionalTerm2Row1Band5 recurrence1ExceptionalTerm2Row2Band5
@@ -2912,7 +2912,7 @@ theorem recurrence1ExceptionalTerm2Band5_eq :
   unfold recurrence1ExceptionalTerm2Row5Band5 recurrence1ExceptionalTerm2Block5
   ring
 
-def recurrence1ExceptionalTerm2Band6 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band6 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band6 +
   recurrence1ExceptionalTerm2Row1Band6 +
   recurrence1ExceptionalTerm2Row2Band6 +
@@ -2921,7 +2921,7 @@ def recurrence1ExceptionalTerm2Band6 : Coefficient :=
   recurrence1ExceptionalTerm2Row5Band6 +
   recurrence1ExceptionalTerm2Row6Band6
 
-theorem recurrence1ExceptionalTerm2Band6_eq :
+private theorem recurrence1ExceptionalTerm2Band6_eq :
     recurrence1ExceptionalTerm2Band6 = recurrence1ExceptionalTerm2Block6 := by
   unfold recurrence1ExceptionalTerm2Band6 recurrence1ExceptionalTerm2Row0Band6
   unfold recurrence1ExceptionalTerm2Row1Band6 recurrence1ExceptionalTerm2Row2Band6
@@ -2930,7 +2930,7 @@ theorem recurrence1ExceptionalTerm2Band6_eq :
   unfold recurrence1ExceptionalTerm2Block6
   ring
 
-def recurrence1ExceptionalTerm2Band7 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band7 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band7 +
   recurrence1ExceptionalTerm2Row1Band7 +
   recurrence1ExceptionalTerm2Row2Band7 +
@@ -2940,7 +2940,7 @@ def recurrence1ExceptionalTerm2Band7 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band7 +
   recurrence1ExceptionalTerm2Row7Band7
 
-theorem recurrence1ExceptionalTerm2Band7_eq :
+private theorem recurrence1ExceptionalTerm2Band7_eq :
     recurrence1ExceptionalTerm2Band7 = recurrence1ExceptionalTerm2Block7 := by
   unfold recurrence1ExceptionalTerm2Band7 recurrence1ExceptionalTerm2Row0Band7
   unfold recurrence1ExceptionalTerm2Row1Band7 recurrence1ExceptionalTerm2Row2Band7
@@ -2949,7 +2949,7 @@ theorem recurrence1ExceptionalTerm2Band7_eq :
   unfold recurrence1ExceptionalTerm2Row7Band7 recurrence1ExceptionalTerm2Block7
   ring
 
-def recurrence1ExceptionalTerm2Band8 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band8 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band8 +
   recurrence1ExceptionalTerm2Row1Band8 +
   recurrence1ExceptionalTerm2Row2Band8 +
@@ -2959,7 +2959,7 @@ def recurrence1ExceptionalTerm2Band8 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band8 +
   recurrence1ExceptionalTerm2Row7Band8
 
-theorem recurrence1ExceptionalTerm2Band8_eq :
+private theorem recurrence1ExceptionalTerm2Band8_eq :
     recurrence1ExceptionalTerm2Band8 = recurrence1ExceptionalTerm2Block8 := by
   unfold recurrence1ExceptionalTerm2Band8 recurrence1ExceptionalTerm2Row0Band8
   unfold recurrence1ExceptionalTerm2Row1Band8 recurrence1ExceptionalTerm2Row2Band8
@@ -2968,7 +2968,7 @@ theorem recurrence1ExceptionalTerm2Band8_eq :
   unfold recurrence1ExceptionalTerm2Row7Band8 recurrence1ExceptionalTerm2Block8
   ring
 
-def recurrence1ExceptionalTerm2Band9 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band9 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band9 +
   recurrence1ExceptionalTerm2Row1Band9 +
   recurrence1ExceptionalTerm2Row2Band9 +
@@ -2978,7 +2978,7 @@ def recurrence1ExceptionalTerm2Band9 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band9 +
   recurrence1ExceptionalTerm2Row7Band9
 
-theorem recurrence1ExceptionalTerm2Band9_eq :
+private theorem recurrence1ExceptionalTerm2Band9_eq :
     recurrence1ExceptionalTerm2Band9 = recurrence1ExceptionalTerm2Block9 := by
   unfold recurrence1ExceptionalTerm2Band9 recurrence1ExceptionalTerm2Row0Band9
   unfold recurrence1ExceptionalTerm2Row1Band9 recurrence1ExceptionalTerm2Row2Band9
@@ -2987,7 +2987,7 @@ theorem recurrence1ExceptionalTerm2Band9_eq :
   unfold recurrence1ExceptionalTerm2Row7Band9 recurrence1ExceptionalTerm2Block9
   ring
 
-def recurrence1ExceptionalTerm2Band10 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band10 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band10 +
   recurrence1ExceptionalTerm2Row1Band10 +
   recurrence1ExceptionalTerm2Row2Band10 +
@@ -2997,7 +2997,7 @@ def recurrence1ExceptionalTerm2Band10 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band10 +
   recurrence1ExceptionalTerm2Row7Band10
 
-theorem recurrence1ExceptionalTerm2Band10_eq :
+private theorem recurrence1ExceptionalTerm2Band10_eq :
     recurrence1ExceptionalTerm2Band10 = recurrence1ExceptionalTerm2Block10 := by
   unfold recurrence1ExceptionalTerm2Band10 recurrence1ExceptionalTerm2Row0Band10
   unfold recurrence1ExceptionalTerm2Row1Band10 recurrence1ExceptionalTerm2Row2Band10
@@ -3006,7 +3006,7 @@ theorem recurrence1ExceptionalTerm2Band10_eq :
   unfold recurrence1ExceptionalTerm2Row7Band10 recurrence1ExceptionalTerm2Block10
   ring
 
-def recurrence1ExceptionalTerm2Band11 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band11 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band11 +
   recurrence1ExceptionalTerm2Row1Band11 +
   recurrence1ExceptionalTerm2Row2Band11 +
@@ -3016,7 +3016,7 @@ def recurrence1ExceptionalTerm2Band11 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band11 +
   recurrence1ExceptionalTerm2Row7Band11
 
-theorem recurrence1ExceptionalTerm2Band11_eq :
+private theorem recurrence1ExceptionalTerm2Band11_eq :
     recurrence1ExceptionalTerm2Band11 = recurrence1ExceptionalTerm2Block11 := by
   unfold recurrence1ExceptionalTerm2Band11 recurrence1ExceptionalTerm2Row0Band11
   unfold recurrence1ExceptionalTerm2Row1Band11 recurrence1ExceptionalTerm2Row2Band11
@@ -3025,7 +3025,7 @@ theorem recurrence1ExceptionalTerm2Band11_eq :
   unfold recurrence1ExceptionalTerm2Row7Band11 recurrence1ExceptionalTerm2Block11
   ring
 
-def recurrence1ExceptionalTerm2Band12 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band12 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band12 +
   recurrence1ExceptionalTerm2Row1Band12 +
   recurrence1ExceptionalTerm2Row2Band12 +
@@ -3035,7 +3035,7 @@ def recurrence1ExceptionalTerm2Band12 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band12 +
   recurrence1ExceptionalTerm2Row7Band12
 
-theorem recurrence1ExceptionalTerm2Band12_eq :
+private theorem recurrence1ExceptionalTerm2Band12_eq :
     recurrence1ExceptionalTerm2Band12 = recurrence1ExceptionalTerm2Block12 := by
   unfold recurrence1ExceptionalTerm2Band12 recurrence1ExceptionalTerm2Row0Band12
   unfold recurrence1ExceptionalTerm2Row1Band12 recurrence1ExceptionalTerm2Row2Band12
@@ -3044,7 +3044,7 @@ theorem recurrence1ExceptionalTerm2Band12_eq :
   unfold recurrence1ExceptionalTerm2Row7Band12 recurrence1ExceptionalTerm2Block12
   ring
 
-def recurrence1ExceptionalTerm2Band13 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band13 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band13 +
   recurrence1ExceptionalTerm2Row1Band13 +
   recurrence1ExceptionalTerm2Row2Band13 +
@@ -3054,7 +3054,7 @@ def recurrence1ExceptionalTerm2Band13 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band13 +
   recurrence1ExceptionalTerm2Row7Band13
 
-theorem recurrence1ExceptionalTerm2Band13_eq :
+private theorem recurrence1ExceptionalTerm2Band13_eq :
     recurrence1ExceptionalTerm2Band13 = recurrence1ExceptionalTerm2Block13 := by
   unfold recurrence1ExceptionalTerm2Band13 recurrence1ExceptionalTerm2Row0Band13
   unfold recurrence1ExceptionalTerm2Row1Band13 recurrence1ExceptionalTerm2Row2Band13
@@ -3063,7 +3063,7 @@ theorem recurrence1ExceptionalTerm2Band13_eq :
   unfold recurrence1ExceptionalTerm2Row7Band13 recurrence1ExceptionalTerm2Block13
   ring
 
-def recurrence1ExceptionalTerm2Band14 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band14 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band14 +
   recurrence1ExceptionalTerm2Row1Band14 +
   recurrence1ExceptionalTerm2Row2Band14 +
@@ -3073,7 +3073,7 @@ def recurrence1ExceptionalTerm2Band14 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band14 +
   recurrence1ExceptionalTerm2Row7Band14
 
-theorem recurrence1ExceptionalTerm2Band14_eq :
+private theorem recurrence1ExceptionalTerm2Band14_eq :
     recurrence1ExceptionalTerm2Band14 = recurrence1ExceptionalTerm2Block14 := by
   unfold recurrence1ExceptionalTerm2Band14 recurrence1ExceptionalTerm2Row0Band14
   unfold recurrence1ExceptionalTerm2Row1Band14 recurrence1ExceptionalTerm2Row2Band14
@@ -3082,7 +3082,7 @@ theorem recurrence1ExceptionalTerm2Band14_eq :
   unfold recurrence1ExceptionalTerm2Row7Band14 recurrence1ExceptionalTerm2Block14
   ring
 
-def recurrence1ExceptionalTerm2Band15 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band15 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band15 +
   recurrence1ExceptionalTerm2Row1Band15 +
   recurrence1ExceptionalTerm2Row2Band15 +
@@ -3092,7 +3092,7 @@ def recurrence1ExceptionalTerm2Band15 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band15 +
   recurrence1ExceptionalTerm2Row7Band15
 
-theorem recurrence1ExceptionalTerm2Band15_eq :
+private theorem recurrence1ExceptionalTerm2Band15_eq :
     recurrence1ExceptionalTerm2Band15 = recurrence1ExceptionalTerm2Block15 := by
   unfold recurrence1ExceptionalTerm2Band15 recurrence1ExceptionalTerm2Row0Band15
   unfold recurrence1ExceptionalTerm2Row1Band15 recurrence1ExceptionalTerm2Row2Band15
@@ -3101,7 +3101,7 @@ theorem recurrence1ExceptionalTerm2Band15_eq :
   unfold recurrence1ExceptionalTerm2Row7Band15 recurrence1ExceptionalTerm2Block15
   ring
 
-def recurrence1ExceptionalTerm2Band16 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band16 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band16 +
   recurrence1ExceptionalTerm2Row1Band16 +
   recurrence1ExceptionalTerm2Row2Band16 +
@@ -3111,7 +3111,7 @@ def recurrence1ExceptionalTerm2Band16 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band16 +
   recurrence1ExceptionalTerm2Row7Band16
 
-theorem recurrence1ExceptionalTerm2Band16_eq :
+private theorem recurrence1ExceptionalTerm2Band16_eq :
     recurrence1ExceptionalTerm2Band16 = recurrence1ExceptionalTerm2Block16 := by
   unfold recurrence1ExceptionalTerm2Band16 recurrence1ExceptionalTerm2Row0Band16
   unfold recurrence1ExceptionalTerm2Row1Band16 recurrence1ExceptionalTerm2Row2Band16
@@ -3120,7 +3120,7 @@ theorem recurrence1ExceptionalTerm2Band16_eq :
   unfold recurrence1ExceptionalTerm2Row7Band16 recurrence1ExceptionalTerm2Block16
   ring
 
-def recurrence1ExceptionalTerm2Band17 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band17 : Coefficient :=
   recurrence1ExceptionalTerm2Row0Band17 +
   recurrence1ExceptionalTerm2Row1Band17 +
   recurrence1ExceptionalTerm2Row2Band17 +
@@ -3130,7 +3130,7 @@ def recurrence1ExceptionalTerm2Band17 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band17 +
   recurrence1ExceptionalTerm2Row7Band17
 
-theorem recurrence1ExceptionalTerm2Band17_eq :
+private theorem recurrence1ExceptionalTerm2Band17_eq :
     recurrence1ExceptionalTerm2Band17 = recurrence1ExceptionalTerm2Block17 := by
   unfold recurrence1ExceptionalTerm2Band17 recurrence1ExceptionalTerm2Row0Band17
   unfold recurrence1ExceptionalTerm2Row1Band17 recurrence1ExceptionalTerm2Row2Band17
@@ -3139,7 +3139,7 @@ theorem recurrence1ExceptionalTerm2Band17_eq :
   unfold recurrence1ExceptionalTerm2Row7Band17 recurrence1ExceptionalTerm2Block17
   ring
 
-def recurrence1ExceptionalTerm2Band18 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band18 : Coefficient :=
   recurrence1ExceptionalTerm2Row1Band18 +
   recurrence1ExceptionalTerm2Row2Band18 +
   recurrence1ExceptionalTerm2Row3Band18 +
@@ -3148,7 +3148,7 @@ def recurrence1ExceptionalTerm2Band18 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band18 +
   recurrence1ExceptionalTerm2Row7Band18
 
-theorem recurrence1ExceptionalTerm2Band18_eq :
+private theorem recurrence1ExceptionalTerm2Band18_eq :
     recurrence1ExceptionalTerm2Band18 = recurrence1ExceptionalTerm2Block18 := by
   unfold recurrence1ExceptionalTerm2Band18 recurrence1ExceptionalTerm2Row1Band18
   unfold recurrence1ExceptionalTerm2Row2Band18 recurrence1ExceptionalTerm2Row3Band18
@@ -3157,7 +3157,7 @@ theorem recurrence1ExceptionalTerm2Band18_eq :
   unfold recurrence1ExceptionalTerm2Block18
   ring
 
-def recurrence1ExceptionalTerm2Band19 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band19 : Coefficient :=
   recurrence1ExceptionalTerm2Row2Band19 +
   recurrence1ExceptionalTerm2Row3Band19 +
   recurrence1ExceptionalTerm2Row4Band19 +
@@ -3165,7 +3165,7 @@ def recurrence1ExceptionalTerm2Band19 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band19 +
   recurrence1ExceptionalTerm2Row7Band19
 
-theorem recurrence1ExceptionalTerm2Band19_eq :
+private theorem recurrence1ExceptionalTerm2Band19_eq :
     recurrence1ExceptionalTerm2Band19 = recurrence1ExceptionalTerm2Block19 := by
   unfold recurrence1ExceptionalTerm2Band19 recurrence1ExceptionalTerm2Row2Band19
   unfold recurrence1ExceptionalTerm2Row3Band19 recurrence1ExceptionalTerm2Row4Band19
@@ -3173,14 +3173,14 @@ theorem recurrence1ExceptionalTerm2Band19_eq :
   unfold recurrence1ExceptionalTerm2Row7Band19 recurrence1ExceptionalTerm2Block19
   ring
 
-def recurrence1ExceptionalTerm2Band20 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band20 : Coefficient :=
   recurrence1ExceptionalTerm2Row3Band20 +
   recurrence1ExceptionalTerm2Row4Band20 +
   recurrence1ExceptionalTerm2Row5Band20 +
   recurrence1ExceptionalTerm2Row6Band20 +
   recurrence1ExceptionalTerm2Row7Band20
 
-theorem recurrence1ExceptionalTerm2Band20_eq :
+private theorem recurrence1ExceptionalTerm2Band20_eq :
     recurrence1ExceptionalTerm2Band20 = recurrence1ExceptionalTerm2Block20 := by
   unfold recurrence1ExceptionalTerm2Band20 recurrence1ExceptionalTerm2Row3Band20
   unfold recurrence1ExceptionalTerm2Row4Band20 recurrence1ExceptionalTerm2Row5Band20
@@ -3188,42 +3188,42 @@ theorem recurrence1ExceptionalTerm2Band20_eq :
   unfold recurrence1ExceptionalTerm2Block20
   ring
 
-def recurrence1ExceptionalTerm2Band21 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band21 : Coefficient :=
   recurrence1ExceptionalTerm2Row4Band21 +
   recurrence1ExceptionalTerm2Row5Band21 +
   recurrence1ExceptionalTerm2Row6Band21 +
   recurrence1ExceptionalTerm2Row7Band21
 
-theorem recurrence1ExceptionalTerm2Band21_eq :
+private theorem recurrence1ExceptionalTerm2Band21_eq :
     recurrence1ExceptionalTerm2Band21 = recurrence1ExceptionalTerm2Block21 := by
   unfold recurrence1ExceptionalTerm2Band21 recurrence1ExceptionalTerm2Row4Band21
   unfold recurrence1ExceptionalTerm2Row5Band21 recurrence1ExceptionalTerm2Row6Band21
   unfold recurrence1ExceptionalTerm2Row7Band21 recurrence1ExceptionalTerm2Block21
   ring
 
-def recurrence1ExceptionalTerm2Band22 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band22 : Coefficient :=
   recurrence1ExceptionalTerm2Row5Band22 +
   recurrence1ExceptionalTerm2Row6Band22 +
   recurrence1ExceptionalTerm2Row7Band22
 
-theorem recurrence1ExceptionalTerm2Band22_eq :
+private theorem recurrence1ExceptionalTerm2Band22_eq :
     recurrence1ExceptionalTerm2Band22 = recurrence1ExceptionalTerm2Block22 := by
   unfold recurrence1ExceptionalTerm2Band22 recurrence1ExceptionalTerm2Row5Band22
   unfold recurrence1ExceptionalTerm2Row6Band22 recurrence1ExceptionalTerm2Row7Band22
   unfold recurrence1ExceptionalTerm2Block22
   ring
 
-def recurrence1ExceptionalTerm2Band23 : Coefficient :=
+private def recurrence1ExceptionalTerm2Band23 : Coefficient :=
   recurrence1ExceptionalTerm2Row6Band23 +
   recurrence1ExceptionalTerm2Row7Band23
 
-theorem recurrence1ExceptionalTerm2Band23_eq :
+private theorem recurrence1ExceptionalTerm2Band23_eq :
     recurrence1ExceptionalTerm2Band23 = recurrence1ExceptionalTerm2Block23 := by
   unfold recurrence1ExceptionalTerm2Band23 recurrence1ExceptionalTerm2Row6Band23
   unfold recurrence1ExceptionalTerm2Row7Band23 recurrence1ExceptionalTerm2Block23
   ring
 
-def recurrence1ExceptionalTerm2Rows : Coefficient :=
+private def recurrence1ExceptionalTerm2Rows : Coefficient :=
   recurrence1ExceptionalTerm2Row0 +
   recurrence1ExceptionalTerm2Row1 +
   recurrence1ExceptionalTerm2Row2 +
@@ -3233,7 +3233,7 @@ def recurrence1ExceptionalTerm2Rows : Coefficient :=
   recurrence1ExceptionalTerm2Row6 +
   recurrence1ExceptionalTerm2Row7
 
-def recurrence1ExceptionalTerm2Bands : Coefficient :=
+private def recurrence1ExceptionalTerm2Bands : Coefficient :=
   recurrence1ExceptionalTerm2Band0 +
   recurrence1ExceptionalTerm2Band1 +
   recurrence1ExceptionalTerm2Band2 +
