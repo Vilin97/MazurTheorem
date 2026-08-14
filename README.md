@@ -48,11 +48,16 @@ not shorten the formalization cone in degree one; they add analytic-rank,
 homology, or Hecke-independence infrastructure. The detailed comparison and
 sources are in [the route audit](docs/ROUTE_AUDIT.md).
 
-Three foundation lanes are active, with one current work package in each:
+Two foundation packages are selected under the WIP limit of three:
 
 1. coherent cohomology → relative Picard → represented Jacobian and Abel–Jacobi;
-2. honest finite-flat cyclic subgroups → represented `X₀(N)` → an order-49 vertical slice;
-3. genuine Néron specialization → the private Eisenstein witness constructor.
+2. the canonical Weierstrass group scheme → honest finite-flat cyclic
+   subgroups → represented `X₀(N)` → an order-49 vertical slice.
+
+The generic Néron mapping property and admissible-filtration API are already
+integrated. Their Eisenstein-quotient instantiation is not selected until the
+actual quotient and Néron models exist; an unused WIP slot is preferable to a
+conditional shadow.
 
 Conditional order-specific explorations are paused while these foundations are
 unfinished. Their Challenge statements remain immutable and compiled, but are
@@ -62,7 +67,7 @@ that the endpoints are unnecessary.
 ## Progress and roadmap
 
 [`coordination/program.json`](coordination/program.json) is the canonical
-ledger. It contains the fixed 48-node, 1,000-point theorem DAG, the three-lane
+ledger. It contains the fixed 48-node, 1,000-point theorem DAG, the bounded
 execution plan, nested work packages, paused contracts, and the two release
 endpoints. Node weights and the conservative integrated-progress rules are
 unchanged by the architecture refactor. Work packages partition a parent

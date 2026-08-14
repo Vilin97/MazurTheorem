@@ -30,20 +30,26 @@ allowed-point-order theorem by the existing finite/infinite split, or as a
 corollary of the full classification. It is not interchangeable with the full
 classification.
 
-Three additional final inputs are explicit:
+The final declarations are explicit:
 
 ```lean
--- proposed
+-- integrated
 theorem MazurTorsion.rationalTorsion_finite ...
 
--- proposed
+-- integrated generic theorem
+theorem MazurTorsion.exists_rankTwoPresentation_of_allowed_orders_and_forbidden ...
+
+-- compiled conditional rational adapter
 theorem MazurTorsion.rationalTorsion_hasRankTwoPresentation ...
 
 -- existing assembly theorem
 theorem MazurTorsion.hasMazurClassification_of_rankTwo ...
 ```
 
-This makes the previously omitted Mordell–Weil finiteness boundary visible.
+The finiteness declaration is an integrated base-only package. Its proof uses
+the checked rational Northcott instance and approximate parallelogram law with
+Mathlib's finite-torsion descent theorem; it does not require full
+Mordell--Weil finite generation.
 
 ## 2. Proof spine
 
@@ -58,7 +64,8 @@ formal collision at 5               │
         │                           │
 good reduction + #E(F₅) ≤ 10 ──────┘
                                     │
-Mordell–Weil finiteness + rank two ─┤
+height-descent torsion finiteness ───┤
+rank-two invariant factors ─────────┤
 forbidden subgroup results ─────────┤
                                     ▼
                     full fifteen-group classification
@@ -115,6 +122,12 @@ level is reached and a named downstream theorem consumes it.
 - `MazurTorsion.HasMazurClassificationIfFinite`
 - `MazurTorsion.hasMazurClassification_of_rankTwo`
 - `MazurTorsion.torsion_ncard_le_of_classification`
+- `MazurTorsion.rationalTorsion_finite`
+- `MazurTorsion.exists_rankTwoPresentation_of_allowed_orders_and_forbidden`
+- `MazurTorsion.rationalTorsion_hasRankTwoPresentation` (conditional adapter)
+- `MazurTorsion.rationalLogHeightNorthcott`
+- `WeierstrassCurve.Affine.approx_parallelogram_law`
+- Mathlib's `AddCommGroup.finite_torsion_of_descent'`
 - the checked forbidden-embedding package in
   `MazurTorsion.GroupTheory.FiniteClassification`
 - the checked point-order reduction in
@@ -123,10 +136,16 @@ level is reached and a named downstream theorem consumes it.
 ### Remaining integration
 
 `MazurTorsion.rationalTorsion_orders_mem_cyclicOrders` must join the prime
-theorem and finite endpoints. The full classification additionally needs an
-honest proof that rational torsion is finite and an invariant-factor
-presentation of rank at most two. The numerical challenge deliberately did
-not force those facts, so they must not be treated as already integrated.
+theorem and finite endpoints. Rational-torsion finiteness is integrated. The
+full classification still needs the arithmetic hypotheses of the rational
+rank-two adapter. The generic theorem is integrated: the prime-power
+decomposition and exactly the four elementary rank obstructions `c2Cube`,
+`c3Square`, `c5Square`, and `c7Square` produce the invariant-factor form. Its
+cross-module rational adapter compiles conditionally, but point-order, `h55`,
+and `h77` remain API obligations. The later Mazur-list classification
+separately consumes `c4Square`, `c2c10`, and `c2c12`. The numerical challenge
+deliberately did not force the structural result, so these boundaries remain
+explicit work packages.
 
 ## 5. Curve cohomology, Picard, and Jacobian
 
@@ -199,9 +218,18 @@ Therefore:
 - no new adapter may claim a canonical group scheme merely by assuming a
   `GrpObj` instance or an arbitrary point equivalence.
 
-The active vertical slice constructs the missing compatibility needed to send
-an exact-order-49 point through an honest finite-flat subgroup to a represented
-`X₀(49)` point. Its named endpoint is
+The active vertical slice is ordered into three packages:
+
+1. construct the canonical `CommGroupScheme` on the concrete Weierstrass
+   cubic;
+2. construct the exact-torsion finite-flat cyclic subgroup; and
+3. construct the cyclic quotient with exact kernel and arbitrary base change.
+
+Each package must refactor a named existing order-49 consumer to use the
+canonical construction, removing its supplied group-object, compatibility, or
+arbitrary-interface shadow. The represented `Γ₀` moduli map waits
+specifically on the subgroup package instead of the whole isogeny node. The
+slice's final named endpoint is
 `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`.
 
 ## 7. Represented `X₀(N)`
@@ -265,7 +293,10 @@ The specialization layer owns:
 The existing prime-five theorem is the named consumer. Separate work packages
 must still construct Néron models for the source elliptic curve and for the
 modular quotient; a generic theorem over a supplied model is not an existence
-proof.
+proof. The supplied mapping-property package and generic exact/iterated
+admissible-filtration API are integrated. Instantiation on the actual
+Eisenstein quotient is blocked until that quotient and its Néron model exist,
+so no package from this lane is currently selected.
 
 General component-group classification is unnecessary for the checked local
 additive-reduction contradiction. The remaining component work is only the

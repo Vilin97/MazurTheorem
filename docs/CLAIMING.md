@@ -16,12 +16,12 @@ Check the node's `challenge` object in the ledger:
   immutable and compiled; and
 - `done` is retained as a checked bridge and is not claimable.
 
-The execution plan separately selects three maintainer work packages, one in
-each active lane, under a WIP limit of three. Only a lane's
-`current_work_package` is selected WIP. Another package may have status
-`active` because its prerequisites are ready; that does not reserve it or
-increase the WIP limit. Work packages divide delivery into reviewable steps
-and carry zero independent progress credit.
+The execution plan separately selects two maintainer work packages under a WIP
+limit of three. Each active lane names one `current_work_package`; an unused
+slot is not filled with work whose prerequisite object is missing. Another
+package may have status `active` because its prerequisites are ready; that does
+not reserve it or increase the WIP limit. Work packages divide delivery into
+reviewable steps and carry zero independent progress credit.
 
 ## Ordinary claims
 

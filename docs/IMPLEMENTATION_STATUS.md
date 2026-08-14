@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **15.7%**: 157 of the fixed 1,000 points.
 - Ecosystem readiness is **16%**.
-- The audited baseline contains **1,879 Lean modules** and **1,805,762 Lean
+- The audited baseline contains **1,878 Lean modules** and **1,801,061 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -33,26 +33,36 @@ without yet satisfying their named integration consumer.
 ## Current execution
 
 The schema-v4 execution plan has a work-in-progress limit of three and selects
-one current package in each lane:
+two current packages:
 
 | Lane | Current package | Exit criterion |
 |---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
-| Néron specialization and Eisenstein witness | `WP-MT-NERON-BASE-MAPPING-PROPERTY` | The private Eisenstein constructor produces the route-neutral degree-one witness consumed at 5. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
-Package status is scheduling metadata. Only the three
-`current_work_package` entries above are selected WIP; other packages marked
-`active` are merely ready to run. Work-package weights partition their parent
-node and award no independent credit.
+Package status is scheduling metadata. Only the two `current_work_package`
+entries above are selected WIP; one slot is intentionally unused. The generic
+Néron mapping-property and admissible-filtration packages are integrated, but
+their Eisenstein instantiation is blocked until the actual quotient and Néron
+models exist. Other packages marked `active` are merely ready to run.
+Work-package weights partition their parent node and award no independent
+credit.
 
 ## Open boundary
 
 Release still requires the represented modular-curve and Jacobian foundations,
 the Néron/Eisenstein formal-immersion witness, the remaining finite endpoints,
-the prime-order argument, and final assembly of finiteness, point-order, and
-group-structure results. The ncard corollary is assembled alongside, not in
-place of, that theorem.
+the prime-order argument, and final group-structure assembly. The two-point
+`MazurTorsion.rationalTorsion_finite` package is integrated: rational Northcott
+and the approximate parallelogram law feed Mathlib's direct finite-torsion
+descent theorem, without full Mordell--Weil or finite generation. A separate
+four-point generic finite-abelian rank-two package is integrated from the
+finite-abelian decomposition, allowed orders, and exactly `c2Cube`, `c3Square`,
+`c5Square`, and `c7Square`. Its cross-module rational adapter compiles
+conditionally, but its two-point WP remains blocked on the point-order, `h55`,
+and `h77` inputs owned by API integration. The later classification
+additionally consumes `c4Square`, `c2c10`, and `c2c12`, then the ncard bridge
+follows as a corollary, not a replacement for the classification theorem.
 
 Six published contracts are intentionally paused:
 

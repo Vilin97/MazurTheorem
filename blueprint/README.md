@@ -14,7 +14,7 @@ theorems or independent progress credit.
 The Integration projection leads to the full
 `MazurTorsion.rationalTorsion_hasMazurClassification` release endpoint. The
 immutable `Challenge.Mazur.torsion_ncard_le` contract is a sibling corollary.
-For operational selection, package dependencies, and the three-lane WIP plan,
+For operational selection, package dependencies, and the current WIP plan,
 navigate to the [ledger](../coordination/program.json) or compact
 [owner queue](../coordination/OWNER_QUEUE.md).
 

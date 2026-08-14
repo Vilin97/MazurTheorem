@@ -9,9 +9,9 @@ open Informal
 #doc (Manual) "06 — Integration and hardening" =>
 
 :::group "integration"
-Assemble allowed point orders with Mordell–Weil finiteness and finite-abelian shape to
-prove the full fifteen-group classification, then derive the ncard challenge and audit
-the release. Stage weight: 50 points.
+Assemble allowed point orders with height-descent torsion finiteness and finite-abelian
+shape to prove the full fifteen-group classification, then derive the ncard challenge
+and audit the release. Stage weight: 50 points.
 :::
 
 :::theorem "MT-PIN-MIGRATION" (parent := "integration") (uses := "MT-BASE-INTEGRATED") (tags := "integration, done, integrated, mixed")
@@ -54,20 +54,18 @@ allowed order, using the formal-immersion theorem for 11 and primes at least 17.
 *Kernel-check Mazur's full torsion classification.*
 
 *Status:* `blocked`; *readiness:* `compiled`; *kind:* `integration`; *backend:* `mazur`;
-*risk:* `low`; *weight:* 15 points.
+*risk:* `medium`; *weight:* 15 points.
 
-*Summary:* Prove rational torsion finite, obtain its rank-two invariant-factor
-presentation, combine that input with the unconditional point-order theorem and the
-checked forbidden subgroup results, and conclude the fifteen-group classification.
+*Summary:* The checked rationalTorsion\_finite theorem uses rational Northcott, the
+approximate parallelogram law, and Mathlib finite-torsion descent without full
+Mordell–Weil finite generation.
 
 *Canonical artifacts:*
 
-* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_finite`
-  Supply the Mordell–Weil finiteness input deliberately omitted from the literal ncard
-  challenge.
-* `theorem` (`proposed`): `MazurTorsion.rationalTorsion_hasRankTwoPresentation`
-  Put the finite rational torsion group into the two-invariant-factor form used by the
-  checked classification theorem.
+* `theorem` (`contract`): `MazurTorsion.rationalTorsion_hasRankTwoPresentation`
+  The compiled cross-module adapter applies the generic theorem to finite rational
+  torsion, conditional on the point-order, h55, and h77 inputs still owned by API
+  integration.
 * `theorem` (`proposed`): `MazurTorsion.rationalTorsion_hasMazurClassification`
   Classify the rational torsion subgroup up to group isomorphism as one of Mazur's
   fifteen groups.
