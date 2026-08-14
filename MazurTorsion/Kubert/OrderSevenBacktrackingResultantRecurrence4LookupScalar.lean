@@ -491,34 +491,7 @@ attribute [local simp]
   recurrence4Scalar0Left_coeff_440
   recurrence4Scalar0Left_coeff_441
   recurrence4Scalar0Left_coeff_442
-  recurrence4Scalar0Left_coeff_443
-  recurrence4Scalar0Left_coeff_444
-  recurrence4Scalar0Left_coeff_445
-  recurrence4Scalar0Left_coeff_446
-  recurrence4Scalar0Left_coeff_447
 
-attribute [local simp]
-  recurrence4Scalar0Left_coeff_448
-  recurrence4Scalar0Left_coeff_449
-  recurrence4Scalar0Left_coeff_450
-  recurrence4Scalar0Left_coeff_451
-  recurrence4Scalar0Left_coeff_452
-  recurrence4Scalar0Left_coeff_453
-  recurrence4Scalar0Left_coeff_454
-  recurrence4Scalar0Left_coeff_455
-  recurrence4Scalar0Left_coeff_456
-  recurrence4Scalar0Left_coeff_457
-  recurrence4Scalar0Left_coeff_458
-  recurrence4Scalar0Left_coeff_459
-  recurrence4Scalar0Left_coeff_460
-  recurrence4Scalar0Left_coeff_461
-  recurrence4Scalar0Left_coeff_462
-  recurrence4Scalar0Left_coeff_463
-  recurrence4Scalar0Left_coeff_464
-  recurrence4Scalar0Left_coeff_465
-  recurrence4Scalar0Left_coeff_466
-  recurrence4Scalar0Left_coeff_467
-  recurrence4Scalar0Left_coeff_468
 
 attribute [local simp]
   recurrence4Scalar0Main_coeff_0
@@ -978,32 +951,6 @@ attribute [local simp]
   recurrence4Scalar0Main_coeff_440
   recurrence4Scalar0Main_coeff_441
   recurrence4Scalar0Main_coeff_442
-  recurrence4Scalar0Main_coeff_443
-  recurrence4Scalar0Main_coeff_444
-  recurrence4Scalar0Main_coeff_445
-  recurrence4Scalar0Main_coeff_446
-  recurrence4Scalar0Main_coeff_447
-  recurrence4Scalar0Main_coeff_448
-  recurrence4Scalar0Main_coeff_449
-  recurrence4Scalar0Main_coeff_450
-  recurrence4Scalar0Main_coeff_451
-  recurrence4Scalar0Main_coeff_452
-  recurrence4Scalar0Main_coeff_453
-  recurrence4Scalar0Main_coeff_454
-  recurrence4Scalar0Main_coeff_455
-  recurrence4Scalar0Main_coeff_456
-  recurrence4Scalar0Main_coeff_457
-  recurrence4Scalar0Main_coeff_458
-  recurrence4Scalar0Main_coeff_459
-  recurrence4Scalar0Main_coeff_460
-  recurrence4Scalar0Main_coeff_461
-  recurrence4Scalar0Main_coeff_462
-  recurrence4Scalar0Main_coeff_463
-  recurrence4Scalar0Main_coeff_464
-  recurrence4Scalar0Main_coeff_465
-  recurrence4Scalar0Main_coeff_466
-  recurrence4Scalar0Main_coeff_467
-  recurrence4Scalar0Main_coeff_468
 
 attribute [local simp]
   recurrence4Scalar0Exceptional_coeff_0
@@ -1463,32 +1410,6 @@ attribute [local simp]
   recurrence4Scalar0Exceptional_coeff_440
   recurrence4Scalar0Exceptional_coeff_441
   recurrence4Scalar0Exceptional_coeff_442
-  recurrence4Scalar0Exceptional_coeff_443
-  recurrence4Scalar0Exceptional_coeff_444
-  recurrence4Scalar0Exceptional_coeff_445
-  recurrence4Scalar0Exceptional_coeff_446
-  recurrence4Scalar0Exceptional_coeff_447
-  recurrence4Scalar0Exceptional_coeff_448
-  recurrence4Scalar0Exceptional_coeff_449
-  recurrence4Scalar0Exceptional_coeff_450
-  recurrence4Scalar0Exceptional_coeff_451
-  recurrence4Scalar0Exceptional_coeff_452
-  recurrence4Scalar0Exceptional_coeff_453
-  recurrence4Scalar0Exceptional_coeff_454
-  recurrence4Scalar0Exceptional_coeff_455
-  recurrence4Scalar0Exceptional_coeff_456
-  recurrence4Scalar0Exceptional_coeff_457
-  recurrence4Scalar0Exceptional_coeff_458
-  recurrence4Scalar0Exceptional_coeff_459
-  recurrence4Scalar0Exceptional_coeff_460
-  recurrence4Scalar0Exceptional_coeff_461
-  recurrence4Scalar0Exceptional_coeff_462
-  recurrence4Scalar0Exceptional_coeff_463
-  recurrence4Scalar0Exceptional_coeff_464
-  recurrence4Scalar0Exceptional_coeff_465
-  recurrence4Scalar0Exceptional_coeff_466
-  recurrence4Scalar0Exceptional_coeff_467
-  recurrence4Scalar0Exceptional_coeff_468
 
 attribute [local simp]
   recurrence4Scalar1Left_coeff_0
@@ -5770,7 +5691,7 @@ theorem scalarResidual4Coefficient0 :
     recurrence4Scalar0Main + recurrence4Scalar0Exceptional
   ext n
   by_cases h : n ≤ 522
-  · by_cases hlo : 469 ≤ n
+  · by_cases hlo : 443 ≤ n
     · exact scalarResidual4Coefficient0_tail n hlo h
     · interval_cases n <;> norm_num [Polynomial.coeff_add]
   · have hn : 522 < n := by omega
