@@ -11,9 +11,9 @@ public import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
 /-!
 # Finite support of scheme-theoretic orders
 
-This is the global finiteness input needed to package Tau Ceti's existing
-local order maps as a principal-divisor order system. It is an upstream
-challenge: the theorem is open and earns no Mazur completion credit.
+This checked bridge exposes Tau Ceti's global finiteness theorem and packages
+its existing local order maps as a principal-divisor order system. The
+corresponding roadmap contract is complete and credited through named consumers.
 -/
 
 public section

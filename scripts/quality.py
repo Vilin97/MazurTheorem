@@ -113,7 +113,14 @@ def is_qualified_lean_name(value: object) -> bool:
     )
 
 
-ALLOWED_STATUSES = {"blocked", "done", "open", "planned", "research_open"}
+ALLOWED_STATUSES = {
+    "blocked",
+    "done",
+    "open",
+    "paused",
+    "planned",
+    "research_open",
+}
 ALLOWED_READINESS = {"compiled", "integrated", "nouns_missing", "statement_only"}
 ALLOWED_KINDS = {"infrastructure", "integration", "milestone", "proof", "upstream"}
 ALLOWED_RISKS = {"extreme", "high", "low", "medium"}
@@ -126,6 +133,14 @@ ALLOWED_DELIVERABLE_KINDS = {
     "theorem",
 }
 ALLOWED_DELIVERABLE_STATES = {"contract", "integrated", "proposed"}
+ALLOWED_WORK_PACKAGE_STATUSES = {
+    "active",
+    "blocked",
+    "integrated",
+    "next",
+    "paused",
+}
+WORK_PACKAGE_PATTERN = re.compile(r"^WP-MT-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 COMMIT_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 BLUEPRINT_BLOCK_PATTERN = re.compile(
     r'^:::(?P<kind>definition|lemma|proposition|theorem|group)\s+'
@@ -490,7 +505,7 @@ def validate_program_shape(
     validator: Validator, program: dict[str, Any]
 ) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
     """Validate node fields, weights, progress, and dependency topology."""
-    validator.require(program.get("schema_version") == 3, "schema_version must be 3")
+    validator.require(program.get("schema_version") == 4, "schema_version must be 4")
     stages = program.get("stages")
     nodes = program.get("nodes")
     validator.require(isinstance(stages, list), "stages must be a list")
@@ -558,6 +573,7 @@ def validate_program_shape(
                 )
 
     node_by_id: dict[str, dict[str, Any]] = {}
+    work_package_by_id: dict[str, tuple[str, dict[str, Any]]] = {}
     stage_totals: defaultdict[str, int] = defaultdict(int)
     earned_points = 0.0
     claimable_points = 0
@@ -607,6 +623,75 @@ def validate_program_shape(
         )
         if isinstance(weight, int):
             stage_totals[str(node.get("stage"))] += weight
+        work_packages = node.get("work_packages")
+        if work_packages is not None:
+            validator.require(
+                isinstance(work_packages, list) and bool(work_packages),
+                f"{node_id}: work_packages must be a nonempty list when present",
+            )
+        package_weight = 0
+        if isinstance(work_packages, list):
+            for package in work_packages:
+                validator.require(
+                    isinstance(package, dict),
+                    f"{node_id}: every work package must be an object",
+                )
+                if not isinstance(package, dict):
+                    continue
+                package_id = package.get("id")
+                validator.require(
+                    isinstance(package_id, str)
+                    and bool(WORK_PACKAGE_PATTERN.fullmatch(package_id)),
+                    f"{node_id}: invalid work-package id {package_id!r}",
+                )
+                if not isinstance(package_id, str):
+                    continue
+                validator.require(
+                    package_id not in work_package_by_id,
+                    f"duplicate work-package id {package_id}",
+                )
+                work_package_by_id[package_id] = (node_id, package)
+                package_title = package.get("title")
+                validator.require(
+                    isinstance(package_title, str) and bool(package_title.strip()),
+                    f"{package_id}: title must be a nonempty string",
+                )
+                package_points = package.get("weight_points")
+                validator.require(
+                    isinstance(package_points, int) and package_points > 0,
+                    f"{package_id}: weight_points must be a positive integer",
+                )
+                if isinstance(package_points, int):
+                    package_weight += package_points
+                validator.require(
+                    package.get("status") in ALLOWED_WORK_PACKAGE_STATUSES,
+                    f"{package_id}: invalid status {package.get('status')!r}",
+                )
+                package_dependencies = package.get("depends_on")
+                validator.require(
+                    isinstance(package_dependencies, list)
+                    and all(isinstance(item, str) for item in package_dependencies),
+                    f"{package_id}: depends_on must be a list of ids",
+                )
+                if isinstance(package_dependencies, list):
+                    validator.require(
+                        len(package_dependencies) == len(set(package_dependencies)),
+                        f"{package_id}: depends_on contains duplicates",
+                    )
+                    validator.require(
+                        package_id not in package_dependencies,
+                        f"{package_id}: cannot depend on itself",
+                    )
+                exit_criterion = package.get("exit_criterion")
+                validator.require(
+                    isinstance(exit_criterion, str)
+                    and len(exit_criterion.strip()) >= 24,
+                    f"{package_id}: needs a concrete exit_criterion",
+                )
+            validator.require(
+                not isinstance(weight, int) or package_weight == weight,
+                f"{node_id}: work-package weights total {package_weight}, not {weight}",
+            )
         for relation in ("depends_on", "unlocks"):
             related = node.get(relation)
             validator.require(
@@ -673,8 +758,8 @@ def validate_program_shape(
                 f"{node_id}: challenge.claimable must be boolean",
             )
             validator.require(
-                node.get("status") in {"done", "open", "research_open"},
-                f"{node_id}: a challenge node must be done, open, or research_open",
+                node.get("status") in {"done", "open", "paused", "research_open"},
+                f"{node_id}: a challenge node must be done, open, paused, or research_open",
             )
             if node.get("status") == "done":
                 validator.require(
@@ -687,6 +772,26 @@ def validate_program_shape(
                         for flag in ("statement", "proof", "api", "integrated")
                     ),
                     f"{node_id}: a completed challenge needs all completion flags",
+                )
+            if node.get("status") == "paused":
+                validator.require(
+                    claimable is False,
+                    f"{node_id}: a paused challenge must not be claimable",
+                )
+                validator.require(
+                    node.get("readiness") == "compiled",
+                    f"{node_id}: a paused challenge must retain compiled readiness",
+                )
+                validator.require(
+                    completion
+                    == {
+                        "statement": True,
+                        "proof": False,
+                        "api": False,
+                        "integrated": False,
+                        "credit_percent": 0,
+                    },
+                    f"{node_id}: a paused challenge must remain a statement-only contract",
                 )
         if node.get("status") in {"open", "research_open"}:
             validator.require(
@@ -786,6 +891,12 @@ def validate_program_shape(
         )
 
     validate_dependencies(validator, node_by_id)
+    validate_execution_plan(
+        validator,
+        program,
+        node_by_id,
+        work_package_by_id,
+    )
     return stage_by_id, node_by_id
 
 
@@ -875,6 +986,237 @@ def validate_blueprint_topology(
         "{blueprint_summary}" in top_level,
         "Verso Blueprint top level must render the progress summary",
     )
+
+
+def validate_execution_plan(
+    validator: Validator,
+    program: dict[str, Any],
+    node_by_id: dict[str, dict[str, Any]],
+    work_package_by_id: dict[str, tuple[str, dict[str, Any]]],
+) -> None:
+    """Validate the nonweighted execution plan and the two release endpoints."""
+    execution = program.get("execution")
+    validator.require(isinstance(execution, dict), "execution must be an object")
+    if not isinstance(execution, dict):
+        return
+
+    revision = execution.get("revision")
+    validator.require(isinstance(revision, dict), "execution.revision must be an object")
+    if isinstance(revision, dict):
+        validator.require(
+            isinstance(revision.get("id"), str) and bool(revision["id"].strip()),
+            "execution.revision.id must be a nonempty string",
+        )
+        validator.require(
+            isinstance(revision.get("date"), str)
+            and bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", revision["date"])),
+            "execution.revision.date must use YYYY-MM-DD",
+        )
+
+    canonical_target = execution.get("canonical_target")
+    challenge_corollary = execution.get("challenge_corollary")
+    for label, endpoint in (
+        ("execution.canonical_target", canonical_target),
+        ("execution.challenge_corollary", challenge_corollary),
+    ):
+        validator.require(isinstance(endpoint, dict), f"{label} must be an object")
+        if isinstance(endpoint, dict):
+            validator.require(
+                isinstance(endpoint.get("name"), str) and bool(endpoint["name"].strip()),
+                f"{label}.name must be a nonempty declaration",
+            )
+            validator.require(
+                isinstance(endpoint.get("signature"), str)
+                and len(endpoint["signature"].strip()) >= 40,
+                f"{label}.signature must state the release boundary",
+            )
+
+    paused_ids = execution.get("paused_node_ids")
+    validator.require(
+        isinstance(paused_ids, list)
+        and all(isinstance(node_id, str) for node_id in paused_ids),
+        "execution.paused_node_ids must be a list of node ids",
+    )
+    actual_paused = {
+        node_id for node_id, node in node_by_id.items() if node.get("status") == "paused"
+    }
+    if isinstance(paused_ids, list):
+        validator.require(
+            len(paused_ids) == len(set(paused_ids)),
+            "execution.paused_node_ids contains duplicates",
+        )
+        validator.require(
+            set(paused_ids) == actual_paused,
+            "execution.paused_node_ids must exactly match paused node statuses",
+        )
+
+    work_in_progress_limit = execution.get("work_in_progress_limit")
+    validator.require(
+        isinstance(work_in_progress_limit, int) and work_in_progress_limit > 0,
+        "execution.work_in_progress_limit must be a positive integer",
+    )
+    active_lanes = execution.get("active_lanes")
+    validator.require(
+        isinstance(active_lanes, list) and bool(active_lanes),
+        "execution.active_lanes must be a nonempty list",
+    )
+    current_packages: set[str] = set()
+    lane_ids: set[str] = set()
+    if isinstance(active_lanes, list):
+        for lane in active_lanes:
+            validator.require(isinstance(lane, dict), "every active lane must be an object")
+            if not isinstance(lane, dict):
+                continue
+            lane_id = lane.get("id")
+            validator.require(
+                isinstance(lane_id, str) and bool(lane_id.strip()),
+                "every active lane needs a nonempty id",
+            )
+            if isinstance(lane_id, str):
+                validator.require(lane_id not in lane_ids, f"duplicate active lane {lane_id}")
+                lane_ids.add(lane_id)
+            lane_nodes = lane.get("node_ids")
+            validator.require(
+                isinstance(lane_nodes, list)
+                and bool(lane_nodes)
+                and all(isinstance(node_id, str) for node_id in lane_nodes),
+                f"{lane_id}: node_ids must be a nonempty list",
+            )
+            if isinstance(lane_nodes, list):
+                for node_id in lane_nodes:
+                    validator.require(
+                        node_id in node_by_id,
+                        f"{lane_id}: unknown node {node_id}",
+                    )
+            current_package = lane.get("current_work_package")
+            validator.require(
+                isinstance(current_package, str)
+                and current_package in work_package_by_id,
+                f"{lane_id}: current_work_package is unknown",
+            )
+            if isinstance(current_package, str) and current_package in work_package_by_id:
+                validator.require(
+                    current_package not in current_packages,
+                    f"work package {current_package} is current in more than one lane",
+                )
+                current_packages.add(current_package)
+                owner, package = work_package_by_id[current_package]
+                validator.require(
+                    not isinstance(lane_nodes, list) or owner in lane_nodes,
+                    f"{lane_id}: current package belongs to node {owner} outside the lane",
+                )
+                validator.require(
+                    package.get("status") == "active",
+                    f"{lane_id}: current package {current_package} must have active status",
+                )
+            exit_criterion = lane.get("exit_criterion")
+            validator.require(
+                isinstance(exit_criterion, str) and len(exit_criterion.strip()) >= 24,
+                f"{lane_id}: needs a concrete exit_criterion",
+            )
+    if isinstance(work_in_progress_limit, int):
+        validator.require(
+            len(current_packages) <= work_in_progress_limit,
+            "current lane packages exceed execution.work_in_progress_limit",
+        )
+
+    # Package edges can point to a public node or another globally stable package.
+    expanded_dependencies: dict[str, list[str]] = {
+        node_id: list(node.get("depends_on", []))
+        for node_id, node in node_by_id.items()
+    }
+    for package_id, (_owner, package) in work_package_by_id.items():
+        dependencies = package.get("depends_on", [])
+        if not isinstance(dependencies, list):
+            continue
+        expanded_dependencies[package_id] = dependencies
+        for dependency in dependencies:
+            validator.require(
+                dependency in node_by_id or dependency in work_package_by_id,
+                f"{package_id}: unknown dependency {dependency}",
+            )
+
+    colors: dict[str, int] = {}
+
+    def visit(item_id: str, path: list[str]) -> None:
+        color = colors.get(item_id, 0)
+        if color == 2:
+            return
+        if color == 1:
+            start = path.index(item_id)
+            validator.errors.append(
+                "expanded work-package graph contains a cycle: "
+                + " -> ".join(path[start:] + [item_id])
+            )
+            return
+        colors[item_id] = 1
+        for dependency in expanded_dependencies.get(item_id, []):
+            if dependency in expanded_dependencies:
+                visit(dependency, path + [item_id])
+        colors[item_id] = 2
+
+    for item_id in expanded_dependencies:
+        if colors.get(item_id, 0) == 0:
+            visit(item_id, [])
+
+    release_endpoints = program.get("release_endpoints")
+    validator.require(
+        isinstance(release_endpoints, list) and len(release_endpoints) == 2,
+        "release_endpoints must contain the canonical theorem and challenge corollary",
+    )
+    endpoint_by_role: dict[str, dict[str, Any]] = {}
+    if isinstance(release_endpoints, list):
+        endpoint_ids: set[str] = set()
+        for endpoint in release_endpoints:
+            validator.require(isinstance(endpoint, dict), "every release endpoint must be an object")
+            if not isinstance(endpoint, dict):
+                continue
+            endpoint_id = endpoint.get("id")
+            validator.require(
+                isinstance(endpoint_id, str) and bool(endpoint_id.strip()),
+                "every release endpoint needs a nonempty id",
+            )
+            if isinstance(endpoint_id, str):
+                validator.require(
+                    endpoint_id not in endpoint_ids,
+                    f"duplicate release endpoint {endpoint_id}",
+                )
+                endpoint_ids.add(endpoint_id)
+            role = endpoint.get("role")
+            validator.require(
+                role in {"canonical", "challenge_corollary"},
+                f"{endpoint_id}: invalid release role {role!r}",
+            )
+            if isinstance(role, str):
+                endpoint_by_role[role] = endpoint
+            owner = endpoint.get("owner_node")
+            validator.require(
+                owner in node_by_id,
+                f"{endpoint_id}: unknown owner node {owner!r}",
+            )
+            dependencies = endpoint.get("depends_on")
+            validator.require(
+                isinstance(dependencies, list)
+                and bool(dependencies)
+                and all(dependency in work_package_by_id for dependency in dependencies),
+                f"{endpoint_id}: dependencies must be known work-package ids",
+            )
+        validator.require(
+            set(endpoint_by_role) == {"canonical", "challenge_corollary"},
+            "release endpoints must have distinct canonical and challenge_corollary roles",
+        )
+
+    if isinstance(canonical_target, dict) and "canonical" in endpoint_by_role:
+        validator.require(
+            endpoint_by_role["canonical"].get("declaration") == canonical_target.get("name"),
+            "canonical release endpoint must match execution.canonical_target",
+        )
+    if isinstance(challenge_corollary, dict) and "challenge_corollary" in endpoint_by_role:
+        validator.require(
+            endpoint_by_role["challenge_corollary"].get("declaration")
+            == challenge_corollary.get("name"),
+            "challenge release endpoint must match execution.challenge_corollary",
+        )
 
 
 def validate_dependencies(
@@ -1284,10 +1626,10 @@ def validate_challenge_source(
         match is not None and match.group(1) == declaration_tail,
         f"{node_id}: signature theorem name does not match challenge.declaration",
     )
-    active = node.get("status") in {"open", "research_open"}
+    unsolved = node.get("status") in {"open", "paused", "research_open"}
     expected_source = (
         normalized_signature
-        if active
+        if unsolved
         else normalized_signature.removesuffix(":=sorry") + ":="
     )
     normalized_source = normalized_lean(source)
@@ -1323,7 +1665,7 @@ def validate_challenge_source(
         not any(imported.startswith("Challenge.") for imported in actual_imports),
         f"{node_id}: a challenge may not import another challenge",
     )
-    if not active:
+    if not unsolved:
         destination_declaration = challenge.get("destination_declaration")
         validator.require(
             isinstance(destination_declaration, str)
@@ -1352,11 +1694,11 @@ def validate_challenge_source(
                 f"{destination_declaration}",
             )
     validator.require(
-        len(SORRY_PATTERN.findall(code)) == (1 if active else 0),
-        f"{node_id}: {'open' if active else 'completed'} contract must contain "
-        f"{'exactly one whole-body sorry' if active else 'no sorry'}",
+        len(SORRY_PATTERN.findall(code)) == (1 if unsolved else 0),
+        f"{node_id}: {'unsolved' if unsolved else 'completed'} contract must contain "
+        f"{'exactly one whole-body sorry' if unsolved else 'no sorry'}",
     )
-    validate_source_prohibitions(validator, path, code, allow_single_sorry=active)
+    validate_source_prohibitions(validator, path, code, allow_single_sorry=unsolved)
 
 
 def validate_challenges(
@@ -1382,7 +1724,7 @@ def validate_challenges(
             f"{node_id}: challenge file is registered by more than one node",
         )
         registered_files.add(path)
-        if node.get("status") in {"open", "research_open"}:
+        if node.get("status") in {"open", "paused", "research_open"}:
             active_files.add(path)
         validate_challenge_source(
             validator, node_id, node, challenge, path, local_sources

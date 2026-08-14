@@ -27,7 +27,10 @@ Approve a new challenge only when all of the following hold:
 
 For a `research_open` challenge, parallel approaches must remain welcome and
 no issue claim may reserve the whole problem. For an ordinary claimable
-challenge, the fourteen-day lease and heartbeat policy applies.
+challenge, the fourteen-day lease and heartbeat policy applies. A `paused`
+challenge retains its exact unsolved source and immutable metadata but must
+have `claimable: false`; direct new proof claims wait until the execution plan
+reactivates it.
 
 Publishing or solving a statement does not itself justify changing roadmap
 weights. Completion credit is awarded only by the gates in

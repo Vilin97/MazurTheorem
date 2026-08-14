@@ -45,8 +45,10 @@ test("server-renders the coordination dashboard", async () => {
   const researchChallengeCount = challengeNodes.filter(
     (node) => node.status === "research_open",
   ).length;
-  const openChallengeCount = ordinaryChallengeCount + researchChallengeCount;
-  const integratedPercent = Math.round(programme.progress.percent);
+  const pausedChallengeCount = programme.nodes.filter(
+    (node) => node.status === "paused" && node.challenge,
+  ).length;
+  const integratedPercent = programme.progress.percent;
 
   const response = await render();
   assert.equal(response.status, 200);
@@ -57,7 +59,12 @@ test("server-renders the coordination dashboard", async () => {
     html,
     /<title>Mazur Theorem · Formalization Programme<\/title>/i,
   );
-  assert.match(html, /Mazur’s theorem/);
+  assert.match(html, /Mazur’s classification/);
+  assert.match(html, /built on canonical objects/);
+  assert.match(html, /rationalTorsion_hasMazurClassification/);
+  assert.match(html, /DegreeOneFormalImmersionWitness/);
+  assert.match(html, /One theorem spine. Three active foundation lanes/);
+  assert.equal((html.match(/class="lane-card"/g) ?? []).length, 3);
   assert.match(html, /Evidence-weighted ledger/);
   assert.match(html, new RegExp(`>${integratedPercent}%<\\/span>`));
   assert.match(html, /Ecosystem-ready estimate/);
@@ -85,24 +92,12 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /Browse the graph as a dependency list/);
   assert.match(html, /Definitions, theorems, and API surface/);
   assert.match(html, /Lean acceptance boundary/);
-  assert.match(html, /no_rational_point_of_order_twentyFive/);
-  assert.match(html, /addOrderOf P ≠ 25 := sorry/);
-  assert.match(html, /xOneThirteen_no_noncuspidal_point/);
-  assert.match(html, /orderThirteenHyperellipticPolynomial x/);
+  assert.match(html, /MT-O25-EXCLUDE/);
+  assert.match(html, /MT-X13-NONCUSP/);
   assert.match(html, /MT-TC-A1-ORDER-SUPPORT/);
   assert.match(html, /Claim this challenge/);
   assert.match(html, /Register an approach/);
   assert.match(html, /Open contracts/);
-  assert.match(
-    html,
-    new RegExp(`${openChallengeCount}(?:<!-- -->)? boundaries`),
-  );
-  assert.match(
-    html,
-    new RegExp(
-      `${programme.progress.claimable_open_points}(?:<!-- -->)? pts`,
-    ),
-  );
   assert.match(
     html,
     new RegExp(
@@ -133,11 +128,19 @@ test("server-renders the coordination dashboard", async () => {
     /template=research-intention\.yml(?:&amp;|&)title=%5BResearch%5D/,
   );
   assert.match(html, /nonexclusive research intentions worth/);
+  assert.match(html, /Deliberately paused/);
+  assert.equal(
+    (html.match(/class="paused-card"/g) ?? []).length,
+    pausedChallengeCount,
+  );
+  assert.match(html, /speculative proof volume stopped/);
+  assert.match(html, /Work-package allocations only divide/);
   assert.match(html, /How progress is scored/);
   assert.match(
     html,
-    /https:\/\/mazur-theorem-formalization\.vilin402100\.chatgpt\.site\/og\.png/,
+    /https:\/\/mazur-theorem-formalization\.vilin402100\.chatgpt\.site\/og-v2\.png/,
   );
+  assert.match(html, new RegExp(`${integratedPercent}% integrated`));
   assert.doesNotMatch(html, /codex-preview/);
   assert.doesNotMatch(html, /Your site is taking shape/);
   assert.doesNotMatch(html, /react-loading-skeleton/);

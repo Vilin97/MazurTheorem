@@ -1058,7 +1058,7 @@ jobs:
               1
               for node in program["nodes"]
               if isinstance(node.get("challenge"), dict)
-              and node["challenge"].get("claimable") is True
+              and node.get("status") in {"open", "paused", "research_open"}
               and node["challenge"]["file"].startswith("Challenge/")
           ))
           PY
@@ -1093,7 +1093,7 @@ jobs:
                   continue
               if not challenge["file"].startswith("Challenge/"):
                   continue
-              if challenge.get("claimable") is True:
+              if node.get("status") in {"open", "paused", "research_open"}:
                   print(f"open:{challenge['declaration']}")
                   continue
               destination = challenge["destination_declaration"]

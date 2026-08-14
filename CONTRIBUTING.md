@@ -16,7 +16,13 @@ the project infrastructure.
    pin, and license.
 
 Do not begin a large interface behind an unreviewed API. For a
-`draft_interface` or `blocked` node, open a design issue instead.
+`blocked` or `planned` node, open a design issue instead. A `paused` contract
+remains an immutable unsolved statement but is deliberately not claimable
+while its canonical foundations are being built.
+
+Nested work packages partition planning effort inside a stable roadmap node;
+they do not earn progress independently. The execution plan allows at most
+three current foundation packages, one in each active lane.
 
 ## Development setup
 
@@ -62,6 +68,11 @@ An interface node is complete only when:
 - its acceptance lemmas or sanity tests pass;
 - at least one real downstream consumer uses it;
 - provenance and license are recorded.
+
+An abstract point equivalence or a record that assumes the intended group law,
+representability theorem, or Néron model does not count as construction of the
+canonical object. New interfaces require design review and a named downstream
+consumer before implementation volume accumulates behind them.
 
 Definitions without a consumer receive at most partial readiness credit and
 no theorem-completion credit.

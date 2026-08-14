@@ -5,7 +5,15 @@ and what remains unproved. A declaration is counted as reusable only when its
 dependency cone is free of unproved axioms and it is compatible with the
 project's source restrictions.
 
-## 1. LeanPool target and pin
+## 1. Lean Pool challenge and project target
+
+Lean Pool publishes the numerical `ncard ≤ 16` contract below. This project
+keeps that statement as an immutable release endpoint, but its canonical goal
+is the stronger group-structure theorem
+`MazurTorsion.rationalTorsion_hasMazurClassification`. The distinction matters:
+the challenge's `Set.ncard` expression is zero on an infinite set and therefore
+does not by itself assert rational-torsion finiteness or an isomorphism with one
+of Mazur's fifteen groups.
 
 The upstream repository was inspected at
 [`c2223fd6be2a245929bf777c01df1577f724d3f3`](https://github.com/Vilin97/lean-pool/commit/c2223fd6be2a245929bf777c01df1577f724d3f3).

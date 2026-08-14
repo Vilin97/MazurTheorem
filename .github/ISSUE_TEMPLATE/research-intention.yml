@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Research intentions do not reserve a challenge. Parallel approaches are welcome; this form makes overlap productive and exposes reusable intermediate results.
+        Research intentions do not reserve a challenge. Parallel approaches are welcome; this form makes overlap productive and exposes reusable intermediate results. Use it only for a ledger node currently marked `research_open` with `claimable: true`, not for a paused contract.
   - type: input
     id: work_package
     attributes:
@@ -43,6 +43,8 @@ body:
     attributes:
       label: Coordination agreement
       options:
+        - label: I verified that the ledger currently marks this contract `research_open` and claimable.
+          required: true
         - label: I understand this is nonexclusive and other contributors may pursue the same contract.
           required: true
         - label: I will share negative results and interface discoveries that could save others work.

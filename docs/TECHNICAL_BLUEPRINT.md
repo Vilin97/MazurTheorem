@@ -1,2532 +1,325 @@
-# Original technical blueprint: Mazur's rational torsion bound
+# Technical blueprint
 
-## 1. Exact goal and design decision
+This document is the compact architectural contract for the Lean
+formalization. The exact node weights, statuses, work packages, artifacts, and
+dependency edges live in [`coordination/program.json`](../coordination/program.json).
+The generated Verso chapters are the exhaustive node-by-node view.
 
-For a Weierstrass curve `E` over `ℚ` with `[E.IsElliptic]`, prove
+## 1. Release boundaries
 
-```lean
-(AddCommGroup.torsion (E⁄ℚ).Point :
-  Set (E⁄ℚ).Point).ncard ≤ 16
-```
-
-This is the immutable statement in Lean Pool's `Challenge/Mazur.lean`, now
-mirrored by the standalone challenge contracts in this repository.
-The project uses Lean `v4.33.0-rc1` and mathlib commit
-`79d0395a1825a6264ad5d269e35e60537518955e`, matching the challenge.
-
-The first architectural decision is to use the semantics of `Set.ncard`
-honestly. If the torsion set is infinite, its `ncard` is zero. The deep
-classification theorem is therefore needed only under an explicit
-`Set.Finite` hypothesis. This removes Mordell--Weil finiteness from the
-critical path without weakening or changing the target.
-
-The second decision is to separate three layers:
-
-1. pinned, reusable elliptic-curve and finite-group foundations;
-2. the deep arithmetic theorem which rules out forbidden torsion orders and
-   structures;
-3. a tiny, stable final cardinality wrapper.
-
-No unproved assumption may cross a layer boundary. Conditional lemmas are
-allowed as honest implications, but they are not counted as solving a
-dependency.
-
-## 2. Current proved state
-
-The latest integrated package has 1,433,363 project-specific lines across 666
-Lean sources under `MazurTorsion/`, plus the attributed 14,142-line exact-pin
-reduction cone in 31 sources under `EllipticCurves/` and 173 lines in the two
-root aggregators. These 699 sources and 1,447,678 checked lines build without
-unproved declarations; the separate challenge library contains exactly its
-registered open contracts and checked solved bridges.
-
-### 2.1 Cardinality bridge
-
-`GroupTheory/ClassificationCardinality.lean` defines:
+The canonical endpoint is the full group classification:
 
 ```lean
-def cyclicOrders : Finset ℕ :=
-  {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
-
-def bicyclicParameters : Finset ℕ :=
-  {1, 2, 3, 4}
-
-def HasMazurClassification (E : WeierstrassCurve ℚ) : Prop := ...
-
-def HasMazurClassificationIfFinite
-    (E : WeierstrassCurve ℚ) : Prop := ...
+theorem MazurTorsion.rationalTorsion_hasMazurClassification
+    (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    MazurTorsion.HasMazurClassification E
 ```
 
-and proves:
+`HasMazurClassification E` is already defined and means
 
 ```lean
-torsion_ncard_le_of_classification
-torsion_ncard_le_of_classification_if_finite
+(∃ n ∈ cyclicOrders,
+    Nonempty (RationalTorsion E ≃+ ZMod n)) ∨
+  ∃ m ∈ bicyclicParameters,
+    Nonempty (RationalTorsion E ≃+ (ZMod 2 × ZMod (2 * m)))
 ```
 
-The latter performs the exact finite/infinite split for the stronger
-classification route. The shorter numerical endpoint is described in
-Section 2.3.
+The second release endpoint is the immutable challenge
+`Challenge.Mazur.torsion_ncard_le`. It can be obtained directly from the
+allowed-point-order theorem by the existing finite/infinite split, or as a
+corollary of the full classification. It is not interchangeable with the full
+classification.
 
-### 2.2 Verified arithmetic foundations
-
-The following attributed Apache-2.0 files are integrated and compile on the
-exact pin.
-
-* `Foundations/TwoTorsion.lean`
-
-  * finiteness of the points killed by two;
-  * `#E[2](F) ≤ 4` in characteristic different from two;
-  * `#E[4](F) ≤ 16`;
-  * no injection `(ZMod 2)^3 → E(F)`.
-
-* `Foundations/ThreeTorsion.lean`
-
-  * the exact `Ψ₃` torsion dictionary over `ℚ`;
-  * `#E[3](ℚ) ≤ 9`;
-  * no injection `(ZMod 3)^2 → E(ℚ)`.
-
-* `Foundations/FullFourTorsion.lean`
-
-  * the explicit halving-square identities;
-  * no injection `(ZMod 4)^2 → E(ℚ)`.
-
-These theorems are structural inputs. In particular, `#E[4] ≤ 16` is not
-mistaken for a bound on all rational torsion.
-
-### 2.3 Compiled finite-group reduction
-
-`GroupTheory/ForbiddenEmbeddings.lean` provides the common negative
-embedding predicate and transport through equivalences, subgroups, and
-injective maps. `GroupTheory/FiniteClassification.lean` proves:
+Three additional final inputs are explicit:
 
 ```lean
-factor_count_lt_of_forbidden_pi
-factor_count_lt_two_of_forbidden_square
-factor_count_lt_three_of_forbidden_cube
-hasMazurGroupShape_of_rankTwo
-card_le_sixteen_of_rankTwo
-card_le_sixteen_of_allowed_orders_and_forbidden
+-- proposed
+theorem MazurTorsion.rationalTorsion_finite ...
+
+-- proposed
+theorem MazurTorsion.rationalTorsion_hasRankTwoPresentation ...
+
+-- existing assembly theorem
+theorem MazurTorsion.hasMazurClassification_of_rankTwo ...
 ```
 
-The first three declarations connect mathlib's elementary-divisor
-decomposition to rank bounds. The next two completely discharge the
-finite-group classification once an invariant-factor presentation
-`G ≃+ ZMod m × ZMod n` with `m ∣ n` is supplied. The final theorem removes
-that hypothesis entirely: it decomposes an arbitrary finite abelian group
-into prime-power cyclic factors, bounds their multiplicities using the
-forbidden embeddings, handles the two mixed CRT patterns explicitly, and
-proves `Nat.card G ≤ 16`.
+This makes the previously omitted Mordell–Weil finiteness boundary visible.
 
-`Arithmetic/CardinalityReduction.lean` combines the proved `2`, `3`, and
-`4` obstructions with the global theorem. Its endpoint
-
-```lean
-torsion_ncard_le_of_arithmetic_inputs
-```
-
-proves the exact LeanPool inequality from only the point-order theorem.
-The low-level, full rational `5`- and `7`-torsion, `C₂ × C₁₀`, and
-`C₂ × C₁₂` exclusions are all discharged internally.
-It performs the finite/infinite `Set.ncard` split internally and needs
-neither a rank-two presentation nor Mordell--Weil. The older
-`Arithmetic/RankTwoReduction.lean` is retained because it proves the
-stronger fifteen-group shape from a natural geometric interface.
-
-### 2.4 Roots of unity and odd-prime discriminants
-
-`NumberTheory/RationalRootsOfUnity.lean` proves that a rational number whose
-nonzero natural power is one equals `1` or `-1`, and that a primitive
-rational root of unity has order at most two.
-
-`Foundations/OddPrimeFullTorsion.lean` proves from first principles that a
-split rational polynomial has square discriminant. It also constructs all
-abscissa representatives needed to show that full rational `5`- or
-`7`-torsion makes `preΨ' 5` or `preΨ' 7` split.
-
-`Foundations/DivisionPolynomialRootCriterion.lean` now proves the two
-previously missing scalar-multiplication implications:
-
-```lean
-hasDivisionPolynomialRootCriterion_five
-hasDivisionPolynomialRootCriterion_seven
-```
-
-The proof derives the abscissas of `2P`, `3P`, and `4P` from the affine
-group law, proves the relevant low-level `Φ`/`ΨSq` identities, and applies
-the elliptic-divisibility-sequence cross identities at five and seven.
-
-Consequently, `Arithmetic/OddPrimeObstructions.lean` exposes
-
-```lean
-forbidsEmbedding_zmod_five_square_of_discr
-forbidsEmbedding_zmod_five_square
-forbidsEmbedding_zmod_seven_square_of_discr
-forbidsEmbedding_zmod_seven_square
-rationalTorsion_forbids_zmod_five_square_of_discr
-rationalTorsion_forbids_zmod_five_square
-rationalTorsion_forbids_zmod_seven_square_of_discr
-rationalTorsion_forbids_zmod_seven_square
-```
-
-`Foundations/DivisionPolynomialDiscriminantFive.lean` and
-`Foundations/DivisionPolynomialDiscriminantSeven.lean` prove both fixed-level
-identities unconditionally:
-
-\[
-\operatorname{disc}(\mathrm{pre}\Psi'_5)=5^{11}\Delta^{22},
-\qquad
-\operatorname{disc}(\mathrm{pre}\Psi'_7)=-7^{23}\Delta^{92}.
-\]
-
-Each proof translates to `b₂=0`, checks a sparse chain of
-division-polynomial syzygies, computes the resultant from the cubic
-discriminant, and transports back using `Polynomial.resultant_taylor`.
-The seventh-level proof separately handles the singular short model before
-transport, so its universal theorem does not require an ellipticity
-hypothesis. Full rational `5`- and `7`-torsion are therefore excluded
-without any arithmetic input. No discriminant identity is postulated as a
-declaration.
-
-### 2.5 Change of Weierstrass model
-
-The attributed Apache-2.0 port
-`EllipticCurve/VariableChange.lean` proves the explicit additive
-equivalence
-
-```lean
-WeierstrassCurve.Affine.Point.equivVariableChange :
-  (C • W).toAffine.Point ≃+ W.toAffine.Point
-```
-
-and the coordinate formulas behind it. This supplies the transport needed
-to replace an arbitrary rational Weierstrass equation by short or
-two-torsion normal forms without losing point orders or subgroup
-obstructions. `GroupTheory/TorsionEquiv.lean` restricts any additive
-equivalence to an equivalence of its torsion subgroups and records
-preservation of additive order.
-
-### 2.6 Exceptional-level support
-
-`Kubert/TateNormalForm.lean` supplies the reusable Tate normal curve,
-the scaling equivalence from an arbitrary rational point with
-`3P ≠ 0`, and checked coordinate formulas for `2P`, `3P`, and `4P`.
-`Kubert/TateNormalFormMultiples.lean` adds a reusable recurrence for
-`Q+(0,0)`, an explicit formula for `5P`, and a recurrence-defined formula
-for `6P`, with every denominator hypothesis exposed.
-`Arithmetic/ExceptionalTwoTen.lean` imports this common layer rather than
-carrying a private duplicate of the normalization.
-
-`Arithmetic/ExceptionalTwoTen.lean` completes the direct geometric and
-denominator reduction
-
-\[
-C_2\times C_{10}\hookrightarrow E(\mathbb Q)
-\Longrightarrow
-e^2=X^4-11X^2Y^2-Y^4
-\]
-
-for coprime nonzero integers `X,Y`. It proves Tate normalization with the
-twelfth-power discriminant scale retained, derives the order-five diagonal
-`b=c`, proves that full rational two-torsion makes `E.Δ` a square, and
-performs the complete rational-to-integral sign analysis.
-
-`NumberTheory/ExceptionalQuarticDescent.lean` closes the resulting
-Diophantine leaf unconditionally. Its elementary descent factors
-
-\[
-D_+D_-=125z^4,\qquad D_++D_-=X^2-22z^2,
-\]
-
-proves the two positive factors coprime, splits their fourth powers,
-parametrizes the resulting primitive Pythagorean triple, and constructs a
-new quartic solution with strictly smaller `Int.natAbs` of its second
-coordinate. Thus
-`ExceptionalTwoTen.noExceptionalQuartic`,
-`forbidsEmbedding_zmod_two_prod_ten`, and the rational-torsion restriction
-are proved without any remaining hypothesis.
-
-`Arithmetic/ExceptionalTwoTwelve.lean` completes the direct reduction
-
-\[
-C_2\times C_{12}\hookrightarrow E(\mathbb Q)
-\Longrightarrow
-w^2=(t^2-1)(9t^2-1),
-\]
-
-with `t,w` nonzero and all three degenerate factors excluded. It also
-kernel-checks the map to
-
-\[
-Y^2=(X-10)(X-6)(X+6)
-\]
-
-and reduces the obstruction to the exact affine `X`-coordinate list
-`{-6,2,6,10,18}`. The linear scaling `X=4x+2`, `Y=8y` identifies this
-cubic with the selected `X₀(24)` model
-`y²=x³-x²-4x+4`; the specialized two-isogeny descent certificate in
-Section 8.1 now proves rank zero and finiteness. Its remaining leaf is the
-sharp fixed-curve bound of eight rational points.
-`Arithmetic/ExceptionalProducts.lean` packages both reductions as
-`ForbidsEmbedding` statements on rational torsion. No isogeny or
-modular-curve moduli API is needed on this direct path.
-
-`GroupTheory/CyclicKernelExtension.lean` proves that a finite extension of
-an even cyclic group by a two-element kernel is cyclic when every element
-killed by two lies in that kernel. This is the pure group-theoretic core of
-the cyclic `20`- and `24`-isogeny construction.
-
-`NumberTheory/RatNorthcott.lean` proves directly from
-`Rat.logHeight₁_eq_log_max` that rational numbers of bounded logarithmic
-height form a finite set, and installs the corresponding `Northcott`
-instance.
-
-The attributed port `Foundations/NaiveHeightDescent.lean` proves the
-approximate parallelogram law for naïve height and exposes
-
-```lean
-WeierstrassCurve.Affine.fg_point_of_finiteIndex_two
-```
-
-so a curve-specific proof that `2E(ℚ)` has finite index implies finite
-generation at the exact pin. `GroupTheory/IndexNSmulFG.lean`, another
-narrow attributed port, proves
-
-```lean
-AddSubgroup.index_range_nsmul_of_fg
-```
-
-or
-\([G:nG]=n^{\operatorname{rank}G}\#G[n]\) for every finitely generated
-commutative group.
-
-`NumberTheory/ExceptionalCubicDescent.lean` applies these tools to
-
-\[
-E_{24}:y^2=u(u^2+2u-3).
-\]
-
-It proves that the dual abscissa is always a square, that the abscissa on
-`E₂₄` lies in one of the four square classes `1,-1,3,-3`, and that every
-rational point belongs to one of
-
-\[
-2E(\mathbb Q),\quad D+2E(\mathbb Q),\quad
-F+2E(\mathbb Q),\quad T+2E(\mathbb Q).
-\]
-
-Thus `[E(ℚ):2E(ℚ)]≤4`. The curve has exactly four rational points killed by
-two. Finite generation and the index formula force rank zero; the point
-group is therefore finite.  The descent module exports the final
-enumeration implication
-
-```lean
-exceptionalCubicIsTrivial_of_point_card_le_eight
-```
-
-The exact-pin reduction port in `EllipticCurves/` constructs the reduction
-homomorphism at the good prime `5`, proves it injective on the now-finite
-rational point group, and computes the reduced point count as eight using
-the concrete `ZMod 5` model.  The bridge
-`NumberTheory/ExceptionalCubicReduction.lean` therefore proves both
-`point_card_le_eight` and the unconditional
-`ExceptionalCubic.exceptionalCubicIsTrivial`.
-
-`NumberTheory/QuarticDifferenceDescent.lean` proves the precise
-nondegenerate form of Fermat's other quartic:
-
-```lean
-sq_ne_quartic_sub_quartic
-    (hx : x ≠ 0) (hy : y ≠ 0) (hz : z ≠ 0) :
-    x ^ 4 - y ^ 4 ≠ z ^ 2
-```
-
-The `hz` hypothesis is essential because `x=y=1,z=0` is a degenerate
-solution. The proof normalizes a primitive Pythagorean triple, treats both
-parities, performs the second parametrization needed in the even branch,
-and descends to a strictly smaller hypotenuse.
-
-`Kubert/OrderSixteenReduction.lean` uses that endpoint to close the whole
-order-sixteen branch unconditionally.  It first translates
-`T=8R` to `(0,0)` and completes the square, giving
-
-\[
-Y^2=X^3+aX^2+bX.
-\]
-
-For the chain `R,2R,4R,8R`, the checked denominator-free duplication
-identity
-
-\[
-X(2S)(2Y(S))^2=(X(S)^2-b)^2
-\]
-
-shows that the successive nonzero abscissas are squares after scaling.
-Eliminating those squares produces a nondegenerate rational point on
-
-\[
-V^2=(N^2-1)(N^2+1)(N^2+2N-1),\qquad N\ne0,\quad N^2\ne1.
-\]
-
-After writing `N=m/n` in lowest terms, opposite parity makes the three
-factors pairwise coprime and produces
-`x⁴-y⁴=z²`, contradicting `sq_ne_quartic_sub_quartic`.  If `m,n` are
-both odd, the half-sum/half-difference substitution produces
-`x⁴+y⁴=z²`, contradicting mathlib's `not_fermat_42`.  The exported final
-theorem is
-
-```lean
-no_rational_point_of_order_sixteen
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    (R : E.toAffine.Point) (hR : addOrderOf R = 16) : False
-```
-
-There is no remaining rational-point boundary at level sixteen.
-
-## 3. Selected proof architecture
-
-The shortest stable dependency graph for the exact challenge is:
+## 2. Proof spine
 
 ```text
-mathlib affine points / division polynomials / finite abelian groups
-                              │
-                              ▼
-       low full-level torsion obstructions [done]
-                              │
-                              ▼
-       finite-abelian forbidden-embedding classification
-                              │
-                ┌─────────────┴─────────────┐
-                ▼                           ▼
-       rational point-order theorem   exceptional product exclusions
-                │                    C₂×C₁₀ [done],
-                │                    C₂×C₁₂ [done]
-                └─────────────┬─────────────┘
-                              ▼
-             finite rational torsion classification
-                              │
-                              ▼
-       `torsion_ncard_le_of_classification_if_finite` [done]
-                              │
-                              ▼
-                  `Solution/Mazur.lean`
+finite exceptional endpoints ───────┐
+                                    ├─ allowed point orders
+represented X₀(N) point             │
+        │                           │
+private Eisenstein witness          │
+        │                           │
+formal collision at 5               │
+        │                           │
+good reduction + #E(F₅) ≤ 10 ──────┘
+                                    │
+Mordell–Weil finiteness + rank two ─┤
+forbidden subgroup results ─────────┤
+                                    ▼
+                    full fifteen-group classification
+                                    │
+                                    ▼
+                         ncard-at-most-16 challenge
 ```
 
-This route is preferable to adding Mordell--Weil merely to prove that
-torsion is finite. It is also preferable to Merel's general uniform bound,
-which is much less sharp and requires a larger formal apparatus.
-
-## 4. Exact finite-group interface
-
-### 4.1 Common predicate
-
-Create `GroupTheory/ForbiddenEmbeddings.lean` with:
+The prime-order public API must not expose the construction details of the
+Eisenstein quotient. Its proposed seam is:
 
 ```lean
-def ForbidsEmbedding (A G : Type*) [AddCommGroup A] [AddCommGroup G] : Prop :=
-  ∀ f : A →+ G, ¬ Function.Injective f
+-- proposed; exact fields require interface review before implementation
+structure MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness where
+  -- represented integral modular and cusp sections
+  -- a cusp-normalized map to a supplied abelian/Néron target
+  -- formal immersion at infinity in residue characteristic five
+  -- torsion of the particular modular image
+  -- specialization compatibility used by the collision
 ```
 
-Add transport lemmas under additive equivalence, products, subgroups, and
-composition. Keep this file entirely independent of elliptic curves.
+The private constructor is proposed as
+`ModularCurve.EisensteinQuotient.toDegreeOneFormalImmersionWitness`.
 
-### 4.2 Finite classification theorem
+## 3. Object maturity levels
 
-Create `GroupTheory/FiniteClassification.lean`. Its central theorem should
-have the following mathematical interface:
+Every public object belongs to one of four maturity levels.
+
+1. **Canonical constructed object** — the actual scheme, morphism, group
+   object, or theorem has been constructed and its laws proved.
+2. **Canonical interface over a supplied object** — a genuine mathematical
+   object is supplied, and the file proves generic consequences of its actual
+   axioms. `AlgebraicGeometry.NeronModel` and its generic specialization API
+   belong here.
+3. **Point-level adapter** — an honest statement about rational points or
+   abstract groups, explicitly not a represented moduli object. Such adapters
+   may be consumers, but cannot discharge representability nodes.
+4. **Conditional shadow** — a record containing the theorem one ultimately
+   wants as a field, or an arbitrary equivalence standing in for a missing
+   construction. Existing compatibility wrappers may remain stable, but new
+   theorem paths must not grow through them.
+
+The roadmap credits a foundational node only when the appropriate canonical
+level is reached and a named downstream theorem consumes it.
+
+## 4. Finite-group and arithmetic assembly
+
+### Existing canonical API
+
+- `MazurTorsion.RationalTorsion`
+- `MazurTorsion.cyclicOrders`
+- `MazurTorsion.bicyclicParameters`
+- `MazurTorsion.HasMazurClassification`
+- `MazurTorsion.HasMazurClassificationIfFinite`
+- `MazurTorsion.hasMazurClassification_of_rankTwo`
+- `MazurTorsion.torsion_ncard_le_of_classification`
+- the checked forbidden-embedding package in
+  `MazurTorsion.GroupTheory.FiniteClassification`
+- the checked point-order reduction in
+  `MazurTorsion.Arithmetic.PointOrder`
+
+### Remaining integration
+
+`MazurTorsion.rationalTorsion_orders_mem_cyclicOrders` must join the prime
+theorem and finite endpoints. The full classification additionally needs an
+honest proof that rational torsion is finite and an invariant-factor
+presentation of rank at most two. The numerical challenge deliberately did
+not force those facts, so they must not be treated as already integrated.
+
+## 5. Curve cohomology, Picard, and Jacobian
+
+### Coherent cohomology
+
+`MT-TC-B1-COHERENT-COHOMOLOGY` is independent of the global
+divisor/line-bundle dictionary. Its active work package supplies only the
+proper-curve finite-cohomology core consumed by Riemann–Roch and Picard
+representability. General cohomology machinery outside that consumer is not
+on the critical path.
+
+### Divisors and line bundles
+
+The existing absolute divisor-class/Picard adapters are useful point-level
+normalizations. The remaining A3 theorem is the global tensor-compatible
+dictionary: exact principal kernel, essential surjectivity, and descent of
+the actual line bundle. Local affine comparisons do not by themselves prove
+this global result.
+
+### Relative Picard
+
+D1 owns only:
+
+- the rigidified relative Picard functor modulo pullbacks from the base;
+- its degree-zero subfunctor;
+- the exact fppf descent/sheafification statement used downstream.
+
+D2 owns:
+
+- representability of `Pic⁰`;
+- the normalized universal Poincaré bundle;
+- properness and geometric connectedness of the representing group scheme.
+
+The universal bundle no longer appears in D1.
+
+### Jacobian and Abel–Jacobi
+
+The Jacobian is the represented degree-zero Picard group scheme of a smooth,
+proper, geometrically connected curve. The existing `PicardDegreeZero` and
+`PicardAbelJacobi` modules construct valuable abstract Picard classes, but
+they are not a Jacobian scheme.
+
+The canonical completion must construct:
 
 ```lean
-theorem hasMazurShape_of_forbidden_embeddings
-    (G : Type*) [AddCommGroup G] [Finite G]
-    (horder : ∀ x : G, addOrderOf x ∈ cyclicOrders)
-    (h222 : ForbidsEmbedding (ZMod 2 × ZMod 2 × ZMod 2) G)
-    (h33  : ForbidsEmbedding (ZMod 3 × ZMod 3) G)
-    (h44  : ForbidsEmbedding (ZMod 4 × ZMod 4) G)
-    (h55  : ForbidsEmbedding (ZMod 5 × ZMod 5) G)
-    (h77  : ForbidsEmbedding (ZMod 7 × ZMod 7) G)
-    (h210 : ForbidsEmbedding (ZMod 2 × ZMod 10) G)
-    (h212 : ForbidsEmbedding (ZMod 2 × ZMod 12) G) :
-    MazurGroupShape G
+-- proposed
+TauCeti.AlgebraicGeometry.Jacobian
+TauCeti.AlgebraicGeometry.Jacobian.abelJacobi
+TauCeti.AlgebraicGeometry.Jacobian.abelJacobi_baseChange
 ```
 
-`MazurGroupShape` should be generic in `G`; the elliptic-curve-specific
-`HasMazurClassification` can then be a specialization.
+Only the universal property and base-change facts consumed by modular curves
+are required initially. General polarization theory is outside the critical
+path.
 
-Why the hypotheses suffice:
+## 6. Elliptic curves and finite-flat cyclic subgroups
 
-1. allowed element orders make the exponent one of
-   `{1,…,10,12}`;
-2. excluding `(C₂)^3` bounds the two-primary rank by two;
-3. excluding `(C₃)^2`, `(C₅)^2`, and `(C₇)^2` makes every odd primary
-   component cyclic;
-4. excluding `(C₄)^2` restricts the noncyclic two-primary component to the
-   shape `C₂ × C_{2^r}` with `r≤3`;
-5. coprime primary components recombine, yielding either `C_b` or
-   `C₂ × C_b` with even
-   `b∈{2,4,6,8,10,12}`;
-6. the last two explicit obstructions remove `b=10,12`.
+The project has checked point-level `RationalCyclicSubgroup`, divisor
+subgroups, constant finite-flat carriers, quotient formulas, projective cubic
+geometry, and rational-point comparisons. These are not yet a construction of
+the global Weierstrass group scheme: multiplication on the projective cubic
+has not been constructed and proved compatible with the affine point law.
 
-The implementation should use
-`AddCommGroup.equiv_directSum_zmod_of_finite` and small helper lemmas about
-prime-power factors. It must not reproduce unlicensed source from another
-repository.
+Therefore:
 
-If a direct shape theorem makes the API unwieldy, an acceptable intermediate
-theorem is the strictly weaker conclusion `Nat.card G ≤ 16`; the later
-elliptic layer can then bypass the explicit fifteen-group equivalence.
+- `RationalCyclicSubgroup` remains explicitly point-level;
+- `SplitGammaZeroDatum` remains split-constant finite-flat data;
+- supplied `WeierstrassGroupSchemeInterface`-style records are compatibility
+  wrappers, not canonical endpoints;
+- no new adapter may claim a canonical group scheme merely by assuming a
+  `GrpObj` instance or an arbitrary point equivalence.
 
-## 5. Full-level torsion foundations
+The active vertical slice constructs the missing compatibility needed to send
+an exact-order-49 point through an honest finite-flat subgroup to a represented
+`X₀(49)` point. Its named endpoint is
+`MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`.
 
-### 5.1 Completed small levels
+## 7. Represented `X₀(N)`
 
-Keep the existing two-, three-, and four-torsion files separate because
-their proofs use different coordinate arguments and are already a natural
-size.
+`X₀(N)` is not defined by the existing rational-data record. The canonical
+object must address the moduli problem of generalized elliptic curves with a
+finite locally free cyclic subgroup, its coarse/represented form in the exact
+range used here, compactification, cusps, and prime-to-level base change.
 
-### 5.2 Odd prime full torsion
+The first implementation may specialize aggressively:
 
-The fixed division-polynomial route is complete.
-`Foundations/OddPrimeFullTorsion.lean` and
-`Arithmetic/OddPrimeObstructions.lean` expose:
+- prime levels `N = 11` and `N ≥ 17` at residue characteristic `5`;
+- level `35` at residue characteristic `11`;
+- level `49` for the explicit vertical slice.
+
+It need not first solve arbitrary level or residue-characteristic-dividing-level
+geometry.
+
+Required outputs are:
 
 ```lean
-not_injective_zmod_five_square
-not_injective_zmod_seven_square
+-- proposed
+ModularCurve.XZeroModuli
+ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup
+ModularCurve.IntegralXZero
+ModularCurve.XZero.infinityCusp
+ModularCurve.XZero.atkinLehner
 ```
 
-Full rational `p`-torsion makes the `p`-division polynomial split completely
-over `ℚ`. The implementation proves:
-
-* a split separable polynomial has square discriminant;
-* the scalar-multiplication root criteria for `ψ₅` and `ψ₇`;
-* the universal discriminant identities for `ψ₅` and `ψ₇`;
-* the rational nonsquare contradictions at five and seven.
-
-The large seventh-level calculation is expressed as sparse polynomial
-syzygies and resultants checked by the kernel. A general Weil-pairing
-construction remains useful infrastructure, but it is no longer on the
-critical path for the two full-level obstructions used by the cardinality
-wrapper.
-
-## 6. Rational point-order theorem
-
-The public result should live in `Arithmetic/PointOrder.lean`:
-
-```lean
-theorem rational_torsion_order_mem_cyclicOrders
-    (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    (P : (E⁄ℚ).Point)
-    (hP : P ∈ AddCommGroup.torsion (E⁄ℚ).Point) :
-    addOrderOf P ∈ cyclicOrders
-```
-
-The purely arithmetic divisor reduction is already compiled in
-`Arithmetic/PointOrderReduction.lean`. It defines
-
-```lean
-kubertForbiddenOrders =
-  {14, 15, 16, 18, 20, 21, 24, 25, 27, 35, 49}
-```
-
-and proves:
-
-```lean
-exists_prime_or_kubertForbiddenOrder_dvd
-addOrderOf_mem_cyclicOrders_of_order_obstructions
-```
-
-For a positive integer outside `cyclicOrders`, choose its least excluded
-divisor. If it is prime, it is at least eleven. If it is composite, both
-proper factors lie in the allowed list and hence are at most twelve, so the
-minimal divisor is below 145; a small kernel-reduced finite classification
-gives exactly the displayed eleven values. For a finite-order group
-element, multiplication by the complementary quotient extracts an element
-of exactly the chosen divisor order. This completes the divisor-closure
-step without assuming any of the geometric exclusions.
-
-`Arithmetic/PointOrder.lean` is the incremental rational specialization.
-It defines
-
-```lean
-remainingKubertForbiddenOrders = {18, 25, 35, 49}
-```
-
-and its strongest current public theorem
-
-```lean
-rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions
-```
-
-uses the unconditional level-fourteen, level-fifteen, level-sixteen,
-level-twenty, level-twenty-one, level-twenty-four, and level-twenty-seven
-obstructions internally. Consequently, the current callback boundary consists
-of prime orders at least eleven and only the displayed four composite orders;
-a downstream caller cannot accidentally reintroduce any completed case as an
-assumption. The earlier incremental interfaces remain available for
-compatibility.
-
-`Kubert/TateNormalForm.lean` and
-`Kubert/TateNormalFormMultiples.lean` are also compiled. They construct the
-normal curve and scaling equivalence, verify coordinate formulas through
-`5P`, and expose a checked recurrence for `6P` and later multiples. The
-shared `Kubert/OrderNineReduction.lean` proves that exact order nine forces
-
-\[
-c^5+c^4+(1-b)c^3-3bc^2+3b^2c-b^3=0.
-\]
-
-It obtains this by comparing the checked abscissas in `5P=-4P`, with
-`b≠0`, `c≠0`, and `b≠c` proved from the exact order rather than assumed.
-Its scaled Tate certificate is the common first stage of the order-eighteen
-and order-twenty-seven branches.
-
-`Kubert/OrderEighteenReduction.lean` performs the next order-eighteen step.
-For a point `Q` of exact order eighteen, `2Q` has exact order nine and
-`9Q` has exact order two. After normalizing `2Q`, the module retains both
-facts on the same Tate curve:
-
-```lean
-orderNinePolynomial b c = 0
-tateTwoDivisionPolynomial b c r = 0
-```
-
-where
-
-\[
-\operatorname{tateTwoDivisionPolynomial}(b,c,r)
-=4r^3+((1-c)^2-4b)r^2+2b(c-1)r+b^2.
-\]
-
-All order and denominator side conditions, and the twelfth-power
-discriminant scale, are checked.
-
-`Kubert/OrderEighteenModel.lean` now performs the elimination.  Rewriting
-the order-nine equation as
-
-\[
-c^5-(b-c)c^3-(b-c)^3=0
-\]
-
-and setting `d=c²/(b-c)` gives
-
-\[
-c=d^2(d-1),\qquad b=c(d^2-d+1).
-\]
-
-For a root `r` of the two-division cubic, put
-
-\[
-s=\frac{(1-c)r-b}{2rc}.
-\]
-
-Then
-
-\[
-(2s+1)\bigl(d^2(d-1)s^2-(d^2-d+1)\bigr)-s^2=0. \tag{*}
-\]
-
-The module proves `d≠0,1`, `r≠0`, and `1+ds≠0`, and verifies the rational
-change
-
-\[
-X=\frac{d-s+2ds}{1+ds},\qquad
-Y=2Xd-(X^3-2X^2+3X-1).
-\]
-
-It produces the explicit genus-two point
-
-\[
-Y^2=X^6-4X^5+10X^4-10X^3+5X^2-2X+1
-\]
-
-with `X≠0,1`.  Thus only the rational-point classification of this
-genus-two model remains; the full algebraic path from a point of exact
-order eighteen is compiled.
-
-`NumberTheory/XOneEighteenFiniteField.lean` adds two independent checked
-boundaries.  Modulo five, the sextic is
-`X⁶+X⁵+3X+1`; an explicit Bézout identity with its derivative
-`X⁵+3` proves separability and squarefreeness.  Complete ordinary
-enumeration gives four affine points, all over `X=0,1`, and the monic
-even-degree infinity chart has two smooth directions.  The resulting
-six-element type is deliberately only a finite-field certificate: no
-projective equivalence, Jacobian reduction, or injection of rational points
-is inferred from it.
-
-Over the rationals the same file checks the order-three automorphism
-
-\[
-(X,Y)\longmapsto
-\left(\frac1{1-X},-\frac{Y}{(1-X)^3}\right).
-\]
-
-On `X≠0,1`, its third iterate is the identity.  The invariant functions
-
-\[
-u=\frac{X^3-3X+1}{X(X-1)},\qquad
-v=\frac{Y}{X(X-1)}
-\]
-
-are fixed by the action and satisfy `v²=u²-4u+12`.  These identities expose
-the cyclic cubic cover used by the classical Eisenstein-integer descent,
-but do not themselves prove that the Jacobian has rank zero.
-
-`NumberTheory/XOneEighteenDescent.lean` now carries the elementary quotient
-arithmetic substantially further.  It parameterizes the conic away from
-the exceptional fiber `u=1`, and rules out that fiber by a monic
-rational-root argument reduced modulo two.  The three abscissas in an
-automorphism orbit are the roots of
-
-\[
-z^3-uz^2+(u-3)z+1,
-\]
-
-whose discriminant is `(u²-3u+9)²`.  Writing the conic parameter as the
-canonical coprime fraction `t=m/n` produces a homogeneous cubic with
-discriminant
-
-\[
-(m^2+3n^2)^2(7m^2+6mn+3n^2)^2.
-\]
-
-Both quadratic factors are checked Eisenstein norms.  In coordinates
-`a+bω`, with `ω²+ω+1=0`, the file defines multiplication, conjugation and
-norm, proves `7=(3+ω)(2-ω)`, and proves the exact lattice criterion
-
-\[
-(3+\omega)\mid(a+b\omega)\quad\Longleftrightarrow\quad
-7\mid 2a+b.
-\]
-
-For primitive `m,n`, the two norm factors cannot both be divisible by
-seven.  The capstone theorem packages these coprime integer parameters,
-the homogeneous cubic root, the quotient coordinates, and the local
-seven-adic exclusion from any noncuspidal rational point.  Clearing the
-three cusp factors now also produces an integer `k` with
-
-\[
-m^2-n^2=k\,ab(a-b)
-\]
-
-and the exact square-times-cube identity
-
-\[
-(m^2+3n^2)(7m^2+6mn+3n^2)
-  =k^2(a^2-ab+b^2)^3.
-\]
-
-The public `PrimitiveCyclicCubicObstruction` is the resulting narrower
-integral boundary.  It has compiled consumers first at the noncuspidal
-curve statement and then at the exact-order-eighteen endpoint, so none of
-the new quotient data is a terminal interface.
-
-Comparing all three coefficients of the split cubic sharpens this boundary.
-Lean proves
-
-\[
-\begin{aligned}
-m^2-6mn-3n^2&=k(a^3-3ab^2+b^3),\\
--2m^2-6mn&=k(a^3-3a^2b+b^3).
-\end{aligned}
-\]
-
-Primitivity and a complete modulo-two check force `m,n` odd.  Two explicit
-resultant-sixteen identities then show `k\mid16`; the first displayed
-coefficient is divisible by four but not sixteen.  Consequently
-
-\[
-k\in\{-8,-4,4,8\}.
-\]
-
-`FiniteSplitCyclicCubicObstruction` is the remaining four-case integral
-statement.  Its conversion to `PrimitiveCyclicCubicObstruction` and its
-exact-order-eighteen consumer both compile. A further exhaustive calculation
-modulo 32 proves
-
-\[
-\begin{array}{c|c}
-k=\pm8&m\equiv n\pmod4,\\
-k=\pm4&m\not\equiv n\pmod4.
-\end{array}
-\]
-
-The two norm arguments also satisfy the exact coordinate factorization
-
-\[
-\omega\,(m+n+2n\omega)\,
-  \overline{(3m+n)+(m-n)\omega}
-   =k(a+b\omega)^3.
-\]
-
-These certificates live in the separately named
-`RefinedFiniteSplitCyclicCubicObstruction`; its conversion preserves the old
-four-case public API and reaches a new exact-order consumer. The coordinate
-identity is now also interpreted multiplicatively in the ring of integers of
-an arbitrary number field containing a primitive third root of unity, and in
-particular in the canonical third cyclotomic field. The resulting
-`EisensteinIntegerFiniteSplitCyclicCubicObstruction` retains every primitive,
-four-case, congruence, and exact factorization hypothesis and has a compiled
-exact-order-eighteen consumer. The checked determinant argument now proves
-that a prime common to the two linear factors lies over `2` or is the
-ramified prime over `3`. The square of the standard ramified factor is
-associated to `3`; primitivity bounds both linear factors to ramified depth at
-most one, while the scalar-times-cube equality would force total depth at
-least three. Thus the ramified common-prime case is excluded, and the narrower
-support-only-over-two obstruction has a checked exact-order consumer.
-Allocation above `2`, the separate scalar/norm contribution at `7`, and the
-unit cases are not yet discharged. Consequently the
-four integral families and the immutable `XOneEighteenNoncusp` Challenge
-remain open; no rational-point classification is claimed.
-
-An independent global leaf now starts from the checked anti-diagonal norm
-factorization
-
-\[
-A(r,s)^2+2B(r,s)^2=c^2.
-\]
-
-Noncuspidality proves `B != 0` and excludes the tangent `c+A=0`. Projection
-from the rational conic point `(-1,0)` therefore gives canonical coprime
-integers `p,q` with `q>0` and `p != 0`, together with all three cleared
-parametrization identities. Eliminating `c` yields the fixed equation
-
-\[
-A(r,s)pq+2r(r^2-s^2)(q^2-2p^2)=0. \tag{X18-global}
-\]
-
-This bihomogeneous `(3,2)` equation is consumed first by every noncuspidal
-point of the sextic and then by an actual exact-order-eighteen elliptic point.
-In the branch `gcd(A,B)=1`, coprimality allocates its terms further:
-`A(r,s)` divides `q^2-2p^2`, while `r(r^2-s^2)` divides `pq` and splits as
-`d1*d2` with coprime `d1,d2`, `d1 | p`, and `d2 | q`. It is not a local
-certificate. The branch `gcd(A,B)=8` is also normalized globally: `A=8a` and
-`B=8b` with coprime `a,b`, `r(r^2-s^2)=-2b`, and `a` divides
-`q^2-2p^2`; writing `b=d1*d2` gives `d1 | 2p`, `d2 | q`, and
-`gcd(d1,d2) | 2`. These covers do not classify the curve. The next step is to
-analyze them completely or prove rank zero for the Jacobian of (X18-global).
-
-This is the full elementary/local input to the classical `π=3+ω` descent,
-not its global Jacobian conclusion.  Completion may prove the displayed
-primitive obstruction directly, or may still use the order-three
-automorphism on `J₁(18)`, the induced `ℤ[ω]` action and `π`-endomorphism,
-Kubert's global `π`-surjectivity on rational Jacobian points, the rational
-torsion computation (classically `C₂₁`), and the intersection of the
-Abel--Jacobi image with that torsion.  None of those claims is inferred from
-the compiled norm identities.
-
-`Kubert/OrderFourteenReduction.lean` now carries the even genus-one case
-through `7P`.  Put
-
-\[
-\begin{aligned}
-A&=c^2+c-b,\\
-B&=b^2-bc-c^3,\\
-C&=2b^2-bc^2-3bc+c^2,\\
-D&=b^3-3b^2c+bc^3+3bc^2-c^5-c^4-c^3.
-\end{aligned}
-\]
-
-The checked recurrence gives
-
-\[
-x(7P)=-\frac{bcAC}{B^2},\qquad
-y(7P)=\frac{b^2A^2D}{B^3}.
-\]
-
-Exact order fourteen proves `b`, `c`, `b-c`, `A`, `B`, and `C` nonzero.
-Since `7P` has exact order two, substituting the two coordinates into
-`2y+(1-c)x-b=0` gives the denominator-safe equation
-
-\[
-2bA^2D-(1-c)cACB-B^3=0.
-\]
-
-The exported certificate retains this equation and the twelfth-power
-discriminant scale.  After the sign change `q=-b`, this is Rabarison's
-plane Tate model for `X₁(14)`, birational to
-
-\[
-s^2+st+s=t^3-t.
-\]
-
-The preferred inverse map avoids formalizing the much larger forward
-birational formulas.  Directly on the Tate certificate it is
-
-\[
-t=\frac{D}{(b-c)C},\qquad
-U=\frac{4(D+(b-c)C)}{(b-c)C},\qquad
-V=\frac{4(b-2c^2-c)B}{bA^2}.
-\]
-
-Its denominators are precisely among the nonzero factors already exported
-by `OrderFourteenReduction`.  After clearing denominators, the target
-Weierstrass equation is the order-fourteen polynomial times an explicit
-multiplier.  The identities
-
-\[
-D-(b-c)C=AB,\quad
-\operatorname{Res}_b(P_{14},D)=-c^{33},\quad
-\operatorname{Res}_b(P_{14},D+(b-c)C)=4c^{31}
-\]
-
-show respectively that the resulting abscissa is not `8`, `4`, or `0`.
-`Kubert/OrderFourteenModel.lean` proves the two resultant consequences
-through their much smaller explicit Bézout identities after setting
-`r=b/c`; no general resultant API is needed.
-
-The rational-point side now has a compiled specialized proof.  Completing
-the square and putting
-
-\[
-U=4(t+1),\qquad V=4(2s+t+1)
-\]
-
-gives `V²=U(U²-11U+32)`, whose two-isogenous curve is
-`W²=Z(Z²+22Z-7)`.  The two descent images are respectively `{1,2}` and
-`{1,-7}`: positivity removes the negative classes on the first curve,
-while the two missing dual classes reduce to `7 mod 8` when the primitive
-numerator and denominator have opposite parity and to `12 mod 16` when
-both are odd.  `NumberTheory/XOneFourteenDescent.lean` turns these
-squareclass calculations into two explicit doubling cosets, proves finite
-generation, computes the rational two-torsion cardinality as two, and uses
-the finitely generated group index formula to prove rank zero and
-finiteness.  It also constructs six distinct visible points generated by
-`(8,8)`, of exact order six.  `NumberTheory/XOneFourteenReduction.lean`
-proves good reduction at three, counts six reduced points, and injects the
-finite rational point group into them.  The visible points therefore
-exhaust the curve and every affine abscissa is `0`, `4`, or `8`.
-`Kubert/OrderFourteen.lean` combines this fact with the inverse map, whose
-image avoids all three values, and unconditionally excludes exact rational
-order fourteen.
-
-The new `Kubert/OrderFifteenReduction.lean` uses the exact-order hypothesis to
-show that `5P` has exact order three, applies the checked three-torsion
-criterion, and eliminates the Tate multiples. It produces parameters
-`b,c,u` with every exceptional denominator nonzero, an explicit equation
-`orderFifteenPolynomial b c = 0`, and the identity
-`u^12 * E.Δ = tateNormalDiscriminant b c`. This is a complete,
-denominator-safe reduction to the genus-one rational-point problem.
-
-Independently, `NumberTheory/XOneFifteenDescent.lean` proves the specialized
-two-isogeny descent for
-
-\[
-V^2=U(U^2-7U+16).
-\]
-
-It eliminates every non-visible original and dual squareclass by primitive
-quartics modulo sixteen, constructs the two doubling cosets represented by
-the identity and `(4,4)`, proves finite generation, computes exact rational
-two-torsion cardinality two, and concludes rank zero and finiteness.
-
-`Kubert/OrderFifteenModel.lean` now completes the denominator-safe
-birational bridge.  For
-
-\[
-r=b/c,\qquad q=c^2/(b-c),
-\]
-
-it first checks the raw equation and proves that `q-1` and
-`qr-2r+1` do not vanish.  It then uses
-
-\[
-\begin{aligned}
-t&=-\frac{q^2r+q^2-3qr+r}{(q-1)(qr-2r+1)},\\
-s&=-\frac{q^2-qr^2-qr+3r^2-3r+1}{(qr-2r+1)^2}
-\end{aligned}
-\]
-
-to obtain `s²+st+s=t³+t²`, and sets
-
-\[
-U=4(t+1),\qquad V=4(2s+t+1).
-\]
-
-The resulting point lies on `V²=U(U²-7U+16)`.  Two explicit factor
-identities on the raw equation prove `U≠0,4`; no denominator or exceptional
-factor is silently cancelled.
-
-`NumberTheory/XOneFifteenReduction.lean` supplies the sharp enumeration.
-Good reduction at seven gives at most eight rational points.  The visible
-point `(4,4)` has exact order four.  If a point of order eight existed,
-successive denominator-free duplication identities would make its
-abscissa a rational root of
-
-\[
-x^4-16x^3+80x^2-256x+256.
-\]
-
-Monicity makes such a root integral, while direct reduction modulo seventeen
-shows that the polynomial has no root.  Thus the group has no element of
-order eight.  Since its two-torsion has cardinality two, a finite group of
-cardinality eight would have doubling image of cardinality four contained in
-a two-element kernel, a contradiction.  Hence the group has exactly four
-points, namely `O`, `(0,0)`, `(4,4)`, and `(4,-4)`.  Every affine abscissa is
-therefore `0` or `4`, contradicting the model image.  The compiled
-`Kubert/OrderFifteen.lean` unconditionally excludes exact rational order
-fifteen.
-
-The remaining low-level work must turn the four still-open composite order
-cases `18,25,35,49` into explicit rational-point
-classifications; cyclic orders divisible by five or seven are not
-consequences of the already-proved *full* `C₅²` and `C₇²` obstructions.
-
-The detailed subgraph is:
-
-```text
-Kubert/TateNormalForm
-        │ [compiled through explicit 5P and recurrent 6P]
-        ▼
-Kubert/LowLevels
-  no orders 14,15,16,20,21,24,27 [compiled]
-  callbacks 18,25,35,49
-        │
-        ├───────────────► MazurTate/OrderThirteen
-        │
-        ▼
-Mazur/PrimeOrder
-  no remaining rational prime-order point
-        │
-        ▼
-Mazur/PointOrder
-  divisor closure leaves {1,…,10,12} [compiled]
-```
-
-Kubert's Theorem IV.1.2 is the mathematical reduction to a rational
-prime-order subgroup of large level. The small-level files should expose
-mathematical theorems, not raw computer-algebra transcripts. Rank-zero,
-torsion, or cusp computations must be accompanied by checkable descent and
-enumeration certificates.
-
-### 6.1 Cyclic orders twenty and twenty-four
-
-The completed exceptional-product theorems give a short route to the
-*cyclic* orders twenty and twenty-four.  If `Q` has order `2m`, for
-`m=10` or `12`, put `T=mQ`.  Then `T` is a rational point of order two.  After an
-admissible variable change sends `T` to `(0,0)`, the source has equation
-
-\[
-E_{a,b}:y^2=x(x^2+ax+b).
-\]
-
-This normalization is now reusable rather than embedded in the
-order-sixteen proof.  `EllipticCurve/TwoTorsionNormalization.lean` packages
-the change, coefficients, transformed-curve equality, normalized origin,
-and induced additive equivalence in `TwoTorsionNormalization.Data`.
-`exists_data_of_order_two` constructs the package from exact order two;
-the pullback API preserves additive order and transports any relation
-`nP=T` to the normalized origin.
-
-`EllipticCurve/TwoIsogeny.lean` now constructs the quotient formulas to
-
-\[
-E'_{a,b}:Y^2=X(X^2-2aX+a^2-4b):
-\]
-
-\[
-X=\frac{y^2}{x^2}=x+a+\frac bx,\qquad
-Y=\frac{y(b-x^2)}{x^2}.
-\]
-
-The point functions branch explicitly at infinity and `(0,0)`.  The files
-prove that both kernels are exactly the corresponding infinity/origin
-pairs, that translation by the source origin fixes the quotient map, and
-that the displayed dual satisfies both composite identities
-
-\[
-\widehat\phi(\phi(P))=2P,\qquad
-\phi(\widehat\phi(P'))=2P'
-\]
-
-for every rational point, including all exceptional branches.  Applying
-the opposite composite to the first identity proves, without a global
-additivity theorem,
-
-\[
-\phi(2P)=2\phi(P),\qquad
-\widehat\phi(2P')=2\widehat\phi(P'),
-\]
-
-and hence compatibility with every power-of-two multiple.  This
-fixed-multiple route is compiled in
-`EllipticCurve/TwoIsogenyMultiples.lean`.
-
-For order twenty, let `Q` be the normalized source point and put
-
-\[
-S=\phi(5Q),\qquad A=\phi(4Q).
-\]
-
-Doubling compatibility and the exact kernel show that `S` is a nonzero
-point killed by two.  It is different from the target origin `T'`,
-because applying the dual to an equality `S=T'` would make `10Q=0`.
-Powers-of-two compatibility gives `16A=A`, hence `15A=0`.  If `3A=0`,
-then `4A=A`; applying the dual would give `32Q=8Q`, so `24Q=0`,
-contradicting exact order twenty.  Thus `R=3A` has exact order five.
-The point
-
-\[
-C=S+R
-\]
-
-has exact order ten and `5C=S`.  Since the unique nonzero order-two
-element in `⟨C⟩` is `S`, the distinct point `T'` is not in `⟨C⟩`.
-
-For order twenty-four, instead put
-
-\[
-S=\phi(6Q),\qquad B=\phi(3Q),\qquad A=\phi(8Q).
-\]
-
-Again `S` is nonzero of order two and differs from `T'`.  The identity
-`2B=S` makes `B` have exact order four.  Powers-of-two compatibility gives
-`4A=A`, while the kernel and exact order of `Q` show `A≠0`; hence `A`
-has exact order three.  Therefore
-
-\[
-C=B+A
-\]
-
-has exact order twelve and `6C=S`, so once again
-`T'∉⟨C⟩`.
-
-`GroupTheory/IndependentCyclicGenerators.lean` constructs the two `ZMod`
-generator maps and proves that exact-order points `P,C` yield an injective
-`ZMod 2 × ZMod n` map whenever `P∉⟨C⟩`.  Applied above, this produces
-`C₂×C₁₀` and `C₂×C₁₂` inside the respective target point groups,
-contradicting the already compiled unconditional exceptional-product
-obstructions.  Thus the proof needs no unproved assertion that the raw
-rational point function preserves arbitrary addition; the two composite
-identities and their doubling consequences suffice.
-
-`Arithmetic/OrderTwentyTwentyFour.lean` performs the final join for an
-arbitrary elliptic curve: it proves the midpoint has exact order two,
-normalizes it, pulls back the original point with exact order preserved,
-builds the independent target generators, and applies the two forbidden
-embedding theorems.  Its public endpoints unconditionally exclude exact
-rational orders twenty and twenty-four.
-
-### 6.2 Order-eleven boundary
-
-The exact order-eleven branch now reaches the standard genus-one modular
-curve without any cancelled exceptional factors:
-
-```text
-Kubert/OrderElevenReduction.lean
-Kubert/OrderElevenModel.lean
-Kubert/OrderElevenModelInverse.lean
-NumberTheory/XOneElevenReduction.lean
-NumberTheory/XOneElevenDescent.lean
-NumberTheory/XOneElevenFiveIsogenyHom.lean
-NumberTheory/XOneElevenFiveSelmer.lean
-NumberTheory/XOneElevenUniformCoset.lean
-```
-
-For a marked point `P=(0,0)` on Tate normal form, exact order eleven gives
-`6P=-5P`.  Comparing the already checked abscissas and writing
-
-\[
-A=c^2+c-b,\qquad B=b^2-bc-c^3,\qquad d=b-c
-\]
-
-produces the denominator-safe equation
-
-\[
-d^3B-bcA^3=0. \tag{X11}
-\]
-
-The proof derives `b,c,d,A,B≠0` from exact order.  Set
-
-\[
-r=b/c,\qquad q=c^2/(b-c).
-\]
-
-Then (X11) implies
-
-\[
-r^2-rq^3+3rq^2-4rq+q=0.
-\]
-
-With `N=rq-2r+1` and `K=q²-q-r+1`, the independently derived and
-kernel-checked rational map
-
-\[
-U=\frac K N,\qquad
-V=\frac{(q-r)K}{N^2}-1
-\]
-
-lands on
-
-\[
-V^2+V=U^3-U^2.
-\]
-
-The raw equation proves `N`, `K`, and `q-r` nonzero, and the exact-order
-certificate proves `U≠0,1`.  Thus exact rational order eleven produces a
-non-cusp affine point on `X₁(11)`.
-
-The reverse direction is now checked on precisely that noncusp locus.  For a
-model point `(U,V)` with `U≠0,1`, put
-
-\[
-r=\frac{U-1}{U^2-V-1},\qquad
-q=\frac{U^2-U+V+1}{V+1},\qquad
-c=q(r-1),\qquad b=rc.
-\]
-
-The model equation proves every displayed denominator and the factors
-`r`, `q`, `r-1`, and `q-1` nonzero.  Lean proves the raw equation, the exact
-round trip back to `(U,V)`, the compact Tate equation, and exact additive order
-eleven of `(0,0)` on the reconstructed Tate cubic.
-
-Ellipticity is not inferred from nonsingularity of that one point.  After the
-visible nonzero factors are removed, singularity would force
-
-\[
-S(r,q)=q^3r^2-2q^3r+q^3-8q^2r^2+5q^2r+3q^2
-       +16qr^2-20qr+3q+1=0.
-\]
-
-A checked Bézout identity between `S` and the raw modular equation has scalar
-target
-
-\[
-(q-1)^7\bigl(q^5-4q^4-9q^3+27q^2-13q-1\bigr).
-\]
-
-The degree-five factor is monic with constant coefficient `-1`; the integral
-root theorem reduces a rational root to `q=±1`, and direct evaluation excludes
-both.  This proves nonzero Tate discriminant and constructs a genuine
-`IsElliptic` witness.  Consequently
-`model_abscissa_eq_zero_or_one_of_no_order_eleven` is a real downstream
-consumer of a uniform exact-order-eleven exclusion.
-
-`NumberTheory/XOneElevenUniformCoset.lean` then checks the whole preferred
-release route after that one input.  The model equation turns `U=0` or `1`
-into `V=0` or `-1`; these four affine points and infinity are identified with
-the five already computed multiples of `P₀=(0,0)`.  The theorem
-`fiveCosetBound_of_no_order_eleven` chooses that representative and `Q=0`, and
-its cardinality/classification consumer compiles.  What remains on the
-preferred route is exactly the unconditional uniform theorem exposed by
-`MT-X11-JOIN`, followed by the destination and immutable Challenge bridges.
-
-`NumberTheory/XOneElevenReduction.lean` proves good reduction at three
-and computes the reduced point group to have cardinality five.  Under the
-explicit typeclass hypothesis
-`[Finite XOneEleven.curve.toAffine.Point]`, reduction is injective, while
-the five visible rational points force equality and show that every affine
-rational point has `U=0` or `1`.
-
-`NumberTheory/XOneElevenDescent.lean` now makes the missing global
-calculation much narrower.  It first checks directly that `P₀=(0,0)` has
-exact order five.  It defines the five-isogenous curve
-
-\[
-E': y^2+y=x^3-x^2-10x-20
-\]
-
-and, away from the four nonzero kernel points, verifies the Vélu
-coordinate identity
-
-\[
-\begin{aligned}
-x'&=x+\frac1{x^2}+\frac{2x-1}{(x-1)^2},\\
-y'&=y-\frac{2y+1}{x^3}
-       -\frac{x(2y+1)}{(x-1)^3}.
-\end{aligned}
-\]
-
-The denominator-safe total point function sends infinity and the affine
-points with `x=0` or `x=1` to infinity; Lean proves that this is its exact
-affine zero fibre.  This file does not assert, without proof, that the raw
-point function is additive.  The Miller/Kummer rational function
-
-\[
-f(x,y)=\frac{y^2(y+x)}{(x-1)^2}
-\]
-
-is recorded as the explicit input for the remaining isogeny descent.
-
-The rational subgroup killed by five is also completely determined.
-Reduction modulo three is injective on it, the reduced curve has five
-points, and the five multiples of `P₀` are distinct.  Hence
-`#E(ℚ)[5]=5`.  The one remaining arithmetic proposition is named
-`FiveCosetBound`:
-
-\[
-\forall P\in E(\mathbb Q)\quad
- \exists\,0\le i<5,\ Q\in E(\mathbb Q),\qquad
- P=iP_0+5Q. \tag{X11-Sel}
-\]
-
-Everything after (X11-Sel) is compiled, so it remains a valid independent
-fallback.  The five representatives make
-`E(ℚ)/5E(ℚ)` finite of cardinality at most five.  An explicit
-five-fold naïve-height descent turns this finite index into finite
-generation: the checked growth inequality has leading term `25h(P)`,
-while the translation inequality has coefficient two.  For a finitely
-generated group the already compiled index formula gives
-
-\[
-[E(\mathbb Q):5E(\mathbb Q)]
-  =5^{\operatorname{rank}E(\mathbb Q)}\,\#E(\mathbb Q)[5].
-\]
-
-The left side is at most five and the torsion factor is exactly five, so
-the rank is zero.  Finite generation plus torsion then gives finiteness,
-and the reduction theorem classifies all five points as cusps.  Thus the
-fallback boundary is exactly (X11-Sel), not a hidden Mordell--Weil hypothesis.
-The retained point-function work now proves negation compatibility and that
-its zero fibre is exactly the five-torsion kernel, without claiming additivity
-or a packaged isogeny.  The empty-support rational fifth-power Selmer factor
-also compiles with a concrete fifth-power consumer.  The local Kummer
-comparison and the ramified factor at eleven remain open.  None of this
-fallback arithmetic is a logical premise of the selected formal-immersion
-route, and order eleven is not yet claimed excluded.
-
-### 6.3 Order-thirteen boundary
-
-The strongest reusable research boundary for the first forbidden prime is
-an independent, option-free reduction to `X₁(13)`.  Its file split is:
-
-```text
-Kubert/OrderThirteenReduction.lean
-Kubert/OrderThirteenModel.lean
-NumberTheory/XOneThirteenFiniteField.lean
-NumberTheory/XOneThirteenDescent.lean
-```
-
-The first two files are compiled.  Exact order thirteen gives
-`7P=-6P`; the checked coordinates yield the denominator-safe equation
-
-\[
-(b-c)B^3+bcA^3C=0,
-\]
-
-where `A=c²+c-b`, `B=b²-bc-c³`, and
-`C=2b²-bc²-3bc+c²`.  The proof derives the nonvanishing of
-`b,c,b-c,A,B,C` from exact order.  With
-
-\[
-r=b/c,\qquad s=c^2/(b-c),
-\]
-
-the denominator-cleared target is
-
-\[
-\begin{aligned}
-G_{13}(r,s)={}&r^3+
-(-s^4+5s^3-9s^2+4s-2)r^2\\
-&+(-s^3+6s^2-3s+1)r-s^3=0.
-\end{aligned}
-\]
-
-After substitution the Tate equation factors as
-`s⁷(r-1)¹¹G₁₃(r,s)`.  The proof also retains
-`r,s≠0`, `r,s≠1`, `r≠s`, and `rs-2r+1≠0`.
-
-`OrderThirteenModel` checks the explicit rational map to
-
-\[
-y^2=x^6+2x^5+x^4+2x^3+6x^2+4x+1
-\]
-
-and proves that its image has `x≠0,-1`, the two rational affine cusp
-abscissae relevant to the forward map.  This gives an unconditional
-end-to-end reduction from exact order thirteen to a non-cusp point on the
-sextic, but not yet its rational-point classification.
-
-`XOneThirteenFiniteField` is also compiled.  At both `3` and `5` it checks
-explicit Bézout identities between the sextic and its derivative.  Ordinary
-finite enumeration gives six point-certificate directions over each base
-field.  Transparent quadratic presentations, with nonsquare and inverse
-certificates, give eight directions over `𝔽₉` and twelve over `𝔽₂₅`.
-The file then enumerates rational unordered pairs and quadratic Frobenius
-fibers.  There are twenty-two degree-two divisor labels over `𝔽₃` and
-twenty-four over `𝔽₅`; collapsing the four- or six-member
-hyperelliptic pencil leaves a nineteen-element reduced class certificate at
-either prime.  These remain explicit combinatorial certificates, not
-definitions of a Picard group, Jacobian, or rational reduction map.  The
-base-field point certificates are now identified with literal points of the
-proper glued projective curve.  The quadratic-pair rows are likewise
-identified with genuine sections of the glued family instantiated over the
-checked fields `𝔽₉` and `𝔽₂₅`, giving actual counts of eight and twelve.
-The categorical comparison with base changes of the `𝔽₃` and `𝔽₅` models,
-and the identification of the reduced degree-two quotient with a Picard
-group, remain open.  The perfect coordinate set
-`{1,-1,7,-7,8,-8} ⊂ ZMod 19` sends the three conjugate rational pairs
-and every quadratic hyperelliptic fiber to zero, while the other eighteen
-pair sums enumerate the nonzero residues.  This supplies a checked bijection
-and a transported cyclic group law on each combinatorial certificate.
-
-`XOneThirteenDescent` has named consumers for the missing geometric bridge.
-A genuine additive equivalence from each finite Picard/Jacobian point group
-to its reduced degree-two certificate identifies it with `ZMod 19` and in
-particular forces both finite orders to be `19`.
-Moreover, if a finite rational Jacobian has cardinality dividing
-`19·3ᵃ` and `19·5ᵇ`, while the Pell divisor supplies a subgroup of
-order `19`, the two-prime boundary theorem forces its cardinality to be
-exactly `19`.  A stronger consumer accepts actual reduction homomorphisms
-with kernels of cardinality `3ᵃ` and `5ᵇ` and derives those divisibilities
-by Lagrange's theorem.  Constructing the Picard equivalences, proving the
-reduction-kernel bounds and rank zero, and checking the Abel--Jacobi cusp
-intersection remain genuine global obligations.  See
-`docs/XONE_THIRTEEN_JACOBIAN_AUDIT.md` for the route audit.
-
-`XOneThirteenDescent` exposes much more of the classical `19`-isogeny
-calculation without pretending that the missing Jacobian exists at this
-pin.  The sextic has the checked order-six symmetry
-
-\[
-\sigma(x,y)=\left(-\frac1{x+1},\frac{y}{(x+1)^3}\right),
-\qquad \sigma^3(x,y)=(x,-y).
-\]
-
-On `x≠0,-1`, the invariants
-
-\[
-u=\frac{x^3-3x-1}{x(x+1)},\qquad
-v=\frac{y}{x(x+1)}
-\]
-
-lie on `v²=u²+2u+5`.  The file parameterizes this conic by
-
-\[
-u=\frac{t^2+4t-1}{1-t^2},\qquad
-v=\frac{2(1+t^2)}{1-t^2}.
-\]
-
-The exceptional value `u=-1` is impossible because its monic cubic has no
-root modulo two.  The three abscissas above a quotient point are the roots
-of
-
-\[
-z^3-uz^2-(u+3)z-1,
-\]
-
-whose discriminant is `(u²+3u+9)²`.  For the canonical primitive fraction
-`t=m/n`, denominator clearing gives a homogeneous cyclic cubic with
-discriminant
-
-\[
-\left(7m^4-4m^3n+2m^2n^2+4mn^3+7n^4\right)^2. \tag{X13-disc}
-\]
-
-In coordinates `a+bρ`, with `ρ²-ρ+1=0`, the norm is
-`a²+ab+b²` and
-
-\[
-19=(3+2\rho)(5-2\rho).
-\]
-
-The exact parameter coordinates
-
-\[
-a=m^2+4mn-n^2,\qquad b=3(n^2-m^2)
-\]
-
-have norm equal to the factor in (X13-disc).  Lean proves the two
-index-19 lattice criteria
-
-\[
-\begin{aligned}
-(3+2\rho)\mid(a+b\rho)&\iff19\mid(5a+2b),\\
-(5-2\rho)\mid(a+b\rho)&\iff19\mid(3a-2b),
-\end{aligned}
-\]
-
-the converse split-norm theorem, and a stronger modulo-19 anisotropy
-certificate showing that primitive `(m,n)` cannot lie in the conjugate branch
-at all.
-
-The rational root is now cleared through all three cusp factors as well.
-For primitive root coordinates `a,b`, Lean obtains an integer `k` with
-
-\[
-n^2-m^2=k,ab(a+b)
-\]
-
-and the integral discriminant identity
-
-\[
-\operatorname{Disc}_{13}(m,n)
-  =k^2(a^2+ab+b^2)^3.
-\]
-
-The two remaining split-cubic coefficients are checked to satisfy
-
-\[
-\begin{aligned}
-m^2+4mn-n^2&=k(a^3-3ab^2-b^3),\\
-2m^2-4mn-2n^2&=k(-a^3-3a^2b+b^3).
-\end{aligned}
-\]
-
-A complete modulo-two calculation forces `m,n` odd.  Explicit
-resultant-four identities imply `k\mid4`, while the first coefficient has
-exact two-adic valuation two; hence `k=-4` or `k=4`.  Exact transformations
-of the three root factors and the conic parameters preserve the discriminant
-and all primitive/odd side conditions while moving both signs to the single
-chamber
-
-\[
-k=4,\qquad a>0,\quad b>0,\quad -n<m<n.
-\]
-
-The strengthened descent theorem retains every positivity, primitivity,
-denominator and cusp side condition, while the earlier public descent theorem
-is preserved as a checked projection for API compatibility. The resulting
-`PositiveSplitCyclicCubicObstruction` converts to the old finite boundary and
-has a compiled exact-order-thirteen consumer.
-
-The same file also contains a polynomial Pell certificate.  Independently
-computed polynomials `H` and `K` of degrees `19` and `16`, respectively,
-satisfy
-
-\[
-H(x)^2-f_{13}(x)K(x)^2=-4. \tag{X13-Pell}
-\]
-
-The reciprocal-chart identity has right side `-4z³⁸`, and its boundary
-values distinguish the two points at infinity.  These are the exact
-function-field identities underlying
-
-\[
-\operatorname{div}(H+yK)=
- 19(\infty_- - \infty_+).
-\]
-
-The coefficients were produced locally by a standard-library-only
-polynomial continued-fraction computation and are independently
-kernel-checked by Lean's `ring`; no external coefficient table or
-unlicensed source was copied.
-
-The positive chamber now has an integral companion to this function-field
-identity. Lean constructs
-
-\[
-c=(m^2+n^2)/2>0
-\]
-
-and checks the homogeneous sextic equation, the dehomogenized rational curve
-point, and coprimality of `c` with the primitive root ordinate. Homogenized
-versions of `H` and `K` give two positive factors whose product is
-`4*b^38`. No odd prime divides both factors, and every odd prime divisor of
-`b` divides exactly one. This is packaged as
-`PositivePellAllocatedFactorObstruction` and reaches the exact-order-thirteen
-consumer. It is a genuine global narrowing, not the missing conclusion:
-turning the prime allocation into the required 38th-power or divisor-class
-statement remains open.
-
-These calculations still do not classify the rational points: the allocated
-Pell factors in the one positive chamber have not been globally eliminated,
-and the immutable Challenge remains open. Pinned
-mathlib has no genus-two hyperelliptic divisor/Picard/Jacobian
-implementation, so the first missing bridge is to interpret (X13-Pell) as
-the displayed principal-divisor identity and construct the Abel--Jacobi
-class.  The classical global leaves are then the Mazur--Tate
-`π=3+2γ₂` surjectivity theorem on `J₁(13)(ℚ)`, the computation
-`J₁(13)(ℚ)_tors ≃ Z/19`, and Ogg's theorem that the Abel--Jacobi image
-meets that torsion subgroup only at the six cusps.  No public
-order-thirteen exclusion is claimed before those leaves are formalized.
-
-### 6.4 Order-twenty-one boundary
-
-`NumberTheory/XZeroTwentyOneDescent.lean` independently formalizes the
-elementary arithmetic of the standard conductor-21 model
-
-\[
-E_{21}:y^2+xy=x^3-4x-1.
-\]
-
-The integral affine change
-
-\[
-V=4x+1,\qquad W=8y+4x
-\]
-
-is proved in both directions and gives
-
-\[
-W^2=V(V-9)(V+7). \tag{X21}
-\]
-
-The classical fibre-product equation obtained by equating the
-`X₀(3)` and `X₀(7)` Hauptmodul formulas is also recorded:
-
-\[
-(t_3+27)(t_3+3)^3t_7^7
-=t_3(t_7^2+13t_7+49)
-  (t_7^2+245t_7+2401)^3.
-\]
-
-Four visible rational pairs and their four `j`-values are kernel-checked.
-The file deliberately does not assert a modular interpretation or a
-birational map from this plane model to `E₂₁`; that bridge must be proved
-before using the arithmetic classification to exclude an exact
-order-twenty-one point.
-
-For a rational point on (X21) with `V≠0`, write `V=m/n` in lowest terms.
-After denominator clearing, the square equation factors as
-
-\[
-(Wn^2)^2=(mn)(m^2-2mn-63n^2).
-\]
-
-The gcd of the two factors divides `63`.  Removing their gcd and using
-coprimality proves that the squareclass of `V` is one of
-
-\[
-\pm1,\ \pm3,\ \pm7,\ \pm21.
-\]
-
-If `V=d r²`, write the canonical primitive fraction `r=m/n`.  The
-associated homogeneous space is
-
-\[
-c^2=d(dm^2-9n^2)(dm^2+7n^2). \tag{X21-d}
-\]
-
-An exhaustive `ZMod 16` certificate eliminates `d=-1` and `d=3`.
-Translation by the rational two-torsion point `(0,0)` is checked directly:
-
-\[
-(V,W)\longmapsto
-\left(-\frac{63}{V},\frac{63W}{V^2}\right).
-\]
-
-It pairs the remaining squareclasses and reduces the global calculation
-to exactly two propositions:
-
-\[
-\begin{aligned}
-c^2&=m^4-2m^2n^2-63n^4,\\
-c^2&=-3m^4-2m^2n^2+21n^4.
-\end{aligned} \tag{X21-quartics}
-\]
-
-They are named `PrincipalQuarticClassified` and
-`NegativeThreeQuarticClassified`.  Visible primitive solutions
-`(m,n,c)=(3,1,0)` and `(1,1,4)` show that neither leaf can be dismissed by
-a simple local obstruction; genuine infinite descent is required.
-
-Both leaves are now theorems.
-`NumberTheory/XZeroTwentyOneRankZero.lean` performs the complete
-two-isogeny descent on the split model: on the two-isogenous curve
-`Y² = X(X² + 4X + 256)` every nonzero rational abscissa is a square
-(negative classes die by positivity and the class `2` by a two-adic
-descent), so a square abscissa on the split model reverses to a half
-point.  The four surviving squareclasses `1, -3, -7, 21` produce four
-explicit doubling cosets with representatives `0`, `(0,0)`, `(-3,12)`,
-`(21,84)`; full rational two-torsion and the finitely generated index
-formula force rank zero.  `NumberTheory/XZeroTwentyOneReduction.lean`
-counts eight points modulo the good prime five, so the eight visible
-points exhaust the group and
-
-\[
-V\in\{0,9,-7,-3,21\}
-\]
-
-holds unconditionally, as do the affine classifications on both models.
-
-The modular bridge and its final transfer are compiled.
-`Kubert/ThreeNormalForm.lean` normalizes an exact order-three point to
-`y² + a₁xy + a₃y = x³` by a translation-shear with `u = 1` and proves the
-cleared hauptmodul identity for `t₃ = (a₁³-27a₃)/a₃`.
-`Kubert/OrderSevenParametrization.lean` proves that exact order seven on
-Tate normal form means `b² - bc - c³ = 0`, parametrized by
-`b = d³-d², c = d²-d`, with the cleared identity for
-`t₇ = 49d(d-1)/(d³-8d²+5d+1)`.  `Kubert/OrderTwentyOneReduction.lean`
-combines both through the `c₄`/`Δ`-scales of the normalizations: an exact
-order-21 point produces rational `t₃ ≠ 0` and `t₇ ≠ 0` satisfying the
-recorded `HauptmodulPair` fibre-product equation together with cleared
-`j`-links to the ambient curve.  `Kubert/OrderTwentyOneExceptionalJ.lean`
-excludes all four exceptional `j`-invariants of the noncuspidal
-`X₀(21)`-points on the order-seven family by a single mod-five binary-form
-certificate, since each numerator is divisible by `5³` while each
-denominator is a power of two.
-
-`NumberTheory/XZeroTwentyOneTransfer.lean` completes the transfer from every
-noncuspidal rational `HauptmodulPair` solution to the split model through an
-explicit birational map `(t₃,t₇) ↦ (V,W)`. Kernel-checked cofactor identities
-show that `t₃` is one of the four exceptional noncuspidal values. Combining
-that result with the mod-five exceptional-`j` certificates in
-`Kubert/OrderTwentyOne.lean` gives the unconditional theorem
-`rationalPoint_addOrderOf_ne_twentyOne`.
-
-### 6.5 Order-forty-nine boundary
-
-`NumberTheory/XZeroFortyNineDescent.lean` and
-`NumberTheory/XZeroFortyNineReduction.lean` completely determine the
-rational points of the shifted `X₀(49)`-model
-
-\[
-y^2 = x(x^2 + 21x + 112).
-\]
-
-The curve-side squareclasses `2` and `14` die modulo eight, the dual-side
-classes `-1` and `7` die by a two-step seven-adic descent on
-`Y² = X(X² - 42X - 7)`, and the two doubling cosets `0`, `(0,0)` give
-rank zero by the index formula.  No rational point of order four exists
-because `112` is not a rational square, reduction at the good prime three
-bounds the cardinality by four, and an order-three point would force
-cardinality six; hence
-
-\[
-X_0(49)^{\mathrm{model}}(\mathbb{Q}) = \{0, (0,0)\},
-\]
-
-the two rational cusps. The remaining order-49 work is only the direct moduli
-bridge: the cyclic subgroup generated by an exact order-49 point defines a
-rational noncuspidal point of `X₀(49)`, contradicting that classification.
-The checked level-seven correspondence, Hauptmodul, Vélu quotient, Fricke
-identity, curve equation, and kernel fibres remain useful library work, but
-the endpoint no longer depends on additivity of the explicit point function
-or a nonbacktracking isogeny tower.
-
-### 6.6 Order-twenty-seven exclusion
-
-The order-twenty-seven branch is complete and unconditional.
-`Kubert/OrderTwentySevenReduction.lean` normalizes an exact order-27
-point onto the rationally parametrized `X₁(9)` Tate family
-`b = f²(f-1)(f²-f+1)`, `c = f²(f-1)` with its triple at the marked
-origin.  `Kubert/OrderTwentySevenTrisection.lean` certifies that the
-abscissa of such a point is a root of the monic degree-nine trisection
-polynomial of the family.  `Kubert/OrderTwentySevenLegs.lean` provides
-the first two hauptmodul legs and their Fricke-twisted `X₀(9)` relation
-`orderNineG9F`, and the staged modules
-`OrderTwentySevenLegChunks/StagesA-D/ThirdLeg` push the trisection
-abscissa through both three-isogenies: the third-story kernel abscissa
-satisfies a monic cubic over the family (certified against the
-trisection polynomial by chunked modular reductions), and the resulting
-third leg completes the chain
-`orderNineG9F(s₁,s₂) = orderNineG9F(s₂,s₃) = 0`.
-`NumberTheory/XZeroTwentySevenClassification.lean` classifies that
-chained correspondence: an explicit rational map lands on the minimal
-`X₀(27)` model `y² + y = x³ - 7`, whose affine points `(3, 4)` and `(3, -5)`
-come from the Fermat cubic, so the only rational chains are the cusp
-`(0,0,0)` and the CM point `(-243,-27,-3)`.
-`Kubert/OrderTwentySevenEndpoint.lean` rules both out for the family
-legs (the cusp by nonvanishing of the leg numerator, the CM value by a
-monic degree-nine integral polynomial with no root modulo two), and
-`Kubert/OrderTwentySeven.lean` assembles
-`no_rational_point_of_order_twentySeven`.
-
-### 6.7 Order-thirty-five boundary
-
-The selected endpoint uses the fixed elliptic curve expected to be
-`X₀(35)/w₅`, normalized as `y² + 4xy + 7y = x³`. Its rational torsion group
-is checked to be `ZMod 3`. The two explicit rational point-function
-candidates now satisfy the unconditional composite identity
-
-```text
-veluThreeDualCandidatePointFun (veluThreeCandidatePointFun P) = 3 • P.
-```
-
-This is intentionally a theorem about the composite, not an unsupported
-claim that either point function is additive or bundled as an isogeny. The
-dual denominator is proved nonzero on every rational affine target point.
-The associated rational three-cover reconstructs a dual preimage whenever
-the source ordinate is a nonzero cube, and translation by the visible kernel
-tracks the three cube classes `1`, `7`, and `49`.
-
-`threeCosetBound_of_descent_inputs` consumes exactly
-`SourceThreeCubeClassBound` and `TargetThreeCandidateSurjective`. Its checked
-downstream closure proves finite index for tripling, finite generation, rank
-zero, and finiteness of the fixed model. The generic height-descent theorem
-for finite-index tripling lives with its doubling analogue in
-`Foundations/NaiveHeightDescent.lean`; the order-35 result is its concrete
-consumer. The first input is now proved: clearing the reduced ordinate
-denominator makes `den(y) * x` integral, and the resulting product of three
-integer factors has gcd supported to exponent at most one at `7`. The
-Eisenstein integer factorization and ideal-support calculation now prove the
-remaining associated-cube input without hypotheses. Consequently the fixed
-explicit model has checked rank zero and a finite rational point group. Its
-projective cubic now also has a checked generic finiteness transfer: a supplied
-scheme isomorphism from that cubic to the underlying scheme of an abelian
-variety makes the latter's rational-point type finite. The level-35
-specialization is a compiled consumer of the unconditional model finiteness;
-it does not construct the abelian variety or the scheme isomorphism. Its
-selected eleven-adic minimal model, exact-order transport, reduction-type
-trichotomy, good-reduction specialization, and cusp-stalk quotient-cotangent
-collision now compile through the `F₁₁` contradiction. The actual modular
-quotient identification, classifying map, Atkin--Lehner specialization,
-nonsingular-locus classification, and component geometry remain open, so the
-roadmap node receives no completion credit.
-
-## 7. Prime-level Mazur layer
-
-The selected route is Mazur's 1978 degree-one formal-immersion argument,
-specialized to the auxiliary prime five.  The mathematical and literature
-audit is recorded in [`ROUTE_AUDIT.md`](ROUTE_AUDIT.md).  Pinned mathlib does
-not currently provide the main modular objects, so this remains the dominant
-dependency, but the theorem no longer depends on global semistability,
-cyclotomic division fields, Herbrand--Kummer, splitting, Shafarevich
-finiteness, or an isogeny chain.
-
-### 7.1 Required lower-level modules
-
-```text
-AlgebraicGeometry/FormalImmersionSpecialFiber.lean
-PrimeOrder/FormalImmersionSpecialFiberAtFive.lean
-Kubert/OrderThirtyFiveGoodReductionAtEleven.lean
-Kubert/OrderThirtyFiveFormalImmersionAtEleven.lean
-
-EllipticCurve/Isogeny/CyclicSubgroup.lean
-EllipticCurve/Isogeny/CyclicQuotient.lean
-EllipticCurve/FiniteField/CardFiveEleven.lean
-
-EllipticCurve/NeronModel/Basic.lean
-EllipticCurve/NeronModel/ComponentGroup.lean
-EllipticCurve/NeronModel/TorsionSpecialization.lean
-EllipticCurve/TameAdditiveReductionData.lean
-EllipticCurve/NonsingularReduction.lean
-
-FiniteFlatGroupScheme/Basic.lean
-FiniteFlatGroupScheme/Admissible.lean
-FiniteFlatGroupScheme/FppfCohomology.lean
-FiniteFlatGroupScheme/FppfHOneBaseIso.lean
-FiniteFlatGroupScheme/Raynaud.lean
-
-ModularCurve/X0/Moduli.lean
-ModularCurve/X0/IntegralModel.lean
-ModularCurve/X0/Cusps.lean
-ModularCurve/X0/FormalImmersion.lean
-ModularCurve/X0/Jacobian.lean
-ModularCurve/X0/Hecke.lean
-ModularCurve/X0/EisensteinQuotient.lean
-
-Mazur/PrimeOrder/AtFive.lean
-```
-
-Tau Ceti now proves the residue-degree product formula on a smooth proper
-integral curve by extending non-global rational functions to finite flat maps
-to `P¹` and comparing zero and infinity fibres. The exact Challenge bridge
-transports this theorem to any order system with the same geometric orders,
-and `DivisorPicard.Dictionary.properCurveDegreeZero` consumes it in the actual
-scheme Picard group.
-
-The divisor-line-bundle descent boundary now keeps the chosen overlap Iso and
-its forward `pullHom` definitionally aligned. On the chosen triple overlap,
-the `12`, `23`, and `13` inverse-ideal comparisons are compiled as separate
-opaque theorems. Each off-diagonal normalized transition is the raw chosen
-transition after arbitrary further pullback, while the diagonal is the
-canonical coherent self-overlap. This is not yet the cover-wide cocycle:
-assembling all three comparisons with the direct common-affine cocycle still
-requires a reduction-stable proof boundary, followed by effectivity and the
-global Picard steps.
-
-The coherent-cohomology lane now uses Mathlib's actual Ext-based cohomology of
-the underlying abelian sheaf of a `Scheme.Modules` object on the Zariski
-opens site. Its degree-zero group is naturally equivalent to genuine global
-sections, and the transported global-functions action gives the required
-linear and finite-generation consumers. On `Spec R`, tilde full faithfulness
-proves H0 right exactness for actual quasicoherent modules. The sheaf condition
-then makes the finite affine restriction-pushforward cover map monic, its
-cokernel is quasicoherent, and the retained long exact sequence supplies the
-dimension-shift injection. A clean-room local-surjectivity argument kills
-every H1 class on such a finite cover, proving affine quasicoherent H1
-vanishing. Transport across the canonical affine scheme isomorphism applies
-that result on every affine open. Exact pullback of the injective-cokernel
-sequence and its long exact sequence therefore remove the prior sectionwise
-surjectivity premise and kill every H2 class on a finite affine cover. The
-actual cover cokernel has vanishing affine H1, so the cover map is injective on
-H2 and genuine quasicoherent H2 vanishes on every affine scheme. General
-higher local killing, all-positive affine acyclicity, proper
-finite-dimensionality, proper-curve H1 finiteness, and vanishing above degree
-one remain open.
-
-The checked degree-one transport, unconditional degree-two local killing, and
-its two affine-acyclicity consumers are exposed as:
-
-```lean
-MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHOne_subsingleton
-MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.LocalKilling.schemeHTwo_finiteAffineKillingCover
-MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleSpecHTwo_subsingleton
-MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.moduleAffineHTwo_subsingleton
-```
-
-The checked absolute precursor
-`AlgebraicGeometry/PicardAbelJacobi.lean` transports Tau Ceti's weighted
-point and divisor Abel--Jacobi classes through the divisor-class/Picard
-equivalence into the actual scheme Picard `degreeZero`. It proves the
-base-point, collision, difference, point-divisor, and principal-divisor
-normalizations and has a chosen line-bundle consumer from the exact divisor
-dictionary. It deliberately does not construct the relative Picard functor,
-representing scheme, Jacobian variety, or Abel--Jacobi scheme morphism.
-`AlgebraicGeometry/PicardRationalSectionAbelJacobi.lean` removes the abstract
-weight-one premise at the rational-point boundary: an actual section of a
-smooth integral relative curve automatically has non-generic image. Indeed,
-the section is a closed immersion; a generic closed image would make the
-curve isomorphic to the base point, contradicting the rank of Kähler
-differentials in relative dimension one. The section therefore constructs
-the associated codimension-one point without a caller premise, and its law
-proves residue degree one. Two such represented sections feed directly to the
-absolute scheme-Picard Abel--Jacobi class; its basepoint,
-difference-divisor, and collision/linear-equivalence laws are checked. This
-remains a group-valued shadow, not a represented Abel--Jacobi morphism.
-
-The split `X₀` lane now has a concrete reduced proper projective Weierstrass
-cubic. Homogeneous evaluation gives an injective map from Mathlib projective
-points to scheme-valued rational points. Conversely, every scheme-valued point
-factors through a coordinate chart; its chart ring map yields a normalized
-nonzero triple satisfying the cubic equation, and ellipticity proves that
-triple nonsingular. Constants and the three ratios `X_j/X_i` determine the
-chart ring map, while unit-equivalent affine normalization preserves the
-ambient closed point. These facts prove that the recovered point maps back to
-the original scheme morphism, so the canonical projective-point map is now
-bijective. Homogeneous negation is an involutive automorphism over `Spec K`
-and agrees with point negation. The point `[0:1:0]` is now an actual section
-from the tensor unit and is fixed by that automorphism. For any independently
-supplied compatible group object, addition preservation and cancellation
-identify its abstract unit morphism with this section; the generic finite-flat
-split-`Γ₀(N)` constructor consumes the resulting zero compatibility. This
-does not construct multiplication. The standard `Z ≠ 0` homogeneous
-localization is explicitly equivalent to the affine bivariate polynomial
-ring; the localized cubic is the affine Weierstrass polynomial, its principal
-ideal is prime, and the quotient chart is integral. The affine and infinity
-equation charts prove every field pullback integral and identify the mapped
-standard chart with the canonical dense `D₊(Z)` open. The resulting
-unconditional chart comparison reaches actual Tau Ceti and finite-flat
-split-`Γ₀` consumers. The genuine group object, point-map multiplicativity,
-the cyclic quotient `E/C`, and the coarse modular point remain open.
-For any supplied Weierstrass group-scheme comparison, the actual split
-finite-flat cyclic subgroup's `K`-points are now proved to have exactly the
-transported coordinate subgroup as their image. Quotienting represented
-source points by that image agrees with the existing coordinate point
-quotient, kills the genuine subgroup point map, and intertwines both
-descended multiplication-by-`N` maps. This does not construct the quotient
-scheme or identify its rational points with `E(K)/C(K)`; that latter step
-also requires control of the fppf connecting class.
-
-The reverse classifying-data direction now compiles as well. The closed
-immersion makes the map from a represented split subgroup injective on
-`K`-points; its coordinate image is cyclic of exact order `N` and therefore
-defines the existing raw rational subgroup and `RationalDatum`. Applied to the
-canonical split finite-flat construction, recovery returns the original
-carrier and the full datum. Exact order 49 is an actual downstream consumer.
-This round trip deliberately stops below `E/C`, coarse representability, and
-the proof that the resulting modular point is noncuspidal.
-
-The finite-flat files are retained for the finite-Mordell--Weil proof of the
-Eisenstein quotient, not for global semistability of the source elliptic
-curve.  Acceptance stops at the admissible-filtration, unramified Raynaud,
-and rank-zero consumers.  A full Oort--Tate classification or generic
-connected--étale package is out of the theorem cone unless one of those
-consumers demonstrates that it is necessary.
-
-The checked low-degree fppf sequence now has a non-circular cardinal bound:
-an actual quotient presentation supplies all exactness proofs, while callers
-supply five endpoint cardinal certificates and only finiteness of the middle
-`H¹`. Over `Spec ℤ`, the constant order-`p` factor has `p` global sections and
-`mu_p` has one global section for odd `p`. A recursive theorem consumes the
-integral `H⁰` certificate of one admissible elementary kernel, and the actual
-two-elementary-factor quotient is a compiled downstream consumer. This
-finite-flat interface does not yet express the two quasi-finite closures at
-primes dividing the level that occur in Mazur III.3. The represented point
-sheaf and global `H¹` are now available for every ambient commutative group
-scheme, and a structural wrapper packages the flat, quasi-finite, separated,
-finite-presentation case. Ambient morphisms induce represented-point and
-global-`H¹` maps with checked identity and composition laws; the quasi-finite
-wrapper consumes those maps, and finite-flat coefficient and morphism adapters
-agree definitionally with the existing API. The canonical ambient kernel is
-constructed as a pullback in internal groups, identified with the
-scheme-theoretic pullback, and proved to represent the pointwise kernel on every
-test scheme. Quasi-finite morphisms consume this theorem without asserting
-kernel flatness; the existing canonical finite-flat kernel is a checked
-compatibility consumer. A quasi-finite kernel presentation now packages an
-actual quasi-finite flat kernel with a group-scheme isomorphism to this
-canonical ambient kernel, yielding a multiplicative point-kernel equivalence
-and exactness on every represented test object. This proof now factors through
-a finiteness-free ambient geometric kernel presentation that retains a
-compatible chosen inclusion and derives unique point lifts. Both canonical and arbitrary
-certified finite-flat kernels have geometric adapters preserving their chosen
-inclusions. A supplied quasi-finite fppf quotient now packages its fppf
-projection and geometric kernel and recovers checked finite-flat quotient data.
-A principal-open Hopf localization constructs the actual bad-level constant
-factor `(Z/pZ)^flat`, with the coefficient prime `p` separate from the bad
-level `N`; its typed inclusion has the exact componentwise open range and
-contains the full constant family over `D(N)`. Its integral global sections at
-a nonunit level are proved trivial and packaged as checked cardinality
-`1 = p^0`. The same finiteness-free ambient kernel API now constructs Čech
-connecting classes and their homomorphism from genuine local lifts; the
-quasi-finite wrapper and the existing finite-flat quotient sequence are
-compiled consumers. The multiplicative bad-level factor `mu_p^flat` is now an
-actual quasi-finite flat commutative group scheme: an explicit Hopf
-localization gives its typed open inclusion into `mu_p`, identifies its range,
-and proves that it agrees with `mu_p` over `D(N)`. Its Fermat specialization is
-the concrete bad-level factor consumer. At odd coefficient every integral
-global section is trivial; at distinct prime coefficient and level this is
-packaged as cardinality `1 = p^0`, with a compiled low-degree Euler consumer.
-The represented additive point maps
-now have their actual pointwise categorical cokernel presheaves,
-objectwise-surjective projections, and exact short complexes, and the two
-typed bad-level inclusions consume this interface. Their universe-lifted
-`AddCommGrp` fppf sheafifications are now the actual cokernel terms in
-categorically exact short complexes. The canonical projections from the
-represented ambient point sheaves are genuinely locally surjective and epic.
-The point-cokernel sheaves vanish after restriction to `D(level)`, form the
-corresponding bad-fibre-supported Serre class, and yield an exact Serre
-quotient in which the two concrete inclusions are isomorphisms. Explicit
-cochain, cocycle, cover, and common-refinement transport identifies their
-supported `H¹` comparisons with represented group-scheme `H¹`. Global
-represented fppf `H¹` is now invariant under base-scheme isomorphisms, and the
-named `basicOpenIsoSpecAway` consumer moves both constant/μ comparisons to
-the direct `Spec(Localization.Away level)` base changes. Supplied
-finite-p-group certificates transport across these equivalences without
-manufacturing the ambient constant or Kummer arithmetic. The quasi-finite
-admissible-filtration exact sequences, both ambient bad-level `H¹`
-calculations, middle-`H¹` finiteness, and Raynaud uniqueness remain open. The
-numerical rank-zero endpoint now compiles: for finitely generated `A`, an
-injective Kummer map from `A/pA` into a finite group whose cardinality is at
-most `#A[p]` forces rank zero by the checked index formula and then finiteness.
-Its geometric consumers use the actual represented finite-flat `FppfHOne`
-and obtain the bound from the two-factor admissible-filtration exact sequence.
-Constructing the Eisenstein quotient's Mordell--Weil Kummer injection,
-endpoint certificates, middle-`H¹` finiteness, and p-torsion cardinality is
-the remaining focused specialization. The supported quotient terms are not
-represented as quasi-finite flat group schemes.
-
-For the multiplicative coefficient, evaluation of an actual represented
-`OneCocycle` on a singleton affine family now produces the normalized
-tensor-unit cocycle used by effective descent. Represented-point naturality
-gives diagonal normalization and all three maps to the triple overlap, while
-the represented cocycle law gives the correctly oriented tensor identity.
-The extracted cocycle has the genuine comonadic descended module, base-change
-isomorphism, and explicit prime-away linear trivialization as compiled
-consumers. This comparison is only for singleton affine presentations.
-For a finite affine fppf family, the component cover now genuinely refines
-the singleton spectrum of the product algebra through its evaluation maps.
-The finite sigma/product comparison proves that singleton is fppf, and
-`FppfHOne.class_pullback` identifies the singleton and pulled-back component
-classes. The reverse passage from an arbitrary component cocycle to a
-singleton cocycle still requires gauge compatibility or effective sheaf
-gluing, so this does not assert global `H¹(G_m)` vanishing.
-
-Tau Ceti's Jacobian work and later mathlib developments should still be
-monitored before independently building every generic algebraic-geometric
-layer.
-
-### 7.2 Stable theorem interfaces
-
-`ModularCurve/X0/EisensteinQuotient.lean` must expose:
-
-```lean
-EisensteinQuotient.nontrivial_of_level_eleven_or_ge_seventeen
-EisensteinQuotient.mordellWeil_finite
-EisensteinQuotient.formalImmersionAtInfinity_modFive
-```
-
-The implementation may use an exact Hecke quotient, cusp subgroup, or local
-principality internally, but none is a stable public acceptance target unless
-it has another compiled consumer.  The torsion proof needs only a nonzero
-optimal quotient, finite rational points, and formal immersion at the cusp.
-
-`ModularCurve/X0/FormalImmersion.lean` must expose the scheme-theoretic
-definition and the degree-one q-expansion theorem:
-
-```lean
-AlgebraicGeometry.IsFormalImmersionAt
-OptimalNewQuotient.formalImmersionAtInfinity_modFive
-```
-
-The completed-local-ring boundary now compiles as
-`AlgebraicGeometry.LocalCompletion.map`,
-`AlgebraicGeometry.Scheme.Hom.completedStalkMap`, and
-`AlgebraicGeometry.IsFormalImmersionAt`. The completion map extends a local
-homomorphism and is functorial; identity formal immersion and composition are
-checked consumers. The first-order boundary compiles as
-`AlgebraicGeometry.Scheme.Hom.cotangentMapAtInt` and
-`AlgebraicGeometry.Scheme.Hom.IsCotangentSurjectiveAt`.  The representative
-formula and the theorem that a surjective stalk map gives a surjective
-cotangent map are checked, and the identity morphism is a separate compiled
-normalization consumer.  The combined first-order predicate separately
-requires invertibility of the induced residue-field map. The modular-facing
-`MazurTorsion.ModularCurve.DegreeOneCotangentCertificate` packages an induced
-residue-field-map isomorphism, one-dimensionality over the actual source
-residue field, and one vector detected by the canonical semilinear map; its
-theorem derives the canonical cotangent criterion.
-The canonical cotangent map and the combined criterion are functorial for
-composites, providing the checked factorization shape `X₀ ⟶ J₀ ⟶ A`.
-The corresponding completed-stalk factorization has now also been checked.
-The finite-maximal-ideal Nakayama consequence and surjectivity on the quotient
-by the square of the maximal ideal compile, including scheme and modular
-degree-one consumers. The full implication now also compiles: residue-field
-and cotangent surjectivity imply completion-map surjectivity under finite
-maximal ideals, via Mathlib's precomplete/Hausdorff criterion. Mathlib's
-Noetherian-stalk theorem supplies the finite-module hypotheses for locally
-Noetherian schemes. A checked quotient-cotangent certificate now covers the
-characteristic-five lifting step: quotient Nakayama identifies the quotient
-maximal ideals, the mapped target ideal lets that equality lift to the total
-local map, and residue-field surjectivity gives total cotangent and completion
-surjectivity. The scheme-level mapped-ideal consumer concludes formal immersion
-directly from the special-fibre calculation, while locally Noetherian variants
-remove the total-stalk finite-generation plumbing. Actual cusp-stalk
-certificates at five and eleven now feed theorem-level rational torsion
-consumers; mapped-ideal variants remove separate certificate packaging and
-derive quotient finiteness from local Noetherianity. The degree-one mapped-
-fibre variant further narrows the q-expansion handoff to residue surjectivity,
-one-dimensional target cotangent, and one detected source vector, with checked
-full consumers at five and eleven. Those selected consumers now pin the affine
-prime to the exact integral cusp specialization used by the collision and
-reach the unconditional weighted-depth exclusions. What remains at this
-boundary is the actual integral cusp model, its modular sections and collision,
-and the q-expansion certificate, not generic local algebra.
-
-The remaining residue bookkeeping is narrower still. Surjectivity for an
-ambient local-ring map descends through compatible proper local quotients and
-then transports through the canonical affine-fibre localization equivalences.
-Thus an ambient residue surjection supplies the fibre residue surjection. A
-completed-local power-series coordinate and a nonzero simultaneous Hecke
-eigen-expansion now construct the detected cotangent vector directly: a
-vanishing pullback class would lie in the square of the cusp maximal ideal and
-have zero first coefficient, contradicting the checked Hecke recursion. The
-resulting completed-stalk theorem now also accepts an actual rational section:
-the shared smooth-curve argument derives source non-genericity from the
-section law rather than asking the modular caller to prove it separately. The
-genuine `Spec.map` theorem has real prime-five and order-35 consumers. A
-checked affine-section structure binds the section law to the selected fibre
-point and derives the ambient algebra retraction and residue surjection. The
-represented modular chart, an inhabitant of those section structures, the
-collision, and the actual optimal-quotient Hecke expansion remain geometric
-inputs; no completion credit is inferred.
-
-The proof follows Mazur 1978, Proposition 3.1.  In degree one it needs only
-that a nonzero simultaneous Hecke eigenvector has nonzero first Fourier
-coefficient.  It must not import Kamienny's symmetric-power linear-
-independence criterion.
-
-`Mazur/PrimeOrder.lean` should expose:
-
-```lean
-eisensteinImage_isTorsion
-primeTorsion_potentiallyGoodReductionAtFive
-specializedPoint_addOrderOf_eq_atFive
-not_additiveReductionAtFive
-goodReductionAtFive
-card_reductionAtFive_le_ten
-rationalPoint_addOrderOf_ne_eleven
-rationalPoint_addOrderOf_ne_prime_ge_seventeen
-```
-
-The equation-level good-reduction part of this interface is already checked
-under the deliberately narrower names
-`specializedPoint_addOrderOf_eq_atFive_of_goodReduction` and
-`rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive`.  The latter
-is a real consumer of both the abstract residue-field reduction map and the
-25-model `F₅` enumeration. The completion-level theorem
-`completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive`
-additionally derives the elliptic integral model selected over the completed
-valuation ring, preserves the same point's order through `adicRed`, and
-transports its reduction to `ZMod 5`. Its downstream consumer joins the
-integral-`j`/tame-filtration trichotomy to this finite contradiction. The
-rational marked point is now base-changed to `ℚ₅` and transported through the
-inverse of the exact variable change selected by Mathlib's minimal-model
-construction, preserving its additive order. The minimal equation's `j` and
-valuation are proved equal to the image and five-adic valuation of the
-original rational `j`. The broader unsuffixed Néron-fibre theorem remains
-useful to the Eisenstein-quotient specialization lane. For the marked elliptic
-point, however, the checked weighted-depth argument excludes additive
-reduction before invoking specialization, so the prime-five arithmetic
-endpoint no longer needs a special-fibre component map.
-
-At auxiliary prime eleven, the order-35 modules now check the analogous
-selected minimal model, exact-order transport, good-reduction specialization,
-and `F₁₁` contradiction. A shared reduction-type theorem isolates the
-additive branch as an exact-order obstruction, and the actual cusp-stalk
-quotient-cotangent certificate feeds the full conditional rational order-35
-consumer. The represented modular quotient and its geometric collision inputs
-are not inferred.
-
-The checked `TameAdditiveReductionData` boundary now removes three artificial
-inputs from that filtration. Its component map is the canonical quotient by a
-supplied identity subgroup; at five and eleven its reduction target is the
-actual residue field; and the exact-pinned finite-index and unramified formal
-kernel theorems derive component finiteness and torsion-freeness. The compiled
-prime consumer
-`rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
-and the order-35 consumer
-`addOrderOf_ne_thirtyFive_of_tameAdditiveReductionDataAtEleven` exercise both
-specializations. The canonical nonsingular-reduction domain on the actual
-minimal integral model, coordinate reduction, negation closure, exact formal
-kernel, addition closure, and additivity now compile. The proof reduces equal
-coordinate reductions to the exact formal filtration and shows filtration
-translation is invisible after reduction. The resulting prime-five and
-order-35 consumers accept no arbitrary subgroup, reduction map, or additivity
-premise. Finite short normalization identifies the nonsingular points of the
-cuspidal special cubic with the additive residue group. The next checked Tate
-range lifts arbitrary residue translations, derives the singular residue
-point directly from additive reduction, and then lifts the complete
-short-normal-form change. For the selected five- and eleven-adic minimal
-equations the resulting integral model remains additive, has special fibre
-exactly `Y² = X³`, and has all five coefficients in the maximal ideal. The
-next checked layer gives honest one-factor total-transform quotients for the
-three standard substitutions at the closed cusp. The uniformizer chart is a
-real downstream consumer: if its exceptional `b₆` residue is nonzero, an
-integral point cannot specialize to the cusp. Hence every local point has
-canonical nonsingular reduction, and the selected prime-five and order-35
-consumers exclude that coefficient branch and force `a₆ ∈ 𝔪²`. These are
-equation identities and pointwise reduction results, not strict-transform,
-chart-coverage, Kodaira-symbol, or component-cardinality theorems. A separate
-checked invariance theorem treats the formal-kernel gate and affine residue
-coordinates explicitly and proves that the canonical reduction subgroup and
-every marked multiple transport through the integral unit change. Its
-order-one consumer carries `12 • P` back from the normalized equation. In the
-next coefficient branch, nonzero residue of `a₄/ϖ` gives a checked tangent
-case split for every point specializing to the cusp. If its ordinate has
-depth at least two, the tangent slope has a pole and the double is in the
-formal kernel; at exact depth one the slope is a unit and the double reduces
-away from the cusp; the anti-diagonal case doubles to zero. Thus `2 • P`, and
-hence `12 • P`, lies in canonical nonsingular reduction. The actual marked
-prime-five and order-35 consumers exclude this branch and force `a₄ ∈ 𝔪²` on
-the same normalized model. In the exact-depth-two `a₆` branch, the equation
-first makes the ordinate have exact depth one. The tangent then keeps `2 • P`
-at the cusp, while the secant for `P + 2 • P` either has a pole and enters the
-formal kernel or is a unit and reduces the triple away from the cusp; the
-equal-abscissa cases are handled separately. Thus `3 • P`, and hence
-`12 • P`, lies in canonical nonsingular reduction. The selected consumers
-exclude this branch and force `a₆ ∈ 𝔪³` on the same normalized model. The
-next checked layer packages the marked exceptional cubic on that exact model
-and with the exact chart uniformizer. It proves `y ∈ 𝔪²`, writes
-
-\[
-x=\varpi X,\qquad a_4=\varpi^2A,\qquad a_6=\varpi^3B,
-\]
-
-and obtains the marked residue equation
-
-\[
-\bar X^3+\bar A\bar X+\bar B=0.
-\]
-
-If `3 X̄² + Ā` is nonzero, the tangent numerator has exact depth two. A
-deeper ordinate makes the tangent slope a pole and the double enters the
-formal kernel; an ordinate of exact depth two makes the slope a unit and the
-double reduce away from the cusp; the anti-diagonal case again doubles to
-zero. Thus the simple-root branch puts `2 • P`, hence `12 • P`, in canonical
-nonsingular reduction. Real five- and eleven-adic exact-order consumers rule
-out that branch and return derivative zero for the marked root on the same
-model and uniformizer. At a repeated nonzero root `r`, the double either
-already lies in canonical reduction or remains at the cusp with root `-2r`.
-Its derivative is `9r²`, so the simple-root theorem applied to `2P` puts
-`4 • P`, hence `12 • P`, in the subgroup. The actual arithmetic consumers
-therefore force `r=0`, and the repeated-root equations give
-`x ∈ 𝔪²`, `a₄ ∈ 𝔪³`, and `a₆ ∈ 𝔪⁴` without changing the model or uniformizer.
-If `a₆ ∉ 𝔪⁵`, the same point equation makes the ordinate have exact depth two.
-The tangent leaves the double at the cusp, and the secant for the triple has
-either a pole (hence formal-kernel reduction) or a unit slope (hence
-nonsingular reduction away from the cusp); equal-abscissa and vertical cases
-are handled explicitly. Therefore `3 • P`, and then `12 • P`, belongs to the
-canonical subgroup. The selected five- and eleven-adic exact-order consumers
-force `a₆ ∈ 𝔪⁵` while retaining all earlier data on the same equation. The
-terminal weighted branch now derives `y ∈ 𝔪³`, forces `a₄ ∈ 𝔪⁴`, and then
-derives `a₆ ∈ 𝔪⁶` from the marked point equation. A further integral pure
-scaling contradicts minimality. The selected prime-five and order-35
-consumers therefore exclude additive reduction, upgrade integral `j` to good
-reduction, and reach the finite enumerations without a component premise.
-Genuine Néron identity-component comparison and completely toric modular
-reduction remain open for the Eisenstein rank-zero consumer; no Kodaira or
-component-incidence statement is inferred from the pointwise calculation.
-
-The proof sequence is:
-
-1. turn rational prime torsion into `x ∈ X₀(N)(ℚ)` and map it to the finite
-   Eisenstein quotient;
-2. if the curve is potentially multiplicative at five, transport the
-   specialized cusp to infinity;
-3. use the unramified torsion-specialization lemma and formal immersion to
-   contradict that cusp collision, proving potentially good reduction at
-   five;
-4. use the checked weighted-depth/minimality argument on the marked point to
-   exclude additive reduction, hence obtain good reduction;
-5. preserve the marked point's exact order under good-reduction
-   specialization;
-6. normalize to short form and exhaust the 25 models over `𝔽₅` to prove
-   `#E(𝔽₅) ≤ 10`; and
-7. conclude order `11` and every prime order at least `17` are impossible.
-
-The local collision must compile as a real downstream consumer before the
-formal-immersion or quotient interfaces are accepted.  Level `13` remains in
-the explicit genus-two lane because `J₀(13)` is trivial.
-
-## 8. Exceptional product cases
-
-This layer is complete.  Its implementation is split as:
-
-```text
-Arithmetic/ExceptionalTwoTen.lean
-Arithmetic/ExceptionalTwoTwelve.lean
-NumberTheory/ExceptionalQuarticDescent.lean
-NumberTheory/ExceptionalCubicDescent.lean
-NumberTheory/ExceptionalCubicReduction.lean
-Arithmetic/ExceptionalProducts.lean
-```
-
-The public endpoints are:
-
-```lean
-forbidsEmbedding_zmod_two_prod_ten
-forbidsEmbedding_zmod_two_prod_twelve
-rationalTorsion_forbids_zmod_two_prod_ten
-rationalTorsion_forbids_zmod_two_prod_twelve
-```
-
-The direct implementation starts from independent rational two-torsion and
-an order-five or order-six point, normalizes the curve, and derives the
-explicit quartic/cubic Diophantine boundaries.  This avoids making an
-unformalized identification with a modular `X₀(N)` model.  The completed
-product obstructions are then reused by the cyclic order-twenty and
-order-twenty-four proof in Section 6.1.
-
-Use explicit genus-one models:
-
-\[
-X_0(20):y^2=x^3+x^2+4x+4,
-\qquad
-X_0(24):y^2=x^3-x^2-4x+4.
-\]
-
-The explicit models below remain useful mathematical orientation.  The
-compiled direct obstruction does not require a claim that these equations
-represent the modular curves, so no moduli identification is silently
-assumed.
-
-### 8.1 Specialized two-isogeny descent certificate
-
-Translate the two models by `u=x+1` and `u=x-1`:
-
-\[
-E_{20}: y^2=u(u^2-2u+5),\qquad
-E_{24}: y^2=u(u^2+2u-3).
-\]
-
-For
-
-\[
-E_{a,b}:y^2=x(x^2+ax+b)
-\]
-
-define the two-isogenous curve
-
-\[
-E'_{a,b}:Y^2=X(X^2-2aX+a^2-4b)
-\]
-
-and prove the explicit degree-two isogeny and dual formulas. Define the
-descent map to rational square classes by
-
-\[
-\alpha_E(O)=1,\quad \alpha_E((0,0))=b,\quad
-\alpha_E((x,y))=x.
-\]
-
-The main reusable certificate says that a square class in the image has a
-squarefree representative `d ∣ b` and coprime integers satisfying
-
-\[
-V^2=dU^4+aU^2W^2+(b/d)W^4. \tag{1}
-\]
-
-For `E₂₀`, positivity and a two-adic parity argument give
-
-\[
-\operatorname{im}\alpha_{E_{20}}=\{1,5\},\qquad
-\operatorname{im}\alpha_{E'_{20}}=\{1,-1\}.
-\]
-
-For `E₂₄`, explicit points and the same elementary arguments give
-
-\[
-\operatorname{im}\alpha_{E_{24}}=\{1,-1,3,-3\},\qquad
-\operatorname{im}\alpha_{E'_{24}}=\{1\}.
-\]
-
-In both cases the product of image sizes is four. The standard index
-identity
-
-\[
-|\operatorname{im}\alpha_E|\,|\operatorname{im}\alpha_{E'}|
-  =4\cdot 2^{\operatorname{rank}E(\mathbb Q)}
-\]
-
-therefore proves rank zero. The rational point sets are then pinned down by
-ordinary finite-field reduction:
-
-* `#E₂₀(𝔽₃)=6`, yielding
-  `O,(-1,0),(0,±2),(4,±10)` on the original model;
-* `#E₂₄(𝔽₅)=8`, yielding
-  `O,(-2,0),(0,±2),(1,0),(2,0),(4,±6)`.
-
-The cusp-count formula gives six and eight rational cusps respectively, so
-after the model identification cardinality alone proves that every rational
-point is a cusp.
-
-Michael Stoll's Apache-2.0 point-variable-change code has been ported as
-`EllipticCurve/VariableChange.lean`.  The selected 31-file reduction cone
-is now ported under `EllipticCurves/` with exact source-commit provenance
-and small documented pin adaptations.  Its `ReductionAtPrime` theorem and
-the concrete modulo-five harness are sufficient for the exceptional cubic;
-the substantially broader Selmer and general Mordell--Weil cones remain
-unnecessary.
-
-For `E₂₄`, the rank part of this plan is now compiled in a smaller direct
-form. Clearing rational denominators proves the four possible abscissa
-square classes. A constructive reverse-duplication calculation gives four
-explicit cosets modulo `2E(ℚ)`. The local naïve-height theorem turns finite
-index into finite generation, and
-`AddSubgroup.index_range_nsmul_of_fg` turns that index together with exact
-`#E[2]=4` into rank zero. What remains from the displayed finite-field
-paragraph is only torsion injection and the cardinality step at `p=5`;
-rank zero must not be conflated with that final bound.
-
-### 8.2 Preferred direct formal route
-
-The modular interpretation remains the clean informal proof, but it brings
-large missing quotient, dual-isogeny, modular-curve, model-identification,
-and cusp layers. For the Lean implementation, first attempt direct
-Tate-normal-form descents:
-
-* `C₂ × C₁₀`: impose full rational two-torsion on the order-five Tate
-  normal form, make the cubic discriminant a square, and finish by quartic
-  infinite descent;
-* `C₂ × C₁₂`: combine the compiled halving-square identities with a
-  specialized quartic descent.
-
-Both reductions are machine-checked through their final explicit
-Diophantine leaves. The first leaf is now closed by the elementary
-`D_+D_-=125z⁴` infinite descent in
-`NumberTheory/ExceptionalQuarticDescent.lean`. The second curve's
-two-descent, rank-zero theorem, and finiteness are checked in
-`NumberTheory/ExceptionalCubicDescent.lean`; good reduction at five then
-proves the sharp bound `Nat.card E(ℚ) ≤ 8` and closes the second leaf.
-The general `X₀(20/24)` construction is therefore valuable, non-critical
-infrastructure rather than a dependency of the direct cardinality path.
-
-## 9. Arithmetic assembly
-
-`Arithmetic/CardinalityReduction.lean` is now the compiled numerical
-assembly. It exposes the exact one-input endpoint:
-
-```lean
-theorem torsion_ncard_le_of_arithmetic_inputs
-    [E.IsElliptic]
-    (horders : ∀ x : RationalTorsion E,
-      addOrderOf x ∈ cyclicOrders) :
-    torsionSet.ncard ≤ 16
-```
-
-It also exposes the equivalent explicitly named endpoint
-
-```lean
-theorem torsion_ncard_le_of_explicit_arithmetic
-    [E.IsElliptic]
-    (horders : ∀ x : RationalTorsion E,
-      addOrderOf x ∈ cyclicOrders) :
-    torsionSet.ncard ≤ 16
-```
-
-All low-level and odd-prime subgroup exclusions, the completed
-`C₂ × C₁₀` quartic descent, the `C₂ × C₁₂` cubic descent and reduction,
-subgroup extraction, restriction to torsion, and cardinality assembly are
-discharged behind this interface.
-
-The remaining arithmetic assembly step is:
-
-1. invoke the rational point-order theorem for every torsion element;
-2. call the compiled one-input endpoint.
-
-No global `Fintype` or Mordell--Weil theorem should leak into the API.
-
-## 10. Final LeanPool file
-
-Only after the dependency cone is clean, add `Solution/Mazur.lean` in a
-LeanPool-compatible checkout:
-
-```lean
-import MazurTorsion.Arithmetic.CardinalityReduction
-import MazurTorsion.Arithmetic.PointOrder
-
-namespace Challenge.Mazur
-
-open scoped WeierstrassCurve.Affine
-
-theorem torsion_ncard_le (E : WeierstrassCurve ℚ) [E.IsElliptic] :
-    (AddCommGroup.torsion (E⁄ℚ).Point :
-      Set (E⁄ℚ).Point).ncard ≤ 16 :=
-  MazurTorsion.torsion_ncard_le_of_arithmetic_inputs E
-    (MazurTorsion.rational_torsion_order_mem_cyclicOrders E)
-
-end Challenge.Mazur
-```
-
-The exact final syntax may change with namespace choices, but the dependency
-shape should remain this small.
-
-## 11. Milestones and risk
-
-| Milestone | Deliverable | Status | Risk |
-|---|---|---:|---:|
-| M0 | Exact pin, isolated package, green build | done | low |
-| M1 | Classification-to-cardinality wrapper and finite/infinite split | done | low |
-| M2 | `E[2]`, `E[3]`, `E[4]` bounds/full-level obstructions | done | low |
-| M3 | Generic forbidden-embedding finite-group classification | done, including global numerical theorem | low |
-| M4 | Full rational `5`- and `7`-torsion obstructions | done, including both universal discriminant identities | low |
-| M5 | Exceptional products / `X₀(20),X₀(24)` certificates | done: both `C₂×C₁₀` and `C₂×C₁₂` are excluded unconditionally | low |
-| M6 | Kubert small-level and order-thirteen exclusions | Tate normal form and exact divisor reduction done; orders 14, 15, 16, 20, 21, 24, and 27 excluded unconditionally, leaving four composite callbacks; level 11 reaches a single explicit five-isogeny Selmer coset proposition but is now also covered by the uniform prime route; level 13 reaches a fixed positive coprime degree-38 Pell power-split cover; order 18 reaches two explicit norm-cover branches; order 25 reaches the denominator-checked `12P/13P` collision and a fixed fraction-free recurrence expression but still needs a tractable birational model and rational-point classification; orders 21 and 27 are closed end-to-end; the `X₀(49)` model's rational points are completely determined (two cusps), so order 49 now needs only the direct cyclic-subgroup moduli bridge; the checked level-seven correspondence and Vélu work are retained but are not prerequisites | high |
-| M7 | Mazur 1978 Eisenstein-quotient/formal-immersion argument at five | route audited; completed-local collision, finite normalization, and represented polynomial q-chart compile, including prime-five and level-35 consumers; identifying the actual integral modular cusp with that chart and constructing the nontrivial rank-zero optimal quotient remain open | extremely high in the quotient/Jacobian core, medium after the quotient |
-| M8 | Arithmetic assembly and exact `Solution/Mazur.lean` | one-input numerical assembly done; blocked only on the remaining point-order work in M6--M7 | low once dependencies exist |
-
-The risk labels describe missing library depth, not permission to weaken a
-statement. A milestone becomes done only when its complete dependency cone
-passes the axiom audit.
-
-## 12. Build, source, and resource invariants
-
-Every tracked Lean declaration must be proved without:
-
-* unproved placeholders or new axioms;
-* unsafe or partial definitions;
-* local/global option overrides;
-* `native_decide`.
-
-Ordinary kernel-reduced `decide` is permitted for genuinely tiny finite
-facts, but explicit algebraic lemmas are preferred when they produce a
-better reusable API.
-
-Verification commands:
-
-```sh
-LEAN_NUM_THREADS=1 lake build MazurTorsion
-rg -n '\b(sorry|admit|axiom|unsafe|partial)\b|set_option|native_decide' \
-  MazurTorsion MazurTorsion.lean --glob '*.lean'
-git diff --check
-```
-
-Builds are serialized. The generated order-27 proof has its own staged,
-cacheable prebuild because it is the dominant time and memory consumer; CI
-keys that cache to the exact toolchain, manifest, and source cone. A broken
-build is the highest-priority issue and must be repaired before any new
-theorem work.
-
-Hand-written source should respect Lean Pool's 10,000-line limit. Generated
-certificate files are the documented exception and are decomposed into staged
-modules; ordinary theorem bodies should normally remain below 200 lines.
-
-## 13. Checkpoint discipline
-
-Every checkpoint must stage only the intended release files and review the
-result before committing:
-
-```sh
-git status --short
-git add -- <intended paths>
-git diff --cached --check
-git diff --cached --stat
-git commit -m "checkpoint: advance Mazur theorem formalization"
-git push origin codex/mazur-torsion
-```
-
-Before committing, rebuild the package and rerun the source audit. Push at
-least once every twelve hours while the goal remains active; earlier
-milestone checkpoints are encouraged. Never stage or modify the unrelated
-dirty files.
+The point constructor must consume an actual finite-flat subgroup scheme and
+prove noncuspidality; a supplied equivalence of point sets is not sufficient.
+
+## 8. Formal immersion
+
+The local algebra layer is already canonical:
+
+- maps on stalks and cotangent spaces;
+- the surjectivity definition of formal immersion;
+- quotient-cotangent and Nakayama criteria;
+- completed-DVR collision consequences;
+- degree-one q-expansion certificates.
+
+What remains is not another abstract criterion. It is the genuine modular
+input: the represented cusp chart, the actual quotient map, and the Hecke
+q-expansion theorem proving the criterion at that cusp.
+
+## 9. Néron models and specialization
+
+`AlgebraicGeometry.NeronModel` is a genuine interface over an actual smooth
+separated model with the Néron mapping property. Generic consequences belong
+under `MazurTorsion.AlgebraicGeometry.NeronModel`, not under a modular-curve
+namespace.
+
+The specialization layer owns:
+
+- the residue-field point map induced by a supplied model;
+- restriction and specialization of base sections;
+- the generic equal-image/formal-collision lemma;
+- prime-to-residue torsion specialization once its hypotheses are proved.
+
+The existing prime-five theorem is the named consumer. Separate work packages
+must still construct Néron models for the source elliptic curve and for the
+modular quotient; a generic theorem over a supplied model is not an existence
+proof.
+
+General component-group classification is unnecessary for the checked local
+additive-reduction contradiction. The remaining component work is only the
+represented identity component and toric modular fibre used by the private
+Eisenstein rank-zero constructor.
+
+## 10. Eisenstein rank zero
+
+The private witness constructor needs a narrow chain:
+
+1. the modular Jacobian and Hecke-stable optimal quotient;
+2. nontriviality at prime `N = 11` or `N ≥ 17`;
+3. the multiplication-kernel finite-flat presentation actually used;
+4. a two-factor constant/multiplicative filtration;
+5. the required represented fppf `H¹` bounds;
+6. the bad-level comparison and Raynaud uniqueness in this specialized case;
+7. finite generation and the Kummer cardinality argument forcing rank zero;
+8. finite rational points, hence torsion of the particular modular image.
+
+The repository already contains much of the generic Kummer-cardinality and
+represented fppf-cohomology consumer side. It does not yet identify the
+actual modular quotient kernel with that data. Conditional kernel packages do
+not complete the node.
+
+## 11. Finite endpoints
+
+The finite point-order callbacks are `13`, `18`, `25`, `35`, and `49`; order
+`11` is supplied by the prime theorem. The order-specific code remains
+checked, but current maintainer work is limited to order `49` as a consumer of
+the represented modular-curve lane. The other unsolved contracts are paused
+until the shared geometry they require is available.
+
+## 12. Module and dependency policy
+
+- Generic algebraic geometry belongs under `MazurTorsion/AlgebraicGeometry/`.
+- Modular constructions belong under `MazurTorsion/ModularCurve/` only after
+  they consume represented modular objects.
+- Arithmetic specializations belong under `MazurTorsion/PrimeOrder/` or
+  `MazurTorsion/NumberTheory/` and must import the generic layer, never the
+  reverse.
+- Compatibility modules may re-export moved declarations, but new consumers
+  should import the canonical owner.
+- Every new interface needs a design review and a named downstream consumer.
+- A work package is a planning partition; only its parent node earns progress
+  credit.
+
+## 13. Acceptance discipline
+
+A foundation is complete only when all four statements are true:
+
+1. the mathematical object is constructed at the claimed maturity level;
+2. its laws are kernel-checked without prohibited assumptions;
+3. the public API is reviewed and placed in the correct dependency layer;
+4. the ledger's named downstream consumer compiles using that API.
+
+Large generated certificates, conditional shadows, line counts, and isolated
+helper proofs are evidence, not completion.
