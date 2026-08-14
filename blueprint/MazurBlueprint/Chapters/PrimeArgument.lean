@@ -95,20 +95,29 @@ specialization lemma.
 
 :::
 
-:::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, mazur")
+:::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mazur")
 *Preserve exact prime-to-five order under good reduction.*
 
-*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mazur`;
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
 *risk:* `extreme`; *weight:* 15 points.
 
-*Summary:* Transport the marked rational point to the good special fibre and prove that
-its exact order is unchanged because the order is prime to 5.
+*Summary:* The checked good-reduction specialization homomorphism preserves the exact
+finite additive order of the marked point at 5.
 
 *Canonical artifacts:*
 
-* `theorem` (`proposed`):
-  `MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive`
-  Show that the marked point retains exact order N in the special fibre.
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive_of_goodReduction`
+  Preserve the exact additive order of every finite-order point under good reduction at
+  5.
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.specializedPointZMod_addOrderOf_eq_atFive_of_goodReduction`
+  Transport exact order to the concrete ZMod 5 reduction used by the finite-field
+  endpoint.
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive`
+  Consume exact-order specialization and the ten-point enumeration to exclude every
+  marked order at least 11 under good reduction.
 
 :::
 

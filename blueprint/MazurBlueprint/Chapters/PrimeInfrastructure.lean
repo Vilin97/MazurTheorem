@@ -13,8 +13,8 @@ Integral X₀(N), its Jacobian and Hecke action, a private Eisenstein witness co
 and the exact Néron/finite-flat specialization needed at 5. Stage weight: 400 points.
 :::
 
-:::theorem "MT-NERON-BASE" (parent := "prime_infrastructure") (uses := "MT-TC-E1-JACOBIAN-VARIETY, MT-EC-ISOGENY-WEIL") (tags := "infrastructure, blocked, nouns-missing, mixed")
-*Neron models for the two surviving consumers.*
+:::theorem "MT-NERON-BASE" (parent := "prime_infrastructure") (uses := "MT-TC-E1-JACOBIAN-VARIETY, MT-X0-EISENSTEIN-ALGEBRA") (tags := "infrastructure, blocked, nouns-missing, mixed")
+*Neron models for the Eisenstein quotient.*
 
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
 `mixed`; *risk:* `extreme`; *weight:* 40 points.
@@ -33,7 +33,7 @@ section-extension equivalences compile.
 :::
 
 :::theorem "MT-NERON-COMPONENTS" (parent := "prime_infrastructure") (uses := "MT-NERON-BASE") (tags := "infrastructure, blocked, nouns-missing, mixed")
-*Identity components and tame elliptic fibres.*
+*Identity components and toric modular fibres.*
 
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
 `mixed`; *risk:* `extreme`; *weight:* 30 points.
@@ -44,13 +44,10 @@ completely toric reduction at the modular level for the Eisenstein rank-zero cri
 *Canonical artifacts:*
 
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.identityComponent`
-  Define the fibrewise identity component used in both surviving consumers.
+  Define the fibrewise identity component used by quotient specialization and the toric
+  rank-zero argument.
 * `definition` (`proposed`): `AlgebraicGeometry.NeronModel.componentGroup`
   Define the component quotient and its specialization map.
-* `theorem` (`proposed`):
-  `EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three`
-  Bound the additive component group in the tame residue characteristics five and
-  eleven.
 * `structure` (`contract`): `MazurTorsion.EllipticCurve.TameAdditiveReductionData`
   Package the canonical component quotient, identity-component reduction map, and exact
   formal-kernel comparison, with a compiled conversion to the algebraic torsion
@@ -73,14 +70,14 @@ completely toric reduction at the modular level for the Eisenstein rank-zero cri
 :::
 
 :::theorem "MT-NERON-SPECIALIZATION" (parent := "prime_infrastructure") (uses := "MT-NERON-COMPONENTS") (tags := "infrastructure, blocked, nouns-missing, mixed")
-*Torsion specialization at the Eisenstein quotient and at five.*
+*Torsion specialization at the Eisenstein quotient.*
 
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
 `mixed`; *risk:* `extreme`; *weight:* 30 points.
 
 *Summary:* Prove the specialization exact sequence, prime-to-residue torsion injection,
-and the unramified e \< p-1 kernel lemma; exercise them on the quotient section and the
-marked elliptic point at 5.
+and the unramified e \< p-1 kernel lemma; exercise them on the Eisenstein quotient
+section at the auxiliary primes 5 and 11.
 
 *Canonical artifacts:*
 

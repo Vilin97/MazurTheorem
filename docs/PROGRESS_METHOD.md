@@ -5,9 +5,9 @@
 The project reports two different numbers, both derived from
 [`coordination/program.json`](../coordination/program.json):
 
-- **Integrated completion: 15.7%.** This is 157 earned points out of the fixed
+- **Integrated completion: 17.2%.** This is 172 earned points out of the fixed
   1,000-point programme.
-- **Ecosystem readiness: 16%.** This planning estimate also recognizes audited,
+- **Ecosystem readiness: 18%.** This planning estimate also recognizes audited,
   compatible infrastructure outside the repository. It is not proof credit.
 
 The canonical goal is the full group-structure theorem

@@ -73,8 +73,8 @@ endpoints. Node weights and the conservative integrated-progress rules are
 unchanged by the architecture refactor. Work packages partition a parent
 node's planning allocation and earn no independent credit.
 
-The current integrated score is **15.7%**; the ecosystem-readiness estimate is
-**16%**. These values count only checked work connected to the acceptance API
+The current integrated score is **17.2%**; the ecosystem-readiness estimate is
+**18%**. These values count only checked work connected to the acceptance API
 defined by the ledger. Generated code volume, drafted interfaces, and isolated
 proofs do not inflate the headline.
 

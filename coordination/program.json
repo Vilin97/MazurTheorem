@@ -124,15 +124,15 @@
           "min": 90,
           "max": 125
         },
-        "headline_treatment": "The selected foundations are integrated without changing theorem-completion weights; the remaining estimate stays folded into the conservative 12% ecosystem-readiness figure."
+        "headline_treatment": "The selected foundations are integrated without changing theorem-completion weights; the remaining estimate stays folded into the conservative ecosystem-readiness figure."
       }
     }
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 157,
-    "percent": 15.7,
-    "ecosystem_ready_estimate_percent": 16,
+    "earned_points": 172,
+    "percent": 17.2,
+    "ecosystem_ready_estimate_percent": 18,
     "claimable_open_points": 28,
     "ordinary_claimable_points": 10,
     "research_open_points": 18,
@@ -495,6 +495,7 @@
         "MT-CYCLOTOMIC-UNRAMIFIED",
         "MT-PRIME-HERBRAND-KUMMER",
         "MT-PRIME-SHAFAREVICH",
+        "MT-PRIME-DIVISION-FIELD",
         "MT-PIN-MIGRATION"
       ],
       "completion": {
@@ -2330,7 +2331,6 @@
         "MT-BASE-INTEGRATED"
       ],
       "unlocks": [
-        "MT-NERON-BASE",
         "MT-X0-MODULI",
         "MT-X0-HECKE",
         "MT-PRIME-SEMISTABLE"
@@ -2386,7 +2386,7 @@
     },
     {
       "id": "MT-NERON-BASE",
-      "title": "Neron models for the two surviving consumers",
+      "title": "Neron models for the Eisenstein quotient",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2394,7 +2394,7 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The canonical supplied Neron-model interface, mapping property, and section-extension equivalences compile. Construct actual Neron models in the exact generality used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.",
+      "summary": "The canonical supplied Neron-model interface, mapping property, and section-extension equivalences compile. Construct the abelian-variety Neron substrate at the required arithmetic DVRs, then realize the actual optimal Eisenstein quotient and its cusp-normalized map in that model for the rank-zero and collision consumers. The marked source point's exact-order reduction at 5 is already checked independently and does not require a source elliptic Neron model.",
       "artifacts": [
         {
           "kind": "structure",
@@ -2413,7 +2413,7 @@
       ],
       "depends_on": [
         "MT-TC-E1-JACOBIAN-VARIETY",
-        "MT-EC-ISOGENY-WEIL"
+        "MT-X0-EISENSTEIN-ALGEBRA"
       ],
       "unlocks": [
         "MT-NERON-COMPONENTS"
@@ -2427,7 +2427,7 @@
       },
       "route_history": {
         "previous_scope": "global Neron substrate for semistability and an isogeny-chain proof",
-        "revision": "accept only the Eisenstein rank-zero and prime-five consumers"
+        "revision": "construct only the abelian Neron substrate and actual optimal-quotient realization used by Eisenstein rank zero and the formal collision"
       },
       "work_packages": [
         {
@@ -2441,30 +2441,31 @@
           "exit_criterion": "Expose generic specialization from an actual supplied Néron model, with a prime-order consumer."
         },
         {
-          "id": "WP-MT-NERON-BASE-ELLIPTIC-EXISTENCE",
-          "title": "Néron model for elliptic curves",
-          "weight_points": 15,
-          "status": "blocked",
-          "depends_on": [
-            "MT-EC-ISOGENY-WEIL"
-          ],
-          "exit_criterion": "Construct the source elliptic Néron model used at the auxiliary prime."
-        },
-        {
-          "id": "WP-MT-NERON-BASE-QUOTIENT-EXISTENCE",
-          "title": "Néron model for the modular quotient",
+          "id": "WP-MT-NERON-BASE-ABELIAN-EXISTENCE",
+          "title": "Abelian-variety Néron existence at the required DVRs",
           "weight_points": 15,
           "status": "blocked",
           "depends_on": [
             "MT-TC-E1-JACOBIAN-VARIETY"
           ],
-          "exit_criterion": "Construct the target model needed by the rank-zero and collision arguments."
+          "exit_criterion": "Construct AlgebraicGeometry.NeronModel R K A for the exact arithmetic DVR and completion bases needed downstream, including generic-fibre and required base-change identifications."
+        },
+        {
+          "id": "WP-MT-NERON-BASE-QUOTIENT-EXISTENCE",
+          "title": "Optimal Eisenstein quotient Néron realization",
+          "weight_points": 15,
+          "status": "blocked",
+          "depends_on": [
+            "WP-MT-NERON-BASE-ABELIAN-EXISTENCE",
+            "MT-X0-EISENSTEIN-ALGEBRA"
+          ],
+          "exit_criterion": "Instantiate the constructor on the actual ModularCurve.OptimalNewQuotient, identify its arithmetic and completed generic fibres, and extend the Abel-Jacobi/quotient map over the smooth auxiliary-prime cusp chart. With the model and quotient map fixed by that construction, compile AlgebraicGeometry.NeronModel.finrank_genericBasePoint_eq_zero_of_powerKummer_kernelData and MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_neronSpecializationAtFive as named consumers rather than supplied-shadow interfaces."
         }
       ]
     },
     {
       "id": "MT-NERON-COMPONENTS",
-      "title": "Identity components and tame elliptic fibres",
+      "title": "Identity components and toric modular fibres",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2478,19 +2479,13 @@
           "kind": "definition",
           "name": "AlgebraicGeometry.NeronModel.identityComponent",
           "state": "proposed",
-          "description": "Define the fibrewise identity component used in both surviving consumers."
+          "description": "Define the fibrewise identity component used by quotient specialization and the toric rank-zero argument."
         },
         {
           "kind": "definition",
           "name": "AlgebraicGeometry.NeronModel.componentGroup",
           "state": "proposed",
           "description": "Define the component quotient and its specialization map."
-        },
-        {
-          "kind": "theorem",
-          "name": "EllipticCurve.NeronModel.additive_componentGroup_card_le_four_of_residueChar_gt_three",
-          "state": "proposed",
-          "description": "Bound the additive component group in the tame residue characteristics five and eleven."
         },
         {
           "kind": "structure",
@@ -2550,7 +2545,7 @@
       },
       "evidence": {
         "recorded_artifact_count": 53,
-        "canonical_artifact_count": 9,
+        "canonical_artifact_count": 8,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -2589,7 +2584,7 @@
     },
     {
       "id": "MT-NERON-SPECIALIZATION",
-      "title": "Torsion specialization at the Eisenstein quotient and at five",
+      "title": "Torsion specialization at the Eisenstein quotient",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
       "status": "blocked",
@@ -2597,7 +2592,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the quotient section and the marked elliptic point at 5. A checked NeronModel consumer now transports rank zero from integral model points to the prescribed generic-fibre rational points using the actual scheme-theoretic multiplication kernel, but it does not construct the model or prove any specialization theorem.",
+      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the Eisenstein quotient section at the auxiliary primes 5 and 11. A checked NeronModel consumer now transports rank zero from integral model points to the prescribed generic-fibre rational points using the actual scheme-theoretic multiplication kernel, but it does not construct the model or prove any specialization theorem. Exact-order reduction of the marked source point at good reduction is already integrated independently.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -2631,8 +2626,7 @@
       "unlocks": [
         "MT-O35-EXCLUDE",
         "MT-X0-EISENSTEIN-QUOTIENT",
-        "MT-PRIME-EISENSTEIN-SPECIALIZATION",
-        "MT-PRIME-DIVISION-FIELD"
+        "MT-PRIME-EISENSTEIN-SPECIALIZATION"
       ],
       "completion": {
         "statement": false,
@@ -3399,6 +3393,7 @@
       ],
       "unlocks": [
         "MT-O35-EXCLUDE",
+        "MT-NERON-BASE",
         "MT-X0-EISENSTEIN-QUOTIENT"
       ],
       "completion": {
@@ -3782,39 +3777,56 @@
       "title": "Preserve exact prime-to-five order under good reduction",
       "stage": "prime_argument",
       "kind": "proof",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 15,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Transport the marked rational point to the good special fibre and prove that its exact order is unchanged because the order is prime to 5. No division field is constructed.",
+      "summary": "The checked good-reduction specialization homomorphism preserves the exact finite additive order of the marked point at 5. Its concrete ZMod 5 form feeds the finite-field cardinality contradiction directly; no Neron model or division field is used.",
       "artifacts": [
         {
           "kind": "theorem",
-          "name": "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive",
-          "state": "proposed",
-          "description": "Show that the marked point retains exact order N in the special fibre."
+          "name": "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive_of_goodReduction",
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.TorsionSpecialization",
+          "description": "Preserve the exact additive order of every finite-order point under good reduction at 5."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.specializedPointZMod_addOrderOf_eq_atFive_of_goodReduction",
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.TorsionSpecialization",
+          "description": "Transport exact order to the concrete ZMod 5 reduction used by the finite-field endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive",
+          "state": "integrated",
+          "module": "MazurTorsion.PrimeOrder.GoodReductionAtFive",
+          "description": "Consume exact-order specialization and the ten-point enumeration to exclude every marked order at least 11 under good reduction."
         }
       ],
       "depends_on": [
-        "MT-NERON-SPECIALIZATION"
+        "MT-BASE-INTEGRATED"
       ],
       "unlocks": [
         "MT-PRIME-ISOGENY-CHAIN"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "acceptance_declarations": [
-        "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive"
+        "MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive_of_goodReduction",
+        "MazurTorsion.PrimeOrder.specializedPointZMod_addOrderOf_eq_atFive_of_goodReduction",
+        "MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive"
       ],
       "route_history": {
         "previous_scope": "construct an everywhere-unramified p-division field over Q(zeta_p)",
-        "revision": "prime-to-five torsion injection into one Neron fibre"
+        "revision": "checked exact-order specialization at good reduction, independent of Neron models"
       }
     },
     {
