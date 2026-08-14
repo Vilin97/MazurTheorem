@@ -22,175 +22,175 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-theorem recurrence1Residual0Band0 :
+private theorem recurrence1Residual0Band0 :
     recurrence1QuotientTerm0Block0 +
     recurrence1ExceptionalTerm0Block0 =
       recurrence1Left0Block0 := by
   unfold recurrence1Left0Block0 recurrence1QuotientTerm0Block0 recurrence1ExceptionalTerm0Block0
   ring
 
-theorem recurrence1Residual0Band1 :
+private theorem recurrence1Residual0Band1 :
     recurrence1QuotientTerm0Block1 +
     recurrence1ExceptionalTerm0Block1 =
       recurrence1Left0Block1 := by
   unfold recurrence1Left0Block1 recurrence1QuotientTerm0Block1 recurrence1ExceptionalTerm0Block1
   ring
 
-theorem recurrence1Residual0Band2 :
+private theorem recurrence1Residual0Band2 :
     recurrence1QuotientTerm0Block2 +
     recurrence1ExceptionalTerm0Block2 =
       recurrence1Left0Block2 := by
   unfold recurrence1Left0Block2 recurrence1QuotientTerm0Block2 recurrence1ExceptionalTerm0Block2
   ring
 
-theorem recurrence1Residual0Band3 :
+private theorem recurrence1Residual0Band3 :
     recurrence1QuotientTerm0Block3 +
     recurrence1ExceptionalTerm0Block3 =
       recurrence1Left0Block3 := by
   unfold recurrence1Left0Block3 recurrence1QuotientTerm0Block3 recurrence1ExceptionalTerm0Block3
   ring
 
-theorem recurrence1Residual0Band4 :
+private theorem recurrence1Residual0Band4 :
     recurrence1QuotientTerm0Block4 +
     recurrence1ExceptionalTerm0Block4 =
       recurrence1Left0Block4 := by
   unfold recurrence1Left0Block4 recurrence1QuotientTerm0Block4 recurrence1ExceptionalTerm0Block4
   ring
 
-theorem recurrence1Residual0Band5 :
+private theorem recurrence1Residual0Band5 :
     recurrence1QuotientTerm0Block5 +
     recurrence1ExceptionalTerm0Block5 =
       recurrence1Left0Block5 := by
   unfold recurrence1Left0Block5 recurrence1QuotientTerm0Block5 recurrence1ExceptionalTerm0Block5
   ring
 
-theorem recurrence1Residual0Band6 :
+private theorem recurrence1Residual0Band6 :
     recurrence1QuotientTerm0Block6 +
     recurrence1ExceptionalTerm0Block6 =
       recurrence1Left0Block6 := by
   unfold recurrence1Left0Block6 recurrence1QuotientTerm0Block6 recurrence1ExceptionalTerm0Block6
   ring
 
-theorem recurrence1Residual0Band7 :
+private theorem recurrence1Residual0Band7 :
     recurrence1QuotientTerm0Block7 +
     recurrence1ExceptionalTerm0Block7 =
       recurrence1Left0Block7 := by
   unfold recurrence1Left0Block7 recurrence1QuotientTerm0Block7 recurrence1ExceptionalTerm0Block7
   ring
 
-theorem recurrence1Residual0Band8 :
+private theorem recurrence1Residual0Band8 :
     recurrence1QuotientTerm0Block8 +
     recurrence1ExceptionalTerm0Block8 =
       recurrence1Left0Block8 := by
   unfold recurrence1Left0Block8 recurrence1QuotientTerm0Block8 recurrence1ExceptionalTerm0Block8
   ring
 
-theorem recurrence1Residual0Band9 :
+private theorem recurrence1Residual0Band9 :
     recurrence1QuotientTerm0Block9 +
     recurrence1ExceptionalTerm0Block9 =
       recurrence1Left0Block9 := by
   unfold recurrence1Left0Block9 recurrence1QuotientTerm0Block9 recurrence1ExceptionalTerm0Block9
   ring
 
-theorem recurrence1Residual0Band10 :
+private theorem recurrence1Residual0Band10 :
     recurrence1QuotientTerm0Block10 +
     recurrence1ExceptionalTerm0Block10 =
       recurrence1Left0Block10 := by
   unfold recurrence1Left0Block10 recurrence1QuotientTerm0Block10 recurrence1ExceptionalTerm0Block10
   ring
 
-theorem recurrence1Residual0Band11 :
+private theorem recurrence1Residual0Band11 :
     recurrence1QuotientTerm0Block11 +
     recurrence1ExceptionalTerm0Block11 =
       recurrence1Left0Block11 := by
   unfold recurrence1Left0Block11 recurrence1QuotientTerm0Block11 recurrence1ExceptionalTerm0Block11
   ring
 
-theorem recurrence1Residual0Band12 :
+private theorem recurrence1Residual0Band12 :
     recurrence1QuotientTerm0Block12 +
     recurrence1ExceptionalTerm0Block12 =
       recurrence1Left0Block12 := by
   unfold recurrence1Left0Block12 recurrence1QuotientTerm0Block12 recurrence1ExceptionalTerm0Block12
   ring
 
-theorem recurrence1Residual0Band13 :
+private theorem recurrence1Residual0Band13 :
     recurrence1QuotientTerm0Block13 +
     recurrence1ExceptionalTerm0Block13 =
       recurrence1Left0Block13 := by
   unfold recurrence1Left0Block13 recurrence1QuotientTerm0Block13 recurrence1ExceptionalTerm0Block13
   ring
 
-theorem recurrence1Residual0Band14 :
+private theorem recurrence1Residual0Band14 :
     recurrence1QuotientTerm0Block14 +
     recurrence1ExceptionalTerm0Block14 =
       recurrence1Left0Block14 := by
   unfold recurrence1Left0Block14 recurrence1QuotientTerm0Block14 recurrence1ExceptionalTerm0Block14
   ring
 
-theorem recurrence1Residual0Band15 :
+private theorem recurrence1Residual0Band15 :
     recurrence1QuotientTerm0Block15 +
     recurrence1ExceptionalTerm0Block15 =
       recurrence1Left0Block15 := by
   unfold recurrence1Left0Block15 recurrence1QuotientTerm0Block15 recurrence1ExceptionalTerm0Block15
   ring
 
-theorem recurrence1Residual0Band16 :
+private theorem recurrence1Residual0Band16 :
     recurrence1QuotientTerm0Block16 +
     recurrence1ExceptionalTerm0Block16 =
       recurrence1Left0Block16 := by
   unfold recurrence1Left0Block16 recurrence1QuotientTerm0Block16 recurrence1ExceptionalTerm0Block16
   ring
 
-theorem recurrence1Residual0Band17 :
+private theorem recurrence1Residual0Band17 :
     recurrence1QuotientTerm0Block17 +
     recurrence1ExceptionalTerm0Block17 =
       recurrence1Left0Block17 := by
   unfold recurrence1Left0Block17 recurrence1QuotientTerm0Block17 recurrence1ExceptionalTerm0Block17
   ring
 
-theorem recurrence1Residual0Band18 :
+private theorem recurrence1Residual0Band18 :
     recurrence1QuotientTerm0Block18 +
     recurrence1ExceptionalTerm0Block18 =
       recurrence1Left0Block18 := by
   unfold recurrence1Left0Block18 recurrence1QuotientTerm0Block18 recurrence1ExceptionalTerm0Block18
   ring
 
-theorem recurrence1Residual0Band19 :
+private theorem recurrence1Residual0Band19 :
     recurrence1QuotientTerm0Block19 +
     recurrence1ExceptionalTerm0Block19 =
       recurrence1Left0Block19 := by
   unfold recurrence1Left0Block19 recurrence1QuotientTerm0Block19 recurrence1ExceptionalTerm0Block19
   ring
 
-theorem recurrence1Residual0Band20 :
+private theorem recurrence1Residual0Band20 :
     recurrence1QuotientTerm0Block20 +
     recurrence1ExceptionalTerm0Block20 =
       recurrence1Left0Block20 := by
   unfold recurrence1Left0Block20 recurrence1QuotientTerm0Block20 recurrence1ExceptionalTerm0Block20
   ring
 
-theorem recurrence1Residual0Band21 :
+private theorem recurrence1Residual0Band21 :
     recurrence1QuotientTerm0Block21 +
     recurrence1ExceptionalTerm0Block21 =
       recurrence1Left0Block21 := by
   unfold recurrence1Left0Block21 recurrence1QuotientTerm0Block21 recurrence1ExceptionalTerm0Block21
   ring
 
-theorem recurrence1Residual0Band22 :
+private theorem recurrence1Residual0Band22 :
     recurrence1QuotientTerm0Block22 +
     recurrence1ExceptionalTerm0Block22 =
       recurrence1Left0Block22 := by
   unfold recurrence1Left0Block22 recurrence1QuotientTerm0Block22 recurrence1ExceptionalTerm0Block22
   ring
 
-theorem recurrence1Residual0Band23 :
+private theorem recurrence1Residual0Band23 :
     recurrence1QuotientTerm0Block23 +
     recurrence1ExceptionalTerm0Block23 =
       recurrence1Left0Block23 := by
   unfold recurrence1Left0Block23 recurrence1QuotientTerm0Block23 recurrence1ExceptionalTerm0Block23
   ring
 
-theorem recurrence1Residual0Band24 :
+private theorem recurrence1Residual0Band24 :
     recurrence1QuotientTerm0Block24 +
     recurrence1ExceptionalTerm0Block24 =
       recurrence1Left0Block24 := by

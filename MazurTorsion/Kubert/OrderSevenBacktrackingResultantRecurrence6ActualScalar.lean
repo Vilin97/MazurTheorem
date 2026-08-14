@@ -73,7 +73,7 @@ private def remainder6Coefficient0AlignedChunk0 : Coefficient :=
     (8134043698377643468887670751448365521145)
   ) * X ^ 146
 
-theorem remainder6Coefficient0Chunk0_normalized :
+private theorem remainder6Coefficient0Chunk0_normalized :
     remainder6Coefficient0Chunk0 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -108,7 +108,7 @@ private def remainder6Coefficient0AlignedChunk1 : Coefficient :=
     (13830510745960661250169911443628707195581541111929709)
   ) * X ^ 138
 
-theorem remainder6Coefficient0Chunk1_normalized :
+private theorem remainder6Coefficient0Chunk1_normalized :
     remainder6Coefficient0Chunk1 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -143,7 +143,7 @@ private def remainder6Coefficient0AlignedChunk2 : Coefficient :=
     (14737496869073084554441130110488277083264282977945034116736)
   ) * X ^ 130
 
-theorem remainder6Coefficient0Chunk2_normalized :
+private theorem remainder6Coefficient0Chunk2_normalized :
     remainder6Coefficient0Chunk2 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -178,7 +178,7 @@ private def remainder6Coefficient0AlignedChunk3 : Coefficient :=
     (-683948145007249207480741614259191587024219461518624069201391001)
   ) * X ^ 122
 
-theorem remainder6Coefficient0Chunk3_normalized :
+private theorem remainder6Coefficient0Chunk3_normalized :
     remainder6Coefficient0Chunk3 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -213,7 +213,7 @@ private def remainder6Coefficient0AlignedChunk4 : Coefficient :=
     (-5340313645384165522578420825538151081303016019270165657699620124704)
   ) * X ^ 114
 
-theorem remainder6Coefficient0Chunk4_normalized :
+private theorem remainder6Coefficient0Chunk4_normalized :
     remainder6Coefficient0Chunk4 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -248,7 +248,7 @@ private def remainder6Coefficient0AlignedChunk5 : Coefficient :=
     (-1377013538023343304701099922666635574441870442577548381106663394191357)
   ) * X ^ 106
 
-theorem remainder6Coefficient0Chunk5_normalized :
+private theorem remainder6Coefficient0Chunk5_normalized :
     remainder6Coefficient0Chunk5 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -283,7 +283,7 @@ private def remainder6Coefficient0AlignedChunk6 : Coefficient :=
     (1678597925521666946770423760483295141388284533947356612541857443563953005)
   ) * X ^ 98
 
-theorem remainder6Coefficient0Chunk6_normalized :
+private theorem remainder6Coefficient0Chunk6_normalized :
     remainder6Coefficient0Chunk6 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -318,7 +318,7 @@ private def remainder6Coefficient0AlignedChunk7 : Coefficient :=
     (664348043991404757737751759341033420931671374205909294849306566472229667478)
   ) * X ^ 90
 
-theorem remainder6Coefficient0Chunk7_normalized :
+private theorem remainder6Coefficient0Chunk7_normalized :
     remainder6Coefficient0Chunk7 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -353,7 +353,7 @@ private def remainder6Coefficient0AlignedChunk8 : Coefficient :=
     (-17967953562319479056600332328567053971138009773559803690769998534029800801389)
   ) * X ^ 82
 
-theorem remainder6Coefficient0Chunk8_normalized :
+private theorem remainder6Coefficient0Chunk8_normalized :
     remainder6Coefficient0Chunk8 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -394,7 +394,7 @@ private def remainder6Coefficient0AlignedChunk9 : Coefficient :=
       95506327055469324669707620172626555351388010166514906357964981876760610781051))
   ) * X ^ 74
 
-theorem remainder6Coefficient0Chunk9_normalized :
+private theorem remainder6Coefficient0Chunk9_normalized :
     remainder6Coefficient0Chunk9 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -437,7 +437,7 @@ private def remainder6Coefficient0AlignedChunk10 : Coefficient :=
       35411663882540188911277372933463928291555825671112130220410811610445562568935))
   ) * X ^ 66
 
-theorem remainder6Coefficient0Chunk10_normalized :
+private theorem remainder6Coefficient0Chunk10_normalized :
     remainder6Coefficient0Chunk10 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -480,7 +480,7 @@ private def remainder6Coefficient0AlignedChunk11 : Coefficient :=
       91226071424822681438978993491642365713211383776578996141797291061722346829263))
   ) * X ^ 58
 
-theorem remainder6Coefficient0Chunk11_normalized :
+private theorem remainder6Coefficient0Chunk11_normalized :
     remainder6Coefficient0Chunk11 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -516,7 +516,7 @@ private def remainder6Coefficient0AlignedChunk12 : Coefficient :=
     (-946028875683670870702756021917817705294566717197833637548353323792240675677)
   ) * X ^ 50
 
-theorem remainder6Coefficient0Chunk12_normalized :
+private theorem remainder6Coefficient0Chunk12_normalized :
     remainder6Coefficient0Chunk12 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -551,7 +551,7 @@ private def remainder6Coefficient0AlignedChunk13 : Coefficient :=
     (-71416065383264343368784881041854645515379822727547348101512025031984824)
   ) * X ^ 42
 
-theorem remainder6Coefficient0Chunk13_normalized :
+private theorem remainder6Coefficient0Chunk13_normalized :
     remainder6Coefficient0Chunk13 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -586,7 +586,7 @@ private def remainder6Coefficient0AlignedChunk14 : Coefficient :=
     (-66022168831533641230051983962421643804472664761487135445260519375)
   ) * X ^ 34
 
-theorem remainder6Coefficient0Chunk14_normalized :
+private theorem remainder6Coefficient0Chunk14_normalized :
     remainder6Coefficient0Chunk14 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -621,7 +621,7 @@ private def remainder6Coefficient0AlignedChunk15 : Coefficient :=
     (-263898818659800466225069243678802303589547994627753879042)
   ) * X ^ 26
 
-theorem remainder6Coefficient0Chunk15_normalized :
+private theorem remainder6Coefficient0Chunk15_normalized :
     remainder6Coefficient0Chunk15 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -656,7 +656,7 @@ private def remainder6Coefficient0AlignedChunk16 : Coefficient :=
     (-839011611373832404078412294574305045468065346)
   ) * X ^ 18
 
-theorem remainder6Coefficient0Chunk16_normalized :
+private theorem remainder6Coefficient0Chunk16_normalized :
     remainder6Coefficient0Chunk16 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -691,7 +691,7 @@ private def remainder6Coefficient0AlignedChunk17 : Coefficient :=
     (-74811294898350680014206984857)
   ) * X ^ 10
 
-theorem remainder6Coefficient0Chunk17_normalized :
+private theorem remainder6Coefficient0Chunk17_normalized :
     remainder6Coefficient0Chunk17 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -726,7 +726,7 @@ private def remainder6Coefficient0AlignedChunk18 : Coefficient :=
     (1452252)
   ) * X ^ 2
 
-theorem remainder6Coefficient0Chunk18_normalized :
+private theorem remainder6Coefficient0Chunk18_normalized :
     remainder6Coefficient0Chunk18 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -740,7 +740,7 @@ private def remainder6Coefficient0AlignedChunk19 : Coefficient :=
     (480)
   ) * X ^ 1
 
-theorem remainder6Coefficient0Chunk19_normalized :
+private theorem remainder6Coefficient0Chunk19_normalized :
     remainder6Coefficient0Chunk19 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -800,7 +800,7 @@ private def remainder6Coefficient0AlignedChunk0Band17 : Coefficient :=
     (-1011392369)
   ) * X ^ 153
 
-theorem remainder6Coefficient0AlignedChunk0_pieces :
+private theorem remainder6Coefficient0AlignedChunk0_pieces :
     remainder6Coefficient0AlignedChunk0 =
       remainder6Coefficient0AlignedChunk0Band16 +
       remainder6Coefficient0AlignedChunk0Band17
@@ -837,7 +837,7 @@ private def remainder6Coefficient0AlignedChunk1Band16 : Coefficient :=
     (720497376836365789771706356156031624629128769)
   ) * X ^ 144
 
-theorem remainder6Coefficient0AlignedChunk1_pieces :
+private theorem remainder6Coefficient0AlignedChunk1_pieces :
     remainder6Coefficient0AlignedChunk1 =
       remainder6Coefficient0AlignedChunk1Band15 +
       remainder6Coefficient0AlignedChunk1Band16
@@ -874,7 +874,7 @@ private def remainder6Coefficient0AlignedChunk2Band15 : Coefficient :=
     (4026282148141467705170099569081456097602533694427138661)
   ) * X ^ 135
 
-theorem remainder6Coefficient0AlignedChunk2_pieces :
+private theorem remainder6Coefficient0AlignedChunk2_pieces :
     remainder6Coefficient0AlignedChunk2 =
       remainder6Coefficient0AlignedChunk2Band14 +
       remainder6Coefficient0AlignedChunk2Band15
@@ -911,7 +911,7 @@ private def remainder6Coefficient0AlignedChunk3Band14 : Coefficient :=
     (-1945003450859942963112730481004571549088919809472086871202644)
   ) * X ^ 126
 
-theorem remainder6Coefficient0AlignedChunk3_pieces :
+private theorem remainder6Coefficient0AlignedChunk3_pieces :
     remainder6Coefficient0AlignedChunk3 =
       remainder6Coefficient0AlignedChunk3Band13 +
       remainder6Coefficient0AlignedChunk3Band14
@@ -948,7 +948,7 @@ private def remainder6Coefficient0AlignedChunk4Band13 : Coefficient :=
     (284572048520790161747867067653159683583605123803668615266361278282)
   ) * X ^ 117
 
-theorem remainder6Coefficient0AlignedChunk4_pieces :
+private theorem remainder6Coefficient0AlignedChunk4_pieces :
     remainder6Coefficient0AlignedChunk4 =
       remainder6Coefficient0AlignedChunk4Band12 +
       remainder6Coefficient0AlignedChunk4Band13
@@ -985,7 +985,7 @@ private def remainder6Coefficient0AlignedChunk5Band12 : Coefficient :=
     (-151378794284688977786346268658924635999399999001512239530092701999652)
   ) * X ^ 108
 
-theorem remainder6Coefficient0AlignedChunk5_pieces :
+private theorem remainder6Coefficient0AlignedChunk5_pieces :
     remainder6Coefficient0AlignedChunk5 =
       remainder6Coefficient0AlignedChunk5Band11 +
       remainder6Coefficient0AlignedChunk5Band12
@@ -1022,7 +1022,7 @@ private def remainder6Coefficient0AlignedChunk6Band11 : Coefficient :=
     (-207198676461531209722605302324841454664279495368127177600761149689819128)
   ) * X ^ 99
 
-theorem remainder6Coefficient0AlignedChunk6_pieces :
+private theorem remainder6Coefficient0AlignedChunk6_pieces :
     remainder6Coefficient0AlignedChunk6 =
       remainder6Coefficient0AlignedChunk6Band10 +
       remainder6Coefficient0AlignedChunk6Band11
@@ -1057,7 +1057,7 @@ private def remainder6Coefficient0AlignedChunk7Band10 : Coefficient :=
     (664348043991404757737751759341033420931671374205909294849306566472229667478)
   ) * X ^ 90
 
-theorem remainder6Coefficient0AlignedChunk7_pieces :
+private theorem remainder6Coefficient0AlignedChunk7_pieces :
     remainder6Coefficient0AlignedChunk7 =
       remainder6Coefficient0AlignedChunk7Band10
     := by
@@ -1090,7 +1090,7 @@ private def remainder6Coefficient0AlignedChunk8Band9 : Coefficient :=
     (-17967953562319479056600332328567053971138009773559803690769998534029800801389)
   ) * X ^ 82
 
-theorem remainder6Coefficient0AlignedChunk8_pieces :
+private theorem remainder6Coefficient0AlignedChunk8_pieces :
     remainder6Coefficient0AlignedChunk8 =
       remainder6Coefficient0AlignedChunk8Band9
     := by
@@ -1131,7 +1131,7 @@ private def remainder6Coefficient0AlignedChunk9Band9 : Coefficient :=
     (40337252253282015571674701187933301311140663621872424808515871928112022548988)
   ) * X ^ 81
 
-theorem remainder6Coefficient0AlignedChunk9_pieces :
+private theorem remainder6Coefficient0AlignedChunk9_pieces :
     remainder6Coefficient0AlignedChunk9 =
       remainder6Coefficient0AlignedChunk9Band8 +
       remainder6Coefficient0AlignedChunk9Band9
@@ -1176,7 +1176,7 @@ private def remainder6Coefficient0AlignedChunk10Band8 : Coefficient :=
       54393515148750513758319881802771527392867530812501680289049294341475767428977))
   ) * X ^ 72
 
-theorem remainder6Coefficient0AlignedChunk10_pieces :
+private theorem remainder6Coefficient0AlignedChunk10_pieces :
     remainder6Coefficient0AlignedChunk10 =
       remainder6Coefficient0AlignedChunk10Band7 +
       remainder6Coefficient0AlignedChunk10Band8
@@ -1221,7 +1221,7 @@ private def remainder6Coefficient0AlignedChunk11Band7 : Coefficient :=
       44868666275354091857720188415860894135868244701147366964087241202479965634477))
   ) * X ^ 63
 
-theorem remainder6Coefficient0AlignedChunk11_pieces :
+private theorem remainder6Coefficient0AlignedChunk11_pieces :
     remainder6Coefficient0AlignedChunk11 =
       remainder6Coefficient0AlignedChunk11Band6 +
       remainder6Coefficient0AlignedChunk11Band7
@@ -1259,7 +1259,7 @@ private def remainder6Coefficient0AlignedChunk12Band6 : Coefficient :=
     (-25817269702525381050170855115721590876743208575406070748456327894812777284085)
   ) * X ^ 54
 
-theorem remainder6Coefficient0AlignedChunk12_pieces :
+private theorem remainder6Coefficient0AlignedChunk12_pieces :
     remainder6Coefficient0AlignedChunk12 =
       remainder6Coefficient0AlignedChunk12Band5 +
       remainder6Coefficient0AlignedChunk12Band6
@@ -1296,7 +1296,7 @@ private def remainder6Coefficient0AlignedChunk13Band5 : Coefficient :=
     (4033091602968277891973759826873793594893764947604035786087347057513839932)
   ) * X ^ 45
 
-theorem remainder6Coefficient0AlignedChunk13_pieces :
+private theorem remainder6Coefficient0AlignedChunk13_pieces :
     remainder6Coefficient0AlignedChunk13 =
       remainder6Coefficient0AlignedChunk13Band4 +
       remainder6Coefficient0AlignedChunk13Band5
@@ -1333,7 +1333,7 @@ private def remainder6Coefficient0AlignedChunk14Band4 : Coefficient :=
     (-3376782671986707868145283738173274303862985995308034390078626962660)
   ) * X ^ 36
 
-theorem remainder6Coefficient0AlignedChunk14_pieces :
+private theorem remainder6Coefficient0AlignedChunk14_pieces :
     remainder6Coefficient0AlignedChunk14 =
       remainder6Coefficient0AlignedChunk14Band3 +
       remainder6Coefficient0AlignedChunk14Band4
@@ -1370,7 +1370,7 @@ private def remainder6Coefficient0AlignedChunk15Band3 : Coefficient :=
     (4186816932242205040061182381405043904676182712005050670654)
   ) * X ^ 27
 
-theorem remainder6Coefficient0AlignedChunk15_pieces :
+private theorem remainder6Coefficient0AlignedChunk15_pieces :
     remainder6Coefficient0AlignedChunk15 =
       remainder6Coefficient0AlignedChunk15Band2 +
       remainder6Coefficient0AlignedChunk15Band3
@@ -1405,7 +1405,7 @@ private def remainder6Coefficient0AlignedChunk16Band2 : Coefficient :=
     (-839011611373832404078412294574305045468065346)
   ) * X ^ 18
 
-theorem remainder6Coefficient0AlignedChunk16_pieces :
+private theorem remainder6Coefficient0AlignedChunk16_pieces :
     remainder6Coefficient0AlignedChunk16 =
       remainder6Coefficient0AlignedChunk16Band2
     := by
@@ -1438,7 +1438,7 @@ private def remainder6Coefficient0AlignedChunk17Band1 : Coefficient :=
     (-74811294898350680014206984857)
   ) * X ^ 10
 
-theorem remainder6Coefficient0AlignedChunk17_pieces :
+private theorem remainder6Coefficient0AlignedChunk17_pieces :
     remainder6Coefficient0AlignedChunk17 =
       remainder6Coefficient0AlignedChunk17Band1
     := by
@@ -1473,7 +1473,7 @@ private def remainder6Coefficient0AlignedChunk18Band1 : Coefficient :=
     (231350136257977388614570781)
   ) * X ^ 9
 
-theorem remainder6Coefficient0AlignedChunk18_pieces :
+private theorem remainder6Coefficient0AlignedChunk18_pieces :
     remainder6Coefficient0AlignedChunk18 =
       remainder6Coefficient0AlignedChunk18Band0 +
       remainder6Coefficient0AlignedChunk18Band1
@@ -1487,14 +1487,14 @@ private def remainder6Coefficient0AlignedChunk19Band0 : Coefficient :=
     (480)
   ) * X ^ 1
 
-theorem remainder6Coefficient0AlignedChunk19_pieces :
+private theorem remainder6Coefficient0AlignedChunk19_pieces :
     remainder6Coefficient0AlignedChunk19 =
       remainder6Coefficient0AlignedChunk19Band0
     := by
   unfold remainder6Coefficient0AlignedChunk19 remainder6Coefficient0AlignedChunk19Band0
   ring
 
-theorem remainder6Coefficient0AlignedBand0_eq :
+private theorem remainder6Coefficient0AlignedBand0_eq :
     remainder6Coefficient0NormalizedBlock0 =
       remainder6Coefficient0AlignedChunk18Band0 +
       remainder6Coefficient0AlignedChunk19Band0
@@ -1504,7 +1504,7 @@ theorem remainder6Coefficient0AlignedBand0_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand1_eq :
+private theorem remainder6Coefficient0AlignedBand1_eq :
     remainder6Coefficient0NormalizedBlock1 =
       remainder6Coefficient0AlignedChunk17Band1 +
       remainder6Coefficient0AlignedChunk18Band1
@@ -1514,7 +1514,7 @@ theorem remainder6Coefficient0AlignedBand1_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand2_eq :
+private theorem remainder6Coefficient0AlignedBand2_eq :
     remainder6Coefficient0NormalizedBlock2 =
       remainder6Coefficient0AlignedChunk15Band2 +
       remainder6Coefficient0AlignedChunk16Band2
@@ -1524,7 +1524,7 @@ theorem remainder6Coefficient0AlignedBand2_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand3_eq :
+private theorem remainder6Coefficient0AlignedBand3_eq :
     remainder6Coefficient0NormalizedBlock3 =
       remainder6Coefficient0AlignedChunk14Band3 +
       remainder6Coefficient0AlignedChunk15Band3
@@ -1534,7 +1534,7 @@ theorem remainder6Coefficient0AlignedBand3_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand4_eq :
+private theorem remainder6Coefficient0AlignedBand4_eq :
     remainder6Coefficient0NormalizedBlock4 =
       remainder6Coefficient0AlignedChunk13Band4 +
       remainder6Coefficient0AlignedChunk14Band4
@@ -1544,7 +1544,7 @@ theorem remainder6Coefficient0AlignedBand4_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand5_eq :
+private theorem remainder6Coefficient0AlignedBand5_eq :
     remainder6Coefficient0NormalizedBlock5 =
       remainder6Coefficient0AlignedChunk12Band5 +
       remainder6Coefficient0AlignedChunk13Band5
@@ -1554,7 +1554,7 @@ theorem remainder6Coefficient0AlignedBand5_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand6_eq :
+private theorem remainder6Coefficient0AlignedBand6_eq :
     remainder6Coefficient0NormalizedBlock6 =
       remainder6Coefficient0AlignedChunk11Band6 +
       remainder6Coefficient0AlignedChunk12Band6
@@ -1564,7 +1564,7 @@ theorem remainder6Coefficient0AlignedBand6_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand7_eq :
+private theorem remainder6Coefficient0AlignedBand7_eq :
     remainder6Coefficient0NormalizedBlock7 =
       remainder6Coefficient0AlignedChunk10Band7 +
       remainder6Coefficient0AlignedChunk11Band7
@@ -1574,7 +1574,7 @@ theorem remainder6Coefficient0AlignedBand7_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand8_eq :
+private theorem remainder6Coefficient0AlignedBand8_eq :
     remainder6Coefficient0NormalizedBlock8 =
       remainder6Coefficient0AlignedChunk9Band8 +
       remainder6Coefficient0AlignedChunk10Band8
@@ -1584,7 +1584,7 @@ theorem remainder6Coefficient0AlignedBand8_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand9_eq :
+private theorem remainder6Coefficient0AlignedBand9_eq :
     remainder6Coefficient0NormalizedBlock9 =
       remainder6Coefficient0AlignedChunk8Band9 +
       remainder6Coefficient0AlignedChunk9Band9
@@ -1594,7 +1594,7 @@ theorem remainder6Coefficient0AlignedBand9_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand10_eq :
+private theorem remainder6Coefficient0AlignedBand10_eq :
     remainder6Coefficient0NormalizedBlock10 =
       remainder6Coefficient0AlignedChunk6Band10 +
       remainder6Coefficient0AlignedChunk7Band10
@@ -1604,7 +1604,7 @@ theorem remainder6Coefficient0AlignedBand10_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand11_eq :
+private theorem remainder6Coefficient0AlignedBand11_eq :
     remainder6Coefficient0NormalizedBlock11 =
       remainder6Coefficient0AlignedChunk5Band11 +
       remainder6Coefficient0AlignedChunk6Band11
@@ -1614,7 +1614,7 @@ theorem remainder6Coefficient0AlignedBand11_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand12_eq :
+private theorem remainder6Coefficient0AlignedBand12_eq :
     remainder6Coefficient0NormalizedBlock12 =
       remainder6Coefficient0AlignedChunk4Band12 +
       remainder6Coefficient0AlignedChunk5Band12
@@ -1624,7 +1624,7 @@ theorem remainder6Coefficient0AlignedBand12_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand13_eq :
+private theorem remainder6Coefficient0AlignedBand13_eq :
     remainder6Coefficient0NormalizedBlock13 =
       remainder6Coefficient0AlignedChunk3Band13 +
       remainder6Coefficient0AlignedChunk4Band13
@@ -1634,7 +1634,7 @@ theorem remainder6Coefficient0AlignedBand13_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand14_eq :
+private theorem remainder6Coefficient0AlignedBand14_eq :
     remainder6Coefficient0NormalizedBlock14 =
       remainder6Coefficient0AlignedChunk2Band14 +
       remainder6Coefficient0AlignedChunk3Band14
@@ -1644,7 +1644,7 @@ theorem remainder6Coefficient0AlignedBand14_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand15_eq :
+private theorem remainder6Coefficient0AlignedBand15_eq :
     remainder6Coefficient0NormalizedBlock15 =
       remainder6Coefficient0AlignedChunk1Band15 +
       remainder6Coefficient0AlignedChunk2Band15
@@ -1654,7 +1654,7 @@ theorem remainder6Coefficient0AlignedBand15_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand16_eq :
+private theorem remainder6Coefficient0AlignedBand16_eq :
     remainder6Coefficient0NormalizedBlock16 =
       remainder6Coefficient0AlignedChunk0Band16 +
       remainder6Coefficient0AlignedChunk1Band16
@@ -1664,7 +1664,7 @@ theorem remainder6Coefficient0AlignedBand16_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0AlignedBand17_eq :
+private theorem remainder6Coefficient0AlignedBand17_eq :
     remainder6Coefficient0NormalizedBlock17 =
       remainder6Coefficient0AlignedChunk0Band17
     := by
@@ -1672,7 +1672,7 @@ theorem remainder6Coefficient0AlignedBand17_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient0Aligned_eq :
+private theorem remainder6Coefficient0Aligned_eq :
     remainder6Coefficient0Aligned = remainder6Coefficient0Normalized := by
   unfold remainder6Coefficient0Aligned remainder6Coefficient0Normalized
   rw [remainder6Coefficient0AlignedChunk0_pieces]
@@ -1715,7 +1715,7 @@ theorem remainder6Coefficient0Aligned_eq :
   rw [remainder6Coefficient0AlignedBand17_eq]
   ring
 
-theorem remainder6Coefficient0_eq_normalized :
+private theorem remainder6Coefficient0_eq_normalized :
     remainder6Coefficient0 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1771,7 +1771,7 @@ private def remainder6Coefficient1AlignedChunk0 : Coefficient :=
     (77084809344741549843247386578211442014282)
   ) * X ^ 142
 
-theorem remainder6Coefficient1Chunk0_normalized :
+private theorem remainder6Coefficient1Chunk0_normalized :
     remainder6Coefficient1Chunk0 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1806,7 +1806,7 @@ private def remainder6Coefficient1AlignedChunk1 : Coefficient :=
     (-54949067767501893960984114471359101552623944378328882)
   ) * X ^ 134
 
-theorem remainder6Coefficient1Chunk1_normalized :
+private theorem remainder6Coefficient1Chunk1_normalized :
     remainder6Coefficient1Chunk1 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1841,7 +1841,7 @@ private def remainder6Coefficient1AlignedChunk2 : Coefficient :=
     (-16847669313701150440380224201114550344122965770374520620081)
   ) * X ^ 126
 
-theorem remainder6Coefficient1Chunk2_normalized :
+private theorem remainder6Coefficient1Chunk2_normalized :
     remainder6Coefficient1Chunk2 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1876,7 +1876,7 @@ private def remainder6Coefficient1AlignedChunk3 : Coefficient :=
     (325781642331751289198860219147812876921388281463088345184029281)
   ) * X ^ 118
 
-theorem remainder6Coefficient1Chunk3_normalized :
+private theorem remainder6Coefficient1Chunk3_normalized :
     remainder6Coefficient1Chunk3 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1911,7 +1911,7 @@ private def remainder6Coefficient1AlignedChunk4 : Coefficient :=
     (79066895090843790771810602430748116062234014103793327778390719268)
   ) * X ^ 110
 
-theorem remainder6Coefficient1Chunk4_normalized :
+private theorem remainder6Coefficient1Chunk4_normalized :
     remainder6Coefficient1Chunk4 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1946,7 +1946,7 @@ private def remainder6Coefficient1AlignedChunk5 : Coefficient :=
     (3192699187012670083136030675801181043266131311313232109270171160853643)
   ) * X ^ 102
 
-theorem remainder6Coefficient1Chunk5_normalized :
+private theorem remainder6Coefficient1Chunk5_normalized :
     remainder6Coefficient1Chunk5 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -1981,7 +1981,7 @@ private def remainder6Coefficient1AlignedChunk6 : Coefficient :=
     (-6194188420304178967976399679870947335293403491515397350939159891405856314)
   ) * X ^ 94
 
-theorem remainder6Coefficient1Chunk6_normalized :
+private theorem remainder6Coefficient1Chunk6_normalized :
     remainder6Coefficient1Chunk6 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2016,7 +2016,7 @@ private def remainder6Coefficient1AlignedChunk7 : Coefficient :=
     (201304539349675641512158042538733780844999176589046936969183686054556470822)
   ) * X ^ 86
 
-theorem remainder6Coefficient1Chunk7_normalized :
+private theorem remainder6Coefficient1Chunk7_normalized :
     remainder6Coefficient1Chunk7 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2051,7 +2051,7 @@ private def remainder6Coefficient1AlignedChunk8 : Coefficient :=
     (-11263158740395500032971760536186077534702568417686380943454146040458065263612)
   ) * X ^ 78
 
-theorem remainder6Coefficient1Chunk8_normalized :
+private theorem remainder6Coefficient1Chunk8_normalized :
     remainder6Coefficient1Chunk8 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2091,7 +2091,7 @@ private def remainder6Coefficient1AlignedChunk9 : Coefficient :=
       92279629173000675191914937585966021658258688416609549337162695153908502446971))
   ) * X ^ 70
 
-theorem remainder6Coefficient1Chunk9_normalized :
+private theorem remainder6Coefficient1Chunk9_normalized :
     remainder6Coefficient1Chunk9 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2134,7 +2134,7 @@ private def remainder6Coefficient1AlignedChunk10 : Coefficient :=
       31480460952442785738727149776611962491416978088718780656676911574972820469505))
   ) * X ^ 62
 
-theorem remainder6Coefficient1Chunk10_normalized :
+private theorem remainder6Coefficient1Chunk10_normalized :
     remainder6Coefficient1Chunk10 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2173,7 +2173,7 @@ private def remainder6Coefficient1AlignedChunk11 : Coefficient :=
     (-16172052832881799815811386572291649978653870364345077102585740015073912224369)
   ) * X ^ 54
 
-theorem remainder6Coefficient1Chunk11_normalized :
+private theorem remainder6Coefficient1Chunk11_normalized :
     remainder6Coefficient1Chunk11 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2208,7 +2208,7 @@ private def remainder6Coefficient1AlignedChunk12 : Coefficient :=
     (-15962131725836457790242810983832890091298454344481989735046647367116899202)
   ) * X ^ 46
 
-theorem remainder6Coefficient1Chunk12_normalized :
+private theorem remainder6Coefficient1Chunk12_normalized :
     remainder6Coefficient1Chunk12 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2243,7 +2243,7 @@ private def remainder6Coefficient1AlignedChunk13 : Coefficient :=
     (-256744046667862068846674877548849556955561278081750059859069979729416)
   ) * X ^ 38
 
-theorem remainder6Coefficient1Chunk13_normalized :
+private theorem remainder6Coefficient1Chunk13_normalized :
     remainder6Coefficient1Chunk13 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2278,7 +2278,7 @@ private def remainder6Coefficient1AlignedChunk14 : Coefficient :=
     (-30430118864130425748703910565756316113335609827206507214801102)
   ) * X ^ 30
 
-theorem remainder6Coefficient1Chunk14_normalized :
+private theorem remainder6Coefficient1Chunk14_normalized :
     remainder6Coefficient1Chunk14 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2313,7 +2313,7 @@ private def remainder6Coefficient1AlignedChunk15 : Coefficient :=
     (-7492037580113858564025716984583179466893737124276699)
   ) * X ^ 22
 
-theorem remainder6Coefficient1Chunk15_normalized :
+private theorem remainder6Coefficient1Chunk15_normalized :
     remainder6Coefficient1Chunk15 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2348,7 +2348,7 @@ private def remainder6Coefficient1AlignedChunk16 : Coefficient :=
     (-445160742552088933159288853832453337332)
   ) * X ^ 14
 
-theorem remainder6Coefficient1Chunk16_normalized :
+private theorem remainder6Coefficient1Chunk16_normalized :
     remainder6Coefficient1Chunk16 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2383,7 +2383,7 @@ private def remainder6Coefficient1AlignedChunk17 : Coefficient :=
     (14683509676476842482)
   ) * X ^ 6
 
-theorem remainder6Coefficient1Chunk17_normalized :
+private theorem remainder6Coefficient1Chunk17_normalized :
     remainder6Coefficient1Chunk17 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2409,7 +2409,7 @@ private def remainder6Coefficient1AlignedChunk18 : Coefficient :=
     (-7256)
   ) * X ^ 1
 
-theorem remainder6Coefficient1Chunk18_normalized :
+private theorem remainder6Coefficient1Chunk18_normalized :
     remainder6Coefficient1Chunk18 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -2467,7 +2467,7 @@ private def remainder6Coefficient1AlignedChunk0Band16 : Coefficient :=
     (-337816829558560164731485066764570870)
   ) * X ^ 144
 
-theorem remainder6Coefficient1AlignedChunk0_pieces :
+private theorem remainder6Coefficient1AlignedChunk0_pieces :
     remainder6Coefficient1AlignedChunk0 =
       remainder6Coefficient1AlignedChunk0Band15 +
       remainder6Coefficient1AlignedChunk0Band16
@@ -2504,7 +2504,7 @@ private def remainder6Coefficient1AlignedChunk1Band15 : Coefficient :=
     (15345184409244925588514528848807055958775804758572292)
   ) * X ^ 135
 
-theorem remainder6Coefficient1AlignedChunk1_pieces :
+private theorem remainder6Coefficient1AlignedChunk1_pieces :
     remainder6Coefficient1AlignedChunk1 =
       remainder6Coefficient1AlignedChunk1Band14 +
       remainder6Coefficient1AlignedChunk1Band15
@@ -2539,7 +2539,7 @@ private def remainder6Coefficient1AlignedChunk2Band14 : Coefficient :=
     (-16847669313701150440380224201114550344122965770374520620081)
   ) * X ^ 126
 
-theorem remainder6Coefficient1AlignedChunk2_pieces :
+private theorem remainder6Coefficient1AlignedChunk2_pieces :
     remainder6Coefficient1AlignedChunk2 =
       remainder6Coefficient1AlignedChunk2Band14
     := by
@@ -2572,7 +2572,7 @@ private def remainder6Coefficient1AlignedChunk3Band13 : Coefficient :=
     (325781642331751289198860219147812876921388281463088345184029281)
   ) * X ^ 118
 
-theorem remainder6Coefficient1AlignedChunk3_pieces :
+private theorem remainder6Coefficient1AlignedChunk3_pieces :
     remainder6Coefficient1AlignedChunk3 =
       remainder6Coefficient1AlignedChunk3Band13
     := by
@@ -2607,7 +2607,7 @@ private def remainder6Coefficient1AlignedChunk4Band13 : Coefficient :=
     (-1292167493651053931930417523074880279040239280035567209685386183)
   ) * X ^ 117
 
-theorem remainder6Coefficient1AlignedChunk4_pieces :
+private theorem remainder6Coefficient1AlignedChunk4_pieces :
     remainder6Coefficient1AlignedChunk4 =
       remainder6Coefficient1AlignedChunk4Band12 +
       remainder6Coefficient1AlignedChunk4Band13
@@ -2644,7 +2644,7 @@ private def remainder6Coefficient1AlignedChunk5Band12 : Coefficient :=
     (-5266628262613552467751701931599097804853507812602951022137077532246)
   ) * X ^ 108
 
-theorem remainder6Coefficient1AlignedChunk5_pieces :
+private theorem remainder6Coefficient1AlignedChunk5_pieces :
     remainder6Coefficient1AlignedChunk5 =
       remainder6Coefficient1AlignedChunk5Band11 +
       remainder6Coefficient1AlignedChunk5Band12
@@ -2681,7 +2681,7 @@ private def remainder6Coefficient1AlignedChunk6Band11 : Coefficient :=
     (52188785806971160040365933102123305324874396735897714817956942976590820)
   ) * X ^ 99
 
-theorem remainder6Coefficient1AlignedChunk6_pieces :
+private theorem remainder6Coefficient1AlignedChunk6_pieces :
     remainder6Coefficient1AlignedChunk6 =
       remainder6Coefficient1AlignedChunk6Band10 +
       remainder6Coefficient1AlignedChunk6Band11
@@ -2718,7 +2718,7 @@ private def remainder6Coefficient1AlignedChunk7Band10 : Coefficient :=
     (-20425123301791903508084023287307768952044757984571641977496110172681710774)
   ) * X ^ 90
 
-theorem remainder6Coefficient1AlignedChunk7_pieces :
+private theorem remainder6Coefficient1AlignedChunk7_pieces :
     remainder6Coefficient1AlignedChunk7 =
       remainder6Coefficient1AlignedChunk7Band9 +
       remainder6Coefficient1AlignedChunk7Band10
@@ -2755,7 +2755,7 @@ private def remainder6Coefficient1AlignedChunk8Band9 : Coefficient :=
     (91246490511293030876261308691543357744702656490978704395707013799069138165)
   ) * X ^ 81
 
-theorem remainder6Coefficient1AlignedChunk8_pieces :
+private theorem remainder6Coefficient1AlignedChunk8_pieces :
     remainder6Coefficient1AlignedChunk8 =
       remainder6Coefficient1AlignedChunk8Band8 +
       remainder6Coefficient1AlignedChunk8Band9
@@ -2797,7 +2797,7 @@ private def remainder6Coefficient1AlignedChunk9Band8 : Coefficient :=
       28406292696161748032539526604229462632624739479461906214693181681686189108618))
   ) * X ^ 72
 
-theorem remainder6Coefficient1AlignedChunk9_pieces :
+private theorem remainder6Coefficient1AlignedChunk9_pieces :
     remainder6Coefficient1AlignedChunk9 =
       remainder6Coefficient1AlignedChunk9Band7 +
       remainder6Coefficient1AlignedChunk9Band8
@@ -2842,7 +2842,7 @@ private def remainder6Coefficient1AlignedChunk10Band7 : Coefficient :=
       11271018973226403084610152716471651023882845672525092523337251433164613472134))
   ) * X ^ 63
 
-theorem remainder6Coefficient1AlignedChunk10_pieces :
+private theorem remainder6Coefficient1AlignedChunk10_pieces :
     remainder6Coefficient1AlignedChunk10 =
       remainder6Coefficient1AlignedChunk10Band6 +
       remainder6Coefficient1AlignedChunk10Band7
@@ -2881,7 +2881,7 @@ private def remainder6Coefficient1AlignedChunk11Band6 : Coefficient :=
     (-16172052832881799815811386572291649978653870364345077102585740015073912224369)
   ) * X ^ 54
 
-theorem remainder6Coefficient1AlignedChunk11_pieces :
+private theorem remainder6Coefficient1AlignedChunk11_pieces :
     remainder6Coefficient1AlignedChunk11 =
       remainder6Coefficient1AlignedChunk11Band6
     := by
@@ -2914,7 +2914,7 @@ private def remainder6Coefficient1AlignedChunk12Band5 : Coefficient :=
     (-15962131725836457790242810983832890091298454344481989735046647367116899202)
   ) * X ^ 46
 
-theorem remainder6Coefficient1AlignedChunk12_pieces :
+private theorem remainder6Coefficient1AlignedChunk12_pieces :
     remainder6Coefficient1AlignedChunk12 =
       remainder6Coefficient1AlignedChunk12Band5
     := by
@@ -2949,7 +2949,7 @@ private def remainder6Coefficient1AlignedChunk13Band5 : Coefficient :=
     (5095851787694845478251494884234271688780572292005832692277220333991379951)
   ) * X ^ 45
 
-theorem remainder6Coefficient1AlignedChunk13_pieces :
+private theorem remainder6Coefficient1AlignedChunk13_pieces :
     remainder6Coefficient1AlignedChunk13 =
       remainder6Coefficient1AlignedChunk13Band4 +
       remainder6Coefficient1AlignedChunk13Band5
@@ -2986,7 +2986,7 @@ private def remainder6Coefficient1AlignedChunk14Band4 : Coefficient :=
     (-7854971716047596331840317568446269343944541014517362983168032009836)
   ) * X ^ 36
 
-theorem remainder6Coefficient1AlignedChunk14_pieces :
+private theorem remainder6Coefficient1AlignedChunk14_pieces :
     remainder6Coefficient1AlignedChunk14 =
       remainder6Coefficient1AlignedChunk14Band3 +
       remainder6Coefficient1AlignedChunk14Band4
@@ -3023,7 +3023,7 @@ private def remainder6Coefficient1AlignedChunk15Band3 : Coefficient :=
     (17095112018455109258051668393162863828761984749719538924471)
   ) * X ^ 27
 
-theorem remainder6Coefficient1AlignedChunk15_pieces :
+private theorem remainder6Coefficient1AlignedChunk15_pieces :
     remainder6Coefficient1AlignedChunk15 =
       remainder6Coefficient1AlignedChunk15Band2 +
       remainder6Coefficient1AlignedChunk15Band3
@@ -3060,7 +3060,7 @@ private def remainder6Coefficient1AlignedChunk16Band2 : Coefficient :=
     (-6304031064275710298920670199834042939195399665)
   ) * X ^ 18
 
-theorem remainder6Coefficient1AlignedChunk16_pieces :
+private theorem remainder6Coefficient1AlignedChunk16_pieces :
     remainder6Coefficient1AlignedChunk16 =
       remainder6Coefficient1AlignedChunk16Band1 +
       remainder6Coefficient1AlignedChunk16Band2
@@ -3097,7 +3097,7 @@ private def remainder6Coefficient1AlignedChunk17Band1 : Coefficient :=
     (4566186685707920356612547512)
   ) * X ^ 9
 
-theorem remainder6Coefficient1AlignedChunk17_pieces :
+private theorem remainder6Coefficient1AlignedChunk17_pieces :
     remainder6Coefficient1AlignedChunk17 =
       remainder6Coefficient1AlignedChunk17Band0 +
       remainder6Coefficient1AlignedChunk17Band1
@@ -3123,14 +3123,14 @@ private def remainder6Coefficient1AlignedChunk18Band0 : Coefficient :=
     (-7256)
   ) * X ^ 1
 
-theorem remainder6Coefficient1AlignedChunk18_pieces :
+private theorem remainder6Coefficient1AlignedChunk18_pieces :
     remainder6Coefficient1AlignedChunk18 =
       remainder6Coefficient1AlignedChunk18Band0
     := by
   unfold remainder6Coefficient1AlignedChunk18 remainder6Coefficient1AlignedChunk18Band0
   ring
 
-theorem remainder6Coefficient1AlignedBand0_eq :
+private theorem remainder6Coefficient1AlignedBand0_eq :
     remainder6Coefficient1NormalizedBlock0 =
       remainder6Coefficient1AlignedChunk17Band0 +
       remainder6Coefficient1AlignedChunk18Band0
@@ -3140,7 +3140,7 @@ theorem remainder6Coefficient1AlignedBand0_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand1_eq :
+private theorem remainder6Coefficient1AlignedBand1_eq :
     remainder6Coefficient1NormalizedBlock1 =
       remainder6Coefficient1AlignedChunk16Band1 +
       remainder6Coefficient1AlignedChunk17Band1
@@ -3150,7 +3150,7 @@ theorem remainder6Coefficient1AlignedBand1_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand2_eq :
+private theorem remainder6Coefficient1AlignedBand2_eq :
     remainder6Coefficient1NormalizedBlock2 =
       remainder6Coefficient1AlignedChunk15Band2 +
       remainder6Coefficient1AlignedChunk16Band2
@@ -3160,7 +3160,7 @@ theorem remainder6Coefficient1AlignedBand2_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand3_eq :
+private theorem remainder6Coefficient1AlignedBand3_eq :
     remainder6Coefficient1NormalizedBlock3 =
       remainder6Coefficient1AlignedChunk14Band3 +
       remainder6Coefficient1AlignedChunk15Band3
@@ -3170,7 +3170,7 @@ theorem remainder6Coefficient1AlignedBand3_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand4_eq :
+private theorem remainder6Coefficient1AlignedBand4_eq :
     remainder6Coefficient1NormalizedBlock4 =
       remainder6Coefficient1AlignedChunk13Band4 +
       remainder6Coefficient1AlignedChunk14Band4
@@ -3180,7 +3180,7 @@ theorem remainder6Coefficient1AlignedBand4_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand5_eq :
+private theorem remainder6Coefficient1AlignedBand5_eq :
     remainder6Coefficient1NormalizedBlock5 =
       remainder6Coefficient1AlignedChunk12Band5 +
       remainder6Coefficient1AlignedChunk13Band5
@@ -3190,7 +3190,7 @@ theorem remainder6Coefficient1AlignedBand5_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand6_eq :
+private theorem remainder6Coefficient1AlignedBand6_eq :
     remainder6Coefficient1NormalizedBlock6 =
       remainder6Coefficient1AlignedChunk10Band6 +
       remainder6Coefficient1AlignedChunk11Band6
@@ -3200,7 +3200,7 @@ theorem remainder6Coefficient1AlignedBand6_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand7_eq :
+private theorem remainder6Coefficient1AlignedBand7_eq :
     remainder6Coefficient1NormalizedBlock7 =
       remainder6Coefficient1AlignedChunk9Band7 +
       remainder6Coefficient1AlignedChunk10Band7
@@ -3210,7 +3210,7 @@ theorem remainder6Coefficient1AlignedBand7_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand8_eq :
+private theorem remainder6Coefficient1AlignedBand8_eq :
     remainder6Coefficient1NormalizedBlock8 =
       remainder6Coefficient1AlignedChunk8Band8 +
       remainder6Coefficient1AlignedChunk9Band8
@@ -3220,7 +3220,7 @@ theorem remainder6Coefficient1AlignedBand8_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand9_eq :
+private theorem remainder6Coefficient1AlignedBand9_eq :
     remainder6Coefficient1NormalizedBlock9 =
       remainder6Coefficient1AlignedChunk7Band9 +
       remainder6Coefficient1AlignedChunk8Band9
@@ -3230,7 +3230,7 @@ theorem remainder6Coefficient1AlignedBand9_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand10_eq :
+private theorem remainder6Coefficient1AlignedBand10_eq :
     remainder6Coefficient1NormalizedBlock10 =
       remainder6Coefficient1AlignedChunk6Band10 +
       remainder6Coefficient1AlignedChunk7Band10
@@ -3240,7 +3240,7 @@ theorem remainder6Coefficient1AlignedBand10_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand11_eq :
+private theorem remainder6Coefficient1AlignedBand11_eq :
     remainder6Coefficient1NormalizedBlock11 =
       remainder6Coefficient1AlignedChunk5Band11 +
       remainder6Coefficient1AlignedChunk6Band11
@@ -3250,7 +3250,7 @@ theorem remainder6Coefficient1AlignedBand11_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand12_eq :
+private theorem remainder6Coefficient1AlignedBand12_eq :
     remainder6Coefficient1NormalizedBlock12 =
       remainder6Coefficient1AlignedChunk4Band12 +
       remainder6Coefficient1AlignedChunk5Band12
@@ -3260,7 +3260,7 @@ theorem remainder6Coefficient1AlignedBand12_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand13_eq :
+private theorem remainder6Coefficient1AlignedBand13_eq :
     remainder6Coefficient1NormalizedBlock13 =
       remainder6Coefficient1AlignedChunk3Band13 +
       remainder6Coefficient1AlignedChunk4Band13
@@ -3270,7 +3270,7 @@ theorem remainder6Coefficient1AlignedBand13_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand14_eq :
+private theorem remainder6Coefficient1AlignedBand14_eq :
     remainder6Coefficient1NormalizedBlock14 =
       remainder6Coefficient1AlignedChunk1Band14 +
       remainder6Coefficient1AlignedChunk2Band14
@@ -3280,7 +3280,7 @@ theorem remainder6Coefficient1AlignedBand14_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand15_eq :
+private theorem remainder6Coefficient1AlignedBand15_eq :
     remainder6Coefficient1NormalizedBlock15 =
       remainder6Coefficient1AlignedChunk0Band15 +
       remainder6Coefficient1AlignedChunk1Band15
@@ -3290,7 +3290,7 @@ theorem remainder6Coefficient1AlignedBand15_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1AlignedBand16_eq :
+private theorem remainder6Coefficient1AlignedBand16_eq :
     remainder6Coefficient1NormalizedBlock16 =
       remainder6Coefficient1AlignedChunk0Band16
     := by
@@ -3298,7 +3298,7 @@ theorem remainder6Coefficient1AlignedBand16_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient1Aligned_eq :
+private theorem remainder6Coefficient1Aligned_eq :
     remainder6Coefficient1Aligned = remainder6Coefficient1Normalized := by
   unfold remainder6Coefficient1Aligned remainder6Coefficient1Normalized
   rw [remainder6Coefficient1AlignedChunk0_pieces]
@@ -3339,7 +3339,7 @@ theorem remainder6Coefficient1Aligned_eq :
   rw [remainder6Coefficient1AlignedBand16_eq]
   ring
 
-theorem remainder6Coefficient1_eq_normalized :
+private theorem remainder6Coefficient1_eq_normalized :
     remainder6Coefficient1 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3394,7 +3394,7 @@ private def remainder6Coefficient2AlignedChunk0 : Coefficient :=
     (187346906381980229194703126609479794476830)
   ) * X ^ 138
 
-theorem remainder6Coefficient2Chunk0_normalized :
+private theorem remainder6Coefficient2Chunk0_normalized :
     remainder6Coefficient2Chunk0 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3429,7 +3429,7 @@ private def remainder6Coefficient2AlignedChunk1 : Coefficient :=
     (-195594830294760904912883832037913859582322201300968410)
   ) * X ^ 130
 
-theorem remainder6Coefficient2Chunk1_normalized :
+private theorem remainder6Coefficient2Chunk1_normalized :
     remainder6Coefficient2Chunk1 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3464,7 +3464,7 @@ private def remainder6Coefficient2AlignedChunk2 : Coefficient :=
     (-33892399271717625504990669656689046133811256075925855627505)
   ) * X ^ 122
 
-theorem remainder6Coefficient2Chunk2_normalized :
+private theorem remainder6Coefficient2Chunk2_normalized :
     remainder6Coefficient2Chunk2 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3499,7 +3499,7 @@ private def remainder6Coefficient2AlignedChunk3 : Coefficient :=
     (-3017820519501414118979390700298643824719871727421466764431652761)
   ) * X ^ 114
 
-theorem remainder6Coefficient2Chunk3_normalized :
+private theorem remainder6Coefficient2Chunk3_normalized :
     remainder6Coefficient2Chunk3 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3534,7 +3534,7 @@ private def remainder6Coefficient2AlignedChunk4 : Coefficient :=
     (-7698641985646935195079739978106428239633764916984276272068174170149)
   ) * X ^ 106
 
-theorem remainder6Coefficient2Chunk4_normalized :
+private theorem remainder6Coefficient2Chunk4_normalized :
     remainder6Coefficient2Chunk4 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3569,7 +3569,7 @@ private def remainder6Coefficient2AlignedChunk5 : Coefficient :=
     (1487241384429296246696038225936419695519235592122859474472320612921002)
   ) * X ^ 98
 
-theorem remainder6Coefficient2Chunk5_normalized :
+private theorem remainder6Coefficient2Chunk5_normalized :
     remainder6Coefficient2Chunk5 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3604,7 +3604,7 @@ private def remainder6Coefficient2AlignedChunk6 : Coefficient :=
     (-1825283987394403183884872310673072778685610687146927466659745189705127416)
   ) * X ^ 90
 
-theorem remainder6Coefficient2Chunk6_normalized :
+private theorem remainder6Coefficient2Chunk6_normalized :
     remainder6Coefficient2Chunk6 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3639,7 +3639,7 @@ private def remainder6Coefficient2AlignedChunk7 : Coefficient :=
     (29255683232251168203546379794185426658245505766998288030485726460522711783)
   ) * X ^ 82
 
-theorem remainder6Coefficient2Chunk7_normalized :
+private theorem remainder6Coefficient2Chunk7_normalized :
     remainder6Coefficient2Chunk7 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3674,7 +3674,7 @@ private def remainder6Coefficient2AlignedChunk8 : Coefficient :=
     (-1634359348729489030969588443518164653677146083727512516502833661070409296878)
   ) * X ^ 74
 
-theorem remainder6Coefficient2Chunk8_normalized :
+private theorem remainder6Coefficient2Chunk8_normalized :
     remainder6Coefficient2Chunk8 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3709,7 +3709,7 @@ private def remainder6Coefficient2AlignedChunk9 : Coefficient :=
     (-25864283673987277749290170335716698911724476290632260662688609329163680026745)
   ) * X ^ 66
 
-theorem remainder6Coefficient2Chunk9_normalized :
+private theorem remainder6Coefficient2Chunk9_normalized :
     remainder6Coefficient2Chunk9 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3744,7 +3744,7 @@ private def remainder6Coefficient2AlignedChunk10 : Coefficient :=
     (-12201354402513224268443248908035922952801640966348517011976295820834004496272)
   ) * X ^ 58
 
-theorem remainder6Coefficient2Chunk10_normalized :
+private theorem remainder6Coefficient2Chunk10_normalized :
     remainder6Coefficient2Chunk10 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3779,7 +3779,7 @@ private def remainder6Coefficient2AlignedChunk11 : Coefficient :=
     (-159272680085665554005412039868340008540313742102294464018272462502083319687)
   ) * X ^ 50
 
-theorem remainder6Coefficient2Chunk11_normalized :
+private theorem remainder6Coefficient2Chunk11_normalized :
     remainder6Coefficient2Chunk11 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3814,7 +3814,7 @@ private def remainder6Coefficient2AlignedChunk12 : Coefficient :=
     (-40542392880417114577827595217658727606296695805101361776225317999217069)
   ) * X ^ 42
 
-theorem remainder6Coefficient2Chunk12_normalized :
+private theorem remainder6Coefficient2Chunk12_normalized :
     remainder6Coefficient2Chunk12 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3849,7 +3849,7 @@ private def remainder6Coefficient2AlignedChunk13 : Coefficient :=
     (-109719477140794198875804753073087276758841812036497929336081139014)
   ) * X ^ 34
 
-theorem remainder6Coefficient2Chunk13_normalized :
+private theorem remainder6Coefficient2Chunk13_normalized :
     remainder6Coefficient2Chunk13 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3884,7 +3884,7 @@ private def remainder6Coefficient2AlignedChunk14 : Coefficient :=
     (-1202354195785995779654082890523225913149444782850165542138)
   ) * X ^ 26
 
-theorem remainder6Coefficient2Chunk14_normalized :
+private theorem remainder6Coefficient2Chunk14_normalized :
     remainder6Coefficient2Chunk14 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3919,7 +3919,7 @@ private def remainder6Coefficient2AlignedChunk15 : Coefficient :=
     (-11411972561018474511482830968748711674910782454)
   ) * X ^ 18
 
-theorem remainder6Coefficient2Chunk15_normalized :
+private theorem remainder6Coefficient2Chunk15_normalized :
     remainder6Coefficient2Chunk15 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3954,7 +3954,7 @@ private def remainder6Coefficient2AlignedChunk16 : Coefficient :=
     (-4912615674644929106442104887993)
   ) * X ^ 10
 
-theorem remainder6Coefficient2Chunk16_normalized :
+private theorem remainder6Coefficient2Chunk16_normalized :
     remainder6Coefficient2Chunk16 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -3989,7 +3989,7 @@ private def remainder6Coefficient2AlignedChunk17 : Coefficient :=
     (615854540)
   ) * X ^ 2
 
-theorem remainder6Coefficient2Chunk17_normalized :
+private theorem remainder6Coefficient2Chunk17_normalized :
     remainder6Coefficient2Chunk17 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -4006,7 +4006,7 @@ private def remainder6Coefficient2AlignedChunk18 : Coefficient :=
     (64)
   ) * X ^ 0
 
-theorem remainder6Coefficient2Chunk18_normalized :
+private theorem remainder6Coefficient2Chunk18_normalized :
     remainder6Coefficient2Chunk18 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -4064,7 +4064,7 @@ private def remainder6Coefficient2AlignedChunk0Band16 : Coefficient :=
     (-4546261986553142511)
   ) * X ^ 144
 
-theorem remainder6Coefficient2AlignedChunk0_pieces :
+private theorem remainder6Coefficient2AlignedChunk0_pieces :
     remainder6Coefficient2AlignedChunk0 =
       remainder6Coefficient2AlignedChunk0Band15 +
       remainder6Coefficient2AlignedChunk0Band16
@@ -4101,7 +4101,7 @@ private def remainder6Coefficient2AlignedChunk1Band15 : Coefficient :=
     (591008386365947537000114344954823635360971745906)
   ) * X ^ 135
 
-theorem remainder6Coefficient2AlignedChunk1_pieces :
+private theorem remainder6Coefficient2AlignedChunk1_pieces :
     remainder6Coefficient2AlignedChunk1 =
       remainder6Coefficient2AlignedChunk1Band14 +
       remainder6Coefficient2AlignedChunk1Band15
@@ -4138,7 +4138,7 @@ private def remainder6Coefficient2AlignedChunk2Band14 : Coefficient :=
     (155684269321619547732468191234796906329716308101652097255)
   ) * X ^ 126
 
-theorem remainder6Coefficient2AlignedChunk2_pieces :
+private theorem remainder6Coefficient2AlignedChunk2_pieces :
     remainder6Coefficient2AlignedChunk2 =
       remainder6Coefficient2AlignedChunk2Band13 +
       remainder6Coefficient2AlignedChunk2Band14
@@ -4175,7 +4175,7 @@ private def remainder6Coefficient2AlignedChunk3Band13 : Coefficient :=
     (55337461318206169427991435619705519513791299960550277448332040)
   ) * X ^ 117
 
-theorem remainder6Coefficient2AlignedChunk3_pieces :
+private theorem remainder6Coefficient2AlignedChunk3_pieces :
     remainder6Coefficient2AlignedChunk3 =
       remainder6Coefficient2AlignedChunk3Band12 +
       remainder6Coefficient2AlignedChunk3Band13
@@ -4212,7 +4212,7 @@ private def remainder6Coefficient2AlignedChunk4Band12 : Coefficient :=
     (-1492387759583358590386188782019477671298160995931872813895358122239)
   ) * X ^ 108
 
-theorem remainder6Coefficient2AlignedChunk4_pieces :
+private theorem remainder6Coefficient2AlignedChunk4_pieces :
     remainder6Coefficient2AlignedChunk4 =
       remainder6Coefficient2AlignedChunk4Band11 +
       remainder6Coefficient2AlignedChunk4Band12
@@ -4249,7 +4249,7 @@ private def remainder6Coefficient2AlignedChunk5Band11 : Coefficient :=
     (-560213934976663414978907941119988428069349063298299953694111138970854)
   ) * X ^ 99
 
-theorem remainder6Coefficient2AlignedChunk5_pieces :
+private theorem remainder6Coefficient2AlignedChunk5_pieces :
     remainder6Coefficient2AlignedChunk5 =
       remainder6Coefficient2AlignedChunk5Band10 +
       remainder6Coefficient2AlignedChunk5Band11
@@ -4284,7 +4284,7 @@ private def remainder6Coefficient2AlignedChunk6Band10 : Coefficient :=
     (-1825283987394403183884872310673072778685610687146927466659745189705127416)
   ) * X ^ 90
 
-theorem remainder6Coefficient2AlignedChunk6_pieces :
+private theorem remainder6Coefficient2AlignedChunk6_pieces :
     remainder6Coefficient2AlignedChunk6 =
       remainder6Coefficient2AlignedChunk6Band10
     := by
@@ -4317,7 +4317,7 @@ private def remainder6Coefficient2AlignedChunk7Band9 : Coefficient :=
     (29255683232251168203546379794185426658245505766998288030485726460522711783)
   ) * X ^ 82
 
-theorem remainder6Coefficient2AlignedChunk7_pieces :
+private theorem remainder6Coefficient2AlignedChunk7_pieces :
     remainder6Coefficient2AlignedChunk7 =
       remainder6Coefficient2AlignedChunk7Band9
     := by
@@ -4352,7 +4352,7 @@ private def remainder6Coefficient2AlignedChunk8Band9 : Coefficient :=
     (-43968518932560674349333910310572830855198132345908480291712859680761145307)
   ) * X ^ 81
 
-theorem remainder6Coefficient2AlignedChunk8_pieces :
+private theorem remainder6Coefficient2AlignedChunk8_pieces :
     remainder6Coefficient2AlignedChunk8 =
       remainder6Coefficient2AlignedChunk8Band8 +
       remainder6Coefficient2AlignedChunk8Band9
@@ -4389,7 +4389,7 @@ private def remainder6Coefficient2AlignedChunk9Band8 : Coefficient :=
     (-4657442894716196302657454051225033621427287388144250440198514632378232453960)
   ) * X ^ 72
 
-theorem remainder6Coefficient2AlignedChunk9_pieces :
+private theorem remainder6Coefficient2AlignedChunk9_pieces :
     remainder6Coefficient2AlignedChunk9 =
       remainder6Coefficient2AlignedChunk9Band7 +
       remainder6Coefficient2AlignedChunk9Band8
@@ -4426,7 +4426,7 @@ private def remainder6Coefficient2AlignedChunk10Band7 : Coefficient :=
     (29319980919626898249757570126203368952748775669186620640859415396292356902696)
   ) * X ^ 63
 
-theorem remainder6Coefficient2AlignedChunk10_pieces :
+private theorem remainder6Coefficient2AlignedChunk10_pieces :
     remainder6Coefficient2AlignedChunk10 =
       remainder6Coefficient2AlignedChunk10Band6 +
       remainder6Coefficient2AlignedChunk10Band7
@@ -4463,7 +4463,7 @@ private def remainder6Coefficient2AlignedChunk11Band6 : Coefficient :=
     (-2219513121535030164270397780679264356970392489509421053042722075040153528177)
   ) * X ^ 54
 
-theorem remainder6Coefficient2AlignedChunk11_pieces :
+private theorem remainder6Coefficient2AlignedChunk11_pieces :
     remainder6Coefficient2AlignedChunk11 =
       remainder6Coefficient2AlignedChunk11Band5 +
       remainder6Coefficient2AlignedChunk11Band6
@@ -4500,7 +4500,7 @@ private def remainder6Coefficient2AlignedChunk12Band5 : Coefficient :=
     (1479223768525695267592548312069830549695338278071574379291993015701877127)
   ) * X ^ 45
 
-theorem remainder6Coefficient2AlignedChunk12_pieces :
+private theorem remainder6Coefficient2AlignedChunk12_pieces :
     remainder6Coefficient2AlignedChunk12 =
       remainder6Coefficient2AlignedChunk12Band4 +
       remainder6Coefficient2AlignedChunk12Band5
@@ -4537,7 +4537,7 @@ private def remainder6Coefficient2AlignedChunk13Band4 : Coefficient :=
     (-4333812672091614152071693198914448727981015618394225383520385030545)
   ) * X ^ 36
 
-theorem remainder6Coefficient2AlignedChunk13_pieces :
+private theorem remainder6Coefficient2AlignedChunk13_pieces :
     remainder6Coefficient2AlignedChunk13 =
       remainder6Coefficient2AlignedChunk13Band3 +
       remainder6Coefficient2AlignedChunk13Band4
@@ -4574,7 +4574,7 @@ private def remainder6Coefficient2AlignedChunk14Band3 : Coefficient :=
     (16806182195916905765842794014671909484794622698826126455197)
   ) * X ^ 27
 
-theorem remainder6Coefficient2AlignedChunk14_pieces :
+private theorem remainder6Coefficient2AlignedChunk14_pieces :
     remainder6Coefficient2AlignedChunk14 =
       remainder6Coefficient2AlignedChunk14Band2 +
       remainder6Coefficient2AlignedChunk14Band3
@@ -4609,7 +4609,7 @@ private def remainder6Coefficient2AlignedChunk15Band2 : Coefficient :=
     (-11411972561018474511482830968748711674910782454)
   ) * X ^ 18
 
-theorem remainder6Coefficient2AlignedChunk15_pieces :
+private theorem remainder6Coefficient2AlignedChunk15_pieces :
     remainder6Coefficient2AlignedChunk15 =
       remainder6Coefficient2AlignedChunk15Band2
     := by
@@ -4642,7 +4642,7 @@ private def remainder6Coefficient2AlignedChunk16Band1 : Coefficient :=
     (-4912615674644929106442104887993)
   ) * X ^ 10
 
-theorem remainder6Coefficient2AlignedChunk16_pieces :
+private theorem remainder6Coefficient2AlignedChunk16_pieces :
     remainder6Coefficient2AlignedChunk16 =
       remainder6Coefficient2AlignedChunk16Band1
     := by
@@ -4677,7 +4677,7 @@ private def remainder6Coefficient2AlignedChunk17Band1 : Coefficient :=
     (21010651248469401769408684890)
   ) * X ^ 9
 
-theorem remainder6Coefficient2AlignedChunk17_pieces :
+private theorem remainder6Coefficient2AlignedChunk17_pieces :
     remainder6Coefficient2AlignedChunk17 =
       remainder6Coefficient2AlignedChunk17Band0 +
       remainder6Coefficient2AlignedChunk17Band1
@@ -4694,14 +4694,14 @@ private def remainder6Coefficient2AlignedChunk18Band0 : Coefficient :=
     (64)
   ) * X ^ 0
 
-theorem remainder6Coefficient2AlignedChunk18_pieces :
+private theorem remainder6Coefficient2AlignedChunk18_pieces :
     remainder6Coefficient2AlignedChunk18 =
       remainder6Coefficient2AlignedChunk18Band0
     := by
   unfold remainder6Coefficient2AlignedChunk18 remainder6Coefficient2AlignedChunk18Band0
   ring
 
-theorem remainder6Coefficient2AlignedBand0_eq :
+private theorem remainder6Coefficient2AlignedBand0_eq :
     remainder6Coefficient2NormalizedBlock0 =
       remainder6Coefficient2AlignedChunk17Band0 +
       remainder6Coefficient2AlignedChunk18Band0
@@ -4711,7 +4711,7 @@ theorem remainder6Coefficient2AlignedBand0_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand1_eq :
+private theorem remainder6Coefficient2AlignedBand1_eq :
     remainder6Coefficient2NormalizedBlock1 =
       remainder6Coefficient2AlignedChunk16Band1 +
       remainder6Coefficient2AlignedChunk17Band1
@@ -4721,7 +4721,7 @@ theorem remainder6Coefficient2AlignedBand1_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand2_eq :
+private theorem remainder6Coefficient2AlignedBand2_eq :
     remainder6Coefficient2NormalizedBlock2 =
       remainder6Coefficient2AlignedChunk14Band2 +
       remainder6Coefficient2AlignedChunk15Band2
@@ -4731,7 +4731,7 @@ theorem remainder6Coefficient2AlignedBand2_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand3_eq :
+private theorem remainder6Coefficient2AlignedBand3_eq :
     remainder6Coefficient2NormalizedBlock3 =
       remainder6Coefficient2AlignedChunk13Band3 +
       remainder6Coefficient2AlignedChunk14Band3
@@ -4741,7 +4741,7 @@ theorem remainder6Coefficient2AlignedBand3_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand4_eq :
+private theorem remainder6Coefficient2AlignedBand4_eq :
     remainder6Coefficient2NormalizedBlock4 =
       remainder6Coefficient2AlignedChunk12Band4 +
       remainder6Coefficient2AlignedChunk13Band4
@@ -4751,7 +4751,7 @@ theorem remainder6Coefficient2AlignedBand4_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand5_eq :
+private theorem remainder6Coefficient2AlignedBand5_eq :
     remainder6Coefficient2NormalizedBlock5 =
       remainder6Coefficient2AlignedChunk11Band5 +
       remainder6Coefficient2AlignedChunk12Band5
@@ -4761,7 +4761,7 @@ theorem remainder6Coefficient2AlignedBand5_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand6_eq :
+private theorem remainder6Coefficient2AlignedBand6_eq :
     remainder6Coefficient2NormalizedBlock6 =
       remainder6Coefficient2AlignedChunk10Band6 +
       remainder6Coefficient2AlignedChunk11Band6
@@ -4771,7 +4771,7 @@ theorem remainder6Coefficient2AlignedBand6_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand7_eq :
+private theorem remainder6Coefficient2AlignedBand7_eq :
     remainder6Coefficient2NormalizedBlock7 =
       remainder6Coefficient2AlignedChunk9Band7 +
       remainder6Coefficient2AlignedChunk10Band7
@@ -4781,7 +4781,7 @@ theorem remainder6Coefficient2AlignedBand7_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand8_eq :
+private theorem remainder6Coefficient2AlignedBand8_eq :
     remainder6Coefficient2NormalizedBlock8 =
       remainder6Coefficient2AlignedChunk8Band8 +
       remainder6Coefficient2AlignedChunk9Band8
@@ -4791,7 +4791,7 @@ theorem remainder6Coefficient2AlignedBand8_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand9_eq :
+private theorem remainder6Coefficient2AlignedBand9_eq :
     remainder6Coefficient2NormalizedBlock9 =
       remainder6Coefficient2AlignedChunk7Band9 +
       remainder6Coefficient2AlignedChunk8Band9
@@ -4801,7 +4801,7 @@ theorem remainder6Coefficient2AlignedBand9_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand10_eq :
+private theorem remainder6Coefficient2AlignedBand10_eq :
     remainder6Coefficient2NormalizedBlock10 =
       remainder6Coefficient2AlignedChunk5Band10 +
       remainder6Coefficient2AlignedChunk6Band10
@@ -4811,7 +4811,7 @@ theorem remainder6Coefficient2AlignedBand10_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand11_eq :
+private theorem remainder6Coefficient2AlignedBand11_eq :
     remainder6Coefficient2NormalizedBlock11 =
       remainder6Coefficient2AlignedChunk4Band11 +
       remainder6Coefficient2AlignedChunk5Band11
@@ -4821,7 +4821,7 @@ theorem remainder6Coefficient2AlignedBand11_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand12_eq :
+private theorem remainder6Coefficient2AlignedBand12_eq :
     remainder6Coefficient2NormalizedBlock12 =
       remainder6Coefficient2AlignedChunk3Band12 +
       remainder6Coefficient2AlignedChunk4Band12
@@ -4831,7 +4831,7 @@ theorem remainder6Coefficient2AlignedBand12_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand13_eq :
+private theorem remainder6Coefficient2AlignedBand13_eq :
     remainder6Coefficient2NormalizedBlock13 =
       remainder6Coefficient2AlignedChunk2Band13 +
       remainder6Coefficient2AlignedChunk3Band13
@@ -4841,7 +4841,7 @@ theorem remainder6Coefficient2AlignedBand13_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand14_eq :
+private theorem remainder6Coefficient2AlignedBand14_eq :
     remainder6Coefficient2NormalizedBlock14 =
       remainder6Coefficient2AlignedChunk1Band14 +
       remainder6Coefficient2AlignedChunk2Band14
@@ -4851,7 +4851,7 @@ theorem remainder6Coefficient2AlignedBand14_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand15_eq :
+private theorem remainder6Coefficient2AlignedBand15_eq :
     remainder6Coefficient2NormalizedBlock15 =
       remainder6Coefficient2AlignedChunk0Band15 +
       remainder6Coefficient2AlignedChunk1Band15
@@ -4861,7 +4861,7 @@ theorem remainder6Coefficient2AlignedBand15_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2AlignedBand16_eq :
+private theorem remainder6Coefficient2AlignedBand16_eq :
     remainder6Coefficient2NormalizedBlock16 =
       remainder6Coefficient2AlignedChunk0Band16
     := by
@@ -4869,7 +4869,7 @@ theorem remainder6Coefficient2AlignedBand16_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder6Coefficient2Aligned_eq :
+private theorem remainder6Coefficient2Aligned_eq :
     remainder6Coefficient2Aligned = remainder6Coefficient2Normalized := by
   unfold remainder6Coefficient2Aligned remainder6Coefficient2Normalized
   rw [remainder6Coefficient2AlignedChunk0_pieces]
@@ -4910,7 +4910,7 @@ theorem remainder6Coefficient2Aligned_eq :
   rw [remainder6Coefficient2AlignedBand16_eq]
   ring
 
-theorem remainder6Coefficient2_eq_normalized :
+private theorem remainder6Coefficient2_eq_normalized :
     remainder6Coefficient2 =
       ratC% (
         (169974242287568876381639744907962243436895047572089)
@@ -4965,7 +4965,7 @@ private def remainder7Coefficient0AlignedChunk0 : Coefficient :=
     (10477660306845060360644614411)
   ) * X ^ 81
 
-theorem remainder7Coefficient0Chunk0_normalized :
+private theorem remainder7Coefficient0Chunk0_normalized :
     remainder7Coefficient0Chunk0 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5001,7 +5001,7 @@ private def remainder7Coefficient0AlignedChunk1 : Coefficient :=
     (-26000289674995471447788103119901955)
   ) * X ^ 73
 
-theorem remainder7Coefficient0Chunk1_normalized :
+private theorem remainder7Coefficient0Chunk1_normalized :
     remainder7Coefficient0Chunk1 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5037,7 +5037,7 @@ private def remainder7Coefficient0AlignedChunk2 : Coefficient :=
     (416068241098783298139826059772715972545)
   ) * X ^ 65
 
-theorem remainder7Coefficient0Chunk2_normalized :
+private theorem remainder7Coefficient0Chunk2_normalized :
     remainder7Coefficient0Chunk2 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5073,7 +5073,7 @@ private def remainder7Coefficient0AlignedChunk3 : Coefficient :=
     (32151263824530259001168664020939017680127)
   ) * X ^ 57
 
-theorem remainder7Coefficient0Chunk3_normalized :
+private theorem remainder7Coefficient0Chunk3_normalized :
     remainder7Coefficient0Chunk3 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5109,7 +5109,7 @@ private def remainder7Coefficient0AlignedChunk4 : Coefficient :=
     (17700169061522660189499102186315044486474827)
   ) * X ^ 49
 
-theorem remainder7Coefficient0Chunk4_normalized :
+private theorem remainder7Coefficient0Chunk4_normalized :
     remainder7Coefficient0Chunk4 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5145,7 +5145,7 @@ private def remainder7Coefficient0AlignedChunk5 : Coefficient :=
     (1658321517687828179764713747902787094831125137)
   ) * X ^ 41
 
-theorem remainder7Coefficient0Chunk5_normalized :
+private theorem remainder7Coefficient0Chunk5_normalized :
     remainder7Coefficient0Chunk5 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5181,7 +5181,7 @@ private def remainder7Coefficient0AlignedChunk6 : Coefficient :=
     (355242326417656138647222508446703098349275513)
   ) * X ^ 33
 
-theorem remainder7Coefficient0Chunk6_normalized :
+private theorem remainder7Coefficient0Chunk6_normalized :
     remainder7Coefficient0Chunk6 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5217,7 +5217,7 @@ private def remainder7Coefficient0AlignedChunk7 : Coefficient :=
     (318100514287678210266838214311394262596857)
   ) * X ^ 25
 
-theorem remainder7Coefficient0Chunk7_normalized :
+private theorem remainder7Coefficient0Chunk7_normalized :
     remainder7Coefficient0Chunk7 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5253,7 +5253,7 @@ private def remainder7Coefficient0AlignedChunk8 : Coefficient :=
     (287810023914401096857118184919994725)
   ) * X ^ 17
 
-theorem remainder7Coefficient0Chunk8_normalized :
+private theorem remainder7Coefficient0Chunk8_normalized :
     remainder7Coefficient0Chunk8 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5289,7 +5289,7 @@ private def remainder7Coefficient0AlignedChunk9 : Coefficient :=
     (4259153362292864437123282)
   ) * X ^ 9
 
-theorem remainder7Coefficient0Chunk9_normalized :
+private theorem remainder7Coefficient0Chunk9_normalized :
     remainder7Coefficient0Chunk9 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5325,7 +5325,7 @@ private def remainder7Coefficient0AlignedChunk10 : Coefficient :=
     (16176)
   ) * X ^ 1
 
-theorem remainder7Coefficient0Chunk10_normalized :
+private theorem remainder7Coefficient0Chunk10_normalized :
     remainder7Coefficient0Chunk10 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5340,7 +5340,7 @@ private def remainder7Coefficient0AlignedChunk11 : Coefficient :=
     (-8)
   ) * X ^ 0
 
-theorem remainder7Coefficient0Chunk11_normalized :
+private theorem remainder7Coefficient0Chunk11_normalized :
     remainder7Coefficient0Chunk11 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5391,7 +5391,7 @@ private def remainder7Coefficient0AlignedChunk0Band9 : Coefficient :=
     (10477660306845060360644614411)
   ) * X ^ 81
 
-theorem remainder7Coefficient0AlignedChunk0_pieces :
+private theorem remainder7Coefficient0AlignedChunk0_pieces :
     remainder7Coefficient0AlignedChunk0 =
       remainder7Coefficient0AlignedChunk0Band9
     := by
@@ -5424,7 +5424,7 @@ private def remainder7Coefficient0AlignedChunk1Band8 : Coefficient :=
     (-26000289674995471447788103119901955)
   ) * X ^ 73
 
-theorem remainder7Coefficient0AlignedChunk1_pieces :
+private theorem remainder7Coefficient0AlignedChunk1_pieces :
     remainder7Coefficient0AlignedChunk1 =
       remainder7Coefficient0AlignedChunk1Band8
     := by
@@ -5459,7 +5459,7 @@ private def remainder7Coefficient0AlignedChunk2Band8 : Coefficient :=
     (218894204664051951539040184986346788)
   ) * X ^ 72
 
-theorem remainder7Coefficient0AlignedChunk2_pieces :
+private theorem remainder7Coefficient0AlignedChunk2_pieces :
     remainder7Coefficient0AlignedChunk2 =
       remainder7Coefficient0AlignedChunk2Band7 +
       remainder7Coefficient0AlignedChunk2Band8
@@ -5496,7 +5496,7 @@ private def remainder7Coefficient0AlignedChunk3Band7 : Coefficient :=
     (2335831244776793483990325240761008323748)
   ) * X ^ 63
 
-theorem remainder7Coefficient0AlignedChunk3_pieces :
+private theorem remainder7Coefficient0AlignedChunk3_pieces :
     remainder7Coefficient0AlignedChunk3 =
       remainder7Coefficient0AlignedChunk3Band6 +
       remainder7Coefficient0AlignedChunk3Band7
@@ -5533,7 +5533,7 @@ private def remainder7Coefficient0AlignedChunk4Band6 : Coefficient :=
     (285882514703211166069038330824051165490866)
   ) * X ^ 54
 
-theorem remainder7Coefficient0AlignedChunk4_pieces :
+private theorem remainder7Coefficient0AlignedChunk4_pieces :
     remainder7Coefficient0AlignedChunk4 =
       remainder7Coefficient0AlignedChunk4Band5 +
       remainder7Coefficient0AlignedChunk4Band6
@@ -5570,7 +5570,7 @@ private def remainder7Coefficient0AlignedChunk5Band5 : Coefficient :=
     (443215089295371384649849220586239071917610698)
   ) * X ^ 45
 
-theorem remainder7Coefficient0AlignedChunk5_pieces :
+private theorem remainder7Coefficient0AlignedChunk5_pieces :
     remainder7Coefficient0AlignedChunk5 =
       remainder7Coefficient0AlignedChunk5Band4 +
       remainder7Coefficient0AlignedChunk5Band5
@@ -5607,7 +5607,7 @@ private def remainder7Coefficient0AlignedChunk6Band4 : Coefficient :=
     (-1186122364197847931683150194684841344610647396)
   ) * X ^ 36
 
-theorem remainder7Coefficient0AlignedChunk6_pieces :
+private theorem remainder7Coefficient0AlignedChunk6_pieces :
     remainder7Coefficient0AlignedChunk6 =
       remainder7Coefficient0AlignedChunk6Band3 +
       remainder7Coefficient0AlignedChunk6Band4
@@ -5644,7 +5644,7 @@ private def remainder7Coefficient0AlignedChunk7Band3 : Coefficient :=
     (3195937483586069513045331428253808319854892)
   ) * X ^ 27
 
-theorem remainder7Coefficient0AlignedChunk7_pieces :
+private theorem remainder7Coefficient0AlignedChunk7_pieces :
     remainder7Coefficient0AlignedChunk7 =
       remainder7Coefficient0AlignedChunk7Band2 +
       remainder7Coefficient0AlignedChunk7Band3
@@ -5681,7 +5681,7 @@ private def remainder7Coefficient0AlignedChunk8Band2 : Coefficient :=
     (-2663411680601368953497104489708664294)
   ) * X ^ 18
 
-theorem remainder7Coefficient0AlignedChunk8_pieces :
+private theorem remainder7Coefficient0AlignedChunk8_pieces :
     remainder7Coefficient0AlignedChunk8 =
       remainder7Coefficient0AlignedChunk8Band1 +
       remainder7Coefficient0AlignedChunk8Band2
@@ -5716,7 +5716,7 @@ private def remainder7Coefficient0AlignedChunk9Band1 : Coefficient :=
     (4259153362292864437123282)
   ) * X ^ 9
 
-theorem remainder7Coefficient0AlignedChunk9_pieces :
+private theorem remainder7Coefficient0AlignedChunk9_pieces :
     remainder7Coefficient0AlignedChunk9 =
       remainder7Coefficient0AlignedChunk9Band1
     := by
@@ -5749,7 +5749,7 @@ private def remainder7Coefficient0AlignedChunk10Band0 : Coefficient :=
     (16176)
   ) * X ^ 1
 
-theorem remainder7Coefficient0AlignedChunk10_pieces :
+private theorem remainder7Coefficient0AlignedChunk10_pieces :
     remainder7Coefficient0AlignedChunk10 =
       remainder7Coefficient0AlignedChunk10Band0
     := by
@@ -5761,14 +5761,14 @@ private def remainder7Coefficient0AlignedChunk11Band0 : Coefficient :=
     (-8)
   ) * X ^ 0
 
-theorem remainder7Coefficient0AlignedChunk11_pieces :
+private theorem remainder7Coefficient0AlignedChunk11_pieces :
     remainder7Coefficient0AlignedChunk11 =
       remainder7Coefficient0AlignedChunk11Band0
     := by
   unfold remainder7Coefficient0AlignedChunk11 remainder7Coefficient0AlignedChunk11Band0
   ring
 
-theorem remainder7Coefficient0AlignedBand0_eq :
+private theorem remainder7Coefficient0AlignedBand0_eq :
     remainder7Coefficient0NormalizedBlock0 =
       remainder7Coefficient0AlignedChunk10Band0 +
       remainder7Coefficient0AlignedChunk11Band0
@@ -5778,7 +5778,7 @@ theorem remainder7Coefficient0AlignedBand0_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand1_eq :
+private theorem remainder7Coefficient0AlignedBand1_eq :
     remainder7Coefficient0NormalizedBlock1 =
       remainder7Coefficient0AlignedChunk8Band1 +
       remainder7Coefficient0AlignedChunk9Band1
@@ -5788,7 +5788,7 @@ theorem remainder7Coefficient0AlignedBand1_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand2_eq :
+private theorem remainder7Coefficient0AlignedBand2_eq :
     remainder7Coefficient0NormalizedBlock2 =
       remainder7Coefficient0AlignedChunk7Band2 +
       remainder7Coefficient0AlignedChunk8Band2
@@ -5798,7 +5798,7 @@ theorem remainder7Coefficient0AlignedBand2_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand3_eq :
+private theorem remainder7Coefficient0AlignedBand3_eq :
     remainder7Coefficient0NormalizedBlock3 =
       remainder7Coefficient0AlignedChunk6Band3 +
       remainder7Coefficient0AlignedChunk7Band3
@@ -5808,7 +5808,7 @@ theorem remainder7Coefficient0AlignedBand3_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand4_eq :
+private theorem remainder7Coefficient0AlignedBand4_eq :
     remainder7Coefficient0NormalizedBlock4 =
       remainder7Coefficient0AlignedChunk5Band4 +
       remainder7Coefficient0AlignedChunk6Band4
@@ -5818,7 +5818,7 @@ theorem remainder7Coefficient0AlignedBand4_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand5_eq :
+private theorem remainder7Coefficient0AlignedBand5_eq :
     remainder7Coefficient0NormalizedBlock5 =
       remainder7Coefficient0AlignedChunk4Band5 +
       remainder7Coefficient0AlignedChunk5Band5
@@ -5828,7 +5828,7 @@ theorem remainder7Coefficient0AlignedBand5_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand6_eq :
+private theorem remainder7Coefficient0AlignedBand6_eq :
     remainder7Coefficient0NormalizedBlock6 =
       remainder7Coefficient0AlignedChunk3Band6 +
       remainder7Coefficient0AlignedChunk4Band6
@@ -5838,7 +5838,7 @@ theorem remainder7Coefficient0AlignedBand6_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand7_eq :
+private theorem remainder7Coefficient0AlignedBand7_eq :
     remainder7Coefficient0NormalizedBlock7 =
       remainder7Coefficient0AlignedChunk2Band7 +
       remainder7Coefficient0AlignedChunk3Band7
@@ -5848,7 +5848,7 @@ theorem remainder7Coefficient0AlignedBand7_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand8_eq :
+private theorem remainder7Coefficient0AlignedBand8_eq :
     remainder7Coefficient0NormalizedBlock8 =
       remainder7Coefficient0AlignedChunk1Band8 +
       remainder7Coefficient0AlignedChunk2Band8
@@ -5858,7 +5858,7 @@ theorem remainder7Coefficient0AlignedBand8_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0AlignedBand9_eq :
+private theorem remainder7Coefficient0AlignedBand9_eq :
     remainder7Coefficient0NormalizedBlock9 =
       remainder7Coefficient0AlignedChunk0Band9
     := by
@@ -5866,7 +5866,7 @@ theorem remainder7Coefficient0AlignedBand9_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient0Aligned_eq :
+private theorem remainder7Coefficient0Aligned_eq :
     remainder7Coefficient0Aligned = remainder7Coefficient0Normalized := by
   unfold remainder7Coefficient0Aligned remainder7Coefficient0Normalized
   rw [remainder7Coefficient0AlignedChunk0_pieces]
@@ -5893,7 +5893,7 @@ theorem remainder7Coefficient0Aligned_eq :
   rw [remainder7Coefficient0AlignedBand9_eq]
   ring
 
-theorem remainder7Coefficient0_eq_normalized :
+private theorem remainder7Coefficient0_eq_normalized :
     remainder7Coefficient0 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5942,7 +5942,7 @@ private def remainder7Coefficient1AlignedChunk0 : Coefficient :=
     (-61061238808946806887114581598)
   ) * X ^ 77
 
-theorem remainder7Coefficient1Chunk0_normalized :
+private theorem remainder7Coefficient1Chunk0_normalized :
     remainder7Coefficient1Chunk0 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -5978,7 +5978,7 @@ private def remainder7Coefficient1AlignedChunk1 : Coefficient :=
     (66597629994619763482877138294655478)
   ) * X ^ 69
 
-theorem remainder7Coefficient1Chunk1_normalized :
+private theorem remainder7Coefficient1Chunk1_normalized :
     remainder7Coefficient1Chunk1 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6014,7 +6014,7 @@ private def remainder7Coefficient1AlignedChunk2 : Coefficient :=
     (-409069424531728695369242869347868646592)
   ) * X ^ 61
 
-theorem remainder7Coefficient1Chunk2_normalized :
+private theorem remainder7Coefficient1Chunk2_normalized :
     remainder7Coefficient1Chunk2 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6050,7 +6050,7 @@ private def remainder7Coefficient1AlignedChunk3 : Coefficient :=
     (18948338326664669416447986691408775563783)
   ) * X ^ 53
 
-theorem remainder7Coefficient1Chunk3_normalized :
+private theorem remainder7Coefficient1Chunk3_normalized :
     remainder7Coefficient1Chunk3 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6086,7 +6086,7 @@ private def remainder7Coefficient1AlignedChunk4 : Coefficient :=
     (6596233663718766255287405909531948942448862)
   ) * X ^ 45
 
-theorem remainder7Coefficient1Chunk4_normalized :
+private theorem remainder7Coefficient1Chunk4_normalized :
     remainder7Coefficient1Chunk4 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6122,7 +6122,7 @@ private def remainder7Coefficient1AlignedChunk5 : Coefficient :=
     (190548789932272551877113293102639206050270627)
   ) * X ^ 37
 
-theorem remainder7Coefficient1Chunk5_normalized :
+private theorem remainder7Coefficient1Chunk5_normalized :
     remainder7Coefficient1Chunk5 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6158,7 +6158,7 @@ private def remainder7Coefficient1AlignedChunk6 : Coefficient :=
     (8604011895338556065047395906268863454417173)
   ) * X ^ 29
 
-theorem remainder7Coefficient1Chunk6_normalized :
+private theorem remainder7Coefficient1Chunk6_normalized :
     remainder7Coefficient1Chunk6 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6194,7 +6194,7 @@ private def remainder7Coefficient1AlignedChunk7 : Coefficient :=
     (860815052805763151334678044354436287402)
   ) * X ^ 21
 
-theorem remainder7Coefficient1Chunk7_normalized :
+private theorem remainder7Coefficient1Chunk7_normalized :
     remainder7Coefficient1Chunk7 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6230,7 +6230,7 @@ private def remainder7Coefficient1AlignedChunk8 : Coefficient :=
     (16294558509994103603448409777580)
   ) * X ^ 13
 
-theorem remainder7Coefficient1Chunk8_normalized :
+private theorem remainder7Coefficient1Chunk8_normalized :
     remainder7Coefficient1Chunk8 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6266,7 +6266,7 @@ private def remainder7Coefficient1AlignedChunk9 : Coefficient :=
     (110878040446702865)
   ) * X ^ 5
 
-theorem remainder7Coefficient1Chunk9_normalized :
+private theorem remainder7Coefficient1Chunk9_normalized :
     remainder7Coefficient1Chunk9 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6293,7 +6293,7 @@ private def remainder7Coefficient1AlignedChunk10 : Coefficient :=
     (-162)
   ) * X ^ 0
 
-theorem remainder7Coefficient1Chunk10_normalized :
+private theorem remainder7Coefficient1Chunk10_normalized :
     remainder7Coefficient1Chunk10 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6344,7 +6344,7 @@ private def remainder7Coefficient1AlignedChunk0Band9 : Coefficient :=
     (1722235163684153982521)
   ) * X ^ 81
 
-theorem remainder7Coefficient1AlignedChunk0_pieces :
+private theorem remainder7Coefficient1AlignedChunk0_pieces :
     remainder7Coefficient1AlignedChunk0 =
       remainder7Coefficient1AlignedChunk0Band8 +
       remainder7Coefficient1AlignedChunk0Band9
@@ -6381,7 +6381,7 @@ private def remainder7Coefficient1AlignedChunk1Band8 : Coefficient :=
     (-290372329273266516382793506938769)
   ) * X ^ 72
 
-theorem remainder7Coefficient1AlignedChunk1_pieces :
+private theorem remainder7Coefficient1AlignedChunk1_pieces :
     remainder7Coefficient1AlignedChunk1 =
       remainder7Coefficient1AlignedChunk1Band7 +
       remainder7Coefficient1AlignedChunk1Band8
@@ -6418,7 +6418,7 @@ private def remainder7Coefficient1AlignedChunk2Band7 : Coefficient :=
     (-137122462938061019838569480925074865927)
   ) * X ^ 63
 
-theorem remainder7Coefficient1AlignedChunk2_pieces :
+private theorem remainder7Coefficient1AlignedChunk2_pieces :
     remainder7Coefficient1AlignedChunk2 =
       remainder7Coefficient1AlignedChunk2Band6 +
       remainder7Coefficient1AlignedChunk2Band7
@@ -6455,7 +6455,7 @@ private def remainder7Coefficient1AlignedChunk3Band6 : Coefficient :=
     (-18690156317740598066882556613479625683765)
   ) * X ^ 54
 
-theorem remainder7Coefficient1AlignedChunk3_pieces :
+private theorem remainder7Coefficient1AlignedChunk3_pieces :
     remainder7Coefficient1AlignedChunk3 =
       remainder7Coefficient1AlignedChunk3Band5 +
       remainder7Coefficient1AlignedChunk3Band6
@@ -6490,7 +6490,7 @@ private def remainder7Coefficient1AlignedChunk4Band5 : Coefficient :=
     (6596233663718766255287405909531948942448862)
   ) * X ^ 45
 
-theorem remainder7Coefficient1AlignedChunk4_pieces :
+private theorem remainder7Coefficient1AlignedChunk4_pieces :
     remainder7Coefficient1AlignedChunk4 =
       remainder7Coefficient1AlignedChunk4Band5
     := by
@@ -6523,7 +6523,7 @@ private def remainder7Coefficient1AlignedChunk5Band4 : Coefficient :=
     (190548789932272551877113293102639206050270627)
   ) * X ^ 37
 
-theorem remainder7Coefficient1AlignedChunk5_pieces :
+private theorem remainder7Coefficient1AlignedChunk5_pieces :
     remainder7Coefficient1AlignedChunk5 =
       remainder7Coefficient1AlignedChunk5Band4
     := by
@@ -6558,7 +6558,7 @@ private def remainder7Coefficient1AlignedChunk6Band4 : Coefficient :=
     (-178284183352468228350319260024924123447536435)
   ) * X ^ 36
 
-theorem remainder7Coefficient1AlignedChunk6_pieces :
+private theorem remainder7Coefficient1AlignedChunk6_pieces :
     remainder7Coefficient1AlignedChunk6 =
       remainder7Coefficient1AlignedChunk6Band3 +
       remainder7Coefficient1AlignedChunk6Band4
@@ -6595,7 +6595,7 @@ private def remainder7Coefficient1AlignedChunk7Band3 : Coefficient :=
     (1592709349472522201624669920675552838076693)
   ) * X ^ 27
 
-theorem remainder7Coefficient1AlignedChunk7_pieces :
+private theorem remainder7Coefficient1AlignedChunk7_pieces :
     remainder7Coefficient1AlignedChunk7 =
       remainder7Coefficient1AlignedChunk7Band2 +
       remainder7Coefficient1AlignedChunk7Band3
@@ -6632,7 +6632,7 @@ private def remainder7Coefficient1AlignedChunk8Band2 : Coefficient :=
     (-3746683934624751590852631585434030611)
   ) * X ^ 18
 
-theorem remainder7Coefficient1AlignedChunk8_pieces :
+private theorem remainder7Coefficient1AlignedChunk8_pieces :
     remainder7Coefficient1AlignedChunk8 =
       remainder7Coefficient1AlignedChunk8Band1 +
       remainder7Coefficient1AlignedChunk8Band2
@@ -6669,7 +6669,7 @@ private def remainder7Coefficient1AlignedChunk9Band1 : Coefficient :=
     (17902635620459510523959055)
   ) * X ^ 9
 
-theorem remainder7Coefficient1AlignedChunk9_pieces :
+private theorem remainder7Coefficient1AlignedChunk9_pieces :
     remainder7Coefficient1AlignedChunk9 =
       remainder7Coefficient1AlignedChunk9Band0 +
       remainder7Coefficient1AlignedChunk9Band1
@@ -6695,14 +6695,14 @@ private def remainder7Coefficient1AlignedChunk10Band0 : Coefficient :=
     (-162)
   ) * X ^ 0
 
-theorem remainder7Coefficient1AlignedChunk10_pieces :
+private theorem remainder7Coefficient1AlignedChunk10_pieces :
     remainder7Coefficient1AlignedChunk10 =
       remainder7Coefficient1AlignedChunk10Band0
     := by
   unfold remainder7Coefficient1AlignedChunk10 remainder7Coefficient1AlignedChunk10Band0
   ring
 
-theorem remainder7Coefficient1AlignedBand0_eq :
+private theorem remainder7Coefficient1AlignedBand0_eq :
     remainder7Coefficient1NormalizedBlock0 =
       remainder7Coefficient1AlignedChunk9Band0 +
       remainder7Coefficient1AlignedChunk10Band0
@@ -6712,7 +6712,7 @@ theorem remainder7Coefficient1AlignedBand0_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand1_eq :
+private theorem remainder7Coefficient1AlignedBand1_eq :
     remainder7Coefficient1NormalizedBlock1 =
       remainder7Coefficient1AlignedChunk8Band1 +
       remainder7Coefficient1AlignedChunk9Band1
@@ -6722,7 +6722,7 @@ theorem remainder7Coefficient1AlignedBand1_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand2_eq :
+private theorem remainder7Coefficient1AlignedBand2_eq :
     remainder7Coefficient1NormalizedBlock2 =
       remainder7Coefficient1AlignedChunk7Band2 +
       remainder7Coefficient1AlignedChunk8Band2
@@ -6732,7 +6732,7 @@ theorem remainder7Coefficient1AlignedBand2_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand3_eq :
+private theorem remainder7Coefficient1AlignedBand3_eq :
     remainder7Coefficient1NormalizedBlock3 =
       remainder7Coefficient1AlignedChunk6Band3 +
       remainder7Coefficient1AlignedChunk7Band3
@@ -6742,7 +6742,7 @@ theorem remainder7Coefficient1AlignedBand3_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand4_eq :
+private theorem remainder7Coefficient1AlignedBand4_eq :
     remainder7Coefficient1NormalizedBlock4 =
       remainder7Coefficient1AlignedChunk5Band4 +
       remainder7Coefficient1AlignedChunk6Band4
@@ -6752,7 +6752,7 @@ theorem remainder7Coefficient1AlignedBand4_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand5_eq :
+private theorem remainder7Coefficient1AlignedBand5_eq :
     remainder7Coefficient1NormalizedBlock5 =
       remainder7Coefficient1AlignedChunk3Band5 +
       remainder7Coefficient1AlignedChunk4Band5
@@ -6762,7 +6762,7 @@ theorem remainder7Coefficient1AlignedBand5_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand6_eq :
+private theorem remainder7Coefficient1AlignedBand6_eq :
     remainder7Coefficient1NormalizedBlock6 =
       remainder7Coefficient1AlignedChunk2Band6 +
       remainder7Coefficient1AlignedChunk3Band6
@@ -6772,7 +6772,7 @@ theorem remainder7Coefficient1AlignedBand6_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand7_eq :
+private theorem remainder7Coefficient1AlignedBand7_eq :
     remainder7Coefficient1NormalizedBlock7 =
       remainder7Coefficient1AlignedChunk1Band7 +
       remainder7Coefficient1AlignedChunk2Band7
@@ -6782,7 +6782,7 @@ theorem remainder7Coefficient1AlignedBand7_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand8_eq :
+private theorem remainder7Coefficient1AlignedBand8_eq :
     remainder7Coefficient1NormalizedBlock8 =
       remainder7Coefficient1AlignedChunk0Band8 +
       remainder7Coefficient1AlignedChunk1Band8
@@ -6792,7 +6792,7 @@ theorem remainder7Coefficient1AlignedBand8_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1AlignedBand9_eq :
+private theorem remainder7Coefficient1AlignedBand9_eq :
     remainder7Coefficient1NormalizedBlock9 =
       remainder7Coefficient1AlignedChunk0Band9
     := by
@@ -6800,7 +6800,7 @@ theorem remainder7Coefficient1AlignedBand9_eq :
   norm_num [map_neg, map_ofNat]
   ring
 
-theorem remainder7Coefficient1Aligned_eq :
+private theorem remainder7Coefficient1Aligned_eq :
     remainder7Coefficient1Aligned = remainder7Coefficient1Normalized := by
   unfold remainder7Coefficient1Aligned remainder7Coefficient1Normalized
   rw [remainder7Coefficient1AlignedChunk0_pieces]
@@ -6826,7 +6826,7 @@ theorem remainder7Coefficient1Aligned_eq :
   rw [remainder7Coefficient1AlignedBand9_eq]
   ring
 
-theorem remainder7Coefficient1_eq_normalized :
+private theorem remainder7Coefficient1_eq_normalized :
     remainder7Coefficient1 =
       ratC% (
         ((675104091044445478638539502879522303153057994244818592059896109 * 10 ^ 77 +
@@ -6848,14 +6848,14 @@ theorem remainder7Coefficient1_eq_normalized :
   unfold remainder7Coefficient1Aligned
   ring
 
-theorem recurrence6Content_relation :
+private theorem recurrence6Content_relation :
     recurrence6Content7 ^ 2 =
       recurrence6Content6 * exceptionalUnit6 := by
   unfold recurrence6Content7 recurrence6Content6 exceptionalUnit6
   simp only [← C_mul, ← C_pow]
   norm_num
 
-theorem exceptional6_eq_normalized :
+private theorem exceptional6_eq_normalized :
     exceptional6 =
       exceptionalUnit6 * normalizedExceptional6 := by
   rw [normalizedExceptional6_eq]

@@ -22,267 +22,267 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence6InnerBand0 : Coefficient :=
+private def recurrence6InnerBand0 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block0 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block0 +
     0
-
-theorem recurrence6InnerBand0_eq : recurrence6InnerBand0 = normalizedResidual6InnerBlock0 := by
+private theorem recurrence6InnerBand0_eq :
+    recurrence6InnerBand0 = normalizedResidual6InnerBlock0 := by
   unfold recurrence6InnerBand0 remainder7Coefficient1TimesRemainder6Coefficient1Block0
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block0 normalizedResidual6InnerBlock0
   ring
 
-def recurrence6InnerBand1 : Coefficient :=
+private def recurrence6InnerBand1 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block1 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block1 +
     0
-
-theorem recurrence6InnerBand1_eq : recurrence6InnerBand1 = normalizedResidual6InnerBlock1 := by
+private theorem recurrence6InnerBand1_eq :
+    recurrence6InnerBand1 = normalizedResidual6InnerBlock1 := by
   unfold recurrence6InnerBand1 remainder7Coefficient1TimesRemainder6Coefficient1Block1
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block1 normalizedResidual6InnerBlock1
   ring
 
-def recurrence6InnerBand2 : Coefficient :=
+private def recurrence6InnerBand2 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block2 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block2 +
     0
-
-theorem recurrence6InnerBand2_eq : recurrence6InnerBand2 = normalizedResidual6InnerBlock2 := by
+private theorem recurrence6InnerBand2_eq :
+    recurrence6InnerBand2 = normalizedResidual6InnerBlock2 := by
   unfold recurrence6InnerBand2 remainder7Coefficient1TimesRemainder6Coefficient1Block2
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block2 normalizedResidual6InnerBlock2
   ring
 
-def recurrence6InnerBand3 : Coefficient :=
+private def recurrence6InnerBand3 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block3 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block3 +
     0
-
-theorem recurrence6InnerBand3_eq : recurrence6InnerBand3 = normalizedResidual6InnerBlock3 := by
+private theorem recurrence6InnerBand3_eq :
+    recurrence6InnerBand3 = normalizedResidual6InnerBlock3 := by
   unfold recurrence6InnerBand3 remainder7Coefficient1TimesRemainder6Coefficient1Block3
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block3 normalizedResidual6InnerBlock3
   ring
 
-def recurrence6InnerBand4 : Coefficient :=
+private def recurrence6InnerBand4 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block4 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block4 +
     0
-
-theorem recurrence6InnerBand4_eq : recurrence6InnerBand4 = normalizedResidual6InnerBlock4 := by
+private theorem recurrence6InnerBand4_eq :
+    recurrence6InnerBand4 = normalizedResidual6InnerBlock4 := by
   unfold recurrence6InnerBand4 remainder7Coefficient1TimesRemainder6Coefficient1Block4
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block4 normalizedResidual6InnerBlock4
   ring
 
-def recurrence6InnerBand5 : Coefficient :=
+private def recurrence6InnerBand5 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block5 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block5 +
     0
-
-theorem recurrence6InnerBand5_eq : recurrence6InnerBand5 = normalizedResidual6InnerBlock5 := by
+private theorem recurrence6InnerBand5_eq :
+    recurrence6InnerBand5 = normalizedResidual6InnerBlock5 := by
   unfold recurrence6InnerBand5 remainder7Coefficient1TimesRemainder6Coefficient1Block5
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block5 normalizedResidual6InnerBlock5
   ring
 
-def recurrence6InnerBand6 : Coefficient :=
+private def recurrence6InnerBand6 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block6 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block6 +
     0
-
-theorem recurrence6InnerBand6_eq : recurrence6InnerBand6 = normalizedResidual6InnerBlock6 := by
+private theorem recurrence6InnerBand6_eq :
+    recurrence6InnerBand6 = normalizedResidual6InnerBlock6 := by
   unfold recurrence6InnerBand6 remainder7Coefficient1TimesRemainder6Coefficient1Block6
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block6 normalizedResidual6InnerBlock6
   ring
 
-def recurrence6InnerBand7 : Coefficient :=
+private def recurrence6InnerBand7 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block7 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block7 +
     0
-
-theorem recurrence6InnerBand7_eq : recurrence6InnerBand7 = normalizedResidual6InnerBlock7 := by
+private theorem recurrence6InnerBand7_eq :
+    recurrence6InnerBand7 = normalizedResidual6InnerBlock7 := by
   unfold recurrence6InnerBand7 remainder7Coefficient1TimesRemainder6Coefficient1Block7
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block7 normalizedResidual6InnerBlock7
   ring
 
-def recurrence6InnerBand8 : Coefficient :=
+private def recurrence6InnerBand8 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block8 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block8 +
     0
-
-theorem recurrence6InnerBand8_eq : recurrence6InnerBand8 = normalizedResidual6InnerBlock8 := by
+private theorem recurrence6InnerBand8_eq :
+    recurrence6InnerBand8 = normalizedResidual6InnerBlock8 := by
   unfold recurrence6InnerBand8 remainder7Coefficient1TimesRemainder6Coefficient1Block8
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block8 normalizedResidual6InnerBlock8
   ring
 
-def recurrence6InnerBand9 : Coefficient :=
+private def recurrence6InnerBand9 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block9 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block9 +
     0
-
-theorem recurrence6InnerBand9_eq : recurrence6InnerBand9 = normalizedResidual6InnerBlock9 := by
+private theorem recurrence6InnerBand9_eq :
+    recurrence6InnerBand9 = normalizedResidual6InnerBlock9 := by
   unfold recurrence6InnerBand9 remainder7Coefficient1TimesRemainder6Coefficient1Block9
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block9 normalizedResidual6InnerBlock9
   ring
 
-def recurrence6InnerBand10 : Coefficient :=
+private def recurrence6InnerBand10 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block10 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block10 +
     0
-
-theorem recurrence6InnerBand10_eq : recurrence6InnerBand10 = normalizedResidual6InnerBlock10 := by
+private theorem recurrence6InnerBand10_eq :
+    recurrence6InnerBand10 = normalizedResidual6InnerBlock10 := by
   unfold recurrence6InnerBand10 remainder7Coefficient1TimesRemainder6Coefficient1Block10
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block10 normalizedResidual6InnerBlock10
   ring
 
-def recurrence6InnerBand11 : Coefficient :=
+private def recurrence6InnerBand11 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block11 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block11 +
     0
-
-theorem recurrence6InnerBand11_eq : recurrence6InnerBand11 = normalizedResidual6InnerBlock11 := by
+private theorem recurrence6InnerBand11_eq :
+    recurrence6InnerBand11 = normalizedResidual6InnerBlock11 := by
   unfold recurrence6InnerBand11 remainder7Coefficient1TimesRemainder6Coefficient1Block11
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block11 normalizedResidual6InnerBlock11
   ring
 
-def recurrence6InnerBand12 : Coefficient :=
+private def recurrence6InnerBand12 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block12 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block12 +
     0
-
-theorem recurrence6InnerBand12_eq : recurrence6InnerBand12 = normalizedResidual6InnerBlock12 := by
+private theorem recurrence6InnerBand12_eq :
+    recurrence6InnerBand12 = normalizedResidual6InnerBlock12 := by
   unfold recurrence6InnerBand12 remainder7Coefficient1TimesRemainder6Coefficient1Block12
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block12 normalizedResidual6InnerBlock12
   ring
 
-def recurrence6InnerBand13 : Coefficient :=
+private def recurrence6InnerBand13 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block13 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block13 +
     0
-
-theorem recurrence6InnerBand13_eq : recurrence6InnerBand13 = normalizedResidual6InnerBlock13 := by
+private theorem recurrence6InnerBand13_eq :
+    recurrence6InnerBand13 = normalizedResidual6InnerBlock13 := by
   unfold recurrence6InnerBand13 remainder7Coefficient1TimesRemainder6Coefficient1Block13
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block13 normalizedResidual6InnerBlock13
   ring
 
-def recurrence6InnerBand14 : Coefficient :=
+private def recurrence6InnerBand14 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block14 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block14 +
     0
-
-theorem recurrence6InnerBand14_eq : recurrence6InnerBand14 = normalizedResidual6InnerBlock14 := by
+private theorem recurrence6InnerBand14_eq :
+    recurrence6InnerBand14 = normalizedResidual6InnerBlock14 := by
   unfold recurrence6InnerBand14 remainder7Coefficient1TimesRemainder6Coefficient1Block14
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block14 normalizedResidual6InnerBlock14
   ring
 
-def recurrence6InnerBand15 : Coefficient :=
+private def recurrence6InnerBand15 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block15 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block15 +
     0
-
-theorem recurrence6InnerBand15_eq : recurrence6InnerBand15 = normalizedResidual6InnerBlock15 := by
+private theorem recurrence6InnerBand15_eq :
+    recurrence6InnerBand15 = normalizedResidual6InnerBlock15 := by
   unfold recurrence6InnerBand15 remainder7Coefficient1TimesRemainder6Coefficient1Block15
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block15 normalizedResidual6InnerBlock15
   ring
 
-def recurrence6InnerBand16 : Coefficient :=
+private def recurrence6InnerBand16 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block16 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block16 +
     0
-
-theorem recurrence6InnerBand16_eq : recurrence6InnerBand16 = normalizedResidual6InnerBlock16 := by
+private theorem recurrence6InnerBand16_eq :
+    recurrence6InnerBand16 = normalizedResidual6InnerBlock16 := by
   unfold recurrence6InnerBand16 remainder7Coefficient1TimesRemainder6Coefficient1Block16
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block16 normalizedResidual6InnerBlock16
   ring
 
-def recurrence6InnerBand17 : Coefficient :=
+private def recurrence6InnerBand17 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block17 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block17 +
     0
-
-theorem recurrence6InnerBand17_eq : recurrence6InnerBand17 = normalizedResidual6InnerBlock17 := by
+private theorem recurrence6InnerBand17_eq :
+    recurrence6InnerBand17 = normalizedResidual6InnerBlock17 := by
   unfold recurrence6InnerBand17 remainder7Coefficient1TimesRemainder6Coefficient1Block17
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block17 normalizedResidual6InnerBlock17
   ring
 
-def recurrence6InnerBand18 : Coefficient :=
+private def recurrence6InnerBand18 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block18 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block18 +
     0
-
-theorem recurrence6InnerBand18_eq : recurrence6InnerBand18 = normalizedResidual6InnerBlock18 := by
+private theorem recurrence6InnerBand18_eq :
+    recurrence6InnerBand18 = normalizedResidual6InnerBlock18 := by
   unfold recurrence6InnerBand18 remainder7Coefficient1TimesRemainder6Coefficient1Block18
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block18 normalizedResidual6InnerBlock18
   ring
 
-def recurrence6InnerBand19 : Coefficient :=
+private def recurrence6InnerBand19 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block19 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block19 +
     0
-
-theorem recurrence6InnerBand19_eq : recurrence6InnerBand19 = normalizedResidual6InnerBlock19 := by
+private theorem recurrence6InnerBand19_eq :
+    recurrence6InnerBand19 = normalizedResidual6InnerBlock19 := by
   unfold recurrence6InnerBand19 remainder7Coefficient1TimesRemainder6Coefficient1Block19
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block19 normalizedResidual6InnerBlock19
   ring
 
-def recurrence6InnerBand20 : Coefficient :=
+private def recurrence6InnerBand20 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block20 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block20 +
     0
-
-theorem recurrence6InnerBand20_eq : recurrence6InnerBand20 = normalizedResidual6InnerBlock20 := by
+private theorem recurrence6InnerBand20_eq :
+    recurrence6InnerBand20 = normalizedResidual6InnerBlock20 := by
   unfold recurrence6InnerBand20 remainder7Coefficient1TimesRemainder6Coefficient1Block20
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block20 normalizedResidual6InnerBlock20
   ring
 
-def recurrence6InnerBand21 : Coefficient :=
+private def recurrence6InnerBand21 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block21 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block21 +
     0
-
-theorem recurrence6InnerBand21_eq : recurrence6InnerBand21 = normalizedResidual6InnerBlock21 := by
+private theorem recurrence6InnerBand21_eq :
+    recurrence6InnerBand21 = normalizedResidual6InnerBlock21 := by
   unfold recurrence6InnerBand21 remainder7Coefficient1TimesRemainder6Coefficient1Block21
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block21 normalizedResidual6InnerBlock21
   ring
 
-def recurrence6InnerBand22 : Coefficient :=
+private def recurrence6InnerBand22 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block22 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block22 +
     0
-
-theorem recurrence6InnerBand22_eq : recurrence6InnerBand22 = normalizedResidual6InnerBlock22 := by
+private theorem recurrence6InnerBand22_eq :
+    recurrence6InnerBand22 = normalizedResidual6InnerBlock22 := by
   unfold recurrence6InnerBand22 remainder7Coefficient1TimesRemainder6Coefficient1Block22
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block22 normalizedResidual6InnerBlock22
   ring
 
-def recurrence6InnerBand23 : Coefficient :=
+private def recurrence6InnerBand23 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block23 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block23 +
     0
-
-theorem recurrence6InnerBand23_eq : recurrence6InnerBand23 = normalizedResidual6InnerBlock23 := by
+private theorem recurrence6InnerBand23_eq :
+    recurrence6InnerBand23 = normalizedResidual6InnerBlock23 := by
   unfold recurrence6InnerBand23 remainder7Coefficient1TimesRemainder6Coefficient1Block23
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block23 normalizedResidual6InnerBlock23
   ring
 
-def recurrence6InnerBand24 : Coefficient :=
+private def recurrence6InnerBand24 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block24 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block24 +
     0
-
-theorem recurrence6InnerBand24_eq : recurrence6InnerBand24 = normalizedResidual6InnerBlock24 := by
+private theorem recurrence6InnerBand24_eq :
+    recurrence6InnerBand24 = normalizedResidual6InnerBlock24 := by
   unfold recurrence6InnerBand24 remainder7Coefficient1TimesRemainder6Coefficient1Block24
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block24 normalizedResidual6InnerBlock24
   ring
 
-def recurrence6InnerBand25 : Coefficient :=
+private def recurrence6InnerBand25 : Coefficient :=
   remainder7Coefficient1TimesRemainder6Coefficient1Block25 -
     remainder7Coefficient0TimesRemainder6Coefficient2Block25 +
     0
-
-theorem recurrence6InnerBand25_eq : recurrence6InnerBand25 = normalizedResidual6InnerBlock25 := by
+private theorem recurrence6InnerBand25_eq :
+    recurrence6InnerBand25 = normalizedResidual6InnerBlock25 := by
   unfold recurrence6InnerBand25 remainder7Coefficient1TimesRemainder6Coefficient1Block25
   unfold remainder7Coefficient0TimesRemainder6Coefficient2Block25 normalizedResidual6InnerBlock25
   ring
 
-def recurrence6InnerBands : Coefficient :=
+private def recurrence6InnerBands : Coefficient :=
   recurrence6InnerBand0 +
   recurrence6InnerBand1 +
   recurrence6InnerBand2 +
