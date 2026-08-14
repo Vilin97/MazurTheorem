@@ -19,15 +19,15 @@ and the exact Néron/finite-flat specialization needed at 5. Stage weight: 400 p
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `infrastructure`; *backend:*
 `mixed`; *risk:* `extreme`; *weight:* 40 points.
 
-*Summary:* Construct Neron models and their mapping property in the exact generality
-used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.
+*Summary:* The canonical supplied Neron-model interface, mapping property, and
+section-extension equivalences compile.
 
 *Canonical artifacts:*
 
-* `structure` (`proposed`): `AlgebraicGeometry.NeronModel`
+* `structure` (`contract`): `AlgebraicGeometry.NeronModel`
   Package a smooth separated model with generic-fibre recovery and the Neron mapping
   property.
-* `theorem` (`proposed`): `AlgebraicGeometry.NeronModel.sectionExtension`
+* `theorem` (`contract`): `AlgebraicGeometry.NeronModel.sectionExtension`
   Extend the rational sections used by the rank-zero and prime-five consumers.
 
 :::
@@ -153,10 +153,10 @@ exact supplied fppf quotient presentation.
 
 :::
 
-:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, planned, compiled, mixed")
+:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, blocked, compiled, mixed")
 *Admissible filtrations and fppf cohomology.*
 
-*Status:* `planned`; *readiness:* `compiled`; *kind:* `infrastructure`; *backend:*
+*Status:* `blocked`; *readiness:* `compiled`; *kind:* `infrastructure`; *backend:*
 `mixed`; *risk:* `extreme`; *weight:* 20 points.
 
 *Summary:* The exact iterated constant-or-multiplicative filtration,

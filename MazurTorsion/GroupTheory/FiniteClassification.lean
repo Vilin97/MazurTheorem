@@ -12,14 +12,10 @@ public import MazurTorsion.GroupTheory.ForbiddenEmbeddings
 /-!
 # The finite-abelian reduction in Mazur's torsion theorem
 
-This file contains the elementary group-theoretic part of Mazur's theorem.  The main result is
-stated for a finite abelian group already written in rank-two invariant-factor form.  It turns
-the point-order theorem and the exclusion of the relevant square subgroups into Mazur's cyclic
-and bicyclic list.
-
-The rank-two normal form is the natural interface with the geometric fact that the `n`-torsion
-of an elliptic curve has rank two.  A later file can derive that normal form from the geometric
-torsion-cardinality theorem.
+This file contains the elementary group-theoretic part of Mazur's theorem. It derives a rank-two
+invariant-factor presentation from the allowed element orders and elementary subgroup
+obstructions, then turns that presentation and the remaining exceptional-product exclusions
+into Mazur's cyclic and bicyclic list. No separate geometric rank theorem is needed.
 -/
 
 @[expose] public section
@@ -362,414 +358,16 @@ private theorem prime_pow_dvd_allowed_order_cases
     rcases hD with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     interval_cases a <;> norm_num at hdiv <;> norm_num
 
-private theorem prod_indicator
-    {ι : Type*} [Fintype ι] (q : ι → ℕ) (d r : ℕ) :
-    (∏ i, if d ∣ q i then r else 1) =
-      r ^ (Finset.univ.filter fun i => d ∣ q i).card := by
-  classical
-  rw [Finset.prod_ite]
-  simp
-
-private theorem elementary_product_le_sixteen
-    {ι : Type*} [Fintype ι] (q : ι → ℕ) (D : ℕ)
-    (hD : D ∈ cyclicOrders)
-    (hq : ∀ i, q i = 1 ∨ q i = 2 ∨ q i = 3 ∨ q i = 4 ∨
-      q i = 5 ∨ q i = 7 ∨ q i = 8 ∨ q i = 9)
-    (hdiv : ∀ i, q i ∣ D)
-    (hc2 : (Finset.univ.filter fun i => 2 ∣ q i).card < 3)
-    (hc3 : (Finset.univ.filter fun i => 3 ∣ q i).card < 2)
-    (hc4 : (Finset.univ.filter fun i => 4 ∣ q i).card < 2)
-    (hc5 : (Finset.univ.filter fun i => 5 ∣ q i).card < 2)
-    (hc7 : (Finset.univ.filter fun i => 7 ∣ q i).card < 2)
-    (h10 : ¬((Finset.univ.filter fun i => 2 ∣ q i).card = 2 ∧
-      (Finset.univ.filter fun i => 5 ∣ q i).card = 1))
-    (h12 : ¬((Finset.univ.filter fun i => 2 ∣ q i).card = 2 ∧
-      (Finset.univ.filter fun i => 4 ∣ q i).card = 1 ∧
-      (Finset.univ.filter fun i => 3 ∣ q i).card = 1)) :
-    ∏ i, q i ≤ 16 := by
-  classical
-  let c2 := (Finset.univ.filter fun i => 2 ∣ q i).card
-  let c3 := (Finset.univ.filter fun i => 3 ∣ q i).card
-  let c4 := (Finset.univ.filter fun i => 4 ∣ q i).card
-  let c5 := (Finset.univ.filter fun i => 5 ∣ q i).card
-  let c7 := (Finset.univ.filter fun i => 7 ∣ q i).card
-  let c8 := (Finset.univ.filter fun i => 8 ∣ q i).card
-  let c9 := (Finset.univ.filter fun i => 9 ∣ q i).card
-  change ¬(c2 = 2 ∧ c5 = 1) at h10
-  change ¬(c2 = 2 ∧ c4 = 1 ∧ c3 = 1) at h12
-  have hc2le : c2 ≤ 2 := by omega
-  have hc3le : c3 ≤ 1 := by omega
-  have hc4le : c4 ≤ 1 := by omega
-  have hc5le : c5 ≤ 1 := by omega
-  have hc7le : c7 ≤ 1 := by omega
-  have hc8le : c8 ≤ c4 := by
-    apply Finset.card_le_card
-    intro i hi
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hi ⊢
-    exact dvd_trans (by norm_num) hi
-  have hc9le : c9 ≤ c3 := by
-    apply Finset.card_le_card
-    intro i hi
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hi ⊢
-    exact dvd_trans (by norm_num) hi
-  simp only [cyclicOrders, Finset.mem_insert, Finset.mem_singleton] at hD
-  rcases hD with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  · have hf : ∀ i, q i = 1 := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      · exact h
-      all_goals rw [h] at hi
-      all_goals norm_num at hi
-    simp_rw [hf]
-    simp
-  · have hf : ∀ i, q i = if 2 ∣ q i then 2 else 1 := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 2 ^ c2 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), prod_indicator]
-      _ ≤ 16 := by interval_cases c2 <;> norm_num
-  · have hf : ∀ i, q i = if 3 ∣ q i then 3 else 1 := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 3 ^ c3 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), prod_indicator]
-      _ ≤ 16 := by interval_cases c3 <;> norm_num
-  · have hf : ∀ i, q i =
-        (if 2 ∣ q i then 2 else 1) * (if 4 ∣ q i then 2 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 2 ^ c2 * 2 ^ c4 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-          prod_indicator, prod_indicator]
-      _ ≤ 16 := by
-        interval_cases c2 <;> interval_cases c4 <;> norm_num
-  · have hf : ∀ i, q i = if 5 ∣ q i then 5 else 1 := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 5 ^ c5 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), prod_indicator]
-      _ ≤ 16 := by interval_cases c5 <;> norm_num
-  · have hf : ∀ i, q i =
-        (if 2 ∣ q i then 2 else 1) * (if 3 ∣ q i then 3 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 2 ^ c2 * 3 ^ c3 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-          prod_indicator, prod_indicator]
-      _ ≤ 16 := by
-        interval_cases c2 <;> interval_cases c3 <;> norm_num
-  · have hf : ∀ i, q i = if 7 ∣ q i then 7 else 1 := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 7 ^ c7 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), prod_indicator]
-      _ ≤ 16 := by interval_cases c7 <;> norm_num
-  · have hf : ∀ i, q i =
-        ((if 2 ∣ q i then 2 else 1) * (if 4 ∣ q i then 2 else 1)) *
-          (if 8 ∣ q i then 2 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = (2 ^ c2 * 2 ^ c4) * 2 ^ c8 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-          Finset.prod_mul_distrib, prod_indicator, prod_indicator, prod_indicator]
-      _ ≤ 16 := by
-        interval_cases c2 <;> interval_cases c4 <;> interval_cases c8 <;> norm_num
-  · have hf : ∀ i, q i =
-        (if 3 ∣ q i then 3 else 1) * (if 9 ∣ q i then 3 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    calc
-      ∏ i, q i = 3 ^ c3 * 3 ^ c9 := by
-        rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-          prod_indicator, prod_indicator]
-      _ ≤ 16 := by
-        interval_cases c3 <;> interval_cases c9 <;> norm_num
-  · have hf : ∀ i, q i =
-        (if 2 ∣ q i then 2 else 1) * (if 5 ∣ q i then 5 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    have hformula : ∏ i, q i = 2 ^ c2 * 5 ^ c5 := by
-      rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-        prod_indicator, prod_indicator]
-    rw [hformula]
-    interval_cases c2 <;> interval_cases c5 <;> norm_num
-    exact (h10 ⟨rfl, rfl⟩).elim
-  · have hf : ∀ i, q i =
-        ((if 2 ∣ q i then 2 else 1) * (if 4 ∣ q i then 2 else 1)) *
-          (if 3 ∣ q i then 3 else 1) := by
-      intro i
-      have hi := hdiv i
-      rcases hq i with h | h | h | h | h | h | h | h
-      all_goals rw [h] at hi ⊢
-      all_goals norm_num at hi <;> norm_num
-    have hformula : ∏ i, q i = (2 ^ c2 * 2 ^ c4) * 3 ^ c3 := by
-      rw [Finset.prod_congr rfl (fun i _ => hf i), Finset.prod_mul_distrib,
-        Finset.prod_mul_distrib, prod_indicator, prod_indicator, prod_indicator]
-    rw [hformula]
-    interval_cases c2 <;> interval_cases c4 <;> interval_cases c3 <;> norm_num
-    exact (h12 ⟨rfl, rfl, rfl⟩).elim
-
-private def d10 : Fin 3 → ℕ :=
-  Fin.cases 2 (Fin.cases 2 fun _ => 5)
-
-private def c2c10Coordinates :
-    ZMod 2 × ZMod 10 →+ (∀ j : Fin 3, ZMod (d10 j)) :=
-  let crt : ZMod 10 ≃+ ZMod 2 × ZMod 5 :=
-    (ZMod.chineseRemainder (by norm_num : Nat.Coprime 2 5)).toAddEquiv
-  let split : ZMod 2 × ZMod 10 →+ ZMod 2 × ZMod 5 :=
-    crt.toAddMonoidHom.comp (AddMonoidHom.snd (ZMod 2) (ZMod 10))
-  AddMonoidHom.pi fun j =>
-    Fin.cases
-      (AddMonoidHom.fst (ZMod 2) (ZMod 10))
-      (Fin.cases
-        ((AddMonoidHom.fst (ZMod 2) (ZMod 5)).comp split)
-        (fun _ => (AddMonoidHom.snd (ZMod 2) (ZMod 5)).comp split))
-      j
-
-private theorem c2c10Coordinates_injective :
-    Function.Injective c2c10Coordinates := by
-  intro x y hxy
-  apply Prod.ext
-  · have h := congrFun hxy (0 : Fin 3)
-    exact h
-  · let crt : ZMod 10 ≃+ ZMod 2 × ZMod 5 :=
-      (ZMod.chineseRemainder (by norm_num : Nat.Coprime 2 5)).toAddEquiv
-    apply crt.injective
-    apply Prod.ext
-    · have h := congrFun hxy (1 : Fin 3)
-      exact h
-    · have h := congrFun hxy (2 : Fin 3)
-      exact h
-
-private def d12 : Fin 3 → ℕ :=
-  Fin.cases 2 (Fin.cases 4 fun _ => 3)
-
-private def c2c12Coordinates :
-    ZMod 2 × ZMod 12 →+ (∀ j : Fin 3, ZMod (d12 j)) :=
-  let crt : ZMod 12 ≃+ ZMod 4 × ZMod 3 :=
-    (ZMod.chineseRemainder (by norm_num : Nat.Coprime 4 3)).toAddEquiv
-  let split : ZMod 2 × ZMod 12 →+ ZMod 4 × ZMod 3 :=
-    crt.toAddMonoidHom.comp (AddMonoidHom.snd (ZMod 2) (ZMod 12))
-  AddMonoidHom.pi fun j =>
-    Fin.cases
-      (AddMonoidHom.fst (ZMod 2) (ZMod 12))
-      (Fin.cases
-        ((AddMonoidHom.fst (ZMod 4) (ZMod 3)).comp split)
-        (fun _ => (AddMonoidHom.snd (ZMod 4) (ZMod 3)).comp split))
-      j
-
-private theorem c2c12Coordinates_injective :
-    Function.Injective c2c12Coordinates := by
-  intro x y hxy
-  apply Prod.ext
-  · have h := congrFun hxy (0 : Fin 3)
-    exact h
-  · let crt : ZMod 12 ≃+ ZMod 4 × ZMod 3 :=
-      (ZMod.chineseRemainder (by norm_num : Nat.Coprime 4 3)).toAddEquiv
-    apply crt.injective
-    apply Prod.ext
-    · have h := congrFun hxy (1 : Fin 3)
-      exact h
-    · have h := congrFun hxy (2 : Fin 3)
-      exact h
-
-private theorem c2c10EmbedsOfFactorCounts
-    {G : Type*} [AddCommGroup G] {ι : Type*} [Fintype ι]
-    (q : ι → ℕ) (hn : ∀ i, q i ≠ 0)
-    (hq : ∀ i, q i = 1 ∨ q i = 2 ∨ q i = 3 ∨ q i = 4 ∨
-      q i = 5 ∨ q i = 7 ∨ q i = 8 ∨ q i = 9)
-    (e : G ≃+ DirectSum ι fun i => ZMod (q i))
-    (hc2 : (Finset.univ.filter fun i => 2 ∣ q i).card = 2)
-    (hc5 : (Finset.univ.filter fun i => 5 ∣ q i).card = 1) :
-    ∃ f : ZMod 2 × ZMod 10 →+ G, Function.Injective f := by
-  classical
-  have hcard2 : Fintype.card {i : ι // 2 ∣ q i} = 2 := by
-    rw [Fintype.card_subtype]
-    exact hc2
-  have hcard5 : Fintype.card {i : ι // 5 ∣ q i} = 1 := by
-    rw [Fintype.card_subtype]
-    exact hc5
-  let e2 : {i : ι // 2 ∣ q i} ≃ Fin 2 :=
-    Fintype.equivFinOfCardEq hcard2
-  let e5 : {i : ι // 5 ∣ q i} ≃ Fin 1 :=
-    Fintype.equivFinOfCardEq hcard5
-  let i0 : ι := (e2.symm 0).1
-  let i1 : ι := (e2.symm 1).1
-  let i5 : ι := (e5.symm 0).1
-  have hi0 : 2 ∣ q i0 := (e2.symm 0).2
-  have hi1 : 2 ∣ q i1 := (e2.symm 1).2
-  have hi5 : 5 ∣ q i5 := (e5.symm 0).2
-  have hdisjoint : ∀ i, ¬(2 ∣ q i ∧ 5 ∣ q i) := by
-    intro i hi
-    rcases hq i with h | h | h | h | h | h | h | h
-    all_goals rw [h] at hi
-    all_goals norm_num at hi
-  have hi01 : i0 ≠ i1 := by
-    intro h
-    have heq : e2.symm (0 : Fin 2) = e2.symm (1 : Fin 2) := Subtype.ext h
-    exact Fin.zero_ne_one (e2.symm.injective heq)
-  have hi05 : i0 ≠ i5 := by
-    intro h
-    apply hdisjoint i5
-    exact ⟨h ▸ hi0, hi5⟩
-  have hi15 : i1 ≠ i5 := by
-    intro h
-    apply hdisjoint i5
-    exact ⟨h ▸ hi1, hi5⟩
-  let sf : Fin 3 → ι :=
-    ![i0, i1, i5]
-  have hsf : Function.Injective sf := by
-    intro j k h
-    fin_cases j <;> fin_cases k <;> simp_all [sf]
-  let s : Fin 3 ↪ ι := ⟨sf, hsf⟩
-  have hd : ∀ j, d10 j ∣ q (s j) := by
-    intro j
-    fin_cases j
-    · exact hi0
-    · exact hi1
-    · exact hi5
-  have hdpos : ∀ j, 0 < d10 j := by
-    intro j
-    fin_cases j
-    · change 0 < 2
-      norm_num
-    · change 0 < 2
-      norm_num
-    · change 0 < 5
-      norm_num
-  obtain ⟨f, hf⟩ :=
-    exists_pi_zmod_embedding_of_factors d10 q s hd hdpos hn e
-  exact ⟨f.comp c2c10Coordinates, hf.comp c2c10Coordinates_injective⟩
-
-private theorem c2c12EmbedsOfFactorCounts
-    {G : Type*} [AddCommGroup G] {ι : Type*} [Fintype ι]
-    (q : ι → ℕ) (hn : ∀ i, q i ≠ 0)
-    (hq : ∀ i, q i = 1 ∨ q i = 2 ∨ q i = 3 ∨ q i = 4 ∨
-      q i = 5 ∨ q i = 7 ∨ q i = 8 ∨ q i = 9)
-    (e : G ≃+ DirectSum ι fun i => ZMod (q i))
-    (hc2 : (Finset.univ.filter fun i => 2 ∣ q i).card = 2)
-    (hc4 : (Finset.univ.filter fun i => 4 ∣ q i).card = 1)
-    (hc3 : (Finset.univ.filter fun i => 3 ∣ q i).card = 1) :
-    ∃ f : ZMod 2 × ZMod 12 →+ G, Function.Injective f := by
-  classical
-  have hcard2 : Fintype.card {i : ι // 2 ∣ q i} = 2 := by
-    rw [Fintype.card_subtype]
-    exact hc2
-  have hcard4 : Fintype.card {i : ι // 4 ∣ q i} = 1 := by
-    rw [Fintype.card_subtype]
-    exact hc4
-  have hcard3 : Fintype.card {i : ι // 3 ∣ q i} = 1 := by
-    rw [Fintype.card_subtype]
-    exact hc3
-  let e2 : {i : ι // 2 ∣ q i} ≃ Fin 2 :=
-    Fintype.equivFinOfCardEq hcard2
-  let e4 : {i : ι // 4 ∣ q i} ≃ Fin 1 :=
-    Fintype.equivFinOfCardEq hcard4
-  let e3 : {i : ι // 3 ∣ q i} ≃ Fin 1 :=
-    Fintype.equivFinOfCardEq hcard3
-  let i4 : ι := (e4.symm 0).1
-  have hi4 : 4 ∣ q i4 := (e4.symm 0).2
-  have hi4two : 2 ∣ q i4 := dvd_trans (by norm_num) hi4
-  let i4as2 : {i : ι // 2 ∣ q i} := ⟨i4, hi4two⟩
-  let k4 : Fin 2 := e2 i4as2
-  let k2 : Fin 2 := if k4 = 0 then 1 else 0
-  have hk2ne : k2 ≠ k4 := by
-    by_cases hk : k4 = 0
-    · simp [k2, hk]
-    · have hk1 : k4 = 1 := Fin.eq_one_of_ne_zero k4 hk
-      simp [k2, hk1]
-  let i2 : ι := (e2.symm k2).1
-  have hi2 : 2 ∣ q i2 := (e2.symm k2).2
-  have hi24 : i2 ≠ i4 := by
-    intro h
-    have heq : e2.symm k2 = i4as2 := Subtype.ext h
-    apply hk2ne
-    calc
-      k2 = e2 (e2.symm k2) := (e2.apply_symm_apply k2).symm
-      _ = e2 i4as2 := congrArg e2 heq
-      _ = k4 := rfl
-  let i3 : ι := (e3.symm 0).1
-  have hi3 : 3 ∣ q i3 := (e3.symm 0).2
-  have hdisjoint : ∀ i, ¬(2 ∣ q i ∧ 3 ∣ q i) := by
-    intro i hi
-    rcases hq i with h | h | h | h | h | h | h | h
-    all_goals rw [h] at hi
-    all_goals norm_num at hi
-  have hi23 : i2 ≠ i3 := by
-    intro h
-    apply hdisjoint i3
-    exact ⟨h ▸ hi2, hi3⟩
-  have hi43 : i4 ≠ i3 := by
-    intro h
-    apply hdisjoint i3
-    exact ⟨h ▸ hi4two, hi3⟩
-  let sf : Fin 3 → ι :=
-    ![i2, i4, i3]
-  have hsf : Function.Injective sf := by
-    intro j k h
-    fin_cases j <;> fin_cases k <;> simp_all [sf]
-  let s : Fin 3 ↪ ι := ⟨sf, hsf⟩
-  have hd : ∀ j, d12 j ∣ q (s j) := by
-    intro j
-    fin_cases j
-    · exact hi2
-    · exact hi4
-    · exact hi3
-  have hdpos : ∀ j, 0 < d12 j := by
-    intro j
-    fin_cases j
-    · change 0 < 2
-      norm_num
-    · change 0 < 4
-      norm_num
-    · change 0 < 3
-      norm_num
-  obtain ⟨f, hf⟩ :=
-    exists_pi_zmod_embedding_of_factors d12 q s hd hdpos hn e
-  exact ⟨f.comp c2c12Coordinates, hf.comp c2c12Coordinates_injective⟩
-
-/-- If every element of a finite abelian group has a Mazur-allowed order and none of the seven
-standard obstruction groups embeds, then the group has at most sixteen elements. -/
-theorem card_le_sixteen_of_allowed_orders_and_forbidden
+/-- Allowed element orders and the four elementary rank obstructions put a finite abelian
+group in rank-two invariant-factor form. -/
+theorem exists_rankTwoPresentation_of_allowed_orders_and_forbidden
     {G : Type*} [AddCommGroup G] [Finite G]
     (horders : ∀ x : G, addOrderOf x ∈ cyclicOrders)
-    (havoid : AvoidsMazurForbiddenSubgroups G) :
-    Nat.card G ≤ 16 := by
+    (h2rank : ForbidsEmbedding (ZMod 2 × ZMod 2 × ZMod 2) G)
+    (h3rank : ForbidsEmbedding (ZMod 3 × ZMod 3) G)
+    (h5rank : ForbidsEmbedding (ZMod 5 × ZMod 5) G)
+    (h7rank : ForbidsEmbedding (ZMod 7 × ZMod 7) G) :
+    ∃ m n : ℕ, m ∣ n ∧ Nonempty (G ≃+ (ZMod m × ZMod n)) := by
   classical
   obtain ⟨ι, hι, p, hp, a, ⟨e₀⟩⟩ :=
     AddCommGroup.equiv_directSum_zmod_of_finite G
@@ -782,59 +380,136 @@ theorem card_le_sixteen_of_allowed_orders_and_forbidden
   let x : G := eprod.symm ones
   let D : ℕ := addOrderOf x
   have hD : D ∈ cyclicOrders := horders x
-  have horder : addOrderOf ones = D := by
-    simp [D, x]
+  have horder : addOrderOf ones = D := by simp [D, x]
   have hdiv : ∀ i, q i ∣ D := by
     intro i
-    have hi :=
-      addOrderOf_map_dvd (Pi.evalAddMonoidHom (fun i => ZMod (q i)) i) ones
+    have hi := addOrderOf_map_dvd (Pi.evalAddMonoidHom (fun i => ZMod (q i)) i) ones
     change addOrderOf (ones i) ∣ addOrderOf ones at hi
-    rw [show addOrderOf (ones i) = q i by simp [ones, ZMod.addOrderOf_one],
-      horder] at hi
-    exact hi
+    rwa [show addOrderOf (ones i) = q i by simp [ones, ZMod.addOrderOf_one], horder] at hi
   have hq :
       ∀ i, q i = 1 ∨ q i = 2 ∨ q i = 3 ∨ q i = 4 ∨
         q i = 5 ∨ q i = 7 ∨ q i = 8 ∨ q i = 9 := by
     intro i
     exact prime_pow_dvd_allowed_order_cases (hp i) hD (hdiv i)
-  have hn : ∀ i, q i ≠ 0 := by
-    intro i
-    exact pow_ne_zero _ (hp i).ne_zero
-  have hc2 :
-      (Finset.univ.filter fun i => 2 ∣ q i).card < 3 :=
-    factor_count_lt_three_of_forbidden_cube q hn e (by norm_num) havoid.c2Cube
-  have hc3 :
-      (Finset.univ.filter fun i => 3 ∣ q i).card < 2 :=
-    factor_count_lt_two_of_forbidden_square q hn e (by norm_num) havoid.c3Square
-  have hc4 :
-      (Finset.univ.filter fun i => 4 ∣ q i).card < 2 :=
-    factor_count_lt_two_of_forbidden_square q hn e (by norm_num) havoid.c4Square
-  have hc5 :
-      (Finset.univ.filter fun i => 5 ∣ q i).card < 2 :=
-    factor_count_lt_two_of_forbidden_square q hn e (by norm_num) havoid.c5Square
-  have hc7 :
-      (Finset.univ.filter fun i => 7 ∣ q i).card < 2 :=
-    factor_count_lt_two_of_forbidden_square q hn e (by norm_num) havoid.c7Square
-  have h10 :
-      ¬((Finset.univ.filter fun i => 2 ∣ q i).card = 2 ∧
-        (Finset.univ.filter fun i => 5 ∣ q i).card = 1) := by
-    rintro ⟨h2, h5⟩
-    obtain ⟨f, hf⟩ := c2c10EmbedsOfFactorCounts q hn hq e h2 h5
-    exact havoid.c2c10 f hf
-  have h12 :
-      ¬((Finset.univ.filter fun i => 2 ∣ q i).card = 2 ∧
-        (Finset.univ.filter fun i => 4 ∣ q i).card = 1 ∧
-        (Finset.univ.filter fun i => 3 ∣ q i).card = 1) := by
-    rintro ⟨h2, h4, h3⟩
-    obtain ⟨f, hf⟩ := c2c12EmbedsOfFactorCounts q hn hq e h2 h4 h3
-    exact havoid.c2c12 f hf
-  have hcard : Nat.card G = ∏ i, q i := by
-    calc
-      Nat.card G = Nat.card (∀ i, ZMod (q i)) :=
-        Nat.card_congr eprod.toEquiv
-      _ = ∏ i, Nat.card (ZMod (q i)) := Nat.card_pi
-      _ = ∏ i, q i := by simp [Nat.card_zmod]
-  rw [hcard]
-  exact elementary_product_le_sixteen q D hD hq hdiv hc2 hc3 hc4 hc5 hc7 h10 h12
+  have hn : ∀ i, q i ≠ 0 := fun i => pow_ne_zero _ (hp i).ne_zero
+  have hc2 := factor_count_lt_three_of_forbidden_cube q hn e (by norm_num) h2rank
+  have hc3 := factor_count_lt_two_of_forbidden_square q hn e (by norm_num) h3rank
+  have hc5 := factor_count_lt_two_of_forbidden_square q hn e (by norm_num) h5rank
+  have hc7 := factor_count_lt_two_of_forbidden_square q hn e (by norm_num) h7rank
+  have factor_unique (d : ℕ)
+      (hc : (Finset.univ.filter fun i => d ∣ q i).card < 2)
+      {i j : ι} (hi : d ∣ q i) (hj : d ∣ q j) : i = j := by
+    apply (Finset.card_le_one.mp (show
+      (Finset.univ.filter fun i => d ∣ q i).card ≤ 1 by omega)) i
+    · simp [hi]
+    · simp [hj]
+  have prime_cases_of_dvd {r : ℕ} (hr : r.Prime) {i : ι} (hri : r ∣ q i) :
+      r = 2 ∨ r = 3 ∨ r = 5 ∨ r = 7 := by
+    have hqle : q i ≤ 9 := by
+      rcases hq i with h | h | h | h | h | h | h | h <;> omega
+    have hrle : r ≤ q i := Nat.le_of_dvd (by exact Nat.pos_of_ne_zero (hn i)) hri
+    have hrle9 : r ≤ 9 := hrle.trans hqle
+    have hr2 := hr.two_le
+    interval_cases r
+    · exact Or.inl rfl
+    · exact Or.inr (Or.inl rfl)
+    · exact ((by decide : ¬Nat.Prime 4) hr).elim
+    · exact Or.inr (Or.inr (Or.inl rfl))
+    · exact ((by decide : ¬Nat.Prime 6) hr).elim
+    · exact Or.inr (Or.inr (Or.inr rfl))
+    · exact ((by decide : ¬Nat.Prime 8) hr).elim
+    · exact ((by decide : ¬Nat.Prime 9) hr).elim
+  have pairwise_of_two_unique
+      (hc : (Finset.univ.filter fun i => 2 ∣ q i).card < 2) :
+      Pairwise (Function.onFun Nat.Coprime q) := by
+    intro i j hij
+    by_contra hcop
+    obtain ⟨r, hr, hri, hrj⟩ := Nat.Prime.not_coprime_iff_dvd.mp hcop
+    rcases prime_cases_of_dvd hr hri with rfl | rfl | rfl | rfl
+    · exact hij (factor_unique 2 hc hri hrj)
+    · exact hij (factor_unique 3 hc3 hri hrj)
+    · exact hij (factor_unique 5 hc5 hri hrj)
+    · exact hij (factor_unique 7 hc7 hri hrj)
+  have even_factor_cases {i : ι} (hi : 2 ∣ q i) :
+      q i = 2 ∨ q i = 4 ∨ q i = 8 := by
+    rcases hq i with h | h | h | h | h | h | h | h
+    · norm_num [h] at hi
+    · exact Or.inl h
+    · norm_num [h] at hi
+    · exact Or.inr (Or.inl h)
+    · norm_num [h] at hi
+    · norm_num [h] at hi
+    · exact Or.inr (Or.inr h)
+    · norm_num [h] at hi
+  by_cases hc : (Finset.univ.filter fun i => 2 ∣ q i).card < 2
+  · let n := ∏ i, q i
+    let ez : ZMod n ≃+ (∀ i, ZMod (q i)) :=
+      (ZMod.prodEquivPi q (pairwise_of_two_unique hc)).toAddEquiv
+    refine ⟨1, n, one_dvd n, ⟨eprod.trans <| ez.symm.trans AddEquiv.uniqueProd.symm⟩⟩
+  · have hc_eq : (Finset.univ.filter fun i => 2 ∣ q i).card = 2 := by omega
+    obtain ⟨i, j, hij, hfilter⟩ := Finset.card_eq_two.mp hc_eq
+    have hi2 : 2 ∣ q i := by
+      have : i ∈ Finset.univ.filter fun k => 2 ∣ q k := by rw [hfilter]; simp
+      simpa using (Finset.mem_filter.mp this).2
+    have hj2 : 2 ∣ q j := by
+      have : j ∈ Finset.univ.filter fun k => 2 ∣ q k := by rw [hfilter]; simp
+      simpa using (Finset.mem_filter.mp this).2
+    have hcomparable : q i ∣ q j ∨ q j ∣ q i := by
+      rcases even_factor_cases hi2 with hi | hi | hi <;>
+        rcases even_factor_cases hj2 with hj | hj | hj
+      all_goals norm_num [hi, hj]
+    have heven : ∀ {k : ι}, 2 ∣ q k → k = i ∨ k = j := by
+      intro k hk
+      have hmem : k ∈ Finset.univ.filter fun l => 2 ∣ q l := by simp [hk]
+      rw [hfilter] at hmem
+      simpa only [Finset.mem_insert, Finset.mem_singleton] using hmem
+    have finish {i j : ι} (hij : i ≠ j) (hijdiv : q i ∣ q j)
+        (heven : ∀ {k : ι}, 2 ∣ q k → k = i ∨ k = j) :
+        ∃ m n : ℕ, m ∣ n ∧ Nonempty (G ≃+ (ZMod m × ZMod n)) := by
+      let κ := {k : ι // k ≠ i}
+      let r : κ → ℕ := fun k => q k.1
+      have hrpair : Pairwise (Function.onFun Nat.Coprime r) := by
+        intro k l hkl
+        by_contra hcop
+        obtain ⟨d, hd, hdk, hdl⟩ := Nat.Prime.not_coprime_iff_dvd.mp hcop
+        rcases prime_cases_of_dvd hd hdk with rfl | rfl | rfl | rfl
+        · rcases heven hdk with hki | hkj
+          · exact k.2 hki
+          · rcases heven hdl with hli | hlj
+            · exact l.2 hli
+            · exact hkl (Subtype.ext (hkj.trans hlj.symm))
+        · exact hkl (Subtype.ext (factor_unique 3 hc3 hdk hdl))
+        · exact hkl (Subtype.ext (factor_unique 5 hc5 hdk hdl))
+        · exact hkl (Subtype.ext (factor_unique 7 hc7 hdk hdl))
+      let n := ∏ k : κ, r k
+      let esplit : (∀ k : ι, ZMod (q k)) ≃+ (ZMod (q i) × (∀ k : κ, ZMod (r k))) := by
+        let eidx : Option κ ≃ ι := Equiv.optionSubtypeNe i
+        let e₁ := (LinearEquiv.piCongrLeft ℤ (fun k : ι => ZMod (q k)) eidx).symm
+        let e₂ := LinearEquiv.piOptionEquivProd
+          (M := fun o => ZMod (q (eidx o))) ℤ
+        exact (e₁.trans e₂).toAddEquiv
+      let ez : ZMod n ≃+ (∀ k : κ, ZMod (r k)) :=
+        (ZMod.prodEquivPi r hrpair).toAddEquiv
+      let en : G ≃+ (ZMod (q i) × ZMod n) :=
+        eprod.trans <| esplit.trans (AddEquiv.prodCongr (AddEquiv.refl _) ez.symm)
+      have hjκ : (⟨j, hij.symm⟩ : κ) ∈ Finset.univ := Finset.mem_univ _
+      have hjdvd : q j ∣ n := by
+        exact Finset.dvd_prod_of_mem (fun k : κ => r k) hjκ
+      exact ⟨q i, n, dvd_trans hijdiv hjdvd, ⟨en⟩⟩
+    rcases hcomparable with hijdiv | hjidiv
+    · exact finish hij hijdiv heven
+    · exact finish hij.symm hjidiv fun hk => (heven hk).symm
+
+/-- If every element of a finite abelian group has a Mazur-allowed order and none of the seven
+standard obstruction groups embeds, then the group has at most sixteen elements. -/
+theorem card_le_sixteen_of_allowed_orders_and_forbidden
+    {G : Type*} [AddCommGroup G] [Finite G]
+    (horders : ∀ x : G, addOrderOf x ∈ cyclicOrders)
+    (havoid : AvoidsMazurForbiddenSubgroups G) :
+    Nat.card G ≤ 16 := by
+  obtain ⟨m, n, hmn, ⟨e⟩⟩ :=
+    exists_rankTwoPresentation_of_allowed_orders_and_forbidden horders
+      havoid.c2Cube havoid.c3Square havoid.c5Square havoid.c7Square
+  exact card_le_sixteen_of_rankTwo horders havoid hmn e
 
 end MazurTorsion

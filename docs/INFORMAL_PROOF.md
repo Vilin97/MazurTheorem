@@ -39,10 +39,11 @@ The generic finite-group classification and the elliptic-curve forbidden
 subgroup results are checked. In particular,
 `MazurTorsion.hasMazurClassification_of_rankTwo` assembles these inputs.
 
-Two facts remain visible for the genuine group-structure theorem:
-
-1. rational torsion is finite;
-2. it admits the two-invariant-factor presentation used by the assembly.
+Rational-torsion finiteness is checked by
+`MazurTorsion.rationalTorsion_finite`, and the generic finite-abelian rank-two
+theorem is also checked. Its rational-torsion adapter compiles conditionally;
+the remaining task is to discharge its point-order, `h55`, and `h77` arithmetic
+inputs through API integration.
 
 The numerical challenge can avoid those facts by splitting on whether the
 underlying set is finite. The full theorem cannot.
@@ -197,8 +198,16 @@ After the prime theorem and finite endpoints, every rational torsion point has
 allowed order. Combine this with:
 
 - the checked forbidden embeddings;
-- rational-torsion finiteness;
-- a rank-two invariant-factor presentation.
+- rational-torsion finiteness from rational Northcott, the approximate
+  parallelogram law, and Mathlib's direct finite-torsion descent theorem;
+- the checked generic rank-two invariant-factor theorem, derived from the
+  finite-abelian decomposition, allowed-order hypothesis, and exactly
+  `c2Cube`, `c3Square`, `c5Square`, and `c7Square`, followed by its compiled
+  rational-torsion adapter once the remaining arithmetic inputs are supplied.
+
+The final Mazur-list classification then also uses `c4Square`, `c2c10`, and
+`c2c12`; those three obstructions are not prerequisites of the generic
+rank-two theorem.
 
 The existing finite-group theorem then proves
 `HasMazurClassification E`. The existing cardinality theorem derives the
@@ -210,11 +219,16 @@ formalized.
 
 ## 11. What is active now
 
-The execution plan limits maintainer work to three foundation packages:
+The execution plan currently selects two foundation packages under a limit of
+three:
 
 1. the coherent-cohomology core needed by Picard representability;
-2. the represented `Γ₀` moduli map, tested by order `49`;
-3. generic Néron specialization and the private Eisenstein witness seam.
+2. the canonical Weierstrass commutative group scheme, before its
+   exact-torsion subgroup and represented `Γ₀` consumers.
+
+The generic Néron mapping property and admissible-filtration API are already
+integrated. Instantiating them on the Eisenstein quotient is blocked until the
+actual quotient and its Néron model exist, so the third WIP slot remains unused.
 
 Other contracts remain in the mathematical DAG but are not claimable until
 these interfaces stabilize. This limits parallel proof volume behind

@@ -16,18 +16,23 @@ the classification endpoint.
 
 ## Selected WIP
 
-The current execution revision has a WIP limit of three. Exactly one package
-is selected in each lane:
+The current execution revision has a WIP limit of three. Two honest packages
+are selected, leaving one slot unused:
 
 | Lane | Node slice | Current package | Exit criterion |
 |---|---|---|---|
-| Canonical curve cohomology to Jacobians | `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
-| Néron specialization and Eisenstein witness | `MT-NERON-BASE`, `MT-NERON-COMPONENTS`, `MT-NERON-SPECIALIZATION`, `MT-FFGS-CONNECTED-ETALE`, `MT-FFGS-OORT-RAYNAUD`, `MT-X0-EISENSTEIN-QUOTIENT` | `WP-MT-NERON-BASE-MAPPING-PROPERTY` | The private Eisenstein constructor produces the route-neutral degree-one witness consumed at 5. |
+| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
-Only these three `current_work_package` values count as selected WIP. Other
+Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
 partition their parent node's fixed weight and award no independent credit.
+
+The represented-moduli package now waits on the exact-torsion finite-flat
+subgroup package. The generic Néron mapping-property and
+admissible-filtration packages are integrated. Their Eisenstein-quotient
+instantiation requires the actual quotient and Néron models, so it is blocked
+and does not occupy the spare WIP slot.
 
 ## Contributor-facing contracts
 

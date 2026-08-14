@@ -12,8 +12,8 @@ import MazurTorsion.NumberTheory.RatNorthcott
 # Rank-two reduction for rational elliptic-curve torsion
 
 This file joins the compiled low-level torsion obstructions to the finite-abelian classification.
-It proves rational-torsion finiteness from naïve-height descent, then exposes the remaining
-rank-two and arithmetic inputs to the classification.
+It proves rational-torsion finiteness from naïve-height descent, derives the rank-two normal form,
+then exposes only the remaining arithmetic inputs to the classification.
 -/
 
 open scoped WeierstrassCurve.Affine
@@ -61,32 +61,40 @@ theorem rationalTorsion_finite [E.IsElliptic] :
   obtain ⟨_, hC⟩ := WeierstrassCurve.Affine.approx_parallelogram_law (E⁄ℚ)
   exact Set.finite_coe_iff.mp (AddCommGroup.finite_torsion_of_descent' hC)
 
-/-- The rank-two presentation needed once rational torsion is finite. -/
-def HasRankTwoPresentationIfFinite : Prop :=
-  ∀ _hfinite : (AddCommGroup.torsion (E⁄ℚ).Point : Set (E⁄ℚ).Point).Finite,
-    ∃ m n : ℕ, m ∣ n ∧ Nonempty (RationalTorsion E ≃+ (ZMod m × ZMod n))
-/-- Package the finite-branch classification from the six remaining mathematical inputs. -/
+/-- Allowed element orders and the four elementary rank obstructions put finite rational torsion
+in rank-two invariant-factor form. -/
+theorem rationalTorsion_hasRankTwoPresentation
+    (hfinite : (AddCommGroup.torsion (E⁄ℚ).Point : Set (E⁄ℚ).Point).Finite)
+    (horders : ∀ x : RationalTorsion E, addOrderOf x ∈ cyclicOrders)
+    (h55 : ForbidsEmbedding (ZMod 5 × ZMod 5) (RationalTorsion E))
+    (h77 : ForbidsEmbedding (ZMod 7 × ZMod 7) (RationalTorsion E)) :
+    ∃ m n : ℕ, m ∣ n ∧ Nonempty (RationalTorsion E ≃+ (ZMod m × ZMod n)) := by
+  letI : Fintype (RationalTorsion E) := hfinite.fintype
+  exact exists_rankTwoPresentation_of_allowed_orders_and_forbidden horders
+    (rationalTorsion_forbids_zmod_two_cube E)
+    (rationalTorsion_forbids_zmod_three_square E) h55 h77
+
+/-- Package the finite-branch classification from the five remaining mathematical inputs. -/
 theorem hasMazurClassificationIfFinite_of_rankTwo_inputs
     (horders : ∀ x : RationalTorsion E, addOrderOf x ∈ cyclicOrders)
-    (hrank : HasRankTwoPresentationIfFinite E)
     (h55 : ForbidsEmbedding (ZMod 5 × ZMod 5) (RationalTorsion E))
     (h77 : ForbidsEmbedding (ZMod 7 × ZMod 7) (RationalTorsion E))
     (h210 : ForbidsEmbedding (ZMod 2 × ZMod 10) (RationalTorsion E))
     (h212 : ForbidsEmbedding (ZMod 2 × ZMod 12) (RationalTorsion E)) :
     HasMazurClassificationIfFinite E := by
   intro hfinite
-  obtain ⟨m, n, hmn, ⟨e⟩⟩ := hrank hfinite
+  obtain ⟨m, n, hmn, ⟨e⟩⟩ :=
+    rationalTorsion_hasRankTwoPresentation E hfinite horders h55 h77
   exact hasMazurClassification_of_rankTwo E horders h55 h77 h210 h212 hmn e
-/-- Exact LeanPool cardinality target, reduced to the six remaining rank-two arithmetic inputs. -/
+/-- Exact LeanPool cardinality target, reduced to the five remaining arithmetic inputs. -/
 theorem torsion_ncard_le_of_rankTwo_inputs [E.IsElliptic]
     (horders : ∀ x : RationalTorsion E, addOrderOf x ∈ cyclicOrders)
-    (hrank : HasRankTwoPresentationIfFinite E)
     (h55 : ForbidsEmbedding (ZMod 5 × ZMod 5) (RationalTorsion E))
     (h77 : ForbidsEmbedding (ZMod 7 × ZMod 7) (RationalTorsion E))
     (h210 : ForbidsEmbedding (ZMod 2 × ZMod 10) (RationalTorsion E))
     (h212 : ForbidsEmbedding (ZMod 2 × ZMod 12) (RationalTorsion E)) :
     (AddCommGroup.torsion (E⁄ℚ).Point : Set (E⁄ℚ).Point).ncard ≤ 16 :=
   torsion_ncard_le_of_classification E <|
-    (hasMazurClassificationIfFinite_of_rankTwo_inputs E horders hrank h55 h77 h210 h212)
+    (hasMazurClassificationIfFinite_of_rankTwo_inputs E horders h55 h77 h210 h212)
       (rationalTorsion_finite E)
 end MazurTorsion

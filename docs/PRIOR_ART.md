@@ -95,7 +95,8 @@ degree one; those remain separate requirements of roadmap node
 The audit found no mathlib declaration for any of the following:
 
 * Mazur's point-order theorem or fifteen-group classification;
-* finiteness of `E(ℚ)ₜₒᵣₛ`;
+* a ready-made elliptic-curve theorem asserting finiteness of `E(ℚ)ₜₒᵣₛ`
+  (the generic finite-torsion descent helper is available separately);
 * the general theorem `#E[n](K̄)=n²`;
 * a complete multiplication-by-`n`/division-polynomial torsion dictionary;
 * the Weil pairing for elliptic curves;
@@ -388,24 +389,20 @@ source for several dependencies adjacent to the Mazur proof:
 An isolated compatibility test replaced the repository's toolchain and
 mathlib revision by the exact LeanPool pin. `SelmerGroup.lean` and
 `WeakMordellWeil.lean` then compiled after only two mechanical rewrites
-around the renamed ramification-index API. The final
-`MordellWeil.lean` file has three pin-specific blockers:
+around the renamed ramification-index API. The remaining source-level import
+gap is explicit: the old `sym2x` declaration now comes from
+`Affine/AddSubMap.lean`. At the current exact pin, Mathlib does provide
+`AddCommGroup.finite_torsion_of_descent'`; the earlier claim that this helper
+was absent was stale.
 
-1. its import closure no longer brings in the old `sym2x` declaration
-   automatically, although the repository already has the needed
-   `Affine/AddSubMap.lean` source;
-2. the post-pin helper
-   `AddCommGroup.finite_torsion_of_descent'` is absent;
-3. the challenge pin predates the number-field Northcott instance used for
-   `logHeight₁`.
-
-The latter is the substantive port: upstream's later Northcott support is
-about 224 lines, while a rational-only specialization should be smaller.
-The rational specialization has now been completed locally:
-`NumberTheory/RatNorthcott.lean` supplies the exact-pin Northcott instance,
-and the height portion of Stoll's `MordellWeil.lean` is narrowly ported as
-`Foundations/NaiveHeightDescent.lean`. Its endpoint turns finite index of
-doubling into finite generation. The pure finitely-generated-group formula
+The rational specialization is completed locally.
+`NumberTheory/RatNorthcott.lean` supplies Northcott's property for rational
+logarithmic height, while `Foundations/NaiveHeightDescent.lean` supplies the
+approximate parallelogram law. Together with Mathlib's descent helper these
+now prove `MazurTorsion.rationalTorsion_finite` directly, without weak
+Mordell--Weil, finite index of doubling, or finite generation. The same height
+file also turns finite index of doubling or tripling into finite generation for
+the separate rank calculations. The pure finitely-generated-group formula
 from Stoll's `Mathlib/SelmerGroup.lean`,
 
 \[

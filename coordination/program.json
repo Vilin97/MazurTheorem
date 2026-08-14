@@ -3,9 +3,9 @@
   "title": "Mazur's rational torsion classification",
   "execution": {
     "revision": {
-      "id": "canonical-formal-immersion-v2",
+      "id": "canonical-formal-immersion-v3",
       "date": "2026-08-14",
-      "summary": "Retain Mazur's degree-one formal-immersion proof, separate its public collision witness from the private Eisenstein construction, and make the full group classification the release theorem."
+      "summary": "Retain Mazur's degree-one formal-immersion proof while making every selected lane executable: expose the canonical Weierstrass group-scheme and finite-flat subgroup sequence, record the generic admissible-filtration and rank-two packages as integrated, and keep the compiled rational adapter blocked on its remaining arithmetic API inputs."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -29,7 +29,11 @@
         "id": "cohomology-picard-jacobian",
         "title": "Canonical curve cohomology to Jacobians",
         "node_ids": [
+          "MT-TC-A3-DIVISOR-LINE-BUNDLE",
           "MT-TC-B1-COHERENT-COHOMOLOGY",
+          "MT-TC-B2-RR-SERRE",
+          "MT-TC-C1-RELATIVE-COHOMOLOGY",
+          "MT-TC-C2-SYMMETRIC-POWERS",
           "MT-TC-D1-PICARD-FUNCTOR",
           "MT-TC-D2-PICARD-REPRESENTABILITY",
           "MT-TC-E1-JACOBIAN-VARIETY",
@@ -48,22 +52,8 @@
           "MT-X0-JACOBIAN",
           "MT-O49-TOWER"
         ],
-        "current_work_package": "WP-MT-X0-MODULI-REPRESENTED-MODULI",
+        "current_work_package": "WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME",
         "exit_criterion": "An exact-order-49 point reaches an honest represented X₀(49) point without a supplied point-equivalence shadow."
-      },
-      {
-        "id": "neron-eisenstein-witness",
-        "title": "Néron specialization and Eisenstein witness",
-        "node_ids": [
-          "MT-NERON-BASE",
-          "MT-NERON-COMPONENTS",
-          "MT-NERON-SPECIALIZATION",
-          "MT-FFGS-CONNECTED-ETALE",
-          "MT-FFGS-OORT-RAYNAUD",
-          "MT-X0-EISENSTEIN-QUOTIENT"
-        ],
-        "current_work_package": "WP-MT-NERON-BASE-MAPPING-PROPERTY",
-        "exit_criterion": "The private Eisenstein constructor produces the route-neutral degree-one witness consumed at 5."
       }
     ],
     "paused_node_ids": [
@@ -81,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1805762,
-    "integrated_lean_modules": 1879,
+    "integrated_lean_lines": 1801061,
+    "integrated_lean_modules": 1878,
     "remaining_composite_orders": [
       18,
       25,
@@ -153,7 +143,7 @@
       "id": "integrated_baseline",
       "title": "Integrated baseline",
       "weight_points": 50,
-      "summary": "The sorry-free finite-group reduction, arithmetic foundations, and seven completed exceptional orders imported from Clawristotle.",
+      "summary": "The imported sorry-free finite-group reduction, arithmetic foundations, and seven completed exceptional orders, together with checked rational height-descent foundations.",
       "deliverables": [
         {
           "kind": "definition",
@@ -178,6 +168,12 @@
           "name": "MazurTorsion.torsion_ncard_le_of_explicit_arithmetic",
           "state": "integrated",
           "description": "The exact ncard-at-most-16 target once every rational torsion point has an allowed order."
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.approx_parallelogram_law / MazurTorsion.rationalLogHeightNorthcott",
+          "state": "integrated",
+          "description": "The checked rational height-descent inputs that prove torsion finiteness directly through Mathlib's finite-torsion descent theorem, without Mordell–Weil finite generation."
         }
       ]
     },
@@ -373,7 +369,7 @@
       "id": "integration",
       "title": "Integration and hardening",
       "weight_points": 50,
-      "summary": "Assemble allowed point orders with Mordell–Weil finiteness and finite-abelian shape to prove the full fifteen-group classification, then derive the ncard challenge and audit the release.",
+      "summary": "Assemble allowed point orders with height-descent torsion finiteness and finite-abelian shape to prove the full fifteen-group classification, then derive the ncard challenge and audit the release.",
       "deliverables": [
         {
           "kind": "integration",
@@ -419,7 +415,7 @@
       "weight_points": 50,
       "risk": "low",
       "backend": "mazur",
-      "summary": "Finite-group classification and cardinality assembly; full 2-, 3-, 4-, 5-, and 7-torsion obstructions; exceptional products; and unconditional exclusions of orders 14, 15, 16, 20, 21, 24, and 27.",
+      "summary": "Finite-group classification and cardinality assembly; direct rational-torsion finiteness; the generic finite-abelian rank-two presentation; full 2-, 3-, 4-, 5-, and 7-torsion obstructions; exceptional products; and unconditional exclusions of orders 14, 15, 16, 20, 21, 24, and 27.",
       "artifacts": [
         {
           "kind": "definition",
@@ -455,6 +451,34 @@
           "state": "integrated",
           "description": "The checked cardinality bound once the explicit point-order hypotheses are supplied.",
           "module": "MazurTorsion.Arithmetic.CardinalityReduction"
+        },
+        {
+          "kind": "theorem",
+          "name": "WeierstrassCurve.Affine.approx_parallelogram_law",
+          "state": "integrated",
+          "description": "The checked naïve-height estimate consumed by Mathlib's direct finite-torsion descent theorem.",
+          "module": "MazurTorsion.Foundations.NaiveHeightDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.rationalLogHeightNorthcott",
+          "state": "integrated",
+          "description": "Northcott's property for rational logarithmic height, completing the direct torsion-finiteness input without finite generation.",
+          "module": "MazurTorsion.NumberTheory.RatNorthcott"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.rationalTorsion_finite",
+          "state": "integrated",
+          "description": "Apply rational Northcott and the approximate parallelogram law to Mathlib's finite-torsion descent theorem, without full Mordell–Weil finite generation.",
+          "module": "MazurTorsion.Arithmetic.RankTwoReduction"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.exists_rankTwoPresentation_of_allowed_orders_and_forbidden",
+          "state": "integrated",
+          "description": "Put any finite abelian group satisfying the allowed-order hypothesis and exactly c2Cube, c3Square, c5Square, and c7Square into rank-two invariant-factor form; c4Square, c2c10, and c2c12 remain classification-only.",
+          "module": "MazurTorsion.GroupTheory.FiniteClassification"
         }
       ],
       "depends_on": [],
@@ -2209,12 +2233,12 @@
       "title": "Cyclic subgroup quotients and classifying data",
       "stage": "shared_geometry",
       "kind": "infrastructure",
-      "status": "planned",
+      "status": "blocked",
       "readiness": "nouns_missing",
       "weight_points": 25,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Package the rational cyclic subgroup generated by a torsion point, the quotient isogeny interfaces used by X_0 and the existing order-49 lane, and only the kernel/base-change laws exercised by those consumers. At the point-group level, the quotient by the supplied cyclic subgroup now has its exact kernel, multiplication by N descends to a dual map, both composites are multiplication by N, and the dual kernel is identified. Representability by an elliptic quotient scheme, its geometric kernel and base-change law remain open; in particular no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
+      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. At the point-group level, the quotient by the supplied cyclic subgroup now has its exact kernel, multiplication by N descends to a dual map, both composites are multiplication by N, and the dual kernel is identified. No equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2278,6 +2302,12 @@
           "description": "Identify the quotient-after-dual composite with multiplication by the level on the quotient."
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme",
+          "state": "proposed",
+          "description": "Equip the concrete reduced projective Weierstrass cubic with its canonical commutative group-scheme law and coordinate-point comparison."
+        },
+        {
           "kind": "structure",
           "name": "EllipticCurve.CyclicSubgroup",
           "state": "proposed",
@@ -2314,13 +2344,45 @@
       },
       "route_history": {
         "previous_scope": "generic quotients, dual isogenies, multiplication kernels, and the Weil pairing",
-        "revision": "retain only cyclic quotient APIs with compiled X_0 and order-49 consumers"
+        "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
         "recorded_artifact_count": 14,
-        "canonical_artifact_count": 8,
+        "canonical_artifact_count": 9,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
-      }
+      },
+      "work_packages": [
+        {
+          "id": "WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME",
+          "title": "Canonical Weierstrass commutative group scheme",
+          "weight_points": 10,
+          "status": "active",
+          "depends_on": [
+            "MT-BASE-INTEGRATED"
+          ],
+          "exit_criterion": "Construct the canonical Weierstrass commutative group scheme and refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume it without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+        },
+        {
+          "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",
+          "title": "Exact-torsion finite-flat cyclic subgroup",
+          "weight_points": 6,
+          "status": "next",
+          "depends_on": [
+            "WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME"
+          ],
+          "exit_criterion": "Construct the finite-flat cyclic subgroup generated by an exact-torsion point and refactor MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion to consume the canonical construction without an arbitrary M : WeierstrassGroupSchemeInterface E input."
+        },
+        {
+          "id": "WP-MT-EC-ISOGENY-WEIL-CYCLIC-QUOTIENT",
+          "title": "Cyclic quotient, exact kernel, and base change",
+          "weight_points": 9,
+          "status": "blocked",
+          "depends_on": [
+            "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP"
+          ],
+          "exit_criterion": "Construct the represented cyclic quotient from the canonical subgroup, with exact kernel and arbitrary base change, and refactor MazurTorsion.XZeroFortyNine.orderFortyNineEllipticQuotient_baseChange_kernel_exact to consume that construction without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+        }
+      ]
     },
     {
       "id": "MT-NERON-BASE",
@@ -2332,19 +2394,21 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct Neron models and their mapping property in the exact generality used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.",
+      "summary": "The canonical supplied Neron-model interface, mapping property, and section-extension equivalences compile. Construct actual Neron models in the exact generality used by the Eisenstein rank-zero criterion and by elliptic-curve reduction at 5.",
       "artifacts": [
         {
           "kind": "structure",
           "name": "AlgebraicGeometry.NeronModel",
-          "state": "proposed",
-          "description": "Package a smooth separated model with generic-fibre recovery and the Neron mapping property."
+          "state": "contract",
+          "description": "Package a smooth separated model with generic-fibre recovery and the Neron mapping property.",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.Basic"
         },
         {
           "kind": "theorem",
           "name": "AlgebraicGeometry.NeronModel.sectionExtension",
-          "state": "proposed",
-          "description": "Extend the rational sections used by the rank-zero and prime-five consumers."
+          "state": "contract",
+          "description": "Extend the rational sections used by the rank-zero and prime-five consumers.",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.Basic"
         }
       ],
       "depends_on": [
@@ -2370,7 +2434,7 @@
           "id": "WP-MT-NERON-BASE-MAPPING-PROPERTY",
           "title": "Canonical Néron-model interface and mapping property",
           "weight_points": 10,
-          "status": "active",
+          "status": "integrated",
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
@@ -2699,7 +2763,7 @@
       "title": "Admissible filtrations and fppf cohomology",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
-      "status": "planned",
+      "status": "blocked",
       "readiness": "compiled",
       "weight_points": 20,
       "risk": "extreme",
@@ -2785,11 +2849,11 @@
           "id": "WP-MT-FFGS-CONNECTED-ETALE-ADMISSIBLE-FILTRATION",
           "title": "Admissible constant/multiplicative filtration",
           "weight_points": 6,
-          "status": "next",
+          "status": "integrated",
           "depends_on": [
             "WP-MT-FFGS-CONNECTED-ETALE-REPRESENTED-H1"
           ],
-          "exit_criterion": "Package the exact two-factor filtration used by the Eisenstein quotient."
+          "exit_criterion": "Maintain the checked generic exact and iterated admissible-filtration API, including AdmissibleFiltrationStep.toAdmissibleFiltration and FppfLowDegreeExactSequence.hOne_sub_hZero_le; instantiation on the actual Eisenstein quotient belongs downstream after that quotient and its Neron model exist."
         },
         {
           "id": "WP-MT-FFGS-CONNECTED-ETALE-BAD-LEVEL-COMPARISON",
@@ -3002,10 +3066,10 @@
           "id": "WP-MT-X0-MODULI-REPRESENTED-MODULI",
           "title": "Represented Γ₀ moduli map",
           "weight_points": 12,
-          "status": "active",
+          "status": "blocked",
           "depends_on": [
             "WP-MT-X0-MODULI-SPLIT-CYCLIC-DATA",
-            "MT-EC-ISOGENY-WEIL"
+            "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP"
           ],
           "exit_criterion": "Map the honest subgroup scheme to the represented open modular curve without assuming the missing group law."
         },
@@ -4118,21 +4182,16 @@
       "status": "blocked",
       "readiness": "compiled",
       "weight_points": 15,
-      "risk": "low",
+      "risk": "medium",
       "backend": "mazur",
-      "summary": "Prove rational torsion finite, obtain its rank-two invariant-factor presentation, combine that input with the unconditional point-order theorem and the checked forbidden subgroup results, and conclude the fifteen-group classification. Derive the immutable ncard-at-most-16 challenge as a corollary.",
+      "summary": "The checked rationalTorsion_finite theorem uses rational Northcott, the approximate parallelogram law, and Mathlib finite-torsion descent without full Mordell–Weil finite generation. The checked generic rank-two theorem uses the finite-abelian decomposition, allowed-order hypothesis, and the four elementary rank obstructions c2Cube, c3Square, c5Square, and c7Square. Its compiled rational adapter remains conditional on the point-order, h55, and h77 inputs; the later classification also consumes c4Square, c2c10, and c2c12 before deriving the immutable ncard-at-most-16 corollary.",
       "artifacts": [
         {
           "kind": "theorem",
-          "name": "MazurTorsion.rationalTorsion_finite",
-          "state": "proposed",
-          "description": "Supply the Mordell–Weil finiteness input deliberately omitted from the literal ncard challenge."
-        },
-        {
-          "kind": "theorem",
           "name": "MazurTorsion.rationalTorsion_hasRankTwoPresentation",
-          "state": "proposed",
-          "description": "Put the finite rational torsion group into the two-invariant-factor form used by the checked classification theorem."
+          "state": "contract",
+          "description": "The compiled cross-module adapter applies the generic theorem to finite rational torsion, conditional on the point-order, h55, and h77 inputs still owned by API integration.",
+          "module": "MazurTorsion.Arithmetic.RankTwoReduction"
         },
         {
           "kind": "theorem",
@@ -4166,22 +4225,54 @@
       ],
       "work_packages": [
         {
-          "id": "WP-MT-FINAL-CLASSIFICATION",
-          "title": "Full fifteen-group classification",
-          "weight_points": 10,
+          "id": "WP-MT-FINAL-TORSION-FINITENESS",
+          "title": "Rational torsion finiteness by height descent",
+          "weight_points": 2,
+          "status": "integrated",
+          "depends_on": [
+            "MT-BASE-INTEGRATED"
+          ],
+          "exit_criterion": "Maintain the checked MazurTorsion.rationalTorsion_finite proof from rational Northcott, the approximate parallelogram law, and Mathlib's finite-torsion descent theorem."
+        },
+        {
+          "id": "WP-MT-FINAL-RANK-TWO-GENERIC",
+          "title": "Generic finite-abelian rank-two reduction",
+          "weight_points": 4,
+          "status": "integrated",
+          "depends_on": [
+            "MT-BASE-INTEGRATED"
+          ],
+          "exit_criterion": "Maintain the checked MazurTorsion.exists_rankTwoPresentation_of_allowed_orders_and_forbidden theorem for an arbitrary finite abelian group from its allowed element orders, prime-power decomposition, and exactly c2Cube, c3Square, c5Square, and c7Square; c4Square, c2c10, and c2c12 remain classification-only."
+        },
+        {
+          "id": "WP-MT-FINAL-RANK-TWO-NORMAL-FORM",
+          "title": "Rational torsion rank-two adapter",
+          "weight_points": 2,
           "status": "blocked",
           "depends_on": [
+            "WP-MT-FINAL-RANK-TWO-GENERIC",
+            "WP-MT-FINAL-TORSION-FINITENESS",
             "MT-API-INTEGRATION"
           ],
-          "exit_criterion": "Compile rationalTorsion_hasMazurClassification from finiteness, rank-two shape, allowed orders, and forbidden embeddings."
+          "exit_criterion": "Discharge the point-order, h55, and h77 API inputs of the compiled MazurTorsion.rationalTorsion_hasRankTwoPresentation adapter; its generic theorem and finiteness dependencies are already integrated."
+        },
+        {
+          "id": "WP-MT-FINAL-CLASSIFICATION",
+          "title": "Full fifteen-group classification",
+          "weight_points": 5,
+          "status": "blocked",
+          "depends_on": [
+            "WP-MT-FINAL-RANK-TWO-NORMAL-FORM"
+          ],
+          "exit_criterion": "Compile rationalTorsion_hasMazurClassification from finiteness, the rank-two adapter, allowed orders, and the remaining c4Square, c2c10, and c2c12 classification obstructions."
         },
         {
           "id": "WP-MT-FINAL-NCARD",
           "title": "Immutable ncard challenge",
-          "weight_points": 5,
+          "weight_points": 2,
           "status": "blocked",
           "depends_on": [
-            "MT-API-INTEGRATION"
+            "WP-MT-FINAL-CLASSIFICATION"
           ],
           "exit_criterion": "Compile Challenge.Mazur.torsion_ncard_le as a checked bridge, preferably via the full classification."
         }

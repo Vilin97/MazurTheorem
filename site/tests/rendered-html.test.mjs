@@ -63,8 +63,14 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /built on canonical objects/);
   assert.match(html, /rationalTorsion_hasMazurClassification/);
   assert.match(html, /DegreeOneFormalImmersionWitness/);
-  assert.match(html, /One theorem spine. Three active foundation lanes/);
-  assert.equal((html.match(/class="lane-card"/g) ?? []).length, 3);
+  assert.match(
+    html,
+    /One theorem spine. Only startable foundation lanes are active/,
+  );
+  assert.equal(
+    (html.match(/class="lane-card"/g) ?? []).length,
+    programme.execution.active_lanes.length,
+  );
   assert.match(html, /Evidence-weighted ledger/);
   assert.match(html, new RegExp(`>${integratedPercent}%<\\/span>`));
   assert.match(html, /Ecosystem-ready estimate/);

@@ -67,11 +67,12 @@ integrated. Claimability is separate again.
 
 ## Execution and claims
 
-The `execution` object selects three active lanes and sets a work-in-progress
-limit of three current packages. Each lane has exactly one
-`current_work_package` and a concrete exit criterion. Other packages marked
-`active` may be technically unblocked; they are not additional selected WIP
-unless the execution plan names them.
+The `execution` object sets a work-in-progress limit of three packages and
+currently selects two active lanes. Each selected lane has exactly one
+`current_work_package` and a concrete exit criterion. An unused slot is not a
+reason to select work whose prerequisite object does not exist. Other packages
+marked `active` may be technically unblocked; they are not additional selected
+WIP unless the execution plan names them.
 
 Challenge lifecycle has these meanings:
 

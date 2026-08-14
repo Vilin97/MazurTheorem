@@ -16,8 +16,9 @@ corollary, not as the definition of project completion.
 `generated/program.json` must remain byte-identical to the canonical ledger.
 Top-level nodes are the stable 1,000-point accounting units. Nested work
 packages subdivide execution and earn no independent credit. The execution
-object selects three current packages under a WIP limit of three; other
-packages marked `active` are ready rather than selected.
+object selects current packages under a WIP limit of three; it currently names
+two honest lanes and leaves one slot unused. Other packages marked `active`
+are ready rather than selected.
 
 The main roadmap graph is the top-level mathematical DAG. Package and endpoint
 views provide operational navigation without inventing new Blueprint nodes or

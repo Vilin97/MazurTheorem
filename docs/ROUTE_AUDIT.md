@@ -2,7 +2,7 @@
 
 Date: 2026-08-14
 Ledger route: `formal-immersion-at-five-v1`
-Execution revision: `canonical-formal-immersion-v2`
+Execution revision: `canonical-formal-immersion-v3`
 
 ## Decision
 

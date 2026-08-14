@@ -12,6 +12,9 @@ public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5Look
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar1First
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar1Second
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar1Exceptional
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar0LeftPart2Simp
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar0MainPart2Simp
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence5LookupScalar0ExceptionalPart2Simp
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 import Mathlib.Tactic.IntervalCases
@@ -479,39 +482,8 @@ attribute [local simp]
   recurrence5Scalar0Left_coeff_433
   recurrence5Scalar0Left_coeff_434
   recurrence5Scalar0Left_coeff_435
-  recurrence5Scalar0Left_coeff_436
-  recurrence5Scalar0Left_coeff_437
-  recurrence5Scalar0Left_coeff_438
-  recurrence5Scalar0Left_coeff_439
-  recurrence5Scalar0Left_coeff_440
-  recurrence5Scalar0Left_coeff_441
-  recurrence5Scalar0Left_coeff_442
-  recurrence5Scalar0Left_coeff_443
-  recurrence5Scalar0Left_coeff_444
-  recurrence5Scalar0Left_coeff_445
-  recurrence5Scalar0Left_coeff_446
-  recurrence5Scalar0Left_coeff_447
 
 attribute [local simp]
-  recurrence5Scalar0Left_coeff_448
-  recurrence5Scalar0Left_coeff_449
-  recurrence5Scalar0Left_coeff_450
-  recurrence5Scalar0Left_coeff_451
-  recurrence5Scalar0Left_coeff_452
-  recurrence5Scalar0Left_coeff_453
-  recurrence5Scalar0Left_coeff_454
-  recurrence5Scalar0Left_coeff_455
-  recurrence5Scalar0Left_coeff_456
-  recurrence5Scalar0Left_coeff_457
-  recurrence5Scalar0Left_coeff_458
-  recurrence5Scalar0Left_coeff_459
-  recurrence5Scalar0Left_coeff_460
-  recurrence5Scalar0Left_coeff_461
-  recurrence5Scalar0Left_coeff_462
-  recurrence5Scalar0Left_coeff_463
-  recurrence5Scalar0Left_coeff_464
-  recurrence5Scalar0Left_coeff_465
-  recurrence5Scalar0Left_coeff_466
   recurrence5Scalar0Main_coeff_0
   recurrence5Scalar0Main_coeff_1
   recurrence5Scalar0Main_coeff_2
@@ -962,37 +934,6 @@ attribute [local simp]
   recurrence5Scalar0Main_coeff_433
   recurrence5Scalar0Main_coeff_434
   recurrence5Scalar0Main_coeff_435
-  recurrence5Scalar0Main_coeff_436
-  recurrence5Scalar0Main_coeff_437
-  recurrence5Scalar0Main_coeff_438
-  recurrence5Scalar0Main_coeff_439
-  recurrence5Scalar0Main_coeff_440
-  recurrence5Scalar0Main_coeff_441
-  recurrence5Scalar0Main_coeff_442
-  recurrence5Scalar0Main_coeff_443
-  recurrence5Scalar0Main_coeff_444
-  recurrence5Scalar0Main_coeff_445
-  recurrence5Scalar0Main_coeff_446
-  recurrence5Scalar0Main_coeff_447
-  recurrence5Scalar0Main_coeff_448
-  recurrence5Scalar0Main_coeff_449
-  recurrence5Scalar0Main_coeff_450
-  recurrence5Scalar0Main_coeff_451
-  recurrence5Scalar0Main_coeff_452
-  recurrence5Scalar0Main_coeff_453
-  recurrence5Scalar0Main_coeff_454
-  recurrence5Scalar0Main_coeff_455
-  recurrence5Scalar0Main_coeff_456
-  recurrence5Scalar0Main_coeff_457
-  recurrence5Scalar0Main_coeff_458
-  recurrence5Scalar0Main_coeff_459
-  recurrence5Scalar0Main_coeff_460
-  recurrence5Scalar0Main_coeff_461
-  recurrence5Scalar0Main_coeff_462
-  recurrence5Scalar0Main_coeff_463
-  recurrence5Scalar0Main_coeff_464
-  recurrence5Scalar0Main_coeff_465
-  recurrence5Scalar0Main_coeff_466
   recurrence5Scalar0Exceptional_coeff_0
   recurrence5Scalar0Exceptional_coeff_1
   recurrence5Scalar0Exceptional_coeff_2
@@ -1443,37 +1384,6 @@ attribute [local simp]
   recurrence5Scalar0Exceptional_coeff_433
   recurrence5Scalar0Exceptional_coeff_434
   recurrence5Scalar0Exceptional_coeff_435
-  recurrence5Scalar0Exceptional_coeff_436
-  recurrence5Scalar0Exceptional_coeff_437
-  recurrence5Scalar0Exceptional_coeff_438
-  recurrence5Scalar0Exceptional_coeff_439
-  recurrence5Scalar0Exceptional_coeff_440
-  recurrence5Scalar0Exceptional_coeff_441
-  recurrence5Scalar0Exceptional_coeff_442
-  recurrence5Scalar0Exceptional_coeff_443
-  recurrence5Scalar0Exceptional_coeff_444
-  recurrence5Scalar0Exceptional_coeff_445
-  recurrence5Scalar0Exceptional_coeff_446
-  recurrence5Scalar0Exceptional_coeff_447
-  recurrence5Scalar0Exceptional_coeff_448
-  recurrence5Scalar0Exceptional_coeff_449
-  recurrence5Scalar0Exceptional_coeff_450
-  recurrence5Scalar0Exceptional_coeff_451
-  recurrence5Scalar0Exceptional_coeff_452
-  recurrence5Scalar0Exceptional_coeff_453
-  recurrence5Scalar0Exceptional_coeff_454
-  recurrence5Scalar0Exceptional_coeff_455
-  recurrence5Scalar0Exceptional_coeff_456
-  recurrence5Scalar0Exceptional_coeff_457
-  recurrence5Scalar0Exceptional_coeff_458
-  recurrence5Scalar0Exceptional_coeff_459
-  recurrence5Scalar0Exceptional_coeff_460
-  recurrence5Scalar0Exceptional_coeff_461
-  recurrence5Scalar0Exceptional_coeff_462
-  recurrence5Scalar0Exceptional_coeff_463
-  recurrence5Scalar0Exceptional_coeff_464
-  recurrence5Scalar0Exceptional_coeff_465
-  recurrence5Scalar0Exceptional_coeff_466
   recurrence5Scalar1Left_coeff_0
   recurrence5Scalar1Left_coeff_1
   recurrence5Scalar1Left_coeff_2
@@ -3385,6 +3295,94 @@ attribute [local simp]
   recurrence5Scalar1Exceptional_coeff_461
   recurrence5Scalar1Exceptional_coeff_462
 
+private theorem coeff_mul_totalDegree466_tail
+    (p q : Coefficient) (a b n : ℕ)
+    (hab : a + b = 466) (ha : a ≤ 436) (hb : b ≤ 436)
+    (hlo : 436 ≤ n) (hhi : n ≤ 466)
+    (hp : ∀ k, a < k → p.coeff k = 0) (hq : ∀ k, b < k → q.coeff k = 0) :
+    (p * q).coeff n = ∑ x ∈ Finset.range (467 - n),
+      p.coeff ((n - b) + x) * q.coeff (n - ((n - b) + x)) := by
+  rw [Polynomial.coeff_mul, Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+  simp only [Nat.succ_eq_add_one]
+  rw [show n + 1 = (n - b) + (b + 1) by omega, Finset.sum_range_add]
+  conv_lhs =>
+    rhs
+    rw [show b + 1 = (467 - n) + (n - a) by omega, Finset.sum_range_add]
+  have hprefix : (∑ x ∈ Finset.range (n - b),
+      p.coeff x * q.coeff (n - x)) = 0 := by
+    apply Finset.sum_eq_zero
+    intro x hx
+    rw [hq (n - x) (by simp only [Finset.mem_range] at hx; omega)]
+    norm_num
+  have hsuffix : (∑ x ∈ Finset.range (n - a),
+      p.coeff ((n - b + (467 - n)) + x) *
+        q.coeff (n - ((n - b + (467 - n)) + x))) = 0 := by
+    apply Finset.sum_eq_zero
+    intro x hx
+    rw [hp ((n - b + (467 - n)) + x) (by omega)]
+    norm_num
+  rw [hprefix]
+  norm_num only [zero_add, ← Nat.add_assoc]
+  rw [hsuffix, add_zero]
+
+private def scalarResidual5Coefficient0TailEquation (n : ℕ) : Prop :=
+  (∑ x ∈ Finset.range (467 - n),
+    recurrence5LeadingSquare.coeff ((n - 176) + x) *
+      remainder5Coefficient0.coeff (n - ((n - 176) + x))) =
+    (∑ x ∈ Finset.range (467 - n),
+      remainder6Coefficient0.coeff ((n - 313) + x) *
+        recurrence5QuotientConstant.coeff (n - ((n - 313) + x))) +
+      ∑ x ∈ Finset.range (467 - n),
+        recurrence5ExceptionalProduct.coeff ((n - 88) + x) *
+          remainder7Coefficient0.coeff (n - ((n - 88) + x))
+
+private theorem scalarResidual5Coefficient0_tail_436_445
+    (n : ℕ) (hlo : 436 ≤ n) (hhi : n ≤ 445) :
+    scalarResidual5Coefficient0TailEquation n := by
+  unfold scalarResidual5Coefficient0TailEquation
+  interval_cases n <;> norm_num only <;>
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add] <;> norm_num only <;>
+    simp only [orderSevenCoefficient] <;> norm_num
+
+private theorem scalarResidual5Coefficient0_tail_446_455
+    (n : ℕ) (hlo : 446 ≤ n) (hhi : n ≤ 455) :
+    scalarResidual5Coefficient0TailEquation n := by
+  unfold scalarResidual5Coefficient0TailEquation
+  interval_cases n <;> norm_num only <;>
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add] <;> norm_num only <;>
+    simp only [orderSevenCoefficient] <;> norm_num
+
+private theorem scalarResidual5Coefficient0_tail_456_466
+    (n : ℕ) (hlo : 456 ≤ n) (hhi : n ≤ 466) :
+    scalarResidual5Coefficient0TailEquation n := by
+  unfold scalarResidual5Coefficient0TailEquation
+  interval_cases n <;> norm_num only <;>
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add] <;> norm_num only <;>
+    simp only [orderSevenCoefficient] <;> norm_num
+
+private theorem scalarResidual5Coefficient0_tail
+    (n : ℕ) (hlo : 436 ≤ n) (hhi : n ≤ 466) :
+    recurrence5Scalar0Left.coeff n =
+      (recurrence5Scalar0Main + recurrence5Scalar0Exceptional).coeff n := by
+  unfold recurrence5Scalar0Left recurrence5Scalar0Main
+    recurrence5Scalar0Exceptional
+  rw [Polynomial.coeff_add]
+  rw [coeff_mul_totalDegree466_tail recurrence5LeadingSquare remainder5Coefficient0
+    290 176 n (by norm_num) (by norm_num) (by norm_num) hlo hhi
+    recurrence5LeadingSquare_coeff_high recurrence5A0_coeff_high]
+  rw [coeff_mul_totalDegree466_tail remainder6Coefficient0 recurrence5QuotientConstant
+    153 313 n (by norm_num) (by norm_num) (by norm_num) hlo hhi
+    recurrence5B0_coeff_high recurrence5QuotientConstant_coeff_high]
+  rw [coeff_mul_totalDegree466_tail recurrence5ExceptionalProduct remainder7Coefficient0
+    378 88 n (by norm_num) (by norm_num) (by norm_num) hlo hhi
+    recurrence5ExceptionalProduct_coeff_high recurrence5C0_coeff_high]
+  change scalarResidual5Coefficient0TailEquation n
+  by_cases h : n ≤ 445
+  · exact scalarResidual5Coefficient0_tail_436_445 n hlo h
+  by_cases h' : n ≤ 455
+  · exact scalarResidual5Coefficient0_tail_446_455 n (by omega) h'
+  · exact scalarResidual5Coefficient0_tail_456_466 n (by omega) hhi
+
 theorem scalarResidual5Coefficient0 :
     remainder6Coefficient2 ^ 2 * remainder5Coefficient0 =
       remainder6Coefficient0 *
@@ -3397,7 +3395,9 @@ theorem scalarResidual5Coefficient0 :
     recurrence5Scalar0Main + recurrence5Scalar0Exceptional
   ext n
   by_cases h : n ≤ 466
-  · interval_cases n <;> norm_num [Polynomial.coeff_add]
+  · by_cases hlo : 436 ≤ n
+    · exact scalarResidual5Coefficient0_tail n hlo h
+    · interval_cases n <;> norm_num [Polynomial.coeff_add]
   · have hn : 466 < n := by omega
     rw [recurrence5Scalar0Left_coeff_high n hn]
     rw [Polynomial.coeff_add]

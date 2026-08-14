@@ -63,7 +63,7 @@ Top-level node weights form the fixed 1,000-point programme. Work-package
 weights only partition their parent node: packages award zero independent
 credit and never complete a parent by status alone. The execution object has a
 WIP limit of three and names one `current_work_package` in each active lane;
-other `active` packages are ready, not selected.
+it need not fill that limit. Other `active` packages are ready, not selected.
 
 A paused challenge remains immutable and compiled, but it must be unclaimable
 and receive no maintainer proof volume. A lifecycle change may not weaken or
