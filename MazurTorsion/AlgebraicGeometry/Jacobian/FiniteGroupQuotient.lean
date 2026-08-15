@@ -377,6 +377,128 @@ theorem existsUnique_quotientπ_lift (hσ : HasAffineOrbit σ)
     (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
     (mem_stableAffineOpen σ hσ) f hf
 
+/-- The morphism out of a quotient descended from an invariant morphism.
+The named consumers are the symmetric-power structure map and the ordered
+incidence quotient structure map. -/
+noncomputable def descendedMap (hσ : HasAffineOrbit σ) {S : Scheme.{u}}
+    (f : X ⟶ S) (hf : ∀ g : G, σ.hom g ≫ f = f) :
+    quotient σ hσ ⟶ S :=
+  Classical.choose (existsUnique_quotientπ_lift σ hσ f hf)
+
+@[reassoc]
+theorem quotientπ_comp_descendedMap (hσ : HasAffineOrbit σ)
+    {S : Scheme.{u}} (f : X ⟶ S)
+    (hf : ∀ g : G, σ.hom g ≫ f = f) :
+    quotientπ σ hσ ≫ descendedMap σ hσ f hf = f :=
+  (Classical.choose_spec (existsUnique_quotientπ_lift σ hσ f hf)).1
+
+/-- An invariant locally finite-type morphism to an affine Noetherian base
+descends to a locally finite-type morphism on the finite-group quotient.
+Chartwise this is Artin--Tate for the inclusion of the invariant ring. -/
+theorem descendedMap_locallyOfFiniteType (hσ : HasAffineOrbit σ)
+    {S : Scheme.{u}} (f : X ⟶ S)
+    (hf : ∀ g : G, σ.hom g ≫ f = f)
+    [IsAffine S] [IsNoetherianRing Γ(S, ⊤)] [LocallyOfFiniteType f] :
+    LocallyOfFiniteType (descendedMap σ hσ f hf) := by
+  let V := stableAffineOpen σ hσ
+  let hVs := stableAffineOpen_isStable σ hσ
+  let hVa := stableAffineOpen_isAffine σ hσ
+  let Q : X → (quotient σ hσ).Opens :=
+    fun x ↦ σ.quotientChart V hVs hVa x
+  let 𝒰 := (quotient σ hσ).openCoverOfIsOpenCover Q
+    (σ.iSup_quotientChart_eq_top V hVs hVa)
+  letI : ∀ x, IsAffine (𝒰.X x) := fun x ↦ by
+    dsimp only [𝒰, Scheme.openCoverOfIsOpenCover_X, Q]
+    exact σ.isAffineOpen_quotientChart V hVs hVa x
+  apply HasRingHomProperty.of_source_openCover (P := @LocallyOfFiniteType) 𝒰
+  intro x
+  change X at x
+  letI := σ.gammaMulSemiringAction (hVs x)
+  let e : V x ≤ f ⁻¹ᵁ (⊤ : S.Opens) := by simp
+  obtain ⟨φ, hφ, hφft⟩ :=
+    exists_chartBaseToInvariants_finiteType σ f hf
+      (isAffineOpen_top S) (hVs x) (hVa x) e
+  let f₀ : σ.quotient V hVs hVa ⟶ S := descendedMap σ hσ f hf
+  have hf₀ : σ.quotientπ V hVs hVa (mem_stableAffineOpen σ hσ) ≫ f₀ = f := by
+    exact quotientπ_comp_descendedMap σ hσ f hf
+  let q : (σ.quotientChart V hVs hVa x : Scheme) ⟶ S :=
+    (σ.quotientChartIso V hVs hVa x).inv ≫
+      Spec.map (CommRingCat.ofHom φ) ≫
+      (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι
+  have hq : (σ.quotientChart V hVs hVa x).ι ≫ f₀ = q := by
+    apply (cancel_epi (σ.quotientChartIso V hVs hVa x).hom).mp
+    apply invariantsπ_hom_ext G ↑Γ(X, V x) ℤ
+    apply (cancel_epi (hVa x).isoSpec.hom).mp
+    dsimp only [q]
+    simp only [Iso.hom_inv_id_assoc]
+    change σ.localQuotientπ (hVs x) (hVa x) ≫
+        (σ.quotientChartIso V hVs hVa x).hom ≫
+          (σ.quotientChart V hVs hVa x).ι ≫ f₀ =
+      σ.localQuotientπ (hVs x) (hVa x) ≫
+        Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι
+    rw [← Category.assoc, ← Category.assoc,
+      Category.assoc (σ.localQuotientπ (hVs x) (hVa x))
+        (σ.quotientChartIso V hVs hVa x).hom
+        (σ.quotientChart V hVs hVa x).ι,
+      σ.localQuotientπ_quotientChartIso V hVs hVa
+        (mem_stableAffineOpen σ hσ) x,
+      Category.assoc, hf₀]
+    rw [σ.localQuotientπ_eq (hVs x) (hVa x), invariantsπ, Category.assoc,
+      ← Spec.map_comp_assoc]
+    have hφ' : CommRingCat.ofHom φ ≫
+        CommRingCat.ofHom
+          (algebraMap (FixedPoints.subalgebra ℤ ↑Γ(X, V x) G) Γ(X, V x)) =
+          f.appLE ⊤ (V x) e := by
+      ext r
+      exact DFunLike.congr_fun hφ r
+    rw [hφ', IsAffineOpen.isoSpec_hom]
+    dsimp only [V] at e ⊢
+    rw [Scheme.Opens.toSpecΓ_SpecMap_appLE_assoc,
+      IsAffineOpen.toSpecΓ_isoSpec_inv_assoc, Scheme.Hom.resLE_comp_ι]
+  have hqft : LocallyOfFiniteType
+      ((σ.quotientChart V hVs hVa x).ι ≫ f₀) := by
+    rw [hq]
+    dsimp only [q]
+    haveI : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom φ)) :=
+      (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mpr hφft
+    haveI : LocallyOfFiniteType (σ.quotientChartIso V hVs hVa x).inv := by
+      infer_instance
+    haveI : LocallyOfFiniteType (isAffineOpen_top S).isoSpec.inv := by
+      infer_instance
+    haveI : LocallyOfFiniteType (⊤ : S.Opens).ι := by infer_instance
+    haveI : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv) := by infer_instance
+    haveI : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι) := by
+      infer_instance
+    haveI : LocallyOfFiniteType
+        ((σ.quotientChartIso V hVs hVa x).inv ≫
+          Spec.map (CommRingCat.ofHom φ)) := by infer_instance
+    haveI : LocallyOfFiniteType
+        ((σ.quotientChartIso V hVs hVa x).inv ≫
+          Spec.map (CommRingCat.ofHom φ) ≫
+            (isAffineOpen_top S).isoSpec.inv) := by infer_instance
+    have hcomp := MorphismProperty.comp_mem @LocallyOfFiniteType
+      (σ.quotientChartIso V hVs hVa x).inv
+      (Spec.map (CommRingCat.ofHom φ) ≫
+        (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι)
+      (inferInstance : LocallyOfFiniteType
+        (σ.quotientChartIso V hVs hVa x).inv)
+      (inferInstance : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι))
+    simpa only [Category.assoc] using hcomp
+  letI : IsAffine (σ.quotientChart V hVs hVa x : Scheme) :=
+    σ.isAffineOpen_quotientChart V hVs hVa x
+  have hqtop :=
+    (HasRingHomProperty.iff_of_isAffine (P := @LocallyOfFiniteType)).mp hqft
+  change ((((σ.quotientChart V hVs hVa x).ι ≫
+    descendedMap σ hσ f hf).appTop).hom.FiniteType)
+  simpa only [f₀] using hqtop
+
 end Quotient
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient

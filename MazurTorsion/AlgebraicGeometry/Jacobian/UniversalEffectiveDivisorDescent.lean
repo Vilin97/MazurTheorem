@@ -8,7 +8,9 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSymmetricPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.MonicRootFamily
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalRootFactorization
+import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
 
 /-!
 # Finite quotients of the ordered universal incidence family
@@ -31,6 +33,7 @@ noncomputable section
 universe u
 
 open CategoryTheory Limits
+open Polynomial
 open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
@@ -48,6 +51,29 @@ noncomputable def affineLineSymmetricPowerIsoCoefficientSpace
     AffineLineSymmetricPower.invariantRootScheme R n ≅
       Spec (CommRingCat.of (MvPolynomial (Fin n) R)) :=
   AffineLineSymmetricPower.invariantRootSchemeIsoCoefficientSpace R n
+
+/-- Any monic equation gives the finite-flat principal Cartier family used
+after passing from a standard-smooth curve chart to its étale coordinate. -/
+theorem monicRootFamily_finiteFlatCartier
+    (R : Type u) [CommRing R] [Nontrivial R]
+    (p : R[X]) (hp : p.Monic) :
+    letI : Fact p.Monic := ⟨hp⟩
+    IsClosedImmersion (MonicRootFamily.locusι R p) ∧
+      IsFinite (MonicRootFamily.projection R p) ∧
+      Flat (MonicRootFamily.projection R p) ∧
+      ((MonicRootFamily.projection R p).finrank =
+        fun _ ↦ p.natDegree) ∧
+      RingHom.ker (MonicRootFamily.ambientToRoot R p) =
+        Ideal.span {p} ∧
+      Module.Invertible R[X]
+        (RingHom.ker (MonicRootFamily.ambientToRoot R p)) ∧
+      IsRegular p := by
+  letI : Fact p.Monic := ⟨hp⟩
+  exact ⟨inferInstance, inferInstance, inferInstance,
+    MonicRootFamily.projection_finrank R p,
+    MonicRootFamily.ambientToRoot_ker R p,
+    inferInstance,
+    MonicRootFamily.polynomial_isRegular R p⟩
 
 /-- The affine-line local model of the universal effective divisor is finite
 flat of constant rank `n + 1`.  This is the local algebraic input to the
@@ -169,16 +195,19 @@ theorem curveOrderedAmbient_hasAffineOrbit_succ (n : ℕ) :
     (projectiveLineOrderedAmbient_hasAffineOrbit K n)
     (orderedAmbientMap_equivariant (Spec (.of K)) (n + 1) f)
 
+/-- The ordered ambient product is proper over the ground field. -/
+instance curveOrderedAmbient_isProper (n : ℕ) :
+    IsProper (orderedAmbient (Spec (.of K)) (n + 1) C).hom :=
+  SymmetricPower.binaryProduct_isProper K C
+    (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C)
+    inferInstance inferInstance
+
 /-- The underlying ordered ambient product is separated as an absolute
 scheme.  This supplies the affine-diagonal hypothesis of the quotient
 construction. -/
 instance curveOrderedAmbient_isSeparated (n : ℕ) :
     (orderedAmbient (Spec (.of K)) (n + 1) C).left.IsSeparated := by
   letI : IsAffineHom (terminal.from (Spec (.of K))) := by infer_instance
-  letI : IsProper (orderedAmbient (Spec (.of K)) (n + 1) C).hom :=
-    SymmetricPower.binaryProduct_isProper K C
-      (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C)
-      inferInstance inferInstance
   constructor
   rw [← terminal.comp_from
     (orderedAmbient (Spec (.of K)) (n + 1) C).hom]
@@ -253,6 +282,138 @@ instance curveOrderedIncidenceQuotientProjectionSucc_surjective (n : ℕ) :
     (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
     (curveOrderedIncidence_hasAffineOrbit_succ K C n)
 
+/-- The structure morphism of the ordered incidence family. -/
+noncomputable def curveOrderedIncidenceStructureMapSucc (n : ℕ) :
+    orderedIncidence (Spec (.of K)) (n + 1) C ⟶ Spec (.of K) :=
+  orderedIncidenceι (Spec (.of K)) (n + 1) C ≫
+    (orderedAmbient (Spec (.of K)) (n + 1) C).hom
+
+omit [GeometricallyIrreducible C.hom]
+    [SmoothOfRelativeDimension 1 C.hom] in
+/-- The ordered incidence structure map is invariant under coordinate
+permutations. -/
+theorem curveOrderedIncidenceStructureMapSucc_invariant
+    (n : ℕ) (g : Equiv.Perm (Fin (n + 1))) :
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C).hom g ≫
+        curveOrderedIncidenceStructureMapSucc K C n =
+      curveOrderedIncidenceStructureMapSucc K C n := by
+  rw [curveOrderedIncidenceStructureMapSucc, ← Category.assoc,
+    orderedIncidenceAction_comp_ι, Category.assoc]
+  simpa only [orderedAmbientAction, Category.assoc] using congrArg
+    (fun q ↦ orderedIncidenceι (Spec (.of K)) (n + 1) C ≫ q)
+    (orderedAmbientPermutationHom (Spec (.of K)) (n + 1) C g).w
+
+/-- The ordered incidence family is locally of finite type over the ground
+field. -/
+instance curveOrderedIncidenceStructureMapSucc_locallyOfFiniteType (n : ℕ) :
+    LocallyOfFiniteType (curveOrderedIncidenceStructureMapSucc K C n) := by
+  change LocallyOfFiniteType
+    (orderedIncidenceι (Spec (.of K)) (n + 1) C ≫
+      (orderedAmbient (Spec (.of K)) (n + 1) C).hom)
+  letI : LocallyOfFiniteType
+      (orderedIncidenceι (Spec (.of K)) (n + 1) C) := by
+    infer_instance
+  infer_instance
+
+/-- The ordered incidence family is proper over the ground field. -/
+instance curveOrderedIncidenceStructureMapSucc_isProper (n : ℕ) :
+    IsProper (curveOrderedIncidenceStructureMapSucc K C n) := by
+  change IsProper
+    (orderedIncidenceι (Spec (.of K)) (n + 1) C ≫
+      (orderedAmbient (Spec (.of K)) (n + 1) C).hom)
+  letI : IsProper
+      (orderedIncidenceι (Spec (.of K)) (n + 1) C) := by
+    infer_instance
+  infer_instance
+
+/-- The quotient projection from the ordered incidence family is finite.
+This follows chartwise from finite generation over the ground field and
+finite-group integrality. -/
+instance curveOrderedIncidenceQuotientProjectionSucc_isFinite (n : ℕ) :
+    IsFinite (curveOrderedIncidenceQuotientProjectionSucc K C n) := by
+  apply FiniteGroupQuotient.quotientπ_isFinite_of_chart_moduleFinite
+  intro x
+  exact FiniteGroupQuotient.chart_moduleFinite_of_locallyOfFiniteType
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidenceStructureMapSucc K C n)
+    (curveOrderedIncidenceStructureMapSucc_invariant K C n)
+    (isAffineOpen_top (Spec (.of K)))
+    (FiniteGroupQuotient.stableAffineOpen_isStable
+      (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+      (curveOrderedIncidence_hasAffineOrbit_succ K C n) x)
+    (FiniteGroupQuotient.stableAffineOpen_isAffine
+      (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+      (curveOrderedIncidence_hasAffineOrbit_succ K C n) x)
+    (by simp)
+
+/-- The structure map descended to the quotient of the ordered incidence
+family. -/
+noncomputable def curveOrderedIncidenceQuotientStructureMapSucc (n : ℕ) :
+    curveOrderedIncidenceQuotientSucc K C n ⟶ Spec (.of K) :=
+  FiniteGroupQuotient.descendedMap
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidence_hasAffineOrbit_succ K C n)
+    (curveOrderedIncidenceStructureMapSucc K C n)
+    (curveOrderedIncidenceStructureMapSucc_invariant K C n)
+
+@[reassoc]
+theorem curveOrderedIncidenceQuotientProjection_comp_structureMap
+    (n : ℕ) :
+    curveOrderedIncidenceQuotientProjectionSucc K C n ≫
+        curveOrderedIncidenceQuotientStructureMapSucc K C n =
+      curveOrderedIncidenceStructureMapSucc K C n :=
+  FiniteGroupQuotient.quotientπ_comp_descendedMap
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidence_hasAffineOrbit_succ K C n)
+    (curveOrderedIncidenceStructureMapSucc K C n)
+    (curveOrderedIncidenceStructureMapSucc_invariant K C n)
+
+/-- The incidence quotient is locally of finite type over the field. -/
+instance curveOrderedIncidenceQuotientStructureMapSucc_locallyOfFiniteType
+    (n : ℕ) : LocallyOfFiniteType
+      (curveOrderedIncidenceQuotientStructureMapSucc K C n) :=
+  FiniteGroupQuotient.descendedMap_locallyOfFiniteType
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidence_hasAffineOrbit_succ K C n)
+    (curveOrderedIncidenceStructureMapSucc K C n)
+    (curveOrderedIncidenceStructureMapSucc_invariant K C n)
+
+/-- The incidence quotient is separated over the field. -/
+instance curveOrderedIncidenceQuotientStructureMapSucc_isSeparated
+    (n : ℕ) : IsSeparated
+      (curveOrderedIncidenceQuotientStructureMapSucc K C n) := by
+  let q := curveOrderedIncidenceQuotientProjectionSucc K C n
+  let s := curveOrderedIncidenceQuotientStructureMapSucc K C n
+  letI : IsFinite q :=
+    curveOrderedIncidenceQuotientProjectionSucc_isFinite K C n
+  letI : Surjective q :=
+    curveOrderedIncidenceQuotientProjectionSucc_surjective K C n
+  have hqs : q ≫ s = curveOrderedIncidenceStructureMapSucc K C n :=
+    curveOrderedIncidenceQuotientProjection_comp_structureMap K C n
+  letI : IsProper (q ≫ s) := by
+    rw [hqs]
+    infer_instance
+  exact Jacobian.isSeparated_of_finite_surjective_comp_isProper q s
+
+/-- Universal closedness descends from the proper ordered incidence family
+along the surjective quotient projection. -/
+instance curveOrderedIncidenceQuotientStructureMapSucc_universallyClosed
+    (n : ℕ) : UniversallyClosed
+      (curveOrderedIncidenceQuotientStructureMapSucc K C n) := by
+  let q := curveOrderedIncidenceQuotientProjectionSucc K C n
+  let s := curveOrderedIncidenceQuotientStructureMapSucc K C n
+  letI : Surjective q :=
+    curveOrderedIncidenceQuotientProjectionSucc_surjective K C n
+  letI : UniversallyClosed (q ≫ s) := by
+    rw [curveOrderedIncidenceQuotientProjection_comp_structureMap K C n]
+    infer_instance
+  exact UniversallyClosed.of_comp_surjective q s
+
+/-- The quotient of the ordered incidence family is proper over the ground
+field. -/
+instance curveOrderedIncidenceQuotientStructureMapSucc_isProper (n : ℕ) :
+    IsProper (curveOrderedIncidenceQuotientStructureMapSucc K C n) := ⟨⟩
+
 /-- The ordered incidence inclusion followed by the ambient quotient
 projection is invariant under coordinate permutations. -/
 theorem orderedIncidenceι_comp_ambientQuotientProjection_invariant
@@ -298,6 +459,44 @@ theorem curveOrderedIncidenceQuotientProjection_comp_descendedι (n : ℕ) :
       curveOrderedAmbientQuotientProjectionSucc K C n)
     (orderedIncidenceι_comp_ambientQuotientProjection_invariant K C n)).1
 
+/-- The incidence quotient embeds set-theoretically in the ambient quotient.
+Indeed, equality in the ambient quotient is equality up to one permutation;
+equivariance and injectivity of the original closed immersion then give
+equality in the incidence quotient. -/
+theorem curveIncidenceQuotientToAmbientQuotientSucc_injective (n : ℕ) :
+    Function.Injective
+      (curveIncidenceQuotientToAmbientQuotientSucc K C n) := by
+  intro x y hxy
+  let q := curveOrderedIncidenceQuotientProjectionSucc K C n
+  haveI : Surjective q :=
+    curveOrderedIncidenceQuotientProjectionSucc_surjective K C n
+  obtain ⟨a, ha⟩ := q.surjective x
+  obtain ⟨b, hb⟩ := q.surjective y
+  subst x
+  subst y
+  dsimp only [q] at hxy
+  have hab :
+      curveOrderedAmbientQuotientProjectionSucc K C n
+          (orderedIncidenceι (Spec (.of K)) (n + 1) C a) =
+        curveOrderedAmbientQuotientProjectionSucc K C n
+          (orderedIncidenceι (Spec (.of K)) (n + 1) C b) := by
+    simpa only [← Scheme.Hom.comp_apply,
+      curveOrderedIncidenceQuotientProjection_comp_descendedι] using hxy
+  obtain ⟨g, hg⟩ :=
+    (FiniteGroupQuotient.quotientπ_apply_eq_iff
+      (orderedAmbientAction (Spec (.of K)) (n + 1) C)
+      (curveOrderedAmbient_hasAffineOrbit_succ K C n)
+      (orderedIncidenceι (Spec (.of K)) (n + 1) C a)
+      (orderedIncidenceι (Spec (.of K)) (n + 1) C b)).mp hab
+  apply (FiniteGroupQuotient.quotientπ_apply_eq_iff
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidence_hasAffineOrbit_succ K C n) a b).mpr
+  refine ⟨g, ?_⟩
+  apply (orderedIncidenceι (Spec (.of K)) (n + 1) C).isEmbedding.injective
+  rw [← Scheme.Hom.comp_apply,
+    orderedIncidenceAction_comp_ι, Scheme.Hom.comp_apply]
+  exact hg
+
 /-- Before quotienting the ambient product, take the symmetric quotient in
 the ordered-power coordinate and leave the distinguished curve coordinate
 unchanged. -/
@@ -305,6 +504,23 @@ noncomputable def curveOrderedAmbientToSymmetricProductSucc (n : ℕ) :
     (orderedAmbient (Spec (.of K)) (n + 1) C).left ⟶
       (C ⨯ SymmetricPower.curveSchemeSucc K C n).left :=
   (Limits.prod.map (𝟙 C) (SymmetricPower.curveProjectionSucc K C n)).left
+
+/-- The quotient map on the ordered-power coordinate respects the structure
+maps to the ground field. -/
+@[reassoc]
+theorem curveOrderedAmbientToSymmetricProductSucc_comp_structureMap
+    (n : ℕ) :
+    curveOrderedAmbientToSymmetricProductSucc K C n ≫
+        (C ⨯ SymmetricPower.curveSchemeSucc K C n).hom =
+      (orderedAmbient (Spec (.of K)) (n + 1) C).hom := by
+  exact (Limits.prod.map (𝟙 C)
+    (SymmetricPower.curveProjectionSucc K C n)).w
+
+/-- The ambient product `C × Sym^(n+1)(C)` is proper over the field. -/
+instance curveProductSymmetricPower_isProper (n : ℕ) :
+    IsProper (C ⨯ SymmetricPower.curveSchemeSucc K C n).hom :=
+  SymmetricPower.binaryProduct_isProper K C
+    (SymmetricPower.curveSchemeSucc K C n) inferInstance inferInstance
 
 /-- The map from the ordered ambient product to
 `C × Sym^(n+1)(C)` is invariant under coordinate permutations. -/
@@ -702,6 +918,66 @@ theorem curveOrderedIncidenceQuotientProjection_comp_descendedIncidenceι
     curveOrderedIncidenceQuotientProjection_comp_descendedι,
     Category.assoc,
     curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct]
+
+/-- The descended incidence morphism is a morphism over the ground field. -/
+@[reassoc]
+theorem curveDescendedIncidenceιSucc_comp_structureMap (n : ℕ) :
+    curveDescendedIncidenceιSucc K C n ≫
+        (C ⨯ SymmetricPower.curveSchemeSucc K C n).hom =
+      curveOrderedIncidenceQuotientStructureMapSucc K C n := by
+  let q := curveOrderedIncidenceQuotientProjectionSucc K C n
+  haveI : Epi q := FiniteGroupQuotient.epi_quotientπ
+    (orderedIncidenceAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedIncidence_hasAffineOrbit_succ K C n)
+  apply (cancel_epi q).mp
+  rw [← Category.assoc,
+    curveOrderedIncidenceQuotientProjection_comp_descendedIncidenceι,
+    Category.assoc,
+    curveOrderedAmbientToSymmetricProductSucc_comp_structureMap,
+    curveOrderedIncidenceQuotientProjection_comp_structureMap,
+    curveOrderedIncidenceStructureMapSucc]
+
+/-- Properness of the descended incidence family.  This is the global
+compactness half of finiteness; the remaining local chart comparison will
+upgrade it to a finite flat relative effective Cartier divisor. -/
+instance curveDescendedIncidenceιSucc_isProper (n : ℕ) :
+    IsProper (curveDescendedIncidenceιSucc K C n) := by
+  let d := curveDescendedIncidenceιSucc K C n
+  let t := (C ⨯ SymmetricPower.curveSchemeSucc K C n).hom
+  letI : IsProper t := curveProductSymmetricPower_isProper K C n
+  letI : IsSeparated t := IsProper.toIsSeparated
+  letI : IsProper (d ≫ t) := by
+    rw [curveDescendedIncidenceιSucc_comp_structureMap K C n]
+    infer_instance
+  exact IsProper.of_comp d t
+
+/-- The descended incidence morphism is injective on underlying points. -/
+theorem curveDescendedIncidenceιSucc_injective (n : ℕ) :
+    Function.Injective (curveDescendedIncidenceιSucc K C n) := by
+  intro x y hxy
+  apply curveIncidenceQuotientToAmbientQuotientSucc_injective K C n
+  apply (curveAmbientQuotientToSymmetricProductSucc K C n).homeomorph.injective
+  simpa only [curveDescendedIncidenceιSucc,
+    Scheme.Hom.comp_apply, Scheme.Hom.homeomorph_apply] using hxy
+
+/-- The descended incidence morphism is locally of finite type. -/
+instance curveDescendedIncidenceιSucc_locallyOfFiniteType (n : ℕ) :
+    LocallyOfFiniteType (curveDescendedIncidenceιSucc K C n) := by
+  infer_instance
+
+/-- Pointwise injectivity and local finite type imply that the descended
+incidence family is locally quasi-finite. -/
+instance curveDescendedIncidenceιSucc_locallyQuasiFinite (n : ℕ) :
+    LocallyQuasiFinite (curveDescendedIncidenceιSucc K C n) :=
+  LocallyQuasiFinite.of_injective
+    (curveDescendedIncidenceιSucc_injective K C n)
+
+/-- The descended universal incidence family is finite over
+`C × Sym^(n+1)(C)`: it is proper and locally quasi-finite. -/
+instance curveDescendedIncidenceιSucc_isFinite (n : ℕ) :
+    IsFinite (curveDescendedIncidenceιSucc K C n) :=
+  IsFinite.of_isProper_of_locallyQuasiFinite
+    (curveDescendedIncidenceιSucc K C n)
 
 end Curve
 
