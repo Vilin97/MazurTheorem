@@ -71,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1788023,
-    "integrated_lean_modules": 1870,
+    "integrated_lean_lines": 1788167,
+    "integrated_lean_modules": 1871,
     "remaining_composite_orders": [
       18,
       25,
@@ -1929,7 +1929,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Define the rigidified relative Picard functor and its degree-zero subfunctor. Representability, the universal Poincaré bundle, and properness belong to D2.",
+      "summary": "The checked all-degree zero-section-normalized Picard presheaf now has its associated fppf sheafification and a rational-section class consumer at the base test object; a pullback-compatible relative degree map, the relative degree-zero subfunctor, Pic⁰ representability, and the universal Poincaré bundle remain missing.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1939,7 +1939,7 @@
             "max": 40
           },
           "summary": "The attributed local port now retains Pic, genuine contravariant Pic.map, picRel, its quotient comparison, and picRelFunctor on this project's exact Mathlib pin; normalization under arbitrary base change is consumed through the actual functor map.",
-          "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. The absent relative Cartier-divisor and ideal-module comparison still prevents the section-to-Picard naturality theorem.",
+          "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. This project now applies Mathlib's associated fppf sheafification to the all-degree zero-section-normalized presheaf, but does not prove that the source presheaf already satisfies descent. A pullback-compatible relative degree map, relative Pic⁰, representability, and a universal bundle remain absent; the rational-section consumer at the base still uses a supplied DivisorPicard.ClassEquivalence.",
           "declarations": [
             {
               "name": "Scheme.Modules.picRel",
@@ -1989,6 +1989,20 @@
           "state": "contract",
           "description": "Prove that zero-section normalization of an absolute Picard class commutes with arbitrary base change through the actual relative Picard functor map.",
           "module": "MazurTorsion.Upstream.AINTLIB.Picard.RelativePic"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.Modules.picRelFppfSheaf",
+          "state": "contract",
+          "description": "Apply Mathlib's sheafification to the additive all-degree zero-section-normalized Picard presheaf on the fppf site; this is an associated sheafification, not relative Pic⁰ or a representing object.",
+          "module": "MazurTorsion.AlgebraicGeometry.RelativePicardFppf"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiPicRelFppfClass",
+          "state": "contract",
+          "description": "Map the checked absolute rational-section Abel--Jacobi class at the identity test object into the associated fppf sheafification, still using the supplied DivisorPicard.ClassEquivalence.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi"
         },
         {
           "kind": "definition",

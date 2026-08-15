@@ -266,7 +266,10 @@ Abel maps.
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
 `tauceti`; *risk:* `extreme`; *weight:* 35 points.
 
-*Summary:* Define the rigidified relative Picard functor and its degree-zero subfunctor.
+*Summary:* The checked all-degree zero-section-normalized Picard presheaf now has its
+associated fppf sheafification and a rational-section class consumer at the base test
+object; a pullback-compatible relative degree map, the relative degree-zero subfunctor,
+Pic⁰ representability, and the universal Poincaré bundle remain missing.
 
 *Canonical artifacts:*
 
@@ -285,6 +288,15 @@ Abel maps.
   `AlgebraicGeometry.Scheme.Modules.picRelFunctor_map_picRelProj`
   Prove that zero-section normalization of an absolute Picard class commutes with
   arbitrary base change through the actual relative Picard functor map.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.picRelFppfSheaf`
+  Apply Mathlib's sheafification to the additive all-degree zero-section-normalized
+  Picard presheaf on the fppf site; this is an associated sheafification, not relative
+  Pic⁰ or a representing object.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiPicRelFppfClass`
+  Map the checked absolute rational-section Abel--Jacobi class at the identity test
+  object into the associated fppf sheafification, still using the supplied
+  DivisorPicard.ClassEquivalence.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero`
   Transport the divisor degree-zero subgroup to an absolute subgroup of the scheme

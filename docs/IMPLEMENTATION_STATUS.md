@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
 - Ecosystem readiness is **18%**.
-- The audited baseline contains **1,870 Lean modules** and **1,788,023 Lean
+- The audited baseline contains **1,871 Lean modules** and **1,788,167 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
