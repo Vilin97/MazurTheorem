@@ -40,8 +40,10 @@ parallel abstraction.
 | Finite map to `P¹` from a non-global rational function | `rationalFunctionMorphismAt_isFinite` | available |
 | Finite map to `P¹` under the exact challenge hypotheses | `FiniteMapToProjectiveLine.hom` and `overHom` | checked, with no rational-point input |
 | Permutation action on a relative power | `PermutationPower.action` and `action_equivariant` | checked |
+| Projectivity of nonempty finite powers of `P¹` | `ProjectiveFiniteOrbit.projectiveLinePower_isProjectiveFactorization` | checked via the scheme-level Segre embedding |
+| Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
-| Conditional relative symmetric power | `SymmetricPower.scheme` and `projection` | checked once affine permutation-orbit neighbourhoods are supplied |
+| Symmetric powers of challenge curves in positive degree | `SymmetricPower.curve_hasAffineOrbits_succ`, `scheme`, and `projection` | affine-orbit premise checked over every field; quotient construction checked |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -156,16 +158,25 @@ Picard functor would incorrectly require `C(k)` to be inhabited.
 The first quotient step is now factored into checked code.  Relative powers,
 their permutation actions, componentwise equivariance, stable-affine
 refinement, quotient gluing, and descent of the structure map are all
-formalized.  The remaining input for an unconditional `Sym^d(C)` is the
-geometric theorem that every permutation orbit in `C^d` lies in an affine
-open.  The selected finite map `C → P¹` reduces this to two concrete tasks:
+formalized.  For every positive degree, the affine-orbit hypothesis is also
+checked over an arbitrary field.  A nonempty finite product of projective
+lines is projective by iterating the checked scheme-level Segre embedding.
+For a finite family of points in projective space, retain the inclusion-
+maximal homogeneous point ideals.  For each ordered pair of distinct maximal
+ideals `I,J`, choose a homogeneous element in `J \ I`; multiplying these
+pairwise separators gives an element vanishing at every maximal point other
+than `I` and nonvanishing at `I`.  Multiplication by a coordinate nonzero at
+`I` raises all such elements to one common positive degree.  Their sum is
+nonzero modulo every maximal point ideal and hence modulo every original
+point ideal.  Its homogeneous basic open is affine and contains the entire
+finite orbit.  Pullback along a projective closed embedding proves the claim
+for projective schemes.  Finally, the selected finite map `C → P¹` induces a
+finite componentwise map `C^d → (P¹)^d`; affine-orbit neighbourhoods transfer
+back along this affine map.
 
-1. prove that its componentwise map `C^d → (P¹)^d` is affine (indeed finite);
-2. construct affine permutation-orbit neighbourhoods in `(P¹)^d`, for
-   example from invariant nonvanishing loci of multihomogeneous sections.
-
-These are geometric lemmas, not hidden representability assumptions; the
-conditional quotient interface exposes both hypotheses exactly.
+Thus `Sym^d(C)` is available for every `d > 0` under exactly the challenge
+hypotheses.  Degree zero is the terminal relative power and can be treated
+separately when its quotient interface is needed.
 
 Denote the representing object by
 
@@ -293,6 +304,10 @@ MazurTorsion/AlgebraicGeometry/Jacobian/
   UniversalEffectiveDivisor.lean
   RelativeRiemannRoch.lean
   CohomologyBaseChange.lean
+  FiniteMapToProjectiveLine.lean
+  FiniteGroupQuotient.lean
+  PermutationPower.lean
+  ProjectiveFiniteOrbit.lean
   PicardRepresentability.lean
   PicardIdentityComponent.lean
   PicardTangentSpace.lean

@@ -5,7 +5,9 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteMapToProjectiveLine
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.ProjectiveFiniteOrbit
 
 /-!
 # Relative symmetric powers from finite permutation quotients
@@ -51,6 +53,21 @@ theorem hasAffineOrbits_of_finite_map {X Y : Over S} (f : X ⟶ Y)
   letI : IsFinite (PermutationPower.map S (Fin d) f).left :=
     PermutationPower.map_isFinite S (Fin d) f
   exact hasAffineOrbits_of_map S d f hY
+
+/-- The checked finite map from a smooth proper geometrically irreducible
+curve to `P¹` supplies affine permutation-orbit neighbourhoods in every
+nonempty relative power. -/
+theorem curve_hasAffineOrbits_succ
+    (K : Type u) [Field K]
+    (C : Over (Spec (.of K)))
+    [GeometricallyIrreducible C.hom] [IsProper C.hom]
+    [SmoothOfRelativeDimension 1 C.hom]
+    (n : ℕ) : HasAffineOrbits (Spec (.of K)) (n + 1) C := by
+  letI : IsFinite (FiniteMapToProjectiveLine.overHom K C).left :=
+    FiniteMapToProjectiveLine.hom_isFinite K C
+  exact hasAffineOrbits_of_finite_map (Spec (.of K)) (n + 1)
+    (FiniteMapToProjectiveLine.overHom K C)
+    (ProjectiveFiniteOrbit.projectiveLinePower_hasAffineOrbit K n)
 
 section
 
