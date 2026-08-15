@@ -119,4 +119,16 @@ theorem splitPowerPointComponent_out_orbitRel :
       Quotient.mk'' (splitPowerPointTuple S d m X E p) from
         (splitPowerPointComponent S d m X E p).out_eq.trans rfl))
 
+/-- The multiplicity of a sheet in the selected component is exactly the
+number of coordinates of the actual point that selected that sheet. -/
+theorem splitPowerPointComponent_sheetMultiplicity (j : Fin m) :
+    sheetMultiplicity d m (splitPowerPointComponent S d m X E p) j =
+      Fintype.card { i : Fin d //
+        splitPowerPointTuple S d m X E p i = j } := by
+  unfold sheetMultiplicity
+  exact card_fiber_eq_of_orbitRel d m
+    (splitPowerPointComponent S d m X E p).out
+    (splitPowerPointTuple S d m X E p)
+    (splitPowerPointComponent_out_orbitRel S d m X E p) j
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitFinitePowerPoint

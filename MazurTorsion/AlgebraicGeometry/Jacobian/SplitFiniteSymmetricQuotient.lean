@@ -210,6 +210,30 @@ noncomputable def sheetMultiplicity (d m : ℕ)
     (c : splitComponentIndex d m) (j : Fin m) : ℕ :=
   Fintype.card { i : Fin d // c.out i = j }
 
+/-- Permuting the coordinates of a sheet tuple does not change the
+cardinality of any sheet fiber. -/
+theorem card_fiber_eq_of_orbitRel (d m : ℕ)
+    (a b : Fin d → Fin m)
+    (h : letI := tuplePermutationAction d (Fin m)
+      MulAction.orbitRel (Equiv.Perm (Fin d)) (Fin d → Fin m) a b)
+    (j : Fin m) :
+    Fintype.card { i : Fin d // a i = j } =
+      Fintype.card { i : Fin d // b i = j } := by
+  letI := tuplePermutationAction d (Fin m)
+  rcases h with ⟨g, rfl⟩
+  apply Fintype.card_congr
+  exact
+    { toFun := fun i ↦ ⟨g⁻¹ i.1, i.2⟩
+      invFun := fun i ↦ ⟨g i.1, by
+        change b (g⁻¹ (g i.1)) = j
+        simpa using i.2⟩
+      left_inv := fun i ↦ by
+        apply Subtype.ext
+        simp
+      right_inv := fun i ↦ by
+        apply Subtype.ext
+        simp }
+
 /-- The sheet multiplicities of every component sum to the degree. -/
 theorem sum_sheetMultiplicity (d m : ℕ) (c : splitComponentIndex d m) :
     ∑ j : Fin m, sheetMultiplicity d m c j = d := by

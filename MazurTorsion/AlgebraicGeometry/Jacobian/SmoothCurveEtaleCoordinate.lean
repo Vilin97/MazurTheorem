@@ -311,6 +311,24 @@ noncomputable def componentToChart
     n.selectedOpen.toScheme ⟶ (c.V : X.Opens).toScheme :=
   n.selectedOpen.ι ≫ pullback.fst c.schemeMap n.baseMap
 
+/-- The affine-line coordinate of the selected component is pulled back
+from its finite étale base. -/
+theorem componentToChart_comp_schemeMap
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.componentToChart ≫ c.schemeMap =
+      n.componentToBase.left ≫ n.baseMap := by
+  change (n.selectedOpen.ι ≫ pullback.fst c.schemeMap n.baseMap) ≫
+      c.schemeMap =
+    (n.selectedOpen.ι ≫ pullback.snd c.schemeMap n.baseMap) ≫ n.baseMap
+  have h : pullback.fst c.schemeMap n.baseMap ≫ c.schemeMap =
+      pullback.snd c.schemeMap n.baseMap ≫ n.baseMap :=
+    pullback.condition
+  exact (Category.assoc _ _ _).trans
+    ((congrArg (fun q ↦ n.selectedOpen.ι ≫ q) h).trans
+      (Category.assoc _ _ _).symm)
+
 /-- The selected finite étale component mapped to the original curve. -/
 noncomputable def componentToCurve
     {K : Type u} [Field K] {X : Scheme.{u}}

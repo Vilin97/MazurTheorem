@@ -1278,6 +1278,34 @@ theorem coherentFpqcSupportComponent_out_orbitRel
     (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
     (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The multiplicity of a sheet in the selected coherent component is the
+number of coordinates of the exact support point carried by that sheet. -/
+theorem coherentFpqcSupportComponent_sheetMultiplicity
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q)
+    (p : (coherentFpqcFamilyCoproductPowerOverGround
+      K C d z c n V (Spec (.of T)) q).left)
+    (j : Fin (totalSheets d m)) :
+    sheetMultiplicity d (totalSheets d m)
+        (coherentFpqcSupportComponent K C d z c n V T q m E hE p) j =
+      Fintype.card { i : Fin d //
+        coherentFpqcSupportSheetTuple K C d z c n V T q m E hE p i = j } :=
+  splitPowerPointComponent_sheetMultiplicity
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (totalSheets d m)
+    (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+    (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p j
+
 /-- The complete pointwise split-chart assertion for an ordered support:
 one affine rank neighborhood, one common finite étale fpqc splitting cover,
 and an exact preimage of the original ordered support on that cover. -/

@@ -7,7 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
-import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportCoordinateMaps
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
