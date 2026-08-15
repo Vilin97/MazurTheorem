@@ -433,6 +433,11 @@ order-49 consumers.
   Map the checked secant chart into the actual reduced projective Weierstrass cubic
   through its standard affine open; this is one multiplication chart, not a global group
   law.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism_comp_structureMap`
+  Prove that the checked projective secant-chart morphism lies over the base field; this
+  is the exact base-compatibility prerequisite for identifying its source with the
+  corresponding open of the scheme product.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
