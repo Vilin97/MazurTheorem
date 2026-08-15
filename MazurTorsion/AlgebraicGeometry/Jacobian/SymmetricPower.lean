@@ -515,6 +515,19 @@ noncomputable def curveProjectionSucc (n : ℕ) :
 noncomputable def curveSchemeSuccZeroIso : curveSchemeSucc K C 0 ≅ C :=
   finOneSchemeIso (Spec (.of K)) C (curve_hasAffineOrbits_succ K C 0)
 
+/-- The degree-one symmetric power is smooth of relative dimension one,
+transported through its canonical identification with the curve.  This is
+the base case for the local smoothness analysis of higher symmetric powers. -/
+instance curveSchemeSuccZero_smoothOfRelativeDimension :
+    SmoothOfRelativeDimension 1 (curveSchemeSucc K C 0).hom := by
+  let e := curveSchemeSuccZeroIso K C
+  letI : IsIso e.hom.left := by
+    exact inferInstanceAs (IsIso ((Over.forget _).map e.hom))
+  have h : SmoothOfRelativeDimension (0 + 1) (e.hom.left ≫ C.hom) := by
+    infer_instance
+  rw [e.hom.w] at h
+  exact h
+
 @[reassoc]
 theorem curveProjectionSucc_comp_structureMap (n : ℕ) :
     (curveProjectionSucc K C n).left ≫ (curveSchemeSucc K C n).hom =
