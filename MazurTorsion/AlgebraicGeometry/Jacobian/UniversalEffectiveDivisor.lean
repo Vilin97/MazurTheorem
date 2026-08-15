@@ -288,6 +288,24 @@ noncomputable def orderedIncidenceIdeal [IsSeparated X.hom] :
     (orderedAmbient S d X).left.IdealSheafData :=
   Finset.univ.prod (coordinateGraphIdeal S d X)
 
+/-- The ideal of the scheme-theoretic union is contained in the ideal of
+each coordinate graph.  The named downstream consumer is
+`PointedIncidence`: inserting the distinguished point in one ordered slot
+therefore factors through the ordered incidence family. -/
+theorem orderedIncidenceIdeal_le_coordinateGraphIdeal [IsSeparated X.hom]
+    (i : Fin d) :
+    orderedIncidenceIdeal S d X ≤ coordinateGraphIdeal S d X i := by
+  intro U
+  let φ : (orderedAmbient S d X).left.IdealSheafData →*
+      Ideal Γ((orderedAmbient S d X).left, U) :=
+    { toFun := fun I ↦ I.ideal U
+      map_one' := by simp
+      map_mul' := fun _ _ ↦ rfl }
+  change φ (orderedIncidenceIdeal S d X) ≤
+    φ (coordinateGraphIdeal S d X i)
+  rw [orderedIncidenceIdeal, map_prod]
+  exact Ideal.prod_le_inf.trans (Finset.inf_le (Finset.mem_univ i))
+
 /-- The ordered incidence ideal is invariant under every permutation of the
 ordered coordinates. -/
 theorem orderedIncidenceIdeal_map_permutation [IsSeparated X.hom]

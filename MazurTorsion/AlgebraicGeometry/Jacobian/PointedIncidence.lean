@@ -1,0 +1,203 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin, Codex
+-/
+
+import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
+
+/-!
+# Inserting a distinguished point into the ordered incidence family
+
+The expected total space of the degree-`n + 1` universal divisor is
+`X × Symⁿ(X)`: a pair `(x, D)` maps to `(x, x + D)`.  Before quotienting,
+this construction inserts the distinguished point as coordinate zero of an
+ordered `(n + 1)`-tuple.  The resulting map lands scheme-theoretically in the
+ordered incidence family because its defining product ideal is contained in
+the zeroth coordinate-graph ideal.
+
+The named downstream consumer is `UniversalEffectiveDivisorDescent`, which
+will descend this map to `X × Symⁿ(X)` and compare it with the finite
+incidence quotient.
+-/
+
+noncomputable section
+
+universe u
+
+open CategoryTheory Limits
+open _root_.AlgebraicGeometry
+
+namespace MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
+
+open PermutationPower
+open UniversalEffectiveDivisor
+
+variable (S : Scheme.{u}) (n : ℕ) (X : Over S)
+
+/-- Insert the distinguished point as coordinate zero and retain the
+remaining ordered coordinates. -/
+noncomputable def prependPower :
+    orderedAmbient S n X ⟶ power S (Fin (n + 1)) X :=
+  Limits.Pi.lift fun i ↦ Fin.cases
+    (pointProjection S n X)
+    (fun j ↦ coordinateProjection S n X j) i
+
+@[reassoc]
+theorem prependPower_comp_π_zero :
+    prependPower S n X ≫ Pi.π (fun _ : Fin (n + 1) ↦ X) 0 =
+      pointProjection S n X := by
+  exact Limits.Pi.lift_π _ 0
+
+@[reassoc]
+theorem prependPower_comp_π_succ (i : Fin n) :
+    prependPower S n X ≫ Pi.π (fun _ : Fin (n + 1) ↦ X) i.succ =
+      coordinateProjection S n X i := by
+  exact Limits.Pi.lift_π _ i.succ
+
+/-- The ordered pointed-addition map
+`X × Xⁿ ⟶ X × Xⁿ⁺¹`. -/
+noncomputable def orderedAmbientInsertion :
+    orderedAmbient S n X ⟶ orderedAmbient S (n + 1) X :=
+  Limits.prod.lift (pointProjection S n X) (prependPower S n X)
+
+@[reassoc]
+theorem orderedAmbientInsertion_comp_pointProjection :
+    orderedAmbientInsertion S n X ≫ pointProjection S (n + 1) X =
+      pointProjection S n X := by
+  exact Limits.prod.lift_fst _ _
+
+@[reassoc]
+theorem orderedAmbientInsertion_comp_coordinateProjection_zero :
+    orderedAmbientInsertion S n X ≫
+        coordinateProjection S (n + 1) X 0 =
+      pointProjection S n X := by
+  rw [coordinateProjection, ← Category.assoc,
+    orderedAmbientInsertion, Limits.prod.lift_snd,
+    prependPower_comp_π_zero]
+
+@[reassoc]
+theorem orderedAmbientInsertion_comp_coordinateProjection_succ (i : Fin n) :
+    orderedAmbientInsertion S n X ≫
+        coordinateProjection S (n + 1) X i.succ =
+      coordinateProjection S n X i := by
+  rw [coordinateProjection, ← Category.assoc,
+    orderedAmbientInsertion, Limits.prod.lift_snd,
+    prependPower_comp_π_succ]
+
+/-- Extend a permutation of the remaining coordinates to one fixing the
+new zeroth coordinate. -/
+def fixZeroPermutation (g : Equiv.Perm (Fin n)) :
+    Equiv.Perm (Fin (n + 1)) :=
+  g.extendDomain (finSuccAboveEquiv 0)
+
+@[simp]
+theorem fixZeroPermutation_zero (g : Equiv.Perm (Fin n)) :
+    fixZeroPermutation n g 0 = 0 := by
+  exact Equiv.Perm.extendDomain_apply_not_subtype g
+    (finSuccAboveEquiv 0) (by simp)
+
+@[simp]
+theorem fixZeroPermutation_succ (g : Equiv.Perm (Fin n)) (i : Fin n) :
+    fixZeroPermutation n g i.succ = (g i).succ := by
+  change g.extendDomain (finSuccAboveEquiv 0)
+      ((finSuccAboveEquiv 0 i).1) = _
+  rw [Equiv.Perm.extendDomain_apply_image]
+  rfl
+
+/-- Insertion is equivariant for permutations of the old coordinates and
+their extensions fixing coordinate zero. -/
+theorem orderedAmbientPermutationHom_comp_orderedAmbientInsertion
+    (g : Equiv.Perm (Fin n)) :
+    orderedAmbientPermutationHom S n X g ≫ orderedAmbientInsertion S n X =
+      orderedAmbientInsertion S n X ≫
+        orderedAmbientPermutationHom S (n + 1) X
+          (fixZeroPermutation n g) := by
+  apply Limits.prod.hom_ext
+  · simp only [Category.assoc,
+      orderedAmbientInsertion_comp_pointProjection,
+      orderedAmbientPermutationHom_comp_pointProjection]
+  · apply Limits.Pi.hom_ext
+    intro i
+    change
+      (orderedAmbientPermutationHom S n X g ≫
+          orderedAmbientInsertion S n X) ≫
+          coordinateProjection S (n + 1) X i =
+        (orderedAmbientInsertion S n X ≫
+          orderedAmbientPermutationHom S (n + 1) X
+            (fixZeroPermutation n g)) ≫
+          coordinateProjection S (n + 1) X i
+    refine Fin.cases ?_ (fun j ↦ ?_) i
+    · simp only [Category.assoc,
+        orderedAmbientInsertion_comp_coordinateProjection_zero,
+        orderedAmbientPermutationHom_comp_pointProjection,
+        orderedAmbientPermutationHom_comp_coordinateProjection,
+        fixZeroPermutation_zero]
+    · simp only [Category.assoc,
+        orderedAmbientInsertion_comp_coordinateProjection_succ,
+        orderedAmbientPermutationHom_comp_coordinateProjection,
+        fixZeroPermutation_succ]
+
+/-- The ordered pointed-addition map regarded as a map to the zeroth
+coordinate graph. -/
+noncomputable def orderedAmbientToZeroGraph :
+    orderedAmbient S n X ⟶ coordinateGraph S (n + 1) X 0 :=
+  equalizer.lift (orderedAmbientInsertion S n X) (by
+    rw [orderedAmbientInsertion_comp_pointProjection,
+      orderedAmbientInsertion_comp_coordinateProjection_zero])
+
+@[reassoc (attr := simp)]
+theorem orderedAmbientToZeroGraph_comp_ι :
+    orderedAmbientToZeroGraph S n X ≫
+        coordinateGraphι S (n + 1) X 0 =
+      orderedAmbientInsertion S n X :=
+  equalizer.lift_ι _ _
+
+variable [IsSeparated X.hom]
+
+/-- The ordered pointed-addition map annihilates the full incidence ideal. -/
+theorem orderedIncidenceIdeal_le_ker_orderedAmbientInsertion :
+    orderedIncidenceIdeal S (n + 1) X ≤
+      (orderedAmbientInsertion S n X).left.ker := by
+  refine (orderedIncidenceIdeal_le_coordinateGraphIdeal S (n + 1) X 0).trans ?_
+  rw [coordinateGraphIdeal]
+  have h := Scheme.Hom.le_ker_comp
+    (orderedAmbientToZeroGraph S n X).left
+    (coordinateGraphι S (n + 1) X 0).left
+  simpa only [← Over.comp_left, orderedAmbientToZeroGraph_comp_ι] using h
+
+/-- Scheme-theoretic insertion into the ordered incidence family. -/
+noncomputable def orderedPointedIncidenceMap :
+    (orderedAmbient S n X).left ⟶ orderedIncidence S (n + 1) X :=
+  IsClosedImmersion.lift
+    (orderedIncidenceι S (n + 1) X)
+    (orderedAmbientInsertion S n X).left
+    (by
+      change (orderedIncidenceIdeal S (n + 1) X).subschemeι.ker ≤ _
+      rw [Scheme.IdealSheafData.ker_subschemeι]
+      exact orderedIncidenceIdeal_le_ker_orderedAmbientInsertion S n X)
+
+@[reassoc]
+theorem orderedPointedIncidenceMap_comp_ι :
+    orderedPointedIncidenceMap S n X ≫
+        orderedIncidenceι S (n + 1) X =
+      (orderedAmbientInsertion S n X).left :=
+  IsClosedImmersion.lift_fac _ _ _
+
+/-- Scheme-theoretic insertion is equivariant for permutations of the old
+coordinates and the corresponding permutations fixing coordinate zero. -/
+theorem orderedAmbientAction_comp_orderedPointedIncidenceMap
+    (g : Equiv.Perm (Fin n)) :
+    (orderedAmbientAction S n X).hom g ≫
+        orderedPointedIncidenceMap S n X =
+      orderedPointedIncidenceMap S n X ≫
+        (orderedIncidenceAction S (n + 1) X).hom
+          (fixZeroPermutation n g) := by
+  apply (cancel_mono (orderedIncidenceι S (n + 1) X)).mp
+  rw [Category.assoc, orderedPointedIncidenceMap_comp_ι,
+    Category.assoc, orderedIncidenceAction_comp_ι,
+    ← Category.assoc, orderedPointedIncidenceMap_comp_ι]
+  exact congrArg Over.Hom.left
+    (orderedAmbientPermutationHom_comp_orderedAmbientInsertion S n X g)
+
+end MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
