@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
+import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalRootFactorization
 
 /-!
 # Finite quotients of the ordered universal incidence family
@@ -36,6 +37,18 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 open FiniteGroupQuotient
 open PermutationPower
 open ProjectiveFiniteOrbit
+
+/-- The affine-line local model of the universal effective divisor is finite
+flat of constant rank `n + 1`.  This is the local algebraic input to the
+curve-level descent construction below. -/
+theorem affineLineUniversalEffectiveDivisor_finite_flat_rank
+    (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    IsFinite (UniversalRootFactorization.universalRootProjection R n) ∧
+      Flat (UniversalRootFactorization.universalRootProjection R n) ∧
+        (UniversalRootFactorization.universalRootProjection R n).finrank =
+          fun _ ↦ n + 1 := by
+  exact ⟨inferInstance, inferInstance,
+    UniversalRootFactorization.universalRootProjection_finrank R n⟩
 
 variable (S : Scheme.{u}) (d : ℕ) {X Y : Over S}
 

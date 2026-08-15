@@ -46,7 +46,8 @@ parallel abstraction.
 | Flat affine base change of finite-group quotients | `FiniteGroupQuotientFlatBaseChange.existsUnique_invariantsπ_lift_baseChange_spec_of_flat` | checked in arbitrary characteristic |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
 | Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
-| Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; closed-immersion and Cartier proofs remain |
+| Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; closed-immersion and Cartier proofs remain |
+| Affine-line universal root family | `UniversalRootFactorization.universalRootProjection` | checked finite flat of constant rank `n + 1` over every nontrivial commutative base ring |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -228,18 +229,34 @@ quotient to the ambient quotient, and the invariant map
 `C × C^d → C × Sym^d(C)` gives the descended incidence morphism
 `D_d → C × Sym^d(C)`.  Pulling that morphism back to the ordered incidence
 family recovers the original inclusion followed by the symmetric quotient.
-The remaining local-algebra step is to identify the ambient quotient with
-`C × Sym^d(C)` (equivalently, prove the needed base-change theorem for this
-finite permutation quotient) and show the descended morphism is a relative
-effective Cartier divisor, including its flat degree-`d` fibers.
+Flat quotient base change now identifies the ambient quotient with
+`C × Sym^d(C)`.  More precisely, the ordered ambient product is exhibited as
+the pullback of `C^d → Sym^d(C)` along the second projection; the pullback
+action is transported to the coordinate-permutation action; the two quotient
+universal properties construct inverse morphisms; and epimorphicity of the
+original and flat-base-changed quotient projections proves the inverse laws.
+Thus the remaining local-algebra step is only the special incidence
+calculation: show that the descended morphism is a relative effective Cartier
+divisor with finite flat degree-`d` fibers.
+
+The basic characteristic-free local calculation is now checked on the affine
+line.  Mathlib's algebra classifying a factorization of the universal monic
+degree-`n + 1` polynomial into monic factors of degrees `1` and `n` is
+explicitly equivalent, over the coefficient ring, to adjoining a root of the
+universal polynomial.  The power basis of that root algebra proves that the
+factorization map is finite free of rank `n + 1`; on spectra this gives the
+finite flat constant-rank universal-root morphism.  The next step is to
+transport this model through étale coordinates on a smooth curve, identify it
+with the pointed symmetric-power/incidence morphism, and descend the Cartier
+property.
 
 The affine algebra in that comparison is checked.  For a finite group acting
 on an `R`-algebra `A` and a flat `Aᴳ`-algebra `B`, the canonical map
 `B → (A ⊗_{Aᴳ} B)ᴳ` is bijective.  On spectra, the base change of
 `Spec A → Spec Aᴳ` along `Spec B → Spec Aᴳ` therefore has the full unique
-categorical-quotient factorization property.  What remains in the ambient
-comparison is the scheme-level gluing of these affine statements over the
-quotient charts and an affine cover of the smooth (hence flat) curve factor.
+categorical-quotient factorization property.  This affine theorem has also
+been globalized over quotient charts and then applied to the smooth (hence
+flat) curve factor, completing the ambient comparison above.
 
 Denote the representing object by
 
