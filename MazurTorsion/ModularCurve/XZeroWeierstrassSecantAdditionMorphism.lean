@@ -78,13 +78,65 @@ theorem secantAdditionAffineMorphism_comp_structureMap (W : WeierstrassCurve K) 
   congr 1
   exact secantAdditionToAffineRing_comp_coefficient W
 
+private theorem affineChartIso_comp_coveringStructureMap
+    (W : WeierstrassCurve K) :
+    (affineEquationSchemeIsoStandardChart W).hom ≫
+      Spec.map (CommRingCat.ofHom (coveringChartStructureRingHom W true)) =
+        secantTargetStructureMap W := by
+  rw [show (affineEquationSchemeIsoStandardChart W).hom =
+      Spec.map
+        (affineEquationToStandardChartRingEquiv W).toCommRingCatIso.symm.hom
+    from rfl]
+  rw [secantTargetStructureMap, ← Spec.map_comp, Spec.map_inj]
+  ext a
+  change (affineEquationToStandardChartRingEquiv W).symm
+      (coveringChartStructureRingHom W true a) =
+    secantTargetCoefficientHom W a
+  simp only [coveringChartStructureRingHom, coveringCoordinate,
+    coveringChartIdeal, coveringChartEquation, secantTargetCoefficientHom,
+    RingHom.coe_comp, Function.comp_apply]
+  change (affineEquationToStandardChartRingEquiv W).symm
+      (Ideal.Quotient.mk (standardChartIdeal W)
+        (coordinateChartConstantHom (K := K) 2 a)) =
+    Ideal.Quotient.mk (Ideal.span {W.toAffine.polynomial})
+      (Polynomial.C (Polynomial.C a))
+  apply (affineEquationToStandardChartRingEquiv W).injective
+  rw [RingEquiv.apply_symm_apply]
+  change Ideal.Quotient.mk (standardChartIdeal W)
+      (coordinateChartConstantHom (K := K) 2 a) =
+    Ideal.Quotient.mk (standardChartIdeal W)
+      (affineToStandardChart (K := K)
+        (Polynomial.C (Polynomial.C a)))
+  rw [affineToStandardChart_C_C]
+
+private def standardSecantChartMap (W : WeierstrassCurve K) :
+    standardAffineChartScheme W ⟶ scheme W :=
+  coveringChartMap W true
+
 /-- The secant chart maps into the actual reduced projective Weierstrass cubic through its
 standard affine open. -/
 def secantAdditionProjectiveMorphism (W : WeierstrassCurve K) :
     Spec (.of (secantChartCoordinateRing W)) ⟶ scheme W :=
   secantAdditionAffineMorphism W ≫
     (affineEquationSchemeIsoStandardChart W).hom ≫
-    coveringChartMap W true
+    standardSecantChartMap W
+
+/-- The projective secant-chart morphism respects the structural morphisms to the base field. -/
+theorem secantAdditionProjectiveMorphism_comp_structureMap
+    (W : WeierstrassCurve K) :
+    secantAdditionProjectiveMorphism W ≫ structureMap W =
+      secantChartStructureMap W := by
+  let chartStructureMap : standardAffineChartScheme W ⟶ Spec (.of K) :=
+    Spec.map (CommRingCat.ofHom (coveringChartStructureRingHom W true))
+  have hchart : standardSecantChartMap W ≫ structureMap W =
+      chartStructureMap := by
+    exact coveringChartMap_comp_structureMap W true
+  have htarget : (affineEquationSchemeIsoStandardChart W).hom ≫
+      chartStructureMap = secantTargetStructureMap W := by
+    exact affineChartIso_comp_coveringStructureMap W
+  simp only [secantAdditionProjectiveMorphism, Category.assoc,
+    hchart, htarget,
+    secantAdditionAffineMorphism_comp_structureMap]
 
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
