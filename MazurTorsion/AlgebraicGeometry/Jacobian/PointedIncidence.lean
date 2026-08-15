@@ -55,6 +55,45 @@ theorem prependPower_comp_π_succ (i : Fin n) :
       coordinateProjection S n X i := by
   exact Limits.Pi.lift_π _ i.succ
 
+/-- Recover the distinguished point and the remaining coordinates after
+forgetting coordinate zero.  The named downstream consumer is the finite-
+fiber proof for pointed addition in `PointedIncidenceDescent`. -/
+noncomputable def unprependPower :
+    power S (Fin (n + 1)) X ⟶ orderedAmbient S n X :=
+  Limits.prod.lift
+    (Pi.π (fun _ : Fin (n + 1) ↦ X) 0)
+    (Limits.Pi.lift fun i : Fin n ↦
+      Pi.π (fun _ : Fin (n + 1) ↦ X) i.succ)
+
+/-- Deleting the newly prepended coordinate is a left inverse to
+prepending it. -/
+@[reassoc]
+theorem prependPower_comp_unprependPower :
+    prependPower S n X ≫ unprependPower S n X =
+      𝟙 (orderedAmbient S n X) := by
+  apply Limits.prod.hom_ext
+  · simp only [Category.assoc, unprependPower, Limits.prod.lift_fst,
+      prependPower_comp_π_zero, Category.id_comp]
+  · apply Limits.Pi.hom_ext
+    intro i
+    simp only [Category.assoc, unprependPower, Limits.prod.lift_snd,
+      Limits.Pi.lift_π, prependPower_comp_π_succ, Category.id_comp]
+    rfl
+
+/-- Prepending a coordinate is injective on underlying scheme points. -/
+theorem prependPower_injective :
+    Function.Injective (prependPower S n X).left := by
+  intro x y hxy
+  have h := congrArg (unprependPower S n X).left hxy
+  rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply] at h
+  have hcomp := congrArg Over.Hom.left
+    (prependPower_comp_unprependPower S n X)
+  change
+    (prependPower S n X).left ≫ (unprependPower S n X).left =
+      𝟙 (orderedAmbient S n X).left at hcomp
+  rw [hcomp] at h
+  simpa using h
+
 /-- The ordered pointed-addition map
 `X × Xⁿ ⟶ X × Xⁿ⁺¹`. -/
 noncomputable def orderedAmbientInsertion :

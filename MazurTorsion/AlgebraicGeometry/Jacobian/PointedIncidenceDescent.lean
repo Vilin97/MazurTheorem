@@ -304,6 +304,101 @@ instance pointedSymmetricPowerAddition_isProper (n : ℕ) :
   rw [pointedSymmetricPowerAddition_left]
   infer_instance
 
+/-- Every point fiber of pointed addition is finite.  After choosing an
+ordered lift of the target divisor and an ordered lift of each source
+divisor, a point of the fiber determines a permutation carrying the
+prepended source tuple to the fixed target tuple.  Choosing one such
+permutation gives an injection of the fiber into the finite symmetric
+group: equality of permutations forces equality of the prepended tuples,
+and `unprependPower` then recovers the source lift. -/
+theorem pointedSymmetricPowerAddition_finite_preimage_singleton
+    (n : ℕ)
+    (y : (SymmetricPower.curveSchemeSucc K C (n + 1)).left) :
+    ((pointedSymmetricPowerAddition K C n).left ⁻¹' {y}).Finite := by
+  classical
+  let f := (pointedSymmetricPowerAddition K C n).left
+  let p := curveOrderedAmbientToSymmetricProductSucc K C n
+  let r := (SymmetricPower.curveProjectionSucc K C (n + 1)).left
+  let σ := SymmetricPower.Action (Spec (.of K)) (n + 2) C
+  let hσ := SymmetricPower.curve_hasAffineOrbits_succ K C (n + 1)
+  obtain ⟨b, hb⟩ := r.surjective y
+  let a (z : f ⁻¹' {y}) :
+      (orderedAmbient (Spec (.of K)) (n + 1) C).left :=
+    Classical.choose (p.surjective z.1)
+  have ha (z : f ⁻¹' {y}) : p (a z) = z.1 :=
+    Classical.choose_spec (p.surjective z.1)
+  have hz (z : f ⁻¹' {y}) : f z.1 = y := by
+    simpa only [Set.mem_preimage, Set.mem_singleton_iff] using z.2
+  have horbit (z : f ⁻¹' {y}) :
+      ∃ g : Equiv.Perm (Fin (n + 2)),
+        σ.hom g
+            ((PointedIncidence.prependPower
+              (Spec (.of K)) (n + 1) C).left (a z)) = b := by
+    apply (FiniteGroupQuotient.quotientπ_apply_eq_iff σ hσ
+      ((PointedIncidence.prependPower
+        (Spec (.of K)) (n + 1) C).left (a z)) b).mp
+    change r
+        ((PointedIncidence.prependPower
+          (Spec (.of K)) (n + 1) C).left (a z)) = r b
+    rw [hb]
+    calc
+      r ((PointedIncidence.prependPower
+          (Spec (.of K)) (n + 1) C).left (a z)) =
+          f (p (a z)) := by
+        have h := congrArg
+          (fun q : (orderedAmbient (Spec (.of K)) (n + 1) C).left ⟶
+              (SymmetricPower.curveSchemeSucc K C (n + 1)).left ↦ q (a z))
+          (curveOrderedAmbientToSymmetricProduct_comp_pointedAddition
+            K C n)
+        simpa only [Scheme.Hom.comp_apply] using h.symm
+      _ = f z.1 := congrArg f (ha z)
+      _ = y := hz z
+  let permutation (z : f ⁻¹' {y}) : Equiv.Perm (Fin (n + 2)) :=
+    Classical.choose (horbit z)
+  have hpermutation (z : f ⁻¹' {y}) :
+      σ.hom (permutation z)
+          ((PointedIncidence.prependPower
+            (Spec (.of K)) (n + 1) C).left (a z)) = b :=
+    Classical.choose_spec (horbit z)
+  have hinjective : Function.Injective permutation := by
+    intro z w hzw
+    apply Subtype.ext
+    have haction :
+        σ.hom (permutation z)
+            ((PointedIncidence.prependPower
+              (Spec (.of K)) (n + 1) C).left (a z)) =
+          σ.hom (permutation z)
+            ((PointedIncidence.prependPower
+              (Spec (.of K)) (n + 1) C).left (a w)) := by
+      simpa only [hzw] using
+        (hpermutation z).trans (hpermutation w).symm
+    have hprepend :
+        (PointedIncidence.prependPower
+            (Spec (.of K)) (n + 1) C).left (a z) =
+          (PointedIncidence.prependPower
+            (Spec (.of K)) (n + 1) C).left (a w) :=
+      (σ.hom (permutation z)).isEmbedding.injective haction
+    have haw : a z = a w :=
+      PointedIncidence.prependPower_injective
+        (Spec (.of K)) (n + 1) C hprepend
+    exact (ha z).symm.trans ((congrArg p haw).trans (ha w))
+  letI : Finite (f ⁻¹' {y}) :=
+    Finite.of_injective permutation hinjective
+  exact Set.toFinite (f ⁻¹' {y})
+
+/-- Pointed addition is locally quasi-finite because all of its point
+fibers inject into a finite symmetric group. -/
+instance pointedSymmetricPowerAddition_locallyQuasiFinite (n : ℕ) :
+    LocallyQuasiFinite (pointedSymmetricPowerAddition K C n).left := by
+  apply LocallyQuasiFinite.of_finite_preimage_singleton
+  exact pointedSymmetricPowerAddition_finite_preimage_singleton K C n
+
+/-- Pointed addition is finite: it is proper and locally quasi-finite. -/
+instance pointedSymmetricPowerAddition_isFinite (n : ℕ) :
+    IsFinite (pointedSymmetricPowerAddition K C n).left :=
+  IsFinite.of_isProper_of_locallyQuasiFinite
+    (pointedSymmetricPowerAddition K C n).left
+
 /-- The pointed comparison is an isomorphism once it becomes one after an
 fpqc cover of the incidence quotient.  The downstream consumer is the local
 monic-root chart comparison: its explicit affine isomorphisms provide the

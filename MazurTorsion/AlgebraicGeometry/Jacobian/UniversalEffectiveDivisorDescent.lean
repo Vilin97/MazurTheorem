@@ -985,6 +985,14 @@ instance curveAmbientQuotientToSymmetricProductSucc_isIso (n : ℕ) :
   change IsIso (curveAmbientQuotientSymmetricProductIso K C n).hom
   infer_instance
 
+/-- The ordered-coordinate cover of `C × Sym^(n+1)(C)` is surjective.
+This is the quotient projection followed by the canonical quotient-product
+isomorphism. -/
+instance curveOrderedAmbientToSymmetricProductSucc_surjective (n : ℕ) :
+    Surjective (curveOrderedAmbientToSymmetricProductSucc K C n) := by
+  rw [← curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct]
+  infer_instance
+
 /-- The descended incidence family as a morphism into
 `C × Sym^(n+1)(C)`. -/
 noncomputable def curveDescendedIncidenceιSucc (n : ℕ) :
