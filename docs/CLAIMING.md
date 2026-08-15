@@ -54,8 +54,8 @@ For a node whose readiness is `nouns_missing`, or whose status is `blocked` or
 - small sanity examples; and
 - what the interface deliberately does not promise.
 
-Large foundational interfaces require two reviewers. A new interface receives
-no integration credit until a real named consumer compiles.
+A new interface receives no integration credit until its exact boundary is
+recorded and a real named consumer compiles.
 
 ## Closing a claim
 

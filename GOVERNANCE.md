@@ -6,17 +6,15 @@ Mazur Theorem is a maintainer-led, public research project.
 
 - **Maintainers** own releases, dependency pins, roadmap weights, security,
   and final integration.
-- **Track stewards** review the mathematical direction and API of a roadmap
-  stage.
 - **Contributors** own a bounded claim or research work package.
 
-Maintainers may delegate review without delegating the responsibility to keep
-the global theorem statement honest.
+Everyone changing the project is responsible for keeping the global theorem
+statement and the published dependency boundary honest.
 
 ## Decisions
 
-Routine proof and documentation decisions use normal pull-request review.
-The following require a public design issue and explicit maintainer approval:
+Routine proof and documentation decisions may be committed directly or sent as
+pull requests. The following require a public design record before they land:
 
 - changing the target theorem;
 - changing roadmap weights or completion rules;
@@ -25,9 +23,8 @@ The following require a public design issue and explicit maintainer approval:
 - changing the axiom or source-quality policy;
 - declaring a research node complete.
 
-Where reviewers disagree, maintainers record the decision and reasoning in
-the issue. Mathematical correctness is never decided by vote: the Lean
-kernel, the axiom audit, and the cited source remain mandatory.
+Mathematical correctness is never decided by vote: the Lean kernel, the axiom
+audit, and the cited source remain mandatory.
 
 ## Roadmap integrity
 

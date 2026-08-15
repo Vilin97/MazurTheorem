@@ -141,8 +141,8 @@ Start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and
 `research_open` in the current ledger. A `paused` contract is intentionally
 not available for new proof volume.
 
-New foundational interfaces require design review and a named downstream
-consumer. In particular:
+New foundational interfaces require an explicit design boundary and a named
+downstream consumer. In particular:
 
 - point-level rational cyclic-subgroup data are not a represented modular curve;
 - an abstract Picard group is not a Jacobian scheme;

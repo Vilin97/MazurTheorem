@@ -21,4 +21,5 @@ honesty, provenance, and the dependency graph.
   `docs/PRIOR_ART.md`.
 - Tau Ceti work uses its separate exact-pin package under
   `upstream/tauceti/`; never mix its Lean/Mathlib pin into the core package.
-- A new interface needs a named downstream consumer and design review.
+- A new interface needs an explicit design boundary and a named downstream
+  consumer.

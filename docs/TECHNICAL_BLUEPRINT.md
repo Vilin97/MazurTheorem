@@ -421,7 +421,8 @@ until the shared geometry they require is available.
   reverse.
 - Compatibility modules may re-export moved declarations, but new consumers
   should import the canonical owner.
-- Every new interface needs a design review and a named downstream consumer.
+- Every new interface needs an explicit design boundary and a named downstream
+  consumer.
 - A work package is a planning partition; only its parent node earns progress
   credit.
 

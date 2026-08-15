@@ -28,7 +28,7 @@ import lean_regular_cache as regular_cache
 SOURCE_CUTOFF = "7a79b4ae01d964b38370ecafde388aefc281dbbe"
 # Pin migrations update this reference only after the new linter environment
 # has been reviewed.  They must never reset the cumulative source cutoff.
-LINTER_ENVIRONMENT_REFERENCE = "7a79b4ae01d964b38370ecafde388aefc281dbbe"
+LINTER_ENVIRONMENT_REFERENCE = "2507144fb45d4ac20e6e78b01c9026b14c570a1a"
 RATCHET_SCHEMA = 1
 EXPECTED_LINTER_COUNT = 14
 EXPECTED_LINTERS = frozenset(
