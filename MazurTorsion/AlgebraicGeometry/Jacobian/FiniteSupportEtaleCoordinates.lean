@@ -125,6 +125,23 @@ noncomputable def geometricPointSupportIndex (d : ℕ)
     (i : Fin d) : Fin (geometricDistinctSupportCard K C d z) :=
   coordinateSupportIndex (Spec (.of K)) d C z i
 
+/-- The relative-power point listing each distinct geometric coordinate
+morphism once. -/
+noncomputable def geometricDistinctSupportOrderedPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    (PermutationPower.power (Spec (.of K))
+      (Fin (geometricDistinctSupportCard K C d z)) C).left :=
+  distinctSupportPoint (Spec (.of K)) d C z
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Repeating the geometric-support tuple by the exact occurrence assignment
+recovers the original ordered point. -/
+theorem repeatGeometricSupportOrderedPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    (repeatSupportPowerHom (Spec (.of K)) d C z).left
+        (geometricDistinctSupportOrderedPoint K C d z) = z :=
+  repeatSupportPowerHom_distinctSupportPoint (Spec (.of K)) d C z
+
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- The geometric reindexing retains all residue-field data: selecting one
 representative geometric coordinate and then repeating by its occurrence map
@@ -266,6 +283,37 @@ noncomputable def distinctNeighborhoods (d : ℕ)
     DistinctNeighborhoods K C d z :=
   neighborhoods K C (distinctSupportCard K C d z)
     (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
+
+/-- Coordinate charts indexed by distinct geometric coordinate morphisms.
+Different residue-field embeddings over one topological point remain
+different members; exactly repeated morphisms share one member. -/
+abbrev GeometricDistinctCharts (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  Charts K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+
+/-- A chosen coordinate chart for each distinct geometric coordinate. -/
+noncomputable def geometricDistinctCharts (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    GeometricDistinctCharts K C d z :=
+  charts K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+
+/-- Finite étale neighborhoods indexed by distinct geometric coordinates. -/
+abbrev GeometricDistinctNeighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  Neighborhoods K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+
+/-- The chosen finite étale neighborhood of each distinct geometric
+coordinate. -/
+noncomputable def geometricDistinctNeighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    GeometricDistinctNeighborhoods K C d z :=
+  neighborhoods K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
 
 /-- The common relative product of the étale bases of a finite family of
 point neighborhoods. -/
@@ -1560,5 +1608,33 @@ theorem exists_distinctCommonSplitChartAtSupport (d : ℕ)
   exists_commonSplitChartAtSupport K C (distinctSupportCard K C d z)
     (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
     (distinctNeighborhoods K C d z)
+
+/-- The common étale base built from one neighborhood per distinct geometric
+coordinate morphism. -/
+noncomputable abbrev geometricDistinctCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  commonBase K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z)
+
+/-- The simultaneous splitting assertion for the geometric-support family. -/
+def HasGeometricDistinctCommonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) : Prop :=
+  HasCommonSplitChartAtSupport K C (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z)
+
+/-- Distinct geometric support coordinates have one common affine rank
+neighborhood and one finite étale fpqc splitting cover. -/
+theorem exists_geometricDistinctCommonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    HasGeometricDistinctCommonSplitChartAtSupport K C d z :=
+  exists_commonSplitChartAtSupport K C
+    (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates

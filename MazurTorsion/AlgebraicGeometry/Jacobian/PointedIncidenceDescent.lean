@@ -9,6 +9,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -41,6 +42,7 @@ open FiniteSupportEtaleCoordinates
 open FiniteSupportCoordinateMaps
 open CoherentComponentBaseChange
 open OrderedIncidenceOpenRestriction
+open GeometricSupportAssignedSplitChart
 open SplitFiniteBaseChange
 
 variable (K : Type u) [Field K]
@@ -146,6 +148,43 @@ theorem orderedSupport_exists_distinctCommonSplitChart (d : ℕ)
       (orderedSupportPoint K C d z) :=
   exists_distinctCommonSplitChartAtSupport K C d
     (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The geometric-support tuple of an incidence point admits a simultaneous
+split chart, identifying only coordinate morphisms that are genuinely equal
+over the original residue field. -/
+theorem orderedSupport_exists_geometricDistinctCommonSplitChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    HasGeometricDistinctCommonSplitChartAtSupport K C d
+      (orderedSupportPoint K C d z) :=
+  exists_geometricDistinctCommonSplitChartAtSupport K C d
+    (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On a chosen geometric-support fpqc split chart, the degree-preserving
+assigned coproduct power contains a point mapping to the exact original
+ordered support.  Repeated geometric coordinates use the same family member
+and remain repeated factors in the degree-`d` power. -/
+theorem orderedSupport_exists_geometricAssignedCoproductPowerPoint
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (hV : commonBasePoint K C
+      (geometricDistinctSupportCard K C d
+        (orderedSupportPoint K C d z))
+      (geometricDistinctSupportOrderedPoint K C d
+        (orderedSupportPoint K C d z))
+      (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+      (geometricDistinctNeighborhoods K C d
+        (orderedSupportPoint K C d z)) ∈ V)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) [Surjective q] :
+    ∃ p : (assignedCoproductPowerOverGround K C d
+        (orderedSupportPoint K C d z) V T q).left,
+      (assignedCoproductPowerToCurvePower K C d
+        (orderedSupportPoint K C d z) V T q).left p =
+          orderedSupportPoint K C d z :=
+  exists_assignedCoproductPowerPoint_over_support K C d
+    (orderedSupportPoint K C d z) V hV T q
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Every ordered incidence-ambient point therefore carries a finite family

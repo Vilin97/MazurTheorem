@@ -38,6 +38,23 @@ noncomputable abbrev assignedProduct (S : Scheme.{u}) (m d : ℕ)
     (X : Fin m → Over S) (a : Fin d → Fin m) : Over S :=
   ∏ᶜ fun i : Fin d ↦ X (a i)
 
+/-- Repeat or reorder the factors of the full family product according to
+an assignment. -/
+noncomputable def productToAssignedProduct
+    (S : Scheme.{u}) (m d : ℕ) (X : Fin m → Over S)
+    (a : Fin d → Fin m) :
+    (∏ᶜ X) ⟶ assignedProduct S m d X a :=
+  Pi.lift (fun i ↦ Pi.π X (a i))
+
+@[reassoc]
+theorem productToAssignedProduct_comp_projection
+    (S : Scheme.{u}) (m d : ℕ) (X : Fin m → Over S)
+    (a : Fin d → Fin m) (i : Fin d) :
+    productToAssignedProduct S m d X a ≫
+        Pi.π (fun i : Fin d ↦ X (a i)) i =
+      Pi.π X (a i) :=
+  Pi.lift_π _ i
+
 /-- Insert each assigned family member into the matching coordinate of the
 ordered power of the whole disjoint family. -/
 noncomputable def assignedProductToCoproductPower
@@ -61,6 +78,23 @@ noncomputable abbrev assignedProductOverOriginalBase
     (S T : Scheme.{u}) (s : S ⟶ T) (m d : ℕ)
     (X : Fin m → Over S) (a : Fin d → Fin m) : Over T :=
   Over.mk ((assignedProduct S m d X a).hom ≫ s)
+
+/-- Regard the full family product over a further original base. -/
+noncomputable abbrev productOverOriginalBase
+    (S T : Scheme.{u}) (s : S ⟶ T) (m : ℕ)
+    (X : Fin m → Over S) : Over T :=
+  Over.mk ((∏ᶜ X).hom ≫ s)
+
+/-- Repeat or reorder the full family product over a further original
+base. -/
+noncomputable def productToAssignedProductOverOriginalBase
+    (S T : Scheme.{u}) (s : S ⟶ T) (m d : ℕ)
+    (X : Fin m → Over S) (a : Fin d → Fin m) :
+    productOverOriginalBase S T s m X ⟶
+      assignedProductOverOriginalBase S T s m d X a :=
+  Over.homMk (productToAssignedProduct S m d X a).left (by
+    have h := (productToAssignedProduct S m d X a).w
+    exact congrArg (fun q ↦ q ≫ s) h)
 
 /-- Regard the degree-`d` power of the family coproduct over a further
 original base. -/
@@ -123,6 +157,18 @@ noncomputable def assignedCoproductPowerToTargetPower
           _ = (∏ᶜ fun _ : Fin d ↦ familyCoproduct S m X).hom ≫ s := by
             simpa only [Category.assoc] using
               congrArg (fun q ↦ q ≫ s) hπ))
+
+/-- The underlying scheme map of the assigned target map has the expected
+coordinate projection. -/
+theorem assignedProductToTargetPower_comp_projection_left
+    (S T : Scheme.{u}) (s : S ⟶ T) (m d : ℕ)
+    (X : Fin m → Over S) (a : Fin d → Fin m)
+    (C : Over T) (g : ∀ j, (X j).left ⟶ C.left)
+    (hg : ∀ j, g j ≫ C.hom = (X j).hom ≫ s) (i : Fin d) :
+    (assignedProductToTargetPower S T s m d X a C g hg ≫
+        Pi.π (fun _ : Fin d ↦ C) i).left =
+      (Pi.π (fun i : Fin d ↦ X (a i)) i).left ≫ g (a i) :=
+  congrArg Over.Hom.left (Pi.lift_π _ i)
 
 /-- Assigned coproduct insertion followed by the target map is exactly the
 coordinatewise map from each selected family member. -/
