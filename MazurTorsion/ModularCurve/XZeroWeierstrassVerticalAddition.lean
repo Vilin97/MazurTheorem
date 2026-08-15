@@ -151,6 +151,83 @@ theorem vertical_homogeneous_equation (W : WeierstrassCurve K) :
     WeierstrassCurve.map_a₆, WeierstrassCurve.Projective.fin3_def_ext] using
     hzero
 
+/-! ## Compatibility of the two denominator-cleared triples -/
+
+/-- The `X/Y` cross-product of the antidiagonal and vertical homogeneous
+triples agrees in the affine-pair coordinate ring.  This is a polynomial
+consequence of the checked numerator-denominator identity, with no
+cancellation or reducedness hypothesis. -/
+theorem antidiagonalVertical_homogeneousX_mul_Y (W : WeierstrassCurve K) :
+    (additionB12 W * antidiagonalAddXNumerator W) *
+        verticalAddYNumerator W =
+      (verticalAdditionB W * verticalAddXNumerator W) *
+        antidiagonalAddYNumerator W := by
+  let a := secantPairCoefficientHom W W.a₁
+  let H := secantPairCoefficientHom W W.a₂ + secantPairX₁ W +
+    secantPairX₂ W
+  let x := secantPairX₁ W
+  let y := secantPairY₁ W + secantPairCoefficientHom W W.a₃
+  let A := additionA12 W
+  let B := additionB12 W
+  let C := verticalAdditionA W
+  let D := verticalAdditionB W
+  let Q :=
+    A ^ 2 * C ^ 2 + A ^ 2 * C * D * a - A ^ 2 * D ^ 2 * H +
+      A * B * C ^ 2 * a + A * B * C * D * a ^ 2 +
+      A * B * C * D * x - A * B * D ^ 2 * H * a -
+      A * B * D ^ 2 * y - B ^ 2 * C ^ 2 * H -
+      B ^ 2 * C * D * H * a - B ^ 2 * C * D * y +
+      B ^ 2 * D ^ 2 * H ^ 2 + B ^ 2 * D ^ 2 * H * x -
+      B ^ 2 * D ^ 2 * a * y
+  have hcross : A * D = B * C := by
+    simpa only [A, B, C, D, verticalAdditionA, verticalAdditionB,
+      mul_comm] using
+      (addition_pair_coordinate_identity W).symm
+  apply sub_eq_zero.mp
+  calc
+    (additionB12 W * antidiagonalAddXNumerator W) *
+          verticalAddYNumerator W -
+        (verticalAdditionB W * verticalAddXNumerator W) *
+          antidiagonalAddYNumerator W = (A * D - B * C) * Q := by
+            dsimp only [A, B, C, D, Q, a, H, x, y]
+            simp only [antidiagonalAddYNumerator,
+              antidiagonalAddXNumerator, verticalAddYNumerator,
+              verticalAddXNumerator]
+            ring
+    _ = 0 := by rw [hcross]; ring
+
+/-- The `Z/Y` cross-product of the antidiagonal and vertical homogeneous
+triples agrees without inverting either slope denominator. -/
+theorem antidiagonalVertical_homogeneousZ_mul_Y (W : WeierstrassCurve K) :
+    additionB12 W ^ 3 * verticalAddYNumerator W =
+      verticalAdditionB W ^ 3 * antidiagonalAddYNumerator W := by
+  let a := secantPairCoefficientHom W W.a₁
+  let H := secantPairCoefficientHom W W.a₂ + secantPairX₁ W +
+    secantPairX₂ W
+  let x := secantPairX₁ W
+  let A := additionA12 W
+  let B := additionB12 W
+  let C := verticalAdditionA W
+  let D := verticalAdditionB W
+  let Q :=
+    -(A ^ 2 * D ^ 2) - A * B * C * D - 2 * A * B * D ^ 2 * a -
+      B ^ 2 * C ^ 2 - 2 * B ^ 2 * C * D * a + B ^ 2 * D ^ 2 * H -
+      B ^ 2 * D ^ 2 * a ^ 2 + B ^ 2 * D ^ 2 * x
+  have hcross : A * D = B * C := by
+    simpa only [A, B, C, D, verticalAdditionA, verticalAdditionB,
+      mul_comm] using
+      (addition_pair_coordinate_identity W).symm
+  apply sub_eq_zero.mp
+  calc
+    additionB12 W ^ 3 * verticalAddYNumerator W -
+        verticalAdditionB W ^ 3 * antidiagonalAddYNumerator W =
+      -(A * D - B * C) * Q := by
+        dsimp only [A, B, C, D, Q, a, H, x]
+        simp only [antidiagonalAddYNumerator, antidiagonalAddXNumerator,
+          verticalAddYNumerator, verticalAddXNumerator]
+        ring
+    _ = 0 := by rw [hcross]; ring
+
 section InfinityChart
 
 variable {F : Type u} [Field F]

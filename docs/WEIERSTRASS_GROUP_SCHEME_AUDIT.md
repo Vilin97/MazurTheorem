@@ -193,7 +193,8 @@ doubling. The named consumer
 `productNeighborhoodAddition_secant_and_tangent_compatible` packages those
 two compatibility theorems. Two denominator-cleared infinity-output
 morphisms now agree with the corresponding affine formulas on their exact
-intersections. The four principal opens cover the whole affine-pair
+intersections and with each other on their exact common principal open,
+without cancelling either slope denominator. The four principal opens cover the whole affine-pair
 presentation: simultaneous vanishing would produce a singular residue-field
 point, contradicting ellipticity. This still constructs neither their glued
 multiplication nor its extension over input points at infinity.

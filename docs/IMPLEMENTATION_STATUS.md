@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
 - Ecosystem readiness is **18%**.
-- The audited baseline contains **1,882 Lean modules** and **1,795,486 Lean
+- The audited baseline contains **1,883 Lean modules** and **1,795,860 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Glue the checked four-chart affine-pair cover after proving every remaining pairwise compatibility; extend it over input points at infinity, prove the commutative group laws, and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Prove the remaining product-neighbourhood/vertical and secant/antidiagonal compatibilities and glue the checked four-chart affine-pair cover; extend it over input points at infinity, prove the commutative group laws, and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -82,10 +82,12 @@ slices without changing the 172-point headline:
   `D(B₁₂ * (x₁ - x₂))`, its restricted affine and projective morphisms
   agree with secant addition, and its diagonal restriction agrees with tangent
   doubling. Two denominator-cleared infinity-output morphisms now agree with
-  those affine formulas on their exact intersections, and elliptic
-  nonsingularity proves that the resulting four principal opens cover the
-  entire affine-pair presentation. The remaining pairwise compatibilities,
-  gluing, extension over input points at infinity, group laws, and
+  those affine formulas on their exact intersections and with each other on
+  their exact common principal open, and elliptic nonsingularity proves that
+  the resulting four principal opens cover the entire affine-pair
+  presentation. The product-neighbourhood/vertical and
+  secant/antidiagonal compatibilities, gluing, extension over input points at
+  infinity, group laws, and
   coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section

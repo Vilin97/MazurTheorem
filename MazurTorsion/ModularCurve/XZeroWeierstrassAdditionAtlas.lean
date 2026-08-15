@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.ModularCurve.XZeroWeierstrassVerticalAdditionMorphism
+import MazurTorsion.ModularCurve.XZeroWeierstrassInfinityCompatibility
 
 /-!
 # The global affine-pair atlas for Weierstrass addition

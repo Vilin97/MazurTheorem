@@ -98,10 +98,11 @@ morphisms now exist on the actual product opens `D(x₁ - x₂)` and `D(B₁₂)
 their affine and projective restrictions agree on the exact intersection, and
 the second chart restricts to tangent doubling along the diagonal. Two actual
 infinity-output morphisms agree with their affine counterparts on exact
-intersections, and the four principal opens cover the affine-pair presentation
-by elliptic nonsingularity. These are prerequisites, not a global group
-scheme. The package remains active until all pairwise compatibilities are
-proved, the four charts are glued, the map is extended over input points at
+intersections and with each other on their exact common principal open, and
+the four principal opens cover the affine-pair presentation by elliptic
+nonsingularity. These are prerequisites, not a global group scheme. The
+package remains active until the product-neighbourhood/vertical and
+secant/antidiagonal compatibilities are proved, the four charts are glued, the map is extended over input points at
 infinity, and the group axioms and coordinate-point comparison are proved. The represented
 `Γ₀`-moduli package waits on the subgroup package. Each step removes the
 corresponding supplied group-object, compatibility, or arbitrary-interface

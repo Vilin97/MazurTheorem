@@ -253,9 +253,10 @@ facts.
 
 These checked charts are still not the global Weierstrass group scheme.
 Two denominator-cleared infinity-output morphisms now agree with their affine
-counterparts on exact intersections, and elliptic nonsingularity proves that
-the four source opens cover the entire affine-pair presentation. Proving the
-remaining pairwise compatibilities, gluing those four charts, extending over
+counterparts on exact intersections and with each other on their exact common
+principal open, and elliptic nonsingularity proves that the four source opens
+cover the entire affine-pair presentation. Proving the remaining
+product-neighbourhood/vertical and secant/antidiagonal compatibilities, gluing those four charts, extending over
 input points at infinity, proving the group laws, and comparing the resulting
 law with coordinate points remain open.
 

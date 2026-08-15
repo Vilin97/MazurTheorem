@@ -548,6 +548,11 @@ order-49 consumers.
   Prove scheme-level equality between ordinary secant addition and its vertical infinity
   extension on their exact intersection.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinityIntersection_additionProjective_eq`
+  Prove that the two denominator-cleared infinity formulas agree as actual morphisms on
+  D(Y\_anti Y\_vert), using exact homogeneous cross-products without cancelling either
+  slope denominator.
+* `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionCharts_cover`
   Use elliptic nonsingularity to prove that the two affine-output charts and two
   infinity-output charts cover the entire affine-pair presentation.
