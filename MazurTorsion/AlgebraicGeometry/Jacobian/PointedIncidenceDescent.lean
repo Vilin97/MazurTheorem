@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
+import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -576,5 +577,31 @@ theorem productSymmetricPowerToIncidenceQuotient_isIso_of_fpqc
     (Q := @Surjective ⊓ @Flat ⊓ @QuasiCompact)
     (f := q) (g := productSymmetricPowerToIncidenceQuotient K C n)
     ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ inferInstance
+
+/-- The universal-divisor candidate is flat once the local monic-root model
+identifies its pullback along an fpqc chart as flat. -/
+theorem pointedUniversalEffectiveDivisor_flat_of_fpqc
+    (n : ℕ) (T : Scheme.{u})
+    (q : T ⟶ (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left)
+    [Surjective q] [Flat q] [QuasiCompact q]
+    [Flat (pullback.fst q (pointedUniversalEffectiveDivisor K C n))] :
+    Flat (pointedUniversalEffectiveDivisor K C n) :=
+  FpqcDescent.flat_of_fpqc_pullback
+    (pointedUniversalEffectiveDivisor K C n) q
+
+/-- If the local monic-root model has constant rank `n + 2`, then the
+global universal-divisor candidate is finite flat of that same rank. -/
+theorem pointedUniversalEffectiveDivisor_finrank_eq_of_fpqc
+    (n : ℕ) (T : Scheme.{u})
+    (q : T ⟶ (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left)
+    [Surjective q] [Flat q] [QuasiCompact q]
+    [Flat (pullback.fst q (pointedUniversalEffectiveDivisor K C n))]
+    (h : (pullback.fst q (pointedUniversalEffectiveDivisor K C n)).finrank =
+      fun _ ↦ n + 2) :
+    (pointedUniversalEffectiveDivisor K C n).finrank = fun _ ↦ n + 2 := by
+  letI : Flat (pointedUniversalEffectiveDivisor K C n) :=
+    pointedUniversalEffectiveDivisor_flat_of_fpqc K C n T q
+  exact FpqcDescent.finrank_eq_of_surjective_baseChange
+    (pointedUniversalEffectiveDivisor K C n) q (n + 2) h
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidenceDescent
