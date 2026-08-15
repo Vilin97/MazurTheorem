@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced
+import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 
 /-!
 # Graph components in base changes of étale coordinates
@@ -28,6 +29,83 @@ open CategoryTheory Limits
 open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.EtaleGraphCoproduct
+
+/-- Any open-and-closed immersion exhibits its target as the coproduct of
+its source and the complementary open subscheme. -/
+theorem exists_coproduct_of_isOpenImmersion_isClosedImmersion
+    {X Y : Scheme.{u}} (h : X ⟶ Y) [IsOpenImmersion h]
+    [IsClosedImmersion h] :
+    ∃ (W : Scheme.{u}) (E : Y ≅ X ⨿ W), h ≫ E.hom = coprod.inl := by
+  let W : Y.Opens :=
+    ⟨h.opensRangeᶜ, h.isClosedMap.isClosed_range.isOpen_compl⟩
+  have hCompl : IsCompl h.opensRange W.ι.opensRange := by
+    simp [isCompl_iff, disjoint_iff, codisjoint_iff, W, SetLike.ext'_iff]
+  obtain ⟨H⟩ := nonempty_isColimit_binaryCofanMk_of_isCompl
+    h W.ι hCompl
+  let E : Y ≅ X ⨿ W.toScheme :=
+    H.coconePointUniqueUpToIso (colimit.isColimit (pair X W.toScheme))
+  refine ⟨W.toScheme, E, ?_⟩
+  change h ≫ E.hom = colimit.ι (pair X W.toScheme) ⟨WalkingPair.left⟩
+  exact H.comp_coconePointUniqueUpToIso_hom
+    (colimit.isColimit (pair X W.toScheme)) ⟨WalkingPair.left⟩
+
+/-- Base-change an arbitrary subspace of `pullback f g` along `π`, then
+identify the resulting iterated pullback with `pullback f (π ≫ g)`. -/
+noncomputable def baseChangedComponentInclusion
+    {U N S B P : Scheme.{u}} (f : U ⟶ S) (g : N ⟶ S)
+    (π : B ⟶ N) (j : P ⟶ pullback f g) :
+    pullback (j ≫ pullback.snd f g) π ⟶ pullback f (π ≫ g) :=
+  ((pullbackRightPullbackFstIso (pullback.snd f g) π j).inv ≫
+    pullback.snd j (pullback.fst (pullback.snd f g) π)) ≫
+      (pullbackLeftPullbackSndIso f g π).hom
+
+@[reassoc]
+theorem baseChangedComponentInclusion_fst
+    {U N S B P : Scheme.{u}} (f : U ⟶ S) (g : N ⟶ S)
+    (π : B ⟶ N) (j : P ⟶ pullback f g) :
+    baseChangedComponentInclusion f g π j ≫ pullback.fst f (π ≫ g) =
+      pullback.fst (j ≫ pullback.snd f g) π ≫
+        j ≫ pullback.fst f g := by
+  simp only [baseChangedComponentInclusion, Category.assoc,
+    pullbackLeftPullbackSndIso_hom_fst, ← pullback.condition_assoc,
+    pullbackRightPullbackFstIso_inv_fst_assoc]
+
+@[reassoc]
+theorem baseChangedComponentInclusion_snd
+    {U N S B P : Scheme.{u}} (f : U ⟶ S) (g : N ⟶ S)
+    (π : B ⟶ N) (j : P ⟶ pullback f g) :
+    baseChangedComponentInclusion f g π j ≫ pullback.snd f (π ≫ g) =
+      pullback.snd (j ≫ pullback.snd f g) π := by
+  simp only [baseChangedComponentInclusion, Category.assoc,
+    pullbackLeftPullbackSndIso_hom_snd,
+    pullbackRightPullbackFstIso_inv_snd_snd]
+
+instance baseChangedComponentInclusion_isOpenImmersion
+    {U N S B P : Scheme.{u}} (f : U ⟶ S) (g : N ⟶ S)
+    (π : B ⟶ N) (j : P ⟶ pullback f g) [IsOpenImmersion j] :
+    IsOpenImmersion (baseChangedComponentInclusion f g π j) := by
+  let p := pullback.snd j (pullback.fst (pullback.snd f g) π)
+  haveI : IsOpenImmersion p :=
+    MorphismProperty.pullback_snd (P := @IsOpenImmersion) _ _
+      (show IsOpenImmersion j from inferInstance)
+  change IsOpenImmersion
+    ((pullbackRightPullbackFstIso (pullback.snd f g) π j).inv ≫ p ≫
+      (pullbackLeftPullbackSndIso f g π).hom)
+  infer_instance
+
+instance baseChangedComponentInclusion_isClosedImmersion
+    {U N S B P : Scheme.{u}} (f : U ⟶ S) (g : N ⟶ S)
+    (π : B ⟶ N) (j : P ⟶ pullback f g) [IsClosedImmersion j] :
+    IsClosedImmersion (baseChangedComponentInclusion f g π j) := by
+  let p := pullback.snd j (pullback.fst (pullback.snd f g) π)
+  haveI : IsClosedImmersion p :=
+    IsClosedImmersion.isStableUnderBaseChange.of_isPullback
+      (IsPullback.of_hasPullback j (pullback.fst (pullback.snd f g) π))
+      (show IsClosedImmersion j from inferInstance)
+  change IsClosedImmersion
+    ((pullbackRightPullbackFstIso (pullback.snd f g) π j).inv ≫ p ≫
+      (pullbackLeftPullbackSndIso f g π).hom)
+  infer_instance
 
 /-- The graph of a morphism into a separated étale scheme is an
 open-and-closed summand after arbitrary base change.  This scheme-level
@@ -60,18 +138,7 @@ theorem exists_graphCoproduct_of_etale
   haveI : IsClosedImmersion graph := by
     rw [hGraph]
     infer_instance
-  let W : (pullback f (h ≫ f)).Opens :=
-    ⟨graph.opensRangeᶜ, graph.isClosedMap.isClosed_range.isOpen_compl⟩
-  have hCompl : IsCompl graph.opensRange W.ι.opensRange := by
-    simp [isCompl_iff, disjoint_iff, codisjoint_iff, W, SetLike.ext'_iff]
-  obtain ⟨H⟩ := nonempty_isColimit_binaryCofanMk_of_isCompl
-    graph W.ι hCompl
-  let E : pullback f (h ≫ f) ≅ B ⨿ W.toScheme :=
-    H.coconePointUniqueUpToIso (colimit.isColimit (pair B W.toScheme))
-  refine ⟨W.toScheme, E, ?_⟩
-  change graph ≫ E.hom = colimit.ι (pair B W.toScheme) ⟨WalkingPair.left⟩
-  exact H.comp_coconePointUniqueUpToIso_hom
-    (colimit.isColimit (pair B W.toScheme)) ⟨WalkingPair.left⟩
+  exact exists_coproduct_of_isOpenImmersion_isClosedImmersion graph
 
 variable (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
   [Algebra R A] [Algebra A B] [Algebra R B] [IsScalarTower R A B]

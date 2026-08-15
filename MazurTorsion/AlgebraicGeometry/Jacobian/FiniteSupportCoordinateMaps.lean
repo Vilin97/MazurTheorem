@@ -307,6 +307,124 @@ theorem pulledComponentToChart_comp_schemeMap
       pulledComponentToCoordinateLine K C d z c n i := by
   exact Category.assoc _ _ _
 
+/-- The selected finite component, after passage to the common base, as an
+open-and-closed subspace of the base-changed étale curve chart. -/
+noncomputable def pulledComponentToCoordinatePullback
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (pulledComponentOverCommonBase K C d z c n i).left ⟶
+      pullback (c i).schemeMap (commonBaseToCoordinateLine K C d z c n i) := by
+  let f : ((c i).V : C.left.Opens).toScheme ⟶
+      Spec (.of (coordinateRing K)) :=
+    (c i).schemeMap
+  let g : (n i).base ⟶ Spec (.of (coordinateRing K)) := (n i).baseMap
+  let π := (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+  let j := (n i).selectedOpen.ι
+  exact EtaleGraphCoproduct.baseChangedComponentInclusion f g π j
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The open-and-closed component inclusion retains the actual map back to
+the affine curve chart. -/
+theorem pulledComponentToCoordinatePullback_fst
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentToCoordinatePullback K C d z c n i ≫
+      pullback.fst (c i).schemeMap
+          (commonBaseToCoordinateLine K C d z c n i) =
+      pulledComponentToChart K C d z c n i := by
+  let f : ((c i).V : C.left.Opens).toScheme ⟶
+      Spec (.of (coordinateRing K)) :=
+    (c i).schemeMap
+  let g : (n i).base ⟶ Spec (.of (coordinateRing K)) := (n i).baseMap
+  let π := (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+  let j := (n i).selectedOpen.ι
+  change EtaleGraphCoproduct.baseChangedComponentInclusion f g π j ≫
+      pullback.fst f (π ≫ g) =
+    pullback.fst (j ≫ pullback.snd f g) π ≫
+      j ≫ pullback.fst f g
+  exact EtaleGraphCoproduct.baseChangedComponentInclusion_fst f g π j
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The open-and-closed component inclusion retains the projection to the
+common support base. -/
+theorem pulledComponentToCoordinatePullback_snd
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentToCoordinatePullback K C d z c n i ≫
+      pullback.snd (c i).schemeMap
+          (commonBaseToCoordinateLine K C d z c n i) =
+      (pulledComponentOverCommonBase K C d z c n i).hom := by
+  let f : ((c i).V : C.left.Opens).toScheme ⟶
+      Spec (.of (coordinateRing K)) :=
+    (c i).schemeMap
+  let g : (n i).base ⟶ Spec (.of (coordinateRing K)) := (n i).baseMap
+  let π := (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+  let j := (n i).selectedOpen.ι
+  change EtaleGraphCoproduct.baseChangedComponentInclusion f g π j ≫
+      pullback.snd f (π ≫ g) =
+    pullback.snd (j ≫ pullback.snd f g) π
+  exact EtaleGraphCoproduct.baseChangedComponentInclusion_snd f g π j
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+instance pulledComponentToCoordinatePullback_isOpenImmersion
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    IsOpenImmersion
+      (pulledComponentToCoordinatePullback K C d z c n i) := by
+  let f : ((c i).V : C.left.Opens).toScheme ⟶
+      Spec (.of (coordinateRing K)) := (c i).schemeMap
+  let g : (n i).base ⟶ Spec (.of (coordinateRing K)) := (n i).baseMap
+  let π := (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+  let j := (n i).selectedOpen.ι
+  change IsOpenImmersion
+    (EtaleGraphCoproduct.baseChangedComponentInclusion f g π j)
+  exact @EtaleGraphCoproduct.baseChangedComponentInclusion_isOpenImmersion
+    _ _ _ _ _ f g π j (show IsOpenImmersion j from inferInstance)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+instance pulledComponentToCoordinatePullback_isClosedImmersion
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    IsClosedImmersion
+      (pulledComponentToCoordinatePullback K C d z c n i) := by
+  let f : ((c i).V : C.left.Opens).toScheme ⟶
+      Spec (.of (coordinateRing K)) := (c i).schemeMap
+  let g : (n i).base ⟶ Spec (.of (coordinateRing K)) := (n i).baseMap
+  let π := (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+  let j := (n i).selectedOpen.ι
+  let P : Scheme.{u} := pullback (c i).schemeMap (n i).baseMap
+  have hSelected : ((n i).selectedOpen : Set P) =
+      ((n i).otherOpen : Set P)ᶜ :=
+    ((n i).isCompl.map TopologicalSpace.Opens.frameHom).eq_compl
+  let hj : IsClosedImmersion j :=
+    .of_isPreimmersion _ (by simp [j, hSelected, (n i).otherOpen.isOpen])
+  change IsClosedImmersion
+    (EtaleGraphCoproduct.baseChangedComponentInclusion f g π j)
+  exact @EtaleGraphCoproduct.baseChangedComponentInclusion_isClosedImmersion
+    _ _ _ _ _ f g π j hj
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The entire selected finite component, not just one split sheet, is a
+coproduct summand of the curve chart after base change to the common support
+base. -/
+theorem pulledComponent_exists_coordinatePullbackCoproduct
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    ∃ (W : Scheme.{u})
+      (E : pullback (c i).schemeMap
+          (commonBaseToCoordinateLine K C d z c n i) ≅
+        (pulledComponentOverCommonBase K C d z c n i).left ⨿ W),
+      pulledComponentToCoordinatePullback K C d z c n i ≫ E.hom =
+        coprod.inl :=
+  EtaleGraphCoproduct.exists_coproduct_of_isOpenImmersion_isClosedImmersion
+    (pulledComponentToCoordinatePullback K C d z c n i)
+
 /-- The map from a restricted pulled component to its original affine curve
 chart. -/
 noncomputable def restrictedPulledComponentToChart

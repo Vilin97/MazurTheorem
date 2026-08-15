@@ -106,6 +106,27 @@ instance orderedSupportComponentFamily_etale (d : ℕ)
     Etale (orderedSupportComponentFamily K C d z).hom := inferInstance
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Before choosing its fpqc splitting, every finite component around the
+actual ordered support is already an open-and-closed summand of the
+base-changed curve-coordinate chart. -/
+theorem orderedSupportPulledComponent_exists_coordinatePullbackCoproduct
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left) (i : Fin d) :
+    ∃ (W : Scheme.{u})
+      (E : pullback ((orderedSupportCharts K C d z) i).schemeMap
+          (commonBaseToCoordinateLine K C d (orderedSupportPoint K C d z)
+            (orderedSupportCharts K C d z)
+            (orderedSupportNeighborhoods K C d z) i) ≅
+        (pulledComponentOverCommonBase K C d
+          (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+          (orderedSupportNeighborhoods K C d z) i).left ⨿ W),
+      pulledComponentToCoordinatePullback K C d
+          (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+          (orderedSupportNeighborhoods K C d z) i ≫ E.hom = coprod.inl :=
+  pulledComponent_exists_coordinatePullbackCoproduct K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z) i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The coherent product base attached to the actual ordered support of an
 incidence-ambient point. -/
 noncomputable abbrev orderedSupportCoherentBase (d : ℕ)
