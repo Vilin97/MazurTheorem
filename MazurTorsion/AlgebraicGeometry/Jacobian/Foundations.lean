@@ -10,6 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteMapToProjectiveLine
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
+import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.PicardIdentityComponent
 
 /-!

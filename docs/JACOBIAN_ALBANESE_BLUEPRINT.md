@@ -44,7 +44,8 @@ parallel abstraction.
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
-| Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with its ideal invariant under coordinate permutations; quotient descent remains |
+| Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
+| Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; closed-immersion and Cartier proofs remain |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -210,9 +211,26 @@ supports.  Coordinate permutations act by ambient isomorphisms, carry the
 graph indexed by `g i` isomorphically to the graph indexed by `i`, and
 transport finite products of ideal sheaves multiplicatively.  Consequently
 the ordered incidence ideal is invariant with its scheme-theoretic
-multiplicities.  It remains to descend this invariant ideal through the
-finite symmetric quotient and prove the descended family is a relative
+multiplicities.  The remaining aim of this stage is to identify its quotient
+with a closed family in `C × Sym^d(C)` and prove that family is a relative
 effective Cartier divisor of degree `d`.
+
+The scheme quotient part of this descent is now checked.  The invariant
+ideal restricts the ambient permutation action to the ordered incidence
+closed subscheme.  Both the ambient action and this restricted action have
+affine orbit neighbourhoods: take the product of the selected finite map
+`C → P¹` with its componentwise power, pull affine orbit neighbourhoods
+back from the projective ordered ambient product of `P¹`, and then pull them
+back once more along the incidence closed immersion.  Hence both finite-group
+quotients exist.  Equivariance gives a canonical morphism from the incidence
+quotient to the ambient quotient, and the invariant map
+`C × C^d → C × Sym^d(C)` gives the descended incidence morphism
+`D_d → C × Sym^d(C)`.  Pulling that morphism back to the ordered incidence
+family recovers the original inclusion followed by the symmetric quotient.
+The remaining local-algebra step is to identify the ambient quotient with
+`C × Sym^d(C)` (equivalently, prove the needed base-change theorem for this
+finite permutation quotient) and show the descended morphism is a relative
+effective Cartier divisor, including its flat degree-`d` fibers.
 
 Denote the representing object by
 

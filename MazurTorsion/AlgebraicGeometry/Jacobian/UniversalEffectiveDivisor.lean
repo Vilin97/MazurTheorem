@@ -157,6 +157,18 @@ instance orderedAmbientPermutationHom_left_isIso (g : Equiv.Perm (Fin d)) :
   change IsIso ((Over.forget S).map (orderedAmbientPermutationHom S d X g))
   infer_instance
 
+/-- The coordinate-permutation action on the underlying ordered ambient
+scheme. -/
+noncomputable def orderedAmbientAction :
+    SchemeAction (Equiv.Perm (Fin d)) (orderedAmbient S d X).left where
+  hom g := (orderedAmbientPermutationHom S d X g).left
+  hom_one := by
+    rw [orderedAmbientPermutationHom_one]
+    rfl
+  hom_mul g h := by
+    rw [orderedAmbientPermutationHom_mul]
+    rfl
+
 /-- The `i`-th coordinate graph, constructed as an equalizer in schemes over
 `S`. -/
 noncomputable abbrev coordinateGraph (i : Fin d) : Over S :=
@@ -305,6 +317,56 @@ instance orderedIncidenceι_isClosedImmersion [IsSeparated X.hom] :
   change IsClosedImmersion
     ((orderedIncidenceIdeal S d X).subschemeι)
   infer_instance
+
+/-- The permutation action on the ordered ambient product restricts to the
+ordered incidence closed subscheme. -/
+noncomputable def orderedIncidenceAction [IsSeparated X.hom] :
+    SchemeAction (Equiv.Perm (Fin d)) (orderedIncidence S d X) where
+  hom g := (orderedIncidenceIdeal S d X).subschemeMap
+    (orderedIncidenceIdeal S d X)
+    (orderedAmbientPermutationHom S d X g).left (by
+      rw [orderedIncidenceIdeal_map_permutation])
+  hom_one := by
+    change
+      (orderedIncidenceIdeal S d X).subschemeMap
+          (orderedIncidenceIdeal S d X)
+          (orderedAmbientPermutationHom S d X 1).left _ =
+        𝟙 (orderedIncidenceIdeal S d X).subscheme
+    apply (cancel_mono (orderedIncidenceIdeal S d X).subschemeι).mp
+    simp only [Scheme.IdealSheafData.subschemeMap_subschemeι,
+      orderedAmbientPermutationHom_one]
+    rfl
+  hom_mul g h := by
+    change
+      (orderedIncidenceIdeal S d X).subschemeMap
+          (orderedIncidenceIdeal S d X)
+          (orderedAmbientPermutationHom S d X (g * h)).left _ =
+        (orderedIncidenceIdeal S d X).subschemeMap
+            (orderedIncidenceIdeal S d X)
+            (orderedAmbientPermutationHom S d X g).left _ ≫
+          (orderedIncidenceIdeal S d X).subschemeMap
+            (orderedIncidenceIdeal S d X)
+            (orderedAmbientPermutationHom S d X h).left _
+    apply (cancel_mono (orderedIncidenceIdeal S d X).subschemeι).mp
+    simp only [Scheme.IdealSheafData.subschemeMap_subschemeι,
+      Scheme.IdealSheafData.subschemeMap_subschemeι_assoc,
+      Category.assoc]
+    rw [orderedAmbientPermutationHom_mul]
+    rfl
+
+/-- The ordered incidence inclusion is equivariant for the restricted
+permutation action and the ambient coordinate-permutation action. -/
+theorem orderedIncidenceAction_comp_ι [IsSeparated X.hom]
+    (g : Equiv.Perm (Fin d)) :
+    (orderedIncidenceAction S d X).hom g ≫ orderedIncidenceι S d X =
+      orderedIncidenceι S d X ≫ (orderedAmbientAction S d X).hom g := by
+  let hle : orderedIncidenceIdeal S d X ≤
+      (orderedIncidenceIdeal S d X).map
+        (orderedAmbientPermutationHom S d X g).left :=
+    le_of_eq (orderedIncidenceIdeal_map_permutation S d X g).symm
+  exact Scheme.IdealSheafData.subschemeMap_subschemeι
+    (orderedIncidenceIdeal S d X) (orderedIncidenceIdeal S d X)
+    (orderedAmbientPermutationHom S d X g).left hle
 
 /-- The support of the ordered incidence ideal is the union of the supports
 of the coordinate graphs. -/
