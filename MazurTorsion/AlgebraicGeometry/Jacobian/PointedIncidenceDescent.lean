@@ -74,6 +74,80 @@ noncomputable def orderedSupportPoint (d : ℕ)
     PermutationPower.power (Spec (.of K)) (Fin d) C).left z
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The number of distinct underlying curve points in the ordered support of
+an incidence-ambient point. -/
+noncomputable abbrev orderedSupportDistinctCard (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  distinctSupportCard K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The deduplicated support tuple used for the corrected local chart. -/
+noncomputable def orderedSupportDistinctPoint (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    (PermutationPower.power (Spec (.of K))
+      (Fin (orderedSupportDistinctCard K C d z)) C).left :=
+  distinctSupportOrderedPoint K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Assign an ordered divisor coordinate to its distinct support index. -/
+noncomputable def orderedSupportIndex (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) (i : Fin d) :
+    Fin (orderedSupportDistinctCard K C d z) :=
+  pointSupportIndex K C d (orderedSupportPoint K C d z) i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Multiplicity of a distinct support point in the original ordered
+divisor. -/
+noncomputable def orderedSupportMultiplicity (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (j : Fin (orderedSupportDistinctCard K C d z)) : ℕ :=
+  FiniteSupportIndex.topologicalSupportMultiplicity (Spec (.of K)) d C
+    (orderedSupportPoint K C d z) j
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom]
+    [SmoothOfRelativeDimension 1 C.hom] in
+/-- The deduplicated support multiplicities retain the full divisor degree. -/
+theorem sum_orderedSupportMultiplicity (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    ∑ j : Fin (orderedSupportDistinctCard K C d z),
+        orderedSupportMultiplicity K C d z j = d :=
+  FiniteSupportIndex.sum_topologicalSupportMultiplicity (Spec (.of K)) d C
+    (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The corrected chart family has one member per distinct support point. -/
+noncomputable abbrev orderedSupportDistinctCharts (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  DistinctCharts K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Chosen charts indexed once per distinct support point. -/
+noncomputable def orderedSupportDistinctChartData (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    orderedSupportDistinctCharts K C d z :=
+  distinctCharts K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Chosen finite étale neighborhoods indexed once per distinct support
+point. -/
+noncomputable def orderedSupportDistinctNeighborhoodData (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    DistinctNeighborhoods K C d (orderedSupportPoint K C d z) :=
+  distinctNeighborhoods K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The topologically deduplicated support tuple has a simultaneous split
+chart whose local-neighborhood family is indexed once per distinct support
+point.  The original degree-`d` tuple is retained separately by
+`orderedSupportIndex`. -/
+theorem orderedSupport_exists_distinctCommonSplitChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    HasDistinctCommonSplitChartAtSupport K C d
+      (orderedSupportPoint K C d z) :=
+  exists_distinctCommonSplitChartAtSupport K C d
+    (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Every ordered incidence-ambient point therefore carries a finite family
 of actual affine étale curve-coordinate charts, one for each occurrence in
 its ordered support. -/

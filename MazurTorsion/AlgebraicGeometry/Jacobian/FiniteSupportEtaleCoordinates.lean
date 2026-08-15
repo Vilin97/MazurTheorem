@@ -11,15 +11,20 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveEtaleCoordinate
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteAffinePresentation
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFinitePowerPoint
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportIndex
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleAssignedCoproductPower
 
 /-!
 # Étale coordinates for a finite ordered support
 
 An ordered lift of a degree-`d` divisor gives `d` actual curve points by
-projection.  Choose an affine one-variable étale coordinate chart at every
-one of those points.  Repeated support points are intentionally retained:
-their multiplicities are needed by the residual stabilizer and monic-root
-calculations.
+projection.  The original occurrence-indexed construction below retains
+that tuple for exact lifting arguments.  The distinct-support interface
+chooses local neighborhoods once per underlying curve point and separately
+records the occurrence assignment.  A parallel geometric-support index
+retains actual morphisms from the residue-field spectrum and proves exact
+reconstruction.  Keeping these layers separate avoids both artificial
+coproduct copies and loss of residue-field data.
 
 The named downstream consumer is the pointwise local comparison in
 `PointedIncidenceDescent`.
@@ -42,6 +47,8 @@ open SplitFiniteBaseChange
 open SplitFiniteAffinePresentation
 open SplitFinitePowerPoint
 open SplitFiniteSymmetricQuotient
+open FiniteSupportIndex
+open FiniteEtaleAssignedCoproductPower
 
 local instance supportTuplePermutationAction (d m : ℕ) :
     MulAction (Equiv.Perm (Fin d)) (Fin d → Fin m) :=
@@ -56,6 +63,145 @@ noncomputable def point (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
     (i : Fin d) : C.left :=
   (Pi.π (fun _ : Fin d ↦ C) i).left z
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The coordinate-point projection agrees with the generic finite-support
+indexing API. -/
+theorem point_eq_coordinatePoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) :
+    point K C d z i = coordinatePoint (Spec (.of K)) d C z i :=
+  rfl
+
+/-- The number of distinct underlying curve points in an ordered support. -/
+noncomputable abbrev distinctSupportCard (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  topologicalSupportCard (Spec (.of K)) d C z
+
+/-- Assign an ordered occurrence to its distinct underlying support point. -/
+noncomputable def pointSupportIndex (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) : Fin (distinctSupportCard K C d z) :=
+  topologicalCoordinateSupportIndex (Spec (.of K)) d C z i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Two occurrences receive the same neighborhood index precisely when their
+underlying curve points agree. -/
+theorem pointSupportIndex_eq_iff (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i i' : Fin d) :
+    pointSupportIndex K C d z i = pointSupportIndex K C d z i' ↔
+      point K C d z i = point K C d z i' := by
+  rw [point_eq_coordinatePoint K C d z i,
+    point_eq_coordinatePoint K C d z i']
+  exact topologicalCoordinateSupportIndex_eq_iff
+    (Spec (.of K)) d C z i i'
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Equal neighborhood indices have the same underlying curve point. -/
+theorem point_eq_of_pointSupportIndex_eq (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i i' : Fin d)
+    (h : pointSupportIndex K C d z i = pointSupportIndex K C d z i') :
+    point K C d z i = point K C d z i' :=
+  (pointSupportIndex_eq_iff K C d z i i').mp h
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Every distinct support index occurs in the original ordered tuple. -/
+theorem pointSupportIndex_surjective (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    Function.Surjective (pointSupportIndex K C d z) :=
+  topologicalCoordinateSupportIndex_surjective (Spec (.of K)) d C z
+
+/-- The number of distinct coordinate morphisms from the residue-field
+spectrum.  This may be larger than the topological support cardinality. -/
+noncomputable abbrev geometricDistinctSupportCard (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  supportCard (Spec (.of K)) d C z
+
+/-- Assign an occurrence to its exact geometric coordinate morphism. -/
+noncomputable def geometricPointSupportIndex (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) : Fin (geometricDistinctSupportCard K C d z) :=
+  coordinateSupportIndex (Spec (.of K)) d C z i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The geometric reindexing retains all residue-field data: selecting one
+representative geometric coordinate and then repeating by its occurrence map
+recovers the original residue-field point exactly. -/
+theorem geometricResiduePoint_reconstruction (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    residuePointToPower (Spec (.of K)) d C z ≫
+          distinctSupportPowerHom (Spec (.of K)) d C z ≫
+          repeatSupportPowerHom (Spec (.of K)) d C z =
+        residuePointToPower (Spec (.of K)) d C z :=
+  residuePointToPower_comp_distinct_comp_repeat (Spec (.of K)) d C z
+
+/-- The relative-power point that lists each distinct underlying support
+point once. -/
+noncomputable def distinctSupportOrderedPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    (PermutationPower.power (Spec (.of K))
+      (Fin (distinctSupportCard K C d z)) C).left :=
+  topologicalDistinctSupportPoint (Spec (.of K)) d C z
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Coordinates of the deduplicated tuple are exactly its enumerated
+distinct support points. -/
+theorem distinctSupportOrderedPoint_projection (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (j : Fin (distinctSupportCard K C d z)) :
+    point K C (distinctSupportCard K C d z)
+        (distinctSupportOrderedPoint K C d z) j =
+      topologicalSupportPoint (Spec (.of K)) d C z j :=
+  topologicalDistinctSupportPoint_projection (Spec (.of K)) d C z j
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Looking up an original occurrence in the deduplicated tuple recovers its
+original underlying curve point. -/
+theorem distinctSupportOrderedPoint_pointSupportIndex (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) :
+    point K C (distinctSupportCard K C d z)
+        (distinctSupportOrderedPoint K C d z)
+        (pointSupportIndex K C d z i) =
+      point K C d z i := by
+  rw [distinctSupportOrderedPoint_projection]
+  exact topologicalSupportPoint_coordinateSupportIndex
+    (Spec (.of K)) d C z i
+
+/-- For any family indexed by the distinct support, form the original
+degree-`d` product by assigning every occurrence to its unique support
+member, then insert it into the degree-`d` power of the family coproduct. -/
+noncomputable def distinctSupportAssignedProductToCoproductPower
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (B : Scheme.{u})
+    (X : Fin (distinctSupportCard K C d z) → Over B) :
+    assignedProduct B (distinctSupportCard K C d z) d X
+        (pointSupportIndex K C d z) ⟶
+      ∏ᶜ fun _ : Fin d ↦
+        familyCoproduct B (distinctSupportCard K C d z) X :=
+  assignedProductToCoproductPower B (distinctSupportCard K C d z) d X
+    (pointSupportIndex K C d z)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The `i`-th coordinate of the distinct-support assigned product enters
+the coproduct through exactly its support index. -/
+@[reassoc]
+theorem distinctSupportAssignedProductToCoproductPower_comp_projection
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (B : Scheme.{u})
+    (X : Fin (distinctSupportCard K C d z) → Over B) (i : Fin d) :
+    distinctSupportAssignedProductToCoproductPower K C d z B X ≫
+        Pi.π (fun _ : Fin d ↦
+          familyCoproduct B (distinctSupportCard K C d z) X) i =
+      Pi.π (fun i : Fin d ↦ X (pointSupportIndex K C d z i)) i ≫
+        inclusion B (distinctSupportCard K C d z) X
+          (pointSupportIndex K C d z i) :=
+  assignedProductToCoproductPower_comp_projection B
+    (distinctSupportCard K C d z) d X (pointSupportIndex K C d z) i
 
 /-- A compatible finite family of affine étale coordinate charts, one for
 every occurrence in the ordered support. -/
@@ -79,6 +225,22 @@ noncomputable def charts (d : ℕ)
     Charts K C d z :=
   Classical.choice (nonempty_charts K C d z)
 
+/-- Coordinate charts indexed once per distinct underlying support point. -/
+abbrev DistinctCharts (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  Charts K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z)
+
+/-- A chosen coordinate chart for each distinct underlying support point.
+Repeated
+ordered occurrences refer back to the same index through
+`pointSupportIndex`. -/
+noncomputable def distinctCharts (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    DistinctCharts K C d z :=
+  charts K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z)
+
 /-- A finite étale point neighborhood for every chosen coordinate chart. -/
 abbrev Neighborhoods (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
@@ -91,6 +253,19 @@ noncomputable def neighborhoods (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
     (c : Charts K C d z) : Neighborhoods K C d z c :=
   fun i ↦ (c i).finiteNeighborhood
+
+/-- Finite étale neighborhoods indexed once per distinct support point. -/
+abbrev DistinctNeighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  Neighborhoods K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
+
+/-- The chosen finite étale neighborhood of every distinct support point. -/
+noncomputable def distinctNeighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    DistinctNeighborhoods K C d z :=
+  neighborhoods K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
 
 /-- The common relative product of the étale bases of a finite family of
 point neighborhoods. -/
@@ -1360,5 +1535,30 @@ theorem exists_commonSplitChartAtSupport (d : ℕ)
   letI : Surjective q := hSurj
   exact exists_coherentFpqcFamilyCoproductPowerPoint_over_support
     K C d z c n V hmem (Spec (.of T)) q
+
+/-- The common étale base built from one neighborhood per distinct support
+point. -/
+noncomputable abbrev distinctCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  commonBase K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
+    (distinctNeighborhoods K C d z)
+
+/-- The simultaneous splitting assertion for the deduplicated support
+family. -/
+def HasDistinctCommonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) : Prop :=
+  HasCommonSplitChartAtSupport K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
+    (distinctNeighborhoods K C d z)
+
+/-- One chart per distinct support point admits one common affine rank
+neighborhood and one finite étale fpqc splitting cover. -/
+theorem exists_distinctCommonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    HasDistinctCommonSplitChartAtSupport K C d z :=
+  exists_commonSplitChartAtSupport K C (distinctSupportCard K C d z)
+    (distinctSupportOrderedPoint K C d z) (distinctCharts K C d z)
+    (distinctNeighborhoods K C d z)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
