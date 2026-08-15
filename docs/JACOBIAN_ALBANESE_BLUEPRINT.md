@@ -49,6 +49,8 @@ parallel abstraction.
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; the descended morphism is proper, point-injective, locally quasi-finite, and finite; closed-immersion, flatness, rank, and Cartier proofs remain |
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; pointwise fpqc descent interfaces reduce its isomorphism, flatness, and rank assertions to independently chosen charts around each target point; the local monic-chart identifications remain |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
+| Smooth-curve étale coordinate chart | `SmoothCurveEtaleCoordinate.PointChart`, `exists_pointChart`, and `PointChart.exists_isCompl_finiteEtale` | checked: every curve point has an affine one-variable étale coordinate morphism; Zariski's main theorem then isolates that exact point in an open-and-closed component finite étale over an étale base change of the coordinate line |
+| Finite ordered-support coordinates | `FiniteSupportEtaleCoordinates.Charts`, `charts`, and `PointedIncidenceDescent.orderedSupportPoint_nonempty_charts` | checked: an ordered lift of a divisor supplies its actual coordinate points, including repetitions, and a finite family of affine étale coordinate charts is chosen at those points for the incidence comparison |
 | Finite étale point neighborhoods | `EtaleFiniteNeighborhood.exists_isCompl_finiteEtale` | checked from Mathlib's Zariski-main local structure theorem: after an étale base change, any selected point of an étale separated chart lies in an open-and-closed component that is finite étale over the new base |
 | Constant-rank neighborhoods | `FiniteFlatConstantRankNeighborhood.rankOpen` and `morphismRestrict_finrank` | checked: the rank fiber through a chosen point is clopen, contains that point, and restriction of a finite flat finitely presented morphism to it has constant rank |
 | Finite étale split chart | `EtaleSplitChart.splitProjection`, `EtaleSplitChart.splitProjection_finrank`, `EtaleSplitChart.exists_fpqc_splitCover`, `AffineFiniteEtaleSplitChart.exists_fpqc_splitCover`, `FiniteEtalePointSplitChart.exists_affineOpen_fpqc_splitCover`, `FiniteEtaleFamilySplitChart.exists_common_splitCover`, `AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover`, and `FiniteEtaleFamilyPointSplitChart.exists_affineOpen_fpqc_common_splitCover` | checked: after a finite faithfully flat étale extension, a constant-rank finite étale algebra becomes a finite product of the base; a finite family has, around every common base point, one affine neighborhood in the intersection of all its clopen rank loci and one finite étale fpqc cover splitting every restricted member; the scheme isomorphisms commute with the projection to the fpqc base, and on the pointwise nonempty charts the number of split sheets is proved equal to the original fiber rank |
@@ -334,9 +336,12 @@ the evaluation map on the tensor-product coordinate ring is identified with
 the categorical graph, and the graph is exactly the first summand in the
 base-changed coproduct decomposition.  What remains in this transport step is
 to assemble these distinguished graph summands for a finite ordered divisor.
-Mathlib's Zariski-main local structure theorem now supplies the required
-finite model at each point: after an étale base change, the selected point is
-contained in an open-and-closed component finite étale over the new base.
+The standard-smooth curve chart has now been packaged as an actual étale
+scheme morphism to the spectrum of a one-variable polynomial ring.  Mathlib's
+Zariski-main local structure theorem applied to that morphism supplies the
+required finite model at each curve point: after an étale base change of the
+coordinate line, the selected point is contained in an open-and-closed
+component finite étale over the new base.
 The locally constant rank function supplies a clopen constant-rank
 neighborhood of the lifted base point.  On an affine subneighborhood, the
 finite étale component is affine, and the affine-scheme splitting wrapper
@@ -358,9 +363,13 @@ this number is exactly the original fiber rank.  Intersecting the finitely
 many clopen rank loci first gives the pointwise version over arbitrary
 schemes: around every common base point there is one affine neighborhood and
 one compatible split cover, with checked sheet counts, for the whole family.
-The outstanding step is to express the support-point components as a family
-over this common base, build the induced neighborhood in the symmetric
-quotient, and exclude all complementary sheets there.
+For an ordered lift of a divisor, its finite coordinate family is now
+extracted directly and equipped pointwise with these affine étale charts,
+retaining repeated coordinates and hence multiplicities.  The outstanding
+step is to synchronize the separate coordinate-line base changes, express
+the resulting support-point components as a family over their common product
+base, build the induced neighborhood in the symmetric quotient, and exclude
+all complementary sheets there.
 
 The blockwise invariant calculation and its finite induction are now checked.
 Separating a root-variable block from the remaining variables intertwines

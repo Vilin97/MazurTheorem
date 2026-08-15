@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -40,6 +41,25 @@ variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
 variable [GeometricallyIrreducible C.hom] [IsProper C.hom]
 variable [SmoothOfRelativeDimension 1 C.hom]
+
+/-- The ordered divisor coordinates underlying a point of the incidence
+ambient product. -/
+noncomputable def orderedSupportPoint (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    (PermutationPower.power (Spec (.of K)) (Fin d) C).left :=
+  (Limits.prod.snd : orderedAmbient (Spec (.of K)) d C ⟶
+    PermutationPower.power (Spec (.of K)) (Fin d) C).left z
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Every ordered incidence-ambient point therefore carries a finite family
+of actual affine étale curve-coordinate charts, one for each occurrence in
+its ordered support. -/
+theorem orderedSupportPoint_nonempty_charts (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    Nonempty (FiniteSupportEtaleCoordinates.Charts K C d
+      (orderedSupportPoint K C d z)) :=
+  FiniteSupportEtaleCoordinates.nonempty_charts K C d
+    (orderedSupportPoint K C d z)
 
 /-- Ordered insertion followed by the quotient of the larger incidence
 family. -/
