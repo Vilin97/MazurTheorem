@@ -16,6 +16,7 @@ public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4Look
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupScalar2First
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupScalar2Second
 public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupScalar2Exceptional
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupScalar0LeftPart4
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 import Mathlib.Tactic.IntervalCases
@@ -490,90 +491,9 @@ attribute [local simp]
   recurrence4Scalar0Left_coeff_440
   recurrence4Scalar0Left_coeff_441
   recurrence4Scalar0Left_coeff_442
-  recurrence4Scalar0Left_coeff_443
-  recurrence4Scalar0Left_coeff_444
-  recurrence4Scalar0Left_coeff_445
-  recurrence4Scalar0Left_coeff_446
-  recurrence4Scalar0Left_coeff_447
+
 
 attribute [local simp]
-  recurrence4Scalar0Left_coeff_448
-  recurrence4Scalar0Left_coeff_449
-  recurrence4Scalar0Left_coeff_450
-  recurrence4Scalar0Left_coeff_451
-  recurrence4Scalar0Left_coeff_452
-  recurrence4Scalar0Left_coeff_453
-  recurrence4Scalar0Left_coeff_454
-  recurrence4Scalar0Left_coeff_455
-  recurrence4Scalar0Left_coeff_456
-  recurrence4Scalar0Left_coeff_457
-  recurrence4Scalar0Left_coeff_458
-  recurrence4Scalar0Left_coeff_459
-  recurrence4Scalar0Left_coeff_460
-  recurrence4Scalar0Left_coeff_461
-  recurrence4Scalar0Left_coeff_462
-  recurrence4Scalar0Left_coeff_463
-  recurrence4Scalar0Left_coeff_464
-  recurrence4Scalar0Left_coeff_465
-  recurrence4Scalar0Left_coeff_466
-  recurrence4Scalar0Left_coeff_467
-  recurrence4Scalar0Left_coeff_468
-  recurrence4Scalar0Left_coeff_469
-  recurrence4Scalar0Left_coeff_470
-  recurrence4Scalar0Left_coeff_471
-  recurrence4Scalar0Left_coeff_472
-  recurrence4Scalar0Left_coeff_473
-  recurrence4Scalar0Left_coeff_474
-  recurrence4Scalar0Left_coeff_475
-  recurrence4Scalar0Left_coeff_476
-  recurrence4Scalar0Left_coeff_477
-  recurrence4Scalar0Left_coeff_478
-  recurrence4Scalar0Left_coeff_479
-  recurrence4Scalar0Left_coeff_480
-  recurrence4Scalar0Left_coeff_481
-  recurrence4Scalar0Left_coeff_482
-  recurrence4Scalar0Left_coeff_483
-  recurrence4Scalar0Left_coeff_484
-  recurrence4Scalar0Left_coeff_485
-  recurrence4Scalar0Left_coeff_486
-  recurrence4Scalar0Left_coeff_487
-  recurrence4Scalar0Left_coeff_488
-  recurrence4Scalar0Left_coeff_489
-  recurrence4Scalar0Left_coeff_490
-  recurrence4Scalar0Left_coeff_491
-  recurrence4Scalar0Left_coeff_492
-  recurrence4Scalar0Left_coeff_493
-  recurrence4Scalar0Left_coeff_494
-  recurrence4Scalar0Left_coeff_495
-  recurrence4Scalar0Left_coeff_496
-  recurrence4Scalar0Left_coeff_497
-  recurrence4Scalar0Left_coeff_498
-  recurrence4Scalar0Left_coeff_499
-  recurrence4Scalar0Left_coeff_500
-  recurrence4Scalar0Left_coeff_501
-  recurrence4Scalar0Left_coeff_502
-  recurrence4Scalar0Left_coeff_503
-  recurrence4Scalar0Left_coeff_504
-  recurrence4Scalar0Left_coeff_505
-  recurrence4Scalar0Left_coeff_506
-  recurrence4Scalar0Left_coeff_507
-  recurrence4Scalar0Left_coeff_508
-  recurrence4Scalar0Left_coeff_509
-  recurrence4Scalar0Left_coeff_510
-  recurrence4Scalar0Left_coeff_511
-
-attribute [local simp]
-  recurrence4Scalar0Left_coeff_512
-  recurrence4Scalar0Left_coeff_513
-  recurrence4Scalar0Left_coeff_514
-  recurrence4Scalar0Left_coeff_515
-  recurrence4Scalar0Left_coeff_516
-  recurrence4Scalar0Left_coeff_517
-  recurrence4Scalar0Left_coeff_518
-  recurrence4Scalar0Left_coeff_519
-  recurrence4Scalar0Left_coeff_520
-  recurrence4Scalar0Left_coeff_521
-  recurrence4Scalar0Left_coeff_522
   recurrence4Scalar0Main_coeff_0
   recurrence4Scalar0Main_coeff_1
   recurrence4Scalar0Main_coeff_2
@@ -1031,88 +951,8 @@ attribute [local simp]
   recurrence4Scalar0Main_coeff_440
   recurrence4Scalar0Main_coeff_441
   recurrence4Scalar0Main_coeff_442
-  recurrence4Scalar0Main_coeff_443
-  recurrence4Scalar0Main_coeff_444
-  recurrence4Scalar0Main_coeff_445
-  recurrence4Scalar0Main_coeff_446
-  recurrence4Scalar0Main_coeff_447
-  recurrence4Scalar0Main_coeff_448
-  recurrence4Scalar0Main_coeff_449
-  recurrence4Scalar0Main_coeff_450
-  recurrence4Scalar0Main_coeff_451
-  recurrence4Scalar0Main_coeff_452
-  recurrence4Scalar0Main_coeff_453
-  recurrence4Scalar0Main_coeff_454
-  recurrence4Scalar0Main_coeff_455
-  recurrence4Scalar0Main_coeff_456
-  recurrence4Scalar0Main_coeff_457
-  recurrence4Scalar0Main_coeff_458
-  recurrence4Scalar0Main_coeff_459
-  recurrence4Scalar0Main_coeff_460
-  recurrence4Scalar0Main_coeff_461
-  recurrence4Scalar0Main_coeff_462
-  recurrence4Scalar0Main_coeff_463
-  recurrence4Scalar0Main_coeff_464
-  recurrence4Scalar0Main_coeff_465
-  recurrence4Scalar0Main_coeff_466
-  recurrence4Scalar0Main_coeff_467
-  recurrence4Scalar0Main_coeff_468
-  recurrence4Scalar0Main_coeff_469
-  recurrence4Scalar0Main_coeff_470
-  recurrence4Scalar0Main_coeff_471
-  recurrence4Scalar0Main_coeff_472
-  recurrence4Scalar0Main_coeff_473
-  recurrence4Scalar0Main_coeff_474
-  recurrence4Scalar0Main_coeff_475
-  recurrence4Scalar0Main_coeff_476
-  recurrence4Scalar0Main_coeff_477
-  recurrence4Scalar0Main_coeff_478
-  recurrence4Scalar0Main_coeff_479
-  recurrence4Scalar0Main_coeff_480
-  recurrence4Scalar0Main_coeff_481
-  recurrence4Scalar0Main_coeff_482
-  recurrence4Scalar0Main_coeff_483
-  recurrence4Scalar0Main_coeff_484
-  recurrence4Scalar0Main_coeff_485
-  recurrence4Scalar0Main_coeff_486
-  recurrence4Scalar0Main_coeff_487
-  recurrence4Scalar0Main_coeff_488
-  recurrence4Scalar0Main_coeff_489
-  recurrence4Scalar0Main_coeff_490
-  recurrence4Scalar0Main_coeff_491
-  recurrence4Scalar0Main_coeff_492
-  recurrence4Scalar0Main_coeff_493
-  recurrence4Scalar0Main_coeff_494
-  recurrence4Scalar0Main_coeff_495
-  recurrence4Scalar0Main_coeff_496
-  recurrence4Scalar0Main_coeff_497
-  recurrence4Scalar0Main_coeff_498
-  recurrence4Scalar0Main_coeff_499
-  recurrence4Scalar0Main_coeff_500
 
 attribute [local simp]
-  recurrence4Scalar0Main_coeff_501
-  recurrence4Scalar0Main_coeff_502
-  recurrence4Scalar0Main_coeff_503
-  recurrence4Scalar0Main_coeff_504
-  recurrence4Scalar0Main_coeff_505
-  recurrence4Scalar0Main_coeff_506
-  recurrence4Scalar0Main_coeff_507
-  recurrence4Scalar0Main_coeff_508
-  recurrence4Scalar0Main_coeff_509
-  recurrence4Scalar0Main_coeff_510
-  recurrence4Scalar0Main_coeff_511
-  recurrence4Scalar0Main_coeff_512
-  recurrence4Scalar0Main_coeff_513
-  recurrence4Scalar0Main_coeff_514
-  recurrence4Scalar0Main_coeff_515
-  recurrence4Scalar0Main_coeff_516
-  recurrence4Scalar0Main_coeff_517
-  recurrence4Scalar0Main_coeff_518
-  recurrence4Scalar0Main_coeff_519
-  recurrence4Scalar0Main_coeff_520
-  recurrence4Scalar0Main_coeff_521
-  recurrence4Scalar0Main_coeff_522
   recurrence4Scalar0Exceptional_coeff_0
   recurrence4Scalar0Exceptional_coeff_1
   recurrence4Scalar0Exceptional_coeff_2
@@ -1570,88 +1410,8 @@ attribute [local simp]
   recurrence4Scalar0Exceptional_coeff_440
   recurrence4Scalar0Exceptional_coeff_441
   recurrence4Scalar0Exceptional_coeff_442
-  recurrence4Scalar0Exceptional_coeff_443
-  recurrence4Scalar0Exceptional_coeff_444
-  recurrence4Scalar0Exceptional_coeff_445
-  recurrence4Scalar0Exceptional_coeff_446
-  recurrence4Scalar0Exceptional_coeff_447
-  recurrence4Scalar0Exceptional_coeff_448
-  recurrence4Scalar0Exceptional_coeff_449
-  recurrence4Scalar0Exceptional_coeff_450
-  recurrence4Scalar0Exceptional_coeff_451
-  recurrence4Scalar0Exceptional_coeff_452
-  recurrence4Scalar0Exceptional_coeff_453
-  recurrence4Scalar0Exceptional_coeff_454
-  recurrence4Scalar0Exceptional_coeff_455
-  recurrence4Scalar0Exceptional_coeff_456
-  recurrence4Scalar0Exceptional_coeff_457
-  recurrence4Scalar0Exceptional_coeff_458
-  recurrence4Scalar0Exceptional_coeff_459
-  recurrence4Scalar0Exceptional_coeff_460
-  recurrence4Scalar0Exceptional_coeff_461
-  recurrence4Scalar0Exceptional_coeff_462
-  recurrence4Scalar0Exceptional_coeff_463
-  recurrence4Scalar0Exceptional_coeff_464
-  recurrence4Scalar0Exceptional_coeff_465
-  recurrence4Scalar0Exceptional_coeff_466
-  recurrence4Scalar0Exceptional_coeff_467
-  recurrence4Scalar0Exceptional_coeff_468
-  recurrence4Scalar0Exceptional_coeff_469
-  recurrence4Scalar0Exceptional_coeff_470
-  recurrence4Scalar0Exceptional_coeff_471
-  recurrence4Scalar0Exceptional_coeff_472
-  recurrence4Scalar0Exceptional_coeff_473
-  recurrence4Scalar0Exceptional_coeff_474
-  recurrence4Scalar0Exceptional_coeff_475
-  recurrence4Scalar0Exceptional_coeff_476
-  recurrence4Scalar0Exceptional_coeff_477
-  recurrence4Scalar0Exceptional_coeff_478
-  recurrence4Scalar0Exceptional_coeff_479
-  recurrence4Scalar0Exceptional_coeff_480
-  recurrence4Scalar0Exceptional_coeff_481
-  recurrence4Scalar0Exceptional_coeff_482
-  recurrence4Scalar0Exceptional_coeff_483
-  recurrence4Scalar0Exceptional_coeff_484
-  recurrence4Scalar0Exceptional_coeff_485
-  recurrence4Scalar0Exceptional_coeff_486
-  recurrence4Scalar0Exceptional_coeff_487
-  recurrence4Scalar0Exceptional_coeff_488
-  recurrence4Scalar0Exceptional_coeff_489
 
 attribute [local simp]
-  recurrence4Scalar0Exceptional_coeff_490
-  recurrence4Scalar0Exceptional_coeff_491
-  recurrence4Scalar0Exceptional_coeff_492
-  recurrence4Scalar0Exceptional_coeff_493
-  recurrence4Scalar0Exceptional_coeff_494
-  recurrence4Scalar0Exceptional_coeff_495
-  recurrence4Scalar0Exceptional_coeff_496
-  recurrence4Scalar0Exceptional_coeff_497
-  recurrence4Scalar0Exceptional_coeff_498
-  recurrence4Scalar0Exceptional_coeff_499
-  recurrence4Scalar0Exceptional_coeff_500
-  recurrence4Scalar0Exceptional_coeff_501
-  recurrence4Scalar0Exceptional_coeff_502
-  recurrence4Scalar0Exceptional_coeff_503
-  recurrence4Scalar0Exceptional_coeff_504
-  recurrence4Scalar0Exceptional_coeff_505
-  recurrence4Scalar0Exceptional_coeff_506
-  recurrence4Scalar0Exceptional_coeff_507
-  recurrence4Scalar0Exceptional_coeff_508
-  recurrence4Scalar0Exceptional_coeff_509
-  recurrence4Scalar0Exceptional_coeff_510
-  recurrence4Scalar0Exceptional_coeff_511
-  recurrence4Scalar0Exceptional_coeff_512
-  recurrence4Scalar0Exceptional_coeff_513
-  recurrence4Scalar0Exceptional_coeff_514
-  recurrence4Scalar0Exceptional_coeff_515
-  recurrence4Scalar0Exceptional_coeff_516
-  recurrence4Scalar0Exceptional_coeff_517
-  recurrence4Scalar0Exceptional_coeff_518
-  recurrence4Scalar0Exceptional_coeff_519
-  recurrence4Scalar0Exceptional_coeff_520
-  recurrence4Scalar0Exceptional_coeff_521
-  recurrence4Scalar0Exceptional_coeff_522
   recurrence4Scalar1Left_coeff_0
   recurrence4Scalar1Left_coeff_1
   recurrence4Scalar1Left_coeff_2
@@ -5931,7 +5691,9 @@ theorem scalarResidual4Coefficient0 :
     recurrence4Scalar0Main + recurrence4Scalar0Exceptional
   ext n
   by_cases h : n ≤ 522
-  · interval_cases n <;> norm_num [Polynomial.coeff_add]
+  · by_cases hlo : 443 ≤ n
+    · exact scalarResidual4Coefficient0_tail n hlo h
+    · interval_cases n <;> norm_num [Polynomial.coeff_add]
   · have hn : 522 < n := by omega
     rw [recurrence4Scalar0Left_coeff_high n hn]
     rw [Polynomial.coeff_add]

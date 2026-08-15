@@ -23,7 +23,7 @@ namespace Internal.ResultantCertificate
 
 noncomputable section
 
-def recurrence1B6SquareRow0Band0 : Coefficient :=
+private def recurrence1B6SquareRow0Band0 : Coefficient :=
   X ^ 0 * (
     (367236) +
     (320433408) * X ^ 1 +
@@ -36,7 +36,7 @@ def recurrence1B6SquareRow0Band0 : Coefficient :=
     (65245796628267972775130425) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band1 : Coefficient :=
+private def recurrence1B6SquareRow0Band1 : Coefficient :=
   X ^ 9 * (
     (-5387799185239194373543073532) +
     (-239782168942879259319038422160) * X ^ 1 +
@@ -49,7 +49,7 @@ def recurrence1B6SquareRow0Band1 : Coefficient :=
     (3094408461857119239400847866229213331446) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band2 : Coefficient :=
+private def recurrence1B6SquareRow0Band2 : Coefficient :=
   X ^ 18 * (
     (-74165780509269040943771174215786870533955) +
     (-1494404854658801803427954885969432263408679) * X ^ 1 +
@@ -62,7 +62,7 @@ def recurrence1B6SquareRow0Band2 : Coefficient :=
     (18419903192963156962608392483666989773149323983979) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band3 : Coefficient :=
+private def recurrence1B6SquareRow0Band3 : Coefficient :=
   X ^ 27 * (
     (-29468188058527072629966098700303610089544782609318) +
     (-1040062284686405059372134024138497588386378784877494) * X ^ 1 +
@@ -75,7 +75,7 @@ def recurrence1B6SquareRow0Band3 : Coefficient :=
     (84207948662375090133129834642169269297653179065036482084) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band4 : Coefficient :=
+private def recurrence1B6SquareRow0Band4 : Coefficient :=
   X ^ 36 * (
     (-940396229713054074095927691559913950381793083845295294913) +
     (-1539971878743777396489613748360444164156597780709640265062) * X ^ 1 +
@@ -88,7 +88,7 @@ def recurrence1B6SquareRow0Band4 : Coefficient :=
     (-52099894096382873162361613630361024730402707557861456083889364) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band5 : Coefficient :=
+private def recurrence1B6SquareRow0Band5 : Coefficient :=
   X ^ 45 * (
     (152000998891708120962006207567328359039665619881630350796891047) +
     (333005715247697549963098337851443409809997204867545339676131153) * X ^ 1 +
@@ -101,7 +101,7 @@ def recurrence1B6SquareRow0Band5 : Coefficient :=
     (-303462753526797422932354581816353545109074087515236615951117698428) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band6 : Coefficient :=
+private def recurrence1B6SquareRow0Band6 : Coefficient :=
   X ^ 54 * (
     (-1511188841819225321401719143103953424662191428215162523535905583196) +
     (4804083604385953655386585657540011269612943609403211279752322494190) * X ^ 1 +
@@ -114,7 +114,7 @@ def recurrence1B6SquareRow0Band6 : Coefficient :=
     (-397098184780276895593945545229600622400126269328048045393761704909363) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band7 : Coefficient :=
+private def recurrence1B6SquareRow0Band7 : Coefficient :=
   X ^ 63 * (
     (105609856673325594758518383559258804130747602857446365514835237553591) +
     (615489289572898729696110433473730658756965074005402024220205385475986) * X ^ 1 +
@@ -127,7 +127,7 @@ def recurrence1B6SquareRow0Band7 : Coefficient :=
     (697067837747909552541015441740710173042548127967965717821076926659831) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band8 : Coefficient :=
+private def recurrence1B6SquareRow0Band8 : Coefficient :=
   X ^ 72 * (
     (-28075260786558318849457213651430598859193708821069561973615342879660) +
     (-291869044256388474622567220167485300056195987977222372063388000870776) * X ^ 1 +
@@ -140,7 +140,7 @@ def recurrence1B6SquareRow0Band8 : Coefficient :=
     (84600917803555084869720615196832604715486990291546969795301005861) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band9 : Coefficient :=
+private def recurrence1B6SquareRow0Band9 : Coefficient :=
   X ^ 81 * (
     (-471585237949113951897781285982267964690342025236801006051639283199) +
     (149472818895682884461662817421065000064138103792580822728578798445) * X ^ 1 +
@@ -153,7 +153,7 @@ def recurrence1B6SquareRow0Band9 : Coefficient :=
     (1205173989685107672662821747378660919238886495392606544764791) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band10 : Coefficient :=
+private def recurrence1B6SquareRow0Band10 : Coefficient :=
   X ^ 90 * (
     (-12231415652814028226453127668339479984813372191370301347246) +
     (-14062835087402333723925987206251693471870286347453722200915) * X ^ 1 +
@@ -166,7 +166,7 @@ def recurrence1B6SquareRow0Band10 : Coefficient :=
     (49691459503989274839796907882050178882582781) * X ^ 8
   )
 
-def recurrence1B6SquareRow0Band11 : Coefficient :=
+private def recurrence1B6SquareRow0Band11 : Coefficient :=
   X ^ 99 * (
     (109105178243665981312567779357932329952701) +
     (46680266790725902228770625727062218888) * X ^ 1 +
@@ -175,7 +175,7 @@ def recurrence1B6SquareRow0Band11 : Coefficient :=
     (15092317899760440692) * X ^ 4
   )
 
-def recurrence1B6SquareRow0 : Coefficient :=
+private def recurrence1B6SquareRow0 : Coefficient :=
   recurrence1B6SquareRow0Band0 +
   recurrence1B6SquareRow0Band1 +
   recurrence1B6SquareRow0Band2 +
@@ -189,7 +189,7 @@ def recurrence1B6SquareRow0 : Coefficient :=
   recurrence1B6SquareRow0Band10 +
   recurrence1B6SquareRow0Band11
 
-theorem recurrence1B6SquareRow0_eq :
+private theorem recurrence1B6SquareRow0_eq :
     recurrence1Remainder26Block0 * recurrence1Remainder26 =
       recurrence1B6SquareRow0 := by
   unfold recurrence1Remainder26Block0 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -203,7 +203,7 @@ theorem recurrence1B6SquareRow0_eq :
   unfold recurrence1B6SquareRow0Band10 recurrence1B6SquareRow0Band11
   ring
 
-def recurrence1B6SquareRow1Band1 : Coefficient :=
+private def recurrence1B6SquareRow1Band1 : Coefficient :=
   X ^ 9 * (
     (74380278224048175498912) +
     (30038232215822236572812856) * X ^ 1 +
@@ -216,7 +216,7 @@ def recurrence1B6SquareRow1Band1 : Coefficient :=
     (3094408461857119239400847866229213331446) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band2 : Coefficient :=
+private def recurrence1B6SquareRow1Band2 : Coefficient :=
   X ^ 18 * (
     (-59100739137480922980659964184129828581375) +
     (-2471538750238911590720202856257632864832501) * X ^ 1 +
@@ -229,7 +229,7 @@ def recurrence1B6SquareRow1Band2 : Coefficient :=
     (629123964491202111765267619479167985662524838494956) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band3 : Coefficient :=
+private def recurrence1B6SquareRow1Band3 : Coefficient :=
   X ^ 27 * (
     (2253105018230607630198733060374403331100066828174708) +
     (-67575905520284245287385193088015592296453563020992819) * X ^ 1 +
@@ -242,7 +242,7 @@ def recurrence1B6SquareRow1Band3 : Coefficient :=
     (256132328615639313397461240146723302419956562382810639347497) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band4 : Coefficient :=
+private def recurrence1B6SquareRow1Band4 : Coefficient :=
   X ^ 36 * (
     (945813998341970278472968163951627698119597685070556585367419) +
     (-9965499359442302737511587353445524733751782981796742271134481) * X ^ 1 +
@@ -255,7 +255,7 @@ def recurrence1B6SquareRow1Band4 : Coefficient :=
     (1397294953969271467688319775799613370612942029146964569655873728491) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band5 : Coefficient :=
+private def recurrence1B6SquareRow1Band5 : Coefficient :=
   X ^ 45 * (
     (-5483437683106176182527077636789676098084314038705330882610389502614) +
     (-25872776893850234238469624177106164242116524778201168613330138370357) * X ^ 1 +
@@ -268,7 +268,7 @@ def recurrence1B6SquareRow1Band5 : Coefficient :=
     (-418614056565333483276243886821935626699831177568876134462261460169925381) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band6 : Coefficient :=
+private def recurrence1B6SquareRow1Band6 : Coefficient :=
   X ^ 54 * (
     (689708881373473366621366872806494475975348006556956591679171735224003526) +
     (3307197756665314928293513020099643327108036789328989534075421604530314707) * X ^ 1 +
@@ -281,7 +281,7 @@ def recurrence1B6SquareRow1Band6 : Coefficient :=
     (-749565651336669904405632910323299830112585695371786663036989953671536168197) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band7 : Coefficient :=
+private def recurrence1B6SquareRow1Band7 : Coefficient :=
   X ^ 63 * (
     (-11148134294395387384988268740415842516921004738195516384321685240535423203867) +
     (27517214239248425615073330922729029151571738366006153939820286253941101254162) * X ^ 1 +
@@ -300,7 +300,7 @@ def recurrence1B6SquareRow1Band7 : Coefficient :=
       10322552719285385672671885896297895396946115079261576323882084256709007580285)) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band8 : Coefficient :=
+private def recurrence1B6SquareRow1Band8 : Coefficient :=
   X ^ 72 * (
     ((1 * 10 ^ 77 +
       54163521556048538870687788074152231482860616692573455375777359476776858410942)) +
@@ -322,7 +322,7 @@ def recurrence1B6SquareRow1Band8 : Coefficient :=
       97327034385701457744449834981918333730576905107742355458785187520460841754907)) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band9 : Coefficient :=
+private def recurrence1B6SquareRow1Band9 : Coefficient :=
   X ^ 81 * (
     (71904607214590171393864886119915951865835844582330094701642466401278792566109) +
     -((16 * 10 ^ 77 +
@@ -339,7 +339,7 @@ def recurrence1B6SquareRow1Band9 : Coefficient :=
     (786383397538610634415031415824882694829291252965585938485163389611877225058) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band10 : Coefficient :=
+private def recurrence1B6SquareRow1Band10 : Coefficient :=
   X ^ 90 * (
     (-2452070633084514892282436679840222368015795414518077664379177121302699356788) +
     (744735833780481820074772518435454289825034646338025231932861275622664732846) * X ^ 1 +
@@ -352,7 +352,7 @@ def recurrence1B6SquareRow1Band10 : Coefficient :=
     (5969515310148737158724222641122886648143775008169289058015280783597679) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band11 : Coefficient :=
+private def recurrence1B6SquareRow1Band11 : Coefficient :=
   X ^ 99 * (
     (-48976615467179567834672279442871874386740242290412246988005971075320) +
     (-68688515126948139647931163148106095050500831715523996639147596758709) * X ^ 1 +
@@ -365,7 +365,7 @@ def recurrence1B6SquareRow1Band11 : Coefficient :=
     (245582108141335135215160869236451018909687023657795970) * X ^ 8
   )
 
-def recurrence1B6SquareRow1Band12 : Coefficient :=
+private def recurrence1B6SquareRow1Band12 : Coefficient :=
   X ^ 108 * (
     (539369308898805227097707046965107681286123262595694) +
     (230781009803578421689344387482372671429515228640) * X ^ 1 +
@@ -374,7 +374,7 @@ def recurrence1B6SquareRow1Band12 : Coefficient :=
     (74615194376512967677074331502) * X ^ 4
   )
 
-def recurrence1B6SquareRow1 : Coefficient :=
+private def recurrence1B6SquareRow1 : Coefficient :=
   recurrence1B6SquareRow1Band1 +
   recurrence1B6SquareRow1Band2 +
   recurrence1B6SquareRow1Band3 +
@@ -388,7 +388,7 @@ def recurrence1B6SquareRow1 : Coefficient :=
   recurrence1B6SquareRow1Band11 +
   recurrence1B6SquareRow1Band12
 
-theorem recurrence1B6SquareRow1_eq :
+private theorem recurrence1B6SquareRow1_eq :
     recurrence1Remainder26Block1 * recurrence1Remainder26 =
       recurrence1B6SquareRow1 := by
   unfold recurrence1Remainder26Block1 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -402,7 +402,7 @@ theorem recurrence1B6SquareRow1_eq :
   unfold recurrence1B6SquareRow1Band11 recurrence1B6SquareRow1Band12
   ring
 
-def recurrence1B6SquareRow2Band2 : Coefficient :=
+private def recurrence1B6SquareRow2Band2 : Coefficient :=
   X ^ 18 * (
     (695674808351850589627045458401724) +
     (302474691917895755163731148313672014) * X ^ 1 +
@@ -415,7 +415,7 @@ def recurrence1B6SquareRow2Band2 : Coefficient :=
     (18419903192963156962608392483666989773149323983979) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band3 : Coefficient :=
+private def recurrence1B6SquareRow2Band3 : Coefficient :=
   X ^ 27 * (
     (111434353624205157508656573748089335596113074945924) +
     (-5818701765441904136691355487088611337893220494623614) * X ^ 1 +
@@ -428,7 +428,7 @@ def recurrence1B6SquareRow2Band3 : Coefficient :=
     (256132328615639313397461240146723302419956562382810639347497) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band4 : Coefficient :=
+private def recurrence1B6SquareRow2Band4 : Coefficient :=
   X ^ 36 * (
     (2262966372276873342941896737513087595342803561173124772878863) +
     (-13846738995084981322936585034627978571346489333443045065002593) * X ^ 1 +
@@ -441,7 +441,7 @@ def recurrence1B6SquareRow2Band4 : Coefficient :=
     (25523322328022437584406394766626239909840660215656413571543667769841) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band5 : Coefficient :=
+private def recurrence1B6SquareRow2Band5 : Coefficient :=
   X ^ 45 * (
     (61392559197270483773620616411860968273055751992576082019729534414268) +
     (-865417060152331636713550143552411409595158857101504279809365032870477) * X ^ 1 +
@@ -454,7 +454,7 @@ def recurrence1B6SquareRow2Band5 : Coefficient :=
     (45959114255824378620929632861056712683755856753108054234183762429403612573) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band6 : Coefficient :=
+private def recurrence1B6SquareRow2Band6 : Coefficient :=
   X ^ 54 * (
     (-324432283599704440853438742888874407813875144305853645354224894917135358914) +
     (-708226775310210564369517158684697311790635444353166068794301110969179630307) * X ^ 1 +
@@ -470,7 +470,7 @@ def recurrence1B6SquareRow2Band6 : Coefficient :=
       64525700749209776730078077374124583869942483063946828483162212805872645359666)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band7 : Coefficient :=
+private def recurrence1B6SquareRow2Band7 : Coefficient :=
   X ^ 63 * (
     ((357 * 10 ^ 77 +
       73089392616599438102210310025442719987367064866860355040610261753855027254200)) +
@@ -492,7 +492,7 @@ def recurrence1B6SquareRow2Band7 : Coefficient :=
       40544401860350098490748454230706332682810205626363043185292841154771430894158)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band8 : Coefficient :=
+private def recurrence1B6SquareRow2Band8 : Coefficient :=
   X ^ 72 * (
     -((3049681 * 10 ^ 77 +
       78580039920432013644989177402818612433892700425298099411596695392104417459662)) +
@@ -514,7 +514,7 @@ def recurrence1B6SquareRow2Band8 : Coefficient :=
       01986761802873754603285997838792776044539004383780045551442163606355835280252)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band9 : Coefficient :=
+private def recurrence1B6SquareRow2Band9 : Coefficient :=
   X ^ 81 * (
     ((167558985 * 10 ^ 77 +
       28526539483006541046128666851694737538579614501921777372567121996871692402449)) +
@@ -536,7 +536,7 @@ def recurrence1B6SquareRow2Band9 : Coefficient :=
       82693356565369648467248101488169388289758097824614922427770418060548150404202)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band10 : Coefficient :=
+private def recurrence1B6SquareRow2Band10 : Coefficient :=
   X ^ 90 * (
     -((20218685 * 10 ^ 77 +
       47161936135796389230207560393019422042757775505706368888403054821237551549355)) +
@@ -558,7 +558,7 @@ def recurrence1B6SquareRow2Band10 : Coefficient :=
       09151552938357273414594503930778606719821798388361106824270527547330550762787)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band11 : Coefficient :=
+private def recurrence1B6SquareRow2Band11 : Coefficient :=
   X ^ 99 * (
     -((808784 * 10 ^ 77 +
       38741057343840259658519822696798804766848146835895605999565311313427130413336)) +
@@ -580,7 +580,7 @@ def recurrence1B6SquareRow2Band11 : Coefficient :=
       01456110971759729444138677558748112362426048763727794186807826667706329505774)) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band12 : Coefficient :=
+private def recurrence1B6SquareRow2Band12 : Coefficient :=
   X ^ 108 * (
     (-1830614529062584201399440622638158534247389327491234115490051648675215896524) +
     (-2332488292882707056168242915918878534445701180154103334888023040256246078474) * X ^ 1 +
@@ -593,7 +593,7 @@ def recurrence1B6SquareRow2Band12 : Coefficient :=
     (8294100110552736643456766341203239684605574697146180805172959) * X ^ 8
   )
 
-def recurrence1B6SquareRow2Band13 : Coefficient :=
+private def recurrence1B6SquareRow2Band13 : Coefficient :=
   X ^ 117 * (
     (18213779802442576354179686560245971434275660615330697212560) +
     (7792949413429237401014923033026225049680470060669785359) * X ^ 1 +
@@ -602,7 +602,7 @@ def recurrence1B6SquareRow2Band13 : Coefficient :=
     (2519572862830697884162971473184893653) * X ^ 4
   )
 
-def recurrence1B6SquareRow2 : Coefficient :=
+private def recurrence1B6SquareRow2 : Coefficient :=
   recurrence1B6SquareRow2Band2 +
   recurrence1B6SquareRow2Band3 +
   recurrence1B6SquareRow2Band4 +
@@ -616,7 +616,7 @@ def recurrence1B6SquareRow2 : Coefficient :=
   recurrence1B6SquareRow2Band12 +
   recurrence1B6SquareRow2Band13
 
-theorem recurrence1B6SquareRow2_eq :
+private theorem recurrence1B6SquareRow2_eq :
     recurrence1Remainder26Block2 * recurrence1Remainder26 =
       recurrence1B6SquareRow2 := by
   unfold recurrence1Remainder26Block2 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -630,7 +630,7 @@ theorem recurrence1B6SquareRow2_eq :
   unfold recurrence1B6SquareRow2Band12 recurrence1B6SquareRow2Band13
   ring
 
-def recurrence1B6SquareRow3Band3 : Coefficient :=
+private def recurrence1B6SquareRow3Band3 : Coefficient :=
   X ^ 27 * (
     (3464221796130320116632307198659537242166) +
     (1474778664153132970436661725089737144602688) * X ^ 1 +
@@ -643,7 +643,7 @@ def recurrence1B6SquareRow3Band3 : Coefficient :=
     (84207948662375090133129834642169269297653179065036482084) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band4 : Coefficient :=
+private def recurrence1B6SquareRow3Band4 : Coefficient :=
   X ^ 36 * (
     (-238749928623954221656905786931927526619648553610810855403) +
     (-31704142465753834108192649335866063808262284210489093439458) * X ^ 1 +
@@ -656,7 +656,7 @@ def recurrence1B6SquareRow3Band4 : Coefficient :=
     (1397294953969271467688319775799613370612942029146964569655873728491) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band5 : Coefficient :=
+private def recurrence1B6SquareRow3Band5 : Coefficient :=
   X ^ 45 * (
     (1079448601758258629102382357810476761377508702409355609757141235076) +
     (-104926537931700868518965420081190668855447213145160125166709082280932) * X ^ 1 +
@@ -669,7 +669,7 @@ def recurrence1B6SquareRow3Band5 : Coefficient :=
     (45959114255824378620929632861056712683755856753108054234183762429403612573) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band6 : Coefficient :=
+private def recurrence1B6SquareRow3Band6 : Coefficient :=
   X ^ 54 * (
     (-287773428415590704419298954321810116287209462628603094063743425570473003151) +
     (-1415588122096909300946057256191658009131743393388463620314918816455757428686) * X ^ 1 +
@@ -687,7 +687,7 @@ def recurrence1B6SquareRow3Band6 : Coefficient :=
       20091431573238709791036401380426836200929484614458590663532303345831761633114)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band7 : Coefficient :=
+private def recurrence1B6SquareRow3Band7 : Coefficient :=
   X ^ 63 * (
     -((798 * 10 ^ 77 +
       66502684952817601110809624707041259164880261704965210895375786966269064852081)) +
@@ -709,7 +709,7 @@ def recurrence1B6SquareRow3Band7 : Coefficient :=
       76839193370143549471021834575448552842348123494463056805169500167866262705259)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band8 : Coefficient :=
+private def recurrence1B6SquareRow3Band8 : Coefficient :=
   X ^ 72 * (
     -((1816108 * 10 ^ 77 +
       81147356361310452926065847436693815432748428325150491269794634071121609602166)) +
@@ -731,7 +731,7 @@ def recurrence1B6SquareRow3Band8 : Coefficient :=
       88372702730990850789427061721901622730699960143203330644329907746253027352905)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band9 : Coefficient :=
+private def recurrence1B6SquareRow3Band9 : Coefficient :=
   X ^ 81 * (
     ((1697561950586 * 10 ^ 77 +
       88129305029470671587378962512631044519753076979010947178122670523333012494855)) +
@@ -753,7 +753,7 @@ def recurrence1B6SquareRow3Band9 : Coefficient :=
       94822483665500557617123869224468163910971821315161327565814689829015485626391)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band10 : Coefficient :=
+private def recurrence1B6SquareRow3Band10 : Coefficient :=
   X ^ 90 * (
     ((78922088406445 * 10 ^ 77 +
       15036918403744094284439251635965653147127819356350926518906944944260879369327)) +
@@ -775,7 +775,7 @@ def recurrence1B6SquareRow3Band10 : Coefficient :=
       32291256016177404707310916653140311865030878872438183159751504611326737759232)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band11 : Coefficient :=
+private def recurrence1B6SquareRow3Band11 : Coefficient :=
   X ^ 99 * (
     -((52537196885425 * 10 ^ 77 +
       07694779174289835788227239748411966556107542145453317694674753522387062299615)) +
@@ -797,7 +797,7 @@ def recurrence1B6SquareRow3Band11 : Coefficient :=
       45735207696737563693947117700880560936394701679459002341257785266311754163924)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band12 : Coefficient :=
+private def recurrence1B6SquareRow3Band12 : Coefficient :=
   X ^ 108 * (
     ((164800404995 * 10 ^ 77 +
       17168218516375983720146079678529415891494273908561068753850827589951318420136)) +
@@ -819,7 +819,7 @@ def recurrence1B6SquareRow3Band12 : Coefficient :=
       17279395090706315442421634984333547546520862129666813072956151615345403330789)) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band13 : Coefficient :=
+private def recurrence1B6SquareRow3Band13 : Coefficient :=
   X ^ 117 * (
     ((431 * 10 ^ 77 +
       70876137685974373318417219047005029758254894985290568591109573638690554469398)) +
@@ -836,7 +836,7 @@ def recurrence1B6SquareRow3Band13 : Coefficient :=
     (-1395939617913151402137823749545236908581671024262116541757619817553) * X ^ 8
   )
 
-def recurrence1B6SquareRow3Band14 : Coefficient :=
+private def recurrence1B6SquareRow3Band14 : Coefficient :=
   X ^ 126 * (
     (-3069126282426858701193587205805291298451582618694345328338306156) +
     (-1313477912231235045230121844798452745949204719401620647115182) * X ^ 1 +
@@ -845,7 +845,7 @@ def recurrence1B6SquareRow3Band14 : Coefficient :=
     (-424684769546239265370557834075128561258657) * X ^ 4
   )
 
-def recurrence1B6SquareRow3 : Coefficient :=
+private def recurrence1B6SquareRow3 : Coefficient :=
   recurrence1B6SquareRow3Band3 +
   recurrence1B6SquareRow3Band4 +
   recurrence1B6SquareRow3Band5 +
@@ -859,7 +859,7 @@ def recurrence1B6SquareRow3 : Coefficient :=
   recurrence1B6SquareRow3Band13 +
   recurrence1B6SquareRow3Band14
 
-theorem recurrence1B6SquareRow3_eq :
+private theorem recurrence1B6SquareRow3_eq :
     recurrence1Remainder26Block3 * recurrence1Remainder26 =
       recurrence1B6SquareRow3 := by
   unfold recurrence1Remainder26Block3 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -873,7 +873,7 @@ theorem recurrence1B6SquareRow3_eq :
   unfold recurrence1B6SquareRow3Band13 recurrence1B6SquareRow3Band14
   ring
 
-def recurrence1B6SquareRow4Band4 : Coefficient :=
+private def recurrence1B6SquareRow4Band4 : Coefficient :=
   X ^ 36 * (
     (-2101008505786758112058106952382369941233256038) +
     (-910670696581904766610293780922201533170717391888) * X ^ 1 +
@@ -886,7 +886,7 @@ def recurrence1B6SquareRow4Band4 : Coefficient :=
     (-52099894096382873162361613630361024730402707557861456083889364) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band5 : Coefficient :=
+private def recurrence1B6SquareRow4Band5 : Coefficient :=
   X ^ 45 * (
     (-273538973255648072006765690953542075338463520427663403211495613) +
     (15338893887752306843281321778586231925711089121677200021462107889) * X ^ 1 +
@@ -899,7 +899,7 @@ def recurrence1B6SquareRow4Band5 : Coefficient :=
     (-418614056565333483276243886821935626699831177568876134462261460169925381) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band6 : Coefficient :=
+private def recurrence1B6SquareRow4Band6 : Coefficient :=
   X ^ 54 * (
     (-3290341599933715095001351840956954021854642996204017186141050399013214804) +
     (20487739128360450078411541904192982748556888663953467764983837639130021638) * X ^ 1 +
@@ -915,7 +915,7 @@ def recurrence1B6SquareRow4Band6 : Coefficient :=
       64525700749209776730078077374124583869942483063946828483162212805872645359666)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band7 : Coefficient :=
+private def recurrence1B6SquareRow4Band7 : Coefficient :=
   X ^ 63 * (
     ((159 * 10 ^ 77 +
       75976572178447333925441751279419702602040952673489944117471186805919535011371)) +
@@ -937,7 +937,7 @@ def recurrence1B6SquareRow4Band7 : Coefficient :=
       76839193370143549471021834575448552842348123494463056805169500167866262705259)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band8 : Coefficient :=
+private def recurrence1B6SquareRow4Band8 : Coefficient :=
   X ^ 72 * (
     ((119490236 * 10 ^ 77 +
       04824915747882488181103311868218514170674761766147171510937723496449637419829)) +
@@ -959,7 +959,7 @@ def recurrence1B6SquareRow4Band8 : Coefficient :=
       65610617657118526429062960097598656399401404497173758859926692020349929810000)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band9 : Coefficient :=
+private def recurrence1B6SquareRow4Band9 : Coefficient :=
   X ^ 81 * (
     ((9607952476703 * 10 ^ 77 +
       29462867819290628049642340296390371408311066672561788196441193564228836348986)) +
@@ -981,7 +981,7 @@ def recurrence1B6SquareRow4Band9 : Coefficient :=
       38419541001833889738888345796599155421458783143377578571066657279948592311495)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band10 : Coefficient :=
+private def recurrence1B6SquareRow4Band10 : Coefficient :=
   X ^ 90 * (
     -((42178351159749424 * 10 ^ 77 +
       45511346903237598051887045771956149809221967379097314098183281273634655010254)) +
@@ -1003,7 +1003,7 @@ def recurrence1B6SquareRow4Band10 : Coefficient :=
       63475457018659084346364090181576730081908484421411835153973355165228522963579)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band11 : Coefficient :=
+private def recurrence1B6SquareRow4Band11 : Coefficient :=
   X ^ 99 * (
     ((2900166545817241819 * 10 ^ 77 +
       26808345134989927439904597549152319667007921890692300175490747893096453631206)) +
@@ -1025,7 +1025,7 @@ def recurrence1B6SquareRow4Band11 : Coefficient :=
       35059834999036393470674994559010185551689601685095124290973168072402314213249)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band12 : Coefficient :=
+private def recurrence1B6SquareRow4Band12 : Coefficient :=
   X ^ 108 * (
     -((56581172489371629 * 10 ^ 77 +
       46373857483175360897433839163879604171550428768503016377518758805056570387671)) +
@@ -1047,7 +1047,7 @@ def recurrence1B6SquareRow4Band12 : Coefficient :=
       96546291024980393473045638801026541801425598761589224417665474487196253417067)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band13 : Coefficient :=
+private def recurrence1B6SquareRow4Band13 : Coefficient :=
   X ^ 117 * (
     -((7861749772267641 * 10 ^ 77 +
       87873668328637780978332530689664570034387456612055291712390500904513816952251)) +
@@ -1069,7 +1069,7 @@ def recurrence1B6SquareRow4Band13 : Coefficient :=
       51652539938680566715282082872237228364483743538205118579481527032440077964081)) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band14 : Coefficient :=
+private def recurrence1B6SquareRow4Band14 : Coefficient :=
   X ^ 126 * (
     -((149374960 * 10 ^ 77 +
       77360152476767018797230477834687795827617483553631639694897543673808306418011)) +
@@ -1088,7 +1088,7 @@ def recurrence1B6SquareRow4Band14 : Coefficient :=
     (78170318725955327328276487892138964471095542605545786681116828974197394) * X ^ 8
   )
 
-def recurrence1B6SquareRow4Band15 : Coefficient :=
+private def recurrence1B6SquareRow4Band15 : Coefficient :=
   X ^ 135 * (
     (171692031979317588666518816361706666519742482540868953269196847523541) +
     (73462859142344532793145051978902843183703083679451710166310800779) * X ^ 1 +
@@ -1097,7 +1097,7 @@ def recurrence1B6SquareRow4Band15 : Coefficient :=
     (23751755542444203265532361883311010910235695327) * X ^ 4
   )
 
-def recurrence1B6SquareRow4 : Coefficient :=
+private def recurrence1B6SquareRow4 : Coefficient :=
   recurrence1B6SquareRow4Band4 +
   recurrence1B6SquareRow4Band5 +
   recurrence1B6SquareRow4Band6 +
@@ -1111,7 +1111,7 @@ def recurrence1B6SquareRow4 : Coefficient :=
   recurrence1B6SquareRow4Band14 +
   recurrence1B6SquareRow4Band15
 
-theorem recurrence1B6SquareRow4_eq :
+private theorem recurrence1B6SquareRow4_eq :
     recurrence1Remainder26Block4 * recurrence1Remainder26 =
       recurrence1B6SquareRow4 := by
   unfold recurrence1Remainder26Block4 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -1125,7 +1125,7 @@ theorem recurrence1B6SquareRow4_eq :
   unfold recurrence1B6SquareRow4Band14 recurrence1B6SquareRow4Band15
   ring
 
-def recurrence1B6SquareRow5Band5 : Coefficient :=
+private def recurrence1B6SquareRow5Band5 : Coefficient :=
   X ^ 45 * (
     (-11710839285037847243961724075954743423792044279436) +
     (-5170751756716388316624787368070890855854127147914292) * X ^ 1 +
@@ -1138,7 +1138,7 @@ def recurrence1B6SquareRow5Band5 : Coefficient :=
     (-303462753526797422932354581816353545109074087515236615951117698428) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band6 : Coefficient :=
+private def recurrence1B6SquareRow5Band6 : Coefficient :=
   X ^ 54 * (
     (-3883111758576358725933959948351870893734061983901585019948308145718) +
     (69254408604126946938209199338687053161040138421414889542950848999668) * X ^ 1 +
@@ -1151,7 +1151,7 @@ def recurrence1B6SquareRow5Band6 : Coefficient :=
     (-749565651336669904405632910323299830112585695371786663036989953671536168197) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band7 : Coefficient :=
+private def recurrence1B6SquareRow5Band7 : Coefficient :=
   X ^ 63 * (
     (-33332600659895990605585441563610586118769964306112866690907769703171808623711) +
     (-56213914463191429951180542802408749465576957434903618226290770037152629623904) * X ^ 1 +
@@ -1171,7 +1171,7 @@ def recurrence1B6SquareRow5Band7 : Coefficient :=
       40544401860350098490748454230706332682810205626363043185292841154771430894158)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band8 : Coefficient :=
+private def recurrence1B6SquareRow5Band8 : Coefficient :=
   X ^ 72 * (
     -((4154090 * 10 ^ 77 +
       42020212050480727645643335398795767993902987647933758826031541694437026336918)) +
@@ -1193,7 +1193,7 @@ def recurrence1B6SquareRow5Band8 : Coefficient :=
       88372702730990850789427061721901622730699960143203330644329907746253027352905)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band9 : Coefficient :=
+private def recurrence1B6SquareRow5Band9 : Coefficient :=
   X ^ 81 * (
     ((2369058381978 * 10 ^ 77 +
       56317401631030381025892112997198767520246885198200490437908445425952310986858)) +
@@ -1215,7 +1215,7 @@ def recurrence1B6SquareRow5Band9 : Coefficient :=
       38419541001833889738888345796599155421458783143377578571066657279948592311495)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band10 : Coefficient :=
+private def recurrence1B6SquareRow5Band10 : Coefficient :=
   X ^ 90 * (
     -((39355380944870032 * 10 ^ 77 +
       07011410357735767929973797981266218349802043234358301712839931745138107350563)) +
@@ -1237,7 +1237,7 @@ def recurrence1B6SquareRow5Band10 : Coefficient :=
       62652888305940618622071722889929254043693691340484898332517188527792121724452)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band11 : Coefficient :=
+private def recurrence1B6SquareRow5Band11 : Coefficient :=
   X ^ 99 * (
     -((133904601541514840391 * 10 ^ 77 +
       59462052036136223785174331548655183585474822656270201725439047623098349268742)) +
@@ -1259,7 +1259,7 @@ def recurrence1B6SquareRow5Band11 : Coefficient :=
       84978252819778892078990508396978887418431736178277798506420967955998102393531)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band12 : Coefficient :=
+private def recurrence1B6SquareRow5Band12 : Coefficient :=
   X ^ 108 * (
     ((5050405278121162137198 * 10 ^ 77 +
       95558398168242147483600066919182260166877668109027146877091719405182866308974)) +
@@ -1281,7 +1281,7 @@ def recurrence1B6SquareRow5Band12 : Coefficient :=
       13693302525495396582363854992128001156356338956708094468638600114651971802400)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band13 : Coefficient :=
+private def recurrence1B6SquareRow5Band13 : Coefficient :=
   X ^ 117 * (
     ((49687207098179615578 * 10 ^ 77 +
       41385715852184042561751282518541561749918814920806574928502500705071566892528)) +
@@ -1303,7 +1303,7 @@ def recurrence1B6SquareRow5Band13 : Coefficient :=
       01176806251784385444610628309786033853448708782243415480955539420561541608983)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band14 : Coefficient :=
+private def recurrence1B6SquareRow5Band14 : Coefficient :=
   X ^ 126 * (
     -((6741319244569584434 * 10 ^ 77 +
       50879000262856326001807988036563011183136072588940557411553207467715483313837)) +
@@ -1325,7 +1325,7 @@ def recurrence1B6SquareRow5Band14 : Coefficient :=
       21648481520617953811649025861383325875042132426212764548358349233435575969038)) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band15 : Coefficient :=
+private def recurrence1B6SquareRow5Band15 : Coefficient :=
   X ^ 135 * (
     -((104961783684 * 10 ^ 77 +
       81987622065951727421769196930280447172092708922083618779299886969788973311213)) +
@@ -1345,7 +1345,7 @@ def recurrence1B6SquareRow5Band15 : Coefficient :=
     (64927126157396865390344218434929456081727780470453588457072693644630764937) * X ^ 8
   )
 
-def recurrence1B6SquareRow5Band16 : Coefficient :=
+private def recurrence1B6SquareRow5Band16 : Coefficient :=
   X ^ 144 * (
     (142630680246965238461563175811111212518248605504230625613936274083000476) +
     (61030477572560952464240069592399321804228245483510880429639666729702) * X ^ 1 +
@@ -1354,7 +1354,7 @@ def recurrence1B6SquareRow5Band16 : Coefficient :=
     (19732291277255062629310930650026635106843797097302) * X ^ 4
   )
 
-def recurrence1B6SquareRow5 : Coefficient :=
+private def recurrence1B6SquareRow5 : Coefficient :=
   recurrence1B6SquareRow5Band5 +
   recurrence1B6SquareRow5Band6 +
   recurrence1B6SquareRow5Band7 +
@@ -1368,7 +1368,7 @@ def recurrence1B6SquareRow5 : Coefficient :=
   recurrence1B6SquareRow5Band15 +
   recurrence1B6SquareRow5Band16
 
-theorem recurrence1B6SquareRow5_eq :
+private theorem recurrence1B6SquareRow5_eq :
     recurrence1Remainder26Block5 * recurrence1Remainder26 =
       recurrence1B6SquareRow5 := by
   unfold recurrence1Remainder26Block5 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -1382,7 +1382,7 @@ theorem recurrence1B6SquareRow5_eq :
   unfold recurrence1B6SquareRow5Band15 recurrence1B6SquareRow5Band16
   ring
 
-def recurrence1B6SquareRow6Band6 : Coefficient :=
+private def recurrence1B6SquareRow6Band6 : Coefficient :=
   X ^ 54 * (
     (-15932409452243483724920375180922298718978240850998790) +
     (-6946870568099859794493499979938292905041964906361184462) * X ^ 1 +
@@ -1395,7 +1395,7 @@ def recurrence1B6SquareRow6Band6 : Coefficient :=
     (-397098184780276895593945545229600622400126269328048045393761704909363) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band7 : Coefficient :=
+private def recurrence1B6SquareRow6Band7 : Coefficient :=
   X ^ 63 * (
     (-3121353316428781286102928920309923629451518441854645358434592794657463) +
     (106093237990222944713335609690026111390907525145817335971955132448949290) * X ^ 1 +
@@ -1410,7 +1410,7 @@ def recurrence1B6SquareRow6Band7 : Coefficient :=
       10322552719285385672671885896297895396946115079261576323882084256709007580285)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band8 : Coefficient :=
+private def recurrence1B6SquareRow6Band8 : Coefficient :=
   X ^ 72 * (
     -((300 * 10 ^ 77 +
       27452372184890683211317839518072952127705845663197634061298777924405613100876)) +
@@ -1432,7 +1432,7 @@ def recurrence1B6SquareRow6Band8 : Coefficient :=
       01986761802873754603285997838792776044539004383780045551442163606355835280252)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band9 : Coefficient :=
+private def recurrence1B6SquareRow6Band9 : Coefficient :=
   X ^ 81 * (
     -((1335382435 * 10 ^ 77 +
       33288979844476614235147608084546457654427174500578576520686401168972798119682)) +
@@ -1454,7 +1454,7 @@ def recurrence1B6SquareRow6Band9 : Coefficient :=
       94822483665500557617123869224468163910971821315161327565814689829015485626391)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band10 : Coefficient :=
+private def recurrence1B6SquareRow6Band10 : Coefficient :=
   X ^ 90 * (
     ((990434871696407 * 10 ^ 77 +
       93258594552465196981983548500358902803774090058547794945261439066750705874403)) +
@@ -1476,7 +1476,7 @@ def recurrence1B6SquareRow6Band10 : Coefficient :=
       63475457018659084346364090181576730081908484421411835153973355165228522963579)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band11 : Coefficient :=
+private def recurrence1B6SquareRow6Band11 : Coefficient :=
   X ^ 99 * (
     ((7982475263534785500 * 10 ^ 77 +
       86274991688048892581781857768640314582891976676866577449646582429064371818213)) +
@@ -1498,7 +1498,7 @@ def recurrence1B6SquareRow6Band11 : Coefficient :=
       84978252819778892078990508396978887418431736178277798506420967955998102393531)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band12 : Coefficient :=
+private def recurrence1B6SquareRow6Band12 : Coefficient :=
   X ^ 108 * (
     ((11971549678602978072640 * 10 ^ 77 +
       47957866507141243551122170928807435087652508438403180826717196479825174481873)) +
@@ -1520,7 +1520,7 @@ def recurrence1B6SquareRow6Band12 : Coefficient :=
       40601657424904887473725883597161118701308844501673021500677816721361742170557)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band13 : Coefficient :=
+private def recurrence1B6SquareRow6Band13 : Coefficient :=
   X ^ 117 * (
     ((32017169894977214323318 * 10 ^ 77 +
       56947026467363105194031192216393870166135425097272054318346387505160946924763)) +
@@ -1542,7 +1542,7 @@ def recurrence1B6SquareRow6Band13 : Coefficient :=
       38551872132212643353188126640242826336085220823842695811930107820499961396629)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band14 : Coefficient :=
+private def recurrence1B6SquareRow6Band14 : Coefficient :=
   X ^ 126 * (
     -((19520343217005504598654 * 10 ^ 77 +
       72939014323803268817488447333910470327175957103411134661194122138880678764112)) +
@@ -1564,7 +1564,7 @@ def recurrence1B6SquareRow6Band14 : Coefficient :=
       14901880509676687352544967897595756379421396753801747104024542798424833809014)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band15 : Coefficient :=
+private def recurrence1B6SquareRow6Band15 : Coefficient :=
   X ^ 135 * (
     ((37031621636557982057 * 10 ^ 77 +
       12204282099468380414722303629262040669885726025297520356334344354183453322303)) +
@@ -1586,7 +1586,7 @@ def recurrence1B6SquareRow6Band15 : Coefficient :=
       43373378082453034272429548628111048567121113286238417753356585817757103917611)) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band16 : Coefficient :=
+private def recurrence1B6SquareRow6Band16 : Coefficient :=
   X ^ 144 * (
     -((100984699553 * 10 ^ 77 +
       06611162501487633085937522349632120084528728538745168768818880407493451924986)) +
@@ -1606,7 +1606,7 @@ def recurrence1B6SquareRow6Band16 : Coefficient :=
     (-290111593949013380115630018832804355411318685353847351987199330742784236517) * X ^ 8
   )
 
-def recurrence1B6SquareRow6Band17 : Coefficient :=
+private def recurrence1B6SquareRow6Band17 : Coefficient :=
   X ^ 153 * (
     (-638139724434125835036542170441239973364394984460311547932127900190665481) +
     (-273127471565016224064158773890793487209148937982765583792863306835324) * X ^ 1 +
@@ -1615,7 +1615,7 @@ def recurrence1B6SquareRow6Band17 : Coefficient :=
     (-88311380474228653853967785701384992363103654210137) * X ^ 4
   )
 
-def recurrence1B6SquareRow6 : Coefficient :=
+private def recurrence1B6SquareRow6 : Coefficient :=
   recurrence1B6SquareRow6Band6 +
   recurrence1B6SquareRow6Band7 +
   recurrence1B6SquareRow6Band8 +
@@ -1629,7 +1629,7 @@ def recurrence1B6SquareRow6 : Coefficient :=
   recurrence1B6SquareRow6Band16 +
   recurrence1B6SquareRow6Band17
 
-theorem recurrence1B6SquareRow6_eq :
+private theorem recurrence1B6SquareRow6_eq :
     recurrence1Remainder26Block6 * recurrence1Remainder26 =
       recurrence1B6SquareRow6 := by
   unfold recurrence1Remainder26Block6 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -1643,7 +1643,7 @@ theorem recurrence1B6SquareRow6_eq :
   unfold recurrence1B6SquareRow6Band16 recurrence1B6SquareRow6Band17
   ring
 
-def recurrence1B6SquareRow7Band7 : Coefficient :=
+private def recurrence1B6SquareRow7Band7 : Coefficient :=
   X ^ 63 * (
     (27979852137083753154086096013711685435559352096949374) +
     (12205905158756556611117113676546726382842032768891803492) * X ^ 1 +
@@ -1656,7 +1656,7 @@ def recurrence1B6SquareRow7Band7 : Coefficient :=
     (697067837747909552541015441740710173042548127967965717821076926659831) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band8 : Coefficient :=
+private def recurrence1B6SquareRow7Band8 : Coefficient :=
   X ^ 72 * (
     (5638986755529975166228180167864343302700469898324717386889741525931292) +
     (-184293649079190292847380678292637652895737873659683206964052645382981184) * X ^ 1 +
@@ -1671,7 +1671,7 @@ def recurrence1B6SquareRow7Band8 : Coefficient :=
       97327034385701457744449834981918333730576905107742355458785187520460841754907)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band9 : Coefficient :=
+private def recurrence1B6SquareRow7Band9 : Coefficient :=
   X ^ 81 * (
     ((530 * 10 ^ 77 +
       75635922169001655241640557192181158313132546756586226626483568342671764906623)) +
@@ -1693,7 +1693,7 @@ def recurrence1B6SquareRow7Band9 : Coefficient :=
       82693356565369648467248101488169388289758097824614922427770418060548150404202)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band10 : Coefficient :=
+private def recurrence1B6SquareRow7Band10 : Coefficient :=
   X ^ 90 * (
     ((2619185229 * 10 ^ 77 +
       81358799142028994492492249947094775646899860661667506885218188294580874956610)) +
@@ -1715,7 +1715,7 @@ def recurrence1B6SquareRow7Band10 : Coefficient :=
       32291256016177404707310916653140311865030878872438183159751504611326737759232)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band11 : Coefficient :=
+private def recurrence1B6SquareRow7Band11 : Coefficient :=
   X ^ 99 * (
     -((1653303661576402 * 10 ^ 77 +
       64248357396319457749900440196454795945875846866649882375741667638527617151368)) +
@@ -1737,7 +1737,7 @@ def recurrence1B6SquareRow7Band11 : Coefficient :=
       35059834999036393470674994559010185551689601685095124290973168072402314213249)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band12 : Coefficient :=
+private def recurrence1B6SquareRow7Band12 : Coefficient :=
   X ^ 108 * (
     -((8979114483063427847 * 10 ^ 77 +
       12941214844585831067620196708747298053346060135257413950366205339859055337397)) +
@@ -1759,7 +1759,7 @@ def recurrence1B6SquareRow7Band12 : Coefficient :=
       13693302525495396582363854992128001156356338956708094468638600114651971802400)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band13 : Coefficient :=
+private def recurrence1B6SquareRow7Band13 : Coefficient :=
   X ^ 117 * (
     -((12089275745963298017627 * 10 ^ 77 +
       24537504448424196657526880315733916732687807009931731233884969289233750784501)) +
@@ -1781,7 +1781,7 @@ def recurrence1B6SquareRow7Band13 : Coefficient :=
       38551872132212643353188126640242826336085220823842695811930107820499961396629)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band14 : Coefficient :=
+private def recurrence1B6SquareRow7Band14 : Coefficient :=
   X ^ 126 * (
     ((1799123733174208708611 * 10 ^ 77 +
       93704138296439415463980100716040046873134898857696583788388152300255127999469)) +
@@ -1803,7 +1803,7 @@ def recurrence1B6SquareRow7Band14 : Coefficient :=
       11673540352685415775907832537886747339733110018592492501593184292794565276039)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band15 : Coefficient :=
+private def recurrence1B6SquareRow7Band15 : Coefficient :=
   X ^ 135 * (
     ((646812058937722349159 * 10 ^ 77 +
       93784923137010018343924915203981969350209691708994799949474197313586734533076)) +
@@ -1825,7 +1825,7 @@ def recurrence1B6SquareRow7Band15 : Coefficient :=
       93318359503363667688084832147603178320317476681617553965377911646897155984726)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band16 : Coefficient :=
+private def recurrence1B6SquareRow7Band16 : Coefficient :=
   X ^ 144 * (
     -((188850662104221511 * 10 ^ 77 +
       87939663425791367453729635002936023098002408439287205298298186652905486785500)) +
@@ -1847,7 +1847,7 @@ def recurrence1B6SquareRow7Band16 : Coefficient :=
       63325306244375543730621189882879641791598460018739902440659015461919080409067)) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band17 : Coefficient :=
+private def recurrence1B6SquareRow7Band17 : Coefficient :=
   X ^ 153 * (
     ((5477519913 * 10 ^ 77 +
       38816807707834773501306669370786026787556936512014662417194749156404535509427)) +
@@ -1867,7 +1867,7 @@ def recurrence1B6SquareRow7Band17 : Coefficient :=
     (848817987483194985000863636448638948220351865681927210837103227980123991) * X ^ 8
   )
 
-def recurrence1B6SquareRow7Band18 : Coefficient :=
+private def recurrence1B6SquareRow7Band18 : Coefficient :=
   X ^ 162 * (
     (1875306345076897401662054844905224714464759599646027762973203948595468) +
     (803363733060363366924164255070251684489934259876089199760348108871) * X ^ 1 +
@@ -1876,7 +1876,7 @@ def recurrence1B6SquareRow7Band18 : Coefficient :=
     (259796156938576126935931880575940133496455929373) * X ^ 4
   )
 
-def recurrence1B6SquareRow7 : Coefficient :=
+private def recurrence1B6SquareRow7 : Coefficient :=
   recurrence1B6SquareRow7Band7 +
   recurrence1B6SquareRow7Band8 +
   recurrence1B6SquareRow7Band9 +
@@ -1890,7 +1890,7 @@ def recurrence1B6SquareRow7 : Coefficient :=
   recurrence1B6SquareRow7Band17 +
   recurrence1B6SquareRow7Band18
 
-theorem recurrence1B6SquareRow7_eq :
+private theorem recurrence1B6SquareRow7_eq :
     recurrence1Remainder26Block7 * recurrence1Remainder26 =
       recurrence1B6SquareRow7 := by
   unfold recurrence1Remainder26Block7 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -1904,7 +1904,7 @@ theorem recurrence1B6SquareRow7_eq :
   unfold recurrence1B6SquareRow7Band17 recurrence1B6SquareRow7Band18
   ring
 
-def recurrence1B6SquareRow8Band8 : Coefficient :=
+private def recurrence1B6SquareRow8Band8 : Coefficient :=
   X ^ 72 * (
     (3480382469184089769443906483200229887336923425256) +
     (1499451650032723325948943766095310028105234757167052) * X ^ 1 +
@@ -1917,7 +1917,7 @@ def recurrence1B6SquareRow8Band8 : Coefficient :=
     (84600917803555084869720615196832604715486990291546969795301005861) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band9 : Coefficient :=
+private def recurrence1B6SquareRow8Band9 : Coefficient :=
   X ^ 81 * (
     (233334259006555896611813439213684692856465113239871272869111193185) +
     (-26551583322061004720955148791300993454492179269866757466039522313105) * X ^ 1 +
@@ -1930,7 +1930,7 @@ def recurrence1B6SquareRow8Band9 : Coefficient :=
     (786383397538610634415031415824882694829291252965585938485163389611877225058) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band10 : Coefficient :=
+private def recurrence1B6SquareRow8Band10 : Coefficient :=
   X ^ 90 * (
     (4141004139652304459509627440675142987742847645050221468580709483252761210660) +
     (-44956296294343463828384646236571299606335961481614761232513173264131576168482) * X ^ 1 +
@@ -1950,7 +1950,7 @@ def recurrence1B6SquareRow8Band10 : Coefficient :=
       09151552938357273414594503930778606719821798388361106824270527547330550762787)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band11 : Coefficient :=
+private def recurrence1B6SquareRow8Band11 : Coefficient :=
   X ^ 99 * (
     -((480471 * 10 ^ 77 +
       89058064062902976760920076190707716872113559279111292751046550085872570524412)) +
@@ -1972,7 +1972,7 @@ def recurrence1B6SquareRow8Band11 : Coefficient :=
       45735207696737563693947117700880560936394701679459002341257785266311754163924)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band12 : Coefficient :=
+private def recurrence1B6SquareRow8Band12 : Coefficient :=
   X ^ 108 * (
     -((34317142612 * 10 ^ 77 +
       21252110991945467534381905617161869288229845717286555602289701026168783118020)) +
@@ -1994,7 +1994,7 @@ def recurrence1B6SquareRow8Band12 : Coefficient :=
       96546291024980393473045638801026541801425598761589224417665474487196253417067)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band13 : Coefficient :=
+private def recurrence1B6SquareRow8Band13 : Coefficient :=
   X ^ 117 * (
     -((8971613719304560 * 10 ^ 77 +
       87073545551778690803602350022723696153560881167353884922030479744435317606563)) +
@@ -2016,7 +2016,7 @@ def recurrence1B6SquareRow8Band13 : Coefficient :=
       01176806251784385444610628309786033853448708782243415480955539420561541608983)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band14 : Coefficient :=
+private def recurrence1B6SquareRow8Band14 : Coefficient :=
   X ^ 126 * (
     -((8251271372975684504 * 10 ^ 77 +
       27442602115867425996262978966378234130491285992726957092711488004229628591209)) +
@@ -2038,7 +2038,7 @@ def recurrence1B6SquareRow8Band14 : Coefficient :=
       14901880509676687352544967897595756379421396753801747104024542798424833809014)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band15 : Coefficient :=
+private def recurrence1B6SquareRow8Band15 : Coefficient :=
   X ^ 135 * (
     ((39683359425812737108 * 10 ^ 77 +
       90915082463398422362598302256916345420735207364929845670933090102079805417627)) +
@@ -2060,7 +2060,7 @@ def recurrence1B6SquareRow8Band15 : Coefficient :=
       93318359503363667688084832147603178320317476681617553965377911646897155984726)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band16 : Coefficient :=
+private def recurrence1B6SquareRow8Band16 : Coefficient :=
   X ^ 144 * (
     -((188557688458041216 * 10 ^ 77 +
       71010502597239171070520149877102001808883534522798412418890381654054632076636)) +
@@ -2082,7 +2082,7 @@ def recurrence1B6SquareRow8Band16 : Coefficient :=
       47852114299119918833769913414731086863775966040572637843670149969576473482337)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band17 : Coefficient :=
+private def recurrence1B6SquareRow8Band17 : Coefficient :=
   X ^ 153 * (
     -((2162896229748 * 10 ^ 77 +
       68529154048593199383336179435525532437418721066696301584938934851424484526442)) +
@@ -2104,7 +2104,7 @@ def recurrence1B6SquareRow8Band17 : Coefficient :=
       11908878069511011357616955207185246965896321906680090875271417385588420850270)) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band18 : Coefficient :=
+private def recurrence1B6SquareRow8Band18 : Coefficient :=
   X ^ 162 * (
     ((32660 * 10 ^ 77 +
       40661183259810990271153598939337087987491530476062771607217262178302802439653)) +
@@ -2120,7 +2120,7 @@ def recurrence1B6SquareRow8Band18 : Coefficient :=
     (398784747642399609073956823128407841252596820732091063064701324173) * X ^ 8
   )
 
-def recurrence1B6SquareRow8Band19 : Coefficient :=
+private def recurrence1B6SquareRow8Band19 : Coefficient :=
   X ^ 171 * (
     (929397673436697345901107705634985228588051715218412514134109024) +
     (402373653824277021934795429192368166898114562942765637633617) * X ^ 1 +
@@ -2129,7 +2129,7 @@ def recurrence1B6SquareRow8Band19 : Coefficient :=
     (130364068837196412915331835983767607389036) * X ^ 4
   )
 
-def recurrence1B6SquareRow8 : Coefficient :=
+private def recurrence1B6SquareRow8 : Coefficient :=
   recurrence1B6SquareRow8Band8 +
   recurrence1B6SquareRow8Band9 +
   recurrence1B6SquareRow8Band10 +
@@ -2143,7 +2143,7 @@ def recurrence1B6SquareRow8 : Coefficient :=
   recurrence1B6SquareRow8Band18 +
   recurrence1B6SquareRow8Band19
 
-theorem recurrence1B6SquareRow8_eq :
+private theorem recurrence1B6SquareRow8_eq :
     recurrence1Remainder26Block8 * recurrence1Remainder26 =
       recurrence1B6SquareRow8 := by
   unfold recurrence1Remainder26Block8 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -2157,7 +2157,7 @@ theorem recurrence1B6SquareRow8_eq :
   unfold recurrence1B6SquareRow8Band18 recurrence1B6SquareRow8Band19
   ring
 
-def recurrence1B6SquareRow9Band9 : Coefficient :=
+private def recurrence1B6SquareRow9Band9 : Coefficient :=
   X ^ 81 * (
     (48392505160621566643016791166109097839334368) +
     (21112059091213758703147044666736201467529747854) * X ^ 1 +
@@ -2170,7 +2170,7 @@ def recurrence1B6SquareRow9Band9 : Coefficient :=
     (1205173989685107672662821747378660919238886495392606544764791) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band10 : Coefficient :=
+private def recurrence1B6SquareRow9Band10 : Coefficient :=
   X ^ 90 * (
     (9789225951832180004934950145180601677797967362344714839673078) +
     (-317979216095588542134238320634170416533827098530395103962413425) * X ^ 1 +
@@ -2183,7 +2183,7 @@ def recurrence1B6SquareRow9Band10 : Coefficient :=
     (5969515310148737158724222641122886648143775008169289058015280783597679) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band11 : Coefficient :=
+private def recurrence1B6SquareRow9Band11 : Coefficient :=
   X ^ 99 * (
     (91623535756090480926600647237027951235535315101240177736670613063298248) +
     (-137037306387879351303384505935275885096825236479536593006613969814724363) * X ^ 1 +
@@ -2197,7 +2197,7 @@ def recurrence1B6SquareRow9Band11 : Coefficient :=
       01456110971759729444138677558748112362426048763727794186807826667706329505774)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band12 : Coefficient :=
+private def recurrence1B6SquareRow9Band12 : Coefficient :=
   X ^ 108 * (
     ((4 * 10 ^ 77 +
       54667035883136189854155193689940027438255883790086433252176713978477746347296)) +
@@ -2219,7 +2219,7 @@ def recurrence1B6SquareRow9Band12 : Coefficient :=
       17279395090706315442421634984333547546520862129666813072956151615345403330789)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band13 : Coefficient :=
+private def recurrence1B6SquareRow9Band13 : Coefficient :=
   X ^ 117 * (
     -((2768171 * 10 ^ 77 +
       17763308061722863092377315650821418476794439004895187202137268315159949352788)) +
@@ -2241,7 +2241,7 @@ def recurrence1B6SquareRow9Band13 : Coefficient :=
       51652539938680566715282082872237228364483743538205118579481527032440077964081)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band14 : Coefficient :=
+private def recurrence1B6SquareRow9Band14 : Coefficient :=
   X ^ 126 * (
     -((15581327452 * 10 ^ 77 +
       80607657094581268381811673569465738146726665166862162287028571914202176441873)) +
@@ -2263,7 +2263,7 @@ def recurrence1B6SquareRow9Band14 : Coefficient :=
       21648481520617953811649025861383325875042132426212764548358349233435575969038)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band15 : Coefficient :=
+private def recurrence1B6SquareRow9Band15 : Coefficient :=
   X ^ 135 * (
     -((21099886209362 * 10 ^ 77 +
       82023483526554198690424885152052067464144730277044125838673232266239229164201)) +
@@ -2285,7 +2285,7 @@ def recurrence1B6SquareRow9Band15 : Coefficient :=
       43373378082453034272429548628111048567121113286238417753356585817757103917611)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band16 : Coefficient :=
+private def recurrence1B6SquareRow9Band16 : Coefficient :=
   X ^ 144 * (
     ((36769451176484 * 10 ^ 77 +
       52079203289141498510785551243000203392529823190949701827498182425983223977056)) +
@@ -2307,7 +2307,7 @@ def recurrence1B6SquareRow9Band16 : Coefficient :=
       63325306244375543730621189882879641791598460018739902440659015461919080409067)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band17 : Coefficient :=
+private def recurrence1B6SquareRow9Band17 : Coefficient :=
   X ^ 153 * (
     ((10063792136 * 10 ^ 77 +
       17874602575052089090583056975551469269392210374034771031946487204740838123617)) +
@@ -2329,7 +2329,7 @@ def recurrence1B6SquareRow9Band17 : Coefficient :=
       11908878069511011357616955207185246965896321906680090875271417385588420850270)) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band18 : Coefficient :=
+private def recurrence1B6SquareRow9Band18 : Coefficient :=
   X ^ 162 * (
     ((96429 * 10 ^ 77 +
       60559324620598099935071601290181677298677906404820173994893051288125676349965)) +
@@ -2348,7 +2348,7 @@ def recurrence1B6SquareRow9Band18 : Coefficient :=
     (10013292701644903284965480327410210876148813169685811703724066959769032525) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band19 : Coefficient :=
+private def recurrence1B6SquareRow9Band19 : Coefficient :=
   X ^ 171 * (
     (192816697888835286615188886882261416339322719263823371856613709655758184) +
     (2615226240571485791503813545476838473218132408711222615767217892568444) * X ^ 1 +
@@ -2361,7 +2361,7 @@ def recurrence1B6SquareRow9Band19 : Coefficient :=
     (-12414257002282382700199001834920008617861063705270389) * X ^ 8
   )
 
-def recurrence1B6SquareRow9Band20 : Coefficient :=
+private def recurrence1B6SquareRow9Band20 : Coefficient :=
   X ^ 180 * (
     (-11432096919146598330746345799404501906477895526101) +
     (-3642530254688573309997945677806598582438069726) * X ^ 1 +
@@ -2370,7 +2370,7 @@ def recurrence1B6SquareRow9Band20 : Coefficient :=
     (-1107378815922411149079177229) * X ^ 4
   )
 
-def recurrence1B6SquareRow9 : Coefficient :=
+private def recurrence1B6SquareRow9 : Coefficient :=
   recurrence1B6SquareRow9Band9 +
   recurrence1B6SquareRow9Band10 +
   recurrence1B6SquareRow9Band11 +
@@ -2384,7 +2384,7 @@ def recurrence1B6SquareRow9 : Coefficient :=
   recurrence1B6SquareRow9Band19 +
   recurrence1B6SquareRow9Band20
 
-theorem recurrence1B6SquareRow9_eq :
+private theorem recurrence1B6SquareRow9_eq :
     recurrence1Remainder26Block9 * recurrence1Remainder26 =
       recurrence1B6SquareRow9 := by
   unfold recurrence1Remainder26Block9 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -2398,7 +2398,7 @@ theorem recurrence1B6SquareRow9_eq :
   unfold recurrence1B6SquareRow9Band19 recurrence1B6SquareRow9Band20
   ring
 
-def recurrence1B6SquareRow10Band10 : Coefficient :=
+private def recurrence1B6SquareRow10Band10 : Coefficient :=
   X ^ 90 * (
     (1995237479160625158817623132) +
     (870481056936140461963158692238) * X ^ 1 +
@@ -2411,7 +2411,7 @@ def recurrence1B6SquareRow10Band10 : Coefficient :=
     (49691459503989274839796907882050178882582781) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band11 : Coefficient :=
+private def recurrence1B6SquareRow10Band11 : Coefficient :=
   X ^ 99 * (
     (404226127537205812556363705882784981416649245) +
     (-13104828393021049303873686176666822514994726976) * X ^ 1 +
@@ -2424,7 +2424,7 @@ def recurrence1B6SquareRow10Band11 : Coefficient :=
     (245582108141335135215160869236451018909687023657795970) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band12 : Coefficient :=
+private def recurrence1B6SquareRow10Band12 : Coefficient :=
   X ^ 108 * (
     (3780224506200427391773801371309816075259810463406768082) +
     (-5600772326877082245863701229236088909230494925344887564) * X ^ 1 +
@@ -2437,7 +2437,7 @@ def recurrence1B6SquareRow10Band12 : Coefficient :=
     (8294100110552736643456766341203239684605574697146180805172959) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band13 : Coefficient :=
+private def recurrence1B6SquareRow10Band13 : Coefficient :=
   X ^ 117 * (
     (18839748606900965164431968675729030763716732177400055108322602) +
     (-198715351530110222091423418040887452654137988892480133876586708) * X ^ 1 +
@@ -2450,7 +2450,7 @@ def recurrence1B6SquareRow10Band13 : Coefficient :=
     (-1395939617913151402137823749545236908581671024262116541757619817553) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band14 : Coefficient :=
+private def recurrence1B6SquareRow10Band14 : Coefficient :=
   X ^ 126 * (
     (-11418101734144953931223473287727805508342240723235460786777419410262) +
     (32309987973815684053711355532441170909367043287781903424742882702301) * X ^ 1 +
@@ -2463,7 +2463,7 @@ def recurrence1B6SquareRow10Band14 : Coefficient :=
     (78170318725955327328276487892138964471095542605545786681116828974197394) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band15 : Coefficient :=
+private def recurrence1B6SquareRow10Band15 : Coefficient :=
   X ^ 135 * (
     (-63454710210540838862978071207285344997197471077012762667238210409180991) +
     (-334707170749650774017244378001063701588544165600510299694008508597022667) * X ^ 1 +
@@ -2476,7 +2476,7 @@ def recurrence1B6SquareRow10Band15 : Coefficient :=
     (64927126157396865390344218434929456081727780470453588457072693644630764937) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band16 : Coefficient :=
+private def recurrence1B6SquareRow10Band16 : Coefficient :=
   X ^ 144 * (
     (-86420071430791182329047255121286835561639026702203822109288748174072398254) +
     (21960062908782943934312456873837285066537751481922524966732579085929016303) * X ^ 1 +
@@ -2489,7 +2489,7 @@ def recurrence1B6SquareRow10Band16 : Coefficient :=
     (-290111593949013380115630018832804355411318685353847351987199330742784236517) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band17 : Coefficient :=
+private def recurrence1B6SquareRow10Band17 : Coefficient :=
   X ^ 153 * (
     (151379771496911325722625916319950338736922234574480847570888173350638792457) +
     (-5464521350601199675751420995727511077139942910787336562617387295197244967) * X ^ 1 +
@@ -2502,7 +2502,7 @@ def recurrence1B6SquareRow10Band17 : Coefficient :=
     (848817987483194985000863636448638948220351865681927210837103227980123991) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band18 : Coefficient :=
+private def recurrence1B6SquareRow10Band18 : Coefficient :=
   X ^ 162 * (
     (20784644057963693481985653208811493559277694897446132430391617885818340) +
     (-102969454757284478787512384532022489366032052048708063990142641918297273) * X ^ 1 +
@@ -2515,7 +2515,7 @@ def recurrence1B6SquareRow10Band18 : Coefficient :=
     (398784747642399609073956823128407841252596820732091063064701324173) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band19 : Coefficient :=
+private def recurrence1B6SquareRow10Band19 : Coefficient :=
   X ^ 171 * (
     (263851714676524952660877857032859594676020341179984574611317235840) +
     (-2078575468726229614738000407013702480520264223479632135264050589) * X ^ 1 +
@@ -2528,7 +2528,7 @@ def recurrence1B6SquareRow10Band19 : Coefficient :=
     (-12414257002282382700199001834920008617861063705270389) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band20 : Coefficient :=
+private def recurrence1B6SquareRow10Band20 : Coefficient :=
   X ^ 180 * (
     (-591731055649429984199987493103607903187321350417) +
     (43961161710649893402604692163593283051462032934) * X ^ 1 +
@@ -2541,13 +2541,13 @@ def recurrence1B6SquareRow10Band20 : Coefficient :=
     (396784197563474483) * X ^ 8
   )
 
-def recurrence1B6SquareRow10Band21 : Coefficient :=
+private def recurrence1B6SquareRow10Band21 : Coefficient :=
   X ^ 189 * (
     (1259182850) +
     (1) * X ^ 1
   )
 
-def recurrence1B6SquareRow10 : Coefficient :=
+private def recurrence1B6SquareRow10 : Coefficient :=
   recurrence1B6SquareRow10Band10 +
   recurrence1B6SquareRow10Band11 +
   recurrence1B6SquareRow10Band12 +
@@ -2561,7 +2561,7 @@ def recurrence1B6SquareRow10 : Coefficient :=
   recurrence1B6SquareRow10Band20 +
   recurrence1B6SquareRow10Band21
 
-theorem recurrence1B6SquareRow10_eq :
+private theorem recurrence1B6SquareRow10_eq :
     recurrence1Remainder26Block10 * recurrence1Remainder26 =
       recurrence1B6SquareRow10 := by
   unfold recurrence1Remainder26Block10 recurrence1Remainder26 recurrence1Remainder26Block0
@@ -2577,62 +2577,62 @@ theorem recurrence1B6SquareRow10_eq :
   unfold recurrence1B6SquareRow10Band21
   ring
 
-def recurrence1B6SquareBand0 : Coefficient :=
+private def recurrence1B6SquareBand0 : Coefficient :=
   recurrence1B6SquareRow0Band0
 
-theorem recurrence1B6SquareBand0_eq :
+private theorem recurrence1B6SquareBand0_eq :
     recurrence1B6SquareBand0 = recurrence1B6SquareBlock0 := by
   unfold recurrence1B6SquareBand0 recurrence1B6SquareRow0Band0 recurrence1B6SquareBlock0
   ring
 
-def recurrence1B6SquareBand1 : Coefficient :=
+private def recurrence1B6SquareBand1 : Coefficient :=
   recurrence1B6SquareRow0Band1 +
   recurrence1B6SquareRow1Band1
 
-theorem recurrence1B6SquareBand1_eq :
+private theorem recurrence1B6SquareBand1_eq :
     recurrence1B6SquareBand1 = recurrence1B6SquareBlock1 := by
   unfold recurrence1B6SquareBand1 recurrence1B6SquareRow0Band1 recurrence1B6SquareRow1Band1
   unfold recurrence1B6SquareBlock1
   ring
 
-def recurrence1B6SquareBand2 : Coefficient :=
+private def recurrence1B6SquareBand2 : Coefficient :=
   recurrence1B6SquareRow0Band2 +
   recurrence1B6SquareRow1Band2 +
   recurrence1B6SquareRow2Band2
 
-theorem recurrence1B6SquareBand2_eq :
+private theorem recurrence1B6SquareBand2_eq :
     recurrence1B6SquareBand2 = recurrence1B6SquareBlock2 := by
   unfold recurrence1B6SquareBand2 recurrence1B6SquareRow0Band2 recurrence1B6SquareRow1Band2
   unfold recurrence1B6SquareRow2Band2 recurrence1B6SquareBlock2
   ring
 
-def recurrence1B6SquareBand3 : Coefficient :=
+private def recurrence1B6SquareBand3 : Coefficient :=
   recurrence1B6SquareRow0Band3 +
   recurrence1B6SquareRow1Band3 +
   recurrence1B6SquareRow2Band3 +
   recurrence1B6SquareRow3Band3
 
-theorem recurrence1B6SquareBand3_eq :
+private theorem recurrence1B6SquareBand3_eq :
     recurrence1B6SquareBand3 = recurrence1B6SquareBlock3 := by
   unfold recurrence1B6SquareBand3 recurrence1B6SquareRow0Band3 recurrence1B6SquareRow1Band3
   unfold recurrence1B6SquareRow2Band3 recurrence1B6SquareRow3Band3 recurrence1B6SquareBlock3
   ring
 
-def recurrence1B6SquareBand4 : Coefficient :=
+private def recurrence1B6SquareBand4 : Coefficient :=
   recurrence1B6SquareRow0Band4 +
   recurrence1B6SquareRow1Band4 +
   recurrence1B6SquareRow2Band4 +
   recurrence1B6SquareRow3Band4 +
   recurrence1B6SquareRow4Band4
 
-theorem recurrence1B6SquareBand4_eq :
+private theorem recurrence1B6SquareBand4_eq :
     recurrence1B6SquareBand4 = recurrence1B6SquareBlock4 := by
   unfold recurrence1B6SquareBand4 recurrence1B6SquareRow0Band4 recurrence1B6SquareRow1Band4
   unfold recurrence1B6SquareRow2Band4 recurrence1B6SquareRow3Band4 recurrence1B6SquareRow4Band4
   unfold recurrence1B6SquareBlock4
   ring
 
-def recurrence1B6SquareBand5 : Coefficient :=
+private def recurrence1B6SquareBand5 : Coefficient :=
   recurrence1B6SquareRow0Band5 +
   recurrence1B6SquareRow1Band5 +
   recurrence1B6SquareRow2Band5 +
@@ -2640,14 +2640,14 @@ def recurrence1B6SquareBand5 : Coefficient :=
   recurrence1B6SquareRow4Band5 +
   recurrence1B6SquareRow5Band5
 
-theorem recurrence1B6SquareBand5_eq :
+private theorem recurrence1B6SquareBand5_eq :
     recurrence1B6SquareBand5 = recurrence1B6SquareBlock5 := by
   unfold recurrence1B6SquareBand5 recurrence1B6SquareRow0Band5 recurrence1B6SquareRow1Band5
   unfold recurrence1B6SquareRow2Band5 recurrence1B6SquareRow3Band5 recurrence1B6SquareRow4Band5
   unfold recurrence1B6SquareRow5Band5 recurrence1B6SquareBlock5
   ring
 
-def recurrence1B6SquareBand6 : Coefficient :=
+private def recurrence1B6SquareBand6 : Coefficient :=
   recurrence1B6SquareRow0Band6 +
   recurrence1B6SquareRow1Band6 +
   recurrence1B6SquareRow2Band6 +
@@ -2656,14 +2656,14 @@ def recurrence1B6SquareBand6 : Coefficient :=
   recurrence1B6SquareRow5Band6 +
   recurrence1B6SquareRow6Band6
 
-theorem recurrence1B6SquareBand6_eq :
+private theorem recurrence1B6SquareBand6_eq :
     recurrence1B6SquareBand6 = recurrence1B6SquareBlock6 := by
   unfold recurrence1B6SquareBand6 recurrence1B6SquareRow0Band6 recurrence1B6SquareRow1Band6
   unfold recurrence1B6SquareRow2Band6 recurrence1B6SquareRow3Band6 recurrence1B6SquareRow4Band6
   unfold recurrence1B6SquareRow5Band6 recurrence1B6SquareRow6Band6 recurrence1B6SquareBlock6
   ring
 
-def recurrence1B6SquareBand7 : Coefficient :=
+private def recurrence1B6SquareBand7 : Coefficient :=
   recurrence1B6SquareRow0Band7 +
   recurrence1B6SquareRow1Band7 +
   recurrence1B6SquareRow2Band7 +
@@ -2673,7 +2673,7 @@ def recurrence1B6SquareBand7 : Coefficient :=
   recurrence1B6SquareRow6Band7 +
   recurrence1B6SquareRow7Band7
 
-theorem recurrence1B6SquareBand7_eq :
+private theorem recurrence1B6SquareBand7_eq :
     recurrence1B6SquareBand7 = recurrence1B6SquareBlock7 := by
   unfold recurrence1B6SquareBand7 recurrence1B6SquareRow0Band7 recurrence1B6SquareRow1Band7
   unfold recurrence1B6SquareRow2Band7 recurrence1B6SquareRow3Band7 recurrence1B6SquareRow4Band7
@@ -2681,7 +2681,7 @@ theorem recurrence1B6SquareBand7_eq :
   unfold recurrence1B6SquareBlock7
   ring
 
-def recurrence1B6SquareBand8 : Coefficient :=
+private def recurrence1B6SquareBand8 : Coefficient :=
   recurrence1B6SquareRow0Band8 +
   recurrence1B6SquareRow1Band8 +
   recurrence1B6SquareRow2Band8 +
@@ -2692,7 +2692,7 @@ def recurrence1B6SquareBand8 : Coefficient :=
   recurrence1B6SquareRow7Band8 +
   recurrence1B6SquareRow8Band8
 
-theorem recurrence1B6SquareBand8_eq :
+private theorem recurrence1B6SquareBand8_eq :
     recurrence1B6SquareBand8 = recurrence1B6SquareBlock8 := by
   unfold recurrence1B6SquareBand8 recurrence1B6SquareRow0Band8 recurrence1B6SquareRow1Band8
   unfold recurrence1B6SquareRow2Band8 recurrence1B6SquareRow3Band8 recurrence1B6SquareRow4Band8
@@ -2700,7 +2700,7 @@ theorem recurrence1B6SquareBand8_eq :
   unfold recurrence1B6SquareRow8Band8 recurrence1B6SquareBlock8
   ring
 
-def recurrence1B6SquareBand9 : Coefficient :=
+private def recurrence1B6SquareBand9 : Coefficient :=
   recurrence1B6SquareRow0Band9 +
   recurrence1B6SquareRow1Band9 +
   recurrence1B6SquareRow2Band9 +
@@ -2712,7 +2712,7 @@ def recurrence1B6SquareBand9 : Coefficient :=
   recurrence1B6SquareRow8Band9 +
   recurrence1B6SquareRow9Band9
 
-theorem recurrence1B6SquareBand9_eq :
+private theorem recurrence1B6SquareBand9_eq :
     recurrence1B6SquareBand9 = recurrence1B6SquareBlock9 := by
   unfold recurrence1B6SquareBand9 recurrence1B6SquareRow0Band9 recurrence1B6SquareRow1Band9
   unfold recurrence1B6SquareRow2Band9 recurrence1B6SquareRow3Band9 recurrence1B6SquareRow4Band9
@@ -2720,7 +2720,7 @@ theorem recurrence1B6SquareBand9_eq :
   unfold recurrence1B6SquareRow8Band9 recurrence1B6SquareRow9Band9 recurrence1B6SquareBlock9
   ring
 
-def recurrence1B6SquareBand10 : Coefficient :=
+private def recurrence1B6SquareBand10 : Coefficient :=
   recurrence1B6SquareRow0Band10 +
   recurrence1B6SquareRow1Band10 +
   recurrence1B6SquareRow2Band10 +
@@ -2733,7 +2733,7 @@ def recurrence1B6SquareBand10 : Coefficient :=
   recurrence1B6SquareRow9Band10 +
   recurrence1B6SquareRow10Band10
 
-theorem recurrence1B6SquareBand10_eq :
+private theorem recurrence1B6SquareBand10_eq :
     recurrence1B6SquareBand10 = recurrence1B6SquareBlock10 := by
   unfold recurrence1B6SquareBand10 recurrence1B6SquareRow0Band10 recurrence1B6SquareRow1Band10
   unfold recurrence1B6SquareRow2Band10 recurrence1B6SquareRow3Band10 recurrence1B6SquareRow4Band10
@@ -2742,7 +2742,7 @@ theorem recurrence1B6SquareBand10_eq :
   unfold recurrence1B6SquareBlock10
   ring
 
-def recurrence1B6SquareBand11 : Coefficient :=
+private def recurrence1B6SquareBand11 : Coefficient :=
   recurrence1B6SquareRow0Band11 +
   recurrence1B6SquareRow1Band11 +
   recurrence1B6SquareRow2Band11 +
@@ -2755,7 +2755,7 @@ def recurrence1B6SquareBand11 : Coefficient :=
   recurrence1B6SquareRow9Band11 +
   recurrence1B6SquareRow10Band11
 
-theorem recurrence1B6SquareBand11_eq :
+private theorem recurrence1B6SquareBand11_eq :
     recurrence1B6SquareBand11 = recurrence1B6SquareBlock11 := by
   unfold recurrence1B6SquareBand11 recurrence1B6SquareRow0Band11 recurrence1B6SquareRow1Band11
   unfold recurrence1B6SquareRow2Band11 recurrence1B6SquareRow3Band11 recurrence1B6SquareRow4Band11
@@ -2764,7 +2764,7 @@ theorem recurrence1B6SquareBand11_eq :
   unfold recurrence1B6SquareBlock11
   ring
 
-def recurrence1B6SquareBand12 : Coefficient :=
+private def recurrence1B6SquareBand12 : Coefficient :=
   recurrence1B6SquareRow1Band12 +
   recurrence1B6SquareRow2Band12 +
   recurrence1B6SquareRow3Band12 +
@@ -2776,7 +2776,7 @@ def recurrence1B6SquareBand12 : Coefficient :=
   recurrence1B6SquareRow9Band12 +
   recurrence1B6SquareRow10Band12
 
-theorem recurrence1B6SquareBand12_eq :
+private theorem recurrence1B6SquareBand12_eq :
     recurrence1B6SquareBand12 = recurrence1B6SquareBlock12 := by
   unfold recurrence1B6SquareBand12 recurrence1B6SquareRow1Band12 recurrence1B6SquareRow2Band12
   unfold recurrence1B6SquareRow3Band12 recurrence1B6SquareRow4Band12 recurrence1B6SquareRow5Band12
@@ -2784,7 +2784,7 @@ theorem recurrence1B6SquareBand12_eq :
   unfold recurrence1B6SquareRow9Band12 recurrence1B6SquareRow10Band12 recurrence1B6SquareBlock12
   ring
 
-def recurrence1B6SquareBand13 : Coefficient :=
+private def recurrence1B6SquareBand13 : Coefficient :=
   recurrence1B6SquareRow2Band13 +
   recurrence1B6SquareRow3Band13 +
   recurrence1B6SquareRow4Band13 +
@@ -2795,7 +2795,7 @@ def recurrence1B6SquareBand13 : Coefficient :=
   recurrence1B6SquareRow9Band13 +
   recurrence1B6SquareRow10Band13
 
-theorem recurrence1B6SquareBand13_eq :
+private theorem recurrence1B6SquareBand13_eq :
     recurrence1B6SquareBand13 = recurrence1B6SquareBlock13 := by
   unfold recurrence1B6SquareBand13 recurrence1B6SquareRow2Band13 recurrence1B6SquareRow3Band13
   unfold recurrence1B6SquareRow4Band13 recurrence1B6SquareRow5Band13 recurrence1B6SquareRow6Band13
@@ -2803,7 +2803,7 @@ theorem recurrence1B6SquareBand13_eq :
   unfold recurrence1B6SquareRow10Band13 recurrence1B6SquareBlock13
   ring
 
-def recurrence1B6SquareBand14 : Coefficient :=
+private def recurrence1B6SquareBand14 : Coefficient :=
   recurrence1B6SquareRow3Band14 +
   recurrence1B6SquareRow4Band14 +
   recurrence1B6SquareRow5Band14 +
@@ -2813,7 +2813,7 @@ def recurrence1B6SquareBand14 : Coefficient :=
   recurrence1B6SquareRow9Band14 +
   recurrence1B6SquareRow10Band14
 
-theorem recurrence1B6SquareBand14_eq :
+private theorem recurrence1B6SquareBand14_eq :
     recurrence1B6SquareBand14 = recurrence1B6SquareBlock14 := by
   unfold recurrence1B6SquareBand14 recurrence1B6SquareRow3Band14 recurrence1B6SquareRow4Band14
   unfold recurrence1B6SquareRow5Band14 recurrence1B6SquareRow6Band14 recurrence1B6SquareRow7Band14
@@ -2821,7 +2821,7 @@ theorem recurrence1B6SquareBand14_eq :
   unfold recurrence1B6SquareBlock14
   ring
 
-def recurrence1B6SquareBand15 : Coefficient :=
+private def recurrence1B6SquareBand15 : Coefficient :=
   recurrence1B6SquareRow4Band15 +
   recurrence1B6SquareRow5Band15 +
   recurrence1B6SquareRow6Band15 +
@@ -2830,14 +2830,14 @@ def recurrence1B6SquareBand15 : Coefficient :=
   recurrence1B6SquareRow9Band15 +
   recurrence1B6SquareRow10Band15
 
-theorem recurrence1B6SquareBand15_eq :
+private theorem recurrence1B6SquareBand15_eq :
     recurrence1B6SquareBand15 = recurrence1B6SquareBlock15 := by
   unfold recurrence1B6SquareBand15 recurrence1B6SquareRow4Band15 recurrence1B6SquareRow5Band15
   unfold recurrence1B6SquareRow6Band15 recurrence1B6SquareRow7Band15 recurrence1B6SquareRow8Band15
   unfold recurrence1B6SquareRow9Band15 recurrence1B6SquareRow10Band15 recurrence1B6SquareBlock15
   ring
 
-def recurrence1B6SquareBand16 : Coefficient :=
+private def recurrence1B6SquareBand16 : Coefficient :=
   recurrence1B6SquareRow5Band16 +
   recurrence1B6SquareRow6Band16 +
   recurrence1B6SquareRow7Band16 +
@@ -2845,69 +2845,69 @@ def recurrence1B6SquareBand16 : Coefficient :=
   recurrence1B6SquareRow9Band16 +
   recurrence1B6SquareRow10Band16
 
-theorem recurrence1B6SquareBand16_eq :
+private theorem recurrence1B6SquareBand16_eq :
     recurrence1B6SquareBand16 = recurrence1B6SquareBlock16 := by
   unfold recurrence1B6SquareBand16 recurrence1B6SquareRow5Band16 recurrence1B6SquareRow6Band16
   unfold recurrence1B6SquareRow7Band16 recurrence1B6SquareRow8Band16 recurrence1B6SquareRow9Band16
   unfold recurrence1B6SquareRow10Band16 recurrence1B6SquareBlock16
   ring
 
-def recurrence1B6SquareBand17 : Coefficient :=
+private def recurrence1B6SquareBand17 : Coefficient :=
   recurrence1B6SquareRow6Band17 +
   recurrence1B6SquareRow7Band17 +
   recurrence1B6SquareRow8Band17 +
   recurrence1B6SquareRow9Band17 +
   recurrence1B6SquareRow10Band17
 
-theorem recurrence1B6SquareBand17_eq :
+private theorem recurrence1B6SquareBand17_eq :
     recurrence1B6SquareBand17 = recurrence1B6SquareBlock17 := by
   unfold recurrence1B6SquareBand17 recurrence1B6SquareRow6Band17 recurrence1B6SquareRow7Band17
   unfold recurrence1B6SquareRow8Band17 recurrence1B6SquareRow9Band17 recurrence1B6SquareRow10Band17
   unfold recurrence1B6SquareBlock17
   ring
 
-def recurrence1B6SquareBand18 : Coefficient :=
+private def recurrence1B6SquareBand18 : Coefficient :=
   recurrence1B6SquareRow7Band18 +
   recurrence1B6SquareRow8Band18 +
   recurrence1B6SquareRow9Band18 +
   recurrence1B6SquareRow10Band18
 
-theorem recurrence1B6SquareBand18_eq :
+private theorem recurrence1B6SquareBand18_eq :
     recurrence1B6SquareBand18 = recurrence1B6SquareBlock18 := by
   unfold recurrence1B6SquareBand18 recurrence1B6SquareRow7Band18 recurrence1B6SquareRow8Band18
   unfold recurrence1B6SquareRow9Band18 recurrence1B6SquareRow10Band18 recurrence1B6SquareBlock18
   ring
 
-def recurrence1B6SquareBand19 : Coefficient :=
+private def recurrence1B6SquareBand19 : Coefficient :=
   recurrence1B6SquareRow8Band19 +
   recurrence1B6SquareRow9Band19 +
   recurrence1B6SquareRow10Band19
 
-theorem recurrence1B6SquareBand19_eq :
+private theorem recurrence1B6SquareBand19_eq :
     recurrence1B6SquareBand19 = recurrence1B6SquareBlock19 := by
   unfold recurrence1B6SquareBand19 recurrence1B6SquareRow8Band19 recurrence1B6SquareRow9Band19
   unfold recurrence1B6SquareRow10Band19 recurrence1B6SquareBlock19
   ring
 
-def recurrence1B6SquareBand20 : Coefficient :=
+private def recurrence1B6SquareBand20 : Coefficient :=
   recurrence1B6SquareRow9Band20 +
   recurrence1B6SquareRow10Band20
 
-theorem recurrence1B6SquareBand20_eq :
+private theorem recurrence1B6SquareBand20_eq :
     recurrence1B6SquareBand20 = recurrence1B6SquareBlock20 := by
   unfold recurrence1B6SquareBand20 recurrence1B6SquareRow9Band20 recurrence1B6SquareRow10Band20
   unfold recurrence1B6SquareBlock20
   ring
 
-def recurrence1B6SquareBand21 : Coefficient :=
+private def recurrence1B6SquareBand21 : Coefficient :=
   recurrence1B6SquareRow10Band21
 
-theorem recurrence1B6SquareBand21_eq :
+private theorem recurrence1B6SquareBand21_eq :
     recurrence1B6SquareBand21 = recurrence1B6SquareBlock21 := by
   unfold recurrence1B6SquareBand21 recurrence1B6SquareRow10Band21 recurrence1B6SquareBlock21
   ring
 
-def recurrence1B6SquareRows : Coefficient :=
+private def recurrence1B6SquareRows : Coefficient :=
   recurrence1B6SquareRow0 +
   recurrence1B6SquareRow1 +
   recurrence1B6SquareRow2 +
@@ -2920,7 +2920,7 @@ def recurrence1B6SquareRows : Coefficient :=
   recurrence1B6SquareRow9 +
   recurrence1B6SquareRow10
 
-def recurrence1B6SquareBands : Coefficient :=
+private def recurrence1B6SquareBands : Coefficient :=
   recurrence1B6SquareBand0 +
   recurrence1B6SquareBand1 +
   recurrence1B6SquareBand2 +

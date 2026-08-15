@@ -8,6 +8,7 @@ import type {
   ProgrammeArtifact,
   ProgrammeNode,
   ProgrammeStage,
+  WorkPackage,
 } from "./programme-types";
 
 const GITHUB = "https://github.com/Vilin97/MazurTheorem";
@@ -29,6 +30,7 @@ function statusTone(status: string) {
   if (value.includes("progress") || value.includes("active")) return "active";
   if (value.includes("open") || value.includes("claim")) return "open";
   if (value.includes("block")) return "blocked";
+  if (value.includes("pause")) return "paused";
   return "planned";
 }
 
@@ -39,8 +41,9 @@ function riskTone(risk: string) {
   return "low";
 }
 
-function percentage(value: number) {
-  return `${Math.max(0, Math.min(100, Math.round(value)))}%`;
+function percentage(value: number, fractionDigits = 0) {
+  const bounded = Math.max(0, Math.min(100, value));
+  return `${bounded.toFixed(fractionDigits).replace(/\.0+$/, "")}%`;
 }
 
 function graphStageTitle(value: string) {
@@ -226,6 +229,26 @@ function ExternalReuseList({ entries }: { entries: ExternalReuse[] }) {
   );
 }
 
+function WorkPackageList({ packages }: { packages: WorkPackage[] }) {
+  return (
+    <ol className="work-package-list">
+      {packages.map((workPackage) => (
+        <li key={workPackage.id}>
+          <div className="work-package-heading">
+            <span className={`status status-${statusTone(workPackage.status)}`}>
+              {words(workPackage.status)}
+            </span>
+            <span>{workPackage.weight_points} allocated pts</span>
+          </div>
+          <code>{workPackage.id}</code>
+          <strong>{workPackage.title}</strong>
+          <p>{workPackage.exit_criterion}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function NodeDetail({
   node,
   stage,
@@ -280,6 +303,12 @@ function NodeDetail({
         <h4>Definitions, theorems, and API surface</h4>
         <ArtifactList artifacts={nodeArtifacts(node)} />
       </div>
+      {node.work_packages && node.work_packages.length > 0 && (
+        <div className="node-detail-work-packages">
+          <h4>Planning packages · no independent progress credit</h4>
+          <WorkPackageList packages={node.work_packages} />
+        </div>
+      )}
       {node.external_reuse && node.external_reuse.length > 0 && (
         <section
           className="external-reuse"
@@ -424,6 +453,9 @@ function DependencyGraph({
           </span>
           <span>
             <i className="legend-planned" /> Planned or blocked
+          </span>
+          <span>
+            <i className="legend-paused" /> Paused
           </span>
         </div>
       </div>
@@ -605,6 +637,15 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
     () => new Map(programme.nodes.map((node) => [node.id, node])),
     [programme.nodes],
   );
+  const workPackageLookup = useMemo(() => {
+    const entries = programme.nodes.flatMap((node) =>
+      (node.work_packages ?? []).map((workPackage) => [
+        workPackage.id,
+        { node, workPackage },
+      ] as const),
+    );
+    return new Map(entries);
+  }, [programme.nodes]);
   const statuses = useMemo(
     () => unique(challengeNodes.map((node) => node.status)),
     [challengeNodes],
@@ -660,43 +701,31 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
     [backendFilter, challengeNodes, riskFilter, statusFilter],
   );
 
-  const frontierNodes = useMemo(
+  const frontierItems = useMemo(
     () =>
-      programme.nodes
-        .filter(
-          (node) => !node.challenge && node.completion.credit_percent < 100,
-        )
-        .sort((left, right) => {
-          const riskOrder = { high: 3, medium: 2, low: 1 };
-          const leftRisk =
-            riskOrder[riskTone(left.risk) as keyof typeof riskOrder] ?? 0;
-          const rightRisk =
-            riskOrder[riskTone(right.risk) as keyof typeof riskOrder] ?? 0;
-          return (
-            rightRisk - leftRisk || right.weight_points - left.weight_points
-          );
-        })
-        .slice(0, 6),
-    [programme.nodes],
+      programme.execution.active_lanes.flatMap((lane) => {
+        const entry = workPackageLookup.get(lane.current_work_package);
+        return entry ? [{ lane, ...entry }] : [];
+      }),
+    [programme.execution.active_lanes, workPackageLookup],
+  );
+  const pausedNodes = useMemo(
+    () =>
+      programme.execution.paused_node_ids.flatMap((id) => {
+        const node = nodeLookup.get(id);
+        return node ? [node] : [];
+      }),
+    [nodeLookup, programme.execution.paused_node_ids],
   );
 
-  const openChallengeCount = challengeNodes.filter((node) =>
-    node.status.toLowerCase().includes("open"),
-  ).length;
   const ordinaryChallengeCount = challengeNodes.filter(
     (node) => node.status === "open",
   ).length;
   const researchChallengeCount = challengeNodes.filter(
     (node) => node.status === "research_open",
   ).length;
-  const integratedLines =
-    typeof programme.baseline.integrated_lean_lines === "number"
-      ? programme.baseline.integrated_lean_lines
-      : 83_962;
-  const integratedModules =
-    typeof programme.baseline.integrated_lean_modules === "number"
-      ? programme.baseline.integrated_lean_modules
-      : 168;
+  const integratedLines = programme.baseline.integrated_lean_lines;
+  const integratedModules = programme.baseline.integrated_lean_modules;
 
   return (
     <div className="site-shell">
@@ -715,6 +744,7 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
           </span>
         </a>
         <nav className="primary-nav" aria-label="Primary navigation">
+          <a href="#strategy">Strategy</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#dependency-graph">Graph</a>
           <a href="#challenges">Challenges</a>
@@ -730,18 +760,19 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
           <div className="hero-copy">
             <p className="eyebrow">Open, kernel-checked mathematics · Lean 4</p>
             <h1>
-              Mazur’s theorem,
-              <span> one verified dependency at a time.</span>
+              Mazur’s classification,
+              <span> built on canonical objects.</span>
             </h1>
             <p className="hero-deck">
-              A public programme for the exact Lean Pool target: the rational
-              torsion set of an elliptic curve over ℚ has ncard at most 16. The
-              hard part is not hidden: every theorem, interface, dependency, and
-              integration boundary is on the board.
+              A public programme for the full fifteen-group classification of
+              rational elliptic-curve torsion. The Lean Pool cardinality
+              challenge remains a release endpoint; the roadmap also makes
+              finiteness, group structure, and every canonical construction
+              explicit.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#challenges">
-                Find a challenge
+              <a className="button button-primary" href="#strategy">
+                See the strategy
                 <span aria-hidden="true">↓</span>
               </a>
               <a
@@ -762,10 +793,10 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                 <dd>{integratedModules}</dd>
               </div>
               <div>
-                <dt>Open contracts</dt>
+                <dt>Active lanes</dt>
                 <dd>
-                  {openChallengeCount} boundaries ·{" "}
-                  {programme.progress.claimable_open_points} pts
+                  {programme.execution.active_lanes.length} lanes · WIP ≤{" "}
+                  {programme.execution.work_in_progress_limit}
                 </dd>
               </div>
             </dl>
@@ -786,7 +817,7 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                 }
                 aria-hidden="true"
               >
-                <span>{percentage(programme.progress.percent)}</span>
+                <span>{percentage(programme.progress.percent, 1)}</span>
               </span>
               <div>
                 <strong>Integrated</strong>
@@ -831,10 +862,96 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
         <section className="thesis-strip" aria-label="Programme principle">
           <p>
             <span>Programme principle</span>
-            Progress is earned by use, not by volume: a definition reaches 100%
-            only when its proof is checked, its API is accepted, and a
-            downstream theorem consumes it.
+            Construct the real object before scaling proof volume: progress is
+            earned only when a reviewed API is consumed downstream.
           </p>
+        </section>
+
+        <section className="section strategy-section" id="strategy">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Execution revision · 2026-08-14</p>
+              <h2>
+                One theorem spine. Only startable foundation lanes are active.
+              </h2>
+            </div>
+            <p>{programme.execution.revision.summary}</p>
+          </div>
+
+          <div className="release-boundaries">
+            <article className="release-card release-card-primary">
+              <div className="card-topline">
+                <span>Canonical theorem</span>
+                <span>Full classification</span>
+              </div>
+              <h3>{programme.execution.canonical_target.name}</h3>
+              <p>{programme.execution.canonical_target.meaning}</p>
+              <pre>
+                <code>{programme.execution.canonical_target.signature}</code>
+              </pre>
+            </article>
+            <article className="release-card">
+              <div className="card-topline">
+                <span>Release endpoint</span>
+                <span>Immutable challenge</span>
+              </div>
+              <h3>{programme.execution.challenge_corollary.name}</h3>
+              <p>{programme.execution.challenge_corollary.note}</p>
+              <pre>
+                <code>{programme.execution.challenge_corollary.signature}</code>
+              </pre>
+            </article>
+          </div>
+
+          <div className="route-seam">
+            <div>
+              <span>Public proof boundary</span>
+              <code>{programme.execution.proof_route.public_boundary}</code>
+            </div>
+            <span aria-hidden="true">← constructed by ←</span>
+            <div>
+              <span>Private Eisenstein constructor</span>
+              <code>{programme.execution.proof_route.private_constructor}</code>
+            </div>
+          </div>
+          <p className="route-decision">
+            {programme.execution.proof_route.decision}
+          </p>
+
+          <div className="lane-grid">
+            {programme.execution.active_lanes.map((lane, index) => {
+              const current = workPackageLookup.get(lane.current_work_package);
+              return (
+                <article className="lane-card" key={lane.id}>
+                  <div className="lane-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <p className="node-id">{lane.id}</p>
+                  <h3>{lane.title}</h3>
+                  {current && (
+                    <div className="current-package">
+                      <span>Current package</span>
+                      <button
+                        type="button"
+                        onClick={() => selectNode(current.node.id)}
+                      >
+                        <code>{current.workPackage.id}</code>
+                        <strong>{current.workPackage.title}</strong>
+                      </button>
+                    </div>
+                  )}
+                  <p>{lane.exit_criterion}</p>
+                  <div className="lane-node-list">
+                    {lane.node_ids.map((id) => (
+                      <button key={id} type="button" onClick={() => selectNode(id)}>
+                        {id}
+                      </button>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </section>
 
         <section className="section roadmap-section" id="roadmap">
@@ -1043,57 +1160,46 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
         <section className="section frontier-section" id="frontier">
           <div className="section-heading compact-heading">
             <div>
-              <p className="eyebrow">Critical dependency frontier</p>
-              <h2>The shared infrastructure that gates Mazur’s argument.</h2>
+              <p className="eyebrow">Current work-package frontier</p>
+              <h2>Three packages, each tied to a real consumer.</h2>
             </div>
             <p>
-              These are coordination problems, not isolated bounties. Their
-              interfaces should be owned centrally while proofs and vertical
-              slices are distributed.
+              Nested packages make large nodes navigable, but they do not
+              create extra progress credit. The parent node still closes only
+              when its reviewed API reaches the stated downstream boundary.
             </p>
           </div>
 
           <div className="frontier-grid">
-            {frontierNodes.map((node) => (
-              <article className="frontier-card" key={node.id}>
+            {frontierItems.map(({ lane, node, workPackage }) => (
+              <article className="frontier-card" key={workPackage.id}>
                 <div className="card-topline">
-                  <span className={`risk risk-${riskTone(node.risk)}`}>
-                    {words(node.risk)} risk
+                  <span className="status status-active">
+                    Current package
                   </span>
-                  <span>{node.weight_points} pts</span>
+                  <span>{workPackage.weight_points} allocated pts</span>
                 </div>
-                <p className="node-id">{node.id}</p>
-                <h3>{node.title}</h3>
-                <p>{node.summary}</p>
+                <p className="node-id">{workPackage.id}</p>
+                <h3>{workPackage.title}</h3>
+                <p>{workPackage.exit_criterion}</p>
                 <div className="backend-row">
                   {backends(node).map((backend) => (
                     <span className="backend" key={backend}>
                       {words(backend)}
                     </span>
                   ))}
+                  <button type="button" onClick={() => selectNode(node.id)}>
+                    Open {node.id}
+                  </button>
                 </div>
                 <dl className="dependency-list">
                   <div>
-                    <dt>Needs</dt>
-                    <dd>
-                      <DependencyTags
-                        ids={node.depends_on}
-                        lookup={nodeLookup}
-                        empty="foundation node"
-                        onSelect={selectNode}
-                      />
-                    </dd>
+                    <dt>Lane</dt>
+                    <dd>{lane.title}</dd>
                   </div>
                   <div>
-                    <dt>Unlocks</dt>
-                    <dd>
-                      <DependencyTags
-                        ids={node.unlocks}
-                        lookup={nodeLookup}
-                        empty="integration"
-                        onSelect={selectNode}
-                      />
-                    </dd>
+                    <dt>Parent node</dt>
+                    <dd>{node.title}</dd>
                   </div>
                 </dl>
               </article>
@@ -1112,7 +1218,9 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
               {ordinaryChallengeCount} ordinary claims worth{" "}
               {programme.progress.ordinary_claimable_points} points and{" "}
               {researchChallengeCount} nonexclusive research intentions worth{" "}
-              {programme.progress.research_open_points} points.
+              {programme.progress.research_open_points} points. Paused
+              contracts are preserved in a separate section and cannot be
+              claimed.
             </p>
           </div>
 
@@ -1317,6 +1425,32 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
           )}
         </section>
 
+        <section className="section paused-section" id="paused">
+          <div className="section-heading compact-heading">
+            <div>
+              <p className="eyebrow">Deliberately paused</p>
+              <h2>Contracts preserved; speculative proof volume stopped.</h2>
+            </div>
+            <p>{programme.execution.paused_policy}</p>
+          </div>
+          <div className="paused-grid">
+            {pausedNodes.map((node) => (
+              <article className="paused-card" key={node.id}>
+                <div className="card-topline">
+                  <span className="status status-paused">Paused</span>
+                  <span>{node.weight_points} pts retained</span>
+                </div>
+                <p className="node-id">{node.id}</p>
+                <h3>{node.title}</h3>
+                <p>{node.summary}</p>
+                <button type="button" onClick={() => selectNode(node.id)}>
+                  Inspect preserved boundary <span aria-hidden="true">→</span>
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="section method-section" id="methodology">
           <div className="method-panel">
             <div>
@@ -1369,7 +1503,7 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
             </div>
             <div>
               <h3>
-                What {percentage(programme.progress.percent)} does—and does
+                What {percentage(programme.progress.percent, 1)} does—and does
                 not—mean
               </h3>
               <p>
@@ -1385,6 +1519,12 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                 and other audited repositories, but it earns integrated credit
                 only after porting and consumer tests. Percentages will move as
                 interfaces reveal the real work.
+              </p>
+              <p>
+                Work-package allocations only divide a stable parent node into
+                reviewable steps. They never add to the denominator and never
+                earn credit independently. Paused contracts keep their weight
+                and statement while remaining unavailable for claims.
               </p>
               <div className="source-links">
                 <a href={`${GITHUB}/blob/main/coordination/program.json`}>

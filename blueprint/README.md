@@ -1,22 +1,45 @@
 # Mazur theorem Verso Blueprint
 
-This directory is an isolated Lean project built with the official
+This isolated Lean project renders the mathematical projection of schema-v4
+[`coordination/program.json`](../coordination/program.json) with the official
 [`leanprover/verso-blueprint`](https://github.com/leanprover/verso-blueprint)
-package. The six chapters and 48 stable labels mirror
-`../coordination/program.json`; every dependency in that file is represented by
-a Blueprint `uses` edge. Labels are the node IDs verbatim (for example,
-`MT-X11-COSET`), so no translation table is required.
+package.
 
-The project runs on Lean `v4.33.0-rc1`. Until Verso Blueprint publishes a
-matching tag, `lakefile.lean` pins the official v4.32 Blueprint commit and
-overrides Verso, Verso Slides, and ProofWidgets with their v4.33-compatible
-official commits.
+The six generated chapters contain the 48 stable top-level programme labels,
+using node IDs verbatim, and reproduce their `uses` dependency edges. These
+labels are the fixed 1,000-point accounting units. Nested work packages remain
+in the ledger as nonweighted execution metadata; they are not extra Blueprint
+theorems or independent progress credit.
+
+The Integration projection leads to the full
+`MazurTorsion.rationalTorsion_hasMazurClassification` release endpoint. The
+immutable `Challenge.Mazur.torsion_ncard_le` contract is a sibling corollary.
+For operational selection, package dependencies, and the current WIP plan,
+navigate to the [ledger](../coordination/program.json) or compact
+[owner queue](../coordination/OWNER_QUEUE.md).
+
+## Regeneration
+
+Do not hand-edit the six generated chapter files. From the repository root,
+run:
+
+```bash
+python3 scripts/sync_roadmap_docs.py
+python3 scripts/sync_roadmap_docs.py --check
+```
+
+The same command keeps `site/generated/program.json` byte-identical to the
+ledger. Narrative Blueprint material may explain the programme, but the ledger
+remains canonical.
 
 ## Local workflow
 
+The project runs on Lean `v4.33.0-rc1`. Until Verso Blueprint publishes a
+matching tag, `lakefile.lean` pins its official v4.32 commit and compatible
+official Verso, Verso Slides, and ProofWidgets commits.
+
 ```bash
 cd blueprint
-lake update
 LEAN_NUM_THREADS=1 lake exe vbp build
 LEAN_NUM_THREADS=1 lake exe vbp check
 ```

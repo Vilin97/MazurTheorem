@@ -6,12 +6,12 @@ import "./globals.css";
 const FALLBACK_SITE_ORIGIN =
   "https://mazur-theorem-formalization.vilin402100.chatgpt.site/";
 const DESCRIPTION =
-  "An open, weighted roadmap for the exact Lean Pool cardinality consequence of Mazur’s torsion theorem.";
+  "An open, weighted roadmap for the full fifteen-group classification in Mazur’s rational torsion theorem.";
 const SOCIAL_DESCRIPTION =
-  "One verified dependency at a time: roadmap, exact Lean challenges, and evidence-weighted progress.";
+  "Canonical modular curves, Jacobians, Néron models, exact Lean contracts, and evidence-weighted progress.";
 const INTEGRATED_PERCENT = Math.max(
   0,
-  Math.min(100, Math.round(programData.progress.percent)),
+  Math.min(100, programData.progress.percent),
 );
 
 function normalizedOrigin(origin: string) {
@@ -61,7 +61,7 @@ async function requestedOrigin() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const origin = await requestedOrigin();
-  const image = new URL("og.png", origin).toString();
+  const image = new URL("og-v2.png", origin).toString();
 
   return {
     metadataBase: new URL(origin),

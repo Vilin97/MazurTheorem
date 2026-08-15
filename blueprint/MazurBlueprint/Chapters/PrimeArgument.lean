@@ -9,211 +9,245 @@ open Informal
 #doc (Manual) "05 — Mazur's prime-order argument" =>
 
 :::group "prime_argument"
-Mazur's 1978 degree-one formal-immersion argument at the single auxiliary
-prime five.  Potentially multiplicative reduction gives a cusp collision;
-formal immersion makes that impossible. Tame fibre arithmetic then gives
-good reduction, and a finite enumeration over `𝔽₅` finishes. Stage
-weight: 100 points.
+A route-neutral degree-one formal-immersion collision at 5, followed by the checked
+minimal-model additive exclusion, prime-to-five specialization, and ten-point
+enumeration. Stage weight: 100 points.
 :::
 
-:::theorem "MT-PRIME-SEMISTABLE" (parent := "prime_argument") (uses := "MT-X0-MODULI, MT-X0-EISENSTEIN-QUOTIENT, MT-EC-ISOGENY-WEIL") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "medium")
-*Attach the modular point and its finite quotient image.* A rational point of
-prime order gives a rational cyclic subgroup, hence an $`X_0(N)` point. Its
-image in the rank-zero Eisenstein quotient has finite order.
+:::theorem "MT-PRIME-SEMISTABLE" (parent := "prime_argument") (uses := "MT-X0-MODULI, MT-X0-EISENSTEIN-QUOTIENT, MT-EC-ISOGENY-WEIL") (tags := "proof, blocked, nouns-missing, mazur")
+*Attach the modular point and its finite quotient image.*
 
-*Status:* `blocked`. The immutable identifier records the former semistability
-node; no semistability theorem is required by the revised route.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 10 points.
 
-* `theorem` (`proposed`):
-  `MazurTorsion.PrimeOrder.xZeroPoint_of_rationalPrimeTorsion`
-* `theorem` (`proposed`):
-  `MazurTorsion.PrimeOrder.eisensteinImage_isTorsion`
+*Summary:* A rational point of prime order N gives a rational cyclic subgroup, an
+X\_0(N) point, and therefore a finite-order point in the rank-zero Eisenstein quotient.
+
+*Canonical artifacts:*
+
+* `theorem` (`proposed`): `MazurTorsion.PrimeOrder.xZeroPoint_of_rationalPrimeTorsion`
+  Construct the classifying X\_0(N)(Q) point from the generated cyclic subgroup.
+* `theorem` (`proposed`): `MazurTorsion.PrimeOrder.eisensteinImage_isTorsion`
+  Use finiteness of the quotient's rational points to make the modular image torsion.
+
 :::
 
-:::theorem "MT-PRIME-OUTSIDE-IDENTITY" (parent := "prime_argument") (uses := "MT-PRIME-SEMISTABLE, MT-X0-CUSPS") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "medium")
-*Detect cusp reduction at five.* Potentially multiplicative reduction sends
-the classifying point to a cusp.  Atkin--Lehner transport moves that cusp to
-infinity, the point where the formal-immersion API is normalized.
+:::theorem "MT-PRIME-OUTSIDE-IDENTITY" (parent := "prime_argument") (uses := "MT-PRIME-SEMISTABLE, MT-X0-CUSPS") (tags := "proof, blocked, nouns-missing, mazur")
+*Detect cusp reduction at the auxiliary prime five.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 10 points.
+
+*Summary:* If the elliptic curve is potentially multiplicative at 5, its X\_0(N) point
+specializes to a cusp; Atkin-Lehner transport reduces the collision to infinity.
+
+*Canonical artifacts:*
 
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.xZeroPoint_specializesToInfinity_of_potentiallyMultiplicativeAtFive`
+  Move the specialized cusp to infinity without changing the quotient argument.
+
 :::
 
-:::theorem "MT-PRIME-EISENSTEIN-SPECIALIZATION" (parent := "prime_argument") (uses := "MT-PRIME-OUTSIDE-IDENTITY, MT-X0-EISENSTEIN-QUOTIENT, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "large")
-*Formal immersion forces potentially good reduction at five.* A finite-order
-quotient section that specializes to zero is zero because $`e=1<5-1`.
-The modular section and the cusp would then cross with equal images, contrary
-to formal immersion.
+:::theorem "MT-PRIME-EISENSTEIN-SPECIALIZATION" (parent := "prime_argument") (uses := "MT-PRIME-OUTSIDE-IDENTITY, MT-X0-EISENSTEIN-QUOTIENT, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, mazur")
+*Formal immersion forces potentially good reduction at five.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 20 points.
 
-The local collision endpoint now compiles over the actual completed integer
-ring at five. Equality of the modular and cusp closed points transports formal
-immersion to the modular point; equality of their quotient sections then
-forces equality of the integral sections, contradicting their supplied
-distinctness and proving the `j`-valuation bound. What remains here is to
-construct those modular and cusp sections and prove their bad-valuation
-specialization and Eisenstein-quotient equality.
+*Summary:* A finite-order quotient point specializing to zero is zero by the unramified
+specialization lemma.
+
+*Canonical artifacts:*
 
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.primeTorsion_potentiallyGoodReductionAtFive`
+  Implement Mazur 1978 Corollary 4.3 at the single unramified prime five.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_formalImmersionAtFive`
+  Turn the explicit modular/cusp closed-point collision and quotient-section equality
+  into the five-adic j-valuation bound using the checked completed-stalk formal
+  immersion.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_quotientCotangentCertificateAtFive`
+  Derive formal immersion from the quotient-cotangent certificate on the actual
+  five-adic cusp stalk and feed it to the rational j collision.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_quotientCotangentAtFive_of_nonsingularReduction`
+  Consume the cusp-stalk quotient calculation and canonical nonsingular-reduction inputs
+  in the checked prime-order F\_5 contradiction.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealCotangentAtFive`
+  Derive the five-adic j bound directly from the extended special-fibre ideal and its
+  quotient cotangent calculation.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedCotangentAtFive_of_nonsingularReduction`
+  Feed the mapped characteristic-five cotangent calculation directly to the canonical
+  prime-order F\_5 contradiction.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_le_one_of_mappedIdealDegreeOneCotangentAtFive`
+  Derive the five-adic j bound from the concrete degree-one quotient-fibre outputs
+  detected by q-expansion.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedDegreeOneCotangentAtFive_of_nonsingularReduction`
+  Consume degree-one special-fibre data and checked canonical reduction additivity in
+  the prime-order endpoint.
+
 :::
 
-:::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-NERON-SPECIALIZATION") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
-*Preserve the marked torsion under specialization.* Since $`N\ne5`, the
-prime-to-residue-characteristic specialization theorem keeps the marked
-point's exact order in the Néron special fibre.  No division field is built.
+:::theorem "MT-PRIME-DIVISION-FIELD" (parent := "prime_argument") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mazur")
+*Preserve exact prime-to-five order under good reduction.*
 
-*Status:* `blocked`.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 15 points.
 
-* `theorem` (`proposed`):
-  `MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive`
-:::
+*Summary:* The checked good-reduction specialization homomorphism preserves the exact
+finite additive order of the marked point at 5.
 
-:::theorem "MT-PRIME-HERBRAND-KUMMER" (parent := "prime_argument") (uses := "MT-PRIME-DIVISION-FIELD, MT-NERON-COMPONENTS") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "medium")
-*Exclude additive reduction at five.* The checked marked Tate-depth argument
-on the selected minimal equation forces the terminal weighted coefficient
-depths and contradicts minimality. No component-group bound is assumed.
-
-*Status:* `done`.
+*Canonical artifacts:*
 
 * `theorem` (`integrated`):
-  `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
+  `MazurTorsion.PrimeOrder.specializedPoint_addOrderOf_eq_atFive_of_goodReduction`
+  Preserve the exact additive order of every finite-order point under good reduction at
+  5.
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.specializedPointZMod_addOrderOf_eq_atFive_of_goodReduction`
+  Transport exact order to the concrete ZMod 5 reduction used by the finite-field
+  endpoint.
+* `theorem` (`integrated`):
+  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_goodReductionAtFive`
+  Consume exact-order specialization and the ten-point enumeration to exclude every
+  marked order at least 11 under good reduction.
+
+:::
+
+:::theorem "MT-PRIME-HERBRAND-KUMMER" (parent := "prime_argument") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mazur")
+*Exclude additive reduction at five.*
+
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 10 points.
+
+*Summary:* The checked marked Tate-depth argument excludes additive reduction at 5 by
+forcing a forbidden weighted rescaling of the selected minimal equation.
+
+*Canonical artifacts:*
+
+* `theorem` (`integrated`): `MazurTorsion.PrimeOrder.not_additiveReductionAtFive`
+  Exclude additive reduction by the checked marked weighted-depth and minimality
+  contradiction; the good-reduction theorem is its compiled consumer.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_tameAdditiveFiltrationAtFive`
+  Prove the prime-order contradiction from the component, additive-residue, and
+  torsion-free formal-kernel filtration.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_componentExponentTwelveAtFive`
+  Exclude a marked prime-order point using only its component exponent, the five-element
+  identity-component reduction target, and the torsion-free formal kernel.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_nonsingularReduction_of_componentExponentTwelveAtFive`
+  Instantiate the component-exponent contradiction on canonical coordinatewise
+  nonsingular reduction and discharge the formal-kernel theorem at five.
 * `definition` (`contract`):
   `MazurTorsion.EllipticCurve.TameAdditiveReductionDataAtFive.toTameAdditiveFiltrationData`
+  Convert the canonical five-adic handoff to the checked torsion filtration while
+  deriving finite component and torsion-free formal-kernel inputs.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.minimalCompletionAtFive_reduction_invariants_of_hasAdditiveReduction`
+  Specialize vanishing of the discriminant and c₄ to Mathlib's selected minimal
+  five-adic integral model, starting the cuspidal nonsingular-locus classification.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_valuationInput_of_hasAdditiveReduction`
+  Package the additive-reduction and integral-j valuation inequalities consumed by the
+  tame Tate-algorithm route.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_coefficientObstruction_of_hasAdditiveReduction`
+  Apply selected-equation minimality to rule out another pure weighted scaling while
+  retaining all translation, blowup, and component steps as open work.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_hasAdditiveReduction_variableChange_of_valuation_u_eq_one`
+  Keep the minimal additive branch stable under every integral valuation-unit coordinate
+  change used by the residue-translation stage.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.tateAlgorithm_translatedCoefficientObstruction_of_hasAdditiveReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.addOrderOf_ne_prime_ge_eleven_of_markedExceptionalCubic_simpleRootAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionAtFive_tateAlgorithm_exists_markedExceptionalCubic_repeatedRoot_of_primeOrder`
+  Rule out simultaneous integrality of all five exactly transformed coefficients after
+  arbitrary translations and a scale of valuation below one.
 
-Finite normalization, the canonical nonsingular-reduction group, and the
-exact formal kernel discharge the intermediate exceptional-depth cases. The
-terminal calculation derives `y ∈ 𝔪³`, forces `a₄ ∈ 𝔪⁴`, and obtains
-`a₆ ∈ 𝔪⁶` from the point equation. The resulting pure scaling contradicts
-minimality. `PrimeOrder.not_additiveReductionAtFive` is consumed by the
-stable good-reduction theorem. Genuine identity components and completely
-toric modular reduction remain work in the broader Néron infrastructure node,
-not premises of this completed pointwise theorem.
 :::
 
-:::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
-*Upgrade potentially good to good reduction.* Potentially good excludes a
-multiplicative fibre; the preceding weighted-depth argument excludes an additive
-fibre. The remaining fibre is good.
+:::theorem "MT-PRIME-SPLIT-SEQUENCE" (parent := "prime_argument") (uses := "MT-PRIME-HERBRAND-KUMMER") (tags := "proof, done, integrated, mazur")
+*Upgrade potentially good to good reduction at five.*
 
-*Status:* `done`.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 10 points.
+
+*Summary:* Integral j excludes multiplicative reduction, while the checked marked
+Tate-depth theorem excludes additive reduction; the exhaustive reduction trichotomy
+therefore gives good reduction on the selected five-adic minimal equation.
+
+*Canonical artifacts:*
 
 * `theorem` (`integrated`): `MazurTorsion.PrimeOrder.goodReductionAtFive`
+  Combine the checked multiplicative and weighted-depth additive exclusions; the
+  rational finite-field and formal-immersion endpoints consume this theorem.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.valuation_j_gt_one_of_hasMultiplicativeReduction`
+  Calculate that multiplicative reduction forces valuation of the j-invariant strictly
+  above one.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.not_hasMultiplicativeReduction_of_valuation_j_le_one`
+  Deduce that an integral j-invariant excludes the multiplicative branch.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_additiveOrderObstruction`
+  Share the reduction trichotomy between residue characteristics five and eleven by
+  isolating the additive branch as an exact-order obstruction.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.hasGoodReduction_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
+  Consume integral j, an actual tame additive filtration, and a marked large-prime-order
+  point in the reduction-type trichotomy to prove good reduction.
 * `theorem` (`contract`):
   `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_hasGoodReductionAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_tameAdditiveFiltrationAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.completionPoint_addOrderOf_ne_of_eleven_le_of_componentExponentTwelveAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_addOrderOf`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.valuation_minimalCompletionAtFive_j`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_minimalCompletionInputsAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_valuation_j_le_one_of_componentExponentTwelveAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_tameReductionAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_eleven_le_of_formalImmersionAtFive_of_nonsingularReduction`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.completionPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_componentExponentTwelveAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.minimalCompletionPointAtFive_twelve_nsmul_mem_of_markedComponentOrderAtMostFour`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_cuspidalReduction_of_markedComponentOrderAtMostFourAtFive`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive_of_componentExponentTwelve`
-* `theorem` (`contract`):
-  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_mappedDegreeOneCotangentAtFive_of_componentExponentTwelve`
+  Reduce a torsion point on a minimal completed equation with good reduction, transport
+  it to ZMod 5, and consume the checked finite-field order bound.
 
-The valuation of `j` is strictly greater than one under multiplicative
-reduction, so integral `j` excludes that branch. The checked additive theorem
-and Mathlib's exhaustive reduction trichotomy give good reduction. The same
-rational point is transported through the selected minimal variable change
-with unchanged exact order and then reduced into the exhaustively enumerated
-`𝔽₅` group. The resulting local contradiction is consumed by both the
-formal-immersion endpoint and the affine Hecke/q-expansion endpoint. The latter
-packages an actual affine structural section through the selected fibre point
-and derives its coordinate-ring retraction contravariantly. Represented
-modular/cusp data remain in their upstream nodes.
 :::
 
-:::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-PRIME-SPLIT-SEQUENCE") (tags := "proof, done, integrated, prime-argument") (priority := "high") (effort := "small")
-*The ten-point finite enumeration.* Normalize the good fibre to short
-Weierstrass form (valid in characteristic five), enumerate the 25 coefficient
-pairs, and verify `#E(𝔽₅) ≤ 10`. This avoids adding a general Hasse
-theorem solely for one tiny field and replaces Shafarevich finiteness.
+:::theorem "MT-PRIME-SHAFAREVICH" (parent := "prime_argument") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mixed")
+*The ten-point finite enumeration over F\_5.*
 
-*Status:* `done`.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mixed`;
+*risk:* `extreme`; *weight:* 15 points.
 
-* `theorem` (`integrated`):
-  `MazurTorsion.PrimeOrder.card_reductionAtFive_le_ten`
+*Summary:* The checked exhaustive enumeration proves every elliptic curve over F₅ has at
+most ten rational points.
 
+*Canonical artifacts:*
+
+* `theorem` (`integrated`): `MazurTorsion.PrimeOrder.card_reductionAtFive_le_ten`
+  Normalize in characteristics other than two and three, then verify all 25 short models
+  over F\_5.
 * `theorem` (`integrated`):
   `MazurTorsion.PrimeOrder.zmod_five_addOrderOf_ne_of_eleven_le`
+  Consume the finite enumeration to rule out every point whose exact additive order is
+  at least eleven.
+
 :::
 
-:::theorem "MT-PRIME-ISOGENY-CHAIN" (parent := "prime_argument") (uses := "MT-PRIME-SHAFAREVICH, MT-X0-EISENSTEIN-QUOTIENT") (tags := "proof, blocked, nouns-missing, prime-argument") (priority := "high") (effort := "small")
-*Exclude order eleven and all primes at least seventeen.* The marked point
-injects into a group of at most ten elements.  The Eisenstein quotient is
-nontrivial for $`N=11` and prime $`N\ge17`; level thirteen remains the
-separate genus-two endpoint.
+:::theorem "MT-PRIME-ISOGENY-CHAIN" (parent := "prime_argument") (uses := "MT-PRIME-EISENSTEIN-SPECIALIZATION, MT-PRIME-DIVISION-FIELD, MT-PRIME-SPLIT-SEQUENCE, MT-PRIME-SHAFAREVICH") (tags := "proof, blocked, nouns-missing, mazur")
+*Exclude order 11 and every prime order at least 17.*
 
-*Status:* `blocked`.
+*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `extreme`; *weight:* 10 points.
 
-* `theorem` (`proposed`):
-  `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_eleven`
+*Summary:* Join potential-good reduction from formal immersion, the checked additive
+exclusion, prime-to-five exact-order specialization, and the ten-point enumeration to
+exclude order 11 and every prime order at least 17.
+
+*Canonical artifacts:*
+
+* `theorem` (`proposed`): `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_eleven`
+  Exclude exact rational order eleven by the formal-immersion-at-five argument.
 * `theorem` (`proposed`):
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_prime_ge_seventeen`
+  Exclude every rational prime order at least seventeen by the same argument.
+
 :::

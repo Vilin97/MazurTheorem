@@ -2180,30 +2180,9 @@ private theorem compatibleFamilyOfObjTransition_from_restriction
     simp only [R, cj, ej, e₂, pj, Category.assoc]
     slice_lhs 4 5 => rw [Iso.hom_inv_id_app]
     simp
-  calc
-    L ≫ (pi.hom.app M ≫ ep.hom.app M ≫ pj.inv.app M) =
-        (L ≫ pi.hom.app M) ≫ ep.hom.app M ≫ pj.inv.app M := by
-      simp only [Category.assoc]
-    _ = (ci.inv.app M ≫
-          (Scheme.Modules.restrictFunctorIsoPullback
-            (P.p₁ ≫ cov.f i)).hom.app M) ≫
-        ep.hom.app M ≫ pj.inv.app M := by rw [hleft]
-    _ = ci.inv.app M ≫
-        ((Scheme.Modules.restrictFunctorIsoPullback
-            (P.p₁ ≫ cov.f i)).hom.app M ≫ ep.hom.app M) ≫
-          pj.inv.app M := by simp only [Category.assoc]
-    _ = ci.inv.app M ≫
-        (er.hom.app M ≫
-          (Scheme.Modules.restrictFunctorIsoPullback
-            (P.p₂ ≫ cov.f j)).hom.app M) ≫ pj.inv.app M := by
-      rw [hcongr]
-    _ = ci.inv.app M ≫ er.hom.app M ≫
-        ((Scheme.Modules.restrictFunctorIsoPullback
-            (P.p₂ ≫ cov.f j)).hom.app M ≫ pj.inv.app M) := by
-      simp only [Category.assoc]
-    _ = ci.inv.app M ≫ er.hom.app M ≫ (cj.hom.app M ≫ R) := by
-      rw [hright]
-    _ = K ≫ R := by simp only [K, Category.assoc]
+  change L ≫ (pi.hom.app M ≫ ep.hom.app M ≫ pj.inv.app M) = K ≫ R
+  rw [reassoc_of% hleft, ← reassoc_of% hcongr, hright]
+  simp only [K, er, Category.assoc]
 
 private theorem compatibleFamilyRestrictionHom_comm_overlap
     {X : Scheme.{u}} {cov : X.OpenCover.{0}}

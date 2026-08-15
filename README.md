@@ -1,192 +1,153 @@
 # Mazur Theorem
 
-**A public, dependency-driven Lean 4 formalization of Mazur's torsion theorem.**
+**A public Lean 4 formalization of the classification of rational torsion on elliptic curves.**
 
 [![Lean CI](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml/badge.svg)](https://github.com/Vilin97/MazurTheorem/actions/workflows/ci.yml)
 [![Coordination site](https://img.shields.io/badge/roadmap-live-0d6b57)](https://mazur-theorem-formalization.vilin402100.chatgpt.site/)
 [![License](https://img.shields.io/github/license/Vilin97/MazurTheorem)](LICENSE)
 
-Mazur's theorem classifies the possible rational torsion subgroups of an
-elliptic curve over `ℚ`. This repository targets the exact Lean statement
+## The theorem this project is proving
+
+The canonical target is the group-structure statement of Mazur's theorem:
+
+```lean
+theorem rationalTorsion_hasMazurClassification
+    (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    HasMazurClassification E
+```
+
+Here `HasMazurClassification E` says that the rational torsion subgroup is
+isomorphic to one of the eleven cyclic groups or four bicyclic groups in
+Mazur's list.
+
+The repository also owns the immutable Lean Pool contract
 
 ```lean
 theorem torsion_ncard_le (E : WeierstrassCurve ℚ) [E.IsElliptic] :
-    (AddCommGroup.torsion (E⁄ℚ).Point :
-      Set (E⁄ℚ).Point).ncard ≤ 16
+    (AddCommGroup.torsion (E⁄ℚ).Point : Set (E⁄ℚ).Point).ncard ≤ 16
 ```
 
+That numerical theorem is an important release endpoint, but it is not a
+definition of the full classification: `Set.ncard` is zero on an infinite
+set, so the literal inequality alone proves neither finiteness nor group
+structure. The roadmap therefore records the full classification and the
+challenge corollary separately.
+
+## Current strategy
+
+The project uses Mazur's degree-one formal-immersion argument at the auxiliary
+prime `5`. The public prime-order proof will consume one route-neutral witness:
+a cusp-normalized modular map, formal immersion at infinity modulo `5`, and
+torsion of the particular image under consideration. The modular Jacobian,
+Hecke action, Eisenstein quotient, and its finite Mordell–Weil proof are the
+private constructor of that witness.
+
+This separation keeps the critical theorem interface small without hiding its
+mathematical cost. Modern winding-quotient and modular-symbol expositions do
+not shorten the formalization cone in degree one; they add analytic-rank,
+homology, or Hecke-independence infrastructure. The detailed comparison and
+sources are in [the route audit](docs/ROUTE_AUDIT.md).
+
+Two foundation packages are selected under the WIP limit of three:
+
+1. coherent cohomology → relative Picard → represented Jacobian and Abel–Jacobi;
+2. the canonical Weierstrass group scheme → honest finite-flat cyclic
+   subgroups → represented `X₀(N)` → an order-49 vertical slice.
+
+The generic Néron mapping property and admissible-filtration API are already
+integrated. Their Eisenstein-quotient instantiation is not selected until the
+actual quotient and Néron models exist; an unused WIP slot is preferable to a
+conditional shadow.
+
+Conditional order-specific explorations are paused while these foundations are
+unfinished. Their Challenge statements remain immutable and compiled, but are
+not currently claimable. This is an execution pause, not a mathematical claim
+that the endpoints are unnecessary.
+
+## Progress and roadmap
+
+[`coordination/program.json`](coordination/program.json) is the canonical
+ledger. It contains the fixed 48-node, 1,000-point theorem DAG, the bounded
+execution plan, nested work packages, paused contracts, and the two release
+endpoints. Node weights and the conservative integrated-progress rules are
+unchanged by the architecture refactor. Work packages partition a parent
+node's planning allocation and earn no independent credit.
+
+The current integrated score is **17.2%**; the ecosystem-readiness estimate is
+**18%**. These values count only checked work connected to the acceptance API
+defined by the ledger. Generated code volume, drafted interfaces, and isolated
+proofs do not inflate the headline.
+
+Use the [live roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/)
+for the execution view and the [Verso blueprint](https://vilin97.github.io/MazurTheorem/blueprint/)
+for the theorem dependency graph. Both are projections of the same ledger.
+
+## Repository map
+
+- [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
+- [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction infrastructure;
+- [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — reviewed upstream geometry ports and adapters;
+- [`Challenge/`](Challenge/) — immutable contracts and checked solved bridges;
+- [`coordination/program.json`](coordination/program.json) — canonical roadmap and execution data;
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — canonical/provisional object boundaries;
+- [`docs/TECHNICAL_BLUEPRINT.md`](docs/TECHNICAL_BLUEPRINT.md) — compact declaration-level design;
+- [`docs/INFORMAL_PROOF.md`](docs/INFORMAL_PROOF.md) — mathematical proof spine;
+- [`blueprint/`](blueprint/) — generated theorem-first Verso view;
+- [`site/`](site/) — generated public coordination view;
+- [`upstream/tauceti/`](upstream/tauceti/) — separate exact-pin upstream contract package;
+- [`archive/drafts/`](archive/drafts/) — unverified historical scratch, excluded from proof and progress.
+
 The project began as the `mazur-torsion` branch of
-[Vilin97/Clawristotle](https://github.com/Vilin97/Clawristotle). Its proof
-history was preserved when it moved here; [`ORIGIN.md`](ORIGIN.md) records the
-exact source commit, subtree hash, and split.
+[Vilin97/Clawristotle](https://github.com/Vilin97/Clawristotle).
+[`ORIGIN.md`](ORIGIN.md) records the exact source commit, subtree hash, and
+history-preserving split.
 
-## Where the project stands
+## Contributing
 
-The strict weighted estimate is **11.7% integrated**. Approximately **12% is
-ecosystem-ready** when compatible work already available in Mathlib, Lean
-Pool, Tau Ceti, FLT, and related repositories is counted as reusable rather
-than as completed here. Those are deliberately different numbers:
-publishing a statement, finding prior art, or drafting an interface earns no
-theorem-completion credit.
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and
+[`docs/CLAIMING.md`](docs/CLAIMING.md). Claim only a contract marked `open` or
+`research_open` in the current ledger. A `paused` contract is intentionally
+not available for new proof volume.
 
-The integrated development contains 699 checked Lean sources and 1,447,678
-lines. It closes the group-theoretic cardinality endpoint and many
-finite torsion orders, including `14`, `15`, `16`, `20`, `21`, `24`, and
-`27`; it also completes the exact-pin migration, Tau Ceti's finite-support
-order system, smooth-proper-curve product formula, and abelian-variety
-product-dimension theorem, and the ten-point
-enumeration for every elliptic curve over `F₅`. The current frontier is:
+New foundational interfaces require design review and a named downstream
+consumer. In particular:
 
-- the genus-two closures for orders `13` and `18` and the explicit order-25
-  endpoint;
-- order `35` through the shared squarefree formal-immersion engine at `11`,
-  and order `49` through the direct cyclic-subgroup map to `X₀(49)`;
-- the uniform prime-order theorem via Mazur's degree-one formal immersion at
-  `5`, whose main path requires substantial modular-curve, Jacobian,
-  Néron-model, Hecke, and focused finite-flat infrastructure; and
-- the X₁(11) five-coset and cyclotomic reciprocity Challenges, which remain
-  mandatory release obligations but are not premises of the prime theorem.
+- point-level rational cyclic-subgroup data are not a represented modular curve;
+- an abstract Picard group is not a Jacobian scheme;
+- a supplied group object is not a construction of the Weierstrass group law;
+- a Néron-model mapping property does not prove existence of a Néron model.
 
-The shared formal-immersion lane now has a checked functorial map on completed
-local rings and the actual surjectivity definition of formal immersion, with
-identity and composition consumers. It also has the canonical map on stalk
-cotangent spaces, its first-order criterion, and a residue-honest degree-one
-certificate that the future q-expansion proof must fill. A checked Nakayama
-and adic-completeness argument now proves that this residue/cotangent
-criterion implies the actual formal-immersion predicate when both stalk
-maximal ideals are finite modules. Mathlib supplies those instances on locally
-Noetherian schemes, and the degree-one certificate is the compiled geometric
-consumer. This is deliberately not node completion: the locally Noetherian
-integral cusp model, its q-expansion certificate, modular quotient, and
-cusp-collision theorem remain open.
+Contributions should cross one of these boundaries honestly, not add another
+conditional wrapper around it.
 
-The shared divisor lane now proves the residue-degree product formula for a
-smooth proper integral curve by extending a nonconstant rational function to
-a finite flat map to the projective line and comparing its zero and infinity
-fibres.  The immutable Challenge is a checked order-system transport bridge,
-and the result has concrete consumers both in Tau Ceti's degree-zero divisor
-quotient and in the actual scheme Picard group used here.
+## Build and verification
 
-On the Jacobian path, Tau Ceti's weighted point and divisor Abel--Jacobi
-classes now transport through the checked divisor-class/Picard equivalence to
-the actual degree-zero subgroup of the scheme Picard group. Base-point,
-collision, point-difference, additivity, and principal-divisor formulas
-compile, and the exact divisor dictionary supplies a chosen line-bundle
-consumer. This is the group-valued normalization boundary only; the relative
-Picard functor, representability, Jacobian variety, and Abel--Jacobi scheme
-morphism remain open and receive no node credit.
-
-The order-35 lane also now checks the opposite rational point-function
-candidate and the composite identity `dual (candidate P) = 3 • P`, together
-with the rational three-cover and visible-coset translations. The reduced
-numerator/denominator calculation now proves that every nonexceptional source
-ordinate has cube class `1`, `7`, or `49`. Target-curve finiteness (or the
-more direct candidate-surjectivity input used here) remains open before the
-conditional rank-zero chain becomes unconditional, so this still earns no
-node credit.
-
-The percentage and task graph come from
-[`coordination/program.json`](coordination/program.json), not prose or line
-counts. See the [live roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/), the
-[progress methodology](docs/PROGRESS_METHOD.md), and the
-[implementation inventory](docs/IMPLEMENTATION_STATUS.md).
-
-## Can this be crowdsourced?
-
-Yes—but not as one flat list of unrelated bounties.
-
-At the current checkpoint, **13.4% of the total weighted work** is exposed
-through exact, compiled contracts: **2.2%** as ordinary claimable tasks and
-**11.2%** as
-research-open problems where parallel approaches are welcome. With reviewed
-interfaces and upstream coordination, roughly **35–45%** can be parallelized
-into bounded work packages. The remaining **45–55%** is high-dependency
-research and integration work that needs small, stable teams rather than
-drive-by proof submissions.
-
-That is more optimistic than “most of it cannot be crowdsourced,” but only
-under a disciplined meaning of crowdsourcing: exact compiler-checked
-contracts, dependency ownership, short claims, upstream-first development,
-and maintainers responsible for integration. The roadmap marks which tasks
-are claimable now and which are still research or interface design.
-
-## Start contributing
-
-1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and
-   [`docs/CLAIMING.md`](docs/CLAIMING.md).
-2. Choose an ordinary **open** card or a nonexclusive **research-open** card
-   on the
-   [roadmap](https://mazur-theorem-formalization.vilin402100.chatgpt.site/#challenges).
-3. Use the card's pre-filled form. Ordinary claims last 14 days and need a
-   weekly heartbeat; research intentions do not reserve the problem.
-4. Prove the exact declaration, compile its named consumer, and open a PR
-   using the supplied checklist.
-
-Research-level tasks may have more than one active team. Interface work is
-reviewed before proof volume is accumulated behind it.
-
-## Build
-
-The package is pinned to Lean `v4.33.0-rc1` and the matching Mathlib release.
-It needs about 8 GB of local cache. Fetch Mathlib's compiled cache first:
+The package is pinned to Lean `v4.33.0-rc1` and a matching exact Mathlib
+revision. Fetch the compiled cache before building:
 
 ```sh
 lake exe cache get
-LEAN_NUM_THREADS=1 lake build MazurTorsion
-```
-
-For a contribution, build the smallest affected module:
-
-```sh
-LEAN_NUM_THREADS=1 lake build MazurTorsion.Path.To.Module
+LEAN_NUM_THREADS=1 lake build MazurTorsion.Path.To.SmallestTouchedModule
 python3 scripts/quality.py
 ```
 
-Full cold builds, documentation, and exposition extraction run in GitHub
-Actions so contributors do not need a large workstation.
-
-The mathematical dependency graph is built with the official
-[`leanprover/verso-blueprint`](https://github.com/leanprover/verso-blueprint)
-package:
+The canonical roadmap projections are synchronized with:
 
 ```sh
-cd blueprint
-LEAN_NUM_THREADS=1 lake exe vbp build
-LEAN_NUM_THREADS=1 lake exe vbp check
+python3 scripts/sync_roadmap_docs.py
+python3 scripts/sync_roadmap_docs.py --check
 ```
 
-The interactive output is written to `blueprint/_out/site/html-multi` and
-published at the stable `/blueprint/` route on GitHub Pages.
+Full cold-library, Blueprint, site, and documentation builds run in CI.
+Contributors should build the smallest touched module locally unless a broader
+build is explicitly requested.
 
-## Project map
+Checked implementation must remain placeholder-free, warning-free, and free
+of custom axioms, `unsafe`, and `partial`. Open declarations are permitted only
+as registered whole-body `:= sorry` contracts under `Challenge/`. The only
+foundational axioms accepted by the release audit are `propext`, `Quot.sound`,
+and `Classical.choice`.
 
-- [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
-- [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction
-  infrastructure;
-- [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — attributed AINTLIB
-  geometry foundations and the checked Tau Ceti integration boundary;
-- [`Challenge/`](Challenge/) — immutable open theorem contracts;
-- [`coordination/program.json`](coordination/program.json) — canonical
-  weighted DAG and claim metadata;
-- [`docs/ROUTE_AUDIT.md`](docs/ROUTE_AUDIT.md) — audited selection of the
-  Mazur-1978 formal-immersion route, rejected alternatives, and fallback
-  policy;
-- [`blueprint/MazurBlueprint/Blueprint.lean`](blueprint/MazurBlueprint/Blueprint.lean)
-  — six-stage Verso blueprint, dependency graph, and progress summary;
-- [`upstream/tauceti/`](upstream/tauceti/) — open Tau Ceti interface
-  challenges, resolved separately at the same exact pins as the core;
-- [`docs/`](docs/) — methodology, prior-art audit, and technical narrative;
-- [`archive/drafts/`](archive/drafts/) — explicitly unverified historical
-  scratch files, excluded from all proof and progress claims.
-
-## Verification policy
-
-Merged proof code must be placeholder-free, warning-free, and free of custom
-axioms, `unsafe`, and `partial`. The only permitted foundational axioms in
-audited declarations are `propext`, `Quot.sound`, and `Classical.choice`.
-Open statements are allowed only in registered `Challenge/` files, with
-exactly one whole-body `:= sorry`.
-
-The Apache-2.0 license and third-party attribution are in
-[`LICENSE`](LICENSE), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md),
-[`PORTING.md`](PORTING.md), and [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md).
+Licensing and provenance are recorded in [`LICENSE`](LICENSE),
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), [`PORTING.md`](PORTING.md),
+and [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md).
