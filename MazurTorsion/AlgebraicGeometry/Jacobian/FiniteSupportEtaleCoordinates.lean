@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleRelativeProduct
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleCoproductPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleFamilyPointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveEtaleCoordinate
@@ -33,6 +34,7 @@ open _root_.AlgebraicGeometry
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 
 open FiniteEtaleRelativeProduct
+open FiniteEtaleCoproductPower
 open SmoothCurveEtaleCoordinate
 
 variable (K : Type u) [Field K]
@@ -778,6 +780,86 @@ noncomputable abbrev coherentFpqcPulledComponent (d : ℕ)
     (fun j ↦ fpqcPulledComponentToCoverOverGround
       K C d z c n V T q j) i
 
+/-- The product of the coordinate copies of the common splitting cover. -/
+noncomputable abbrev coherentFpqcBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Scheme.{u} :=
+  (∏ᶜ commonCoverFamily K C d z c n V T q).left
+
+/-- One coherent pulled component maps back to the curve. -/
+noncomputable def coherentFpqcPulledComponentToCurve (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    (coherentFpqcPulledComponent K C d z c n V T q i).left ⟶ C.left :=
+  pullback.fst
+      (fpqcPulledComponentToCoverOverGround K C d z c n V T q i).left
+      (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫
+    (fpqcPulledComponentToCurveOverGround K C d z c n V T q i).left
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The coherent component-to-curve map is compatible with the map from the
+product splitting base to the ground field. -/
+theorem coherentFpqcPulledComponentToCurve_comp_structureMap (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    coherentFpqcPulledComponentToCurve K C d z c n V T q i ≫ C.hom =
+      (coherentFpqcPulledComponent K C d z c n V T q i).hom ≫
+        (∏ᶜ commonCoverFamily K C d z c n V T q).hom := by
+  let f := fpqcPulledComponentToCoverOverGround K C d z c n V T q i
+  let π := Pi.π (commonCoverFamily K C d z c n V T q) i
+  let g := fpqcPulledComponentToCurveOverGround K C d z c n V T q i
+  have hpb : pullback.fst f.left π.left ≫ f.left =
+      pullback.snd f.left π.left ≫ π.left := pullback.condition
+  have hf := f.w
+  have hπ := π.w
+  have hg := g.w
+  calc
+    coherentFpqcPulledComponentToCurve K C d z c n V T q i ≫ C.hom =
+        pullback.fst f.left π.left ≫ (g.left ≫ C.hom) := by
+          rfl
+    _ = pullback.fst f.left π.left ≫
+          (fpqcPulledComponentFamily K C d z c n V T q i).hom := by
+            rw [hg]
+    _ = pullback.fst f.left π.left ≫
+          (f.left ≫ (commonCoverFamily K C d z c n V T q i).hom) := by
+            rw [hf]
+    _ = pullback.snd f.left π.left ≫
+          (π.left ≫ (commonCoverFamily K C d z c n V T q i).hom) := by
+            simpa only [Category.assoc] using congrArg
+              (fun a ↦ a ≫ (commonCoverFamily K C d z c n V T q i).hom) hpb
+    _ = pullback.snd f.left π.left ≫
+          (∏ᶜ commonCoverFamily K C d z c n V T q).hom := by
+            rw [hπ]
+
+/-- The coherent components, assembled as one disjoint family over the
+product splitting base. -/
+noncomputable abbrev coherentFpqcFamilyCoproduct (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Over
+      (coherentFpqcBase K C d z c n V T q) :=
+  familyCoproduct (coherentFpqcBase K C d z c n V T q) d
+    (coherentFpqcPulledComponent K C d z c n V T q)
+
+/-- The ordered power of the disjoint coherent family, regarded over the
+ground field. -/
+noncomputable abbrev coherentFpqcFamilyCoproductPowerOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Over (Spec (.of K)) :=
+  coproductPowerOverOriginalBase
+    (coherentFpqcBase K C d z c n V T q) (Spec (.of K))
+    (∏ᶜ commonCoverFamily K C d z c n V T q).hom d
+    (coherentFpqcPulledComponent K C d z c n V T q)
+
 /-- The coherent relative product, transported back to the original ground
 field.  Its base is the product of the common split cover, once for each
 ordered coordinate. -/
@@ -808,6 +890,84 @@ noncomputable def coherentFpqcComponentFamilyToCurvePower (d : ℕ)
       K C d z c n V T q i)
     (fun i ↦ fpqcPulledComponentToCurveOverGround
       K C d z c n V T q i)
+
+/-- Insert the `i`-th coherent component into the `i`-th coordinate of the
+ordered power of their disjoint union. -/
+noncomputable def coherentFpqcComponentFamilyToCoproductPower (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    coherentFpqcComponentFamilyOverGround K C d z c n V T q ⟶
+      coherentFpqcFamilyCoproductPowerOverGround K C d z c n V T q :=
+  productToCoproductPowerOverOriginalBase
+    (coherentFpqcBase K C d z c n V T q) (Spec (.of K))
+    (∏ᶜ commonCoverFamily K C d z c n V T q).hom d
+    (coherentFpqcPulledComponent K C d z c n V T q)
+
+/-- Forget the ordered power of the disjoint coherent family back to the
+original ordered curve power. -/
+noncomputable def coherentFpqcFamilyCoproductPowerToCurvePower (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    coherentFpqcFamilyCoproductPowerOverGround K C d z c n V T q ⟶
+      PermutationPower.power (Spec (.of K)) (Fin d) C :=
+  coproductPowerToTargetPower
+    (coherentFpqcBase K C d z c n V T q) (Spec (.of K))
+    (∏ᶜ commonCoverFamily K C d z c n V T q).hom d
+    (coherentFpqcPulledComponent K C d z c n V T q) C
+    (coherentFpqcPulledComponentToCurve K C d z c n V T q)
+    (coherentFpqcPulledComponentToCurve_comp_structureMap
+      K C d z c n V T q)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The direct coherent-family map to the curve power is the target map
+induced by its individual component-to-curve morphisms. -/
+theorem productToTargetPower_eq_coherentFpqcComponentFamilyToCurvePower
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    productToTargetPower
+        (coherentFpqcBase K C d z c n V T q) (Spec (.of K))
+        (∏ᶜ commonCoverFamily K C d z c n V T q).hom d
+        (coherentFpqcPulledComponent K C d z c n V T q) C
+        (coherentFpqcPulledComponentToCurve K C d z c n V T q)
+        (coherentFpqcPulledComponentToCurve_comp_structureMap
+          K C d z c n V T q) =
+      coherentFpqcComponentFamilyToCurvePower K C d z c n V T q := by
+  apply Pi.hom_ext
+  intro i
+  unfold productToTargetPower coherentFpqcComponentFamilyToCurvePower
+    independentRelativeProductToTargets
+  rw [Pi.lift_π, Pi.lift_π]
+  apply Over.OverMorphism.ext
+  rfl
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Passing from the coherent product to the ordered power of its disjoint
+family preserves the exact map to the original curve power. -/
+theorem coherentFpqcComponentFamilyToCoproductPower_comp_curvePower
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    coherentFpqcComponentFamilyToCoproductPower K C d z c n V T q ≫
+        coherentFpqcFamilyCoproductPowerToCurvePower K C d z c n V T q =
+      coherentFpqcComponentFamilyToCurvePower K C d z c n V T q := by
+  exact (productToCoproductPower_comp_targetPower
+    (coherentFpqcBase K C d z c n V T q) (Spec (.of K))
+    (∏ᶜ commonCoverFamily K C d z c n V T q).hom d
+    (coherentFpqcPulledComponent K C d z c n V T q) C
+    (coherentFpqcPulledComponentToCurve K C d z c n V T q)
+    (coherentFpqcPulledComponentToCurve_comp_structureMap
+      K C d z c n V T q)).trans
+    (productToTargetPower_eq_coherentFpqcComponentFamilyToCurvePower
+      K C d z c n V T q)
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- The exact ordered-support point survives transport from the independent
@@ -847,6 +1007,35 @@ theorem exists_coherentFpqcComponentFamilyPoint_over_support
     hmapLeft
   exact hmapPoint.trans hw
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The exact ordered-support point lies in the ordered power of the single
+disjoint coherent family. -/
+theorem exists_coherentFpqcFamilyCoproductPowerPoint_over_support
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (hV : commonBasePoint K C d z c n ∈ V)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) [Surjective q] :
+    ∃ p : (coherentFpqcFamilyCoproductPowerOverGround
+        K C d z c n V T q).left,
+      (coherentFpqcFamilyCoproductPowerToCurvePower
+        K C d z c n V T q).left p = z := by
+  obtain ⟨p, hp⟩ := exists_coherentFpqcComponentFamilyPoint_over_support
+    K C d z c n V hV T q
+  let toPower := coherentFpqcComponentFamilyToCoproductPower
+    K C d z c n V T q
+  refine ⟨toPower.left p, ?_⟩
+  have hcomp := coherentFpqcComponentFamilyToCoproductPower_comp_curvePower
+    K C d z c n V T q
+  have hcompLeft := congrArg Over.Hom.left hcomp
+  have hpoint := congrArg
+    (fun a : (coherentFpqcComponentFamilyOverGround
+        K C d z c n V T q).left ⟶
+          (PermutationPower.power (Spec (.of K)) (Fin d) C).left ↦ a p)
+    hcompLeft
+  exact hpoint.trans hp
+
 /-- The complete pointwise split-chart assertion for an ordered support:
 one affine rank neighborhood, one common finite étale fpqc splitting cover,
 and an exact preimage of the original ordered support on that cover. -/
@@ -877,9 +1066,9 @@ def HasCommonSplitChartAtSupport (d : ℕ)
               E.hom ≫ EtaleSplitChart.splitProjection T m =
                 pullback.snd (fV i) q ∧
               m = (f i).finrank (commonBasePoint K C d z c n)) ∧
-          ∃ p : (coherentFpqcComponentFamilyOverGround
+          ∃ p : (coherentFpqcFamilyCoproductPowerOverGround
               K C d z c n V (Spec (.of T)) q).left,
-            (coherentFpqcComponentFamilyToCurvePower
+            (coherentFpqcFamilyCoproductPowerToCurvePower
               K C d z c n V (Spec (.of T)) q).left p = z
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
@@ -899,7 +1088,7 @@ theorem exists_commonSplitChartAtSupport (d : ℕ)
   refine ⟨V, hV, hmem, T, hT, hAlg, hFF, hFin, hEtale, q,
     hEtaleQ, hFlat, hSurj, hQC, hSplit, ?_⟩
   letI : Surjective q := hSurj
-  exact exists_coherentFpqcComponentFamilyPoint_over_support
+  exact exists_coherentFpqcFamilyCoproductPowerPoint_over_support
     K C d z c n V hmem (Spec (.of T)) q
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
