@@ -20,11 +20,14 @@ representative, the position-to-root equivalence includes the witnessing
 permutation relating that representative to the actual assigned sheet
 tuple.
 
-The resulting ring homomorphism is the base-change map from the universal
-ordered-root chart to the coherent affine chart.  In particular, it sends
-every universal linear graph factor to the corresponding affine-line graph
-equation on the coherent base.  The named downstream consumer is the local
-curve-incidence comparison in `PointedIncidenceDescent`.
+The resulting ring homomorphism specializes the universal ordered-root chart
+at the coherent support coordinates.  In particular, it sends every
+universal linear graph factor to the corresponding affine-line graph equation
+on the coherent base.  This is a pointwise compatibility check, not the final
+dimension-preserving neighbourhood of the symmetric power: that neighbourhood
+must retain independent root variables for repeated occurrences.  The named
+downstream consumer is the local curve-incidence comparison in
+`PointedIncidenceDescent`.
 -/
 
 noncomputable section
@@ -250,8 +253,8 @@ noncomputable def groundToBase :
     Γ(Spec (.of K), ⊤) →+* Γ(base K C d z V T q, ⊤) :=
   (coherentBaseToGround K C d z V (Spec (.of T)) q).appTop.hom
 
-/-- Evaluate the universal ordered-root polynomial coordinates on their
-actual coherent-chart coordinate functions. -/
+/-- Specialize the universal ordered-root polynomial coordinates at their
+actual coherent-support coordinate functions. -/
 noncomputable def rootCoordinateHom
     (w : (assignedComponentProductOverGround K C d z V
       (Spec (.of T)) q).left) :
@@ -277,9 +280,9 @@ theorem rootCoordinateHom_X_position
       rootValue K C d z V T q i := by
   simp [rootCoordinateHom]
 
-/-- Base change along the actual coherent coordinate map sends the
-universal owner-sheet graph factor to the concrete linear graph equation
-for that ordered position. -/
+/-- Specialization along the actual coherent coordinate map sends the
+universal owner-sheet graph factor to the concrete linear graph equation for
+that ordered position. -/
 theorem rootLinearFactor_map
     (w : (assignedComponentProductOverGround K C d z V
       (Spec (.of T)) q).left) (i : Fin d) :
@@ -381,7 +384,7 @@ noncomputable def orderedAmbientCoordinateHom
                 (productPoint K C d z V T q w)))) j)
 
 /-- Evaluation of a universal owner-sheet graph commutes pointwise with the
-actual coherent-coordinate base change. -/
+actual coherent-coordinate specialization. -/
 theorem evaluatedRootGraphEvaluation_orderedAmbientCoordinateHom
     (w : (assignedComponentProductOverGround K C d z V
       (Spec (.of T)) q).left) (i : Fin d)

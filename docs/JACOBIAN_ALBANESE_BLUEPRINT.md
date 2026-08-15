@@ -71,7 +71,7 @@ parallel abstraction.
 | Split-component monic compatibility | `SplitComponentMonicCoordinates.sheetPolynomial_map_componentMonicCoefficientToRoots` | checked: after inclusion into ordered-root coordinates, every sheet's universal free-monic polynomial is exactly the product of that sheet's ordered linear root factors |
 | Split-component ordered-incidence invariants | `SplitComponentOrderedIncidence.orderedIncidenceBaseChangeEquiv`, `invariantRootEquivOrderedIncidenceFixedPoints`, and `orderedIncidenceInvariantSchemeIso` | checked: tensor product commutes with the finite product of sheetwise root algebras, adjoining each root commutes with base change, flat invariant base change recovers the product universal-root algebra from the ordered-root incidence invariants, and the resulting affine quotient is finite flat of constant rank equal to the symmetric-power degree |
 | Split-component graph-product ideal | `SplitComponentGraphIdeal.orbitAdaptedPositionEquivRootIndex`, `rootGraphEvaluation_ker`, `orderedGraphIdeal_eq_orderedRootLocusIdeal`, and `orderedGraphIdeal_eq_ker` | checked: an actual ordered tuple is reindexed by its sheet fibers using the permutation witnessing its relation to the component's arbitrary orbit representative; one root graph is exactly “select the owner sheet, then evaluate at the root,” with kernel the linear factor on that sheet and the unit ideal elsewhere; the product of all graph ideals is the exact kernel of simultaneous evaluation into the sheetwise ordered-root algebras, so repeated coordinates retain their scheme-theoretic factor multiplicity |
-| Geometric assigned root coordinates | `GeometricAssignedRootCoordinates.positionRootOwner_productPoint`, `rootSheetToChart_comp_schemeMap`, `rootSheet_exists_graphCoproduct`, `evaluatedRootGraphEvaluation_ker`, `evaluatedRootGraphEvaluation_orderedAmbientCoordinateHom`, and their `PointedIncidenceDescent` consumers | checked: only points inserted from the assigned component product are used, so every root sheet belongs to the genuine support member assigned to that occurrence; the selected sheet maps to its actual curve chart with exactly the corresponding affine-line coordinate and is the graph summand of the equal-coordinate pullback; the universal component root ring is formed over the ground-field section ring and maps to global functions on the coherent affine chart, where each universal graph factor and graph-evaluation square becomes the concrete owner-sheet linear graph equation. This is the dimension-preserving base change; the coherent base is the target algebra, not an extra coefficient ring beneath a second independent set of roots |
+| Geometric assigned root specialization | `GeometricAssignedRootCoordinates.positionRootOwner_productPoint`, `rootSheetToChart_comp_schemeMap`, `rootSheet_exists_graphCoproduct`, `evaluatedRootGraphEvaluation_ker`, `evaluatedRootGraphEvaluation_orderedAmbientCoordinateHom`, and their `PointedIncidenceDescent` consumers | checked: only points inserted from the assigned component product are used, so every specialized root sheet belongs to the genuine support member assigned to that occurrence; the selected sheet maps to its actual curve chart with exactly the corresponding affine-line coordinate and is the graph summand of the equal-coordinate pullback; the universal component root ring is formed over the ground-field section ring and specializes to global functions on the coherent affine support base, where each universal graph factor and graph-evaluation square becomes the concrete owner-sheet linear graph equation. This validates the point and sheet indexing, but it is not a neighbourhood chart: repeated occurrences must retain independent root variables in the dimension-`d` local model |
 | Invariant/free-monic root comparison | `SplitComponentInvariantRootComparison.componentProductRootAlgEquiv` and `componentProductRootSchemeIso_hom_comp_projection` | checked: coefficient change from the residual-stabilizer fixed ring to the free-monic coefficient presentation transports every sheetwise root algebra and their finite product, and the resulting affine-scheme isomorphism commutes with the two root-family projections |
 | Fpqc finite-flat descent | `FpqcDescent` | checked: isomorphism, flatness, and a constant finite-flat rank descend from an fpqc chart; independently chosen pointwise fpqc charts first descend on their Zariski neighborhoods and then glue globally |
 | Degree-one universal divisor | `UniversalEffectiveDivisorDegreeOne.overHom` | checked as a closed graph over `C × Sym¹(C)`; its parameter projection is finite flat of constant rank one |
@@ -585,18 +585,35 @@ contributes its linear root ideal precisely in that sheet's owner block and
 contributes the unit ideal on all other sheets.  Their product is proved
 equal to the sheetwise ordered-root polynomial ideal, and then to the exact
 kernel of the simultaneous map into the product of `AdjoinRoot` algebras.
-The dimension-preserving geometric base change is also explicit: the
+The geometric specialization at the support point is also explicit: the
 ordered-root ring is taken over the ground-field section ring and maps to
-global functions on the coherent affine base by sending each root variable
-to its actual étale coordinate function.  Every linear factor maps to the
-corresponding concrete graph equation, and the exact universal graph
-evaluation commutes with this base change.  On the geometric side, the
+global functions on the coherent affine support base by sending each root
+variable to its actual étale coordinate function.  Every linear factor maps
+to the corresponding concrete graph equation, and the exact universal graph
+evaluation commutes with this specialization.  On the geometric side, the
 selected split sheet maps back to the correct curve chart with that same
 coordinate and is the first open-and-closed summand of the equal-coordinate
-pullback.  What remains in this local layer is to promote these two matching
-descriptions to an equality of the restricted curve-level ideal sheaf with
-the evaluated owner-sheet product ideal on one common open ambient; its fpqc
-descent data must then be matched with the global pointed comparison.
+pullback.
+
+This calculation deliberately stops at a pointwise specialization.  The
+coherent base used there is a product of copies of an already-common fpqc
+cover; it is a useful device for correlating sheet labels, but it has too many
+base dimensions to be the final symmetric-power chart.  Conversely, using
+only one coordinate per distinct support member has too few dimensions when a
+point occurs with multiplicity.  The dimension-`d` local chart must instead
+keep one independent étale coordinate for every ordered occurrence, while
+using the geometric-support assignment only to determine the block subgroup
+that permutes equal occurrences.  Concretely, for multiplicities `n_j`, its
+ordered base is the product of the `n_j` independent coordinate-line
+neighbourhoods; after an equivariant fpqc splitting, the selected sheets form
+one block-stable open.  Quotienting that open by `∏_j S_{n_j}` gives the
+checked blockwise monic-coefficient chart.  The next local theorem must build
+this equivariant occurrence-wise cover, identify its graph-product ideal with
+`SplitComponentGraphIdeal.orderedGraphIdeal`, and then descend the resulting
+isomorphism to the actual curve quotient.  Only after that theorem may the
+pointwise fpqc interfaces be used to prove the global pointed comparison is
+an isomorphism and the universal divisor is finite flat Cartier of degree
+`d`.
 
 The affine algebra in that comparison is checked.  For a finite group acting
 on an `R`-algebra `A` and a flat `Aᴳ`-algebra `B`, the canonical map

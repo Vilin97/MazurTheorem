@@ -315,6 +315,44 @@ noncomputable def geometricDistinctNeighborhoods (d : ℕ)
     (geometricDistinctSupportOrderedPoint K C d z)
     (geometricDistinctCharts K C d z)
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Looking up an occurrence in the geometrically deduplicated tuple recovers
+its original underlying curve point. -/
+theorem geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) :
+    point K C (geometricDistinctSupportCard K C d z)
+        (geometricDistinctSupportOrderedPoint K C d z)
+        (geometricPointSupportIndex K C d z i) =
+      point K C d z i := by
+  change (Pi.π (fun _ : Fin (geometricDistinctSupportCard K C d z) ↦ C)
+      (geometricPointSupportIndex K C d z i)).left
+        (distinctSupportPoint (Spec (.of K)) d C z) =
+    coordinatePoint (Spec (.of K)) d C z i
+  rw [distinctSupportPoint_projection]
+  exact supportPoint_coordinateSupportIndex (Spec (.of K)) d C z i
+
+/-- Repeat the chosen geometric-support chart once for every ordered
+occurrence.  Equal geometric coordinates therefore use the same chart data,
+while their coordinate variables remain independently indexed by `Fin d`.
+This is the chart family for the dimension-`d` local quotient model. -/
+noncomputable def geometricAssignedCharts (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    Charts K C d z :=
+  fun i ↦ by
+    rw [← geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+      K C d z i]
+    exact geometricDistinctCharts K C d z
+      (geometricPointSupportIndex K C d z i)
+
+/-- The occurrence-indexed finite étale neighborhoods obtained by repeating
+the geometric-support chart family. -/
+noncomputable def geometricAssignedNeighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    Neighborhoods K C d z (geometricAssignedCharts K C d z) :=
+  neighborhoods K C d z (geometricAssignedCharts K C d z)
+
 /-- The common relative product of the étale bases of a finite family of
 point neighborhoods. -/
 noncomputable abbrev commonBase (d : ℕ)
@@ -322,6 +360,68 @@ noncomputable abbrev commonBase (d : ℕ)
     (c : Charts K C d z) (n : Neighborhoods K C d z c) :
     Over (coordinateBase K) :=
   ∏ᶜ fun i : Fin d ↦ (n i).baseOver
+
+/-- The dimension-`d` product of coordinate bases, one independent factor
+for every ordered occurrence.  The geometric-support assignment controls
+which factors share chart data, not whether their coordinates may vary
+independently. -/
+noncomputable abbrev geometricAssignedCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  commonBase K C d z (geometricAssignedCharts K C d z)
+    (geometricAssignedNeighborhoods K C d z)
+
+/-- One finite-neighbourhood base maps to the affine coordinate line over
+the ground-field copy. -/
+noncomputable def neighborhoodBaseToCoordinateLine
+    {x : C.left} {c : PointChart K C.left C.hom x}
+    (n : PointChart.FiniteNeighborhood c) :
+    n.baseOver ⟶ coordinateLine K :=
+  Over.homMk n.baseMap rfl
+
+instance neighborhoodBaseToCoordinateLine_etale
+    {x : C.left} {c : PointChart K C.left C.hom x}
+    (n : PointChart.FiniteNeighborhood c) :
+    Etale (neighborhoodBaseToCoordinateLine K C n).left :=
+  n.baseMap_etale
+
+/-- The product of the independently varying neighbourhood bases maps
+coordinatewise to the ordered affine-root space. -/
+noncomputable def commonBaseToCoordinatePower (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    commonBase K C d z c n ⟶
+      PermutationPower.power (coordinateBase K) (Fin d)
+        (coordinateLine K) :=
+  Limits.Pi.map (fun i ↦ neighborhoodBaseToCoordinateLine K C (n i))
+
+instance commonBaseToCoordinatePower_etale (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    Etale (commonBaseToCoordinatePower K C d z c n).left := by
+  unfold commonBaseToCoordinatePower
+  exact PermutationPower.piMap_mem (coordinateBase K) (Fin d) @Etale
+    (fun i ↦ neighborhoodBaseToCoordinateLine K C (n i))
+    (fun i ↦ neighborhoodBaseToCoordinateLine_etale K C (n i))
+
+/-- The ordered-coordinate map for the occurrence-wise geometric-support
+chart.  Its source has one independent dimension for every occurrence. -/
+noncomputable abbrev geometricAssignedCommonBaseToCoordinatePower (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  commonBaseToCoordinatePower K C d z (geometricAssignedCharts K C d z)
+    (geometricAssignedNeighborhoods K C d z)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The `i`-th ordered affine-root coordinate is the coordinate of the
+matching occurrence base. -/
+@[reassoc] theorem commonBaseToCoordinatePower_comp_projection (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    commonBaseToCoordinatePower K C d z c n ≫
+        Pi.π (fun _ : Fin d ↦ coordinateLine K) i =
+      Pi.π (fun j : Fin d ↦ (n j).baseOver) i ≫
+        neighborhoodBaseToCoordinateLine K C (n i) :=
+  Limits.Pi.map_π
+    (fun i ↦ neighborhoodBaseToCoordinateLine K C (n i)) i
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- The common product base has a point because every selected étale base
@@ -775,6 +875,28 @@ noncomputable def restrictedPulledComponentToBase (d : ℕ)
     ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).toScheme ⟶
       V.toScheme :=
   (pulledComponentOverCommonBase K C d z c n i).hom ∣_ V
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The restricted component point lies over the common-base point, regarded
+as a point of the chosen open. -/
+@[simp] theorem restrictedPulledComponentToBase_point (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (hV : commonBasePoint K C d z c n ∈ V) (i : Fin d) :
+    restrictedPulledComponentToBase K C d z c n V i
+        (restrictedPulledComponentPoint K C d z c n V hV i) =
+      (⟨commonBasePoint K C d z c n, hV⟩ : V.toScheme) := by
+  apply Subtype.ext
+  let f := (pulledComponentOverCommonBase K C d z c n i).hom
+  let p := restrictedPulledComponentPoint K C d z c n V hV i
+  have hRestrict := congrArg
+    (fun a : ((f ⁻¹ᵁ V).toScheme ⟶
+        (commonBase K C d z c n).left) ↦ a p)
+    (morphismRestrict_ι f V)
+  change V.ι (restrictedPulledComponentToBase K C d z c n V i p) =
+    f (pulledComponentPoint K C d z c n i) at hRestrict
+  exact hRestrict.trans (pulledComponentPoint_snd K C d z c n i)
 
 /-- The chosen common-base open, regarded over the original ground field. -/
 noncomputable def restrictedCommonBaseOverGround (d : ℕ)

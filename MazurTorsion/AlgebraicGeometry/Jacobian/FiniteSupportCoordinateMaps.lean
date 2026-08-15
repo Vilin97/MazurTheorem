@@ -514,6 +514,20 @@ noncomputable def coherentPulledComponentToChart
     fpqcPulledComponentToChart K C d z c n V T q i
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Returning a coherent pulled component through its affine curve chart is
+the same as its direct map to the original curve. -/
+theorem coherentPulledComponentToChart_comp_openImmersion
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    coherentPulledComponentToChart K C d z c n V T q i ≫
+        (c i).V.1.ι =
+      coherentFpqcPulledComponentToCurve K C d z c n V T q i := by
+  rfl
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- The chart-coordinate factorization persists after passage to the single
 coherent product base. -/
 theorem coherentPulledComponentToChart_comp_schemeMap

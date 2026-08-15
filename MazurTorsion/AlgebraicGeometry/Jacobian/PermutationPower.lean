@@ -129,20 +129,21 @@ theorem action_equivariant {X Y : Over S} (f : X ⟶ Y) (g : Equiv.Perm ι) :
         rw [Category.assoc, permutationHom_comp_π]
   simpa [action] using congrArg Over.Hom.left h
 
-section FiniteMaps
+section StableMaps
 
-/-- The product of two finite morphisms in a slice category is finite on
-underlying schemes. -/
-theorem binaryMap_isFinite {X₁ X₂ Y₁ Y₂ : Over S}
-    (f₁ : X₁ ⟶ Y₁) (f₂ : X₂ ⟶ Y₂)
-    [IsFinite f₁.left] [IsFinite f₂.left] :
-    IsFinite (Limits.prod.map f₁ f₂).left := by
+/-- The product of two morphisms in a slice category has every
+base-change-stable multiplicative property enjoyed by both factors. -/
+theorem binaryMap_mem (P : MorphismProperty Scheme.{u})
+    [P.IsStableUnderBaseChange] [P.IsMultiplicative]
+    {X₁ X₂ Y₁ Y₂ : Over S} (f₁ : X₁ ⟶ Y₁) (f₂ : X₂ ⟶ Y₂)
+    (h₁ : P f₁.left) (h₂ : P f₂.left) :
+    P (Limits.prod.map f₁ f₂).left := by
   let m := pullback.map X₁.hom X₂.hom Y₁.hom Y₂.hom
     f₁.left f₂.left (𝟙 S)
     ((Category.comp_id _).trans f₁.w.symm) ((Category.comp_id _).trans f₂.w.symm)
-  have hm : IsFinite m := MorphismProperty.pullbackMap (P := @IsFinite)
+  have hm : P m := MorphismProperty.pullbackMap (P := P)
     (f := X₁.hom) (g := X₂.hom) (f' := Y₁.hom) (g' := Y₂.hom)
-    (i₁ := f₁.left) (i₂ := f₂.left) inferInstance inferInstance f₁.w.symm f₂.w.symm
+    (i₁ := f₁.left) (i₂ := f₂.left) h₁ h₂ f₁.w.symm f₂.w.symm
   have heq : (Limits.prod.map f₁ f₂).left =
       (Over.prodLeftIsoPullback X₁ X₂).hom ≫ m ≫
         (Over.prodLeftIsoPullback Y₁ Y₂).inv := by
@@ -165,36 +166,41 @@ theorem binaryMap_isFinite {X₁ X₂ Y₁ Y₂ : Over S}
       rw [pullback.lift_snd]
       simp
   rw [heq]
-  infer_instance
+  exact P.comp_mem _ _ (P.of_isIso _)
+    (P.comp_mem _ _ hm (P.of_isIso _))
 
-/-- Finiteness of an arrow over `S`, expressed as a morphism property on the
-slice category. -/
-abbrev overIsFinite : MorphismProperty (Over S) :=
-  MorphismProperty.inverseImage (@IsFinite : MorphismProperty Scheme) (Over.forget S)
+/-- Pull a scheme-morphism property back to the slice over `S`. -/
+abbrev overProperty (P : MorphismProperty Scheme.{u}) :
+    MorphismProperty (Over S) :=
+  MorphismProperty.inverseImage P (Over.forget S)
 
-instance overIsFinite_respectsIso : (overIsFinite S).RespectsIso := by
+instance overProperty_respectsIso (P : MorphismProperty Scheme.{u})
+    [P.RespectsIso] : (overProperty S P).RespectsIso := by
   apply MorphismProperty.RespectsIso.inverseImage
 
-/-- The object property on the arrow category selecting finite arrows over
-`S`. -/
-abbrev finiteArrow : ObjectProperty (Arrow (Over S)) :=
-  (overIsFinite S).commaObj (Functor.id (Over S)) (Functor.id (Over S))
+/-- The object property on the arrow category selecting arrows whose
+underlying scheme morphism has `P`. -/
+abbrev propertyArrow (P : MorphismProperty Scheme.{u}) :
+    ObjectProperty (Arrow (Over S)) :=
+  (overProperty S P).commaObj (Functor.id (Over S)) (Functor.id (Over S))
 
-instance finiteArrow_isClosedUnderIsomorphisms :
-    (finiteArrow S).IsClosedUnderIsomorphisms := by
+instance propertyArrow_isClosedUnderIsomorphisms
+    (P : MorphismProperty Scheme.{u}) [P.RespectsIso] :
+    (propertyArrow S P).IsClosedUnderIsomorphisms := by
   constructor
   intro X Y e h
-  change overIsFinite S Y.hom
-  change overIsFinite S X.hom at h
-  letI := overIsFinite_respectsIso S
-  exact ((overIsFinite S).comma_iso_iff e).mp h
+  change overProperty S P Y.hom
+  change overProperty S P X.hom at h
+  exact ((overProperty S P).comma_iso_iff e).mp h
 
-instance finiteArrow_isClosedUnderEmpty :
-    (finiteArrow S).IsClosedUnderLimitsOfShape (Discrete PEmpty) := by
+instance propertyArrow_isClosedUnderEmpty
+    (P : MorphismProperty Scheme.{u}) [P.RespectsIso]
+    [P.ContainsIdentities] :
+    (propertyArrow S P).IsClosedUnderLimitsOfShape (Discrete PEmpty) := by
   constructor
   rintro X p
   let t : IsTerminal X :=
-    (ObjectProperty.limitsOfShape_isEmpty_iff (finiteArrow S) _ X).mp p |>.some
+    (ObjectProperty.limitsOfShape_isEmpty_iff (propertyArrow S P) _ X).mp p |>.some
   let T : Arrow (Over S) := Arrow.mk (𝟙 (⊤_ (Over S)))
   let hT : IsTerminal T := IsTerminal.ofUniqueHom
       (fun X => Arrow.homMk (terminal.from X.left) (terminal.from X.right)
@@ -204,12 +210,14 @@ instance finiteArrow_isClosedUnderEmpty :
         · exact terminal.hom_ext _ _
         · exact terminal.hom_ext _ _)
   let e : X ≅ T := t.uniqueUpToIso hT
-  apply (finiteArrow_isClosedUnderIsomorphisms S).of_iso e.symm
-  change IsFinite (𝟙 (⊤_ (Over S)).left)
-  infer_instance
+  apply (propertyArrow_isClosedUnderIsomorphisms S P).of_iso e.symm
+  change P (𝟙 (⊤_ (Over S)).left)
+  exact P.id_mem _
 
-instance finiteArrow_isClosedUnderBinaryProducts :
-    (finiteArrow S).IsClosedUnderBinaryProducts := by
+instance propertyArrow_isClosedUnderBinaryProducts
+    (P : MorphismProperty Scheme.{u}) [P.IsStableUnderBaseChange]
+    [P.IsMultiplicative] :
+    (propertyArrow S P).IsClosedUnderBinaryProducts := by
   apply ObjectProperty.IsClosedUnderLimitsOfShape.mk'
   rintro X ⟨F, hF⟩
   let A := F.obj ⟨WalkingPair.left⟩
@@ -307,59 +315,65 @@ instance finiteArrow_isClosedUnderBinaryProducts :
   let e : limit F ≅ AB :=
     HasLimit.isoOfNatIso (diagramIsoPair F) ≪≫
       IsLimit.conePointUniqueUpToIso (limit.isLimit (pair A B)) hc
-  apply (finiteArrow_isClosedUnderIsomorphisms S).of_iso e.symm
-  change IsFinite (Limits.prod.map A.hom B.hom).left
-  have hA : IsFinite A.hom.left := hF ⟨WalkingPair.left⟩
-  have hB : IsFinite B.hom.left := hF ⟨WalkingPair.right⟩
-  exact binaryMap_isFinite S A.hom B.hom
+  apply (propertyArrow_isClosedUnderIsomorphisms S P).of_iso e.symm
+  change P (Limits.prod.map A.hom B.hom).left
+  have hA : P A.hom.left := hF ⟨WalkingPair.left⟩
+  have hB : P B.hom.left := hF ⟨WalkingPair.right⟩
+  exact binaryMap_mem S P A.hom B.hom hA hB
 
-instance finiteArrow_isClosedUnderFiniteProducts :
-    (finiteArrow S).IsClosedUnderFiniteProducts :=
+instance propertyArrow_isClosedUnderFiniteProducts
+    (P : MorphismProperty Scheme.{u}) [P.IsStableUnderBaseChange]
+    [P.IsMultiplicative] :
+    (propertyArrow S P).IsClosedUnderFiniteProducts :=
   ObjectProperty.IsClosedUnderFiniteProducts.mk'
 
-/-- A componentwise map on a finite relative power is finite when the
-original map is finite. -/
-theorem map_isFinite {X Y : Over S} (f : X ⟶ Y) [IsFinite f.left] :
-    IsFinite (map S ι f).left := by
-  let A : ι → Arrow (Over S) := fun _ => Arrow.mk f
-  let Z : Arrow (Over S) := Arrow.mk (map S ι f)
+/-- A finite coordinatewise product map inherits every
+base-change-stable multiplicative property of its components. -/
+theorem piMap_mem (P : MorphismProperty Scheme.{u})
+    [P.IsStableUnderBaseChange] [P.IsMultiplicative]
+    {X Y : ι → Over S} (f : ∀ i, X i ⟶ Y i)
+    (hf : ∀ i, P (f i).left) :
+    P (Limits.Pi.map f).left := by
+  let A : ι → Arrow (Over S) := fun i => Arrow.mk (f i)
+  let Z : Arrow (Over S) := Arrow.mk (Limits.Pi.map f)
   let p (i : ι) : Z ⟶ A i := Arrow.homMk
-    (Pi.π (fun _ : ι => X) i) (Pi.π (fun _ : ι => Y) i) (by
-      change Pi.π (fun _ : ι => X) i ≫ f =
-        map S ι f ≫ Pi.π (fun _ : ι => Y) i
-      rw [map_comp_π])
+    (Pi.π X i) (Pi.π Y i) (by
+      change Pi.π X i ≫ f i = Limits.Pi.map f ≫ Pi.π Y i
+      rw [Limits.Pi.map_π])
   let c : Fan A := Fan.mk Z p
   let q (s : Fan A) (i : ι) : s.pt ⟶ A i := s.proj i
   let liftZ (s : Fan A) : s.pt ⟶ Z := Arrow.homMk
     (Pi.lift fun i => (q s i).left) (Pi.lift fun i => (q s i).right) (by
-      change (Pi.lift fun i => (q s i).left) ≫ map S ι f =
+      change (Pi.lift fun i => (q s i).left) ≫ Limits.Pi.map f =
         s.pt.hom ≫ Pi.lift fun i => (q s i).right
       apply Pi.hom_ext
       intro i
       calc
-        ((Pi.lift fun i => (q s i).left) ≫ map S ι f) ≫
-              Pi.π (fun _ : ι => Y) i =
+        ((Pi.lift fun i => (q s i).left) ≫ Limits.Pi.map f) ≫
+              Pi.π Y i =
             (Pi.lift fun i => (q s i).left) ≫
-              (map S ι f ≫ Pi.π (fun _ : ι => Y) i) :=
+              (Limits.Pi.map f ≫ Pi.π Y i) :=
           Category.assoc _ _ _
         _ = (Pi.lift fun i => (q s i).left) ≫
-              (Pi.π (fun _ : ι => X) i ≫ f) := by rw [map_comp_π]
+              (Pi.π X i ≫ f i) := by
+                rw [Limits.Pi.map_π]
+                simp [A]
         _ = ((Pi.lift fun i => (q s i).left) ≫
-              Pi.π (fun _ : ι => X) i) ≫ f := (Category.assoc _ _ _).symm
-        _ = (q s i).left ≫ f := by simp [A]
+              Pi.π X i) ≫ f i := (Category.assoc _ _ _).symm
+        _ = (q s i).left ≫ f i := by simp [A]
         _ = s.pt.hom ≫ (q s i).right := (q s i).w
         _ = (s.pt.hom ≫ Pi.lift fun i => (q s i).right) ≫
-              Pi.π (fun _ : ι => Y) i := by
+              Pi.π Y i := by
           simp [A])
   have hc : IsLimit c := Fan.IsLimit.mk c liftZ
     (by
       intro s i
       apply Arrow.hom_ext
       · change (Pi.lift fun j => (q s j).left) ≫
-            Pi.π (fun _ : ι => X) i = (q s i).left
+            Pi.π X i = (q s i).left
         exact Pi.lift_π _ _
       · change (Pi.lift fun j => (q s j).right) ≫
-            Pi.π (fun _ : ι => Y) i = (q s i).right
+            Pi.π Y i = (q s i).right
         exact Pi.lift_π _ _)
     (by
       intro s m hm
@@ -368,18 +382,31 @@ theorem map_isFinite {X Y : Over S} (f : X ⟶ Y) [IsFinite f.left] :
         apply Pi.hom_ext
         intro i
         have h := congrArg Arrow.Hom.left (hm i)
-        change m.left ≫ Pi.π (fun _ : ι => X) i = (q s i).left at h
+        change m.left ≫ Pi.π X i = (q s i).left at h
         simpa [A] using h
       · change m.right = Pi.lift fun i => (q s i).right
         apply Pi.hom_ext
         intro i
         have h := congrArg Arrow.Hom.right (hm i)
-        change m.right ≫ Pi.π (fun _ : ι => Y) i = (q s i).right at h
+        change m.right ≫ Pi.π Y i = (q s i).right at h
         simpa [A] using h)
-  change finiteArrow S Z
-  exact (finiteArrow S).prop_of_isLimit_fan hc
-    (fun _ => show IsFinite f.left from inferInstance)
+  change propertyArrow S P Z
+  exact (propertyArrow S P).prop_of_isLimit_fan hc hf
 
-end FiniteMaps
+/-- The product of two finite morphisms in a slice category is finite on
+underlying schemes. -/
+theorem binaryMap_isFinite {X₁ X₂ Y₁ Y₂ : Over S}
+    (f₁ : X₁ ⟶ Y₁) (f₂ : X₂ ⟶ Y₂)
+    [IsFinite f₁.left] [IsFinite f₂.left] :
+    IsFinite (Limits.prod.map f₁ f₂).left :=
+  binaryMap_mem S @IsFinite f₁ f₂ inferInstance inferInstance
+
+/-- A componentwise map on a finite relative power is finite when the
+original map is finite. -/
+theorem map_isFinite {X Y : Over S} (f : X ⟶ Y) [IsFinite f.left] :
+    IsFinite (map S ι f).left :=
+  piMap_mem S ι @IsFinite (fun _ ↦ f) (fun _ ↦ inferInstance)
+
+end StableMaps
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower

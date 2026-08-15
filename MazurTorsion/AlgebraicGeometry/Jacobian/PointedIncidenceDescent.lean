@@ -167,6 +167,24 @@ theorem orderedSupport_exists_geometricDistinctCommonSplitChart (d : ℕ)
     (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The occurrence-wise repetition of the geometric-support charts has a
+simultaneous split cover over its dimension-`d` coordinate-base product.
+Unlike the deduplicated support base, this base retains one independently
+varying coordinate for every ordered occurrence; unlike an arbitrary
+occurrence family, equal geometric coordinates use the same chart data.
+This is the input chart for the block-stabilizer quotient comparison. -/
+theorem orderedSupport_exists_geometricAssignedCommonSplitChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    HasCommonSplitChartAtSupport K C d (orderedSupportPoint K C d z)
+      (geometricAssignedCharts K C d (orderedSupportPoint K C d z))
+      (geometricAssignedNeighborhoods K C d
+        (orderedSupportPoint K C d z)) :=
+  exists_commonSplitChartAtSupport K C d (orderedSupportPoint K C d z)
+    (geometricAssignedCharts K C d (orderedSupportPoint K C d z))
+    (geometricAssignedNeighborhoods K C d
+      (orderedSupportPoint K C d z))
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On a chosen geometric-support fpqc split chart, the degree-preserving
 assigned coproduct power contains a point mapping to the exact original
 ordered support.  Repeated geometric coordinates use the same family member
