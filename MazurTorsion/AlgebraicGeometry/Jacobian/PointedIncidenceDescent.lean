@@ -530,6 +530,36 @@ instance productSymmetricPowerToIncidenceQuotient_isFinite (n : ℕ) :
   IsFinite.of_isProper_of_locallyQuasiFinite
     (productSymmetricPowerToIncidenceQuotient K C n)
 
+/-- The candidate degree-`n + 2` universal effective divisor, written in
+its explicit pointed symmetric-power presentation
+`(x, D) ↦ (x, x + D)`.  The named downstream consumer is the Abel map in
+`PicardRepresentability`; flatness, rank, and Cartier-ness are deliberately
+left to the local monic-root comparison. -/
+noncomputable def pointedUniversalEffectiveDivisor (n : ℕ) :
+    (C ⨯ SymmetricPower.curveSchemeSucc K C n).left ⟶
+      (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left :=
+  (Limits.prod.lift
+    (Limits.prod.fst :
+      C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶ C)
+    (pointedSymmetricPowerAddition K C n)).left
+
+/-- The explicit pointed divisor factors through the finite incidence
+quotient and its descended finite morphism. -/
+theorem pointedUniversalEffectiveDivisor_eq_incidenceComposite (n : ℕ) :
+    pointedUniversalEffectiveDivisor K C n =
+      productSymmetricPowerToIncidenceQuotient K C n ≫
+        curveDescendedIncidenceιSucc K C (n + 1) := by
+  exact congrArg Over.Hom.left
+    (productSymmetricPowerToIncidenceQuotientOver_comp_descendedIncidenceOver
+      K C n).symm
+
+/-- The pointed universal-divisor candidate is finite over
+`C × Sym^(n+2)(C)`. -/
+instance pointedUniversalEffectiveDivisor_isFinite (n : ℕ) :
+    IsFinite (pointedUniversalEffectiveDivisor K C n) := by
+  rw [pointedUniversalEffectiveDivisor_eq_incidenceComposite]
+  infer_instance
+
 /-- The pointed comparison is an isomorphism once it becomes one after an
 fpqc cover of the incidence quotient.  The downstream consumer is the local
 monic-root chart comparison: its explicit affine isomorphisms provide the
