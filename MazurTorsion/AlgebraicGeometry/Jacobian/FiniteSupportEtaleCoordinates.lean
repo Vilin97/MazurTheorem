@@ -13,6 +13,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteAffinePresentation
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFinitePowerPoint
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportIndex
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleAssignedCoproductPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.AssignedProductStabilizer
 
 /-!
 # Étale coordinates for a finite ordered support
@@ -333,6 +334,31 @@ theorem geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
   rw [distinctSupportPoint_projection]
   exact supportPoint_coordinateSupportIndex (Spec (.of K)) d C z i
 
+/-- Transport a point chart along equality of its distinguished curve
+point. -/
+def castPointChart {x y : C.left} (h : x = y)
+    (c : PointChart K C.left C.hom x) :
+    PointChart K C.left C.hom y :=
+  h ▸ c
+
+/-- Transport a finite neighbourhood together with the point chart that
+indexes its type. -/
+def castFiniteNeighborhood {x y : C.left} (h : x = y)
+    {c : PointChart K C.left C.hom x}
+    (n : PointChart.FiniteNeighborhood c) :
+    PointChart.FiniteNeighborhood (castPointChart K C h c) := by
+  subst y
+  exact n
+
+/-- Transporting the distinguished point does not change the finite
+neighbourhood base as an object over the affine coordinate line. -/
+noncomputable def castFiniteNeighborhoodBaseOverIso {x y : C.left}
+    (h : x = y) {c : PointChart K C.left C.hom x}
+    (n : PointChart.FiniteNeighborhood c) :
+    (castFiniteNeighborhood K C h n).baseOver ≅ n.baseOver := by
+  subst y
+  exact Iso.refl _
+
 /-- Repeat the chosen geometric-support chart once for every ordered
 occurrence.  Equal geometric coordinates therefore use the same chart data,
 while their coordinate variables remain independently indexed by `Fin d`.
@@ -340,18 +366,22 @@ This is the chart family for the dimension-`d` local quotient model. -/
 noncomputable def geometricAssignedCharts (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
     Charts K C d z :=
-  fun i ↦ by
-    rw [← geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
-      K C d z i]
-    exact geometricDistinctCharts K C d z
-      (geometricPointSupportIndex K C d z i)
+  fun i ↦ castPointChart K C
+    (geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+      K C d z i)
+    (geometricDistinctCharts K C d z
+      (geometricPointSupportIndex K C d z i))
 
 /-- The occurrence-indexed finite étale neighborhoods obtained by repeating
 the geometric-support chart family. -/
 noncomputable def geometricAssignedNeighborhoods (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
     Neighborhoods K C d z (geometricAssignedCharts K C d z) :=
-  neighborhoods K C d z (geometricAssignedCharts K C d z)
+  fun i ↦ castFiniteNeighborhood K C
+    (geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+      K C d z i)
+    (geometricDistinctNeighborhoods K C d z
+      (geometricPointSupportIndex K C d z i))
 
 /-- The common relative product of the étale bases of a finite family of
 point neighborhoods. -/
@@ -360,15 +390,6 @@ noncomputable abbrev commonBase (d : ℕ)
     (c : Charts K C d z) (n : Neighborhoods K C d z c) :
     Over (coordinateBase K) :=
   ∏ᶜ fun i : Fin d ↦ (n i).baseOver
-
-/-- The dimension-`d` product of coordinate bases, one independent factor
-for every ordered occurrence.  The geometric-support assignment controls
-which factors share chart data, not whether their coordinates may vary
-independently. -/
-noncomputable abbrev geometricAssignedCommonBase (d : ℕ)
-    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
-  commonBase K C d z (geometricAssignedCharts K C d z)
-    (geometricAssignedNeighborhoods K C d z)
 
 /-- One finite-neighbourhood base maps to the affine coordinate line over
 the ground-field copy. -/
@@ -383,6 +404,95 @@ instance neighborhoodBaseToCoordinateLine_etale
     (n : PointChart.FiniteNeighborhood c) :
     Etale (neighborhoodBaseToCoordinateLine K C n).left :=
   n.baseMap_etale
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The base isomorphism induced by transporting a distinguished point
+commutes with the finite-neighbourhood coordinate map. -/
+@[reassoc]
+theorem castFiniteNeighborhoodBaseOverIso_hom_comp_coordinateLine
+    {x y : C.left} (h : x = y)
+    {c : PointChart K C.left C.hom x}
+    (n : PointChart.FiniteNeighborhood c) :
+    (castFiniteNeighborhoodBaseOverIso K C h n).hom ≫
+        neighborhoodBaseToCoordinateLine K C n =
+      neighborhoodBaseToCoordinateLine K C
+        (castFiniteNeighborhood K C h n) := by
+  subst y
+  rfl
+
+/-- The finite étale coordinate-base family indexed once per distinct
+geometric support morphism. -/
+noncomputable def geometricAssignedBaseFamily (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    Fin (geometricDistinctSupportCard K C d z) → Over (coordinateBase K) :=
+  fun j ↦ (geometricDistinctNeighborhoods K C d z j).baseOver
+
+/-- The dimension-`d` product of coordinate bases, one independent factor
+for every ordered occurrence.  The geometric-support assignment controls
+which factors share chart data, not whether their coordinates may vary
+independently. -/
+noncomputable abbrev geometricAssignedCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  assignedProduct (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (geometricAssignedBaseFamily K C d z)
+    (geometricPointSupportIndex K C d z)
+
+/-- The occurrence-indexed product formed from transported neighbourhoods
+is canonically the assigned product of the geometric-support base family. -/
+noncomputable def geometricAssignedCommonBaseIso (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    commonBase K C d z (geometricAssignedCharts K C d z)
+        (geometricAssignedNeighborhoods K C d z) ≅
+      geometricAssignedCommonBase K C d z :=
+  Pi.mapIso fun i ↦ castFiniteNeighborhoodBaseOverIso K C
+    (geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+      K C d z i)
+    (geometricDistinctNeighborhoods K C d z
+      (geometricPointSupportIndex K C d z i))
+
+@[reassoc]
+theorem geometricAssignedCommonBaseIso_hom_comp_projection (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (i : Fin d) :
+    (geometricAssignedCommonBaseIso K C d z).hom ≫
+        Pi.π (fun i : Fin d ↦ geometricAssignedBaseFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i =
+      Pi.π (fun i : Fin d ↦
+        (geometricAssignedNeighborhoods K C d z i).baseOver) i ≫
+        (castFiniteNeighborhoodBaseOverIso K C
+          (geometricDistinctSupportOrderedPoint_geometricPointSupportIndex
+            K C d z i)
+          (geometricDistinctNeighborhoods K C d z
+            (geometricPointSupportIndex K C d z i))).hom :=
+  Pi.mapIso_hom_π _ i
+
+/-- The coordinate-line map attached to every distinct geometric support
+member. -/
+noncomputable def geometricAssignedBaseMapFamily (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    geometricAssignedBaseFamily K C d z j ⟶ coordinateLine K :=
+  neighborhoodBaseToCoordinateLine K C
+    (geometricDistinctNeighborhoods K C d z j)
+
+/-- The block stabilizer that permutes exactly the occurrences having the
+same geometric support morphism. -/
+noncomputable abbrev geometricAssignedStabilizer (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
+  MulAction.stabilizer (Equiv.Perm (Fin d))
+    (geometricPointSupportIndex K C d z)
+
+/-- The geometric-support block stabilizer action on the occurrence-wise
+coordinate base. -/
+noncomputable def geometricAssignedCommonBaseAction (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    SchemeAction (geometricAssignedStabilizer K C d z)
+      (geometricAssignedCommonBase K C d z).left :=
+  AssignedProductStabilizer.action (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (geometricAssignedBaseFamily K C d z)
+    (geometricPointSupportIndex K C d z)
 
 /-- The product of the independently varying neighbourhood bases maps
 coordinatewise to the ordered affine-root space. -/
@@ -405,10 +515,41 @@ instance commonBaseToCoordinatePower_etale (d : ℕ)
 
 /-- The ordered-coordinate map for the occurrence-wise geometric-support
 chart.  Its source has one independent dimension for every occurrence. -/
-noncomputable abbrev geometricAssignedCommonBaseToCoordinatePower (d : ℕ)
+noncomputable def geometricAssignedCommonBaseToCoordinatePower (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
-  commonBaseToCoordinatePower K C d z (geometricAssignedCharts K C d z)
-    (geometricAssignedNeighborhoods K C d z)
+  AssignedProductStabilizer.assignedMap (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (geometricAssignedBaseFamily K C d z)
+    (geometricPointSupportIndex K C d z) (coordinateLine K)
+    (geometricAssignedBaseMapFamily K C d z)
+
+instance geometricAssignedCommonBaseToCoordinatePower_etale (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
+    Etale (geometricAssignedCommonBaseToCoordinatePower K C d z).left := by
+  unfold geometricAssignedCommonBaseToCoordinatePower
+    AssignedProductStabilizer.assignedMap
+  exact PermutationPower.piMap_mem (coordinateBase K) (Fin d) @Etale
+    (fun i ↦ geometricAssignedBaseMapFamily K C d z
+      (geometricPointSupportIndex K C d z i))
+    (fun i ↦ neighborhoodBaseToCoordinateLine_etale K C
+      (geometricDistinctNeighborhoods K C d z
+        (geometricPointSupportIndex K C d z i)))
+
+/-- The occurrence-wise coordinate map is equivariant for the block
+stabilizer and the ambient permutation action on ordered affine roots. -/
+theorem geometricAssignedCommonBaseToCoordinatePower_equivariant (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (g : geometricAssignedStabilizer K C d z) :
+    (geometricAssignedCommonBaseAction K C d z).hom g ≫
+        (geometricAssignedCommonBaseToCoordinatePower K C d z).left =
+      (geometricAssignedCommonBaseToCoordinatePower K C d z).left ≫
+        (PermutationPower.action (coordinateBase K) (Fin d)
+          (coordinateLine K)).hom g.1 :=
+  AssignedProductStabilizer.assignedMap_equivariant (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (geometricAssignedBaseFamily K C d z)
+    (geometricPointSupportIndex K C d z) (coordinateLine K)
+    (geometricAssignedBaseMapFamily K C d z) g
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- The `i`-th ordered affine-root coordinate is the coordinate of the

@@ -11,6 +11,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedRootCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -46,6 +47,8 @@ open CoherentComponentBaseChange
 open OrderedIncidenceOpenRestriction
 open GeometricSupportAssignedSplitChart
 open GeometricAssignedRootCoordinates
+open GeometricAssignedAffineChart
+open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
 open SplitFinitePowerPoint
 open SplitFiniteSymmetricQuotient
@@ -183,6 +186,38 @@ theorem orderedSupport_exists_geometricAssignedCommonSplitChart (d : ℕ)
     (geometricAssignedCharts K C d (orderedSupportPoint K C d z))
     (geometricAssignedNeighborhoods K C d
       (orderedSupportPoint K C d z))
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The actual ordered support of an incidence point has an affine,
+dimension-`d`, occurrence-wise étale chart stable under the subgroup that
+permutes equal geometric occurrences. -/
+noncomputable abbrev orderedSupportGeometricAssignedAffineBase (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    Over (coordinateBase K) :=
+  commonAffineBase K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Quotient of the affine occurrence-wise chart by the exact stabilizer of
+the incidence point's geometric support assignment. -/
+noncomputable abbrev orderedSupportGeometricAssignedAffineQuotient (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) : Scheme.{u} :=
+  GeometricAssignedAffineChart.quotient K C d
+    (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The repeated distinct-support point in the affine occurrence chart is
+fixed by its full block stabilizer.  This is the central point for the local
+monic-quotient comparison. -/
+theorem orderedSupportGeometricAssignedAffinePoint_fixed (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (g : geometricAssignedStabilizer K C d
+      (orderedSupportPoint K C d z)) :
+    (GeometricAssignedAffineChart.action K C d
+        (orderedSupportPoint K C d z)).hom g
+      (commonAffineBasePoint K C d (orderedSupportPoint K C d z)) =
+        commonAffineBasePoint K C d (orderedSupportPoint K C d z) :=
+  action_fixed_commonAffineBasePoint K C d
+    (orderedSupportPoint K C d z) g
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On a chosen geometric-support fpqc split chart, the degree-preserving

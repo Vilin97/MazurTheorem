@@ -43,6 +43,18 @@ private lemma stabilizer_inv_preserves
     a (g.1⁻¹ i) = a i :=
   congrFun g.2 i
 
+/-- A tuple stabilizer preserves the label of every position. -/
+theorem stabilizer_apply_eq
+    (g : MulAction.stabilizer (Equiv.Perm (Fin d)) a) (i : Fin d) :
+    a (g.1 i) = a i :=
+  stabilizer_preserves d m a g i
+
+/-- The inverse of a tuple stabilizer also preserves every position label. -/
+theorem stabilizer_inv_apply_eq
+    (g : MulAction.stabilizer (Equiv.Perm (Fin d)) a) (i : Fin d) :
+    a (g.1⁻¹ i) = a i :=
+  stabilizer_inv_preserves d m a g i
+
 /-- Restrict a tuple stabilizer to the permutation induced on one fiber. -/
 noncomputable def stabilizerToFiberPerm
     (g : MulAction.stabilizer (Equiv.Perm (Fin d)) a)
