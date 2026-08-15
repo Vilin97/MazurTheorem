@@ -183,11 +183,21 @@ surjective projection, and universal closedness descends from the proper
 ordered power.  The quotient projection is finite: on each stable affine
 chart, base sections land in the invariant ring, finite generation passes
 from the base to the invariants, and finite-group integrality makes the chart
-ring module-finite over its invariants.  To upgrade the quotient from
-universally closed to proper, the remaining quotient-geometry lemma is
-separatedness of the finite-group quotient; this must use the quotient
-relation, since separatedness does not follow formally from universal
-closedness.
+ring module-finite over its invariants.  The descended structure map is
+locally of finite type on the same charts: Artin--Tate makes the base-to-
+invariants map finite type, and epimorphicity of the invariant-spectrum map
+identifies the chart restriction with its `Spec` morphism.
+
+The quotient is also separated.  More generally, if `X → Y` is finite and
+surjective and `X → S` is proper, then `Y → S` is separated.  After
+base-changing the diagonal of `Y/S` along
+`X ×_S X → Y ×_S Y`, its source is `X ×_Y X`; the resulting
+morphism into `X ×_S X` is proper.  The product cover is again finite and
+surjective, so universal closedness of the pulled-back diagonal descends
+without a flatness assumption.  Since every scheme diagonal is an immersion,
+a universally closed diagonal is a closed immersion.  Combining
+separatedness, universal closedness, and local finite type proves that every
+positive symmetric power constructed above is proper over the ground field.
 
 Denote the representing object by
 

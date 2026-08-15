@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteMapToProjectiveLine
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSurjectiveProperDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricallyIrreducibleDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.ProjectiveFiniteOrbit
@@ -465,6 +466,32 @@ instance curveProjectionSucc_surjective (n : ℕ) :
     (curve_hasAffineOrbits_succ K C n))
   exact underlyingProjection_surjectiveProperty (Spec (.of K)) (n + 1) C _
 
+/-- Positive-degree symmetric powers are locally of finite type over the
+ground field. -/
+instance curveSchemeSucc_locallyOfFiniteType (n : ℕ) :
+    LocallyOfFiniteType (curveSchemeSucc K C n).hom := by
+  change LocallyOfFiniteType
+    (structureMap (Spec (.of K)) (n + 1) C
+      (curve_hasAffineOrbits_succ K C n))
+  infer_instance
+
+/-- Positive-degree symmetric powers are separated over the ground field.
+This descends from the proper ordered power through the finite surjective
+quotient projection. -/
+instance curveSchemeSucc_isSeparated (n : ℕ) :
+    IsSeparated (curveSchemeSucc K C n).hom := by
+  let q := (curveProjectionSucc K C n).left
+  let p := (curveSchemeSucc K C n).hom
+  letI : IsFinite q := curveProjectionSucc_isFinite K C n
+  letI : Surjective q := curveProjectionSucc_surjective K C n
+  have hqp : q ≫ p =
+      (power (Spec (.of K)) (Fin (n + 1)) C).hom :=
+    curveProjectionSucc_comp_structureMap K C n
+  letI : IsProper (q ≫ p) := by
+    rw [hqp]
+    infer_instance
+  exact Jacobian.isSeparated_of_finite_surjective_comp_isProper q p
+
 /-- Every positive-degree symmetric power of a challenge curve is
 geometrically irreducible over the ground field. -/
 instance curveSchemeSucc_geometricallyIrreducible (n : ℕ) :
@@ -488,6 +515,11 @@ instance curveSchemeSucc_universallyClosed (n : ℕ) :
     infer_instance
   exact UniversallyClosed.of_comp_surjective
     (curveProjectionSucc K C n).left (curveSchemeSucc K C n).hom
+
+/-- Every positive-degree symmetric power of a proper challenge curve is
+proper over the ground field. -/
+instance curveSchemeSucc_isProper (n : ℕ) :
+    IsProper (curveSchemeSucc K C n).hom := ⟨⟩
 
 end Curve
 
