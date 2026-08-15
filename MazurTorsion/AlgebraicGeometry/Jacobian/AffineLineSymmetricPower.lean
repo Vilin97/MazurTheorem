@@ -125,6 +125,34 @@ noncomputable def coefficientEquivFixedPoints (n : ℕ) :
   exact (MvPolynomial.esymmAlgEquiv (Fin n) R (Fintype.card_fin n)).trans
     (fixedPointsEquivSymmetricSubalgebra R (Fin n)).symm
 
+/-- The underlying polynomial of coefficient variable `i` is the elementary
+symmetric polynomial of degree `i + 1`. -/
+theorem coefficientEquivFixedPoints_X (n : ℕ) (i : Fin n) :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    ((coefficientEquivFixedPoints R n) (MvPolynomial.X i)).1 =
+      MvPolynomial.esymm (Fin n) R (i + 1) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  change
+    (((fixedPointsEquivSymmetricSubalgebra R (Fin n)).symm
+      ((MvPolynomial.esymmAlgEquiv (Fin n) R
+        (Fintype.card_fin n)) (MvPolynomial.X i)))).1 = _
+  simp [fixedPointsEquivSymmetricSubalgebra,
+    MvPolynomial.esymmAlgEquiv, MvPolynomial.esymmAlgHom]
+
+/-- The coefficient equivalence fixes constants. -/
+theorem coefficientEquivFixedPoints_C (n : ℕ) (r : R) :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    ((coefficientEquivFixedPoints R n) (MvPolynomial.C r)).1 =
+      MvPolynomial.C r := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  rw [← MvPolynomial.algebraMap_eq]
+  exact congrArg Subtype.val
+    ((coefficientEquivFixedPoints R n).commutes r)
+
 /-- The ordered-root affine scheme `(A¹)^n`. -/
 abbrev orderedRootScheme (n : ℕ) :=
   Spec (CommRingCat.of (MvPolynomial (Fin n) R))

@@ -8,6 +8,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSymmetricPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineMonicCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.MonicRootFamily
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalRootFactorization
 import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
@@ -51,6 +52,24 @@ noncomputable def affineLineSymmetricPowerIsoCoefficientSpace
     AffineLineSymmetricPower.invariantRootScheme R n ≅
       Spec (CommRingCat.of (MvPolynomial (Fin n) R)) :=
   AffineLineSymmetricPower.invariantRootSchemeIsoCoefficientSpace R n
+
+/-- The same affine symmetric quotient in the signed, reversed coefficient
+coordinates used by `Polynomial.freeMonic`. -/
+noncomputable def affineLineSymmetricPowerIsoMonicCoefficientSpace
+    (R : Type u) [CommRing R] (n : ℕ) :
+    AffineLineSymmetricPower.invariantRootScheme R n ≅
+      Spec (CommRingCat.of (MvPolynomial (Fin n) R)) :=
+  AffineLineMonicCoordinates.invariantRootSchemeIsoMonicCoefficientSpace R n
+
+/-- Vieta's formula in the exact coordinate convention of the monic-root
+family: the universal monic polynomial becomes the product of the ordered
+linear root factors. -/
+theorem affineLineOrderedRoots_freeMonic
+    (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    (Polynomial.freeMonic R n).map
+        (AffineLineMonicCoordinates.monicCoefficientToRoots R n).toRingHom =
+      AffineLineMonicCoordinates.orderedRootPolynomial R n :=
+  AffineLineMonicCoordinates.freeMonic_map_monicCoefficientToRoots R n
 
 /-- Any monic equation gives the finite-flat principal Cartier family used
 after passing from a standard-smooth curve chart to its étale coordinate. -/
