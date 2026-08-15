@@ -1230,3 +1230,34 @@ The implementation policy following this audit is:
 10. Continue the exact-pin Tau Ceti dependency, while monitoring the genus-one
    Picard work, AINTLIB, and relevant mathlib PRs. Pin updates must keep the
    root and separate Tau Ceti contract workspaces synchronized.
+
+## 18. Lean-eval coherent-cohomology solution
+
+The private
+[`lean-eval-coherent-cohomology-finite-dimensional`](https://github.com/Vilin97/lean-eval-coherent-cohomology-finite-dimensional)
+repository was audited at immutable commit
+`dc38ff1ed439dda5da5e07e380f80c8d7dccc9d9`. Its parent solution commit
+`c51f30e5a9bcb2d2bf49769674764af58ae9cafb` contains a complete 548-module
+proof cone, and every one of those modules is reachable from the submitted
+theorem. The cone proves all-degree finiteness by constructing relative
+projective coordinate maps and affine Serre comparisons, feeding those into
+a canonical-support/Chow reduction, and carrying finiteness through the
+resulting cohomological dévissage.
+
+This is materially stronger in degree range than Mazur's existing
+`ProperCurveCohomologyFinite` route. The existing route is curve-specific and
+uses a supplied codimension-one point to construct a finite map to `P¹`; the
+new source handles every degree for every finite-type quasicoherent module on
+a proper rational scheme. Conversely, its conclusion is specifically
+`Module.Finite ℚ (ℚ ⊗[ℤ] M.sheaf.H n)`. It does not by itself provide
+the arbitrary-field linear cohomology object or scalar comparison required by
+the algebraic-geometric Jacobian challenge. The two results are therefore
+retained as complementary checked interfaces rather than identified.
+
+The source also carried five copies of LeanPool's Grothendieck-vanishing
+modules and a tiny challenge-only abbreviation for `M.sheaf`. Both already
+have maintained exact-pin homes in Mazur, so the integration reuses those
+homes and ports only the 548 coherent-cohomology modules. This avoids a forked
+copy of categorical vanishing and gives the new theorem the named facade
+`MazurTorsion.AlgebraicGeometry.CoherentCohomology.finiteDimensional`, with
+`hOneFinite` as its reviewed degree-one consumer.

@@ -192,6 +192,48 @@ Noetherianity, then applies `GrothendieckVanishing` to the actual underlying
 additive sheaf of a scheme module. It proves vanishing in every degree at least
 two; it deliberately makes no finite-dimensionality or coherence claim.
 
+## Lean-eval coherent cohomology finiteness
+
+The 548 modules below `Submission/CoherentCohomologyFinite/` in
+[`Vilin97/lean-eval-coherent-cohomology-finite-dimensional`](https://github.com/Vilin97/lean-eval-coherent-cohomology-finite-dimensional)
+at commit `dc38ff1ed439dda5da5e07e380f80c8d7dccc9d9` are retained below
+`MazurTorsion/Upstream/CoherentCohomologyFinite/`. The mathematical solution
+was introduced by the parent commit
+`c51f30e5a9bcb2d2bf49769674764af58ae9cafb`. The source package used Lean
+`v4.32.0-rc1` and Mathlib commit
+`360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56`; this port targets Lean
+`v4.33.0-rc1` and Mathlib commit
+`79d0395a1825a6264ad5d269e35e60537518955e`.
+
+The port makes the following boundary changes:
+
+- `Submission.CoherentCohomologyFinite.*` imports become
+  `MazurTorsion.Upstream.CoherentCohomologyFinite.*`, while declarations move
+  from the submission namespaces into
+  `MazurTorsion.AlgebraicGeometry.CoherentCohomology`.
+- The source's five copied LeanPool modules are omitted. Three consumers use
+  Mazur's reviewed exact-pin modules below
+  `MazurTorsion.Upstream.LeanPool.GrothendieckVanishing`.
+- The small `ChallengeDeps` compatibility import is replaced by Mazur's
+  existing `SchemeModuleSheaf` bridge; no duplicate `M.sheaf` abbreviation is
+  introduced.
+- All source-level option commands are removed. Proposition-valued opaque
+  helper definitions formerly guarded by the `defProp` linter switch are
+  expressed as opaque theorems, preserving their proof-irrelevance and
+  non-unfolding role without a linter suppression.
+- Missing file headers receive the same Apache-2.0 copyright and authorship
+  notice recorded by the headed source files and the solution commit. Existing
+  independent attribution is preserved unchanged.
+
+`MazurTorsion.Upstream.CoherentCohomologyFinite` is the reviewed public
+facade. Its `finiteDimensional` theorem retains the exact source conclusion:
+for a proper map to `Spec ℚ`, a finite-type quasicoherent scheme module has
+finite canonical rationalization `ℚ ⊗[ℤ] M.sheaf.H n` in every degree. The
+facade intentionally does not identify this object with field-linear sheaf
+cohomology over an arbitrary field. `hOneFinite` is the named degree-one
+consumer for rational genus work and records the interface needed by the
+Jacobian roadmap; a field-relative comparison remains a separate theorem.
+
 ## Mathlib Dedekind-zeta finite-fibre adaptation
 
 `MazurTorsion/NumberTheory/WeakChebotarev.lean` adapts the finite-fibre

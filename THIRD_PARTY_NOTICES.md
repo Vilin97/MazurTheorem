@@ -56,6 +56,27 @@ headers. They prove Grothendieck vanishing for abelian sheaves on Noetherian
 topological spaces. The local exact-pin adaptations and the named smooth
 proper curve consumer are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
 
+## Lean-eval coherent cohomology finiteness
+
+- Copyright and authorship retained from the source: Vasil V. and
+  contributors; Vasil V. and OpenAI Codex
+- Source:
+  https://github.com/Vilin97/lean-eval-coherent-cohomology-finite-dimensional
+- Source commit: `dc38ff1ed439dda5da5e07e380f80c8d7dccc9d9`
+- Solution commit: `c51f30e5a9bcb2d2bf49769674764af58ae9cafb`
+- License: Apache License 2.0; see `LICENSE`
+
+The 548 retained solution modules are stored under
+`MazurTorsion/Upstream/CoherentCohomologyFinite/`. Files without a source
+header receive the same Apache-2.0 notice and authorship recorded by the
+source's headed files and solution commit. Existing headers, including the
+independently attributed `AcyclicResolution.lean`, remain unchanged.
+
+The port reuses Mazur's already reviewed LeanPool Grothendieck-vanishing
+modules instead of duplicating the five source copies. Its namespace,
+option-removal work, exact-pin changes, and deliberately rational public API
+are recorded in `PORTING.md` and `docs/PRIOR_ART.md`.
+
 ## AINTLIB geometry foundations
 
 - Upstream authorship retained from the selected file headers: Chris

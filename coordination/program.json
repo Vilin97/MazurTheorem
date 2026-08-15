@@ -71,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1787288,
-    "integrated_lean_modules": 1868,
+    "integrated_lean_lines": 1891612,
+    "integrated_lean_modules": 2417,
     "remaining_composite_orders": [
       18,
       25,
@@ -105,6 +105,16 @@
       "license": "Apache-2.0",
       "role": "Direct exact-pin dependency and upstream home for reusable algebraic-geometry infrastructure",
       "compatibility": "The root Mazur package and its separate upstream-contract workspace both depend on reviewed Tau Ceti integration commit a74dfee7, merging the finite-support and product-dimension lines, adding the smooth-proper-curve product formula, and preserving its published Scheme.Degree facade over upstream a3913fd, with Lean 4.33.0-rc1 and mathlib 79d0395. CI rejects drift anywhere in the resolved dependency graph."
+    },
+    {
+      "id": "lean-eval-coherent-cohomology-finite-dimensional",
+      "url": "https://github.com/Vilin97/lean-eval-coherent-cohomology-finite-dimensional",
+      "commit": "dc38ff1ed439dda5da5e07e380f80c8d7dccc9d9",
+      "lean_toolchain": "leanprover/lean4:v4.32.0-rc1",
+      "mathlib_commit": "360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56",
+      "license": "Apache-2.0",
+      "role": "All-degree finite-dimensional rationalized coherent cohomology for proper rational schemes",
+      "compatibility": "The complete 548-module proof cone is ported to the repository's Lean 4.33.0-rc1 and mathlib 79d0395 exact pin, reuses the maintained LeanPool and scheme-module-sheaf bridges, removes source-level option commands, and exposes an explicit rational public facade with a named degree-one consumer."
     },
     {
       "id": "aintlib-modular-curves",
