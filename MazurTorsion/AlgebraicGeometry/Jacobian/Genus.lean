@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.CoherentCohomologyFinite.SheafUnitQuasicoherent
+import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced
 
 /-!
 # The cohomological genus of a curve over a field
@@ -67,11 +68,14 @@ finite-dimensional.  The point is a proof input only; it does not occur in
 the definition of `genus`. -/
 theorem structureHOne_finiteDimensional_of_rationalPoint
     (K : Type u) [Field K] (C : Over (Spec (.of K)))
-    [IsIntegral C.left] [IsProper C.hom]
+    [GeometricallyIrreducible C.hom] [IsProper C.hom]
     [SmoothOfRelativeDimension 1 C.hom]
     (P : Spec (.of K) ⟶ C.left) (hP : P ≫ C.hom = 𝟙 _) :
     letI := structureHOneFieldModule K C
     FiniteDimensional K (StructureHOne C.left) := by
+  letI : IsIntegral C.left :=
+    SmoothCurveReduced.scheme_isIntegral_of_geometricallyIrreducible_of_smoothRelativeDimension_one
+        K C.left C.hom
   let s : SmoothCurveRationalSection K C.left C.hom :=
     { hom := P
       hom_comp := hP }
