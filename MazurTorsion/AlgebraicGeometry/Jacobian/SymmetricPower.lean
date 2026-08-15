@@ -44,6 +44,14 @@ theorem hasAffineOrbits_of_map {X Y : Over S} (f : X ⟶ Y)
     (Action S d X) (Action S d Y) (PermutationPower.map S (Fin d) f).left hY
     (PermutationPower.action_equivariant S (Fin d) f)
 
+/-- Finite componentwise maps transfer affine permutation-orbit
+neighbourhoods. -/
+theorem hasAffineOrbits_of_finite_map {X Y : Over S} (f : X ⟶ Y)
+    [IsFinite f.left] (hY : HasAffineOrbits S d Y) : HasAffineOrbits S d X := by
+  letI : IsFinite (PermutationPower.map S (Fin d) f).left :=
+    PermutationPower.map_isFinite S (Fin d) f
+  exact hasAffineOrbits_of_map S d f hY
+
 section
 
 variable [IsAffineHom
