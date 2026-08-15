@@ -29,6 +29,50 @@ open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.EtaleGraphCoproduct
 
+/-- The graph of a morphism into a separated étale scheme is an
+open-and-closed summand after arbitrary base change.  This scheme-level
+version avoids choosing affine presentations of the source of the graph. -/
+theorem exists_graphCoproduct_of_etale
+    {X S B : Scheme.{u}} (f : X ⟶ S) [Etale f] [IsSeparated f]
+    (q : B ⟶ S) (h : B ⟶ X) (w : h ≫ f = q) :
+    let graph : B ⟶ pullback f q :=
+      pullback.lift h (𝟙 B) (by simpa using w)
+    ∃ (W : Scheme.{u}) (E : pullback f q ≅ B ⨿ W),
+      graph ≫ E.hom = coprod.inl := by
+  subst q
+  let graph' : B ⟶ pullback (h ≫ f) f :=
+    pullback.lift (𝟙 B) h (by simp)
+  have hGraphPullback := pullback_lift_diagonal_isPullback h f
+  let graph : B ⟶ pullback f (h ≫ f) :=
+    pullback.lift h (𝟙 B) (by simp)
+  have hGraph : graph = graph' ≫ (pullbackSymmetry f (h ≫ f)).inv := by
+    apply pullback.hom_ext
+    · simp only [graph, graph', pullback.lift_fst, Category.assoc,
+        pullbackSymmetry_inv_comp_fst, pullback.lift_snd]
+    · simp only [graph, graph', pullback.lift_snd, Category.assoc,
+        pullbackSymmetry_inv_comp_snd, pullback.lift_fst]
+  haveI : IsOpenImmersion graph' :=
+    MorphismProperty.of_isPullback hGraphPullback inferInstance
+  haveI : IsClosedImmersion graph' := inferInstance
+  haveI : IsOpenImmersion graph := by
+    rw [hGraph]
+    infer_instance
+  haveI : IsClosedImmersion graph := by
+    rw [hGraph]
+    infer_instance
+  let W : (pullback f (h ≫ f)).Opens :=
+    ⟨graph.opensRangeᶜ, graph.isClosedMap.isClosed_range.isOpen_compl⟩
+  have hCompl : IsCompl graph.opensRange W.ι.opensRange := by
+    simp [isCompl_iff, disjoint_iff, codisjoint_iff, W, SetLike.ext'_iff]
+  obtain ⟨H⟩ := nonempty_isColimit_binaryCofanMk_of_isCompl
+    graph W.ι hCompl
+  let E : pullback f (h ≫ f) ≅ B ⨿ W.toScheme :=
+    H.coconePointUniqueUpToIso (colimit.isColimit (pair B W.toScheme))
+  refine ⟨W.toScheme, E, ?_⟩
+  change graph ≫ E.hom = colimit.ι (pair B W.toScheme) ⟨WalkingPair.left⟩
+  exact H.comp_coconePointUniqueUpToIso_hom
+    (colimit.isColimit (pair B W.toScheme)) ⟨WalkingPair.left⟩
+
 variable (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
   [Algebra R A] [Algebra A B] [Algebra R B] [IsScalarTower R A B]
 

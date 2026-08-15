@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.EtaleGraphCoproduct
 
 /-!
 # Coordinate maps on coherent finite-support charts
@@ -283,5 +284,236 @@ theorem coherentSplitSheetToCoordinateLine
   change (a ≫ e) ≫
       coherentPulledComponentToCoordinateLine K C d z c n V T q i = r
   exact (congrArg (fun x ↦ (a ≫ e) ≫ x) hCoordinate).trans hTail
+
+/-- The map from a pulled component to its original affine curve chart. -/
+noncomputable def pulledComponentToChart
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (pulledComponentOverCommonBase K C d z c n i).left ⟶
+      ((c i).V : C.left.Opens).toScheme :=
+  pullback.fst (n i).componentToBase.left
+      (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫
+    (n i).componentToChart
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Returning a pulled component to the curve chart and applying the chart
+coordinate recovers its tracked affine-line coordinate. -/
+theorem pulledComponentToChart_comp_schemeMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentToChart K C d z c n i ≫ (c i).schemeMap =
+      pulledComponentToCoordinateLine K C d z c n i := by
+  exact Category.assoc _ _ _
+
+/-- The map from a restricted pulled component to its original affine curve
+chart. -/
+noncomputable def restrictedPulledComponentToChart
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens) (i : Fin d) :
+    ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).toScheme ⟶
+      ((c i).V : C.left.Opens).toScheme :=
+  ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).ι ≫
+    pulledComponentToChart K C d z c n i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The chart-coordinate factorization persists after restricting the common
+base. -/
+theorem restrictedPulledComponentToChart_comp_schemeMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens) (i : Fin d) :
+    restrictedPulledComponentToChart K C d z c n V i ≫ (c i).schemeMap =
+      restrictedPulledComponentToCoordinateLine K C d z c n V i := by
+  calc
+    restrictedPulledComponentToChart K C d z c n V i ≫ (c i).schemeMap =
+        ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).ι ≫
+          (pulledComponentToChart K C d z c n i ≫ (c i).schemeMap) :=
+      Category.assoc _ _ _
+    _ = ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).ι ≫
+          pulledComponentToCoordinateLine K C d z c n i := by
+      rw [pulledComponentToChart_comp_schemeMap]
+    _ = restrictedPulledComponentToCoordinateLine K C d z c n V i := rfl
+
+/-- The map from an fpqc-pulled component to its original affine curve
+chart. -/
+noncomputable def fpqcPulledComponentToChart
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    (fpqcPulledComponentOverGround K C d z c n V T q i).left ⟶
+      ((c i).V : C.left.Opens).toScheme :=
+  (fpqcPulledComponentToRestrictedOverGround
+      K C d z c n V T q i).left ≫
+    restrictedPulledComponentToChart K C d z c n V i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The chart-coordinate factorization persists after the common fpqc base
+change. -/
+theorem fpqcPulledComponentToChart_comp_schemeMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    fpqcPulledComponentToChart K C d z c n V T q i ≫ (c i).schemeMap =
+      fpqcPulledComponentToCoordinateLine K C d z c n V T q i := by
+  calc
+    fpqcPulledComponentToChart K C d z c n V T q i ≫ (c i).schemeMap =
+        (fpqcPulledComponentToRestrictedOverGround
+            K C d z c n V T q i).left ≫
+          (restrictedPulledComponentToChart K C d z c n V i ≫
+            (c i).schemeMap) := Category.assoc _ _ _
+    _ = (fpqcPulledComponentToRestrictedOverGround
+            K C d z c n V T q i).left ≫
+          restrictedPulledComponentToCoordinateLine K C d z c n V i := by
+      exact congrArg
+        (fun g ↦ (fpqcPulledComponentToRestrictedOverGround
+          K C d z c n V T q i).left ≫ g)
+        (restrictedPulledComponentToChart_comp_schemeMap
+          K C d z c n V i)
+    _ = fpqcPulledComponentToCoordinateLine K C d z c n V T q i := rfl
+
+/-- The map from a coherent pulled component to its original affine curve
+chart. -/
+noncomputable def coherentPulledComponentToChart
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    (coherentFpqcPulledComponent K C d z c n V T q i).left ⟶
+      ((c i).V : C.left.Opens).toScheme :=
+  pullback.fst
+      (fpqcPulledComponentToCoverOverGround K C d z c n V T q i).left
+      (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫
+    fpqcPulledComponentToChart K C d z c n V T q i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The chart-coordinate factorization persists after passage to the single
+coherent product base. -/
+theorem coherentPulledComponentToChart_comp_schemeMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    coherentPulledComponentToChart K C d z c n V T q i ≫
+        (c i).schemeMap =
+      coherentPulledComponentToCoordinateLine K C d z c n V T q i := by
+  calc
+    coherentPulledComponentToChart K C d z c n V T q i ≫
+          (c i).schemeMap =
+        pullback.fst
+            (fpqcPulledComponentToCoverOverGround
+              K C d z c n V T q i).left
+            (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫
+          (fpqcPulledComponentToChart K C d z c n V T q i ≫
+            (c i).schemeMap) := Category.assoc _ _ _
+    _ = pullback.fst
+            (fpqcPulledComponentToCoverOverGround
+              K C d z c n V T q i).left
+            (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫
+          fpqcPulledComponentToCoordinateLine K C d z c n V T q i := by
+      exact congrArg
+        (fun g ↦ pullback.fst
+          (fpqcPulledComponentToCoverOverGround
+            K C d z c n V T q i).left
+          (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫ g)
+        (fpqcPulledComponentToChart_comp_schemeMap
+          K C d z c n V T q i)
+    _ = coherentPulledComponentToCoordinateLine K C d z c n V T q i := rfl
+
+/-- The map from a selected split sheet back to the original affine curve
+chart.  Its composite with the chart coordinate is the matching coordinate
+on the coherent support base. -/
+noncomputable def coherentSplitSheetToChart
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d)
+    (m : ℕ)
+    (E : coherentFpqcPulledComponent K C d z c n V T q i ≅
+      splitFinite (coherentFpqcBase K C d z c n V T q) m)
+    (j : Fin m) :
+    coherentFpqcBase K C d z c n V T q ⟶
+      ((c i).V : C.left.Opens).toScheme :=
+  ((sheetInclusion (coherentFpqcBase K C d z c n V T q) m j).left ≫
+    E.inv.left) ≫ coherentPulledComponentToChart K C d z c n V T q i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The selected sheet-to-chart map has exactly the coordinate prescribed by
+the corresponding factor of the coherent support base. -/
+theorem coherentSplitSheetToChart_comp_schemeMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d)
+    (m : ℕ)
+    (E : coherentFpqcPulledComponent K C d z c n V T q i ≅
+      splitFinite (coherentFpqcBase K C d z c n V T q) m)
+    (j : Fin m) :
+    coherentSplitSheetToChart K C d z c n V T q i m E j ≫
+        (c i).schemeMap =
+      coherentBaseToCoordinateLine K C d z c n V T q i := by
+  calc
+    coherentSplitSheetToChart K C d z c n V T q i m E j ≫
+          (c i).schemeMap =
+        ((sheetInclusion
+              (coherentFpqcBase K C d z c n V T q) m j).left ≫
+            E.inv.left) ≫
+          (coherentPulledComponentToChart K C d z c n V T q i ≫
+            (c i).schemeMap) := Category.assoc _ _ _
+    _ = ((sheetInclusion
+              (coherentFpqcBase K C d z c n V T q) m j).left ≫
+            E.inv.left) ≫
+          coherentPulledComponentToCoordinateLine
+            K C d z c n V T q i := by
+      rw [coherentPulledComponentToChart_comp_schemeMap]
+    _ = coherentBaseToCoordinateLine K C d z c n V T q i :=
+      coherentSplitSheetToCoordinateLine K C d z c n V T q i m E j
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- A chosen split sheet determines the genuine graph component of the
+curve's étale coordinate chart after base change to the coherent support
+base.  Thus the equal-coordinate locus separates into the actual curve
+sheet and a complementary open subscheme. -/
+theorem coherentSplitSheet_exists_graphCoproduct
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d)
+    (m : ℕ)
+    (E : coherentFpqcPulledComponent K C d z c n V T q i ≅
+      splitFinite (coherentFpqcBase K C d z c n V T q) m)
+    (j : Fin m) :
+    let B := coherentFpqcBase K C d z c n V T q
+    let f := (c i).schemeMap
+    let baseCoordinate := coherentBaseToCoordinateLine K C d z c n V T q i
+    let sheetToChart := coherentSplitSheetToChart
+      K C d z c n V T q i m E j
+    let graph : B ⟶ pullback f baseCoordinate :=
+      pullback.lift sheetToChart (𝟙 B) (by
+        simpa only [Category.id_comp] using
+          coherentSplitSheetToChart_comp_schemeMap
+            K C d z c n V T q i m E j)
+    ∃ (W : Scheme.{u}) (G : pullback f baseCoordinate ≅ B ⨿ W),
+      graph ≫ G.hom = coprod.inl := by
+  dsimp only
+  exact EtaleGraphCoproduct.exists_graphCoproduct_of_etale
+    (c i).schemeMap
+    (coherentBaseToCoordinateLine K C d z c n V T q i)
+    (coherentSplitSheetToChart K C d z c n V T q i m E j)
+    (coherentSplitSheetToChart_comp_schemeMap
+      K C d z c n V T q i m E j)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportCoordinateMaps

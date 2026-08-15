@@ -36,6 +36,9 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidenceDescent
 
 open FiniteGroupQuotient
 open UniversalEffectiveDivisor
+open FiniteSupportEtaleCoordinates
+open FiniteSupportCoordinateMaps
+open SplitFiniteBaseChange
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
@@ -101,6 +104,103 @@ omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 instance orderedSupportComponentFamily_etale (d : ℕ)
     (z : (orderedAmbient (Spec (.of K)) d C).left) :
     Etale (orderedSupportComponentFamily K C d z).hom := inferInstance
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The coherent product base attached to the actual ordered support of an
+incidence-ambient point. -/
+noncomputable abbrev orderedSupportCoherentBase (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Scheme.{u} :=
+  coherentFpqcBase K C d (orderedSupportPoint K C d z)
+    (orderedSupportCharts K C d z) (orderedSupportNeighborhoods K C d z)
+      V T q
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- One coherent component attached to an actual ordered support
+coordinate. -/
+noncomputable abbrev orderedSupportCoherentComponent (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :=
+  coherentFpqcPulledComponent K C d (orderedSupportPoint K C d z)
+    (orderedSupportCharts K C d z) (orderedSupportNeighborhoods K C d z)
+      V T q i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The affine-line coordinate on the coherent base associated to an actual
+ordered support coordinate. -/
+noncomputable def orderedSupportCoherentBaseCoordinate (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    orderedSupportCoherentBase K C d z V T q ⟶
+      Spec (.of (SmoothCurveEtaleCoordinate.coordinateRing K)) :=
+  coherentBaseToCoordinateLine K C d (orderedSupportPoint K C d z)
+    (orderedSupportCharts K C d z) (orderedSupportNeighborhoods K C d z)
+      V T q i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- A split sheet over the actual ordered support, mapped back to its chosen
+affine curve chart. -/
+noncomputable def orderedSupportSplitSheetToChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) (m : ℕ)
+    (E : orderedSupportCoherentComponent K C d z V T q i ≅
+      splitFinite (orderedSupportCoherentBase K C d z V T q) m)
+    (j : Fin m) :
+    orderedSupportCoherentBase K C d z V T q ⟶
+      (((orderedSupportCharts K C d z) i).V : C.left.Opens).toScheme :=
+  coherentSplitSheetToChart K C d (orderedSupportPoint K C d z)
+    (orderedSupportCharts K C d z) (orderedSupportNeighborhoods K C d z)
+      V T q i m E j
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The actual ordered-support sheet has the coordinate supplied by its
+matching coherent-base factor. -/
+theorem orderedSupportSplitSheetToChart_comp_schemeMap (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) (m : ℕ)
+    (E : orderedSupportCoherentComponent K C d z V T q i ≅
+      splitFinite (orderedSupportCoherentBase K C d z V T q) m)
+    (j : Fin m) :
+    orderedSupportSplitSheetToChart K C d z V T q i m E j ≫
+        ((orderedSupportCharts K C d z) i).schemeMap =
+      orderedSupportCoherentBaseCoordinate K C d z V T q i := by
+  exact coherentSplitSheetToChart_comp_schemeMap K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z) V T q i m E j
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the actual support chart used by pointed incidence, every selected
+split sheet is the first open-and-closed graph summand in the base change of
+the curve's étale coordinate.  This is the geometric input for comparison
+with the explicit monic-root incidence chart. -/
+theorem orderedSupportSplitSheet_exists_graphCoproduct (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (orderedSupportCommonBase K C d z).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) (m : ℕ)
+    (E : orderedSupportCoherentComponent K C d z V T q i ≅
+      splitFinite (orderedSupportCoherentBase K C d z V T q) m)
+    (j : Fin m) :
+    let B := orderedSupportCoherentBase K C d z V T q
+    let f := ((orderedSupportCharts K C d z) i).schemeMap
+    let baseCoordinate :=
+      orderedSupportCoherentBaseCoordinate K C d z V T q i
+    let sheetToChart :=
+      orderedSupportSplitSheetToChart K C d z V T q i m E j
+    let graph : B ⟶ pullback f baseCoordinate :=
+      pullback.lift sheetToChart (𝟙 B) (by
+        simpa only [Category.id_comp] using
+          orderedSupportSplitSheetToChart_comp_schemeMap
+            K C d z V T q i m E j)
+    ∃ (W : Scheme.{u}) (G : pullback f baseCoordinate ≅ B ⨿ W),
+      graph ≫ G.hom = coprod.inl := by
+  exact coherentSplitSheet_exists_graphCoproduct K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z) V T q i m E j
 
 /-- The pointwise split-chart assertion specialized to the actual ordered
 support of an incidence-ambient point. -/
