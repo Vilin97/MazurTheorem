@@ -30,7 +30,8 @@ noncomputable section
 
 universe u
 
-open Algebra Polynomial TensorProduct
+open Algebra CategoryTheory Polynomial TensorProduct
+open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentOrderedIncidence
 
@@ -320,5 +321,65 @@ noncomputable def invariantRootEquivOrderedIncidenceFixedPoints :
   letI := orderedIncidenceSMulCommClass R d m c
   exact (invariantRootEquivBaseChangeFixedPoints R d m c).trans
     (baseChangeFixedPointsEquivOrderedIncidenceFixedPoints R d m c)
+
+/-- The product universal-root projection over the actual stabilizer fixed
+coefficient ring. -/
+noncomputable abbrev invariantRootProjection :
+    letI : SMulCommClass R (componentStabilizer d m c)
+        (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+    Spec (.of (invariantProductRootAlgebra R d m c)) ⟶
+      Spec (.of (invariantCoefficientRing R d m c)) :=
+  SplitMonicRootFamily.projection (invariantCoefficientRing R d m c) m
+    (sheetMultiplicity d m c) (invariantSheetPolynomial R d m c)
+
+instance invariantRootProjection_isFinite :
+    letI : SMulCommClass R (componentStabilizer d m c)
+        (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+    IsFinite (invariantRootProjection R d m c) := by
+  letI : SMulCommClass R (componentStabilizer d m c)
+      (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+  dsimp only [invariantRootProjection]
+  infer_instance
+
+instance invariantRootProjection_flat :
+    letI : SMulCommClass R (componentStabilizer d m c)
+        (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+    Flat (invariantRootProjection R d m c) := by
+  letI : SMulCommClass R (componentStabilizer d m c)
+      (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+  dsimp only [invariantRootProjection]
+  infer_instance
+
+/-- The product universal-root projection over the stabilizer fixed ring has
+constant rank equal to the symmetric-power degree. -/
+theorem invariantRootProjection_finrank :
+    letI : SMulCommClass R (componentStabilizer d m c)
+        (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+    (invariantRootProjection R d m c).finrank = fun _ ↦ d := by
+  letI : SMulCommClass R (componentStabilizer d m c)
+      (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+  exact SplitMonicRootFamily.projection_finrank_of_sheetMultiplicity
+    (invariantCoefficientRing R d m c) m d c
+    (invariantSheetPolynomial R d m c)
+
+/-- Affine scheme form of the multiblock invariant calculation: the quotient
+of ordered incidence on a split component is the product universal-root
+scheme over the stabilizer fixed coefficient ring. -/
+noncomputable def orderedIncidenceInvariantSchemeIso :
+    letI : SMulCommClass R (componentStabilizer d m c)
+        (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+    letI := orderedIncidenceAction R d m c
+    letI := orderedIncidenceSMulCommClass R d m c
+    Spec (.of (FixedPoints.subalgebra (invariantCoefficientRing R d m c)
+        (orderedProductRootAlgebra R d m c)
+        (componentStabilizer d m c))) ≅
+      Spec (.of (invariantProductRootAlgebra R d m c)) := by
+  letI : SMulCommClass R (componentStabilizer d m c)
+      (coefficientRing R d m c) := SMulCommClass.symm _ _ _
+  letI := orderedIncidenceAction R d m c
+  letI := orderedIncidenceSMulCommClass R d m c
+  exact Scheme.Spec.mapIso
+    ((invariantRootEquivOrderedIncidenceFixedPoints R d m c).toRingEquiv
+      |>.toCommRingCatIso.op)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentOrderedIncidence
