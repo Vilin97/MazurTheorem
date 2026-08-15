@@ -44,6 +44,7 @@ parallel abstraction.
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
+| Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs; permutation descent remains |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -198,6 +199,15 @@ without a flatness assumption.  Since every scheme diagonal is an immersion,
 a universally closed diagonal is a closed immersion.  Combining
 separatedness, universal closedness, and local finite type proves that every
 positive symmetric power constructed above is proper over the ground field.
+
+The ordered incidence family needed for the next step is also checked.  In
+`C ×_S C^d`, its `i`-th component is the equalizer of the first
+projection and the `i`-th coordinate of the second projection.  Since
+`C → S` is separated, each graph is a closed immersion.  The product of
+their ideal sheaves defines the scheme-theoretic union, including the empty
+family in degree zero, and its support is exactly the union of the graph
+supports.  It remains to prove invariance of this ideal under permutation
+and descend it through the finite symmetric quotient.
 
 Denote the representing object by
 
