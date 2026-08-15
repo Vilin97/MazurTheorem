@@ -8,6 +8,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
 import Mathlib.Algebra.Polynomial.Monic
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.RingTheory.PicardGroup
+import MazurTorsion.AlgebraicGeometry.Jacobian.AdjoinRootBaseChange
 
 /-!
 # A monic equation as a finite flat Cartier family
@@ -181,6 +182,64 @@ noncomputable abbrev baseChangeProjection
     (g : Y ⟶ Spec (.of A)) :
     pullback (projection A p) g ⟶ Y :=
   pullback.snd (projection A p) g
+
+private noncomputable def baseChangeIsoMappedRootExplicit
+    (B : Type u) [CommRing B] [Algebra A B] :
+    pullback
+        (Spec.map (CommRingCat.ofHom
+          (algebraMap A (AdjoinRoot p))))
+        (Spec.map (CommRingCat.ofHom (algebraMap A B))) ≅
+      Spec (.of (AdjoinRoot (p.map (algebraMap A B)))) :=
+  pullbackSymmetry
+      (Spec.map (CommRingCat.ofHom
+        (algebraMap A (AdjoinRoot p))))
+      (Spec.map (CommRingCat.ofHom (algebraMap A B))) ≪≫
+    pullbackSpecIso A B (AdjoinRoot p) ≪≫
+    (Scheme.Spec.mapIso
+      (AdjoinRootBaseChange.equiv A B p).toRingEquiv.toCommRingCatIso.op).symm
+
+/-- The affine base change of a monic root scheme is the root scheme of the
+coefficient-wise mapped polynomial. -/
+noncomputable def baseChangeIsoMappedRoot
+    (B : Type u) [CommRing B] [Algebra A B] :
+    pullback (projection A p)
+        (Spec.map (CommRingCat.ofHom (algebraMap A B))) ≅
+      Spec (.of (AdjoinRoot (p.map (algebraMap A B)))) :=
+  baseChangeIsoMappedRootExplicit A p B
+
+omit [Nontrivial A] hp in
+/-- The explicit base-change isomorphism carries the mapped-root projection
+to the second projection of the scheme pullback. -/
+@[reassoc]
+theorem baseChangeIsoMappedRoot_inv_comp_snd
+    (B : Type u) [CommRing B] [Algebra A B] :
+    (baseChangeIsoMappedRoot A p B).inv ≫
+        pullback.snd (projection A p)
+          (Spec.map (CommRingCat.ofHom (algebraMap A B))) =
+      projection B (p.map (algebraMap A B)) := by
+  change (baseChangeIsoMappedRootExplicit A p B).inv ≫
+      pullback.snd
+        (Spec.map (CommRingCat.ofHom
+          (algebraMap A (AdjoinRoot p))))
+        (Spec.map (CommRingCat.ofHom (algebraMap A B))) =
+    Spec.map (CommRingCat.ofHom
+      (algebraMap B (AdjoinRoot (p.map (algebraMap A B)))))
+  rw [baseChangeIsoMappedRootExplicit]
+  simp only [Iso.trans_inv, Category.assoc,
+    pullbackSymmetry_inv_comp_snd]
+  change (Scheme.Spec.mapIso
+      (AdjoinRootBaseChange.equiv A B p).toRingEquiv.toCommRingCatIso.op).hom ≫
+    (pullbackSpecIso A B (AdjoinRoot p)).inv ≫
+      pullback.fst
+        (Spec.map (CommRingCat.ofHom (algebraMap A B)))
+        (Spec.map (CommRingCat.ofHom
+          (algebraMap A (AdjoinRoot p)))) = _
+  erw [pullbackSpecIso_inv_fst]
+  simp only [Functor.mapIso_hom, Iso.op_hom]
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
+  rw [← Spec.map_comp, Spec.map_inj]
+  ext b
+  exact (AdjoinRootBaseChange.equiv A B p).commutes b
 
 instance baseChangeProjection_isFinite (g : Y ⟶ Spec (.of A)) :
     IsFinite (baseChangeProjection A p g) := by

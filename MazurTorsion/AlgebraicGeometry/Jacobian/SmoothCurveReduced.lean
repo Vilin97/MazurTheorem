@@ -181,6 +181,42 @@ theorem isReduced_of_isLocalizationAtPrime_of_isStandardSmoothOfRelativeDimensio
 
 open CategoryTheory _root_.AlgebraicGeometry
 
+/-- Every point of a smooth relative curve has an affine neighbourhood whose
+coordinate ring is étale over a one-variable polynomial ring.  The base ring
+is written as the global sections of `Spec K`; it is canonically isomorphic
+to `K` and is the ring occurring directly in the scheme chart API.
+
+The named downstream consumer is the local comparison between pointed
+symmetric powers and the universal monic-root incidence family. -/
+theorem exists_affineOpen_etaleCoordinate
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 f] (x : X) :
+    ∃ V : X.affineOpens, x ∈ (V : X.Opens) ∧
+      let e : (V : X.Opens) ≤ f ⁻¹ᵁ (⊤ : (Spec (.of K)).Opens) := by simp
+      letI : Algebra Γ(Spec (.of K), ⊤) Γ(X, (V : X.Opens)) :=
+        (f.appLE ⊤ (V : X.Opens) e).hom.toAlgebra
+      ∃ g : MvPolynomial (Fin 1) Γ(Spec (.of K), ⊤) →ₐ[Γ(Spec (.of K), ⊤)]
+          Γ(X, (V : X.Opens)), g.Etale := by
+  obtain ⟨U, hU, V, hV, hx, e, hstd⟩ :=
+    SmoothOfRelativeDimension.exists_isStandardSmoothOfRelativeDimension
+      (n := 1) (f := f) x
+  have hfxU : f.base x ∈ U := e hx
+  have hUtop : U = ⊤ := by
+    apply top_unique
+    intro y _
+    simpa only [Subsingleton.elim y (f.base x)] using hfxU
+  subst U
+  refine ⟨⟨V, hV⟩, hx, ?_⟩
+  let e' : V ≤ f ⁻¹ᵁ (⊤ : (Spec (.of K)).Opens) := by simp
+  letI : Algebra Γ(Spec (.of K), ⊤) Γ(X, V) :=
+    (f.appLE ⊤ V e').hom.toAlgebra
+  letI : Algebra.IsStandardSmoothOfRelativeDimension 1
+      Γ(Spec (.of K), ⊤) Γ(X, V) := by
+    exact hstd.toAlgebra
+  exact
+    Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial
+      1 Γ(Spec (.of K), ⊤) Γ(X, V)
+
 /-- A scheme smooth of relative dimension one over a field is reduced. -/
 theorem scheme_isReduced_of_smoothRelativeDimension_one
     (K : Type u) [Field K] (X : Scheme.{u})
