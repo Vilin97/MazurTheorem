@@ -1407,7 +1407,7 @@ theorem epi_pullback_snd_quotientπ
 include hVmem in
 /-- The comparison morphism between base changes of `quotientπ` (the `quotientπ`-level
 `AffineQuotient.pullbackRes`). -/
-private noncomputable def pullbackResQ {W' W'' : Scheme.{u}}
+noncomputable def pullbackResQ {W' W'' : Scheme.{u}}
     (j'' : W'' ⟶ σ.quotient V hVs hVa) (w : W' ⟶ σ.quotient V hVs hVa)
     (u : W' ⟶ W'') (hw : w = u ≫ j'') :
     Limits.pullback (σ.quotientπ V hVs hVa hVmem) w ⟶
@@ -1416,7 +1416,7 @@ private noncomputable def pullbackResQ {W' W'' : Scheme.{u}}
 
 include hVmem in
 @[reassoc]
-private theorem pullbackResQ_fst {W' W'' : Scheme.{u}}
+theorem pullbackResQ_fst {W' W'' : Scheme.{u}}
     (j'' : W'' ⟶ σ.quotient V hVs hVa) (w : W' ⟶ σ.quotient V hVs hVa)
     (u : W' ⟶ W'') (hw : w = u ≫ j'') :
     σ.pullbackResQ V hVs hVa hVmem j'' w u hw ≫
@@ -1426,7 +1426,7 @@ private theorem pullbackResQ_fst {W' W'' : Scheme.{u}}
 
 include hVmem in
 @[reassoc]
-private theorem pullbackResQ_snd {W' W'' : Scheme.{u}}
+theorem pullbackResQ_snd {W' W'' : Scheme.{u}}
     (j'' : W'' ⟶ σ.quotient V hVs hVa) (w : W' ⟶ σ.quotient V hVs hVa)
     (u : W' ⟶ W'') (hw : w = u ≫ j'') :
     σ.pullbackResQ V hVs hVa hVmem j'' w u hw ≫
@@ -1436,7 +1436,7 @@ private theorem pullbackResQ_snd {W' W'' : Scheme.{u}}
 
 include hVmem in
 /-- The comparison morphisms intertwine the base-changed actions. -/
-private theorem pullbackQuotientπSMul_pullbackResQ {W' W'' : Scheme.{u}}
+theorem pullbackQuotientπSMul_pullbackResQ {W' W'' : Scheme.{u}}
     (j'' : W'' ⟶ σ.quotient V hVs hVa) (w : W' ⟶ σ.quotient V hVs hVa)
     (u : W' ⟶ W'') (hw : w = u ≫ j'') (g : G) :
     σ.pullbackQuotientπSMul V hVs hVa hVmem w g ≫
@@ -1577,7 +1577,7 @@ private theorem exists_quotientπ_lift_baseChange_of_factors
 /-- The pullback of the quotient-chart cover along a base map `j : W ⟶ X/G`: the pieces
 are `j⁻¹(chart x)`, presented as pullbacks so the chart-factoring is definitional. -/
 @[reducible]
-private noncomputable def chartCover {W : Scheme.{u}} (j : W ⟶ σ.quotient V hVs hVa) :
+noncomputable def chartCover {W : Scheme.{u}} (j : W ⟶ σ.quotient V hVs hVa) :
     W.OpenCover where
   I₀ := X
   X x := Limits.pullback j (σ.quotientChart V hVs hVa x).ι
@@ -1592,7 +1592,7 @@ private noncomputable def chartCover {W : Scheme.{u}} (j : W ⟶ σ.quotient V h
     rw [IsOpenImmersion.range_pullbackFst]
     exact ⟨⟨j w, hx⟩, rfl⟩
 
-private theorem chartCover_f {W : Scheme.{u}} (j : W ⟶ σ.quotient V hVs hVa) (x : X) :
+theorem chartCover_f {W : Scheme.{u}} (j : W ⟶ σ.quotient V hVs hVa) (x : X) :
     (σ.chartCover V hVs hVa j).f x =
       Limits.pullback.fst j (σ.quotientChart V hVs hVa x).ι := rfl
 
