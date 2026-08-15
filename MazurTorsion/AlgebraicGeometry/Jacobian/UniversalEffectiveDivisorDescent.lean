@@ -691,6 +691,32 @@ instance curveProductSymmetricPowerSnd_flat (n : ℕ) :
   exact MorphismProperty.of_isPullback hProduct.flip
     (inferInstance : Flat C.hom)
 
+/-- The projection `C × Sym^(n+1)(C) ⟶ Sym^(n+1)(C)` is proper: it is
+the base change of the proper curve `C ⟶ Spec K`. -/
+instance curveProductSymmetricPowerSnd_isProper (n : ℕ) :
+    IsProper (Limits.prod.snd :
+      (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).left := by
+  have hProduct : IsPullback
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).left
+      (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).left
+      (SymmetricPower.curveSchemeSucc K C n).hom C.hom := by
+    apply IsPullback.flip
+    refine IsPullback.of_iso_pullback ⟨?_⟩
+      (Over.prodLeftIsoPullback C (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_fst C
+        (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_snd C
+        (SymmetricPower.curveSchemeSucc K C n))
+    exact (Limits.prod.fst :
+      (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).w.trans
+        (Limits.prod.snd :
+          (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+            SymmetricPower.curveSchemeSucc K C n).w.symm
+  exact MorphismProperty.of_isPullback hProduct.flip
+    (inferInstance : IsProper C.hom)
+
 /-- The ordered ambient product identified with the pullback of the
 symmetric quotient along `C × Sym^(n+1)(C) ⟶ Sym^(n+1)(C)`. -/
 noncomputable def curveOrderedAmbientBaseChangeIso (n : ℕ) :

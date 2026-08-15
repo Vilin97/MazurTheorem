@@ -254,6 +254,36 @@ theorem productSymmetricPowerToIncidenceQuotientOver_comp_descendedIncidenceOver
   · rw [Limits.prod.lift_snd, Category.assoc]
     rfl
 
+/-- On ordered coordinates, pointed addition prepends the distinguished
+point and then takes the symmetric quotient. -/
+@[reassoc]
+theorem curveOrderedAmbientToSymmetricProduct_comp_pointedAddition
+    (n : ℕ) :
+    curveOrderedAmbientToSymmetricProductSucc K C n ≫
+        (pointedSymmetricPowerAddition K C n).left =
+      (PointedIncidence.prependPower
+          (Spec (.of K)) (n + 1) C).left ≫
+        (SymmetricPower.curveProjectionSucc K C (n + 1)).left := by
+  rw [pointedSymmetricPowerAddition_left, ← Category.assoc,
+    curveOrderedAmbientToSymmetricProduct_comp_pointedComparison,
+    orderedPointedToIncidenceQuotient]
+  simp only [Category.assoc]
+  rw [curveOrderedIncidenceQuotientProjection_comp_descendedIncidenceι_assoc,
+    PointedIncidence.orderedPointedIncidenceMap_comp_ι_assoc]
+  change
+    (PointedIncidence.orderedAmbientInsertion
+        (Spec (.of K)) (n + 1) C ≫
+      Limits.prod.map (𝟙 C)
+        (SymmetricPower.curveProjectionSucc K C (n + 1)) ≫
+      (Limits.prod.snd :
+        C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶
+          SymmetricPower.curveSchemeSucc K C (n + 1))).left =
+    (PointedIncidence.prependPower (Spec (.of K)) (n + 1) C ≫
+      SymmetricPower.curveProjectionSucc K C (n + 1)).left
+  apply congrArg Over.Hom.left
+  rw [Limits.prod.map_snd, ← Category.assoc,
+    PointedIncidence.orderedAmbientInsertion, Limits.prod.lift_snd]
+
 /-- The pointed symmetric-power comparison is proper. -/
 instance productSymmetricPowerToIncidenceQuotient_isProper (n : ℕ) :
     IsProper (productSymmetricPowerToIncidenceQuotient K C n) := by
@@ -266,6 +296,13 @@ instance productSymmetricPowerToIncidenceQuotient_isProper (n : ℕ) :
     rw [productSymmetricPowerToIncidenceQuotient_comp_structureMap K C n]
     exact curveProductSymmetricPower_isProper K C n
   exact IsProper.of_comp f t
+
+/-- Pointed addition is proper.  The remaining local task for finiteness is
+therefore only quasi-finiteness of its divisor fibers. -/
+instance pointedSymmetricPowerAddition_isProper (n : ℕ) :
+    IsProper (pointedSymmetricPowerAddition K C n).left := by
+  rw [pointedSymmetricPowerAddition_left]
+  infer_instance
 
 /-- The pointed comparison is an isomorphism once it becomes one after an
 fpqc cover of the incidence quotient.  The downstream consumer is the local
