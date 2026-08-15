@@ -578,6 +578,22 @@ theorem productSymmetricPowerToIncidenceQuotient_isIso_of_fpqc
     (f := q) (g := productSymmetricPowerToIncidenceQuotient K C n)
     ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ inferInstance
 
+/-- The pointed comparison may be checked on an independently chosen fpqc
+chart around every point of the incidence quotient. -/
+theorem productSymmetricPowerToIncidenceQuotient_isIso_of_pointwise_fpqc
+    (n : ℕ)
+    (U : curveOrderedIncidenceQuotientSucc K C (n + 1) →
+      (curveOrderedIncidenceQuotientSucc K C (n + 1)).Opens)
+    (mem : ∀ y, y ∈ U y)
+    (T : curveOrderedIncidenceQuotientSucc K C (n + 1) → Scheme.{u})
+    (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, IsIso (pullback.fst (q y)
+      (productSymmetricPowerToIncidenceQuotient K C n ∣_ U y))] :
+    IsIso (productSymmetricPowerToIncidenceQuotient K C n) :=
+  FpqcDescent.isIso_of_pointwise_fpqc_pullback
+    (productSymmetricPowerToIncidenceQuotient K C n) U mem T q
+
 /-- The universal-divisor candidate is flat once the local monic-root model
 identifies its pullback along an fpqc chart as flat. -/
 theorem pointedUniversalEffectiveDivisor_flat_of_fpqc
@@ -588,6 +604,22 @@ theorem pointedUniversalEffectiveDivisor_flat_of_fpqc
     Flat (pointedUniversalEffectiveDivisor K C n) :=
   FpqcDescent.flat_of_fpqc_pullback
     (pointedUniversalEffectiveDivisor K C n) q
+
+/-- Flatness of the universal-divisor candidate may be checked on one fpqc
+chart chosen around each point of `C × Sym^(n+2)(C)`. -/
+theorem pointedUniversalEffectiveDivisor_flat_of_pointwise_fpqc
+    (n : ℕ)
+    (U : (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left →
+      (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left.Opens)
+    (mem : ∀ y, y ∈ U y)
+    (T : (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left → Scheme.{u})
+    (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, Flat (pullback.fst (q y)
+      (pointedUniversalEffectiveDivisor K C n ∣_ U y))] :
+    Flat (pointedUniversalEffectiveDivisor K C n) :=
+  FpqcDescent.flat_of_pointwise_fpqc_pullback
+    (pointedUniversalEffectiveDivisor K C n) U mem T q
 
 /-- If the local monic-root model has constant rank `n + 2`, then the
 global universal-divisor candidate is finite flat of that same rank. -/
@@ -603,5 +635,24 @@ theorem pointedUniversalEffectiveDivisor_finrank_eq_of_fpqc
     pointedUniversalEffectiveDivisor_flat_of_fpqc K C n T q
   exact FpqcDescent.finrank_eq_of_surjective_baseChange
     (pointedUniversalEffectiveDivisor K C n) q (n + 2) h
+
+/-- The constant degree of the universal-divisor candidate may likewise be
+checked on independently chosen pointwise fpqc charts. -/
+theorem pointedUniversalEffectiveDivisor_finrank_eq_of_pointwise_fpqc
+    (n : ℕ)
+    (U : (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left →
+      (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left.Opens)
+    (mem : ∀ y, y ∈ U y)
+    (T : (C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1)).left → Scheme.{u})
+    (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, Flat (pullback.fst (q y)
+      (pointedUniversalEffectiveDivisor K C n ∣_ U y))]
+    (h : ∀ y, (pullback.fst (q y)
+      (pointedUniversalEffectiveDivisor K C n ∣_ U y)).finrank =
+        fun _ ↦ n + 2) :
+    (pointedUniversalEffectiveDivisor K C n).finrank = fun _ ↦ n + 2 :=
+  FpqcDescent.finrank_eq_of_pointwise_fpqc_baseChange
+    (pointedUniversalEffectiveDivisor K C n) U mem T q (n + 2) h
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidenceDescent

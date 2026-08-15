@@ -55,6 +55,49 @@ lemma flat_of_fpqc_pullback {X Y T : Scheme.{u}}
     (P := @Flat) (Q := @Surjective ⊓ @Flat ⊓ @QuasiCompact)
     (f := q) (g := f) ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ inferInstance
 
+/-- A morphism is an isomorphism when its pullback along an fpqc cover is
+an isomorphism. -/
+lemma isIso_of_fpqc_pullback {X Y T : Scheme.{u}}
+    (f : X ⟶ Y) (q : T ⟶ Y)
+    [Surjective q] [Flat q] [QuasiCompact q]
+    [IsIso (pullback.fst q f)] : IsIso f := by
+  exact MorphismProperty.of_pullback_fst_of_descendsAlong
+    (P := MorphismProperty.isomorphisms Scheme.{u})
+    (Q := @Surjective ⊓ @Flat ⊓ @QuasiCompact)
+    (f := q) (g := f) ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ inferInstance
+
+/-- Pointwise fpqc isomorphism charts glue: first descend on every chosen
+open neighborhood, then use Zariski locality at the target. -/
+lemma isIso_of_pointwise_fpqc_pullback {X Y : Scheme.{u}}
+    (f : X ⟶ Y) (U : Y → Y.Opens) (mem : ∀ y, y ∈ U y)
+    (T : Y → Scheme.{u}) (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, IsIso (pullback.fst (q y) (f ∣_ U y))] : IsIso f := by
+  rw [← MorphismProperty.isomorphisms.iff]
+  apply IsZariskiLocalAtTarget.of_iSup_eq_top U
+  · apply top_unique
+    intro y _
+    exact (le_iSup U y) (mem y)
+  · intro y
+    rw [MorphismProperty.isomorphisms.iff]
+    exact isIso_of_fpqc_pullback (f ∣_ U y) (q y)
+
+/-- Pointwise fpqc flat charts glue by fpqc descent on each neighborhood
+and Zariski locality at the target. -/
+lemma flat_of_pointwise_fpqc_pullback {X Y : Scheme.{u}}
+    (f : X ⟶ Y) (U : Y → Y.Opens) (mem : ∀ y, y ∈ U y)
+    (T : Y → Scheme.{u}) (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, Flat (pullback.fst (q y) (f ∣_ U y))] : Flat f := by
+  letI : IsZariskiLocalAtTarget @Flat :=
+    AlgebraicGeometry.HasRingHomProperty.instIsZariskiLocalAtTarget (@Flat)
+  apply IsZariskiLocalAtTarget.of_iSup_eq_top U
+  · apply top_unique
+    intro y _
+    exact (le_iSup U y) (mem y)
+  · intro y
+    exact flat_of_fpqc_pullback (f ∣_ U y) (q y)
+
 /-- A constant rank for a finite flat morphism descends along any
 surjective base change. -/
 lemma finrank_eq_of_surjective_baseChange {X Y T : Scheme.{u}}
@@ -66,5 +109,27 @@ lemma finrank_eq_of_surjective_baseChange {X Y T : Scheme.{u}}
   obtain ⟨t, rfl⟩ := q.surjective y
   rw [← Scheme.Hom.finrank_pullback_fst f q]
   exact congrFun h t
+
+/-- A constant finite-flat rank may be checked on an fpqc chart chosen
+independently around every target point. -/
+lemma finrank_eq_of_pointwise_fpqc_baseChange {X Y : Scheme.{u}}
+    (f : X ⟶ Y) [IsFinite f]
+    (U : Y → Y.Opens) (mem : ∀ y, y ∈ U y)
+    (T : Y → Scheme.{u}) (q : ∀ y, T y ⟶ (U y).toScheme)
+    [∀ y, Surjective (q y)] [∀ y, Flat (q y)] [∀ y, QuasiCompact (q y)]
+    [∀ y, Flat (pullback.fst (q y) (f ∣_ U y))]
+    (n : ℕ)
+    (h : ∀ y, (pullback.fst (q y) (f ∣_ U y)).finrank = fun _ ↦ n) :
+    f.finrank = fun _ ↦ n := by
+  letI : Flat f := flat_of_pointwise_fpqc_pullback f U mem T q
+  funext y
+  have hLocal : (f ∣_ U y).finrank = fun _ ↦ n :=
+    finrank_eq_of_surjective_baseChange (f ∣_ U y) (q y) n (h y)
+  have hAt := congrFun hLocal ⟨y, mem y⟩
+  have hPull := Scheme.Hom.finrank_of_isPullback
+    (f ⁻¹ᵁ U y).ι (f ∣_ U y) f (U y).ι
+      (isPullback_morphismRestrict f (U y)).flip ⟨y, mem y⟩
+  change (f ∣_ U y).finrank ⟨y, mem y⟩ = f.finrank y at hPull
+  exact hPull.symm.trans hAt
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
