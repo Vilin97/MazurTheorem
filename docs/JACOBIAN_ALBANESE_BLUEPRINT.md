@@ -316,6 +316,19 @@ categorical-quotient factorization property.  This affine theorem has also
 been globalized over quotient charts and then applied to the smooth (hence
 flat) curve factor, completing the ambient comparison above.
 
+For the incidence algebra itself, adjoining the distinguished root commutes
+with scalar extension from symmetric coefficients to ordered-root
+coordinates.  Transport the coordinate-permutation action through this
+base-change equivalence; it permutes the ordered roots and fixes the
+distinguished root.  Flat invariant base change then identifies its fixed
+subring with the universal monic root algebra.  On spectra, the actual affine
+incidence quotient is therefore isomorphic over symmetric coefficient space
+to the universal root scheme.  In particular its structure morphism is
+finite flat of constant rank `d`, in every characteristic.  The remaining
+step is geometric localization: cover the curve-level pointed comparison by
+smooth affine charts, pass to their étale one-variable coordinates, and
+identify each restricted quotient map with this checked affine model.
+
 Denote the representing object by
 
 ```text

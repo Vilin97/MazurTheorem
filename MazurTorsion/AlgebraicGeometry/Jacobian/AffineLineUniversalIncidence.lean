@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.AdjoinRootBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineMonicCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
+import MazurTorsion.AlgebraicGeometry.Jacobian.MonicRootFamily
 
 /-!
 # The affine-line universal incidence quotient
@@ -27,7 +28,8 @@ noncomputable section
 
 universe u
 
-open Algebra Polynomial TensorProduct
+open Algebra CategoryTheory Polynomial TensorProduct
+open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineUniversalIncidence
 
@@ -114,6 +116,135 @@ noncomputable def orderedIncidenceBaseChangeEquiv :
         (orderedRootPolynomial R n)
         (invariantUniversalPolynomial_map_inclusion R n))
 
+/-- The coordinate-permutation action on the ordered incidence root algebra,
+transported from its tensor-product presentation.  It permutes the ordered
+roots and fixes the distinguished adjoined root. -/
+@[instance_reducible]
+noncomputable def orderedIncidenceAction :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    MulSemiringAction (Equiv.Perm (Fin n))
+      (AdjoinRoot (orderedRootPolynomial R n)) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  let e := orderedIncidenceBaseChangeEquiv R n
+  exact
+    { smul := fun g x ↦ e (g • e.symm x)
+      one_smul := fun x ↦ by
+        change e ((1 : Equiv.Perm (Fin n)) • e.symm x) = x
+        rw [one_smul, e.apply_symm_apply]
+      mul_smul := fun g h x ↦ by
+        change e ((g * h) • e.symm x) =
+          e (g • e.symm (e (h • e.symm x)))
+        rw [mul_smul, e.symm_apply_apply]
+      smul_zero := fun g ↦ by
+        change e (g • e.symm 0) = 0
+        rw [map_zero, smul_zero, map_zero]
+      smul_add := fun g x y ↦ by
+        change e (g • e.symm (x + y)) =
+          e (g • e.symm x) + e (g • e.symm y)
+        rw [map_add, smul_add, map_add]
+      smul_one := fun g ↦ by
+        change e (g • e.symm 1) = 1
+        rw [map_one, smul_one, map_one]
+      smul_mul := fun g x y ↦ by
+        change e (g • e.symm (x * y)) =
+          e (g • e.symm x) * e (g • e.symm y)
+        rw [map_mul, smul_mul', map_mul] }
+
+/-- The transported action fixes the invariant coefficient ring. -/
+theorem orderedIncidenceSMulCommClass :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    SMulCommClass (Equiv.Perm (Fin n)) F
+      (AdjoinRoot (orderedRootPolynomial R n)) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  let e := (orderedIncidenceBaseChangeEquiv R n).restrictScalars F
+  constructor
+  intro g r x
+  change e (g • e.symm (r • x)) = r • e (g • e.symm x)
+  calc
+    _ = e (g • (r • e.symm x)) :=
+      congrArg (fun z ↦ e (g • z))
+        (e.symm.toLinearEquiv.map_smul r x)
+    _ = e (r • (g • e.symm x)) :=
+      congrArg e (smul_comm g r (e.symm x))
+    _ = _ := e.toLinearEquiv.map_smul r (g • e.symm x)
+
+/-- The base-change equivalence is equivariant for the tensor-product action
+and the transported ordered-incidence action. -/
+theorem orderedIncidenceBaseChangeEquiv_smul
+    (g : Equiv.Perm (Fin n))
+    (x : letI := coordinatePermutationAction R (Fin n)
+      letI := coordinatePermutationSMulCommClass R (Fin n)
+      let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+        (Equiv.Perm (Fin n))
+      MvPolynomial (Fin n) R ⊗[F]
+        AdjoinRoot (invariantUniversalPolynomial R n)) :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI := orderedIncidenceAction R n
+    orderedIncidenceBaseChangeEquiv R n (g • x) =
+      g • orderedIncidenceBaseChangeEquiv R n x := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI := orderedIncidenceAction R n
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  let e := orderedIncidenceBaseChangeEquiv R n
+  change e (g • x) = e (g • e.symm (e x))
+  rw [e.symm_apply_apply]
+
+/-- Transporting fixed points through the ordered-incidence base-change
+equivalence identifies the tensor-model fixed ring with the fixed ring of the
+ordered root algebra. -/
+noncomputable def baseChangeFixedPointsEquivOrderedIncidenceFixedPoints :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    FixedPoints.subalgebra F
+        (MvPolynomial (Fin n) R ⊗[F]
+          AdjoinRoot (invariantUniversalPolynomial R n))
+        (Equiv.Perm (Fin n)) ≃ₐ[F]
+      FixedPoints.subalgebra F
+        (AdjoinRoot (orderedRootPolynomial R n))
+        (Equiv.Perm (Fin n)) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  let e := (orderedIncidenceBaseChangeEquiv R n).restrictScalars F
+  exact
+    { toFun := fun x ↦ ⟨e x.1, fun g ↦ by
+          change e (g • e.symm (e x.1)) = e x.1
+          rw [e.symm_apply_apply]
+          exact congrArg e (x.2 g)⟩
+      invFun := fun x ↦ ⟨e.symm x.1, fun g ↦ by
+          apply e.injective
+          change e (g • e.symm x.1) = e (e.symm x.1)
+          have hx := x.2 g
+          change e (g • e.symm x.1) = x.1 at hx
+          exact hx.trans (e.apply_symm_apply x.1).symm⟩
+      left_inv := fun x ↦ Subtype.ext (e.symm_apply_apply x.1)
+      right_inv := fun x ↦ Subtype.ext (e.apply_symm_apply x.1)
+      map_mul' := fun x y ↦ Subtype.ext (map_mul e x.1 y.1)
+      map_add' := fun x y ↦ Subtype.ext (map_add e x.1 y.1)
+      commutes' := fun r ↦ Subtype.ext (e.commutes r) }
+
 /-- Invariants of the ordered-incidence base-change algebra are exactly the
 universal root algebra over symmetric coefficients. -/
 noncomputable def invariantRootEquivBaseChangeFixedPoints :
@@ -146,5 +277,214 @@ noncomputable def invariantRootEquivBaseChangeFixedPoints :
       (G := Equiv.Perm (Fin n)) (R := R)
       (A := MvPolynomial (Fin n) R)
       (AdjoinRoot (invariantUniversalPolynomial R n)))
+
+/-- The quotient of the ordered affine incidence algebra by coordinate
+permutations is the universal monic root algebra. -/
+noncomputable def invariantRootEquivOrderedIncidenceFixedPoints :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    AdjoinRoot (invariantUniversalPolynomial R n) ≃ₐ[F]
+      FixedPoints.subalgebra F
+        (AdjoinRoot (orderedRootPolynomial R n))
+        (Equiv.Perm (Fin n)) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  exact (invariantRootEquivBaseChangeFixedPoints R n).trans
+    (baseChangeFixedPointsEquivOrderedIncidenceFixedPoints R n)
+
+/-- The affine quotient of the ordered incidence root algebra. -/
+noncomputable def orderedIncidenceInvariantScheme :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    Scheme.{u} := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  exact Spec (.of (FixedPoints.subalgebra F
+    (AdjoinRoot (orderedRootPolynomial R n)) (Equiv.Perm (Fin n))))
+
+/-- The affine ordered-incidence quotient is the universal monic root
+scheme. -/
+noncomputable def orderedIncidenceInvariantSchemeIsoRoot :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    orderedIncidenceInvariantScheme R n ≅
+      Spec (.of (AdjoinRoot (invariantUniversalPolynomial R n))) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  exact Scheme.Spec.mapIso
+    (invariantRootEquivOrderedIncidenceFixedPoints R n).toRingEquiv
+      .toCommRingCatIso.op
+
+/-- The structure map from the affine incidence quotient to invariant
+coefficient space. -/
+noncomputable def orderedIncidenceInvariantProjection :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    orderedIncidenceInvariantScheme R n ⟶ Spec (.of F) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  exact Spec.map (CommRingCat.ofHom (algebraMap F
+    (FixedPoints.subalgebra F
+      (AdjoinRoot (orderedRootPolynomial R n)) (Equiv.Perm (Fin n)))))
+
+/-- Under the quotient/root-scheme isomorphism, the quotient structure map
+is the universal monic root projection. -/
+theorem orderedIncidenceInvariantSchemeIsoRoot_hom_comp_projection :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    letI : Fact (invariantUniversalPolynomial R n).Monic :=
+      ⟨invariantUniversalPolynomial_monic R n⟩
+    (orderedIncidenceInvariantSchemeIsoRoot R n).hom ≫
+        MonicRootFamily.projection F (invariantUniversalPolynomial R n) =
+      orderedIncidenceInvariantProjection R n := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  letI : Fact (invariantUniversalPolynomial R n).Monic :=
+    ⟨invariantUniversalPolynomial_monic R n⟩
+  rw [orderedIncidenceInvariantSchemeIsoRoot,
+    MonicRootFamily.projection, orderedIncidenceInvariantProjection,
+    ← Spec.map_comp, Spec.map_inj]
+  ext r
+  exact (invariantRootEquivOrderedIncidenceFixedPoints R n).commutes r
+
+instance orderedIncidenceInvariantProjection_isFinite :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    IsFinite (orderedIncidenceInvariantProjection R n) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  letI : Fact (invariantUniversalPolynomial R n).Monic :=
+    ⟨invariantUniversalPolynomial_monic R n⟩
+  rw [← orderedIncidenceInvariantSchemeIsoRoot_hom_comp_projection]
+  infer_instance
+
+instance orderedIncidenceInvariantProjection_flat :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    Flat (orderedIncidenceInvariantProjection R n) := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  letI : Fact (invariantUniversalPolynomial R n).Monic :=
+    ⟨invariantUniversalPolynomial_monic R n⟩
+  rw [← orderedIncidenceInvariantSchemeIsoRoot_hom_comp_projection]
+  infer_instance
+
+/-- The affine incidence quotient has constant rank `n` over the symmetric
+coefficient space. -/
+theorem orderedIncidenceInvariantProjection_finrank :
+    letI := coordinatePermutationAction R (Fin n)
+    letI := coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := orderedIncidenceAction R n
+    letI := orderedIncidenceSMulCommClass R n
+    (orderedIncidenceInvariantProjection R n).finrank = fun _ ↦ n := by
+  letI := coordinatePermutationAction R (Fin n)
+  letI := coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+    (Equiv.Perm (Fin n))
+  letI := orderedIncidenceAction R n
+  letI := orderedIncidenceSMulCommClass R n
+  letI : Fact (invariantUniversalPolynomial R n).Monic :=
+    ⟨invariantUniversalPolynomial_monic R n⟩
+  rw [← orderedIncidenceInvariantSchemeIsoRoot_hom_comp_projection,
+    Scheme.Hom.finrank_comp_left_of_isIso]
+  calc
+    _ = fun _ ↦ (invariantUniversalPolynomial R n).natDegree :=
+      MonicRootFamily.projection_finrank F
+        (invariantUniversalPolynomial R n)
+    _ = fun _ ↦ n := by
+      ext x
+      rw [invariantUniversalPolynomial,
+        Polynomial.natDegree_map_eq_of_injective]
+      exact Polynomial.natDegree_freeMonic R n
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineUniversalIncidence

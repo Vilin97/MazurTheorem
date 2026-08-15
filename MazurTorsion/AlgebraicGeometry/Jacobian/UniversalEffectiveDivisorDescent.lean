@@ -9,6 +9,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineMonicCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineUniversalIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.MonicRootFamily
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalRootFactorization
 import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
@@ -117,6 +118,49 @@ theorem affineLineUniversalEffectiveDivisor_isPrincipalCartier
   exact ⟨inferInstance,
     UniversalRootFactorization.ambientToFactors_ker R n,
     UniversalRootFactorization.universalPolynomial_isRegular R n⟩
+
+/-- On the affine-line chart, taking invariants of the ordered incidence
+algebra gives exactly the universal monic root algebra.  This is the quotient
+identification behind the finite-flat Cartier local model, including in
+characteristics dividing `(n + 1)!`. -/
+noncomputable def affineLineOrderedIncidenceInvariantEquivRoot
+    (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    letI := AffineLineSymmetricPower.coordinatePermutationAction R (Fin n)
+    letI := AffineLineSymmetricPower.coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    let F := FixedPoints.subalgebra R (MvPolynomial (Fin n) R)
+      (Equiv.Perm (Fin n))
+    letI := AffineLineUniversalIncidence.orderedIncidenceAction R n
+    letI := AffineLineUniversalIncidence.orderedIncidenceSMulCommClass R n
+    AdjoinRoot
+        (AffineLineUniversalIncidence.invariantUniversalPolynomial R n) ≃ₐ[F]
+      FixedPoints.subalgebra F
+        (AdjoinRoot (AffineLineMonicCoordinates.orderedRootPolynomial R n))
+        (Equiv.Perm (Fin n)) :=
+  AffineLineUniversalIncidence.invariantRootEquivOrderedIncidenceFixedPoints R n
+
+/-- Consequently, the actual affine invariant quotient of the ordered
+incidence algebra is finite flat of constant rank `n` over symmetric
+coefficient space. -/
+theorem affineLineOrderedIncidenceQuotient_finiteFlatRank
+    (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    letI := AffineLineSymmetricPower.coordinatePermutationAction R (Fin n)
+    letI := AffineLineSymmetricPower.coordinatePermutationSMulCommClass R (Fin n)
+    letI : SMulCommClass R (Equiv.Perm (Fin n))
+        (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+    letI := AffineLineUniversalIncidence.orderedIncidenceAction R n
+    letI := AffineLineUniversalIncidence.orderedIncidenceSMulCommClass R n
+    let q := AffineLineUniversalIncidence.orderedIncidenceInvariantProjection R n
+    IsFinite q ∧ Flat q ∧ q.finrank = fun _ ↦ n := by
+  letI := AffineLineSymmetricPower.coordinatePermutationAction R (Fin n)
+  letI := AffineLineSymmetricPower.coordinatePermutationSMulCommClass R (Fin n)
+  letI : SMulCommClass R (Equiv.Perm (Fin n))
+      (MvPolynomial (Fin n) R) := SMulCommClass.symm _ _ _
+  letI := AffineLineUniversalIncidence.orderedIncidenceAction R n
+  letI := AffineLineUniversalIncidence.orderedIncidenceSMulCommClass R n
+  exact ⟨inferInstance, inferInstance,
+    AffineLineUniversalIncidence.orderedIncidenceInvariantProjection_finrank R n⟩
 
 variable (S : Scheme.{u}) (d : ℕ) {X Y : Over S}
 
