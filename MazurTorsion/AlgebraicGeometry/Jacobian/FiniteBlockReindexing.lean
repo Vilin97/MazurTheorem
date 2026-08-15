@@ -129,6 +129,53 @@ theorem blockIndexOfFnEquivSigma_inr {m : ℕ}
       ⟨(blockIndexOfFnEquivSigma m (fun j ↦ n j.succ) i).1.succ,
         (blockIndexOfFnEquivSigma m (fun j ↦ n j.succ) i).2⟩ := rfl
 
+/-- Reindexing the recursively defined block elementary-symmetric polynomial
+gives the elementary-symmetric polynomial in the corresponding sigma fiber. -/
+theorem rename_recursiveBlockElementarySymmetric
+    (R : Type*) [CommRing R] :
+    (m : ℕ) → (n : Fin m → ℕ) →
+      ∀ i : blockIndex (finBlockSizes m n),
+      MvPolynomial.rename (blockIndexOfFnEquivSigma m n)
+          (IteratedBlockInvariants.blockElementarySymmetric R
+            (finBlockSizes m n) i) =
+        BlockPermutationInvariants.blockElementarySymmetric R
+          (Fin m) (fun j ↦ Fin (n j))
+          (blockIndexOfFnEquivSigma m n i).1
+          ((blockIndexOfFnEquivSigma m n i).2 + 1)
+  | 0, _, i => PEmpty.elim i
+  | m + 1, n, Sum.inl i => by
+      rw [IteratedBlockInvariants.blockElementarySymmetric,
+        MvPolynomial.rename_rename, blockIndexOfFnEquivSigma_inl,
+        BlockPermutationInvariants.blockElementarySymmetric]
+      apply congrArg (fun f ↦ MvPolynomial.rename f
+        (MvPolynomial.esymm (Fin (n 0)) R (i + 1)))
+      funext x
+      rfl
+  | m + 1, n, Sum.inr i => by
+      let lift : (Σ j : Fin m, Fin (n j.succ)) →
+          (Σ j : Fin (m + 1), Fin (n j)) :=
+        fun x ↦ ⟨x.1.succ, x.2⟩
+      have hcomp :
+          blockIndexOfFnEquivSigma (m + 1) n ∘ Sum.inr =
+            lift ∘ blockIndexOfFnEquivSigma m (fun j ↦ n j.succ) := rfl
+      rw [IteratedBlockInvariants.blockElementarySymmetric,
+        MvPolynomial.rename_rename, hcomp,
+        ← MvPolynomial.rename_rename]
+      rw [rename_recursiveBlockElementarySymmetric R m
+        (fun j ↦ n j.succ) i]
+      rw [blockIndexOfFnEquivSigma_inr,
+        BlockPermutationInvariants.blockElementarySymmetric,
+        BlockPermutationInvariants.blockElementarySymmetric,
+        MvPolynomial.rename_rename]
+      apply congrArg (fun f ↦ MvPolynomial.rename f
+        (MvPolynomial.esymm
+          (Fin (n (blockIndexOfFnEquivSigma m
+            (fun j ↦ n j.succ) i).1.succ)) R
+          ((blockIndexOfFnEquivSigma m
+            (fun j ↦ n j.succ) i).2 + 1)))
+      funext x
+      rfl
+
 @[simp]
 theorem blockPermutationGroupOfFnMulEquiv_zero {m : ℕ}
     (n : Fin (m + 1) → ℕ)

@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, Codex
 -/
 
-import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteFiberPermutationInvariants
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteFiberMonicCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitTupleStabilizer
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentUniversalRoot
 
@@ -33,6 +33,7 @@ open SplitTupleStabilizer
 open SplitComponentUniversalRoot
 open BlockPermutationInvariants
 open FiniteFiberPermutationInvariants
+open FiniteFiberMonicCoordinates
 
 variable (R : Type u) [CommRing R]
 variable (d m : ℕ) (c : splitComponentIndex d m)
@@ -149,9 +150,33 @@ noncomputable def componentStabilizerInvariantAlgEquiv :
     (fun j ↦ Fin (sheetMultiplicity d m c j))
   letI := componentStabilizerRootAction R d m c
   letI := componentStabilizerRootSMulCommClass R d m c
-  exact (finiteFiberInvariantAlgEquiv R m
+  exact (monicCoefficientInvariantAlgEquiv R m
       (sheetMultiplicity d m c)).trans
     (stabilizerFixedEquivRootPermutationFixed R d m c).symm
+
+/-- The split-component quotient chart uses the same monic coefficient
+coordinates as the universal root polynomial on every sheet. -/
+theorem componentStabilizerInvariantAlgEquiv_X
+    (x : componentRootIndex d m c) :
+    letI := componentStabilizerRootAction R d m c
+    letI := componentStabilizerRootSMulCommClass R d m c
+    ((componentStabilizerInvariantAlgEquiv R d m c)
+      (MvPolynomial.X x)).1 =
+      MvPolynomial.C ((-1 : R) ^
+        (sheetMultiplicity d m c x.1 - (x.2 : ℕ))) *
+        blockElementarySymmetric R (Fin m)
+          (fun j ↦ Fin (sheetMultiplicity d m c j)) x.1
+          (sheetMultiplicity d m c x.1 - (x.2 : ℕ)) := by
+  letI := fiberPermutationAction R (Fin m)
+    (fun j ↦ Fin (sheetMultiplicity d m c j))
+  letI := fiberPermutationSMulCommClass R (Fin m)
+    (fun j ↦ Fin (sheetMultiplicity d m c j))
+  letI := componentStabilizerRootAction R d m c
+  letI := componentStabilizerRootSMulCommClass R d m c
+  change ((monicCoefficientInvariantAlgEquiv R m
+    (sheetMultiplicity d m c)) (MvPolynomial.X x)).1 = _
+  exact monicCoefficientInvariantAlgEquiv_X R m
+    (sheetMultiplicity d m c) x
 
 /-- Affine scheme form of the split component calculation: the quotient by
 the residual tuple stabilizer is the coefficient base of the universal root

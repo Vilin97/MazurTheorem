@@ -163,6 +163,32 @@ noncomputable def fixedPointsEquivCoordinateCoefficientFixed :
   · ext p
     rfl
 
+@[simp]
+theorem fixedPointsEquivCoordinateCoefficientFixed_apply_val
+    :
+    letI := coordinateCoefficientAction G A σ
+    letI := coordinateCoefficientSMulCommClass G R A σ
+    ∀ p : FixedPoints.subalgebra R (MvPolynomial σ A)
+        (Equiv.Perm σ × G),
+      ((fixedPointsEquivCoordinateCoefficientFixed G R A σ) p).1 = p.1 := by
+  letI := coordinateCoefficientAction G A σ
+  letI := coordinateCoefficientSMulCommClass G R A σ
+  intro p
+  rfl
+
+@[simp]
+theorem fixedPointsEquivCoordinateCoefficientFixed_symm_apply_val
+    :
+    letI := coordinateCoefficientAction G A σ
+    letI := coordinateCoefficientSMulCommClass G R A σ
+    ∀ p : coordinateCoefficientFixedSubalgebra G R A σ,
+      (((fixedPointsEquivCoordinateCoefficientFixed G R A σ).symm p).1) =
+        p.1 := by
+  letI := coordinateCoefficientAction G A σ
+  letI := coordinateCoefficientSMulCommClass G R A σ
+  intro p
+  rfl
+
 variable [Fintype σ]
 
 /-- Mapping a symmetric polynomial over the fixed coefficient ring into the
@@ -261,5 +287,32 @@ noncomputable def coefficientCoordinateAlgEquiv (n : ℕ)
       coordinateCoefficientFixedSubalgebra G R A σ :=
   AlgEquiv.ofBijective (coefficientCoordinateAlgHom G R A σ n hn)
     (coefficientCoordinateAlgHom_bijective G R A σ n hn)
+
+/-- A coefficient variable is sent to the corresponding elementary-symmetric
+polynomial, with its coefficients included into the ambient coefficient
+ring. -/
+theorem coefficientCoordinateAlgEquiv_X (n : ℕ)
+    (hn : Fintype.card σ = n) (i : Fin n) :
+    ((coefficientCoordinateAlgEquiv G R A σ n hn)
+      (MvPolynomial.X i)).1 =
+      MvPolynomial.map (FixedPoints.subalgebra R A G).val.toRingHom
+        (MvPolynomial.esymm σ (FixedPoints.subalgebra R A G) (i + 1)) := by
+  rw [coefficientCoordinateAlgEquiv]
+  change ((coefficientCoordinateAlgHom G R A σ n hn)
+    (MvPolynomial.X i)).1 = _
+  rw [coefficientCoordinateAlgHom_apply_val]
+  simp [MvPolynomial.esymmAlgEquiv, MvPolynomial.esymmAlgHom]
+
+/-- Polynomial constants over the fixed coefficient ring are included as
+constants over the ambient coefficient ring. -/
+theorem coefficientCoordinateAlgEquiv_C (n : ℕ)
+    (hn : Fintype.card σ = n) (a : FixedPoints.subalgebra R A G) :
+    ((coefficientCoordinateAlgEquiv G R A σ n hn)
+      (MvPolynomial.C a)).1 = MvPolynomial.C a.1 := by
+  rw [coefficientCoordinateAlgEquiv]
+  change ((coefficientCoordinateAlgHom G R A σ n hn)
+    (MvPolynomial.C a)).1 = _
+  rw [coefficientCoordinateAlgHom_apply_val]
+  simp
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.CoordinateCoefficientInvariants

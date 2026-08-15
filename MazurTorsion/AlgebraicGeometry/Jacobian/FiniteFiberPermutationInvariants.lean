@@ -121,6 +121,25 @@ noncomputable def recursiveFixedAlgEquivFiberFixed :
     apply Subtype.ext
     exact e.symm_apply_apply p.1
 
+@[simp]
+theorem recursiveFixedAlgEquivFiberFixed_apply_val
+    :
+    letI := jointBlockPermutationAction R (finBlockSizes m n)
+    letI := jointBlockPermutationSMulCommClass R (finBlockSizes m n)
+    letI := fiberPermutationAction R (Fin m) (fun j ↦ Fin (n j))
+    letI := fiberPermutationSMulCommClass R (Fin m) (fun j ↦ Fin (n j))
+    ∀ p : FixedPoints.subalgebra R
+        (MvPolynomial (blockIndex (finBlockSizes m n)) R)
+        (blockPermutationGroup (finBlockSizes m n)),
+      ((recursiveFixedAlgEquivFiberFixed R m n) p).1 =
+        MvPolynomial.rename (blockIndexOfFnEquivSigma m n) p.1 := by
+  letI := jointBlockPermutationAction R (finBlockSizes m n)
+  letI := jointBlockPermutationSMulCommClass R (finBlockSizes m n)
+  letI := fiberPermutationAction R (Fin m) (fun j ↦ Fin (n j))
+  letI := fiberPermutationSMulCommClass R (Fin m) (fun j ↦ Fin (n j))
+  intro p
+  rfl
+
 /-- Finite-family form of the blockwise fundamental theorem of symmetric
 polynomials. -/
 noncomputable def finiteFiberInvariantAlgEquiv :
@@ -138,6 +157,26 @@ noncomputable def finiteFiberInvariantAlgEquiv :
       (blockIndexOfFnEquivSigma m n).symm).trans
     ((jointBlockInvariantAlgEquiv R (finBlockSizes m n)).trans
       (recursiveFixedAlgEquivFiberFixed R m n))
+
+/-- On generators, the finite-family invariant equivalence is exactly the
+joint elementary-symmetric coefficient map. -/
+theorem finiteFiberInvariantAlgEquiv_X
+    (i : Σ j : Fin m, Fin (n j)) :
+    letI := fiberPermutationAction R (Fin m) (fun j ↦ Fin (n j))
+    letI := fiberPermutationSMulCommClass R (Fin m) (fun j ↦ Fin (n j))
+    ((finiteFiberInvariantAlgEquiv R m n) (MvPolynomial.X i)).1 =
+      blockElementarySymmetric R (Fin m) (fun j ↦ Fin (n j))
+        i.1 (i.2 + 1) := by
+  letI := jointBlockPermutationAction R (finBlockSizes m n)
+  letI := jointBlockPermutationSMulCommClass R (finBlockSizes m n)
+  letI := fiberPermutationAction R (Fin m) (fun j ↦ Fin (n j))
+  letI := fiberPermutationSMulCommClass R (Fin m) (fun j ↦ Fin (n j))
+  change MvPolynomial.rename (blockIndexOfFnEquivSigma m n)
+      (((jointBlockInvariantAlgEquiv R (finBlockSizes m n))
+        (MvPolynomial.rename (blockIndexOfFnEquivSigma m n).symm
+          (MvPolynomial.X i))).1) = _
+  rw [MvPolynomial.rename_X, jointBlockInvariantAlgEquiv_X,
+    rename_recursiveBlockElementarySymmetric, Equiv.apply_symm_apply]
 
 /-- Scheme form: the affine invariant quotient for a finite family of root
 blocks is its joint elementary-symmetric coefficient space. -/
