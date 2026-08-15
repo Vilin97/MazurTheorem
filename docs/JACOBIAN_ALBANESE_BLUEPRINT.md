@@ -51,7 +51,7 @@ parallel abstraction.
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
 | Finite étale point neighborhoods | `EtaleFiniteNeighborhood.exists_isCompl_finiteEtale` | checked from Mathlib's Zariski-main local structure theorem: after an étale base change, any selected point of an étale separated chart lies in an open-and-closed component that is finite étale over the new base |
 | Constant-rank neighborhoods | `FiniteFlatConstantRankNeighborhood.rankOpen` and `morphismRestrict_finrank` | checked: the rank fiber through a chosen point is clopen, contains that point, and restriction of a finite flat finitely presented morphism to it has constant rank |
-| Finite étale split chart | `EtaleSplitChart.exists_fpqc_splitCover`, `AffineFiniteEtaleSplitChart.exists_fpqc_splitCover`, `FiniteEtalePointSplitChart.exists_affineOpen_fpqc_splitCover`, `FiniteEtaleFamilySplitChart.exists_common_splitCover`, and `AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover` | checked: after a finite faithfully flat étale extension, a constant-rank finite étale algebra becomes a finite product of the base; every base point of a finite étale morphism has an affine constant-rank neighborhood carrying such a split fpqc cover; and a finite family over one affine base has one finite étale fpqc cover splitting every member, with all pullbacks transported through the canonical `isoSpec` squares |
+| Finite étale split chart | `EtaleSplitChart.exists_fpqc_splitCover`, `AffineFiniteEtaleSplitChart.exists_fpqc_splitCover`, `FiniteEtalePointSplitChart.exists_affineOpen_fpqc_splitCover`, `FiniteEtaleFamilySplitChart.exists_common_splitCover`, `AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover`, and `FiniteEtaleFamilyPointSplitChart.exists_affineOpen_fpqc_common_splitCover` | checked: after a finite faithfully flat étale extension, a constant-rank finite étale algebra becomes a finite product of the base; a finite family has, around every common base point, one affine neighborhood in the intersection of all its clopen rank loci and one finite étale fpqc cover splitting every restricted member, with all pullbacks transported through the canonical `isoSpec` squares |
 | Split symmetric quotient | `SplitFiniteSymmetricQuotient` | checked: the invariant ring of a split ordered power is the product ring on tuple orbits; every orbit component has sheet multiplicities summing to the divisor degree |
 | Split monic-root family | `SplitMonicRootFamily` | checked: the product of the sheetwise monic root algebras is finite flat and has constant rank equal to the sum of the sheet multiplicities, hence the divisor degree |
 | Split-component universal root | `SplitComponentUniversalRoot` | checked: the joint coefficient chart and sheetwise universal monic polynomials give a finite flat root family of constant rank equal to the symmetric-power degree |
@@ -348,8 +348,11 @@ set after a finite étale fpqc cover.  Splitting over one common affine base
 has also been assembled: recursively splitting the base changes of a finite
 family preserves each earlier split and produces one finite étale fpqc cover;
 the affine-scheme wrapper simultaneously identifies every pullback with a
-finite coproduct of that cover.  The outstanding step is to put the finitely
-many support-point components over such a common base, build the induced
+finite coproduct of that cover.  Intersecting the finitely many clopen rank
+loci first now gives the pointwise version of this result over arbitrary
+schemes: around every common base point there is one affine neighborhood and
+one split cover for the whole family.  The outstanding step is to express the
+support-point components as a family over this common base, build the induced
 neighborhood in the symmetric quotient, and exclude all complementary sheets
 there.
 
