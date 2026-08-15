@@ -115,9 +115,9 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Prove finite dimensionality for the same canonical field actions used by the
-  curve-cohomology facade, together with affine acyclicity and vanishing above degree
-  one in the required scope.
+  Package the checked pointed-curve canonical-field H1 finite-dimensionality theorem
+  with the still-needed canonical H0 compatibility, affine acyclicity, and vanishing
+  above degree one in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -154,19 +154,29 @@ line bundles on a smooth curve.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap`
   Make genuine H1 functoriality ground-field linear for the canonical structure-map
-  actions; no finite-dimensionality theorem yet uses this action.
+  actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
   Identify the underlying additive group of native base-Cech H1 with genuine Ext-based
   sheaf H1 for every affine open cover.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover`
+  Upgrade the affine-cover comparison to a linear equivalence between native base-Cech
+  H1 and the canonical global-functions action on genuine H1 restricted along the base
+  morphism, without transporting a target module instance.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover`
   Expose the affine-cover comparison linearly for the explicitly cover-transported
-  action; this is not yet a comparison with the canonical action.
+  action; retain this legacy facade alongside the canonical restricted-action linear
+  comparison.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover`
   Consume the ordered/native and affine-cover comparisons to transfer finite generation
   to genuine H1 under the cover-transported action.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology.genuineSheafHOne_finite_canonical_of_finite_to_projectiveLine`
+  Transfer native Cech finite generation along a finite map to the projective line to
+  genuine H1 for the canonical base-global-sections action.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero`
   Prove genuine sheaf cohomology vanishes in every degree at least two on the required
@@ -174,8 +184,13 @@ line bundles on a smooth curve.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finiteDimensional_of_rationalSection`
   Prove H1 finite-dimensional for a pointed smooth proper integral curve using a
-  finite-map-transported field action; comparison with the canonical field action
-  remains open.
+  finite-map-transported field action; retain this legacy facade alongside the
+  canonical-field theorem.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneCanonical_finiteDimensional_of_rationalSection`
+  Use a rational section and the canonical Cech linear equivalence to prove genuine H1
+  finite-dimensional for the canonical structure-map field action on a smooth proper
+  integral curve.
 
 :::
 
