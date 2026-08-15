@@ -29,6 +29,11 @@ section-extension equivalences compile.
   property.
 * `theorem` (`contract`): `AlgebraicGeometry.NeronModel.sectionExtension`
   Extend the rational sections used by the rank-zero and prime-five consumers.
+* `definition` (`contract`): `AlgebraicGeometry.ProperModelBasePoint.mulEquiv`
+  Use the valuative criterion for an actual proper commutative group model over a
+  valuation ring to identify its terminal integral points with the points of an
+  identified generic fibre; this does not assert a Neron mapping property for arbitrary
+  smooth test schemes.
 
 :::
 
@@ -96,6 +101,16 @@ section at the auxiliary primes 5 and 11.
   Transport the actual-kernel power-Kummer rank-zero theorem from integral model points
   to rational points of the supplied generic fibre through the checked Neron
   mapping-property equivalence.
+* `definition` (`contract`):
+  `AlgebraicGeometry.ProperModelBasePoint.basePointSpecialization`
+  Specialize a generic point by its unique extension to an actual proper commutative
+  group model and restriction along an arbitrary test scheme over the valuation-ring
+  base.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.ProperModelBasePoint.basePoint_eq_of_restrict_eq_of_generic_torsion`
+  Turn equality after restriction into equality of two integral model points when their
+  generic-fibre difference is torsion and a supplied torsion-specialization injectivity
+  predicate kills that difference; the predicate remains an input.
 
 :::
 

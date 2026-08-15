@@ -92,6 +92,12 @@ specialization lemma.
   `MazurTorsion.PrimeOrder.rationalPoint_addOrderOf_ne_of_mappedDegreeOneCotangentAtFive_of_nonsingularReduction`
   Consume degree-one special-fibre data and checked canonical reduction additivity in
   the prime-order endpoint.
+* `theorem` (`contract`):
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_properModelSpecializationAtFive`
+  Feed an actual proper commutative quotient model, its identified generic fibre,
+  section collision, generic-fibre torsion, and a supplied torsion-specialization
+  injectivity predicate to the checked formal-immersion prime-order contradiction; no
+  full Neron mapping property or specialization theorem is constructed.
 
 :::
 

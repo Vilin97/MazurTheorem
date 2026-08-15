@@ -418,8 +418,13 @@ omits the unused monoidal closure, makes the mapped fiber-product inclusions
 explicit, and splits the free-Yoneda tensor calculation to fit the project's
 default proof budget. A project-owned theorem proves zero-section
 normalization natural under base change and is consumed through
-`picRelFunctor`. This extension makes no claim about fppf sheafification,
-degree zero, representability, a Poincare bundle, or Abel's isomorphism.
+`picRelFunctor`. The retained AINTLIB extension itself makes no claim about
+fppf sheafification, degree zero, representability, a Poincare bundle, or
+Abel's isomorphism. A
+separate project-owned module applies the canonical fppf sheafification to
+that all-degree normalized presheaf and maps the existing base rational-section
+class into it; it still makes no relative degree-zero, representability,
+Poincare-bundle, or Abel-isomorphism claim.
 
 The pullback-composition monoidality extension retains AINTLIB's exact
 `ForMathlib/PresheafPullbackCompMonoidal.lean` blob

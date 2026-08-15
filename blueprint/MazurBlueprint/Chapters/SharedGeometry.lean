@@ -115,9 +115,10 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package proper coherent H0/H1 finite-dimensionality for the same canonical field
-  actions used by the curve-cohomology facade, together with linear connecting maps,
-  affine acyclicity, and vanishing above degree one in the required scope.
+  Package the checked canonical H0 comparison and pointed-curve canonical-field H1
+  finite-dimensionality theorem with the still-needed proper coherent H0 finiteness,
+  linear connecting maps, affine acyclicity, and vanishing above degree one in the
+  required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -136,17 +137,33 @@ line bundles on a smooth curve.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule`
   Transport the global-sections module structure to Ext-based H0 as an explicit opt-in
-  compatibility action. Its agreement with the canonical all-degree cohomology action
-  remains to be proved.
+  compatibility action; its equality with the canonical all-degree action is checked
+  below.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.globalSectionsCohomologyModule`
   Give genuine Ext-based sheaf cohomology in every degree its canonical
   cover-independent action by global functions, induced by multiplication endomorphisms
   of the coefficient module.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalLinearEquivGlobalSections`
+  Upgrade the degree-zero/global-sections comparison to a linear equivalence for the
+  canonical global-functions action on genuine H0.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule_eq_globalSectionsCohomologyModule`
+  Prove that the opt-in global-sections-transported H0 action equals the canonical
+  all-degree global-functions action in degree zero.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap`
   Bundle every coefficient-module morphism as a linear map for the canonical
   global-functions cohomology actions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldModule`
+  Restrict the canonical global-functions action on genuine H0 along the actual
+  structure morphism to obtain the opt-in ground-field action.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldLinearEquivGlobalSections`
+  Consume the canonical H0 comparison in the proper-curve layer and identify it linearly
+  with global sections carrying the same structure-map field action.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldModule`
   Restrict the canonical global-functions action on genuine H1 along the actual
@@ -154,19 +171,29 @@ line bundles on a smooth curve.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap`
   Make genuine H1 functoriality ground-field linear for the canonical structure-map
-  actions; no finite-dimensionality theorem yet uses this action.
+  actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
   Identify the underlying additive group of native base-Cech H1 with genuine Ext-based
   sheaf H1 for every affine open cover.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover`
+  Upgrade the affine-cover comparison to a linear equivalence between native base-Cech
+  H1 and the canonical global-functions action on genuine H1 restricted along the base
+  morphism, without transporting a target module instance.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover`
   Expose the affine-cover comparison linearly for the explicitly cover-transported
-  action; this is not yet a comparison with the canonical action.
+  action; retain this legacy facade alongside the canonical restricted-action linear
+  comparison.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover`
   Consume the ordered/native and affine-cover comparisons to transfer finite generation
   to genuine H1 under the cover-transported action.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology.genuineSheafHOne_finite_canonical_of_finite_to_projectiveLine`
+  Transfer native Cech finite generation along a finite map to the projective line to
+  genuine H1 for the canonical base-global-sections action.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero`
   Prove genuine sheaf cohomology vanishes in every degree at least two on the required
@@ -174,8 +201,13 @@ line bundles on a smooth curve.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finiteDimensional_of_rationalSection`
   Prove H1 finite-dimensional for a pointed smooth proper integral curve using a
-  finite-map-transported field action; comparison with the canonical field action
-  remains open.
+  finite-map-transported field action; retain this legacy facade alongside the
+  canonical-field theorem.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneCanonical_finiteDimensional_of_rationalSection`
+  Use a rational section and the canonical Cech linear equivalence to prove genuine H1
+  finite-dimensional for the canonical structure-map field action on a smooth proper
+  integral curve.
 
 :::
 
@@ -267,7 +299,10 @@ Abel maps.
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
 `tauceti`; *risk:* `extreme`; *weight:* 35 points.
 
-*Summary:* Define the rigidified relative Picard functor and its degree-zero subfunctor.
+*Summary:* The checked all-degree zero-section-normalized Picard presheaf now has its
+associated fppf sheafification and a rational-section class consumer at the base test
+object; a pullback-compatible relative degree map, the relative degree-zero subfunctor,
+Pic⁰ representability, and the universal Poincaré bundle remain missing.
 
 *Canonical artifacts:*
 
@@ -286,6 +321,15 @@ Abel maps.
   `AlgebraicGeometry.Scheme.Modules.picRelFunctor_map_picRelProj`
   Prove that zero-section normalization of an absolute Picard class commutes with
   arbitrary base change through the actual relative Picard functor map.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.picRelFppfSheaf`
+  Apply Mathlib's sheafification to the additive all-degree zero-section-normalized
+  Picard presheaf on the fppf site; this is an associated sheafification, not relative
+  Pic⁰ or a representing object.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiPicRelFppfClass`
+  Map the checked absolute rational-section Abel--Jacobi class at the identity test
+  object into the associated fppf sheafification, still using the supplied
+  DivisorPicard.ClassEquivalence.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero`
   Transport the divisor degree-zero subgroup to an absolute subgroup of the scheme
@@ -426,20 +470,34 @@ order-49 consumers.
   Identify the quotient-after-dual composite with multiplication by the level on the
   quotient.
 * `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionAffineMorphism`
-  Construct the genuine affine-scheme morphism induced by the denominator-cleared
-  universal secant formula on its explicit principal-open presentation.
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantProductOpen`
+  Realize the secant localization as the actual principal open D(x₁ - x₂) in the affine
+  fibre product of the concrete cubic with itself.
 * `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism`
-  Map the checked secant chart into the actual reduced projective Weierstrass cubic
-  through its standard affine open; this is one multiplication chart, not a global group
-  law.
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen`
+  Define the checked secant-addition morphism on that genuine product open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen_comp_structureMap`
+  Prove that secant addition on the genuine product open lies over the base field.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentChartToAffineCurve_opensRange`
+  Identify the tangent localization with the actual affine principal open where 2y + a₁x
+  + a₃ is invertible.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism`
+  Map the checked tangent-doubling formula from that principal open into the concrete
+  projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism_comp_structureMap`
+  Prove that the projective tangent-doubling morphism lies over the base field.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison after identifying D(x₁ - x₂),
-  constructing the product-neighbourhood chart D(B₁₂), gluing their union on the genuine
-  intersection, adding the infinity charts and coverage, and proving the group axioms.
+  group-scheme law and coordinate-point comparison after exposing pair-coordinate
+  accessors, constructing the product-neighbourhood chart D(B₁₂), comparing it with
+  secant addition on the genuine intersection and with tangent doubling on the diagonal,
+  gluing their union, adding the infinity charts and coverage, and proving the group
+  axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`

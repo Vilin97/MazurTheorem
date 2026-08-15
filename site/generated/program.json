@@ -5,7 +5,7 @@
     "revision": {
       "id": "canonical-foundations-v4",
       "date": "2026-08-15",
-      "summary": "Retain Mazur's degree-one formal-immersion route while recording three checked but uncredited foundation slices: canonical coherent-cohomology actions with the affine-cover Cech comparison integrated, the first secant addition morphism toward the Weierstrass group scheme, and represented polynomial-cusp sections with a local collision consumer. Riemann-Roch, proper base change, the product-neighbourhood chart D(B₁₂), its gluing with D(x₁ - x₂), the infinity charts, represented X_0, and its compactification remain open."
+      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness; the associated fppf sheafification of the all-degree normalized Picard presheaf; genuine secant-product and tangent-doubling charts; terminal proper-model specialization at five; and represented polynomial-cusp sections. Proper coherent H0 finiteness, linear connecting maps, Riemann-Roch, proper base change, relative Pic⁰ and representability, the product-neighbourhood chart D(B₁₂), its gluing and infinity coverage, actual quotient models and torsion injectivity, represented X_0, and compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -72,8 +72,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1788060,
-    "integrated_lean_modules": 1870,
+    "integrated_lean_lines": 1790710,
+    "integrated_lean_modules": 1874,
     "remaining_composite_orders": [
       18,
       25,
@@ -1549,7 +1549,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked affine-cover Cech comparison now reaches genuine Ext-based H1, and multiplication by global functions gives a canonical cover-independent action in every degree with structure-map field-linear H1 functoriality. The older H0 and Cech finiteness theorems still use transported actions; compatibility with the canonical actions, proper coherent H0 finiteness, linear connecting maps, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. The affine-cover Cech comparison reaches genuine Ext-based H1 and is canonically linear, yielding canonical-field H1 finite-dimensionality for pointed smooth proper integral curves. Proper coherent H0 finiteness, linear connecting maps, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1559,7 +1559,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile, and the affine-cover comparison is consumed by genuine-H1 finite-generation transfer. Proper-curve H1 finite-dimensionality is presently proved only for cover- or finite-map-transported scalar actions. Its comparison with the canonical structure-map action, canonical H0/global-sections compatibility, proper coherent H0 finiteness, linear connecting maps, and proper cohomology base change remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The H0/global-sections and affine-cover H1 comparisons are canonically linear, their transported and canonical H0 actions agree, and a rational section gives proper-curve H1 finite-dimensionality for the canonical structure-map field action. Proper coherent H0 finiteness, linear connecting maps, and proper cohomology base change remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1583,7 +1583,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Package proper coherent H0/H1 finite-dimensionality for the same canonical field actions used by the curve-cohomology facade, together with linear connecting maps, affine acyclicity, and vanishing above degree one in the required scope."
+          "description": "Package the checked canonical H0 comparison and pointed-curve canonical-field H1 finite-dimensionality theorem with the still-needed proper coherent H0 finiteness, linear connecting maps, affine acyclicity, and vanishing above degree one in the required curve-cohomology facade."
         },
         {
           "kind": "definition",
@@ -1617,7 +1617,7 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule",
           "state": "contract",
-          "description": "Transport the global-sections module structure to Ext-based H0 as an explicit opt-in compatibility action. Its agreement with the canonical all-degree cohomology action remains to be proved.",
+          "description": "Transport the global-sections module structure to Ext-based H0 as an explicit opt-in compatibility action; its equality with the canonical all-degree action is checked below.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
         },
         {
@@ -1629,10 +1629,38 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalLinearEquivGlobalSections",
+          "state": "contract",
+          "description": "Upgrade the degree-zero/global-sections comparison to a linear equivalence for the canonical global-functions action on genuine H0.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule_eq_globalSectionsCohomologyModule",
+          "state": "contract",
+          "description": "Prove that the opt-in global-sections-transported H0 action equals the canonical all-degree global-functions action in degree zero.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap",
           "state": "contract",
           "description": "Bundle every coefficient-module morphism as a linear map for the canonical global-functions cohomology actions.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldModule",
+          "state": "contract",
+          "description": "Restrict the canonical global-functions action on genuine H0 along the actual structure morphism to obtain the opt-in ground-field action.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldLinearEquivGlobalSections",
+          "state": "contract",
+          "description": "Consume the canonical H0 comparison in the proper-curve layer and identify it linearly with global sections carrying the same structure-map field action.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
         },
         {
           "kind": "definition",
@@ -1645,7 +1673,7 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap",
           "state": "contract",
-          "description": "Make genuine H1 functoriality ground-field linear for the canonical structure-map actions; no finite-dimensionality theorem yet uses this action.",
+          "description": "Make genuine H1 functoriality ground-field linear for the canonical structure-map actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.",
           "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
         },
         {
@@ -1657,9 +1685,16 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover",
+          "state": "contract",
+          "description": "Upgrade the affine-cover comparison to a linear equivalence between native base-Cech H1 and the canonical global-functions action on genuine H1 restricted along the base morphism, without transporting a target module instance.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover",
           "state": "contract",
-          "description": "Expose the affine-cover comparison linearly for the explicitly cover-transported action; this is not yet a comparison with the canonical action.",
+          "description": "Expose the affine-cover comparison linearly for the explicitly cover-transported action; retain this legacy facade alongside the canonical restricted-action linear comparison.",
           "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule"
         },
         {
@@ -1668,6 +1703,13 @@
           "state": "contract",
           "description": "Consume the ordered/native and affine-cover comparisons to transfer finite generation to genuine H1 under the cover-transported action.",
           "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.ProjectiveLineCohomology.genuineSheafHOne_finite_canonical_of_finite_to_projectiveLine",
+          "state": "contract",
+          "description": "Transfer native Cech finite generation along a finite map to the projective line to genuine H1 for the canonical base-global-sections action.",
+          "module": "MazurTorsion.Upstream.ProjectiveLineCechHOneFinite"
         },
         {
           "kind": "theorem",
@@ -1680,7 +1722,14 @@
           "kind": "theorem",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finiteDimensional_of_rationalSection",
           "state": "contract",
-          "description": "Prove H1 finite-dimensional for a pointed smooth proper integral curve using a finite-map-transported field action; comparison with the canonical field action remains open.",
+          "description": "Prove H1 finite-dimensional for a pointed smooth proper integral curve using a finite-map-transported field action; retain this legacy facade alongside the canonical-field theorem.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneCanonical_finiteDimensional_of_rationalSection",
+          "state": "contract",
+          "description": "Use a rational section and the canonical Cech linear equivalence to prove genuine H1 finite-dimensional for the canonical structure-map field action on a smooth proper integral curve.",
           "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
         }
       ],
@@ -1699,8 +1748,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 64,
-        "canonical_artifact_count": 16,
+        "recorded_artifact_count": 83,
+        "canonical_artifact_count": 23,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -1930,7 +1979,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Define the rigidified relative Picard functor and its degree-zero subfunctor. Representability, the universal Poincaré bundle, and properness belong to D2.",
+      "summary": "The checked all-degree zero-section-normalized Picard presheaf now has its associated fppf sheafification and a rational-section class consumer at the base test object; a pullback-compatible relative degree map, the relative degree-zero subfunctor, Pic⁰ representability, and the universal Poincaré bundle remain missing.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1940,7 +1989,7 @@
             "max": 40
           },
           "summary": "The attributed local port now retains Pic, genuine contravariant Pic.map, picRel, its quotient comparison, and picRelFunctor on this project's exact Mathlib pin; normalization under arbitrary base change is consumed through the actual functor map.",
-          "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. The absent relative Cartier-divisor and ideal-module comparison still prevents the section-to-Picard naturality theorem.",
+          "boundary": "AINTLIB explicitly defers fppf sheafification, the degree-zero subfunctor, the Poincare bundle, and Abel's isomorphism. This project now applies Mathlib's associated fppf sheafification to the all-degree zero-section-normalized presheaf, but does not prove that the source presheaf already satisfies descent. A pullback-compatible relative degree map, relative Pic⁰, representability, and a universal bundle remain absent; the rational-section consumer at the base still uses a supplied DivisorPicard.ClassEquivalence.",
           "declarations": [
             {
               "name": "Scheme.Modules.picRel",
@@ -1990,6 +2039,20 @@
           "state": "contract",
           "description": "Prove that zero-section normalization of an absolute Picard class commutes with arbitrary base change through the actual relative Picard functor map.",
           "module": "MazurTorsion.Upstream.AINTLIB.Picard.RelativePic"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.Modules.picRelFppfSheaf",
+          "state": "contract",
+          "description": "Apply Mathlib's sheafification to the additive all-degree zero-section-normalized Picard presheaf on the fppf site; this is an associated sheafification, not relative Pic⁰ or a representing object.",
+          "module": "MazurTorsion.AlgebraicGeometry.RelativePicardFppf"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiPicRelFppfClass",
+          "state": "contract",
+          "description": "Map the checked absolute rational-section Abel--Jacobi class at the identity test object into the associated fppf sheafification, still using the supplied DivisorPicard.ClassEquivalence.",
+          "module": "MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi"
         },
         {
           "kind": "definition",
@@ -2304,7 +2367,7 @@
       "weight_points": 25,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. The universal secant formula now gives checked affine and projective scheme morphisms on one explicit principal-open presentation for D(x₁ - x₂). Identifying that presentation with the corresponding open of the scheme product remains open. Because D(x₁ - x₂) is disjoint from the diagonal, there is no literal secant-tangent overlap there. The next chart is the product neighbourhood D(B₁₂), where B₁₂ := y₁ + y₂ + a₁x₁ + a₃ and A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂ satisfy (y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂. This makes A₁₂/B₁₂ the secant slope on the genuine intersection and the tangent slope on the diagonal. Compatibility, gluing their union, the infinity charts and coverage, and the group laws remain open. At the point-group level, the quotient by the supplied cyclic subgroup has its exact kernel and dual-map composites, but no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
+      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. The checked secant localization is now identified with the actual principal open D(x₁ - x₂) in the affine scheme product and carries an over-base addition morphism. The checked tangent construction gives the actual principal open D(2y + a₁x + a₃) on one affine factor, an over-base doubling morphism, and its map into the concrete projective cubic. The secant product open is disjoint from the diagonal, so these are not literally overlapping product charts. The next chart is the product neighbourhood D(B₁₂), where B₁₂ := y₁ + y₂ + a₁x₁ + a₃ and A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂ satisfy (y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂. Compatibility on D(x₁ - x₂) ∩ D(B₁₂), diagonal restriction to tangent doubling, gluing their union, the infinity charts and coverage, and the group laws remain open. At the point-group level, the quotient by the supplied cyclic subgroup has its exact kernel and dual-map composites, but no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2369,23 +2432,51 @@
         },
         {
           "kind": "definition",
-          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionAffineMorphism",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantProductOpen",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassSecantAdditionMorphism",
-          "description": "Construct the genuine affine-scheme morphism induced by the denominator-cleared universal secant formula on its explicit principal-open presentation."
+          "description": "Realize the secant localization as the actual principal open D(x₁ - x₂) in the affine fibre product of the concrete cubic with itself."
         },
         {
           "kind": "definition",
-          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassSecantAdditionMorphism",
-          "description": "Map the checked secant chart into the actual reduced projective Weierstrass cubic through its standard affine open; this is one multiplication chart, not a global group law."
+          "description": "Define the checked secant-addition morphism on that genuine product open."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen_comp_structureMap",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassSecantAdditionMorphism",
+          "description": "Prove that secant addition on the genuine product open lies over the base field."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentChartToAffineCurve_opensRange",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassTangentAdditionMorphism",
+          "description": "Identify the tangent localization with the actual affine principal open where 2y + a₁x + a₃ is invertible."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassTangentAdditionMorphism",
+          "description": "Map the checked tangent-doubling formula from that principal open into the concrete projective cubic."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism_comp_structureMap",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassTangentAdditionMorphism",
+          "description": "Prove that the projective tangent-doubling morphism lies over the base field."
         },
         {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme",
           "state": "proposed",
-          "description": "Equip the concrete reduced projective Weierstrass cubic with its canonical commutative group-scheme law and coordinate-point comparison after identifying D(x₁ - x₂), constructing the product-neighbourhood chart D(B₁₂), gluing their union on the genuine intersection, adding the infinity charts and coverage, and proving the group axioms."
+          "description": "Equip the concrete reduced projective Weierstrass cubic with its canonical commutative group-scheme law and coordinate-point comparison after exposing pair-coordinate accessors, constructing the product-neighbourhood chart D(B₁₂), comparing it with secant addition on the genuine intersection and with tangent doubling on the diagonal, gluing their union, adding the infinity charts and coverage, and proving the group axioms."
         },
         {
           "kind": "structure",
@@ -2426,8 +2517,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 37,
-        "canonical_artifact_count": 11,
+        "recorded_artifact_count": 94,
+        "canonical_artifact_count": 15,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -2439,7 +2530,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the checked secant affine/projective morphism, identify its domain with D(x₁ - x₂) in the scheme product; construct addition on the product neighbourhood D(B₁₂); prove compatibility on D(x₁ - x₂) ∩ D(B₁₂) and glue their union; then add the infinity charts and coverage, prove the commutative group laws, and refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the checked D(x₁ - x₂) product-open secant morphism and diagonal tangent-doubling morphism, expose the pair-coordinate projections; construct addition on the product neighbourhood D(B₁₂); prove compatibility on D(x₁ - x₂) ∩ D(B₁₂) and diagonal restriction to tangent doubling; glue their union; then add the infinity charts and coverage, prove the commutative group laws, and refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",
@@ -2473,7 +2564,7 @@
       "weight_points": 40,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "The canonical supplied Neron-model interface, mapping property, and section-extension equivalences compile. Construct the abelian-variety Neron substrate at the required arithmetic DVRs, then realize the actual optimal Eisenstein quotient and its cusp-normalized map in that model for the rank-zero and collision consumers. The marked source point's exact-order reduction at 5 is already checked independently and does not require a source elliptic Neron model.",
+      "summary": "The canonical supplied Neron-model interface, mapping property, and section-extension equivalences compile. Separately, properness of an actual commutative group model over a valuation ring gives a terminal-point equivalence between its integral points and the points of an identified generic fibre. This proper-model result neither constructs a model nor supplies the Neron mapping property for arbitrary smooth test schemes. Construct the abelian-variety Neron substrate at the required arithmetic DVRs, then realize the actual optimal Eisenstein quotient and its cusp-normalized map in that model for the rank-zero and collision consumers. The marked source point's exact-order reduction at 5 is already checked independently and does not require a source elliptic Neron model.",
       "artifacts": [
         {
           "kind": "structure",
@@ -2488,6 +2579,13 @@
           "state": "contract",
           "description": "Extend the rational sections used by the rank-zero and prime-five consumers.",
           "module": "MazurTorsion.AlgebraicGeometry.NeronModel.Basic"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.ProperModelBasePoint.mulEquiv",
+          "state": "contract",
+          "description": "Use the valuative criterion for an actual proper commutative group model over a valuation ring to identify its terminal integral points with the points of an identified generic fibre; this does not assert a Neron mapping property for arbitrary smooth test schemes.",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.ProperModelBasePoint"
         }
       ],
       "depends_on": [
@@ -2671,7 +2769,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the Eisenstein quotient section at the auxiliary primes 5 and 11. A checked NeronModel consumer now transports rank zero from integral model points to the prescribed generic-fibre rational points using the actual scheme-theoretic multiplication kernel, but it does not construct the model or prove any specialization theorem. Exact-order reduction of the marked source point at good reduction is already integrated independently.",
+      "summary": "Prove the specialization exact sequence, prime-to-residue torsion injection, and the unramified e < p-1 kernel lemma; exercise them on the Eisenstein quotient section at the auxiliary primes 5 and 11. For a supplied proper group model, the checked terminal specialization map extends a generic point by properness and restricts it to an arbitrary test scheme, while the checked collision reducer turns a supplied torsion-injectivity hypothesis into equality of integral model points. The reducer proves no torsion-injectivity or kernel theorem itself. A checked NeronModel consumer also transports rank zero from integral model points to the prescribed generic-fibre rational points using the actual scheme-theoretic multiplication kernel, but none of these consumers constructs the model. Exact-order reduction of the marked source point at good reduction is already integrated independently.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -2697,6 +2795,20 @@
           "state": "contract",
           "module": "MazurTorsion.AlgebraicGeometry.NeronModel.PowerKernelKummerRankZero",
           "description": "Transport the actual-kernel power-Kummer rank-zero theorem from integral model points to rational points of the supplied generic fibre through the checked Neron mapping-property equivalence."
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.ProperModelBasePoint.basePointSpecialization",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.Specialization",
+          "description": "Specialize a generic point by its unique extension to an actual proper commutative group model and restriction along an arbitrary test scheme over the valuation-ring base."
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.ProperModelBasePoint.basePoint_eq_of_restrict_eq_of_generic_torsion",
+          "state": "contract",
+          "module": "MazurTorsion.AlgebraicGeometry.NeronModel.Specialization",
+          "description": "Turn equality after restriction into equality of two integral model points when their generic-fibre difference is torsion and a supplied torsion-specialization injectivity predicate kills that difference; the predicate remains an input."
         }
       ],
       "depends_on": [
@@ -3793,7 +3905,7 @@
       "weight_points": 20,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion. The completed local collision compiles over the actual five-adic integer ring, and a new theorem-level consumer derives its formal-immersion premise from a quotient-cotangent certificate on that same cusp stalk before reaching the canonical nonsingular-reduction F_5 contradiction. Constructing the represented modular/cusp sections, the actual quotient certificate from the modular q-expansion, and their specialization and Eisenstein-quotient equality remains open.",
+      "summary": "A finite-order quotient point specializing to zero is zero by the unramified specialization lemma. The modular section and cusp would then cross with equal images, contradicting formal immersion. The completed local collision and quotient-cotangent consumers compile over the actual five-adic integer ring. A checked proper-model consumer now derives whole-section quotient equality from an actual proper commutative quotient model, generic-fibre torsion, closed-fibre collision, and a supplied torsion-specialization injectivity hypothesis before calling the route-neutral formal-immersion endpoint. It does not construct the model, quotient map, represented sections, formal immersion, collision, torsion, or injectivity input. Constructing those objects and the actual quotient certificate from the modular q-expansion remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -3849,6 +3961,13 @@
           "state": "contract",
           "module": "MazurTorsion.PrimeOrder.FormalImmersionSpecialFiberAtFive",
           "description": "Consume degree-one special-fibre data and checked canonical reduction additivity in the prime-order endpoint."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_properModelSpecializationAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.NeronSectionSpecialization",
+          "description": "Feed an actual proper commutative quotient model, its identified generic fibre, section collision, generic-fibre torsion, and a supplied torsion-specialization injectivity predicate to the checked formal-immersion prime-order contradiction; no full Neron mapping property or specialization theorem is constructed."
         }
       ],
       "depends_on": [
