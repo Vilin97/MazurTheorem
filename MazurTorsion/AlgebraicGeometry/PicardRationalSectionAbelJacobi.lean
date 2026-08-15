@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
+import MazurTorsion.AlgebraicGeometry.RelativePicardFppf
 import MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection
 import TauCeti.AlgebraicGeometry.RationalPoint.Degree
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.ProductFormula.Smooth
@@ -158,9 +159,50 @@ theorem rationalSectionAbelJacobiClass_base
     (curveWeight_isWeightedDegreeZero pi) e
     x0.residueDegree_int_toCodimensionOnePoint
 
+/-! ### Classes in the associated all-degree fppf sheafification -/
+
+/-- Restrict the canonical map from the absolute Picard group to the
+associated fppf sheafification at the base object to the existing absolute
+degree-zero subgroup determined by the supplied `DivisorPicard.ClassEquivalence`.
+
+This is not a relative degree-zero subfunctor: it neither constructs the supplied
+class equivalence nor a relative degree map compatible with base change. -/
+private noncomputable def degreeZeroToPicRelFppfAtBase
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 : SmoothCurveRationalSection K X pi) :
+    degreeZero (curveOrderSystem (X := X)) (curveWeight pi)
+        (curveWeight_isWeightedDegreeZero pi) e →+
+      (Scheme.Modules.picRelFppfSheaf pi x0.hom x0.hom_comp).obj.obj
+        (Opposite.op (Over.mk (𝟙 (Spec (.of K))))) :=
+  (Scheme.Modules.picRelFppfClassAtBaseHom
+    pi x0.hom x0.hom_comp).comp
+      (degreeZero (curveOrderSystem (X := X)) (curveWeight pi)
+        (curveWeight_isWeightedDegreeZero pi) e).subtype
+
+/-- Map the rational-section Abel--Jacobi class into the associated fppf sheafification of
+the zero-section-normalized Picard presheaf at the base. This depends on the supplied
+`DivisorPicard.ClassEquivalence`; no representing Jacobian or scheme morphism is asserted. -/
+noncomputable def rationalSectionAbelJacobiPicRelFppfClass
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    (Scheme.Modules.picRelFppfSheaf pi x0.hom x0.hom_comp).obj.obj
+      (Opposite.op (Over.mk (𝟙 (Spec (.of K))))) :=
+  degreeZeroToPicRelFppfAtBase pi e x0
+    (rationalSectionAbelJacobiClass pi e x0 x)
+
+/-- The normalizing section maps to zero after passage to the associated fppf
+sheafification. -/
+@[simp]
+theorem rationalSectionAbelJacobiPicRelFppfClass_base
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 : SmoothCurveRationalSection K X pi) :
+    rationalSectionAbelJacobiPicRelFppfClass pi e x0 x0 = 0 := by
+  rw [rationalSectionAbelJacobiPicRelFppfClass,
+    rationalSectionAbelJacobiClass_base, map_zero]
+
 /-- The difference of two rational-section Abel--Jacobi classes is the
-scheme-Picard image of the corresponding point-difference divisor.  This is
-the section-level downstream consumer of the new adapter. -/
+scheme-Picard image of the corresponding point-difference divisor.  This is a
+section-level compatibility theorem for the absolute divisor-class transport. -/
 theorem rationalSectionAbelJacobiClass_sub_coe
     (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
     (x0 x y : SmoothCurveRationalSection K X pi) :
