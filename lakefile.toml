@@ -33,6 +33,7 @@ name = "Challenge"
 [[lean_exe]]
 name = "axioms"
 root = "scripts.Axioms"
+supportInterpreter = true
 
 [[lean_exe]]
 name = "contractAxioms"
