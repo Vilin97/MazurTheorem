@@ -90,6 +90,22 @@ instance underlyingProjection_isAffineHom :
     IsAffineHom (underlyingProjection S d X hX) := by
   exact FiniteGroupQuotient.quotientπ_isAffineHom (Action S d X) hX
 
+/-- Over an affine base, a locally finite-type relative power has finite
+symmetric-quotient projection.  On every stable affine chart this is the
+finite extension from the chart ring's invariants to the chart ring. -/
+instance underlyingProjection_isFinite [IsAffine S]
+    [LocallyOfFiniteType (power S (Fin d) X).hom] :
+    IsFinite (underlyingProjection S d X hX) := by
+  apply FiniteGroupQuotient.quotientπ_isFinite_of_chart_moduleFinite
+  intro x
+  exact FiniteGroupQuotient.chart_moduleFinite_of_locallyOfFiniteType
+    (Action S d X) (power S (Fin d) X).hom
+    (action_hom_comp_structureMap S (Fin d) X)
+    (isAffineOpen_top S)
+    (FiniteGroupQuotient.stableAffineOpen_isStable (Action S d X) hX x)
+    (FiniteGroupQuotient.stableAffineOpen_isAffine (Action S d X) hX x)
+    (by simp)
+
 /-- The symmetric-power quotient projection is surjective on points. -/
 theorem underlyingProjection_surjective :
     Function.Surjective ⇑(underlyingProjection S d X hX) :=
@@ -321,6 +337,14 @@ instance curveProjectionSucc_isAffineHom (n : ℕ) :
   change IsAffineHom (underlyingProjection (Spec (.of K)) (n + 1) C
     (curve_hasAffineOrbits_succ K C n))
   exact underlyingProjection_isAffineHom (Spec (.of K)) (n + 1) C _
+
+/-- The quotient from an ordered curve power to its symmetric power is
+finite. -/
+instance curveProjectionSucc_isFinite (n : ℕ) :
+    IsFinite (curveProjectionSucc K C n).left := by
+  change IsFinite (underlyingProjection (Spec (.of K)) (n + 1) C
+    (curve_hasAffineOrbits_succ K C n))
+  infer_instance
 
 /-- The curve symmetric-power projection is surjective on points. -/
 instance curveProjectionSucc_surjective (n : ℕ) :

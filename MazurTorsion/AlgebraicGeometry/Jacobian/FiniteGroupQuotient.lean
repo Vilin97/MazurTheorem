@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeQuotient
+import Mathlib.AlgebraicGeometry.Morphisms.Finite
 
 /-!
 # Finite-group quotients from affine orbit neighbourhoods
@@ -80,6 +81,46 @@ theorem mem_stableAffineOpen (hσ : HasAffineOrbit σ) (x : X) :
     x ∈ stableAffineOpen σ hσ x :=
   (Classical.choose_spec (exists_stableAffineOpen σ hσ x)).2.2
 
+omit [IsAffineHom (pullback.diagonal (terminal.from X))] in
+/-- On an affine chart of a scheme locally of finite type over a base, a
+finite action over that base makes the chart ring module-finite over its
+invariant subring.  The point is that the base sections land in the invariant
+ring, so finite generation over the base implies finite generation over the
+invariants; integrality of finite-group invariants then gives module
+finiteness. -/
+theorem chart_moduleFinite_of_locallyOfFiniteType {S : Scheme.{u}}
+    (f : X ⟶ S) [LocallyOfFiniteType f]
+    (hbase : ∀ g : G, σ.hom g ≫ f = f)
+    {W : S.Opens} (hW : IsAffineOpen W) {U : X.Opens}
+    (hUs : σ.IsStableOpen U) (hUa : IsAffineOpen U)
+    (e : U ≤ f ⁻¹ᵁ W) :
+    letI := σ.gammaMulSemiringAction hUs
+    Module.Finite (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) ↑Γ(X, U) := by
+  letI := σ.gammaMulSemiringAction hUs
+  let φ : Γ(S, W) →+* Γ(X, U) := (f.appLE W U e).hom
+  have hφfixed (r : Γ(S, W)) (g : G) : g • φ r = φ r := by
+    change ((σ.hom g).appLE U U (hUs.le_preimage g)).hom
+        ((f.appLE W U e).hom r) = (f.appLE W U e).hom r
+    simp only [← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE, hbase g]
+  let φfixed : Γ(S, W) →+*
+      FixedPoints.subalgebra ℤ (↑Γ(X, U)) G :=
+    φ.codRestrict _ fun r ↦ hφfixed r
+  have hcomp :
+      (algebraMap (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)).comp
+          φfixed = φ := by
+    ext r
+    rfl
+  have hftφ : φ.FiniteType := f.finiteType_appLE hW hUa e
+  have hft :
+      (algebraMap (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)).FiniteType :=
+    RingHom.FiniteType.of_comp_finiteType (hcomp ▸ hftφ)
+  have hint :
+      (algebraMap (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)).IsIntegral :=
+    Algebra.isIntegral_def.mp
+      (Algebra.IsInvariant.isIntegral
+        (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U) G)
+  exact RingHom.finite_algebraMap.mp (hint.to_finite hft)
+
 /-- The scheme quotient attached to affine orbit neighbourhoods. -/
 noncomputable def quotient (hσ : HasAffineOrbit σ) : Scheme.{u} :=
   σ.quotient (stableAffineOpen σ hσ)
@@ -110,6 +151,41 @@ property. -/
 instance quotientπ_surjectiveProperty (hσ : HasAffineOrbit σ) :
     Surjective (quotientπ σ hσ) :=
   ⟨quotientπ_surjective σ hσ⟩
+
+/-- The quotient projection is finite whenever its invariant affine-chart
+extensions are module-finite.  This is the local algebra criterion used below
+for permutation quotients: on a stable affine chart `U`, the projection is
+`Spec Γ(U) ⟶ Spec Γ(U)ᴳ`. -/
+theorem quotientπ_isFinite_of_chart_moduleFinite (hσ : HasAffineOrbit σ)
+    (hfinite : ∀ x,
+      letI := σ.gammaMulSemiringAction (stableAffineOpen_isStable σ hσ x)
+      Module.Finite
+        (FixedPoints.subalgebra ℤ (↑Γ(X, stableAffineOpen σ hσ x)) G)
+        ↑Γ(X, stableAffineOpen σ hσ x)) :
+    IsFinite (quotientπ σ hσ) := by
+  refine IsZariskiLocalAtTarget.of_iSup_eq_top (P := @IsFinite)
+    (σ.quotientChart (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ))
+    (σ.iSup_quotientChart_eq_top (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)) fun x ↦ ?_
+  change IsFinite
+    (σ.quotientπ (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+      (mem_stableAffineOpen σ hσ) ∣_
+        σ.quotientChart (stableAffineOpen σ hσ)
+          (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ) x)
+  rw [SchemeAction.morphismRestrict_quotientπ σ (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+      (mem_stableAffineOpen σ hσ) x,
+    MorphismProperty.cancel_left_of_respectsIso (P := @IsFinite),
+    MorphismProperty.cancel_right_of_respectsIso (P := @IsFinite),
+    SchemeAction.localQuotientπ_eq σ (stableAffineOpen_isStable σ hσ x)
+      (stableAffineOpen_isAffine σ hσ x),
+    MorphismProperty.cancel_left_of_respectsIso (P := @IsFinite)]
+  letI := σ.gammaMulSemiringAction (stableAffineOpen_isStable σ hσ x)
+  haveI := hfinite x
+  rw [invariantsπ, IsFinite.SpecMap_iff]
+  exact RingHom.finite_algebraMap.mpr inferInstance
 
 theorem hom_quotientπ (hσ : HasAffineOrbit σ) (g : G) :
     σ.hom g ≫ quotientπ σ hσ = quotientπ σ hσ :=

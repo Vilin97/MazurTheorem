@@ -43,7 +43,7 @@ parallel abstraction.
 | Projectivity of nonempty finite powers of `P¹` | `ProjectiveFiniteOrbit.projectiveLinePower_isProjectiveFactorization` | checked via the scheme-level Segre embedding |
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
-| Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection affine/surjective; target geometrically irreducible and universally closed |
+| Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -180,10 +180,14 @@ separately when its quotient interface is needed.  The ordered power is
 proper, geometrically irreducible, and universally open.  Geometric
 irreducibility descends to the symmetric quotient through the universally
 surjective projection, and universal closedness descends from the proper
-ordered power.  To upgrade the quotient from universally closed to proper,
-the remaining quotient-geometry lemma must prove finite type and separatedness
-(equivalently here, the expected finiteness of the quotient projection on its
-invariant affine charts).
+ordered power.  The quotient projection is finite: on each stable affine
+chart, base sections land in the invariant ring, finite generation passes
+from the base to the invariants, and finite-group integrality makes the chart
+ring module-finite over its invariants.  To upgrade the quotient from
+universally closed to proper, the remaining quotient-geometry lemma is
+separatedness of the finite-group quotient; this must use the quotient
+relation, since separatedness does not follow formally from universal
+closedness.
 
 Denote the representing object by
 
