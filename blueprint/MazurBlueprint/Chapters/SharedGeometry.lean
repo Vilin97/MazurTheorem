@@ -115,9 +115,10 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked pointed-curve canonical-field H1 finite-dimensionality theorem
-  with the still-needed canonical H0 compatibility, affine acyclicity, and vanishing
-  above degree one in the required curve-cohomology facade.
+  Package the checked canonical H0 comparison and pointed-curve canonical-field H1
+  finite-dimensionality theorem with the still-needed proper coherent H0 finiteness,
+  linear connecting maps, affine acyclicity, and vanishing above degree one in the
+  required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -136,17 +137,32 @@ line bundles on a smooth curve.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule`
   Transport the global-sections module structure to Ext-based H0 as an explicit opt-in
-  compatibility action. Its agreement with the canonical all-degree cohomology action
-  remains to be proved.
+  compatibility action.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.globalSectionsCohomologyModule`
   Give genuine Ext-based sheaf cohomology in every degree its canonical
   cover-independent action by global functions, induced by multiplication endomorphisms
   of the coefficient module.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalLinearEquivGlobalSections`
+  Upgrade the degree-zero/global-sections comparison to a linear equivalence for the
+  canonical global-functions action on genuine H0.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule_eq_globalSectionsCohomologyModule`
+  Prove that the opt-in global-sections-transported H0 action equals the canonical
+  all-degree global-functions action in degree zero.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap`
   Bundle every coefficient-module morphism as a linear map for the canonical
   global-functions cohomology actions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldModule`
+  Restrict the canonical global-functions action on genuine H0 along the actual
+  structure morphism to obtain the opt-in ground-field action.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldLinearEquivGlobalSections`
+  Consume the canonical H0 comparison in the proper-curve layer and identify it linearly
+  with global sections carrying the same structure-map field action.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldModule`
   Restrict the canonical global-functions action on genuine H1 along the actual
@@ -200,8 +216,8 @@ line bundles on a smooth curve.
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
 `tauceti`; *risk:* `extreme`; *weight:* 25 points.
 
-*Summary:* Define genus through H^1 and prove Riemann-Roch, Serre duality, and the
-degree of the dualizing sheaf.
+*Summary:* Define genus through canonical H1 and prove Riemann-Roch, Serre duality, and
+the degree of the dualizing sheaf.
 
 *Canonical artifacts:*
 
@@ -209,8 +225,9 @@ degree of the dualizing sheaf.
   Define the genus of a proper smooth curve from the dimension of first coherent
   cohomology.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.Curve.riemannRoch`
-  Provide the Riemann-Roch formula for divisors or line bundles on a proper smooth
-  curve.
+  Provide the first genuine Riemann-Roch formula for divisors or line bundles on a
+  proper smooth curve, consuming B1's canonical proper coherent H0/H1 finiteness API
+  without a shadow dimension structure.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.Curve.serreDuality`
   Provide Serre duality and the resulting degree formula for the dualizing sheaf.
 
