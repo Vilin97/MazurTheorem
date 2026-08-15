@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeQuotient
 import Mathlib.AlgebraicGeometry.Morphisms.Finite
+import Mathlib.RingTheory.Adjoin.Tower
 
 /-!
 # Finite-group quotients from affine orbit neighbourhoods
@@ -121,6 +122,65 @@ theorem chart_moduleFinite_of_locallyOfFiniteType {S : Scheme.{u}}
         (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U) G)
   exact RingHom.finite_algebraMap.mp (hint.to_finite hft)
 
+omit [IsAffineHom (pullback.diagonal (terminal.from X))] in
+/-- Artin--Tate on a stable affine chart: if the affine base ring is
+Noetherian, its map to the invariant ring is of finite type.  The returned
+map is the unique factorization of the chart's structure map through the
+invariant subring. -/
+theorem exists_chartBaseToInvariants_finiteType {S : Scheme.{u}}
+    (f : X ⟶ S) [LocallyOfFiniteType f]
+    (hbase : ∀ g : G, σ.hom g ≫ f = f)
+    {W : S.Opens} (hW : IsAffineOpen W) [IsNoetherianRing Γ(S, W)]
+    {U : X.Opens} (hUs : σ.IsStableOpen U) (hUa : IsAffineOpen U)
+    (e : U ≤ f ⁻¹ᵁ W) :
+    letI := σ.gammaMulSemiringAction hUs
+    ∃ φfixed : Γ(S, W) →+*
+        FixedPoints.subalgebra ℤ (↑Γ(X, U)) G,
+      (algebraMap (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)).comp
+          φfixed = (f.appLE W U e).hom ∧
+        φfixed.FiniteType := by
+  letI := σ.gammaMulSemiringAction hUs
+  let φ : Γ(S, W) →+* Γ(X, U) := (f.appLE W U e).hom
+  have hφfixed (r : Γ(S, W)) (g : G) : g • φ r = φ r := by
+    change ((σ.hom g).appLE U U (hUs.le_preimage g)).hom
+        ((f.appLE W U e).hom r) = (f.appLE W U e).hom r
+    simp only [← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE, hbase g]
+  let φfixed : Γ(S, W) →+*
+      FixedPoints.subalgebra ℤ (↑Γ(X, U)) G :=
+    φ.codRestrict _ fun r ↦ hφfixed r
+  have hcomp :
+      (algebraMap (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)).comp
+          φfixed = φ := by
+    ext r
+    rfl
+  letI : Algebra Γ(S, W)
+      (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) := φfixed.toAlgebra
+  letI : Algebra Γ(S, W) Γ(X, U) := φ.toAlgebra
+  letI : IsScalarTower Γ(S, W)
+      (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U) :=
+    IsScalarTower.of_algebraMap_eq' hcomp.symm
+  have hftφ : φ.FiniteType := f.finiteType_appLE hW hUa e
+  have hfgBase : (⊤ : Subalgebra Γ(S, W) Γ(X, U)).FG := by
+    have : Algebra.FiniteType Γ(S, W) Γ(X, U) := by
+      rw [← RingHom.finiteType_algebraMap, RingHom.algebraMap_toAlgebra]
+      exact hftφ
+    exact this.out
+  haveI : Module.Finite
+      (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U) :=
+    chart_moduleFinite_of_locallyOfFiniteType σ f hbase hW hUs hUa e
+  have hfgInvariants :
+      (⊤ : Subalgebra Γ(S, W)
+        (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G)).FG :=
+    fg_of_fg_of_fg Γ(S, W)
+      (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U)
+      hfgBase Module.Finite.fg_top
+      (FaithfulSMul.algebraMap_injective
+        (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G) Γ(X, U))
+  refine ⟨φfixed, hcomp, ?_⟩
+  change Algebra.FiniteType Γ(S, W)
+    (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G)
+  exact ⟨hfgInvariants⟩
+
 /-- The scheme quotient attached to affine orbit neighbourhoods. -/
 noncomputable def quotient (hσ : HasAffineOrbit σ) : Scheme.{u} :=
   σ.quotient (stableAffineOpen σ hσ)
@@ -192,6 +252,122 @@ theorem hom_quotientπ (hσ : HasAffineOrbit σ) (g : G) :
   σ.hom_quotientπ (stableAffineOpen σ hσ)
     (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
     (mem_stableAffineOpen σ hσ) g
+
+/-- Two points have the same image in the quotient exactly when they lie in
+the same finite-group orbit. -/
+theorem quotientπ_apply_eq_iff (hσ : HasAffineOrbit σ) (x y : X) :
+    quotientπ σ hσ x = quotientπ σ hσ y ↔
+      ∃ g : G, σ.hom g x = y := by
+  constructor
+  · intro hxy
+    change
+      σ.quotientπ (stableAffineOpen σ hσ)
+          (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+          (mem_stableAffineOpen σ hσ) x =
+        σ.quotientπ (stableAffineOpen σ hσ)
+          (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+          (mem_stableAffineOpen σ hσ) y at hxy
+    have hxU : x ∈ stableAffineOpen σ hσ x := mem_stableAffineOpen σ hσ x
+    have hyU : y ∈ stableAffineOpen σ hσ x := by
+      have hxchart :
+          σ.quotientπ (stableAffineOpen σ hσ)
+              (stableAffineOpen_isStable σ hσ)
+              (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) x ∈
+          σ.quotientChart (stableAffineOpen σ hσ)
+            (stableAffineOpen_isStable σ hσ)
+            (stableAffineOpen_isAffine σ hσ) x := by
+        change x ∈
+          σ.quotientπ (stableAffineOpen σ hσ)
+              (stableAffineOpen_isStable σ hσ)
+              (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) ⁻¹ᵁ
+          σ.quotientChart (stableAffineOpen σ hσ)
+            (stableAffineOpen_isStable σ hσ)
+            (stableAffineOpen_isAffine σ hσ) x
+        rw [SchemeAction.quotientπ_preimage_quotientChart σ
+          (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+          (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) x]
+        exact hxU
+      have hychart :
+          σ.quotientπ (stableAffineOpen σ hσ)
+              (stableAffineOpen_isStable σ hσ)
+              (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) y ∈
+            σ.quotientChart (stableAffineOpen σ hσ)
+              (stableAffineOpen_isStable σ hσ)
+              (stableAffineOpen_isAffine σ hσ) x := hxy ▸ hxchart
+      have hyPre : y ∈
+          σ.quotientπ (stableAffineOpen σ hσ)
+            (stableAffineOpen_isStable σ hσ)
+            (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) ⁻¹ᵁ
+          σ.quotientChart (stableAffineOpen σ hσ)
+            (stableAffineOpen_isStable σ hσ)
+            (stableAffineOpen_isAffine σ hσ) x := hychart
+      rw [SchemeAction.quotientπ_preimage_quotientChart σ
+        (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+        (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) x] at hyPre
+      exact hyPre
+    let xU : (stableAffineOpen σ hσ x : Scheme.{u}) := ⟨x, hxU⟩
+    let yU : (stableAffineOpen σ hσ x : Scheme.{u}) := ⟨y, hyU⟩
+    have hlocal :
+        σ.localQuotientπ (stableAffineOpen_isStable σ hσ x)
+            (stableAffineOpen_isAffine σ hσ x) xU =
+          σ.localQuotientπ (stableAffineOpen_isStable σ hσ x)
+            (stableAffineOpen_isAffine σ hσ x) yU := by
+      let j := (σ.quotientChartIso (stableAffineOpen σ hσ)
+          (stableAffineOpen_isStable σ hσ)
+          (stableAffineOpen_isAffine σ hσ) x).hom ≫
+        (σ.quotientChart (stableAffineOpen σ hσ)
+          (stableAffineOpen_isStable σ hσ)
+          (stableAffineOpen_isAffine σ hσ) x).ι
+      apply j.isOpenEmbedding.injective
+      change
+        (σ.localQuotientπ (stableAffineOpen_isStable σ hσ x)
+            (stableAffineOpen_isAffine σ hσ x) ≫ j) xU =
+          (σ.localQuotientπ (stableAffineOpen_isStable σ hσ x)
+            (stableAffineOpen_isAffine σ hσ x) ≫ j) yU
+      rw [show σ.localQuotientπ (stableAffineOpen_isStable σ hσ x)
+            (stableAffineOpen_isAffine σ hσ x) ≫ j =
+          (stableAffineOpen σ hσ x).ι ≫
+            σ.quotientπ (stableAffineOpen σ hσ)
+              (stableAffineOpen_isStable σ hσ)
+              (stableAffineOpen_isAffine σ hσ)
+              (mem_stableAffineOpen σ hσ) from
+        SchemeAction.localQuotientπ_quotientChartIso σ
+          (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+          (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) x,
+        Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
+      exact hxy
+    letI := σ.gammaMulSemiringAction (stableAffineOpen_isStable σ hσ x)
+    rw [SchemeAction.localQuotientπ_eq σ
+      (stableAffineOpen_isStable σ hσ x)
+      (stableAffineOpen_isAffine σ hσ x),
+      Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at hlocal
+    obtain ⟨g, hg⟩ := (invariantsπ_apply_eq_iff G
+      ↑Γ(X, stableAffineOpen σ hσ x) ℤ _ _).mp hlocal
+    refine ⟨g, ?_⟩
+    have hrestricted :
+        (σ.hom g).resLE (stableAffineOpen σ hσ x) (stableAffineOpen σ hσ x)
+            ((stableAffineOpen_isStable σ hσ x).le_preimage g) xU = yU := by
+      apply (stableAffineOpen_isAffine σ hσ x).isoSpec.hom.isOpenEmbedding.injective
+      rw [← Scheme.Hom.comp_apply,
+        SchemeAction.resLE_isoSpec_hom σ
+          (stableAffineOpen_isStable σ hσ x)
+          (stableAffineOpen_isAffine σ hσ x) g,
+        Scheme.Hom.comp_apply]
+      exact hg
+    calc
+      σ.hom g x =
+          ((stableAffineOpen σ hσ x).ι ≫ σ.hom g) xU := rfl
+      _ = ((σ.hom g).resLE (stableAffineOpen σ hσ x)
+          (stableAffineOpen σ hσ x)
+          ((stableAffineOpen_isStable σ hσ x).le_preimage g) ≫
+            (stableAffineOpen σ hσ x).ι) xU := by
+        rw [Scheme.Hom.resLE_comp_ι]
+      _ = (stableAffineOpen σ hσ x).ι yU := by
+        simp only [Scheme.Hom.comp_apply, hrestricted]
+      _ = y := rfl
+  · rintro ⟨g, rfl⟩
+    have h := congrArg (fun q : X ⟶ quotient σ hσ ↦ q x) (hom_quotientπ σ hσ g)
+    simpa only [Scheme.Hom.comp_apply] using h.symm
 
 /-- The packaged quotient has the expected categorical universal property. -/
 theorem existsUnique_quotientπ_lift (hσ : HasAffineOrbit σ)
