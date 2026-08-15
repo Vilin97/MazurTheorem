@@ -102,6 +102,57 @@ instance orderedSupportComponentFamily_etale (d : ℕ)
     (z : (orderedAmbient (Spec (.of K)) d C).left) :
     Etale (orderedSupportComponentFamily K C d z).hom := inferInstance
 
+/-- The pointwise split-chart assertion specialized to the actual ordered
+support of an incidence-ambient point. -/
+noncomputable abbrev OrderedSupportSplitChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) : Prop :=
+  FiniteSupportEtaleCoordinates.HasCommonSplitChartAtSupport K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Every ordered incidence-ambient point has a common finite étale fpqc
+split chart carrying a point above its exact ordered support. -/
+theorem orderedSupport_exists_splitChart (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    OrderedSupportSplitChart K C d z :=
+  FiniteSupportEtaleCoordinates.exists_commonSplitChartAtSupport K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)
+
+/-- A chosen ordered-incidence lift of a point of the incidence quotient. -/
+noncomputable def orderedIncidenceLift (n : ℕ)
+    (y : curveOrderedIncidenceQuotientSucc K C n) :
+    orderedIncidence (Spec (.of K)) (n + 1) C :=
+  Classical.choose
+    ((curveOrderedIncidenceQuotientProjectionSucc K C n).surjective y)
+
+@[simp]
+theorem orderedIncidenceQuotientProjection_lift (n : ℕ)
+    (y : curveOrderedIncidenceQuotientSucc K C n) :
+    curveOrderedIncidenceQuotientProjectionSucc K C n
+        (orderedIncidenceLift K C n y) = y :=
+  Classical.choose_spec
+    ((curveOrderedIncidenceQuotientProjectionSucc K C n).surjective y)
+
+/-- The chosen quotient lift, embedded in the ordered incidence ambient
+product so that its divisor support can be charted. -/
+noncomputable def orderedIncidenceAmbientLift (n : ℕ)
+    (y : curveOrderedIncidenceQuotientSucc K C n) :
+    (orderedAmbient (Spec (.of K)) (n + 1) C).left :=
+  orderedIncidenceι (Spec (.of K)) (n + 1) C
+    (orderedIncidenceLift K C n y)
+
+/-- Every point of the actual incidence quotient therefore has an ordered
+lift whose exact support is carried by one common finite étale fpqc split
+chart. -/
+theorem incidenceQuotientPoint_exists_orderedSupportSplitChart (n : ℕ)
+    (y : curveOrderedIncidenceQuotientSucc K C n) :
+    OrderedSupportSplitChart K C (n + 1)
+      (orderedIncidenceAmbientLift K C n y) :=
+  orderedSupport_exists_splitChart K C (n + 1)
+    (orderedIncidenceAmbientLift K C n y)
+
 /-- Ordered insertion followed by the quotient of the larger incidence
 family. -/
 noncomputable def orderedPointedToIncidenceQuotient (n : ℕ) :

@@ -50,7 +50,7 @@ theorem exists_affineOpen_fpqc_common_splitCover
         (_ : Module.Finite Γ(V, ⊤) T)
         (_ : Algebra.Etale Γ(V, ⊤) T)
         (q : Spec (.of T) ⟶ V.toScheme),
-        Flat q ∧ Surjective q ∧ QuasiCompact q ∧
+        Etale q ∧ Flat q ∧ Surjective q ∧ QuasiCompact q ∧
           ∀ i, ∃ (m : ℕ)
             (_e : T ⊗[Γ(V, ⊤)] Γ(f i ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T)),
             ∃ E : pullback (fV i) q ≅ Spec (.of (Fin m → T)),
@@ -88,7 +88,7 @@ theorem exists_affineOpen_fpqc_common_splitCover
       exact hzU
     have hzRank : V.ι z ∈ rankOpen (f i) y := hzAll i
     exact hzRank
-  obtain ⟨T, _, _, _, _, _, q, hflat, hsurjective, hqc, hsplit⟩ :=
+  obtain ⟨T, _, _, _, _, _, q, hetale, hflat, hsurjective, hqc, hsplit⟩ :=
     AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover
       n (fun i ↦ (f i ⁻¹ᵁ V).toScheme) fV
         (fun i ↦ (f i).finrank y) hRank
@@ -98,7 +98,7 @@ theorem exists_affineOpen_fpqc_common_splitCover
   letI : Nontrivial T := PrimeSpectrum.nonempty_iff_nontrivial.mp
     ⟨⟨t.1, t.2⟩⟩
   refine ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance, q, hflat, hsurjective, hqc, ?_⟩
+    inferInstance, q, hetale, hflat, hsurjective, hqc, ?_⟩
   intro i
   obtain ⟨m, e, E, hE⟩ := hsplit i
   refine ⟨m, e, E, hE, ?_⟩

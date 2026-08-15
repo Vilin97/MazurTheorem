@@ -45,7 +45,7 @@ theorem exists_fpqc_common_splitCover
       (_ : Module.Finite Γ(Y, ⊤) T)
       (_ : Algebra.Etale Γ(Y, ⊤) T)
       (q : Spec (.of T) ⟶ Y),
-      Flat q ∧ Surjective q ∧ QuasiCompact q ∧
+      Etale q ∧ Flat q ∧ Surjective q ∧ QuasiCompact q ∧
         ∀ i, ∃ (m : ℕ)
           (_e : T ⊗[Γ(Y, ⊤)] Γ(X i, ⊤) ≃ₐ[T] (Fin m → T)),
           ∃ E : pullback (f i) q ≅ Spec (.of (Fin m → T)),
@@ -105,8 +105,12 @@ theorem exists_fpqc_common_splitCover
     infer_instance
   letI : Flat qΓ := hqΓ.1
   letI : Surjective qΓ := hqΓ.2
+  letI : Etale qΓ := HasRingHomProperty.Spec_iff.mpr
+    (RingHom.etale_algebraMap.mpr inferInstance)
   refine ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance, q, ?_, ?_, ?_, ?_⟩
+    inferInstance, q, ?_, ?_, ?_, ?_, ?_⟩
+  · dsimp only [q]
+    infer_instance
   · dsimp only [q]
     infer_instance
   · dsimp only [q]

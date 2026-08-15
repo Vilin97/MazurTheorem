@@ -668,12 +668,12 @@ theorem exists_fpqcPulledComponentProductPoint_over_support
       congrArg _ hpw
     _ = z := hwz
 
-omit [SmoothOfRelativeDimension 1 C.hom] in
-/-- Near the chosen common-base point, all selected support components have
-constant rank and split simultaneously after one finite étale fpqc cover. -/
-theorem exists_commonSplitChartAtSupport (d : ℕ)
+/-- The complete pointwise split-chart assertion for an ordered support:
+one affine rank neighborhood, one common finite étale fpqc splitting cover,
+and an exact preimage of the original ordered support on that cover. -/
+def HasCommonSplitChartAtSupport (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
-    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) : Prop :=
     ∃ (V : (commonBase K C d z c n).left.Opens) (hV : IsAffineOpen V),
       commonBasePoint K C d z c n ∈ V ∧
       let f : ∀ i, (pulledComponentOverCommonBase K C d z c n i).left ⟶
@@ -691,7 +691,7 @@ theorem exists_commonSplitChartAtSupport (d : ℕ)
         (_ : Module.Finite Γ(V, ⊤) T)
         (_ : Algebra.Etale Γ(V, ⊤) T)
         (q : Spec (.of T) ⟶ V.toScheme),
-        Flat q ∧ Surjective q ∧ QuasiCompact q ∧
+        Etale q ∧ Flat q ∧ Surjective q ∧ QuasiCompact q ∧
           (∀ i, ∃ (m : ℕ)
             (_e : T ⊗[Γ(V, ⊤)] Γ(f i ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T)),
             ∃ E : pullback (fV i) q ≅ Spec (.of (Fin m → T)),
@@ -702,15 +702,24 @@ theorem exists_commonSplitChartAtSupport (d : ℕ)
               fpqcPulledComponentOverGround K C d z c n V (Spec (.of T)) q i).left,
             (Limits.Pi.map (fun i ↦
               fpqcPulledComponentToCurveOverGround
-                K C d z c n V (Spec (.of T)) q i)).left p = z := by
+                K C d z c n V (Spec (.of T)) q i)).left p = z
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Near the chosen common-base point, all selected support components have
+constant rank and split simultaneously after one finite étale fpqc cover. -/
+theorem exists_commonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    HasCommonSplitChartAtSupport K C d z c n := by
+  unfold HasCommonSplitChartAtSupport
   obtain ⟨V, hV, hmem, T, hT, hAlg, hFF, hFin, hEtale, q,
-      hFlat, hSurj, hQC, hSplit⟩ :=
+      hEtaleQ, hFlat, hSurj, hQC, hSplit⟩ :=
     FiniteEtaleFamilyPointSplitChart.exists_affineOpen_fpqc_common_splitCover
       d (fun i ↦ (pulledComponentOverCommonBase K C d z c n i).left)
         (fun i ↦ (pulledComponentOverCommonBase K C d z c n i).hom)
           (commonBasePoint K C d z c n)
   refine ⟨V, hV, hmem, T, hT, hAlg, hFF, hFin, hEtale, q,
-    hFlat, hSurj, hQC, hSplit, ?_⟩
+    hEtaleQ, hFlat, hSurj, hQC, hSplit, ?_⟩
   letI : Surjective q := hSurj
   exact exists_fpqcPulledComponentProductPoint_over_support
     K C d z c n V hmem (Spec (.of T)) q

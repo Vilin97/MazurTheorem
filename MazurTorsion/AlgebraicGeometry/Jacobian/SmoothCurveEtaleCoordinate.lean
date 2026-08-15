@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.EtaleFiniteNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced
+import Mathlib.AlgebraicGeometry.Morphisms.Etale
 
 /-!
 # Étale affine-line coordinates with finite point neighborhoods
@@ -316,6 +317,26 @@ noncomputable def componentToCurve
     {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
     (n : FiniteNeighborhood c) : n.selectedOpen.toScheme ⟶ X :=
   n.componentToChart ≫ c.V.1.ι
+
+instance componentToChart_etale
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : Etale n.componentToChart := by
+  letI : Etale (pullback.fst c.schemeMap n.baseMap) :=
+    MorphismProperty.IsStableUnderBaseChange.of_isPullback
+      (P := @Etale) (IsPullback.of_hasPullback c.schemeMap n.baseMap).flip
+        n.baseMap_etale
+  dsimp only [componentToChart]
+  infer_instance
+
+/-- The selected Zariski-main component is still an étale neighborhood of
+the original curve point. -/
+instance componentToCurve_etale
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : Etale n.componentToCurve := by
+  dsimp only [componentToCurve]
+  infer_instance
 
 /-- The pullback component maps to the chart as a morphism over the
 coordinate copy of the ground field. -/
