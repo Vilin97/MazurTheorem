@@ -5,7 +5,9 @@ Authors: Vasily Ilin, Codex
 -/
 
 import Mathlib.RingTheory.Filtration
+import Mathlib.RingTheory.Jacobson.Ring
 import TauCeti.RingTheory.Smooth.DimensionOne
+import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.ProductFormula.Smooth
 import Mathlib.AlgebraicGeometry.Geometrically.Integral
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 
@@ -27,6 +29,46 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced
 universe u v w
 
 open IsLocalRing
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.SchemeWeilDivisor
+
+/-- A nonzero standard-smooth algebra of relative dimension one over a field
+has a nonzero maximal ideal. -/
+theorem exists_ne_bot_isMaximal
+    (K : Type u) (A : Type v) [Field K] [CommRing A] [Nontrivial A]
+    [Algebra K A] [Algebra.IsStandardSmoothOfRelativeDimension 1 K A] :
+    ∃ q : Ideal A, q ≠ ⊥ ∧ q.IsMaximal := by
+  obtain ⟨q, hq⟩ := Ideal.exists_maximal A
+  refine ⟨q, ?_, hq⟩
+  intro hq0
+  have hbot : (⊥ : Ideal A).IsMaximal := hq0 ▸ hq
+  letI : Field A := (Ring.isField_iff_maximal_bot.mpr hbot).toField
+  letI : Algebra.IsStandardSmooth K A :=
+    Algebra.IsStandardSmoothOfRelativeDimension.isStandardSmooth 1
+  obtain ⟨g, hg⟩ :=
+    Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial 1 K A
+  let P := MvPolynomial (Fin 1) K
+  letI : Algebra P A := g.toRingHom.toAlgebra
+  haveI : Algebra.Etale P A := by
+    rw [← RingHom.etale_algebraMap]
+    exact hg
+  have hgInjective : Function.Injective g := by
+    intro a b hab
+    rw [← sub_eq_zero]
+    by_contra hab0
+    have hreg : IsSMulRegular A (a - b) := by
+      apply IsSMulRegular.of_flat
+      exact IsSMulRegular.of_ne_zero hab0
+    have hone : (1 : A) = 0 := by
+      apply hreg.right_eq_zero_of_smul
+      change g (a - b) * 1 = 0
+      rw [map_sub, hab, sub_self, zero_mul]
+    exact one_ne_zero hone
+  letI : Module.Finite K A := finite_of_finite_type_of_isJacobsonRing K A
+  letI : Module.Finite K P := Module.Finite.of_injective g.toLinearMap hgInjective
+  letI : Module.Finite K (Polynomial K) :=
+    Module.Finite.equiv (MvPolynomial.uniqueAlgEquiv K (Fin 1)).toLinearEquiv
+  exact Polynomial.not_finite (R := K) inferInstance
 
 /-- A localization at a prime of a standard-smooth relative curve over a
 field is reduced.  This version does not assume that the smooth algebra is
@@ -196,5 +238,60 @@ theorem scheme_isIntegral_of_geometricallyIrreducible_of_smoothRelativeDimension
   letI : GeometricallyIntegral f :=
     GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible f
   exact GeometricallyIntegral.isIntegral_of_subsingleton f
+
+/-- A geometrically irreducible smooth relative curve over a field has a
+codimension-one point, without any rational-point hypothesis. -/
+theorem nonempty_codimensionOnePoint
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 f]
+    [GeometricallyIrreducible f] : Nonempty (CodimensionOnePoint X) := by
+  letI : IsIntegral X :=
+    scheme_isIntegral_of_geometricallyIrreducible_of_smoothRelativeDimension_one K X f
+  let x₀ : X := Classical.choice inferInstance
+  obtain ⟨U, hU, V, hV, hx₀, e, hstd⟩ :=
+    SmoothOfRelativeDimension.exists_isStandardSmoothOfRelativeDimension
+      (n := 1) (f := f) x₀
+  have hfxU : f.base x₀ ∈ U := e hx₀
+  have hUtop : U = ⊤ := by
+    apply top_unique
+    intro y _
+    simpa only [Subsingleton.elim y (f.base x₀)] using hfxU
+  subst U
+  letI : Nonempty V := ⟨⟨x₀, hx₀⟩⟩
+  letI : Field Γ(Spec (.of K), ⊤) :=
+    ((Scheme.ΓSpecIso (.of K)).commRingCatIsoToRingEquiv.toMulEquiv.isField
+      (Field.toIsField K)).toField
+  letI : Algebra Γ(Spec (.of K), ⊤) Γ(X, V) :=
+    (f.appLE ⊤ V e).hom.toAlgebra
+  letI : Algebra.IsStandardSmoothOfRelativeDimension 1
+      Γ(Spec (.of K), ⊤) Γ(X, V) := hstd.toAlgebra
+  obtain ⟨q, hq0, hq⟩ := exists_ne_bot_isMaximal Γ(Spec (.of K), ⊤) Γ(X, V)
+  let z : Spec Γ(X, V) := ⟨q, hq.isPrime⟩
+  let x : X := hV.fromSpec z
+  have hxV : x ∈ V := by
+    change x ∈ (V : Set X)
+    rw [← hV.range_fromSpec]
+    exact ⟨z, rfl⟩
+  have hprime : hV.primeIdealOf ⟨x, hxV⟩ = z := by
+    apply hV.fromSpec.isOpenEmbedding.injective
+    rw [hV.fromSpec_primeIdealOf]
+  have hxne : x ≠ genericPoint X := by
+    intro hx
+    have hgenericV : genericPoint X ∈ V := hx ▸ hxV
+    apply hq0
+    calc
+      q = z.asIdeal := rfl
+      _ = (hV.primeIdealOf ⟨x, hxV⟩).asIdeal :=
+        congrArg PrimeSpectrum.asIdeal hprime.symm
+      _ = (hV.primeIdealOf ⟨genericPoint X, hgenericV⟩).asIdeal := by
+        exact congrArg (fun y : V ↦ (hV.primeIdealOf y).asIdeal)
+          (by apply Subtype.ext; exact hx)
+      _ = (genericPoint (Spec Γ(X, V))).asIdeal := by
+        rw [hV.primeIdealOf_genericPoint]
+      _ = ⊥ := by
+        rw [genericPoint_eq_bot_of_affine]
+        rfl
+  exact ⟨⟨x,
+    coheight_eq_one_of_ne_genericPoint_of_smoothRelativeDimension_one K X f x hxne⟩⟩
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced

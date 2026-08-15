@@ -62,6 +62,33 @@ theorem genus_eq_finrank
     genus K C = Module.finrank K (StructureHOne C.left) := by
   rfl
 
+/-- Genuine structure-sheaf `H¹` is finite-dimensional for every proper,
+smooth, geometrically irreducible relative curve.  No rational point is
+needed: a nonzero maximal ideal on a standard-smooth affine chart supplies a
+codimension-one point. -/
+theorem structureHOne_finiteDimensional
+    (K : Type u) [Field K] (C : Over (Spec (.of K)))
+    [GeometricallyIrreducible C.hom] [IsProper C.hom]
+    [SmoothOfRelativeDimension 1 C.hom] :
+    letI := structureHOneFieldModule K C
+    FiniteDimensional K (StructureHOne C.left) := by
+  letI : IsIntegral C.left :=
+    SmoothCurveReduced.scheme_isIntegral_of_geometricallyIrreducible_of_smoothRelativeDimension_one
+      K C.left C.hom
+  let x : TauCeti.AlgebraicGeometry.CodimensionOnePoint C.left :=
+    Classical.choice (SmoothCurveReduced.nonempty_codimensionOnePoint K C.left C.hom)
+  letI : (structureModule C.left).IsQuasicoherent :=
+    CoherentCohomology.SheafUnit.unit_isQuasicoherent
+      (C := C.left.Opens) (J := Opens.grothendieckTopology C.left)
+      C.left.ringCatSheaf
+  letI : (structureModule C.left).IsFiniteType :=
+    CoherentCohomology.SheafUnit.unit_isFiniteType
+      (C := C.left.Opens) (J := Opens.grothendieckTopology C.left)
+      C.left.ringCatSheaf
+  exact
+    genuineSheafHOneCanonical_finiteDimensional_of_codimensionOnePoint
+      K C.left C.hom x (structureModule C.left)
+
 /-- A rational point supplies the codimension-one point used in the checked
 finite-map-to-`P¹` proof, so the canonical structure-sheaf `H¹` action is
 finite-dimensional.  The point is a proof input only; it does not occur in

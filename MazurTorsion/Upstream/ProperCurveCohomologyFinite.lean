@@ -312,16 +312,15 @@ theorem genuineSheafHOne_finiteDimensional_of_rationalSection
   exact genuineSheafHOne_finiteDimensional_of_codimensionOnePoint K X f
     (codimensionOnePointOfRationalSection K X f s) M
 
-/-- A rational section makes genuine `H¹` finite-dimensional for the
+/-- A codimension-one point makes genuine `H¹` finite-dimensional for the
 canonical field action induced by the structure morphism. -/
-theorem genuineSheafHOneCanonical_finiteDimensional_of_rationalSection
+theorem genuineSheafHOneCanonical_finiteDimensional_of_codimensionOnePoint
     (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
     (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
-    (s : SmoothCurveRationalSection K X f)
+    (x : CodimensionOnePoint X)
     (M : X.Modules) [M.IsQuasicoherent] [M.IsFiniteType] :
     letI := hOneCanonicalFieldModule K X f M
     FiniteDimensional K (H M 1) := by
-  let x := codimensionOnePointOfRationalSection K X f s
   let g := nonGlobalRationalFunctionAt K X f x
   let φ := rationalFunctionMorphism K X f g
   letI : IsFinite φ := rationalFunctionMorphismAt_isFinite K X f x
@@ -344,5 +343,17 @@ theorem genuineSheafHOneCanonical_finiteDimensional_of_rationalSection
     exact (Scheme.ΓSpecIso (.of K)).symm.commRingCatIsoToRingEquiv.finite
   letI : Module.Finite K R := RingHom.finite_algebraMap.mp hR
   exact Module.Finite.trans R (H M 1)
+
+/-- A rational section makes genuine `H¹` finite-dimensional for the
+canonical field action induced by the structure morphism. -/
+theorem genuineSheafHOneCanonical_finiteDimensional_of_rationalSection
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (M : X.Modules) [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI := hOneCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 1) := by
+  exact genuineSheafHOneCanonical_finiteDimensional_of_codimensionOnePoint
+    K X f (codimensionOnePointOfRationalSection K X f s) M
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology

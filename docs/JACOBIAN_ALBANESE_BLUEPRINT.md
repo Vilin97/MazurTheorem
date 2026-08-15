@@ -34,7 +34,8 @@ parallel abstraction.
 | Requirement | Existing checked API | Status |
 | --- | --- | --- |
 | Ground-field action on genuine sheaf `H¹` | `SchemeModuleCohomology.hOneCanonicalFieldModule` | available over every field |
-| Finite-dimensional `H¹` on a proper smooth integral curve | `genuineSheafHOne_finiteDimensional_of_codimensionOnePoint` | available after choosing a codimension-one point |
+| Finite-dimensional `H¹(O_C)` under the challenge hypotheses | `Jacobian.structureHOne_finiteDimensional` | checked, with no rational-point input |
+| Finite-dimensional `H¹` for a coherent module | `genuineSheafHOneCanonical_finiteDimensional_of_codimensionOnePoint` | available after supplying a codimension-one point |
 | Vanishing above the dimension of a curve | `CurveCohomologyGrothendieckVanishing` | available |
 | Finite map to `P¹` from a non-global rational function | `rationalFunctionMorphismAt_isFinite` | available |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
@@ -62,12 +63,16 @@ imports to be discovered later.
 ### 2.1 Integral and cohomological preliminaries
 
 Geometric irreducibility plus smoothness implies geometric reducedness, hence
-geometric integrality.  In particular `C` is nonempty and integral.  A
-Noetherian one-dimensional integral scheme has a codimension-one point.  At
-such a point the local ring is a discrete valuation ring.  A uniformizer,
-viewed in the function field and inverted, has order `-1`; it cannot be a
-global regular function.  The associated rational-function morphism
-`C → P¹_k` is finite.
+geometric integrality.  In particular `C` is nonempty and integral.  The
+checked construction chooses a standard-smooth affine chart of relative
+dimension one and then a nonzero maximal ideal in its coordinate ring.  The
+maximal ideal cannot be zero: otherwise the coordinate ring would be a field
+finite over the ground field, while standard smoothness supplies an injective
+étale map from a one-variable polynomial ring, contradicting its infinite
+dimension.  The corresponding scheme point has codimension one.  At such a
+point the local ring is a discrete valuation ring.  A uniformizer, viewed in
+the function field and inverted, has order `-1`; it cannot be a global regular
+function.  The associated rational-function morphism `C → P¹_k` is finite.
 
 For a coherent module `M`, finite pushforward along this map and the checked
 two-affine calculation on `P¹` show that genuine sheaf `H¹(C, M)` is a finite
@@ -81,8 +86,8 @@ For `M = O_C`, define
 genus(C) := finrank k H¹(C, O_C).
 ```
 
-The choice of a codimension-one point occurs only in the proof of finiteness,
-not in this definition.
+The choice of a codimension-one point occurs only inside the checked proof of
+finiteness, not in this definition or its hypotheses.
 
 ### 2.2 The relative Picard fppf sheaf
 
