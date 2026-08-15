@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteGroupQuotient
+import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteEtalePointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativePowerBaseIso
 
@@ -27,6 +28,7 @@ noncomputable section
 
 universe u
 
+open scoped TensorProduct
 open CategoryTheory Limits
 open _root_.AlgebraicGeometry
 
@@ -34,8 +36,10 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 
 open AssignedProductStabilizer
 open EquivariantFiniteGroupQuotient
+open EquivariantFiniteEtalePointSplitChart
 open FiniteEtaleAssignedCoproductPower
 open FiniteEtaleRelativeProduct
+open FiniteFlatConstantRankNeighborhood
 open FiniteGroupQuotient
 open FiniteSupportEtaleCoordinates
 open RelativePowerBaseIso
@@ -217,6 +221,33 @@ instance affineComponentToBase_etale
   letI : Etale n.componentToBase.left := n.selected_etale
   infer_instance
 
+/-- The base open used by the selected component is definitionally the same
+affine base family member chosen for the occurrence chart. -/
+theorem componentAffineBaseFamily_eq_affineBaseFamily
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    componentAffineBaseFamily K C d z j =
+      affineBaseFamily K C d z j := by
+  rfl
+
+/-- The restricted selected component mapped to the chosen affine base
+family member. -/
+noncomputable def affineComponentToAffineBase
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    affineComponentFamily K C d z j ⟶ affineBaseFamily K C d z j :=
+  affineComponentToBase K C d z j
+
+instance affineComponentToAffineBase_isFinite
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    IsFinite (affineComponentToAffineBase K C d z j).left := by
+  change IsFinite (affineComponentToBase K C d z j).left
+  infer_instance
+
+instance affineComponentToAffineBase_etale
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    Etale (affineComponentToAffineBase K C d z j).left := by
+  change Etale (affineComponentToBase K C d z j).left
+  infer_instance
+
 /-- Inclusion of the restricted selected component into the original
 finite-neighbourhood component. -/
 noncomputable def affineComponentInclusion
@@ -246,6 +277,32 @@ noncomputable def affineComponentPoint
     (componentBaseAffineOpen K C d z j).1
   rw [n.componentToBase_selectedPoint]
   exact basePoint_mem_componentBaseAffineOpen K C d z j
+
+@[simp]
+theorem affineComponentToBase_point
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    (affineComponentToBase K C d z j).left
+        (affineComponentPoint K C d z j) =
+      affineBasePoint K C d z j := by
+  apply Subtype.ext
+  change
+    (((geometricDistinctNeighborhoods K C d z j).componentToBase.left ∣_
+      (componentBaseAffineOpen K C d z j).1)
+        (affineComponentPoint K C d z j)).1 =
+      (geometricDistinctNeighborhoods K C d z j).basePoint
+  rw [morphismRestrict_base_coe]
+  exact (geometricDistinctNeighborhoods K C d z j).componentToBase_selectedPoint
+
+@[simp]
+theorem affineComponentToAffineBase_point
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    (affineComponentToAffineBase K C d z j).left
+        (affineComponentPoint K C d z j) =
+      affineBasePoint K C d z j := by
+  change (affineComponentToBase K C d z j).left
+      (affineComponentPoint K C d z j) =
+    affineBasePoint K C d z j
+  exact affineComponentToBase_point K C d z j
 
 /-- The restricted selected curve component maps back to the curve over the
 coordinate copy of the ground field. -/
@@ -306,6 +363,51 @@ instance commonAffineComponent_isAffine :
   intro i
   exact affineComponentFamily_isAffine K C d z
     (geometricPointSupportIndex K C d z i)
+
+/-- The occurrence-wise selected-component chart is finite étale over its
+occurrence-wise affine coordinate-base chart. -/
+noncomputable def componentToBasePower :
+    commonAffineComponent K C d z ⟶ commonAffineBase K C d z :=
+  assignedFamilyMap (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (affineComponentFamily K C d z)
+    (geometricPointSupportIndex K C d z)
+    (affineBaseFamily K C d z)
+    (affineComponentToAffineBase K C d z)
+
+instance componentToBasePower_isFinite :
+    IsFinite (componentToBasePower K C d z).left := by
+  unfold componentToBasePower assignedFamilyMap
+  exact PermutationPower.piMap_mem (coordinateBase K) (Fin d) @IsFinite
+    (fun i ↦ affineComponentToAffineBase K C d z
+      (geometricPointSupportIndex K C d z i))
+    (fun i ↦ affineComponentToAffineBase_isFinite K C d z
+      (geometricPointSupportIndex K C d z i))
+
+instance componentToBasePower_etale :
+    Etale (componentToBasePower K C d z).left := by
+  unfold componentToBasePower assignedFamilyMap
+  exact PermutationPower.piMap_mem (coordinateBase K) (Fin d) @Etale
+    (fun i ↦ affineComponentToAffineBase K C d z
+      (geometricPointSupportIndex K C d z i))
+    (fun i ↦ affineComponentToAffineBase_etale K C d z
+      (geometricPointSupportIndex K C d z i))
+
+@[reassoc]
+theorem componentToBasePower_comp_projection (i : Fin d) :
+    componentToBasePower K C d z ≫
+        Pi.π (fun i : Fin d ↦ affineBaseFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i =
+      Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i ≫
+        affineComponentToAffineBase K C d z
+          (geometricPointSupportIndex K C d z i) := by
+  exact assignedFamilyMap_comp_projection
+    (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+    (affineComponentFamily K C d z)
+    (geometricPointSupportIndex K C d z)
+    (affineBaseFamily K C d z)
+    (affineComponentToAffineBase K C d z) i
 
 /-- Product containing one affine selected component for every distinct
 geometric support member. -/
@@ -426,6 +528,15 @@ noncomputable def commonAffineComponentPoint :
     (affineComponentFamily K C d z)
     (geometricPointSupportIndex K C d z)).left
       (distinctAffineComponentProductPoint K C d z)
+
+/-- The correlated occurrence-base point obtained from the exact selected-
+component point.  This is the correct base point for subsequent fpqc
+splitting; choosing its coordinates independently would lose residue-field
+correlation. -/
+noncomputable def exactCommonAffineBasePoint :
+    (commonAffineBase K C d z).left :=
+  (componentToBasePower K C d z).left
+    (commonAffineComponentPoint K C d z)
 
 /-- Block-stabilizer action on the actual affine curve chart. -/
 noncomputable def componentAction :
@@ -592,6 +703,81 @@ noncomputable def action :
     (affineBaseFamily K C d z)
     (geometricPointSupportIndex K C d z)
 
+/-- The finite étale map from selected curve components to their coordinate
+bases is equivariant for the common block stabilizer. -/
+theorem componentToBasePower_equivariant
+    (g : geometricAssignedStabilizer K C d z) :
+    (componentAction K C d z).hom g ≫
+        (componentToBasePower K C d z).left =
+      (componentToBasePower K C d z).left ≫ (action K C d z).hom g :=
+  assignedFamilyMap_equivariant (coordinateBase K)
+    (geometricDistinctSupportCard K C d z) d
+    (affineComponentFamily K C d z)
+    (geometricPointSupportIndex K C d z)
+    (affineBaseFamily K C d z)
+    (affineComponentToAffineBase K C d z) g
+
+/-- The correlated base point is fixed by the same block stabilizer. -/
+theorem action_fixed_exactCommonAffineBasePoint
+    (g : geometricAssignedStabilizer K C d z) :
+    (action K C d z).hom g (exactCommonAffineBasePoint K C d z) =
+      exactCommonAffineBasePoint K C d z := by
+  have h := componentToBasePower_equivariant K C d z g
+  have hp := congrArg
+    (fun q ↦ q (commonAffineComponentPoint K C d z)) h
+  change
+    (componentToBasePower K C d z).left
+        ((componentAction K C d z).hom g
+          (commonAffineComponentPoint K C d z)) =
+      (action K C d z).hom g (exactCommonAffineBasePoint K C d z) at hp
+  rw [componentAction_fixed_commonAffineComponentPoint] at hp
+  exact hp.symm
+
+/-- The constant-rank locus through the correlated occurrence-base point is
+stable under the block stabilizer. -/
+theorem componentToBasePower_rankOpen_isStable :
+    (action K C d z).IsStableOpen
+      (rankOpen (componentToBasePower K C d z).left
+        (exactCommonAffineBasePoint K C d z)) :=
+  rankOpen_isStable (componentAction K C d z) (action K C d z)
+    (componentToBasePower K C d z).left
+    (componentToBasePower_equivariant K C d z)
+    (exactCommonAffineBasePoint K C d z)
+
+/-- Around the exact correlated occurrence-base point, the equivariant
+finite étale selected-component product admits a block-stable affine
+constant-rank neighborhood, with a block-stable source preimage, and an
+fpqc cover on which it is a finite disjoint union of sheets. -/
+theorem exists_componentToBasePower_affineOpen_fpqc_splitCover :
+    ∃ (V : (commonAffineBase K C d z).left.Opens)
+        (hV : IsAffineOpen V),
+      (action K C d z).IsStableOpen V ∧
+      (componentAction K C d z).IsStableOpen
+        ((componentToBasePower K C d z).left ⁻¹ᵁ V) ∧
+      exactCommonAffineBasePoint K C d z ∈ V ∧
+      let f := (componentToBasePower K C d z).left
+      let fV := f ∣_ V
+      letI : IsAffine V.toScheme := hV
+      letI : IsAffine (f ⁻¹ᵁ V).toScheme := isAffine_of_isAffineHom fV
+      letI : Algebra Γ(V, ⊤) Γ(f ⁻¹ᵁ V, ⊤) := fV.appTop.hom.toAlgebra
+      ∃ (T : Type u) (_ : CommRing T) (_ : Algebra Γ(V, ⊤) T)
+        (_ : Module.FaithfullyFlat Γ(V, ⊤) T)
+        (_ : Module.Finite Γ(V, ⊤) T)
+        (_ : Algebra.Etale Γ(V, ⊤) T) (m : ℕ)
+        (_e : T ⊗[Γ(V, ⊤)] Γ(f ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T))
+        (q : Spec (.of T) ⟶ V.toScheme)
+        (_E : pullback fV q ≅ Spec (.of (Fin m → T))),
+        _E.hom ≫ EtaleSplitChart.splitProjection T m =
+            pullback.snd fV q ∧
+          m = f.finrank (exactCommonAffineBasePoint K C d z) ∧
+            Flat q ∧ Surjective q ∧ QuasiCompact q :=
+  exists_stableAffineOpen_fpqc_splitCover
+    (componentAction K C d z) (action K C d z)
+    (componentToBasePower K C d z).left
+    (componentToBasePower_equivariant K C d z)
+    (exactCommonAffineBasePoint K C d z)
+    (action_fixed_exactCommonAffineBasePoint K C d z)
+
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/
 theorem action_fixed_commonAffineBasePoint
@@ -638,6 +824,31 @@ noncomputable def affineBaseToCoordinateLine
   affineBaseInclusion K C d z j ≫
     geometricAssignedBaseMapFamily K C d z j
 
+/-- The selected component's coordinate map factors through its chosen
+affine coordinate-base open. -/
+@[reassoc]
+theorem affineComponentToAffineBase_comp_affineBaseToCoordinateLine
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    affineComponentToAffineBase K C d z j ≫
+        affineBaseToCoordinateLine K C d z j =
+      affineComponentToCoordinateLine K C d z j := by
+  apply Over.OverMorphism.ext
+  change (affineComponentToBase K C d z j).left ≫
+      (affineBaseInclusion K C d z j).left ≫
+        (geometricAssignedBaseMapFamily K C d z j).left =
+    (affineComponentToCoordinateLine K C d z j).left
+  change (affineComponentToBase K C d z j).left ≫
+      (affineBaseInclusion K C d z j).left ≫
+        (geometricDistinctNeighborhoods K C d z j).baseMap =
+    (affineComponentInclusion K C d z j).left ≫
+      (geometricDistinctNeighborhoods K C d z j).componentToBase.left ≫
+        (geometricDistinctNeighborhoods K C d z j).baseMap
+  have h := morphismRestrict_ι
+    (geometricDistinctNeighborhoods K C d z j).componentToBase.left
+    (componentBaseAffineOpen K C d z j).1
+  exact congrArg
+    (fun q ↦ q ≫ (geometricDistinctNeighborhoods K C d z j).baseMap) h
+
 instance affineBaseToCoordinateLine_etale
     (j : Fin (geometricDistinctSupportCard K C d z)) :
     Etale (affineBaseToCoordinateLine K C d z j).left := by
@@ -662,6 +873,84 @@ noncomputable def toCoordinatePower :
     (affineBaseFamily K C d z)
     (geometricPointSupportIndex K C d z) (coordinateLine K)
     (affineBaseToCoordinateLine K C d z)
+
+@[reassoc]
+theorem toCoordinatePower_comp_projection (i : Fin d) :
+    toCoordinatePower K C d z ≫
+        Pi.π (fun _ : Fin d ↦ coordinateLine K) i =
+      Pi.π (fun i : Fin d ↦ affineBaseFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i ≫
+        affineBaseToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i) := by
+  exact assignedMap_comp_projection
+    (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+    (affineBaseFamily K C d z)
+    (geometricPointSupportIndex K C d z) (coordinateLine K)
+    (affineBaseToCoordinateLine K C d z) i
+
+@[reassoc]
+theorem componentToCoordinatePower_comp_projection (i : Fin d) :
+    componentToCoordinatePower K C d z ≫
+        Pi.π (fun _ : Fin d ↦ coordinateLine K) i =
+      Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i ≫
+        affineComponentToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i) := by
+  exact assignedMap_comp_projection
+    (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+    (affineComponentFamily K C d z)
+    (geometricPointSupportIndex K C d z) (coordinateLine K)
+    (affineComponentToCoordinateLine K C d z) i
+
+/-- The occurrence-wise selected-component coordinate map factors through
+the finite étale occurrence-wise base map. -/
+@[reassoc]
+theorem componentToBasePower_comp_toCoordinatePower :
+    componentToBasePower K C d z ≫ toCoordinatePower K C d z =
+      componentToCoordinatePower K C d z := by
+  apply Pi.hom_ext
+  intro i
+  calc
+    (componentToBasePower K C d z ≫ toCoordinatePower K C d z) ≫
+        Pi.π (fun _ : Fin d ↦ coordinateLine K) i =
+      componentToBasePower K C d z ≫
+        (toCoordinatePower K C d z ≫
+          Pi.π (fun _ : Fin d ↦ coordinateLine K) i) :=
+      Category.assoc _ _ _
+    _ = componentToBasePower K C d z ≫
+        (Pi.π (fun i : Fin d ↦ affineBaseFamily K C d z
+            (geometricPointSupportIndex K C d z i)) i ≫
+          affineBaseToCoordinateLine K C d z
+            (geometricPointSupportIndex K C d z i)) := by
+      rw [toCoordinatePower_comp_projection]
+    _ = (componentToBasePower K C d z ≫
+          Pi.π (fun i : Fin d ↦ affineBaseFamily K C d z
+            (geometricPointSupportIndex K C d z i)) i) ≫
+        affineBaseToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i) :=
+      (Category.assoc _ _ _).symm
+    _ = (Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+            (geometricPointSupportIndex K C d z i)) i ≫
+          affineComponentToAffineBase K C d z
+            (geometricPointSupportIndex K C d z i)) ≫
+        affineBaseToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i) := by
+      rw [componentToBasePower_comp_projection]
+    _ = Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i ≫
+        (affineComponentToAffineBase K C d z
+            (geometricPointSupportIndex K C d z i) ≫
+          affineBaseToCoordinateLine K C d z
+            (geometricPointSupportIndex K C d z i)) :=
+      Category.assoc _ _ _
+    _ = Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z i)) i ≫
+        affineComponentToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i) := by
+      rw [affineComponentToAffineBase_comp_affineBaseToCoordinateLine]
+    _ = componentToCoordinatePower K C d z ≫
+        Pi.π (fun _ : Fin d ↦ coordinateLine K) i :=
+      (componentToCoordinatePower_comp_projection K C d z i).symm
 
 instance toCoordinatePower_etale :
     Etale (toCoordinatePower K C d z).left := by
@@ -747,6 +1036,42 @@ instance componentQuotientπ_surjective :
     Surjective (componentQuotientπ K C d z) :=
   FiniteGroupQuotient.quotientπ_surjectiveProperty
     (componentAction K C d z) (componentAction_hasAffineOrbit K C d z)
+
+/-- The finite étale map from the selected-component chart to its affine
+coordinate base descends to the corresponding block quotients. -/
+noncomputable def componentQuotientToBaseQuotient :
+    componentQuotient K C d z ⟶ quotient K C d z :=
+  EquivariantFiniteGroupQuotient.descendedMap (componentAction K C d z)
+    (action K C d z) (componentAction_hasAffineOrbit K C d z)
+    (action_hasAffineOrbit K C d z) (componentToBasePower K C d z).left
+    (componentToBasePower_equivariant K C d z)
+
+/-- Defining square for the finite étale component-to-base map on block
+quotients. -/
+@[reassoc]
+theorem componentQuotientπ_comp_componentQuotientToBaseQuotient :
+    componentQuotientπ K C d z ≫
+        componentQuotientToBaseQuotient K C d z =
+      (componentToBasePower K C d z).left ≫ quotientπ K C d z :=
+  EquivariantFiniteGroupQuotient.quotientπ_comp_descendedMap
+    (componentAction K C d z) (action K C d z)
+    (componentAction_hasAffineOrbit K C d z)
+    (action_hasAffineOrbit K C d z) (componentToBasePower K C d z).left
+    (componentToBasePower_equivariant K C d z)
+
+/-- The descended component-to-base quotient map carries the exact central
+component point to the quotient of its correlated base point. -/
+theorem componentQuotientToBaseQuotient_apply_centralPoint :
+    componentQuotientToBaseQuotient K C d z
+        (componentQuotientπ K C d z
+          (commonAffineComponentPoint K C d z)) =
+      quotientπ K C d z (exactCommonAffineBasePoint K C d z) :=
+  EquivariantFiniteGroupQuotient.descendedMap_apply_quotientPoint
+    (componentAction K C d z) (action K C d z)
+    (componentAction_hasAffineOrbit K C d z)
+    (action_hasAffineOrbit K C d z) (componentToBasePower K C d z).left
+    (componentToBasePower_equivariant K C d z)
+    (commonAffineComponentPoint K C d z)
 
 /-- Ordered affine-root space carrying the restricted action of the
 geometric-support block stabilizer. -/
@@ -841,6 +1166,22 @@ theorem quotientToCoordinateQuotient_apply_centralPoint :
     (toCoordinatePower_equivariant K C d z)
     (commonAffineBasePoint K C d z)
 
+/-- The quotient coordinate map at the correlated base point attached to the
+exact selected-component point. -/
+theorem quotientToCoordinateQuotient_apply_exactCentralPoint :
+    quotientToCoordinateQuotient K C d z
+        (quotientπ K C d z (exactCommonAffineBasePoint K C d z)) =
+      coordinateQuotientπ K C d z
+        ((toCoordinatePower K C d z).left
+          (exactCommonAffineBasePoint K C d z)) :=
+  EquivariantFiniteGroupQuotient.descendedMap_apply_quotientPoint
+    (action K C d z) (coordinateAction K C d z)
+    (action_hasAffineOrbit K C d z)
+    (coordinateAction_hasAffineOrbit K C d z)
+    (toCoordinatePower K C d z).left
+    (toCoordinatePower_equivariant K C d z)
+    (exactCommonAffineBasePoint K C d z)
+
 /-- The equivariant étale map from the actual selected-component curve chart
 descends to its block quotient. -/
 noncomputable def componentQuotientToCoordinateQuotient :
@@ -865,6 +1206,53 @@ theorem componentQuotientπ_comp_componentQuotientToCoordinateQuotient :
     (coordinateAction_hasAffineOrbit K C d z)
     (componentToCoordinatePower K C d z).left
     (componentToCoordinatePower_equivariant K C d z)
+
+/-- The coordinate morphism on the selected-component quotient factors
+through its affine-base quotient. -/
+@[reassoc]
+theorem componentQuotientToBaseQuotient_comp_quotientToCoordinateQuotient :
+    componentQuotientToBaseQuotient K C d z ≫
+        quotientToCoordinateQuotient K C d z =
+      componentQuotientToCoordinateQuotient K C d z := by
+  letI : Epi (componentQuotientπ K C d z) :=
+    FiniteGroupQuotient.epi_quotientπ (componentAction K C d z)
+      (componentAction_hasAffineOrbit K C d z)
+  apply (cancel_epi (componentQuotientπ K C d z)).mp
+  calc
+    componentQuotientπ K C d z ≫
+          (componentQuotientToBaseQuotient K C d z ≫
+            quotientToCoordinateQuotient K C d z) =
+        (componentQuotientπ K C d z ≫
+          componentQuotientToBaseQuotient K C d z) ≫
+            quotientToCoordinateQuotient K C d z :=
+      (Category.assoc _ _ _).symm
+    _ = ((componentToBasePower K C d z).left ≫
+          quotientπ K C d z) ≫
+            quotientToCoordinateQuotient K C d z := by
+      rw [componentQuotientπ_comp_componentQuotientToBaseQuotient]
+    _ = (componentToBasePower K C d z).left ≫
+        (quotientπ K C d z ≫ quotientToCoordinateQuotient K C d z) :=
+      Category.assoc _ _ _
+    _ = (componentToBasePower K C d z).left ≫
+        ((toCoordinatePower K C d z).left ≫
+          coordinateQuotientπ K C d z) := by
+      rw [quotientπ_comp_quotientToCoordinateQuotient]
+    _ = ((componentToBasePower K C d z).left ≫
+          (toCoordinatePower K C d z).left) ≫
+        coordinateQuotientπ K C d z :=
+      (Category.assoc _ _ _).symm
+    _ = (componentToCoordinatePower K C d z).left ≫
+        coordinateQuotientπ K C d z := by
+      have h := congrArg Over.Hom.left
+        (componentToBasePower_comp_toCoordinatePower K C d z)
+      change (componentToBasePower K C d z).left ≫
+          (toCoordinatePower K C d z).left =
+        (componentToCoordinatePower K C d z).left at h
+      exact congrArg (fun q ↦ q ≫ coordinateQuotientπ K C d z) h
+    _ = componentQuotientπ K C d z ≫
+        componentQuotientToCoordinateQuotient K C d z :=
+      (componentQuotientπ_comp_componentQuotientToCoordinateQuotient
+        K C d z).symm
 
 /-- The actual quotient coordinate map carries the repeated
 selected-component point to the quotient of its ordered affine coordinates. -/

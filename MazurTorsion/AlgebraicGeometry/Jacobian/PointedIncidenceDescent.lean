@@ -33,6 +33,7 @@ noncomputable section
 
 universe u
 
+open scoped TensorProduct
 open CategoryTheory Limits
 open _root_.AlgebraicGeometry
 
@@ -232,6 +233,69 @@ theorem orderedSupportGeometricAssignedAffinePoint_mapsToOrderedCurvePower
       curvePowerPointOverCoordinateBase K C d
         (orderedSupportPoint K C d z) :=
   componentToCurvePower_commonAffineComponentPoint K C d
+    (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an incidence support, the actual selected-component chart is finite
+étale over its occurrence-wise affine coordinate base, and the induced
+coordinate morphism on block quotients factors through that base quotient. -/
+theorem orderedSupportGeometricAssignedAffineQuotient_coordinateFactorization
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    componentQuotientToBaseQuotient K C d
+          (orderedSupportPoint K C d z) ≫
+        quotientToCoordinateQuotient K C d
+          (orderedSupportPoint K C d z) =
+      componentQuotientToCoordinateQuotient K C d
+        (orderedSupportPoint K C d z) :=
+  componentQuotientToBaseQuotient_comp_quotientToCoordinateQuotient
+    K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The correlated affine-base point below the exact occurrence-component
+point is fixed by the geometric-support block stabilizer. -/
+theorem orderedSupportGeometricAssignedExactAffineBasePoint_fixed
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (g : geometricAssignedStabilizer K C d
+      (orderedSupportPoint K C d z)) :
+    (GeometricAssignedAffineChart.action K C d
+        (orderedSupportPoint K C d z)).hom g
+      (exactCommonAffineBasePoint K C d (orderedSupportPoint K C d z)) =
+        exactCommonAffineBasePoint K C d (orderedSupportPoint K C d z) :=
+  action_fixed_exactCommonAffineBasePoint K C d
+    (orderedSupportPoint K C d z) g
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an ordered incidence support, the selected occurrence-component map
+has a block-stable affine constant-rank neighborhood of its exact correlated
+base point.  The source preimage is block-stable too, and an affine fpqc
+cover splits the restricted map into finitely many sheets of the exact fiber
+rank. -/
+theorem orderedSupportGeometricAssigned_exists_blockStableAffineFpqcSplit
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    let p := orderedSupportPoint K C d z
+    ∃ (V : (commonAffineBase K C d p).left.Opens)
+        (hV : IsAffineOpen V),
+      (GeometricAssignedAffineChart.action K C d p).IsStableOpen V ∧
+      (componentAction K C d p).IsStableOpen
+        ((componentToBasePower K C d p).left ⁻¹ᵁ V) ∧
+      exactCommonAffineBasePoint K C d p ∈ V ∧
+      let f := (componentToBasePower K C d p).left
+      let fV := f ∣_ V
+      letI : IsAffine V.toScheme := hV
+      letI : IsAffine (f ⁻¹ᵁ V).toScheme := isAffine_of_isAffineHom fV
+      letI : Algebra Γ(V, ⊤) Γ(f ⁻¹ᵁ V, ⊤) := fV.appTop.hom.toAlgebra
+      ∃ (T : Type u) (_ : CommRing T) (_ : Algebra Γ(V, ⊤) T)
+        (_ : Module.FaithfullyFlat Γ(V, ⊤) T)
+        (_ : Module.Finite Γ(V, ⊤) T)
+        (_ : Algebra.Etale Γ(V, ⊤) T) (m : ℕ)
+        (_e : T ⊗[Γ(V, ⊤)] Γ(f ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T))
+        (q : Spec (.of T) ⟶ V.toScheme)
+        (_E : pullback fV q ≅ Spec (.of (Fin m → T))),
+        _E.hom ≫ EtaleSplitChart.splitProjection T m =
+            pullback.snd fV q ∧
+          m = f.finrank (exactCommonAffineBasePoint K C d p) ∧
+            Flat q ∧ Surjective q ∧ QuasiCompact q :=
+  exists_componentToBasePower_affineOpen_fpqc_splitCover K C d
     (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
