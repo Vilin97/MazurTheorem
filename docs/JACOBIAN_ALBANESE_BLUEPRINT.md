@@ -46,6 +46,7 @@ parallel abstraction.
 | Flat affine base change of finite-group quotients | `FiniteGroupQuotientFlatBaseChange.existsUnique_invariantsπ_lift_baseChange_spec_of_flat` | checked in arbitrary characteristic |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
 | Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
+| Open restriction of ordered incidence | `OrderedIncidenceOpenRestriction.idealSheaf_comap_finsetProd_of_isOpenImmersion`, `orderedIncidenceIdeal_comap_eq_prod_pullbackKernels`, and `PointedIncidenceDescent.curveOrderedIncidenceIdeal_comap_eq_prod_pullbackKernels` | checked: pullback along an open immersion preserves finite products of ideal sheaves because the affine restriction maps are ring equivalences; hence the restricted curve-level incidence ideal is exactly the product of the kernels of the pulled-back coordinate-graph immersions, retaining scheme-theoretic multiplicities |
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; the descended morphism is proper, point-injective, locally quasi-finite, and finite; closed-immersion, flatness, rank, and Cartier proofs remain |
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; every target point has a chosen ordered-incidence lift and a common finite étale fpqc split chart carrying its exact ordered support; pointwise fpqc descent interfaces reduce the global isomorphism, flatness, and rank assertions to the remaining local monic-chart identifications |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct`, `EtaleGraphCoproduct.exists_graphCoproduct`, `exists_graphCoproduct_of_etale`, `baseChangedComponentInclusion`, and `exists_coproduct_of_isOpenImmersion_isClosedImmersion` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; for every separated étale scheme morphism, any compatible section after arbitrary base change is an open-and-closed graph and is exactly the first summand of a coproduct decomposition; arbitrary open-and-closed components remain such summands after the iterated pullback is transported to the direct base change, with both projections identified |
@@ -464,6 +465,16 @@ projections identified, that the whole coherent component is itself one
 coproduct summand of the corresponding base-changed curve-coordinate chart.
 The ordered-support consumer is
 `orderedSupportCoherentComponent_exists_coordinatePullbackCoproduct`.
+The ideal-sheaf localization needed to use these summands is now separate as
+well.  Pullback of ideals is not asserted to preserve products for arbitrary
+morphisms.  Instead, on an open immersion the affine restriction formula
+transports ideals through a ring equivalence, which proves multiplicativity
+and then finite-product compatibility.  Applying this to the global ordered
+incidence ideal identifies its restriction exactly with the product of the
+kernels of the pulled-back coordinate graphs.  The curve-level consumer is
+`curveOrderedIncidenceIdeal_comap_eq_prod_pullbackKernels`.  Thus the next
+comparison may work factor by factor on the isolated open-and-closed
+components without discarding nilpotents or multiplicities.
 
 A point of the incidence quotient is now lifted through the
 surjective ordered-incidence quotient map, embedded in the ordered ambient

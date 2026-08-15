@@ -8,6 +8,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
+import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -39,12 +40,30 @@ open UniversalEffectiveDivisor
 open FiniteSupportEtaleCoordinates
 open FiniteSupportCoordinateMaps
 open CoherentComponentBaseChange
+open OrderedIncidenceOpenRestriction
 open SplitFiniteBaseChange
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
 variable [GeometricallyIrreducible C.hom] [IsProper C.hom]
 variable [SmoothOfRelativeDimension 1 C.hom]
+
+omit [GeometricallyIrreducible C.hom]
+    [SmoothOfRelativeDimension 1 C.hom] in
+/-- On every open chart in the curve-level incidence ambient, the defining
+ideal retains its scheme-theoretic product multiplicities and each factor is
+the kernel of the pulled-back coordinate graph.  This is the global-curve
+consumer of the generic open-restriction calculation. -/
+theorem curveOrderedIncidenceIdeal_comap_eq_prod_pullbackKernels
+    (d : ℕ) {Y : Scheme.{u}}
+    (f : Y ⟶ (orderedAmbient (Spec (.of K)) d C).left)
+    [IsOpenImmersion f] :
+    (orderedIncidenceIdeal (Spec (.of K)) d C).comap f =
+      Finset.univ.prod (fun i ↦
+        (pullback.fst f
+          (coordinateGraphι (Spec (.of K)) d C i).left).ker) :=
+  orderedIncidenceIdeal_comap_eq_prod_pullbackKernels
+    (Spec (.of K)) d C f
 
 /-- The ordered divisor coordinates underlying a point of the incidence
 ambient product. -/
