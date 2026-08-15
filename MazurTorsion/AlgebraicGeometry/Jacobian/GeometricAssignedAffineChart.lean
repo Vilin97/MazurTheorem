@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteGroupQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteEtalePointSplitChart
+import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFpqcRefinement
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativePowerBaseIso
 
@@ -37,6 +38,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 open AssignedProductStabilizer
 open EquivariantFiniteGroupQuotient
 open EquivariantFiniteEtalePointSplitChart
+open EquivariantFpqcRefinement
 open FiniteEtaleAssignedCoproductPower
 open FiniteEtaleRelativeProduct
 open FiniteFlatConstantRankNeighborhood
@@ -777,6 +779,60 @@ theorem exists_componentToBasePower_affineOpen_fpqc_splitCover :
     (componentToBasePower_equivariant K C d z)
     (exactCommonAffineBasePoint K C d z)
     (action_fixed_exactCommonAffineBasePoint K C d z)
+
+/-- The common refinement of all block translates of an fpqc cover of a
+stable occurrence-base open. -/
+noncomputable abbrev componentFpqcBlockRefinement
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme) : Over V.toScheme :=
+  EquivariantFpqcRefinement.refinement
+    ((action K C d z).restrict hVs) q
+
+/-- The block-translate refinement remains affine, finite étale, and fpqc.
+It is therefore a valid common refinement on which to transport the split
+sheet presentation. -/
+theorem componentFpqcBlockRefinement_isAffine_finiteEtale_fpqc
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme)
+    [IsAffine V.toScheme] [IsAffine Z]
+    [IsFinite q] [Etale q] [Surjective q] :
+    IsAffine (componentFpqcBlockRefinement K C d z hVs q).left ∧
+      IsFinite (componentFpqcBlockRefinement K C d z hVs q).hom ∧
+      Etale (componentFpqcBlockRefinement K C d z hVs q).hom ∧
+      Flat (componentFpqcBlockRefinement K C d z hVs q).hom ∧
+      Surjective (componentFpqcBlockRefinement K C d z hVs q).hom ∧
+      QuasiCompact (componentFpqcBlockRefinement K C d z hVs q).hom :=
+  refinement_isAffine_finiteEtale_fpqc
+    ((action K C d z).restrict hVs) q
+
+/-- The identity translate maps the block refinement back to the original
+fpqc cover over the stable base open. -/
+theorem componentFpqcBlockRefinement_projection_one_comp_cover
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme) :
+    EquivariantFpqcRefinement.projection
+          ((action K C d z).restrict hVs) q 1 ≫ q =
+      (componentFpqcBlockRefinement K C d z hVs q).hom :=
+  EquivariantFpqcRefinement.projection_one_comp_cover
+    ((action K C d z).restrict hVs) q
+
+/-- The factor-translation maps on the common refinement cover the
+restricted block action on the stable base open. -/
+theorem componentFpqcBlockRefinement_actionMap_comp_cover
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme)
+    (g : geometricAssignedStabilizer K C d z) :
+    EquivariantFpqcRefinement.rawActionHom
+          ((action K C d z).restrict hVs) q g ≫
+        (componentFpqcBlockRefinement K C d z hVs q).hom =
+      (componentFpqcBlockRefinement K C d z hVs q).hom ≫
+        ((action K C d z).restrict hVs).hom g :=
+  EquivariantFpqcRefinement.rawActionHom_comp_cover
+    ((action K C d z).restrict hVs) q g
 
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/

@@ -299,6 +299,34 @@ theorem orderedSupportGeometricAssigned_exists_blockStableAffineFpqcSplit
     (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an ordered incidence support, the finite product of all block
+translates of a chosen affine finite étale split cover remains an affine
+finite étale fpqc cover. -/
+theorem orderedSupportGeometricAssigned_blockRefinement_isAffine_finiteEtale_fpqc
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme)
+    [IsAffine V.toScheme] [IsAffine Z]
+    [IsFinite q] [Etale q] [Surjective q] :
+    IsAffine (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).left ∧
+      IsFinite (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).hom ∧
+      Etale (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).hom ∧
+      Flat (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).hom ∧
+      Surjective (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).hom ∧
+      QuasiCompact (componentFpqcBlockRefinement K C d
+        (orderedSupportPoint K C d z) hVs q).hom :=
+  componentFpqcBlockRefinement_isAffine_finiteEtale_fpqc K C d
+    (orderedSupportPoint K C d z) hVs q
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On a chosen geometric-support fpqc split chart, the degree-preserving
 assigned coproduct power contains a point mapping to the exact original
 ordered support.  Repeated geometric coordinates use the same family member
