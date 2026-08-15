@@ -254,6 +254,55 @@ theorem etale_tensorSquare_exists_diagonalProduct
       Nonempty (A ⊗[R] A ≃ₐ[A] A × T) := by
   exact Algebra.FormallyUnramified.exists_algEquiv_prod R A
 
+/-- The étale tensor-square splitting can be chosen so that projection to
+the first factor is the multiplication map.  This records which open-and-
+closed component is the actual diagonal, information intentionally omitted
+from the more economical `exists_algEquiv_prod` interface.
+
+The named downstream consumer is the étale monic-root chart used in the
+pointed incidence comparison. -/
+theorem etale_tensorSquare_exists_diagonalProduct_compatible
+    (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
+    [Algebra.Etale R A] :
+    ∃ (T : Type u) (_ : CommRing T) (_ : Algebra A T)
+      (e : A ⊗[R] A ≃ₐ[A] A × T),
+      ∀ x, (e x).1 = Algebra.TensorProduct.lmul'' R x := by
+  obtain ⟨e, he, hspan⟩ :
+      ∃ e, IsIdempotentElem e ∧
+        KaehlerDifferential.ideal R A = A ⊗[R] A ∙ e :=
+    (Ideal.isIdempotentElem_iff_of_fg _
+      (KaehlerDifferential.ideal_fg R A)).mp <|
+        (Ideal.cotangent_subsingleton_iff _).mp <|
+          inferInstanceAs (Subsingleton Ω[A⁄R])
+  let e₁ := AlgEquiv.prodQuotientOfIsIdempotentElem (R := A)
+    he he.one_sub (by simp) (by simp [he])
+  let μ : A ⊗[R] A →ₐ[A] A := Algebra.TensorProduct.lmul'' R
+  have hker : RingHom.ker μ = KaehlerDifferential.ideal R A := by
+    rfl
+  have hμsurj : Function.Surjective μ := by
+    intro a
+    refine ⟨a ⊗ₜ[R] 1, ?_⟩
+    change a * 1 = a
+    exact mul_one a
+  let e₂ : (A ⊗[R] A ⧸ Ideal.span {e}) ≃ₐ[A] A :=
+    ((Ideal.span {e}).quotientEquivAlgOfEq A
+      (hspan.symm.trans hker.symm)).trans <|
+      Ideal.quotientKerAlgEquivOfSurjective hμsurj
+  let T := (A ⊗[R] A) ⧸ Ideal.span {1 - e}
+  let E : A ⊗[R] A ≃ₐ[A] A × T := e₁.trans (.prodCongr e₂ .refl)
+  refine ⟨T, inferInstance, inferInstance, E, ?_⟩
+  intro x
+  change e₂ (Ideal.Quotient.mk (Ideal.span {e}) x) =
+    Algebra.TensorProduct.lmul'' R x
+  change ((Ideal.quotientEquivAlgOfEq A (hspan.symm.trans hker.symm)).trans
+      (Ideal.quotientKerAlgEquivOfSurjective hμsurj))
+      (Ideal.Quotient.mk (Ideal.span {e}) x) = μ x
+  change (Ideal.quotientKerAlgEquivOfSurjective hμsurj)
+      ((Ideal.quotientEquivAlgOfEq A (hspan.symm.trans hker.symm))
+        (Ideal.Quotient.mk (Ideal.span {e}) x)) = μ x
+  rw [Ideal.quotientEquivAlgOfEq_mk,
+    Ideal.quotientKerAlgEquivOfSurjective_mk]
+
 /-- A scheme smooth of relative dimension one over a field is reduced. -/
 theorem scheme_isReduced_of_smoothRelativeDimension_one
     (K : Type u) [Field K] (X : Scheme.{u})
