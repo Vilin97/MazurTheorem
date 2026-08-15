@@ -191,8 +191,12 @@ secant morphism, both affinely and projectively, on the exact intersection
 `D(B₁₂ * (x₁ - x₂))`; its diagonal restriction agrees with tangent
 doubling. The named consumer
 `productNeighborhoodAddition_secant_and_tangent_compatible` packages those
-two compatibility theorems for the next gluing slice. This constructs neither
-the glued multiplication on their union nor the infinity charts and coverage.
+two compatibility theorems. Two denominator-cleared infinity-output
+morphisms now agree with the corresponding affine formulas on their exact
+intersections. The four principal opens cover the whole affine-pair
+presentation: simultaneous vanishing would produce a singular residue-field
+point, contradicting ellipticity. This still constructs neither their glued
+multiplication nor its extension over input points at infinity.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -221,10 +225,11 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by gluing the checked affine
-   addition charts, adding the infinity charts and coverage, and proving the
-   group laws using the checked section at infinity and homogeneous negation
-   as the identity and inverse candidates;
+1. a global multiplication morphism obtained by proving all remaining
+   compatibilities in the checked four-chart affine-pair cover, gluing it,
+   extending over input points at infinity, and proving the group laws using
+   the checked section at infinity and homogeneous negation as the identity
+   and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

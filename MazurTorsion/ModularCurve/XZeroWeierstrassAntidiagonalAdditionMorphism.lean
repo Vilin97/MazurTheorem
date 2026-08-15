@@ -260,18 +260,22 @@ theorem antidiagonalZOverY_mul_productNeighborhoodAddY_on_intersection
 
 /-! ## The common target-chart localization -/
 
-private abbrev projectiveYZOverlapRing (K : Type u) [Field K] :=
+/-- Degree-zero homogeneous coordinate ring of the projective overlap
+`D(YZ)`. -/
+abbrev projectiveYZOverlapRing (K : Type u) [Field K] :=
   HomogeneousLocalization.Away (homogeneousPieces K)
     (MvPolynomial.X 2 * MvPolynomial.X 1)
 
-private noncomputable def standardChartToProjectiveYZOverlapRing :
+/-- Restriction from the standard `Z ≠ 0` chart to `D(YZ)`. -/
+noncomputable def standardChartToProjectiveYZOverlapRing :
     HomogeneousLocalization.Away (homogeneousPieces K)
       (MvPolynomial.X 2) →+* projectiveYZOverlapRing K :=
   HomogeneousLocalization.awayMap (homogeneousPieces K)
     (show MvPolynomial.X 1 ∈ homogeneousPieces K 1 from
       MvPolynomial.isHomogeneous_X K 1) rfl
 
-private noncomputable def infinityChartToProjectiveYZOverlapRing :
+/-- Restriction from the infinity `Y ≠ 0` chart to `D(YZ)`. -/
+noncomputable def infinityChartToProjectiveYZOverlapRing :
     HomogeneousLocalization.Away (homogeneousPieces K)
       (MvPolynomial.X 1) →+* projectiveYZOverlapRing K :=
   HomogeneousLocalization.awayMap (homogeneousPieces K)
@@ -280,7 +284,8 @@ private noncomputable def infinityChartToProjectiveYZOverlapRing :
     (show MvPolynomial.X 2 * MvPolynomial.X 1 =
       MvPolynomial.X 1 * MvPolynomial.X 2 by ring)
 
-private theorem projectiveYZOverlap_transition_constant (a : K) :
+/-- Both projective charts restrict base constants identically to `D(YZ)`. -/
+theorem projectiveYZOverlap_transition_constant (a : K) :
     standardChartToProjectiveYZOverlapRing (K := K)
         (coordinateChartConstantHom (K := K) 2 a) =
       infinityChartToProjectiveYZOverlapRing (K := K)
@@ -303,7 +308,8 @@ private theorem projectiveYZOverlap_transition_constant (a : K) :
   rw [HomogeneousLocalization.awayMap_fromZeroRingHom,
     HomogeneousLocalization.awayMap_fromZeroRingHom]
 
-private theorem projectiveYZOverlap_transition_outerX :
+/-- Transition identity `(X/Y)(Y/Z) = X/Z` on `D(YZ)`. -/
+theorem projectiveYZOverlap_transition_outerX :
     infinityChartToProjectiveYZOverlapRing (K := K)
           (coordinateChartRatio (K := K) 1 0) *
         standardChartToProjectiveYZOverlapRing (K := K)
@@ -337,7 +343,8 @@ private theorem projectiveYZOverlap_transition_outerX :
   simp
   ring
 
-private theorem projectiveYZOverlap_transition_innerX :
+/-- Transition identity `(Z/Y)(Y/Z) = 1` on `D(YZ)`. -/
+theorem projectiveYZOverlap_transition_innerX :
     infinityChartToProjectiveYZOverlapRing (K := K)
           (coordinateChartRatio (K := K) 1 2) *
         standardChartToProjectiveYZOverlapRing (K := K)
@@ -366,6 +373,215 @@ private theorem projectiveYZOverlap_transition_innerX :
   simp
   ring
 
+/-- Two affine-chart maps that obey the `Z ≠ 0`/`Y ≠ 0` transition laws
+define the same morphism into projective space.  This is the reusable target
+gluing lemma for the denominator-cleared addition charts. -/
+theorem projectiveYZOverlap_ambient_maps_eq
+    {R : Type u} [CommRing R]
+    (standardMap :
+      HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 2) →+* R)
+    (infinityMap :
+      HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 1) →+* R)
+    (hconstant : ∀ a : K,
+      standardMap (coordinateChartConstantHom (K := K) 2 a) =
+        infinityMap (coordinateChartConstantHom (K := K) 1 a))
+    (hstandardInnerUnit :
+      IsUnit (standardMap (coordinateChartRatio (K := K) 2 1)))
+    (houter :
+      infinityMap (coordinateChartRatio (K := K) 1 0) *
+          standardMap (coordinateChartRatio (K := K) 2 1) =
+        standardMap (coordinateChartRatio (K := K) 2 0))
+    (hinner :
+      infinityMap (coordinateChartRatio (K := K) 1 2) *
+          standardMap (coordinateChartRatio (K := K) 2 1) = 1) :
+    Spec.map (CommRingCat.ofHom standardMap) ≫
+        Proj.awayι (homogeneousPieces K) (MvPolynomial.X 2)
+          (MvPolynomial.isHomogeneous_X K 2) zero_lt_one =
+      Spec.map (CommRingCat.ofHom infinityMap) ≫
+        Proj.awayι (homogeneousPieces K) (MvPolynomial.X 1)
+          (MvPolynomial.isHomogeneous_X K 1) zero_lt_one := by
+  letI : Algebra
+      (HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 2))
+      (projectiveYZOverlapRing K) :=
+    (standardChartToProjectiveYZOverlapRing (K := K)).toAlgebra
+  letI : IsLocalization.Away
+      (HomogeneousLocalization.Away.isLocalizationElem
+        (𝒜 := homogeneousPieces K) (f := MvPolynomial.X 2)
+        (g := MvPolynomial.X 1)
+        (MvPolynomial.isHomogeneous_X K 2)
+        (MvPolynomial.isHomogeneous_X K 1))
+      (projectiveYZOverlapRing K) :=
+    HomogeneousLocalization.Away.isLocalization_mul
+      (𝒜 := homogeneousPieces K) (f := MvPolynomial.X 2)
+      (g := MvPolynomial.X 1)
+      (MvPolynomial.isHomogeneous_X K 2)
+      (MvPolynomial.isHomogeneous_X K 1) rfl (by omega)
+  have hlocalizationElem :
+      HomogeneousLocalization.Away.isLocalizationElem
+          (𝒜 := homogeneousPieces K) (f := MvPolynomial.X 2)
+          (g := MvPolynomial.X 1)
+          (MvPolynomial.isHomogeneous_X K 2)
+          (MvPolynomial.isHomogeneous_X K 1) =
+        coordinateChartRatio (K := K) 2 1 :=
+    isLocalizationElem_degree_one_eq_coordinateChartRatio 2 1
+  let overlapMap : projectiveYZOverlapRing K →+* R :=
+    IsLocalization.Away.lift
+      (R := HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 2))
+      (S := projectiveYZOverlapRing K) (P := R) (g := standardMap)
+      (HomogeneousLocalization.Away.isLocalizationElem
+        (𝒜 := homogeneousPieces K) (f := MvPolynomial.X 2)
+        (g := MvPolynomial.X 1)
+        (MvPolynomial.isHomogeneous_X K 2)
+        (MvPolynomial.isHomogeneous_X K 1))
+      (hlocalizationElem ▸ hstandardInnerUnit)
+  have hoverlap_standard :
+      overlapMap.comp (standardChartToProjectiveYZOverlapRing (K := K)) =
+        standardMap := by
+    exact IsLocalization.Away.lift_comp
+      (R := HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 2))
+      (S := projectiveYZOverlapRing K) (P := R) (g := standardMap)
+      (HomogeneousLocalization.Away.isLocalizationElem
+        (𝒜 := homogeneousPieces K) (f := MvPolynomial.X 2)
+        (g := MvPolynomial.X 1)
+        (MvPolynomial.isHomogeneous_X K 2)
+        (MvPolynomial.isHomogeneous_X K 1))
+      (hlocalizationElem ▸ hstandardInnerUnit)
+  have hstandard_apply
+      (z : HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X 2)) :
+      overlapMap (standardChartToProjectiveYZOverlapRing (K := K) z) =
+        standardMap z := by
+    change (overlapMap.comp
+      (standardChartToProjectiveYZOverlapRing (K := K))) z = _
+    exact RingHom.congr_fun hoverlap_standard z
+  have hoverlap_infinity :
+      overlapMap.comp (infinityChartToProjectiveYZOverlapRing (K := K)) =
+        infinityMap := by
+    apply chartRingHom_ext (K := K) 1
+    · ext a
+      change overlapMap
+          (infinityChartToProjectiveYZOverlapRing (K := K)
+            (coordinateChartConstantHom (K := K) 1 a)) =
+        infinityMap (coordinateChartConstantHom (K := K) 1 a)
+      rw [← hconstant]
+      rw [← projectiveYZOverlap_transition_constant]
+      exact hstandard_apply (coordinateChartConstantHom (K := K) 2 a)
+    · intro j
+      fin_cases j
+      · change overlapMap
+            (infinityChartToProjectiveYZOverlapRing (K := K)
+              (coordinateChartRatio (K := K) 1 0)) =
+          infinityMap (coordinateChartRatio (K := K) 1 0)
+        apply hstandardInnerUnit.mul_right_cancel
+        have htransition := congrArg overlapMap
+          (projectiveYZOverlap_transition_outerX (K := K))
+        calc
+          overlapMap
+                (infinityChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 1 0)) *
+              standardMap (coordinateChartRatio (K := K) 2 1) =
+            overlapMap
+                (infinityChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 1 0)) *
+              overlapMap
+                (standardChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 2 1)) := by
+                    rw [hstandard_apply]
+          _ = overlapMap
+                (standardChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 2 0)) := by
+                    simpa only [map_mul] using htransition
+          _ = standardMap (coordinateChartRatio (K := K) 2 0) :=
+            hstandard_apply _
+          _ = infinityMap (coordinateChartRatio (K := K) 1 0) *
+              standardMap (coordinateChartRatio (K := K) 2 1) := houter.symm
+      · change overlapMap
+            (infinityChartToProjectiveYZOverlapRing (K := K)
+              (coordinateChartRatio (K := K) 1 1)) =
+          infinityMap (coordinateChartRatio (K := K) 1 1)
+        rw [← isLocalizationElem_degree_one_eq_coordinateChartRatio
+            (K := K) 1 1,
+          isLocalizationElem_self_degree_one,
+          (infinityChartToProjectiveYZOverlapRing (K := K)).map_one,
+          overlapMap.map_one,
+          infinityMap.map_one]
+      · change overlapMap
+            (infinityChartToProjectiveYZOverlapRing (K := K)
+              (coordinateChartRatio (K := K) 1 2)) =
+          infinityMap (coordinateChartRatio (K := K) 1 2)
+        apply hstandardInnerUnit.mul_right_cancel
+        have htransition := congrArg overlapMap
+          (projectiveYZOverlap_transition_innerX (K := K))
+        calc
+          overlapMap
+                (infinityChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 1 2)) *
+              standardMap (coordinateChartRatio (K := K) 2 1) =
+            overlapMap
+                (infinityChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 1 2)) *
+              overlapMap
+                (standardChartToProjectiveYZOverlapRing (K := K)
+                  (coordinateChartRatio (K := K) 2 1)) := by
+                    rw [hstandard_apply]
+          _ = 1 := by simpa only [map_mul, map_one] using htransition
+          _ = infinityMap (coordinateChartRatio (K := K) 1 2) *
+              standardMap (coordinateChartRatio (K := K) 2 1) := hinner.symm
+  let H := homogeneousPieces K
+  let X₁ : MvPolynomial (Fin 3) K := MvPolynomial.X 1
+  let X₂ : MvPolynomial (Fin 3) K := MvPolynomial.X 2
+  let q : MvPolynomial (Fin 3) K := X₂ * X₁
+  let hq : q ∈ H 2 := by
+    simpa only [H, X₁, X₂, q, one_add_one_eq_two] using
+      SetLike.mul_mem_graded
+        (A := homogeneousPieces K) (i := 1) (j := 1)
+        (gi := MvPolynomial.X 2) (gj := MvPolynomial.X 1)
+        (MvPolynomial.isHomogeneous_X K 2)
+        (MvPolynomial.isHomogeneous_X K 1)
+  calc
+    Spec.map (CommRingCat.ofHom standardMap) ≫
+        Proj.awayι H X₂ (MvPolynomial.isHomogeneous_X K 2) zero_lt_one =
+      (Spec.map (CommRingCat.ofHom overlapMap) ≫
+          Spec.map (CommRingCat.ofHom
+            (standardChartToProjectiveYZOverlapRing (K := K)))) ≫
+        Proj.awayι H X₂ (MvPolynomial.isHomogeneous_X K 2) zero_lt_one := by
+          rw [← Spec.map_comp]
+          congr 2
+          apply CommRingCat.hom_ext
+          exact hoverlap_standard.symm
+    _ = Spec.map (CommRingCat.ofHom overlapMap) ≫
+        Proj.awayι H q hq (by omega) := by
+          simpa only [standardChartToProjectiveYZOverlapRing,
+            Category.assoc] using congrArg
+            (fun f => Spec.map (CommRingCat.ofHom overlapMap) ≫ f)
+            (Proj.SpecMap_awayMap_awayι
+              (f := X₂) (g := X₁) (x := q) H
+              (MvPolynomial.isHomogeneous_X K 2) zero_lt_one
+              (MvPolynomial.isHomogeneous_X K 1) rfl)
+    _ = (Spec.map (CommRingCat.ofHom overlapMap) ≫
+          Spec.map (CommRingCat.ofHom
+            (infinityChartToProjectiveYZOverlapRing (K := K)))) ≫
+        Proj.awayι H X₁ (MvPolynomial.isHomogeneous_X K 1) zero_lt_one := by
+          simpa only [infinityChartToProjectiveYZOverlapRing,
+            Category.assoc] using congrArg
+            (fun f => Spec.map (CommRingCat.ofHom overlapMap) ≫ f)
+            (Proj.SpecMap_awayMap_awayι
+              (f := X₁) (g := X₂) (x := q) H
+              (MvPolynomial.isHomogeneous_X K 1) zero_lt_one
+              (MvPolynomial.isHomogeneous_X K 2)
+              (mul_comm X₂ X₁)).symm
+    _ = Spec.map (CommRingCat.ofHom infinityMap) ≫
+        Proj.awayι H X₁ (MvPolynomial.isHomogeneous_X K 1) zero_lt_one := by
+          rw [← Spec.map_comp]
+          congr 2
+          apply CommRingCat.hom_ext
+          exact hoverlap_infinity
+
 private noncomputable def productIntersectionToStandardAmbientRing
     (W : WeierstrassCurve K) :
     HomogeneousLocalization.Away (homogeneousPieces K)
@@ -385,7 +601,9 @@ private noncomputable def productIntersectionToInfinityAmbientRing
     ((antidiagonalAdditionToInfinityRing W).comp
       (Ideal.Quotient.mk (coveringChartIdeal W false)))
 
-private theorem standardChartQuotientEquivSymm_constant
+/-- The standard-chart quotient equivalence sends a base constant to the
+affine Weierstrass coefficient map. -/
+theorem standardChartQuotientEquivSymm_constant
     (W : WeierstrassCurve K) (a : K) :
     (affineEquationToStandardChartRingEquiv W).symm
         (Ideal.Quotient.mk (standardChartIdeal W)
@@ -400,7 +618,9 @@ private theorem standardChartQuotientEquivSymm_constant
         (Polynomial.C (Polynomial.C a)))
   rw [affineToStandardChart_C_C]
 
-private theorem standardChartQuotientEquivSymm_outerX
+/-- The standard-chart quotient equivalence sends `X/Z` to the affine
+abscissa. -/
+theorem standardChartQuotientEquivSymm_outerX
     (W : WeierstrassCurve K) :
     (affineEquationToStandardChartRingEquiv W).symm
         (Ideal.Quotient.mk (standardChartIdeal W)
@@ -414,7 +634,9 @@ private theorem standardChartQuotientEquivSymm_outerX
       (affineToStandardChart (K := K) (Polynomial.C Polynomial.X))
   rw [affineToStandardChart_C_X]
 
-private theorem standardChartQuotientEquivSymm_innerX
+/-- The standard-chart quotient equivalence sends `Y/Z` to the affine
+ordinate. -/
+theorem standardChartQuotientEquivSymm_innerX
     (W : WeierstrassCurve K) :
     (affineEquationToStandardChartRingEquiv W).symm
         (Ideal.Quotient.mk (standardChartIdeal W)

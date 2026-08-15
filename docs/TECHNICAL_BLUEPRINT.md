@@ -252,9 +252,12 @@ doubling. The named compatibility consumer packages precisely these two
 facts.
 
 These checked charts are still not the global Weierstrass group scheme.
-Gluing the affine union, adding the infinity charts and coverage, proving the
-group laws, and comparing the resulting law with coordinate points remain
-open.
+Two denominator-cleared infinity-output morphisms now agree with their affine
+counterparts on exact intersections, and elliptic nonsingularity proves that
+the four source opens cover the entire affine-pair presentation. Proving the
+remaining pairwise compatibilities, gluing those four charts, extending over
+input points at infinity, proving the group laws, and comparing the resulting
+law with coordinate points remain open.
 
 Separately, the finite-translation quotient layer constructs an actual
 commutative quotient group scheme from a source with affine diagonal, a finite

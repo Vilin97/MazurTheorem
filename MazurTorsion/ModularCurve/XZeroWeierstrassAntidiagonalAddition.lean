@@ -326,7 +326,9 @@ def antidiagonalAdditionToInfinityEquationRing (W : WeierstrassCurve F) :
         rw [Set.mem_singleton_iff.mp hq]
         exact antidiagonalInfinityPolynomialEvaluation_eq_zero W) hp)
 
-private noncomputable def infinityEquationToCoveringChartRingEquiv
+/-- The polynomial infinity-chart equation ring is the actual `Y ≠ 0`
+coordinate ring of the projective cubic. -/
+noncomputable def infinityEquationCoveringChartRingEquiv
     (W : WeierstrassCurve F) :
     (Polynomial (Polynomial F) ⧸
       Ideal.span {infinityChartPolynomial W}) ≃+*
@@ -342,15 +344,15 @@ noncomputable def antidiagonalAdditionToInfinityRing
     coveringChartCoordinateRing W false →+*
       antidiagonalChartCoordinateRing W :=
   (antidiagonalAdditionToInfinityEquationRing W).comp
-    (infinityEquationToCoveringChartRingEquiv W).symm.toRingHom
+    (infinityEquationCoveringChartRingEquiv W).symm.toRingHom
 
 private theorem infinityEquationToCoveringChartRingEquiv_symm_coefficient
     (W : WeierstrassCurve F) (a : F) :
-    (infinityEquationToCoveringChartRingEquiv W).symm
+    (infinityEquationCoveringChartRingEquiv W).symm
         (coveringChartStructureRingHom W false a) =
       Ideal.Quotient.mk (Ideal.span {infinityChartPolynomial W})
         (Polynomial.C (Polynomial.C a)) := by
-  apply (infinityEquationToCoveringChartRingEquiv W).injective
+  apply (infinityEquationCoveringChartRingEquiv W).injective
   rw [RingEquiv.apply_symm_apply]
   change Ideal.Quotient.mk (infinityChartIdeal W)
       (coordinateChartConstantHom (K := F) 1 a) =
@@ -368,7 +370,7 @@ theorem antidiagonalAdditionToInfinityRing_coefficient
   rw [antidiagonalAdditionToInfinityRing,
     RingHom.comp_apply]
   change antidiagonalAdditionToInfinityEquationRing W
-      ((infinityEquationToCoveringChartRingEquiv W).symm
+      ((infinityEquationCoveringChartRingEquiv W).symm
         (coveringChartStructureRingHom W false a)) =
     antidiagonalChartCoefficientHom W a
   rw [infinityEquationToCoveringChartRingEquiv_symm_coefficient]
@@ -386,12 +388,12 @@ theorem antidiagonalAdditionToInfinityRing_comp_coefficient
 
 private theorem infinityEquationToCoveringChartRingEquiv_symm_outerX
     (W : WeierstrassCurve F) :
-    (infinityEquationToCoveringChartRingEquiv W).symm
+    (infinityEquationCoveringChartRingEquiv W).symm
         (Ideal.Quotient.mk (coveringChartIdeal W false)
           (coordinateChartRatio (K := F) 1 0)) =
       Ideal.Quotient.mk (Ideal.span {infinityChartPolynomial W})
         Polynomial.X := by
-  apply (infinityEquationToCoveringChartRingEquiv W).injective
+  apply (infinityEquationCoveringChartRingEquiv W).injective
   rw [RingEquiv.apply_symm_apply]
   change Ideal.Quotient.mk (coveringChartIdeal W false)
       (coordinateChartRatio (K := F) 1 0) =
@@ -401,12 +403,12 @@ private theorem infinityEquationToCoveringChartRingEquiv_symm_outerX
 
 private theorem infinityEquationToCoveringChartRingEquiv_symm_innerX
     (W : WeierstrassCurve F) :
-    (infinityEquationToCoveringChartRingEquiv W).symm
+    (infinityEquationCoveringChartRingEquiv W).symm
         (Ideal.Quotient.mk (coveringChartIdeal W false)
           (coordinateChartRatio (K := F) 1 2)) =
       Ideal.Quotient.mk (Ideal.span {infinityChartPolynomial W})
         (Polynomial.C Polynomial.X) := by
-  apply (infinityEquationToCoveringChartRingEquiv W).injective
+  apply (infinityEquationCoveringChartRingEquiv W).injective
   rw [RingEquiv.apply_symm_apply]
   change Ideal.Quotient.mk (coveringChartIdeal W false)
       (coordinateChartRatio (K := F) 1 2) =
@@ -424,7 +426,7 @@ theorem antidiagonalAdditionToInfinityRing_outerX
           (coordinateChartRatio (K := F) 1 0)) =
       antidiagonalChartXOverY W := by
   change antidiagonalAdditionToInfinityEquationRing W
-      ((infinityEquationToCoveringChartRingEquiv W).symm
+      ((infinityEquationCoveringChartRingEquiv W).symm
         (Ideal.Quotient.mk (coveringChartIdeal W false)
           (coordinateChartRatio (K := F) 1 0))) = _
   rw [infinityEquationToCoveringChartRingEquiv_symm_outerX]
@@ -441,7 +443,7 @@ theorem antidiagonalAdditionToInfinityRing_innerX
           (coordinateChartRatio (K := F) 1 2)) =
       antidiagonalChartZOverY W := by
   change antidiagonalAdditionToInfinityEquationRing W
-      ((infinityEquationToCoveringChartRingEquiv W).symm
+      ((infinityEquationCoveringChartRingEquiv W).symm
         (Ideal.Quotient.mk (coveringChartIdeal W false)
           (coordinateChartRatio (K := F) 1 2))) = _
   rw [infinityEquationToCoveringChartRingEquiv_symm_innerX]

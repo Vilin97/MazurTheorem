@@ -531,6 +531,26 @@ order-49 consumers.
   Package equality with secant addition on the exact projective overlap together with
   equality to tangent doubling along the diagonal as the named consumer for the next
   gluing slice.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.antidiagonalAdditionProjectiveMorphism`
+  Map the denominator-cleared B₁₂-chart formula through the actual Y ≠ 0 chart into the
+  concrete reduced projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productAntidiagonalIntersection_additionProjective_eq`
+  Prove scheme-level equality between D(B₁₂) addition and its infinity-output extension
+  on their exact intersection.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.verticalAdditionProjectiveMorphism`
+  Map the denominator-cleared ordinary-secant formula through the actual Y ≠ 0 chart
+  into the concrete reduced projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantVerticalIntersection_additionProjective_eq`
+  Prove scheme-level equality between ordinary secant addition and its vertical infinity
+  extension on their exact intersection.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionCharts_cover`
+  Use elliptic nonsingularity to prove that the two affine-output charts and two
+  infinity-output charts cover the entire affine-pair presentation.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
@@ -550,8 +570,8 @@ order-49 consumers.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison by gluing the checked D(x₁ - x₂) and
-  D(B₁₂) addition charts, adding the infinity charts and coverage, and proving the group
+  group-scheme law and coordinate-point comparison by gluing the checked four-chart
+  affine-pair atlas, extending over input points at infinity, and proving the group
   axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.

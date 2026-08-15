@@ -321,6 +321,21 @@ def secantAdditionProjectiveMorphism (W : WeierstrassCurve K) :
     (affineEquationSchemeIsoStandardChart W).hom ≫
     standardSecantChartMap W
 
+/-- After the cubic's closed immersion, the secant formula is the
+corresponding morphism into the ambient standard projective chart. -/
+@[reassoc]
+theorem secantAdditionProjectiveMorphism_comp_inclusion
+    (W : WeierstrassCurve K) :
+    secantAdditionProjectiveMorphism W ≫ inclusion W =
+      secantAdditionAffineMorphism W ≫
+        (affineEquationSchemeIsoStandardChart W).hom ≫
+          coveringChartAmbientMap W true := by
+  unfold secantAdditionProjectiveMorphism
+  simp only [Category.assoc]
+  congr 1
+  congr 1
+  exact coveringChartMap_comp_inclusion W true
+
 /-- Secant addition regarded as a morphism from the genuine principal open in the affine
 product chart. -/
 noncomputable def secantAdditionOnProductOpen (W : WeierstrassCurve K) :
