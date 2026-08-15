@@ -131,6 +131,118 @@ theorem underlyingProjection_comp_structureMap :
     FiniteGroupQuotient.existsUnique_quotientπ_lift (Action S d X) hX
       (power S (Fin d) X).hom (action_hom_comp_structureMap S (Fin d) X)).1
 
+instance structureMap_locallyOfFiniteType [IsAffine S]
+    [IsNoetherianRing Γ(S, ⊤)]
+    [LocallyOfFiniteType (power S (Fin d) X).hom] :
+    LocallyOfFiniteType (structureMap S d X hX) := by
+  let σ := Action S d X
+  let V := FiniteGroupQuotient.stableAffineOpen σ hX
+  let hVs := FiniteGroupQuotient.stableAffineOpen_isStable σ hX
+  let hVa := FiniteGroupQuotient.stableAffineOpen_isAffine σ hX
+  let Q : (power S (Fin d) X).left →
+      (FiniteGroupQuotient.quotient σ hX).Opens :=
+    fun x ↦ σ.quotientChart V hVs hVa x
+  let 𝒰 := (FiniteGroupQuotient.quotient σ hX).openCoverOfIsOpenCover Q
+    (σ.iSup_quotientChart_eq_top V hVs hVa)
+  letI : ∀ x, IsAffine (𝒰.X x) := fun x ↦ by
+    dsimp only [𝒰, Scheme.openCoverOfIsOpenCover_X, Q]
+    exact σ.isAffineOpen_quotientChart V hVs hVa x
+  apply HasRingHomProperty.of_source_openCover (P := @LocallyOfFiniteType) 𝒰
+  intro x
+  change (power S (Fin d) X).left at x
+  letI := σ.gammaMulSemiringAction (hVs x)
+  let e : V x ≤ (power S (Fin d) X).hom ⁻¹ᵁ (⊤ : S.Opens) := by simp
+  obtain ⟨φ, hφ, hφft⟩ :=
+    FiniteGroupQuotient.exists_chartBaseToInvariants_finiteType σ
+      (power S (Fin d) X).hom (action_hom_comp_structureMap S (Fin d) X)
+      (isAffineOpen_top S) (hVs x) (hVa x) e
+  let f₀ : σ.quotient V hVs hVa ⟶ S :=
+    structureMap S d X hX
+  have hf₀ : σ.quotientπ V hVs hVa
+      (FiniteGroupQuotient.mem_stableAffineOpen σ hX) ≫ f₀ =
+        (power S (Fin d) X).hom := by
+    exact underlyingProjection_comp_structureMap S d X hX
+  let q : (σ.quotientChart V hVs hVa x : Scheme) ⟶ S :=
+    (σ.quotientChartIso V hVs hVa x).inv ≫
+      Spec.map (CommRingCat.ofHom φ) ≫
+      (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι
+  have hq : (σ.quotientChart V hVs hVa x).ι ≫ f₀ = q := by
+    apply (cancel_epi (σ.quotientChartIso V hVs hVa x).hom).mp
+    apply invariantsπ_hom_ext (Equiv.Perm (Fin d)) ↑Γ((power S (Fin d) X).left, V x) ℤ
+    apply (cancel_epi (hVa x).isoSpec.hom).mp
+    dsimp only [q]
+    simp only [Iso.hom_inv_id_assoc]
+    change σ.localQuotientπ (hVs x) (hVa x) ≫
+        (σ.quotientChartIso V hVs hVa x).hom ≫
+          (σ.quotientChart V hVs hVa x).ι ≫ f₀ =
+      σ.localQuotientπ (hVs x) (hVa x) ≫
+        Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι
+    rw [← Category.assoc, ← Category.assoc,
+      Category.assoc (σ.localQuotientπ (hVs x) (hVa x))
+        (σ.quotientChartIso V hVs hVa x).hom
+        (σ.quotientChart V hVs hVa x).ι,
+      σ.localQuotientπ_quotientChartIso V hVs hVa
+        (FiniteGroupQuotient.mem_stableAffineOpen σ hX) x,
+      Category.assoc, hf₀]
+    rw [σ.localQuotientπ_eq (hVs x) (hVa x), invariantsπ, Category.assoc,
+      ← Spec.map_comp_assoc]
+    have hφ' : CommRingCat.ofHom φ ≫
+        CommRingCat.ofHom
+          (algebraMap
+            (FixedPoints.subalgebra ℤ ↑Γ((power S (Fin d) X).left, V x)
+              (Equiv.Perm (Fin d)))
+            Γ((power S (Fin d) X).left, V x)) =
+          (power S (Fin d) X).hom.appLE ⊤ (V x) e := by
+      ext r
+      exact DFunLike.congr_fun hφ r
+    rw [hφ', IsAffineOpen.isoSpec_hom]
+    dsimp only [V] at e ⊢
+    rw [Scheme.Opens.toSpecΓ_SpecMap_appLE_assoc,
+      IsAffineOpen.toSpecΓ_isoSpec_inv_assoc, Scheme.Hom.resLE_comp_ι]
+  have hqft : LocallyOfFiniteType
+      ((σ.quotientChart V hVs hVa x).ι ≫ f₀) := by
+    rw [hq]
+    dsimp only [q]
+    haveI : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom φ)) :=
+      (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mpr hφft
+    haveI : LocallyOfFiniteType (σ.quotientChartIso V hVs hVa x).inv := by
+      infer_instance
+    haveI : LocallyOfFiniteType (isAffineOpen_top S).isoSpec.inv := by
+      infer_instance
+    haveI : LocallyOfFiniteType (⊤ : S.Opens).ι := by infer_instance
+    haveI : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv) := by infer_instance
+    haveI : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι) := by
+      infer_instance
+    haveI : LocallyOfFiniteType
+        ((σ.quotientChartIso V hVs hVa x).inv ≫
+          Spec.map (CommRingCat.ofHom φ)) := by infer_instance
+    haveI : LocallyOfFiniteType
+        ((σ.quotientChartIso V hVs hVa x).inv ≫
+          Spec.map (CommRingCat.ofHom φ) ≫
+            (isAffineOpen_top S).isoSpec.inv) := by infer_instance
+    have hcomp := MorphismProperty.comp_mem @LocallyOfFiniteType
+      (σ.quotientChartIso V hVs hVa x).inv
+      (Spec.map (CommRingCat.ofHom φ) ≫
+        (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι)
+      (inferInstance : LocallyOfFiniteType
+        (σ.quotientChartIso V hVs hVa x).inv)
+      (inferInstance : LocallyOfFiniteType
+        (Spec.map (CommRingCat.ofHom φ) ≫
+          (isAffineOpen_top S).isoSpec.inv ≫ (⊤ : S.Opens).ι))
+    simpa only [Category.assoc] using hcomp
+  letI : IsAffine (σ.quotientChart V hVs hVa x : Scheme) :=
+    σ.isAffineOpen_quotientChart V hVs hVa x
+  have hqtop :=
+    (HasRingHomProperty.iff_of_isAffine (P := @LocallyOfFiniteType)).mp hqft
+  change ((((σ.quotientChart V hVs hVa x).ι ≫
+    structureMap S d X hX).appTop).hom.FiniteType)
+  simpa only [f₀] using hqtop
+
 /-- The relative symmetric power as a scheme over the base. -/
 noncomputable def scheme : Over S :=
   Over.mk (structureMap S d X hX)
