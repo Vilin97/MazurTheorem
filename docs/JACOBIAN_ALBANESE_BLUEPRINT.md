@@ -48,7 +48,7 @@ parallel abstraction.
 | Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; the descended morphism is proper, point-injective, locally quasi-finite, and finite; closed-immersion, flatness, rank, and Cartier proofs remain |
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; its local monic-chart isomorphism remains |
-| Étale diagonal chart | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet, with compatibility with tensor multiplication |
+| Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
 | Finite étale split chart | `EtaleSplitChart.exists_fpqc_splitCover` | checked: after a finite faithfully flat étale extension, a constant-rank finite étale algebra becomes a finite product of the base and the affine scheme pullback is identified with its spectrum |
 | Split symmetric quotient | `SplitFiniteSymmetricQuotient` | checked: the invariant ring of a split ordered power is the product ring on tuple orbits; every orbit component has sheet multiplicities summing to the divisor degree |
 | Split monic-root family | `SplitMonicRootFamily` | checked: the product of the sheetwise monic root algebras is finite flat and has constant rank equal to the sum of the sheet multiplicities, hence the divisor degree |
@@ -326,9 +326,14 @@ curve, identify it with the pointed symmetric-power/incidence morphism, and
 descend the flat rank and Cartier properties from that local comparison.
 The tensor-square input now remembers the relevant sheet: the chosen product
 decomposition has first projection equal to tensor multiplication, and on
-spectra the diagonal is exactly the first coproduct summand.  What remains in
-this transport step is to build the induced neighbourhood of a finite divisor
-in the symmetric quotient and exclude the complementary sheets there.
+spectra the diagonal is exactly the first coproduct summand.  This has been
+extended from the self-fiber product to arbitrary base change on one factor:
+the evaluation map on the tensor-product coordinate ring is identified with
+the categorical graph, and the graph is exactly the first summand in the
+base-changed coproduct decomposition.  What remains in this transport step is
+to assemble these distinguished graph summands for a finite ordered divisor,
+build the induced neighbourhood in the symmetric quotient, and exclude all
+complementary sheets there.
 
 The blockwise invariant calculation and its finite induction are now checked.
 Separating a root-variable block from the remaining variables intertwines
