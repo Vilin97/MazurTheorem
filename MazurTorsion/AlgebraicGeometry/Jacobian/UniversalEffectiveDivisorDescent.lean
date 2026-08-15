@@ -299,6 +299,288 @@ theorem curveOrderedAmbientToSymmetricProductSucc_invariant
         (SymmetricPower.curve_hasAffineOrbits_succ K C n) g
     rw [hq]
 
+/-- The map which quotients only the ordered-power coordinate is the base
+change of the symmetric-power projection along the second projection from
+`C × Sym^(n+1)(C)`. -/
+theorem curveOrderedAmbientToSymmetricProductSucc_isPullback (n : ℕ) :
+    IsPullback
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left
+      (curveOrderedAmbientToSymmetricProductSucc K C n)
+      (SymmetricPower.curveProjectionSucc K C n).left
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).left := by
+  have hAmbient : IsPullback
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left
+      (Limits.prod.fst : orderedAmbient (Spec (.of K)) (n + 1) C ⟶ C).left
+      (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).hom C.hom := by
+    apply IsPullback.flip
+    refine IsPullback.of_iso_pullback ⟨?_⟩
+      (Over.prodLeftIsoPullback C
+        (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C))
+      (Over.prodLeftIsoPullback_hom_fst C
+        (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C))
+      (Over.prodLeftIsoPullback_hom_snd C
+        (PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C))
+    exact (Limits.prod.fst : orderedAmbient (Spec (.of K)) (n + 1) C ⟶ C).w.trans
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).w.symm
+  have hProduct : IsPullback
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).left
+      (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).left
+      (SymmetricPower.curveSchemeSucc K C n).hom C.hom := by
+    apply IsPullback.flip
+    refine IsPullback.of_iso_pullback ⟨?_⟩
+      (Over.prodLeftIsoPullback C (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_fst C (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_snd C (SymmetricPower.curveSchemeSucc K C n))
+    exact (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).w.trans
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).w.symm
+  have hComposite : IsPullback
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left
+      (curveOrderedAmbientToSymmetricProductSucc K C n ≫
+        (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).left)
+      ((SymmetricPower.curveProjectionSucc K C n).left ≫
+        (SymmetricPower.curveSchemeSucc K C n).hom)
+      C.hom := by
+    simpa only [← Over.comp_left, curveOrderedAmbientToSymmetricProductSucc,
+      Limits.prod.map_fst, Category.comp_id,
+      SymmetricPower.curveProjectionSucc_comp_structureMap] using hAmbient
+  exact hComposite.of_bot
+    (congrArg Over.Hom.left
+      (Limits.prod.map_snd (𝟙 C) (SymmetricPower.curveProjectionSucc K C n))).symm
+    hProduct
+
+/-- The projection `C × Sym^(n+1)(C) ⟶ Sym^(n+1)(C)` is flat: it is
+the base change of the smooth curve `C ⟶ Spec K`. -/
+instance curveProductSymmetricPowerSnd_flat (n : ℕ) :
+    Flat (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+      SymmetricPower.curveSchemeSucc K C n).left := by
+  have hProduct : IsPullback
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).left
+      (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).left
+      (SymmetricPower.curveSchemeSucc K C n).hom C.hom := by
+    apply IsPullback.flip
+    refine IsPullback.of_iso_pullback ⟨?_⟩
+      (Over.prodLeftIsoPullback C (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_fst C (SymmetricPower.curveSchemeSucc K C n))
+      (Over.prodLeftIsoPullback_hom_snd C (SymmetricPower.curveSchemeSucc K C n))
+    exact (Limits.prod.fst : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶ C).w.trans
+      (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+        SymmetricPower.curveSchemeSucc K C n).w.symm
+  exact MorphismProperty.of_isPullback hProduct.flip
+    (inferInstance : Flat C.hom)
+
+/-- The ordered ambient product identified with the pullback of the
+symmetric quotient along `C × Sym^(n+1)(C) ⟶ Sym^(n+1)(C)`. -/
+noncomputable def curveOrderedAmbientBaseChangeIso (n : ℕ) :
+    (orderedAmbient (Spec (.of K)) (n + 1) C).left ≅
+      pullback (SymmetricPower.curveProjectionSucc K C n).left
+        (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+          SymmetricPower.curveSchemeSucc K C n).left :=
+  (curveOrderedAmbientToSymmetricProductSucc_isPullback K C n).isoPullback
+
+/-- The second projection from `C × Sym^(n+1)(C)`, with its codomain
+written as the underlying finite-group quotient rather than through the
+symmetric-power wrapper. -/
+noncomputable def curveProductToPermutationQuotientSucc (n : ℕ) :
+    (C ⨯ SymmetricPower.curveSchemeSucc K C n).left ⟶
+      FiniteGroupQuotient.quotient
+        (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+        (SymmetricPower.curve_hasAffineOrbits_succ K C n) :=
+  (Limits.prod.snd : (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+    SymmetricPower.curveSchemeSucc K C n).left
+
+instance curveProductToPermutationQuotientSucc_flat (n : ℕ) :
+    Flat (curveProductToPermutationQuotientSucc K C n) := by
+  change Flat (Limits.prod.snd :
+    (C ⨯ SymmetricPower.curveSchemeSucc K C n) ⟶
+      SymmetricPower.curveSchemeSucc K C n).left
+  infer_instance
+
+/-- Exact quotient-typed form of the ambient pullback square. -/
+theorem curveOrderedAmbientToPermutationQuotientSucc_isPullback (n : ℕ) :
+    IsPullback
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left
+      (curveOrderedAmbientToSymmetricProductSucc K C n)
+      (FiniteGroupQuotient.quotientπ
+        (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+        (SymmetricPower.curve_hasAffineOrbits_succ K C n))
+      (curveProductToPermutationQuotientSucc K C n) := by
+  exact curveOrderedAmbientToSymmetricProductSucc_isPullback K C n
+
+/-- Exact quotient-typed comparison isomorphism for the ordered ambient
+product. -/
+noncomputable def curveOrderedAmbientPermutationQuotientBaseChangeIso (n : ℕ) :
+    (orderedAmbient (Spec (.of K)) (n + 1) C).left ≅
+      pullback
+        (FiniteGroupQuotient.quotientπ
+          (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+          (SymmetricPower.curve_hasAffineOrbits_succ K C n))
+        (curveProductToPermutationQuotientSucc K C n) :=
+  (curveOrderedAmbientToPermutationQuotientSucc_isPullback K C n).isoPullback
+
+/-- The pullback action on the base-changed symmetric quotient corresponds,
+under the comparison isomorphism, to permuting the ordered coordinates of
+the ambient product. -/
+theorem pullbackQuotientSMul_comp_curveOrderedAmbientBaseChangeIso_inv
+    (n : ℕ) (g : Equiv.Perm (Fin (n + 1))) :
+    FiniteGroupQuotient.pullbackQuotientSMul
+        (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+        (SymmetricPower.curve_hasAffineOrbits_succ K C n)
+        (curveProductToPermutationQuotientSucc K C n) g ≫
+        (curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv =
+      (curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫
+        (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g := by
+  let σ := SymmetricPower.Action (Spec (.of K)) (n + 1) C
+  let hσ := SymmetricPower.curve_hasAffineOrbits_succ K C n
+  let w := curveProductToPermutationQuotientSucc K C n
+  let π := FiniteGroupQuotient.quotientπ σ hσ
+  let E := curveOrderedAmbientPermutationQuotientBaseChangeIso K C n
+  let hpb := curveOrderedAmbientToPermutationQuotientSucc_isPullback K C n
+  have hEinvfst : E.inv ≫
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left =
+      pullback.fst π w := by
+    exact hpb.isoPullback_inv_fst
+  have hEhomfst : E.hom ≫ pullback.fst π w =
+      (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+        PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left := by
+    exact hpb.isoPullback_hom_fst
+  have hEinvsnd : E.inv ≫ curveOrderedAmbientToSymmetricProductSucc K C n =
+      pullback.snd π w := by
+    exact hpb.isoPullback_inv_snd
+  have hEhomsnd : E.hom ≫ pullback.snd π w =
+      curveOrderedAmbientToSymmetricProductSucc K C n := by
+    exact hpb.isoPullback_hom_snd
+  have hAmbientSnd :
+      (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g ≫
+          (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+            PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left =
+        (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+            PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left ≫
+          σ.hom g := by
+    exact congrArg Over.Hom.left
+      (Limits.prod.map_snd (𝟙 C)
+        (PermutationPower.permutationHom (Spec (.of K)) (Fin (n + 1)) C g))
+  change FiniteGroupQuotient.pullbackQuotientSMul σ hσ w g ≫ E.inv =
+    E.inv ≫ (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g
+  apply (cancel_mono E.hom).mp
+  rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  apply pullback.hom_ext
+  · calc
+      FiniteGroupQuotient.pullbackQuotientSMul σ hσ w g ≫
+          pullback.fst π w =
+        pullback.fst π w ≫ σ.hom g := by
+        rw [FiniteGroupQuotient.pullbackQuotientSMul_fst]
+      _ = E.inv ≫
+          (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+            PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left ≫
+          σ.hom g := by
+        simpa only [Category.assoc] using
+          congrArg (fun t ↦ t ≫ σ.hom g) hEinvfst.symm
+      _ = E.inv ≫
+          (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g ≫
+          (Limits.prod.snd : orderedAmbient (Spec (.of K)) (n + 1) C ⟶
+            PermutationPower.power (Spec (.of K)) (Fin (n + 1)) C).left := by
+        rw [← Category.assoc, hAmbientSnd, Category.assoc]
+      _ = (E.inv ≫ (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g) ≫
+          E.hom ≫ pullback.fst π w := by
+        rw [hEhomfst]
+        exact (Category.assoc _ _ _).symm
+  · calc
+      FiniteGroupQuotient.pullbackQuotientSMul σ hσ w g ≫
+          pullback.snd π w = pullback.snd π w := by
+        rw [FiniteGroupQuotient.pullbackQuotientSMul_snd]
+      _ = E.inv ≫
+          curveOrderedAmbientToSymmetricProductSucc K C n := by
+        exact hEinvsnd.symm
+      _ = E.inv ≫
+          (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g ≫
+          curveOrderedAmbientToSymmetricProductSucc K C n := by
+        rw [curveOrderedAmbientToSymmetricProductSucc_invariant]
+      _ = (E.inv ≫ (orderedAmbientAction (Spec (.of K)) (n + 1) C).hom g) ≫
+          E.hom ≫ pullback.snd π w := by
+        rw [hEhomsnd]
+        exact (Category.assoc _ _ _).symm
+
+/-- The inverse candidate from `C × Sym^(n+1)(C)` to the quotient of the
+ordered ambient product, obtained from flat base change of the permutation
+quotient. -/
+noncomputable def curveSymmetricProductToAmbientQuotientSucc (n : ℕ) :
+    (C ⨯ SymmetricPower.curveSchemeSucc K C n).left ⟶
+      curveOrderedAmbientQuotientSucc K C n :=
+  Classical.choose <| FiniteGroupQuotient.existsUnique_quotientπ_lift_baseChange_of_flat
+    (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+    (SymmetricPower.curve_hasAffineOrbits_succ K C n)
+    (curveProductToPermutationQuotientSucc K C n)
+    ((curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫
+      curveOrderedAmbientQuotientProjectionSucc K C n)
+    (fun g ↦ by
+      rw [← Category.assoc,
+        pullbackQuotientSMul_comp_curveOrderedAmbientBaseChangeIso_inv,
+        Category.assoc]
+      exact congrArg
+        (fun t ↦ (curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫ t)
+        (FiniteGroupQuotient.hom_quotientπ
+          (orderedAmbientAction (Spec (.of K)) (n + 1) C)
+          (curveOrderedAmbient_hasAffineOrbit_succ K C n) g))
+
+/-- Defining factorization of the inverse candidate on the canonical
+base-changed quotient. -/
+@[reassoc]
+theorem pullbackSnd_comp_curveSymmetricProductToAmbientQuotientSucc (n : ℕ) :
+    pullback.snd
+        (FiniteGroupQuotient.quotientπ
+          (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+          (SymmetricPower.curve_hasAffineOrbits_succ K C n))
+        (curveProductToPermutationQuotientSucc K C n) ≫
+        curveSymmetricProductToAmbientQuotientSucc K C n =
+      (curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫
+        curveOrderedAmbientQuotientProjectionSucc K C n :=
+  (Classical.choose_spec <|
+    FiniteGroupQuotient.existsUnique_quotientπ_lift_baseChange_of_flat
+      (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+      (SymmetricPower.curve_hasAffineOrbits_succ K C n)
+      (curveProductToPermutationQuotientSucc K C n)
+      ((curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫
+        curveOrderedAmbientQuotientProjectionSucc K C n)
+      (fun g ↦ by
+        rw [← Category.assoc,
+          pullbackQuotientSMul_comp_curveOrderedAmbientBaseChangeIso_inv,
+          Category.assoc]
+        exact congrArg
+          (fun t ↦ (curveOrderedAmbientPermutationQuotientBaseChangeIso K C n).inv ≫ t)
+          (FiniteGroupQuotient.hom_quotientπ
+            (orderedAmbientAction (Spec (.of K)) (n + 1) C)
+            (curveOrderedAmbient_hasAffineOrbit_succ K C n) g))).1
+
+/-- Pulling the inverse candidate back to the ordered ambient product gives
+the ambient quotient projection. -/
+@[reassoc]
+theorem curveOrderedAmbientToSymmetricProductSucc_comp_inverse (n : ℕ) :
+    curveOrderedAmbientToSymmetricProductSucc K C n ≫
+        curveSymmetricProductToAmbientQuotientSucc K C n =
+      curveOrderedAmbientQuotientProjectionSucc K C n := by
+  let E := curveOrderedAmbientPermutationQuotientBaseChangeIso K C n
+  let hpb := curveOrderedAmbientToPermutationQuotientSucc_isPullback K C n
+  let π := FiniteGroupQuotient.quotientπ
+    (SymmetricPower.Action (Spec (.of K)) (n + 1) C)
+    (SymmetricPower.curve_hasAffineOrbits_succ K C n)
+  let w := curveProductToPermutationQuotientSucc K C n
+  have hEhom : E.hom ≫ pullback.snd π w =
+      curveOrderedAmbientToSymmetricProductSucc K C n := by
+    exact hpb.isoPullback_hom_snd
+  rw [← hEhom, Category.assoc,
+    pullbackSnd_comp_curveSymmetricProductToAmbientQuotientSucc,
+    ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
+
 /-- The invariant ambient map descends to the finite-group quotient. -/
 noncomputable def curveAmbientQuotientToSymmetricProductSucc (n : ℕ) :
     curveOrderedAmbientQuotientSucc K C n ⟶
@@ -320,6 +602,47 @@ theorem curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct
     (curveOrderedAmbient_hasAffineOrbit_succ K C n)
     (curveOrderedAmbientToSymmetricProductSucc K C n)
     (curveOrderedAmbientToSymmetricProductSucc_invariant K C n)).1
+
+/-- The quotient of `C × C^(n+1)` by permutations of the ordered-power
+coordinates is canonically `C × Sym^(n+1)(C)`. -/
+noncomputable def curveAmbientQuotientSymmetricProductIso (n : ℕ) :
+    curveOrderedAmbientQuotientSucc K C n ≅
+      (C ⨯ SymmetricPower.curveSchemeSucc K C n).left where
+  hom := curveAmbientQuotientToSymmetricProductSucc K C n
+  inv := curveSymmetricProductToAmbientQuotientSucc K C n
+  hom_inv_id := by
+    let p := curveOrderedAmbientQuotientProjectionSucc K C n
+    haveI : Epi p := FiniteGroupQuotient.epi_quotientπ
+      (orderedAmbientAction (Spec (.of K)) (n + 1) C)
+      (curveOrderedAmbient_hasAffineOrbit_succ K C n)
+    apply (cancel_epi p).mp
+    rw [← Category.assoc,
+      curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct,
+      curveOrderedAmbientToSymmetricProductSucc_comp_inverse,
+      Category.comp_id]
+  inv_hom_id := by
+    let σ := SymmetricPower.Action (Spec (.of K)) (n + 1) C
+    let hσ := SymmetricPower.curve_hasAffineOrbits_succ K C n
+    let w := curveProductToPermutationQuotientSucc K C n
+    let π := FiniteGroupQuotient.quotientπ σ hσ
+    let E := curveOrderedAmbientPermutationQuotientBaseChangeIso K C n
+    let hpb := curveOrderedAmbientToPermutationQuotientSucc_isPullback K C n
+    have hEinvsnd : E.inv ≫ curveOrderedAmbientToSymmetricProductSucc K C n =
+        pullback.snd π w := by
+      exact hpb.isoPullback_inv_snd
+    haveI : Epi (pullback.snd π w) :=
+      FiniteGroupQuotient.epi_pullback_snd_quotientπ_of_flat σ hσ w
+    apply (cancel_epi (pullback.snd π w)).mp
+    rw [← Category.assoc,
+      pullbackSnd_comp_curveSymmetricProductToAmbientQuotientSucc,
+      Category.assoc,
+      curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct,
+      hEinvsnd, Category.comp_id]
+
+instance curveAmbientQuotientToSymmetricProductSucc_isIso (n : ℕ) :
+    IsIso (curveAmbientQuotientToSymmetricProductSucc K C n) := by
+  change IsIso (curveAmbientQuotientSymmetricProductIso K C n).hom
+  infer_instance
 
 /-- The descended incidence family as a morphism into
 `C × Sym^(n+1)(C)`. -/

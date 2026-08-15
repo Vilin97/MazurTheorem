@@ -897,3 +897,77 @@ theorem existsUnique_quotientπ_lift_baseChange_of_flat
   exact hq'.trans hq.symm
 
 end AlgebraicGeometry.SchemeAction
+
+namespace MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
+
+variable {G : Type*} [Group G] [Finite G]
+variable {X : Scheme.{u}} (σ : SchemeAction G X)
+variable [IsAffineHom (pullback.diagonal (terminal.from X))]
+
+/-- The action induced on a flat base change of the quotient attached to
+affine orbit neighbourhoods. -/
+noncomputable def pullbackQuotientSMul (hσ : HasAffineOrbit σ)
+    {W : Scheme.{u}} (w : W ⟶ quotient σ hσ) (g : G) :
+    pullback (quotientπ σ hσ) w ⟶ pullback (quotientπ σ hσ) w :=
+  σ.pullbackQuotientπSMul (stableAffineOpen σ hσ)
+    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+    (mem_stableAffineOpen σ hσ) w g
+
+@[reassoc (attr := simp)]
+theorem pullbackQuotientSMul_fst (hσ : HasAffineOrbit σ)
+    {W : Scheme.{u}} (w : W ⟶ quotient σ hσ) (g : G) :
+    pullbackQuotientSMul σ hσ w g ≫ pullback.fst (quotientπ σ hσ) w =
+      pullback.fst (quotientπ σ hσ) w ≫ σ.hom g :=
+  SchemeAction.pullbackQuotientπSMul_fst σ
+    (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+    (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) w g
+
+@[reassoc (attr := simp)]
+theorem pullbackQuotientSMul_snd (hσ : HasAffineOrbit σ)
+    {W : Scheme.{u}} (w : W ⟶ quotient σ hσ) (g : G) :
+    pullbackQuotientSMul σ hσ w g ≫ pullback.snd (quotientπ σ hσ) w =
+      pullback.snd (quotientπ σ hσ) w :=
+  SchemeAction.pullbackQuotientπSMul_snd σ
+    (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+    (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) w g
+
+/-- The projection to the quotient attached to affine orbit neighbourhoods
+is an epimorphism. -/
+theorem epi_quotientπ (hσ : HasAffineOrbit σ) : Epi (quotientπ σ hσ) := by
+  constructor
+  intro Y f₁ f₂ h
+  exact σ.quotientπ_hom_ext (stableAffineOpen σ hσ)
+    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+    (mem_stableAffineOpen σ hσ) f₁ f₂ h
+
+/-- A flat base change of the packaged quotient projection is an
+epimorphism. -/
+theorem epi_pullback_snd_quotientπ_of_flat (hσ : HasAffineOrbit σ)
+    {W : Scheme.{u}} (w : W ⟶ quotient σ hσ) [Flat w] :
+    Epi (pullback.snd (quotientπ σ hσ) w) := by
+  letI : Flat (show W ⟶ σ.quotient (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ) from w) := by
+    change Flat w
+    infer_instance
+  exact AlgebraicGeometry.SchemeAction.epi_pullback_snd_quotientπ_of_flat σ
+    (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+    (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) w
+
+/-- Flat base change preserves the categorical quotient attached to affine
+orbit neighbourhoods. -/
+theorem existsUnique_quotientπ_lift_baseChange_of_flat
+    (hσ : HasAffineOrbit σ) {W Y : Scheme.{u}}
+    (w : W ⟶ quotient σ hσ) [Flat w]
+    (F : pullback (quotientπ σ hσ) w ⟶ Y)
+    (hF : ∀ g : G, pullbackQuotientSMul σ hσ w g ≫ F = F) :
+    ∃! q : W ⟶ Y, pullback.snd (quotientπ σ hσ) w ≫ q = F := by
+  letI : Flat (show W ⟶ σ.quotient (stableAffineOpen σ hσ)
+      (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ) from w) := by
+    change Flat w
+    infer_instance
+  exact AlgebraicGeometry.SchemeAction.existsUnique_quotientπ_lift_baseChange_of_flat σ
+    (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
+    (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ)
+    (w := w) (F := F) hF
+
+end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
