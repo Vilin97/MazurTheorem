@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck
+Authors: Chris Birkbeck, Vasily Ilin
 -/
 import Mathlib.Algebra.Homology.HomologicalBicomplex
 import Mathlib.CategoryTheory.Abelian.Injective.Resolution
@@ -74,6 +74,25 @@ noncomputable def cechInjectiveResolutionBicomplex
     (F : Sheaf AddCommGrpCat.{u} X) :
     HomologicalComplex₂ AddCommGrpCat.{u} (.up ℕ) (.up ℕ) :=
   cechBicomplex U (injectiveResolution (toSiteSheaf F)).cocomplex
+
+/-- A cochain map between the chosen injective resolutions induces a map of
+their Cech bicomplexes. -/
+noncomputable def cechInjectiveResolutionBicomplexMap
+    {F G : Sheaf AddCommGrpCat.{u} X}
+    (phi : (injectiveResolution (toSiteSheaf F)).cocomplex ⟶
+      (injectiveResolution (toSiteSheaf G)).cocomplex) :
+    cechInjectiveResolutionBicomplex U F ⟶
+      cechInjectiveResolutionBicomplex U G :=
+  ((cechSheafComplexFunctor U).mapHomologicalComplex (.up ℕ)).map phi
+
+@[simp]
+theorem cechInjectiveResolutionBicomplexMap_f_f
+    {F G : Sheaf AddCommGrpCat.{u} X}
+    (phi : (injectiveResolution (toSiteSheaf F)).cocomplex ⟶
+      (injectiveResolution (toSiteSheaf G)).cocomplex) (q p : ℕ) :
+    ((cechInjectiveResolutionBicomplexMap U phi).f q).f p =
+      ((cechComplexFunctor U).map (phi.f q).hom).f p :=
+  rfl
 
 @[simp]
 theorem cechInjectiveResolutionBicomplex_X

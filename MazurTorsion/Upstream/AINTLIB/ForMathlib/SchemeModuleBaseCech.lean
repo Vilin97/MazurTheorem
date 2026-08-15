@@ -1,9 +1,10 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck
+Authors: Chris Birkbeck, Vasily Ilin
 -/
 import Mathlib.Algebra.Category.ModuleCat.Products
+import Mathlib.Algebra.Homology.Linear
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleBaseCechBasic
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleSheaf
 
@@ -172,6 +173,47 @@ private noncomputable def baseCechCosimplicialIso
       ((FormalCoproduct.evalOp X.Opens AddCommGrpCat.{u}).mapIso
         (baseModulePresheafForgetIso π M))
 
+@[reassoc]
+private theorem baseCechCosimplicialIso_hom_π
+    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
+    {ι : Type u} (U : ι → X.Opens) (q : SimplexCategory)
+    (i : (unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).I) :
+    (baseCechCosimplicialIso π M U).hom.app q ≫
+        Pi.π (fun j => M.presheaf.obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).obj j))) i =
+      (baseModuleForget S).map
+        (Pi.π (fun j => (baseModulePresheaf π M).obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).obj j))) i) := by
+  change
+    ((Functor.isoWhiskerLeft (FormalCoproduct.mk _ U).cech.rightOp
+          (evalOpForgetIso Γ(S, (⊤ : S.Opens))
+            (baseModulePresheaf π M))).hom.app q ≫
+        (Functor.isoWhiskerLeft (FormalCoproduct.mk _ U).cech.rightOp
+          ((FormalCoproduct.evalOp X.Opens AddCommGrpCat.{u}).mapIso
+            (baseModulePresheafForgetIso π M))).hom.app q) ≫ _ = _
+  erw [Category.assoc]
+  have hsecond :
+      (Functor.isoWhiskerLeft (FormalCoproduct.mk _ U).cech.rightOp
+          ((FormalCoproduct.evalOp X.Opens AddCommGrpCat.{u}).mapIso
+            (baseModulePresheafForgetIso π M))).hom.app q ≫
+        Pi.π (fun j => M.presheaf.obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).obj j))) i =
+      Pi.π (fun j =>
+        (baseModulePresheaf π M ⋙ baseModuleForget S).obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).obj j))) i := by
+    change Limits.Pi.map (fun j =>
+        (baseModulePresheafForgetIso π M).hom.app
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj q)).obj j))) ≫ _ = _
+    erw [Limits.Pi.map_π]
+    rfl
+  erw [hsecond]
+  change (evalOpForgetIso Γ(S, (⊤ : S.Opens))
+      (baseModulePresheaf π M)).hom.app
+        ((FormalCoproduct.mk _ U).cech.rightOp.obj q) ≫ _ = _
+  exact evalOpForgetIso_hom_π Γ(S, (⊤ : S.Opens))
+    (baseModulePresheaf π M)
+    ((FormalCoproduct.mk _ U).cech.rightOp.obj q) i
+
 private theorem baseCechComplex_d_succ
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) (i : ℕ) :
@@ -244,6 +286,198 @@ private theorem baseCechComplexForgetIso_hom_f
     (baseCechComplexForgetIso π M U).hom.f n =
       (baseCechCosimplicialIso π M U).hom.app (SimplexCategory.mk n) :=
   rfl
+
+@[reassoc]
+private theorem baseCechComplexFunctor_map_f_π
+    {X S : Scheme.{u}} (π : X ⟶ S) {M N : X.Modules} (f : M ⟶ N)
+    {ι : Type u} (U : ι → X.Opens) (n : ℕ)
+    (i : (unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).I) :
+    ((baseCechComplexFunctor π U).map f).f n ≫
+        Pi.π (fun j => ((baseModulePresheafFunctor π).obj N).obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj j))) i =
+      Pi.π (fun j => ((baseModulePresheafFunctor π).obj M).obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj j))) i ≫
+        ((baseModulePresheafFunctor π).map f).app
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj i)) := by
+  change Limits.Pi.map (fun j => ((baseModulePresheafFunctor π).map f).app
+      (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+        (SimplexCategory.mk n))).obj j))) ≫ _ = _
+  exact Limits.Pi.map_π _ i
+
+/-- A coefficient endomorphism that is scalar multiplication on every
+base-linear section module induces scalar multiplication on the entire Cech
+complex. -/
+theorem baseCechComplexFunctor_map_eq_smul_id
+    {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules) (f : M ⟶ M)
+    {ι : Type u} (U : ι → X.Opens) (r : Γ(S, ⊤))
+    (h : ∀ V, ((baseModulePresheafFunctor π).map f).app V =
+      r • 𝟙 (((baseModulePresheafFunctor π).obj M).obj V)) :
+    ((baseCechComplexFunctor π U).map f :
+      baseCechComplex π M U ⟶ baseCechComplex π M U) =
+      r • 𝟙 (baseCechComplex π M U) := by
+  let K := (cechComplexFunctor U).obj
+    ((baseModulePresheafFunctor π).obj M)
+  change (cechComplexFunctor U).map
+      ((baseModulePresheafFunctor π).map f) = r • 𝟙 K
+  apply HomologicalComplex.Hom.ext
+  funext n
+  let P := fun j : Fin (n + 1) → ι => baseCechFactor π M U n j
+  let e : K.X n ≅ ModuleCat.of Γ(S, ⊤) (∀ j, P j) :=
+    baseCechXIsoPi π M U n
+  apply (cancel_mono e.hom).1
+  ext x
+  rename_i i
+  let p := Pi.π P i
+  let proj := ModuleCat.ofHom
+    (LinearMap.proj i : (∀ j, P j) →ₗ[Γ(S, ⊤)] P i)
+  have he : e.hom ≫ proj = p := by
+    exact ModuleCat.piIsoPi_hom_ker_subtype P i
+  have hi := baseCechComplexFunctor_map_f_π π f U n i
+  change ((cechComplexFunctor U).map
+      ((baseModulePresheafFunctor π).map f)).f n ≫ p =
+    p ≫ ((baseModulePresheafFunctor π).map f).app _ at hi
+  rw [h] at hi
+  change _ = p ≫ (r • 𝟙 (P i)) at hi
+  erw [← he] at hi
+  have hs : (r • 𝟙 (K.X n)) ≫ e.hom = r • e.hom := by
+    simpa only [Category.id_comp] using
+      Linear.smul_comp (K.X n) (K.X n) _ r (𝟙 (K.X n)) e.hom
+  have hcat :
+      ((((cechComplexFunctor U).map
+          ((baseModulePresheafFunctor π).map f)).f n ≫ e.hom) ≫ proj) =
+        (((r • 𝟙 K).f n ≫ e.hom) ≫ proj) := by
+    calc
+      _ = ((cechComplexFunctor U).map
+            ((baseModulePresheafFunctor π).map f)).f n ≫
+          (e.hom ≫ proj) := Category.assoc _ _ _
+      _ = ((cechComplexFunctor U).map
+            ((baseModulePresheafFunctor π).map f)).f n ≫
+          (e.hom ≫ proj) := rfl
+      _ = (e.hom ≫ proj) ≫ (r • 𝟙 (P i)) := hi
+      _ = e.hom ≫ (proj ≫ (r • 𝟙 (P i))) :=
+        Category.assoc _ _ _
+      _ = e.hom ≫ (r • proj) := by
+        rw [Linear.comp_smul, Category.comp_id]
+      _ = r • (e.hom ≫ proj) := by rw [Linear.comp_smul]
+      _ = (r • e.hom) ≫ proj := by rw [Linear.smul_comp]
+      _ = ((r • 𝟙 (K.X n)) ≫ e.hom) ≫ proj := by
+        exact congrArg (fun q => q ≫ proj) hs.symm
+      _ = (((r • 𝟙 K).f n ≫ e.hom) ≫ proj) := rfl
+  exact ConcreteCategory.congr_hom hcat x
+
+@[reassoc]
+private theorem cechComplexFunctor_map_f_π
+    {X : Scheme.{u}} {M N : X.Modules} (f : M ⟶ N)
+    {ι : Type u} (U : ι → X.Opens) (n : ℕ)
+    (i : (unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).I) :
+    ((cechComplexFunctor U).map f.sheafHom.hom).f n ≫
+        Pi.π (fun j => N.presheaf.obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj j))) i =
+      Pi.π (fun j => M.presheaf.obj
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj j))) i ≫
+        f.sheafHom.hom.app
+          (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+            (SimplexCategory.mk n))).obj i)) := by
+  change Limits.Pi.map (fun j => f.sheafHom.hom.app
+      (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+        (SimplexCategory.mk n))).obj j))) ≫ _ = _
+  exact Limits.Pi.map_π _ i
+
+/-- The additive comparison obtained by forgetting the base action is
+natural in the coefficient module. -/
+theorem baseCechComplexForgetIso_naturality
+    {X S : Scheme.{u}} (π : X ⟶ S) {M N : X.Modules} (f : M ⟶ N)
+    {ι : Type u} (U : ι → X.Opens) :
+    (((baseModuleForget S).mapHomologicalComplex (.up ℕ)).map
+          ((baseCechComplexFunctor π U).map f)) ≫
+        (baseCechComplexForgetIso π N U).hom =
+      (baseCechComplexForgetIso π M U).hom ≫
+        (cechComplexFunctor U).map f.sheafHom.hom := by
+  apply HomologicalComplex.Hom.ext
+  funext n
+  erw [HomologicalComplex.comp_f, HomologicalComplex.comp_f,
+    Functor.mapHomologicalComplex_map_f,
+    baseCechComplexForgetIso_hom_f,
+    baseCechComplexForgetIso_hom_f]
+  apply Pi.hom_ext
+  intro i
+  change
+    ((baseModuleForget S).map
+          (((baseCechComplexFunctor π U).map f).f n) ≫
+        (baseCechCosimplicialIso π N U).hom.app
+          (SimplexCategory.mk n)) ≫
+      Pi.π (fun j => N.presheaf.obj
+        (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+          (SimplexCategory.mk n))).obj j))) i =
+    ((baseCechCosimplicialIso π M U).hom.app
+          (SimplexCategory.mk n) ≫
+        ((cechComplexFunctor U).map f.sheafHom.hom).f n) ≫
+      Pi.π (fun j => N.presheaf.obj
+        (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+          (SimplexCategory.mk n))).obj j))) i
+  let V := op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+    (SimplexCategory.mk n))).obj i)
+  let PM := fun j => ((baseModulePresheafFunctor π).obj M).obj
+    (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).obj j))
+  let PN := fun j => ((baseModulePresheafFunctor π).obj N).obj
+    (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).obj j))
+  let QM := fun j => M.presheaf.obj
+    (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).obj j))
+  let QN := fun j => N.presheaf.obj
+    (op ((unop ((FormalCoproduct.mk _ U).cech.rightOp.obj
+      (SimplexCategory.mk n))).obj j))
+  let a := ((baseCechComplexFunctor π U).map f).f n
+  let bM := (baseCechCosimplicialIso π M U).hom.app
+    (SimplexCategory.mk n)
+  let bN := (baseCechCosimplicialIso π N U).hom.app
+    (SimplexCategory.mk n)
+  let c := ((cechComplexFunctor U).map f.sheafHom.hom).f n
+  let pM := Pi.π PM i
+  let pN := Pi.π PN i
+  let qM := Pi.π QM i
+  let qN := Pi.π QN i
+  let d := ((baseModulePresheafFunctor π).map f).app V
+  let d' := f.sheafHom.hom.app V
+  have hbM : bM ≫ qM = (baseModuleForget S).map pM := by
+    exact baseCechCosimplicialIso_hom_π π M U _ i
+  have hbN : bN ≫ qN = (baseModuleForget S).map pN := by
+    exact baseCechCosimplicialIso_hom_π π N U _ i
+  have ha : a ≫ pN = pM ≫ d := by
+    exact baseCechComplexFunctor_map_f_π π f U n i
+  have hc : c ≫ qN = qM ≫ d' := by
+    exact cechComplexFunctor_map_f_π f U n i
+  have hd : (baseModuleForget S).map d = d' := rfl
+  have hleft : ((baseModuleForget S).map a ≫ bN) ≫ qN =
+      (baseModuleForget S).map a ≫ (baseModuleForget S).map pN :=
+    (Category.assoc _ _ _).trans
+      (congrArg (fun q => (baseModuleForget S).map a ≫ q) hbN)
+  have hmiddle :
+      (baseModuleForget S).map a ≫ (baseModuleForget S).map pN =
+        (baseModuleForget S).map pM ≫ (baseModuleForget S).map d :=
+    ((baseModuleForget S).map_comp a pN).symm.trans
+      ((congrArg (baseModuleForget S).map ha).trans
+        ((baseModuleForget S).map_comp pM d))
+  have hright :
+      (baseModuleForget S).map pM ≫ (baseModuleForget S).map d =
+        (bM ≫ c) ≫ qN :=
+    (congrArg (fun q => (baseModuleForget S).map pM ≫ q) hd).trans
+      ((congrArg (fun q => q ≫ d') hbM.symm).trans
+        ((Category.assoc bM qM d').trans
+          ((congrArg (fun q => bM ≫ q) hc.symm).trans
+            (Category.assoc bM c qN).symm)))
+  change ((baseModuleForget S).map a ≫ bN) ≫ qN =
+    (bM ≫ c) ≫ qN
+  exact hleft.trans (hmiddle.trans hright)
 
 end
 
