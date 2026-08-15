@@ -125,10 +125,35 @@ private def secantPairIdeal {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
 abbrev secantPairCoordinateRing {K : Type u} [CommRing K] (W : WeierstrassCurve K) :=
   secantPairPolynomialRing K ⧸ secantPairIdeal W
 
+/-- Structural coefficient map of the affine-pair coordinate ring. -/
+def secantPairCoefficientHom {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) : K →+* secantPairCoordinateRing W :=
+  (Ideal.Quotient.mk (secantPairIdeal W)).comp MvPolynomial.C
+
+/-- First universal abscissa in the affine-pair coordinate ring. -/
+def secantPairX₁ {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantPairCoordinateRing W :=
+  Ideal.Quotient.mk (secantPairIdeal W) secantX₁
+
+/-- First universal ordinate in the affine-pair coordinate ring. -/
+def secantPairY₁ {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantPairCoordinateRing W :=
+  Ideal.Quotient.mk (secantPairIdeal W) secantY₁
+
+/-- Second universal abscissa in the affine-pair coordinate ring. -/
+def secantPairX₂ {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantPairCoordinateRing W :=
+  Ideal.Quotient.mk (secantPairIdeal W) secantX₂
+
+/-- Second universal ordinate in the affine-pair coordinate ring. -/
+def secantPairY₂ {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantPairCoordinateRing W :=
+  Ideal.Quotient.mk (secantPairIdeal W) secantY₂
+
 /-- Difference of the two universal abscissas in the affine product coordinate ring. -/
 def secantDenominator {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     secantPairCoordinateRing W :=
-  Ideal.Quotient.mk (secantPairIdeal W) (secantX₁ - secantX₂)
+  secantPairX₁ W - secantPairX₂ W
 
 /-- The affine coordinate ring of one Weierstrass factor. -/
 abbrev secantTargetCoordinateRing {K : Type u} [CommRing K] (W : WeierstrassCurve K) :=
@@ -141,7 +166,8 @@ def secantTargetCoefficientHom {K : Type u} [CommRing K] (W : WeierstrassCurve K
     ((Polynomial.C : Polynomial K →+* Polynomial (Polynomial K)).comp
       (Polynomial.C : K →+* Polynomial K))
 
-private theorem secantTargetCoefficientHom_eq_algebraMap
+/-- The explicit target coefficient map is its canonical algebra map. -/
+theorem secantTargetCoefficientHom_eq_algebraMap
     {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     secantTargetCoefficientHom W = algebraMap K (secantTargetCoordinateRing W) := by
   rfl
@@ -156,7 +182,8 @@ def secantTargetX {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     secantTargetCoordinateRing W :=
   Ideal.Quotient.mk (Ideal.span {W.toAffine.polynomial}) (Polynomial.C Polynomial.X)
 
-private def secantTargetY {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+/-- Universal ordinate on one affine Weierstrass factor. -/
+def secantTargetY {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     secantTargetCoordinateRing W :=
   Ideal.Quotient.mk (Ideal.span {W.toAffine.polynomial}) Polynomial.X
 
@@ -261,6 +288,15 @@ private theorem secantPair_algebraMap {K : Type u} [CommRing K]
       Ideal.Quotient.mk (secantPairIdeal W) (MvPolynomial.C a) := by
   rw [IsScalarTower.algebraMap_apply K (secantPairPolynomialRing K),
     Ideal.Quotient.algebraMap_eq, MvPolynomial.algebraMap_eq]
+
+/-- The explicit coefficient map of the affine-pair presentation is its
+canonical algebra map. -/
+theorem secantPairCoefficientHom_eq_algebraMap
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantPairCoefficientHom W =
+      algebraMap K (secantPairCoordinateRing W) := by
+  ext a
+  exact (secantPair_algebraMap W a).symm
 
 private theorem secantPairPolynomialEvaluation_polynomial {K : Type u} [CommRing K]
     (W : WeierstrassCurve K) (x y : secantPairPolynomialRing K)
@@ -429,6 +465,46 @@ noncomputable def secantPairTensorEquiv {K : Type u} [CommRing K]
           secantPairFromLeft_targetX, secantPairFromLeft_targetY,
           secantPairFromRight_targetX, secantPairFromRight_targetY])
 
+/-- The first affine-pair abscissa is the left tensor-factor abscissa. -/
+theorem secantPairTensorEquiv_X₁ {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    secantPairTensorEquiv W (secantPairX₁ W) =
+      secantTargetX W ⊗ₜ[K] (1 : secantTargetCoordinateRing W) := by
+  change secantPairToTensor W
+      (Ideal.Quotient.mk (secantPairIdeal W) secantX₁) = _
+  rw [secantPairToTensor_mk]
+  simp [secantPairToTensorAux]
+
+/-- The first affine-pair ordinate is the left tensor-factor ordinate. -/
+theorem secantPairTensorEquiv_Y₁ {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    secantPairTensorEquiv W (secantPairY₁ W) =
+      secantTargetY W ⊗ₜ[K] (1 : secantTargetCoordinateRing W) := by
+  change secantPairToTensor W
+      (Ideal.Quotient.mk (secantPairIdeal W) secantY₁) = _
+  rw [secantPairToTensor_mk]
+  simp [secantPairToTensorAux]
+
+/-- The second affine-pair abscissa is the right tensor-factor abscissa. -/
+theorem secantPairTensorEquiv_X₂ {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    secantPairTensorEquiv W (secantPairX₂ W) =
+      (1 : secantTargetCoordinateRing W) ⊗ₜ[K] secantTargetX W := by
+  change secantPairToTensor W
+      (Ideal.Quotient.mk (secantPairIdeal W) secantX₂) = _
+  rw [secantPairToTensor_mk]
+  simp [secantPairToTensorAux]
+
+/-- The second affine-pair ordinate is the right tensor-factor ordinate. -/
+theorem secantPairTensorEquiv_Y₂ {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    secantPairTensorEquiv W (secantPairY₂ W) =
+      (1 : secantTargetCoordinateRing W) ⊗ₜ[K] secantTargetY W := by
+  change secantPairToTensor W
+      (Ideal.Quotient.mk (secantPairIdeal W) secantY₂) = _
+  rw [secantPairToTensor_mk]
+  simp [secantPairToTensorAux]
+
 /-- Under the affine-product identification, the secant denominator is exactly
 `x₁ ⊗ 1 - 1 ⊗ x₂`. -/
 theorem secantPairTensorEquiv_denominator {K : Type u} [CommRing K]
@@ -504,6 +580,36 @@ private theorem secantPairEquation_mem_right {K : Type u} [CommRing K]
   apply Ideal.subset_span
   simp
 
+/-- The first universal point of the affine-pair presentation satisfies the
+base-changed Weierstrass equation. -/
+theorem secantPair_equation_left {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    (W.map (secantPairCoefficientHom W)).toAffine.Equation
+      (secantPairX₁ W) (secantPairY₁ W) := by
+  rw [WeierstrassCurve.Affine.equation_iff']
+  change affineEquationExpression W (secantPairCoefficientHom W)
+      (secantPairX₁ W) (secantPairY₁ W) = 0
+  have hzero : Ideal.Quotient.mk (secantPairIdeal W)
+      (affineEquationExpression W MvPolynomial.C secantX₁ secantY₁) = 0 :=
+    Ideal.Quotient.eq_zero_iff_mem.mpr (secantPairEquation_mem_left W)
+  simpa [affineEquationExpression, secantPairCoefficientHom,
+    secantPairX₁, secantPairY₁] using hzero
+
+/-- The second universal point of the affine-pair presentation satisfies the
+base-changed Weierstrass equation. -/
+theorem secantPair_equation_right {K : Type u} [CommRing K]
+    (W : WeierstrassCurve K) :
+    (W.map (secantPairCoefficientHom W)).toAffine.Equation
+      (secantPairX₂ W) (secantPairY₂ W) := by
+  rw [WeierstrassCurve.Affine.equation_iff']
+  change affineEquationExpression W (secantPairCoefficientHom W)
+      (secantPairX₂ W) (secantPairY₂ W) = 0
+  have hzero : Ideal.Quotient.mk (secantPairIdeal W)
+      (affineEquationExpression W MvPolynomial.C secantX₂ secantY₂) = 0 :=
+    Ideal.Quotient.eq_zero_iff_mem.mpr (secantPairEquation_mem_right W)
+  simpa [affineEquationExpression, secantPairCoefficientHom,
+    secantPairX₂, secantPairY₂] using hzero
+
 /-- The first universal point satisfies the base-changed Weierstrass equation. -/
 private theorem secantChart_equation_left {K : Type u} [CommRing K]
     (W : WeierstrassCurve K) :
@@ -539,10 +645,51 @@ private theorem secantChartX₁_sub_X₂ {K : Type u} [CommRing K]
     secantChartX₁ W - secantChartX₂ W =
       algebraMap (secantPairCoordinateRing W) (secantChartCoordinateRing W)
         (secantDenominator W) := by
-  simp [secantChartX₁, secantChartX₂, secantCoordinate, secantDenominator]
+  simp [secantChartX₁, secantChartX₂, secantCoordinate, secantDenominator,
+    secantPairX₁, secantPairX₂]
+
+/-- The first secant-chart abscissa is pulled back from the affine-pair
+coordinate ring. -/
+@[simp]
+theorem secantChartX₁_eq_algebraMap_pairX₁
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantChartX₁ W =
+      algebraMap (secantPairCoordinateRing W) (secantChartCoordinateRing W)
+        (secantPairX₁ W) := by
+  rfl
+
+/-- The first secant-chart ordinate is pulled back from the affine-pair
+coordinate ring. -/
+@[simp]
+theorem secantChartY₁_eq_algebraMap_pairY₁
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantChartY₁ W =
+      algebraMap (secantPairCoordinateRing W) (secantChartCoordinateRing W)
+        (secantPairY₁ W) := by
+  rfl
+
+/-- The second secant-chart abscissa is pulled back from the affine-pair
+coordinate ring. -/
+@[simp]
+theorem secantChartX₂_eq_algebraMap_pairX₂
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantChartX₂ W =
+      algebraMap (secantPairCoordinateRing W) (secantChartCoordinateRing W)
+        (secantPairX₂ W) := by
+  rfl
+
+/-- The second secant-chart ordinate is pulled back from the affine-pair
+coordinate ring. -/
+@[simp]
+theorem secantChartY₂_eq_algebraMap_pairY₂
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    secantChartY₂ W =
+      algebraMap (secantPairCoordinateRing W) (secantChartCoordinateRing W)
+        (secantPairY₂ W) := by
+  rfl
 
 /-- The universal slope satisfies its denominator-cleared secant equation. -/
-private theorem secantChartSlope_mul_sub {K : Type u} [CommRing K]
+theorem secantChartSlope_mul_sub {K : Type u} [CommRing K]
     (W : WeierstrassCurve K) :
     secantChartSlope W * (secantChartX₁ W - secantChartX₂ W) =
       secantChartY₁ W - secantChartY₂ W := by
