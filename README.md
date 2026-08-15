@@ -84,11 +84,21 @@ for the theorem dependency graph. Both are projections of the same ledger.
 
 ## Repository map
 
-- [`MazurTorsion/`](MazurTorsion/) — checked theorem development;
-- [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction infrastructure;
-- [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — reviewed upstream geometry ports and adapters;
+- [`MazurTorsion/`](MazurTorsion/) — checked theorem development; begin with
+  the [machine-generated source exposition](https://vilin97.github.io/MazurTheorem/exposition/)
+  rather than browsing every file;
+- [`MazurTorsion/Kubert/`](MazurTorsion/Kubert/) — fixed-order normal forms
+  and large checked certificate envelopes; its [directory map](MazurTorsion/Kubert/README.md)
+  identifies the semantic entry modules;
+- [`EllipticCurves/`](EllipticCurves/) — attributed exact-pin reduction
+  infrastructure, with its source manifest in [`PORTING.md`](PORTING.md);
+- [`MazurTorsion/Upstream/`](MazurTorsion/Upstream/) — reviewed ports and
+  project-facing integration adapters, separated in its
+  [directory map](MazurTorsion/Upstream/README.md);
 - [`Challenge/`](Challenge/) — immutable contracts and checked solved bridges;
 - [`coordination/program.json`](coordination/program.json) — canonical roadmap and execution data;
+- [`coordination/OWNER_QUEUE.md`](coordination/OWNER_QUEUE.md) — compact
+  scheduling view of selected, claimable, and paused work;
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — canonical/provisional object boundaries;
 - [`docs/TECHNICAL_BLUEPRINT.md`](docs/TECHNICAL_BLUEPRINT.md) — compact declaration-level design;
 - [`docs/INFORMAL_PROOF.md`](docs/INFORMAL_PROOF.md) — mathematical proof spine;
@@ -96,6 +106,28 @@ for the theorem dependency graph. Both are projections of the same ledger.
 - [`site/`](site/) — generated public coordination view;
 - [`upstream/tauceti/`](upstream/tauceti/) — separate exact-pin upstream contract package;
 - [`archive/drafts/`](archive/drafts/) — unverified historical scratch, excluded from proof and progress.
+
+[`MazurTorsion.lean`](MazurTorsion.lean) is the deliberately broad default
+build, API-documentation, and release-audit root.
+[`EllipticCurves.lean`](EllipticCurves.lean) is a separate exact-pin coverage
+root built explicitly by CI and audits. Neither is a curated small public-API
+facade. New Lean code should import the smallest semantic module that owns the
+declarations it consumes. Reachability through a root aggregate is not an
+API-stability promise, while a narrow `public import` compatibility module is
+an explicit re-export decision. The source exposition scans checked source
+paths independently; it does not infer ownership from either aggregate.
+
+Use the repository views for different questions:
+
+- the [owner queue](coordination/OWNER_QUEUE.md) starts with “what is selected
+  now?” and also summarizes claimable and paused work;
+- the [source exposition](https://vilin97.github.io/MazurTheorem/exposition/)
+  answers “which module owns this declaration and what does it import?”;
+- the [Blueprint](https://vilin97.github.io/MazurTheorem/blueprint/) answers
+  “where does this theorem sit in the mathematical dependency graph?”;
+- [`PORTING.md`](PORTING.md) and
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) answer “where did this
+  adapted source come from?”
 
 The project began as the `mazur-torsion` branch of
 [Vilin97/Clawristotle](https://github.com/Vilin97/Clawristotle).

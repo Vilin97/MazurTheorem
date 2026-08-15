@@ -62,7 +62,15 @@ test("server-renders the coordination dashboard", async () => {
   assert.match(html, /Mazur’s classification/);
   assert.match(html, /built on canonical objects/);
   assert.match(html, /rationalTorsion_hasMazurClassification/);
+  assert.match(
+    html,
+    /rationalPoint_primeOrder_ne_of_formalImmersionAtFive/,
+  );
+  assert.match(html, /Checked argument boundary/);
+  assert.match(html, /Proposed witness package/);
   assert.match(html, /DegreeOneFormalImmersionWitness/);
+  assert.match(html, /Current WP exit criterion/);
+  assert.match(html, /Lane goal/);
   assert.match(
     html,
     /One theorem spine. Only startable foundation lanes are active/,

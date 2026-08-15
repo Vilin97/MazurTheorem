@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
 - Ecosystem readiness is **18%**.
-- The audited baseline contains **1,870 Lean modules** and **1,788,023 Lean
+- The audited baseline contains **1,870 Lean modules** and **1,788,060 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -36,10 +36,10 @@ integration consumer.
 The schema-v4 execution plan has a work-in-progress limit of three and selects
 two current packages:
 
-| Lane | Current package | Exit criterion |
-|---|---|---|
-| Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Lane | Current package | Current WP exit criterion | Lane goal |
+|---|---|---|---|
+| Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Identify the secant domain with `D(x₁ - x₂)` in the product, construct addition on the product neighbourhood `D(B₁₂)`, glue the two charts on their genuine intersection, add infinity charts and coverage, prove the group laws, and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -65,8 +65,15 @@ slices without changing the 172-point headline:
   base-change theorem is present.
 - In the Weierstrass group-scheme package, the universal secant formula now
   defines genuine affine and projective morphisms on one explicit chart. The
-  package remains `active` because the product-open identification, tangent and
-  infinity charts, overlap proofs, gluing, and group laws are still missing.
+  package remains `active` because its presentation is not yet identified with
+  `D(x₁ - x₂)` in the scheme product. That open is disjoint from the diagonal,
+  so a literal secant--tangent overlap is not the next obligation. The next
+  chart is the product neighbourhood `D(B₁₂)`, where
+  `B₁₂ := y₁ + y₂ + a₁x₁ + a₃`. With
+  `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`, the identity
+  `(y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂` is the exact compatibility target.
+  Gluing on that genuine intersection, the infinity charts and coverage, and
+  the group laws remain missing.
 - The represented polynomial cusp chart now has the genuine sections
   `sectionAt`, their checked closed-point collision, and the named consumer
   `valuation_j_le_one_of_polynomialCuspSectionAtFive`. These are local chart
@@ -89,6 +96,14 @@ conditionally, but its two-point WP remains blocked on the point-order, `h55`,
 and `h77` inputs owned by API integration. The later classification
 additionally consumes `c4Square`, `c2c10`, and `c2c12`, then the ncard bridge
 follows as a corollary, not a replacement for the classification theorem.
+
+The checked route-neutral prime collision is
+`MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive`.
+`DegreeOneFormalImmersionWitness` and its private Eisenstein constructor remain
+proposed packaging, not checked declarations. The quotient construction and
+Néron specialization are independent prerequisites of the final collision;
+the quotient no longer carries the redundant dependency on the downstream
+specialization node.
 
 Six published contracts are intentionally paused:
 

@@ -273,3 +273,24 @@ import MazurTorsion.AlgebraicGeometry.PicardAbelJacobi
 import MazurTorsion.AlgebraicGeometry.PicardRationalSectionAbelJacobi
 import MazurTorsion.Upstream.AINTLIB.Picard.RelativePic
 import MazurTorsion.AlgebraicGeometry.PicardSectionBaseChange
+
+/-!
+# Checked-library audit aggregate
+
+This root is intentionally broad. It makes the default `MazurTorsion` build,
+generated API documentation, and release audits reach the checked project
+endpoints. It is therefore an audit and coverage root, not a curated small
+public-API facade. The source exposition scans checked source paths directly
+rather than deriving its inventory from this import list.
+
+New library modules should import the smallest semantic module that owns the
+declarations they consume. A declaration being reachable after importing this
+umbrella is not an API-stability promise; narrow modules using `public import`
+record deliberate compatibility re-exports. Do not prune or reorder this list
+as cosmetic cleanup: aggregate coverage and build-cache ownership are checked
+against the import graph.
+
+See `README.md` for the repository map, `coordination/OWNER_QUEUE.md` for the
+selected work, and the generated source exposition for declaration-level
+navigation.
+-/

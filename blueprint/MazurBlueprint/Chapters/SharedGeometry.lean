@@ -437,8 +437,9 @@ order-49 consumers.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison after completing the tangent and
-  infinity charts, product-open identification, overlaps, gluing, and group axioms.
+  group-scheme law and coordinate-point comparison after identifying D(x₁ - x₂),
+  constructing the product-neighbourhood chart D(B₁₂), gluing their union on the genuine
+  intersection, adding the infinity charts and coverage, and proving the group axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`

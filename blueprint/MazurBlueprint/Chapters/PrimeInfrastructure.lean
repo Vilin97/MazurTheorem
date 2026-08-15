@@ -423,7 +423,7 @@ Mazur's Proposition 3.1 away from characteristic two, with consumers at 5 and 11
 
 :::
 
-:::theorem "MT-X0-EISENSTEIN-QUOTIENT" (parent := "prime_infrastructure") (uses := "MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-NERON-SPECIALIZATION, MT-FFGS-OORT-RAYNAUD") (tags := "proof, blocked, nouns-missing, mixed")
+:::theorem "MT-X0-EISENSTEIN-QUOTIENT" (parent := "prime_infrastructure") (uses := "MT-X0-CUSPS, MT-X0-EISENSTEIN-ALGEBRA, MT-FFGS-OORT-RAYNAUD") (tags := "proof, blocked, nouns-missing, mixed")
 *A nontrivial rank-zero Eisenstein quotient.*
 
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `proof`; *backend:* `mixed`;
@@ -436,8 +436,10 @@ it directly to the characteristic-five formal-immersion theorem.
 *Canonical artifacts:*
 
 * `structure` (`proposed`): `MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness`
-  Package only the normalized modular map, formal immersion at infinity modulo 5, and
-  torsion of the particular image used by the collision theorem.
+  Package the represented modular and cusp sections, normalized quotient map, formal
+  immersion, generic distinctness, and the two bad-branch collision implications
+  consumed directly by the checked theorem. Torsion remains a private constructor input
+  used to derive the whole-section collision.
 * `definition` (`proposed`):
   `ModularCurve.EisensteinQuotient.toDegreeOneFormalImmersionWitness`
   Construct the route-neutral witness privately from the nontrivial optimal Eisenstein

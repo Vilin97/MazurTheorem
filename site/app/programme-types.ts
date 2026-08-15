@@ -125,6 +125,7 @@ export type ProgrammeExecution = {
   proof_route: {
     id: string;
     public_boundary: string;
+    proposed_witness: string;
     private_constructor: string;
     decision: string;
   };

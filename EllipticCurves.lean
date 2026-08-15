@@ -35,3 +35,19 @@ import EllipticCurves.WeierstrassFormalGroup.Foundations
 import EllipticCurves.WeierstrassFormalGroup.GroupLaw
 import EllipticCurves.WeierstrassFormalGroup.Reduction
 import EllipticCurves.WeierstrassFormalGroup.ThirdPoint
+
+/-!
+# Exact-pin elliptic-curve audit aggregate
+
+This root makes the retained elliptic-curve reduction cone and its integration
+harness available as an explicit CI and release-audit target. It is not a
+default Lake target or a curated public facade. Downstream modules should
+import the narrow `EllipticCurves.*` module that owns the required API; the
+compatibility `public import` in `EllipticCurves.VariableChange` is an explicit
+exception. The source exposition scans these files independently of this
+aggregate.
+
+`PORTING.md` is the authoritative source-to-destination manifest and records
+which files are retained ports, exact-pin adaptations, compatibility modules,
+or project-owned harnesses.
+-/

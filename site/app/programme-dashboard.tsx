@@ -907,12 +907,17 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
 
           <div className="route-seam">
             <div>
-              <span>Public proof boundary</span>
+              <span>Checked argument boundary</span>
               <code>{programme.execution.proof_route.public_boundary}</code>
             </div>
-            <span aria-hidden="true">← constructed by ←</span>
+            <span aria-hidden="true">← packaged by ←</span>
             <div>
-              <span>Private Eisenstein constructor</span>
+              <span>Proposed witness package</span>
+              <code>{programme.execution.proof_route.proposed_witness}</code>
+            </div>
+            <span aria-hidden="true">← proposed constructor ←</span>
+            <div>
+              <span>Proposed private Eisenstein constructor</span>
               <code>{programme.execution.proof_route.private_constructor}</code>
             </div>
           </div>
@@ -940,9 +945,16 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
                         <code>{current.workPackage.id}</code>
                         <strong>{current.workPackage.title}</strong>
                       </button>
+                      <div className="current-package-exit">
+                        <span>Current WP exit criterion</span>
+                        <p>{current.workPackage.exit_criterion}</p>
+                      </div>
                     </div>
                   )}
-                  <p>{lane.exit_criterion}</p>
+                  <div className="lane-goal">
+                    <span>Lane goal</span>
+                    <p>{lane.exit_criterion}</p>
+                  </div>
                   <div className="lane-node-list">
                     {lane.node_ids.map((id) => (
                       <button key={id} type="button" onClick={() => selectNode(id)}>

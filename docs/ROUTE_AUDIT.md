@@ -4,6 +4,11 @@ Date: 2026-08-15
 Ledger route: `formal-immersion-at-five-v1`
 Execution revision: `canonical-foundations-v4`
 
+This page is explanatory, not a second roadmap. The canonical machine-readable
+decision and reviewed-source record are `route_revision` and
+`execution.proof_route` in
+[`coordination/program.json`](../coordination/program.json).
+
 ## Decision
 
 Retain Mazur's 1978 degree-one formal-immersion proof for prime torsion, at
@@ -12,9 +17,17 @@ nontrivial optimal Eisenstein quotient.
 
 The route itself did not change in this audit. The architecture did:
 
-- the public collision theorem consumes a route-neutral witness;
-- Jacobian, Hecke, Eisenstein, and finite-Mordell–Weil machinery construct that
-  witness privately;
+- the checked theorem
+  `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive`
+  is already a route-neutral argument boundary: it consumes the actual map,
+  sections, formal immersion, specialization, and quotient collision directly;
+- `MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness` is a proposed
+  packaging layer, not a checked declaration;
+- Jacobian, Hecke, Eisenstein, and finite-Mordell–Weil machinery are intended to
+  construct that proposed witness privately;
+- constructing the Eisenstein quotient no longer depends on the downstream
+  Néron-specialization node; the prime collision retains direct dependencies on
+  both inputs;
 - the public project endpoint is the full fifteen-group classification;
 - the immutable `ncard ≤ 16` challenge is recorded separately;
 - canonical coherent-cohomology actions, one Weierstrass secant chart, and the
@@ -24,31 +37,44 @@ The route itself did not change in this audit. The architecture did:
 - conditional finite-level experiments are paused while canonical foundations
   are built.
 
-This is the smallest rigorous uniform route found in the original papers or
-in recent expository accounts.
+This is the smallest credible uniform route found that aligns with both the
+checked reduction argument and the repository's exact-pin API. That is an
+audited engineering judgment, not a proof that no smaller formalization route
+exists.
 
-## The public boundary
+## Checked argument boundary and proposed package
 
-The prime-order consumer should require only a package of the following data:
+The checked prime-order theorem currently requires the following route-neutral
+data directly:
 
-1. a represented integral modular point `x` and the cusp `∞`;
-2. a cusp-normalized map `f : X₀(N) → A` to an abelian/Néron target;
-3. formal immersion of `f` at `∞` in residue characteristic `5`;
-4. torsion of the particular point `f(x)`;
-5. compatible specialization of the two sections and their images.
+1. schemes `X` and `Y` and a morphism `f : X ⟶ Y`;
+2. two sections of `X` over the completed integer ring at `5`, representing
+   the modular point and cusp in the intended application;
+3. formal immersion of `f` at the cusp section's closed-fibre point;
+4. distinctness of the two sections;
+5. an implication from failure of the `j`-valuation bound to equality of their
+   closed-fibre points; and
+6. an implication from the same failure to equality of the two whole sections
+   after composition with `f`.
 
-The roadmap names this proposed package
-`MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness`.
+The roadmap proposes packaging those inputs as
+`MazurTorsion.PrimeOrder.DegreeOneFormalImmersionWitness`. The record does not
+yet exist in checked source, so documentation and the site must not present it
+as the current theorem boundary.
 
-Mazur's Corollary 4.3 needs the image of the point under consideration to be
-torsion. It does not require the collision theorem's public statement to know
-all of `A(ℚ)` or to identify it with a cuspidal subgroup. Global finiteness of
-`A(ℚ)` is a sufficient private construction of the required torsion fact.
+Mazur's Corollary 4.3 uses torsion of the image of the point under
+consideration, but the checked generic theorem does not take that torsion fact
+as an argument. Torsion and Néron specialization are private means of deriving
+the whole-section equality in item 6. They do not require the public collision
+statement to know all of `A(ℚ)` or to identify it with a cuspidal subgroup.
+Global finiteness of `A(ℚ)` is a sufficient private source of the relevant
+torsion fact.
 
-The private constructor is recorded as
+Its proposed private constructor is recorded as
 `ModularCurve.EisensteinQuotient.toDegreeOneFormalImmersionWitness`. It must
 construct, rather than assume, the modular Jacobian, optimal quotient,
-nontriviality, and the specialized finite-Mordell–Weil input.
+nontriviality, and the specialized finite-Mordell–Weil input, then use the
+torsion-specialization data to derive the checked theorem's quotient equality.
 
 ## Primary and modern sources
 
@@ -58,14 +84,32 @@ nontriviality, and the specialized finite-Mordell–Weil input.
   supplies the Eisenstein-quotient and finite-Mordell–Weil construction used
   privately.
 - [Merel 2024, “Mazur's work with the Eisenstein ideal”](https://celebratio.org/Mazur_BC/article/1148/)
-  gives a concise modern decomposition: for prime `N = 11` or `N > 13`, the
-  deep input is a nonzero quotient of `J₀(N)` with finite rational points.
+  isolates the theorem-level need, for prime `N = 11` or `N > 13`, as a
+  nonzero quotient of `J₀(N)` with finite rational points; it does not require
+  a public classification of every rational point on that quotient.
 - [Siksek, *Explicit Arithmetic of Modular Curves*, Chapter 7](https://samirsiksek.github.io/siksek.github.io/teaching/modcurves/lecturenotes.pdf)
   presents the residue-disc uniqueness pattern as formal immersion plus a
   rank-zero quotient.
 - [Cambridge 2020 Eisenstein-ideal study group](https://www.dpmms.cam.ac.uk/~jcsl5/mazur/mazur.html)
   confirms the same division into integral modular curves, Néron models,
   admissible group schemes, rank zero, and the quotient.
+- The [MIT Fall 2023 STAGE seminar](https://math.mit.edu/nt/old/stage_f23.html)
+  and Snowden's 2013 Math 679 lectures
+  [11](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L11.html),
+  [18](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L18.html),
+  [20](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L20.html),
+  and
+  [21](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L21.html)
+  corroborate the integral `X₀`/Jacobian/Néron/finite-flat/Eisenstein order of
+  construction; they do not remove those represented-object foundations.
+- [Darmon's account in *Arithmetic Geometry*, pages 38--39](https://www.claymath.org/wp-content/uploads/2022/03/cmip08c.pdf)
+  explains that the winding quotient replaces the delicate Eisenstein descent,
+  while its finiteness input comes through relative homology, Heegner points,
+  Gross--Zagier, Kolyvagin, and analytic nonvanishing.
+- [Balakrishnan--Mazur 2024](https://arxiv.org/html/2307.04752) confirms the
+  optimal-quotient/formal-immersion architecture. Its Chabauty variants are
+  bounded-level computations, not a uniform replacement for the prime-level
+  argument.
 
 ## Prime-order proof spine
 
@@ -138,10 +182,13 @@ route.
 Rejected for the critical path. Merel's winding quotient is naturally
 described using modular homology and the winding element. Its finite
 Mordell–Weil theorem passes through modular `L`-values, analytic nonvanishing,
-and Gross–Zagier/Kolyvagin-style results. That is valuable mathematics but a
-larger formal dependency cone than the specialized Eisenstein construction.
+and Gross–Zagier/Kolyvagin results. It replaces a delicate Eisenstein descent,
+but does not replace its deep arithmetic with a smaller checked foundation.
+That is valuable mathematics but a larger currently credible Lean dependency
+cone than the specialized Eisenstein construction.
 
-See [Merel 1996](https://perso.imj-prg.fr/wp-content/uploads/merel-pub/torsion.pdf).
+See [Merel 1996](https://perso.imj-prg.fr/wp-content/uploads/merel-pub/torsion.pdf)
+and [Darmon, pages 38--39](https://www.claymath.org/wp-content/uploads/2022/03/cmip08c.pdf).
 
 ### Modular symbols and Kamienny's criterion
 
@@ -154,7 +201,18 @@ first q-coefficient. See [Kamienny 1992](https://eudml.org/doc/144019).
 
 Retained only for bounded exceptional endpoints. A separate rational-point
 classification for unboundedly many `X₁(N)` does not give a uniform proof of
-the prime theorem.
+the prime theorem. The revised
+[Balakrishnan--Mazur survey](https://arxiv.org/html/2307.04752) supports this
+bounded-level use.
+
+### Elliptic-matroid realization spaces
+
+[Baker 2026](https://arxiv.org/abs/2608.05299) gives a concrete realization-space
+model for the irreducible open `X₁(n)°` over `ℤ[1/n]`. It is useful secondary
+geometry, but not a shortcut for this route: the open excludes the rational
+cusps needed by the collision, the construction takes compactified
+generalized-elliptic moduli as known, and its nonrepresentability statement is
+equivalent to the prime-torsion theorem rather than an independent proof of it.
 
 ### The broader global representation route
 

@@ -598,7 +598,7 @@ a {
   gap: 1rem;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.3);
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
 .route-seam > div {
@@ -710,6 +710,34 @@ a {
 .current-package strong {
   font-family: var(--serif);
   font-size: 0.95rem;
+}
+
+.current-package-exit {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(17, 70, 55, 0.18);
+}
+
+.current-package-exit span,
+.lane-goal > span {
+  display: block;
+  color: var(--ink-muted);
+  font-size: 0.54rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.current-package-exit p,
+.lane-goal p {
+  margin: 0.4rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.lane-goal {
+  margin-top: 1rem;
 }
 
 .lane-node-list {

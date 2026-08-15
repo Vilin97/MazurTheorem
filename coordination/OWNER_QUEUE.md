@@ -19,14 +19,23 @@ the classification endpoint.
 The current execution revision has a WIP limit of three. Two honest packages
 are selected, leaving one slot unused:
 
-| Lane | Node slice | Current package | Exit criterion |
-|---|---|---|---|
-| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
+|---|---|---|---|---|
+| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Identify the secant domain with `D(x₁ - x₂)` in the product, construct addition on `D(B₁₂)`, glue the two charts on their genuine intersection, add infinity charts and coverage, prove the group laws, and remove the supplied shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
 partition their parent node's fixed weight and award no independent credit.
+The current-WP column is the immediate acceptance boundary; the lane goal is
+the later end-to-end outcome and must not be read as the current package's exit
+criterion.
+
+For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
+`A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity
+`(y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂` is the precise compatibility target: it
+identifies `A₁₂/B₁₂` with the secant slope on the genuine intersection and
+with the tangent slope on the diagonal.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

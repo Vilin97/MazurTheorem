@@ -7,12 +7,18 @@ the project infrastructure.
 ## Before writing Lean
 
 1. Read [`docs/CLAIMING.md`](docs/CLAIMING.md).
-2. Choose a claimable node in
-   [`coordination/program.json`](coordination/program.json).
-3. For an `open` node, submit “Claim a work package” and wait for maintainer
+2. Use the compact [`coordination/OWNER_QUEUE.md`](coordination/OWNER_QUEUE.md)
+   to see the selected lanes, then verify assignment and lifecycle data in the
+   canonical [`coordination/program.json`](coordination/program.json).
+3. Locate existing declarations and their owning modules in the
+   [source exposition](https://vilin97.github.io/MazurTheorem/exposition/).
+   Use the [Kubert map](MazurTorsion/Kubert/README.md) or
+   [Upstream map](MazurTorsion/Upstream/README.md) when work enters either
+   unusually large tree.
+4. For an `open` node, submit “Claim a work package” and wait for maintainer
    confirmation. For a `research_open` node, register a nonexclusive research
    approach; parallel teams are welcome.
-4. Confirm the exact declaration, imports, downstream consumer, dependency
+5. Confirm the exact declaration, imports, downstream consumer, dependency
    pin, and license.
 
 Do not begin a large interface behind an unreviewed API. For a
@@ -38,6 +44,22 @@ LEAN_NUM_THREADS=1 lake build MazurTorsion.Path.To.TouchedModule
 The cache requires roughly 8 GB. A complete build can use several gigabytes
 of memory, so use a module target locally and leave the cold aggregate build
 to CI.
+
+`MazurTorsion.lean` is the default build, API-documentation, and release-audit
+root. `EllipticCurves.lean` is a separate exact-pin coverage root built
+explicitly by CI and audits. Neither is the normal import or local build target
+for a contribution. Import and build the smallest semantic module that owns
+the API you use; then compile its named downstream consumer. The fact that a
+declaration is reachable through a root aggregate does not make that aggregate
+its public home.
+
+The large order-seven and order-twenty-seven certificate families are split
+to bound elaboration and CI memory. Their cache manifests describe artifact
+ownership, not mathematical API ownership or source authorship. Do not move,
+merge, or import certificate shards as a navigation cleanup. Build an edited
+leaf first and use the semantic boundary documented in
+[`MazurTorsion/Kubert/README.md`](MazurTorsion/Kubert/README.md) for the
+consumer check.
 
 ## Challenge solutions
 

@@ -746,6 +746,47 @@ Jacobian, a Hecke action on it, or an Eisenstein/winding quotient was found.
 In particular, no upstream theorem currently turns a nonvanishing modular
 abelian-variety L-value into finiteness of its rational points.
 
+### Modern expository refresh — 2026-08-15
+
+This source refresh changes the cost comparison, not the checked reuse
+inventory above.
+
+* [Merel 2024, *Mazur's work with the Eisenstein ideal*](https://celebratio.org/Mazur_BC/article/1148/)
+  isolates the theorem-level requirement as a nonzero quotient of `J₀(N)`
+  with finite rational points for `N = 11` or `N > 13`; it does not require a
+  public classification of all rational points on that quotient.
+* The [MIT Fall 2023 STAGE programme](https://math.mit.edu/nt/old/stage_f23.html)
+  and Snowden's Math 679 lectures
+  [11](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L11.html),
+  [18](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L18.html),
+  [20](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L20.html),
+  and
+  [21](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L21.html)
+  independently expose the same integral modular-curve, Jacobian, Néron,
+  finite-flat, Eisenstein, and formal-immersion layers. They are useful
+  specifications but contribute no exact-pin Lean implementation.
+* [Darmon's account in *Arithmetic Geometry*, pages 38--39](https://www.claymath.org/wp-content/uploads/2022/03/cmip08c.pdf)
+  describes the winding element in relative homology and the use of Heegner
+  points, Gross--Zagier, Kolyvagin, and analytic nonvanishing to prove the
+  quotient finite. This is the source that makes the winding alternative's
+  additional arithmetic dependency cost explicit.
+* The revised
+  [Balakrishnan--Mazur 2024 survey](https://arxiv.org/html/2307.04752)
+  corroborates the optimal-quotient/formal-immersion architecture. Its
+  Chabauty variants address bounded levels, so they do not replace the
+  uniform prime-level input.
+* [Baker 2026, *Elliptic matroids and modular curves*](https://arxiv.org/abs/2608.05299)
+  identifies an elliptic-matroid realization space with the irreducible open
+  `X₁(n)°` over `ℤ[1/n]`. This is secondary geometric prior art, not a proof
+  shortcut: the open omits the rational cusps used by Mazur's collision, the
+  construction assumes the compactified generalized-elliptic moduli object,
+  and its nonrepresentability formulation is equivalent to the prime-torsion
+  theorem.
+
+None of these expository sources proves that the retained route is globally
+minimal. Together they support it as the smallest currently credible route
+aligned with the checked reduction argument and the available exact-pin APIs.
+
 There is useful lower-level vocabulary. Mathlib has local rings, stalk and
 residue-field maps, cotangent modules, completions, formal-unramifiedness
 lemmas, elliptic integral models, and equation-level reduction. Tau Ceti has
@@ -767,7 +808,7 @@ q-coefficient calculation. This adapter is not prior art for, or a proof of,
 formal immersion itself: no completed-stalk comparison or modular cusp
 collision is claimed.
 
-This audit determines the selected public boundary:
+For API design, this evidence supports the following boundary:
 
 - define formal immersion once for locally Noetherian schemes, with both the
   completed-local-ring and cotangent criteria connected by checked lemmas;
@@ -779,6 +820,12 @@ This audit determines the selected public boundary:
   Eisenstein rank-zero proof and tame torsion specialization; and
 - require the prime-five potentially-good-reduction theorem to compile before
   accepting any of those interfaces.
+
+The route-neutral argument boundary itself is already checked as
+`MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive`.
+The proposed `DegreeOneFormalImmersionWitness` is a future package for
+constructing its inputs, not a declaration supplied by the audited prior art
+or by current checked source.
 
 The literature comparison and mathematical proof are recorded in
 [`ROUTE_AUDIT.md`](ROUTE_AUDIT.md). The decisive observation is that the

@@ -43,18 +43,43 @@ rejects any drift between those pins.
 
 AINTLIB is used selectively, not as a Lake dependency. The audited
 `dev/modular-curves` snapshot has a different Mathlib graph, many placeholders,
-source-level option commands, and no root license at that revision. The three
-file-level Apache-2.0 modules that are both useful and admissible at this pin
-are ported under `MazurTorsion/Upstream/AINTLIB/`: the monoidal sheaf foundation
-needed by `Scheme.Pic`, the Picard group itself, and the Hopf-algebraic
-Cartier-duality/Deligne-order development.
+source-level option commands, and no root license at that revision. The local
+tree therefore contains selected, reviewed ports rather than a checkout of the
+upstream package.
 
-The design boundary is `MazurTorsion.Upstream.Geometry`; its named aggregate
-consumer is `MazurTorsion.lean`. The relative Picard, coherent-cohomology,
-finite-group-scheme, and modular-curve frontiers remain recorded as prior art
-until their full cones satisfy the repository's proof, option, license, and
-exact-pin requirements. This retains all presently reusable checked content
-without importing AINTLIB's unresolved dependency graph.
+At this revision there are 101 modules below
+`MazurTorsion/Upstream/AINTLIB/`, in two independently audited cones:
+
+- 95 modular-curve geometry modules from commit
+  `7ecbba9dbb7fee076a1b77a6cd516fc6de46d684`: 91 under `ForMathlib/` and
+  four under `Picard/`;
+- six Hilbert 92/94 number-theory modules under `FltRegular/NumberTheory/`,
+  selected from commit `1c1c74664e40071c2c2165bc55ca2616a67ccd6b`.
+
+These totals count local Lean modules, not byte-for-byte vendored files. Some
+are whole-file ports and some are documented narrow, option-free adaptations.
+Their placement records source lineage; it does not imply automated
+generation or transfer authorship to the project. [`PORTING.md`](../PORTING.md)
+and [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) are authoritative for
+the source blob, retained authors, license evidence, local changes, and named
+consumer of each cone.
+
+`MazurTorsion.Upstream.Geometry` is the broad geometry boundary. The coherent
+cohomology lane exposes smaller boundaries such as
+`SchemeModuleCohomologyHZero`, `SchemeModuleBaseCechHOneComparison`, and
+`ProperCurveCohomologyFinite`; the Hilbert-94 cone is consumed through
+`MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
+aggregate audit consumer, not the recommended import for an individual
+development. See the [Upstream directory map](../MazurTorsion/Upstream/README.md)
+for the entry modules.
+
+The retained relative Picard presheaf and coherent-cohomology infrastructure
+do not supply a represented degree-zero Picard scheme or Jacobian. Likewise,
+the retained finite-group-scheme substrate does not supply the represented
+integral modular curve required by the theorem. Those frontiers remain open
+until their complete cones satisfy the repository's proof, option, license,
+exact-pin, and downstream-consumer requirements. This keeps reusable checked
+content without importing AINTLIB's unresolved dependency graph.
 
 ## FLT repositories
 
