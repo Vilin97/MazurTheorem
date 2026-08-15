@@ -9,7 +9,8 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleCoproductPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleFamilyPointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveEtaleCoordinate
-import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteBaseChange
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteAffinePresentation
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFinitePowerPoint
 
 /-!
 # Étale coordinates for a finite ordered support
@@ -38,6 +39,13 @@ open FiniteEtaleRelativeProduct
 open FiniteEtaleCoproductPower
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
+open SplitFiniteAffinePresentation
+open SplitFinitePowerPoint
+open SplitFiniteSymmetricQuotient
+
+local instance supportTuplePermutationAction (d m : ℕ) :
+    MulAction (Equiv.Perm (Fin d)) (Fin d → Fin m) :=
+  tuplePermutationAction d (Fin m)
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
@@ -790,6 +798,17 @@ noncomputable abbrev coherentFpqcBase (d : ℕ)
     (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Scheme.{u} :=
   (∏ᶜ commonCoverFamily K C d z c n V T q).left
 
+instance coherentFpqcBase_isAffine (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme) :
+    IsAffine (coherentFpqcBase K C d z c n V (Spec (.of T)) q) := by
+  apply product_isAffine (Spec (.of K))
+  intro i
+  change IsAffine (Spec (.of T))
+  infer_instance
+
 /-- A split chart for one independently pulled component remains split over
 the product of all coordinate bases.  This is the componentwise bridge from
 the affine splitting theorem to the single coherent support family. -/
@@ -896,6 +915,73 @@ noncomputable def coherentFpqcFamilyCoproductSplitIso (d : ℕ)
     (coherentFpqcPulledComponent K C d z c n V (Spec (.of T)) q) m
     (fun i ↦ coherentFpqcPulledComponentSplitIso
       K C d z c n V T q i (m i) (E i) (hE i))
+
+/-- The coherent split family in the exact affine product-ring presentation
+used by the tuple-orbit invariant calculation. -/
+noncomputable def coherentFpqcFamilyCoproductAffineSchemeIso (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q) :
+    (coherentFpqcFamilyCoproduct
+      K C d z c n V (Spec (.of T)) q).left ≅
+      Spec (.of (Fin (totalSheets d m) →
+        Γ(coherentFpqcBase K C d z c n V (Spec (.of T)) q, ⊤))) :=
+  let B := coherentFpqcBase K C d z c n V (Spec (.of T)) q
+  (Over.forget B).mapIso
+      (coherentFpqcFamilyCoproductSplitIso
+        K C d z c n V T q m E hE) ≪≫
+    splitFiniteAffineSchemeIso B (totalSheets d m)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The affine product-ring presentation commutes with the coherent family's
+structure map to the canonical affine presentation of its product base. -/
+theorem coherentFpqcFamilyCoproductAffineSchemeIso_hom_comp_projection
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q) :
+    (coherentFpqcFamilyCoproductAffineSchemeIso
+        K C d z c n V T q m E hE).hom ≫
+      EtaleSplitChart.splitProjection
+        Γ(coherentFpqcBase K C d z c n V (Spec (.of T)) q, ⊤)
+        (totalSheets d m) =
+      (coherentFpqcFamilyCoproduct
+        K C d z c n V (Spec (.of T)) q).hom ≫
+      (coherentFpqcBase
+        K C d z c n V (Spec (.of T)) q).isoSpec.hom := by
+  let B := coherentFpqcBase K C d z c n V (Spec (.of T)) q
+  let X := coherentFpqcFamilyCoproduct
+    K C d z c n V (Spec (.of T)) q
+  let e := coherentFpqcFamilyCoproductSplitIso
+    K C d z c n V T q m E hE
+  change (((Over.forget B).mapIso e) ≪≫
+      splitFiniteAffineSchemeIso B (totalSheets d m)).hom ≫
+        EtaleSplitChart.splitProjection Γ(B, ⊤) (totalSheets d m) =
+    X.hom ≫ B.isoSpec.hom
+  calc
+    _ = e.hom.left ≫
+        (splitFiniteAffineSchemeIso B (totalSheets d m)).hom ≫
+          EtaleSplitChart.splitProjection Γ(B, ⊤) (totalSheets d m) := by
+            rfl
+    _ = e.hom.left ≫ (splitFinite B (totalSheets d m)).hom ≫
+        B.isoSpec.hom := by
+          rw [splitFiniteAffineSchemeIso_hom_comp_projection]
+    _ = X.hom ≫ B.isoSpec.hom := by
+      rw [← Category.assoc, e.hom.w]
 
 /-- The ordered power of the disjoint coherent family, regarded over the
 ground field. -/
@@ -1084,6 +1170,113 @@ theorem exists_coherentFpqcFamilyCoproductPowerPoint_over_support
           (PermutationPower.power (Spec (.of K)) (Fin d) C).left ↦ a p)
     hcompLeft
   exact hpoint.trans hp
+
+/-- The exact ordered point of the coherent family selects one sheet in
+each coordinate of the assembled split finite object.  This is the concrete
+tuple used to choose the relevant split symmetric-power component. -/
+noncomputable def coherentFpqcSupportSheetTuple
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q)
+    (p : (coherentFpqcFamilyCoproductPowerOverGround
+      K C d z c n V (Spec (.of T)) q).left) :
+    Fin d → Fin (totalSheets d m) :=
+  splitPowerPointTuple
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (totalSheets d m)
+    (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+    (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p
+
+/-- The split symmetric-power component selected by the exact coherent
+support point. -/
+noncomputable def coherentFpqcSupportComponent
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q)
+    (p : (coherentFpqcFamilyCoproductPowerOverGround
+      K C d z c n V (Spec (.of T)) q).left) :
+    splitComponentIndex d (totalSheets d m) :=
+  splitPowerPointComponent
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (totalSheets d m)
+    (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+    (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Each sheet coordinate extracted from the exact coherent support point
+lies over the same point of the product splitting base. -/
+theorem coherentFpqcSupportSheetBase_eq_structureMap
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q)
+    (p : (coherentFpqcFamilyCoproductPowerOverGround
+      K C d z c n V (Spec (.of T)) q).left) (i : Fin d) :
+    splitPowerPointBase
+        (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+        (totalSheets d m)
+        (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+        (coherentFpqcFamilyCoproductSplitIso
+          K C d z c n V T q m E hE) p i =
+      (PermutationPower.power
+        (coherentFpqcBase K C d z c n V (Spec (.of T)) q) (Fin d)
+        (coherentFpqcFamilyCoproduct
+          K C d z c n V (Spec (.of T)) q)).hom p :=
+  splitPowerPointBase_eq_structureMap
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (totalSheets d m)
+    (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+    (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The selected component is represented by the sheet tuple extracted from
+the exact coherent support point. -/
+theorem coherentFpqcSupportComponent_out_orbitRel
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q)
+    (p : (coherentFpqcFamilyCoproductPowerOverGround
+      K C d z c n V (Spec (.of T)) q).left) :
+    MulAction.orbitRel (Equiv.Perm (Fin d))
+      (Fin d → Fin (totalSheets d m))
+      (coherentFpqcSupportComponent K C d z c n V T q m E hE p).out
+      (coherentFpqcSupportSheetTuple K C d z c n V T q m E hE p) :=
+  splitPowerPointComponent_out_orbitRel
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (totalSheets d m)
+    (coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q)
+    (coherentFpqcFamilyCoproductSplitIso K C d z c n V T q m E hE) p
 
 /-- The complete pointwise split-chart assertion for an ordered support:
 one affine rank neighborhood, one common finite étale fpqc splitting cover,

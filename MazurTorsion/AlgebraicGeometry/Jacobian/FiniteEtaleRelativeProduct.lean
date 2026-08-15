@@ -156,6 +156,59 @@ theorem product_nonempty [Nonempty S] [Subsingleton S]
     (hX : ∀ i, Nonempty (X i).left) : Nonempty (∏ᶜ X).left :=
   (nonemptyOver S).prop_product hX
 
+/-- The object property that the source of an object over `S` is affine. -/
+abbrev affineSourceOver : ObjectProperty (Over S) :=
+  fun X ↦ IsAffine X.left
+
+instance affineSourceOver_isClosedUnderIsomorphisms :
+    (affineSourceOver S).IsClosedUnderIsomorphisms := by
+  constructor
+  intro X Y e hX
+  letI : IsAffine X.left := hX
+  let eleft : Y.left ≅ X.left := (Over.forget S).mapIso e.symm
+  exact IsAffine.of_isIso eleft.hom
+
+instance affineSourceOver_isClosedUnderBinaryProducts [IsAffine S] :
+    (affineSourceOver S).IsClosedUnderBinaryProducts := by
+  apply ObjectProperty.IsClosedUnderLimitsOfShape.mk'
+  rintro _ ⟨F, hF⟩
+  let X := F.obj ⟨WalkingPair.left⟩
+  let Y := F.obj ⟨WalkingPair.right⟩
+  letI : IsAffine X.left := hF ⟨WalkingPair.left⟩
+  letI : IsAffine Y.left := hF ⟨WalkingPair.right⟩
+  letI : IsAffine (pullback X.hom Y.hom) := inferInstance
+  let e : limit F ≅ X ⨯ Y := HasLimit.isoOfNatIso (diagramIsoPair F)
+  let eleft : (X ⨯ Y).left ≅ pullback X.hom Y.hom :=
+    Over.prodLeftIsoPullback X Y
+  let eTotal : (limit F).left ≅ pullback X.hom Y.hom :=
+    (Over.forget S).mapIso e ≪≫ eleft
+  exact IsAffine.of_isIso eTotal.hom
+
+instance affineSourceOver_isClosedUnderEmpty [IsAffine S] :
+    (affineSourceOver S).IsClosedUnderLimitsOfShape (Discrete PEmpty) := by
+  constructor
+  intro X p
+  let hX : IsTerminal X :=
+    (ObjectProperty.limitsOfShape_isEmpty_iff (affineSourceOver S) _ X).mp p |>.some
+  let T : Over S := Over.mk (𝟙 S)
+  let hT : IsTerminal T := IsTerminal.ofUniqueHom
+    (fun Z ↦ Over.homMk Z.hom)
+    (fun Z f ↦ Over.OverMorphism.ext (by simpa [T] using f.w))
+  let eleft : X.left ≅ S :=
+    (Over.forget S).mapIso (hX.uniqueUpToIso hT)
+  exact IsAffine.of_isIso eleft.hom
+
+instance affineSourceOver_isClosedUnderFiniteProducts [IsAffine S] :
+    (affineSourceOver S).IsClosedUnderFiniteProducts :=
+  ObjectProperty.IsClosedUnderFiniteProducts.mk'
+
+/-- A finite relative product of affine schemes over an affine base is
+affine. -/
+theorem product_isAffine [IsAffine S] {i : Type} [Finite i]
+    (X : i → Over S) (hX : ∀ j, IsAffine (X j).left) :
+    IsAffine (∏ᶜ X).left :=
+  (affineSourceOver S).prop_product hX
+
 /-- Pull the `i`-th member of a family over its own base to the product of
 all bases.  This is the coherent replacement for taking unrelated copies of
 the common splitting base in every ordered coordinate. -/
