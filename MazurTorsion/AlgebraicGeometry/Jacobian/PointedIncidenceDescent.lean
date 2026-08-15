@@ -10,6 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentGraphIdeal
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -44,6 +45,7 @@ open CoherentComponentBaseChange
 open OrderedIncidenceOpenRestriction
 open GeometricSupportAssignedSplitChart
 open SplitFiniteBaseChange
+open SplitComponentGraphIdeal
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
@@ -242,6 +244,50 @@ theorem orderedSupportGeometricAssignedSheetOwner_productPoint
         (orderedSupportPoint K C d z) i :=
   assignedSupportSheetOwner_productPoint K C d
     (orderedSupportPoint K C d z) V T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the split symmetric-power component selected by an actual incidence
+support, the scheme-theoretic product of its ordered coordinate-graph ideals
+is the exact kernel of the sheetwise ordered-root algebra map.  The base ring
+is the ring of global functions on the coherent affine splitting base. -/
+theorem orderedSupportGeometricAssignedGraphIdeal_eq_ker
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left) :
+    let B := coherentBase K C d (orderedSupportPoint K C d z) V
+      (Spec (.of T)) q
+    let m := totalSheets (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) r
+    let c := assignedSupportComponent K C d
+      (orderedSupportPoint K C d z) V T q r E hE p
+    orderedGraphIdeal Γ(B, ⊤) d m c =
+      RingHom.ker (ambientToOrderedRoot Γ(B, ⊤) d m c) :=
+  orderedGraphIdeal_eq_ker _ d _ _
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Every ordered incidence-ambient point therefore carries a finite family
