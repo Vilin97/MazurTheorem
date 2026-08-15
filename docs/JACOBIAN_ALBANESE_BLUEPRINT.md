@@ -44,7 +44,7 @@ parallel abstraction.
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
-| Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs; permutation descent remains |
+| Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with its ideal invariant under coordinate permutations; quotient descent remains |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -206,8 +206,13 @@ projection and the `i`-th coordinate of the second projection.  Since
 `C → S` is separated, each graph is a closed immersion.  The product of
 their ideal sheaves defines the scheme-theoretic union, including the empty
 family in degree zero, and its support is exactly the union of the graph
-supports.  It remains to prove invariance of this ideal under permutation
-and descend it through the finite symmetric quotient.
+supports.  Coordinate permutations act by ambient isomorphisms, carry the
+graph indexed by `g i` isomorphically to the graph indexed by `i`, and
+transport finite products of ideal sheaves multiplicatively.  Consequently
+the ordered incidence ideal is invariant with its scheme-theoretic
+multiplicities.  It remains to descend this invariant ideal through the
+finite symmetric quotient and prove the descended family is a relative
+effective Cartier divisor of degree `d`.
 
 Denote the representing object by
 
