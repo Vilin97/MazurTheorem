@@ -348,8 +348,7 @@ noncomputable def orderedIncidenceInvariantSchemeIsoRoot :
   letI := orderedIncidenceAction R n
   letI := orderedIncidenceSMulCommClass R n
   exact Scheme.Spec.mapIso
-    (invariantRootEquivOrderedIncidenceFixedPoints R n).toRingEquiv
-      .toCommRingCatIso.op
+    ((invariantRootEquivOrderedIncidenceFixedPoints R n).toRingEquiv.toCommRingCatIso.op)
 
 /-- The structure map from the affine incidence quotient to invariant
 coefficient space. -/
@@ -402,9 +401,15 @@ theorem orderedIncidenceInvariantSchemeIsoRoot_hom_comp_projection :
   letI : Fact (invariantUniversalPolynomial R n).Monic :=
     ⟨invariantUniversalPolynomial_monic R n⟩
   rw [orderedIncidenceInvariantSchemeIsoRoot,
-    MonicRootFamily.projection, orderedIncidenceInvariantProjection,
-    ← Spec.map_comp, Spec.map_inj]
-  ext r
+    orderedIncidenceInvariantProjection]
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
+  rw [← Spec.map_comp, Spec.map_inj]
+  apply CommRingCat.hom_ext
+  simp only [Iso.op_hom, RingEquiv.toCommRingCatIso_hom,
+    Quiver.Hom.unop_op, CommRingCat.hom_comp, CommRingCat.hom_ofHom,
+    AlgEquiv.toRingEquiv_toRingHom]
+  apply RingHom.ext
+  intro r
   exact (invariantRootEquivOrderedIncidenceFixedPoints R n).commutes r
 
 instance orderedIncidenceInvariantProjection_isFinite :
@@ -484,7 +489,8 @@ theorem orderedIncidenceInvariantProjection_finrank :
     _ = fun _ ↦ n := by
       ext x
       rw [invariantUniversalPolynomial,
-        Polynomial.natDegree_map_eq_of_injective]
+        Polynomial.natDegree_map_eq_of_injective
+          (monicCoefficientEquivFixedPoints R n).injective]
       exact Polynomial.natDegree_freeMonic R n
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineUniversalIncidence
