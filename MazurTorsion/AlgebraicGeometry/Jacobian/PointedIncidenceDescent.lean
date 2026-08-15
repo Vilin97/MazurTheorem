@@ -399,6 +399,43 @@ instance pointedSymmetricPowerAddition_isFinite (n : ℕ) :
   IsFinite.of_isProper_of_locallyQuasiFinite
     (pointedSymmetricPowerAddition K C n).left
 
+/-- A point fiber of the comparison with the incidence quotient is contained
+in a point fiber of pointed addition, obtained by applying the descended
+incidence morphism and then projecting to the symmetric-power coordinate. -/
+theorem productSymmetricPowerToIncidenceQuotient_finite_preimage_singleton
+    (n : ℕ) (y : curveOrderedIncidenceQuotientSucc K C (n + 1)) :
+    ((productSymmetricPowerToIncidenceQuotient K C n) ⁻¹' {y}).Finite := by
+  let t :=
+    (Limits.prod.snd :
+      C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶
+        SymmetricPower.curveSchemeSucc K C (n + 1)).left
+      (curveDescendedIncidenceιSucc K C (n + 1) y)
+  refine
+    (pointedSymmetricPowerAddition_finite_preimage_singleton K C n t).subset ?_
+  intro z hz
+  have hzy : productSymmetricPowerToIncidenceQuotient K C n z = y := by
+    simpa only [Set.mem_preimage, Set.mem_singleton_iff] using hz
+  change (pointedSymmetricPowerAddition K C n).left z = t
+  rw [pointedSymmetricPowerAddition_left]
+  simp only [Scheme.Hom.comp_apply, hzy, t]
+
+/-- The comparison with the incidence quotient is locally quasi-finite. -/
+instance productSymmetricPowerToIncidenceQuotient_locallyQuasiFinite
+    (n : ℕ) :
+    LocallyQuasiFinite
+      (productSymmetricPowerToIncidenceQuotient K C n) := by
+  apply LocallyQuasiFinite.of_finite_preimage_singleton
+  exact
+    productSymmetricPowerToIncidenceQuotient_finite_preimage_singleton K C n
+
+/-- The comparison with the incidence quotient is finite.  The subsequent
+local monic-root calculation can therefore identify a finite algebra rather
+than first establishing quasi-compactness separately. -/
+instance productSymmetricPowerToIncidenceQuotient_isFinite (n : ℕ) :
+    IsFinite (productSymmetricPowerToIncidenceQuotient K C n) :=
+  IsFinite.of_isProper_of_locallyQuasiFinite
+    (productSymmetricPowerToIncidenceQuotient K C n)
+
 /-- The pointed comparison is an isomorphism once it becomes one after an
 fpqc cover of the incidence quotient.  The downstream consumer is the local
 monic-root chart comparison: its explicit affine isomorphisms provide the
