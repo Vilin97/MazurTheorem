@@ -42,7 +42,8 @@ noncomputable def coordinateBase (K : Type u) [Field K] : Scheme.{u} :=
 affine spectrum. -/
 noncomputable def coordinateBaseIso (K : Type u) [Field K] :
     coordinateBase K ≅ Spec (.of K) :=
-  Scheme.Spec.mapIso (Scheme.ΓSpecIso (.of K)).symm.op
+  (isAffineOpen_top (Spec (.of K))).isoSpec.symm ≪≫
+    (Spec (.of K)).topIso
 
 instance coordinateBase_nonempty (K : Type u) [Field K] :
     Nonempty (coordinateBase K) := by
@@ -86,10 +87,10 @@ structure PointChart (K : Type u) [Field K] (X : Scheme.{u})
     (f : X ⟶ Spec (.of K)) (x : X) where
   V : X.affineOpens
   mem : x ∈ (V : X.Opens)
-  coordinate : coordinateRing K →+* Γ(X, (V : X.Opens))
-  coordinate_etale : coordinate.Etale
+  coordinate : CommRingCat.of (coordinateRing K) ⟶ Γ(X, (V : X.Opens))
+  coordinate_etale : coordinate.hom.Etale
   coordinate_comp :
-    coordinate.comp (MvPolynomial.C :
+    coordinate.hom.comp (MvPolynomial.C :
       Γ(Spec (.of K), ⊤) →+* coordinateRing K) =
         restrictionBaseRingHom K X f V
 
@@ -101,7 +102,7 @@ noncomputable def schemeMap
     {f : X ⟶ Spec (.of K)} {x : X}
     (c : PointChart K X f x) :
     (c.V : X.Opens).toScheme ⟶ Spec (.of (coordinateRing K)) :=
-  c.V.2.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom c.coordinate)
+  c.V.2.isoSpec.hom ≫ Spec.map c.coordinate
 
 /-- The source affine curve chart, regarded over the same affine base as its
 coordinate line. -/
@@ -111,6 +112,13 @@ noncomputable def sourceOver
     (c : PointChart K X f x) : Over (coordinateBase K) :=
   Over.mk (c.schemeMap ≫ (coordinateLine K).hom)
 
+/-- The original curve, transported to the global-section presentation of
+the ground field. -/
+noncomputable def curveOverCoordinateBase
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) : Over (coordinateBase K) :=
+  Over.mk (f ≫ (coordinateBaseIso K).inv)
+
 /-- The étale coordinate morphism as an arrow over the affine ground-field
 copy. -/
 noncomputable def schemeMapOver
@@ -119,11 +127,58 @@ noncomputable def schemeMapOver
     (c : PointChart K X f x) : c.sourceOver ⟶ coordinateLine K :=
   Over.homMk c.schemeMap rfl
 
+/-- The coordinate morphism is compatible with the original curve structure
+map, after identifying the global-section presentation of the ground field
+with its spectrum. -/
+theorem schemeMap_comp_coordinateLine
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X}
+    (c : PointChart K X f x) :
+    c.schemeMap ≫ (coordinateLine K).hom =
+      c.V.1.ι ≫ f ≫ (coordinateBaseIso K).inv := by
+  apply (cancel_mono (coordinateBaseIso K).hom).mp
+  simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  have hcoordinate :
+      CommRingCat.ofHom (MvPolynomial.C :
+          Γ(Spec (.of K), ⊤) →+* coordinateRing K) ≫ c.coordinate =
+        CommRingCat.ofHom (restrictionBaseRingHom K X f c.V) := by
+    apply CommRingCat.hom_ext
+    exact c.coordinate_comp
+  change c.V.2.isoSpec.hom ≫ Spec.map c.coordinate ≫
+      Spec.map (CommRingCat.ofHom (MvPolynomial.C :
+        Γ(Spec (.of K), ⊤) →+* coordinateRing K)) ≫
+      (isAffineOpen_top (Spec (.of K))).isoSpec.inv ≫
+      (⊤ : (Spec (.of K)).Opens).ι = c.V.1.ι ≫ f
+  rw [← Spec.map_comp_assoc, hcoordinate]
+  change c.V.2.isoSpec.hom ≫
+      (Spec.map (CommRingCat.ofHom
+        (restrictionBaseRingHom K X f c.V)) ≫
+          (isAffineOpen_top (Spec (.of K))).fromSpec) = c.V.1.ι ≫ f
+  have hsquare :
+      Spec.map (CommRingCat.ofHom
+          (restrictionBaseRingHom K X f c.V)) ≫
+        (isAffineOpen_top (Spec (.of K))).fromSpec =
+          c.V.2.fromSpec ≫ f := by
+    exact IsAffineOpen.SpecMap_appLE_fromSpec f
+      (isAffineOpen_top (Spec (.of K))) c.V.2 (by simp)
+  rw [hsquare]
+  simp only [IsAffineOpen.fromSpec, Category.assoc,
+    Iso.hom_inv_id_assoc]
+
+/-- The affine chart inclusion is a morphism over the coordinate copy of the
+ground field. -/
+noncomputable def sourceToCurveOver
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X}
+    (c : PointChart K X f x) :
+    c.sourceOver ⟶ curveOverCoordinateBase K X f :=
+  Over.homMk c.V.1.ι c.schemeMap_comp_coordinateLine.symm
+
 instance schemeMap_etale
     {K : Type u} [Field K] {X : Scheme.{u}}
     {f : X ⟶ Spec (.of K)} {x : X}
     (c : PointChart K X f x) : Etale c.schemeMap := by
-  haveI : Etale (Spec.map (CommRingCat.ofHom c.coordinate)) :=
+  haveI : Etale (Spec.map c.coordinate) :=
     HasRingHomProperty.Spec_iff.mpr c.coordinate_etale
   dsimp only [schemeMap]
   infer_instance
@@ -262,6 +317,47 @@ noncomputable def componentToCurve
     (n : FiniteNeighborhood c) : n.selectedOpen.toScheme ⟶ X :=
   n.componentToChart ≫ c.V.1.ι
 
+/-- The pullback component maps to the chart as a morphism over the
+coordinate copy of the ground field. -/
+noncomputable def componentToSourceOver
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : n.componentOver ⟶ c.sourceOver :=
+  Over.homMk n.componentToChart (by
+    dsimp only [componentToChart, componentOver, sourceOver]
+    change n.selectedOpen.ι ≫ pullback.fst c.schemeMap n.baseMap ≫
+        c.schemeMap ≫ (coordinateLine K).hom =
+      n.selectedOpen.ι ≫ pullback.snd c.schemeMap n.baseMap ≫
+        n.baseMap ≫ (coordinateLine K).hom
+    have h : pullback.fst c.schemeMap n.baseMap ≫ c.schemeMap =
+        pullback.snd c.schemeMap n.baseMap ≫ n.baseMap :=
+      pullback.condition
+    have hpost :
+        pullback.fst c.schemeMap n.baseMap ≫ c.schemeMap ≫
+            (coordinateLine K).hom =
+          pullback.snd c.schemeMap n.baseMap ≫ n.baseMap ≫
+            (coordinateLine K).hom := by
+      exact (Category.assoc _ _ _).symm |>.trans
+        (congrArg (fun q ↦ q ≫ (coordinateLine K).hom) h) |>.trans
+          (Category.assoc _ _ _)
+    exact congrArg (fun q ↦ n.selectedOpen.ι ≫ q) hpost)
+
+/-- The selected finite étale component maps to the original curve over
+the coordinate copy of the ground field. -/
+noncomputable def componentToCurveOver
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.componentOver ⟶ curveOverCoordinateBase K X f :=
+  n.componentToSourceOver ≫ c.sourceToCurveOver
+
+theorem componentToCurveOver_left
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.componentToCurveOver.left = n.componentToCurve :=
+  rfl
+
 @[simp]
 theorem componentToCurve_selectedPoint
     {K : Type u} [Field K] {X : Scheme.{u}}
@@ -298,7 +394,7 @@ theorem exists_pointChart
   let e : (V : X.Opens) ≤ f ⁻¹ᵁ (⊤ : (Spec (.of K)).Opens) := by simp
   letI : Algebra Γ(Spec (.of K), ⊤) Γ(X, (V : X.Opens)) :=
     (f.appLE ⊤ (V : X.Opens) e).hom.toAlgebra
-  refine ⟨⟨V, hx, g.toRingHom, hg, ?_⟩⟩
+  refine ⟨⟨V, hx, CommRingCat.ofHom g.toRingHom, hg, ?_⟩⟩
   apply RingHom.ext fun r ↦ ?_
   exact g.commutes r
 

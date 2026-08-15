@@ -258,6 +258,56 @@ instance commonComponentFamily_etale (d : ℕ)
     Etale (commonComponentFamily K C d z c n).hom :=
   (commonComponentFamily_isFiniteEtale K C d z c n).2
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The lifted support points assemble to a point of the simultaneous finite
+étale component family over the chosen common-base point. -/
+theorem exists_commonComponentFamilyPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    ∃ p : (commonComponentFamily K C d z c n).left,
+      (commonComponentFamily K C d z c n).hom p =
+          commonBasePoint K C d z c n ∧
+        ∀ i, (Pi.π
+          (fun j : Fin d ↦ pulledComponentOverCommonBase K C d z c n j)
+          i).left p = pulledComponentPoint K C d z c n i := by
+  exact exists_fin_product_point_over
+    (commonBase K C d z c n).left d
+    (fun i ↦ pulledComponentOverCommonBase K C d z c n i)
+    (commonBasePoint K C d z c n)
+    (fun i ↦ pulledComponentPoint K C d z c n i)
+    (fun i ↦ pulledComponentPoint_snd K C d z c n i)
+
+/-- The chosen point of the simultaneous finite étale component family
+lifting the original ordered support. -/
+noncomputable def commonComponentFamilyPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    (commonComponentFamily K C d z c n).left :=
+  Classical.choose (exists_commonComponentFamilyPoint K C d z c n)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem commonComponentFamilyPoint_structure (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    (commonComponentFamily K C d z c n).hom
+        (commonComponentFamilyPoint K C d z c n) =
+      commonBasePoint K C d z c n :=
+  (Classical.choose_spec
+    (exists_commonComponentFamilyPoint K C d z c n)).1
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem commonComponentFamilyPoint_projection (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (Pi.π
+      (fun j : Fin d ↦ pulledComponentOverCommonBase K C d z c n j)
+      i).left (commonComponentFamilyPoint K C d z c n) =
+        pulledComponentPoint K C d z c n i :=
+  (Classical.choose_spec
+    (exists_commonComponentFamilyPoint K C d z c n)).2 i
+
 /-- The `i`-th common-base component still maps to the original curve. -/
 noncomputable def pulledComponentToCurve (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)

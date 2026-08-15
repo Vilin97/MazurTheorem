@@ -50,7 +50,7 @@ parallel abstraction.
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; pointwise fpqc descent interfaces reduce its isomorphism, flatness, and rank assertions to independently chosen charts around each target point; the local monic-chart identifications remain |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
 | Smooth-curve étale coordinate chart | `SmoothCurveEtaleCoordinate.PointChart`, `exists_pointChart`, `PointChart.FiniteNeighborhood`, and `PointChart.exists_isCompl_finiteEtale` | checked: every curve point has an affine one-variable étale coordinate morphism compatible with the ground-field structure; Zariski's main theorem then packages that exact point in an open-and-closed component finite étale over an étale base change of the coordinate line, together with its maps back to the chart and curve |
-| Finite ordered-support coordinates | `FiniteSupportEtaleCoordinates.Charts`, `Neighborhoods`, `commonBase`, `commonComponentFamily`, `exists_commonSplitChartAtSupport`, and `PointedIncidenceDescent.orderedSupportComponentFamily` | checked: an ordered lift of a divisor supplies its actual coordinate points, including repetitions; their finite étale neighborhoods are pulled to one nonempty relative product base, the assembled product family is finite étale, and near a chosen common-base point one fpqc chart simultaneously splits every component with its exact fiber rank |
+| Finite ordered-support coordinates | `FiniteSupportEtaleCoordinates.Charts`, `Neighborhoods`, `commonBase`, `commonComponentFamily`, `commonComponentFamilyPoint`, `exists_commonSplitChartAtSupport`, and `PointedIncidenceDescent.orderedSupportComponentFamily` | checked: an ordered lift of a divisor supplies its actual coordinate points, including repetitions; their finite étale neighborhoods are pulled to one nonempty relative product base, the prescribed component points assemble over one specified common-base point, the assembled product family is finite étale, and near that point one fpqc chart simultaneously splits every component with its exact fiber rank |
 | Finite étale point neighborhoods | `EtaleFiniteNeighborhood.exists_isCompl_finiteEtale` | checked from Mathlib's Zariski-main local structure theorem: after an étale base change, any selected point of an étale separated chart lies in an open-and-closed component that is finite étale over the new base |
 | Finite étale relative products | `FiniteEtaleRelativeProduct.product_isFiniteEtale` and `product_nonempty` | checked: finite étale objects are closed under arbitrary finite products in a slice, and finite relative products of nonempty schemes over a nonempty one-point base remain nonempty |
 | Constant-rank neighborhoods | `FiniteFlatConstantRankNeighborhood.rankOpen` and `morphismRestrict_finrank` | checked: the rank fiber through a chosen point is clopen, contains that point, and restriction of a finite flat finitely presented morphism to it has constant rank |
@@ -368,17 +368,24 @@ For an ordered lift of a divisor, its finite coordinate family is now
 extracted directly and equipped pointwise with these affine étale charts,
 retaining repeated coordinates and hence multiplicities.  Each Zariski-main
 component remembers its selected point and maps back to the original curve.
+The coordinate ring map now retains its exact ground-ring compatibility as a
+`CommRingCat` morphism.  Consequently the affine chart inclusion, each
+Zariski-main pullback component, and its map back to the curve have checked
+morphisms in the slice over the global-section copy of the ground field.
 The separate coordinate-line base changes are synchronized by their relative
 product over the global-section copy of the ground field.  The chosen point
 of this common base is constructed with exact projection equations to every
 Zariski-main base point, so each original ordered support point lifts to its
 base-changed component and each corresponding fiber rank is positive.  Every
 component remains finite étale after pullback, their relative product is
-finite étale, and the pointwise family theorem supplies one affine
-neighborhood and one fpqc cover splitting all components with their exact
-fiber ranks.  The outstanding step is to transport this checked common split
-family into the ordered and symmetric incidence quotients and exclude all
-complementary sheets there.
+finite étale, and the lifted component points assemble to an actual point of
+that product over the specified common-base point.  The pointwise family
+theorem supplies one affine neighborhood and one fpqc cover splitting all
+components with their exact fiber ranks.  The outstanding step is to refine
+this product chart over the original ordered-support point (retaining its
+residue-field correlation, not merely its coordinate projections), transport
+the resulting common split family into the ordered and symmetric incidence
+quotients, and exclude all complementary sheets there.
 
 The blockwise invariant calculation and its finite induction are now checked.
 Separating a root-variable block from the remaining variables intertwines
