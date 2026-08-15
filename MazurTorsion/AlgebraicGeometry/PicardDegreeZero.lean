@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
+import TauCeti.AlgebraicGeometry.WeilDivisor.Degree.Splitting
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Degree
 
 /-!
@@ -21,7 +22,10 @@ Picard unit.
 
 No relative Picard functor or representability claim is made here. The generic weighted
 construction retains the product formula as an explicit input; the smooth proper curve
-specialization discharges it with Tau Ceti's checked theorem.
+specialization discharges it with Tau Ceti's checked theorem.  In particular, the degree map
+constructed below is an absolute degree on the Picard group of one curve over a field.  The
+pinned libraries do not yet supply the arbitrary-test-scheme degree and pullback theorem needed
+to promote it to a natural transformation on the relative Picard presheaf.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry
@@ -78,6 +82,39 @@ noncomputable def degreeZero
     AddSubgroup (PicardGroup X) :=
   (S.picZero w h).map e.toAddMonoidHom
 
+/-- The honest weighted degree homomorphism on the scheme Picard group, obtained by transporting
+Tau Ceti's descended divisor-class degree through an actual divisor-class/Picard equivalence.
+
+This is an absolute construction.  It does not take a relative degree as an input, and makes no
+claim that degree has been constructed on arbitrary base changes. -/
+noncomputable def weightedDegreeHom
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X) :
+    PicardGroup X →+ ℤ :=
+  (S.weightedDegreeClass w h).comp e.symm.toAddMonoidHom
+
+/-- The transported Picard degree is literally the divisor-class degree after applying the
+inverse divisor/Picard equivalence. -/
+@[simp]
+lemma weightedDegreeHom_apply
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X) (p : PicardGroup X) :
+    weightedDegreeHom S w h e p = S.weightedDegreeClass w h (e.symm p) :=
+  rfl
+
+/-- The degree of the Picard class represented by a divisor is its checked weighted divisor
+degree. -/
+lemma weightedDegreeHom_equiv_divisorClass
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X) (D : WeilDivisor Y) :
+    weightedDegreeHom S w h e (e (S.divisorClass D)) =
+      WeilDivisor.weightedDegree w D := by
+  rw [weightedDegreeHom_apply, e.symm_apply_apply,
+    S.weightedDegreeClass_divisorClass]
+
 /-- The divisor-class/Picard equivalence restricts to the degree-zero subgroups. -/
 noncomputable def picZeroEquiv
     (S : WeilDivisor.OrderSystem Y G)
@@ -96,6 +133,40 @@ lemma mem_degreeZero_iff
     p ∈ degreeZero S w h e ↔ e.symm p ∈ S.picZero w h := by
   rw [degreeZero, AddSubgroup.mem_map_equiv]
 
+/-- The previously transported degree-zero subgroup is exactly the kernel of the actual Picard
+degree homomorphism.  Thus `degreeZero` is not merely an image carrying a suggestive name. -/
+theorem degreeZero_eq_ker_weightedDegreeHom
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X) :
+    degreeZero S w h e = (weightedDegreeHom S w h e).ker := by
+  ext p
+  rw [mem_degreeZero_iff, AddMonoidHom.mem_ker,
+    weightedDegreeHom_apply, S.mem_picZero]
+
+/-- A weight-one point splits the actual Picard degree, transporting Tau Ceti's checked
+class-group splitting to the scheme Picard group. -/
+noncomputable def addEquivDegreeZeroProdInt
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ : Y} (hx₀ : w x₀ = 1) :
+    PicardGroup X ≃+ degreeZero S w h e × ℤ :=
+  e.symm.trans
+    ((S.classGroupAddEquivPicZeroProdInt w h hx₀).trans
+      ((picZeroEquiv S w h e).prodCongr (AddEquiv.refl ℤ)))
+
+/-- The integer component of the Picard splitting is the transported degree homomorphism. -/
+@[simp]
+lemma addEquivDegreeZeroProdInt_apply_snd
+    (S : WeilDivisor.OrderSystem Y G)
+    (w : Y → ℤ) (h : S.IsWeightedDegreeZero w)
+    (e : DivisorPicard.ClassEquivalence S X)
+    {x₀ : Y} (hx₀ : w x₀ = 1) (p : PicardGroup X) :
+    (addEquivDegreeZeroProdInt S w h e hx₀ p).2 =
+      weightedDegreeHom S w h e p :=
+  rfl
+
 /-- A divisor class lands in absolute `Pic⁰` exactly when its weighted degree is zero. -/
 lemma divisorClass_mem_degreeZero_iff
     (S : WeilDivisor.OrderSystem Y G)
@@ -105,6 +176,86 @@ lemma divisorClass_mem_degreeZero_iff
     e (S.divisorClass D) ∈ degreeZero S w h e ↔
       WeilDivisor.weightedDegree w D = 0 := by
   rw [mem_degreeZero_iff, e.symm_apply_apply, S.divisorClass_mem_picZero]
+
+/-! ### Smooth proper curves over a field -/
+
+/-- The absolute degree homomorphism on the Picard group of a smooth proper integral curve over
+a field.  The divisor product formula is discharged by Tau Ceti; the divisor-class/Picard
+equivalence remains the exact bridge identifying every scheme Picard class with a divisor
+class. -/
+noncomputable def properCurveDegreeHom
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (pi : X ⟶ Spec (.of K)) [IsProper pi] [SmoothOfRelativeDimension 1 pi]
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X) :
+    PicardGroup X →+ ℤ :=
+  weightedDegreeHom
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X)
+    (fun x ↦ (pi.residueDegree x.1 : ℤ))
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi)
+    e
+
+/-- The absolute degree-zero Picard subgroup of a smooth proper curve, expressed without the
+stronger invertible-sheaf dictionary. -/
+noncomputable def properCurveDegreeZero
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (pi : X ⟶ Spec (.of K)) [IsProper pi] [SmoothOfRelativeDimension 1 pi]
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X) :
+    AddSubgroup (PicardGroup X) :=
+  degreeZero
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X)
+    (fun x ↦ (pi.residueDegree x.1 : ℤ))
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi)
+    e
+
+/-- On a smooth proper curve, the absolute `Pic⁰` subgroup is exactly the kernel of the
+checked absolute degree homomorphism. -/
+theorem properCurveDegreeZero_eq_ker
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (pi : X ⟶ Spec (.of K)) [IsProper pi] [SmoothOfRelativeDimension 1 pi]
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X) :
+    properCurveDegreeZero K X pi e = (properCurveDegreeHom K X pi e).ker :=
+  degreeZero_eq_ker_weightedDegreeHom
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X)
+    (fun x ↦ (pi.residueDegree x.1 : ℤ))
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi)
+    e
+
+/-- A residue-degree-one closed point splits the absolute Picard group of a smooth proper curve
+as `Pic⁰ × ℤ`. -/
+noncomputable def properCurvePicardAddEquivDegreeZeroProdInt
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (pi : X ⟶ Spec (.of K)) [IsProper pi] [SmoothOfRelativeDimension 1 pi]
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hx₀ : (pi.residueDegree x₀.1 : ℤ) = 1) :
+    PicardGroup X ≃+ properCurveDegreeZero K X pi e × ℤ :=
+  addEquivDegreeZeroProdInt
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X)
+    (fun x ↦ (pi.residueDegree x.1 : ℤ))
+    (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem_isWeightedDegreeZero K X pi)
+    e hx₀
+
+/-- The integer component of the proper-curve splitting is its absolute degree. -/
+@[simp]
+lemma properCurvePicardAddEquivDegreeZeroProdInt_apply_snd
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsNoetherian X]
+    (pi : X ⟶ Spec (.of K)) [IsProper pi] [SmoothOfRelativeDimension 1 pi]
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem X) X)
+    {x₀ : TauCeti.AlgebraicGeometry.CodimensionOnePoint X}
+    (hx₀ : (pi.residueDegree x₀.1 : ℤ) = 1) (p : PicardGroup X) :
+    (properCurvePicardAddEquivDegreeZeroProdInt K X pi e hx₀ p).2 =
+      properCurveDegreeHom K X pi e p :=
+  rfl
 
 end PicardGroup
 

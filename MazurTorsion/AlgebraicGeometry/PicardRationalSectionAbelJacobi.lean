@@ -159,36 +159,81 @@ theorem rationalSectionAbelJacobiClass_base
     (curveWeight_isWeightedDegreeZero pi) e
     x0.residueDegree_int_toCodimensionOnePoint
 
-/-! ### Classes in the associated all-degree fppf sheafification -/
-
-/-- Restrict the canonical map from the absolute Picard group to the
-associated fppf sheafification at the base object to the existing absolute
-degree-zero subgroup determined by the supplied `DivisorPicard.ClassEquivalence`.
-
-This is not a relative degree-zero subfunctor: it neither constructs the supplied
-class equivalence nor a relative degree map compatible with base change. -/
-private noncomputable def degreeZeroToPicRelFppfAtBase
+/-- A rational section supplies the residue-degree-one point that splits the checked absolute
+degree on the scheme Picard group.  This is an absolute splitting over `K`; it is not a
+relative-Picard representability statement. -/
+noncomputable def rationalSectionPicardAddEquivDegreeZeroProdInt
     (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
     (x0 : SmoothCurveRationalSection K X pi) :
-    degreeZero (curveOrderSystem (X := X)) (curveWeight pi)
-        (curveWeight_isWeightedDegreeZero pi) e →+
-      (Scheme.Modules.picRelFppfSheaf pi x0.hom x0.hom_comp).obj.obj
-        (Opposite.op (Over.mk (𝟙 (Spec (.of K))))) :=
-  (Scheme.Modules.picRelFppfClassAtBaseHom
-    pi x0.hom x0.hom_comp).comp
-      (degreeZero (curveOrderSystem (X := X)) (curveWeight pi)
-        (curveWeight_isWeightedDegreeZero pi) e).subtype
+    PicardGroup X ≃+ properCurveDegreeZero K X pi e × ℤ :=
+  properCurvePicardAddEquivDegreeZeroProdInt K X pi e
+    x0.residueDegree_int_toCodimensionOnePoint
+
+/-- The integer component of the rational-section splitting is the honest absolute Picard
+degree. -/
+@[simp]
+theorem rationalSectionPicardAddEquivDegreeZeroProdInt_apply_snd
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 : SmoothCurveRationalSection K X pi) (p : PicardGroup X) :
+    (rationalSectionPicardAddEquivDegreeZeroProdInt pi e x0 p).2 =
+      properCurveDegreeHom K X pi e p :=
+  rfl
+
+/-! ### Classes in the associated all-degree fppf sheafification -/
+
+/-- The rational-section Abel--Jacobi class as an element of the actual kernel of the checked
+absolute Picard degree.  This is the named kernel consumer of
+`properCurveDegreeZero_eq_ker`. -/
+noncomputable def rationalSectionAbelJacobiDegreeKernel
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    (properCurveDegreeHom K X pi e).ker :=
+  ⟨(rationalSectionAbelJacobiClass pi e x0 x : PicardGroup X), by
+    rw [← properCurveDegreeZero_eq_ker K X pi e]
+    exact (rationalSectionAbelJacobiClass pi e x0 x).property⟩
+
+/-- Forgetting the kernel proof recovers the existing absolute Abel--Jacobi Picard class. -/
+@[simp]
+theorem coe_rationalSectionAbelJacobiDegreeKernel
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    (rationalSectionAbelJacobiDegreeKernel pi e x0 x : PicardGroup X) =
+      rationalSectionAbelJacobiClass pi e x0 x :=
+  rfl
+
+/-- Every rational-section Abel--Jacobi class has zero under the checked absolute Picard
+degree. -/
+@[simp]
+theorem properCurveDegreeHom_rationalSectionAbelJacobiClass
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 x : SmoothCurveRationalSection K X pi) :
+    properCurveDegreeHom K X pi e
+        (rationalSectionAbelJacobiClass pi e x0 x : PicardGroup X) = 0 :=
+  AddMonoidHom.mem_ker.mp
+    (rationalSectionAbelJacobiDegreeKernel pi e x0 x).property
+
+/-- The normalizing rational section is zero in the actual degree kernel. -/
+@[simp]
+theorem rationalSectionAbelJacobiDegreeKernel_base
+    (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
+    (x0 : SmoothCurveRationalSection K X pi) :
+    rationalSectionAbelJacobiDegreeKernel pi e x0 x0 = 0 := by
+  apply Subtype.ext
+  change (rationalSectionAbelJacobiClass pi e x0 x0 : PicardGroup X) = 0
+  exact congrArg Subtype.val (rationalSectionAbelJacobiClass_base pi e x0)
 
 /-- Map the rational-section Abel--Jacobi class into the associated fppf sheafification of
-the zero-section-normalized Picard presheaf at the base. This depends on the supplied
-`DivisorPicard.ClassEquivalence`; no representing Jacobian or scheme morphism is asserted. -/
+the zero-section-normalized Picard presheaf at the base.  The construction now factors through
+the actual kernel of the checked absolute Picard degree before using the base-object boundary
+map.  No relative degree naturality, representing Jacobian, or scheme morphism is asserted. -/
 noncomputable def rationalSectionAbelJacobiPicRelFppfClass
     (e : DivisorPicard.ClassEquivalence (curveOrderSystem (X := X)) X)
     (x0 x : SmoothCurveRationalSection K X pi) :
     (Scheme.Modules.picRelFppfSheaf pi x0.hom x0.hom_comp).obj.obj
       (Opposite.op (Over.mk (𝟙 (Spec (.of K))))) :=
-  degreeZeroToPicRelFppfAtBase pi e x0
-    (rationalSectionAbelJacobiClass pi e x0 x)
+  Scheme.Modules.properCurveDegreeKernelToPicRelFppfAtBase
+    K X pi x0.hom x0.hom_comp e
+      (rationalSectionAbelJacobiDegreeKernel pi e x0 x)
 
 /-- The normalizing section maps to zero after passage to the associated fppf
 sheafification. -/
@@ -198,7 +243,7 @@ theorem rationalSectionAbelJacobiPicRelFppfClass_base
     (x0 : SmoothCurveRationalSection K X pi) :
     rationalSectionAbelJacobiPicRelFppfClass pi e x0 x0 = 0 := by
   rw [rationalSectionAbelJacobiPicRelFppfClass,
-    rationalSectionAbelJacobiClass_base, map_zero]
+    rationalSectionAbelJacobiDegreeKernel_base, map_zero]
 
 /-- The difference of two rational-section Abel--Jacobi classes is the
 scheme-Picard image of the corresponding point-difference divisor.  This is a
