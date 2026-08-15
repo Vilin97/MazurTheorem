@@ -369,13 +369,16 @@ extracted directly and equipped pointwise with these affine étale charts,
 retaining repeated coordinates and hence multiplicities.  Each Zariski-main
 component remembers its selected point and maps back to the original curve.
 The separate coordinate-line base changes are synchronized by their relative
-product over the global-section copy of the ground field.  This common base
-is nonempty, every component remains finite étale after pullback, their
-relative product is finite étale, and the pointwise family theorem supplies
-one affine neighborhood and one fpqc cover splitting all components with
-their exact fiber ranks.  The outstanding step is to transport this checked
-common split family into the ordered and symmetric incidence quotients and
-exclude all complementary sheets there.
+product over the global-section copy of the ground field.  The chosen point
+of this common base is constructed with exact projection equations to every
+Zariski-main base point, so each original ordered support point lifts to its
+base-changed component and each corresponding fiber rank is positive.  Every
+component remains finite étale after pullback, their relative product is
+finite étale, and the pointwise family theorem supplies one affine
+neighborhood and one fpqc cover splitting all components with their exact
+fiber ranks.  The outstanding step is to transport this checked common split
+family into the ordered and symmetric incidence quotients and exclude all
+complementary sheets there.
 
 The blockwise invariant calculation and its finite induction are now checked.
 Separating a root-variable block from the remaining variables intertwines

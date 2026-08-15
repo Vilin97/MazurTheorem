@@ -198,7 +198,7 @@ noncomputable def basePoint
     {K : Type u} [Field K] {X : Scheme.{u}}
     {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
     (n : FiniteNeighborhood c) : n.base :=
-  Classical.choose n.point_mem_range
+  pullback.snd c.schemeMap n.baseMap n.selectedPoint.1
 
 @[simp]
 theorem baseMap_basePoint
@@ -206,8 +206,15 @@ theorem baseMap_basePoint
     {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
     (n : FiniteNeighborhood c) :
     n.baseMap n.basePoint = c.schemeMap (⟨x, c.mem⟩ :
-      (c.V : X.Opens).toScheme) :=
-  Classical.choose_spec n.point_mem_range
+      (c.V : X.Opens).toScheme) := by
+  rw [← n.selectedPoint_fst]
+  have h := congrArg
+    (fun q : pullback c.schemeMap n.baseMap ⟶ (coordinateLine K).left ↦
+      q n.selectedPoint.1)
+    (pullback.condition :
+      pullback.fst c.schemeMap n.baseMap ≫ c.schemeMap =
+        pullback.snd c.schemeMap n.baseMap ≫ n.baseMap)
+  exact h.symm
 
 /-- The étale base change, regarded over the affine ground-field copy. -/
 noncomputable def baseOver
@@ -230,6 +237,14 @@ noncomputable def componentToBase
     {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
     (n : FiniteNeighborhood c) : n.componentOver ⟶ n.baseOver :=
   Over.homMk (n.selectedOpen.ι ≫ pullback.snd c.schemeMap n.baseMap) rfl
+
+@[simp]
+theorem componentToBase_selectedPoint
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.componentToBase.left n.selectedPoint = n.basePoint :=
+  rfl
 
 /-- The selected component maps back to the affine curve chart through the
 first pullback projection. -/

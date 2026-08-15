@@ -100,12 +100,34 @@ theorem commonBase_nonempty (d : ℕ)
   intro i
   exact ⟨(n i).basePoint⟩
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The selected base points lift simultaneously to a point of the relative
+product, with the prescribed value under every projection. -/
+theorem exists_commonBasePoint_with_projections (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    ∃ y : (commonBase K C d z c n).left,
+      ∀ i, (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left y =
+        (n i).basePoint := by
+  exact exists_fin_product_point (coordinateBase K) d
+    (fun i ↦ (n i).baseOver) (fun i ↦ (n i).basePoint)
+
 /-- A chosen point of the common product base. -/
 noncomputable def commonBasePoint (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
     (c : Charts K C d z) (n : Neighborhoods K C d z c) :
     (commonBase K C d z c n).left :=
-  Classical.choice (commonBase_nonempty K C d z c n)
+  Classical.choose (exists_commonBasePoint_with_projections K C d z c n)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem commonBasePoint_projection (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+        (commonBasePoint K C d z c n) = (n i).basePoint :=
+  Classical.choose_spec
+    (exists_commonBasePoint_with_projections K C d z c n) i
 
 /-- Pull the `i`-th selected finite étale component to the common product
 base. -/
@@ -148,6 +170,64 @@ instance pulledComponentOverCommonBase_etale (d : ℕ)
   exact MorphismProperty.pullback_snd (P := @Etale) _ _
     (show Etale (n i).componentToBase.left from inferInstance)
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The selected component point and the common base point lift together to
+the base-changed component. -/
+theorem exists_pulledComponentPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    ∃ p : (pulledComponentOverCommonBase K C d z c n i).left,
+      pullback.fst (n i).componentToBase.left
+          (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left p =
+        (n i).selectedPoint ∧
+      pullback.snd (n i).componentToBase.left
+          (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left p =
+        commonBasePoint K C d z c n := by
+  apply Scheme.Pullback.exists_preimage_pullback
+  simpa using (commonBasePoint_projection K C d z c n i).symm
+
+/-- The chosen lift of the selected support point to its common-base
+component. -/
+noncomputable def pulledComponentPoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (pulledComponentOverCommonBase K C d z c n i).left :=
+  Classical.choose (exists_pulledComponentPoint K C d z c n i)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem pulledComponentPoint_fst (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pullback.fst (n i).componentToBase.left
+        (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+          (pulledComponentPoint K C d z c n i) = (n i).selectedPoint :=
+  (Classical.choose_spec (exists_pulledComponentPoint K C d z c n i)).1
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem pulledComponentPoint_snd (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pullback.snd (n i).componentToBase.left
+        (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+          (pulledComponentPoint K C d z c n i) =
+      commonBasePoint K C d z c n :=
+  (Classical.choose_spec (exists_pulledComponentPoint K C d z c n i)).2
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Every selected support component has positive fiber rank at the chosen
+common-base point. -/
+theorem one_le_pulledComponent_finrank (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    1 ≤ (pulledComponentOverCommonBase K C d z c n i).hom.finrank
+      (commonBasePoint K C d z c n) := by
+  rw [← pulledComponentPoint_snd K C d z c n i]
+  exact Scheme.Hom.one_le_finrank_map
+    (pulledComponentOverCommonBase K C d z c n i).hom
+      (pulledComponentPoint K C d z c n i)
+
 /-- The relative product of all selected components over their common base. -/
 noncomputable abbrev commonComponentFamily (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
@@ -186,6 +266,20 @@ noncomputable def pulledComponentToCurve (d : ℕ)
   pullback.fst (n i).componentToBase.left
       (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫
     (n i).componentToCurve
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+@[simp]
+theorem pulledComponentToCurve_point (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentToCurve K C d z c n i
+        (pulledComponentPoint K C d z c n i) = point K C d z i := by
+  change (n i).componentToCurve
+    (pullback.fst (n i).componentToBase.left
+      (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left
+        (pulledComponentPoint K C d z c n i)) = point K C d z i
+  rw [pulledComponentPoint_fst]
+  exact (n i).componentToCurve_selectedPoint
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- Near the chosen common-base point, all selected support components have

@@ -155,4 +155,67 @@ theorem product_nonempty [Nonempty S] [Subsingleton S]
     (hX : ∀ i, Nonempty (X i).left) : Nonempty (∏ᶜ X).left :=
   (nonemptyOver S).prop_product hX
 
+/-- A prescribed finite family of points over a one-point base lifts to the
+relative product, with all product projections equal to the prescribed
+points. -/
+theorem exists_fin_product_point [Nonempty S] [Subsingleton S]
+    (n : ℕ) (X : Fin n → Over S) (x : ∀ i, (X i).left) :
+    ∃ p : (∏ᶜ X).left, ∀ i, (Pi.π X i).left p = x i := by
+  induction n with
+  | zero =>
+      let p : (∏ᶜ X).left := Classical.choice
+        (product_nonempty S X (fun i ↦ Fin.elim0 i))
+      exact ⟨p, fun i ↦ Fin.elim0 i⟩
+  | succ n ih =>
+      let tail : Fin n → Over S := fun i ↦ X i.succ
+      obtain ⟨pTail, hpTail⟩ := ih tail (fun i ↦ x i.succ)
+      obtain ⟨r, hrHead, hrTail⟩ := Scheme.Pullback.exists_preimage_pullback
+        (x 0) pTail
+          (Subsingleton.elim ((X 0).hom (x 0)) ((∏ᶜ tail).hom pTail))
+      let q : (X 0 ⨯ ∏ᶜ tail).left :=
+        (Over.prodLeftIsoPullback (X 0) (∏ᶜ tail)).inv r
+      have hqHead :
+          (Limits.prod.fst : X 0 ⨯ ∏ᶜ tail ⟶ X 0).left q = x 0 := by
+        change (((Over.prodLeftIsoPullback (X 0) (∏ᶜ tail)).inv ≫
+          (Limits.prod.fst : X 0 ⨯ ∏ᶜ tail ⟶ X 0).left) r) = x 0
+        rw [Over.prodLeftIsoPullback_inv_fst]
+        exact hrHead
+      have hqTail :
+          (Limits.prod.snd : X 0 ⨯ ∏ᶜ tail ⟶ ∏ᶜ tail).left q = pTail := by
+        change (((Over.prodLeftIsoPullback (X 0) (∏ᶜ tail)).inv ≫
+          (Limits.prod.snd : X 0 ⨯ ∏ᶜ tail ⟶ ∏ᶜ tail).left) r) = pTail
+        rw [Over.prodLeftIsoPullback_inv_snd]
+        exact hrTail
+      let c₁ : Fan tail := Fan.mk (∏ᶜ tail) (fun i ↦ Pi.π tail i)
+      let hc₁ : IsLimit c₁ := limit.isLimit (Discrete.functor tail)
+      let c₂ : BinaryFan (X 0) c₁.pt :=
+        BinaryFan.mk Limits.prod.fst Limits.prod.snd
+      let hc₂ : IsLimit c₂ := Limits.prodIsProd (X 0) c₁.pt
+      let c : Fan X := extendFan c₁ c₂
+      let hc : IsLimit c := extendFanIsLimit X hc₁ hc₂
+      let e : ∏ᶜ X ≅ c.pt :=
+        IsLimit.conePointUniqueUpToIso (limit.isLimit (Discrete.functor X)) hc
+      let q' : c.pt.left := q
+      refine ⟨e.inv.left q', ?_⟩
+      intro i
+      have heπ : e.inv ≫ Pi.π X i = c.π.app ⟨i⟩ :=
+        IsLimit.conePointUniqueUpToIso_inv_comp
+          (limit.isLimit (Discrete.functor X)) hc ⟨i⟩
+      have heval := congrArg (fun f : c.pt ⟶ X i ↦ f.left q') heπ
+      change (Pi.π X i).left (e.inv.left q') = x i
+      change (e.inv ≫ Pi.π X i).left q' = x i
+      rw [heval]
+      refine Fin.cases ?_ (fun j ↦ ?_) i
+      · change (Limits.prod.fst : X 0 ⨯ ∏ᶜ tail ⟶ X 0).left q' = x 0
+        change (Limits.prod.fst : X 0 ⨯ ∏ᶜ tail ⟶ X 0).left q = x 0
+        exact hqHead
+      · change (Pi.π tail j).left
+          ((Limits.prod.snd : X 0 ⨯ ∏ᶜ tail ⟶ ∏ᶜ tail).left q') = x j.succ
+        have hqTail' :
+            (Limits.prod.snd : X 0 ⨯ ∏ᶜ tail ⟶ ∏ᶜ tail).left q' = pTail := by
+          change (Limits.prod.snd : X 0 ⨯ ∏ᶜ tail ⟶ ∏ᶜ tail).left q = pTail
+          exact hqTail
+        rw [hqTail']
+        exact hpTail j
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleRelativeProduct
