@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
 import Mathlib.RingTheory.Polynomial.UniversalFactorizationRing
+import MazurTorsion.AlgebraicGeometry.Jacobian.MonicRootFamily
 
 /-!
 # The universal root as a finite free factorization space
@@ -336,6 +337,17 @@ theorem rootToFactorsR_comp_factorsToRootR :
         Algebra.TensorProduct.includeRight
     simpa using rootToFactorsR_comp_factorsToRootR_includeRight R n
 
+/-- The universal factorization ring and universal root algebra are
+equivalent already as algebras over the original base ring. -/
+noncomputable def factorsEquivRootR :
+    factorizationRing R n ≃ₐ[R] universalRootAlgebra R n :=
+  { factorsToRootR R n with
+    invFun := rootToFactorsR R n
+    left_inv := fun x ↦ DFunLike.congr_fun
+      (rootToFactorsR_comp_factorsToRootR R n) x
+    right_inv := fun x ↦ DFunLike.congr_fun
+      (factorsToRootR_comp_rootToFactorsR R n) x }
+
 noncomputable def factorsToRoot :
     letI := (coefficientToFactors R n).toAlgebra
     factorizationRing R n →ₐ[coefficientRing R n]
@@ -461,6 +473,28 @@ theorem coefficientToFactors_flat :
 
 open _root_.AlgebraicGeometry
 
+/-- The factorization scheme is canonically the root scheme of the
+universal monic polynomial. -/
+noncomputable def factorizationSchemeIsoAdjoinRoot :
+    Spec (.of (factorizationRing R n)) ≅
+      Spec (.of (universalRootAlgebra R n)) where
+  hom := Spec.map (CommRingCat.ofHom (rootToFactorsR R n).toRingHom)
+  inv := Spec.map (CommRingCat.ofHom (factorsToRootR R n).toRingHom)
+  hom_inv_id := by
+    rw [← Spec.map_comp, ← Spec.map_id]
+    congr 1
+    apply CommRingCat.hom_ext
+    exact congrArg (fun f : factorizationRing R n →ₐ[R]
+        factorizationRing R n ↦ f.toRingHom)
+      (rootToFactorsR_comp_factorsToRootR R n)
+  inv_hom_id := by
+    rw [← Spec.map_comp, ← Spec.map_id]
+    congr 1
+    apply CommRingCat.hom_ext
+    exact congrArg (fun f : universalRootAlgebra R n →ₐ[R]
+        universalRootAlgebra R n ↦ f.toRingHom)
+      (factorsToRootR_comp_rootToFactorsR R n)
+
 /-- The affine universal-root morphism.  On points it records a monic
 polynomial together with one of its roots, or equivalently a factorization
 into monic factors of degrees `1` and `n`. -/
@@ -468,6 +502,39 @@ noncomputable def universalRootProjection :
     Spec (.of (factorizationRing R n)) ⟶
       Spec (.of (coefficientRing R n)) :=
   Spec.map (CommRingCat.ofHom (coefficientToFactors R n).toRingHom)
+
+/-- Under `factorizationSchemeIsoAdjoinRoot`, the universal factorization
+projection is the ordinary projection of the adjoined-root algebra. -/
+theorem factorizationSchemeIsoAdjoinRoot_hom_comp_projection :
+    letI : Fact (universalPolynomial R n).Monic :=
+      ⟨Polynomial.monic_freeMonic R (n + 1)⟩
+    (factorizationSchemeIsoAdjoinRoot R n).hom ≫
+        MonicRootFamily.projection (coefficientRing R n)
+          (universalPolynomial R n) =
+      universalRootProjection R n := by
+  letI : Fact (universalPolynomial R n).Monic :=
+    ⟨Polynomial.monic_freeMonic R (n + 1)⟩
+  rw [factorizationSchemeIsoAdjoinRoot,
+    MonicRootFamily.projection, universalRootProjection]
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
+  rw [← Spec.map_comp, Spec.map_inj]
+  apply CommRingCat.hom_ext
+  exact congrArg (fun f : coefficientRing R n →ₐ[R]
+      factorizationRing R n ↦ f.toRingHom)
+    (rootToFactorsR_comp_of R n)
+
+/-- The inverse form of the projection compatibility. -/
+theorem factorizationSchemeIsoAdjoinRoot_inv_comp_universalRootProjection :
+    letI : Fact (universalPolynomial R n).Monic :=
+      ⟨Polynomial.monic_freeMonic R (n + 1)⟩
+    (factorizationSchemeIsoAdjoinRoot R n).inv ≫
+        universalRootProjection R n =
+      MonicRootFamily.projection (coefficientRing R n)
+        (universalPolynomial R n) := by
+  letI : Fact (universalPolynomial R n).Monic :=
+    ⟨Polynomial.monic_freeMonic R (n + 1)⟩
+  rw [← factorizationSchemeIsoAdjoinRoot_hom_comp_projection,
+    ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
 
 /-- The universal root locus embedded in the affine line over the universal
 coefficient space. -/

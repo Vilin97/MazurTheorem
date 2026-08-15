@@ -151,6 +151,109 @@ theorem productSymmetricPowerToIncidenceQuotient_comp_structureMap
     orderedPointedToIncidenceQuotient_comp_structureMap,
     curveOrderedAmbientToSymmetricProductSucc_comp_structureMap]
 
+/-- The incidence quotient, packaged as a scheme over the ground field. -/
+noncomputable def curveOrderedIncidenceQuotientOverSucc (n : ℕ) :
+    Over (Spec (.of K)) :=
+  Over.mk (curveOrderedIncidenceQuotientStructureMapSucc K C n)
+
+/-- The pointed comparison as a morphism over the ground field. -/
+noncomputable def productSymmetricPowerToIncidenceQuotientOver (n : ℕ) :
+    C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶
+      curveOrderedIncidenceQuotientOverSucc K C (n + 1) :=
+  Over.homMk (productSymmetricPowerToIncidenceQuotient K C n)
+    (productSymmetricPowerToIncidenceQuotient_comp_structureMap K C n)
+
+/-- The descended incidence morphism, packaged over the ground field. -/
+noncomputable def curveDescendedIncidenceOverSucc (n : ℕ) :
+    curveOrderedIncidenceQuotientOverSucc K C n ⟶
+      C ⨯ SymmetricPower.curveSchemeSucc K C n :=
+  Over.homMk (curveDescendedIncidenceιSucc K C n)
+    (curveDescendedIncidenceιSucc_comp_structureMap K C n)
+
+/-- Add the distinguished point to an effective divisor:
+`C × Sym^(n+1)(C) ⟶ Sym^(n+2)(C)`.  This definition is obtained from
+the checked incidence quotient and is the map used by the local root-chart
+comparison. -/
+noncomputable def pointedSymmetricPowerAddition (n : ℕ) :
+    C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶
+      SymmetricPower.curveSchemeSucc K C (n + 1) :=
+  productSymmetricPowerToIncidenceQuotientOver K C n ≫
+    curveDescendedIncidenceOverSucc K C (n + 1) ≫
+      (Limits.prod.snd :
+        C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶
+          SymmetricPower.curveSchemeSucc K C (n + 1))
+
+theorem pointedSymmetricPowerAddition_left (n : ℕ) :
+    (pointedSymmetricPowerAddition K C n).left =
+      productSymmetricPowerToIncidenceQuotient K C n ≫
+        curveDescendedIncidenceιSucc K C (n + 1) ≫
+          (Limits.prod.snd :
+            C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶
+              SymmetricPower.curveSchemeSucc K C (n + 1)).left :=
+  rfl
+
+/-- The incidence comparison retains the distinguished curve coordinate. -/
+@[reassoc]
+theorem productSymmetricPowerToIncidenceQuotient_comp_descendedIncidence_fst
+    (n : ℕ) :
+    productSymmetricPowerToIncidenceQuotient K C n ≫
+        curveDescendedIncidenceιSucc K C (n + 1) ≫
+          (Limits.prod.fst :
+            C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶ C).left =
+      (Limits.prod.fst :
+        C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶ C).left := by
+  let q := curveOrderedAmbientQuotientProjectionSucc K C n
+  let e := curveAmbientQuotientToSymmetricProductSucc K C n
+  haveI : Epi q := FiniteGroupQuotient.epi_quotientπ
+    (orderedAmbientAction (Spec (.of K)) (n + 1) C)
+    (curveOrderedAmbient_hasAffineOrbit_succ K C n)
+  haveI : IsIso e := curveAmbientQuotientToSymmetricProductSucc_isIso K C n
+  haveI : Epi (q ≫ e) := inferInstance
+  have hqe : q ≫ e = curveOrderedAmbientToSymmetricProductSucc K C n :=
+    curveOrderedAmbientQuotientProjection_comp_toSymmetricProduct K C n
+  haveI : Epi (curveOrderedAmbientToSymmetricProductSucc K C n) := hqe ▸ inferInstance
+  apply (cancel_epi (curveOrderedAmbientToSymmetricProductSucc K C n)).mp
+  rw [← Category.assoc,
+    curveOrderedAmbientToSymmetricProduct_comp_pointedComparison,
+    orderedPointedToIncidenceQuotient]
+  simp only [Category.assoc]
+  rw [curveOrderedIncidenceQuotientProjection_comp_descendedIncidenceι_assoc,
+    PointedIncidence.orderedPointedIncidenceMap_comp_ι_assoc]
+  change
+    (PointedIncidence.orderedAmbientInsertion
+        (Spec (.of K)) (n + 1) C ≫
+      Limits.prod.map (𝟙 C)
+        (SymmetricPower.curveProjectionSucc K C (n + 1)) ≫
+      (Limits.prod.fst :
+        C ⨯ SymmetricPower.curveSchemeSucc K C (n + 1) ⟶ C)).left =
+    (Limits.prod.map (𝟙 C)
+        (SymmetricPower.curveProjectionSucc K C n) ≫
+      (Limits.prod.fst :
+        C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶ C)).left
+  rw [Limits.prod.map_fst, Limits.prod.map_fst, Category.comp_id,
+    PointedIncidence.orderedAmbientInsertion_comp_pointProjection]
+  rfl
+
+/-- The composite into `C × Sym^(n+2)(C)` is the graph of pointed
+addition.  Thus proving the incidence comparison is an isomorphism is
+exactly the construction of the universal effective divisor as this graph. -/
+theorem productSymmetricPowerToIncidenceQuotientOver_comp_descendedIncidenceOver
+    (n : ℕ) :
+    productSymmetricPowerToIncidenceQuotientOver K C n ≫
+        curveDescendedIncidenceOverSucc K C (n + 1) =
+      Limits.prod.lift
+        (Limits.prod.fst :
+          C ⨯ SymmetricPower.curveSchemeSucc K C n ⟶ C)
+        (pointedSymmetricPowerAddition K C n) := by
+  apply Limits.prod.hom_ext
+  · rw [Limits.prod.lift_fst, Category.assoc]
+    apply CostructuredArrow.hom_ext
+    exact
+      productSymmetricPowerToIncidenceQuotient_comp_descendedIncidence_fst
+        K C n
+  · rw [Limits.prod.lift_snd, Category.assoc]
+    rfl
+
 /-- The pointed symmetric-power comparison is proper. -/
 instance productSymmetricPowerToIncidenceQuotient_isProper (n : ℕ) :
     IsProper (productSymmetricPowerToIncidenceQuotient K C n) := by

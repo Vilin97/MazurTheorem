@@ -9,6 +9,8 @@ import Mathlib.RingTheory.Jacobson.Ring
 import TauCeti.RingTheory.Smooth.DimensionOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.ProductFormula.Smooth
 import Mathlib.AlgebraicGeometry.Geometrically.Integral
+import Mathlib.AlgebraicGeometry.Morphisms.Etale
+import Mathlib.AlgebraicGeometry.Morphisms.Separated
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 
 /-!
@@ -23,6 +25,8 @@ The named downstream consumers are `Genus` and `PicardGeometry`.
 -/
 
 noncomputable section
+
+open scoped TensorProduct
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveReduced
 
@@ -179,7 +183,7 @@ theorem isReduced_of_isLocalizationAtPrime_of_isStandardSmoothOfRelativeDimensio
     IsLocalization.algEquiv q.primeCompl _ _
   exact isReduced_of_injective e.symm.toRingHom e.symm.injective
 
-open CategoryTheory _root_.AlgebraicGeometry
+open CategoryTheory Limits _root_.AlgebraicGeometry
 
 /-- Every point of a smooth relative curve has an affine neighbourhood whose
 coordinate ring is étale over a one-variable polynomial ring.  The base ring
@@ -216,6 +220,39 @@ theorem exists_affineOpen_etaleCoordinate
   exact
     Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial
       1 Γ(Spec (.of K), ⊤) Γ(X, V)
+
+/-- The diagonal of a separated étale morphism is simultaneously an open
+and a closed immersion.  In the local universal-divisor construction this
+selects the genuine curve diagonal as an open-and-closed component of the
+equal-coordinate root family. -/
+theorem etale_diagonal_openClosed {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [Etale f] [IsSeparated f] :
+    IsOpenImmersion (pullback.diagonal f) ∧
+      IsClosedImmersion (pullback.diagonal f) := by
+  exact ⟨inferInstance, inferInstance⟩
+
+/-- Affine étale coordinates satisfy the open-and-closed diagonal
+hypothesis required by the monic-root chart comparison. -/
+theorem specMap_etale_diagonal_openClosed
+    {R A : Type u} [CommRing R] [CommRing A]
+    (g : R →+* A) (hg : g.Etale) :
+    let f := Spec.map (CommRingCat.ofHom g)
+    IsOpenImmersion (pullback.diagonal f) ∧
+      IsClosedImmersion (pullback.diagonal f) := by
+  let f := Spec.map (CommRingCat.ofHom g)
+  haveI : Etale f := HasRingHomProperty.Spec_iff.mpr hg
+  exact etale_diagonal_openClosed f
+
+/-- For an étale affine coordinate, the self-fiber product splits as the
+diagonal factor and a complementary factor.  The diagonal factor is the
+one retained when the affine-line monic root family is transported to a
+curve chart. -/
+theorem etale_tensorSquare_exists_diagonalProduct
+    (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
+    [Algebra.Etale R A] :
+    ∃ (T : Type u) (_ : CommRing T) (_ : Algebra A T),
+      Nonempty (A ⊗[R] A ≃ₐ[A] A × T) := by
+  exact Algebra.FormallyUnramified.exists_algEquiv_prod R A
 
 /-- A scheme smooth of relative dimension one over a field is reduced. -/
 theorem scheme_isReduced_of_smoothRelativeDimension_one
