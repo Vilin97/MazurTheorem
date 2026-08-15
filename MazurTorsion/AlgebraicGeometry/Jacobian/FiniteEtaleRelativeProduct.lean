@@ -156,6 +156,168 @@ theorem product_nonempty [Nonempty S] [Subsingleton S]
     (hX : ∀ i, Nonempty (X i).left) : Nonempty (∏ᶜ X).left :=
   (nonemptyOver S).prop_product hX
 
+/-- Pull the `i`-th member of a family over its own base to the product of
+all bases.  This is the coherent replacement for taking unrelated copies of
+the common splitting base in every ordered coordinate. -/
+noncomputable abbrev independentPullback
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) (i : Fin n) :
+    Over (∏ᶜ T).left :=
+  Over.mk (pullback.snd (f i).left (Pi.π T i).left)
+
+/-- The product of the original family, regarded over the product of its
+bases through the product of the structure morphisms. -/
+noncomputable abbrev independentProductOverBase
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) :
+    Over (∏ᶜ T).left :=
+  Over.mk (Limits.Pi.map f).left
+
+/-- Each projection of the independent product, together with the full
+product-base map, lands in the corresponding pulled-back family member. -/
+noncomputable def independentProductToPullback
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) (i : Fin n) :
+    independentProductOverBase S n T Y f ⟶
+      independentPullback S n T Y f i :=
+  Over.homMk
+    (pullback.lift (Pi.π Y i).left (Limits.Pi.map f).left
+      (congrArg Over.Hom.left (Limits.Pi.map_π f i)).symm)
+    (by exact pullback.lift_snd _ _ _)
+
+/-- The independent product maps coherently to the relative product of all
+members after base change to the product of their bases. -/
+noncomputable def independentProductToRelativeProduct
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) :
+    independentProductOverBase S n T Y f ⟶
+      ∏ᶜ fun i ↦ independentPullback S n T Y f i :=
+  Pi.lift (independentProductToPullback S n T Y f)
+
+@[reassoc]
+theorem independentProductToRelativeProduct_comp_projection_fst
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) (i : Fin n) :
+    (independentProductToRelativeProduct S n T Y f ≫
+        Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+      pullback.fst (f i).left (Pi.π T i).left = (Pi.π Y i).left := by
+  unfold independentProductToRelativeProduct
+  have h := Pi.lift_π (independentProductToPullback S n T Y f) i
+  rw [congrArg Over.Hom.left h]
+  dsimp only [independentProductToPullback]
+  exact pullback.lift_fst _ _ _
+
+/-- Transport a point of the independent product to the coherent relative
+product over the product of all bases. -/
+noncomputable def independentProductPointToRelativeProduct
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i)
+    (w : (∏ᶜ Y).left) :
+    (∏ᶜ fun i ↦ independentPullback S n T Y f i).left :=
+  (independentProductToRelativeProduct S n T Y f).left w
+
+@[simp]
+theorem independentProductPointToRelativeProduct_projection_fst
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i)
+    (w : (∏ᶜ Y).left) (i : Fin n) :
+    pullback.fst (f i).left (Pi.π T i).left
+        ((Pi.π (fun j ↦ independentPullback S n T Y f j) i).left
+          (independentProductPointToRelativeProduct S n T Y f w)) =
+      (Pi.π Y i).left w := by
+  have h := independentProductToRelativeProduct_comp_projection_fst
+    S n T Y f i
+  exact congrArg
+    (fun a : (∏ᶜ Y).left ⟶ (Y i).left ↦ a w) h
+
+/-- Regard the coherent relative product again as an object over the
+original base. -/
+noncomputable abbrev independentRelativeProductOverOriginalBase
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) : Over S :=
+  Over.mk ((∏ᶜ fun i ↦ independentPullback S n T Y f i).hom ≫ (∏ᶜ T).hom)
+
+/-- The coherent-product map, now packaged over the original base. -/
+noncomputable def independentProductToRelativeProductOverOriginalBase
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) :
+    ∏ᶜ Y ⟶ independentRelativeProductOverOriginalBase S n T Y f :=
+  Over.homMk (independentProductToRelativeProduct S n T Y f).left (by
+    have hrelative := (independentProductToRelativeProduct S n T Y f).w
+    have hbase := (Limits.Pi.map f).w
+    calc
+      (independentProductToRelativeProduct S n T Y f).left ≫
+            ((∏ᶜ fun i ↦ independentPullback S n T Y f i).hom ≫ (∏ᶜ T).hom) =
+          ((independentProductToRelativeProduct S n T Y f).left ≫
+            (∏ᶜ fun i ↦ independentPullback S n T Y f i).hom) ≫
+              (∏ᶜ T).hom := (Category.assoc _ _ _).symm
+      _ = (Limits.Pi.map f).left ≫ (∏ᶜ T).hom :=
+        congrArg (fun a ↦ a ≫ (∏ᶜ T).hom) hrelative
+      _ = (∏ᶜ Y).hom := hbase)
+
+/-- Projection from the coherent relative product back to the corresponding
+original family member, viewed over the original base. -/
+noncomputable def independentRelativeProductToFactor
+    (n : ℕ) (T Y : Fin n → Over S) (f : ∀ i, Y i ⟶ T i) (i : Fin n) :
+    independentRelativeProductOverOriginalBase S n T Y f ⟶ Y i :=
+  Over.homMk
+    ((Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+      pullback.fst (f i).left (Pi.π T i).left) (by
+        have hpb := pullback.condition
+          (f := (f i).left) (g := (Pi.π T i).left)
+        have hpbPost := congrArg
+          (fun a ↦
+            (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+              a ≫ (T i).hom) hpb
+        have hbaseProjection := (Pi.π T i).w
+        have hfamilyProjection :=
+          (Pi.π (fun j ↦ independentPullback S n T Y f j) i).w
+        change (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+            pullback.fst (f i).left (Pi.π T i).left ≫ (Y i).hom =
+          (∏ᶜ fun j ↦ independentPullback S n T Y f j).hom ≫ (∏ᶜ T).hom
+        calc
+          _ = (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+              pullback.fst (f i).left (Pi.π T i).left ≫
+                (f i).left ≫ (T i).hom := by rw [← (f i).w]
+          _ = (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+              pullback.snd (f i).left (Pi.π T i).left ≫
+                (Pi.π T i).left ≫ (T i).hom := by
+                  simpa only [Category.assoc] using hpbPost
+          _ = (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+              pullback.snd (f i).left (Pi.π T i).left ≫
+                (∏ᶜ T).hom := by
+                  exact congrArg
+                    (fun a ↦
+                      (Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+                        pullback.snd (f i).left (Pi.π T i).left ≫ a)
+                    hbaseProjection
+          _ = (∏ᶜ fun j ↦ independentPullback S n T Y f j).hom ≫
+              (∏ᶜ T).hom := by
+                rw [← Category.assoc]
+                exact congrArg (fun a ↦ a ≫ (∏ᶜ T).hom)
+                  hfamilyProjection)
+
+/-- Apply a family of target maps after the coherent relative-product
+projections. -/
+noncomputable def independentRelativeProductToTargets
+    (n : ℕ) (T Y X : Fin n → Over S) (f : ∀ i, Y i ⟶ T i)
+    (g : ∀ i, Y i ⟶ X i) :
+    independentRelativeProductOverOriginalBase S n T Y f ⟶ ∏ᶜ X :=
+  Pi.lift (fun i ↦ independentRelativeProductToFactor S n T Y f i ≫ g i)
+
+/-- Coherently moving the independent product to the product-base chart and
+then forgetting back to the targets is exactly the original product map. -/
+theorem independentProductToRelativeProduct_comp_targets
+    (n : ℕ) (T Y X : Fin n → Over S) (f : ∀ i, Y i ⟶ T i)
+    (g : ∀ i, Y i ⟶ X i) :
+    independentProductToRelativeProductOverOriginalBase S n T Y f ≫
+        independentRelativeProductToTargets S n T Y X f g =
+      Limits.Pi.map g := by
+  apply Pi.hom_ext
+  intro i
+  unfold independentRelativeProductToTargets
+  rw [Category.assoc, Pi.lift_π, Limits.Pi.map_π]
+  apply Over.OverMorphism.ext
+  change (independentProductToRelativeProduct S n T Y f ≫
+        Pi.π (fun j ↦ independentPullback S n T Y f j) i).left ≫
+      pullback.fst (f i).left (Pi.π T i).left ≫ (g i).left =
+    (Pi.π Y i).left ≫ (g i).left
+  have h := independentProductToRelativeProduct_comp_projection_fst
+    S n T Y f i
+  simpa only [Category.assoc] using
+    congrArg (fun a ↦ a ≫ (g i).left) h
+
 /-- A finite family of prescribed points lying over the same base point
 lifts to the relative product.  The resulting product point lies over that
 base point and has the prescribed value under every projection. -/

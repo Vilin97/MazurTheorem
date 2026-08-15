@@ -541,6 +541,44 @@ noncomputable def restrictedPulledComponentToBase (d : ℕ)
       V.toScheme :=
   (pulledComponentOverCommonBase K C d z c n i).hom ∣_ V
 
+/-- The chosen common-base open, regarded over the original ground field. -/
+noncomputable def restrictedCommonBaseOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens) : Over (Spec (.of K)) :=
+  Over.mk (V.ι ≫ (commonBase K C d z c n).hom ≫ (coordinateBaseIso K).hom)
+
+/-- The restricted selected component maps to the common-base open over the
+original ground field. -/
+noncomputable def restrictedPulledComponentToBaseOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens) (i : Fin d) :
+    restrictedPulledComponentOverGround K C d z c n V i ⟶
+      restrictedCommonBaseOverGround K C d z c n V :=
+  Over.homMk (restrictedPulledComponentToBase K C d z c n V i) (by
+    unfold restrictedPulledComponentToBase
+    change ((pulledComponentOverCommonBase K C d z c n i).hom ∣_ V) ≫ V.ι ≫
+          (commonBase K C d z c n).hom ≫ (coordinateBaseIso K).hom =
+      ((pulledComponentOverCommonBase K C d z c n i).hom ⁻¹ᵁ V).ι ≫
+        pulledComponentToCurve K C d z c n i ≫ C.hom
+    rw [← Category.assoc, morphismRestrict_ι]
+    have hcurve := (pulledComponentToCurveOverGround K C d z c n i).w
+    change pulledComponentToCurve K C d z c n i ≫ C.hom =
+      (pulledComponentOverCommonBase K C d z c n i).hom ≫
+        (commonBase K C d z c n).hom ≫ (coordinateBaseIso K).hom at hcurve
+    rw [hcurve]
+    simp only [Category.assoc])
+
+/-- A further common cover of the restricted base, regarded over the
+original ground field. -/
+noncomputable def commonCoverOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Over (Spec (.of K)) :=
+  Over.mk (q ≫ (restrictedCommonBaseOverGround K C d z c n V).hom)
+
 /-- Pull a restricted component to a further common fpqc base, then regard
 it over the original ground field through its curve map. -/
 noncomputable def fpqcPulledComponentOverGround (d : ℕ)
@@ -564,6 +602,46 @@ noncomputable def fpqcPulledComponentToRestrictedOverGround (d : ℕ)
       restrictedPulledComponentOverGround K C d z c n V i :=
   Over.homMk
     (pullback.fst (restrictedPulledComponentToBase K C d z c n V i) q) rfl
+
+/-- The base-changed component maps to the common cover over the ground
+field through the second pullback projection. -/
+noncomputable def fpqcPulledComponentToCoverOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    fpqcPulledComponentOverGround K C d z c n V T q i ⟶
+      commonCoverOverGround K C d z c n V T q :=
+  Over.homMk
+    (pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q) (by
+      unfold commonCoverOverGround restrictedCommonBaseOverGround
+      let f := restrictedPulledComponentToBase K C d z c n V i
+      let π₁ := pullback.fst f q
+      let π₂ := pullback.snd f q
+      let b : V.toScheme ⟶ Spec (.of K) :=
+        V.ι ≫ (commonBase K C d z c n).hom ≫ (coordinateBaseIso K).hom
+      have hpb : π₁ ≫ f = π₂ ≫ q := pullback.condition
+      have hf : f ≫ b =
+          (restrictedPulledComponentOverGround K C d z c n V i).hom := by
+        exact (restrictedPulledComponentToBaseOverGround
+          K C d z c n V i).w
+      have hπ₁ : π₁ ≫
+          (restrictedPulledComponentOverGround K C d z c n V i).hom =
+            (fpqcPulledComponentOverGround K C d z c n V T q i).hom := by
+        exact (fpqcPulledComponentToRestrictedOverGround
+          K C d z c n V T q i).w
+      change π₂ ≫ q ≫ b =
+        (fpqcPulledComponentOverGround K C d z c n V T q i).hom
+      have hpbPost :
+          π₂ ≫ q ≫ b = π₁ ≫ f ≫ b := by
+        simpa only [Category.assoc] using
+          congrArg (fun a ↦ a ≫ b) hpb.symm
+      have hfPost :
+          π₁ ≫ f ≫ b =
+            π₁ ≫
+              (restrictedPulledComponentOverGround K C d z c n V i).hom :=
+        congrArg (fun a ↦ π₁ ≫ a) hf
+      exact hpbPost.trans (hfPost.trans hπ₁))
 
 /-- The fpqc-pulled component maps to the original curve. -/
 noncomputable def fpqcPulledComponentToCurveOverGround (d : ℕ)
@@ -668,6 +746,107 @@ theorem exists_fpqcPulledComponentProductPoint_over_support
       congrArg _ hpw
     _ = z := hwz
 
+/-- The family consisting of one copy of the common cover for every ordered
+support coordinate. -/
+noncomputable abbrev commonCoverFamily (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    Fin d → Over (Spec (.of K)) :=
+  fun _ ↦ commonCoverOverGround K C d z c n V T q
+
+/-- The independently based family of pulled support components. -/
+noncomputable abbrev fpqcPulledComponentFamily (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    Fin d → Over (Spec (.of K)) :=
+  fun i ↦ fpqcPulledComponentOverGround K C d z c n V T q i
+
+/-- Pull every independently based component to one product of the common
+cover, using the matching base projection in its ordered coordinate. -/
+noncomputable abbrev coherentFpqcPulledComponent (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :=
+  independentPullback (Spec (.of K)) d
+    (commonCoverFamily K C d z c n V T q)
+    (fpqcPulledComponentFamily K C d z c n V T q)
+    (fun j ↦ fpqcPulledComponentToCoverOverGround
+      K C d z c n V T q j) i
+
+/-- The coherent relative product, transported back to the original ground
+field.  Its base is the product of the common split cover, once for each
+ordered coordinate. -/
+noncomputable abbrev coherentFpqcComponentFamilyOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Over (Spec (.of K)) :=
+  independentRelativeProductOverOriginalBase (Spec (.of K)) d
+    (commonCoverFamily K C d z c n V T q)
+    (fpqcPulledComponentFamily K C d z c n V T q)
+    (fun i ↦ fpqcPulledComponentToCoverOverGround
+      K C d z c n V T q i)
+
+/-- The coherent product chart maps to the original ordered curve power. -/
+noncomputable def coherentFpqcComponentFamilyToCurvePower (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) :
+    coherentFpqcComponentFamilyOverGround K C d z c n V T q ⟶
+      PermutationPower.power (Spec (.of K)) (Fin d) C :=
+  independentRelativeProductToTargets (Spec (.of K)) d
+    (commonCoverFamily K C d z c n V T q)
+    (fpqcPulledComponentFamily K C d z c n V T q)
+    (fun _ : Fin d ↦ C)
+    (fun i ↦ fpqcPulledComponentToCoverOverGround
+      K C d z c n V T q i)
+    (fun i ↦ fpqcPulledComponentToCurveOverGround
+      K C d z c n V T q i)
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The exact ordered-support point survives transport from the independent
+product to the coherent product over one product splitting base. -/
+theorem exists_coherentFpqcComponentFamilyPoint_over_support
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (hV : commonBasePoint K C d z c n ∈ V)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) [Surjective q] :
+    ∃ p : (coherentFpqcComponentFamilyOverGround
+        K C d z c n V T q).left,
+      (coherentFpqcComponentFamilyToCurvePower
+        K C d z c n V T q).left p = z := by
+  obtain ⟨w, hw⟩ := exists_fpqcPulledComponentProductPoint_over_support
+    K C d z c n V hV T q
+  let f := fun i ↦ fpqcPulledComponentToCoverOverGround
+    K C d z c n V T q i
+  let g := fun i ↦ fpqcPulledComponentToCurveOverGround
+    K C d z c n V T q i
+  let toCoherent := independentProductToRelativeProductOverOriginalBase
+    (Spec (.of K)) d
+      (commonCoverFamily K C d z c n V T q)
+      (fpqcPulledComponentFamily K C d z c n V T q) f
+  let p := toCoherent.left w
+  refine ⟨p, ?_⟩
+  have hmap := independentProductToRelativeProduct_comp_targets
+    (Spec (.of K)) d
+      (commonCoverFamily K C d z c n V T q)
+      (fpqcPulledComponentFamily K C d z c n V T q)
+      (fun _ : Fin d ↦ C) f g
+  have hmapLeft := congrArg Over.Hom.left hmap
+  have hmapPoint := congrArg
+    (fun a : (∏ᶜ fpqcPulledComponentFamily K C d z c n V T q).left ⟶
+        (PermutationPower.power (Spec (.of K)) (Fin d) C).left ↦ a w)
+    hmapLeft
+  exact hmapPoint.trans hw
+
 /-- The complete pointwise split-chart assertion for an ordered support:
 one affine rank neighborhood, one common finite étale fpqc splitting cover,
 and an exact preimage of the original ordered support on that cover. -/
@@ -698,11 +877,10 @@ def HasCommonSplitChartAtSupport (d : ℕ)
               E.hom ≫ EtaleSplitChart.splitProjection T m =
                 pullback.snd (fV i) q ∧
               m = (f i).finrank (commonBasePoint K C d z c n)) ∧
-          ∃ p : (∏ᶜ fun i : Fin d ↦
-              fpqcPulledComponentOverGround K C d z c n V (Spec (.of T)) q i).left,
-            (Limits.Pi.map (fun i ↦
-              fpqcPulledComponentToCurveOverGround
-                K C d z c n V (Spec (.of T)) q i)).left p = z
+          ∃ p : (coherentFpqcComponentFamilyOverGround
+              K C d z c n V (Spec (.of T)) q).left,
+            (coherentFpqcComponentFamilyToCurvePower
+              K C d z c n V (Spec (.of T)) q).left p = z
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- Near the chosen common-base point, all selected support components have
@@ -721,7 +899,7 @@ theorem exists_commonSplitChartAtSupport (d : ℕ)
   refine ⟨V, hV, hmem, T, hT, hAlg, hFF, hFin, hEtale, q,
     hEtaleQ, hFlat, hSurj, hQC, hSplit, ?_⟩
   letI : Surjective q := hSurj
-  exact exists_fpqcPulledComponentProductPoint_over_support
+  exact exists_coherentFpqcComponentFamilyPoint_over_support
     K C d z c n V hmem (Spec (.of T)) q
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates

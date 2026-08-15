@@ -50,7 +50,7 @@ parallel abstraction.
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; every target point has a chosen ordered-incidence lift and a common finite étale fpqc split chart carrying its exact ordered support; pointwise fpqc descent interfaces reduce the global isomorphism, flatness, and rank assertions to the remaining local monic-chart identifications |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
 | Smooth-curve étale coordinate chart | `SmoothCurveEtaleCoordinate.PointChart`, `exists_pointChart`, `PointChart.FiniteNeighborhood`, and `PointChart.exists_isCompl_finiteEtale` | checked: every curve point has an affine one-variable étale coordinate morphism compatible with the ground-field structure; Zariski's main theorem then packages that exact point in an open-and-closed component finite étale over an étale base change of the coordinate line, together with its maps back to the chart and curve |
-| Finite ordered-support coordinates | `FiniteEtaleRelativeProduct.exists_fin_product_preimage`, `FiniteSupportEtaleCoordinates.Charts`, `Neighborhoods`, `commonBase`, `commonComponentFamily`, `commonComponentFamilyPoint`, `HasCommonSplitChartAtSupport`, `exists_commonSplitChartAtSupport`, and `PointedIncidenceDescent.incidenceQuotientPoint_exists_orderedSupportSplitChart` | checked: an ordered lift of a divisor supplies its actual coordinate points, including repetitions; their finite étale neighborhoods are pulled to one nonempty relative product base; prescribed component points assemble over one specified common-base point; a local-ring base-change argument gives a product point mapping to the exact original ordered-support point, including its residue-field correlation; restriction to the simultaneous rank neighborhood and the subsequent common finite étale fpqc split cover both retain such an exact support preimage; the assembled product family is finite étale and every split sheet count equals the original fiber rank; the full dependent chart assertion is packaged and consumed directly at every point of the actual incidence quotient |
+| Finite ordered-support coordinates | `FiniteEtaleRelativeProduct.exists_fin_product_preimage`, `independentProductToRelativeProduct_comp_targets`, `FiniteSupportEtaleCoordinates.Charts`, `Neighborhoods`, `commonBase`, `commonComponentFamily`, `commonComponentFamilyPoint`, `coherentFpqcComponentFamilyOverGround`, `HasCommonSplitChartAtSupport`, `exists_commonSplitChartAtSupport`, and `PointedIncidenceDescent.incidenceQuotientPoint_exists_orderedSupportSplitChart` | checked: an ordered lift of a divisor supplies its actual coordinate points, including repetitions; their finite étale neighborhoods are pulled to one nonempty relative product base; prescribed component points assemble over one specified common-base point; a local-ring base-change argument gives a product point mapping to the exact original ordered-support point, including its residue-field correlation; restriction to the simultaneous rank neighborhood and the subsequent common finite étale fpqc split cover both retain such an exact support preimage; the independent family then maps coherently to a relative product over the product of its splitting bases, with exact compatibility back to the ordered curve power; every split sheet count equals the original fiber rank; the full dependent chart assertion is packaged and consumed directly at every point of the actual incidence quotient |
 | Finite étale point neighborhoods | `EtaleFiniteNeighborhood.exists_isCompl_finiteEtale` | checked from Mathlib's Zariski-main local structure theorem: after an étale base change, any selected point of an étale separated chart lies in an open-and-closed component that is finite étale over the new base |
 | Finite étale relative products | `FiniteEtaleRelativeProduct.product_isFiniteEtale` and `product_nonempty` | checked: finite étale objects are closed under arbitrary finite products in a slice, and finite relative products of nonempty schemes over a nonempty one-point base remain nonempty |
 | Constant-rank neighborhoods | `FiniteFlatConstantRankNeighborhood.rankOpen` and `morphismRestrict_finrank` | checked: the rank fiber through a chosen point is clopen, contains that point, and restriction of a finite flat finitely presented morphism to it has constant rank |
@@ -390,16 +390,24 @@ reconstructed from coordinate projections.  This exact lift persists after
 restricting every component to any common-base open containing the selected
 point.  It also persists after any further common surjective base change: a
 second application of the local-ring product-preimage theorem lifts the exact
-ordered support through the product of all base-changed components.  The
-pointwise family theorem now returns one affine neighborhood, one finite
-étale fpqc cover splitting all components with their exact fiber ranks, and a point of the
-product of those fpqc-pulled components mapping to the original ordered
-support.  A point of the incidence quotient is now lifted through the
+ordered support through the independent product of all base-changed
+components.  The pointwise family theorem now returns one affine
+neighborhood and one finite étale fpqc cover splitting all components with
+their exact fiber ranks.  The independent product is then mapped
+canonically to the relative product obtained by pulling the `i`-th component
+along the `i`-th projection from the product of all copies of the splitting
+base.  Projection compatibility proves that forgetting this coherent
+relative product back to the curve power is exactly the original product
+map, so the transported point still maps to the original ordered support.
+This gives a genuine one-base family suitable for the split quotient model,
+without replacing equality of scheme points by coordinatewise equality.  A
+point of the incidence quotient is now lifted through the
 surjective ordered-incidence quotient map, embedded in the ordered ambient
 product, and fed directly to this packaged split-chart theorem.  The
-outstanding step is to transport this exact common split chart
-into the ordered and symmetric incidence quotients and exclude all
-complementary sheets there.
+outstanding step is to base-change the individual splitting isomorphisms to
+that product base, assemble the resulting finite family into one disjoint
+finite étale cover, and transport the exact chart into the ordered and
+symmetric incidence quotients while excluding all complementary sheets.
 
 The blockwise invariant calculation and its finite induction are now checked.
 Separating a root-variable block from the remaining variables intertwines
