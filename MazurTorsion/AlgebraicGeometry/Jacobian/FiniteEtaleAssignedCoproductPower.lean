@@ -55,6 +55,25 @@ theorem productToAssignedProduct_comp_projection
       Pi.π X (a i) :=
   Pi.lift_π _ i
 
+/-- Repeat or reorder a constant relative-power family according to an
+assignment.  Unlike a permutation, the assignment may duplicate or omit
+coordinates. -/
+noncomputable def assignmentRepeatHom
+    (S : Scheme.{u}) (m d : ℕ) (Y : Over S)
+    (a : Fin d → Fin m) :
+    PermutationPower.power S (Fin m) Y ⟶
+      PermutationPower.power S (Fin d) Y :=
+  Pi.lift (fun i ↦ Pi.π (fun _ : Fin m ↦ Y) (a i))
+
+@[reassoc]
+theorem assignmentRepeatHom_comp_projection
+    (S : Scheme.{u}) (m d : ℕ) (Y : Over S)
+    (a : Fin d → Fin m) (i : Fin d) :
+    assignmentRepeatHom S m d Y a ≫
+        Pi.π (fun _ : Fin d ↦ Y) i =
+      Pi.π (fun _ : Fin m ↦ Y) (a i) :=
+  Pi.lift_π _ i
+
 /-- Insert each assigned family member into the matching coordinate of the
 ordered power of the whole disjoint family. -/
 noncomputable def assignedProductToCoproductPower

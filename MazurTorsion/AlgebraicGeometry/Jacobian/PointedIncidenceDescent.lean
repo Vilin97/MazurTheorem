@@ -191,17 +191,17 @@ omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The actual ordered support of an incidence point has an affine,
 dimension-`d`, occurrence-wise étale chart stable under the subgroup that
 permutes equal geometric occurrences. -/
-noncomputable abbrev orderedSupportGeometricAssignedAffineBase (d : ℕ)
+noncomputable abbrev orderedSupportGeometricAssignedAffineComponent (d : ℕ)
     (z : (orderedAmbient (Spec (.of K)) d C).left) :
     Over (coordinateBase K) :=
-  commonAffineBase K C d (orderedSupportPoint K C d z)
+  commonAffineComponent K C d (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Quotient of the affine occurrence-wise chart by the exact stabilizer of
 the incidence point's geometric support assignment. -/
 noncomputable abbrev orderedSupportGeometricAssignedAffineQuotient (d : ℕ)
     (z : (orderedAmbient (Spec (.of K)) d C).left) : Scheme.{u} :=
-  GeometricAssignedAffineChart.quotient K C d
+  GeometricAssignedAffineChart.componentQuotient K C d
     (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
@@ -212,12 +212,27 @@ theorem orderedSupportGeometricAssignedAffinePoint_fixed (d : ℕ)
     (z : (orderedAmbient (Spec (.of K)) d C).left)
     (g : geometricAssignedStabilizer K C d
       (orderedSupportPoint K C d z)) :
-    (GeometricAssignedAffineChart.action K C d
+    (GeometricAssignedAffineChart.componentAction K C d
         (orderedSupportPoint K C d z)).hom g
-      (commonAffineBasePoint K C d (orderedSupportPoint K C d z)) =
-        commonAffineBasePoint K C d (orderedSupportPoint K C d z) :=
-  action_fixed_commonAffineBasePoint K C d
+      (commonAffineComponentPoint K C d (orderedSupportPoint K C d z)) =
+        commonAffineComponentPoint K C d (orderedSupportPoint K C d z) :=
+  componentAction_fixed_commonAffineComponentPoint K C d
     (orderedSupportPoint K C d z) g
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The same central affine-chart point maps to the incidence point's exact
+ordered curve support after transporting the ground-field presentation.  In
+particular, this statement retains the common residue-field correlation and
+is stronger than equality of the individual underlying coordinates. -/
+theorem orderedSupportGeometricAssignedAffinePoint_mapsToOrderedCurvePower
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    (componentToCurvePower K C d (orderedSupportPoint K C d z)).left
+        (commonAffineComponentPoint K C d
+          (orderedSupportPoint K C d z)) =
+      curvePowerPointOverCoordinateBase K C d
+        (orderedSupportPoint K C d z) :=
+  componentToCurvePower_commonAffineComponentPoint K C d
+    (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On a chosen geometric-support fpqc split chart, the degree-preserving

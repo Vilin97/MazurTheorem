@@ -98,6 +98,37 @@ theorem assignedMap_comp_projection (Y : Over S) (f : ∀ j, X j ⟶ Y)
       Pi.π (fun i : Fin d ↦ X (a i)) i ≫ f (a i) :=
   Limits.Pi.map_π _ i
 
+/-- Mapping a full indexed family and then repeating by an assignment agrees
+with first repeating the source family and then applying its assigned map. -/
+theorem productToAssignedProduct_comp_assignedMap
+    (Y : Over S) (f : ∀ j, X j ⟶ Y) :
+    productToAssignedProduct S m d X a ≫
+        assignedMap S m d X a Y f =
+      Limits.Pi.map f ≫ assignmentRepeatHom S m d Y a := by
+  apply Pi.hom_ext
+  intro i
+  calc
+    (productToAssignedProduct S m d X a ≫
+          assignedMap S m d X a Y f) ≫
+        Pi.π (fun _ : Fin d ↦ Y) i =
+      productToAssignedProduct S m d X a ≫
+        (Pi.π (fun i : Fin d ↦ X (a i)) i ≫ f (a i)) := by
+          rw [Category.assoc, assignedMap_comp_projection]
+    _ = (productToAssignedProduct S m d X a ≫
+          Pi.π (fun i : Fin d ↦ X (a i)) i) ≫ f (a i) :=
+      (Category.assoc _ _ _).symm
+    _ = Pi.π X (a i) ≫ f (a i) := by
+      rw [productToAssignedProduct_comp_projection]
+    _ = Limits.Pi.map f ≫ Pi.π (fun _ : Fin m ↦ Y) (a i) :=
+      (Limits.Pi.map_π f (a i)).symm
+    _ = Limits.Pi.map f ≫
+        (assignmentRepeatHom S m d Y a ≫
+          Pi.π (fun _ : Fin d ↦ Y) i) := by
+      rw [assignmentRepeatHom_comp_projection]
+    _ = (Limits.Pi.map f ≫ assignmentRepeatHom S m d Y a) ≫
+        Pi.π (fun _ : Fin d ↦ Y) i :=
+      (Category.assoc _ _ _).symm
+
 /-- Transporting a family member and then applying its indexed map is the
 map attached to the original index. -/
 theorem eqToHom_comp_familyMap (Y : Over S) (f : ∀ j, X j ⟶ Y)
