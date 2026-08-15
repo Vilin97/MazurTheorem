@@ -32,10 +32,14 @@ open _root_.AlgebraicGeometry
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
 
 open FiniteEtaleAssignedCoproductPower
+open FiniteEtaleCoproductPower
 open FiniteEtaleRelativeProduct
 open FiniteSupportEtaleCoordinates
 open FiniteSupportIndex
 open PermutationPower
+open SplitFiniteBaseChange
+open SplitFinitePowerPoint
+open SplitFiniteSymmetricQuotient
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
@@ -359,5 +363,137 @@ theorem exists_assignedCoproductPowerPoint_over_support
     (fun f : (assignedComponentProductOverGround K C d z V T q).left ⟶
       (power (Spec (.of K)) (Fin d) C).left ↦ f p) hleft
   exact hpoint.trans hp
+
+/-- The chosen componentwise split charts assemble into one split
+presentation of the geometric-support family. -/
+noncomputable def familySplitIso (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q) :
+    familyCoproduct (coherentBase K C d z V (Spec (.of T)) q)
+        (geometricDistinctSupportCard K C d z)
+        (component K C d z V (Spec (.of T)) q) ≅
+      splitFinite (coherentBase K C d z V (Spec (.of T)) q)
+        (totalSheets (geometricDistinctSupportCard K C d z) r) :=
+  coherentFpqcFamilyCoproductSplitIso K C
+    (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z) V T q r E hE
+
+/-- A point of the assigned coproduct power selects one split sheet for
+each of the original `d` occurrences. -/
+noncomputable def assignedSupportSheetTuple (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d z V
+      (Spec (.of T)) q).left) :
+    Fin d → Fin (totalSheets (geometricDistinctSupportCard K C d z) r) :=
+  splitPowerPointTuple (coherentBase K C d z V (Spec (.of T)) q) d
+    (totalSheets (geometricDistinctSupportCard K C d z) r)
+    (familyCoproduct (coherentBase K C d z V (Spec (.of T)) q)
+      (geometricDistinctSupportCard K C d z)
+      (component K C d z V (Spec (.of T)) q))
+    (familySplitIso K C d z V T q r E hE) p
+
+/-- The symmetric-power component selected by an assigned support point. -/
+noncomputable def assignedSupportComponent (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d z V
+      (Spec (.of T)) q).left) :
+    splitComponentIndex d
+      (totalSheets (geometricDistinctSupportCard K C d z) r) :=
+  splitPowerPointComponent
+    (coherentBase K C d z V (Spec (.of T)) q) d
+    (totalSheets (geometricDistinctSupportCard K C d z) r)
+    (familyCoproduct (coherentBase K C d z V (Spec (.of T)) q)
+      (geometricDistinctSupportCard K C d z)
+      (component K C d z V (Spec (.of T)) q))
+    (familySplitIso K C d z V T q r E hE) p
+
+/-- Sheet multiplicity in the selected component is the actual cardinality
+of the corresponding fiber of the assigned point's extracted sheet tuple. -/
+theorem assignedSupportComponent_sheetMultiplicity (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d z V
+      (Spec (.of T)) q).left)
+    (s : Fin (totalSheets (geometricDistinctSupportCard K C d z) r)) :
+    sheetMultiplicity d
+        (totalSheets (geometricDistinctSupportCard K C d z) r)
+        (assignedSupportComponent K C d z V T q r E hE p) s =
+      Fintype.card {i : Fin d //
+        assignedSupportSheetTuple K C d z V T q r E hE p i = s} :=
+  splitPowerPointComponent_sheetMultiplicity
+    (coherentBase K C d z V (Spec (.of T)) q) d
+    (totalSheets (geometricDistinctSupportCard K C d z) r)
+    (familyCoproduct (coherentBase K C d z V (Spec (.of T)) q)
+      (geometricDistinctSupportCard K C d z)
+      (component K C d z V (Spec (.of T)) q))
+    (familySplitIso K C d z V T q r E hE) p s
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart

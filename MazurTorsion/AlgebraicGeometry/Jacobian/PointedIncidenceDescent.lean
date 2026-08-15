@@ -186,6 +186,13 @@ theorem orderedSupport_exists_geometricAssignedCoproductPowerPoint
   exists_assignedCoproductPowerPoint_over_support K C d
     (orderedSupportPoint K C d z) V hV T q
 
+/-- The sheet tuple extracted from an assigned split-family point over an
+actual incidence support.  Its remaining arguments are the common split
+chart, its componentwise presentations, and the chosen point. -/
+noncomputable abbrev orderedSupportGeometricAssignedSheetTuple (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  assignedSupportSheetTuple K C d (orderedSupportPoint K C d z)
+
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Every ordered incidence-ambient point therefore carries a finite family
 of actual affine étale curve-coordinate charts, one for each occurrence in
