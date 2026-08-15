@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotientFlatBaseChange
 
 /-!
 # Finite quotients of the ordered universal incidence family

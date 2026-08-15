@@ -43,6 +43,7 @@ parallel abstraction.
 | Projectivity of nonempty finite powers of `P¹` | `ProjectiveFiniteOrbit.projectiveLinePower_isProjectiveFactorization` | checked via the scheme-level Segre embedding |
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
+| Flat affine base change of finite-group quotients | `FiniteGroupQuotientFlatBaseChange.existsUnique_invariantsπ_lift_baseChange_spec_of_flat` | checked in arbitrary characteristic |
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
 | Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; closed-immersion and Cartier proofs remain |
@@ -231,6 +232,14 @@ The remaining local-algebra step is to identify the ambient quotient with
 `C × Sym^d(C)` (equivalently, prove the needed base-change theorem for this
 finite permutation quotient) and show the descended morphism is a relative
 effective Cartier divisor, including its flat degree-`d` fibers.
+
+The affine algebra in that comparison is checked.  For a finite group acting
+on an `R`-algebra `A` and a flat `Aᴳ`-algebra `B`, the canonical map
+`B → (A ⊗_{Aᴳ} B)ᴳ` is bijective.  On spectra, the base change of
+`Spec A → Spec Aᴳ` along `Spec B → Spec Aᴳ` therefore has the full unique
+categorical-quotient factorization property.  What remains in the ambient
+comparison is the scheme-level gluing of these affine statements over the
+quotient charts and an affine cover of the smooth (hence flat) curve factor.
 
 Denote the representing object by
 
