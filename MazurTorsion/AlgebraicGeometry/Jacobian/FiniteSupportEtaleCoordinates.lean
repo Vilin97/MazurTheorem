@@ -45,7 +45,7 @@ noncomputable def point (d : ℕ)
 every occurrence in the ordered support. -/
 abbrev Charts (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :=
-  ∀ i : Fin d, PointChart K C.left (point K C d z i)
+  ∀ i : Fin d, PointChart K C.left C.hom (point K C d z i)
 
 /-- Every finite ordered support admits a family of affine étale
 one-dimensional coordinate charts. -/
@@ -62,5 +62,67 @@ noncomputable def charts (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left) :
     Charts K C d z :=
   Classical.choice (nonempty_charts K C d z)
+
+/-- A finite étale point neighborhood for every chosen coordinate chart. -/
+abbrev Neighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) :=
+  ∀ i : Fin d, PointChart.FiniteNeighborhood (c i)
+
+/-- The chosen Zariski-main neighborhoods of all occurrences in the ordered
+support. -/
+noncomputable def neighborhoods (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) : Neighborhoods K C d z c :=
+  fun i ↦ (c i).finiteNeighborhood
+
+/-- The common relative product of the étale bases of a finite family of
+point neighborhoods. -/
+noncomputable abbrev commonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    Over (coordinateBase K) :=
+  ∏ᶜ fun i : Fin d ↦ (n i).baseOver
+
+/-- Pull the `i`-th selected finite étale component to the common product
+base. -/
+noncomputable abbrev pulledComponent (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    Over (coordinateBase K) :=
+  pullback (n i).componentToBase
+    (Pi.π (fun j : Fin d ↦ (n j).baseOver) i)
+
+/-- The base-changed selected component over the common product base. -/
+noncomputable def pulledComponentToCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponent K C d z c n i ⟶ commonBase K C d z c n :=
+  pullback.snd (n i).componentToBase
+    (Pi.π (fun j : Fin d ↦ (n j).baseOver) i)
+
+/-- A model of the base-changed component whose structure morphism is
+definitionally the scheme-theoretic pullback projection.  This form exposes
+finite and étale base-change instances directly. -/
+noncomputable abbrev pulledComponentOverCommonBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    Over (commonBase K C d z c n).left :=
+  Over.mk (pullback.snd (n i).componentToBase.left
+    (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left)
+
+instance pulledComponentOverCommonBase_isFinite (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    IsFinite (pulledComponentOverCommonBase K C d z c n i).hom := by
+  exact MorphismProperty.pullback_snd (P := @IsFinite) _ _
+    (show IsFinite (n i).componentToBase.left from inferInstance)
+
+instance pulledComponentOverCommonBase_etale (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    Etale (pulledComponentOverCommonBase K C d z c n i).hom := by
+  exact MorphismProperty.pullback_snd (P := @Etale) _ _
+    (show Etale (n i).componentToBase.left from inferInstance)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
