@@ -10,7 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
-import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentGraphIdeal
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedRootCoordinates
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -41,10 +41,14 @@ open FiniteGroupQuotient
 open UniversalEffectiveDivisor
 open FiniteSupportEtaleCoordinates
 open FiniteSupportCoordinateMaps
+open FiniteEtaleCoproductPower
 open CoherentComponentBaseChange
 open OrderedIncidenceOpenRestriction
 open GeometricSupportAssignedSplitChart
+open GeometricAssignedRootCoordinates
 open SplitFiniteBaseChange
+open SplitFinitePowerPoint
+open SplitFiniteSymmetricQuotient
 open SplitComponentGraphIdeal
 
 variable (K : Type u) [Field K]
@@ -244,6 +248,187 @@ theorem orderedSupportGeometricAssignedSheetOwner_productPoint
         (orderedSupportPoint K C d z) i :=
   assignedSupportSheetOwner_productPoint K C d
     (orderedSupportPoint K C d z) V T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Reindex the actual ordered support positions by the root variables of
+the split symmetric-power component they select.  The orbit permutation is
+included explicitly, so this equivalence does not confuse the component's
+arbitrary quotient representative with the actual ordered sheet tuple. -/
+noncomputable def orderedSupportGeometricAssignedPositionEquivRootIndex
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left) :
+    let m := totalSheets (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) r
+    let c := assignedSupportComponent K C d
+      (orderedSupportPoint K C d z) V T q r E hE p
+    Fin d ≃ componentRootIndex d m c :=
+  GeometricAssignedRootCoordinates.positionEquivRootIndex K C d
+    (orderedSupportPoint K C d z) V T q r E hE p
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The root index attached to an actual ordered support position lies on
+the exact split sheet selected by that position. -/
+@[simp]
+theorem orderedSupportGeometricAssignedPositionEquivRootIndex_fst
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    (orderedSupportGeometricAssignedPositionEquivRootIndex K C d z V T q
+      r E hE p i).1 =
+        orderedSupportGeometricAssignedSheetTuple K C d z V T q r E hE p i :=
+  GeometricAssignedRootCoordinates.positionEquivRootIndex_fst K C d
+    (orderedSupportPoint K C d z) V T q r E hE p i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- For a point coming from the assigned component product, the
+orbit-adapted root variable attached to coordinate `i` lies over the genuine
+distinct geometric-support member assigned to `i`. -/
+theorem orderedSupportGeometricAssignedRootOwner_productPoint
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    let B := coherentBase K C d (orderedSupportPoint K C d z) V
+      (Spec (.of T)) q
+    let p := (assignedProductToCoproductPower K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left w
+    splitFamilySheetOwner B
+        (geometricDistinctSupportCard K C d
+          (orderedSupportPoint K C d z)) r
+        (orderedSupportGeometricAssignedPositionEquivRootIndex K C d z V
+          T q r E hE p i).1 =
+      geometricPointSupportIndex K C d (orderedSupportPoint K C d z) i := by
+  dsimp only
+  rw [orderedSupportGeometricAssignedPositionEquivRootIndex_fst]
+  exact orderedSupportGeometricAssignedSheetOwner_productPoint K C d z V
+    T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the geometric split chart attached to an actual incidence support,
+base change sends the universal linear factor for ordered position `i` to
+the concrete affine-line graph equation of that position's coherent
+coordinate function. -/
+theorem orderedSupportGeometricAssignedRootLinearFactor_map
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (p : (assignedCoproductPowerOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    let m := totalSheets (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) r
+    let c := assignedSupportComponent K C d
+      (orderedSupportPoint K C d z) V T q r E hE p
+    (rootLinearFactor Γ(Spec (.of K), ⊤) d m c
+        (orderedSupportGeometricAssignedPositionEquivRootIndex K C d z V
+          T q r E hE p i)).map
+      (GeometricAssignedRootCoordinates.rootCoordinateHom K C d
+        (orderedSupportPoint K C d z) V T q r E hE p) =
+      Polynomial.X - Polynomial.C
+        (GeometricAssignedRootCoordinates.rootValue K C d
+          (orderedSupportPoint K C d z) V T q i) :=
+  GeometricAssignedRootCoordinates.rootLinearFactor_map K C d
+    (orderedSupportPoint K C d z) V T q r E hE p i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On the split symmetric-power component selected by an actual incidence

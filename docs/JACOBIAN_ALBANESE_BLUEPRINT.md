@@ -70,7 +70,8 @@ parallel abstraction.
 | Finite fiber invariant chart | `FiniteFiberPermutationInvariants.finiteFiberInvariantAlgEquiv`, `FiniteFiberMonicCoordinates.monicCoefficientInvariantAlgEquiv`, and `SplitSymmetricQuotientChart.componentStabilizerInvariantSchemeIso` | checked: sigma reindexing conjugates recursive block permutations to independent sheet-fiber permutations, sheetwise Vieta reversal gives the exact free-monic coordinates, and the actual residual tuple-stabilizer quotient of a split component is the coefficient scheme used by its universal monic root family |
 | Split-component monic compatibility | `SplitComponentMonicCoordinates.sheetPolynomial_map_componentMonicCoefficientToRoots` | checked: after inclusion into ordered-root coordinates, every sheet's universal free-monic polynomial is exactly the product of that sheet's ordered linear root factors |
 | Split-component ordered-incidence invariants | `SplitComponentOrderedIncidence.orderedIncidenceBaseChangeEquiv`, `invariantRootEquivOrderedIncidenceFixedPoints`, and `orderedIncidenceInvariantSchemeIso` | checked: tensor product commutes with the finite product of sheetwise root algebras, adjoining each root commutes with base change, flat invariant base change recovers the product universal-root algebra from the ordered-root incidence invariants, and the resulting affine quotient is finite flat of constant rank equal to the symmetric-power degree |
-| Split-component graph-product ideal | `SplitComponentGraphIdeal.positionEquivRootIndex`, `orderedGraphIdeal_eq_orderedRootLocusIdeal`, `orderedGraphIdeal_eq_ker`, and `PointedIncidenceDescent.orderedSupportGeometricAssignedGraphIdeal_eq_ker` | checked: the original ordered positions are canonically reindexed by their sheet fibers; on a distinguished sheet each coordinate graph contributes its linear factor exactly in its owner block and the unit ideal elsewhere; the product of all graph ideals is the exact kernel of simultaneous evaluation into the product of sheetwise ordered-root algebras, so repeated coordinates retain their scheme-theoretic factor multiplicity |
+| Split-component graph-product ideal | `SplitComponentGraphIdeal.orbitAdaptedPositionEquivRootIndex`, `rootGraphEvaluation_ker`, `orderedGraphIdeal_eq_orderedRootLocusIdeal`, and `orderedGraphIdeal_eq_ker` | checked: an actual ordered tuple is reindexed by its sheet fibers using the permutation witnessing its relation to the component's arbitrary orbit representative; one root graph is exactly “select the owner sheet, then evaluate at the root,” with kernel the linear factor on that sheet and the unit ideal elsewhere; the product of all graph ideals is the exact kernel of simultaneous evaluation into the sheetwise ordered-root algebras, so repeated coordinates retain their scheme-theoretic factor multiplicity |
+| Geometric assigned root coordinates | `GeometricAssignedRootCoordinates.positionEquivRootIndex`, `rootCoordinateHom_X_position`, `rootLinearFactor_map`, and `PointedIncidenceDescent.orderedSupportGeometricAssignedRootLinearFactor_map` | checked: the universal component root ring is formed over the ground-field section ring, then mapped to global functions on the coherent affine support chart; every root variable maps to the actual étale affine-line coordinate function assigned to that ordered occurrence, and every universal graph factor maps to its concrete linear graph equation. This is the dimension-preserving base-change map; the coherent base is the target algebra, not an extra coefficient ring beneath a second independent set of roots |
 | Invariant/free-monic root comparison | `SplitComponentInvariantRootComparison.componentProductRootAlgEquiv` and `componentProductRootSchemeIso_hom_comp_projection` | checked: coefficient change from the residual-stabilizer fixed ring to the free-monic coefficient presentation transports every sheetwise root algebra and their finite product, and the resulting affine-scheme isomorphism commutes with the two root-family projections |
 | Fpqc finite-flat descent | `FpqcDescent` | checked: isomorphism, flatness, and a constant finite-flat rank descend from an fpqc chart; independently chosen pointwise fpqc charts first descend on their Zariski neighborhoods and then glue globally |
 | Degree-one universal divisor | `UniversalEffectiveDivisorDegreeOne.overHom` | checked as a closed graph over `C × Sym¹(C)`; its parameter projection is finite flat of constant rank one |
@@ -576,19 +577,22 @@ inclusions is proved on every product factor, hence the induced affine-scheme
 isomorphism lies over the corresponding coefficient-scheme isomorphism.  What
 remained algebraically was to verify that the phrase "ordered-root incidence"
 really denotes the scheme-theoretic graph product rather than only a ring of
-the expected rank.  This is now checked.  The canonical finite-fiber
+the expected rank.  This is now checked.  The orbit-adapted finite-fiber
 reindexing sends the original `d` positions to their actual sheet/root
-indices.  For each distinguished sheet a coordinate graph contributes its
-linear root ideal precisely in that sheet's owner block and contributes the
-unit ideal on all other sheets.  Their product is proved equal to the
-sheetwise ordered-root polynomial ideal, and then to the exact kernel of the
-simultaneous map into the product of `AdjoinRoot` algebras.  The selected
-assigned-support component over the coherent affine base consumes this
-identity directly.  What remains in this local layer is the geometric
-transport showing that the curve-level graph kernels, after restriction to
-the chosen finite-étale split chart, map to these explicit algebraic graph
-ideals; its fpqc descent data must then be matched with the global pointed
-comparison.
+indices; it explicitly corrects for the arbitrary representative stored by
+the quotient component.  For each distinguished sheet a coordinate graph
+contributes its linear root ideal precisely in that sheet's owner block and
+contributes the unit ideal on all other sheets.  Their product is proved
+equal to the sheetwise ordered-root polynomial ideal, and then to the exact
+kernel of the simultaneous map into the product of `AdjoinRoot` algebras.
+The dimension-preserving geometric base change is also explicit: the
+ordered-root ring is taken over the ground-field section ring and maps to
+global functions on the coherent affine base by sending each root variable
+to its actual étale coordinate function.  Every linear factor maps to the
+corresponding concrete graph equation.  What remains in this local layer is
+to identify the restricted curve-level graph kernel with that concrete
+equation inside the coproduct of pulled-back curve sheets; its fpqc descent
+data must then be matched with the global pointed comparison.
 
 The affine algebra in that comparison is checked.  For a finite group acting
 on an `R`-algebra `A` and a flat `Aᴳ`-algebra `B`, the canonical map
