@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
+import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
 # The pointed symmetric power maps to the incidence quotient
@@ -162,5 +163,22 @@ instance productSymmetricPowerToIncidenceQuotient_isProper (n : ℕ) :
     rw [productSymmetricPowerToIncidenceQuotient_comp_structureMap K C n]
     exact curveProductSymmetricPower_isProper K C n
   exact IsProper.of_comp f t
+
+/-- The pointed comparison is an isomorphism once it becomes one after an
+fpqc cover of the incidence quotient.  The downstream consumer is the local
+monic-root chart comparison: its explicit affine isomorphisms provide the
+pullback instance, while this theorem performs the global descent step. -/
+theorem productSymmetricPowerToIncidenceQuotient_isIso_of_fpqc
+    (n : ℕ) (T : Scheme.{u})
+    (q : T ⟶ curveOrderedIncidenceQuotientSucc K C (n + 1))
+    [Surjective q] [Flat q] [QuasiCompact q]
+    [IsIso (pullback.fst q
+      (productSymmetricPowerToIncidenceQuotient K C n))] :
+    IsIso (productSymmetricPowerToIncidenceQuotient K C n) := by
+  exact MorphismProperty.of_pullback_fst_of_descendsAlong
+    (P := MorphismProperty.isomorphisms Scheme.{u})
+    (Q := @Surjective ⊓ @Flat ⊓ @QuasiCompact)
+    (f := q) (g := productSymmetricPowerToIncidenceQuotient K C n)
+    ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ inferInstance
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidenceDescent
