@@ -557,6 +557,18 @@ order-49 consumers.
   Use elliptic nonsingularity to prove that the two affine-output charts and two
   infinity-output charts cover the entire affine-pair presentation.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productVerticalIntersection_additionProjective_eq`
+  Prove equality of product-neighbourhood and vertical infinity-output addition on their
+  exact principal-open intersection.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAntidiagonalIntersection_additionProjective_eq`
+  Prove equality of ordinary secant and antidiagonal infinity-output addition on their
+  exact principal-open intersection.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionMorphism`
+  Glue the four checked principal-open formulas to an actual addition morphism from the
+  entire affine-pair presentation into the concrete projective cubic.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.

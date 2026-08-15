@@ -194,10 +194,13 @@ doubling. The named consumer
 two compatibility theorems. Two denominator-cleared infinity-output
 morphisms now agree with the corresponding affine formulas on their exact
 intersections and with each other on their exact common principal open,
-without cancelling either slope denominator. The four principal opens cover the whole affine-pair
-presentation: simultaneous vanishing would produce a singular residue-field
-point, contradicting ellipticity. This still constructs neither their glued
-multiplication nor its extension over input points at infinity.
+without cancelling either slope denominator. The product/vertical and
+secant/antidiagonal cross equalities are now also checked on their exact
+principal-open intersections. The four principal opens cover the whole
+affine-pair presentation: simultaneous vanishing would produce a singular
+residue-field point, contradicting ellipticity. Their six compatible
+restrictions are glued to an actual affine-pair addition morphism, but its
+extension over input points at infinity remains open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -226,11 +229,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by proving all remaining
-   compatibilities in the checked four-chart affine-pair cover, gluing it,
-   extending over input points at infinity, and proving the group laws using
-   the checked section at infinity and homogeneous negation as the identity
-   and inverse candidates;
+1. a global multiplication morphism obtained by extending the checked glued
+   affine-pair addition over input points at infinity and proving the group
+   laws using the checked section at infinity and homogeneous negation as the
+   identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

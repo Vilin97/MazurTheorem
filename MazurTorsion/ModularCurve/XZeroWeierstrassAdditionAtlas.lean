@@ -4,16 +4,17 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.ModularCurve.XZeroWeierstrassInfinityCompatibility
+import MazurTorsion.ModularCurve.XZeroWeierstrassCrossCompatibility
 
 /-!
 # The global affine-pair atlas for Weierstrass addition
 
 The two affine-output charts `D(x₁-x₂)` and `D(B₁₂)` do not contain inverse
 pairs.  Their two denominator-cleared infinity extensions cover the missing
-locus.  The coverage proof below is the honest geometric step: if all four
-chart coordinates vanished at a prime, the first universal point would be a
-singular point of the elliptic Weierstrass cubic.
+locus.  All six pairwise intersections now carry equality of the actual
+scheme morphisms.  The coverage proof below is the honest geometric step: if
+all four chart coordinates vanished at a prime, the first universal point
+would be a singular point of the elliptic Weierstrass cubic.
 
 This file assumes ellipticity only where nonsingularity is actually used.  It
 does not assume a group object or a pointwise addition law.
@@ -21,7 +22,7 @@ does not assume a group object or a pointwise addition law.
 
 noncomputable section
 
-open AlgebraicGeometry
+open CategoryTheory Limits AlgebraicGeometry
 
 namespace MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
 namespace WeierstrassProjectiveCubic
@@ -94,6 +95,7 @@ theorem affinePairAdditionCharts_cover
     (show p.asIdeal.IsPrime from inferInstance).mem_of_pow_mem 3 hC3
   let S := secantPairCoordinateRing W
   let Q := S ⧸ p.asIdeal
+  letI : CommRing Q := Ideal.Quotient.commRing p.asIdeal
   letI : IsDomain Q :=
     (Ideal.Quotient.isDomain_iff_prime p.asIdeal).mpr inferInstance
   let L := FractionRing Q
@@ -154,6 +156,492 @@ theorem affinePairAdditionCharts_cover
   rcases hns.2 with hx | hy
   · exact hx hderivativeX
   · exact hy hderivativeY
+
+/-! ## Generic gluing on two principal opens -/
+
+private abbrev principalChartScheme (R : Type u) [CommRing R] (d : R) :=
+  Spec (.of (Localization.Away d))
+
+private def principalChartMap (R : Type u) [CommRing R] (d : R) :
+    principalChartScheme R d ⟶ Spec (.of R) :=
+  Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away d)))
+
+private instance principalChartMap_isOpenImmersion
+    (R : Type u) [CommRing R] (d : R) :
+    IsOpenImmersion (principalChartMap R d) := by
+  dsimp only [principalChartMap, principalChartScheme]
+  infer_instance
+
+private abbrev principalOverlapScheme
+    (R : Type u) [CommRing R] (d e : R) :=
+  Spec (.of (Localization.Away (d * e)))
+
+private def principalOverlapMap (R : Type u) [CommRing R] (d e : R) :
+    principalOverlapScheme R d e ⟶ Spec (.of R) :=
+  Spec.map (CommRingCat.ofHom
+    (algebraMap R (Localization.Away (d * e))))
+
+private instance principalOverlapMap_isOpenImmersion
+    (R : Type u) [CommRing R] (d e : R) :
+    IsOpenImmersion (principalOverlapMap R d e) := by
+  dsimp only [principalOverlapMap, principalOverlapScheme]
+  infer_instance
+
+private noncomputable def principalOverlapToLeftRing
+    (R : Type u) [CommRing R] (d e : R) :
+    Localization.Away d →+* Localization.Away (d * e) :=
+  IsLocalization.Away.awayToAwayRight
+    (S := Localization.Away d) (P := Localization.Away (d * e)) d e
+
+private noncomputable def principalOverlapToRightRing
+    (R : Type u) [CommRing R] (d e : R) :
+    Localization.Away e →+* Localization.Away (d * e) :=
+  IsLocalization.Away.awayToAwayLeft
+    (S := Localization.Away e) (P := Localization.Away (d * e)) e d
+
+private def principalOverlapToLeft
+    (R : Type u) [CommRing R] (d e : R) :
+    principalOverlapScheme R d e ⟶ principalChartScheme R d :=
+  Spec.map (CommRingCat.ofHom (principalOverlapToLeftRing R d e))
+
+private def principalOverlapToRight
+    (R : Type u) [CommRing R] (d e : R) :
+    principalOverlapScheme R d e ⟶ principalChartScheme R e :=
+  Spec.map (CommRingCat.ofHom (principalOverlapToRightRing R d e))
+
+private theorem principalOverlapToLeft_comp
+    (R : Type u) [CommRing R] (d e : R) :
+    principalOverlapToLeft R d e ≫ principalChartMap R d =
+      principalOverlapMap R d e := by
+  have hring : (principalOverlapToLeftRing R d e).comp
+      (algebraMap R (Localization.Away d)) =
+        algebraMap R (Localization.Away (d * e)) := by
+    apply RingHom.ext
+    intro a
+    exact IsLocalization.Away.awayToAwayRight_eq
+      (S := Localization.Away d) (P := Localization.Away (d * e)) d e a
+  have hmap := congrArg
+    (fun f : R →+* Localization.Away (d * e) =>
+      Spec.map (CommRingCat.ofHom f)) hring
+  rw [principalOverlapToLeft, principalChartMap, principalOverlapMap,
+    ← Spec.map_comp]
+  exact hmap
+
+private theorem principalOverlapToRight_comp
+    (R : Type u) [CommRing R] (d e : R) :
+    principalOverlapToRight R d e ≫ principalChartMap R e =
+      principalOverlapMap R d e := by
+  have hring : (principalOverlapToRightRing R d e).comp
+      (algebraMap R (Localization.Away e)) =
+        algebraMap R (Localization.Away (d * e)) := by
+    apply RingHom.ext
+    intro a
+    exact IsLocalization.Away.awayToAwayLeft_eq
+      (S := Localization.Away e) (P := Localization.Away (d * e)) e d a
+  have hmap := congrArg
+    (fun f : R →+* Localization.Away (d * e) =>
+      Spec.map (CommRingCat.ofHom f)) hring
+  rw [principalOverlapToRight, principalChartMap, principalOverlapMap,
+    ← Spec.map_comp]
+  exact hmap
+
+private theorem principalOverlap_range
+    (R : Type u) [CommRing R] (d e : R) :
+    Set.range ⇑(principalOverlapMap R d e) =
+      Set.range ⇑(pullback.fst (principalChartMap R d)
+        (principalChartMap R e) ≫ principalChartMap R d) := by
+  rw [IsOpenImmersion.range_pullback_to_base_of_left]
+  rw [← Scheme.Hom.coe_opensRange, ← Scheme.Hom.coe_opensRange,
+    ← Scheme.Hom.coe_opensRange]
+  dsimp only [principalOverlapMap, principalChartMap]
+  rw [Scheme.Hom.opensRange_localizationAway
+      (R := CommRingCat.of R) (d * e),
+    Scheme.Hom.opensRange_localizationAway (R := CommRingCat.of R) d,
+    Scheme.Hom.opensRange_localizationAway (R := CommRingCat.of R) e]
+  ext x
+  change d * e ∉ x.asIdeal ↔ d ∉ x.asIdeal ∧ e ∉ x.asIdeal
+  constructor
+  · intro hde
+    exact ⟨fun hd => hde (x.asIdeal.mul_mem_right e hd),
+      fun he => hde (x.asIdeal.mul_mem_left d he)⟩
+  · rintro ⟨hd, he⟩ hde
+    exact x.isPrime.mem_or_mem hde |>.elim hd he
+private theorem principalChart_morphisms_compatible
+    (R : Type u) [CommRing R] (d e : R) {Y : Scheme.{u}}
+    (fd : principalChartScheme R d ⟶ Y)
+    (fe : principalChartScheme R e ⟶ Y)
+    (h : principalOverlapToLeft R d e ≫ fd =
+      principalOverlapToRight R d e ≫ fe) :
+    pullback.fst (principalChartMap R d) (principalChartMap R e) ≫ fd =
+      pullback.snd (principalChartMap R d) (principalChartMap R e) ≫ fe := by
+  let overlapIso : principalOverlapScheme R d e ≅
+      pullback (principalChartMap R d) (principalChartMap R e) :=
+    IsOpenImmersion.isoOfRangeEq (principalOverlapMap R d e)
+      (pullback.fst (principalChartMap R d) (principalChartMap R e) ≫
+        principalChartMap R d) (principalOverlap_range R d e)
+  have hfst : overlapIso.hom ≫
+      pullback.fst (principalChartMap R d) (principalChartMap R e) =
+        principalOverlapToLeft R d e := by
+    apply (cancel_mono (principalChartMap R d)).mp
+    rw [Category.assoc, IsOpenImmersion.isoOfRangeEq_hom_fac,
+      principalOverlapToLeft_comp]
+  have hsnd : overlapIso.hom ≫
+      pullback.snd (principalChartMap R d) (principalChartMap R e) =
+        principalOverlapToRight R d e := by
+    apply (cancel_mono (principalChartMap R e)).mp
+    calc
+      _ = overlapIso.hom ≫
+          (pullback.snd (principalChartMap R d)
+            (principalChartMap R e) ≫ principalChartMap R e) :=
+        Category.assoc _ _ _
+      _ = overlapIso.hom ≫
+          (pullback.fst (principalChartMap R d)
+            (principalChartMap R e) ≫ principalChartMap R d) :=
+        congrArg (fun f => overlapIso.hom ≫ f) pullback.condition.symm
+      _ = principalOverlapMap R d e :=
+        IsOpenImmersion.isoOfRangeEq_hom_fac _ _ _
+      _ = _ := (principalOverlapToRight_comp R d e).symm
+  apply (cancel_epi overlapIso.hom).mp
+  calc
+    _ = (overlapIso.hom ≫
+          pullback.fst (principalChartMap R d) (principalChartMap R e)) ≫
+        fd := (Category.assoc _ _ _).symm
+    _ = principalOverlapToLeft R d e ≫ fd :=
+      congrArg (fun f => f ≫ fd) hfst
+    _ = principalOverlapToRight R d e ≫ fe := h
+    _ = (overlapIso.hom ≫
+          pullback.snd (principalChartMap R d) (principalChartMap R e)) ≫
+        fe := congrArg (fun f => f ≫ fe) hsnd.symm
+    _ = _ := Category.assoc _ _ _
+
+private theorem pullback_morphism_compatible_self
+    {U X Y : Scheme.{u}} (i : U ⟶ X) [Mono i] (f : U ⟶ Y) :
+    pullback.fst i i ≫ f = pullback.snd i i ≫ f := by
+  have hfst : pullback.fst i i = pullback.snd i i := by
+    apply (cancel_mono i).mp
+    exact pullback.condition
+  exact congrArg (fun q => q ≫ f) hfst
+
+private theorem pullback_morphism_compatible_symm
+    {U V X Y : Scheme.{u}} (i : U ⟶ X) (j : V ⟶ X)
+    (f : U ⟶ Y) (g : V ⟶ Y)
+    (h : pullback.fst i j ≫ f = pullback.snd i j ≫ g) :
+    pullback.fst j i ≫ g = pullback.snd j i ≫ f := by
+  apply (cancel_epi (pullbackSymmetry i j).hom).mp
+  calc
+    _ = ((pullbackSymmetry i j).hom ≫ pullback.fst j i) ≫ g :=
+      (Category.assoc _ _ _).symm
+    _ = pullback.snd i j ≫ g := congrArg (fun q => q ≫ g)
+      (pullbackSymmetry_hom_comp_fst i j)
+    _ = pullback.fst i j ≫ f := h.symm
+    _ = ((pullbackSymmetry i j).hom ≫ pullback.snd j i) ≫ f :=
+      congrArg (fun q => q ≫ f) (pullbackSymmetry_hom_comp_snd i j).symm
+    _ = _ := Category.assoc _ _ _
+
+private theorem productSecant_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (productNeighborhoodToPair W) (secantChartToPair W) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+      pullback.snd (productNeighborhoodToPair W) (secantChartToPair W) ≫
+        secantAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W)) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W)) ≫
+        secantAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact additionSecantIntersection_additionProjective_eq W
+
+private theorem productAntidiagonal_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (productNeighborhoodToPair W) (antidiagonalChartToPair W) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+      pullback.snd (productNeighborhoodToPair W) (antidiagonalChartToPair W) ≫
+        antidiagonalAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W)) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W)) ≫
+        antidiagonalAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact productAntidiagonalIntersection_additionProjective_eq W
+
+private theorem productVertical_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (productNeighborhoodToPair W) (verticalChartToPair W) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+      pullback.snd (productNeighborhoodToPair W) (verticalChartToPair W) ≫
+        verticalAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        productNeighborhoodAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W) (additionB12 W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        verticalAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact productVerticalIntersection_additionProjective_eq W
+
+private theorem secantAntidiagonal_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (secantChartToPair W) (antidiagonalChartToPair W) ≫
+        secantAdditionProjectiveMorphism W =
+      pullback.snd (secantChartToPair W) (antidiagonalChartToPair W) ≫
+        antidiagonalAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W)) ≫
+        secantAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W)) ≫
+        antidiagonalAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact secantAntidiagonalIntersection_additionProjective_eq W
+
+private theorem secantVertical_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (secantChartToPair W) (verticalChartToPair W) ≫
+        secantAdditionProjectiveMorphism W =
+      pullback.snd (secantChartToPair W) (verticalChartToPair W) ≫
+        verticalAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        secantAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W) (secantDenominator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        verticalAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact secantVerticalIntersection_additionProjective_eq W
+
+private theorem antidiagonalVertical_chart_compatible
+    (W : WeierstrassCurve K) :
+    pullback.fst (antidiagonalChartToPair W) (verticalChartToPair W) ≫
+        antidiagonalAdditionProjectiveMorphism W =
+      pullback.snd (antidiagonalChartToPair W) (verticalChartToPair W) ≫
+        verticalAdditionProjectiveMorphism W := by
+  change pullback.fst
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        antidiagonalAdditionProjectiveMorphism W =
+    pullback.snd
+      (principalChartMap (secantPairCoordinateRing W)
+        (antidiagonalAddYNumerator W))
+      (principalChartMap (secantPairCoordinateRing W)
+        (verticalAddYNumerator W)) ≫
+        verticalAdditionProjectiveMorphism W
+  apply principalChart_morphisms_compatible
+  exact infinityIntersection_additionProjective_eq W
+
+/-! ## The glued affine-pair addition morphism -/
+
+/-- The four principal charts used to define addition on pairs of affine
+Weierstrass points. -/
+inductive AffinePairAdditionChart where
+  | productNeighborhood
+  | secant
+  | antidiagonal
+  | vertical
+  deriving DecidableEq
+
+/-- Source scheme of one chart in the affine-pair addition atlas. -/
+def affinePairAdditionChartScheme (W : WeierstrassCurve K) :
+    AffinePairAdditionChart → Scheme
+  | .productNeighborhood =>
+      Spec (.of (productNeighborhoodCoordinateRing W))
+  | .secant => Spec (.of (secantChartCoordinateRing W))
+  | .antidiagonal => Spec (.of (antidiagonalChartCoordinateRing W))
+  | .vertical => Spec (.of (verticalChartCoordinateRing W))
+
+/-- Open immersion of an addition chart into the affine-pair presentation. -/
+def affinePairAdditionChartMap (W : WeierstrassCurve K) :
+    (c : AffinePairAdditionChart) →
+      affinePairAdditionChartScheme W c ⟶
+        Spec (.of (secantPairCoordinateRing W))
+  | .productNeighborhood => productNeighborhoodToPair W
+  | .secant => secantChartToPair W
+  | .antidiagonal => antidiagonalChartToPair W
+  | .vertical => verticalChartToPair W
+
+instance affinePairAdditionChartMap_isOpenImmersion
+    (W : WeierstrassCurve K) (c : AffinePairAdditionChart) :
+    IsOpenImmersion (affinePairAdditionChartMap W c) := by
+  cases c <;> simp only [affinePairAdditionChartMap,
+    affinePairAdditionChartScheme] <;> infer_instance
+
+/-- The checked local addition morphism on a chart. -/
+def affinePairAdditionChartMorphism (W : WeierstrassCurve K) :
+    (c : AffinePairAdditionChart) →
+      affinePairAdditionChartScheme W c ⟶ scheme W
+  | .productNeighborhood => productNeighborhoodAdditionProjectiveMorphism W
+  | .secant => secantAdditionProjectiveMorphism W
+  | .antidiagonal => antidiagonalAdditionProjectiveMorphism W
+  | .vertical => verticalAdditionProjectiveMorphism W
+
+private theorem affinePairAdditionChart_preimage_exists
+    (W : WeierstrassCurve K) [W.IsElliptic]
+    (x : Spec (.of (secantPairCoordinateRing W))) :
+    ∃ c y, affinePairAdditionChartMap W c y = x := by
+  have hx :
+      additionB12 W ∉ x.asIdeal ∨
+        secantDenominator W ∉ x.asIdeal ∨
+        antidiagonalAddYNumerator W ∉ x.asIdeal ∨
+        verticalAddYNumerator W ∉ x.asIdeal := by
+    have hmem : x ∈
+        PrimeSpectrum.basicOpen (additionB12 W) ⊔
+          (PrimeSpectrum.basicOpen (secantDenominator W) ⊔
+            (PrimeSpectrum.basicOpen (antidiagonalAddYNumerator W) ⊔
+              PrimeSpectrum.basicOpen (verticalAddYNumerator W))) := by
+      rw [affinePairAdditionCharts_cover W]
+      trivial
+    exact hmem
+  rcases hx with hproduct | hsecant | hanti | hvert
+  · refine ⟨AffinePairAdditionChart.productNeighborhood, ?_⟩
+    change ∃ y, productNeighborhoodToPair W y = x
+    have hmem : x ∈ (productNeighborhoodToPair W).opensRange := by
+      rw [productNeighborhoodToPair_opensRange]
+      exact hproduct
+    exact hmem
+  · refine ⟨AffinePairAdditionChart.secant, ?_⟩
+    change ∃ y, secantChartToPair W y = x
+    have hmem : x ∈ (secantChartToPair W).opensRange := by
+      rw [secantChartToPair_opensRange]
+      exact hsecant
+    exact hmem
+  · refine ⟨AffinePairAdditionChart.antidiagonal, ?_⟩
+    change ∃ y, antidiagonalChartToPair W y = x
+    have hmem : x ∈ (antidiagonalChartToPair W).opensRange := by
+      rw [antidiagonalChartToPair_opensRange]
+      exact hanti
+    exact hmem
+  · refine ⟨AffinePairAdditionChart.vertical, ?_⟩
+    change ∃ y, verticalChartToPair W y = x
+    have hmem : x ∈ (verticalChartToPair W).opensRange := by
+      rw [verticalChartToPair_opensRange]
+      exact hvert
+    exact hmem
+
+/-- The four checked principal opens as an actual scheme open cover of the
+affine-pair presentation. -/
+noncomputable def affinePairAdditionOpenCover
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (Spec (.of (secantPairCoordinateRing W))).OpenCover :=
+  Scheme.Cover.mkOfCovers AffinePairAdditionChart
+    (affinePairAdditionChartScheme W)
+    (affinePairAdditionChartMap W)
+    (affinePairAdditionChart_preimage_exists W)
+    (fun c => affinePairAdditionChartMap_isOpenImmersion W c)
+
+private theorem affinePairAdditionChart_compatible
+    (W : WeierstrassCurve K) (i j : AffinePairAdditionChart) :
+    pullback.fst (affinePairAdditionChartMap W i)
+          (affinePairAdditionChartMap W j) ≫
+        affinePairAdditionChartMorphism W i =
+      pullback.snd (affinePairAdditionChartMap W i)
+          (affinePairAdditionChartMap W j) ≫
+        affinePairAdditionChartMorphism W j := by
+  cases i <;> cases j
+  · exact pullback_morphism_compatible_self _ _
+  · exact productSecant_chart_compatible W
+  · exact productAntidiagonal_chart_compatible W
+  · exact productVertical_chart_compatible W
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (productSecant_chart_compatible W)
+  · exact pullback_morphism_compatible_self _ _
+  · exact secantAntidiagonal_chart_compatible W
+  · exact secantVertical_chart_compatible W
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (productAntidiagonal_chart_compatible W)
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (secantAntidiagonal_chart_compatible W)
+  · exact pullback_morphism_compatible_self _ _
+  · exact antidiagonalVertical_chart_compatible W
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (productVertical_chart_compatible W)
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (secantVertical_chart_compatible W)
+  · exact pullback_morphism_compatible_symm _ _ _ _
+      (antidiagonalVertical_chart_compatible W)
+  · exact pullback_morphism_compatible_self _ _
+
+private theorem affinePairAdditionOpenCover_compatible
+    (W : WeierstrassCurve K) [W.IsElliptic]
+    (i j : (affinePairAdditionOpenCover W).I₀) :
+    pullback.fst ((affinePairAdditionOpenCover W).f i)
+          ((affinePairAdditionOpenCover W).f j) ≫
+        affinePairAdditionChartMorphism W i =
+      pullback.snd ((affinePairAdditionOpenCover W).f i)
+          ((affinePairAdditionOpenCover W).f j) ≫
+        affinePairAdditionChartMorphism W j := by
+  exact affinePairAdditionChart_compatible W i j
+
+/-- The four local formulas glued to one honest morphism from the entire
+affine-pair presentation to the concrete projective Weierstrass cubic. -/
+noncomputable def affinePairAdditionMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    Spec (.of (secantPairCoordinateRing W)) ⟶ scheme W :=
+  (affinePairAdditionOpenCover W).glueMorphisms
+    (affinePairAdditionChartMorphism W)
+    (affinePairAdditionOpenCover_compatible W)
+
+@[reassoc]
+theorem productNeighborhoodToPair_comp_affinePairAdditionMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    productNeighborhoodToPair W ≫ affinePairAdditionMorphism W =
+      productNeighborhoodAdditionProjectiveMorphism W := by
+  exact (affinePairAdditionOpenCover W).ι_glueMorphisms
+    (affinePairAdditionChartMorphism W)
+    (affinePairAdditionOpenCover_compatible W)
+    .productNeighborhood
+
+@[reassoc]
+theorem secantChartToPair_comp_affinePairAdditionMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    secantChartToPair W ≫ affinePairAdditionMorphism W =
+      secantAdditionProjectiveMorphism W := by
+  exact (affinePairAdditionOpenCover W).ι_glueMorphisms
+    (affinePairAdditionChartMorphism W)
+    (affinePairAdditionOpenCover_compatible W)
+    .secant
+
+@[reassoc]
+theorem antidiagonalChartToPair_comp_affinePairAdditionMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    antidiagonalChartToPair W ≫ affinePairAdditionMorphism W =
+      antidiagonalAdditionProjectiveMorphism W := by
+  exact (affinePairAdditionOpenCover W).ι_glueMorphisms
+    (affinePairAdditionChartMorphism W)
+    (affinePairAdditionOpenCover_compatible W)
+    .antidiagonal
+
+@[reassoc]
+theorem verticalChartToPair_comp_affinePairAdditionMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    verticalChartToPair W ≫ affinePairAdditionMorphism W =
+      verticalAdditionProjectiveMorphism W := by
+  exact (affinePairAdditionOpenCover W).ι_glueMorphisms
+    (affinePairAdditionChartMorphism W)
+    (affinePairAdditionOpenCover_compatible W)
+    .vertical
 
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli

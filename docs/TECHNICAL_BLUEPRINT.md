@@ -254,11 +254,12 @@ facts.
 These checked charts are still not the global Weierstrass group scheme.
 Two denominator-cleared infinity-output morphisms now agree with their affine
 counterparts on exact intersections and with each other on their exact common
-principal open, and elliptic nonsingularity proves that the four source opens
-cover the entire affine-pair presentation. Proving the remaining
-product-neighbourhood/vertical and secant/antidiagonal compatibilities, gluing those four charts, extending over
-input points at infinity, proving the group laws, and comparing the resulting
-law with coordinate points remain open.
+principal open. The two cross-chart equalities are checked as actual scheme
+morphism equalities, elliptic nonsingularity proves that the four source opens
+cover the entire affine-pair presentation, and the six compatible restrictions
+are glued to an actual affine-pair addition morphism. Extending that morphism
+over input points at infinity, proving the group laws, and comparing the
+resulting law with coordinate points remain open.
 
 Separately, the finite-translation quotient layer constructs an actual
 commutative quotient group scheme from a source with affine diagonal, a finite
