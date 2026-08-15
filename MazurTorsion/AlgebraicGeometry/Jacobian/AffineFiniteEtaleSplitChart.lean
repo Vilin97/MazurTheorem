@@ -46,7 +46,8 @@ theorem exists_fpqc_splitCover
       (_e : T ⊗[Γ(Y, ⊤)] Γ(X, ⊤) ≃ₐ[T] (Fin m → T))
       (q : Spec (.of T) ⟶ Y)
       (_E : pullback f q ≅ Spec (.of (Fin m → T))),
-      Flat q ∧ Surjective q ∧ QuasiCompact q := by
+      _E.hom ≫ EtaleSplitChart.splitProjection T m = pullback.snd f q ∧
+        Flat q ∧ Surjective q ∧ QuasiCompact q := by
   letI : Algebra Γ(Y, ⊤) Γ(X, ⊤) := f.appTop.hom.toAlgebra
   have hfEtale : f.appTop.hom.Etale :=
     HasRingHomProperty.appTop (P := @Etale) (Q := RingHom.Etale)
@@ -81,24 +82,40 @@ theorem exists_fpqc_splitCover
           exact hp'
         simpa only [hp] using h
       _ = n := congrFun hn (Y.isoSpec.inv p)
-  obtain ⟨T, _, _, _, _, _, m, e, EΓ, hflat, hsurjective, hqc⟩ :=
+  obtain ⟨T, _, _, _, _, _, m, e, EΓ, hEΓ, hflat, hsurjective, hqc⟩ :=
     EtaleSplitChart.exists_fpqc_splitCover
       Γ(Y, ⊤) Γ(X, ⊤) n hRank
+  let fΓ : Spec (.of Γ(X, ⊤)) ⟶ Spec (.of Γ(Y, ⊤)) :=
+    Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, ⊤) Γ(X, ⊤)))
   let qΓ : Spec (.of T) ⟶ Spec (.of Γ(Y, ⊤)) :=
     Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, ⊤) T))
   let q : Spec (.of T) ⟶ Y := qΓ ≫ Y.isoSpec.inv
+  change EΓ.hom ≫ EtaleSplitChart.splitProjection T m =
+    pullback.snd fΓ qΓ at hEΓ
   let compare : pullback f q ⟶
-      pullback (Spec.map f.appTop) qΓ :=
-    pullback.map f q (Spec.map f.appTop) qΓ
+      pullback fΓ qΓ :=
+    pullback.map f q fΓ qΓ
       X.isoSpec.hom (𝟙 _) Y.isoSpec.hom
-      (Scheme.isoSpec_hom_naturality f).symm (by simp [q])
+      (by
+        dsimp only [fΓ]
+        exact (Scheme.isoSpec_hom_naturality f).symm)
+      (by simp [q])
   haveI : IsIso compare := by
     dsimp only [compare]
     infer_instance
   let E' : pullback f q ≅ Spec (.of (Fin m → T)) :=
     asIso compare ≪≫ EΓ
   refine ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance, m, e, q, E', ?_, ?_, ?_⟩
+    inferInstance, m, e, q, E', ?_, ?_, ?_, ?_⟩
+  · calc
+      E'.hom ≫ EtaleSplitChart.splitProjection T m =
+          compare ≫ EΓ.hom ≫ EtaleSplitChart.splitProjection T m := by
+            rfl
+      _ = compare ≫ pullback.snd fΓ qΓ := by
+        rw [hEΓ]
+      _ = pullback.snd f q := by
+        dsimp only [compare]
+        simp only [pullback.map, pullback.lift_snd, Category.comp_id]
   · dsimp only [q]
     infer_instance
   · dsimp only [q]

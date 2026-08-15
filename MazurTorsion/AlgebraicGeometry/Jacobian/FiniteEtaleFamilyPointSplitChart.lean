@@ -53,7 +53,9 @@ theorem exists_affineOpen_fpqc_common_splitCover
         Flat q ∧ Surjective q ∧ QuasiCompact q ∧
           ∀ i, ∃ (m : ℕ)
             (_e : T ⊗[Γ(V, ⊤)] Γ(f i ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T)),
-            Nonempty (pullback (fV i) q ≅ Spec (.of (Fin m → T))) := by
+            ∃ E : pullback (fV i) q ≅ Spec (.of (Fin m → T)),
+              E.hom ≫ EtaleSplitChart.splitProjection T m =
+                pullback.snd (fV i) q := by
   letI (i : Fin n) : Flat (f i) := inferInstance
   letI (i : Fin n) : LocallyOfFinitePresentation (f i) := inferInstance
   let U : Y.Opens := ⨅ i, rankOpen (f i) y

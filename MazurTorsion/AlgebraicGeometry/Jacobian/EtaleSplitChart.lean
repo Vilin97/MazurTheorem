@@ -31,6 +31,13 @@ open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.EtaleSplitChart
 
+/-- The structure morphism of a split finite scheme: the spectrum of a
+finite product of copies of `T` maps to `Spec T` through the diagonal
+`T`-algebra structure. -/
+noncomputable def splitProjection (T : Type u) [CommRing T] (m : ℕ) :
+    Spec (.of (Fin m → T)) ⟶ Spec (.of T) :=
+  Spec.map (CommRingCat.ofHom (algebraMap T (Fin m → T)))
+
 /-- A finite étale algebra of constant rank becomes a finite disjoint union
 of the base after a finite fpqc étale extension. -/
 theorem exists_fpqc_splitCover
@@ -44,7 +51,8 @@ theorem exists_fpqc_splitCover
       let f := Spec.map (CommRingCat.ofHom (algebraMap R A))
       let q := Spec.map (CommRingCat.ofHom (algebraMap R T))
       ∃ _E : pullback f q ≅ Spec (.of (Fin m → T)),
-        Flat q ∧ Surjective q ∧ QuasiCompact q := by
+        _E.hom ≫ splitProjection T m = pullback.snd f q ∧
+          Flat q ∧ Surjective q ∧ QuasiCompact q := by
   obtain ⟨T, _, _, _, _, _, hsplit⟩ :=
     Algebra.IsFiniteSplit.exists_tensorProduct_of_etale hn
   letI : Algebra.IsFiniteSplit T (T ⊗[R] A) := hsplit
@@ -60,7 +68,24 @@ theorem exists_fpqc_splitCover
       Spec (.of (Fin m → T)) :=
     pullbackSpecIso R A T ≪≫ eSpec
   refine ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance, m, e, E, ?_⟩
+    inferInstance, m, e, E, ?_, ?_⟩
+  · dsimp only [E]
+    simp only [Iso.trans_hom, Category.assoc]
+    rw [show eSpec.hom ≫ splitProjection T m =
+        Spec.map (CommRingCat.ofHom
+          ((Algebra.TensorProduct.includeRight :
+            T →ₐ[R] A ⊗[R] T).toRingHom)) by
+      dsimp only [eSpec, splitProjection]
+      change Spec.map e'.symm.toRingEquiv.toCommRingCatIso.hom ≫
+          Spec.map (CommRingCat.ofHom (algebraMap T (Fin m → T))) =
+        Spec.map (CommRingCat.ofHom
+          ((Algebra.TensorProduct.includeRight :
+            T →ₐ[R] A ⊗[R] T).toRingHom))
+      rw [← Spec.map_comp, Spec.map_inj]
+      apply CommRingCat.hom_ext
+      apply RingHom.ext fun t ↦ ?_
+      simp [e']]
+    exact pullbackSpecIso_hom_snd R A T
   have hq : Flat
         (Spec.map (CommRingCat.ofHom (algebraMap R T))) ∧
       Surjective (Spec.map (CommRingCat.ofHom (algebraMap R T))) := by

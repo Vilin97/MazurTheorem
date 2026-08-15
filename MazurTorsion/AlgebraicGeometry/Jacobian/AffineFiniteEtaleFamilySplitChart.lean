@@ -48,7 +48,9 @@ theorem exists_fpqc_common_splitCover
       Flat q ∧ Surjective q ∧ QuasiCompact q ∧
         ∀ i, ∃ (m : ℕ)
           (_e : T ⊗[Γ(Y, ⊤)] Γ(X i, ⊤) ≃ₐ[T] (Fin m → T)),
-          Nonempty (pullback (f i) q ≅ Spec (.of (Fin m → T))) := by
+          ∃ E : pullback (f i) q ≅ Spec (.of (Fin m → T)),
+            E.hom ≫ EtaleSplitChart.splitProjection T m =
+              pullback.snd (f i) q := by
   letI (i : Fin n) : Algebra Γ(Y, ⊤) Γ(X i, ⊤) :=
     (f i).appTop.hom.toAlgebra
   letI (i : Fin n) : Algebra.Etale Γ(Y, ⊤) Γ(X i, ⊤) :=
@@ -119,17 +121,50 @@ theorem exists_fpqc_common_splitCover
     let eSpec : Spec (.of (Γ(X i, ⊤) ⊗[Γ(Y, ⊤)] T)) ≅
         Spec (.of (Fin m → T)) :=
       (Scheme.Spec.mapIso e'.toRingEquiv.toCommRingCatIso.op).symm
-    let EΓ : pullback (Spec.map (f i).appTop) qΓ ≅
-        Spec (.of (Fin m → T)) :=
+    let fΓ : Spec (.of Γ(X i, ⊤)) ⟶ Spec (.of Γ(Y, ⊤)) :=
+      Spec.map (CommRingCat.ofHom
+        (algebraMap Γ(Y, ⊤) Γ(X i, ⊤)))
+    let EΓ : pullback fΓ qΓ ≅ Spec (.of (Fin m → T)) :=
       pullbackSpecIso Γ(Y, ⊤) Γ(X i, ⊤) T ≪≫ eSpec
-    let compare : pullback (f i) q ⟶
-        pullback (Spec.map (f i).appTop) qΓ :=
-      pullback.map (f i) q (Spec.map (f i).appTop) qΓ
+    have hEΓ : EΓ.hom ≫ EtaleSplitChart.splitProjection T m =
+        pullback.snd fΓ qΓ := by
+      dsimp only [EΓ]
+      simp only [Iso.trans_hom, Category.assoc]
+      rw [show eSpec.hom ≫ EtaleSplitChart.splitProjection T m =
+          Spec.map (CommRingCat.ofHom
+            ((Algebra.TensorProduct.includeRight :
+              T →ₐ[Γ(Y, ⊤)] Γ(X i, ⊤) ⊗[Γ(Y, ⊤)] T).toRingHom)) by
+        dsimp only [eSpec, EtaleSplitChart.splitProjection]
+        change Spec.map e'.symm.toRingEquiv.toCommRingCatIso.hom ≫
+            Spec.map (CommRingCat.ofHom (algebraMap T (Fin m → T))) =
+          Spec.map (CommRingCat.ofHom
+            ((Algebra.TensorProduct.includeRight :
+              T →ₐ[Γ(Y, ⊤)] Γ(X i, ⊤) ⊗[Γ(Y, ⊤)] T).toRingHom))
+        rw [← Spec.map_comp, Spec.map_inj]
+        apply CommRingCat.hom_ext
+        apply RingHom.ext fun t ↦ ?_
+        simp [e']]
+      exact pullbackSpecIso_hom_snd Γ(Y, ⊤) Γ(X i, ⊤) T
+    let compare : pullback (f i) q ⟶ pullback fΓ qΓ :=
+      pullback.map (f i) q fΓ qΓ
         (X i).isoSpec.hom (𝟙 _) Y.isoSpec.hom
-        (Scheme.isoSpec_hom_naturality (f i)).symm (by simp [q])
+        (by
+          dsimp only [fΓ]
+          exact (Scheme.isoSpec_hom_naturality (f i)).symm)
+        (by simp [q])
     haveI : IsIso compare := by
       dsimp only [compare]
       infer_instance
-    exact ⟨m, e, ⟨asIso compare ≪≫ EΓ⟩⟩
+    let E : pullback (f i) q ≅ Spec (.of (Fin m → T)) :=
+      asIso compare ≪≫ EΓ
+    refine ⟨m, e, E, ?_⟩
+    calc
+      E.hom ≫ EtaleSplitChart.splitProjection T m =
+          compare ≫ EΓ.hom ≫ EtaleSplitChart.splitProjection T m := by
+            rfl
+      _ = compare ≫ pullback.snd fΓ qΓ := by rw [hEΓ]
+      _ = pullback.snd (f i) q := by
+        dsimp only [compare]
+        simp only [pullback.map, pullback.lift_snd, Category.comp_id]
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.AffineFiniteEtaleFamilySplitChart
