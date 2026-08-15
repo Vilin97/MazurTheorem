@@ -239,6 +239,37 @@ theorem hZeroEquivGlobalSections_naturality {X : Scheme.{u}}
     (Limits.isTerminalTop : Limits.IsTerminal (⊤ : Opens X))
     ((SheafOfModules.toSheaf X.ringCatSheaf).map f) x
 
+private theorem globalSmulHom_app_top {X : Scheme.{u}} (M : X.Modules)
+    (r : Γ(X, ⊤)) (x : Γ(M, ⊤)) :
+    (globalSmulHom M r).app ⊤ x = r • x := by
+  have hr : restrictGlobal r (.op (⊤ : Opens X)) = r := by
+    unfold restrictGlobal
+    rw [show (homOfLE (show (⊤ : Opens X) ≤ ⊤ from le_rfl)).op = 𝟙 _ by
+      apply Subsingleton.elim, X.presheaf.map_id]
+    rfl
+  change (globalSmulLinearMap M (.op (⊤ : Opens X)) r).hom x = r • x
+  exact congrArg (fun s : Γ(X, ⊤) ↦ s • x) hr
+
+/-- For the canonical cohomology action in degree zero, the comparison with
+global sections is linear over the ring of global functions. -/
+noncomputable def hZeroCanonicalLinearEquivGlobalSections
+    {X : Scheme.{u}} (M : X.Modules) :
+    letI := globalSectionsCohomologyModule M 0
+    H M 0 ≃ₗ[Γ(X, ⊤)] Γ(M, ⊤) := by
+  letI := globalSectionsCohomologyModule M 0
+  refine
+    { hZeroEquivGlobalSections M with
+      map_smul' := ?_ }
+  intro r x
+  rw [globalSectionsCohomologyModule_smul]
+  calc
+    hZeroEquivGlobalSections M
+        ((zariskiFunctor X 0).map (globalSmulHom M r) x) =
+        (globalSmulHom M r).app ⊤ (hZeroEquivGlobalSections M x) :=
+      (hZeroEquivGlobalSections_naturality (globalSmulHom M r) x).symm
+    _ = r • hZeroEquivGlobalSections M x :=
+      globalSmulHom_app_top M r (hZeroEquivGlobalSections M x)
+
 /-- The `Γ(X, ⊤)`-module structure on degree-zero cohomology transported
 from genuine global sections.  It is named, not registered globally, because
 the underlying Ext group also carries native scalar structures coming from
@@ -247,6 +278,20 @@ linearity of its ambient abelian-sheaf category. -/
 noncomputable def hZeroModule {X : Scheme.{u}} (M : X.Modules) :
     Module Γ(X, ⊤) (H M 0) :=
   (hZeroEquivGlobalSections M).module Γ(X, ⊤)
+
+/-- The transported and canonical global-functions actions on degree-zero
+cohomology are the same module structure. -/
+theorem hZeroModule_eq_globalSectionsCohomologyModule {X : Scheme.{u}}
+    (M : X.Modules) :
+    hZeroModule M = globalSectionsCohomologyModule M 0 := by
+  apply Module.ext'
+  intro r x
+  change (hZeroEquivGlobalSections M).symm
+      (r • hZeroEquivGlobalSections M x) =
+    (@globalSectionsCohomologyModule X M 0).toSMul.smul r x
+  apply (hZeroEquivGlobalSections M).injective
+  rw [(hZeroEquivGlobalSections M).apply_symm_apply]
+  exact (hZeroCanonicalLinearEquivGlobalSections M).map_smul r x |>.symm
 
 /-- With the explicit transported action, the degree-zero/global-sections
 comparison is linear over the ring of global functions. -/

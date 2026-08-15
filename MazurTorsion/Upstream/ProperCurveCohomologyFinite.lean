@@ -39,6 +39,41 @@ universe u
 local instance {X : Scheme.{u}} [IsIntegral X] : Nonempty (⊤ : X.Opens) :=
   ⟨⟨genericPoint X, trivial⟩⟩
 
+/-- The canonical ground-field action on genuine `H⁰`, obtained by
+restricting the global-functions action along the actual structure morphism.
+Like the canonical action in every degree, this remains an opt-in structure. -/
+@[instance_reducible]
+noncomputable def hZeroCanonicalFieldModule
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) (M : X.Modules) :
+    Module K (H M 0) := by
+  letI : Module Γ(X, ⊤) (H M 0) :=
+    globalSectionsCohomologyModule M 0
+  exact Module.compHom (H M 0)
+    (f.appTop.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom)
+
+/-- The canonical field action on genuine `H⁰` identifies linearly with
+global sections carrying the same structure-map action.  This is the
+degree-zero interface for proper-curve and future Riemann--Roch consumers. -/
+noncomputable def hZeroCanonicalFieldLinearEquivGlobalSections
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) (M : X.Modules) :
+    letI := hZeroCanonicalFieldModule K X f M
+    letI : Module K Γ(M, ⊤) := Module.compHom Γ(M, ⊤)
+      (f.appTop.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom)
+    H M 0 ≃ₗ[K] Γ(M, ⊤) := by
+  letI : Module Γ(X, ⊤) (H M 0) :=
+    globalSectionsCohomologyModule M 0
+  letI := hZeroCanonicalFieldModule K X f M
+  letI : Module K Γ(M, ⊤) := Module.compHom Γ(M, ⊤)
+    (f.appTop.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom)
+  refine
+    { hZeroCanonicalLinearEquivGlobalSections M with
+      map_smul' := ?_ }
+  intro r x
+  exact (hZeroCanonicalLinearEquivGlobalSections M).map_smul
+    (f.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom r)) x
+
 /-- The canonical ground-field action on genuine `H¹`, obtained by
 restricting the global-functions action along the actual structure morphism.
 It uses neither an affine cover nor a finite map to projective space. -/
