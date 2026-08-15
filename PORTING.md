@@ -280,6 +280,15 @@ following table:
 | `ForMathlib/AcyclicAffineCechComparison.lean` (degree-one comparison only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/AcyclicAffineCechComparison.lean` |
 | `ForMathlib/SchemeModuleBaseCechHomology.lean` (homology isomorphisms only) | `MazurTorsion/Upstream/AINTLIB/ForMathlib/SchemeModuleBaseCechHomology.lean` |
 
+The project-owned
+`MazurTorsion/ModularCurve/XZeroWeierstrassSecantAddition.lean` also adapts
+the quotient/tensor equivalence proof from AINTLIB
+`EllipticCurve/AdditionChartTensor.lean`, exact blob
+`8934898a972e7abe51cadbd34942849d1d0dc629` at the license-bearing commit
+`1c1c74664e40071c2c2165bc55ca2616a67ccd6b`. The local specialization uses
+the explicit four-coordinate secant presentation, retains Chris Birkbeck's
+authorship, and adds the project-owned affine-product-open consumer.
+
 The canonical-support extension adds twenty-six local modules. It draws on
 the following twenty-eight source files because the open-unit module embeds
 only the required explicit-square slice of `OpenAdjunction` and the private
