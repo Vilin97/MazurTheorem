@@ -168,12 +168,13 @@ divisor/line-bundle dictionary. The checked core now contains:
 
 Only the 11-point Čech package is integrated. The 12-point core remains active
 until the canonical degree-zero action is identified with global sections and
-a named Riemann--Roch theorem consumes the canonical facade. The final
-12-point package remains blocked until proper-curve finite-dimensionality is
-available for those same actions and the exact low-degree cohomology
-base-change comparison is supplied. General proper-flat base change and
-semicontinuity remain owned by `MT-TC-C1-RELATIVE-COHOMOLOGY`. Work-package
-status does not change the B1 node's zero credit.
+the connecting maps are linear for the canonical field actions. The final
+12-point package remains blocked until proper coherent `H⁰`/`H¹`
+finite-dimensionality is available for those same actions and the exact
+low-degree cohomology base-change comparison is supplied. General proper-flat
+base change and semicontinuity remain owned by
+`MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
+to B2. Work-package status does not change the B1 node's zero credit.
 
 ### Divisors and line bundles
 

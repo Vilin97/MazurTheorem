@@ -1548,7 +1548,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked affine-cover Cech comparison now reaches genuine Ext-based H1, and multiplication by global functions gives a canonical cover-independent action in every degree with structure-map field-linear H1 functoriality. The older H0 and Cech finiteness theorems still use transported actions; compatibility with the canonical actions, Riemann-Roch consumption, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked affine-cover Cech comparison now reaches genuine Ext-based H1, and multiplication by global functions gives a canonical cover-independent action in every degree with structure-map field-linear H1 functoriality. The older H0 and Cech finiteness theorems still use transported actions; compatibility with the canonical actions, proper coherent H0 finiteness, linear connecting maps, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1558,7 +1558,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile, and the affine-cover comparison is consumed by genuine-H1 finite-generation transfer. Proper-curve H1 finite-dimensionality is presently proved only for cover- or finite-map-transported scalar actions. Its comparison with the canonical structure-map action, canonical H0/global-sections compatibility, a Riemann-Roch consumer, and proper cohomology base change remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile, and the affine-cover comparison is consumed by genuine-H1 finite-generation transfer. Proper-curve H1 finite-dimensionality is presently proved only for cover- or finite-map-transported scalar actions. Its comparison with the canonical structure-map action, canonical H0/global-sections compatibility, proper coherent H0 finiteness, linear connecting maps, and proper cohomology base change remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1582,7 +1582,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Prove finite dimensionality for the same canonical field actions used by the curve-cohomology facade, together with affine acyclicity and vanishing above degree one in the required scope."
+          "description": "Package proper coherent H0/H1 finite-dimensionality for the same canonical field actions used by the curve-cohomology facade, together with linear connecting maps, affine acyclicity, and vanishing above degree one in the required scope."
         },
         {
           "kind": "definition",
@@ -1711,7 +1711,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "A cover-independent canonical K-linear H⁰/H¹ API, including H⁰/global-sections compatibility, coefficient-morphism linearity, and Hⁿ-vanishing for n ≥ 2, is imported by a named Riemann–Roch theorem."
+          "exit_criterion": "A cover-independent canonical K-linear H⁰/H¹ API, including H⁰/global-sections compatibility and coefficient-morphism and connecting-map linearity, is available to the proper-curve finiteness package."
         },
         {
           "id": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CECH-COMPARISON",
@@ -1732,7 +1732,7 @@
             "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE",
             "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CECH-COMPARISON"
           ],
-          "exit_criterion": "Using the canonical core actions, expose the required smooth-proper-curve H⁰/H¹ finite-dimensional facade and the exact low-degree cohomology base-change comparison consumed downstream; general proper-flat base change and semicontinuity remain owned by MT-TC-C1-RELATIVE-COHOMOLOGY."
+          "exit_criterion": "Using the canonical core actions, expose proper coherent H⁰/H¹ finite-dimensionality and Hⁿ-vanishing for n ≥ 2 together with the exact low-degree cohomology base-change comparison consumed downstream; general proper-flat base change and semicontinuity remain owned by MT-TC-C1-RELATIVE-COHOMOLOGY."
         }
       ]
     },
@@ -1746,7 +1746,7 @@
       "weight_points": 25,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Define genus through H^1 and prove Riemann-Roch, Serre duality, and the degree of the dualizing sheaf.",
+      "summary": "Define genus through canonical H1 and prove Riemann-Roch, Serre duality, and the degree of the dualizing sheaf. The first genuine Riemann-Roch theorem is the downstream consumer of B1's canonical proper coherent H0/H1 finiteness API.",
       "artifacts": [
         {
           "kind": "definition",
@@ -1758,7 +1758,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.Curve.riemannRoch",
           "state": "proposed",
-          "description": "Provide the Riemann-Roch formula for divisors or line bundles on a proper smooth curve."
+          "description": "Provide the first genuine Riemann-Roch formula for divisors or line bundles on a proper smooth curve, consuming B1's canonical proper coherent H0/H1 finiteness API without a shadow dimension structure."
         },
         {
           "kind": "theorem",

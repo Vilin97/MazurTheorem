@@ -59,7 +59,8 @@ slices without changing the 172-point headline:
   comparison is consumed by finite-generation transfer. The 12-point core
   remains `active`: the existing `H⁰` and proper-curve finiteness results use
   transported actions, their compatibility with the canonical actions is open,
-  and no Riemann--Roch theorem consumes the facade. The final 12-point
+  and proper coherent `H⁰` finiteness and linear connecting maps are missing.
+  The first genuine Riemann--Roch consumer belongs to B2. The final 12-point
   finiteness/base-change package remains `blocked`; no proper-cohomology
   base-change theorem is present.
 - In the Weierstrass group-scheme package, the universal secant formula now

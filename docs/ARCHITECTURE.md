@@ -75,9 +75,10 @@ functoriality in `H¹`. That action is distinct from the older `hZeroModule` and
 affine-cover/finite-map actions, which were transported across chosen
 equivalences. The 11-point Čech comparison package is integrated because its
 additive comparison is consumed by genuine-`H¹` finite-generation transfer;
-the parent node receives no credit. Canonical `H⁰` compatibility, canonical-
-action proper-curve finiteness, Riemann--Roch consumption, and proper base
-change remain open.
+the parent node receives no credit. Canonical `H⁰` compatibility, proper
+coherent `H⁰` finiteness, linear connecting maps, canonical-action
+proper-curve finiteness, and proper base change remain open. The first genuine
+Riemann--Roch consumer belongs to B2, downstream of this foundation.
 
 The represented-modular lane proceeds through three explicit packages: the
 canonical commutative group scheme on the concrete Weierstrass cubic, the

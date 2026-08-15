@@ -115,9 +115,9 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Prove finite dimensionality for the same canonical field actions used by the
-  curve-cohomology facade, together with affine acyclicity and vanishing above degree
-  one in the required scope.
+  Package proper coherent H0/H1 finite-dimensionality for the same canonical field
+  actions used by the curve-cohomology facade, together with linear connecting maps,
+  affine acyclicity, and vanishing above degree one in the required scope.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -185,8 +185,8 @@ line bundles on a smooth curve.
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
 `tauceti`; *risk:* `extreme`; *weight:* 25 points.
 
-*Summary:* Define genus through H^1 and prove Riemann-Roch, Serre duality, and the
-degree of the dualizing sheaf.
+*Summary:* Define genus through canonical H1 and prove Riemann-Roch, Serre duality, and
+the degree of the dualizing sheaf.
 
 *Canonical artifacts:*
 
@@ -194,8 +194,9 @@ degree of the dualizing sheaf.
   Define the genus of a proper smooth curve from the dimension of first coherent
   cohomology.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.Curve.riemannRoch`
-  Provide the Riemann-Roch formula for divisors or line bundles on a proper smooth
-  curve.
+  Provide the first genuine Riemann-Roch formula for divisors or line bundles on a
+  proper smooth curve, consuming B1's canonical proper coherent H0/H1 finiteness API
+  without a shadow dimension structure.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.Curve.serreDuality`
   Provide Serre duality and the resulting degree formula for the dualizing sheaf.
 
