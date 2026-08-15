@@ -377,6 +377,16 @@ theorem existsUnique_quotientπ_lift (hσ : HasAffineOrbit σ)
     (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
     (mem_stableAffineOpen σ hσ) f hf
 
+/-- The projection to the quotient attached to affine orbit neighbourhoods
+is an epimorphism.  The named downstream consumers include the degree-one
+symmetric-power comparison and flat quotient base change. -/
+theorem epi_quotientπ (hσ : HasAffineOrbit σ) : Epi (quotientπ σ hσ) := by
+  constructor
+  intro Y f₁ f₂ h
+  exact σ.quotientπ_hom_ext (stableAffineOpen σ hσ)
+    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+    (mem_stableAffineOpen σ hσ) f₁ f₂ h
+
 /-- The morphism out of a quotient descended from an invariant morphism.
 The named consumers are the symmetric-power structure map and the ordered
 incidence quotient structure map. -/

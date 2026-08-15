@@ -58,6 +58,29 @@ theorem permutationHom_mul (X : Over S) (g h : Equiv.Perm ι) :
     permutationHom_comp_π]
   rfl
 
+/-- A one-fold relative power is canonically the original object.  The
+named downstream consumer is the degree-one symmetric-power comparison in
+`SymmetricPower`. -/
+noncomputable def finOnePowerIso (X : Over S) :
+    power S (Fin 1) X ≅ X where
+  hom := Pi.π (fun _ : Fin 1 ↦ X) 0
+  inv := Pi.lift fun _ : Fin 1 ↦ 𝟙 X
+  hom_inv_id := by
+    apply Limits.Pi.hom_ext
+    intro i
+    have hi : i = 0 := Subsingleton.elim _ _
+    subst i
+    simp
+  inv_hom_id := by
+    simp
+
+/-- Every coordinate permutation of a one-fold power is the identity. -/
+theorem permutationHom_finOne (X : Over S) (g : Equiv.Perm (Fin 1)) :
+    permutationHom S (Fin 1) X g = 𝟙 (power S (Fin 1) X) := by
+  have hg : g = 1 := Subsingleton.elim _ _
+  subst g
+  exact permutationHom_one S (Fin 1) X
+
 /-- The permutation action on the underlying scheme of a relative power. -/
 noncomputable def action (X : Over S) :
     SchemeAction (Equiv.Perm ι) (power S ι X).left where

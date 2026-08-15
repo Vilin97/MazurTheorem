@@ -261,6 +261,80 @@ theorem action_comp_projection (g : Equiv.Perm (Fin d)) :
 
 end
 
+section DegreeOne
+
+variable [IsAffineHom
+  (pullback.diagonal (terminal.from (power S (Fin 1) X).left))]
+
+/-- The quotient of a one-fold relative power maps canonically back to the
+original object.  This is the degree-one edge case of the symmetric-power
+construction. -/
+noncomputable def finOneComparison (hX : HasAffineOrbits S 1 X) :
+    underlying S 1 X hX ⟶ X.left :=
+  Classical.choose <|
+    FiniteGroupQuotient.existsUnique_quotientπ_lift (Action S 1 X) hX
+      (finOnePowerIso S X).hom.left fun g ↦ by
+        rw [show (Action S 1 X).hom g = 𝟙 _ from
+          congrArg Over.Hom.left (permutationHom_finOne S X g),
+          Category.id_comp]
+
+@[reassoc]
+theorem underlyingProjection_comp_finOneComparison
+    (hX : HasAffineOrbits S 1 X) :
+    underlyingProjection S 1 X hX ≫ finOneComparison S X hX =
+      (finOnePowerIso S X).hom.left :=
+  (Classical.choose_spec <|
+    FiniteGroupQuotient.existsUnique_quotientπ_lift (Action S 1 X) hX
+      (finOnePowerIso S X).hom.left fun g ↦ by
+        rw [show (Action S 1 X).hom g = 𝟙 _ from
+          congrArg Over.Hom.left (permutationHom_finOne S X g),
+          Category.id_comp]).1
+
+/-- The one-fold finite-group quotient is canonically the original
+underlying scheme. -/
+noncomputable def finOneUnderlyingIso (hX : HasAffineOrbits S 1 X) :
+    underlying S 1 X hX ≅ X.left where
+  hom := finOneComparison S X hX
+  inv := (finOnePowerIso S X).inv.left ≫ underlyingProjection S 1 X hX
+  hom_inv_id := by
+    letI : Epi (underlyingProjection S 1 X hX) :=
+      FiniteGroupQuotient.epi_quotientπ (Action S 1 X) hX
+    apply (cancel_epi (underlyingProjection S 1 X hX)).mp
+    rw [underlyingProjection_comp_finOneComparison_assoc]
+    simp
+  inv_hom_id := by
+    rw [Category.assoc, underlyingProjection_comp_finOneComparison]
+    exact congrArg Over.Hom.left (finOnePowerIso S X).inv_hom_id
+
+/-- The degree-one relative symmetric power is canonically the original
+object over the base.  The named downstream consumer is
+`curveSchemeSuccZeroIso`. -/
+noncomputable def finOneSchemeIso (hX : HasAffineOrbits S 1 X) :
+    scheme S 1 X hX ≅ X where
+  hom := Over.homMk (finOneUnderlyingIso S X hX).hom (by
+    letI : Epi (underlyingProjection S 1 X hX) :=
+      FiniteGroupQuotient.epi_quotientπ (Action S 1 X) hX
+    apply (cancel_epi (underlyingProjection S 1 X hX)).mp
+    change underlyingProjection S 1 X hX ≫ finOneComparison S X hX ≫
+      X.hom = underlyingProjection S 1 X hX ≫ structureMap S 1 X hX
+    rw [underlyingProjection_comp_finOneComparison_assoc,
+      underlyingProjection_comp_structureMap]
+    exact (finOnePowerIso S X).hom.w)
+  inv := Over.homMk (finOneUnderlyingIso S X hX).inv (by
+    dsimp only [finOneUnderlyingIso]
+    change ((finOnePowerIso S X).inv.left ≫
+      underlyingProjection S 1 X hX) ≫ structureMap S 1 X hX = X.hom
+    rw [Category.assoc, underlyingProjection_comp_structureMap]
+    exact (finOnePowerIso S X).inv.w)
+  hom_inv_id := by
+    ext
+    exact (finOneUnderlyingIso S X hX).hom_inv_id
+  inv_hom_id := by
+    ext
+    exact (finOneUnderlyingIso S X hX).inv_hom_id
+
+end DegreeOne
+
 section Curve
 
 variable (K : Type u) [Field K]
@@ -436,6 +510,10 @@ positive-degree symmetric power. -/
 noncomputable def curveProjectionSucc (n : ℕ) :
     power (Spec (.of K)) (Fin (n + 1)) C ⟶ curveSchemeSucc K C n :=
   projection (Spec (.of K)) (n + 1) C (curve_hasAffineOrbits_succ K C n)
+
+/-- The degree-one symmetric power of a curve is the curve itself. -/
+noncomputable def curveSchemeSuccZeroIso : curveSchemeSucc K C 0 ≅ C :=
+  finOneSchemeIso (Spec (.of K)) C (curve_hasAffineOrbits_succ K C 0)
 
 @[reassoc]
 theorem curveProjectionSucc_comp_structureMap (n : ℕ) :

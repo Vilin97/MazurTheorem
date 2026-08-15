@@ -931,15 +931,6 @@ theorem pullbackQuotientSMul_snd (hσ : HasAffineOrbit σ)
     (stableAffineOpen σ hσ) (stableAffineOpen_isStable σ hσ)
     (stableAffineOpen_isAffine σ hσ) (mem_stableAffineOpen σ hσ) w g
 
-/-- The projection to the quotient attached to affine orbit neighbourhoods
-is an epimorphism. -/
-theorem epi_quotientπ (hσ : HasAffineOrbit σ) : Epi (quotientπ σ hσ) := by
-  constructor
-  intro Y f₁ f₂ h
-  exact σ.quotientπ_hom_ext (stableAffineOpen σ hσ)
-    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
-    (mem_stableAffineOpen σ hσ) f₁ f₂ h
-
 /-- A flat base change of the packaged quotient projection is an
 epimorphism. -/
 theorem epi_pullback_snd_quotientπ_of_flat (hσ : HasAffineOrbit σ)
