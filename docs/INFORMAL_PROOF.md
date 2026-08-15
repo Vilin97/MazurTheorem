@@ -228,7 +228,8 @@ three:
 
 The generic Néron mapping property and admissible-filtration API are already
 integrated. Instantiating them on the Eisenstein quotient is blocked until the
-actual quotient and its Néron model exist, so the third WIP slot remains unused.
+actual Eisenstein quotient and its Néron model exist, so the third WIP slot
+remains unused.
 
 Other contracts remain in the mathematical DAG but are not claimable until
 these interfaces stabilize. This limits parallel proof volume behind

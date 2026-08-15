@@ -294,20 +294,19 @@ Abel maps.
 :::
 
 :::theorem "MT-TC-D1-PICARD-FUNCTOR" (parent := "shared_geometry") (uses := "MT-TC-A3-DIVISOR-LINE-BUNDLE") (tags := "upstream, blocked, nouns-missing, tau-ceti")
-*Rigidified relative Picard functor.*
+*Normalized relative Picard functor.*
 
 *Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
 `tauceti`; *risk:* `extreme`; *weight:* 35 points.
 
-*Summary:* The checked all-degree zero-section-normalized Picard presheaf now has its
-associated fppf sheafification and a rational-section class consumer at the base test
-object; a pullback-compatible relative degree map, the relative degree-zero subfunctor,
-Pic⁰ representability, and the universal Poincaré bundle remain missing.
+*Summary:* The checked zero-section-normalized all-degree Picard presheaf has its
+associated fppf sheafification.
 
 *Canonical artifacts:*
 
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.RelativePicardFunctor`
-  Define the rigidified fppf sheaf of line bundles modulo pullbacks from the base.
+  Define the zero-section-normalized fppf sheaf of line bundles modulo pullbacks from
+  the base.
 * `definition` (`proposed`):
   `TauCeti.AlgebraicGeometry.RelativePicardFunctor.degreeZero`
   Define the degree-zero subfunctor used to construct the relative Jacobian.
@@ -327,9 +326,34 @@ Pic⁰ representability, and the universal Poincaré bundle remain missing.
   Pic⁰ or a representing object.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiPicRelFppfClass`
-  Map the checked absolute rational-section Abel--Jacobi class at the identity test
-  object into the associated fppf sheafification, still using the supplied
+  Factor the checked rational-section Abel--Jacobi class through the actual absolute
+  Picard degree kernel before mapping it into the associated fppf sheafification at the
+  identity test object; the construction still uses the supplied
   DivisorPicard.ClassEquivalence.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.properCurveDegreeHom`
+  Transport the checked residue-degree divisor-class degree through an actual
+  divisor-class/Picard equivalence to obtain an absolute Picard degree homomorphism.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.properCurveDegreeZero_eq_ker`
+  Identify the transported absolute degree-zero Picard subgroup exactly with the kernel
+  of the checked absolute degree homomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.properCurvePicardAddEquivDegreeZeroProdInt`
+  Use a residue-degree-one point to split the absolute Picard group as its degree-zero
+  subgroup times the integers.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionPicardAddEquivDegreeZeroProdInt`
+  Consume an actual rational section as the residue-degree-one point in the checked
+  absolute Picard splitting.
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.properCurveDegreeKernelToPicRelFppfAtBase`
+  Map the actual absolute Picard degree kernel into the associated all-degree fppf
+  Picard sheafification only at the identity test object.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.PicardGroup.rationalSectionAbelJacobiDegreeKernel`
+  Give the rational-section Abel--Jacobi class as a value in the actual absolute Picard
+  degree kernel.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.DivisorPicard.Dictionary.degreeZero`
   Transport the divisor degree-zero subgroup to an absolute subgroup of the scheme
@@ -490,13 +514,44 @@ order-49 consumers.
 * `theorem` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism_comp_structureMap`
   Prove that the projective tangent-doubling morphism lies over the base field.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productNeighborhoodProductOpen`
+  Realize the localization at B₁₂ as an actual principal open in the affine scheme
+  product.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productNeighborhoodAdditionOnProductOpen`
+  Define the checked product-neighbourhood addition morphism on the genuine D(B₁₂)
+  product open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productNeighborhoodAdditionProjectiveMorphism_comp_structureMap`
+  Prove that product-neighbourhood addition into the projective cubic lies over the base
+  field.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.productNeighborhoodAddition_secant_and_tangent_compatible`
+  Package equality with secant addition on the exact projective overlap together with
+  equality to tangent doubling along the diagonal as the named consumer for the next
+  gluing slice.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
+  Descend geometric integrality from a supplied commutative group scheme to its actual
+  finite free-translation quotient.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_isProper`
+  Prove properness of the actual quotient over an affine noetherian base from properness
+  of its source.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_smooth_of_flat`
+  Over an affine noetherian base, prove smoothness of the actual quotient from flatness,
+  local finite type, and geometric reducedness of its source.
+* `definition` (`contract`):
+  `AlgebraicGeometry.FiniteTranslationQuotient.abelianVarietyOfAbelianVariety`
+  Consume the generic quotient geometry to bundle a finite free-translation quotient of
+  an actual abelian variety as an actual abelian variety.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison after exposing pair-coordinate
-  accessors, constructing the product-neighbourhood chart D(B₁₂), comparing it with
-  secant addition on the genuine intersection and with tangent doubling on the diagonal,
-  gluing their union, adding the infinity charts and coverage, and proving the group
+  group-scheme law and coordinate-point comparison by gluing the checked D(x₁ - x₂) and
+  D(B₁₂) addition charts, adding the infinity charts and coverage, and proving the group
   axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.

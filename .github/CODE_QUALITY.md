@@ -42,7 +42,9 @@ Generated volume alone is not evidence of progress.
 
 Completed declarations may depend only on `propext`, `Quot.sound`, and
 `Classical.choice`. CI audits transitive axiom dependencies; source scanning is
-not a substitute.
+not a substitute. The audit loads Lean's persistent transitive-axiom index at
+private import level, so private declarations remain in scope without walking
+every imported proof body repeatedly.
 
 Build the smallest affected module locally with one Lean worker. A pull request
 must compile both the changed declaration and its named consumer without

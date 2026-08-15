@@ -1,6 +1,6 @@
 # Weierstrass group-scheme dependency audit
 
-Date: 2026-08-08
+Date: 2026-08-08. Chart-construction status updated 2026-08-15.
 
 This audit records the checked dependency boundary for constructing
 `WeierstrassGroupSchemeInterface` in
@@ -181,15 +181,29 @@ does not define a map to projective space on the product cubic.  The equality
 test used by `Projective.add` is not a regular-function construction that can
 be promoted to a scheme morphism.
 
+The regular-chart route has now crossed its affine compatibility boundary.
+The secant formula gives an over-base addition morphism on the actual product
+open `D(x₁ - x₂)`, and tangent doubling gives an over-base morphism on
+`D(2y + a₁x + a₃)`. The product-neighbourhood construction gives an
+over-base addition morphism on the actual open `D(B₁₂)`, with
+`B₁₂ = y₁ + y₂ + a₁x₁ + a₃`. Its restrictions agree with the
+secant morphism, both affinely and projectively, on the exact intersection
+`D(B₁₂ * (x₁ - x₂))`; its diagonal restriction agrees with tangent
+doubling. The named consumer
+`productNeighborhoodAddition_secant_and_tangent_compatible` packages those
+two compatibility theorems for the next gluing slice. This constructs neither
+the glued multiplication on their union nor the infinity charts and coverage.
+
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
 work before the Picard scheme exists; the occurrence of `JacobianVariety` in
 `AbelianVariety.Basic` is prospective documentation, not a declaration.
-The AINTLIB ports provide the absolute Picard group and finite-flat group
-schemes but no relative Picard representability or genus-one Abel--Jacobi
-isomorphism.  An honest next construction must therefore either glue regular
-addition laws on a cover of the product cubic or formalize the pointed
-Picard/Jacobian representability theorem.
+The absolute Picard layer now has an actual degree homomorphism, its exact
+degree-zero kernel and splitting, and kernel-valued Abel--Jacobi classes, but
+the AINTLIB ports still provide no relative Picard representability or
+genus-one Abel--Jacobi isomorphism. An honest next construction must therefore
+either glue the checked regular addition laws on a cover of the product cubic
+or formalize the pointed Picard/Jacobian representability theorem.
 
 The scheme-level identity and inverse candidates are no longer part of that
 gap.  `infinitySectionOver` realizes `[0 : 1 : 0]` with source the tensor unit
@@ -207,9 +221,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a multiplication morphism on the concrete reduced cubic and the group
-   laws, using the checked section at infinity and homogeneous negation as
-   the identity and inverse candidates;
+1. a global multiplication morphism obtained by gluing the checked affine
+   addition charts, adding the infinity charts and coverage, and proving the
+   group laws using the checked section at infinity and homogeneous negation
+   as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:
@@ -219,6 +234,6 @@ field:
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 
-No searched dependency supplies the missing multiplication or pointed
-Picard/Jacobian comparison at the pinned revisions.  They remain
-formalization work rather than external blockers.
+No searched dependency supplies the missing global multiplication or pointed
+Picard/Jacobian comparison at the pinned revisions. They remain formalization
+work rather than external blockers.

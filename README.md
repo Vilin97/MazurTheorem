@@ -56,8 +56,8 @@ Two foundation packages are selected under the WIP limit of three:
 
 The generic Néron mapping property and admissible-filtration API are already
 integrated. Their Eisenstein-quotient instantiation is not selected until the
-actual quotient and Néron models exist; an unused WIP slot is preferable to a
-conditional shadow.
+actual Eisenstein quotient and its Néron model exist; an unused WIP slot is
+preferable to a conditional shadow.
 
 Conditional order-specific explorations are paused while these foundations are
 unfinished. Their Challenge statements remain immutable and compiled, but are

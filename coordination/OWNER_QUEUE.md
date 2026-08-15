@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Identify the secant domain with `D(x₁ - x₂)` in the product, construct addition on `D(B₁₂)`, glue the two charts on their genuine intersection, add infinity charts and coverage, prove the group laws, and remove the supplied shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Starting from the checked over-base additions on `D(x₁ - x₂)` and `D(B₁₂)`, their equality on the exact intersection, and the diagonal tangent comparison, glue their union; then add the infinity charts and coverage, prove the group laws, and remove the supplied shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -33,15 +33,17 @@ criterion.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity
-`(y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂` is the precise compatibility target: it
-identifies `A₁₂/B₁₂` with the secant slope on the genuine intersection and
-with the tangent slope on the diagonal.
+`(y₁ - y₂)B₁₂ = (x₁ - x₂)A₁₂` is now checked: `A₁₂/B₁₂` agrees with the
+secant slope on the genuine intersection, the restricted projective addition
+morphisms agree there, and the diagonal restriction agrees with tangent
+doubling. The remaining chart work is gluing, infinity coverage, and the group
+laws.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
-instantiation requires the actual quotient and Néron models, so it is blocked
-and does not occupy the spare WIP slot.
+instantiation requires the actual Eisenstein quotient and its Néron model, so
+it is blocked and does not occupy the spare WIP slot.
 
 ## Contributor-facing contracts
 

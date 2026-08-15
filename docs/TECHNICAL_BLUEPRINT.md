@@ -186,11 +186,24 @@ this global result.
 
 ### Relative Picard
 
-D1 owns only:
+D1 now has the zero-section-normalized all-degree Picard presheaf and its
+associated fppf sheafification. For a smooth proper integral curve over a
+field, `properCurveDegreeHom` transports the checked residue-degree divisor
+map through a supplied divisor-class/Picard equivalence,
+`properCurveDegreeZero_eq_ker` identifies its exact kernel, and a
+residue-degree-one point gives the checked `Pic(X) ≃ Pic⁰_abs(X) × ℤ`
+splitting. The rational-section Abel--Jacobi consumer factors through that
+kernel before entering the sheafification at the identity test object.
 
-- the rigidified relative Picard functor modulo pullbacks from the base;
-- its degree-zero subfunctor;
-- the exact fppf descent/sheafification statement used downstream.
+This is an absolute boundary, not a relative degree construction. D1 still
+owns:
+
+- the zero-section-normalized relative Picard functor modulo pullbacks from
+  the base;
+- a pullback-compatible relative degree natural transformation and its
+  degree-zero subfunctor; and
+- the exact fppf descent statement used downstream, beyond merely applying
+  the associated sheafification functor.
 
 D2 owns:
 
@@ -204,8 +217,11 @@ The universal bundle no longer appears in D1.
 
 The Jacobian is the represented degree-zero Picard group scheme of a smooth,
 proper, geometrically connected curve. The existing `PicardDegreeZero` and
-`PicardAbelJacobi` modules construct valuable abstract Picard classes, but
-they are not a Jacobian scheme.
+`PicardAbelJacobi` modules now construct an actual absolute Picard degree
+homomorphism, its exact kernel and splitting, and kernel-valued Abel--Jacobi
+classes. These remain group-valued constructions over one field; they are not
+a relative `Pic⁰`, a representing Jacobian scheme, or an Abel--Jacobi scheme
+morphism.
 
 The canonical completion must construct:
 
@@ -224,14 +240,32 @@ path.
 
 The project has checked point-level `RationalCyclicSubgroup`, divisor
 subgroups, constant finite-flat carriers, quotient formulas, projective cubic
-geometry, and rational-point comparisons. It now also has the universal
-denominator-cleared secant chart and the genuine morphisms
-`secantAdditionAffineMorphism` and `secantAdditionProjectiveMorphism` into the
-concrete reduced projective cubic. This remains one chart of multiplication,
-not a construction of the global Weierstrass group scheme: its explicit
-presentation has not been identified with the corresponding open of the
-scheme product, and the tangent and infinity charts, overlap identities,
-gluing, and group laws remain open.
+geometry, and rational-point comparisons. The secant formula defines an
+over-base morphism on the actual product open `D(x₁ - x₂)`. The tangent
+formula defines an over-base doubling morphism on
+`D(2y + a₁x + a₃)`. The complementary product-neighbourhood formula now
+defines addition on the actual open `D(B₁₂)`, where
+`B₁₂ = y₁ + y₂ + a₁x₁ + a₃`. On the exact intersection
+`D(B₁₂ * (x₁ - x₂))`, its restricted affine and projective morphisms
+agree with secant addition, and its diagonal restriction agrees with tangent
+doubling. The named compatibility consumer packages precisely these two
+facts.
+
+These checked charts are still not the global Weierstrass group scheme.
+Gluing the affine union, adding the infinity charts and coverage, proving the
+group laws, and comparing the resulting law with coordinate points remain
+open.
+
+Separately, the finite-translation quotient layer constructs an actual
+commutative quotient group scheme from a source with affine diagonal, a finite
+section action, an invariant affine atlas, and scheme-theoretic freeness.
+Geometric integrality descends from a geometrically integral source. Over an
+affine noetherian base, properness descends from a proper source, while
+smoothness follows separately from a flat, locally finite-type,
+geometrically reduced source. Its field-level abelian-variety wrapper is a
+named consumer. This generic theorem does not instantiate the canonical
+Weierstrass source, its exact-torsion subgroup, or the cyclic quotient and
+arbitrary-base-change law required by represented `X₀(N)`.
 
 Therefore:
 
@@ -336,6 +370,15 @@ mapping-property package and generic exact/iterated admissible-filtration API
 are integrated. Instantiation on the actual Eisenstein quotient is blocked
 until that quotient and its Néron realization exist, so no package from this
 lane is currently selected.
+
+The generic finite-translation quotient geometry is useful model-building
+substrate. From a supplied commutative source with affine diagonal, a finite
+section action, an invariant affine atlas, and a freeness proof, it constructs
+the actual quotient. Over an affine noetherian base, a proper source gives a
+proper quotient; separately, a flat, locally finite-type, geometrically
+reduced source gives a smooth quotient. It does not identify the arithmetic
+Eisenstein quotient or its generic fibre and does not prove the Néron mapping
+property, so it does not discharge either Néron-existence package.
 
 General component-group classification is unnecessary for the checked local
 additive-reduction contradiction. The remaining component work is only the
