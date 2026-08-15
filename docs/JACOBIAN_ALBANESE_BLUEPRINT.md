@@ -49,6 +49,7 @@ parallel abstraction.
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; the descended morphism is proper, point-injective, locally quasi-finite, and finite; closed-immersion, flatness, rank, and Cartier proofs remain |
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; its local monic-chart isomorphism remains |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct` and `EtaleGraphCoproduct.exists_graphCoproduct` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; after arbitrary base change on one factor, the graph of the induced chart map remains exactly the distinguished coproduct summand |
+| Finite étale point neighborhoods | `EtaleFiniteNeighborhood.exists_isCompl_finiteEtale` | checked from Mathlib's Zariski-main local structure theorem: after an étale base change, any selected point of an étale separated chart lies in an open-and-closed component that is finite étale over the new base |
 | Finite étale split chart | `EtaleSplitChart.exists_fpqc_splitCover` | checked: after a finite faithfully flat étale extension, a constant-rank finite étale algebra becomes a finite product of the base and the affine scheme pullback is identified with its spectrum |
 | Split symmetric quotient | `SplitFiniteSymmetricQuotient` | checked: the invariant ring of a split ordered power is the product ring on tuple orbits; every orbit component has sheet multiplicities summing to the divisor degree |
 | Split monic-root family | `SplitMonicRootFamily` | checked: the product of the sheetwise monic root algebras is finite flat and has constant rank equal to the sum of the sheet multiplicities, hence the divisor degree |
@@ -331,7 +332,12 @@ extended from the self-fiber product to arbitrary base change on one factor:
 the evaluation map on the tensor-product coordinate ring is identified with
 the categorical graph, and the graph is exactly the first summand in the
 base-changed coproduct decomposition.  What remains in this transport step is
-to assemble these distinguished graph summands for a finite ordered divisor,
+to assemble these distinguished graph summands for a finite ordered divisor.
+Mathlib's Zariski-main local structure theorem now supplies the required
+finite model at each point: after an étale base change, the selected point is
+contained in an open-and-closed component finite étale over the new base.
+This component satisfies the finiteness hypothesis of `EtaleSplitChart`.
+The outstanding step is to combine the finitely many pointwise components,
 build the induced neighbourhood in the symmetric quotient, and exclude all
 complementary sheets there.
 
