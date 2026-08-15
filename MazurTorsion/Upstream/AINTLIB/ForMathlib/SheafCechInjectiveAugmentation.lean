@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck
+Authors: Chris Birkbeck, Vasily Ilin
 -/
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechInjectiveBicomplex
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCohomologyExact
@@ -569,6 +569,58 @@ private theorem cechInjectiveResolutionVerticalEdge_f
         (cechInjectiveResolutionBicomplex U F).ιTotal
           (.up ℕ) 0 p p (zero_add p) := by
   apply HomologicalComplex₂.totalUpNatVerticalEdge_f
+
+/-- The total-complex map induced by a cochain map between the chosen
+injective resolutions. -/
+noncomputable def cechInjectiveResolutionTotalMap
+    {F G : Sheaf AddCommGrpCat.{u} X}
+    (phi : (injectiveResolution (toSiteSheaf F)).cocomplex ⟶
+      (injectiveResolution (toSiteSheaf G)).cocomplex) :
+    (cechInjectiveResolutionBicomplex U F).total (.up ℕ) ⟶
+      (cechInjectiveResolutionBicomplex U G).total (.up ℕ) :=
+  HomologicalComplex₂.total.map
+    (cechInjectiveResolutionBicomplexMap U phi) (.up ℕ)
+
+/-- The vertical Cech edge commutes with a morphism between chosen injective
+resolutions that lifts a morphism of sheaves. -/
+theorem cechInjectiveResolutionVerticalEdge_naturality
+    {F G : Sheaf AddCommGrpCat.{u} X} (f : F ⟶ G)
+    (phi : InjectiveResolution.Hom
+      (injectiveResolution (toSiteSheaf F))
+      (injectiveResolution (toSiteSheaf G)) f) :
+    cechInjectiveResolutionVerticalEdge U F ≫
+        cechInjectiveResolutionTotalMap U phi.hom =
+      (cechComplexFunctor U).map f.hom ≫
+        cechInjectiveResolutionVerticalEdge U G := by
+  apply HomologicalComplex.Hom.ext
+  funext p
+  rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f,
+    cechInjectiveResolutionVerticalEdge_f,
+    cechInjectiveResolutionVerticalEdge_f]
+  rw [Category.assoc, cechInjectiveResolutionTotalMap,
+    HomologicalComplex₂.ιTotal_map]
+  simp only [← Category.assoc]
+  congr 1
+  change
+    (((cechComplexFunctor U).map
+          ((injectiveResolution (toSiteSheaf F)).ι.f 0).hom) ≫
+        (cechComplexFunctor U).map (phi.hom.f 0).hom).f p =
+      (((cechComplexFunctor U).map f.hom ≫
+          (cechComplexFunctor U).map
+            ((injectiveResolution (toSiteSheaf G)).ι.f 0).hom).f p)
+  let a := ((injectiveResolution (toSiteSheaf F)).ι.f 0).hom
+  let b := (phi.hom.f 0).hom
+  let c := f.hom
+  let d := ((injectiveResolution (toSiteSheaf G)).ι.f 0).hom
+  have hphi : a ≫ b = c ≫ d :=
+    congrArg (fun g ↦ g.hom) phi.ι_f_zero_comp_hom_f_zero
+  have hmap :
+      (cechComplexFunctor U).map a ≫ (cechComplexFunctor U).map b =
+        (cechComplexFunctor U).map c ≫ (cechComplexFunctor U).map d :=
+    ((cechComplexFunctor U).map_comp a b).symm.trans
+      ((congrArg (cechComplexFunctor U).map hphi).trans
+        ((cechComplexFunctor U).map_comp c d))
+  exact congrArg (fun g ↦ g.f p) hmap
 
 /-- If `H¹` vanishes on each cover member, the vertical Cech-to-injective-total
 edge is a quasi-isomorphism in degree one. -/

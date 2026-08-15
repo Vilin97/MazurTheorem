@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck
+Authors: Chris Birkbeck, Vasily Ilin
 -/
 import Mathlib.Algebra.Homology.Embedding.ExtendHomology
 import Mathlib.CategoryTheory.Abelian.Injective.Ext
@@ -718,6 +718,19 @@ private theorem H.addEquivRightDerivedGlobalSections_naturality
   exact CategoryTheory.Abelian.Ext.addEquivRightDerived_naturality
     (globalSectionsFunctor X) (constantZ X) homToGlobalSectionsEquiv
       (fun a b ↦ homToGlobalSectionsEquiv_naturality a b) f n x
+
+/-- The inverse comparison from derived global sections to sheaf cohomology
+is natural in the coefficient sheaf. -/
+theorem H.addEquivRightDerivedGlobalSections_symm_naturality
+    {F G : Sheaf AddCommGrpCat.{u} X} (f : F ⟶ G) (n : ℕ)
+    (x : ((globalSectionsFunctor X).rightDerived n).obj (toSiteSheaf F)) :
+    (H.addEquivRightDerivedGlobalSections G n).symm
+        (((globalSectionsFunctor X).rightDerived n).map f x) =
+      H.map f n ((H.addEquivRightDerivedGlobalSections F n).symm x) := by
+  apply (H.addEquivRightDerivedGlobalSections G n).injective
+  rw [AddEquiv.apply_symm_apply]
+  rw [H.addEquivRightDerivedGlobalSections_naturality]
+  rw [AddEquiv.apply_symm_apply]
 
 end
 
