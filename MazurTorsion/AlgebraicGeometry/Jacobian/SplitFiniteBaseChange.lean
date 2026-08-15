@@ -42,6 +42,40 @@ noncomputable def sheetInclusion (S : Scheme.{u}) (m : ℕ) (j : Fin m) :
   Over.homMk (Sigma.ι (fun _ : ULift.{u} (Fin m) ↦ S) (ULift.up j)) (by
     exact Sigma.ι_desc (fun _ : ULift.{u} (Fin m) ↦ 𝟙 S) (ULift.up j))
 
+/-- The coproduct coordinate of a point in an object with a chosen split
+presentation. -/
+noncomputable def splitPointSigmaCoordinate (S : Scheme.{u}) (m : ℕ)
+    (X : Over S) (E : X ≅ splitFinite S m) (x : X.left) :
+    Σ _ : ULift.{u} (Fin m), S :=
+  (sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)).symm (E.hom.left x)
+
+/-- The sheet selected by a point in a split finite object. -/
+noncomputable def splitPointSheet (S : Scheme.{u}) (m : ℕ)
+    (X : Over S) (E : X ≅ splitFinite S m) (x : X.left) : Fin m :=
+  (splitPointSigmaCoordinate S m X E x).1.down
+
+/-- The base point under a point in a split finite object. -/
+noncomputable def splitPointBase (S : Scheme.{u}) (m : ℕ)
+    (X : Over S) (E : X ≅ splitFinite S m) (x : X.left) : S :=
+  (splitPointSigmaCoordinate S m X E x).2
+
+/-- A split point is exactly its extracted sheet inclusion applied to its
+extracted base point. -/
+theorem splitPoint_decomposition (S : Scheme.{u}) (m : ℕ)
+    (X : Over S) (E : X ≅ splitFinite S m) (x : X.left) :
+    E.hom.left x =
+      (sheetInclusion S m (splitPointSheet S m X E x)).left
+        (splitPointBase S m X E x) := by
+  let y := E.hom.left x
+  let a := (sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)).symm y
+  have ha : (ULift.up a.1.down : ULift.{u} (Fin m)) = a.1 := by
+    cases a.1
+    rfl
+  change y = Sigma.ι (fun _ : ULift.{u} (Fin m) ↦ S)
+    (ULift.up a.1.down) a.2
+  rw [ha, ← sigmaMk_mk]
+  exact (sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)).apply_symm_apply y |>.symm
+
 /-- The finite coproduct presentation and the product-ring presentation of
 a split affine finite scheme agree over the affine base. -/
 noncomputable def liftedSplitProjection
@@ -302,6 +336,36 @@ noncomputable def splitFamilyIndexEquiv (d : ℕ) (m : Fin d → ℕ) :
     ((Fintype.equivFin (Σ i : Fin d, Fin (m i))).symm.trans
       (Equiv.sigmaCongrRight fun _ ↦ Equiv.ulift.symm))
 
+/-- The global finite-ordinal label of the `j`-th sheet in family member
+`i`. -/
+noncomputable def splitFamilySheetIndex (_S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (i : Fin d) (j : Fin (m i)) : Fin (totalSheets d m) :=
+  ((splitFamilyIndexEquiv.{u} d m).symm ⟨i, ULift.up j⟩).down
+
+/-- Recover the family member containing a globally indexed sheet. -/
+noncomputable def splitFamilySheetOwner (_S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (j : Fin (totalSheets d m)) : Fin d :=
+  ((splitFamilyIndexEquiv.{u} d m) (ULift.up j)).1
+
+private theorem up_splitFamilySheetIndex (S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (i : Fin d) (j : Fin (m i)) :
+    ULift.up (splitFamilySheetIndex S d m i j) =
+      (splitFamilyIndexEquiv.{u} d m).symm ⟨i, ULift.up j⟩ := by
+  apply ULift.ext
+  rfl
+
+/-- The owner of a locally indexed sheet is its original family member. -/
+@[simp]
+theorem splitFamilySheetOwner_sheetIndex (S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (i : Fin d) (j : Fin (m i)) :
+    splitFamilySheetOwner S d m (splitFamilySheetIndex S d m i j) = i := by
+  unfold splitFamilySheetOwner
+  rw [up_splitFamilySheetIndex S, Equiv.apply_symm_apply]
+
 /-- A coordinatewise isomorphism of finite families induces an isomorphism
 of their disjoint unions over the common base. -/
 noncomputable def familyCoproductIsoOfFamilyIso
@@ -364,7 +428,7 @@ noncomputable def splitFamilyReindexIso
     Over.mk (Sigma.desc
         (fun _ : Σ i : Fin d, ULift.{u} (Fin (m i)) ↦ 𝟙 S)) ≅
       splitFinite S (totalSheets d m) := by
-  let ε := splitFamilyIndexEquiv d m
+  let ε := splitFamilyIndexEquiv.{u} d m
   let f : (Σ i : Fin d, ULift.{u} (Fin (m i))) → Scheme.{u} := fun _ ↦ S
   let e : (∐ f) ≅
       (∐ fun _ : ULift.{u} (Fin (totalSheets d m)) ↦ S) :=
@@ -401,5 +465,72 @@ noncomputable def familyCoproductSplitIso
     familyCoproduct S d X ≅ splitFinite S (totalSheets d m) :=
   familyCoproductIsoOfFamilyIso S d X (fun i ↦ splitFinite S (m i)) E ≪≫
     splitFiniteFamilyCoproductIso S d m
+
+/-- A local sheet enters the flattened split family with exactly the global
+index assigned to its family member and local sheet label. -/
+theorem sheetInclusion_comp_familyCoproductSplitIso
+    (S : Scheme.{u}) (d : ℕ) (X : Fin d → Over S)
+    (m : Fin d → ℕ) (E : ∀ i, X i ≅ splitFinite S (m i))
+    (i : Fin d) (j : Fin (m i)) :
+    (sheetInclusion S (m i) j).left ≫ (E i).inv.left ≫
+        (inclusion S d X i).left ≫
+          (familyCoproductSplitIso S d X m E).hom.left =
+      (sheetInclusion S (totalSheets d m)
+        (splitFamilySheetIndex S d m i j)).left := by
+  let p : ∀ i, (X i).left ≅ (splitFinite S (m i)).left :=
+    fun i ↦ (Over.forget S).mapIso (E i)
+  let ε := splitFamilyIndexEquiv d m
+  let f : (Σ i : Fin d, ULift.{u} (Fin (m i))) → Scheme.{u} := fun _ ↦ S
+  have hMap : Sigma.ι (fun i ↦ (X i).left) i ≫
+      (Sigma.mapIso p).hom =
+        (E i).hom.left ≫
+          Sigma.ι (fun i ↦ (splitFinite S (m i)).left) i :=
+    Sigma.ι_mapIso_hom p i
+  have hFlatten :
+      (sheetInclusion S (m i) j).left ≫
+          Sigma.ι (fun i ↦ (splitFinite S (m i)).left) i ≫
+            (Limits.sigmaSigmaIso
+              (fun i : Fin d ↦ ULift.{u} (Fin (m i)))
+              (fun _ _ ↦ S)).hom =
+        Sigma.ι f ⟨i, ULift.up j⟩ := by
+    have hSheet : (sheetInclusion S (m i) j).left =
+        Sigma.ι (fun _ : ULift.{u} (Fin (m i)) ↦ S) (ULift.up j) := rfl
+    rw [hSheet]
+    unfold Limits.sigmaSigmaIso
+    simp only [Sigma.ι_desc]
+    rfl
+  have hReindex :
+      Sigma.ι f ⟨i, ULift.up j⟩ ≫
+          (Sigma.reindex ε f).inv =
+        (sheetInclusion S (totalSheets d m)
+          (splitFamilySheetIndex S d m i j)).left := by
+    rw [show ⟨i, ULift.up j⟩ =
+        ε (ULift.up (splitFamilySheetIndex S d m i j)) by
+      rw [up_splitFamilySheetIndex S, Equiv.apply_symm_apply]]
+    exact Sigma.ι_reindex_inv ε f
+      (ULift.up (splitFamilySheetIndex S d m i j))
+  change (sheetInclusion S (m i) j).left ≫ (E i).inv.left ≫
+      Sigma.ι (fun i ↦ (X i).left) i ≫
+        ((Sigma.mapIso p).hom ≫
+          (Limits.sigmaSigmaIso
+            (fun i : Fin d ↦ ULift.{u} (Fin (m i)))
+            (fun _ _ ↦ S)).hom ≫
+              (Sigma.reindex ε f).inv) = _
+  rw [← Category.assoc (Sigma.ι (fun i ↦ (X i).left) i), hMap]
+  have hInv : (E i).inv.left ≫ (E i).hom.left = 𝟙 _ :=
+    congrArg Over.Hom.left (E i).inv_hom_id
+  simp only [← Category.assoc, hInv, Category.comp_id]
+  have hFlattenPost := congrArg
+    (fun a ↦ a ≫ (Sigma.reindex ε f).inv) hFlatten
+  have hFlattenPost' :
+      (sheetInclusion S (m i) j).left ≫
+          Sigma.ι (fun i ↦ (splitFinite S (m i)).left) i ≫
+            (Limits.sigmaSigmaIso
+              (fun i : Fin d ↦ ULift.{u} (Fin (m i)))
+              (fun _ _ ↦ S)).hom ≫
+                (Sigma.reindex ε f).inv =
+        Sigma.ι f ⟨i, ULift.up j⟩ ≫ (Sigma.reindex ε f).inv := by
+    simpa only [Category.assoc] using hFlattenPost
+  exact hFlattenPost'.trans hReindex
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteBaseChange

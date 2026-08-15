@@ -70,6 +70,23 @@ theorem splitPowerPoint_decomposition (i : Fin d) :
   rw [← sigmaMk_mk]
   exact (sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)).apply_symm_apply z |>.symm
 
+/-- If a transported coordinate is displayed in a particular sheet, its
+extracted sheet label is that index. -/
+theorem splitPowerPointTuple_eq_of_decomposition
+    (i : Fin d) (j : Fin m) (s : S)
+    (h : E.hom.left ((Pi.π (fun _ : Fin d ↦ X) i).left p) =
+      (sheetInclusion S m j).left s) :
+    splitPowerPointTuple S d m X E p i = j := by
+  let e := sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)
+  have hsigma : e.symm ((sheetInclusion S m j).left s) =
+      ⟨ULift.up j, s⟩ := by
+    apply e.injective
+    rw [e.apply_symm_apply]
+    exact (sigmaMk_mk
+      (fun _ : ULift.{u} (Fin m) ↦ S) (ULift.up j) s).symm
+  unfold splitPowerPointTuple splitPowerPointSigmaCoordinate
+  rw [h, hsigma]
+
 /-- Every extracted sheet point lies over the original common base point of
 the ordered relative power. -/
 theorem splitPowerPointBase_eq_structureMap (i : Fin d) :

@@ -194,6 +194,56 @@ noncomputable abbrev orderedSupportGeometricAssignedSheetTuple (d : ℕ)
   assignedSupportSheetTuple K C d (orderedSupportPoint K C d z)
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- For a point of the assigned component product over an incidence support,
+the global split-sheet label selected by an ordered coordinate belongs to
+the distinct geometric-support member assigned to that coordinate.  This is
+the curve-level consumer of the family-sheet bookkeeping used by the local
+ordered-root comparison. -/
+theorem orderedSupportGeometricAssignedSheetOwner_productPoint
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    splitFamilySheetOwner
+        (coherentBase K C d (orderedSupportPoint K C d z) V
+          (Spec (.of T)) q)
+        (geometricDistinctSupportCard K C d
+          (orderedSupportPoint K C d z)) r
+        (orderedSupportGeometricAssignedSheetTuple K C d z V T q r E hE
+          ((assignedProductToCoproductPower K C d
+            (orderedSupportPoint K C d z) V
+            (Spec (.of T)) q).left w) i) =
+      geometricPointSupportIndex K C d
+        (orderedSupportPoint K C d z) i :=
+  assignedSupportSheetOwner_productPoint K C d
+    (orderedSupportPoint K C d z) V T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- Every ordered incidence-ambient point therefore carries a finite family
 of actual affine étale curve-coordinate charts, one for each occurrence in
 its ordered support. -/

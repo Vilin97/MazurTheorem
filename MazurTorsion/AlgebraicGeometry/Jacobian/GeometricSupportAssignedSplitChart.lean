@@ -366,6 +366,36 @@ theorem exists_assignedCoproductPowerPoint_over_support
 
 /-- The chosen componentwise split charts assemble into one split
 presentation of the geometric-support family. -/
+noncomputable def componentSplitIso (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q)
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    component K C d z V (Spec (.of T)) q j ≅
+      splitFinite (coherentBase K C d z V (Spec (.of T)) q) (r j) :=
+  coherentFpqcPulledComponentSplitIso K C
+    (geometricDistinctSupportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z) V T q j (r j) (E j) (hE j)
+
+/-- The chosen componentwise split charts assemble into one split
+presentation of the geometric-support family. -/
 noncomputable def familySplitIso (d : ℕ)
     (z : (power (Spec (.of K)) (Fin d) C).left)
     (V : (geometricDistinctCommonBase K C d z).left.Opens)
@@ -426,6 +456,86 @@ noncomputable def assignedSupportSheetTuple (d : ℕ)
       (geometricDistinctSupportCard K C d z)
       (component K C d z V (Spec (.of T)) q))
     (familySplitIso K C d z V T q r E hE) p
+
+/-- For a point inserted from the assigned component product, the owner of
+the sheet selected by coordinate `i` is exactly its assigned distinct
+geometric-support member. -/
+theorem assignedSupportSheetOwner_productPoint (d : ℕ)
+    (z : (power (Spec (.of K)) (Fin d) C).left)
+    (V : (geometricDistinctCommonBase K C d z).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d z) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d z)
+          (geometricDistinctSupportOrderedPoint K C d z)
+          (geometricDistinctCharts K C d z)
+          (geometricDistinctNeighborhoods K C d z) V j) q)
+    (w : (assignedComponentProductOverGround K C d z V
+      (Spec (.of T)) q).left) (i : Fin d) :
+    splitFamilySheetOwner (coherentBase K C d z V (Spec (.of T)) q)
+        (geometricDistinctSupportCard K C d z) r
+        (assignedSupportSheetTuple K C d z V T q r E hE
+          ((assignedProductToCoproductPower K C d z V
+            (Spec (.of T)) q).left w) i) =
+      geometricPointSupportIndex K C d z i := by
+  let B := coherentBase K C d z V (Spec (.of T)) q
+  let m := geometricDistinctSupportCard K C d z
+  let a := geometricPointSupportIndex K C d z
+  let X := component K C d z V (Spec (.of T)) q
+  let F := familySplitIso K C d z V T q r E hE
+  let p := (assignedProductToCoproductPower K C d z V
+    (Spec (.of T)) q).left w
+  let x := (Pi.π (fun i : Fin d ↦ X (a i)) i).left w
+  let L := componentSplitIso K C d z V T q r E hE (a i)
+  let localSheet := splitPointSheet B (r (a i)) (X (a i)) L x
+  let basePoint := splitPointBase B (r (a i)) (X (a i)) L x
+  let globalSheet := splitFamilySheetIndex B m r (a i) localSheet
+  have hCoordinate :
+      (Pi.π (fun _ : Fin d ↦ familyCoproduct B m X) i).left p =
+        (inclusion B m X (a i)).left x := by
+    have h := congrArg Over.Hom.left
+      (assignedProductToCoproductPower_comp_projection B m d X a i)
+    exact congrArg
+      (fun f : (assignedProduct B m d X a).left ⟶
+        (familyCoproduct B m X).left ↦ f w) h
+  have hLocal := splitPoint_decomposition B (r (a i)) (X (a i)) L x
+  have hx : x = L.inv.left
+      ((sheetInclusion B (r (a i)) localSheet).left basePoint) := by
+    have hIso := congrArg Over.Hom.left L.hom_inv_id
+    have hIsoPoint := congrArg (fun f : (X (a i)).left ⟶
+      (X (a i)).left ↦ f x) hIso
+    exact hIsoPoint.symm.trans (congrArg L.inv.left hLocal)
+  have hGlobalMap := sheetInclusion_comp_familyCoproductSplitIso
+    B m X r (componentSplitIso K C d z V T q r E hE)
+    (a i) localSheet
+  have hGlobalPoint := congrArg
+    (fun f : B ⟶ (splitFinite B (totalSheets m r)).left ↦ f basePoint)
+    hGlobalMap
+  have hDecomposition :
+      F.hom.left
+          ((Pi.π (fun _ : Fin d ↦ familyCoproduct B m X) i).left p) =
+        (sheetInclusion B (totalSheets m r) globalSheet).left basePoint := by
+    rw [hCoordinate, hx]
+    change (((sheetInclusion B (r (a i)) localSheet).left ≫
+        L.inv.left ≫ (inclusion B m X (a i)).left ≫ F.hom.left)
+          basePoint) = _
+    exact hGlobalPoint
+  have hTuple :
+      assignedSupportSheetTuple K C d z V T q r E hE p i =
+        globalSheet :=
+    splitPowerPointTuple_eq_of_decomposition B d (totalSheets m r)
+      (familyCoproduct B m X) F p i globalSheet basePoint hDecomposition
+  rw [hTuple]
+  exact splitFamilySheetOwner_sheetIndex B m r (a i) localSheet
 
 /-- The symmetric-power component selected by an assigned support point. -/
 noncomputable def assignedSupportComponent (d : ℕ)
