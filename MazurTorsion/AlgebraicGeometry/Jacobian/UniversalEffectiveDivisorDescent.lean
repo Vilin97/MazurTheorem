@@ -50,6 +50,18 @@ theorem affineLineUniversalEffectiveDivisor_finite_flat_rank
   exact ⟨inferInstance, inferInstance,
     UniversalRootFactorization.universalRootProjection_finrank R n⟩
 
+/-- In the affine-line model the universal family is the closed subscheme cut
+out by one regular equation, namely the universal monic polynomial. -/
+theorem affineLineUniversalEffectiveDivisor_isPrincipalCartier
+    (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    IsClosedImmersion (UniversalRootFactorization.universalRootLocusι R n) ∧
+      RingHom.ker (UniversalRootFactorization.ambientToFactors R n) =
+        Ideal.span {UniversalRootFactorization.universalPolynomial R n} ∧
+      IsRegular (UniversalRootFactorization.universalPolynomial R n) := by
+  exact ⟨inferInstance,
+    UniversalRootFactorization.ambientToFactors_ker R n,
+    UniversalRootFactorization.universalPolynomial_isRegular R n⟩
+
 variable (S : Scheme.{u}) (d : ℕ) {X Y : Over S}
 
 /-- A morphism `X ⟶ Y` induces a morphism on the ordered ambient products,

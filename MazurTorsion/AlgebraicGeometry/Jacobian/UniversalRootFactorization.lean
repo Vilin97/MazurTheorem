@@ -32,6 +32,7 @@ characteristic.
 noncomputable section
 
 open Polynomial
+open CategoryTheory
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.UniversalRootFactorization
 
@@ -396,6 +397,54 @@ theorem factorizationRing_finrank :
       (AdjoinRoot.powerBasis'
         (Polynomial.monic_freeMonic R (n + 1))).finrank
 
+/-- The coordinate ring of the ambient affine line over the universal
+coefficient space. -/
+abbrev universalRootAmbientRing := Polynomial (coefficientRing R n)
+
+/-- The universal root locus as a quotient of its ambient polynomial ring. -/
+noncomputable def ambientToFactors :
+    universalRootAmbientRing R n →+* factorizationRing R n := by
+  letI := (coefficientToFactors R n).toAlgebra
+  exact (rootToFactors R n).toRingHom.comp
+    (AdjoinRoot.mk (universalPolynomial R n))
+
+/-- The coordinate map cutting out the universal root locus is surjective. -/
+theorem ambientToFactors_surjective :
+    Function.Surjective (ambientToFactors R n) := by
+  letI := (coefficientToFactors R n).toAlgebra
+  exact (factorsEquivRoot R n).symm.surjective.comp
+    AdjoinRoot.mk_surjective
+
+/-- The universal root locus is cut out by the universal monic polynomial. -/
+theorem ambientToFactors_ker :
+    RingHom.ker (ambientToFactors R n) =
+      Ideal.span {universalPolynomial R n} := by
+  letI := (coefficientToFactors R n).toAlgebra
+  unfold ambientToFactors
+  rw [RingHom.ker_comp_of_injective]
+  · exact Ideal.mk_ker
+  · exact (factorsEquivRoot R n).symm.injective
+
+omit [Nontrivial R] in
+theorem ambientToFactors_comp_C :
+    (ambientToFactors R n).comp
+        (Polynomial.C : coefficientRing R n →+* universalRootAmbientRing R n) =
+      (coefficientToFactors R n).toRingHom := by
+  letI := (coefficientToFactors R n).toAlgebra
+  apply DFunLike.ext _ _
+  intro b
+  change rootToFactors R n
+      (AdjoinRoot.mk (universalPolynomial R n) (Polynomial.C b)) = _
+  rw [AdjoinRoot.mk_C]
+  exact DFunLike.congr_fun (rootToFactorsR_comp_of R n) b
+
+omit [Nontrivial R] in
+/-- The equation of the universal root locus is a non-zero-divisor over any
+commutative base ring. -/
+theorem universalPolynomial_isRegular :
+    IsRegular (universalPolynomial R n) :=
+  (Polynomial.monic_freeMonic R (n + 1)).isRegular
+
 omit [Nontrivial R] in
 /-- The universal factorization map is finite. -/
 theorem coefficientToFactors_finite :
@@ -419,6 +468,40 @@ noncomputable def universalRootProjection :
     Spec (.of (factorizationRing R n)) ⟶
       Spec (.of (coefficientRing R n)) :=
   Spec.map (CommRingCat.ofHom (coefficientToFactors R n).toRingHom)
+
+/-- The universal root locus embedded in the affine line over the universal
+coefficient space. -/
+noncomputable def universalRootLocusι :
+    Spec (.of (factorizationRing R n)) ⟶
+      Spec (.of (universalRootAmbientRing R n)) :=
+  Spec.map (CommRingCat.ofHom (ambientToFactors R n))
+
+/-- Projection from the ambient affine line to the universal coefficient
+space. -/
+noncomputable def universalRootAmbientProjection :
+    Spec (.of (universalRootAmbientRing R n)) ⟶
+      Spec (.of (coefficientRing R n)) :=
+  Spec.map (CommRingCat.ofHom (Polynomial.C :
+    coefficientRing R n →+* universalRootAmbientRing R n))
+
+omit [Nontrivial R] in
+/-- The structure morphism of the universal root locus factors through its
+ambient affine line. -/
+theorem universalRootLocusι_comp_ambientProjection :
+    universalRootLocusι R n ≫ universalRootAmbientProjection R n =
+      universalRootProjection R n := by
+  rw [universalRootLocusι, universalRootAmbientProjection,
+    universalRootProjection, ← Spec.map_comp]
+  congr 1
+  change CommRingCat.ofHom ((ambientToFactors R n).comp
+      (Polynomial.C : coefficientRing R n →+* universalRootAmbientRing R n)) =
+    CommRingCat.ofHom (coefficientToFactors R n).toRingHom
+  exact congrArg CommRingCat.ofHom (ambientToFactors_comp_C R n)
+
+instance universalRootLocusι_isClosedImmersion :
+    IsClosedImmersion (universalRootLocusι R n) := by
+  apply IsClosedImmersion.spec_of_surjective
+  exact ambientToFactors_surjective R n
 
 instance universalRootProjection_isFinite :
     IsFinite (universalRootProjection R n) := by
