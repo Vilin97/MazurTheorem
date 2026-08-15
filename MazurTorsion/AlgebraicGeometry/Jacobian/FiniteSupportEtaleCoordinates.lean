@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, Codex
 -/
 
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleRelativeProduct
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleFamilyPointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveEtaleCoordinate
 
@@ -24,11 +26,13 @@ noncomputable section
 
 universe u
 
+open scoped TensorProduct
 open CategoryTheory Limits
 open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 
+open FiniteEtaleRelativeProduct
 open SmoothCurveEtaleCoordinate
 
 variable (K : Type u) [Field K]
@@ -84,6 +88,25 @@ noncomputable abbrev commonBase (d : ℕ)
     Over (coordinateBase K) :=
   ∏ᶜ fun i : Fin d ↦ (n i).baseOver
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The common product base has a point because every selected étale base
+contains the point supplied by Zariski's main theorem and the ground-field
+spectrum has one underlying point. -/
+theorem commonBase_nonempty (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    Nonempty (commonBase K C d z c n).left := by
+  apply product_nonempty
+  intro i
+  exact ⟨(n i).basePoint⟩
+
+/-- A chosen point of the common product base. -/
+noncomputable def commonBasePoint (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    (commonBase K C d z c n).left :=
+  Classical.choice (commonBase_nonempty K C d z c n)
+
 /-- Pull the `i`-th selected finite étale component to the common product
 base. -/
 noncomputable abbrev pulledComponent (d : ℕ)
@@ -124,5 +147,79 @@ instance pulledComponentOverCommonBase_etale (d : ℕ)
     Etale (pulledComponentOverCommonBase K C d z c n i).hom := by
   exact MorphismProperty.pullback_snd (P := @Etale) _ _
     (show Etale (n i).componentToBase.left from inferInstance)
+
+/-- The relative product of all selected components over their common base. -/
+noncomputable abbrev commonComponentFamily (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    Over (commonBase K C d z c n).left :=
+  ∏ᶜ fun i : Fin d ↦ pulledComponentOverCommonBase K C d z c n i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The assembled family is finite étale over the common product base. -/
+theorem commonComponentFamily_isFiniteEtale (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    finiteEtaleOver (commonBase K C d z c n).left
+      (commonComponentFamily K C d z c n) := by
+  apply product_isFiniteEtale
+  intro i
+  exact ⟨inferInstance, inferInstance⟩
+
+instance commonComponentFamily_isFinite (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    IsFinite (commonComponentFamily K C d z c n).hom :=
+  (commonComponentFamily_isFiniteEtale K C d z c n).1
+
+instance commonComponentFamily_etale (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    Etale (commonComponentFamily K C d z c n).hom :=
+  (commonComponentFamily_isFiniteEtale K C d z c n).2
+
+/-- The `i`-th common-base component still maps to the original curve. -/
+noncomputable def pulledComponentToCurve (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (pulledComponentOverCommonBase K C d z c n i).left ⟶ C.left :=
+  pullback.fst (n i).componentToBase.left
+      (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫
+    (n i).componentToCurve
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Near the chosen common-base point, all selected support components have
+constant rank and split simultaneously after one finite étale fpqc cover. -/
+theorem exists_commonSplitChartAtSupport (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    ∃ (V : (commonBase K C d z c n).left.Opens) (hV : IsAffineOpen V),
+      commonBasePoint K C d z c n ∈ V ∧
+      let f : ∀ i, (pulledComponentOverCommonBase K C d z c n i).left ⟶
+          (commonBase K C d z c n).left :=
+        fun i ↦ (pulledComponentOverCommonBase K C d z c n i).hom
+      let fV : ∀ i, (f i ⁻¹ᵁ V).toScheme ⟶ V.toScheme :=
+        fun i ↦ f i ∣_ V
+      letI : IsAffine V.toScheme := hV
+      letI (i : Fin d) : IsAffine (f i ⁻¹ᵁ V).toScheme :=
+        isAffine_of_isAffineHom (fV i)
+      letI (i : Fin d) : Algebra Γ(V, ⊤) Γ(f i ⁻¹ᵁ V, ⊤) :=
+        (fV i).appTop.hom.toAlgebra
+      ∃ (T : Type u) (_ : CommRing T) (_ : Algebra Γ(V, ⊤) T)
+        (_ : Module.FaithfullyFlat Γ(V, ⊤) T)
+        (_ : Module.Finite Γ(V, ⊤) T)
+        (_ : Algebra.Etale Γ(V, ⊤) T)
+        (q : Spec (.of T) ⟶ V.toScheme),
+        Flat q ∧ Surjective q ∧ QuasiCompact q ∧
+          ∀ i, ∃ (m : ℕ)
+            (_e : T ⊗[Γ(V, ⊤)] Γ(f i ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T)),
+            ∃ E : pullback (fV i) q ≅ Spec (.of (Fin m → T)),
+              E.hom ≫ EtaleSplitChart.splitProjection T m =
+                pullback.snd (fV i) q ∧
+              m = (f i).finrank (commonBasePoint K C d z c n) := by
+  exact FiniteEtaleFamilyPointSplitChart.exists_affineOpen_fpqc_common_splitCover
+    d (fun i ↦ (pulledComponentOverCommonBase K C d z c n i).left)
+      (fun i ↦ (pulledComponentOverCommonBase K C d z c n i).hom)
+        (commonBasePoint K C d z c n)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates

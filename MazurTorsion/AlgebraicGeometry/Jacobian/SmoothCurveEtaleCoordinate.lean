@@ -38,6 +38,33 @@ standard-smooth chart API. -/
 noncomputable def coordinateBase (K : Type u) [Field K] : Scheme.{u} :=
   Spec (.of Γ(Spec (.of K), ⊤))
 
+/-- The global-section presentation of the ground field has the expected
+affine spectrum. -/
+noncomputable def coordinateBaseIso (K : Type u) [Field K] :
+    coordinateBase K ≅ Spec (.of K) :=
+  Scheme.Spec.mapIso (Scheme.ΓSpecIso (.of K)).symm.op
+
+instance coordinateBase_nonempty (K : Type u) [Field K] :
+    Nonempty (coordinateBase K) := by
+  let y : Spec (.of K) := Classical.choice inferInstance
+  exact ⟨(coordinateBaseIso K).inv y⟩
+
+instance coordinateBase_subsingleton (K : Type u) [Field K] :
+    Subsingleton (coordinateBase K) := by
+  constructor
+  intro x y
+  let e := coordinateBaseIso K
+  calc
+    x = e.inv (e.hom x) := by
+      have h := congrArg (fun q : coordinateBase K ⟶ coordinateBase K ↦ q x)
+        e.hom_inv_id
+      exact h.symm
+    _ = e.inv (e.hom y) := congrArg e.inv (Subsingleton.elim _ _)
+    _ = y := by
+      have h := congrArg (fun q : coordinateBase K ⟶ coordinateBase K ↦ q y)
+        e.hom_inv_id
+      exact h
+
 /-- The affine coordinate line as a scheme over the global-section copy of
 the ground field. -/
 noncomputable def coordinateLine (K : Type u) [Field K] :
@@ -165,6 +192,23 @@ noncomputable def finiteNeighborhood
 
 namespace FiniteNeighborhood
 
+/-- A chosen point of the étale coordinate base lying below the selected
+component point. -/
+noncomputable def basePoint
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : n.base :=
+  Classical.choose n.point_mem_range
+
+@[simp]
+theorem baseMap_basePoint
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.baseMap n.basePoint = c.schemeMap (⟨x, c.mem⟩ :
+      (c.V : X.Opens).toScheme) :=
+  Classical.choose_spec n.point_mem_range
+
 /-- The étale base change, regarded over the affine ground-field copy. -/
 noncomputable def baseOver
     {K : Type u} [Field K] {X : Scheme.{u}}
@@ -186,6 +230,31 @@ noncomputable def componentToBase
     {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
     (n : FiniteNeighborhood c) : n.componentOver ⟶ n.baseOver :=
   Over.homMk (n.selectedOpen.ι ≫ pullback.snd c.schemeMap n.baseMap) rfl
+
+/-- The selected component maps back to the affine curve chart through the
+first pullback projection. -/
+noncomputable def componentToChart
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) :
+    n.selectedOpen.toScheme ⟶ (c.V : X.Opens).toScheme :=
+  n.selectedOpen.ι ≫ pullback.fst c.schemeMap n.baseMap
+
+/-- The selected finite étale component mapped to the original curve. -/
+noncomputable def componentToCurve
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : n.selectedOpen.toScheme ⟶ X :=
+  n.componentToChart ≫ c.V.1.ι
+
+@[simp]
+theorem componentToCurve_selectedPoint
+    {K : Type u} [Field K] {X : Scheme.{u}}
+    {f : X ⟶ Spec (.of K)} {x : X} {c : PointChart K X f x}
+    (n : FiniteNeighborhood c) : n.componentToCurve n.selectedPoint = x := by
+  change c.V.1.ι (pullback.fst c.schemeMap n.baseMap n.selectedPoint.1) = x
+  rw [n.selectedPoint_fst]
+  rfl
 
 instance componentToBase_isFinite
     {K : Type u} [Field K] {X : Scheme.{u}}

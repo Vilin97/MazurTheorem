@@ -61,6 +61,47 @@ theorem orderedSupportPoint_nonempty_charts (d : ℕ)
   FiniteSupportEtaleCoordinates.nonempty_charts K C d
     (orderedSupportPoint K C d z)
 
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Chosen coordinate charts on the ordered support of an incidence point. -/
+noncomputable def orderedSupportCharts (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    FiniteSupportEtaleCoordinates.Charts K C d
+      (orderedSupportPoint K C d z) :=
+  FiniteSupportEtaleCoordinates.charts K C d (orderedSupportPoint K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Chosen finite étale Zariski-main neighborhoods on the ordered support. -/
+noncomputable def orderedSupportNeighborhoods (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  FiniteSupportEtaleCoordinates.neighborhoods K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The common étale base of all selected support neighborhoods. -/
+noncomputable abbrev orderedSupportCommonBase (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  FiniteSupportEtaleCoordinates.commonBase K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The finite family of support components over their common étale base. -/
+noncomputable abbrev orderedSupportComponentFamily (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :=
+  FiniteSupportEtaleCoordinates.commonComponentFamily K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+instance orderedSupportComponentFamily_isFinite (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    IsFinite (orderedSupportComponentFamily K C d z).hom := inferInstance
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+instance orderedSupportComponentFamily_etale (d : ℕ)
+    (z : (orderedAmbient (Spec (.of K)) d C).left) :
+    Etale (orderedSupportComponentFamily K C d z).hom := inferInstance
+
 /-- Ordered insertion followed by the quotient of the larger incidence
 family. -/
 noncomputable def orderedPointedToIncidenceQuotient (n : ℕ) :
