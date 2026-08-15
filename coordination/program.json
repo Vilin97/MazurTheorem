@@ -3,9 +3,9 @@
   "title": "Mazur's rational torsion classification",
   "execution": {
     "revision": {
-      "id": "canonical-formal-immersion-v3",
-      "date": "2026-08-14",
-      "summary": "Retain Mazur's degree-one formal-immersion proof while making every selected lane executable: expose the canonical Weierstrass group-scheme and finite-flat subgroup sequence, record the generic admissible-filtration and rank-two packages as integrated, and keep the compiled rational adapter blocked on its remaining arithmetic API inputs."
+      "id": "canonical-foundations-v4",
+      "date": "2026-08-15",
+      "summary": "Retain Mazur's degree-one formal-immersion route while recording three checked but uncredited foundation slices: canonical coherent-cohomology actions with the affine-cover Cech comparison integrated, the first secant addition morphism toward the Weierstrass group scheme, and represented polynomial-cusp sections with a local collision consumer. Riemann-Roch, proper base change, the remaining group-law charts and gluing, represented X_0, and its compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -71,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1787288,
-    "integrated_lean_modules": 1868,
+    "integrated_lean_lines": 1788023,
+    "integrated_lean_modules": 1870,
     "remaining_composite_orders": [
       18,
       25,
@@ -1548,7 +1548,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked affine-cover Cech comparison now reaches genuine Ext-based H1, and multiplication by global functions gives a canonical cover-independent action in every degree with structure-map field-linear H1 functoriality. The older H0 and Cech finiteness theorems still use transported actions; compatibility with the canonical actions, Riemann-Roch consumption, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1558,7 +1558,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The retained project-facing comodel interface deliberately exposes quasicoherence of the comparison image. The canonical-support Chow construction producing those comodels, proper coherent H1 finiteness, and its final field-linear facade remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile, and the affine-cover comparison is consumed by genuine-H1 finite-generation transfer. Proper-curve H1 finite-dimensionality is presently proved only for cover- or finite-map-transported scalar actions. Its comparison with the canonical structure-map action, canonical H0/global-sections compatibility, a Riemann-Roch consumer, and proper cohomology base change remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1582,7 +1582,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Prove finite dimensionality, affine acyclicity, and vanishing above degree one in the required scope."
+          "description": "Prove finite dimensionality for the same canonical field actions used by the curve-cohomology facade, together with affine acyclicity and vanishing above degree one in the required scope."
         },
         {
           "kind": "definition",
@@ -1616,8 +1616,71 @@
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule",
           "state": "contract",
-          "description": "Transport the genuine global-functions module structure to Ext-based H0 as an explicit opt-in definition rather than a global instance.",
+          "description": "Transport the global-sections module structure to Ext-based H0 as an explicit opt-in compatibility action. Its agreement with the canonical all-degree cohomology action remains to be proved.",
           "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.globalSectionsCohomologyModule",
+          "state": "contract",
+          "description": "Give genuine Ext-based sheaf cohomology in every degree its canonical cover-independent action by global functions, induced by multiplication endomorphisms of the coefficient module.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap",
+          "state": "contract",
+          "description": "Bundle every coefficient-module morphism as a linear map for the canonical global-functions cohomology actions.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyHZero"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldModule",
+          "state": "contract",
+          "description": "Restrict the canonical global-functions action on genuine H1 along the actual structure morphism to obtain the cover-independent ground-field action.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap",
+          "state": "contract",
+          "description": "Make genuine H1 functoriality ground-field linear for the canonical structure-map actions; no finite-dimensionality theorem yet uses this action.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover",
+          "state": "contract",
+          "description": "Identify the underlying additive group of native base-Cech H1 with genuine Ext-based sheaf H1 for every affine open cover.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneComparison"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover",
+          "state": "contract",
+          "description": "Expose the affine-cover comparison linearly for the explicitly cover-transported action; this is not yet a comparison with the canonical action.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneModule"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover",
+          "state": "contract",
+          "description": "Consume the ordered/native and affine-cover comparisons to transfer finite generation to genuine H1 under the cover-transported action.",
+          "module": "MazurTorsion.Upstream.SchemeModuleBaseCechHOneFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero",
+          "state": "contract",
+          "description": "Prove genuine sheaf cohomology vanishes in every degree at least two on the required smooth proper integral curves.",
+          "module": "MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finiteDimensional_of_rationalSection",
+          "state": "contract",
+          "description": "Prove H1 finite-dimensional for a pointed smooth proper integral curve using a finite-map-transported field action; comparison with the canonical field action remains open.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
         }
       ],
       "depends_on": [
@@ -1635,8 +1698,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 55,
-        "canonical_artifact_count": 7,
+        "recorded_artifact_count": 64,
+        "canonical_artifact_count": 16,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -1648,17 +1711,17 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "A curve-level finite-cohomology theorem consumed by Riemann-Roch."
+          "exit_criterion": "A cover-independent canonical K-linear H⁰/H¹ API, including H⁰/global-sections compatibility, coefficient-morphism linearity, and Hⁿ-vanishing for n ≥ 2, is imported by a named Riemann–Roch theorem."
         },
         {
           "id": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CECH-COMPARISON",
           "title": "Čech-to-derived comparison",
           "weight_points": 11,
-          "status": "next",
+          "status": "integrated",
           "depends_on": [
-            "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE"
+            "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Identify the finite affine-cover complex with the intended sheaf cohomology groups."
+          "exit_criterion": "For every affine open cover, identify native base-Čech H¹ additively with zariskiFunctor X 1, expose the cover-transported linear equivalence, and consume it in genuine-H¹ finite-generation transfer."
         },
         {
           "id": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS",
@@ -1666,9 +1729,10 @@
           "weight_points": 12,
           "status": "blocked",
           "depends_on": [
+            "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE",
             "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CECH-COMPARISON"
           ],
-          "exit_criterion": "Supply exactly the finiteness and low-degree base-change statements consumed downstream."
+          "exit_criterion": "Using the canonical core actions, expose the required smooth-proper-curve H⁰/H¹ finite-dimensional facade and the exact low-degree cohomology base-change comparison consumed downstream; general proper-flat base change and semicontinuity remain owned by MT-TC-C1-RELATIVE-COHOMOLOGY."
         }
       ]
     },
@@ -2239,7 +2303,7 @@
       "weight_points": 25,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. At the point-group level, the quotient by the supplied cyclic subgroup now has its exact kernel, multiplication by N descends to a dual map, both composites are multiplication by N, and the dual kernel is identified. No equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
+      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. The universal secant formula now gives checked affine and projective scheme morphisms on one explicit principal-open presentation. Identifying that presentation with the corresponding open of the scheme product, then constructing the tangent and infinity charts, overlap identities, gluing, and the group laws, remain open. At the point-group level, the quotient by the supplied cyclic subgroup has its exact kernel and dual-map composites, but no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2304,9 +2368,23 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionAffineMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassSecantAdditionMorphism",
+          "description": "Construct the genuine affine-scheme morphism induced by the denominator-cleared universal secant formula on its explicit principal-open presentation."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassSecantAdditionMorphism",
+          "description": "Map the checked secant chart into the actual reduced projective Weierstrass cubic through its standard affine open; this is one multiplication chart, not a global group law."
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme",
           "state": "proposed",
-          "description": "Equip the concrete reduced projective Weierstrass cubic with its canonical commutative group-scheme law and coordinate-point comparison."
+          "description": "Equip the concrete reduced projective Weierstrass cubic with its canonical commutative group-scheme law and coordinate-point comparison after completing the tangent and infinity charts, product-open identification, overlaps, gluing, and group axioms."
         },
         {
           "kind": "structure",
@@ -2347,8 +2425,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 14,
-        "canonical_artifact_count": 9,
+        "recorded_artifact_count": 37,
+        "canonical_artifact_count": 11,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -2360,7 +2438,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Construct the canonical Weierstrass commutative group scheme and refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume it without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the checked secant affine/projective morphism, identify its domain with the corresponding product open, construct the tangent and infinity charts, prove overlap identities, glue multiplication, prove the commutative group laws, and refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",
@@ -2946,12 +3024,12 @@
       "title": "The X_0(N) moduli point attached to rational prime torsion",
       "stage": "prime_infrastructure",
       "kind": "infrastructure",
-      "status": "planned",
+      "status": "blocked",
       "readiness": "nouns_missing",
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer. The represented polynomial cusp chart and its local sections do not construct represented X_0, a generalized-elliptic compactification, or the missing Gamma_0 classifier, so this node remains blocked.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -3089,7 +3167,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. The structural section derives both source and image residue fields over the base, and a nonzero Hecke eigen-expansion feeds the actual completed-stalk formal-immersion consumer. Identifying an actual integral X_0(N) infinity neighbourhood with such a chart, and proving the represented quotient collision and genuine optimal-quotient q-expansion identity, remain open.",
+      "summary": "Compactify X_0(N), identify the smooth cusp neighbourhood, and expose its completed local ring and q-parameter at auxiliary primes 5 and 11. On the represented one-variable polynomial chart, sectionAt constructs genuine base sections, sectionAt_closedPoint_eq_zeroSection proves their local closed-fibre collision, and valuation_j_le_one_of_polynomialCuspSectionAtFive consumes that collision in the formal-immersion valuation argument. These are completed local-chart facts only: identifying an actual integral X_0(N) infinity neighbourhood with the chart, constructing the generalized-elliptic compactification, and proving the represented quotient collision and genuine optimal-quotient q-expansion identity remain open.",
       "artifacts": [
         {
           "kind": "structure",
@@ -3133,6 +3211,27 @@
           "description": "Specialize the lift to quotienting the target stalk by one ideal and the source stalk by its extension, giving the characteristic-five special-fibre consumer."
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.sectionAt",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Construct the genuine affine structural section obtained by evaluating the represented polynomial cusp coordinate at a chosen base-ring element; this is a local chart section, not a represented X_0 point."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.sectionAt_closedPoint_eq_zeroSection",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Prove that a polynomial-chart section whose coordinate lies in the maximal ideal collides with the zero section at the local base's closed point."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart.valuation_j_le_one_of_polynomialCuspSectionAtFive",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.AffineCuspPolynomialChart",
+          "description": "Consume the constructed chart sections and their closed-fibre collision in the formal-immersion argument at five, while retaining the specialization and equal-quotient-image hypotheses."
+        },
+        {
           "kind": "theorem",
           "name": "ModularCurve.IntegralXZero.completedLocalRingAtInfinity_of_auxiliaryPrime",
           "state": "proposed",
@@ -3155,8 +3254,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 58,
-        "canonical_artifact_count": 7,
+        "recorded_artifact_count": 63,
+        "canonical_artifact_count": 10,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3178,7 +3277,7 @@
           "depends_on": [
             "WP-MT-X0-INTEGRAL-COMPACTIFICATION"
           ],
-          "exit_criterion": "Identify the completed cusp local ring at 5 and 11."
+          "exit_criterion": "Identify an actual infinity neighbourhood on compactified integral X_0(N) with the checked polynomial cusp chart and its completed local ring at 5 and 11."
         },
         {
           "id": "WP-MT-X0-INTEGRAL-BASE-CHANGE",

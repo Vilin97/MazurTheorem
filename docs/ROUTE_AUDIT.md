@@ -1,8 +1,8 @@
 # Route audit: degree-one formal immersion at five
 
-Date: 2026-08-14
+Date: 2026-08-15
 Ledger route: `formal-immersion-at-five-v1`
-Execution revision: `canonical-formal-immersion-v3`
+Execution revision: `canonical-foundations-v4`
 
 ## Decision
 
@@ -17,6 +17,10 @@ The route itself did not change in this audit. The architecture did:
   witness privately;
 - the public project endpoint is the full fifteen-group classification;
 - the immutable `ncard ≤ 16` challenge is recorded separately;
+- canonical coherent-cohomology actions, one Weierstrass secant chart, and the
+  represented polynomial-cusp collision are recorded as checked prerequisites
+  without promoting them to Riemann--Roch, a group scheme, or represented
+  `X₀`; and
 - conditional finite-level experiments are paused while canonical foundations
   are built.
 
@@ -87,6 +91,13 @@ Let `P ∈ E(ℚ)` have prime order `N`, with `N = 11` or `N ≥ 17`.
    quotient image. Formal immersion forbids this collision unless the generic
    points agree, contradicting noncuspidality. Hence `j(E)` is `5`-integral.
 
+   The local polynomial-chart construction now provides genuine `sectionAt`
+   sections and proves their closed-point collision with the zero section. The
+   checked `valuation_j_le_one_of_polynomialCuspSectionAtFive` theorem consumes
+   exactly that local geometry. It does not identify either section with a
+   represented modular point or cusp, and it retains the specialization and
+   equal-quotient-image hypotheses.
+
 6. Integral `j` rules out potentially multiplicative reduction. The checked
    marked weighted-depth argument rules out additive reduction on Mathlib's
    selected minimal equation. Thus `E` has good reduction at `5`.
@@ -103,7 +114,8 @@ is not part of the uniform prime theorem.
 
 The witness constructor still needs substantial honest mathematics:
 
-- the represented compactified `X₀(N)` and its smooth cusp chart at `5`;
+- the represented compactified `X₀(N)` and an identification of its smooth
+  infinity neighbourhood at `5` with the checked polynomial cusp chart;
 - the modular Jacobian and cusp-based Abel–Jacobi morphism;
 - the Hecke action and the q-expansion principle needed for one nonzero
   cotangent eigenvector;

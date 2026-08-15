@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
 - Ecosystem readiness is **18%**.
-- The audited baseline contains **1,868 Lean modules** and **1,787,288 Lean
+- The audited baseline contains **1,870 Lean modules** and **1,788,023 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -48,6 +48,30 @@ their Eisenstein instantiation is blocked until the actual quotient and Néron
 models exist. Other packages marked `active` are merely ready to run.
 Work-package weights partition their parent node and award no independent
 credit.
+
+Execution revision `canonical-foundations-v4` records three checked foundation
+slices without changing the 172-point headline:
+
+- In coherent cohomology, multiplication by global functions now gives a
+  canonical cover-independent action in every degree, and the structure map
+  gives canonical field-linear `H¹` functoriality. The 11-point affine-cover
+  Čech comparison package is marked `integrated` because its genuine `H¹`
+  comparison is consumed by finite-generation transfer. The 12-point core
+  remains `active`: the existing `H⁰` and proper-curve finiteness results use
+  transported actions, their compatibility with the canonical actions is open,
+  and no Riemann--Roch theorem consumes the facade. The final 12-point
+  finiteness/base-change package remains `blocked`; no proper-cohomology
+  base-change theorem is present.
+- In the Weierstrass group-scheme package, the universal secant formula now
+  defines genuine affine and projective morphisms on one explicit chart. The
+  package remains `active` because the product-open identification, tangent and
+  infinity charts, overlap proofs, gluing, and group laws are still missing.
+- The represented polynomial cusp chart now has the genuine sections
+  `sectionAt`, their checked closed-point collision, and the named consumer
+  `valuation_j_le_one_of_polynomialCuspSectionAtFive`. These are local chart
+  facts only: they construct neither represented `X₀`, its generalized-elliptic
+  compactification, nor the missing `Γ₀` classifier. Both `MT-X0-MODULI` and
+  `MT-X0-INTEGRAL` therefore remain `blocked`.
 
 ## Open boundary
 
