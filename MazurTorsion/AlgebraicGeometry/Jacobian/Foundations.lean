@@ -5,6 +5,10 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.Genus
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteMapToProjectiveLine
+import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.SymmetricPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.PicardIdentityComponent
 
 /-!

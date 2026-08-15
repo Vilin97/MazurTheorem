@@ -38,6 +38,10 @@ parallel abstraction.
 | Finite-dimensional `H¹` for a coherent module | `genuineSheafHOneCanonical_finiteDimensional_of_codimensionOnePoint` | available after supplying a codimension-one point |
 | Vanishing above the dimension of a curve | `CurveCohomologyGrothendieckVanishing` | available |
 | Finite map to `P¹` from a non-global rational function | `rationalFunctionMorphismAt_isFinite` | available |
+| Finite map to `P¹` under the exact challenge hypotheses | `FiniteMapToProjectiveLine.hom` and `overHom` | checked, with no rational-point input |
+| Permutation action on a relative power | `PermutationPower.action` and `action_equivariant` | checked |
+| Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
+| Conditional relative symmetric power | `SymmetricPower.scheme` and `projection` | checked once affine permutation-orbit neighbourhoods are supplied |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -148,6 +152,20 @@ all Lean dependencies.
 The construction must first represent all degree components locally and then
 select the identity component.  Defining the Jacobian from a point-normalized
 Picard functor would incorrectly require `C(k)` to be inhabited.
+
+The first quotient step is now factored into checked code.  Relative powers,
+their permutation actions, componentwise equivariance, stable-affine
+refinement, quotient gluing, and descent of the structure map are all
+formalized.  The remaining input for an unconditional `Sym^d(C)` is the
+geometric theorem that every permutation orbit in `C^d` lies in an affine
+open.  The selected finite map `C → P¹` reduces this to two concrete tasks:
+
+1. prove that its componentwise map `C^d → (P¹)^d` is affine (indeed finite);
+2. construct affine permutation-orbit neighbourhoods in `(P¹)^d`, for
+   example from invariant nonvanishing loci of multihomogeneous sections.
+
+These are geometric lemmas, not hidden representability assumptions; the
+conditional quotient interface exposes both hypotheses exactly.
 
 Denote the representing object by
 
