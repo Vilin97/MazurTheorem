@@ -317,6 +317,108 @@ noncomputable def pulledComponentToCurve (d : ℕ)
       (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫
     (n i).componentToCurve
 
+/-- The exact scheme-theoretic common-base pullback component, regarded over
+the coordinate copy of the ground field. -/
+noncomputable def pulledComponentOverCoordinateBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    Over (coordinateBase K) :=
+  Over.mk ((pulledComponentOverCommonBase K C d z c n i).hom ≫
+    (commonBase K C d z c n).hom)
+
+/-- The exact pullback component maps to its original Zariski-main
+component over the coordinate base. -/
+noncomputable def pulledComponentToComponentOver (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentOverCoordinateBase K C d z c n i ⟶
+      (n i).componentOver :=
+  Over.homMk
+    (pullback.fst (n i).componentToBase.left
+      (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left) (by
+        let π := Pi.π (fun j : Fin d ↦ (n j).baseOver) i
+        have hpb := pullback.condition
+          (f := (n i).componentToBase.left) (g := π.left)
+        have hc := (n i).componentToBase.w
+        have hπ := π.w
+        change pullback.fst (n i).componentToBase.left π.left ≫
+            (n i).componentOver.hom =
+          pullback.snd (n i).componentToBase.left π.left ≫
+            (commonBase K C d z c n).hom
+        calc
+          pullback.fst (n i).componentToBase.left π.left ≫
+              (n i).componentOver.hom =
+            pullback.fst (n i).componentToBase.left π.left ≫
+              ((n i).componentToBase.left ≫ (n i).baseOver.hom) :=
+            congrArg
+              (fun a ↦ pullback.fst (n i).componentToBase.left π.left ≫ a)
+              hc.symm
+          _ = (pullback.fst (n i).componentToBase.left π.left ≫
+                (n i).componentToBase.left) ≫ (n i).baseOver.hom :=
+            (Category.assoc _ _ _).symm
+          _ = (pullback.snd (n i).componentToBase.left π.left ≫
+                π.left) ≫ (n i).baseOver.hom := congrArg
+            (fun a ↦ a ≫ (n i).baseOver.hom) hpb
+          _ = pullback.snd (n i).componentToBase.left π.left ≫
+                (π.left ≫ (n i).baseOver.hom) := Category.assoc _ _ _
+          _ = pullback.snd (n i).componentToBase.left π.left ≫
+                (commonBase K C d z c n).hom := congrArg
+            (fun a ↦ pullback.snd (n i).componentToBase.left π.left ≫ a)
+            hπ)
+
+/-- The common-base pullback component maps to the curve over the coordinate
+copy of the ground field. -/
+noncomputable def pulledComponentToCurveOverCoordinateBase (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentOverCoordinateBase K C d z c n i ⟶
+      PointChart.curveOverCoordinateBase K C.left C.hom :=
+  pulledComponentToComponentOver K C d z c n i ≫
+    (n i).componentToCurveOver
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+theorem pulledComponentToCurveOverCoordinateBase_left (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    (pulledComponentToCurveOverCoordinateBase K C d z c n i).left =
+      pulledComponentToCurve K C d z c n i :=
+  rfl
+
+/-- The same pulled component, with its structure map transported back to
+the original ground-field spectrum. -/
+noncomputable def pulledComponentOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    Over (Spec (.of K)) :=
+  Over.mk ((pulledComponentOverCoordinateBase K C d z c n i).hom ≫
+    (coordinateBaseIso K).hom)
+
+/-- The pulled component maps to the original curve as a morphism over the
+ground field. -/
+noncomputable def pulledComponentToCurveOverGround (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    pulledComponentOverGround K C d z c n i ⟶ C :=
+  Over.homMk (pulledComponentToCurve K C d z c n i) (by
+    change pulledComponentToCurve K C d z c n i ≫ C.hom =
+      (pulledComponentOverCoordinateBase K C d z c n i).hom ≫
+        (coordinateBaseIso K).hom
+    have h := (pulledComponentToCurveOverCoordinateBase K C d z c n i).w
+    have hpost := congrArg (fun q ↦ q ≫ (coordinateBaseIso K).hom) h
+    change (pulledComponentToCurveOverCoordinateBase K C d z c n i).left ≫
+        ((C.hom ≫ (coordinateBaseIso K).inv) ≫
+          (coordinateBaseIso K).hom) =
+      (pulledComponentOverCoordinateBase K C d z c n i).hom ≫
+        (coordinateBaseIso K).hom at hpost
+    rw [pulledComponentToCurveOverCoordinateBase_left] at hpost
+    have hcancel :
+        (C.hom ≫ (coordinateBaseIso K).inv) ≫
+            (coordinateBaseIso K).hom = C.hom := by
+      rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+    have hpref := congrArg
+      (fun a ↦ pulledComponentToCurve K C d z c n i ≫ a) hcancel
+    exact hpref.symm.trans hpost)
+
 omit [SmoothOfRelativeDimension 1 C.hom] in
 @[simp]
 theorem pulledComponentToCurve_point (d : ℕ)
@@ -330,6 +432,29 @@ theorem pulledComponentToCurve_point (d : ℕ)
         (pulledComponentPoint K C d z c n i)) = point K C d z i
   rw [pulledComponentPoint_fst]
   exact (n i).componentToCurve_selectedPoint
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The product of the selected pulled components contains a point mapping
+to the original ordered support point.  Unlike a coordinatewise point
+construction, this statement retains the residue-field correlation encoded
+by the point of the relative power. -/
+theorem exists_pulledComponentProductPoint_over_support (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) :
+    ∃ w : (∏ᶜ fun i : Fin d ↦
+        pulledComponentOverGround K C d z c n i).left,
+      (Limits.Pi.map (fun i ↦
+        pulledComponentToCurveOverGround K C d z c n i)).left w = z ∧
+      ∀ i, (Pi.π (fun j : Fin d ↦
+        pulledComponentOverGround K C d z c n j) i).left w =
+          pulledComponentPoint K C d z c n i := by
+  apply exists_fin_product_preimage (Spec (.of K)) d
+    (fun _ : Fin d ↦ C)
+    (fun i ↦ pulledComponentOverGround K C d z c n i)
+    (fun i ↦ pulledComponentToCurveOverGround K C d z c n i)
+    z (fun i ↦ pulledComponentPoint K C d z c n i)
+  intro i
+  exact pulledComponentToCurve_point K C d z c n i
 
 omit [SmoothOfRelativeDimension 1 C.hom] in
 /-- Near the chosen common-base point, all selected support components have

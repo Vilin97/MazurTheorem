@@ -19,6 +19,7 @@ universe u
 
 open CategoryTheory Limits
 open _root_.AlgebraicGeometry
+open IsLocalRing
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleRelativeProduct
 
@@ -235,6 +236,147 @@ theorem exists_fin_product_point_over
           exact hqTail
         rw [hqTail']
         exact hpTail j
+
+/-- If a point of every factor has a preimage, then the original point of
+the relative product has a preimage under the product morphism.  The proof
+base-changes every factor to the spectrum of the target point's local ring;
+this retains the residue-field correlation carried by the product point. -/
+theorem exists_fin_product_preimage
+    (n : ℕ) (X Y : Fin n → Over S) (f : ∀ i, Y i ⟶ X i)
+    (z : (∏ᶜ X).left) (y : ∀ i, (Y i).left)
+    (hy : ∀ i, (f i).left (y i) = (Pi.π X i).left z) :
+    ∃ w : (∏ᶜ Y).left,
+      (Limits.Pi.map f).left w = z ∧
+        ∀ i, (Pi.π Y i).left w = y i := by
+  let Z : Scheme.{u} := Spec ((∏ᶜ X).left.presheaf.stalk z)
+  let zMap : Z ⟶ (∏ᶜ X).left := (∏ᶜ X).left.fromSpecStalk z
+  let zClosedPoint : Z :=
+    closedPoint ((∏ᶜ X).left.presheaf.stalk z)
+  have zMap_zClosedPoint : zMap zClosedPoint = z := by
+    dsimp only [zMap, zClosedPoint, Z]
+    exact Scheme.fromSpecStalk_closedPoint
+  let zOver : Over S := Over.mk (zMap ≫ (∏ᶜ X).hom)
+  let coordinate (i : Fin n) : zOver ⟶ X i :=
+    Over.homMk (zMap ≫ (Pi.π X i).left) (by
+      change zMap ≫ (Pi.π X i).left ≫ (X i).hom =
+        zMap ≫ (∏ᶜ X).hom
+      exact congrArg (fun q ↦ zMap ≫ q) (Pi.π X i).w)
+  let pullbackObject (i : Fin n) : Scheme.{u} :=
+    pullback (f i).left (coordinate i).left
+  let pulled (i : Fin n) : Over Z :=
+    Over.mk (pullback.snd (f i).left (coordinate i).left)
+  have existsPulledPoint (i : Fin n) :
+      ∃ p : (pulled i).left,
+        pullback.fst (f i).left (coordinate i).left p = y i ∧
+          pullback.snd (f i).left (coordinate i).left p =
+            zClosedPoint := by
+    apply Scheme.Pullback.exists_preimage_pullback
+    change (f i).left (y i) =
+      (zMap ≫ (Pi.π X i).left)
+        zClosedPoint
+    rw [Scheme.Hom.comp_apply, zMap_zClosedPoint]
+    exact hy i
+  let pulledPoint (i : Fin n) : (pulled i).left :=
+    Classical.choose (existsPulledPoint i)
+  have pulledPoint_fst (i : Fin n) :
+      pullback.fst (f i).left (coordinate i).left (pulledPoint i) = y i := by
+    exact (Classical.choose_spec (existsPulledPoint i)).1
+  have pulledPoint_snd (i : Fin n) :
+      (pulled i).hom (pulledPoint i) =
+        zClosedPoint := by
+    exact (Classical.choose_spec (existsPulledPoint i)).2
+  obtain ⟨q, hqBase, hqProjection⟩ :=
+    exists_fin_product_point_over Z n pulled
+      zClosedPoint
+      pulledPoint pulledPoint_snd
+  let QOverS : Over S := Over.mk ((∏ᶜ pulled).hom ≫ zOver.hom)
+  let qToZ : QOverS ⟶ zOver := Over.homMk (∏ᶜ pulled).hom rfl
+  let qToY (i : Fin n) : QOverS ⟶ Y i :=
+    Over.homMk ((Pi.π pulled i).left ≫
+      pullback.fst (f i).left (coordinate i).left) (by
+        change (Pi.π pulled i).left ≫
+            pullback.fst (f i).left (coordinate i).left ≫ (Y i).hom =
+          (∏ᶜ pulled).hom ≫ zOver.hom
+        have hInner :
+            pullback.fst (f i).left (coordinate i).left ≫ (Y i).hom =
+              pullback.snd (f i).left (coordinate i).left ≫ zOver.hom := by
+          calc
+            pullback.fst (f i).left (coordinate i).left ≫ (Y i).hom =
+                pullback.fst (f i).left (coordinate i).left ≫
+                  ((f i).left ≫ (X i).hom) := congrArg
+              (fun a ↦ pullback.fst (f i).left (coordinate i).left ≫ a)
+                (f i).w.symm
+            _ = (pullback.fst (f i).left (coordinate i).left ≫
+                  (f i).left) ≫ (X i).hom := (Category.assoc _ _ _).symm
+            _ = (pullback.snd (f i).left (coordinate i).left ≫
+                  (coordinate i).left) ≫ (X i).hom := congrArg
+              (fun a ↦ a ≫ (X i).hom) pullback.condition
+            _ = pullback.snd (f i).left (coordinate i).left ≫
+                  ((coordinate i).left ≫ (X i).hom) :=
+              Category.assoc _ _ _
+            _ = pullback.snd (f i).left (coordinate i).left ≫
+                  zOver.hom := congrArg
+              (fun a ↦ pullback.snd (f i).left (coordinate i).left ≫ a)
+                (coordinate i).w
+        calc
+          (Pi.π pulled i).left ≫
+              pullback.fst (f i).left (coordinate i).left ≫ (Y i).hom =
+            (Pi.π pulled i).left ≫
+              (pullback.fst (f i).left (coordinate i).left ≫
+                (Y i).hom) := rfl
+          _ = (Pi.π pulled i).left ≫
+              (pullback.snd (f i).left (coordinate i).left ≫
+                zOver.hom) := congrArg
+            (fun a ↦ (Pi.π pulled i).left ≫ a) hInner
+          _ = ((Pi.π pulled i).left ≫
+              pullback.snd (f i).left (coordinate i).left) ≫
+                zOver.hom := (Category.assoc _ _ _).symm
+          _ = (∏ᶜ pulled).hom ≫ zOver.hom := congrArg
+            (fun a ↦ a ≫ zOver.hom) (Pi.π pulled i).w)
+  let mapY : QOverS ⟶ ∏ᶜ Y := Pi.lift qToY
+  let zToProduct : zOver ⟶ ∏ᶜ X := Over.homMk zMap rfl
+  have hqToY (i : Fin n) : qToY i ≫ f i = qToZ ≫ coordinate i := by
+    apply Over.OverMorphism.ext
+    change (Pi.π pulled i).left ≫
+        pullback.fst (f i).left (coordinate i).left ≫ (f i).left =
+      (∏ᶜ pulled).hom ≫ (coordinate i).left
+    have h := pullback.condition (f := (f i).left) (g := (coordinate i).left)
+    calc
+      (Pi.π pulled i).left ≫
+          pullback.fst (f i).left (coordinate i).left ≫ (f i).left =
+        (Pi.π pulled i).left ≫
+          (pullback.fst (f i).left (coordinate i).left ≫ (f i).left) :=
+        rfl
+      _ = (Pi.π pulled i).left ≫
+          (pullback.snd (f i).left (coordinate i).left ≫
+            (coordinate i).left) := congrArg
+        (fun a ↦ (Pi.π pulled i).left ≫ a) h
+      _ = ((Pi.π pulled i).left ≫
+          pullback.snd (f i).left (coordinate i).left) ≫
+            (coordinate i).left := (Category.assoc _ _ _).symm
+      _ = (∏ᶜ pulled).hom ≫ (coordinate i).left := congrArg
+        (fun a ↦ a ≫ (coordinate i).left) (Pi.π pulled i).w
+  have hmap : mapY ≫ Limits.Pi.map f = qToZ ≫ zToProduct := by
+    apply Pi.hom_ext
+    intro i
+    rw [Category.assoc, Limits.Pi.map_π, ← Category.assoc,
+      Pi.lift_π, hqToY]
+    rfl
+  refine ⟨mapY.left q, ?_, ?_⟩
+  · have hmapLeft := congrArg Over.Hom.left hmap
+    have hmapPoint := congrArg
+      (fun a : QOverS.left ⟶ (∏ᶜ X).left ↦ a q) hmapLeft
+    change (Limits.Pi.map f).left (mapY.left q) = z
+    rw [← Scheme.Hom.comp_apply, ← Over.comp_left, hmapPoint]
+    change zMap ((∏ᶜ pulled).hom q) = z
+    rw [hqBase, zMap_zClosedPoint]
+  · intro i
+    change (mapY ≫ Pi.π Y i).left q = y i
+    rw [Pi.lift_π]
+    change pullback.fst (f i).left (coordinate i).left
+      ((Pi.π pulled i).left q) = y i
+    rw [hqProjection]
+    exact pulledPoint_fst i
 
 /-- A prescribed finite family of points over a one-point base lifts to the
 relative product, with all product projections equal to the prescribed
