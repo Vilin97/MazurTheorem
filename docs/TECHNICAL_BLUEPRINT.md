@@ -152,10 +152,28 @@ explicit work packages.
 ### Coherent cohomology
 
 `MT-TC-B1-COHERENT-COHOMOLOGY` is independent of the global
-divisor/line-bundle dictionary. Its active work package supplies only the
-proper-curve finite-cohomology core consumed by Riemann–Roch and Picard
-representability. General cohomology machinery outside that consumer is not
-on the critical path.
+divisor/line-bundle dictionary. The checked core now contains:
+
+- `globalSectionsCohomologyModule`, the canonical cover-independent
+  `Γ(X, ⊤)` action in every degree;
+- `cohomologyLinearMap` and `hOneCanonicalFieldLinearMap`, giving linear
+  coefficient functoriality for the canonical global and structure-map field
+  actions;
+- the additive affine-cover comparison
+  `nativeBaseCechHOneForgetIso_of_affineOpenCover`, its explicitly
+  cover-transported linear form, and the consumed finite-generation transfer;
+  and
+- `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
+  `H¹` finite-dimensionality under the older finite-map-transported action.
+
+Only the 11-point Čech package is integrated. The 12-point core remains active
+until the canonical degree-zero action is identified with global sections and
+a named Riemann--Roch theorem consumes the canonical facade. The final
+12-point package remains blocked until proper-curve finite-dimensionality is
+available for those same actions and the exact low-degree cohomology
+base-change comparison is supplied. General proper-flat base change and
+semicontinuity remain owned by `MT-TC-C1-RELATIVE-COHOMOLOGY`. Work-package
+status does not change the B1 node's zero credit.
 
 ### Divisors and line bundles
 
@@ -205,9 +223,14 @@ path.
 
 The project has checked point-level `RationalCyclicSubgroup`, divisor
 subgroups, constant finite-flat carriers, quotient formulas, projective cubic
-geometry, and rational-point comparisons. These are not yet a construction of
-the global Weierstrass group scheme: multiplication on the projective cubic
-has not been constructed and proved compatible with the affine point law.
+geometry, and rational-point comparisons. It now also has the universal
+denominator-cleared secant chart and the genuine morphisms
+`secantAdditionAffineMorphism` and `secantAdditionProjectiveMorphism` into the
+concrete reduced projective cubic. This remains one chart of multiplication,
+not a construction of the global Weierstrass group scheme: its explicit
+presentation has not been identified with the corresponding open of the
+scheme product, and the tangent and infinity charts, overlap identities,
+gluing, and group laws remain open.
 
 Therefore:
 
@@ -261,6 +284,12 @@ ModularCurve.XZero.atkinLehner
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.
+The checked `AffineCuspPolynomialChart.sectionAt` construction and
+`sectionAt_closedPoint_eq_zeroSection` theorem live strictly below this
+boundary. They are sections and a collision on a represented polynomial local
+chart, not a point of represented `X₀(N)`, a generalized-elliptic
+compactification, or a `SplitGammaZeroDatum` classifier. Consequently both the
+moduli and integral-X₀ nodes remain blocked.
 
 ## 8. Formal immersion
 
@@ -272,9 +301,15 @@ The local algebra layer is already canonical:
 - completed-DVR collision consequences;
 - degree-one q-expansion certificates.
 
-What remains is not another abstract criterion. It is the genuine modular
-input: the represented cusp chart, the actual quotient map, and the Hecke
-q-expansion theorem proving the criterion at that cusp.
+The polynomial-chart slice now constructs `sectionAt`, identifies evaluation
+at zero with the selected zero section, proves the local closed-point
+collision, and feeds those facts to the named
+`valuation_j_le_one_of_polynomialCuspSectionAtFive` consumer. That consumer
+still takes the specialization and equal-quotient-image assertions as
+premises. What remains is not another abstract criterion: it is the genuine
+modular input identifying an infinity neighbourhood of compactified integral
+`X₀(N)` with this chart, the actual quotient map, and the Hecke q-expansion
+theorem proving the criterion at that cusp.
 
 ## 9. Néron models and specialization
 

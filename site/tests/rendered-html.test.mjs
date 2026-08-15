@@ -67,6 +67,12 @@ test("server-renders the coordination dashboard", async () => {
     html,
     /One theorem spine. Only startable foundation lanes are active/,
   );
+  assert.match(
+    html,
+    new RegExp(
+      `Execution revision · (?:<!-- -->)?${programme.execution.revision.date}`,
+    ),
+  );
   assert.equal(
     (html.match(/class="lane-card"/g) ?? []).length,
     programme.execution.active_lanes.length,

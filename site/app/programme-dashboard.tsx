@@ -870,7 +870,9 @@ export function ProgrammeDashboard({ programme }: { programme: Programme }) {
         <section className="section strategy-section" id="strategy">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Execution revision · 2026-08-14</p>
+              <p className="eyebrow">
+                Execution revision · {programme.execution.revision.date}
+              </p>
               <h2>
                 One theorem spine. Only startable foundation lanes are active.
               </h2>

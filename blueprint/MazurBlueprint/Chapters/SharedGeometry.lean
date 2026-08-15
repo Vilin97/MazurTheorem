@@ -115,8 +115,9 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Prove finite dimensionality, affine acyclicity, and vanishing above degree one in the
-  required scope.
+  Prove finite dimensionality for the same canonical field actions used by the
+  curve-cohomology facade, together with affine acyclicity and vanishing above degree
+  one in the required scope.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -134,8 +135,47 @@ line bundles on a smooth curve.
   recover the original coefficient module additively.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroModule`
-  Transport the genuine global-functions module structure to Ext-based H0 as an explicit
-  opt-in definition rather than a global instance.
+  Transport the global-sections module structure to Ext-based H0 as an explicit opt-in
+  compatibility action. Its agreement with the canonical all-degree cohomology action
+  remains to be proved.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.globalSectionsCohomologyModule`
+  Give genuine Ext-based sheaf cohomology in every degree its canonical
+  cover-independent action by global functions, induced by multiplication endomorphisms
+  of the coefficient module.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap`
+  Bundle every coefficient-module morphism as a linear map for the canonical
+  global-functions cohomology actions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldModule`
+  Restrict the canonical global-functions action on genuine H1 along the actual
+  structure morphism to obtain the cover-independent ground-field action.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap`
+  Make genuine H1 functoriality ground-field linear for the canonical structure-map
+  actions; no finite-dimensionality theorem yet uses this action.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
+  Identify the underlying additive group of native base-Cech H1 with genuine Ext-based
+  sheaf H1 for every affine open cover.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover`
+  Expose the affine-cover comparison linearly for the explicitly cover-transported
+  action; this is not yet a comparison with the canonical action.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finite_of_ordered_affineOpenCover`
+  Consume the ordered/native and affine-cover comparisons to transfer finite generation
+  to genuine H1 under the cover-transported action.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.smoothProperCurve_H_eq_zero`
+  Prove genuine sheaf cohomology vanishes in every degree at least two on the required
+  smooth proper integral curves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOne_finiteDimensional_of_rationalSection`
+  Prove H1 finite-dimensional for a pointed smooth proper integral curve using a
+  finite-map-transported field action; comparison with the canonical field action
+  remains open.
 
 :::
 
@@ -384,10 +424,20 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroModuli.RationalCyclicSubgroup.quotientMap_comp_dualMap`
   Identify the quotient-after-dual composite with multiplication by the level on the
   quotient.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionAffineMorphism`
+  Construct the genuine affine-scheme morphism induced by the denominator-cleared
+  universal secant formula on its explicit principal-open presentation.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism`
+  Map the checked secant chart into the actual reduced projective Weierstrass cubic
+  through its standard affine open; this is one multiplication chart, not a global group
+  law.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison.
+  group-scheme law and coordinate-point comparison after completing the tangent and
+  infinity charts, product-open identification, overlaps, gluing, and group axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
