@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import Mathlib.RingTheory.Filtration
 import Mathlib.RingTheory.Jacobson.Ring
+import Mathlib.RingTheory.TensorProduct.Pi
 import TauCeti.RingTheory.Smooth.DimensionOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.ProductFormula.Smooth
 import Mathlib.AlgebraicGeometry.Geometrically.Integral
@@ -302,6 +303,57 @@ theorem etale_tensorSquare_exists_diagonalProduct_compatible
         (Ideal.Quotient.mk (Ideal.span {e}) x)) = μ x
   rw [Ideal.quotientEquivAlgOfEq_mk,
     Ideal.quotientKerAlgEquivOfSurjective_mk]
+
+/-- The compatible diagonal splitting remains compatible after arbitrary
+extension of scalars on the distinguished factor.  On pure tensors, the
+first component is precisely the scalar extension of tensor
+multiplication. -/
+theorem etale_tensorSquare_baseChange_exists_diagonalProduct
+    (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
+    [Algebra R A] [Algebra A B] [Algebra R B] [IsScalarTower R A B]
+    [Algebra.Etale R A] :
+    ∃ (T : Type u) (_ : CommRing T) (_ : Algebra A T)
+      (E : B ⊗[A] (A ⊗[R] A) ≃ₐ[B] B × (B ⊗[A] T)),
+      ∀ (b : B) (x : A ⊗[R] A),
+        (E (b ⊗ₜ[A] x)).1 =
+          b * algebraMap A B (Algebra.TensorProduct.lmul'' R x) := by
+  obtain ⟨T, _, _, e, he⟩ :=
+    etale_tensorSquare_exists_diagonalProduct_compatible R A
+  let E : B ⊗[A] (A ⊗[R] A) ≃ₐ[B] B × (B ⊗[A] T) :=
+    (Algebra.TensorProduct.congr AlgEquiv.refl e).trans <|
+      (Algebra.TensorProduct.prodRight A B B A T).trans <|
+        AlgEquiv.prodCongr (Algebra.TensorProduct.rid A B B) AlgEquiv.refl
+  refine ⟨T, inferInstance, inferInstance, E, ?_⟩
+  intro b x
+  change (Algebra.TensorProduct.rid A B B)
+      (b ⊗ₜ[A] (e x).1) =
+    b * algebraMap A B (Algebra.TensorProduct.lmul'' R x)
+  rw [he]
+  simp only [Algebra.TensorProduct.rid_tmul, Algebra.smul_def, mul_comm]
+
+/-- Equivalently, after choosing an `A`-algebra `B`, the coordinate fiber
+product `B ⊗[R] A` splits into the graph of `A → B` and a complementary
+factor.  The displayed pure-tensor formula identifies the graph projection
+without any choice ambiguity. -/
+theorem etale_coordinateBaseChange_exists_graphProduct
+    (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
+    [Algebra R A] [Algebra A B] [Algebra R B] [IsScalarTower R A B]
+    [Algebra.Etale R A] :
+    ∃ (T : Type u) (_ : CommRing T) (_ : Algebra A T)
+      (E : B ⊗[R] A ≃ₐ[B] B × (B ⊗[A] T)),
+      ∀ (b : B) (a : A),
+        (E (b ⊗ₜ[R] a)).1 = b * algebraMap A B a := by
+  obtain ⟨T, _, _, e, he⟩ :=
+    etale_tensorSquare_baseChange_exists_diagonalProduct R A B
+  let E : B ⊗[R] A ≃ₐ[B] B × (B ⊗[A] T) :=
+    (Algebra.TensorProduct.cancelBaseChange R A B B A).symm.trans e
+  refine ⟨T, inferInstance, inferInstance, E, ?_⟩
+  intro b a
+  change (e ((Algebra.TensorProduct.cancelBaseChange R A B B A).symm
+    (b ⊗ₜ[R] a))).1 = b * algebraMap A B a
+  rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul, he]
+  change b * algebraMap A B (1 * a) = b * algebraMap A B a
+  rw [one_mul]
 
 /-- Scheme-level form of the compatible étale tensor-square splitting:
 the self-fiber product is a coproduct whose first summand is exactly the
