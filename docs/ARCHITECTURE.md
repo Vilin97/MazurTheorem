@@ -102,9 +102,12 @@ intersections and with each other on their exact common principal open, and
 the four principal opens cover the affine-pair presentation by elliptic
 nonsingularity. All six pairwise restrictions agree on their actual pullbacks,
 and the checked cover is glued to an actual affine-pair addition morphism.
-This is still not a global group scheme. The package remains active until the
-map is extended over input points at infinity and the group axioms and
-coordinate-point comparison are proved. The represented
+The full projective product is now covered by the four products of the actual
+`Y ≠ 0` and `Z ≠ 0` cubic charts, and its standard-by-standard member is
+identified with the affine-pair presentation and consumes that morphism. This
+is still not a global group scheme. The package remains active until addition
+is constructed on the other three members, the overlaps and global gluing are
+proved, and the group axioms and coordinate-point comparison are proved. The represented
 `Γ₀`-moduli package waits on the subgroup package. Each step removes the
 corresponding supplied group-object, compatibility, or arbitrary-interface
 input from its named order-49 consumer.

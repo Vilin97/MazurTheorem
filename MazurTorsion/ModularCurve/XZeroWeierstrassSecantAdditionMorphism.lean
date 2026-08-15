@@ -278,7 +278,9 @@ theorem secantChartIsoProductOpen_hom_comp_ι_comp_structureMap
   rw [secantChartIsoProductOpen_hom_comp_ι,
     secantChartToAffineProduct_comp_base]
 
-private theorem affineChartIso_comp_coveringStructureMap
+/-- The affine-equation comparison identifies its coefficient map with the
+structural morphism of the standard projective chart. -/
+theorem affineChartIso_comp_coveringStructureMap
     (W : WeierstrassCurve K) :
     (affineEquationSchemeIsoStandardChart W).hom ≫
       Spec.map (CommRingCat.ofHom (coveringChartStructureRingHom W true)) =
@@ -309,9 +311,21 @@ private theorem affineChartIso_comp_coveringStructureMap
         (Polynomial.C (Polynomial.C a)))
   rw [affineToStandardChart_C_C]
 
-private def standardSecantChartMap (W : WeierstrassCurve K) :
+/-- The standard affine coordinate chart mapped into the concrete projective
+Weierstrass cubic. -/
+def standardSecantChartMap (W : WeierstrassCurve K) :
     standardAffineChartScheme W ⟶ scheme W :=
   coveringChartMap W true
+
+/-- The standard affine chart has the restriction of the cubic's structural
+morphism. -/
+@[reassoc]
+theorem standardSecantChartMap_comp_structureMap
+    (W : WeierstrassCurve K) :
+    standardSecantChartMap W ≫ structureMap W =
+      Spec.map (CommRingCat.ofHom
+        (coveringChartStructureRingHom W true)) := by
+  exact coveringChartMap_comp_structureMap W true
 
 /-- The secant chart maps into the actual reduced projective Weierstrass cubic through its
 standard affine open. -/
@@ -357,8 +371,7 @@ theorem secantAdditionProjectiveMorphism_comp_structureMap
   let chartStructureMap : standardAffineChartScheme W ⟶ Spec (.of K) :=
     Spec.map (CommRingCat.ofHom (coveringChartStructureRingHom W true))
   have hchart : standardSecantChartMap W ≫ structureMap W =
-      chartStructureMap := by
-    exact coveringChartMap_comp_structureMap W true
+      chartStructureMap := standardSecantChartMap_comp_structureMap W
   have htarget : (affineEquationSchemeIsoStandardChart W).hom ≫
       chartStructureMap = secantTargetStructureMap W := by
     exact affineChartIso_comp_coveringStructureMap W

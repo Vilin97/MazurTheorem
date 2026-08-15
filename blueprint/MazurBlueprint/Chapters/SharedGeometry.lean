@@ -568,6 +568,18 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionMorphism`
   Glue the four checked principal-open formulas to an actual addition morphism from the
   entire affine-pair presentation into the concrete projective cubic.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairOpenCover`
+  Cover the actual projective cubic fibre product by the four products of its genuine Y
+  ≠ 0 and Z ≠ 0 coordinate charts.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairIsoAffinePair`
+  Identify the standard-by-standard member of the projective-product cover with the
+  explicit four-coordinate affine-pair presentation.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairAdditionMorphism`
+  Transport the checked glued affine-pair addition to the genuine standard-by-standard
+  member of the full projective-product cover.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
