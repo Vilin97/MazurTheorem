@@ -39,6 +39,55 @@ universe u
 local instance {X : Scheme.{u}} [IsIntegral X] : Nonempty (⊤ : X.Opens) :=
   ⟨⟨genericPoint X, trivial⟩⟩
 
+/-- The canonical ground-field action on genuine `H¹`, obtained by
+restricting the global-functions action along the actual structure morphism.
+It uses neither an affine cover nor a finite map to projective space. -/
+@[instance_reducible]
+noncomputable def hOneCanonicalFieldModule
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) (M : X.Modules) :
+    Module K (H M 1) := by
+  letI : Module Γ(X, ⊤) (H M 1) :=
+    globalSectionsCohomologyModule M 1
+  exact Module.compHom (H M 1)
+    (f.appTop.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom)
+
+/-- A morphism of coefficient modules induces a ground-field-linear map on
+genuine `H¹` for the canonical actions coming from the structure morphism.
+This is the field-linear functoriality needed by subsequent curve
+cohomology exact sequences. -/
+noncomputable def hOneCanonicalFieldLinearMap
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {M N : X.Modules} (g : M ⟶ N) :
+    letI := hOneCanonicalFieldModule K X f M
+    letI := hOneCanonicalFieldModule K X f N
+    H M 1 →ₗ[K] H N 1 := by
+  letI : Module Γ(X, ⊤) (H M 1) :=
+    globalSectionsCohomologyModule M 1
+  letI : Module Γ(X, ⊤) (H N 1) :=
+    globalSectionsCohomologyModule N 1
+  letI := hOneCanonicalFieldModule K X f M
+  letI := hOneCanonicalFieldModule K X f N
+  refine
+    { toFun := (zariskiFunctor X 1).map g
+      map_add' := ((zariskiFunctor X 1).map g).hom.map_add
+      map_smul' := ?_ }
+  intro r x
+  exact (cohomologyLinearMap 1 g).map_smul
+    (f.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom r)) x
+
+/-- The canonical field-linear `H¹` map has the same underlying function as
+the genuine Ext-based cohomology functor. -/
+theorem hOneCanonicalFieldLinearMap_apply
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {M N : X.Modules} (g : M ⟶ N)
+    (x : H M 1) :
+    letI := hOneCanonicalFieldModule K X f M
+    letI := hOneCanonicalFieldModule K X f N
+    hOneCanonicalFieldLinearMap K X f g x =
+      (zariskiFunctor X 1).map g x := by
+  rfl
+
 /-- A non-global rational function on a smooth proper integral curve gives a
 finite morphism to `P¹`.  This wrapper derives the Noetherian hypothesis from
 properness and smooth relative dimension one, rather than asking downstream
