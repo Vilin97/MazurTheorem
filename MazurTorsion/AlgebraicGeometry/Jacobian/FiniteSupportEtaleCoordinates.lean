@@ -9,6 +9,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleCoproductPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleFamilyPointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SmoothCurveEtaleCoordinate
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteBaseChange
 
 /-!
 # Étale coordinates for a finite ordered support
@@ -36,6 +37,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 open FiniteEtaleRelativeProduct
 open FiniteEtaleCoproductPower
 open SmoothCurveEtaleCoordinate
+open SplitFiniteBaseChange
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K)))
@@ -788,6 +790,30 @@ noncomputable abbrev coherentFpqcBase (d : ℕ)
     (T : Scheme.{u}) (q : T ⟶ V.toScheme) : Scheme.{u} :=
   (∏ᶜ commonCoverFamily K C d z c n V T q).left
 
+/-- A split chart for one independently pulled component remains split over
+the product of all coordinate bases.  This is the componentwise bridge from
+the affine splitting theorem to the single coherent support family. -/
+noncomputable def coherentFpqcPulledComponentSplitIso (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (i : Fin d) (m : ℕ)
+    (E : pullback (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q) :
+    coherentFpqcPulledComponent K C d z c n V (Spec (.of T)) q i ≅
+      splitFinite (coherentFpqcBase K C d z c n V (Spec (.of T)) q) m :=
+  baseChangeSplitChartIso T
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q)
+    (Pi.π (commonCoverFamily K C d z c n V (Spec (.of T)) q) i).left
+    m
+    (Over.mk
+      (fpqcPulledComponentToCoverOverGround
+        K C d z c n V (Spec (.of T)) q i).left)
+    E hE
+
 /-- One coherent pulled component maps back to the curve. -/
 noncomputable def coherentFpqcPulledComponentToCurve (d : ℕ)
     (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
@@ -847,6 +873,29 @@ noncomputable abbrev coherentFpqcFamilyCoproduct (d : ℕ)
       (coherentFpqcBase K C d z c n V T q) :=
   familyCoproduct (coherentFpqcBase K C d z c n V T q) d
     (coherentFpqcPulledComponent K C d z c n V T q)
+
+/-- Chosen split charts for all support components assemble into one split
+finite family over the coherent product base. -/
+noncomputable def coherentFpqcFamilyCoproductSplitIso (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : Fin d → ℕ)
+    (E : ∀ i, pullback
+        (restrictedPulledComponentToBase K C d z c n V i) q ≅
+      Spec (.of (Fin (m i) → T)))
+    (hE : ∀ i, (E i).hom ≫ EtaleSplitChart.splitProjection T (m i) =
+      pullback.snd (restrictedPulledComponentToBase K C d z c n V i) q) :
+    coherentFpqcFamilyCoproduct K C d z c n V (Spec (.of T)) q ≅
+      splitFinite
+        (coherentFpqcBase K C d z c n V (Spec (.of T)) q)
+        (totalSheets d m) :=
+  familyCoproductSplitIso
+    (coherentFpqcBase K C d z c n V (Spec (.of T)) q) d
+    (coherentFpqcPulledComponent K C d z c n V (Spec (.of T)) q) m
+    (fun i ↦ coherentFpqcPulledComponentSplitIso
+      K C d z c n V T q i (m i) (E i) (hE i))
 
 /-- The ordered power of the disjoint coherent family, regarded over the
 ground field. -/
