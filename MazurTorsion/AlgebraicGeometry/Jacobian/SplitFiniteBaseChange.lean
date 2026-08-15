@@ -349,6 +349,14 @@ noncomputable def splitFamilySheetOwner (_S : Scheme.{u})
     (j : Fin (totalSheets d m)) : Fin d :=
   ((splitFamilyIndexEquiv.{u} d m) (ULift.up j)).1
 
+/-- Recover the local sheet label inside the family member containing a
+globally indexed sheet. -/
+noncomputable def splitFamilySheetLocalIndex (S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (j : Fin (totalSheets d m)) :
+    Fin (m (splitFamilySheetOwner S d m j)) :=
+  ((splitFamilyIndexEquiv.{u} d m) (ULift.up j)).2.down
+
 private theorem up_splitFamilySheetIndex (S : Scheme.{u})
     (d : ℕ) (m : Fin d → ℕ)
     (i : Fin d) (j : Fin (m i)) :
@@ -356,6 +364,19 @@ private theorem up_splitFamilySheetIndex (S : Scheme.{u})
       (splitFamilyIndexEquiv.{u} d m).symm ⟨i, ULift.up j⟩ := by
   apply ULift.ext
   rfl
+
+/-- Flattening the recovered owner and local label returns the original
+global sheet. -/
+@[simp]
+theorem splitFamilySheetIndex_owner_localIndex (S : Scheme.{u})
+    (d : ℕ) (m : Fin d → ℕ)
+    (j : Fin (totalSheets d m)) :
+    splitFamilySheetIndex S d m
+        (splitFamilySheetOwner S d m j)
+        (splitFamilySheetLocalIndex S d m j) = j := by
+  apply ULift.up_injective
+  rw [up_splitFamilySheetIndex]
+  exact (splitFamilyIndexEquiv.{u} d m).symm_apply_apply (ULift.up j)
 
 /-- The owner of a locally indexed sheet is its original family member. -/
 @[simp]

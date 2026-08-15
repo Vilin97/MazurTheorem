@@ -412,9 +412,11 @@ theorem orderedSupportGeometricAssignedRootLinearFactor_map
           (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
           (geometricDistinctNeighborhoods K C d
             (orderedSupportPoint K C d z)) V j) q)
-    (p : (assignedCoproductPowerOverGround K C d
+    (w : (assignedComponentProductOverGround K C d
       (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
     (i : Fin d) :
+    let p := (assignedProductToCoproductPower K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left w
     let m := totalSheets (geometricDistinctSupportCard K C d
       (orderedSupportPoint K C d z)) r
     let c := assignedSupportComponent K C d
@@ -423,12 +425,66 @@ theorem orderedSupportGeometricAssignedRootLinearFactor_map
         (orderedSupportGeometricAssignedPositionEquivRootIndex K C d z V
           T q r E hE p i)).map
       (GeometricAssignedRootCoordinates.rootCoordinateHom K C d
-        (orderedSupportPoint K C d z) V T q r E hE p) =
+        (orderedSupportPoint K C d z) V T q r E hE w) =
       Polynomial.X - Polynomial.C
         (GeometricAssignedRootCoordinates.rootValue K C d
           (orderedSupportPoint K C d z) V T q i) :=
   GeometricAssignedRootCoordinates.rootLinearFactor_map K C d
-    (orderedSupportPoint K C d z) V T q r E hE p i
+    (orderedSupportPoint K C d z) V T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- For an actual incidence support, the split sheet selected by ordered
+position `i` maps to its genuine curve chart with the matching root
+coordinate, and is the first open-and-closed graph summand of the
+equal-coordinate pullback. -/
+theorem orderedSupportGeometricAssignedRootSheet_exists_graphCoproduct
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    let z₀ := orderedSupportPoint K C d z
+    let B := GeometricAssignedRootCoordinates.base K C d z₀ V T q
+    let f := ((geometricDistinctCharts K C d z₀)
+      (geometricPointSupportIndex K C d z₀ i)).schemeMap
+    let coordinate := GeometricAssignedRootCoordinates.baseCoordinate
+      K C d z₀ V T q i
+    let sheet := GeometricAssignedRootCoordinates.rootSheetToChart
+      K C d z₀ V T q r E hE w i
+    let graph : B ⟶ pullback f coordinate :=
+      pullback.lift sheet (𝟙 B) (by
+        simpa only [Category.id_comp] using
+          GeometricAssignedRootCoordinates.rootSheetToChart_comp_schemeMap
+            K C d z₀ V T q r E hE w i)
+    ∃ (W : Scheme.{u}) (G : pullback f coordinate ≅ B ⨿ W),
+      graph ≫ G.hom = coprod.inl := by
+  dsimp only
+  exact GeometricAssignedRootCoordinates.rootSheet_exists_graphCoproduct
+    K C d (orderedSupportPoint K C d z) V T q r E hE w i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On the split symmetric-power component selected by an actual incidence
