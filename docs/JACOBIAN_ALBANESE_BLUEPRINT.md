@@ -43,7 +43,7 @@ parallel abstraction.
 | Projectivity of nonempty finite powers of `P¹` | `ProjectiveFiniteOrbit.projectiveLinePower_isProjectiveFactorization` | checked via the scheme-level Segre embedding |
 | Affine neighbourhoods of finite projective orbits | `ProjectiveFiniteOrbit.hasAffineOrbit_of_isProjectiveFactorization` | checked over every field |
 | Finite-group quotient from affine orbit neighbourhoods | `FiniteGroupQuotient.quotient` | checked, with categorical universal property |
-| Symmetric powers of challenge curves in positive degree | `SymmetricPower.curve_hasAffineOrbits_succ`, `scheme`, and `projection` | affine-orbit premise checked over every field; quotient construction checked |
+| Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection affine/surjective; target geometrically irreducible and universally closed |
 | Absolute Picard group | AINTLIB `Scheme.Pic` port | available, group-valued only |
 | Relative Picard presheaf definitions | AINTLIB `RelativePic` port | available, not represented |
 | Pullback/tensor and section base-change identities | `PicardSectionBaseChange` and upstream adapters | available |
@@ -176,7 +176,14 @@ back along this affine map.
 
 Thus `Sym^d(C)` is available for every `d > 0` under exactly the challenge
 hypotheses.  Degree zero is the terminal relative power and can be treated
-separately when its quotient interface is needed.
+separately when its quotient interface is needed.  The ordered power is
+proper, geometrically irreducible, and universally open.  Geometric
+irreducibility descends to the symmetric quotient through the universally
+surjective projection, and universal closedness descends from the proper
+ordered power.  To upgrade the quotient from universally closed to proper,
+the remaining quotient-geometry lemma must prove finite type and separatedness
+(equivalently here, the expected finiteness of the quotient projection on its
+invariant affine charts).
 
 Denote the representing object by
 
@@ -308,6 +315,7 @@ MazurTorsion/AlgebraicGeometry/Jacobian/
   FiniteGroupQuotient.lean
   PermutationPower.lean
   ProjectiveFiniteOrbit.lean
+  GeometricallyIrreducibleDescent.lean
   PicardRepresentability.lean
   PicardIdentityComponent.lean
   PicardTangentSpace.lean

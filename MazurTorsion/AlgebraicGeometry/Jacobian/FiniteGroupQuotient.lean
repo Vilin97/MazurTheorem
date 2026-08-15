@@ -91,6 +91,26 @@ noncomputable def quotientπ (hσ : HasAffineOrbit σ) : X ⟶ quotient σ hσ :
     (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
     (mem_stableAffineOpen σ hσ)
 
+/-- The finite-group quotient projection is affine. -/
+instance quotientπ_isAffineHom (hσ : HasAffineOrbit σ) :
+    IsAffineHom (quotientπ σ hσ) := by
+  exact SchemeAction.isAffineHom_quotientπ σ (stableAffineOpen σ hσ)
+    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+    (mem_stableAffineOpen σ hσ)
+
+/-- The finite-group quotient projection is surjective on points. -/
+theorem quotientπ_surjective (hσ : HasAffineOrbit σ) :
+    Function.Surjective ⇑(quotientπ σ hσ) :=
+  σ.quotientπ_surjective (stableAffineOpen σ hσ)
+    (stableAffineOpen_isStable σ hσ) (stableAffineOpen_isAffine σ hσ)
+    (mem_stableAffineOpen σ hσ)
+
+/-- The quotient projection packaged as Mathlib's surjective morphism
+property. -/
+instance quotientπ_surjectiveProperty (hσ : HasAffineOrbit σ) :
+    Surjective (quotientπ σ hσ) :=
+  ⟨quotientπ_surjective σ hσ⟩
+
 theorem hom_quotientπ (hσ : HasAffineOrbit σ) (g : G) :
     σ.hom g ≫ quotientπ σ hσ = quotientπ σ hσ :=
   σ.hom_quotientπ (stableAffineOpen σ hσ)
