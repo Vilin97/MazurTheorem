@@ -42,6 +42,26 @@ universe u
 /-- The represented one-coordinate affine chart over `R`. -/
 abbrev CoordinateRing (R : Type u) [CommRing R] := MvPolynomial PUnit R
 
+/-- Evaluation of the represented cusp coordinate at `q`.
+
+This belongs only to the represented local cusp chart used in the
+completed-stalk argument.  It does not classify a finite-flat `Gamma_0` datum
+or construct a point of represented `X_0(N)`. -/
+private noncomputable def evaluationRetraction
+    (R : Type u) [CommRing R] (q : R) : CoordinateRing R →ₐ[R] R :=
+  MvPolynomial.aeval fun _ => q
+
+/-- The actual affine-scheme section represented by evaluation at `q`. -/
+noncomputable def sectionAt
+    (R : Type u) [CommRing R] (q : R) :
+    AffineStructuralSection (R := R) (T := CoordinateRing R) where
+  toSpec := Spec.map (CommRingCat.ofHom (evaluationRetraction R q).toRingHom)
+  isSection := by
+    rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
+    convert Spec.map_id (.of R)
+    ext r
+    simp [evaluationRetraction]
+
 /-- Evaluation at the origin of the affine coordinate. -/
 noncomputable def zeroRetraction (R : Type u) [CommRing R] :
     CoordinateRing R →ₐ[R] R :=
@@ -57,6 +77,12 @@ noncomputable def zeroSection (R : Type u) [CommRing R] :
     ext r
     simp [zeroRetraction]
 
+/-- Evaluation at zero is the previously selected cusp section. -/
+@[simp]
+theorem sectionAt_zero (R : Type u) [CommRing R] :
+    sectionAt R 0 = zeroSection R :=
+  rfl
+
 /-- Extracting the coordinate-ring retraction from the represented section
 recovers evaluation at zero. -/
 theorem zeroSection_retraction (R : Type u) [CommRing R] :
@@ -64,6 +90,46 @@ theorem zeroSection_retraction (R : Type u) [CommRing R] :
   apply AlgHom.ext
   intro f
   simp [AffineStructuralSection.retraction, zeroSection, zeroRetraction]
+
+/-- A nonzero chart coordinate gives a section distinct from the cusp. -/
+theorem sectionAt_toSpec_ne_zeroSection
+    (R : Type u) [CommRing R] {q : R} (hq : q ≠ 0) :
+    (sectionAt R q).toSpec ≠ (zeroSection R).toSpec := by
+  intro h
+  change Spec.map
+      (CommRingCat.ofHom (evaluationRetraction R q).toRingHom) =
+    Spec.map (CommRingCat.ofHom (zeroRetraction R).toRingHom) at h
+  rw [Spec.map_inj] at h
+  have hvariable := congrArg
+    (fun e : CommRingCat.of (CoordinateRing R) ⟶ CommRingCat.of R =>
+      e.hom (MvPolynomial.X default)) h
+  exact hq (by simpa [evaluationRetraction, zeroRetraction] using hvariable)
+
+/-- If `q` lies in the maximal ideal of a local base, evaluation at `q` and
+evaluation at zero select the same closed-fibre point of the represented
+polynomial cusp chart. -/
+theorem sectionAt_closedPoint_eq_zeroSection
+    (R : Type u) [CommRing R] [IsLocalRing R]
+    (q : R) (hq : q ∈ IsLocalRing.maximalIdeal R) :
+    (sectionAt R q).toSpec (IsLocalRing.closedPoint R) =
+      (zeroSection R).toSpec (IsLocalRing.closedPoint R) := by
+  have hevaluation :
+      (IsLocalRing.residue R).comp (evaluationRetraction R q).toRingHom =
+        (IsLocalRing.residue R).comp (zeroRetraction R).toRingHom := by
+    apply MvPolynomial.ringHom_ext
+    · intro r
+      simp [evaluationRetraction, zeroRetraction]
+    · intro i
+      have hresidue : IsLocalRing.residue R q = 0 :=
+        (IsLocalRing.residue_eq_zero_iff q).2 hq
+      simp [evaluationRetraction, zeroRetraction, hresidue]
+  apply PrimeSpectrum.ext
+  change Ideal.comap (evaluationRetraction R q).toRingHom
+      (IsLocalRing.maximalIdeal R) =
+    Ideal.comap (zeroRetraction R).toRingHom
+      (IsLocalRing.maximalIdeal R)
+  rw [← IsLocalRing.ker_residue, RingHom.comap_ker, RingHom.comap_ker,
+    hevaluation]
 
 /-- Base change of the one-coordinate chart is the ordinary polynomial ring over
 the residue field. -/
@@ -279,6 +345,35 @@ private abbrev FivePrime : Ideal FiveBase :=
 private noncomputable abbrev FiveCuspPrime :
     Ideal (FivePrime.Fiber (CoordinateRing FiveBase)) :=
   (zeroSection FiveBase).fiberPrime FivePrime
+
+/-- A coordinate in the represented local cusp chart supplies both integral
+sections and their closed-fibre collision in the completed-stalk
+formal-immersion argument at five.
+
+The premise `hqSpecializes` is the remaining arithmetic assertion that the
+chosen local coordinate becomes nonunit when the `j`-valuation bound fails.
+This theorem does not identify the polynomial chart with represented `X_0(N)`
+and does not classify a `SplitGammaZeroDatum`; those global modular-geometric
+constructions remain outside this local consumer. -/
+theorem valuation_j_le_one_of_polynomialCuspSectionAtFive
+    {E : WeierstrassCurve ℚ} [E.IsElliptic]
+    {Y : Scheme}
+    (f : Spec (.of (CoordinateRing FiveBase)) ⟶ Y)
+    (q : FiveBase) (hq : q ≠ 0)
+    (hformal : IsFormalImmersionAt f
+      ((zeroSection FiveBase).toSpec
+        (IsLocalRing.closedPoint FiveBase)))
+    (hqSpecializes : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      q ∈ IsLocalRing.maximalIdeal FiveBase)
+    (hquotient : ¬ atFive.valuation ℚ E.j ≤ 1 →
+      (sectionAt FiveBase q).toSpec ≫ f =
+        (zeroSection FiveBase).toSpec ≫ f) :
+    atFive.valuation ℚ E.j ≤ 1 :=
+  valuation_j_le_one_of_formalImmersionAtFive f
+    (sectionAt FiveBase q).toSpec (zeroSection FiveBase).toSpec
+    hformal (sectionAt_toSpec_ne_zeroSection FiveBase hq)
+    (fun hj => sectionAt_closedPoint_eq_zeroSection FiveBase q
+      (hqSpecializes hj)) hquotient
 
 /-- At the selected auxiliary prime five, the constructed polynomial cusp
 geometry feeds the unconditional prime-order arithmetic endpoint.  Only the
