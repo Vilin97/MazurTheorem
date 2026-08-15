@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
 - Ecosystem readiness is **18%**.
-- The audited baseline contains **1,870 Lean modules** and **1,788,023 Lean
+- The audited baseline contains **1,872 Lean modules** and **1,789,173 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -62,10 +62,13 @@ slices without changing the 172-point headline:
   and no Riemann--Roch theorem consumes the facade. The final 12-point
   finiteness/base-change package remains `blocked`; no proper-cohomology
   base-change theorem is present.
-- In the Weierstrass group-scheme package, the universal secant formula now
-  defines genuine affine and projective morphisms on one explicit chart. The
-  package remains `active` because the product-open identification, tangent and
-  infinity charts, overlap proofs, gluing, and group laws are still missing.
+- In the Weierstrass group-scheme package, the secant localization is now an
+  actual principal open in the affine scheme product, with an over-base
+  addition morphism, and the tangent localization is an actual principal open
+  with an over-base projective doubling morphism. The package remains `active`
+  because secant--tangent overlap compatibility, infinity charts, coverage,
+  gluing, multiplication laws, and the canonical `GrpObj` construction are
+  still missing.
 - The represented polynomial cusp chart now has the genuine sections
   `sectionAt`, their checked closed-point collision, and the named consumer
   `valuation_j_le_one_of_polynomialCuspSectionAtFive`. These are local chart

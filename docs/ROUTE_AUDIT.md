@@ -17,10 +17,10 @@ The route itself did not change in this audit. The architecture did:
   witness privately;
 - the public project endpoint is the full fifteen-group classification;
 - the immutable `ncard ≤ 16` challenge is recorded separately;
-- canonical coherent-cohomology actions, one Weierstrass secant chart, and the
-  represented polynomial-cusp collision are recorded as checked prerequisites
-  without promoting them to Riemann--Roch, a group scheme, or represented
-  `X₀`; and
+- canonical coherent-cohomology actions, the genuine Weierstrass secant
+  product-open and tangent principal-open charts, and the represented
+  polynomial-cusp collision are recorded as checked prerequisites without
+  promoting them to Riemann--Roch, a group scheme, or represented `X₀`; and
 - conditional finite-level experiments are paused while canonical foundations
   are built.
 

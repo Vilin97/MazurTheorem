@@ -223,14 +223,14 @@ path.
 
 The project has checked point-level `RationalCyclicSubgroup`, divisor
 subgroups, constant finite-flat carriers, quotient formulas, projective cubic
-geometry, and rational-point comparisons. It now also has the universal
-denominator-cleared secant chart and the genuine morphisms
-`secantAdditionAffineMorphism` and `secantAdditionProjectiveMorphism` into the
-concrete reduced projective cubic. This remains one chart of multiplication,
-not a construction of the global Weierstrass group scheme: its explicit
-presentation has not been identified with the corresponding open of the
-scheme product, and the tangent and infinity charts, overlap identities,
-gluing, and group laws remain open.
+geometry, and rational-point comparisons. It now also has the actual secant
+principal open `secantProductOpen` in the affine scheme product, its checked
+over-base addition morphism `secantAdditionOnProductOpen`, and the actual
+tangent principal open with the projective doubling morphism
+`tangentDoublingProjectiveMorphism`. These are two local multiplication charts,
+not a construction of the global Weierstrass group scheme: their overlap
+compatibility, the infinity charts, coverage, gluing, multiplication laws, and
+the canonical `GrpObj` construction remain open.
 
 Therefore:
 

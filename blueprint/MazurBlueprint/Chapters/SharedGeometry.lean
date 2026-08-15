@@ -425,24 +425,31 @@ order-49 consumers.
   Identify the quotient-after-dual composite with multiplication by the level on the
   quotient.
 * `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionAffineMorphism`
-  Construct the genuine affine-scheme morphism induced by the denominator-cleared
-  universal secant formula on its explicit principal-open presentation.
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantProductOpen`
+  Realize the secant localization as the actual principal open in the affine fibre
+  product of the concrete cubic with itself.
 * `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism`
-  Map the checked secant chart into the actual reduced projective Weierstrass cubic
-  through its standard affine open; this is one multiplication chart, not a global group
-  law.
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen`
+  Define the checked secant-addition morphism on that genuine product open.
 * `theorem` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionProjectiveMorphism_comp_structureMap`
-  Prove that the checked projective secant-chart morphism lies over the base field; this
-  is the exact base-compatibility prerequisite for identifying its source with the
-  corresponding open of the scheme product.
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantAdditionOnProductOpen_comp_structureMap`
+  Prove that secant addition on the genuine product open lies over the base field.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentChartToAffineCurve_opensRange`
+  Identify the tangent localization with the actual affine principal open where 2y + a₁x
+  + a₃ is invertible.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism`
+  Map the checked tangent-doubling formula from that principal open into the concrete
+  projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tangentDoublingProjectiveMorphism_comp_structureMap`
+  Prove that the projective tangent-doubling morphism lies over the base field.
 * `definition` (`proposed`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
   Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison after completing the tangent and
-  infinity charts, product-open identification, overlaps, gluing, and group axioms.
+  group-scheme law and coordinate-point comparison after completing secant-tangent
+  overlap compatibility, infinity charts, coverage, gluing, and group axioms.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
