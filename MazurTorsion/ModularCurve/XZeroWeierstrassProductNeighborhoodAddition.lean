@@ -842,6 +842,21 @@ def productNeighborhoodAdditionProjectiveMorphism
     (affineEquationSchemeIsoStandardChart W).hom ≫
     standardProductNeighborhoodChartMap W
 
+/-- After the cubic's closed immersion, the product-neighbourhood formula is
+the corresponding morphism into the ambient standard projective chart. -/
+@[reassoc]
+theorem productNeighborhoodAdditionProjectiveMorphism_comp_inclusion
+    (W : WeierstrassCurve F) :
+    productNeighborhoodAdditionProjectiveMorphism W ≫ inclusion W =
+      productNeighborhoodAdditionAffineMorphism W ≫
+        (affineEquationSchemeIsoStandardChart W).hom ≫
+          coveringChartAmbientMap W true := by
+  unfold productNeighborhoodAdditionProjectiveMorphism
+  simp only [Category.assoc]
+  congr 1
+  congr 1
+  exact coveringChartMap_comp_inclusion W true
+
 /-- Product-neighbourhood addition regarded as a morphism from the genuine
 open of the affine product. -/
 noncomputable def productNeighborhoodAdditionOnProductOpen
