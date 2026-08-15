@@ -37,14 +37,14 @@ private theorem restrict_subsingleton_H_of_isAffineOpen
 
 /-- The native Cech complex of a quasicoherent module on an affine open cover
 computes its genuine degree-one sheaf cohomology. -/
-noncomputable def cechHomologyOneIso_of_affine_openCover
+noncomputable def cechHomologyOneIsoOfAffineOpenCover
     {X : Scheme.{u}} (M : X.Modules) [M.IsQuasicoherent]
     {ι : Type u} (U : ι → X.Opens) (hU : IsOpenCover U)
     (hUaff : ∀ i, IsAffineOpen (U i)) :
     ((cechComplexFunctor U).obj M.sheaf.obj).homology 1 ≅
       (CategoryTheory.Sheaf.functorH
         (Opens.grothendieckTopology X) 1).obj M.sheaf := by
-  apply cechHomologyOneIso_of_subsingleton_H U M.sheaf
+  apply cechHomologyOneIsoOfSubsingletonH U M.sheaf
   · simpa only [IsOpenCover] using hU
   · intro i
     simpa using restrict_subsingleton_H_of_isAffineOpen M (U i) (hUaff i) 0
@@ -52,17 +52,17 @@ noncomputable def cechHomologyOneIso_of_affine_openCover
 /-- The affine-cover degree-one Cech comparison is natural in a morphism of
 quasicoherent coefficient modules. -/
 @[reassoc]
-theorem cechHomologyOneIso_of_affine_openCover_naturality
+theorem cechHomologyOneIsoOfAffineOpenCover_naturality
     {X : Scheme.{u}} {M N : X.Modules} [M.IsQuasicoherent]
     [N.IsQuasicoherent] (f : M ⟶ N) {ι : Type u}
     (U : ι → X.Opens) (hU : IsOpenCover U)
     (hUaff : ∀ i, IsAffineOpen (U i)) :
     HomologicalComplex.homologyMap
         ((cechComplexFunctor U).map f.sheafHom.hom) 1 ≫
-      (cechHomologyOneIso_of_affine_openCover N U hU hUaff).hom =
-    (cechHomologyOneIso_of_affine_openCover M U hU hUaff).hom ≫
+      (cechHomologyOneIsoOfAffineOpenCover N U hU hUaff).hom =
+    (cechHomologyOneIsoOfAffineOpenCover M U hU hUaff).hom ≫
       (CategoryTheory.Sheaf.functorH
         (Opens.grothendieckTopology X) 1).map f.sheafHom := by
-  apply cechHomologyOneIso_of_subsingleton_H_naturality U f.sheafHom
+  apply cechHomologyOneIsoOfSubsingletonH_naturality U f.sheafHom
 
 end AlgebraicGeometry.Scheme.Modules

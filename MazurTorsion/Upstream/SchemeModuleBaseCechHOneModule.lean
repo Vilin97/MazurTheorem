@@ -56,7 +56,7 @@ private noncomputable def genuineSheafHOneBaseModuleData_of_affineOpenCover
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
     GenuineSheafHOneBaseModuleData π M U := by
   let e : GenuineSheafHOne M ≃+ NativeBaseCechHOne π M U :=
-    (nativeBaseCechHOneForgetIso_of_affineOpenCover
+    (nativeBaseCechHOneForgetIsoOfAffineOpenCover
       π M U hU hUaff).addCommGroupIsoToAddEquiv.symm
   let hmodule : Module Γ(S, (⊤ : S.Opens)) (GenuineSheafHOne M) :=
     e.module Γ(S, (⊤ : S.Opens))
@@ -67,7 +67,7 @@ private noncomputable def genuineSheafHOneBaseModuleData_of_affineOpenCover
 /-- The global-functions module on genuine sheaf `H¹` transported from
 native base-Cech homology through a chosen affine-cover comparison. -/
 @[instance_reducible]
-noncomputable def genuineSheafHOneBaseModule_of_affineOpenCover
+noncomputable def genuineSheafHOneBaseModuleOfAffineOpenCover
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent] {ι : Type u} (U : ι → X.Opens)
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
@@ -77,11 +77,11 @@ noncomputable def genuineSheafHOneBaseModule_of_affineOpenCover
 
 /-- The affine-cover Cech/sheaf comparison is linear for the explicitly
 transported global-functions action on genuine sheaf `H¹`. -/
-noncomputable def genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover
+noncomputable def genuineSheafHOneLinearEquivNativeBaseCechOfAffineOpenCover
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent] {ι : Type u} (U : ι → X.Opens)
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
-    letI := genuineSheafHOneBaseModule_of_affineOpenCover
+    letI := genuineSheafHOneBaseModuleOfAffineOpenCover
       π M U hU hUaff
     GenuineSheafHOne M ≃ₗ[Γ(S, (⊤ : S.Opens))] NativeBaseCechHOne π M U :=
   (genuineSheafHOneBaseModuleData_of_affineOpenCover

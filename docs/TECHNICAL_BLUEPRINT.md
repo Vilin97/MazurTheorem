@@ -160,7 +160,7 @@ divisor/line-bundle dictionary. The checked core now contains:
   coefficient functoriality for the canonical global and structure-map field
   actions;
 - the additive affine-cover comparison
-  `nativeBaseCechHOneForgetIso_of_affineOpenCover`, its explicitly
+  `nativeBaseCechHOneForgetIsoOfAffineOpenCover`, its explicitly
   cover-transported linear form, and the consumed finite-generation transfer;
   and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve

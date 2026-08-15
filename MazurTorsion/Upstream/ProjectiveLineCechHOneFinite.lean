@@ -1772,7 +1772,7 @@ noncomputable def genuineSheafHOneBaseModule
     [M.IsQuasicoherent] :
     Module Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
       (GenuineSheafHOne M) :=
-  genuineSheafHOneBaseModule_of_affineOpenCover
+  genuineSheafHOneBaseModuleOfAffineOpenCover
     (structureMap K) M (standardCover K)
     (standardCover_isOpenCover K) (standardCover_isAffineOpen K)
 
@@ -1833,7 +1833,7 @@ noncomputable def genuineSheafHOneBaseModuleOfFiniteToProjectiveLine
     [M.IsQuasicoherent] :
     Module Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
       (GenuineSheafHOne M) :=
-  genuineSheafHOneBaseModule_of_affineOpenCover
+  genuineSheafHOneBaseModuleOfAffineOpenCover
     (f ≫ structureMap K) M (fun i ↦ f ⁻¹ᵁ standardCover K i)
     (preimage_standardCover_isOpenCover K f)
     (preimage_standardCover_isAffineOpen K f)
@@ -1871,7 +1871,7 @@ theorem genuineSheafHOne_finite_canonical_of_finite_to_projectiveLine
       (ordered_homology_one_finite_of_finite_to_projectiveLine K f M)
   letI := baseSectionsHOneModule (f ≫ structureMap K) M
   exact Module.Finite.equiv
-    (nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover
+    (nativeBaseCechHOneLinearEquivCanonicalOfAffineOpenCover
       (f ≫ structureMap K) M U
       (preimage_standardCover_isOpenCover K f)
       (preimage_standardCover_isAffineOpen K f))

@@ -125,7 +125,7 @@ private theorem baseCechComplexHomologyForgetIso_naturality
 
 /-- On an affine open cover, the underlying additive group of base-linear
 Cech homology in degree one is genuine sheaf `H¹`. -/
-noncomputable def baseCechHomologyOneIso_of_affine_openCover
+noncomputable def baseCechHomologyOneIsoOfAffineOpenCover
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent] {ι : Type u} (U : ι → X.Opens)
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
@@ -133,22 +133,22 @@ noncomputable def baseCechHomologyOneIso_of_affine_openCover
       (CategoryTheory.Sheaf.functorH
         (Opens.grothendieckTopology X) 1).obj M.sheaf :=
   baseCechComplexHomologyForgetIso π M U 1 ≪≫
-    cechHomologyOneIso_of_affine_openCover M U hU hUaff
+    cechHomologyOneIsoOfAffineOpenCover M U hU hUaff
 
 @[simp]
-private theorem baseCechHomologyOneIso_of_affine_openCover_hom
+private theorem baseCechHomologyOneIsoOfAffineOpenCover_hom
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent] {ι : Type u} (U : ι → X.Opens)
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
-    (baseCechHomologyOneIso_of_affine_openCover
+    (baseCechHomologyOneIsoOfAffineOpenCover
       π M U hU hUaff).hom =
       (baseCechComplexHomologyForgetIso π M U 1).hom ≫
-        (cechHomologyOneIso_of_affine_openCover M U hU hUaff).hom :=
+        (cechHomologyOneIsoOfAffineOpenCover M U hU hUaff).hom :=
   rfl
 
 /-- The affine-cover comparison from base-linear Cech homology to genuine
 degree-one sheaf cohomology is natural in the coefficient module. -/
-theorem baseCechHomologyOneIso_of_affine_openCover_naturality
+theorem baseCechHomologyOneIsoOfAffineOpenCover_naturality
     {X S : Scheme.{u}} (π : X ⟶ S) {M N : X.Modules}
     [M.IsQuasicoherent] [N.IsQuasicoherent] (f : M ⟶ N)
     {ι : Type u} (U : ι → X.Opens) (hU : IsOpenCover U)
@@ -156,9 +156,9 @@ theorem baseCechHomologyOneIso_of_affine_openCover_naturality
     (baseModuleForget S).map
           (HomologicalComplex.homologyMap
             ((baseCechComplexFunctor π U).map f) 1) ≫
-        (baseCechHomologyOneIso_of_affine_openCover
+        (baseCechHomologyOneIsoOfAffineOpenCover
           π N U hU hUaff).hom =
-      (baseCechHomologyOneIso_of_affine_openCover
+      (baseCechHomologyOneIsoOfAffineOpenCover
           π M U hU hUaff).hom ≫
         (CategoryTheory.Sheaf.functorH
           (Opens.grothendieckTopology X) 1).map f.sheafHom := by
@@ -169,16 +169,16 @@ theorem baseCechHomologyOneIso_of_affine_openCover_naturality
   let c := (baseCechComplexHomologyForgetIso π M U 1).hom
   let d := HomologicalComplex.homologyMap
     ((cechComplexFunctor U).map f.sheafHom.hom) 1
-  let e := (cechHomologyOneIso_of_affine_openCover N U hU hUaff).hom
-  let g := (cechHomologyOneIso_of_affine_openCover M U hU hUaff).hom
+  let e := (cechHomologyOneIsoOfAffineOpenCover N U hU hUaff).hom
+  let g := (cechHomologyOneIsoOfAffineOpenCover M U hU hUaff).hom
   let k := (CategoryTheory.Sheaf.functorH
     (Opens.grothendieckTopology X) 1).map f.sheafHom
   have hab : a ≫ b = c ≫ d := by
     exact baseCechComplexHomologyForgetIso_naturality π f U 1
   have hde : d ≫ e = g ≫ k := by
-    exact cechHomologyOneIso_of_affine_openCover_naturality f U hU hUaff
-  rw [baseCechHomologyOneIso_of_affine_openCover_hom,
-    baseCechHomologyOneIso_of_affine_openCover_hom]
+    exact cechHomologyOneIsoOfAffineOpenCover_naturality f U hU hUaff
+  rw [baseCechHomologyOneIsoOfAffineOpenCover_hom,
+    baseCechHomologyOneIsoOfAffineOpenCover_hom]
   change a ≫ (b ≫ e) = c ≫ (g ≫ k)
   exact (Category.assoc a b e).symm.trans
     ((congrArg (fun q => q ≫ e) hab).trans

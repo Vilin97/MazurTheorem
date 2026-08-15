@@ -31,18 +31,18 @@ namespace MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
 
 /-- On an affine open cover, forgetting the base action on native base-Cech
 degree-one homology gives genuine Ext-based sheaf `H¹` as an additive group. -/
-noncomputable def nativeBaseCechHOneForgetIso_of_affineOpenCover
+noncomputable def nativeBaseCechHOneForgetIsoOfAffineOpenCover
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent] {ι : Type u} (U : ι → X.Opens)
     (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i)) :
     (baseModuleForget S).obj ((baseCechComplex π M U).homology 1) ≅
       (CategoryTheory.Sheaf.functorH
         (Opens.grothendieckTopology X) 1).obj M.sheaf :=
-  baseCechHomologyOneIso_of_affine_openCover π M U hU hUaff
+  baseCechHomologyOneIsoOfAffineOpenCover π M U hU hUaff
 
 /-- The project-facing affine-cover comparison is natural in an actual
 morphism of quasicoherent coefficient modules. -/
-private theorem nativeBaseCechHOneForgetIso_of_affineOpenCover_naturality
+private theorem nativeBaseCechHOneForgetIsoOfAffineOpenCover_naturality
     {X S : Scheme.{u}} (π : X ⟶ S) {M N : X.Modules}
     [M.IsQuasicoherent] [N.IsQuasicoherent] (f : M ⟶ N)
     {ι : Type u} (U : ι → X.Opens) (hU : IsOpenCover U)
@@ -50,12 +50,12 @@ private theorem nativeBaseCechHOneForgetIso_of_affineOpenCover_naturality
     (baseModuleForget S).map
           (HomologicalComplex.homologyMap
             ((baseCechComplexFunctor π U).map f) 1) ≫
-        (nativeBaseCechHOneForgetIso_of_affineOpenCover
+        (nativeBaseCechHOneForgetIsoOfAffineOpenCover
           π N U hU hUaff).hom =
-      (nativeBaseCechHOneForgetIso_of_affineOpenCover
+      (nativeBaseCechHOneForgetIsoOfAffineOpenCover
           π M U hU hUaff).hom ≫
         (zariskiFunctor X 1).map f := by
-  exact baseCechHomologyOneIso_of_affine_openCover_naturality
+  exact baseCechHomologyOneIsoOfAffineOpenCover_naturality
     π f U hU hUaff
 
 private theorem baseModulePresheafFunctor_map_globalSmulHom_app
@@ -113,19 +113,19 @@ noncomputable def baseSectionsHOneModule
 /-- The affine-cover comparison intertwines native base-Cech scalar
 multiplication with the canonical action induced from global functions on
 the source scheme. -/
-private theorem nativeBaseCechHOneForgetIso_of_affineOpenCover_map_globalSmulHom
+private theorem nativeBaseCechHOneForgetIsoOfAffineOpenCover_map_globalSmulHom
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent]
     {ι : Type u} (U : ι → X.Opens) (hU : IsOpenCover U)
     (hUaff : ∀ i, IsAffineOpen (U i)) (r : Γ(S, ⊤))
     (x : (baseCechComplex π M U).homology 1) :
-    (nativeBaseCechHOneForgetIso_of_affineOpenCover
+    (nativeBaseCechHOneForgetIsoOfAffineOpenCover
         π M U hU hUaff).hom (r • x) =
       (zariskiFunctor X 1).map (globalSmulHom M (π.appTop r))
-        ((nativeBaseCechHOneForgetIso_of_affineOpenCover
+        ((nativeBaseCechHOneForgetIsoOfAffineOpenCover
           π M U hU hUaff).hom x) := by
   have hnat :=
-    nativeBaseCechHOneForgetIso_of_affineOpenCover_naturality
+    nativeBaseCechHOneForgetIsoOfAffineOpenCover_naturality
       π (globalSmulHom M (π.appTop r)) U hU hUaff
   rw [baseCechComplexFunctor_map_globalSmulHom] at hnat
   have hhom := ConcreteCategory.congr_hom
@@ -133,19 +133,19 @@ private theorem nativeBaseCechHOneForgetIso_of_affineOpenCover_map_globalSmulHom
   change (HomologicalComplex.homologyMap
       (r • 𝟙 (baseCechComplex π M U)) 1).hom x = r • x at hhom
   have hx := ConcreteCategory.congr_hom hnat x
-  change (nativeBaseCechHOneForgetIso_of_affineOpenCover
+  change (nativeBaseCechHOneForgetIsoOfAffineOpenCover
       π M U hU hUaff).hom.hom
         ((HomologicalComplex.homologyMap
           (r • 𝟙 (baseCechComplex π M U)) 1).hom x) =
     ((zariskiFunctor X 1).map (globalSmulHom M (π.appTop r))).hom
-      ((nativeBaseCechHOneForgetIso_of_affineOpenCover
+      ((nativeBaseCechHOneForgetIsoOfAffineOpenCover
         π M U hU hUaff).hom.hom x) at hx
   rw [← hhom]
   exact hx
 
 /-- Native base-Cech `H¹` is linearly equivalent to genuine `H¹` with the
 canonical global-functions action restricted along the base morphism. -/
-noncomputable def nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover
+noncomputable def nativeBaseCechHOneLinearEquivCanonicalOfAffineOpenCover
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     [M.IsQuasicoherent]
     {ι : Type u} (U : ι → X.Opens) (hU : IsOpenCover U)
@@ -155,7 +155,7 @@ noncomputable def nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover
   letI := globalSectionsCohomologyModule M 1
   letI := baseSectionsHOneModule π M
   let e : (baseCechComplex π M U).homology 1 ≃+ H M 1 :=
-    (nativeBaseCechHOneForgetIso_of_affineOpenCover
+    (nativeBaseCechHOneForgetIsoOfAffineOpenCover
       π M U hU hUaff).addCommGroupIsoToAddEquiv
   exact
     { e with
@@ -165,7 +165,7 @@ noncomputable def nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover
         change e (r • x) = π.appTop r • e x
         rw [globalSectionsCohomologyModule_smul]
         exact
-          nativeBaseCechHOneForgetIso_of_affineOpenCover_map_globalSmulHom
+          nativeBaseCechHOneForgetIsoOfAffineOpenCover_map_globalSmulHom
             π M U hU hUaff r x }
 
 /-- Every genuine sheaf `H¹` class has a representative in the underlying
@@ -177,10 +177,10 @@ theorem exists_nativeBaseCechHOne_class_of_sheafHOne_class
     (ξ : (CategoryTheory.Sheaf.functorH
       (Opens.grothendieckTopology X) 1).obj M.sheaf) :
     ∃ η : (baseModuleForget S).obj ((baseCechComplex π M U).homology 1),
-      (nativeBaseCechHOneForgetIso_of_affineOpenCover
+      (nativeBaseCechHOneForgetIsoOfAffineOpenCover
         π M U hU hUaff).hom η = ξ :=
   (ConcreteCategory.bijective_of_isIso
-    (nativeBaseCechHOneForgetIso_of_affineOpenCover
+    (nativeBaseCechHOneForgetIsoOfAffineOpenCover
       π M U hU hUaff).hom).2 ξ
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology

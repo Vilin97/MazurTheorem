@@ -651,7 +651,7 @@ The strongest concrete reuse candidates are:
   consumer `nativeBaseCechHOne_finite_of_ordered` transfers `Module.Finite`
   from ordered degree-one homology to native all-tuples degree-one homology.
   The separately checked comparison
-  `nativeBaseCechHOneForgetIso_of_affineOpenCover` identifies the underlying
+  `nativeBaseCechHOneForgetIsoOfAffineOpenCover` identifies the underlying
   additive group of native base-Cech `H¹` with genuine Ext-based sheaf `H¹`;
   its elementwise preimage theorem is a compiled downstream consumer. The
   global-functions action is now transported explicitly to genuine sheaf

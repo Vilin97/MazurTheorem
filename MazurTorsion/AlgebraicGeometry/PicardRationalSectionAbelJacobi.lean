@@ -66,7 +66,6 @@ theorem coe_toCodimensionOnePoint
 
 /-- The prime divisor defined by a rational section has residue degree one
 over the ground field. -/
-@[simp]
 theorem residueDegree_toCodimensionOnePoint
     (x : SmoothCurveRationalSection K X pi) :
     pi.residueDegree x.toCodimensionOnePoint.1 = 1 := by
@@ -76,7 +75,6 @@ theorem residueDegree_toCodimensionOnePoint
 
 /-- In the integral weight used by the divisor product formula, a rational
 section has weight one. -/
-@[simp]
 theorem residueDegree_int_toCodimensionOnePoint
     (x : SmoothCurveRationalSection K X pi) :
     (pi.residueDegree x.toCodimensionOnePoint.1 : ℤ) = 1 := by

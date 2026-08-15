@@ -173,16 +173,16 @@ line bundles on a smooth curve.
   Make genuine H1 functoriality ground-field linear for the canonical structure-map
   actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.
 * `definition` (`contract`):
-  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIsoOfAffineOpenCover`
   Identify the underlying additive group of native base-Cech H1 with genuine Ext-based
   sheaf H1 for every affine open cover.
 * `definition` (`contract`):
-  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover`
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneLinearEquivCanonicalOfAffineOpenCover`
   Upgrade the affine-cover comparison to a linear equivalence between native base-Cech
   H1 and the canonical global-functions action on genuine H1 restricted along the base
   morphism, without transporting a target module instance.
 * `definition` (`contract`):
-  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover`
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneLinearEquivNativeBaseCechOfAffineOpenCover`
   Expose the affine-cover comparison linearly for the explicitly cover-transported
   action; retain this legacy facade alongside the canonical restricted-action linear
   comparison.

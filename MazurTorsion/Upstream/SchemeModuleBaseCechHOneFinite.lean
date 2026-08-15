@@ -54,16 +54,16 @@ theorem genuineSheafHOne_finite_of_ordered_affineOpenCover
     (hUaff : ∀ i, IsAffineOpen (U i))
     (hordered : Module.Finite Γ(S, (⊤ : S.Opens))
       ((Scheme.Modules.orderedBaseCechComplex π M U).homology 1)) :
-    letI := genuineSheafHOneBaseModule_of_affineOpenCover
+    letI := genuineSheafHOneBaseModuleOfAffineOpenCover
       π M U hU hUaff
     Module.Finite Γ(S, (⊤ : S.Opens)) (GenuineSheafHOne M) := by
   letI : Module.Finite Γ(S, (⊤ : S.Opens))
       ((Scheme.Modules.baseCechComplex π M U).homology 1) :=
     nativeBaseCechHOne_finite_of_ordered π M U hordered
-  letI := genuineSheafHOneBaseModule_of_affineOpenCover
+  letI := genuineSheafHOneBaseModuleOfAffineOpenCover
     π M U hU hUaff
   exact Module.Finite.equiv
-    (genuineSheafHOneLinearEquivNativeBaseCech_of_affineOpenCover
+    (genuineSheafHOneLinearEquivNativeBaseCechOfAffineOpenCover
       π M U hU hUaff).symm
 
 /-- A coherent support-decreasing comodel construction supplies finite
@@ -80,7 +80,7 @@ theorem genuineSheafHOne_finite_of_coherentSupportComodels
       N.IsFiniteType → N.IsQuasicoherent →
         ∃ (E : X.Modules) (f : N ⟶ E),
           IsCoherentLowDegreeSupportComodel π U N E f) :
-    letI := genuineSheafHOneBaseModule_of_affineOpenCover
+    letI := genuineSheafHOneBaseModuleOfAffineOpenCover
       π M U hU hUaff
     Module.Finite Γ(S, (⊤ : S.Opens)) (GenuineSheafHOne M) := by
   have hordered : Module.Finite Γ(S, (⊤ : S.Opens))

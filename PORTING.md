@@ -708,7 +708,7 @@ Cech homology with Ext/sheaf cohomology or establish the ordered input from
 properness.
 
 The separate checked boundary
-`MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIso_of_affineOpenCover`
+`MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIsoOfAffineOpenCover`
 now identifies the additive group underlying native base-Cech degree-one
 homology with genuine sheaf `H¹` on an affine open cover. Its elementwise
 consumer `exists_nativeBaseCechHOne_class_of_sheafHOne_class` verifies that

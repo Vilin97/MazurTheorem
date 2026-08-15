@@ -325,7 +325,7 @@ private theorem cechHomologyOneRightDerivedIso_of_subsingleton_H_hom
 /-- Degree-one homology of an acyclic-cover Cech complex computes genuine
 sheaf cohomology. In total degree one only `H¹` of the individual cover
 members is required. -/
-noncomputable def cechHomologyOneIso_of_subsingleton_H
+noncomputable def cechHomologyOneIsoOfSubsingletonH
     (F : Sheaf AddCommGrpCat.{u} X) (hU : ⨆ i, U i = ⊤)
     (hH : ∀ i : ι, Subsingleton (CategoryTheory.Sheaf.H
       ((restrict AddCommGrpCat (U i).isOpenEmbedding).obj F) 1)) :
@@ -336,11 +336,11 @@ noncomputable def cechHomologyOneIso_of_subsingleton_H
     (H.addEquivRightDerivedGlobalSections F 1).symm.toAddCommGrpIso
 
 @[simp]
-private theorem cechHomologyOneIso_of_subsingleton_H_hom
+private theorem cechHomologyOneIsoOfSubsingletonH_hom
     (F : Sheaf AddCommGrpCat.{u} X) (hU : ⨆ i, U i = ⊤)
     (hH : ∀ i : ι, Subsingleton (CategoryTheory.Sheaf.H
       ((restrict AddCommGrpCat (U i).isOpenEmbedding).obj F) 1)) :
-    (cechHomologyOneIso_of_subsingleton_H U F hU hH).hom =
+    (cechHomologyOneIsoOfSubsingletonH U F hU hH).hom =
       (cechHomologyOneRightDerivedIso_of_subsingleton_H U F hU hH).hom ≫
         (H.addEquivRightDerivedGlobalSections F 1).symm.toAddCommGrpIso.hom :=
   rfl
@@ -466,7 +466,7 @@ private theorem cechHomologyOneRightDerivedIso_of_subsingleton_H_naturality
   rfl
 
 /-- The degree-one Cech comparison is natural in the coefficient sheaf. -/
-theorem cechHomologyOneIso_of_subsingleton_H_naturality
+theorem cechHomologyOneIsoOfSubsingletonH_naturality
     {F G : Sheaf AddCommGrpCat.{u} X} (f : F ⟶ G)
     (hU : ⨆ i, U i = ⊤)
     (hF : ∀ i : ι, Subsingleton (CategoryTheory.Sheaf.H
@@ -475,12 +475,12 @@ theorem cechHomologyOneIso_of_subsingleton_H_naturality
       ((restrict AddCommGrpCat (U i).isOpenEmbedding).obj G) 1)) :
     HomologicalComplex.homologyMap
         ((cechComplexFunctor U).map f.hom) 1 ≫
-      (cechHomologyOneIso_of_subsingleton_H U G hU hG).hom =
-    (cechHomologyOneIso_of_subsingleton_H U F hU hF).hom ≫
+      (cechHomologyOneIsoOfSubsingletonH U G hU hG).hom =
+    (cechHomologyOneIsoOfSubsingletonH U F hU hF).hom ≫
       (CategoryTheory.Sheaf.functorH
         (Opens.grothendieckTopology X) 1).map f := by
-  rw [cechHomologyOneIso_of_subsingleton_H_hom,
-    cechHomologyOneIso_of_subsingleton_H_hom]
+  rw [cechHomologyOneIsoOfSubsingletonH_hom,
+    cechHomologyOneIsoOfSubsingletonH_hom]
   simp only [← Category.assoc]
   rw [cechHomologyOneRightDerivedIso_of_subsingleton_H_naturality
     U f hU hF hG]
