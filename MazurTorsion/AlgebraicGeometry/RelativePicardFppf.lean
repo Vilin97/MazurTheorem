@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import Mathlib.Algebra.Category.Grp.EquivalenceGroupAddGroup
 import Mathlib.AlgebraicGeometry.Sites.Fpqc
 import Mathlib.CategoryTheory.Sites.LeftExact
+import MazurTorsion.AlgebraicGeometry.PicardDegreeZero
 import MazurTorsion.Upstream.AINTLIB.Picard.RelativePic
 
 /-!
@@ -21,7 +22,9 @@ or universal-line-bundle claim.
 The degree-zero subfunctor is deliberately not defined here.  Its construction
 requires a pullback-compatible relative degree map on arbitrary test schemes;
 the available divisor degree is currently only an absolute construction for
-curves over fields.
+curves over fields.  We do expose the canonical map from the kernel of that
+honest absolute degree into the all-degree sheafification at the base object.
+This is a checked boundary map, not a substitute relative `Pic⁰` functor.
 -/
 
 noncomputable section
@@ -29,6 +32,7 @@ noncomputable section
 universe u
 
 open CategoryTheory Limits
+open MazurTorsion.AlgebraicGeometry
 
 namespace AlgebraicGeometry.Scheme.Modules
 
@@ -98,5 +102,25 @@ noncomputable def picRelFppfClassAtBaseHom :
         (Opposite.op (Over.mk (𝟙 S))) :=
   (picRelFppfClassHom p z hz (𝟙 S)).comp
     (Pic.map (Limits.pullback.fst p (𝟙 S))).toAdditive
+
+/-- Map the kernel of the checked absolute degree of a smooth proper curve into the associated
+fppf sheafification of the all-degree normalized Picard presheaf at the base object.
+
+This is the strongest degree-zero boundary supported by the pinned APIs: its source is the
+actual kernel of an absolute degree homomorphism, while its target is evaluated only at
+`Spec K ⟶ Spec K`.  It does not claim that these kernels form a pullback-compatible
+subpresheaf on arbitrary test schemes. -/
+noncomputable def properCurveDegreeKernelToPicRelFppfAtBase
+    (K : Type u) [Field K]
+    (E : Scheme.{u}) [IsIntegral E] [IsNoetherian E]
+    (p : E ⟶ Spec (.of K)) [IsProper p] [SmoothOfRelativeDimension 1 p]
+    (z : Spec (.of K) ⟶ E) (hz : z ≫ p = 𝟙 (Spec (.of K)))
+    (e : DivisorPicard.ClassEquivalence
+      (TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderSystem E) E) :
+    (PicardGroup.properCurveDegreeHom K E p e).ker →+
+      (picRelFppfSheaf p z hz).obj.obj
+        (Opposite.op (Over.mk (𝟙 (Spec (.of K))))) :=
+  (picRelFppfClassAtBaseHom p z hz).comp
+    (PicardGroup.properCurveDegreeHom K E p e).ker.subtype
 
 end AlgebraicGeometry.Scheme.Modules
