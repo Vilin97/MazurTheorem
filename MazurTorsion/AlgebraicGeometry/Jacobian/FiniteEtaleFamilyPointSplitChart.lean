@@ -55,7 +55,7 @@ theorem exists_affineOpen_fpqc_common_splitCover
             (_e : T ⊗[Γ(V, ⊤)] Γ(f i ⁻¹ᵁ V, ⊤) ≃ₐ[T] (Fin m → T)),
             ∃ E : pullback (fV i) q ≅ Spec (.of (Fin m → T)),
               E.hom ≫ EtaleSplitChart.splitProjection T m =
-                pullback.snd (fV i) q := by
+                pullback.snd (fV i) q ∧ m = (f i).finrank y := by
   letI (i : Fin n) : Flat (f i) := inferInstance
   letI (i : Fin n) : LocallyOfFinitePresentation (f i) := inferInstance
   let U : Y.Opens := ⨅ i, rankOpen (f i) y
@@ -88,8 +88,27 @@ theorem exists_affineOpen_fpqc_common_splitCover
       exact hzU
     have hzRank : V.ι z ∈ rankOpen (f i) y := hzAll i
     exact hzRank
-  exact AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover
-    n (fun i ↦ (f i ⁻¹ᵁ V).toScheme) fV
-      (fun i ↦ (f i).finrank y) hRank
+  obtain ⟨T, _, _, _, _, _, q, hflat, hsurjective, hqc, hsplit⟩ :=
+    AffineFiniteEtaleFamilySplitChart.exists_fpqc_common_splitCover
+      n (fun i ↦ (f i ⁻¹ᵁ V).toScheme) fV
+        (fun i ↦ (f i).finrank y) hRank
+  letI : Flat q := hflat
+  letI : Surjective q := hsurjective
+  obtain ⟨t, _⟩ := q.surjective (⟨y, hyV⟩ : V.toScheme)
+  letI : Nontrivial T := PrimeSpectrum.nonempty_iff_nontrivial.mp
+    ⟨⟨t.1, t.2⟩⟩
+  refine ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
+    inferInstance, q, hflat, hsurjective, hqc, ?_⟩
+  intro i
+  obtain ⟨m, e, E, hE⟩ := hsplit i
+  refine ⟨m, e, E, hE, ?_⟩
+  have hSplitRank := congrFun
+    (EtaleSplitChart.finrank_eq_of_iso_splitProjection T m
+      (pullback.snd (fV i) q) E hE) t
+  calc
+    m = (pullback.snd (fV i) q).finrank t := hSplitRank.symm
+    _ = (fV i).finrank (q t) :=
+      Scheme.Hom.finrank_pullback_snd (fV i) q t
+    _ = (f i).finrank y := congrFun (hRank i) (q t)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleFamilyPointSplitChart

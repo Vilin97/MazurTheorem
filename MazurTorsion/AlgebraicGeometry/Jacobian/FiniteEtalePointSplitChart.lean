@@ -49,7 +49,7 @@ theorem exists_affineOpen_fpqc_splitCover
         (q : Spec (.of T) ⟶ V.toScheme)
         (_E : pullback fV q ≅ Spec (.of (Fin m → T))),
         _E.hom ≫ EtaleSplitChart.splitProjection T m = pullback.snd fV q ∧
-          Flat q ∧ Surjective q ∧ QuasiCompact q := by
+          m = f.finrank y ∧ Flat q ∧ Surjective q ∧ QuasiCompact q := by
   letI : Flat f := inferInstance
   letI : LocallyOfFinitePresentation f := inferInstance
   obtain ⟨_, ⟨V : Y.Opens, hV, rfl⟩, hyV, hVU⟩ :=
@@ -66,7 +66,24 @@ theorem exists_affineOpen_fpqc_splitCover
     rw [Scheme.Hom.finrank_of_isPullback
       (f ⁻¹ᵁ V).ι fV f V.ι (isPullback_morphismRestrict f V).flip]
     exact hVU z.2
-  exact AffineFiniteEtaleSplitChart.exists_fpqc_splitCover
-    fV (f.finrank y) hRank
+  obtain ⟨T, _, _, _, _, _, m, e, q, E, hE, hflat, hsurjective, hqc⟩ :=
+    AffineFiniteEtaleSplitChart.exists_fpqc_splitCover
+      fV (f.finrank y) hRank
+  letI : Flat q := hflat
+  letI : Surjective q := hsurjective
+  obtain ⟨t, _⟩ := q.surjective (⟨y, hyV⟩ : V.toScheme)
+  letI : Nontrivial T := PrimeSpectrum.nonempty_iff_nontrivial.mp
+    ⟨⟨t.1, t.2⟩⟩
+  have hSplitRank := congrFun
+    (EtaleSplitChart.finrank_eq_of_iso_splitProjection T m
+      (pullback.snd fV q) E hE) t
+  have hm : m = f.finrank y := by
+    calc
+      m = (pullback.snd fV q).finrank t := hSplitRank.symm
+      _ = fV.finrank (q t) :=
+        Scheme.Hom.finrank_pullback_snd fV q t
+      _ = f.finrank y := congrFun hRank (q t)
+  exact ⟨T, inferInstance, inferInstance, inferInstance, inferInstance,
+    inferInstance, m, e, q, E, hE, hm, hflat, hsurjective, hqc⟩
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtalePointSplitChart

@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import Mathlib.AlgebraicGeometry.Limits
 import Mathlib.AlgebraicGeometry.Morphisms.Flat
+import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 import Mathlib.RingTheory.TotallySplit
 
@@ -37,6 +38,44 @@ finite product of copies of `T` maps to `Spec T` through the diagonal
 noncomputable def splitProjection (T : Type u) [CommRing T] (m : ℕ) :
     Spec (.of (Fin m → T)) ⟶ Spec (.of T) :=
   Spec.map (CommRingCat.ofHom (algebraMap T (Fin m → T)))
+
+instance splitProjection_flat (T : Type u) [CommRing T] (m : ℕ) :
+    Flat (splitProjection T m) := by
+  rw [splitProjection]
+  exact HasRingHomProperty.Spec_iff.mpr
+    (RingHom.flat_algebraMap_iff.mpr inferInstance)
+
+instance splitProjection_isFinite (T : Type u) [CommRing T] (m : ℕ) :
+    IsFinite (splitProjection T m) := by
+  rw [splitProjection, IsFinite.SpecMap_iff]
+  exact RingHom.finite_algebraMap.mpr inferInstance
+
+/-- A nonempty split finite scheme has constant degree equal to its number
+of sheets.  The nontriviality hypothesis excludes the empty spectrum, where
+all rank functions have empty domain. -/
+theorem splitProjection_finrank
+    (T : Type u) [CommRing T] [Nontrivial T] (m : ℕ) :
+    (splitProjection T m).finrank = fun _ ↦ m := by
+  funext p
+  rw [splitProjection,
+    Scheme.Hom.finrank_SpecMap_algebraMap T (Fin m → T) p]
+  let p' : PrimeSpectrum T := ⟨p.1, p.2⟩
+  change Module.rankAtStalk (R := T) (Fin m → T) p' = m
+  rw [Module.rankAtStalk_pi]
+  simp only [Module.rankAtStalk_self, Pi.one_apply,
+    finsum_eq_sum_of_fintype, Finset.sum_const, smul_eq_mul, mul_one,
+    Finset.card_univ, Fintype.card_fin]
+
+/-- Rank transfers across an isomorphism over the base to a split finite
+scheme.  This is the form consumed by the local incidence comparison. -/
+theorem finrank_eq_of_iso_splitProjection
+    (T : Type u) [CommRing T] [Nontrivial T] (m : ℕ)
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of T)) [Flat f] [IsFinite f]
+    (E : X ≅ Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ splitProjection T m = f) :
+    f.finrank = fun _ ↦ m := by
+  rw [← hE, Scheme.Hom.finrank_comp_left_of_isIso,
+    splitProjection_finrank]
 
 /-- A finite étale algebra of constant rank becomes a finite disjoint union
 of the base after a finite fpqc étale extension. -/
