@@ -303,6 +303,45 @@ theorem etale_tensorSquare_exists_diagonalProduct_compatible
   rw [Ideal.quotientEquivAlgOfEq_mk,
     Ideal.quotientKerAlgEquivOfSurjective_mk]
 
+/-- Scheme-level form of the compatible étale tensor-square splitting:
+the self-fiber product is a coproduct whose first summand is exactly the
+diagonal.  This is the open-and-closed sheet selected by a curve point in
+the local root chart. -/
+theorem etale_pullback_exists_diagonalCoproduct
+    (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
+    [Algebra.Etale R A] :
+    let f := Spec.map (CommRingCat.ofHom (algebraMap R A))
+    ∃ (T : Type u) (_ : CommRing T) (_ : Algebra A T)
+      (E : pullback f f ≅ Spec (.of A) ⨿ Spec (.of T)),
+      pullback.diagonal f ≫ E.hom = coprod.inl := by
+  let f := Spec.map (CommRingCat.ofHom (algebraMap R A))
+  obtain ⟨T, _, _, e, he⟩ :=
+    etale_tensorSquare_exists_diagonalProduct_compatible R A
+  let eSpec : Spec (.of (A ⊗[R] A)) ≅ Spec (.of (A × T)) :=
+    (Scheme.Spec.mapIso e.toRingEquiv.toCommRingCatIso.op).symm
+  let E : pullback f f ≅ Spec (.of A) ⨿ Spec (.of T) :=
+    pullbackSpecIso R A A ≪≫ eSpec ≪≫
+      (asIso (coprodSpec A T)).symm
+  refine ⟨T, inferInstance, inferInstance, E, ?_⟩
+  apply (cancel_mono (coprodSpec A T)).mp
+  change pullback.diagonal f ≫ E.hom ≫ coprodSpec A T =
+    coprod.inl ≫ coprodSpec A T
+  rw [coprodSpec_inl]
+  rw [diagonal_SpecMap R A]
+  dsimp only [E]
+  simp only [Iso.trans_hom, Iso.symm_hom, asIso_inv,
+    Category.assoc, Iso.inv_hom_id_assoc, IsIso.inv_hom_id,
+    Category.comp_id]
+  dsimp only [eSpec]
+  change Spec.map (CommRingCat.ofHom
+      (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A).toRingHom) ≫
+      Spec.map e.symm.toRingEquiv.toCommRingCatIso.hom =
+    Spec.map (CommRingCat.ofHom (RingHom.fst A T))
+  rw [← Spec.map_comp, Spec.map_inj]
+  ext z
+  change Algebra.TensorProduct.lmul'' R (e.symm z) = z.1
+  exact (he (e.symm z)).symm.trans (congrArg Prod.fst (e.apply_symm_apply z))
+
 /-- A scheme smooth of relative dimension one over a field is reduced. -/
 theorem scheme_isReduced_of_smoothRelativeDimension_one
     (K : Type u) [Field K] (X : Scheme.{u})
