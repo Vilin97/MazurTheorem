@@ -140,6 +140,26 @@ def tangentChartY {K : Type u} [CommRing K]
     (W : WeierstrassCurve K) : tangentChartCoordinateRing W :=
   tangentCoordinate W (tangentSourceY W)
 
+/-- The tangent-chart abscissa is pulled back from the affine source
+coordinate ring. -/
+@[simp]
+theorem tangentChartX_eq_algebraMap_sourceX
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    tangentChartX W =
+      algebraMap (tangentSourceCoordinateRing W)
+        (tangentChartCoordinateRing W) (tangentSourceX W) := by
+  rfl
+
+/-- The tangent-chart ordinate is pulled back from the affine source
+coordinate ring. -/
+@[simp]
+theorem tangentChartY_eq_algebraMap_sourceY
+    {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
+    tangentChartY W =
+      algebraMap (tangentSourceCoordinateRing W)
+        (tangentChartCoordinateRing W) (tangentSourceY W) := by
+  rfl
+
 /-- The universal denominator-cleared tangent numerator. -/
 def tangentChartNumerator {K : Type u} [CommRing K]
     (W : WeierstrassCurve K) : tangentChartCoordinateRing W :=
@@ -212,7 +232,9 @@ private theorem tangentChart_equation_source
   simpa [affineEquationExpression, tangentCoefficientHom,
     tangentChartX, tangentChartY, tangentCoordinate] using h
 
-private theorem tangentChartDenominator_eq
+/-- The denominator expression on the tangent chart is the pullback of the
+element inverted in its coordinate ring. -/
+theorem tangentChartDenominator_eq
     {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     let W' := W.map (tangentCoefficientHom W)
     2 * tangentChartY W + W'.a₁ * tangentChartX W + W'.a₃ =
@@ -224,7 +246,7 @@ private theorem tangentChartDenominator_eq
 
 /-- The universal tangent slope satisfies the denominator-cleared tangent
 equation. -/
-private theorem tangentChartSlope_mul_denominator
+theorem tangentChartSlope_mul_denominator
     {K : Type u} [CommRing K] (W : WeierstrassCurve K) :
     let W' := W.map (tangentCoefficientHom W)
     tangentChartSlope W *
