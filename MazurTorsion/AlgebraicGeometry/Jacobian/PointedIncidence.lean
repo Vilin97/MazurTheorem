@@ -94,6 +94,58 @@ theorem prependPower_injective :
   rw [hcomp] at h
   simpa using h
 
+/-- Forget one selected ordered coordinate while retaining the distinguished
+point.  The remaining coordinates are indexed using `Fin.succAbove`. -/
+noncomputable def removeCoordinate (i : Fin (n + 1)) :
+    orderedAmbient S (n + 1) X ⟶ orderedAmbient S n X :=
+  Limits.prod.lift
+    (pointProjection S (n + 1) X)
+    (Limits.Pi.lift fun j : Fin n ↦
+      coordinateProjection S (n + 1) X (i.succAbove j))
+
+@[reassoc]
+theorem removeCoordinate_comp_pointProjection (i : Fin (n + 1)) :
+    removeCoordinate S n X i ≫ pointProjection S n X =
+      pointProjection S (n + 1) X := by
+  exact Limits.prod.lift_fst _ _
+
+@[reassoc]
+theorem removeCoordinate_comp_coordinateProjection
+    (i : Fin (n + 1)) (j : Fin n) :
+    removeCoordinate S n X i ≫ coordinateProjection S n X j =
+      coordinateProjection S (n + 1) X (i.succAbove j) := by
+  rw [coordinateProjection, ← Category.assoc, removeCoordinate,
+    Limits.prod.lift_snd, Limits.Pi.lift_π]
+
+/-- Reindex a tuple inserted at coordinate zero so that its new coordinate
+occupies the selected position `i`. -/
+def moveZeroTo (i : Fin (n + 1)) : Equiv.Perm (Fin (n + 1)) :=
+  (finSuccEquiv' 0).trans (finSuccEquiv' i).symm
+
+@[simp]
+theorem moveZeroTo_zero (i : Fin (n + 1)) :
+    moveZeroTo n i 0 = i := by
+  simp [moveZeroTo]
+
+@[simp]
+theorem moveZeroTo_succ (i : Fin (n + 1)) (j : Fin n) :
+    moveZeroTo n i j.succ = i.succAbove j := by
+  change (finSuccEquiv' i).symm (finSuccEquiv' 0 j.succ) = i.succAbove j
+  rw [← Fin.succAbove_zero_apply j, finSuccEquiv'_succAbove]
+  simp
+
+@[simp]
+theorem moveZeroTo_symm_index (i : Fin (n + 1)) :
+    (moveZeroTo n i).symm i = 0 := by
+  apply (moveZeroTo n i).injective
+  simp
+
+@[simp]
+theorem moveZeroTo_symm_succAbove (i : Fin (n + 1)) (j : Fin n) :
+    (moveZeroTo n i).symm (i.succAbove j) = j.succ := by
+  apply (moveZeroTo n i).injective
+  simp
+
 /-- The ordered pointed-addition map
 `X × Xⁿ ⟶ X × Xⁿ⁺¹`. -/
 noncomputable def orderedAmbientInsertion :
@@ -191,6 +243,49 @@ theorem orderedAmbientToZeroGraph_comp_ι :
         coordinateGraphι S (n + 1) X 0 =
       orderedAmbientInsertion S n X :=
   equalizer.lift_ι _ _
+
+/-- On the `i`-th coordinate graph, deleting coordinate `i`, prepending the
+distinguished point, and moving coordinate zero back to `i` recovers the
+original ambient tuple.  The named downstream consumer is surjectivity of
+the pointed incidence comparison in `PointedIncidenceDescent`. -/
+theorem coordinateGraphι_comp_removeCoordinate_comp_insertion_comp_permutation
+    (i : Fin (n + 1)) :
+    coordinateGraphι S (n + 1) X i ≫
+        removeCoordinate S n X i ≫
+        orderedAmbientInsertion S n X ≫
+        orderedAmbientPermutationHom S (n + 1) X
+          (moveZeroTo n i).symm =
+      coordinateGraphι S (n + 1) X i := by
+  apply Limits.prod.hom_ext
+  · simp only [Category.assoc,
+      orderedAmbientPermutationHom_comp_pointProjection,
+      orderedAmbientInsertion_comp_pointProjection,
+      removeCoordinate_comp_pointProjection]
+  · apply Limits.Pi.hom_ext
+    intro j
+    change
+      (coordinateGraphι S (n + 1) X i ≫
+        removeCoordinate S n X i ≫
+        orderedAmbientInsertion S n X ≫
+        orderedAmbientPermutationHom S (n + 1) X
+          (moveZeroTo n i).symm) ≫
+          coordinateProjection S (n + 1) X j =
+        coordinateGraphι S (n + 1) X i ≫
+          coordinateProjection S (n + 1) X j
+    refine Fin.succAboveCases i ?_ (fun k ↦ ?_) j
+    · simp only [Category.assoc,
+        orderedAmbientPermutationHom_comp_coordinateProjection,
+        moveZeroTo_symm_index,
+        orderedAmbientInsertion_comp_coordinateProjection_zero,
+        removeCoordinate_comp_pointProjection]
+      exact equalizer.condition
+        (pointProjection S (n + 1) X)
+        (coordinateProjection S (n + 1) X i)
+    · simp only [Category.assoc,
+        orderedAmbientPermutationHom_comp_coordinateProjection,
+        moveZeroTo_symm_succAbove,
+        orderedAmbientInsertion_comp_coordinateProjection_succ,
+        removeCoordinate_comp_coordinateProjection]
 
 variable [IsSeparated X.hom]
 

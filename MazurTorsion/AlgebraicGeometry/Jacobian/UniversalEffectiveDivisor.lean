@@ -404,6 +404,56 @@ theorem orderedIncidenceIdeal_support [IsSeparated X.hom] :
   rw [orderedIncidenceIdeal, h, Finset.sup_eq_iSup]
   simp
 
+/-- The support of a coordinate-graph ideal is exactly the range of its
+closed immersion. -/
+theorem coordinateGraphIdeal_support [IsSeparated X.hom] (i : Fin d) :
+    (coordinateGraphIdeal S d X i).support =
+      ⟨Set.range (coordinateGraphι S d X i).left,
+        (coordinateGraphι S d X i).left.isClosedEmbedding.isClosed_range⟩ := by
+  ext x
+  change x ∈ ((coordinateGraphι S d X i).left.ker.support : Set _) ↔
+    x ∈ Set.range (coordinateGraphι S d X i).left
+  rw [Scheme.Hom.support_ker,
+    (coordinateGraphι S d X i).left.isClosedEmbedding.isClosed_range.closure_eq]
+
+/-- Every point of the ordered incidence subscheme comes from at least one
+coordinate graph.  This is the pointwise content of the support calculation;
+it remains valid with the scheme-theoretic multiplicities retained in the
+subscheme itself. -/
+theorem orderedIncidence_exists_coordinateGraph_preimage
+    [IsSeparated X.hom] (x : orderedIncidence S d X) :
+    ∃ (i : Fin d) (z : (coordinateGraph S d X i).left),
+      (coordinateGraphι S d X i).left z =
+        orderedIncidenceι S d X x := by
+  have hx : orderedIncidenceι S d X x ∈
+      (orderedIncidenceIdeal S d X).support := by
+    change orderedIncidenceι S d X x ∈
+      ((orderedIncidenceIdeal S d X).support :
+        Set (orderedAmbient S d X).left)
+    rw [← Scheme.IdealSheafData.range_subschemeι]
+    exact ⟨x, rfl⟩
+  rw [orderedIncidenceIdeal_support] at hx
+  rw [← Finset.sup_univ_eq_iSup] at hx
+  have hmem (s : Finset (Fin d)) :
+      orderedIncidenceι S d X x ∈
+          ((s.sup fun i ↦ (coordinateGraphIdeal S d X i).support :
+            TopologicalSpace.Closeds (orderedAmbient S d X).left) : Set _) →
+        ∃ i ∈ s, orderedIncidenceι S d X x ∈
+          (coordinateGraphIdeal S d X i).support := by
+    induction s using Finset.induction_on with
+    | empty => simp
+    | @insert i s his ih =>
+        rw [Finset.sup_insert, TopologicalSpace.Closeds.coe_sup,
+          Set.mem_union]
+        rintro (hi | hs)
+        · exact ⟨i, Finset.mem_insert_self i s, hi⟩
+        · obtain ⟨j, hjs, hj⟩ := ih hs
+          exact ⟨j, Finset.mem_insert_of_mem hjs, hj⟩
+  obtain ⟨i, _, hi⟩ := hmem Finset.univ hx
+  rw [coordinateGraphIdeal_support] at hi
+  obtain ⟨z, hz⟩ := hi
+  exact ⟨i, z, hz⟩
+
 /-- In degree zero the ordered incidence family is empty. -/
 theorem orderedIncidenceIdeal_zero [IsSeparated X.hom] :
     orderedIncidenceIdeal S 0 X = ⊤ := by

@@ -284,6 +284,100 @@ theorem curveOrderedAmbientToSymmetricProduct_comp_pointedAddition
   rw [Limits.prod.map_snd, ← Category.assoc,
     PointedIncidence.orderedAmbientInsertion, Limits.prod.lift_snd]
 
+/-- The pointed comparison covers every point of the incidence quotient.
+Lift an incidence point to the ordered incidence family, choose a coordinate
+graph containing that lift, delete the chosen coordinate, and reinsert it as
+coordinate zero.  The explicit reindexing identity shows that the resulting
+point differs from the original lift by a permutation, hence has the same
+image in the quotient. -/
+theorem productSymmetricPowerToIncidenceQuotient_surjective (n : ℕ) :
+    Function.Surjective
+      (productSymmetricPowerToIncidenceQuotient K C n) := by
+  classical
+  intro y
+  let q := curveOrderedIncidenceQuotientProjectionSucc K C (n + 1)
+  obtain ⟨a, ha⟩ := q.surjective y
+  obtain ⟨i, z, hz⟩ :=
+    orderedIncidence_exists_coordinateGraph_preimage
+      (Spec (.of K)) (n + 2) C a
+  let b : (orderedAmbient (Spec (.of K)) (n + 1) C).left :=
+    (PointedIncidence.removeCoordinate
+      (Spec (.of K)) (n + 1) C i).left
+        ((coordinateGraphι (Spec (.of K)) (n + 2) C i).left z)
+  let g : Equiv.Perm (Fin (n + 2)) :=
+    (PointedIncidence.moveZeroTo (n + 1) i).symm
+  have hrecover :
+      (orderedAmbientAction (Spec (.of K)) (n + 2) C).hom g
+          ((PointedIncidence.orderedAmbientInsertion
+            (Spec (.of K)) (n + 1) C).left b) =
+        orderedIncidenceι (Spec (.of K)) (n + 2) C a := by
+    change
+      (orderedAmbientPermutationHom (Spec (.of K)) (n + 2) C g).left
+          ((PointedIncidence.orderedAmbientInsertion
+            (Spec (.of K)) (n + 1) C).left b) =
+        orderedIncidenceι (Spec (.of K)) (n + 2) C a
+    have h := congrArg Over.Hom.left
+      (PointedIncidence.coordinateGraphι_comp_removeCoordinate_comp_insertion_comp_permutation
+        (Spec (.of K)) (n + 1) C i)
+    have hz' := congrArg
+      (fun m : (coordinateGraph (Spec (.of K)) (n + 2) C i).left ⟶
+          (orderedAmbient (Spec (.of K)) (n + 2) C).left ↦ m z) h
+    simpa only [Over.comp_left, Scheme.Hom.comp_apply, b, g] using hz'.trans hz
+  have horbit :
+      (orderedIncidenceAction (Spec (.of K)) (n + 2) C).hom g
+          (PointedIncidence.orderedPointedIncidenceMap
+            (Spec (.of K)) (n + 1) C b) = a := by
+    apply (orderedIncidenceι (Spec (.of K)) (n + 2) C).isEmbedding.injective
+    let v := PointedIncidence.orderedPointedIncidenceMap
+      (Spec (.of K)) (n + 1) C b
+    have hequivariant := congrArg
+      (fun m : orderedIncidence (Spec (.of K)) (n + 2) C ⟶
+          (orderedAmbient (Spec (.of K)) (n + 2) C).left ↦ m v)
+      (orderedIncidenceAction_comp_ι
+        (Spec (.of K)) (n + 2) C g)
+    have hinsertion := congrArg
+      (fun m : (orderedAmbient (Spec (.of K)) (n + 1) C).left ⟶
+          (orderedAmbient (Spec (.of K)) (n + 2) C).left ↦ m b)
+      (PointedIncidence.orderedPointedIncidenceMap_comp_ι
+        (Spec (.of K)) (n + 1) C)
+    calc
+      orderedIncidenceι (Spec (.of K)) (n + 2) C
+          ((orderedIncidenceAction (Spec (.of K)) (n + 2) C).hom g v) =
+          (orderedAmbientAction (Spec (.of K)) (n + 2) C).hom g
+            (orderedIncidenceι (Spec (.of K)) (n + 2) C v) := by
+        simpa only [Scheme.Hom.comp_apply] using hequivariant
+      _ = (orderedAmbientAction (Spec (.of K)) (n + 2) C).hom g
+            ((PointedIncidence.orderedAmbientInsertion
+              (Spec (.of K)) (n + 1) C).left b) := by
+        exact congrArg
+          ((orderedAmbientAction (Spec (.of K)) (n + 2) C).hom g)
+          (by simpa only [v, Scheme.Hom.comp_apply] using hinsertion)
+      _ = orderedIncidenceι (Spec (.of K)) (n + 2) C a := hrecover
+  refine ⟨curveOrderedAmbientToSymmetricProductSucc K C n b, ?_⟩
+  calc
+    productSymmetricPowerToIncidenceQuotient K C n
+        (curveOrderedAmbientToSymmetricProductSucc K C n b) =
+        orderedPointedToIncidenceQuotient K C n b := by
+      have h := congrArg
+        (fun m : (orderedAmbient (Spec (.of K)) (n + 1) C).left ⟶
+            curveOrderedIncidenceQuotientSucc K C (n + 1) ↦ m b)
+        (curveOrderedAmbientToSymmetricProduct_comp_pointedComparison K C n)
+      simpa only [Scheme.Hom.comp_apply] using h
+    _ = q a := by
+      change q
+          (PointedIncidence.orderedPointedIncidenceMap
+            (Spec (.of K)) (n + 1) C b) = q a
+      apply (FiniteGroupQuotient.quotientπ_apply_eq_iff
+        (orderedIncidenceAction (Spec (.of K)) (n + 2) C)
+        (curveOrderedIncidence_hasAffineOrbit_succ K C (n + 1)) _ _).mpr
+      exact ⟨g, horbit⟩
+    _ = y := ha
+
+instance productSymmetricPowerToIncidenceQuotient_surjectiveProperty
+    (n : ℕ) :
+    Surjective (productSymmetricPowerToIncidenceQuotient K C n) :=
+  ⟨productSymmetricPowerToIncidenceQuotient_surjective K C n⟩
+
 /-- The pointed symmetric-power comparison is proper. -/
 instance productSymmetricPowerToIncidenceQuotient_isProper (n : ℕ) :
     IsProper (productSymmetricPowerToIncidenceQuotient K C n) := by
