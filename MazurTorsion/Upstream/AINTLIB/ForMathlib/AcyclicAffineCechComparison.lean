@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck
+Authors: Chris Birkbeck, Vasily Ilin
 -/
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechInjectiveComparison
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineHThree
@@ -48,5 +48,21 @@ noncomputable def cechHomologyOneIso_of_affine_openCover
   · simpa only [IsOpenCover] using hU
   · intro i
     simpa using restrict_subsingleton_H_of_isAffineOpen M (U i) (hUaff i) 0
+
+/-- The affine-cover degree-one Cech comparison is natural in a morphism of
+quasicoherent coefficient modules. -/
+@[reassoc]
+theorem cechHomologyOneIso_of_affine_openCover_naturality
+    {X : Scheme.{u}} {M N : X.Modules} [M.IsQuasicoherent]
+    [N.IsQuasicoherent] (f : M ⟶ N) {ι : Type u}
+    (U : ι → X.Opens) (hU : IsOpenCover U)
+    (hUaff : ∀ i, IsAffineOpen (U i)) :
+    HomologicalComplex.homologyMap
+        ((cechComplexFunctor U).map f.sheafHom.hom) 1 ≫
+      (cechHomologyOneIso_of_affine_openCover N U hU hUaff).hom =
+    (cechHomologyOneIso_of_affine_openCover M U hU hUaff).hom ≫
+      (CategoryTheory.Sheaf.functorH
+        (Opens.grothendieckTopology X) 1).map f.sheafHom := by
+  apply cechHomologyOneIso_of_subsingleton_H_naturality U f.sheafHom
 
 end AlgebraicGeometry.Scheme.Modules

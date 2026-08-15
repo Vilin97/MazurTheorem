@@ -498,6 +498,16 @@ checked project theorems `injectiveSheaf_isFlasque` and
 the sign equality, and its composition calculation. Same-file construction
 machinery is private in the local API.
 
+The scalar-linearity extension is local work by Vasily Ilin in
+`SheafDerivedGlobalSections`, `SheafCechInjectiveBicomplex`,
+`SheafCechInjectiveAugmentation`, `SheafCechInjectiveComparison`,
+`AcyclicAffineCechComparison`, `SchemeModuleBaseCech`, and
+`SchemeModuleBaseCechHomology`; those file headers retain Chris Birkbeck's
+upstream credit and add the local author's credit. The extension proves the
+naturality of the retained degree-one Cech comparison and its compatibility
+with the canonical global-sections scalar action. These declarations are not
+claimed to occur in the audited AINTLIB snapshot.
+
 The affine comparison is also deliberately narrow. The degree-one theorem
 from `AcyclicAffineCechComparison` obtains the required restricted positive
 cohomology vanishing from the project's checked affine quasicoherent theorem,

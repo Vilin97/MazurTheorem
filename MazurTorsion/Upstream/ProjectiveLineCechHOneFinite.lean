@@ -1854,6 +1854,28 @@ theorem genuineSheafHOne_finite_of_finite_to_projectiveLine
     (preimage_standardCover_isAffineOpen K f)
     (ordered_homology_one_finite_of_finite_to_projectiveLine K f M)
 
+/-- Degree-one genuine sheaf cohomology is finite for the canonical action of
+base global functions induced by a finite morphism to `P¹`. -/
+theorem genuineSheafHOne_finite_canonical_of_finite_to_projectiveLine
+    {X : Scheme.{u}} (K : Type u) [Field K]
+    (f : X ⟶ scheme K) [IsFinite f] (M : X.Modules)
+    [M.IsQuasicoherent] [M.IsFiniteType] :
+    letI := baseSectionsHOneModule (f ≫ structureMap K) M
+    Module.Finite Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
+      (H M 1) := by
+  let U := fun i ↦ f ⁻¹ᵁ standardCover K i
+  letI : Module.Finite Γ(Spec (.of K), (⊤ : (Spec (.of K)).Opens))
+      ((baseCechComplex (f ≫ structureMap K) M U).homology 1) :=
+    nativeBaseCechHOne_finite_of_ordered
+      (f ≫ structureMap K) M U
+      (ordered_homology_one_finite_of_finite_to_projectiveLine K f M)
+  letI := baseSectionsHOneModule (f ≫ structureMap K) M
+  exact Module.Finite.equiv
+    (nativeBaseCechHOneLinearEquivCanonical_of_affineOpenCover
+      (f ≫ structureMap K) M U
+      (preimage_standardCover_isOpenCover K f)
+      (preimage_standardCover_isAffineOpen K f))
+
 /-- The ground-field action on genuine `H¹` for a module on a scheme finite
 over `P¹`.  It is the restriction of the explicit global-functions action
 along the canonical map from the field to the global functions of its
