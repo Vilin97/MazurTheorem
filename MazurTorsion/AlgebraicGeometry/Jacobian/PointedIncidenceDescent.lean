@@ -7,7 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidence
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
-import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportCoordinateMaps
+import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -38,6 +38,7 @@ open FiniteGroupQuotient
 open UniversalEffectiveDivisor
 open FiniteSupportEtaleCoordinates
 open FiniteSupportCoordinateMaps
+open CoherentComponentBaseChange
 open SplitFiniteBaseChange
 
 variable (K : Type u) [Field K]
@@ -125,6 +126,54 @@ theorem orderedSupportPulledComponent_exists_coordinatePullbackCoproduct
   pulledComponent_exists_coordinatePullbackCoproduct K C d
     (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
       (orderedSupportNeighborhoods K C d z) i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the actual ordered support, the nested restriction/fpqc/coherent
+component is canonically the direct base change of the original selected
+finite component. -/
+noncomputable def orderedSupportCoherentPulledComponentDirectIso
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (commonBase K C d (orderedSupportPoint K C d z)
+      (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    (coherentFpqcPulledComponent K C d (orderedSupportPoint K C d z)
+      (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z) V T q i).left ≅
+    pullback
+      (pulledComponentOverCommonBase K C d (orderedSupportPoint K C d z)
+        (orderedSupportCharts K C d z)
+        (orderedSupportNeighborhoods K C d z) i).hom
+      (coherentBaseToCommonBase K C d (orderedSupportPoint K C d z)
+        (orderedSupportCharts K C d z)
+        (orderedSupportNeighborhoods K C d z) V T q i) :=
+  coherentPulledComponentDirectIso K C d (orderedSupportPoint K C d z)
+    (orderedSupportCharts K C d z)
+    (orderedSupportNeighborhoods K C d z) V T q i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Over the coherent split base at the actual ordered support, the entire
+selected finite component is a coproduct summand of the base-changed curve
+coordinate chart. -/
+theorem orderedSupportCoherentComponent_exists_coordinatePullbackCoproduct
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (commonBase K C d (orderedSupportPoint K C d z)
+      (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z)).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    let z₀ := orderedSupportPoint K C d z
+    let c₀ := orderedSupportCharts K C d z
+    let n₀ := orderedSupportNeighborhoods K C d z
+    ∃ (W : Scheme.{u})
+      (E : pullback (c₀ i).schemeMap
+          (coherentBaseToCoordinateLine K C d z₀ c₀ n₀ V T q i) ≅
+        (coherentFpqcPulledComponent K C d z₀ c₀ n₀ V T q i).left ⨿ W),
+      coherentComponentToCoordinatePullback K C d z₀ c₀ n₀ V T q i ≫
+        E.hom = coprod.inl := by
+  dsimp only
+  exact coherentComponent_exists_coordinatePullbackCoproduct K C d
+    (orderedSupportPoint K C d z) (orderedSupportCharts K C d z)
+      (orderedSupportNeighborhoods K C d z) V T q i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The coherent product base attached to the actual ordered support of an
