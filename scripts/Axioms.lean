@@ -30,14 +30,19 @@ def allowedAxioms : List Name := [``propext, ``Quot.sound, ``Classical.choice]
 /-- Import modules and run a core action against the resulting environment. -/
 def withImportedEnvironment {α} (modules : Array Name) (action : CoreM α) : IO α := do
   initSearchPath (← findSysroot)
-  unsafe Lean.withImportModules
+  -- `collectAxioms` reads imported persistent-extension entries. Initializer
+  -- execution and `loadExts` populate them; `leakEnv` keeps their storage alive.
+  unsafe Lean.enableInitializersExecution
+  let environment ← Lean.importModules
     (modules.map fun moduleName => { module := moduleName })
     {}
     (trustLevel := 1024)
-    fun environment =>
-      Prod.fst <$> Core.CoreM.toIO action
-        (ctx := { fileName := "<axioms>", fileMap := default })
-        (s := { env := environment })
+    (leakEnv := true)
+    (loadExts := true)
+    (level := .private)
+  Prod.fst <$> Core.CoreM.toIO action
+    (ctx := { fileName := "<axioms>", fileMap := default })
+    (s := { env := environment })
 
 /-- Whether a module is one of the audited roots or one of their descendants. -/
 def isAuditedModule (moduleName : Name) : Bool :=
@@ -65,43 +70,6 @@ def auditedModules : IO (Array Name) := do
     (← collectLeanModules ("MazurTorsion" : System.FilePath)) ++
     (← collectLeanModules ("EllipticCurves" : System.FilePath))
 
-/-- A shared memo table for axiom reachability across the whole library. -/
-abbrev AxiomCacheM := ReaderT Environment (StateM (Lean.NameMap Bool))
-
-/-- Decide whether a constant transitively reaches a disallowed axiom.
-
-This mirrors `Lean.collectAxioms`, but shares its memo table across declarations.
-Exact offending axiom names are collected later only for failures. -/
-partial def reachesDisallowedAxiom (constantName : Name) : AxiomCacheM Bool := do
-  if let some result := (← get).find? constantName then
-    return result
-  modify (·.insert constantName false)
-  let environment ← read
-  let anyExpression (expressions : Array Expr) : AxiomCacheM Bool :=
-    expressions.anyM fun expression =>
-      expression.getUsedConstants.anyM reachesDisallowedAxiom
-  let result ←
-    match environment.checked.get.find? constantName with
-    | some (.axiomInfo value) =>
-        if !allowedAxioms.contains constantName then
-          pure true
-        else
-          anyExpression #[value.type]
-    | some (.defnInfo value) => anyExpression #[value.type, value.value]
-    | some (.thmInfo value) => anyExpression #[value.type, value.value]
-    | some (.opaqueInfo value) => anyExpression #[value.type, value.value]
-    | some (.quotInfo _) => pure false
-    | some (.ctorInfo value) => anyExpression #[value.type]
-    | some (.recInfo value) => anyExpression #[value.type]
-    | some (.inductInfo value) =>
-        if (← anyExpression #[value.type]) then
-          pure true
-        else
-          value.ctors.anyM reachesDisallowedAxiom
-    | none => pure false
-  modify (·.insert constantName result)
-  return result
-
 /-- Audit declarations whose defining modules lie under either audited root. -/
 def audit : CoreM (Nat × Array String) := do
   let environment ← getEnv
@@ -118,13 +86,12 @@ def audit : CoreM (Nat × Array String) := do
                 declarations
           | none => declarations
       | none => declarations
-  let offenders : Array Name :=
-    (candidates.filterM reachesDisallowedAxiom |>.run environment).run' {}
   let mut messages : Array String := #[]
-  for declarationName in offenders do
+  for declarationName in candidates do
     let axioms ← collectAxioms declarationName
     let disallowed := axioms.filter fun axiomName => !allowedAxioms.contains axiomName
-    messages := messages.push s!"  {declarationName} -> {disallowed.toList}"
+    if !disallowed.isEmpty then
+      messages := messages.push s!"  {declarationName} -> {disallowed.toList}"
   return (candidates.size, messages)
 
 /-- Run the audit and return a process exit code. -/
