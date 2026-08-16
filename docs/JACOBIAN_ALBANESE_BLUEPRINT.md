@@ -192,11 +192,27 @@ Each summand is finite free of its occurrence multiplicity, and
 `refinedCoordinateGraphQuotientAlgebra_finrank`, with its pointed-incidence
 consumer, proves that their product is finite flat of total rank `d`.
 
-The remaining local work is to identify this checked product presentation
-with the actual pulled-back incidence subscheme on the refined coproduct and
-then compare the selected block-invariant quotient with the block-monic
-coefficient chart.  Once that comparison is cartesian, the existing
-pointwise fpqc interfaces descend the isomorphism, flatness, rank, and Cartier
+This product presentation has now been assembled on the actual refined
+support coproduct.  `refinedSupportCoproductAffineSchemeIso` identifies the
+coproduct with the spectrum of the product of its summand section rings, and
+`refinedCoproductToProductSectionsAlgEquiv` proves that the induced algebra
+equivalence is literally restriction to every summand.  Pulling back the
+component graph-product ideals through that equivalence defines
+`refinedCoproductCoordinateGraphIdealTop`; quotient transport identifies its
+quotient with the checked product algebra.  Hence the actual coproduct
+quotient is finite free of rank `d`, as exposed to pointed incidence by
+`orderedSupportGeometricAssigned_refinedCoproductGraphQuotient_finrank`.
+
+The remaining local work is an exact ideal-sheaf comparison: prove that this
+assembled ideal is the restriction of the globally pulled-back ordered
+incidence ideal.  This cannot be inferred from functoriality alone, because
+pullback of ideal sheaves along an arbitrary scheme morphism does not in
+general preserve products.  The proof must either factor the refined map
+through an affine incidence chart, where `AffineIdealSheafPullback` applies,
+or use the flatness actually furnished by the final fpqc construction.  Once
+that comparison is checked, one must compare the selected block-invariant
+quotient with the block-monic coefficient chart.  The existing pointwise
+fpqc interfaces can then descend the isomorphism, flatness, rank, and Cartier
 equation to the universal effective divisor.
 
 The repository audit found no checked representability theorem for the

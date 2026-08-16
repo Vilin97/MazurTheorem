@@ -29,6 +29,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupport
 open AffineIdealSheafPullback
 open AffineLineSectionProduct
 open EtaleQuotientProduct
+open FiniteEtaleCoproductPower
 open FiniteSupportEtaleCoordinates
 open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
@@ -1395,5 +1396,341 @@ theorem CrossSupportAffineGraphRefinement.refinedCoordinateGraphQuotientAlgebra_
       K C d z hVs q m E hE N a)]
   exact FiniteSupportIndex.sum_supportMultiplicity
     (Spec (.of K)) d C z
+
+/-- The final refined support coproduct is affine. -/
+theorem CrossSupportAffineGraphRefinement.refinedSupportCoproduct_isAffine :
+    IsAffine
+      (R.refinedSupportCoproduct K C d z hVs q m E hE N).left := by
+  letI : ∀ a, IsAffine
+      (R.refinedSupportPiece K C d z hVs q m E hE N a) := fun a ↦
+    R.refinedSupportPiece_isAffine K C d z hVs q m E hE N a
+  letI : Finite (Fin (geometricDistinctSupportCard K C d z)) :=
+    inferInstance
+  change IsAffine
+    (∐ fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+      R.refinedSupportPiece K C d z hVs q m E hE N a)
+  infer_instance
+
+/-- The affine refined coproduct is the spectrum of the product of the
+section rings of its summands. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedSupportCoproductAffineSchemeIso :
+    (R.refinedSupportCoproduct K C d z hVs q m E hE N).left ≅
+      Spec (.of (∀ a : ULift.{u}
+          (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+          R.refinedSupportPiece K C d z hVs q m E hE N b) ∘
+            Equiv.ulift.{u}) a, ⊤))) := by
+  letI : ∀ a, IsAffine
+      (R.refinedSupportPiece K C d z hVs q m E hE N a) := fun a ↦
+    R.refinedSupportPiece_isAffine K C d z hVs q m E hE N a
+  exact (Sigma.reindex (Equiv.ulift.{u})
+      (fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+        R.refinedSupportPiece K C d z hVs q m E hE N a)).symm ≪≫
+    Sigma.mapIso (fun a : ULift.{u}
+        (Fin (geometricDistinctSupportCard K C d z)) ↦
+      @Scheme.isoSpec
+        (((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+          R.refinedSupportPiece K C d z hVs q m E hE N b) ∘
+            Equiv.ulift.{u}) a)
+        (R.refinedSupportPiece_isAffine K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a))) ≪≫
+    asIso (sigmaSpec (fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        CommRingCat.of
+          Γ(((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+            R.refinedSupportPiece K C d z hVs q m E hE N b) ∘
+              Equiv.ulift.{u}) a, ⊤)))
+
+/-- The affine coproduct presentation restricts on each refined summand to
+its affine presentation followed by product evaluation. -/
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedInclusion_comp_affineSchemeIso_hom
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+          (Equiv.ulift.{u} a)).left ≫
+      (R.refinedSupportCoproductAffineSchemeIso
+        K C d z hVs q m E hE N).hom =
+    (@Scheme.isoSpec
+      (((fun c : Fin (geometricDistinctSupportCard K C d z) ↦
+        R.refinedSupportPiece K C d z hVs q m E hE N c) ∘
+          Equiv.ulift.{u}) a)
+      (R.refinedSupportPiece_isAffine K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a))).hom ≫
+      Spec.map (CommRingCat.ofHom (Pi.evalRingHom
+        (fun b : ULift.{u}
+            (Fin (geometricDistinctSupportCard K C d z)) ↦
+          Γ(((fun c : Fin (geometricDistinctSupportCard K C d z) ↦
+            R.refinedSupportPiece K C d z hVs q m E hE N c) ∘
+              Equiv.ulift.{u}) b, ⊤)) a)) := by
+  letI : ∀ b, IsAffine
+      (R.refinedSupportPiece K C d z hVs q m E hE N b) := fun b ↦
+    R.refinedSupportPiece_isAffine K C d z hVs q m E hE N b
+  change Sigma.ι
+      (fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+        R.refinedSupportPiece K C d z hVs q m E hE N b)
+          (Equiv.ulift.{u} a) ≫
+      (R.refinedSupportCoproductAffineSchemeIso
+        K C d z hVs q m E hE N).hom = _
+  rw [CrossSupportAffineGraphRefinement.refinedSupportCoproductAffineSchemeIso,
+    Iso.trans_hom, Iso.symm_hom]
+  rw [← Category.assoc, Sigma.ι_reindex_inv]
+  rw [Iso.trans_hom]
+  rw [Sigma.ι_mapIso_hom_assoc]
+  rw [asIso_hom]
+  rw [cancel_epi]
+  exact AlgebraicGeometry.ι_sigmaSpec _ a
+
+/-- The refined coproduct section ring is an algebra over the final base. -/
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedSupportCoproductSectionsAlgebra :
+    Algebra Γ(R.baseOpen.toScheme, ⊤)
+      Γ((R.refinedSupportCoproduct K C d z hVs q m E hE N).left, ⊤) :=
+  (R.refinedSupportCoproduct
+    K C d z hVs q m E hE N).hom.appTop.hom.toAlgebra
+
+/-- Restriction from the refined coproduct to one summand, as an algebra
+map over the final base. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductRestrictionAlgHom
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤) →ₐ[
+      Γ(R.baseOpen.toScheme, ⊤)]
+    Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+      (Equiv.ulift.{u} a), ⊤) where
+  toRingHom := (inclusion R.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+    (Equiv.ulift.{u} a)).left.appTop.hom
+  commutes' b := by
+    change (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+        (Equiv.ulift.{u} a)).left.appTop
+      ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).hom.appTop b) =
+      (R.refinedSupportPieceFamily K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a)).hom.appTop b
+    rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop,
+      (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+        (Equiv.ulift.{u} a)).w]
+
+/-- Restriction to every refined summand as one product-valued algebra
+map. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductToProductSectionsAlgHom :
+    Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤) →ₐ[
+      Γ(R.baseOpen.toScheme, ⊤)]
+    ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+      Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a), ⊤) :=
+  AlgHom.pi (R.refinedCoproductRestrictionAlgHom
+    K C d z hVs q m E hE N)
+
+/-- The affine presentation gives a ring equivalence from refined
+coproduct sections to the product of summand sections. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductSectionsRingEquiv :
+    Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤) ≃+*
+      ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤) := by
+  let P := ∀ a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)),
+    Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+      (Equiv.ulift.{u} a), ⊤)
+  let e := R.refinedSupportCoproductAffineSchemeIso
+    K C d z hVs q m E hE N
+  let f : Γ((R.refinedSupportCoproduct
+      K C d z hVs q m E hE N).left, ⊤) →+* P :=
+    (Scheme.ΓSpecIso (.of P)).hom.hom.comp e.inv.appTop.hom
+  apply RingEquiv.ofBijective f
+  exact (ConcreteCategory.bijective_of_isIso
+      (Scheme.ΓSpecIso (.of P)).hom).comp
+    (ConcreteCategory.bijective_of_isIso
+      (e.inv.app (⊤ : (R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left.Opens)))
+
+/-- The ring equivalence furnished by the affine presentation is exactly
+restriction to the refined summands. -/
+theorem CrossSupportAffineGraphRefinement.refinedCoproductSectionsRingEquiv_apply
+    (x : Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤))
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    R.refinedCoproductSectionsRingEquiv
+        K C d z hVs q m E hE N x a =
+      (R.refinedCoproductRestrictionAlgHom
+        K C d z hVs q m E hE N a) x := by
+  let P := ∀ b : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)),
+    Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+      (Equiv.ulift.{u} b), ⊤)
+  let e := R.refinedSupportCoproductAffineSchemeIso
+    K C d z hVs q m E hE N
+  let ι := (inclusion R.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+    (Equiv.ulift.{u} a)).left
+  let ev : CommRingCat.of P ⟶
+      CommRingCat.of Γ(R.refinedSupportPiece
+        K C d z hVs q m E hE N (Equiv.ulift.{u} a), ⊤) :=
+    CommRingCat.ofHom (Pi.evalRingHom (fun b : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} b), ⊤)) a)
+  have hscheme := R.refinedInclusion_comp_affineSchemeIso_hom
+    K C d z hVs q m E hE N a
+  have happ := congrArg
+    (fun f : R.refinedSupportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) ⟶ Spec (.of P) ↦ f.appTop) hscheme
+  rw [Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop] at happ
+  simp only [Scheme.isoSpec, asIso_hom,
+    Scheme.toSpecΓ_appTop] at happ
+  change e.hom.appTop ≫ ι.appTop =
+    (Spec.map ev).appTop ≫
+      (Scheme.ΓSpecIso (.of Γ(R.refinedSupportPiece
+        K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤))).hom at happ
+  rw [Scheme.ΓSpecIso_naturality] at happ
+  letI : IsIso e.hom.appTop := by
+    apply Scheme.Hom.isIso_app e.hom ⊤
+    rw [Scheme.Hom.opensRange_of_isIso]
+  have heapp : e.hom.appTop ≫ e.inv.appTop = 𝟙 _ := by
+    rw [← Scheme.Hom.comp_appTop, Iso.inv_hom_id,
+      Scheme.Hom.id_appTop]
+  have hinv : e.inv.appTop = inv e.hom.appTop :=
+    IsIso.eq_inv_of_hom_inv_id heapp
+  have hring :
+      (e.inv.appTop ≫ (Scheme.ΓSpecIso (.of P)).hom) ≫ ev =
+        ι.appTop := by
+    rw [hinv, Category.assoc]
+    exact (IsIso.inv_comp_eq e.hom.appTop).2 happ.symm
+  change (((e.inv.appTop ≫ (Scheme.ΓSpecIso (.of P)).hom) ≫ ev) x) =
+    ι.appTop x
+  rw [hring]
+
+/-- Restriction identifies refined coproduct sections with the product of
+summand sections as algebras over the final base. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductToProductSectionsAlgEquiv :
+    Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤) ≃ₐ[
+      Γ(R.baseOpen.toScheme, ⊤)]
+    ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+      Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a), ⊤) := by
+  let f := R.refinedCoproductToProductSectionsAlgHom
+    K C d z hVs q m E hE N
+  let e := R.refinedCoproductSectionsRingEquiv
+    K C d z hVs q m E hE N
+  apply AlgEquiv.ofBijective f
+  have hfeq : (f :
+      Γ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).left, ⊤) →
+      ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤)) = e := by
+    funext x
+    ext a
+    exact (R.refinedCoproductSectionsRingEquiv_apply
+      K C d z hVs q m E hE N x a).symm
+  rw [hfeq]
+  exact e.bijective
+
+/-- The assembled universal coordinate-graph ideal on the actual affine
+refined support coproduct. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphIdealTop :
+    Ideal Γ((R.refinedSupportCoproduct
+      K C d z hVs q m E hE N).left, ⊤) :=
+  Ideal.comap
+    (R.refinedCoproductToProductSectionsAlgEquiv
+      K C d z hVs q m E hE N).toRingEquiv.toRingHom
+    (Ideal.pi (fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        R.refinedCoordinateGraphProductIdealTop
+          K C d z hVs q m E hE N (Equiv.ulift.{u} a)))
+
+/-- The actual refined coproduct quotient by the assembled universal
+coordinate-graph ideal. -/
+noncomputable abbrev
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotient :=
+  Γ((R.refinedSupportCoproduct
+      K C d z hVs q m E hE N).left, ⊤) ⧸
+    R.refinedCoproductCoordinateGraphIdealTop
+      K C d z hVs q m E hE N
+
+/-- The actual refined coproduct quotient is the product of the checked
+universal-coordinate quotients on its support summands. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotientEquivProduct :
+    R.refinedCoproductCoordinateGraphQuotient
+        K C d z hVs q m E hE N ≃ₐ[Γ(R.baseOpen.toScheme, ⊤)]
+      R.refinedCoordinateGraphQuotientAlgebra
+        K C d z hVs q m E hE N := by
+  let e := R.refinedCoproductToProductSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  let I := fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+    R.refinedCoordinateGraphProductIdealTop
+      K C d z hVs q m E hE N (Equiv.ulift.{u} a)
+  let J := Ideal.pi I
+  let eQuot := Ideal.quotientEquivAlg
+    (R.refinedCoproductCoordinateGraphIdealTop
+      K C d z hVs q m E hE N) J e (by
+      change J = Ideal.map e.toRingEquiv.toRingHom
+        (Ideal.comap e.toRingEquiv.toRingHom J)
+      exact (Ideal.map_comap_of_surjective
+        e.toRingEquiv.toRingHom e.surjective J).symm)
+  exact eQuot.trans
+    ((SectionProductRootAlgebra.piIdealQuotientAlgEquiv I).trans
+      (AlgEquiv.piCongrLeft Γ(R.baseOpen.toScheme, ⊤)
+        (fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+          R.refinedCoordinateGraphProductQuotient
+            K C d z hVs q m E hE N a)
+        (Equiv.ulift.{u})))
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotient_free :
+    Module.Free Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductCoordinateGraphQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Free.of_equiv
+    (R.refinedCoproductCoordinateGraphQuotientEquivProduct
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotient_finite :
+    Module.Finite Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductCoordinateGraphQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Finite.equiv
+    (R.refinedCoproductCoordinateGraphQuotientEquivProduct
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotient_flat :
+    Module.Flat Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductCoordinateGraphQuotient
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+/-- The actual refined support-coproduct quotient is finite free of rank the
+original ordered degree. -/
+theorem CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotient_finrank :
+    Module.finrank Γ(R.baseOpen.toScheme, ⊤)
+        (R.refinedCoproductCoordinateGraphQuotient
+          K C d z hVs q m E hE N) = d := by
+  rw [(R.refinedCoproductCoordinateGraphQuotientEquivProduct
+    K C d z hVs q m E hE N).toLinearEquiv.finrank_eq]
+  exact R.refinedCoordinateGraphQuotientAlgebra_finrank
+    K C d z hVs q m E hE N
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct

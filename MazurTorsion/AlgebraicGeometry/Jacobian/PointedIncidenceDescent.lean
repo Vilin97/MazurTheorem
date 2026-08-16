@@ -840,6 +840,46 @@ theorem orderedSupportGeometricAssigned_refinedCoordinateGraphQuotientAlgebra_fi
   R.refinedCoordinateGraphQuotientAlgebra_finrank K C d
     (orderedSupportPoint K C d z) hVs q m E hE N
 
+omit [GeometricallyIrreducible C.hom] in
+/-- On the final pointed-incidence refinement, the actual affine coproduct
+quotient by its assembled coordinate-graph ideal is finite free of rank the
+original ordered degree.  This is the named incidence consumer of the
+coproduct section-ring comparison. -/
+theorem orderedSupportGeometricAssigned_refinedCoproductGraphQuotient_finrank
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    (R : CrossSupportAffineGraphRefinement K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N) :
+    Module.finrank Γ(R.baseOpen.toScheme, ⊤)
+        (R.refinedCoproductCoordinateGraphQuotient K C d
+          (orderedSupportPoint K C d z) hVs q m E hE N) = d :=
+  R.refinedCoproductCoordinateGraphQuotient_finrank K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N
+
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On an ordered-incidence affine support block, the global ideal retaining
 all ordered occurrences and their multiplicities is obtained by extending
