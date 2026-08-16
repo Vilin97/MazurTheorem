@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteGroupQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteEtalePointSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFpqcRefinement
+import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantSplitRefinement
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativePowerBaseIso
 
@@ -39,12 +40,14 @@ open AssignedProductStabilizer
 open EquivariantFiniteGroupQuotient
 open EquivariantFiniteEtalePointSplitChart
 open EquivariantFpqcRefinement
+open EquivariantSplitRefinement
 open FiniteEtaleAssignedCoproductPower
 open FiniteEtaleRelativeProduct
 open FiniteFlatConstantRankNeighborhood
 open FiniteGroupQuotient
 open FiniteSupportEtaleCoordinates
 open RelativePowerBaseIso
+open SplitFiniteBaseChange
 open SmoothCurveEtaleCoordinate
 
 variable (K : Type u) [Field K]
@@ -833,6 +836,139 @@ theorem componentFpqcBlockRefinement_actionMap_comp_cover
         ((action K C d z).restrict hVs).hom g :=
   EquivariantFpqcRefinement.rawActionHom_comp_cover
     ((action K C d z).restrict hVs) q g
+
+/-- The selected-component source, first pulled to an fpqc splitting cover
+and then to its common block-translate refinement. -/
+noncomputable abbrev componentFpqcBlockSplitSource
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme) :
+    Over (componentFpqcBlockRefinement K C d z hVs q).left :=
+  EquivariantSplitRefinement.splitSource
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+
+/-- The original split presentation transports to the common block
+refinement through its identity-indexed projection. -/
+noncomputable def componentFpqcBlockSplitIso
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q) :
+    componentFpqcBlockSplitSource K C d z hVs q ≅
+      splitFinite (componentFpqcBlockRefinement K C d z hVs q).left m :=
+  EquivariantSplitRefinement.splitIso
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q m E hE
+
+/-- The transported split source maps back to the restricted selected
+component product. -/
+noncomputable def componentFpqcBlockSplitSourceToComponentPreimage
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme) :
+    (componentFpqcBlockSplitSource K C d z hVs q).left ⟶
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme :=
+  EquivariantSplitRefinement.splitSourceToOriginal
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+
+/-- The map from the transported split source to the selected-component
+preimage lies over the common block-refinement cover. -/
+@[reassoc]
+theorem componentFpqcBlockSplitSourceToComponentPreimage_comp
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme) :
+    componentFpqcBlockSplitSourceToComponentPreimage K C d z hVs q ≫
+        ((componentToBasePower K C d z).left ∣_ V) =
+      (componentFpqcBlockSplitSource K C d z hVs q).hom ≫
+        (componentFpqcBlockRefinement K C d z hVs q).hom :=
+  EquivariantSplitRefinement.splitSourceToOriginal_comp
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+
+/-- Restrict the selected-component block action to the preimage of a
+stable occurrence-base open. -/
+noncomputable def componentPreimageAction
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V)) :
+    SchemeAction (geometricAssignedStabilizer K C d z)
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme :=
+  (componentAction K C d z).restrict hpre
+
+/-- Restriction to a stable base open and its stable source preimage
+preserves equivariance of the selected-component morphism. -/
+theorem componentToBasePower_restrict_equivariant
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    (g : geometricAssignedStabilizer K C d z) :
+    (componentPreimageAction K C d z hpre).hom g ≫
+        ((componentToBasePower K C d z).left ∣_ V) =
+      ((componentToBasePower K C d z).left ∣_ V) ≫
+        ((action K C d z).restrict hVs).hom g :=
+  EquivariantSplitRefinement.restrictPreimage_equivariant
+    (action K C d z) (componentToBasePower K C d z).left
+    (componentAction K C d z)
+    (componentToBasePower_equivariant K C d z) hVs hpre g
+
+/-- The split finite source over the common block refinement carries the
+transported block action. -/
+noncomputable def componentFpqcBlockSplitAction
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q) :
+    SchemeAction (geometricAssignedStabilizer K C d z)
+      (splitFinite
+        (componentFpqcBlockRefinement K C d z hVs q).left m).left :=
+  EquivariantSplitRefinement.splitAction
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE
+
+/-- The transported block action on the split finite source covers the
+genuine block action on the common fpqc refinement. -/
+theorem componentFpqcBlockSplitAction_equivariant
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (g : geometricAssignedStabilizer K C d z) :
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE).hom g ≫
+        (splitFinite
+          (componentFpqcBlockRefinement K C d z hVs q).left m).hom =
+      (splitFinite
+          (componentFpqcBlockRefinement K C d z hVs q).left m).hom ≫
+        (EquivariantFpqcRefinement.refinementAction
+          ((action K C d z).restrict hVs) q).hom g :=
+  EquivariantSplitRefinement.splitAction_equivariant
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE g
 
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/

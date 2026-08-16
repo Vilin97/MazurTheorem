@@ -327,6 +327,65 @@ theorem orderedSupportGeometricAssigned_blockRefinement_isAffine_finiteEtale_fpq
     (orderedSupportPoint K C d z) hVs q
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an ordered incidence support, the chosen finite-sheet presentation
+pulls from the original fpqc chart to its common block-translate
+refinement. -/
+noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitIso
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q) :
+    componentFpqcBlockSplitSource K C d
+        (orderedSupportPoint K C d z) hVs q ≅
+      splitFinite
+        (componentFpqcBlockRefinement K C d
+          (orderedSupportPoint K C d z) hVs q).left m :=
+  componentFpqcBlockSplitIso K C d
+    (orderedSupportPoint K C d z) hVs q m E hE
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The transported finite-sheet presentation at an ordered incidence
+support carries the genuine geometric-support block action. -/
+noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitAction
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hpre : (componentAction K C d
+      (orderedSupportPoint K C d z)).IsStableOpen
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q) :
+    SchemeAction (geometricAssignedStabilizer K C d
+      (orderedSupportPoint K C d z))
+      (splitFinite
+        (componentFpqcBlockRefinement K C d
+          (orderedSupportPoint K C d z) hVs q).left m).left :=
+  componentFpqcBlockSplitAction K C d
+    (orderedSupportPoint K C d z) hVs hpre q m E hE
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On a chosen geometric-support fpqc split chart, the degree-preserving
 assigned coproduct power contains a point mapping to the exact original
 ordered support.  Repeated geometric coordinates use the same family member

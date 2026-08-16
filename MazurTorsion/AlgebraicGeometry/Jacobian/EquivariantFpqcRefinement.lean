@@ -296,4 +296,58 @@ theorem rawActionHom_mul_comp_projection (h k g : G) :
     _ = (rawActionHom τ q h ≫ rawActionHom τ q k) ≫
           projection τ q g := (Category.assoc _ _ _).symm
 
+/-- The action maps with twisted sources satisfy multiplication in the
+slice. -/
+theorem actionHom_mul (h k : G) :
+    actionHom τ q (h * k) =
+      actionTransition τ q h k ≫ actionHom τ q k := by
+  apply Pi.hom_ext
+  intro g
+  apply Over.OverMorphism.ext
+  change rawActionHom τ q (h * k) ≫ projection τ q g =
+    (rawActionHom τ q h ≫ rawActionHom τ q k) ≫ projection τ q g
+  exact rawActionHom_mul_comp_projection τ q h k g
+
+/-- Right translation of all factors satisfies the multiplication law as
+an equality of underlying scheme morphisms. -/
+theorem rawActionHom_mul (h k : G) :
+    rawActionHom τ q (h * k) =
+      rawActionHom τ q h ≫ rawActionHom τ q k := by
+  have hEq := congrArg Over.Hom.left (actionHom_mul τ q h k)
+  simpa [rawActionHom, actionTransition] using hEq
+
+/-- The identity map regarded as a morphism from the identity-twisted
+source to the common refinement. -/
+noncomputable def actionOneId :
+    actionSource τ q 1 ⟶ refinement τ q :=
+  Over.homMk (𝟙 (refinement τ q).left) (by
+    change 𝟙 (refinement τ q).left ≫ (refinement τ q).hom =
+      (refinement τ q).hom ≫ τ.hom 1
+    rw [Category.id_comp, τ.hom_one, Category.comp_id])
+
+/-- The factor-translation map at the identity is the identity morphism in
+the slice with its source twist made explicit. -/
+theorem actionHom_one :
+    actionHom τ q 1 = actionOneId τ q := by
+  apply Pi.hom_ext
+  intro g
+  apply Over.OverMorphism.ext
+  change rawActionHom τ q 1 ≫ projection τ q g =
+    𝟙 (refinement τ q).left ≫ projection τ q g
+  rw [actionHom_comp_projection, inv_one, mul_one, Category.id_comp]
+
+/-- Right translation of all factors by the identity is the identity. -/
+theorem rawActionHom_one :
+    rawActionHom τ q 1 = 𝟙 (refinement τ q).left := by
+  have hEq := congrArg Over.Hom.left (actionHom_one τ q)
+  simpa [rawActionHom, actionOneId] using hEq
+
+/-- The finite-translate refinement carries a genuine action covering the
+given action on the target. -/
+noncomputable def refinementAction :
+    SchemeAction G (refinement τ q).left where
+  hom := rawActionHom τ q
+  hom_one := rawActionHom_one τ q
+  hom_mul := rawActionHom_mul τ q
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFpqcRefinement
