@@ -38,6 +38,15 @@ neighbourhood by intersecting its translates. -/
 def HasAffineOrbit (σ : SchemeAction G X) : Prop :=
   ∀ x : X, ∃ U : X.Opens, IsAffineOpen U ∧ ∀ g : G, σ.hom g x ∈ U
 
+/-- Every action on an affine scheme has affine orbit neighbourhoods: the
+whole scheme is already one such neighbourhood. -/
+theorem hasAffineOrbit_of_isAffine (σ : SchemeAction G X) [IsAffine X] :
+    HasAffineOrbit σ := by
+  intro x
+  refine ⟨⊤, isAffineOpen_top X, ?_⟩
+  intro g
+  exact Set.mem_univ (σ.hom g x)
+
 /-- Affine-orbit neighbourhoods pull back along an equivariant affine
 morphism. -/
 theorem hasAffineOrbit_of_equivariant_affine

@@ -1255,6 +1255,55 @@ theorem componentFpqcBlockOrbitTransitionOpen_isStable
     (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
       q m E hE) s
 
+/-- The stable clopen union of the split source sheets reached from one
+selected sheet along an arbitrary refinement orbit. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitSheetOpen
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) :
+    (splitFinite
+      (componentFpqcBlockRefinement K C d z hVs q).left m).left.Opens :=
+  selectedOrbitSheetOpen
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q) s j
+
+/-- The selected orbit-sheet open is stable under the transported block
+action on the split source. -/
+theorem componentFpqcBlockSelectedOrbitSheetOpen_isStable
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) :
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE).IsStableOpen
+      (componentFpqcBlockSelectedOrbitSheetOpen K C d z hVs hpre
+        q m E hE s j) :=
+  selectedOrbitSheetOpen_isStable
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q)
+    (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
+      q m E hE) s j
+
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/
 theorem action_fixed_commonAffineBasePoint

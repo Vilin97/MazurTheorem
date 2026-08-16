@@ -4,7 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, Codex
 -/
 
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineClopen
+import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFiniteGroupQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantSplitRefinement
+import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteGroupQuotient
 
 /-!
 # Sheet transitions induced by actions on split finite schemes
@@ -28,6 +31,8 @@ open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteActionSheets
 
+open AffineClopen
+open FiniteGroupQuotient
 open SplitFiniteBaseChange
 
 variable {G : Type} [Group G]
@@ -43,6 +48,38 @@ theorem sheetPoint_projection (j : Fin m) (s : S) :
     (splitFinite S m).hom (sheetPoint S m j s) = s := by
   have h := congrArg (fun f ↦ f s) (sheetInclusion S m j).w
   simpa [sheetPoint] using h
+
+/-- Extracting the sheet label of a point inserted in the `j`-th sheet
+returns `j`. -/
+theorem sheetPoint_sheet (j : Fin m) (s : S) :
+    splitPointSheet S m (splitFinite S m) (Iso.refl _)
+      (sheetPoint S m j s) = j := by
+  let e := sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)
+  have hj : e.symm (sheetPoint S m j s) = ⟨ULift.up j, s⟩ := by
+    apply e.injective
+    rw [e.apply_symm_apply]
+    exact (sigmaMk_mk
+      (fun _ : ULift.{u} (Fin m) ↦ S) (ULift.up j) s).symm
+  change (e.symm (sheetPoint S m j s)).1.down = j
+  rw [hj]
+
+/-- The sheet coordinate of the split finite scheme is locally constant. -/
+theorem splitPointSheet_refl_isLocallyConstant :
+    IsLocallyConstant (fun x : (splitFinite S m).left ↦
+      splitPointSheet S m (splitFinite S m) (Iso.refl _) x) := by
+  let e := sigmaMk (fun _ : ULift.{u} (Fin m) ↦ S)
+  have hindex : Continuous
+      (fun x : Σ _ : ULift.{u} (Fin m), S ↦ x.1.down) := by
+    rw [continuous_def]
+    intro t ht
+    rw [isOpen_sigma_iff]
+    intro i
+    change IsOpen { _s : S | i.down ∈ t }
+    by_cases hi : i.down ∈ t
+    · simp [hi]
+    · simp [hi]
+  apply (IsLocallyConstant.iff_continuous _).2
+  exact hindex.comp e.symm.continuous
 
 /-- With the identity split presentation, the extracted base coordinate is
 the structural-map image. -/
@@ -103,6 +140,40 @@ theorem action_sheetPoint (g : G) (s : S) (j : Fin m) :
         (α.hom g (sheetPoint S m j s))) at hd
   rw [hb] at hd
   exact hd
+
+include hα in
+/-- The action on an arbitrary point of a split finite scheme is determined
+by its extracted base point and sheet label. -/
+theorem action_point_decomposition (g : G)
+    (x : (splitFinite S m).left) :
+    α.hom g x =
+      sheetPoint S m
+        (sheetTransition S m α g ((splitFinite S m).hom x)
+          (splitPointSheet S m (splitFinite S m) (Iso.refl _) x))
+        (β.hom g ((splitFinite S m).hom x)) := by
+  have hd := splitPoint_decomposition S m
+    (splitFinite S m) (Iso.refl _) x
+  change x = sheetPoint S m
+    (splitPointSheet S m (splitFinite S m) (Iso.refl _) x)
+    (splitPointBase S m (splitFinite S m) (Iso.refl _) x) at hd
+  rw [splitPointBase_refl] at hd
+  calc
+    α.hom g x = α.hom g
+        (sheetPoint S m
+          (splitPointSheet S m (splitFinite S m) (Iso.refl _) x)
+          ((splitFinite S m).hom x)) := congrArg (α.hom g) hd
+    _ = _ := action_sheetPoint S m α β hα g _ _
+
+include hα in
+/-- Extracting the sheet after applying the action gives the corresponding
+transition label. -/
+theorem splitPointSheet_action (g : G)
+    (x : (splitFinite S m).left) :
+    splitPointSheet S m (splitFinite S m) (Iso.refl _) (α.hom g x) =
+      sheetTransition S m α g ((splitFinite S m).hom x)
+        (splitPointSheet S m (splitFinite S m) (Iso.refl _) x) := by
+  rw [action_point_decomposition S m α β hα]
+  exact sheetPoint_sheet S m _ _
 
 /-- Distinct sheet labels give distinct points above a fixed base point. -/
 theorem sheetPoint_injective (s : S) :
@@ -413,6 +484,174 @@ theorem orbitTransitionOpen_isStable (s₀ : S) :
   · intro hs
     exact orbitTransitionSet_map_mem S m α β hα s₀ hs h
 
+/-- The union of the source sheets reached from `j₀` along the orbit of
+`s₀`, restricted over the corresponding transition-signature loci. -/
+def selectedOrbitSheetSet (s₀ : S) (j₀ : Fin m) :
+    Set (splitFinite S m).left :=
+  ⋃ h : G,
+    ((splitFinite S m).hom ⁻¹'
+      constantTransitionSet S m α (β.hom h s₀)) ∩
+    {x | splitPointSheet S m (splitFinite S m) (Iso.refl _) x =
+      sheetTransition S m α h s₀ j₀}
+
+/-- The selected orbit-sheet union is open and closed in the split finite
+source. -/
+theorem selectedOrbitSheetSet_isClopen (s₀ : S) (j₀ : Fin m) :
+    IsClopen (selectedOrbitSheetSet S m α β s₀ j₀) := by
+  apply isClopen_iUnion_of_finite
+  intro h
+  apply IsClopen.inter
+  · exact (constantTransitionSet_isClopen S m α (β.hom h s₀)).preimage
+      (splitFinite S m).hom.continuous
+  · exact (splitPointSheet_refl_isLocallyConstant S m).isClopen_fiber _
+
+omit [Finite G] in
+/-- The actual translated sheet point belongs to the selected orbit-sheet
+union. -/
+theorem orbit_sheetPoint_mem_selectedOrbitSheetSet
+    (s₀ : S) (j₀ : Fin m) (h : G) :
+    sheetPoint S m (sheetTransition S m α h s₀ j₀) (β.hom h s₀) ∈
+      selectedOrbitSheetSet S m α β s₀ j₀ := by
+  rw [selectedOrbitSheetSet]
+  apply Set.mem_iUnion.2
+  refine ⟨h, ?_⟩
+  constructor
+  · change (splitFinite S m).hom
+        (sheetPoint S m (sheetTransition S m α h s₀ j₀) (β.hom h s₀)) ∈
+      constantTransitionSet S m α (β.hom h s₀)
+    rw [sheetPoint_projection]
+    exact self_mem_constantTransitionSet S m α (β.hom h s₀)
+  · change splitPointSheet S m (splitFinite S m) (Iso.refl _)
+      (sheetPoint S m (sheetTransition S m α h s₀ j₀)
+        (β.hom h s₀)) = sheetTransition S m α h s₀ j₀
+    exact sheetPoint_sheet S m _ _
+
+omit [Finite G] in
+include hα in
+/-- The selected orbit-sheet union is preserved by every action map. -/
+theorem selectedOrbitSheetSet_map_mem
+    (s₀ : S) (j₀ : Fin m)
+    {x : (splitFinite S m).left}
+    (hx : x ∈ selectedOrbitSheetSet S m α β s₀ j₀) (h : G) :
+    α.hom h x ∈ selectedOrbitSheetSet S m α β s₀ j₀ := by
+  rw [selectedOrbitSheetSet] at hx ⊢
+  obtain ⟨k, hxbase, hxsheet⟩ := Set.mem_iUnion.1 hx
+  apply Set.mem_iUnion.2
+  refine ⟨k * h, ?_, ?_⟩
+  · have hmap := constantTransitionSet_map_mem_general S m α β hα
+      (β.hom k s₀) hxbase h
+    have hcover := congrArg (fun e : (splitFinite S m).left ⟶ S ↦ e x)
+      (hα h)
+    change (splitFinite S m).hom (α.hom h x) =
+      β.hom h ((splitFinite S m).hom x) at hcover
+    have hkh := congrArg (fun e : S ⟶ S ↦ e s₀) (β.hom_mul k h)
+    change β.hom (k * h) s₀ = β.hom h (β.hom k s₀) at hkh
+    change (splitFinite S m).hom (α.hom h x) ∈
+      constantTransitionSet S m α (β.hom (k * h) s₀)
+    rw [hcover, hkh]
+    exact hmap
+  · change splitPointSheet S m (splitFinite S m) (Iso.refl _)
+      (α.hom h x) = sheetTransition S m α (k * h) s₀ j₀
+    change splitPointSheet S m (splitFinite S m) (Iso.refl _) x =
+      sheetTransition S m α k s₀ j₀ at hxsheet
+    rw [splitPointSheet_action S m α β hα, hxsheet]
+    have hsig := (mem_constantTransitionSet_iff S m α
+      (β.hom k s₀) ((splitFinite S m).hom x)).1 hxbase
+    calc
+      sheetTransition S m α h ((splitFinite S m).hom x)
+          (sheetTransition S m α k s₀ j₀) =
+        sheetTransition S m α h (β.hom k s₀)
+          (sheetTransition S m α k s₀ j₀) :=
+        hsig h (sheetTransition S m α k s₀ j₀)
+      _ = sheetTransition S m α (k * h) s₀ j₀ :=
+        (sheetTransition_mul S m α β hα k h s₀ j₀).symm
+
+/-- The selected orbit-sheet union as an open subscheme of the split finite
+source. -/
+noncomputable def selectedOrbitSheetOpen (s₀ : S) (j₀ : Fin m) :
+    (splitFinite S m).left.Opens :=
+  ⟨selectedOrbitSheetSet S m α β s₀ j₀,
+    (selectedOrbitSheetSet_isClopen S m α β s₀ j₀).isOpen⟩
+
+/-- Over an affine base, the selected orbit-sheet open is affine. -/
+theorem selectedOrbitSheetOpen_isAffine [IsAffine S]
+    (s₀ : S) (j₀ : Fin m) :
+    IsAffineOpen (selectedOrbitSheetOpen S m α β s₀ j₀) := by
+  letI : IsAffine (splitFinite S m).left := by
+    change IsAffine (∐ fun _ : ULift.{u} (Fin m) ↦ S)
+    infer_instance
+  exact isAffineOpen_of_isClopen
+    (selectedOrbitSheetSet_isClopen S m α β s₀ j₀)
+
+include hα in
+/-- The selected orbit-sheet open is stable under the split source action. -/
+theorem selectedOrbitSheetOpen_isStable (s₀ : S) (j₀ : Fin m) :
+    α.IsStableOpen (selectedOrbitSheetOpen S m α β s₀ j₀) := by
+  intro h
+  apply SetLike.ext
+  intro x
+  change α.hom h x ∈ selectedOrbitSheetSet S m α β s₀ j₀ ↔
+    x ∈ selectedOrbitSheetSet S m α β s₀ j₀
+  constructor
+  · intro hx
+    have hback := selectedOrbitSheetSet_map_mem S m α β hα
+      s₀ j₀ hx h⁻¹
+    have hcancel : α.hom h⁻¹ (α.hom h x) = x := by
+      have hmul := congrArg (fun e : (splitFinite S m).left ⟶
+        (splitFinite S m).left ↦ e x) (α.hom_mul h h⁻¹)
+      rw [mul_inv_cancel, α.hom_one] at hmul
+      exact hmul.symm.trans (ConcreteCategory.id_apply x)
+    rwa [hcancel] at hback
+  · intro hx
+    exact selectedOrbitSheetSet_map_mem S m α β hα s₀ j₀ hx h
+
+/-- The action restricted to the selected orbit-sheet open. -/
+noncomputable def selectedOrbitSheetAction (s₀ : S) (j₀ : Fin m) :
+    SchemeAction G
+      (selectedOrbitSheetOpen S m α β s₀ j₀).toScheme :=
+  α.restrict (selectedOrbitSheetOpen_isStable S m α β hα s₀ j₀)
+
+include hα in
+/-- Inclusion of the selected orbit-sheet open is equivariant. -/
+theorem selectedOrbitSheetOpen_inclusion_equivariant
+    (s₀ : S) (j₀ : Fin m) (g : G) :
+    (selectedOrbitSheetAction S m α β hα s₀ j₀).hom g ≫
+        (selectedOrbitSheetOpen S m α β s₀ j₀).ι =
+      (selectedOrbitSheetOpen S m α β s₀ j₀).ι ≫ α.hom g :=
+  Scheme.Hom.resLE_comp_ι (α.hom g)
+    ((selectedOrbitSheetOpen_isStable S m α β hα s₀ j₀).le_preimage g)
+
+/-- Over an affine base, the restricted selected orbit-sheet action has
+affine orbit neighbourhoods. -/
+theorem selectedOrbitSheetAction_hasAffineOrbit [IsAffine S]
+    (s₀ : S) (j₀ : Fin m) :
+    HasAffineOrbit (selectedOrbitSheetAction S m α β hα s₀ j₀) := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen S m α β s₀ j₀).toScheme :=
+    selectedOrbitSheetOpen_isAffine S m α β s₀ j₀
+  exact hasAffineOrbit_of_isAffine _
+
+/-- The finite-group quotient of the selected orbit-sheet chart. -/
+noncomputable def selectedOrbitSheetQuotient [IsAffine S]
+    (s₀ : S) (j₀ : Fin m) : Scheme.{u} := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen S m α β s₀ j₀).toScheme :=
+    selectedOrbitSheetOpen_isAffine S m α β s₀ j₀
+  exact quotient (selectedOrbitSheetAction S m α β hα s₀ j₀)
+    (selectedOrbitSheetAction_hasAffineOrbit S m α β hα s₀ j₀)
+
+/-- The canonical projection from the selected orbit-sheet chart to its
+finite-group quotient. -/
+noncomputable def selectedOrbitSheetQuotientπ [IsAffine S]
+    (s₀ : S) (j₀ : Fin m) :
+    (selectedOrbitSheetOpen S m α β s₀ j₀).toScheme ⟶
+      selectedOrbitSheetQuotient S m α β hα s₀ j₀ := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen S m α β s₀ j₀).toScheme :=
+    selectedOrbitSheetOpen_isAffine S m α β s₀ j₀
+  exact quotientπ (selectedOrbitSheetAction S m α β hα s₀ j₀)
+    (selectedOrbitSheetAction_hasAffineOrbit S m α β hα s₀ j₀)
+
 /-- The constant-transition locus as an open subscheme of the base. -/
 noncomputable def constantTransitionOpen (s₀ : S) : S.Opens :=
   ⟨constantTransitionSet S m α s₀,
@@ -626,5 +865,143 @@ theorem orbit_sheet_maps_fixed_point
     (EquivariantSplitRefinement.splitAction_equivariant
       τ f q σ hf n E hE) g s j]
   exact he
+
+/-- The map from the selected orbit-sheet open back to the original finite
+source. -/
+noncomputable def selectedOrbitSheetToOriginal
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) :
+    (selectedOrbitSheetOpen
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j).toScheme ⟶ X :=
+  (selectedOrbitSheetOpen
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j).ι ≫
+    (EquivariantSplitRefinement.directSplitIso τ f q n E hE).inv.left ≫
+    pullback.fst f (EquivariantFpqcRefinement.projection τ q 1 ≫ q)
+
+/-- The selected orbit-sheet open maps equivariantly back to the original
+finite source.  This is the morphism to which finite-group quotient descent
+will be applied. -/
+theorem selectedOrbitSheetToOriginal_equivariant
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) (g : G) :
+    (selectedOrbitSheetAction
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j).hom g ≫
+      (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).ι ≫
+      (EquivariantSplitRefinement.directSplitIso τ f q n E hE).inv.left ≫
+      pullback.fst f (EquivariantFpqcRefinement.projection τ q 1 ≫ q) =
+    (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).ι ≫
+      (EquivariantSplitRefinement.directSplitIso τ f q n E hE).inv.left ≫
+      pullback.fst f (EquivariantFpqcRefinement.projection τ q 1 ≫ q) ≫
+      σ.hom g := by
+  rw [← Category.assoc,
+    selectedOrbitSheetOpen_inclusion_equivariant
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j g]
+  simp only [Category.assoc]
+  rw [EquivariantSplitRefinement.splitAction_toOriginal_equivariant]
+
+/-- The named selected-orbit map is equivariant. -/
+theorem selectedOrbitSheetToOriginal_equivariant'
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) (g : G) :
+    (selectedOrbitSheetAction
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j).hom g ≫
+      selectedOrbitSheetToOriginal τ f q σ hf n E hE s j =
+    selectedOrbitSheetToOriginal τ f q σ hf n E hE s j ≫ σ.hom g :=
+  selectedOrbitSheetToOriginal_equivariant τ f q σ hf n E hE s j g
+
+/-- Quotient descent of the selected orbit-sheet map to an affine original
+source. -/
+noncomputable def selectedOrbitSheetDescendedMap
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n)
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    selectedOrbitSheetQuotient
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j ⟶
+      quotient σ (hasAffineOrbit_of_isAffine σ) := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).toScheme :=
+    selectedOrbitSheetOpen_isAffine
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j
+  exact EquivariantFiniteGroupQuotient.descendedMap
+    (selectedOrbitSheetAction
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    σ
+    (selectedOrbitSheetAction_hasAffineOrbit
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (hasAffineOrbit_of_isAffine σ)
+    (selectedOrbitSheetToOriginal τ f q σ hf n E hE s j)
+    (selectedOrbitSheetToOriginal_equivariant' τ f q σ hf n E hE s j)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteActionSheets
