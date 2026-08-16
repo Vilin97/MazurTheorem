@@ -10,7 +10,8 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
-import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedRootCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedGraphQuotient
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
@@ -48,6 +49,7 @@ open CoherentComponentBaseChange
 open OrderedIncidenceOpenRestriction
 open GeometricSupportAssignedSplitChart
 open GeometricAssignedRootCoordinates
+open GeometricAssignedGraphQuotient
 open GeometricAssignedAffineChart
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
@@ -652,6 +654,98 @@ theorem orderedSupportGeometricAssignedRootLinearFactor_map
     (orderedSupportPoint K C d z) V T q r E hE w i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an actual incidence support, specialization sends the entire product
+of universal ordered graph ideals to the entire product of concrete
+owner-sheet graph ideals on the coherent base.  In particular this retains
+all repeated ordered occurrences, not only their reduced support. -/
+theorem orderedSupportGeometricAssignedGraphIdeal_map
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left) :
+    let p := (assignedProductToCoproductPower K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left w
+    let m := totalSheets (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) r
+    let c := assignedSupportComponent K C d
+      (orderedSupportPoint K C d z) V T q r E hE p
+    Ideal.map
+        (GeometricAssignedRootCoordinates.orderedAmbientCoordinateHom K C d
+          (orderedSupportPoint K C d z) V T q r E hE w)
+        (orderedGraphIdeal Γ(Spec (.of K), ⊤) d m c) =
+      GeometricAssignedRootCoordinates.evaluatedOrderedGraphIdeal K C d
+        (orderedSupportPoint K C d z) V T q r E hE w :=
+  GeometricAssignedRootCoordinates.orderedAmbientCoordinateHom_map_orderedGraphIdeal
+    K C d (orderedSupportPoint K C d z) V T q r E hE w
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- At an actual incidence support, the full evaluated graph quotient on the
+coherent split chart is finite flat of constant rank `d`.  This is the
+curve-level consumer of the arbitrary-base-change graph quotient theorem;
+the remaining localization step identifies this affine family with the
+restricted curve-level incidence family. -/
+theorem orderedSupportGeometricAssignedGraphQuotient_finrank
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    [Nontrivial Γ(coherentBase K C d (orderedSupportPoint K C d z) V
+      (Spec (.of T)) q, ⊤)] :
+    (evaluatedGraphSpecProjection K C d
+      (orderedSupportPoint K C d z) V T q r E hE w).finrank =
+        fun _ ↦ d :=
+  evaluatedGraphSpecProjection_finrank K C d
+    (orderedSupportPoint K C d z) V T q r E hE w
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- For an actual incidence support, the split sheet selected by ordered
 position `i` maps to its genuine curve chart with the matching root
 coordinate, and is the first open-and-closed graph summand of the
@@ -704,6 +798,67 @@ theorem orderedSupportGeometricAssignedRootSheet_exists_graphCoproduct
   dsimp only
   exact GeometricAssignedRootCoordinates.rootSheet_exists_graphCoproduct
     K C d (orderedSupportPoint K C d z) V T q r E hE w i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Around the split sheet selected by an actual incidence support, there is
+an open neighbourhood in the relative curve-chart product on which the
+whole equal-coordinate closed locus is exactly the genuine sheet graph.
+Thus complementary sheets can be removed before transporting the ordered
+incidence ideal to the evaluated graph-product algebra. -/
+theorem orderedSupportGeometricAssigned_exists_incidenceOpen_graph_isPullback
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    (V : (geometricDistinctCommonBase K C d
+      (orderedSupportPoint K C d z)).left.Opens)
+    (T : Type u) [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (r : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)) → ℕ)
+    (E : ∀ j, pullback
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q ≅
+      Spec (.of (Fin (r j) → T)))
+    (hE : ∀ j, (E j).hom ≫ EtaleSplitChart.splitProjection T (r j) =
+      pullback.snd
+        (restrictedPulledComponentToBase K C
+          (geometricDistinctSupportCard K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctSupportOrderedPoint K C d
+            (orderedSupportPoint K C d z))
+          (geometricDistinctCharts K C d (orderedSupportPoint K C d z))
+          (geometricDistinctNeighborhoods K C d
+            (orderedSupportPoint K C d z)) V j) q)
+    (w : (assignedComponentProductOverGround K C d
+      (orderedSupportPoint K C d z) V (Spec (.of T)) q).left)
+    (i : Fin d) :
+    let z₀ := orderedSupportPoint K C d z
+    let B := GeometricAssignedRootCoordinates.base K C d z₀ V T q
+    let f := ((geometricDistinctCharts K C d z₀)
+      (geometricPointSupportIndex K C d z₀ i)).schemeMap
+    let coordinate := GeometricAssignedRootCoordinates.baseCoordinate
+      K C d z₀ V T q i
+    let A := EqualCoordinateClosedImmersion.ambient
+      (coordinateLine K).hom f coordinate
+    let inclusion := EqualCoordinateClosedImmersion.equalCoordinateInclusion
+      (coordinateLine K).hom f coordinate
+    let sheet := GeometricAssignedRootCoordinates.rootSheetToChart
+      K C d z₀ V T q r E hE w i
+    let graph : B ⟶ pullback f coordinate :=
+      EtaleGraphNeighborhood.graph f coordinate sheet
+        (GeometricAssignedRootCoordinates.rootSheetToChart_comp_schemeMap
+          K C d z₀ V T q r E hE w i)
+    ∃ (W : Scheme.{u}) (F : pullback f coordinate ≅ B ⨿ W)
+      (U : A.Opens) (graphToU : B ⟶ U.toScheme),
+      graph ≫ F.hom = coprod.inl ∧
+      IsPullback graphToU graph U.ι inclusion := by
+  dsimp only
+  exact
+    GeometricAssignedIncidenceNeighborhood.exists_occurrenceOpen_graph_isPullback
+      K C d (orderedSupportPoint K C d z) V T q r E hE w i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On the split symmetric-power component selected by an actual incidence

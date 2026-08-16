@@ -161,4 +161,27 @@ theorem graphLocusIsoOrderedRootLocus_hom_comp_ι :
   rw [← orderedRootLocusIsoGraphLocus_hom_comp_ι]
   simp
 
+/-- Mathlib's subscheme associated to the product graph ideal is canonically
+the ordered split-root family.  This formulation is the one consumed by
+geometric open restriction, whose output is an ideal-sheaf subscheme rather
+than a quotient ring chosen in advance. -/
+noncomputable def graphIdealSubschemeIsoOrderedRootLocus :
+    (orderedGraphIdealSheaf R d m c).subscheme ≅
+      Spec (.of (orderedProductRootAlgebra R d m c)) :=
+  (orderedGraphLocusIsoIdealSubscheme R d m c).symm ≪≫
+    graphLocusIsoOrderedRootLocus R d m c
+
+omit [Nontrivial R] in
+/-- The ideal-sheaf-to-root-family comparison preserves the closed
+immersion into the sheetwise affine-line ambient spectrum. -/
+@[reassoc]
+theorem graphIdealSubschemeIsoOrderedRootLocus_hom_comp_ι :
+    (graphIdealSubschemeIsoOrderedRootLocus R d m c).hom ≫
+        SplitComponentGraphIdeal.orderedRootLocusι R d m c =
+      (orderedGraphIdealSheaf R d m c).subschemeι := by
+  rw [graphIdealSubschemeIsoOrderedRootLocus, Iso.trans_hom,
+    Category.assoc, graphLocusIsoOrderedRootLocus_hom_comp_ι]
+  rw [← orderedGraphLocusIsoIdealSubscheme_hom_comp_ι]
+  simp
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentInvariantRootComparison

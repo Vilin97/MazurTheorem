@@ -16,10 +16,12 @@ actual graph-product ideal with the product of the sheetwise ordered-root
 algebras.
 
 The scheme-level isomorphism retains its compatibility with the two closed
-immersions into the common sheetwise affine-line ambient space.  The named
-downstream consumer is `SplitComponentInvariantRootComparison`, which then
-transports this graph-defined incidence family to the finite-flat universal
-block-monic root family.
+immersions into the common sheetwise affine-line ambient space.  It also
+identifies the quotient presentation with Mathlib's ideal-sheaf subscheme,
+so a geometric open-restriction calculation can transport the actual curve
+incidence ideal without changing presentations.  The named downstream
+consumers are `SplitComponentInvariantRootComparison` and the local chart in
+`PointedIncidenceDescent`.
 -/
 
 noncomputable section
@@ -92,6 +94,98 @@ instance orderedGraphLocusι_isClosedImmersion :
     IsClosedImmersion (orderedGraphLocusι R d m c) := by
   apply IsClosedImmersion.spec_of_surjective
   exact Ideal.Quotient.mk_surjective
+
+/-- The graph ideal written in the canonical global-section ring of its
+ambient affine spectrum.  The `ΓSpecIso` transport is necessary because
+Mathlib's `ofIdealTop` constructor takes an ideal of global sections rather
+than an ideal of the original presentation ring. -/
+noncomputable def orderedGraphIdealSections :
+    Ideal Γ(Spec (.of (orderedAmbientAlgebra R d m c)), ⊤) :=
+  Ideal.map
+    (Scheme.ΓSpecIso (.of (orderedAmbientAlgebra R d m c))).inv.hom
+    (orderedGraphIdeal R d m c)
+
+/-- The ideal sheaf on the sheetwise affine-line ambient spectrum defined by
+the product of all ordered coordinate graphs. -/
+noncomputable abbrev orderedGraphIdealSheaf :
+    (Spec (.of (orderedAmbientAlgebra R d m c))).IdealSheafData :=
+  Scheme.IdealSheafData.ofIdealTop
+    (orderedGraphIdealSections R d m c)
+
+omit [Nontrivial R] in
+/-- The kernel ideal sheaf of the graph-locus immersion is exactly the ideal
+sheaf obtained from the algebraic graph-product ideal.  This is the bridge
+from affine graph algebra to geometric ideal-sheaf restriction. -/
+theorem orderedGraphLocusι_ker :
+    (orderedGraphLocusι R d m c).ker =
+      orderedGraphIdealSheaf R d m c := by
+  rw [Scheme.ker_of_isAffine]
+  congr 1
+  rw [orderedGraphIdealSections]
+  ext y
+  rw [Ideal.mem_map_iff_of_surjective
+    (Scheme.ΓSpecIso
+      (.of (orderedAmbientAlgebra R d m c))).inv.hom
+    (ConcreteCategory.bijective_of_isIso
+      (Scheme.ΓSpecIso
+        (.of (orderedAmbientAlgebra R d m c))).inv).2]
+  have happ (a : Γ(Spec (.of (orderedAmbientAlgebra R d m c)), ⊤)) :
+      (Scheme.ΓSpecIso (.of (orderedGraphQuotientAlgebra R d m c))).hom
+          ((orderedGraphLocusι R d m c).appTop a) =
+        Ideal.Quotient.mk (orderedGraphIdeal R d m c)
+          ((Scheme.ΓSpecIso
+            (.of (orderedAmbientAlgebra R d m c))).hom a) := by
+    change (((orderedGraphLocusι R d m c).appTop ≫
+      (Scheme.ΓSpecIso
+        (.of (orderedGraphQuotientAlgebra R d m c))).hom) a) = _
+    rw [orderedGraphLocusι, Scheme.ΓSpecIso_naturality]
+    rfl
+  constructor
+  · intro hy
+    refine ⟨(Scheme.ΓSpecIso
+      (.of (orderedAmbientAlgebra R d m c))).hom y, ?_, by simp⟩
+    rw [← Ideal.Quotient.eq_zero_iff_mem]
+    rw [← happ]
+    rw [RingHom.mem_ker] at hy
+    simp [hy]
+  · rintro ⟨x, hx, rfl⟩
+    rw [RingHom.mem_ker]
+    apply (ConcreteCategory.bijective_of_isIso
+      (Scheme.ΓSpecIso
+        (.of (orderedGraphQuotientAlgebra R d m c))).hom).1
+    rw [map_zero, happ]
+    simpa using Ideal.Quotient.eq_zero_iff_mem.mpr hx
+
+omit [Nontrivial R] in
+/-- The affine quotient presentation of the graph locus agrees canonically
+with the subscheme constructed from its ideal sheaf. -/
+noncomputable def orderedGraphLocusIsoIdealSubscheme :
+    Spec (.of (orderedGraphQuotientAlgebra R d m c)) ≅
+      (orderedGraphIdealSheaf R d m c).subscheme :=
+  asIso (orderedGraphLocusι R d m c).toImage ≪≫
+    eqToIso (congrArg Scheme.IdealSheafData.subscheme
+      (orderedGraphLocusι_ker R d m c))
+
+private theorem closedImmersionImageTransport_hom_comp
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsClosedImmersion f]
+    (I : Y.IdealSheafData) (h : f.ker = I) :
+    (asIso f.toImage ≪≫
+        eqToIso (congrArg Scheme.IdealSheafData.subscheme h)).hom ≫
+      I.subschemeι = f := by
+  subst I
+  simp
+
+omit [Nontrivial R] in
+/-- The quotient-to-subscheme isomorphism preserves the closed immersion
+into the ambient sheetwise affine-line spectrum. -/
+@[reassoc]
+theorem orderedGraphLocusIsoIdealSubscheme_hom_comp_ι :
+    (orderedGraphLocusIsoIdealSubscheme R d m c).hom ≫
+        (orderedGraphIdealSheaf R d m c).subschemeι =
+      orderedGraphLocusι R d m c :=
+  closedImmersionImageTransport_hom_comp
+    (orderedGraphLocusι R d m c) (orderedGraphIdealSheaf R d m c)
+    (orderedGraphLocusι_ker R d m c)
 
 /-- The graph-defined incidence family is canonically the ordered-root
 family.  The orientation is chosen so that the isomorphism followed by the

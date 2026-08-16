@@ -6,7 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportCoordinateMaps
-import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentGraphIdeal
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentGraphBaseChange
 
 /-!
 # Ordered-root coordinates on a geometric assigned split chart
@@ -44,6 +44,7 @@ open FiniteSupportCoordinateMaps
 open FiniteSupportEtaleCoordinates
 open GeometricSupportAssignedSplitChart
 open SmoothCurveEtaleCoordinate
+open SplitComponentGraphBaseChange
 open SplitComponentGraphIdeal
 open SplitComponentUniversalRoot
 open SplitFiniteBaseChange
@@ -373,15 +374,12 @@ noncomputable def orderedAmbientCoordinateHom
         (selectedComponent K C d z V T q r E hE
           (productPoint K C d z V T q w)) →+*
       evaluatedOrderedAmbientAlgebra K C d z V T q r :=
-  RingHom.pi fun j ↦
-    (Polynomial.mapRingHom
-      (rootCoordinateHom K C d z V T q r E hE w)).comp
-        (Pi.evalRingHom
-          (fun _ : Fin (sheetCount K C d z r) ↦
-            Polynomial (coefficientRing Γ(Spec (.of K), ⊤) d
-              (sheetCount K C d z r)
-              (selectedComponent K C d z V T q r E hE
-                (productPoint K C d z V T q w)))) j)
+  orderedAmbientBaseChangeHom Γ(Spec (.of K), ⊤) d
+    (sheetCount K C d z r)
+    (selectedComponent K C d z V T q r E hE
+      (productPoint K C d z V T q w))
+    Γ(base K C d z V T q, ⊤)
+    (rootCoordinateHom K C d z V T q r E hE w)
 
 /-- Evaluation of a universal owner-sheet graph commutes pointwise with the
 actual coherent-coordinate specialization. -/
@@ -402,7 +400,8 @@ theorem evaluatedRootGraphEvaluation_orderedAmbientCoordinateHom
           (positionEquivRootIndex K C d z V T q r E hE
             (productPoint K C d z V T q w) i) f) := by
   simp only [evaluatedRootGraphEvaluation, orderedAmbientCoordinateHom,
-    rootGraphEvaluation, RingHom.comp_apply, Pi.evalRingHom_apply,
+    orderedAmbientBaseChangeHom, rootGraphEvaluation, RingHom.comp_apply,
+    Pi.evalRingHom_apply,
     RingHom.pi_apply, Polynomial.coe_mapRingHom,
     Polynomial.coe_evalRingHom, positionEquivRootIndex_fst]
   rw [Polynomial.eval_map]
@@ -411,5 +410,110 @@ theorem evaluatedRootGraphEvaluation_orderedAmbientCoordinateHom
   exact (Polynomial.eval_map
     (rootCoordinateHom K C d z V T q r E hE w)
     (rootValue K C d z V T q i)).symm
+
+/-- The product of all concrete owner-sheet graph ideals after evaluating
+the universal root variables on the coherent support base.  The product is
+still indexed by ordered occurrences, so repeated coordinates retain their
+scheme-theoretic multiplicities. -/
+noncomputable def evaluatedOrderedGraphIdeal
+    (w : (assignedComponentProductOverGround K C d z V
+      (Spec (.of T)) q).left) :
+    Ideal (evaluatedOrderedAmbientAlgebra K C d z V T q r) :=
+  ∏ i : Fin d, evaluatedRootGraphIdeal K C d z V T q r E hE w i
+
+/-- Componentwise change of root coordinates sends one universal graph
+ideal to the corresponding concrete owner-sheet graph ideal. -/
+theorem orderedAmbientCoordinateHom_map_rootGraphIdeal
+    (w : (assignedComponentProductOverGround K C d z V
+      (Spec (.of T)) q).left) (i : Fin d) :
+    Ideal.map (orderedAmbientCoordinateHom K C d z V T q r E hE w)
+      (rootGraphIdeal Γ(Spec (.of K), ⊤) d
+        (sheetCount K C d z r)
+        (selectedComponent K C d z V T q r E hE
+          (productPoint K C d z V T q w))
+        (positionEquivRootIndex K C d z V T q r E hE
+          (productPoint K C d z V T q w) i)) =
+      evaluatedRootGraphIdeal K C d z V T q r E hE w i := by
+  apply (Ideal.piOrderIso
+    (R := fun _ : Fin (sheetCount K C d z r) ↦
+      Polynomial Γ(base K C d z V T q, ⊤))).injective
+  funext j
+  change Ideal.map (Pi.evalRingHom _ j)
+      (Ideal.map (orderedAmbientCoordinateHom K C d z V T q r E hE w)
+        (rootGraphIdeal Γ(Spec (.of K), ⊤) d
+          (sheetCount K C d z r)
+          (selectedComponent K C d z V T q r E hE
+            (productPoint K C d z V T q w))
+          (positionEquivRootIndex K C d z V T q r E hE
+            (productPoint K C d z V T q w) i))) =
+    Ideal.map (Pi.evalRingHom _ j)
+      (evaluatedRootGraphIdeal K C d z V T q r E hE w i)
+  rw [Ideal.map_map]
+  change Ideal.map
+      ((Polynomial.mapRingHom
+        (rootCoordinateHom K C d z V T q r E hE w)).comp
+          (Pi.evalRingHom
+            (fun _ : Fin (sheetCount K C d z r) ↦
+              Polynomial (coefficientRing Γ(Spec (.of K), ⊤) d
+                (sheetCount K C d z r)
+                (selectedComponent K C d z V T q r E hE
+                  (productPoint K C d z V T q w)))) j))
+      (rootGraphIdeal Γ(Spec (.of K), ⊤) d
+        (sheetCount K C d z r)
+        (selectedComponent K C d z V T q r E hE
+          (productPoint K C d z V T q w))
+        (positionEquivRootIndex K C d z V T q r E hE
+          (productPoint K C d z V T q w) i)) = _
+  unfold rootGraphIdeal evaluatedRootGraphIdeal
+  rw [Ideal.map_evalRingHom_pi]
+  rw [← Ideal.map_map, Ideal.map_evalRingHom_pi]
+  unfold rootGraphIdealOnSheet evaluatedRootGraphIdealOnSheet
+  split_ifs with h
+  · rw [Ideal.map_span]
+    simp only [Set.image_singleton]
+    congr 2
+    exact rootLinearFactor_map K C d z V T q r E hE w i
+  · exact Ideal.map_top _
+
+private theorem ideal_map_fintype_prod {A D ι : Type*}
+    [CommRing A] [CommRing D] [Fintype ι]
+    (f : A →+* D) (I : ι → Ideal A) :
+    Ideal.map f (∏ i, I i) = ∏ i, Ideal.map f (I i) := by
+  let φ : Ideal A →* Ideal D :=
+    { toFun := Ideal.map f
+      map_one' := by
+        simpa only [Ideal.one_eq_top] using Ideal.map_top f
+      map_mul' := fun J L ↦ Ideal.map_mul f J L }
+  change φ (∏ i, I i) = ∏ i, φ (I i)
+  exact map_prod φ I Finset.univ
+
+/-- Specializing all universal root coordinates sends the full product of
+universal graph ideals to the full concrete graph product on the coherent
+base.  This is an exact ideal equality, not merely equality of supports.
+It is the algebraic half of the remaining geometric localization theorem. -/
+theorem orderedAmbientCoordinateHom_map_orderedGraphIdeal
+    (w : (assignedComponentProductOverGround K C d z V
+      (Spec (.of T)) q).left) :
+    Ideal.map (orderedAmbientCoordinateHom K C d z V T q r E hE w)
+      (orderedGraphIdeal Γ(Spec (.of K), ⊤) d
+        (sheetCount K C d z r)
+        (selectedComponent K C d z V T q r E hE
+          (productPoint K C d z V T q w))) =
+      evaluatedOrderedGraphIdeal K C d z V T q r E hE w := by
+  classical
+  rw [orderedGraphIdeal, ideal_map_fintype_prod,
+    evaluatedOrderedGraphIdeal]
+  let e := positionEquivRootIndex K C d z V T q r E hE
+    (productPoint K C d z V T q w)
+  rw [← Equiv.prod_comp e (fun x ↦
+    Ideal.map (orderedAmbientCoordinateHom K C d z V T q r E hE w)
+      (rootGraphIdeal Γ(Spec (.of K), ⊤) d
+        (sheetCount K C d z r)
+        (selectedComponent K C d z V T q r E hE
+          (productPoint K C d z V T q w)) x))]
+  apply Fintype.prod_congr
+  intro i
+  exact orderedAmbientCoordinateHom_map_rootGraphIdeal
+    K C d z V T q r E hE w i
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedRootCoordinates
