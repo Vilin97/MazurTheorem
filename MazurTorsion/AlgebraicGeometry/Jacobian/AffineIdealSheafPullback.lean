@@ -111,7 +111,9 @@ private theorem ker_eq_map_of_isPushout_of_surjective
       includeLeft_ker_of_surjective (Algebra.ofId R T) hg
     _ = Ideal.map f.hom (RingHom.ker g.hom) := rfl
 
-private theorem ideal_comap_top_of_isAffine
+/-- On affine schemes, pulling back an ideal sheaf extends its global ideal
+along the induced map on global sections. -/
+theorem ideal_comap_top_eq_map_of_isAffine
     {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y]
     (I : Y.IdealSheafData) (f : X ⟶ Y) :
     (I.comap f).ideal ⟨⊤, isAffineOpen_top X⟩ =
@@ -155,7 +157,7 @@ theorem idealSheaf_comap_mul_of_isAffine
     ((I * J).comap f).ideal ⟨⊤, isAffineOpen_top X⟩ =
         Ideal.map f.appTop.hom
           ((I * J).ideal ⟨⊤, isAffineOpen_top Y⟩) :=
-      ideal_comap_top_of_isAffine (I * J) f
+      ideal_comap_top_eq_map_of_isAffine (I * J) f
     _ = Ideal.map f.appTop.hom
         (I.ideal ⟨⊤, isAffineOpen_top Y⟩ *
           J.ideal ⟨⊤, isAffineOpen_top Y⟩) := rfl
@@ -166,8 +168,8 @@ theorem idealSheaf_comap_mul_of_isAffine
       Ideal.map_mul f.appTop.hom _ _
     _ = (I.comap f).ideal ⟨⊤, isAffineOpen_top X⟩ *
         (J.comap f).ideal ⟨⊤, isAffineOpen_top X⟩ := by
-      rw [ideal_comap_top_of_isAffine,
-        ideal_comap_top_of_isAffine]
+      rw [ideal_comap_top_eq_map_of_isAffine,
+        ideal_comap_top_eq_map_of_isAffine]
     _ = (I.comap f * J.comap f).ideal
         ⟨⊤, isAffineOpen_top X⟩ := rfl
 

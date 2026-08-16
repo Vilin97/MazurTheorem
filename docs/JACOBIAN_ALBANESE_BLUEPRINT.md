@@ -757,9 +757,16 @@ through the exact lift on which every occurrence graph lands in its assigned
 affine support piece.  Pulling these pieces to that final base and taking
 their finite coproduct now produces one affine curve-family chart; each
 occurrence graph is a section into exactly its owner summand, and the map to
-the original selected-component coproduct preserves that summand.  The
-precise remaining step is to identify the resulting section-ring coordinate
-maps with the affine base change of the universal graph-product algebra.
+the original selected-component coproduct preserves that summand.  On each
+owner support piece, the graph ideal is now also computed on global sections
+as extension of the graph ideal on the chosen affine support open.  Taking
+the finite product over `OccurrencesAtSupport` commutes with that pullback,
+so the checked section-ring formula retains every repeated ordered factor
+rather than replacing a support block by its reduced graph.  The precise
+remaining step is to identify the support-open coordinate maps and their
+full graph products with the affine base change of the universal
+graph-product algebra; this includes the nilpotent thickening comparison for
+colliding roots in the finite étale curve algebra.
 Only after this simultaneous geometric comparison theorem may the
 pointwise fpqc interfaces be used to prove the
 global pointed comparison is an isomorphism and the universal divisor is

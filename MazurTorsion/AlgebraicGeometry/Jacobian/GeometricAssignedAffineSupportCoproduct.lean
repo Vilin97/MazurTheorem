@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSimultaneousNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleCoproductPower
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineIdealSheafPullback
 
 /-!
 # The affine support coproduct for an assigned graph chart
@@ -31,6 +32,7 @@ open _root_.AlgebraicGeometry
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct
 
 open FiniteEtaleCoproductPower
+open AffineIdealSheafPullback
 open FiniteSupportEtaleCoordinates
 open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
@@ -189,6 +191,141 @@ theorem supportPiece_equalCoordinateIdeal
   rw [Scheme.IdealSheafData.comap_comp,
     supportOpen_equalCoordinateIdeal]
   rfl
+
+/-- On global sections of an affine support piece, its occurrence graph
+ideal is the extension of the graph ideal on the chosen affine support open.
+This is the section-ring bridge consumed by the later graph-product
+comparison. -/
+theorem supportPieceGraphIdeal_top_eq_map
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (i : Fin d) :
+    (supportPieceGraphIdeal K C d z hVs q m E hE N i).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (supportPiece_isAffine K C d z hVs q m E hE N _)⟩ =
+      Ideal.map
+        (pullback.fst
+          ((N.supportOpen
+              (geometricPointSupportIndex K C d z i)).ι ≫
+            supportAmbientToBase K C d z hVs q
+              (geometricPointSupportIndex K C d z i))
+          N.baseOpen.ι).appTop.hom
+        ((supportOpenGraphIdeal K C d z hVs q m E hE N i).ideal
+          ⟨⊤, @isAffineOpen_top _ (N.support_isAffine _)⟩) := by
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N
+        (geometricPointSupportIndex K C d z i)) :=
+    supportPiece_isAffine K C d z hVs q m E hE N _
+  letI : IsAffine
+      (N.supportOpen
+        (geometricPointSupportIndex K C d z i)).toScheme :=
+    N.support_isAffine _
+  exact ideal_comap_top_eq_map_of_isAffine
+    (supportOpenGraphIdeal K C d z hVs q m E hE N i)
+    (pullback.fst
+      ((N.supportOpen
+          (geometricPointSupportIndex K C d z i)).ι ≫
+        supportAmbientToBase K C d z hVs q
+          (geometricPointSupportIndex K C d z i))
+      N.baseOpen.ι)
+
+/-- The restricted graph ideal of an occurrence, transported along the
+proof that the occurrence is owned by a fixed support member. -/
+noncomputable def supportOpenGraphIdealAt
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Scheme.IdealSheafData (N.supportOpen a).toScheme := by
+  rcases i with ⟨i, rfl⟩
+  exact supportOpenGraphIdeal K C d z hVs q m E hE N i
+
+/-- The corresponding graph ideal on the pulled-back affine support piece. -/
+noncomputable def supportPieceGraphIdealAt
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Scheme.IdealSheafData
+      (supportPiece K C d z hVs q m E hE N a) := by
+  rcases i with ⟨i, rfl⟩
+  exact supportPieceGraphIdeal K C d z hVs q m E hE N i
+
+/-- The fixed-owner form of an occurrence graph ideal is still its affine
+support-open ideal pulled to the common base. -/
+theorem supportPieceGraphIdealAt_eq_comap
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    supportPieceGraphIdealAt K C d z hVs q m E hE N a i =
+      (supportOpenGraphIdealAt K C d z hVs q m E hE N a i).comap
+        (pullback.fst
+          ((N.supportOpen a).ι ≫
+            supportAmbientToBase K C d z hVs q a)
+          N.baseOpen.ι) := by
+  rcases i with ⟨i, rfl⟩
+  rfl
+
+/-- The multiplicity-sensitive product of all occurrence graph ideals owned
+by one chosen affine support open. -/
+noncomputable def supportOpenGraphProductIdeal
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Scheme.IdealSheafData (N.supportOpen a).toScheme :=
+  ∏ i : OccurrencesAtSupport K C d z a,
+    supportOpenGraphIdealAt K C d z hVs q m E hE N a i
+
+/-- The multiplicity-sensitive product of all occurrence graph ideals on
+one pulled-back affine support piece. -/
+noncomputable def supportPieceGraphProductIdeal
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Scheme.IdealSheafData
+      (supportPiece K C d z hVs q m E hE N a) :=
+  ∏ i : OccurrencesAtSupport K C d z a,
+    supportPieceGraphIdealAt K C d z hVs q m E hE N a i
+
+/-- Pulling a complete owner block to the common affine base preserves the
+product of occurrence graph ideals, including every repeated occurrence. -/
+theorem supportPieceGraphProductIdeal_eq_comap
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceGraphProductIdeal K C d z hVs q m E hE N a =
+      (supportOpenGraphProductIdeal K C d z hVs q m E hE N a).comap
+        (pullback.fst
+          ((N.supportOpen a).ι ≫
+            supportAmbientToBase K C d z hVs q a)
+          N.baseOpen.ι) := by
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  letI : IsAffine (N.supportOpen a).toScheme := N.support_isAffine a
+  rw [supportPieceGraphProductIdeal, supportOpenGraphProductIdeal,
+    idealSheaf_comap_finsetProd_of_isAffine]
+  apply Finset.prod_congr rfl
+  intro i _
+  exact supportPieceGraphIdealAt_eq_comap
+    K C d z hVs q m E hE N a i
+
+/-- On global sections, the complete occurrence product on an affine support
+piece is extension of the complete product on its chosen affine support
+open. -/
+theorem supportPieceGraphProductIdeal_top_eq_map
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (supportPieceGraphProductIdeal K C d z hVs q m E hE N a).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (supportPiece_isAffine K C d z hVs q m E hE N a)⟩ =
+      Ideal.map
+        (pullback.fst
+          ((N.supportOpen a).ι ≫
+            supportAmbientToBase K C d z hVs q a)
+          N.baseOpen.ι).appTop.hom
+        ((supportOpenGraphProductIdeal K C d z hVs q m E hE N a).ideal
+          ⟨⊤, @isAffineOpen_top _ (N.support_isAffine a)⟩) := by
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  letI : IsAffine (N.supportOpen a).toScheme := N.support_isAffine a
+  rw [supportPieceGraphProductIdeal_eq_comap]
+  exact ideal_comap_top_eq_map_of_isAffine
+    (supportOpenGraphProductIdeal K C d z hVs q m E hE N a)
+    (pullback.fst
+      ((N.supportOpen a).ι ≫
+        supportAmbientToBase K C d z hVs q a)
+      N.baseOpen.ι)
 
 /-- Forget a pulled-back support piece to its original selected affine curve
 component. -/
