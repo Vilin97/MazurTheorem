@@ -678,6 +678,50 @@ theorem orderedSupportGeometricAssigned_graphProduct_top_eq_map
     (orderedSupportPoint K C d z) hVs q m E hE N a
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On an ordered-incidence affine support block, the complete geometric
+graph product is the pullback of the product of its independently varying
+affine-line section ideals. -/
+theorem orderedSupportGeometricAssigned_graphProduct_eq_coordinate_comap
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    [IsAffine (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z))) :
+    supportPieceGraphProductIdeal K C d
+        (orderedSupportPoint K C d z) hVs q m E hE N a =
+      (supportAffineLineGraphProductIdeal K C d
+        (orderedSupportPoint K C d z) hVs q m E hE N a).comap
+        (supportPieceToSupportAffineLine K C d
+          (orderedSupportPoint K C d z) hVs q m E hE N a) :=
+  supportPieceGraphProductIdeal_eq_coordinateSection_comap K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N a
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
 support carries the genuine geometric-support block action. -/
 noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitAction

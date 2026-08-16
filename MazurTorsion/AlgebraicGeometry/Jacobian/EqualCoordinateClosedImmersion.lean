@@ -54,6 +54,128 @@ theorem equalCoordinateInclusion_snd :
       pullback.snd f q :=
   pullback.lift_snd _ _ _
 
+/-- The base-changed copy of `S` over `B` in which the morphism `q` defines
+a tautological section. -/
+noncomputable abbrev relativeTarget : Scheme.{u} :=
+  pullback s (q ≫ s)
+
+/-- The tautological section of the base-changed target selected by `q`. -/
+noncomputable abbrev relativeSection : B ⟶ relativeTarget s q :=
+  pullback.lift q (𝟙 B) (by simp)
+
+@[reassoc]
+theorem relativeSection_fst :
+    relativeSection s q ≫ pullback.fst s (q ≫ s) = q :=
+  pullback.lift_fst _ _ _
+
+@[reassoc]
+theorem relativeSection_snd :
+    relativeSection s q ≫ pullback.snd s (q ≫ s) = 𝟙 B :=
+  pullback.lift_snd _ _ _
+
+/-- Record the `S`-coordinate of the `X` factor together with the unchanged
+`B` factor of the relative ambient product. -/
+noncomputable abbrev ambientToRelativeTarget :
+    ambient s f q ⟶ relativeTarget s q :=
+  pullback.lift
+    (pullback.fst (f ≫ s) (q ≫ s) ≫ f)
+    (pullback.snd (f ≫ s) (q ≫ s)) (by
+      simpa only [Category.assoc] using
+        pullback.condition (f := f ≫ s) (g := q ≫ s))
+
+@[reassoc]
+theorem ambientToRelativeTarget_fst :
+    ambientToRelativeTarget s f q ≫ pullback.fst s (q ≫ s) =
+      pullback.fst (f ≫ s) (q ≫ s) ≫ f :=
+  pullback.lift_fst _ _ _
+
+@[reassoc]
+theorem ambientToRelativeTarget_snd :
+    ambientToRelativeTarget s f q ≫ pullback.snd s (q ≫ s) =
+      pullback.snd (f ≫ s) (q ≫ s) :=
+  pullback.lift_snd _ _ _
+
+/-- The equal-coordinate locus is exactly the inverse image of the
+tautological relative section. -/
+theorem equalCoordinate_relativeSection_square : IsPullback
+    (equalCoordinateInclusion s f q) (pullback.snd f q)
+    (ambientToRelativeTarget s f q) (relativeSection s q) := by
+  refine ⟨⟨?_⟩, ⟨?_⟩⟩
+  · apply pullback.hom_ext
+    · simp only [Category.assoc, ambientToRelativeTarget_fst,
+        relativeSection_fst]
+      rw [← Category.assoc, equalCoordinateInclusion_fst]
+      exact pullback.condition
+    · simp only [Category.assoc, ambientToRelativeTarget_snd,
+        relativeSection_snd, Category.comp_id]
+      exact equalCoordinateInclusion_snd s f q
+  · let lift
+        (t : PullbackCone
+          (ambientToRelativeTarget s f q) (relativeSection s q)) :
+        t.pt ⟶ pullback f q :=
+      pullback.lift
+        (t.fst ≫ pullback.fst (f ≫ s) (q ≫ s))
+        t.snd (by
+          have h := t.condition =≫ pullback.fst s (q ≫ s)
+          simpa only [Category.assoc, ambientToRelativeTarget_fst,
+            relativeSection_fst] using h)
+    refine PullbackCone.IsLimit.mk _ lift ?_ ?_ ?_
+    · intro t
+      apply pullback.hom_ext
+      · rw [Category.assoc, equalCoordinateInclusion_fst,
+          pullback.lift_fst]
+      · rw [Category.assoc, equalCoordinateInclusion_snd,
+          pullback.lift_snd]
+        have h := t.condition =≫ pullback.snd s (q ≫ s)
+        simpa only [Category.assoc, ambientToRelativeTarget_snd,
+          relativeSection_snd, Category.comp_id] using h.symm
+    · intro t
+      dsimp only [lift]
+      exact pullback.lift_snd _ _ _
+    · intro t m hm₁ hm₂
+      apply pullback.hom_ext
+      · have h := hm₁ =≫ pullback.fst (f ≫ s) (q ≫ s)
+        rw [Category.assoc, equalCoordinateInclusion_fst] at h
+        dsimp only [lift]
+        rw [pullback.lift_fst]
+        exact h
+      · dsimp only [lift]
+        rw [pullback.lift_snd]
+        exact hm₂
+
+/-- The ideal sheaf of the equal-coordinate locus is the inverse image of
+the ideal sheaf of the tautological relative section. -/
+theorem relativeSection_ker_comap_ambientToRelativeTarget
+    [IsSeparated s] :
+    (relativeSection s q).ker.comap (ambientToRelativeTarget s f q) =
+      (equalCoordinateInclusion s f q).ker := by
+  let sectionHom := relativeSection s q
+  let familyHom := pullback.snd s (q ≫ s)
+  letI : IsSeparated familyHom := by
+    dsimp only [familyHom]
+    infer_instance
+  letI : IsClosedImmersion sectionHom := by
+    haveI : IsClosedImmersion (sectionHom ≫ familyHom) := by
+      rw [show sectionHom ≫ familyHom = 𝟙 B from
+        relativeSection_snd s q]
+      infer_instance
+    exact IsClosedImmersion.of_comp sectionHom familyHom
+  let h := equalCoordinate_relativeSection_square s f q
+  calc
+    sectionHom.ker.comap (ambientToRelativeTarget s f q) =
+        (pullback.fst
+          (ambientToRelativeTarget s f q) sectionHom).ker :=
+      (Scheme.IdealSheafData.ker_fst_of_isClosedImmersion
+        sectionHom (ambientToRelativeTarget s f q)).symm
+    _ = (h.isoPullback.hom ≫
+        pullback.fst
+          (ambientToRelativeTarget s f q) sectionHom).ker :=
+      (Scheme.Hom.ker_comp_of_isIso h.isoPullback.hom
+        (pullback.fst
+          (ambientToRelativeTarget s f q) sectionHom)).symm
+    _ = (equalCoordinateInclusion s f q).ker := by
+      rw [h.isoPullback_hom_fst]
+
 /-- Record the two `S`-coordinates of a point of the relative ambient
 product. -/
 noncomputable abbrev ambientPair : ambient s f q ⟶ pullback s s :=
