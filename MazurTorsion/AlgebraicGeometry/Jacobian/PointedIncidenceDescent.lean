@@ -14,6 +14,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChar
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedGraphQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoordinates
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -53,6 +54,7 @@ open GeometricSupportAssignedSplitChart
 open GeometricAssignedRootCoordinates
 open GeometricAssignedGraphQuotient
 open GeometricAssignedAffineChart
+open GeometricAssignedAffineRootCoordinates
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
 open SplitFinitePowerPoint
@@ -394,6 +396,39 @@ noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitIso
           (orderedSupportPoint K C d z) hVs q).left m :=
   componentFpqcBlockSplitIso K C d
     (orderedSupportPoint K C d z) hVs q m E hE
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the dimension-preserving affine chart at an ordered incidence
+support, every split tuple sheet has the independently varying coordinate
+of the corresponding ordered occurrence.  This is the geometric bridge
+between the occurrence-wise étale chart and the local graph-product
+equations. -/
+theorem orderedSupportGeometricAssigned_tupleSheet_comp_coordinate
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (j : Fin m) (i : Fin d) :
+    tupleSheetToOccurrenceComponent K C d
+          (orderedSupportPoint K C d z) hVs q m E hE j i ≫
+        (affineComponentToCoordinateLine K C d
+          (orderedSupportPoint K C d z)
+          (geometricPointSupportIndex K C d
+            (orderedSupportPoint K C d z) i)).left =
+      occurrenceCoordinate K C d (orderedSupportPoint K C d z) hVs q i :=
+  tupleSheetToOccurrenceComponent_comp_coordinate K C d
+    (orderedSupportPoint K C d z) hVs q m E hE j i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
