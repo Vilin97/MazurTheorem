@@ -10,6 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantFpqcRefinement
 import MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantSplitRefinement
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteSupportEtaleCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativePowerBaseIso
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitFiniteActionSheets
 
 /-!
 # Affine occurrence-wise charts at a geometric divisor support
@@ -48,6 +49,7 @@ open FiniteGroupQuotient
 open FiniteSupportEtaleCoordinates
 open RelativePowerBaseIso
 open SplitFiniteBaseChange
+open SplitFiniteActionSheets
 open SmoothCurveEtaleCoordinate
 
 variable (K : Type u) [Field K]
@@ -969,6 +971,82 @@ theorem componentFpqcBlockSplitAction_equivariant
     (componentPreimageAction K C d z hpre)
     (componentToBasePower_restrict_equivariant K C d z hVs hpre)
     m E hE g
+
+/-- The sheet label reached by the transported block action above a point
+of the common fpqc refinement. -/
+noncomputable def componentFpqcBlockSheetTransition
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (g : geometricAssignedStabilizer K C d z)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) : Fin m :=
+  sheetTransition
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE) g s j
+
+/-- The block-induced sheet labels satisfy the transition cocycle law over
+translated points of the common fpqc refinement. -/
+theorem componentFpqcBlockSheetTransition_mul
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (g h : geometricAssignedStabilizer K C d z)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) :
+    componentFpqcBlockSheetTransition K C d z hVs hpre q m E hE
+        (g * h) s j =
+      componentFpqcBlockSheetTransition K C d z hVs hpre q m E hE h
+        ((EquivariantFpqcRefinement.refinementAction
+          ((action K C d z).restrict hVs) q).hom g s)
+        (componentFpqcBlockSheetTransition K C d z hVs hpre q m E hE
+          g s j) :=
+  SplitFiniteActionSheets.sheetTransition_mul
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q)
+    (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
+      q m E hE) g h s j
+
+/-- At a fixed refinement point, every block element induces a permutation
+of the split sheet labels. -/
+noncomputable def componentFpqcBlockFixedSheetPerm
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (hs : ∀ g : geometricAssignedStabilizer K C d z,
+      (EquivariantFpqcRefinement.refinementAction
+        ((action K C d z).restrict hVs) q).hom g s = s)
+    (g : geometricAssignedStabilizer K C d z) : Equiv.Perm (Fin m) :=
+  fixedSheetPerm (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q)
+    (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
+      q m E hE) s hs g
 
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/
