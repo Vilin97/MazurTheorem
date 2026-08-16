@@ -35,6 +35,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedSimultaneousG
 
 open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
+open AssignedProductStabilizer
 open EqualCoordinateClosedImmersion
 open EtaleGraphNeighborhood
 open FiniteSupportEtaleCoordinates
@@ -65,6 +66,26 @@ noncomputable def supportAmbientToBase
       (coordinateLine K).hom)
     (refinementToBase K C d z hVs q ≫
       (commonAffineBase K C d z).hom)
+
+@[reassoc]
+theorem occurrenceAmbientIsoSupportAmbient_hom_fst (i : Fin d) :
+    (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom ≫
+        pullback.fst
+          ((affineComponentToCoordinateLine K C d z
+            (geometricPointSupportIndex K C d z i)).left ≫
+              (coordinateLine K).hom)
+          (refinementToBase K C d z hVs q ≫
+            (commonAffineBase K C d z).hom) =
+      pullback.fst
+        ((affineComponentToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i)).left ≫
+            (coordinateLine K).hom)
+        (occurrenceCoordinate K C d z hVs q i ≫
+          (coordinateLine K).hom) := by
+  simp only [occurrenceAmbientIsoSupportAmbient,
+    pullback.congrHom_hom]
+  dsimp only [pullback.map]
+  simp only [pullback.lift_fst, Category.comp_id]
 
 @[reassoc]
 theorem occurrenceAmbientIsoSupportAmbient_hom_snd (i : Fin d) :
@@ -121,6 +142,20 @@ noncomputable def graphToSupportAmbient (j : Fin m) (i : Fin d) :
       (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom
 
 @[reassoc]
+theorem graphToSupportAmbient_comp_fst (j : Fin m) (i : Fin d) :
+    graphToSupportAmbient K C d z hVs q m E hE j i ≫
+        pullback.fst
+          ((affineComponentToCoordinateLine K C d z
+            (geometricPointSupportIndex K C d z i)).left ≫
+              (coordinateLine K).hom)
+          (refinementToBase K C d z hVs q ≫
+            (commonAffineBase K C d z).hom) =
+      tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i := by
+  simp only [graphToSupportAmbient, Category.assoc,
+    occurrenceAmbientIsoSupportAmbient_hom_fst,
+    occurrenceGraph, pullback.lift_fst]
+
+@[reassoc]
 theorem graphToSupportAmbient_comp_base (j : Fin m) (i : Fin d) :
     graphToSupportAmbient K C d z hVs q m E hE j i ≫
         supportAmbientToBase K C d z hVs q
@@ -168,9 +203,195 @@ noncomputable def graphToSupportAmbientAtSupport (j : Fin m)
     (a : Fin (geometricDistinctSupportCard K C d z))
     (i : OccurrencesAtSupport K C d z a) :
     (componentFpqcBlockRefinement K C d z hVs q).left ⟶
-      supportAmbient K C d z hVs q a := by
+      supportAmbient K C d z hVs q a :=
+  graphToSupportAmbient K C d z hVs q m E hE j i.1 ≫
+    eqToHom (congrArg (supportAmbient K C d z hVs q) i.2)
+
+@[reassoc]
+theorem graphToOccurrenceOpenAtSupport_comp_ι (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j a i ≫
+        (occurrenceOpenAtSupport K C d z hVs q m E hE j a i).ι =
+      graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i := by
   rcases i with ⟨i, rfl⟩
-  exact graphToSupportAmbient K C d z hVs q m E hE j i
+  change (chosenOccurrenceGraphNeighborhood
+      K C d z hVs q m E hE j i).graphToOpen ≫
+        (chosenOccurrenceGraphNeighborhood
+          K C d z hVs q m E hE j i).occurrenceOpen.ι =
+    graphToSupportAmbient K C d z hVs q m E hE j i
+  exact (chosenOccurrenceGraphNeighborhood
+    K C d z hVs q m E hE j i).graph_isPullback.w
+
+/-- The tuple-sheet curve component of a support-owned occurrence, with its
+codomain transported to the fixed support member. -/
+noncomputable def tupleSheetToOccurrenceComponentAtSupport (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    (componentFpqcBlockRefinement K C d z hVs q).left ⟶
+      (affineComponentFamily K C d z a).left :=
+  tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i.1 ≫
+    (eqToHom (congrArg (affineComponentFamily K C d z) i.2)).left
+
+@[reassoc]
+theorem graphToSupportAmbientAtSupport_comp_fst (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i ≫
+        pullback.fst
+          ((affineComponentToCoordinateLine K C d z a).left ≫
+            (coordinateLine K).hom)
+          (refinementToBase K C d z hVs q ≫
+            (commonAffineBase K C d z).hom) =
+      tupleSheetToOccurrenceComponentAtSupport
+        K C d z hVs q m E hE j a i := by
+  rcases i with ⟨i, rfl⟩
+  change graphToSupportAmbient K C d z hVs q m E hE j i ≫
+      pullback.fst
+        ((affineComponentToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i)).left ≫
+            (coordinateLine K).hom)
+        (refinementToBase K C d z hVs q ≫
+          (commonAffineBase K C d z).hom) =
+    tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i
+  exact graphToSupportAmbient_comp_fst K C d z hVs q m E hE j i
+
+@[reassoc]
+theorem graphToSupportAmbientAtSupport_comp_base (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i ≫
+        supportAmbientToBase K C d z hVs q a =
+      𝟙 (componentFpqcBlockRefinement K C d z hVs q).left := by
+  rcases i with ⟨i, rfl⟩
+  simp only [graphToSupportAmbientAtSupport, eqToHom_refl,
+    Category.comp_id, graphToSupportAmbient_comp_base]
+
+/-- The exact repeated-product value makes the residue-field maps of two
+support-owned tuple-sheet projections equal. -/
+theorem residue_tupleSheetToOccurrenceComponentAtSupport_eq_of_exact
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hs : tupleSheetToComponent K C d z hVs q m E hE j s =
+      commonAffineComponentPoint K C d z)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : OccurrencesAtSupport K C d z a) :
+    (componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        tupleSheetToOccurrenceComponentAtSupport
+          K C d z hVs q m E hE j a i =
+      (componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        tupleSheetToOccurrenceComponentAtSupport
+          K C d z hVs q m E hE j a k := by
+  unfold tupleSheetToOccurrenceComponentAtSupport
+    tupleSheetToOccurrenceComponent
+  simp only [Category.assoc]
+  exact residuePoint_map_toCommonAffineComponent_projection_eq_to_support
+    K C d z
+    (componentFpqcBlockRefinement K C d z hVs q).left
+    (tupleSheetToComponent K C d z hVs q m E hE j) s
+    hs a i.1 k.1 i.2 k.2
+
+/-- At an exact correlated tuple-sheet lift, occurrence graphs belonging to
+the same geometric support agree after restriction to the lift's residue
+field.  Unlike equality of underlying projections, this controls the prime
+of the curve/base tensor product and is therefore strong enough for open
+neighbourhood membership. -/
+theorem residue_graphToSupportAmbientAtSupport_eq_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : OccurrencesAtSupport K C d z a) :
+    (componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i =
+      (componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        graphToSupportAmbientAtSupport K C d z hVs q m E hE j a k := by
+  have hs : tupleSheetToComponent K C d z hVs q m E hE j s =
+      commonAffineComponentPoint K C d z := by
+    change ((componentToBasePower K C d z).left ⁻¹ᵁ V).ι
+        (tupleSheetToComponentPreimage K C d z hVs q m E hE j s) = _
+    rw [hj]
+    rfl
+  apply pullback.hom_ext
+  · simp only [Category.assoc, graphToSupportAmbientAtSupport_comp_fst]
+    exact residue_tupleSheetToOccurrenceComponentAtSupport_eq_of_exact
+      K C d z hVs q m E hE s j hs a i k
+  · change
+      ((componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i) ≫
+          supportAmbientToBase K C d z hVs q a =
+      ((componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s ≫
+        graphToSupportAmbientAtSupport K C d z hVs q m E hE j a k) ≫
+          supportAmbientToBase K C d z hVs q a
+    rw [Category.assoc, graphToSupportAmbientAtSupport_comp_base,
+      Category.comp_id, Category.assoc,
+      graphToSupportAmbientAtSupport_comp_base, Category.comp_id]
+
+/-- Hence the support-owned graphs have the same underlying value at the
+exact refinement point. -/
+theorem graphToSupportAmbientAtSupport_apply_eq_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : OccurrencesAtSupport K C d z a) :
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i s =
+      graphToSupportAmbientAtSupport K C d z hVs q m E hE j a k s := by
+  have hres := residue_graphToSupportAmbientAtSupport_eq_of_exact
+    K C d z hVs q m E hE hmem s j hj a i k
+  exact apply_eq_of_fromSpecResidueField_comp_eq s
+    (graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i)
+    (graphToSupportAmbientAtSupport K C d z hVs q m E hE j a k) hres
+
+/-- At the exact lift, every support-owned graph value lies in every chosen
+isolating open for that same support. -/
+theorem graphToSupportAmbientAtSupport_apply_mem_occurrenceOpen_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : OccurrencesAtSupport K C d z a) :
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i s ∈
+      occurrenceOpenAtSupport K C d z hVs q m E hE j a k := by
+  have hfac := congrArg (fun f ↦ f s)
+    (graphToOccurrenceOpenAtSupport_comp_ι
+      K C d z hVs q m E hE j a k)
+  change (occurrenceOpenAtSupport K C d z hVs q m E hE j a k).ι
+      (graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j a k s) =
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a k s at hfac
+  rw [graphToSupportAmbientAtSupport_apply_eq_of_exact
+    K C d z hVs q m E hE hmem s j hj a i k]
+  rw [← hfac]
+  exact (graphToOccurrenceOpenAtSupport
+    K C d z hVs q m E hE j a k s).property
+
+/-- Consequently every support-owned graph value at the exact lift lies in
+the full intersection of the isolating opens for that support. -/
+theorem graphToSupportAmbientAtSupport_apply_mem_supportIntersection_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i s ∈
+      supportIntersectionOpen K C d z hVs q m E hE j a := by
+  change graphToSupportAmbientAtSupport
+      K C d z hVs q m E hE j a i s ∈
+    ((supportIntersectionOpen K C d z hVs q m E hE j a :
+      (supportAmbient K C d z hVs q a).Opens) : Set _)
+  rw [supportIntersectionOpen, TopologicalSpace.Opens.coe_iInf,
+    Set.mem_iInter]
+  intro k
+  exact graphToSupportAmbientAtSupport_apply_mem_occurrenceOpen_of_exact
+    K C d z hVs q m E hE hmem s j hj a i k
 
 /-- The base locus on which one occurrence graph lands in the common
 intersection for its support owner. -/
@@ -188,6 +409,27 @@ noncomputable def simultaneousBaseOpen (j : Fin m) :
   ⨅ a : Fin (geometricDistinctSupportCard K C d z),
     ⨅ i : OccurrencesAtSupport K C d z a,
       supportAdmissibleBaseOpen K C d z hVs q m E hE j a i
+
+/-- The simultaneous graph neighbourhood is nonempty at the geometrically
+correct point: the exact tuple-sheet lift belongs to every support and
+occurrence admissibility condition. -/
+theorem mem_simultaneousBaseOpen_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem) :
+    s ∈ simultaneousBaseOpen K C d z hVs q m E hE j := by
+  unfold simultaneousBaseOpen
+  apply mem_iInf_opens_of_forall_mem
+  intro a
+  apply mem_iInf_opens_of_forall_mem
+  intro i
+  exact mem_preimageOpen_of_apply_mem
+    (graphToSupportAmbientAtSupport K C d z hVs q m E hE j a i)
+    (supportIntersectionOpen K C d z hVs q m E hE j a) s
+    (graphToSupportAmbientAtSupport_apply_mem_supportIntersection_of_exact
+      K C d z hVs q m E hE hmem s j hj a i)
 
 theorem simultaneousBaseOpen_le_supportAdmissibleBaseOpen (j : Fin m)
     (a : Fin (geometricDistinctSupportCard K C d z))

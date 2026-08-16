@@ -536,6 +536,32 @@ noncomputable def commonAffineComponentPoint :
     (geometricPointSupportIndex K C d z)).left
       (distinctAffineComponentProductPoint K C d z)
 
+/-- A morphism taking a point to the exact repeated component point has
+equal residue-field projections along any two occurrences owned by one
+geometric support member.  This is the geometric-chart specialization of
+the assigned-product residue-correlation API. -/
+theorem residuePoint_map_toCommonAffineComponent_projection_eq_to_support
+    (B : Scheme.{u})
+    (f : B ⟶ (commonAffineComponent K C d z).left) (s : B)
+    (hs : f s = commonAffineComponentPoint K C d z)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : Fin d)
+    (hi : geometricPointSupportIndex K C d z i = a)
+    (hk : geometricPointSupportIndex K C d z k = a) :
+    B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z l)) i).left ≫
+          (eqToHom (congrArg (affineComponentFamily K C d z) hi)).left =
+      B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z l)) k).left ≫
+          (eqToHom (congrArg (affineComponentFamily K C d z) hk)).left :=
+  AssignedProductStabilizer.residuePoint_map_toProductToAssignedProduct_projection_eq_to_target
+      (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+      (affineComponentFamily K C d z)
+      (geometricPointSupportIndex K C d z) B f s
+      (distinctAffineComponentProductPoint K C d z) hs a i k hi hk
+
 /-- The correlated occurrence-base point obtained from the exact selected-
 component point.  This is the correct base point for subsequent fpqc
 splitting; choosing its coordinates independently would lose residue-field

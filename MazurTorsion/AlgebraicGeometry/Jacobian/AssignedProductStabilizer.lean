@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleAssignedCoproductPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.SplitTupleStabilizer
+import Mathlib.AlgebraicGeometry.Morphisms.Flat
 
 /-!
 # Stabilizer actions on assigned relative products
@@ -285,6 +286,183 @@ theorem productToAssignedProduct_invariant
     _ = productToAssignedProduct S m d X a ≫
         Pi.π (fun j : Fin d ↦ X (a j)) i :=
       (productToAssignedProduct_comp_projection S m d X a i).symm
+
+/-- At a point obtained by repeating a family-product point, the residue
+field morphisms of two occurrence projections in the same assignment fiber
+agree.  This retains the scheme-theoretic residue correlation, rather than
+only equality of the two underlying projected points. -/
+theorem residuePoint_productToAssignedProduct_projection_eq
+    (y : (∏ᶜ fun j : Fin m ↦ X j).left)
+    (i k : Fin d) (h : a i = a k) :
+    (assignedProduct S m d X a).left.fromSpecResidueField
+          ((productToAssignedProduct S m d X a).left y) ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+          (eqToHom (congrArg X h)).left =
+      (assignedProduct S m d X a).left.fromSpecResidueField
+          ((productToAssignedProduct S m d X a).left y) ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) k).left := by
+  let r := (productToAssignedProduct S m d X a).left
+  let e := Spec.map (r.residueFieldMap y)
+  haveI : Flat e := by infer_instance
+  haveI : Surjective e := by infer_instance
+  letI : Epi e := Flat.epi_of_flat_of_surjective e
+  have he : e ≫
+      (assignedProduct S m d X a).left.fromSpecResidueField
+        ((productToAssignedProduct S m d X a).left y) =
+      (∏ᶜ fun j : Fin m ↦ X j).left.fromSpecResidueField y ≫
+        (productToAssignedProduct S m d X a).left := by
+    simpa only [r, e] using
+      r.SpecMap_residueFieldMap_fromSpecResidueField y
+  rw [← cancel_epi e]
+  simp only [← Category.assoc, he]
+  have hi := congrArg Over.Hom.left
+    (productToAssignedProduct_comp_projection S m d X a i)
+  change (productToAssignedProduct S m d X a).left ≫
+      (Pi.π (fun l : Fin d ↦ X (a l)) i).left =
+    (Pi.π X (a i)).left at hi
+  have hk := congrArg Over.Hom.left
+    (productToAssignedProduct_comp_projection S m d X a k)
+  change (productToAssignedProduct S m d X a).left ≫
+      (Pi.π (fun l : Fin d ↦ X (a l)) k).left =
+    (Pi.π X (a k)).left at hk
+  simp only [Category.assoc, hi, hk]
+  rw [← Category.assoc]
+  have hp := congrArg Over.Hom.left (projection_comp_eqToHom S m X h)
+  change (Pi.π X (a i)).left ≫ (eqToHom (congrArg X h)).left =
+    (Pi.π X (a k)).left at hp
+  exact congrArg
+    (fun f ↦ (∏ᶜ fun j : Fin m ↦ X j).left.fromSpecResidueField y ≫ f) hp
+
+/-- A morphism taking a point to a repeated family-product point has equal
+residue-field composites along any two occurrence projections in the same
+assignment fiber. -/
+theorem residuePoint_map_toProductToAssignedProduct_projection_eq
+    (B : Scheme.{u})
+    (f : B ⟶ (assignedProduct S m d X a).left) (s : B)
+    (y : (∏ᶜ fun j : Fin m ↦ X j).left)
+    (hs : f s = (productToAssignedProduct S m d X a).left y)
+    (i k : Fin d) (h : a i = a k) :
+    B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+          (eqToHom (congrArg X h)).left =
+      B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) k).left := by
+  have hf := f.SpecMap_residueFieldMap_fromSpecResidueField s
+  have hproj :
+      (assignedProduct S m d X a).left.fromSpecResidueField (f s) ≫
+          (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+            (eqToHom (congrArg X h)).left =
+        (assignedProduct S m d X a).left.fromSpecResidueField (f s) ≫
+          (Pi.π (fun l : Fin d ↦ X (a l)) k).left := by
+    let e := Spec.map
+      ((assignedProduct S m d X a).left.residueFieldCongr hs).hom
+    letI : IsIso e := by infer_instance
+    have he : e ≫
+        (assignedProduct S m d X a).left.fromSpecResidueField (f s) =
+      (assignedProduct S m d X a).left.fromSpecResidueField
+        ((productToAssignedProduct S m d X a).left y) := by
+      exact Scheme.residueFieldCongr_fromSpecResidueField hs
+    rw [← cancel_epi e]
+    simp only [← Category.assoc, he]
+    exact residuePoint_productToAssignedProduct_projection_eq
+      S m d X a y i k h
+  let e := Spec.map (f.residueFieldMap s)
+  have hf' : e ≫
+      (assignedProduct S m d X a).left.fromSpecResidueField (f s) =
+    B.fromSpecResidueField s ≫ f := hf
+  calc
+    B.fromSpecResidueField s ≫ f ≫
+          (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+            (eqToHom (congrArg X h)).left =
+        (e ≫ (assignedProduct S m d X a).left.fromSpecResidueField
+          (f s)) ≫
+            (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+              (eqToHom (congrArg X h)).left := by
+      simp only [← Category.assoc]
+      rw [hf']
+    _ = e ≫
+        ((assignedProduct S m d X a).left.fromSpecResidueField (f s) ≫
+          (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+            (eqToHom (congrArg X h)).left) := by
+      simp only [Category.assoc]
+    _ = e ≫
+        ((assignedProduct S m d X a).left.fromSpecResidueField (f s) ≫
+          (Pi.π (fun l : Fin d ↦ X (a l)) k).left) :=
+      congrArg (fun g ↦ e ≫ g) hproj
+    _ = (e ≫ (assignedProduct S m d X a).left.fromSpecResidueField
+          (f s)) ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) k).left := by
+      simp only [Category.assoc]
+    _ = B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) k).left := by
+      simp only [← Category.assoc]
+      rw [hf']
+
+/-- The preceding residue-field equality with both projections transported
+to any fixed member of their common assignment fiber. -/
+theorem residuePoint_map_toProductToAssignedProduct_projection_eq_to_target
+    (B : Scheme.{u})
+    (f : B ⟶ (assignedProduct S m d X a).left) (s : B)
+    (y : (∏ᶜ fun j : Fin m ↦ X j).left)
+    (hs : f s = (productToAssignedProduct S m d X a).left y)
+    (b : Fin m) (i k : Fin d) (hi : a i = b) (hk : a k = b) :
+    B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) i).left ≫
+          (eqToHom (congrArg X hi)).left =
+      B.fromSpecResidueField s ≫ f ≫
+        (Pi.π (fun l : Fin d ↦ X (a l)) k).left ≫
+          (eqToHom (congrArg X hk)).left := by
+  have hres := residuePoint_map_toProductToAssignedProduct_projection_eq
+    S m d X a B f s y hs i k (hi.trans hk.symm)
+  have hpost := congrArg
+    (fun g ↦ g ≫ (eqToHom (congrArg X hk)).left) hres
+  have ht := congrArg Over.Hom.left
+    (eqToHom_trans (congrArg X (hi.trans hk.symm)) (congrArg X hk))
+  change (eqToHom (congrArg X (hi.trans hk.symm))).left ≫
+      (eqToHom (congrArg X hk)).left =
+    (eqToHom ((congrArg X (hi.trans hk.symm)).trans
+      (congrArg X hk))).left at ht
+  have hp : (congrArg X (hi.trans hk.symm)).trans (congrArg X hk) =
+      congrArg X hi := Subsingleton.elim _ _
+  rw [hp] at ht
+  simpa only [Category.assoc, ht] using hpost
+
+/-- Equality after restriction to the residue-field point implies equality
+of the underlying morphism values at that point. -/
+theorem apply_eq_of_fromSpecResidueField_comp_eq
+    {B Y : Scheme.{u}} (s : B) (f g : B ⟶ Y)
+    (h : B.fromSpecResidueField s ≫ f =
+      B.fromSpecResidueField s ≫ g) :
+    f s = g s := by
+  let r := B.fromSpecResidueField s
+  let x := IsLocalRing.closedPoint (B.residueField s)
+  have hx : r x = s := Scheme.fromSpecResidueField_apply s x
+  have hp := congrArg (fun e ↦ e x) h
+  change (r ≫ f) x = (r ≫ g) x at hp
+  calc
+    f s = f (r x) := congrArg f hx.symm
+    _ = (r ≫ f) x := (Scheme.Hom.comp_apply r f x).symm
+    _ = (r ≫ g) x := hp
+    _ = g (r x) := Scheme.Hom.comp_apply r g x
+    _ = g s := congrArg g hx
+
+/-- A point belongs to a finite infimum of opens when it belongs to every
+member.  Packaging the finite-intersection coercion behind a theorem keeps
+large geometric applications opaque to the kernel. -/
+theorem mem_iInf_opens_of_forall_mem
+    {Y : Scheme.{u}} {I : Type*} [Finite I]
+    (U : I → Y.Opens) (y : Y) (hy : ∀ i, y ∈ U i) :
+    y ∈ ⨅ i, U i := by
+  change y ∈ (((⨅ i, U i) : Y.Opens) : Set _)
+  rw [TopologicalSpace.Opens.coe_iInf, Set.mem_iInter]
+  exact hy
+
+/-- Membership in an inverse-image open is witnessed by membership of the
+image point. -/
+theorem mem_preimageOpen_of_apply_mem
+    {B Y : Scheme.{u}} (f : B ⟶ Y) (U : Y.Opens) (s : B)
+    (hs : f s ∈ U) : s ∈ f ⁻¹ᵁ U :=
+  hs
 
 /-- Assigned-product insertion is equivariant for the tuple stabilizer and
 the ambient coordinate-permutation action. -/
