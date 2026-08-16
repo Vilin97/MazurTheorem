@@ -16,6 +16,8 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighbo
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoordinates
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedSimultaneousGraphNeighborhood
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSimultaneousNeighborhood
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -57,6 +59,8 @@ open GeometricAssignedGraphQuotient
 open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
 open GeometricAssignedSimultaneousGraphNeighborhood
+open GeometricAssignedAffineSimultaneousNeighborhood
+open GeometricAssignedAffineSupportCoproduct
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
 open SplitFinitePowerPoint
@@ -534,6 +538,92 @@ theorem orderedSupportGeometricAssigned_exact_mem_simultaneousBaseOpen
       hVs q m E hE j :=
   mem_simultaneousBaseOpen_of_exact K C d
     (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The local incidence chart can be chosen affine simultaneously on its
+base and on every geometric support piece, while retaining every occurrence
+graph and the exact ordered-support lift. -/
+theorem orderedSupportGeometricAssigned_exists_simultaneousAffineGraphNeighborhood
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem) :
+    Nonempty (SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj) :=
+  nonempty_simultaneousAffineGraphNeighborhood_of_exact K C d
+    (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- After simultaneous affine shrinking, every ordered occurrence graph
+lands in the coproduct summand owned by its geometric support member, and
+the comparison with the original selected-component family preserves that
+owner exactly. -/
+theorem orderedSupportGeometricAssigned_graph_lands_in_affineSupportCoproduct
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)))
+    (i : OccurrencesAtSupport K C d
+      (orderedSupportPoint K C d z) a) :
+    graphToSupportCoproduct K C d (orderedSupportPoint K C d z)
+          hVs q m E hE N a i ≫
+        (supportCoproductToAffineComponentCoproduct K C d
+          (orderedSupportPoint K C d z) hVs q m E hE N).left =
+      graphToSupportPiece K C d (orderedSupportPoint K C d z)
+          hVs q m E hE N a i ≫
+        supportPieceToAffineComponent K C d
+          (orderedSupportPoint K C d z) hVs q m E hE N a ≫
+          (inclusion (coordinateBase K)
+            (geometricDistinctSupportCard K C d
+              (orderedSupportPoint K C d z))
+            (affineComponentFamily K C d
+              (orderedSupportPoint K C d z)) a).left :=
+  graphToSupportCoproduct_comp_comparison K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N a i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
