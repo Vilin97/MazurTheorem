@@ -10,6 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.AffineIdealSheafPullback
 import MazurTorsion.AlgebraicGeometry.Jacobian.EtaleQuotientProduct
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSectionProduct
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativeAffineLinePower
+import MazurTorsion.AlgebraicGeometry.Jacobian.ResidueEqualizerOpen
 import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 
 /-!
@@ -3419,6 +3420,651 @@ theorem baseOpenToCurvePower_comp_projection (i : Fin d) :
         (affineComponentToCurve K C d z) i)
   rw [hprojection]
   rfl
+
+/-- The exact tuple-sheet lift, regarded as a point of the final affine base
+open. -/
+noncomputable def exactBasePoint : N.baseOpen.toScheme :=
+  ⟨s, N.exact_mem_base⟩
+
+/-- The curve tuple over the exact affine-base point retains the whole
+transported ordered point, including its residue-field correlation. -/
+theorem baseOpenToCurvePower_exactBasePoint :
+    (baseOpenToCurvePower K C d z hVs q m E hE N).left
+        (exactBasePoint K C d z hVs q m E hE N) =
+      curvePowerPointOverCoordinateBase K C d z := by
+  have hs : tupleSheetToComponent K C d z hVs q m E hE j s =
+      commonAffineComponentPoint K C d z := by
+    change ((componentToBasePower K C d z).left ⁻¹ᵁ V).ι
+      (tupleSheetToComponentPreimage K C d z hVs q m E hE j s) = _
+    rw [hj]
+    rfl
+  change (componentToCurvePower K C d z).left
+    (tupleSheetToComponent K C d z hVs q m E hE j
+      (N.baseOpen.ι (exactBasePoint K C d z hVs q m E hE N))) = _
+  rw [show N.baseOpen.ι
+      (exactBasePoint K C d z hVs q m E hE N) = s by rfl,
+    hs, componentToCurvePower_commonAffineComponentPoint]
+
+/-- Re-express the tuple in the literal `Over.map` target used by the
+relative-power base-isomorphism API. -/
+noncomputable def baseOpenToMappedCurvePower :
+    baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+      PermutationPower.power (coordinateBase K) (Fin d)
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) := by
+  change baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+    PermutationPower.power (coordinateBase K) (Fin d)
+      (PointChart.curveOverCoordinateBase K C.left C.hom)
+  exact baseOpenToCurvePower K C d z hVs q m E hE N
+
+/-- Forget the transported coordinate base after forming the exact ordered
+curve tuple, retaining the resulting object over the coordinate base. -/
+noncomputable def baseOpenToOriginalCurvePowerOverCoordinateBase :
+    baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+      (Over.map (coordinateBaseIso K).symm.hom).obj
+        (PermutationPower.power (Spec (.of K)) (Fin d) C) :=
+  baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+    (RelativePowerBaseIso.powerIso (Spec (.of K)) (coordinateBase K)
+      (coordinateBaseIso K).symm C d).inv
+
+/-- The underlying scheme map targets the original relative-power scheme;
+`Over.map` changes only its structure morphism. -/
+noncomputable def baseOpenToOriginalCurvePower :
+    N.baseOpen.toScheme ⟶
+      (PermutationPower.power (Spec (.of K)) (Fin d) C).left :=
+  (baseOpenToOriginalCurvePowerOverCoordinateBase
+    K C d z hVs q m E hE N).left
+
+/-- Forgetting the transported base does not change any ordered curve
+coordinate. -/
+@[reassoc]
+theorem baseOpenToOriginalCurvePowerOverCoordinateBase_comp_projection
+    (i : Fin d) :
+    (baseOpenToOriginalCurvePowerOverCoordinateBase
+        K C d z hVs q m E hE N).left ≫
+      ((Over.map (coordinateBaseIso K).symm.hom).map
+        (Pi.π (fun _ : Fin d ↦ C) i)).left =
+    (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left := by
+  have hOver :
+      baseOpenToOriginalCurvePowerOverCoordinateBase
+          K C d z hVs q m E hE N ≫
+        (Over.map (coordinateBaseIso K).symm.hom).map
+          (Pi.π (fun _ : Fin d ↦ C) i) =
+      baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i := by
+    calc
+      _ = baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+          (RelativePowerBaseIso.powerIso (Spec (.of K))
+            (coordinateBase K) (coordinateBaseIso K).symm C d).inv ≫
+            ((Over.map (coordinateBaseIso K).symm.hom).map
+              (Pi.π (fun _ : Fin d ↦ C) i)) := by
+        rw [baseOpenToOriginalCurvePowerOverCoordinateBase,
+          Category.assoc]
+      _ = baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+          (RelativePowerBaseIso.powerIso (Spec (.of K))
+            (coordinateBase K) (coordinateBaseIso K).symm C d).inv ≫
+            ((RelativePowerBaseIso.powerIso (Spec (.of K))
+              (coordinateBase K) (coordinateBaseIso K).symm C d).hom ≫
+                Pi.π (fun _ : Fin d ↦
+                  (Over.map (coordinateBaseIso K).symm.hom).obj C) i) := by
+        rw [RelativePowerBaseIso.powerIso_hom_comp_projection]
+      _ = _ := by rw [Iso.inv_hom_id_assoc]
+  exact congrArg Over.Hom.left hOver
+
+/-- Scheme-level form of the preceding coordinate comparison. -/
+@[reassoc]
+theorem baseOpenToOriginalCurvePower_comp_projection (i : Fin d) :
+    baseOpenToOriginalCurvePower K C d z hVs q m E hE N ≫
+        (Pi.π (fun _ : Fin d ↦ C) i).left =
+      (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i).left := by
+  change (baseOpenToOriginalCurvePowerOverCoordinateBase
+      K C d z hVs q m E hE N).left ≫
+        ((Over.map (coordinateBaseIso K).symm.hom).map
+          (Pi.π (fun _ : Fin d ↦ C) i)).left =
+    (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left
+  exact baseOpenToOriginalCurvePowerOverCoordinateBase_comp_projection
+    K C d z hVs q m E hE N i
+
+/-- The original-power map sends the exact affine-base point back to the
+original ordered point `z`. -/
+theorem baseOpenToOriginalCurvePower_exactBasePoint :
+    baseOpenToOriginalCurvePower K C d z hVs q m E hE N
+        (exactBasePoint K C d z hVs q m E hE N) = z := by
+  change (baseOpenToOriginalCurvePowerOverCoordinateBase
+      K C d z hVs q m E hE N).left
+        (exactBasePoint K C d z hVs q m E hE N) = z
+  rw [baseOpenToOriginalCurvePowerOverCoordinateBase, Over.comp_left,
+    Scheme.Hom.comp_apply]
+  have hmapped :
+      (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left
+          (exactBasePoint K C d z hVs q m E hE N) =
+        RelativePowerBaseIso.powerPoint (Spec (.of K)) (coordinateBase K)
+          (coordinateBaseIso K).symm C d z := by
+    change (baseOpenToCurvePower K C d z hVs q m E hE N).left
+        (exactBasePoint K C d z hVs q m E hE N) =
+      curvePowerPointOverCoordinateBase K C d z
+    exact baseOpenToCurvePower_exactBasePoint K C d z hVs q m E hE N
+  rw [hmapped]
+  change (RelativePowerBaseIso.powerIso (Spec (.of K)) (coordinateBase K)
+      (coordinateBaseIso K).symm C d).inv.left
+    ((RelativePowerBaseIso.powerIso (Spec (.of K)) (coordinateBase K)
+      (coordinateBaseIso K).symm C d).hom.left z) = z
+  exact congrArg (fun f ↦ f z)
+    (congrArg Over.Hom.left
+      (RelativePowerBaseIso.powerIso (Spec (.of K)) (coordinateBase K)
+        (coordinateBaseIso K).symm C d).hom_inv_id)
+
+/-- Distinct geometric-support owners remain distinct as residue-field
+coordinate maps at the exact affine-base point. -/
+theorem exactBasePoint_residue_coordinates_ne (i k : Fin d)
+    (hik : geometricPointSupportIndex K C d z i ≠
+      geometricPointSupportIndex K C d z k) :
+    N.baseOpen.toScheme.fromSpecResidueField
+          (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            PointChart.curveOverCoordinateBase K C.left C.hom) i).left ≠
+      N.baseOpen.toScheme.fromSpecResidueField
+          (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            PointChart.curveOverCoordinateBase K C.left C.hom) k).left := by
+  have h := FiniteSupportIndex.residue_coordinates_ne_of_supportIndex_ne
+    (Spec (.of K)) d C z
+    (baseOpenToOriginalCurvePower K C d z hVs q m E hE N)
+    (exactBasePoint K C d z hVs q m E hE N)
+    (baseOpenToOriginalCurvePower_exactBasePoint
+      K C d z hVs q m E hE N) i k hik
+  change N.baseOpen.toScheme.fromSpecResidueField
+      (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToOriginalCurvePowerOverCoordinateBase
+          K C d z hVs q m E hE N).left ≫
+          ((Over.map (coordinateBaseIso K).symm.hom).map
+            (Pi.π (fun _ : Fin d ↦ C) i)).left ≠
+    N.baseOpen.toScheme.fromSpecResidueField
+      (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToOriginalCurvePowerOverCoordinateBase
+          K C d z hVs q m E hE N).left ≫
+          ((Over.map (coordinateBaseIso K).symm.hom).map
+            (Pi.π (fun _ : Fin d ↦ C) k)).left at h
+  change N.baseOpen.toScheme.fromSpecResidueField
+      (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left ≠
+    N.baseOpen.toScheme.fromSpecResidueField
+      (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            (Over.map (coordinateBaseIso K).symm.hom).obj C) k).left
+  intro heq
+  apply h
+  let r := N.baseOpen.toScheme.fromSpecResidueField
+    (exactBasePoint K C d z hVs q m E hE N)
+  have hi := congrArg (fun f ↦ r ≫ f)
+    (baseOpenToOriginalCurvePowerOverCoordinateBase_comp_projection
+      K C d z hVs q m E hE N i)
+  have hk := congrArg (fun f ↦ r ≫ f)
+    (baseOpenToOriginalCurvePowerOverCoordinateBase_comp_projection
+      K C d z hVs q m E hE N k)
+  calc
+    _ = r ≫ (baseOpenToMappedCurvePower
+          K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left := by
+      simpa only [r, Category.assoc] using hi
+    _ = r ≫ (baseOpenToMappedCurvePower
+          K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) k).left := heq
+    _ = _ := by simpa only [r, Category.assoc] using hk.symm
+
+/-- Separatedness is preserved when the curve is transported across the
+coordinate-base isomorphism. -/
+instance mappedCurve_isSeparated [IsSeparated C.hom] :
+    IsSeparated ((Over.map (coordinateBaseIso K).symm.hom).obj C).hom := by
+  change IsSeparated (C.hom ≫ (coordinateBaseIso K).inv)
+  exact IsSeparated.comp_iff.mpr inferInstance
+
+/-- For two ordered coordinates, use the whole affine base when they have
+one geometric-support owner and otherwise remove their scheme-theoretic
+equalizer. -/
+noncomputable def crossSupportCoordinateOpen [IsSeparated C.hom]
+    (i k : Fin d) : N.baseOpen.toScheme.Opens :=
+  if geometricPointSupportIndex K C d z i =
+      geometricPointSupportIndex K C d z k then ⊤
+  else
+    ResidueEqualizerOpen.complement
+      (baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i)
+      (baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) k)
+
+/-- The exact tuple-sheet lift belongs to every cross-support coordinate
+open. -/
+theorem exactBasePoint_mem_crossSupportCoordinateOpen
+    [IsSeparated C.hom] (i k : Fin d) :
+    exactBasePoint K C d z hVs q m E hE N ∈
+      crossSupportCoordinateOpen K C d z hVs q m E hE N i k := by
+  classical
+  by_cases hik : geometricPointSupportIndex K C d z i =
+      geometricPointSupportIndex K C d z k
+  · simp [crossSupportCoordinateOpen, hik]
+  · rw [crossSupportCoordinateOpen, if_neg hik]
+    apply ResidueEqualizerOpen.mem_complement_of_residue_ne
+    change N.baseOpen.toScheme.fromSpecResidueField
+          (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left ≠
+      N.baseOpen.toScheme.fromSpecResidueField
+          (exactBasePoint K C d z hVs q m E hE N) ≫
+        (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            (Over.map (coordinateBaseIso K).symm.hom).obj C) k).left
+    exact exactBasePoint_residue_coordinates_ne
+      K C d z hVs q m E hE N i k hik
+
+/-- The finite intersection on which coordinates with different geometric
+support owners remain scheme-theoretically unequal. -/
+noncomputable def crossSupportDistinctBaseOpen [IsSeparated C.hom] :
+    N.baseOpen.toScheme.Opens :=
+  ⨅ i : Fin d, ⨅ k : Fin d,
+    crossSupportCoordinateOpen K C d z hVs q m E hE N i k
+
+/-- The exact tuple-sheet lift survives the simultaneous cross-support
+separation. -/
+theorem exactBasePoint_mem_crossSupportDistinctBaseOpen
+    [IsSeparated C.hom] :
+    exactBasePoint K C d z hVs q m E hE N ∈
+      crossSupportDistinctBaseOpen K C d z hVs q m E hE N := by
+  apply AssignedProductStabilizer.mem_iInf_opens_of_forall_mem
+  intro i
+  apply AssignedProductStabilizer.mem_iInf_opens_of_forall_mem
+  intro k
+  exact exactBasePoint_mem_crossSupportCoordinateOpen
+    K C d z hVs q m E hE N i k
+
+/-- A support piece, with its structure morphism continued from the affine
+base to the coordinate copy of the ground field. -/
+noncomputable def supportPieceOverCoordinateBase
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Over (coordinateBase K) :=
+  Over.mk ((supportPieceFamily K C d z hVs q m E hE N a).hom ≫
+    baseToCoordinateBase K C d z hVs q m E hE N)
+
+/-- The structure morphism from a support piece to the simultaneous affine
+base, regarded over the coordinate ground scheme. -/
+noncomputable def supportPieceToBaseOpenOverCoordinateBase
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceOverCoordinateBase K C d z hVs q m E hE N a ⟶
+      baseOpenOverCoordinateBase K C d z hVs q m E hE N :=
+  Over.homMk (supportPieceFamily K C d z hVs q m E hE N a).hom rfl
+
+/-- The varying curve point on one support piece. -/
+noncomputable def supportPieceToMappedCurve
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceOverCoordinateBase K C d z hVs q m E hE N a ⟶
+      (Over.map (coordinateBaseIso K).symm.hom).obj C := by
+  change Over.mk ((supportPieceFamily
+      K C d z hVs q m E hE N a).hom ≫
+        baseToCoordinateBase K C d z hVs q m E hE N) ⟶
+    PointChart.curveOverCoordinateBase K C.left C.hom
+  refine Over.homMk
+    (supportPieceToAffineComponent K C d z hVs q m E hE N a ≫
+      (affineComponentToCurve K C d z a).left) ?_
+  calc
+    _ = supportPieceToAffineComponent K C d z hVs q m E hE N a ≫
+        (affineComponentFamily K C d z a).hom := by
+      rw [Category.assoc, (affineComponentToCurve K C d z a).w]
+    _ = _ := supportPieceToAffineComponent_comp_structure
+      K C d z hVs q m E hE N a
+
+theorem supportPieceToMappedCurve_left
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (supportPieceToMappedCurve K C d z hVs q m E hE N a).left =
+      supportPieceToAffineComponent K C d z hVs q m E hE N a ≫
+        (affineComponentToCurve K C d z a).left := by
+  rfl
+
+/-- Pull the `i`-th ordered coordinate back from the simultaneous affine
+base to one support piece. -/
+noncomputable def supportPieceToMappedCoordinate
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    supportPieceOverCoordinateBase K C d z hVs q m E hE N a ⟶
+      (Over.map (coordinateBaseIso K).symm.hom).obj C :=
+  supportPieceToBaseOpenOverCoordinateBase K C d z hVs q m E hE N a ≫
+    baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+      Pi.π (fun _ : Fin d ↦
+        (Over.map (coordinateBaseIso K).symm.hom).obj C) i
+
+/-- Along an owner graph, the varying support-piece point is exactly its
+owner ordered coordinate. -/
+@[reassoc]
+theorem graphToSupportPiece_comp_mappedCurve
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToSupportPiece K C d z hVs q m E hE N a i ≫
+        (supportPieceToMappedCurve K C d z hVs q m E hE N a).left =
+      (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i.1).left := by
+  rcases i with ⟨i, rfl⟩
+  change graphToSupportPiece K C d z hVs q m E hE N
+        (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+      (supportPieceToAffineComponent K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ≫
+        (affineComponentToCurve K C d z
+          (geometricPointSupportIndex K C d z i)).left) =
+    (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        PointChart.curveOverCoordinateBase K C.left C.hom) i).left
+  rw [← Category.assoc, graphToSupportPiece_comp_affineComponent]
+  have hp := congrArg Over.Hom.left
+    (baseOpenToCurvePower_comp_projection
+      K C d z hVs q m E hE N i)
+  change (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+    N.baseOpen.ι ≫
+      tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i ≫
+        (affineComponentToCurve K C d z
+          (geometricPointSupportIndex K C d z i)).left at hp
+  exact hp.symm
+
+/-- Along any graph section, a coordinate pulled back from the affine base
+remains that same base coordinate. -/
+@[reassoc]
+theorem graphToSupportPiece_comp_mappedCoordinate
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (k : OccurrencesAtSupport K C d z a) (i : Fin d) :
+    graphToSupportPiece K C d z hVs q m E hE N a k ≫
+        (supportPieceToMappedCoordinate
+          K C d z hVs q m E hE N a i).left =
+      (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left := by
+  change graphToSupportPiece K C d z hVs q m E hE N a k ≫
+      (supportPieceFamily K C d z hVs q m E hE N a).hom ≫
+        (baseOpenToMappedCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left = _
+  rw [← Category.assoc, ← Category.assoc,
+    graphToSupportPiece_comp_snd, Category.id_comp]
+
+/-- On a support piece, retain the whole piece for an owner coordinate and
+remove the scheme-theoretic equalizer with every non-owner coordinate. -/
+noncomputable def supportPieceCoordinateOpenOverCoordinateBase
+    [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    (supportPieceOverCoordinateBase
+      K C d z hVs q m E hE N a).left.Opens :=
+  if geometricPointSupportIndex K C d z i = a then ⊤
+  else
+    ResidueEqualizerOpen.complement
+      (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+      (supportPieceToMappedCoordinate K C d z hVs q m E hE N a i)
+
+/-- Scheme-level presentation of the non-owner equalizer complement. -/
+noncomputable def supportPieceCoordinateOpen [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    (supportPiece K C d z hVs q m E hE N a).Opens := by
+  change (supportPieceOverCoordinateBase
+    K C d z hVs q m E hE N a).left.Opens
+  exact supportPieceCoordinateOpenOverCoordinateBase
+    K C d z hVs q m E hE N a i
+
+/-- At the exact affine-base point, every owner graph avoids the equalizer
+with each non-owner coordinate. -/
+theorem graphExactBasePoint_mem_supportPieceCoordinateOpen
+    [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (k : OccurrencesAtSupport K C d z a) (i : Fin d) :
+    graphToSupportPiece K C d z hVs q m E hE N a k
+        (exactBasePoint K C d z hVs q m E hE N) ∈
+      supportPieceCoordinateOpen K C d z hVs q m E hE N a i := by
+  change graphToSupportPiece K C d z hVs q m E hE N a k
+      (exactBasePoint K C d z hVs q m E hE N) ∈
+    supportPieceCoordinateOpenOverCoordinateBase
+      K C d z hVs q m E hE N a i
+  classical
+  by_cases hi : geometricPointSupportIndex K C d z i = a
+  · rw [supportPieceCoordinateOpenOverCoordinateBase, if_pos hi]
+    change graphToSupportPiece K C d z hVs q m E hE N a k
+      (exactBasePoint K C d z hVs q m E hE N) ∈ Set.univ
+    exact Set.mem_univ _
+  · rw [supportPieceCoordinateOpenOverCoordinateBase, if_neg hi]
+    apply ResidueEqualizerOpen.mem_complement_of_residue_ne
+    apply ResidueEqualizerOpen.residue_ne_at_image_of_comp_ne
+    let r := N.baseOpen.toScheme.fromSpecResidueField
+      (exactBasePoint K C d z hVs q m E hE N)
+    have hki : geometricPointSupportIndex K C d z k.1 ≠
+        geometricPointSupportIndex K C d z i := by
+      intro h
+      apply hi
+      exact h.symm.trans k.2
+    have hbase := exactBasePoint_residue_coordinates_ne
+      K C d z hVs q m E hE N k.1 i hki
+    change r ≫ (baseOpenToMappedCurvePower
+          K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) k.1).left ≠
+      r ≫ (baseOpenToMappedCurvePower
+          K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          (Over.map (coordinateBaseIso K).symm.hom).obj C) i).left at hbase
+    have hk := congrArg (fun f ↦ r ≫ f)
+      (graphToSupportPiece_comp_mappedCurve
+        K C d z hVs q m E hE N a k)
+    have hi' := congrArg (fun f ↦ r ≫ f)
+      (graphToSupportPiece_comp_mappedCoordinate
+        K C d z hVs q m E hE N a k i)
+    intro heq
+    apply hbase
+    calc
+      _ = r ≫ graphToSupportPiece K C d z hVs q m E hE N a k ≫
+          (supportPieceToMappedCurve
+            K C d z hVs q m E hE N a).left := by
+        simpa only [r, Category.assoc] using hk.symm
+      _ = r ≫ graphToSupportPiece K C d z hVs q m E hE N a k ≫
+          (supportPieceToMappedCoordinate
+            K C d z hVs q m E hE N a i).left := heq
+      _ = _ := by simpa only [r, Category.assoc] using hi'
+
+/-- The open part of a support piece on which its varying point can equal
+only coordinates owned by that same support member. -/
+noncomputable def supportPieceOwnerOnlyOpenOverCoordinateBase
+    [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (supportPieceOverCoordinateBase
+      K C d z hVs q m E hE N a).left.Opens :=
+  ⨅ i : Fin d,
+    supportPieceCoordinateOpenOverCoordinateBase
+      K C d z hVs q m E hE N a i
+
+/-- Scheme-level presentation of the owner-only support open. -/
+noncomputable def supportPieceOwnerOnlyOpen [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (supportPiece K C d z hVs q m E hE N a).Opens := by
+  change (supportPieceOverCoordinateBase
+    K C d z hVs q m E hE N a).left.Opens
+  exact supportPieceOwnerOnlyOpenOverCoordinateBase
+    K C d z hVs q m E hE N a
+
+/-- Every owner graph has its exact value in the owner-only support open. -/
+theorem graphExactBasePoint_mem_supportPieceOwnerOnlyOpen
+    [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (k : OccurrencesAtSupport K C d z a) :
+    graphToSupportPiece K C d z hVs q m E hE N a k
+        (exactBasePoint K C d z hVs q m E hE N) ∈
+      supportPieceOwnerOnlyOpen K C d z hVs q m E hE N a := by
+  change graphToSupportPiece K C d z hVs q m E hE N a k
+      (exactBasePoint K C d z hVs q m E hE N) ∈
+    supportPieceOwnerOnlyOpenOverCoordinateBase
+      K C d z hVs q m E hE N a
+  apply AssignedProductStabilizer.mem_iInf_opens_of_forall_mem
+  intro i
+  exact graphExactBasePoint_mem_supportPieceCoordinateOpen
+    K C d z hVs q m E hE N a k i
+
+/-- All occurrence graphs owned by one geometric support member have the
+same value in the pulled-back support piece at the exact tuple-sheet lift.
+The proof retains residue-field correlation before passing to underlying
+points. -/
+theorem graphToSupportPiece_apply_exactBasePoint_eq
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i k : OccurrencesAtSupport K C d z a) :
+    graphToSupportPiece K C d z hVs q m E hE N a i
+        (exactBasePoint K C d z hVs q m E hE N) =
+      graphToSupportPiece K C d z hVs q m E hE N a k
+        (exactBasePoint K C d z hVs q m E hE N) := by
+  let b := exactBasePoint K C d z hVs q m E hE N
+  have hbs : N.baseOpen.ι b = s := by rfl
+  let e := Spec.map (N.baseOpen.ι.residueFieldMap b) ≫
+    Spec.map (((componentFpqcBlockRefinement K C d z hVs q).left
+      ).residueFieldCongr hbs.symm).hom
+  have he : e ≫
+      (componentFpqcBlockRefinement K C d z hVs q).left.fromSpecResidueField s =
+    N.baseOpen.toScheme.fromSpecResidueField b ≫ N.baseOpen.ι := by
+    dsimp only [e]
+    rw [Category.assoc,
+      Scheme.residueFieldCongr_fromSpecResidueField hbs.symm,
+      N.baseOpen.ι.SpecMap_residueFieldMap_fromSpecResidueField]
+  have hambient :=
+    residue_graphToSupportAmbientAtSupport_eq_of_exact
+      K C d z hVs q m E hE hmem s j hj a i k
+  have hpull := congrArg (fun f ↦ e ≫ f) hambient
+  have hbaseAmbient :
+      N.baseOpen.toScheme.fromSpecResidueField b ≫ N.baseOpen.ι ≫
+          graphToSupportAmbientAtSupport
+            K C d z hVs q m E hE j a i =
+        N.baseOpen.toScheme.fromSpecResidueField b ≫ N.baseOpen.ι ≫
+          graphToSupportAmbientAtSupport
+            K C d z hVs q m E hE j a k := by
+    simpa only [← Category.assoc, he] using hpull
+  have hpiece :
+      N.baseOpen.toScheme.fromSpecResidueField b ≫
+          graphToSupportPiece K C d z hVs q m E hE N a i =
+        N.baseOpen.toScheme.fromSpecResidueField b ≫
+          graphToSupportPiece K C d z hVs q m E hE N a k := by
+    apply pullback.hom_ext
+    · apply (cancel_mono (N.supportOpen a).ι).mp
+      simpa only [Category.assoc, graphToSupportPiece_comp_fst,
+        SimultaneousAffineGraphNeighborhood.graph_comp_ι] using
+        hbaseAmbient
+    · have hi := congrArg
+        (fun f ↦ N.baseOpen.toScheme.fromSpecResidueField b ≫ f)
+        (graphToSupportPiece_comp_snd
+          K C d z hVs q m E hE N a i)
+      have hk := congrArg
+        (fun f ↦ N.baseOpen.toScheme.fromSpecResidueField b ≫ f)
+        (graphToSupportPiece_comp_snd
+          K C d z hVs q m E hE N a k)
+      exact hi.trans hk.symm
+  exact AssignedProductStabilizer.apply_eq_of_fromSpecResidueField_comp_eq
+    b _ _ hpiece
+
+/-- Choose one ordered occurrence owned by each geometric support member. -/
+noncomputable def supportRepresentativeOccurrence
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    OccurrencesAtSupport K C d z a := by
+  let h := FiniteSupportIndex.coordinateSupportIndex_surjective
+    (Spec (.of K)) d C z a
+  refine ⟨Classical.choose h, ?_⟩
+  change FiniteSupportIndex.coordinateSupportIndex
+      (Spec (.of K)) d C z (Classical.choose h) = a
+  exact Classical.choose_spec h
+
+/-- Every owner-only support locus contains an affine neighbourhood of its
+exact graph value. -/
+theorem exists_affineSupportPieceOwnerOnlyOpen [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    ∃ U : (supportPiece K C d z hVs q m E hE N a).Opens,
+      IsAffineOpen U ∧
+        graphToSupportPiece K C d z hVs q m E hE N a
+          (supportRepresentativeOccurrence K C d z a)
+          (exactBasePoint K C d z hVs q m E hE N) ∈ U ∧
+        U ≤ supportPieceOwnerOnlyOpen
+          K C d z hVs q m E hE N a := by
+  have hx := graphExactBasePoint_mem_supportPieceOwnerOnlyOpen
+    K C d z hVs q m E hE N a
+      (supportRepresentativeOccurrence K C d z a)
+  have hb :=
+    (supportPiece K C d z hVs q m E hE N a).isBasis_affineOpens
+  obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUle⟩ :=
+    hb.exists_subset_of_mem_open hx
+      (supportPieceOwnerOnlyOpen K C d z hVs q m E hE N a).isOpen
+  exact ⟨U, hU, hxU, hUle⟩
+
+/-- Affine support and base refinements on which cross-support coordinate
+graphs have been removed while every owner occurrence graph survives. -/
+structure CrossSupportAffineGraphRefinement [IsSeparated C.hom] where
+  baseOpen : N.baseOpen.toScheme.Opens
+  base_isAffine : IsAffineOpen baseOpen
+  exact_mem_base : exactBasePoint K C d z hVs q m E hE N ∈ baseOpen
+  base_le_crossSupport :
+    baseOpen ≤ crossSupportDistinctBaseOpen K C d z hVs q m E hE N
+  supportOpen : (a : Fin (geometricDistinctSupportCard K C d z)) →
+    (supportPiece K C d z hVs q m E hE N a).Opens
+  support_isAffine : ∀ a, IsAffineOpen (supportOpen a)
+  support_le_ownerOnly : ∀ a,
+    supportOpen a ≤ supportPieceOwnerOnlyOpen
+      K C d z hVs q m E hE N a
+  base_le_graph_preimage : ∀ a (i : OccurrencesAtSupport K C d z a),
+    baseOpen ≤ graphToSupportPiece K C d z hVs q m E hE N a i ⁻¹ᵁ
+      supportOpen a
+
+/-- The exact tuple-sheet lift admits a simultaneous affine refinement in
+which every support piece excludes all non-owner coordinate equalizers. -/
+theorem nonempty_crossSupportAffineGraphRefinement [IsSeparated C.hom] :
+    Nonempty (CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) := by
+  classical
+  choose U hUaff hxU hUle using fun a ↦
+    exists_affineSupportPieceOwnerOnlyOpen
+      K C d z hVs q m E hE N a
+  let A : N.baseOpen.toScheme.Opens :=
+    crossSupportDistinctBaseOpen K C d z hVs q m E hE N ⊓
+      ⨅ a : Fin (geometricDistinctSupportCard K C d z),
+        ⨅ i : OccurrencesAtSupport K C d z a,
+          graphToSupportPiece K C d z hVs q m E hE N a i ⁻¹ᵁ U a
+  have hxA : exactBasePoint K C d z hVs q m E hE N ∈ A := by
+    refine ⟨exactBasePoint_mem_crossSupportDistinctBaseOpen
+      K C d z hVs q m E hE N, ?_⟩
+    apply AssignedProductStabilizer.mem_iInf_opens_of_forall_mem
+    intro a
+    apply AssignedProductStabilizer.mem_iInf_opens_of_forall_mem
+    intro i
+    apply AssignedProductStabilizer.mem_preimageOpen_of_apply_mem
+    rw [graphToSupportPiece_apply_exactBasePoint_eq
+      K C d z hVs q m E hE N a i
+        (supportRepresentativeOccurrence K C d z a)]
+    exact hxU a
+  have hb := N.baseOpen.toScheme.isBasis_affineOpens
+  obtain ⟨_, ⟨W, hW, rfl⟩, hxW, hWA⟩ :=
+    hb.exists_subset_of_mem_open hxA A.isOpen
+  change W ≤ A at hWA
+  refine ⟨{
+    baseOpen := W
+    base_isAffine := hW
+    exact_mem_base := hxW
+    base_le_crossSupport := hWA.trans inf_le_left
+    supportOpen := U
+    support_isAffine := hUaff
+    support_le_ownerOnly := hUle
+    base_le_graph_preimage := ?_ }⟩
+  intro a i
+  exact hWA.trans <| inf_le_right.trans <|
+    iInf_le_of_le a <| iInf_le_of_le i le_rfl
 
 /-- The support coproduct's structure map, regarded as a morphism to its
 simultaneous affine base over the coordinate ground scheme. -/

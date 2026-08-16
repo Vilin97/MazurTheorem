@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.PermutationPower
+import Mathlib.AlgebraicGeometry.Morphisms.Flat
 
 /-!
 # Topological and geometric indices in a finite ordered support
@@ -315,6 +316,33 @@ theorem coordinateSupportIndex_eq_iff (i i' : Fin d) :
       (supportEquiv S d X z).symm
         ⟨coordinateGeometricPoint S d X z i', _⟩
     exact congrArg (supportEquiv S d X z).symm (Subtype.ext h)
+
+/-- If a point of a test scheme maps to the ordered point `z`, then two
+residue-field coordinate maps at that test point can agree only when the
+corresponding geometric-support indices agree.  The field extension induced
+by the test point is faithfully flat, so equality may be cancelled back to
+the residue field of `z` itself. -/
+theorem residue_coordinates_ne_of_supportIndex_ne
+    {B : Scheme.{u}} (f : B ⟶ (power S (Fin d) X).left) (b : B)
+    (hf : f b = z) (i k : Fin d)
+    (hik : coordinateSupportIndex S d X z i ≠
+      coordinateSupportIndex S d X z k) :
+    B.fromSpecResidueField b ≫ f ≫
+        (Pi.π (fun _ : Fin d ↦ X) i).left ≠
+      B.fromSpecResidueField b ≫ f ≫
+        (Pi.π (fun _ : Fin d ↦ X) k).left := by
+  subst z
+  intro h
+  apply hik
+  rw [coordinateSupportIndex_eq_iff]
+  let e := Spec.map (f.residueFieldMap b)
+  haveI : Flat e := by infer_instance
+  haveI : Surjective e := by infer_instance
+  letI : Epi e := Flat.epi_of_flat_of_surjective e
+  rw [coordinateGeometricPoint, coordinateGeometricPoint,
+    ← cancel_epi e]
+  simpa only [e, ← Category.assoc,
+    f.SpecMap_residueFieldMap_fromSpecResidueField] using h
 
 /-- Every enumerated support morphism is represented by an original ordered
 coordinate. -/

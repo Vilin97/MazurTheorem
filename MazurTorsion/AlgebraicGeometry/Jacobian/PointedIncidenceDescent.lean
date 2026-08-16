@@ -675,6 +675,42 @@ theorem orderedSupportGeometricAssigned_graph_factors_coordinateGraph
     graphToCoordinateGraph_comp_inclusion K C d
       (orderedSupportPoint K C d z) hVs q m E hE N a i⟩
 
+omit [GeometricallyIrreducible C.hom] in
+/-- Properness supplies separatedness, so the pointed incidence chart admits
+an affine refinement that removes every non-owner coordinate equalizer while
+retaining all owner occurrence graphs and the exact ordered-support lift. -/
+theorem orderedSupportGeometricAssigned_exists_crossSupportAffineGraphRefinement
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj) :
+    Nonempty (CrossSupportAffineGraphRefinement K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N) :=
+  nonempty_crossSupportAffineGraphRefinement K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N
+
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On an ordered-incidence affine support block, the global ideal retaining
 all ordered occurrences and their multiplicities is obtained by extending
