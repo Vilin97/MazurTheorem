@@ -44,6 +44,44 @@ theorem ideal_map_fintype_prod
   change Φ (∏ i, I i) = ∏ i, Φ (I i)
   exact map_prod Φ I Finset.univ
 
+/-- Multiplying ideals supported in one component of a finite product can
+be performed componentwise.  The `dite` transports the owner ideal across
+the equality of component indices; all non-owner components contribute the
+unit ideal. -/
+theorem pi_fintype_prod_single
+    {k : Type*} [Fintype k] [DecidableEq k]
+    {R : k → Type*} [∀ a, CommRing (R a)]
+    {t : k → Type*} [∀ a, Fintype (t a)]
+    (I : ∀ a, t a → Ideal (R a)) :
+    (∏ a, ∏ i, Ideal.pi (fun b ↦
+      if h : b = a then h ▸ I a i else ⊤)) =
+      Ideal.pi (fun a ↦ ∏ i, I a i) := by
+  classical
+  apply (Ideal.piOrderIso (R := R)).injective
+  funext b
+  let e := Pi.evalRingHom R b
+  let φ : Ideal (∀ a, R a) →* Ideal (R b) :=
+    { toFun := Ideal.map e
+      map_one' := by
+        simpa only [Ideal.one_eq_top] using Ideal.map_top e
+      map_mul' := fun J L ↦ Ideal.map_mul e J L }
+  change φ (∏ a, ∏ i, Ideal.pi (fun b ↦
+      if h : b = a then h ▸ I a i else ⊤)) =
+    φ (Ideal.pi (fun a ↦ ∏ i, I a i))
+  rw [map_prod]
+  simp_rw [map_prod]
+  change (∏ a, ∏ i, Ideal.map e (Ideal.pi (fun b ↦
+      if h : b = a then h ▸ I a i else ⊤))) =
+    Ideal.map e (Ideal.pi (fun a ↦ ∏ i, I a i))
+  rw [Ideal.map_evalRingHom_pi]
+  rw [Fintype.prod_eq_single b]
+  · dsimp only [φ, e]
+    simp only [Ideal.map_evalRingHom_pi, dif_pos]
+  · intro a ha
+    dsimp only [φ, e]
+    simp only [Ideal.map_evalRingHom_pi]
+    simp [ha.symm]
+
 /-- Quotienting a finite product ring by the product of component ideals is
 the product of the component quotients. -/
 noncomputable def piIdealQuotientAlgEquiv

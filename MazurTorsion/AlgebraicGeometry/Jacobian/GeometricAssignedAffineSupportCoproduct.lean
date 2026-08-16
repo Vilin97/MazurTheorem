@@ -1828,6 +1828,40 @@ noncomputable def supportPieceGraphProductIdealTop
     ⟨⊤, @isAffineOpen_top _
       (supportPiece_isAffine K C d z hVs q m E hE N a)⟩
 
+/-- The affine-global-section ideal of one occurrence graph on its owner
+support piece. -/
+noncomputable def supportPieceGraphIdealAtTop
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Ideal Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+  (supportPieceGraphIdealAt K C d z hVs q m E hE N a i).ideal
+    ⟨⊤, @isAffineOpen_top _
+      (supportPiece_isAffine K C d z hVs q m E hE N a)⟩
+
+/-- The owner-block graph-product ideal is the product of the individual
+occurrence kernels on global sections. -/
+theorem supportPieceGraphProductIdealTop_eq_prod
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceGraphProductIdealTop K C d z hVs q m E hE N a =
+      ∏ i : OccurrencesAtSupport K C d z a,
+        supportPieceGraphIdealAtTop K C d z hVs q m E hE N a i := by
+  classical
+  letI : IsAffine (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  rw [supportPieceGraphProductIdealTop,
+    supportPieceGraphProductIdeal]
+  let J := fun i : OccurrencesAtSupport K C d z a ↦
+    supportPieceGraphIdealAt K C d z hVs q m E hE N a i
+  have hprod (t : Finset (OccurrencesAtSupport K C d z a)) :
+      (∏ i ∈ t, J i).ideal ⟨⊤, isAffineOpen_top _⟩ =
+        ∏ i ∈ t, (J i).ideal ⟨⊤, isAffineOpen_top _⟩ := by
+    induction t using Finset.induction_on with
+    | empty => simp
+    | @insert i t hi ih => simp [hi, ih]
+  exact hprod Finset.univ
+
 /-- The support-piece product ideal is the extension of the corresponding
 support-line product ideal. -/
 theorem supportPieceGraphProductIdealTop_eq_map_coordinateSections
@@ -2084,6 +2118,22 @@ theorem supportPieceGraphIdealAt_eq_graphToSupportPiece_ker
         (pullback.fst coordinateHom graphHom)).symm
     _ = pieceGraph.ker := by
       rw [h.isoPullback_hom_fst]
+
+/-- On affine global sections, one transported occurrence ideal is the
+ring-theoretic kernel of its owner-support graph. -/
+theorem supportPieceGraphIdealAtTop_eq_ringHom_ker
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    supportPieceGraphIdealAtTop K C d z hVs q m E hE N a i =
+      RingHom.ker
+        (graphToSupportPiece K C d z hVs q m E hE N a i).appTop.hom := by
+  letI : IsAffine (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  rw [supportPieceGraphIdealAtTop,
+    supportPieceGraphIdealAt_eq_graphToSupportPiece_ker,
+    Scheme.ker_of_isAffine]
+  simp
 
 /-- The affine quotient by one coordinate-section ideal is unchanged by
 the isolated étale support-piece coordinate. -/
@@ -3015,6 +3065,144 @@ theorem graphToSupportCoproduct_comp_structure
     (geometricDistinctSupportCard K C d z)
     (supportFamily K C d z hVs q m E hE N) a).w
   rw [hι, graphToSupportPiece_comp_snd]
+
+/-- In product coordinates for the affine support coproduct, the kernel of
+one occurrence graph is its owner-piece kernel in the owner component and
+the unit ideal in every other component. -/
+theorem graphToSupportCoproduct_ringHom_ker_eq_comap_pi
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)))
+    (i : OccurrencesAtSupport K C d z (Equiv.ulift.{u} a)) :
+    RingHom.ker
+        (graphToSupportCoproduct K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a) i).appTop.hom =
+      Ideal.comap
+        (supportCoproductToProductSectionsAlgEquiv
+          K C d z hVs q m E hE N).toRingEquiv.toRingHom
+        (Ideal.pi (fun b : ULift.{u}
+            (Fin (geometricDistinctSupportCard K C d z)) ↦
+          if h : b = a then h ▸
+            supportPieceGraphIdealAtTop K C d z hVs q m E hE N
+              (Equiv.ulift.{u} a) i
+          else ⊤)) := by
+  classical
+  let e := supportCoproductToProductSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  let pieceGraph := graphToSupportPiece K C d z hVs q m E hE N
+    (Equiv.ulift.{u} a) i
+  let coproductGraph := graphToSupportCoproduct
+    K C d z hVs q m E hE N (Equiv.ulift.{u} a) i
+  ext x
+  change coproductGraph.appTop.hom x = 0 ↔
+    ∀ b, e x b ∈ if h : b = a then h ▸
+      supportPieceGraphIdealAtTop K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) i else ⊤
+  have heval : e x a =
+      (supportCoproductRestrictionAlgHom
+        K C d z hVs q m E hE N a) x := by
+    rfl
+  have hcomp : coproductGraph.appTop.hom =
+      pieceGraph.appTop.hom.comp
+        (supportCoproductRestrictionAlgHom
+          K C d z hVs q m E hE N a).toRingHom := by
+    rfl
+  constructor
+  · intro hx b
+    by_cases hb : b = a
+    · subst b
+      simp only [dif_pos]
+      rw [supportPieceGraphIdealAtTop_eq_ringHom_ker]
+      rw [RingHom.mem_ker, heval]
+      rw [hcomp] at hx
+      exact hx
+    · simp [hb]
+  · intro hx
+    have ha := hx a
+    simp only [dif_pos] at ha
+    rw [supportPieceGraphIdealAtTop_eq_ringHom_ker,
+      RingHom.mem_ker, heval] at ha
+    rw [hcomp]
+    exact ha
+
+/-- The intrinsic scheme-theoretic union of every occurrence graph in the
+actual support coproduct.  The outer index chooses a geometric support
+summand and the inner index retains every ordered occurrence owned by it. -/
+noncomputable def supportCoproductOccurrenceGraphProductIdeal :
+    Scheme.IdealSheafData
+      (supportCoproduct K C d z hVs q m E hE N).left :=
+  ∏ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+    ∏ i : OccurrencesAtSupport K C d z (Equiv.ulift.{u} a),
+      (graphToSupportCoproduct K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) i).ker
+
+/-- On the top affine, the intrinsic product of all occurrence-graph
+kernels is the assembled product-ring ideal. -/
+theorem supportCoproductOccurrenceGraphProductIdeal_top
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    (supportCoproductOccurrenceGraphProductIdeal
+      K C d z hVs q m E hE N).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (supportCoproduct_isAffine K C d z hVs q m E hE N)⟩ =
+      supportCoproductGraphProductIdealTop
+        K C d z hVs q m E hE N := by
+  classical
+  letI : IsAffine
+      (supportCoproduct K C d z hVs q m E hE N).left :=
+    supportCoproduct_isAffine K C d z hVs q m E hE N
+  let e := supportCoproductToProductSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  let I := fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+    fun i : OccurrencesAtSupport K C d z (Equiv.ulift.{u} a) ↦
+      supportPieceGraphIdealAtTop K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) i
+  rw [supportCoproductOccurrenceGraphProductIdeal]
+  change Scheme.IdealSheafData.equivOfIsAffine
+      (∏ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        ∏ i : OccurrencesAtSupport K C d z (Equiv.ulift.{u} a),
+          (graphToSupportCoproduct K C d z hVs q m E hE N
+            (Equiv.ulift.{u} a) i).ker) = _
+  rw [map_prod]
+  simp_rw [map_prod]
+  simp_rw [Scheme.IdealSheafData.equivOfIsAffine_apply,
+    Scheme.ker_of_isAffine]
+  simp only [Scheme.IdealSheafData.ofIdealTop_ideal, homOfLE_refl,
+    op_id, CategoryTheory.Functor.map_id, CommRingCat.hom_id, Ideal.map_id]
+  simp_rw [graphToSupportCoproduct_ringHom_ker_eq_comap_pi]
+  change (∏ a, ∏ i, Ideal.comap e.toRingEquiv.toRingHom
+      (Ideal.pi (fun b ↦ if h : b = a then h ▸ I a i else ⊤))) = _
+  have hcomap (J : Ideal (∀ a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(supportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤))) :
+      Ideal.comap e.toRingEquiv.toRingHom J =
+        Ideal.map e.symm.toRingEquiv.toRingHom J :=
+    (Ideal.map_symm e.toRingEquiv).symm
+  simp_rw [hcomap]
+  simp_rw [← SectionProductRootAlgebra.ideal_map_fintype_prod]
+  rw [SectionProductRootAlgebra.pi_fintype_prod_single I]
+  have hI : (fun a ↦ ∏ i, I a i) = fun a ↦
+      supportPieceGraphProductIdealTop K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) := by
+    funext a
+    exact (supportPieceGraphProductIdealTop_eq_prod
+      K C d z hVs q m E hE N (Equiv.ulift.{u} a)).symm
+  rw [hI]
+  exact (Ideal.map_symm e.toRingEquiv).trans rfl
+
+/-- The assembled ideal sheaf is intrinsically the scheme-theoretic product
+of all occurrence-graph kernels on the actual affine support coproduct. -/
+theorem supportCoproductOccurrenceGraphProductIdeal_eq_assembled
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    supportCoproductOccurrenceGraphProductIdeal
+        K C d z hVs q m E hE N =
+      supportCoproductGraphProductIdeal K C d z hVs q m E hE N := by
+  letI : IsAffine
+      (supportCoproduct K C d z hVs q m E hE N).left :=
+    supportCoproduct_isAffine K C d z hVs q m E hE N
+  apply Scheme.IdealSheafData.ext_of_isAffine
+  rw [supportCoproductOccurrenceGraphProductIdeal_top,
+    supportCoproductGraphProductIdeal_top]
 
 /-- The support coproduct, regarded over the coordinate ground scheme. -/
 noncomputable abbrev supportCoproductOverCoordinateBase :
