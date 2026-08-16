@@ -183,8 +183,17 @@ Thus `refinedCoordinateGraphProduct_eq_ownerGraphs`, with its
 coordinate-graph product componentwise with the intrinsic multiplicity-
 sensitive owner graph product.
 
-The remaining local work is to transport the already finite-flat rank-`d`
-support-coproduct quotient through this final affine open/base refinement and
+The quotient has now also been transported through the final affine
+open/base refinement.  `GeometricAssignedRefinedSupportQuotient` rebases the
+common affine line to the cross-support base, proves that every refined owner
+graph is cartesian over its rebased affine-line section, and identifies each
+universal-coordinate quotient with the corresponding monic root algebra.
+Each summand is finite free of its occurrence multiplicity, and
+`refinedCoordinateGraphQuotientAlgebra_finrank`, with its pointed-incidence
+consumer, proves that their product is finite flat of total rank `d`.
+
+The remaining local work is to identify this checked product presentation
+with the actual pulled-back incidence subscheme on the refined coproduct and
 then compare the selected block-invariant quotient with the block-monic
 coefficient chart.  Once that comparison is cartesian, the existing
 pointwise fpqc interfaces descend the isomorphism, flatness, rank, and Cartier
@@ -871,10 +880,12 @@ cannot distinguish.  After intersecting those neighbourhoods with all
 off-owner complements, every owner coordinate graph is cartesian over its
 refined section and every non-owner graph has empty pullback.  Multiplication
 therefore identifies the restricted curve-incidence product with the checked
-intrinsic owner-graph product, including repeated factors.  Its quotient is
-already the product algebra above; what remains is to transport that quotient
-through the final refinement and descend the identification through the
-selected-sheet invariant quotient.
+intrinsic owner-graph product, including repeated factors.  The rebased
+affine-line calculation now identifies every refined summand quotient with a
+monic root algebra, proves it finite free of the owner multiplicity, and
+proves their product finite flat of total rank `d`.  What remains is to match
+that product presentation with the actual refined coproduct subscheme and
+descend the identification through the selected-sheet invariant quotient.
 Only after this simultaneous geometric comparison theorem may the
 pointwise fpqc interfaces be used to prove the
 global pointed comparison is an isomorphism and the universal divisor is
