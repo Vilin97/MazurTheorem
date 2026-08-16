@@ -45,6 +45,21 @@ noncomputable def commonBaseToCoordinateLine
     (commonBase K C d z c n).left ⟶ Spec (.of (coordinateRing K)) :=
   (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫ (n i).baseMap
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The coordinate of the common product base is a morphism over the
+coordinate-base copy of the ground field. -/
+@[reassoc]
+theorem commonBaseToCoordinateLine_comp_coordinateLine
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c) (i : Fin d) :
+    commonBaseToCoordinateLine K C d z c n i ≫ (coordinateLine K).hom =
+      (commonBase K C d z c n).hom := by
+  unfold commonBaseToCoordinateLine
+  change (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).left ≫
+      (n i).baseOver.hom = (commonBase K C d z c n).hom
+  exact (Pi.π (fun j : Fin d ↦ (n j).baseOver) i).w
+
 /-- The coordinate of the `i`-th pulled component, obtained by returning to
 its affine curve chart and then applying the chosen étale coordinate. -/
 noncomputable def pulledComponentToCoordinateLine
@@ -143,6 +158,42 @@ noncomputable def fpqcBaseToCoordinateLine
       Spec (.of (coordinateRing K)) :=
   q ≫ restrictedBaseToCoordinateLine K C d z c n V i
 
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- The affine-line coordinate on one fpqc cover has the cover's ground
+structure morphism as its composite to the coordinate base. -/
+theorem fpqcBaseToCoordinateLine_comp_coordinateLine
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    fpqcBaseToCoordinateLine K C d z c n V T q i ≫
+        (coordinateLine K).hom =
+      (commonCoverOverGround K C d z c n V T q).hom ≫
+        (coordinateBaseIso K).inv := by
+  apply (cancel_mono (coordinateBaseIso K).hom).mp
+  rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  have hbase := commonBaseToCoordinateLine_comp_coordinateLine
+    K C d z c n i
+  have hpost := congrArg
+    (fun f ↦ (q ≫ V.ι) ≫ f ≫ (coordinateBaseIso K).hom) hbase
+  have hcover :
+      (q ≫ V.ι) ≫ (commonBase K C d z c n).hom ≫
+          (coordinateBaseIso K).hom =
+        (commonCoverOverGround K C d z c n V T q).hom := rfl
+  change (q ≫ V.ι) ≫
+      (commonBaseToCoordinateLine K C d z c n i ≫
+        (coordinateLine K).hom) ≫ (coordinateBaseIso K).hom =
+      (commonCoverOverGround K C d z c n V T q).hom
+  have hpost' :
+      (q ≫ V.ι) ≫
+          (commonBaseToCoordinateLine K C d z c n i ≫
+            (coordinateLine K).hom) ≫ (coordinateBaseIso K).hom =
+        (q ≫ V.ι) ≫ (commonBase K C d z c n).hom ≫
+          (coordinateBaseIso K).hom := by
+    exact hpost
+  exact hpost'.trans hcover
+
 /-- The coordinate on the `i`-th component after the common fpqc base
 change. -/
 noncomputable def fpqcPulledComponentToCoordinateLine
@@ -200,6 +251,39 @@ noncomputable def coherentBaseToCoordinateLine
       Spec (.of (coordinateRing K)) :=
   (Pi.π (commonCoverFamily K C d z c n V T q) i).left ≫
     fpqcBaseToCoordinateLine K C d z c n V T q i
+
+omit [SmoothOfRelativeDimension 1 C.hom] in
+/-- Every coordinate of the coherent product cover has the same composite
+to the ground field, after identifying the coordinate base with `Spec K`.
+This is the base-compatibility equation used to place all occurrence-level
+graph neighborhoods in one common fiber product. -/
+theorem coherentBaseToCoordinateLine_comp_coordinateLine
+    (d : ℕ)
+    (z : (PermutationPower.power (Spec (.of K)) (Fin d) C).left)
+    (c : Charts K C d z) (n : Neighborhoods K C d z c)
+    (V : (commonBase K C d z c n).left.Opens)
+    (T : Scheme.{u}) (q : T ⟶ V.toScheme) (i : Fin d) :
+    coherentBaseToCoordinateLine K C d z c n V T q i ≫
+        (coordinateLine K).hom =
+      (∏ᶜ commonCoverFamily K C d z c n V T q).hom ≫
+        (coordinateBaseIso K).inv := by
+  unfold coherentBaseToCoordinateLine
+  let π := Pi.π (commonCoverFamily K C d z c n V T q) i
+  let f := fpqcBaseToCoordinateLine K C d z c n V T q i
+  let e := coordinateBaseIso K
+  have hf := fpqcBaseToCoordinateLine_comp_coordinateLine
+    K C d z c n V T q i
+  calc
+    (π.left ≫ f) ≫ (coordinateLine K).hom =
+        π.left ≫ (f ≫ (coordinateLine K).hom) := Category.assoc _ _ _
+    _ = π.left ≫
+        ((commonCoverOverGround K C d z c n V T q).hom ≫ e.inv) :=
+      congrArg (fun g ↦ π.left ≫ g) hf
+    _ = (π.left ≫
+        (commonCoverOverGround K C d z c n V T q).hom) ≫ e.inv :=
+      (Category.assoc _ _ _).symm
+    _ = (∏ᶜ commonCoverFamily K C d z c n V T q).hom ≫ e.inv :=
+      congrArg (fun g ↦ g ≫ e.inv) π.w
 
 /-- The affine-line coordinate on one component over the coherent product
 base. -/

@@ -177,6 +177,22 @@ noncomputable def baseCoordinate (i : Fin d) :
     (geometricDistinctNeighborhoods K C d z) V (Spec (.of T)) q
     (geometricPointSupportIndex K C d z i)
 
+/-- Although the affine-line coordinate is indexed by an ordered
+occurrence, its composite to the coordinate base is the single ground-field
+structure morphism of the coherent splitting base.  Consequently all
+occurrence-level graph neighborhoods live over canonically isomorphic
+ambient fiber products. -/
+theorem baseCoordinate_comp_coordinateLine (i : Fin d) :
+    baseCoordinate K C d z V T q i ≫ (coordinateLine K).hom =
+      coherentBaseToGround K C d z V (Spec (.of T)) q ≫
+        (coordinateBaseIso K).inv := by
+  exact coherentBaseToCoordinateLine_comp_coordinateLine K C
+    (supportCard K C d z)
+    (geometricDistinctSupportOrderedPoint K C d z)
+    (geometricDistinctCharts K C d z)
+    (geometricDistinctNeighborhoods K C d z) V (Spec (.of T)) q
+    (geometricPointSupportIndex K C d z i)
+
 /-- The global function on the coherent base obtained by pulling back the
 standard affine-line variable for ordered position `i`. -/
 noncomputable def rootValue (i : Fin d) : Γ(base K C d z V T q, ⊤) :=
