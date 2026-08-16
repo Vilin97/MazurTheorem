@@ -69,10 +69,10 @@ variable
 /-- The relative curve-chart ambient for one ordered occurrence before
 imposing equality with its actual coherent root coordinate. -/
 noncomputable abbrev occurrenceAmbient (i : Fin d) : Scheme.{u} :=
-  ambient (coordinateLine K).hom
-    ((geometricDistinctCharts K C d z)
-      (geometricPointSupportIndex K C d z i)).schemeMap
-    (baseCoordinate K C d z V T q i)
+  pullback
+    ((geometricDistinctCharts K C d z
+      (geometricPointSupportIndex K C d z i)).sourceOver.hom)
+    (baseCoordinate K C d z V T q i ≫ (coordinateLine K).hom)
 
 /-- The common ambient for all occurrences assigned to one geometric
 support member.  Its right structural morphism is written directly through
@@ -85,6 +85,16 @@ noncomputable abbrev supportAmbient
     (coherentBaseToGround K C d z V (Spec (.of T)) q ≫
       (coordinateBaseIso K).inv)
 
+/-- The support-indexed ambient retains its projection to the coherent
+splitting base. -/
+noncomputable def supportAmbientToBase
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    supportAmbient K C d z V T q j ⟶ base K C d z V T q :=
+  pullback.snd
+    ((geometricDistinctCharts K C d z) j).sourceOver.hom
+    (coherentBaseToGround K C d z V (Spec (.of T)) q ≫
+      (coordinateBaseIso K).inv)
+
 /-- The occurrence-specific ambient is canonically the common ambient of
 its assigned geometric support member. -/
 noncomputable def occurrenceAmbientIsoSupportAmbient (i : Fin d) :
@@ -93,6 +103,20 @@ noncomputable def occurrenceAmbientIsoSupportAmbient (i : Fin d) :
         (geometricPointSupportIndex K C d z i) :=
   pullback.congrHom rfl
     (baseCoordinate_comp_coordinateLine K C d z V T q i)
+
+@[reassoc]
+theorem occurrenceAmbientIsoSupportAmbient_hom_snd (i : Fin d) :
+    (occurrenceAmbientIsoSupportAmbient K C d z V T q i).hom ≫
+        supportAmbientToBase K C d z V T q
+          (geometricPointSupportIndex K C d z i) =
+      pullback.snd
+        ((geometricDistinctCharts K C d z
+          (geometricPointSupportIndex K C d z i)).sourceOver.hom)
+        (baseCoordinate K C d z V T q i ≫ (coordinateLine K).hom) := by
+  simp only [occurrenceAmbientIsoSupportAmbient,
+    supportAmbientToBase, pullback.congrHom_hom]
+  dsimp only [pullback.map]
+  simp only [pullback.lift_snd, Category.comp_id]
 
 /-- Transport an occurrence neighbourhood to the common ambient of its
 geometric support member. -/
@@ -141,6 +165,27 @@ noncomputable abbrev occurrenceEqualCoordinateInclusion (i : Fin d) :
       (geometricPointSupportIndex K C d z i)).schemeMap
     (baseCoordinate K C d z V T q i)
 
+/-- After transport to the support-indexed ambient, the equal-coordinate
+inclusion still projects to the coherent base through the second projection
+of its defining fiber product. -/
+@[reassoc]
+theorem supportEqualCoordinateInclusion_comp_base (i : Fin d) :
+    (occurrenceEqualCoordinateInclusion K C d z V T q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z V T q i).hom) ≫
+      supportAmbientToBase K C d z V T q
+        (geometricPointSupportIndex K C d z i) =
+    pullback.snd
+      ((geometricDistinctCharts K C d z)
+        (geometricPointSupportIndex K C d z i)).schemeMap
+      (baseCoordinate K C d z V T q i) := by
+  rw [Category.assoc,
+    occurrenceAmbientIsoSupportAmbient_hom_snd]
+  exact equalCoordinateInclusion_snd
+    (coordinateLine K).hom
+    ((geometricDistinctCharts K C d z)
+      (geometricPointSupportIndex K C d z i)).schemeMap
+    (baseCoordinate K C d z V T q i)
+
 /-- The actual selected split sheet as a graph in the occurrence's
 equal-coordinate fiber product. -/
 noncomputable abbrev occurrenceGraph (i : Fin d) :
@@ -156,6 +201,16 @@ noncomputable abbrev occurrenceGraph (i : Fin d) :
     (rootSheetToChart K C d z V T q r E hE w i)
     (rootSheetToChart_comp_schemeMap K C d z V T q r E hE w i)
 
+@[reassoc]
+theorem occurrenceGraph_comp_snd (i : Fin d) :
+    occurrenceGraph K C d z V T q r E hE w i ≫
+        pullback.snd
+          ((geometricDistinctCharts K C d z)
+            (geometricPointSupportIndex K C d z i)).schemeMap
+          (baseCoordinate K C d z V T q i) =
+      𝟙 (base K C d z V T q) :=
+  pullback.lift_snd _ _ _
+
 /-- Transport a factorization of the selected graph through an occurrence
 neighbourhood into the common support ambient. -/
 noncomputable def graphToSupportOpen (i : Fin d)
@@ -164,6 +219,88 @@ noncomputable def graphToSupportOpen (i : Fin d)
     base K C d z V T q ⟶
       (occurrenceOpenOnSupportAmbient K C d z V T q i U).toScheme :=
   graphToU ≫ (occurrenceOpenIso K C d z V T q i U).hom
+
+/-- Any transported graph neighbourhood supplied by the public existence
+theorem is a neighbourhood over the coherent base with the selected graph
+as a section. -/
+theorem supportGraphToOpen_comp_base (i : Fin d)
+    (U : (supportAmbient K C d z V T q
+      (geometricPointSupportIndex K C d z i)).Opens)
+    (graphToU : base K C d z V T q ⟶ U.toScheme)
+    (h : IsPullback graphToU
+      (occurrenceGraph K C d z V T q r E hE w i) U.ι
+      (occurrenceEqualCoordinateInclusion K C d z V T q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z V T q i).hom)) :
+    graphToU ≫ U.ι ≫
+        supportAmbientToBase K C d z V T q
+          (geometricPointSupportIndex K C d z i) =
+      𝟙 (base K C d z V T q) := by
+  let b := supportAmbientToBase K C d z V T q
+    (geometricPointSupportIndex K C d z i)
+  let inclusion := occurrenceEqualCoordinateInclusion K C d z V T q i ≫
+    (occurrenceAmbientIsoSupportAmbient K C d z V T q i).hom
+  let graph := occurrenceGraph K C d z V T q r E hE w i
+  have hpullPost := congrArg (fun f ↦ f ≫ b) h.w
+  have hsupp := supportEqualCoordinateInclusion_comp_base
+    K C d z V T q i
+  have hsuppPre := congrArg (fun f ↦ graph ≫ f) hsupp
+  calc
+    graphToU ≫ U.ι ≫ b = (graphToU ≫ U.ι) ≫ b :=
+      (Category.assoc _ _ _).symm
+    _ = (graph ≫ inclusion) ≫ b := hpullPost
+    _ = graph ≫ (inclusion ≫ b) := Category.assoc _ _ _
+    _ = graph ≫ pullback.snd
+        ((geometricDistinctCharts K C d z)
+          (geometricPointSupportIndex K C d z i)).schemeMap
+        (baseCoordinate K C d z V T q i) := hsuppPre
+    _ = 𝟙 (base K C d z V T q) :=
+      occurrenceGraph_comp_snd K C d z V T q r E hE w i
+
+/-- The selected graph is a section of its transported neighbourhood over
+the coherent base.  This is the input needed to compare all occurrence
+neighbourhoods inside the common support-indexed curve ambient. -/
+theorem graphToSupportOpen_comp_base (i : Fin d)
+    (U : (occurrenceAmbient K C d z V T q i).Opens)
+    (graphToU : base K C d z V T q ⟶ U.toScheme)
+    (h : IsPullback graphToU
+      (occurrenceGraph K C d z V T q r E hE w i) U.ι
+      (occurrenceEqualCoordinateInclusion K C d z V T q i)) :
+    graphToSupportOpen K C d z V T q i U graphToU ≫
+        (occurrenceOpenOnSupportAmbient K C d z V T q i U).ι ≫
+          supportAmbientToBase K C d z V T q
+            (geometricPointSupportIndex K C d z i) =
+      𝟙 (base K C d z V T q) := by
+  let e := occurrenceAmbientIsoSupportAmbient K C d z V T q i
+  let b := supportAmbientToBase K C d z V T q
+    (geometricPointSupportIndex K C d z i)
+  let inclusion := occurrenceEqualCoordinateInclusion K C d z V T q i
+  let graph := occurrenceGraph K C d z V T q r E hE w i
+  have hopen := occurrenceOpenIso_hom_comp_ι_assoc
+    K C d z V T q i U b
+  have hopenPre := congrArg (fun f ↦ graphToU ≫ f) hopen
+  have hpullPost := congrArg (fun f ↦ f ≫ e.hom ≫ b) h.w
+  have hsupp := supportEqualCoordinateInclusion_comp_base
+    K C d z V T q i
+  have hsuppPre := congrArg (fun f ↦ graph ≫ f) hsupp
+  calc
+    graphToSupportOpen K C d z V T q i U graphToU ≫
+          (occurrenceOpenOnSupportAmbient K C d z V T q i U).ι ≫ b =
+        graphToU ≫
+          ((occurrenceOpenIso K C d z V T q i U).hom ≫
+            (occurrenceOpenOnSupportAmbient K C d z V T q i U).ι ≫ b) := by
+      simp only [graphToSupportOpen, Category.assoc]
+    _ = graphToU ≫ (U.ι ≫ e.hom ≫ b) := hopenPre
+    _ = (graphToU ≫ U.ι) ≫ e.hom ≫ b := by
+      simp only [Category.assoc]
+    _ = (graph ≫ inclusion) ≫ e.hom ≫ b := hpullPost
+    _ = graph ≫ ((inclusion ≫ e.hom) ≫ b) := by
+      simp only [Category.assoc]
+    _ = graph ≫ pullback.snd
+        ((geometricDistinctCharts K C d z)
+          (geometricPointSupportIndex K C d z i)).schemeMap
+        (baseCoordinate K C d z V T q i) := hsuppPre
+    _ = 𝟙 (base K C d z V T q) :=
+      occurrenceGraph_comp_snd K C d z V T q r E hE w i
 
 /-- Pullback squares isolating a selected graph remain pullback squares
 after transporting the ambient and its open neighbourhood by the canonical
