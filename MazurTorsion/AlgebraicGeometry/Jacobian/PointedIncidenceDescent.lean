@@ -470,6 +470,38 @@ theorem orderedSupportGeometricAssigned_simultaneousGraph_isSection
     (orderedSupportPoint K C d z) hVs q m E hE j a i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On the common support intersection at an ordered incidence point, each
+equal-coordinate ideal remains exactly the corresponding restricted graph
+ideal.  Thus the simultaneous restriction retains every ordered factor and
+its scheme-theoretic multiplicity. -/
+theorem orderedSupportGeometricAssigned_supportIntersection_graphIdeal
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (j : Fin m) (i : Fin d) :
+    let p := orderedSupportPoint K C d z
+    (occurrenceEqualCoordinateInclusion K C d p hVs q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d p hVs q i).hom).ker.comap
+        (supportIntersectionOpen K C d p hVs q m E hE j
+          (geometricPointSupportIndex K C d p i)).ι =
+      (supportIntersectionGraphι K C d p hVs q m E hE j i).ker := by
+  dsimp only
+  exact supportIntersection_equalCoordinateIdeal K C d
+    (orderedSupportPoint K C d z) hVs q m E hE j i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
 support carries the genuine geometric-support block action. -/
 noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitAction

@@ -277,4 +277,122 @@ theorem graphToSupportIntersectionBaseChange_comp_snd (j : Fin m)
       𝟙 (simultaneousBaseOpen K C d z hVs q m E hE j).toScheme :=
   pullback.lift_snd _ _ _
 
+/-- Include the simultaneous support intersection in the chosen isolating
+open for one occurrence. -/
+noncomputable def supportIntersectionToOccurrenceOpen
+    (j : Fin m) (i : Fin d) :
+    (supportIntersectionOpen K C d z hVs q m E hE j
+      (geometricPointSupportIndex K C d z i)).toScheme ⟶
+    (occurrenceOpenAtSupport K C d z hVs q m E hE j
+      (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩).toScheme :=
+  (supportAmbient K C d z hVs q
+    (geometricPointSupportIndex K C d z i)).homOfLE
+      (supportIntersectionOpen_le_occurrenceOpenAtSupport
+        K C d z hVs q m E hE j
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩)
+
+/-- Pull back one chosen graph along the simultaneous support
+intersection. -/
+noncomputable abbrev supportIntersectionGraph (j : Fin m) (i : Fin d) :
+    Scheme.{u} :=
+  pullback
+    (supportIntersectionToOccurrenceOpen K C d z hVs q m E hE j i)
+    (graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j
+      (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩)
+
+/-- The restricted graph maps into the simultaneous support intersection. -/
+noncomputable def supportIntersectionGraphι (j : Fin m) (i : Fin d) :
+    supportIntersectionGraph K C d z hVs q m E hE j i ⟶
+      (supportIntersectionOpen K C d z hVs q m E hE j
+        (geometricPointSupportIndex K C d z i)).toScheme :=
+  pullback.fst
+    (supportIntersectionToOccurrenceOpen K C d z hVs q m E hE j i)
+    (graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j
+      (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩)
+
+/-- The restricted graph maps to the occurrence equal-coordinate locus. -/
+noncomputable def supportIntersectionGraphToEqualCoordinate
+    (j : Fin m) (i : Fin d) :
+    supportIntersectionGraph K C d z hVs q m E hE j i ⟶
+      pullback
+        (affineComponentToCoordinateLine K C d z
+          (geometricPointSupportIndex K C d z i)).left
+        (occurrenceCoordinate K C d z hVs q i) :=
+  pullback.snd
+      (supportIntersectionToOccurrenceOpen K C d z hVs q m E hE j i)
+      (graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j
+        (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩) ≫
+    occurrenceGraph K C d z hVs q m E hE j i
+
+/-- Intersecting the occurrence open preserves the cartesian graph square. -/
+theorem supportIntersectionGraph_isPullback (j : Fin m) (i : Fin d) :
+    IsPullback
+      (supportIntersectionGraphι K C d z hVs q m E hE j i)
+      (supportIntersectionGraphToEqualCoordinate
+        K C d z hVs q m E hE j i)
+      (supportIntersectionOpen K C d z hVs q m E hE j
+        (geometricPointSupportIndex K C d z i)).ι
+      (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom) := by
+  let U := occurrenceOpenAtSupport K C d z hVs q m E hE j
+    (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩
+  let g := graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j
+    (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩
+  let hsmall := IsPullback.of_hasPullback
+    (supportIntersectionToOccurrenceOpen K C d z hVs q m E hE j i) g
+  have hbig : IsPullback g
+      (occurrenceGraph K C d z hVs q m E hE j i) U.ι
+      (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom) := by
+    exact (chosenOccurrenceGraphNeighborhood
+      K C d z hVs q m E hE j i).graph_isPullback
+  dsimp only [U, g] at hsmall hbig
+  simpa only [supportIntersectionGraph, supportIntersectionGraphι,
+    supportIntersectionGraphToEqualCoordinate,
+    supportIntersectionToOccurrenceOpen, Scheme.homOfLE_ι] using
+      hsmall.paste_vert hbig
+
+/-- On the simultaneous support intersection, the pulled-back
+equal-coordinate ideal is exactly the restricted selected graph ideal. -/
+theorem supportIntersection_equalCoordinateIdeal (j : Fin m) (i : Fin d) :
+    (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom).ker.comap
+        (supportIntersectionOpen K C d z hVs q m E hE j
+          (geometricPointSupportIndex K C d z i)).ι =
+      (supportIntersectionGraphι K C d z hVs q m E hE j i).ker := by
+  let inclusion := occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+    (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom
+  let openι := (supportIntersectionOpen K C d z hVs q m E hE j
+    (geometricPointSupportIndex K C d z i)).ι
+  letI : IsSeparated (coordinateLine K).hom := by
+    change IsSeparated (Spec.map _)
+    infer_instance
+  letI : IsClosedImmersion
+      (occurrenceEqualCoordinateInclusion K C d z hVs q i) := by
+    exact EqualCoordinateClosedImmersion.equalCoordinateInclusion_closed
+      (coordinateLine K).hom
+      (affineComponentToCoordinateLine K C d z
+        (geometricPointSupportIndex K C d z i)).left
+      (occurrenceCoordinate K C d z hVs q i)
+  letI : IsClosedImmersion inclusion := by
+    dsimp only [inclusion]
+    rw [MorphismProperty.cancel_right_of_respectsIso @IsClosedImmersion _
+      (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom]
+    infer_instance
+  calc
+    inclusion.ker.comap openι = (pullback.fst openι inclusion).ker :=
+      (Scheme.IdealSheafData.ker_fst_of_isClosedImmersion
+        inclusion openι).symm
+    _ = ((supportIntersectionGraph_isPullback
+          K C d z hVs q m E hE j i).isoPullback.hom ≫
+        pullback.fst openι inclusion).ker :=
+      (Scheme.Hom.ker_comp_of_isIso
+        (supportIntersectionGraph_isPullback
+          K C d z hVs q m E hE j i).isoPullback.hom
+        (pullback.fst openι inclusion)).symm
+    _ = (supportIntersectionGraphι
+        K C d z hVs q m E hE j i).ker := by
+      rw [(supportIntersectionGraph_isPullback
+        K C d z hVs q m E hE j i).isoPullback_hom_fst]
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedSimultaneousGraphNeighborhood
