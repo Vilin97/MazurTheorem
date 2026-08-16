@@ -8,6 +8,8 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSimultaneo
 import MazurTorsion.AlgebraicGeometry.Jacobian.FiniteEtaleCoproductPower
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineIdealSheafPullback
 import MazurTorsion.AlgebraicGeometry.Jacobian.EtaleQuotientProduct
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSectionProduct
+import MazurTorsion.AlgebraicGeometry.Jacobian.RelativeAffineLinePower
 
 /-!
 # The affine support coproduct for an assigned graph chart
@@ -35,6 +37,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupport
 open FiniteEtaleCoproductPower
 open AffineIdealSheafPullback
 open EtaleQuotientProduct
+open AffineLineSectionProduct
 open EqualCoordinateClosedImmersion
 open FiniteSupportEtaleCoordinates
 open GeometricAssignedAffineChart
@@ -43,6 +46,7 @@ open GeometricAssignedSimultaneousGraphNeighborhood
 open GeometricAssignedAffineSimultaneousNeighborhood
 open SplitFiniteBaseChange
 open SmoothCurveEtaleCoordinate
+open RelativeAffineLinePower
 
 variable (K : Type u) [Field K]
 variable (C : Over (Spec (.of K))) [SmoothOfRelativeDimension 1 C.hom]
@@ -724,7 +728,7 @@ theorem supportEqualCoordinate_relativeSection_square (i : Fin d) :
     (Iso.refl _)
     (occurrenceRelativeTargetIsoRefinementAffineLine
       K C d z hVs q i)
-    (by simp)
+    (by rfl)
     (by simp)
     (occurrenceAmbientIso_comp_supportAmbientToRefinementAffineLine
       K C d z hVs q i).symm
@@ -881,6 +885,61 @@ affine base. -/
 noncomputable abbrev supportAffineLineFamily : Over N.baseOpen.toScheme :=
   Over.mk (pullback.snd (coordinateLine K).hom
     (baseToCoordinateBase K C d z hVs q m E hE N))
+
+/-- After identifying the original coordinate line with standard relative
+affine space, the defining pullback square for the final support affine line
+is still cartesian. -/
+theorem supportAffineLine_standard_isPullback :
+    IsPullback
+      (pullback.fst (coordinateLine K).hom
+          (baseToCoordinateBase K C d z hVs q m E hE N) ≫
+        (Comma.leftIso (lineIsoAffineLine
+          Γ(Spec (.of K), ⊤))).hom)
+      (supportAffineLineFamily K C d z hVs q m E hE N).hom
+      (𝔸(ULift.{u} (Fin 1); coordinateBase K) ↘ coordinateBase K)
+      (baseToCoordinateBase K C d z hVs q m E hE N) := by
+  let h := IsPullback.of_hasPullback
+    (coordinateLine K).hom
+    (baseToCoordinateBase K C d z hVs q m E hE N)
+  exact h.of_iso
+    (Iso.refl _)
+    (Comma.leftIso
+      (lineIsoAffineLine Γ(Spec (.of K), ⊤)))
+    (Iso.refl _)
+    (Iso.refl _)
+    (by rfl)
+    (by simp)
+    (lineIsoAffineLine Γ(Spec (.of K), ⊤)).hom.w.symm
+    (by simp)
+
+/-- The final base-changed coordinate line is the standard relative affine
+line over the simultaneous affine base. -/
+noncomputable def supportAffineLineIsoAffineSpace :
+    supportAffineLine K C d z hVs q m E hE N ≅
+      𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme) :=
+  (supportAffineLine_standard_isPullback
+      K C d z hVs q m E hE N).isoIsPullback
+    𝔸(ULift.{u} (Fin 1); coordinateBase K)
+    N.baseOpen.toScheme
+    (AffineSpace.isPullback_map
+      (n := ULift.{u} (Fin 1))
+      (baseToCoordinateBase K C d z hVs q m E hE N))
+
+@[reassoc]
+theorem supportAffineLineIsoAffineSpace_hom_comp_projection :
+    (supportAffineLineIsoAffineSpace
+        K C d z hVs q m E hE N).hom ≫
+      (𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme) ↘
+        N.baseOpen.toScheme) =
+    (supportAffineLineFamily K C d z hVs q m E hE N).hom :=
+  IsPullback.isoIsPullback_hom_snd
+    𝔸(ULift.{u} (Fin 1); coordinateBase K)
+    N.baseOpen.toScheme
+    (supportAffineLine_standard_isPullback
+      K C d z hVs q m E hE N)
+    (AffineSpace.isPullback_map
+      (n := ULift.{u} (Fin 1))
+      (baseToCoordinateBase K C d z hVs q m E hE N))
 
 /-- The same final affine line presented as an iterated base change through
 the block-refinement affine line. -/
@@ -1218,6 +1277,138 @@ theorem supportAffineLineGraph_comp_base
       𝟙 N.baseOpen.toScheme :=
   pullback.lift_snd _ _ _
 
+/-- The value of an occurrence section after transporting the common
+support line to standard relative affine-space coordinates. -/
+noncomputable def supportAffineLineStandardValue
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Γ(N.baseOpen.toScheme, ⊤) :=
+  (supportAffineLineGraph K C d z hVs q m E hE N a i ≫
+      (supportAffineLineIsoAffineSpace
+        K C d z hVs q m E hE N).hom).appTop
+    (AffineSpace.coord N.baseOpen.toScheme default)
+
+/-- Every transported occurrence graph is the standard affine-line section
+with its transported coordinate value. -/
+theorem supportAffineLineGraph_comp_standardIso
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    supportAffineLineGraph K C d z hVs q m E hE N a i ≫
+        (supportAffineLineIsoAffineSpace
+          K C d z hVs q m E hE N).hom =
+      lineSection (ULift.{u} (Fin 1)) N.baseOpen.toScheme
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a i) := by
+  apply AffineSpace.hom_ext
+  · rw [Category.assoc,
+      supportAffineLineIsoAffineSpace_hom_comp_projection,
+      supportAffineLineGraph_comp_base,
+      section_comp_projection]
+  · intro k
+    rw [Unique.eq_default k]
+    rw [section_appTop_coordinate]
+    rfl
+
+/-- The global sections of the final support affine line are naturally an
+algebra over the simultaneous affine base. -/
+noncomputable instance supportAffineLineSectionsAlgebra :
+    Algebra Γ(N.baseOpen.toScheme, ⊤)
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤) :=
+  (supportAffineLineFamily K C d z hVs q m E hE N).hom.appTop.hom.toAlgebra
+
+/-- The global sections of every support piece are naturally an algebra
+over the simultaneous affine base. -/
+noncomputable instance supportPieceSectionsAlgebra
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Algebra Γ(N.baseOpen.toScheme, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+  (supportPieceFamily K C d z hVs q m E hE N a).hom.appTop.hom.toAlgebra
+
+/-- Contravariant transport of global sections from the final support
+affine line to its standard relative-affine-space model. -/
+noncomputable def supportAffineLineToStandardSectionsAlgHom :
+    Γ(supportAffineLine K C d z hVs q m E hE N, ⊤) →ₐ[
+        Γ(N.baseOpen.toScheme, ⊤)]
+      Γ(𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme), ⊤) where
+  toRingHom := (supportAffineLineIsoAffineSpace
+    K C d z hVs q m E hE N).inv.appTop.hom
+  commutes' b := by
+    let e := supportAffineLineIsoAffineSpace
+      K C d z hVs q m E hE N
+    have hinv : e.inv ≫
+        (supportAffineLineFamily K C d z hVs q m E hE N).hom =
+      (𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme) ↘
+        N.baseOpen.toScheme) := by
+      rw [← supportAffineLineIsoAffineSpace_hom_comp_projection]
+      simp
+    change e.inv.appTop
+      ((supportAffineLineFamily K C d z hVs q m E hE N).hom.appTop b) =
+        (𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme) ↘
+          N.baseOpen.toScheme).appTop b
+    rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, hinv]
+
+/-- The preceding algebra map is an equivalence because it is induced by a
+scheme isomorphism. -/
+noncomputable def supportAffineLineToStandardSectionsAlgEquiv :
+    Γ(supportAffineLine K C d z hVs q m E hE N, ⊤) ≃ₐ[
+        Γ(N.baseOpen.toScheme, ⊤)]
+      Γ(𝔸(ULift.{u} (Fin 1); N.baseOpen.toScheme), ⊤) := by
+  let f := supportAffineLineToStandardSectionsAlgHom
+    K C d z hVs q m E hE N
+  apply AlgEquiv.ofBijective f
+  exact ConcreteCategory.bijective_of_isIso
+    ((supportAffineLineIsoAffineSpace
+      K C d z hVs q m E hE N).inv.app
+        (⊤ : (supportAffineLine K C d z hVs q m E hE N).Opens))
+
+/-- Transporting the ring-theoretic kernel of one occurrence graph to
+standard affine-line coordinates gives the kernel of the corresponding
+standard section. -/
+theorem supportAffineLineToStandardSectionsAlgEquiv_map_graph_ker
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Ideal.map
+        (supportAffineLineToStandardSectionsAlgEquiv
+          K C d z hVs q m E hE N).toRingEquiv.toRingHom
+        (RingHom.ker
+          (supportAffineLineGraph K C d z hVs q m E hE N a i).appTop.hom) =
+      RingHom.ker
+        (lineSection (ULift.{u} (Fin 1)) N.baseOpen.toScheme
+          (supportAffineLineStandardValue
+            K C d z hVs q m E hE N a i)).appTop.hom := by
+  let e := supportAffineLineIsoAffineSpace
+    K C d z hVs q m E hE N
+  let graph := supportAffineLineGraph
+    K C d z hVs q m E hE N a i
+  let standard := lineSection (ULift.{u} (Fin 1)) N.baseOpen.toScheme
+    (supportAffineLineStandardValue K C d z hVs q m E hE N a i)
+  let A := supportAffineLineToStandardSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  have hscheme : graph = standard ≫ e.inv := by
+    have h := supportAffineLineGraph_comp_standardIso
+      K C d z hVs q m E hE N a i
+    change graph ≫ e.hom = standard at h
+    apply (cancel_mono e.hom).mp
+    rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+    exact h
+  have hring : graph.appTop.hom =
+      standard.appTop.hom.comp e.inv.appTop.hom := by
+    rw [hscheme, Scheme.Hom.comp_appTop]
+    rfl
+  have hA : A.toRingEquiv.toRingHom = e.inv.appTop.hom := by
+    apply RingHom.ext
+    intro x
+    rfl
+  rw [hA, hring]
+  change Ideal.map e.inv.appTop.hom
+      (Ideal.comap e.inv.appTop.hom
+        (RingHom.ker standard.appTop.hom)) = _
+  exact Ideal.map_comap_of_surjective e.inv.appTop.hom
+    (ConcreteCategory.bijective_of_isIso
+      (e.inv.app
+        (⊤ : (supportAffineLine K C d z hVs q m E hE N).Opens))).2
+    (RingHom.ker standard.appTop.hom)
+
 /-- The final occurrence section is the pullback of the corresponding
 section over the block-refinement base. -/
 theorem supportAffineLineGraph_comp_refinement
@@ -1385,6 +1576,175 @@ noncomputable def supportAffineLineGraphProductIdeal
   ∏ i : OccurrencesAtSupport K C d z a,
     (supportAffineLineGraph K C d z hVs q m E hE N a i).ker
 
+/-- The affine-global-section ideal of the complete occurrence-section
+product on one support block. -/
+noncomputable def supportAffineLineGraphProductIdealTop
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Ideal Γ(supportAffineLine K C d z hVs q m E hE N, ⊤) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  exact (supportAffineLineGraphProductIdeal
+    K C d z hVs q m E hE N a).ideal ⟨⊤, isAffineOpen_top _⟩
+
+/-- Standard affine-line coordinates carry the complete occurrence-section
+product on one support block to the standard product of section kernels. -/
+theorem supportAffineLineToStandardSectionsAlgEquiv_map_graphProductIdeal_top
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Ideal.map
+        (supportAffineLineToStandardSectionsAlgEquiv
+          K C d z hVs q m E hE N).toRingEquiv.toRingHom
+        (supportAffineLineGraphProductIdealTop
+          K C d z hVs q m E hE N a) =
+      sectionGraphProductIdeal (ULift.{u} (Fin 1))
+        N.baseOpen.toScheme (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  rw [supportAffineLineGraphProductIdealTop,
+    supportAffineLineGraphProductIdeal,
+    show
+      ((∏ i : OccurrencesAtSupport K C d z a,
+          (supportAffineLineGraph
+            K C d z hVs q m E hE N a i).ker).ideal
+            ⟨⊤, isAffineOpen_top _⟩) =
+        ∏ i : OccurrencesAtSupport K C d z a,
+          (supportAffineLineGraph
+            K C d z hVs q m E hE N a i).ker.ideal
+              ⟨⊤, isAffineOpen_top _⟩ by
+      classical
+      let J := fun i : OccurrencesAtSupport K C d z a ↦
+        (supportAffineLineGraph
+          K C d z hVs q m E hE N a i).ker
+      have hprod (t : Finset (OccurrencesAtSupport K C d z a)) :
+          (∏ i ∈ t, J i).ideal ⟨⊤, isAffineOpen_top _⟩ =
+            ∏ i ∈ t, (J i).ideal ⟨⊤, isAffineOpen_top _⟩ := by
+        induction t using Finset.induction_on with
+        | empty => simp
+        | @insert i t hi ih => simp [hi, ih]
+      exact hprod Finset.univ,
+    SectionProductRootAlgebra.ideal_map_fintype_prod,
+    sectionGraphProductIdeal]
+  apply Fintype.prod_congr
+  intro i
+  rw [Scheme.ker_of_isAffine]
+  simp only [RingEquiv.toRingHom_eq_coe,
+    AlgEquiv.toRingEquiv_toRingHom,
+    Scheme.IdealSheafData.ofIdealTop_ideal, homOfLE_refl, op_id,
+    CategoryTheory.Functor.map_id, CommRingCat.hom_id, Ideal.map_id]
+  exact supportAffineLineToStandardSectionsAlgEquiv_map_graph_ker
+    K C d z hVs q m E hE N a i
+
+/-- The affine quotient of one common support line by all occurrence
+sections assigned to a fixed support member. -/
+noncomputable abbrev supportAffineLineGraphProductQuotient
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :=
+  Γ(supportAffineLine K C d z hVs q m E hE N, ⊤) ⧸
+    supportAffineLineGraphProductIdealTop
+      K C d z hVs q m E hE N a
+
+/-- A support-line graph-product quotient is the monic root algebra of the
+product of its independently varying occurrence coordinates. -/
+noncomputable def supportAffineLineGraphProductQuotientEquivRoot
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportAffineLineGraphProductQuotient
+        K C d z hVs q m E hE N a ≃ₐ[Γ(N.baseOpen.toScheme, ⊤)]
+      AdjoinRoot
+        (SectionProductRootAlgebra.sectionPolynomial
+          Γ(N.baseOpen.toScheme, ⊤)
+          (OccurrencesAtSupport K C d z a)
+          (supportAffineLineStandardValue
+            K C d z hVs q m E hE N a)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : Nonempty (⊤ : N.baseOpen.toScheme.Opens) :=
+    ⟨⟨⟨s, N.exact_mem_base⟩, trivial⟩⟩
+  exact (Ideal.quotientEquivAlg
+      (supportAffineLineGraphProductIdealTop
+        K C d z hVs q m E hE N a)
+      (sectionGraphProductIdeal (ULift.{u} (Fin 1))
+        N.baseOpen.toScheme (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a))
+      (supportAffineLineToStandardSectionsAlgEquiv
+        K C d z hVs q m E hE N)
+      (supportAffineLineToStandardSectionsAlgEquiv_map_graphProductIdeal_top
+        K C d z hVs q m E hE N a).symm).trans
+    (sectionGraphProductQuotientEquivRoot
+      (ULift.{u} (Fin 1)) N.baseOpen.toScheme
+      (OccurrencesAtSupport K C d z a)
+      (supportAffineLineStandardValue
+        K C d z hVs q m E hE N a))
+
+/-- The quotient on one support line has rank equal to the number of ordered
+occurrences assigned to that support member. -/
+theorem supportAffineLineGraphProductQuotient_finrank
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Module.finrank Γ(N.baseOpen.toScheme, ⊤)
+        (supportAffineLineGraphProductQuotient
+          K C d z hVs q m E hE N a) =
+      Fintype.card (OccurrencesAtSupport K C d z a) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : Nonempty (⊤ : N.baseOpen.toScheme.Opens) :=
+    ⟨⟨⟨s, N.exact_mem_base⟩, trivial⟩⟩
+  rw [(supportAffineLineGraphProductQuotientEquivRoot
+    K C d z hVs q m E hE N a).toLinearEquiv.finrank_eq]
+  letI : Fact
+      (SectionProductRootAlgebra.sectionPolynomial
+        Γ(N.baseOpen.toScheme, ⊤)
+        (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a)).Monic :=
+    ⟨SectionProductRootAlgebra.sectionPolynomial_monic
+      Γ(N.baseOpen.toScheme, ⊤)
+      (OccurrencesAtSupport K C d z a)
+      (supportAffineLineStandardValue
+        K C d z hVs q m E hE N a)⟩
+  rw [MonicRootFamily.rootAlgebra_finrank]
+  exact SectionProductRootAlgebra.sectionPolynomial_natDegree
+    Γ(N.baseOpen.toScheme, ⊤)
+    (OccurrencesAtSupport K C d z a)
+    (supportAffineLineStandardValue
+      K C d z hVs q m E hE N a)
+
 /-- Pulling the complete affine-line section product to a support piece gives
 the complete occurrence graph product, including repeated factors. -/
 theorem supportPieceGraphProductIdeal_eq_coordinateSection_comap
@@ -1457,6 +1817,30 @@ theorem supportPieceGraphProductIdeal_top_eq_map_coordinateSections
     (supportAffineLineGraphProductIdeal
       K C d z hVs q m E hE N a)
     (supportPieceToSupportAffineLine K C d z hVs q m E hE N a)
+
+/-- The affine-global-section ideal of the complete graph product on one
+pulled-back support piece. -/
+noncomputable def supportPieceGraphProductIdealTop
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Ideal Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+  (supportPieceGraphProductIdeal K C d z hVs q m E hE N a).ideal
+    ⟨⊤, @isAffineOpen_top _
+      (supportPiece_isAffine K C d z hVs q m E hE N a)⟩
+
+/-- The support-piece product ideal is the extension of the corresponding
+support-line product ideal. -/
+theorem supportPieceGraphProductIdealTop_eq_map_coordinateSections
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceGraphProductIdealTop K C d z hVs q m E hE N a =
+      Ideal.map
+        (supportPieceToSupportAffineLine
+          K C d z hVs q m E hE N a).appTop.hom
+        (supportAffineLineGraphProductIdealTop
+          K C d z hVs q m E hE N a) := by
+  exact supportPieceGraphProductIdeal_top_eq_map_coordinateSections
+    K C d z hVs q m E hE N a
 
 /-- Forgetting an occurrence graph to its selected affine component recovers
 the corresponding tuple-sheet component over the restricted base. -/
@@ -1891,6 +2275,303 @@ theorem supportPiece_extendedQuotientMap_bijective_coordinateSections
           ⟨⊤, isAffineOpen_top _⟩)
     (supportPiece_extendedQuotientMap_bijective_coordinateSection
       K C d z hVs q m E hE N a)
+
+/-- The extension map on graph-product quotients, as an algebra map over the
+common affine base. -/
+noncomputable def supportPieceExtendedQuotientAlgHom
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportAffineLineGraphProductQuotient
+        K C d z hVs q m E hE N a →ₐ[Γ(N.baseOpen.toScheme, ⊤)]
+      (Γ(supportPiece K C d z hVs q m E hE N a, ⊤) ⧸
+        Ideal.map
+          (supportPieceToSupportAffineLine
+            K C d z hVs q m E hE N a).appTop.hom
+          (supportAffineLineGraphProductIdealTop
+            K C d z hVs q m E hE N a)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  let coordinateHom :=
+    supportPieceToSupportAffineLine K C d z hVs q m E hE N a
+  letI : Algebra
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+    coordinateHom.appTop.hom.toAlgebra
+  refine
+    { toRingHom := extendedQuotientMap
+        Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d z hVs q m E hE N a, ⊤)
+        (supportAffineLineGraphProductIdealTop
+          K C d z hVs q m E hE N a)
+      commutes' := ?_ }
+  intro b
+  change Ideal.Quotient.mk _
+      (coordinateHom.appTop.hom
+        ((supportAffineLineFamily
+          K C d z hVs q m E hE N).hom.appTop.hom b)) =
+    Ideal.Quotient.mk _
+      ((supportPieceFamily
+        K C d z hVs q m E hE N a).hom.appTop.hom b)
+  rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop,
+    supportPieceToSupportAffineLine_comp_base]
+
+/-- The quotient extension along the isolated étale support coordinate is
+an equivalence over the common affine base. -/
+noncomputable def supportPieceExtendedQuotientAlgEquiv
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportAffineLineGraphProductQuotient
+        K C d z hVs q m E hE N a ≃ₐ[Γ(N.baseOpen.toScheme, ⊤)]
+      (Γ(supportPiece K C d z hVs q m E hE N a, ⊤) ⧸
+        Ideal.map
+          (supportPieceToSupportAffineLine
+            K C d z hVs q m E hE N a).appTop.hom
+          (supportAffineLineGraphProductIdealTop
+            K C d z hVs q m E hE N a)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  let coordinateHom :=
+    supportPieceToSupportAffineLine K C d z hVs q m E hE N a
+  letI : Algebra
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+    coordinateHom.appTop.hom.toAlgebra
+  apply AlgEquiv.ofBijective
+    (supportPieceExtendedQuotientAlgHom
+      K C d z hVs q m E hE N a)
+  exact supportPiece_extendedQuotientMap_bijective_coordinateSections
+    K C d z hVs q m E hE N a
+
+/-- The complete graph-product quotient on one support piece. -/
+noncomputable abbrev supportPieceGraphProductQuotient
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :=
+  Γ(supportPiece K C d z hVs q m E hE N a, ⊤) ⧸
+    supportPieceGraphProductIdealTop K C d z hVs q m E hE N a
+
+/-- The full graph-product quotient on a support piece is the same monic
+root algebra as its common affine-line model. -/
+noncomputable def supportPieceGraphProductQuotientEquivRoot
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceGraphProductQuotient
+        K C d z hVs q m E hE N a ≃ₐ[Γ(N.baseOpen.toScheme, ⊤)]
+      AdjoinRoot
+        (SectionProductRootAlgebra.sectionPolynomial
+          Γ(N.baseOpen.toScheme, ⊤)
+          (OccurrencesAtSupport K C d z a)
+          (supportAffineLineStandardValue
+            K C d z hVs q m E hE N a)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  letI : Nonempty (⊤ : N.baseOpen.toScheme.Opens) :=
+    ⟨⟨⟨s, N.exact_mem_base⟩, trivial⟩⟩
+  let mapIdeal := Ideal.map
+    (supportPieceToSupportAffineLine
+      K C d z hVs q m E hE N a).appTop.hom
+    (supportAffineLineGraphProductIdealTop
+      K C d z hVs q m E hE N a)
+  let eIdeal :
+      (Γ(supportPiece K C d z hVs q m E hE N a, ⊤) ⧸ mapIdeal) ≃ₐ[
+          Γ(N.baseOpen.toScheme, ⊤)]
+        supportPieceGraphProductQuotient
+          K C d z hVs q m E hE N a :=
+    Ideal.quotientEquivAlgOfEq Γ(N.baseOpen.toScheme, ⊤)
+      (supportPieceGraphProductIdealTop_eq_map_coordinateSections
+        K C d z hVs q m E hE N a).symm
+  exact ((supportPieceExtendedQuotientAlgEquiv
+      K C d z hVs q m E hE N a).trans eIdeal).symm.trans
+    (supportAffineLineGraphProductQuotientEquivRoot
+      K C d z hVs q m E hE N a)
+
+/-- One support-piece quotient has rank equal to the number of occurrences
+owned by that support member. -/
+theorem supportPieceGraphProductQuotient_finrank
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Module.finrank Γ(N.baseOpen.toScheme, ⊤)
+        (supportPieceGraphProductQuotient
+          K C d z hVs q m E hE N a) =
+      Fintype.card (OccurrencesAtSupport K C d z a) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  letI : Nonempty (⊤ : N.baseOpen.toScheme.Opens) :=
+    ⟨⟨⟨s, N.exact_mem_base⟩, trivial⟩⟩
+  rw [(supportPieceGraphProductQuotientEquivRoot
+    K C d z hVs q m E hE N a).toLinearEquiv.finrank_eq]
+  letI : Fact
+      (SectionProductRootAlgebra.sectionPolynomial
+        Γ(N.baseOpen.toScheme, ⊤)
+        (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a)).Monic :=
+    ⟨SectionProductRootAlgebra.sectionPolynomial_monic
+      Γ(N.baseOpen.toScheme, ⊤)
+      (OccurrencesAtSupport K C d z a)
+      (supportAffineLineStandardValue
+        K C d z hVs q m E hE N a)⟩
+  rw [MonicRootFamily.rootAlgebra_finrank]
+  exact SectionProductRootAlgebra.sectionPolynomial_natDegree
+    Γ(N.baseOpen.toScheme, ⊤)
+    (OccurrencesAtSupport K C d z a)
+    (supportAffineLineStandardValue
+      K C d z hVs q m E hE N a)
+
+/-- Each support-piece graph-product quotient is free over the common affine
+base. -/
+noncomputable instance supportPieceGraphProductQuotient_free
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Module.Free Γ(N.baseOpen.toScheme, ⊤)
+      (supportPieceGraphProductQuotient
+        K C d z hVs q m E hE N a) := by
+  letI : Fact
+      (SectionProductRootAlgebra.sectionPolynomial
+        Γ(N.baseOpen.toScheme, ⊤)
+        (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a)).Monic :=
+    ⟨SectionProductRootAlgebra.sectionPolynomial_monic
+      Γ(N.baseOpen.toScheme, ⊤)
+      (OccurrencesAtSupport K C d z a)
+      (supportAffineLineStandardValue
+        K C d z hVs q m E hE N a)⟩
+  exact Module.Free.of_equiv
+    (supportPieceGraphProductQuotientEquivRoot
+      K C d z hVs q m E hE N a).symm.toLinearEquiv
+
+/-- Each support-piece graph-product quotient is finite over the common
+affine base. -/
+noncomputable instance supportPieceGraphProductQuotient_finite
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Module.Finite Γ(N.baseOpen.toScheme, ⊤)
+      (supportPieceGraphProductQuotient
+        K C d z hVs q m E hE N a) := by
+  letI : Fact
+      (SectionProductRootAlgebra.sectionPolynomial
+        Γ(N.baseOpen.toScheme, ⊤)
+        (OccurrencesAtSupport K C d z a)
+        (supportAffineLineStandardValue
+          K C d z hVs q m E hE N a)).Monic :=
+    ⟨SectionProductRootAlgebra.sectionPolynomial_monic
+      Γ(N.baseOpen.toScheme, ⊤)
+      (OccurrencesAtSupport K C d z a)
+      (supportAffineLineStandardValue
+        K C d z hVs q m E hE N a)⟩
+  exact Module.Finite.equiv
+    (supportPieceGraphProductQuotientEquivRoot
+      K C d z hVs q m E hE N a).symm.toLinearEquiv
+
+/-- Each support-piece graph-product quotient is flat over the common affine
+base. -/
+noncomputable instance supportPieceGraphProductQuotient_flat
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Module.Flat Γ(N.baseOpen.toScheme, ⊤)
+      (supportPieceGraphProductQuotient
+        K C d z hVs q m E hE N a) := by
+  infer_instance
+
+/-- The ranks of all support-piece quotients sum to the original ordered
+degree. -/
+theorem sum_supportPieceGraphProductQuotient_finrank
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    ∑ a : Fin (geometricDistinctSupportCard K C d z),
+        Module.finrank Γ(N.baseOpen.toScheme, ⊤)
+          (supportPieceGraphProductQuotient
+            K C d z hVs q m E hE N a) = d := by
+  rw [Finset.sum_congr rfl (fun a _ ↦
+    supportPieceGraphProductQuotient_finrank
+      K C d z hVs q m E hE N a)]
+  exact FiniteSupportIndex.sum_supportMultiplicity
+    (Spec (.of K)) d C z
+
+/-- The assembled collision-sensitive quotient algebra, presented as the
+finite product of its support-piece factors. -/
+noncomputable abbrev supportGraphProductQuotientAlgebra
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :=
+  ∀ a : Fin (geometricDistinctSupportCard K C d z),
+    supportPieceGraphProductQuotient
+      K C d z hVs q m E hE N a
+
+noncomputable instance supportGraphProductQuotientAlgebra_free
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Free Γ(N.baseOpen.toScheme, ⊤)
+      (supportGraphProductQuotientAlgebra
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+noncomputable instance supportGraphProductQuotientAlgebra_finite
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Finite Γ(N.baseOpen.toScheme, ⊤)
+      (supportGraphProductQuotientAlgebra
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+noncomputable instance supportGraphProductQuotientAlgebra_flat
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Flat Γ(N.baseOpen.toScheme, ⊤)
+      (supportGraphProductQuotientAlgebra
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+/-- The assembled support-product algebra is finite free of the original
+ordered degree, even on collision strata. -/
+theorem supportGraphProductQuotientAlgebra_finrank
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.finrank Γ(N.baseOpen.toScheme, ⊤)
+        (supportGraphProductQuotientAlgebra
+          K C d z hVs q m E hE N) = d := by
+  letI : Nonempty (⊤ : N.baseOpen.toScheme.Opens) :=
+    ⟨⟨⟨s, N.exact_mem_base⟩, trivial⟩⟩
+  rw [Module.finrank_pi_fintype]
+  exact sum_supportPieceGraphProductQuotient_finrank
+    K C d z hVs q m E hE N
 
 /-- On an affine support piece, the étale coordinate map lifts an
 intersection-quotient isomorphism to the product quotient.  This is the
