@@ -71,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1928791,
-    "integrated_lean_modules": 2511,
+    "integrated_lean_lines": 1929894,
+    "integrated_lean_modules": 2513,
     "remaining_composite_orders": [
       18,
       25,
