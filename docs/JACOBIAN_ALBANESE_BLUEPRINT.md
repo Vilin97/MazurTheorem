@@ -47,6 +47,7 @@ parallel abstraction.
 | Symmetric powers of challenge curves in positive degree | `SymmetricPower.curveSchemeSucc` and `curveProjectionSucc` | quotient checked; projection finite/surjective; target geometrically irreducible and universally closed |
 | Ordered universal incidence family on `C × C^d` | `UniversalEffectiveDivisor.orderedIncidence` | checked as the scheme-theoretic union of the coordinate graphs, with invariant ideal and restricted permutation action |
 | Open restriction of ordered incidence | `OrderedIncidenceOpenRestriction.idealSheaf_comap_finsetProd_of_isOpenImmersion`, `orderedIncidenceIdeal_comap_eq_prod_pullbackKernels`, and `PointedIncidenceDescent.curveOrderedIncidenceIdeal_comap_eq_prod_pullbackKernels` | checked: pullback along an open immersion preserves finite products of ideal sheaves because the affine restriction maps are ring equivalences; hence the restricted curve-level incidence ideal is exactly the product of the kernels of the pulled-back coordinate-graph immersions, retaining scheme-theoretic multiplicities |
+| Arbitrary pullback of ordered incidence | `IdealSheafPullbackProduct.idealSheaf_comap_mul`, `idealSheaf_comap_finsetProd`, `orderedIncidenceIdeal_comap`, and `idealSheafData_ext_sigma`; `GeometricAssignedAffineSupportCoproduct.refinedCoproductOrderedIncidenceIdeal_eq_assembled` and `refinedCoproductOrderedIncidenceQuotient_finrank`; `PointedIncidenceDescent.orderedSupportGeometricAssigned_refinedOrderedIncidenceQuotient_finrank` | checked: every scheme morphism is affine-locally a morphism between affine opens after restricting the target. Open restriction and the right-exact affine tensor-product calculation therefore prove that arbitrary pullback preserves finite ideal-sheaf products. Equality on every affine coproduct summand glues globally. Applied to the refined support coproduct, the genuine pullback of universal ordered incidence is exactly the assembled graph-product ideal, so its quotient is finite flat of rank `d` with repeated factors retained. |
 | Quotient of the ordered incidence family | `UniversalEffectiveDivisor.curveOrderedIncidenceQuotientSucc` and `curveDescendedIncidenceιSucc` | checked quotient and descended morphism into `C × Sym^d(C)`; the ambient quotient comparison is an isomorphism; the descended morphism is proper, point-injective, locally quasi-finite, and finite; closed-immersion, flatness, rank, and Cartier proofs remain |
 | Pointed symmetric-power comparison | `PointedIncidenceDescent.productSymmetricPowerToIncidenceQuotient` | checked scheme-theoretic insertion, equivariance, quotient descent, factorization over the field, and properness of `C × Sym^(d-1)(C) → D_d`; every target point has a chosen ordered-incidence lift and a common finite étale fpqc split chart carrying its exact ordered support; pointwise fpqc descent interfaces reduce the global isomorphism, flatness, and rank assertions to the remaining local monic-chart identifications |
 | Étale diagonal and graph charts | `SmoothCurveReduced.etale_pullback_exists_diagonalCoproduct`, `EtaleGraphCoproduct.exists_graphCoproduct`, `exists_graphCoproduct_of_etale`, `baseChangedComponentInclusion`, and `exists_coproduct_of_isOpenImmersion_isClosedImmersion` | checked: an affine étale self-fiber product splits as the coproduct of the actual diagonal and a complementary sheet; for every separated étale scheme morphism, any compatible section after arbitrary base change is an open-and-closed graph and is exactly the first summand of a coproduct decomposition; arbitrary open-and-closed components remain such summands after the iterated pullback is transported to the direct base change, with both projections identified |
@@ -203,17 +204,19 @@ quotient with the checked product algebra.  Hence the actual coproduct
 quotient is finite free of rank `d`, as exposed to pointed incidence by
 `orderedSupportGeometricAssigned_refinedCoproductGraphQuotient_finrank`.
 
-The remaining local work is an exact ideal-sheaf comparison: prove that this
-assembled ideal is the restriction of the globally pulled-back ordered
-incidence ideal.  This cannot be inferred from functoriality alone, because
-pullback of ideal sheaves along an arbitrary scheme morphism does not in
-general preserve products.  The proof must either factor the refined map
-through an affine incidence chart, where `AffineIdealSheafPullback` applies,
-or use the flatness actually furnished by the final fpqc construction.  Once
-that comparison is checked, one must compare the selected block-invariant
-quotient with the block-monic coefficient chart.  The existing pointwise
-fpqc interfaces can then descend the isomorphism, flatness, rank, and Cartier
-equation to the universal effective divisor.
+The exact ideal-sheaf comparison is now checked.  The affine tensor-product
+calculation combines with affine-local source and target covers to prove that
+pullback along an arbitrary scheme morphism preserves finite products of
+ideal sheaves.  On every refined coproduct summand, the coproduct-induced map
+to the ordered ambient agrees with the direct map used to compute the graph
+kernels.  Equality on all summands then glues to
+`refinedCoproductOrderedIncidenceIdeal_eq_assembled`.  Consequently the
+quotient by the genuine pulled-back ordered-incidence ideal is finite flat of
+rank `d`, including repeated scheme-theoretic factors.  The remaining local
+work is to compare the selected block-invariant quotient with the block-monic
+coefficient chart.  The existing pointwise fpqc interfaces can then descend
+the isomorphism, flatness, rank, and Cartier equation to the universal
+effective divisor.
 
 The repository audit found no checked representability theorem for the
 relative Picard functor, no constructed `Pic⁰`, and no checked Albanese
@@ -899,13 +902,17 @@ therefore identifies the restricted curve-incidence product with the checked
 intrinsic owner-graph product, including repeated factors.  The rebased
 affine-line calculation now identifies every refined summand quotient with a
 monic root algebra, proves it finite free of the owner multiplicity, and
-proves their product finite flat of total rank `d`.  What remains is to match
-that product presentation with the actual refined coproduct subscheme and
-descend the identification through the selected-sheet invariant quotient.
-Only after this simultaneous geometric comparison theorem may the
-pointwise fpqc interfaces be used to prove the
-global pointed comparison is an isomorphism and the universal divisor is
-finite flat Cartier of degree `d`.
+proves their product finite flat of total rank `d`.  The actual
+refined-coproduct comparison is now checked.  Arbitrary ideal-sheaf pullback
+preserves finite products by an affine-local argument; the coproduct-induced
+and direct ordered-ambient maps agree summandwise; and equality of ideal
+sheaves glues across the affine coproduct cover.  Thus the genuine pulled-back
+curve-incidence ideal is exactly the assembled product ideal, and its quotient
+is finite flat of rank `d`.  What remains is to descend this identification
+through the selected-sheet invariant quotient.  Only after that quotient
+comparison may the pointwise fpqc interfaces prove the global pointed
+comparison is an isomorphism and the universal divisor is finite flat Cartier
+of degree `d`.
 
 The first map in that remaining comparison is now checked.  The canonical
 affine quotient of any stable affine open is proved to have the full unique

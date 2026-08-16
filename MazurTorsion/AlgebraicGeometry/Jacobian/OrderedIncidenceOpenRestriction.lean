@@ -9,12 +9,13 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 /-!
 # Restricting ordered incidence to an open chart
 
-Pullback of ideal sheaves does not preserve products along an arbitrary
-scheme morphism.  It does preserve them along an open immersion: on each
-affine open, the restriction formula transports ideals through a ring
-equivalence.  Consequently the scheme-theoretic union defining ordered
-incidence restricts to the product of the pulled-back coordinate-graph
-ideals, with all multiplicities retained.
+This file proves directly that pullback of ideal sheaves preserves products
+along an open immersion: on each affine open, the restriction formula
+transports ideals through a ring equivalence.  Consequently the
+scheme-theoretic union defining ordered incidence restricts to the product
+of the pulled-back coordinate-graph ideals, with all multiplicities retained.
+The extension to arbitrary scheme morphisms is proved affine-locally in
+`IdealSheafPullbackProduct`.
 
 The named downstream consumer is the finite étale split-chart comparison in
 `PointedIncidenceDescent`.

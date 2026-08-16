@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct
+import MazurTorsion.AlgebraicGeometry.Jacobian.IdealSheafPullbackProduct
 
 /-!
 # The graph-product quotient after cross-support refinement
@@ -35,6 +36,7 @@ open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
 open GeometricAssignedSimultaneousGraphNeighborhood
 open GeometricAssignedAffineSimultaneousNeighborhood
+open IdealSheafPullbackProduct
 open RelativeAffineLinePower
 open SmoothCurveEtaleCoordinate
 
@@ -60,6 +62,11 @@ variable (N : SimultaneousAffineGraphNeighborhood
 variable [IsSeparated C.hom]
 variable (R : CrossSupportAffineGraphRefinement
   K C d z hVs q m E hE N)
+
+instance pointChartCurveOverCoordinateBase_separated :
+    IsSeparated (PointChart.curveOverCoordinateBase K C.left C.hom).hom := by
+  change IsSeparated (C.hom ≫ (coordinateBaseIso K).inv)
+  infer_instance
 
 /-- The common support affine line after rebasing from the simultaneous
 affine base to the final cross-support affine base. -/
@@ -1658,6 +1665,294 @@ noncomputable def
         R.refinedCoordinateGraphProductIdealTop
           K C d z hVs q m E hE N (Equiv.ulift.{u} a)))
 
+/-- The assembled coordinate-graph ideal, promoted to an ideal sheaf on the
+actual refined support coproduct. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphIdeal :
+    Scheme.IdealSheafData
+      (R.refinedSupportCoproduct K C d z hVs q m E hE N).left := by
+  letI : IsAffine
+      (R.refinedSupportCoproduct K C d z hVs q m E hE N).left :=
+    R.refinedSupportCoproduct_isAffine K C d z hVs q m E hE N
+  exact Scheme.IdealSheafData.ofIdealTop
+    (R.refinedCoproductCoordinateGraphIdealTop
+      K C d z hVs q m E hE N)
+
+/-- On the top affine open, the assembled ideal sheaf recovers its defining
+product-ring ideal. -/
+theorem
+    CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphIdeal_top :
+    (R.refinedCoproductCoordinateGraphIdeal
+      K C d z hVs q m E hE N).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (R.refinedSupportCoproduct_isAffine
+            K C d z hVs q m E hE N)⟩ =
+      R.refinedCoproductCoordinateGraphIdealTop
+        K C d z hVs q m E hE N := by
+  simp only [CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphIdeal,
+    Scheme.IdealSheafData.ofIdealTop_ideal, homOfLE_refl, op_id,
+    CategoryTheory.Functor.map_id, CommRingCat.hom_id, Ideal.map_id]
+
+/-- Restricting the assembled coproduct ideal sheaf to one summand gives
+that summand's complete pulled-back coordinate-graph product. -/
+theorem CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphIdeal_comap_inclusion
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    (R.refinedCoproductCoordinateGraphIdeal
+        K C d z hVs q m E hE N).comap
+      (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+          (Equiv.ulift.{u} a)).left =
+      ∏ i : Fin d,
+        R.refinedCoordinateGraphIdealAt
+          K C d z hVs q m E hE N (Equiv.ulift.{u} a) i := by
+  letI : IsAffine
+      (R.refinedSupportCoproduct K C d z hVs q m E hE N).left :=
+    R.refinedSupportCoproduct_isAffine K C d z hVs q m E hE N
+  letI : IsAffine
+      (R.refinedSupportPieceFamily K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a)).left :=
+    R.refinedSupportPiece_isAffine
+      K C d z hVs q m E hE N (Equiv.ulift.{u} a)
+  let inc := (inclusion R.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+      (Equiv.ulift.{u} a)).left
+  let e := R.refinedCoproductToProductSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  let I := fun b : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+    R.refinedCoordinateGraphProductIdealTop
+      K C d z hVs q m E hE N (Equiv.ulift.{u} b)
+  apply Scheme.IdealSheafData.ext_of_isAffine
+  rw [ideal_comap_top_eq_map_of_isAffine]
+  rw [R.refinedCoproductCoordinateGraphIdeal_top]
+  change Ideal.map inc.appTop.hom
+      (Ideal.comap e.toRingEquiv.toRingHom (Ideal.pi I)) = I a
+  have hinc : inc.appTop.hom =
+      (Pi.evalRingHom (fun b : ULift.{u}
+        (Fin (geometricDistinctSupportCard K C d z)) ↦
+          Γ(R.refinedSupportPiece K C d z hVs q m E hE N
+            (Equiv.ulift.{u} b), ⊤)) a).comp
+        e.toRingEquiv.toRingHom := by
+    rfl
+  rw [hinc, ← Ideal.map_map]
+  rw [Ideal.map_comap_of_surjective
+    e.toRingEquiv.toRingHom e.surjective]
+  exact Ideal.map_evalRingHom_pi a
+
+/-- The coproduct-induced and direct ordered-ambient maps agree on every
+refined support summand. -/
+theorem CrossSupportAffineGraphRefinement.refinedPieceToAmbient_eq_direct
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPieceToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N a =
+      (R.refinedPieceToAmbientOverCoordinateBase
+        K C d z hVs q m E hE N a).left := by
+  let inc := (inclusion R.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N) a).left
+  let via : R.refinedSupportPieceOverCoordinateBase
+        K C d z hVs q m E hE N a ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) :=
+    Over.homMk
+      (R.refinedSupportPieceToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N a)
+      (by
+        change (inc ≫
+              (R.refinedSupportCoproductToCoordinateOrderedAmbient
+                K C d z hVs q m E hE N).left) ≫
+              (UniversalEffectiveDivisor.orderedAmbient
+                (coordinateBase K) d
+                (PointChart.curveOverCoordinateBase
+                  K C.left C.hom)).hom =
+            R.refinedSupportPieceToSupportPiece
+                K C d z hVs q m E hE N a ≫
+              (supportPieceFamily K C d z hVs q m E hE N a).hom ≫
+                baseToCoordinateBase K C d z hVs q m E hE N
+        calc
+          _ = inc ≫
+              ((R.refinedSupportCoproduct
+                  K C d z hVs q m E hE N).hom ≫ R.baseOpen.ι ≫
+                baseToCoordinateBase K C d z hVs q m E hE N) := by
+            rw [Category.assoc,
+              (R.refinedSupportCoproductToCoordinateOrderedAmbient
+                K C d z hVs q m E hE N).w]
+            rfl
+          _ = (inc ≫ (R.refinedSupportCoproduct
+                K C d z hVs q m E hE N).hom) ≫
+              R.baseOpen.ι ≫
+                baseToCoordinateBase K C d z hVs q m E hE N := by
+            simp only [Category.assoc]
+          _ = (R.refinedSupportPieceFamily
+                K C d z hVs q m E hE N a).hom ≫
+              R.baseOpen.ι ≫
+                baseToCoordinateBase K C d z hVs q m E hE N := by
+            rw [show inc ≫
+                (R.refinedSupportCoproduct
+                  K C d z hVs q m E hE N).hom =
+              (R.refinedSupportPieceFamily
+                K C d z hVs q m E hE N a).hom from
+              (inclusion R.baseOpen.toScheme
+                (geometricDistinctSupportCard K C d z)
+                (R.refinedSupportPieceFamily
+                  K C d z hVs q m E hE N) a).w]
+          _ = _ := by
+            simpa only [Category.assoc] using congrArg
+              (fun f ↦ f ≫
+                baseToCoordinateBase K C d z hVs q m E hE N)
+              (R.refinedSupportPieceToSupportPiece_comp_structure
+                K C d z hVs q m E hE N a).symm)
+  let direct : R.refinedSupportPieceOverCoordinateBase
+        K C d z hVs q m E hE N a ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) := by
+    change R.refinedSupportPieceOverCoordinateBase
+        K C d z hVs q m E hE N a ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C)
+    exact R.refinedPieceToAmbientOverCoordinateBase
+      K C d z hVs q m E hE N a
+  change via.left = direct.left
+  apply congrArg Over.Hom.left
+  apply Limits.prod.hom_ext
+  · apply Over.OverMorphism.ext
+    change R.refinedSupportPieceToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N a ≫
+        (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+      (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a).left ≫
+        (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom)).left
+    rw [R.refinedPieceToAmbient_comp_pointProjection]
+    rw [show (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a).left ≫
+        (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+      (R.refinedSupportPieceComparisonOverCoordinateBase
+          K C d z hVs q m E hE N a ≫
+        supportPieceToMappedCurve K C d z hVs q m E hE N a).left from
+      by
+        change (R.refinedPieceToAmbientOverCoordinateBase
+              K C d z hVs q m E hE N a).left ≫
+            (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+              ((Over.map (coordinateBaseIso K).symm.hom).obj C)).left = _
+        exact congrArg Over.Hom.left
+          (R.refinedPieceToAmbient_comp_point_direct
+            K C d z hVs q m E hE N a)]
+    rfl
+  · apply Limits.Pi.hom_ext
+    intro i
+    apply Over.OverMorphism.ext
+    change R.refinedSupportPieceToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N a ≫
+        (UniversalEffectiveDivisor.coordinateProjection
+          (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+      (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a).left ≫
+        (UniversalEffectiveDivisor.coordinateProjection
+          (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i).left
+    rw [R.refinedPieceToAmbient_comp_coordinateProjection]
+    rw [show (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a).left ≫
+        (UniversalEffectiveDivisor.coordinateProjection
+          (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+      (R.refinedSupportPieceComparisonOverCoordinateBase
+          K C d z hVs q m E hE N a ≫
+        supportPieceToMappedCoordinate
+          K C d z hVs q m E hE N a i).left from
+      by
+        change (R.refinedPieceToAmbientOverCoordinateBase
+              K C d z hVs q m E hE N a).left ≫
+            (UniversalEffectiveDivisor.coordinateProjection
+              (coordinateBase K) d
+              ((Over.map (coordinateBaseIso K).symm.hom).obj C) i).left = _
+        exact congrArg Over.Hom.left
+          (R.refinedPieceToAmbient_comp_coordinate_direct
+            K C d z hVs q m E hE N a i)]
+    rfl
+
+/-- The genuine universal ordered-incidence ideal pulled back to the actual
+refined support coproduct. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceIdeal :
+    Scheme.IdealSheafData
+      (R.refinedSupportCoproduct K C d z hVs q m E hE N).left :=
+  (UniversalEffectiveDivisor.orderedIncidenceIdeal (coordinateBase K) d
+      (PointChart.curveOverCoordinateBase K C.left C.hom)).comap
+    (R.refinedSupportCoproductToCoordinateOrderedAmbient
+      K C d z hVs q m E hE N).left
+
+/-- On every refined support summand, the genuine pulled-back ordered
+incidence ideal is the complete product of the independently pulled-back
+coordinate-graph ideals. -/
+theorem CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceIdeal_comap_inclusion
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    (R.refinedCoproductOrderedIncidenceIdeal
+        K C d z hVs q m E hE N).comap
+      (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+          (Equiv.ulift.{u} a)).left =
+      ∏ i : Fin d,
+        R.refinedCoordinateGraphIdealAt
+          K C d z hVs q m E hE N (Equiv.ulift.{u} a) i := by
+  rw [CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceIdeal,
+    ← Scheme.IdealSheafData.comap_comp]
+  change
+    (UniversalEffectiveDivisor.orderedIncidenceIdeal (coordinateBase K) d
+      (PointChart.curveOverCoordinateBase K C.left C.hom)).comap
+        (R.refinedSupportPieceToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N (Equiv.ulift.{u} a)) = _
+  rw [orderedIncidenceIdeal_comap]
+  apply Finset.prod_congr rfl
+  intro i _
+  rw [UniversalEffectiveDivisor.coordinateGraphIdeal,
+    R.refinedPieceToAmbient_eq_direct]
+  rfl
+
+/-- The assembled product-ring ideal sheaf is exactly the genuine pullback
+of the universal ordered-incidence ideal to the refined coproduct. -/
+theorem CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceIdeal_eq_assembled :
+    R.refinedCoproductOrderedIncidenceIdeal
+        K C d z hVs q m E hE N =
+      R.refinedCoproductCoordinateGraphIdeal
+        K C d z hVs q m E hE N := by
+  letI : ∀ a : Fin (geometricDistinctSupportCard K C d z),
+      IsAffine
+        (R.refinedSupportPiece K C d z hVs q m E hE N a) := fun a ↦
+    R.refinedSupportPiece_isAffine K C d z hVs q m E hE N a
+  apply idealSheafData_ext_sigma
+    (fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+      R.refinedSupportPiece K C d z hVs q m E hE N a)
+  intro a
+  have hactual :=
+    R.refinedCoproductOrderedIncidenceIdeal_comap_inclusion
+      K C d z hVs q m E hE N (ULift.up a)
+  have hassembled :=
+    R.refinedCoproductCoordinateGraphIdeal_comap_inclusion
+      K C d z hVs q m E hE N (ULift.up a)
+  exact hactual.trans hassembled.symm
+
+/-- On affine global sections, the genuine pulled-back ordered-incidence
+ideal is the assembled product-ring ideal. -/
+theorem
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceIdeal_top :
+    (R.refinedCoproductOrderedIncidenceIdeal
+      K C d z hVs q m E hE N).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (R.refinedSupportCoproduct_isAffine
+            K C d z hVs q m E hE N)⟩ =
+      R.refinedCoproductCoordinateGraphIdealTop
+        K C d z hVs q m E hE N := by
+  rw [R.refinedCoproductOrderedIncidenceIdeal_eq_assembled,
+    R.refinedCoproductCoordinateGraphIdeal_top]
+
 /-- The actual refined coproduct quotient by the assembled universal
 coordinate-graph ideal. -/
 noncomputable abbrev
@@ -1731,6 +2026,67 @@ theorem CrossSupportAffineGraphRefinement.refinedCoproductCoordinateGraphQuotien
   rw [(R.refinedCoproductCoordinateGraphQuotientEquivProduct
     K C d z hVs q m E hE N).toLinearEquiv.finrank_eq]
   exact R.refinedCoordinateGraphQuotientAlgebra_finrank
+    K C d z hVs q m E hE N
+
+/-- The affine section-ring quotient by the genuine pullback of the
+universal ordered-incidence ideal. -/
+noncomputable abbrev
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotient :=
+  Γ((R.refinedSupportCoproduct
+      K C d z hVs q m E hE N).left, ⊤) ⧸
+    (R.refinedCoproductOrderedIncidenceIdeal
+      K C d z hVs q m E hE N).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (R.refinedSupportCoproduct_isAffine
+            K C d z hVs q m E hE N)⟩
+
+/-- The genuine pulled-back ordered-incidence quotient is the assembled
+coordinate-graph quotient. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotientEquiv :
+    R.refinedCoproductOrderedIncidenceQuotient
+        K C d z hVs q m E hE N ≃ₐ[Γ(R.baseOpen.toScheme, ⊤)]
+      R.refinedCoproductCoordinateGraphQuotient
+        K C d z hVs q m E hE N :=
+  Ideal.quotientEquivAlgOfEq Γ(R.baseOpen.toScheme, ⊤)
+    (R.refinedCoproductOrderedIncidenceIdeal_top
+      K C d z hVs q m E hE N)
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotient_free :
+    Module.Free Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductOrderedIncidenceQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Free.of_equiv
+    (R.refinedCoproductOrderedIncidenceQuotientEquiv
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotient_finite :
+    Module.Finite Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductOrderedIncidenceQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Finite.equiv
+    (R.refinedCoproductOrderedIncidenceQuotientEquiv
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotient_flat :
+    Module.Flat Γ(R.baseOpen.toScheme, ⊤)
+      (R.refinedCoproductOrderedIncidenceQuotient
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+/-- The genuine ordered-incidence pullback to the actual refined support
+coproduct is finite free of rank the original ordered degree. -/
+theorem
+    CrossSupportAffineGraphRefinement.refinedCoproductOrderedIncidenceQuotient_finrank :
+    Module.finrank Γ(R.baseOpen.toScheme, ⊤)
+        (R.refinedCoproductOrderedIncidenceQuotient
+          K C d z hVs q m E hE N) = d := by
+  rw [(R.refinedCoproductOrderedIncidenceQuotientEquiv
+    K C d z hVs q m E hE N).toLinearEquiv.finrank_eq]
+  exact R.refinedCoproductCoordinateGraphQuotient_finrank
     K C d z hVs q m E hE N
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct
