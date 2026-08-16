@@ -108,6 +108,24 @@ functor.  Other inspected relative-Picard developments provide useful tensor,
 pullback, and functor-of-points designs, while their representability and
 identity-component geometry remain explicit open boundaries.
 
+The latest local-incidence milestone closes the support-piece quotient
+algebra.  `EtaleQuotientProduct.idealMap_inf_of_flat` proves that flat scalar
+extension preserves binary ideal intersections.  The Mayer--Vietoris theorem
+`extendedQuotientMap_bijective_inf_of_bijective`, the formally étale
+product-thickening theorem `extendedQuotientMap_bijective_mul_of_inf`, and
+finite induction in `extendedQuotientMap_bijective_fintypeProd` therefore
+assemble factorwise quotient isomorphisms without discarding collision
+nilpotents.  Geometrically,
+`GeometricAssignedAffineSupportCoproduct.supportPiece_coordinateGraph_isPullback`
+proves the exact cartesian graph square after both sides are pulled to the
+final affine base; this qualification matters because that base may be
+strictly smaller than the full graph preimage.  The transported ideal is
+then literally the section kernel, and
+`supportPiece_extendedQuotientMap_bijective_coordinateSections` applies the
+finite-product theorem to the full multiplicity-sensitive occurrence block;
+`PointedIncidenceDescent.orderedSupportGeometricAssigned_coordinateGraphProductQuotient_bijective`
+is its ordered-incidence consumer.
+
 The repository audit found no checked representability theorem for the
 relative Picard functor, no constructed `Pic⁰`, and no checked Albanese
 universal property in Mathlib, LeanPool, Tau Ceti, or the other inspected
@@ -707,11 +725,11 @@ space with their defining quotient squares.
 
 The remaining local theorem must compare the restricted component target
 `Spec Γ(U)ᴳ` with the pullback of this global monic-coordinate chart along the
-étale occurrence-coordinate morphism, prove the intersection-quotient
-comparison for the finite union of the now-identified affine-line sections,
-and descend the resulting isomorphism to the actual curve quotient.  The
-nilpotent collision step from that intersection to the full product is now
-checked by formal étaleness, rather than being assumed.  The algebra after
+étale occurrence-coordinate morphism and descend the resulting isomorphism
+to the actual curve quotient.  The incidence quotient on each isolated
+support piece is now checked: flatness preserves intersections, formal
+étaleness restores product thickenings, and the exact cartesian graph square
+supplies every factorwise quotient isomorphism.  The algebra after
 the geometric transport is also present: `SplitComponentGraphBaseChange`
 proves the required equality after an arbitrary coefficient change, while
 `GeometricAssignedGraphQuotient` identifies its quotient with the transported
@@ -764,11 +782,16 @@ owner support piece, the graph ideal is now also computed on global sections
 as extension of the graph ideal on the chosen affine support open.  Taking
 the finite product over `OccurrencesAtSupport` commutes with that pullback,
 so the checked section-ring formula retains every repeated ordered factor
-rather than replacing a support block by its reduced graph.  The precise
-remaining step is to identify the support-open coordinate maps and their
-full graph products with the affine base change of the universal
-graph-product algebra; this includes the nilpotent thickening comparison for
-colliding roots in the finite étale curve algebra.
+rather than replacing a support block by its reduced graph.  After both sides
+are pulled to the final affine base, each support-piece graph is now proved
+to be the exact cartesian inverse image of its affine-line section.  Thus its
+transported ideal is the actual section kernel.  The first isomorphism
+theorem gives every factorwise quotient comparison, flat Mayer--Vietoris
+assembles intersections, and formal étaleness restores the full
+multiplicity-sensitive product.  The precise remaining step is narrower:
+identify this checked local graph-product quotient with the affine base
+change of the universal block-monic graph-product algebra, then descend that
+identification through the selected-sheet invariant quotient.
 Only after this simultaneous geometric comparison theorem may the
 pointwise fpqc interfaces be used to prove the
 global pointed comparison is an isomorphism and the universal divisor is

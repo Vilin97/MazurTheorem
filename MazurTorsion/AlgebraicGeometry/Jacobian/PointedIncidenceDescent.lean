@@ -722,6 +722,68 @@ theorem orderedSupportGeometricAssigned_graphProduct_eq_coordinate_comap
     (orderedSupportPoint K C d z) hVs q m E hE N a
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- On every ordered-incidence support block, the isolated étale coordinate
+induces an isomorphism after quotienting by the complete product of its
+independently varying occurrence-section ideals.  Repeated occurrences
+remain repeated ideal factors. -/
+theorem orderedSupportGeometricAssigned_coordinateGraphProductQuotient_bijective
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    [IsAffine (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z))) :
+    let p := orderedSupportPoint K C d z
+    letI : Algebra
+        Γ(supportAffineLine K C d p hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d p hVs q m E hE N a, ⊤) :=
+      (supportPieceToSupportAffineLine
+        K C d p hVs q m E hE N a).appTop.hom.toAlgebra
+    Function.Bijective
+      (EtaleQuotientProduct.extendedQuotientMap
+        Γ(supportAffineLine K C d p hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d p hVs q m E hE N a, ⊤)
+        ((supportAffineLineGraphProductIdeal
+          K C d p hVs q m E hE N a).ideal
+          ⟨⊤, @isAffineOpen_top _ (by
+            letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+            letI : IsAffine (coordinateBase K) := by
+              dsimp only [coordinateBase]
+              infer_instance
+            letI : IsAffine (coordinateLine K).left := by
+              change IsAffine (Spec (.of (coordinateRing K)))
+              infer_instance
+            exact (inferInstance : IsAffine
+              (supportAffineLine K C d p hVs q m E hE N)))⟩)) := by
+  dsimp only
+  exact supportPiece_extendedQuotientMap_bijective_coordinateSections
+    K C d (orderedSupportPoint K C d z) hVs q m E hE N a
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
 support carries the genuine geometric-support block action. -/
 noncomputable def orderedSupportGeometricAssigned_blockRefinementSplitAction

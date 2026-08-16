@@ -1510,6 +1510,388 @@ theorem graphToSupportPiece_comp_supportAffineLine
         (supportAffineLineGraph_comp_base
           K C d z hVs q m E hE N a i).symm
 
+/-- After pulling both sides to the final affine base, the isolated
+occurrence graph is the exact inverse image of its coordinate section.  The
+base change is essential: the selected affine base may be strictly smaller
+than the full graph preimage in the block-refinement base. -/
+theorem supportPiece_coordinateGraph_isPullback
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    IsPullback
+      (graphToSupportPiece K C d z hVs q m E hE N a i)
+      (𝟙 N.baseOpen.toScheme)
+      (supportPieceToSupportAffineLine K C d z hVs q m E hE N a)
+      (supportAffineLineGraph K C d z hVs q m E hE N a i) := by
+  rcases i with ⟨i, rfl⟩
+  apply IsPullback.mk'
+  · exact graphToSupportPiece_comp_supportAffineLine
+      K C d z hVs q m E hE N _ ⟨i, rfl⟩
+  · intro X φ φ' _ hφ
+    simpa only [Category.comp_id] using hφ
+  · intro X p b hpb
+    refine ⟨b, ?_, by simp⟩
+    apply pullback.hom_ext
+    · apply (cancel_mono
+          (N.supportOpen (geometricPointSupportIndex K C d z i)).ι).mp
+      have hcoord := hpb =≫
+        supportAffineLineToRefinementAffineLine
+          K C d z hVs q m E hE N
+      have hcoord' :
+          (p ≫ pullback.fst
+              ((N.supportOpen
+                  (geometricPointSupportIndex K C d z i)).ι ≫
+                supportAmbientToBase K C d z hVs q
+                  (geometricPointSupportIndex K C d z i))
+              N.baseOpen.ι ≫
+            (N.supportOpen
+              (geometricPointSupportIndex K C d z i)).ι) ≫
+              supportAmbientToRefinementAffineLine K C d z hVs q
+                (geometricPointSupportIndex K C d z i) =
+          (b ≫ N.baseOpen.ι) ≫
+            refinementAffineLineGraph K C d z hVs q i := by
+        simpa only [Category.assoc,
+          supportPieceToSupportAffineLine_comp_refinement,
+          supportAffineLineGraph_comp_refinement,
+          supportOpenToRefinementAffineLine] using hcoord
+      let xAmbient : X ⟶
+          supportAmbient K C d z hVs q
+            (geometricPointSupportIndex K C d z i) :=
+        p ≫ pullback.fst
+            ((N.supportOpen
+                (geometricPointSupportIndex K C d z i)).ι ≫
+              supportAmbientToBase K C d z hVs q
+                (geometricPointSupportIndex K C d z i))
+            N.baseOpen.ι ≫
+          (N.supportOpen
+            (geometricPointSupportIndex K C d z i)).ι
+      let xBase : X ⟶
+          (componentFpqcBlockRefinement K C d z hVs q).left :=
+        b ≫ N.baseOpen.ι
+      let hEqual := supportEqualCoordinate_relativeSection_square
+        K C d z hVs q i
+      let xEqual := hEqual.lift xAmbient xBase hcoord'
+      let xOccurrence : X ⟶
+          (occurrenceOpenAtSupport K C d z hVs q m E hE j
+            (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩).toScheme :=
+        p ≫ pullback.fst
+            ((N.supportOpen
+                (geometricPointSupportIndex K C d z i)).ι ≫
+              supportAmbientToBase K C d z hVs q
+                (geometricPointSupportIndex K C d z i))
+            N.baseOpen.ι ≫
+          supportOpenToIntersection K C d z hVs q m E hE N
+            (geometricPointSupportIndex K C d z i) ≫
+          supportIntersectionToOccurrenceOpen K C d z hVs q m E hE j i
+      have hxOccurrence :
+          xOccurrence ≫
+              (occurrenceOpenAtSupport K C d z hVs q m E hE j
+                (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩).ι =
+            xAmbient := by
+        dsimp only [xOccurrence, xAmbient,
+          supportIntersectionToOccurrenceOpen]
+        simp only [Category.assoc, Scheme.homOfLE_ι,
+          supportOpenToIntersection_comp_ι]
+      have hxEqual :
+          xEqual ≫
+              (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+                (occurrenceAmbientIsoSupportAmbient
+                  K C d z hVs q i).hom) =
+            xAmbient := by
+        exact hEqual.lift_fst xAmbient xBase hcoord'
+      let hChosen :=
+        (chosenOccurrenceGraphNeighborhood
+          K C d z hVs q m E hE j i).graph_isPullback
+      let lift : X ⟶
+          (componentFpqcBlockRefinement K C d z hVs q).left :=
+        hChosen.lift xOccurrence xEqual (hxOccurrence.trans hxEqual.symm)
+      have hliftOccurrence :
+          lift ≫ graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j
+              (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ =
+            xOccurrence := by
+        exact hChosen.lift_fst xOccurrence xEqual
+          (hxOccurrence.trans hxEqual.symm)
+      have hliftEqual :
+          lift ≫ occurrenceGraph K C d z hVs q m E hE j i =
+            xEqual := by
+        exact hChosen.lift_snd xOccurrence xEqual
+          (hxOccurrence.trans hxEqual.symm)
+      have hliftBase : lift = xBase := by
+        have h := hliftEqual =≫
+          pullback.snd
+            (affineComponentToCoordinateLine K C d z
+              (geometricPointSupportIndex K C d z i)).left
+            (occurrenceCoordinate K C d z hVs q i)
+        have h' : lift = xEqual ≫
+            pullback.snd
+              (affineComponentToCoordinateLine K C d z
+                (geometricPointSupportIndex K C d z i)).left
+              (occurrenceCoordinate K C d z hVs q i) := by
+          simpa only [Category.assoc,
+            occurrenceGraph_comp_snd, Category.comp_id] using h
+        exact h'.trans
+          (hEqual.lift_snd xAmbient xBase hcoord')
+      have hAmbient :
+          xBase ≫ graphToSupportAmbient K C d z hVs q m E hE j i =
+            xAmbient := by
+        have h := hliftOccurrence =≫
+          (occurrenceOpenAtSupport K C d z hVs q m E hE j
+            (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩).ι
+        rw [Category.assoc,
+          graphToOccurrenceOpenAtSupport_comp_ι] at h
+        rw [hliftBase, hxOccurrence] at h
+        exact h
+      simpa only [Category.assoc,
+        graphToSupportPiece_comp_fst_assoc,
+        SimultaneousAffineGraphNeighborhood.graph_comp_ι,
+        graphToSupportAmbientAtSupport, eqToHom_refl,
+        Category.comp_id, xBase, xAmbient] using hAmbient
+    · have hbase := hpb =≫
+        (supportAffineLineFamily K C d z hVs q m E hE N).hom
+      simp only [graphToSupportPiece, Category.assoc,
+        pullback.lift_snd, Category.comp_id]
+      change b = p ≫
+        (supportPieceFamily K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i)).hom
+      simpa only [Category.assoc,
+        supportPieceToSupportAffineLine_comp_base,
+        supportAffineLineGraph_comp_base,
+        Category.comp_id] using hbase.symm
+
+/-- The graph ideal transported to a final affine support piece is the
+actual kernel sheaf of the selected section of that support piece. -/
+theorem supportPieceGraphIdealAt_eq_graphToSupportPiece_ker
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    supportPieceGraphIdealAt K C d z hVs q m E hE N a i =
+      (graphToSupportPiece K C d z hVs q m E hE N a i).ker := by
+  let graphHom :=
+    supportAffineLineGraph K C d z hVs q m E hE N a i
+  let familyHom :=
+    (supportAffineLineFamily K C d z hVs q m E hE N).hom
+  let coordinateHom :=
+    supportPieceToSupportAffineLine K C d z hVs q m E hE N a
+  let pieceGraph :=
+    graphToSupportPiece K C d z hVs q m E hE N a i
+  letI : IsSeparated (coordinateLine K).hom := by
+    change IsSeparated (Spec.map _)
+    infer_instance
+  letI : IsSeparated familyHom := by
+    change IsSeparated (pullback.snd (coordinateLine K).hom
+      (baseToCoordinateBase K C d z hVs q m E hE N))
+    infer_instance
+  letI : IsClosedImmersion graphHom := by
+    haveI : IsClosedImmersion (graphHom ≫ familyHom) := by
+      rw [show graphHom ≫ familyHom = 𝟙 N.baseOpen.toScheme from
+        supportAffineLineGraph_comp_base
+          K C d z hVs q m E hE N a i]
+      infer_instance
+    exact IsClosedImmersion.of_comp graphHom familyHom
+  let h := supportPiece_coordinateGraph_isPullback
+    K C d z hVs q m E hE N a i
+  rw [← supportAffineLineGraph_ker_comap_supportPiece]
+  calc
+    graphHom.ker.comap coordinateHom =
+        (pullback.fst coordinateHom graphHom).ker :=
+      (Scheme.IdealSheafData.ker_fst_of_isClosedImmersion
+        graphHom coordinateHom).symm
+    _ = (h.isoPullback.hom ≫
+        pullback.fst coordinateHom graphHom).ker :=
+      (Scheme.Hom.ker_comp_of_isIso h.isoPullback.hom
+        (pullback.fst coordinateHom graphHom)).symm
+    _ = pieceGraph.ker := by
+      rw [h.isoPullback_hom_fst]
+
+/-- The affine quotient by one coordinate-section ideal is unchanged by
+the isolated étale support-piece coordinate. -/
+theorem supportPiece_extendedQuotientMap_bijective_coordinateSection
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    letI : Algebra
+        Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+      (supportPieceToSupportAffineLine
+        K C d z hVs q m E hE N a).appTop.hom.toAlgebra
+    Function.Bijective
+      (extendedQuotientMap
+        Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d z hVs q m E hE N a, ⊤)
+        ((supportAffineLineGraph
+          K C d z hVs q m E hE N a i).ker.ideal
+          ⟨⊤, @isAffineOpen_top _ (by
+            letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+            letI : IsAffine (coordinateBase K) := by
+              dsimp only [coordinateBase]
+              infer_instance
+            letI : IsAffine (coordinateLine K).left := by
+              change IsAffine (Spec (.of (coordinateRing K)))
+              infer_instance
+            exact (inferInstance : IsAffine
+              (supportAffineLine K C d z hVs q m E hE N)))⟩)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  let coordinateHom :=
+    supportPieceToSupportAffineLine K C d z hVs q m E hE N a
+  let pieceGraph :=
+    graphToSupportPiece K C d z hVs q m E hE N a i
+  let sectionGraph :=
+    supportAffineLineGraph K C d z hVs q m E hE N a i
+  let familyHom :=
+    (supportAffineLineFamily K C d z hVs q m E hE N).hom
+  letI : Algebra
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+    coordinateHom.appTop.hom.toAlgebra
+  letI : IsSeparated (coordinateLine K).hom := by
+    change IsSeparated (Spec.map _)
+    infer_instance
+  letI : IsSeparated familyHom := by
+    change IsSeparated (pullback.snd (coordinateLine K).hom
+      (baseToCoordinateBase K C d z hVs q m E hE N))
+    infer_instance
+  letI : IsClosedImmersion sectionGraph := by
+    haveI : IsClosedImmersion (sectionGraph ≫ familyHom) := by
+      rw [show sectionGraph ≫ familyHom = 𝟙 N.baseOpen.toScheme from
+        supportAffineLineGraph_comp_base
+          K C d z hVs q m E hE N a i]
+      infer_instance
+    exact IsClosedImmersion.of_comp sectionGraph familyHom
+  let hcart := supportPiece_coordinateGraph_isPullback
+    K C d z hVs q m E hE N a i
+  letI : IsClosedImmersion pieceGraph :=
+    MorphismProperty.IsStableUnderBaseChange.of_isPullback
+      (P := @IsClosedImmersion) hcart.flip inferInstance
+  have hcomp : pieceGraph.appTop.hom.comp coordinateHom.appTop.hom =
+      sectionGraph.appTop.hom := by
+    rw [← CommRingCat.hom_comp, ← Scheme.Hom.comp_appTop]
+    exact congrArg (fun f : N.baseOpen.toScheme ⟶
+        supportAffineLine K C d z hVs q m E hE N ↦ f.appTop.hom)
+      (graphToSupportPiece_comp_supportAffineLine
+        K C d z hVs q m E hE N a i)
+  have hkerR :
+      (sectionGraph.ker.ideal ⟨⊤, isAffineOpen_top _⟩) =
+        RingHom.ker (pieceGraph.appTop.hom.comp coordinateHom.appTop.hom) := by
+    rw [hcomp]
+    rw [Scheme.ker_of_isAffine]
+    simp
+  have hkerS :
+      Ideal.map coordinateHom.appTop.hom
+          (sectionGraph.ker.ideal ⟨⊤, isAffineOpen_top _⟩) =
+        RingHom.ker pieceGraph.appTop.hom := by
+    dsimp only [pieceGraph]
+    rw [← supportPieceGraphIdealAt_top_eq_map_coordinateSection
+      K C d z hVs q m E hE N a i]
+    rw [supportPieceGraphIdealAt_eq_graphToSupportPiece_ker
+      K C d z hVs q m E hE N a i]
+    rw [Scheme.ker_of_isAffine]
+    simp
+  apply extendedQuotientMap_bijective_of_kernel_square
+    _ _ (sectionGraph.ker.ideal ⟨⊤, isAffineOpen_top _⟩)
+      pieceGraph.appTop.hom
+  · exact pieceGraph.app_surjective ⊤ (isAffineOpen_top _)
+  · change Function.Surjective
+      (pieceGraph.appTop.hom.comp coordinateHom.appTop.hom)
+    rw [hcomp]
+    exact sectionGraph.app_surjective ⊤ (isAffineOpen_top _)
+  · exact hkerR
+  · exact hkerS
+
+/-- The quotient by the full product of coordinate-section ideals is
+unchanged by the isolated étale support-piece coordinate.  This is the
+named geometric consumer of the finite-product quotient theorem in
+`EtaleQuotientProduct`. -/
+theorem supportPiece_extendedQuotientMap_bijective_coordinateSections
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    letI : Algebra
+        Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+      (supportPieceToSupportAffineLine
+        K C d z hVs q m E hE N a).appTop.hom.toAlgebra
+    Function.Bijective
+      (extendedQuotientMap
+        Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+        Γ(supportPiece K C d z hVs q m E hE N a, ⊤)
+        ((supportAffineLineGraphProductIdeal
+          K C d z hVs q m E hE N a).ideal
+          ⟨⊤, @isAffineOpen_top _ (by
+            letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+            letI : IsAffine (coordinateBase K) := by
+              dsimp only [coordinateBase]
+              infer_instance
+            letI : IsAffine (coordinateLine K).left := by
+              change IsAffine (Spec (.of (coordinateRing K)))
+              infer_instance
+            exact (inferInstance : IsAffine
+              (supportAffineLine K C d z hVs q m E hE N)))⟩)) := by
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  letI : IsAffine (coordinateBase K) := by
+    dsimp only [coordinateBase]
+    infer_instance
+  letI : IsAffine (coordinateLine K).left := by
+    change IsAffine (Spec (.of (coordinateRing K)))
+    infer_instance
+  letI : IsAffine
+      (supportAffineLine K C d z hVs q m E hE N) := by
+    infer_instance
+  letI : IsAffine
+      (supportPiece K C d z hVs q m E hE N a) :=
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  let coordinateHom :=
+    supportPieceToSupportAffineLine K C d z hVs q m E hE N a
+  letI : Algebra
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+    coordinateHom.appTop.hom.toAlgebra
+  have hEtale : coordinateHom.appTop.hom.Etale :=
+    HasRingHomProperty.appTop (P := @Etale) (Q := RingHom.Etale)
+      coordinateHom (inferInstance : Etale coordinateHom)
+  letI : Algebra.Etale
+      Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+      Γ(supportPiece K C d z hVs q m E hE N a, ⊤) :=
+    hEtale.toAlgebra
+  rw [supportAffineLineGraphProductIdeal]
+  rw [show
+      ((∏ i : OccurrencesAtSupport K C d z a,
+          (supportAffineLineGraph
+            K C d z hVs q m E hE N a i).ker).ideal
+            ⟨⊤, isAffineOpen_top _⟩) =
+        ∏ i : OccurrencesAtSupport K C d z a,
+          (supportAffineLineGraph
+            K C d z hVs q m E hE N a i).ker.ideal
+              ⟨⊤, isAffineOpen_top _⟩ by
+    classical
+    let J := fun i : OccurrencesAtSupport K C d z a ↦
+      (supportAffineLineGraph
+        K C d z hVs q m E hE N a i).ker
+    have hprod (t : Finset (OccurrencesAtSupport K C d z a)) :
+        (∏ i ∈ t, J i).ideal ⟨⊤, isAffineOpen_top _⟩ =
+          ∏ i ∈ t, (J i).ideal ⟨⊤, isAffineOpen_top _⟩ := by
+      induction t using Finset.induction_on with
+      | empty => simp
+      | @insert i t hi ih => simp [hi, ih]
+    exact hprod Finset.univ]
+  exact extendedQuotientMap_bijective_fintypeProd
+    Γ(supportAffineLine K C d z hVs q m E hE N, ⊤)
+    Γ(supportPiece K C d z hVs q m E hE N a, ⊤)
+    (fun i ↦
+      (supportAffineLineGraph
+        K C d z hVs q m E hE N a i).ker.ideal
+          ⟨⊤, isAffineOpen_top _⟩)
+    (supportPiece_extendedQuotientMap_bijective_coordinateSection
+      K C d z hVs q m E hE N a)
+
 /-- On an affine support piece, the étale coordinate map lifts an
 intersection-quotient isomorphism to the product quotient.  This is the
 collision-sensitive algebra step for two occurrence sections: it preserves
