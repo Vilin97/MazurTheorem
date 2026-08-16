@@ -2645,9 +2645,351 @@ theorem supportCoproduct_isAffine
   letI : ∀ a, IsAffine
       (supportPiece K C d z hVs q m E hE N a) := fun a ↦
     supportPiece_isAffine K C d z hVs q m E hE N a
+  letI : Finite (Fin (geometricDistinctSupportCard K C d z)) :=
+    inferInstance
   change IsAffine (∐ fun a : Fin (geometricDistinctSupportCard K C d z) ↦
     supportPiece K C d z hVs q m E hE N a)
   infer_instance
+
+/-- The finite affine support coproduct is the spectrum of the product of
+the global-section rings of its support pieces. -/
+noncomputable def supportCoproductAffineSchemeIso
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    (supportCoproduct K C d z hVs q m E hE N).left ≅
+      Spec (.of (∀ a : ULift.{u}
+          (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+          supportPiece K C d z hVs q m E hE N b) ∘ Equiv.ulift.{u}) a,
+            ⊤))) := by
+  letI : ∀ a, IsAffine
+      (supportPiece K C d z hVs q m E hE N a) := fun a ↦
+    supportPiece_isAffine K C d z hVs q m E hE N a
+  exact (Sigma.reindex (Equiv.ulift.{u})
+      (fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+        supportPiece K C d z hVs q m E hE N a)).symm ≪≫
+    Sigma.mapIso (fun a : ULift.{u}
+        (Fin (geometricDistinctSupportCard K C d z)) ↦
+      @Scheme.isoSpec
+        (((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+          supportPiece K C d z hVs q m E hE N b) ∘
+            Equiv.ulift.{u}) a)
+        (supportPiece_isAffine K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a))) ≪≫
+    asIso (sigmaSpec (fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        CommRingCat.of
+          Γ(((fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+            supportPiece K C d z hVs q m E hE N b) ∘
+              Equiv.ulift.{u}) a, ⊤)))
+
+/-- The affine coproduct presentation restricts on each summand to its
+canonical affine presentation followed by product-ring evaluation. -/
+@[reassoc]
+theorem inclusion_comp_supportCoproductAffineSchemeIso_hom
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    (inclusion N.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (supportFamily K C d z hVs q m E hE N)
+          (Equiv.ulift.{u} a)).left ≫
+      (supportCoproductAffineSchemeIso
+        K C d z hVs q m E hE N).hom =
+    (@Scheme.isoSpec
+      (((fun c : Fin (geometricDistinctSupportCard K C d z) ↦
+        supportPiece K C d z hVs q m E hE N c) ∘
+          Equiv.ulift.{u}) a)
+      (supportPiece_isAffine K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a))).hom ≫
+      Spec.map (CommRingCat.ofHom (Pi.evalRingHom
+        (fun b : ULift.{u}
+            (Fin (geometricDistinctSupportCard K C d z)) ↦
+          Γ(((fun c : Fin (geometricDistinctSupportCard K C d z) ↦
+            supportPiece K C d z hVs q m E hE N c) ∘
+              Equiv.ulift.{u}) b, ⊤)) a)) := by
+  letI : ∀ b, IsAffine
+      (supportPiece K C d z hVs q m E hE N b) := fun b ↦
+    supportPiece_isAffine K C d z hVs q m E hE N b
+  change Sigma.ι
+      (fun b : Fin (geometricDistinctSupportCard K C d z) ↦
+        supportPiece K C d z hVs q m E hE N b)
+          (Equiv.ulift.{u} a) ≫
+      (supportCoproductAffineSchemeIso
+        K C d z hVs q m E hE N).hom = _
+  rw [supportCoproductAffineSchemeIso, Iso.trans_hom, Iso.symm_hom]
+  rw [← Category.assoc, Sigma.ι_reindex_inv]
+  rw [Iso.trans_hom]
+  rw [Sigma.ι_mapIso_hom_assoc]
+  rw [asIso_hom]
+  rw [cancel_epi]
+  exact AlgebraicGeometry.ι_sigmaSpec _ a
+
+/-- The global sections of the support coproduct are naturally an algebra
+over the simultaneous affine base. -/
+noncomputable instance supportCoproductSectionsAlgebra :
+    Algebra Γ(N.baseOpen.toScheme, ⊤)
+      Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) :=
+  (supportCoproduct K C d z hVs q m E hE N).hom.appTop.hom.toAlgebra
+
+/-- Restriction of global sections from the support coproduct to one
+summand, as a morphism over the simultaneous affine base. -/
+noncomputable def supportCoproductRestrictionAlgHom
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) →ₐ[
+        Γ(N.baseOpen.toScheme, ⊤)]
+      Γ(supportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a), ⊤) where
+  toRingHom := (inclusion N.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (supportFamily K C d z hVs q m E hE N)
+    (Equiv.ulift.{u} a)).left.appTop.hom
+  commutes' b := by
+    change (inclusion N.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (supportFamily K C d z hVs q m E hE N)
+        (Equiv.ulift.{u} a)).left.appTop
+          ((supportCoproduct K C d z hVs q m E hE N).hom.appTop b) =
+      (supportPieceFamily K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a)).hom.appTop b
+    rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop,
+      (inclusion N.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (supportFamily K C d z hVs q m E hE N)
+        (Equiv.ulift.{u} a)).w]
+
+/-- Restriction to every summand identifies coproduct sections with the
+product of the summand section rings. -/
+noncomputable def supportCoproductToProductSectionsAlgHom :
+    Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) →ₐ[
+        Γ(N.baseOpen.toScheme, ⊤)]
+      ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(supportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤) :=
+  AlgHom.pi (supportCoproductRestrictionAlgHom
+    K C d z hVs q m E hE N)
+
+/-- The affine coproduct presentation induces a ring equivalence from
+coproduct sections to the product of summand sections. -/
+noncomputable def supportCoproductSectionsRingEquiv
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) ≃+*
+      ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(supportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤) := by
+  let P := ∀ a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)),
+    Γ(supportPiece K C d z hVs q m E hE N
+      (Equiv.ulift.{u} a), ⊤)
+  let e := supportCoproductAffineSchemeIso
+    K C d z hVs q m E hE N
+  let f : Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) →+* P :=
+    (Scheme.ΓSpecIso (.of P)).hom.hom.comp e.inv.appTop.hom
+  apply RingEquiv.ofBijective f
+  exact (ConcreteCategory.bijective_of_isIso
+      (Scheme.ΓSpecIso (.of P)).hom).comp
+    (ConcreteCategory.bijective_of_isIso
+      (e.inv.app (⊤ :
+        (supportCoproduct K C d z hVs q m E hE N).left.Opens)))
+
+/-- The ring equivalence furnished by the affine presentation is exactly
+restriction to the coproduct summands. -/
+theorem supportCoproductSectionsRingEquiv_apply_apply
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    (x : Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤))
+    (a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z))) :
+    supportCoproductSectionsRingEquiv
+        K C d z hVs q m E hE N x a =
+      (supportCoproductRestrictionAlgHom
+        K C d z hVs q m E hE N a) x := by
+  let P := ∀ b : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)),
+    Γ(supportPiece K C d z hVs q m E hE N
+      (Equiv.ulift.{u} b), ⊤)
+  let e := supportCoproductAffineSchemeIso
+    K C d z hVs q m E hE N
+  let ι := (inclusion N.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (supportFamily K C d z hVs q m E hE N)
+    (Equiv.ulift.{u} a)).left
+  let ev : CommRingCat.of P ⟶
+      CommRingCat.of Γ(supportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a), ⊤) :=
+    CommRingCat.ofHom (Pi.evalRingHom (fun b : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        Γ(supportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} b), ⊤)) a)
+  have hscheme :=
+    inclusion_comp_supportCoproductAffineSchemeIso_hom
+      K C d z hVs q m E hE N a
+  have happ := congrArg
+    (fun f : supportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a) ⟶ Spec (.of P) ↦ f.appTop) hscheme
+  rw [Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop] at happ
+  simp only [Scheme.isoSpec, asIso_hom,
+    Scheme.toSpecΓ_appTop] at happ
+  change e.hom.appTop ≫ ι.appTop =
+    (Spec.map ev).appTop ≫
+      (Scheme.ΓSpecIso (.of Γ(supportPiece K C d z hVs q m E hE N
+        (Equiv.ulift.{u} a), ⊤))).hom at happ
+  rw [Scheme.ΓSpecIso_naturality] at happ
+  letI : IsIso e.hom.appTop := by
+    apply Scheme.Hom.isIso_app e.hom ⊤
+    rw [Scheme.Hom.opensRange_of_isIso]
+  have heapp : e.hom.appTop ≫ e.inv.appTop = 𝟙 _ := by
+    rw [← Scheme.Hom.comp_appTop, Iso.inv_hom_id,
+      Scheme.Hom.id_appTop]
+  have hinv : e.inv.appTop = inv e.hom.appTop :=
+    IsIso.eq_inv_of_hom_inv_id heapp
+  have hring :
+      (e.inv.appTop ≫ (Scheme.ΓSpecIso (.of P)).hom) ≫ ev =
+        ι.appTop := by
+    rw [hinv, Category.assoc]
+    exact (IsIso.inv_comp_eq e.hom.appTop).2 happ.symm
+  change (((e.inv.appTop ≫ (Scheme.ΓSpecIso (.of P)).hom) ≫ ev) x) =
+    ι.appTop x
+  rw [hring]
+
+/-- Restriction to the finite family of support summands is an algebra
+equivalence over the simultaneous affine base. -/
+noncomputable def supportCoproductToProductSectionsAlgEquiv
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) ≃ₐ[
+        Γ(N.baseOpen.toScheme, ⊤)]
+      ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+        Γ(supportPiece K C d z hVs q m E hE N
+          (Equiv.ulift.{u} a), ⊤) := by
+  let f := supportCoproductToProductSectionsAlgHom
+    K C d z hVs q m E hE N
+  let e := supportCoproductSectionsRingEquiv
+    K C d z hVs q m E hE N
+  apply AlgEquiv.ofBijective f
+  have hfeq : (f :
+      Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) →
+        ∀ a : ULift.{u} (Fin (geometricDistinctSupportCard K C d z)),
+          Γ(supportPiece K C d z hVs q m E hE N
+            (Equiv.ulift.{u} a), ⊤)) = e := by
+    funext x
+    ext a
+    exact (supportCoproductSectionsRingEquiv_apply_apply
+      K C d z hVs q m E hE N x a).symm
+  rw [hfeq]
+  exact e.bijective
+
+/-- The assembled graph-product ideal on the actual affine support
+coproduct.  Under restriction to the summands it is the product of the
+support-piece graph-product ideals. -/
+noncomputable def supportCoproductGraphProductIdealTop
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Ideal Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) :=
+  Ideal.comap
+    (supportCoproductToProductSectionsAlgEquiv
+      K C d z hVs q m E hE N).toRingEquiv.toRingHom
+    (Ideal.pi (fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+        supportPieceGraphProductIdealTop
+          K C d z hVs q m E hE N (Equiv.ulift.{u} a)))
+
+/-- The quotient of the actual affine support coproduct by the assembled
+graph-product ideal. -/
+noncomputable abbrev supportCoproductGraphProductQuotient
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :=
+  Γ((supportCoproduct K C d z hVs q m E hE N).left, ⊤) ⧸
+    supportCoproductGraphProductIdealTop
+      K C d z hVs q m E hE N
+
+/-- The quotient on the actual support coproduct is the finite product of
+the support-piece monic-root quotients. -/
+noncomputable def supportCoproductGraphProductQuotientEquivProduct
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    supportCoproductGraphProductQuotient
+        K C d z hVs q m E hE N ≃ₐ[Γ(N.baseOpen.toScheme, ⊤)]
+      supportGraphProductQuotientAlgebra
+        K C d z hVs q m E hE N := by
+  let e := supportCoproductToProductSectionsAlgEquiv
+    K C d z hVs q m E hE N
+  let I := fun a : ULift.{u}
+      (Fin (geometricDistinctSupportCard K C d z)) ↦
+    supportPieceGraphProductIdealTop
+      K C d z hVs q m E hE N (Equiv.ulift.{u} a)
+  let J := Ideal.pi I
+  let eQuot := Ideal.quotientEquivAlg
+    (supportCoproductGraphProductIdealTop
+      K C d z hVs q m E hE N) J e (by
+      change J = Ideal.map e.toRingEquiv.toRingHom
+        (Ideal.comap e.toRingEquiv.toRingHom J)
+      exact (Ideal.map_comap_of_surjective
+        e.toRingEquiv.toRingHom e.surjective J).symm)
+  exact eQuot.trans
+    ((SectionProductRootAlgebra.piIdealQuotientAlgEquiv I).trans
+      (AlgEquiv.piCongrLeft Γ(N.baseOpen.toScheme, ⊤)
+        (fun a : Fin (geometricDistinctSupportCard K C d z) ↦
+          supportPieceGraphProductQuotient
+            K C d z hVs q m E hE N a)
+        (Equiv.ulift.{u})))
+
+noncomputable instance supportCoproductGraphProductQuotient_free
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Free Γ(N.baseOpen.toScheme, ⊤)
+      (supportCoproductGraphProductQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Free.of_equiv
+    (supportCoproductGraphProductQuotientEquivProduct
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance supportCoproductGraphProductQuotient_finite
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Finite Γ(N.baseOpen.toScheme, ⊤)
+      (supportCoproductGraphProductQuotient
+        K C d z hVs q m E hE N) := by
+  exact Module.Finite.equiv
+    (supportCoproductGraphProductQuotientEquivProduct
+      K C d z hVs q m E hE N).symm.toLinearEquiv
+
+noncomputable instance supportCoproductGraphProductQuotient_flat
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.Flat Γ(N.baseOpen.toScheme, ⊤)
+      (supportCoproductGraphProductQuotient
+        K C d z hVs q m E hE N) := by
+  infer_instance
+
+/-- The assembled quotient on the actual affine support coproduct is finite
+flat of rank equal to the original ordered degree, including on collision
+strata. -/
+theorem supportCoproductGraphProductQuotient_finrank
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Module.finrank Γ(N.baseOpen.toScheme, ⊤)
+        (supportCoproductGraphProductQuotient
+          K C d z hVs q m E hE N) = d := by
+  rw [(supportCoproductGraphProductQuotientEquivProduct
+    K C d z hVs q m E hE N).toLinearEquiv.finrank_eq]
+  exact supportGraphProductQuotientAlgebra_finrank
+    K C d z hVs q m E hE N
+
+/-- The assembled global graph-product ideal, promoted to an ideal sheaf on
+the actual affine support coproduct. -/
+noncomputable def supportCoproductGraphProductIdeal
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Scheme.IdealSheafData
+      (supportCoproduct K C d z hVs q m E hE N).left := by
+  letI : IsAffine
+      (supportCoproduct K C d z hVs q m E hE N).left :=
+    supportCoproduct_isAffine K C d z hVs q m E hE N
+  exact Scheme.IdealSheafData.ofIdealTop
+    (supportCoproductGraphProductIdealTop
+      K C d z hVs q m E hE N)
+
+/-- On the top affine open, the assembled ideal sheaf recovers the defining
+global graph-product ideal. -/
+theorem supportCoproductGraphProductIdeal_top
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    (supportCoproductGraphProductIdeal
+      K C d z hVs q m E hE N).ideal
+        ⟨⊤, @isAffineOpen_top _
+          (supportCoproduct_isAffine K C d z hVs q m E hE N)⟩ =
+      supportCoproductGraphProductIdealTop
+        K C d z hVs q m E hE N := by
+  simp only [supportCoproductGraphProductIdeal,
+    Scheme.IdealSheafData.ofIdealTop_ideal, homOfLE_refl, op_id,
+    CategoryTheory.Functor.map_id, CommRingCat.hom_id, Ideal.map_id]
 
 /-- Insert an occurrence graph into the coproduct summand belonging to its
 geometric support owner. -/

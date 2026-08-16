@@ -44,6 +44,42 @@ theorem ideal_map_fintype_prod
   change Φ (∏ i, I i) = ∏ i, Φ (I i)
   exact map_prod Φ I Finset.univ
 
+/-- Quotienting a finite product ring by the product of component ideals is
+the product of the component quotients. -/
+noncomputable def piIdealQuotientAlgEquiv
+    {R₀ κ : Type*} {A : κ → Type*}
+    [CommRing R₀] [Finite κ] [∀ i, CommRing (A i)]
+    [∀ i, Algebra R₀ (A i)] (I : ∀ i, Ideal (A i)) :
+    ((∀ i, A i) ⧸ Ideal.pi I) ≃ₐ[R₀] ∀ i, A i ⧸ I i := by
+  let q : (∀ i, A i) →ₐ[R₀] ∀ i, A i ⧸ I i :=
+    AlgHom.pi (fun i ↦
+      (Ideal.Quotient.mkₐ R₀ (I i)).comp (Pi.evalAlgHom R₀ A i))
+  have hq : ∀ x, x ∈ Ideal.pi I → q x = 0 := by
+    intro x hx
+    ext i
+    exact Ideal.Quotient.eq_zero_iff_mem.mpr (hx i)
+  let f := Ideal.Quotient.liftₐ (Ideal.pi I) q hq
+  apply AlgEquiv.ofBijective f
+  constructor
+  · change Function.Injective
+      (Ideal.Quotient.lift (Ideal.pi I) q.toRingHom hq)
+    rw [Ideal.injective_lift_iff]
+    ext x
+    simp only [RingHom.mem_ker, AlgHom.toRingHom_eq_coe,
+      AlgHom.coe_toRingHom, Ideal.mem_pi]
+    constructor
+    · intro hx i
+      have hi := congrFun hx i
+      exact Ideal.Quotient.eq_zero_iff_mem.mp hi
+    · intro hx
+      ext i
+      exact Ideal.Quotient.eq_zero_iff_mem.mpr (hx i)
+  · intro y
+    choose x hx using fun i ↦ Ideal.Quotient.mk_surjective (y i)
+    refine ⟨Ideal.Quotient.mk (Ideal.pi I) x, ?_⟩
+    ext i
+    exact hx i
+
 /-- The product of the linear equations of a finite family of points of the
 affine line. -/
 noncomputable def sectionPolynomial (x : ι → B) : B[X] :=
