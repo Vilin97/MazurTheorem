@@ -35,6 +35,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoo
 open GeometricAssignedAffineChart
 open EqualCoordinateClosedImmersion
 open EtaleGraphNeighborhood
+open FiniteEtaleAssignedCoproductPower
 open FiniteSupportEtaleCoordinates
 open SplitFiniteBaseChange
 open SmoothCurveEtaleCoordinate
@@ -85,6 +86,48 @@ noncomputable def tupleSheetToComponentPreimage (j : Fin m) :
       ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme :=
   tupleSheetSection K C d z hVs q m E hE j ≫
     componentFpqcBlockSplitSourceToComponentPreimage K C d z hVs q
+
+/-- The iterated and direct presentations of a tuple sheet give the same
+map back to the selected-component preimage. -/
+theorem tupleSheetToComponentPreimage_eq_direct (j : Fin m) :
+    tupleSheetToComponentPreimage K C d z hVs q m E hE j =
+      (sheetInclusion
+          (componentFpqcBlockRefinement K C d z hVs q).left m j).left ≫
+        componentFpqcBlockSplitToComponentPreimage
+          K C d z hVs q m E hE := by
+  let τ := (action K C d z).restrict hVs
+  let f := (componentToBasePower K C d z).left ∣_ V
+  let p := EquivariantFpqcRefinement.projection τ q 1
+  change
+    (sheetInclusion (componentFpqcBlockRefinement K C d z hVs q).left
+          m j).left ≫
+        (EquivariantSplitRefinement.splitIso τ f q m E hE).inv.left ≫
+          pullback.fst (pullback.snd f q) p ≫ pullback.fst f q =
+      (sheetInclusion (componentFpqcBlockRefinement K C d z hVs q).left
+          m j).left ≫
+        (EquivariantSplitRefinement.splitIso τ f q m E hE).inv.left ≫
+          (pullbackLeftPullbackSndIso f q p).hom ≫
+            pullback.fst f (p ≫ q)
+  rw [pullbackLeftPullbackSndIso_hom_fst]
+
+/-- A refinement lift of the exact correlated base point therefore selects
+an actual tuple sheet whose value is the exact selected-component point. -/
+theorem exists_tupleSheetToComponentPreimage_over_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (hs : (componentFpqcBlockRefinement K C d z hVs q).hom s =
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩) :
+    ∃ j : Fin m,
+      tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+        commonAffineComponentPointInPreimage K C d z hmem := by
+  obtain ⟨j, hj⟩ := exists_componentFpqcBlockSheet_over_exact
+    K C d z hVs hmem q m E hE s hs
+  refine ⟨j, ?_⟩
+  have hmap := congrArg (fun f ↦ f s)
+    (tupleSheetToComponentPreimage_eq_direct
+      K C d z hVs q m E hE j)
+  rw [hmap]
+  exact hj
 
 /-- The tuple sheet lies over the refinement cover of the restricted affine
 base. -/
@@ -147,6 +190,53 @@ noncomputable def tupleSheetToOccurrenceComponent (j : Fin m) (i : Fin d) :
   tupleSheetToComponent K C d z hVs q m E hE j ≫
     (Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
       (geometricPointSupportIndex K C d z i)) i).left
+
+/-- Every coordinate of the exact repeated selected-component point is its
+assigned support component point. -/
+@[simp]
+theorem commonAffineComponentPoint_projection (i : Fin d) :
+    (Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+      (geometricPointSupportIndex K C d z i)) i).left
+        (commonAffineComponentPoint K C d z) =
+      affineComponentPoint K C d z
+        (geometricPointSupportIndex K C d z i) := by
+  have h := congrArg Over.Hom.left
+    (productToAssignedProduct_comp_projection
+      (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+      (affineComponentFamily K C d z)
+      (geometricPointSupportIndex K C d z) i)
+  have hp := congrArg
+    (fun f ↦ f (distinctAffineComponentProductPoint K C d z)) h
+  change
+    (Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+      (geometricPointSupportIndex K C d z i)) i).left
+        (commonAffineComponentPoint K C d z) =
+      (Pi.π (affineComponentFamily K C d z)
+        (geometricPointSupportIndex K C d z i)).left
+          (distinctAffineComponentProductPoint K C d z) at hp
+  rw [distinctAffineComponentProductPoint_projection] at hp
+  exact hp
+
+/-- A tuple sheet taking the exact selected-component value has the exact
+support component point in every ordered occurrence. -/
+theorem tupleSheetToOccurrenceComponent_apply_of_exact
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d z hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d z hmem)
+    (i : Fin d) :
+    tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i s =
+      affineComponentPoint K C d z
+        (geometricPointSupportIndex K C d z i) := by
+  change
+    (Pi.π (fun i : Fin d ↦ affineComponentFamily K C d z
+      (geometricPointSupportIndex K C d z i)) i).left
+        (((componentToBasePower K C d z).left ⁻¹ᵁ V).ι
+          (tupleSheetToComponentPreimage
+            K C d z hVs q m E hE j s)) = _
+  rw [hj]
+  exact commonAffineComponentPoint_projection K C d z i
 
 /-- On every tuple sheet, the selected curve component at occurrence `i`
 has exactly the independently varying occurrence coordinate. -/

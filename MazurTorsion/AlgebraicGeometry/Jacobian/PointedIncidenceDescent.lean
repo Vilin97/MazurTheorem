@@ -15,6 +15,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedGraphQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoordinates
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedSimultaneousGraphNeighborhood
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -55,6 +56,7 @@ open GeometricAssignedRootCoordinates
 open GeometricAssignedGraphQuotient
 open GeometricAssignedAffineChart
 open GeometricAssignedAffineRootCoordinates
+open GeometricAssignedSimultaneousGraphNeighborhood
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
 open SplitFinitePowerPoint
@@ -429,6 +431,43 @@ theorem orderedSupportGeometricAssigned_tupleSheet_comp_coordinate
       occurrenceCoordinate K C d (orderedSupportPoint K C d z) hVs q i :=
   tupleSheetToOccurrenceComponent_comp_coordinate K C d
     (orderedSupportPoint K C d z) hVs q m E hE j i
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- After the common simultaneous restriction at an ordered incidence
+support, every independently varying occurrence graph is a section of its
+base-changed support neighbourhood.  This is the curve-level consumer of
+the finite-intersection construction used for the local incidence ideal. -/
+theorem orderedSupportGeometricAssigned_simultaneousGraph_isSection
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)))
+    (i : OccurrencesAtSupport K C d
+      (orderedSupportPoint K C d z) a) :
+    let p := orderedSupportPoint K C d z
+    graphToSupportIntersectionBaseChange K C d p hVs q m E hE j a i ≫
+      pullback.snd
+        ((supportIntersectionOpen K C d p hVs q m E hE j a).ι ≫
+          supportAmbientToBase K C d p hVs q a)
+        (simultaneousBaseOpen K C d p hVs q m E hE j).ι =
+      𝟙 (simultaneousBaseOpen K C d p hVs q m E hE j).toScheme := by
+  dsimp only
+  exact graphToSupportIntersectionBaseChange_comp_snd K C d
+    (orderedSupportPoint K C d z) hVs q m E hE j a i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- The transported finite-sheet presentation at an ordered incidence
