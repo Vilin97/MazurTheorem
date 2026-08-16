@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import Mathlib.AlgebraicGeometry.AffineScheme
+import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 
 /-!
 # Clopen subschemes of affine schemes
@@ -25,6 +26,13 @@ open CategoryTheory
 open _root_.AlgebraicGeometry
 
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.AffineClopen
+
+/-- The inclusion of a clopen subscheme is also a closed immersion. -/
+theorem isClosedImmersion_ι_of_isClopen {X : Scheme.{u}}
+    {U : X.Opens} (hU : IsClopen (U : Set X)) : IsClosedImmersion U.ι :=
+  IsClosedImmersion.of_isPreimmersion U.ι (by
+    rw [Scheme.Opens.range_ι]
+    exact hU.isClosed)
 
 /-- An open-and-closed subscheme of an affine scheme is affine. -/
 theorem isAffineOpen_of_isClopen {X : Scheme.{u}} [IsAffine X]

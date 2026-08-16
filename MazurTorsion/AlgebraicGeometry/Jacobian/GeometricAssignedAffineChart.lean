@@ -1304,6 +1304,211 @@ theorem componentFpqcBlockSelectedOrbitSheetOpen_isStable
     (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
       q m E hE) s j
 
+/-- The clopen image of the selected orbit sheet inside the actual
+selected-component preimage. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitTargetOpen
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q] :
+    ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme.Opens :=
+  selectedOrbitTargetOpen
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The selected-sheet image in the actual component chart is stable under
+the restricted geometric block action. -/
+theorem componentFpqcBlockSelectedOrbitTargetOpen_isStable
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q] :
+    (componentPreimageAction K C d z hpre).IsStableOpen
+      (componentFpqcBlockSelectedOrbitTargetOpen K C d z hVs hpre
+        q m E hE s j) :=
+  selectedOrbitTargetOpen_isStable
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The selected orbit sheet mapped onto its actual stable component-chart
+image. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitSheetToTarget
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q] :
+    (componentFpqcBlockSelectedOrbitSheetOpen K C d z hVs hpre
+      q m E hE s j).toScheme ⟶
+    (componentFpqcBlockSelectedOrbitTargetOpen K C d z hVs hpre
+      q m E hE s j).toScheme :=
+  selectedOrbitSheetToTargetOpen
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- On the actual Jacobian occurrence chart, the selected orbit sheet is a
+surjective finite étale cover of its stable clopen image. -/
+theorem componentFpqcBlockSelectedOrbitSheetToTarget_properties
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q] :
+    Function.Surjective
+        (componentFpqcBlockSelectedOrbitSheetToTarget K C d z hVs hpre
+          q m E hE s j) ∧
+      IsFinite
+        (componentFpqcBlockSelectedOrbitSheetToTarget K C d z hVs hpre
+          q m E hE s j) ∧
+      Etale
+        (componentFpqcBlockSelectedOrbitSheetToTarget K C d z hVs hpre
+          q m E hE s j) := by
+  refine ⟨selectedOrbitSheetToTargetOpen_surjective
+      ((action K C d z).restrict hVs)
+      ((componentToBasePower K C d z).left ∣_ V) q
+      (componentPreimageAction K C d z hpre)
+      (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+      m E hE s j, ?_⟩
+  exact selectedOrbitSheetToTargetOpen_isFinite_etale
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- When the actual component preimage is affine, its clopen selected-sheet
+image is an affine open. -/
+theorem componentFpqcBlockSelectedOrbitTargetOpen_isAffine
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    IsAffineOpen
+      (componentFpqcBlockSelectedOrbitTargetOpen K C d z hVs hpre
+        q m E hE s j) :=
+  selectedOrbitTargetOpen_isAffine
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- A sheet selected by the exact lifting theorem gives a stable clopen
+target neighbourhood containing the actual selected-component point. -/
+theorem commonAffineComponentPointInPreimage_mem_selectedOrbitTargetOpen
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    (hj : componentFpqcBlockSplitToComponentPreimage
+        K C d z hVs q m E hE
+          (sheetPoint (componentFpqcBlockRefinement K C d z hVs q).left
+            m j s) =
+      commonAffineComponentPointInPreimage K C d z hmem) :
+    commonAffineComponentPointInPreimage K C d z hmem ∈
+      componentFpqcBlockSelectedOrbitTargetOpen K C d z hVs hpre
+        q m E hE s j := by
+  have hsheet :
+      sheetPoint (componentFpqcBlockRefinement K C d z hVs q).left
+          m j s ∈
+        componentFpqcBlockSelectedOrbitSheetOpen K C d z hVs hpre
+          q m E hE s j := by
+    have h := orbit_sheetPoint_mem_selectedOrbitSheetSet
+      (componentFpqcBlockRefinement K C d z hVs q).left m
+      (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+      (EquivariantFpqcRefinement.refinementAction
+        ((action K C d z).restrict hVs) q) s j 1
+    rw [sheetTransition_one
+      (componentFpqcBlockRefinement K C d z hVs q).left m
+      (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+      (EquivariantFpqcRefinement.refinementAction
+        ((action K C d z).restrict hVs) q)
+      (componentFpqcBlockSplitAction_equivariant
+        K C d z hVs hpre q m E hE),
+      (EquivariantFpqcRefinement.refinementAction
+        ((action K C d z).restrict hVs) q).hom_one] at h
+    rw [show (𝟙 (componentFpqcBlockRefinement K C d z hVs q).left)
+      s = s from ConcreteCategory.id_apply s] at h
+    exact h
+  let y :
+      (componentFpqcBlockSelectedOrbitSheetOpen K C d z hVs hpre
+        q m E hE s j).toScheme :=
+    ⟨sheetPoint (componentFpqcBlockRefinement K C d z hVs q).left
+      m j s, hsheet⟩
+  have hy := selectedOrbitSheetToOriginal_mem_targetOpen
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j y
+  have hymap :
+      selectedOrbitSheetToOriginal
+        ((action K C d z).restrict hVs)
+        ((componentToBasePower K C d z).left ∣_ V) q
+        (componentPreimageAction K C d z hpre)
+        (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+        m E hE s j y =
+      commonAffineComponentPointInPreimage K C d z hmem := by
+    exact hj
+  rwa [hymap] at hy
+
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/
 theorem action_fixed_commonAffineBasePoint

@@ -133,6 +133,21 @@ an equivariant source morphism. -/
 noncomputable abbrev directSource : Over (refinement τ q).left :=
   Over.mk (pullback.snd f (projection τ q 1 ≫ q))
 
+instance directBaseMap_isFinite [IsFinite q] [Etale q] :
+    IsFinite (projection τ q 1 ≫ q) := by
+  rw [projection_one_comp_cover]
+  infer_instance
+
+instance directBaseMap_etale [IsFinite q] [Etale q] :
+    Etale (projection τ q 1 ≫ q) := by
+  rw [projection_one_comp_cover]
+  infer_instance
+
+instance directBaseMap_surjective [Surjective q] :
+    Surjective (projection τ q 1 ≫ q) := by
+  rw [projection_one_comp_cover]
+  infer_instance
+
 /-- Pullback associativity identifies the iterated transported source with
 the direct pullback source. -/
 noncomputable def splitSourceDirectIso :
