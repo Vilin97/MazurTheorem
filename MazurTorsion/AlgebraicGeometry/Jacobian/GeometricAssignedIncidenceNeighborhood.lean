@@ -139,4 +139,36 @@ theorem exists_occurrenceOpen_graph_isPullback (i : Fin d) :
     (rootSheetToChart_comp_schemeMap K C d z V T q r E hE w i)
     (show IsSeparated (coordinateLine K).hom from inferInstance)
 
+/-- The isolating occurrence neighbourhood also identifies ideal sheaves:
+the selected graph ideal is the pullback of the equal-coordinate ideal. -/
+theorem exists_occurrenceOpen_graphIdeal (i : Fin d) :
+    ∃ (W : Scheme.{u})
+      (F : pullback
+          ((geometricDistinctCharts K C d z)
+            (geometricPointSupportIndex K C d z i)).schemeMap
+          (baseCoordinate K C d z V T q i) ≅
+        base K C d z V T q ⨿ W)
+      (U : (occurrenceAmbient K C d z V T q i).Opens)
+      (graphToU : base K C d z V T q ⟶ U.toScheme),
+      occurrenceGraph K C d z V T q r E hE w i ≫ F.hom = coprod.inl ∧
+      IsPullback graphToU
+        (occurrenceGraph K C d z V T q r E hE w i) U.ι
+        (occurrenceEqualCoordinateInclusion K C d z V T q i) ∧
+      (occurrenceEqualCoordinateInclusion K C d z V T q i).ker.comap U.ι =
+        graphToU.ker := by
+  obtain ⟨W, F, U, graphToU, hF, hU⟩ :=
+    exists_occurrenceOpen_graph_isPullback
+      K C d z V T q r E hE w i
+  refine ⟨W, F, U, graphToU, hF, hU, ?_⟩
+  letI : IsSeparated (coordinateLine K).hom := by
+    change IsSeparated (Spec.map _)
+    infer_instance
+  exact equalCoordinateIdeal_comap_eq_graphToOpen_ker
+    (coordinateLine K).hom
+    ((geometricDistinctCharts K C d z)
+      (geometricPointSupportIndex K C d z i)).schemeMap
+    (baseCoordinate K C d z V T q i)
+    (rootSheetToChart K C d z V T q r E hE w i)
+    (rootSheetToChart_comp_schemeMap K C d z V T q r E hE w i) hU
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighborhood

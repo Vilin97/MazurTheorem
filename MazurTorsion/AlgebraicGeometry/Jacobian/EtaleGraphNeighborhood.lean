@@ -68,4 +68,25 @@ theorem exists_open_graph_isPullback [IsSeparated s] :
   rw [hgraph]
   exact hU
 
+omit [Etale f] [IsSeparated f] in
+/-- In any isolating neighbourhood supplied above, the ideal of the selected
+graph is exactly the pullback of the equal-coordinate ideal. -/
+theorem equalCoordinateIdeal_comap_eq_graphToOpen_ker [IsSeparated s]
+    {U : (ambient s f q).Opens} {graphToU : B ⟶ U.toScheme}
+    (h : IsPullback graphToU
+      (graph f q sectionMap sectionMap_coordinate) U.ι
+      (equalCoordinateInclusion s f q)) :
+    (equalCoordinateInclusion s f q).ker.comap U.ι = graphToU.ker := by
+  calc
+    (equalCoordinateInclusion s f q).ker.comap U.ι =
+        (pullback.fst U.ι (equalCoordinateInclusion s f q)).ker :=
+      (Scheme.IdealSheafData.ker_fst_of_isClosedImmersion
+        (equalCoordinateInclusion s f q) U.ι).symm
+    _ = (h.isoPullback.hom ≫
+        pullback.fst U.ι (equalCoordinateInclusion s f q)).ker :=
+      (Scheme.Hom.ker_comp_of_isIso h.isoPullback.hom
+        (pullback.fst U.ι (equalCoordinateInclusion s f q))).symm
+    _ = graphToU.ker := by
+      rw [h.isoPullback_hom_fst]
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.EtaleGraphNeighborhood

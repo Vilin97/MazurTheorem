@@ -9,6 +9,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisorDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.FpqcDescent
 import MazurTorsion.AlgebraicGeometry.Jacobian.CoherentComponentBaseChange
 import MazurTorsion.AlgebraicGeometry.Jacobian.OrderedIncidenceOpenRestriction
+import MazurTorsion.AlgebraicGeometry.Jacobian.AffineIdealSheafPullback
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSupportAssignedSplitChart
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedGraphQuotient
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedIncidenceNeighborhood
@@ -42,6 +43,7 @@ namespace MazurTorsion.AlgebraicGeometry.Jacobian.PointedIncidenceDescent
 
 open FiniteGroupQuotient
 open UniversalEffectiveDivisor
+open AffineIdealSheafPullback
 open FiniteSupportEtaleCoordinates
 open FiniteSupportCoordinateMaps
 open FiniteEtaleCoproductPower
@@ -78,6 +80,43 @@ theorem curveOrderedIncidenceIdeal_comap_eq_prod_pullbackKernels
           (coordinateGraphι (Spec (.of K)) d C i).left).ker) :=
   orderedIncidenceIdeal_comap_eq_prod_pullbackKernels
     (Spec (.of K)) d C f
+
+omit [GeometricallyIrreducible C.hom]
+    [SmoothOfRelativeDimension 1 C.hom] in
+/-- After first restricting the curve-level incidence ambient to an affine
+open, any further affine base change still preserves the full product of
+coordinate-graph ideals.  This is the ideal-sheaf bridge used by the fpqc
+split chart; unlike the first restriction, the second morphism need not be
+an open immersion. -/
+theorem curveOrderedIncidenceIdeal_affineChart_comap_eq_prod_pullbackKernels
+    (d : ℕ)
+    (U : (orderedAmbient (Spec (.of K)) d C).left.affineOpens)
+    {Y : Scheme.{u}} [IsAffine Y] (f : Y ⟶ U.1) :
+    (orderedIncidenceIdeal (Spec (.of K)) d C).comap (f ≫ U.1.ι) =
+      Finset.univ.prod (fun i ↦
+        (pullback.fst (f ≫ U.1.ι)
+          (coordinateGraphι (Spec (.of K)) d C i).left).ker) := by
+  letI : IsAffine U.1 := U.2
+  calc
+    (orderedIncidenceIdeal (Spec (.of K)) d C).comap (f ≫ U.1.ι) =
+        ((orderedIncidenceIdeal (Spec (.of K)) d C).comap U.1.ι).comap f :=
+      Scheme.IdealSheafData.comap_comp _ _ _
+    _ = (Finset.univ.prod (fun i ↦
+        (coordinateGraphIdeal (Spec (.of K)) d C i).comap U.1.ι)).comap f := by
+      rw [orderedIncidenceIdeal_comap_of_isOpenImmersion]
+    _ = Finset.univ.prod (fun i ↦
+        ((coordinateGraphIdeal (Spec (.of K)) d C i).comap U.1.ι).comap f) :=
+      idealSheaf_comap_finsetProd_of_isAffine _ _ _
+    _ = Finset.univ.prod (fun i ↦
+        (coordinateGraphIdeal (Spec (.of K)) d C i).comap (f ≫ U.1.ι)) := by
+      simp only [Scheme.IdealSheafData.comap_comp]
+    _ = Finset.univ.prod (fun i ↦
+        (pullback.fst (f ≫ U.1.ι)
+          (coordinateGraphι (Spec (.of K)) d C i).left).ker) := by
+      congr 1
+      funext i
+      exact coordinateGraphIdeal_comap_eq_pullbackKernel
+        (Spec (.of K)) d C (f ≫ U.1.ι) i
 
 /-- The ordered divisor coordinates underlying a point of the incidence
 ambient product. -/
@@ -854,10 +893,11 @@ theorem orderedSupportGeometricAssigned_exists_incidenceOpen_graph_isPullback
     ∃ (W : Scheme.{u}) (F : pullback f coordinate ≅ B ⨿ W)
       (U : A.Opens) (graphToU : B ⟶ U.toScheme),
       graph ≫ F.hom = coprod.inl ∧
-      IsPullback graphToU graph U.ι inclusion := by
+      IsPullback graphToU graph U.ι inclusion ∧
+      inclusion.ker.comap U.ι = graphToU.ker := by
   dsimp only
   exact
-    GeometricAssignedIncidenceNeighborhood.exists_occurrenceOpen_graph_isPullback
+    GeometricAssignedIncidenceNeighborhood.exists_occurrenceOpen_graphIdeal
       K C d (orderedSupportPoint K C d z) V T q r E hE w i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
