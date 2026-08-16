@@ -491,4 +491,110 @@ theorem exists_supportOpen_graphIdeal (j : Fin m) (i : Fin d) :
   refine ⟨W, F, U', graphToU', hF, hU', ?_⟩
   exact transport_ideal K C d z hVs q m E hE j i U graphToU hU'
 
+/-- The data of one graph-isolating occurrence neighbourhood, packaged for
+the finite common-union construction. -/
+structure OccurrenceGraphNeighborhood (j : Fin m) (i : Fin d) where
+  complement : Scheme.{u}
+  decomposition : pullback
+      (affineComponentToCoordinateLine K C d z
+        (geometricPointSupportIndex K C d z i)).left
+      (occurrenceCoordinate K C d z hVs q i) ≅
+    (componentFpqcBlockRefinement K C d z hVs q).left ⨿ complement
+  occurrenceOpen : (supportAmbient K C d z hVs q
+    (geometricPointSupportIndex K C d z i)).Opens
+  graphToOpen :
+    (componentFpqcBlockRefinement K C d z hVs q).left ⟶
+      occurrenceOpen.toScheme
+  graph_decomposition :
+    occurrenceGraph K C d z hVs q m E hE j i ≫ decomposition.hom =
+      coprod.inl
+  graph_isPullback : IsPullback graphToOpen
+    (occurrenceGraph K C d z hVs q m E hE j i) occurrenceOpen.ι
+    (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+      (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom)
+  ideal_eq :
+    (occurrenceEqualCoordinateInclusion K C d z hVs q i ≫
+        (occurrenceAmbientIsoSupportAmbient K C d z hVs q i).hom).ker.comap
+        occurrenceOpen.ι = graphToOpen.ker
+
+/-- A graph-isolating neighbourhood exists for every ordered occurrence. -/
+theorem nonempty_occurrenceGraphNeighborhood (j : Fin m) (i : Fin d) :
+    Nonempty (OccurrenceGraphNeighborhood K C d z hVs q m E hE j i) := by
+  obtain ⟨W, F, U, graphToU, hF, hU, hI⟩ :=
+    exists_supportOpen_graphIdeal K C d z hVs q m E hE j i
+  exact ⟨⟨W, F, U, graphToU, hF, hU, hI⟩⟩
+
+/-- Choose one graph-isolating neighbourhood for every ordered occurrence. -/
+noncomputable def chosenOccurrenceGraphNeighborhood (j : Fin m) (i : Fin d) :
+    OccurrenceGraphNeighborhood K C d z hVs q m E hE j i :=
+  Classical.choice
+    (nonempty_occurrenceGraphNeighborhood K C d z hVs q m E hE j i)
+
+/-- Ordered occurrences owned by a fixed geometric support member. -/
+abbrev OccurrencesAtSupport
+    (a : Fin (geometricDistinctSupportCard K C d z)) :=
+  {i : Fin d // geometricPointSupportIndex K C d z i = a}
+
+/-- Regard a chosen occurrence open as an open in the ambient indexed by a
+fixed proof-equal support owner. -/
+noncomputable def occurrenceOpenAtSupport (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    (supportAmbient K C d z hVs q a).Opens := by
+  rcases i with ⟨i, rfl⟩
+  exact (chosenOccurrenceGraphNeighborhood
+    K C d z hVs q m E hE j i).occurrenceOpen
+
+/-- The correct simultaneous curve neighbourhood for one support owner is
+the union, inside one moving curve-family ambient, of all its occurrence
+graph neighbourhoods. -/
+noncomputable def supportUnionOpen (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (supportAmbient K C d z hVs q a).Opens :=
+  ⨆ i : OccurrencesAtSupport K C d z a,
+    occurrenceOpenAtSupport K C d z hVs q m E hE j a i
+
+theorem occurrenceOpenAtSupport_le_supportUnionOpen (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    occurrenceOpenAtSupport K C d z hVs q m E hE j a i ≤
+      supportUnionOpen K C d z hVs q m E hE j a :=
+  le_iSup (fun i : OccurrencesAtSupport K C d z a ↦
+    occurrenceOpenAtSupport K C d z hVs q m E hE j a i) i
+
+/-- Each chosen occurrence graph factors through the simultaneous union for
+its support owner. -/
+noncomputable def graphToOccurrenceOpenAtSupport (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    (componentFpqcBlockRefinement K C d z hVs q).left ⟶
+      (occurrenceOpenAtSupport K C d z hVs q m E hE j a i).toScheme := by
+  rcases i with ⟨i, rfl⟩
+  exact (chosenOccurrenceGraphNeighborhood
+    K C d z hVs q m E hE j i).graphToOpen
+
+/-- Each chosen occurrence graph factors through the simultaneous union for
+its support owner. -/
+noncomputable def graphToSupportUnion (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    (componentFpqcBlockRefinement K C d z hVs q).left ⟶
+      (supportUnionOpen K C d z hVs q m E hE j a).toScheme :=
+  graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j a i ≫
+    (supportAmbient K C d z hVs q a).homOfLE
+      (occurrenceOpenAtSupport_le_supportUnionOpen
+        K C d z hVs q m E hE j a i)
+
+/-- Factoring through the simultaneous union does not change the graph's
+map to the common support ambient. -/
+theorem graphToSupportUnion_comp_ι (j : Fin m)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToSupportUnion K C d z hVs q m E hE j a i ≫
+        (supportUnionOpen K C d z hVs q m E hE j a).ι =
+      graphToOccurrenceOpenAtSupport K C d z hVs q m E hE j a i ≫
+        (occurrenceOpenAtSupport K C d z hVs q m E hE j a i).ι := by
+  rw [graphToSupportUnion, Category.assoc,
+    Scheme.homOfLE_ι]
+
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoordinates
