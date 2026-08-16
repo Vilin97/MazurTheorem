@@ -320,6 +320,23 @@ noncomputable def affineComponentToCurve
   affineComponentInclusion K C d z j ≫
     (geometricDistinctNeighborhoods K C d z j).componentToCurveOver
 
+/-- The restricted selected component remains étale over the original
+curve.  The downstream consumer is the curve-level owner-graph refinement
+in `GeometricAssignedAffineRootCoordinates`. -/
+instance affineComponentToCurve_etale
+    (j : Fin (geometricDistinctSupportCard K C d z)) :
+    Etale (affineComponentToCurve K C d z j).left := by
+  letI : Etale (affineComponentInclusion K C d z j).left := by
+    infer_instance
+  letI : Etale
+      (geometricDistinctNeighborhoods K C d z j).componentToCurve :=
+    (geometricDistinctNeighborhoods K C d z j).componentToCurve_etale
+  unfold affineComponentToCurve
+  change Etale ((affineComponentInclusion K C d z j).left ≫
+    (geometricDistinctNeighborhoods K C d z j).componentToCurve)
+  exact MorphismProperty.comp_mem @Etale _ _ inferInstance
+    (geometricDistinctNeighborhoods K C d z j).componentToCurve_etale
+
 @[simp]
 theorem affineComponentToCurve_point
     (j : Fin (geometricDistinctSupportCard K C d z)) :

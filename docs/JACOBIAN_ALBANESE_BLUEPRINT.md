@@ -166,16 +166,26 @@ product lemma `pi_fintype_prod_single` then proves
 `supportCoproductOccurrenceGraphProductIdeal_eq_assembled`: the assembled
 ideal sheaf is exactly the intrinsic product of all those graph kernels.
 
-The remaining local comparison is therefore only a functorial
-owner-ideal identification and invariant-descent problem.  The refined
-support coproduct and its map to the coordinate-base curve-level ordered
-ambient are constructed.  Every owner section is the exact base change of
-its original graph, with equality of kernel ideal sheaves, while the pullback
-of every non-owner coordinate graph to that summand is empty.  The next step
-is to identify the pullback of an owner coordinate graph with that refined
-owner kernel; multiplying these componentwise identities will identify the
-full pulled-back incidence ideal with the intrinsic graph product above.
-Afterward compare the selected block-invariant quotient with the block-monic
+The functorial owner-ideal identification is now checked.  The affine
+coordinate of a selected component cannot be cancelled against its map to
+the curve, because that map is étale rather than generally monic.  The new
+`GeometricAssignedCurveGraphNeighborhood` module instead applies the étale
+graph-neighbourhood theorem directly to the component-to-curve map and proves
+that its ambient is canonically the same common support ambient used by the
+affine-coordinate construction.  The cross-support refinement intersects
+these curve-level isolating opens with the non-owner complements.  On the
+resulting affine pieces,
+`refinedCoordinateGraph_isPullback_of_owner` proves that every owner
+coordinate graph pulls back to exactly its refined owner section, while the
+earlier empty-pullback theorem makes every non-owner ideal the unit ideal.
+Thus `refinedCoordinateGraphProduct_eq_ownerGraphs`, with its
+`PointedIncidenceDescent` consumer, identifies the full pulled-back universal
+coordinate-graph product componentwise with the intrinsic multiplicity-
+sensitive owner graph product.
+
+The remaining local work is to transport the already finite-flat rank-`d`
+support-coproduct quotient through this final affine open/base refinement and
+then compare the selected block-invariant quotient with the block-monic
 coefficient chart.  Once that comparison is cartesian, the existing
 pointwise fpqc interfaces descend the isomorphism, flatness, rank, and Cartier
 equation to the universal effective divisor.
@@ -855,12 +865,16 @@ The map from this coproduct to the curve-level ordered ambient over the
 coordinate copy of the ground scheme is now constructed as well.  Its two
 projections are the varying support curve point and the chosen ordered tuple,
 and every owner occurrence graph is proved to factor through the matching
-coordinate equalizer.  The precise remaining step is therefore narrower
-still: prove that each pulled-back coordinate graph has no additional
-components on a neighborhood excluding all off-owner equality loci.  The restricted
-curve-incidence ideal then equals the checked intrinsic graph product.  Its
-quotient is already the product algebra above; what remains afterward is to
-descend that identification through the selected-sheet invariant quotient.
+coordinate equalizer.  A second, curve-level étale graph neighbourhood now
+removes the possible additional sheets that an affine coordinate alone
+cannot distinguish.  After intersecting those neighbourhoods with all
+off-owner complements, every owner coordinate graph is cartesian over its
+refined section and every non-owner graph has empty pullback.  Multiplication
+therefore identifies the restricted curve-incidence product with the checked
+intrinsic owner-graph product, including repeated factors.  Its quotient is
+already the product algebra above; what remains is to transport that quotient
+through the final refinement and descend the identification through the
+selected-sheet invariant quotient.
 Only after this simultaneous geometric comparison theorem may the
 pointwise fpqc interfaces be used to prove the
 global pointed comparison is an isomorphism and the universal divisor is

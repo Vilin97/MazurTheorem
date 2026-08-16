@@ -753,6 +753,52 @@ theorem orderedSupportGeometricAssigned_nonowner_coordinateGraphPullback_isEmpty
   R.isEmpty_refinedSupportPieceCoordinateGraphPullback_of_nonowner K C d
     (orderedSupportPoint K C d z) hVs q m E hE N a i hi
 
+omit [GeometricallyIrreducible C.hom] in
+/-- On every final pointed-incidence support summand, the product of all
+pulled-back universal coordinate-graph ideals is exactly the product of the
+refined graphs owned by that summand.  Non-owner factors are unit ideals and
+owner factors retain their full scheme-theoretic multiplicity. -/
+theorem orderedSupportGeometricAssigned_refinedCoordinateGraphProduct_eq_ownerGraphs
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    (R : CrossSupportAffineGraphRefinement K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z))) :
+    (∏ i : Fin d,
+      R.refinedCoordinateGraphIdealAt K C d
+        (orderedSupportPoint K C d z) hVs q m E hE N a i) =
+    ∏ i : OccurrencesAtSupport K C d
+        (orderedSupportPoint K C d z) a,
+      (R.refinedGraph K C d (orderedSupportPoint K C d z)
+        hVs q m E hE N a i).ker :=
+  R.refinedCoordinateGraphProduct_eq_ownerGraphs K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N a
+
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On an ordered-incidence affine support block, the global ideal retaining
 all ordered occurrences and their multiplicities is obtained by extending
