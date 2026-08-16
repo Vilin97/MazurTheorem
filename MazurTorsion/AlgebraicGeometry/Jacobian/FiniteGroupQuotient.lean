@@ -208,6 +208,46 @@ theorem localQuotientπ_surjective {U : X.Opens}
   rw [hIso]
   exact hy
 
+omit [IsAffineHom (pullback.diagonal (terminal.from X))] in
+/-- The canonical affine quotient of a stable affine open has the expected
+categorical universal property.  The named downstream consumer is the local
+block-monic comparison in `GeometricBlockMonicChart`. -/
+theorem existsUnique_localQuotientπ_lift
+    {U : X.Opens} (hUs : σ.IsStableOpen U) (hUa : IsAffineOpen U)
+    {Z : Scheme.{u}} (f : U.toScheme ⟶ Z)
+    (hf : ∀ g : G, (σ.restrict hUs).hom g ≫ f = f) :
+    ∃! q : σ.localQuotient hUs ⟶ Z,
+      σ.localQuotientπ hUs hUa ≫ q = f := by
+  letI := σ.gammaMulSemiringAction hUs
+  let fSpec := hUa.isoSpec.inv ≫ f
+  have hSpec (g : G) : specSMul g ≫ fSpec = fSpec := by
+    dsimp [fSpec]
+    rw [← Category.assoc,
+      SchemeAction.specSMul_isoSpec_inv, Category.assoc]
+    apply congrArg (fun q : U.toScheme ⟶ Z ↦ hUa.isoSpec.inv ≫ q)
+    exact hf g
+  obtain ⟨q, hq, huniq⟩ := existsUnique_invariantsπ_lift
+    G ↑Γ(X, U) ℤ fSpec hSpec
+  refine ⟨q, ?_, ?_⟩
+  · change (hUa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, U) ℤ) ≫ q = f
+    calc
+      (hUa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, U) ℤ) ≫ q =
+          hUa.isoSpec.hom ≫
+            (invariantsπ G ↑Γ(X, U) ℤ ≫ q) := Category.assoc _ _ _
+      _ = hUa.isoSpec.hom ≫ fSpec := by rw [hq]
+      _ = f := by dsimp [fSpec]; simp
+  · intro q' hq'
+    apply huniq q'
+    calc
+      invariantsπ G ↑Γ(X, U) ℤ ≫ q' =
+          hUa.isoSpec.inv ≫
+            (hUa.isoSpec.hom ≫ invariantsπ G ↑Γ(X, U) ℤ ≫ q') := by
+        simp
+      _ = hUa.isoSpec.inv ≫
+          (σ.localQuotientπ hUs hUa ≫ q') := by rfl
+      _ = hUa.isoSpec.inv ≫ f := by rw [hq']
+      _ = fSpec := rfl
+
 /-- The scheme quotient attached to affine orbit neighbourhoods. -/
 noncomputable def quotient (hσ : HasAffineOrbit σ) : Scheme.{u} :=
   σ.quotient (stableAffineOpen σ hσ)
