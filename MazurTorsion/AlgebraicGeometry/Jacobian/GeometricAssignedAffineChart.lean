@@ -812,6 +812,72 @@ theorem componentFpqcBlockRefinement_isAffine_finiteEtale_fpqc
   refinement_isAffine_finiteEtale_fpqc
     ((action K C d z).restrict hVs) q
 
+/-- Every point of the stable base open, in particular the exact correlated
+occurrence-base point, has a lift to the common block-translate refinement.
+The lift need not itself be fixed by the block action. -/
+theorem exists_componentFpqcBlockRefinementPoint_over_exact
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme) [Surjective q] :
+    ∃ s : (componentFpqcBlockRefinement K C d z hVs q).left,
+      (componentFpqcBlockRefinement K C d z hVs q).hom s =
+        ⟨exactCommonAffineBasePoint K C d z, hmem⟩ :=
+  (inferInstance : Surjective
+    (componentFpqcBlockRefinement K C d z hVs q).hom).1
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩
+
+/-- The exact correlated point, regarded as a point of a stable open, is
+fixed by the restricted block action. -/
+theorem restrictedAction_fixed_exactCommonAffineBasePoint
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (g : geometricAssignedStabilizer K C d z) :
+    ((action K C d z).restrict hVs).hom g
+        ⟨exactCommonAffineBasePoint K C d z, hmem⟩ =
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩ := by
+  apply Subtype.ext
+  have hres := congrArg
+    (fun f ↦ f ⟨exactCommonAffineBasePoint K C d z, hmem⟩)
+    (Scheme.Hom.resLE_comp_ι ((action K C d z).hom g)
+      (hVs.le_preimage g))
+  change
+    V.ι (((action K C d z).restrict hVs).hom g
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩) =
+      (action K C d z).hom g (exactCommonAffineBasePoint K C d z) at hres
+  rw [action_fixed_exactCommonAffineBasePoint K C d z g] at hres
+  exact hres
+
+/-- Although a chosen lift of the exact point need not be fixed, its whole
+block orbit in the common refinement remains above that exact point. -/
+theorem componentFpqcBlockRefinement_orbit_maps_to_exact
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    {Z : Scheme.{u}} (q : Z ⟶ V.toScheme)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (hs : (componentFpqcBlockRefinement K C d z hVs q).hom s =
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩)
+    (g : geometricAssignedStabilizer K C d z) :
+    (componentFpqcBlockRefinement K C d z hVs q).hom
+        ((EquivariantFpqcRefinement.refinementAction
+          ((action K C d z).restrict hVs) q).hom g s) =
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩ := by
+  have hcover := congrArg
+    (fun f ↦ f s)
+    (EquivariantFpqcRefinement.rawActionHom_comp_cover
+      ((action K C d z).restrict hVs) q g)
+  change
+    (componentFpqcBlockRefinement K C d z hVs q).hom
+        ((EquivariantFpqcRefinement.refinementAction
+          ((action K C d z).restrict hVs) q).hom g s) =
+      ((action K C d z).restrict hVs).hom g
+        ((componentFpqcBlockRefinement K C d z hVs q).hom s) at hcover
+  rw [hs, restrictedAction_fixed_exactCommonAffineBasePoint K C d z
+    hVs hmem g] at hcover
+  exact hcover
+
 /-- The identity translate maps the block refinement back to the original
 fpqc cover over the stable base open. -/
 theorem componentFpqcBlockRefinement_projection_one_comp_cover
@@ -866,6 +932,75 @@ noncomputable def componentFpqcBlockSplitIso
   EquivariantSplitRefinement.splitIso
     ((action K C d z).restrict hVs)
     ((componentToBasePower K C d z).left ∣_ V) q m E hE
+
+/-- The exact selected-component point, regarded as a point of the preimage
+of any occurrence-base open containing its correlated image. -/
+noncomputable def commonAffineComponentPointInPreimage
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V) :
+    ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme :=
+  ⟨commonAffineComponentPoint K C d z, hmem⟩
+
+/-- In the direct pullback presentation used to transport the block action,
+the split source maps canonically back to the selected-component preimage. -/
+noncomputable def componentFpqcBlockSplitToComponentPreimage
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q) :
+    (splitFinite
+      (componentFpqcBlockRefinement K C d z hVs q).left m).left ⟶
+        ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme :=
+  (EquivariantSplitRefinement.directSplitIso
+      ((action K C d z).restrict hVs)
+      ((componentToBasePower K C d z).left ∣_ V) q m E hE).inv.left ≫
+    pullback.fst ((componentToBasePower K C d z).left ∣_ V)
+      (EquivariantFpqcRefinement.projection
+        ((action K C d z).restrict hVs) q 1 ≫ q)
+
+/-- Every chosen refinement lift of the exact correlated base point selects
+an actual sheet mapping to the exact selected-component point. -/
+theorem exists_componentFpqcBlockSheet_over_exact
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (hs : (componentFpqcBlockRefinement K C d z hVs q).hom s =
+      ⟨exactCommonAffineBasePoint K C d z, hmem⟩) :
+    ∃ j : Fin m,
+      componentFpqcBlockSplitToComponentPreimage K C d z hVs q m E hE
+          (sheetPoint (componentFpqcBlockRefinement K C d z hVs q).left
+            m j s) =
+        commonAffineComponentPointInPreimage K C d z hmem := by
+  apply EquivariantSplitRefinement.exists_splitSheet_over_point
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q m E hE
+      (commonAffineComponentPointInPreimage K C d z hmem) s
+  calc
+    ((componentToBasePower K C d z).left ∣_ V)
+        (commonAffineComponentPointInPreimage K C d z hmem) =
+        ⟨exactCommonAffineBasePoint K C d z, hmem⟩ := by
+      apply Subtype.ext
+      have hr := congrArg
+        (fun f ↦ f (commonAffineComponentPointInPreimage K C d z hmem))
+        (morphismRestrict_ι (componentToBasePower K C d z).left V)
+      change
+        V.ι (((componentToBasePower K C d z).left ∣_ V)
+          (commonAffineComponentPointInPreimage K C d z hmem)) =
+        (componentToBasePower K C d z).left
+          (commonAffineComponentPoint K C d z) at hr
+      exact hr
+    _ = (componentFpqcBlockRefinement K C d z hVs q).hom s := hs.symm
 
 /-- The transported split source maps back to the restricted selected
 component product. -/
@@ -972,6 +1107,31 @@ theorem componentFpqcBlockSplitAction_equivariant
     (componentToBasePower_restrict_equivariant K C d z hVs hpre)
     m E hE g
 
+/-- The exact selected-component point is fixed by the restricted component
+action on the preimage of a stable base open. -/
+theorem componentPreimageAction_fixed_commonAffineComponentPoint
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    (hmem : exactCommonAffineBasePoint K C d z ∈ V)
+    (g : geometricAssignedStabilizer K C d z) :
+    (componentPreimageAction K C d z hpre).hom g
+        (commonAffineComponentPointInPreimage K C d z hmem) =
+      commonAffineComponentPointInPreimage K C d z hmem := by
+  apply Subtype.ext
+  have hres := congrArg
+    (fun f ↦ f (commonAffineComponentPointInPreimage K C d z hmem))
+    (Scheme.Hom.resLE_comp_ι ((componentAction K C d z).hom g)
+      (hpre.le_preimage g))
+  change
+    ((componentToBasePower K C d z).left ⁻¹ᵁ V).ι
+        ((componentPreimageAction K C d z hpre).hom g
+          (commonAffineComponentPointInPreimage K C d z hmem)) =
+      (componentAction K C d z).hom g
+        (commonAffineComponentPoint K C d z) at hres
+  rw [componentAction_fixed_commonAffineComponentPoint K C d z g] at hres
+  exact hres
+
 /-- The sheet label reached by the transported block action above a point
 of the common fpqc refinement. -/
 noncomputable def componentFpqcBlockSheetTransition
@@ -1047,6 +1207,53 @@ noncomputable def componentFpqcBlockFixedSheetPerm
       ((action K C d z).restrict hVs) q)
     (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
       q m E hE) s hs g
+
+/-- The stable clopen locus cut out by all transition signatures occurring
+along the orbit of an arbitrary lift in the common refinement. -/
+noncomputable abbrev componentFpqcBlockOrbitTransitionOpen
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left) :
+    (componentFpqcBlockRefinement K C d z hVs q).left.Opens :=
+  orbitTransitionOpen
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q) s
+
+/-- The orbit-transition locus of any refinement lift is stable under the
+transported block action. -/
+theorem componentFpqcBlockOrbitTransitionOpen_isStable
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left) :
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q).IsStableOpen
+        (componentFpqcBlockOrbitTransitionOpen K C d z hVs hpre
+          q m E hE s) :=
+  orbitTransitionOpen_isStable
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q)
+    (componentFpqcBlockSplitAction_equivariant K C d z hVs hpre
+      q m E hE) s
 
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/

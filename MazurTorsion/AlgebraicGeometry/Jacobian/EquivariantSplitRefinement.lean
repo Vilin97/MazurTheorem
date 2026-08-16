@@ -149,6 +149,64 @@ noncomputable def directSplitIso (m : ℕ)
     directSource τ f q ≅ splitFinite (refinement τ q).left m :=
   (splitSourceDirectIso τ f q).symm ≪≫ splitIso τ f q m E hE
 
+/-- A point of the original finite source and a point of the common
+refinement with the same image determine an actual sheet in the transported
+split presentation.  The conclusion retains both the chosen source point and
+the chosen refinement point exactly. -/
+theorem exists_splitSheet_over_point (m : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin m → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R m =
+      pullback.snd f q)
+    (x : X) (s : (refinement τ q).left)
+    (hxs : f x = (refinement τ q).hom s) :
+    ∃ j : Fin m,
+      pullback.fst f (projection τ q 1 ≫ q)
+          ((directSplitIso τ f q m E hE).inv.left
+            ((sheetInclusion (refinement τ q).left m j).left s)) = x := by
+  obtain ⟨w, hwx, hws⟩ := Scheme.exists_preimage_of_isPullback
+    (IsPullback.of_hasPullback f (projection τ q 1 ≫ q)) x s (by
+      rw [projection_one_comp_cover]
+      exact hxs)
+  let y : (splitFinite (refinement τ q).left m).left :=
+    (directSplitIso τ f q m E hE).hom.left w
+  let j : Fin m := splitPointSheet (refinement τ q).left m
+    (splitFinite (refinement τ q).left m) (Iso.refl _) y
+  have hstruct : (splitFinite (refinement τ q).left m).hom y = s := by
+    have hw := congrArg (fun e ↦ e w)
+      (directSplitIso τ f q m E hE).hom.w
+    change (splitFinite (refinement τ q).left m).hom y =
+      pullback.snd f (projection τ q 1 ≫ q) w at hw
+    exact hw.trans hws
+  have hy := splitPoint_decomposition (refinement τ q).left m
+    (splitFinite (refinement τ q).left m) (Iso.refl _) y
+  have hbase : splitPointBase (refinement τ q).left m
+      (splitFinite (refinement τ q).left m) (Iso.refl _) y = s := by
+    have hp := congrArg
+      (splitFinite (refinement τ q).left m).hom hy
+    have hj := congrArg
+      (fun e ↦ e (splitPointBase (refinement τ q).left m
+        (splitFinite (refinement τ q).left m) (Iso.refl _) y))
+      (sheetInclusion (refinement τ q).left m j).w
+    change (splitFinite (refinement τ q).left m).hom
+        ((sheetInclusion (refinement τ q).left m j).left
+          (splitPointBase (refinement τ q).left m
+            (splitFinite (refinement τ q).left m) (Iso.refl _) y)) =
+      splitPointBase (refinement τ q).left m
+        (splitFinite (refinement τ q).left m) (Iso.refl _) y at hj
+    rw [hj] at hp
+    exact hp.symm.trans hstruct
+  change y = (sheetInclusion (refinement τ q).left m j).left
+      (splitPointBase (refinement τ q).left m
+        (splitFinite (refinement τ q).left m) (Iso.refl _) y) at hy
+  rw [hbase] at hy
+  refine ⟨j, ?_⟩
+  rw [← hy]
+  have hback := congrArg (fun e ↦ e w)
+    (congrArg Over.Hom.left
+      (directSplitIso τ f q m E hE).hom_inv_id)
+  change (directSplitIso τ f q m E hE).inv.left y = w at hback
+  rw [hback, hwx]
+
 /-- The identity-indexed presentation of the refinement map is equivariant
 for the genuine refinement action. -/
 theorem directBase_equivariant (g : G) :
@@ -266,5 +324,45 @@ theorem splitAction_equivariant (m : ℕ)
     _ = (splitFinite (refinement τ q).left m).hom ≫
           (refinementAction τ q).hom g := by
         rw [(directSplitIso τ f q m E hE).inv.w]
+
+/-- The map from the transported split presentation back to the original
+finite source is equivariant. -/
+theorem splitAction_toOriginal_equivariant (m : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin m → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R m =
+      pullback.snd f q) (g : G) :
+    (splitAction τ f q σ hf m E hE).hom g ≫
+          (directSplitIso τ f q m E hE).inv.left ≫
+          pullback.fst f (projection τ q 1 ≫ q) =
+      (directSplitIso τ f q m E hE).inv.left ≫
+          pullback.fst f (projection τ q 1 ≫ q) ≫ σ.hom g := by
+  change
+    (directSplitIso τ f q m E hE).inv.left ≫
+        (directAction τ f q σ hf).hom g ≫
+        (directSplitIso τ f q m E hE).hom.left ≫
+        (directSplitIso τ f q m E hE).inv.left ≫
+        pullback.fst f (projection τ q 1 ≫ q) = _
+  have he := congrArg Over.Hom.left
+    (directSplitIso τ f q m E hE).hom_inv_id
+  change (directSplitIso τ f q m E hE).hom.left ≫
+    (directSplitIso τ f q m E hE).inv.left =
+      𝟙 (directSource τ f q).left at he
+  calc
+    _ = (directSplitIso τ f q m E hE).inv.left ≫
+        (directAction τ f q σ hf).hom g ≫
+          (((directSplitIso τ f q m E hE).hom.left ≫
+            (directSplitIso τ f q m E hE).inv.left) ≫
+              pullback.fst f (projection τ q 1 ≫ q)) := by
+        simp only [Category.assoc]
+    _ = (directSplitIso τ f q m E hE).inv.left ≫
+        (directAction τ f q σ hf).hom g ≫
+          pullback.fst f (projection τ q 1 ≫ q) := by
+        rw [he, Category.id_comp]
+    _ = (directSplitIso τ f q m E hE).inv.left ≫
+        pullback.fst f (projection τ q 1 ≫ q) ≫ σ.hom g := by
+        change (directSplitIso τ f q m E hE).inv.left ≫
+          directActionHom τ f q σ hf g ≫
+            pullback.fst f (projection τ q 1 ≫ q) = _
+        rw [directActionHom_fst]
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.EquivariantSplitRefinement
