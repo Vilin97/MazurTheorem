@@ -10,6 +10,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.AffineIdealSheafPullback
 import MazurTorsion.AlgebraicGeometry.Jacobian.EtaleQuotientProduct
 import MazurTorsion.AlgebraicGeometry.Jacobian.AffineLineSectionProduct
 import MazurTorsion.AlgebraicGeometry.Jacobian.RelativeAffineLinePower
+import MazurTorsion.AlgebraicGeometry.Jacobian.UniversalEffectiveDivisor
 
 /-!
 # The affine support coproduct for an assigned graph chart
@@ -3267,6 +3268,205 @@ theorem inclusion_comp_supportCoproductToAffineComponentCoproduct
           (affineComponentFamily K C d z) a).left)
     _ a
 
+/-- The coproduct of the selected affine curve components maps summandwise
+to the original curve transported to the coordinate ground scheme. -/
+noncomputable def affineComponentCoproductToCurve :
+    familyCoproduct (coordinateBase K)
+        (geometricDistinctSupportCard K C d z)
+        (affineComponentFamily K C d z) ⟶
+      PointChart.curveOverCoordinateBase K C.left C.hom :=
+  coproductToTarget (coordinateBase K) (coordinateBase K)
+    (𝟙 (coordinateBase K))
+    (geometricDistinctSupportCard K C d z)
+    (affineComponentFamily K C d z)
+    (PointChart.curveOverCoordinateBase K C.left C.hom)
+    (fun a ↦ (affineComponentToCurve K C d z a).left)
+    (fun a ↦ by
+      simpa only [Category.comp_id] using
+        (affineComponentToCurve K C d z a).w)
+
+/-- On each summand, the coproduct-to-curve map is the selected affine
+component's original curve map. -/
+@[reassoc]
+theorem inclusion_comp_affineComponentCoproductToCurve
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (inclusion (coordinateBase K)
+        (geometricDistinctSupportCard K C d z)
+        (affineComponentFamily K C d z) a).left ≫
+      (affineComponentCoproductToCurve K C d z).left =
+    (affineComponentToCurve K C d z a).left :=
+  inclusion_comp_coproductToTarget
+    (coordinateBase K) (coordinateBase K) (𝟙 (coordinateBase K))
+    (geometricDistinctSupportCard K C d z)
+    (affineComponentFamily K C d z)
+    (PointChart.curveOverCoordinateBase K C.left C.hom)
+    (fun b ↦ (affineComponentToCurve K C d z b).left)
+    _ a
+
+/-- The actual affine support coproduct maps to the curve over the
+coordinate ground scheme through its selected affine components. -/
+noncomputable def supportCoproductToCurve :
+    supportCoproductOverCoordinateBase K C d z hVs q m E hE N ⟶
+      PointChart.curveOverCoordinateBase K C.left C.hom :=
+  supportCoproductToAffineComponentCoproduct
+      K C d z hVs q m E hE N ≫
+    affineComponentCoproductToCurve K C d z
+
+/-- The curve map on a support summand is the expected support-piece map
+followed by the selected component's map to the original curve. -/
+@[reassoc]
+theorem inclusion_comp_supportCoproductToCurve
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (inclusion N.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (supportFamily K C d z hVs q m E hE N) a).left ≫
+      (supportCoproductToCurve K C d z hVs q m E hE N).left =
+    supportPieceToAffineComponent K C d z hVs q m E hE N a ≫
+      (affineComponentToCurve K C d z a).left := by
+  rw [supportCoproductToCurve, Over.comp_left, ← Category.assoc,
+    inclusion_comp_supportCoproductToAffineComponentCoproduct,
+    Category.assoc,
+    inclusion_comp_affineComponentCoproductToCurve]
+
+/-- The simultaneous affine base, regarded over the coordinate copy of the
+ground scheme. -/
+noncomputable abbrev baseOpenOverCoordinateBase : Over (coordinateBase K) :=
+  Over.mk (baseToCoordinateBase K C d z hVs q m E hE N)
+
+/-- The chosen tuple sheet sends the simultaneous affine base to the
+ordered curve power, retaining all independently varying coordinates. -/
+noncomputable def baseOpenToCurvePower :
+    baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+      PermutationPower.power (coordinateBase K) (Fin d)
+        (PointChart.curveOverCoordinateBase K C.left C.hom) := by
+  refine Over.homMk
+    (N.baseOpen.ι ≫
+      tupleSheetToComponent K C d z hVs q m E hE j ≫
+        (componentToCurvePower K C d z).left) ?_
+  let curvePower := PermutationPower.power (coordinateBase K) (Fin d)
+    (PointChart.curveOverCoordinateBase K C.left C.hom)
+  have hcurve := (componentToCurvePower K C d z).w
+  have hbase := (componentToBasePower K C d z).w
+  calc
+    (N.baseOpen.ι ≫
+          tupleSheetToComponent K C d z hVs q m E hE j ≫
+            (componentToCurvePower K C d z).left) ≫ curvePower.hom =
+        N.baseOpen.ι ≫
+          tupleSheetToComponent K C d z hVs q m E hE j ≫
+            ((componentToCurvePower K C d z).left ≫ curvePower.hom) := by
+      simp only [Category.assoc]
+    _ = N.baseOpen.ι ≫
+          tupleSheetToComponent K C d z hVs q m E hE j ≫
+            (commonAffineComponent K C d z).hom := by rw [hcurve]
+    _ = N.baseOpen.ι ≫
+          tupleSheetToComponent K C d z hVs q m E hE j ≫
+            ((componentToBasePower K C d z).left ≫
+              (commonAffineBase K C d z).hom) := by rw [hbase]
+    _ = N.baseOpen.ι ≫
+          (tupleSheetToComponent K C d z hVs q m E hE j ≫
+            (componentToBasePower K C d z).left) ≫
+              (commonAffineBase K C d z).hom := by
+      simp only [Category.assoc]
+    _ = N.baseOpen.ι ≫ refinementToBase K C d z hVs q ≫
+          (commonAffineBase K C d z).hom := by
+      rw [tupleSheetToComponent_comp_base]
+    _ = baseToCoordinateBase K C d z hVs q m E hE N := rfl
+
+/-- Projection of the chosen tuple-sheet curve power is the matching
+selected affine curve component for that ordered occurrence. -/
+@[reassoc]
+theorem baseOpenToCurvePower_comp_projection (i : Fin d) :
+    baseOpenToCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i =
+      Over.homMk
+        (N.baseOpen.ι ≫
+          tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i ≫
+            (affineComponentToCurve K C d z
+              (geometricPointSupportIndex K C d z i)).left) (by
+          simp only [Category.assoc]
+          rw [(affineComponentToCurve K C d z
+            (geometricPointSupportIndex K C d z i)).w]
+          rw [tupleSheetToOccurrenceComponent, Category.assoc]
+          rw [(Pi.π (fun l : Fin d ↦ affineComponentFamily K C d z
+            (geometricPointSupportIndex K C d z l)) i).w]
+          rw [← (componentToBasePower K C d z).w]
+          rw [tupleSheetToComponent_comp_base_assoc]
+          change N.baseOpen.ι ≫ refinementToBase K C d z hVs q ≫
+            (commonAffineBase K C d z).hom =
+              baseToCoordinateBase K C d z hVs q m E hE N
+          rfl) := by
+  ext
+  change
+    N.baseOpen.ι ≫ tupleSheetToComponent K C d z hVs q m E hE j ≫
+          (componentToCurvePower K C d z).left ≫
+            (Pi.π (fun _ : Fin d ↦
+              PointChart.curveOverCoordinateBase K C.left C.hom) i).left = _
+  have hprojection :
+      (componentToCurvePower K C d z).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+        (Pi.π (fun l : Fin d ↦ affineComponentFamily K C d z
+          (geometricPointSupportIndex K C d z l)) i).left ≫
+            (affineComponentToCurve K C d z
+              (geometricPointSupportIndex K C d z i)).left := by
+    exact congrArg Over.Hom.left
+      (AssignedProductStabilizer.assignedMap_comp_projection
+        (coordinateBase K) (geometricDistinctSupportCard K C d z) d
+        (affineComponentFamily K C d z)
+        (geometricPointSupportIndex K C d z)
+        (PointChart.curveOverCoordinateBase K C.left C.hom)
+        (affineComponentToCurve K C d z) i)
+  rw [hprojection]
+  rfl
+
+/-- The support coproduct's structure map, regarded as a morphism to its
+simultaneous affine base over the coordinate ground scheme. -/
+noncomputable def supportCoproductToBaseOpen :
+    supportCoproductOverCoordinateBase K C d z hVs q m E hE N ⟶
+      baseOpenOverCoordinateBase K C d z hVs q m E hE N :=
+  Over.homMk (supportCoproduct K C d z hVs q m E hE N).hom rfl
+
+/-- The ordered curve tuple attached to a point of the support coproduct is
+the chosen tuple sheet evaluated at its simultaneous-base coordinate. -/
+noncomputable def supportCoproductToCurvePower :
+    supportCoproductOverCoordinateBase K C d z hVs q m E hE N ⟶
+      PermutationPower.power (coordinateBase K) (Fin d)
+        (PointChart.curveOverCoordinateBase K C.left C.hom) :=
+  supportCoproductToBaseOpen K C d z hVs q m E hE N ≫
+    baseOpenToCurvePower K C d z hVs q m E hE N
+
+/-- The actual support coproduct maps to the coordinate-base ordered
+ambient by pairing its varying curve point with the selected ordered tuple
+over the common affine base. -/
+noncomputable def supportCoproductToCoordinateOrderedAmbient :
+    supportCoproductOverCoordinateBase K C d z hVs q m E hE N ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) :=
+  Limits.prod.lift
+    (supportCoproductToCurve K C d z hVs q m E hE N)
+    (supportCoproductToCurvePower K C d z hVs q m E hE N)
+
+@[reassoc]
+theorem supportCoproductToCoordinateOrderedAmbient_comp_pointProjection :
+    supportCoproductToCoordinateOrderedAmbient K C d z hVs q m E hE N ≫
+        UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) =
+      supportCoproductToCurve K C d z hVs q m E hE N :=
+  Limits.prod.lift_fst _ _
+
+@[reassoc]
+theorem supportCoproductToCoordinateOrderedAmbient_comp_coordinateProjection
+    (i : Fin d) :
+    supportCoproductToCoordinateOrderedAmbient K C d z hVs q m E hE N ≫
+        UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i =
+      supportCoproductToCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i := by
+  rw [UniversalEffectiveDivisor.coordinateProjection, ← Category.assoc,
+    supportCoproductToCoordinateOrderedAmbient, Limits.prod.lift_snd]
+
 /-- In the assembled common family, each occurrence graph lands in precisely
 its owner support summand. -/
 @[reassoc]
@@ -3283,5 +3483,152 @@ theorem graphToSupportCoproduct_comp_comparison
             (affineComponentFamily K C d z) a).left := by
   rw [graphToSupportCoproduct, Category.assoc,
     inclusion_comp_supportCoproductToAffineComponentCoproduct]
+
+/-- An occurrence graph is a morphism over the coordinate ground scheme
+when inserted into the actual support coproduct. -/
+noncomputable def graphToSupportCoproductOverCoordinateBase
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+      supportCoproductOverCoordinateBase K C d z hVs q m E hE N :=
+  Over.homMk (graphToSupportCoproduct K C d z hVs q m E hE N a i) (by
+    change graphToSupportCoproduct K C d z hVs q m E hE N a i ≫
+        (supportCoproduct K C d z hVs q m E hE N).hom ≫
+          baseToCoordinateBase K C d z hVs q m E hE N =
+      baseToCoordinateBase K C d z hVs q m E hE N
+    rw [← Category.assoc, graphToSupportCoproduct_comp_structure,
+      Category.id_comp])
+
+/-- Along an owner occurrence graph, the distinguished curve point in the
+coordinate-base ordered ambient is the matching tuple coordinate. -/
+theorem graphToSupportCoproduct_comp_coordinateOrderedAmbient_projections
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    (graphToSupportCoproduct K C d z hVs q m E hE N a i ≫
+        (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left) ≫
+      (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+    (graphToSupportCoproduct K C d z hVs q m E hE N a i ≫
+        (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left) ≫
+      (UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) i.1).left := by
+  rcases i with ⟨i, rfl⟩
+  have hpoint :
+      (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left ≫
+        (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+      (supportCoproductToCurve K C d z hVs q m E hE N).left := by
+    exact congrArg Over.Hom.left
+      (supportCoproductToCoordinateOrderedAmbient_comp_pointProjection
+        K C d z hVs q m E hE N)
+  have hcoordinate :
+      (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left ≫
+        (UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+      (supportCoproductToCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i).left := by
+    exact congrArg Over.Hom.left
+      (supportCoproductToCoordinateOrderedAmbient_comp_coordinateProjection
+        K C d z hVs q m E hE N i)
+  have hbaseProjection :
+      (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+        N.baseOpen.ι ≫
+          tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i ≫
+            (affineComponentToCurve K C d z
+              (geometricPointSupportIndex K C d z i)).left := by
+    exact congrArg Over.Hom.left
+      (baseOpenToCurvePower_comp_projection
+        K C d z hVs q m E hE N i)
+  calc
+    (graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left) ≫
+        (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+      graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        (supportCoproductToCurve K C d z hVs q m E hE N).left := by
+      rw [Category.assoc, hpoint]
+    _ = N.baseOpen.ι ≫
+        tupleSheetToOccurrenceComponent K C d z hVs q m E hE j i ≫
+          (affineComponentToCurve K C d z
+            (geometricPointSupportIndex K C d z i)).left := by
+      rw [graphToSupportCoproduct, Category.assoc,
+        inclusion_comp_supportCoproductToCurve,
+        graphToSupportPiece_comp_affineComponent_assoc]
+      rfl
+    _ = (baseOpenToCurvePower K C d z hVs q m E hE N ≫
+        Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i).left := by
+      exact hbaseProjection.symm
+    _ = graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        ((supportCoproduct K C d z hVs q m E hE N).hom ≫
+          (baseOpenToCurvePower K C d z hVs q m E hE N ≫
+            Pi.π (fun _ : Fin d ↦
+              PointChart.curveOverCoordinateBase K C.left C.hom) i).left) := by
+      rw [← Category.assoc, graphToSupportCoproduct_comp_structure,
+        Category.id_comp]
+    _ = graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        ((supportCoproductToCurvePower K C d z hVs q m E hE N).left ≫
+          (Pi.π (fun _ : Fin d ↦
+            PointChart.curveOverCoordinateBase K C.left C.hom) i).left) := by
+      rfl
+    _ = graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        ((supportCoproductToCoordinateOrderedAmbient
+            K C d z hVs q m E hE N).left ≫
+          (UniversalEffectiveDivisor.coordinateProjection
+            (coordinateBase K) d
+            (PointChart.curveOverCoordinateBase K C.left C.hom) i).left) := by
+      rw [hcoordinate]
+    _ = (graphToSupportCoproduct K C d z hVs q m E hE N
+          (geometricPointSupportIndex K C d z i) ⟨i, rfl⟩ ≫
+        (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).left) ≫
+        (UniversalEffectiveDivisor.coordinateProjection
+          (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i).left := by
+      rw [Category.assoc]
+
+/-- Every owner occurrence graph factors canonically through the matching
+coordinate graph in the coordinate-base ordered ambient. -/
+noncomputable def graphToCoordinateGraph
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    baseOpenOverCoordinateBase K C d z hVs q m E hE N ⟶
+      UniversalEffectiveDivisor.coordinateGraph (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) i.1 :=
+  equalizer.lift
+    (graphToSupportCoproductOverCoordinateBase
+        K C d z hVs q m E hE N a i ≫
+      supportCoproductToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N)
+    (by
+      ext
+      exact graphToSupportCoproduct_comp_coordinateOrderedAmbient_projections
+        K C d z hVs q m E hE N a i)
+
+@[reassoc]
+theorem graphToCoordinateGraph_comp_inclusion
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    graphToCoordinateGraph K C d z hVs q m E hE N a i ≫
+        UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i.1 =
+      graphToSupportCoproductOverCoordinateBase
+          K C d z hVs q m E hE N a i ≫
+        supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N :=
+  equalizer.lift_ι _ _
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct

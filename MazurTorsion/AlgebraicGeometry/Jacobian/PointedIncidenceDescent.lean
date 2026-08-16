@@ -626,6 +626,56 @@ theorem orderedSupportGeometricAssigned_graph_lands_in_affineSupportCoproduct
     (orderedSupportPoint K C d z) hVs q m E hE N a i
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- Every ordered occurrence graph on the pointed affine support coproduct
+factors through its matching coordinate graph in the curve-level ordered
+ambient over the coordinate copy of the ground field. -/
+theorem orderedSupportGeometricAssigned_graph_factors_coordinateGraph
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z)))
+    (i : OccurrencesAtSupport K C d
+      (orderedSupportPoint K C d z) a) :
+    ∃ lift : baseOpenOverCoordinateBase K C d
+          (orderedSupportPoint K C d z) hVs q m E hE N ⟶
+        coordinateGraph (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i.1,
+      lift ≫ coordinateGraphι (coordinateBase K) d
+          (PointChart.curveOverCoordinateBase K C.left C.hom) i.1 =
+        graphToSupportCoproductOverCoordinateBase K C d
+            (orderedSupportPoint K C d z) hVs q m E hE N a i ≫
+          supportCoproductToCoordinateOrderedAmbient K C d
+            (orderedSupportPoint K C d z) hVs q m E hE N := by
+  exact ⟨graphToCoordinateGraph K C d (orderedSupportPoint K C d z)
+      hVs q m E hE N a i,
+    graphToCoordinateGraph_comp_inclusion K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N a i⟩
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On an ordered-incidence affine support block, the global ideal retaining
 all ordered occurrences and their multiplicities is obtained by extending
 the corresponding support-open graph product to the final common base. -/
