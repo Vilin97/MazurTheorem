@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, Codex
 -/
 
-import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentOrderedIncidence
+import MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentGraphQuotient
 
 /-!
 # Comparing invariant and free-monic split root families
@@ -30,6 +30,7 @@ open _root_.AlgebraicGeometry
 namespace MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentInvariantRootComparison
 
 open SplitComponentOrderedIncidence
+open SplitComponentGraphQuotient
 open SplitComponentUniversalRoot
 open SplitFiniteSymmetricQuotient
 open SplitMonicRootFamily
@@ -139,5 +140,25 @@ theorem componentProductRootSchemeIso_hom_comp_projection :
   apply RingHom.ext fun b ↦ ?_
   ext j
   exact congrFun (componentProductRootAlgEquiv_algebraMap R d m c b) j
+
+/-- The incidence family defined by the actual product of coordinate-graph
+ideals is the ordered split-root family used in the invariant calculation.
+This is the forward orientation needed by the local curve-chart comparison. -/
+noncomputable def graphLocusIsoOrderedRootLocus :
+    Spec (.of (orderedGraphQuotientAlgebra R d m c)) ≅
+      Spec (.of (orderedProductRootAlgebra R d m c)) :=
+  (orderedRootLocusIsoGraphLocus R d m c).symm
+
+omit [Nontrivial R] in
+/-- The graph-to-root identification preserves the closed immersion into
+the common sheetwise affine-line ambient scheme. -/
+@[reassoc]
+theorem graphLocusIsoOrderedRootLocus_hom_comp_ι :
+    (graphLocusIsoOrderedRootLocus R d m c).hom ≫
+        SplitComponentGraphIdeal.orderedRootLocusι R d m c =
+      orderedGraphLocusι R d m c := by
+  rw [graphLocusIsoOrderedRootLocus]
+  rw [← orderedRootLocusIsoGraphLocus_hom_comp_ι]
+  simp
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.SplitComponentInvariantRootComparison
