@@ -190,6 +190,24 @@ theorem exists_chartBaseToInvariants_finiteType {S : Scheme.{u}}
     (FixedPoints.subalgebra ℤ (↑Γ(X, U)) G)
   exact ⟨hfgInvariants⟩
 
+omit [IsAffineHom (pullback.diagonal (terminal.from X))] in
+/-- The affine local quotient projection onto `Spec Γ(U)ᴳ` is surjective on
+points. -/
+theorem localQuotientπ_surjective {U : X.Opens}
+    (hUs : σ.IsStableOpen U) (hUa : IsAffineOpen U) :
+    Function.Surjective (σ.localQuotientπ hUs hUa) := by
+  letI := σ.gammaMulSemiringAction hUs
+  intro q₀
+  obtain ⟨y, hy⟩ := invariantsπ_surjective G ↑Γ(X, U) ℤ q₀
+  refine ⟨hUa.isoSpec.inv y, ?_⟩
+  show (σ.localQuotientπ hUs hUa) (hUa.isoSpec.inv y) = q₀
+  rw [SchemeAction.localQuotientπ_eq, Scheme.Hom.comp_apply]
+  have hIso : hUa.isoSpec.hom (hUa.isoSpec.inv y) = y := by
+    rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
+    rfl
+  rw [hIso]
+  exact hy
+
 /-- The scheme quotient attached to affine orbit neighbourhoods. -/
 noncomputable def quotient (hσ : HasAffineOrbit σ) : Scheme.{u} :=
   σ.quotient (stableAffineOpen σ hσ)

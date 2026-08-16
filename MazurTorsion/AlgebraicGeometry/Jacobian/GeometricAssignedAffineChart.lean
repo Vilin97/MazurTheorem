@@ -1509,6 +1509,187 @@ theorem commonAffineComponentPointInPreimage_mem_selectedOrbitTargetOpen
     exact hj
   rwa [hymap] at hy
 
+/-- The finite-group quotient of the selected orbit-sheet source in the
+actual occurrence chart. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitSheetQuotient
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m)
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left] :
+    Scheme.{u} :=
+  selectedOrbitSheetQuotient
+    (componentFpqcBlockRefinement K C d z hVs q).left m
+    (componentFpqcBlockSplitAction K C d z hVs hpre q m E hE)
+    (EquivariantFpqcRefinement.refinementAction
+      ((action K C d z).restrict hVs) q)
+    (componentFpqcBlockSplitAction_equivariant
+      K C d z hVs hpre q m E hE) s j
+
+/-- The finite-group quotient of the actual stable clopen target
+neighbourhood selected by a refinement sheet. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitTargetQuotient
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    Scheme.{u} :=
+  selectedOrbitTargetQuotient
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The local finite-group quotient map induced from the selected-sheet
+cover of its actual target neighbourhood. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitTargetDescendedMap
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    componentFpqcBlockSelectedOrbitSheetQuotient K C d z hVs hpre
+        q m E hE s j ⟶
+      componentFpqcBlockSelectedOrbitTargetQuotient K C d z hVs hpre
+        q m E hE s j :=
+  selectedOrbitSheetTargetDescendedMap
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The local quotient map produced by the selected-sheet construction is
+surjective. -/
+theorem componentFpqcBlockSelectedOrbitTargetDescendedMap_surjective
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    Function.Surjective
+      (componentFpqcBlockSelectedOrbitTargetDescendedMap
+        K C d z hVs hpre q m E hE s j) :=
+  selectedOrbitSheetTargetDescendedMap_surjective
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The canonical invariant-ring quotient `Spec Γ(U)ᴳ` of the actual stable
+clopen target neighbourhood. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitTargetLocalQuotient
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q] : Scheme.{u} :=
+  selectedOrbitTargetLocalQuotient
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The selected-sheet quotient mapped to the canonical invariant-ring
+quotient of its actual target neighbourhood. -/
+noncomputable abbrev componentFpqcBlockSelectedOrbitTargetLocalDescendedMap
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    componentFpqcBlockSelectedOrbitSheetQuotient K C d z hVs hpre
+        q m E hE s j ⟶
+      componentFpqcBlockSelectedOrbitTargetLocalQuotient K C d z hVs hpre
+        q m E hE s j :=
+  selectedOrbitSheetTargetLocalDescendedMap
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
+/-- The map to the actual target-neighbourhood invariant ring is
+surjective. -/
+theorem componentFpqcBlockSelectedOrbitTargetLocalDescendedMap_surjective
+    {V : (commonAffineBase K C d z).left.Opens}
+    (hVs : (action K C d z).IsStableOpen V)
+    (hpre : (componentAction K C d z).IsStableOpen
+      ((componentToBasePower K C d z).left ⁻¹ᵁ V))
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback ((componentToBasePower K C d z).left ∣_ V) q ≅
+      Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd ((componentToBasePower K C d z).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d z hVs q).left)
+    (j : Fin m) [IsFinite q] [Etale q]
+    [IsAffine (componentFpqcBlockRefinement K C d z hVs q).left]
+    [IsAffine ((componentToBasePower K C d z).left ⁻¹ᵁ V).toScheme] :
+    Function.Surjective
+      (componentFpqcBlockSelectedOrbitTargetLocalDescendedMap
+        K C d z hVs hpre q m E hE s j) :=
+  selectedOrbitSheetTargetLocalDescendedMap_surjective
+    ((action K C d z).restrict hVs)
+    ((componentToBasePower K C d z).left ∣_ V) q
+    (componentPreimageAction K C d z hpre)
+    (componentToBasePower_restrict_equivariant K C d z hVs hpre)
+    m E hE s j
+
 /-- The central occurrence-wise point is fixed by the entire geometric
 support block stabilizer. -/
 theorem action_fixed_commonAffineBasePoint

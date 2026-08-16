@@ -1371,6 +1371,225 @@ theorem selectedOrbitTargetAction_hasAffineOrbit
     selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j
   exact hasAffineOrbit_of_isAffine _
 
+/-- The canonical affine local quotient of the stable clopen target image,
+written directly as `Spec Γ(U)ᴳ`. -/
+noncomputable abbrev selectedOrbitTargetLocalQuotient
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q] : Scheme.{u} :=
+  σ.localQuotient
+    (selectedOrbitTargetOpen_isStable τ f q σ hf n E hE s j)
+
+/-- Projection of the stable clopen target image to its canonical affine
+local quotient. -/
+noncomputable def selectedOrbitTargetLocalQuotientπ
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q] [IsAffine X] :
+    (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme ⟶
+      selectedOrbitTargetLocalQuotient τ f q σ hf n E hE s j :=
+  σ.localQuotientπ
+    (selectedOrbitTargetOpen_isStable τ f q σ hf n E hE s j)
+    (selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j)
+
+/-- The composite from the selected orbit sheet to the canonical invariant
+target is invariant under the selected-sheet action. -/
+theorem selectedOrbitSheet_comp_targetLocalQuotientπ_invariant
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q] [IsAffine X] (g : G) :
+    (selectedOrbitSheetAction
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j).hom g ≫
+      (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+        selectedOrbitTargetLocalQuotientπ
+          τ f q σ hf n E hE s j) =
+    selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+      selectedOrbitTargetLocalQuotientπ
+        τ f q σ hf n E hE s j := by
+  rw [← Category.assoc,
+    selectedOrbitSheetToTargetOpen_equivariant, Category.assoc]
+  exact congrArg
+    (fun e ↦ selectedOrbitSheetToTargetOpen
+      τ f q σ hf n E hE s j ≫ e)
+    (SchemeAction.resLE_localQuotientπ σ
+      (selectedOrbitTargetOpen_isStable τ f q σ hf n E hE s j)
+      (selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j) g)
+
+/-- The selected-sheet quotient map to the canonical affine invariant-ring
+quotient of its actual target image. -/
+noncomputable def selectedOrbitSheetTargetLocalDescendedMap
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q]
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    selectedOrbitSheetQuotient
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j ⟶
+      selectedOrbitTargetLocalQuotient τ f q σ hf n E hE s j := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).toScheme :=
+    selectedOrbitSheetOpen_isAffine
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j
+  exact FiniteGroupQuotient.descendedMap
+    (selectedOrbitSheetAction
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitSheetAction_hasAffineOrbit
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+      selectedOrbitTargetLocalQuotientπ τ f q σ hf n E hE s j)
+    (selectedOrbitSheet_comp_targetLocalQuotientπ_invariant
+      τ f q σ hf n E hE s j)
+
+/-- Defining square for the selected-sheet map to the target invariant-ring
+quotient. -/
+@[reassoc]
+theorem selectedOrbitSheetQuotientπ_comp_targetLocalDescendedMap
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q]
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    selectedOrbitSheetQuotientπ
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j ≫
+      selectedOrbitSheetTargetLocalDescendedMap
+        τ f q σ hf n E hE s j =
+    selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+      selectedOrbitTargetLocalQuotientπ
+        τ f q σ hf n E hE s j := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).toScheme :=
+    selectedOrbitSheetOpen_isAffine
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j
+  exact FiniteGroupQuotient.quotientπ_comp_descendedMap
+    (selectedOrbitSheetAction
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitSheetAction_hasAffineOrbit
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+      selectedOrbitTargetLocalQuotientπ τ f q σ hf n E hE s j)
+    (selectedOrbitSheet_comp_targetLocalQuotientπ_invariant
+      τ f q σ hf n E hE s j)
+
+/-- The descended map to the canonical affine invariant-ring quotient is
+surjective. -/
+theorem selectedOrbitSheetTargetLocalDescendedMap_surjective
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q]
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    Function.Surjective (selectedOrbitSheetTargetLocalDescendedMap
+      τ f q σ hf n E hE s j) := by
+  intro y
+  obtain ⟨x, hx⟩ := localQuotientπ_surjective σ
+    (selectedOrbitTargetOpen_isStable τ f q σ hf n E hE s j)
+    (selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j) y
+  change selectedOrbitTargetLocalQuotientπ
+    τ f q σ hf n E hE s j x = y at hx
+  obtain ⟨w, hw⟩ := selectedOrbitSheetToTargetOpen_surjective
+    τ f q σ hf n E hE s j x
+  refine ⟨selectedOrbitSheetQuotientπ
+    (EquivariantFpqcRefinement.refinement τ q).left n
+    (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+    (EquivariantFpqcRefinement.refinementAction τ q)
+    (EquivariantSplitRefinement.splitAction_equivariant
+      τ f q σ hf n E hE) s j w, ?_⟩
+  have hsquare := congrArg (fun e ↦ e w)
+    (selectedOrbitSheetQuotientπ_comp_targetLocalDescendedMap
+      τ f q σ hf n E hE s j)
+  change selectedOrbitSheetTargetLocalDescendedMap
+      τ f q σ hf n E hE s j
+        (selectedOrbitSheetQuotientπ
+          (EquivariantFpqcRefinement.refinement τ q).left n
+          (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+          (EquivariantFpqcRefinement.refinementAction τ q)
+          (EquivariantSplitRefinement.splitAction_equivariant
+            τ f q σ hf n E hE) s j w) =
+    selectedOrbitTargetLocalQuotientπ τ f q σ hf n E hE s j
+      (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j w) at hsquare
+  rw [hw, hx] at hsquare
+  exact hsquare
+
 /-- The finite-group quotient of the stable clopen selected-sheet image. -/
 noncomputable def selectedOrbitTargetQuotient
     {R : Type u} [CommRing R] {X Y : Scheme.{u}}
@@ -1387,6 +1606,29 @@ noncomputable def selectedOrbitTargetQuotient
       (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme :=
     selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j
   exact quotient
+    (selectedOrbitTargetAction τ f q σ hf n E hE s j)
+    (selectedOrbitTargetAction_hasAffineOrbit
+      τ f q σ hf n E hE s j)
+
+/-- Projection from the stable clopen selected-sheet image to its finite
+group quotient. -/
+noncomputable def selectedOrbitTargetQuotientπ
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q] [IsAffine X] :
+    (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme ⟶
+      selectedOrbitTargetQuotient τ f q σ hf n E hE s j := by
+  letI : IsAffine
+      (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme :=
+    selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j
+  exact quotientπ
     (selectedOrbitTargetAction τ f q σ hf n E hE s j)
     (selectedOrbitTargetAction_hasAffineOrbit
       τ f q σ hf n E hE s j)
@@ -1444,6 +1686,116 @@ noncomputable def selectedOrbitSheetTargetDescendedMap
     (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j)
     (selectedOrbitSheetToTargetOpen_equivariant
       τ f q σ hf n E hE s j)
+
+/-- The selected-sheet and target-image quotient projections form the
+defining equivariant quotient square. -/
+@[reassoc]
+theorem selectedOrbitSheetQuotientπ_comp_targetDescendedMap
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q]
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    selectedOrbitSheetQuotientπ
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q)
+        (EquivariantSplitRefinement.splitAction_equivariant
+          τ f q σ hf n E hE) s j ≫
+      selectedOrbitSheetTargetDescendedMap
+        τ f q σ hf n E hE s j =
+    selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j ≫
+      selectedOrbitTargetQuotientπ τ f q σ hf n E hE s j := by
+  letI : IsAffine
+      (selectedOrbitSheetOpen
+        (EquivariantFpqcRefinement.refinement τ q).left n
+        (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+        (EquivariantFpqcRefinement.refinementAction τ q) s j).toScheme :=
+    selectedOrbitSheetOpen_isAffine
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q) s j
+  letI : IsAffine
+      (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme :=
+    selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j
+  exact EquivariantFiniteGroupQuotient.quotientπ_comp_descendedMap
+    (selectedOrbitSheetAction
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitTargetAction τ f q σ hf n E hE s j)
+    (selectedOrbitSheetAction_hasAffineOrbit
+      (EquivariantFpqcRefinement.refinement τ q).left n
+      (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+      (EquivariantFpqcRefinement.refinementAction τ q)
+      (EquivariantSplitRefinement.splitAction_equivariant
+        τ f q σ hf n E hE) s j)
+    (selectedOrbitTargetAction_hasAffineOrbit
+      τ f q σ hf n E hE s j)
+    (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j)
+    (selectedOrbitSheetToTargetOpen_equivariant
+      τ f q σ hf n E hE s j)
+
+/-- Surjectivity survives quotient descent for the selected-sheet cover of
+its stable target image. -/
+theorem selectedOrbitSheetTargetDescendedMap_surjective
+    {R : Type u} [CommRing R] {X Y : Scheme.{u}}
+    (τ : SchemeAction G Y) (f : X ⟶ Y)
+    (q : Spec (.of R) ⟶ Y) (σ : SchemeAction G X)
+    (hf : ∀ g : G, σ.hom g ≫ f = f ≫ τ.hom g)
+    (n : ℕ)
+    (E : pullback f q ≅ Spec (.of (Fin n → R)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection R n =
+      pullback.snd f q)
+    (s : (EquivariantFpqcRefinement.refinement τ q).left)
+    (j : Fin n) [IsFinite q] [Etale q]
+    [IsAffine (EquivariantFpqcRefinement.refinement τ q).left]
+    [IsAffine X] :
+    Function.Surjective (selectedOrbitSheetTargetDescendedMap
+      τ f q σ hf n E hE s j) := by
+  letI : IsAffine
+      (selectedOrbitTargetOpen τ f q σ hf n E hE s j).toScheme :=
+    selectedOrbitTargetOpen_isAffine τ f q σ hf n E hE s j
+  intro y
+  obtain ⟨x, hx⟩ :=
+    (FiniteGroupQuotient.quotientπ_surjectiveProperty
+      (selectedOrbitTargetAction τ f q σ hf n E hE s j)
+      (selectedOrbitTargetAction_hasAffineOrbit
+        τ f q σ hf n E hE s j)).1 y
+  obtain ⟨w, hw⟩ := selectedOrbitSheetToTargetOpen_surjective
+    τ f q σ hf n E hE s j x
+  change selectedOrbitTargetQuotientπ
+    τ f q σ hf n E hE s j x = y at hx
+  refine ⟨selectedOrbitSheetQuotientπ
+    (EquivariantFpqcRefinement.refinement τ q).left n
+    (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+    (EquivariantFpqcRefinement.refinementAction τ q)
+    (EquivariantSplitRefinement.splitAction_equivariant
+      τ f q σ hf n E hE) s j w, ?_⟩
+  have hsquare := congrArg (fun e ↦ e w)
+    (selectedOrbitSheetQuotientπ_comp_targetDescendedMap
+      τ f q σ hf n E hE s j)
+  change selectedOrbitSheetTargetDescendedMap
+      τ f q σ hf n E hE s j
+        (selectedOrbitSheetQuotientπ
+          (EquivariantFpqcRefinement.refinement τ q).left n
+          (EquivariantSplitRefinement.splitAction τ f q σ hf n E hE)
+          (EquivariantFpqcRefinement.refinementAction τ q)
+          (EquivariantSplitRefinement.splitAction_equivariant
+            τ f q σ hf n E hE) s j w) =
+    selectedOrbitTargetQuotientπ τ f q σ hf n E hE s j
+      (selectedOrbitSheetToTargetOpen τ f q σ hf n E hE s j w) at hsquare
+  rw [hw, hx] at hsquare
+  exact hsquare
 
 /-- Quotient descent of the selected orbit-sheet map to an affine original
 source. -/
