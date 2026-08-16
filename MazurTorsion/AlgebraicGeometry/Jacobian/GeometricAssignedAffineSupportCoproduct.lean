@@ -3899,6 +3899,16 @@ noncomputable def supportPieceOwnerOnlyOpen [IsSeparated C.hom]
   exact supportPieceOwnerOnlyOpenOverCoordinateBase
     K C d z hVs q m E hE N a
 
+theorem supportPieceOwnerOnlyOpen_le_coordinate [IsSeparated C.hom]
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    supportPieceOwnerOnlyOpen K C d z hVs q m E hE N a ≤
+      supportPieceCoordinateOpen K C d z hVs q m E hE N a i := by
+  change supportPieceOwnerOnlyOpenOverCoordinateBase
+      K C d z hVs q m E hE N a ≤
+    supportPieceCoordinateOpenOverCoordinateBase
+      K C d z hVs q m E hE N a i
+  exact iInf_le_of_le i le_rfl
+
 /-- Every owner graph has its exact value in the owner-only support open. -/
 theorem graphExactBasePoint_mem_supportPieceOwnerOnlyOpen
     [IsSeparated C.hom]
@@ -4065,6 +4075,434 @@ theorem nonempty_crossSupportAffineGraphRefinement [IsSeparated C.hom] :
   intro a i
   exact hWA.trans <| inf_le_right.trans <|
     iInf_le_of_le a <| iInf_le_of_le i le_rfl
+
+/-- Restrict an owner graph to the final cross-support affine base and
+support opens. -/
+noncomputable def CrossSupportAffineGraphRefinement.graph
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.baseOpen.toScheme ⟶ (R.supportOpen a).toScheme :=
+  N.baseOpen.toScheme.homOfLE (R.base_le_graph_preimage a i) ≫
+    (graphToSupportPiece K C d z hVs q m E hE N a i ∣_
+      R.supportOpen a)
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.graph_comp_ι
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.graph K C d z hVs q m E hE N a i ≫ (R.supportOpen a).ι =
+      R.baseOpen.ι ≫
+        graphToSupportPiece K C d z hVs q m E hE N a i := by
+  rw [CrossSupportAffineGraphRefinement.graph, Category.assoc,
+    morphismRestrict_ι, ← Category.assoc, Scheme.homOfLE_ι]
+
+/-- A retained support open, regarded over the coordinate ground scheme. -/
+noncomputable def CrossSupportAffineGraphRefinement.supportOpenOverCoordinateBase
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Over (coordinateBase K) :=
+  Over.mk ((R.supportOpen a).ι ≫
+    (supportPieceOverCoordinateBase K C d z hVs q m E hE N a).hom)
+
+/-- Inclusion of a retained support open in its original support piece. -/
+noncomputable def CrossSupportAffineGraphRefinement.supportOpenInclusion
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.supportOpenOverCoordinateBase K C d z hVs q m E hE N a ⟶
+      supportPieceOverCoordinateBase K C d z hVs q m E hE N a :=
+  Over.homMk (R.supportOpen a).ι rfl
+
+/-- The scheme-theoretic equalizer of the varying support-piece point and
+one pulled-back ordered coordinate. -/
+noncomputable abbrev supportPieceCoordinateEqualizer
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    Over (coordinateBase K) :=
+  equalizer
+    (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+    (supportPieceToMappedCoordinate K C d z hVs q m E hE N a i)
+
+/-- On the retained support open for `a`, the equalizer with a coordinate
+not owned by `a` has empty pullback. -/
+theorem CrossSupportAffineGraphRefinement.isEmpty_pullback_nonownerEqualizer
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d)
+    (hi : geometricPointSupportIndex K C d z i ≠ a) :
+    IsEmpty ((pullback
+      (R.supportOpenInclusion K C d z hVs q m E hE N a).left
+      (equalizer.ι
+        (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+        (supportPieceToMappedCoordinate
+          K C d z hVs q m E hE N a i)).left : Scheme.{u})) := by
+  constructor
+  intro x
+  let u := pullback.fst
+    (R.supportOpenInclusion K C d z hVs q m E hE N a).left
+    (equalizer.ι
+      (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+      (supportPieceToMappedCoordinate
+        K C d z hVs q m E hE N a i)).left x
+  have hle : R.supportOpen a ≤
+      supportPieceCoordinateOpen K C d z hVs q m E hE N a i :=
+    (R.support_le_ownerOnly a).trans
+      (supportPieceOwnerOnlyOpen_le_coordinate
+        K C d z hVs q m E hE N a i)
+  have hu := hle u.2
+  change (R.supportOpenInclusion K C d z hVs q m E hE N a).left u ∈
+    supportPieceCoordinateOpenOverCoordinateBase
+      K C d z hVs q m E hE N a i at hu
+  rw [supportPieceCoordinateOpenOverCoordinateBase, if_neg hi] at hu
+  apply hu
+  let v := pullback.snd
+    (R.supportOpenInclusion K C d z hVs q m E hE N a).left
+    (equalizer.ι
+      (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+      (supportPieceToMappedCoordinate
+        K C d z hVs q m E hE N a i)).left x
+  refine ⟨v, ?_⟩
+  have hcondition := congrArg (fun f ↦ f x)
+    (pullback.condition
+      (f := (R.supportOpenInclusion
+        K C d z hVs q m E hE N a).left)
+      (g := (equalizer.ι
+        (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+        (supportPieceToMappedCoordinate
+          K C d z hVs q m E hE N a i)).left))
+  exact hcondition.symm
+
+/-- Base change a retained support open to the final cross-support affine
+base. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportPiece
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) : Scheme.{u} :=
+  pullback
+    ((R.supportOpen a).ι ≫
+      (supportPieceFamily K C d z hVs q m E hE N a).hom)
+    R.baseOpen.ι
+
+/-- A refined support piece, regarded over the final affine base. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportPieceFamily
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Over R.baseOpen.toScheme :=
+  Over.mk (pullback.snd
+    ((R.supportOpen a).ι ≫
+      (supportPieceFamily K C d z hVs q m E hE N a).hom)
+    R.baseOpen.ι)
+
+/-- The final support pieces remain affine. -/
+theorem CrossSupportAffineGraphRefinement.refinedSupportPiece_isAffine
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    IsAffine (R.refinedSupportPiece K C d z hVs q m E hE N a) := by
+  letI : IsAffine (R.supportOpen a).toScheme := R.support_isAffine a
+  letI : IsAffine R.baseOpen.toScheme := R.base_isAffine
+  letI : IsAffine N.baseOpen.toScheme := N.base_isAffine
+  infer_instance
+
+/-- Forget the final base change and retained open, mapping a refined support
+piece to its original support piece. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedSupportPieceToSupportPiece
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPiece K C d z hVs q m E hE N a ⟶
+      supportPiece K C d z hVs q m E hE N a :=
+  pullback.fst
+      ((R.supportOpen a).ι ≫
+        (supportPieceFamily K C d z hVs q m E hE N a).hom)
+      R.baseOpen.ι ≫
+    (R.supportOpen a).ι
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedSupportPieceToSupportPiece_comp_structure
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+        (supportPieceFamily K C d z hVs q m E hE N a).hom =
+      (R.refinedSupportPieceFamily K C d z hVs q m E hE N a).hom ≫
+        R.baseOpen.ι := by
+  rw [CrossSupportAffineGraphRefinement.refinedSupportPieceToSupportPiece,
+    Category.assoc]
+  exact pullback.condition
+
+/-- Restrict an owner occurrence graph to its base-changed refined support
+piece. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedGraph
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.baseOpen.toScheme ⟶
+      R.refinedSupportPiece K C d z hVs q m E hE N a :=
+  pullback.lift
+    (R.graph K C d z hVs q m E hE N a i)
+    (𝟙 _)
+    (by
+      rw [Category.id_comp, ← Category.assoc, R.graph_comp_ι,
+        Category.assoc, graphToSupportPiece_comp_snd,
+        Category.comp_id])
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedGraph_comp_structure
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.refinedGraph K C d z hVs q m E hE N a i ≫
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N a).hom =
+      𝟙 R.baseOpen.toScheme :=
+  pullback.lift_snd _ _ _
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedGraph_comp_fst
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.refinedGraph K C d z hVs q m E hE N a i ≫
+        pullback.fst
+          ((R.supportOpen a).ι ≫
+            (supportPieceFamily K C d z hVs q m E hE N a).hom)
+          R.baseOpen.ι =
+      R.graph K C d z hVs q m E hE N a i :=
+  pullback.lift_fst _ _ _
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedGraph_comp_comparison
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.refinedGraph K C d z hVs q m E hE N a i ≫
+        R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a =
+      R.baseOpen.ι ≫
+        graphToSupportPiece K C d z hVs q m E hE N a i := by
+  rw [CrossSupportAffineGraphRefinement.refinedGraph,
+    CrossSupportAffineGraphRefinement.refinedSupportPieceToSupportPiece,
+    ← Category.assoc, pullback.lift_fst, R.graph_comp_ι]
+
+/-- A refined owner graph is the exact inverse image of its original graph
+under the final affine base change and support-open restriction. -/
+theorem CrossSupportAffineGraphRefinement.refinedGraph_isPullback
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    IsPullback
+      (R.refinedGraph K C d z hVs q m E hE N a i)
+      R.baseOpen.ι
+      (R.refinedSupportPieceToSupportPiece
+        K C d z hVs q m E hE N a)
+      (graphToSupportPiece K C d z hVs q m E hE N a i) := by
+  apply IsPullback.mk'
+  · exact R.refinedGraph_comp_comparison
+      K C d z hVs q m E hE N a i
+  · intro X φ φ' _ hφ
+    exact (cancel_mono R.baseOpen.ι).mp hφ
+  · intro X p b hpb
+    let lift : X ⟶ R.baseOpen.toScheme :=
+      p ≫ (R.refinedSupportPieceFamily
+        K C d z hVs q m E hE N a).hom
+    have hliftBase : lift ≫ R.baseOpen.ι = b := by
+      have h := hpb =≫
+        (supportPieceFamily K C d z hVs q m E hE N a).hom
+      simpa only [Category.assoc,
+        R.refinedSupportPieceToSupportPiece_comp_structure,
+        graphToSupportPiece_comp_snd, Category.comp_id,
+        lift] using h
+    refine ⟨lift, ?_, hliftBase⟩
+    apply pullback.hom_ext
+    · apply (cancel_mono (R.supportOpen a).ι).mp
+      change
+        (lift ≫ R.refinedGraph K C d z hVs q m E hE N a i) ≫
+            R.refinedSupportPieceToSupportPiece
+              K C d z hVs q m E hE N a =
+          p ≫ R.refinedSupportPieceToSupportPiece
+            K C d z hVs q m E hE N a
+      calc
+        (lift ≫ R.refinedGraph K C d z hVs q m E hE N a i) ≫
+            R.refinedSupportPieceToSupportPiece
+              K C d z hVs q m E hE N a =
+          lift ≫ R.baseOpen.ι ≫
+            graphToSupportPiece K C d z hVs q m E hE N a i := by
+              rw [Category.assoc, R.refinedGraph_comp_comparison]
+        _ = b ≫ graphToSupportPiece K C d z hVs q m E hE N a i := by
+          rw [← Category.assoc, hliftBase]
+        _ = p ≫
+            R.refinedSupportPieceToSupportPiece
+              K C d z hVs q m E hE N a := hpb.symm
+    · change
+        (lift ≫ R.refinedGraph K C d z hVs q m E hE N a i) ≫
+            (R.refinedSupportPieceFamily
+              K C d z hVs q m E hE N a).hom =
+          p ≫ (R.refinedSupportPieceFamily
+            K C d z hVs q m E hE N a).hom
+      rw [Category.assoc, R.refinedGraph_comp_structure,
+        Category.comp_id]
+
+/-- The owner-graph ideal on a refined support piece is the pullback of its
+intrinsic graph ideal on the original support piece. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedSupportPieceGraphIdealAt
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    Scheme.IdealSheafData
+      (R.refinedSupportPiece K C d z hVs q m E hE N a) :=
+  (graphToSupportPiece K C d z hVs q m E hE N a i).ker.comap
+    (R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a)
+
+/-- Pulling an owner graph to a refined support piece gives exactly the
+kernel sheaf of the refined graph section. -/
+theorem CrossSupportAffineGraphRefinement.refinedSupportPieceGraphIdealAt_eq_ker
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z))
+    (i : OccurrencesAtSupport K C d z a) :
+    R.refinedSupportPieceGraphIdealAt K C d z hVs q m E hE N a i =
+      (R.refinedGraph K C d z hVs q m E hE N a i).ker := by
+  let graphHom := graphToSupportPiece
+    K C d z hVs q m E hE N a i
+  let comparison := R.refinedSupportPieceToSupportPiece
+    K C d z hVs q m E hE N a
+  letI : IsSeparated
+      (supportPieceFamily K C d z hVs q m E hE N a).hom := by
+    letI : IsSeparated
+        ((affineComponentToCoordinateLine K C d z a).left ≫
+          (coordinateLine K).hom) := by
+      infer_instance
+    letI : IsSeparated
+        (supportAmbientToBase K C d z hVs q a) := by
+      change IsSeparated (pullback.snd
+        ((affineComponentToCoordinateLine K C d z a).left ≫
+          (coordinateLine K).hom)
+        (refinementToBase K C d z hVs q ≫
+          (commonAffineBase K C d z).hom))
+      infer_instance
+    letI : IsSeparated
+        ((N.supportOpen a).ι ≫
+          supportAmbientToBase K C d z hVs q a) := by
+      infer_instance
+    change IsSeparated (pullback.snd
+      ((N.supportOpen a).ι ≫
+        supportAmbientToBase K C d z hVs q a) N.baseOpen.ι)
+    infer_instance
+  letI : IsClosedImmersion graphHom := by
+    haveI : IsClosedImmersion
+        (graphHom ≫
+          (supportPieceFamily K C d z hVs q m E hE N a).hom) := by
+      rw [show graphHom ≫
+          (supportPieceFamily K C d z hVs q m E hE N a).hom =
+        𝟙 N.baseOpen.toScheme from
+          graphToSupportPiece_comp_snd
+            K C d z hVs q m E hE N a i]
+      infer_instance
+    exact IsClosedImmersion.of_comp graphHom
+      (supportPieceFamily K C d z hVs q m E hE N a).hom
+  let h := R.refinedGraph_isPullback
+    K C d z hVs q m E hE N a i
+  change graphHom.ker.comap comparison = _
+  calc
+    graphHom.ker.comap comparison =
+        (pullback.fst comparison graphHom).ker :=
+      (Scheme.IdealSheafData.ker_fst_of_isClosedImmersion
+        graphHom comparison).symm
+    _ = (h.isoPullback.hom ≫
+        pullback.fst comparison graphHom).ker :=
+      (Scheme.Hom.ker_comp_of_isIso h.isoPullback.hom
+        (pullback.fst comparison graphHom)).symm
+    _ = (R.refinedGraph K C d z hVs q m E hE N a i).ker := by
+      rw [h.isoPullback_hom_fst]
+
+/-- The final disjoint affine support family over the cross-support base. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportCoproduct
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) : Over R.baseOpen.toScheme :=
+  familyCoproduct R.baseOpen.toScheme
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+
+/-- Compare the final support coproduct with the original affine support
+coproduct. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedSupportCoproductToSupportCoproduct
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) :
+    Over.mk ((R.refinedSupportCoproduct
+        K C d z hVs q m E hE N).hom ≫ R.baseOpen.ι) ⟶
+      supportCoproduct K C d z hVs q m E hE N :=
+  coproductToTarget R.baseOpen.toScheme N.baseOpen.toScheme R.baseOpen.ι
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+    (supportCoproduct K C d z hVs q m E hE N)
+    (fun a ↦
+      R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+        (inclusion N.baseOpen.toScheme
+          (geometricDistinctSupportCard K C d z)
+          (supportPieceFamily K C d z hVs q m E hE N) a).left)
+    (by
+      intro a
+      have h := (inclusion N.baseOpen.toScheme
+          (geometricDistinctSupportCard K C d z)
+          (supportPieceFamily K C d z hVs q m E hE N) a).w
+      rw [Category.assoc, h,
+        R.refinedSupportPieceToSupportPiece_comp_structure])
+
+@[reassoc]
+theorem CrossSupportAffineGraphRefinement.refinedInclusion_comp_comparison
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    (inclusion R.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+        (R.refinedSupportPieceFamily K C d z hVs q m E hE N) a).left ≫
+        (R.refinedSupportCoproductToSupportCoproduct
+          K C d z hVs q m E hE N).left =
+      R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+        (inclusion N.baseOpen.toScheme
+          (geometricDistinctSupportCard K C d z)
+          (supportPieceFamily K C d z hVs q m E hE N) a).left :=
+  inclusion_comp_coproductToTarget
+    R.baseOpen.toScheme N.baseOpen.toScheme R.baseOpen.ι
+    (geometricDistinctSupportCard K C d z)
+    (R.refinedSupportPieceFamily K C d z hVs q m E hE N)
+    (supportCoproduct K C d z hVs q m E hE N)
+    (fun a ↦
+      R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+        (inclusion N.baseOpen.toScheme
+          (geometricDistinctSupportCard K C d z)
+          (supportPieceFamily K C d z hVs q m E hE N) a).left)
+    _ a
 
 /-- The support coproduct's structure map, regarded as a morphism to its
 simultaneous affine base over the coordinate ground scheme. -/
@@ -4276,5 +4714,459 @@ theorem graphToCoordinateGraph_comp_inclusion
         supportCoproductToCoordinateOrderedAmbient
           K C d z hVs q m E hE N :=
   equalizer.lift_ι _ _
+
+/-- The final refined support coproduct, regarded over the coordinate copy
+of the ground field. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportCoproductOverCoordinateBase
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) : Over (coordinateBase K) :=
+  Over.mk (((R.refinedSupportCoproduct K C d z hVs q m E hE N).hom ≫
+    R.baseOpen.ι) ≫ baseToCoordinateBase K C d z hVs q m E hE N)
+
+/-- The underlying comparison from the final cross-support coproduct to the
+original support coproduct. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportCoproductComparison
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) :
+    (R.refinedSupportCoproduct
+      K C d z hVs q m E hE N).left ⟶
+      (supportCoproduct K C d z hVs q m E hE N).left :=
+  (R.refinedSupportCoproductToSupportCoproduct
+    K C d z hVs q m E hE N).left
+
+/-- The final refined support coproduct maps to the ordered incidence
+ambient through the original support-coproduct comparison. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedSupportCoproductToCoordinateOrderedAmbient
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N) :
+    R.refinedSupportCoproductOverCoordinateBase
+        K C d z hVs q m E hE N ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) :=
+  Over.homMk
+    (R.refinedSupportCoproductComparison K C d z hVs q m E hE N ≫
+      (supportCoproductToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N).left)
+    (by
+      change
+        (R.refinedSupportCoproductComparison
+            K C d z hVs q m E hE N ≫
+          (supportCoproductToCoordinateOrderedAmbient
+            K C d z hVs q m E hE N).left) ≫
+          (UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+            (PointChart.curveOverCoordinateBase K C.left C.hom)).hom =
+        ((R.refinedSupportCoproduct
+            K C d z hVs q m E hE N).hom ≫ R.baseOpen.ι) ≫
+          baseToCoordinateBase K C d z hVs q m E hE N
+      rw [Category.assoc,
+        (supportCoproductToCoordinateOrderedAmbient
+          K C d z hVs q m E hE N).w]
+      exact congrArg
+        (fun f ↦ f ≫ baseToCoordinateBase K C d z hVs q m E hE N)
+        (R.refinedSupportCoproductToSupportCoproduct
+          K C d z hVs q m E hE N).w)
+
+/-- The map from one refined support summand to the ordered ambient. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedSupportPieceToCoordinateOrderedAmbient
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPiece K C d z hVs q m E hE N a ⟶
+      (UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom)).left :=
+  (inclusion R.baseOpen.toScheme
+      (geometricDistinctSupportCard K C d z)
+      (R.refinedSupportPieceFamily K C d z hVs q m E hE N) a).left ≫
+    (R.refinedSupportCoproductToCoordinateOrderedAmbient
+      K C d z hVs q m E hE N).left
+
+/-- On a refined summand, the distinguished point in the ordered ambient is
+the original varying support-piece point. -/
+@[reassoc]
+theorem
+    CrossSupportAffineGraphRefinement.refinedPieceToAmbient_comp_pointProjection
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPieceToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N a ≫
+      (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+    R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+      supportPieceToAffineComponent K C d z hVs q m E hE N a ≫
+        (affineComponentToCurve K C d z a).left := by
+  have hpoint := congrArg Over.Hom.left
+    (supportCoproductToCoordinateOrderedAmbient_comp_pointProjection
+      K C d z hVs q m E hE N)
+  change
+    (supportCoproductToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N).left ≫
+      (UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom)).left =
+    (supportCoproductToCurve K C d z hVs q m E hE N).left at hpoint
+  simp only [CrossSupportAffineGraphRefinement.refinedSupportPieceToCoordinateOrderedAmbient,
+    CrossSupportAffineGraphRefinement.refinedSupportCoproductToCoordinateOrderedAmbient,
+    Over.homMk_left, Category.assoc]
+  rw [hpoint, R.refinedInclusion_comp_comparison_assoc]
+  simpa only [Category.assoc] using congrArg
+    (fun f ↦
+      R.refinedSupportPieceToSupportPiece
+        K C d z hVs q m E hE N a ≫ f)
+    (inclusion_comp_supportCoproductToCurve
+      K C d z hVs q m E hE N a)
+
+/-- On a refined summand, the `i`-th ordered coordinate is pulled back from
+the final affine base. -/
+@[reassoc]
+theorem
+    CrossSupportAffineGraphRefinement.refinedPieceToAmbient_comp_coordinateProjection
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    R.refinedSupportPieceToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N a ≫
+      (UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+    R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+      (supportPieceFamily K C d z hVs q m E hE N a).hom ≫
+      (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i).left := by
+  have hcoordinate := congrArg Over.Hom.left
+    (supportCoproductToCoordinateOrderedAmbient_comp_coordinateProjection
+      K C d z hVs q m E hE N i)
+  change
+    (supportCoproductToCoordinateOrderedAmbient
+        K C d z hVs q m E hE N).left ≫
+      (UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+        (PointChart.curveOverCoordinateBase K C.left C.hom) i).left =
+    (supportCoproductToCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        PointChart.curveOverCoordinateBase K C.left C.hom) i).left at hcoordinate
+  have hinclusion := (inclusion N.baseOpen.toScheme
+      (geometricDistinctSupportCard K C d z)
+      (supportPieceFamily K C d z hVs q m E hE N) a).w
+  simp only [CrossSupportAffineGraphRefinement.refinedSupportPieceToCoordinateOrderedAmbient,
+    CrossSupportAffineGraphRefinement.refinedSupportCoproductToCoordinateOrderedAmbient,
+    Over.homMk_left, Category.assoc]
+  rw [hcoordinate, R.refinedInclusion_comp_comparison_assoc]
+  change
+    R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a ≫
+      (inclusion N.baseOpen.toScheme
+        (geometricDistinctSupportCard K C d z)
+      (supportPieceFamily K C d z hVs q m E hE N) a).left ≫
+      (supportCoproduct K C d z hVs q m E hE N).hom ≫
+      (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+      (Pi.π (fun _ : Fin d ↦
+        PointChart.curveOverCoordinateBase K C.left C.hom) i).left = _
+  simpa only [Category.assoc] using congrArg
+    (fun f ↦
+      R.refinedSupportPieceToSupportPiece
+          K C d z hVs q m E hE N a ≫ f ≫
+        (baseOpenToCurvePower K C d z hVs q m E hE N).left ≫
+        (Pi.π (fun _ : Fin d ↦
+          PointChart.curveOverCoordinateBase K C.left C.hom) i).left)
+    hinclusion
+
+open CrossSupportAffineGraphRefinement
+
+/-- One original support piece maps directly to the ordered ambient by
+pairing its varying curve point with the tuple pulled back from the common
+base. -/
+noncomputable def supportPieceToCoordinateOrderedAmbientOverCoordinateBase
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceOverCoordinateBase K C d z hVs q m E hE N a ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) :=
+  Limits.prod.lift
+    (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+    (supportPieceToBaseOpenOverCoordinateBase
+        K C d z hVs q m E hE N a ≫
+      baseOpenToMappedCurvePower K C d z hVs q m E hE N)
+
+@[reassoc]
+theorem supportPieceToCoordinateOrderedAmbientOverCoordinateBase_comp_pointProjection
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    supportPieceToCoordinateOrderedAmbientOverCoordinateBase
+        K C d z hVs q m E hE N a ≫
+      UniversalEffectiveDivisor.pointProjection (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) =
+    supportPieceToMappedCurve K C d z hVs q m E hE N a :=
+  Limits.prod.lift_fst _ _
+
+@[reassoc]
+theorem supportPieceToCoordinateOrderedAmbientOverCoordinateBase_comp_coordinateProjection
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    supportPieceToCoordinateOrderedAmbientOverCoordinateBase
+        K C d z hVs q m E hE N a ≫
+      UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) i =
+    supportPieceToBaseOpenOverCoordinateBase
+        K C d z hVs q m E hE N a ≫
+      baseOpenToMappedCurvePower K C d z hVs q m E hE N ≫
+      Pi.π (fun _ : Fin d ↦
+        (Over.map (coordinateBaseIso K).symm.hom).obj C) i := by
+  rw [UniversalEffectiveDivisor.coordinateProjection, ← Category.assoc,
+    supportPieceToCoordinateOrderedAmbientOverCoordinateBase,
+    Limits.prod.lift_snd]
+  rw [Category.assoc]
+
+/-- The direct ordered-ambient map pulls the `i`-th coordinate back to the
+corresponding support-piece coordinate morphism. -/
+@[reassoc]
+theorem
+    supportPieceToAmbient_comp_coordinate_eq_mapped
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    supportPieceToCoordinateOrderedAmbientOverCoordinateBase
+        K C d z hVs q m E hE N a ≫
+      UniversalEffectiveDivisor.coordinateProjection (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) i =
+    supportPieceToMappedCoordinate
+      K C d z hVs q m E hE N a i := by
+  rw [supportPieceToCoordinateOrderedAmbientOverCoordinateBase_comp_coordinateProjection]
+  rfl
+
+/-- A refined support piece over the coordinate ground scheme, with
+structure morphism inherited through its comparison to the original support
+piece. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportPieceOverCoordinateBase
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    Over (coordinateBase K) :=
+  Over.mk (R.refinedSupportPieceToSupportPiece
+      K C d z hVs q m E hE N a ≫
+    (supportPieceOverCoordinateBase
+      K C d z hVs q m E hE N a).hom)
+
+/-- The final support-piece comparison over the coordinate ground scheme. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedSupportPieceComparisonOverCoordinateBase
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPieceOverCoordinateBase
+        K C d z hVs q m E hE N a ⟶
+      supportPieceOverCoordinateBase K C d z hVs q m E hE N a :=
+  Over.homMk
+    (R.refinedSupportPieceToSupportPiece K C d z hVs q m E hE N a) rfl
+
+/-- Direct ordered-ambient map on a refined support piece. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedPieceToAmbientOverCoordinateBase
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) :
+    R.refinedSupportPieceOverCoordinateBase
+        K C d z hVs q m E hE N a ⟶
+      UniversalEffectiveDivisor.orderedAmbient (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) :=
+  R.refinedSupportPieceComparisonOverCoordinateBase
+      K C d z hVs q m E hE N a ≫
+    supportPieceToCoordinateOrderedAmbientOverCoordinateBase
+      K C d z hVs q m E hE N a
+
+/-- Pull back one coordinate graph to one refined support piece. -/
+noncomputable abbrev CrossSupportAffineGraphRefinement.refinedSupportPieceCoordinateGraphPullback
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    Over (coordinateBase K) :=
+  pullback
+    (R.refinedPieceToAmbientOverCoordinateBase
+      K C d z hVs q m E hE N a)
+    (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+      ((Over.map (coordinateBaseIso K).symm.hom).obj C) i)
+
+/-- A pulled-back ambient coordinate graph maps to the corresponding
+equalizer formed directly on the original support piece. -/
+noncomputable def
+    CrossSupportAffineGraphRefinement.refinedCoordinateGraphPullbackToSupportPieceEqualizer
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d) :
+    R.refinedSupportPieceCoordinateGraphPullback
+        K C d z hVs q m E hE N a i ⟶
+      supportPieceCoordinateEqualizer K C d z hVs q m E hE N a i :=
+  equalizer.lift
+    (pullback.fst
+        (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a)
+        (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          ((Over.map (coordinateBaseIso K).symm.hom).obj C) i) ≫
+      R.refinedSupportPieceComparisonOverCoordinateBase
+        K C d z hVs q m E hE N a)
+    (by
+      let p := pullback.fst
+        (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a)
+        (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          ((Over.map (coordinateBaseIso K).symm.hom).obj C) i)
+      let e := pullback.snd
+        (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a)
+        (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          ((Over.map (coordinateBaseIso K).symm.hom).obj C) i)
+      let f := R.refinedPieceToAmbientOverCoordinateBase
+        K C d z hVs q m E hE N a
+      let ι := UniversalEffectiveDivisor.coordinateGraphι
+        (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) i
+      let point := UniversalEffectiveDivisor.pointProjection
+        (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C)
+      let coordinate := UniversalEffectiveDivisor.coordinateProjection
+        (coordinateBase K) d
+        ((Over.map (coordinateBaseIso K).symm.hom).obj C) i
+      have hpoint :
+          f ≫ point =
+            R.refinedSupportPieceComparisonOverCoordinateBase
+                K C d z hVs q m E hE N a ≫
+              supportPieceToMappedCurve
+                K C d z hVs q m E hE N a := by
+        dsimp only [f]
+        rw [refinedPieceToAmbientOverCoordinateBase,
+          Category.assoc,
+          supportPieceToCoordinateOrderedAmbientOverCoordinateBase_comp_pointProjection]
+      have hcoordinate :
+          f ≫ coordinate =
+            R.refinedSupportPieceComparisonOverCoordinateBase
+                K C d z hVs q m E hE N a ≫
+              supportPieceToMappedCoordinate
+                K C d z hVs q m E hE N a i := by
+        dsimp only [f]
+        rw [refinedPieceToAmbientOverCoordinateBase,
+          Category.assoc,
+          supportPieceToAmbient_comp_coordinate_eq_mapped]
+      calc
+        (p ≫ R.refinedSupportPieceComparisonOverCoordinateBase
+              K C d z hVs q m E hE N a) ≫
+            supportPieceToMappedCurve K C d z hVs q m E hE N a =
+          p ≫ f ≫ point := by
+            rw [Category.assoc, hpoint]
+        _ = e ≫ ι ≫ point := by
+          rw [← Category.assoc, ← Category.assoc,
+            pullback.condition]
+        _ = e ≫ ι ≫ coordinate := by
+          rw [equalizer.condition]
+        _ = p ≫ f ≫ coordinate := by
+          rw [← Category.assoc, ← Category.assoc,
+            pullback.condition]
+        _ = (p ≫
+              R.refinedSupportPieceComparisonOverCoordinateBase
+                K C d z hVs q m E hE N a) ≫
+            supportPieceToMappedCoordinate
+              K C d z hVs q m E hE N a i := by
+          rw [Category.assoc, hcoordinate])
+
+/-- For a non-owner coordinate, the pulled-back ambient graph maps to the
+already empty pullback of the support-piece equalizer along the retained
+support open. -/
+noncomputable def CrossSupportAffineGraphRefinement.refinedNonownerCoordinateGraphPullbackToEmpty
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d)
+    (_hi : geometricPointSupportIndex K C d z i ≠ a) :
+    (R.refinedSupportPieceCoordinateGraphPullback
+        K C d z hVs q m E hE N a i).left ⟶
+      pullback
+        (R.supportOpenInclusion K C d z hVs q m E hE N a).left
+        (equalizer.ι
+          (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+          (supportPieceToMappedCoordinate
+            K C d z hVs q m E hE N a i)).left :=
+  pullback.lift
+    ((pullback.fst
+        (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a)
+        (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          ((Over.map (coordinateBaseIso K).symm.hom).obj C) i)).left ≫
+      pullback.fst
+        ((R.supportOpen a).ι ≫
+          (supportPieceFamily K C d z hVs q m E hE N a).hom)
+        R.baseOpen.ι)
+    (R.refinedCoordinateGraphPullbackToSupportPieceEqualizer
+      K C d z hVs q m E hE N a i).left
+    (by
+      let p := pullback.fst
+        (R.refinedPieceToAmbientOverCoordinateBase
+          K C d z hVs q m E hE N a)
+        (UniversalEffectiveDivisor.coordinateGraphι (coordinateBase K) d
+          ((Over.map (coordinateBaseIso K).symm.hom).obj C) i)
+      have heq :
+          R.refinedCoordinateGraphPullbackToSupportPieceEqualizer
+                K C d z hVs q m E hE N a i ≫
+              equalizer.ι
+                (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+                (supportPieceToMappedCoordinate
+                  K C d z hVs q m E hE N a i) =
+            p ≫ R.refinedSupportPieceComparisonOverCoordinateBase
+              K C d z hVs q m E hE N a := by
+        exact equalizer.lift_ι _ _
+      have heqLeft := congrArg Over.Hom.left heq
+      change
+        (p.left ≫
+            pullback.fst
+              ((R.supportOpen a).ι ≫
+                (supportPieceFamily K C d z hVs q m E hE N a).hom)
+              R.baseOpen.ι) ≫
+            (R.supportOpen a).ι =
+          (R.refinedCoordinateGraphPullbackToSupportPieceEqualizer
+              K C d z hVs q m E hE N a i).left ≫
+            (equalizer.ι
+              (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+              (supportPieceToMappedCoordinate
+                K C d z hVs q m E hE N a i)).left
+      rw [Category.assoc]
+      change p.left ≫
+          R.refinedSupportPieceToSupportPiece
+            K C d z hVs q m E hE N a = _
+      change
+        (R.refinedCoordinateGraphPullbackToSupportPieceEqualizer
+              K C d z hVs q m E hE N a i).left ≫
+            (equalizer.ι
+              (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+              (supportPieceToMappedCoordinate
+                K C d z hVs q m E hE N a i)).left =
+          p.left ≫ R.refinedSupportPieceToSupportPiece
+            K C d z hVs q m E hE N a at heqLeft
+      exact heqLeft.symm)
+
+/-- Every non-owner coordinate-graph pullback to a refined support summand
+is empty. -/
+theorem
+    CrossSupportAffineGraphRefinement.isEmpty_refinedSupportPieceCoordinateGraphPullback_of_nonowner
+    [IsSeparated C.hom]
+    (R : CrossSupportAffineGraphRefinement
+      K C d z hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d z)) (i : Fin d)
+    (hi : geometricPointSupportIndex K C d z i ≠ a) :
+    IsEmpty ((R.refinedSupportPieceCoordinateGraphPullback
+      K C d z hVs q m E hE N a i).left : Scheme.{u}) := by
+  letI : IsEmpty ((pullback
+      (R.supportOpenInclusion K C d z hVs q m E hE N a).left
+      (equalizer.ι
+        (supportPieceToMappedCurve K C d z hVs q m E hE N a)
+        (supportPieceToMappedCoordinate
+          K C d z hVs q m E hE N a i)).left : Scheme.{u})) :=
+    R.isEmpty_pullback_nonownerEqualizer
+      K C d z hVs q m E hE N a i hi
+  constructor
+  intro x
+  exact isEmptyElim
+    ((R.refinedNonownerCoordinateGraphPullbackToEmpty
+      K C d z hVs q m E hE N a i hi) x)
 
 end MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSupportCoproduct

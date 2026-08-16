@@ -711,6 +711,48 @@ theorem orderedSupportGeometricAssigned_exists_crossSupportAffineGraphRefinement
   nonempty_crossSupportAffineGraphRefinement K C d
     (orderedSupportPoint K C d z) hVs q m E hE N
 
+omit [GeometricallyIrreducible C.hom] in
+/-- On the final pointed-incidence refinement, a coordinate graph has empty
+pullback to every support summand not owning that coordinate. -/
+theorem orderedSupportGeometricAssigned_nonowner_coordinateGraphPullback_isEmpty
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem)
+    (N : SimultaneousAffineGraphNeighborhood K C d
+      (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj)
+    (R : CrossSupportAffineGraphRefinement K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N)
+    (a : Fin (geometricDistinctSupportCard K C d
+      (orderedSupportPoint K C d z))) (i : Fin d)
+    (hi : geometricPointSupportIndex K C d
+      (orderedSupportPoint K C d z) i ≠ a) :
+    IsEmpty ((R.refinedSupportPieceCoordinateGraphPullback K C d
+      (orderedSupportPoint K C d z) hVs q m E hE N a i).left :
+        Scheme.{u}) :=
+  R.isEmpty_refinedSupportPieceCoordinateGraphPullback_of_nonowner K C d
+    (orderedSupportPoint K C d z) hVs q m E hE N a i hi
+
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- On an ordered-incidence affine support block, the global ideal retaining
 all ordered occurrences and their multiplicities is obtained by extending
