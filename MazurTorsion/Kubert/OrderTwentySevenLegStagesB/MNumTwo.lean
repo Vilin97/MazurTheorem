@@ -4,16 +4,23 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwo
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoX
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorSquare
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwo
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WTwoX
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Scalars
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The second kernel numerator term
 
 The second independently elaborated numerator term.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -91,3 +98,5 @@ lemma tl_mnum₂ {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 
 
 
 end MazurTorsion.Kubert
+
+end

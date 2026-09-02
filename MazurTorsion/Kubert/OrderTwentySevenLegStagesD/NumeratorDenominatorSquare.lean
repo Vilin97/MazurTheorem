@@ -4,7 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part22
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Third-leg numerator times the denominator square
@@ -12,6 +18,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The staged product certificate for the third-leg numerator and the square of its
 denominator.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -75,3 +85,5 @@ lemma zlTNTDSq_val {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
     ((zlTNTDSq_s0 hM) + (zlTNTDSq_s1 hM)) + ((zlTNTDSq_s2 hM) + (zlTNTDSq_s3 hM))
 
 end MazurTorsion.Kubert
+
+end

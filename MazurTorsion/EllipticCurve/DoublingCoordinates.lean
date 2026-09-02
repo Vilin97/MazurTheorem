@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
+module
+public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
 import Mathlib.Tactic.LinearCombination
 
 /-!
@@ -15,7 +15,7 @@ numerators for the abscissa and completed ordinate of an affine double.
 The formulas are proved directly from the chord-and-tangent law and are
 designed for composition with explicit rational maps.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Doubling

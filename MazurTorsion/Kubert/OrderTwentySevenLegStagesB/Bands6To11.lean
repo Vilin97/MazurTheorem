@@ -4,13 +4,35 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part01
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part02
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part03
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part04
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part05
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part06
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part07
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part08
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part09
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part10
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part17
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part18
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part19
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part20
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.Ring
 
 /-!
 # Band identities 6 through 11
 
 The second independent band identities for the trisection certificate.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -164,3 +186,5 @@ lemma tl_band11 (f ξ : ℚ) :
 
 
 end MazurTorsion.Kubert
+
+end

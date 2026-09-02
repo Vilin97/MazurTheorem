@@ -4,8 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To9
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps10To13
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To9
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps10To13
 
 /-!
 # Second-power product identities 7 through 13

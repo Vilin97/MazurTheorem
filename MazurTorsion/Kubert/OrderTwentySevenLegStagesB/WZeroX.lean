@@ -4,13 +4,20 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WZeroXSteps
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WZeroXSteps
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The zero-weight value
 
 The aggregate zero-weight identity.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -50,3 +57,5 @@ lemma tlWZeroX_val {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT
 
 
 end MazurTorsion.Kubert
+
+end

@@ -4,13 +4,26 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part11
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part12
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part13
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part17
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part18
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Second-weight identities 0 through 1
 
 The first independent second-weight identities.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -83,3 +96,5 @@ lemma tlWTwoX_s1 {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 
 
 
 end MazurTorsion.Kubert
+
+end

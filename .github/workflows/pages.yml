@@ -110,9 +110,11 @@ jobs:
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
           key: >-
-            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            OrderTwentySevenLegChunks-v3-${{ runner.os }}-${{ runner.arch }}-${{
             hashFiles(
             'lean-toolchain',
             'lake-manifest.json',
@@ -124,6 +126,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
@@ -162,6 +165,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
@@ -237,9 +241,11 @@ jobs:
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
           key: >-
-            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            OrderTwentySevenLegChunks-v3-${{ runner.os }}-${{ runner.arch }}-${{
             hashFiles(
             'lean-toolchain',
             'lake-manifest.json',
@@ -251,6 +257,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
@@ -258,7 +265,7 @@ jobs:
             'MazurTorsion/Kubert/TateNormalFormMultiples.lean'
             ) }}
           restore-keys: |
-            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-
+            OrderTwentySevenLegChunks-v3-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Install Lean
         if: >-
@@ -279,6 +286,8 @@ jobs:
         run: scripts/get-mathlib-cache.sh
 
       - name: Build the generated certificate
+        env:
+          LEAN_NUM_THREADS: "4"
         if: >-
           (steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
@@ -331,6 +340,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
@@ -705,9 +715,11 @@ jobs:
         with:
           path: |
             .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/lib/lean/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
             .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks.*
+            .lake/build/ir/MazurTorsion/Kubert/OrderTwentySevenLegChunks/**
           key: >-
-            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-${{
+            OrderTwentySevenLegChunks-v3-${{ runner.os }}-${{ runner.arch }}-${{
             hashFiles(
             'lean-toolchain',
             'lake-manifest.json',
@@ -719,6 +731,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',
@@ -726,7 +739,7 @@ jobs:
             'MazurTorsion/Kubert/TateNormalFormMultiples.lean'
             ) }}
           restore-keys: |
-            OrderTwentySevenLegChunks-v2-${{ runner.os }}-${{ runner.arch }}-
+            OrderTwentySevenLegChunks-v3-${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Restore the certificate prerequisite cache
@@ -759,6 +772,7 @@ jobs:
             'MazurTorsion/Kubert/OrderEighteenReduction.lean',
             'MazurTorsion/Kubert/OrderNineReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegChunks.lean',
+            'MazurTorsion/Kubert/OrderTwentySevenLegChunks/**/*.lean',
             'MazurTorsion/Kubert/OrderTwentySevenLegs.lean',
             'MazurTorsion/Kubert/OrderTwentySevenReduction.lean',
             'MazurTorsion/Kubert/OrderTwentySevenTrisection.lean',

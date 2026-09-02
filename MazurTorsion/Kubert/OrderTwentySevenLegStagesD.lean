@@ -4,8 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.Bezout
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.BigIdentity
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.Bezout
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.BigIdentity
 
 /-!
 # The third-leg correspondence certificate

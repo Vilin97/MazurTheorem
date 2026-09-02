@@ -4,17 +4,25 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands0To5
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands6To11
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands12To17
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands18To23
+import Mathlib.Algebra.BigOperators.Fin
+import Mathlib.Tactic.SuppressCompilation
 import Mathlib.Tactic.FinCases
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands0To5
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands6To11
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands12To17
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Bands18To23
+import Mathlib.Tactic.Abel
 
 /-!
 # The aggregate zero identity
 
 The band identities assembled into the aggregate zero relation.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -2236,3 +2244,5 @@ lemma tl_zero (f ξ : ℚ) :
 
 
 end MazurTorsion.Kubert
+
+end

@@ -194,6 +194,7 @@ import MazurTorsion.NumberTheory.CyclotomicSelmerClassGroup
 import MazurTorsion.NumberTheory.KummerArtinProduct
 import MazurTorsion.NumberTheory.UnramifiedNormArtin
 import MazurTorsion.NumberTheory.ExceptionalCubicDescent
+import MazurTorsion.NumberTheory.CyclotomicUnramified
 import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.NumberTheory.ExceptionalCubicReduction
 import MazurTorsion.NumberTheory.ExceptionalQuarticDescent
@@ -246,6 +247,7 @@ import MazurTorsion.NumberTheory.XOneFifteenReduction
 import MazurTorsion.NumberTheory.XOneFourteenDescent
 import MazurTorsion.NumberTheory.XOneFourteenReduction
 import MazurTorsion.PrimeOrder.CyclotomicObstruction
+<<<<<<< Updated upstream
 import MazurTorsion.PrimeOrder.FiniteFieldFiveOrder
 import MazurTorsion.PrimeOrder.FormalImmersionAtFive
 import MazurTorsion.PrimeOrder.FormalImmersionNeronAtFive
@@ -255,6 +257,8 @@ import MazurTorsion.PrimeOrder.TameAdditiveAtFive
 import MazurTorsion.PrimeOrder.TorsionSpecialization
 import MazurTorsion.Release.PinMigrationAudit
 import MazurTorsion.Upstream.AffineTildeReflectsInvertibility
+=======
+>>>>>>> Stashed changes
 import MazurTorsion.Upstream.Geometry
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffine
 import MazurTorsion.Upstream.SchemeModuleCohomologyAffineCover

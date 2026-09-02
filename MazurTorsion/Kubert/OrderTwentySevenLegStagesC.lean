@@ -4,7 +4,12 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Kernel-cubic-side staged products
@@ -12,6 +17,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 Staged products of the kernel-cubic-side certificate chain: powers of the
 third-leg numerator and denominator reduced against the kernel cubic.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -125,3 +134,5 @@ lemma zlTNSqTD_val {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
     (zlTNSqTD_s0 hM)
 
 end MazurTorsion.Kubert
+
+end

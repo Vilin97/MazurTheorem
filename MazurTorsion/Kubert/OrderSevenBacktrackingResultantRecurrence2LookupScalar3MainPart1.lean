@@ -3,10 +3,11 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB3
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupQuotientConstant
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB3
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupQuotientConstant
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3MainPart1Simp
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 
@@ -16,7 +17,7 @@ import Lean.Elab.Tactic.Omega
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -455,7 +456,7 @@ theorem recurrence2Scalar3Main_coeff_234 :
   rw [recurrence2Scalar3Main_coeff_234_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_234_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_235_prefix_zero :
     (∑ x ∈ Finset.range 2,
@@ -509,7 +510,7 @@ theorem recurrence2Scalar3Main_coeff_235 :
   rw [recurrence2Scalar3Main_coeff_235_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_235_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_236_prefix_zero :
     (∑ x ∈ Finset.range 3,
@@ -563,7 +564,7 @@ theorem recurrence2Scalar3Main_coeff_236 :
   rw [recurrence2Scalar3Main_coeff_236_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_236_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_237_prefix_zero :
     (∑ x ∈ Finset.range 4,
@@ -617,7 +618,7 @@ theorem recurrence2Scalar3Main_coeff_237 :
   rw [recurrence2Scalar3Main_coeff_237_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_237_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_238_prefix_zero :
     (∑ x ∈ Finset.range 5,
@@ -671,7 +672,7 @@ theorem recurrence2Scalar3Main_coeff_238 :
   rw [recurrence2Scalar3Main_coeff_238_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_238_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_239_prefix_zero :
     (∑ x ∈ Finset.range 6,
@@ -725,7 +726,7 @@ theorem recurrence2Scalar3Main_coeff_239 :
   rw [recurrence2Scalar3Main_coeff_239_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_239_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_240_prefix_zero :
     (∑ x ∈ Finset.range 7,
@@ -779,7 +780,7 @@ theorem recurrence2Scalar3Main_coeff_240 :
   rw [recurrence2Scalar3Main_coeff_240_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_240_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_241_prefix_zero :
     (∑ x ∈ Finset.range 8,
@@ -833,7 +834,7 @@ theorem recurrence2Scalar3Main_coeff_241 :
   rw [recurrence2Scalar3Main_coeff_241_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_241_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_242_prefix_zero :
     (∑ x ∈ Finset.range 9,
@@ -887,7 +888,7 @@ theorem recurrence2Scalar3Main_coeff_242 :
   rw [recurrence2Scalar3Main_coeff_242_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_242_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_243_prefix_zero :
     (∑ x ∈ Finset.range 10,
@@ -941,7 +942,7 @@ theorem recurrence2Scalar3Main_coeff_243 :
   rw [recurrence2Scalar3Main_coeff_243_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_243_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_244_prefix_zero :
     (∑ x ∈ Finset.range 11,
@@ -995,7 +996,7 @@ theorem recurrence2Scalar3Main_coeff_244 :
   rw [recurrence2Scalar3Main_coeff_244_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_244_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_245_prefix_zero :
     (∑ x ∈ Finset.range 12,
@@ -1049,7 +1050,7 @@ theorem recurrence2Scalar3Main_coeff_245 :
   rw [recurrence2Scalar3Main_coeff_245_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_245_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_246_prefix_zero :
     (∑ x ∈ Finset.range 13,
@@ -1103,7 +1104,7 @@ theorem recurrence2Scalar3Main_coeff_246 :
   rw [recurrence2Scalar3Main_coeff_246_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_246_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_247_prefix_zero :
     (∑ x ∈ Finset.range 14,
@@ -1157,7 +1158,7 @@ theorem recurrence2Scalar3Main_coeff_247 :
   rw [recurrence2Scalar3Main_coeff_247_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_247_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_248_prefix_zero :
     (∑ x ∈ Finset.range 15,
@@ -1208,7 +1209,7 @@ theorem recurrence2Scalar3Main_coeff_248 :
   rw [recurrence2Scalar3Main_coeff_248_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_248_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_249_prefix_zero :
     (∑ x ∈ Finset.range 16,
@@ -1259,7 +1260,7 @@ theorem recurrence2Scalar3Main_coeff_249 :
   rw [recurrence2Scalar3Main_coeff_249_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_249_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_250_prefix_zero :
     (∑ x ∈ Finset.range 17,
@@ -1310,7 +1311,7 @@ theorem recurrence2Scalar3Main_coeff_250 :
   rw [recurrence2Scalar3Main_coeff_250_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_250_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_251_prefix_zero :
     (∑ x ∈ Finset.range 18,
@@ -1361,7 +1362,7 @@ theorem recurrence2Scalar3Main_coeff_251 :
   rw [recurrence2Scalar3Main_coeff_251_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_251_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_252_prefix_zero :
     (∑ x ∈ Finset.range 19,
@@ -1412,7 +1413,7 @@ theorem recurrence2Scalar3Main_coeff_252 :
   rw [recurrence2Scalar3Main_coeff_252_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_252_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_253_prefix_zero :
     (∑ x ∈ Finset.range 20,
@@ -1463,7 +1464,7 @@ theorem recurrence2Scalar3Main_coeff_253 :
   rw [recurrence2Scalar3Main_coeff_253_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_253_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_254_prefix_zero :
     (∑ x ∈ Finset.range 21,
@@ -1514,7 +1515,7 @@ theorem recurrence2Scalar3Main_coeff_254 :
   rw [recurrence2Scalar3Main_coeff_254_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_254_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_255_prefix_zero :
     (∑ x ∈ Finset.range 22,
@@ -1564,7 +1565,7 @@ theorem recurrence2Scalar3Main_coeff_255 :
   rw [recurrence2Scalar3Main_coeff_255_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_255_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_256_prefix_zero :
     (∑ x ∈ Finset.range 23,
@@ -1614,7 +1615,7 @@ theorem recurrence2Scalar3Main_coeff_256 :
   rw [recurrence2Scalar3Main_coeff_256_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_256_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_257_prefix_zero :
     (∑ x ∈ Finset.range 24,
@@ -1664,7 +1665,7 @@ theorem recurrence2Scalar3Main_coeff_257 :
   rw [recurrence2Scalar3Main_coeff_257_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_257_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_258_prefix_zero :
     (∑ x ∈ Finset.range 25,
@@ -1714,7 +1715,7 @@ theorem recurrence2Scalar3Main_coeff_258 :
   rw [recurrence2Scalar3Main_coeff_258_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_258_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_259_prefix_zero :
     (∑ x ∈ Finset.range 26,
@@ -1764,7 +1765,7 @@ theorem recurrence2Scalar3Main_coeff_259 :
   rw [recurrence2Scalar3Main_coeff_259_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_259_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_260_prefix_zero :
     (∑ x ∈ Finset.range 27,
@@ -1814,7 +1815,7 @@ theorem recurrence2Scalar3Main_coeff_260 :
   rw [recurrence2Scalar3Main_coeff_260_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_260_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_261_prefix_zero :
     (∑ x ∈ Finset.range 28,
@@ -1864,7 +1865,7 @@ theorem recurrence2Scalar3Main_coeff_261 :
   rw [recurrence2Scalar3Main_coeff_261_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_261_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_262_prefix_zero :
     (∑ x ∈ Finset.range 29,
@@ -1914,7 +1915,7 @@ theorem recurrence2Scalar3Main_coeff_262 :
   rw [recurrence2Scalar3Main_coeff_262_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_262_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_263_prefix_zero :
     (∑ x ∈ Finset.range 30,
@@ -1964,7 +1965,7 @@ theorem recurrence2Scalar3Main_coeff_263 :
   rw [recurrence2Scalar3Main_coeff_263_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_263_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_264_prefix_zero :
     (∑ x ∈ Finset.range 31,
@@ -2014,7 +2015,7 @@ theorem recurrence2Scalar3Main_coeff_264 :
   rw [recurrence2Scalar3Main_coeff_264_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_264_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_265_prefix_zero :
     (∑ x ∈ Finset.range 32,
@@ -2064,7 +2065,7 @@ theorem recurrence2Scalar3Main_coeff_265 :
   rw [recurrence2Scalar3Main_coeff_265_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_265_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_266_prefix_zero :
     (∑ x ∈ Finset.range 33,
@@ -2114,7 +2115,7 @@ theorem recurrence2Scalar3Main_coeff_266 :
   rw [recurrence2Scalar3Main_coeff_266_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_266_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_267_prefix_zero :
     (∑ x ∈ Finset.range 34,
@@ -2164,7 +2165,7 @@ theorem recurrence2Scalar3Main_coeff_267 :
   rw [recurrence2Scalar3Main_coeff_267_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_267_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_268_prefix_zero :
     (∑ x ∈ Finset.range 35,
@@ -2214,7 +2215,7 @@ theorem recurrence2Scalar3Main_coeff_268 :
   rw [recurrence2Scalar3Main_coeff_268_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_268_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_269_prefix_zero :
     (∑ x ∈ Finset.range 36,
@@ -2264,7 +2265,7 @@ theorem recurrence2Scalar3Main_coeff_269 :
   rw [recurrence2Scalar3Main_coeff_269_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_269_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_270_prefix_zero :
     (∑ x ∈ Finset.range 37,
@@ -2314,7 +2315,7 @@ theorem recurrence2Scalar3Main_coeff_270 :
   rw [recurrence2Scalar3Main_coeff_270_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_270_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_271_prefix_zero :
     (∑ x ∈ Finset.range 38,
@@ -2364,7 +2365,7 @@ theorem recurrence2Scalar3Main_coeff_271 :
   rw [recurrence2Scalar3Main_coeff_271_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_271_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_272_prefix_zero :
     (∑ x ∈ Finset.range 39,
@@ -2414,7 +2415,7 @@ theorem recurrence2Scalar3Main_coeff_272 :
   rw [recurrence2Scalar3Main_coeff_272_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_272_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_273_prefix_zero :
     (∑ x ∈ Finset.range 40,
@@ -2464,7 +2465,7 @@ theorem recurrence2Scalar3Main_coeff_273 :
   rw [recurrence2Scalar3Main_coeff_273_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_273_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_274_prefix_zero :
     (∑ x ∈ Finset.range 41,
@@ -2514,7 +2515,7 @@ theorem recurrence2Scalar3Main_coeff_274 :
   rw [recurrence2Scalar3Main_coeff_274_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_274_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_275_prefix_zero :
     (∑ x ∈ Finset.range 42,
@@ -2564,7 +2565,7 @@ theorem recurrence2Scalar3Main_coeff_275 :
   rw [recurrence2Scalar3Main_coeff_275_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_275_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_276_prefix_zero :
     (∑ x ∈ Finset.range 43,
@@ -2614,7 +2615,7 @@ theorem recurrence2Scalar3Main_coeff_276 :
   rw [recurrence2Scalar3Main_coeff_276_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_276_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_277_prefix_zero :
     (∑ x ∈ Finset.range 44,
@@ -2664,7 +2665,7 @@ theorem recurrence2Scalar3Main_coeff_277 :
   rw [recurrence2Scalar3Main_coeff_277_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_277_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_278_prefix_zero :
     (∑ x ∈ Finset.range 45,
@@ -2714,7 +2715,7 @@ theorem recurrence2Scalar3Main_coeff_278 :
   rw [recurrence2Scalar3Main_coeff_278_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_278_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_279_prefix_zero :
     (∑ x ∈ Finset.range 46,
@@ -2764,7 +2765,7 @@ theorem recurrence2Scalar3Main_coeff_279 :
   rw [recurrence2Scalar3Main_coeff_279_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_279_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_280_prefix_zero :
     (∑ x ∈ Finset.range 47,
@@ -2811,7 +2812,7 @@ theorem recurrence2Scalar3Main_coeff_280 :
   rw [recurrence2Scalar3Main_coeff_280_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_280_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_281_prefix_zero :
     (∑ x ∈ Finset.range 48,
@@ -2858,7 +2859,7 @@ theorem recurrence2Scalar3Main_coeff_281 :
   rw [recurrence2Scalar3Main_coeff_281_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_281_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_282_prefix_zero :
     (∑ x ∈ Finset.range 49,
@@ -2905,7 +2906,7 @@ theorem recurrence2Scalar3Main_coeff_282 :
   rw [recurrence2Scalar3Main_coeff_282_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_282_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_283_prefix_zero :
     (∑ x ∈ Finset.range 50,
@@ -2952,7 +2953,7 @@ theorem recurrence2Scalar3Main_coeff_283 :
   rw [recurrence2Scalar3Main_coeff_283_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_283_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_284_prefix_zero :
     (∑ x ∈ Finset.range 51,
@@ -2999,7 +3000,7 @@ theorem recurrence2Scalar3Main_coeff_284 :
   rw [recurrence2Scalar3Main_coeff_284_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_284_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_285_prefix_zero :
     (∑ x ∈ Finset.range 52,
@@ -3046,7 +3047,7 @@ theorem recurrence2Scalar3Main_coeff_285 :
   rw [recurrence2Scalar3Main_coeff_285_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_285_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_286_prefix_zero :
     (∑ x ∈ Finset.range 53,
@@ -3093,7 +3094,7 @@ theorem recurrence2Scalar3Main_coeff_286 :
   rw [recurrence2Scalar3Main_coeff_286_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_286_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_287_prefix_zero :
     (∑ x ∈ Finset.range 54,
@@ -3140,7 +3141,7 @@ theorem recurrence2Scalar3Main_coeff_287 :
   rw [recurrence2Scalar3Main_coeff_287_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_287_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_288_prefix_zero :
     (∑ x ∈ Finset.range 55,
@@ -3187,7 +3188,7 @@ theorem recurrence2Scalar3Main_coeff_288 :
   rw [recurrence2Scalar3Main_coeff_288_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_288_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_289_prefix_zero :
     (∑ x ∈ Finset.range 56,
@@ -3234,7 +3235,7 @@ theorem recurrence2Scalar3Main_coeff_289 :
   rw [recurrence2Scalar3Main_coeff_289_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_289_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_290_prefix_zero :
     (∑ x ∈ Finset.range 57,
@@ -3281,7 +3282,7 @@ theorem recurrence2Scalar3Main_coeff_290 :
   rw [recurrence2Scalar3Main_coeff_290_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_290_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_291_prefix_zero :
     (∑ x ∈ Finset.range 58,
@@ -3328,7 +3329,7 @@ theorem recurrence2Scalar3Main_coeff_291 :
   rw [recurrence2Scalar3Main_coeff_291_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_291_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_292_prefix_zero :
     (∑ x ∈ Finset.range 59,
@@ -3375,7 +3376,7 @@ theorem recurrence2Scalar3Main_coeff_292 :
   rw [recurrence2Scalar3Main_coeff_292_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_292_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_293_prefix_zero :
     (∑ x ∈ Finset.range 60,
@@ -3422,7 +3423,7 @@ theorem recurrence2Scalar3Main_coeff_293 :
   rw [recurrence2Scalar3Main_coeff_293_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_293_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_294_prefix_zero :
     (∑ x ∈ Finset.range 61,
@@ -3469,7 +3470,7 @@ theorem recurrence2Scalar3Main_coeff_294 :
   rw [recurrence2Scalar3Main_coeff_294_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_294_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_295_prefix_zero :
     (∑ x ∈ Finset.range 62,
@@ -3516,7 +3517,7 @@ theorem recurrence2Scalar3Main_coeff_295 :
   rw [recurrence2Scalar3Main_coeff_295_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_295_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_296_prefix_zero :
     (∑ x ∈ Finset.range 63,
@@ -3563,7 +3564,7 @@ theorem recurrence2Scalar3Main_coeff_296 :
   rw [recurrence2Scalar3Main_coeff_296_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_296_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_297_prefix_zero :
     (∑ x ∈ Finset.range 64,
@@ -3610,7 +3611,7 @@ theorem recurrence2Scalar3Main_coeff_297 :
   rw [recurrence2Scalar3Main_coeff_297_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_297_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_298_prefix_zero :
     (∑ x ∈ Finset.range 65,
@@ -3657,7 +3658,7 @@ theorem recurrence2Scalar3Main_coeff_298 :
   rw [recurrence2Scalar3Main_coeff_298_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_298_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_299_prefix_zero :
     (∑ x ∈ Finset.range 66,
@@ -3704,7 +3705,7 @@ theorem recurrence2Scalar3Main_coeff_299 :
   rw [recurrence2Scalar3Main_coeff_299_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_299_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_300_prefix_zero :
     (∑ x ∈ Finset.range 67,
@@ -3751,7 +3752,7 @@ theorem recurrence2Scalar3Main_coeff_300 :
   rw [recurrence2Scalar3Main_coeff_300_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_300_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_301_prefix_zero :
     (∑ x ∈ Finset.range 68,
@@ -3798,7 +3799,7 @@ theorem recurrence2Scalar3Main_coeff_301 :
   rw [recurrence2Scalar3Main_coeff_301_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_301_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_302_prefix_zero :
     (∑ x ∈ Finset.range 69,
@@ -3845,7 +3846,7 @@ theorem recurrence2Scalar3Main_coeff_302 :
   rw [recurrence2Scalar3Main_coeff_302_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_302_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_303_prefix_zero :
     (∑ x ∈ Finset.range 70,
@@ -3892,7 +3893,7 @@ theorem recurrence2Scalar3Main_coeff_303 :
   rw [recurrence2Scalar3Main_coeff_303_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_303_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_304_prefix_zero :
     (∑ x ∈ Finset.range 71,
@@ -3939,7 +3940,7 @@ theorem recurrence2Scalar3Main_coeff_304 :
   rw [recurrence2Scalar3Main_coeff_304_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_304_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_305_prefix_zero :
     (∑ x ∈ Finset.range 72,
@@ -3986,7 +3987,7 @@ theorem recurrence2Scalar3Main_coeff_305 :
   rw [recurrence2Scalar3Main_coeff_305_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_305_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_306_prefix_zero :
     (∑ x ∈ Finset.range 73,
@@ -4033,7 +4034,7 @@ theorem recurrence2Scalar3Main_coeff_306 :
   rw [recurrence2Scalar3Main_coeff_306_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_306_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_307_prefix_zero :
     (∑ x ∈ Finset.range 74,
@@ -4080,7 +4081,7 @@ theorem recurrence2Scalar3Main_coeff_307 :
   rw [recurrence2Scalar3Main_coeff_307_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_307_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_308_prefix_zero :
     (∑ x ∈ Finset.range 75,
@@ -4127,7 +4128,7 @@ theorem recurrence2Scalar3Main_coeff_308 :
   rw [recurrence2Scalar3Main_coeff_308_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_308_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_309_prefix_zero :
     (∑ x ∈ Finset.range 76,
@@ -4174,7 +4175,7 @@ theorem recurrence2Scalar3Main_coeff_309 :
   rw [recurrence2Scalar3Main_coeff_309_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_309_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_310_prefix_zero :
     (∑ x ∈ Finset.range 77,
@@ -4221,7 +4222,7 @@ theorem recurrence2Scalar3Main_coeff_310 :
   rw [recurrence2Scalar3Main_coeff_310_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_310_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_311_prefix_zero :
     (∑ x ∈ Finset.range 78,
@@ -4268,7 +4269,7 @@ theorem recurrence2Scalar3Main_coeff_311 :
   rw [recurrence2Scalar3Main_coeff_311_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_311_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_312_prefix_zero :
     (∑ x ∈ Finset.range 79,
@@ -4312,7 +4313,7 @@ theorem recurrence2Scalar3Main_coeff_312 :
   rw [recurrence2Scalar3Main_coeff_312_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_312_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_313_prefix_zero :
     (∑ x ∈ Finset.range 80,
@@ -4356,7 +4357,7 @@ theorem recurrence2Scalar3Main_coeff_313 :
   rw [recurrence2Scalar3Main_coeff_313_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_313_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_314_prefix_zero :
     (∑ x ∈ Finset.range 81,
@@ -4400,7 +4401,7 @@ theorem recurrence2Scalar3Main_coeff_314 :
   rw [recurrence2Scalar3Main_coeff_314_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_314_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_315_prefix_zero :
     (∑ x ∈ Finset.range 82,
@@ -4444,7 +4445,7 @@ theorem recurrence2Scalar3Main_coeff_315 :
   rw [recurrence2Scalar3Main_coeff_315_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_315_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_316_prefix_zero :
     (∑ x ∈ Finset.range 83,
@@ -4488,7 +4489,7 @@ theorem recurrence2Scalar3Main_coeff_316 :
   rw [recurrence2Scalar3Main_coeff_316_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_316_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_317_prefix_zero :
     (∑ x ∈ Finset.range 84,
@@ -4532,7 +4533,7 @@ theorem recurrence2Scalar3Main_coeff_317 :
   rw [recurrence2Scalar3Main_coeff_317_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_317_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_318_prefix_zero :
     (∑ x ∈ Finset.range 85,
@@ -4576,7 +4577,7 @@ theorem recurrence2Scalar3Main_coeff_318 :
   rw [recurrence2Scalar3Main_coeff_318_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_318_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_319_prefix_zero :
     (∑ x ∈ Finset.range 86,
@@ -4620,7 +4621,7 @@ theorem recurrence2Scalar3Main_coeff_319 :
   rw [recurrence2Scalar3Main_coeff_319_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_319_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_320_prefix_zero :
     (∑ x ∈ Finset.range 87,
@@ -4664,7 +4665,7 @@ theorem recurrence2Scalar3Main_coeff_320 :
   rw [recurrence2Scalar3Main_coeff_320_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_320_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_321_prefix_zero :
     (∑ x ∈ Finset.range 88,
@@ -4708,7 +4709,7 @@ theorem recurrence2Scalar3Main_coeff_321 :
   rw [recurrence2Scalar3Main_coeff_321_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_321_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_322_prefix_zero :
     (∑ x ∈ Finset.range 89,
@@ -4752,7 +4753,7 @@ theorem recurrence2Scalar3Main_coeff_322 :
   rw [recurrence2Scalar3Main_coeff_322_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_322_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_323_prefix_zero :
     (∑ x ∈ Finset.range 90,
@@ -4796,7 +4797,7 @@ theorem recurrence2Scalar3Main_coeff_323 :
   rw [recurrence2Scalar3Main_coeff_323_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_323_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_324_prefix_zero :
     (∑ x ∈ Finset.range 91,
@@ -4840,7 +4841,7 @@ theorem recurrence2Scalar3Main_coeff_324 :
   rw [recurrence2Scalar3Main_coeff_324_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_324_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_325_prefix_zero :
     (∑ x ∈ Finset.range 92,
@@ -4884,7 +4885,7 @@ theorem recurrence2Scalar3Main_coeff_325 :
   rw [recurrence2Scalar3Main_coeff_325_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_325_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_326_prefix_zero :
     (∑ x ∈ Finset.range 93,
@@ -4928,7 +4929,7 @@ theorem recurrence2Scalar3Main_coeff_326 :
   rw [recurrence2Scalar3Main_coeff_326_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_326_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_327_prefix_zero :
     (∑ x ∈ Finset.range 94,
@@ -4972,7 +4973,7 @@ theorem recurrence2Scalar3Main_coeff_327 :
   rw [recurrence2Scalar3Main_coeff_327_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_327_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_328_prefix_zero :
     (∑ x ∈ Finset.range 95,
@@ -5016,7 +5017,7 @@ theorem recurrence2Scalar3Main_coeff_328 :
   rw [recurrence2Scalar3Main_coeff_328_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_328_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_329_prefix_zero :
     (∑ x ∈ Finset.range 96,
@@ -5060,7 +5061,7 @@ theorem recurrence2Scalar3Main_coeff_329 :
   rw [recurrence2Scalar3Main_coeff_329_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_329_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_330_prefix_zero :
     (∑ x ∈ Finset.range 97,
@@ -5104,7 +5105,7 @@ theorem recurrence2Scalar3Main_coeff_330 :
   rw [recurrence2Scalar3Main_coeff_330_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_330_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_331_prefix_zero :
     (∑ x ∈ Finset.range 98,
@@ -5148,7 +5149,7 @@ theorem recurrence2Scalar3Main_coeff_331 :
   rw [recurrence2Scalar3Main_coeff_331_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_331_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_332_prefix_zero :
     (∑ x ∈ Finset.range 99,
@@ -5192,7 +5193,7 @@ theorem recurrence2Scalar3Main_coeff_332 :
   rw [recurrence2Scalar3Main_coeff_332_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_332_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_333_prefix_zero :
     (∑ x ∈ Finset.range 100,
@@ -5236,7 +5237,7 @@ theorem recurrence2Scalar3Main_coeff_333 :
   rw [recurrence2Scalar3Main_coeff_333_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_333_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_334_prefix_zero :
     (∑ x ∈ Finset.range 101,
@@ -5280,7 +5281,7 @@ theorem recurrence2Scalar3Main_coeff_334 :
   rw [recurrence2Scalar3Main_coeff_334_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_334_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_335_prefix_zero :
     (∑ x ∈ Finset.range 102,
@@ -5324,7 +5325,7 @@ theorem recurrence2Scalar3Main_coeff_335 :
   rw [recurrence2Scalar3Main_coeff_335_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_335_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_336_prefix_zero :
     (∑ x ∈ Finset.range 103,
@@ -5368,7 +5369,7 @@ theorem recurrence2Scalar3Main_coeff_336 :
   rw [recurrence2Scalar3Main_coeff_336_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_336_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_337_prefix_zero :
     (∑ x ∈ Finset.range 104,
@@ -5412,7 +5413,7 @@ theorem recurrence2Scalar3Main_coeff_337 :
   rw [recurrence2Scalar3Main_coeff_337_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_337_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_338_prefix_zero :
     (∑ x ∈ Finset.range 105,
@@ -5456,7 +5457,7 @@ theorem recurrence2Scalar3Main_coeff_338 :
   rw [recurrence2Scalar3Main_coeff_338_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_338_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_339_prefix_zero :
     (∑ x ∈ Finset.range 106,
@@ -5500,7 +5501,7 @@ theorem recurrence2Scalar3Main_coeff_339 :
   rw [recurrence2Scalar3Main_coeff_339_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_339_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_340_prefix_zero :
     (∑ x ∈ Finset.range 107,
@@ -5544,7 +5545,7 @@ theorem recurrence2Scalar3Main_coeff_340 :
   rw [recurrence2Scalar3Main_coeff_340_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_340_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_341_prefix_zero :
     (∑ x ∈ Finset.range 108,
@@ -5588,7 +5589,7 @@ theorem recurrence2Scalar3Main_coeff_341 :
   rw [recurrence2Scalar3Main_coeff_341_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_341_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_342_prefix_zero :
     (∑ x ∈ Finset.range 109,
@@ -5631,7 +5632,7 @@ theorem recurrence2Scalar3Main_coeff_342 :
   rw [recurrence2Scalar3Main_coeff_342_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_342_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_343_prefix_zero :
     (∑ x ∈ Finset.range 110,
@@ -5674,7 +5675,7 @@ theorem recurrence2Scalar3Main_coeff_343 :
   rw [recurrence2Scalar3Main_coeff_343_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_343_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_344_prefix_zero :
     (∑ x ∈ Finset.range 111,
@@ -5714,7 +5715,7 @@ theorem recurrence2Scalar3Main_coeff_344 :
   rw [recurrence2Scalar3Main_coeff_344_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_344_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_345_prefix_zero :
     (∑ x ∈ Finset.range 112,
@@ -5754,7 +5755,7 @@ theorem recurrence2Scalar3Main_coeff_345 :
   rw [recurrence2Scalar3Main_coeff_345_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_345_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_346_prefix_zero :
     (∑ x ∈ Finset.range 113,
@@ -5794,7 +5795,7 @@ theorem recurrence2Scalar3Main_coeff_346 :
   rw [recurrence2Scalar3Main_coeff_346_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_346_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_347_prefix_zero :
     (∑ x ∈ Finset.range 114,
@@ -5834,7 +5835,7 @@ theorem recurrence2Scalar3Main_coeff_347 :
   rw [recurrence2Scalar3Main_coeff_347_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_347_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_348_prefix_zero :
     (∑ x ∈ Finset.range 115,
@@ -5874,7 +5875,7 @@ theorem recurrence2Scalar3Main_coeff_348 :
   rw [recurrence2Scalar3Main_coeff_348_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_348_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_349_prefix_zero :
     (∑ x ∈ Finset.range 116,
@@ -5914,7 +5915,7 @@ theorem recurrence2Scalar3Main_coeff_349 :
   rw [recurrence2Scalar3Main_coeff_349_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_349_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_350_prefix_zero :
     (∑ x ∈ Finset.range 117,
@@ -5954,7 +5955,7 @@ theorem recurrence2Scalar3Main_coeff_350 :
   rw [recurrence2Scalar3Main_coeff_350_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_350_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_351_prefix_zero :
     (∑ x ∈ Finset.range 118,
@@ -5994,7 +5995,7 @@ theorem recurrence2Scalar3Main_coeff_351 :
   rw [recurrence2Scalar3Main_coeff_351_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_351_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_352_prefix_zero :
     (∑ x ∈ Finset.range 119,
@@ -6034,7 +6035,7 @@ theorem recurrence2Scalar3Main_coeff_352 :
   rw [recurrence2Scalar3Main_coeff_352_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_352_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_353_prefix_zero :
     (∑ x ∈ Finset.range 120,
@@ -6074,7 +6075,7 @@ theorem recurrence2Scalar3Main_coeff_353 :
   rw [recurrence2Scalar3Main_coeff_353_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_353_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_354_prefix_zero :
     (∑ x ∈ Finset.range 121,
@@ -6114,7 +6115,7 @@ theorem recurrence2Scalar3Main_coeff_354 :
   rw [recurrence2Scalar3Main_coeff_354_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_354_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_355_prefix_zero :
     (∑ x ∈ Finset.range 122,
@@ -6154,7 +6155,7 @@ theorem recurrence2Scalar3Main_coeff_355 :
   rw [recurrence2Scalar3Main_coeff_355_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_355_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_356_prefix_zero :
     (∑ x ∈ Finset.range 123,
@@ -6194,7 +6195,7 @@ theorem recurrence2Scalar3Main_coeff_356 :
   rw [recurrence2Scalar3Main_coeff_356_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_356_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_357_prefix_zero :
     (∑ x ∈ Finset.range 124,
@@ -6234,7 +6235,7 @@ theorem recurrence2Scalar3Main_coeff_357 :
   rw [recurrence2Scalar3Main_coeff_357_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_357_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_358_prefix_zero :
     (∑ x ∈ Finset.range 125,
@@ -6274,7 +6275,7 @@ theorem recurrence2Scalar3Main_coeff_358 :
   rw [recurrence2Scalar3Main_coeff_358_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_358_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_359_prefix_zero :
     (∑ x ∈ Finset.range 126,
@@ -6314,7 +6315,7 @@ theorem recurrence2Scalar3Main_coeff_359 :
   rw [recurrence2Scalar3Main_coeff_359_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_359_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_360_prefix_zero :
     (∑ x ∈ Finset.range 127,
@@ -6354,7 +6355,7 @@ theorem recurrence2Scalar3Main_coeff_360 :
   rw [recurrence2Scalar3Main_coeff_360_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_360_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_361_prefix_zero :
     (∑ x ∈ Finset.range 128,
@@ -6394,7 +6395,7 @@ theorem recurrence2Scalar3Main_coeff_361 :
   rw [recurrence2Scalar3Main_coeff_361_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_361_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_362_prefix_zero :
     (∑ x ∈ Finset.range 129,
@@ -6434,7 +6435,7 @@ theorem recurrence2Scalar3Main_coeff_362 :
   rw [recurrence2Scalar3Main_coeff_362_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_362_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_363_prefix_zero :
     (∑ x ∈ Finset.range 130,
@@ -6474,7 +6475,7 @@ theorem recurrence2Scalar3Main_coeff_363 :
   rw [recurrence2Scalar3Main_coeff_363_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_363_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_364_prefix_zero :
     (∑ x ∈ Finset.range 131,
@@ -6514,7 +6515,7 @@ theorem recurrence2Scalar3Main_coeff_364 :
   rw [recurrence2Scalar3Main_coeff_364_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_364_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_365_prefix_zero :
     (∑ x ∈ Finset.range 132,
@@ -6554,7 +6555,7 @@ theorem recurrence2Scalar3Main_coeff_365 :
   rw [recurrence2Scalar3Main_coeff_365_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_365_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_366_prefix_zero :
     (∑ x ∈ Finset.range 133,
@@ -6594,7 +6595,7 @@ theorem recurrence2Scalar3Main_coeff_366 :
   rw [recurrence2Scalar3Main_coeff_366_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_366_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_367_prefix_zero :
     (∑ x ∈ Finset.range 134,
@@ -6633,7 +6634,7 @@ theorem recurrence2Scalar3Main_coeff_367 :
   rw [recurrence2Scalar3Main_coeff_367_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_367_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_368_prefix_zero :
     (∑ x ∈ Finset.range 135,
@@ -6672,7 +6673,7 @@ theorem recurrence2Scalar3Main_coeff_368 :
   rw [recurrence2Scalar3Main_coeff_368_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_368_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_369_prefix_zero :
     (∑ x ∈ Finset.range 136,
@@ -6711,7 +6712,7 @@ theorem recurrence2Scalar3Main_coeff_369 :
   rw [recurrence2Scalar3Main_coeff_369_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_369_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_370_prefix_zero :
     (∑ x ∈ Finset.range 137,
@@ -6750,7 +6751,7 @@ theorem recurrence2Scalar3Main_coeff_370 :
   rw [recurrence2Scalar3Main_coeff_370_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_370_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_371_prefix_zero :
     (∑ x ∈ Finset.range 138,
@@ -6789,7 +6790,7 @@ theorem recurrence2Scalar3Main_coeff_371 :
   rw [recurrence2Scalar3Main_coeff_371_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_371_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_372_prefix_zero :
     (∑ x ∈ Finset.range 139,
@@ -6828,7 +6829,7 @@ theorem recurrence2Scalar3Main_coeff_372 :
   rw [recurrence2Scalar3Main_coeff_372_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_372_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_373_prefix_zero :
     (∑ x ∈ Finset.range 140,
@@ -6867,7 +6868,7 @@ theorem recurrence2Scalar3Main_coeff_373 :
   rw [recurrence2Scalar3Main_coeff_373_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_373_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_374_prefix_zero :
     (∑ x ∈ Finset.range 141,
@@ -6906,7 +6907,7 @@ theorem recurrence2Scalar3Main_coeff_374 :
   rw [recurrence2Scalar3Main_coeff_374_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_374_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar3Main_coeff_375_prefix_zero :
     (∑ x ∈ Finset.range 142,
@@ -6945,7 +6946,7 @@ theorem recurrence2Scalar3Main_coeff_375 :
   rw [recurrence2Scalar3Main_coeff_375_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar3Main_coeff_375_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 end
 

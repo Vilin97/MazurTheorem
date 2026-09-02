@@ -9,6 +9,8 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
+import Mathlib.Tactic.SuppressCompilation
+
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -24,6 +26,8 @@ points of that model are `0` and `(0,0)`, so no such solution exists:
 the affine curve `G = 0` has no rational point outside the singular
 cusp image `(0,0)`.
 -/
+
+suppress_compilation
 
 namespace MazurTorsion.XZeroFortyNine
 

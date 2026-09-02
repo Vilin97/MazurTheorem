@@ -3,12 +3,12 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual0
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual1
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual2
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual3
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual4
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual1
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual2
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual3
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalarResidual4
 import Mathlib.Tactic.LinearCombination
 
 /-!
@@ -17,7 +17,7 @@ import Mathlib.Tactic.LinearCombination
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

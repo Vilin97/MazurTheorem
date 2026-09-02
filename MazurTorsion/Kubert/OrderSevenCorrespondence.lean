@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import Mathlib.Data.Rat.Defs
+module
+public import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 
@@ -20,7 +20,7 @@ Only the checked polynomial interface and its elementary boundary behaviour
 are recorded here.  The quotient family and the identification with the
 modular correspondence remain separate steps.
 -/
-
+@[expose] public section
 namespace MazurTorsion.Kubert
 
 /-- The numerator in the level-seven Hauptmodul formula

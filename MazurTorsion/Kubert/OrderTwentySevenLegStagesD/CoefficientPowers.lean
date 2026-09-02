@@ -4,7 +4,10 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part23
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.Ring
 
 /-!
 # Third-leg coefficient power identities
@@ -12,6 +15,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The four coefficient identities that express the cleared correspondence coefficients
 in terms of the family parameter.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -43,3 +50,5 @@ lemma zl_brC0 (f : ℚ) :
   ring1
 
 end MazurTorsion.Kubert
+
+end

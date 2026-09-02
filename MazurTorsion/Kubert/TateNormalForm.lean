@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.EllipticCurve.VariableChange
+module
+public import MazurTorsion.EllipticCurve.VariableChange
 import Mathlib.Tactic.Abel
 import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.LinearCombination
@@ -22,7 +22,7 @@ with marked point `P = (0,0)`. This file provides the normalization theorem reta
 the discriminant scale and kernel-checked low-multiple coordinate formulas. It does not
 state an order classification theorem.
 -/
-
+@[expose] public section
 open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert
