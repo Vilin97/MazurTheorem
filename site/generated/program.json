@@ -1129,17 +1129,31 @@
           "module": "MazurTorsion.Upstream.CurveAffineChart"
         },
         {
-          "kind": "definition",
-          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.SmoothRelativeCurveNormality",
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.isIntegrallyClosed_of_etale_of_isDomain",
           "state": "contract",
-          "description": "Isolate integral closedness as the exact remaining field-base chart-ring condition.",
+          "description": "Prove that an étale domain over an integrally closed domain is integrally closed.",
           "module": "MazurTorsion.Upstream.CurveAffineChart"
         },
         {
           "kind": "theorem",
-          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.smoothRelativeCurveRingConditions_iff_normality_of_field",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.isIntegrallyClosed_of_standardSmoothRelDimOne_over_field",
           "state": "contract",
-          "description": "Identify the two-part smooth curve ring boundary with the normality-only boundary over a field-domain chart.",
+          "description": "Prove integral closedness for a standard-smooth relative-dimension-one domain over a field.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field",
+          "state": "contract",
+          "description": "Descend integral closedness from a standard-smooth affine cover.",
+          "module": "MazurTorsion.Upstream.CurveAffineChart"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.smoothRelativeCurveRingConditions_of_field",
+          "state": "contract",
+          "description": "Discharge both smooth-relative-curve ring conditions over a field.",
           "module": "MazurTorsion.Upstream.CurveAffineChart"
         },
         {
@@ -1151,9 +1165,9 @@
         },
         {
           "kind": "theorem",
-          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurveNormality",
+          "name": "MazurTorsion.AlgebraicGeometry.AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurve",
           "state": "contract",
-          "description": "Construct the chart order compatibility from the normality-only input for a smooth relative curve over a field.",
+          "description": "Construct the chart order compatibility unconditionally for a smooth relative curve over a field.",
           "module": "MazurTorsion.Upstream.CurveAffineChart"
         },
         {
@@ -1346,10 +1360,17 @@
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.restrictionExtensionMapsIsPullback",
+          "state": "contract",
+          "description": "Identify the coordinate spectrum of a full affine intersection with the categorical pullback of the two chart maps.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnCommonAffineOpen",
           "state": "contract",
-          "description": "Construct the arbitrary-divisor restriction isomorphism canonically on every chosen common nonempty Dedekind affine subopen of two charts.",
+          "description": "Construct the arbitrary-divisor restriction isomorphism on every chosen common nonempty Dedekind affine subopen of two charts, deriving its geometric inputs from presheaf restriction.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         },
         {
@@ -1361,6 +1382,13 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundlePullbackIsoOnIntersection",
+          "state": "contract",
+          "description": "Transport the full-intersection comparison to the standard categorical pullback used by module descent.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperCurveIntersection",
           "state": "contract",
           "description": "Derive separatedness from properness over a field and construct the same full-intersection arbitrary-divisor restriction isomorphism.",
@@ -1368,9 +1396,30 @@
         },
         {
           "kind": "definition",
-          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.localLineBundleRestrictionIsoOnProperSmoothCurveIntersection",
           "state": "contract",
-          "description": "On a proper smooth relative curve, consume the existing mapwise normality condition to derive the intersection Dedekind instance and construct the full-overlap isomorphism.",
+          "description": "On a proper smooth relative curve, derive the intersection Dedekind instance and construct the full-overlap isomorphism without an extra normality hypothesis.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.coordinateDivisorOverlapIso",
+          "state": "contract",
+          "description": "Construct the exact pairwise overlap isomorphism field used by coordinate-cover descent from Dedekind hypotheses on all chart intersections.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.coordinateDivisorOverlapIsoOnProperSmoothCurve",
+          "state": "contract",
+          "description": "On a proper smooth relative curve, derive the exact chosen-pullback pairwise isomorphisms unconditionally on every chart intersection.",
+          "module": "MazurTorsion.Upstream.CurveDivisorDescent"
+        },
+        {
+          "kind": "lemma",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.coordinateDivisorOverlapIso_normalization",
+          "state": "contract",
+          "description": "Prove that the chosen coordinate-overlap maps satisfy the exact descent normalization.",
           "module": "MazurTorsion.Upstream.CurveDivisorDescent"
         },
         {
@@ -1871,7 +1920,7 @@
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
         "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Import the companion chart, localization, and descent modules. For each concrete base-field affine `appLE` map, prove the normality implication isolated by `AffineChart.SmoothRelativeCurveNormality`; the checked field-base dimension theorem and `dedekindOrderCompatibilityOfSmoothRelativeCurveNormality` then supply the chart order compatibility. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two charts on a proper smooth curve over a field, prove that same mapwise normality implication for `f.appLE` on `U₁ ⊓ U₂` and use `localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality`; the checked API supplies separatedness, dimension at most one, the Dedekind instance, and the actual arbitrary-divisor isomorphism. `localLineBundleRestrictionIsoOnProperCurveIntersection`, `localLineBundleRestrictionIsoOnIntersection`, `localLineBundleRestrictionIsoOnCommonAffineOpen`, and `localLineBundleRestrictionIsoOfCommonMap` are the progressively more general proper, separated-scheme, chosen-subopen, and explicit-ring entry points; the classical-localization coefficient route remains only a specialization. Transport the intersection isomorphism to the chosen descent pullback, normalize it, and prove diagonal and triple-cocycle coherence. Then prove ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cover-wide cocycle, effectivity, and normality predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
+        "recommended_route": "Import the companion chart, localization, and descent modules. For each concrete base-field affine `appLE` map, prove the normality implication isolated by `AffineChart.SmoothRelativeCurveNormality`; the checked field-base dimension theorem and `dedekindOrderCompatibilityOfSmoothRelativeCurveNormality` then supply the chart order compatibility. Construct `PicardIso.PullbackMonoidalData` to transport the exact chart kernel and range equivalence to `Pic(U)`. Same-chart coefficient agreement on a principal open gives localized inverse-ideal equality, common-extension equality, and the actual restriction isomorphism through `localLineBundleRestrictIsoOfCoeffEq`. Across two charts on a proper smooth curve over a field, prove that same mapwise normality implication for `f.appLE` on `U₁ ⊓ U₂` and use `localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality`; the checked API supplies separatedness, dimension at most one, the Dedekind instance, and the actual arbitrary-divisor isomorphism. `localLineBundleRestrictionIsoOnProperCurveIntersection`, `localLineBundleRestrictionIsoOnIntersection`, `localLineBundleRestrictionIsoOnCommonAffineOpen`, and `localLineBundleRestrictionIsoOfCommonMap` are the progressively more general proper, separated-scheme, chosen-subopen, and explicit-ring entry points; the classical-localization coefficient route remains only a specialization. Use `coordinateDivisorOverlapIsoOnProperSmoothCurveOfNormality` for the exact chosen-pullback pairwise maps. Replace the choice-only affine comparison witnesses by normalized, base-change-compatible comparisons, then prove diagonal and triple-cocycle coherence. Then prove ordinary module effectivity, tensor additivity, and coherent principal triviality. Zero triviality then makes `L(-D)` an explicit inverse to `L(D)`, constructing the divisor and class maps without `TensorInverseComparison X`. Under coherent principal triviality and object separation, a global trivialization already makes every chart restriction principal. The witness-level `TrivialDescendedLineBundleHasGlobalPrincipalWitness` is checked equivalent to `TrivialLineBundleDetectsPrincipal`, so the genuine missing geometric step is rational normalization or global rational-section compatibility for the explicit cocycle. Checked code identifies principal detection with exact principal kernel; exactness gives the range equivalence, and surjectivity gives the full divisor-class/Picard equivalence. Separately prove the global tensor-inverse comparison only to fill the stronger dictionary that compares every invertible sheaf. The remaining cover-wide cocycle, effectivity, and normality predicates are compiled conditional boundaries subsumed by the unchanged A3 Challenge. The weighted product formula remains the separately registered A2 prerequisite and is not imported by these affine/local A3 modules.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"

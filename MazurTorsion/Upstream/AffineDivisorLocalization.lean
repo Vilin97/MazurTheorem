@@ -44,8 +44,9 @@ coefficient equality constructs the actual restricted-bundle isomorphism on ever
 Dedekind affine overlap satisfying the standing torsion-free, common-fraction-field, and
 scalar-tower hypotheses. The companion curve module proves that coefficient equality
 automatically when the two overlap maps compose to one ambient map, and constructs all of that
-data canonically from a chosen common Dedekind affine subopen. Passing from these local
-isomorphisms to the chosen descent pullbacks, normalizing them, proving the triple cocycle, and
+input from a chosen common Dedekind affine subopen. The actual restriction isomorphisms use
+chosen affine line-bundle comparisons. The companion curve module transports these isomorphisms
+to the exact chosen pullbacks used by descent. Normalizing them, proving the triple cocycle, and
 proving module effectivity remain open in the current Mathlib and Tau Ceti dependency graph.
 -/
 
@@ -361,6 +362,83 @@ noncomputable def chosenLineBundleRestrictionIso
     (AffineDedekind.lineBundle R₁ K D₁).obj.restrict (extensionMap R₁ B) ≅
       (AffineDedekind.lineBundle R₂ K D₂).obj.restrict (extensionMap R₂ B) :=
   h₁.2.some ≪≫ extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h ≪≫ h₂.2.some.symm
+
+/-- If the same restriction comparison is used on both sides, the chosen overlap isomorphism
+from a divisor line bundle to itself is the identity. -/
+lemma chosenLineBundleRestrictionIso_diagonal_of_same_comparison
+    (R B K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (hr : RestrictionIdentifiesExtendedInverseIdeal R B K D)
+    (h : Boundary.OverlapInverseIdealExtensionEq R R B K D D) :
+    chosenLineBundleRestrictionIso R R B K D D hr hr h = Iso.refl _ := by
+  unfold chosenLineBundleRestrictionIso
+  have hid : extendedInverseIdealTildeIso R R B K D D h = Iso.refl _ := by
+    apply Iso.ext
+    simp only [Iso.refl_hom]
+    exact (tilde.functor (CommRingCat.of B)).map_id _
+  rw [hid]
+  simp
+
+/-- On one fixed common overlap ring, chosen restriction isomorphisms compose transitively
+provided the same middle restriction comparison is used in both factors. -/
+lemma chosenLineBundleRestrictionIso_cocycle_on_common_ring
+    (R₁ R₂ R₃ B K : Type u)
+    [CommRing R₁] [IsDedekindDomain R₁]
+    [CommRing R₂] [IsDedekindDomain R₂]
+    [CommRing R₃] [IsDedekindDomain R₃]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R₁ K] [IsFractionRing R₁ K]
+    [Algebra R₂ K] [IsFractionRing R₂ K]
+    [Algebra R₃ K] [IsFractionRing R₃ K]
+    [Algebra R₁ B] [IsTorsionFree R₁ B]
+    [Algebra R₂ B] [IsTorsionFree R₂ B]
+    [Algebra R₃ B] [IsTorsionFree R₃ B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R₁ B)]
+    [IsOpenImmersion (extensionMap R₂ B)]
+    [IsOpenImmersion (extensionMap R₃ B)]
+    (D₁ : WeilDivisor (HeightOneSpectrum R₁))
+    (D₂ : WeilDivisor (HeightOneSpectrum R₂))
+    (D₃ : WeilDivisor (HeightOneSpectrum R₃))
+    (hr₁ : RestrictionIdentifiesExtendedInverseIdeal R₁ B K D₁)
+    (hr₂ : RestrictionIdentifiesExtendedInverseIdeal R₂ B K D₂)
+    (hr₃ : RestrictionIdentifiesExtendedInverseIdeal R₃ B K D₃)
+    (h₁₂ : Boundary.OverlapInverseIdealExtensionEq R₁ R₂ B K D₁ D₂)
+    (h₂₃ : Boundary.OverlapInverseIdealExtensionEq R₂ R₃ B K D₂ D₃)
+    (h₁₃ : Boundary.OverlapInverseIdealExtensionEq R₁ R₃ B K D₁ D₃) :
+    chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂ hr₁ hr₂ h₁₂ ≪≫
+        chosenLineBundleRestrictionIso R₂ R₃ B K D₂ D₃ hr₂ hr₃ h₂₃ =
+      chosenLineBundleRestrictionIso R₁ R₃ B K D₁ D₃ hr₁ hr₃ h₁₃ := by
+  have hideal :
+      extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h₁₂ ≪≫
+        extendedInverseIdealTildeIso R₂ R₃ B K D₂ D₃ h₂₃ =
+      extendedInverseIdealTildeIso R₁ R₃ B K D₁ D₃ h₁₃ := by
+    unfold extendedInverseIdealTildeIso
+    apply Iso.ext
+    change (tilde.functor (CommRingCat.of B)).map _ ≫
+        (tilde.functor (CommRingCat.of B)).map _ =
+      (tilde.functor (CommRingCat.of B)).map _
+    rw [← Functor.map_comp]
+    congr 1
+  calc
+    chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂ hr₁ hr₂ h₁₂ ≪≫
+        chosenLineBundleRestrictionIso R₂ R₃ B K D₂ D₃ hr₂ hr₃ h₂₃ =
+      hr₁.2.some ≪≫
+          (extendedInverseIdealTildeIso R₁ R₂ B K D₁ D₂ h₁₂ ≪≫
+            extendedInverseIdealTildeIso R₂ R₃ B K D₂ D₃ h₂₃) ≪≫
+        hr₃.2.some.symm := by
+          unfold chosenLineBundleRestrictionIso
+          simp
+    _ = hr₁.2.some ≪≫
+          extendedInverseIdealTildeIso R₁ R₃ B K D₁ D₃ h₁₃ ≪≫
+        hr₃.2.some.symm := by rw [hideal]
+    _ = chosenLineBundleRestrictionIso R₁ R₃ B K D₁ D₃ hr₁ hr₃ h₁₃ := rfl
 
 /-- Module-level global-sections comparisons on both charts, together with equality of the
 extended ideals, construct an isomorphism of the actual chosen restrictions. -/
@@ -847,6 +925,22 @@ noncomputable def chosenLineBundleRestrictionIsoOfOverlapExtensionEq
   exact chosenLineBundleRestrictionIso R₁ R₂ B K D₁ D₂
     (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₁ B K D₁)
     (restrictionIdentifiesExtendedInverseIdeal_of_isOpenImmersion R₂ B K D₂) h
+
+/-- The open-immersion specialization is the identity on a divisor when both sides use the
+same chart, common overlap ring, and extension-equality witness. -/
+lemma chosenLineBundleRestrictionIsoOfOverlapExtensionEq_self
+    (R B K : Type u)
+    [CommRing R] [IsDedekindDomain R]
+    [CommRing B] [IsDomain B] [Field K]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra R B] [IsTorsionFree R B]
+    [Algebra B K] [IsFractionRing B K]
+    [IsOpenImmersion (extensionMap R B)]
+    (D : WeilDivisor (HeightOneSpectrum R))
+    (h : Boundary.OverlapInverseIdealExtensionEq R R B K D D) :
+    chosenLineBundleRestrictionIsoOfOverlapExtensionEq R R B K D D h = Iso.refl _ := by
+  unfold chosenLineBundleRestrictionIsoOfOverlapExtensionEq
+  apply chosenLineBundleRestrictionIso_diagonal_of_same_comparison
 
 /-- If the induced spectrum map is an open immersion and the overlap ring is a localization of
 the chart ring, restriction of the chosen affine divisor line bundle is tilde of the extended

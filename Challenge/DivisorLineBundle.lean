@@ -44,30 +44,34 @@ the contracted ambient points, coefficients, extended ideals, and actual chosen 
 agree automatically. The resulting checked consumer is
 `CurveDivisorDescent.localLineBundleRestrictionIsoOfCommonMap`. More concretely,
 `localLineBundleRestrictionIsoOnCommonAffineOpen` derives every algebraic and geometric input
-canonically from a chosen common nonempty Dedekind affine subopen. Under separatedness,
+from presheaf restriction on a chosen common nonempty Dedekind affine subopen. Under separatedness,
 `localLineBundleRestrictionIsoOnIntersection` specializes this to the full intersection of two
 nonempty affine charts, conditional only on its coordinate ring being Dedekind. For the intended
 proper curve over a field, `localLineBundleRestrictionIsoOnProperCurveIntersection` derives the
 separatedness input from properness. With smooth relative dimension one,
-`localLineBundleRestrictionIsoOnProperSmoothCurveIntersectionOfNormality` further replaces the
-intersection Dedekind hypothesis by exactly the existing mapwise normality contract. Canonical
-Picard surjectivity is proved
+`localLineBundleRestrictionIsoOnProperSmoothCurveIntersection` further replaces the intersection
+Dedekind hypothesis unconditionally.
+`localLineBundlePullbackIsoOnIntersection` transports that isomorphism across the categorical
+pullback/intersection comparison, and `coordinateDivisorOverlapIso` lands in the exact chosen
+pairwise-overlap objects used by the descent package.
+`coordinateDivisorOverlapIso_normalization` proves the exact diagonal normalization required by
+the descent package. Canonical Picard surjectivity is proved
 equivalent to the reverse tensor-unit/local-rank-one comparison, while the forward affine gap is
 isolated as the checked localization predicate `AffineTilde.TildeReflectsInvertibility`.
-What remains here includes proving the mapwise normality condition for full affine intersections,
-transporting their isomorphisms to the chosen descent pullbacks, normalizing them, proving diagonal
-and triple-cocycle coherence, the affine Picard comparison inputs, the map-specific smooth-curve
-ring conditions, global curve divisor gluing, and global divisor-class/Picard surjectivity. The
+What remains here includes proving the base-change law and triple-cocycle coherence for the chosen
+pairwise maps, the affine Picard comparison inputs, global curve divisor gluing, and global
+divisor-class/Picard surjectivity. The
 chart API already identifies height-one primes with
 ambient codimension-one points and now proves the order compatibility automatically from a
 Dedekind-domain instance; that remaining algebraic condition is exactly dimension at most one
 plus integral closedness. `AffineChart.SmoothRelativeCurveRingConditions` is a map-parameterized
 predicate packaging those two consequences. Over a field, locally standard-smooth relative
-dimension one is now proved to imply dimension at most one, and
-`AffineChart.SmoothRelativeCurveNormality` is proved equivalent to the two-part condition.
-Its checked consumer assumes only normality on the concrete affine `appLE` map and constructs
-the required order compatibility; no universal smooth-over-arbitrary-base implication is
-asserted. The local divisor-to-Picard
+dimension one is now proved to imply both consequences: an étale-domain integral-closure theorem
+and localization descent supply normality, while the checked prime-chain argument supplies the
+dimension bound. `AffineChart.dedekindOrderCompatibilityOfSmoothRelativeCurve` therefore
+constructs the required order compatibility on every nonempty affine chart without an extra
+hypothesis. No universal smooth-over-arbitrary-base implication is asserted. The local
+divisor-to-Picard
 map has exactly the principal divisors as kernel, descends injectively to chart divisor classes,
 and identifies them with its scheme-Picard range. `AffineTilde.TildeReflectsInvertibility` is a
 checked conditional interface, not a solved
@@ -86,8 +90,8 @@ task's no-`set_option` constraint. For gluing, the separately importable compani
 canonical coordinate cover and prove that every principal divisor gives a trivial line bundle
 on each chart. Same-chart coefficient agreement on a principal open now constructs the actual
 restriction isomorphism between the corresponding chartwise divisor bundles.
-`CurveDivisorDescent.DivisorCocycle` is the exact remaining cross-chart pairwise-overlap,
-normalization, and triple-cocycle input for those specified bundles. Given such a cocycle,
+`CurveDivisorDescent.DivisorCocycle` is the exact remaining triple-coherent completion of the
+now-constructed normalized pairwise maps for those specified bundles. Given such a cocycle,
 checked code converts it to Mathlib descent data and, under object-specific
 `LineBundleDescent.EffectiveInvertible`, constructs a global line bundle whose restriction is
 the chosen affine `O(D)`. Locality of Tau Ceti invertibility is now proved for arbitrary scheme
@@ -113,12 +117,12 @@ adding surjectivity gives the full divisor-class/Picard equivalence without a gl
 tensor-inverse comparison. Such a comparison is still required only by the stronger
 `DivisorPicard.Dictionary`, which records the class of every invertible sheaf. No inhabitant of
 the required divisor cocycle system,
-chosen-pullback/intersection transport, coherent overlap system,
+coherent overlap system,
 module-effectivity, coherent-principal-triviality,
 prestack/object-separation, rationally normalized cocycle data,
 geometric-principal-detection, exact-kernel, surjectivity, or global tensor-inverse comparison is
-asserted. `AffineTilde.TildeReflectsInvertibility`, the field-base smooth-curve normality
-condition, and the cover-wide `CurveDivisorDescent.DivisorCocycle` and effectivity packages are
+asserted. `AffineTilde.TildeReflectsInvertibility` and the cover-wide
+`CurveDivisorDescent.DivisorCocycle` and effectivity packages are
 precise compiled conditional contracts subsumed by this unchanged registered A3 Challenge,
 rather than separately registered open theorems. No additional localization Challenge is needed;
 the weighted product formula remains the separate A2 prerequisite. These existence results remain

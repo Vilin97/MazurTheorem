@@ -7,8 +7,13 @@ Authors: Vasily Ilin
 import MazurTorsion.Upstream.DivisorLineBundle
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.GroupTheory.ArchimedeanDensely
+import Mathlib.RingTheory.Flat.TorsionFree
+import Mathlib.RingTheory.Jacobson.Artinian
 import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.KrullDimension.Polynomial
+import Mathlib.RingTheory.LocalProperties.IntegrallyClosed
+import Mathlib.RingTheory.Polynomial.RationalRoot
+import Mathlib.RingTheory.Smooth.IntegralClosure
 import Mathlib.RingTheory.Unramified.LocalStructure
 import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order
@@ -31,9 +36,9 @@ strong monoidality of pullback as an upstream-compatible sufficient datum for tr
 `Pic(U)` and consumes that datum to preserve the principal kernel, class descent, and range
 equivalence. Constructing the datum and overlap-compatible gluing to `X` remain separate
 obligations. For smooth curves over a field, locally standard-smooth relative dimension one is
-now proved to force dimension at most one. Thus only normality remains as a mapwise
-commutative-algebra boundary, and that input directly constructs the required Dedekind order
-compatibility.
+proved to force both dimension at most one and integral closedness. Consequently every
+nonempty affine chart has the required Dedekind order compatibility without an extra normality
+hypothesis.
 -/
 
 namespace MazurTorsion.AlgebraicGeometry.AffineChart
@@ -45,6 +50,7 @@ open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
 open IsDedekindDomain WithZero
+open scoped TensorProduct nonZeroDivisors
 
 private lemma heightOneSpectrum_height
     (R : Type u) [CommRing R] [IsDedekindDomain R]
@@ -253,6 +259,7 @@ open _root_.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry
 open TauCeti.AlgebraicGeometry.WeilDivisor
 open IsDedekindDomain WithZero
+open scoped TensorProduct nonZeroDivisors
 
 /-- The exact local compatibility needed to compare the affine Dedekind divisor construction
 with the scheme-theoretic divisor on a curve. The equality is an equality of additive order
@@ -507,6 +514,97 @@ def SmoothRelativeCurveRingConditions
   RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →
     Ring.DimensionLEOne A ∧ IsIntegrallyClosed A
 
+/-- An étale domain over an integrally closed domain is integrally closed. The proof compares
+integral closures after passing to the fraction field of the base: the generic fiber is a
+finite étale domain, hence a field, and smooth base change identifies the two integral
+closures. -/
+theorem isIntegrallyClosed_of_etale_of_isDomain
+    (R A : Type u) [CommRing R] [IsDomain R] [IsIntegrallyClosed R]
+    [CommRing A] [IsDomain A] [Algebra R A] [Algebra.Etale R A] :
+    IsIntegrallyClosed A := by
+  let F := FractionRing R
+  let G := A ⊗[R] F
+  letI : Algebra F G := Algebra.TensorProduct.rightAlgebra
+  let M : Submonoid A := Algebra.algebraMapSubmonoid A R⁰
+  have hRA : Function.Injective (algebraMap R A) :=
+    Module.isTorsionFree_iff_algebraMap_injective.mp inferInstance
+  have hM : M ≤ A⁰ := by
+    exact map_le_nonZeroDivisors_of_injective (algebraMap R A) hRA le_rfl
+  letI : IsLocalization M G := by
+    dsimp only [M, G, F]
+    infer_instance
+  letI : IsDomain G := IsLocalization.isDomain_of_le_nonZeroDivisors G hM
+  let e : F ⊗[R] A ≃ₐ[F] G :=
+    { __ := Algebra.TensorProduct.comm R F A
+      commutes' x := by
+        change (Algebra.TensorProduct.comm R F A) (x ⊗ₜ[R] (1 : A)) =
+          (1 : A) ⊗ₜ[R] x
+        rfl }
+  letI : Algebra.QuasiFinite F G :=
+    (Algebra.QuasiFinite.iff_of_algEquiv e).mp inferInstance
+  letI : Module.Finite F G := Module.Finite.of_quasiFinite
+  letI : IsArtinianRing G := IsArtinianRing.of_finite F G
+  have hbot : (⊥ : Ideal G).IsMaximal :=
+    (IsArtinianRing.isPrime_iff_isMaximal (⊥ : Ideal G)).mp inferInstance
+  letI : Field G := (Ring.isField_iff_maximal_bot.mpr hbot).toField
+  letI : FaithfulSMul A G :=
+    (faithfulSMul_iff_algebraMap_injective A G).mpr
+      (IsLocalization.injective G hM)
+  letI : IsFractionRing A G := IsFractionRing.of_field A G fun z => by
+    obtain ⟨xy, hz⟩ := IsLocalization.surj M z
+    refine ⟨xy.1, xy.2.1, (eq_div_iff ?_).mpr hz⟩
+    exact (map_ne_zero_iff (algebraMap A G) (IsLocalization.injective G hM)).mpr
+      (nonZeroDivisors.ne_zero (hM xy.2.2))
+  refine (isIntegrallyClosed_iff G).mpr ?_
+  intro x hx
+  let eR : integralClosure R F ≃ₐ[R] R :=
+    (Subalgebra.equivOfEq _ _
+      (IsIntegrallyClosed.integralClosure_eq_bot R F)).trans
+      (Algebra.botEquivOfInjective (IsFractionRing.injective R F))
+  let eTensorR : A ⊗[R] integralClosure R F ≃ₐ[R] A :=
+    (Algebra.TensorProduct.congr (AlgEquiv.refl : A ≃ₐ[R] A) eR).trans
+      ((Algebra.TensorProduct.rid R A A).restrictScalars R)
+  let eTensor : A ⊗[R] integralClosure R F ≃ₐ[A] A :=
+    { toRingEquiv := eTensorR.toRingEquiv
+      commutes' a := by
+        change eTensorR (a ⊗ₜ[R] 1) = a
+        change (Algebra.botEquivOfInjective (IsFractionRing.injective R F))
+          (1 : (⊥ : Subalgebra R F)) • a = a
+        rw [map_one, one_smul] }
+  obtain ⟨z, hz⟩ :=
+    TensorProduct.toIntegralClosure_bijective_of_smooth.2 ⟨x, hx⟩
+  have hzrepr : z = algebraMap A (A ⊗[R] integralClosure R F) (eTensor z) := by
+    apply eTensor.injective
+    exact (eTensor.commutes (eTensor z)).symm
+  refine ⟨eTensor z, ?_⟩
+  rw [hzrepr, (TensorProduct.toIntegralClosure R A F).commutes] at hz
+  exact congrArg Subtype.val hz
+
+/-- A standard-smooth relative-dimension-one domain over a field is integrally closed. It is
+étale over the one-variable polynomial ring, which is a UFD and hence integrally closed. -/
+theorem isIntegrallyClosed_of_standardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A] [Algebra K A]
+    [Algebra.IsStandardSmoothOfRelativeDimension 1 K A] :
+    IsIntegrallyClosed A := by
+  obtain ⟨g, hg⟩ :=
+    Algebra.IsStandardSmoothOfRelativeDimension.exists_etale_mvPolynomial 1 K A
+  let P := MvPolynomial (Fin 1) K
+  letI : Algebra P A := g.toRingHom.toAlgebra
+  haveI : Algebra.Etale P A := by
+    rw [← RingHom.etale_algebraMap]
+    exact hg
+  letI : IsIntegrallyClosed P :=
+    UniqueFactorizationMonoid.instIsIntegrallyClosed
+  exact isIntegrallyClosed_of_etale_of_isDomain P A
+
+private theorem isIntegrallyClosed_of_ringHom_standardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) (hf : f.IsStandardSmoothOfRelativeDimension 1) :
+    IsIntegrallyClosed A := by
+  algebraize [f]
+  letI : Algebra.IsStandardSmoothOfRelativeDimension 1 K A := hf
+  exact isIntegrallyClosed_of_standardSmoothRelDimOne_over_field K A
+
 /-- A standard-smooth relative curve chart over a field has dimension at most one. The proof
 uses an étale presentation over the one-variable polynomial ring and quasi-finite contraction
 of prime chains. -/
@@ -599,23 +697,80 @@ theorem dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field
   exact
     { maximalOfPrime := fun hne hp => hp.isMaximal_of_ne_bot hne }
 
-/-- The exact remaining field-base boundary after the dimension theorem: a locally
-standard-smooth relative curve domain is integrally closed. -/
+/-- A locally standard-smooth relative-dimension-one domain over a field is integrally closed.
+On a standard affine cover this follows from the étale presentation theorem above; maximal
+localizations descend integral closedness from any standard chart meeting the maximal ideal. -/
+theorem isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A)
+    (hf : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1) f) :
+    IsIntegrallyClosed A := by
+  obtain ⟨s, hs, hstd⟩ := hf
+  apply IsIntegrallyClosed.of_localization_maximal
+  intro p _ hpmax
+  have hex : ∃ r ∈ s, r ∉ p := by
+    by_contra hnone
+    have hall : ∀ r ∈ s, r ∈ p := by
+      simpa only [not_exists, not_and, not_not] using hnone
+    have htop : (⊤ : Ideal A) ≤ p := by
+      rw [← hs]
+      exact Ideal.span_le.mpr hall
+    exact hpmax.ne_top (top_unique htop)
+  obtain ⟨r, hrs, hrp⟩ := hex
+  have hr0 : r ≠ 0 := fun h ↦ hrp (h ▸ p.zero_mem)
+  have hrnzd : r ∈ A⁰ := mem_nonZeroDivisors_iff_ne_zero.mpr hr0
+  have hpowers_nzd : Submonoid.powers r ≤ A⁰ :=
+    Submonoid.powers_le.mpr hrnzd
+  have hpowers_primeCompl : Submonoid.powers r ≤ p.primeCompl :=
+    Submonoid.powers_le.mpr hrp
+  let Ar := Localization.Away r
+  let L := Localization.AtPrime p
+  letI : IsDomain Ar :=
+    IsLocalization.isDomain_of_le_nonZeroDivisors Ar hpowers_nzd
+  have hAr : IsIntegrallyClosed Ar :=
+    isIntegrallyClosed_of_ringHom_standardSmoothRelDimOne_over_field
+      K Ar ((algebraMap A Ar).comp f) (hstd r hrs)
+  letI : IsIntegrallyClosed Ar := hAr
+  letI : Algebra Ar L :=
+    IsLocalization.localizationAlgebraOfSubmonoidLe
+      Ar L (Submonoid.powers r) p.primeCompl hpowers_primeCompl
+  letI : IsScalarTower A Ar L :=
+    IsLocalization.localization_isScalarTower_of_submonoid_le
+      Ar L (Submonoid.powers r) p.primeCompl hpowers_primeCompl
+  letI : IsLocalization (p.primeCompl.map (algebraMap A Ar)) L :=
+    IsLocalization.isLocalization_of_submonoid_le
+      Ar L (Submonoid.powers r) p.primeCompl hpowers_primeCompl
+  apply isIntegrallyClosed_of_isLocalization L
+    (p.primeCompl.map (algebraMap A Ar))
+  rintro x ⟨y, hy, rfl⟩
+  apply IsLocalization.map_nonZeroDivisors_le (Submonoid.powers r) Ar
+  exact ⟨y, p.primeCompl_le_nonZeroDivisors hy, rfl⟩
+
+/-- Legacy name for the former normality boundary. Integral closedness is now a theorem; new
+code should use `isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field`. -/
 def SmoothRelativeCurveNormality
     (K A : Type u) [Field K] [CommRing A] [IsDomain A]
     (f : K →+* A) : Prop :=
   RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1) f →
     IsIntegrallyClosed A
 
-/-- Over a field, the normality-only boundary and the checked dimension theorem supply the
-existing two-part smooth-relative-curve ring conditions. -/
-theorem smoothRelativeCurveRingConditions_of_field_of_normality
+/-- Over a field, locally standard-smooth relative dimension one supplies both ring conditions
+needed by the affine-chart divisor API. -/
+theorem smoothRelativeCurveRingConditions_of_field
     (K A : Type u) [Field K] [CommRing A] [IsDomain A]
-    (f : K →+* A) (hnormal : SmoothRelativeCurveNormality K A f) :
+    (f : K →+* A) :
     SmoothRelativeCurveRingConditions K A f := by
   intro hlocal
   exact ⟨dimensionLEOne_of_locallyStandardSmoothRelDimOne_over_field K A f hlocal,
-    hnormal hlocal⟩
+    isIntegrallyClosed_of_locallyStandardSmoothRelDimOne_over_field K A f hlocal⟩
+
+/-- Compatibility wrapper for callers that still provide the former normality boundary. -/
+theorem smoothRelativeCurveRingConditions_of_field_of_normality
+    (K A : Type u) [Field K] [CommRing A] [IsDomain A]
+    (f : K →+* A) (_hnormal : SmoothRelativeCurveNormality K A f) :
+    SmoothRelativeCurveRingConditions K A f :=
+  smoothRelativeCurveRingConditions_of_field K A f
 
 /-- Over a field-domain chart, the two-part smooth-relative-curve boundary is exactly the
 normality boundary because relative dimension one already forces dimension at most one. -/
@@ -649,23 +804,33 @@ theorem dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions
   letI : IsDedekindDomain Γ(X, U) := hDedekind
   exact dedekindOrderCompatibilityOfIsDedekindDomain X U hU
 
-/-- For a smooth relative curve over a field, the remaining normality-only input directly
-constructs the Dedekind order compatibility on every nonempty affine chart. -/
-theorem dedekindOrderCompatibilityOfSmoothRelativeCurveNormality
+/-- Every nonempty affine chart of an integral locally Noetherian smooth relative curve over a
+field has the Dedekind order compatibility used by the divisor--line-bundle construction. -/
+theorem dedekindOrderCompatibilityOfSmoothRelativeCurve
     (K : Type u) [Field K]
     (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
     (f : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 f]
-    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
-    (hnormal : RingHom.Locally
-      (RingHom.IsStandardSmoothOfRelativeDimension 1)
-      (f.appLE ⊤ U le_top).hom → IsIntegrallyClosed Γ(X, U)) :
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U) :
     DedekindOrderCompatibility X U hU := by
   letI : Field Γ(Spec (.of K), ⊤) :=
     ((Scheme.ΓSpecIso (.of K)).commRingCatIsoToRingEquiv.toMulEquiv.isField
       (Field.toIsField K)).toField
   apply dedekindOrderCompatibilityOfSmoothRelativeCurveRingConditions K X f U hU
-  exact smoothRelativeCurveRingConditions_of_field_of_normality
-    Γ(Spec (.of K), ⊤) Γ(X, U) (f.appLE ⊤ U le_top).hom hnormal
+  exact smoothRelativeCurveRingConditions_of_field
+    Γ(Spec (.of K), ⊤) Γ(X, U) (f.appLE ⊤ U le_top).hom
+
+/-- Compatibility wrapper for callers that still provide the former normality boundary. New
+code should use `dedekindOrderCompatibilityOfSmoothRelativeCurve`. -/
+theorem dedekindOrderCompatibilityOfSmoothRelativeCurveNormality
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [SmoothOfRelativeDimension 1 f]
+    (U : X.Opens) [Nonempty U] (hU : IsAffineOpen U)
+    (_hnormal : RingHom.Locally
+      (RingHom.IsStandardSmoothOfRelativeDimension 1)
+      (f.appLE ⊤ U le_top).hom → IsIntegrallyClosed Γ(X, U)) :
+    DedekindOrderCompatibility X U hU :=
+  dedekindOrderCompatibilityOfSmoothRelativeCurve K X f U hU
 
 /-- A sufficient datum for transporting AINTLIB Picard groups along the affine-chart
 isomorphism: strong monoidality of sheaf-module pullback for the AINTLIB tensor structures. -/
