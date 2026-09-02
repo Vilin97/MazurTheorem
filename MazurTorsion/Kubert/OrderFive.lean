@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.TateNormalFormMultiples
 import Mathlib.Tactic.Abel
+import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 
 /-!
@@ -42,6 +43,18 @@ theorem orderFiveCurve_discriminant (c : ℚ) :
   simp only [orderFiveCurve, tateNormalCurve, WeierstrassCurve.Δ,
     WeierstrassCurve.b₂, WeierstrassCurve.b₄, WeierstrassCurve.b₆,
     WeierstrassCurve.b₈]
+  ring
+
+/-- The polynomial giving the `c₄` invariant of the order-five family. -/
+def orderFiveC4Polynomial (c : ℚ) : ℚ :=
+  c ^ 4 - 12 * c ^ 3 + 14 * c ^ 2 + 12 * c + 1
+
+/-- The `c₄` invariant of the order-five Tate family. -/
+theorem orderFiveCurve_c₄ (c : ℚ) :
+    (orderFiveCurve c).c₄ = orderFiveC4Polynomial c := by
+  simp only [orderFiveCurve, tateNormalCurve, orderFiveC4Polynomial,
+    WeierstrassCurve.c₄, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄]
   ring
 
 /-- Exact order five forces the two Tate parameters to coincide. -/
@@ -201,5 +214,78 @@ theorem five_nsmul_eq_zero_of_orderFive_kernel_abscissa
           (tateNormalCurve c c) rfl hyc
       rw [heq]
       exact hfiveDouble
+
+/-- An exact order-five point admits order-five Tate normalization while
+retaining the invariant scales and the marked-point equivalence. -/
+theorem exists_orderFiveCurve_scaled
+    (W : WeierstrassCurve ℚ) [W.IsElliptic]
+    (P : W.toAffine.Point) (horder : addOrderOf P = 5) :
+    ∃ (c u : ℚ) (_ : c ≠ 0) (_ : c ^ 2 - 11 * c - 1 ≠ 0)
+      (_ : u ≠ 0)
+      (h00 : (orderFiveCurve c).toAffine.Nonsingular 0 0)
+      (e : W.toAffine.Point ≃+ (orderFiveCurve c).toAffine.Point),
+      e P = WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
+        u ^ 12 * W.Δ = (orderFiveCurve c).Δ ∧
+        u ^ 4 * W.c₄ = (orderFiveCurve c).c₄ ∧
+        u ^ 6 * W.c₆ = (orderFiveCurve c).c₆ := by
+  have hnot : ∀ n : ℕ, ¬ (5 ∣ n) → (n : ℕ) • P ≠ 0 := by
+    intro n hn hzero
+    exact hn (horder ▸ addOrderOf_dvd_of_nsmul_eq_zero hzero)
+  have hP2 : P + P ≠ 0 := by
+    intro hzero
+    apply hnot 2 (by norm_num)
+    simpa only [two_nsmul] using hzero
+  have hP3 : P + P + P ≠ 0 := by
+    intro hzero
+    apply hnot 3 (by norm_num)
+    calc
+      (3 : ℕ) • P = P + P + P := by abel
+      _ = 0 := hzero
+  obtain ⟨b, c, u, hu, hb, h00, e, heP, hdisc, hc₄, hc₆⟩ :=
+    exists_tateNormalCurve_scaled W P hP2 hP3
+  have horderOrigin :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 5 := by
+    rw [← heP, AddEquiv.addOrderOf_eq]
+    exact horder
+  have hbc : b = c :=
+    tateNormalCurve_parameters_eq_of_order_five b c hb h00 horderOrigin
+  subst b
+  have hfactor : c ^ 2 - 11 * c - 1 ≠ 0 := by
+    intro hzero
+    have hDeltaZero : (orderFiveCurve c).Δ = 0 := by
+      rw [orderFiveCurve_discriminant, hzero, mul_zero]
+    have hdiscFive : u ^ 12 * W.Δ = (orderFiveCurve c).Δ := by
+      exact hdisc
+    have hDeltaNe : (orderFiveCurve c).Δ ≠ 0 := by
+      rw [← hdiscFive]
+      exact mul_ne_zero (pow_ne_zero 12 hu) W.isUnit_Δ.ne_zero
+    exact hDeltaNe hDeltaZero
+  exact ⟨c, u, hb, hfactor, hu, h00, e, heP, hdisc, hc₄, hc₆⟩
+
+/-- Eliminating the normalization scale gives the cleared `j`-identity
+attached to an exact order-five point.  This is the invariant interface used
+to compare the original marked five-subgroup with a residual five-subgroup
+on an isogenous quotient. -/
+theorem exists_orderFiveParameter_relation_of_exactOrder
+    (W : WeierstrassCurve ℚ) [W.IsElliptic]
+    (P : W.toAffine.Point) (horder : addOrderOf P = 5) :
+    ∃ c : ℚ, c ≠ 0 ∧ c ^ 2 - 11 * c - 1 ≠ 0 ∧
+      orderFiveC4Polynomial c ^ 3 * W.Δ =
+        W.c₄ ^ 3 * (c ^ 5 * (c ^ 2 - 11 * c - 1)) := by
+  obtain ⟨c, u, hc, hfactor, -, -, -, -, hdisc, hc₄, -⟩ :=
+    exists_orderFiveCurve_scaled W P horder
+  refine ⟨c, hc, hfactor, ?_⟩
+  calc
+    orderFiveC4Polynomial c ^ 3 * W.Δ =
+        (orderFiveCurve c).c₄ ^ 3 * W.Δ := by
+      rw [orderFiveCurve_c₄]
+    _ = (u ^ 4 * W.c₄) ^ 3 * W.Δ := by rw [hc₄]
+    _ = W.c₄ ^ 3 * (u ^ 12 * W.Δ) := by ring
+    _ = W.c₄ ^ 3 * (orderFiveCurve c).Δ := by rw [hdisc]
+    _ = W.c₄ ^ 3 *
+        (c ^ 5 * (c ^ 2 - 11 * c - 1)) := by
+      rw [orderFiveCurve_discriminant]
 
 end MazurTorsion.Kubert

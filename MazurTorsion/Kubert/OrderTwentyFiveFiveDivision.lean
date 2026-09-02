@@ -177,4 +177,58 @@ theorem orderTwentyFive_orderFiveVelu_package
       exact ⟨c, u, x, y, h00, hxy, hc, hfactor, hu, hx0, hxc,
         horder25, hfive, htarget, himageOrder, hdisc, hc₄⟩
 
+/-- The cleared two-parameter equation obtained by giving the explicit
+order-five quotient a second marked point of order five. -/
+def orderTwentyFiveFiveDivisionRelation (c d : ℚ) : ℚ :=
+  orderFiveC4Polynomial d ^ 3 *
+      (c * (c ^ 2 - 11 * c - 1) ^ 5) -
+    orderFiveVeluTargetC4Polynomial c ^ 3 *
+      (d ^ 5 * (d ^ 2 - 11 * d - 1))
+
+/-- An order-twenty-five division point produces a noncuspidal residual
+order-five parameter on the explicit quotient, satisfying the cleared
+two-parameter invariant relation. -/
+theorem exists_orderFiveQuotientParameter_of_orderTwentyFive
+    {c : ℚ} [(orderFiveCurve c).IsElliptic]
+    {Q : (orderFiveCurve c).toAffine.Point}
+    (hQ : addOrderOf Q = 25)
+    (hfive : (5 : ℕ) • Q = orderFiveOrigin c) :
+    ∃ d : ℚ, d ≠ 0 ∧ d ^ 2 - 11 * d - 1 ≠ 0 ∧
+      orderTwentyFiveFiveDivisionRelation c d = 0 := by
+  have himageOrder : addOrderOf (orderFivePointMap c Q) = 5 :=
+    addOrderOf_orderFivePointMap_of_orderTwentyFive hQ hfive
+  obtain ⟨d, hd, hfactor, hidentity⟩ :=
+    exists_orderFiveParameter_relation_of_exactOrder
+      (orderFiveVeluTarget c) (orderFivePointMap c Q) himageOrder
+  refine ⟨d, hd, hfactor, ?_⟩
+  rw [orderFiveVeluTarget_discriminant,
+    orderFiveVeluTarget_c₄] at hidentity
+  exact sub_eq_zero.mpr hidentity
+
+/-- A hypothetical rational point of exact order twenty-five supplies two
+noncuspidal order-five parameters linked by the explicit quotient equation.
+The first parameter retains the discriminant and `c₄` scales of the original
+curve. -/
+theorem orderTwentyFive_two_orderFive_parameters_package
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (h25 : addOrderOf P = 25) :
+    ∃ (c d u : ℚ),
+      c ≠ 0 ∧ c ^ 2 - 11 * c - 1 ≠ 0 ∧
+        d ≠ 0 ∧ d ^ 2 - 11 * d - 1 ≠ 0 ∧ u ≠ 0 ∧
+        orderTwentyFiveFiveDivisionRelation c d = 0 ∧
+        u ^ 12 * E.Δ = (orderFiveCurve c).Δ ∧
+        u ^ 4 * E.c₄ = (orderFiveCurve c).c₄ := by
+  obtain ⟨c, u, hc, hfactor, hu, h00, e, -, hdisc, hc₄,
+      horder25, hfive⟩ :=
+    orderTwentyFive_orderFive_family_package E P h25
+  letI : (orderFiveCurve c).IsElliptic :=
+    orderFiveCurve_isElliptic c hc hfactor
+  have hfiveCanonical : (5 : ℕ) • e P = orderFiveOrigin c := by
+    simpa only [orderFiveOrigin] using hfive
+  obtain ⟨d, hd, hdfactor, hrelation⟩ :=
+    exists_orderFiveQuotientParameter_of_orderTwentyFive
+      horder25 hfiveCanonical
+  exact ⟨c, d, u, hc, hfactor, hd, hdfactor, hu,
+    hrelation, hdisc, hc₄⟩
+
 end MazurTorsion.Kubert

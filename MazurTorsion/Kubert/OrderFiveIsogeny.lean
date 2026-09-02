@@ -61,6 +61,18 @@ theorem orderFiveVeluTarget_discriminant (c : ℚ) :
     WeierstrassCurve.b₈]
   ring
 
+/-- The polynomial giving the `c₄` invariant of the explicit quotient. -/
+def orderFiveVeluTargetC4Polynomial (c : ℚ) : ℚ :=
+  c ^ 4 + 228 * c ^ 3 + 494 * c ^ 2 - 228 * c + 1
+
+/-- The `c₄` invariant of the explicit order-five quotient. -/
+theorem orderFiveVeluTarget_c₄ (c : ℚ) :
+    (orderFiveVeluTarget c).c₄ =
+      orderFiveVeluTargetC4Polynomial c := by
+  simp only [orderFiveVeluTarget, orderFiveVeluTargetC4Polynomial,
+    WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
+  ring
+
 /-- The two explicit factors of the source discriminant are nonzero on an
 elliptic member of the order-five family. -/
 theorem orderFiveCurve_parameters_ne

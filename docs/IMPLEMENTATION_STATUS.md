@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,948 Lean modules** and **1,965,336 Lean
+- The audited baseline contains **1,948 Lean modules** and **1,965,488 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -165,9 +165,13 @@ homogeneous doubling identities, kernel-translation invariance, and negation
 compatibility then prove that the transported order-twenty-five point maps to
 a rational point of exact order five on the quotient. This produces the second
 rational five-level structure needed for a direct parameter comparison without
-asserting that a Fricke involution preserves a rational generator. The next gap
-on this route is to normalize the quotient image and extract the resulting
-arithmetic relation between the two order-five parameters.
+asserting that a Fricke involution preserves a rational generator. A reusable
+exact-order-five normalization now preserves the discriminant and `c₄` scales;
+applied to that quotient image, it eliminates the scale and proves an explicit
+cleared equation between two noncuspidal rational order-five parameters. The
+next gap on this route is to separate the relevant order-25 component of that
+equation while retaining the five-division lift, rather than relying only on
+equality of `j`-invariants.
 
 The checked Lécacheux orbit route also recovers the invariant
 parameter from the five orbit coordinates and proves that the six cyclic
