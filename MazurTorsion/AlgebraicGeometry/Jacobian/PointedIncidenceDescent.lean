@@ -18,6 +18,7 @@ import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineRootCoordi
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedSimultaneousGraphNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedAffineSimultaneousNeighborhood
 import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricAssignedRefinedSupportQuotient
+import MazurTorsion.AlgebraicGeometry.Jacobian.GeometricSelectedOrbitRefinement
 import Mathlib.AlgebraicGeometry.Morphisms.FlatDescent
 
 /-!
@@ -61,6 +62,7 @@ open GeometricAssignedAffineRootCoordinates
 open GeometricAssignedSimultaneousGraphNeighborhood
 open GeometricAssignedAffineSimultaneousNeighborhood
 open GeometricAssignedAffineSupportCoproduct
+open GeometricSelectedOrbitRefinement
 open SmoothCurveEtaleCoordinate
 open SplitFiniteBaseChange
 open SplitFinitePowerPoint
@@ -572,6 +574,48 @@ theorem orderedSupportGeometricAssigned_exists_simultaneousAffineGraphNeighborho
       (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj) :=
   nonempty_simultaneousAffineGraphNeighborhood_of_exact K C d
     (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj
+
+omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
+/-- The simultaneous affine graph chart at an ordered-incidence point may
+be chosen inside the stable orbit of its selected split sheet.  Thus the
+graph-product calculation and the block-invariant local quotient use one
+common affine base, while retaining the exact incidence lift. -/
+theorem orderedSupportGeometricAssigned_exists_selectedOrbitGraphNeighborhood
+    (d : ℕ) (z : (orderedAmbient (Spec (.of K)) d C).left)
+    {V : (commonAffineBase K C d
+      (orderedSupportPoint K C d z)).left.Opens}
+    (hVs : (GeometricAssignedAffineChart.action K C d
+      (orderedSupportPoint K C d z)).IsStableOpen V)
+    (hpre : (componentAction K C d
+      (orderedSupportPoint K C d z)).IsStableOpen
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ⁻¹ᵁ V))
+    (hmem : exactCommonAffineBasePoint K C d
+      (orderedSupportPoint K C d z) ∈ V)
+    {T : Type u} [CommRing T] (q : Spec (.of T) ⟶ V.toScheme)
+    (m : ℕ)
+    (E : pullback
+      ((componentToBasePower K C d
+        (orderedSupportPoint K C d z)).left ∣_ V) q ≅
+          Spec (.of (Fin m → T)))
+    (hE : E.hom ≫ EtaleSplitChart.splitProjection T m =
+      pullback.snd
+        ((componentToBasePower K C d
+          (orderedSupportPoint K C d z)).left ∣_ V) q)
+    (s : (componentFpqcBlockRefinement K C d
+      (orderedSupportPoint K C d z) hVs q).left)
+    (j : Fin m)
+    (hj : tupleSheetToComponentPreimage K C d
+        (orderedSupportPoint K C d z) hVs q m E hE j s =
+      commonAffineComponentPointInPreimage K C d
+        (orderedSupportPoint K C d z) hmem) :
+    ∃ N : SimultaneousAffineGraphNeighborhood K C d
+        (orderedSupportPoint K C d z) hVs q m E hE hmem s j hj,
+      N.baseOpen ≤ selectedOrbitSheetBaseOpen K C d
+        (orderedSupportPoint K C d z) hVs hpre q m E hE
+          (s := s) (j := j) :=
+  exists_selectedOrbit_simultaneousAffineGraphNeighborhood K C d
+    (orderedSupportPoint K C d z) hVs hpre q m E hE hmem s j hj
 
 omit [GeometricallyIrreducible C.hom] [IsProper C.hom] in
 /-- After simultaneous affine shrinking, every ordered occurrence graph
