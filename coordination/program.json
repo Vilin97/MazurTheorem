@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1965698,
-    "integrated_lean_modules": 1949,
+    "integrated_lean_lines": 1966075,
+    "integrated_lean_modules": 1950,
     "remaining_composite_orders": [
       25,
       35
@@ -917,7 +917,7 @@
       "weight_points": 16,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. Separately, checked Lécacheux modular units give five nonzero orbit coordinates; the six abstract cyclic relations imply Brunault's genus-four equation, recover the invariant n, and force the two selected units to be roots of Lehmer's quintic. A three-integral recovered invariant is therefore impossible by the checked F₃ open-chart enumeration. It remains to prove the six relations and x₀ ≠ 1 for the actual Tate units, then supply the integral/Fricke bridge ensuring that the relevant recovered invariant is three-integral.",
+      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. Checked Lécacheux modular units give five nonzero orbit coordinates, and all six cyclic relations needed to recover the invariant and force two selected units to be roots of Lehmer's quintic now hold for the actual Tate cross-ratios. A three-integral recovered invariant is impossible by the checked F₃ open-chart enumeration. Independently, the five-isogeny route reaches one oriented five-division component, maps it to the explicit X₀(25) degeneracy curve, recovers a rational Hauptmodul without exceptional rational poles, and proves that n ↦ 5/n exchanges the two X₀(5) degeneracy values. It remains to identify this X₀-level parameter with the Lécacheux orbit parameter, including the sign convention, and lift Fricke symmetry to the rational-generator orbit so that the three-integrality dichotomy feeds the exclusion.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -1005,6 +1005,13 @@
         },
         {
           "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFive_degeneracyFricke_package",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveDegeneracy",
+          "description": "Recover a rational X₀(25) Hauptmodul from the two quotient-normalized X₀(5) parameters and check that n ↦ 5/n exchanges their degeneracy values with reciprocal factor 125."
+        },
+        {
+          "kind": "theorem",
           "name": "MazurTorsion.Kubert.orderTwentyFiveLehmer_selectedRoots_of_orbit",
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion",
@@ -1043,7 +1050,7 @@
           "MazurTorsion.Kubert.OrderTwentyFive"
         ],
         "informal": "An elliptic curve over Q has no rational point of exact order 25.",
-        "recommended_route": "Prove the six Lécacheux cyclic relations and x₀ ≠ 1 for the five explicit Tate cross-ratios. Then construct the Fricke transport of that orbit and prove that the recovered invariant selected by the n versus 5/n integrality dichotomy is the parameter consumed by no_orderTwentyFiveBrunaultOrbit_of_threeIntegral.",
+        "recommended_route": "Relate the recovered X₀(25) Hauptmodul from orderTwentyFive_degeneracyFricke_package to the Lécacheux orbit parameter, accounting for the sign convention, then lift the checked X₀-level Fricke formulas to the explicit rational-generator orbit. Use the n versus 5/n integrality dichotomy to select an orbit consumed by no_orderTwentyFiveBrunaultOrbit_of_threeIntegral.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],

@@ -120,6 +120,7 @@ import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.OrderTwentyFive
 import MazurTorsion.Kubert.OrderTwentyFiveFiveDivision
 import MazurTorsion.Kubert.OrderTwentyFiveFiveDivisionFactorization
+import MazurTorsion.Kubert.OrderTwentyFiveDegeneracy
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
 import MazurTorsion.Kubert.OrderTwentyFiveNormalizedModel

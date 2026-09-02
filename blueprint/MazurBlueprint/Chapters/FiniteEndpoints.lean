@@ -243,6 +243,9 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_frickeParameter_three_integral`
   Prove that at least one of the Fricke-related rational parameters n and 5/n is
   integral at three, while leaving the geometric transport explicit.
+* `theorem` (`contract`): `MazurTorsion.Kubert.orderTwentyFive_degeneracyFricke_package`
+  Recover a rational X₀(25) Hauptmodul from the two quotient-normalized X₀(5) parameters
+  and check that n ↦ 5/n exchanges their degeneracy values with reciprocal factor 125.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFiveLehmer_selectedRoots_of_orbit`
   Recover Lécacheux's invariant from an abstract orbit and prove the two Brunault

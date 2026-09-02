@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,949 Lean modules** and **1,965,698 Lean
+- The audited baseline contains **1,950 Lean modules** and **1,966,075 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -172,10 +172,15 @@ cleared equation between two noncuspidal rational order-five parameters. Its
 complete factorization is checked: the quadratic component has no rational
 points because its discriminant has the nonsquare class of five, while the two
 quintic components are exchanged by `d ↦ -1/d`. Thus every hypothetical
-order-twenty-five point reaches one fixed oriented quintic component. The next
-gap on this route is to retain the five-division lift while extracting an
-arithmetic contradiction from that component, rather than relying only on
-equality of `j`-invariants.
+order-twenty-five point reaches one fixed oriented quintic component. Forgetting
+the two chosen generators maps that component to an explicit `X₀(25)`
+degeneracy equation. A checked rational inverse recovers its Hauptmodul with no
+exceptional rational pole on the curve, and direct identities prove that
+`n ↦ 5/n` exchanges the two `X₀(5)` degeneracy values with reciprocal factor
+`125`. This is an `X₀`-level Fricke statement: it does not yet construct the
+Fricke-transformed Lécacheux orbit with a rational generator. The next gap is
+to identify the recovered Hauptmodul with the orbit parameter, including its
+sign convention, and lift this symmetry to that generator-level data.
 
 The checked Lécacheux orbit route also recovers the invariant
 parameter from the five orbit coordinates and proves that the six cyclic
