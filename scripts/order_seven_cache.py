@@ -133,6 +133,15 @@ SHARDS: dict[str, Shard] = {
         ),
         predecessors=("seed",),
     ),
+    "r3": Shard(
+        targets=(
+            "MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence3",
+        ),
+        artifacts=(
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence3*",
+        ),
+        predecessors=("r2-final", "r4-final"),
+    ),
     "r6": Shard(
         targets=(
             "MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence6",

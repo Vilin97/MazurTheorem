@@ -534,19 +534,12 @@ theorem no_noncuspidal_correspondence_point
 
 /-! ## The explicit order-seven isogeny-tower consumer
 
-The only remaining input in this route is the third polynomial
-pseudo-division recurrence. All other normalization, isogeny, resultant,
-and rational-point-classification steps are checked below. -/
+All normalization, isogeny, pseudo-division, resultant, and
+rational-point-classification steps in this route are checked below. -/
 
-/-- The third pseudo-division recurrence completes the explicit order-seven
-isogeny-tower obstruction to rational points of exact order `49`.
-
-This is the named downstream consumer of `recurrence3`: once that concrete
-polynomial identity is checked, this theorem supplies the order-49 challenge
-bridge without any additional geometric hypothesis. -/
-theorem rationalPoint_addOrderOf_ne_fortyNine_of_recurrence3
-    (hrec3 :
-      Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate.recurrence3)
+/-- The explicit order-seven isogeny tower excludes rational points of exact
+order `49`. -/
+theorem rationalPoint_addOrderOf_ne_fortyNine
     (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (P : E.toAffine.Point) :
     addOrderOf P ≠ 49 := by
@@ -624,7 +617,7 @@ theorem rationalPoint_addOrderOf_ne_fortyNine_of_recurrence3
   obtain ⟨-, -, hK⟩ := Kubert.orderSevenFamily_parameters_ne d
   obtain ⟨hres0, hres1, hres2⟩ :=
     Kubert.OrderSevenBacktrackingCertificate.bounded_resultants_ne_zero
-      hrec3 d hd0 hd1 hK
+      d hd0 hd1 hK
   cases hQeq : Q with
   | zero =>
       rw [hQeq] at hQorder

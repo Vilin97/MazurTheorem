@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN`, `MT-O49-TOWER` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct addition on the three remaining members of the full projective-product cover, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct addition on the three remaining members of the full projective-product cover, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -52,11 +52,10 @@ it is blocked and does not occupy the spare WIP slot.
 
 ## Contributor-facing contracts
 
-The ledger currently exposes two claimable contracts:
+The ledger currently exposes one claimable contract:
 
 | Node | Mode | Scope |
 |---|---|---|
-| `MT-O49-TOWER` | ordinary, exclusive lease | Bridge exact order 49 to the represented and classified `X₀(49)` curve. |
 | `MT-TC-A3-DIVISOR-LINE-BUNDLE` | nonexclusive research intention | Complete the divisor--line-bundle dictionary and Picard comparison. |
 
 These contracts still obey their ledger dependencies and the process in

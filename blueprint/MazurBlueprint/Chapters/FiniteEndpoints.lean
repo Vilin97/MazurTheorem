@@ -237,15 +237,14 @@ squarefree-level formal-immersion criterion at auxiliary prime 11.
 
 :::
 
-:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-X0-MODULI") (tags := "proof, open, compiled, mazur")
-*Bridge order 49 directly to the classified X\_0(49) curve.*
+:::theorem "MT-O49-TOWER" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mazur")
+*Exclude exact order 49 on the classified X\_0(49) correspondence.*
 
-*Status:* `open`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`; *risk:*
-`high`; *weight:* 10 points.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
+*risk:* `high`; *weight:* 10 points.
 
-*Summary:* Use the shared cyclic-subgroup moduli bridge: exact order 49 now constructs a
-genuine represented split finite-flat source whose recovered rational datum is the
-original cyclic-subgroup datum.
+*Summary:* Exact order 49 is excluded by a fully checked explicit order-seven isogeny
+tower.
 
 *Canonical artifacts:*
 
@@ -257,6 +256,18 @@ original cyclic-subgroup datum.
   `MazurTorsion.XZeroFortyNine.rationalDatumOfSplitFiniteFlatSourceOfOrderFortyNineTorsion`
   Construct the represented split finite-flat source from exact order 49 and prove that
   forgetting it recovers the original raw rational Gamma\_0 datum.
+* `theorem` (`integrated`):
+  `MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate.recurrence3_checked`
+  Check the final quintic/quartic pseudo-division recurrence through exact dense integer
+  convolution identities.
+* `theorem` (`integrated`):
+  `MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.bounded_resultants_ne_zero`
+  Use all seven checked recurrences and order-three parameter symmetry to make the three
+  bounded resultants nonzero.
+* `theorem` (`integrated`):
+  `MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine`
+  Exclude exact rational point order 49 through the explicit resultant obstruction and
+  classified X\_0(49) correspondence.
 
 :::
 

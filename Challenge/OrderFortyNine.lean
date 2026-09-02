@@ -23,6 +23,7 @@ additive order forty-nine. -/
 theorem no_rational_point_of_order_fortyNine
     (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (P : (E⁄ℚ).Point) :
-    addOrderOf P ≠ 49 := sorry
+    addOrderOf P ≠ 49 :=
+  MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine E P
 
 end MazurTheorem.Challenge

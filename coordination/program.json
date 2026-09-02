@@ -50,11 +50,10 @@
           "MT-EC-ISOGENY-WEIL",
           "MT-X0-MODULI",
           "MT-X0-INTEGRAL",
-          "MT-X0-JACOBIAN",
-          "MT-O49-TOWER"
+          "MT-X0-JACOBIAN"
         ],
         "current_work_package": "WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME",
-        "exit_criterion": "An exact-order-49 point reaches an honest represented X₀(49) point without a supplied point-equivalence shadow."
+        "exit_criterion": "Represented X₀(N) geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows."
       }
     ],
     "paused_node_ids": [
@@ -72,13 +71,12 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1797519,
-    "integrated_lean_modules": 1885,
+    "integrated_lean_lines": 1813939,
+    "integrated_lean_modules": 1889,
     "remaining_composite_orders": [
       18,
       25,
-      35,
-      49
+      35
     ],
     "remaining_prime_callback": "Every prime p with 11 ≤ p"
   },
@@ -131,11 +129,11 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 172,
-    "percent": 17.2,
-    "ecosystem_ready_estimate_percent": 18,
-    "claimable_open_points": 28,
-    "ordinary_claimable_points": 10,
+    "earned_points": 182,
+    "percent": 18.2,
+    "ecosystem_ready_estimate_percent": 19,
+    "claimable_open_points": 18,
+    "ordinary_claimable_points": 0,
     "research_open_points": 18,
     "method": "A node earns no theorem-progress credit for a statement alone. A proof node earns 70% for an isolated kernel proof, 85% after API review, and 100% only after a downstream consumer compiles. Infrastructure earns 40% when its definitions compile, 70% after mathematical sanity checks, and 100% after a real downstream consumer compiles. The headline is the weighted sum."
   },
@@ -217,7 +215,7 @@
         {
           "kind": "theorem",
           "name": "MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine",
-          "state": "contract",
+          "state": "integrated",
           "description": "The order-49 point-to-X_0(49) bridge and final exclusion."
         },
         {
@@ -487,6 +485,7 @@
         "MT-X13-NONCUSP",
         "MT-X18-NONCUSP",
         "MT-O25-EXCLUDE",
+        "MT-O49-TOWER",
         "MT-TC-A1-ORDER-SUPPORT",
         "MT-TC-E0-PRODUCT-DIM",
         "MT-TC-B1-COHERENT-COHOMOLOGY",
@@ -1095,15 +1094,15 @@
     },
     {
       "id": "MT-O49-TOWER",
-      "title": "Bridge order 49 directly to the classified X_0(49) curve",
+      "title": "Exclude exact order 49 on the classified X_0(49) correspondence",
       "stage": "finite_endpoints",
       "kind": "proof",
-      "status": "open",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 10,
       "risk": "high",
       "backend": "mazur",
-      "summary": "Use the shared cyclic-subgroup moduli bridge: exact order 49 now constructs a genuine represented split finite-flat source whose recovered rational datum is the original cyclic-subgroup datum. The remaining map from that datum to a noncuspidal X_0(49)(Q) point will contradict the already checked two-cusp classification. No additivity proof for the explicit Velu point function is needed.",
+      "summary": "Exact order 49 is excluded by a fully checked explicit order-seven isogeny tower. A dense integer certificate proves the last pseudo-remainder recurrence, the resulting three bounded resultants force the nonbacktracking obstruction, and the checked X_0(49) correspondence classification supplies the contradiction.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -1118,23 +1117,44 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
           "description": "Construct the represented split finite-flat source from exact order 49 and prove that forgetting it recovers the original raw rational Gamma_0 datum."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate.recurrence3_checked",
+          "state": "integrated",
+          "module": "MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence3",
+          "description": "Check the final quintic/quartic pseudo-division recurrence through exact dense integer convolution identities."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.bounded_resultants_ne_zero",
+          "state": "integrated",
+          "module": "MazurTorsion.Kubert.OrderSevenBacktrackingResultantSymmetry",
+          "description": "Use all seven checked recurrences and order-three parameter symmetry to make the three bounded resultants nonzero."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XZeroFortyNine.rationalPoint_addOrderOf_ne_fortyNine",
+          "state": "integrated",
+          "module": "MazurTorsion.NumberTheory.XZeroFortyNineTransfer",
+          "description": "Exclude exact rational point order 49 through the explicit resultant obstruction and classified X_0(49) correspondence."
         }
       ],
       "depends_on": [
-        "MT-X0-MODULI"
+        "MT-BASE-INTEGRATED"
       ],
       "unlocks": [
         "MT-FINITE-JOIN"
       ],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "challenge": {
-        "claimable": true,
+        "claimable": false,
         "module": "Challenge.OrderFortyNine",
         "file": "Challenge/OrderFortyNine.lean",
         "declaration": "MazurTheorem.Challenge.no_rational_point_of_order_fortyNine",
@@ -1161,7 +1181,7 @@
       },
       "route_history": {
         "previous_scope": "prove additivity of an explicit Velu map and follow a nonbacktracking isogeny tower",
-        "revision": "apply the generic cyclic-subgroup-to-X_0 bridge directly to the checked X_0(49)(Q) classification"
+        "revision": "use the checked explicit order-seven isogeny tower, complete its final pseudo-remainder recurrence by dense integer convolution, and apply the classified X_0(49) correspondence"
       }
     },
     {
@@ -3401,7 +3421,6 @@
       ],
       "unlocks": [
         "MT-O35-EXCLUDE",
-        "MT-O49-TOWER",
         "MT-X0-INTEGRAL",
         "MT-PRIME-SEMISTABLE"
       ],
