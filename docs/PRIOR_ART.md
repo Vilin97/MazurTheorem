@@ -1125,6 +1125,18 @@ nonzero rational modular units do not by themselves have nonzero reduction
 modulo three: a later rational-point exclusion still needs an integral,
 valuation-zero specialization theorem for the open chart.
 
+Lécacheux's pp. 241--243 also give the five cyclic difference relations,
+the norm-one relation, the invariant identity `R + Q - S = 5(1 - n)`, and
+Lehmer's quintic.  `OrderTwentyFiveBrunaultOrbitExclusion.lean` uses that
+identity to recover `n` from the orbit coordinates.  Lean's checked polynomial
+normalization proves that, away from the exceptional value `x₀ = 1`, the
+six orbit equations force the elementary symmetric coefficients printed in
+the source and hence make `x₀` and `x₂` roots of the quintic.  The proof
+imports no external Gröbner certificate.  The remaining bridge is geometric:
+the explicit Tate cross-ratios must satisfy those six relations, avoid the
+exceptional value, and be transported through Fricke when `5/n`, rather than
+`n`, is the parameter integral at three.
+
 William Stein and Andrew Snowden's public
 [`X₁(N)` lecture notes](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L23.html)
 also identify the remaining arithmetic character of these cases:

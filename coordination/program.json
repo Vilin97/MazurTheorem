@@ -70,7 +70,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1834073,
+    "integrated_lean_lines": 1834197,
     "integrated_lean_modules": 1939,
     "remaining_composite_orders": [
       25,
@@ -917,7 +917,7 @@
       "weight_points": 16,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. The arbitrary-curve consumer retains b, c, and b-c nonzero together with the twelfth-power discriminant scale. Classifying rational solutions of that explicit noncuspidal factor, directly or after a checked birational reduction, remains open.",
+      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. Separately, checked Lécacheux modular units give five nonzero orbit coordinates; the six abstract cyclic relations imply Brunault's genus-four equation, recover the invariant n, and force the two selected units to be roots of Lehmer's quintic. A three-integral recovered invariant is therefore impossible by the checked F₃ open-chart enumeration. It remains to prove the six relations and x₀ ≠ 1 for the actual Tate units, then supply the integral/Fricke bridge ensuring that the relevant recovered invariant is three-integral.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -981,6 +981,41 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderTwentyFiveNormalizedModel",
           "description": "Send an arbitrary exact-order-25 rational point to the fixed degree-40 model while retaining b, c, b-c, and the Tate-normalization discriminant scale."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFiveBrunault_orbit_units_ne_zero",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunault",
+          "description": "Construct the five explicit Lécacheux orbit units from Tate abscissas and prove all five nonzero from exact marked order 25."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFiveBrunaultPolynomial_eq_zero_of_orbit",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate",
+          "description": "Use a kernel-checked polynomial certificate to derive Brunault's genus-four equation from the six cyclic orbit relations and a ≠ 1."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFive_frickeParameter_three_integral",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultIntegrality",
+          "description": "Prove that at least one of the Fricke-related rational parameters n and 5/n is integral at three, while leaving the geometric transport explicit."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFiveLehmer_selectedRoots_of_orbit",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion",
+          "description": "Recover Lécacheux's invariant from an abstract orbit and prove the two Brunault coordinates are roots of Lehmer's quintic."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.no_orderTwentyFiveBrunaultOrbit_of_threeIntegral",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion",
+          "description": "Exclude a nonexceptional cyclic orbit whenever its recovered invariant is integral at three, with no separately supplied Lehmer-root hypotheses."
         }
       ],
       "depends_on": [
@@ -1008,7 +1043,7 @@
           "MazurTorsion.Kubert.OrderTwentyFive"
         ],
         "informal": "An elliptic curve over Q has no rational point of exact order 25.",
-        "recommended_route": "Develop a Tate-normal-form or modular-curve reduction with an independently checkable descent endpoint.",
+        "recommended_route": "Prove the six Lécacheux cyclic relations and x₀ ≠ 1 for the five explicit Tate cross-ratios. Then construct the Fricke transport of that orbit and prove that the recovered invariant selected by the n versus 5/n integrality dichotomy is the parameter consumed by no_orderTwentyFiveBrunaultOrbit_of_threeIntegral.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],

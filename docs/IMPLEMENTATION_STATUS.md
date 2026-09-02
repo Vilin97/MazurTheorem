@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,938 Lean modules** and **1,832,918 Lean
+- The audited baseline contains **1,939 Lean modules** and **1,834,197 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -156,6 +156,15 @@ formal immersion for the actual affine `Spec` quotient map at the selected
 cusp. The remaining gap is not its cusp algebra; it is the represented modular
 classifying map and special-fibre chart comparison, followed by the global
 quotient and specialization inputs.
+
+For order `25`, the checked Lécacheux orbit route now recovers the invariant
+parameter from the five orbit coordinates and proves that the six cyclic
+relations force the two selected coordinates to satisfy Lehmer's quintic.
+Consequently `no_orderTwentyFiveBrunaultOrbit_of_threeIntegral` rules out the
+orbit as soon as its recovered invariant is integral at three, without taking
+the two root facts as assumptions. The remaining gap is to prove the cyclic
+relations and `x₀ ≠ 1` for the explicit Tate cross-ratios and to construct the
+Fricke transport needed when `5/n`, rather than `n`, is the integral parameter.
 
 Five published contracts are intentionally paused:
 

@@ -231,6 +231,26 @@ order 25.
   `MazurTorsion.Kubert.exists_tateOrderTwentyFive_noncuspidal_certificate`
   Send an arbitrary exact-order-25 rational point to the fixed degree-40 model while
   retaining b, c, b-c, and the Tate-normalization discriminant scale.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveBrunault_orbit_units_ne_zero`
+  Construct the five explicit Lécacheux orbit units from Tate abscissas and prove all
+  five nonzero from exact marked order 25.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveBrunaultPolynomial_eq_zero_of_orbit`
+  Use a kernel-checked polynomial certificate to derive Brunault's genus-four equation
+  from the six cyclic orbit relations and a ≠ 1.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_frickeParameter_three_integral`
+  Prove that at least one of the Fricke-related rational parameters n and 5/n is
+  integral at three, while leaving the geometric transport explicit.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveLehmer_selectedRoots_of_orbit`
+  Recover Lécacheux's invariant from an abstract orbit and prove the two Brunault
+  coordinates are roots of Lehmer's quintic.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.no_orderTwentyFiveBrunaultOrbit_of_threeIntegral`
+  Exclude a nonexceptional cyclic orbit whenever its recovered invariant is integral at
+  three, with no separately supplied Lehmer-root hypotheses.
 
 :::
 
