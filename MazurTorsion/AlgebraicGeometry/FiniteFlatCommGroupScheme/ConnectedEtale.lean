@@ -33,6 +33,66 @@ universe u
 
 variable {S T : Scheme.{u}}
 
+/-- The property that a finite-flat commutative group scheme has geometrically connected
+structure morphism. -/
+def geometricallyConnectedProperty (S : Scheme.{u}) :
+    ObjectProperty (FiniteFlatCommGroupScheme S) :=
+  fun G => GeometricallyConnected G.structureMap
+
+/-- Geometrically connected finite-flat commutative group schemes over `S`. -/
+abbrev ConnectedFiniteFlatCommGroupScheme (S : Scheme.{u}) :=
+  (geometricallyConnectedProperty S).FullSubcategory
+
+/-- The property that a finite-flat commutative group scheme has étale structure morphism. -/
+def finiteEtaleProperty (S : Scheme.{u}) :
+    ObjectProperty (FiniteFlatCommGroupScheme S) :=
+  fun G => Etale G.structureMap
+
+/-- Finite-étale commutative group schemes over `S`. -/
+abbrev FiniteEtaleCommGroupScheme (S : Scheme.{u}) :=
+  (finiteEtaleProperty S).FullSubcategory
+
+namespace ConnectedFiniteFlatCommGroupScheme
+
+/-- The underlying finite-flat commutative group scheme. -/
+abbrev toFiniteFlat {S : Scheme.{u}} (G : ConnectedFiniteFlatCommGroupScheme S) := G.obj
+
+instance {S : Scheme.{u}} (G : ConnectedFiniteFlatCommGroupScheme S) :
+    GeometricallyConnected G.obj.structureMap :=
+  G.property
+
+/-- Geometric connectedness is preserved by arbitrary base change. -/
+def baseChange (f : T ⟶ S) :
+    ConnectedFiniteFlatCommGroupScheme S ⥤ ConnectedFiniteFlatCommGroupScheme T :=
+  (geometricallyConnectedProperty T).lift
+    ((geometricallyConnectedProperty S).ι ⋙ FiniteFlatCommGroupScheme.baseChange f)
+      (fun G => by
+        letI : GeometricallyConnected G.obj.structureMap := G.property
+        change GeometricallyConnected (pullback.snd G.obj.structureMap f)
+        infer_instance)
+
+end ConnectedFiniteFlatCommGroupScheme
+
+namespace FiniteEtaleCommGroupScheme
+
+/-- The underlying finite-flat commutative group scheme. -/
+abbrev toFiniteFlat {S : Scheme.{u}} (G : FiniteEtaleCommGroupScheme S) := G.obj
+
+instance {S : Scheme.{u}} (G : FiniteEtaleCommGroupScheme S) : Etale G.obj.structureMap :=
+  G.property
+
+/-- Finite étaleness is preserved by arbitrary base change. -/
+def baseChange (f : T ⟶ S) :
+    FiniteEtaleCommGroupScheme S ⥤ FiniteEtaleCommGroupScheme T :=
+  (finiteEtaleProperty T).lift
+    ((finiteEtaleProperty S).ι ⋙ FiniteFlatCommGroupScheme.baseChange f)
+      (fun G => by
+        letI : Etale G.obj.structureMap := G.property
+        change Etale (pullback.snd G.obj.structureMap f)
+        infer_instance)
+
+end FiniteEtaleCommGroupScheme
+
 /-- Data and verified properties of a connected--étale sequence
 `G⁰ ⟶ G ⟶ Gᵉᵗ` over `S`.
 
@@ -59,6 +119,14 @@ structure ConnectedEtaleDatum (G : FiniteFlatCommGroupScheme S) where
 namespace ConnectedEtaleDatum
 
 variable {G : FiniteFlatCommGroupScheme S} (D : G.ConnectedEtaleDatum)
+
+/-- The connected term, bundled in the geometrically connected full subcategory. -/
+def connectedPartObject : ConnectedFiniteFlatCommGroupScheme S :=
+  ⟨D.connectedPart, D.geometricallyConnected⟩
+
+/-- The quotient term, bundled in the finite-étale full subcategory. -/
+def etaleQuotientObject : FiniteEtaleCommGroupScheme S :=
+  ⟨D.etaleQuotient, D.etale⟩
 
 /-- A point coming from the connected part maps to the identity in the étale quotient. -/
 theorem project_include_point_eq_one (X : Over S) (x : D.connectedPart.Point X) :
