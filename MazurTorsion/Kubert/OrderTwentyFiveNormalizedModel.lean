@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
+import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationTwoData
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -663,6 +664,23 @@ private theorem orderTwentyFiveRawXTwelve_sub_XEleven_eq_poleFactor
     OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient7,
     OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient8,
     OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient9]
+  ring
+
+private theorem orderTwentyFiveRawXFour_sub_XTwelve_eq_poleFactor
+    (r s : ℚ) (hs1 : s - 1 ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0) :
+    orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwelve r s =
+      (r - 1) * (r * s - 2 * r + 1) ^ 2 *
+          OrderTwentyFiveRawOrbitData.rawUnitFourPoleFactor r s /
+        ((s - 1) ^ 2 *
+          (r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1) ^ 2) := by
+  have hG' : r * (r * (s - 3) + s + 3) - s ^ 2 - 1 ≠ 0 := by
+    intro hz
+    apply hG
+    linear_combination hz
+  simp only [orderTwentyFiveRawXFour, orderTwentyFiveRawXTwelve]
+  field_simp [hs1, hG, hG']
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitFourPoleFactor]
   ring
 
 private theorem orderTwentyFiveRawYSeven_eq_orbitData
@@ -3016,21 +3034,39 @@ theorem orderTwentyFiveBrunaultU_ne_one_of_marked_order
   rw [hcoordinates.1]
   exact hrawU
 
-/-- The first of Lécacheux's five orbit relations holds for the actual
-Brunault units attached to an exact-order-25 marked Tate point. -/
-theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+private structure OrderTwentyFiveNormalizedOrbitData
+    (b c r s : ℚ) : Prop where
+  curve : OrderTwentyFiveRawOrbitData.sutherlandPolynomial r s = 0
+  oneDenominator : OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s ≠ 0
+  twoDenominator : OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s ≠ 0
+  fourDenominator : OrderTwentyFiveRawOrbitData.rawUnitFourDenominator r s ≠ 0
+  eightDenominator : OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s ≠ 0
+  nineDenominator : OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s ≠ 0
+  one : orderTwentyFiveBrunaultYOne b c =
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumerator r s /
+      OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s
+  two : orderTwentyFiveBrunaultYTwo b c =
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumerator r s /
+      OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s
+  four : orderTwentyFiveBrunaultYFour b c =
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumerator r s /
+      OrderTwentyFiveRawOrbitData.rawUnitFourDenominator r s
+  eight : orderTwentyFiveBrunaultYEight b c =
+    OrderTwentyFiveRawOrbitData.rawUnitEightNumerator r s /
+      OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s
+  nine : orderTwentyFiveBrunaultYNine b c =
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumerator r s /
+      OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s
+
+private theorem orderTwentyFive_normalizedOrbitData_of_marked_order
     (b c : ℚ) (hb : b ≠ 0)
     (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
     (horder :
       addOrderOf
         (WeierstrassCurve.Affine.Point.some 0 0 h00 :
           (tateNormalCurve b c).toAffine.Point) = 25) :
-    orderTwentyFiveOrbitRelationZero
-        (orderTwentyFiveBrunaultXZero b c)
-        (orderTwentyFiveBrunaultXOne b c)
-        (orderTwentyFiveBrunaultXTwo b c)
-        (orderTwentyFiveBrunaultXThree b c)
-        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+    OrderTwentyFiveNormalizedOrbitData b c
+      (b / c) (c ^ 2 / (b - c)) := by
   let r : ℚ := b / c
   let s : ℚ := c ^ 2 / (b - c)
   have hx :=
@@ -3137,6 +3173,19 @@ theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
     apply h1211
     rw [orderTwentyFiveRawXTwelve_sub_XEleven_eq_poleFactor r s hs1 hE hG]
     simp [hpole9]
+  have h412 :
+      orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwelve r s ≠ 0 := by
+    rw [← h4, ← h12]
+    exact sub_ne_zero.mpr (hxy 2 10 (by omega) (by omega) (by omega))
+  have h39 :
+      orderTwentyFiveRawXThree r s - orderTwentyFiveRawXNine r s ≠ 0 := by
+    rw [← h3, ← h9]
+    exact sub_ne_zero.mpr (hxy 1 7 (by omega) (by omega) (by omega))
+  have hpole4 : OrderTwentyFiveRawOrbitData.rawUnitFourPoleFactor r s ≠ 0 := by
+    intro hpole4
+    apply h412
+    rw [orderTwentyFiveRawXFour_sub_XTwelve_eq_poleFactor r s hs1 hG]
+    simp [hpole4]
   have hden1 : OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s ≠ 0 := by
     rw [OrderTwentyFiveRawOrbitData.rawUnitOneDenominator_factorization]
     exact mul_ne_zero
@@ -3147,6 +3196,9 @@ theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
   have hden2 : OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s ≠ 0 := by
     rw [OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator_factorization]
     exact mul_ne_zero (pow_ne_zero 2 hrs) hpole2
+  have hden4 : OrderTwentyFiveRawOrbitData.rawUnitFourDenominator r s ≠ 0 := by
+    rw [OrderTwentyFiveRawOrbitData.rawUnitFourDenominator_factorization]
+    exact mul_ne_zero (mul_ne_zero hC (pow_ne_zero 2 hE)) hpole4
   have hden8 : OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s ≠ 0 := by
     rw [OrderTwentyFiveRawOrbitData.rawUnitEightDenominator_factorization]
     exact hpole8
@@ -3154,21 +3206,105 @@ theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
     rw [OrderTwentyFiveRawOrbitData.rawUnitNineDenominator_factorization]
     exact mul_ne_zero
       (mul_ne_zero (mul_ne_zero hs hrs) (pow_ne_zero 2 hC)) hpole9
-  have hraw := orderTwentyFiveRawYRelationZero_of_curve
-    r s hs1 hrs hC hD hE hG h74 h3raw h26 h118 h8raw h67 h92 h1211
-      hden1 hden2 hden8 hden9 hF
   have hunits := orderTwentyFiveBrunault_orbitUnits_eq_raw b c hx hc hbc
+  have hone := orderTwentyFiveRawYSeven_eq_orbitData
+    r s hs1 hrs hD hG h74 h3raw hden1
+  have htwo := orderTwentyFiveRawYTwo_eq_orbitData
+    r s hs1 hrs hC hE h26 h118 hden2
+  have hfour := orderTwentyFiveRawYFour_eq_orbitData
+    r s hs1 hC hD hE hG h412 h39 hden4
+  have height := orderTwentyFiveRawYEight_eq_orbitData
+    r s hs1 hrs hC h8raw h67 hden8
+  have hnine := orderTwentyFiveRawYNine_eq_orbitData
+    r s hs1 hC hD hE hG h92 h1211 hden9
+  have hcurve : OrderTwentyFiveRawOrbitData.sutherlandPolynomial r s = 0 := by
+    rw [← orderTwentyFiveRawSutherlandPolynomial_eq_orbitData]
+    exact hF
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := {
+    curve := hcurve
+    oneDenominator := hden1
+    twoDenominator := hden2
+    fourDenominator := hden4
+    eightDenominator := hden8
+    nineDenominator := hden9
+    one := hunits.1.trans hone
+    two := hunits.2.1.trans htwo
+    four := hunits.2.2.1.trans hfour
+    eight := hunits.2.2.2.1.trans height
+    nine := hunits.2.2.2.2.trans hnine
+  }
+  simpa only [r, s] using hData
+
+/-- The first of Lécacheux's five orbit relations holds for the actual
+Brunault units attached to an exact-order-25 marked Tate point. -/
+theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationZero
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := by
+    simpa only [r, s] using
+      orderTwentyFive_normalizedOrbitData_of_marked_order b c hb h00 horder
+  have hraw := OrderTwentyFiveRawOrbitData.RelationZeroCertificate.relation_eq_zero
+    r s hData.curve hData.oneDenominator hData.nineDenominator
+      hData.eightDenominator hData.twoDenominator
   have hy :
       orderTwentyFiveBrunaultYOne b c - orderTwentyFiveBrunaultYNine b c -
           orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYEight b c *
             (orderTwentyFiveBrunaultYTwo b c -
               orderTwentyFiveBrunaultYOne b c) = 0 := by
-    rw [hunits.1, hunits.2.1, hunits.2.2.2.1, hunits.2.2.2.2]
+    rw [hData.one, hData.nine, hData.eight, hData.two]
     exact hraw
   simp only [orderTwentyFiveOrbitRelationZero,
     orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXOne,
     orderTwentyFiveBrunaultXTwo, orderTwentyFiveBrunaultXThree]
   linear_combination orderTwentyFiveBrunaultYFour b c * hy
+
+/-- The third of Lécacheux's five orbit relations holds for the actual
+Brunault units attached to an exact-order-25 marked Tate point. -/
+theorem orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationTwo
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := by
+    simpa only [r, s] using
+      orderTwentyFive_normalizedOrbitData_of_marked_order b c hb h00 horder
+  have hraw := OrderTwentyFiveRawOrbitRelationTwoData.relation_eq_zero
+    r s hData.curve hData.oneDenominator hData.twoDenominator
+      hData.fourDenominator hData.eightDenominator
+  have hy :
+      orderTwentyFiveBrunaultYFour b c - orderTwentyFiveBrunaultYTwo b c -
+          orderTwentyFiveBrunaultYFour b c * orderTwentyFiveBrunaultYOne b c *
+            (orderTwentyFiveBrunaultYEight b c -
+              orderTwentyFiveBrunaultYFour b c) = 0 := by
+    rw [hData.four, hData.two, hData.one, hData.eight]
+    exact hraw
+  simp only [orderTwentyFiveOrbitRelationTwo,
+    orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXTwo,
+    orderTwentyFiveBrunaultXThree,
+    orderTwentyFiveBrunaultXFour]
+  linear_combination orderTwentyFiveBrunaultYNine b c * hy
 
 /-- An arbitrary rational point of exact order 25 produces a genuinely
 noncuspidal point on the fixed degree-40 affine model, while retaining the

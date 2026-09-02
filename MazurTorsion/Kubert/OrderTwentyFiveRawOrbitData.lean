@@ -1518,6 +1518,13 @@ def rawUnitNinePoleFactor (r s : ℚ) : ℚ :=
     rawUnitNinePoleFactorCoefficient8 s * r ^ 8 +
     rawUnitNinePoleFactorCoefficient9 s * r ^ 9
 
+/-- The remaining irreducible pole factor in the fourth raw unit. -/
+def rawUnitFourPoleFactor (r s : ℚ) : ℚ :=
+  r ^ 3 * s ^ 2 - 4 * r ^ 3 * s + 2 * r ^ 3 +
+    3 * r ^ 2 * s ^ 2 + 2 * r ^ 2 * s - 2 * r ^ 2 -
+    r * s ^ 5 + 4 * r * s ^ 4 - 10 * r * s ^ 3 +
+    6 * r * s ^ 2 - 3 * r * s + r + s ^ 4
+
 /-- Factorization of the first raw-unit denominator. -/
 theorem rawUnitOneDenominator_factorization (r s : ℚ) :
     rawUnitOneDenominator r s =
@@ -1556,6 +1563,24 @@ theorem rawUnitTwoDenominator_factorization (r s : ℚ) :
     rawUnitTwoPoleFactorCoefficient5,
     rawUnitTwoPoleFactorCoefficient6,
     rawUnitTwoPoleFactor]
+  ring
+
+/-- Factorization of the fourth raw-unit denominator. -/
+theorem rawUnitFourDenominator_factorization (r s : ℚ) :
+    rawUnitFourDenominator r s =
+      (r * s - 2 * r + 1) *
+        (r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s) ^ 2 *
+        rawUnitFourPoleFactor r s := by
+  simp only [rawUnitFourDenominatorCoefficient0,
+    rawUnitFourDenominatorCoefficient1,
+    rawUnitFourDenominatorCoefficient2,
+    rawUnitFourDenominatorCoefficient3,
+    rawUnitFourDenominatorCoefficient4,
+    rawUnitFourDenominatorCoefficient5,
+    rawUnitFourDenominatorCoefficient6,
+    rawUnitFourDenominatorCoefficient7,
+    rawUnitFourDenominatorCoefficient8,
+    rawUnitFourDenominator, rawUnitFourPoleFactor]
   ring
 
 /-- Factorization of the eighth raw-unit denominator. -/
