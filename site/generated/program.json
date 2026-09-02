@@ -71,8 +71,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1813939,
-    "integrated_lean_modules": 1889,
+    "integrated_lean_lines": 1814342,
+    "integrated_lean_modules": 1890,
     "remaining_composite_orders": [
       18,
       25,
@@ -763,7 +763,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked primitive split descent derives the two remaining cubic coefficient identities, proves both conic parameters odd, and forces k to be -8, -4, 4, or 8. Classification of these two explicit split covers, equivalently a genus-two Jacobian rank-zero certificate or another complete descent, is still required; the Challenge remains open.",
+      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked descent reduces both surviving scalar branches to one primitive cubic correspondence and maps it to the anti-diagonal genus-two curve. At the good prime five, kernel-checked enumeration now gives 6 points over F_5, 16 over F_25, and a 21-element reduced degree-two class certificate. A geometric Picard identification, rational Jacobian rank-zero proof, and reduction/Abel-Jacobi comparison are still required; the Challenge remains open.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -799,6 +799,27 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm",
           "description": "Map every surviving nondegenerate four-scalar cube correspondence to the explicit anti-diagonal genus-two curve."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenFiniteField.card_pointCertificateF25",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenJacobianFinite",
+          "description": "Enumerate fourteen affine points and two infinity directions over a checked transparent presentation of F_25."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenFiniteField.card_reducedDegreeTwoClassCertificateF5",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenJacobianFinite",
+          "description": "Enumerate the 26 Frobenius-stable effective degree-two labels and collapse the six-member hyperelliptic pencil to obtain the expected 21 finite Jacobian classes."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenFiniteField.finitePicard_card_eq_twentyOne_of_reducedDegreeTwoEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenJacobianFinite",
+          "description": "Provide the named downstream consumer turning a future geometric finite-Picard equivalence into the sharp cardinality 21."
         }
       ],
       "depends_on": [
@@ -826,7 +847,7 @@
           "MazurTorsion.NumberTheory.XOneEighteenDescent"
         ],
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
-        "recommended_route": "Formalize a fixed genus-two Jacobian rank-zero certificate for the checked anti-diagonal sextic, or finish an equivalent complete descent. The low-level point transport is already below XOneEighteenDescent, so the final theorem may be installed without importing the downstream FourScalar correspondence through the immutable Challenge.",
+        "recommended_route": "Formalize a fixed genus-two Jacobian rank-zero certificate for the checked anti-diagonal sextic and identify its good reduction at five with the 21-element reduced degree-two certificate, or finish an equivalent complete descent. The low-level point transport is already below XOneEighteenDescent, so the final theorem may be installed without importing the downstream FourScalar correspondence through the immutable Challenge.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],

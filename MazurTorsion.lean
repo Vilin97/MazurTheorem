@@ -218,6 +218,7 @@ import MazurTorsion.NumberTheory.QuarticDifferenceDescent
 import MazurTorsion.NumberTheory.RatNorthcott
 import MazurTorsion.NumberTheory.RationalRootsOfUnity
 import MazurTorsion.NumberTheory.XOneEighteenFiniteField
+import MazurTorsion.NumberTheory.XOneEighteenJacobianFinite
 import MazurTorsion.NumberTheory.XOneEighteenQuadraticNormBase
 import MazurTorsion.NumberTheory.XOneEighteenQuadraticNormParametrization
 import MazurTorsion.NumberTheory.XOneEighteenDescent

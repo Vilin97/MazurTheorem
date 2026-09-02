@@ -146,6 +146,18 @@ different from 0 and 1.
   `MazurTorsion.XOneEighteenDescent.antiDiagonalZ_sq_of_fourScalarCorrespondence`
   Map every surviving nondegenerate four-scalar cube correspondence to the explicit
   anti-diagonal genus-two curve.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.card_pointCertificateF25`
+  Enumerate fourteen affine points and two infinity directions over a checked
+  transparent presentation of F\_25.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.card_reducedDegreeTwoClassCertificateF5`
+  Enumerate the 26 Frobenius-stable effective degree-two labels and collapse the
+  six-member hyperelliptic pencil to obtain the expected 21 finite Jacobian classes.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.finitePicard_card_eq_twentyOne_of_reducedDegreeTwoEquiv`
+  Provide the named downstream consumer turning a future geometric finite-Picard
+  equivalence into the sharp cardinality 21.
 
 :::
 
