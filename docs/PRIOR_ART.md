@@ -1135,9 +1135,9 @@ the source and hence make `x₀` and `x₂` roots of the quintic.  The proof
 imports no external Gröbner certificate.  Exact-order separation now proves
 the exceptional value is avoided, and an exact coefficientwise polynomial
 certificate proves two cyclic relations for the explicit Tate cross-ratios.
-The remaining bridge consists of the other three cyclic
-relations, the norm-one relation, and Fricke transport when `5/n`, rather than
-`n`, is the parameter integral at three.
+The norm-one relation is also checked. The remaining bridge consists of the
+other three cyclic relations and Fricke transport when `5/n`, rather than `n`,
+is the parameter integral at three.
 
 William Stein and Andrew Snowden's public
 [`X₁(N)` lecture notes](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L23.html)

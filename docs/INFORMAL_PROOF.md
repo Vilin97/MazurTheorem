@@ -176,8 +176,8 @@ foundation phase.
 Use the Tate-normal-form/order-25 endpoint. Its large polynomial certificates
 are checked and optimized. Exact-order separation proves the exceptional value
 is avoided, and two explicit Lécacheux orbit relations are now checked. The
-other three cyclic relations, the norm-one relation, Fricke transport, and the
-final rational-point exclusion remain.
+norm-one relation is checked as well. The other three cyclic relations, Fricke
+transport, and the final rational-point exclusion remain.
 
 ### Order 35
 
