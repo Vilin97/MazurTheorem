@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderFive
+import MazurTorsion.Kubert.OrderFiveIsogeny
 import Mathlib.Tactic.Abel
 import Mathlib.Tactic.NormNum
 
@@ -100,5 +100,64 @@ theorem orderTwentyFive_orderFive_family_package
     horder25, ?_⟩
   rw [← map_nsmul]
   exact heQFive
+
+/-- The transported order-twenty-five point avoids the two kernel poles,
+so its explicit Vélu coordinates define a nonsingular rational point on
+the degree-five quotient.  No order statement about the image is used here;
+that requires the separate additivity or dual-composition calculation. -/
+theorem orderTwentyFive_orderFiveVelu_package
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (h25 : addOrderOf P = 25) :
+    ∃ (c u x y : ℚ)
+      (h00 : (orderFiveCurve c).toAffine.Nonsingular 0 0)
+      (hxy : (orderFiveCurve c).toAffine.Nonsingular x y),
+      c ≠ 0 ∧ c ^ 2 - 11 * c - 1 ≠ 0 ∧ u ≠ 0 ∧
+        x ≠ 0 ∧ x ≠ c ∧
+        addOrderOf
+          (WeierstrassCurve.Affine.Point.some x y hxy :
+            (orderFiveCurve c).toAffine.Point) = 25 ∧
+        (5 : ℕ) •
+            (WeierstrassCurve.Affine.Point.some x y hxy :
+              (orderFiveCurve c).toAffine.Point) =
+          WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
+        (orderFiveVeluTarget c).toAffine.Nonsingular
+          (orderFiveVeluX c x) (orderFiveVeluY c x y) ∧
+        u ^ 12 * E.Δ = (orderFiveCurve c).Δ ∧
+        u ^ 4 * E.c₄ = (orderFiveCurve c).c₄ := by
+  obtain ⟨c, u, hc, hfactor, hu, h00, e, -, hdisc, hc₄,
+      horder25, hfive⟩ :=
+    orderTwentyFive_orderFive_family_package E P h25
+  cases hEP : e P with
+  | zero =>
+      rw [hEP] at horder25
+      have h1 : addOrderOf
+          (WeierstrassCurve.Affine.Point.zero :
+            (orderFiveCurve c).toAffine.Point) = 1 :=
+        addOrderOf_zero
+      rw [h1] at horder25
+      exact absurd horder25 (by norm_num)
+  | @some x y hxy =>
+      rw [hEP] at horder25 hfive
+      have hkernel : ¬ (x = 0 ∨ x = c) := by
+        intro hx
+        have hzero :=
+          five_nsmul_eq_zero_of_orderFive_kernel_abscissa hc hxy hx
+        have horiginZero :
+            (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+              (orderFiveCurve c).toAffine.Point) = 0 := by
+          rw [← hfive]
+          exact hzero
+        exact WeierstrassCurve.Affine.Point.some_ne_zero h00 horiginZero
+      have hx0 : x ≠ 0 := fun hx ↦ hkernel (Or.inl hx)
+      have hxc : x ≠ c := fun hx ↦ hkernel (Or.inr hx)
+      letI : (orderFiveVeluTarget c).IsElliptic :=
+        orderFiveVeluTarget_isElliptic c hc hfactor
+      have htarget :
+          (orderFiveVeluTarget c).toAffine.Nonsingular
+            (orderFiveVeluX c x) (orderFiveVeluY c x y) :=
+        (orderFiveVeluTarget c).toAffine.equation_iff_nonsingular.mp
+          (orderFiveVelu_equation hxy hx0 hxc)
+      exact ⟨c, u, x, y, h00, hxy, hc, hfactor, hu, hx0, hxc,
+        horder25, hfive, htarget, hdisc, hc₄⟩
 
 end MazurTorsion.Kubert

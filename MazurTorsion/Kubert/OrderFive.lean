@@ -69,4 +69,137 @@ theorem tateNormalCurve_parameters_eq_of_order_five
     WeierstrassCurve.Affine.Point.some.injEq] at hsum
   exact hsum.1.symm
 
+/-- The marked origin on the diagonal family is killed by five. -/
+theorem five_nsmul_orderFiveOrigin
+    (c : ℚ) (hc : c ≠ 0)
+    (h00 : (orderFiveCurve c).toAffine.Nonsingular 0 0) :
+    (5 : ℕ) •
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (orderFiveCurve c).toAffine.Point) = 0 := by
+  change (5 : ℕ) •
+      (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+        (tateNormalCurve c c).toAffine.Point) = 0
+  let P : (tateNormalCurve c c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some 0 0 h00
+  obtain ⟨h₂, hdouble⟩ :=
+    two_mul_origin_coordinates c c hc h00
+  obtain ⟨h₃, htriple⟩ :=
+    three_mul_origin_coordinates c c hc h00
+  have hneg :
+      WeierstrassCurve.Affine.Point.some c (c - c) h₃ =
+        -(WeierstrassCurve.Affine.Point.some c (c * c) h₂) := by
+    rw [WeierstrassCurve.Affine.Point.neg_some]
+    exact WeierstrassCurve.Affine.Point.some_eq_some
+      (orderFiveCurve c) rfl (by
+        simp only [tateNormalCurve,
+          WeierstrassCurve.Affine.negY]
+        ring)
+  calc
+    (5 : ℕ) • P = (P + P + P) + (P + P) := by abel
+    _ = WeierstrassCurve.Affine.Point.some c (c - c) h₃ +
+          WeierstrassCurve.Affine.Point.some c (c * c) h₂ := by
+        rw [htriple, hdouble]
+    _ = 0 := by rw [hneg, neg_add_cancel]
+
+/-- An affine point whose abscissa is one of the two poles of the paired
+Vélu formula belongs to the marked order-five subgroup. -/
+theorem five_nsmul_eq_zero_of_orderFive_kernel_abscissa
+    {c x y : ℚ} (hc : c ≠ 0)
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
+    (hx : x = 0 ∨ x = c) :
+    (5 : ℕ) •
+        (WeierstrassCurve.Affine.Point.some x y hP :
+          (orderFiveCurve c).toAffine.Point) = 0 := by
+  change (tateNormalCurve c c).toAffine.Nonsingular x y at hP
+  change (5 : ℕ) •
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (tateNormalCurve c c).toAffine.Point) = 0
+  let h00 : (tateNormalCurve c c).toAffine.Nonsingular 0 0 :=
+    tateNormalCurve_nonsingular_origin c c hc
+  let O : (tateNormalCurve c c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some 0 0 h00
+  have hfiveO : (5 : ℕ) • O = 0 :=
+    five_nsmul_orderFiveOrigin c hc h00
+  obtain ⟨h₂, hdouble⟩ :=
+    two_mul_origin_coordinates c c hc h00
+  have hcurve := hP.1
+  rw [WeierstrassCurve.Affine.equation_iff] at hcurve
+  rcases hx with hx0 | hxc
+  · subst x
+    have hy : y = 0 ∨ y = c := by
+      have hyprod : y * (y - c) = 0 := by
+        simp only [tateNormalCurve_a₁, tateNormalCurve_a₂,
+          tateNormalCurve_a₃, tateNormalCurve_a₄,
+          tateNormalCurve_a₆] at hcurve
+        linear_combination hcurve
+      rcases mul_eq_zero.mp hyprod with h | h
+      · exact Or.inl h
+      · exact Or.inr (sub_eq_zero.mp h)
+    rcases hy with hy0 | hyc
+    · subst y
+      simpa only [O] using hfiveO
+    · have hneg :
+          (WeierstrassCurve.Affine.Point.some 0 y hP :
+              (tateNormalCurve c c).toAffine.Point) = -O := by
+        change (WeierstrassCurve.Affine.Point.some 0 y hP :
+            (tateNormalCurve c c).toAffine.Point) =
+          -(WeierstrassCurve.Affine.Point.some 0 0 h00)
+        rw [WeierstrassCurve.Affine.Point.neg_some]
+        exact WeierstrassCurve.Affine.Point.some_eq_some
+          (tateNormalCurve c c) rfl (by
+            simp only [tateNormalCurve,
+              WeierstrassCurve.Affine.negY]
+            calc
+              y = c := hyc
+              _ = -0 - (1 - c) * 0 - -c := by ring)
+      rw [hneg]
+      calc
+        (5 : ℕ) • (-O) = -((5 : ℕ) • O) := by abel
+        _ = 0 := by rw [hfiveO, neg_zero]
+  · subst x
+    have hy : y = 0 ∨ y = c * c := by
+      have hyprod : y * (y - c * c) = 0 := by
+        simp only [tateNormalCurve_a₁, tateNormalCurve_a₂,
+          tateNormalCurve_a₃, tateNormalCurve_a₄,
+          tateNormalCurve_a₆] at hcurve
+        linear_combination hcurve
+      rcases mul_eq_zero.mp hyprod with h | h
+      · exact Or.inl h
+      · exact Or.inr (sub_eq_zero.mp h)
+    have hfiveDouble :
+        (5 : ℕ) •
+            (WeierstrassCurve.Affine.Point.some c (c * c) h₂ :
+              (tateNormalCurve c c).toAffine.Point) = 0 := by
+      rw [← hdouble]
+      change (5 : ℕ) • (O + O) = 0
+      rw [nsmul_add, hfiveO, zero_add]
+    rcases hy with hy0 | hyc
+    · have hneg :
+          (WeierstrassCurve.Affine.Point.some c y hP :
+              (tateNormalCurve c c).toAffine.Point) =
+            -(WeierstrassCurve.Affine.Point.some c (c * c) h₂) := by
+        rw [WeierstrassCurve.Affine.Point.neg_some]
+        exact WeierstrassCurve.Affine.Point.some_eq_some
+          (tateNormalCurve c c) rfl (by
+            simp only [tateNormalCurve,
+              WeierstrassCurve.Affine.negY]
+            rw [hy0]
+            ring)
+      rw [hneg]
+      calc
+        (5 : ℕ) •
+            (-(WeierstrassCurve.Affine.Point.some c (c * c) h₂)) =
+              -((5 : ℕ) •
+                (WeierstrassCurve.Affine.Point.some c (c * c) h₂)) := by
+                  abel
+        _ = 0 := by rw [hfiveDouble, neg_zero]
+    · have heq :
+          (WeierstrassCurve.Affine.Point.some c y hP :
+              (tateNormalCurve c c).toAffine.Point) =
+            WeierstrassCurve.Affine.Point.some c (c * c) h₂ := by
+        exact WeierstrassCurve.Affine.Point.some_eq_some
+          (tateNormalCurve c c) rfl hyc
+      rw [heq]
+      exact hfiveDouble
+
 end MazurTorsion.Kubert

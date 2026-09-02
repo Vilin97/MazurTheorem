@@ -103,6 +103,7 @@ import MazurTorsion.Kubert.OrderElevenModel
 import MazurTorsion.Kubert.OrderElevenModelInverse
 import MazurTorsion.Kubert.OrderElevenReduction
 import MazurTorsion.Kubert.OrderFive
+import MazurTorsion.Kubert.OrderFiveIsogeny
 import MazurTorsion.Kubert.OrderNineReduction
 import MazurTorsion.Kubert.OrderEighteenReduction
 import MazurTorsion.Kubert.OrderEighteenModel
