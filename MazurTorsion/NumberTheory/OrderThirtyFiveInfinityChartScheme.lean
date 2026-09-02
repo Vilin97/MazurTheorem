@@ -50,6 +50,18 @@ def sourcePolynomialValue (t : R) : R :=
   t ^ 8 + 4 * t ^ 7 - 6 * t ^ 6 + 4 * t ^ 5 - 9 * t ^ 4 -
     4 * t ^ 3 - 6 * t ^ 2 - 4 * t + 1
 
+/-- The quotient of `sourcePolynomialValue t - 1` by the cusp parameter
+`t`. -/
+def sourceDifferenceFactorValue (t : R) : R :=
+  t ^ 7 + 4 * t ^ 6 - 6 * t ^ 5 + 4 * t ^ 4 - 9 * t ^ 3 -
+    4 * t ^ 2 - 6 * t - 4
+
+theorem sourcePolynomialValue_sub_one (t : R) :
+    sourcePolynomialValue t - 1 =
+      t * sourceDifferenceFactorValue t := by
+  simp only [sourcePolynomialValue, sourceDifferenceFactorValue]
+  ring
+
 /-- The denominator inverted on the quotient chart. -/
 def quotientDenominator (t : R) : R :=
   1 + t - t ^ 2
@@ -195,6 +207,18 @@ theorem open_source_equation :
     map_mul, map_pow, map_ofNat, map_one] using
       congrArg (algebraMap (SourceRing R) (SourceOpenRing R))
         (sourceS_sq R)
+
+/-- The two cusp parameters satisfy the factorization used to eliminate
+`s-1` after localizing at `(t,s-1)`. -/
+theorem open_cusp_factorization :
+    (openS R - 1) * (openS R + 1) =
+      openT R * sourceDifferenceFactorValue (openT R) := by
+  calc
+    (openS R - 1) * (openS R + 1) = openS R ^ 2 - 1 := by ring
+    _ = sourcePolynomialValue (openT R) - 1 := by
+      rw [open_source_equation]
+    _ = openT R * sourceDifferenceFactorValue (openT R) :=
+      sourcePolynomialValue_sub_one (openT R)
 
 /-- The represented quotient abscissa. -/
 def openQuotientW : SourceOpenRing R :=
