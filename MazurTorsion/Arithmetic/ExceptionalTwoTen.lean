@@ -5,7 +5,7 @@ Authors: Vasily Ilin
 -/
 import MazurTorsion.Foundations.FullFourTorsion
 import MazurTorsion.GroupTheory.ForbiddenEmbeddings
-import MazurTorsion.Kubert.TateNormalForm
+import MazurTorsion.Kubert.OrderFive
 import Mathlib.Data.Rat.Lemmas
 import Mathlib.RingTheory.Int.Basic
 import Mathlib.Tactic.Abel
@@ -46,7 +46,7 @@ namespace ExceptionalTwoTen
 
 /-- The order-five diagonal in the Tate-normal-form family. -/
 def tateFiveCurve (c : ℚ) : WeierstrassCurve ℚ :=
-  tateNormalCurve c c
+  Kubert.orderFiveCurve c
 
 @[simp] lemma tateFiveCurve_a₁ (c : ℚ) : (tateFiveCurve c).a₁ = 1 - c := rfl
 @[simp] lemma tateFiveCurve_a₂ (c : ℚ) : (tateFiveCurve c).a₂ = -c := rfl
@@ -71,9 +71,7 @@ lemma twoDivisionCubic_tateFiveCurve (c x : ℚ) :
 /-- Discriminant of the order-five Tate family. -/
 lemma tateFiveCurve_discriminant (c : ℚ) :
     (tateFiveCurve c).Δ = c ^ 5 * (c ^ 2 - 11 * c - 1) := by
-  simp only [tateFiveCurve, tateNormalCurve, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
-  ring
+  exact Kubert.orderFiveCurve_discriminant c
 
 /-- Exact order five forces the two Tate parameters to coincide. -/
 lemma tateNormalCurve_parameters_eq_of_order_five
@@ -84,21 +82,8 @@ lemma tateNormalCurve_parameters_eq_of_order_five
         (WeierstrassCurve.Affine.Point.some 0 0 h00 :
           (tateNormalCurve b c).toAffine.Point) = 5) :
     b = c := by
-  let W := tateNormalCurve b c
-  let P : W.toAffine.Point :=
-    WeierstrassCurve.Affine.Point.some 0 0 h00
-  obtain ⟨hns₂, hdouble⟩ := two_mul_origin_coordinates b c hb h00
-  obtain ⟨hns₃, htriple⟩ := three_mul_origin_coordinates b c hb h00
-  have hfive : (5 : ℕ) • P = 0 := by
-    rw [← horder]
-    exact addOrderOf_nsmul_eq_zero P
-  have hsum : P + P + P + (P + P) = 0 := by
-    rw [← hfive]
-    abel
-  rw [htriple, hdouble, add_eq_zero_iff_eq_neg,
-    WeierstrassCurve.Affine.Point.neg_some,
-    WeierstrassCurve.Affine.Point.some.injEq] at hsum
-  exact hsum.1.symm
+  exact Kubert.tateNormalCurve_parameters_eq_of_order_five
+    b c hb h00 horder
 
 /-- A rational point of exact order five produces a nonzero diagonal Tate
 parameter and an explicit twelfth-power discriminant scaling. -/

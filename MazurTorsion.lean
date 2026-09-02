@@ -102,6 +102,7 @@ import MazurTorsion.GroupTheory.TorsionEquiv
 import MazurTorsion.Kubert.OrderElevenModel
 import MazurTorsion.Kubert.OrderElevenModelInverse
 import MazurTorsion.Kubert.OrderElevenReduction
+import MazurTorsion.Kubert.OrderFive
 import MazurTorsion.Kubert.OrderNineReduction
 import MazurTorsion.Kubert.OrderEighteenReduction
 import MazurTorsion.Kubert.OrderEighteenModel
@@ -115,6 +116,7 @@ import MazurTorsion.Kubert.OrderSixteenReduction
 import MazurTorsion.Kubert.OrderThirteenModel
 import MazurTorsion.Kubert.OrderThirteenReduction
 import MazurTorsion.Kubert.OrderTwentyFive
+import MazurTorsion.Kubert.OrderTwentyFiveFiveDivision
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
 import MazurTorsion.Kubert.OrderTwentyFiveNormalizedModel
