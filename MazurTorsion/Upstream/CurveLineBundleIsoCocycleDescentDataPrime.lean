@@ -25,6 +25,64 @@ open CategoryTheory.Pseudofunctor.LocallyDiscreteOpToCat
 
 universe u v
 
+/-- The exact full cocycle equation for a specified scheme-module overlap family. -/
+structure SchemeModulesOverlapCocycle
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    (sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j))
+    (sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k))
+    (obj : ∀ i : cov.I₀, (cov.X i).Modules)
+    (overlapIso : ∀ i j,
+      (Scheme.Modules.pullback (sq i j).p₁).obj (obj i) ≅
+        (Scheme.Modules.pullback (sq i j).p₂).obj (obj j)) : Prop where
+  /-- The two transition composites agree on every triple overlap. -/
+  cocycle : ∀ i j k,
+    Pseudofunctor.DescentData'.pullHom'
+          (F := LineBundleDescent.modulesPseudofunctor) (sq := sq)
+          (fun i j ↦ (overlapIso i j).hom)
+          (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₂ ≫
+        Pseudofunctor.DescentData'.pullHom'
+          (F := LineBundleDescent.modulesPseudofunctor) (sq := sq)
+          (fun i j ↦ (overlapIso i j).hom)
+          (sq₃ i j k).p (sq₃ i j k).p₂ (sq₃ i j k).p₃ =
+      Pseudofunctor.DescentData'.pullHom'
+        (F := LineBundleDescent.modulesPseudofunctor) (sq := sq)
+        (fun i j ↦ (overlapIso i j).hom)
+        (sq₃ i j k).p (sq₃ i j k).p₁ (sq₃ i j k).p₃
+
+/-- A specified scheme-module cocycle forces exact diagonal normalization. -/
+theorem schemeModulesOverlapCocycle_normalization
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (obj : ∀ i : cov.I₀, (cov.X i).Modules)
+    (overlapIso : ∀ i j,
+      (Scheme.Modules.pullback (sq i j).p₁).obj (obj i) ≅
+        (Scheme.Modules.pullback (sq i j).p₂).obj (obj j))
+    (c : SchemeModulesOverlapCocycle sq sq₃ obj overlapIso)
+    (i : cov.I₀) :
+    Pseudofunctor.DescentData'.pullHom'
+      (F := LineBundleDescent.modulesPseudofunctor) (sq := sq)
+      (fun i j ↦ (overlapIso i j).hom)
+      (cov.f i) (𝟙 (cov.X i)) (𝟙 (cov.X i)) = 𝟙 _ := by
+  exact normalization_of_iso_cocycle
+    (F := LineBundleDescent.modulesPseudofunctor)
+    (Y := cov.X) (g := cov.f) (sq := sq) (sq₃ := sq₃)
+    (obj := obj) overlapIso c.cocycle i
+
+/-- A specified scheme-module overlap cocycle constructs chosen-overlap descent data. -/
+noncomputable irreducible_def schemeDescentDataPrimeOfOverlapCocycle
+    {X : Scheme.{u}} {cov : X.OpenCover}
+    {sq : ∀ i j, ChosenPullback (cov.f i) (cov.f j)}
+    {sq₃ : ∀ i j k, ChosenPullback₃ (sq i j) (sq j k) (sq i k)}
+    (obj : ∀ i : cov.I₀, (cov.X i).Modules)
+    (overlapIso : ∀ i j,
+      (Scheme.Modules.pullback (sq i j).p₁).obj (obj i) ≅
+        (Scheme.Modules.pullback (sq i j).p₂).obj (obj j))
+    (c : SchemeModulesOverlapCocycle sq sq₃ obj overlapIso) :
+    LineBundleDescent.modulesPseudofunctor.DescentData' sq sq₃ :=
+  LineBundleDescent.DescentDataPrime.ofIso obj overlapIso
+    (schemeModulesOverlapCocycle_normalization obj overlapIso c) c.cocycle
+
 /-- A scheme-module overlap family and its cocycle, with the local objects owned by the package. -/
 structure SchemeIsoOverlapCocycle
     {X : Scheme.{u}} {cov : X.OpenCover}
