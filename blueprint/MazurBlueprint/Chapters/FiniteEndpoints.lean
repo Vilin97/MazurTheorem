@@ -158,6 +158,18 @@ different from 0 and 1.
   `MazurTorsion.XOneEighteenFiniteField.finitePicard_card_eq_twentyOne_of_reducedDegreeTwoEquiv`
   Provide the named downstream consumer turning a future geometric finite-Picard
   equivalence into the sharp cardinality 21.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.card_pointCertificateF49`
+  Enumerate thirty-eight affine points and two infinity directions over a checked
+  transparent presentation of F\_49.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.card_reducedDegreeTwoClassCertificateF7`
+  Enumerate seventy Frobenius-stable effective degree-two labels and collapse the
+  eight-member hyperelliptic pencil to obtain the expected 63 finite Jacobian classes.
+* `theorem` (`contract`):
+  `MazurTorsion.XOneEighteenFiniteField.rationalJacobian_card_eq_twentyOne_of_reduction_homs`
+  Combine the checked cardinalities at five and seven with primary-kernel reduction
+  homomorphisms and an order-21 subgroup to force rational Jacobian cardinality 21.
 
 :::
 
