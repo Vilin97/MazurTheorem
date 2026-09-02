@@ -149,6 +149,14 @@ Néron specialization are independent prerequisites of the final collision;
 the quotient no longer carries the redundant dependency on the downstream
 specialization node.
 
+For order `35`, the explicit infinity chart over `ZMod 11` now reaches an
+unconditional local theorem:
+`InfinityChartCuspAtEleven.quotientMorphism_isFormalImmersionAt_cusp` proves
+formal immersion for the actual affine `Spec` quotient map at the selected
+cusp. The remaining gap is not its cusp algebra; it is the represented modular
+classifying map and special-fibre chart comparison, followed by the global
+quotient and specialization inputs.
+
 Five published contracts are intentionally paused:
 
 - `MT-X11-COSET` and `MT-X13-NONCUSP`;

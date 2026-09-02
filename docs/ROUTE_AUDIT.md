@@ -151,8 +151,11 @@ Let `P ∈ E(ℚ)` have prime order `N`, with `N = 11` or `N ≥ 17`.
    contradicting `N ≥ 11`.
 
 Level `13` remains a separate finite endpoint. The same collision mechanism
-may be reused at `11` for order `35`, but that composite-level specialization
-is not part of the uniform prime theorem.
+may be reused at `11` for order `35`. The explicit characteristic-eleven
+infinity-chart quotient is now checked to be formally immersive at its selected
+cusp; the still-open step is its comparison with the represented modular
+special fibre and quotient. This composite-level specialization is not part of
+the uniform prime theorem.
 
 ## Private constructor: irreducible inputs
 
@@ -249,7 +252,8 @@ The point-order reduction also needs:
 - order `18`: the explicit `X₁(18)` endpoint;
 - order `25`: the Tate-normal-form endpoint;
 - order `35`: a squarefree formal-immersion instance at `11` with the explicit
-  rank-zero elliptic quotient;
+  rank-zero elliptic quotient, whose explicit affine cusp calculation is
+  checked but whose represented modular comparison remains open;
 - order `49`: a direct represented `X₀(49)` rational-point classification.
 
 These contracts are mathematically required, but only order `49` remains an

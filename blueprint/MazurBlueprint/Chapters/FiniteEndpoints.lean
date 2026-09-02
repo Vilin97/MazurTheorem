@@ -254,6 +254,10 @@ squarefree-level formal-immersion criterion at auxiliary prime 11.
   `MazurTorsion.OrderThirtyFive.formalImmersionAtInfinity_modEleven`
   Instantiate the shared optimal-quotient formal immersion in characteristic eleven.
 * `theorem` (`contract`):
+  `MazurTorsion.OrderThirtyFive.InfinityChartCuspAtEleven.quotientMorphism_isFormalImmersionAt_cusp`
+  Prove formal immersion at the selected characteristic-eleven cusp for the actual
+  affine Spec morphism induced by the explicit infinity-chart quotient formulas.
+* `theorem` (`contract`):
   `MazurTorsion.OrderThirtyFive.card_reductionAtEleven_le_eighteen`
   Normalize to short form and verify the 121 coefficient pairs over F\_11.
 * `theorem` (`contract`):

@@ -181,9 +181,14 @@ separate paused contract.
 
 Reuse a squarefree-level formal-immersion instance at auxiliary prime `11`,
 with the explicit quotient `X₀(35)/w₅`. The fixed elliptic quotient's descent
-and much of the local arithmetic are checked. Represented modular geometry and
-the exact formal-immersion instantiation remain open. This contract is paused
-until the shared witness infrastructure exists.
+and much of the local arithmetic are checked. On the explicit
+characteristic-eleven infinity chart, `t` now generates the selected cusp
+maximal ideal, survives modulo its square, and the exact pullback
+`W-1=(-7/d)t` proves that the actual affine quotient morphism is formally
+immersive at that cusp. What remains is to identify this represented chart and
+map with the required modular special fibre, then supply the abelian quotient
+and specialization inputs. This contract remains paused until that represented
+modular infrastructure exists.
 
 ### Order 49
 
