@@ -6,10 +6,12 @@ Authors: Vasily Ilin
 
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitNormData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationTwoData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationThreeData
+import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationFourData
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -3343,6 +3345,41 @@ theorem orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order
     orderTwentyFiveBrunaultXThree, orderTwentyFiveBrunaultXFour]
   linear_combination orderTwentyFiveBrunaultYOne b c * hy
 
+/-- The fifth of Lécacheux's five orbit relations holds for the actual
+Brunault units attached to an exact-order-25 marked Tate point. -/
+theorem orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationFour
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := by
+    simpa only [r, s] using
+      orderTwentyFive_normalizedOrbitData_of_marked_order b c hb h00 horder
+  have hraw := OrderTwentyFiveRawOrbitRelationFourData.relation_eq_zero
+    r s hData.curve hData.nineDenominator hData.eightDenominator
+      hData.fourDenominator hData.oneDenominator
+  have hy :
+      orderTwentyFiveBrunaultYNine b c - orderTwentyFiveBrunaultYEight b c -
+          orderTwentyFiveBrunaultYNine b c * orderTwentyFiveBrunaultYFour b c *
+            (orderTwentyFiveBrunaultYOne b c -
+              orderTwentyFiveBrunaultYNine b c) = 0 := by
+    rw [hData.nine, hData.eight, hData.four, hData.one]
+    exact hraw
+  simp only [orderTwentyFiveOrbitRelationFour,
+    orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXOne,
+    orderTwentyFiveBrunaultXTwo, orderTwentyFiveBrunaultXFour]
+  linear_combination orderTwentyFiveBrunaultYTwo b c * hy
+
 /-- Lécacheux's norm-one orbit relation holds for the actual Brunault units
 attached to an exact-order-25 marked Tate point. -/
 theorem orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order
@@ -3400,6 +3437,68 @@ theorem orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order
             orderTwentyFiveBrunaultYEight b c *
             orderTwentyFiveBrunaultYNine b c) ^ 2 - 1 := by ring
     _ = 0 := by rw [hproduct]; norm_num
+
+/-- The second of Lécacheux's five orbit relations follows from the four
+independently certified cyclic relations and norm one. -/
+theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationOne
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  exact orderTwentyFiveOrbitRelationOne_eq_zero_of_other_relations
+    (orderTwentyFiveBrunaultXZero b c)
+    (orderTwentyFiveBrunaultXOne b c)
+    (orderTwentyFiveBrunaultXTwo b c)
+    (orderTwentyFiveBrunaultXThree b c)
+    (orderTwentyFiveBrunaultXFour b c)
+    (orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order b c hb h00 horder)
+
+/-- An exact-order-25 marked Tate point is impossible as soon as its recovered
+Lécacheux orbit parameter is integral at three. All orbit and Lehmer-root
+hypotheses of the arithmetic exclusion are discharged here. -/
+theorem no_orderTwentyFive_marked_order_of_orbitParameter_threeIntegral
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25)
+    (hn : orderTwentyFiveRatIsThreeIntegral
+      (orderTwentyFiveOrbitParameter
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c))) :
+    False := by
+  have ha : orderTwentyFiveBrunaultXZero b c ≠ 1 := by
+    rw [orderTwentyFiveBrunaultXZero_eq_U]
+    exact orderTwentyFiveBrunaultU_ne_one_of_marked_order b c hb h00 horder
+  exact no_orderTwentyFiveBrunaultOrbit_of_threeIntegral
+    (orderTwentyFiveBrunaultXZero b c)
+    (orderTwentyFiveBrunaultXOne b c)
+    (orderTwentyFiveBrunaultXTwo b c)
+    (orderTwentyFiveBrunaultXThree b c)
+    (orderTwentyFiveBrunaultXFour b c)
+    hn ha
+    (orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order b c hb h00 horder)
 
 /-- An arbitrary rational point of exact order 25 produces a genuinely
 noncuspidal point on the fixed degree-40 affine model, while retaining the

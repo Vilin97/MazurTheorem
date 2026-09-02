@@ -50,6 +50,23 @@ def orderTwentyFiveOrbitRelationFive
     {R : Type*} [CommRing R] (a b c d e : R) : R :=
   a * b * c * d * e - 1
 
+/-- Four cyclic orbit relations together with norm one force the omitted
+second relation. This lets the explicit Tate bridge avoid its largest raw
+rational-function certificate. -/
+theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_other_relations
+    (a b c d e : ℚ)
+    (h0 : orderTwentyFiveOrbitRelationZero a b c d e = 0)
+    (h2 : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
+    (h3 : orderTwentyFiveOrbitRelationThree a b c d e = 0)
+    (h4 : orderTwentyFiveOrbitRelationFour a b c d e = 0)
+    (h5 : orderTwentyFiveOrbitRelationFive a b c d e = 0) :
+    orderTwentyFiveOrbitRelationOne a b c d e = 0 := by
+  simp only [orderTwentyFiveOrbitRelationZero,
+    orderTwentyFiveOrbitRelationOne, orderTwentyFiveOrbitRelationTwo,
+    orderTwentyFiveOrbitRelationThree, orderTwentyFiveOrbitRelationFour,
+    orderTwentyFiveOrbitRelationFive] at h0 h2 h3 h4 h5 ⊢
+  grobner
+
 private def orderTwentyFiveOrbitMultiplierZero
     {R : Type*} [CommRing R] (a _b c d e : R) : R :=
   4 * a ^ 3 * c ^ 2 - 4 * a ^ 3 * c * e - 4 * a ^ 3 * c -

@@ -1134,10 +1134,11 @@ six orbit equations force the elementary symmetric coefficients printed in
 the source and hence make `x₀` and `x₂` roots of the quintic.  The proof
 imports no external Gröbner certificate.  Exact-order separation now proves
 the exceptional value is avoided, and an exact coefficientwise polynomial
-certificate proves three cyclic relations for the explicit Tate cross-ratios.
-The norm-one relation is also checked. The remaining bridge consists of the
-other two cyclic relations and Fricke transport when `5/n`, rather than `n`,
-is the parameter integral at three.
+certificate proves four independent cyclic relations for the explicit Tate
+cross-ratios. The norm-one relation is also checked, and those five equations
+force the omitted cyclic relation by a checked Gröbner consequence. The
+remaining bridge is Fricke transport when `5/n`, rather than `n`, is the
+parameter integral at three.
 
 William Stein and Andrew Snowden's public
 [`X₁(N)` lecture notes](https://public.websites.umich.edu/~asnowden/teaching/2013/679/L23.html)

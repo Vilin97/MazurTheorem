@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,943 Lean modules** and **1,927,534 Lean
+- The audited baseline contains **1,944 Lean modules** and **1,963,540 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -167,11 +167,16 @@ the two root facts as assumptions. Exact-order separation already proves
 together with `orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order` now
 proves two of the five cyclic relations for the explicit Tate cross-ratios,
 and `orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order` proves a third,
-all by kernel-checked coefficient certificates.
+while `orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order` proves the
+fourth independent relation, all by kernel-checked coefficient certificates.
+The remaining cyclic relation follows algebraically from those four and norm
+one.
 `orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order` also proves their
-norm-one relation. The remaining orbit gap is the other two cyclic
-relations. The endpoint also needs the Fricke transport used when `5/n`,
-rather than `n`, is the integral parameter.
+norm-one relation. Thus
+`no_orderTwentyFive_marked_order_of_orbitParameter_threeIntegral` discharges
+the order-25 exclusion whenever the recovered parameter is integral at three.
+The remaining endpoint gap is the Fricke transport used when `5/n`, rather
+than `n`, is the integral parameter.
 
 Five published contracts are intentionally paused:
 
