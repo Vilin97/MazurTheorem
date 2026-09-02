@@ -1132,9 +1132,11 @@ identity to recover `n` from the orbit coordinates.  Lean's checked polynomial
 normalization proves that, away from the exceptional value `x₀ = 1`, the
 six orbit equations force the elementary symmetric coefficients printed in
 the source and hence make `x₀` and `x₂` roots of the quintic.  The proof
-imports no external Gröbner certificate.  The remaining bridge is geometric:
-the explicit Tate cross-ratios must satisfy those six relations, avoid the
-exceptional value, and be transported through Fricke when `5/n`, rather than
+imports no external Gröbner certificate.  Exact-order separation now proves
+the exceptional value is avoided, and an exact coefficientwise polynomial
+certificate proves the first cyclic relation for the explicit Tate
+cross-ratios.  The remaining bridge consists of the other four cyclic
+relations, the norm-one relation, and Fricke transport when `5/n`, rather than
 `n`, is the parameter integral at three.
 
 William Stein and Andrew Snowden's public

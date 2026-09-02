@@ -5,6 +5,8 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -518,6 +520,18 @@ private def orderTwentyFiveRawYSeven (r s : ℚ) : ℚ :=
     ((0 - orderTwentyFiveRawXTwelve r s) /
       (0 - orderTwentyFiveRawXThree r s))
 
+private def orderTwentyFiveRawYTwo (r s : ℚ) : ℚ :=
+  (orderTwentyFiveRawXTwo r s /
+      (orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s)) *
+    ((orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXSeven r s) /
+      (orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s))
+
+private def orderTwentyFiveRawYEight (r s : ℚ) : ℚ :=
+  ((orderTwentyFiveRawXEight r s - orderTwentyFiveRawXFour r s) /
+      orderTwentyFiveRawXEight r s) *
+    ((orderTwentyFiveRawXSix r s - orderTwentyFiveRawXThree r s) /
+      (orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s))
+
 private def orderTwentyFiveRawYNine (r s : ℚ) : ℚ :=
   ((orderTwentyFiveRawXNine r s - orderTwentyFiveRawXEight r s) /
       (orderTwentyFiveRawXNine r s - orderTwentyFiveRawXTwo r s)) *
@@ -535,6 +549,429 @@ private def orderTwentyFiveRawBrunaultU (r s : ℚ) : ℚ :=
 
 private def orderTwentyFiveRawBrunaultV (r s : ℚ) : ℚ :=
   -(orderTwentyFiveRawYNine r s * orderTwentyFiveRawYThree r s)
+
+private def orderTwentyFiveRawYRelationZero (r s : ℚ) : ℚ :=
+  orderTwentyFiveRawYSeven r s - orderTwentyFiveRawYNine r s -
+    orderTwentyFiveRawYSeven r s * orderTwentyFiveRawYEight r s *
+      (orderTwentyFiveRawYTwo r s - orderTwentyFiveRawYSeven r s)
+
+private theorem orderTwentyFiveRawSutherlandPolynomial_eq_orbitData
+    (r s : ℚ) :
+    orderTwentyFiveRawSutherlandPolynomial r s =
+      OrderTwentyFiveRawOrbitData.sutherlandPolynomial r s := by
+  simp only [orderTwentyFiveRawSutherlandPolynomial,
+    orderTwentyFiveRawSutherlandPolynomialChunk0,
+    orderTwentyFiveRawSutherlandPolynomialChunk1,
+    orderTwentyFiveRawSutherlandPolynomialChunk2,
+    orderTwentyFiveRawSutherlandPolynomialChunk3,
+    orderTwentyFiveRawSutherlandPolynomialChunk4,
+    orderTwentyFiveRawSutherlandPolynomialChunk5,
+    orderTwentyFiveRawSutherlandCoefficient0,
+    orderTwentyFiveRawSutherlandCoefficient1,
+    orderTwentyFiveRawSutherlandCoefficient2,
+    orderTwentyFiveRawSutherlandCoefficient3,
+    orderTwentyFiveRawSutherlandCoefficient4,
+    orderTwentyFiveRawSutherlandCoefficient5,
+    orderTwentyFiveRawSutherlandCoefficient6,
+    orderTwentyFiveRawSutherlandCoefficient7,
+    orderTwentyFiveRawSutherlandCoefficient8,
+    orderTwentyFiveRawSutherlandCoefficient9,
+    orderTwentyFiveRawSutherlandCoefficient10,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomial,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient0,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient1,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient2,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient3,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient4,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient5,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient6,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient7,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient8,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient9,
+    OrderTwentyFiveRawOrbitData.sutherlandPolynomialCoefficient10]
+  ring
+
+private theorem orderTwentyFiveRawXEleven_sub_XEight_eq_poleFactor
+    (r s : ℚ)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0) :
+    orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s =
+      -(r * (r - 1) * OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactor r s) /
+        ((r * s - 2 * r + 1) ^ 2 *
+          (r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s) ^ 2) := by
+  have hC' : r * (s - 2) + 1 ≠ 0 := by
+    intro hz
+    apply hC
+    linear_combination hz
+  have hE' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
+    intro hz
+    apply hE
+    linear_combination hz
+  simp only [orderTwentyFiveRawXEight, orderTwentyFiveRawXEleven]
+  field_simp [hC, hC', hE, hE']
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactor,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactorCoefficient6]
+  ring
+
+private theorem orderTwentyFiveRawXSix_sub_XSeven_eq_poleFactor
+    (r s : ℚ) (hs1 : s - 1 ≠ 0) (hrs : r - s ≠ 0) :
+    orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s =
+      s * (r - 1) * OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactor r s /
+        ((s - 1) ^ 2 * (r - s) ^ 2) := by
+  simp only [orderTwentyFiveRawXSix, orderTwentyFiveRawXSeven]
+  field_simp [hs1, hrs]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactor,
+    OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactorCoefficient3]
+  ring
+
+private theorem orderTwentyFiveRawXTwelve_sub_XEleven_eq_poleFactor
+    (r s : ℚ) (hs1 : s - 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0) :
+    orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s =
+      (r - 1) * OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactor r s /
+        ((s - 1) ^ 2 *
+          (r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s) ^ 2 *
+          (r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1) ^ 2) := by
+  have hE' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
+    intro hz
+    apply hE
+    linear_combination hz
+  have hG' : r * (r * (s - 3) + s + 3) - s ^ 2 - 1 ≠ 0 := by
+    intro hz
+    apply hG
+    linear_combination hz
+  simp only [orderTwentyFiveRawXEleven, orderTwentyFiveRawXTwelve]
+  field_simp [hs1, hE, hE', hG, hG']
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactor,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient8,
+    OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactorCoefficient9]
+  ring
+
+private theorem orderTwentyFiveRawYSeven_eq_orbitData
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0) (hrs : r - s ≠ 0)
+    (hD : r - s ^ 2 + s - 1 ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0)
+    (h74 : orderTwentyFiveRawXSeven r s -
+      orderTwentyFiveRawXFour r s ≠ 0)
+    (h3 : orderTwentyFiveRawXThree r s ≠ 0)
+    (hden : OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s ≠ 0) :
+    orderTwentyFiveRawYSeven r s =
+      OrderTwentyFiveRawOrbitData.rawUnitOneNumerator r s /
+        OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s := by
+  simp only [orderTwentyFiveRawYSeven]
+  rw [div_mul_div_comm]
+  have hneg3 : 0 - orderTwentyFiveRawXThree r s ≠ 0 := by
+    simpa only [zero_sub, neg_ne_zero] using h3
+  apply (div_eq_div_iff (mul_ne_zero h74 hneg3) hden).2
+  simp only [orderTwentyFiveRawXThree, orderTwentyFiveRawXFour,
+    orderTwentyFiveRawXSeven, orderTwentyFiveRawXNine,
+    orderTwentyFiveRawXTwelve]
+  have hs1sq := pow_ne_zero 2 hs1
+  have hrssq := pow_ne_zero 2 hrs
+  have hDsq := pow_ne_zero 2 hD
+  have hGsq := pow_ne_zero 2 hG
+  have hG' : r * (r * (s - 3) + s + 3) - s ^ 2 - 1 ≠ 0 := by
+    intro hz
+    apply hG
+    linear_combination hz
+  field_simp [hs1, hrs, hD, hG, hG', hs1sq, hrssq, hDsq, hGsq]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitOneNumerator,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitOneNumeratorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominator,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitOneDenominatorCoefficient7]
+  ring
+
+private theorem orderTwentyFiveRawYTwo_eq_orbitData
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0) (hrs : r - s ≠ 0)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0)
+    (h26 : orderTwentyFiveRawXTwo r s -
+      orderTwentyFiveRawXSix r s ≠ 0)
+    (h118 : orderTwentyFiveRawXEleven r s -
+      orderTwentyFiveRawXEight r s ≠ 0)
+    (hden : OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s ≠ 0) :
+    orderTwentyFiveRawYTwo r s =
+      OrderTwentyFiveRawOrbitData.rawUnitTwoNumerator r s /
+        OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s := by
+  simp only [orderTwentyFiveRawYTwo]
+  rw [div_mul_div_comm]
+  apply (div_eq_div_iff (mul_ne_zero h26 h118) hden).2
+  simp only [orderTwentyFiveRawXTwo, orderTwentyFiveRawXSix,
+    orderTwentyFiveRawXSeven, orderTwentyFiveRawXEight,
+    orderTwentyFiveRawXEleven]
+  have hs1sq := pow_ne_zero 2 hs1
+  have hrssq := pow_ne_zero 2 hrs
+  have hCsq := pow_ne_zero 2 hC
+  have hEsq := pow_ne_zero 2 hE
+  have hC' : r * (s - 2) + 1 ≠ 0 := by
+    intro hz
+    apply hC
+    linear_combination hz
+  have hE' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
+    intro hz
+    apply hE
+    linear_combination hz
+  field_simp [hs1, hrs, hC, hC', hE, hE', hs1sq, hrssq, hCsq, hEsq]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitTwoNumerator,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoNumeratorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitTwoDenominatorCoefficient8]
+  ring
+
+private theorem orderTwentyFiveRawYFour_eq_orbitData
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (hD : r - s ^ 2 + s - 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0)
+    (h412 : orderTwentyFiveRawXFour r s -
+      orderTwentyFiveRawXTwelve r s ≠ 0)
+    (h39 : orderTwentyFiveRawXThree r s -
+      orderTwentyFiveRawXNine r s ≠ 0)
+    (hden : OrderTwentyFiveRawOrbitData.rawUnitFourDenominator r s ≠ 0) :
+    orderTwentyFiveRawYFour r s =
+      OrderTwentyFiveRawOrbitData.rawUnitFourNumerator r s /
+        OrderTwentyFiveRawOrbitData.rawUnitFourDenominator r s := by
+  simp only [orderTwentyFiveRawYFour]
+  rw [div_mul_div_comm]
+  apply (div_eq_div_iff (mul_ne_zero h412 h39) hden).2
+  simp only [orderTwentyFiveRawXTwo, orderTwentyFiveRawXThree,
+    orderTwentyFiveRawXFour, orderTwentyFiveRawXNine,
+    orderTwentyFiveRawXEleven, orderTwentyFiveRawXTwelve]
+  have hs1sq := pow_ne_zero 2 hs1
+  have hCsq := pow_ne_zero 2 hC
+  have hDsq := pow_ne_zero 2 hD
+  have hEsq := pow_ne_zero 2 hE
+  have hGsq := pow_ne_zero 2 hG
+  have hC' : r * (s - 2) + 1 ≠ 0 := by
+    intro hz
+    apply hC
+    linear_combination hz
+  have hE' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
+    intro hz
+    apply hE
+    linear_combination hz
+  have hG' : r * (r * (s - 3) + s + 3) - s ^ 2 - 1 ≠ 0 := by
+    intro hz
+    apply hG
+    linear_combination hz
+  field_simp [hs1, hC, hC', hD, hE, hE', hG, hG',
+    hs1sq, hCsq, hDsq, hEsq, hGsq]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitFourNumerator,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitFourNumeratorCoefficient8,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominator,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitFourDenominatorCoefficient8]
+  ring
+
+private theorem orderTwentyFiveRawYEight_eq_orbitData
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0) (hrs : r - s ≠ 0)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (h8 : orderTwentyFiveRawXEight r s ≠ 0)
+    (h67 : orderTwentyFiveRawXSix r s -
+      orderTwentyFiveRawXSeven r s ≠ 0)
+    (hden : OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s ≠ 0) :
+    orderTwentyFiveRawYEight r s =
+      OrderTwentyFiveRawOrbitData.rawUnitEightNumerator r s /
+        OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s := by
+  simp only [orderTwentyFiveRawYEight]
+  rw [div_mul_div_comm]
+  apply (div_eq_div_iff (mul_ne_zero h8 h67) hden).2
+  simp only [orderTwentyFiveRawXThree, orderTwentyFiveRawXFour,
+    orderTwentyFiveRawXSix, orderTwentyFiveRawXSeven,
+    orderTwentyFiveRawXEight]
+  have hs1sq := pow_ne_zero 2 hs1
+  have hrssq := pow_ne_zero 2 hrs
+  have hCsq := pow_ne_zero 2 hC
+  have hC' : r * (s - 2) + 1 ≠ 0 := by
+    intro hz
+    apply hC
+    linear_combination hz
+  field_simp [hs1, hrs, hC, hC', hs1sq, hrssq, hCsq]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitEightNumerator,
+    OrderTwentyFiveRawOrbitData.rawUnitEightNumeratorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitEightNumeratorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitEightNumeratorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitEightNumeratorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitEightDenominator,
+    OrderTwentyFiveRawOrbitData.rawUnitEightDenominatorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitEightDenominatorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitEightDenominatorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitEightDenominatorCoefficient3]
+  ring
+
+private theorem orderTwentyFiveRawYNine_eq_orbitData
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (hD : r - s ^ 2 + s - 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0)
+    (h92 : orderTwentyFiveRawXNine r s -
+      orderTwentyFiveRawXTwo r s ≠ 0)
+    (h1211 : orderTwentyFiveRawXTwelve r s -
+      orderTwentyFiveRawXEleven r s ≠ 0)
+    (hden : OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s ≠ 0) :
+    orderTwentyFiveRawYNine r s =
+      OrderTwentyFiveRawOrbitData.rawUnitNineNumerator r s /
+        OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s := by
+  simp only [orderTwentyFiveRawYNine]
+  rw [div_mul_div_comm]
+  apply (div_eq_div_iff (mul_ne_zero h92 h1211) hden).2
+  simp only [orderTwentyFiveRawXTwo, orderTwentyFiveRawXSix,
+    orderTwentyFiveRawXEight, orderTwentyFiveRawXNine,
+    orderTwentyFiveRawXEleven, orderTwentyFiveRawXTwelve]
+  have hs1sq := pow_ne_zero 2 hs1
+  have hCsq := pow_ne_zero 2 hC
+  have hDsq := pow_ne_zero 2 hD
+  have hEsq := pow_ne_zero 2 hE
+  have hGsq := pow_ne_zero 2 hG
+  have hC' : r * (s - 2) + 1 ≠ 0 := by
+    intro hz
+    apply hC
+    linear_combination hz
+  have hE' : r * (r - s ^ 3 + s ^ 2 * 3 - s * 4) + s ≠ 0 := by
+    intro hz
+    apply hE
+    linear_combination hz
+  have hG' : r * (r * (s - 3) + s + 3) - s ^ 2 - 1 ≠ 0 := by
+    intro hz
+    apply hG
+    linear_combination hz
+  field_simp [hs1, hC, hC', hD, hE, hE', hG, hG',
+    hs1sq, hCsq, hDsq, hEsq, hGsq]
+  simp only [OrderTwentyFiveRawOrbitData.rawUnitNineNumerator,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient8,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient9,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient10,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient11,
+    OrderTwentyFiveRawOrbitData.rawUnitNineNumeratorCoefficient12,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominator,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient0,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient1,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient2,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient3,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient4,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient5,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient6,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient7,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient8,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient9,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient10,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient11,
+    OrderTwentyFiveRawOrbitData.rawUnitNineDenominatorCoefficient12]
+  ring
+
+private theorem orderTwentyFiveRawYRelationZero_of_curve
+    (r s : ℚ)
+    (hs1 : s - 1 ≠ 0) (hrs : r - s ≠ 0)
+    (hC : r * s - 2 * r + 1 ≠ 0)
+    (hD : r - s ^ 2 + s - 1 ≠ 0)
+    (hE : r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0)
+    (hG : r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0)
+    (h74 : orderTwentyFiveRawXSeven r s -
+      orderTwentyFiveRawXFour r s ≠ 0)
+    (h3 : orderTwentyFiveRawXThree r s ≠ 0)
+    (h26 : orderTwentyFiveRawXTwo r s -
+      orderTwentyFiveRawXSix r s ≠ 0)
+    (h118 : orderTwentyFiveRawXEleven r s -
+      orderTwentyFiveRawXEight r s ≠ 0)
+    (h8 : orderTwentyFiveRawXEight r s ≠ 0)
+    (h67 : orderTwentyFiveRawXSix r s -
+      orderTwentyFiveRawXSeven r s ≠ 0)
+    (h92 : orderTwentyFiveRawXNine r s -
+      orderTwentyFiveRawXTwo r s ≠ 0)
+    (h1211 : orderTwentyFiveRawXTwelve r s -
+      orderTwentyFiveRawXEleven r s ≠ 0)
+    (hden1 : OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s ≠ 0)
+    (hden2 : OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s ≠ 0)
+    (hden8 : OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s ≠ 0)
+    (hden9 : OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s ≠ 0)
+    (hCurve : orderTwentyFiveRawSutherlandPolynomial r s = 0) :
+    orderTwentyFiveRawYRelationZero r s = 0 := by
+  simp only [orderTwentyFiveRawYRelationZero]
+  rw [orderTwentyFiveRawYSeven_eq_orbitData r s hs1 hrs hD hG h74 h3 hden1,
+    orderTwentyFiveRawYTwo_eq_orbitData r s hs1 hrs hC hE h26 h118 hden2,
+    orderTwentyFiveRawYEight_eq_orbitData r s hs1 hrs hC h8 h67 hden8,
+    orderTwentyFiveRawYNine_eq_orbitData r s hs1 hC hD hE hG h92 h1211 hden9]
+  refine OrderTwentyFiveRawOrbitData.RelationZeroCertificate.relation_eq_zero
+    r s ?_ hden1 hden9 hden8 hden2
+  rw [← orderTwentyFiveRawSutherlandPolynomial_eq_orbitData]
+  exact hCurve
 
 /- The numerator left by the exceptional diagonal `u = 1` on the raw
 Sutherland chart.  The generated Bézout identity is checked below by `ring`. -/
@@ -2389,6 +2826,36 @@ private theorem orderTwentyFiveBrunault_coordinates_eq_raw
     h2, h3, h4, h6, h7, h8, h9, h11, h12]
   exact ⟨trivial, trivial⟩
 
+private theorem orderTwentyFiveBrunault_orbitUnits_eq_raw
+    (b c : ℚ) (hx : ∀ k ≤ 10, tateSuccessiveX b c k ≠ 0)
+    (hc : c ≠ 0) (hbc : b ≠ c) :
+    orderTwentyFiveBrunaultYOne b c =
+        orderTwentyFiveRawYSeven (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYTwo b c =
+        orderTwentyFiveRawYTwo (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYFour b c =
+        orderTwentyFiveRawYFour (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYEight b c =
+        orderTwentyFiveRawYEight (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYNine b c =
+        orderTwentyFiveRawYNine (b / c) (c ^ 2 / (b - c)) := by
+  have h2 := tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have h3 := tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have h4 := tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have h6 := tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have h7 := tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have h8 := tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have h9 := tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have h11 := tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have h12 := tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  simp only [orderTwentyFiveBrunaultYOne, orderTwentyFiveBrunaultYTwo,
+    orderTwentyFiveBrunaultYFour, orderTwentyFiveBrunaultYEight,
+    orderTwentyFiveBrunaultYNine, orderTwentyFiveRawYSeven,
+    orderTwentyFiveRawYTwo, orderTwentyFiveRawYFour,
+    orderTwentyFiveRawYEight, orderTwentyFiveRawYNine,
+    h2, h3, h4, h6, h7, h8, h9, h11, h12, sub_zero]
+  simp
+
 /-- The normalized collision is exactly the cusp factor `b-c` times the
 degree-40 factor, with no unrecorded scalar. -/
 theorem orderTwentyFive_normalized_collision_factorization (b c : ℚ) :
@@ -2548,6 +3015,160 @@ theorem orderTwentyFiveBrunaultU_ne_one_of_marked_order
   have hcoordinates := orderTwentyFiveBrunault_coordinates_eq_raw b c hx hc hbc
   rw [hcoordinates.1]
   exact hrawU
+
+/-- The first of Lécacheux's five orbit relations holds for the actual
+Brunault units attached to an exact-order-25 marked Tate point. -/
+theorem orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationZero
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder
+  have hxy :=
+    tateSuccessiveX_ne_of_marked_order_twentyFive b c hb h00 horder
+  obtain ⟨hc, hbc, hfactor⟩ :=
+    orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
+      b c hb h00 horder
+  have hF : orderTwentyFiveRawSutherlandPolynomial r s = 0 := by
+    dsimp [r, s]
+    rw [orderTwentyFiveRawSutherlandPolynomial_substitution b c hc hbc,
+      hfactor]
+    simp
+  have hr : r ≠ 0 := by
+    dsimp [r]
+    exact div_ne_zero hb hc
+  have hs : s ≠ 0 := by
+    dsimp [s]
+    exact div_ne_zero (pow_ne_zero 2 hc) (sub_ne_zero.mpr hbc)
+  have h2 := tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have h3 := tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have h4 := tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have h6 := tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have h7 := tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have h8 := tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have h9 := tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have h11 := tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have h12 := tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  have hrs : r - s ≠ 0 := by
+    intro hrs
+    have hraw : orderTwentyFiveRawXSeven r s = 0 := by
+      simp [orderTwentyFiveRawXSeven, hrs]
+    exact hx 5 (by omega) (h7.trans hraw)
+  have hD : r - s ^ 2 + s - 1 ≠ 0 := by
+    intro hD
+    have hraw : orderTwentyFiveRawXNine r s = 0 := by
+      simp [orderTwentyFiveRawXNine, hD]
+    exact hx 7 (by omega) (h9.trans hraw)
+  have hs1 : s - 1 ≠ 0 := by
+    intro hs1
+    have hraw : orderTwentyFiveRawXTwelve r s = 0 := by
+      simp [orderTwentyFiveRawXTwelve, hs1]
+    exact hx 10 (by omega) (h12.trans hraw)
+  have hC : r * s - 2 * r + 1 ≠ 0 := by
+    intro hC
+    have hraw : orderTwentyFiveRawXEight r s = 0 := by
+      simp [orderTwentyFiveRawXEight, hC]
+    exact hx 6 (by omega) (h8.trans hraw)
+  have hE :
+      r ^ 2 - r * s ^ 3 + 3 * r * s ^ 2 - 4 * r * s + s ≠ 0 := by
+    intro hE
+    have hraw : orderTwentyFiveRawXEleven r s = 0 := by
+      simp [orderTwentyFiveRawXEleven, hE]
+    exact hx 9 (by omega) (h11.trans hraw)
+  have hG :
+      r ^ 2 * s - 3 * r ^ 2 + r * s + 3 * r - s ^ 2 - 1 ≠ 0 := by
+    intro hG
+    have hraw : orderTwentyFiveRawXTwelve r s = 0 := by
+      simp [orderTwentyFiveRawXTwelve, hG]
+    exact hx 10 (by omega) (h12.trans hraw)
+  have h74 :
+      orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXFour r s ≠ 0 := by
+    rw [← h7, ← h4]
+    exact sub_ne_zero.mpr (hxy 5 2 (by omega) (by omega) (by omega))
+  have h3raw : orderTwentyFiveRawXThree r s ≠ 0 := by
+    rw [← h3]
+    exact hx 1 (by omega)
+  have h26 :
+      orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s ≠ 0 := by
+    rw [← h2, ← h6]
+    exact sub_ne_zero.mpr (hxy 0 4 (by omega) (by omega) (by omega))
+  have h118 :
+      orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s ≠ 0 := by
+    rw [← h11, ← h8]
+    exact sub_ne_zero.mpr (hxy 9 6 (by omega) (by omega) (by omega))
+  have h8raw : orderTwentyFiveRawXEight r s ≠ 0 := by
+    rw [← h8]
+    exact hx 6 (by omega)
+  have h67 :
+      orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s ≠ 0 := by
+    rw [← h6, ← h7]
+    exact sub_ne_zero.mpr (hxy 4 5 (by omega) (by omega) (by omega))
+  have h92 :
+      orderTwentyFiveRawXNine r s - orderTwentyFiveRawXTwo r s ≠ 0 := by
+    rw [← h9, ← h2]
+    exact sub_ne_zero.mpr (hxy 7 0 (by omega) (by omega) (by omega))
+  have h1211 :
+      orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s ≠ 0 := by
+    rw [← h12, ← h11]
+    exact sub_ne_zero.mpr (hxy 10 9 (by omega) (by omega) (by omega))
+  have hpole2 : OrderTwentyFiveRawOrbitData.rawUnitTwoPoleFactor r s ≠ 0 := by
+    intro hpole2
+    apply h118
+    rw [orderTwentyFiveRawXEleven_sub_XEight_eq_poleFactor r s hC hE]
+    simp [hpole2]
+  have hpole8 : OrderTwentyFiveRawOrbitData.rawUnitEightPoleFactor r s ≠ 0 := by
+    intro hpole8
+    apply h67
+    rw [orderTwentyFiveRawXSix_sub_XSeven_eq_poleFactor r s hs1 hrs]
+    simp [hpole8]
+  have hpole9 : OrderTwentyFiveRawOrbitData.rawUnitNinePoleFactor r s ≠ 0 := by
+    intro hpole9
+    apply h1211
+    rw [orderTwentyFiveRawXTwelve_sub_XEleven_eq_poleFactor r s hs1 hE hG]
+    simp [hpole9]
+  have hden1 : OrderTwentyFiveRawOrbitData.rawUnitOneDenominator r s ≠ 0 := by
+    rw [OrderTwentyFiveRawOrbitData.rawUnitOneDenominator_factorization]
+    exact mul_ne_zero
+      (mul_ne_zero
+        (mul_ne_zero (pow_ne_zero 2 hs1) hr)
+        (pow_ne_zero 2 hD))
+      (pow_ne_zero 2 hG)
+  have hden2 : OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator r s ≠ 0 := by
+    rw [OrderTwentyFiveRawOrbitData.rawUnitTwoDenominator_factorization]
+    exact mul_ne_zero (pow_ne_zero 2 hrs) hpole2
+  have hden8 : OrderTwentyFiveRawOrbitData.rawUnitEightDenominator r s ≠ 0 := by
+    rw [OrderTwentyFiveRawOrbitData.rawUnitEightDenominator_factorization]
+    exact hpole8
+  have hden9 : OrderTwentyFiveRawOrbitData.rawUnitNineDenominator r s ≠ 0 := by
+    rw [OrderTwentyFiveRawOrbitData.rawUnitNineDenominator_factorization]
+    exact mul_ne_zero
+      (mul_ne_zero (mul_ne_zero hs hrs) (pow_ne_zero 2 hC)) hpole9
+  have hraw := orderTwentyFiveRawYRelationZero_of_curve
+    r s hs1 hrs hC hD hE hG h74 h3raw h26 h118 h8raw h67 h92 h1211
+      hden1 hden2 hden8 hden9 hF
+  have hunits := orderTwentyFiveBrunault_orbitUnits_eq_raw b c hx hc hbc
+  have hy :
+      orderTwentyFiveBrunaultYOne b c - orderTwentyFiveBrunaultYNine b c -
+          orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYEight b c *
+            (orderTwentyFiveBrunaultYTwo b c -
+              orderTwentyFiveBrunaultYOne b c) = 0 := by
+    rw [hunits.1, hunits.2.1, hunits.2.2.2.1, hunits.2.2.2.2]
+    exact hraw
+  simp only [orderTwentyFiveOrbitRelationZero,
+    orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXOne,
+    orderTwentyFiveBrunaultXTwo, orderTwentyFiveBrunaultXThree]
+  linear_combination orderTwentyFiveBrunaultYFour b c * hy
 
 /-- An arbitrary rational point of exact order 25 produces a genuinely
 noncuspidal point on the fixed degree-40 affine model, while retaining the

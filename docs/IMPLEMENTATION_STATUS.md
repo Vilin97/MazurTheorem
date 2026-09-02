@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,939 Lean modules** and **1,834,197 Lean
+- The audited baseline contains **1,940 Lean modules** and **1,863,262 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -162,9 +162,13 @@ parameter from the five orbit coordinates and proves that the six cyclic
 relations force the two selected coordinates to satisfy Lehmer's quintic.
 Consequently `no_orderTwentyFiveBrunaultOrbit_of_threeIntegral` rules out the
 orbit as soon as its recovered invariant is integral at three, without taking
-the two root facts as assumptions. The remaining gap is to prove the cyclic
-relations and `x₀ ≠ 1` for the explicit Tate cross-ratios and to construct the
-Fricke transport needed when `5/n`, rather than `n`, is the integral parameter.
+the two root facts as assumptions. Exact-order separation already proves
+`x₀ ≠ 1`, and `orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order`
+now proves the first of the five cyclic relations for the explicit Tate
+cross-ratios by a kernel-checked coefficient certificate. The remaining orbit
+gap is the other four cyclic relations and the norm-one relation. The endpoint
+also needs the Fricke transport used when `5/n`, rather than `n`, is the
+integral parameter.
 
 Five published contracts are intentionally paused:
 
