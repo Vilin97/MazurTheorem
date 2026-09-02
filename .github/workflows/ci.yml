@@ -341,7 +341,7 @@ jobs:
           steps.final-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.generated-certificate-cache-probe.outputs.cache-hit != 'true' ||
           steps.certificate-prerequisite-cache-probe.outputs.cache-hit != 'true'
-        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596
         with:
           auto-config: false
           use-github-cache: false
@@ -608,7 +608,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Install Lean
-        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596
         with:
           auto-config: false
           use-github-cache: false
