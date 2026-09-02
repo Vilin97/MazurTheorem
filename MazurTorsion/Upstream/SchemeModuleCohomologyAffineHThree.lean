@@ -247,6 +247,106 @@ private theorem subsingleton_H_X₃_of_shortExact
   rw [Subsingleton.elim y 0, map_zero] at hy
   exact hy.symm
 
+private theorem openSheafPullback_injectiveCokernel_H_succ_subsingleton
+    {X : Scheme.{u}} (U : X.Opens) (F : AbSheaf X) (n : ℕ)
+    (hF : Subsingleton
+      (CategoryTheory.Sheaf.H ((openSheafPullback U).obj F) (n + 2))) :
+    Subsingleton (CategoryTheory.Sheaf.H
+      ((openSheafPullback U).obj (cokernel (Injective.ι F))) (n + 1)) := by
+  let L := openSheafPullback U
+  let S := injectiveCokernelSequence F
+  letI : PreservesFiniteLimits L := by
+    dsimp [L]
+    infer_instance
+  letI : PreservesFiniteColimits L := by
+    dsimp [L]
+    infer_instance
+  letI : L.PreservesZeroMorphisms := by infer_instance
+  letI : L.Additive := L.additive_of_preserves_binary_products
+  have hS : S.ShortExact := injectiveCokernelSequence_shortExact F
+  have hSL : (S.map L).ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS L
+  have hI : TopCat.Sheaf.IsFlasque (Injective.under F) :=
+    injectiveSheaf_isFlasque (Injective.under F)
+  letI : TopCat.Sheaf.IsFlasque (Injective.under F) := hI
+  letI : TopCat.Sheaf.IsFlasque (L.obj (Injective.under F)) :=
+    @openSheafPullback_isFlasque _ U (Injective.under F) hI
+  have hmiddle : Subsingleton
+      (CategoryTheory.Sheaf.H (L.obj (Injective.under F)) (n + 1)) :=
+    flasqueSheaf_H_succ_subsingleton _ n
+  have hleft : Subsingleton
+      (CategoryTheory.Sheaf.H (L.obj F) (n + 2)) := by
+    exact hF
+  exact subsingleton_H_X₃_of_shortExact hSL (n + 1) hmiddle hleft
+
+private theorem injectiveCokernel_app_surjective_of_pullback_HOne_subsingleton
+    {R : CommRingCat.{u}} (F : AbSheaf (Spec R))
+    (U : (Spec R).Opens)
+    (hF : Subsingleton
+      (CategoryTheory.Sheaf.H ((openSheafPullback U).obj F) 1)) :
+    Function.Surjective
+      ((cokernel.π (Injective.ι F)).hom.app (op U)) := by
+  let L := openSheafPullback U
+  let S := injectiveCokernelSequence F
+  letI : PreservesFiniteLimits L := by
+    dsimp [L]
+    infer_instance
+  letI : PreservesFiniteColimits L := by
+    dsimp [L]
+    infer_instance
+  letI : L.PreservesZeroMorphisms := by infer_instance
+  letI : L.Additive := L.additive_of_preserves_binary_products
+  have hS : S.ShortExact := injectiveCokernelSequence_shortExact F
+  have hSL : (S.map L).ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS L
+  letI : Subsingleton ((S.map L).X₁.H 1) := by
+    change Subsingleton (CategoryTheory.Sheaf.H (L.obj F) 1)
+    exact hF
+  have hsurjective :=
+    CategoryTheory.Sheaf.H.longSequence_surjective_of_subsingleton_H
+      hSL (isTerminalTop : IsTerminal (⊤ : Opens (U : Scheme)))
+  change Function.Surjective
+    ((L.map (cokernel.π (Injective.ι F))).hom.app
+      (op (⊤ : Opens (U : Scheme)))) at hsurjective
+  change Function.Surjective
+    ((cokernel.π (Injective.ι F)).hom.app
+      (op (U.ι.isOpenEmbedding.functor.obj
+        (⊤ : Opens (U : Scheme))))) at hsurjective
+  have htop : U.ι.isOpenEmbedding.functor.obj
+      (⊤ : Opens (U : Scheme)) = U := by
+    ext x
+    simp
+  rw [htop] at hsurjective
+  exact hsurjective
+
+/-- Vanishing of the original sheaf in the first `n` positive degrees after
+pullback to every affine open supplies the section-surjectivity data for the
+first `n` injective syzygies. -/
+theorem affineSyzygyAppSurjective_of_pullback_H_succ_subsingleton
+    {R : CommRingCat.{u}} (F : AbSheaf (Spec R)) (n : ℕ)
+    (hF : ∀ (U : (Spec R).Opens), IsAffineOpen U →
+      ∀ k, k < n → Subsingleton
+        (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F)
+            (k + 1))) :
+    LocalKilling.AffineSyzygyAppSurjective F n := by
+  induction n generalizing F with
+  | zero => exact .zero F
+  | succ n ih =>
+      apply LocalKilling.AffineSyzygyAppSurjective.succ
+      · intro U hU
+        apply injectiveCokernel_app_surjective_of_pullback_HOne_subsingleton
+        change Subsingleton (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F) 1)
+        exact hF U hU 0 (Nat.zero_lt_succ n)
+      · apply ih
+        intro U hU k hk
+        apply openSheafPullback_injectiveCokernel_H_succ_subsingleton
+        change Subsingleton (CategoryTheory.Sheaf.H
+          ((U.ι.isOpenEmbedding.sheafPullback AddCommGrpCat.{u}).obj F)
+            (k + 2))
+        exact hF U hU (k + 1) (Nat.succ_lt_succ hk)
+
 private theorem secondInjectiveCokernel_app_surjective_of_isAffineOpen
     {R : CommRingCat.{u}} (M : (Spec R).Modules) [M.IsQuasicoherent]
     (U : (Spec R).Opens) (hU : IsAffineOpen U) :
