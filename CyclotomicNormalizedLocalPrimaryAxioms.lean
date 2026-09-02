@@ -1,0 +1,3 @@
+import MazurTorsion.NumberTheory.CyclotomicNormalizedLocalPrimary
+
+#print axioms NumberTheory.CyclotomicCharacter.InverseExtension.KummerPresentation.isFinitePrimaryAtCyclotomicPrime_of_localRoot_normalization

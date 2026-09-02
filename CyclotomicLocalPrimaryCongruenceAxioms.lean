@@ -1,0 +1,5 @@
+import MazurTorsion.NumberTheory.CyclotomicLocalPrimaryCongruence
+
+#print axioms NumberTheory.CyclotomicCharacter.InverseExtension.exists_integral_pow_congr_mod_prime_pow_of_adic_pow
+#print axioms NumberTheory.CyclotomicCharacter.InverseExtension.IsFinitePrimaryAtCyclotomicPrime
+#print axioms NumberTheory.CyclotomicCharacter.InverseExtension.isFinitePrimaryAtCyclotomicPrime_of_adic_pthPower
