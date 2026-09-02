@@ -69,6 +69,53 @@ instance projectivePairChartMap_isOpenImmersion
     IsOpenImmersion (projectivePairChartMap W ij) := by
   exact (projectivePairOpenCover W).map_prop ij
 
+/-- The coefficient map equips every concrete coordinate-chart ring with its
+canonical algebra structure over the ground field. -/
+noncomputable instance coveringChartCoordinateRingAlgebra
+    (W : WeierstrassCurve K) (b : Bool) :
+    Algebra K (coveringChartCoordinateRing W b) :=
+  (coveringChartStructureRingHom W b).toAlgebra
+
+theorem coveringChartCoordinateRing_algebraMap
+    (W : WeierstrassCurve K) (b : Bool) :
+    algebraMap K (coveringChartCoordinateRing W b) =
+      coveringChartStructureRingHom W b :=
+  rfl
+
+/-- Tensor-product coordinate ring of one member of the projective-pair
+cover. -/
+abbrev projectivePairChartTensorRing (W : WeierstrassCurve K)
+    (ij : Bool × Bool) :=
+  TensorProduct K (coveringChartCoordinateRing W ij.1)
+    (coveringChartCoordinateRing W ij.2)
+
+/-- Affine tensor-product presentation of one projective-pair chart. -/
+abbrev projectivePairChartTensorScheme (W : WeierstrassCurve K)
+    (ij : Bool × Bool) : Scheme.{u} :=
+  Spec (.of (projectivePairChartTensorRing W ij))
+
+private noncomputable def projectivePairChartIsoAlgebraPullback
+    (W : WeierstrassCurve K) (ij : Bool × Bool) :
+    projectivePairChartScheme W ij ≅
+      pullback
+        (Spec.map (CommRingCat.ofHom
+          (algebraMap K (coveringChartCoordinateRing W ij.1))))
+        (Spec.map (CommRingCat.ofHom
+          (algebraMap K (coveringChartCoordinateRing W ij.2)))) :=
+  pullback.congrHom
+    (by rw [coveringChartMap_comp_structureMap])
+    (by rw [coveringChartMap_comp_structureMap])
+
+/-- Every member of the concrete projective-product cover is canonically the
+spectrum of the tensor product of its two affine chart rings. -/
+noncomputable def projectivePairChartTensorIso
+    (W : WeierstrassCurve K) (ij : Bool × Bool) :
+    projectivePairChartTensorScheme W ij ≅
+      projectivePairChartScheme W ij :=
+  (pullbackSpecIso K (coveringChartCoordinateRing W ij.1)
+    (coveringChartCoordinateRing W ij.2)).symm ≪≫
+      (projectivePairChartIsoAlgebraPullback W ij).symm
+
 /-- The standard-coordinate product, before identifying the source type with
 the corresponding member of the concrete product cover. -/
 abbrev standardProjectivePairChartScheme
