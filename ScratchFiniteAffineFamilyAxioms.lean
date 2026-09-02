@@ -1,0 +1,9 @@
+import MazurTorsion.AlgebraicGeometry.FiniteFlatCommGroupScheme.MultiplicativeFiniteAffineFamily
+
+open AlgebraicGeometry.CommGroupScheme.MultiplicativeCocycleDescent.FiniteAffineFamily
+
+#print axioms pullbackRepresentedCocycle_ev
+#print axioms toProductCover_h₀
+#print axioms coverRefinementToRepresentedSingleton_map
+#print axioms componentCoverCocycle_ev
+#print axioms productCoverCocycle_globalClass_pullback
