@@ -1,0 +1,39 @@
+name = "mazur-torsion"
+version = "0.1.0"
+keywords = ["math", "elliptic-curves", "number-theory"]
+defaultTargets = ["MazurTorsion"]
+buildDir = "/data/codex-scratch/mazur-owner-isolated-build-1WJD03"
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "TauCeti"
+git = "https://github.com/Vilin97/TauCeti"
+rev = "a74dfee78f800df63f085a19006f7d502eee365e"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.33.0-rc1"
+
+[[lean_lib]]
+name = "MazurTorsion"
+
+[[lean_lib]]
+name = "EllipticCurves"
+globs = ["EllipticCurves", "EllipticCurves.+"]
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_exe]]
+name = "axioms"
+root = "scripts.Axioms"
+
+[[lean_exe]]
+name = "contractAxioms"
+root = "scripts.ContractAxioms"
