@@ -6,6 +6,7 @@ Authors: Vasily Ilin
 
 import MazurTorsion.NumberTheory.SevenAdicCertificates
 import MazurTorsion.NumberTheory.XZeroFortyNineReduction
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroFiniteFlatClassifyingData
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
@@ -530,6 +531,118 @@ theorem no_noncuspidal_correspondence_point
       · exact h'
       · exact absurd h' hGB
     exact mNX_ne_zero hs hB hG hx0
+
+/-! ## The explicit order-seven isogeny-tower consumer
+
+The only remaining input in this route is the third polynomial
+pseudo-division recurrence. All other normalization, isogeny, resultant,
+and rational-point-classification steps are checked below. -/
+
+/-- The third pseudo-division recurrence completes the explicit order-seven
+isogeny-tower obstruction to rational points of exact order `49`.
+
+This is the named downstream consumer of `recurrence3`: once that concrete
+polynomial identity is checked, this theorem supplies the order-49 challenge
+bridge without any additional geometric hypothesis. -/
+theorem rationalPoint_addOrderOf_ne_fortyNine_of_recurrence3
+    (hrec3 :
+      Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate.recurrence3)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) :
+    addOrderOf P ≠ 49 := by
+  intro h49
+  have hnot : ∀ n : ℕ, ¬ (49 ∣ n) → (n : ℕ) • P ≠ 0 := by
+    intro n hn hzero
+    exact hn (h49 ▸ addOrderOf_dvd_of_nsmul_eq_zero hzero)
+  let R : E.toAffine.Point := (7 : ℕ) • P
+  have hRorder : addOrderOf R = 7 := by
+    dsimp only [R]
+    rw [addOrderOf_nsmul' P (by norm_num), h49]
+    norm_num
+  have hR0 : R ≠ 0 := by
+    dsimp only [R]
+    exact hnot 7 (by norm_num)
+  have hR2 : R + R ≠ 0 := by
+    intro hzero
+    apply hnot 14 (by norm_num)
+    simpa only [R, ← two_nsmul, ← mul_nsmul] using hzero
+  have hR3 : R + R + R ≠ 0 := by
+    intro hzero
+    apply hnot 21 (by norm_num)
+    calc
+      (21 : ℕ) • P = (3 : ℕ) • ((7 : ℕ) • P) := by
+        rw [← mul_nsmul]
+      _ = R + R + R := by
+        dsimp only [R]
+        abel
+      _ = 0 := hzero
+  obtain ⟨b, c, u, hu, hb, h00, e, heR, hdisc, -, -⟩ :=
+    Kubert.exists_tateNormalCurve_scaled E R hR2 hR3
+  have horigin0 :
+      (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+        (Kubert.tateNormalCurve b c).toAffine.Point) ≠ 0 := by
+    rw [← heR]
+    exact fun hzero ↦ hR0 (e.injective (by simpa using hzero))
+  have hsevenOrigin :
+      (7 : ℕ) • (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+        (Kubert.tateNormalCurve b c).toAffine.Point) = 0 := by
+    rw [← heR, ← map_nsmul]
+    exact e.map_eq_zero_iff.mpr
+      (hRorder ▸ addOrderOf_nsmul_eq_zero R)
+  obtain ⟨hc, hrel⟩ :=
+    Kubert.orderSeven_tate_relation b c hb h00 horigin0 hsevenOrigin
+  obtain ⟨d, hd0, hd1, hbeq, hceq⟩ :=
+    Kubert.orderSeven_parametrization b c hb hc hrel
+  subst b
+  subst c
+  have hfamilyDelta :
+      (Kubert.tateNormalCurve (d ^ 3 - d ^ 2) (d ^ 2 - d)).Δ ≠ 0 := by
+    rw [← hdisc]
+    exact mul_ne_zero (pow_ne_zero 12 hu) E.isUnit_Δ.ne_zero
+  letI : (Kubert.orderSevenFamily d).IsElliptic := by
+    rw [WeierstrassCurve.isElliptic_iff, isUnit_iff_ne_zero]
+    simpa only [Kubert.orderSevenFamily, Kubert.orderSevenB,
+      Kubert.orderSevenC] using hfamilyDelta
+  change E.toAffine.Point ≃+
+    (Kubert.orderSevenFamily d).toAffine.Point at e
+  have heR' : e R = Kubert.orderSevenOrigin d := by
+    exact heR.trans
+      (WeierstrassCurve.Affine.Point.some_eq_some _ rfl rfl)
+  let Q : (Kubert.orderSevenFamily d).toAffine.Point := e P
+  have hQorder : addOrderOf Q = 49 := by
+    dsimp only [Q]
+    rw [AddEquiv.addOrderOf_eq]
+    exact h49
+  have hsevenQ : (7 : ℕ) • Q = Kubert.orderSevenOrigin d := by
+    dsimp only [Q]
+    rw [← map_nsmul]
+    simpa only [R] using heR'
+  have hkernel :
+      Kubert.orderSevenPointMap d ((7 : ℕ) • Q) = 0 := by
+    rw [hsevenQ]
+    exact Kubert.orderSevenPointMap_origin d
+  obtain ⟨-, -, hK⟩ := Kubert.orderSevenFamily_parameters_ne d
+  obtain ⟨hres0, hres1, hres2⟩ :=
+    Kubert.OrderSevenBacktrackingCertificate.bounded_resultants_ne_zero
+      hrec3 d hd0 hd1 hK
+  cases hQeq : Q with
+  | zero =>
+      rw [hQeq] at hQorder
+      have hfalse : (1 : ℕ) = 49 := by
+        rw [← hQorder]
+        exact (addOrderOf_zero
+          (G := (Kubert.orderSevenFamily d).toAffine.Point)).symm
+      norm_num at hfalse
+  | some x y hP =>
+      rw [hQeq] at hQorder hkernel
+      have hB :=
+        (Kubert.orderSevenResidualHauptmodul_spec_of_order_fortyNine_of_kernel
+          hP hQorder hkernel).1
+      have hG :=
+        Kubert.orderSevenG7F_residual_eq_zero_of_order_fortyNine_of_bounded_resultants
+          hP hQorder hkernel hres0 hres1 hres2
+      exact no_noncuspidal_correspondence_point
+        (Kubert.orderSevenFrickeParameter_ne_zero d) hB hG
 
 /-! ## The direct `X₀(49)` moduli consumer
 
