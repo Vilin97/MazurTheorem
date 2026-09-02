@@ -59,7 +59,6 @@
     "paused_node_ids": [
       "MT-X11-COSET",
       "MT-X13-NONCUSP",
-      "MT-X18-NONCUSP",
       "MT-O25-EXCLUDE",
       "MT-O35-EXCLUDE",
       "MT-CYCLOTOMIC-UNRAMIFIED"
@@ -71,10 +70,9 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 1815011,
-    "integrated_lean_modules": 1891,
+    "integrated_lean_lines": 1832918,
+    "integrated_lean_modules": 1938,
     "remaining_composite_orders": [
-      18,
       25,
       35
     ],
@@ -129,9 +127,9 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 182,
-    "percent": 18.2,
-    "ecosystem_ready_estimate_percent": 19,
+    "earned_points": 200,
+    "percent": 20.0,
+    "ecosystem_ready_estimate_percent": 20,
     "claimable_open_points": 18,
     "ordinary_claimable_points": 0,
     "research_open_points": 18,
@@ -758,12 +756,12 @@
       "title": "Classify the noncuspidal rational points on the order-18 curve",
       "stage": "finite_endpoints",
       "kind": "proof",
-      "status": "paused",
-      "readiness": "compiled",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 18,
       "risk": "extreme",
       "backend": "mazur",
-      "summary": "Show that the explicit genus-two order-18 model has no rational point with x different from 0 and 1. The checked descent reduces both surviving scalar branches to one primitive cubic correspondence and maps it to the anti-diagonal genus-two curve. Kernel-checked enumeration at the good primes five and seven now gives 21- and 63-element reduced degree-two class certificates, and an exact two-reduction bridge forces a finite rational Jacobian with the specified primary kernels and an order-21 subgroup to have cardinality 21. Geometric Picard identifications, rational Jacobian finiteness, good-reduction kernel bounds, and the order-21 subgroup/Abel-Jacobi comparison are still required; the Challenge remains open.",
+      "summary": "Order 18 is excluded unconditionally by mapping the genus-two X_1(18) sextic to an explicit elliptic quotient over the real cubic field Q(tau), completing a dyadically supported x-T two-descent to prove trivial descent image and rank zero, injecting the finite quotient at a degree-one prime above 17 into a 21-point special fibre, and using visible 7-torsion plus the absence of 3-torsion to enumerate the quotient and exclude every noncuspidal fiber. The registered Challenge and rational-torsion order-reduction consumer are checked bridges.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -841,6 +839,27 @@
           "state": "contract",
           "module": "MazurTorsion.NumberTheory.XOneEighteenJacobianFiniteSeven",
           "description": "Combine the checked cardinalities at five and seven with primary-kernel reduction homomorphisms and an order-21 subgroup to force rational Jacobian cardinality 21."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.minimalDescentCurve_range_μ_eq_bot",
+          "state": "integrated",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional",
+          "description": "Combine the global norm-kernel enumeration with the selected dyadic local exclusion to prove that the concrete x-T descent image is trivial."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.no_noncuspidal_point",
+          "state": "integrated",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional",
+          "description": "Classify the rational points on the explicit order-eighteen sextic by ruling out every point away from the two cusp abscissas."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.XOneEighteenDescent.rationalPoint_addOrderOf_ne_eighteen",
+          "state": "integrated",
+          "module": "MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional",
+          "description": "Consume the noncuspidal-point classification through the checked Tate-normal-form bridge to exclude exact rational point order eighteen."
         }
       ],
       "depends_on": [
@@ -851,24 +870,24 @@
       ],
       "completion": {
         "statement": true,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "challenge": {
         "claimable": false,
         "module": "Challenge.XOneEighteenNoncusp",
         "file": "Challenge/XOneEighteenNoncusp.lean",
         "declaration": "MazurTheorem.Challenge.xOneEighteen_no_noncuspidal_point",
-        "destination_module": "MazurTorsion.NumberTheory.XOneEighteenDescent",
+        "destination_module": "MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional",
         "destination_declaration": "MazurTorsion.XOneEighteenDescent.no_noncuspidal_point",
         "signature": "theorem xOneEighteen_no_noncuspidal_point\n    (x y : ℚ) (hx0 : x ≠ 0) (hx1 : x ≠ 1)\n    (hcurve : y ^ 2 =\n      MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :\n    False := sorry",
         "imports": [
-          "MazurTorsion.NumberTheory.XOneEighteenDescent"
+          "MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional"
         ],
         "informal": "If y^2 equals the explicit order-18 sextic at a rational x, then x is 0 or 1.",
-        "recommended_route": "Construct the finite rational Jacobian and its order-21 subgroup, identify reduction at five and seven with the checked 21- and 63-element degree-two certificates, and discharge the primary-kernel hypotheses of the exact two-reduction bridge; then use Abel-Jacobi injectivity to classify the curve points. The low-level point transport is already below XOneEighteenDescent, so the final theorem may be installed without importing the downstream FourScalar correspondence through the immutable Challenge.",
+        "recommended_route": "Use the explicit elliptic quotient over Q(tau), the completed dyadic x-T descent, and injective reduction at the degree-one prime above 17. The finite quotient has order seven from the 21-point special fibre, visible seven-torsion, and the checked exclusion of three-torsion; its three possible affine abscissas pull back only to cusp fibers.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],
@@ -883,8 +902,8 @@
         ]
       },
       "evidence": {
-        "recorded_artifact_count": 16,
-        "canonical_artifact_count": 5,
+        "recorded_artifact_count": 19,
+        "canonical_artifact_count": 8,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       }
     },

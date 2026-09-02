@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.NumberTheory.XOneEighteenDescent
+import MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional
 
 /-!
 # Challenge: rational points on the order-eighteen curve
@@ -24,6 +24,8 @@ theorem xOneEighteen_no_noncuspidal_point
     (hcurve :
       y ^ 2 =
         MazurTorsion.Kubert.orderEighteenHyperellipticPolynomial x) :
-    False := sorry
+    False :=
+  MazurTorsion.XOneEighteenDescent.no_noncuspidal_point
+    x y hx0 hx1 hcurve
 
 end MazurTheorem.Challenge

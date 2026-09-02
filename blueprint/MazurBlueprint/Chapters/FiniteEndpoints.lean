@@ -115,14 +115,18 @@ with x different from 0 and -1.
 
 :::
 
-:::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, paused, compiled, mazur")
+:::theorem "MT-X18-NONCUSP" (parent := "finite_endpoints") (uses := "MT-BASE-INTEGRATED") (tags := "proof, done, integrated, mazur")
 *Classify the noncuspidal rational points on the order-18 curve.*
 
-*Status:* `paused`; *readiness:* `compiled`; *kind:* `proof`; *backend:* `mazur`;
+*Status:* `done`; *readiness:* `integrated`; *kind:* `proof`; *backend:* `mazur`;
 *risk:* `extreme`; *weight:* 18 points.
 
-*Summary:* Show that the explicit genus-two order-18 model has no rational point with x
-different from 0 and 1.
+*Summary:* Order 18 is excluded unconditionally by mapping the genus-two X\_1(18) sextic
+to an explicit elliptic quotient over the real cubic field Q(tau), completing a
+dyadically supported x-T two-descent to prove trivial descent image and rank zero,
+injecting the finite quotient at a degree-one prime above 17 into a 21-point special
+fibre, and using visible 7-torsion plus the absence of 3-torsion to enumerate the
+quotient and exclude every noncuspidal fiber.
 
 *Canonical artifacts:*
 
@@ -170,6 +174,17 @@ different from 0 and 1.
   `MazurTorsion.XOneEighteenFiniteField.rationalJacobian_card_eq_twentyOne_of_reduction_homs`
   Combine the checked cardinalities at five and seven with primary-kernel reduction
   homomorphisms and an order-21 subgroup to force rational Jacobian cardinality 21.
+* `theorem` (`integrated`):
+  `MazurTorsion.XOneEighteenDescent.minimalDescentCurve_range_μ_eq_bot`
+  Combine the global norm-kernel enumeration with the selected dyadic local exclusion to
+  prove that the concrete x-T descent image is trivial.
+* `theorem` (`integrated`): `MazurTorsion.XOneEighteenDescent.no_noncuspidal_point`
+  Classify the rational points on the explicit order-eighteen sextic by ruling out every
+  point away from the two cusp abscissas.
+* `theorem` (`integrated`):
+  `MazurTorsion.XOneEighteenDescent.rationalPoint_addOrderOf_ne_eighteen`
+  Consume the noncuspidal-point classification through the checked Tate-normal-form
+  bridge to exclude exact rational point order eighteen.
 
 :::
 

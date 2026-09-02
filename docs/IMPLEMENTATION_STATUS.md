@@ -17,9 +17,9 @@ finite/infinite split, but it does not replace the full classification.
 
 ## Ledger-derived snapshot
 
-- Integrated completion is **17.2%**: 172 of the fixed 1,000 points.
-- Ecosystem readiness is **18%**.
-- The audited baseline contains **1,883 Lean modules** and **1,795,860 Lean
+- Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
+- Ecosystem readiness is **20%**.
+- The audited baseline contains **1,938 Lean modules** and **1,832,918 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -133,6 +133,14 @@ and `h77` inputs owned by API integration. The later classification
 additionally consumes `c4Square`, `c2c10`, and `c2c12`, then the ncard bridge
 follows as a corollary, not a replacement for the classification theorem.
 
+The order-eighteen endpoint is now unconditional. An explicit elliptic quotient
+of the `X₁(18)` sextic over the real cubic field is controlled by a checked
+dyadic `x-T` descent; triviality of its descent image gives rank zero and
+finiteness. Reduction at a degree-one prime above seventeen, visible
+seven-torsion, exclusion of three-torsion, and the checked quotient fibers then
+rule out every noncuspidal rational point. The resulting exact-order-eighteen
+theorem is consumed directly by the rational-torsion point-order reduction.
+
 The checked route-neutral prime collision is
 `MazurTorsion.PrimeOrder.rationalPoint_primeOrder_ne_of_formalImmersionAtFive`.
 `DegreeOneFormalImmersionWitness` and its private Eisenstein constructor remain
@@ -141,9 +149,9 @@ Néron specialization are independent prerequisites of the final collision;
 the quotient no longer carries the redundant dependency on the downstream
 specialization node.
 
-Six published contracts are intentionally paused:
+Five published contracts are intentionally paused:
 
-- `MT-X11-COSET`, `MT-X13-NONCUSP`, and `MT-X18-NONCUSP`;
+- `MT-X11-COSET` and `MT-X13-NONCUSP`;
 - `MT-O25-EXCLUDE` and `MT-O35-EXCLUDE`; and
 - `MT-CYCLOTOMIC-UNRAMIFIED`.
 

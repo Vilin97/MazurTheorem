@@ -227,6 +227,7 @@ import MazurTorsion.NumberTheory.XOneEighteenEisensteinIntegers
 import MazurTorsion.NumberTheory.XOneEighteenEisensteinAllocation
 import MazurTorsion.NumberTheory.XOneEighteenCubeCorrespondence
 import MazurTorsion.NumberTheory.XOneEighteenQuadraticNorm
+import MazurTorsion.NumberTheory.XOneEighteenFinalUnconditional
 import MazurTorsion.NumberTheory.XOneElevenDescent
 import MazurTorsion.NumberTheory.XOneElevenFiveIsogeny
 import MazurTorsion.NumberTheory.XOneElevenFiveIsogenyHom

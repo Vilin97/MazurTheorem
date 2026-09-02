@@ -68,7 +68,6 @@ expand the maintainer WIP selection.
 |---|---|
 | `MT-X11-COSET` | Five-coset bound on `X₁(11)` |
 | `MT-X13-NONCUSP` | Noncuspidal rational points on `X₁(13)` |
-| `MT-X18-NONCUSP` | Noncuspidal rational points on the order-18 curve |
 | `MT-O25-EXCLUDE` | Exclusion of exact rational order 25 |
 | `MT-O35-EXCLUDE` | Exclusion of exact rational order 35 |
 | `MT-CYCLOTOMIC-UNRAMIFIED` | Cyclotomic unramified character extensions |
