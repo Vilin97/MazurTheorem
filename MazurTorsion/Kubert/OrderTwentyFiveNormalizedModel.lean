@@ -5,6 +5,14 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
+import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveUnitRelationZeroCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveUnitRelationTwoCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveUnitRelationThreeCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveUnitRelationFourCertificate
+import MazurTorsion.Kubert.OrderTwentyFiveUnitRelationFiveCertificate
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.LinearCombination
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -1982,5 +1990,1008 @@ theorem exists_tateOrderTwentyFive_noncuspidal_certificate
   obtain ⟨hc, hbc, hfactor⟩ :=
     orderTwentyFiveNoncuspidalFactor_eq_zero_of_recurrence b c hx hrecurrence
   exact ⟨b, c, u, hu, hb, hc, hbc, hfactor, hdisc⟩
+
+
+
+
+
+
+
+
+
+
+
+
+
+/- BEGIN generated order-25 unit relation bridge.  The large exact coefficient
+tables live in five separately checked internal modules so their elaboration
+does not accumulate in one process.  The shared chart and every raw-coordinate
+bridge below remain private. -/
+namespace OrderTwentyFiveUnitRelationCertificate
+
+private def A (r s : ℚ) : ℚ :=
+  r
+  - s
+
+private def B (_r s : ℚ) : ℚ :=
+  s
+  - 1
+
+private def C (r s : ℚ) : ℚ :=
+  r * s
+  - 2 * r
+  + 1
+
+private def K (r s : ℚ) : ℚ :=
+  r
+  - s ^ 2
+  + s
+  - 1
+
+private def D (r s : ℚ) : ℚ :=
+  r ^ 2
+  - r * s ^ 3
+  + 3 * r * s ^ 2
+  - 4 * r * s
+  + s
+
+private def E (r s : ℚ) : ℚ :=
+  r ^ 2 * s
+  - 3 * r ^ 2
+  + r * s
+  + 3 * r
+  - s ^ 2
+  - 1
+
+private def G (r s : ℚ) : ℚ :=
+  r * s ^ 2
+  - 3 * r * s
+  + r
+  + s ^ 2
+
+private def L (r s : ℚ) : ℚ :=
+  r ^ 3
+  - r ^ 2 * s ^ 4
+  + 5 * r ^ 2 * s ^ 3
+  - 9 * r ^ 2 * s ^ 2
+  + 4 * r ^ 2 * s
+  - 2 * r ^ 2
+  - r * s ^ 3
+  + 6 * r * s ^ 2
+  - 3 * r * s
+  + r
+  - s ^ 3
+
+private def J (r s : ℚ) : ℚ :=
+  r ^ 3 * s ^ 2
+  - 4 * r ^ 3 * s
+  + 2 * r ^ 3
+  + 3 * r ^ 2 * s ^ 2
+  + 2 * r ^ 2 * s
+  - 2 * r ^ 2
+  - r * s ^ 5
+  + 4 * r * s ^ 4
+  - 10 * r * s ^ 3
+  + 6 * r * s ^ 2
+  - 3 * r * s
+  + r
+  + s ^ 4
+
+private def T (r s : ℚ) : ℚ :=
+  r ^ 2 * s ^ 3
+  - 5 * r ^ 2 * s ^ 2
+  + 6 * r ^ 2 * s
+  - r ^ 2
+  + r * s ^ 4
+  - 3 * r * s ^ 3
+  + 6 * r * s ^ 2
+  - 7 * r * s
+  + r
+  + s
+
+private def M (r s : ℚ) : ℚ :=
+  r ^ 4 * s ^ 3
+  - 6 * r ^ 4 * s ^ 2
+  + 9 * r ^ 4 * s
+  - r ^ 4
+  + r ^ 3 * s ^ 5
+  - 7 * r ^ 3 * s ^ 4
+  + 20 * r ^ 3 * s ^ 3
+  - 19 * r ^ 3 * s ^ 2
+  - 8 * r ^ 3 * s
+  + r ^ 3
+  + r ^ 2 * s ^ 4
+  - 11 * r ^ 2 * s ^ 3
+  + 28 * r ^ 2 * s ^ 2
+  + r * s ^ 4
+  - 5 * r * s ^ 3
+  - 8 * r * s ^ 2
+  + s ^ 4
+  + s ^ 3
+  + s ^ 2
+
+private def N (r s : ℚ) : ℚ :=
+  r ^ 5
+  - r ^ 4 * s ^ 6
+  + 9 * r ^ 4 * s ^ 5
+  - 31 * r ^ 4 * s ^ 4
+  + 50 * r ^ 4 * s ^ 3
+  - 39 * r ^ 4 * s ^ 2
+  + 10 * r ^ 4 * s
+  - 3 * r ^ 4
+  - r ^ 3 * s ^ 6
+  + 3 * r ^ 3 * s ^ 5
+  + 12 * r ^ 3 * s ^ 4
+  - 46 * r ^ 3 * s ^ 3
+  + 54 * r ^ 3 * s ^ 2
+  - 15 * r ^ 3 * s
+  + 3 * r ^ 3
+  - r ^ 2 * s ^ 6
+  - 3 * r ^ 2 * s ^ 5
+  + 9 * r ^ 2 * s ^ 4
+  + r ^ 2 * s ^ 3
+  - 21 * r ^ 2 * s ^ 2
+  + 6 * r ^ 2 * s
+  - r ^ 2
+  + r * s ^ 7
+  - 3 * r * s ^ 6
+  + 6 * r * s ^ 5
+  - 10 * r * s ^ 4
+  + 11 * r * s ^ 3
+  - s ^ 3
+
+private def P6 (r s : ℚ) : ℚ :=
+  D r s ^ 2 * A r s * K r s -
+    C r s ^ 2 * s * B r s * G r s * E r s
+
+private def P9 (r s : ℚ) : ℚ :=
+  D r s ^ 3 * L r s - r * s * B r s ^ 3 * G r s * E r s ^ 3
+
+private def y1 (r s : ℚ) : ℚ :=
+  C r s * L r s * J r s / (r * B r s ^ 2 * K r s ^ 2 * E r s ^ 2)
+
+private def y2 (r s : ℚ) : ℚ :=
+  -(r * B r s ^ 3 * C r s * K r s * M r s) / (A r s ^ 2 * P6 r s)
+
+private def y4 (r s : ℚ) : ℚ :=
+  -(r * A r s * B r s * K r s ^ 2 * E r s * T r s) /
+    (C r s * D r s ^ 2 * J r s)
+
+private def y8 (r s : ℚ) : ℚ :=
+  -(A r s * B r s * E r s) / L r s
+
+private def y9 (r s : ℚ) : ℚ :=
+  -(K r s * D r s * M r s * N r s) / (s * A r s * C r s ^ 2 * P9 r s)
+
+private def fC0 (s : ℚ) : ℚ :=
+  s ^ 10
+
+private def fC1 (s : ℚ) : ℚ :=
+  6 * s ^ 10
+  - 28 * s ^ 9
+  + 21 * s ^ 8
+  - 15 * s ^ 7
+  + 10 * s ^ 6
+  - 6 * s ^ 5
+  + 3 * s ^ 4
+  - s ^ 3
+
+private def fC2 (s : ℚ) : ℚ :=
+  s ^ 15
+  - 6 * s ^ 14
+  + 21 * s ^ 13
+  - 56 * s ^ 12
+  + 126 * s ^ 11
+  - 231 * s ^ 10
+  + 266 * s ^ 9
+  - 126 * s ^ 8
+  + 96 * s ^ 7
+  - 91 * s ^ 6
+  + 75 * s ^ 5
+  - 45 * s ^ 4
+  + 15 * s ^ 3
+
+private def fC3 (s : ℚ) : ℚ :=
+  s ^ 15
+  - 9 * s ^ 14
+  + 25 * s ^ 13
+  - 35 * s ^ 12
+  + 45 * s ^ 11
+  - 181 * s ^ 10
+  + 569 * s ^ 9
+  - 705 * s ^ 8
+  + 5 * s ^ 7
+  + 470 * s ^ 6
+  - 540 * s ^ 5
+  + 340 * s ^ 4
+  - 105 * s ^ 3
+
+private def fC4 (s : ℚ) : ℚ :=
+  s ^ 15
+  - 12 * s ^ 14
+  + 48 * s ^ 13
+  - 49 * s ^ 12
+  - 165 * s ^ 11
+  + 609 * s ^ 10
+  - 433 * s ^ 9
+  - 1623 * s ^ 8
+  + 4299 * s ^ 7
+  - 4615 * s ^ 6
+  + 3435 * s ^ 5
+  - 1740 * s ^ 4
+  + 455 * s ^ 3
+
+private def fC5 (s : ℚ) : ℚ :=
+  s ^ 15
+  - 15 * s ^ 14
+  + 90 * s ^ 13
+  - 245 * s ^ 12
+  + 90 * s ^ 11
+  + 1587 * s ^ 10
+  - 6145 * s ^ 9
+  + 12270 * s ^ 8
+  - 15060 * s ^ 7
+  + 12520 * s ^ 6
+  - 8214 * s ^ 5
+  + 3660 * s ^ 4
+  - 685 * s ^ 3
+  - 120 * s ^ 2
+  + 15 * s
+  - 1
+
+private def fC6 (s : ℚ) : ℚ :=
+  s ^ 15
+  - 18 * s ^ 14
+  + 151 * s ^ 13
+  - 770 * s ^ 12
+  + 2655 * s ^ 11
+  - 6558 * s ^ 10
+  + 11834 * s ^ 9
+  - 15408 * s ^ 8
+  + 14630 * s ^ 7
+  - 11195 * s ^ 6
+  + 7227 * s ^ 5
+  - 2441 * s ^ 4
+  - 388 * s ^ 3
+  + 555 * s ^ 2
+  - 70 * s
+  + 5
+
+private def fC7 (s : ℚ) : ℚ :=
+  -21 * s ^ 10
+  + 161 * s ^ 9
+  - 351 * s ^ 8
+  - 144 * s ^ 7
+  + 1289 * s ^ 6
+  - 789 * s ^ 5
+  - 1551 * s ^ 4
+  + 2166 * s ^ 3
+  - 996 * s ^ 2
+  + 126 * s
+  - 10
+
+private def fC8 (s : ℚ) : ℚ :=
+  -6 * s ^ 10
+  + 74 * s ^ 9
+  - 345 * s ^ 8
+  + 690 * s ^ 7
+  - 185 * s ^ 6
+  - 1659 * s ^ 5
+  + 3051 * s ^ 4
+  - 2320 * s ^ 3
+  + 840 * s ^ 2
+  - 105 * s
+  + 10
+
+private def fC9 (s : ℚ) : ℚ :=
+  -s ^ 10
+  + 17 * s ^ 9
+  - 123 * s ^ 8
+  + 494 * s ^ 7
+  - 1205 * s ^ 6
+  + 1836 * s ^ 5
+  - 1732 * s ^ 4
+  + 968 * s ^ 3
+  - 294 * s ^ 2
+  + 35 * s
+  - 5
+
+private def fC10 (_s : ℚ) : ℚ :=
+  1
+
+private def F (r s : ℚ) : ℚ :=
+  fC10 s * r ^ 10
+    + fC9 s * r ^ 9
+    + fC8 s * r ^ 8
+    + fC7 s * r ^ 7
+    + fC6 s * r ^ 6
+    + fC5 s * r ^ 5
+    + fC4 s * r ^ 4
+    + fC3 s * r ^ 3
+    + fC2 s * r ^ 2
+    + fC1 s * r
+    + fC0 s
+
+private theorem F_eq_rawSutherlandPolynomial (r s : ℚ) :
+    F r s = orderTwentyFiveRawSutherlandPolynomial r s := by
+  simp only [F, fC0, fC1, fC2, fC3, fC4, fC5, fC6, fC7, fC8, fC9, fC10,
+    orderTwentyFiveRawSutherlandPolynomial,
+    orderTwentyFiveRawSutherlandPolynomialChunk0,
+    orderTwentyFiveRawSutherlandPolynomialChunk1,
+    orderTwentyFiveRawSutherlandPolynomialChunk2,
+    orderTwentyFiveRawSutherlandPolynomialChunk3,
+    orderTwentyFiveRawSutherlandPolynomialChunk4,
+    orderTwentyFiveRawSutherlandPolynomialChunk5]
+  ring
+
+/- Small factorized cross-difference lemmas connect the checked raw Tate
+chart to the five rational functions used by the certificates. -/
+private theorem x7_sub_x9 (r s : ℚ) (hA : A r s ≠ 0) (hK : K r s ≠ 0) :
+    orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXNine r s =
+      -(s * (r - 1) * C r s * J r s) / (A r s ^ 2 * K r s ^ 2) := by
+  simp only [orderTwentyFiveRawXSeven, orderTwentyFiveRawXNine]
+  field_simp [hA, hK]
+  simp only [A, B, C, K, G, J]
+  ring
+
+private theorem x7_sub_x4 (r s : ℚ) (hA : A r s ≠ 0) :
+    orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXFour r s = -(r * (r - 1) * D r s) / A r s ^ 2 := by
+  simp only [orderTwentyFiveRawXSeven, orderTwentyFiveRawXFour]
+  field_simp [hA]
+  simp only [A, B, C, D]
+  ring
+
+private theorem zero_sub_x12 (r s : ℚ) :
+    0 - orderTwentyFiveRawXTwelve r s = -(r - 1) * D r s * L r s / (B r s ^ 2 * E r s ^ 2) := by
+  simp only [orderTwentyFiveRawXTwelve]
+  ring
+
+private theorem zero_sub_x3 (r s : ℚ) : 0 - orderTwentyFiveRawXThree r s = -(s * (r - 1)) := by
+  simp only [orderTwentyFiveRawXThree]
+  ring
+
+private theorem x2_eq (r s : ℚ) : orderTwentyFiveRawXTwo r s = r * s * (r - 1) := by
+  simp only [orderTwentyFiveRawXTwo]
+
+private theorem x2_sub_x6 (r s : ℚ) (hB : B r s ≠ 0) :
+    orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s = s ^ 2 * (r - 1) * C r s / B r s ^ 2 := by
+  simp only [orderTwentyFiveRawXTwo, orderTwentyFiveRawXSix]
+  field_simp [hB]
+  simp only [A, B, C]
+  ring
+
+private theorem x11_sub_x7 (r s : ℚ) (hA : A r s ≠ 0) (hD : D r s ≠ 0) :
+    orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXSeven r s =
+      r * s * (r - 1) * B r s * K r s * M r s / (A r s ^ 2 * D r s ^ 2) := by
+  simp only [orderTwentyFiveRawXEleven, orderTwentyFiveRawXSeven]
+  field_simp [hA, hD]
+  simp only [A, B, C, K, D, E, G, M]
+  ring
+
+private theorem x11_sub_x8 (r s : ℚ) (hC : C r s ≠ 0) (hD : D r s ≠ 0) :
+    orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s = -(r * (r - 1) * P6 r s) / (C r s ^ 2 * D r s ^ 2) := by
+  simp only [orderTwentyFiveRawXEleven, orderTwentyFiveRawXEight]
+  field_simp [hC, hD]
+  simp only [A, B, C, K, D, E, G, P6]
+  ring
+
+private theorem x4_sub_x2 (r s : ℚ) :
+    orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwo r s = -(r * (r - 1) * B r s) := by
+  simp only [orderTwentyFiveRawXFour, orderTwentyFiveRawXTwo, B]
+  ring
+
+private theorem x4_sub_x12 (r s : ℚ) (hB : B r s ≠ 0) (hE : E r s ≠ 0) :
+    orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwelve r s =
+      (r - 1) * C r s ^ 2 * J r s / (B r s ^ 2 * E r s ^ 2) := by
+  simp only [orderTwentyFiveRawXFour, orderTwentyFiveRawXTwelve]
+  field_simp [hB, hE]
+  simp only [B, C, D, E, L, J]
+  ring
+
+private theorem x3_sub_x11 (r s : ℚ) (hD : D r s ≠ 0) :
+    orderTwentyFiveRawXThree r s - orderTwentyFiveRawXEleven r s =
+      -(s * (r - 1) * A r s * C r s * T r s) / D r s ^ 2 := by
+  simp only [orderTwentyFiveRawXThree, orderTwentyFiveRawXEleven]
+  field_simp [hD]
+  simp only [A, B, C, D, E, G, T]
+  ring
+
+private theorem x3_sub_x9 (r s : ℚ) (hK : K r s ≠ 0) :
+    orderTwentyFiveRawXThree r s - orderTwentyFiveRawXNine r s = -(s * (r - 1) * B r s ^ 2 * E r s) / K r s ^ 2 := by
+  simp only [orderTwentyFiveRawXThree, orderTwentyFiveRawXNine]
+  field_simp [hK]
+  simp only [B, C, K, E, G]
+  ring
+
+private theorem x8_sub_x4 (r s : ℚ) (hC : C r s ≠ 0) :
+    orderTwentyFiveRawXEight r s - orderTwentyFiveRawXFour r s = -(r * (r - 1) * B r s * E r s) / C r s ^ 2 := by
+  simp only [orderTwentyFiveRawXEight, orderTwentyFiveRawXFour]
+  field_simp [hC]
+  simp only [A, B, C, K, E]
+  ring
+
+private theorem x8_eq (r s : ℚ) :
+    orderTwentyFiveRawXEight r s = r * (r - 1) * A r s * K r s / C r s ^ 2 := by
+  simp only [orderTwentyFiveRawXEight]
+
+private theorem x6_sub_x3 (r s : ℚ) (hB : B r s ≠ 0) :
+    orderTwentyFiveRawXSix r s - orderTwentyFiveRawXThree r s = s * (r - 1) * K r s / B r s ^ 2 := by
+  simp only [orderTwentyFiveRawXSix, orderTwentyFiveRawXThree]
+  field_simp [hB]
+  simp only [A, B, K]
+  ring
+
+private theorem x6_sub_x7 (r s : ℚ) (hA : A r s ≠ 0) (hB : B r s ≠ 0) :
+    orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s = s * (r - 1) * L r s / (A r s ^ 2 * B r s ^ 2) := by
+  simp only [orderTwentyFiveRawXSix, orderTwentyFiveRawXSeven]
+  field_simp [hA, hB]
+  simp only [A, B, C, L]
+  ring
+
+private theorem x9_sub_x8 (r s : ℚ) (hC : C r s ≠ 0) (hK : K r s ≠ 0) :
+    orderTwentyFiveRawXNine r s - orderTwentyFiveRawXEight r s = -(r - 1) * N r s / (C r s ^ 2 * K r s ^ 2) := by
+  simp only [orderTwentyFiveRawXNine, orderTwentyFiveRawXEight]
+  field_simp [hC, hK]
+  simp only [A, C, K, G, N]
+  ring
+
+private theorem x9_sub_x2 (r s : ℚ) (hK : K r s ≠ 0) :
+    orderTwentyFiveRawXNine r s - orderTwentyFiveRawXTwo r s = -(s * (r - 1) * A r s * D r s) / K r s ^ 2 := by
+  simp only [orderTwentyFiveRawXNine, orderTwentyFiveRawXTwo]
+  field_simp [hK]
+  simp only [A, C, K, D, G]
+  ring
+
+private theorem x12_sub_x6 (r s : ℚ) (hB : B r s ≠ 0) (hE : E r s ≠ 0) :
+    orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXSix r s =
+      -(r - 1) * K r s * M r s / (B r s ^ 2 * E r s ^ 2) := by
+  simp only [orderTwentyFiveRawXTwelve, orderTwentyFiveRawXSix]
+  field_simp [hB, hE]
+  simp only [A, K, D, E, L, M]
+  ring
+
+private theorem x12_sub_x11 (r s : ℚ)
+    (hB : B r s ≠ 0) (hD : D r s ≠ 0) (hE : E r s ≠ 0) :
+    orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s =
+      (r - 1) * P9 r s / (B r s ^ 2 * D r s ^ 2 * E r s ^ 2) := by
+  simp only [orderTwentyFiveRawXTwelve, orderTwentyFiveRawXEleven]
+  field_simp [hB, hD, hE]
+  simp only [B, D, E, G, L, P9]
+  ring
+
+private theorem rawYSeven_eq_y1 (r s : ℚ)
+    (hr : r ≠ 0) (hA : A r s ≠ 0) (hB : B r s ≠ 0)
+    (hK : K r s ≠ 0) (hE : E r s ≠ 0)
+    (h74 : orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXFour r s ≠ 0) (h03 : 0 - orderTwentyFiveRawXThree r s ≠ 0) :
+    orderTwentyFiveRawYSeven r s = y1 r s := by
+  have h74' : -(r * (r - 1) * D r s) / A r s ^ 2 ≠ 0 := by
+    rw [← x7_sub_x4 r s hA]
+    exact h74
+  have h03' : -(s * (r - 1)) ≠ 0 := by
+    rw [← zero_sub_x3 r s]
+    exact h03
+  have hs : s ≠ 0 := by
+    intro hs
+    apply h03'
+    simp [hs]
+  have hR : r - 1 ≠ 0 := by
+    intro hR
+    apply h03'
+    simp [hR]
+  have hD : D r s ≠ 0 := by
+    intro hD
+    apply h74'
+    simp [hD]
+  unfold orderTwentyFiveRawYSeven y1
+  rw [x7_sub_x9 r s hA hK, x7_sub_x4 r s hA,
+    zero_sub_x12 r s, zero_sub_x3 r s]
+  field_simp [hr, hs, hR, hA, hB, hK, hD, hE]
+
+private theorem rawYTwo_eq_y2 (r s : ℚ)
+    (hA : A r s ≠ 0) (hB : B r s ≠ 0) (hC : C r s ≠ 0)
+    (hD : D r s ≠ 0) (hP6 : P6 r s ≠ 0)
+    (h26 : orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s ≠ 0) (h118 : orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s ≠ 0) :
+    orderTwentyFiveRawYTwo r s = y2 r s := by
+  have h26' : s ^ 2 * (r - 1) * C r s / B r s ^ 2 ≠ 0 := by
+    rw [← x2_sub_x6 r s hB]
+    exact h26
+  have h118' : -(r * (r - 1) * P6 r s) / (C r s ^ 2 * D r s ^ 2) ≠ 0 := by
+    rw [← x11_sub_x8 r s hC hD]
+    exact h118
+  have hs : s ≠ 0 := by
+    intro hs
+    apply h26'
+    simp [hs]
+  have hR : r - 1 ≠ 0 := by
+    intro hR
+    apply h26'
+    simp [hR]
+  have hr : r ≠ 0 := by
+    intro hr
+    apply h118'
+    simp [hr]
+  unfold orderTwentyFiveRawYTwo y2
+  rw [x2_sub_x6 r s hB, x11_sub_x7 r s hA hD,
+    x11_sub_x8 r s hC hD, x2_eq]
+  field_simp [hr, hs, hR, hA, hB, hC, hD, hP6]
+
+private theorem rawYFour_eq_y4 (r s : ℚ)
+    (hB : B r s ≠ 0) (hC : C r s ≠ 0) (hK : K r s ≠ 0)
+    (hD : D r s ≠ 0) (hE : E r s ≠ 0) (hJ : J r s ≠ 0)
+    (h412 : orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwelve r s ≠ 0) (h39 : orderTwentyFiveRawXThree r s - orderTwentyFiveRawXNine r s ≠ 0) :
+    orderTwentyFiveRawYFour r s = y4 r s := by
+  have h412' : (r - 1) * C r s ^ 2 * J r s / (B r s ^ 2 * E r s ^ 2) ≠ 0 := by
+    rw [← x4_sub_x12 r s hB hE]
+    exact h412
+  have h39' : -(s * (r - 1) * B r s ^ 2 * E r s) / K r s ^ 2 ≠ 0 := by
+    rw [← x3_sub_x9 r s hK]
+    exact h39
+  have hs : s ≠ 0 := by
+    intro hs
+    apply h39'
+    simp [hs]
+  have hR : r - 1 ≠ 0 := by
+    intro hR
+    apply h412'
+    simp [hR]
+  unfold orderTwentyFiveRawYFour y4
+  rw [x4_sub_x2, x4_sub_x12 r s hB hE, x3_sub_x11 r s hD,
+    x3_sub_x9 r s hK]
+  field_simp [hs, hR, hB, hC, hK, hD, hE, hJ]
+
+private theorem rawYEight_eq_y8 (r s : ℚ)
+    (hA : A r s ≠ 0) (hB : B r s ≠ 0) (hC : C r s ≠ 0)
+    (hL : L r s ≠ 0)
+    (h8 : orderTwentyFiveRawXEight r s ≠ 0) (h67 : orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s ≠ 0) :
+    orderTwentyFiveRawYEight r s = y8 r s := by
+  have h8' : r * (r - 1) * A r s * K r s / C r s ^ 2 ≠ 0 := by
+    rw [← x8_eq r s]
+    exact h8
+  have h67' : s * (r - 1) * L r s / (A r s ^ 2 * B r s ^ 2) ≠ 0 := by
+    rw [← x6_sub_x7 r s hA hB]
+    exact h67
+  have hr : r ≠ 0 := by
+    intro hr
+    apply h8'
+    simp [hr]
+  have hs : s ≠ 0 := by
+    intro hs
+    apply h67'
+    simp [hs]
+  have hR : r - 1 ≠ 0 := by
+    intro hR
+    apply h8'
+    simp [hR]
+  have hK : K r s ≠ 0 := by
+    intro hK
+    apply h8'
+    simp [hK]
+  unfold orderTwentyFiveRawYEight y8
+  rw [x8_sub_x4 r s hC, x8_eq, x6_sub_x3 r s hB,
+    x6_sub_x7 r s hA hB]
+  field_simp [hr, hs, hR, hA, hB, hC, hK, hL]
+
+private theorem rawYNine_eq_y9 (r s : ℚ)
+    (hs : s ≠ 0) (hA : A r s ≠ 0) (hB : B r s ≠ 0)
+    (hC : C r s ≠ 0) (hK : K r s ≠ 0) (hD : D r s ≠ 0)
+    (hE : E r s ≠ 0) (hP9 : P9 r s ≠ 0)
+    (h92 : orderTwentyFiveRawXNine r s - orderTwentyFiveRawXTwo r s ≠ 0) (h1211 : orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s ≠ 0) :
+    orderTwentyFiveRawYNine r s = y9 r s := by
+  have h92' : -(s * (r - 1) * A r s * D r s) / K r s ^ 2 ≠ 0 := by
+    rw [← x9_sub_x2 r s hK]
+    exact h92
+  have h1211' :
+      (r - 1) * P9 r s / (B r s ^ 2 * D r s ^ 2 * E r s ^ 2) ≠ 0 := by
+    rw [← x12_sub_x11 r s hB hD hE]
+    exact h1211
+  have hR : r - 1 ≠ 0 := by
+    intro hR
+    apply h92'
+    simp [hR]
+  unfold orderTwentyFiveRawYNine y9
+  rw [x9_sub_x8 r s hC hK, x9_sub_x2 r s hK,
+    x12_sub_x6 r s hB hE, x12_sub_x11 r s hB hD hE]
+  field_simp [hs, hR, hA, hB, hC, hK, hD, hE, hP9]
+
+end OrderTwentyFiveUnitRelationCertificate
+/- END generated order-25 unit relation bridge. -/
+
+open OrderTwentyFiveUnitRelationCertificate
+
+/- The three primary Lécacheux units use the same checked raw abscissa
+normalization as the two secondary units above. -/
+private theorem orderTwentyFiveBrunault_primary_coordinates_eq_raw
+    (b c : ℚ) (hx : ∀ k ≤ 10, tateSuccessiveX b c k ≠ 0)
+    (hc : c ≠ 0) (hbc : b ≠ c) :
+    orderTwentyFiveBrunaultYOne b c =
+        orderTwentyFiveRawYSeven (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYFour b c =
+        orderTwentyFiveRawYFour (b / c) (c ^ 2 / (b - c)) ∧
+      orderTwentyFiveBrunaultYNine b c =
+        orderTwentyFiveRawYNine (b / c) (c ^ 2 / (b - c)) := by
+  have hTwo := tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have hThree := tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have hFour := tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have hSix := tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have hSeven := tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have hEight := tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have hNine := tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have hEleven := tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have hTwelve := tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  constructor
+  · unfold orderTwentyFiveBrunaultYOne orderTwentyFiveRawYSeven
+    rw [hSeven, hNine, hFour, hTwelve, hThree]
+  constructor
+  · unfold orderTwentyFiveBrunaultYFour orderTwentyFiveRawYFour
+    rw [hFour, hTwo, hTwelve, hThree, hEleven, hNine]
+  · unfold orderTwentyFiveBrunaultYNine orderTwentyFiveRawYNine
+    rw [hNine, hEight, hTwo, hTwelve, hSix, hEleven]
+
+private theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_others
+    (a b c d e : ℚ) (ha : a ≠ 0)
+    (h0 : orderTwentyFiveOrbitRelationZero a b c d e = 0)
+    (h2 : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
+    (h3 : orderTwentyFiveOrbitRelationThree a b c d e = 0)
+    (h4 : orderTwentyFiveOrbitRelationFour a b c d e = 0)
+    (h5 : orderTwentyFiveOrbitRelationFive a b c d e = 0) :
+    orderTwentyFiveOrbitRelationOne a b c d e = 0 := by
+  have hidentity :
+      a * orderTwentyFiveOrbitRelationOne a b c d e =
+        -orderTwentyFiveOrbitRelationZero a b c d e -
+          a * b * orderTwentyFiveOrbitRelationTwo a b c d e -
+          a * b * c * orderTwentyFiveOrbitRelationThree a b c d e -
+          a * b * c * d * orderTwentyFiveOrbitRelationFour a b c d e -
+          (a - c) * orderTwentyFiveOrbitRelationFive a b c d e := by
+    simp only [orderTwentyFiveOrbitRelationZero,
+      orderTwentyFiveOrbitRelationOne, orderTwentyFiveOrbitRelationTwo,
+      orderTwentyFiveOrbitRelationThree, orderTwentyFiveOrbitRelationFour,
+      orderTwentyFiveOrbitRelationFive]
+    ring
+  have hmul : a * orderTwentyFiveOrbitRelationOne a b c d e = 0 := by
+    rw [hidentity, h0, h2, h3, h4, h5]
+    ring
+  exact (mul_eq_zero.mp hmul).resolve_left ha
+
+private theorem orderTwentyFiveOrbitRelations_of_unit_relations
+    (y1 y2 y4 y8 y9 : ℚ)
+    (hy1 : y1 ≠ 0) (hy4 : y4 ≠ 0)
+    (hu0 : y1 - y9 - y1 * y8 * (y2 - y1) = 0)
+    (hu2 : y4 - y2 - y4 * y1 * (y8 - y4) = 0)
+    (hu3 : y8 - y4 - y8 * y2 * (y9 - y8) = 0)
+    (hu4 : y9 - y8 - y9 * y4 * (y1 - y9) = 0)
+    (hu5 : y1 * y2 * y4 * y8 * y9 - 1 = 0) :
+    let a := y1 * y4
+    let b := y2 * y8
+    let c := y4 * y9
+    let d := y8 * y1
+    let e := y9 * y2
+    orderTwentyFiveOrbitRelationZero a b c d e = 0 ∧
+      orderTwentyFiveOrbitRelationOne a b c d e = 0 ∧
+      orderTwentyFiveOrbitRelationTwo a b c d e = 0 ∧
+      orderTwentyFiveOrbitRelationThree a b c d e = 0 ∧
+      orderTwentyFiveOrbitRelationFour a b c d e = 0 ∧
+      orderTwentyFiveOrbitRelationFive a b c d e = 0 := by
+  dsimp only
+  have h0 : orderTwentyFiveOrbitRelationZero
+      (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2) = 0 := by
+    simp only [orderTwentyFiveOrbitRelationZero]
+    linear_combination y4 * hu0
+  have h2 : orderTwentyFiveOrbitRelationTwo
+      (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2) = 0 := by
+    simp only [orderTwentyFiveOrbitRelationTwo]
+    linear_combination y9 * hu2
+  have h3 : orderTwentyFiveOrbitRelationThree
+      (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2) = 0 := by
+    simp only [orderTwentyFiveOrbitRelationThree]
+    linear_combination y1 * hu3
+  have h4 : orderTwentyFiveOrbitRelationFour
+      (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2) = 0 := by
+    simp only [orderTwentyFiveOrbitRelationFour]
+    linear_combination y2 * hu4
+  have hp : y1 * y2 * y4 * y8 * y9 = 1 := sub_eq_zero.mp hu5
+  have h5 : orderTwentyFiveOrbitRelationFive
+      (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2) = 0 := by
+    simp only [orderTwentyFiveOrbitRelationFive]
+    rw [show (y1 * y4) * (y2 * y8) * (y4 * y9) * (y8 * y1) * (y9 * y2) =
+      (y1 * y2 * y4 * y8 * y9) ^ 2 by ring, hp]
+    norm_num
+  have h1 := orderTwentyFiveOrbitRelationOne_eq_zero_of_others
+    (y1 * y4) (y2 * y8) (y4 * y9) (y8 * y1) (y9 * y2)
+    (mul_ne_zero hy1 hy4) h0 h2 h3 h4 h5
+  exact ⟨h0, h1, h2, h3, h4, h5⟩
+
+/-- Exact order 25 forces all five actual Lécacheux orbit coordinates to
+satisfy their cyclic equations and norm-one equation.  The large polynomial
+certificates and raw chart used in the proof remain private. -/
+theorem orderTwentyFiveBrunault_orbit_relations_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationZero
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 ∧
+      orderTwentyFiveOrbitRelationOne
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 ∧
+      orderTwentyFiveOrbitRelationTwo
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 ∧
+      orderTwentyFiveOrbitRelationThree
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 ∧
+      orderTwentyFiveOrbitRelationFour
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 ∧
+      orderTwentyFiveOrbitRelationFive
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder
+  obtain ⟨hc, hbc, hfactor⟩ :=
+    orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
+      b c hb h00 horder
+  have hr : r ≠ 0 := by
+    dsimp [r]
+    exact div_ne_zero hb hc
+  have hs : s ≠ 0 := by
+    dsimp [s]
+    exact div_ne_zero (pow_ne_zero 2 hc) (sub_ne_zero.mpr hbc)
+  have hFraw : orderTwentyFiveRawSutherlandPolynomial r s = 0 := by
+    dsimp [r, s]
+    rw [orderTwentyFiveRawSutherlandPolynomial_substitution b c hc hbc,
+      hfactor]
+    simp
+  have hF : F r s = 0 := by
+    rw [F_eq_rawSutherlandPolynomial]
+    exact hFraw
+  have hTwo := tateSuccessiveX_eq_orderTwentyFiveRawXTwo b c hx hc hbc
+  have hThree := tateSuccessiveX_eq_orderTwentyFiveRawXThree b c hx hc hbc
+  have hFour := tateSuccessiveX_eq_orderTwentyFiveRawXFour b c hx hc hbc
+  have hSix := tateSuccessiveX_eq_orderTwentyFiveRawXSix b c hx hc hbc
+  have hSeven := tateSuccessiveX_eq_orderTwentyFiveRawXSeven b c hx hc hbc
+  have hEight := tateSuccessiveX_eq_orderTwentyFiveRawXEight b c hx hc hbc
+  have hNine := tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have hEleven := tateSuccessiveX_eq_orderTwentyFiveRawXEleven b c hx hc hbc
+  have hTwelve := tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  have hrawThree : orderTwentyFiveRawXThree r s ≠ 0 := by
+    rw [← hThree]
+    exact hx 1 (by omega)
+  have hrawSix : orderTwentyFiveRawXSix r s ≠ 0 := by
+    rw [← hSix]
+    exact hx 4 (by omega)
+  have hrawSeven : orderTwentyFiveRawXSeven r s ≠ 0 := by
+    rw [← hSeven]
+    exact hx 5 (by omega)
+  have hrawEight : orderTwentyFiveRawXEight r s ≠ 0 := by
+    rw [← hEight]
+    exact hx 6 (by omega)
+  have hrawEleven : orderTwentyFiveRawXEleven r s ≠ 0 := by
+    rw [← hEleven]
+    exact hx 9 (by omega)
+  have hrawTwelve : orderTwentyFiveRawXTwelve r s ≠ 0 := by
+    rw [← hTwelve]
+    exact hx 10 (by omega)
+  have hThreeProduct : s * (r - 1) ≠ 0 := by
+    simpa only [orderTwentyFiveRawXThree] using hrawThree
+  have hR : r - 1 ≠ 0 := (mul_ne_zero_iff.mp hThreeProduct).2
+  have hSixDiv : s * (r - 1) * A r s / B r s ^ 2 ≠ 0 := by
+    simpa only [orderTwentyFiveRawXSix, A, B] using hrawSix
+  obtain ⟨hSixNumerator, hSixDenominator⟩ := div_ne_zero_iff.mp hSixDiv
+  have hA : A r s ≠ 0 := (mul_ne_zero_iff.mp hSixNumerator).2
+  have hB : B r s ≠ 0 := by
+    intro hB
+    apply hSixDenominator
+    simp [hB]
+  have hEightDiv : r * (r - 1) * A r s * K r s / C r s ^ 2 ≠ 0 := by
+    simpa only [orderTwentyFiveRawXEight, A, C, K] using hrawEight
+  obtain ⟨hEightNumerator, hEightDenominator⟩ := div_ne_zero_iff.mp hEightDiv
+  have hK : K r s ≠ 0 := (mul_ne_zero_iff.mp hEightNumerator).2
+  have hC : C r s ≠ 0 := by
+    intro hC
+    apply hEightDenominator
+    simp [hC]
+  have hElevenDiv :
+      r * s * (r - 1) * B r s * G r s * E r s / D r s ^ 2 ≠ 0 := by
+    simpa only [orderTwentyFiveRawXEleven, B, D, E, G] using hrawEleven
+  obtain ⟨hElevenNumerator, hElevenDenominator⟩ := div_ne_zero_iff.mp hElevenDiv
+  have hE : E r s ≠ 0 := (mul_ne_zero_iff.mp hElevenNumerator).2
+  have hD : D r s ≠ 0 := by
+    intro hD
+    apply hElevenDenominator
+    simp [hD]
+  have hTwelveDiv :
+      (r - 1) * D r s * L r s / (B r s ^ 2 * E r s ^ 2) ≠ 0 := by
+    simpa only [orderTwentyFiveRawXTwelve, B, D, E, L] using hrawTwelve
+  have hTwelveNumerator := (div_ne_zero_iff.mp hTwelveDiv).1
+  have hL : L r s ≠ 0 := (mul_ne_zero_iff.mp hTwelveNumerator).2
+  have hxy :=
+    tateSuccessiveX_ne_of_marked_order_twentyFive b c hb h00 horder
+  have h79raw :
+      orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXNine r s ≠ 0 := by
+    rw [← hSeven, ← hNine]
+    exact sub_ne_zero.mpr (hxy 5 7 (by omega) (by omega) (by omega))
+  have h118raw :
+      orderTwentyFiveRawXEleven r s - orderTwentyFiveRawXEight r s ≠ 0 := by
+    rw [← hEleven, ← hEight]
+    exact sub_ne_zero.mpr (hxy 9 6 (by omega) (by omega) (by omega))
+  have h1211raw :
+      orderTwentyFiveRawXTwelve r s - orderTwentyFiveRawXEleven r s ≠ 0 := by
+    rw [← hTwelve, ← hEleven]
+    exact sub_ne_zero.mpr (hxy 10 9 (by omega) (by omega) (by omega))
+  have hJ : J r s ≠ 0 := by
+    intro hJ
+    apply h79raw
+    rw [x7_sub_x9 r s hA hK]
+    simp [hJ]
+  have hP6 : P6 r s ≠ 0 := by
+    intro hP6
+    apply h118raw
+    rw [x11_sub_x8 r s hC hD]
+    simp [hP6]
+  have hP9 : P9 r s ≠ 0 := by
+    intro hP9
+    apply h1211raw
+    rw [x12_sub_x11 r s hB hD hE]
+    simp [hP9]
+  have h74raw :
+      orderTwentyFiveRawXSeven r s - orderTwentyFiveRawXFour r s ≠ 0 := by
+    rw [← hSeven, ← hFour]
+    exact sub_ne_zero.mpr (hxy 5 2 (by omega) (by omega) (by omega))
+  have h03raw : 0 - orderTwentyFiveRawXThree r s ≠ 0 := by
+    rw [← hThree]
+    exact sub_ne_zero.mpr (hx 1 (by omega)).symm
+  have h26raw :
+      orderTwentyFiveRawXTwo r s - orderTwentyFiveRawXSix r s ≠ 0 := by
+    rw [← hTwo, ← hSix]
+    exact sub_ne_zero.mpr (hxy 0 4 (by omega) (by omega) (by omega))
+  have h412raw :
+      orderTwentyFiveRawXFour r s - orderTwentyFiveRawXTwelve r s ≠ 0 := by
+    rw [← hFour, ← hTwelve]
+    exact sub_ne_zero.mpr (hxy 2 10 (by omega) (by omega) (by omega))
+  have h39raw :
+      orderTwentyFiveRawXThree r s - orderTwentyFiveRawXNine r s ≠ 0 := by
+    rw [← hThree, ← hNine]
+    exact sub_ne_zero.mpr (hxy 1 7 (by omega) (by omega) (by omega))
+  have h67raw :
+      orderTwentyFiveRawXSix r s - orderTwentyFiveRawXSeven r s ≠ 0 := by
+    rw [← hSix, ← hSeven]
+    exact sub_ne_zero.mpr (hxy 4 5 (by omega) (by omega) (by omega))
+  have h92raw :
+      orderTwentyFiveRawXNine r s - orderTwentyFiveRawXTwo r s ≠ 0 := by
+    rw [← hNine, ← hTwo]
+    exact sub_ne_zero.mpr (hxy 7 0 (by omega) (by omega) (by omega))
+  have hPrimary :=
+    orderTwentyFiveBrunault_primary_coordinates_eq_raw b c hx hc hbc
+  have hSecondary :=
+    orderTwentyFiveBrunault_secondary_coordinates_eq_raw b c hx hc hbc
+  have hy1 : orderTwentyFiveBrunaultYOne b c = y1 r s :=
+    hPrimary.1.trans <| rawYSeven_eq_y1 r s
+      hr hA hB hK hE h74raw h03raw
+  have hy2 : orderTwentyFiveBrunaultYTwo b c = y2 r s :=
+    hSecondary.1.trans <| rawYTwo_eq_y2 r s
+      hA hB hC hD hP6 h26raw h118raw
+  have hy4 : orderTwentyFiveBrunaultYFour b c = y4 r s :=
+    hPrimary.2.1.trans <| rawYFour_eq_y4 r s
+      hB hC hK hD hE hJ h412raw h39raw
+  have hy8 : orderTwentyFiveBrunaultYEight b c = y8 r s :=
+    hSecondary.2.trans <| rawYEight_eq_y8 r s
+      hA hB hC hL hrawEight h67raw
+  have hy9 : orderTwentyFiveBrunaultYNine b c = y9 r s :=
+    hPrimary.2.2.trans <| rawYNine_eq_y9 r s
+      hs hA hB hC hK hD hE hP9 h92raw h1211raw
+  have hu0 := Internal.orderTwentyFiveUnitRelationZeroCertificate
+    r s hr hs hA hB hC hK hE hL hP6 hP9 hF
+  have hu2 := Internal.orderTwentyFiveUnitRelationTwoCertificate
+    r s hr hA hB hC hK hD hE hL hJ hP6 hF
+  have hu3 := Internal.orderTwentyFiveUnitRelationThreeCertificate
+    r s hs hA hC hD hL hJ hP6 hP9 hF
+  have hu4 := Internal.orderTwentyFiveUnitRelationFourCertificate
+    r s hr hs hA hB hC hD hE hL hJ hP9 hF
+  have hu5 := Internal.orderTwentyFiveUnitRelationFiveCertificate
+    r s hs hA hC hD hE hL hJ hP6 hP9 hF
+  have hu0Actual :
+      orderTwentyFiveBrunaultYOne b c - orderTwentyFiveBrunaultYNine b c -
+        orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYEight b c *
+          (orderTwentyFiveBrunaultYTwo b c -
+            orderTwentyFiveBrunaultYOne b c) = 0 := by
+    rw [hy1, hy9, hy8, hy2]
+    exact hu0
+  have hu2Actual :
+      orderTwentyFiveBrunaultYFour b c - orderTwentyFiveBrunaultYTwo b c -
+        orderTwentyFiveBrunaultYFour b c * orderTwentyFiveBrunaultYOne b c *
+          (orderTwentyFiveBrunaultYEight b c -
+            orderTwentyFiveBrunaultYFour b c) = 0 := by
+    rw [hy4, hy2, hy1, hy8]
+    exact hu2
+  have hu3Actual :
+      orderTwentyFiveBrunaultYEight b c - orderTwentyFiveBrunaultYFour b c -
+        orderTwentyFiveBrunaultYEight b c * orderTwentyFiveBrunaultYTwo b c *
+          (orderTwentyFiveBrunaultYNine b c -
+            orderTwentyFiveBrunaultYEight b c) = 0 := by
+    rw [hy8, hy4, hy2, hy9]
+    exact hu3
+  have hu4Actual :
+      orderTwentyFiveBrunaultYNine b c - orderTwentyFiveBrunaultYEight b c -
+        orderTwentyFiveBrunaultYNine b c * orderTwentyFiveBrunaultYFour b c *
+          (orderTwentyFiveBrunaultYOne b c -
+            orderTwentyFiveBrunaultYNine b c) = 0 := by
+    rw [hy9, hy8, hy4, hy1]
+    exact hu4
+  have hu5Actual :
+      orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYTwo b c *
+          orderTwentyFiveBrunaultYFour b c * orderTwentyFiveBrunaultYEight b c *
+          orderTwentyFiveBrunaultYNine b c - 1 = 0 := by
+    rw [hy1, hy2, hy4, hy8, hy9]
+    exact hu5
+  have hOrbitNonzero :=
+    orderTwentyFiveBrunault_orbit_units_ne_zero b c hb h00 horder
+  have hYProduct :
+      orderTwentyFiveBrunaultYOne b c * orderTwentyFiveBrunaultYFour b c ≠ 0 := by
+    simpa only [orderTwentyFiveBrunaultXZero] using hOrbitNonzero.1
+  have hYOne : orderTwentyFiveBrunaultYOne b c ≠ 0 :=
+    (mul_ne_zero_iff.mp hYProduct).1
+  have hYFour : orderTwentyFiveBrunaultYFour b c ≠ 0 :=
+    (mul_ne_zero_iff.mp hYProduct).2
+  simpa only [orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXOne,
+    orderTwentyFiveBrunaultXTwo, orderTwentyFiveBrunaultXThree,
+    orderTwentyFiveBrunaultXFour] using
+      (orderTwentyFiveOrbitRelations_of_unit_relations
+        (orderTwentyFiveBrunaultYOne b c)
+        (orderTwentyFiveBrunaultYTwo b c)
+        (orderTwentyFiveBrunaultYFour b c)
+        (orderTwentyFiveBrunaultYEight b c)
+        (orderTwentyFiveBrunaultYNine b c)
+        hYOne hYFour hu0Actual hu2Actual hu3Actual hu4Actual hu5Actual)
+
+/-- The actual Brunault coordinates attached to an exact-order-25 marked Tate
+point satisfy Brunault's genus-four equation. -/
+theorem orderTwentyFiveBrunaultPolynomial_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveBrunaultPolynomial
+      (orderTwentyFiveBrunaultU b c) (orderTwentyFiveBrunaultV b c) = 0 := by
+  obtain ⟨h0, h1, h2, h3, h4, h5⟩ :=
+    orderTwentyFiveBrunault_orbit_relations_of_marked_order
+      b c hb h00 horder
+  have hXZero : orderTwentyFiveBrunaultXZero b c ≠ 1 := by
+    rw [orderTwentyFiveBrunaultXZero_eq_U]
+    exact orderTwentyFiveBrunaultU_ne_one_of_marked_order b c hb h00 horder
+  have hPolynomial := orderTwentyFiveBrunaultPolynomial_eq_zero_of_orbit
+    (orderTwentyFiveBrunaultXZero b c)
+    (orderTwentyFiveBrunaultXOne b c)
+    (orderTwentyFiveBrunaultXTwo b c)
+    (orderTwentyFiveBrunaultXThree b c)
+    (orderTwentyFiveBrunaultXFour b c)
+    hXZero h0 h1 h2 h3 h4 h5
+  simpa only [orderTwentyFiveBrunaultXZero_eq_U,
+    orderTwentyFiveBrunaultXTwo_eq_neg_V, neg_neg] using hPolynomial
+
 
 end MazurTorsion.Kubert
