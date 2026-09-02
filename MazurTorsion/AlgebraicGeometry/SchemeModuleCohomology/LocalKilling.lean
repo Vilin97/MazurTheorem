@@ -473,9 +473,91 @@ private theorem openRestrictionPushforwardUnit_HOne_eq_zero_of_section_lift
   exact congrArg
     (openRestrictionPushforwardHZeroOfSection U (cokernel (Injective.ι F))) ht
 
+private theorem openRestrictionPushforwardUnit_HSucc_eq_zero_of_previous
+    {X : Scheme.{u}} {F : AbSheaf X}
+    (n : ℕ) (c : ExtH F (n + 1))
+    (q : ExtH (cokernel (Injective.ι F)) n)
+    (hq : q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c)
+    (U : X.Opens)
+    (hqU : q.comp (Abelian.Ext.mk₀
+      ((openRestrictionPushforwardUnit U).app
+        (cokernel (Injective.ι F)))) rfl = 0) :
+    (c.comp (Abelian.Ext.mk₀
+      ((openRestrictionPushforwardUnit U).app F)) rfl :
+        ExtH ((openRestrictionPushforward U).obj F) (n + 1)) = 0 := by
+  let E := openRestrictionPushforward U
+  let η := openRestrictionPushforwardUnit U
+  let i := Injective.ι F
+  let π := cokernel.π i
+  let ζ := openInjectiveCokernelMap U F
+  let μ := cokernelComparison i E
+  have hT := openInjectiveCokernelSequence_shortExact U F
+  change (ShortComplex.mk (E.map i) (cokernel.π (E.map i)) _).ShortExact at hT
+  letI : Mono μ := by
+    dsimp [μ, E, i]
+    exact openRestrictionPushforward_cokernelComparison_mono U (Injective.ι F)
+  have hπζ : cokernel.π i ≫ ζ =
+      η.app (Injective.under F) ≫ cokernel.π (E.map i) := by
+    dsimp [ζ, η, E, i, openInjectiveCokernelMap]
+    apply cokernel.π_desc
+  have hζμ : ζ ≫ μ = η.app (cokernel i) := by
+    rw [← cancel_epi (cokernel.π i)]
+    calc
+      cokernel.π i ≫ (ζ ≫ μ) =
+          (cokernel.π i ≫ ζ) ≫ μ := Category.assoc _ _ _ |>.symm
+      _ = (η.app (Injective.under F) ≫
+          cokernel.π (E.map i)) ≫ μ := by rw [hπζ]
+      _ = η.app (Injective.under F) ≫
+          (cokernel.π (E.map i) ≫ μ) := Category.assoc _ _ _
+      _ = η.app (Injective.under F) ≫ E.map π := by
+        rw [π_comp_cokernelComparison]
+      _ = cokernel.π i ≫ η.app (cokernel i) :=
+        (η.naturality (cokernel.π i)).symm
+  have hqζ : q.comp (Abelian.Ext.mk₀ ζ) rfl =
+      (0 : ExtH (cokernel (E.map i)) n) := by
+    apply (Abelian.Ext.postcomp_mk₀_injective_of_mono
+      ((CategoryTheory.constantSheaf
+        (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
+          (AddCommGrpCat.of (ULift ℤ))) μ)
+    change
+      (q.comp (Abelian.Ext.mk₀ ζ) rfl).comp
+          (Abelian.Ext.mk₀ μ) rfl =
+        (0 : ExtH (cokernel (E.map i)) n).comp
+          (Abelian.Ext.mk₀ μ) rfl
+    simpa only [Abelian.Ext.comp_assoc_of_third_deg_zero,
+      Abelian.Ext.mk₀_comp_mk₀, hζμ, Abelian.Ext.zero_comp] using hqU
+  calc
+    c.comp (Abelian.Ext.mk₀ (η.app F)) rfl =
+        (q.comp (injectiveCokernelSequence_shortExact F).extClass rfl).comp
+          (Abelian.Ext.mk₀ (η.app F)) rfl := by rw [hq]
+    _ = q.comp
+        ((injectiveCokernelSequence_shortExact F).extClass.comp
+          (Abelian.Ext.mk₀ (η.app F)) rfl) rfl := by
+      rw [Abelian.Ext.comp_assoc_of_third_deg_zero]
+    _ = q.comp ((Abelian.Ext.mk₀ ζ).comp hT.extClass rfl) rfl := by
+      exact congrArg (fun x ↦ q.comp x rfl)
+        ((injectiveCokernelSequence_shortExact F).extClass_naturality
+          hT (injectiveCokernelSequenceToOpen U F))
+    _ = (q.comp (Abelian.Ext.mk₀ ζ) rfl).comp hT.extClass rfl := by
+      simpa only using (Abelian.Ext.comp_assoc q
+        (Abelian.Ext.mk₀ ζ) hT.extClass rfl rfl rfl).symm
+    _ = 0 := by rw [hqζ, Abelian.Ext.zero_comp]
+
 private theorem exists_injectiveCokernel_class
     {X : Scheme.{u}} {F : AbSheaf X} (c : ExtH F 1) :
     ∃ q : ExtH (cokernel (Injective.ι F)) 0,
+      q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c := by
+  let Z := (CategoryTheory.constantSheaf
+    (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
+      (AddCommGrpCat.of (ULift ℤ))
+  have hc : c.comp (Abelian.Ext.mk₀ (Injective.ι F)) rfl = 0 :=
+    Abelian.Ext.eq_zero_of_injective _
+  exact Abelian.Ext.covariant_sequence_exact₁ Z
+    (injectiveCokernelSequence_shortExact F) c hc rfl
+
+private theorem exists_injectiveCokernel_class_succ
+    {X : Scheme.{u}} {F : AbSheaf X} (n : ℕ) (c : ExtH F (n + 1)) :
+    ∃ q : ExtH (cokernel (Injective.ι F)) n,
       q.comp (injectiveCokernelSequence_shortExact F).extClass rfl = c := by
   let Z := (CategoryTheory.constantSheaf
     (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
