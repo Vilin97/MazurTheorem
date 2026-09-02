@@ -167,4 +167,41 @@ theorem no_orderTwentyFiveBrunaultOrbit_of_threeIntegral
     (orderTwentyFiveOrbitParameter a b c d e) a b c d e hn ha
     haRoot hcRoot h0 h1 h2 h3 h4 h5
 
+/-- For a hypothetical nonexceptional rational Lécacheux orbit, the original
+parameter is nonzero and cannot be integral at three, while its reciprocal
+Fricke parameter `5 / n` must be integral at three.
+
+This is only an arithmetic reduction.  It does not assert that the Fricke
+parameter comes with a second rational orbit. -/
+theorem orderTwentyFiveOrbitParameter_residual_integrality_of_orbit
+    (a b c d e : ℚ)
+    (ha : a ≠ 1)
+    (h0 : orderTwentyFiveOrbitRelationZero a b c d e = 0)
+    (h1 : orderTwentyFiveOrbitRelationOne a b c d e = 0)
+    (h2 : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
+    (h3 : orderTwentyFiveOrbitRelationThree a b c d e = 0)
+    (h4 : orderTwentyFiveOrbitRelationFour a b c d e = 0)
+    (h5 : orderTwentyFiveOrbitRelationFive a b c d e = 0) :
+    orderTwentyFiveOrbitParameter a b c d e ≠ 0 ∧
+      ¬orderTwentyFiveRatIsThreeIntegral
+        (orderTwentyFiveOrbitParameter a b c d e) ∧
+      orderTwentyFiveRatIsThreeIntegral
+        (5 / orderTwentyFiveOrbitParameter a b c d e) := by
+  let n := orderTwentyFiveOrbitParameter a b c d e
+  have hnNotIntegral : ¬orderTwentyFiveRatIsThreeIntegral n := by
+    intro hn
+    exact no_orderTwentyFiveBrunaultOrbit_of_threeIntegral
+      a b c d e hn ha h0 h1 h2 h3 h4 h5
+  have hnZeroIntegral : orderTwentyFiveRatIsThreeIntegral (0 : ℚ) := by
+    norm_num [orderTwentyFiveRatIsThreeIntegral]
+  have hnZero : n ≠ 0 := by
+    intro hn
+    apply hnNotIntegral
+    simpa only [hn] using hnZeroIntegral
+  have hreciprocal : orderTwentyFiveRatIsThreeIntegral (5 / n) := by
+    rcases orderTwentyFive_frickeParameter_three_integral n hnZero with hn | hn
+    · exact (hnNotIntegral hn).elim
+    · exact hn
+  simpa only [n] using ⟨hnZero, hnNotIntegral, hreciprocal⟩
+
 end MazurTorsion.Kubert

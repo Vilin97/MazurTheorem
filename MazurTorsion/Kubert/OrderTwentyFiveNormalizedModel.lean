@@ -3500,6 +3500,44 @@ theorem no_orderTwentyFive_marked_order_of_orbitParameter_threeIntegral
     (orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order b c hb h00 horder)
     (orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order b c hb h00 horder)
 
+/-- Every hypothetical exact-order-25 marked Tate point lies in the sole
+arithmetic case not covered by the current Brunault reduction: its recovered
+orbit parameter is nonzero and nonintegral at three, while `5 / n` is
+three-integral.  This is the named marked-point consumer of the abstract
+residual-integrality theorem; no geometric Fricke transport is assumed. -/
+theorem orderTwentyFiveOrbitParameter_residual_integrality_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    let n := orderTwentyFiveOrbitParameter
+      (orderTwentyFiveBrunaultXZero b c)
+      (orderTwentyFiveBrunaultXOne b c)
+      (orderTwentyFiveBrunaultXTwo b c)
+      (orderTwentyFiveBrunaultXThree b c)
+      (orderTwentyFiveBrunaultXFour b c)
+    n ≠ 0 ∧
+      ¬orderTwentyFiveRatIsThreeIntegral n ∧
+      orderTwentyFiveRatIsThreeIntegral (5 / n) := by
+  have ha : orderTwentyFiveBrunaultXZero b c ≠ 1 := by
+    rw [orderTwentyFiveBrunaultXZero_eq_U]
+    exact orderTwentyFiveBrunaultU_ne_one_of_marked_order b c hb h00 horder
+  exact orderTwentyFiveOrbitParameter_residual_integrality_of_orbit
+    (orderTwentyFiveBrunaultXZero b c)
+    (orderTwentyFiveBrunaultXOne b c)
+    (orderTwentyFiveBrunaultXTwo b c)
+    (orderTwentyFiveBrunaultXThree b c)
+    (orderTwentyFiveBrunaultXFour b c)
+    ha
+    (orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order b c hb h00 horder)
+    (orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order b c hb h00 horder)
+
 /-- An arbitrary rational point of exact order 25 produces a genuinely
 noncuspidal point on the fixed degree-40 affine model, while retaining the
 checked discriminant scaling from Tate normalization. -/
