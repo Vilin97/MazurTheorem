@@ -215,6 +215,7 @@ Its separate characteristic-five and order-35 consumers compile, but it
 neither constructs a Néron model nor changes this node's blocked status.
 :::
 
+<<<<<<< Updated upstream
 :::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "large")
 *Finite-flat commutative group schemes for Eisenstein rank zero.* The checked
 category, honest kernel presentations, affine Hopf realization,
@@ -849,9 +850,117 @@ the unramified Raynaud input remain open.
 *The $`X_0(N)` point attached to rational prime torsion.* Define the
 $`\Gamma_0` moduli problem and its classifying point from a rational cyclic
 subgroup.
+=======
+:::definition "MT-FFGS-BASIC" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, done, integrated, group-schemes") (priority := "high") (effort := "medium")
+*Finite-flat commutative group-scheme core.* The checked core now packages
+commutative group objects over a scheme, finite-flat base change, geometric
+points, pointwise rank, honest kernel certificates, and the affine
+finite-free Deligne bridge. A connected--étale datum compiles as its
+downstream consumer.
+>>>>>>> Stashed changes
+
+*Status:* `done`.
+
+<<<<<<< Updated upstream
+=======
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `structure` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme`
+  Package finite flat commutative group schemes over an arbitrary scheme base.
+* `definition` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.baseChange`
+  Base change finite-flat commutative group schemes through pullback of internal
+  group objects.
+* `definition` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.orderAt`
+  Record geometric order as a pointwise rank function on the base.
+* `theorem` (`integrated`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.AffineFiniteFreePresentation.point_pow_orderAt_eq_one`
+  Transport Deligne's finite-free Hopf theorem to geometric affine test points.
+:::
+
+:::theorem "MT-FFGS-AFFINE-REALIZATION" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "medium")
+*Realize affine Hopf data geometrically.* Construct the internal commutative
+group object over $`\operatorname{Spec} R` represented by finite-free affine
+Hopf data and fill the compiled presentation certificate.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFreeCommGroupScheme.exists_geometric_realization`
+  Realize finite-free affine Hopf data with compatible geometric points and rank.
+:::
+
+:::theorem "MT-FFGS-ORDER-DESCENT" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "medium")
+*Descend the finite-flat order theorem.* Localize the point and convolution
+powers, use the checked local-ring theorem, and descend the result under an
+explicit constant-rank hypothesis.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.AffineFiniteFlatCommGroupScheme.point_pow_eq_one_of_constantRank`
+  Kill every affine test point by the constant geometric rank without global freeness.
+:::
+
+:::theorem "MT-FFGS-KERNEL-PRESENTATION" (parent := "prime_infrastructure") (uses := "MT-FFGS-BASIC") (tags := "infrastructure, research-open, compiled, group-schemes") (priority := "high") (effort := "small")
+*Package finite-flat kernels.* Lift the scheme-theoretic pullback kernel to a
+commutative group object when finiteness and flatness of its structure map are
+explicit hypotheses.
+
+*Status:* `research_open`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`contract`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.kernelPresentation_exists_of_finite_flat`
+  Construct the inherited group object and its certified kernel inclusion.
+:::
+
+:::theorem "MT-FFGS-CONNECTED-ETALE" (parent := "prime_infrastructure") (uses := "MT-FFGS-AFFINE-REALIZATION, MT-FFGS-ORDER-DESCENT, MT-FFGS-KERNEL-PRESENTATION") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
+*Connected–étale sequence.* Every finite-flat commutative group scheme in the
+required local setting has a functorial connected–étale exact sequence,
+compatible with base change.
+
+*Status:* `blocked`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedComponent`
+  Define the connected identity component of a finite-flat commutative group scheme.
+* `definition` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.etaleQuotient`
+  Define the maximal etale quotient in the connected-etale sequence.
+* `theorem` (`proposed`): `AlgebraicGeometry.FiniteFlatCommGroupScheme.connectedEtale_exact`
+  Prove exactness, functoriality, and base-change compatibility of the connected-etale
+  sequence.
+:::
+
+:::theorem "MT-FFGS-OORT-RAYNAUD" (parent := "prime_infrastructure") (uses := "MT-FFGS-CONNECTED-ETALE") (tags := "infrastructure, blocked, nouns-missing, group-schemes") (priority := "high") (effort := "large")
+*Oort–Tate classification and Raynaud uniqueness.* Classify finite-flat
+group schemes of prime order and prove the uniqueness statements controlling
+extensions of generic-fibre subgroup schemes.
+
+*Status:* `blocked`.
+
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `theorem` (`proposed`): `AlgebraicGeometry.OortTate.classification`
+  Classify finite-flat commutative group schemes of prime order over the required
+  arithmetic bases.
+* `theorem` (`proposed`): `AlgebraicGeometry.Raynaud.primeOrder_uniqueness`
+  Prove the uniqueness theorem for finite-flat prime-order models used in the
+  semistability argument.
+:::
+
+:::definition "MT-X0-MODULI" (parent := "prime_infrastructure") (uses := "MT-BASE-INTEGRATED") (tags := "infrastructure, planned, nouns-missing, modular-curves") (priority := "high") (effort := "large")
+*The $`\Gamma_0` modular-curve moduli problem.* Define elliptic curves with
+cyclic finite-flat subgroups and their isomorphisms, families, and base change.
 
 *Status:* `planned`.
 
+*Canonical deliverables — these names are authoritative for this node:*
+
+* `structure` (`proposed`): `ModularCurve.GammaZeroStructure`
+  Package an elliptic curve together with a cyclic finite-flat subgroup of order N.
+>>>>>>> Stashed changes
 * `definition` (`proposed`): `ModularCurve.XZeroModuli`
 * `theorem` (`proposed`):
   `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`

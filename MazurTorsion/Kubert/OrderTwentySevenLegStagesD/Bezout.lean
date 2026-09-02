@@ -4,7 +4,14 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part23
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.NormNum
 
 /-!
 # Third-leg denominator nonvanishing certificate
@@ -13,6 +20,10 @@ The Bezout identity makes the common denominator nonzero under the noncuspidalit
 hypotheses. The certificate imports only its polynomial chunks, keeping unrelated
 third-leg stages out of the elaboration environment.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -40,3 +51,5 @@ lemma zl_e_ne {f Z : ℚ} (hM : kernelCubicM f Z = 0) (hf0 : f ≠ 0)
   · exact hK (pow_eq_zero_iff (by norm_num) |>.mp h)
 
 end MazurTorsion.Kubert
+
+end

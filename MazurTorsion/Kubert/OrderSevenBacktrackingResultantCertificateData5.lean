@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData4
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData4
 
 /-!
 # Step 5 data for the order-seven branch-zero resultant PRS
@@ -13,7 +13,7 @@ This serial data shard records one normalized primitive remainder and
 exceptional content factor. Its linear pseudo-division quotient is
 derived from leading coefficients and checked by the Lean recurrence.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate.Internal.ResultantCertificate

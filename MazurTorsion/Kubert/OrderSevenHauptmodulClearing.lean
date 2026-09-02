@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenHauptmodul
+module
+public import MazurTorsion.Kubert.OrderSevenHauptmodul
 import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.Ring
 
@@ -17,7 +17,7 @@ Tate parameter and for the level-seven Hauptmodul.  Polynomial-certificate
 consumers can therefore avoid expanding the normalization or carrying a
 spurious nonvanishing assumption for the fully cleared denominator.
 -/
-
+@[expose] public section
 namespace MazurTorsion.Kubert
 
 /-- The numerator of the tangent slope used in pointwise Tate

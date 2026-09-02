@@ -3,10 +3,10 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingSelection
-import MazurTorsion.Kubert.OrderSevenDualKernel
-import Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Degree
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingSelection
+public import MazurTorsion.Kubert.OrderSevenDualKernel
+public import Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Degree
 import Mathlib.Tactic.ComputeDegree
 
 /-!
@@ -32,7 +32,7 @@ abscissas emitted the Horner expressions in the evaluation shards.  The Lean
 `ring` proofs in those shards and the interpolation argument in the final
 certificate check the emitted data; they do not trust the generating script.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

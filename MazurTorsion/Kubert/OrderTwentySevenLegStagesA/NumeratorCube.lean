@@ -4,17 +4,24 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps0To7
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps8To15
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps16To23
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps24To31
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps32To40
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps0To7
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps8To15
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps16To23
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps24To31
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesA.NumeratorCubeSteps32To40
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The numerator-cube value identity
 
 The aggregate numerator-cube identity assembled from its independent coefficients.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -209,3 +216,5 @@ lemma tlNCb_val {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 f
 
 
 end MazurTorsion.Kubert
+
+end

@@ -4,14 +4,21 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps0To6
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To13
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps0To6
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.TTwoSteps7To13
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The second-power product value
 
 The aggregate second-power product identity.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -79,3 +86,5 @@ lemma tlTTwo_val {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 
 
 
 end MazurTorsion.Kubert
+
+end

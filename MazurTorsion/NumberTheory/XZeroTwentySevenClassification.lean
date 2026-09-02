@@ -7,6 +7,8 @@ Authors: Vasily Ilin
 import Mathlib.RingTheory.Polynomial.RationalRoot
 import MazurTorsion.NumberTheory.FermatCubicClassification
 import MazurTorsion.Kubert.OrderTwentySevenLegs
+import Mathlib.Tactic.SuppressCompilation
+
 
 /-!
 # Rational points of the chained `X₀(9)` correspondence
@@ -22,6 +24,8 @@ denominators, and three monic integral polynomials with no root modulo
 seven absorb every irrational branch.  The only rational points of the
 chain are the cusp `(0, 0, 0)` and the CM point `(-243, -27, -3)`.
 -/
+
+suppress_compilation
 
 namespace MazurTorsion.XZeroTwentySeven
 

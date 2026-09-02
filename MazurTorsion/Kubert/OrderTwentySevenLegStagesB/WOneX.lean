@@ -4,14 +4,21 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps0To2
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps3To5
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps0To2
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.WOneXSteps3To5
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The first-weight value
 
 The aggregate first-weight identity.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -78,3 +85,5 @@ lemma tlWOneX_val {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3
 
 
 end MazurTorsion.Kubert
+
+end

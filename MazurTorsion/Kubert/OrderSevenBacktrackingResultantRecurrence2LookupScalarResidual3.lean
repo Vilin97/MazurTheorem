@@ -3,12 +3,12 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Left
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Main
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Exceptional
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Shift
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Left
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Main
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Exceptional
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar3Shift
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 import Mathlib.Tactic.IntervalCases
@@ -19,7 +19,7 @@ import Mathlib.Tactic.IntervalCases
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

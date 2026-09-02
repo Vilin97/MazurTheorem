@@ -1,0 +1,165 @@
+/-
+Copyright (c) 2026 Vasily Ilin. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Vasily Ilin
+-/
+module
+public import MazurTorsion.Kubert.OrderSevenCoefficientSimp
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence4LookupA4
+
+/-!
+# Bounded coefficient simplification rules
+
+This internal rule packet is consumed by the checked coefficient shards for
+`OrderSevenBacktrackingResultantRecurrence4LookupA4SquarePart1`.
+It keeps generated convolution proofs on their bounded simp set.
+-/
+public section
+
+namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
+namespace Internal.ResultantCertificate
+
+attribute [orderSevenCoefficient]
+  recurrence4A4_coeff_100
+  recurrence4A4_coeff_101
+  recurrence4A4_coeff_102
+  recurrence4A4_coeff_103
+  recurrence4A4_coeff_104
+  recurrence4A4_coeff_105
+  recurrence4A4_coeff_106
+  recurrence4A4_coeff_107
+  recurrence4A4_coeff_108
+  recurrence4A4_coeff_109
+  recurrence4A4_coeff_110
+  recurrence4A4_coeff_111
+  recurrence4A4_coeff_112
+  recurrence4A4_coeff_113
+  recurrence4A4_coeff_114
+  recurrence4A4_coeff_115
+  recurrence4A4_coeff_116
+  recurrence4A4_coeff_117
+  recurrence4A4_coeff_118
+  recurrence4A4_coeff_119
+  recurrence4A4_coeff_120
+  recurrence4A4_coeff_121
+  recurrence4A4_coeff_122
+  recurrence4A4_coeff_123
+  recurrence4A4_coeff_124
+  recurrence4A4_coeff_125
+  recurrence4A4_coeff_126
+  recurrence4A4_coeff_127
+  recurrence4A4_coeff_128
+  recurrence4A4_coeff_129
+  recurrence4A4_coeff_130
+  recurrence4A4_coeff_131
+  recurrence4A4_coeff_132
+  recurrence4A4_coeff_133
+  recurrence4A4_coeff_134
+  recurrence4A4_coeff_135
+  recurrence4A4_coeff_136
+  recurrence4A4_coeff_137
+  recurrence4A4_coeff_138
+  recurrence4A4_coeff_139
+  recurrence4A4_coeff_140
+  recurrence4A4_coeff_141
+  recurrence4A4_coeff_142
+  recurrence4A4_coeff_143
+  recurrence4A4_coeff_144
+  recurrence4A4_coeff_145
+  recurrence4A4_coeff_146
+  recurrence4A4_coeff_147
+  recurrence4A4_coeff_148
+  recurrence4A4_coeff_149
+  recurrence4A4_coeff_150
+  recurrence4A4_coeff_151
+  recurrence4A4_coeff_152
+  recurrence4A4_coeff_153
+  recurrence4A4_coeff_154
+  recurrence4A4_coeff_155
+  recurrence4A4_coeff_156
+  recurrence4A4_coeff_157
+  recurrence4A4_coeff_158
+  recurrence4A4_coeff_159
+  recurrence4A4_coeff_160
+  recurrence4A4_coeff_161
+  recurrence4A4_coeff_162
+  recurrence4A4_coeff_163
+
+attribute [orderSevenCoefficient]
+  recurrence4A4_coeff_164
+  recurrence4A4_coeff_165
+  recurrence4A4_coeff_166
+  recurrence4A4_coeff_167
+  recurrence4A4_coeff_168
+  recurrence4A4_coeff_169
+  recurrence4A4_coeff_170
+  recurrence4A4_coeff_171
+  recurrence4A4_coeff_172
+  recurrence4A4_coeff_173
+  recurrence4A4_coeff_174
+  recurrence4A4_coeff_175
+  recurrence4A4_coeff_176
+  recurrence4A4_coeff_177
+  recurrence4A4_coeff_178
+  recurrence4A4_coeff_44
+  recurrence4A4_coeff_45
+  recurrence4A4_coeff_46
+  recurrence4A4_coeff_47
+  recurrence4A4_coeff_48
+  recurrence4A4_coeff_49
+  recurrence4A4_coeff_50
+  recurrence4A4_coeff_51
+  recurrence4A4_coeff_52
+  recurrence4A4_coeff_53
+  recurrence4A4_coeff_54
+  recurrence4A4_coeff_55
+  recurrence4A4_coeff_56
+  recurrence4A4_coeff_57
+  recurrence4A4_coeff_58
+  recurrence4A4_coeff_59
+  recurrence4A4_coeff_60
+  recurrence4A4_coeff_61
+  recurrence4A4_coeff_62
+  recurrence4A4_coeff_63
+  recurrence4A4_coeff_64
+  recurrence4A4_coeff_65
+  recurrence4A4_coeff_66
+  recurrence4A4_coeff_67
+  recurrence4A4_coeff_68
+  recurrence4A4_coeff_69
+  recurrence4A4_coeff_70
+  recurrence4A4_coeff_71
+  recurrence4A4_coeff_72
+  recurrence4A4_coeff_73
+  recurrence4A4_coeff_74
+  recurrence4A4_coeff_75
+  recurrence4A4_coeff_76
+  recurrence4A4_coeff_77
+  recurrence4A4_coeff_78
+  recurrence4A4_coeff_79
+  recurrence4A4_coeff_80
+  recurrence4A4_coeff_81
+  recurrence4A4_coeff_82
+  recurrence4A4_coeff_83
+  recurrence4A4_coeff_84
+  recurrence4A4_coeff_85
+  recurrence4A4_coeff_86
+  recurrence4A4_coeff_87
+  recurrence4A4_coeff_88
+  recurrence4A4_coeff_89
+  recurrence4A4_coeff_90
+  recurrence4A4_coeff_91
+  recurrence4A4_coeff_92
+
+attribute [orderSevenCoefficient]
+  recurrence4A4_coeff_93
+  recurrence4A4_coeff_94
+  recurrence4A4_coeff_95
+  recurrence4A4_coeff_96
+  recurrence4A4_coeff_97
+  recurrence4A4_coeff_98
+  recurrence4A4_coeff_99
+
+end Internal.ResultantCertificate
+end MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

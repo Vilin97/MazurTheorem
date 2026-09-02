@@ -72,6 +72,7 @@ SHARDS: dict[str, Shard] = {
         targets=(
             "MazurTorsion.Kubert."
             "OrderSevenBacktrackingResultantCertificateData6",
+            "MazurTorsion.Kubert.OrderSevenCoefficientSimp",
         ),
         artifacts=(
             "MazurTorsion/EllipticCurve/DoublingCoordinates",
@@ -88,6 +89,7 @@ SHARDS: dict[str, Shard] = {
             "MazurTorsion/Kubert/OrderSevenBacktrackingCertificateData",
             "MazurTorsion/Kubert/OrderSevenDualKernel",
             "MazurTorsion/Kubert/OrderSevenBacktrackingResultantCertificateData*",
+            "MazurTorsion/Kubert/OrderSevenCoefficientSimp",
         ),
     ),
     "factor": Shard(
@@ -95,6 +97,7 @@ SHARDS: dict[str, Shard] = {
         artifacts=(
             "MazurTorsion/Kubert/OrderSevenBacktrackingDivisionCertificateEval*",
             "MazurTorsion/Kubert/OrderSevenBacktrackingSelectionCertificateEval*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingSelectionCertificateEval*/*",
             "MazurTorsion/Kubert/OrderSevenBacktrackingFactorCertificate",
         ),
         predecessors=("seed",),
@@ -136,6 +139,13 @@ SHARDS: dict[str, Shard] = {
         ),
         artifacts=(
             "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6BlockData/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6Term1/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6Term2/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6A2Square/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6B1A1/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6Term3/*",
+            "MazurTorsion/Kubert/OrderSevenBacktrackingResultantRecurrence6B0A2/*",
         ),
         predecessors=("seed",),
     ),
@@ -448,8 +458,27 @@ def artifact_sources(shard: Shard) -> set[Path]:
         matches = set(ROOT.glob(f"{pattern}.lean"))
         if not matches:
             raise ValueError(f"artifact pattern has no source: {pattern}")
-        paths.update(path.relative_to(ROOT) for path in matches)
+        for path in matches:
+            paths.add(path.relative_to(ROOT))
+            # Generated proof modules use the original module as a lightweight
+            # compatibility consumer and place independently checked ranges in
+            # a same-named directory.  Keep those descendants in exactly the
+            # same cache shard as their parent module.
+            child_directory = path.with_suffix("")
+            if child_directory.is_dir():
+                paths.update(
+                    child.relative_to(ROOT)
+                    for child in child_directory.rglob("*.lean")
+                )
     return paths
+
+
+def is_order_seven_source(path: Path) -> bool:
+    try:
+        relative = path.relative_to(Path("MazurTorsion/Kubert"))
+    except ValueError:
+        return False
+    return bool(relative.parts) and relative.parts[0].startswith("OrderSeven")
 
 
 def dependency_order(shard_name: str) -> list[str]:
@@ -661,7 +690,7 @@ def check() -> None:
             rendered = ", ".join(path.as_posix() for path in sorted(outside))
             raise ValueError(f"{name} owns sources outside its target closure: {rendered}")
         for path in sources:
-            if path.name.startswith("OrderSeven"):
+            if is_order_seven_source(path):
                 previous = owned.setdefault(path, name)
                 if previous != name:
                     raise ValueError(f"{path} is owned by both {previous} and {name}")
@@ -677,7 +706,7 @@ def check() -> None:
             required = {
                 path
                 for path in closure
-                if path.name.startswith("OrderSeven")
+                if is_order_seven_source(path)
             }
             missing_dependencies = required - available
             if missing_dependencies:
@@ -690,7 +719,10 @@ def check() -> None:
 
     expected = {
         path.relative_to(ROOT)
-        for path in ROOT.glob("MazurTorsion/Kubert/OrderSeven*.lean")
+        for path in (ROOT / "MazurTorsion/Kubert").rglob("*.lean")
+        if path.relative_to(ROOT / "MazurTorsion/Kubert").parts[0].startswith(
+            "OrderSeven"
+        )
     }
     actual = set(owned)
     if expected != actual:

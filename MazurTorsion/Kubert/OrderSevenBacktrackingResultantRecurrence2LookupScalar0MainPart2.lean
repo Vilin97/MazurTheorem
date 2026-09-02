@@ -3,10 +3,11 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB0
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupQuotientConstant
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupDefinitions
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupB0
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupQuotientConstant
+import MazurTorsion.Kubert.OrderSevenBacktrackingResultantRecurrence2LookupScalar0MainPart2Simp
 import Mathlib.Tactic.NormNum
 import Lean.Elab.Tactic.Omega
 
@@ -16,7 +17,7 @@ import Lean.Elab.Tactic.Omega
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate
@@ -452,7 +453,7 @@ theorem recurrence2Scalar0Main_coeff_381 :
   rw [recurrence2Scalar0Main_coeff_381_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_381_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_382_prefix_zero :
     (∑ x ∈ Finset.range 149,
@@ -491,7 +492,7 @@ theorem recurrence2Scalar0Main_coeff_382 :
   rw [recurrence2Scalar0Main_coeff_382_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_382_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_383_prefix_zero :
     (∑ x ∈ Finset.range 150,
@@ -530,7 +531,7 @@ theorem recurrence2Scalar0Main_coeff_383 :
   rw [recurrence2Scalar0Main_coeff_383_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_383_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_384_prefix_zero :
     (∑ x ∈ Finset.range 151,
@@ -569,7 +570,7 @@ theorem recurrence2Scalar0Main_coeff_384 :
   rw [recurrence2Scalar0Main_coeff_384_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_384_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_385_prefix_zero :
     (∑ x ∈ Finset.range 152,
@@ -608,7 +609,7 @@ theorem recurrence2Scalar0Main_coeff_385 :
   rw [recurrence2Scalar0Main_coeff_385_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_385_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_386_prefix_zero :
     (∑ x ∈ Finset.range 153,
@@ -647,7 +648,7 @@ theorem recurrence2Scalar0Main_coeff_386 :
   rw [recurrence2Scalar0Main_coeff_386_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_386_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 private theorem recurrence2Scalar0Main_coeff_387_prefix_zero :
     (∑ x ∈ Finset.range 154,
@@ -686,7 +687,7 @@ theorem recurrence2Scalar0Main_coeff_387 :
   rw [recurrence2Scalar0Main_coeff_387_prefix_zero]
   norm_num only [← Nat.add_assoc]
   rw [recurrence2Scalar0Main_coeff_387_suffix_zero]
-  norm_num [Finset.sum_range_succ]
+  order_seven_normalize_coefficient_sum
 
 end
 

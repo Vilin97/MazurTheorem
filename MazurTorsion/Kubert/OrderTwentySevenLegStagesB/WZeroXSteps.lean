@@ -4,13 +4,26 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part10
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part11
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part17
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part20
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Zero-weight coefficient identities
 
 The independent zero-weight coefficient identities.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -94,3 +107,5 @@ lemma tlWZeroX_s3 {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3
 
 
 end MazurTorsion.Kubert
+
+end

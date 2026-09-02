@@ -4,17 +4,23 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumOne
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumTwo
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumThree
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumFour
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Zero
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumOne
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumTwo
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumThree
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.MNumFour
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesB.Zero
+import Mathlib.Tactic.SuppressCompilation
 
 /-!
 # The combined kernel numerator
 
 The four numerator terms combined using the aggregate zero identity.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -32,3 +38,5 @@ lemma tl_mnum {f ξ : ℚ} (hT : (tlT0 f ξ + tlT1 f ξ) + (tlT2 f ξ + tlT3 f �
 
 
 end MazurTorsion.Kubert
+
+end

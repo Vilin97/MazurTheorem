@@ -4,15 +4,18 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesC
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.CoefficientPowers
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.DenominatorPowers
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.NumeratorDenominator
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.NumeratorDenominatorSquare
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightOne
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightZero
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightsHigh
-import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.ZeroSum
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesC
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.CoefficientPowers
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.DenominatorPowers
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.NumeratorDenominator
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.NumeratorDenominatorSquare
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightOne
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightZero
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.WeightsHigh
+public import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.ZeroSum
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # Final third-leg correspondence identity
@@ -20,6 +23,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegStagesD.ZeroSum
 The staged certificates combine into the cleared Fricke-twisted correspondence
 identity for the third leg.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -72,3 +79,5 @@ lemma zl_big {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
       zl_zeroZ f Z
 
 end MazurTorsion.Kubert
+
+end

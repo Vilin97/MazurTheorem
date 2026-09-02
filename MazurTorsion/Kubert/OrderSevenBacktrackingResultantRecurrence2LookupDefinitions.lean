@@ -3,8 +3,8 @@ Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
-
-import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData2
+module
+public import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData2
 
 /-!
 # Recurrence 2 lookup certificate: named intermediate consumers
@@ -12,7 +12,7 @@ import MazurTorsion.Kubert.OrderSevenBacktrackingResultantCertificateData2
 This is a checked coefficient-lookup shard for the second
 pseudo-division recurrence in the order-seven certificate.
 -/
-
+@[expose] public section
 open Polynomial
 
 namespace MazurTorsion.Kubert.OrderSevenBacktrackingCertificate

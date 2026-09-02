@@ -4,7 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderTwentySevenLegChunks
+module
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part00
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part21
+public import MazurTorsion.Kubert.OrderTwentySevenLegChunks.Part22
+import Mathlib.Tactic.SuppressCompilation
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.Ring
 
 /-!
 # Third-leg numerator-denominator product
@@ -12,6 +18,10 @@ import MazurTorsion.Kubert.OrderTwentySevenLegChunks
 The staged product of the third-leg numerator and denominator, reduced against the
 kernel cubic.
 -/
+
+suppress_compilation
+
+public section
 
 namespace MazurTorsion.Kubert
 
@@ -48,3 +58,5 @@ lemma zlTNTD_val {f Z : ℚ} (hM : kernelCubicM f Z = 0) :
     (zlTNTD_s0 hM) + (zlTNTD_s1 hM)
 
 end MazurTorsion.Kubert
+
+end
