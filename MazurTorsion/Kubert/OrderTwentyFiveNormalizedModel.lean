@@ -9,6 +9,7 @@ import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitNormData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationTwoData
+import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationThreeData
 import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
@@ -3306,6 +3307,41 @@ theorem orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order
     orderTwentyFiveBrunaultXThree,
     orderTwentyFiveBrunaultXFour]
   linear_combination orderTwentyFiveBrunaultYNine b c * hy
+
+/-- The fourth of Lécacheux's five orbit relations holds for the actual
+Brunault units attached to an exact-order-25 marked Tate point. -/
+theorem orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitRelationThree
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) = 0 := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := by
+    simpa only [r, s] using
+      orderTwentyFive_normalizedOrbitData_of_marked_order b c hb h00 horder
+  have hraw := OrderTwentyFiveRawOrbitRelationThreeData.relation_eq_zero
+    r s hData.curve hData.eightDenominator hData.fourDenominator
+      hData.twoDenominator hData.nineDenominator
+  have hy :
+      orderTwentyFiveBrunaultYEight b c - orderTwentyFiveBrunaultYFour b c -
+          orderTwentyFiveBrunaultYEight b c * orderTwentyFiveBrunaultYTwo b c *
+            (orderTwentyFiveBrunaultYNine b c -
+              orderTwentyFiveBrunaultYEight b c) = 0 := by
+    rw [hData.eight, hData.four, hData.two, hData.nine]
+    exact hraw
+  simp only [orderTwentyFiveOrbitRelationThree,
+    orderTwentyFiveBrunaultXZero, orderTwentyFiveBrunaultXOne,
+    orderTwentyFiveBrunaultXThree, orderTwentyFiveBrunaultXFour]
+  linear_combination orderTwentyFiveBrunaultYOne b c * hy
 
 /-- Lécacheux's norm-one orbit relation holds for the actual Brunault units
 attached to an exact-order-25 marked Tate point. -/
