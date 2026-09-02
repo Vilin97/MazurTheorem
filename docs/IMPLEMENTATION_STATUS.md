@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,947 Lean modules** and **1,964,118 Lean
+- The audited baseline contains **1,948 Lean modules** and **1,965,336 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -157,7 +157,19 @@ cusp. The remaining gap is not its cusp algebra; it is the represented modular
 classifying map and special-fibre chart comparison, followed by the global
 quotient and specialization inputs.
 
-For order `25`, the checked Lécacheux orbit route now recovers the invariant
+For order `25`, normalization at the fivefold multiple now puts a hypothetical
+point of exact order twenty-five on the diagonal order-five Tate family. An
+explicit paired Vélu calculation constructs its degree-five quotient, proves
+the quotient discriminant, and defines the denominator-safe point map. Checked
+homogeneous doubling identities, kernel-translation invariance, and negation
+compatibility then prove that the transported order-twenty-five point maps to
+a rational point of exact order five on the quotient. This produces the second
+rational five-level structure needed for a direct parameter comparison without
+asserting that a Fricke involution preserves a rational generator. The next gap
+on this route is to normalize the quotient image and extract the resulting
+arithmetic relation between the two order-five parameters.
+
+The checked Lécacheux orbit route also recovers the invariant
 parameter from the five orbit coordinates and proves that the six cyclic
 relations force the two selected coordinates to satisfy Lehmer's quintic.
 Consequently `no_orderTwentyFiveBrunaultOrbit_of_threeIntegral` rules out the

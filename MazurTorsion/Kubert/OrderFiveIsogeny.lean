@@ -61,6 +61,26 @@ theorem orderFiveVeluTarget_discriminant (c : ℚ) :
     WeierstrassCurve.b₈]
   ring
 
+/-- The two explicit factors of the source discriminant are nonzero on an
+elliptic member of the order-five family. -/
+theorem orderFiveCurve_parameters_ne
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    c ≠ 0 ∧ c ^ 2 - 11 * c - 1 ≠ 0 := by
+  have hsource : c ^ 5 * (c ^ 2 - 11 * c - 1) ≠ 0 := by
+    simpa only [orderFiveCurve_discriminant] using
+      (orderFiveCurve c).isUnit_Δ.ne_zero
+  exact ⟨fun hc ↦ hsource (by simp [hc]),
+    fun hfactor ↦ hsource (by simp [hfactor])⟩
+
+/-- The source family is elliptic whenever both displayed discriminant
+factors are nonzero. -/
+theorem orderFiveCurve_isElliptic
+    (c : ℚ) (hc : c ≠ 0) (hfactor : c ^ 2 - 11 * c - 1 ≠ 0) :
+    (orderFiveCurve c).IsElliptic := by
+  rw [WeierstrassCurve.isElliptic_iff, isUnit_iff_ne_zero,
+    orderFiveCurve_discriminant]
+  exact mul_ne_zero (pow_ne_zero 5 hc) hfactor
+
 /-- The checked discriminant formula makes the Vélu target elliptic away
 from the two cuspidal factors of the source family. -/
 theorem orderFiveVeluTarget_isElliptic
@@ -69,6 +89,12 @@ theorem orderFiveVeluTarget_isElliptic
   rw [WeierstrassCurve.isElliptic_iff, isUnit_iff_ne_zero,
     orderFiveVeluTarget_discriminant]
   exact mul_ne_zero hc (pow_ne_zero 5 hfactor)
+
+noncomputable instance orderFiveVeluTarget.instIsElliptic
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    (orderFiveVeluTarget c).IsElliptic := by
+  obtain ⟨hc, hfactor⟩ := orderFiveCurve_parameters_ne c
+  exact orderFiveVeluTarget_isElliptic c hc hfactor
 
 /-- The abscissa of the paired Vélu map away from the two kernel
 abscissae. -/
@@ -133,15 +159,437 @@ theorem orderFiveVelu_equation
 /-- Denominator-safe affine consumer of the explicit order-five Vélu
 coordinates. -/
 noncomputable def orderFiveVeluPoint
-    {c x y : ℚ}
+    {c x y : ℚ} [(orderFiveCurve c).IsElliptic]
     (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
-    (hx0 : x ≠ 0) (hxc : x ≠ c)
-    (hc : c ≠ 0) (hfactor : c ^ 2 - 11 * c - 1 ≠ 0) :
+    (hx0 : x ≠ 0) (hxc : x ≠ c) :
     (orderFiveVeluTarget c).toAffine.Point :=
-  letI : (orderFiveVeluTarget c).IsElliptic :=
-    orderFiveVeluTarget_isElliptic c hc hfactor
   .some (orderFiveVeluX c x) (orderFiveVeluY c x y)
     ((orderFiveVeluTarget c).toAffine.equation_iff_nonsingular.mp
       (orderFiveVelu_equation hP hx0 hxc))
+
+/-- The two affine pole abscissae of the marked order-five kernel. -/
+def OrderFiveKernelX (c x : ℚ) : Prop :=
+  x = 0 ∨ x = c
+
+instance orderFiveKernelXDecidable (c x : ℚ) :
+    Decidable (OrderFiveKernelX c x) := by
+  unfold OrderFiveKernelX
+  infer_instance
+
+/-- The total explicit Vélu point function.  Infinity and the four
+nonidentity points of the marked kernel are sent to infinity. -/
+noncomputable def orderFivePointMap
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    (orderFiveCurve c).toAffine.Point →
+      (orderFiveVeluTarget c).toAffine.Point
+  | 0 => 0
+  | .some x _y hP =>
+      if hx : OrderFiveKernelX c x then 0
+      else orderFiveVeluPoint hP
+        (fun h ↦ hx (Or.inl h))
+        (fun h ↦ hx (Or.inr h))
+
+@[simp] theorem orderFivePointMap_zero
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    orderFivePointMap c 0 = 0 :=
+  rfl
+
+/-- Evaluation of the total point map away from its two pole abscissae. -/
+theorem orderFivePointMap_some_of_not_kernelX
+    {c x y : ℚ} [(orderFiveCurve c).IsElliptic]
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
+    (hx : ¬ OrderFiveKernelX c x) :
+    orderFivePointMap c (.some x y hP) =
+      orderFiveVeluPoint hP
+        (fun h ↦ hx (Or.inl h))
+        (fun h ↦ hx (Or.inr h)) := by
+  simp [orderFivePointMap, hx]
+
+/-- An affine point maps to infinity exactly at a marked-kernel
+abscissa. -/
+theorem orderFivePointMap_some_eq_zero_iff
+    {c x y : ℚ} [(orderFiveCurve c).IsElliptic]
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y) :
+    orderFivePointMap c (.some x y hP) = 0 ↔
+      OrderFiveKernelX c x := by
+  by_cases hx : OrderFiveKernelX c x
+  · simp [orderFivePointMap, hx]
+  · rw [orderFivePointMap_some_of_not_kernelX hP hx]
+    exact ⟨fun h ↦
+      (WeierstrassCurve.Affine.Point.some_ne_zero _ h).elim,
+      fun h ↦ (hx h).elim⟩
+
+/-- The Vélu ordinate commutes with Weierstrass negation away from the
+kernel poles. -/
+theorem orderFiveVeluY_neg (c x y : ℚ) :
+    orderFiveVeluY c x ((orderFiveCurve c).toAffine.negY x y) =
+      (orderFiveVeluTarget c).toAffine.negY
+        (orderFiveVeluX c x) (orderFiveVeluY c x y) := by
+  simp only [orderFiveVeluY, orderFiveVeluX,
+    orderFiveVeluDifferential, orderFiveCurve,
+    orderFiveVeluTarget, tateNormalCurve,
+    WeierstrassCurve.Affine.negY]
+  ring
+
+/-- The total explicit Vélu point function commutes with negation. -/
+theorem orderFivePointMap_neg
+    (c : ℚ) [(orderFiveCurve c).IsElliptic]
+    (P : (orderFiveCurve c).toAffine.Point) :
+    orderFivePointMap c (-P) = -orderFivePointMap c P := by
+  cases P with
+  | zero => rfl
+  | some x y hP =>
+      by_cases hx : OrderFiveKernelX c x
+      · simp only [WeierstrassCurve.Affine.Point.neg_some,
+          orderFivePointMap, dif_pos hx, neg_zero]
+      · simp only [WeierstrassCurve.Affine.Point.neg_some,
+          orderFivePointMap, dif_neg hx, orderFiveVeluPoint,
+          WeierstrassCurve.Affine.Point.some.injEq]
+        exact ⟨trivial, orderFiveVeluY_neg c x y⟩
+
+/-- The marked order-five origin is nonsingular on every elliptic member
+of the family. -/
+theorem orderFiveOrigin_nonsingular
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    (orderFiveCurve c).toAffine.Nonsingular 0 0 := by
+  obtain ⟨hc, -⟩ := orderFiveCurve_parameters_ne c
+  exact tateNormalCurve_nonsingular_origin c c hc
+
+/-- The marked generator of the rational order-five kernel. -/
+noncomputable def orderFiveOrigin
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    (orderFiveCurve c).toAffine.Point :=
+  .some 0 0 (orderFiveOrigin_nonsingular c)
+
+/-- Five times the marked kernel generator is zero. -/
+theorem five_nsmul_orderFiveOrigin'
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    (5 : ℕ) • orderFiveOrigin c = 0 := by
+  obtain ⟨hc, -⟩ := orderFiveCurve_parameters_ne c
+  exact five_nsmul_orderFiveOrigin c hc (orderFiveOrigin_nonsingular c)
+
+@[simp] theorem orderFivePointMap_origin
+    (c : ℚ) [(orderFiveCurve c).IsElliptic] :
+    orderFivePointMap c (orderFiveOrigin c) = 0 := by
+  apply (orderFivePointMap_some_eq_zero_iff
+    (orderFiveOrigin_nonsingular c)).mpr
+  exact Or.inl rfl
+
+/-- The explicit completed ordinate of the Vélu image. -/
+theorem orderFiveVelu_completedY (c x y : ℚ) :
+    2 * orderFiveVeluY c x y +
+        (orderFiveVeluTarget c).a₁ * orderFiveVeluX c x +
+        (orderFiveVeluTarget c).a₃ =
+      orderFiveVeluDifferential c x *
+        (2 * y + (orderFiveCurve c).a₁ * x +
+          (orderFiveCurve c).a₃) := by
+  simp only [orderFiveVeluY, orderFiveVeluTarget,
+    orderFiveCurve, tateNormalCurve]
+  ring
+
+private theorem orderFiveVeluX_eq_pairCorrections (c x : ℚ) :
+    orderFiveVeluX c x =
+      x + Velu.pairXCorrection (orderFiveCurve c) x 0 0 +
+        Velu.pairXCorrection (orderFiveCurve c) x c (c * c) := by
+  simp only [orderFiveVeluX, Velu.pairXCorrection,
+    orderFiveCurve, tateNormalCurve, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄]
+  ring
+
+private theorem orderFiveVeluDifferential_eq_pairCorrections (c x : ℚ) :
+    orderFiveVeluDifferential c x =
+      1 + Velu.pairDifferentialCorrection
+          (orderFiveCurve c) x 0 0 +
+        Velu.pairDifferentialCorrection
+          (orderFiveCurve c) x c (c * c) := by
+  simp only [orderFiveVeluDifferential,
+    Velu.pairDifferentialCorrection, orderFiveCurve,
+    tateNormalCurve, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄]
+  ring
+
+private def fiveOrbitCorrection
+    {A : Type*} [AddCommGroup A] (f : A → ℚ) (P T : A) : ℚ :=
+  f P + f (P + T) + f (P + (2 : ℕ) • T) +
+      f (P + (3 : ℕ) • T) + f (P + (4 : ℕ) • T) -
+    (f T + f ((2 : ℕ) • T) + f ((3 : ℕ) • T) +
+      f ((4 : ℕ) • T))
+
+private theorem fiveOrbitCorrection_add
+    {A : Type*} [AddCommGroup A] (f : A → ℚ) (P T : A)
+    (hT : (5 : ℕ) • T = 0) :
+    fiveOrbitCorrection f (P + T) T =
+      fiveOrbitCorrection f P T := by
+  have hshift (n : ℕ) :
+      P + T + n • T = P + (n + 1) • T := by
+    rw [add_nsmul]
+    simp
+    abel
+  have hshiftOne : P + T + T = P + (2 : ℕ) • T := by
+    simp only [two_nsmul]
+    abel
+  simp only [fiveOrbitCorrection]
+  rw [hshiftOne, hshift 2, hshift 3, hshift 4, hT, add_zero]
+  ring
+
+private theorem orderFiveVelu_orbitFormulas
+    {c x y : ℚ} [(orderFiveCurve c).IsElliptic]
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
+    (hx0 : x ≠ 0) (hxc : x ≠ c) :
+    orderFiveVeluX c x =
+        fiveOrbitCorrection
+          (Velu.pointXOrZero (orderFiveCurve c))
+          (WeierstrassCurve.Affine.Point.some x y hP)
+          (orderFiveOrigin c) ∧
+      orderFiveVeluDifferential c x *
+          (2 * y + (orderFiveCurve c).a₁ * x +
+            (orderFiveCurve c).a₃) =
+        fiveOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderFiveCurve c))
+          (WeierstrassCurve.Affine.Point.some x y hP)
+          (orderFiveOrigin c) := by
+  let P : (orderFiveCurve c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x y hP
+  let T : (orderFiveCurve c).toAffine.Point := orderFiveOrigin c
+  have hT5 : (5 : ℕ) • T = 0 := by
+    simpa only [T] using five_nsmul_orderFiveOrigin' c
+  obtain ⟨hc, -⟩ := orderFiveCurve_parameters_ne c
+  have h00 := orderFiveOrigin_nonsingular c
+  have hT0 : T = WeierstrassCurve.Affine.Point.some 0 0 h00 := by
+    rfl
+  obtain ⟨h₂, hT2raw⟩ :=
+    two_mul_origin_coordinates c c hc h00
+  let h₂' : (orderFiveCurve c).toAffine.Nonsingular c (c * c) := by
+    exact h₂
+  have hT2 : (2 : ℕ) • T =
+      WeierstrassCurve.Affine.Point.some c (c * c) h₂' := by
+    rw [hT0]
+    exact hT2raw.trans (WeierstrassCurve.Affine.Point.some_eq_some
+      (orderFiveCurve c) rfl rfl)
+  have hT4 : (4 : ℕ) • T = -T := by
+    calc
+      (4 : ℕ) • T = (5 : ℕ) • T - T := by abel
+      _ = -T := by rw [hT5]; simp
+  have hT3 : (3 : ℕ) • T = -((2 : ℕ) • T) := by
+    calc
+      (3 : ℕ) • T = (5 : ℕ) • T - (2 : ℕ) • T := by abel
+      _ = -((2 : ℕ) • T) := by rw [hT5]; simp
+  have hpair0 := Velu.pointXOrZero_add_pair
+    (orderFiveCurve c) hP h00 hx0
+  have hpairC := Velu.pointXOrZero_add_pair
+    (orderFiveCurve c) hP h₂' hxc
+  have hpairZ0 := Velu.pointCompletedYOrZero_add_pair
+    (orderFiveCurve c) hP h00 hx0
+  have hpairZC := Velu.pointCompletedYOrZero_add_pair
+    (orderFiveCurve c) hP h₂' hxc
+  constructor
+  · rw [orderFiveVeluX_eq_pairCorrections]
+    change x + Velu.pairXCorrection (orderFiveCurve c) x 0 0 +
+        Velu.pairXCorrection (orderFiveCurve c) x c (c * c) =
+      fiveOrbitCorrection (Velu.pointXOrZero (orderFiveCurve c)) P T
+    simp only [fiveOrbitCorrection]
+    rw [hT2, hT3, hT4, hT2, hT0]
+    simp only [P, Velu.pointXOrZero_some, Velu.pointXOrZero_neg]
+    linear_combination -hpair0 - hpairC
+  · rw [orderFiveVeluDifferential_eq_pairCorrections]
+    change (1 +
+        Velu.pairDifferentialCorrection (orderFiveCurve c) x 0 0 +
+        Velu.pairDifferentialCorrection
+          (orderFiveCurve c) x c (c * c)) *
+          (2 * y + (orderFiveCurve c).a₁ * x +
+            (orderFiveCurve c).a₃) =
+      fiveOrbitCorrection
+        (Velu.pointCompletedYOrZero (orderFiveCurve c)) P T
+    simp only [fiveOrbitCorrection]
+    rw [hT2, hT3, hT4, hT2, hT0]
+    simp only [P, Velu.pointCompletedYOrZero_some,
+      Velu.pointCompletedYOrZero_neg]
+    linear_combination -hpairZ0 - hpairZC
+
+/-- Away from the kernel poles, the explicit Vélu point is invariant
+under translation by the marked order-five generator. -/
+theorem orderFiveVeluPoint_add_origin
+    {c x y x' y' : ℚ} [(orderFiveCurve c).IsElliptic]
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
+    (hP' : (orderFiveCurve c).toAffine.Nonsingular x' y')
+    (hadd :
+      (WeierstrassCurve.Affine.Point.some x y hP :
+          (orderFiveCurve c).toAffine.Point) + orderFiveOrigin c =
+        WeierstrassCurve.Affine.Point.some x' y' hP')
+    (hx0 : x ≠ 0) (hxc : x ≠ c)
+    (hx0' : x' ≠ 0) (hxc' : x' ≠ c) :
+    orderFiveVeluPoint hP' hx0' hxc' =
+      orderFiveVeluPoint hP hx0 hxc := by
+  let P : (orderFiveCurve c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x y hP
+  let P' : (orderFiveCurve c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some x' y' hP'
+  let T : (orderFiveCurve c).toAffine.Point := orderFiveOrigin c
+  have hadd' : P + T = P' := by
+    simpa only [P, P', T] using hadd
+  have hT5 : (5 : ℕ) • T = 0 := by
+    simpa only [T] using five_nsmul_orderFiveOrigin' c
+  have hform := orderFiveVelu_orbitFormulas hP hx0 hxc
+  have hform' := orderFiveVelu_orbitFormulas hP' hx0' hxc'
+  have hx : orderFiveVeluX c x' = orderFiveVeluX c x := by
+    calc
+      orderFiveVeluX c x' =
+          fiveOrbitCorrection
+            (Velu.pointXOrZero (orderFiveCurve c)) P' T := by
+        simpa only [P', T] using hform'.1
+      _ = fiveOrbitCorrection
+          (Velu.pointXOrZero (orderFiveCurve c)) P T := by
+        rw [← hadd']
+        exact fiveOrbitCorrection_add _ P T hT5
+      _ = orderFiveVeluX c x := by
+        simpa only [P, T] using hform.1.symm
+  have hcompleted :
+      2 * orderFiveVeluY c x' y' +
+          (orderFiveVeluTarget c).a₁ * orderFiveVeluX c x' +
+          (orderFiveVeluTarget c).a₃ =
+        2 * orderFiveVeluY c x y +
+          (orderFiveVeluTarget c).a₁ * orderFiveVeluX c x +
+          (orderFiveVeluTarget c).a₃ := by
+    calc
+      2 * orderFiveVeluY c x' y' +
+            (orderFiveVeluTarget c).a₁ * orderFiveVeluX c x' +
+            (orderFiveVeluTarget c).a₃ =
+          orderFiveVeluDifferential c x' *
+            (2 * y' + (orderFiveCurve c).a₁ * x' +
+              (orderFiveCurve c).a₃) :=
+        orderFiveVelu_completedY c x' y'
+      _ = fiveOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderFiveCurve c)) P' T := by
+        simpa only [P', T] using hform'.2
+      _ = fiveOrbitCorrection
+          (Velu.pointCompletedYOrZero (orderFiveCurve c)) P T := by
+        rw [← hadd']
+        exact fiveOrbitCorrection_add _ P T hT5
+      _ = orderFiveVeluDifferential c x *
+          (2 * y + (orderFiveCurve c).a₁ * x +
+            (orderFiveCurve c).a₃) := by
+        simpa only [P, T] using hform.2.symm
+      _ = 2 * orderFiveVeluY c x y +
+          (orderFiveVeluTarget c).a₁ * orderFiveVeluX c x +
+          (orderFiveVeluTarget c).a₃ :=
+        (orderFiveVelu_completedY c x y).symm
+  have hy : orderFiveVeluY c x' y' = orderFiveVeluY c x y := by
+    linear_combination
+      (1 / 2 : ℚ) * hcompleted -
+        ((orderFiveVeluTarget c).a₁ / 2) * hx
+  simp only [orderFiveVeluPoint]
+  exact WeierstrassCurve.Affine.Point.some_eq_some
+    (orderFiveVeluTarget c) hx hy
+
+/-- An affine point of exact order twenty-five cannot lie at a pole of
+the marked order-five Vélu map. -/
+theorem not_orderFiveKernelX_of_orderTwentyFive
+    {c x y : ℚ} [(orderFiveCurve c).IsElliptic]
+    (hP : (orderFiveCurve c).toAffine.Nonsingular x y)
+    (horder : addOrderOf
+      (WeierstrassCurve.Affine.Point.some x y hP :
+        (orderFiveCurve c).toAffine.Point) = 25) :
+    ¬ OrderFiveKernelX c x := by
+  intro hx
+  obtain ⟨hc, -⟩ := orderFiveCurve_parameters_ne c
+  have hkilled :=
+    five_nsmul_eq_zero_of_orderFive_kernel_abscissa hc hP hx
+  have hdvd : (25 : ℕ) ∣ 5 := by
+    rw [← horder]
+    exact addOrderOf_dvd_of_nsmul_eq_zero hkilled
+  norm_num at hdvd
+
+private theorem addOrderOf_add_orderFiveOrigin
+    {c : ℚ} [(orderFiveCurve c).IsElliptic]
+    {Q : (orderFiveCurve c).toAffine.Point}
+    (hQ : addOrderOf Q = 25) :
+    addOrderOf (Q + orderFiveOrigin c) = 25 := by
+  let T : (orderFiveCurve c).toAffine.Point := orderFiveOrigin c
+  have h5Q : (5 : ℕ) • Q ≠ 0 := by
+    intro hzero
+    have hdvd : (25 : ℕ) ∣ 5 := by
+      rw [← hQ]
+      exact addOrderOf_dvd_of_nsmul_eq_zero hzero
+    norm_num at hdvd
+  have h25Q : (25 : ℕ) • Q = 0 := by
+    rw [← hQ]
+    exact addOrderOf_nsmul_eq_zero Q
+  have h5T : (5 : ℕ) • T = 0 := by
+    simpa only [T] using five_nsmul_orderFiveOrigin' c
+  have h25T : (25 : ℕ) • T = 0 := by
+    rw [show (25 : ℕ) = 5 * 5 by norm_num, mul_nsmul, h5T]
+    simp
+  have h5 : (5 : ℕ) • (Q + T) ≠ 0 := by
+    intro hzero
+    rw [nsmul_add, h5T, add_zero] at hzero
+    exact h5Q hzero
+  have h25 : (25 : ℕ) • (Q + T) = 0 := by
+    rw [nsmul_add, h25Q, h25T, add_zero]
+  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have hresult := addOrderOf_eq_prime_pow
+    (x := Q + T) (p := 5) (n := 1)
+    (by norm_num only [pow_one]; exact h5)
+    (by
+      norm_num only [Nat.reduceAdd, pow_succ, pow_one, Nat.reduceMul]
+      exact h25)
+  norm_num at hresult
+  simpa only [T] using hresult
+
+/-- On an exact-order-twenty-five point, the total explicit Vélu map is
+invariant under translation by the marked order-five generator. -/
+theorem orderFivePointMap_add_origin_of_orderTwentyFive
+    {c : ℚ} [(orderFiveCurve c).IsElliptic]
+    {Q : (orderFiveCurve c).toAffine.Point}
+    (hQ : addOrderOf Q = 25) :
+    orderFivePointMap c (Q + orderFiveOrigin c) =
+      orderFivePointMap c Q := by
+  cases Q with
+  | zero =>
+      have hfalse : (1 : ℕ) = 25 := by
+        rw [← hQ]
+        exact (addOrderOf_zero
+          (G := (orderFiveCurve c).toAffine.Point)).symm
+      norm_num at hfalse
+  | some x y hP =>
+      let P : (orderFiveCurve c).toAffine.Point :=
+        WeierstrassCurve.Affine.Point.some x y hP
+      let T : (orderFiveCurve c).toAffine.Point := orderFiveOrigin c
+      have h5P : (5 : ℕ) • P ≠ 0 := by
+        intro hzero
+        have hdvd : (25 : ℕ) ∣ 5 := by
+          rw [← hQ]
+          exact addOrderOf_dvd_of_nsmul_eq_zero hzero
+        norm_num at hdvd
+      have h5T : (5 : ℕ) • T = 0 := by
+        simpa only [T] using five_nsmul_orderFiveOrigin' c
+      have hsumne : P + T ≠ 0 := by
+        intro hzero
+        have hfive : (5 : ℕ) • (P + T) = 0 := by rw [hzero]; simp
+        rw [nsmul_add, h5T, add_zero] at hfive
+        exact h5P hfive
+      obtain ⟨x', y', hP', hadd⟩ :
+          ∃ (x' y' : ℚ)
+            (hP' : (orderFiveCurve c).toAffine.Nonsingular x' y'),
+            P + T = WeierstrassCurve.Affine.Point.some x' y' hP' := by
+        cases hsum : P + T with
+        | zero => exact (hsumne hsum).elim
+        | some x' y' hP' => exact ⟨x', y', hP', rfl⟩
+      have hx := not_orderFiveKernelX_of_orderTwentyFive hP hQ
+      have horder' : addOrderOf
+          (WeierstrassCurve.Affine.Point.some x' y' hP' :
+            (orderFiveCurve c).toAffine.Point) = 25 := by
+        rw [← hadd]
+        exact addOrderOf_add_orderFiveOrigin hQ
+      have hx' := not_orderFiveKernelX_of_orderTwentyFive hP' horder'
+      change orderFivePointMap c (P + T) = orderFivePointMap c P
+      rw [hadd, orderFivePointMap_some_of_not_kernelX hP' hx',
+        show P = WeierstrassCurve.Affine.Point.some x y hP by rfl,
+        orderFivePointMap_some_of_not_kernelX hP hx]
+      exact orderFiveVeluPoint_add_origin hP hP'
+        (by simpa only [P, T] using hadd)
+        (fun h ↦ hx (Or.inl h))
+        (fun h ↦ hx (Or.inr h))
+        (fun h ↦ hx' (Or.inl h))
+        (fun h ↦ hx' (Or.inr h))
 
 end MazurTorsion.Kubert

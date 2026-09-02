@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 
-import MazurTorsion.Kubert.OrderFiveIsogeny
+import MazurTorsion.Kubert.OrderFiveIsogenyDoubling
 import Mathlib.Tactic.Abel
 import Mathlib.Tactic.NormNum
 
@@ -101,17 +101,17 @@ theorem orderTwentyFive_orderFive_family_package
   rw [← map_nsmul]
   exact heQFive
 
-/-- The transported order-twenty-five point avoids the two kernel poles,
-so its explicit Vélu coordinates define a nonsingular rational point on
-the degree-five quotient.  No order statement about the image is used here;
-that requires the separate additivity or dual-composition calculation. -/
+/-- The transported order-twenty-five point avoids the two kernel poles.
+Its explicit Vélu coordinates define a nonsingular rational point of exact
+order five on the degree-five quotient. -/
 theorem orderTwentyFive_orderFiveVelu_package
     (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (P : E.toAffine.Point) (h25 : addOrderOf P = 25) :
     ∃ (c u x y : ℚ)
       (h00 : (orderFiveCurve c).toAffine.Nonsingular 0 0)
-      (hxy : (orderFiveCurve c).toAffine.Nonsingular x y),
-      c ≠ 0 ∧ c ^ 2 - 11 * c - 1 ≠ 0 ∧ u ≠ 0 ∧
+      (hxy : (orderFiveCurve c).toAffine.Nonsingular x y)
+      (hc : c ≠ 0) (hfactor : c ^ 2 - 11 * c - 1 ≠ 0)
+      (_hu : u ≠ 0),
         x ≠ 0 ∧ x ≠ c ∧
         addOrderOf
           (WeierstrassCurve.Affine.Point.some x y hxy :
@@ -122,6 +122,11 @@ theorem orderTwentyFive_orderFiveVelu_package
           WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
         (orderFiveVeluTarget c).toAffine.Nonsingular
           (orderFiveVeluX c x) (orderFiveVeluY c x y) ∧
+        (letI : (orderFiveCurve c).IsElliptic :=
+            orderFiveCurve_isElliptic c hc hfactor;
+          addOrderOf
+              (orderFivePointMap c
+                (WeierstrassCurve.Affine.Point.some x y hxy)) = 5) ∧
         u ^ 12 * E.Δ = (orderFiveCurve c).Δ ∧
         u ^ 4 * E.c₄ = (orderFiveCurve c).c₄ := by
   obtain ⟨c, u, hc, hfactor, hu, h00, e, -, hdisc, hc₄,
@@ -150,14 +155,26 @@ theorem orderTwentyFive_orderFiveVelu_package
         exact WeierstrassCurve.Affine.Point.some_ne_zero h00 horiginZero
       have hx0 : x ≠ 0 := fun hx ↦ hkernel (Or.inl hx)
       have hxc : x ≠ c := fun hx ↦ hkernel (Or.inr hx)
-      letI : (orderFiveVeluTarget c).IsElliptic :=
-        orderFiveVeluTarget_isElliptic c hc hfactor
+      letI : (orderFiveCurve c).IsElliptic :=
+        orderFiveCurve_isElliptic c hc hfactor
       have htarget :
           (orderFiveVeluTarget c).toAffine.Nonsingular
             (orderFiveVeluX c x) (orderFiveVeluY c x y) :=
         (orderFiveVeluTarget c).toAffine.equation_iff_nonsingular.mp
           (orderFiveVelu_equation hxy hx0 hxc)
+      have hfiveCanonical :
+          (5 : ℕ) •
+              (WeierstrassCurve.Affine.Point.some x y hxy :
+                (orderFiveCurve c).toAffine.Point) =
+            orderFiveOrigin c := by
+        simpa only [orderFiveOrigin] using hfive
+      have himageOrder :
+          addOrderOf
+              (orderFivePointMap c
+                (WeierstrassCurve.Affine.Point.some x y hxy)) = 5 :=
+        addOrderOf_orderFivePointMap_of_orderTwentyFive
+          horder25 hfiveCanonical
       exact ⟨c, u, x, y, h00, hxy, hc, hfactor, hu, hx0, hxc,
-        horder25, hfive, htarget, hdisc, hc₄⟩
+        horder25, hfive, htarget, himageOrder, hdisc, hc₄⟩
 
 end MazurTorsion.Kubert
