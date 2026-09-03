@@ -397,6 +397,11 @@ order 25.
   Represent all four normalized coordinate-hyperplane intersection charts by explicit
   nonreduced AdjoinRoot affine schemes, identify their algebra-valued points with the
   canonical equations over arbitrary base algebras, and compute their lengths.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_hyperplaneLocalFactorLengths`
+  Split the represented hyperplane charts by Chinese remaindering into six cusp-labelled
+  fat-point schemes and prove their individual lengths recover the nonzero entries of
+  both coordinate-section order tables.
 
 :::
 
