@@ -301,6 +301,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_exactThreeAdicRootValuationCycle_of_marked_order`
   Use the explicit deck-map transitions and norm-one relation to determine the cyclic
   3-adic valuation order, up to rotation.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_threeAdicCuspCongruences_of_marked_order`
+  Show that both -a-valued cyclic roots have three-integral difference from the Lehmer
+  parameter, locating the diagonal infinity node.
 
 :::
 
