@@ -273,6 +273,14 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_fifthPowerParameter_residual_of_marked_order`
   Package the remaining exact-order case as a non-three-unit fifth root whose reciprocal
   signed Hauptmodul is three-integral.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveKummerCoverPolynomial_eq_clearedLehmer`
+  Identify the explicit integral two-variable cover with k⁴ times Lehmer's quintic after
+  the signed fifth-root substitution.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_kummerCover_of_marked_order`
+  Send an actual exact-order-25 marked point to a noncuspidal rational solution of the
+  generator-marked cover while retaining the residual three-adic conditions.
 
 :::
 

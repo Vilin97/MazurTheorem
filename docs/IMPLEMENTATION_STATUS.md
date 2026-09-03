@@ -210,9 +210,13 @@ norm-one relation. Thus
 the order-25 exclusion whenever the recovered parameter is integral at three.
 In the residual exact-order case, the checked fifth-power bridge forces `k`
 to be a non-three-unit while `-5/(k - 1/k - 1)` is three-integral. The remaining
-endpoint gap is therefore a genuine twist-aware Kummer descent on the
-generator-marked genus-four Lécacheux cover (or an equivalent Jacobian
-rank-zero and cusp classification), rather than a rational Fricke transport.
+parameter substitution has now been made explicit: multiplying Lehmer's
+quintic by `k^4` produces a fixed integral polynomial `P(k,x)`, and the actual
+marked point supplies a rational solution with `x ≠ 0,1`. The checked deck
+transformation `k ↦ -1/k` preserves both the Hauptmodul and vanishing of
+`P`. The remaining endpoint gap is the rational-point exclusion on this
+generator-marked Kummer cover, via a twist-aware descent or an equivalent
+genus-four Jacobian rank-zero and cusp classification.
 
 Five published contracts are intentionally paused:
 
