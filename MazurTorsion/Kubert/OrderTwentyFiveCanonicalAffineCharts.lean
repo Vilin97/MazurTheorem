@@ -149,6 +149,29 @@ def leftSolutionToAlgHom
   Ideal.Quotient.liftₐ (leftIdeal K) (MvPolynomial.aeval p.1)
     (fun _ h ↦ leftIdeal_le_ker_aeval A p h)
 
+/-- Evaluation at a left-chart solution sends each quotient coordinate to
+the corresponding component. -/
+@[simp]
+theorem leftSolutionToAlgHom_X
+    {K : Type u} [CommRing K]
+    (A : Type v) [CommRing A] [Algebra K A]
+    (p : LeftSolution A) (i : Fin 3) :
+    leftSolutionToAlgHom A p
+        (Ideal.Quotient.mk (leftIdeal K) (MvPolynomial.X i)) = p.1 i := by
+  have hcomp :
+      (leftSolutionToAlgHom A p).comp
+          (Ideal.Quotient.mkₐ K (leftIdeal K)) =
+        MvPolynomial.aeval p.1 :=
+    Ideal.Quotient.liftₐ_comp (leftIdeal K)
+      (MvPolynomial.aeval p.1)
+      (fun _ h ↦ leftIdeal_le_ker_aeval A p h)
+  calc
+    _ = ((leftSolutionToAlgHom A p).comp
+          (Ideal.Quotient.mkₐ K (leftIdeal K))) (MvPolynomial.X i) := rfl
+    _ = (MvPolynomial.aeval p.1) (MvPolynomial.X i) :=
+      DFunLike.congr_fun hcomp (MvPolynomial.X i)
+    _ = p.1 i := MvPolynomial.aeval_X p.1 i
+
 /-- An algebra-valued point of the left chart recovers its three normalized
 coordinates. -/
 def leftAlgHomToSolution
@@ -258,6 +281,29 @@ def rightSolutionToAlgHom
     (p : RightSolution A) : RightRing K →ₐ[K] A :=
   Ideal.Quotient.liftₐ (rightIdeal K) (MvPolynomial.aeval p.1)
     (fun _ h ↦ rightIdeal_le_ker_aeval A p h)
+
+/-- Evaluation at a right-chart solution sends each quotient coordinate to
+the corresponding component. -/
+@[simp]
+theorem rightSolutionToAlgHom_X
+    {K : Type u} [CommRing K]
+    (A : Type v) [CommRing A] [Algebra K A]
+    (p : RightSolution A) (i : Fin 3) :
+    rightSolutionToAlgHom A p
+        (Ideal.Quotient.mk (rightIdeal K) (MvPolynomial.X i)) = p.1 i := by
+  have hcomp :
+      (rightSolutionToAlgHom A p).comp
+          (Ideal.Quotient.mkₐ K (rightIdeal K)) =
+        MvPolynomial.aeval p.1 :=
+    Ideal.Quotient.liftₐ_comp (rightIdeal K)
+      (MvPolynomial.aeval p.1)
+      (fun _ h ↦ rightIdeal_le_ker_aeval A p h)
+  calc
+    _ = ((rightSolutionToAlgHom A p).comp
+          (Ideal.Quotient.mkₐ K (rightIdeal K))) (MvPolynomial.X i) := rfl
+    _ = (MvPolynomial.aeval p.1) (MvPolynomial.X i) :=
+      DFunLike.congr_fun hcomp (MvPolynomial.X i)
+    _ = p.1 i := MvPolynomial.aeval_X p.1 i
 
 /-- An algebra-valued point of the right chart recovers its three normalized
 coordinates. -/
