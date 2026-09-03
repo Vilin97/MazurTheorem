@@ -285,6 +285,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_integralKummerCover_of_marked_order`
   Orient the actual cover point in primitive integer coordinates, clear both
   denominators, and prove the exclusive first modulo-three descent split.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_iteratedKummerCover_of_marked_order`
+  Identify the pole-free Lehmer transformation with the actual five-term orbit, prove
+  its full cycle, and retain the residual Kummer conditions.
 
 :::
 
