@@ -392,6 +392,11 @@ order 25.
   Prove that the quadric and cubic gradient rows are linearly independent at every
   nonzero characteristic-zero point of the canonical complete intersection, with
   explicit nonzero minors at all five cusps.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_hyperplaneChartScheme_pointEquivalences`
+  Represent all four normalized coordinate-hyperplane intersection charts by explicit
+  nonreduced AdjoinRoot affine schemes, identify their algebra-valued points with the
+  canonical equations over arbitrary base algebras, and compute their lengths.
 
 :::
 
