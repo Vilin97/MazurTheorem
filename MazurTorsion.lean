@@ -124,6 +124,7 @@ import MazurTorsion.Kubert.OrderTwentyFiveDegeneracy
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
 import MazurTorsion.Kubert.OrderTwentyFiveLehmerDeckTransform
+import MazurTorsion.Kubert.OrderTwentyFiveLehmerThreeAdic
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
 import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
