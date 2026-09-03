@@ -313,6 +313,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFiveLehmer_resolvedInfinityFibers`
   Resolve the three plane directions by explicit strict transforms into two root-zero
   branches, two diagonal branches, and one smooth parameter-zero branch.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_threeAdicResolvedInfinityCharts_of_marked_order`
+  Lift all five actual cyclic roots to the explicit strict-transform charts and retain
+  the exact three-adic valuations of their local coordinates.
 
 :::
 
