@@ -149,6 +149,7 @@ import MazurTorsion.Kubert.OrderTwentyFiveCanonicalHyperplaneLocal
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalLocalOrder
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalAffineCharts
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalAffineOverlap
+import MazurTorsion.Kubert.OrderTwentyFiveCanonicalScheme
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalSmooth
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
