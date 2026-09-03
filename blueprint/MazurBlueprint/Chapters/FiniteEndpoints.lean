@@ -387,6 +387,11 @@ order 25.
   Compute the z = 0 and w = 0 hyperplane sections in four covering affine charts,
   certify their exact univariate root multiplicities, and derive the cyclic-unit order
   vector (3,-1,1,-2,-1).
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_jacobianRows_independent`
+  Prove that the quadric and cubic gradient rows are linearly independent at every
+  nonzero characteristic-zero point of the canonical complete intersection, with
+  explicit nonzero minors at all five cusps.
 
 :::
 
