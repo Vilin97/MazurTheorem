@@ -342,6 +342,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_picardCuspidalSubgroupZModEquiv`
   Map five genuine principal cusp-divisor witnesses through the checked Abel–Jacobi
   divisor homomorphism and identify their distinct Picard cusp subgroup with Z/71Z.
+* `definition` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_picardCuspidalSubgroupZModEquiv_of_orderRelations`
+  Convert exact pointwise orders of five modular functions at five distinct cusps into
+  the principal divisors and cyclic Z/71Z Picard subgroup required by the descent.
 
 :::
 
