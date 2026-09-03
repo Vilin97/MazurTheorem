@@ -117,7 +117,10 @@ theorem orderTwentyFiveRatReduction_ne_zero
     orderTwentyFiveRatReduction q ≠ 0 := by
   exact div_ne_zero hq.2 hq.1
 
-private theorem orderTwentyFiveRat_num_mod_three_ne_zero_of_den_eq_zero
+/-- If the normalized denominator of a rational number vanishes modulo
+three, its normalized numerator does not.  This is the coprimality input used
+when a Kummer-cover parameter is replaced by its deck mate. -/
+theorem orderTwentyFiveRat_num_mod_three_ne_zero_of_den_eq_zero
     (q : ℚ) (hden : (q.den : ZMod 3) = 0) :
     (q.num : ZMod 3) ≠ 0 := by
   intro hnum
