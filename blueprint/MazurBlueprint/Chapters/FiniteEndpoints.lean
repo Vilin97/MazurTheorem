@@ -350,6 +350,11 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_exists_seventyOneDescentFunctions_of_orderRelations`
   Construct all five cyclic global descent functions with principal divisors
   71(\[cᵢ\]-\[cᵢ₊₁\]) from the exact pointwise modular-unit order data.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_markedSeventyOneKummerClass_product_eq_one`
+  Evaluate the determinant-71 multiplicative combination on every cyclic rotation of the
+  actual nonzero Brunault orbit, prove the five rational units multiply to one, and
+  retain that relation modulo rational 71st powers.
 
 :::
 
