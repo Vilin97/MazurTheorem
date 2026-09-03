@@ -303,12 +303,16 @@ order 25.
   3-adic valuation order, up to rotation.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicCuspCongruences_of_marked_order`
-  Use exact ratio valuations to locate every cyclic root in one of the three infinity
-  charts, including both -a-valued roots at the diagonal node.
+  Locate every cyclic root in one of the three infinity charts using exact ratio
+  valuations, including the two -a-valued roots at the diagonal node.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicInfinityBranches_of_marked_order`
-  Factor the degree-six Lehmer model at infinity and assign every actual cyclic branch
-  to one of its three nonzero projective directions.
+  Factor the degree-six Lehmer plane model at infinity and assign all five actual cyclic
+  branches to its three nonzero projective directions.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveLehmer_resolvedInfinityFibers`
+  Resolve the three plane directions by explicit strict transforms into two root-zero
+  branches, two diagonal branches, and one smooth parameter-zero branch.
 
 :::
 
