@@ -321,6 +321,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicResolvedInfinityBranches_of_marked_order`
   Use exceptional-factor congruences to specialize all five actual roots to the two
   root-zero branches, two diagonal branches, and unique smooth parameter-zero branch.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveLehmer_negOneSlope_exceptionalBranch`
+  Use the resolved local deck map to show that successor slopes a and 3a select diagonal
+  residues -2 and -1, respectively.
 
 :::
 
