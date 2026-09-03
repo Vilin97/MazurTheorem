@@ -368,6 +368,11 @@ order 25.
   Construct the five explicit cyclic rational functions on the canonical carrier, prove
   all Lécacheux orbit relations and norm one, and recover two roots of one Lehmer
   quintic.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_lehmerRoots_of_noncuspidal`
+  Use deck symmetry to classify all five cyclic denominator hyperplanes as cusp rays,
+  exclude the value r₀ = 1, and recover two roots of one Lehmer quintic from every
+  noncuspidal rational canonical point without auxiliary chart hypotheses.
 
 :::
 
