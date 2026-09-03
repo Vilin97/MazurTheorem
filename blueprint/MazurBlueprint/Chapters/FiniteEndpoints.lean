@@ -360,6 +360,10 @@ order 25.
   Encode the canonical quadric-cubic carrier and its checked birational plane chart,
   verify the five rational cusp representatives, and supply their exact projective
   pairwise-distinctness input to the cusp-divisor interface.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_exceptionalProjection_isCusp`
+  Classify every nonzero rational canonical representative where the inverse projection
+  denominator vanishes as one of the four explicit exceptional cusp rays.
 
 :::
 
