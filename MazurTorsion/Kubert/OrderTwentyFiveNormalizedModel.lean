@@ -1,12 +1,13 @@
 /-
 Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Vasily Ilin
+Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
+import MazurTorsion.Kubert.OrderTwentyFiveDegeneracyRawNormalization
 import MazurTorsion.Kubert.OrderFive
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitNormData
@@ -36,6 +37,10 @@ the degree-40 affine model.
 namespace MazurTorsion.Kubert
 
 open scoped WeierstrassCurve.Affine
+
+open OrderTwentyFiveDegeneracyCertificate
+open OrderTwentyFiveDegeneracyPairCertificate
+open OrderTwentyFiveDegeneracyRawNormalization
 
 private def twentyFiveA (b c : ℚ) : ℚ :=
   b - c ^ 2 - c
@@ -3536,6 +3541,175 @@ theorem orderTwentyFive_fiveMultiple_pointTate_parameters
     exact horderFiveMultiple
   exact pointTate_parameters_eq_of_order_five
     (tateNormalCurve b c) hfiveNs horderFive
+
+/-- The Tate parameter obtained by normalizing at `5P` is the second
+`X₀(5)` degeneracy value of the recovered Lécacheux `X₀(25)` parameter.
+This is the marked-point consumer of the exact raw-chart coefficient
+certificates. -/
+theorem orderTwentyFive_fiveMultiple_xZeroParameter_eq_orbitDegeneracy
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderFiveXZeroParameter
+        (pointTateC (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c)) =
+      orderTwentyFiveSecondDegeneracyParameter
+        (-(orderTwentyFiveOrbitParameter
+          (orderTwentyFiveBrunaultXZero b c)
+          (orderTwentyFiveBrunaultXOne b c)
+          (orderTwentyFiveBrunaultXTwo b c)
+          (orderTwentyFiveBrunaultXThree b c)
+          (orderTwentyFiveBrunaultXFour b c))) := by
+  let r : ℚ := b / c
+  let s : ℚ := c ^ 2 / (b - c)
+  have hx :=
+    tateSuccessiveX_ne_zero_of_marked_order_twentyFive b c hb h00 horder
+  obtain ⟨hc, hbc, -⟩ :=
+    orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
+      b c hb h00 horder
+  have hData : OrderTwentyFiveNormalizedOrbitData b c r s := by
+    simpa only [r, s] using
+      orderTwentyFive_normalizedOrbitData_of_marked_order b c hb h00 horder
+  have hr0 : r ≠ 0 := by
+    dsimp only [r]
+    exact div_ne_zero hb hc
+  have hs : s ≠ 0 := by
+    dsimp only [s]
+    exact div_ne_zero (pow_ne_zero 2 hc) (sub_ne_zero.mpr hbc)
+  have hr1 : r - 1 ≠ 0 := by
+    dsimp only [r]
+    intro h
+    have hdiv : b / c = 1 := sub_eq_zero.mp h
+    apply hbc
+    simpa using (div_eq_iff hc).mp hdiv
+  have hbChart : r * s * (r - 1) = b := by
+    dsimp only [r, s]
+    field_simp [hc, sub_ne_zero.mpr hbc]
+  have hcChart : s * (r - 1) = c := by
+    dsimp only [r, s]
+    field_simp [hc, sub_ne_zero.mpr hbc]
+  have hNine :
+      tateSuccessiveX b c 7 = orderTwentyFiveRawXNine r s := by
+    simpa only [r, s] using
+      tateSuccessiveX_eq_orderTwentyFiveRawXNine b c hx hc hbc
+  have hK : rawTangentFactor r s ≠ 0 := by
+    intro hzero
+    have hfactor : r * s ^ 2 - 3 * r * s + r + s ^ 2 = 0 := by
+      simpa only [rawTangentFactor] using hzero
+    have hraw : orderTwentyFiveRawXNine r s = 0 := by
+      simp [orderTwentyFiveRawXNine, hfactor]
+    exact hx 7 (by omega) (hNine.trans hraw)
+  have hTwelve :
+      tateSuccessiveX b c 10 = orderTwentyFiveRawXTwelve r s := by
+    simpa only [r, s] using
+      tateSuccessiveX_eq_orderTwentyFiveRawXTwelve b c hx hc hbc
+  have hs1 : s - 1 ≠ 0 := by
+    intro hzero
+    have hraw : orderTwentyFiveRawXTwelve r s = 0 := by
+      simp [orderTwentyFiveRawXTwelve, hzero]
+    exact hx 10 (by omega) (hTwelve.trans hraw)
+  have hPointRaw :
+      pointTateC
+          (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) =
+        rawPointNumerator r s / rawPointDenominator r s := by
+    simpa only [hbChart, hcChart] using
+      pointTateC_raw r s hr0 hs hr1 hK
+  have hPointNonzero :
+      rawPointNumerator r s / rawPointDenominator r s ≠ 0 := by
+    rw [← hPointRaw]
+    exact
+      (orderTwentyFive_fiveMultiple_pointTate_parameters
+        b c hb h00 horder).2.2.2
+  have hPointReduced :=
+    rawPointXZeroParameter_eq_reduced
+      r s hs hs1 hK hData.curve hPointNonzero
+  have hB : rawOrbitZeroDenominator r s ≠ 0 :=
+    rawOrbitZeroDenominator_ne_zero
+      r s hData.oneDenominator hData.fourDenominator
+  have hD : rawOrbitOneDenominator r s ≠ 0 :=
+    rawOrbitOneDenominator_ne_zero
+      r s hData.twoDenominator hData.eightDenominator
+  have hXZeroRaw :
+      orderTwentyFiveBrunaultXZero b c =
+        rawOrbitZeroNumerator r s / rawOrbitZeroDenominator r s := by
+    rw [orderTwentyFiveBrunaultXZero, hData.one, hData.four]
+    exact rawOrbitZero_spec
+      r s hData.oneDenominator hData.fourDenominator
+  have hXOneRaw :
+      orderTwentyFiveBrunaultXOne b c =
+        rawOrbitOneNumerator r s / rawOrbitOneDenominator r s := by
+    rw [orderTwentyFiveBrunaultXOne, hData.two, hData.eight]
+    exact rawOrbitOne_spec
+      r s hData.twoDenominator hData.eightDenominator
+  have h0 :=
+    orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+      b c hb h00 horder
+  have h1 :=
+    orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order
+      b c hb h00 horder
+  have h2 :=
+    orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order
+      b c hb h00 horder
+  have h3 :=
+    orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order
+      b c hb h00 horder
+  have h4 :=
+    orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order
+      b c hb h00 horder
+  have h5 :=
+    orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order
+      b c hb h00 horder
+  have hPairDen :
+      orderTwentyFiveOrbitPairDenominator
+          (rawOrbitZeroNumerator r s / rawOrbitZeroDenominator r s)
+          (rawOrbitOneNumerator r s / rawOrbitOneDenominator r s) ≠ 0 := by
+    rw [← hXZeroRaw, ← hXOneRaw]
+    exact orderTwentyFiveOrbitPairDenominator_ne_zero
+      (orderTwentyFiveBrunaultXZero b c)
+      (orderTwentyFiveBrunaultXOne b c)
+      (orderTwentyFiveBrunaultXTwo b c)
+      (orderTwentyFiveBrunaultXThree b c)
+      (orderTwentyFiveBrunaultXFour b c)
+      h0 h1 h2 h3 h4 h5
+  have hPairReduced :=
+    rawPairParameter_eq_reduced
+      r s hs hs1 hData.curve hB hD hPairDen
+  have hPairActual :
+      orderTwentyFiveOrbitPairParameter
+          (orderTwentyFiveBrunaultXZero b c)
+          (orderTwentyFiveBrunaultXOne b c) =
+        evaluateTableSum reducedNumeratorTable r s /
+          evaluateTableSum reducedDenominatorTable r s := by
+    rw [hXZeroRaw, hXOneRaw]
+    exact hPairReduced
+  have hOrbitPair :=
+    orderTwentyFiveOrbitParameter_eq_pairParameter_of_marked_order
+      b c hb h00 horder
+  calc
+    orderFiveXZeroParameter
+          (pointTateC
+            (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c)) =
+        orderFiveXZeroParameter
+          (rawPointNumerator r s / rawPointDenominator r s) := by
+            rw [hPointRaw]
+    _ = orderTwentyFiveSecondDegeneracyParameter
+          (-(evaluateTableSum reducedNumeratorTable r s /
+            evaluateTableSum reducedDenominatorTable r s)) := hPointReduced
+    _ = orderTwentyFiveSecondDegeneracyParameter
+          (-(orderTwentyFiveOrbitPairParameter
+            (orderTwentyFiveBrunaultXZero b c)
+            (orderTwentyFiveBrunaultXOne b c))) := by
+              rw [hPairActual]
+    _ = orderTwentyFiveSecondDegeneracyParameter
+          (-(orderTwentyFiveOrbitParameter
+            (orderTwentyFiveBrunaultXZero b c)
+            (orderTwentyFiveBrunaultXOne b c)
+            (orderTwentyFiveBrunaultXTwo b c)
+            (orderTwentyFiveBrunaultXThree b c)
+            (orderTwentyFiveBrunaultXFour b c))) := by
+              rw [hOrbitPair]
 
 /-- An exact-order-25 marked Tate point is impossible as soon as its recovered
 Lécacheux orbit parameter is integral at three. All orbit and Lehmer-root
