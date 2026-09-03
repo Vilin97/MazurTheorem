@@ -1125,6 +1125,19 @@ nonzero rational modular units do not by themselves have nonzero reduction
 modulo three: a later rational-point exclusion still needs an integral,
 valuation-zero specialization theorem for the open chart.
 
+The concrete canonical carrier in
+`Kubert/OrderTwentyFiveCanonicalCurve.lean` uses the public
+[LMFDB modular-curve record `25.150.4.f.1`](https://beta.lmfdb.org/ModularCurve/Q/25.150.4.f.1/)
+as its coefficient and coordinate source.  The text record was retrieved
+2026-09-03 with SHA256
+`70dee599c18de66a0aa98ef3b302e644a6e0a462a879f4da4a4f99154cc50087`.
+It supplies the canonical quadric and cubic, the singular plane sextic, the
+projection `[x:y:z:w] ↦ [x:z:w]`, and five rational cusp representatives.
+No database assertion about smoothness, genus, rank, or completeness of the
+rational-point list is imported.  Lean instead checks the displayed points,
+their projective distinctness, and the full polynomial elimination identity;
+identification with the modular quotient remains an explicit later boundary.
+
 Lécacheux's pp. 241--243 also give the five cyclic difference relations,
 the norm-one relation, the invariant identity `R + Q - S = 5(1 - n)`, and
 Lehmer's quintic.  `OrderTwentyFiveBrunaultOrbitExclusion.lean` uses that
