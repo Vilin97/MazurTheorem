@@ -373,6 +373,15 @@ order 25.
   Use deck symmetry to classify all five cyclic denominator hyperplanes as cusp rays,
   exclude the value r₀ = 1, and recover two roots of one Lehmer quintic from every
   noncuspidal rational canonical point without auxiliary chart hypotheses.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonicalPoint_of_marked_order`
+  Reconstruct a noncuspidal rational canonical point from every actual exact-order-25
+  Brunault orbit, identify all five canonical cyclic functions term by term, and recover
+  the same Lehmer parameter.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_twentyFive_of_noCanonicalNoncuspidal`
+  Reduce the unconditional order-25 endpoint exactly to the assertion that the fixed
+  canonical quadric-cubic carrier has no noncuspidal rational point.
 
 :::
 
