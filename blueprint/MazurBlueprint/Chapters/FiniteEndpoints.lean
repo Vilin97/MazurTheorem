@@ -346,6 +346,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_picardCuspidalSubgroupZModEquiv_of_orderRelations`
   Convert exact pointwise orders of five modular functions at five distinct cusps into
   the principal divisors and cyclic Z/71Z Picard subgroup required by the descent.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_exists_seventyOneDescentFunctions_of_orderRelations`
+  Construct all five cyclic global descent functions with principal divisors
+  71(\[cᵢ\]-\[cᵢ₊₁\]) from the exact pointwise modular-unit order data.
 
 :::
 
