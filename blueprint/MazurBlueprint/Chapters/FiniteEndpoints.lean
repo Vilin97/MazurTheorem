@@ -325,6 +325,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFiveLehmer_negOneSlope_exceptionalBranch`
   Use the resolved local deck map to show that successor slopes a and 3a select diagonal
   residues -2 and -1, respectively.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_threeAdicInfinityCuspCycle_of_marked_order`
+  Determine the exact cyclic order of all five resolved infinity cusps for the actual
+  Brunault root orbit, up to rotation.
 
 :::
 
